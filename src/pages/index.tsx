@@ -1,7 +1,9 @@
 import type { NextPage } from 'next'
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import Head from 'next/head'
 import Image from 'next/image'
+import AOS from 'aos';
+import "aos/dist/aos.css";
 import styles from '../styles/Home.module.css'
 import { ChildrenProp } from "../components/util/children-prop.type";
 
@@ -52,16 +54,27 @@ const PanelText: FC<{} & ChildrenProp> = ({ children }) => (
   </p>
 )
 const PanelBody: FC<{} & ChildrenProp> = ({ children }) => (
-  <div className="leading-normal text-center md:text-left mb-16 md:mb-0">
+  <div
+    className="leading-normal text-center md:text-left mb-16 md:mb-0"
+    data-aos="fade-up" data-aos-anchor-placement="center-bottom"
+  >
     {children}
   </div>
 )
 const PanelImage = ({ src, alt = '' }: { src: string, alt?: string }) => (
-  <img src={src} className="max-w-sm rounded-lg shadow-2xl mx-auto md:mx-0 w-full md:w-auto px-4 md:px-0" alt={alt}/>
+  <img
+    src={src}
+    className="max-w-sm rounded-lg shadow-2xl mx-auto md:mx-0 w-full md:w-auto px-4 md:px-0" alt={alt}
+    data-aos="fade-up" data-aos-anchor-placement="center-bottom"
+  />
 )
 
 const Home: NextPage = () => {
   const paneWidth = '1050px';
+
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
 
   return (
     <>
