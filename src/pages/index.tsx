@@ -73,6 +73,7 @@ const Home: NextPage = () => {
   const paneWidth = '1050px';
 
   useEffect(() => {
+    console.log(process.env.NODE_ENV);
     AOS.init({ duration: 1000 });
   }, []);
 
