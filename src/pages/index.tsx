@@ -79,7 +79,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Payplo</title>
+        <title>Payplo | 똑똑한 팀을 위한 SaaS 관리 플랫폼</title>
         <meta name="description" content="똑똑한 팀을 위한 SaaS 관리 플랫폼 | Payplo - 구독 서비스 관리를 한 곳에서 쉽고 편하게" />
         <link rel="icon" href="/logo-transparent.png" />
       </Head>
