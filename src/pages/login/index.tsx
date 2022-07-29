@@ -7,7 +7,7 @@ const LoginPage = () => {
             <NavBar/>
             <div className={"container"}>
                 <div className={"w-[24rem] space-y-4 p-4 m-auto"}>
-                    <h1>payflow</h1>
+                    <h1>payplo</h1>
                     <TextInput label={"이메일"} required={true} placeholder={"이메일을 입력해주세요"}/>
                     <TextInput label={"비밀번호"} required={true} placeholder={"비밀번호를 입력해주세요"}/>
                     <div className={'pt-[1rem] space-y-4'}>

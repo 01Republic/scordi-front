@@ -9,20 +9,19 @@ module.exports = {
             center: true,
         },
     },
-    plugins: [require("daisyui")],
+    plugins: [require("@tailwindcss/typography"), require("daisyui")],
     daisyui: {
         themes: [{
-            soeun: {
-                "primary": "#20C997",
-                "primary-focus": "#12B886",
-                "primary-content": "#ffffff",
-                "secondary": "#1d1f2b",
-                "secondary-content": "#ffffff",
-                "accent": "#ef4444",
-                "accent-content": "#ffffff",
-                "neutral": "#3D4451",
-                "neutral-content": "#ffffff",
+            v220728: {
+                "primary": "#0066FF",
+                "secondary": "#D926A9",
+                "accent": "#1FB2A6",
+                "neutral": "#f3f4f6",
                 "base-100": "#ffffff",
+                "info": "#3ABFF8",
+                "success": "#36D399",
+                "warning": "#FBBD23",
+                "error": "#F87272",
             },
         }]
     }
