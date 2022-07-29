@@ -9,7 +9,10 @@ const LandingPageNavBar = () => {
   return (
     <div className="container navbar">
       <div className="navbar-start">
-        <a className="btn btn-ghost normal-case text-xl">payplo</a>
+        <a className="btn btn-ghost btn-hover-init normal-case text-2xl md:text-3xl">
+          <img src="/logo-transparent.png" alt="payplo logo" width={36} className="relative top-1 mr-1"/>
+          <span>payplo</span>
+        </a>
       </div>
       <div className="navbar-center lg:flex" />
       <div className="navbar-end">
@@ -53,8 +56,8 @@ const PanelBody: FC<{} & ChildrenProp> = ({ children }) => (
     {children}
   </div>
 )
-const PanelImage = ({ src }: { src: string }) => (
-  <img src={src} className="max-w-sm rounded-lg shadow-2xl mx-auto md:mx-0 w-full md:w-auto px-4 md:px-0"/>
+const PanelImage = ({ src, alt = '' }: { src: string, alt?: string }) => (
+  <img src={src} className="max-w-sm rounded-lg shadow-2xl mx-auto md:mx-0 w-full md:w-auto px-4 md:px-0" alt={alt}/>
 )
 
 const Home: NextPage = () => {
@@ -65,7 +68,7 @@ const Home: NextPage = () => {
       <Head>
         <title>Payplo</title>
         <meta name="description" content="똑똑한 팀을 위한 SaaS 관리 플랫폼 | Payplo - 구독 서비스 관리를 한 곳에서 쉽고 편하게" />
-        <link rel="icon" href="/public/favicon.ico" />
+        <link rel="icon" href="/logo-transparent.png" />
       </Head>
 
       <div>

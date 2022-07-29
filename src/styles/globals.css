@@ -68,3 +68,7 @@ p {
     font-size: 0.875rem;  /* 14px */
     line-height: 1.375rem; /* 22px */
 }
+
+.btn-hover-init:hover {
+    background-color: inherit !important;
+}
