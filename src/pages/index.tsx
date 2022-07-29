@@ -12,7 +12,7 @@ const LandingPageNavBar = () => {
     <div className="container navbar">
       <div className="navbar-start">
         <a className="btn btn-ghost btn-hover-init normal-case text-2xl md:text-3xl">
-          <img src="/logo-transparent.png" alt="payplo logo" width={36} className="relative top-1 mr-1"/>
+          <Image src="/logo-transparent.png" alt="payplo logo" width={36} height={36} className="relative top-1 mr-1"/>
           <span>payplo</span>
         </a>
       </div>
@@ -61,9 +61,9 @@ const PanelBody: FC<{} & ChildrenProp> = ({ children }) => (
     {children}
   </div>
 )
-const PanelImage = ({ src, alt = '' }: { src: string, alt?: string }) => (
-  <img
-    src={src}
+const PanelImage = ({ src, width, height, alt = '' }: { src: string, width: number, height: number, alt?: string }) => (
+  <Image
+    src={src} width={width} height={height}
     className="max-w-sm rounded-lg shadow-2xl mx-auto md:mx-0 w-full md:w-auto px-4 md:px-0" alt={alt}
     data-aos="fade-up" data-aos-anchor-placement="center-bottom"
   />
@@ -119,11 +119,11 @@ const Home: NextPage = () => {
 
           {/* pc */}
           <section className="hidden md:flex justify-center">
-            <img src="/home/image1.png" alt=""/>
+            <Image src="/home/image1.png" alt="service preview image" width={1270} height={563}/>
           </section>
           {/* mobile */}
           <section className="flex md:hidden justify-center">
-            <img src="/home/image1-m.png" alt=""/>
+            <Image src="/home/image1-m.png" alt="service preview image" width={1270} height={563}/>
           </section>
         </div>
 
@@ -160,7 +160,7 @@ const Home: NextPage = () => {
                 한 곳에서 간편하게!
               </PanelText>
             </PanelBody>
-            <PanelImage src="/home/image2.png" />
+            <PanelImage src="/home/image2.png" width={478} height={416} />
           </Panel>
         </section>
 
@@ -176,7 +176,7 @@ const Home: NextPage = () => {
                 몰래 결제되는 일 없이 불필요한 비용은 바로 줄이기
               </PanelText>
             </PanelBody>
-            <PanelImage src="/home/image3.png" />
+            <PanelImage src="/home/image3.png" width={448} height={434} />
           </Panel>
         </section>
 
@@ -195,7 +195,7 @@ const Home: NextPage = () => {
                 체크되지 않는 SaaS 비용까지 Down!
               </PanelText>
             </PanelBody>
-            <PanelImage src="/home/image4.png" />
+            <PanelImage src="/home/image4.png" width={448} height={434} />
           </Panel>
         </section>
 
