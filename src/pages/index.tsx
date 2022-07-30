@@ -70,6 +70,7 @@ const PanelImage = ({ src, width, height, alt = '' }: { src: string, width: numb
 )
 
 const HOTJAR_ID = '3088152';
+const GA_ID = 'G-F3VLGVB0RN';
 
 const Home: NextPage = () => {
   const paneWidth = '1050px';
@@ -95,6 +96,15 @@ const Home: NextPage = () => {
   r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
   a.appendChild(r);
 })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+        ` }} />
+
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} />
+        <script title="GA cdn" dangerouslySetInnerHTML={{ __html: `
+// Global site tag (gtag.js) - Google Analytics
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_ID}');
         ` }} />
       </Head>
 
