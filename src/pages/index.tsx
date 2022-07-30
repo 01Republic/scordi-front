@@ -238,7 +238,8 @@ gtag('config', '${GA_ID}');
 
           <div className={styles.gradientBgSection}>
             <div className="container flex justify-center pt-10 pb-20">
-              <img src="/home/image5.png" alt="" className="md:w-full" style={{ minHeight: '380px', objectFit: 'cover' }}/>
+              {/*<img src="/home/image5.png" alt="" className="md:w-full" style={{ minHeight: '380px', objectFit: 'cover' }}/>*/}
+              <img src="/home/list.svg" alt="" className="md:w-full" style={{ minHeight: '380px', objectFit: 'cover' }}/>
             </div>
           </div>
         </section>
