@@ -8,6 +8,11 @@ import styles from '../styles/Home.module.css'
 import { ChildrenProp } from "../components/util/children-prop.type";
 
 const LandingPageNavBar = () => {
+  const onClickCta = () => {
+    const ctaBtn = document.querySelector('#cta-1') as HTMLElement;
+    if (ctaBtn) ctaBtn.click();
+  }
+
   return (
     <div className="container navbar">
       <div className="navbar-start">
@@ -18,7 +23,7 @@ const LandingPageNavBar = () => {
       </div>
       <div className="navbar-center lg:flex" />
       <div className="navbar-end">
-        <a className="btn btn-outline btn-primary" href="/login">무료로 시작하기</a>
+        <a className="btn btn-outline btn-primary" onClick={onClickCta}>무료로 시작하기</a>
       </div>
     </div>
   )
@@ -69,6 +74,19 @@ const PanelImage = ({ src, width, height, alt = '' }: { src: string, width: numb
   />
 )
 
+const TypeFormBtn: FC<{ id?: string; text?: string; } & ChildrenProp> = ({ id, text, children }) => (
+  <button
+    id={id || ''}
+    data-tf-slider="qqGnBdkS"
+    data-tf-width="550"
+    data-tf-iframe-props="title=페이플로우1"
+    data-tf-medium="snippet"
+    className="btn btn-primary btn-lg"
+  >
+    {children || text}
+  </button>
+)
+
 const HOTJAR_ID = '3088152';
 const GA_ID = 'G-F3VLGVB0RN';
 
@@ -106,6 +124,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', '${GA_ID}');
         ` }} />
+        <script src="//embed.typeform.com/next/embed.js" />
       </Head>
 
       <div>
@@ -135,7 +154,7 @@ gtag('config', '${GA_ID}');
                 </p>
 
                 <div className="py-6">
-                  <a className="btn btn-primary btn-lg" href="/login">무료로 시작하기</a>
+                  <TypeFormBtn id="cta-1">무료로 시작하기</TypeFormBtn>
                 </div>
               </div>
             </div>
@@ -232,7 +251,7 @@ gtag('config', '${GA_ID}');
               사전 신청에 참여해주신 분들은 1년 무료
             </p>
             <div className="pt-12 pb-6">
-              <a className="btn btn-primary btn-lg" href="/login">사전 신청 등록하기</a>
+              <TypeFormBtn id="cta-2">사전 신청 등록하기</TypeFormBtn>
             </div>
           </div>
 
