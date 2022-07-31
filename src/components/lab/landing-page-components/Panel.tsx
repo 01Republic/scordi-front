@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { ChildrenProp } from "../../components/util/children-prop.type";
+import { ChildrenProp } from "../../util/children-prop.type";
 import Image from "next/image";
 
 export const Panel: FC<{

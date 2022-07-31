@@ -1,4 +1,4 @@
-import { TypeformCdnScript } from "./typeform/TypeformCdnScript";
+import { TypeformCdnScript } from "./typeform";
 import { GoogleAnalyticsCdnScript } from "./google-analytics/GoogleAnalyticsCdnScript";
 import { HotJarCdnScript } from "./hotjar/HotJarCdnScript";
 

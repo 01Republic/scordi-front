@@ -1,13 +1,10 @@
 import { NextPage } from "next";
 import { useEffect } from "react";
-import AOS from "aos";
-import { TypeFormBtn } from "../../components/ExternalCDNScripts/typeform/TypeFormBtn";
-import { CampaignKeys } from "../../components/ExternalCDNScripts/typeform/campaignKeys.constant";
 import Image from "next/image";
+import { TypeFormBtn, CampaignKeys } from "../../components/ExternalCDNScripts/typeform";
+import { LandingPageNavBar, Panel, PanelBody, PanelImage, PanelText, PanelTitle, PartnerLogo } from "../../components/lab/landing-page-components";
+import AOS from "aos";
 import styles from "../../styles/Home.module.css";
-import { LandingPageNavBar } from "./LandingPageNavBar";
-import { Panel, PanelBody, PanelImage, PanelText, PanelTitle } from "./Panel";
-import { PartnerLogo } from "./PartnerLogo";
 import "aos/dist/aos.css";
 
 const LandingPage1: NextPage = () => {
