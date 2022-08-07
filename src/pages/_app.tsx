@@ -6,7 +6,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Payplo | 똑똑한 팀을 위한 SaaS 관리 플랫폼</title>
+        <title>Payplo | 똑똑한 팀을 위한 SaaS 관리 솔루션</title>
       </Head>
       <Component {...pageProps} />
     </>
