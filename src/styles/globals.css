@@ -5,70 +5,72 @@
 @tailwind utilities;
 
 @layer base {
-    a {
-        @apply text-blue-600 underline;
-    }
+  a {
+    @apply text-blue-600 underline;
+  }
 }
-
 
 html,
 body {
-    padding: 0;
-    margin: 0;
-    font-family: "Pretendard Variable", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  padding: 0;
+  margin: 0;
+  font-family: "Pretendard Variable", -apple-system, BlinkMacSystemFont,
+    system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo",
+    "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", sans-serif;
 }
 
 a {
-    color: inherit;
-    text-decoration: none;
+  color: inherit;
+  text-decoration: none;
 }
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 h1 {
-    font-weight: 700;
-    font-size: 2rem;
-    line-height: 2.75rem;
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 2.75rem;
 }
 
 h2 {
-    font-weight: 700;
-    font-size: 1.5rem;
-    line-height: 2.25rem;
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 2.25rem;
 }
 
 h3 {
-    font-weight: 600;
-    font-size: 1.5rem;
-    line-height: 2.25rem;
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 2.25rem;
 }
 
 h4 {
-    font-weight: 600;
-    font-size: 1.5rem;
-    line-height: 2.25rem;
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 2.25rem;
 }
 
 h5 {
-    font-weight: 500;
-    font-size: 1.5rem; /* 24px */
-    line-height: 1.67rem;
+  font-weight: 500;
+  font-size: 1.5rem; /* 24px */
+  line-height: 1.67rem;
 }
 
 h6 {
-    font-weight: 500;
-    font-size: 0.94rem; /* 15px */
-    line-height: 1.44rem;
+  font-weight: 500;
+  font-size: 0.94rem; /* 15px */
+  line-height: 1.44rem;
 }
 
 p {
-    font-weight: 400;
-    font-size: 0.875rem;  /* 14px */
-    line-height: 1.375rem; /* 22px */
+  font-weight: 400;
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.375rem; /* 22px */
 }
 
 .btn-hover-init:hover {
-    background-color: inherit !important;
+  background-color: inherit !important;
 }
