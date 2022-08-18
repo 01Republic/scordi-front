@@ -38,9 +38,9 @@ export const AddService: React.FC<AddServiceProps> = ({
           <Label text="서비스 아이콘 (선택)" />
           <label htmlFor="imgPath">
             {!imgPath && (
-              <div className="wh-32 grid place-items-center rounded border text-gray-500">
+              <div className="w-32 h-32 grid place-items-center rounded border text-gray-500">
                 <div className="flex flex-col items-center space-y-2 text-center text-xs">
-                  <Icon.FileUpload className="wh-8" />
+                  <Icon.FileUpload className="w-8 h-8" />
                   <p>
                     이미지를
                     <br />
@@ -52,7 +52,7 @@ export const AddService: React.FC<AddServiceProps> = ({
 
             {imgPath && (
               <>
-                <div className="wh-32 relative overflow-hidden rounded-md">
+                <div className="w-32 h-32 relative overflow-hidden rounded-md">
                   <img
                     className="absolute h-full w-full object-cover"
                     src={URL.createObjectURL(imgPath) || ""}
@@ -79,7 +79,7 @@ export const AddService: React.FC<AddServiceProps> = ({
           labelClassname="py-0"
         />
 
-        <button className="filled-brand-1 w-full" onClick={SetPayment}>
+        <button className="btn btn-primary w-full" onClick={SetPayment}>
           다음
         </button>
       </div>

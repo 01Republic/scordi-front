@@ -66,10 +66,10 @@ export const EditServiceModal: FC<EditServiceModalProps> = ({
           <PaymentNumberInput suffix={"원"} value={420} month="1월" />
         </div>
 
-        <div className="flex items-center space-x-3">
-          <button className="outlined-red-500 w-full">이 앱 삭제하기</button>
+        <div className="flex items-center justify-end space-x-3">
+          <button className="btn btn-outline btn-error">이 앱 삭제하기</button>
           <button
-            className="filled-brand-1 w-full"
+            className="btn btn-primary"
             onClick={() => {
               alert("저장되었습니다.");
               onClose();

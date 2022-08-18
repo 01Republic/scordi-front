@@ -1,4 +1,5 @@
 import { forwardRef, SelectHTMLAttributes } from "react";
+import { useId } from "react-id-generator";
 import { Label } from "./Label";
 
 export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
@@ -17,11 +18,14 @@ export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
  */
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
   ({ children, className = "", label, helper, ...props }, ref) => {
+    const [id] = useId(1, "select");
+
     return (
       <div className="label-col">
-        {label && <Label text={label} />}
+        {label && <Label htmlFor={id} text={label} />}
         <select
           ref={ref}
+          id={id}
           className={`select ${helper ? "border-error" : ""} ${className}`}
           {...props}
         >

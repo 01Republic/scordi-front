@@ -47,7 +47,7 @@ export const SelectPayment: React.FC<SelectPayment> = ({
           <option>선택1</option>
           <option>선택2</option>
         </Select>
-        <button className="filled-brand-1 w-full" onClick={onSubmit}>
+        <button className="btn btn-primary w-full" onClick={onSubmit}>
           등록완료
         </button>
       </div>

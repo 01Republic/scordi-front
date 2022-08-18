@@ -5,6 +5,7 @@ import {
   InputHTMLAttributes,
   isValidElement,
 } from "react";
+import { useId } from "react-id-generator";
 import { Radio } from "./Radio";
 
 export interface RadioGroupProps
@@ -20,6 +21,8 @@ export interface RadioGroupProps
  */
 export const RadioGroup = forwardRef<HTMLInputElement, RadioGroupProps>(
   ({ children, ...props }, ref) => {
+    const [name] = useId(1, "radiogroup");
+
     return (
       <>
         {Children.map(children, (child) =>

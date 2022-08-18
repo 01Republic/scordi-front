@@ -1,10 +1,12 @@
 import React from "react";
 import { Search } from "../../../components/Search";
 import { ServiceCard } from "../../../components/ServiceCard";
+import { Icon } from "../../Icon";
 
 interface SelectServiceProps {
   SetPayment: () => void;
   AddService: () => void;
+  onClose: () => void;
 }
 
 const itemDummy = [
@@ -18,13 +20,19 @@ const itemDummy = [
 export const SelectService: React.FC<SelectServiceProps> = ({
   SetPayment,
   AddService,
+  onClose,
 }) => {
   const item = itemDummy;
   return (
     <div className="space-y-4">
-      <div className="space-y-0.5">
-        <h3 className="text-xl font-semibold">서비스 선택</h3>
-        <p className="text-sm text-gray-600">등록하실 서비스를 선택해주세요.</p>
+      <div className="flex justify-between">
+        <div className="space-y-0.5">
+          <h3 className="text-xl font-semibold">서비스 선택</h3>
+          <p className="text-sm text-gray-600">
+            등록하실 서비스를 선택해주세요.
+          </p>
+        </div>
+        <Icon.X onClick={onClose} className="cursor-pointer" />
       </div>
       <Search placeholder="서비스 검색" />
       <div className="h-80 space-y-3 overflow-y-auto pb-4">

@@ -5,7 +5,7 @@ export interface AvatarProps extends ImgHTMLAttributes<HTMLImageElement> {}
 /**
  * @example
  * <Avatar
- *   className="wh-10"
+ *   className="10"
  *   src="https://source.unsplash.com/random/40x40"
  * />
  */

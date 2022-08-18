@@ -27,13 +27,13 @@ export const Search: FC<SearchProps> = ({
           value={value}
           {...props}
         />
-        <div className="wh-10 -ml-2 flex items-center justify-center">
+        <div className="w-10 h-10 -ml-2 flex items-center justify-center">
           <Icon.Search />
         </div>
         {value && (
-          <div className="wh-10 -mr-2 flex items-center justify-center">
+          <div className="w-10 h-10 -mr-2 flex items-center justify-center">
             <Icon.X
-              className="wh-4"
+              className="w-4 h-4"
               onClick={() => {
                 Object.getOwnPropertyDescriptor(
                   window.HTMLInputElement.prototype,

@@ -1,4 +1,5 @@
-import { forwardRef, InputHTMLAttributes, useId } from "react";
+import { forwardRef, InputHTMLAttributes } from "react";
+import { useId } from "react-id-generator";
 import { Label } from "./Label";
 
 export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -9,11 +10,16 @@ export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
   ({ className = "", label, labelClassname = "", helper, ...props }, ref) => {
+    const [id] = useId(1, "textfield");
+
     return (
       <div className="label-col">
-        {label && <Label text={label} className={labelClassname} />}
+        {label && (
+          <Label htmlFor={id} text={label} className={labelClassname} />
+        )}
         <input
           ref={ref}
+          id={id}
           className={`textfield ${helper ? "border-error" : ""} ${className}`}
           {...props}
         />

@@ -24,9 +24,10 @@ export const ServiceModal: FC<ServiceModalProps> = ({ open, onClose }) => {
           <SelectService
             SetPayment={() => setStep(2)}
             AddService={() => setStep(1)}
+            onClose={onClose}
           />
         )}
-        {/* {step === 1 && (
+        {step === 1 && (
           <AddService
             GoBack={() => setStep(step - 1)}
             SetPayment={() => setStep(2)}
@@ -42,7 +43,7 @@ export const ServiceModal: FC<ServiceModalProps> = ({ open, onClose }) => {
               onClose();
             }}
           />
-        )} */}
+        )}
       </div>
     </AnimationLayout>
   );
