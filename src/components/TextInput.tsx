@@ -1,25 +1,27 @@
-export type TextInputProps = {
-  label?: string;
-  required?: boolean;
-  placeholder: string;
-  disabled?: boolean;
+import {ForwardedRef, forwardRef, InputHTMLAttributes} from "react";
+import { TextFieldProps } from "./TextField";
+
+export type TextInputProps = InputHTMLAttributes<HTMLInputElement> & {
+    label?: string;
+    required?: boolean;
+    disabled?: boolean;
 };
 
-export const TextInput = (props: TextInputProps) => {
-  return (
-    <div className="form-control w-full">
-      <label className="label">
+export const TextInput = forwardRef((props: TextInputProps, ref: ForwardedRef<any>) => {
+    return (
+        <div className="form-control w-full">
+            <label className="label">
         <span className="label-text">
           {props.label}
-          {props.required && <span className="text-red-500">*</span>}
+            {props.required && <span className="text-red-500"> *</span>}
         </span>
-      </label>
-      <input
-        type="text"
-        placeholder={props.placeholder}
-        disabled={props.disabled}
-        className="input input-bordered w-full"
-      />
-    </div>
-  );
-};
+            </label>
+            <input type="text"
+                   ref={ref}
+                   disabled={props.disabled}
+                   className="input input-bordered w-full"
+                   {...props}
+            />
+        </div>
+    );
+});
