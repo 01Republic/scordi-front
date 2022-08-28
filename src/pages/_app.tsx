@@ -7,10 +7,11 @@ import { useRouter } from "next/router";
 import Building from "../../public/svg/building.svg";
 import Check from "../../public/svg/check-fill.svg";
 import People from "../../public/svg/people.svg";
-import { Sidebar } from "../components/Sidebar";
+import { Sidebar } from "^components/Sidebar";
+import { removeToken } from "^api/api";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { pathname } = useRouter();
+  const { pathname, push } = useRouter();
   return (
     <>
       <Head>
@@ -46,7 +47,10 @@ function MyApp({ Component, pageProps }: AppProps) {
                 text="내 정보 수정"
                 onClick={() => alert("준비중입니다.")}
               />
-              <Sidebar.Menu.Item text="로그아웃" />
+              <Sidebar.Menu.Item text="로그아웃" onClick={() => {
+                removeToken();
+                push('/login');
+              }} />
             </Sidebar.Menu>
           </Sidebar>
         )}

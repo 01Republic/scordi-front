@@ -44,3 +44,5 @@ jspm_packages
 
 # IDE settings
 .idea
+
+.env.local

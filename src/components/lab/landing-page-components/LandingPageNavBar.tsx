@@ -16,7 +16,7 @@ export const LandingPageNavBar = () => {
       </div>
       <div className="navbar-center lg:flex" />
       <div className="navbar-end">
-        <a className="btn btn-outline btn-primary" onClick={onClickCta}>무료로 시작하기</a>
+        <a className="btn btn-outline btn-primary" href={'/home'}>무료로 시작하기</a>
       </div>
     </div>
   )

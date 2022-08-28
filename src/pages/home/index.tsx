@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { AdminHeader } from "../../components/AdminHeader";
-import { Badge } from "../../components/Badge";
-import { GrowthText } from "../../components/GrowthText";
-import { AddPaymentAmountModal } from "../../components/modal/AddPaymentAmountModal";
-import { EditServiceModal } from "../../components/modal/EditServiceModal";
-import { ServiceModal } from "../../components/modal/ServiceModal";
-import { MonthlyContent } from "../../components/MonthlyContent";
-import { MonthlyGraphs } from "../../components/MonthlyGraphs";
+import { AdminHeader } from "^components/AdminHeader";
+import { Badge } from "^components/Badge";
+import { GrowthText } from "^components/GrowthText";
+import { AddPaymentAmountModal } from "^components/modal/AddPaymentAmountModal";
+import { EditServiceModal } from "^components/modal/EditServiceModal";
+import { ServiceModal } from "^components/modal/ServiceModal";
+import { MonthlyContent } from "^components/MonthlyContent";
+import { MonthlyGraphs } from "^components/MonthlyGraphs";
+import { useRouter } from "next/router";
+// import { redirectLoginPageIfNotSignedIn } from "^pages/login";
 
 const HomePage = () => {
   const tableLabel = [
@@ -35,10 +37,13 @@ const HomePage = () => {
     ONETIME = "1회",
   }
 
+  const router = useRouter();
   const [addService, setAddService] = useState<boolean>(false);
   const [payment, setPayment] = useState<boolean>(false);
   const [editService, setEditService] = useState<boolean>(false);
   const servieItem = itemDummy[0];
+
+  // redirectLoginPageIfNotSignedIn(router);
 
   return (
     <>

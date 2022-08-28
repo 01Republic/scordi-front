@@ -1,23 +1,43 @@
-import Link from "next/link";
-import {NavBar} from "../../components/NavBar";
-import {TextInput} from "../../components/TextInput";
-import React from "react";
-import {postUserSession} from "../../api/sessionApi";
+import React, { useEffect, useState } from "react";
 import {useForm} from "react-hook-form";
-import {UserLoginRequestDto} from "../../types/userTypes";
-import {Modal} from "../../components/Modal";
-import {useRouter} from "next/router";
+import Link from "next/link";
+import { NextRouter, useRouter } from "next/router";
+import {NavBar} from "^components/NavBar";
+import {TextInput} from "^components/TextInput";
+import {Modal} from "^components/Modal";
+import {postUserSession} from "^api/sessionApi";
+import {UserLoginRequestDto} from "^types/userTypes";
+import { getToken, setToken } from "^api/api";
+
+const AFTER_LOGIN_REDIRECT_PATH = '/home';
+
+const redirectIfAlreadySignedIn = (storage: Storage, router: NextRouter) => {
+  if (getToken()) {
+    router.push(AFTER_LOGIN_REDIRECT_PATH);
+  }
+}
+
+export const redirectLoginPageIfNotSignedIn = (storage: Storage, router: NextRouter) => {
+  if (!getToken()) {
+    router.push('/login');
+  }
+}
 
 const LoginPage = () => {
     const router = useRouter();
     const form = useForm<UserLoginRequestDto>();
-    const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // redirect home page if user already login
+    useEffect(() => {
+      redirectIfAlreadySignedIn(localStorage, router);
+    }, []);
 
     const login = (data: UserLoginRequestDto) => {
         postUserSession(data)
             .then(res => {
-                localStorage.setItem('token', res.data.token);
-                router.push('/home');
+                setToken(res.data.token);
+                router.push(AFTER_LOGIN_REDIRECT_PATH);
             })
             .catch(() => setIsModalOpen(true))
     }
