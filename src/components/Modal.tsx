@@ -21,9 +21,10 @@ export const Modal = (props: ModalProps) => {
                     <h3 className="font-bold text-lg">{props.title}</h3>
                     <p className="py-4">{props.description}</p>
                     <div className="modal-action">
-                        {props.type === 'info' && (
-                            <button className="btn" onClick={props.button1.onClick}>{props.button1.text}</button>
-                        )}
+                        {/*{props.type === 'info' && (*/}
+                        {/*    <button className="btn" onClick={props.button1.onClick}>{props.button1.text}</button>*/}
+                        {/*)}*/}
+                        <button className="btn" onClick={props.button1.onClick}>{props.button1.text}</button>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,7 @@
 import axios from 'axios';
+import Qs from 'qs';
+import { UserLoginPageRoute } from '^pages/users/login';
+import { UserSignUpPageRoute } from '^pages/users/signup';
 
 export const SIGNED_TOKEN_STORAGE_KEY = 'token';
 export const getToken = () => localStorage.getItem(SIGNED_TOKEN_STORAGE_KEY);
@@ -9,25 +12,45 @@ export const api = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BASE_API,
 });
 
+/**
+ * Request Middleware
+ */
+
 api.interceptors.request.use((config) => {
+    // Middleware 1. Token Header Handler
     const token = getToken();
     if (token) {
         config.headers!.Authorization = `Bearer ${token}`;
     } else {
         delete config.headers!.Authorization;
     }
+
+    // Middleware 2. Format nested params correctly
+    config.paramsSerializer = (params) => Qs.stringify(params, {
+        arrayFormat: "brackets",
+        encode: false
+    });
+
     return config;
 });
 
 api.interceptors.response.use(undefined, (error) => {
-    if (error.response.status === 401) {
+    console.log(window.location.pathname)
+
+    if (
+      !([
+        UserLoginPageRoute.pathname,
+          UserSignUpPageRoute.pathname,
+      ].includes(window.location.pathname))
+      && error.response.status === 401
+    ) {
         // updateToken()
         //     .then(() => window.location.reload())
         //     .catch(() => {
         //         tokenState.reset();
         //         window.location.assign('/admin/login');
         //     });
-        window.location.assign('/login');
+        window.location.assign(UserLoginPageRoute.path());
     }
     // toast.error(error.response.data.message.toString());
     console.log(error.response.data.message.toString());

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { ButtonHTMLAttributes, FC, HTMLAttributes, ReactElement } from "react";
+import { ButtonHTMLAttributes, FC, HTMLAttributes, ReactElement } from 'react';
 
 export interface SidebarProps extends HTMLAttributes<HTMLDivElement> {}
 
@@ -57,6 +57,7 @@ export interface SidebarMenuItemProps
   to?: string;
   selected?: boolean;
   icon?: ReactElement;
+  iconTransform?: boolean;
 }
 
 const SidebarMenuItem: FC<SidebarMenuItemProps> = ({
@@ -64,6 +65,7 @@ const SidebarMenuItem: FC<SidebarMenuItemProps> = ({
   text,
   to,
   icon,
+  iconTransform = true,
   selected = false,
   onClick,
   ...props
@@ -74,6 +76,7 @@ const SidebarMenuItem: FC<SidebarMenuItemProps> = ({
   if (to && pathname.startsWith(to)) {
     _selected = true;
   }
+  const Icon = icon as any;
 
   return (
     <>
@@ -88,7 +91,7 @@ const SidebarMenuItem: FC<SidebarMenuItemProps> = ({
         onClick={to ? () => router.push(to) : onClick}
         {...props}
       >
-        {icon}
+        {typeof Icon === 'function' && <Icon className={_selected && iconTransform ? "fill-current text-gray-900" : ""} />}
         <div>{text}</div>
       </button>
     </>

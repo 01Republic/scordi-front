@@ -15,6 +15,9 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "paths": {
+      "^utils/*": ["./src/utils/*"],
+      "^hooks/*": ["./src/hooks/*"],
+      "^layouts/*": ["./src/layouts/*"],
       "^components/*": ["./src/components/*"],
       "^pages/*": ["./src/pages/*"],
       "^api/*": ["./src/api/*"],

@@ -2,7 +2,7 @@ export const NavBar = () => {
     return (
         <div className="navbar bg-base-100">
             <div className="flex-none">
-                <button className="btn btn-square btn-ghost">
+                <button className="btn btn-square btn-ghost hidden">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                          className="inline-block w-5 h-5 stroke-current">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
@@ -11,10 +11,10 @@ export const NavBar = () => {
                 </button>
             </div>
             <div className="flex-1">
-                <a className="btn btn-ghost normal-case text-xl">payflow</a>
+                <a className="btn btn-ghost text-xl capitalize">payplo</a>
             </div>
             <div className="flex-none">
-                <button className="btn btn-square btn-ghost">
+                <button className="btn btn-square btn-ghost hidden">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                          className="inline-block w-5 h-5 stroke-current">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import ExternalCDNScripts from "../components/ExternalCDNScripts";
 
@@ -32,7 +33,6 @@ export default class MyDocument extends Document {
       <Html>
         <Head>
           <meta charSet="utf-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"/>
           <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1,IE=EmulateIE7"/>
 
           <link rel="icon" href="/logo-transparent.png" />

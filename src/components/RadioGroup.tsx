@@ -20,17 +20,17 @@ export interface RadioGroupProps
  * </RadioGroup>
  */
 export const RadioGroup = forwardRef<HTMLInputElement, RadioGroupProps>(
-  ({ children, ...props }, ref) => {
+  ({ className = '', children, ...props }, ref) => {
     const [name] = useId(1, "radiogroup");
 
     return (
-      <>
+      <div className={className}>
         {Children.map(children, (child) =>
           isValidElement(child) && child.type === Radio
             ? cloneElement(child, { name, ...props })
             : child
         )}
-      </>
+      </div>
     );
   }
 );

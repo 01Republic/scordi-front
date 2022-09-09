@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { UserLoginPageRoute } from '^pages/users/login';
 
 export const LandingPageNavBar = () => {
   const onClickCta = () => {
@@ -16,7 +17,7 @@ export const LandingPageNavBar = () => {
       </div>
       <div className="navbar-center lg:flex" />
       <div className="navbar-end">
-        <a className="btn btn-outline btn-primary" href={'/home'}>무료로 시작하기</a>
+        <a className="btn btn-outline btn-primary" href={UserLoginPageRoute.path()}>무료로 시작하기</a>
       </div>
     </div>
   )

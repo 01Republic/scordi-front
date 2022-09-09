@@ -1,0 +1,6 @@
+
+.orgMainContentLayout {
+    /* top nav height 제거 */
+    /* footer height 제거 */
+    min-height: calc(100% - 64px - 62px);
+}

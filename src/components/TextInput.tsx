@@ -10,12 +10,14 @@ export type TextInputProps = InputHTMLAttributes<HTMLInputElement> & {
 export const TextInput = forwardRef((props: TextInputProps, ref: ForwardedRef<any>) => {
     return (
         <div className="form-control w-full">
-            <label className="label">
-        <span className="label-text">
-          {props.label}
-            {props.required && <span className="text-red-500"> *</span>}
-        </span>
-            </label>
+            {props.label && (
+              <label className="label">
+                <span className="label-text">
+                  {props.label}
+                    {props.required && <span className="text-red-500"> *</span>}
+                </span>
+              </label>
+            )}
             <input type="text"
                    ref={ref}
                    disabled={props.disabled}
@@ -24,4 +26,25 @@ export const TextInput = forwardRef((props: TextInputProps, ref: ForwardedRef<an
             />
         </div>
     );
+});
+
+export const TextInputLg = forwardRef((props: TextInputProps, ref: ForwardedRef<any>) => {
+  return (
+    <div className="form-control w-full">
+      {props.label && (
+        <label className="label">
+                <span className="label-text">
+                  {props.label}
+                  {props.required && <span className="text-red-500"> *</span>}
+                </span>
+        </label>
+      )}
+      <input type="text"
+             ref={ref}
+             disabled={props.disabled}
+             className="input input-lg input-bordered w-full"
+             {...props}
+      />
+    </div>
+  );
 });
