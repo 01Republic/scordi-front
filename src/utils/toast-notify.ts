@@ -10,4 +10,4 @@ export const errorNotify = (err: any) => {
   Array.isArray(message)
     ? message.forEach((msg) => toast(msg))
     : toast(message);
-}
+};

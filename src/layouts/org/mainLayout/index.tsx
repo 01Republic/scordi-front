@@ -74,17 +74,22 @@ const OrgMainLayout = ({ org, children }: OrgMainLayoutProps) => {
         <OrgMainLayoutFooter />
       </div>
     </div>
-  )
-}
+  );
+};
 
 function SidebarOrgHeader({ org }: { org: OrganizationDto }) {
   return (
-    <div className="flex items-center shadow" style={{
-      padding: '0.75rem 0.5rem'
-    }}>
+    <div
+      className="flex items-center shadow"
+      style={{
+        padding: '0.75rem 0.5rem',
+      }}
+    >
       <div className="avatar placeholder inline-flex mr-2">
         <div className="bg-neutral-focus text-neutral-content rounded w-10">
-          <span className="font-bold">{org && org.name ? org.name[0] : '?'}</span>
+          <span className="font-bold">
+            {org && org.name ? org.name[0] : '?'}
+          </span>
         </div>
       </div>
       <div className="flex-1 h-full">
@@ -92,7 +97,7 @@ function SidebarOrgHeader({ org }: { org: OrganizationDto }) {
         <p className="text-xs text-gray-500">Free</p>
       </div>
     </div>
-  )
+  );
 }
 
 function Container({ children, ...props }: any) {
@@ -100,19 +105,16 @@ function Container({ children, ...props }: any) {
     <div className="container">
       <div className="flex px-6 md:px-10 lg:px-14">
         <div className="flex-1" />
-        <div className="w-full md:w-5/6 lg:w-4/6 xl:w-3/6">
-          {children}
-        </div>
+        <div className="w-full md:w-5/6 lg:w-4/6 xl:w-3/6">{children}</div>
         <div className="flex-1" />
       </div>
     </div>
-  )
+  );
 }
 
 function OrgProfile({ currentOrg }: { currentOrg: OrganizationDto }) {
   return (
-    <div className="container px-10 py-10 flex shadow">
-      <div className="flex-1" />
+    <div className="container">
       <div className="w-full md:w-5/6">
         <div className="flex items-start">
           <div className="avatar placeholder inline-flex mr-4">
@@ -128,7 +130,7 @@ function OrgProfile({ currentOrg }: { currentOrg: OrganizationDto }) {
       </div>
       <div className="flex-1" />
     </div>
-  )
+  );
 }
 
 OrgMainLayout.Container = Container;
@@ -137,12 +139,10 @@ export default OrgMainLayout;
 
 export function getOrgMainLayout(page: ReactElement) {
   const router = useRouter();
+  const currentUser = useCurrentUser();
   const { id: orgId } = router.query;
   const { currentOrg } = useCurrentOrg(Number(orgId));
-  const org = currentOrg || {} as OrganizationDto;
-  return (
-    <OrgMainLayout org={org}>
-      {page}
-    </OrgMainLayout>
-  )
+  const org =
+    currentOrg || currentUser?.organizations![0] || ({} as OrganizationDto);
+  return <OrgMainLayout org={org}>{page}</OrgMainLayout>;
 }

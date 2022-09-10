@@ -6,7 +6,7 @@ export function useCurrentUser() {
   const [currentUser, setCurrentUser] = useState<UserDto | null>(null);
 
   useEffect(() => {
-    getUserSession().then(res => setCurrentUser(res.data));
+    getUserSession().then((res) => setCurrentUser(res.data));
   }, []);
 
   return currentUser;

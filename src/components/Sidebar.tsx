@@ -1,7 +1,7 @@
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 import { ButtonHTMLAttributes, FC, HTMLAttributes, ReactElement } from 'react';
 
-export interface SidebarProps extends HTMLAttributes<HTMLDivElement> {}
+export type SidebarProps = HTMLAttributes<HTMLDivElement>;
 
 /**
  * @example
@@ -17,7 +17,7 @@ const Sidebar: FC<SidebarProps> & {
   Menu: FC<SidebarMenuProps> & {
     Item: FC<SidebarMenuItemProps>;
   };
-} = ({ children, className = "", ...props }) => {
+} = ({ children, className = '', ...props }) => {
   return (
     <div className={`sidebar ${className}`} {...props}>
       {children}
@@ -25,11 +25,11 @@ const Sidebar: FC<SidebarProps> & {
   );
 };
 
-export interface SidebarTitleProps extends HTMLAttributes<HTMLDivElement> {}
+export type SidebarTitleProps = HTMLAttributes<HTMLDivElement>;
 
 const SidebarTitle: FC<SidebarTitleProps> = ({
   children,
-  className = "",
+  className = '',
   ...props
 }) => {
   return (
@@ -39,11 +39,11 @@ const SidebarTitle: FC<SidebarTitleProps> = ({
   );
 };
 
-export interface SidebarMenuProps extends HTMLAttributes<HTMLDivElement> {}
+export type SidebarMenuProps = HTMLAttributes<HTMLDivElement>;
 
 const SidebarMenu: FC<SidebarMenuProps> & {
   Item: FC<SidebarMenuItemProps>;
-} = ({ children, className = "", ...props }) => {
+} = ({ children, className = '', ...props }) => {
   return (
     <div className={`sidebar-menu ${className}`} {...props}>
       {children}
@@ -61,7 +61,7 @@ export interface SidebarMenuItemProps
 }
 
 const SidebarMenuItem: FC<SidebarMenuItemProps> = ({
-  className = "",
+  className = '',
   text,
   to,
   icon,
@@ -82,16 +82,22 @@ const SidebarMenuItem: FC<SidebarMenuItemProps> = ({
     <>
       <button
         className={`sidebar-menu-item flex items-center ${
-          icon && "space-x-2"
+          icon && 'space-x-2'
         } ${
           _selected
-            ? "bg-gray-100 text-black"
-            : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+            ? 'bg-gray-100 text-black'
+            : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
         } ${className}`}
         onClick={to ? () => router.push(to) : onClick}
         {...props}
       >
-        {typeof Icon === 'function' && <Icon className={_selected && iconTransform ? "fill-current text-gray-900" : ""} />}
+        {typeof Icon === 'function' && (
+          <Icon
+            className={
+              _selected && iconTransform ? 'fill-current text-gray-900' : ''
+            }
+          />
+        )}
         <div>{text}</div>
       </button>
     </>
@@ -106,7 +112,7 @@ export interface SidebarMenuSubProps
 }
 
 const SidebarMenuSub: FC<SidebarMenuSubProps> = ({
-  className = "",
+  className = '',
   text,
   to,
   selected = false,
@@ -124,8 +130,8 @@ const SidebarMenuSub: FC<SidebarMenuSubProps> = ({
       <button
         className={`sidebar-menu-sub ${
           _selected
-            ? "bg-gray-200 font-semibold text-black"
-            : "text-gray-600 hover:text-gray-900"
+            ? 'bg-gray-200 font-semibold text-black'
+            : 'text-gray-600 hover:text-gray-900'
         } ${className}`}
         onClick={to ? () => router.push(to) : onClick}
         {...props}

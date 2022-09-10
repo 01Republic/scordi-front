@@ -2,16 +2,17 @@ import { ContentLayout } from '^layouts/ContentLayout';
 import { getOrgMainLayout } from '^layouts/org/mainLayout';
 import { PageRoute } from '^types/pageRoute.type';
 import {
-  ContentHeading, ContentHeadingSecondaryButton,
+  ContentHeading,
+  ContentHeadingSecondaryButton,
 } from '^layouts/ContentLayout/ContentHeading';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ContentPanel } from '^layouts/ContentLayout/ContentPanel';
 import {
   ApplicationPrototypeDto,
-  SearchAppPrototypeForm,
   FindAllAppPrototypeQuery,
+  SearchAppPrototypeForm,
 } from '^types/applicationPrototype.type';
-import { ApplicationTagDto, ApplicationTagMockDataList } from '^types/applicationTag.type';
+import { ApplicationTagDto } from '^types/applicationTag.type';
 import { useRouter } from 'next/router';
 import { IoArrowBack } from '@react-icons/all-files/io5/IoArrowBack';
 import { useForm } from 'react-hook-form';
@@ -27,7 +28,8 @@ import { OrgAddAppInfoPageRoute } from '^pages/orgs/[id]/apps/new/[appId]/inform
 
 export const OrgApplicationSelectPageRoute: PageRoute = {
   pathname: '/orgs/[id]/apps/new/select',
-  path: (orgId: number) => OrgApplicationSelectPageRoute.pathname.replace('[id]', String(orgId)),
+  path: (orgId: number) =>
+    OrgApplicationSelectPageRoute.pathname.replace('[id]', String(orgId)),
 };
 
 export default function OrgApplicationSelectPage() {
@@ -37,10 +39,15 @@ export default function OrgApplicationSelectPage() {
   const [myApps, setMyApps] = useState<ApplicationDto[]>([]);
   const [prototypes, setPrototypes] = useState<ApplicationPrototypeDto[]>([]);
   const [categories, setCategories] = useState<ApplicationTagDto[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<ApplicationTagDto | null>(null);
+  const [selectedCategory, setSelectedCategory] =
+    useState<ApplicationTagDto | null>(null);
   const form = useForm<SearchAppPrototypeForm>();
 
-  const fetchApplicationPrototypes = ({ page = 1, itemsPerPage = 30, ...params }: FindAllAppPrototypeQuery) => {
+  const fetchApplicationPrototypes = ({
+    page = 1,
+    itemsPerPage = 30,
+    ...params
+  }: FindAllAppPrototypeQuery) => {
     setIsLoading(true);
     getApplicationPrototypes(params)
       .then(({ data }) => {
@@ -52,9 +59,12 @@ export default function OrgApplicationSelectPage() {
       });
   };
 
-  const checkIsAddedAlready = useCallback((prototypeId: number) => {
-    return !!myApps.find((app) => app.prototypeId === prototypeId);
-  }, [myApps]);
+  const checkIsAddedAlready = useCallback(
+    (prototypeId: number) => {
+      return !!myApps.find((app) => app.prototypeId === prototypeId);
+    },
+    [myApps],
+  );
 
   useEffect(() => {
     getApplicationTags({ where: { isFeatured: 1 } })
@@ -82,19 +92,22 @@ export default function OrgApplicationSelectPage() {
     fetchApplicationPrototypes({
       tagId: category.id,
     });
-  }
+  };
 
   const searchHandler = (data: SearchAppPrototypeForm) => {
     setSelectedCategory(null);
     fetchApplicationPrototypes({
       name: data.name,
     });
-  }
+  };
 
   return (
     <ContentLayout>
       <ContentHeading title="Select New App..">
-        <ContentHeadingSecondaryButton className="gap-2" onClick={() => router.back()}>
+        <ContentHeadingSecondaryButton
+          className="gap-2"
+          onClick={() => router.back()}
+        >
           <IoArrowBack /> Back
         </ContentHeadingSecondaryButton>
       </ContentHeading>
@@ -109,7 +122,11 @@ export default function OrgApplicationSelectPage() {
       <ContentPanel>
         <div className="bs-row mx-0 pt-3">
           <div className="bs-col px-0">
-            <div className={`bs-row mx-0 ${(isLoading || prototypes.length <= 0) ? 'h-full' : ''}`}>
+            <div
+              className={`bs-row mx-0 ${
+                isLoading || prototypes.length <= 0 ? 'h-full' : ''
+              }`}
+            >
               {isLoading && (
                 <div className="w-full min-h-[12rem]">
                   <PreLoader screenSize={false} />
@@ -118,24 +135,32 @@ export default function OrgApplicationSelectPage() {
 
               {!isLoading && prototypes.length <= 0 && (
                 <div className="bs-col flex flex-col gap-4 items-center justify-center">
-                  <img className="w-[50%] min-w-[200px]" src="/images/illustration/big-isolated-employee-working-office-workplace-flat-illustration/Mar-Business_1-800px.png" alt="Result not found." />
+                  <img
+                    className="w-[50%] min-w-[200px]"
+                    src="/images/illustration/big-isolated-employee-working-office-workplace-flat-illustration/Mar-Business_1-800px.png"
+                    alt="Result not found."
+                  />
                   <div>
-                    <p className="text-gray-400 font-bold text-2xl">결과가 없습니다 :(</p>
+                    <p className="text-gray-400 font-bold text-2xl">
+                      결과가 없습니다 :(
+                    </p>
                   </div>
                 </div>
               )}
-              {!isLoading && prototypes.length > 0 && [1].map(() => (
-                prototypes.map((proto) => {
-                  return (
-                    <SelectablePrototypeCard
-                      key={proto.id}
-                      proto={proto}
-                      selectable={!checkIsAddedAlready(proto.id)}
-                      onClick={selectAppHandler}
-                    />
-                  )
-                })
-              ))}
+              {!isLoading &&
+                prototypes.length > 0 &&
+                [1].map(() =>
+                  prototypes.map((proto) => {
+                    return (
+                      <SelectablePrototypeCard
+                        key={proto.id}
+                        proto={proto}
+                        selectable={!checkIsAddedAlready(proto.id)}
+                        onClick={selectAppHandler}
+                      />
+                    );
+                  }),
+                )}
             </div>
           </div>
 
@@ -144,7 +169,8 @@ export default function OrgApplicationSelectPage() {
               <p className="text-lg font-bold mb-2 px-3.5">Categories</p>
               <ul className="menu menu-compact flex flex-col p-0">
                 {categories.map((category) => {
-                  const active = selectedCategory && selectedCategory.id === category.id;
+                  const active =
+                    selectedCategory && selectedCategory.id === category.id;
                   return (
                     <li key={category.id}>
                       <a
@@ -154,7 +180,7 @@ export default function OrgApplicationSelectPage() {
                         {category.name}
                       </a>
                     </li>
-                  )
+                  );
                 })}
               </ul>
             </div>
@@ -162,7 +188,7 @@ export default function OrgApplicationSelectPage() {
         </div>
       </ContentPanel>
     </ContentLayout>
-  )
+  );
 }
 
 OrgApplicationSelectPage.getLayout = getOrgMainLayout;
@@ -172,7 +198,12 @@ interface SelectablePrototypeCardProps {
   selectable: boolean;
   onClick: (input: HTMLInputElement) => any;
 }
-function SelectablePrototypeCard({ proto, selectable, onClick }: SelectablePrototypeCardProps) {
+
+function SelectablePrototypeCard({
+  proto,
+  selectable,
+  onClick,
+}: SelectablePrototypeCardProps) {
   const id = `SelectablePrototype-${proto.id}`;
 
   const isReady = (() => {
@@ -199,27 +230,37 @@ function SelectablePrototypeCard({ proto, selectable, onClick }: SelectableProto
     <div className="bs-col-6 sm:bs-col-6 lg:bs-col-3 xl:bs-col-2-of-10 mb-4">
       <input id={id} type="radio" className="hidden" defaultValue={proto.id} />
       <label htmlFor={id} onClick={labelClickHandler}>
-        <div className={`w-full h-full rounded-xl border cursor-pointer ${isReady && selectable ? 'hover:shadow-lg' : 'opacity-70'}`}>
+        <div
+          className={`w-full h-full rounded-xl border cursor-pointer ${
+            isReady && selectable ? 'hover:shadow-lg' : 'opacity-70'
+          }`}
+        >
           <div className="card p-3">
             <figure className="pt-2 text-center mb-3">
-              <img src={proto.image} alt={`${proto.name} Logo`} className="w-[42px]" />
+              <img
+                src={proto.image}
+                alt={`${proto.name} Logo`}
+                className="w-[42px]"
+              />
             </figure>
             <div className="card-body items-center text-center p-0">
               <h3 className="card-title text-sm text-gray-600">{proto.name}</h3>
               <p className="text-xs text-gray-500">{proto.desc}</p>
               {isReady && selectable ? (
                 <button className="btn btn-xs btn-success">Add</button>
+              ) : !isReady ? (
+                <button className="btn btn-xs btn-secondary btn-disabled">
+                  Coming Soon
+                </button>
               ) : (
-                !isReady ? (
-                  <button className="btn btn-xs btn-secondary btn-disabled">Coming Soon</button>
-                ) : (
-                  <button className="btn btn-xs btn-success btn-disabled">Added</button>
-                )
+                <button className="btn btn-xs btn-success btn-disabled">
+                  Added
+                </button>
               )}
             </div>
           </div>
         </div>
       </label>
     </div>
-  )
+  );
 }
