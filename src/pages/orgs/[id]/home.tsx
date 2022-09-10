@@ -10,6 +10,7 @@ import { MonthlyGraphs } from '^components/MonthlyGraphs';
 import { useRouter } from 'next/router';
 import { getOrgMainLayout } from '^layouts/org/mainLayout';
 import { PageRoute } from '^types/pageRoute.type';
+import { ContentLayout } from '^layouts/ContentLayout';
 
 const tableLabel = [
   '제품',
@@ -51,7 +52,7 @@ export default function HomePage() {
   const servieItem = itemDummy[0];
 
   return (
-    <>
+    <ContentLayout>
       <ServiceModal open={addService} onClose={() => setAddService(false)} />
       <AddPaymentAmountModal open={payment} onClose={() => setPayment(false)} />
       <EditServiceModal
@@ -163,7 +164,7 @@ export default function HomePage() {
           </table>
         </div>
       </div>
-    </>
+    </ContentLayout>
   );
 }
 

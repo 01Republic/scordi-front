@@ -60,13 +60,13 @@ export default function OrgShowPage() {
   };
 
   return (
-    <ContentLayout title="Organization Settings">
+    <ContentLayout title="회사정보 설정">
       <ContentForm onSubmit={generalForm.handleSubmit(UpdateOrgHandler)}>
-        <ContentPanel title="General">
+        <ContentPanel title="일반">
           <ContentPanelList>
             <ContentPanelInput
-              title="Organization Slug"
-              text="A unique ID used to identify this organization"
+              title="회사 ID"
+              text="회사 ID는 유일한 값입니다."
               required={true}
             >
               <TextInput
@@ -79,8 +79,8 @@ export default function OrgShowPage() {
             </ContentPanelInput>
 
             <ContentPanelInput
-              title="Display Name"
-              text="A human-friendly name for the organization"
+              title="회사명"
+              text="회사명을 정확히 써주세요."
               required={true}
             >
               <TextInput
@@ -93,8 +93,8 @@ export default function OrgShowPage() {
             </ContentPanelInput>
 
             <ContentPanelInput
-              title="Avatar"
-              text="A display image for the organization. By default, use the first letter of it's own display name"
+              title="회사 로고"
+              text="회사의 로고를 업로드 해주세요."
               required={false}
             >
               <ProfileImageFileInput
@@ -114,36 +114,36 @@ export default function OrgShowPage() {
         </ContentPanel>
       </ContentForm>
 
-      <ContentForm onSubmit={membershipsForm.handleSubmit(UpdateOrgHandler)}>
-        <ContentPanel title="memberships">
-          <ContentPanelList>
-            <ContentPanelInput
-              title="Default Role"
-              text="The default role new members will receive"
-              required={true}
-            >
-              <TextInput
-                required={true}
-                {...membershipsForm.register('name', {
-                  required: true,
-                  value: org.name,
-                })}
-              />
-            </ContentPanelInput>
-          </ContentPanelList>
-        </ContentPanel>
-      </ContentForm>
+      {/*<ContentForm onSubmit={membershipsForm.handleSubmit(UpdateOrgHandler)}>*/}
+      {/*  <ContentPanel title="memberships">*/}
+      {/*    <ContentPanelList>*/}
+      {/*      <ContentPanelInput*/}
+      {/*        title="Default Role"*/}
+      {/*        text="The default role new members will receive"*/}
+      {/*        required={true}*/}
+      {/*      >*/}
+      {/*        <TextInput*/}
+      {/*          required={true}*/}
+      {/*          {...membershipsForm.register('name', {*/}
+      {/*            required: true,*/}
+      {/*            value: org.name,*/}
+      {/*          })}*/}
+      {/*        />*/}
+      {/*      </ContentPanelInput>*/}
+      {/*    </ContentPanelList>*/}
+      {/*  </ContentPanel>*/}
+      {/*</ContentForm>*/}
 
-      <ContentPanel title="Remove Organization">
+      <ContentPanel title="이 회사 삭제">
         <ContentPanelList>
           <ContentPanelItem>
             <div className="flex-1">
-              <ContentPanelItemTitle text="Remove Organization" />
-              <ContentPanelItemText text="Removing this organization will delete all data including teams and their associated events." />
+              <ContentPanelItemTitle text="삭제하기" />
+              <ContentPanelItemText text="회사 정보를 삭제하시면 모든 데이터가 사라집니다." />
             </div>
             <div className="flex-1 text-end">
               <button className="btn btn-error text-white">
-                Remove Organization
+                삭제 요청하기
               </button>
             </div>
           </ContentPanelItem>

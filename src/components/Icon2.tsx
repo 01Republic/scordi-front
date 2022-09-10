@@ -12,4 +12,4 @@ export const Icon2 = {
   Settings,
   Folder,
   Plus,
-}
+};

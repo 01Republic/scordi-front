@@ -56,7 +56,7 @@ export interface SidebarMenuItemProps
   text?: string;
   to?: string;
   selected?: boolean;
-  icon?: ReactElement;
+  icon?: any;
   iconTransform?: boolean;
 }
 

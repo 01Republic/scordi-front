@@ -68,30 +68,30 @@ export function OrgAppListItem({ app }: OrgAppListItemProps) {
             <span className="text-sm text-gray-500">{`명`}</span>
             &nbsp;
           </div>
-          <div style={{ lineHeight: 1 }}>
-            <div className="avatar-group -space-x-3">
-              <div className="avatar">
-                <div className="w-6">
-                  <img src="https://placeimg.com/192/192/people" />
-                </div>
-              </div>
-              <div className="avatar">
-                <div className="w-6">
-                  <img src="https://placeimg.com/192/192/people" />
-                </div>
-              </div>
-              <div className="avatar">
-                <div className="w-6">
-                  <img src="https://placeimg.com/192/192/people" />
-                </div>
-              </div>
-              <div className="avatar placeholder">
-                <div className="w-6 bg-neutral-focus text-neutral-content">
-                  <span className="text-2xs">+{app.accountCount}</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/*<div style={{ lineHeight: 1 }}>*/}
+          {/*  <div className="avatar-group -space-x-3">*/}
+          {/*    <div className="avatar">*/}
+          {/*      <div className="w-6">*/}
+          {/*        <img src="https://placeimg.com/192/192/people" />*/}
+          {/*      </div>*/}
+          {/*    </div>*/}
+          {/*    <div className="avatar">*/}
+          {/*      <div className="w-6">*/}
+          {/*        <img src="https://placeimg.com/192/192/people" />*/}
+          {/*      </div>*/}
+          {/*    </div>*/}
+          {/*    <div className="avatar">*/}
+          {/*      <div className="w-6">*/}
+          {/*        <img src="https://placeimg.com/192/192/people" />*/}
+          {/*      </div>*/}
+          {/*    </div>*/}
+          {/*    <div className="avatar placeholder">*/}
+          {/*      <div className="w-6 bg-neutral-focus text-neutral-content">*/}
+          {/*        <span className="text-2xs">+{app.accountCount}</span>*/}
+          {/*      </div>*/}
+          {/*    </div>*/}
+          {/*  </div>*/}
+          {/*</div>*/}
         </div>
       </div>
 
@@ -120,7 +120,7 @@ export function OrgAppListItem({ app }: OrgAppListItemProps) {
 
       {/* 4 */}
       <div>
-        <button className="btn btn-primary btn-sm">Show</button>
+        <button className="btn btn-primary btn-sm">자세히</button>
       </div>
     </ContentPanelItem>
   );

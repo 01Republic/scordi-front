@@ -1,7 +1,5 @@
-import { SHOW_SIDEBAR_ROUTES } from '^pages/routes';
 import { Sidebar } from '^components/Sidebar';
 import { Icon2 } from '^components/Icon2';
-import { removeToken } from '^api/api';
 import { useRouter } from 'next/router';
 import { OrganizationDto } from '^types/organizationTypes';
 import { PreLoader } from '^components/PreLoader';
@@ -14,6 +12,8 @@ import React, { ReactElement } from 'react';
 import { OrgAppsIndexPageRoute } from '^pages/orgs/[id]/apps';
 import { OrgMainLayoutFooter } from '^layouts/org/mainLayout/OrgMainLayoutFooter';
 import { useCurrentOrg } from '^hooks/useCurrentOrg';
+import { Icon } from '^components/Icon';
+import Home from '../../../../public/home/icons/icon-home.svg';
 
 interface OrgMainLayoutProps {
   org: OrganizationDto | null;
@@ -34,36 +34,30 @@ const OrgMainLayout = ({ org, children }: OrgMainLayoutProps) => {
 
         <Sidebar.Menu>
           <Sidebar.Menu.Item
-            // text="구독 내역"
-            // text="대시보드"
-            text="Dashboard"
+            text="대시보드"
             to={OrgHomeRoute.path(org.id)}
             selected={pathname === OrgHomeRoute.pathname}
-            icon={Icon2.Check}
+            icon={() => <Icon.Home />}
           />
           <Sidebar.Menu.Item
-            // text="구독앱"
-            text="Apps"
+            text="연동 서비스"
             to={OrgAppsIndexPageRoute.path(org.id)}
             selected={pathname.startsWith(OrgAppsIndexPageRoute.pathname)}
-            icon={Icon2.Folder}
+            icon={() => <Icon.Folder />}
             iconTransform={false}
           />
           <Sidebar.Menu.Item
-            // text="구성원 관리"
-            text="Members"
+            text="멤버 관리"
             to={OrgMembershipIndexPageRoute.path(org.id)}
             selected={pathname.startsWith(OrgMembershipIndexPageRoute.pathname)}
-            icon={Icon2.People}
+            icon={() => <Icon.User />}
           />
           <Sidebar.Menu.Item
-            // text="회사 정보"
-            // text="조직 설정"
-            text="Settings"
+            text="설정"
             to={OrgShowRoute.path(org.id)}
             selected={pathname === OrgShowRoute.pathname}
             // icon={Icon2.Building}
-            icon={Icon2.Settings}
+            icon={() => <Icon.Settings />}
             iconTransform={false}
           />
         </Sidebar.Menu>

@@ -6,10 +6,8 @@ import { ContentLayout } from '^layouts/ContentLayout';
 import {
   ContentHeading,
   ContentHeadingPrimaryButton,
-  ContentHeadingSecondaryButton,
 } from '^layouts/ContentLayout/ContentHeading';
 import { IoAddCircleOutline } from '@react-icons/all-files/io5/IoAddCircleOutline';
-import { IoPersonOutline } from '@react-icons/all-files/io5/IoPersonOutline';
 import {
   ContentPanel,
   ContentPanelList,
@@ -46,25 +44,20 @@ function OrgAppsIndexPage() {
 
   return (
     <ContentLayout>
-      <ContentHeading title="Apps">
+      <ContentHeading title="연동 서비스">
         <div>
-          <ContentHeadingSecondaryButton>
-            <IoPersonOutline className="btn-icon" />
-            <span>Add New</span>
-          </ContentHeadingSecondaryButton>
-
           <ContentHeadingPrimaryButton
             onClick={() =>
               router.push(OrgApplicationSelectPageRoute.path(organizationId))
             }
           >
             <IoAddCircleOutline className="btn-icon" />
-            <span>Add New</span>
+            <span>추가하기</span>
           </ContentHeadingPrimaryButton>
         </div>
       </ContentHeading>
 
-      <ContentPanel title="Apps">
+      <ContentPanel title="서비스 목록">
         {apps.length <= 0 ? (
           <div className="flex flex-col gap-4 items-center justify-center opacity-50">
             <img
