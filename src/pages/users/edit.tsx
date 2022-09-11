@@ -37,7 +37,7 @@ const UserEditPage = () => {
               title="Name"
               text="Your full name"
               required={true}
-              lastItem={true}
+              // lastItem={true}
             >
               <TextInput
                 required={true}
