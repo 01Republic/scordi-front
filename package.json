@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "deploy:staging": "ssh payplo \"bash ~/deploy-staging.sh\"",
     "deploy:production": "ssh payplo \"bash ~/deploy-production.sh\""
   },
   "dependencies": {
