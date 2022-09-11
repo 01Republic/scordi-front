@@ -1,5 +1,6 @@
 import { UserDto } from '^types/userTypes';
 import { OrganizationDto } from '^types/organizationTypes';
+import { FindAllQueryDto } from '^types/utils/findAll.query.dto';
 
 export enum MembershipLevel {
   MEMBER = 'MEMBER',
@@ -10,7 +11,7 @@ export type CreateMembershipRequestDto = {
   organizationId: number;
   userId: number;
   level?: MembershipLevel;
-}
+};
 
 export type UpdateMembershipRequestDto = Partial<CreateMembershipRequestDto>;
 
@@ -23,4 +24,6 @@ export type MembershipDto = {
   updatedAt: Date;
   organization: OrganizationDto;
   user: UserDto;
-}
+};
+
+export type FindAllMembershipQuery = FindAllQueryDto<MembershipDto>;
