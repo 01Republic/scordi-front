@@ -14,6 +14,7 @@ import { Modal } from '^components/Modal';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toast } from 'react-toastify';
 import { Icon } from '^components/Icon';
+import { ContentHeading, ContentHeadingPrimaryButton } from '^layouts/ContentLayout/ContentHeading';
 
 export const OrgMembershipIndexPageRoute: PageRoute = {
   pathname: '/orgs/[id]/memberships',
@@ -70,18 +71,11 @@ export default function OrgMembershipIndexPage() {
           onClick: () => setIsModalOpen(false),
         }}
       />
-      <ContentLayout title={'멤버 관리'}>
-        {/*<ContentPanel>*/}
-        {/*  {currentOrg && <OrgMainLayout.OrgProfile currentOrg={currentOrg} />}*/}
-        {/*</ContentPanel>*/}
-        <div className="flex justify-end pb-4">
-          <button
-            className="btn btn-primary h-10"
-            onClick={() => setIsModalOpen(true)}
-          >
-            멤버 초대하기
-          </button>
-        </div>
+      <ContentLayout>
+        <ContentHeading title={'멤버 관리'}>
+          <ContentHeadingPrimaryButton onClick={() => setIsModalOpen(true)}>멤버 초대하기</ContentHeadingPrimaryButton>
+        </ContentHeading>
+
         <ContentPanel title={'멤버 목록'}>
           <div className={'-m-4'}>
             {members.items?.length > 0 &&

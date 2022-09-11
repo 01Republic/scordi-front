@@ -21,7 +21,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export const ContentHeadingPrimaryButton: FC<WithChildren & ButtonProps> = ({
   text = '',
-  className,
+  className = '',
   disabled,
   children,
   ...props
