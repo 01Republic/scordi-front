@@ -38,3 +38,7 @@ export const createOrganization = (data: CreateOrganizationRequestDto) => {
 export const updateOrganization = (id: number, data: UpdateOrganizationRequestDto) => {
     return api.patch<OrganizationDto>(`/organizations/${id}`, data);
 };
+
+export const destroyOrganization = (id: number) => {
+    return api.delete<Omit<OrganizationDto, 'id'>>(`/organizations/${id}`);
+}

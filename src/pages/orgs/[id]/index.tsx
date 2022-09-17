@@ -21,8 +21,10 @@ import {
 } from '^types/organizationTypes';
 import { TextInput } from '^components/TextInput';
 import { ProfileImageFileInput } from '^components/ProfileImageFileInput';
-import { updateOrganization } from '^api/organizationApi';
+import { destroyOrganization, updateOrganization } from '^api/organizationApi';
 import { errorNotify, successNotify } from '^utils/toast-notify';
+import { WithChildren } from '^types/globalTypes';
+import { toast } from 'react-toastify';
 
 export const OrgShowRoute: PageRoute = {
   pathname: '/orgs/[id]',
@@ -56,6 +58,12 @@ export default function OrgShowPage() {
         setCurrentOrg(res.data);
         successNotify('성공적으로 업데이트 되었습니다.');
       })
+      .catch(errorNotify);
+  };
+
+  const DestroyOrgHandler = () => {
+    destroyOrganization(org.id)
+      .then(() => toast('삭제되었습니다.'))
       .catch(errorNotify);
   };
 
@@ -142,7 +150,11 @@ export default function OrgShowPage() {
               <ContentPanelItemText text="회사 정보를 삭제하시면 모든 데이터가 사라집니다." />
             </div>
             <div className="flex-1 text-end">
-              <button className="btn btn-error text-white">
+              <button
+                type="button"
+                className="btn btn-error text-white"
+                onClick={DestroyOrgHandler}
+              >
                 삭제 요청하기
               </button>
             </div>
