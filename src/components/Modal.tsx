@@ -1,3 +1,5 @@
+import { MouseEvent } from 'react';
+
 export type ModalProps = {
   type: 'error' | 'success' | 'warning' | 'info';
   isOpen: boolean;
@@ -11,6 +13,9 @@ export type ModalProps = {
     text: string;
     onClick: () => void;
   };
+  backdrop?: {
+    onClick: (e: MouseEvent<HTMLDivElement>) => void;
+  }
   children?: any;
 };
 
@@ -21,6 +26,12 @@ export const Modal = (props: ModalProps) => {
         className={`modal modal-bottom sm:modal-middle ${
           props.isOpen && 'modal-open'
         }`}
+        onClick={(e) => {
+          const target = e.target as Element;
+          if (props.backdrop && target.classList.contains('modal')) {
+            props.backdrop.onClick(e);
+          }
+        }}
       >
         <div className="modal-box">
           <h3 className="font-bold text-lg">{props.title}</h3>
