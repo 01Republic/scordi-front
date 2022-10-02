@@ -23,7 +23,6 @@ import { TextInput } from '^components/TextInput';
 import { ProfileImageFileInput } from '^components/ProfileImageFileInput';
 import { destroyOrganization, updateOrganization } from '^api/organizationApi';
 import { errorNotify, successNotify } from '^utils/toast-notify';
-import { WithChildren } from '^types/globalTypes';
 import { toast } from 'react-toastify';
 
 export const OrgShowRoute: PageRoute = {

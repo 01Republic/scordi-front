@@ -1,18 +1,12 @@
 import { MouseEvent } from 'react';
+import { WithChildren } from '^types/globalTypes';
 
 export type ModalProps = {
   type: 'error' | 'success' | 'warning' | 'info';
   isOpen: boolean;
-  title: string;
-  description: string;
-  button1: {
-    text: string;
-    onClick: () => void;
-  };
-  button2?: {
-    text: string;
-    onClick: () => void;
-  };
+  title?: string;
+  description?: string;
+  buttons?: ModalActionButtonProps[];
   backdrop?: {
     onClick: (e: MouseEvent<HTMLDivElement>) => void;
   }
@@ -34,19 +28,39 @@ export const Modal = (props: ModalProps) => {
         }}
       >
         <div className="modal-box">
-          <h3 className="font-bold text-lg">{props.title}</h3>
-          <p className="py-4">{props.description}</p>
+          {props.title && <h3 className='font-bold text-lg'>{props.title}</h3>}
+          {props.description && <p className='py-4'>{props.description}</p>}
           {props.children}
-          <div className="modal-action">
-            {/*{props.type === 'info' && (*/}
-            {/*    <button className="btn" onClick={props.button1.onClick}>{props.button1.text}</button>*/}
-            {/*)}*/}
-            <button className="btn" onClick={props.button1.onClick}>
-              {props.button1.text}
-            </button>
-          </div>
+          {props.buttons && (
+            <ModalActionWrapper>
+              {props.buttons.map((button) => (
+                <ModalActionButton {...button} />
+              ))}
+            </ModalActionWrapper>
+          )}
         </div>
       </div>
     </>
   );
 };
+
+export function ModalActionWrapper({ children }: WithChildren) {
+  return (
+    <div className="modal-action">{children}</div>
+  )
+}
+
+export interface ModalActionButtonProps extends WithChildren {
+  text?: string;
+  onClick: () => void;
+  className?: string;
+  disabled?: boolean;
+}
+
+export function ModalActionButton({ text, onClick, children, className = '', ...props }: ModalActionButtonProps) {
+  return (
+    <button className={`btn ${className}`} onClick={onClick} {...props}>
+      {text ?? children}
+    </button>
+  )
+}

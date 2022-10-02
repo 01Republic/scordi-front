@@ -105,10 +105,9 @@ function InviteMemberModal({
       description={
         '초대할 멤버에게 아래 링크를 전달하세요. 링크를 통해 접속한 사용자는 자동으로 멤버가 됩니다.'
       }
-      button1={{
-        text: '닫기',
-        onClick: () => setIsModalOpen(false),
-      }}
+      buttons={[
+        { text: '닫기', onClick: () => setIsModalOpen(false) },
+      ]}
       backdrop={{
         onClick: () => setIsModalOpen(false),
       }}

@@ -65,7 +65,9 @@ const LoginPage = () => {
             <Modal type={'info'} isOpen={isModalOpen}
                    title={'로그인 실패'}
                    description={'아이디 또는 비밀번호가 일치하지 않습니다.'}
-                   button1={{text: '확인', onClick: () => setIsModalOpen(false)}}
+                   buttons={[
+                     {text: '확인', onClick: () => setIsModalOpen(false)},
+                   ]}
             />
             <div className={"mx-auto my-20 w-full max-w-md space-y-5"}>
                 <form onSubmit={form.handleSubmit(login)} className={"space-y-4 p-4 m-auto"}>

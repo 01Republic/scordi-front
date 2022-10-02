@@ -30,6 +30,7 @@
     "react-hook-form": "^7.34.2",
     "react-icons": "^4.4.0",
     "react-id-generator": "^3.0.2",
+    "react-loading-icons": "^1.1.0",
     "react-select": "^5.4.0",
     "react-select2-wrapper": "^1.0.4-beta6",
     "react-toastify": "^9.0.8",

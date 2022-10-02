@@ -35,6 +35,7 @@ export type ApplicationDto = {
 export type FindAllAppsQuery = FindAllQueryDto<ApplicationDto>;
 
 export type CreateApplicationRequestDto = {
+  sign: string | null; // 연동계정 Sign
   organizationId: number; // 조직 ID
   prototypeId: number; // 프로토타입 ID
   paymentPlanId: number; // 결제플랜 ID

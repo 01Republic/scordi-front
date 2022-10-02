@@ -2,30 +2,41 @@ import React, { FC } from 'react';
 import { WithChildren } from '^types/globalTypes';
 
 interface ContentPanelProps {
-  title?: string;
+  bodyWrap?: boolean;
 }
 
-export const ContentPanel: FC<WithChildren & ContentPanelProps> = ({
+export const ContentPanel: FC<WithChildren & Partial<ContentPanelHeadingProps> & ContentPanelProps> = ({
   title,
+  desc = '',
+  bodyWrap = true,
   children,
 }) => {
   return (
     <div className="w-full border border-[#dbd6e1] bg-white rounded shadow mb-5">
-      {title && <ContentPanelHeading title={title} />}
+      {title && <ContentPanelHeading title={title} desc={desc} />}
 
-      <ContentPanelBody>{children}</ContentPanelBody>
+      {bodyWrap ? <ContentPanelBody>{children}</ContentPanelBody> : children}
     </div>
   );
 };
 
-export function ContentPanelHeading({ title }: { title: string }) {
+interface ContentPanelHeadingProps {
+  title: string;
+  desc?: string;
+}
+
+export function ContentPanelHeading(props: ContentPanelHeadingProps & WithChildren) {
+  const { title, desc = '', children = '' } = props;
+
   return (
     <div className="flex items-center p-4 bg-neutral border-b border-b-[#dbd6e1]">
       <div>
         <h2 className="m-0 text-sm text-gray-600 font-semibold uppercase">
           {title}
         </h2>
+        {desc && <p className="text-xs text-gray-600" dangerouslySetInnerHTML={{__html: desc}} />}
       </div>
+      {children}
     </div>
   );
 }

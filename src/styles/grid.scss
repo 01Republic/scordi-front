@@ -3,6 +3,16 @@ $grid-bases: (10, 12, 24);
 $grid-bases-default: 12;
 $gutter-size: 15px;
 
+.bs-container {
+    width: 100%;
+    padding-left: $gutter-size;
+    padding-right: $gutter-size;
+
+    & > .bs-row {
+        width: initial;
+    }
+}
+
 .bs-row {
     display: flex;
     flex-wrap: wrap;
