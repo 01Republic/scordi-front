@@ -3,6 +3,7 @@ import { ApplicationPrototypeDto } from '^types/applicationPrototype.type';
 import { ApplicationPaymentPlanDto } from '^types/applicationPaymentPlan.type';
 import { ConnectMethod, SelectConnectMethod } from './SelectConnectMethod';
 import { ConnectLoginForm } from './ConnectLoginForm';
+import { ConnectInManual } from '^components/pages/OrgAddAppInfoPage/ConnectPanelV2/ConnectInManual';
 
 interface ConnectPanelV2Props {
   protoApp: ApplicationPrototypeDto;
@@ -32,7 +33,10 @@ export const ConnectPanelV2 = (props: ConnectPanelV2Props) => {
       )}
 
       {connectMethod === ConnectMethod.manual && (
-        <>manual</>
+        <ConnectInManual
+          protoApp={protoApp}
+          setConnectMethod={setConnectMethod}
+        />
       )}
     </>
   )
