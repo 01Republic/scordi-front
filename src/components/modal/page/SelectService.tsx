@@ -36,8 +36,8 @@ export const SelectService: React.FC<SelectServiceProps> = ({
       </div>
       <Search placeholder="서비스 검색" />
       <div className="h-80 space-y-3 overflow-y-auto pb-4">
-        {item.map((e) => (
-          <ServiceCard item={e} onClick={SetPayment} />
+        {item.map((e, i) => (
+          <ServiceCard key={i} item={e} onClick={SetPayment} />
         ))}
         {item.length === 0 && (
           <div className="mt-20 space-y-2 text-center">

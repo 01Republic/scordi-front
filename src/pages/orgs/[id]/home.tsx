@@ -93,8 +93,8 @@ export default function HomePage() {
             {/* head */}
             <thead>
               <tr>
-                {tableLabel.map((e) => (
-                  <th className="text-gray-600">{e}</th>
+                {tableLabel.map((e, i) => (
+                  <th className="text-gray-600" key={i}>{e}</th>
                 ))}
               </tr>
             </thead>

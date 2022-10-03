@@ -40,12 +40,12 @@ export const SelectPayment: React.FC<SelectPayment> = ({
             <Radio label="매월 같음 (정액제)" />
           </RadioGroup>
         </div>
-        <Select label="언제 결제하나요?">
-          <option selected hidden value="">
+        <Select label="언제 결제하나요?" defaultValue={1}>
+          <option hidden value={1}>
             선택
           </option>
-          <option>선택1</option>
-          <option>선택2</option>
+          <option value={2}>선택1</option>
+          <option value={3}>선택2</option>
         </Select>
         <button className="btn btn-primary w-full" onClick={onSubmit}>
           등록완료
