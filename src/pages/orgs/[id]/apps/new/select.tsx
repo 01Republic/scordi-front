@@ -103,7 +103,7 @@ export default function OrgApplicationSelectPage() {
 
   return (
     <ContentLayout>
-      <ContentHeading title="Select New App..">
+      <ContentHeading title="어떤 서비스를 등록하시겠어요?">
         <ContentHeadingSecondaryButton
           className="gap-2"
           onClick={() => router.back()}

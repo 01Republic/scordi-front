@@ -38,10 +38,6 @@ function OrgAppsIndexPage() {
         .catch(errorNotify);
   }, [organizationId]);
 
-  useEffect(() => {
-    console.log(apps);
-  }, [apps]);
-
   return (
     <ContentLayout>
       <ContentHeading title="연동 서비스">

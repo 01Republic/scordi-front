@@ -22,14 +22,20 @@ export type ApplicationBillingCycleDto = {
   updatedAt: Date; // 수정일시
 }
 
-export function t_BillingCycleTerm(v: BillingCycleTerm | null) {
+export enum PaymentCycle {
+  YEAR = '매년',
+  MONTH = '매월',
+  ONETIME = '1회',
+}
+
+export function t_BillingCycleTerm(v: BillingCycleTerm | null, standalone = false) {
   switch (v) {
     case null:
       return '무관';
     case BillingCycleTerm.monthly:
-      return '월';
+      return standalone ? PaymentCycle.MONTH : '월';
     case BillingCycleTerm.yearly:
-      return '연';
+      return standalone ? PaymentCycle.YEAR : '연';
     default:
       return '?';
   }
