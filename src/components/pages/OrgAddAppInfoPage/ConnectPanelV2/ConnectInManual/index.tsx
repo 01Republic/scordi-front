@@ -7,6 +7,11 @@ import { AppCode, ApplicationConnectApi } from '^api/applicationConnect.api';
 import { InvoiceDataDto } from '^components/ApplicationConnectStage/dto/fetched.responses.dto';
 import { IoChevronBackOutline } from '@react-icons/all-files/io5/IoChevronBackOutline';
 import { IoFlash } from '@react-icons/all-files/io5/IoFlash';
+import { createApplicationByInvoices } from '^api/application.api';
+import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
+import { errorNotify } from '^utils/toast-notify';
+import { OrgAppsIndexPageRoute } from '^pages/orgs/[id]/apps';
 
 interface ConnectInManualProps {
   protoApp: ApplicationPrototypeDto;
@@ -15,17 +20,48 @@ interface ConnectInManualProps {
 
 export const ConnectInManual = (props: ConnectInManualProps) => {
   const { protoApp, setConnectMethod } = props;
+  const router = useRouter();
+  const organizationId = Number(router.query.id);
+  const prototypeId = Number(router.query.appId);
   const [parsedInvoiceDataList, setParsedInvoiceDataList] = useState<InvoiceDataDto[]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const api = useMemo(() => new ApplicationConnectApi(protoApp.name as AppCode), [protoApp.name]);
   const connectable = parsedInvoiceDataList.length > 0;
 
+  const getTime = (timeStr: string) => (new Date(timeStr)).getTime();
+  const redirectNext = (id: number) => {
+    router.replace(OrgAppsIndexPageRoute.path(id));
+  };
+
   const onSubmit = () => {
-    setIsSaving(true);
-    console.log(parsedInvoiceDataList);
-    setTimeout(() => {
-      setIsSaving(false);
-    }, 2000);
+    if (connectable) {
+      const orderedList = parsedInvoiceDataList.sort((a, b) => getTime(a.issuedAt) - getTime(b.issuedAt));
+      const [recentData] = orderedList;
+      const [oldestData] = orderedList.reverse();
+      const isFreeTier = ['Free'].includes(recentData.planName);
+      const paymentPlan = protoApp.paymentPlans.find((p) => p.name === recentData.planName);
+      const billingCycle = paymentPlan ? paymentPlan.billingCycles.find((cycle) => (
+        cycle.isPerUser === recentData.isPerUser
+        && `${cycle.term}`.includes(`${recentData.cycleTerm}`)
+      )) : null;
+
+      if (paymentPlan && billingCycle) {
+        setIsSaving(true);
+        createApplicationByInvoices({
+          organizationId,
+          prototypeId,
+          paymentPlanId: paymentPlan.id,
+          billingCycleId: billingCycle.id,
+          isFreeTier,
+          registeredAt: oldestData.issuedAt,
+          invoiceDataList: orderedList,
+        }).then(() => {
+          setIsSaving(false);
+          toast('Successfully Saved');
+          redirectNext(organizationId);
+        }).catch(errorNotify);
+      }
+    }
   }
 
   return (

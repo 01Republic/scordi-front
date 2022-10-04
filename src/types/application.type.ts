@@ -3,6 +3,7 @@ import { OrganizationDto } from '^types/organizationTypes';
 import { FindAllQueryDto } from '^types/utils/findAll.query.dto';
 import { ApplicationPaymentPlanDto } from '^types/applicationPaymentPlan.type';
 import { ApplicationBillingCycleDto } from '^types/applicationBillingCycle.type';
+import { InvoiceDataDto } from '^components/ApplicationConnectStage/dto/fetched.responses.dto';
 
 // ConnectStatus 연동상태.
 export enum ConnectStatus {
@@ -42,6 +43,16 @@ export type CreateApplicationRequestDto = {
   billingCycleId: number; // 결제주기 ID
   isFreeTier: boolean; // 프리티어 여부
   registeredAt: Date | string; // 사용시작일
+}
+
+export type CreateApplicationByInvoicesRequestDto = {
+  organizationId: number; // 조직 ID
+  prototypeId: number; // 프로토타입 ID
+  paymentPlanId: number; // 결제플랜 ID
+  billingCycleId: number; // 결제주기 ID
+  isFreeTier: boolean; // 프리티어 여부
+  registeredAt: Date | string; // 사용시작일
+  invoiceDataList: InvoiceDataDto[];
 }
 
 export type UpdateApplicationRequestDto = Omit<
