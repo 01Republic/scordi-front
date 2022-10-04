@@ -4,9 +4,10 @@ import { OrgResponseDataDto } from '^components/ApplicationConnectStage/dto/OrgR
 import { ErrorResponseDto } from '^components/ApplicationConnectStage/dto/error.response.dto';
 import {
   FetchedOrgBillingHistoryDto,
-  FetchedOrgMemberDto, FetchedOrgPlanAndCycleDto, FetchedProfileDto,
+  FetchedOrgMemberDto, FetchedOrgPlanAndCycleDto, FetchedProfileDto, InvoiceDataDto,
 } from '^components/ApplicationConnectStage/dto/fetched.responses.dto';
 import { AxiosResponse } from 'axios';
+import FormData from 'form-data';
 
 const NAMESPACE = 'apps/code';
 
@@ -81,6 +82,21 @@ export class ApplicationConnectApi {
     return this.cacheRequest(this.queue.getOrgMembers, () => {
       const url = `${this.path}/organizations/${orgName}/members`;
       return api.get<FetchedOrgMemberDto[]>(url, { params })
+    });
+  }
+
+  // 인보이스 파일 분석
+  async postInvoiceFiles(files: File[]) {
+    const formData = new FormData();
+    files.forEach((file) => {
+      formData.append('files[]', file);
+    });
+
+    const url = `${this.path}/invoices`;
+    return api.post<InvoiceDataDto[]>(url, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
     });
   }
 

@@ -30,3 +30,14 @@ export type FetchedOrgPlanAndCycleDto = { // billingInfo
 };
 export type FetchedOrgBillingHistoryDto = {};
 export type FetchedOrgMemberDto = {};
+
+export type InvoiceDataDto = {
+  issuedAt: string;
+  displayName: string;
+  billingEmail: string;
+  planName: string;
+  currentCycleBillAmount: string;
+  cycleTerm: BillingCycleTerm | null;
+  isPerUser: boolean;
+  unitPrice: string;
+}

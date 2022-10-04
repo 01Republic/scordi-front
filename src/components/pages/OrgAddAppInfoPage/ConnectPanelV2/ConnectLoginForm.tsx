@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { IoFlash } from '@react-icons/all-files/io5/IoFlash';
 import { IoChevronBackOutline } from '@react-icons/all-files/io5/IoChevronBackOutline';
@@ -22,7 +22,7 @@ import { ConnectOrg } from './ConnectOrg';
 
 interface ConnectLoginFormProps {
   protoApp: ApplicationPrototypeDto;
-  setConnectMethod: React.Dispatch<React.SetStateAction<ConnectMethod | undefined>>;
+  setConnectMethod: Dispatch<SetStateAction<ConnectMethod | undefined>>;
 }
 
 export const ConnectLoginForm = (props: ConnectLoginFormProps) => {

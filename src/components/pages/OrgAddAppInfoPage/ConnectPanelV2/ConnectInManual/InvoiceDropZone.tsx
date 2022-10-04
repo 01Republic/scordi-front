@@ -1,7 +1,13 @@
-import React, { useMemo, useState } from 'react';
+import React, { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { ContentPanelItem } from '^layouts/ContentLayout/ContentPanel';
 import { AiOutlineCloudUpload } from '@react-icons/all-files/ai/AiOutlineCloudUpload';
+import { ApplicationConnectApi } from '^api/applicationConnect.api';
+import { errorNotify } from '^utils/toast-notify';
+import { InvoiceDataDto } from '^components/ApplicationConnectStage/dto/fetched.responses.dto';
+import { BillingCycleTerm } from '^types/applicationBillingCycle.type';
+import { IoTrash } from '@react-icons/all-files/io5/IoTrash';
+import { IoClose } from '@react-icons/all-files/io5/IoClose';
 
 const baseStyle = {
   flex: 1,
@@ -32,7 +38,15 @@ const rejectStyle = {
   borderColor: '#ff1744'
 };
 
-export function InvoiceDropZone() {
+interface InvoiceDropZoneProps {
+  api: ApplicationConnectApi;
+  results: InvoiceDataDto[];
+  setResults: Dispatch<SetStateAction<InvoiceDataDto[]>>;
+  isSaving: boolean;
+}
+
+export function InvoiceDropZone<T>(props: InvoiceDropZoneProps) {
+  const { api, results, setResults, isSaving } = props;
   const [isLoading, setIsLoading] = useState(false);
   const {
     getRootProps,
@@ -42,15 +56,28 @@ export function InvoiceDropZone() {
     acceptedFiles,
   } = useDropzone({
     multiple: true,
-    disabled: isLoading,
+    disabled: isLoading || isSaving,
     onDrop: (files) => {
       setIsLoading(true);
 
-      setTimeout(() => {
+      api.postInvoiceFiles(files).then((res) => {
         setIsLoading(false);
-      }, 3000);
+        appendInvoices(res.data);
+      }).catch(errorNotify);
     },
   });
+
+  const getTime = (timeStr: string) => (new Date(timeStr)).getTime();
+
+  function appendInvoices(targets: InvoiceDataDto[]) {
+    const dataList = [...results, ...targets];
+    setResults(dataList.sort((a, b) => getTime(a.issuedAt) - getTime(b.issuedAt)));
+  }
+
+  function removeInvoice(idx: number) {
+    const dataList = results.filter((_, i) => i !== idx);
+    setResults(dataList);
+  }
 
   const style: any = useMemo(() => ({
     ...baseStyle,
@@ -63,12 +90,10 @@ export function InvoiceDropZone() {
     isDragReject
   ]);
 
-  // console.log(acceptedFiles[0]);
-
   return (
     <>
       <ContentPanelItem>
-        <div {...getRootProps({ className: 'dropzone', style, disabled: true })}>
+        <div {...getRootProps({ className: 'dropzone', style })}>
           {isLoading ? (
             <>
               <p><AiOutlineCloudUpload size={30} /></p>
@@ -83,15 +108,55 @@ export function InvoiceDropZone() {
         </div>
       </ContentPanelItem>
 
-      {acceptedFiles.map((file, i) => (
-        <ContentPanelItem key={i}>
-          {isLoading ? (
-            <p className="text-sm text-gray-500 italic">(분석중...) {file.name}</p>
-          ) : (
-            <p className="text-sm">{file.name}</p>
-          )}
-        </ContentPanelItem>
-      ))}
+      {isLoading ? (
+        acceptedFiles.map((file, i) => (
+          <ContentPanelItem key={i}>
+            {isLoading ? (
+              <p className="text-sm text-gray-500 italic">(분석중...) {file.name}</p>
+            ) : (
+              <p className="text-sm">{file.name}</p>
+            )}
+          </ContentPanelItem>
+        ))
+      ) : (
+        results.map((result, i) => {
+          const issuedDate = new Date(result.issuedAt);
+          const term = (() => {
+            switch (result.cycleTerm) {
+              case BillingCycleTerm.monthly:
+                return '/month';
+              case BillingCycleTerm.yearly:
+                return '/year';
+              default:
+                return '';
+            }
+          })();
+
+          return (
+            <ContentPanelItem key={i}>
+              <div className="bs-container">
+                <div className={`bs-row text-sm items-center ${isSaving ? 'opacity-50' : ''}`}>
+                  <div className="bs-col"><b>{result.displayName}</b></div>
+                  <div className="bs-col"><span>{issuedDate.toLocaleDateString()}</span></div>
+                  <div className="bs-col"><span>{result.planName} plan</span></div>
+                  <div className="bs-col">
+                    <span>{result.unitPrice} {term}</span>
+                    <span>{result.isPerUser && ' (per user)'}</span>
+                  </div>
+                  <div className="bs-col"><b className="italic">Total: {result.currentCycleBillAmount}</b></div>
+                  <div className="bs-col-1 text-right">
+                    <button type="button" disabled={isSaving} className="btn btn-sm btn-square btn-error text-white" onClick={() => {
+                      removeInvoice(i);
+                    }}>
+                      <IoClose size={20} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </ContentPanelItem>
+          )
+        })
+      )}
     </>
   )
 }
