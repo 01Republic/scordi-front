@@ -58,6 +58,8 @@ export type CreateApplicationRequestDto = {
   billingCycleId: number; // 결제주기 ID
   isFreeTier: boolean; // 프리티어 여부
   registeredAt: Date | string; // 사용시작일
+  paidMemberCount: number; // 결제되는 사용자 수
+  usedMemberCount?: number; // 사용중인 사용자 수
 }
 
 export type CreateApplicationByInvoicesRequestDto = {
@@ -67,6 +69,7 @@ export type CreateApplicationByInvoicesRequestDto = {
   billingCycleId: number; // 결제주기 ID
   isFreeTier: boolean; // 프리티어 여부
   registeredAt: Date | string; // 사용시작일
+  paidMemberCount: number; // 결제되는 사용자 수
   invoiceDataList: InvoiceDataDto[];
 }
 

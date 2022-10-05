@@ -54,6 +54,7 @@ export const ConnectInManual = (props: ConnectInManualProps) => {
           billingCycleId: billingCycle.id,
           isFreeTier,
           registeredAt: oldestData.issuedAt,
+          paidMemberCount: recentData.paidMemberCount,
           invoiceDataList: orderedList,
         }).then(() => {
           setIsSaving(false);

@@ -26,6 +26,8 @@ export type FetchedOrgPlanAndCycleDto = { // billingInfo
   currentCycleBillAmount: Currency;
   cycleTerm: BillingCycleTerm | null;
   isPerUser: boolean;
+  paidMemberCount: number;
+  usedMemberCount: number;
   unitPrice: Currency | null;
 };
 export type FetchedOrgBillingHistoryDto = {};
@@ -40,4 +42,5 @@ export type InvoiceDataDto = {
   cycleTerm: BillingCycleTerm | null;
   isPerUser: boolean;
   unitPrice: string;
+  paidMemberCount: number;
 }

@@ -58,6 +58,8 @@ export const ConnectComplete = (props: ConnectCompleteProps) => {
         billingCycleId: billingCycle.id,
         isFreeTier,
         registeredAt: new Date(),
+        paidMemberCount: billingInfo.paidMemberCount,
+        usedMemberCount: billingInfo.usedMemberCount,
       }).then(() => {
         toast('Successfully Saved');
         redirectNext(organizationId);
