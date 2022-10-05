@@ -1,4 +1,4 @@
-import { ApplicationDto } from '^types/application.type';
+import { ApplicationDto, t_ConnectStatus } from '^types/application.type';
 import { ContentPanelItem } from '^layouts/ContentLayout/ContentPanel';
 import { t_BillingCycleTerm } from '^types/applicationBillingCycle.type';
 import React from 'react';
@@ -21,8 +21,7 @@ export function OrgAppListItem({ app }: OrgAppListItemProps) {
         </div>
         <div className="bs-col px-0">
           <p className="font-bold">{appProto.name}</p>
-          {/* 연동상태 */}
-          <span className="badge badge-xs text-2xs">연동상태</span>
+          <p className="text-xs text-gray-500">{app.displayName}</p>
 
           {/*<p className="text-xs text-gray-500">*/}
           {/*  <div className="badge badge-xs text-2xs">neutral</div>*/}
@@ -63,7 +62,7 @@ export function OrgAppListItem({ app }: OrgAppListItemProps) {
         <div className="w-fit text-right">
           <div className="" style={{ lineHeight: 1 }}>
             <span className="text-sm">x</span>
-            <span className="font-bold">{app.accountCount}</span>
+            <span className="font-bold">{app.paidMemberCount}</span>
             &nbsp;
             <span className="text-sm text-gray-500">{`명`}</span>
             &nbsp;
@@ -102,7 +101,7 @@ export function OrgAppListItem({ app }: OrgAppListItemProps) {
           <div className="text-info" style={{ lineHeight: 1 }}>
             <span className="text-sm">$</span>
             <span className="font-bold">
-              {app.billingCycle.unitPrice * app.accountCount}
+              {app.billingCycle.unitPrice * app.paidMemberCount}
             </span>
           </div>
           {/* 결제예정일 */}

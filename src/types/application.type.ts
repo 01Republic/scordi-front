@@ -31,6 +31,7 @@ export function t_ConnectStatus(status: ConnectStatus) {
 export type ApplicationDto = {
   id: number;
   connectStatus: ConnectStatus;
+  displayName: string;
   organizationId: number;
   prototypeId: number;
   paymentPlanId: number;
@@ -38,6 +39,8 @@ export type ApplicationDto = {
   isFreeTier: boolean;
   registeredAt: Date; // 사용 시작일
   accountCount: number;
+  paidMemberCount: number;
+  usedMemberCount: number;
   createdAt: Date;
   updatedAt: Date;
   paymentPlan: ApplicationPaymentPlanDto;
@@ -52,6 +55,7 @@ export type FindAllAppsQuery = FindAllQueryDto<ApplicationDto>;
 
 export type CreateApplicationRequestDto = {
   sign: string | null; // 연동계정 Sign
+  displayName: string; // 조직이름 (연동서비스 내에서)
   organizationId: number; // 조직 ID
   prototypeId: number; // 프로토타입 ID
   paymentPlanId: number; // 결제플랜 ID
@@ -63,6 +67,7 @@ export type CreateApplicationRequestDto = {
 }
 
 export type CreateApplicationByInvoicesRequestDto = {
+  displayName: string; // 조직이름 (연동서비스 내에서)
   organizationId: number; // 조직 ID
   prototypeId: number; // 프로토타입 ID
   paymentPlanId: number; // 결제플랜 ID

@@ -33,6 +33,7 @@ export const ConnectComplete = (props: ConnectCompleteProps) => {
   const router = useRouter();
   const organizationId = Number(router.query.id);
   const prototypeId = Number(router.query.appId);
+  const orgName = profile.displayName || orgItem.name;
 
   const redirectNext = (id: number) => {
     router.replace(OrgAppsIndexPageRoute.path(id));
@@ -52,6 +53,7 @@ export const ConnectComplete = (props: ConnectCompleteProps) => {
     if (paymentPlan && billingCycle) {
       createApplication({
         sign: JSON.stringify(loginDto),
+        displayName: orgName,
         organizationId,
         prototypeId,
         paymentPlanId: paymentPlan.id,
@@ -75,8 +77,6 @@ export const ConnectComplete = (props: ConnectCompleteProps) => {
       });
     }
   };
-
-  const orgName = profile.displayName || orgItem.name;
 
   return (
     <>

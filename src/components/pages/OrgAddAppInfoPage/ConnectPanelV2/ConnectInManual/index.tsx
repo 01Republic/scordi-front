@@ -48,6 +48,7 @@ export const ConnectInManual = (props: ConnectInManualProps) => {
       if (paymentPlan && billingCycle) {
         setIsSaving(true);
         createApplicationByInvoices({
+          displayName: recentData.displayName,
           organizationId,
           prototypeId,
           paymentPlanId: paymentPlan.id,
