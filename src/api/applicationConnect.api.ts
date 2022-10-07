@@ -46,11 +46,11 @@ export class ApplicationConnectApi {
   }
 
   async getOrganizations(params: LoginDto) {
-    return api.get<OrgResponseDataDto[] | ErrorResponseDto>(`${this.path}/organizations`, { params });
+    return api.get<OrgResponseDataDto[]>(`${this.path}/organizations`, { params });
   }
 
   async deviseVerification(params: Required<LoginDto>) {
-    return api.get<OrgResponseDataDto[] | ErrorResponseDto>(`${this.path}/deviseVerification`, { params })
+    return api.get<OrgResponseDataDto[]>(`${this.path}/deviseVerification`, { params })
   }
 
   // 기본 정보

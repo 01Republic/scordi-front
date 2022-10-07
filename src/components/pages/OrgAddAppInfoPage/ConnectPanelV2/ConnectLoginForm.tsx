@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { IoFlash } from '@react-icons/all-files/io5/IoFlash';
 import { IoChevronBackOutline } from '@react-icons/all-files/io5/IoChevronBackOutline';
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { AppCode, ApplicationConnectApi } from '^api/applicationConnect.api';
 import { ApplicationPrototypeDto } from '^types/applicationPrototype.type';
 import {
@@ -34,15 +34,15 @@ export const ConnectLoginForm = (props: ConnectLoginFormProps) => {
   const form = useForm<LoginDto>();
   const api = useMemo(() => new ApplicationConnectApi(protoApp.name as AppCode), [protoApp.name]);
 
-  function organizationResponseHandler(res: AxiosResponse<OrgResponseDataDto[] | ErrorResponseDto>) {
+  function organizationResponseHandler(res: AxiosResponse<OrgResponseDataDto[]>) {
     const { data } = res;
-    setIsPending(false);
-
-    if (Array.isArray(data)) {
-      setOrgItems(data);
-    } else {
-      if (data.code === 422 && data.name === 'DeviseVerificationError') {
-        setErrorMessage(data.message);
+    setOrgItems(data);
+  }
+  function errorHandler({ response }: AxiosError<ErrorResponseDto>) {
+    const { data: e } = (response || {});
+    if (e) {
+      if (e.status === 422 && e.code === 'DeviseVerificationError') {
+        setErrorMessage(e.message);
         setVerifyNeeded(true);
       }
     }
@@ -63,7 +63,10 @@ export const ConnectLoginForm = (props: ConnectLoginFormProps) => {
       password: values.password,
       verificationCode: values.verificationCode!,
     });
-    request.then(organizationResponseHandler);
+    request
+      .then(organizationResponseHandler)
+      .catch(errorHandler)
+      .finally(() => setIsPending(false));
   };
 
   return (orgItems.length === 0 ? (

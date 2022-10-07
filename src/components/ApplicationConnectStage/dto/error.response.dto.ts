@@ -1,5 +1,5 @@
 export type ErrorResponseDto = {
-  code: number;
-  name: string;
+  status: number;
+  code: string;
   message: string;
 }
