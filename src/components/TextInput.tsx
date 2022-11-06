@@ -21,7 +21,7 @@ export const TextInput = forwardRef((props: TextInputProps, ref: ForwardedRef<an
             <input type="text"
                    ref={ref}
                    disabled={props.disabled}
-                   className="input input-bordered w-full"
+                   className="input input-bordered w-full bg-slate-50 border-slate-100"
                    {...props}
             />
         </div>

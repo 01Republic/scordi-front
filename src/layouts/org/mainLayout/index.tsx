@@ -8,12 +8,14 @@ import { OrgHomeRoute } from '^pages/orgs/[id]/home';
 import { OrgShowRoute } from '^pages/orgs/[id]';
 import { AdminTopNav } from '^components/AdminHeader';
 import { OrgMembershipIndexPageRoute } from '^pages/orgs/[id]/memberships';
-import React, { ReactElement } from 'react';
+import React, {ReactElement, useEffect} from 'react';
 import { OrgAppsIndexPageRoute } from '^pages/orgs/[id]/apps';
 import { OrgMainLayoutFooter } from '^layouts/org/mainLayout/OrgMainLayoutFooter';
 import { useCurrentOrg } from '^hooks/useCurrentOrg';
 import { Icon } from '^components/Icon';
 import Home from '../../../../public/home/icons/icon-home.svg';
+import { isMobile } from 'react-device-detect';
+import OrgMobileLayout from "^layouts/org/mobileLayout";
 
 interface OrgMainLayoutProps {
   org: OrganizationDto | null;
@@ -138,5 +140,12 @@ export function getOrgMainLayout(page: ReactElement) {
   const { currentOrg } = useCurrentOrg(Number(orgId));
   const org =
     currentOrg || currentUser?.organizations![0] || ({} as OrganizationDto);
-  return <OrgMainLayout org={org}>{page}</OrgMainLayout>;
+
+  const [mobileView, setMobileView] = React.useState(false);
+
+  useEffect(() => {
+    isMobile && setMobileView(true);
+  }, [isMobile])
+
+  return mobileView ? <OrgMobileLayout org={org}>{page}</OrgMobileLayout> : <OrgMainLayout org={org}>{page}</OrgMainLayout>;
 }

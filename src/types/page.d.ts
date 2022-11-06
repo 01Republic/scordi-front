@@ -4,6 +4,7 @@ import { ComponentType, ReactElement, ReactNode } from 'react'
 export type Page<P = {}> = NextPage<P> & {
   // You can disable whichever you don't need
   getLayout?: (page: ReactElement) => ReactNode
+  getMobileLayout?: (page: ReactElement) => ReactNode
   layout?: ComponentType
 }
 

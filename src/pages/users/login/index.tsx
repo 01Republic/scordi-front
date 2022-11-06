@@ -11,6 +11,7 @@ import { useCurrentUser } from '^hooks/useCurrentUser';
 import { PageRoute } from '^types/pageRoute.type';
 import { OrgHomeRoute } from '^pages/orgs/[id]/home';
 import { NewMembershipPath } from '^pages/memberships/new';
+import {DefaultButton} from "^components/Button";
 
 // NOTE: PATH 들은 인라인 문자열로 중복 작성하지 않고 한 곳에서 정의하고 유지했우면 하는데 묘수가 없을까.
 export const UserLoginPageRoute: PageRoute = {
@@ -84,17 +85,20 @@ const LoginPage = () => {
                                placeholder={"비밀번호를 입력해주세요"}
                                {...form.register('password', {required: true})}
                     />
+                    <div className={"pt-[1rem] space-y-4"}>
+                        <DefaultButton type={'submit'} text={'로그인'}
+                                       onClick={() => null}
+                                       disabled={!form.watch('email') && !form.watch('password')}
+                        />
+                        {/*<Link href={"/users/signup"}>*/}
+                        {/*    <button className="btn btn-outline btn-primary btn-block" type={'button'}>회원가입</button>*/}
+                        {/*</Link>*/}
+                    </div>
                     <Link href={"/users/password/find"}>
-                        <p className="text-right text-sm text-gray-600 cursor-pointer">
+                        <p className="text-right text-sm text-gray-400 cursor-pointer">
                             비밀번호 찾기
                         </p>
                     </Link>
-                    <div className={"pt-[1rem] space-y-4"}>
-                        <button className="btn btn-primary btn-block" type={'submit'}>로그인</button>
-                        <Link href={"/users/signup"}>
-                            <button className="btn btn-outline btn-primary btn-block" type={'button'}>회원가입</button>
-                        </Link>
-                    </div>
                 </form>
             </div>
         </>

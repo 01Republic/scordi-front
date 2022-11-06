@@ -14,6 +14,7 @@ import { errorNotify } from '^utils/toast-notify';
 import { useCurrentUser } from '^hooks/useCurrentUser';
 import { PageRoute } from '^types/pageRoute.type';
 import { NewMembershipPath } from '^pages/memberships/new';
+import {DefaultButton} from "^components/Button";
 
 export const UserSignUpPageRoute: PageRoute = {
   pathname: '/users/signup',
@@ -23,7 +24,7 @@ export const UserSignUpPageRoute: PageRoute = {
 const SignUp = () => {
   const router = useRouter();
   const currentUser = useCurrentUser();
-  const form = useForm<UserSignUpRequestDto>();
+  const form = useForm<UserSignUpRequestDto | any>();
 
   // redirect home page if user already login
   useEffect(() => {
@@ -43,6 +44,10 @@ const SignUp = () => {
       .catch(errorNotify);
   };
 
+  const onNext = () => {
+  //  TODO: modal open
+  }
+
   return (
     <>
       <div className={'mx-auto my-20 w-full max-w-md space-y-5'}>
@@ -50,7 +55,12 @@ const SignUp = () => {
           onSubmit={form.handleSubmit(signUpComplete)}
           className={'space-y-4 p-4 m-auto'}
         >
-          <h1 className="text-4xl font-semibold">새 계정 만들기</h1>
+          <h1 className="text-3xl font-semibold">클로즈 베타 등록</h1>
+            <p className={'text-[#6D7684] text-base'}>
+                똑똑한 비용관리, 스코디에 오신것을 환영해요! <br/>
+                클로즈 베타가 진행되는 동안 많은 관심과 피드백을
+                부탁드릴게요 :)
+            </p>
           <TextInput
             label={'이름'}
             type={'text'}
@@ -59,7 +69,21 @@ const SignUp = () => {
             {...form.register('name', { required: true })}
           />
           <TextInput
-            label={'이메일'}
+            label={'전화번호'}
+            type={'number'}
+            required={true}
+            placeholder={'01012345678'}
+            {...form.register('phone', { required: true })}
+          />
+          <TextInput
+            label={'회사명'}
+            type={'text'}
+            required={true}
+            placeholder={'회사 이름을 입력해 주세요'}
+            {...form.register('company', { required: true })}
+          />
+          <TextInput
+            label={'회사 이메일 (아이디)'}
             type={'email'}
             required={true}
             placeholder={'이메일을 입력해주세요'}
@@ -73,15 +97,8 @@ const SignUp = () => {
             {...form.register('password', { required: true })}
           />
           <div className={'pt-[1rem] space-y-4'}>
-            <button className="btn btn-primary btn-block" type={'submit'}>
-              만들기
-            </button>
+            <DefaultButton text={'다음'} onClick={onNext} disabled={true}/>
           </div>
-          <Link href={UserLoginPageRoute.path()}>
-            <button className="text-sm text-center w-full" type={'button'}>
-              돌아가기
-            </button>
-          </Link>
         </form>
       </div>
     </>
