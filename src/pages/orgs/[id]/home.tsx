@@ -7,7 +7,6 @@ import {ApplicationDto} from '^types/application.type';
 import {getApplications} from '^api/application.api';
 import {errorNotify} from '^utils/toast-notify';
 import {BillingListMobile} from '^components/BillingListMobile';
-import {getOrgMobileLayout} from '^layouts/org/mobileLayout';
 import {Icon} from '^components/Icon';
 
 const itemDummy = [
@@ -61,4 +60,3 @@ export default function HomePage() {
 }
 
 HomePage.getLayout = getOrgMainLayout;
-HomePage.getMobileLayout = getOrgMobileLayout;

@@ -1,5 +1,6 @@
 import { MouseEvent } from 'react';
 import { WithChildren } from '^types/globalTypes';
+import {DefaultButton} from "^components/Button";
 
 export type ModalProps = {
   type: 'error' | 'success' | 'warning' | 'info';
@@ -59,8 +60,9 @@ export interface ModalActionButtonProps extends WithChildren {
 
 export function ModalActionButton({ text, onClick, children, className = '', ...props }: ModalActionButtonProps) {
   return (
-    <button className={`btn ${className}`} onClick={onClick} {...props}>
-      {text ?? children}
-    </button>
+      <DefaultButton text={text || ''} onClick={onClick}/>
+    // <button className={`btn ${className}`} onClick={onClick} {...props}>
+    //   {text ?? children}
+    // </button>
   )
 }
