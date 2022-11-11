@@ -1,7 +1,8 @@
 import {PageRoute} from "^types/pageRoute.type";
 import {DefaultButton} from "^components/Button";
-import HomePage, {OrgHomeRoute} from "^pages/orgs/[id]/home";
+import {OrgHomeRoute} from "^pages/orgs/[id]/home";
 import Image from "next/image";
+import {useRouter} from "next/router";
 
 export const WelcomePageRoute: PageRoute = {
     pathname: '/users/signup/welcome',
@@ -9,6 +10,8 @@ export const WelcomePageRoute: PageRoute = {
 };
 
 const Welcome = () => {
+    const router = useRouter();
+
     return (
         <div className={'mx-auto px-5 my-20 w-full max-w-md space-y-5'}>
             <h1>스코디 가입을 환영합니다!</h1>
@@ -20,7 +23,7 @@ const Welcome = () => {
             <div className={'flex justify-end'}>
                 <Image src={'/images/welcome/Astronaut3 gloss.png'} width={229} height={241}/>
             </div>
-            <DefaultButton text={'비용관리 시작하기'} onClick={() => OrgHomeRoute.path}/>
+            <DefaultButton text={'비용관리 시작하기'} onClick={() => router.push(OrgHomeRoute.path(1))}/>
         </div>
     )
 }

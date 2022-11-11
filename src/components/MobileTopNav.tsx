@@ -1,0 +1,24 @@
+import {Icon} from "^components/Icon";
+import React from "react";
+import { useRouter } from "next/router";
+
+type MobileTopNavProps = {
+    title: string;
+    noBack?: boolean;
+}
+
+export const MobileTopNav = (props: MobileTopNavProps) => {
+    const router = useRouter();
+
+    return (
+        <div className={'flex p-[20px] border-b items-center justify-between'}>
+            {props.noBack ? (
+                <div className={'w-[24px]'}/>
+            ) : (
+                <Icon.ChevronLeft onClick={() => router.back()}/>
+            )}
+            <p className={'font-bold text-[17px]'}>{props.title}</p>
+            <div className={'w-[24px]'}/>
+        </div>
+    )
+}

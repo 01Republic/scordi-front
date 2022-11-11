@@ -8,14 +8,7 @@ import {getApplications} from '^api/application.api';
 import {errorNotify} from '^utils/toast-notify';
 import {BillingListMobile} from '^components/BillingListMobile';
 import {Icon} from '^components/Icon';
-
-const itemDummy = [
-    {id: 1, src: 'https://source.unsplash.com/random', name: 'notion'},
-    {id: 2, src: 'https://source.unsplash.com/random', name: 'notion'},
-    {id: 3, src: 'https://source.unsplash.com/random', name: 'notion'},
-    {id: 4, src: 'https://source.unsplash.com/random', name: 'notion'},
-    {id: 5, src: 'https://source.unsplash.com/random', name: 'notion'},
-];
+import Calendar from 'react-calendar';
 
 export const OrgHomeRoute: PageRoute = {
     pathname: '/orgs/[id]/home',
@@ -51,6 +44,21 @@ export default function HomePage() {
                         <Icon.ChevronRight/>
                     </div>
                 </div>
+
+                <Calendar locale={'ko-KR'}
+                          calendarType={'US'}
+                          value={new Date()}
+                          formatDay={(locale, date) => date.getDate().toString()}
+                          tileContent={({date}) => (
+                              // TODO: 결제금액 표시
+                              <p className={'text-[6px] mt-[5px]'}>
+                                  -100,000
+                              </p>
+                          )}
+                          next2Label={null}
+                          prev2Label={null}
+                          showNeighboringMonth={false}
+                />
 
                 {/* TODO: 여기에 앱을 넣을 게 아니라, 결제예측 모델을 개발하고 예측목록을 넣어야 할 듯. 호출도 월간으로 쿼리 할 수 있는 예측 컨트롤러가 필요. */}
                 <BillingListMobile apps={apps}/>

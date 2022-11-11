@@ -2,6 +2,7 @@ import "../styles/index.css";
 import "../styles/grid.scss";
 import "../styles/globals.scss";
 import 'react-toastify/dist/ReactToastify.css';
+import '../styles/dashboard-calendar.css';
 import type { AppProps } from "next/app";
 import { Fragment } from 'react'
 import Head from "next/head";

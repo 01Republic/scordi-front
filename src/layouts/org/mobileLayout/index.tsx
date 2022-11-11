@@ -1,14 +1,11 @@
 import {OrganizationDto} from "^types/organizationTypes";
 import {PreLoader} from "^components/PreLoader";
-import React, {ReactElement} from "react";
+import React from "react";
 import {useRouter} from "next/router";
-import {useCurrentUser} from "^hooks/useCurrentUser";
-import {useCurrentOrg} from "^hooks/useCurrentOrg";
-import {isMobile} from "react-device-detect";
-import OrgMainLayout from "^layouts/org/mainLayout";
 import Link from "next/link";
-import { Icon } from "^components/Icon";
+import {Icon} from "^components/Icon";
 import {OrgHomeRoute} from "^pages/orgs/[id]/home";
+import {UserSettingsPageRoute} from "^pages/users/settings";
 
 type OrgMobileLayoutProps = {
     org: OrganizationDto | null;
@@ -16,23 +13,45 @@ type OrgMobileLayoutProps = {
 }
 
 const OrgMobileLayout = ({org, children}: OrgMobileLayoutProps) => {
-    const { pathname, push } = useRouter();
+    const router = useRouter();
 
-    if (!org) return <PreLoader />;
+    if (!org) return <PreLoader/>;
     return (
-        <div>
-            <div className={'flex justify-between'}>
-                <div>
-                    <p>{org.name}</p>
-                </div>
-                <div className={'flex fixed bottom-0 w-full border border-t-1 items-center p-[22px] justify-center space-x-20'}>
-                    {/* TODO: 아이콘 나중에 바꿀 것 */}
-                    <MobileNavItem href={OrgHomeRoute.path(org.id)} icon={<Icon.Home/>}/>
-                    <MobileNavItem href={OrgHomeRoute.path(org.id)} icon={<Icon.Plus/>}/>
-                    <MobileNavItem href={OrgHomeRoute.path(org.id)} icon={<Icon.User/>}/>
-                </div>
+        <>
+            {router.pathname === OrgHomeRoute.pathname ? (
+                <>
+                    <MobileTopBar/>
+                    {children}
+                    <div
+                        className={'flex fixed bottom-0 w-full border border-t-1 items-center p-[22px] justify-center space-x-20'}>
+                        {/* TODO: 아이콘 나중에 바꿀 것 */}
+                        <MobileNavItem href={OrgHomeRoute.path(org.id)} icon={<Icon.Home/>}/>
+                        <MobileNavItem href={OrgHomeRoute.path(org.id)} icon={<Icon.Plus/>}/>
+                        <MobileNavItem href={UserSettingsPageRoute.pathname} icon={<Icon.User/>}/>
+                    </div>
+                </>
+            ) : (
+                <>
+                {children}
+                </>
+            )}
+        </>
+    )
+}
+
+const MobileTopBar = () => {
+    const router = useRouter();
+
+    return (
+        <div className={'flex justify-between p-[20px]'}>
+            <div className={'flex'}>
+                <Icon.Star/>
+                <p className={'text-[21px] ml-2'}>scordi</p>
             </div>
-            {children}
+            <div className={'flex space-x-4'}>
+                <Icon.Bell/>
+                <Icon.User onClick={() => router.push(UserSettingsPageRoute.pathname)}/>
+            </div>
         </div>
     )
 }
@@ -43,6 +62,10 @@ type MobileNavItemProps = {
 }
 
 const MobileNavItem = (props: MobileNavItemProps) => {
+    const router = useRouter();
+
+    // TODO: 주소 따라서 아이콘 색상 바꿔주기
+
     return (
         <Link href={props.href}>
             {props.icon}

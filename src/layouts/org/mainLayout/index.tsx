@@ -139,7 +139,9 @@ export function getOrgMainLayout(page: ReactElement) {
   const { id: orgId } = router.query;
   const { currentOrg } = useCurrentOrg(Number(orgId));
   const org =
-    currentOrg || currentUser?.organizations![0] || ({} as OrganizationDto);
+    currentOrg ||
+      // currentUser?.organizations![0] ||
+      ({} as OrganizationDto);
 
   const [mobileView, setMobileView] = React.useState(false);
 
