@@ -10,6 +10,7 @@ type DefaultButtonProps = {
 
 const colorSets: { [index: string]: string } = {
     purple: `text-white bg-[#7963F7] hover:bg-[#6656bf] drop-shadow-[0_10px_15px_rgba(121,99,247,0.2)] drop-shadow-[0_4px_6px_rgba(121,99,247,0.2)]`,
+    white: `text-[#7963F7] bg-white hover:bg-[#f5f5f5] drop-shadow-[0_10px_15px_rgba(121,99,247,0.2)] drop-shadow-[0_4px_6px_rgba(121,99,247,0.2)]`,
 }
 
 const makeButtonColor = (color: string) => colorSets[color];

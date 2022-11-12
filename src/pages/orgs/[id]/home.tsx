@@ -37,7 +37,9 @@ export default function HomePage() {
             <div className="space-y-5">
                 <h2 className="text-24 font-semibold">5개의 서비스가 등록되었어요!</h2>
 
-                <div className={'flex justify-between p-[16px] bg-[#F9FAFB] rounded-[10px] items-center'}>
+                <div className={'flex justify-between p-[16px] bg-[#F9FAFB] rounded-[10px] items-center'}
+                     onClick={() => router.push('/orgs/1/summary')}
+                >
                     <p>이번달 총 비용</p>
                     <div className={'flex items-center'}>
                         <p className={"font-semibold"}>1,000,000원</p>
@@ -51,7 +53,7 @@ export default function HomePage() {
                           formatDay={(locale, date) => date.getDate().toString()}
                           tileContent={({date}) => (
                               // TODO: 결제금액 표시
-                              <p className={'text-[6px] mt-[5px]'}>
+                              <p className={'text-[6px]'}>
                                   -100,000
                               </p>
                           )}

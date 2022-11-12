@@ -9,7 +9,7 @@ export type TextInputProps = InputHTMLAttributes<HTMLInputElement> & {
 
 export const TextInput = forwardRef((props: TextInputProps, ref: ForwardedRef<any>) => {
     return (
-        <div className="form-control w-full">
+        <div className="form-control w-full mb-[20px]">
             {props.label && (
               <label className="label">
                 <span className="label-text">

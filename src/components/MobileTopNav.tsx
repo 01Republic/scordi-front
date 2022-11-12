@@ -1,6 +1,7 @@
 import {Icon} from "^components/Icon";
 import React from "react";
 import { useRouter } from "next/router";
+import { isMobile } from 'react-device-detect';
 
 type MobileTopNavProps = {
     title: string;
@@ -10,6 +11,7 @@ type MobileTopNavProps = {
 export const MobileTopNav = (props: MobileTopNavProps) => {
     const router = useRouter();
 
+    if (!isMobile) return null;
     return (
         <div className={'flex p-[20px] border-b items-center justify-between'}>
             {props.noBack ? (

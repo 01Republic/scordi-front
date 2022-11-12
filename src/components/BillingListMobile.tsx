@@ -1,5 +1,7 @@
 import {ApplicationDto} from "^types/application.type";
 import {useEffect, useState} from "react";
+import {router} from "next/client";
+import {AppInfoPageRoute} from "^pages/orgs/[id]/apps/[appId]";
 
 type BillingListMobileProps = {
     apps: ApplicationDto[];
@@ -20,7 +22,7 @@ export const BillingListMobile = (props: BillingListMobileProps) => {
                 <>
                     <BillingListTitle title={'앞으로 결제될 금액'} price={1000}/>
                     {afterApps.map((app, index) => (
-                        <BillingListMobileItem app={app} key={index}/>
+                        <BillingListMobileItem app={app} key={index} onClick={() => router.push(AppInfoPageRoute.path('1', '1'))}/>
                     ))}
                 </>
             )}
@@ -28,7 +30,7 @@ export const BillingListMobile = (props: BillingListMobileProps) => {
                 <>
                     <BillingListTitle title={'지금까지 결제한 금액'} price={1000}/>
                     {beforeApps.map((app, index) => (
-                        <BillingListMobileItem app={app} key={index}/>
+                        <BillingListMobileItem app={app} key={index} onClick={() => router.push(AppInfoPageRoute.path('1', '1'))}/>
                     ))}
                 </>
             )}
@@ -56,11 +58,14 @@ const BillingListTitle = (props: BillingListTitleProps) => {
 
 type BillingListMobileItemProps = {
     app: ApplicationDto;
+    onClick?: () => void;
 }
 
 const BillingListMobileItem = (props: BillingListMobileItemProps) => {
     return (
-        <div className={'flex bg-[#F9FAFB] rounded-[14px] p-[14px] items-center'}>
+        <div className={'flex bg-[#F9FAFB] rounded-[14px] p-[14px] items-center'}
+             onClick={props.onClick}
+        >
             <div className="avatar">
                 <div className="mask mask-squircle h-12 w-12">
                     <img src={props.app.prototype.image} alt={`${props.app.prototype.name} logo`}/>

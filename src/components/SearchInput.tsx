@@ -5,7 +5,7 @@ import { TextInput } from '^components/TextInput';
 
 interface SearchInputProps {
   onSubmit: FormEventHandler<HTMLFormElement>;
-  register: UseFormRegisterReturn;
+  register?: UseFormRegisterReturn;
 }
 
 export function SearchInput<T>({
