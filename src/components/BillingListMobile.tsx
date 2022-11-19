@@ -1,13 +1,14 @@
 import {ApplicationDto} from "^types/application.type";
 import {useEffect, useState} from "react";
-import {router} from "next/client";
 import {AppInfoPageRoute} from "^pages/orgs/[id]/apps/[appId]";
+import { useRouter } from "next/router";
 
 type BillingListMobileProps = {
     apps: ApplicationDto[];
 }
 
 export const BillingListMobile = (props: BillingListMobileProps) => {
+    const router = useRouter();
     const [beforeApps, setBeforeApps] = useState<ApplicationDto[]>([]);
     const [afterApps, setAfterApps] = useState<ApplicationDto[]>([]);
 
