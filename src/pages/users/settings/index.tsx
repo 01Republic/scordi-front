@@ -2,6 +2,9 @@ import {useRouter} from "next/router"
 import {UserEditPageRoute} from "^pages/users/edit";
 import {getOrgMainLayout} from "^layouts/org/mainLayout";
 import {MobileTopNav} from "^components/MobileTopNav";
+import {removeToken} from "^api/api";
+import {toast} from "react-toastify";
+import {UserLoginPageRoute} from "^pages/users/login";
 
 export const UserSettingsPageRoute = {
     pathname: '/users/settings',
@@ -15,7 +18,11 @@ const Settings = () => {
         {name: '내 정보 수정', action: () => router.push(UserEditPageRoute.pathname)},
         {name: '등록한 서비스', action: () => null},
         {name: '피드백 보내기', action: () => null},
-        {name: '로그아웃', action: () => null},
+        {name: '로그아웃', action: () => {
+                removeToken();
+                toast('로그아웃 되었습니다.');
+                router.push(UserLoginPageRoute.pathname);
+            }},
     ]
 
     return (

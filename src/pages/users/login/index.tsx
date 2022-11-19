@@ -23,9 +23,9 @@ export const UserLoginPageRoute: PageRoute = {
 //  안그러면 페이지 로딩 실행 한 번 하고 리디렉션 되어서 사용자 눈에 페이지 거쳐가는게 다 보이네요,,,
 export const redirectIfAlreadySignedIn = (storage: Storage, router: NextRouter, user: UserDto | null) => {
   if (user) {
-    const org = (user.organizations || [])[0];
-    org
-      ? router.push(OrgHomeRoute.path(org.id))
+    const orgId = user.orgId;
+    orgId
+      ? router.push(OrgHomeRoute.path(orgId))
       : router.push(NewMembershipPath.path());
   }
 }

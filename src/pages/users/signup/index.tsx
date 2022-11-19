@@ -9,10 +9,11 @@ import {setToken} from '^api/api';
 import {errorNotify} from '^utils/toast-notify';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {PageRoute} from '^types/pageRoute.type';
-import {NewMembershipPath} from '^pages/memberships/new';
 import {DefaultButton} from "^components/Button";
 import {Modal} from "^components/Modal";
 import {WelcomePageRoute} from "^pages/users/signup/welcome";
+import Link from "next/link";
+import {toast} from "react-toastify";
 
 export const UserSignUpPageRoute: PageRoute = {
     pathname: '/users/signup',
@@ -22,7 +23,7 @@ export const UserSignUpPageRoute: PageRoute = {
 const SignUp = () => {
     const router = useRouter();
     const currentUser = useCurrentUser();
-    const form = useForm<UserSignUpRequestDto | any>();
+    const form = useForm<UserSignUpRequestDto>();
     const [modalOpen, setModalOpen] = useState(false);
 
     // redirect home page if user already login
@@ -36,7 +37,7 @@ const SignUp = () => {
                 postUserSession({email: data.email, password: data.password})
                     .then((res) => {
                         setToken(res.data.token);
-                        router.push(NewMembershipPath.path());
+                        router.push(WelcomePageRoute.path());
                     })
                     .catch(errorNotify);
             })
@@ -44,13 +45,23 @@ const SignUp = () => {
     };
 
     const onNext = () => {
-        setModalOpen(true);
+        if (
+            !!form.watch('name') && !!form.watch('phone') && !!form.watch('email') && form.watch('orgName')
+            && (form.watch('password') === form.watch('passwordConfirmation'))
+        ) {
+            setModalOpen(true);
+        } else {
+            toast.info('모든 정보를 정확하게 입력해 주세요');
+        }
     }
 
     const onComplete = () => {
-        setModalOpen(false);
-        // signUpComplete(form.getValues());
-        router.push(WelcomePageRoute.path());
+        if (form.watch('isAgreeForServiceUsageTerm') && form.watch('isAgreeForPrivacyPolicyTerm')) {
+            setModalOpen(false);
+            signUpComplete(form.getValues());
+        } else {
+            toast.info('모든 약관에 동의해 주세요');
+        }
     }
 
     return (
@@ -59,28 +70,46 @@ const SignUp = () => {
                    title={'스코디 서비스 이용약관에 동의해주세요.'}
                    children={
                        <>
-                           <div className="flex items-center mt-4 mb-4">
-                               <input id="all_check" type="checkbox" value=""
-                                      className="w-4 h-4 text-red-600 bg-gray-100 rounded border-0"/>
+                           <div className="flex items-center mt-4 mb-4 pb-4 border-b">
+                               <input id="all_check" type="checkbox"
+                                      className="w-4 h-4 text-red-600 bg-gray-100 rounded border-0"
+                                      checked={form.watch('isAgreeForServiceUsageTerm') && form.watch('isAgreeForPrivacyPolicyTerm')}
+                                      onClick={() => {
+                                          form.setValue('isAgreeForPrivacyPolicyTerm', true)
+                                          form.setValue('isAgreeForServiceUsageTerm', true)
+                                      }}
+                               />
                                <label htmlFor="all_check"
                                       className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                    전체 동의
                                </label>
                            </div>
                            <div className="flex items-center mb-4">
-                               <input id="terms_checkbox" type="checkbox" value=""
-                                      className="w-4 h-4 text-red-600 bg-gray-100 rounded border-0"/>
+                               <input id="terms_checkbox" type="checkbox"
+                                      className="w-4 h-4 text-red-600 bg-gray-100 rounded border-0"
+                                      checked={form.watch('isAgreeForServiceUsageTerm')}
+                                      onClick={() => form.setValue('isAgreeForServiceUsageTerm', !form.watch('isAgreeForServiceUsageTerm'))}
+                               />
                                <label htmlFor="terms_checkbox"
                                       className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                    [필수] 서비스 이용약관 동의
+                                   <Link href={''}>
+                                       <span className={'underline pl-2'}>보기</span>
+                                   </Link>
                                </label>
                            </div>
                            <div className="flex items-center mb-4">
-                               <input id="privacy_checkbox" type="checkbox" value=""
-                                      className="w-4 h-4 text-red-600 bg-gray-100 rounded border-0"/>
+                               <input id="privacy_checkbox" type="checkbox"
+                                      className="w-4 h-4 text-red-600 bg-gray-100 rounded border-0"
+                                      checked={form.watch('isAgreeForPrivacyPolicyTerm')}
+                                      onClick={() => form.setValue('isAgreeForPrivacyPolicyTerm', !form.watch('isAgreeForPrivacyPolicyTerm'))}
+                               />
                                <label htmlFor="privacy_checkbox"
                                       className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                    [필수] 개인정보 수집·이용 동의
+                                   <Link href={''}>
+                                       <span className={'underline pl-2'}>보기</span>
+                                   </Link>
                                </label>
                            </div>
                        </>
@@ -119,7 +148,7 @@ const SignUp = () => {
                         type={'text'}
                         required={true}
                         placeholder={'회사 이름을 입력해 주세요'}
-                        {...form.register('company', {required: true})}
+                        {...form.register('orgName', {required: true})}
                     />
                     <TextInput
                         label={'회사 이메일 (아이디)'}
@@ -134,6 +163,13 @@ const SignUp = () => {
                         required={true}
                         placeholder={'비밀번호를 입력해주세요'}
                         {...form.register('password', {required: true})}
+                    />
+                    <TextInput
+                        label={'비밀번호 확인'}
+                        type={'password'}
+                        required={true}
+                        placeholder={'비밀번호를 입력해주세요'}
+                        {...form.register('passwordConfirmation', {required: true})}
                     />
                     <div className={'pt-[1rem] space-y-4'}>
                         <DefaultButton text={'다음'} onClick={onNext} disabled={false}/>
