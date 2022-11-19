@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { UserDto } from '^types/userTypes';
+import { UserDto } from '^types/user.type';
 import { getUserSession } from '^api/sessionApi';
 import { getOrganization } from '^api/organizationApi';
 import { OrganizationDto } from '^types/organizationTypes';

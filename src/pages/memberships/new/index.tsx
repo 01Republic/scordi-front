@@ -8,7 +8,7 @@ import { errorNotify } from '^utils/toast-notify';
 import { TextInputLg } from '^components/TextInput';
 import { OrganizationDto, SearchOrgQueryDto } from '^types/organizationTypes';
 import { MembershipLevel } from '^types/membershipTypes';
-import { UserDto } from '^types/userTypes';
+import { UserDto } from '^types/user.type';
 import { OrgHomeRoute } from '^pages/orgs/[id]/home';
 import { PageRoute } from '^types/pageRoute.type';
 import { OrgSettingsLayout } from '^layouts/org/settingsLayout';

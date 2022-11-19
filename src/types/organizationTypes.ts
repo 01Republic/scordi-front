@@ -1,4 +1,4 @@
-import { UserDto } from '^types/userTypes';
+import { UserDto } from '^types/user.type';
 
 export type CreateOrganizationRequestDto = {
   name: string;

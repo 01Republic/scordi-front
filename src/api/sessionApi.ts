@@ -1,4 +1,4 @@
-import {JwtContainer, UserDto, UserLoginRequestDto} from "../types/userTypes";
+import {JwtContainer, UserDto, UserEditProfileRequestDto, UserLoginRequestDto} from "^types/user.type";
 import {api} from "./api";
 
 export const postUserSession = (data: UserLoginRequestDto) => {
@@ -15,4 +15,8 @@ export const putUserSession = () => {
 
 export const postUser = (data: UserLoginRequestDto) => {
     return api.post<UserDto>('/users', data)
+}
+
+export const modifyUser = (data: UserEditProfileRequestDto) => {
+    return api.patch(`/users/my`, data)
 }

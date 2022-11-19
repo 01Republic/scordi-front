@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { Icon } from './Icon';
 import { FC } from 'react';
-import { UserDto } from '^types/userTypes';
+import { UserDto } from '^types/user.type';
 import { useCurrentUser } from '^hooks/useCurrentUser';
 import { removeToken } from '^api/api';
 import { UserLoginPageRoute } from '^pages/users/login';

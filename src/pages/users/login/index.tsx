@@ -5,7 +5,7 @@ import { NextRouter, useRouter } from "next/router";
 import {TextInput} from "^components/TextInput";
 import {Modal} from "^components/Modal";
 import { getUserSession, postUserSession } from '^api/sessionApi';
-import { UserDto, UserLoginRequestDto } from '^types/userTypes';
+import { UserDto, UserLoginRequestDto } from '^types/user.type';
 import { getToken, setToken } from "^api/api";
 import { useCurrentUser } from '^hooks/useCurrentUser';
 import { PageRoute } from '^types/pageRoute.type';

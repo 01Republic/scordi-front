@@ -33,3 +33,11 @@ export type UserLoginRequestDto = {
 export type JwtContainer = {
   token: string;
 };
+
+export type UserEditProfileRequestDto = {
+  name?: string;
+  phone?: string;
+  email?: string;
+  password?: string;
+  passwordConfirmation?: string;
+}

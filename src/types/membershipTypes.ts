@@ -1,4 +1,4 @@
-import { UserDto } from '^types/userTypes';
+import { UserDto } from '^types/user.type';
 import { OrganizationDto } from '^types/organizationTypes';
 import { FindAllQueryDto } from '^types/utils/findAll.query.dto';
 
