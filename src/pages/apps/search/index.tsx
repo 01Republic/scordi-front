@@ -41,7 +41,7 @@ const AppSearchPage = () => {
 
     const startAddService = (id: string) => {
         if (myApps.find(app => app.prototype.id === Number(id))) {
-            toast('이미 연동된 서비스입니다.');
+            toast.info('이미 연동된 서비스입니다.');
         } else {
             router.push(AddServicePageRoute.path(id));
         }

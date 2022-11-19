@@ -63,7 +63,7 @@ export const ConnectComplete = (props: ConnectCompleteProps) => {
         paidMemberCount: billingInfo.paidMemberCount,
         usedMemberCount: billingInfo.usedMemberCount,
       }).then(() => {
-        toast('Successfully Saved');
+        toast.success('Successfully Saved');
         redirectNext(organizationId);
       }).catch(errorNotify);
     } else {

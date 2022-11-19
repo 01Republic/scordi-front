@@ -43,7 +43,7 @@ api.interceptors.response.use(undefined, (error: AxiosError<ApiError>) => {
 
     const { response } = error;
     if (!response || !response.data) {
-        toast('네트워크 연결 상태를 확인해주세요');
+        toast.error('네트워크 연결 상태를 확인해주세요');
         return Promise.reject(error);
     }
 

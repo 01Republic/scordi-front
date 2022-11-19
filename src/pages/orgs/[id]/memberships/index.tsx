@@ -116,7 +116,7 @@ function InviteMemberModal({
         <p>{inviteLink}</p>
         <CopyToClipboard
           text={inviteLink}
-          onCopy={() => toast('복사되었습니다.')}
+          onCopy={() => toast.info('복사되었습니다.')}
         >
           <button className="btn h-4" onClick={() => setIsModalOpen(true)}>
             <Icon.File />

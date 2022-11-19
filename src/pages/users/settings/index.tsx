@@ -20,7 +20,7 @@ const Settings = () => {
         {name: '피드백 보내기', action: () => null},
         {name: '로그아웃', action: () => {
                 removeToken();
-                toast('로그아웃 되었습니다.');
+                toast.info('로그아웃 되었습니다.');
                 router.push(UserLoginPageRoute.pathname);
             }},
     ]

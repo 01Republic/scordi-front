@@ -59,7 +59,7 @@ export const ConnectInManual = (props: ConnectInManualProps) => {
           invoiceDataList: orderedList,
         }).then(() => {
           setIsSaving(false);
-          toast('Successfully Saved');
+          toast.success('Successfully Saved');
           redirectNext(organizationId);
         }).catch(errorNotify);
       }

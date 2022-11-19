@@ -93,9 +93,9 @@ const SignUp = () => {
                                <label htmlFor="terms_checkbox"
                                       className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                    [필수] 서비스 이용약관 동의
-                                   <Link href={''}>
+                                   <a href={`${process.env.NEXT_PUBLIC_BASE_API}/terms/serviceUsageTerm-v20221101-1.txt`} target={'_blank'}>
                                        <span className={'underline pl-2'}>보기</span>
-                                   </Link>
+                                   </a>
                                </label>
                            </div>
                            <div className="flex items-center mb-4">
@@ -107,9 +107,9 @@ const SignUp = () => {
                                <label htmlFor="privacy_checkbox"
                                       className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                    [필수] 개인정보 수집·이용 동의
-                                   <Link href={''}>
+                                   <a href={`${process.env.NEXT_PUBLIC_BASE_API}/terms/개인정보처리방침-v20221101-1.html`} target={'_blank'}>
                                        <span className={'underline pl-2'}>보기</span>
-                                   </Link>
+                                   </a>
                                </label>
                            </div>
                        </>

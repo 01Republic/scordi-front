@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 
 export const successNotify = (msg: string) => {
-  toast(msg);
+  toast.success(msg);
 };
 
 export const errorNotify = (err: any) => {
@@ -9,6 +9,6 @@ export const errorNotify = (err: any) => {
   const message = error.message as string[] | string;
   Array.isArray(message)
     // ? message.forEach((msg) => toast(msg))
-    ? toast(message[0])
-    : toast(message);
+    ? toast.error(message[0])
+    : toast.error(message);
 };
