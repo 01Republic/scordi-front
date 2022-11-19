@@ -26,6 +26,11 @@ export type FindAllAppPrototypeQuery = FindAllQueryDto<ApplicationPrototypeDto> 
   tagId?: number;
 };
 
+export type ApplyToAddDto = {
+  name: string;
+  url?: string;
+}
+
 // export const applicationPrototypeMockDataList: ApplicationPrototypeDto[] = [
 //   {
 //     id: 1,

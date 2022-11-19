@@ -9,7 +9,7 @@ import { Paginated } from '^types/utils/paginated.dto';
 
 const NAMESPACE = 'applications';
 
-export const getApplications = (params: FindAllAppsQuery) => {
+export const getApplications = (params?: FindAllAppsQuery) => {
   return api.get<Paginated<ApplicationDto>>(`/${NAMESPACE}`, { params });
 };
 
