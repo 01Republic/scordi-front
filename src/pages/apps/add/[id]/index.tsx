@@ -2,9 +2,14 @@ import {MobileTopNav} from "^components/MobileTopNav";
 import {AppIconButton} from "^components/AppIconButton";
 import {TextInput} from "^components/TextInput";
 import {DefaultButton} from "^components/Button";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import { useRouter } from "next/router";
 import AddComplete, {AddCompletePageRoute} from "^pages/apps/add/complete";
+import {getApplicationPrototype, getApplicationPrototypes} from "^api/applicationPrototype.api";
+import {ApplicationPrototypeDto} from "^types/applicationPrototype.type";
+import {AddAuto} from "^components/add/AddAuto";
+import {AddManual} from "^components/add/AddManual";
+import {AddPrepare} from "^components/add/AddPrepare";
 
 export const AddServicePageRoute = {
     pathname: '/apps/add/:id',
@@ -13,45 +18,23 @@ export const AddServicePageRoute = {
 
 const AddService = () => {
     const router = useRouter();
-    const [isFailed, setIsFailed] = useState(false);
+    const [target, setTarget] = useState<ApplicationPrototypeDto>({} as ApplicationPrototypeDto);
 
+    useEffect(() => {
+        if (router.isReady) {
+            getApplicationPrototype(parseInt(router.query.id as string)).then(res => {
+                setTarget(res.data);
+            })
+        }
+    }, [router.isReady])
+
+    if (!target) return null
     return (
         <>
             <MobileTopNav title={'서비스 연동하기'}/>
-            <div className={'px-[20px] py-[40px]'}>
-                {isFailed ? (
-                    <>
-                        <h2>연동이 실패되었어요</h2>
-                        <p className={'mt-[20px] text-[#6D7684]'}>
-                            이메일 및 비밀번호를 다시 확인해주세요.
-                        </p>
-                    </>
-                ) : (
-                    <>
-                        <h2>서비스 연동하기</h2>
-                        <p className={'mt-[20px] text-[#6D7684]'}>
-                            관리자 계정의 로그인 정보를 입력해 주세요.<br/>
-                            계정은 암호화하여 전송되며, 식별이 불가능한 형태로<br/>
-                            안전하게 처리됩니다.
-                        </p>
-                    </>
-                )}
-
-                <div className={'py-[30px] text-center'}>
-                    <AppIconButton name={'figma'}
-                                   icon={'https://picsum.photos/80'}/>
-                </div>
-                <TextInput label={'아이디'} placeholder={'아이디를 입력해주세요.'}/>
-                <TextInput label={'비밀번호'} placeholder={'비밀번호를 입력해주세요.'}/>
-                {isFailed ? (
-                    <>
-                        <DefaultButton text={'다시 연동하기'} onClick={() => null}/>
-                        <DefaultButton text={'다른 서비스 연동하기'} onClick={() => null}/>
-                    </>
-                ) : (
-                    <DefaultButton text={'연동 시작하기'} onClick={() => router.push(AddCompletePageRoute.pathname)}/>
-                )}
-            </div>
+            {target.connectMethod === 'AUTO' && <AddAuto appInfo={target}/>}
+            {target.connectMethod === 'MANUAL' && <AddManual appInfo={target}/>}
+            {target.connectMethod === 'PREPARE' && <AddPrepare appInfo={target}/>}
         </>
     )
 }

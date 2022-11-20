@@ -15,6 +15,7 @@ import {ApplicationDto} from "^types/application.type";
 import {DefaultButton} from "^components/Button";
 import {ApplyPageRoute} from "^pages/apps/apply";
 import {toast} from "react-toastify";
+import {useCurrentUser} from "^hooks/useCurrentUser";
 
 export const AppSearchPageRoute = {
     pathname: '/apps/search',
@@ -23,6 +24,7 @@ export const AppSearchPageRoute = {
 
 const AppSearchPage = () => {
     const router = useRouter();
+    const user = useCurrentUser();
     const [recommendList, setRecommendList] = useState<ApplicationPrototypeDto[]>([]);
     const [myApps, setMyApps] = useState<ApplicationDto[]>([]);
     const [searchResults, setSearchResults] = useState<ApplicationPrototypeDto[]>([]);
@@ -51,7 +53,7 @@ const AppSearchPage = () => {
         getApplicationPrototypeRecommend().then(res => {
             setRecommendList(res.data.items);
         })
-        getApplications().then(res => {
+        user && getApplications({where: {organizationId: user.orgId}}).then(res => {
             setMyApps(res.data.items);
         })
     }, [])
@@ -66,9 +68,9 @@ const AppSearchPage = () => {
             <div className={'px-[20px] py-[40px]'}>
                 <h2>어떤 서비스를 등록하시겠어요?</h2>
                 <div className={'py-[20px]'}>
-                    <SearchInput onSubmit={(name) => router.push(`?name=${name}`)}/>
+                    <SearchInput defaultValue={router.query.name as string} onSubmit={(name) => router.replace(`?name=${name}`)}/>
                 </div>
-                {router.query.name !== '' && searchResults.length === 0 && (
+                {!!router.query.name && searchResults.length === 0 && (
                     <div className={'py-40'}>
                         <h2 className={'text-center mb-4'}>{router.query.name}</h2>
                         <p className={'text-center mb-10'}>
@@ -78,7 +80,7 @@ const AppSearchPage = () => {
                         <DefaultButton text={'+ 서비스 등록 요청하기'} onClick={applyNewApp}/>
                     </div>
                 )}
-                {router.query.name !== '' && searchResults.length > 0 && (
+                {!!router.query.name && searchResults.length > 0 && (
                     <>
                         <p>검색 결과</p>
                         <div className={'py-[20px]'}>

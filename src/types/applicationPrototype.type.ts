@@ -13,6 +13,7 @@ export type ApplicationPrototypeDto = {
   updatedAt: Date;
   paymentPlans: ApplicationPaymentPlanDto[];
   billingCycles: ApplicationBillingCycleDto[];
+  connectMethod: 'AUTO' | 'MANUAL' | 'PREPARE' | string;
 };
 
 export type SearchAppPrototypeForm = {
