@@ -38,6 +38,7 @@ export type UserEditProfileRequestDto = {
   name?: string;
   phone?: string;
   email?: string;
+  orgName?: string;
   password?: string;
   passwordConfirmation?: string;
 }

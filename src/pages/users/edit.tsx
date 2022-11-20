@@ -29,7 +29,7 @@ const UserEditPage = () => {
         if (!currentUser) return;
         form.setValue('name', currentUser.name);
         form.setValue('phone', currentUser.phone);
-        // form.setValue('orgName', currentUser.orgName);
+        form.setValue('orgName', currentUser.orgName);
         form.setValue('email', currentUser.email);
     }, [currentUser]);
 
@@ -39,7 +39,7 @@ const UserEditPage = () => {
             <div className={'p-[20px]'}>
                 <TextInput label={'이름'} {...form.register('name')}/>
                 <TextInput label={'전화번호'} {...form.register('phone')}/>
-                {/*<TextInput label={'회사명'} {...form.register('name')}/>*/}
+                <TextInput label={'회사명'} {...form.register('orgName')}/>
                 <TextInput label={'회사 이메일 (아이디)'} {...form.register('email')}/>
                 <div className={'mt-[40px]'}>
                     <DefaultButton text={'저장하기'} onClick={UpdateUserHandler}/>
