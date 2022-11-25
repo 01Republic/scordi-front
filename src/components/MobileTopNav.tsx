@@ -13,7 +13,7 @@ export const MobileTopNav = (props: MobileTopNavProps) => {
 
     if (!isMobile) return null;
     return (
-        <div className={'flex p-[20px] border-b items-center justify-between'}>
+        <div className={'flex sticky top-0 p-[20px] border-b items-center justify-between'}>
             {props.noBack ? (
                 <div className={'w-[24px]'}/>
             ) : (
