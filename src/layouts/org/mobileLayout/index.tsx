@@ -24,7 +24,7 @@ const OrgMobileLayout = ({org, children}: OrgMobileLayoutProps) => {
                     <MobileTopBar/>
                     {children}
                     <div
-                        className={'flex fixed bottom-0 w-full border border-t-1 items-center p-[22px] justify-center space-x-20'}>
+                        className={'flex sticky bg-white bottom-0 w-full border border-t-1 items-center p-[22px] justify-center space-x-20'}>
                         {/* TODO: 아이콘 나중에 바꿀 것 */}
                         <MobileNavItem href={OrgHomeRoute.path(org.id)} icon={<Icon.Home/>}/>
                         <MobileNavItem href={AppSearchPageRoute.pathname} icon={<Icon.Plus/>}/>
