@@ -88,7 +88,7 @@ const LoginPage = () => {
                     <div className={"pt-[1rem] space-y-4"}>
                         <DefaultButton type={'submit'} text={'로그인'}
                                        onClick={() => null}
-                                       disabled={!form.watch('email') && !form.watch('password')}
+                                       disabled={!form.watch('email') || !form.watch('password')}
                         />
                         {/*<Link href={"/users/signup"}>*/}
                         {/*    <button className="btn btn-outline btn-primary btn-block" type={'button'}>회원가입</button>*/}
