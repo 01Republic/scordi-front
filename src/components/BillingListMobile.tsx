@@ -2,21 +2,35 @@ import { ApplicationDto } from '^types/application.type';
 import { useEffect, useState } from 'react';
 import { AppInfoPageRoute } from '^pages/orgs/[id]/apps/[appId]';
 import { useRouter } from 'next/router';
+import {getBillingHistories, getBillingSchedules} from "^api/billing.api";
+import {errorNotify} from "^utils/toast-notify";
+import {BillingHistoryDto, BillingScheduleShallowDto} from "^types/billing.type";
+import moment from 'moment';
 
 type BillingListMobileProps = {
     summaryDto: DashboardSummaryDto;
     apps: ApplicationDto[];
+    year: number;
+    month: number;
 };
 
 export const BillingListMobile = (props: BillingListMobileProps) => {
     const router = useRouter();
-    const { summaryDto, apps } = props;
-    const [beforeApps, setBeforeApps] = useState<ApplicationDto[]>([]);
-    const [afterApps, setAfterApps] = useState<ApplicationDto[]>([]);
+    const { summaryDto, apps, year, month } = props;
+    const [beforeApps, setBeforeApps] = useState<BillingHistoryDto[]>([]);
+    const [afterApps, setAfterApps] = useState<BillingScheduleShallowDto[]>([]);
+
+    const orgId = router.query.id!.toString();
+
+    const billingParams = {
+        startDate: `${year}-${month}-01`,
+        endDate: `${year}-${month}-31`,
+    }
 
     useEffect(() => {
         // TODO: 결제 전 후 구분해서 따로 aaray에 담기
-        setBeforeApps(apps);
+        getBillingHistories(billingParams).then((res) => setBeforeApps(res.data.items)).catch((err) => errorNotify(err));
+        getBillingSchedules(billingParams).then((res) => setAfterApps(res.data.items)).catch((err) => errorNotify(err));
     }, [apps]);
 
     return (
@@ -29,10 +43,11 @@ export const BillingListMobile = (props: BillingListMobileProps) => {
                     />
                     {afterApps.map((app, index) => (
                         <BillingListMobileItem
-                            app={app}
+                            shallow={app}
+                            app={apps.find(item => item.id === app.applicationId)!}
                             key={index}
                             onClick={() =>
-                                router.push(AppInfoPageRoute.path('1', '1'))
+                                router.push(AppInfoPageRoute.path(orgId, app.applicationId.toString()))
                             }
                         />
                     ))}
@@ -46,10 +61,11 @@ export const BillingListMobile = (props: BillingListMobileProps) => {
                     />
                     {beforeApps.map((app, index) => (
                         <BillingListMobileItem
-                            app={app}
+                            history={app}
+                            app={apps.find(item => item.id === app.applicationId)!}
                             key={index}
                             onClick={() =>
-                                router.push(AppInfoPageRoute.path('1', '1'))
+                                router.push(AppInfoPageRoute.path(orgId, app.applicationId.toString()))
                             }
                         />
                     ))}
@@ -68,7 +84,7 @@ const BillingListTitle = (props: BillingListTitleProps) => {
     return (
         <div className={'flex justify-between text-[15px]'}>
             <p className={'text-[#6D7684]'}>{props.title}</p>
-            <p className={'font-bold'}>US${props.price.toLocaleString()}</p>
+            <p className={'font-bold'}>USD {props.price.toLocaleString()}</p>
         </div>
     );
 };
@@ -76,9 +92,15 @@ const BillingListTitle = (props: BillingListTitleProps) => {
 type BillingListMobileItemProps = {
     app: ApplicationDto;
     onClick?: () => void;
+    history?: BillingHistoryDto;
+    shallow?: BillingScheduleShallowDto;
 };
 
 const BillingListMobileItem = (props: BillingListMobileItemProps) => {
+    const amount = props.history?.paidAmount || props.shallow?.billingAmount || 0;
+    const billingDate = props.history?.paidAt || props.shallow?.billingDate || '';
+    const billingDateStr = moment(billingDate).format('MM월 DD일');
+
     return (
         <div
             className={'flex bg-[#F9FAFB] rounded-[14px] p-[14px] items-center'}
@@ -97,13 +119,12 @@ const BillingListMobileItem = (props: BillingListMobileItemProps) => {
                     {props.app.prototype.name}
                 </p>
                 <p className="font-bold">
-                    {(156000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                    원
+                    USD {(amount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </p>
             </div>
             <div className={'flex-1'} />
             <div className={'p-[10px] bg-[#F3F0FF] rounded-[12px]'}>
-                <p className={'text-[#7963F7] font-bold'}>10월 30일</p>
+                <p className={'text-[#7963F7] font-bold'}>{billingDateStr}</p>
             </div>
         </div>
     );

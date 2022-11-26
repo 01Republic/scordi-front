@@ -39,23 +39,23 @@ const SummaryPage = () => {
             <div className={'px-[20px] py-[40px]'}>
                 <p>이번달 총 비용</p>
                 <h2 className={'my-[20px]'}>
-                    US${summaryDto.total.toLocaleString()}
+                    USD {summaryDto.total.toLocaleString()}
                 </h2>
                 <SummaryListItem
                     title={'오늘까지 결제된 금액'}
-                    value={`US$${summaryDto.didPayAmount.toLocaleString()}`}
+                    value={`USD ${summaryDto.didPayAmount.toLocaleString()}`}
                 />
                 <SummaryListItem
                     title={'남은 결제 금액'}
-                    value={`US$${summaryDto.willPayAmount.toLocaleString()}`}
+                    value={`USD ${summaryDto.willPayAmount.toLocaleString()}`}
                 />
                 <SummaryListItem
                     title={'지난달 총 결제액'}
-                    value={`US$${summaryDto.totalOnLastMonth.toLocaleString()}`}
+                    value={`USD ${summaryDto.totalOnLastMonth.toLocaleString()}`}
                 />
                 <SummaryListItem
                     title={'연간 총 예상 비용'}
-                    value={`US$${summaryDto.totalOnThisYear.toLocaleString()}`}
+                    value={`USD ${summaryDto.totalOnThisYear.toLocaleString()}`}
                 />
             </div>
         </>

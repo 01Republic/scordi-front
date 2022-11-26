@@ -5,3 +5,12 @@ type DashboardSummaryDto = {
   totalOnLastMonth: number; // 지난달 총 결제액
   totalOnThisYear: number; // 연간 총 예상 비용
 }
+
+type DashboardDaySumDto = {
+  date: string; // 날짜
+  year: number; // 년도
+  month: number; // 월
+  day: number; // 일
+  amount: number; // 금액
+  serviceCount: number; // 서비스 개수
+}

@@ -1,15 +1,16 @@
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { getOrgMainLayout } from '^layouts/org/mainLayout';
-import { PageRoute } from '^types/pageRoute.type';
-import { ContentLayout } from '^layouts/ContentLayout';
-import { ApplicationDto } from '^types/application.type';
-import { getApplications } from '^api/application.api';
-import { errorNotify } from '^utils/toast-notify';
-import { BillingListMobile } from '^components/BillingListMobile';
-import { Icon } from '^components/Icon';
+import {useEffect, useState} from 'react';
+import {useRouter} from 'next/router';
+import {getOrgMainLayout} from '^layouts/org/mainLayout';
+import {PageRoute} from '^types/pageRoute.type';
+import {ContentLayout} from '^layouts/ContentLayout';
+import {ApplicationDto} from '^types/application.type';
+import {getApplications} from '^api/application.api';
+import {errorNotify} from '^utils/toast-notify';
+import {BillingListMobile} from '^components/BillingListMobile';
+import {Icon} from '^components/Icon';
 import Calendar from 'react-calendar';
-import { getDashboardSummary } from '^api/dashboard.api';
+import {getDashboardCalendar, getDashboardSummary} from '^api/dashboard.api';
+import moment from "moment";
 
 export const OrgHomeRoute: PageRoute = {
     pathname: '/orgs/[id]/home',
@@ -26,6 +27,7 @@ export default function HomePage() {
     const [summaryDto, setSummaryDto] = useState<DashboardSummaryDto | null>(
         null,
     );
+    const [calendarData, setCalendarData] = useState<DashboardDaySumDto[] | null>([]);
     // const [addService, setAddService] = useState<boolean>(false);
     // const [payment, setPayment] = useState<boolean>(false);
     // const [editService, setEditService] = useState<boolean>(false);
@@ -33,17 +35,19 @@ export default function HomePage() {
     useEffect(() => {
         if (!organizationId) return;
 
-        getApplications({ where: { organizationId }, order: { id: 'DESC' } })
-            .then(({ data }) => {
+        getApplications({where: {organizationId}, order: {id: 'DESC'}})
+            .then(({data}) => {
                 setApps(data.items);
             })
             .catch(errorNotify);
 
         getDashboardSummary(year, month)
-            .then(({ data }) => {
+            .then(({data}) => {
                 setSummaryDto(data);
             })
             .catch(errorNotify);
+
+        getDashboardCalendar(year, month).then(({data}) => setCalendarData(data)).catch(errorNotify);
     }, [organizationId]);
 
     if (!summaryDto) {
@@ -68,9 +72,9 @@ export default function HomePage() {
                     <p>이번달 총 비용</p>
                     <div className={'flex items-center'}>
                         <p className={'font-semibold'}>
-                            US${summaryDto.total.toLocaleString()}
+                            USD {summaryDto.total.toLocaleString()}
                         </p>
-                        <Icon.ChevronRight />
+                        <Icon.ChevronRight/>
                     </div>
                 </div>
 
@@ -79,17 +83,20 @@ export default function HomePage() {
                     calendarType={'US'}
                     value={new Date()}
                     formatDay={(locale, date) => date.getDate().toString()}
-                    tileContent={({ date }) => (
-                        // TODO: 결제금액 표시
-                        <p className={'text-[6px]'}>-100,000</p>
-                    )}
+                    tileContent={({date}) => {
+                        const thisDay = moment(date).format('YYYY-MM-DD');
+                        const payDay = calendarData?.find(item => item.date === thisDay);
+                        return (
+                             !!payDay ? <p className={'text-[6px]'}>-{payDay.amount}</p> : <p className={'text-transparent'}>oo</p>
+                        );
+                    }}
                     next2Label={null}
                     prev2Label={null}
                     showNeighboringMonth={false}
                 />
 
                 {/* TODO: 여기에 앱을 넣을 게 아니라, 결제예측 모델을 개발하고 예측목록을 넣어야 할 듯. 호출도 월간으로 쿼리 할 수 있는 예측 컨트롤러가 필요. */}
-                <BillingListMobile summaryDto={summaryDto} apps={apps} />
+                <BillingListMobile summaryDto={summaryDto} apps={apps} year={year} month={month}/>
             </div>
         </ContentLayout>
     );
