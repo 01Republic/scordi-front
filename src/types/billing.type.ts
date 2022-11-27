@@ -1,3 +1,6 @@
+import {ApplicationDto} from "^types/application.type";
+import {OrganizationDto} from "^types/organizationTypes";
+
 export type BillingScheduleShallowDto = {
     organizationId: number;
     applicationId: number;
@@ -26,8 +29,8 @@ export type BillingHistoryDto = {
     invoiceUrl?: string;
     createdAt: string;
     updatedAt: string;
-    organization: any;
-    application: any;
+    organization: OrganizationDto;
+    application: ApplicationDto;
 }
 
 export type StartEndParams = {

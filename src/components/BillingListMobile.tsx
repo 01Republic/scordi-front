@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import {getBillingHistories, getBillingSchedules} from "^api/billing.api";
 import {errorNotify} from "^utils/toast-notify";
 import {BillingHistoryDto, BillingScheduleShallowDto} from "^types/billing.type";
-import moment from 'moment';
+import {intlDateShort} from "^utils/dateTime";
 
 type BillingListMobileProps = {
     summaryDto: DashboardSummaryDto;
@@ -99,7 +99,7 @@ type BillingListMobileItemProps = {
 const BillingListMobileItem = (props: BillingListMobileItemProps) => {
     const amount = props.history?.paidAmount || props.shallow?.billingAmount || 0;
     const billingDate = props.history?.paidAt || props.shallow?.billingDate || '';
-    const billingDateStr = moment(billingDate).format('MM월 DD일');
+    const billingDateStr = intlDateShort(billingDate);
 
     return (
         <div

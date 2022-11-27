@@ -14,6 +14,6 @@ export const getBillingHistories = (params: StartEndParams) => {
     return api.get<Paginated<BillingHistoryDto>>(`/billing_histories`, {params});
 }
 
-export const getAppsBillingHistory = (id: number) => {
-    return api.get<BillingHistoryDto>(`/billing_histories/${id}`);
+export const getAppsBillingHistory = (applicationId: number, params?: StartEndParams) => {
+    return api.get<Paginated<BillingHistoryDto>>(`/applications/${applicationId}/billing_histories`, {params});
 }

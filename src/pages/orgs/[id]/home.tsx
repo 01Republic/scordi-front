@@ -10,7 +10,7 @@ import {BillingListMobile} from '^components/BillingListMobile';
 import {Icon} from '^components/Icon';
 import Calendar from 'react-calendar';
 import {getDashboardCalendar, getDashboardSummary} from '^api/dashboard.api';
-import moment from "moment";
+import {intlDateLong} from "^utils/dateTime";
 
 export const OrgHomeRoute: PageRoute = {
     pathname: '/orgs/[id]/home',
@@ -84,10 +84,11 @@ export default function HomePage() {
                     value={new Date()}
                     formatDay={(locale, date) => date.getDate().toString()}
                     tileContent={({date}) => {
-                        const thisDay = moment(date).format('YYYY-MM-DD');
+                        const thisDay = intlDateLong(date);
                         const payDay = calendarData?.find(item => item.date === thisDay);
                         return (
-                             !!payDay ? <p className={'text-[6px]'}>-{payDay.amount}</p> : <p className={'text-transparent'}>oo</p>
+                            !!payDay ? <p className={'text-[6px]'}>-{payDay.amount}</p> :
+                                <p className={'text-transparent'}>oo</p>
                         );
                     }}
                     next2Label={null}
