@@ -1,5 +1,5 @@
-import { api } from '^api/api';
-import { DashboardDaySumDto, DashboardSummaryDto } from '^types/dashboard.type';
+import {api} from '^api/api';
+import {DashboardDaySumDto, DashboardSummaryDto} from '^types/dashboard.type';
 
 const NAMESPACE = 'dashboard';
 

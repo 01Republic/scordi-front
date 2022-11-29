@@ -1,9 +1,10 @@
-import { useRouter } from 'next/router';
-import { MobileTopNav } from '^components/MobileTopNav';
-import { SummaryListItem } from '^components/summaryListItem';
-import { useEffect, useState } from 'react';
-import { getDashboardSummary } from '^api/dashboard.api';
-import { errorNotify } from '^utils/toast-notify';
+import {useRouter} from 'next/router';
+import {MobileTopNav} from '^components/MobileTopNav';
+import {SummaryListItem} from '^components/summaryListItem';
+import {useEffect, useState} from 'react';
+import {getDashboardSummary} from '^api/dashboard.api';
+import {errorNotify} from '^utils/toast-notify';
+import {DashboardSummaryDto} from '^types/dashboard.type';
 
 export const SummaryPageRoute = {
     pathname: '/orgs/:id/summary',
@@ -23,7 +24,7 @@ const SummaryPage = () => {
         if (!organizationId) return;
 
         getDashboardSummary(year, month)
-            .then(({ data }) => {
+            .then(({data}) => {
                 setSummaryDto(data);
             })
             .catch(errorNotify);

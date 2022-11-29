@@ -1,11 +1,15 @@
-import { ApplicationDto } from '^types/application.type';
-import { useEffect, useState } from 'react';
-import { AppInfoPageRoute } from '^pages/orgs/[id]/apps/[appId]';
-import { useRouter } from 'next/router';
-import {getBillingHistories, getBillingSchedules} from "^api/billing.api";
-import {errorNotify} from "^utils/toast-notify";
-import {BillingHistoryDto, BillingScheduleShallowDto} from "^types/billing.type";
-import {intlDateShort} from "^utils/dateTime";
+import {ApplicationDto} from '^types/application.type';
+import {useEffect, useState} from 'react';
+import {AppInfoPageRoute} from '^pages/orgs/[id]/apps/[appId]';
+import {useRouter} from 'next/router';
+import {getBillingHistories, getBillingSchedules} from '^api/billing.api';
+import {errorNotify} from '^utils/toast-notify';
+import {
+    BillingHistoryDto,
+    BillingScheduleShallowDto,
+} from '^types/billing.type';
+import {intlDateShort} from '^utils/dateTime';
+import {DashboardSummaryDto} from '^types/dashboard.type';
 
 type BillingListMobileProps = {
     summaryDto: DashboardSummaryDto;
@@ -16,7 +20,7 @@ type BillingListMobileProps = {
 
 export const BillingListMobile = (props: BillingListMobileProps) => {
     const router = useRouter();
-    const { summaryDto, apps, year, month } = props;
+    const {summaryDto, apps, year, month} = props;
     const [beforeApps, setBeforeApps] = useState<BillingHistoryDto[]>([]);
     const [afterApps, setAfterApps] = useState<BillingScheduleShallowDto[]>([]);
 
@@ -25,12 +29,16 @@ export const BillingListMobile = (props: BillingListMobileProps) => {
     const billingParams = {
         startDate: `${year}-${month}-01`,
         endDate: `${year}-${month}-31`,
-    }
+    };
 
     useEffect(() => {
         // TODO: 결제 전 후 구분해서 따로 aaray에 담기
-        getBillingHistories(billingParams).then((res) => setBeforeApps(res.data.items)).catch((err) => errorNotify(err));
-        getBillingSchedules(billingParams).then((res) => setAfterApps(res.data.items)).catch((err) => errorNotify(err));
+        getBillingHistories(billingParams)
+            .then((res) => setBeforeApps(res.data.items))
+            .catch((err) => errorNotify(err));
+        getBillingSchedules(billingParams)
+            .then((res) => setAfterApps(res.data.items))
+            .catch((err) => errorNotify(err));
     }, [apps]);
 
     return (
@@ -44,10 +52,19 @@ export const BillingListMobile = (props: BillingListMobileProps) => {
                     {afterApps.map((app, index) => (
                         <BillingListMobileItem
                             shallow={app}
-                            app={apps.find(item => item.id === app.applicationId)!}
+                            app={
+                                apps.find(
+                                    (item) => item.id === app.applicationId,
+                                )!
+                            }
                             key={index}
                             onClick={() =>
-                                router.push(AppInfoPageRoute.path(orgId, app.applicationId.toString()))
+                                router.push(
+                                    AppInfoPageRoute.path(
+                                        orgId,
+                                        app.applicationId.toString(),
+                                    ),
+                                )
                             }
                         />
                     ))}
@@ -62,10 +79,19 @@ export const BillingListMobile = (props: BillingListMobileProps) => {
                     {beforeApps.map((app, index) => (
                         <BillingListMobileItem
                             history={app}
-                            app={apps.find(item => item.id === app.applicationId)!}
+                            app={
+                                apps.find(
+                                    (item) => item.id === app.applicationId,
+                                )!
+                            }
                             key={index}
                             onClick={() =>
-                                router.push(AppInfoPageRoute.path(orgId, app.applicationId.toString()))
+                                router.push(
+                                    AppInfoPageRoute.path(
+                                        orgId,
+                                        app.applicationId.toString(),
+                                    ),
+                                )
                             }
                         />
                     ))}
@@ -97,8 +123,10 @@ type BillingListMobileItemProps = {
 };
 
 const BillingListMobileItem = (props: BillingListMobileItemProps) => {
-    const amount = props.history?.paidAmount || props.shallow?.billingAmount || 0;
-    const billingDate = props.history?.paidAt || props.shallow?.billingDate || '';
+    const amount =
+        props.history?.paidAmount || props.shallow?.billingAmount || 0;
+    const billingDate =
+        props.history?.paidAt || props.shallow?.billingDate || '';
     const billingDateStr = intlDateShort(billingDate);
 
     return (
@@ -119,7 +147,8 @@ const BillingListMobileItem = (props: BillingListMobileItemProps) => {
                     {props.app.prototype.name}
                 </p>
                 <p className="font-bold">
-                    USD {(amount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                    USD{' '}
+                    {amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </p>
             </div>
             <div className={'flex-1'} />
