@@ -1,5 +1,5 @@
-import {ApplicationDto} from "^types/application.type";
-import {OrganizationDto} from "^types/organizationTypes";
+import {ApplicationDto} from '^types/application.type';
+import {OrganizationDto} from '^types/organizationTypes';
 
 export type BillingScheduleShallowDto = {
     organizationId: number;
@@ -11,13 +11,15 @@ export type BillingScheduleShallowDto = {
     serviceName: string;
     planName: string;
     cycleName: string;
+    isSuccess: boolean;
+    isOverdue: boolean;
     billingDate: string;
     billingAmount: number;
     isFreeTier: boolean;
     isPerUser: boolean;
     unitPrice: number;
     paidMemberCount: number;
-}
+};
 
 export type BillingHistoryDto = {
     id: number;
@@ -31,9 +33,9 @@ export type BillingHistoryDto = {
     updatedAt: string;
     organization: OrganizationDto;
     application: ApplicationDto;
-}
+};
 
 export type StartEndParams = {
     startDate: string;
     endDate: string;
-}
+};

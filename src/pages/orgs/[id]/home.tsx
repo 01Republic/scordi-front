@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { getOrgMainLayout } from '^layouts/org/mainLayout';
-import { PageRoute } from '^types/pageRoute.type';
-import { ContentLayout } from '^layouts/ContentLayout';
-import { ApplicationDto } from '^types/application.type';
-import { getApplications } from '^api/application.api';
-import { errorNotify } from '^utils/toast-notify';
-import { BillingListMobile } from '^components/BillingListMobile';
-import { Icon } from '^components/Icon';
+import {useEffect, useState} from 'react';
+import {useRouter} from 'next/router';
+import {getOrgMainLayout} from '^layouts/org/mainLayout';
+import {PageRoute} from '^types/pageRoute.type';
+import {ContentLayout} from '^layouts/ContentLayout';
+import {ApplicationDto} from '^types/application.type';
+import {getApplications} from '^api/application.api';
+import {errorNotify} from '^utils/toast-notify';
+import {BillingListMobile} from '^components/BillingListMobile';
+import {Icon} from '^components/Icon';
 import Calendar from 'react-calendar';
-import { getDashboardCalendar, getDashboardSummary } from '^api/dashboard.api';
-import { intlDateLong } from '^utils/dateTime';
-import { DashboardDaySumDto, DashboardSummaryDto } from '^types/dashboard.type';
+import {getDashboardCalendar, getDashboardSummary} from '^api/dashboard.api';
+import {intlDateLong} from '^utils/dateTime';
+import {DashboardDaySumDto, DashboardSummaryDto} from '^types/dashboard.type';
 
 export const OrgHomeRoute: PageRoute = {
     pathname: '/orgs/[id]/home',
@@ -38,20 +38,21 @@ export default function HomePage() {
     useEffect(() => {
         if (!organizationId) return;
 
-        getApplications({ where: { organizationId }, order: { id: 'DESC' } })
-            .then(({ data }) => {
+        getApplications({where: {organizationId}, order: {id: 'DESC'}})
+            .then(({data}) => {
+                console.log(data.items);
                 setApps(data.items);
             })
             .catch(errorNotify);
 
         getDashboardSummary(year, month)
-            .then(({ data }) => {
+            .then(({data}) => {
                 setSummaryDto(data);
             })
             .catch(errorNotify);
 
         getDashboardCalendar(year, month)
-            .then(({ data }) => setCalendarData(data))
+            .then(({data}) => setCalendarData(data))
             .catch(errorNotify);
     }, [organizationId]);
 
@@ -88,13 +89,17 @@ export default function HomePage() {
                     calendarType={'US'}
                     value={new Date()}
                     formatDay={(locale, date) => date.getDate().toString()}
-                    tileContent={({ date }) => {
-                        const thisDay = intlDateLong(date);
+                    tileContent={({date}) => {
+                        // const thisDay = intlDateLong(date);
                         const payDay = calendarData?.find(
-                            (item) => item.date === thisDay,
+                            (item) =>
+                                new Date(item.date).getDate() ===
+                                date.getDate(),
                         );
                         return !!payDay ? (
-                            <p className={'text-[6px]'}>-{payDay.amount}</p>
+                            <p className={'text-[6px]'}>
+                                ${payDay.amount.toLocaleString()}
+                            </p>
                         ) : (
                             <p className={'text-transparent'}>oo</p>
                         );
