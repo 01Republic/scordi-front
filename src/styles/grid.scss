@@ -1,4 +1,4 @@
-$breakpoints: (sm: 640px, md: 768px, lg: 1024px, xl: 1280px);
+$breakpoints: (xs: 420px, sm: 640px, md: 768px, lg: 1024px, xl: 1280px);
 $grid-bases: (10, 12, 24);
 $grid-bases-default: 12;
 $gutter-size: 15px;
@@ -19,24 +19,6 @@ $gutter-size: 15px;
     width: 100%;
     margin-left: -$gutter-size;
     margin-right: -$gutter-size;
-}
-
-/**
- * Col - Auto
- */
-.bs-col {
-    flex: 1 0 0%;
-    padding-left: $gutter-size;
-    padding-right: $gutter-size;
-}
-@each $abbrev, $min-width in $breakpoints {
-    @media (min-width: $min-width) {
-        .#{$abbrev}\:bs-col {
-            flex: 1 0 0%;
-            padding-left: $gutter-size;
-            padding-right: $gutter-size;
-        }
-    }
 }
 
 /**
@@ -85,6 +67,24 @@ $gutter-size: 15px;
                     padding-right: $gutter-size;
                 }
             }
+        }
+    }
+}
+
+/**
+ * Col - Auto
+ */
+.bs-col {
+    flex: 1 0 0%;
+    padding-left: $gutter-size;
+    padding-right: $gutter-size;
+}
+@each $abbrev, $min-width in $breakpoints {
+    @media (min-width: $min-width) {
+        .#{$abbrev}\:bs-col {
+            flex: 1 0 0%;
+            padding-left: $gutter-size;
+            padding-right: $gutter-size;
         }
     }
 }
