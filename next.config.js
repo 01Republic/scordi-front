@@ -7,7 +7,7 @@ const nextConfig = {
     webpack(config) {
         config.module.rules.push({
             test: /\.svg$/,
-            use: ["@svgr/webpack"]
+            use: ['@svgr/webpack'],
         });
 
         return config;
@@ -27,9 +27,10 @@ const nextConfig = {
             'assets.stickpng.com',
             'w7.pngwing.com',
             'toppng.com',
-            'upload.wikimedia.org'
-        ]
-    }
-}
+            'upload.wikimedia.org',
+            'via.placeholder.com',
+        ],
+    },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
