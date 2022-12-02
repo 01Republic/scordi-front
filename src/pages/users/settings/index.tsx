@@ -5,6 +5,8 @@ import {MobileTopNav} from '^components/MobileTopNav';
 import {removeToken} from '^api/api';
 import {toast} from 'react-toastify';
 import {UserLoginPageRoute} from '^pages/users/login';
+import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
+import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const UserSettingsPageRoute = {
     pathname: '/users/settings',
@@ -13,10 +15,11 @@ export const UserSettingsPageRoute = {
 
 const Settings = () => {
     const router = useRouter();
+    const currentUser = useCurrentUser();
 
     const settingContents = [
         {name: '내 정보 수정', action: () => router.push(UserEditPageRoute.pathname)},
-        {name: '등록한 서비스', action: () => null},
+        {name: '등록한 서비스', action: () => router.push(OrgAppsIndexPageRoute.path(currentUser?.orgId))},
         {name: '피드백 보내기', action: () => window.open('https://oh8kq2gqq3y.typeform.com/to/ZF4C5sTK', '_blank')},
         {
             name: '로그아웃',
