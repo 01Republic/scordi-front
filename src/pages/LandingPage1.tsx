@@ -192,7 +192,7 @@ const LandingPage1: NextPage = () => {
                             <p className="text-lg md:text-xl text-black opacity-60 mb-3">
                                 똑똑한 팀을 위한 구독 관리 플랫폼
                             </p>
-                            <p className="text-sm md:text-xl text-black opacity-60">
+                            <div className="text-sm md:text-xl text-black opacity-60">
                                 <p className="">
                                     <span>대표자</span> : <span>김용현</span> | <span>사업자번호</span> :{' '}
                                     <span>227-86-02683</span>
@@ -218,7 +218,7 @@ const LandingPage1: NextPage = () => {
                                         개인정보처리방침
                                     </a>
                                 </p>
-                            </p>
+                            </div>
                         </div>
                         <hr />
                         <div className="py-8">
