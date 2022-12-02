@@ -57,7 +57,7 @@ export default function HomePage() {
     return (
         <ContentLayout>
             <div className="space-y-5 lg:flex">
-                <div className={'flex-1 space-y-5 pr-5'}>
+                <div className={'flex-1 space-y-5 lg:pr-5'}>
                     <h2 className="text-24 font-semibold">5개의 서비스가 등록되었어요!</h2>
 
                     <div
