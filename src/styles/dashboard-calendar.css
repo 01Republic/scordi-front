@@ -133,3 +133,6 @@
 .react-calendar__navigation__label {
   pointer-events: none;
 }
+abbr:where([title]) {
+  text-decoration: none;
+}

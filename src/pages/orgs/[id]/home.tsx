@@ -82,7 +82,9 @@ export default function HomePage() {
                                 (item) => new Date(item.date).getDate() === date.getDate(),
                             );
                             return !!payDay ? (
-                                <p className={'text-[6px]'}>${payDay.amount.toLocaleString()}</p>
+                                <p className={'text-[14px] text-[#7963F7] font-bold'}>
+                                    ${payDay.amount.toLocaleString()}
+                                </p>
                             ) : (
                                 <p className={'text-transparent'}>oo</p>
                             );
