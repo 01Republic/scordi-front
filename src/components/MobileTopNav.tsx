@@ -18,7 +18,7 @@ export const MobileTopNav = (props: MobileTopNavProps) => {
 
     if (!mobile) return null;
     return (
-        <div className={'flex sticky top-0 p-[20px] border-b items-center justify-between bg-white'}>
+        <div className={'flex sticky top-0 p-[20px] border-b items-center justify-between bg-white z-40'}>
             {props.noBack ? <div className={'w-[24px]'} /> : <Icon.ChevronLeft onClick={() => router.back()} />}
             <p className={'font-bold text-[17px]'}>{props.title}</p>
             <div className={'w-[24px]'} />
