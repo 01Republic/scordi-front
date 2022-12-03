@@ -62,7 +62,7 @@ const LandingPage1: NextPage = () => {
                                     <br />
                                     <b>
                                         SaaS 관리는 정말 어렵지만,
-                                        <br /> Payplo와 함께라면 쉽습니다.
+                                        <br /> 스코디와 함께라면 쉽습니다.
                                     </b>
                                 </p>
 

@@ -38,17 +38,17 @@ export default class MyDocument extends Document {
           <link rel="icon" href="/logo-transparent.png" />
           <link rel="canonical" href="https://www.payplo.me"/>
           <meta name="description" content="모르는새 놓치고 있는 비용은 없나요? 우리 팀의 구독 서비스 한 곳에서 관리하세요. 똑똑한 팀을 위한 SaaS 관리 솔루션, Payplo - 구독 서비스 관리를 한 곳에서 쉽고 편하게"/>
-          <meta name="keywords" content="페이플로,페이플로우,payplo,payflow,구독,비용관리,SaaS,사스,saas,tracker,통합관리,계정관리,구독모델,스타트업,인보이스,비용절약,지출관리,startup,manager,노션,notion,슬랙,slack,고위드"/>
-          <meta name="author" content="Team Payplo"/>
+          <meta name="keywords" content="scordi,스코디,페이플로,페이플로우,payplo,payflow,구독,비용관리,SaaS,사스,saas,tracker,통합관리,계정관리,구독모델,스타트업,인보이스,비용절약,지출관리,startup,manager,노션,notion,슬랙,slack,고위드"/>
+          <meta name="author" content="Team Scordi"/>
 
-          <meta property="og:title" content="Payplo | 똑똑한 팀을 위한 SaaS 관리 솔루션"/>
+          <meta property="og:title" content="Scordi | 똑똑한 팀을 위한 SaaS 관리 솔루션"/>
           <meta property="og:description" content="모르는새 놓치고 있는 비용은 없나요? 우리 팀의 구독 서비스 한 곳에서 관리하세요. 똑똑한 팀을 위한 SaaS 관리 솔루션, Payplo - 구독 서비스 관리를 한 곳에서 쉽고 편하게"/>
           <meta property="og:image" content="https://www.payplo.me/main-og.jpg"/>
           <meta property="og:type" content="website"/>
-          <meta property="og:site_name" content="Payplo"/>
+          <meta property="og:site_name" content="Scordi"/>
           <meta property="og:url" content="https://www.payplo.me"/>
 
-          <meta name="twitter:title" content="Payplo | 똑똑한 팀을 위한 SaaS 관리 솔루션"/>
+          <meta name="twitter:title" content="Scordi | 똑똑한 팀을 위한 SaaS 관리 솔루션"/>
           <meta name="twitter:description" content="모르는새 놓치고 있는 비용은 없나요? 우리 팀의 구독 서비스 한 곳에서 관리하세요. 똑똑한 팀을 위한 SaaS 관리 솔루션, Payplo - 구독 서비스 관리를 한 곳에서 쉽고 편하게"/>
           <meta name="twitter:image" content="https://www.payplo.me/main-og.jpg"/>
           <meta name="twitter:card" content="summary_large_image"/>
