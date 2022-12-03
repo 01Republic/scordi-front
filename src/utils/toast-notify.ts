@@ -1,14 +1,13 @@
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 
 export const successNotify = (msg: string) => {
-  toast.success(msg);
+    toast.success(msg);
 };
 
 export const errorNotify = (err: any) => {
-  const error = err.response.data;
-  const message = error.message as string[] | string;
-  Array.isArray(message)
-    // ? message.forEach((msg) => toast(msg))
-    ? toast.error(message[0])
-    : toast.error(message);
+    const error = err.response.data;
+    const message = error.message as string[] | string;
+    const code = error.code as string;
+    const toastKind = code === 'DUPLICATED_ENTITY' ? toast.info : toast.error;
+    Array.isArray(message) ? toastKind(message[0]) : toastKind(message);
 };
