@@ -4,11 +4,11 @@ import {useCurrentUser} from '^hooks/useCurrentUser';
 import {TextInput} from '^components/TextInput';
 import {useForm} from 'react-hook-form';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
-import {MobileTopNav} from "^components/MobileTopNav";
-import {DefaultButton} from "^components/Button";
-import {UserDto, UserEditProfileRequestDto} from "^types/user.type";
-import {modifyUser} from "^api/sessionApi";
-import {toast} from "react-toastify";
+import {MobileTopNav} from '^components/MobileTopNav';
+import {DefaultButton} from '^components/Button';
+import {UserDto, UserEditProfileRequestDto} from '^types/user.type';
+import {modifyUser} from '^api/sessionApi';
+import {toast} from 'react-toastify';
 
 export const UserEditPageRoute: PageRoute = {
     pathname: '/users/edit',
@@ -22,7 +22,7 @@ const UserEditPage = () => {
     const UpdateUserHandler = () => {
         modifyUser(form.getValues()).then(() => {
             toast.success('프로필이 수정되었습니다.');
-        })
+        });
     };
 
     useEffect(() => {
@@ -35,14 +35,14 @@ const UserEditPage = () => {
 
     return (
         <div>
-            <MobileTopNav title={'내 정보 수정'}/>
+            <MobileTopNav title={'내 정보 수정'} />
             <div className={'p-[20px]'}>
-                <TextInput label={'이름'} {...form.register('name')}/>
-                <TextInput label={'전화번호'} {...form.register('phone')}/>
-                <TextInput label={'회사명'} {...form.register('orgName')}/>
-                <TextInput label={'회사 이메일 (아이디)'} {...form.register('email')}/>
+                <TextInput label={'이름'} {...form.register('name')} />
+                <TextInput label={'전화번호'} {...form.register('phone')} />
+                <TextInput label={'회사명'} {...form.register('orgName')} />
+                <TextInput label={'회사 이메일 (아이디)'} {...form.register('email')} />
                 <div className={'mt-[40px]'}>
-                    <DefaultButton text={'저장하기'} onClick={UpdateUserHandler}/>
+                    <DefaultButton text={'저장하기'} onClick={UpdateUserHandler} />
                 </div>
             </div>
         </div>
@@ -50,5 +50,4 @@ const UserEditPage = () => {
 };
 
 UserEditPage.getLayout = getOrgMainLayout;
-
 export default UserEditPage;

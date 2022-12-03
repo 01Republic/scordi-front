@@ -3,6 +3,7 @@ import {AppIconButton} from '^components/AppIconButton';
 import {DefaultButton} from '^components/Button';
 import {useRouter} from 'next/router';
 import {AppSearchPageRoute} from '../search';
+import {getOrgMainLayout} from '^layouts/org/mainLayout';
 
 export const AddCompletePageRoute = {
     pathname: '/apps/add/complete',
@@ -33,4 +34,5 @@ const AddComplete = () => {
     );
 };
 
+AddComplete.getLayout = getOrgMainLayout;
 export default AddComplete;

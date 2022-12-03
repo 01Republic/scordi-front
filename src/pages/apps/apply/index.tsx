@@ -3,6 +3,7 @@ import {DefaultButton} from '^components/Button';
 import {AppSearchPageRoute} from '^pages/apps/search';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {useCurrentUser} from '^hooks/useCurrentUser';
+import {getOrgMainLayout} from '^layouts/org/mainLayout';
 
 export const ApplyPageRoute = {
     pathname: '/apps/apply',
@@ -32,4 +33,5 @@ const ApplyPage = () => {
     );
 };
 
+ApplyPage.getLayout = getOrgMainLayout;
 export default ApplyPage;

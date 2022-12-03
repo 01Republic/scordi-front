@@ -17,6 +17,7 @@ import {ApplyPageRoute} from '^pages/apps/apply';
 import {toast} from 'react-toastify';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {ServiceSuggestList} from '^components/ServiceSuggestList';
+import {getOrgMainLayout} from '^layouts/org/mainLayout';
 
 export const AppSearchPageRoute = {
     pathname: '/apps/search',
@@ -111,4 +112,5 @@ const AppSearchPage = () => {
     );
 };
 
+AppSearchPage.getLayout = getOrgMainLayout;
 export default AppSearchPage;

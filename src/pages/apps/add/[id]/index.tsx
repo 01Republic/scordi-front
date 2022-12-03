@@ -10,6 +10,7 @@ import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
 import {AddAuto} from '^components/add/AddAuto';
 import {AddManual} from '^components/add/AddManual';
 import {AddPrepare} from '^components/add/AddPrepare';
+import {getOrgMainLayout} from '^layouts/org/mainLayout';
 
 export const AddServicePageRoute = {
     pathname: '/apps/add/:id',
@@ -40,4 +41,5 @@ const AddService = () => {
     );
 };
 
+AddService.getLayout = getOrgMainLayout;
 export default AddService;

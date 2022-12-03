@@ -6,8 +6,9 @@ import Link from 'next/link';
 import {Icon} from '^components/Icon';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {UserSettingsPageRoute} from '^pages/users/settings';
-import AppSearchPage, {AppSearchPageRoute} from '^pages/apps/search';
+import {AppSearchPageRoute} from '^pages/apps/search';
 import Image from 'next/image';
+import {useCurrentUser} from '^hooks/useCurrentUser';
 
 type OrgMobileLayoutProps = {
     org: OrganizationDto | null;
@@ -16,28 +17,23 @@ type OrgMobileLayoutProps = {
 
 const OrgMobileLayout = ({org, children}: OrgMobileLayoutProps) => {
     const router = useRouter();
+    const currentUser = useCurrentUser();
 
     if (!org) return <PreLoader />;
     return (
         <>
-            {router.pathname === OrgHomeRoute.pathname ? (
-                <>
-                    <MobileTopBar org={org} />
-                    {children}
-                    <div
-                        className={
-                            'flex sticky bg-white bottom-0 w-full border border-t-1 items-center p-[22px] justify-center space-x-20'
-                        }
-                    >
-                        {/* TODO: 아이콘 나중에 바꿀 것 */}
-                        <MobileNavItem href={OrgHomeRoute.path(org.id)} icon={<Icon.Home />} />
-                        <MobileNavItem href={AppSearchPageRoute.path(org.id)} icon={<Icon.Plus />} />
-                        <MobileNavItem href={UserSettingsPageRoute.pathname} icon={<Icon.User />} />
-                    </div>
-                </>
-            ) : (
-                <>{children}</>
-            )}
+            {router.pathname === OrgHomeRoute.pathname && <MobileTopBar org={org} />}
+            {children}
+            <div
+                className={
+                    'flex fixed bg-white bottom-0 w-full border border-t-1 items-center p-[22px] justify-center space-x-20'
+                }
+            >
+                <MobileNavItem href={OrgHomeRoute.path(currentUser?.orgId)} icon={<Icon.Home />} />
+                <MobileNavItem href={AppSearchPageRoute.path(org.id)} icon={<Icon.Plus />} />
+                <MobileNavItem outHref={'https://oh8kq2gqq3y.typeform.com/to/ZF4C5sTK'} icon={<Icon.Send />} />
+                <MobileNavItem href={UserSettingsPageRoute.pathname} icon={<Icon.User />} />
+            </div>
         </>
     );
 };
@@ -76,7 +72,8 @@ const MobileTopBar = (props: MobileTopBarProps) => {
 
 type MobileNavItemProps = {
     icon: any;
-    href: string;
+    href?: string;
+    outHref?: string;
 };
 
 const MobileNavItem = (props: MobileNavItemProps) => {
@@ -84,7 +81,11 @@ const MobileNavItem = (props: MobileNavItemProps) => {
 
     // TODO: 주소 따라서 아이콘 색상 바꿔주기
 
-    return <Link href={props.href}>{props.icon}</Link>;
+    return (
+        <Link href={props.href || props.outHref || ''} target={props.outHref ? '_blank' : ''}>
+            {props.icon}
+        </Link>
+    );
 };
 
 export default OrgMobileLayout;

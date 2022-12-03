@@ -1,6 +1,7 @@
 import {useRouter} from 'next/router';
 import {DefaultButton} from '^components/Button';
 import {AppSearchPageRoute} from '^pages/apps/search';
+import {getOrgMainLayout} from '^layouts/org/mainLayout';
 
 export const NotificationPageRoute = {
     pathname: '/apps/add/notification',
@@ -29,4 +30,5 @@ const NotificationPage = () => {
     );
 };
 
+NotificationPage.getLayout = getOrgMainLayout;
 export default NotificationPage;
