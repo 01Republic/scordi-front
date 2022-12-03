@@ -58,7 +58,7 @@ export default function HomePage() {
         <ContentLayout>
             <div className="space-y-5 lg:flex">
                 <div className={'flex-1 space-y-5 lg:pr-5'}>
-                    <h2 className="text-24 font-semibold">5개의 서비스가 등록되었어요!</h2>
+                    <h2 className="text-24 font-semibold">{apps.length}개의 서비스가 등록되었어요!</h2>
 
                     <div
                         className={'flex justify-between p-[16px] bg-[#F9FAFB] rounded-[10px] items-center'}

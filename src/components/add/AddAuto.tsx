@@ -18,6 +18,7 @@ import {createApplication} from '^api/application.api';
 import {getApplicationPrototype} from '^api/applicationPrototype.api';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {createAppsBillingHistory} from '^api/billing.api';
+import {toast} from 'react-toastify';
 
 type AddAutoProps = {
     appInfo: ApplicationPrototypeDto;
@@ -59,24 +60,31 @@ export const AddAuto = (props: AddAutoProps) => {
      */
     const selectOrgItem = (name: string) => {
         const dto = loginForm.getValues();
-        if (!orgId || !prototypeId || !proto) return;
+        if (!orgId || !prototypeId || !proto) {
+            toast.error('orgId, prototypeId, prototype 세 가지는 모두 존재해야 합니다. :(');
+            return;
+        }
 
         Promise.all([
             getOrganizationByCrawlerApi(prototypeId, name, dto),
             getOrgBillingInfoByCrawlerApi(prototypeId, name, dto),
             getBillingHistoriesByCrawlerApi(prototypeId, name, dto),
         ]).then(([{data: profile}, {data: billingInfo}, {data: billingHistories}]) => {
+            // console.log('billingInfo', billingInfo);
             const plan = proto.paymentPlans.find((plan) => plan.name === billingInfo.planName);
+            // console.log('paymentPlans', proto.paymentPlans, 'plan', plan);
             const cycle = !plan ? null : plan.billingCycles.find((cycle) => cycle.term === billingInfo.cycleTerm);
+            // console.log('billingCycles', plan ? plan.billingCycles : null, 'cycle', cycle);
 
             if (!plan || !cycle) {
+                toast.error('일차하는 플랜과 주기 정보를 찾지 못했습니다. :(');
                 return;
             }
 
             // 서비스 연동 정보 생성하고
             createApplication({
                 sign: JSON.stringify(dto),
-                displayName: profile.displayName,
+                displayName: profile.displayName || name,
                 organizationId: orgId,
                 prototypeId,
                 paymentPlanId: plan.id,
@@ -88,6 +96,7 @@ export const AddAuto = (props: AddAutoProps) => {
             })
                 // 연동 정보 아래에 결제내역 정보 집어넣고
                 .then(({data: application}) => {
+                    console.log('Created Application', application);
                     const createHistories = billingHistories.map((history) =>
                         createAppsBillingHistory(application.id, {
                             paidAmount: history.amount.amount,
@@ -99,14 +108,15 @@ export const AddAuto = (props: AddAutoProps) => {
                     return Promise.all(createHistories);
                 })
                 // 홈으로.
-                .then(() => router.replace(OrgHomeRoute.path(orgId)))
+                .then(([...resList]) => {
+                    // console.log(
+                    //     'Created Histories',
+                    //     resList.map((r) => r.data),
+                    // );
+                    router.replace(OrgHomeRoute.path(orgId));
+                })
                 .catch(errorNotify);
         });
-
-        getOrganizationByCrawlerApi(prototypeId, name, dto)
-            .then(({data}) => {})
-            .catch(errorNotify);
-        setOrgListVisible(false);
     };
 
     if (orgListVisible) {
