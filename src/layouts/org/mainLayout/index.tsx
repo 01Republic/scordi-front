@@ -95,7 +95,7 @@ export function SidebarOrgHeader({orgName}: {orgName: string}) {
         <div className="flex items-center px-3">
             <div className="avatar placeholder inline-flex mr-2">
                 <div className="bg-neutral-focus text-neutral-content rounded w-10">
-                    <span className="font-bold">{orgName}</span>
+                    <span className="font-bold">{`${orgName}`[0]}</span>
                 </div>
             </div>
             <div className="flex-1 h-full">
