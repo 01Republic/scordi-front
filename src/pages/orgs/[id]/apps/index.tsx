@@ -11,6 +11,8 @@ import {MobileTopNav} from '^components/MobileTopNav';
 import {AppIconButton} from '^components/AppIconButton';
 import {ContentLayout} from '^layouts/ContentLayout';
 import {AppInfoPageRoute} from '^pages/orgs/[id]/apps/[appId]';
+import {DefaultButton} from '^components/Button';
+import {AppSearchPageRoute} from '^pages/apps/search';
 
 export const OrgAppsIndexPageRoute: PageRoute = {
     pathname: '/orgs/[id]/apps',
@@ -36,15 +38,19 @@ function OrgAppsIndexPage() {
             <MobileTopNav title={'등록한 서비스'} />
             <div className={'p-5'}>
                 {apps.length <= 0 ? (
-                    <div className="flex flex-col gap-4 items-center justify-center opacity-50">
+                    <div className="flex flex-col gap-4 items-center justify-center">
                         <img
                             className="w-[50%] lg:w-[30%] min-w-[200px]"
                             src="/images/illustration/big-isolated-employee-working-office-workplace-flat-illustration/Mar-Business_1-800px.png"
                             alt="Result not found."
                         />
                         <div className="pb-10">
-                            <p className="text-gray-500 font-bold text-2xl">사용하고 있는 서비스를 등록해보세요 :)</p>
+                            <p className="text-gray-500 text-16">사용하고 있는 서비스를 연동해보세요 :)</p>
                         </div>
+                        <DefaultButton
+                            text={'서비스 연동하기'}
+                            onClick={() => router.push(AppSearchPageRoute.path(organizationId))}
+                        />
                     </div>
                 ) : (
                     <div>
