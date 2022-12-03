@@ -20,11 +20,14 @@ import {ServiceSuggestList} from '^components/ServiceSuggestList';
 
 export const AppSearchPageRoute = {
     pathname: '/apps/search',
-    path: () => AppSearchPageRoute.pathname,
+    path: (orgId: number) => {
+        return `${AppSearchPageRoute.pathname}?orgId=${orgId}`;
+    },
 };
 
 const AppSearchPage = () => {
     const router = useRouter();
+    const orgId = Number(router.query.orgId);
     const user = useCurrentUser();
     const [recommendList, setRecommendList] = useState<ApplicationPrototypeDto[]>([]);
     const [myApps, setMyApps] = useState<ApplicationDto[]>([]);
@@ -46,7 +49,7 @@ const AppSearchPage = () => {
         if (myApps.find((app) => app.prototype.id === id)) {
             toast.info('이미 연동된 서비스입니다.');
         } else {
-            router.push(AddServicePageRoute.path(id.toString()));
+            router.push(AddServicePageRoute.path(id, orgId));
         }
     };
 

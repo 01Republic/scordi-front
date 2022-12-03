@@ -31,7 +31,7 @@ const OrgMobileLayout = ({org, children}: OrgMobileLayoutProps) => {
                     >
                         {/* TODO: 아이콘 나중에 바꿀 것 */}
                         <MobileNavItem href={OrgHomeRoute.path(org.id)} icon={<Icon.Home />} />
-                        <MobileNavItem href={AppSearchPageRoute.pathname} icon={<Icon.Plus />} />
+                        <MobileNavItem href={AppSearchPageRoute.path(org.id)} icon={<Icon.Plus />} />
                         <MobileNavItem href={UserSettingsPageRoute.pathname} icon={<Icon.User />} />
                     </div>
                 </>

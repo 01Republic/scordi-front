@@ -13,7 +13,7 @@ import {AddPrepare} from '^components/add/AddPrepare';
 
 export const AddServicePageRoute = {
     pathname: '/apps/add/:id',
-    path: (id: string) => `/apps/add/${id}`,
+    path: (id: number, orgId: number) => `/apps/add/${id}?orgId=${orgId}`,
 };
 
 const AddService = () => {
