@@ -22,6 +22,18 @@ const Settings = () => {
         {name: '등록한 서비스', action: () => router.push(OrgAppsIndexPageRoute.path(currentUser?.orgId))},
         {name: '피드백 보내기', action: () => window.open('https://oh8kq2gqq3y.typeform.com/to/ZF4C5sTK', '_blank')},
         {
+            name: '이용약관',
+            action: () => window.open('https://api.payplo.me:8080/terms/serviceUsageTerm-v20221101-1.txt', '_blank'),
+        },
+        {
+            name: '개인정보 처리방침',
+            action: () =>
+                window.open(
+                    'https://api.payplo.me:8080/terms/%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%EC%B2%98%EB%A6%AC%EB%B0%A9%EC%B9%A8-v20221101-1.html',
+                    '_blank',
+                ),
+        },
+        {
             name: '로그아웃',
             action: () => {
                 removeToken();

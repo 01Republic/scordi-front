@@ -45,13 +45,13 @@ const OrgMainLayout = ({org, children}: OrgMainLayoutProps) => {
                 <Sidebar.Menu>
                     <Sidebar.Menu.Item
                         text="대시보드"
-                        to={OrgHomeRoute.path(org.id)}
+                        to={OrgHomeRoute.path(currentUser?.orgId)}
                         selected={pathname === OrgHomeRoute.pathname}
                         icon={() => <Icon.Home />}
                     />
                     <Sidebar.Menu.Item
                         text="연동 서비스"
-                        to={OrgAppsIndexPageRoute.path(org.id)}
+                        to={OrgAppsIndexPageRoute.path(currentUser?.orgId)}
                         selected={pathname.startsWith(OrgAppsIndexPageRoute.pathname)}
                         icon={() => <Icon.Folder />}
                         iconTransform={false}

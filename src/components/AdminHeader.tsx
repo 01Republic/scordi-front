@@ -68,7 +68,20 @@ const ProfileDropDown = ({currentUser}: {currentUser: UserDto | null}) => {
                                 내 정보 수정
                             </a>
                         </li>
-                        {/*<li><a className="justify-between" href={``}>Settings</a></li>*/}
+                        <li>
+                            <a href="https://api.payplo.me:8080/terms/serviceUsageTerm-v20221101-1.txt" target="_blank">
+                                이용약관
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="https://api.payplo.me:8080/terms/%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%EC%B2%98%EB%A6%AC%EB%B0%A9%EC%B9%A8-v20221101-1.html"
+                                target="_blank"
+                            >
+                                개인정보처리방침
+                            </a>
+                        </li>
+                        <li></li>
                         <li>
                             <a
                                 className="justify-between"
