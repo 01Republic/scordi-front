@@ -4,12 +4,14 @@ import {AppInfoPageRoute} from '^pages/orgs/[id]/apps/[appId]';
 import {useRouter} from 'next/router';
 import {getBillingHistories, getBillingSchedules} from '^api/billing.api';
 import {errorNotify} from '^utils/toast-notify';
-import {
-    BillingHistoryDto,
-    BillingScheduleShallowDto as ScheduleDto,
-} from '^types/billing.type';
+import {BillingHistoryDto, BillingScheduleShallowDto as ScheduleDto} from '^types/billing.type';
 import {intlDateShort, yyyy_mm_dd} from '^utils/dateTime';
 import {DashboardSummaryDto} from '^types/dashboard.type';
+
+const sortByBillingDate = (direct: 'ASC' | 'DESC') => (a: ScheduleDto, b: ScheduleDto) => {
+    const diff = new Date(a.billingDate).getTime() - new Date(b.billingDate).getTime();
+    return direct === 'ASC' ? diff : diff * -1;
+};
 
 type BillingListMobileProps = {
     summaryDto: DashboardSummaryDto;
@@ -17,14 +19,6 @@ type BillingListMobileProps = {
     year: number;
     month: number;
 };
-
-const sortByBillingDate =
-    (direct: 'ASC' | 'DESC') => (a: ScheduleDto, b: ScheduleDto) => {
-        const diff =
-            new Date(a.billingDate).getTime() -
-            new Date(b.billingDate).getTime();
-        return direct === 'ASC' ? diff : diff * -1;
-    };
 
 export const BillingListMobile = (props: BillingListMobileProps) => {
     const router = useRouter();
@@ -46,16 +40,8 @@ export const BillingListMobile = (props: BillingListMobileProps) => {
         //     .catch((err) => errorNotify(err));
         getBillingSchedules(billingParams)
             .then(({data}) => {
-                setWillPayApps(
-                    data.items
-                        .filter((d) => !d.isSuccess)
-                        .sort(sortByBillingDate('DESC')),
-                );
-                setDidPayApps(
-                    data.items
-                        .filter((d) => d.isSuccess)
-                        .sort(sortByBillingDate('DESC')),
-                );
+                setWillPayApps(data.items.filter((d) => !d.isSuccess).sort(sortByBillingDate('DESC')));
+                setDidPayApps(data.items.filter((d) => d.isSuccess).sort(sortByBillingDate('DESC')));
             })
             .catch((err) => errorNotify(err));
     }, [apps]);
@@ -64,54 +50,26 @@ export const BillingListMobile = (props: BillingListMobileProps) => {
         <>
             {willPayApps.length > 0 && (
                 <>
-                    <BillingListTitle
-                        title={'앞으로 결제될 금액'}
-                        price={summaryDto.willPayAmount}
-                    />
+                    <BillingListTitle title={'앞으로 결제될 금액'} price={summaryDto.willPayAmount} />
                     {willPayApps.map((app, index) => (
                         <BillingListMobileItem
                             shallow={app}
-                            app={
-                                apps.find(
-                                    (item) => item.id === app.applicationId,
-                                )!
-                            }
+                            app={apps.find((item) => item.id === app.applicationId)!}
                             key={index}
-                            onClick={() =>
-                                router.push(
-                                    AppInfoPageRoute.path(
-                                        orgId,
-                                        app.applicationId.toString(),
-                                    ),
-                                )
-                            }
+                            onClick={() => router.push(AppInfoPageRoute.path(orgId, app.applicationId.toString()))}
                         />
                     ))}
                 </>
             )}
             {didPayApps.length > 0 && (
                 <>
-                    <BillingListTitle
-                        title={'지금까지 결제한 금액'}
-                        price={summaryDto.didPayAmount}
-                    />
+                    <BillingListTitle title={'지금까지 결제한 금액'} price={summaryDto.didPayAmount} />
                     {didPayApps.map((app, index) => (
                         <BillingListMobileItem
                             shallow={app}
-                            app={
-                                apps.find(
-                                    (item) => item.id === app.applicationId,
-                                )!
-                            }
+                            app={apps.find((item) => item.id === app.applicationId)!}
                             key={index}
-                            onClick={() =>
-                                router.push(
-                                    AppInfoPageRoute.path(
-                                        orgId,
-                                        app.applicationId.toString(),
-                                    ),
-                                )
-                            }
+                            onClick={() => router.push(AppInfoPageRoute.path(orgId, app.applicationId.toString()))}
                         />
                     ))}
                 </>
@@ -152,49 +110,23 @@ const BillingListMobileItem = (props: BillingListMobileItemProps) => {
     const somethingWrong = schedule?.isOverdue && schedule?.isSuccess === false;
 
     return (
-        <div
-            className={'flex bg-[#F9FAFB] rounded-[14px] p-[14px] items-center'}
-            onClick={props.onClick}
-        >
+        <div className={'flex bg-[#F9FAFB] rounded-[14px] p-[14px] items-center'} onClick={props.onClick}>
             <div className={`avatar ${somethingWrong ? 'opacity-50' : ''}`}>
                 <div className="mask mask-squircle h-12 w-12">
-                    <img
-                        src={props.app.prototype.image}
-                        alt={`${serviceName} logo`}
-                    />
+                    <img src={props.app.prototype.image} alt={`${serviceName} logo`} />
                 </div>
             </div>
             <div className={`pl-[10px]`}>
-                <p className={'text-[#8D95A1] capitalize font-semibold'}>
-                    {serviceName}
-                </p>
-                <p
-                    className={`font-bold ${
-                        somethingWrong
-                            ? 'opacity-50 line-through text-red-400'
-                            : ''
-                    }`}
-                >
+                <p className={'text-[#8D95A1] capitalize font-semibold'}>{serviceName}</p>
+                <p className={`font-bold ${somethingWrong ? 'opacity-50 line-through text-red-400' : ''}`}>
                     US${amount.toLocaleString()}
                 </p>
             </div>
             <div className={'flex-1'} />
-            <div
-                className={`p-[10px] ${
-                    somethingWrong ? 'bg-red-200' : 'bg-[#F3F0FF]'
-                } rounded-[12px]`}
-            >
-                <p
-                    className={`${
-                        somethingWrong ? 'text-red-400' : 'text-[#7963F7]'
-                    } font-bold`}
-                >
+            <div className={`p-[10px] ${somethingWrong ? 'bg-red-200' : 'bg-[#F3F0FF]'} rounded-[12px]`}>
+                <p className={`${somethingWrong ? 'text-red-400' : 'text-[#7963F7]'} font-bold`}>
                     {billingDateStr}
-                    <span
-                        className={`badge badge-error text-white font-bold ml-2`}
-                    >
-                        !
-                    </span>
+                    <span className={`badge badge-error text-white font-bold ml-2`}>!</span>
                 </p>
             </div>
         </div>
