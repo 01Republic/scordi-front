@@ -68,7 +68,7 @@ const LandingPage1: NextPage = () => {
 
                                 <div className="py-6">
                                     <TypeFormBtn campaignKey={CampaignKeys.landingV1} id="cta-1">
-                                        무료로 시작하기
+                                        클로즈베타 신청하기
                                     </TypeFormBtn>
                                 </div>
                             </div>
@@ -157,12 +157,12 @@ const LandingPage1: NextPage = () => {
                     <div className="container pt-16 pb-12 text-center">
                         <h3 className="text-3xl md:text-5xl py-6 font-bold">지금 시작해보세요</h3>
                         <p className="text-xl pt-6">
-                            지금은 사전 신청을 받고 있습니다. <br />
-                            사전 신청에 참여해주신 분들은 1년 무료
+                            지금은 클로즈베타 기간입니다. <br />
+                            클로즈베타 이용 문의는 아래 버튼을 눌러주세요
                         </p>
                         <div className="pt-12 pb-6">
                             <TypeFormBtn campaignKey={CampaignKeys.landingV1} id="cta-2">
-                                사전 신청 등록하기
+                                클로즈베타 신청하기
                             </TypeFormBtn>
                         </div>
                     </div>

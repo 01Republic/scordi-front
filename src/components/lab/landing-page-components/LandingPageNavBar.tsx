@@ -24,7 +24,7 @@ export const LandingPageNavBar = () => {
             <div className="navbar-center lg:flex" />
             <div className="navbar-end">
                 <a className="btn btn-outline btn-primary" href={UserLoginPageRoute.path()}>
-                    무료로 시작하기
+                    클로즈베타 로그인
                 </a>
             </div>
         </div>

@@ -23,8 +23,6 @@ const OrgMainLayout = ({org, children}: OrgMainLayoutProps) => {
     const {pathname, push} = useRouter();
     const currentUser = useCurrentUser();
 
-    if (!org) return <PreLoader />;
-
     return (
         <div className="flex h-screen">
             <Sidebar className="flex-shrink-0">
@@ -38,7 +36,7 @@ const OrgMainLayout = ({org, children}: OrgMainLayoutProps) => {
                         className="relative top-1 mr-1"
                     />
                     <div className="flex-1 px-2">
-                        <a className="text-lg font-bold" href={OrgHomeRoute.path(org.id)}>
+                        <a className="text-lg font-bold" href={OrgHomeRoute.path(currentUser?.orgId)}>
                             Scordi
                         </a>
                     </div>
