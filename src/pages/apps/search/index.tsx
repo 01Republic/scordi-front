@@ -77,7 +77,7 @@ const AppSearchPage = () => {
             <MobileTopNav title={'서비스 연동하기'} />
             <div className={'px-[20px] py-[40px]'}>
                 <h2>어떤 서비스를 등록하시겠어요?</h2>
-                <div className={'py-[20px]'}>
+                <div className={'py-[20px] lg:max-w-[500px]'}>
                     <SearchInput
                         defaultValue={router.query.name as string}
                         onSubmit={(name) => router.replace(`?name=${name}`)}

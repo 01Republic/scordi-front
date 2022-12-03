@@ -4,7 +4,7 @@ import {useCurrentUser} from '^hooks/useCurrentUser';
 import {TextInput} from '^components/TextInput';
 import {useForm} from 'react-hook-form';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
-import {MobileTopNav} from '^components/MobileTopNav';
+import {MobileTopNav, MobileViewContainer} from '^components/MobileTopNav';
 import {DefaultButton} from '^components/Button';
 import {UserDto, UserEditProfileRequestDto} from '^types/user.type';
 import {modifyUser} from '^api/sessionApi';
@@ -36,7 +36,7 @@ const UserEditPage = () => {
     return (
         <div>
             <MobileTopNav title={'내 정보 수정'} />
-            <div className={'p-[20px]'}>
+            <MobileViewContainer>
                 <TextInput label={'이름'} {...form.register('name')} />
                 <TextInput label={'전화번호'} {...form.register('phone')} />
                 <TextInput label={'회사명'} {...form.register('orgName')} />
@@ -44,7 +44,7 @@ const UserEditPage = () => {
                 <div className={'mt-[40px]'}>
                     <DefaultButton text={'저장하기'} onClick={UpdateUserHandler} />
                 </div>
-            </div>
+            </MobileViewContainer>
         </div>
     );
 };

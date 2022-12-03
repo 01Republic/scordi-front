@@ -19,6 +19,7 @@ import {getApplicationPrototype} from '^api/applicationPrototype.api';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {createAppsBillingHistory} from '^api/billing.api';
 import {toast} from 'react-toastify';
+import {MobileViewContainer} from '^components/MobileTopNav';
 
 type AddAutoProps = {
     appInfo: ApplicationPrototypeDto;
@@ -124,7 +125,7 @@ export const AddAuto = (props: AddAutoProps) => {
     }
 
     return (
-        <div className={'px-[20px] py-[40px]'}>
+        <MobileViewContainer>
             {isFailed ? (
                 <>
                     <h2>연동이 실패되었어요</h2>
@@ -186,7 +187,7 @@ export const AddAuto = (props: AddAutoProps) => {
             ) : (
                 <></>
             )}
-        </div>
+        </MobileViewContainer>
     );
 };
 

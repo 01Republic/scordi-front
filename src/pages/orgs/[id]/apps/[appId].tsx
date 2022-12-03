@@ -1,4 +1,4 @@
-import {MobileTopNav} from '^components/MobileTopNav';
+import {MobileTopNav, MobileViewContainer} from '^components/MobileTopNav';
 import {SummaryListItem} from '^components/summaryListItem';
 import Image from 'next/image';
 import {useEffect, useState} from 'react';
@@ -36,7 +36,7 @@ const AppInfoPage = () => {
     return (
         <>
             <MobileTopNav title={'구독 정보'} />
-            <div className={'px-[20px] py-[40px]'}>
+            <MobileViewContainer>
                 <Image src={appInfo.prototype.image} width={80} height={80} />
                 <h2 className={'my-[20px]'}>{appInfo.prototype.name}</h2>
                 <p>구독시작일 : {intlDateLong(appInfo.registeredAt)}</p>
@@ -49,7 +49,7 @@ const AppInfoPage = () => {
                 {billingHistory.map((item, index) => (
                     <SummaryListItem key={index} title={intlDateLong(item.paidAt)} value={`USD ${item.paidAmount}`} />
                 ))}
-            </div>
+            </MobileViewContainer>
         </>
     );
 };

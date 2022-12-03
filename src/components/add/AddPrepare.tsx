@@ -5,6 +5,7 @@ import {NotificationPageRoute} from '^pages/apps/add/notification';
 import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
 import {applyApplicationPrototypeAddedAlert} from '^api/applicationPrototype.api';
 import {errorNotify} from '^utils/toast-notify';
+import {MobileViewContainer} from '^components/MobileTopNav';
 
 type AddPrepareProps = {
     appInfo: ApplicationPrototypeDto;
@@ -26,7 +27,7 @@ export const AddPrepare = ({appInfo}: AddPrepareProps) => {
     };
 
     return (
-        <div className={'px-[20px] py-[40px]'}>
+        <MobileViewContainer>
             <h2>서비스 연동하기</h2>
             <p className={'mt-[20px] text-[#6D7684]'}>
                 자동연동을 준비중인 서비스 입니다.
@@ -38,6 +39,6 @@ export const AddPrepare = ({appInfo}: AddPrepareProps) => {
                 <AppIconButton name={appInfo.name} icon={appInfo.image} />
             </div>
             <DefaultButton text={'작업이 완료되면 알림받기'} onClick={applyAlert} />
-        </div>
+        </MobileViewContainer>
     );
 };

@@ -13,6 +13,7 @@ import {ContentLayout} from '^layouts/ContentLayout';
 import {AppInfoPageRoute} from '^pages/orgs/[id]/apps/[appId]';
 import {DefaultButton} from '^components/Button';
 import {AppSearchPageRoute} from '^pages/apps/search';
+import {isMobile} from 'react-device-detect';
 
 export const OrgAppsIndexPageRoute: PageRoute = {
     pathname: '/orgs/[id]/apps',
@@ -35,6 +36,14 @@ function OrgAppsIndexPage() {
 
     return (
         <>
+            {!isMobile && (
+                <div className={'float-right p-5'}>
+                    <DefaultButton
+                        text={'서비스 등록하기'}
+                        onClick={() => router.push(AppSearchPageRoute.path(organizationId))}
+                    />
+                </div>
+            )}
             <MobileTopNav title={'등록한 서비스'} />
             <div className={'p-5'}>
                 {apps.length <= 0 ? (

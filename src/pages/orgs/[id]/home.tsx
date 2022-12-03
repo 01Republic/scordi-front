@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {ChangeEvent, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {PageRoute} from '^types/pageRoute.type';
@@ -8,7 +8,7 @@ import {getApplications} from '^api/application.api';
 import {errorNotify} from '^utils/toast-notify';
 import {BillingListMobile} from '^components/BillingListMobile';
 import {Icon} from '^components/Icon';
-import Calendar from 'react-calendar';
+import Calendar, {ViewCallbackProperties} from 'react-calendar';
 import {getDashboardCalendar, getDashboardSummary} from '^api/dashboard.api';
 import {DashboardDaySumDto, DashboardSummaryDto} from '^types/dashboard.type';
 
@@ -25,10 +25,7 @@ export default function HomePage() {
     const [apps, setApps] = useState<ApplicationDto[]>([]);
     const [summaryDto, setSummaryDto] = useState<DashboardSummaryDto | null>(null);
     const [calendarData, setCalendarData] = useState<DashboardDaySumDto[] | null>([]);
-    // const [addService, setAddService] = useState<boolean>(false);
-    // const [payment, setPayment] = useState<boolean>(false);
-    // const [editService, setEditService] = useState<boolean>(false);
-    // const servieItem = itemDummy[0];
+
     useEffect(() => {
         if (!organizationId) return;
 
@@ -50,10 +47,7 @@ export default function HomePage() {
             .catch(errorNotify);
     }, [organizationId]);
 
-    if (!summaryDto) {
-        return <></>; // not loaded
-    }
-
+    if (!summaryDto) return null;
     return (
         <ContentLayout>
             <div className="space-y-5 lg:flex">
