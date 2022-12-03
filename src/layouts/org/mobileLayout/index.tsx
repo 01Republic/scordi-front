@@ -22,7 +22,7 @@ const OrgMobileLayout = ({org, children}: OrgMobileLayoutProps) => {
         <>
             {router.pathname === OrgHomeRoute.pathname ? (
                 <>
-                    <MobileTopBar />
+                    <MobileTopBar org={org} />
                     {children}
                     <div
                         className={
@@ -42,13 +42,17 @@ const OrgMobileLayout = ({org, children}: OrgMobileLayoutProps) => {
     );
 };
 
-const MobileTopBar = () => {
+type MobileTopBarProps = {
+    org: OrganizationDto;
+};
+
+const MobileTopBar = (props: MobileTopBarProps) => {
     const router = useRouter();
 
     return (
         <div className={'flex sticky top-0 bg-white justify-between p-[20px] border-b'}>
             <div className={'flex'}>
-                <a href="/" className={'flex'}>
+                <a href={OrgHomeRoute.path(props.org.id)} className={'flex'}>
                     {/*<Icon.Star />*/}
                     <Image
                         src="/logo-transparent.png"
