@@ -1,21 +1,18 @@
 import {Sidebar} from '^components/Sidebar';
-import {Icon2} from '^components/Icon2';
 import {useRouter} from 'next/router';
 import {OrganizationDto} from '^types/organizationTypes';
 import {PreLoader} from '^components/PreLoader';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
-import {OrgShowRoute} from '^pages/orgs/[id]';
 import {AdminTopNav} from '^components/AdminHeader';
-import {OrgMembershipIndexPageRoute} from '^pages/orgs/[id]/memberships';
 import React, {ReactElement, useEffect} from 'react';
 import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {OrgMainLayoutFooter} from '^layouts/org/mainLayout/OrgMainLayoutFooter';
 import {useCurrentOrg} from '^hooks/useCurrentOrg';
 import {Icon} from '^components/Icon';
-import Home from '../../../../public/home/icons/icon-home.svg';
 import {isMobile} from 'react-device-detect';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
+import Image from 'next/image';
 
 interface OrgMainLayoutProps {
     org: OrganizationDto | null;
@@ -32,7 +29,20 @@ const OrgMainLayout = ({org, children}: OrgMainLayoutProps) => {
         <div className="flex h-screen">
             <Sidebar className="flex-shrink-0">
                 {/*<Sidebar.Title>{org.name}</Sidebar.Title>*/}
-                <SidebarOrgHeader org={org} />
+                <div className={'flex py-5 px-2'}>
+                    <Image
+                        src="/logo-transparent.png"
+                        alt="Scordi logo"
+                        width={24}
+                        height={24}
+                        className="relative top-1 mr-1"
+                    />
+                    <div className="flex-1 px-2">
+                        <a className="text-lg font-bold" href={OrgHomeRoute.path(org.id)}>
+                            Scordi
+                        </a>
+                    </div>
+                </div>
 
                 <Sidebar.Menu>
                     <Sidebar.Menu.Item
@@ -49,45 +59,47 @@ const OrgMainLayout = ({org, children}: OrgMainLayoutProps) => {
                         iconTransform={false}
                     />
                     <Sidebar.Menu.Item
-                        text="멤버 관리"
-                        to={OrgMembershipIndexPageRoute.path(org.id)}
-                        selected={pathname.startsWith(OrgMembershipIndexPageRoute.pathname)}
-                        icon={() => <Icon.User />}
-                    />
-                    <Sidebar.Menu.Item
-                        text="설정"
-                        to={OrgShowRoute.path(org.id)}
-                        selected={pathname === OrgShowRoute.pathname}
-                        // icon={Icon2.Building}
-                        icon={() => <Icon.Settings />}
+                        text="피드백 보내기"
+                        blankTo={'https://oh8kq2gqq3y.typeform.com/to/ZF4C5sTK'}
+                        selected={false}
+                        icon={() => <Icon.Send />}
                         iconTransform={false}
                     />
+                    {/*<Sidebar.Menu.Item*/}
+                    {/*    text="멤버 관리"*/}
+                    {/*    to={OrgMembershipIndexPageRoute.path(org.id)}*/}
+                    {/*    selected={pathname.startsWith(OrgMembershipIndexPageRoute.pathname)}*/}
+                    {/*    icon={() => <Icon.User />}*/}
+                    {/*/>*/}
+                    {/*<Sidebar.Menu.Item*/}
+                    {/*    text="설정"*/}
+                    {/*    to={OrgShowRoute.path(org.id)}*/}
+                    {/*    selected={pathname === OrgShowRoute.pathname}*/}
+                    {/*    // icon={Icon2.Building}*/}
+                    {/*    icon={() => <Icon.Settings />}*/}
+                    {/*    iconTransform={false}*/}
+                    {/*/>*/}
                 </Sidebar.Menu>
             </Sidebar>
             <div className="flex-1 overflow-x-auto">
-                <AdminTopNav title="Scordi" />
+                <AdminTopNav />
                 {children}
-                <OrgMainLayoutFooter />
+                {/*<OrgMainLayoutFooter />*/}
             </div>
         </div>
     );
 };
 
-function SidebarOrgHeader({org}: {org: OrganizationDto}) {
+export function SidebarOrgHeader({orgName}: {orgName: string}) {
     return (
-        <div
-            className="flex items-center shadow"
-            style={{
-                padding: '0.75rem 0.5rem',
-            }}
-        >
+        <div className="flex items-center px-3">
             <div className="avatar placeholder inline-flex mr-2">
                 <div className="bg-neutral-focus text-neutral-content rounded w-10">
-                    <span className="font-bold">{org && org.name ? org.name[0] : '?'}</span>
+                    <span className="font-bold">{orgName}</span>
                 </div>
             </div>
             <div className="flex-1 h-full">
-                <p className="text-sm font-bold">{org.name}</p>
+                <p className="text-sm font-bold">{orgName}</p>
                 <p className="text-xs text-gray-500">Free</p>
             </div>
         </div>

@@ -1,14 +1,16 @@
 import {useRouter} from 'next/router';
 import {Icon} from './Icon';
-import {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import {UserDto} from '^types/user.type';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {removeToken} from '^api/api';
 import {UserLoginPageRoute} from '^pages/users/login';
 import {UserEditPageRoute} from '^pages/users/edit';
+import {SidebarOrgHeader} from '^layouts/org/mainLayout';
+import {PreLoader} from '^components/PreLoader';
 
 interface AdminHeaderProps {
-    title: string;
+    title?: string;
     back?: boolean;
     inputSpace?: any;
 }
@@ -28,14 +30,16 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({title, back, inputSpace
 
 const AdminTopNav: FC<AdminHeaderProps> = ({title, back, inputSpace}) => {
     const currentUser = useCurrentUser();
+    const [orgName, setOrgName] = React.useState<string>('');
 
+    useEffect(() => {
+        !!currentUser && setOrgName(currentUser.orgName);
+    }, [currentUser]);
+
+    if (!orgName) return <PreLoader />;
     return (
-        <div className="sticky top-0 navbar bg-white shadow z-10">
-            <div className="flex-1 px-2">
-                <a className="text-lg font-bold" href={'/'}>
-                    {title}
-                </a>
-            </div>
+        <div className="sticky top-0 navbar bg-white shadow z-10 flex justify-between">
+            <SidebarOrgHeader orgName={orgName} />
             <div className="flex-none gap-2">
                 <ProfileDropDown currentUser={currentUser} />
             </div>
@@ -61,7 +65,7 @@ const ProfileDropDown = ({currentUser}: {currentUser: UserDto | null}) => {
                     <>
                         <li>
                             <a className="justify-between" href={UserEditPageRoute.path()}>
-                                Profile
+                                내 정보 수정
                             </a>
                         </li>
                         {/*<li><a className="justify-between" href={``}>Settings</a></li>*/}
@@ -73,7 +77,7 @@ const ProfileDropDown = ({currentUser}: {currentUser: UserDto | null}) => {
                                     router.push(UserLoginPageRoute.path());
                                 }}
                             >
-                                Logout
+                                로그아웃
                             </a>
                         </li>
                     </>

@@ -63,7 +63,7 @@ const MobileTopBar = () => {
                 </a>
             </div>
             <div className={'flex space-x-4'}>
-                <Icon.Bell />
+                {/*<Icon.Bell />*/}
                 <Icon.User onClick={() => router.push(UserSettingsPageRoute.pathname)} />
             </div>
         </div>
