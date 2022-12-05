@@ -1,11 +1,10 @@
 import {AppIconButton} from '^components/AppIconButton';
 import {TextInput} from '^components/TextInput';
 import {DefaultButton} from '^components/Button';
-import {AddCompletePageRoute} from '^pages/apps/add/complete';
 import {useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
-import {LoginDto, LoginWithVerify, OrgItemDto} from '^types/crawler';
+import {CrawlerError, CrawlerErrors, LoginDto, LoginWithVerify, OrgItemDto} from '^types/crawler';
 import {useForm} from 'react-hook-form';
 import {
     getBillingHistoriesByCrawlerApi,
@@ -32,7 +31,7 @@ export const AddAuto = (props: AddAutoProps) => {
     const [proto, setProto] = useState<ApplicationPrototypeDto>();
     const loginForm = useForm<LoginDto | LoginWithVerify>();
     const [isFailed, setIsFailed] = useState(false);
-    const [verifyCodeRequired, setVerifyCodeRequired] = useState(false);
+    const [verifyCodeRequiredMSG, setVerifyCodeRequiredMSG] = useState('');
     const [orgListVisible, setOrgListVisible] = useState(false);
     const [orgList, setOrgList] = useState<OrgItemDto[]>([]);
 
@@ -47,11 +46,20 @@ export const AddAuto = (props: AddAutoProps) => {
     const logIntoService = (dto: LoginDto | LoginWithVerify) => {
         getOrganizationListByCrawlerApi(prototypeId, dto)
             .then((res) => {
-                setOrgList(res.data);
-                setOrgListVisible(true);
+                if (res.data instanceof Array) {
+                    setOrgList(res.data);
+                    setOrgListVisible(true);
+                } else {
+                    setIsFailed(true);
+                }
             })
-            .catch((e) => {
-                console.log(e);
+            .catch((e: CrawlerError) => {
+                const err = e.response.data;
+                if (err.code === CrawlerErrors.verifyRequest) {
+                    setVerifyCodeRequiredMSG(err.message);
+                } else if (err.code === CrawlerErrors.blocked) {
+                    toast.warning(`${err.message} - By ${proto!.name}`);
+                }
             });
     };
 
@@ -148,44 +156,45 @@ export const AddAuto = (props: AddAutoProps) => {
                 <AppIconButton name={props.appInfo.name} icon={props.appInfo.image} />
             </div>
 
-            <form onSubmit={loginForm.handleSubmit(logIntoService)}>
-                <TextInput
-                    label={'아이디'}
-                    type={'email'}
-                    required={true}
-                    placeholder={'아이디를 입력해주세요.'}
-                    {...loginForm.register('email', {required: true})}
-                />
-                <TextInput
-                    label={'비밀번호'}
-                    type={'password'}
-                    required={true}
-                    placeholder={'비밀번호를 입력해주세요.'}
-                    {...loginForm.register('password', {required: true})}
-                />
-                {verifyCodeRequired && (
-                    <TextInput
-                        label={`기기 인증 코드`}
-                        type={'text'}
-                        required={verifyCodeRequired}
-                        placeholder={'전송받은 인증코드를 입력해주세요.'}
-                        helpText={
-                            <span className="text-red-400">서비스에서 입력한 이메일로 인증코드를 보냈습니다.</span>
-                        }
-                        {...loginForm.register('verificationCode', {required: verifyCodeRequired})}
-                    />
-                )}
-
-                {/*<DefaultButton text={'연동 시작하기'} onClick={() => router.push(AddCompletePageRoute.pathname)} />*/}
-                <DefaultButton text={'연동 시작하기'} type={'submit'} />
-            </form>
             {isFailed ? (
                 <>
-                    <DefaultButton text={'다시 연동하기'} onClick={() => null} />
-                    <DefaultButton text={'다른 서비스 연동하기'} onClick={() => null} />
+                    <div className="mb-3">
+                        <DefaultButton text={'다시 연동하기'} onClick={() => router.reload()} />
+                    </div>
+                    <div className="mb-3">
+                        <DefaultButton text={'다른 서비스 연동하기'} onClick={() => null} color={'white'} />
+                    </div>
                 </>
             ) : (
-                <></>
+                <form onSubmit={loginForm.handleSubmit(logIntoService)}>
+                    <TextInput
+                        label={'아이디'}
+                        type={'email'}
+                        required={true}
+                        placeholder={'아이디를 입력해주세요.'}
+                        {...loginForm.register('email', {required: true})}
+                    />
+                    <TextInput
+                        label={'비밀번호'}
+                        type={'password'}
+                        required={true}
+                        placeholder={'비밀번호를 입력해주세요.'}
+                        {...loginForm.register('password', {required: true})}
+                    />
+                    {verifyCodeRequiredMSG && (
+                        <TextInput
+                            label={`기기 인증 코드`}
+                            type={'text'}
+                            required={true}
+                            placeholder={'전송받은 인증코드를 입력해주세요.'}
+                            helpText={<span className="text-red-400">{verifyCodeRequiredMSG}</span>}
+                            {...loginForm.register('verificationCode', {required: true})}
+                        />
+                    )}
+
+                    {/*<DefaultButton text={'연동 시작하기'} onClick={() => router.push(AddCompletePageRoute.pathname)} />*/}
+                    <DefaultButton text={'연동 시작하기'} type={'submit'} />
+                </form>
             )}
         </MobileViewContainer>
     );
