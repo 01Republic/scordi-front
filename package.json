@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build:staging": "./node_modules/.bin/env-cmd -f .env.staging next build",
+    "build:production": "./node_modules/.bin/env-cmd -f .env.production next build",
     "start": "next start",
     "lint": "next lint",
     "deploy:staging": "ssh payplo \"bash ~/deploy-staging.sh\"",
@@ -21,6 +22,7 @@
     "axios": "^0.27.2",
     "chart.js": "^3.9.1",
     "daisyui": "^2.19.0",
+    "env-cmd": "^10.1.0",
     "next": "12.2.2",
     "qs": "^6.11.0",
     "react": "18.2.0",
