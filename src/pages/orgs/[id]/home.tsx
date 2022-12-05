@@ -11,6 +11,7 @@ import {Icon} from '^components/Icon';
 import Calendar, {ViewCallbackProperties} from 'react-calendar';
 import {getDashboardCalendar, getDashboardSummary} from '^api/dashboard.api';
 import {DashboardDaySumDto, DashboardSummaryDto} from '^types/dashboard.type';
+import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const OrgHomeRoute: PageRoute = {
     pathname: '/orgs/[id]/home',
@@ -20,8 +21,8 @@ export const OrgHomeRoute: PageRoute = {
 export default function HomePage() {
     const router = useRouter();
     const organizationId = Number(router.query.id);
-    const [year] = useState(new Date().getFullYear());
-    const [month] = useState(new Date().getMonth() + 1);
+    const [year, setYear] = useState(router.query.y ? Number(router.query.y) : new Date().getFullYear());
+    const [month, setMonth] = useState(router.query.m ? Number(router.query.m) : new Date().getMonth() + 1);
     const [apps, setApps] = useState<ApplicationDto[]>([]);
     const [summaryDto, setSummaryDto] = useState<DashboardSummaryDto | null>(null);
     const [calendarData, setCalendarData] = useState<DashboardDaySumDto[] | null>([]);
@@ -30,22 +31,22 @@ export default function HomePage() {
         if (!organizationId) return;
 
         getApplications({where: {organizationId}, order: {id: 'DESC'}})
-            .then(({data}) => {
-                console.log(data.items);
-                setApps(data.items);
-            })
+            .then(({data}) => setApps(data.items))
             .catch(errorNotify);
 
         getDashboardSummary(year, month)
-            .then(({data}) => {
-                setSummaryDto(data);
-            })
+            .then(({data}) => setSummaryDto(data))
             .catch(errorNotify);
 
         getDashboardCalendar(year, month)
             .then(({data}) => setCalendarData(data))
             .catch(errorNotify);
-    }, [organizationId]);
+    }, [organizationId, year, month]);
+
+    useEffect(() => {
+        if (!!router.query.y) setYear(Number(router.query.y));
+        if (!!router.query.m) setMonth(Number(router.query.m));
+    }, [router.query]);
 
     if (!summaryDto) return null;
     return (
@@ -86,6 +87,13 @@ export default function HomePage() {
                         next2Label={null}
                         prev2Label={null}
                         showNeighboringMonth={false}
+                        onActiveStartDateChange={({activeStartDate}) =>
+                            router.replace(
+                                `${OrgHomeRoute.path(organizationId)}?y=${activeStartDate.getFullYear()}&m=${
+                                    activeStartDate.getMonth() + 1
+                                }`,
+                            )
+                        }
                     />
                 </div>
                 <div className={'flex-1 space-y-5'}>
