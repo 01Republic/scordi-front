@@ -7,6 +7,8 @@ import {toast} from 'react-toastify';
 import {UserLoginPageRoute} from '^pages/users/login';
 import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useRecoilState} from 'recoil';
+import {currentUserAtom} from '^pages/atoms/currentUser.atom';
 
 export const UserSettingsPageRoute = {
     pathname: '/users/settings',
@@ -15,7 +17,7 @@ export const UserSettingsPageRoute = {
 
 const Settings = () => {
     const router = useRouter();
-    const currentUser = useCurrentUser();
+    const [currentUser] = useRecoilState(currentUserAtom);
 
     const settingContents = [
         {name: '내 정보 수정', action: () => router.push(UserEditPageRoute.pathname)},

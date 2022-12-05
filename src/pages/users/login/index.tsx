@@ -12,6 +12,8 @@ import {PageRoute} from '^types/pageRoute.type';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {NewMembershipPath} from '^pages/memberships/new';
 import {DefaultButton} from '^components/Button';
+import {useRecoilState} from 'recoil';
+import {currentUserAtom} from '^pages/atoms/currentUser.atom';
 
 // NOTE: PATH 들은 인라인 문자열로 중복 작성하지 않고 한 곳에서 정의하고 유지했우면 하는데 묘수가 없을까.
 export const UserLoginPageRoute: PageRoute = {
@@ -36,16 +38,14 @@ export const redirectLoginPageIfNotSignedIn = (storage: Storage, router: NextRou
 
 const LoginPage = () => {
     const router = useRouter();
-    const currentUser = useCurrentUser();
+    const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
     const form = useForm<UserLoginRequestDto>();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // redirect home page if user already login
     useEffect(() => {
         console.log(currentUser);
-        setTimeout(() => {
-            redirectIfAlreadySignedIn(localStorage, router, currentUser);
-        }, 2000);
+        getUserSession().then((res) => setCurrentUser(res.data));
     }, [currentUser]);
 
     const login = (data: UserLoginRequestDto) => {
@@ -53,6 +53,7 @@ const LoginPage = () => {
             .then((res) => {
                 setToken(res.data.token);
                 getUserSession().then(({data}) => {
+                    setCurrentUser(data);
                     redirectIfAlreadySignedIn(localStorage, router, data);
                 });
             })

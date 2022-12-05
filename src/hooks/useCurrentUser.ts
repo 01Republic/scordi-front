@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import {UserDto} from '^types/user.type';
 import {getUserSession} from '^api/sessionApi';
+import {atom, useRecoilState} from 'recoil';
 
 export function useCurrentUser() {
     const [currentUser, setCurrentUser] = useState<UserDto | null>(null);

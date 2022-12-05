@@ -1,6 +1,6 @@
 import {OrganizationDto} from '^types/organizationTypes';
 import {PreLoader} from '^components/PreLoader';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useRouter} from 'next/router';
 import Link from 'next/link';
 import {Icon} from '^components/Icon';
@@ -9,6 +9,9 @@ import {UserSettingsPageRoute} from '^pages/users/settings';
 import {AppSearchPageRoute} from '^pages/apps/search';
 import Image from 'next/image';
 import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useRecoilState} from 'recoil';
+import {currentUserAtom} from '^pages/atoms/currentUser.atom';
+import {getUserSession} from '^api/sessionApi';
 
 type OrgMobileLayoutProps = {
     org: OrganizationDto | null;
@@ -17,7 +20,11 @@ type OrgMobileLayoutProps = {
 
 const OrgMobileLayout = ({org, children}: OrgMobileLayoutProps) => {
     const router = useRouter();
-    const currentUser = useCurrentUser();
+    const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
+
+    useEffect(() => {
+        getUserSession().then((res) => setCurrentUser(res.data));
+    }, []);
 
     if (!org) return <PreLoader />;
     return (

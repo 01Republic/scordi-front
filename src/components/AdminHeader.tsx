@@ -8,6 +8,8 @@ import {UserLoginPageRoute} from '^pages/users/login';
 import {UserEditPageRoute} from '^pages/users/edit';
 import {SidebarOrgHeader} from '^layouts/org/mainLayout';
 import {PreLoader} from '^components/PreLoader';
+import {useRecoilState} from 'recoil';
+import {currentUserAtom} from '^pages/atoms/currentUser.atom';
 
 interface AdminHeaderProps {
     title?: string;
@@ -29,7 +31,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({title, back, inputSpace
 };
 
 const AdminTopNav: FC<AdminHeaderProps> = ({title, back, inputSpace}) => {
-    const currentUser = useCurrentUser();
+    const [currentUser] = useRecoilState(currentUserAtom);
     const [orgName, setOrgName] = React.useState<string>('');
 
     useEffect(() => {

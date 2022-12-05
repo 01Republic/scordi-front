@@ -9,6 +9,8 @@ import {DefaultButton} from '^components/Button';
 import {UserDto, UserEditProfileRequestDto} from '^types/user.type';
 import {modifyUser} from '^api/sessionApi';
 import {toast} from 'react-toastify';
+import {useRecoilState} from 'recoil';
+import {currentUserAtom} from '^pages/atoms/currentUser.atom';
 
 export const UserEditPageRoute: PageRoute = {
     pathname: '/users/edit',
@@ -16,12 +18,13 @@ export const UserEditPageRoute: PageRoute = {
 };
 
 const UserEditPage = () => {
-    const currentUser = useCurrentUser();
+    const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
     const form = useForm<UserEditProfileRequestDto>();
 
     const UpdateUserHandler = () => {
-        modifyUser(form.getValues()).then(() => {
+        modifyUser(form.getValues()).then((res) => {
             toast.success('프로필이 수정되었습니다.');
+            setCurrentUser(res.data);
         });
     };
 

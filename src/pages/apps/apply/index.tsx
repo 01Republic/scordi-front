@@ -4,6 +4,8 @@ import {AppSearchPageRoute} from '^pages/apps/search';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
+import {useRecoilState} from 'recoil';
+import {currentUserAtom} from '^pages/atoms/currentUser.atom';
 
 export const ApplyPageRoute = {
     pathname: '/apps/apply',
@@ -12,7 +14,7 @@ export const ApplyPageRoute = {
 
 const ApplyPage = () => {
     const router = useRouter();
-    const currentUser = useCurrentUser();
+    const [currentUser] = useRecoilState(currentUserAtom);
 
     return (
         <div className={'px-[20px] py-[140px]'}>

@@ -4,10 +4,13 @@ import '../styles/globals.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/dashboard-calendar.css';
 import type {AppProps} from 'next/app';
-import {Fragment} from 'react';
+import {Fragment, useEffect} from 'react';
 import Head from 'next/head';
 import {ToastContainer, Slide, Zoom} from 'react-toastify';
 import type {Page} from '^types/page';
+import {RecoilRoot, useRecoilState} from 'recoil';
+import {currentUserAtom} from '^pages/atoms/currentUser.atom';
+import {getUserSession} from '^api/sessionApi';
 
 // this should give a better typing
 type Props = AppProps & {
@@ -20,7 +23,7 @@ function MyApp({Component, pageProps}: Props) {
     const Layout = Component.layout ?? Fragment;
 
     return (
-        <>
+        <RecoilRoot>
             <Head>
                 <title>Scordi | 똑똑한 팀을 위한 SaaS 관리 솔루션</title>
                 <meta
@@ -43,7 +46,7 @@ function MyApp({Component, pageProps}: Props) {
                 theme="dark"
                 transition={Slide}
             />
-        </>
+        </RecoilRoot>
     );
 }
 

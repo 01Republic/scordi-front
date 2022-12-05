@@ -13,6 +13,9 @@ import {Icon} from '^components/Icon';
 import {isMobile} from 'react-device-detect';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 import Image from 'next/image';
+import {RecoilRoot, useRecoilState} from 'recoil';
+import {currentUserAtom} from '^pages/atoms/currentUser.atom';
+import {getUserSession} from '^api/sessionApi';
 
 interface OrgMainLayoutProps {
     org: OrganizationDto | null;
@@ -21,7 +24,11 @@ interface OrgMainLayoutProps {
 
 const OrgMainLayout = ({org, children}: OrgMainLayoutProps) => {
     const {pathname, push} = useRouter();
-    const currentUser = useCurrentUser();
+    const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
+
+    useEffect(() => {
+        getUserSession().then((res) => setCurrentUser(res.data));
+    }, []);
 
     return (
         <div className="flex h-screen">
@@ -143,7 +150,6 @@ export default OrgMainLayout;
 
 export function getOrgMainLayout(page: ReactElement) {
     const router = useRouter();
-    const currentUser = useCurrentUser();
     const {id: orgId} = router.query;
     const {currentOrg} = useCurrentOrg(Number(orgId));
     const org =
@@ -157,9 +163,13 @@ export function getOrgMainLayout(page: ReactElement) {
         isMobile && setMobileView(true);
     }, [isMobile]);
 
-    return mobileView ? (
-        <OrgMobileLayout org={org}>{page}</OrgMobileLayout>
-    ) : (
-        <OrgMainLayout org={org}>{page}</OrgMainLayout>
+    return (
+        <>
+            {mobileView ? (
+                <OrgMobileLayout org={org}>{page}</OrgMobileLayout>
+            ) : (
+                <OrgMainLayout org={org}>{page}</OrgMainLayout>
+            )}
+        </>
     );
 }
