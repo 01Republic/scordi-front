@@ -41,6 +41,7 @@
     "react-toastify": "^9.0.8",
     "recoil": "^0.7.6",
     "sass": "^1.54.8",
+    "sharp": "^0.31.2",
     "styled-components": "^5.3.5"
   },
   "devDependencies": {
