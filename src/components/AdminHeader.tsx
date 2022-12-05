@@ -9,7 +9,7 @@ import {UserEditPageRoute} from '^pages/users/edit';
 import {SidebarOrgHeader} from '^layouts/org/mainLayout';
 import {PreLoader} from '^components/PreLoader';
 import {useRecoilState} from 'recoil';
-import {currentUserAtom} from '^pages/atoms/currentUser.atom';
+import {currentUserAtom} from '^atoms/currentUser.atom';
 
 interface AdminHeaderProps {
     title?: string;

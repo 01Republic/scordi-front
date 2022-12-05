@@ -13,7 +13,7 @@ import {getDashboardCalendar, getDashboardSummary} from '^api/dashboard.api';
 import {DashboardDaySumDto, DashboardSummaryDto} from '^types/dashboard.type';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {useRecoilState} from 'recoil';
-import {currentUserAtom} from '^pages/atoms/currentUser.atom';
+import {currentUserAtom} from '^atoms/currentUser.atom';
 
 export const OrgHomeRoute: PageRoute = {
     pathname: '/orgs/[id]/home',

@@ -5,7 +5,7 @@ import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {useRecoilState} from 'recoil';
-import {currentUserAtom} from '^pages/atoms/currentUser.atom';
+import {currentUserAtom} from '^atoms/currentUser.atom';
 
 export const ApplyPageRoute = {
     pathname: '/apps/apply',

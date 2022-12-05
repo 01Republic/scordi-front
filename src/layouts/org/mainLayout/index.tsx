@@ -14,7 +14,7 @@ import {isMobile} from 'react-device-detect';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 import Image from 'next/image';
 import {RecoilRoot, useRecoilState} from 'recoil';
-import {currentUserAtom} from '^pages/atoms/currentUser.atom';
+import {currentUserAtom} from '^atoms/currentUser.atom';
 import {getUserSession} from '^api/sessionApi';
 
 interface OrgMainLayoutProps {

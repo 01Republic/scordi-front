@@ -10,7 +10,7 @@ import {AppSearchPageRoute} from '^pages/apps/search';
 import Image from 'next/image';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {useRecoilState} from 'recoil';
-import {currentUserAtom} from '^pages/atoms/currentUser.atom';
+import {currentUserAtom} from '^atoms/currentUser.atom';
 import {getUserSession} from '^api/sessionApi';
 
 type OrgMobileLayoutProps = {

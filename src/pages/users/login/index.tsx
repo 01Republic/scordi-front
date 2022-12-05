@@ -13,7 +13,7 @@ import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {NewMembershipPath} from '^pages/memberships/new';
 import {DefaultButton} from '^components/Button';
 import {useRecoilState} from 'recoil';
-import {currentUserAtom} from '^pages/atoms/currentUser.atom';
+import {currentUserAtom} from '^atoms/currentUser.atom';
 
 // NOTE: PATH 들은 인라인 문자열로 중복 작성하지 않고 한 곳에서 정의하고 유지했우면 하는데 묘수가 없을까.
 export const UserLoginPageRoute: PageRoute = {

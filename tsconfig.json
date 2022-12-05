@@ -19,6 +19,7 @@
       "^hooks/*": ["./src/hooks/*"],
       "^layouts/*": ["./src/layouts/*"],
       "^components/*": ["./src/components/*"],
+      "^atoms/*": ["./src/atoms/*"],
       "^pages/*": ["./src/pages/*"],
       "^api/*": ["./src/api/*"],
       "^styles/*": ["./src/styles/*"],

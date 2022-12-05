@@ -9,7 +9,7 @@ import Head from 'next/head';
 import {ToastContainer, Slide, Zoom} from 'react-toastify';
 import type {Page} from '^types/page';
 import {RecoilRoot, useRecoilState} from 'recoil';
-import {currentUserAtom} from '^pages/atoms/currentUser.atom';
+import {currentUserAtom} from '^atoms/currentUser.atom';
 import {getUserSession} from '^api/sessionApi';
 
 // this should give a better typing

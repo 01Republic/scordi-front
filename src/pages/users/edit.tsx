@@ -10,7 +10,7 @@ import {UserDto, UserEditProfileRequestDto} from '^types/user.type';
 import {modifyUser} from '^api/sessionApi';
 import {toast} from 'react-toastify';
 import {useRecoilState} from 'recoil';
-import {currentUserAtom} from '^pages/atoms/currentUser.atom';
+import {currentUserAtom} from '^atoms/currentUser.atom';
 
 export const UserEditPageRoute: PageRoute = {
     pathname: '/users/edit',

@@ -8,7 +8,7 @@ import {UserLoginPageRoute} from '^pages/users/login';
 import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {useRecoilState} from 'recoil';
-import {currentUserAtom} from '^pages/atoms/currentUser.atom';
+import {currentUserAtom} from '^atoms/currentUser.atom';
 
 export const UserSettingsPageRoute = {
     pathname: '/users/settings',

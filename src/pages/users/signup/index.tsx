@@ -15,7 +15,7 @@ import {WelcomePageRoute} from '^pages/users/signup/welcome';
 import Link from 'next/link';
 import {toast} from 'react-toastify';
 import {useRecoilState} from 'recoil';
-import {currentUserAtom} from '^pages/atoms/currentUser.atom';
+import {currentUserAtom} from '^atoms/currentUser.atom';
 
 export const UserSignUpPageRoute: PageRoute = {
     pathname: '/users/signup',

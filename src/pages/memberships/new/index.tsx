@@ -14,7 +14,7 @@ import {PageRoute} from '^types/pageRoute.type';
 import {OrgSettingsLayout} from '^layouts/org/settingsLayout';
 import {toast} from 'react-toastify';
 import {useRecoilState} from 'recoil';
-import {currentUserAtom} from '^pages/atoms/currentUser.atom';
+import {currentUserAtom} from '^atoms/currentUser.atom';
 
 const createMembershipRequest = (org: OrganizationDto, user: UserDto, level: MembershipLevel, router: NextRouter) => {
     createMembership({
