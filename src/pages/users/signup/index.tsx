@@ -30,7 +30,7 @@ const SignUp = () => {
 
     // redirect home page if user already login
     useEffect(() => {
-        redirectIfAlreadySignedIn(localStorage, router, currentUser);
+        // redirectIfAlreadySignedIn(localStorage, router, currentUser);
     }, [currentUser]);
 
     const signUpComplete = (data: UserSignUpRequestDto) => {
