@@ -50,7 +50,7 @@ const LandingPage1: NextPage = () => {
                                     <br />
                                     민감한 데이터에 액세스할 수 있는 퇴사자 까지.
                                     <br />
-                                    <b>SaaS 관리는 정말 어렵지만, Payplo와 함께라면 쉽습니다.</b>
+                                    <b>SaaS 관리는 정말 어렵지만, Scordi와 함께라면 쉽습니다.</b>
                                 </p>
                                 {/* mobile */}
                                 <p className="text-lg py-6 block md:hidden" style={{lineHeight: 1.7}}>
