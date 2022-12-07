@@ -1,5 +1,5 @@
 import {useRouter} from 'next/router';
-import {MobileTopNav} from '^components/MobileTopNav';
+import {MobileTopNav, MobileViewContainer} from '^components/MobileTopNav';
 import {SummaryListItem} from '^components/summaryListItem';
 import {useEffect, useState} from 'react';
 import {getDashboardSummary} from '^api/dashboard.api';
@@ -34,7 +34,7 @@ const SummaryPage = () => {
     }
 
     return (
-        <>
+        <MobileViewContainer>
             <MobileTopNav title={'상세보기'} />
             <div className={'px-[20px] py-[40px]'}>
                 <p>이번달 총 비용</p>
@@ -53,7 +53,7 @@ const SummaryPage = () => {
                     value={`USD ${summaryDto.totalOnThisYear.toLocaleString()}`}
                 />
             </div>
-        </>
+        </MobileViewContainer>
     );
 };
 

@@ -57,7 +57,7 @@ const OrgMainLayout = ({org, children}: OrgMainLayoutProps) => {
                         icon={() => <Icon.Home />}
                     />
                     <Sidebar.Menu.Item
-                        text="등록한 서비스"
+                        text="연동한 서비스"
                         to={OrgAppsIndexPageRoute.path(currentUser?.orgId)}
                         selected={pathname.startsWith(OrgAppsIndexPageRoute.pathname)}
                         icon={() => <Icon.Folder />}

@@ -1,7 +1,7 @@
 import {ContentLayout} from '^layouts/ContentLayout';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {PageRoute} from '^types/pageRoute.type';
-import {ContentHeading, ContentHeadingSecondaryButton,} from '^layouts/ContentLayout/ContentHeading';
+import {ContentHeading, ContentHeadingSecondaryButton} from '^layouts/ContentLayout/ContentHeading';
 import React, {useCallback, useEffect, useState} from 'react';
 import {ContentPanel} from '^layouts/ContentLayout/ContentPanel';
 import {
@@ -25,8 +25,7 @@ import {OrgAddAppInfoPageRoute} from '^pages/orgs/[id]/apps/new/[appId]/informat
 
 export const OrgApplicationSelectPageRoute: PageRoute = {
     pathname: '/orgs/[id]/apps/new/select',
-    path: (orgId: number) =>
-        OrgApplicationSelectPageRoute.pathname.replace('[id]', String(orgId)),
+    path: (orgId: number) => OrgApplicationSelectPageRoute.pathname.replace('[id]', String(orgId)),
 };
 
 export default function OrgApplicationSelectPage() {
@@ -36,15 +35,10 @@ export default function OrgApplicationSelectPage() {
     const [myApps, setMyApps] = useState<ApplicationDto[]>([]);
     const [prototypes, setPrototypes] = useState<ApplicationPrototypeDto[]>([]);
     const [categories, setCategories] = useState<ApplicationTagDto[]>([]);
-    const [selectedCategory, setSelectedCategory] =
-        useState<ApplicationTagDto | null>(null);
+    const [selectedCategory, setSelectedCategory] = useState<ApplicationTagDto | null>(null);
     const form = useForm<SearchAppPrototypeForm>();
 
-    const fetchApplicationPrototypes = ({
-                                            page = 1,
-                                            itemsPerPage = 30,
-                                            ...params
-                                        }: FindAllAppPrototypeQuery) => {
+    const fetchApplicationPrototypes = ({page = 1, itemsPerPage = 30, ...params}: FindAllAppPrototypeQuery) => {
         setIsLoading(true);
         getApplicationPrototypes(params)
             .then(({data}) => {
@@ -100,33 +94,23 @@ export default function OrgApplicationSelectPage() {
 
     return (
         <ContentLayout>
-            <ContentHeading title="어떤 서비스를 등록하시겠어요?">
-                <ContentHeadingSecondaryButton
-                    className="gap-2"
-                    onClick={() => router.back()}
-                >
-                    <IoArrowBack/> Back
+            <ContentHeading title="어떤 서비스를 연동하시겠어요?">
+                <ContentHeadingSecondaryButton className="gap-2" onClick={() => router.back()}>
+                    <IoArrowBack /> Back
                 </ContentHeadingSecondaryButton>
             </ContentHeading>
 
             <div className="mb-5 shadow rounded-lg">
-                <SearchInput
-                    onSubmit={() => form.handleSubmit(searchHandler)}
-                    register={form.register('name')}
-                />
+                <SearchInput onSubmit={() => form.handleSubmit(searchHandler)} register={form.register('name')} />
             </div>
 
             <ContentPanel>
                 <div className="bs-row mx-0 pt-3">
                     <div className="bs-col px-0">
-                        <div
-                            className={`bs-row mx-0 ${
-                                isLoading || prototypes.length <= 0 ? 'h-full' : ''
-                            }`}
-                        >
+                        <div className={`bs-row mx-0 ${isLoading || prototypes.length <= 0 ? 'h-full' : ''}`}>
                             {isLoading && (
                                 <div className="w-full min-h-[12rem]">
-                                    <PreLoader screenSize={false}/>
+                                    <PreLoader screenSize={false} />
                                 </div>
                             )}
 
@@ -138,9 +122,7 @@ export default function OrgApplicationSelectPage() {
                                         alt="Result not found."
                                     />
                                     <div>
-                                        <p className="text-gray-400 font-bold text-2xl">
-                                            결과가 없습니다 :(
-                                        </p>
+                                        <p className="text-gray-400 font-bold text-2xl">결과가 없습니다 :(</p>
                                     </div>
                                 </div>
                             )}
@@ -166,8 +148,7 @@ export default function OrgApplicationSelectPage() {
                             <p className="text-lg font-bold mb-2 px-3.5">Categories</p>
                             <ul className="menu menu-compact flex flex-col p-0">
                                 {categories.map((category) => {
-                                    const active =
-                                        selectedCategory && selectedCategory.id === category.id;
+                                    const active = selectedCategory && selectedCategory.id === category.id;
                                     return (
                                         <li key={category.id}>
                                             <a
@@ -196,11 +177,7 @@ interface SelectablePrototypeCardProps {
     onClick: (input: HTMLInputElement) => any;
 }
 
-function SelectablePrototypeCard({
-                                     proto,
-                                     selectable,
-                                     onClick,
-                                 }: SelectablePrototypeCardProps) {
+function SelectablePrototypeCard({proto, selectable, onClick}: SelectablePrototypeCardProps) {
     const id = `SelectablePrototype-${proto.id}`;
 
     const isReady = (() => {
@@ -225,7 +202,7 @@ function SelectablePrototypeCard({
 
     return (
         <div className="bs-col-6 sm:bs-col-6 lg:bs-col-3 xl:bs-col-2-of-10 mb-4">
-            <input id={id} type="radio" className="hidden" defaultValue={proto.id}/>
+            <input id={id} type="radio" className="hidden" defaultValue={proto.id} />
             <label htmlFor={id} onClick={labelClickHandler}>
                 <div
                     className={`w-full h-full rounded-xl border cursor-pointer ${
@@ -234,11 +211,7 @@ function SelectablePrototypeCard({
                 >
                     <div className="card p-3">
                         <figure className="pt-2 text-center mb-3">
-                            <img
-                                src={proto.image}
-                                alt={`${proto.name} Logo`}
-                                className="w-[42px]"
-                            />
+                            <img src={proto.image} alt={`${proto.name} Logo`} className="w-[42px]" />
                         </figure>
                         <div className="card-body items-center text-center p-0">
                             <h3 className="card-title text-sm text-gray-600">{proto.name}</h3>
@@ -246,13 +219,9 @@ function SelectablePrototypeCard({
                             {isReady && selectable ? (
                                 <button className="btn btn-xs btn-success">Add</button>
                             ) : !isReady ? (
-                                <button className="btn btn-xs btn-secondary btn-disabled">
-                                    Coming Soon
-                                </button>
+                                <button className="btn btn-xs btn-secondary btn-disabled">Coming Soon</button>
                             ) : (
-                                <button className="btn btn-xs btn-success btn-disabled">
-                                    Added
-                                </button>
+                                <button className="btn btn-xs btn-success btn-disabled">Added</button>
                             )}
                         </div>
                     </div>

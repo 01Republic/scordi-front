@@ -25,7 +25,7 @@ export const ServiceSuggestList: React.FC<ServiceSuggestListProps> = ({title, se
                             key={index}
                         >
                             <AppIconButton
-                                name={item.name + `${myApp ? ' (등록됨)' : ''}`}
+                                name={item.name + `${myApp ? ' (연동됨)' : ''}`}
                                 icon={item.image}
                                 onClick={() => onClick(item)}
                             />
