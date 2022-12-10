@@ -55,7 +55,7 @@ export default function HomePage() {
     return (
         <ContentLayout>
             <div className="space-y-5 lg:flex">
-                <MobileViewContainer>
+                <div className={'lg:max-w-[600px]'}>
                     <div className={'flex-1 space-y-5 lg:pr-5'}>
                         <h2 className="text-24 font-semibold">{apps.length}개의 서비스가 연동되었어요!</h2>
 
@@ -100,13 +100,13 @@ export default function HomePage() {
                             }
                         />
                     </div>
-                </MobileViewContainer>
-                <MobileViewContainer>
+                </div>
+                <div className={'lg:max-w-[600px]'}>
                     <div className={'flex-1 space-y-5'}>
                         {/* TODO: 여기에 앱을 넣을 게 아니라, 결제예측 모델을 개발하고 예측목록을 넣어야 할 듯. 호출도 월간으로 쿼리 할 수 있는 예측 컨트롤러가 필요. */}
                         <BillingListMobile summaryDto={summaryDto} apps={apps} year={year} month={month} />
                     </div>
-                </MobileViewContainer>
+                </div>
             </div>
         </ContentLayout>
     );
