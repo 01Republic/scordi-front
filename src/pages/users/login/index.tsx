@@ -44,8 +44,16 @@ const LoginPage = () => {
 
     // redirect home page if user already login
     useEffect(() => {
-        console.log(currentUser);
-        getUserSession().then((res) => setCurrentUser(res.data));
+        const token = getToken();
+        if (!!token) {
+            getUserSession().then((res) => setCurrentUser(res.data));
+        }
+    }, []);
+
+    useEffect(() => {
+        if (currentUser.orgId) {
+            router.push(OrgHomeRoute.path(currentUser.orgId));
+        }
     }, [currentUser]);
 
     const login = (data: UserLoginRequestDto) => {
