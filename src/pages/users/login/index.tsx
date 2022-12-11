@@ -4,7 +4,7 @@ import Link from 'next/link';
 import {NextRouter, useRouter} from 'next/router';
 import {TextInput} from '^components/TextInput';
 import {Modal} from '^components/Modal';
-import {getUserSession, postUserSession} from '^api/sessionApi';
+import {getUserSession, postUserSession} from '^api/session.api';
 import {UserDto, UserLoginRequestDto} from '^types/user.type';
 import {getToken, setToken} from '^api/api';
 import {useCurrentUser} from '^hooks/useCurrentUser';

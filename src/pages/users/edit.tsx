@@ -7,7 +7,7 @@ import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {MobileTopNav, MobileViewContainer} from '^components/MobileTopNav';
 import {DefaultButton} from '^components/Button';
 import {UserDto, UserEditProfileRequestDto} from '^types/user.type';
-import {modifyUser} from '^api/sessionApi';
+import {modifyUser} from '^api/session.api';
 import {toast} from 'react-toastify';
 import {useRecoilState} from 'recoil';
 import {currentUserAtom} from '^atoms/currentUser.atom';

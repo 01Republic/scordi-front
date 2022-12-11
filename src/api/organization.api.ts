@@ -1,10 +1,10 @@
-import {api} from "./api";
+import {api} from './api';
 import {
     CreateOrganizationRequestDto,
     OrganizationDto,
     SearchOrgQueryDto,
     UpdateOrganizationRequestDto,
-} from '^types/organizationTypes';
+} from '^types/organization.type';
 
 // export const postUserSession = (data: UserLoginRequestDto) => {
 //     return api.post<JwtContainer>('/users/session', data)
@@ -41,4 +41,4 @@ export const updateOrganization = (id: number, data: UpdateOrganizationRequestDt
 
 export const destroyOrganization = (id: number) => {
     return api.delete<Omit<OrganizationDto, 'id'>>(`/organizations/${id}`);
-}
+};

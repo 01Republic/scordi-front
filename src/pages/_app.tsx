@@ -10,7 +10,7 @@ import {ToastContainer, Slide, Zoom} from 'react-toastify';
 import type {Page} from '^types/page';
 import {RecoilRoot, useRecoilState} from 'recoil';
 import {currentUserAtom} from '^atoms/currentUser.atom';
-import {getUserSession} from '^api/sessionApi';
+import {getUserSession} from '^api/session.api';
 
 // this should give a better typing
 type Props = AppProps & {

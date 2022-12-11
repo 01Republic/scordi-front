@@ -1,5 +1,5 @@
 import {MouseEvent} from 'react';
-import {WithChildren} from '^types/globalTypes';
+import {WithChildren} from '^types/global.type';
 import {DefaultButton} from '^components/Button';
 
 export type ModalProps = {
@@ -18,9 +18,7 @@ export const Modal = (props: ModalProps) => {
     return (
         <>
             <div
-                className={`modal modal-bottom sm:modal-middle ${
-                    props.isOpen && 'modal-open'
-                }`}
+                className={`modal modal-bottom sm:modal-middle ${props.isOpen && 'modal-open'}`}
                 onClick={(e) => {
                     const target = e.target as Element;
                     if (props.backdrop && target.classList.contains('modal')) {
@@ -29,12 +27,8 @@ export const Modal = (props: ModalProps) => {
                 }}
             >
                 <div className="modal-box">
-                    {props.title && (
-                        <h3 className="font-bold text-lg">{props.title}</h3>
-                    )}
-                    {props.description && (
-                        <p className="py-4">{props.description}</p>
-                    )}
+                    {props.title && <h3 className="font-bold text-lg">{props.title}</h3>}
+                    {props.description && <p className="py-4">{props.description}</p>}
                     {props.children}
                     {props.buttons && (
                         <ModalActionWrapper>
@@ -60,13 +54,7 @@ export interface ModalActionButtonProps extends WithChildren {
     disabled?: boolean;
 }
 
-export function ModalActionButton({
-    text,
-    onClick,
-    children,
-    className = '',
-    ...props
-}: ModalActionButtonProps) {
+export function ModalActionButton({text, onClick, children, className = '', ...props}: ModalActionButtonProps) {
     return (
         <DefaultButton text={text || ''} onClick={onClick} />
         // <button className={`btn ${className}`} onClick={onClick} {...props}>

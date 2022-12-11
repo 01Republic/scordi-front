@@ -1,5 +1,5 @@
 import {ApplicationDto} from '^types/application.type';
-import {OrganizationDto} from '^types/organizationTypes';
+import {OrganizationDto} from '^types/organization.type';
 
 export type BillingScheduleShallowDto = {
     organizationId: number;

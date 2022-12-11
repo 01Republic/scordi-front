@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
 import {TextInput} from '^components/TextInput';
-import {postUser, postUserSession} from '^api/sessionApi';
+import {postUser, postUserSession} from '^api/session.api';
 import {UserSignUpRequestDto} from '^types/user.type';
 import {redirectIfAlreadySignedIn} from '^pages/users/login';
 import {setToken} from '^api/api';

@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import styles from './index.module.css';
 import {ContentHeading} from './ContentHeading';
-import {WithChildren} from '^types/globalTypes';
+import {WithChildren} from '^types/global.type';
 
 export const ContentLayout: FC<
     WithChildren & {

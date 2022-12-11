@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {UserDto} from '^types/user.type';
-import {getUserSession} from '^api/sessionApi';
+import {getUserSession} from '^api/session.api';
 import {atom, useRecoilState} from 'recoil';
 
 export function useCurrentUser() {

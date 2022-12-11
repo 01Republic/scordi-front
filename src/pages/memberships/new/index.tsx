@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import {NextRouter, useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
-import {createOrganization, searchOrganizations} from '^api/organizationApi';
-import {createMembership} from '^api/membershipApi';
+import {createOrganization, searchOrganizations} from '^api/organization.api';
+import {createMembership} from '^api/membership.api';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {errorNotify} from '^utils/toast-notify';
 import {TextInputLg} from '^components/TextInput';
-import {OrganizationDto, SearchOrgQueryDto} from '^types/organizationTypes';
-import {MembershipLevel} from '^types/membershipTypes';
+import {OrganizationDto, SearchOrgQueryDto} from '^types/organization.type';
+import {MembershipLevel} from '^types/membership.type';
 import {UserDto} from '^types/user.type';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {PageRoute} from '^types/pageRoute.type';

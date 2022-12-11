@@ -1,6 +1,6 @@
 import {Sidebar} from '^components/Sidebar';
 import {useRouter} from 'next/router';
-import {OrganizationDto} from '^types/organizationTypes';
+import {OrganizationDto} from '^types/organization.type';
 import {PreLoader} from '^components/PreLoader';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
@@ -15,7 +15,7 @@ import OrgMobileLayout from '^layouts/org/mobileLayout';
 import Image from 'next/image';
 import {RecoilRoot, useRecoilState} from 'recoil';
 import {currentUserAtom} from '^atoms/currentUser.atom';
-import {getUserSession} from '^api/sessionApi';
+import {getUserSession} from '^api/session.api';
 
 interface OrgMainLayoutProps {
     org: OrganizationDto | null;

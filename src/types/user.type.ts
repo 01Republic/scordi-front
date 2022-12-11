@@ -1,44 +1,44 @@
-import { CreateOrganizationRequestDto, OrganizationDto } from '^types/organizationTypes';
-import { MembershipDto } from '^types/membershipTypes';
+import {CreateOrganizationRequestDto, OrganizationDto} from '^types/organization.type';
+import {MembershipDto} from '^types/membership.type';
 
 export type UserSignUpRequestDto = {
-  name: string;
-  phone: string;
-  orgName: string;
-  email: string;
-  password: string;
-  passwordConfirmation: string;
-  isAgreeForServiceUsageTerm: boolean;
-  isAgreeForPrivacyPolicyTerm: boolean;
+    name: string;
+    phone: string;
+    orgName: string;
+    email: string;
+    password: string;
+    passwordConfirmation: string;
+    isAgreeForServiceUsageTerm: boolean;
+    isAgreeForPrivacyPolicyTerm: boolean;
 };
 
 export type UserDto = {
-  id: number;
-  name: string;
-  phone: string;
-  orgId: number;
-  orgName: string;
-  email: string;
-  serviceUsageTermAgreedAt: string;
-  privacyPolicyTermAgreedAt: string;
-  createdAt: string;
-  updatedAt: string;
+    id: number;
+    name: string;
+    phone: string;
+    orgId: number;
+    orgName: string;
+    email: string;
+    serviceUsageTermAgreedAt: string;
+    privacyPolicyTermAgreedAt: string;
+    createdAt: string;
+    updatedAt: string;
 };
 
 export type UserLoginRequestDto = {
-  email: string;
-  password: string;
+    email: string;
+    password: string;
 };
 
 export type JwtContainer = {
-  token: string;
+    token: string;
 };
 
 export type UserEditProfileRequestDto = {
-  name?: string;
-  phone?: string;
-  email?: string;
-  orgName?: string;
-  password?: string;
-  passwordConfirmation?: string;
-}
+    name?: string;
+    phone?: string;
+    email?: string;
+    orgName?: string;
+    password?: string;
+    passwordConfirmation?: string;
+};

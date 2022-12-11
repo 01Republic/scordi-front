@@ -1,4 +1,4 @@
-import {OrganizationDto} from '^types/organizationTypes';
+import {OrganizationDto} from '^types/organization.type';
 import {PreLoader} from '^components/PreLoader';
 import React, {useEffect} from 'react';
 import {useRouter} from 'next/router';
@@ -11,7 +11,7 @@ import Image from 'next/image';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {useRecoilState} from 'recoil';
 import {currentUserAtom} from '^atoms/currentUser.atom';
-import {getUserSession} from '^api/sessionApi';
+import {getUserSession} from '^api/session.api';
 
 type OrgMobileLayoutProps = {
     org: OrganizationDto | null;
