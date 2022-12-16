@@ -3,22 +3,19 @@ import '../styles/grid.scss';
 import '../styles/globals.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/dashboard-calendar.css';
-import type {AppProps} from 'next/app';
 import {Fragment} from 'react';
 import Head from 'next/head';
 import {ToastContainer, Slide} from 'react-toastify';
-import type {Page} from '^types/page';
+import type {Props} from '^types/page';
 import {RecoilRoot} from 'recoil';
+import {accessLog2} from '^utils/log';
 
-// this should give a better typing
-type Props = AppProps & {
-    Component: Page;
-};
-
-function MyApp({Component, pageProps}: Props) {
+function MyApp(props: Props) {
+    const {Component, pageProps} = props;
     // adjust accordingly if you disabled a layout rendering option
     const getLayout = Component.getLayout ?? ((page) => page);
     const Layout = Component.layout ?? Fragment;
+    accessLog2(props);
 
     return (
         <RecoilRoot>
