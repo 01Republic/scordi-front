@@ -4,13 +4,11 @@ import '../styles/globals.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/dashboard-calendar.css';
 import type {AppProps} from 'next/app';
-import {Fragment, useEffect} from 'react';
+import {Fragment} from 'react';
 import Head from 'next/head';
-import {ToastContainer, Slide, Zoom} from 'react-toastify';
+import {ToastContainer, Slide} from 'react-toastify';
 import type {Page} from '^types/page';
-import {RecoilRoot, useRecoilState} from 'recoil';
-import {currentUserAtom} from '^atoms/currentUser.atom';
-import {getUserSession} from '^api/session.api';
+import {RecoilRoot} from 'recoil';
 
 // this should give a better typing
 type Props = AppProps & {
