@@ -7,15 +7,18 @@
 }
 .react-calendar--doubleView {
   width: 700px;
+
+  .react-calendar__viewContainer {
+    display: flex;
+    margin: -0.5em;
+
+    & > * {
+      width: 50%;
+      margin: 0.5em;
+    }
+  }
 }
-.react-calendar--doubleView .react-calendar__viewContainer {
-  display: flex;
-  margin: -0.5em;
-}
-.react-calendar--doubleView .react-calendar__viewContainer > * {
-  width: 50%;
-  margin: 0.5em;
-}
+
 .react-calendar,
 .react-calendar *,
 .react-calendar *:before,
@@ -33,34 +36,40 @@
   margin: 0;
   border: 0;
   outline: none;
-}
-.react-calendar button:enabled:hover {
-  cursor: pointer;
+
+  &:enabled:hover {
+    cursor: pointer;
+  }
 }
 .react-calendar__navigation {
   display: flex;
   height: 44px;
   margin-bottom: 1em;
-}
-.react-calendar__navigation button {
-  min-width: 44px;
-  background: none;
-}
-.react-calendar__navigation button:disabled {
-  background-color: #f0f0f0;
-}
-.react-calendar__navigation button:enabled:hover,
-.react-calendar__navigation button:enabled:focus {
-  background-color: transparent;
+
+  button {
+    min-width: 44px;
+    background: none;
+
+    &:disabled {
+      background-color: #f0f0f0;
+    }
+    &:enabled {
+      &:hover,
+      &:focus {
+        background-color: transparent;
+      }
+    }
+  }
 }
 .react-calendar__month-view__weekdays {
   text-align: center;
   text-transform: uppercase;
   font-weight: bold;
   font-size: 0.75em;
-}
-.react-calendar__month-view__weekdays__weekday {
-  padding: 0.5em;
+
+  &__weekday {
+    padding: 0.5em 0 1.25em;
+  }
 }
 .react-calendar__month-view__weekNumbers .react-calendar__tile {
   display: flex;
@@ -80,53 +89,93 @@
 .react-calendar__century-view .react-calendar__tile {
   padding: 2em 0.5em;
 }
+
 .react-calendar__tile {
   max-width: 100%;
-  padding: 10px 6.6667px;
+  //padding: 10px 6.6667px;
+  padding: 0 1px 2px;
   background: none;
   text-align: center;
   line-height: 16px;
+
+  &:disabled {
+    background-color: #f0f0f0;
+  }
+  &:enabled {
+    &:hover,
+    &:focus {
+      background-color: transparent;
+    }
+  }
+
+  &--now {
+    background: transparent;
+
+    &:enabled {
+      &:hover,
+      &:focus {
+        background: #ffffa9;
+      }
+    }
+  }
+
+  &--hasActive {
+    background: #76baff;
+
+    &:enabled {
+      &:hover,
+      &:focus {
+        background: #a9d4ff;
+      }
+    }
+  }
+
+  abbr {
+    display: inline-block;
+    width: 30px;
+    height: 28px;
+    padding-top: 7px;
+  }
+
+  &--active {
+    abbr {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      padding-top: 7px;
+      background: #7963F7;
+      border-radius: 100px;
+      color: white;
+    }
+
+    &:enabled {
+      &:hover,
+      &:focus {
+        background: transparent;
+      }
+    }
+  }
+
+  .money-text {
+    height: 22px;
+    line-height: 1;
+
+    $size: 0.68rem;
+    font-size: $size;
+    //font-weight: bold;
+
+    .symbol {
+      font-size: calc(#{$size} - 1px);
+      padding: 0 1px;
+    }
+    .amount {}
+
+    &.active {
+      color: #7963F7;
+    }
+  }
 }
-.react-calendar__tile:disabled {
-  background-color: #f0f0f0;
-}
-.react-calendar__tile:enabled:hover,
-.react-calendar__tile:enabled:focus {
-  background-color: transparent;
-}
-.react-calendar__tile--now {
-  background: transparent;
-}
-.react-calendar__tile--now:enabled:hover,
-.react-calendar__tile--now:enabled:focus {
-  background: #ffffa9;
-}
-.react-calendar__tile--hasActive {
-  background: #76baff;
-}
-.react-calendar__tile--hasActive:enabled:hover,
-.react-calendar__tile--hasActive:enabled:focus {
-  background: #a9d4ff;
-}
-.react-calendar__tile abbr {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  padding-top: 7px;
-}
-.react-calendar__tile--active abbr {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  padding-top: 7px;
-  background: #7963F7;
-  border-radius: 100px;
-  color: white;
-}
-.react-calendar__tile--active:enabled:hover,
-.react-calendar__tile--active:enabled:focus {
-  background: transparent;
-}
+
 .react-calendar--selectRange .react-calendar__tile--hover {
   background-color: transparent;
 }
