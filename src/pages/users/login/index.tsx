@@ -39,6 +39,7 @@ export const redirectLoginPageIfNotSignedIn = (storage: Storage, router: NextRou
 const LoginPage = () => {
     const router = useRouter();
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
+    const [userChecked, setUserChecked] = useState(false);
     const form = useForm<UserLoginRequestDto>();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -46,7 +47,9 @@ const LoginPage = () => {
     useEffect(() => {
         const token = getToken();
         if (!!token) {
-            getUserSession().then((res) => setCurrentUser(res.data));
+            getUserSession()
+                .then((res) => setCurrentUser(res.data))
+                .catch(() => setUserChecked(true));
         }
     }, []);
 
@@ -68,6 +71,7 @@ const LoginPage = () => {
             .catch(() => setIsModalOpen(true));
     };
 
+    if (!userChecked) return null;
     return (
         <>
             <Modal
