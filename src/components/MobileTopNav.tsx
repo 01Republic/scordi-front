@@ -13,7 +13,9 @@ export const MobileTopNav = (props: MobileTopNavProps) => {
     const [mobile, setMobile] = React.useState(false);
 
     useEffect(() => {
-        setMobile(isMobile);
+        // 일단 무조건 모바일로 인식되도록 설정
+        setMobile(true);
+        // setMobile(isMobile);
     }, [isMobile]);
 
     return mobile ? (

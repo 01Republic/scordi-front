@@ -165,11 +165,12 @@ export function getOrgMainLayout(page: ReactElement) {
 
     return (
         <>
-            {mobileView ? (
-                <OrgMobileLayout org={org}>{page}</OrgMobileLayout>
-            ) : (
-                <OrgMainLayout org={org}>{page}</OrgMainLayout>
-            )}
+            <OrgMobileLayout org={org}>{page}</OrgMobileLayout>
+            {/*{mobileView ? (*/}
+            {/*    <OrgMobileLayout org={org}>{page}</OrgMobileLayout>*/}
+            {/*) : (*/}
+            {/*    <OrgMainLayout org={org}>{page}</OrgMainLayout>*/}
+            {/*)}*/}
         </>
     );
 }

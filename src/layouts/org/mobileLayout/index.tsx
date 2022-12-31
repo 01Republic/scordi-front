@@ -12,6 +12,7 @@ import {useCurrentUser} from '^hooks/useCurrentUser';
 import {useRecoilState} from 'recoil';
 import {currentUserAtom} from '^atoms/currentUser.atom';
 import {getUserSession} from '^api/session.api';
+import {UserLoginPageRoute} from '^pages/users/login';
 
 type OrgMobileLayoutProps = {
     org: OrganizationDto | null;
@@ -23,17 +24,19 @@ const OrgMobileLayout = ({org, children}: OrgMobileLayoutProps) => {
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
 
     useEffect(() => {
-        getUserSession().then((res) => setCurrentUser(res.data));
-    }, []);
+        getUserSession()
+            .then((res) => setCurrentUser(res.data))
+            .catch(() => router.replace(UserLoginPageRoute.pathname));
+    }, [router.pathname]);
 
     if (!org) return <PreLoader />;
     return (
-        <>
+        <div className={'max-w-[600px] m-auto'}>
             {router.pathname === OrgHomeRoute.pathname && <MobileTopBar org={org} />}
             {children}
             <div
                 className={
-                    'flex fixed bg-white bottom-0 w-full border border-t-1 items-center p-[22px] justify-center space-x-20'
+                    'flex fixed bg-white bottom-0 w-full max-w-[600px] border border-l-0 border-r-0 border-t-1 items-center p-[22px] justify-center space-x-20'
                 }
             >
                 <MobileNavItem href={OrgHomeRoute.path(currentUser?.orgId)} icon={<Icon.Home />} />
@@ -41,7 +44,7 @@ const OrgMobileLayout = ({org, children}: OrgMobileLayoutProps) => {
                 <MobileNavItem outHref={'https://oh8kq2gqq3y.typeform.com/to/ZF4C5sTK'} icon={<Icon.Send />} />
                 <MobileNavItem href={UserSettingsPageRoute.pathname} icon={<Icon.User />} />
             </div>
-        </>
+        </div>
     );
 };
 

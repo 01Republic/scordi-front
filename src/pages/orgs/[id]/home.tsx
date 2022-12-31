@@ -54,8 +54,8 @@ export default function HomePage() {
     if (!summaryDto) return null;
     return (
         <ContentLayout>
-            <div className="space-y-5 lg:flex">
-                <div className={'lg:max-w-[600px]'}>
+            <div className="space-y-5 pb-20">
+                <div>
                     <div className={'flex-1 space-y-5 lg:pr-5'}>
                         <h2 className="text-24 font-semibold">{apps.length}개의 서비스가 연동되었어요!</h2>
 
