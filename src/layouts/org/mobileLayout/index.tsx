@@ -22,14 +22,19 @@ type OrgMobileLayoutProps = {
 const OrgMobileLayout = ({org, children}: OrgMobileLayoutProps) => {
     const router = useRouter();
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
+    const [userChecked, setUserChecked] = React.useState(false);
 
     useEffect(() => {
         getUserSession()
-            .then((res) => setCurrentUser(res.data))
-            .catch(() => router.replace(UserLoginPageRoute.pathname));
+            .then((res) => {
+                setCurrentUser(res.data);
+                setUserChecked(true);
+            })
+            .catch(() => window.location.assign(UserLoginPageRoute.pathname));
     }, [router.pathname]);
 
     if (!org) return <PreLoader />;
+    if (!userChecked) return null;
     return (
         <div className={'max-w-[600px] m-auto'}>
             {router.pathname === OrgHomeRoute.pathname && <MobileTopBar org={org} />}

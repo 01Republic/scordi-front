@@ -50,6 +50,8 @@ const LoginPage = () => {
             getUserSession()
                 .then((res) => setCurrentUser(res.data))
                 .catch(() => setUserChecked(true));
+        } else {
+            setUserChecked(true);
         }
     }, []);
 
