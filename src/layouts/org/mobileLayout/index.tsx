@@ -34,20 +34,19 @@ const OrgMobileLayout = ({org, children}: OrgMobileLayoutProps) => {
     }, [router.pathname]);
 
     if (!org) return <PreLoader />;
-    if (!userChecked) return null;
+    if (!userChecked) return <></>;
+
     return (
-        <div className={'max-w-[600px] m-auto'}>
-            {router.pathname === OrgHomeRoute.pathname && <MobileTopBar org={org} />}
-            {children}
-            <div
-                className={
-                    'flex fixed bg-white bottom-0 w-full max-w-[600px] border border-l-0 border-r-0 border-t-1 items-center p-[22px] justify-center space-x-20'
-                }
-            >
-                <MobileNavItem href={OrgHomeRoute.path(currentUser?.orgId)} icon={<Icon.Home />} />
-                <MobileNavItem href={AppSearchPageRoute.path(org.id)} icon={<Icon.Plus />} />
-                <MobileNavItem outHref={'https://oh8kq2gqq3y.typeform.com/to/ZF4C5sTK'} icon={<Icon.Send />} />
-                <MobileNavItem href={UserSettingsPageRoute.pathname} icon={<Icon.User />} />
+        <div
+            style={{
+                width: '100%',
+                height: '100vh',
+                background: '#ededed',
+            }}
+        >
+            <div className={'max-w-[600px] h-full bg-white mx-auto'}>
+                {/*{router.pathname === OrgHomeRoute.pathname && <MobileTopBar org={org} />}*/}
+                {children}
             </div>
         </div>
     );
@@ -82,24 +81,6 @@ const MobileTopBar = (props: MobileTopBarProps) => {
                 <Icon.User onClick={() => router.push(UserSettingsPageRoute.pathname)} />
             </div>
         </div>
-    );
-};
-
-type MobileNavItemProps = {
-    icon: any;
-    href?: string;
-    outHref?: string;
-};
-
-const MobileNavItem = (props: MobileNavItemProps) => {
-    const router = useRouter();
-
-    // TODO: 주소 따라서 아이콘 색상 바꿔주기
-
-    return (
-        <Link href={props.href || props.outHref || ''} target={props.outHref ? '_blank' : ''}>
-            {props.icon}
-        </Link>
     );
 };
 

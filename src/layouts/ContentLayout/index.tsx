@@ -9,7 +9,7 @@ export const ContentLayout: FC<
     }
 > = ({title, children}) => {
     return (
-        <div className={`${styles.orgMainContentLayout} p-[20px]`}>
+        <div id="ContentLayout" className={`${styles.orgMainContentLayout} p-[20px]`}>
             {title && <ContentHeading title={title} />}
             {children}
         </div>

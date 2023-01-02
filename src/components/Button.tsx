@@ -1,4 +1,5 @@
 import React from 'react';
+import {WithChildren} from '^types/global.type';
 
 type DefaultButtonProps = {
     text: string;
@@ -32,14 +33,14 @@ export const DefaultButton = (props: DefaultButtonProps) => {
     );
 };
 
-export const RoundedButton = (props: DefaultButtonProps) => {
+export const RoundedButton = (props: DefaultButtonProps & WithChildren) => {
     return (
         <button
             type={`${props.type ? props.type : 'button'}`}
             className={`btn btn-primary btn-block rounded-full`}
             onClick={props.onClick}
         >
-            {props.text}
+            {props.text || props.children}
         </button>
     );
 };

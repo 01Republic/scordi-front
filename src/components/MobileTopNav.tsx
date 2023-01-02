@@ -32,5 +32,9 @@ export const MobileTopNav = (props: MobileTopNavProps) => {
 };
 
 export const MobileViewContainer = (props: {children: React.ReactNode}) => {
-    return <div className={'p-[20px] pb-[120px] lg:max-w-[600px]'}>{props.children}</div>;
+    return (
+        <div id="MobileViewContainer" className={'p-[20px] pb-[120px]'}>
+            {props.children}
+        </div>
+    );
 };

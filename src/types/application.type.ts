@@ -38,6 +38,8 @@ export type ApplicationDto = {
     billingCycleId: number;
     isFreeTier: boolean;
     registeredAt: Date; // 사용 시작일
+    nextBillingDate: string | null; // 다음결제일
+    nextBillingAmount: number; // 결제예정금액
     accountCount: number;
     paidMemberCount: number;
     usedMemberCount: number;
