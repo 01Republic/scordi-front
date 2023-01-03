@@ -1,0 +1,28 @@
+
+[data-component="TitleSectionCollapse"].collapse2 {
+  &.opened .collapse-content2 {
+    height: 146px;
+    padding: 1rem 0 0;
+  }
+
+  .collapse-content2 {
+    overflow: hidden;
+    height: 0;
+    padding: 0;
+    transition: all 200ms ease;
+  }
+
+  .collapse-trigger {
+    display: flex;
+    align-items: center;
+    padding: 0 3px;
+
+    .collapse-icon {
+      transition: all 200ms ease;
+    }
+  }
+
+  &.opened .collapse-trigger .collapse-icon {
+    transform: rotate(180deg);
+  }
+}
