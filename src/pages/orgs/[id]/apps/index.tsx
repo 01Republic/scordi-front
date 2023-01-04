@@ -8,6 +8,7 @@ import {MobileBottomNav} from '^components/v2/MobileBottomNav';
 import {TitleSection} from '^components/v2/TitleSection';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {ApplicationList} from '^components/pages/OrgAppIndexPage/ApplicationList';
+import {OrgApplicationSelectPageRoute} from '^pages/orgs/[id]/apps/new/select';
 
 export const OrgAppsIndexPageRoute: PageRoute = {
     pathname: '/orgs/[id]/apps',
@@ -29,7 +30,7 @@ export default function OrgAppsIndexPage() {
             <ApplicationList />
 
             <MobileBottomNav>
-                <MobileBottomNav.Item href={AppSearchPageRoute.path(organizationId)} icon={<Icon.Plus />} />
+                <MobileBottomNav.Item href={OrgApplicationSelectPageRoute.path(organizationId)} icon={<Icon.Plus />} />
             </MobileBottomNav>
         </>
     );

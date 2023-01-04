@@ -42,6 +42,14 @@ export class CreateBillingHistoryRequestDto {
     invoiceUrl?: string | null; // 인보이스(파일) 주소
 }
 
+export class CreateBillingHistoryStandAloneRequestDto {
+    billingCycleId!: number; // 결제주기 ID
+    paidAt!: Date; // 결제일시
+    paidAmount!: number; // 결제금액
+    // isSuccess!: boolean; // 결제완료여부
+    // invoiceUrl?: string | null; // 인보이스(파일) 주소
+}
+
 export type StartEndParams = {
     startDate: string;
     endDate: string;

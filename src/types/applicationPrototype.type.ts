@@ -1,36 +1,43 @@
-import { FindAllQueryDto } from '^types/utils/findAll.query.dto';
-import { ApplicationPaymentPlanDto } from '^types/applicationPaymentPlan.type';
-import { ApplicationBillingCycleDto } from '^types/applicationBillingCycle.type';
+import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
+import {ApplicationPaymentPlanDto} from '^types/applicationPaymentPlan.type';
+import {ApplicationBillingCycleDto} from '^types/applicationBillingCycle.type';
 
 export type ApplicationPrototypeDto = {
-  id: number;
-  name: string;
-  desc: string;
-  image: string;
-  isAutoTrackable: boolean;
-  isFreeTierAvailable: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-  paymentPlans: ApplicationPaymentPlanDto[];
-  billingCycles: ApplicationBillingCycleDto[];
-  connectMethod: 'AUTO' | 'MANUAL' | 'PREPARE' | string;
+    id: number;
+    name: string;
+    desc: string;
+    image: string;
+    isAutoTrackable: boolean;
+    isFreeTierAvailable: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    paymentPlans: ApplicationPaymentPlanDto[];
+    billingCycles: ApplicationBillingCycleDto[];
+    connectMethod: 'AUTO' | 'MANUAL' | 'PREPARE' | string;
 };
 
-export type SearchAppPrototypeForm = {
-  name: string;
+export function safeImageSrc(proto: ApplicationPrototypeDto, w: number, h: number): string {
+    return (
+        proto.image ||
+        `https://via.placeholder.com/${w}x${h}.png?text=${(proto.name || '').replace(/\s/g, '+')[0] || ''}`
+    );
 }
 
-export type FindAllAppPrototypeQuery = FindAllQueryDto<ApplicationPrototypeDto> & {
-  // extra ..
-  name?: string;
+export type SearchAppPrototypeForm = {
+    name: string;
+};
 
-  tagId?: number;
+export type FindAllAppPrototypeQuery = FindAllQueryDto<ApplicationPrototypeDto> & {
+    // extra ..
+    name?: string;
+
+    tagId?: number;
 };
 
 export type ApplyToAddDto = {
-  name: string;
-  url?: string;
-}
+    name: string;
+    url?: string;
+};
 
 // export const applicationPrototypeMockDataList: ApplicationPrototypeDto[] = [
 //   {

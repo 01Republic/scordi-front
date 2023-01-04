@@ -1,8 +1,8 @@
 import {useRouter} from 'next/router';
-import {useEffect, useMemo} from 'react';
+import {useCallback, useEffect, useMemo} from 'react';
 import {useRecoilState} from 'recoil';
-import {applicationsAtom} from '^atoms/applications.atom';
-import {getApplications} from '^api/application.api';
+import {applicationAtom, applicationsAtom} from '^atoms/applications.atom';
+import {getApplication, getApplications} from '^api/application.api';
 import {errorNotify} from '^utils/toast-notify';
 
 export const useApplications = () => {
@@ -19,4 +19,21 @@ export const useApplications = () => {
     }, [organizationId]);
 
     return {applications, setApplications};
+};
+
+export const useApplication = (id: number | null) => {
+    const [application, setApplication] = useRecoilState(applicationAtom);
+
+    const fetchApplication = useCallback((id: number) => {
+        getApplication(id)
+            .then(({data}) => setApplication(data))
+            .catch(errorNotify);
+    }, []);
+
+    useEffect(() => {
+        if (!id) return;
+        fetchApplication(id);
+    }, [id]);
+
+    return {application, fetchApplication};
 };

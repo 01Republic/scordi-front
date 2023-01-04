@@ -14,6 +14,7 @@ import {NewMembershipPath} from '^pages/memberships/new';
 import {DefaultButton} from '^components/Button';
 import {useRecoilState} from 'recoil';
 import {currentUserAtom} from '^atoms/currentUser.atom';
+import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
 
 // NOTE: PATH 들은 인라인 문자열로 중복 작성하지 않고 한 곳에서 정의하고 유지했우면 하는데 묘수가 없을까.
 export const UserLoginPageRoute: PageRoute = {
@@ -26,7 +27,7 @@ export const UserLoginPageRoute: PageRoute = {
 export const redirectIfAlreadySignedIn = (storage: Storage, router: NextRouter, user: UserDto | null) => {
     if (user) {
         const orgId = user.orgId;
-        orgId ? router.push(OrgHomeRoute.path(orgId)) : router.push(NewMembershipPath.path());
+        orgId ? router.push(OrgAppsIndexPageRoute.path(orgId)) : router.push(NewMembershipPath.path());
     }
 };
 
@@ -57,7 +58,7 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (currentUser.orgId) {
-            router.push(OrgHomeRoute.path(currentUser.orgId));
+            router.push(OrgAppsIndexPageRoute.path(currentUser.orgId));
         }
     }, [currentUser]);
 

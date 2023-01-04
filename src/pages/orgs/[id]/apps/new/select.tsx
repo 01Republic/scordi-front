@@ -1,8 +1,8 @@
+import React, {useCallback, useEffect, useState} from 'react';
+import {PageRoute} from '^types/pageRoute.type';
 import {ContentLayout} from '^layouts/ContentLayout';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
-import {PageRoute} from '^types/pageRoute.type';
 import {ContentHeading, ContentHeadingSecondaryButton} from '^layouts/ContentLayout/ContentHeading';
-import React, {useCallback, useEffect, useState} from 'react';
 import {ContentPanel} from '^layouts/ContentLayout/ContentPanel';
 import {
     ApplicationPrototypeDto,
@@ -22,6 +22,12 @@ import {ApplicationDto} from '^types/application.type';
 import {getApplications} from '^api/application.api';
 import {toast} from 'react-toastify';
 import {OrgAddAppInfoPageRoute} from '^pages/orgs/[id]/apps/new/[appId]/information';
+import {MobileTopNav} from '^components/v2/MobileTopNav';
+import {BackButton} from '^components/v2/ui/buttons/BackButton';
+import {TitleSection} from '^components/v2/TitleSection';
+import {SearchResultSection} from '^components/pages/OrgApplicationSelectPage/SearchResultSection';
+import {SearchInputSection} from '^components/pages/OrgApplicationSelectPage/SearchInputSection';
+import {MobileScrollable} from '^components/v2/MobileScrollable';
 
 export const OrgApplicationSelectPageRoute: PageRoute = {
     pathname: '/orgs/[id]/apps/new/select',
@@ -29,8 +35,25 @@ export const OrgApplicationSelectPageRoute: PageRoute = {
 };
 
 export default function OrgApplicationSelectPage() {
-    const router = useRouter();
-    const organizationId = Number(router.query.id);
+    return (
+        <MobileScrollable>
+            <MobileScrollable.FixedZone>
+                <MobileTopNav sticky={false}>
+                    <BackButton />
+                </MobileTopNav>
+                <TitleSection.Simple>
+                    <TitleSection.Title text="어떤 서비스를 연동하시겠어요?" size="2xl" />
+                </TitleSection.Simple>
+                <SearchInputSection />
+            </MobileScrollable.FixedZone>
+
+            <MobileScrollable.ScrollZone>
+                <SearchResultSection />
+            </MobileScrollable.ScrollZone>
+        </MobileScrollable>
+    );
+
+    /**
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [myApps, setMyApps] = useState<ApplicationDto[]>([]);
     const [prototypes, setPrototypes] = useState<ApplicationPrototypeDto[]>([]);
@@ -99,11 +122,9 @@ export default function OrgApplicationSelectPage() {
                     <IoArrowBack /> Back
                 </ContentHeadingSecondaryButton>
             </ContentHeading>
-
             <div className="mb-5 shadow rounded-lg">
                 <SearchInput onSubmit={() => form.handleSubmit(searchHandler)} register={form.register('name')} />
             </div>
-
             <ContentPanel>
                 <div className="bs-row mx-0 pt-3">
                     <div className="bs-col px-0">
@@ -113,7 +134,6 @@ export default function OrgApplicationSelectPage() {
                                     <PreLoader screenSize={false} />
                                 </div>
                             )}
-
                             {!isLoading && prototypes.length <= 0 && (
                                 <div className="bs-col flex flex-col gap-4 items-center justify-center">
                                     <img
@@ -142,7 +162,6 @@ export default function OrgApplicationSelectPage() {
                                 )}
                         </div>
                     </div>
-
                     <div className="hidden lg:flex lg:bs-col-3">
                         <div className="h-fit sticky top-[100px]">
                             <p className="text-lg font-bold mb-2 px-3.5">Categories</p>
@@ -166,67 +185,68 @@ export default function OrgApplicationSelectPage() {
                 </div>
             </ContentPanel>
         </ContentLayout>
-    );
+    )
+    **/
 }
 
 OrgApplicationSelectPage.getLayout = getOrgMainLayout;
 
-interface SelectablePrototypeCardProps {
-    proto: ApplicationPrototypeDto;
-    selectable: boolean;
-    onClick: (input: HTMLInputElement) => any;
-}
-
-function SelectablePrototypeCard({proto, selectable, onClick}: SelectablePrototypeCardProps) {
-    const id = `SelectablePrototype-${proto.id}`;
-
-    const isReady = (() => {
-        let available = true;
-        if (!proto.paymentPlans || !proto.paymentPlans.length) {
-            available = false;
-        }
-        proto.paymentPlans.forEach((plan) => {
-            if (!plan.billingCycles[0]) available = false;
-        });
-        return available;
-    })();
-
-    const labelClickHandler = (e: any) => {
-        if (!selectable) return toast('Already Added');
-        if (!isReady) return toast(`The ${proto.name} Coming Soon`);
-        const label = (e.target as HTMLElement).closest('label')!;
-        const inputId = label.getAttribute('for')!;
-        const input = document.getElementById(inputId) as HTMLInputElement;
-        onClick(input);
-    };
-
-    return (
-        <div className="bs-col-6 sm:bs-col-6 lg:bs-col-3 xl:bs-col-2-of-10 mb-4">
-            <input id={id} type="radio" className="hidden" defaultValue={proto.id} />
-            <label htmlFor={id} onClick={labelClickHandler}>
-                <div
-                    className={`w-full h-full rounded-xl border cursor-pointer ${
-                        isReady && selectable ? 'hover:shadow-lg' : 'opacity-70'
-                    }`}
-                >
-                    <div className="card p-3">
-                        <figure className="pt-2 text-center mb-3">
-                            <img src={proto.image} alt={`${proto.name} Logo`} className="w-[42px]" />
-                        </figure>
-                        <div className="card-body items-center text-center p-0">
-                            <h3 className="card-title text-sm text-gray-600">{proto.name}</h3>
-                            <p className="text-xs text-gray-500">{proto.desc}</p>
-                            {isReady && selectable ? (
-                                <button className="btn btn-xs btn-success">Add</button>
-                            ) : !isReady ? (
-                                <button className="btn btn-xs btn-secondary btn-disabled">Coming Soon</button>
-                            ) : (
-                                <button className="btn btn-xs btn-success btn-disabled">Added</button>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            </label>
-        </div>
-    );
-}
+// interface SelectablePrototypeCardProps {
+//     proto: ApplicationPrototypeDto;
+//     selectable: boolean;
+//     onClick: (input: HTMLInputElement) => any;
+// }
+//
+// function SelectablePrototypeCard({proto, selectable, onClick}: SelectablePrototypeCardProps) {
+//     const id = `SelectablePrototype-${proto.id}`;
+//
+//     const isReady = (() => {
+//         let available = true;
+//         if (!proto.paymentPlans || !proto.paymentPlans.length) {
+//             available = false;
+//         }
+//         proto.paymentPlans.forEach((plan) => {
+//             if (!plan.billingCycles[0]) available = false;
+//         });
+//         return available;
+//     })();
+//
+//     const labelClickHandler = (e: any) => {
+//         if (!selectable) return toast('Already Added');
+//         if (!isReady) return toast(`The ${proto.name} Coming Soon`);
+//         const label = (e.target as HTMLElement).closest('label')!;
+//         const inputId = label.getAttribute('for')!;
+//         const input = document.getElementById(inputId) as HTMLInputElement;
+//         onClick(input);
+//     };
+//
+//     return (
+//         <div className="bs-col-6 sm:bs-col-6 lg:bs-col-3 xl:bs-col-2-of-10 mb-4">
+//             <input id={id} type="radio" className="hidden" defaultValue={proto.id} />
+//             <label htmlFor={id} onClick={labelClickHandler}>
+//                 <div
+//                     className={`w-full h-full rounded-xl border cursor-pointer ${
+//                         isReady && selectable ? 'hover:shadow-lg' : 'opacity-70'
+//                     }`}
+//                 >
+//                     <div className="card p-3">
+//                         <figure className="pt-2 text-center mb-3">
+//                             <img src={proto.image} alt={`${proto.name} Logo`} className="w-[42px]" />
+//                         </figure>
+//                         <div className="card-body items-center text-center p-0">
+//                             <h3 className="card-title text-sm text-gray-600">{proto.name}</h3>
+//                             <p className="text-xs text-gray-500">{proto.desc}</p>
+//                             {isReady && selectable ? (
+//                                 <button className="btn btn-xs btn-success">Add</button>
+//                             ) : !isReady ? (
+//                                 <button className="btn btn-xs btn-secondary btn-disabled">Coming Soon</button>
+//                             ) : (
+//                                 <button className="btn btn-xs btn-success btn-disabled">Added</button>
+//                             )}
+//                         </div>
+//                     </div>
+//                 </div>
+//             </label>
+//         </div>
+//     );
+// }

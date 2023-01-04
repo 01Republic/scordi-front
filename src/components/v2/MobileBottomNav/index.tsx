@@ -17,7 +17,7 @@ export const MobileBottomNav = ({children}: WithChildren) => {
             <section
                 data-component="MobileBottomNav"
                 className={`bs-container h-[${SIZE.NAV_HEIGHT}] fixed bg-transparent left-0 bottom-0 items-center`}
-                style={{height: SIZE.NAV_HEIGHT}}
+                style={{minHeight: SIZE.NAV_HEIGHT}}
             >
                 <div className="bs-row h-full max-w-[600px] mx-auto">{children}</div>
             </section>

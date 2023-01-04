@@ -4,6 +4,7 @@ import {
     BillingHistoryDto,
     BillingScheduleShallowDto,
     CreateBillingHistoryRequestDto,
+    CreateBillingHistoryStandAloneRequestDto,
     StartEndParams,
 } from '^types/billing.type';
 
@@ -26,4 +27,9 @@ export const getAppsBillingHistory = (applicationId: number, params?: StartEndPa
 // 구독서비스 결제내역 생성 *
 export function createAppsBillingHistory(applicationId: number, dto: CreateBillingHistoryRequestDto) {
     return api.post<BillingHistoryDto>(`/applications/${applicationId}/billing_histories`, dto);
+}
+
+// 구독서비스 독립적으로 생성 *
+export function createAppsByBillingHistory(dto: CreateBillingHistoryStandAloneRequestDto) {
+    return api.post<BillingHistoryDto>(`/billing_histories`, dto);
 }

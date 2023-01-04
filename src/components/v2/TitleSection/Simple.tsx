@@ -1,19 +1,21 @@
 import React, {memo, ReactElement} from 'react';
 import {WithChildren} from '^types/global.type';
 import {MobileSection} from '^components/v2/MobileSection';
+import {TitleSectionText} from '^components/v2/TitleSection/Text';
 
 type TitleSectionSimpleProps = {
     title?: string | ReactElement | undefined;
     className?: string | undefined;
+    direction?: 'col' | 'row' | 'col-reverse' | 'row-reverse' | undefined;
 } & WithChildren;
 
 export const TitleSectionSimple = memo((props: TitleSectionSimpleProps) => {
-    const {title, className = '', children} = props;
+    const {title, className = '', direction, children} = props;
 
     return (
         <MobileSection data-component="TitleSectionSimple" className={`py-3 mb-3 ${className}`}>
-            <div className="flex w-full justify-between items-center">
-                {typeof title === 'string' ? <p>{title}</p> : title}
+            <div className={`flex ${direction ? `flex-${direction}` : ''} w-full justify-between items-center`}>
+                {typeof title === 'string' ? <TitleSectionText text={title} /> : title}
                 {children}
             </div>
         </MobileSection>

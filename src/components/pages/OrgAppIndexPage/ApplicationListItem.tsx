@@ -4,6 +4,7 @@ import {useRouter} from 'next/router';
 import Link from 'next/link';
 import {AppInfoPageRoute} from '^pages/orgs/[id]/apps/[appId]';
 import {t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
+import {safeImageSrc} from '^types/applicationPrototype.type';
 
 export const ApplicationListItem = memo((props: {applicationDto: ApplicationDto}) => {
     const router = useRouter();
@@ -19,7 +20,13 @@ export const ApplicationListItem = memo((props: {applicationDto: ApplicationDto}
                     className="flex justify-items-stretch px-3 py-3 mb-3 bg-[#F9FAFB] shadow-sm rounded-xl cursor-pointer"
                 >
                     <div className="flex items-center px-1">
-                        <img width={32} src={prototype.image} alt={`${prototype.name} logo image`} />
+                        <img
+                            width={32}
+                            height={32}
+                            className="mask mask-squircle"
+                            src={safeImageSrc(prototype, 32, 32)}
+                            alt={`${prototype.name} logo image`}
+                        />
                     </div>
                     <div className="flex-1 px-3">
                         <p>

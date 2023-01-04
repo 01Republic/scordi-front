@@ -5,3 +5,8 @@ export const applicationsAtom = atom({
     key: 'applications',
     default: [] as ApplicationDto[],
 });
+
+export const applicationAtom = atom({
+    key: 'application',
+    default: null as ApplicationDto | null,
+});
