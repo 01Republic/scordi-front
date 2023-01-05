@@ -39,7 +39,7 @@ export default function SelectPlanPage() {
             <MobileTopNav>
                 <BackButton />
             </MobileTopNav>
-            <SelectedStatusSection />
+            <SelectedStatusSection proto={proto} />
             <LeadMessageSection text="어느 플랜을 이용하고 계세요?" />
             <MobileEntityListSection
                 listOfData={proto.paymentPlans}

@@ -39,7 +39,7 @@ export default function SelectCyclePage() {
             <MobileTopNav>
                 <BackButton href={SelectPlanPageRoute.path(organizationId, proto.id)} />
             </MobileTopNav>
-            <SelectedStatusSection text={plan.name} />
+            <SelectedStatusSection proto={proto} text={plan.name} />
             <LeadMessageSection text="결제 주기는 어떻게 되세요?" />
             <MobileEntityListSection
                 listOfData={plan.billingCycles}

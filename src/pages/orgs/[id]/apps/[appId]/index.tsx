@@ -71,6 +71,8 @@ import {DeleteButton} from '^components/v2/ui/buttons/DeleteButton';
 import {AppInfoSection} from '^components/pages/OrgAppInfoPage/AppInfoSection';
 import {AppBillingSummarySection} from '^components/pages/OrgAppInfoPage/AppBillingSummarySection';
 import {AppBillingHistoryListSection} from '^components/pages/OrgAppInfoPage/AppBillingHistoryListSection';
+import {NewBillingHistoryOnAppPageRoute} from '^pages/orgs/[id]/apps/[appId]/billingHistories/new';
+import {useApplication} from '^hooks/useApplications';
 
 export const AppInfoPageRoute: PageRoute = {
     pathname: '/orgs/:id/apps/:appId',
@@ -80,6 +82,11 @@ export const AppInfoPageRoute: PageRoute = {
 export default function AppInfoPage() {
     const router = useRouter();
     const organizationId = Number(router.query.id);
+    const applicationId = Number(router.query.appId);
+    const {application} = useApplication(applicationId);
+    const {prototype, paymentPlan, billingCycle} = application || {};
+
+    if (!prototype || !paymentPlan || !billingCycle) return <></>;
 
     return (
         <>
@@ -96,7 +103,16 @@ export default function AppInfoPage() {
             <AppBillingHistoryListSection />
 
             <MobileBottomNav>
-                <MobileBottomNav.Item href={'#'} icon={<Icon.Plus />} />
+                <MobileBottomNav.Item
+                    href={NewBillingHistoryOnAppPageRoute.path(
+                        organizationId,
+                        applicationId,
+                        prototype.id,
+                        paymentPlan.id,
+                        billingCycle.id,
+                    )}
+                    icon={<Icon.Plus />}
+                />
             </MobileBottomNav>
         </>
     );

@@ -34,7 +34,7 @@ export default function NewAppBillingHistoryPage() {
             <MobileTopNav>
                 <BackButton />
             </MobileTopNav>
-            <SelectedStatusSection text={[plan.name, t_BillingCycleTerm(cycle.term, true)].join(' / ')} />
+            <SelectedStatusSection proto={proto} text={[plan.name, t_BillingCycleTerm(cycle.term, true)].join(' / ')} />
             <LeadMessageSection text="최근에 얼마나 결제 되셨어요?" />
             <CreateAppForm />
         </>
