@@ -22,7 +22,7 @@ export const BillingListMobile = memo(() => {
     const organizationId = Number(router.query.id);
     const {year, month} = useCalendar();
     const {summaryDto} = useDashboardSummary();
-    const {applications: apps} = useApplications();
+    const {data: apps} = useApplications();
     const [willPayApps, setWillPayApps] = useState<ScheduleDto[]>([]);
     const [didPayApps, setDidPayApps] = useState<ScheduleDto[]>([]);
 
