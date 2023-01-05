@@ -6,12 +6,11 @@ import {PreLoader} from '^components/PreLoader';
 import {useApplication} from '^hooks/useApplications';
 import {BillingHistoryItem} from '^components/pages/OrgAppInfoPage/BillingHistoryItem';
 import {BillingHistoryDto} from '^types/billing.type';
-import {yyyy_mm_dd} from '^utils/dateTime';
 
 export const AppBillingHistoryListSection = memo(() => {
     const router = useRouter();
     const applicationId = Number(router.query.appId);
-    const {application} = useApplication(applicationId);
+    const {application} = useApplication(applicationId) || null;
     const {data: billingHistories, isLoading} = useBillingHistories({
         where: {applicationId},
         order: {id: 'DESC'},

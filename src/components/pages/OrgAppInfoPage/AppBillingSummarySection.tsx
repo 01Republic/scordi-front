@@ -19,10 +19,13 @@ export const AppBillingSummarySection = memo((props: AppBillingSummarySectionPro
         data: histories,
         isLoading,
         pagination,
-    } = useBillingHistories({
-        where: {applicationId},
-        order: {id: 'DESC'},
-    });
+    } = useBillingHistories(
+        {
+            where: {applicationId},
+            order: {id: 'DESC'},
+        },
+        (params) => !!params.where?.applicationId,
+    );
 
     if (!application || isLoading) return <></>;
 
