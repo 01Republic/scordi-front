@@ -6,6 +6,7 @@ import {useApplication} from '^hooks/useApplications';
 import {PreLoader} from '^components/PreLoader';
 import {ApplicationPrototypeDto, safeImageSrc} from '^types/applicationPrototype.type';
 import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
+import {ImageV2} from '^components/v2/ui/Image';
 
 export const NewAppCreatedPageRoute: PageRoute = {
     pathname: '/orgs/[id]/apps/new/created',
@@ -24,9 +25,9 @@ export default function NewAppCreatedPage() {
     useEffect(() => {
         if (!application) return;
 
-        setTimeout(() => {
-            router.push(OrgAppsIndexPageRoute.path(organizationId));
-        }, 1.5 * 1000);
+        // setTimeout(() => {
+        //     router.push(OrgAppsIndexPageRoute.path(organizationId));
+        // }, 1.5 * 1000);
     }, [application]);
 
     if (!application) return <PreLoader />;
@@ -34,16 +35,17 @@ export default function NewAppCreatedPage() {
     return (
         <div className="flex w-full h-full items-center justify-center pb-[100px]">
             <div>
-                <div className="w-full">
-                    <img
-                        className="animate-bounce mask mask-hexagon-2 mb-10 mx-auto"
+                <div className="w-full flex justify-center">
+                    <ImageV2
+                        className="animate-bounce mb-10"
                         src={
                             application
                                 ? safeImageSrc(application.prototype, 120, 120)
                                 : 'https://placeimg.com/120/120/arch'
                         }
+                        alt={`${application.prototype.name} logo`}
+                        width={120}
                     />
-                    {/*<img src={safeImageSrc(application?.prototype || ({} as ApplicationPrototypeDto), 100, 100)} />*/}
                 </div>
                 <p className="font-bold text-center" style={{fontSize: '1.6rem'}}>
                     <em>
