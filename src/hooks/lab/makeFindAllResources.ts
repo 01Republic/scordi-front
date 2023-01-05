@@ -88,6 +88,7 @@ export function hasInvalidValue<T extends object>(object: T): boolean {
 interface FindAllWithAtomOption<Entity, Params> {
     atom: RecoilState<Entity[]>;
     fetcher: (params: Params) => Promise<AxiosResponse<Paginated<Entity>, any>>;
+    appendMode?: boolean;
 }
 
 // Recoil atom 을 외부로부터 주입받지 않고, 빌더 내부에서 생성할 수 있습니다.
@@ -95,6 +96,7 @@ interface indAllWithoutAtomOption<Entity, Params> {
     key: string;
     default: Entity[];
     fetcher: (params: Params) => Promise<AxiosResponse<Paginated<Entity>, any>>;
+    appendMode?: boolean;
 }
 
 export function makeFindAllResources<Entity, Params extends object>(
@@ -102,6 +104,7 @@ export function makeFindAllResources<Entity, Params extends object>(
 ) {
     const getResources = option.fetcher;
     const recoilState = 'atom' in option ? option.atom : atom({key: option.key, default: option.default});
+    const {appendMode = false} = option;
 
     return (params: Params, deps: any[], validator?: (params: Params) => boolean) => {
         const [page, setPage] = useState<number>(0);
@@ -137,7 +140,7 @@ export function makeFindAllResources<Entity, Params extends object>(
                     // 그런데 이 부분이 개발시 리엑트의 hot reload 시에
                     // 기존 상태를 그대로 가지고 누적시키는 버그를 만들어내고 있습니다.
                     // 개발시에만 나타나는 버그이므로 아직 해결방법은 못찾은 상태입니다.
-                    const items = [...list, ...data.items];
+                    const items = appendMode ? [...list, ...data.items] : data.items;
                     setList(items);
                 })
                 .catch(errorNotify)

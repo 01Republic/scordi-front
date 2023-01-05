@@ -4,7 +4,7 @@ import {ApplicationListItem} from '^components/pages/OrgAppIndexPage/Application
 import {useApplications} from '^hooks/useApplications';
 
 export const ApplicationList = memo(() => {
-    const {applications} = useApplications();
+    const {data: applications} = useApplications();
 
     return (
         <MobileSection>

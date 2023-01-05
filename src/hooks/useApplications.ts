@@ -4,21 +4,22 @@ import {useRecoilState} from 'recoil';
 import {applicationAtom, applicationsAtom} from '^atoms/applications.atom';
 import {getApplication, getApplications} from '^api/application.api';
 import {errorNotify} from '^utils/toast-notify';
+import {makeFindAllResources} from '^hooks/lab/makeFindAllResources';
 
+// 쿼리 파라미터를 자유롭게 조작하고 싶다면 이걸 쓰면 된다.
+export const useApplicationsWithParams = makeFindAllResources({
+    atom: applicationsAtom,
+    fetcher: getApplications,
+});
+
+// 조직 앱 내에서 정해진 대로 쓴다면 이걸로도 많은 경우 충분하다.
 export const useApplications = () => {
     const {query} = useRouter();
-    const organizationId = useMemo(() => Number(query.id), [query.id]);
-    const [applications, setApplications] = useRecoilState(applicationsAtom);
+    const organizationId = Number(query.id) || null;
+    const params = {where: {organizationId}, order: {id: 'DESC'}};
+    const result = useApplicationsWithParams(params, [organizationId]);
 
-    useEffect(() => {
-        if (!organizationId) return;
-
-        getApplications({where: {organizationId}, order: {id: 'DESC'}})
-            .then(({data}) => setApplications(data.items))
-            .catch(errorNotify);
-    }, [organizationId]);
-
-    return {applications, setApplications};
+    return result;
 };
 
 export const useApplication = (id: number | null) => {
