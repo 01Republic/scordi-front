@@ -8,6 +8,8 @@ import {t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
 import {TitleSection} from '^components/v2/TitleSection';
 import {safeImageSrc} from '^types/applicationPrototype.type';
 import {ImageV2} from '^components/v2/ui/Image';
+import {AppNameWithLogoBlock} from './AppNameWithLogoBlock';
+import {AppNextPayInfoBlock} from '^components/pages/OrgAppInfoPage/AppNextPayInfoBlock';
 
 type AppInfoSectionProps = {};
 
@@ -25,14 +27,8 @@ export const AppInfoSection = memo((props: AppInfoSectionProps) => {
         <>
             <TitleSection.TopPadding />
             <TitleSection.Simple flex={false}>
-                <TitleSection.Title size="xl" className="flex items-center">
-                    <ImageV2 width={30} src={safeImageSrc(prototype, 30, 30)} alt={`${prototype.name} logo`} />
-                    <span className="mx-2">{prototype.name}</span>
-                </TitleSection.Title>
-                <TitleSection.Title size="lg" className="text-right">
-                    <div className="text-base font-medium">Next {application.nextBillingDate}</div>
-                    <div>US${application.nextBillingAmount.toLocaleString()}</div>
-                </TitleSection.Title>
+                <AppNameWithLogoBlock prototype={prototype} />
+                <AppNextPayInfoBlock application={application} />
             </TitleSection.Simple>
 
             <MobileSection className="pb-3 border-b-8">

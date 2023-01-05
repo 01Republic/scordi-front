@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {CSSProperties, memo} from 'react';
 import {WithChildren} from '^types/global.type';
 
 type ImageV2Props = {
@@ -11,9 +11,12 @@ type ImageV2Props = {
 export const ImageV2 = memo((props: ImageV2Props) => {
     const {width, src, alt, rounded = false, children} = props;
 
+    const style: CSSProperties = {};
+    style.maxWidth = `${width}px`;
+
     return (
         <div className={`avatar`}>
-            <div className={`w-[${width}px] ${rounded ? 'rounded' : ''}`}>
+            <div className={`${rounded ? 'rounded' : ''}`} style={style}>
                 <img src={src} alt={alt} />
             </div>
         </div>
