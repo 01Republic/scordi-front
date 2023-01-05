@@ -25,9 +25,9 @@ export default function NewAppCreatedPage() {
     useEffect(() => {
         if (!application) return;
 
-        // setTimeout(() => {
-        //     router.push(OrgAppsIndexPageRoute.path(organizationId));
-        // }, 1.5 * 1000);
+        setTimeout(() => {
+            router.push(OrgAppsIndexPageRoute.path(organizationId));
+        }, 1.5 * 1000);
     }, [application]);
 
     if (!application) return <PreLoader />;
