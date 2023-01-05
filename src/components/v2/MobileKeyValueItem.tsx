@@ -1,17 +1,19 @@
-import {memo} from 'react';
+import {memo, ReactNode} from 'react';
 import {MobileSection} from '^components/v2/MobileSection';
 import {WithChildren} from '^types/global.type';
 
 type MobileKeyValueItem = {
-    label: string;
-    value: string;
+    label: string | ReactNode;
+    value?: string | ReactNode | undefined;
 } & WithChildren;
 
-export const MobileKeyValueItem = memo(({label, value}: MobileKeyValueItem) => {
+export const MobileKeyValueItem = memo((props: MobileKeyValueItem) => {
+    const {label, value, children} = props;
     return (
         <div className="flex w-full py-2.5 items-center justify-between">
             <span>{label}</span>
-            <span className="text-gray-500 font-semibold">{value}</span>
+            {value && <span className="text-gray-500 font-semibold">{value}</span>}
+            {children}
         </div>
     );
 });

@@ -5,6 +5,7 @@ import {
     BillingScheduleShallowDto,
     CreateBillingHistoryRequestDto,
     CreateBillingHistoryStandAloneRequestDto,
+    GetBillingHistoriesParams,
     StartEndParams,
 } from '^types/billing.type';
 
@@ -16,11 +17,11 @@ export const getAppsBillingSchedule = (id: number, params: StartEndParams) => {
     return api.get<Paginated<BillingScheduleShallowDto>>(`/applications/${id}/billing_schedules`, {params});
 };
 
-export const getBillingHistories = (params: StartEndParams) => {
+export const getBillingHistories = (params: GetBillingHistoriesParams) => {
     return api.get<Paginated<BillingHistoryDto>>(`/billing_histories`, {params});
 };
 
-export const getAppsBillingHistory = (applicationId: number, params?: StartEndParams) => {
+export const getAppsBillingHistory = (applicationId: number, params?: GetBillingHistoriesParams) => {
     return api.get<Paginated<BillingHistoryDto>>(`/applications/${applicationId}/billing_histories`, {params});
 };
 

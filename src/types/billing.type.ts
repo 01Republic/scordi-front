@@ -1,5 +1,6 @@
 import {ApplicationDto} from '^types/application.type';
 import {OrganizationDto} from '^types/organization.type';
+import {FindAllQuery} from '^types/utils/paginated.dto';
 
 export type BillingScheduleShallowDto = {
     organizationId: number;
@@ -51,6 +52,8 @@ export class CreateBillingHistoryStandAloneRequestDto {
 }
 
 export type StartEndParams = {
-    startDate: string;
-    endDate: string;
+    startDate?: string;
+    endDate?: string;
 };
+
+export type GetBillingHistoriesParams = FindAllQuery<BillingHistoryDto> & StartEndParams;

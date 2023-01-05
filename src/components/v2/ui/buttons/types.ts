@@ -11,7 +11,7 @@ export type Colors =
     | 'warning'
     | 'error'
     | 'ghost';
-export type Size = 'sm' | 'md' | 'lg' | 'xl';
+export type Size = 'sm' | 'md' | 'big' | 'lg' | 'xl';
 
 export type DefaultButtonProps = {
     text?: string;

@@ -8,6 +8,7 @@ type MobileEntityListSectionProps<T extends object> = {
     listOfData: T[];
     padding?: boolean;
     preloader?: boolean | JSX.Element;
+    groupTitle?: JSX.Element;
     itemCustomRender?: ((item: T, index?: number) => ReactNode) | undefined;
     // itemCustomRender 를 사용하지 않고 기본 아이템 랜더링을 사용할때에만 동작합니다.
     itemOnClick?: ((item: T, index?: number) => any) | undefined;
@@ -15,15 +16,16 @@ type MobileEntityListSectionProps<T extends object> = {
 } & WithChildren;
 
 export const MobileEntityListSection = genericMemo(<T extends object>(props: MobileEntityListSectionProps<T>) => {
-    const {listOfData, padding = true, preloader} = props;
+    const {listOfData, padding = true, preloader, groupTitle} = props;
     const {itemCustomRender, itemOnClick = console.log, itemChild = JSON.stringify} = props;
 
     const classNames: string[] = [];
     if (padding) classNames.push('py-5');
 
     return (
-        <MobileSection className={classNames.join(' ')}>
+        <MobileSection data-component="MobileEntityListSection" className={classNames.join(' ')}>
             {preloader && preloader}
+            {groupTitle && <p className="py-3 text-xs">{groupTitle}</p>}
 
             <div className="bs-row">
                 {listOfData.map((data, i) => {

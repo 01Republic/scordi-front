@@ -4,6 +4,7 @@ import React, {Fragment} from 'react';
 import {Icon} from '^components/Icon';
 import {IoPencil} from '@react-icons/all-files/io5/IoPencil';
 import {FaPen} from '@react-icons/all-files/fa/FaPen';
+import {FakeLink} from '^components/v2/ui/buttons/FackLink';
 
 export const EditButton = (props: Omit<DefaultButtonProps, 'color' | 'outline'>) => {
     const {href, target, onClick, className = '', active = false, disabled = false, size} = props;
@@ -13,7 +14,7 @@ export const EditButton = (props: Omit<DefaultButtonProps, 'color' | 'outline'>)
     if (size) classNames.push(`btn-${size}`);
     if (className) classNames.push(className);
 
-    const LinkTo = href ? Link : Fragment;
+    const LinkTo = href ? Link : FakeLink;
 
     return (
         <LinkTo href={href!} target={target}>

@@ -1,17 +1,7 @@
-import React, {Fragment, memo} from 'react';
+import React from 'react';
 import {DefaultButtonProps} from './types';
 import Link from 'next/link';
-import {WithChildren} from '^types/global.type';
-
-type LinkProps = {
-    href?: string | undefined;
-    target?: string | undefined;
-} & WithChildren;
-
-export const FakeLink = memo((props: LinkProps) => {
-    const {children} = props;
-    return <>{children}</>;
-});
+import {FakeLink} from '^components/v2/ui/buttons/FackLink';
 
 export const BasicButton2 = (props: DefaultButtonProps) => {
     const {
