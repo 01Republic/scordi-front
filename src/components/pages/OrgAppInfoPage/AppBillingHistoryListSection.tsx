@@ -11,10 +11,13 @@ export const AppBillingHistoryListSection = memo(() => {
     const router = useRouter();
     const applicationId = Number(router.query.appId);
     const {application} = useApplication(applicationId) || null;
-    const {data: billingHistories, isLoading} = useBillingHistories({
-        where: {applicationId},
-        order: {id: 'DESC'},
-    });
+    const {data: billingHistories, isLoading} = useBillingHistories(
+        {
+            where: {applicationId},
+            order: {id: 'DESC'},
+        },
+        [applicationId],
+    );
 
     if (!application) return <></>;
     if (isLoading) return <PreLoader screenSize={false} />;

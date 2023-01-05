@@ -24,7 +24,7 @@ export const AppBillingSummarySection = memo((props: AppBillingSummarySectionPro
             where: {applicationId},
             order: {id: 'DESC'},
         },
-        (params) => !!params.where?.applicationId,
+        [applicationId],
     );
 
     if (!application || isLoading) return <></>;
