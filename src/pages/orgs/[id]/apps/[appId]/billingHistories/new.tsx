@@ -18,17 +18,22 @@ import {t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
 import {SelectedStatusSection} from '^components/pages/OrgApplicationCreateFlow/SelectedStatusSection';
 import {LeadMessageSection} from '^components/pages/OrgApplicationCreateFlow/LeadMessageSection';
 import {CreateBillingHistoryForm} from '^components/pages/NewBillingHistoryOnAppPage/CreateBillingHistoryForm';
+import {pathReplace, pathRoute} from '^types/pageRoute.type';
 
-export const NewBillingHistoryOnAppPageRoute = {
+export const NewBillingHistoryOnAppPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/[appId]/billingHistories/new',
-    path: (id: number, appId: number, protoId: number, planId: number, cycleId: number) =>
-        `${NewBillingHistoryOnAppPageRoute.pathname}?prototypeId=[prototypeId]&planId=[planId]&cycleId=[cycleId]`
-            .replace('[id]', String(id))
-            .replace('[appId]', String(appId))
-            .replace('[prototypeId]', String(protoId))
-            .replace('[planId]', String(planId))
-            .replace('[cycleId]', String(cycleId)),
-};
+    path: (orgId: number, appId: number, protoId: number, planId: number, cycleId: number) =>
+        pathReplace(
+            `${NewBillingHistoryOnAppPageRoute.pathname}?prototypeId=[prototypeId]&planId=[planId]&cycleId=[cycleId]`,
+            {
+                id: orgId,
+                appId,
+                prototypeId: protoId,
+                planId,
+                cycleId,
+            },
+        ),
+});
 
 export default function NewBillingHistoryOnAppPage() {
     const router = useRouter();

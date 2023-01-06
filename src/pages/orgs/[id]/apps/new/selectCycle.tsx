@@ -1,6 +1,6 @@
 import React from 'react';
 import {useRouter} from 'next/router';
-import {PageRoute} from '^types/pageRoute.type';
+import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {MobileTopNav} from '^components/v2/MobileTopNav';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
@@ -13,14 +13,15 @@ import {ApplicationBillingCycleDto, t_BillingCycleTerm} from '^types/application
 import {MobileEntityListSection} from '^components/v2/MobileEntityListSection';
 import {NewAppBillingHistoryPageRoute} from '^pages/orgs/[id]/apps/new/billingHistory';
 
-export const SelectCyclePageProps: PageRoute = {
+export const SelectCyclePageProps = pathRoute({
     pathname: '/orgs/[id]/apps/new/selectCycle',
     path: (orgId: number, protoId: number, planId: number) =>
-        `${SelectCyclePageProps.pathname}?prototypeId=[prototypeId]&planId=[planId]`
-            .replace('[id]', String(orgId))
-            .replace('[prototypeId]', String(protoId))
-            .replace('[planId]', String(planId)),
-};
+        pathReplace(`${SelectCyclePageProps.pathname}?prototypeId=[prototypeId]&planId=[planId]`, {
+            id: orgId,
+            prototypeId: protoId,
+            planId,
+        }),
+});
 
 export default function SelectCyclePage() {
     const router = useRouter();

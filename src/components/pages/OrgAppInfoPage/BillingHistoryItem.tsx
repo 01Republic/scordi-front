@@ -4,6 +4,8 @@ import {safeImageSrc} from '^types/applicationPrototype.type';
 import {MobileEntityListItem} from '^components/v2/MobileEntityListSection/MobileEntityListItem';
 import {ApplicationDto} from '^types/application.type';
 import {BillingHistoryDto} from '^types/billing.type';
+import {useRouter} from 'next/router';
+import {BillingHistoryShowPageRoute} from '^pages/orgs/[id]/apps/[appId]/billingHistories/[billingHistoryId]';
 
 type BillingHistoryItemProps = {
     application: ApplicationDto;
@@ -11,14 +13,21 @@ type BillingHistoryItemProps = {
 };
 
 export const BillingHistoryItem = memo((props: BillingHistoryItemProps) => {
+    const router = useRouter();
     const {application, billingHistory} = props;
     if (!application) return <></>;
-    const {prototype} = application;
+    const {prototype, organizationId} = application;
 
     const {isSuccess} = billingHistory;
 
     return (
-        <MobileEntityListItem id={`billingHistory-${billingHistory.id}`} size="big">
+        <MobileEntityListItem
+            id={`billingHistory-${billingHistory.id}`}
+            size="big"
+            onClick={() =>
+                router.push(BillingHistoryShowPageRoute.path(organizationId, application.id, billingHistory.id))
+            }
+        >
             <div className="flex items-center px-1">
                 <img
                     width={32}

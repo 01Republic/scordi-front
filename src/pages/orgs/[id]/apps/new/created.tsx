@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useRouter} from 'next/router';
-import {PageRoute} from '^types/pageRoute.type';
+import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {useApplication} from '^hooks/useApplications';
 import {PreLoader} from '^components/PreLoader';
@@ -8,17 +8,17 @@ import {ApplicationPrototypeDto, safeImageSrc} from '^types/applicationPrototype
 import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {ImageV2} from '^components/v2/ui/Image';
 
-export const NewAppCreatedPageRoute: PageRoute = {
+export const NewAppCreatedPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/new/created',
     path: (orgId: number, applicationId: number) =>
-        `${NewAppCreatedPageRoute.pathname}?applicationId=[applicationId]`
-            .replace('[id]', String(orgId))
-            .replace('[applicationId]', String(applicationId)),
-};
+        pathReplace(`${NewAppCreatedPageRoute.pathname}?applicationId=[applicationId]`, {
+            id: orgId,
+            applicationId,
+        }),
+});
 
 export default function NewAppCreatedPage() {
     const router = useRouter();
-    const organizationId = Number(router.query.id) || null;
     const applicationId = Number(router.query.applicationId) || null;
     const {application} = useApplication(applicationId);
 
@@ -26,7 +26,7 @@ export default function NewAppCreatedPage() {
         if (!application) return;
 
         setTimeout(() => {
-            router.push(OrgAppsIndexPageRoute.path(organizationId));
+            router.push(OrgAppsIndexPageRoute.path(application.organizationId));
         }, 1.5 * 1000);
     }, [application]);
 

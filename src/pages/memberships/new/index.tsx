@@ -10,7 +10,7 @@ import {OrganizationDto, SearchOrgQueryDto} from '^types/organization.type';
 import {MembershipLevel} from '^types/membership.type';
 import {UserDto} from '^types/user.type';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
-import {PageRoute} from '^types/pageRoute.type';
+import {pathRoute} from '^types/pageRoute.type';
 import {OrgSettingsLayout} from '^layouts/org/settingsLayout';
 import {toast} from 'react-toastify';
 import {useRecoilState} from 'recoil';
@@ -26,10 +26,10 @@ const createMembershipRequest = (org: OrganizationDto, user: UserDto, level: Mem
         .catch(errorNotify);
 };
 
-export const NewMembershipPath: PageRoute = {
+export const NewMembershipPath = pathRoute({
     pathname: '/memberships/new',
     path: () => NewMembershipPath.pathname,
-};
+});
 
 const NewMembershipPage = () => {
     const router = useRouter();

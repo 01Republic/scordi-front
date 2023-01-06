@@ -1,6 +1,6 @@
 import React from 'react';
 import {useRouter} from 'next/router';
-import {PageRoute} from '^types/pageRoute.type';
+import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {useCurrentOrg} from '^hooks/useCurrentOrg';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {ContentLayout} from '^layouts/ContentLayout';
@@ -22,10 +22,10 @@ import {destroyOrganization, updateOrganization} from '^api/organization.api';
 import {errorNotify, successNotify} from '^utils/toast-notify';
 import {toast} from 'react-toastify';
 
-export const OrgShowRoute: PageRoute = {
+export const OrgShowRoute = pathRoute({
     pathname: '/orgs/[id]',
-    path: (orgId: number) => OrgShowRoute.pathname.replace('[id]', String(orgId)),
-};
+    path: (orgId: number) => pathReplace(OrgShowRoute.pathname, {id: orgId}),
+});
 
 export default function OrgShowPage() {
     const router = useRouter();

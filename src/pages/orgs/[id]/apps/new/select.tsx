@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {PageRoute} from '^types/pageRoute.type';
+import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {ContentLayout} from '^layouts/ContentLayout';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {ContentHeading, ContentHeadingSecondaryButton} from '^layouts/ContentLayout/ContentHeading';
@@ -29,10 +29,10 @@ import {SearchResultSection} from '^components/pages/OrgApplicationSelectPage/Se
 import {SearchInputSection} from '^components/pages/OrgApplicationSelectPage/SearchInputSection';
 import {MobileScrollable} from '^components/v2/MobileScrollable';
 
-export const OrgApplicationSelectPageRoute: PageRoute = {
+export const OrgApplicationSelectPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/new/select',
-    path: (orgId: number) => OrgApplicationSelectPageRoute.pathname.replace('[id]', String(orgId)),
-};
+    path: (orgId: number) => pathReplace(OrgApplicationSelectPageRoute.pathname, {id: orgId}),
+});
 
 export default function OrgApplicationSelectPage() {
     return (

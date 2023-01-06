@@ -1,7 +1,7 @@
 import React from 'react';
 import {useRouter} from 'next/router';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
-import {PageRoute} from '^types/pageRoute.type';
+import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {BillingListMobile} from '^components/BillingListMobile';
 import {Icon} from '^components/Icon';
 import {MobileBottomNav} from '^components/v2/MobileBottomNav';
@@ -17,10 +17,10 @@ import {useDashboardSummary} from '^hooks/useDashboardSummary';
 import {MobileKeyValueItem} from '^components/v2/MobileKeyValueItem';
 import {NewBillingHistoryPageRoute} from '^pages/orgs/[id]/apps/billingHistories/new';
 
-export const OrgHomeRoute: PageRoute = {
+export const OrgHomeRoute = pathRoute({
     pathname: '/orgs/[id]/home',
-    path: (orgId: number) => OrgHomeRoute.pathname.replace('[id]', String(orgId)),
-};
+    path: (orgId: number) => pathReplace(OrgHomeRoute.pathname, {id: orgId}),
+});
 
 export default function HomePage() {
     const router = useRouter();

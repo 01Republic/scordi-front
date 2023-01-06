@@ -59,7 +59,7 @@
 
 import React from 'react';
 import {useRouter} from 'next/router';
-import {PageRoute} from '^types/pageRoute.type';
+import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {MobileTopNav, MobileTopNavRight} from '^components/v2/MobileTopNav';
@@ -74,10 +74,10 @@ import {AppBillingHistoryListSection} from '^components/pages/OrgAppInfoPage/App
 import {NewBillingHistoryOnAppPageRoute} from '^pages/orgs/[id]/apps/[appId]/billingHistories/new';
 import {useApplication} from '^hooks/useApplications';
 
-export const AppInfoPageRoute: PageRoute = {
-    pathname: '/orgs/:id/apps/:appId',
-    path: (id: string, appId: string) => AppInfoPageRoute.pathname.replace(':id', id).replace(':appId', appId),
-};
+export const AppInfoPageRoute = pathRoute({
+    pathname: '/orgs/[id]/apps/[appId]',
+    path: (id: string, appId: string) => pathReplace(AppInfoPageRoute.pathname, {id, appId}),
+});
 
 export default function AppInfoPage() {
     const router = useRouter();

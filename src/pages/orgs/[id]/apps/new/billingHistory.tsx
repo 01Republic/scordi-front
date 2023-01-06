@@ -1,6 +1,6 @@
 import React from 'react';
 import {useRouter} from 'next/router';
-import {PageRoute} from '^types/pageRoute.type';
+import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {MobileTopNav} from '^components/v2/MobileTopNav';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
@@ -11,15 +11,19 @@ import {useCreateFlow} from '^hooks/useApplicationPrototypes';
 import {PreLoader} from '^components/PreLoader';
 import {CreateAppForm} from '^components/pages/OrgApplicationCreateFlow/CreateAppForm';
 
-export const NewAppBillingHistoryPageRoute: PageRoute = {
+export const NewAppBillingHistoryPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/new/billingHistory',
     path: (orgId: number, protoId: number, planId: number, cycleId: number) =>
-        `${NewAppBillingHistoryPageRoute.pathname}?prototypeId=[prototypeId]&planId=[planId]&cycleId=[cycleId]`
-            .replace('[id]', String(orgId))
-            .replace('[prototypeId]', String(protoId))
-            .replace('[planId]', String(planId))
-            .replace('[cycleId]', String(cycleId)),
-};
+        pathReplace(
+            `${NewAppBillingHistoryPageRoute.pathname}?prototypeId=[prototypeId]&planId=[planId]&cycleId=[cycleId]`,
+            {
+                id: orgId,
+                prototypeId: protoId,
+                planId,
+                cycleId,
+            },
+        ),
+});
 
 export default function NewAppBillingHistoryPage() {
     const router = useRouter();

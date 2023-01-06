@@ -1,6 +1,6 @@
 import React from 'react';
 import {useRouter} from 'next/router';
-import {PageRoute} from '^types/pageRoute.type';
+import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {MobileTopNav} from '^components/v2/MobileTopNav';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
 import {PreLoader} from '^components/PreLoader';
@@ -12,13 +12,14 @@ import {MobileEntityListSection} from '^components/v2/MobileEntityListSection';
 import {SelectCyclePageProps} from '^pages/orgs/[id]/apps/new/selectCycle';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 
-export const SelectPlanPageRoute: PageRoute = {
+export const SelectPlanPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/new/selectPlan',
     path: (orgId: number, protoId: number) =>
-        `${SelectPlanPageRoute.pathname}?prototypeId=[prototypeId]`
-            .replace('[id]', String(orgId))
-            .replace('[prototypeId]', String(protoId)),
-};
+        pathReplace(`${SelectPlanPageRoute.pathname}?prototypeId=[prototypeId]`, {
+            id: orgId,
+            prototypeId: protoId,
+        }),
+});
 
 export default function SelectPlanPage() {
     const router = useRouter();

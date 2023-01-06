@@ -8,7 +8,7 @@ import {getUserSession, postUserSession} from '^api/session.api';
 import {UserDto, UserLoginRequestDto} from '^types/user.type';
 import {getToken, setToken} from '^api/api';
 import {useCurrentUser} from '^hooks/useCurrentUser';
-import {PageRoute} from '^types/pageRoute.type';
+import {pathRoute} from '^types/pageRoute.type';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {NewMembershipPath} from '^pages/memberships/new';
 import {DefaultButton} from '^components/Button';
@@ -17,10 +17,10 @@ import {currentUserAtom} from '^atoms/currentUser.atom';
 import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
 
 // NOTE: PATH 들은 인라인 문자열로 중복 작성하지 않고 한 곳에서 정의하고 유지했우면 하는데 묘수가 없을까.
-export const UserLoginPageRoute: PageRoute = {
+export const UserLoginPageRoute = pathRoute({
     pathname: '/users/login',
     path: () => UserLoginPageRoute.pathname,
-};
+});
 
 // TODO: 리디렉션들은 서버 실행 함수들을 통해서 실행해야 한다.
 //  안그러면 페이지 로딩 실행 한 번 하고 리디렉션 되어서 사용자 눈에 페이지 거쳐가는게 다 보이네요,,,

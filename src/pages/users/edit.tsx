@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {PageRoute} from '^types/pageRoute.type';
+import {pathRoute} from '^types/pageRoute.type';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {TextInput} from '^components/TextInput';
 import {useForm} from 'react-hook-form';
@@ -12,10 +12,10 @@ import {toast} from 'react-toastify';
 import {useRecoilState} from 'recoil';
 import {currentUserAtom} from '^atoms/currentUser.atom';
 
-export const UserEditPageRoute: PageRoute = {
+export const UserEditPageRoute = pathRoute({
     pathname: '/users/edit',
     path: () => UserEditPageRoute.pathname,
-};
+});
 
 const UserEditPage = () => {
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);

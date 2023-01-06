@@ -1,5 +1,5 @@
 import React from 'react';
-import {PageRoute} from '^types/pageRoute.type';
+import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {useRouter} from 'next/router';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {AppSearchPageRoute} from '^pages/apps/search';
@@ -10,10 +10,10 @@ import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {ApplicationList} from '^components/pages/OrgAppIndexPage/ApplicationList';
 import {OrgApplicationSelectPageRoute} from '^pages/orgs/[id]/apps/new/select';
 
-export const OrgAppsIndexPageRoute: PageRoute = {
+export const OrgAppsIndexPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps',
-    path: (orgId: number) => OrgAppsIndexPageRoute.pathname.replace('[id]', String(orgId)),
-};
+    path: (orgId: number) => pathReplace(OrgAppsIndexPageRoute.pathname, {id: orgId}),
+});
 
 export default function OrgAppsIndexPage() {
     const router = useRouter();

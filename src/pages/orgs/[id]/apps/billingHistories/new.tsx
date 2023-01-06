@@ -4,11 +4,12 @@ import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {PreLoader} from '^components/PreLoader';
 import {MobileTopNav} from '^components/v2/MobileTopNav';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
+import {pathReplace, pathRoute} from '^types/pageRoute.type';
 
-export const NewBillingHistoryPageRoute = {
-    pathname: '/orgs/:id/apps/billingHistories/new',
-    path: (id: number) => NewBillingHistoryPageRoute.pathname.replace(':id', `${id}`),
-};
+export const NewBillingHistoryPageRoute = pathRoute({
+    pathname: '/orgs/[id]/apps/billingHistories/new',
+    path: (id: number) => pathReplace(NewBillingHistoryPageRoute.pathname, {id}),
+});
 
 export default function NewBillingHistoryPage() {
     const router = useRouter();

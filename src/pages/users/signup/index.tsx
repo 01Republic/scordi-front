@@ -8,7 +8,7 @@ import {redirectIfAlreadySignedIn} from '^pages/users/login';
 import {setToken} from '^api/api';
 import {errorNotify} from '^utils/toast-notify';
 import {useCurrentUser} from '^hooks/useCurrentUser';
-import {PageRoute} from '^types/pageRoute.type';
+import {pathRoute} from '^types/pageRoute.type';
 import {DefaultButton} from '^components/Button';
 import {Modal} from '^components/Modal';
 import {WelcomePageRoute} from '^pages/users/signup/welcome';
@@ -17,10 +17,10 @@ import {toast} from 'react-toastify';
 import {useRecoilState} from 'recoil';
 import {currentUserAtom} from '^atoms/currentUser.atom';
 
-export const UserSignUpPageRoute: PageRoute = {
+export const UserSignUpPageRoute = pathRoute({
     pathname: '/users/signup',
     path: () => UserSignUpPageRoute.pathname,
-};
+});
 
 const SignUp = () => {
     const router = useRouter();

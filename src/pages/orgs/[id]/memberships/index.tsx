@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {PageRoute} from '^types/pageRoute.type';
+import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {useRouter} from 'next/router';
 import {useCurrentOrg} from '^hooks/useCurrentOrg';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
@@ -16,10 +16,10 @@ import {toast} from 'react-toastify';
 import {Icon} from '^components/Icon';
 import {ContentHeading, ContentHeadingPrimaryButton} from '^layouts/ContentLayout/ContentHeading';
 
-export const OrgMembershipIndexPageRoute: PageRoute = {
+export const OrgMembershipIndexPageRoute = pathRoute({
     pathname: '/orgs/[id]/memberships',
-    path: (orgId: number) => OrgMembershipIndexPageRoute.pathname.replace('[id]', String(orgId)),
-};
+    path: (orgId: number) => pathReplace(OrgMembershipIndexPageRoute.pathname, {id: orgId}),
+});
 
 export default function OrgMembershipIndexPage() {
     const router = useRouter();
