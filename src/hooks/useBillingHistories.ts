@@ -13,5 +13,5 @@ export const useBillingHistories = makeFindAllResources<BillingHistoryDto, GetBi
     // default: [],
     atom: getBillingHistoriesAtom,
     fetcher: getBillingHistories,
-    appendMode: true,
+    appendMode: false,
 });

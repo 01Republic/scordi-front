@@ -15,6 +15,7 @@ export const AppBillingHistoryListSection = memo(() => {
         {
             where: {applicationId},
             order: {id: 'DESC'},
+            itemsPerPage: 300,
         },
         [applicationId],
     );

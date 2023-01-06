@@ -23,6 +23,7 @@ export const AppBillingSummarySection = memo((props: AppBillingSummarySectionPro
         {
             where: {applicationId},
             order: {id: 'DESC'},
+            itemsPerPage: 300,
         },
         [applicationId],
     );
