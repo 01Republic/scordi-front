@@ -9,7 +9,7 @@ import {MobileEntityListSection} from '^components/v2/MobileEntityListSection';
 interface SearchResultSectionProps {}
 
 export const SearchResultSection = memo((props: SearchResultSectionProps) => {
-    const {prototypes, isLoading} = useApplicationPrototypes([]);
+    const {data: prototypes, isLoading} = useApplicationPrototypes([]);
 
     return (
         <MobileEntityListSection

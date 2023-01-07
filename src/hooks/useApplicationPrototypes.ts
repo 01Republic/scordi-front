@@ -13,29 +13,41 @@ import {ApplicationPaymentPlanDto} from '^types/applicationPaymentPlan.type';
 import {useRouter} from 'next/router';
 
 export const useApplicationPrototypes = (deps: any[]) => {
+    const [page, setPage] = useState<number>(0);
+    const [totalPage, setTotalPage] = useState<number>(0);
+    const [totalItemCount, setTotalItemCount] = useState<number>(0);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [prototypes, setPrototypes] = useRecoilState(applicationPrototypesAtom);
+    const [list, setList] = useRecoilState(applicationPrototypesAtom);
 
-    const fetchApplicationPrototypes = ({page = 1, itemsPerPage = 30, ...params}: FindAllAppPrototypeQuery) => {
+    const fetch = (params: FindAllAppPrototypeQuery = {}) => {
+        params.where ||= {};
+        params.isLive ??= true;
         setIsLoading(true);
         getApplicationPrototypes(params)
             .then(({data}) => {
-                setPrototypes(data.items);
+                setPage(data.pagination.currentPage);
+                setTotalPage(data.pagination.totalPage);
+                setTotalItemCount(data.pagination.totalItemCount);
+                setList(data.items);
             })
             .catch(errorNotify)
-            .finally(() => {
-                setIsLoading(false);
-            });
+            .finally(() => setIsLoading(false));
     };
 
     useEffect(() => {
-        fetchApplicationPrototypes({
-            page: 1,
-            itemsPerPage: 30,
-        });
+        fetch();
     }, [...(deps ?? [])]);
 
-    return {prototypes, setPrototypes, isLoading, fetchApplicationPrototypes};
+    return {
+        data: list,
+        fetch,
+        isLoading,
+        pagination: {
+            currentPage: page,
+            totalPage,
+            totalItemCount,
+        },
+    };
 };
 
 export const useApplicationPrototype = (id: number | null, deps: any[]) => {

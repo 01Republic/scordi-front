@@ -9,10 +9,10 @@ type SearchSectionProps = {};
 
 export const SearchInputSection = memo((props: SearchSectionProps) => {
     const form = useForm<SearchAppPrototypeForm>();
-    const {fetchApplicationPrototypes} = useApplicationPrototypes([]);
+    const {fetch: fetchApplicationPrototypes} = useApplicationPrototypes([]);
 
     const searchHandler = useCallback((data: SearchAppPrototypeForm) => {
-        fetchApplicationPrototypes({name: data.name});
+        fetchApplicationPrototypes({name: data.name, isLive: true});
     }, []);
 
     return (

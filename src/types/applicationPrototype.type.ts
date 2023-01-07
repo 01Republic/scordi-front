@@ -28,9 +28,8 @@ export type SearchAppPrototypeForm = {
 };
 
 export type FindAllAppPrototypeQuery = FindAllQueryDto<ApplicationPrototypeDto> & {
-    // extra ..
+    isLive?: boolean;
     name?: string;
-
     tagId?: number;
 };
 
