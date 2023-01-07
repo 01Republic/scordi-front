@@ -14,7 +14,7 @@ export const ApplicationListItem = memo((props: {applicationDto: ApplicationDto}
 
     return (
         <div className="bs-col-12">
-            <Link href={AppInfoPageRoute.path(`${organizationId}`, `${applicationDto.id}`)}>
+            <Link href={AppInfoPageRoute.path(organizationId, applicationDto.id)}>
                 <div
                     id={`ApplicationListItem-${applicationDto.id}`}
                     className="flex justify-items-stretch px-3 py-3 mb-3 bg-[#F9FAFB] shadow-sm rounded-xl cursor-pointer"

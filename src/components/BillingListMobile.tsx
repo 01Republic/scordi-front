@@ -28,8 +28,6 @@ export const BillingListMobile = memo(() => {
 
     if (!organizationId) return <></>;
 
-    const orgId = organizationId.toString();
-
     const billingParams = {
         startDate: yyyy_mm_dd(new Date(year, month - 1, 1)),
         endDate: yyyy_mm_dd(new Date(year, month, 0)),
@@ -62,7 +60,7 @@ export const BillingListMobile = memo(() => {
                             shallow={app}
                             app={apps.find((item) => item.id === app.applicationId)!}
                             key={index}
-                            onClick={() => router.push(AppInfoPageRoute.path(orgId, app.applicationId.toString()))}
+                            onClick={() => router.push(AppInfoPageRoute.path(organizationId, app.applicationId))}
                         />
                     ))}
                 </>
@@ -75,7 +73,7 @@ export const BillingListMobile = memo(() => {
                             shallow={app}
                             app={apps.find((item) => item.id === app.applicationId)!}
                             key={index}
-                            onClick={() => router.push(AppInfoPageRoute.path(orgId, app.applicationId.toString()))}
+                            onClick={() => router.push(AppInfoPageRoute.path(organizationId, app.applicationId))}
                         />
                     ))}
                 </>
