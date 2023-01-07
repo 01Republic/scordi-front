@@ -76,7 +76,7 @@ import {useApplication} from '^hooks/useApplications';
 
 export const AppInfoPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/[appId]',
-    path: (id: string, appId: string) => pathReplace(AppInfoPageRoute.pathname, {id, appId}),
+    path: (orgId: number, appId: number) => pathReplace(AppInfoPageRoute.pathname, {id: orgId, appId}),
 });
 
 export default function AppInfoPage() {

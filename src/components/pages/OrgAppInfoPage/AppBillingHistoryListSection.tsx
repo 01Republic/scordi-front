@@ -7,7 +7,12 @@ import {useApplication} from '^hooks/useApplications';
 import {BillingHistoryItem} from '^components/pages/OrgAppInfoPage/BillingHistoryItem';
 import {BillingHistoryDto} from '^types/billing.type';
 
-export const AppBillingHistoryListSection = memo(() => {
+type AppBillingHistoryListSectionProps = {
+    onClickMethod?: 'push' | 'replace' | undefined; // default: "push"
+};
+
+export const AppBillingHistoryListSection = memo((props: AppBillingHistoryListSectionProps) => {
+    const {onClickMethod} = props;
     const router = useRouter();
     const applicationId = Number(router.query.appId);
     const {application} = useApplication(applicationId) || null;
@@ -47,7 +52,12 @@ export const AppBillingHistoryListSection = memo(() => {
                     listOfData={list}
                     groupTitle={<span className="text-gray-500">{key}</span>}
                     itemCustomRender={(billingHistory, i) => (
-                        <BillingHistoryItem application={application} billingHistory={billingHistory} key={i} />
+                        <BillingHistoryItem
+                            application={application}
+                            billingHistory={billingHistory}
+                            onClickMethod={onClickMethod}
+                            key={i}
+                        />
                     )}
                 />
             ))}

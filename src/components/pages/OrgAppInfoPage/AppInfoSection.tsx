@@ -1,13 +1,10 @@
 import React, {memo} from 'react';
-import {WithChildren} from '^types/global.type';
 import {MobileSection} from '^components/v2/MobileSection';
 import {MobileKeyValueItem} from '^components/v2/MobileKeyValueItem';
 import {useRouter} from 'next/router';
 import {useApplication} from '^hooks/useApplications';
 import {t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
 import {TitleSection} from '^components/v2/TitleSection';
-import {safeImageSrc} from '^types/applicationPrototype.type';
-import {ImageV2} from '^components/v2/ui/Image';
 import {AppNameWithLogoBlock} from './AppNameWithLogoBlock';
 import {AppNextPayInfoBlock} from '^components/pages/OrgAppInfoPage/AppNextPayInfoBlock';
 

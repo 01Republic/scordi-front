@@ -10,11 +10,12 @@ import {BillingHistoryShowPageRoute} from '^pages/orgs/[id]/apps/[appId]/billing
 type BillingHistoryItemProps = {
     application: ApplicationDto;
     billingHistory: BillingHistoryDto;
+    onClickMethod?: 'push' | 'replace' | undefined; // default: "push"
 };
 
 export const BillingHistoryItem = memo((props: BillingHistoryItemProps) => {
     const router = useRouter();
-    const {application, billingHistory} = props;
+    const {application, billingHistory, onClickMethod = 'push'} = props;
     if (!application) return <></>;
     const {prototype, organizationId} = application;
 
@@ -24,9 +25,10 @@ export const BillingHistoryItem = memo((props: BillingHistoryItemProps) => {
         <MobileEntityListItem
             id={`billingHistory-${billingHistory.id}`}
             size="big"
-            onClick={() =>
-                router.push(BillingHistoryShowPageRoute.path(organizationId, application.id, billingHistory.id))
-            }
+            onClick={() => {
+                const path = BillingHistoryShowPageRoute.path(organizationId, application.id, billingHistory.id);
+                onClickMethod === 'replace' ? router.replace(path) : router.push(path);
+            }}
         >
             <div className="flex items-center px-1">
                 <img
