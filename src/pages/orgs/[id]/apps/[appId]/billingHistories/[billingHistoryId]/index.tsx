@@ -31,7 +31,7 @@ export default function BillingHistoryShowPage() {
     const organizationId = Number(router.query.id) || null;
     const applicationId = Number(router.query.appId) || null;
     const billingHistoryId = Number(router.query.billingHistoryId) || null;
-    const {application} = useApplication(applicationId);
+    const {data: application} = useApplication(applicationId);
     const {prototype, paymentPlan, billingCycle} = application || {};
 
     const pageLoaded = organizationId && applicationId && billingHistoryId;

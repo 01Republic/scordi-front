@@ -14,7 +14,7 @@ type AppBillingSummarySectionProps = {} & WithChildren;
 export const AppBillingSummarySection = memo((props: AppBillingSummarySectionProps) => {
     const router = useRouter();
     const applicationId = Number(router.query.appId);
-    const {application} = useApplication(applicationId);
+    const {data: application} = useApplication(applicationId);
     const {
         data: histories,
         isLoading,

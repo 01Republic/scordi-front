@@ -2,16 +2,14 @@ import React, {memo} from 'react';
 import {TitleSection} from '^components/v2/TitleSection';
 import {useBillingHistory} from '^hooks/useBillingHistories';
 import {useRouter} from 'next/router';
+import {BillingHistoryDto} from '^types/billing.type';
 
-type BillingHistoryAmountInfoBlockProps = {};
+type BillingHistoryAmountInfoBlockProps = {
+    billingHistory: BillingHistoryDto;
+};
 
 export const BillingHistoryAmountInfoBlock = memo((props: BillingHistoryAmountInfoBlockProps) => {
-    const {} = props;
-    const router = useRouter();
-    const billingHistoryId = Number(router.query.billingHistoryId) || null;
-    const {data: billingHistory, isLoading} = useBillingHistory(billingHistoryId);
-
-    if (isLoading || !billingHistory) return <></>;
+    const {billingHistory} = props;
 
     return (
         <TitleSection.Title size="2xl" className="text-left py-3">

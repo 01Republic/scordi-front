@@ -20,7 +20,7 @@ export const NewAppCreatedPageRoute = pathRoute({
 export default function NewAppCreatedPage() {
     const router = useRouter();
     const applicationId = Number(router.query.applicationId) || null;
-    const {application} = useApplication(applicationId);
+    const {data: application} = useApplication(applicationId);
 
     useEffect(() => {
         if (!application) return;

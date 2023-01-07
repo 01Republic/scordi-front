@@ -36,6 +36,8 @@ export type BillingHistoryDto = {
     application: ApplicationDto;
 };
 
+export const t_paidAt = (dto: BillingHistoryDto) => new Date(dto.paidAt).toLocaleString();
+
 export class CreateBillingHistoryRequestDto {
     paidAt!: Date; // 결제일시
     paidAmount!: number; // 결제금액

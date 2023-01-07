@@ -15,7 +15,7 @@ export const AppBillingHistoryListSection = memo((props: AppBillingHistoryListSe
     const {onClickMethod} = props;
     const router = useRouter();
     const applicationId = Number(router.query.appId);
-    const {application} = useApplication(applicationId) || null;
+    const {data: application} = useApplication(applicationId) || null;
     const {data: billingHistories, isLoading} = useBillingHistories(
         {
             where: {applicationId},

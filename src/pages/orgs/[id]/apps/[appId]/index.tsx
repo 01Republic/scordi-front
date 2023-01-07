@@ -83,7 +83,7 @@ export default function AppInfoPage() {
     const router = useRouter();
     const organizationId = Number(router.query.id);
     const applicationId = Number(router.query.appId);
-    const {application} = useApplication(applicationId);
+    const {data: application} = useApplication(applicationId);
     const {prototype, paymentPlan, billingCycle} = application || {};
 
     if (!prototype || !paymentPlan || !billingCycle) return <></>;

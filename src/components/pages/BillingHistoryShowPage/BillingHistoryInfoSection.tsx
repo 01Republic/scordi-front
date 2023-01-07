@@ -7,6 +7,7 @@ import {BillingHistoryAmountInfoBlock} from '^components/pages/BillingHistorySho
 import {MobileKeyValueItem} from '^components/v2/MobileKeyValueItem';
 import {MobileSection} from '^components/v2/MobileSection';
 import {useBillingHistory} from '^hooks/useBillingHistories';
+import {t_paidAt} from '^types/billing.type';
 
 type BillingHistoryInfoSectionProps = {};
 
@@ -15,24 +16,21 @@ export const BillingHistoryInfoSection = memo((props: BillingHistoryInfoSectionP
     const router = useRouter();
     const applicationId = Number(router.query.appId) || null;
     const billingHistoryId = Number(router.query.billingHistoryId) || null;
-    const {application} = useApplication(applicationId);
-    const {data: billingHistory, isLoading} = useBillingHistory(billingHistoryId);
+    const {data: application} = useApplication(applicationId);
+    const {data: billingHistory} = useBillingHistory(billingHistoryId);
 
-    if (!application) return <></>;
-    if (isLoading || !billingHistory) return <></>;
-
-    const {prototype, paymentPlan, billingCycle} = application;
+    if (!application || !billingHistory) return <></>;
 
     return (
         <>
             <TitleSection.TopPadding />
             <TitleSection.Simple flex={false}>
-                <AppNameWithLogoBlock prototype={prototype} />
-                <BillingHistoryAmountInfoBlock />
+                <AppNameWithLogoBlock prototype={application.prototype} />
+                <BillingHistoryAmountInfoBlock billingHistory={billingHistory} />
             </TitleSection.Simple>
 
             <MobileSection className="pb-3 border-b-8">
-                <MobileKeyValueItem label="결제일시" value={billingHistory.paidAt} />
+                <MobileKeyValueItem label="결제일시" value={t_paidAt(billingHistory)} />
                 <MobileKeyValueItem label="결제상태" value={billingHistory.isSuccess ? '결제완료' : '-'} />
             </MobileSection>
         </>

@@ -38,7 +38,7 @@ export const NewBillingHistoryOnAppPageRoute = pathRoute({
 export default function NewBillingHistoryOnAppPage() {
     const router = useRouter();
     const appId = Number(router.query.appId);
-    const {application} = useApplication(appId);
+    const {data: application} = useApplication(appId);
     const {prototype: proto, paymentPlan: plan, billingCycle: cycle} = application || {};
 
     const pageLoaded = !!application && !!proto && !!plan && !!cycle;

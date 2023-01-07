@@ -1,5 +1,5 @@
 import {useRouter} from 'next/router';
-import {useCallback, useEffect, useMemo} from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 import {useRecoilState} from 'recoil';
 import {applicationAtom, applicationsAtom} from '^atoms/applications.atom';
 import {getApplication, getApplications} from '^api/application.api';
@@ -23,18 +23,21 @@ export const useApplications = () => {
 };
 
 export const useApplication = (id: number | null) => {
+    const [isLoading, setIsLoading] = useState(false);
     const [application, setApplication] = useRecoilState(applicationAtom);
 
-    const fetchApplication = useCallback((id: number) => {
+    const fetch = useCallback((id: number) => {
+        setIsLoading(true);
         getApplication(id)
             .then(({data}) => setApplication(data))
-            .catch(errorNotify);
+            .catch(errorNotify)
+            .finally(() => setIsLoading(false));
     }, []);
 
     useEffect(() => {
         if (!id) return;
-        fetchApplication(id);
+        fetch(id);
     }, [id]);
 
-    return {application, fetchApplication};
+    return {data: application, fetch, isLoading};
 };

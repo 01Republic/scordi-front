@@ -14,7 +14,7 @@ export const AppInfoSection = memo((props: AppInfoSectionProps) => {
     const {} = props;
     const router = useRouter();
     const applicationId = Number(router.query.appId);
-    const {application} = useApplication(applicationId);
+    const {data: application} = useApplication(applicationId);
 
     if (!application) return <></>;
 
