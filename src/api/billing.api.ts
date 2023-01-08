@@ -6,14 +6,17 @@ import {
     CreateBillingHistoryRequestDto,
     CreateBillingHistoryStandAloneRequestDto,
     GetBillingHistoriesParams,
-    StartEndParams,
+    GetBillingSchedulesParams,
+    UpdateBillingHistoryRequestDto,
 } from '^types/billing.type';
 
-export const getBillingSchedules = (params: StartEndParams) => {
+// [구독서비스] 결제 일정 API (BillingSchedule) / 결제 일정 조회 *
+export const getBillingSchedules = (params: GetBillingSchedulesParams) => {
     return api.get<Paginated<BillingScheduleShallowDto>>(`/billing_schedules`, {params});
 };
 
-export const getAppsBillingSchedule = (id: number, params: StartEndParams) => {
+// [구독서비스] 결제 일정 API (BillingSchedule) / 개별 구독 서비스의 결제 일정 조회 *
+export const getAppsBillingSchedule = (id: number, params: GetBillingSchedulesParams) => {
     return api.get<Paginated<BillingScheduleShallowDto>>(`/applications/${id}/billing_schedules`, {params});
 };
 
@@ -38,3 +41,7 @@ export function createAppsBillingHistory(applicationId: number, dto: CreateBilli
 export function createAppsByBillingHistory(dto: CreateBillingHistoryStandAloneRequestDto) {
     return api.post<BillingHistoryDto>(`/billing_histories`, dto);
 }
+
+export const updateBillingHistory = (id: number, dto: UpdateBillingHistoryRequestDto) => {
+    return api.patch(`/billing_histories/${id}`, dto);
+};

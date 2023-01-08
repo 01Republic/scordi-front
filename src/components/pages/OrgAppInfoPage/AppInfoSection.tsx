@@ -1,7 +1,6 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {MobileSection} from '^components/v2/MobileSection';
 import {MobileKeyValueItem} from '^components/v2/MobileKeyValueItem';
-import {useRouter} from 'next/router';
 import {useApplication} from '^hooks/useApplications';
 import {t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
 import {TitleSection} from '^components/v2/TitleSection';
@@ -11,10 +10,7 @@ import {AppNextPayInfoBlock} from '^components/pages/OrgAppInfoPage/AppNextPayIn
 type AppInfoSectionProps = {};
 
 export const AppInfoSection = memo((props: AppInfoSectionProps) => {
-    const {} = props;
-    const router = useRouter();
-    const applicationId = Number(router.query.appId);
-    const {data: application} = useApplication(applicationId);
+    const application = useApplication();
 
     if (!application) return <></>;
 

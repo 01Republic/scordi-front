@@ -1,54 +1,50 @@
-import {ApplicationDto} from '^types/application.type';
-import React, {memo, useEffect, useState} from 'react';
-import {AppInfoPageRoute} from '^pages/orgs/[id]/apps/[appId]';
+import React, {memo, useEffect} from 'react';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {useRouter} from 'next/router';
-import {getBillingHistories, getBillingSchedules} from '^api/billing.api';
-import {errorNotify} from '^utils/toast-notify';
-import {BillingHistoryDto, BillingScheduleShallowDto as ScheduleDto} from '^types/billing.type';
+import {ApplicationDto} from '^types/application.type';
+import {AppInfoPageRoute} from '^pages/orgs/[id]/apps/[appId]';
+import {BillingScheduleShallowDto as ScheduleDto} from '^types/billing.type';
 import {intlDateShort, yyyy_mm_dd} from '^utils/dateTime';
-import {DashboardSummaryDto} from '^types/dashboard.type';
 import {useDashboardSummary} from '^hooks/useDashboardSummary';
 import {useCalendar} from '^hooks/useCalendar';
 import {useApplications} from '^hooks/useApplications';
 import {MobileSection} from '^components/v2/MobileSection';
-
-const sortByBillingDate = (direct: 'ASC' | 'DESC') => (a: ScheduleDto, b: ScheduleDto) => {
-    const diff = new Date(a.billingDate).getTime() - new Date(b.billingDate).getTime();
-    return direct === 'ASC' ? diff : diff * -1;
-};
+import {didPayAppsState, getBillingSchedulesParamsState, willPayAppsState} from '^atoms/billingHistories.atom';
+import {getApplicationsParamsState} from '^atoms/applications.atom';
 
 export const BillingListMobile = memo(() => {
     const router = useRouter();
     const organizationId = Number(router.query.id);
     const {year, month} = useCalendar();
-    const {summaryDto} = useDashboardSummary();
-    const {data: apps} = useApplications();
-    const [willPayApps, setWillPayApps] = useState<ScheduleDto[]>([]);
-    const [didPayApps, setDidPayApps] = useState<ScheduleDto[]>([]);
+    const summaryDto = useDashboardSummary();
+    const appsQueryResult = useApplications();
+    const setAppsQueryParam = useSetRecoilState(getApplicationsParamsState);
+    const setSchedulesQueryParam = useSetRecoilState(getBillingSchedulesParamsState);
+    const willPayApps = useRecoilValue(willPayAppsState);
+    const didPayApps = useRecoilValue(didPayAppsState);
 
-    if (!organizationId) return <></>;
-
-    const billingParams = {
-        startDate: yyyy_mm_dd(new Date(year, month - 1, 1)),
-        endDate: yyyy_mm_dd(new Date(year, month, 0)),
+    const startDate = yyyy_mm_dd(new Date(year, month - 1, 1));
+    const endDate = yyyy_mm_dd(new Date(year, month, 0));
+    const updateQueryParam = () => {
+        setSchedulesQueryParam({where: {organizationId}, startDate, endDate});
     };
 
     useEffect(() => {
-        if (!router.query.id) return;
+        if (isNaN(organizationId)) return;
+        updateQueryParam();
+        setAppsQueryParam({
+            where: {organizationId},
+            order: {id: 'DESC'},
+            itemsPerPage: 300,
+        });
+    }, [organizationId]);
 
-        // TODO: 결제 전 후 구분해서 따로 array에 담기
-        // getBillingHistories(billingParams)
-        //     .then((res) => setBeforeApps(res.data.items))
-        //     .catch((err) => errorNotify(err));
-        getBillingSchedules(billingParams)
-            .then(({data}) => {
-                setWillPayApps(data.items.filter((d) => !d.isSuccess).sort(sortByBillingDate('DESC')));
-                setDidPayApps(data.items.filter((d) => d.isSuccess).sort(sortByBillingDate('DESC')));
-            })
-            .catch((err) => errorNotify(err));
-    }, [apps, year, month]);
+    useEffect(() => {
+        updateQueryParam();
+    }, [year, month]);
 
-    if (!summaryDto) return <></>;
+    if (!summaryDto || !organizationId || !appsQueryResult) return <></>;
+    const {items: apps} = appsQueryResult;
 
     return (
         <MobileSection>

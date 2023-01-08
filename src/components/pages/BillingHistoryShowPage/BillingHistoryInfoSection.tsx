@@ -1,6 +1,5 @@
 import React, {memo} from 'react';
 import {TitleSection} from '^components/v2/TitleSection';
-import {useRouter} from 'next/router';
 import {useApplication} from '^hooks/useApplications';
 import {AppNameWithLogoBlock} from '^components/pages/OrgAppInfoPage/AppNameWithLogoBlock';
 import {BillingHistoryAmountInfoBlock} from '^components/pages/BillingHistoryShowPage/BillingHistoryAmountInfoBlock';
@@ -12,12 +11,8 @@ import {t_paidAt} from '^types/billing.type';
 type BillingHistoryInfoSectionProps = {};
 
 export const BillingHistoryInfoSection = memo((props: BillingHistoryInfoSectionProps) => {
-    const {} = props;
-    const router = useRouter();
-    const applicationId = Number(router.query.appId) || null;
-    const billingHistoryId = Number(router.query.billingHistoryId) || null;
-    const {data: application} = useApplication(applicationId);
-    const {data: billingHistory} = useBillingHistory(billingHistoryId);
+    const application = useApplication();
+    const billingHistory = useBillingHistory();
 
     if (!application || !billingHistory) return <></>;
 

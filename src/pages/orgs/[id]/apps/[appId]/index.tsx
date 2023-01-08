@@ -57,7 +57,7 @@
 // AppInfoPage.getLayout = getOrgMainLayout;
 // export default AppInfoPage;
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
@@ -73,6 +73,9 @@ import {AppBillingSummarySection} from '^components/pages/OrgAppInfoPage/AppBill
 import {AppBillingHistoryListSection} from '^components/pages/OrgAppInfoPage/AppBillingHistoryListSection';
 import {NewBillingHistoryOnAppPageRoute} from '^pages/orgs/[id]/apps/[appId]/billingHistories/new';
 import {useApplication} from '^hooks/useApplications';
+import {useSetRecoilState} from 'recoil';
+import {applicationIdParamState} from '^atoms/common';
+import {getBillingHistoriesParamsState} from '^atoms/billingHistories.atom';
 
 export const AppInfoPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/[appId]',
@@ -83,10 +86,22 @@ export default function AppInfoPage() {
     const router = useRouter();
     const organizationId = Number(router.query.id);
     const applicationId = Number(router.query.appId);
-    const {data: application} = useApplication(applicationId);
-    const {prototype, paymentPlan, billingCycle} = application || {};
+    const application = useApplication();
+    const setApplicationIdParam = useSetRecoilState(applicationIdParamState);
+    const setBillingHistoriesQueryParam = useSetRecoilState(getBillingHistoriesParamsState);
 
-    if (!prototype || !paymentPlan || !billingCycle) return <></>;
+    useEffect(() => {
+        setApplicationIdParam(applicationId);
+        setBillingHistoriesQueryParam({
+            where: {applicationId},
+            order: {id: 'DESC'},
+            itemsPerPage: 300,
+        });
+    }, [applicationId]);
+
+    if (!application) return <></>;
+
+    const {prototype, paymentPlan, billingCycle} = application;
 
     return (
         <>

@@ -7,6 +7,8 @@ import {PreLoader} from '^components/PreLoader';
 import {ApplicationPrototypeDto, safeImageSrc} from '^types/applicationPrototype.type';
 import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {ImageV2} from '^components/v2/ui/Image';
+import {useSetRecoilState} from 'recoil';
+import {applicationIdParamState} from '^atoms/common';
 
 export const NewAppCreatedPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/new/created',
@@ -19,16 +21,19 @@ export const NewAppCreatedPageRoute = pathRoute({
 
 export default function NewAppCreatedPage() {
     const router = useRouter();
-    const applicationId = Number(router.query.applicationId) || null;
-    const {data: application} = useApplication(applicationId);
+    const applicationId = Number(router.query.applicationId);
+    const application = useApplication();
+    const setApplicationIdParam = useSetRecoilState(applicationIdParamState);
 
     useEffect(() => {
-        if (!application) return;
+        setApplicationIdParam(applicationId);
+    }, [applicationId]);
 
+    if (application) {
         setTimeout(() => {
             router.push(OrgAppsIndexPageRoute.path(application.organizationId));
         }, 1.5 * 1000);
-    }, [application]);
+    }
 
     if (!application) return <PreLoader />;
 

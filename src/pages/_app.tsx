@@ -4,7 +4,7 @@ import '../styles/globals.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/dashboard-calendar.scss';
 import '../styles/v2/index.scss';
-import {Fragment} from 'react';
+import {Fragment, Suspense} from 'react';
 import Head from 'next/head';
 import {ToastContainer, Slide} from 'react-toastify';
 import type {Props} from '^types/page';
@@ -27,7 +27,9 @@ function MyApp(props: Props) {
                     content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"
                 />
             </Head>
-            <Layout>{getLayout(<Component {...pageProps} />)}</Layout>
+            <Suspense fallback={<></>}>
+                <Layout>{getLayout(<Component {...pageProps} />)}</Layout>
+            </Suspense>
             <ToastContainer
                 position="bottom-center"
                 autoClose={3000}

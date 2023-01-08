@@ -23,10 +23,6 @@ export function safeImageSrc(proto: ApplicationPrototypeDto, w: number, h: numbe
     );
 }
 
-export type SearchAppPrototypeForm = {
-    name: string;
-};
-
 export type FindAllAppPrototypeQuery = FindAllQueryDto<ApplicationPrototypeDto> & {
     isLive?: boolean;
     name?: string;

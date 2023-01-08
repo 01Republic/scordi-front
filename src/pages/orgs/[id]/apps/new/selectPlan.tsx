@@ -23,7 +23,7 @@ export const SelectPlanPageRoute = pathRoute({
 
 export default function SelectPlanPage() {
     const router = useRouter();
-    const organizationId = Number(router.query.id) || null;
+    const organizationId = Number(router.query.id);
     const {prototype: proto} = useCreateFlow();
 
     const pageLoaded = !!organizationId && !!proto;
@@ -32,8 +32,6 @@ export default function SelectPlanPage() {
     const planOnClickHandler = (paymentPlan: ApplicationPaymentPlanDto) => {
         router.push(SelectCyclePageProps.path(organizationId, proto.id, paymentPlan.id));
     };
-
-    console.log(proto);
 
     return (
         <>

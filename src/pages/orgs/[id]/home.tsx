@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
@@ -16,6 +16,9 @@ import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {useDashboardSummary} from '^hooks/useDashboardSummary';
 import {MobileKeyValueItem} from '^components/v2/MobileKeyValueItem';
 import {NewBillingHistoryPageRoute} from '^pages/orgs/[id]/apps/billingHistories/new';
+import {useSetRecoilState} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
+import {getBillingSchedulesParamsState} from '^atoms/billingHistories.atom';
 
 export const OrgHomeRoute = pathRoute({
     pathname: '/orgs/[id]/home',
@@ -26,10 +29,14 @@ export default function HomePage() {
     const router = useRouter();
     const organizationId = Number(router.query.id);
     const {month} = useCalendar();
-    const {summaryDto} = useDashboardSummary();
+    const summaryDto = useDashboardSummary();
+    const setOrgIdParam = useSetRecoilState(orgIdParamState);
 
-    if (!organizationId) return <PreLoader />;
-    if (!summaryDto) return <></>;
+    useEffect(() => {
+        setOrgIdParam(organizationId);
+    }, [organizationId]);
+
+    if (!organizationId || !summaryDto) return <PreLoader />;
 
     return (
         <>

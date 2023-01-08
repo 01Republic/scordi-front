@@ -1,5 +1,4 @@
 import React, {memo} from 'react';
-import {useRouter} from 'next/router';
 import {useBillingHistories} from '^hooks/useBillingHistories';
 import {MobileEntityListSection} from '^components/v2/MobileEntityListSection';
 import {PreLoader} from '^components/PreLoader';
@@ -13,20 +12,12 @@ type AppBillingHistoryListSectionProps = {
 
 export const AppBillingHistoryListSection = memo((props: AppBillingHistoryListSectionProps) => {
     const {onClickMethod} = props;
-    const router = useRouter();
-    const applicationId = Number(router.query.appId);
-    const {data: application} = useApplication(applicationId) || null;
-    const {data: billingHistories, isLoading} = useBillingHistories(
-        {
-            where: {applicationId},
-            order: {id: 'DESC'},
-            itemsPerPage: 300,
-        },
-        [applicationId],
-    );
+    const application = useApplication();
+    const billingHistoriesQueryResult = useBillingHistories();
 
-    if (!application) return <></>;
-    if (isLoading) return <PreLoader screenSize={false} />;
+    if (!application || !billingHistoriesQueryResult) return <PreLoader screenSize={false} />;
+
+    const {items: billingHistories} = billingHistoriesQueryResult;
 
     const groupedList: {[key: string]: BillingHistoryDto[]} = {};
     billingHistories.forEach((item) => {

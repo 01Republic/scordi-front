@@ -19,6 +19,8 @@ import {SelectedStatusSection} from '^components/pages/OrgApplicationCreateFlow/
 import {LeadMessageSection} from '^components/pages/OrgApplicationCreateFlow/LeadMessageSection';
 import {CreateBillingHistoryForm} from '^components/pages/NewBillingHistoryOnAppPage/CreateBillingHistoryForm';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
+import {useSetRecoilState} from 'recoil';
+import {applicationIdParamState} from '^atoms/common';
 
 export const NewBillingHistoryOnAppPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/[appId]/billingHistories/new',
@@ -38,11 +40,16 @@ export const NewBillingHistoryOnAppPageRoute = pathRoute({
 export default function NewBillingHistoryOnAppPage() {
     const router = useRouter();
     const appId = Number(router.query.appId);
-    const {data: application} = useApplication(appId);
-    const {prototype: proto, paymentPlan: plan, billingCycle: cycle} = application || {};
+    const application = useApplication();
+    const setApplicationIdParam = useSetRecoilState(applicationIdParamState);
 
-    const pageLoaded = !!application && !!proto && !!plan && !!cycle;
-    if (!pageLoaded) return <PreLoader />;
+    useEffect(() => {
+        setApplicationIdParam(appId);
+    }, [appId]);
+
+    if (!application) return <PreLoader />;
+
+    const {prototype: proto, paymentPlan: plan, billingCycle: cycle} = application;
 
     return (
         <>
@@ -51,7 +58,7 @@ export default function NewBillingHistoryOnAppPage() {
             </MobileTopNav>
             <SelectedStatusSection proto={proto} text={[plan.name, t_BillingCycleTerm(cycle.term, true)].join(' / ')} />
             <LeadMessageSection text="새로운 결제가 있나요?" />
-            <CreateBillingHistoryForm application={application!} />
+            <CreateBillingHistoryForm application={application} />
         </>
     );
 }

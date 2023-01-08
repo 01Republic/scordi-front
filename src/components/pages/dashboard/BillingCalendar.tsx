@@ -8,9 +8,9 @@ import {MobileSection} from '^components/v2/MobileSection';
 export const BillingCalendar = memo(() => {
     const router = useRouter();
     const organizationId = Number(router.query.id);
-    const {year, month, calendarData, enabled} = useCalendar();
+    const {year, month, calendarData} = useCalendar();
 
-    if (!enabled) return <></>;
+    if (!calendarData) return <></>;
 
     return (
         <MobileSection className="mb-3">

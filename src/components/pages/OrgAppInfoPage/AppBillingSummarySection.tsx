@@ -1,34 +1,20 @@
 import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {MobileEntityListSection} from '^components/v2/MobileEntityListSection';
 import {useApplication} from '^hooks/useApplications';
-import {useRouter} from 'next/router';
-import {MobileSection} from '^components/v2/MobileSection';
-import {useBillingHistories} from '^hooks/useBillingHistories';
 import {MobileGrid} from '^components/v2/MobileGridSection';
+import {useBillingHistories} from '^hooks/useBillingHistories';
 
 const sumOf = (arr: number[]) => arr.reduce((acc, a) => acc + a, 0);
 
 type AppBillingSummarySectionProps = {} & WithChildren;
 
 export const AppBillingSummarySection = memo((props: AppBillingSummarySectionProps) => {
-    const router = useRouter();
-    const applicationId = Number(router.query.appId);
-    const {data: application} = useApplication(applicationId);
-    const {
-        data: histories,
-        isLoading,
-        pagination,
-    } = useBillingHistories(
-        {
-            where: {applicationId},
-            order: {id: 'DESC'},
-            itemsPerPage: 300,
-        },
-        [applicationId],
-    );
+    const application = useApplication();
+    const billingHistoriesQueryResult = useBillingHistories();
 
-    if (!application || isLoading) return <></>;
+    if (!application || !billingHistoriesQueryResult) return <></>;
+
+    const {items: histories, pagination} = billingHistoriesQueryResult;
 
     const totalItemCount = pagination.totalItemCount;
     const totalPrice = sumOf(histories.map((h) => h.paidAmount));

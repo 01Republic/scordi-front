@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {useRouter} from 'next/router';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
@@ -9,6 +9,9 @@ import {TitleSection} from '^components/v2/TitleSection';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {ApplicationList} from '^components/pages/OrgAppIndexPage/ApplicationList';
 import {OrgApplicationSelectPageRoute} from '^pages/orgs/[id]/apps/new/select';
+import {useSetRecoilState} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
+import {getApplicationsParamsState} from '^atoms/applications.atom';
 
 export const OrgAppsIndexPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps',
@@ -18,6 +21,17 @@ export const OrgAppsIndexPageRoute = pathRoute({
 export default function OrgAppsIndexPage() {
     const router = useRouter();
     const organizationId = Number(router.query.id);
+    const setOrgIdParam = useSetRecoilState(orgIdParamState);
+    const setAppsQueryParam = useSetRecoilState(getApplicationsParamsState);
+
+    useEffect(() => {
+        setOrgIdParam(organizationId);
+        setAppsQueryParam({
+            where: {organizationId},
+            order: {id: 'DESC'},
+            itemsPerPage: 300,
+        });
+    }, [organizationId]);
 
     return (
         <>
