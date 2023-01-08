@@ -1,5 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
-import {useRouter} from 'next/router';
+import React from 'react';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {MobileTopNav, MobileTopNavRight} from '^components/v2/MobileTopNav';
@@ -9,14 +8,8 @@ import {TitleSection} from '^components/v2/TitleSection';
 import {useApplication} from '^hooks/useApplications';
 import {useBillingHistory} from '^hooks/useBillingHistories';
 import {AppNameWithLogoBlock} from '^components/pages/OrgAppInfoPage/AppNameWithLogoBlock';
-import {useForm} from 'react-hook-form';
-import {UpdateBillingHistoryRequestDto} from '^types/billing.type';
-import {updateBillingHistory} from '^api/billing.api';
-import {BillingHistoryShowPageRoute} from '^pages/orgs/[id]/apps/[appId]/billingHistories/[billingHistoryId]/index';
-import {errorNotify} from '^utils/toast-notify';
 import {BillingHistoryEditForm} from '^components/v2/BillingHistoryEditPage/BillingHistoryEditForm';
-import {useSetRecoilState} from 'recoil';
-import {applicationIdParamState} from '^atoms/common';
+import {applicationIdParamState, billingHistoryIdParamState, useRouterIdParamState} from '^atoms/common';
 
 export const BillingHistoryEditPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/[appId]/billingHistories/[billingHistoryId]/edit',
@@ -29,17 +22,10 @@ export const BillingHistoryEditPageRoute = pathRoute({
 });
 
 export default function BillingHistoryEditPage() {
-    const router = useRouter();
-    console.log(router.query);
-    const applicationId = Number(router.query.appId);
-    const billingHistoryId = Number(router.query.billingHistoryId) || null;
+    useRouterIdParamState('appId', applicationIdParamState);
+    useRouterIdParamState('billingHistoryId', billingHistoryIdParamState);
     const application = useApplication();
-    const {data: billingHistory} = useBillingHistory(billingHistoryId);
-    const setApplicationIdParam = useSetRecoilState(applicationIdParamState);
-
-    useEffect(() => {
-        setApplicationIdParam(applicationId);
-    }, [applicationId]);
+    const billingHistory = useBillingHistory();
 
     if (!application || !billingHistory) return <></>;
 

@@ -4,6 +4,7 @@ import {ApplicationPaymentPlanDto} from '^types/applicationPaymentPlan.type';
 import {ApplicationBillingCycleDto} from '^types/applicationBillingCycle.type';
 import {getApplicationPrototype, getApplicationPrototypes} from '^api/applicationPrototype.api';
 import {errorNotify} from '^utils/toast-notify';
+import {prototypeIdParamsState} from '^atoms/common';
 
 export const applicationPrototypesAtom = atom({
     key: 'applicationPrototypes',
@@ -28,11 +29,6 @@ export const billingCycleForCreateFlowAtom = atom({
 /**
  * ApplicationPrototypes Basic CRUD
  */
-
-export const prototypeIdParamsState = atom({
-    key: 'prototypeIdParamsState',
-    default: NaN,
-});
 
 export const getPrototypesParamsState = atom<FindAllAppPrototypeQuery>({
     key: 'getPrototypesParamsState',

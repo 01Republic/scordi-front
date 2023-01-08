@@ -4,16 +4,6 @@ import {applicationIdParamState} from '^atoms/common';
 import {getApplication, getApplications} from '^api/application.api';
 import {errorNotify} from '^utils/toast-notify';
 
-// export const applicationsAtom = atom({
-//     key: 'applications',
-//     default: [] as ApplicationDto[],
-// });
-//
-// export const applicationAtom = atom({
-//     key: 'application',
-//     default: null as ApplicationDto | null,
-// });
-
 export const getApplicationsParamsState = atom<FindAllAppsQuery>({
     key: 'getApplicationsParamsState',
     default: {},

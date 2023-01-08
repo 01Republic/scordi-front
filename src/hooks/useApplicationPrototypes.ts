@@ -1,4 +1,5 @@
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {prototypeIdParamsState} from '^atoms/common';
 import {
     applicationPrototypeAtom,
     applicationPrototypesAtom,
@@ -6,7 +7,6 @@ import {
     getPrototypeQuery,
     getPrototypesQuery,
     paymentPlanForCreateFlowAtom,
-    prototypeIdParamsState,
 } from '^atoms/applicationPrototypes.atom';
 import {useEffect, useState} from 'react';
 import {ApplicationPrototypeDto, FindAllAppPrototypeQuery} from '^types/applicationPrototype.type';

@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import {useRouter} from 'next/router';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {MobileTopNav, MobileTopNavRight} from '^components/v2/MobileTopNav';
@@ -15,7 +14,12 @@ import {NewBillingHistoryOnAppPageRoute} from '^pages/orgs/[id]/apps/[appId]/bil
 import {Icon} from '^components/Icon';
 import {BillingHistoryEditPageRoute} from '^pages/orgs/[id]/apps/[appId]/billingHistories/[billingHistoryId]/edit';
 import {useSetRecoilState} from 'recoil';
-import {applicationIdParamState, billingHistoryIdParamState} from '^atoms/common';
+import {
+    applicationIdParamState,
+    billingHistoryIdParamState,
+    orgIdParamState,
+    useRouterIdParamState,
+} from '^atoms/common';
 import {getBillingHistoriesParamsState} from '^atoms/billingHistories.atom';
 
 export const BillingHistoryShowPageRoute = pathRoute({
@@ -29,27 +33,20 @@ export const BillingHistoryShowPageRoute = pathRoute({
 });
 
 export default function BillingHistoryShowPage() {
-    const router = useRouter();
-    const organizationId = Number(router.query.id);
-    const applicationId = Number(router.query.appId);
-    const billingHistoryId = Number(router.query.billingHistoryId);
+    const organizationId = useRouterIdParamState('id', orgIdParamState);
+    const applicationId = useRouterIdParamState('appId', applicationIdParamState);
+    const billingHistoryId = useRouterIdParamState('billingHistoryId', billingHistoryIdParamState);
     const application = useApplication();
-    const setApplicationIdParam = useSetRecoilState(applicationIdParamState);
-    const setBillingHistoryIdParam = useSetRecoilState(billingHistoryIdParamState);
     const setBillingHistoriesQueryParam = useSetRecoilState(getBillingHistoriesParamsState);
 
     useEffect(() => {
-        setApplicationIdParam(applicationId);
+        // setApplicationIdParam(applicationId);
         setBillingHistoriesQueryParam({
             where: {applicationId},
             order: {id: 'DESC'},
             itemsPerPage: 300,
         });
     }, [applicationId]);
-
-    useEffect(() => {
-        setBillingHistoryIdParam(billingHistoryId);
-    }, [billingHistoryId]);
 
     if (!application) return <></>;
     const editPath = BillingHistoryEditPageRoute.path(organizationId, applicationId, billingHistoryId);
