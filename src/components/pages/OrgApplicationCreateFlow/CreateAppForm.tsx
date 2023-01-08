@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import React, {memo} from 'react';
 import {useRouter} from 'next/router';
 import {useCreateFlow} from '^hooks/useApplicationPrototypes';
 import {useForm} from 'react-hook-form';
@@ -10,6 +10,7 @@ import {createAppsByBillingHistory} from '^api/billing.api';
 import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {errorNotify} from '^utils/toast-notify';
 import {NewAppCreatedPageRoute} from '^pages/orgs/[id]/apps/new/created';
+import {CTAButton} from '^components/v2/ui/buttons/CTAButton';
 
 type CreateAppFormProps = {};
 
@@ -78,11 +79,7 @@ export const CreateAppForm = memo((props: CreateAppFormProps) => {
             </MobileSection>
 
             <MobileBottomNav>
-                <MobileSection className="py-[20px] pb-[50px] px-0 md:px-[20px]">
-                    <button type="submit" className="btn btn-block btn-big btn-secondary">
-                        완료
-                    </button>
-                </MobileSection>
+                <CTAButton type="submit" text="완료" />
             </MobileBottomNav>
         </form>
     );

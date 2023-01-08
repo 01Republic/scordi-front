@@ -33,7 +33,7 @@ export const MobileGridColumn = memo((props: MobileGridColumnProps) => {
 
 type MobileGridColumnKeyValueBoxProps = {
     label: string;
-    value: string;
+    value?: string;
 } & WithChildren;
 
 export const MobileGridColumnKeyValueBox = memo((props: MobileGridColumnKeyValueBoxProps) => {
@@ -42,7 +42,7 @@ export const MobileGridColumnKeyValueBox = memo((props: MobileGridColumnKeyValue
     return (
         <>
             <p className="text-center text-sm text-gray-500">{label}</p>
-            <p className="text-center text-base font-bold">{value}</p>
+            {value && <p className="text-center text-base font-bold">{value}</p>}
             {children}
         </>
     );

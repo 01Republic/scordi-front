@@ -3,10 +3,12 @@ import {
     BillingScheduleShallowDto as ScheduleDto,
     GetBillingHistoriesParams,
     GetBillingSchedulesParams,
+    UpdateBillingHistoryRequestDto,
 } from '^types/billing.type';
 import {errorNotify} from '^utils/toast-notify';
 import {getBillingHistories, getBillingHistory, getBillingSchedules} from '^api/billing.api';
 import {billingHistoryIdParamState} from '^atoms/common';
+import {useForm} from 'react-hook-form';
 
 /**
  * Billing Schedule
@@ -77,9 +79,20 @@ export const getBillingHistoriesQuery = selector({
     },
 });
 
+/**
+ * BillingHistoryQuery 를 페이지 컨텍스트내의 의존성과 별개로 강제로 재실행(re-fetch) 할 수 있도록 만들어줍니다.
+ * https://skyblue300a.tistory.com/10
+ */
+export const getBillingHistoryQueryTrigger = atom({
+    key: 'getBillingHistoryQueryTrigger',
+    default: 0,
+});
+
 export const getBillingHistoryQuery = selector({
     key: 'getBillingHistoryQuery',
     get: async ({get}) => {
+        // 트리거의 상태를 구독해서 트리거 값이 변경될 때마다 api call
+        get(getBillingHistoryQueryTrigger);
         const id = get(billingHistoryIdParamState);
         if (isNaN(id)) return;
         try {
@@ -89,5 +102,9 @@ export const getBillingHistoryQuery = selector({
             errorNotify(e);
         }
     },
-    set: ({get, set}) => {},
+    set: ({get, set}) => {
+        // setter 가 호출되면 트리거의 값을 1만큼 증가
+        // => 트리거 값 변경으로 인해 api call
+        set(getBillingHistoryQueryTrigger, (v) => v + 1);
+    },
 });

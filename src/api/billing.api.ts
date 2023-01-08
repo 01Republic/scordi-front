@@ -43,5 +43,5 @@ export function createAppsByBillingHistory(dto: CreateBillingHistoryStandAloneRe
 }
 
 export const updateBillingHistory = (id: number, dto: UpdateBillingHistoryRequestDto) => {
-    return api.patch(`/billing_histories/${id}`, dto);
+    return api.patch<BillingHistoryDto>(`/billing_histories/${id}`, dto);
 };

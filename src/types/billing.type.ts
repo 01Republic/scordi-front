@@ -69,7 +69,10 @@ interface Type<T = any> extends Function {
 function PartialType<T>(classRef: Type<T>): Type<Partial<T>> {
     return classRef;
 }
-export class UpdateBillingHistoryRequestDto extends PartialType(CreateBillingHistoryRequestDto) {}
+export class UpdateBillingHistoryRequestDto extends PartialType(CreateBillingHistoryRequestDto) {
+    // @ts-ignore
+    paidAt: string | undefined; // datetime string
+}
 
 export class CreateBillingHistoryStandAloneRequestDto {
     billingCycleId!: number; // 결제주기 ID
