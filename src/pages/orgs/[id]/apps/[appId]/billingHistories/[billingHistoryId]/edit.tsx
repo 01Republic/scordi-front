@@ -34,14 +34,6 @@ export default function BillingHistoryEditPage() {
     const billingHistory = useBillingHistory();
     const form = useForm<UpdateBillingHistoryRequestDto>();
 
-    useEffect(() => {
-        if (!billingHistory) return;
-
-        form.setValue('paidAmount', billingHistory.paidAmount);
-        form.setValue('paidAt', `${billingHistory.paidAt}`.split('T')[0]);
-        form.setValue('isSuccess', billingHistory.isSuccess);
-    }, [billingHistory]);
-
     if (!application || !billingHistory) return <></>;
 
     return (

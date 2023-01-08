@@ -56,7 +56,7 @@ export type ApplicationDto = {
 export type FindAllAppsQuery = FindAllQueryDto<ApplicationDto>;
 
 export type CreateApplicationRequestDto = {
-    sign: string | null; // 연동계정 Sign
+    sign?: string | null; // 연동계정 Sign
     displayName: string; // 조직이름 (연동서비스 내에서)
     organizationId: number; // 조직 ID
     prototypeId: number; // 프로토타입 ID
@@ -80,7 +80,11 @@ export type CreateApplicationByInvoicesRequestDto = {
     invoiceDataList: InvoiceDataDto[];
 };
 
-export type UpdateApplicationRequestDto = Omit<CreateApplicationRequestDto, 'organizationId' | 'prototypeId'>;
+export type UpdateApplicationRequestDto = Partial<
+    Omit<CreateApplicationRequestDto, 'organizationId' | 'prototypeId'>
+> & {
+    connectStatus?: ConnectStatus; // 연동상태
+};
 
 // export const applicationMockDataList: ApplicationDto[] = [
 //   {

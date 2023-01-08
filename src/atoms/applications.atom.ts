@@ -24,9 +24,15 @@ export const getApplicationsQuery = selector({
     },
 });
 
+export const getApplicationQueryTrigger = atom({
+    key: 'getApplicationQueryTrigger',
+    default: 0,
+});
+
 export const getApplicationQuery = selector({
     key: 'getApplicationQuery',
     get: async ({get}) => {
+        get(getApplicationQueryTrigger);
         const id = get(applicationIdParamState);
         if (isNaN(id)) return;
         try {
@@ -36,5 +42,7 @@ export const getApplicationQuery = selector({
             errorNotify(e);
         }
     },
-    set: ({get, set}) => {},
+    set: ({get, set}) => {
+        set(getApplicationQueryTrigger, (v) => v + 1);
+    },
 });

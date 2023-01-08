@@ -11,7 +11,7 @@ export const MobileKeyValueItem = memo((props: MobileKeyValueItem) => {
     const {label, value, children} = props;
     return (
         <div className="flex w-full py-2.5 items-center justify-between">
-            <span>{label}</span>
+            <span style={{wordBreak: 'keep-all'}}>{label}</span>
             {value && <span className="text-gray-500 font-semibold">{value}</span>}
             {children}
         </div>

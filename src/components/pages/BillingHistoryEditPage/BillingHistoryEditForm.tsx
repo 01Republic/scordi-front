@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo, useEffect} from 'react';
 import {WithChildren} from '^types/global.type';
 import {useForm, UseFormReturn} from 'react-hook-form';
 import {UpdateBillingHistoryRequestDto} from '^types/billing.type';
@@ -9,6 +9,7 @@ import {useRouter} from 'next/router';
 import {billingHistoryIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useSetRecoilState} from 'recoil';
 import {getBillingHistoryQuery} from '^atoms/billingHistories.atom';
+import {useBillingHistory} from '^hooks/useBillingHistories';
 
 type BillingHistoryEditFormProps = {
     form: UseFormReturn<UpdateBillingHistoryRequestDto, any>;
@@ -20,6 +21,7 @@ export const BillingHistoryEditForm = memo((props: BillingHistoryEditFormProps) 
     const organizationId = Number(router.query.id) || null;
     const applicationId = Number(router.query.appId) || null;
     const billingHistoryId = useRouterIdParamState('billingHistoryId', billingHistoryIdParamState);
+    const billingHistory = useBillingHistory();
     const fetchBillingHistory = useSetRecoilState(getBillingHistoryQuery);
 
     const onSubmit = (data: UpdateBillingHistoryRequestDto) => {
@@ -33,6 +35,14 @@ export const BillingHistoryEditForm = memo((props: BillingHistoryEditFormProps) 
             })
             .catch(errorNotify);
     };
+
+    useEffect(() => {
+        if (!billingHistory) return;
+
+        form.setValue('paidAmount', billingHistory.paidAmount);
+        form.setValue('paidAt', `${billingHistory.paidAt}`.split('T')[0]);
+        form.setValue('isSuccess', billingHistory.isSuccess);
+    }, [billingHistory]);
 
     return <form onSubmit={form.handleSubmit(onSubmit)}>{children}</form>;
 });

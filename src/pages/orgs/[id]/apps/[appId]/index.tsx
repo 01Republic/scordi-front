@@ -76,6 +76,7 @@ import {useApplication} from '^hooks/useApplications';
 import {useSetRecoilState} from 'recoil';
 import {applicationIdParamState} from '^atoms/common';
 import {getBillingHistoriesParamsState} from '^atoms/billingHistories.atom';
+import {OrgApplicationEditPageRoute} from '^pages/orgs/[id]/apps/[appId]/edit';
 
 export const AppInfoPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/[appId]',
@@ -108,7 +109,7 @@ export default function AppInfoPage() {
             <MobileTopNav>
                 <BackButton href={OrgAppsIndexPageRoute.path(organizationId)} />
                 <MobileTopNavRight>
-                    <EditButton />
+                    <EditButton href={OrgApplicationEditPageRoute.path(organizationId, applicationId)} />
                     <DeleteButton />
                 </MobileTopNavRight>
             </MobileTopNav>
