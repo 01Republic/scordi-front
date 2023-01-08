@@ -63,7 +63,7 @@ export const ApplicationInputsBlock = memo((props: AppNextPayInputsBlockProps) =
                     <div className="form-control w-1/2 max-w-xs px-3">
                         <Select
                             className="select max-w-xs"
-                            onChange={(e) => form.setValue('connectStatus', e.target.value as ConnectStatus)}
+                            onChange={(e) => form.setValue('billingCycleId', Number(e.target.value))}
                         >
                             {billingCycles.map((cycle, i) => (
                                 <option key={i} value={cycle.id}>
