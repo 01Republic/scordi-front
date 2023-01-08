@@ -6,7 +6,6 @@ import {MobileTopNav} from '^components/v2/MobileTopNav';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
 import {useCreateFlow} from '^hooks/useApplicationPrototypes';
 import {PreLoader} from '^components/PreLoader';
-import {SelectPlanPageRoute} from '^pages/orgs/[id]/apps/new/selectPlan';
 import {SelectedStatusSection} from '^components/pages/OrgApplicationCreateFlow/SelectedStatusSection';
 import {LeadMessageSection} from '^components/pages/OrgApplicationCreateFlow/LeadMessageSection';
 import {ApplicationBillingCycleDto, t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
@@ -38,7 +37,7 @@ export default function SelectCyclePage() {
     return (
         <>
             <MobileTopNav>
-                <BackButton href={SelectPlanPageRoute.path(organizationId, proto.id)} />
+                <BackButton />
             </MobileTopNav>
             <SelectedStatusSection proto={proto} text={plan.name} />
             <LeadMessageSection text="결제 주기는 어떻게 되세요?" />
