@@ -32,12 +32,12 @@ export const getBillingHistory = (id: number) => {
     return api.get<BillingHistoryDto>(`/billing_histories/${id}`);
 };
 
-// 구독서비스 결제내역 생성 *
+// 구독서비스의 결제내역 생성 *
 export function createAppsBillingHistory(applicationId: number, dto: CreateBillingHistoryRequestDto) {
     return api.post<BillingHistoryDto>(`/applications/${applicationId}/billing_histories`, dto);
 }
 
-// 구독서비스 독립적으로 생성 *
+// 결제내역 생성을 통한 구독서비스 생성 *
 export function createAppsByBillingHistory(dto: CreateBillingHistoryStandAloneRequestDto) {
     return api.post<BillingHistoryDto>(`/billing_histories`, dto);
 }

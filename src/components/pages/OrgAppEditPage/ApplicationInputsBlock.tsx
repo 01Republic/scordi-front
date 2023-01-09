@@ -1,14 +1,13 @@
 import React, {memo, useEffect, useState} from 'react';
-import {WithChildren} from '^types/global.type';
-import {ApplicationDto, ConnectStatus, t_ConnectStatus, UpdateApplicationRequestDto} from '^types/application.type';
+import {UpdateApplicationRequestDto} from '^types/application.type';
 import {TitleSection} from '^components/v2/TitleSection';
 import {UseFormReturn} from 'react-hook-form';
 import {useApplication} from '^hooks/useApplications';
 import {MobileSection} from '^components/v2/MobileSection';
 import {MobileKeyValueItem} from '^components/v2/MobileKeyValueItem';
-import {Select2} from '^components/Select2';
 import {Select} from '^components/Select';
 import {ApplicationBillingCycleDto, t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
+import {toast} from 'react-toastify';
 
 type AppNextPayInputsBlockProps = {
     form: UseFormReturn<UpdateApplicationRequestDto, any>;
@@ -17,7 +16,7 @@ type AppNextPayInputsBlockProps = {
 export const ApplicationInputsBlock = memo((props: AppNextPayInputsBlockProps) => {
     const {form} = props;
     const application = useApplication();
-    const [billingCycles, setBillingCycles] = useState<ApplicationBillingCycleDto[]>([]);
+    const [cycleOptions, setCycleOptions] = useState<ApplicationBillingCycleDto[]>([]);
 
     if (!application) return <></>;
 
@@ -27,10 +26,15 @@ export const ApplicationInputsBlock = memo((props: AppNextPayInputsBlockProps) =
     const onPlanChange = (planId: number) => {
         form.setValue('paymentPlanId', planId);
         const plan = paymentPlans.find((plan) => plan.id === planId);
-        const cycles = plan?.billingCycles || [];
-        setBillingCycles(cycles);
-        const cycle = cycles.find((cycle) => cycle.id === form.getValues('billingCycleId'));
-        cycle ? form.setValue('billingCycleId', cycle.id) : form.resetField('billingCycleId');
+        const cyclesOfNewPlan = plan?.billingCycles || [];
+        const cycle = cyclesOfNewPlan.find((cycle) => cycle.id === application.billingCycleId) || cyclesOfNewPlan[0];
+        if (cycle) {
+            form.setValue('billingCycleId', cycle.id);
+            console.log({plan, cycle});
+        } else {
+            toast.error('결제주기를 불러올 수 없습니다.');
+        }
+        setCycleOptions(cyclesOfNewPlan);
     };
 
     useEffect(() => {
@@ -51,7 +55,7 @@ export const ApplicationInputsBlock = memo((props: AppNextPayInputsBlockProps) =
                     <div className="form-control w-1/2 max-w-xs px-3">
                         <Select className="select max-w-xs" onChange={(e) => onPlanChange(Number(e.target.value))}>
                             {paymentPlans.map((plan, i) => (
-                                <option key={i} value={plan.id}>
+                                <option key={i} value={plan.id} selected={form.getValues('paymentPlanId') == plan.id}>
                                     {plan.name}
                                 </option>
                             ))}
@@ -65,8 +69,12 @@ export const ApplicationInputsBlock = memo((props: AppNextPayInputsBlockProps) =
                             className="select max-w-xs"
                             onChange={(e) => form.setValue('billingCycleId', Number(e.target.value))}
                         >
-                            {billingCycles.map((cycle, i) => (
-                                <option key={i} value={cycle.id}>
+                            {cycleOptions.map((cycle, i) => (
+                                <option
+                                    key={i}
+                                    value={cycle.id}
+                                    selected={form.getValues('billingCycleId') == cycle.id}
+                                >
                                     {t_BillingCycleTerm(cycle.term, true)}
                                 </option>
                             ))}
@@ -110,23 +118,23 @@ export const ApplicationInputsBlock = memo((props: AppNextPayInputsBlockProps) =
                     </div>
                 </MobileKeyValueItem>
 
-                <MobileKeyValueItem label="결제되는 사용자 수">
-                    <div className="form-control w-1/2 max-w-xs px-3">
-                        <input
-                            type="number"
-                            className="input input-underline text-right px-1"
-                            {...form.register('paidMemberCount')}
-                        />
-                        <span></span>
-                    </div>
-                </MobileKeyValueItem>
-
                 <MobileKeyValueItem label="사용중인 사용자 수">
                     <div className="form-control w-1/2 max-w-xs px-3">
                         <input
                             type="number"
                             className="input input-underline text-right px-1"
                             {...form.register('usedMemberCount')}
+                        />
+                        <span></span>
+                    </div>
+                </MobileKeyValueItem>
+
+                <MobileKeyValueItem label="결제되는 사용자 수">
+                    <div className="form-control w-1/2 max-w-xs px-3">
+                        <input
+                            type="number"
+                            className="input input-underline text-right px-1"
+                            {...form.register('paidMemberCount')}
                         />
                         <span></span>
                     </div>

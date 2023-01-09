@@ -1,9 +1,9 @@
-import {memo} from 'react';
+import {memo, useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {useCreateFlow} from '^hooks/useApplicationPrototypes';
 import {useForm} from 'react-hook-form';
-import {CreateBillingHistoryStandAloneRequestDto as CreateDto} from '^types/billing.type';
-import {createAppsByBillingHistory} from '^api/billing.api';
+import {CreateBillingHistoryRequestDto as CreateDto} from '^types/billing.type';
+import {createAppsBillingHistory, createAppsByBillingHistory} from '^api/billing.api';
 import {NewAppCreatedPageRoute} from '^pages/orgs/[id]/apps/new/created';
 import {errorNotify} from '^utils/toast-notify';
 import {MobileSection} from '^components/v2/MobileSection';
@@ -11,23 +11,22 @@ import {yyyy_mm_dd} from '^utils/dateTime';
 import {MobileBottomNav} from '^components/v2/MobileBottomNav';
 import {ApplicationDto} from '^types/application.type';
 import {AppInfoPageRoute} from '^pages/orgs/[id]/apps/[appId]';
+import {useApplication} from '^hooks/useApplications';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 
-type CreateBillingHistoryFormProps = {
-    application: ApplicationDto;
-};
+type CreateBillingHistoryFormProps = {};
 
 export const CreateBillingHistoryForm = memo((props: CreateBillingHistoryFormProps) => {
-    const {application} = props;
     const router = useRouter();
-    const organizationId = Number(router.query.id) || null;
-    const {prototype: proto, paymentPlan: plan, billingCycle: cycle} = application || {};
+    const organizationId = useRouterIdParamState('id', orgIdParamState);
+    const application = useApplication();
     const form = useForm<CreateDto>();
 
-    const pageLoaded = !!organizationId && !!proto && !!plan && !!cycle;
-    if (!pageLoaded) return <></>;
+    if (!application || !organizationId) return <></>;
+    // const {billingCycle: cycle} = application;
 
     const onSubmit = (body: CreateDto) => {
-        createAppsByBillingHistory(body)
+        createAppsBillingHistory(application.id, body)
             .then(({data}) => {
                 const {application} = data;
                 router.push(AppInfoPageRoute.path(organizationId, application.id));
@@ -35,10 +34,12 @@ export const CreateBillingHistoryForm = memo((props: CreateBillingHistoryFormPro
             .catch(errorNotify);
     };
 
+    useEffect(() => {
+        form.setValue('isSuccess', true);
+    }, []);
+
     return (
         <form className="py-5" onSubmit={form.handleSubmit(onSubmit)}>
-            <input type="hidden" defaultValue={cycle.id} {...form.register('billingCycleId')} />
-
             <MobileSection className="mb-5">
                 <div className="form-control">
                     <div className="bs-row mx-0">
