@@ -1,10 +1,10 @@
-import {useEffect, useState} from 'react';
-import {UserDto} from '^types/user.type';
+import {useEffect} from 'react';
 import {getUserSession} from '^api/session.api';
-import {atom, useRecoilState} from 'recoil';
+import {useRecoilState} from 'recoil';
+import {currentUserAtom} from '^atoms/currentUser.atom';
 
 export function useCurrentUser() {
-    const [currentUser, setCurrentUser] = useState<UserDto | null>(null);
+    const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
 
     useEffect(() => {
         getUserSession().then((res) => setCurrentUser(res.data));

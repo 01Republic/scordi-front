@@ -5,7 +5,7 @@ export const successNotify = (msg: string) => {
 };
 
 export const errorNotify = (err: any) => {
-    const error = err.response.data;
+    const error = err?.response?.data || {message: '', code: ''};
     const message = error.message as string[] | string;
     const code = error.code as string;
     const toastKind = code === 'DUPLICATED_ENTITY' ? toast.info : toast.error;

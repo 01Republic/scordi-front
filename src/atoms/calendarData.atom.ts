@@ -33,6 +33,7 @@ export const getDashboardSummaryQuery = selector({
     key: 'getDashboardSummary',
     get: async ({get}) => {
         const {year, month} = get(calendarParamsState);
+        console.log(1, {year, month});
         try {
             const res = await getDashboardSummary(year, month);
             return res.data;

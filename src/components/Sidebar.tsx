@@ -87,7 +87,7 @@ const SidebarMenuItem: FC<SidebarMenuItemProps> = ({
                 {typeof Icon === 'function' && (
                     <Icon className={_selected && iconTransform ? 'fill-current text-gray-900' : ''} />
                 )}
-                <div>{text}</div>
+                <div className="capitalize">{text}</div>
             </button>
         </>
     );

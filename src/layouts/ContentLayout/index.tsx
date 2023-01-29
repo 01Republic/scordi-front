@@ -9,9 +9,9 @@ export const ContentLayout: FC<
     }
 > = ({title, children}) => {
     return (
-        <div id="ContentLayout" className={`${styles.orgMainContentLayout} p-[20px]`}>
+        <main id="ContentLayout" className={`${styles.orgMainContentLayout} px-11 py-9`}>
             {title && <ContentHeading title={title} />}
             {children}
-        </div>
+        </main>
     );
 };

@@ -9,14 +9,13 @@ import Head from 'next/head';
 import {ToastContainer, Slide} from 'react-toastify';
 import type {Props} from '^types/page';
 import {RecoilRoot} from 'recoil';
-import {accessLog2} from '^utils/log';
 
 function MyApp(props: Props) {
     const {Component, pageProps} = props;
     // adjust accordingly if you disabled a layout rendering option
     const getLayout = Component.getLayout ?? ((page) => page);
     const Layout = Component.layout ?? Fragment;
-    accessLog2(props);
+    // accessLog2(props);
 
     return (
         <RecoilRoot>

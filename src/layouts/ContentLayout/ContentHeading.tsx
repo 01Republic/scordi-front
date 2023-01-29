@@ -8,7 +8,7 @@ interface ContentHeadingProps {
 export const ContentHeading: FC<WithChildren & ContentHeadingProps> = ({title, children}) => {
     return (
         <div className="flex items-center mt-5 mb-10">
-            <h1 className="flex-1 font-bold text-2xl">{title}</h1>
+            <h1 className="flex-1 font-bold text-3xl">{title}</h1>
             {children}
         </div>
     );
