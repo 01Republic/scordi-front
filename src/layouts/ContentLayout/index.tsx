@@ -15,3 +15,7 @@ export const ContentLayout: FC<
         </main>
     );
 };
+
+export * from './ContentHeading';
+export * from './ContentPanel';
+export * from './ContentForm';

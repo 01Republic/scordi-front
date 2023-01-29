@@ -1,5 +1,6 @@
-import React, {FC} from 'react';
+import React, {FC, memo} from 'react';
 import {WithChildren} from '^types/global.type';
+import {PreLoader, PreLoaderProps} from '^components/PreLoader';
 
 interface ContentPanelProps {
     bodyWrap?: boolean;
@@ -19,6 +20,18 @@ export const ContentPanel: FC<WithChildren & Partial<ContentPanelHeadingProps> &
         </div>
     );
 };
+
+/**
+ * 패널 내 프리로더
+ * - 커스텀이 필요하다면 속성들을 추가할것.
+ */
+export const ContentPanelPreloader = memo((props: PreLoaderProps) => {
+    return (
+        <div className="py-20">
+            <PreLoader ghost={true} screenSize={false} {...props} />
+        </div>
+    );
+});
 
 interface ContentPanelHeadingProps {
     title: string;
