@@ -19,7 +19,6 @@ const OrgMainLayout = ({children}: OrgMainLayoutProps) => {
 
             <div className="flex-1 overflow-x-auto">
                 <OrgTopbar />
-                {/*<AdminTopNav />*/}
                 {children}
                 {/*<OrgFooter />*/}
             </div>

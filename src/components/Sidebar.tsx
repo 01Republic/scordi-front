@@ -79,13 +79,17 @@ const SidebarMenuItem: FC<SidebarMenuItemProps> = ({
         <>
             <button
                 className={`sidebar-menu-item flex items-center ${icon && 'space-x-2'} ${
-                    _selected ? 'bg-gray-100 text-black' : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
+                    _selected
+                        ? 'bg-gray-100 text-primary font-medium'
+                        : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
                 } ${className}`}
                 onClick={blankTo ? () => window.open(blankTo, '_blank') : to ? () => router.push(to) : onClick}
                 {...props}
             >
                 {typeof Icon === 'function' && (
-                    <Icon className={_selected && iconTransform ? 'fill-current text-gray-900' : ''} />
+                    <span className="mr-4">
+                        <Icon className={_selected && iconTransform ? 'fill-current text-gray-900' : ''} />
+                    </span>
                 )}
                 <div className="capitalize">{text}</div>
             </button>

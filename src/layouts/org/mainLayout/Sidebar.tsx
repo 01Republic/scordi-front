@@ -16,16 +16,16 @@ export const OrgSidebar = memo(() => {
     return (
         <Sidebar className="flex-shrink-0">
             {/*<Sidebar.Title>{org.name}</Sidebar.Title>*/}
-            <div className={'flex py-5 px-2'}>
+            <div className={'flex py-4 px-5 pt-7 pb-7'}>
                 <Image
                     src="/logo-transparent.png"
                     alt="Scordi logo"
-                    width={24}
-                    height={24}
+                    width={32}
+                    height={32}
                     className="relative top-1 mr-1"
                 />
                 <div className="flex-1 px-2">
-                    <a className="text-lg font-bold" href={OrgHomeRoute.path(organizationId)}>
+                    <a className="text-2xl font-bold" href={OrgHomeRoute.path(organizationId)}>
                         Scordi
                     </a>
                 </div>

@@ -99,16 +99,18 @@
           disabled:bg-gray-100 disabled:text-gray-400 focus:border-gray-900 focus:ring-0;
   }
   .sidebar {
-    @apply flex flex-col w-64 border-r border-gray-200;
+    @apply flex flex-col w-60 border-r;
+    /*@apply border-gray-300;*/
+    border-right-color: #e0e0e0;
   }
   .sidebar-title {
     @apply flex items-center px-4 h-16 font-bold text-2xl text-gray-800;
   }
   .sidebar-menu {
-    @apply flex-grow flex flex-col space-y-1 p-2 overflow-y-auto;
+    @apply flex-grow flex flex-col space-y-1 p-3 overflow-y-auto;
   }
   .sidebar-menu-item {
-    @apply p-2 rounded-md text-sm font-medium flex items-center;
+    @apply p-3 rounded-md text-sm font-normal flex items-center;
   }
   .table {
     @apply divide-y divide-gray-200;
