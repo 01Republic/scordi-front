@@ -19,3 +19,4 @@ export const ContentLayout: FC<
 export * from './ContentHeading';
 export * from './ContentPanel';
 export * from './ContentForm';
+export * from './ContentTable';

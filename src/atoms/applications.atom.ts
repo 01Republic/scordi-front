@@ -1,8 +1,14 @@
-import {atom, selector} from 'recoil';
+import {atom, selector, selectorFamily} from 'recoil';
 import {ApplicationDto, FindAllAppsQuery} from '^types/application.type';
 import {applicationIdParamState} from '^atoms/common';
 import {getApplication, getApplications} from '^api/application.api';
 import {errorNotify} from '^utils/toast-notify';
+import {Paginated} from '^types/utils/paginated.dto';
+
+export const applicationsState = atom({
+    key: 'applicationsState',
+    default: [] as ApplicationDto[],
+});
 
 export const getApplicationsParamsState = atom<FindAllAppsQuery>({
     key: 'getApplicationsParamsState',
@@ -22,6 +28,25 @@ export const getApplicationsQuery = selector({
             errorNotify(e);
         }
     },
+});
+
+// @ts-ignore
+export const getApplicationsQueryWithParams = selectorFamily<Paginated<ApplicationDto>, FindAllAppsQuery>({
+    key: 'getApplicationsQueryWithParams',
+    get:
+        (params: FindAllAppsQuery) =>
+        async ({get}) => {
+            params ||= get(getApplicationsParamsState);
+            if (!params.where?.organizationId) return;
+
+            try {
+                const res = await getApplications(params);
+                return res.data;
+            } catch (e) {
+                errorNotify(e);
+            }
+        },
+    set: () => {},
 });
 
 export const getApplicationQueryTrigger = atom({

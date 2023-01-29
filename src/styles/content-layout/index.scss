@@ -1,0 +1,25 @@
+.ContentLayout--ContentTable {
+  .table {
+    :where(th, td) {
+      @apply text-sm pl-0 pr-4;
+
+      &:last-child {
+        @apply pr-0;
+      }
+    }
+
+    :where(thead, tfoot) {
+      :where(th, td) {
+        @apply text-xs font-normal capitalize bg-white text-gray-500;
+      }
+    }
+
+    th:first-child {
+      z-index: auto;
+    }
+
+    tbody {
+      border-top: none;
+    }
+  }
+}

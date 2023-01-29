@@ -15,11 +15,11 @@ import {getUserSession} from '^api/session.api';
 import {UserLoginPageRoute} from '^pages/users/login';
 
 type OrgMobileLayoutProps = {
-    org: OrganizationDto | null;
+    org?: OrganizationDto | null;
     children: any;
 };
 
-const OrgMobileLayout = ({org, children}: OrgMobileLayoutProps) => {
+const OrgMobileLayout = ({children}: OrgMobileLayoutProps) => {
     const router = useRouter();
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
     const [userChecked, setUserChecked] = React.useState(false);
@@ -33,7 +33,7 @@ const OrgMobileLayout = ({org, children}: OrgMobileLayoutProps) => {
             .catch(() => window.location.assign(UserLoginPageRoute.pathname));
     }, [router.pathname]);
 
-    if (!org) return <PreLoader />;
+    // if (!org) return <PreLoader />;
     if (!userChecked) return <></>;
 
     return (

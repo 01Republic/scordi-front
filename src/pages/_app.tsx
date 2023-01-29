@@ -1,9 +1,10 @@
 import '../styles/index.css';
 import '../styles/grid.scss';
 import '../styles/globals.scss';
-import 'react-toastify/dist/ReactToastify.css';
 import '../styles/dashboard-calendar.scss';
+import '../styles/content-layout/index.scss';
 import '../styles/v2/index.scss';
+import 'react-toastify/dist/ReactToastify.css';
 import {Fragment, Suspense} from 'react';
 import Head from 'next/head';
 import {ToastContainer, Slide} from 'react-toastify';

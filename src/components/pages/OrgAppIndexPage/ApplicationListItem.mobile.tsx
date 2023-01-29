@@ -1,15 +1,14 @@
 import React, {memo} from 'react';
 import {ApplicationDto} from '^types/application.type';
-import {useRouter} from 'next/router';
 import Link from 'next/link';
 import {AppInfoPageRoute} from '^pages/orgs/[id]/apps/[appId]';
 import {t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
 import {safeImageSrc} from '^types/applicationPrototype.type';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 
-export const ApplicationListItem = memo((props: {applicationDto: ApplicationDto}) => {
-    const router = useRouter();
-    const organizationId = Number(router.query.id);
+export const ApplicationListItemMobile = memo((props: {applicationDto: ApplicationDto}) => {
     const {applicationDto} = props;
+    const organizationId = useRouterIdParamState('id', orgIdParamState);
     const {billingCycle, paymentPlan, prototype} = applicationDto;
 
     return (

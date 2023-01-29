@@ -13,7 +13,7 @@ export const ContentPanel: FC<WithChildren & Partial<ContentPanelHeadingProps> &
     children,
 }) => {
     return (
-        <div className="w-full border border-[#dbd6e1] bg-white rounded shadow mb-5">
+        <div data-component="ContentPanel" className="w-full border border-[#dbd6e1] bg-white rounded shadow mb-5">
             {title && <ContentPanelHeading title={title} desc={desc} />}
 
             {bodyWrap ? <ContentPanelBody>{children}</ContentPanelBody> : children}

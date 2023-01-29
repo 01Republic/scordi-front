@@ -10,6 +10,7 @@ export function useOnResize() {
 
     useEffect(() => {
         window.addEventListener('resize', resizeHandler);
+        resizeHandler();
         return () => window.removeEventListener('resize', resizeHandler);
     }, []);
 

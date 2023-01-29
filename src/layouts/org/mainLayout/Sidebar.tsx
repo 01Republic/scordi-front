@@ -33,27 +33,28 @@ export const OrgSidebar = memo(() => {
 
             <Sidebar.Menu>
                 <Sidebar.Menu.Item
-                    text="대시보드"
-                    to={OrgHomeRoute.path(organizationId)}
-                    selected={pathname === OrgHomeRoute.pathname}
-                    icon={() => <Icon.Home />}
-                />
-                <Sidebar.Menu.Item
-                    text="연동한 서비스"
-                    to={OrgAppsIndexPageRoute.path(organizationId)}
-                    selected={pathname.startsWith(OrgAppsIndexPageRoute.pathname)}
-                    icon={() => <Icon.Folder />}
-                    iconTransform={false}
-                />
-                <Sidebar.Menu.Item
                     text="피드백 보내기"
                     blankTo={'https://oh8kq2gqq3y.typeform.com/to/ZF4C5sTK'}
                     selected={false}
                     icon={() => <Icon.Send />}
                     iconTransform={false}
                 />
+                <hr />
                 <Sidebar.Menu.Item
-                    text="members"
+                    text="대시보드"
+                    to={OrgHomeRoute.path(organizationId)}
+                    selected={pathname === OrgHomeRoute.pathname}
+                    icon={() => <Icon.Home />}
+                />
+                <Sidebar.Menu.Item
+                    text="apps"
+                    to={OrgAppsIndexPageRoute.path(organizationId)}
+                    selected={pathname.startsWith(OrgAppsIndexPageRoute.pathname)}
+                    icon={() => <Icon.Folder />}
+                    iconTransform={false}
+                />
+                <Sidebar.Menu.Item
+                    text="people"
                     to={OrgMembershipIndexPageRoute.path(organizationId)}
                     selected={pathname.startsWith(OrgMembershipIndexPageRoute.pathname)}
                     icon={() => <Icon.User />}
