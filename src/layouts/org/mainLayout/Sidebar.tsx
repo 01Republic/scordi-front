@@ -8,6 +8,7 @@ import {OrgMembershipIndexPageRoute} from '^pages/orgs/[id]/memberships';
 import {OrgShowRoute} from '^pages/orgs/[id]';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
+import {AiOutlineAppstoreAdd, AiOutlineDashboard, AiOutlineSetting} from 'react-icons/all';
 
 export const OrgSidebar = memo(() => {
     const {pathname} = useRouter();
@@ -33,7 +34,7 @@ export const OrgSidebar = memo(() => {
 
             <Sidebar.Menu>
                 <Sidebar.Menu.Item
-                    text="피드백 보내기"
+                    text="feedback"
                     blankTo={'https://oh8kq2gqq3y.typeform.com/to/ZF4C5sTK'}
                     selected={false}
                     icon={() => <Icon.Send />}
@@ -41,16 +42,16 @@ export const OrgSidebar = memo(() => {
                 />
                 <hr />
                 <Sidebar.Menu.Item
-                    text="대시보드"
+                    text="dashboard"
                     to={OrgHomeRoute.path(organizationId)}
                     selected={pathname === OrgHomeRoute.pathname}
-                    icon={() => <Icon.Home />}
+                    icon={() => <AiOutlineDashboard size={24} />}
                 />
                 <Sidebar.Menu.Item
                     text="apps"
                     to={OrgAppsIndexPageRoute.path(organizationId)}
                     selected={pathname.startsWith(OrgAppsIndexPageRoute.pathname)}
-                    icon={() => <Icon.Folder />}
+                    icon={() => <AiOutlineAppstoreAdd size={24} />}
                     iconTransform={false}
                 />
                 <Sidebar.Menu.Item
@@ -64,7 +65,7 @@ export const OrgSidebar = memo(() => {
                     to={OrgShowRoute.path(organizationId)}
                     selected={pathname === OrgShowRoute.pathname}
                     // icon={Icon2.Building}
-                    icon={() => <Icon.Settings />}
+                    icon={() => <AiOutlineSetting size={24} />}
                     iconTransform={false}
                 />
             </Sidebar.Menu>
