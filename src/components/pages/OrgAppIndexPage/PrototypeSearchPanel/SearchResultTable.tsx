@@ -4,6 +4,9 @@ import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
 import {useRecoilValue} from 'recoil';
 import {applicationsState} from '^atoms/applications.atom';
 import {useApplicationPrototypes} from '^hooks/useApplicationPrototypes';
+import {OrgProtoDetailPageRoute} from '^pages/orgs/[id]/prototypes/[protoId]';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {useRouter} from 'next/router';
 
 export const SearchResultTable = memo(() => {
     const {items: prototypes} = useApplicationPrototypes();
@@ -28,12 +31,14 @@ export const SearchResultTable = memo(() => {
 
 const PrototypeItem = memo((props: {proto: ApplicationPrototypeDto}) => {
     const {proto} = props;
+    const router = useRouter();
+    const orgId = useRouterIdParamState('id', orgIdParamState);
     const apps = useRecoilValue(applicationsState);
     const app = apps.find((app) => app.prototypeId === proto.id);
 
     return (
         <tr>
-            <td>
+            <td className="cursor-pointer" onClick={() => router.push(OrgProtoDetailPageRoute.path(orgId, proto.id))}>
                 <div className="flex items-center">
                     <img src={proto.image} alt="" width={24} className="mr-4" />
                     <span>{proto.name}</span>

@@ -56,6 +56,10 @@ export function ContentPanelBody({children}: WithChildren) {
     return <div className="p-4 bg-white">{children}</div>;
 }
 
+export const ContentPanelMiniTitle = memo(({children}: WithChildren) => {
+    return <p className="font-semibold mb-3">{children}</p>;
+});
+
 export function ContentPanelItemTitle({text, className = ''}: {text: string; className?: string}) {
     return <p className={`mr-2 ${className}`}>{text}</p>;
 }

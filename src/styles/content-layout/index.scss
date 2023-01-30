@@ -23,3 +23,45 @@
     }
   }
 }
+
+.ContentLayout--NavTabs {
+  position: relative;
+  .tab-bordered {
+    z-index: 1;
+    border-bottom-color: transparent;
+    height: 2.5rem;
+    --tab-padding: 1.25rem;
+    @apply text-gray-500;
+    //padding-left: var(--tab-padding, 1.25rem);
+    //padding-right: var(--tab-padding, 1.25rem);
+    &.tab-active {
+      //border-color: hsl(var(--bc) / var(--tw-border-opacity));
+      border-color: hsl(var(--p) / var(--tw-border-opacity));
+      @apply text-primary
+    }
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    height: calc(var(--tab-border, 1px) + 1px);
+    background: hsl(var(--bc) / var(--tw-border-opacity));
+    right: 0;
+    z-index: 0;
+    --tw-border-opacity: 0.15;
+  }
+}
+
+.ContentLayout--ContentButton {
+  @apply btn btn-outline capitalize font-medium shadow;
+  @apply text-gray-500 border-gray-300 bg-white;
+  @apply hover:text-gray-800 hover:border-gray-500 hover:bg-white;
+
+  &.btn-sm {
+    height: 2rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    min-height: 2rem;
+    @apply text-xs shadow;
+  }
+}

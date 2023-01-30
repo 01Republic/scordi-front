@@ -14,7 +14,7 @@ export const OrgSidebar = memo(() => {
     const organizationId = useRouterIdParamState('id', orgIdParamState);
 
     return (
-        <Sidebar className="flex-shrink-0">
+        <Sidebar className="flex-shrink-0 bg-white">
             {/*<Sidebar.Title>{org.name}</Sidebar.Title>*/}
             <div className={'flex py-4 px-5 pt-7 pb-7'}>
                 <Image

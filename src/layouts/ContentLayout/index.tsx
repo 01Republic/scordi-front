@@ -20,3 +20,4 @@ export * from './ContentHeading';
 export * from './ContentPanel';
 export * from './ContentForm';
 export * from './ContentTable';
+export * from './ContentTabNav';

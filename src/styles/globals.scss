@@ -18,6 +18,7 @@ body {
     system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo",
     "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", sans-serif;
+  background-color: #fafafa;
 }
 
 a {
@@ -131,7 +132,30 @@ p {
     padding-right: 1.25rem;
     font-size: 1rem;
   }
+
+  &-weekly {
+    border-color: transparent;
+    --tw-bg-opacity: 0.2;
+    font-weight: 400;
+    //--tw-text-opacity: 1;
+    //--tw-border-opacity: 0;
+    //border-color: hsl(var(--s) / var(--tw-border-opacity));
+    //background-color: hsl(var(--s) / var(--tw-bg-opacity));
+    //color: hsl(var(--sc) / var(--tw-text-opacity));
+
+    &:hover {--tw-bg-opacity: 0.2;}
+
+    &.btn-primary   {color: hsl(var(--p) / var(--tw-border-opacity))}
+    &.btn-secondary {color: hsl(var(--s) / var(--tw-border-opacity))}
+    &.btn-info      {color: hsl(var(--in) / 1)}
+  }
 }
+
+//.hover-no {
+//  &.btn-primary   {@apply text-white bg-primary}
+//  &.btn-secondary {@apply text-white bg-secondary}
+//  &.btn-info      {@apply text-white bg-info}
+//}
 
 
 .Toastify__toast {
