@@ -8,7 +8,7 @@ import {OrgMembershipIndexPageRoute} from '^pages/orgs/[id]/memberships';
 import {OrgShowRoute} from '^pages/orgs/[id]';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
-import {AiOutlineAppstoreAdd, AiOutlineDashboard, AiOutlineSetting} from 'react-icons/all';
+import {AiOutlineAppstoreAdd, AiOutlineDashboard, AiOutlineSetting} from 'react-icons/ai';
 
 export const OrgSidebar = memo(() => {
     const {pathname} = useRouter();
