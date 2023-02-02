@@ -71,3 +71,15 @@ export const getApplicationQuery = selector({
         set(getApplicationQueryTrigger, (v) => v + 1);
     },
 });
+
+export const fetchApplicationQueryById = selectorFamily({
+    key: 'fetchApplicationQueryById',
+    get: (id: number) => async () => {
+        try {
+            const res = await getApplication(id);
+            return res.data;
+        } catch (e) {
+            errorNotify(e);
+        }
+    },
+});

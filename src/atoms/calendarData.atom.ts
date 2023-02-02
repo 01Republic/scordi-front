@@ -1,7 +1,15 @@
 import {atom, selector} from 'recoil';
-import {DashboardDaySumDto} from '^types/dashboard.type';
+import {DashboardDaySumDto, DashboardSummaryDto} from '^types/dashboard.type';
 import {getDashboardCalendar, getDashboardSummary} from '^api/dashboard.api';
 import {errorNotify} from '^utils/toast-notify';
+
+/**
+ * Calendar
+ * - calendarParamsState
+ * - calendarDataAtom
+ * - calendarSelectedDateState
+ * - getDashboardCalendarQuery
+ */
 
 export const calendarParamsState = atom({
     key: 'calendarParamsState',
@@ -16,6 +24,11 @@ export const calendarDataAtom = atom({
     default: [] as DashboardDaySumDto[],
 });
 
+export const calendarSelectedDateState = atom({
+    key: 'calendarSelectedDateState',
+    default: new Date(),
+});
+
 export const getDashboardCalendarQuery = selector({
     key: 'getDashboardCalendarQuery',
     get: async ({get}) => {
@@ -27,6 +40,17 @@ export const getDashboardCalendarQuery = selector({
             errorNotify(e);
         }
     },
+});
+
+/**
+ * Dashboard Summary
+ * - dashboardSummaryState
+ * - getDashboardSummaryQuery
+ */
+
+export const dashboardSummaryState = atom({
+    key: 'dashboardSummaryState',
+    default: {} as DashboardSummaryDto,
 });
 
 export const getDashboardSummaryQuery = selector({

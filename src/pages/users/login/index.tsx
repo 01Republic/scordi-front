@@ -57,7 +57,7 @@ const LoginPage = () => {
     }, []);
 
     useEffect(() => {
-        if (currentUser.orgId) {
+        if (currentUser?.orgId) {
             router.push(OrgAppsIndexPageRoute.path(currentUser.orgId));
         }
     }, [currentUser]);

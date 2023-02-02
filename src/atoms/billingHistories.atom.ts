@@ -1,5 +1,6 @@
 import {atom, selector} from 'recoil';
 import {
+    BillingHistoryDto,
     BillingScheduleShallowDto as ScheduleDto,
     GetBillingHistoriesParams,
     GetBillingSchedulesParams,
@@ -13,6 +14,11 @@ import {useForm} from 'react-hook-form';
 /**
  * Billing Schedule
  */
+
+export const billingSchedulesState = atom({
+    key: 'billingSchedulesState',
+    default: [] as ScheduleDto[],
+});
 
 export const getBillingSchedulesParamsState = atom<GetBillingSchedulesParams>({
     key: 'getBillingSchedulesParamsState',
@@ -58,6 +64,11 @@ export const didPayAppsState = selector({
 /**
  * Billing History
  */
+
+export const billingHistoriesState = atom({
+    key: 'billingHistoriesState',
+    default: [] as BillingHistoryDto[],
+});
 
 export const getBillingHistoriesParamsState = atom<GetBillingHistoriesParams>({
     key: 'getBillingHistoriesParamsState',
