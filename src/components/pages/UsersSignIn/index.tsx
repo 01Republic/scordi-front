@@ -53,31 +53,31 @@ export const UsersSignInPage = memo(() => {
             <Modal
                 type={'info'}
                 isOpen={isModalOpen}
-                title={'로그인 실패'}
-                description={'아이디 또는 비밀번호가 일치하지 않습니다.'}
-                buttons={[{text: '확인', onClick: () => setIsModalOpen(false)}]}
+                title={'Login failed'}
+                description={'The email or password is not correct.'}
+                buttons={[{text: 'Try again', onClick: () => setIsModalOpen(false)}]}
             />
             <div className={'mx-auto my-20 w-full max-w-md space-y-5'}>
                 <form onSubmit={form.handleSubmit(login)} className={'space-y-4 p-4 m-auto'}>
-                    <h1 className="text-4xl font-semibold">로그인</h1>
+                    <h1 className="text-4xl font-semibold">Sign in</h1>
                     <TextInput
-                        label={'이메일'}
+                        label={'Email'}
                         type={'email'}
                         required={true}
-                        placeholder={'이메일을 입력해주세요'}
+                        placeholder={'Please enter your email.'}
                         {...form.register('email', {required: true})}
                     />
                     <TextInput
-                        label={'비밀번호'}
+                        label={'Password'}
                         type={'password'}
                         required={true}
-                        placeholder={'비밀번호를 입력해주세요'}
+                        placeholder={'Please enter your password.'}
                         {...form.register('password', {required: true})}
                     />
                     <div className={'pt-[1rem] space-y-4'}>
                         <DefaultButton
                             type={'submit'}
-                            text={'로그인'}
+                            text={'Start'}
                             onClick={() => null}
                             disabled={!form.watch('email') || !form.watch('password')}
                         />
