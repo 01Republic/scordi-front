@@ -145,7 +145,7 @@ export const UserSignUpPage = memo(() => {
                 }
                 buttons={[{text: '확인', onClick: onComplete}]}
             />
-            <div className={'mx-auto my-20 w-full max-w-md space-y-5'}>
+            <div className={'mx-auto py-20 w-full max-w-md space-y-5'} style={{height: '125vh'}}>
                 <form onSubmit={form.handleSubmit(signUpComplete)} className={'space-y-4 p-4 m-auto'}>
                     <h1 className="text-3xl font-semibold">클로즈 베타 등록</h1>
                     <p className={'text-[#6D7684] text-base'}>

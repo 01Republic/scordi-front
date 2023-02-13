@@ -59,7 +59,7 @@ export const UsersSignInPage = memo(() => {
                 description={'The email or password is not correct.'}
                 buttons={[{text: 'Try again', onClick: () => setIsModalOpen(false)}]}
             />
-            <div className={'mx-auto my-20 w-full max-w-md space-y-5'}>
+            <div className={'mx-auto py-20 w-full max-w-md space-y-5'} style={{height: '100vh'}}>
                 <form onSubmit={form.handleSubmit(login)} className={'space-y-4 p-4 m-auto'}>
                     <h1 className="text-4xl font-semibold">Sign in</h1>
                     <TextInput
