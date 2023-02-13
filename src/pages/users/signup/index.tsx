@@ -4,7 +4,6 @@ import {useForm} from 'react-hook-form';
 import {TextInput} from '^components/TextInput';
 import {postUser, postUserSession} from '^api/session.api';
 import {UserSignUpRequestDto} from '^types/user.type';
-import {redirectIfAlreadySignedIn} from '^pages/users/login';
 import {setToken} from '^api/api';
 import {errorNotify} from '^utils/toast-notify';
 import {useCurrentUser} from '^hooks/useCurrentUser';
