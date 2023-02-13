@@ -2,20 +2,18 @@ import React, {memo, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
 import {TextInput} from '^components/TextInput';
-import {postUser, postUserSession} from '^api/session.api';
+import {postUser} from '^api/session.api';
 import {UserSignUpRequestDto} from '^types/user.type';
-import {setToken} from '^api/api';
 import {errorNotify} from '^utils/toast-notify';
 import {DefaultButton} from '^components/Button';
 import {Modal} from '^components/Modal';
 import {WelcomePageRoute} from '^pages/users/signup/welcome';
 import {toast} from 'react-toastify';
-import {useRecoilState} from 'recoil';
-import {currentUserAtom} from '^atoms/currentUser.atom';
+import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const UserSignUpPage = memo(() => {
     const router = useRouter();
-    const [currentUser] = useRecoilState(currentUserAtom);
+    const {currentUser, login} = useCurrentUser();
     const form = useForm<UserSignUpRequestDto>();
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -24,14 +22,11 @@ export const UserSignUpPage = memo(() => {
         // redirectIfAlreadySignedIn(localStorage, router, currentUser);
     }, [currentUser]);
 
-    const signUpComplete = (data: UserSignUpRequestDto) => {
+    const submit = (data: UserSignUpRequestDto) => {
         postUser(data)
             .then(() => {
-                postUserSession({email: data.email, password: data.password})
-                    .then((res) => {
-                        setToken(res.data.token);
-                        router.push(WelcomePageRoute.path());
-                    })
+                login({email: data.email, password: data.password})
+                    .then(() => router.push(WelcomePageRoute.path()))
                     .catch(errorNotify);
             })
             .catch(errorNotify);
@@ -54,7 +49,7 @@ export const UserSignUpPage = memo(() => {
     const onComplete = () => {
         if (form.watch('isAgreeForServiceUsageTerm') && form.watch('isAgreeForPrivacyPolicyTerm')) {
             setModalOpen(false);
-            signUpComplete(form.getValues());
+            submit(form.getValues());
         } else {
             toast.info('모든 약관에 동의해 주세요');
         }
@@ -146,7 +141,7 @@ export const UserSignUpPage = memo(() => {
                 buttons={[{text: '확인', onClick: onComplete}]}
             />
             <div className={'mx-auto py-20 w-full max-w-md space-y-5'} style={{height: '125vh'}}>
-                <form onSubmit={form.handleSubmit(signUpComplete)} className={'space-y-4 p-4 m-auto'}>
+                <form onSubmit={form.handleSubmit(submit)} className={'space-y-4 p-4 m-auto'}>
                     <h1 className="text-3xl font-semibold">클로즈 베타 등록</h1>
                     <p className={'text-[#6D7684] text-base'}>
                         똑똑한 비용관리, 스코디에 오신것을 환영해요! <br />

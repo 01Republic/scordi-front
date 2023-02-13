@@ -12,10 +12,11 @@ import {DefaultButton} from '^components/Button';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {UserSignUpPageRoute} from '^pages/users/signup';
 import Link from 'next/link';
+import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const UsersSignInPage = memo(() => {
     const router = useRouter();
-    const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
+    const {currentUser, setCurrentUser, login} = useCurrentUser();
     const [userChecked, setUserChecked] = useState(false);
     const form = useForm<UserLoginRequestDto>();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,14 +39,9 @@ export const UsersSignInPage = memo(() => {
         }
     }, [currentUser]);
 
-    const login = (data: UserLoginRequestDto) => {
-        postUserSession(data)
-            .then((res) => {
-                setToken(res.data.token);
-                getUserSession().then(({data}) => {
-                    setCurrentUser(data);
-                });
-            })
+    const submit = (data: UserLoginRequestDto) => {
+        login(data)
+            .then((user) => router.push(OrgHomeRoute.path(user.orgId)))
             .catch(() => setIsModalOpen(true));
     };
 
@@ -60,7 +56,7 @@ export const UsersSignInPage = memo(() => {
                 buttons={[{text: 'Try again', onClick: () => setIsModalOpen(false)}]}
             />
             <div className={'mx-auto py-20 w-full max-w-md space-y-5'} style={{height: '100vh'}}>
-                <form onSubmit={form.handleSubmit(login)} className={'space-y-4 p-4 m-auto'}>
+                <form onSubmit={form.handleSubmit(submit)} className={'space-y-4 p-4 m-auto'}>
                     <h1 className="text-4xl font-semibold">Sign in</h1>
                     <TextInput
                         label={'Email'}

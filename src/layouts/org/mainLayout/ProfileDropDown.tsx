@@ -1,13 +1,9 @@
 import React, {memo} from 'react';
-import {useRouter} from 'next/router';
 import {UserEditPageRoute} from '^pages/users/edit';
-import {removeToken} from '^api/api';
-import {UserLoginPageRoute} from '^pages/users/login';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const ProfileDropDown = memo(() => {
-    const router = useRouter();
-    const currentUser = useCurrentUser();
+    const {currentUser, logout} = useCurrentUser();
 
     return (
         <div className="dropdown dropdown-end">
@@ -42,13 +38,7 @@ export const ProfileDropDown = memo(() => {
                         </li>
                         <li></li>
                         <li>
-                            <a
-                                className="justify-between"
-                                onClick={() => {
-                                    removeToken();
-                                    router.push(UserLoginPageRoute.path());
-                                }}
-                            >
+                            <a className="justify-between" onClick={() => logout()}>
                                 로그아웃
                             </a>
                         </li>

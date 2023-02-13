@@ -7,7 +7,7 @@ import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 
 export const UserWelcomePage = memo(() => {
     const router = useRouter();
-    const user = useCurrentUser();
+    const {currentUser: user} = useCurrentUser();
 
     if (!user) return null;
     return (

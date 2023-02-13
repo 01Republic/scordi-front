@@ -29,7 +29,7 @@ export const AppSearchPageRoute = {
 const AppSearchPage = () => {
     const router = useRouter();
     const orgId = Number(router.query.orgId);
-    const user = useCurrentUser();
+    const {currentUser: user} = useCurrentUser();
     const [recommendList, setRecommendList] = useState<ApplicationPrototypeDto[]>([]);
     const [myApps, setMyApps] = useState<ApplicationDto[]>([]);
     const [searchResults, setSearchResults] = useState<ApplicationPrototypeDto[]>([]);

@@ -4,7 +4,7 @@ import {OrgInfo} from './OrgInfo';
 import {ProfileDropDown} from './ProfileDropDown';
 
 export const OrgTopbar = memo(() => {
-    const currentUser = useCurrentUser();
+    const {currentUser} = useCurrentUser();
 
     if (!currentUser) return <></>;
 
