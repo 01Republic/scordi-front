@@ -10,6 +10,7 @@ import {Modal} from '^components/Modal';
 import {TextInput} from '^components/TextInput';
 import {DefaultButton} from '^components/Button';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
+import {UserSignUpPageRoute} from '^pages/users/signup';
 
 export const UsersSignInPage = memo(() => {
     const router = useRouter();
@@ -81,6 +82,7 @@ export const UsersSignInPage = memo(() => {
                             onClick={() => null}
                             disabled={!form.watch('email') || !form.watch('password')}
                         />
+                        <DefaultButton text={'회원가입'} onClick={() => router.push(UserSignUpPageRoute.path())} />
                         {/*<Link href={"/users/signup"}>*/}
                         {/*    <button className="btn btn-outline btn-primary btn-block" type={'button'}>회원가입</button>*/}
                         {/*</Link>*/}
