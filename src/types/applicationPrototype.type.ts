@@ -7,6 +7,10 @@ export type ApplicationPrototypeDto = {
     name: string;
     desc: string;
     image: string;
+    tagline: string; // Tagline
+    homepageUrl: string; // Homepage url
+    pricingPageUrl: string; // Pricing Page url
+    companyName: string; // 운영사명
     isAutoTrackable: boolean;
     isFreeTierAvailable: boolean;
     createdAt: Date;
@@ -15,6 +19,20 @@ export type ApplicationPrototypeDto = {
     billingCycles: ApplicationBillingCycleDto[];
     connectMethod: 'AUTO' | 'MANUAL' | 'PREPARE' | string;
 };
+
+export type CreateApplicationPrototypeRequestDto = {
+    name: string; // 서비스명
+    desc: string; // 설명
+    image: string; // 이미지 url
+    tagline: string; // Tagline
+    homepageUrl: string; // Homepage url
+    pricingPageUrl: string; // Pricing Page url
+    companyName: string; // 운영사명
+    isAutoTrackable: boolean; // API 지원 여부
+    isFreeTierAvailable: boolean; // 프리티어 지원 여부
+};
+
+export type UpdateApplicationPrototypeRequestDto = Partial<CreateApplicationPrototypeRequestDto>;
 
 export function safeImageSrc(proto: ApplicationPrototypeDto, w: number, h: number): string {
     return (

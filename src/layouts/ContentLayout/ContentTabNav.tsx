@@ -31,7 +31,11 @@ export const ContentTabNav = memo((props: ContentTabNavProps) => {
     return (
         <div className="ContentLayout--NavTabs tabs mb-5">
             {tabs.map((tabName, i) => (
-                <a className={`tab tab-bordered ${tabIndex === i && 'tab-active'}`} onClick={() => tabClickHandler(i)}>
+                <a
+                    key={i}
+                    className={`tab tab-bordered ${tabIndex === i && 'tab-active'}`}
+                    onClick={() => tabClickHandler(i)}
+                >
                     <span className="capitalize">{tabName}</span>
                 </a>
             ))}

@@ -19,6 +19,7 @@ export type UserDto = {
     orgId: number;
     orgName: string;
     email: string;
+    isAdmin: boolean;
     serviceUsageTermAgreedAt: string;
     privacyPolicyTermAgreedAt: string;
     createdAt: string;

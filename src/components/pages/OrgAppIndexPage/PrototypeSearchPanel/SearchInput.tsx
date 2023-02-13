@@ -1,15 +1,14 @@
 import React, {memo, useCallback} from 'react';
-import {useSetRecoilState} from 'recoil';
-import {getPrototypesParamsState} from '^atoms/applicationPrototypes.atom';
 import {useForm} from 'react-hook-form';
 import {FindAllAppPrototypeQuery} from '^types/applicationPrototype.type';
+import {usePrototypeSearch} from '^hooks/useApplicationPrototypes';
 
 export const SearchInput = memo(() => {
-    const setPrototypesParams = useSetRecoilState(getPrototypesParamsState);
+    const {searchPrototypes} = usePrototypeSearch();
     const form = useForm<FindAllAppPrototypeQuery>();
 
     const searchHandler = useCallback((data: FindAllAppPrototypeQuery) => {
-        setPrototypesParams({name: data.name});
+        searchPrototypes({name: data.name});
     }, []);
 
     return (

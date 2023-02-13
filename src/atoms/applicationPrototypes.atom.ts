@@ -29,6 +29,10 @@ export const billingCycleForCreateFlowAtom = atom({
 /**
  * ApplicationPrototypes Basic CRUD
  */
+export const prototypesState = atom({
+    key: 'prototypesState',
+    default: [] as ApplicationPrototypeDto[],
+});
 
 export const getPrototypesParamsState = atom<FindAllAppPrototypeQuery>({
     key: 'getPrototypesParamsState',

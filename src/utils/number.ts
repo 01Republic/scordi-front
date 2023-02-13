@@ -3,7 +3,7 @@
  */
 
 export const currencyFormat = (num: number, unit = '원', format = '%n%u'): string => {
-    return `${format || '%n%u'}`.replace('%u', unit).replace('%n', num.toLocaleString());
+    return `${format || '%n%u'}`.replace('%u', unit).replace('%n', Number(num).toLocaleString());
 };
 
 // 반올림

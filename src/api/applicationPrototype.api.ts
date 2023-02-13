@@ -1,5 +1,11 @@
 import {api} from '^api/api';
-import {ApplicationPrototypeDto, ApplyToAddDto, FindAllAppPrototypeQuery} from '^types/applicationPrototype.type';
+import {
+    ApplicationPrototypeDto,
+    ApplyToAddDto,
+    CreateApplicationPrototypeRequestDto,
+    FindAllAppPrototypeQuery,
+    UpdateApplicationPrototypeRequestDto,
+} from '^types/applicationPrototype.type';
 import {Paginated} from '^types/utils/paginated.dto';
 
 const NAMESPACE = 'application_prototypes';
@@ -10,6 +16,14 @@ export const getApplicationPrototypes = (params?: FindAllAppPrototypeQuery) => {
 
 export const getApplicationPrototype = (id: number) => {
     return api.get<ApplicationPrototypeDto>(`/${NAMESPACE}/${id}`);
+};
+
+export const createApplicationPrototype = (data: CreateApplicationPrototypeRequestDto) => {
+    return api.post<ApplicationPrototypeDto>(`/${NAMESPACE}`, data);
+};
+
+export const updateApplicationPrototype = (id: number, data: UpdateApplicationPrototypeRequestDto) => {
+    return api.patch<ApplicationPrototypeDto>(`/${NAMESPACE}/${id}`, data);
 };
 
 export const getApplicationPrototypeRecommend = () => {

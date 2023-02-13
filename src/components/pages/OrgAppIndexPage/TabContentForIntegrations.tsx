@@ -1,6 +1,7 @@
 import React, {memo} from 'react';
 import {ContentPanel} from '^layouts/ContentLayout';
 import {PrototypeSearchPanel} from './PrototypeSearchPanel';
+import {PrototypeAddFormPanel} from '^components/pages/OrgAppIndexPage/PrototypeAddFormPanel';
 
 export const TabContentForIntegrations = memo(() => {
     return (
@@ -12,9 +13,9 @@ export const TabContentForIntegrations = memo(() => {
                 </div>
 
                 {/* Right Col */}
-                <div className="bs-col-12 sm:bs-col-4 px-0">
+                <div className="bs-col-12 sm:bs-col-4 px-0 hidden">
                     <ContentPanel />
-                    <ContentPanel title={'직접추가'} />
+                    <PrototypeAddFormPanel />
                 </div>
             </div>
         </div>

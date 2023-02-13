@@ -1,4 +1,4 @@
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {atom, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {prototypeIdParamsState} from '^atoms/common';
 import {
     applicationPrototypeAtom,
@@ -8,7 +8,7 @@ import {
     getPrototypesQuery,
     paymentPlanForCreateFlowAtom,
 } from '^atoms/applicationPrototypes.atom';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {ApplicationPrototypeDto, FindAllAppPrototypeQuery} from '^types/applicationPrototype.type';
 import {getApplicationPrototype, getApplicationPrototypes} from '^api/applicationPrototype.api';
 import {errorNotify} from '^utils/toast-notify';
@@ -18,6 +18,36 @@ import {useRouter} from 'next/router';
 export const useApplicationPrototypes = () => {
     const result = useRecoilValue(getPrototypesQuery);
     return result || {items: undefined, pagination: {}};
+};
+
+export const prototypeSearchResultsState = atom({
+    key: 'prototypeSearchResultsState',
+    default: [] as ApplicationPrototypeDto[],
+});
+
+export const searchPrototypesParams = atom<FindAllAppPrototypeQuery>({
+    key: 'prototypes/searchParams',
+    default: {},
+});
+
+export const usePrototypeSearch = () => {
+    const [results, setResults] = useRecoilState(prototypeSearchResultsState);
+    const [params, setParams] = useRecoilState(searchPrototypesParams);
+
+    const searchPrototypes = useCallback((params: FindAllAppPrototypeQuery) => {
+        setParams(params);
+        getApplicationPrototypes({
+            isLive: params.isLive ?? true,
+            itemsPerPage: 500,
+            ...params,
+        })
+            .then((res) => setResults(res.data.items))
+            .catch(errorNotify);
+    }, []);
+
+    const mutation = useCallback(() => searchPrototypes(params), [params]);
+
+    return {results, searchPrototypes, params, mutation};
 };
 
 export const useApplicationPrototype = () => useRecoilValue(getPrototypeQuery);
