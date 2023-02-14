@@ -13,7 +13,7 @@ import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const UserSignUpPage = memo(() => {
     const router = useRouter();
-    const {currentUser, login} = useCurrentUser();
+    const {currentUser, login} = useCurrentUser(null);
     const form = useForm<UserSignUpRequestDto>();
     const [modalOpen, setModalOpen] = useState(false);
 

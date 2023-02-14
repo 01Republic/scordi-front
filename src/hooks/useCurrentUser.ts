@@ -16,27 +16,28 @@ type AxiosErrorData = {
     message: string;
 };
 
-const loginRequiredHandler = (err: AxiosError<AxiosErrorData>, router: NextRouter) => {
+const loginRequiredHandler = (err: AxiosError<AxiosErrorData>, router: NextRouter, fallbackPath?: string | null) => {
     const status = err.response?.data.status!;
     if (status === 401) {
+        // fallbackPath 가 null 로 주입된 경우에는 튕기지 않습니다.
+        if (fallbackPath === null) return;
+
         // 로그인이 실패한 경우, 로그인 페이지로 튕겨냅니다.
-        router.push(UserLoginPageRoute.path());
+        router.push(fallbackPath || UserLoginPageRoute.path());
     } else {
         // 그 외의 에러는 토스트 메세지만 띄워줍니다.
         errorNotify(err);
     }
 };
 
-export function useCurrentUser() {
+export function useCurrentUser(fallbackPath?: string | null) {
     const router = useRouter();
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
 
     useEffect(() => {
         getUserSession()
-            .then((res) => {
-                setCurrentUser(res.data);
-            })
-            .catch((err) => loginRequiredHandler(err, router));
+            .then((res) => setCurrentUser(res.data))
+            .catch((err) => loginRequiredHandler(err, router, fallbackPath));
     }, []);
 
     const login = (data: UserLoginRequestDto, href?: string): Promise<UserDto> => {
