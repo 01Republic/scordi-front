@@ -1,11 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
-import {useRecoilState} from 'recoil';
-import {currentUserAtom} from '^atoms/currentUser.atom';
 import {useForm} from 'react-hook-form';
-import {UserLoginRequestDto} from '^types/user.type';
-import {getToken, setToken} from '^api/api';
-import {getUserSession, postUserSession} from '^api/session.api';
+import {UserDto, UserLoginRequestDto} from '^types/user.type';
 import {Modal} from '^components/Modal';
 import {TextInput} from '^components/TextInput';
 import {DefaultButton} from '^components/Button';
@@ -13,39 +9,33 @@ import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {UserSignUpPageRoute} from '^pages/users/signup';
 import Link from 'next/link';
 import {useCurrentUser} from '^hooks/useCurrentUser';
+import {OrgSearchRoute} from '^pages/orgs/search';
 
 export const UsersSignInPage = memo(() => {
     const router = useRouter();
-    const {currentUser, setCurrentUser, login} = useCurrentUser();
-    const [userChecked, setUserChecked] = useState(false);
+    const {login, currentUser} = useCurrentUser(null);
     const form = useForm<UserLoginRequestDto>();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // redirect home page if user already login
-    useEffect(() => {
-        const token = getToken();
-        if (!!token) {
-            getUserSession()
-                .then((res) => setCurrentUser(res.data))
-                .catch(() => setUserChecked(true));
+    function loginRedirect(user: UserDto) {
+        // org check
+        // org ? 대시보드로 이동
+        // : search페이지로 이동
+        if (user.orgId) {
+            router.push(OrgHomeRoute.path(user.orgId));
         } else {
-            setUserChecked(true);
+            router.push(OrgSearchRoute.path());
         }
-    }, []);
+    }
 
-    useEffect(() => {
-        if (currentUser?.orgId) {
-            router.push(OrgHomeRoute.path(currentUser.orgId));
-        }
-    }, [currentUser]);
+    if (currentUser) loginRedirect(currentUser);
 
     const submit = (data: UserLoginRequestDto) => {
         login(data)
-            .then((user) => router.push(OrgHomeRoute.path(user.orgId)))
+            .then((user) => loginRedirect(user))
             .catch(() => setIsModalOpen(true));
     };
 
-    if (!userChecked) return null;
     return (
         <>
             <Modal
