@@ -13,14 +13,11 @@ import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const UserSignUpPage = memo(() => {
     const router = useRouter();
-    const {currentUser, login} = useCurrentUser(null);
+    const {currentUser, login, loginRedirect} = useCurrentUser(null);
     const form = useForm<UserSignUpRequestDto>();
     const [modalOpen, setModalOpen] = useState(false);
 
-    // redirect home page if user already login
-    useEffect(() => {
-        // redirectIfAlreadySignedIn(localStorage, router, currentUser);
-    }, [currentUser]);
+    if (currentUser) loginRedirect(currentUser);
 
     const submit = (data: UserSignUpRequestDto) => {
         postUser(data)

@@ -10,6 +10,7 @@ import {removeToken, setToken} from '^api/api';
 import {UserDto, UserLoginRequestDto} from '^types/user.type';
 import {WelcomePageRoute} from '^pages/users/signup/welcome';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
+import {OrgSearchRoute} from '^pages/orgs/search';
 
 type AxiosErrorData = {
     status: number;
@@ -55,11 +56,22 @@ export function useCurrentUser(fallbackPath?: string | null) {
         );
     };
 
+    const loginRedirect = (user: UserDto) => {
+        // org check
+        // org ? 대시보드로 이동
+        // : search페이지로 이동
+        if (user.orgId) {
+            router.push(OrgHomeRoute.path(user.orgId));
+        } else {
+            router.push(OrgSearchRoute.path());
+        }
+    };
+
     const logout = () => {
         removeToken();
         setCurrentUser(null);
         router.push(UserLoginPageRoute.path());
     };
 
-    return {currentUser, setCurrentUser, login, logout};
+    return {currentUser, setCurrentUser, login, loginRedirect, logout};
 }
