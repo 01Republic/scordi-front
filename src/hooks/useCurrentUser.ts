@@ -1,16 +1,19 @@
 import {useEffect} from 'react';
-import {getUserSession, postUserSession} from '^api/session.api';
 import {useRecoilState} from 'recoil';
-import {currentUserAtom} from '^atoms/currentUser.atom';
-import {errorNotify} from '^utils/toast-notify';
 import {AxiosError} from 'axios';
-import {UserLoginPageRoute} from '^pages/users/login';
-import {NextRouter, useRouter} from 'next/router';
 import {removeToken, setToken} from '^api/api';
-import {UserDto, UserLoginRequestDto} from '^types/user.type';
-import {WelcomePageRoute} from '^pages/users/signup/welcome';
+import {getMemberships} from '^api/membership.api';
+import {getUserSession, postUserSession} from '^api/session.api';
+import {currentUserAtom} from '^atoms/currentUser.atom';
+import {currentUserMembershipAtom} from '^atoms/currentUser.atom';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
+import {UserLoginPageRoute} from '^pages/users/login';
+import {WelcomePageRoute} from '^pages/users/signup/welcome';
 import {OrgSearchRoute} from '^pages/orgs/search';
+import {NextRouter, useRouter} from 'next/router';
+import {UserDto, UserLoginRequestDto} from '^types/user.type';
+import {errorNotify} from '^utils/toast-notify';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 
 type AxiosErrorData = {
     status: number;
@@ -33,13 +36,33 @@ const loginRequiredHandler = (err: AxiosError<AxiosErrorData>, router: NextRoute
 
 export function useCurrentUser(fallbackPath?: string | null) {
     const router = useRouter();
+    const organizationId = useRouterIdParamState('id', orgIdParamState);
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
+    const [currentUserMembership, setCurrentUserMembership] = useRecoilState(currentUserMembershipAtom);
 
     useEffect(() => {
         getUserSession()
             .then((res) => setCurrentUser(res.data))
             .catch((err) => loginRequiredHandler(err, router, fallbackPath));
     }, []);
+
+    useEffect(() => {
+        if (currentUser === null) return;
+        if (isNaN(organizationId)) return;
+
+        getMemberships({
+            where: {
+                userId: currentUser.id,
+                organizationId,
+            },
+        }).then((res) => {
+            const membership = res.data.items[0];
+
+            if (!membership) return;
+
+            setCurrentUserMembership(membership);
+        });
+    }, [currentUser, organizationId]);
 
     const login = (data: UserLoginRequestDto, href?: string): Promise<UserDto> => {
         return (
@@ -73,5 +96,5 @@ export function useCurrentUser(fallbackPath?: string | null) {
         router.push(UserLoginPageRoute.path());
     };
 
-    return {currentUser, setCurrentUser, login, loginRedirect, logout};
+    return {currentUser, setCurrentUser, login, loginRedirect, logout, currentUserMembership};
 }

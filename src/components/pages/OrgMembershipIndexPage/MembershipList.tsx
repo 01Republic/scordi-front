@@ -31,6 +31,8 @@ export const MembershipList = memo(() => {
                     <div className={'flex-1 text-gray-800'}>{member.user.name}</div>
                     <div className={'flex-1 text-sm'}>{member.user.email}</div>
                     <div className={'flex-1 text-sm'}>{member.level}</div>
+                    <div className="p-4 badge font-bold">using</div>
+                    <button className="btn btn-sm bg-yellow-500 text-white">accept</button>
                 </div>
             ))}
         </>

@@ -1,3 +1,4 @@
+import {MembershipDto} from '^types/membership.type';
 import {atom, selector} from 'recoil';
 import {UserDto} from '^types/user.type';
 import {getUserSession} from '^api/session.api';
@@ -6,6 +7,11 @@ import {errorNotify} from '^utils/toast-notify';
 
 export const currentUserAtom = atom<UserDto | null>({
     key: 'currentUser',
+    default: null,
+});
+
+export const currentUserMembershipAtom = atom<MembershipDto | null>({
+    key: 'currentUserMembership',
     default: null,
 });
 

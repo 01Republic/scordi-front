@@ -5,9 +5,12 @@ import {searchOrganizations, createOrganization} from '^api/organization.api';
 import {CreateOrganizationRequestDto, OrganizationDto, SearchOrgQueryDto} from '^types/organization.type';
 import {useForm} from 'react-hook-form';
 import {MembershipLevel} from '^types/membership.type';
-import Router, {useRouter} from 'next/router';
+import {useRouter} from 'next/router';
 import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {JoinOrgRoute} from '^pages/orgs/joinOrg';
+import {createMembership} from '^api/membership.api';
+import {errorNotify} from '^utils/toast-notify';
+import {toast} from 'react-toastify';
 
 export const OrgSearchPage = memo(() => {
     const {currentUser} = useCurrentUser();
@@ -76,20 +79,40 @@ interface SearchedOrgResultItemProps {
 const SearchedOrgResultItem = memo((props: SearchedOrgResultItemProps) => {
     const {org} = props;
     const router = useRouter();
+    const {currentUser} = useCurrentUser(null);
 
     const memberships = org.memberships || [];
     const ownerMembership = memberships.find((membership) => membership.level === MembershipLevel.OWNER)!;
-    console.log(ownerMembership);
 
-    const goToJoinConfirm = () => {
-        router.push(JoinOrgRoute.path());
+    const goToJoinConfirm = (org: OrganizationDto) => {
+        if (!currentUser) return;
+
+        // const id = toast.loading('Please wait...');
+        //do something else
+
+        const request = createMembership({
+            organizationId: org.id,
+            userId: currentUser.id,
+            level: MembershipLevel.MEMBER,
+        }).catch(errorNotify);
+
+        toast
+            .promise(request, {
+                success: {
+                    render: () => `Successfully requested!`,
+                    icon: '🟢',
+                },
+            })
+            .then(() => {
+                router.push(JoinOrgRoute.path());
+            });
     };
 
     return (
         <div className="flex justify-between items-center">
             <p className="text-lg">{org.name}</p>
             <p className="text-md">{ownerMembership?.user?.email}</p>
-            <button className="btn" onClick={goToJoinConfirm}>
+            <button className="btn" onClick={() => goToJoinConfirm(org)}>
                 join
             </button>
         </div>
