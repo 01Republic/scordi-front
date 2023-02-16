@@ -1,5 +1,6 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useState} from 'react';
 import {useRouter} from 'next/router';
+import {toast} from 'react-toastify';
 import {useForm} from 'react-hook-form';
 import {TextInput} from '^components/TextInput';
 import {postUser} from '^api/session.api';
@@ -8,14 +9,14 @@ import {errorNotify} from '^utils/toast-notify';
 import {DefaultButton} from '^components/Button';
 import {Modal} from '^components/Modal';
 import {WelcomePageRoute} from '^pages/users/signup/welcome';
-import {toast} from 'react-toastify';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const UserSignUpPage = memo(() => {
     const router = useRouter();
-    const {currentUser, login, loginRedirect} = useCurrentUser(null);
+    const {currentUser, login, loginRedirect, authenticatedUserData} = useCurrentUser(null);
     const form = useForm<UserSignUpRequestDto>();
     const [modalOpen, setModalOpen] = useState(false);
+    const [isCodeInput, setIsCodeInput] = useState(false);
 
     if (currentUser) loginRedirect(currentUser);
 
@@ -30,13 +31,7 @@ export const UserSignUpPage = memo(() => {
     };
 
     const onNext = () => {
-        if (
-            !!form.watch('name') &&
-            !!form.watch('phone') &&
-            !!form.watch('email') &&
-            form.watch('orgName') &&
-            form.watch('password') === form.watch('passwordConfirmation')
-        ) {
+        if (!!form.watch('name') && !!form.watch('phone') && !!form.watch('email')) {
             setModalOpen(true);
         } else {
             toast.info('모든 정보를 정확하게 입력해 주세요');
@@ -51,6 +46,12 @@ export const UserSignUpPage = memo(() => {
             toast.info('모든 약관에 동의해 주세요');
         }
     };
+
+    const onShow = () => {
+        setIsCodeInput(true);
+    };
+
+    console.log('⭐️⭐️⭐️', authenticatedUserData);
 
     return (
         <>
@@ -138,56 +139,49 @@ export const UserSignUpPage = memo(() => {
                 buttons={[{text: '확인', onClick: onComplete}]}
             />
             <div className={'mx-auto py-20 w-full max-w-md space-y-5'} style={{height: '125vh'}}>
-                <form onSubmit={form.handleSubmit(submit)} className={'space-y-4 p-4 m-auto'}>
-                    <h1 className="text-3xl font-semibold">클로즈 베타 등록</h1>
-                    <p className={'text-[#6D7684] text-base'}>
-                        똑똑한 비용관리, 스코디에 오신것을 환영해요! <br />
-                        클로즈 베타가 진행되는 동안 많은 관심과 피드백을 부탁드릴게요 :)
-                    </p>
+                <form onSubmit={form.handleSubmit(submit)} className={'p-4 m-auto'}>
+                    <h1 className="text-7xl  mb-8 font-bold">Additional Information</h1>
+                    <h5 className="text-2xl  mb-24">
+                        Welcome to Scordi !<br />
+                        Tell us about U :)
+                    </h5>
+
                     <TextInput
-                        label={'이름'}
+                        label={'Name'}
                         type={'text'}
+                        defaultValue={authenticatedUserData && authenticatedUserData.name}
                         required={true}
-                        placeholder={'이름을 입력해주세요'}
+                        placeholder={'Enter Your Name'}
                         {...form.register('name', {required: true})}
                     />
+
                     <TextInput
-                        label={'전화번호'}
+                        label={'Phone Number'}
                         type={'number'}
                         required={true}
-                        placeholder={'01012345678'}
+                        placeholder={'Enter Your Phone Number'}
                         {...form.register('phone', {required: true})}
                     />
-                    <TextInput
-                        label={'회사명'}
-                        type={'text'}
-                        required={true}
-                        placeholder={'회사 이름을 입력해 주세요'}
-                        {...form.register('orgName', {required: true})}
-                    />
-                    <TextInput
-                        label={'회사 이메일 (아이디)'}
-                        type={'email'}
-                        required={true}
-                        placeholder={'이메일을 입력해주세요'}
-                        {...form.register('email', {required: true})}
-                    />
-                    <TextInput
-                        label={'비밀번호'}
-                        type={'password'}
-                        required={true}
-                        placeholder={'비밀번호를 입력해주세요'}
-                        {...form.register('password', {required: true})}
-                    />
-                    <TextInput
-                        label={'비밀번호 확인'}
-                        type={'password'}
-                        required={true}
-                        placeholder={'비밀번호를 입력해주세요'}
-                        {...form.register('passwordConfirmation', {required: true})}
-                    />
-                    <div className={'pt-[1rem] space-y-4'}>
-                        <DefaultButton text={'다음'} onClick={onNext} disabled={false} />
+
+                    <div className={'pt-[1rem] space-y-4 mb-16'}>
+                        <DefaultButton
+                            text={isCodeInput ? 'Resend' : 'Enter the Code'}
+                            onClick={onShow}
+                            disabled={false}
+                        />
+                    </div>
+
+                    <div>
+                        <TextInput
+                            label={'Authentication Code'}
+                            type={'password'}
+                            required={true}
+                            placeholder={'Enter the Authentication number'}
+                            {...form.register('passwordConfirmation', {required: true})}
+                        />
+                        <div className={'pt-[1rem] space-y-4'}>
+                            <DefaultButton text={'Next'} onClick={onNext} disabled={false} />
+                        </div>
                     </div>
                 </form>
             </div>

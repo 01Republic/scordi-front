@@ -4,7 +4,7 @@ import {AxiosError} from 'axios';
 import {removeToken, setToken} from '^api/api';
 import {getMemberships} from '^api/membership.api';
 import {getUserSession, postUserSession} from '^api/session.api';
-import {currentUserAtom} from '^atoms/currentUser.atom';
+import {currentUserAtom, authenticatedUserDataAtom} from '^atoms/currentUser.atom';
 import {currentUserMembershipAtom} from '^atoms/currentUser.atom';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {UserLoginPageRoute} from '^pages/users/login';
@@ -39,6 +39,7 @@ export function useCurrentUser(fallbackPath?: string | null) {
     const organizationId = useRouterIdParamState('id', orgIdParamState);
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
     const [currentUserMembership, setCurrentUserMembership] = useRecoilState(currentUserMembershipAtom);
+    const [authenticatedUserData, setAuthenticatedUserData] = useRecoilState(authenticatedUserDataAtom);
 
     useEffect(() => {
         getUserSession()
@@ -96,5 +97,14 @@ export function useCurrentUser(fallbackPath?: string | null) {
         router.push(UserLoginPageRoute.path());
     };
 
-    return {currentUser, setCurrentUser, login, loginRedirect, logout, currentUserMembership};
+    return {
+        currentUser,
+        setCurrentUser,
+        login,
+        loginRedirect,
+        logout,
+        currentUserMembership,
+        authenticatedUserData,
+        setAuthenticatedUserData,
+    };
 }

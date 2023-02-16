@@ -5,6 +5,17 @@ import {getUserSession} from '^api/session.api';
 import {getToken} from '^api/api';
 import {errorNotify} from '^utils/toast-notify';
 
+export type GoogleSignedUserData = {
+    id: string;
+    email: string;
+    verified_email: boolean;
+    name: string;
+    given_name: string;
+    family_name: string;
+    picture: string;
+    locale: string;
+};
+
 export const currentUserAtom = atom<UserDto | null>({
     key: 'currentUser',
     default: null,
@@ -13,6 +24,11 @@ export const currentUserAtom = atom<UserDto | null>({
 export const currentUserMembershipAtom = atom<MembershipDto | null>({
     key: 'currentUserMembership',
     default: null,
+});
+
+export const authenticatedUserDataAtom = atom<GoogleSignedUserData | undefined>({
+    key: 'authenticatedUserDataAtom',
+    default: undefined,
 });
 
 // export const getUserSessionQueryTrigger = atom({
