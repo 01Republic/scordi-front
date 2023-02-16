@@ -7,6 +7,7 @@ import {useForm} from 'react-hook-form';
 import {MembershipLevel} from '^types/membership.type';
 import Router, {useRouter} from 'next/router';
 import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
+import {JoinOrgRoute} from '^pages/orgs/joinOrg';
 
 export const OrgSearchPage = memo(() => {
     const {currentUser} = useCurrentUser();
@@ -74,16 +75,23 @@ interface SearchedOrgResultItemProps {
 
 const SearchedOrgResultItem = memo((props: SearchedOrgResultItemProps) => {
     const {org} = props;
+    const router = useRouter();
 
     const memberships = org.memberships || [];
     const ownerMembership = memberships.find((membership) => membership.level === MembershipLevel.OWNER)!;
     console.log(ownerMembership);
 
+    const goToJoinConfirm = () => {
+        router.push(JoinOrgRoute.path());
+    };
+
     return (
         <div className="flex justify-between items-center">
             <p className="text-lg">{org.name}</p>
             <p className="text-md">{ownerMembership?.user?.email}</p>
-            <button className="btn">join</button>
+            <button className="btn" onClick={goToJoinConfirm}>
+                join
+            </button>
         </div>
     );
 });
