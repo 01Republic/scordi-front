@@ -1,11 +1,12 @@
 import React, {ChangeEvent, memo, useEffect, useState} from 'react';
 import {SyntheticEvent} from 'react-toastify/dist/utils';
 import {useCurrentUser} from '^hooks/useCurrentUser';
-import {searchOrganizations} from '^api/organization.api';
-import {OrganizationDto, SearchOrgQueryDto} from '^types/organization.type';
+import {searchOrganizations, createOrganization} from '^api/organization.api';
+import {CreateOrganizationRequestDto, OrganizationDto, SearchOrgQueryDto} from '^types/organization.type';
 import {useForm} from 'react-hook-form';
 import {MembershipLevel} from '^types/membership.type';
 import Router, {useRouter} from 'next/router';
+import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
 
 export const OrgSearchPage = memo(() => {
     const {currentUser} = useCurrentUser();
@@ -23,13 +24,21 @@ export const OrgSearchPage = memo(() => {
         });
     };
 
+    const createOrg = (data: CreateOrganizationRequestDto) => {
+        data.name.length > 0 &&
+            createOrganization(data).then((res) => {
+                const org = res.data.users![0];
+                router.push(OrgAppsIndexPageRoute.path(org!.orgId));
+            });
+    };
+
     return (
         <div className="flex w-full items-center justify-center" style={{height: '100vh'}}>
             <div className="flex flex-col w-[100%] sm:w-[60%] md:w-[50%] lg:w-[40%] gap-y-10">
                 <div className="hero-content text-center">
                     <div className="max-w-md">
                         <h1 className="text-4xl md:text-7xl font-bold">Find Organization</h1>
-                        <p className="text-lg py-6">Find your group or Create your group</p>
+                        <p className="text-lg py-6">Find your team or Create your team</p>
                     </div>
                 </div>
                 <form
@@ -51,8 +60,8 @@ export const OrgSearchPage = memo(() => {
                 ) : (
                     searchedOrgs.map((org, i) => <SearchedOrgResultItem org={org} key={i} />)
                 )}
-                <button className="btn btn-block btn-primary text-lg">
-                    Create &nbsp;&nbsp;&nbsp; "{inputValue || `(search your group)`}"
+                <button className="btn btn-block btn-primary text-lg" onClick={() => createOrg({name: inputValue})}>
+                    {inputValue.length === 0 ? `search your team` : `Create "${inputValue}"`}
                 </button>
             </div>
         </div>
