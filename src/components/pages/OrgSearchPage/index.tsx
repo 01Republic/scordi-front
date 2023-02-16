@@ -52,7 +52,7 @@ export const OrgSearchPage = memo(() => {
                     searchedOrgs.map((org, i) => <SearchedOrgResultItem org={org} key={i} />)
                 )}
                 <button className="btn btn-block btn-primary text-lg">
-                    Create &nbsp;&nbsp;&nbsp;"{inputValue || `(enter your group)`}"
+                    Create &nbsp;&nbsp;&nbsp; "{inputValue || `(search your group)`}"
                 </button>
             </div>
         </div>
@@ -71,10 +71,10 @@ const SearchedOrgResultItem = memo((props: SearchedOrgResultItemProps) => {
     console.log(ownerMembership);
 
     return (
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center">
             <p className="text-lg">{org.name}</p>
             <p className="text-md">{ownerMembership?.user?.email}</p>
-            <button className="btn">조직 합류</button>
+            <button className="btn">join</button>
         </div>
     );
 });
