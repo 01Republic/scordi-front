@@ -1,7 +1,7 @@
 import {useEffect} from 'react';
 import {getUserSession, postUserSession} from '^api/session.api';
 import {useRecoilState} from 'recoil';
-import {currentUserAtom} from '^atoms/currentUser.atom';
+import {currentUserAtom, authenticatedUserDataAtom} from '^atoms/currentUser.atom';
 import {errorNotify} from '^utils/toast-notify';
 import {AxiosError} from 'axios';
 import {UserLoginPageRoute} from '^pages/users/login';
@@ -34,6 +34,7 @@ const loginRequiredHandler = (err: AxiosError<AxiosErrorData>, router: NextRoute
 export function useCurrentUser(fallbackPath?: string | null) {
     const router = useRouter();
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
+    const [authenticatedUserData, setAuthenticatedUserData] = useRecoilState(authenticatedUserDataAtom);
 
     useEffect(() => {
         getUserSession()
@@ -73,5 +74,5 @@ export function useCurrentUser(fallbackPath?: string | null) {
         router.push(UserLoginPageRoute.path());
     };
 
-    return {currentUser, setCurrentUser, login, loginRedirect, logout};
+    return {currentUser, setCurrentUser, login, loginRedirect, logout, authenticatedUserData, setAuthenticatedUserData};
 }
