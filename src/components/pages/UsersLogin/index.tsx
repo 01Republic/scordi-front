@@ -4,7 +4,7 @@ import {useForm} from 'react-hook-form';
 import {UserLoginRequestDto} from '^types/user.type';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {Modal} from '^components/Modal';
-import {GoogleLoginButton} from './googleLoginButton';
+import {GoogleLoginBtn} from './GoogleLoginBtn';
 
 export const UsersLoginPage = memo(() => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,7 +36,7 @@ export const UsersLoginPage = memo(() => {
                         <h1 className="text-7xl  mb-8 font-bold">Login</h1>
                         <h5 className="text-4xl  mb-32">You can join us with Google account ! </h5>
                         <div>
-                            <GoogleLoginButton />
+                            <GoogleLoginBtn />
                         </div>
                     </div>
                     {/*</form>*/}

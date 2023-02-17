@@ -6,7 +6,7 @@ import {useCurrentUser} from '^hooks/useCurrentUser';
 import {GoogleSignedUserData} from '^atoms/currentUser.atom';
 import {UserSignUpPageRoute} from '^pages/users/signup';
 
-export const GoogleLoginButton = memo(() => {
+export const GoogleLoginBtn = memo(() => {
     const router = useRouter();
     const {setAuthenticatedUserData} = useCurrentUser(null);
 
