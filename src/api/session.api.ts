@@ -4,6 +4,7 @@ import {
     UserEditProfileRequestDto,
     UserLoginRequestDto,
     UserSocialLoginRequestDto,
+    UserSocialSignUpRequestDto,
 } from '^types/user.type';
 import {api} from './api';
 import axios from 'axios';
@@ -25,7 +26,7 @@ export const putUserSession = () => {
     return api.put<JwtContainer>('/users/session');
 };
 
-export const postUser = (data: UserLoginRequestDto) => {
+export const postUser = (data: UserSocialSignUpRequestDto) => {
     return api.post<UserDto>('/users', data);
 };
 

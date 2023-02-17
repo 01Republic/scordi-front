@@ -13,6 +13,17 @@ export type UserSignUpRequestDto = {
     isAgreeForPrivacyPolicyTerm: boolean;
 };
 
+export type UserSocialSignUpRequestDto = {
+    provider: string; // 소셜로그인공급자
+    uid: string; // 소셜로그인 ID
+    profileImageUrl?: string | null; // 프로필이미지 URL
+    name: string; // 이름
+    phone: string; // 전화번호
+    email: string; // 이메일
+    isAgreeForServiceUsageTerm: boolean; // 서비스 이용약관 동의 여부
+    isAgreeForPrivacyPolicyTerm: boolean; // 개인정보 활용 동의 여부
+};
+
 export type UserDto = {
     id: number;
     name: string;

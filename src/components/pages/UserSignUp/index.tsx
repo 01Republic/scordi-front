@@ -6,18 +6,31 @@ import {toast} from 'react-toastify';
 import {useForm} from 'react-hook-form';
 import {TextInput} from '^components/TextInput';
 import {postUser} from '^api/session.api';
-import {SendPhoneAuthMessageDto, UserSignUpRequestDto} from '^types/user.type';
+import {SendPhoneAuthMessageDto, UserSignUpRequestDto, UserSocialSignUpRequestDto} from '^types/user.type';
 import {errorNotify} from '^utils/toast-notify';
 import {DefaultButton} from '^components/Button';
 import {Modal} from '^components/Modal';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {patchPhoneAuthSession, postPhoneAuthSession} from '^api/authlization';
 
+/**
+ * 추가 정보 입력 페이지 (회원가입)
+ *
+ * 1. 이름과 전화번호를 입력하고 인증 버튼 클릭
+ * 2. 인증번호 입력 창이 추가적으로 출현
+ * 3. 인증번호 입력 후 인증번호 확인
+ * 4. 인증번호가 확인 되면 약관 모달 출현
+ * 5. 약관 모달의 약관이 모두 확인되면 모달 내 확인버튼을 클릭해 최종적으로 회원 가입 처리
+ *      - 폼은 정보를 모으는 용도로만 쓴다.
+ *      - submit 은 form 태그의 onSubmit 에서 실행하지 않는다.
+ *      - submit 은 모달 내 확인버튼의 onClick 에서 실행한다.
+ */
 export const UserSignUpPage = memo(() => {
     const router = useRouter();
-    const {currentUser, login, loginRedirect, authenticatedUserData} = useCurrentUser(null);
-    const form = useForm<UserSignUpRequestDto>();
+    const {currentUser, socialLogin, loginRedirect, authenticatedUserData} = useCurrentUser(null);
+    const form = useForm<UserSocialSignUpRequestDto>();
     const [modalOpen, setModalOpen] = useState(false);
+    const [authCode, setAuthCode] = useState('');
     const [isCodeShow, setIsCodeShow] = useState(false);
     const [isSendBtn, setIsSendBtn] = useState(true);
     const [isNextBtn, setIsNextBtn] = useState(true);
@@ -28,10 +41,11 @@ export const UserSignUpPage = memo(() => {
 
     if (currentUser) loginRedirect(currentUser);
 
-    const submit = (data: UserSignUpRequestDto) => {
+    // 회원가입 & 리디렉션
+    const submit = (data: UserSocialSignUpRequestDto) => {
         postUser(data)
             .then(() => {
-                login({email: data.email, password: data.password})
+                socialLogin({provider: data.provider, uid: data.uid})
                     .then(() => router.push(WelcomePageRoute.path()))
                     .catch(errorNotify);
             })
@@ -46,14 +60,16 @@ export const UserSignUpPage = memo(() => {
         }
     };
 
-    const onCheckCodeLength = () => {
-        if (form.watch('code').length > 4) {
+    const onCheckCodeLength = (code: string) => {
+        if (code.length > 4) {
             setIsNextBtn(false);
-        } else if (form.watch('code').length <= 4) {
+        } else if (code.length <= 4) {
             setIsNextBtn(true);
         }
+        setAuthCode(code);
     };
 
+    // 인증번호 발급
     const onSend = (data: SendPhoneAuthMessageDto) => {
         if (!!form.watch('name') && !!form.watch('phone')) {
             setIsCodeShow(true);
@@ -80,20 +96,32 @@ export const UserSignUpPage = memo(() => {
         // }, 1000);
     };
 
+    // 인증번호 확인
     const onNext = (data: SendPhoneAuthMessageDto) => {
         //TODO : 인증번호 확인 완료되면 페이지 넘기기
         patchPhoneAuthSession(data).then((res) => {
             console.log('🥶', res);
 
             if (res.status === 200) {
-                router.push(WelcomePageRoute.path());
+                // 인증번호 완료되면 페이지 넘기는게 아니라 약관 동의받고 회원가입 처리 해야 됨.
+                // 즉, 여기서는 약관 모달 출현시킴.
+                setModalOpen(true);
             }
         });
     };
 
-    const onComplete = () => {
+    // 약관 동의 모달 완료
+    const modalConfirmButtonClick = () => {
+        if (!authenticatedUserData) {
+            toast.info('구글 로그인 세션이 만료되었습니다. 다시 진행해주세요.');
+            return;
+        }
+
         if (form.watch('isAgreeForServiceUsageTerm') && form.watch('isAgreeForPrivacyPolicyTerm')) {
-            setModalOpen(true);
+            form.setValue('provider', 'google');
+            form.setValue('uid', authenticatedUserData.id);
+            form.setValue('profileImageUrl', authenticatedUserData.picture);
+            form.setValue('email', authenticatedUserData.email);
             submit(form.getValues());
         } else {
             toast.info('모든 약관에 동의해 주세요');
@@ -183,10 +211,10 @@ export const UserSignUpPage = memo(() => {
                         </div>
                     </>
                 }
-                buttons={[{text: '확인', onClick: onComplete}]}
+                buttons={[{text: '확인', onClick: modalConfirmButtonClick}]}
             />
             <div className={'mx-auto py-20 w-full max-w-md space-y-5'} style={{minHeight: '100vh'}}>
-                <form onSubmit={form.handleSubmit(submit)} className={'p-4 m-auto'}>
+                <form className={'p-4 m-auto'}>
                     <h1 className="text-7xl  mb-8 font-bold">Additional Information</h1>
                     <h5 className="text-2xl  mb-24">
                         Welcome to Scordi !<br />
@@ -233,9 +261,11 @@ export const UserSignUpPage = memo(() => {
                                     required={true}
                                     placeholder={'Code'}
                                     maxLength={6}
-                                    {...form.register('code', {required: true})}
-                                    onInput={onCheckCodeLength}
+                                    onInput={(e) => {
+                                        onCheckCodeLength(e.currentTarget.value);
+                                    }}
                                 />
+                                {/*{...form.register('code', {required: true})}*/}
                                 <div className={'pt-[1rem] w-20 mb-16 ml-3 mt-8 font-bold text-[red]'}>
                                     {minutes} : {('0' + seconds).slice(-2)}
                                 </div>
@@ -247,7 +277,7 @@ export const UserSignUpPage = memo(() => {
                                     onClick={() =>
                                         onNext({
                                             phoneNumber: form.getValues('phone'),
-                                            code: form.getValues('code'),
+                                            code: authCode,
                                         })
                                     }
                                 />

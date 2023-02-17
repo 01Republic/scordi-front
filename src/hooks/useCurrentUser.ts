@@ -11,7 +11,7 @@ import {UserLoginPageRoute} from '^pages/users/login';
 import {WelcomePageRoute} from '^pages/users/signup/welcome';
 import {OrgSearchRoute} from '^pages/orgs/search';
 import {NextRouter, useRouter} from 'next/router';
-import {UserDto, UserLoginRequestDto} from '^types/user.type';
+import {UserDto, UserLoginRequestDto, UserSocialLoginRequestDto} from '^types/user.type';
 import {errorNotify} from '^utils/toast-notify';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {UserSignUpPageRoute} from '^pages/users/signup';
@@ -81,6 +81,17 @@ export function useCurrentUser(fallbackPath?: string | null) {
         );
     };
 
+    const socialLogin = (data: UserSocialLoginRequestDto, href?: string): Promise<UserDto> => {
+        return postUserSessionBySocialAccount(data)
+            .then(({data: {token}}) => setToken(token))
+            .then(() => getUserSession())
+            .then(({data: user}) => {
+                setCurrentUser(user);
+                if (href) router.push(href);
+                return user;
+            });
+    };
+
     const loginRedirect = (user: UserDto) => {
         // org check
         // org ? 대시보드로 이동
@@ -103,7 +114,8 @@ export function useCurrentUser(fallbackPath?: string | null) {
     return {
         currentUser,
         setCurrentUser,
-        login,
+        // login,
+        socialLogin,
         loginRedirect,
         logout,
         currentUserMembership,
