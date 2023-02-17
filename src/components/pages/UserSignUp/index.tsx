@@ -101,7 +101,7 @@ export const UserSignUpPage = memo(() => {
     };
 
     return (
-        <>
+        <div className="bg-white">
             <Modal
                 type={'info'}
                 isOpen={modalOpen}
@@ -185,7 +185,7 @@ export const UserSignUpPage = memo(() => {
                 }
                 buttons={[{text: '확인', onClick: onComplete}]}
             />
-            <div className={'mx-auto py-20 w-full max-w-md space-y-5'} style={{height: '125vh'}}>
+            <div className={'mx-auto py-20 w-full max-w-md space-y-5'} style={{minHeight: '100vh'}}>
                 <form onSubmit={form.handleSubmit(submit)} className={'p-4 m-auto'}>
                     <h1 className="text-7xl  mb-8 font-bold">Additional Information</h1>
                     <h5 className="text-2xl  mb-24">
@@ -256,6 +256,6 @@ export const UserSignUpPage = memo(() => {
                     </div>
                 </form>
             </div>
-        </>
+        </div>
     );
 });

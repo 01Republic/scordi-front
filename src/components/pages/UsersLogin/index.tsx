@@ -21,7 +21,7 @@ export const UsersLoginPage = memo(() => {
     const googleOauthClientId = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID!;
 
     return (
-        <>
+        <div className="bg-white">
             <GoogleOAuthProvider clientId={googleOauthClientId}>
                 <Modal
                     type={'info'}
@@ -30,7 +30,7 @@ export const UsersLoginPage = memo(() => {
                     description={'Create a Google Account'}
                     buttons={[{text: 'Try again', onClick: () => setIsModalOpen(false)}]}
                 />
-                <div className={'mx-auto py-20 w-full max-w-md space-y-5'} style={{height: '100vh'}}>
+                <div className={'mx-auto py-20 w-full max-w-md space-y-5'} style={{minHeight: '100vh'}}>
                     {/*<form onSubmit={form.handleSubmit(submit)}>*/}
                     <div className="p-4 m-auto">
                         <h1 className="text-7xl  mb-8 font-bold">Login</h1>
@@ -42,6 +42,6 @@ export const UsersLoginPage = memo(() => {
                     {/*</form>*/}
                 </div>
             </GoogleOAuthProvider>
-        </>
+        </div>
     );
 });

@@ -11,8 +11,8 @@ export const UserWelcomePage = memo(() => {
 
     if (!user) return null;
     return (
-        <div style={{backgroundColor: 'white'}}>
-            <div className={'mx-auto px-5 my-20 w-full max-w-md space-y-5'}>
+        <div className="bg-white">
+            <div className={'mx-auto px-5 my-20 w-full max-w-md space-y-5'} style={{minHeight: '100vh'}}>
                 <h1>스코디 가입을 환영합니다!</h1>
                 <p>
                     가입해 주셔서 감사합니다. <br />
