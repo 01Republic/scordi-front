@@ -1,10 +1,9 @@
 import React, {memo, useEffect} from 'react';
-import {ContentPanel, ContentPanelPreloader} from '^layouts/ContentLayout';
-import {getMemberships} from '^api/membership.api';
+import {ContentPanelPreloader} from '^layouts/ContentLayout';
+import {getMemberships, patchMemberships} from '^api/membership.api';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {Paginated} from '^types/utils/paginated.dto';
-import {MembershipDto} from '^types/membership.type';
-import {PreLoader} from '^components/PreLoader';
+import {MembershipDto, UpdateMembershipRequestDto} from '^types/membership.type';
 
 export const MembershipList = memo(() => {
     const organizationId = useRouterIdParamState('id', orgIdParamState);
@@ -19,6 +18,10 @@ export const MembershipList = memo(() => {
 
     if (members.items === undefined) return <ContentPanelPreloader />;
 
+    const acceptMember = (state: UpdateMembershipRequestDto) => {
+        patchMemberships(state);
+    };
+
     return (
         <>
             {members.items.map((member, index) => (
@@ -31,8 +34,18 @@ export const MembershipList = memo(() => {
                     <div className={'flex-1 text-gray-800'}>{member.user.name}</div>
                     <div className={'flex-1 text-sm'}>{member.user.email}</div>
                     <div className={'flex-1 text-sm'}>{member.level}</div>
-                    <div className="p-4 badge font-bold">using</div>
-                    <button className="btn btn-sm bg-yellow-500 text-white">accept</button>
+                    {member.approvalStatus === 'APPROVED' ? (
+                        <div className="p-5 badge font-bold bg-blue-100">using</div>
+                    ) : (
+                        <div className="p-5 badge font-bold">disabled</div>
+                    )}
+                    <button
+                        className="btn btn-m bg-yellow-500 text-white font-nomal"
+                        disabled={member.approvalStatus === 'APPROVED'}
+                        onClick={() => acceptMember({approvalStatus: member.approvalStatus})}
+                    >
+                        accept
+                    </button>
                 </div>
             ))}
         </>

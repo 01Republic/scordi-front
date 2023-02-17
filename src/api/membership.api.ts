@@ -1,5 +1,10 @@
 import {api} from '^api/api';
-import {CreateMembershipRequestDto, FindAllMembershipQuery, MembershipDto} from '^types/membership.type';
+import {
+    CreateMembershipRequestDto,
+    FindAllMembershipQuery,
+    MembershipDto,
+    UpdateMembershipRequestDto,
+} from '^types/membership.type';
 import {Paginated} from '^types/utils/paginated.dto';
 
 const NAMESPACE = 'memberships';
@@ -10,4 +15,8 @@ export const createMembership = (data: CreateMembershipRequestDto) => {
 
 export const getMemberships = (params: FindAllMembershipQuery) => {
     return api.get<Paginated<MembershipDto>>(`/${NAMESPACE}`, {params});
+};
+
+export const patchMemberships = (params: UpdateMembershipRequestDto) => {
+    return api.patch<MembershipDto>(`/${NAMESPACE}`, {params});
 };
