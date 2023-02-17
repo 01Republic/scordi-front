@@ -117,7 +117,7 @@
         overflow: hidden;
       "
     >
-      We're thrilled to have you here! Get ready to dive into your new account.
+      신규 멤버가입 승인 요청 안내 메일. (조직 소유자에게 전송)
     </div>
 
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -148,10 +148,10 @@
                       valign="top"
                       style="padding: 40px 10px 40px 10px"
                     >
-                      <a href={{ mainAddress }} target="_blank">
+                      <a href="{{ serviceHost }}" target="_blank">
                         <img
                           alt="Logo"
-                          src="../logo-transparent.png"
+                          src="{{ serviceHost }}/logo-transparent.png"
                           style="
                             display: block;
                             width: 100px;
@@ -263,10 +263,9 @@
                       "
                     >
                       {{ userName }} want to join {{ orgName }}.<br />
-                      <a href={{ orgs/[id]/membership }} style="text-decoration: none; color: #666666;"
-                        >Go to page and
-                        <span style="font-weight: bold">Accept Member</span>.</a
-                      >
+                      <a href="{{ serviceHost }}/orgs/{{ organizationId }}/membership" style="text-decoration: none; color: #666666;">
+                        Go to page and <span style="font-weight: bold">Accept Member</span>.
+                      </a>
                     </td>
                   </tr>
                 </table>
@@ -314,25 +313,22 @@
                     >
                       <p style="margin: 0">
                         <a
-                          href={{ orgs/[id]/home }}
+                          href="{{ serviceHost }}/orgs/{{ organizationId }}/home"
                           target="_blank"
                           style="color: #111111; font-weight: 700"
-                          >Dashboard</a
-                        >
+                          >Dashboard</a>
                         –
                         <a
-                          href={{ orgs/[id]/apps }}
+                          href="{{ serviceHost }}/orgs/{{ organizationId }}/apps"
                           target="_blank"
                           style="color: #111111; font-weight: 700"
-                          >Apps</a
-                        >
+                          >Apps</a>
                         –
                         <a
                           href="https://docs.github.com/ko/get-started/learning-about-github/access-permissions-on-github"
                           target="_blank"
                           style="color: #111111; font-weight: 700"
-                          >Permissions</a
-                        >
+                          >Permissions</a>
                       </p>
                     </td>
                   </tr>

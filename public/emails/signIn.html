@@ -117,7 +117,7 @@
         overflow: hidden;
       "
     >
-      We're thrilled to have you here! Get ready to dive into your new account.
+      회원 가입완료 알림 메일
     </div>
 
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -148,10 +148,10 @@
                       valign="top"
                       style="padding: 40px 10px 40px 10px"
                     >
-                      <a href={{ mainAddress }} target="_blank">
+                      <a href="{{ serviceHost }}" target="_blank">
                         <img
                           alt="Logo"
-                          src="../logo-transparent.png"
+                          src="{{ serviceHost }}/logo-transparent.png"
                           style="
                             display: block;
                             width: 100px;
@@ -195,7 +195,7 @@
                   width="100%"
                   style="max-width: 800px"
                 >
-                  
+
                   <tr>
                     <td
                     bgcolor="#ffffff"
@@ -212,7 +212,7 @@
                         line-height: 48px;
                         "
                     >
-                      <img src="../images/illustration/big-isolated-employee-working-office-workplace-flat-illustration/Mar-Business_1-800px.png">
+                      <img src="{{ serviceHost }}/images/illustration/big-isolated-employee-working-office-workplace-flat-illustration/Mar-Business_1-800px.png">
                       <h1
                         style="font-size: 48px; font-weight: bolder; margin: 0"
                       >
@@ -237,7 +237,7 @@
             border="0"
             cellspacing="0"
             cellpadding="0"
-            width="840"
+            width="800"
           >
             <tr>
               <td align="center" valign="top" width="840">
@@ -262,13 +262,13 @@
                         font-weight: 400;
                         line-height: 25px;
                         text-align: center;
-                        width: 800;
+                        width: 800px;
                       "
                     >
                     Welcome to Scodi! You’re taking an important next step to manage SaaS.<br/>
                     Take a look around, test exclusive features.<br/>
                     (add apps that you want to manage or see how much you've spend)<br/>
-                    <a href={{ home }}>
+                    <a href="{{ serviceHost }}/orgs/{{ organizationId }}/home">
                     <button style="margin-top: 30px; padding: 15px; background-color: #bcbbbb; border-radius: 3px; color: white; font-weight: bold; width: 700px; font-size: 24px;">Start with Scodi</button>
                     </a>
                   </td>
@@ -318,25 +318,22 @@
                     >
                       <p style="margin: 0">
                         <a
-                          href={{ orgs/[id]/home }}
+                          href="{{ serviceHost }}/orgs/{{ organizationId }}/home"
                           target="_blank"
                           style="color: #111111; font-weight: 700"
-                          >Dashboard</a
-                        >
+                          >Dashboard</a>
                         –
                         <a
-                          href={{ orgs/[id]/apps }}
+                          href="{{ serviceHost }}/orgs/{{ organizationId }}/apps"
                           target="_blank"
                           style="color: #111111; font-weight: 700"
-                          >Apps</a
-                        >
+                          >Apps</a>
                         –
                         <a
                           href="https://docs.github.com/ko/get-started/learning-about-github/access-permissions-on-github"
                           target="_blank"
                           style="color: #111111; font-weight: 700"
-                          >Permissions</a
-                        >
+                          >Permissions</a>
                       </p>
                     </td>
                   </tr>
