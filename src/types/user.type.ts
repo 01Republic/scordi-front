@@ -44,3 +44,8 @@ export type UserEditProfileRequestDto = {
     password?: string;
     passwordConfirmation?: string;
 };
+
+export type SendPhoneAuthMessageDto = {
+    phoneNumber: string;
+    code?: string;
+};

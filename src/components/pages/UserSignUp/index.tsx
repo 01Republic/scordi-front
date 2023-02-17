@@ -1,15 +1,17 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useRef, useState} from 'react';
+import axios from 'axios';
 import {useRouter} from 'next/router';
+import {WelcomePageRoute} from '^pages/users/signup/welcome';
 import {toast} from 'react-toastify';
 import {useForm} from 'react-hook-form';
 import {TextInput} from '^components/TextInput';
 import {postUser} from '^api/session.api';
-import {UserSignUpRequestDto} from '^types/user.type';
+import {SendPhoneAuthMessageDto, UserSignUpRequestDto} from '^types/user.type';
 import {errorNotify} from '^utils/toast-notify';
 import {DefaultButton} from '^components/Button';
 import {Modal} from '^components/Modal';
-import {WelcomePageRoute} from '^pages/users/signup/welcome';
 import {useCurrentUser} from '^hooks/useCurrentUser';
+import {patchPhoneAuthSession, postPhoneAuthSession} from '^api/authlization';
 
 export const UserSignUpPage = memo(() => {
     const router = useRouter();
@@ -19,6 +21,10 @@ export const UserSignUpPage = memo(() => {
     const [isCodeShow, setIsCodeShow] = useState(false);
     const [isSendBtn, setIsSendBtn] = useState(true);
     const [isNextBtn, setIsNextBtn] = useState(true);
+    // const [seconds, setSeconds] = useState(5);
+    const [minutes, setMinutes] = useState(5);
+    const [seconds, setSeconds] = useState(0);
+    const timer = useRef();
 
     if (currentUser) loginRedirect(currentUser);
 
@@ -41,7 +47,6 @@ export const UserSignUpPage = memo(() => {
     };
 
     const onCheckCodeLength = () => {
-        console.log('!!!!!!!!!!!!!', form.watch('code').length);
         if (form.watch('code').length > 4) {
             setIsNextBtn(false);
         } else if (form.watch('code').length <= 4) {
@@ -49,14 +54,41 @@ export const UserSignUpPage = memo(() => {
         }
     };
 
-    const onSend = () => {
+    const onSend = (data: SendPhoneAuthMessageDto) => {
         if (!!form.watch('name') && !!form.watch('phone')) {
             setIsCodeShow(true);
         }
+
+        postPhoneAuthSession(data).then((res) => console.log('🥰', res));
+
+        // timer.current = setInterval(() => {
+        //     let s = seconds;
+        //     let m = minutes;
+        //     if (s > 0) {
+        //         setSeconds(--s);
+        //     }
+
+        //     if (s === 0) {
+        //         if (m === 0) {
+        //             clearInterval(timer.current);
+        //         } else {
+        //             setMinutes(--m);
+        //             setSeconds(59);
+        //             s = 59;
+        //         }
+        //     }
+        // }, 1000);
     };
 
-    const onNext = () => {
+    const onNext = (data: SendPhoneAuthMessageDto) => {
         //TODO : 인증번호 확인 완료되면 페이지 넘기기
+        patchPhoneAuthSession(data).then((res) => {
+            console.log('🥶', res);
+
+            if (res.status === 200) {
+                router.push(WelcomePageRoute.path());
+            }
+        });
     };
 
     const onComplete = () => {
@@ -186,25 +218,39 @@ export const UserSignUpPage = memo(() => {
                         <div className={'pt-[1rem] space-y-4 mb-16 ml-2.5 mt-5'}>
                             <DefaultButton
                                 text={isCodeShow ? 'Resend' : 'Send'}
-                                onClick={onSend}
+                                onClick={() => onSend({phoneNumber: form.getValues('phone')})}
                                 disabled={isSendBtn}
                             />
                         </div>
                     </div>
 
-                    <div className={isCodeShow ? ' opacity-100  ease-in duration-300' : ' opacity-0'}>
+                    <div className={isCodeShow ? 'opacity-100  ease-in duration-300' : ' opacity-0'}>
                         <div>
-                            <TextInput
-                                label={'Authentication Code'}
-                                type={'number'}
-                                required={true}
-                                placeholder={'Code'}
-                                maxLength={6}
-                                {...form.register('code', {required: true})}
-                                onInput={onCheckCodeLength}
-                            />
+                            <div className="flex">
+                                <TextInput
+                                    label={'Authentication Code'}
+                                    type={'number'}
+                                    required={true}
+                                    placeholder={'Code'}
+                                    maxLength={6}
+                                    {...form.register('code', {required: true})}
+                                    onInput={onCheckCodeLength}
+                                />
+                                <div className={'pt-[1rem] w-20 mb-16 ml-3 mt-8 font-bold text-[red]'}>
+                                    {minutes} : {('0' + seconds).slice(-2)}
+                                </div>
+                            </div>
                             <div className={'pt-[1rem] space-y-4'}>
-                                <DefaultButton text={'Next'} onClick={onNext} disabled={isNextBtn} />
+                                <DefaultButton
+                                    text={'Next'}
+                                    disabled={isNextBtn}
+                                    onClick={() =>
+                                        onNext({
+                                            phoneNumber: form.getValues('phone'),
+                                            code: form.getValues('code'),
+                                        })
+                                    }
+                                />
                             </div>
                         </div>
                     </div>
