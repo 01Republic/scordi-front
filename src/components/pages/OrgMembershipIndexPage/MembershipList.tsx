@@ -18,8 +18,8 @@ export const MembershipList = memo(() => {
 
     if (members.items === undefined) return <ContentPanelPreloader />;
 
-    const acceptMember = (state: UpdateMembershipRequestDto) => {
-        patchMemberships(state);
+    const acceptMember = (status: UpdateMembershipRequestDto) => {
+        patchMemberships(status);
     };
 
     return (
