@@ -6,11 +6,11 @@ export type UserSignUpRequestDto = {
     phone: string;
     orgName: string;
     email: string;
+    code: string;
     password: string;
     passwordConfirmation: string;
     isAgreeForServiceUsageTerm: boolean;
     isAgreeForPrivacyPolicyTerm: boolean;
-    code: number;
 };
 
 export type UserDto = {
