@@ -3,8 +3,8 @@ import {useRecoilState} from 'recoil';
 import {AxiosError} from 'axios';
 import {removeToken, setToken} from '^api/api';
 import {getMemberships} from '^api/membership.api';
-import {getUserSession, postUserSession} from '^api/session.api';
-import {currentUserAtom, authenticatedUserDataAtom} from '^atoms/currentUser.atom';
+import {getGoogleUserData, getUserSession, postUserSession, postUserSessionBySocialAccount} from '^api/session.api';
+import {currentUserAtom, authenticatedUserDataAtom, GoogleSignedUserData} from '^atoms/currentUser.atom';
 import {currentUserMembershipAtom} from '^atoms/currentUser.atom';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {UserLoginPageRoute} from '^pages/users/login';
@@ -14,6 +14,7 @@ import {NextRouter, useRouter} from 'next/router';
 import {UserDto, UserLoginRequestDto} from '^types/user.type';
 import {errorNotify} from '^utils/toast-notify';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {UserSignUpPageRoute} from '^pages/users/signup';
 
 type AxiosErrorData = {
     status: number;
@@ -94,6 +95,8 @@ export function useCurrentUser(fallbackPath?: string | null) {
     const logout = () => {
         removeToken();
         setCurrentUser(null);
+        setCurrentUserMembership(null);
+        setAuthenticatedUserData(undefined);
         router.push(UserLoginPageRoute.path());
     };
 

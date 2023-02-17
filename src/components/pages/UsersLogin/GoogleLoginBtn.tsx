@@ -1,32 +1,13 @@
 import React, {memo} from 'react';
-import axios from 'axios';
-import {useRouter} from 'next/router';
 import {useGoogleLogin} from '@react-oauth/google';
-import {useCurrentUser} from '^hooks/useCurrentUser';
-import {GoogleSignedUserData} from '^atoms/currentUser.atom';
-import {UserSignUpPageRoute} from '^pages/users/signup';
+import {useGoogleLoginSuccessHandler} from '^hooks/useGoogleLoginSuccessHandler';
 
 export const GoogleLoginBtn = memo(() => {
-    const router = useRouter();
-    const {setAuthenticatedUserData} = useCurrentUser(null);
+    const googleLoginOnSuccess = useGoogleLoginSuccessHandler();
 
     const loginButtonOnClick = useGoogleLogin({
-        onSuccess: (response) => {
-            axios
-                .get<GoogleSignedUserData>(
-                    `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${response.access_token}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${response.access_token}`,
-                            Accept: 'application/json',
-                        },
-                    },
-                )
-                .then((res) => {
-                    setAuthenticatedUserData(res.data);
-                    router.push(UserSignUpPageRoute.path());
-                })
-                .catch((err) => console.log(err));
+        onSuccess: async (response) => {
+            await googleLoginOnSuccess(response.access_token);
         },
         onError: (error) => {
             console.log(error);

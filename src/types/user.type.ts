@@ -32,6 +32,11 @@ export type UserLoginRequestDto = {
     password: string;
 };
 
+export type UserSocialLoginRequestDto = {
+    provider: string; // 소셜로그인공급자
+    uid: string; // 소셜로그인 ID
+};
+
 export type JwtContainer = {
     token: string;
 };
