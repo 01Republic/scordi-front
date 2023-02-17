@@ -4,10 +4,15 @@ import {getMemberships, patchMemberships} from '^api/membership.api';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {Paginated} from '^types/utils/paginated.dto';
 import {MembershipDto, UpdateMembershipRequestDto} from '^types/membership.type';
+import {useCurrentUser} from '^hooks/useCurrentUser';
+import {toast} from 'react-toastify';
+import {error} from 'console';
+import {errorNotify} from '^utils/toast-notify';
 
 export const MembershipList = memo(() => {
     const organizationId = useRouterIdParamState('id', orgIdParamState);
     const [members, setMembers] = React.useState<Paginated<MembershipDto>>({} as Paginated<MembershipDto>);
+    const {currentUser} = useCurrentUser(null);
 
     useEffect(() => {
         !!organizationId &&
@@ -17,9 +22,15 @@ export const MembershipList = memo(() => {
     }, [organizationId]);
 
     if (members.items === undefined) return <ContentPanelPreloader />;
+    if (currentUser === null) return <></>;
 
-    const acceptMember = (status: UpdateMembershipRequestDto) => {
-        patchMemberships(status);
+    const acceptMember = (data: UpdateMembershipRequestDto, id: number) => {
+        patchMemberships(data, id).catch(errorNotify);
+        toast.
+            success: {
+                render: () => `Successfully requested!`,
+                icon: '🟢',
+            }
     };
 
     return (
@@ -42,7 +53,12 @@ export const MembershipList = memo(() => {
                     <button
                         className="btn btn-m bg-yellow-500 text-white font-nomal"
                         disabled={member.approvalStatus === 'APPROVED'}
-                        onClick={() => acceptMember({approvalStatus: member.approvalStatus})}
+                        onClick={() =>
+                            acceptMember(
+                                {level: member.level, approvalStatus: member.approvalStatus},
+                                member.organizationId,
+                            )
+                        }
                     >
                         accept
                     </button>
@@ -51,3 +67,5 @@ export const MembershipList = memo(() => {
         </>
     );
 });
+
+//|| currentUser.isAdmin === false

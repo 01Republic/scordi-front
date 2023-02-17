@@ -20,7 +20,8 @@ export type CreateMembershipRequestDto = {
 };
 
 export type UpdateMembershipRequestDto = Partial<CreateMembershipRequestDto> & {
-    approvalStatus?: ApprovalStatus;
+    level: MembershipLevel;
+    approvalStatus: ApprovalStatus;
 };
 
 export type MembershipDto = {
