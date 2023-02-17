@@ -25,12 +25,13 @@ export const MembershipList = memo(() => {
     if (currentUser === null) return <></>;
 
     const acceptMember = (data: UpdateMembershipRequestDto, id: number) => {
-        patchMemberships(data, id).catch(errorNotify);
-        toast.
+        toast.promise(patchMemberships(data, id).catch(errorNotify), {
             success: {
-                render: () => `Successfully requested!`,
-                icon: '🟢',
-            }
+                render() {
+                    return `Successfully approve`;
+                },
+            },
+        });
     };
 
     return (
@@ -52,7 +53,7 @@ export const MembershipList = memo(() => {
                     )}
                     <button
                         className="btn btn-m bg-yellow-500 text-white font-nomal"
-                        disabled={member.approvalStatus === 'APPROVED'}
+                        disabled={member.approvalStatus === 'APPROVED' || currentUser.isAdmin === false}
                         onClick={() =>
                             acceptMember(
                                 {level: member.level, approvalStatus: member.approvalStatus},
@@ -67,5 +68,3 @@ export const MembershipList = memo(() => {
         </>
     );
 });
-
-//|| currentUser.isAdmin === false
