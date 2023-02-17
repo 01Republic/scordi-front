@@ -16,7 +16,8 @@ export const UserSignUpPage = memo(() => {
     const {currentUser, login, loginRedirect, authenticatedUserData} = useCurrentUser(null);
     const form = useForm<UserSignUpRequestDto>();
     const [modalOpen, setModalOpen] = useState(false);
-    const [isCodeInput, setIsCodeInput] = useState(false);
+    const [isCodeShow, setIsCodeShow] = useState(false);
+    const [isDisabled, setIsDisabled] = useState(true);
 
     if (currentUser) loginRedirect(currentUser);
 
@@ -30,9 +31,25 @@ export const UserSignUpPage = memo(() => {
             .catch(errorNotify);
     };
 
+    const onCheckLength = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (form.watch('name').length > 2 && form.watch('phone').length > 9) {
+            setIsDisabled(false);
+        } else {
+            setIsDisabled(true);
+        }
+    };
+
     const onNext = () => {
-        if (!!form.watch('name') && !!form.watch('phone') && !!form.watch('email')) {
-            setModalOpen(true);
+        if (!!form.watch('name') && !!form.watch('phone') && !!form.watch('code')) {
+            setModalOpen(false);
+        } else {
+            toast.info('모든 정보를 정확하게 입력해 주세요');
+        }
+    };
+
+    const onSend = () => {
+        if (!!form.watch('name') && !!form.watch('phone')) {
+            setIsCodeShow(true);
         } else {
             toast.info('모든 정보를 정확하게 입력해 주세요');
         }
@@ -40,18 +57,12 @@ export const UserSignUpPage = memo(() => {
 
     const onComplete = () => {
         if (form.watch('isAgreeForServiceUsageTerm') && form.watch('isAgreeForPrivacyPolicyTerm')) {
-            setModalOpen(false);
+            setModalOpen(true);
             submit(form.getValues());
         } else {
             toast.info('모든 약관에 동의해 주세요');
         }
     };
-
-    const onShow = () => {
-        setIsCodeInput(true);
-    };
-
-    console.log('⭐️⭐️⭐️', authenticatedUserData);
 
     return (
         <>
@@ -153,34 +164,43 @@ export const UserSignUpPage = memo(() => {
                         required={true}
                         placeholder={'Enter Your Name'}
                         {...form.register('name', {required: true})}
+                        onInput={onCheckLength}
+                        autoComplete={'off'}
                     />
-
-                    <TextInput
-                        label={'Phone Number'}
-                        type={'number'}
-                        required={true}
-                        placeholder={'Enter Your Phone Number'}
-                        {...form.register('phone', {required: true})}
-                    />
-
-                    <div className={'pt-[1rem] space-y-4 mb-16'}>
-                        <DefaultButton
-                            text={isCodeInput ? 'Resend' : 'Enter the Code'}
-                            onClick={onShow}
-                            disabled={false}
+                    <div className="flex">
+                        <TextInput
+                            label={'Phone Number'}
+                            type={'number'}
+                            required={true}
+                            placeholder={'Enter Your Phone Number'}
+                            maxLength={11}
+                            {...form.register('phone', {required: true})}
+                            onInput={onCheckLength}
+                            autoComplete={'off'}
                         />
+
+                        <div className={'pt-[1rem] space-y-4 mb-16 ml-2.5 mt-5'}>
+                            <DefaultButton
+                                text={isCodeShow ? 'Resend' : 'Send'}
+                                onClick={onSend}
+                                disabled={isDisabled}
+                            />
+                        </div>
                     </div>
 
-                    <div>
-                        <TextInput
-                            label={'Authentication Code'}
-                            type={'password'}
-                            required={true}
-                            placeholder={'Enter the Authentication number'}
-                            {...form.register('passwordConfirmation', {required: true})}
-                        />
-                        <div className={'pt-[1rem] space-y-4'}>
-                            <DefaultButton text={'Next'} onClick={onNext} disabled={false} />
+                    <div className={isCodeShow ? ' opacity-100  ease-in duration-300' : ' opacity-0'}>
+                        <div>
+                            <TextInput
+                                label={'Authentication Code'}
+                                type={'number'}
+                                required={true}
+                                placeholder={'Code'}
+                                maxLength={6}
+                                {...form.register('code', {required: true})}
+                            />
+                            <div className={'pt-[1rem] space-y-4'}>
+                                <DefaultButton text={'Next'} onClick={onNext} disabled={isDisabled} />
+                            </div>
                         </div>
                     </div>
                 </form>

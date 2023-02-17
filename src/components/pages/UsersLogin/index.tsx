@@ -1,13 +1,12 @@
 import React, {memo, useState} from 'react';
+import {GoogleOAuthProvider} from '@react-oauth/google';
 import {useForm} from 'react-hook-form';
 import {UserLoginRequestDto} from '^types/user.type';
-import {Modal} from '^components/Modal';
 import {useCurrentUser} from '^hooks/useCurrentUser';
-import {GoogleOAuthProvider} from '@react-oauth/google';
-import {GoogleLoginButton} from '^components/pages/UsersLogin/GoogleLoginButton';
+import {Modal} from '^components/Modal';
+import {GoogleLoginButton} from './GoogleLoginButton';
 
 export const UsersLoginPage = memo(() => {
-    // const form = useForm<UserLoginRequestDto>();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const {login, currentUser, loginRedirect} = useCurrentUser();
 

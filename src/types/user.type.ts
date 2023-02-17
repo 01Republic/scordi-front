@@ -10,6 +10,7 @@ export type UserSignUpRequestDto = {
     passwordConfirmation: string;
     isAgreeForServiceUsageTerm: boolean;
     isAgreeForPrivacyPolicyTerm: boolean;
+    code: number;
 };
 
 export type UserDto = {
