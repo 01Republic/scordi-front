@@ -8,7 +8,7 @@ import {GoogleLoginBtn} from './GoogleLoginBtn';
 
 export const UsersLoginPage = memo(() => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const {login, currentUser, loginRedirect} = useCurrentUser();
+    const {currentUser, loginRedirect} = useCurrentUser();
 
     if (currentUser) loginRedirect(currentUser);
 
