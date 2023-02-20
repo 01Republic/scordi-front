@@ -3704,7 +3704,7 @@ prettier@^2.7.1:
   resolved "https://registry.npmjs.org/prettier/-/prettier-2.8.4.tgz"
   integrity sha512-vIS4Rlc2FNh0BySk3Wkd6xmwxB0FpOndW5fisM5H8hsZSxU2VWVB5CWIkIjWvrHjIhxk2g3bfMKM87zNTrZddw==
 
-prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.8.1:
+prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -3824,15 +3824,6 @@ react-loading-icons@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/react-loading-icons/-/react-loading-icons-1.1.0.tgz"
   integrity sha512-Y9eZ6HAufmUd8DIQd6rFrx5Bt/oDlTM9Nsjvf8YpajTa3dI8cLNU8jUN5z7KTANU+Yd6/KJuBjxVlrU2dMw33g==
-
-react-select2-wrapper@^1.0.4-beta6:
-  version "1.0.4-beta6"
-  resolved "https://registry.npmjs.org/react-select2-wrapper/-/react-select2-wrapper-1.0.4-beta6.tgz"
-  integrity sha512-YejtCElEf8GUYzbfOEs6cv8YUjul031nNdwkSpkGSQ0NkktPzXAzlcehKb1coC3tmmIxbCFH6flEjMt9dqckDg==
-  dependencies:
-    prop-types "^15.5.8"
-    select2 "^4.0.0"
-    shallow-equal-fuzzy "^0.0.2"
 
 react-select@*, react-select@^5.4.0:
   version "5.7.0"
@@ -4038,11 +4029,6 @@ scheduler@^0.23.0:
   dependencies:
     loose-envify "^1.1.0"
 
-select2@^4.0.0:
-  version "4.0.13"
-  resolved "https://registry.npmjs.org/select2/-/select2-4.0.13.tgz"
-  integrity sha512-1JeB87s6oN/TDxQQYCvS5EFoQyvV6eYMZZ0AeA4tdFDYWN3BAGZ8npr17UBFddU0lgAt3H0yjX3X6/ekOj1yjw==
-
 semver@7.0.0:
   version "7.0.0"
   resolved "https://registry.npmjs.org/semver/-/semver-7.0.0.tgz"
@@ -4059,11 +4045,6 @@ semver@^7.3.5, semver@^7.3.7, semver@^7.3.8:
   integrity sha512-NB1ctGL5rlHrPJtFDVIVzTyQylMLu9N9VICA6HSFJo8MCGVTMW6gfpicwKmmK/dAjTOrqu5l63JJOpDSrAis3A==
   dependencies:
     lru-cache "^6.0.0"
-
-shallow-equal-fuzzy@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.npmjs.org/shallow-equal-fuzzy/-/shallow-equal-fuzzy-0.0.2.tgz"
-  integrity sha512-HKGvWaQ6fuFhNH2k1krxxmhKYxyPSbPzwCkM94qYVoLKCGCqg0r9bdCoX4A37UJvAfyLje9zHS5F/SsrYgrqgA==
 
 shallowequal@^1.1.0:
   version "1.1.0"
