@@ -31,8 +31,8 @@ export const OrgSearchPage = memo(() => {
     const createOrg = (data: CreateOrganizationRequestDto) => {
         data.name.length > 0 &&
             createOrganization(data).then((res) => {
-                const org = res.data.users![0];
-                router.push(OrgAppsIndexPageRoute.path(org!.orgId));
+                const createdOrg = res.data;
+                router.push(OrgAppsIndexPageRoute.path(createdOrg.id));
             });
     };
 
