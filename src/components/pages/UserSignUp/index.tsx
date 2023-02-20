@@ -1,12 +1,11 @@
-import React, {memo, useRef, useState} from 'react';
-import axios from 'axios';
+import React, {memo, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {WelcomePageRoute} from '^pages/users/signup/welcome';
 import {toast} from 'react-toastify';
 import {useForm} from 'react-hook-form';
 import {TextInput} from '^components/TextInput';
 import {postUser} from '^api/session.api';
-import {SendPhoneAuthMessageDto, UserSignUpRequestDto, UserSocialSignUpRequestDto} from '^types/user.type';
+import {SendPhoneAuthMessageDto, UserSocialSignUpRequestDto} from '^types/user.type';
 import {errorNotify} from '^utils/toast-notify';
 import {DefaultButton} from '^components/Button';
 import {Modal} from '^components/Modal';
@@ -34,10 +33,6 @@ export const UserSignUpPage = memo(() => {
     const [isCodeShow, setIsCodeShow] = useState(false);
     const [isSendBtn, setIsSendBtn] = useState(true);
     const [isNextBtn, setIsNextBtn] = useState(true);
-    // const [seconds, setSeconds] = useState(5);
-    const [minutes, setMinutes] = useState(5);
-    const [seconds, setSeconds] = useState(0);
-    const timer = useRef();
 
     if (currentUser) loginRedirect(currentUser);
 
@@ -53,9 +48,9 @@ export const UserSignUpPage = memo(() => {
     };
 
     const onCheckProfileLength = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (form.watch('name').length > 2 && form.watch('phone').length > 9) {
+        if (form.watch('name').length > 2 && form.watch('phone').length >= 10) {
             setIsSendBtn(false);
-        } else if (form.watch('name').length < 2 || form.watch('phone').length < 9) {
+        } else if (form.watch('name').length < 2 || form.watch('phone').length <= 10) {
             setIsSendBtn(true);
         }
     };
@@ -76,24 +71,6 @@ export const UserSignUpPage = memo(() => {
         }
 
         postPhoneAuthSession(data).then((res) => console.log('🥰', res));
-
-        // timer.current = setInterval(() => {
-        //     let s = seconds;
-        //     let m = minutes;
-        //     if (s > 0) {
-        //         setSeconds(--s);
-        //     }
-
-        //     if (s === 0) {
-        //         if (m === 0) {
-        //             clearInterval(timer.current);
-        //         } else {
-        //             setMinutes(--m);
-        //             setSeconds(59);
-        //             s = 59;
-        //         }
-        //     }
-        // }, 1000);
     };
 
     // 인증번호 확인
@@ -267,7 +244,7 @@ export const UserSignUpPage = memo(() => {
                                 />
                                 {/*{...form.register('code', {required: true})}*/}
                                 <div className={'pt-[1rem] w-20 mb-16 ml-3 mt-8 font-bold text-[red]'}>
-                                    {minutes} : {('0' + seconds).slice(-2)}
+                                    {isCodeShow && <Timer />}
                                 </div>
                             </div>
                             <div className={'pt-[1rem] space-y-4'}>
@@ -286,6 +263,36 @@ export const UserSignUpPage = memo(() => {
                     </div>
                 </form>
             </div>
+        </div>
+    );
+});
+
+export const Timer = memo(() => {
+    const MINUTES_IN_MS = 3 * 60 * 1000;
+    const INTERVAL = 1000;
+    const [timeLeft, setTimeLeft] = useState<number>(MINUTES_IN_MS);
+
+    const minutes = String(Math.floor((timeLeft / (1000 * 60)) % 60)).padStart(2, '0');
+    const second = String(Math.floor((timeLeft / 1000) % 60)).padStart(2, '0');
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setTimeLeft((prevTime) => prevTime - INTERVAL);
+        }, INTERVAL);
+
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            console.log('타이머가 종료되었습니다.');
+        }
+
+        return () => {
+            clearInterval(timer);
+        };
+    }, [timeLeft]);
+
+    return (
+        <div>
+            {minutes} : {second}
         </div>
     );
 });
