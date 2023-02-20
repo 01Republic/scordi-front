@@ -1,19 +1,14 @@
-import React, {ChangeEvent, memo, useEffect, useState} from 'react';
-import {SyntheticEvent} from 'react-toastify/dist/utils';
+import React, {memo, useState} from 'react';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {searchOrganizations, createOrganization} from '^api/organization.api';
 import {CreateOrganizationRequestDto, OrganizationDto, SearchOrgQueryDto} from '^types/organization.type';
 import {useForm} from 'react-hook-form';
-import {MembershipLevel} from '^types/membership.type';
 import {useRouter} from 'next/router';
 import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
-import {JoinOrgRoute} from '^pages/orgs/joinOrg';
-import {createMembership} from '^api/membership.api';
-import {errorNotify} from '^utils/toast-notify';
-import {toast} from 'react-toastify';
+import {SearchedOrgResultItem} from './SearchedOrgResultItem';
 
 export const OrgSearchPage = memo(() => {
-    const {currentUser} = useCurrentUser();
+    // const {currentUser} = useCurrentUser();
     const router = useRouter();
     const [inputValue, setInputValue] = useState<string>('');
     const [searchedOrgs, setSearchedOrgs] = useState<OrganizationDto[]>([]);
@@ -68,53 +63,6 @@ export const OrgSearchPage = memo(() => {
                     {inputValue.length === 0 ? `search your team` : `Create "${inputValue}"`}
                 </button>
             </div>
-        </div>
-    );
-});
-
-interface SearchedOrgResultItemProps {
-    org: OrganizationDto;
-}
-
-const SearchedOrgResultItem = memo((props: SearchedOrgResultItemProps) => {
-    const {org} = props;
-    const router = useRouter();
-    const {currentUser} = useCurrentUser(null);
-
-    const memberships = org.memberships || [];
-    const ownerMembership = memberships.find((membership) => membership.level === MembershipLevel.OWNER)!;
-
-    const goToJoinConfirm = (org: OrganizationDto) => {
-        if (!currentUser) return;
-
-        // const id = toast.loading('Please wait...');
-        //do something else
-
-        const request = createMembership({
-            organizationId: org.id,
-            userId: currentUser.id,
-            level: MembershipLevel.MEMBER,
-        }).catch(errorNotify);
-
-        toast
-            .promise(request, {
-                success: {
-                    render: () => `Successfully requested!`,
-                    icon: '🟢',
-                },
-            })
-            .then(() => {
-                router.push(JoinOrgRoute.path());
-            });
-    };
-
-    return (
-        <div className="flex justify-between items-center">
-            <p className="text-lg">{org.name}</p>
-            <p className="text-md">{ownerMembership?.user?.email}</p>
-            <button className="btn" onClick={() => goToJoinConfirm(org)}>
-                join
-            </button>
         </div>
     );
 });

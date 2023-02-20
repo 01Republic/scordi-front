@@ -3,7 +3,7 @@ import {useRouter} from 'next/router';
 import {memo} from 'react';
 import {DefaultButton} from '^components/Button';
 import {useCurrentUser} from '^hooks/useCurrentUser';
-import {OrgHomeRoute} from '^pages/orgs/[id]/home';
+import {OrgSearchRoute} from '^pages/orgs/search';
 
 export const UserWelcomePage = memo(() => {
     const router = useRouter();
@@ -22,7 +22,7 @@ export const UserWelcomePage = memo(() => {
                 <div className={'flex justify-end mb-4'}>
                     <Image src={'/images/welcome/Astronaut3 gloss.png'} width={229} height={241} />
                 </div>
-                <DefaultButton text={'비용관리 시작하기'} onClick={() => router.push(OrgHomeRoute.path(user.orgId))} />
+                <DefaultButton text={'비용관리 시작하기'} onClick={() => router.push(OrgSearchRoute.path())} />
             </div>
         </div>
     );

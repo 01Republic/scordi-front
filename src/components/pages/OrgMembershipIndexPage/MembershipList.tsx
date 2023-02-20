@@ -53,7 +53,7 @@ export const MembershipList = memo(() => {
                     )}
                     <button
                         className="btn btn-m bg-yellow-500 text-white font-nomal"
-                        disabled={member.approvalStatus === 'APPROVED' || currentUser.isAdmin === false}
+                        disabled={member.approvalStatus !== 'APPROVED' || currentUser.isAdmin === false}
                         onClick={() =>
                             acceptMember(
                                 {level: member.level, approvalStatus: member.approvalStatus},
