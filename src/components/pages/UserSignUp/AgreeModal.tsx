@@ -3,13 +3,12 @@ import {useForm} from 'react-hook-form';
 import {Modal} from '^components/Modal';
 import {UserSocialSignUpRequestDto} from '^types/user.type';
 
-export interface ChildProps {
+export interface AgreeModalProps {
     modalOpen: boolean;
-    modalConfirmButtonClick: any;
-    //TODO : 함수타입 다시 지정해야됨
+    modalConfirmButtonClick: () => void;
 }
 
-export const AgreeModal: React.FC<ChildProps> = memo(({modalOpen, modalConfirmButtonClick}) => {
+export const AgreeModal = memo(({modalOpen, modalConfirmButtonClick}: AgreeModalProps) => {
     const form = useForm<UserSocialSignUpRequestDto>();
 
     return (
