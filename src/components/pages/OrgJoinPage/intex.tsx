@@ -1,12 +1,13 @@
 import {useRouter} from 'next/router';
 import {memo} from 'react';
 import {FcOk} from 'react-icons/fc';
+import {useRecoilState} from 'recoil';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 
 export const JoinOrgPage = memo(() => {
     const router = useRouter();
-    const organizationId = useRouterIdParamState('id', orgIdParamState);
+    const [orgIdParam] = useRecoilState(orgIdParamState);
 
     return (
         <div className="flex w-full items-center justify-center" style={{height: '100vh'}}>
@@ -20,7 +21,7 @@ export const JoinOrgPage = memo(() => {
                 </div>
                 <button
                     className="btn btn-block btn-primary text-lg"
-                    onClick={() => router.push(OrgHomeRoute.path(organizationId))}
+                    onClick={() => router.push(OrgHomeRoute.path(orgIdParam))}
                 >
                     home
                 </button>
