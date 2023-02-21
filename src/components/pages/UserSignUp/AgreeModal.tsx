@@ -1,15 +1,21 @@
 import React, {memo} from 'react';
-import {useForm, UseFormReturn} from 'react-hook-form';
+import {UseFormReturn} from 'react-hook-form';
 import {Modal} from '^components/Modal';
 import {UserSocialSignUpRequestDto} from '^types/user.type';
+import {RiCloseLine} from 'react-icons/ri';
 
 export interface AgreeModalProps {
     modalOpen: boolean;
+    setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
     form: UseFormReturn<UserSocialSignUpRequestDto, any>;
     modalConfirmButtonClick: () => void;
 }
 
-export const AgreeModal = memo(({modalOpen, form, modalConfirmButtonClick}: AgreeModalProps) => {
+export const AgreeModal = memo(({modalOpen, setModalOpen, form, modalConfirmButtonClick}: AgreeModalProps) => {
+    const onCloseModal = () => {
+        setModalOpen(false);
+    };
+
     return (
         <Modal
             type={'info'}
@@ -76,6 +82,9 @@ export const AgreeModal = memo(({modalOpen, form, modalConfirmButtonClick}: Agre
                                 <span className={'underline pl-2'}>보기</span>
                             </a>
                         </label>
+                    </div>
+                    <div className="text-xl absolute right-5 top-7 cursor-pointer" onClick={onCloseModal}>
+                        <RiCloseLine />
                     </div>
                 </>
             }
