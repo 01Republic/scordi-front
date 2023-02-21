@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {WelcomePageRoute} from '^pages/users/signup/welcome';
 import {toast} from 'react-toastify';
@@ -34,8 +34,9 @@ export const UserSignUpPage = memo(() => {
     const [isCodeShow, setIsCodeShow] = useState(false);
     const [isSendBtn, setIsSendBtn] = useState(true);
     const [isNextBtn, setIsNextBtn] = useState(true);
+    const [phoneNumberText, setPhoneNumberText] = useState('');
 
-    if (currentUser) loginRedirect(currentUser);
+    // if (currentUser) loginRedirect(currentUser);
 
     // 회원가입 & 리디렉션
     const submit = (data: UserSocialSignUpRequestDto) => {
@@ -49,6 +50,9 @@ export const UserSignUpPage = memo(() => {
     };
 
     const onCheckProfileLength = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!form.watch('phone').match(/\d+/)) {
+            form.setError('phone', {type: 'pattern', message: '숫자만 입력해주세요'});
+        }
         if (form.watch('name').length > 2 && form.watch('phone').length >= 10) {
             setIsSendBtn(false);
         } else if (form.watch('name').length < 2 || form.watch('phone').length <= 10) {
@@ -106,9 +110,13 @@ export const UserSignUpPage = memo(() => {
         }
     };
 
+    useEffect(() => {
+        form.setValue('phone', phoneNumberText);
+    }, [phoneNumberText]);
+
     return (
         <div className="bg-white">
-            <AgreeModal modalOpen={modalOpen} modalConfirmButtonClick={modalConfirmButtonClick} />
+            <AgreeModal modalOpen={modalOpen} form={form} modalConfirmButtonClick={modalConfirmButtonClick} />
             <div className={'mx-auto py-20 w-full max-w-md space-y-5'} style={{minHeight: '100vh'}}>
                 <form className={'p-4 m-auto'}>
                     <h1 className="text-7xl  mb-8 font-bold">Additional Information</h1>
@@ -128,16 +136,50 @@ export const UserSignUpPage = memo(() => {
                         autoComplete={'off'}
                     />
                     <div className="flex">
-                        <TextInput
-                            label={'Phone Number'}
-                            type={'number'}
-                            required={true}
-                            placeholder={'Enter Your Phone Number'}
-                            maxLength={11}
-                            {...form.register('phone', {required: true})}
-                            onInput={onCheckProfileLength}
-                            autoComplete={'off'}
-                        />
+                        <div className="form-control w-full mb-[20px]">
+                            <label className="label">
+                                <span className="label-text">
+                                    Phone Number
+                                    <span className="text-red-500"> *</span>
+                                </span>
+                            </label>
+                            <input
+                                className="input input-bordered w-full bg-slate-50 border-slate-100"
+                                type="text"
+                                required={true}
+                                placeholder={'Enter Your Phone Number'}
+                                value={phoneNumberText}
+                                maxLength={11}
+                                autoComplete={'off'}
+                                onChange={(e) => {
+                                    const input = e.target;
+                                    input.value.match(/^\d*$/i)
+                                        ? setPhoneNumberText(input.value)
+                                        : setPhoneNumberText(phoneNumberText);
+                                }}
+                            />
+                        </div>
+
+                        {/*<TextInput*/}
+                        {/*    label={'Phone Number'}*/}
+                        {/*    type={'text'}*/}
+                        {/*    required={true}*/}
+                        {/*    placeholder={'Enter Your Phone Number'}*/}
+                        {/*    {...form.register('phone', {*/}
+                        {/*        required: true,*/}
+                        {/*        pattern: {value: /^\d+$/i, message: 'only digits'},*/}
+                        {/*    })}*/}
+                        {/*    maxLength={11}*/}
+                        {/*    // onInput={onCheckProfileLength}*/}
+                        {/*    autoComplete={'off'}*/}
+                        {/*    pattern="\d+"*/}
+                        {/*    onInput={(e) => {*/}
+                        {/*        const input = e.target;*/}
+                        {/*        console.log(input.value);*/}
+                        {/*        console.log(form.getFieldState('phone'));*/}
+                        {/*        form.setError('phone', {type: 'pattern', message: 'only digits'});*/}
+                        {/*    }}*/}
+                        {/*/>*/}
 
                         <div className={'pt-[1rem] space-y-4 mb-16 ml-2.5 mt-5'}>
                             <DefaultButton

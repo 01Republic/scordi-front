@@ -1,16 +1,15 @@
 import React, {memo} from 'react';
-import {useForm} from 'react-hook-form';
+import {useForm, UseFormReturn} from 'react-hook-form';
 import {Modal} from '^components/Modal';
 import {UserSocialSignUpRequestDto} from '^types/user.type';
 
 export interface AgreeModalProps {
     modalOpen: boolean;
+    form: UseFormReturn<UserSocialSignUpRequestDto, any>;
     modalConfirmButtonClick: () => void;
 }
 
-export const AgreeModal = memo(({modalOpen, modalConfirmButtonClick}: AgreeModalProps) => {
-    const form = useForm<UserSocialSignUpRequestDto>();
-
+export const AgreeModal = memo(({modalOpen, form, modalConfirmButtonClick}: AgreeModalProps) => {
     return (
         <Modal
             type={'info'}
@@ -43,10 +42,7 @@ export const AgreeModal = memo(({modalOpen, modalConfirmButtonClick}: AgreeModal
                             id="terms_checkbox"
                             type="checkbox"
                             className="w-4 h-4 text-red-600 bg-gray-100 rounded border-0"
-                            checked={form.watch('isAgreeForServiceUsageTerm')}
-                            onClick={() =>
-                                form.setValue('isAgreeForServiceUsageTerm', !form.watch('isAgreeForServiceUsageTerm'))
-                            }
+                            {...form.register('isAgreeForServiceUsageTerm')}
                         />
                         <label
                             htmlFor="terms_checkbox"
@@ -66,10 +62,7 @@ export const AgreeModal = memo(({modalOpen, modalConfirmButtonClick}: AgreeModal
                             id="privacy_checkbox"
                             type="checkbox"
                             className="w-4 h-4 text-red-600 bg-gray-100 rounded border-0"
-                            checked={form.watch('isAgreeForPrivacyPolicyTerm')}
-                            onClick={() =>
-                                form.setValue('isAgreeForPrivacyPolicyTerm', !form.watch('isAgreeForPrivacyPolicyTerm'))
-                            }
+                            {...form.register('isAgreeForPrivacyPolicyTerm')}
                         />
                         <label
                             htmlFor="privacy_checkbox"
