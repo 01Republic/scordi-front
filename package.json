@@ -44,7 +44,8 @@
     "recoil": "^0.7.6",
     "sass": "^1.54.8",
     "sharp": "^0.31.2",
-    "styled-components": "^5.3.5"
+    "styled-components": "^5.3.5",
+    "sweetalert2": "^11.7.2"
   },
   "devDependencies": {
     "@ky-is/tailwindcss-plugin-width-height": "^1.0.0",

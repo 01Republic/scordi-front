@@ -9,6 +9,7 @@ import {useCurrentUser} from '^hooks/useCurrentUser';
 import {OrganizationDto} from '^types/organization.type';
 import {orgIdParamState} from '^atoms/common';
 import {useRecoilState, useSetRecoilState} from 'recoil';
+import Swal from 'sweetalert2';
 
 interface SearchedOrgResultItemProps {
     org: OrganizationDto;
@@ -16,7 +17,6 @@ interface SearchedOrgResultItemProps {
 
 export const SearchedOrgResultItem = memo((props: SearchedOrgResultItemProps) => {
     const {org} = props;
-    // const [orgIdParam, setOrgIdParam] = useRecoilState(orgIdParamState);
     const setOrgIdParam = useSetRecoilState(orgIdParamState);
     const router = useRouter();
     const {currentUser} = useCurrentUser(null);
@@ -25,25 +25,32 @@ export const SearchedOrgResultItem = memo((props: SearchedOrgResultItemProps) =>
 
     const goToJoinConfirm = (org: OrganizationDto) => {
         if (!currentUser) return;
+        console.log(currentUser);
 
-        const request = createMembership({
-            organizationId: org.id,
-            userId: currentUser.id,
-            level: MembershipLevel.MEMBER,
-        }).catch(errorNotify);
-
-        toast
-            .promise(request, {
-                success: {
-                    render: () => `Successfully requested!`,
-                    icon: '🟢',
-                },
-            })
-            .then(() => {
-                if (org.memberships === undefined) return;
-                setOrgIdParam(org.id);
-                router.push(JoinOrgRoute.path());
+        if (currentUser.orgName === org.name) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "You've already in this group",
+                footer: '<a href="">go to main</a>',
             });
+        } else {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: `Wanna join ${org.name}?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, join it!',
+            })
+                .then(() => {
+                    if (org.memberships === undefined) return;
+                    setOrgIdParam(org.id);
+                    router.push(JoinOrgRoute.path());
+                })
+                .catch(errorNotify);
+        }
     };
 
     return (
