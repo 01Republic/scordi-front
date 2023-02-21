@@ -25,6 +25,7 @@ import {AgreeModal} from './AgreeModal';
  *      - submit 은 form 태그의 onSubmit 에서 실행하지 않는다.
  *      - submit 은 모달 내 확인버튼의 onClick 에서 실행한다.
  */
+
 export const UserSignUpPage = memo(() => {
     const router = useRouter();
     const {currentUser, socialLogin, loginRedirect, authenticatedUserData} = useCurrentUser(null);
@@ -37,7 +38,7 @@ export const UserSignUpPage = memo(() => {
     const [phoneNumberText, setPhoneNumberText] = useState('');
     const [authenticationCode, setAuthenticationCode] = useState('');
 
-    // if (currentUser) loginRedirect(currentUser);
+    if (currentUser) loginRedirect(currentUser);
 
     // 회원가입 & 리디렉션
     const submit = (data: UserSocialSignUpRequestDto) => {
@@ -72,7 +73,6 @@ export const UserSignUpPage = memo(() => {
         patchPhoneAuthSession(data)
             .then((res) => {
                 console.log('🥶', res);
-
                 if (res.status === 200) {
                     // 인증번호 완료되면 페이지 넘기는게 아니라 약관 동의받고 회원가입 처리 해야 됨.
                     // 즉, 여기서는 약관 모달 출현시킴.

@@ -1,4 +1,5 @@
 import {memo, useEffect, useState} from 'react';
+import {toast} from 'react-toastify';
 
 export const Timer = memo(() => {
     const MINUTES_IN_MS = 5 * 60 * 1000;
@@ -15,7 +16,7 @@ export const Timer = memo(() => {
 
         if (timeLeft <= 0) {
             clearInterval(timer);
-            console.log('타이머가 종료되었습니다.');
+            toast.info('Please check your code');
         }
 
         return () => {
