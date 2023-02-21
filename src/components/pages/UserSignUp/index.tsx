@@ -1,4 +1,4 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useState} from 'react';
 import {useRouter} from 'next/router';
 import {WelcomePageRoute} from '^pages/users/signup/welcome';
 import {toast} from 'react-toastify';
@@ -8,9 +8,10 @@ import {postUser} from '^api/session.api';
 import {SendPhoneAuthMessageDto, UserSocialSignUpRequestDto} from '^types/user.type';
 import {errorNotify} from '^utils/toast-notify';
 import {DefaultButton} from '^components/Button';
-import {Modal} from '^components/Modal';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {patchPhoneAuthSession, postPhoneAuthSession} from '^api/authlization';
+import {Timer} from './AuthenticationCode';
+import {AgreeModal} from './AgreeModal';
 
 /**
  * 추가 정보 입력 페이지 (회원가입)
@@ -107,89 +108,7 @@ export const UserSignUpPage = memo(() => {
 
     return (
         <div className="bg-white">
-            <Modal
-                type={'info'}
-                isOpen={modalOpen}
-                title={'스코디 서비스 이용약관에 동의해주세요.'}
-                children={
-                    <>
-                        <div className="flex items-center mt-4 mb-4 pb-4 border-b">
-                            <input
-                                id="all_check"
-                                type="checkbox"
-                                className="w-4 h-4 text-red-600 bg-gray-100 rounded border-0"
-                                checked={
-                                    form.watch('isAgreeForServiceUsageTerm') &&
-                                    form.watch('isAgreeForPrivacyPolicyTerm')
-                                }
-                                onClick={() => {
-                                    form.setValue('isAgreeForPrivacyPolicyTerm', true);
-                                    form.setValue('isAgreeForServiceUsageTerm', true);
-                                }}
-                            />
-                            <label
-                                htmlFor="all_check"
-                                className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                            >
-                                전체 동의
-                            </label>
-                        </div>
-                        <div className="flex items-center mb-4">
-                            <input
-                                id="terms_checkbox"
-                                type="checkbox"
-                                className="w-4 h-4 text-red-600 bg-gray-100 rounded border-0"
-                                checked={form.watch('isAgreeForServiceUsageTerm')}
-                                onClick={() =>
-                                    form.setValue(
-                                        'isAgreeForServiceUsageTerm',
-                                        !form.watch('isAgreeForServiceUsageTerm'),
-                                    )
-                                }
-                            />
-                            <label
-                                htmlFor="terms_checkbox"
-                                className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                            >
-                                [필수] 서비스 이용약관 동의
-                                <a
-                                    href={`${process.env.NEXT_PUBLIC_BASE_API}/terms/serviceUsageTerm-v20221101-1.txt`}
-                                    target={'_blank'}
-                                >
-                                    <span className={'underline pl-2'}>보기</span>
-                                </a>
-                            </label>
-                        </div>
-                        <div className="flex items-center mb-4">
-                            <input
-                                id="privacy_checkbox"
-                                type="checkbox"
-                                className="w-4 h-4 text-red-600 bg-gray-100 rounded border-0"
-                                checked={form.watch('isAgreeForPrivacyPolicyTerm')}
-                                onClick={() =>
-                                    form.setValue(
-                                        'isAgreeForPrivacyPolicyTerm',
-                                        !form.watch('isAgreeForPrivacyPolicyTerm'),
-                                    )
-                                }
-                            />
-                            <label
-                                htmlFor="privacy_checkbox"
-                                className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                            >
-                                [필수] 개인정보 수집·이용 동의
-                                <a
-                                    href={`${process.env.NEXT_PUBLIC_BASE_API}/terms/개인정보처리방침-v20221101-1.html`}
-                                    target={'_blank'}
-                                >
-                                    <span className={'underline pl-2'}>보기</span>
-                                </a>
-                            </label>
-                        </div>
-                    </>
-                }
-                buttons={[{text: '확인', onClick: modalConfirmButtonClick}]}
-            />
+            <AgreeModal modalOpen={modalOpen} modalConfirmButtonClick={modalConfirmButtonClick} />
             <div className={'mx-auto py-20 w-full max-w-md space-y-5'} style={{minHeight: '100vh'}}>
                 <form className={'p-4 m-auto'}>
                     <h1 className="text-7xl  mb-8 font-bold">Additional Information</h1>
@@ -263,36 +182,6 @@ export const UserSignUpPage = memo(() => {
                     </div>
                 </form>
             </div>
-        </div>
-    );
-});
-
-export const Timer = memo(() => {
-    const MINUTES_IN_MS = 3 * 60 * 1000;
-    const INTERVAL = 1000;
-    const [timeLeft, setTimeLeft] = useState<number>(MINUTES_IN_MS);
-
-    const minutes = String(Math.floor((timeLeft / (1000 * 60)) % 60)).padStart(2, '0');
-    const second = String(Math.floor((timeLeft / 1000) % 60)).padStart(2, '0');
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setTimeLeft((prevTime) => prevTime - INTERVAL);
-        }, INTERVAL);
-
-        if (timeLeft <= 0) {
-            clearInterval(timer);
-            console.log('타이머가 종료되었습니다.');
-        }
-
-        return () => {
-            clearInterval(timer);
-        };
-    }, [timeLeft]);
-
-    return (
-        <div>
-            {minutes} : {second}
         </div>
     );
 });
