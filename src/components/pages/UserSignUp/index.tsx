@@ -77,6 +77,7 @@ export const UserSignUpPage = memo(() => {
                     // 인증번호 완료되면 페이지 넘기는게 아니라 약관 동의받고 회원가입 처리 해야 됨.
                     // 즉, 여기서는 약관 모달 출현시킴.
                     setModalOpen(true);
+                    setIsSendBtn(true);
                 }
             })
             .catch((error) => {
