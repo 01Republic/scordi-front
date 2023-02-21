@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {MembershipLevel} from '^types/membership.type';
 import {JoinOrgRoute} from '^pages/orgs/joinOrg';
 import {createMembership} from '^api/membership.api';
@@ -7,6 +7,8 @@ import {toast} from 'react-toastify';
 import {useRouter} from 'next/router';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {OrganizationDto} from '^types/organization.type';
+import {orgIdParamState} from '^atoms/common';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 
 interface SearchedOrgResultItemProps {
     org: OrganizationDto;
@@ -14,9 +16,10 @@ interface SearchedOrgResultItemProps {
 
 export const SearchedOrgResultItem = memo((props: SearchedOrgResultItemProps) => {
     const {org} = props;
+    // const [orgIdParam, setOrgIdParam] = useRecoilState(orgIdParamState);
+    const setOrgIdParam = useSetRecoilState(orgIdParamState);
     const router = useRouter();
     const {currentUser} = useCurrentUser(null);
-
     const memberships = org.memberships || [];
     const ownerMembership = memberships.find((membership) => membership.level === MembershipLevel.OWNER)!;
 
@@ -37,6 +40,8 @@ export const SearchedOrgResultItem = memo((props: SearchedOrgResultItemProps) =>
                 },
             })
             .then(() => {
+                if (org.memberships === undefined) return;
+                setOrgIdParam(org.id);
                 router.push(JoinOrgRoute.path());
             });
     };
