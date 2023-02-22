@@ -1,3 +1,4 @@
+import {useRouter} from 'next/router';
 import React, {memo, useEffect, useState} from 'react';
 import {toast} from 'react-toastify';
 import {patchMemberships} from '^api/membership.api';
@@ -13,6 +14,7 @@ export const MemberListItem = memo((props: MemberProps) => {
     const {memberShip} = props;
     const {currentUserMembership} = useCurrentUser();
     const [isAcceptButtonActive, setIsAcceptButtonActive] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
         if (!currentUserMembership) return;
@@ -26,7 +28,6 @@ export const MemberListItem = memo((props: MemberProps) => {
         patchMemberships(data, id)
             .then((res) => {
                 toast.success('Successfully approve');
-                console.log(res);
             })
             .catch(errorNotify);
     };
@@ -50,9 +51,10 @@ export const MemberListItem = memo((props: MemberProps) => {
             {isAcceptButtonActive && (
                 <button
                     className="btn btn-sm btn-warning text-white"
-                    onClick={() =>
-                        acceptMember({level: memberShip.level, approvalStatus: ApprovalStatus.APPROVED}, memberShip.id)
-                    }
+                    onClick={() => {
+                        acceptMember({level: memberShip.level, approvalStatus: ApprovalStatus.APPROVED}, memberShip.id);
+                        router.reload();
+                    }}
                 >
                     accept
                 </button>
