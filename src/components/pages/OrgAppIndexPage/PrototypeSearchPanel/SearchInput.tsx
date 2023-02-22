@@ -2,13 +2,16 @@ import React, {memo, useCallback} from 'react';
 import {useForm} from 'react-hook-form';
 import {FindAllAppPrototypeQuery} from '^types/applicationPrototype.type';
 import {usePrototypeSearch} from '^hooks/useApplicationPrototypes';
+import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const SearchInput = memo(() => {
+    const {currentUser} = useCurrentUser();
     const {searchPrototypes} = usePrototypeSearch();
     const form = useForm<FindAllAppPrototypeQuery>();
 
     const searchHandler = useCallback((data: FindAllAppPrototypeQuery) => {
-        searchPrototypes({name: data.name});
+        const isLive = currentUser?.isAdmin ? false : true;
+        searchPrototypes({name: data.name, isLive});
     }, []);
 
     return (
