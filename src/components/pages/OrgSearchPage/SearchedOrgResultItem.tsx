@@ -18,14 +18,13 @@ interface SearchedOrgResultItemProps {
 export const SearchedOrgResultItem = memo((props: SearchedOrgResultItemProps) => {
     const {org} = props;
     const setOrgIdParam = useSetRecoilState(orgIdParamState);
-    const router = useRouter();
     const {currentUser} = useCurrentUser(null);
+    const router = useRouter();
     const memberships = org.memberships || [];
     const ownerMembership = memberships.find((membership) => membership.level === MembershipLevel.OWNER)!;
 
     const goToJoinConfirm = (org: OrganizationDto) => {
         if (!currentUser) return;
-        console.log(currentUser);
 
         if (currentUser.orgName === org.name) {
             Swal.fire({
@@ -44,6 +43,9 @@ export const SearchedOrgResultItem = memo((props: SearchedOrgResultItemProps) =>
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, join it!',
             })
+                .then(() => {
+                    createMembership({organizationId: org.id, userId: currentUser.id, level: MembershipLevel.MEMBER});
+                })
                 .then(() => {
                     if (org.memberships === undefined) return;
                     setOrgIdParam(org.id);

@@ -15,14 +15,19 @@ export const MemberListItem = memo((props: MemberProps) => {
     const [isAcceptButtonActive, setIsAcceptButtonActive] = useState(false);
 
     useEffect(() => {
-        if (currentUserMembership?.level === MembershipLevel.OWNER) {
+        if (!currentUserMembership) return;
+
+        if (currentUserMembership.level === MembershipLevel.OWNER) {
             setIsAcceptButtonActive(memberShip.approvalStatus === ApprovalStatus.PENDING);
         }
-    }, []);
+    }, [currentUserMembership]);
 
     const acceptMember = (data: UpdateMembershipRequestDto, id: number) => {
         patchMemberships(data, id)
-            .then(() => toast.success('Successfully approve'))
+            .then((res) => {
+                toast.success('Successfully approve');
+                console.log(res);
+            })
             .catch(errorNotify);
     };
 
@@ -46,10 +51,7 @@ export const MemberListItem = memo((props: MemberProps) => {
                 <button
                     className="btn btn-sm btn-warning text-white"
                     onClick={() =>
-                        acceptMember(
-                            {level: memberShip.level, approvalStatus: memberShip.approvalStatus},
-                            memberShip.organizationId,
-                        )
+                        acceptMember({level: memberShip.level, approvalStatus: ApprovalStatus.APPROVED}, memberShip.id)
                     }
                 >
                     accept
