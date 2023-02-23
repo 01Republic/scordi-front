@@ -2,6 +2,12 @@ import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {ApplicationPaymentPlanDto} from '^types/applicationPaymentPlan.type';
 import {ApplicationBillingCycleDto} from '^types/applicationBillingCycle.type';
 
+export enum PrototypeConnectMethod {
+    AUTO = 'AUTO',
+    MANUAL = 'MANUAL',
+    PREPARE = 'PREPARE',
+}
+
 export type ApplicationPrototypeDto = {
     id: number;
     name: string;
@@ -17,7 +23,7 @@ export type ApplicationPrototypeDto = {
     updatedAt: Date;
     paymentPlans: ApplicationPaymentPlanDto[];
     billingCycles: ApplicationBillingCycleDto[];
-    connectMethod: 'AUTO' | 'MANUAL' | 'PREPARE' | string;
+    connectMethod: PrototypeConnectMethod | string;
 };
 
 export type CreateApplicationPrototypeRequestDto = {
@@ -32,7 +38,10 @@ export type CreateApplicationPrototypeRequestDto = {
     isFreeTierAvailable: boolean; // 프리티어 지원 여부
 };
 
-export type UpdateApplicationPrototypeRequestDto = Partial<CreateApplicationPrototypeRequestDto>;
+export type UpdateApplicationPrototypeRequestDto = Partial<CreateApplicationPrototypeRequestDto> & {
+    name?: string; // 서비스명
+    connectMethod?: PrototypeConnectMethod; // 연동방법
+};
 
 export function safeImageSrc(proto: ApplicationPrototypeDto, w: number, h: number): string {
     return (

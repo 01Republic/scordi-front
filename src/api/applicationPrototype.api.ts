@@ -26,6 +26,10 @@ export const updateApplicationPrototype = (id: number, data: UpdateApplicationPr
     return api.patch<ApplicationPrototypeDto>(`/${NAMESPACE}/${id}`, data);
 };
 
+export const deleteApplicationPrototype = (id: number) => {
+    return api.delete<null>(`/${NAMESPACE}/${id}`);
+};
+
 export const getApplicationPrototypeRecommend = () => {
     return api.get<Paginated<ApplicationPrototypeDto>>(`/${NAMESPACE}/recommend`);
 };

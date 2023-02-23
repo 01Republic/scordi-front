@@ -2,6 +2,7 @@ import React, {memo, MouseEventHandler, useCallback, useEffect} from 'react';
 import {atom, useRecoilState} from 'recoil';
 import {
     ApplicationPrototypeDto,
+    PrototypeConnectMethod,
     UpdateApplicationPrototypeRequestDto as UpdateDto,
 } from '^types/applicationPrototype.type';
 import {useForm} from 'react-hook-form';
@@ -50,6 +51,7 @@ export const PrototypeEditModal = memo(() => {
         form.setValue('image', protoTarget.image);
         form.setValue('pricingPageUrl', protoTarget.pricingPageUrl);
         form.setValue('companyName', protoTarget.companyName);
+        form.setValue('connectMethod', protoTarget.connectMethod as PrototypeConnectMethod);
     }, [protoTarget]);
 
     return (
@@ -95,6 +97,20 @@ export const PrototypeEditModal = memo(() => {
                             placeholder="ex. Github, Inc"
                             {...form.register('companyName')}
                         />
+
+                        <div className="form-control w-full mb-3">
+                            <label className="label">
+                                <span className="label-text">Connect Method</span>
+                            </label>
+
+                            <select className="select select-bordered w-full" {...form.register('connectMethod')}>
+                                {Object.entries(PrototypeConnectMethod).map(([k, v], i) => (
+                                    <option key={i} value={v}>
+                                        {k}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
                     <div className="modal-action">
                         <a id="proto-edit-modal--dismiss-button" href="#" className="btn">
