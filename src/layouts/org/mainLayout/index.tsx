@@ -14,13 +14,20 @@ interface OrgMainLayoutProps {
 
 const OrgMainLayout = ({children}: OrgMainLayoutProps) => {
     return (
-        <div className="flex h-screen">
-            <OrgSidebar />
+        <div className="h-screen drawer drawer-end">
+            <input id="drawer" type="checkbox" className="drawer-toggle" />
 
-            <div className="flex-1 overflow-x-auto">
-                <OrgTopbar />
-                {children}
-                {/*<OrgFooter />*/}
+            <div className="flex h-screen drawer-content">
+                <OrgSidebar />
+                <div className="flex-1 overflow-x-auto">
+                    <OrgTopbar />
+                    {children}
+                    {/*<OrgFooter />*/}
+                </div>
+            </div>
+
+            <div className="drawer-side">
+                <label htmlFor="drawer" className="drawer-overlay" />
             </div>
         </div>
     );
