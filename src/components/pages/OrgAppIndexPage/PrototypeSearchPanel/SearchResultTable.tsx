@@ -1,4 +1,4 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
 import {ContentTable} from '^layouts/ContentLayout';
 import {ApplicationPrototypeDto, PrototypeConnectMethod} from '^types/applicationPrototype.type';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
@@ -85,6 +85,10 @@ const PrototypeItem = memo((props: PrototypeItemProps) => {
         setIsLive(proto.connectMethod !== PrototypeConnectMethod.PREPARE);
     }, [proto]);
 
+    const clickConnectBtn = (proto: ApplicationPrototypeDto) => {
+        isConnectModalOpen(true);
+        currentPrototype(proto);
+    };
     return (
         <tr>
             {/* App */}
