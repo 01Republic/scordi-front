@@ -1,7 +1,7 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {ContentTable} from '^layouts/ContentLayout';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {ApplicationPrototypeDto, PrototypeConnectMethod} from '^types/applicationPrototype.type';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {applicationsState} from '^atoms/applications.atom';
 import {usePrototypeSearch} from '^hooks/useApplicationPrototypes';
 import {OrgProtoDetailPageRoute} from '^pages/orgs/[id]/prototypes/[protoId]';
@@ -11,6 +11,10 @@ import {currentUserAtom} from '^atoms/currentUser.atom';
 import {GoPlug, GoPrimitiveDot} from 'react-icons/go';
 import {BiLinkExternal} from 'react-icons/bi';
 import {editingProtoTargetState} from '^components/pages/OrgAppIndexPage/modals/PrototypeEditModal';
+import {ConnectMethod} from '^components/pages/OrgAddAppInfoPage/ConnectPanelV2/SelectConnectMethod';
+import {deleteApplicationPrototype} from '^api/applicationPrototype.api';
+import {errorNotify} from '^utils/toast-notify';
+import {toast} from 'react-toastify';
 import {connectPrototypeModalState, currentPrototypeState} from '^atoms/connectPrototypes.atom';
 
 export const SearchResultTable = memo(() => {
@@ -42,26 +46,45 @@ export const SearchResultTable = memo(() => {
             }
         >
             {(prototypes || []).map((proto, i) => (
-                <PrototypeItem key={i} proto={proto} isAdmin={!!isAdmin} />
+                <PrototypeItem
+                    key={i}
+                    proto={proto}
+                    isAdmin={!!isAdmin}
+                    onRemove={(proto) => {
+                        if (!confirm('Are you sure?')) return;
+
+                        deleteApplicationPrototype(proto.id)
+                            .then(() => toast(`[${proto.name}] Successfully removed`))
+                            .then(() => mutation())
+                            .catch(errorNotify);
+                    }}
+                />
             ))}
         </ContentTable>
     );
 });
 
-const PrototypeItem = memo((props: {proto: ApplicationPrototypeDto; isAdmin: boolean}) => {
-    const {proto, isAdmin} = props;
+interface PrototypeItemProps {
+    proto: ApplicationPrototypeDto;
+    isAdmin: boolean;
+    onRemove: (proto: ApplicationPrototypeDto) => void;
+}
+
+const PrototypeItem = memo((props: PrototypeItemProps) => {
+    const {proto, isAdmin, onRemove} = props;
     const isConnectModalOpen = useSetRecoilState(connectPrototypeModalState);
     const currentPrototype = useSetRecoilState(currentPrototypeState);
     const router = useRouter();
     const orgId = useRouterIdParamState('id', orgIdParamState);
     const apps = useRecoilValue(applicationsState);
-    const app = apps.find((app) => app.prototypeId === proto.id);
     const setEditingProtoTarget = useSetRecoilState(editingProtoTargetState);
+    const [isLive, setIsLive] = useState(false);
+    const app = apps.find((app) => app.prototypeId === proto.id);
 
-    const clickConnectBtn = (proto: ApplicationPrototypeDto) => {
-        isConnectModalOpen(true);
-        currentPrototype(proto);
-    };
+    useEffect(() => {
+        setIsLive(proto.connectMethod !== PrototypeConnectMethod.PREPARE);
+    }, [proto]);
+
     return (
         <tr>
             {/* App */}
@@ -104,9 +127,24 @@ const PrototypeItem = memo((props: {proto: ApplicationPrototypeDto; isAdmin: boo
             </td>
             <td>
                 {isAdmin && (
-                    <a className="btn2 btn-sm" href="#proto-edit-modal" onClick={() => setEditingProtoTarget(proto)}>
-                        edit
-                    </a>
+                    <div className="flex space-x-2">
+                        <a
+                            className="btn2 btn-sm"
+                            href="#proto-edit-modal"
+                            onClick={() => setEditingProtoTarget(proto)}
+                        >
+                            edit
+                        </a>
+                        {!isLive && (
+                            <a
+                                className="btn2 btn-sm"
+                                // href="#proto-edit-modal"
+                                onClick={() => onRemove(proto)}
+                            >
+                                remove
+                            </a>
+                        )}
+                    </div>
                 )}
             </td>
         </tr>
