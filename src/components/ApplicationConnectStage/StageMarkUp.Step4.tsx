@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { StageFormProps, StageMarkUp } from './StageMarkUp';
-import { ModalActionButton, ModalActionWrapper } from '^components/Modal';
-import { OrgResponseDataDto } from '^components/ApplicationConnectStage/dto/OrgResponseData.dto';
-import { LoginDto } from '^components/ApplicationConnectStage/dto/login.dto';
-import { ApplicationConnectApi } from '^api/applicationConnect.api';
-import { FetchedProfileDto } from '^components/ApplicationConnectStage/dto/fetched.responses.dto';
-import { Step5Data } from '^components/ApplicationConnectStage/StageMarkUp.Step5';
-import { FetcherUI } from '^components/ApplicationConnectStage/fetchers/FetcherUI';
-import { ProfileFetcher } from '^components/ApplicationConnectStage/fetchers/ProfileFetcher';
-import { PlanAndCycleFetcher } from '^components/ApplicationConnectStage/fetchers/PlanAndCycleFetcher';
-import { BillingHistoriesFetcher } from '^components/ApplicationConnectStage/fetchers/BillingHistoriesFetcher';
-import { MembersFetcher } from '^components/ApplicationConnectStage/fetchers/MembersFetcher';
+import React, {useEffect, useState} from 'react';
+import {StageFormProps, StageMarkUp} from './StageMarkUp';
+import {ModalActionButton, ModalActionWrapper} from '^components/Modal';
+import {OrgResponseDataDto} from '^components/ApplicationConnectStage/dto/OrgResponseData.dto';
+import {LoginDto} from '^components/ApplicationConnectStage/dto/login.dto';
+import {ApplicationConnectApi} from '^api/applicationConnect.api';
+import {FetchedProfileDto} from '^components/ApplicationConnectStage/dto/fetched.responses.dto';
+import {Step5Data} from '^components/ApplicationConnectStage/StageMarkUp.Step5';
+import {FetcherUI} from '^components/ApplicationConnectStage/fetchers/FetcherUI';
+import {ProfileFetcher} from '^components/ApplicationConnectStage/fetchers/ProfileFetcher';
+import {PlanAndCycleFetcher} from '^components/ApplicationConnectStage/fetchers/PlanAndCycleFetcher';
+import {BillingHistoriesFetcher} from '^components/ApplicationConnectStage/fetchers/BillingHistoriesFetcher';
+import {MembersFetcher} from '^components/ApplicationConnectStage/fetchers/MembersFetcher';
 
 export type Step4Data = {
-  email: string;
-  password: string;
-  verificationCode?: string;
-  selectedOrg: OrgResponseDataDto;
-}
+    email: string;
+    password: string;
+    verificationCode?: string;
+    selectedOrg: OrgResponseDataDto;
+};
 
 /**
  * step4. 정보 조회
@@ -36,160 +36,170 @@ export type Step4Data = {
  *    (다음 단계는 전달받은 정보들을 보여준 뒤, 확인 및 저장 단계.)
  */
 export const StageMarkUpStep4: StageMarkUp = {
-  title: (name) => `${name} 계정 연결하기.`,
-  description: '로그인 정보는 암호화 되어 전송되며, 보관하지 않습니다.',
-  StageForm: (props: StageFormProps<Step4Data>) => {
-    const { api, title = '', description = '', next } = props;
-    const { email, password, verificationCode, selectedOrg } = props.data;
-    const loginDto: LoginDto = { email, password, verificationCode };
-    const [isPending, setIsPending] = useState(false);
-    const [isAllComplete, setIsAllComplete] = useState(false);
-    const [errorMessages, setErrorMessages] = useState<string[]>([]);
+    title: (name) => `${name} 계정 연결하기.`,
+    description: '로그인 정보는 암호화 되어 전송되며, 보관하지 않습니다.',
+    StageForm: (props: StageFormProps<Step4Data>) => {
+        const {api, title = '', description = '', next} = props;
+        const {email, password, verificationCode, selectedOrg} = props.data;
+        const loginDto: LoginDto = {email, password, verificationCode};
+        const [isPending, setIsPending] = useState(false);
+        const [isAllComplete, setIsAllComplete] = useState(false);
+        const [errorMessages, setErrorMessages] = useState<string[]>([]);
 
-    const onNextButtonClickHandler = () => {};
-    console.log(10);
+        const onNextButtonClickHandler = () => {};
+        console.log(10);
 
-    return (
-      <>
-        <div className={isPending ? 'hidden' : 'block'}>
-          <h3 className='font-bold text-lg text-center'>연동 중</h3>
-          <p className='py-4 text-center'>세부 정보를 불러오는 중입니다.<br/>잠시만 기다려 주세요 :)</p>
+        return (
+            <>
+                <div className={isPending ? 'hidden' : 'block'}>
+                    <h3 className="font-bold text-lg text-center">연동 중</h3>
+                    <p className="py-4 text-center">
+                        세부 정보를 불러오는 중입니다.
+                        <br />
+                        잠시만 기다려 주세요 :)
+                    </p>
 
-          {errorMessages.map((errorMessage, i) => (
-            <div key={i} className="alert alert-error text-xs mb-4">
-              {errorMessage}
-            </div>
-          ))}
+                    {errorMessages.map((errorMessage, i) => (
+                        <div key={i} className="alert alert-error text-xs mb-4">
+                            {errorMessage}
+                        </div>
+                    ))}
 
-          <div className="mb-2 text-center">
-            <ul className="steps steps-vertical">
-              <ProfileFetcher
-                api={api}
-                orgName={selectedOrg.name}
-                params={loginDto}
-                onComplete={(data) => {
-                  console.log('ProfileFetcher', data);
-                }}
-              />
+                    <div className="mb-2 text-center">
+                        <ul className="steps steps-vertical">
+                            <ProfileFetcher
+                                api={api}
+                                orgName={selectedOrg.name}
+                                params={loginDto}
+                                onComplete={(data) => {
+                                    console.log('ProfileFetcher', data);
+                                }}
+                            />
 
-              <PlanAndCycleFetcher
-                api={api}
-                orgName={selectedOrg.name}
-                params={loginDto}
-                onComplete={(data) => {
-                  console.log('PlanAndCycleFetcher', data);
-                }}
-              />
+                            <PlanAndCycleFetcher
+                                api={api}
+                                orgName={selectedOrg.name}
+                                params={loginDto}
+                                onComplete={(data) => {
+                                    console.log('PlanAndCycleFetcher', data);
+                                }}
+                            />
 
-              <BillingHistoriesFetcher
-                api={api}
-                orgName={selectedOrg.name}
-                params={loginDto}
-                onComplete={(data) => {
-                  console.log('BillingHistoriesFetcher', data);
-                }}
-              />
+                            <BillingHistoriesFetcher
+                                api={api}
+                                orgName={selectedOrg.name}
+                                params={loginDto}
+                                onComplete={(data) => {
+                                    console.log('BillingHistoriesFetcher', data);
+                                }}
+                            />
 
-              <MembersFetcher
-                api={api}
-                orgName={selectedOrg.name}
-                params={loginDto}
-                onComplete={(data) => {
-                  console.log('MembersFetcher', data);
-                }}
-              />
-            </ul>
-          </div>
+                            <MembersFetcher
+                                api={api}
+                                orgName={selectedOrg.name}
+                                params={loginDto}
+                                onComplete={(data) => {
+                                    console.log('MembersFetcher', data);
+                                }}
+                            />
+                        </ul>
+                    </div>
 
-          <ModalActionWrapper>
-            <ModalActionButton
-              text="저장하고 완료하기"
-              className="btn-secondary btn-block"
-              disabled={!isAllComplete} onClick={onNextButtonClickHandler}
-            />
-          </ModalActionWrapper>
-        </div>
-      </>
-    )
-  },
-}
+                    <ModalActionWrapper>
+                        <ModalActionButton
+                            text="저장하고 완료하기"
+                            className="btn-secondary btn-block"
+                            disabled={!isAllComplete}
+                            onClick={onNextButtonClickHandler}
+                        />
+                    </ModalActionWrapper>
+                </div>
+            </>
+        );
+    },
+};
 
 export const StageMarkUpStep4Test: StageMarkUp = {
-  title: (name) => `${name} 계정 연결하기.`,
-  description: '로그인 정보는 암호화 되어 전송되며, 보관하지 않습니다.',
-  StageForm: (props: StageFormProps<Step5Data>) => {
-    const [isMounted, setIsMounted] = useState(false);
-    const api = new ApplicationConnectApi('github');
-    const mock = {
-      orgName: 'ATOZ-TEAM',
-      loginDto: {
-        email: '',
-        password: '',
-      },
-    };
+    title: (name) => `${name} 계정 연결하기.`,
+    description: '로그인 정보는 암호화 되어 전송되며, 보관하지 않습니다.',
+    StageForm: (props: StageFormProps<Step5Data>) => {
+        const [isMounted, setIsMounted] = useState(false);
+        const api = new ApplicationConnectApi('github');
+        const mock = {
+            orgName: 'ATOZ-TEAM',
+            loginDto: {
+                email: '',
+                password: '',
+            },
+        };
 
-    useEffect(() => {
-      setIsMounted(true);
-    }, []);
+        useEffect(() => {
+            setIsMounted(true);
+        }, []);
 
-    if (!isMounted) return <></>;
-    console.log(1, 'modalIsMounted');
+        if (!isMounted) return <></>;
+        console.log(1, 'modalIsMounted');
 
-    return (
-      <>
-        <div>
-          <h3 className='font-bold text-lg text-center'>연동 중</h3>
-          <p className='py-4 text-center'>세부 정보를 불러오는 중입니다.<br/>잠시만 기다려 주세요 :)</p>
+        return (
+            <>
+                <div>
+                    <h3 className="font-bold text-lg text-center">연동 중</h3>
+                    <p className="py-4 text-center">
+                        세부 정보를 불러오는 중입니다.
+                        <br />
+                        잠시만 기다려 주세요 :)
+                    </p>
 
-          <div className="mb-2 text-center">
-            <ul className="steps steps-vertical">
-              <ProfileFetcher
-                api={api}
-                orgName={mock.orgName}
-                params={mock.loginDto}
-                onComplete={(data) => {
-                  console.log('ProfileFetcher', data);
-                }}
-              />
+                    <div className="mb-2 text-center">
+                        <ul className="steps steps-vertical">
+                            <ProfileFetcher
+                                api={api}
+                                orgName={mock.orgName}
+                                params={mock.loginDto}
+                                onComplete={(data) => {
+                                    console.log('ProfileFetcher', data);
+                                }}
+                            />
 
-              <PlanAndCycleFetcher
-                api={api}
-                orgName={mock.orgName}
-                params={mock.loginDto}
-                onComplete={(data) => {
-                  console.log('PlanAndCycleFetcher', data);
-                }}
-              />
+                            <PlanAndCycleFetcher
+                                api={api}
+                                orgName={mock.orgName}
+                                params={mock.loginDto}
+                                onComplete={(data) => {
+                                    console.log('PlanAndCycleFetcher', data);
+                                }}
+                            />
 
-              <BillingHistoriesFetcher
-                api={api}
-                orgName={mock.orgName}
-                params={mock.loginDto}
-                onComplete={(data) => {
-                  console.log('BillingHistoriesFetcher', data);
-                }}
-              />
+                            <BillingHistoriesFetcher
+                                api={api}
+                                orgName={mock.orgName}
+                                params={mock.loginDto}
+                                onComplete={(data) => {
+                                    console.log('BillingHistoriesFetcher', data);
+                                }}
+                            />
 
-              <MembersFetcher
-                api={api}
-                orgName={mock.orgName}
-                params={mock.loginDto}
-                onComplete={(data) => {
-                  console.log('MembersFetcher', data);
-                }}
-              />
-            </ul>
-          </div>
+                            <MembersFetcher
+                                api={api}
+                                orgName={mock.orgName}
+                                params={mock.loginDto}
+                                onComplete={(data) => {
+                                    console.log('MembersFetcher', data);
+                                }}
+                            />
+                        </ul>
+                    </div>
 
-          <ModalActionWrapper>
-            <ModalActionButton
-              text="저장하고 완료하기"
-              className="btn-secondary btn-block"
-              disabled={true} onClick={() => {}}
-            />
-          </ModalActionWrapper>
-        </div>
-      </>
-    )
-  },
-}
+                    <ModalActionWrapper>
+                        <ModalActionButton
+                            text="저장하고 완료하기"
+                            className="btn-secondary btn-block"
+                            disabled={true}
+                            onClick={() => {}}
+                        />
+                    </ModalActionWrapper>
+                </div>
+            </>
+        );
+    },
+};

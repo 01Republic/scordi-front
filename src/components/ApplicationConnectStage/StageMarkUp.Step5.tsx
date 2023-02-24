@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { StageFormProps, StageMarkUp } from './StageMarkUp';
-import { useForm } from 'react-hook-form';
-import { TextInput } from '^components/TextInput';
-import { ModalActionButton, ModalActionWrapper } from '^components/Modal';
-import { LoginDto } from '^components/ApplicationConnectStage/dto/login.dto';
-import { BallTriangle } from 'react-loading-icons'
-import { OrgResponseDataDto } from '^components/ApplicationConnectStage/dto/OrgResponseData.dto';
-import { Radio } from '^components/Radio';
+import React, {useEffect, useState} from 'react';
+import {StageFormProps, StageMarkUp} from './StageMarkUp';
+import {useForm} from 'react-hook-form';
+import {TextInput} from '^components/TextInput';
+import {ModalActionButton, ModalActionWrapper} from '^components/Modal';
+import {LoginDto} from '^components/ApplicationConnectStage/dto/login.dto';
+import {BallTriangle} from 'react-loading-icons';
+import {OrgResponseDataDto} from '^components/ApplicationConnectStage/dto/OrgResponseData.dto';
+import {Radio} from '^components/Radio';
 
 export type Step5Data = {
-  email: string;
-  password: string;
-  verificationCode?: string;
-  orgDataList: OrgResponseDataDto[];
-}
+    email: string;
+    password: string;
+    verificationCode?: string;
+    orgDataList: OrgResponseDataDto[];
+};
 
 /**
  * step5. 정보 확인 및 저장
@@ -28,75 +28,79 @@ export type Step5Data = {
  *    (다음 단계는 전달받은 정보들을 보여준 뒤, 확인 및 저장 단계.)
  */
 export const StageMarkUpStep5: StageMarkUp = {
-  title: (name) => `${name} 계정 연결하기.`,
-  description: '로그인 정보는 암호화 되어 전송되며, 보관하지 않습니다.',
-  StageForm: (props: StageFormProps<Step5Data>) => {
-    const { api, title = '', description = '', next, data } = props;
-    const [selectedOrgName, setSelectedOrgName] = useState('');
-    const [isPending, setIsPending] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
-    const form = useForm<LoginDto>({
-      defaultValues: {
-        email: data.email,
-        password: data.password,
-      }
-    });
+    title: (name) => `${name} 계정 연결하기.`,
+    description: '로그인 정보는 암호화 되어 전송되며, 보관하지 않습니다.',
+    StageForm: (props: StageFormProps<Step5Data>) => {
+        const {api, title = '', description = '', next, data} = props;
+        const [selectedOrgName, setSelectedOrgName] = useState('');
+        const [isPending, setIsPending] = useState(false);
+        const [errorMessage, setErrorMessage] = useState('');
+        const form = useForm<LoginDto>({
+            defaultValues: {
+                email: data.email,
+                password: data.password,
+            },
+        });
 
-    const onSubmitHandler = () => {
-      const values = form.getValues();
-      const { orgDataList } = data;
-      const selectedOrg = orgDataList.find((org) => org.name === selectedOrgName);
-      console.log('form', values);
-      console.log(selectedOrg);
-    };
+        const onSubmitHandler = () => {
+            const values = form.getValues();
+            const {orgDataList} = data;
+            const selectedOrg = orgDataList.find((org) => org.name === selectedOrgName);
+            console.log('form', values);
+            console.log(selectedOrg);
+        };
 
-    const radioOnClickHandler = (e: any) => {
-      setSelectedOrgName(e.target.value);
-    }
+        const radioOnClickHandler = (e: any) => {
+            setSelectedOrgName(e.target.value);
+        };
 
-    return (
-      <>
-        <div className={isPending ? 'hidden' : 'block'}>
-          <h3 className='font-bold text-lg'>조직 선택하기</h3>
-          <p className='py-4'>입력한 계정으로 관리할 수 있는 조직들입니다.<br/>연동할 조직을 선택해주세요.</p>
+        return (
+            <>
+                <div className={isPending ? 'hidden' : 'block'}>
+                    <h3 className="font-bold text-lg">조직 선택하기</h3>
+                    <p className="py-4">
+                        입력한 계정으로 관리할 수 있는 조직들입니다.
+                        <br />
+                        연동할 조직을 선택해주세요.
+                    </p>
 
-          {errorMessage && (
-            <div className="alert alert-error text-xs mb-4">
-              {errorMessage}
-            </div>
-          )}
+                    {errorMessage && <div className="alert alert-error text-xs mb-4">{errorMessage}</div>}
 
-          <div className="mb-2">
-            {data.orgDataList.map((org, i) => (
-              <Radio
-                key={i}
-                name="selectOrg"
-                value={org.name}
-                onClick={radioOnClickHandler}
-                wrapperClassName="p-3 mb-2 flex rounded-box shadow border"
-              >
-                <p className="text-sm cursor-pointer">{org.name}</p>
-              </Radio>
-            ))}
-          </div>
+                    <div className="mb-2">
+                        {data.orgDataList.map((org, i) => (
+                            <Radio
+                                key={i}
+                                name="selectOrg"
+                                value={org.name}
+                                onClick={radioOnClickHandler}
+                                wrapperClassName="p-3 mb-2 flex rounded-box shadow border"
+                            >
+                                <p className="text-sm cursor-pointer">{org.name}</p>
+                            </Radio>
+                        ))}
+                    </div>
 
-          <ModalActionWrapper>
-            <ModalActionButton
-              text={`${selectedOrgName ? `'${selectedOrgName}' ` : ''}연동하기`}
-              className="btn-secondary btn-block"
-              disabled={!selectedOrgName} onClick={onSubmitHandler}
-            />
-          </ModalActionWrapper>
-        </div>
+                    <ModalActionWrapper>
+                        <ModalActionButton
+                            text={`${selectedOrgName ? `'${selectedOrgName}' ` : ''}연동하기`}
+                            className="btn-secondary btn-block"
+                            disabled={!selectedOrgName}
+                            onClick={onSubmitHandler}
+                        />
+                    </ModalActionWrapper>
+                </div>
 
-        <div className={isPending ? 'block' : 'hidden'}>
-          <h3 className='font-bold text-lg text-center'>계정의 조직 정보를 불러오는 중입니다.</h3>
+                <div className={isPending ? 'block' : 'hidden'}>
+                    <h3 className="font-bold text-lg text-center">계정의 조직 정보를 불러오는 중입니다.</h3>
 
-          <BallTriangle stroke="#d827a9" style={{
-            margin: '3rem auto 2rem',
-          }} />
-        </div>
-      </>
-    )
-  },
-}
+                    <BallTriangle
+                        stroke="#d827a9"
+                        style={{
+                            margin: '3rem auto 2rem',
+                        }}
+                    />
+                </div>
+            </>
+        );
+    },
+};

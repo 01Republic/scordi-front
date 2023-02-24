@@ -1,5 +1,4 @@
 import React, {memo, useState} from 'react';
-import {useCurrentUser} from '^hooks/useCurrentUser';
 import {searchOrganizations, createOrganization} from '^api/organization.api';
 import {CreateOrganizationRequestDto, OrganizationDto, SearchOrgQueryDto} from '^types/organization.type';
 import {useForm} from 'react-hook-form';

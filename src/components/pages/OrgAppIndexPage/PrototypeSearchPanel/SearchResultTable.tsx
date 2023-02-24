@@ -1,7 +1,7 @@
-import React, {memo, useCallback, useEffect} from 'react';
+import React, {memo, useEffect} from 'react';
 import {ContentTable} from '^layouts/ContentLayout';
 import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
-import {atom, useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {applicationsState} from '^atoms/applications.atom';
 import {usePrototypeSearch} from '^hooks/useApplicationPrototypes';
 import {OrgProtoDetailPageRoute} from '^pages/orgs/[id]/prototypes/[protoId]';
@@ -11,6 +11,7 @@ import {currentUserAtom} from '^atoms/currentUser.atom';
 import {GoPlug, GoPrimitiveDot} from 'react-icons/go';
 import {BiLinkExternal} from 'react-icons/bi';
 import {editingProtoTargetState} from '^components/pages/OrgAppIndexPage/modals/PrototypeEditModal';
+import {connectPrototypeModalState, currentPrototypeState} from '^atoms/connectPrototypes.atom';
 
 export const SearchResultTable = memo(() => {
     const {results: prototypes, mutation} = usePrototypeSearch();
@@ -49,12 +50,18 @@ export const SearchResultTable = memo(() => {
 
 const PrototypeItem = memo((props: {proto: ApplicationPrototypeDto; isAdmin: boolean}) => {
     const {proto, isAdmin} = props;
+    const isConnectModalOpen = useSetRecoilState(connectPrototypeModalState);
+    const currentPrototype = useSetRecoilState(currentPrototypeState);
     const router = useRouter();
     const orgId = useRouterIdParamState('id', orgIdParamState);
     const apps = useRecoilValue(applicationsState);
     const app = apps.find((app) => app.prototypeId === proto.id);
     const setEditingProtoTarget = useSetRecoilState(editingProtoTargetState);
 
+    const clickConnectBtn = (proto: ApplicationPrototypeDto) => {
+        isConnectModalOpen(true);
+        currentPrototype(proto);
+    };
     return (
         <tr>
             {/* App */}
@@ -84,12 +91,12 @@ const PrototypeItem = memo((props: {proto: ApplicationPrototypeDto; isAdmin: boo
             {/* status */}
             <td>
                 {app ? (
-                    <button className="btn2 btn-sm gap-1 btn-green">
+                    <button className="btn2 btn-sm gap-1 btn-green" onClick={() => clickConnectBtn(proto)}>
                         <GoPrimitiveDot size={16} />
                         <span>{app.connectStatus}</span>
                     </button>
                 ) : (
-                    <button className="btn2 btn-sm gap-1 btn-primary">
+                    <button className="btn2 btn-sm gap-1 btn-primary" onClick={() => clickConnectBtn(proto)}>
                         <GoPlug size={16} />
                         <span>connect</span>
                     </button>

@@ -1,5 +1,4 @@
 import {ForwardedRef, forwardRef, InputHTMLAttributes} from 'react';
-import {TextFieldProps} from './TextField';
 
 export type TextInputProps = InputHTMLAttributes<HTMLInputElement> & {
     label?: string;

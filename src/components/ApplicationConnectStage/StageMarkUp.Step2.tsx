@@ -32,9 +32,7 @@ export const StageMarkUpStep2: StageMarkUp = {
         const [errorMessage, setErrorMessage] = useState('');
         const form = useForm<LoginDto>();
 
-        function organizationResponseHandler(
-            res: AxiosResponse<OrgResponseDataDto[] | ErrorResponseDto>,
-        ) {
+        function organizationResponseHandler(res: AxiosResponse<OrgResponseDataDto[] | ErrorResponseDto>) {
             const {data} = res;
             const values = form.getValues();
             setIsPending(false);
@@ -83,18 +81,10 @@ export const StageMarkUpStep2: StageMarkUp = {
                     <h3 className="font-bold text-lg">{title}</h3>
                     <p className="py-4">{description}</p>
 
-                    {errorMessage && (
-                        <div className="alert alert-error text-xs mb-4">
-                            {errorMessage}
-                        </div>
-                    )}
+                    {errorMessage && <div className="alert alert-error text-xs mb-4">{errorMessage}</div>}
 
                     <div className="mb-2">
-                        <TextInput
-                            type="email"
-                            placeholder="이메일"
-                            {...form.register('email', {required: true})}
-                        />
+                        <TextInput type="email" placeholder="이메일" {...form.register('email', {required: true})} />
                     </div>
 
                     <div className="mb-2">
@@ -118,17 +108,11 @@ export const StageMarkUpStep2: StageMarkUp = {
                     )}
 
                     <ModalActionWrapper>
-                        <ModalActionButton
-                            onClick={onSubmitHandler}
-                            text="다음"
-                        />
+                        <ModalActionButton onClick={onSubmitHandler} text="다음" />
                     </ModalActionWrapper>
                 </div>
 
-                <Scrapping
-                    title="계정의 조직 정보를 불러오는 중입니다."
-                    isPending={isPending}
-                />
+                <Scrapping title="계정의 조직 정보를 불러오는 중입니다." isPending={isPending} />
             </>
         );
     },

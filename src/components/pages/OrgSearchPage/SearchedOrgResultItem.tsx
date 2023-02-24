@@ -1,9 +1,8 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo} from 'react';
 import {MembershipLevel} from '^types/membership.type';
 import {JoinOrgRoute} from '^pages/orgs/joinOrg';
 import {createMembership} from '^api/membership.api';
 import {errorNotify} from '^utils/toast-notify';
-import {toast} from 'react-toastify';
 import {useRouter} from 'next/router';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {OrganizationDto} from '^types/organization.type';
