@@ -9,13 +9,20 @@ import {OrgShowRoute} from '^pages/orgs/[id]';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
 import {AiOutlineAppstoreAdd, AiOutlineDashboard, AiOutlineSetting} from 'react-icons/ai';
+import {atom, useRecoilValue} from 'recoil';
+
+export const sidebarActiveAtom = atom({
+    key: 'sidebarActiveAtom',
+    default: true,
+});
 
 export const OrgSidebar = memo(() => {
     const {pathname} = useRouter();
     const organizationId = useRouterIdParamState('id', orgIdParamState);
+    const sidebarActive = useRecoilValue(sidebarActiveAtom);
 
     return (
-        <Sidebar className="flex-shrink-0 bg-white">
+        <Sidebar className={`flex-shrink-0 bg-white ${sidebarActive ? '' : 'inactive'}`}>
             {/*<Sidebar.Title>{org.name}</Sidebar.Title>*/}
             <div className={'flex py-4 px-5 pt-7 pb-7'}>
                 <Image

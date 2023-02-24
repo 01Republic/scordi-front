@@ -67,3 +67,10 @@
     }
   }
 }
+
+.sidebar {
+  transition: width 200ms ease;
+  &.inactive {
+    width: 0rem;
+  }
+}
