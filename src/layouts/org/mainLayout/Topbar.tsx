@@ -9,7 +9,7 @@ export const OrgTopbar = memo(() => {
     if (!currentUser) return <></>;
 
     return (
-        <div className="sticky top-0 navbar bg-white shadow z-10 flex justify-between">
+        <div className="sticky top-0 navbar bg-white shadow z-[11] flex justify-between">
             <OrgInfo />
             <div className="flex-none gap-2">
                 <ProfileDropDown />
