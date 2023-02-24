@@ -6,6 +6,7 @@ import {isMobile} from 'react-device-detect';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 import {OrgSidebar} from './Sidebar';
 import {OrgTopbar} from './Topbar';
+import {OrgBar} from '^layouts/org/mainLayout/OrgBar';
 
 interface OrgMainLayoutProps {
     org?: OrganizationDto | undefined;
@@ -18,7 +19,10 @@ const OrgMainLayout = ({children}: OrgMainLayoutProps) => {
             <input id="drawer" type="checkbox" className="drawer-toggle" />
 
             <div className="flex h-screen drawer-content">
-                <OrgSidebar />
+                <div className="flex">
+                    <OrgBar />
+                    <OrgSidebar />
+                </div>
                 <div className="flex-1 overflow-x-auto">
                     <OrgTopbar />
                     {children}
