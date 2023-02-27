@@ -6,17 +6,25 @@ export const OrgInfo = memo(() => {
 
     if (!org) return <></>;
 
-    const orgName = org.name;
+    const {name, image} = org;
 
     return (
         <div className="flex items-center px-3">
-            <div className="avatar placeholder inline-flex mr-2">
-                <div className="bg-neutral-focus text-neutral-content rounded w-10">
-                    <span className="font-bold">{`${orgName}`[0]}</span>
+            {image ? (
+                <div className="avatar inline-flex mr-2">
+                    <div className="border rounded w-10">
+                        <img src={image} />
+                    </div>
                 </div>
-            </div>
+            ) : (
+                <div className="avatar placeholder inline-flex mr-2">
+                    <div className="bg-neutral-focus text-neutral-content border rounded w-10">
+                        <span className="font-bold">{`${name}`[0]}</span>
+                    </div>
+                </div>
+            )}
             <div className="flex-1 h-full">
-                <p className="text-sm font-bold">{orgName}</p>
+                <p className="text-sm font-bold">{name}</p>
                 <p className="text-xs text-gray-500">Free</p>
             </div>
         </div>
