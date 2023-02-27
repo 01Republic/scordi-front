@@ -61,6 +61,10 @@ export type ApplyToAddDto = {
     url?: string;
 };
 
+export type DeleteApplicationPrototypeDto = {
+    id: number;
+};
+
 // export const applicationPrototypeMockDataList: ApplicationPrototypeDto[] = [
 //   {
 //     id: 1,

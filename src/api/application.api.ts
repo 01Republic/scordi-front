@@ -22,16 +22,11 @@ export const createApplication = (dto: CreateApplicationRequestDto) => {
     return api.post<ApplicationDto>(`/${NAMESPACE}`, dto);
 };
 
-export const createApplicationByInvoices = (
-    dto: CreateApplicationByInvoicesRequestDto,
-) => {
+export const createApplicationByInvoices = (dto: CreateApplicationByInvoicesRequestDto) => {
     return api.post<ApplicationDto>(`/${NAMESPACE}/byInvoices`, dto);
 };
 
-export const updateApplication = (
-    id: number,
-    dto: UpdateApplicationRequestDto,
-) => {
+export const updateApplication = (id: number, dto: UpdateApplicationRequestDto) => {
     return api.patch<ApplicationDto>(`/${NAMESPACE}/${id}`, dto);
 };
 

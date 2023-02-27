@@ -3,19 +3,25 @@ import {ApplicationDto} from '^types/application.type';
 import {useRouter} from 'next/router';
 import Link from 'next/link';
 import {AppInfoPageRoute} from '^pages/orgs/[id]/apps/[appId]';
+import {ApplicationDetailPageRoute} from '^pages/orgs/[id]/prototypes/[protoId]/applications/[appId]';
 import {t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
 import {safeImageSrc} from '^types/applicationPrototype.type';
 import {ContentPanelItem} from '^layouts/ContentLayout';
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {applicationIdParamState, orgIdParamState, prototypeIdParamsState} from '^atoms/common';
+import {useRecoilState} from 'recoil';
+import {useRouterIdParamState} from '^atoms/common';
 
 export const ApplicationListItemDesktop = memo((props: {applicationDto: ApplicationDto}) => {
+    const router = useRouter();
+    const orgId = useRouterIdParamState('id', orgIdParamState);
     const {applicationDto} = props;
-    // const organizationId = useRouterIdParamState('id', orgIdParamState);
     const {billingCycle, paymentPlan, prototype} = applicationDto;
+    const protoId = prototype.id;
+    const appId = applicationDto.id;
 
     return (
         <tr className="text-sm">
-            <td>
+            <td onClick={() => router.push(ApplicationDetailPageRoute.path(orgId, protoId, appId))}>
                 <div className="flex items-center">
                     <img src={prototype.image} alt="" width={24} className="mr-4" />
                     <span>{prototype.name}</span>

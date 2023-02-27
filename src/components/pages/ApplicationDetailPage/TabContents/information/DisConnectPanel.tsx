@@ -13,7 +13,6 @@ export const DisConnectPanel = memo(() => {
         `Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi corrupti exercitationem alias doloribus quam non magni ducimus, nam inventore sunt, officiis commodi, tempora sed voluptatibus consectetur enim fugit? Placeat, dolores.`.trim();
 
     const onDisconnect = (id: DeleteApplicationPrototypeDto) => {
-        console.log('✅ App Id ===> ', appId);
         Swal.fire({
             title: 'Are you sure?',
             text: 'If you disconnect, It will be difficult to manage the app.',
@@ -28,6 +27,7 @@ export const DisConnectPanel = memo(() => {
                 if (result.isConfirmed) {
                     Swal.fire('Disconnect!', 'Please go to the site and cancel the subscription.', 'success');
                 } else if (result.isConfirmed === false) {
+                    //TODO : 해지불가할때 알림 설정하기
                     Swal.fire('Disconnect!', 'Please go to the site and cancel the subscription.', 'success');
                 }
             });
