@@ -4,7 +4,7 @@ import {useRecoilState} from 'recoil';
 import {getOrganizationListByCrawlerApi} from '^api/crawler';
 import {connectPrototypeModalState, currentPrototypeState} from '^atoms/connectPrototypes.atom';
 import {Modal, ModalActionWrapper} from '^components/Modal';
-import {PreLoader} from '^components/PreLoader';
+import {PreLoaderSm} from '^components/PreLoaderSm';
 import {TextInput} from '^components/TextInput';
 import {LoginDto, LoginWithVerify, OrgItemDto} from '^types/crawler';
 
@@ -41,7 +41,7 @@ export const ConnectPrototypeModal = memo(() => {
     return (
         <Modal type={'info'} isOpen={isConnectModalOpen} title={`Connect ${orgName}`}>
             {isLoading ? (
-                <PreLoader />
+                <PreLoaderSm />
             ) : (
                 <form onSubmit={form.handleSubmit(startConnectingProtoType)} className="pt-4">
                     <div className="flex items-center mb-4">
