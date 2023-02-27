@@ -36,7 +36,9 @@ export const createOrganization = (data: CreateOrganizationRequestDto) => {
 };
 
 export const updateOrganization = (id: number, data: UpdateOrganizationRequestDto) => {
-    return api.patch<OrganizationDto>(`/organizations/${id}`, data);
+    return api.patch<OrganizationDto>(`/organizations/${id}`, data, {
+        headers: {'Content-Type': 'multipart/form-data'},
+    });
 };
 
 export const destroyOrganization = (id: number) => {

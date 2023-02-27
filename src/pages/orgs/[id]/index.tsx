@@ -2,7 +2,7 @@ import React from 'react';
 import {useRouter} from 'next/router';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {useCurrentOrg} from '^hooks/useCurrentOrg';
-import {getOrgMainLayout} from '^layouts/org/mainLayout';
+import OrgMainLayout from '^layouts/org/mainLayout';
 import {ContentLayout} from '^layouts/ContentLayout';
 import {PreLoader} from '^components/PreLoader';
 import {ContentForm} from '^layouts/ContentLayout/ContentForm';
@@ -31,7 +31,7 @@ export default function OrgShowPage() {
     const router = useRouter();
     const {currentOrg, setCurrentOrg} = useCurrentOrg(Number(router.query.id));
     const org = currentOrg || ({} as OrganizationDto);
-    const generalForm = useForm<UpdateOrganizationRequestDto>({
+    const orgUpdateForm = useForm<UpdateOrganizationRequestDto>({
         defaultValues: {
             name: org.name,
             slug: org.slug,
@@ -64,85 +64,91 @@ export default function OrgShowPage() {
     };
 
     return (
-        <ContentLayout title="회사정보 설정">
-            <ContentForm onSubmit={generalForm.handleSubmit(UpdateOrgHandler)}>
-                <ContentPanel title="일반">
+        <OrgMainLayout>
+            <ContentLayout title="회사정보 설정">
+                <ContentForm onSubmit={orgUpdateForm.handleSubmit(UpdateOrgHandler)}>
+                    <ContentPanel title="일반">
+                        <ContentPanelList>
+                            <ContentPanelInput title="회사 ID" text="회사 ID는 유일한 값입니다." required={true}>
+                                <TextInput
+                                    required={true}
+                                    {...orgUpdateForm.register('slug', {
+                                        required: true,
+                                        value: org.slug,
+                                    })}
+                                />
+                            </ContentPanelInput>
+
+                            <ContentPanelInput title="회사명" text="회사명을 정확히 써주세요." required={true}>
+                                <TextInput
+                                    required={true}
+                                    {...orgUpdateForm.register('name', {
+                                        required: true,
+                                        value: org.name,
+                                    })}
+                                />
+                            </ContentPanelInput>
+
+                            <ContentPanelInput title="회사 로고" text="회사의 로고를 업로드 해주세요." required={false}>
+                                <ProfileImageFileInput
+                                    imageUrl={org.image}
+                                    fallbackLetter={org.name[0]}
+                                    {...orgUpdateForm.register('image')}
+                                    onChange={(e) => {
+                                        const uploadedFiles = e.target.files as FileList;
+                                        orgUpdateForm.setValue('image', uploadedFiles[0]);
+                                    }}
+                                />
+                            </ContentPanelInput>
+
+                            {/*<ContentPanelInput*/}
+                            {/*  title="Accessibility"*/}
+                            {/*  text="A unique ID used to identify this organization"*/}
+                            {/*>*/}
+                            {/*  zzzzzz*/}
+                            {/*</ContentPanelInput>*/}
+                        </ContentPanelList>
+                    </ContentPanel>
+                </ContentForm>
+
+                {/*<ContentForm onSubmit={membershipsForm.handleSubmit(UpdateOrgHandler)}>*/}
+                {/*  <ContentPanel title="memberships">*/}
+                {/*    <ContentPanelList>*/}
+                {/*      <ContentPanelInput*/}
+                {/*        title="Default Role"*/}
+                {/*        text="The default role new members will receive"*/}
+                {/*        required={true}*/}
+                {/*      >*/}
+                {/*        <TextInput*/}
+                {/*          required={true}*/}
+                {/*          {...membershipsForm.register('name', {*/}
+                {/*            required: true,*/}
+                {/*            value: org.name,*/}
+                {/*          })}*/}
+                {/*        />*/}
+                {/*      </ContentPanelInput>*/}
+                {/*    </ContentPanelList>*/}
+                {/*  </ContentPanel>*/}
+                {/*</ContentForm>*/}
+
+                <ContentPanel title="이 회사 삭제">
                     <ContentPanelList>
-                        <ContentPanelInput title="회사 ID" text="회사 ID는 유일한 값입니다." required={true}>
-                            <TextInput
-                                required={true}
-                                {...generalForm.register('slug', {
-                                    required: true,
-                                    value: org.slug,
-                                })}
-                            />
-                        </ContentPanelInput>
-
-                        <ContentPanelInput title="회사명" text="회사명을 정확히 써주세요." required={true}>
-                            <TextInput
-                                required={true}
-                                {...generalForm.register('name', {
-                                    required: true,
-                                    value: org.name,
-                                })}
-                            />
-                        </ContentPanelInput>
-
-                        <ContentPanelInput title="회사 로고" text="회사의 로고를 업로드 해주세요." required={false}>
-                            <ProfileImageFileInput
-                                imageUrl={org.image}
-                                fallbackLetter={org.name[0]}
-                                onChange={console.log}
-                            />
-                        </ContentPanelInput>
-
-                        {/*<ContentPanelInput*/}
-                        {/*  title="Accessibility"*/}
-                        {/*  text="A unique ID used to identify this organization"*/}
-                        {/*>*/}
-                        {/*  zzzzzz*/}
-                        {/*</ContentPanelInput>*/}
+                        <ContentPanelItem>
+                            <div className="flex-1">
+                                <ContentPanelItemTitle text="삭제하기" />
+                                <ContentPanelItemText text="회사 정보를 삭제하시면 모든 데이터가 사라집니다." />
+                            </div>
+                            <div className="flex-1 text-end">
+                                <button type="button" className="btn btn-error text-white" onClick={DestroyOrgHandler}>
+                                    삭제 요청하기
+                                </button>
+                            </div>
+                        </ContentPanelItem>
                     </ContentPanelList>
                 </ContentPanel>
-            </ContentForm>
-
-            {/*<ContentForm onSubmit={membershipsForm.handleSubmit(UpdateOrgHandler)}>*/}
-            {/*  <ContentPanel title="memberships">*/}
-            {/*    <ContentPanelList>*/}
-            {/*      <ContentPanelInput*/}
-            {/*        title="Default Role"*/}
-            {/*        text="The default role new members will receive"*/}
-            {/*        required={true}*/}
-            {/*      >*/}
-            {/*        <TextInput*/}
-            {/*          required={true}*/}
-            {/*          {...membershipsForm.register('name', {*/}
-            {/*            required: true,*/}
-            {/*            value: org.name,*/}
-            {/*          })}*/}
-            {/*        />*/}
-            {/*      </ContentPanelInput>*/}
-            {/*    </ContentPanelList>*/}
-            {/*  </ContentPanel>*/}
-            {/*</ContentForm>*/}
-
-            <ContentPanel title="이 회사 삭제">
-                <ContentPanelList>
-                    <ContentPanelItem>
-                        <div className="flex-1">
-                            <ContentPanelItemTitle text="삭제하기" />
-                            <ContentPanelItemText text="회사 정보를 삭제하시면 모든 데이터가 사라집니다." />
-                        </div>
-                        <div className="flex-1 text-end">
-                            <button type="button" className="btn btn-error text-white" onClick={DestroyOrgHandler}>
-                                삭제 요청하기
-                            </button>
-                        </div>
-                    </ContentPanelItem>
-                </ContentPanelList>
-            </ContentPanel>
-        </ContentLayout>
+            </ContentLayout>
+        </OrgMainLayout>
     );
 }
 
-OrgShowPage.getLayout = getOrgMainLayout;
+// OrgShowPage.getLayout = getOrgMainLayout;

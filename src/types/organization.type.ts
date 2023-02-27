@@ -7,7 +7,7 @@ export type CreateOrganizationRequestDto = {
 
 export type UpdateOrganizationRequestDto = Partial<CreateOrganizationRequestDto> & {
     slug?: string;
-    image?: string;
+    image?: File | string;
 };
 
 export type SearchOrgQueryDto = {
