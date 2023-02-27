@@ -104,11 +104,14 @@ const OrgMainLayout = ({children}: OrgMainLayoutProps) => {
                         <OrgBar />
                         <OrgSidebar />
                     </div>
-                    <div className="flex-1 overflow-x-auto flex items-center justify-center">
-                        <div className="text-center pb-5">
-                            <p className="text-6xl mb-5 font-semibold">Oops</p>
-                            <p className="text-2xl">Your membership has not yet been approved.</p>
-                            <p className="py-10">{` `}</p>
+                    <div className="flex-1 overflow-x-auto flex flex-col">
+                        <OrgTopbar />
+                        <div className="flex-1 flex items-center justify-center">
+                            <div className="text-center pb-5">
+                                <p className="text-6xl mb-5 font-semibold">Oops</p>
+                                <p className="text-2xl">Your membership has not yet been approved.</p>
+                                <p className="py-10">{` `}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
