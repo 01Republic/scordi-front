@@ -5,6 +5,7 @@ import {applicationIdParamState, orgIdParamState, prototypeIdParamsState, useRou
 import {TabContentForInformation, TabContentForInvoices, TabContentForSpend} from './index';
 import {atom, useRecoilValue} from 'recoil';
 import {Breadcrumb, PrototypeHeader} from '../OrgProtoDetailPage';
+import {TabContentForHistories} from './TabContents/TabContentForHistories';
 
 export const navTabIndex = atom({
     key: 'Prototypes/NavTabIndex',
@@ -24,13 +25,14 @@ export const ApplicationDetailPageDesktop = memo(() => {
                 <PrototypeHeader />
                 <ContentTabNav
                     resetIndex={true}
-                    tabs={['information', 'spend', 'invoices']}
+                    tabs={['information', 'spend', 'invoices', 'histories']}
                     recoilState={navTabIndex}
                 />
 
                 {tabIndex === 0 && <TabContentForInformation />}
                 {tabIndex === 1 && <TabContentForSpend />}
                 {tabIndex === 2 && <TabContentForInvoices />}
+                {tabIndex === 3 && <TabContentForHistories />}
             </ContentLayout>
         </OrgMainLayout>
     );

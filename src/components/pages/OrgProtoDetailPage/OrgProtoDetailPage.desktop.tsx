@@ -29,14 +29,13 @@ export const OrgProtoDetailPageDesktop = memo(() => {
                 <PrototypeHeader />
                 <ContentTabNav
                     resetIndex={true}
-                    tabs={['information', 'spend', 'invoices', 'histories']}
+                    tabs={['information', 'spend', 'invoices']}
                     recoilState={navTabIndex}
                 />
 
                 {tabIndex === 0 && <TabContentForInformation />}
                 {tabIndex === 1 && <TabContentForSpend />}
                 {tabIndex === 2 && <TabContentForInvoices />}
-                {tabIndex === 3 && <TabContentForHistories />}
             </ContentLayout>
         </OrgMainLayout>
     );
