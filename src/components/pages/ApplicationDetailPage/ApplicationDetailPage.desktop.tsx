@@ -13,8 +13,8 @@ export const navTabIndex = atom({
 
 export const ApplicationDetailPageDesktop = memo(() => {
     useRouterIdParamState('id', orgIdParamState);
-    useRouterIdParamState('protoId', prototypeIdParamsState);
-    useRouterIdParamState('applications', applicationIdParamState);
+    // useRouterIdParamState('protoId', prototypeIdParamsState);
+    useRouterIdParamState('appId', applicationIdParamState);
     const tabIndex = useRecoilValue(navTabIndex);
 
     return (

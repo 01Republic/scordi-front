@@ -16,12 +16,11 @@ export const ApplicationListItemDesktop = memo((props: {applicationDto: Applicat
     const orgId = useRouterIdParamState('id', orgIdParamState);
     const {applicationDto} = props;
     const {billingCycle, paymentPlan, prototype} = applicationDto;
-    const protoId = prototype.id;
     const appId = applicationDto.id;
 
     return (
         <tr className="text-sm">
-            <td onClick={() => router.push(ApplicationDetailPageRoute.path(orgId, protoId, appId))}>
+            <td onClick={() => router.push(AppInfoPageRoute.path(orgId, appId))}>
                 <div className="flex items-center cursor-pointer">
                     <img src={prototype.image} alt="" width={24} className="mr-4" />
                     <span>{prototype.name}</span>
