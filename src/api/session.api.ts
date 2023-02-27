@@ -1,3 +1,4 @@
+import {UsersWebpushRegisterDto, UsersWebpushTestDto} from './../types/user.type';
 import {
     JwtContainer,
     UserDto,
@@ -38,4 +39,12 @@ export const getGoogleUserData = (accessToken: string) => {
     const url = `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`;
     const headers = {Authorization: `Bearer ${accessToken}`, Accept: 'application/json'};
     return axios.get<GoogleSignedUserData>(url, {headers});
+};
+
+export const patchUsersWebpushRegister = (data: UsersWebpushRegisterDto) => {
+    return api.patch('/users/webpush/register', data);
+};
+
+export const postUserWebpushTest = () => {
+    return api.post<UsersWebpushTestDto>('/users/webpush/test');
 };

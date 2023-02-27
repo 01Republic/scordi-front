@@ -19,6 +19,7 @@
     "@tailwindcss/typography": "^0.5.4",
     "@types/aos": "^3.0.4",
     "@types/qs": "^6.9.7",
+    "@types/web-push": "^3.3.2",
     "aos": "^2.3.4",
     "axios": "^0.27.2",
     "chart.js": "^3.9.1",
@@ -45,7 +46,8 @@
     "sass": "^1.54.8",
     "sharp": "^0.31.2",
     "styled-components": "^5.3.5",
-    "sweetalert2": "^11.7.2"
+    "sweetalert2": "^11.7.2",
+    "web-push": "^3.5.0"
   },
   "devDependencies": {
     "@ky-is/tailwindcss-plugin-width-height": "^1.0.0",

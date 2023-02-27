@@ -65,3 +65,13 @@ export type SendPhoneAuthMessageDto = {
     phoneNumber: string;
     code?: string;
 };
+
+export type UsersWebpushRegisterDto = {
+    subscription: PushSubscription;
+};
+
+export type UsersWebpushTestDto = {
+    status: number;
+    code: string;
+    message: string;
+};
