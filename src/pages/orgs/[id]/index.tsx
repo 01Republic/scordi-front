@@ -150,5 +150,3 @@ export default function OrgShowPage() {
         </OrgMainLayout>
     );
 }
-
-// OrgShowPage.getLayout = getOrgMainLayout;

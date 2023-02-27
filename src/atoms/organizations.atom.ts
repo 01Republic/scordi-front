@@ -2,6 +2,12 @@ import {atom, selector} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {getOrganization} from '^api/organization.api';
 import {errorNotify} from '^utils/toast-notify';
+import {OrganizationDto} from '^types/organization.type';
+
+export const currentOrgAtom = atom<OrganizationDto | null>({
+    key: 'currentOrgAtom',
+    default: null,
+});
 
 /**
  * [Show]
