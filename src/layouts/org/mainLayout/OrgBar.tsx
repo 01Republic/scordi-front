@@ -57,13 +57,13 @@ const OrgItem = memo((props: OrgItemProps) => {
 
     return (
         <div
-            className={`org-bar-item cursor-pointer ${isCurrent ? 'current' : ''}`}
+            className={`org-bar-item cursor-pointer inline-flex ${isCurrent ? 'current' : ''}`}
             title={org.name}
             onClick={() => router.push(OrgHomeRoute.path(org.id))}
         >
             {org.image && (
                 <div className="avatar">
-                    <div className="w-7 rounded">
+                    <div className="w-7 border rounded">
                         <img src={org.image} />
                     </div>
                 </div>
@@ -71,7 +71,7 @@ const OrgItem = memo((props: OrgItemProps) => {
 
             {!org.image && (
                 <div className="avatar placeholder inline-flex">
-                    <div className="bg-neutral-focus text-neutral-content rounded w-7">
+                    <div className="bg-neutral-focus text-neutral-content border rounded w-7">
                         <span className="font-bold text-sm">{`${org.name}`[0]}</span>
                     </div>
                 </div>
