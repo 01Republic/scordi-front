@@ -1,6 +1,7 @@
 import {memo} from 'react';
 import {InfoPanel} from './information/InfoPanel';
 import {ConnectPanel} from './information/ConnectPanel';
+import {DisConnectPanel} from './information/DisConnectPanel';
 
 export const TabContentForInformation = memo(() => {
     return (
@@ -14,6 +15,7 @@ export const TabContentForInformation = memo(() => {
                 {/* Right Col */}
                 <div className="bs-col-12 sm:bs-col-5 px-0">
                     <ConnectPanel />
+                    <DisConnectPanel />
                 </div>
             </div>
         </div>

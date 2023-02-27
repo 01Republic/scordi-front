@@ -25,7 +25,7 @@ export const ConnectPanel = memo(() => {
 
             <div className="flex gap-2">
                 <button className="ContentLayout--ContentButton btn-sm">Invite Someone To Connect</button>
-                <button className="ContentLayout--ContentButton btn-sm">Connect</button>
+                <button className="ContentLayout--ContentButton btn-sm btn-primary">Connect</button>
             </div>
         </ContentPanel>
     );
