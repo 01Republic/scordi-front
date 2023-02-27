@@ -86,6 +86,7 @@ const PrototypeItem = memo((props: PrototypeItemProps) => {
     }, [proto]);
 
     const clickConnectBtn = (proto: ApplicationPrototypeDto) => {
+        if (app) return;
         isConnectModalOpen(true);
         currentPrototype(proto);
     };

@@ -52,7 +52,7 @@ export const PrototypeCreateModal = memo(() => {
                         />
                         <FormControlInput
                             type="text"
-                            labelTop="Tagline"
+                            labelTop="Tagline (Summary)"
                             placeholder="ex. Github"
                             {...form.register('tagline')}
                         />

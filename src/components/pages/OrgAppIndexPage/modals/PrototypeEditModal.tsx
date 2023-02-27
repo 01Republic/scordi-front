@@ -45,13 +45,19 @@ export const PrototypeEditModal = memo(() => {
 
     useEffect(() => {
         if (!protoTarget) return;
-        form.setValue('name', protoTarget.name);
-        form.setValue('tagline', protoTarget.tagline);
-        form.setValue('homepageUrl', protoTarget.homepageUrl);
-        form.setValue('image', protoTarget.image);
-        form.setValue('pricingPageUrl', protoTarget.pricingPageUrl);
-        form.setValue('companyName', protoTarget.companyName);
-        form.setValue('connectMethod', protoTarget.connectMethod as PrototypeConnectMethod);
+        // 수정과 생성 모두에서 사용하는 인풋
+        form.setValue('name', protoTarget.name); // 서비스명
+        form.setValue('tagline', protoTarget.tagline); // Tagline
+        form.setValue('homepageUrl', protoTarget.homepageUrl); // Homepage url
+        form.setValue('image', protoTarget.image); // 이미지 url
+        form.setValue('pricingPageUrl', protoTarget.pricingPageUrl); // Pricing Page url
+        form.setValue('companyName', protoTarget.companyName); // 운영사명
+
+        // 아래는 수정 폼에서만 노출되는 인풋
+        form.setValue('connectMethod', protoTarget.connectMethod as PrototypeConnectMethod); // 연동방법
+        form.setValue('isAutoTrackable', protoTarget.isAutoTrackable); // API 지원 여부
+        form.setValue('isFreeTierAvailable', protoTarget.isFreeTierAvailable); // 프리티어 지원 여부
+        form.setValue('desc', protoTarget.desc); // 설명
     }, [protoTarget]);
 
     return (
@@ -69,7 +75,7 @@ export const PrototypeEditModal = memo(() => {
                         />
                         <FormControlInput
                             type="text"
-                            labelTop="Tagline"
+                            labelTop="Tagline (Summary)"
                             placeholder="ex. Github"
                             {...form.register('tagline')}
                         />
@@ -98,20 +104,52 @@ export const PrototypeEditModal = memo(() => {
                             {...form.register('companyName')}
                         />
 
-                        <div className="form-control w-full mb-3">
-                            <label className="label">
-                                <span className="label-text">Connect Method</span>
-                            </label>
+                        <hr className="py-3" />
 
-                            <select className="select select-bordered w-full" {...form.register('connectMethod')}>
-                                {Object.entries(PrototypeConnectMethod).map(([k, v], i) => (
-                                    <option key={i} value={v}>
-                                        {k}
-                                    </option>
-                                ))}
-                            </select>
+                        <div className="form-control w-full mb-3">
+                            <label className="label cursor-pointer">
+                                <span className="label-text">API Supported?</span>
+                                <input
+                                    type="checkbox"
+                                    className="checkbox checkbox-primary"
+                                    {...form.register('isAutoTrackable')}
+                                />
+                            </label>
+                        </div>
+
+                        <div className="form-control w-full mb-3">
+                            <label className="label cursor-pointer">
+                                <span className="label-text">Free-Tier Included?</span>
+                                <input
+                                    type="checkbox"
+                                    className="checkbox checkbox-primary"
+                                    {...form.register('isFreeTierAvailable')}
+                                />
+                            </label>
                         </div>
                     </div>
+
+                    <FormControlInput
+                        type="text"
+                        labelTop="Description (Search line)"
+                        placeholder="ex. Github"
+                        {...form.register('desc')}
+                    />
+
+                    <div className="form-control w-full mb-3">
+                        <label className="label">
+                            <span className="label-text">Connect Method</span>
+                        </label>
+
+                        <select className="select select-bordered w-full" {...form.register('connectMethod')}>
+                            {Object.entries(PrototypeConnectMethod).map(([k, v], i) => (
+                                <option key={i} value={v}>
+                                    {k}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
                     <div className="modal-action">
                         <a id="proto-edit-modal--dismiss-button" href="#" className="btn">
                             cancel
