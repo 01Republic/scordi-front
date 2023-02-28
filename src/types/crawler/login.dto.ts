@@ -8,3 +8,10 @@ export type LoginWithVerify = {
     password: string;
     verificationCode: string;
 };
+
+export type LoginWithOrgs = {
+    email: string;
+    password: string;
+    verificationCode?: string;
+    organizationName?: string;
+};
