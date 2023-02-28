@@ -8,12 +8,9 @@ import {OrgSidebar} from './Sidebar';
 import {OrgTopbar} from './Topbar';
 import {OrgBar} from '^layouts/org/mainLayout/OrgBar';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {getMemberships} from '^api/membership.api';
-import {useRecoilValue} from 'recoil';
-import {currentUserAtom} from '^atoms/currentUser.atom';
-import {UserLoginPageRoute} from '^pages/users/login';
 import {ApprovalStatus, MembershipLevel} from '^types/membership.type';
 import {PreLoader} from '^components/PreLoader';
+import {useCurrentUser} from '^hooks/useCurrentUser';
 
 interface OrgMainLayoutProps {
     org?: OrganizationDto | undefined;
@@ -28,55 +25,44 @@ enum PermitStatus {
 
 const OrgMainLayout = ({children}: OrgMainLayoutProps) => {
     const router = useRouter();
-    const organizationId = useRouterIdParamState('id', orgIdParamState);
-    const currentUser = useRecoilValue(currentUserAtom); // should log in
+    useRouterIdParamState('id', orgIdParamState);
+    const {currentUserMembership} = useCurrentUser();
     const [permitStatus, setPermitStatus] = useState<PermitStatus>(PermitStatus.CHECKING);
 
     useEffect(() => {
-        if (!organizationId || isNaN(organizationId)) return;
-
-        // 로그인이 안되어있으면 로그인 페이지로 이동.
-        if (!currentUser) {
-            router.push(UserLoginPageRoute.path());
+        // 진입한 조직에 멤버십이 없으면, 되돌려보내기
+        if (currentUserMembership === undefined) {
+            // loaded but not found.
+            router.back();
             return;
         }
 
-        const userId = currentUser.id;
-        getMemberships({where: {userId, organizationId}})
-            .then((res) => res.data.items[0])
-            .then((currentOrgMembership) => {
-                // 진입한 조직에 멤버십이 없으면, 되돌려보내기
-                if (!currentOrgMembership) {
-                    router.back();
-                    return;
-                }
+        if (currentUserMembership === null) return; // not loaded.
+        if (!currentUserMembership) return; // other unavailable cases.
 
-                //- 진입한 조직에 멤버십을 가지고 있음.
+        // 멤버십 레벨이 오너라면, PERMITTED
+        if (currentUserMembership.level === MembershipLevel.OWNER) {
+            setPermitStatus(PermitStatus.PERMITTED);
+            return;
+        }
 
-                // 멤버십 레벨이 오너라면, PERMITTED
-                if (currentOrgMembership.level === MembershipLevel.OWNER) {
-                    setPermitStatus(PermitStatus.PERMITTED);
-                    return;
-                }
+        //- 멤버십 레벨이 멤버인 사용자.
 
-                //- 멤버십 레벨이 멤버인 사용자.
+        // 멤버십이 승인된 상태라면, PERMITTED
+        if (currentUserMembership.approvalStatus === ApprovalStatus.APPROVED) {
+            setPermitStatus(PermitStatus.PERMITTED);
+            return;
+        }
 
-                // 멤버십이 승인된 상태라면, PERMITTED
-                if (currentOrgMembership.approvalStatus === ApprovalStatus.APPROVED) {
-                    setPermitStatus(PermitStatus.PERMITTED);
-                    return;
-                }
+        // 멤버십이 거절된 상태라면, 되돌려보내기
+        if (currentUserMembership.approvalStatus === ApprovalStatus.REJECTED) {
+            router.back();
+        }
 
-                // 멤버십이 거절된 상태라면, 되돌려보내기
-                if (currentOrgMembership.approvalStatus === ApprovalStatus.REJECTED) {
-                    router.back();
-                }
-
-                // 멤버십이 승인대기 상태라면, REJECTED
-                setPermitStatus(PermitStatus.REJECTED);
-                return;
-            });
-    }, [organizationId]);
+        // 멤버십이 승인대기 상태라면, REJECTED
+        setPermitStatus(PermitStatus.REJECTED);
+        return;
+    }, [currentUserMembership]);
 
     return (
         <div className="h-screen drawer drawer-end">
