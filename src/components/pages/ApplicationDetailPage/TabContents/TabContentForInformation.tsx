@@ -15,7 +15,6 @@ export const TabContentForInformation = memo(() => {
                 {/* Right Col */}
                 <div className="bs-col-12 sm:bs-col-5 px-0">
                     <ConnectPanel />
-                    <DisConnectPanel />
                 </div>
             </div>
         </div>

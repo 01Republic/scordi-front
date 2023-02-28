@@ -6,6 +6,7 @@ import {TabContentForInformation, TabContentForInvoices, TabContentForSpend} fro
 import {atom, useRecoilValue} from 'recoil';
 import {Breadcrumb, PrototypeHeader} from '../OrgProtoDetailPage';
 import {TabContentForHistories} from './TabContents/TabContentForHistories';
+import {TabContentForSettings} from './TabContents/TabContentForSettings';
 
 export const navTabIndex = atom({
     key: 'Prototypes/NavTabIndex',
@@ -14,7 +15,6 @@ export const navTabIndex = atom({
 
 export const ApplicationDetailPageDesktop = memo(() => {
     useRouterIdParamState('id', orgIdParamState);
-    // useRouterIdParamState('protoId', prototypeIdParamsState);
     useRouterIdParamState('appId', applicationIdParamState);
     const tabIndex = useRecoilValue(navTabIndex);
 
@@ -25,7 +25,7 @@ export const ApplicationDetailPageDesktop = memo(() => {
                 <PrototypeHeader />
                 <ContentTabNav
                     resetIndex={true}
-                    tabs={['information', 'spend', 'invoices', 'histories']}
+                    tabs={['information', 'spend', 'invoices', 'histories', 'settings']}
                     recoilState={navTabIndex}
                 />
 
@@ -33,6 +33,7 @@ export const ApplicationDetailPageDesktop = memo(() => {
                 {tabIndex === 1 && <TabContentForSpend />}
                 {tabIndex === 2 && <TabContentForInvoices />}
                 {tabIndex === 3 && <TabContentForHistories />}
+                {tabIndex === 4 && <TabContentForSettings />}
             </ContentLayout>
         </OrgMainLayout>
     );
