@@ -9,7 +9,7 @@ import {TabContentForHistories} from './TabContents/TabContentForHistories';
 import {TabContentForSettings} from './TabContents/TabContentForSettings';
 
 export const navTabIndex = atom({
-    key: 'Prototypes/NavTabIndex',
+    key: 'ApplicationDetailPageDesktop/NavTabIndex',
     default: 0,
 });
 
