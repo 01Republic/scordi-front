@@ -22,22 +22,24 @@ export const ApplicationDetailPageDesktop = memo(() => {
     useRouterIdParamState('appId', applicationIdParamState);
     const tabIndex = useRecoilValue(navTabIndex);
 
+    const tabs = [
+        // {label: 'information', Component: TabContentForInformation},
+        {label: 'spend', Component: TabContentForSpend},
+        {label: 'invoices', Component: TabContentForInvoices},
+        {label: 'histories', Component: TabContentForHistories},
+        {label: 'settings', Component: TabContentForSettings},
+    ];
+
+    const TabContentComponent = tabs[tabIndex].Component;
+
     return (
         <OrgMainLayout>
             <ContentLayout>
                 <Breadcrumb />
                 <PrototypeHeader />
-                <ContentTabNav
-                    resetIndex={true}
-                    tabs={['information', 'spend', 'invoices', 'histories', 'settings']}
-                    recoilState={navTabIndex}
-                />
+                <ContentTabNav resetIndex={true} tabs={tabs.map((tab) => tab.label)} recoilState={navTabIndex} />
 
-                {tabIndex === 0 && <TabContentForInformation />}
-                {tabIndex === 1 && <TabContentForSpend />}
-                {tabIndex === 2 && <TabContentForInvoices />}
-                {tabIndex === 3 && <TabContentForHistories />}
-                {tabIndex === 4 && <TabContentForSettings />}
+                <TabContentComponent />
             </ContentLayout>
         </OrgMainLayout>
     );
