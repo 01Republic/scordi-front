@@ -1,4 +1,4 @@
-import {atom, RecoilState, selector, selectorFamily, useSetRecoilState} from 'recoil';
+import {atom, RecoilState, useSetRecoilState} from 'recoil';
 import {NextRouter, useRouter} from 'next/router';
 import {useEffect} from 'react';
 

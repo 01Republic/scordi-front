@@ -5,6 +5,7 @@ import {getUserSession} from '^api/session.api';
 import {getToken} from '^api/api';
 import {errorNotify} from '^utils/toast-notify';
 import {getMemberships} from '^api/membership.api';
+import {orgIdParamState} from '^atoms/common';
 
 export type GoogleSignedUserData = {
     id: string;
@@ -23,7 +24,7 @@ export const currentUserAtom = atom<UserDto | null>({
 });
 
 export const currentUserMembershipAtom = atom<MembershipDto | null>({
-    key: 'currentUserMembership',
+    key: 'currentUserMembershipAtom',
     default: null,
 });
 
@@ -52,6 +53,35 @@ export const getCurrentUserMembershipsQuery = selector({
         set(getCurrentUserMembershipsQueryTrigger, (v) => v + 1);
     },
 });
+
+// export const getCurrentUserMembershipQueryTrigger = atom({
+//     key: 'getCurrentUserMembershipQueryTrigger',
+//     default: 0,
+// });
+//
+// export const getCurrentUserMembershipQuery = selector({
+//     key: 'getCurrentUserMembershipQuery',
+//     get: async ({get}) => {
+//         get(getCurrentUserMembershipQueryTrigger);
+//         const organizationId = get(orgIdParamState);
+//         const currentUser = get(currentUserAtom);
+//         if (!organizationId || isNaN(organizationId)) return null;
+//         if (!currentUser) return null;
+//         try {
+//             const res = await getMemberships({
+//                 where: {userId: currentUser.id, organizationId},
+//                 itemsPerPage: 100,
+//             });
+//             console.log(res);
+//             return res.data.items[0];
+//         } catch (e) {
+//             errorNotify(e);
+//         }
+//     },
+//     set: ({set}) => {
+//         set(getCurrentUserMembershipQueryTrigger, (v) => v + 1);
+//     },
+// });
 
 export const authenticatedUserDataAtom = atom<GoogleSignedUserData | undefined>({
     key: 'authenticatedUserDataAtom',

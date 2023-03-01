@@ -13,21 +13,36 @@ export const useCurrentUserMemberships = () => {
     };
 };
 
+/**
+ * 아래 useCurrentUserMembership 의 recoil selector 버전 입니다.
+ * 그런데 이 훅을 사용하면 이상하게 페이지 새로고침 했을 때 로딩이 블락되는 현상이 있어 실제로 사욯하지는 않습니다.
+ */
+// export const useCurrentUserMembership2 = () => {
+//     const [currentUserMembership, refreshCurrentUserMembership] = useRecoilState(getCurrentUserMembershipQuery);
+//
+//     return {
+//         currentUserMembership,
+//         refreshCurrentUserMembership,
+//     };
+// };
+
 export interface UseCurrentUserMembershipOption {
     organizationId?: number;
     userId?: number;
     lazy?: boolean;
 }
 
-// 아직 사용하지 않음. 제작 중.
-// OrgMainLayout, useCurrentUser 두 곳에서 같은 기능을 구현하고 있음.
+/**
+ * 현재 접속한 조직에 대한 로그인된 사용자의 멤버십 정보를 가져옵니다.
+ * OrgMainLayout, useCurrentUser 에서 사용되고 있습니다.
+ */
 export const useCurrentUserMembership = (option: UseCurrentUserMembershipOption) => {
     const {organizationId, userId, lazy = false} = option;
     const [currentUserMembership, setCurrentUserMembership] = useRecoilState(currentUserMembershipAtom);
 
     const getMembership = useCallback(
         (callbackFn?: (loadedCurrentUserMembership: MembershipDto | undefined) => void) => {
-            console.log('getMembership.load()', {userId, organizationId});
+            // console.log('getMembership.load()', {userId, organizationId});
             if (!organizationId || isNaN(organizationId)) return;
             if (!userId || isNaN(userId)) return;
 
@@ -39,7 +54,7 @@ export const useCurrentUserMembership = (option: UseCurrentUserMembershipOption)
                 return;
             }
 
-            console.log('getMembership.query()', {userId, organizationId});
+            // console.log('getMembership.query()', {userId, organizationId});
             return getMemberships({where: {userId, organizationId}})
                 .then((res) => res.data.items[0])
                 .then((membership) => {

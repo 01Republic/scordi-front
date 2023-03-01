@@ -57,6 +57,7 @@ const OrgMainLayout = ({children}: OrgMainLayoutProps) => {
         // 멤버십이 거절된 상태라면, 되돌려보내기
         if (currentUserMembership.approvalStatus === ApprovalStatus.REJECTED) {
             router.back();
+            return;
         }
 
         // 멤버십이 승인대기 상태라면, REJECTED

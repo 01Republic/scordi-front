@@ -10,7 +10,6 @@ import {
     TabContentForSpend,
 } from './index';
 import {atom, useRecoilValue} from 'recoil';
-import {TabContentForHistories} from './TabContents/TabContentForHistories';
 
 export const navTabIndex = atom({
     key: 'Prototypes/NavTabIndex',
