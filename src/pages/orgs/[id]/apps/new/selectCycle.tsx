@@ -50,3 +50,5 @@ export default function SelectCyclePage() {
         </OrgMobileLayout>
     );
 }
+
+SelectCyclePage.getInitialProps = async () => ({});

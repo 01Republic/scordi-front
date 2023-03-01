@@ -16,6 +16,7 @@ import {t_paidAt, UpdateBillingHistoryRequestDto} from '^types/billing.type';
 import {BillingHistoryInputsBlock} from '^components/pages/BillingHistoryEditPage/BillingHistoryInputsBlock';
 import {MobileBottomNav} from '^components/v2/MobileBottomNav';
 import {CTAButton} from '^components/v2/ui/buttons/CTAButton';
+import {GetStaticPaths, GetStaticProps} from 'next';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const BillingHistoryEditPageRoute = pathRoute({
@@ -60,3 +61,4 @@ export default function BillingHistoryEditPage() {
     );
 }
 
+BillingHistoryEditPage.getInitialProps = async () => ({});

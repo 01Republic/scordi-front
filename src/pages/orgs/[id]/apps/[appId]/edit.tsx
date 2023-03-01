@@ -57,3 +57,5 @@ export default function OrgAppEditPage() {
         </OrgMobileLayout>
     );
 }
+
+OrgAppEditPage.getInitialProps = async () => ({});

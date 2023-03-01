@@ -59,6 +59,8 @@ export default function NewBillingHistoryOnAppPage() {
     );
 }
 
+NewBillingHistoryOnAppPage.getInitialProps = async () => ({});
+
 // export default function NewBillingHistoryOnAppPage() {
 //     const router = useRouter();
 //     const appId = Number(router.query.appId);

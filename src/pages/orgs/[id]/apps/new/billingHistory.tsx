@@ -45,3 +45,5 @@ export default function NewAppBillingHistoryPage() {
         </OrgMobileLayout>
     );
 }
+
+NewAppBillingHistoryPage.getInitialProps = async () => ({});

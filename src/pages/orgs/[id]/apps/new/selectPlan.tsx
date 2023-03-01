@@ -49,3 +49,5 @@ export default function SelectPlanPage() {
         </OrgMobileLayout>
     );
 }
+
+SelectPlanPage.getInitialProps = async () => ({});

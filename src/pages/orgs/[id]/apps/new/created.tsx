@@ -64,3 +64,5 @@ export default function NewAppCreatedPage() {
         </OrgMobileLayout>
     );
 }
+
+NewAppCreatedPage.getInitialProps = async () => ({});

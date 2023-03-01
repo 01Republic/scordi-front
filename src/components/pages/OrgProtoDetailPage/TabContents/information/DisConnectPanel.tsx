@@ -4,7 +4,8 @@ import Swal from 'sweetalert2';
 import {destroyApplication} from '^api/application.api';
 import {prototypeIdParamsState} from '^atoms/common';
 import {ContentPanel, ContentPanelMiniTitle} from '^layouts/ContentLayout';
-import {DeleteApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {errorNotify} from '^utils/toast-notify';
+// import {DeleteApplicationPrototypeDto} from '^types/applicationPrototype.type';
 
 export const DisConnectPanel = memo(() => {
     const [appId] = useRecoilState(prototypeIdParamsState);
@@ -12,8 +13,8 @@ export const DisConnectPanel = memo(() => {
     const connectionDesc =
         `Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi corrupti exercitationem alias doloribus quam non magni ducimus, nam inventore sunt, officiis commodi, tempora sed voluptatibus consectetur enim fugit? Placeat, dolores.`.trim();
 
-    const onDisconnect = (id: DeleteApplicationPrototypeDto) => {
-        console.log('✅ App Id ===> ', appId);
+    const onDisconnect = (id: number) => {
+        console.log('✅ App Id ===> ', id);
         Swal.fire({
             title: 'Are you sure?',
             text: 'If you disconnect, It will be difficult to manage the app.',
@@ -23,14 +24,16 @@ export const DisConnectPanel = memo(() => {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Disconnect',
         }).then((result) => {
-            destroyApplication(appId).then((res) => {
-                console.log('💖===>', res);
-                if (result.isConfirmed) {
-                    Swal.fire('Disconnect!', 'Please go to the site and cancel the subscription.', 'success');
-                } else if (result.isConfirmed === false) {
-                    Swal.fire('Disconnect!', 'Please go to the site and cancel the subscription.', 'success');
-                }
-            });
+            destroyApplication(id)
+                .then((res) => {
+                    console.log('💖===>', res);
+                    if (result.isConfirmed) {
+                        Swal.fire('Disconnect!', 'Please go to the site and cancel the subscription.', 'success');
+                    } else if (result.isConfirmed === false) {
+                        Swal.fire('Disconnect!', 'Please go to the site and cancel the subscription.', 'success');
+                    }
+                })
+                .catch(errorNotify);
         });
     };
 
@@ -42,7 +45,7 @@ export const DisConnectPanel = memo(() => {
                 dangerouslySetInnerHTML={{__html: connectionDesc}}
             />
 
-            <button className="ContentLayout--ContentButton btn-sm  btn-secondary" onClick={onDisconnect}>
+            <button className="ContentLayout--ContentButton btn-sm  btn-secondary" onClick={() => onDisconnect(appId)}>
                 Disconnect
             </button>
         </ContentPanel>
