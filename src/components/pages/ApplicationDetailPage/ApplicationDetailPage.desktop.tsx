@@ -2,11 +2,15 @@ import {memo} from 'react';
 import OrgMainLayout from '^layouts/org/mainLayout';
 import {ContentLayout, ContentTabNav} from '^layouts/ContentLayout';
 import {applicationIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {TabContentForInformation, TabContentForInvoices, TabContentForSpend} from './index';
 import {atom, useRecoilValue} from 'recoil';
 import {Breadcrumb, PrototypeHeader} from '../OrgProtoDetailPage';
-import {TabContentForHistories} from './TabContents/TabContentForHistories';
-import {TabContentForSettings} from './TabContents/TabContentForSettings';
+import {
+    TabContentForInformation,
+    TabContentForSpend,
+    TabContentForInvoices,
+    TabContentForHistories,
+    TabContentForSettings,
+} from './TabContents';
 
 export const navTabIndex = atom({
     key: 'ApplicationDetailPageDesktop/NavTabIndex',

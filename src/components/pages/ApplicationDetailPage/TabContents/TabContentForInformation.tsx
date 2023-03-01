@@ -1,7 +1,6 @@
 import {memo} from 'react';
 import {InfoPanel} from './information/InfoPanel';
 import {ConnectPanel} from './information/ConnectPanel';
-import {DisConnectPanel} from './information/DisConnectPanel';
 
 export const TabContentForInformation = memo(() => {
     return (
