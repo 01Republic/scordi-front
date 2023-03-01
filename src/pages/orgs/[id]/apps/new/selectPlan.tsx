@@ -11,6 +11,7 @@ import {LeadMessageSection} from '^components/pages/OrgApplicationCreateFlow/Lea
 import {MobileEntityListSection} from '^components/v2/MobileEntityListSection';
 import {SelectCyclePageProps} from '^pages/orgs/[id]/apps/new/selectCycle';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
+import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const SelectPlanPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/new/selectPlan',
@@ -34,7 +35,7 @@ export default function SelectPlanPage() {
     };
 
     return (
-        <>
+        <OrgMobileLayout>
             <MobileTopNav>
                 <BackButton />
             </MobileTopNav>
@@ -45,8 +46,6 @@ export default function SelectPlanPage() {
                 itemOnClick={planOnClickHandler}
                 itemChild={(paymentPlan) => paymentPlan.name}
             />
-        </>
+        </OrgMobileLayout>
     );
 }
-
-SelectPlanPage.getLayout = getOrgMainLayout;

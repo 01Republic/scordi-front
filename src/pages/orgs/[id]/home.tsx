@@ -12,10 +12,7 @@ export const OrgHomeRoute = pathRoute({
 });
 
 export default function HomePage() {
-    const organizationId = useRouterIdParamState('id', orgIdParamState);
     const {mobileView} = useOnResize();
-
-    if (!organizationId) return <PreLoader />;
 
     return mobileView ? <DashboardPageMobile /> : <DashboardPageDesktop />;
 }

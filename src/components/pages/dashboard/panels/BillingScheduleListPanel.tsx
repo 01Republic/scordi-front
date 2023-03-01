@@ -12,35 +12,33 @@ export const BillingScheduleListPanel = memo(() => {
     return (
         <ContentPanelBody>
             <ContentPanelMiniTitle>
-                <p className="font-semibold">
-                    On: <span>{yyyy_mm_dd(selectedDate)}</span>
-                </p>
-
-                <ul className="menu bg-base-100 w-full p-2 rounded-box">
-                    {billingHistories &&
-                        billingHistories.map((history, i) => (
-                            <BillingScheduleItem
-                                key={i}
-                                applicationId={history.applicationId}
-                                date={new Date(history.paidAt)}
-                                payAmount={history.paidAmount}
-                                isPaid={history.isSuccess}
-                                historyId={history.id}
-                            />
-                        ))}
-                    {billingSchedules &&
-                        billingSchedules.map((schedule, i) => (
-                            <BillingScheduleItem
-                                key={i}
-                                applicationId={schedule.applicationId}
-                                date={new Date(schedule.billingDate)}
-                                payAmount={schedule.unitPrice * schedule.paidMemberCount}
-                                isPaid={schedule.isSuccess}
-                                historyId={0}
-                            />
-                        ))}
-                </ul>
+                On: <span>{yyyy_mm_dd(selectedDate)}</span>
             </ContentPanelMiniTitle>
+
+            <ul className="menu bg-base-100 w-full p-2 rounded-box">
+                {billingHistories &&
+                    billingHistories.map((history, i) => (
+                        <BillingScheduleItem
+                            key={i}
+                            applicationId={history.applicationId}
+                            date={new Date(history.paidAt)}
+                            payAmount={history.paidAmount}
+                            isPaid={history.isSuccess}
+                            historyId={history.id}
+                        />
+                    ))}
+                {billingSchedules &&
+                    billingSchedules.map((schedule, i) => (
+                        <BillingScheduleItem
+                            key={i}
+                            applicationId={schedule.applicationId}
+                            date={new Date(schedule.billingDate)}
+                            payAmount={schedule.unitPrice * schedule.paidMemberCount}
+                            isPaid={schedule.isSuccess}
+                            historyId={0}
+                        />
+                    ))}
+            </ul>
         </ContentPanelBody>
     );
 });

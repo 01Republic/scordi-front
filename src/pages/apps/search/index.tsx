@@ -18,6 +18,7 @@ import {toast} from 'react-toastify';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {ServiceSuggestList} from '^components/ServiceSuggestList';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
+import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const AppSearchPageRoute = {
     pathname: '/apps/search',
@@ -73,7 +74,7 @@ const AppSearchPage = () => {
     }, [router.query]);
 
     return (
-        <>
+        <OrgMobileLayout>
             <MobileTopNav title={'서비스 연동하기'} />
             <div className={'px-[20px] py-[40px]'}>
                 <h2>어떤 서비스를 연동하시겠어요?</h2>
@@ -108,9 +109,8 @@ const AppSearchPage = () => {
                     onClick={(item) => startAddService(item.id)}
                 />
             </div>
-        </>
+        </OrgMobileLayout>
     );
 };
 
-AppSearchPage.getLayout = getOrgMainLayout;
 export default AppSearchPage;

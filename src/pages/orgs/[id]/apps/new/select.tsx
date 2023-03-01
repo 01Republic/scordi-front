@@ -24,6 +24,7 @@ import {TitleSection} from '^components/v2/TitleSection';
 import {SearchResultSection} from '^components/pages/OrgApplicationSelectPage/SearchResultSection';
 import {SearchInputSection} from '^components/pages/OrgApplicationSelectPage/SearchInputSection';
 import {MobileScrollable} from '^components/v2/MobileScrollable';
+import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const OrgApplicationSelectPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/new/select',
@@ -32,21 +33,23 @@ export const OrgApplicationSelectPageRoute = pathRoute({
 
 export default function OrgApplicationSelectPage() {
     return (
-        <MobileScrollable>
-            <MobileScrollable.FixedZone>
-                <MobileTopNav sticky={false}>
-                    <BackButton />
-                </MobileTopNav>
-                <TitleSection.Simple>
-                    <TitleSection.Title text="어떤 서비스를 연동하시겠어요?" size="2xl" />
-                </TitleSection.Simple>
-                <SearchInputSection />
-            </MobileScrollable.FixedZone>
+        <OrgMobileLayout>
+            <MobileScrollable>
+                <MobileScrollable.FixedZone>
+                    <MobileTopNav sticky={false}>
+                        <BackButton />
+                    </MobileTopNav>
+                    <TitleSection.Simple>
+                        <TitleSection.Title text="어떤 서비스를 연동하시겠어요?" size="2xl" />
+                    </TitleSection.Simple>
+                    <SearchInputSection />
+                </MobileScrollable.FixedZone>
 
-            <MobileScrollable.ScrollZone>
-                <SearchResultSection />
-            </MobileScrollable.ScrollZone>
-        </MobileScrollable>
+                <MobileScrollable.ScrollZone>
+                    <SearchResultSection />
+                </MobileScrollable.ScrollZone>
+            </MobileScrollable>
+        </OrgMobileLayout>
     );
 
     /**
@@ -185,7 +188,7 @@ export default function OrgApplicationSelectPage() {
     **/
 }
 
-OrgApplicationSelectPage.getLayout = getOrgMainLayout;
+// OrgApplicationSelectPage.getLayout = getOrgMainLayout;
 
 // interface SelectablePrototypeCardProps {
 //     proto: ApplicationPrototypeDto;

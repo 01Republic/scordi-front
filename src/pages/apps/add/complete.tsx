@@ -4,6 +4,7 @@ import {DefaultButton} from '^components/Button';
 import {useRouter} from 'next/router';
 import {AppSearchPageRoute} from '../search';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
+import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const AddCompletePageRoute = {
     pathname: '/apps/add/complete',
@@ -14,7 +15,7 @@ const AddComplete = () => {
     const router = useRouter();
 
     return (
-        <>
+        <OrgMobileLayout>
             <MobileTopNav title={'서비스 연동하기'} />
             <div className={'px-[20px] py-[40px]'}>
                 <div className={'py-[30px] text-center'}>
@@ -30,9 +31,8 @@ const AddComplete = () => {
                     />
                 </div>
             </div>
-        </>
+        </OrgMobileLayout>
     );
 };
 
-AddComplete.getLayout = getOrgMainLayout;
 export default AddComplete;

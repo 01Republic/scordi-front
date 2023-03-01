@@ -11,6 +11,7 @@ import {modifyUser} from '^api/session.api';
 import {toast} from 'react-toastify';
 import {useRecoilState} from 'recoil';
 import {currentUserAtom} from '^atoms/currentUser.atom';
+import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const UserEditPageRoute = pathRoute({
     pathname: '/users/edit',
@@ -37,7 +38,7 @@ const UserEditPage = () => {
     }, [currentUser]);
 
     return (
-        <div>
+        <OrgMobileLayout>
             <MobileTopNav title={'내 정보 수정'} />
             <MobileViewContainer>
                 <TextInput label={'이름'} {...form.register('name')} />
@@ -48,9 +49,8 @@ const UserEditPage = () => {
                     <DefaultButton text={'저장하기'} onClick={UpdateUserHandler} />
                 </div>
             </MobileViewContainer>
-        </div>
+        </OrgMobileLayout>
     );
 };
 
-UserEditPage.getLayout = getOrgMainLayout;
 export default UserEditPage;

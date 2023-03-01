@@ -5,6 +5,7 @@ import {PreLoader} from '^components/PreLoader';
 import {MobileTopNav} from '^components/v2/MobileTopNav';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
+import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const NewBillingHistoryPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/billingHistories/new',
@@ -17,14 +18,12 @@ export default function NewBillingHistoryPage() {
 
     if (!organizationId) return <PreLoader />;
     return (
-        <>
+        <OrgMobileLayout>
             <MobileTopNav>
                 <BackButton text="취소" />
             </MobileTopNav>
 
             {/*  TODO: 이 페이지 목업 누락되어 있음.  */}
-        </>
+        </OrgMobileLayout>
     );
 }
-
-NewBillingHistoryPage.getLayout = getOrgMainLayout;

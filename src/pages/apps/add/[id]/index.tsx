@@ -11,6 +11,7 @@ import {AddAuto} from '^components/add/AddAuto';
 import {AddManual} from '^components/add/AddManual';
 import {AddPrepare} from '^components/add/AddPrepare';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
+import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const AddServicePageRoute = {
     pathname: '/apps/add/:id',
@@ -30,16 +31,16 @@ const AddService = () => {
         }
     }, [router.isReady]);
 
-    if (!target) return null;
+    if (!target) return <></>;
+
     return (
-        <>
+        <OrgMobileLayout>
             <MobileTopNav title={'서비스 연동하기'} />
             {target.connectMethod === 'AUTO' && <AddAuto appInfo={target} />}
             {target.connectMethod === 'MANUAL' && <AddManual appInfo={target} />}
             {target.connectMethod === 'PREPARE' && <AddPrepare appInfo={target} />}
-        </>
+        </OrgMobileLayout>
     );
 };
 
-AddService.getLayout = getOrgMainLayout;
 export default AddService;

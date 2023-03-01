@@ -21,6 +21,7 @@ import {
     useRouterIdParamState,
 } from '^atoms/common';
 import {getBillingHistoriesParamsState} from '^atoms/billingHistories.atom';
+import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const BillingHistoryShowPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/[appId]/billingHistories/[billingHistoryId]',
@@ -41,6 +42,7 @@ export default function BillingHistoryShowPage() {
 
     useEffect(() => {
         // setApplicationIdParam(applicationId);
+        if (!applicationId || isNaN(applicationId)) return;
         setBillingHistoriesQueryParam({
             where: {applicationId},
             order: {id: 'DESC'},
@@ -52,7 +54,7 @@ export default function BillingHistoryShowPage() {
     const editPath = BillingHistoryEditPageRoute.path(organizationId, applicationId, billingHistoryId);
 
     return (
-        <>
+        <OrgMobileLayout>
             <MobileTopNav>
                 <BackButton />
                 <MobileTopNavRight>
@@ -77,8 +79,8 @@ export default function BillingHistoryShowPage() {
                     icon={<Icon.Plus />}
                 />
             </MobileBottomNav>
-        </>
+        </OrgMobileLayout>
     );
 }
 
-BillingHistoryShowPage.getLayout = getOrgMainLayout;
+BillingHistoryShowPage.getInitialProps = async () => ({});

@@ -11,6 +11,7 @@ import {LeadMessageSection} from '^components/pages/OrgApplicationCreateFlow/Lea
 import {ApplicationBillingCycleDto, t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
 import {MobileEntityListSection} from '^components/v2/MobileEntityListSection';
 import {NewAppBillingHistoryPageRoute} from '^pages/orgs/[id]/apps/new/billingHistory';
+import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const SelectCyclePageProps = pathRoute({
     pathname: '/orgs/[id]/apps/new/selectCycle',
@@ -35,7 +36,7 @@ export default function SelectCyclePage() {
     };
 
     return (
-        <>
+        <OrgMobileLayout>
             <MobileTopNav>
                 <BackButton />
             </MobileTopNav>
@@ -46,8 +47,6 @@ export default function SelectCyclePage() {
                 itemOnClick={cycleOnClickHandler}
                 itemChild={(billingCycle) => t_BillingCycleTerm(billingCycle.term)}
             />
-        </>
+        </OrgMobileLayout>
     );
 }
-
-SelectCyclePage.getLayout = getOrgMainLayout;

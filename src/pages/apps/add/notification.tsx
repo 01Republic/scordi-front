@@ -2,6 +2,7 @@ import {useRouter} from 'next/router';
 import {DefaultButton} from '^components/Button';
 import {AppSearchPageRoute} from '^pages/apps/search';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
+import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const NotificationPageRoute = {
     pathname: '/apps/add/notification',
@@ -12,7 +13,7 @@ const NotificationPage = () => {
     const router = useRouter();
 
     return (
-        <>
+        <OrgMobileLayout>
             <div className={'px-[20px] py-[40px]'}>
                 <h2>알림 신청 완료</h2>
                 <p className={'mt-[20px] text-[#6D7684]'}>
@@ -26,9 +27,8 @@ const NotificationPage = () => {
                     onClick={() => router.replace(AppSearchPageRoute.pathname)}
                 />
             </div>
-        </>
+        </OrgMobileLayout>
     );
 };
 
-NotificationPage.getLayout = getOrgMainLayout;
 export default NotificationPage;

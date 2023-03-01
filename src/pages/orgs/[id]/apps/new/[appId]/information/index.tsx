@@ -10,4 +10,4 @@ export const OrgAddAppInfoPageRoute = pathRoute({
 
 export default OrgAddAppInfoPage;
 
-OrgAddAppInfoPage.getLayout = getOrgMainLayout;
+// OrgAddAppInfoPage.getLayout = getOrgMainLayout;

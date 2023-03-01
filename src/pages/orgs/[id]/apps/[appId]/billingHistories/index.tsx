@@ -10,6 +10,7 @@ import {ApplicationDto} from '^types/application.type';
 import {getApplication} from '^api/application.api';
 import {intlDateLong} from '^utils/dateTime';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
+import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const BillingHistoriesPageRoute = {
     pathname: '/orgs/:id/apps/:appId/billingHistories',
@@ -34,7 +35,7 @@ export default function BillingHistoriesPage() {
 
     if (!appInfo) return;
     return (
-        <>
+        <OrgMobileLayout>
             <MobileTopNav title={'구독 정보'} />
             <MobileViewContainer>
                 <Image src={appInfo.prototype.image} width={80} height={80} />
@@ -50,8 +51,6 @@ export default function BillingHistoriesPage() {
                     <SummaryListItem key={index} title={intlDateLong(item.paidAt)} value={`USD ${item.paidAmount}`} />
                 ))}
             </MobileViewContainer>
-        </>
+        </OrgMobileLayout>
     );
 }
-
-BillingHistoriesPage.getLayout = getOrgMainLayout;

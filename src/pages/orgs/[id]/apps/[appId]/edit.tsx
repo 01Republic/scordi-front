@@ -15,6 +15,7 @@ import {AppNameWithLogoBlock} from '^components/pages/OrgAppInfoPage/AppNameWith
 import {CTAButton} from '^components/v2/ui/buttons/CTAButton';
 import {MobileBottomNav} from '^components/v2/MobileBottomNav';
 import {ApplicationInputsBlock} from '^components/pages/OrgAppEditPage/ApplicationInputsBlock';
+import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const OrgApplicationEditPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/[appId]/edit',
@@ -30,29 +31,29 @@ export default function OrgAppEditPage() {
     if (!application) return <></>;
 
     return (
-        <ApplicationEditForm form={form}>
-            <MobileTopNav>
-                <BackButton text="취소" />
-            </MobileTopNav>
+        <OrgMobileLayout>
+            <ApplicationEditForm form={form}>
+                <MobileTopNav>
+                    <BackButton text="취소" />
+                </MobileTopNav>
 
-            <TitleSection.TopPadding />
-            <TitleSection.Simple flex={false}>
-                <AppNameWithLogoBlock prototype={application.prototype} />
-            </TitleSection.Simple>
+                <TitleSection.TopPadding />
+                <TitleSection.Simple flex={false}>
+                    <AppNameWithLogoBlock prototype={application.prototype} />
+                </TitleSection.Simple>
 
-            <ApplicationInputsBlock form={form} />
+                <ApplicationInputsBlock form={form} />
 
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
 
-            <MobileBottomNav>
-                <CTAButton type="submit" text="저장" />
-            </MobileBottomNav>
-        </ApplicationEditForm>
+                <MobileBottomNav>
+                    <CTAButton type="submit" text="저장" />
+                </MobileBottomNav>
+            </ApplicationEditForm>
+        </OrgMobileLayout>
     );
 }
-
-OrgAppEditPage.getLayout = getOrgMainLayout;

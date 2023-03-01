@@ -6,6 +6,7 @@ import {getDashboardSummary} from '^api/dashboard.api';
 import {errorNotify} from '^utils/toast-notify';
 import {DashboardSummaryDto} from '^types/dashboard.type';
 import OrgMainLayout, {getOrgMainLayout} from '^layouts/org/mainLayout';
+import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const SummaryPageRoute = {
     pathname: '/orgs/:id/summary',
@@ -34,28 +35,32 @@ const SummaryPage = () => {
     }
 
     return (
-        <MobileViewContainer>
-            <MobileTopNav title={'상세보기'} />
-            <div className={'px-[20px] py-[40px]'}>
-                <p>이번달 총 비용</p>
-                <h2 className={'my-[20px]'}>USD {summaryDto.total.toLocaleString()}</h2>
-                <SummaryListItem
-                    title={'오늘까지 결제된 금액'}
-                    value={`USD ${summaryDto.didPayAmount.toLocaleString()}`}
-                />
-                <SummaryListItem title={'남은 결제 금액'} value={`USD ${summaryDto.willPayAmount.toLocaleString()}`} />
-                <SummaryListItem
-                    title={'지난달 총 결제액'}
-                    value={`USD ${summaryDto.totalOnLastMonth.toLocaleString()}`}
-                />
-                <SummaryListItem
-                    title={'연간 총 예상 비용'}
-                    value={`USD ${summaryDto.totalOnThisYear.toLocaleString()}`}
-                />
-            </div>
-        </MobileViewContainer>
+        <OrgMobileLayout>
+            <MobileViewContainer>
+                <MobileTopNav title={'상세보기'} />
+                <div className={'px-[20px] py-[40px]'}>
+                    <p>이번달 총 비용</p>
+                    <h2 className={'my-[20px]'}>USD {summaryDto.total.toLocaleString()}</h2>
+                    <SummaryListItem
+                        title={'오늘까지 결제된 금액'}
+                        value={`USD ${summaryDto.didPayAmount.toLocaleString()}`}
+                    />
+                    <SummaryListItem
+                        title={'남은 결제 금액'}
+                        value={`USD ${summaryDto.willPayAmount.toLocaleString()}`}
+                    />
+                    <SummaryListItem
+                        title={'지난달 총 결제액'}
+                        value={`USD ${summaryDto.totalOnLastMonth.toLocaleString()}`}
+                    />
+                    <SummaryListItem
+                        title={'연간 총 예상 비용'}
+                        value={`USD ${summaryDto.totalOnThisYear.toLocaleString()}`}
+                    />
+                </div>
+            </MobileViewContainer>
+        </OrgMobileLayout>
     );
 };
 
-SummaryPage.getLayout = getOrgMainLayout;
 export default SummaryPage;

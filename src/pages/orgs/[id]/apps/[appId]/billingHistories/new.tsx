@@ -21,6 +21,7 @@ import {CreateBillingHistoryForm} from '^components/pages/NewBillingHistoryOnApp
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {useSetRecoilState} from 'recoil';
 import {applicationIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const NewBillingHistoryOnAppPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/[appId]/billingHistories/new',
@@ -47,19 +48,17 @@ export default function NewBillingHistoryOnAppPage() {
     const {prototype: proto, paymentPlan: plan, billingCycle: cycle} = application;
 
     return (
-        <>
+        <OrgMobileLayout>
             <MobileTopNav>
                 <BackButton />
             </MobileTopNav>
             <SelectedStatusSection proto={proto} text={[plan.name, t_BillingCycleTerm(cycle.term, true)].join(' / ')} />
             <LeadMessageSection text="새로운 결제가 있나요?" />
             <CreateBillingHistoryForm />
-        </>
+        </OrgMobileLayout>
     );
 }
 
-NewBillingHistoryOnAppPage.getLayout = getOrgMainLayout;
-//
 // export default function NewBillingHistoryOnAppPage() {
 //     const router = useRouter();
 //     const appId = Number(router.query.appId);

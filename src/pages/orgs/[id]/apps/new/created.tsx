@@ -9,6 +9,7 @@ import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {ImageV2} from '^components/v2/ui/Image';
 import {useSetRecoilState} from 'recoil';
 import {applicationIdParamState} from '^atoms/common';
+import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const NewAppCreatedPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/new/created',
@@ -38,28 +39,28 @@ export default function NewAppCreatedPage() {
     if (!application) return <PreLoader />;
 
     return (
-        <div className="flex w-full h-full items-center justify-center pb-[100px]">
-            <div>
-                <div className="w-full flex justify-center">
-                    <ImageV2
-                        className="animate-bounce mb-10"
-                        src={
-                            application
-                                ? safeImageSrc(application.prototype, 120, 120)
-                                : 'https://placeimg.com/120/120/arch'
-                        }
-                        alt={`${application.prototype.name} logo`}
-                        width={120}
-                    />
+        <OrgMobileLayout>
+            <div className="flex w-full h-full items-center justify-center pb-[100px]">
+                <div>
+                    <div className="w-full flex justify-center">
+                        <ImageV2
+                            className="animate-bounce mb-10"
+                            src={
+                                application
+                                    ? safeImageSrc(application.prototype, 120, 120)
+                                    : 'https://placeimg.com/120/120/arch'
+                            }
+                            alt={`${application.prototype.name} logo`}
+                            width={120}
+                        />
+                    </div>
+                    <p className="font-bold text-center" style={{fontSize: '1.6rem'}}>
+                        <em>
+                            <span className="text-primary">{application?.prototype?.name || 'Slack'}</span> 등록 완료!
+                        </em>
+                    </p>
                 </div>
-                <p className="font-bold text-center" style={{fontSize: '1.6rem'}}>
-                    <em>
-                        <span className="text-primary">{application?.prototype?.name || 'Slack'}</span> 등록 완료!
-                    </em>
-                </p>
             </div>
-        </div>
+        </OrgMobileLayout>
     );
 }
-
-NewAppCreatedPage.getLayout = getOrgMainLayout;

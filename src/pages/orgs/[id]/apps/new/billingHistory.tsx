@@ -10,6 +10,7 @@ import {t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
 import {useCreateFlow} from '^hooks/useApplicationPrototypes';
 import {PreLoader} from '^components/PreLoader';
 import {CreateAppForm} from '^components/pages/OrgApplicationCreateFlow/CreateAppForm';
+import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const NewAppBillingHistoryPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/new/billingHistory',
@@ -34,15 +35,13 @@ export default function NewAppBillingHistoryPage() {
     if (!pageLoaded) return <PreLoader />;
 
     return (
-        <>
+        <OrgMobileLayout>
             <MobileTopNav>
                 <BackButton />
             </MobileTopNav>
             <SelectedStatusSection proto={proto} text={[plan.name, t_BillingCycleTerm(cycle.term, true)].join(' / ')} />
             <LeadMessageSection text="최근에 얼마나 결제 되셨어요?" />
             <CreateAppForm />
-        </>
+        </OrgMobileLayout>
     );
 }
-
-NewAppBillingHistoryPage.getLayout = getOrgMainLayout;

@@ -9,6 +9,7 @@ import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {useRecoilState} from 'recoil';
 import {currentUserAtom} from '^atoms/currentUser.atom';
+import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const UserSettingsPageRoute = {
     pathname: '/users/settings',
@@ -50,7 +51,7 @@ const Settings = () => {
     ];
 
     return (
-        <>
+        <OrgMobileLayout>
             <MobileTopNav title={'설정'} />
             <div className={'px-[20px]'}>
                 {settingContents.map((content, index) => (
@@ -59,10 +60,8 @@ const Settings = () => {
                     </div>
                 ))}
             </div>
-        </>
+        </OrgMobileLayout>
     );
 };
-
-Settings.getLayout = getOrgMainLayout;
 
 export default Settings;

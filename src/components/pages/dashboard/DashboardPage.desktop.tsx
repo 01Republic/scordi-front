@@ -13,10 +13,6 @@ import {
 } from './panels';
 
 export const DashboardPageDesktop = memo(() => {
-    const organizationId = useRouterIdParamState('id', orgIdParamState);
-
-    if (!organizationId) return <PreLoader />;
-
     return (
         <OrgMainLayout>
             <ContentLayout title="대시보드">
