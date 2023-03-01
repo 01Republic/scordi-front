@@ -2,19 +2,16 @@ import {useEffect} from 'react';
 import {useRecoilState} from 'recoil';
 import {AxiosError} from 'axios';
 import {removeToken, setToken} from '^api/api';
-import {getMemberships} from '^api/membership.api';
-import {getGoogleUserData, getUserSession, postUserSession, postUserSessionBySocialAccount} from '^api/session.api';
+import {getUserSession, postUserSession, postUserSessionBySocialAccount} from '^api/session.api';
 import {currentUserAtom, authenticatedUserDataAtom, GoogleSignedUserData} from '^atoms/currentUser.atom';
-import {currentUserMembershipAtom} from '^atoms/currentUser.atom';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {UserLoginPageRoute} from '^pages/users/login';
-import {WelcomePageRoute} from '^pages/users/signup/welcome';
 import {OrgSearchRoute} from '^pages/orgs/search';
 import {NextRouter, useRouter} from 'next/router';
 import {UserDto, UserLoginRequestDto, UserSocialLoginRequestDto} from '^types/user.type';
 import {errorNotify} from '^utils/toast-notify';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {UserSignUpPageRoute} from '^pages/users/signup';
+import {useCurrentUserMembership} from '^hooks/useMemberships';
 
 type AxiosErrorData = {
     status: number;
@@ -39,32 +36,18 @@ export function useCurrentUser(fallbackPath?: string | null) {
     const router = useRouter();
     const organizationId = useRouterIdParamState('id', orgIdParamState);
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
-    const [currentUserMembership, setCurrentUserMembership] = useRecoilState(currentUserMembershipAtom);
+    const {currentUserMembership, setCurrentUserMembership} = useCurrentUserMembership({
+        organizationId,
+        userId: currentUser?.id,
+    });
     const [authenticatedUserData, setAuthenticatedUserData] = useRecoilState(authenticatedUserDataAtom);
 
     useEffect(() => {
+        if (currentUser) return;
         getUserSession()
             .then((res) => setCurrentUser(res.data))
             .catch((err) => loginRequiredHandler(err, router, fallbackPath));
     }, []);
-
-    useEffect(() => {
-        if (currentUser === null) return;
-        if (isNaN(organizationId)) return;
-
-        getMemberships({
-            where: {
-                userId: currentUser.id,
-                organizationId,
-            },
-        }).then((res) => {
-            const membership = res.data.items[0];
-
-            if (!membership) return;
-
-            setCurrentUserMembership(membership);
-        });
-    }, [currentUser, organizationId]);
 
     const login = (data: UserLoginRequestDto, href?: string): Promise<UserDto> => {
         return (

@@ -1,32 +1,21 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo} from 'react';
 import {OrganizationDto} from '^types/organization.type';
 import {useCurrentUser} from '^hooks/useCurrentUser';
-import {getMemberships} from '^api/membership.api';
-import {MembershipDto} from '^types/membership.type';
-import {errorNotify} from '^utils/toast-notify';
 import {AiOutlinePlus} from 'react-icons/ai';
 import {OrgSearchRoute} from '^pages/orgs/search';
 import {useRouter} from 'next/router';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
+import {useCurrentUserMemberships} from '^hooks/useMemberships';
 
 export const OrgBar = memo(() => {
     const router = useRouter();
     const {currentUserMembership} = useCurrentUser();
-    const [myMemberships, setMyMemberships] = useState<MembershipDto[]>([]);
-
-    useEffect(() => {
-        if (!currentUserMembership) return;
-
-        const userId = currentUserMembership.userId;
-        getMemberships({where: {userId}, itemsPerPage: 100})
-            .then((res) => setMyMemberships(res.data.items))
-            .catch(errorNotify);
-    }, [currentUserMembership]);
+    const {currentUserMemberships: myMemberships} = useCurrentUserMemberships();
 
     return (
         <div className="flex flex-col space-y-4 py-4 px-2 bg-white border-r" style={{borderRightColor: '#e0e0e0'}}>
             {currentUserMembership &&
-                myMemberships.map((membership, i) => (
+                (myMemberships || []).map((membership, i) => (
                     <OrgItem
                         key={i}
                         org={membership.organization}
