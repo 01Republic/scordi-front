@@ -1,7 +1,7 @@
 import {memo} from 'react';
 import OrgMainLayout from '^layouts/org/mainLayout';
 import {ContentLayout, ContentTabNav} from '^layouts/ContentLayout';
-import {applicationIdParamState, orgIdParamState, prototypeIdParamsState, useRouterIdParamState} from '^atoms/common';
+import {applicationIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {TabContentForInformation, TabContentForInvoices, TabContentForSpend} from './index';
 import {atom, useRecoilValue} from 'recoil';
 import {Breadcrumb, PrototypeHeader} from '../OrgProtoDetailPage';

@@ -1,6 +1,6 @@
 import {memo} from 'react';
-import {SummaryPanel} from './Spend/SummaryPanel';
 import {DangerPanel} from './Spend/DangerPanel';
+import {SettingsPanel} from './Spend/SettingsPanel';
 
 export const TabContentForSettings = memo(() => {
     return (
@@ -8,8 +8,7 @@ export const TabContentForSettings = memo(() => {
             <div className="bs-row gap-8">
                 {/* Left Col */}
                 <div className="bs-col-12 sm:bs-col px-0">
-                    {/* TODO : settings 항목들 추가하기 */}
-                    <SummaryPanel />
+                    <SettingsPanel />
                 </div>
 
                 {/* Right Col */}
