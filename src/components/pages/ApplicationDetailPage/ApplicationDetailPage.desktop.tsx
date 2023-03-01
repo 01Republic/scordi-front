@@ -5,7 +5,7 @@ import {applicationIdParamState, orgIdParamState, useRouterIdParamState} from '^
 import {atom, useRecoilValue} from 'recoil';
 import {Breadcrumb, PrototypeHeader} from '../OrgProtoDetailPage';
 import {
-    TabContentForInformation,
+    // TabContentForInformation,
     TabContentForSpend,
     TabContentForInvoices,
     TabContentForHistories,
