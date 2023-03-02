@@ -42,8 +42,6 @@ export const ConnectPrototypeModal = memo(() => {
     const [isLoading, setIsLoading] = useState(false);
     const [checkTeam, setCheckTeam] = useState<OrgItemDto[]>([]);
     const [currentStage, setCurrentStage] = useState(1);
-    const [currentParams, setCurrentParams] = useState<LoginDto | LoginWithVerify>();
-    const [selectedOrg, setSelectedOrg] = useState('');
 
     if (currentPrototype === null) return <></>;
     const orgName = currentPrototype.name;
@@ -51,7 +49,6 @@ export const ConnectPrototypeModal = memo(() => {
     const startConnectingProtoType = (params: LoginDto | LoginWithVerify) => {
         setIsLoading(true);
         setIsCodeNeeded(false);
-        //setCurrentParams(params);
         getOrganizationListByCrawlerApi(currentPrototype.id, params)
             .then((res) => {
                 console.log('통신성공', res.data, checkTeam.length);
@@ -79,10 +76,10 @@ export const ConnectPrototypeModal = memo(() => {
             });
         } else {
             if (params === undefined) return;
+            setIsLoading(true);
             const parameters = params.verificationCode
                 ? {email: params.email, password: params.password, verificationCode: params.verificationCode}
                 : {email: params.email, password: params.password};
-            setIsLoading(true);
             getOrganizationByCrawlerApi(currentPrototype.id, params.organizationName[0], parameters)
                 .then((res) => {
                     console.log(res);
@@ -92,6 +89,7 @@ export const ConnectPrototypeModal = memo(() => {
                 .finally(() => setIsLoading(false));
         }
     };
+    // 새로고침하지않으면 badrequest error 발생..
 
     return (
         <Modal type={'info'} isOpen={isConnectModalOpen} title={`Connect ${orgName}`}>
@@ -130,9 +128,6 @@ export const ConnectPrototypeModal = memo(() => {
                         </div>
                     )}
                     <ModalActionWrapper>
-                        <button type="submit" className="btn">
-                            Submit
-                        </button>
                         <button
                             type="button"
                             className="btn"
@@ -145,32 +140,31 @@ export const ConnectPrototypeModal = memo(() => {
                         >
                             Close
                         </button>
+                        <button type="submit" className="btn btn-primary">
+                            Next
+                        </button>
                     </ModalActionWrapper>
                 </form>
             ) : currentStage === 2 ? (
                 <form className="flex flex-col mb-4 gap-y-4" onSubmit={form.handleSubmit(submitOrg)}>
                     <h4>Select your Organization</h4>
                     {checkTeam.map((team) => (
-                        <div
+                        <label
                             key={team.name}
-                            className="form-control border border-indigo-300 rounded-xl shadow hover:shadow-lg p-3"
+                            className="label cursor-pointer border border-indigo-300 rounded-xl shadow hover:shadow-lg p-3"
+                            htmlFor={team.name}
                         >
-                            <label className="label cursor-pointer" htmlFor={team.name}>
-                                <span className="label-text text-lg">{team.name}</span>
-                                <input
-                                    id={team.name}
-                                    value={team.name}
-                                    type="checkbox"
-                                    className="checkbox checkbox-primary"
-                                    {...form.register('organizationName', {})}
-                                />
-                            </label>
-                        </div>
+                            <span className="label-text text-lg">{team.name}</span>
+                            <input
+                                id={team.name}
+                                value={team.name}
+                                type="radio"
+                                className="radio radio-primary"
+                                {...form.register('organizationName', {})}
+                            />
+                        </label>
                     ))}
                     <ModalActionWrapper>
-                        <button type="submit" className="btn">
-                            Submit
-                        </button>
                         <button
                             type="button"
                             className="btn"
@@ -184,6 +178,9 @@ export const ConnectPrototypeModal = memo(() => {
                         >
                             Close
                         </button>
+                        <button type="submit" className="btn btn-primary">
+                            Next
+                        </button>
                     </ModalActionWrapper>
                 </form>
             ) : (
@@ -191,7 +188,7 @@ export const ConnectPrototypeModal = memo(() => {
                     <h4>Successfully Submitted!</h4>
                     <p>Please wait untill connected.</p>
                     <button
-                        className="btn"
+                        className="btn btn-primary"
                         onClick={() => {
                             form.setValue('email', '');
                             form.setValue('password', '');
