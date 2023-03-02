@@ -119,12 +119,15 @@ const PrototypeItem = memo((props: PrototypeItemProps) => {
             {/* status */}
             <td>
                 {app ? (
-                    <button className="btn2 btn-sm gap-1 btn-green" onClick={() => clickConnectBtn(proto)}>
+                    <button className="btn2 btn-sm flex-nowrap gap-1 btn-green" onClick={() => clickConnectBtn(proto)}>
                         <GoPrimitiveDot size={16} />
                         <span>{app.connectStatus}</span>
                     </button>
                 ) : (
-                    <button className="btn2 btn-sm gap-1 btn-primary" onClick={() => clickConnectBtn(proto)}>
+                    <button
+                        className="btn2 btn-sm flex-nowrap gap-1 btn-primary"
+                        onClick={() => clickConnectBtn(proto)}
+                    >
                         <GoPlug size={16} />
                         <span>connect</span>
                     </button>
