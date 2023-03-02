@@ -1,19 +1,20 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {AiFillCaretDown} from 'react-icons/ai';
 import {atom, useRecoilState, useRecoilValue} from 'recoil';
+import {getApplicationTags} from '^api/applicationTag.api';
 
 type CategoryDto = {id: number; name: string};
 export const categoriesState = atom<CategoryDto[]>({
     key: 'categories',
     default: [
-        {id: 1, name: '생산성'},
-        {id: 2, name: 'IT'},
-        {id: 3, name: '협업'},
-        {id: 4, name: '커뮤니케이션'},
-        {id: 5, name: 'HR'},
-        {id: 6, name: '개발'},
-        {id: 7, name: '디자인'},
-        {id: 8, name: '기획'},
+        // {id: 1, name: '생산성'},
+        // {id: 2, name: 'IT'},
+        // {id: 3, name: '협업'},
+        // {id: 4, name: '커뮤니케이션'},
+        // {id: 5, name: 'HR'},
+        // {id: 6, name: '개발'},
+        // {id: 7, name: '디자인'},
+        // {id: 8, name: '기획'},
     ],
 });
 
@@ -23,8 +24,14 @@ export const selectedCategoriesState = atom<CategoryDto[]>({
 });
 
 export const FilterCategorySelect = memo(() => {
-    const categories = useRecoilValue(categoriesState);
+    const [categories, setCategories] = useRecoilState(categoriesState);
     const [cateTags, setCateTags] = useRecoilState(selectedCategoriesState);
+
+    console.log(cateTags);
+
+    useEffect(() => {
+        getApplicationTags({}).then((res) => setCategories(res.data.items));
+    }, []);
 
     return (
         <div>

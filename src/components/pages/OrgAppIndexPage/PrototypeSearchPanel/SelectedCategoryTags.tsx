@@ -1,9 +1,16 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
+import {usePrototypeSearch} from '^hooks/useApplicationPrototypes';
 import {selectedCategoriesState} from './FilterCategorySelect';
 
 export const SelectedCategoryTags = memo(() => {
     const cateTags = useRecoilValue(selectedCategoriesState);
+    const {searchPrototypes} = usePrototypeSearch();
+
+    useEffect(() => {
+        const tagIds = cateTags.map((cateTag) => cateTag.id);
+        searchPrototypes({tagIds: tagIds});
+    }, [cateTags]);
 
     return (
         <div className="flex items-center gap-1 flex-wrap">

@@ -53,7 +53,7 @@ export function safeImageSrc(proto: ApplicationPrototypeDto, w: number, h: numbe
 export type FindAllAppPrototypeQuery = FindAllQueryDto<ApplicationPrototypeDto> & {
     isLive?: boolean;
     name?: string;
-    tagId?: number;
+    tagIds?: number[];
 };
 
 export type ApplyToAddDto = {
