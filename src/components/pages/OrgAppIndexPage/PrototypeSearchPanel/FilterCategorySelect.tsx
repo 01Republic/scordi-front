@@ -27,8 +27,6 @@ export const FilterCategorySelect = memo(() => {
     const [categories, setCategories] = useRecoilState(categoriesState);
     const [cateTags, setCateTags] = useRecoilState(selectedCategoriesState);
 
-    console.log(cateTags);
-
     useEffect(() => {
         getApplicationTags({}).then((res) => setCategories(res.data.items));
     }, []);
@@ -43,23 +41,24 @@ export const FilterCategorySelect = memo(() => {
                     <span className="mr-1.5 whitespace-nowrap">filter category</span>
                     <AiFillCaretDown className="w-3 h-3" />
                 </label>
-                <ul tabIndex={0} className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-48">
-                    {categories.map((cateTag, i) => (
+                <ul tabIndex={0} className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box">
+                    {categories.map((category, i) => (
                         <li key={i}>
                             <label className="px-3 py-1.5 bg-white text-gray-500">
                                 <input
                                     type="checkbox"
                                     className="checkbox checkbox-sm checkbox-primary"
                                     onChange={() => {
-                                        const included = cateTags.map((tag) => tag.id).includes(cateTag.id);
+                                        const included = cateTags.map((tag) => tag.id).includes(category.id);
                                         if (included) {
-                                            setCateTags(cateTags.filter((tag) => tag.id !== cateTag.id));
+                                            setCateTags(cateTags.filter((tag) => tag.id !== category.id));
                                         } else {
-                                            setCateTags([...cateTags, cateTag]);
+                                            setCateTags([...cateTags, category]);
                                         }
                                     }}
+                                    checked={!!cateTags.find((tag) => tag.id === category.id)}
                                 />
-                                <span>{cateTag.name}</span>
+                                <span className="whitespace-nowrap">{category.name}</span>
                             </label>
                         </li>
                     ))}
