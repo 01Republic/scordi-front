@@ -4,6 +4,7 @@ import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
 
+// Application Detail Page Breadcrumb
 export const Breadcrumb = memo(() => {
     const router = useRouter();
     const orgId = useRouterIdParamState('id', orgIdParamState);

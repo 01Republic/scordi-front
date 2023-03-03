@@ -3,14 +3,17 @@ import OrgMainLayout from '^layouts/org/mainLayout';
 import {ContentLayout, ContentTabNav} from '^layouts/ContentLayout';
 import {applicationIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {atom, useRecoilValue} from 'recoil';
-import {Breadcrumb, PrototypeHeader} from '../OrgProtoDetailPage';
+import {PrototypeHeader} from './PrototypeHeader';
 import {
-    // TabContentForInformation,
+    TabContentForInformation,
     TabContentForSpend,
     TabContentForInvoices,
     TabContentForHistories,
     TabContentForSettings,
 } from './TabContents';
+import {Badge} from '^components/Badge';
+import {CurrentConnectStatus} from './CurrentConnectStatus';
+import {Breadcrumb} from './Breadcrumb';
 
 export const navTabIndex = atom({
     key: 'ApplicationDetailPageDesktop/NavTabIndex',
@@ -23,7 +26,7 @@ export const ApplicationDetailPageDesktop = memo(() => {
     const tabIndex = useRecoilValue(navTabIndex);
 
     const tabs = [
-        // {label: 'information', Component: TabContentForInformation},
+        {label: 'information', Component: TabContentForInformation},
         {label: 'spend', Component: TabContentForSpend},
         {label: 'invoices', Component: TabContentForInvoices},
         {label: 'histories', Component: TabContentForHistories},
@@ -35,7 +38,10 @@ export const ApplicationDetailPageDesktop = memo(() => {
     return (
         <OrgMainLayout>
             <ContentLayout>
-                <Breadcrumb />
+                <div className="flex justify-between items-baseline">
+                    <Breadcrumb />
+                    <CurrentConnectStatus />
+                </div>
                 <PrototypeHeader />
                 <ContentTabNav resetIndex={true} tabs={tabs.map((tab) => tab.label)} recoilState={navTabIndex} />
 
