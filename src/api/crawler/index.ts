@@ -2,24 +2,45 @@ import {LoginDto, LoginWithVerify, OrgBillingDto, OrgItemDto, OrgProfileDto} fro
 import {api} from '^api/api';
 import {OrgBillingHistoryDto} from '^types/crawler/org-billing-history.dto';
 import {OrgMemberDto} from '^types/crawler/org-member.dto';
+import CryptoJS from 'crypto-js';
 
 /**
  * [크롤러] 서비스 연동 API
  */
+const CRAWLER_SIGN_SECRET = process.env.NEXT_PUBLIC_CRAWLER_SIGN_SECRET as string;
 
 // OK [Step 1] 서비스에서 연동할 조직 목록을 가져오기 *
 // OK [Step 1-1] 조직 목록 가져오기2 (서비스에서 2FA 또는 기기 인증 코드를 요청할때) *
 export function getOrganizationListByCrawlerApi(prototypeId: number, params: LoginDto | LoginWithVerify) {
+    const loginData = JSON.stringify({
+        email: params.email,
+        password: params.password,
+    });
+    const encrypted = CryptoJS.AES.encrypt(loginData, CRAWLER_SIGN_SECRET).toString();
+
     if ((params as any).verificationCode) {
-        return api.get<OrgItemDto[]>(`/crawler/${prototypeId}/organizations/verify`, {params});
+        return api.get<OrgItemDto[]>(`/crawler/${prototypeId}/organizations/verify`, {
+            params: {
+                sign: encrypted,
+                verifycationCode: (params as any).verificationCode,
+            },
+        });
     } else {
-        return api.get<OrgItemDto[]>(`/crawler/${prototypeId}/organizations`, {params});
+        return api.get<OrgItemDto[]>(`/crawler/${prototypeId}/organizations`, {
+            params: {sign: encrypted},
+        });
     }
 }
 
 // [Step 2] 서비스에서 연동할 조직의 세부 정보 가져오기 *
 export function getOrganizationByCrawlerApi(prototypeId: number, name: string, params: LoginDto | LoginWithVerify) {
-    return api.get<OrgProfileDto>(`/crawler/${prototypeId}/organizations/${name}`, {params});
+    const loginData = JSON.stringify({
+        email: params.email,
+        password: params.password,
+    });
+    const encrypted = CryptoJS.AES.encrypt(loginData, CRAWLER_SIGN_SECRET).toString();
+
+    return api.get<OrgProfileDto>(`/crawler/${prototypeId}/organizations/${name}`, {params: {sign: encrypted}});
 }
 
 // 조직 플랜 & 결제주기 정보 가져오기 *
