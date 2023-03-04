@@ -9,6 +9,8 @@ import {useForm} from 'react-hook-form';
 import {FormControlInput} from '^layouts/ContentLayout/FormControlInput';
 import {updateApplicationPrototype} from '^api/applicationPrototype.api';
 import {usePrototypeSearch} from '^hooks/useApplicationPrototypes';
+import {FormControlCheckbox} from '^layouts/ContentLayout/FormControlCheckbox';
+import {FormControlSelect} from '^layouts/ContentLayout/FormControlSelect';
 
 export const editingProtoTargetState = atom<ApplicationPrototypeDto | null>({
     key: 'editingProtoTargetState',
@@ -86,15 +88,15 @@ export const PrototypeEditModal = memo((props: PrototypeEditModalProps) => {
                         />
                         <FormControlInput
                             type="url"
-                            labelTop="Website URL"
-                            placeholder="ex. https://www.github.com"
-                            {...form.register('homepageUrl')}
-                        />
-                        <FormControlInput
-                            type="url"
                             labelTop="Logo image"
                             placeholder="ex. https://www.github.com/favicon.ico"
                             {...form.register('image')}
+                        />
+                        <FormControlInput
+                            type="url"
+                            labelTop="Website URL"
+                            placeholder="ex. https://www.github.com"
+                            {...form.register('homepageUrl')}
                         />
                         <FormControlInput
                             type="url"
@@ -111,48 +113,27 @@ export const PrototypeEditModal = memo((props: PrototypeEditModalProps) => {
 
                         <hr className="py-3" />
 
-                        <div className="form-control w-full mb-3">
-                            <label className="label cursor-pointer">
-                                <span className="label-text">API Supported?</span>
-                                <input
-                                    type="checkbox"
-                                    className="checkbox checkbox-primary"
-                                    {...form.register('isAutoTrackable')}
-                                />
-                            </label>
-                        </div>
-
-                        <div className="form-control w-full mb-3">
-                            <label className="label cursor-pointer">
-                                <span className="label-text">Free-Tier Included?</span>
-                                <input
-                                    type="checkbox"
-                                    className="checkbox checkbox-primary"
-                                    {...form.register('isFreeTierAvailable')}
-                                />
-                            </label>
-                        </div>
-                    </div>
-
-                    <FormControlInput
-                        type="text"
-                        labelTop="Description (Search line)"
-                        placeholder="ex. Github"
-                        {...form.register('desc')}
-                    />
-
-                    <div className="form-control w-full mb-3">
-                        <label className="label">
-                            <span className="label-text">Connect Method</span>
-                        </label>
-
-                        <select className="select select-bordered w-full" {...form.register('connectMethod')}>
-                            {Object.entries(PrototypeConnectMethod).map(([k, v], i) => (
-                                <option key={i} value={v}>
-                                    {k}
-                                </option>
-                            ))}
-                        </select>
+                        <FormControlCheckbox
+                            label="API Supported?"
+                            inputColor="primary"
+                            {...form.register('isAutoTrackable')}
+                        />
+                        <FormControlCheckbox
+                            label="Free-Tier Included?"
+                            inputColor="primary"
+                            {...form.register('isFreeTierAvailable')}
+                        />
+                        <FormControlInput
+                            type="text"
+                            labelTop="Description (Search line)"
+                            placeholder="ex. Github"
+                            {...form.register('desc')}
+                        />
+                        <FormControlSelect
+                            labelTop="Connect Method"
+                            options={Object.entries(PrototypeConnectMethod)}
+                            {...form.register('connectMethod')}
+                        />
                     </div>
 
                     <div className="modal-action">

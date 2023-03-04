@@ -2,6 +2,7 @@ import {memo} from 'react';
 import {ContentPanel, ContentPanelMiniTitle} from '^layouts/ContentLayout';
 import {WithChildren} from '^types/global.type';
 import {useApplicationPrototype} from '^hooks/useApplicationPrototypes';
+import {OutLink} from '^components/OutLink';
 
 export const InfoPanel = memo(() => {
     const [proto] = useApplicationPrototype();
@@ -26,8 +27,12 @@ export const InfoPanel = memo(() => {
                     <Tr label="Category">CategoryCategory</Tr>
                     <Tr label="Sub-Category">CategoryCategory</Tr>
                     <Tr label="Phone">CategoryCategory</Tr>
-                    <Tr label="Website">{proto.desc}</Tr>
-                    <Tr label="Pricing">CategoryCategory</Tr>
+                    <Tr label="Website">
+                        <OutLink href={proto.homepageUrl} />
+                    </Tr>
+                    <Tr label="Pricing">
+                        <OutLink href={proto.pricingPageUrl} />
+                    </Tr>
                 </table>
             </div>
         </ContentPanel>

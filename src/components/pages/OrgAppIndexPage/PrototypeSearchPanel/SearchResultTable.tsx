@@ -16,6 +16,7 @@ import {deleteApplicationPrototype} from '^api/applicationPrototype.api';
 import {errorNotify} from '^utils/toast-notify';
 import {toast} from 'react-toastify';
 import {connectPrototypeModalState, currentPrototypeState} from '^atoms/connectPrototypes.atom';
+import {OutLink} from '^components/OutLink';
 
 export const SearchResultTable = memo(() => {
     const {results: prototypes, mutation} = usePrototypeSearch();
@@ -96,25 +97,14 @@ const PrototypeItem = memo((props: PrototypeItemProps) => {
             <td className="cursor-pointer" onClick={() => router.push(OrgProtoDetailPageRoute.path(orgId, proto.id))}>
                 <div className="flex items-center">
                     <img src={proto.image} alt="" width={24} className="mr-4" />
-                    <span>{proto.name}</span>
+                    <span className="leading-[1.2]">{proto.name}</span>
                 </div>
             </td>
             {/* tagline */}
             <td>{proto.tagline}</td>
             {/* home page url */}
             <td>
-                <a
-                    href={proto.homepageUrl}
-                    target="_blank"
-                    className="link text-gray-400 inline-flex items-center gap-1"
-                >
-                    {proto.homepageUrl && (
-                        <>
-                            {proto.homepageUrl}
-                            <BiLinkExternal size={11} />
-                        </>
-                    )}
-                </a>
+                <OutLink href={proto.homepageUrl} />
             </td>
             {/* status */}
             <td>

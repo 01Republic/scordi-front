@@ -58,15 +58,15 @@ export const PrototypeCreateModal = memo(() => {
                         />
                         <FormControlInput
                             type="url"
-                            labelTop="Website URL"
-                            placeholder="ex. https://www.github.com"
-                            {...form.register('homepageUrl')}
-                        />
-                        <FormControlInput
-                            type="url"
                             labelTop="Logo image"
                             placeholder="ex. https://www.github.com/favicon.ico"
                             {...form.register('image')}
+                        />
+                        <FormControlInput
+                            type="url"
+                            labelTop="Website URL"
+                            placeholder="ex. https://www.github.com"
+                            {...form.register('homepageUrl')}
                         />
                         <FormControlInput
                             type="url"
