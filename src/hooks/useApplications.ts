@@ -10,21 +10,21 @@ import {getApplication} from '^api/application.api';
 export const useApplications = () => useRecoilValue(getApplicationsQuery);
 export const useApplicationsWithParams = (params: FindAllAppsQuery) =>
     useRecoilValue(getApplicationsQueryWithParams(params));
-// export const useApplication = () => useRecoilValue(getApplicationQuery);
-export const useApplication = () => {
-    const router = useRouter();
-    const appId = router.query.appId;
-    const [application, setApplication] = useState<ApplicationDto>(null);
-
-    useEffect(() => {
-        if (!appId || isNaN(appId)) return;
-
-        getApplication(appId)
-            .then((res) => {
-                setApplication(res.data);
-            })
-            .catch(errorNotify);
-    }, [appId]);
-
-    return application;
-};
+export const useApplication = () => useRecoilValue(getApplicationQuery);
+// export const useApplication = () => {
+//     const router = useRouter();
+//     const appId = router.query.appId;
+//     const [application, setApplication] = useState<ApplicationDto | null>(null);
+//
+//     useEffect(() => {
+//         if (!appId || isNaN(appId)) return;
+//
+//         getApplication(appId)
+//             .then((res) => {
+//                 setApplication(res.data);
+//             })
+//             .catch(errorNotify);
+//     }, [appId]);
+//
+//     return application;
+// };
