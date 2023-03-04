@@ -97,7 +97,9 @@ const PrototypeItem = memo((props: PrototypeItemProps) => {
             <td className="cursor-pointer" onClick={() => router.push(OrgProtoDetailPageRoute.path(orgId, proto.id))}>
                 <div className="flex items-center">
                     <img src={proto.image} alt="" width={24} className="mr-4" />
-                    <span className="leading-[1.2]">{proto.name}</span>
+                    <span className="leading-[1.2]" style={{whiteSpace: 'break-spaces'}}>
+                        {proto.name}
+                    </span>
                 </div>
             </td>
             {/* tagline */}

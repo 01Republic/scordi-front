@@ -1,23 +1,18 @@
 import {memo, useEffect, useState} from 'react';
 import {useApplication} from '^hooks/useApplications';
 import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {WithChildren} from '^types/global.type';
 
-export const PrototypeHeader = memo(() => {
+export const ApplicationHeader = memo((props: WithChildren) => {
+    const {children} = props;
     const app = useApplication();
-    const [proto, setProto] = useState<ApplicationPrototypeDto | null>(null);
 
-    useEffect(() => {
-        if (!app) return;
+    if (!app) return <></>;
 
-        setProto(app.prototype);
-    }, [app]);
-
-    if (!proto) return <></>;
-
-    console.log(proto);
+    const proto = app?.prototype;
 
     return (
-        <section id="PrototypeHeader" className="flex mb-10">
+        <section id="PrototypeHeader" className="flex mb-10 justify-between items-center">
             <div className="flex gap-6">
                 {/* logo */}
                 <div>
@@ -28,17 +23,17 @@ export const PrototypeHeader = memo(() => {
                 <div className="flex flex-col justify-between">
                     <p className="text-[2rem] leading-none text-gray-900 font-semibold">{proto.name}</p>
                     <p className="text-lg leading-none text-gray-400 capitalize">
-                        by <span className="text-gray-900">amazon</span>
+                        by <span className="text-gray-900">{proto.companyName}</span>
                     </p>
                 </div>
 
                 {/* one-liner */}
                 <div>
-                    <span className="btn btn-primary btn-sm btn-weekly hover-no capitalize">
-                        Infrastructure-As-A-Service Solutions
-                    </span>
+                    <span className="btn btn-primary btn-sm btn-weekly hover-no capitalize">{proto.tagline}</span>
                 </div>
             </div>
+
+            {children}
         </section>
     );
 });

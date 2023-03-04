@@ -3,7 +3,7 @@ import OrgMainLayout from '^layouts/org/mainLayout';
 import {ContentLayout, ContentTabNav} from '^layouts/ContentLayout';
 import {applicationIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {atom, useRecoilValue} from 'recoil';
-import {PrototypeHeader} from './PrototypeHeader';
+import {ApplicationHeader} from './ApplicationHeader';
 import {
     TabContentForInformation,
     TabContentForSpend,
@@ -40,9 +40,10 @@ export const ApplicationDetailPageDesktop = memo(() => {
             <ContentLayout>
                 <div className="flex justify-between items-baseline">
                     <Breadcrumb />
-                    <CurrentConnectStatus />
                 </div>
-                <PrototypeHeader />
+                <ApplicationHeader>
+                    <CurrentConnectStatus />
+                </ApplicationHeader>
                 <ContentTabNav resetIndex={true} tabs={tabs.map((tab) => tab.label)} recoilState={navTabIndex} />
 
                 <TabContentComponent />
