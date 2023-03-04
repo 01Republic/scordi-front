@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {Fragment, memo} from 'react';
 import OrgMainLayout from '^layouts/org/mainLayout';
 import {ContentLayout, ContentTabNav} from '^layouts/ContentLayout';
 import {applicationIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
@@ -33,7 +33,7 @@ export const ApplicationDetailPageDesktop = memo(() => {
         {label: 'settings', Component: TabContentForSettings},
     ];
 
-    const TabContentComponent = tabs[tabIndex].Component;
+    const TabContentComponent = tabs[tabIndex]?.Component || Fragment;
 
     return (
         <OrgMainLayout>

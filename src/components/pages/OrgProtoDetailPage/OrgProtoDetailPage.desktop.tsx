@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {Fragment, memo} from 'react';
 import OrgMainLayout from '^layouts/org/mainLayout';
 import {ContentLayout, ContentTabNav} from '^layouts/ContentLayout';
 import {orgIdParamState, prototypeIdParamsState, useRouterIdParamState} from '^atoms/common';
@@ -21,20 +21,22 @@ export const OrgProtoDetailPageDesktop = memo(() => {
     useRouterIdParamState('protoId', prototypeIdParamsState);
     const tabIndex = useRecoilValue(navTabIndex);
 
+    const tabs = [
+        {label: 'information', Component: TabContentForInformation},
+        {label: 'spend', Component: TabContentForSpend},
+        {label: 'invoices', Component: TabContentForInvoices},
+    ];
+
+    const TabContentComponent = tabs[tabIndex]?.Component || Fragment;
+
     return (
         <OrgMainLayout>
             <ContentLayout>
                 <Breadcrumb />
                 <PrototypeHeader />
-                <ContentTabNav
-                    resetIndex={true}
-                    tabs={['information', 'spend', 'invoices']}
-                    recoilState={navTabIndex}
-                />
+                <ContentTabNav resetIndex={true} tabs={tabs.map((tab) => tab.label)} recoilState={navTabIndex} />
 
-                {tabIndex === 0 && <TabContentForInformation />}
-                {tabIndex === 1 && <TabContentForSpend />}
-                {tabIndex === 2 && <TabContentForInvoices />}
+                <TabContentComponent />
             </ContentLayout>
         </OrgMainLayout>
     );
