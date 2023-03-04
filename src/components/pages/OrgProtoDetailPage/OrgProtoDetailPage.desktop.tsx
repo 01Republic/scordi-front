@@ -10,6 +10,8 @@ import {
     TabContentForSpend,
 } from './index';
 import {atom, useRecoilValue} from 'recoil';
+import {TabContentForSetting} from '^components/pages/OrgProtoDetailPage/TabContents/TabContentForSetting';
+import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const navTabIndex = atom({
     key: 'Prototypes/NavTabIndex',
@@ -19,6 +21,7 @@ export const navTabIndex = atom({
 export const OrgProtoDetailPageDesktop = memo(() => {
     useRouterIdParamState('id', orgIdParamState);
     useRouterIdParamState('protoId', prototypeIdParamsState);
+    const {currentUser} = useCurrentUser();
     const tabIndex = useRecoilValue(navTabIndex);
 
     const tabs = [
@@ -26,6 +29,10 @@ export const OrgProtoDetailPageDesktop = memo(() => {
         {label: 'spend', Component: TabContentForSpend},
         {label: 'invoices', Component: TabContentForInvoices},
     ];
+
+    if (currentUser && currentUser.isAdmin) {
+        tabs.push({label: 'setting', Component: TabContentForSetting});
+    }
 
     const TabContentComponent = tabs[tabIndex]?.Component || Fragment;
 
