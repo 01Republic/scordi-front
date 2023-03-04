@@ -19,7 +19,7 @@ import {TextInput} from '^components/TextInput';
 import {ProfileImageFileInput} from '^components/ProfileImageFileInput';
 import {updateApplicationPrototype} from '^api/applicationPrototype.api';
 import {toast} from 'react-toastify';
-import {OutLink} from '^components/OutLink';
+import {WysiwygEditor} from '^components/WysiwygEditor';
 
 export const MenuContentForEditPrototype = memo(() => {
     const [proto, mutation] = useApplicationPrototype();
@@ -127,19 +127,6 @@ export const MenuContentForEditPrototype = memo(() => {
                         </ContentPanelInput>
                     </ContentPanelList>
                 </ContentPanel>
-
-                <ContentPanel title="소개 텍스트">
-                    <ContentPanelList>
-                        <ContentPanelItem>
-                            <textarea
-                                className="textarea w-full textarea-bordered"
-                                rows={10}
-                                placeholder="앱을 아직 사용한 적 없는 분들을 대상으로 간단하게 소개하는 글을 입력해주세요."
-                                {...form.register('desc')}
-                            />
-                        </ContentPanelItem>
-                    </ContentPanelList>
-                </ContentPanel>
             </ContentForm>
 
             <ContentPanel title="위험 구역!">
@@ -183,6 +170,7 @@ export const LogoImageFormPanel = memo((props: LogoImageFormPanelProps) => {
     useEffect(() => {
         setInitial((form.getValues('name') ?? '')[0]);
         setLogoUrl(form.getValues('image'));
+        form.setValue('imageFile', undefined);
     }, []);
 
     return (

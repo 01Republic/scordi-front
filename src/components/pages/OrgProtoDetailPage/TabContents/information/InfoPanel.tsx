@@ -16,9 +16,7 @@ export const InfoPanel = memo(() => {
             <div
                 className="text-sm whitespace-pre-line mb-5"
                 dangerouslySetInnerHTML={{
-                    __html: `
-            Amazon Web Services (AWS) began exposing key infrastructure services to businesses in the form of web services -- now widely known as cloud computing. The ultimate benefit of cloud computing, and AWS, is the ability to leverage a new business model and turn capital infrastructure expenses into variable costs. Businesses no longer need to plan and procure servers and other IT resources weeks or months in advance. Using AWS, businesses can take advantage of Amazon's expertise and economies of scale to access resources when their business needs them, delivering results faster and at a lower cost.
-            `.trim(),
+                    __html: proto.desc.trim(),
                 }}
             />
 

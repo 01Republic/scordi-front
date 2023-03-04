@@ -1,4 +1,4 @@
-import React, {FC, memo} from 'react';
+import React, {CSSProperties, FC, memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {PreLoader, PreLoaderProps} from '^components/PreLoader';
 
@@ -79,10 +79,14 @@ export function ContentPanelItemText({text}: {text: string}) {
     );
 }
 
-type ContentPanelItemProps = {};
-export function ContentPanelItem({children}: WithChildren & ContentPanelItemProps) {
+type ContentPanelItemProps = {
+    className?: string;
+    style?: CSSProperties;
+};
+export function ContentPanelItem(props: WithChildren & ContentPanelItemProps) {
+    const {children, className = '', style = {}} = props;
     return (
-        <div className="p-4 border-b border-b-[#dbd6e1]">
+        <div className={`p-4 border-b border-b-[#dbd6e1] ${className}`} style={style}>
             <div className="flex items-center">{children}</div>
         </div>
     );

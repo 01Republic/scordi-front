@@ -13,7 +13,7 @@ export const OrgTopbar = memo(() => {
     if (!currentUser) return <></>;
 
     return (
-        <div className="sticky top-0 navbar bg-white shadow z-[11] flex justify-between">
+        <div className="sticky top-0 navbar bg-white shadow z-[21] flex justify-between">
             <div className="flex">
                 <button className="btn btn-ghost btn-square" onClick={() => setSidebarActive(!sidebarActive)}>
                     {sidebarActive ? (
