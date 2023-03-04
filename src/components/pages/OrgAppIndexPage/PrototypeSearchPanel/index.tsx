@@ -20,7 +20,7 @@ export const PrototypeSearchPanel = memo(() => {
                 <SearchResultTable />
             </ContentPanel>
             <PrototypeCreateModal />
-            <PrototypeEditModal />
+            <PrototypeEditModal searchMutationAfterSave />
         </>
     );
 });

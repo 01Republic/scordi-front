@@ -15,7 +15,12 @@ export const editingProtoTargetState = atom<ApplicationPrototypeDto | null>({
     default: null,
 });
 
-export const PrototypeEditModal = memo(() => {
+interface PrototypeEditModalProps {
+    searchMutationAfterSave?: boolean;
+}
+
+export const PrototypeEditModal = memo((props: PrototypeEditModalProps) => {
+    const {searchMutationAfterSave = false} = props;
     const [protoTarget, setEditingProtoTarget] = useRecoilState(editingProtoTargetState);
     const form = useForm<UpdateDto>();
     const {mutation} = usePrototypeSearch();
@@ -35,7 +40,7 @@ export const PrototypeEditModal = memo(() => {
             if (!protoTarget) return;
             updateApplicationPrototype(protoTarget.id, data).then((res) => {
                 if (res.status === 200) {
-                    mutation();
+                    if (searchMutationAfterSave) mutation();
                     onClose();
                 }
             });
