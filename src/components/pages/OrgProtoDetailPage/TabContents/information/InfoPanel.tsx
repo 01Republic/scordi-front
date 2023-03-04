@@ -24,15 +24,17 @@ export const InfoPanel = memo(() => {
 
             <div className="overflow-x-auto">
                 <table className="table w-full text-sm">
-                    <Tr label="Category">CategoryCategory</Tr>
-                    <Tr label="Sub-Category">CategoryCategory</Tr>
-                    <Tr label="Phone">CategoryCategory</Tr>
-                    <Tr label="Website">
-                        <OutLink href={proto.homepageUrl} />
-                    </Tr>
-                    <Tr label="Pricing">
-                        <OutLink href={proto.pricingPageUrl} />
-                    </Tr>
+                    <tbody>
+                        <Tr label="Category">CategoryCategory</Tr>
+                        <Tr label="Sub-Category">CategoryCategory</Tr>
+                        <Tr label="Phone">CategoryCategory</Tr>
+                        <Tr label="Website">
+                            <OutLink href={proto.homepageUrl} />
+                        </Tr>
+                        <Tr label="Pricing">
+                            <OutLink href={proto.pricingPageUrl} />
+                        </Tr>
+                    </tbody>
                 </table>
             </div>
         </ContentPanel>

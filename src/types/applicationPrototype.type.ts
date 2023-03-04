@@ -11,6 +11,7 @@ export enum PrototypeConnectMethod {
 export type ApplicationPrototypeDto = {
     id: number;
     name: string;
+    searchText: string; // 검색키워드
     desc: string;
     image: string;
     tagline: string; // Tagline
@@ -28,8 +29,9 @@ export type ApplicationPrototypeDto = {
 
 export type CreateApplicationPrototypeRequestDto = {
     name: string; // 서비스명
-    desc: string; // 설명
-    image: string; // 이미지 url
+    desc?: string; // 설명
+    searchText?: string; // 검색키워드
+    image?: string; // 이미지 url
     tagline: string; // Tagline
     homepageUrl: string; // Homepage url
     pricingPageUrl: string; // Pricing Page url

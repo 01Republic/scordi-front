@@ -11,6 +11,7 @@ import {updateApplicationPrototype} from '^api/applicationPrototype.api';
 import {usePrototypeSearch} from '^hooks/useApplicationPrototypes';
 import {FormControlCheckbox} from '^layouts/ContentLayout/FormControlCheckbox';
 import {FormControlSelect} from '^layouts/ContentLayout/FormControlSelect';
+import {FormControlTextArea} from '^layouts/ContentLayout/FormControlTextArea';
 
 export const editingProtoTargetState = atom<ApplicationPrototypeDto | null>({
     key: 'editingProtoTargetState',
@@ -54,6 +55,7 @@ export const PrototypeEditModal = memo((props: PrototypeEditModalProps) => {
         if (!protoTarget) return;
         // 수정과 생성 모두에서 사용하는 인풋
         form.setValue('name', protoTarget.name); // 서비스명
+        form.setValue('searchText', protoTarget.searchText); // 검색키워드
         form.setValue('tagline', protoTarget.tagline); // Tagline
         form.setValue('homepageUrl', protoTarget.homepageUrl); // Homepage url
         form.setValue('image', protoTarget.image); // 이미지 url
@@ -61,10 +63,10 @@ export const PrototypeEditModal = memo((props: PrototypeEditModalProps) => {
         form.setValue('companyName', protoTarget.companyName); // 운영사명
 
         // 아래는 수정 폼에서만 노출되는 인풋
-        form.setValue('connectMethod', protoTarget.connectMethod as PrototypeConnectMethod); // 연동방법
         form.setValue('isAutoTrackable', protoTarget.isAutoTrackable); // API 지원 여부
         form.setValue('isFreeTierAvailable', protoTarget.isFreeTierAvailable); // 프리티어 지원 여부
         form.setValue('desc', protoTarget.desc); // 설명
+        form.setValue('connectMethod', protoTarget.connectMethod as PrototypeConnectMethod); // 연동방법
     }, [protoTarget]);
 
     return (
@@ -74,17 +76,25 @@ export const PrototypeEditModal = memo((props: PrototypeEditModalProps) => {
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                     <div className="py-4">
                         <FormControlInput
+                            autoFocus={true}
                             type="text"
-                            labelTop="App Name"
+                            labelTop="App Name *"
                             placeholder="ex. Github"
-                            {...form.register('name')}
+                            {...form.register('name', {required: true})}
                             required
                         />
                         <FormControlInput
                             type="text"
-                            labelTop="Tagline (Summary)"
-                            placeholder="ex. Github"
-                            {...form.register('tagline')}
+                            labelTop="Tagline (Summary) *"
+                            placeholder="ex. Source code version control system"
+                            {...form.register('tagline', {required: true})}
+                            required
+                        />
+                        <FormControlInput
+                            type="text"
+                            labelTop="Keywords"
+                            placeholder="ex. Github,깃헙,깃허브,git"
+                            {...form.register('searchText')}
                         />
                         <FormControlInput
                             type="url"
@@ -94,24 +104,27 @@ export const PrototypeEditModal = memo((props: PrototypeEditModalProps) => {
                         />
                         <FormControlInput
                             type="url"
-                            labelTop="Website URL"
+                            labelTop="Website URL *"
                             placeholder="ex. https://www.github.com"
-                            {...form.register('homepageUrl')}
+                            {...form.register('homepageUrl', {required: true})}
+                            required
                         />
                         <FormControlInput
                             type="url"
-                            labelTop="Pricing URL"
+                            labelTop="Pricing URL *"
                             placeholder="ex. https://www.github.com"
-                            {...form.register('pricingPageUrl')}
+                            {...form.register('pricingPageUrl', {required: true})}
+                            required
                         />
                         <FormControlInput
                             type="text"
-                            labelTop="Company Name"
+                            labelTop="Company Name *"
                             placeholder="ex. Github, Inc"
-                            {...form.register('companyName')}
+                            {...form.register('companyName', {required: true})}
+                            required
                         />
 
-                        <hr className="py-3" />
+                        <div className="divider">More</div>
 
                         <FormControlCheckbox
                             label="API Supported?"
@@ -123,10 +136,10 @@ export const PrototypeEditModal = memo((props: PrototypeEditModalProps) => {
                             inputColor="primary"
                             {...form.register('isFreeTierAvailable')}
                         />
-                        <FormControlInput
-                            type="text"
-                            labelTop="Description (Search line)"
-                            placeholder="ex. Github"
+                        <FormControlTextArea
+                            labelTop="Introduce"
+                            rows={6}
+                            placeholder="앱을 아직 사용한 적 없는 분들을 대상으로 간단하게 소개하는 글을 입력해주세요."
                             {...form.register('desc')}
                         />
                         <FormControlSelect

@@ -45,16 +45,23 @@ export const PrototypeCreateModal = memo(() => {
                         <FormControlInput
                             autoFocus={true}
                             type="text"
-                            labelTop="App Name"
+                            labelTop="App Name *"
                             placeholder="ex. Github"
-                            {...form.register('name')}
+                            {...form.register('name', {required: true})}
                             required
                         />
                         <FormControlInput
                             type="text"
-                            labelTop="Tagline (Summary)"
-                            placeholder="ex. Github"
-                            {...form.register('tagline')}
+                            labelTop="Tagline (Summary) *"
+                            placeholder="ex. Source code version control system"
+                            {...form.register('tagline', {required: true})}
+                            required
+                        />
+                        <FormControlInput
+                            type="text"
+                            labelTop="Keywords"
+                            placeholder="ex. Github,깃헙,깃허브,git"
+                            {...form.register('searchText')}
                         />
                         <FormControlInput
                             type="url"
@@ -64,21 +71,24 @@ export const PrototypeCreateModal = memo(() => {
                         />
                         <FormControlInput
                             type="url"
-                            labelTop="Website URL"
+                            labelTop="Website URL *"
                             placeholder="ex. https://www.github.com"
-                            {...form.register('homepageUrl')}
+                            {...form.register('homepageUrl', {required: true})}
+                            required
                         />
                         <FormControlInput
                             type="url"
-                            labelTop="Pricing URL"
+                            labelTop="Pricing URL *"
                             placeholder="ex. https://www.github.com"
-                            {...form.register('pricingPageUrl')}
+                            {...form.register('pricingPageUrl', {required: true})}
+                            required
                         />
                         <FormControlInput
                             type="text"
-                            labelTop="Company Name"
+                            labelTop="Company Name *"
                             placeholder="ex. Github, Inc"
-                            {...form.register('companyName')}
+                            {...form.register('companyName', {required: true})}
+                            required
                         />
                     </div>
                     <div className="modal-action">
