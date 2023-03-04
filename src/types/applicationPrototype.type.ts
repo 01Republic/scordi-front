@@ -32,6 +32,7 @@ export type CreateApplicationPrototypeRequestDto = {
     desc?: string; // 설명
     searchText?: string; // 검색키워드
     image?: string; // 이미지 url
+    imageFile?: File; // 이미지 file
     tagline: string; // Tagline
     homepageUrl: string; // Homepage url
     pricingPageUrl: string; // Pricing Page url

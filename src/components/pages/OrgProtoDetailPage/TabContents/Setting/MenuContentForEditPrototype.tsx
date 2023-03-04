@@ -1,7 +1,8 @@
-import {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useApplicationPrototype} from '^hooks/useApplicationPrototypes';
-import {useForm} from 'react-hook-form';
+import {useForm, UseFormReturn} from 'react-hook-form';
 import {
+    ApplicationPrototypeDto,
     PrototypeConnectMethod,
     UpdateApplicationPrototypeRequestDto as UpdateDto,
 } from '^types/applicationPrototype.type';
@@ -15,6 +16,10 @@ import {
     ContentPanelList,
 } from '^layouts/ContentLayout';
 import {TextInput} from '^components/TextInput';
+import {ProfileImageFileInput} from '^components/ProfileImageFileInput';
+import {updateApplicationPrototype} from '^api/applicationPrototype.api';
+import {toast} from 'react-toastify';
+import {OutLink} from '^components/OutLink';
 
 export const MenuContentForEditPrototype = memo(() => {
     const [proto, mutation] = useApplicationPrototype();
@@ -39,7 +44,12 @@ export const MenuContentForEditPrototype = memo(() => {
 
     const onSubmit = (data: UpdateDto) => {
         if (!proto) return;
-        console.log(data);
+        updateApplicationPrototype(proto.id, data).then((res) => {
+            if (res.status === 200) {
+                mutation(undefined);
+                toast.success('Successfully Updated.');
+            }
+        });
     };
 
     return (
@@ -60,14 +70,6 @@ export const MenuContentForEditPrototype = memo(() => {
                                 required={true}
                                 placeholder="ex. Github"
                                 {...form.register('tagline', {required: true})}
-                            />
-                        </ContentPanelInput>
-
-                        <ContentPanelInput title="Logo image" required={true}>
-                            <TextInput
-                                required={true}
-                                placeholder="ex. https://www.github.com/favicon.ico"
-                                {...form.register('image', {required: true})}
                             />
                         </ContentPanelInput>
 
@@ -97,13 +99,15 @@ export const MenuContentForEditPrototype = memo(() => {
                     </ContentPanelList>
                 </ContentPanel>
 
+                <LogoImageFormPanel form={form} proto={proto} />
+
                 <ContentPanel title="세부정보">
                     <ContentPanelList>
                         <ContentPanelInput
                             title="Keyword"
                             text="앱 이름과 함께 검색어로 등록할 키워드들을 쉼표(,) 로 구분하여 입력해주세요."
                         >
-                            <TextInput {...form.register('searchText')} />
+                            <TextInput placeholder="ex. Github,깃헙,깃허브,git" {...form.register('searchText')} />
                         </ContentPanelInput>
 
                         <ContentPanelInput title="API Supported?" text="API 지원 여부">
@@ -161,5 +165,74 @@ export const MenuContentForEditPrototype = memo(() => {
                 </ContentPanelList>
             </ContentPanel>
         </div>
+    );
+});
+
+interface LogoImageFormPanelProps {
+    proto: ApplicationPrototypeDto | undefined;
+    form: UseFormReturn<UpdateDto, any>;
+}
+
+export const LogoImageFormPanel = memo((props: LogoImageFormPanelProps) => {
+    const {form} = props;
+    const [faviconUrl, setFaviconUrl] = useState('');
+    const [initial, setInitial] = useState('');
+    const [logoUrl, setLogoUrl] = useState(form.getValues('image'));
+    const base = `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=128&url=`;
+
+    useEffect(() => {
+        setInitial((form.getValues('name') ?? '')[0]);
+        setLogoUrl(form.getValues('image'));
+    }, []);
+
+    return (
+        <ContentPanel title="로고 이미지">
+            <ContentPanelList>
+                <ContentPanelInput title="<도구> Favicon 추출기" text="웹사이트 주소를 넣으면 favicon 을 추출해줍니다.">
+                    <input
+                        type="text"
+                        className="input input-sm input-bordered w-full"
+                        onChange={(e) => {
+                            const url = e.target.value;
+                            setFaviconUrl(base + url);
+                        }}
+                    />
+                    <div className="pt-3">
+                        <p className="text-sm mb-2">Result:</p>
+                        {faviconUrl && (
+                            <div className="flex gap-4 items-end">
+                                <img src={faviconUrl} className="w-24 border rounded" />
+                                <button
+                                    type="button"
+                                    className="btn btn-sm btn-accent text-white"
+                                    onClick={() => {
+                                        form.setValue('image', faviconUrl);
+                                        setLogoUrl(faviconUrl);
+                                    }}
+                                >
+                                    아래 입력란에 적용
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </ContentPanelInput>
+
+                <ContentPanelInput title="Logo image (URL)" text="로고가 URL 이라면 여기로 입력해주세요.">
+                    <TextInput placeholder="ex. https://www.github.com/favicon.ico" {...form.register('image')} />
+                </ContentPanelInput>
+
+                <ContentPanelInput title="Logo image (File)" text="로고가 파일이라면 여기로 업로드 해주세요.">
+                    <ProfileImageFileInput
+                        imageUrl={logoUrl}
+                        fallbackLetter={initial}
+                        {...form.register('imageFile')}
+                        onChange={(e) => {
+                            const uploadedFiles = e.target.files as FileList;
+                            form.setValue('imageFile', uploadedFiles[0]);
+                        }}
+                    />
+                </ContentPanelInput>
+            </ContentPanelList>
+        </ContentPanel>
     );
 });

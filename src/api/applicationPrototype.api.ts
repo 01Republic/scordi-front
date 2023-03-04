@@ -19,11 +19,15 @@ export const getApplicationPrototype = (id: number) => {
 };
 
 export const createApplicationPrototype = (data: CreateApplicationPrototypeRequestDto) => {
-    return api.post<ApplicationPrototypeDto>(`/${NAMESPACE}`, data);
+    return api.post<ApplicationPrototypeDto>(`/${NAMESPACE}`, data, {
+        headers: {'Content-Type': 'multipart/form-data'},
+    });
 };
 
 export const updateApplicationPrototype = (id: number, data: UpdateApplicationPrototypeRequestDto) => {
-    return api.patch<ApplicationPrototypeDto>(`/${NAMESPACE}/${id}`, data);
+    return api.patch<ApplicationPrototypeDto>(`/${NAMESPACE}/${id}`, data, {
+        headers: {'Content-Type': 'multipart/form-data'},
+    });
 };
 
 export const deleteApplicationPrototype = (id: number) => {

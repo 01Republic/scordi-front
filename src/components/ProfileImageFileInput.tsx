@@ -1,12 +1,4 @@
-import React, {
-    ChangeEvent,
-    ChangeEventHandler,
-    FC,
-    ForwardedRef,
-    forwardRef,
-    InputHTMLAttributes,
-    useState,
-} from 'react';
+import React, {ChangeEventHandler, ForwardedRef, forwardRef, InputHTMLAttributes, useEffect, useState} from 'react';
 import {useId} from 'react-id-generator';
 
 interface ProfileImageFileInputProps extends InputHTMLAttributes<any> {
@@ -19,6 +11,10 @@ export const ProfileImageFileInput = forwardRef((props: ProfileImageFileInputPro
     const [url, setUrl] = useState(imageUrl);
     const [isHover, setHovered] = useState(false);
     const [id] = useId(1, 'profileImageInput');
+
+    useEffect(() => {
+        setUrl(imageUrl);
+    }, [imageUrl]);
 
     const onChangeHandler: ChangeEventHandler<HTMLInputElement> = (e) => {
         const uploadedFile = e.target.files![0];
