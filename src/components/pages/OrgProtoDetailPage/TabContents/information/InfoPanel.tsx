@@ -4,7 +4,7 @@ import {WithChildren} from '^types/global.type';
 import {useApplicationPrototype} from '^hooks/useApplicationPrototypes';
 
 export const InfoPanel = memo(() => {
-    const proto = useApplicationPrototype();
+    const [proto] = useApplicationPrototype();
 
     if (!proto) return <></>;
 

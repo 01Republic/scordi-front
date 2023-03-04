@@ -7,7 +7,7 @@ import {useRouter} from 'next/router';
 export const Breadcrumb = memo(() => {
     const router = useRouter();
     const orgId = useRouterIdParamState('id', orgIdParamState);
-    const proto = useApplicationPrototype();
+    const [proto] = useApplicationPrototype();
 
     return (
         <section className="text-sm breadcrumbs mb-5">

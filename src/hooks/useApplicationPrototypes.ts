@@ -50,7 +50,8 @@ export const usePrototypeSearch = () => {
     return {results, searchPrototypes, params, mutation};
 };
 
-export const useApplicationPrototype = () => useRecoilValue(getPrototypeQuery);
+// export const useApplicationPrototype = () => useRecoilValue(getPrototypeQuery);
+export const useApplicationPrototype = () => useRecoilState(getPrototypeQuery);
 
 // export const useApplicationPrototypes2 = (deps: any[]) => {
 //     const [page, setPage] = useState<number>(0);
@@ -140,7 +141,7 @@ export const useCreateFlow = () => {
     const prototypeId = Number(router.query.prototypeId);
     const planId = Number(router.query.planId);
     const cycleId = Number(router.query.cycleId);
-    const prototype = useApplicationPrototype();
+    const [prototype] = useApplicationPrototype();
     const planHook = usePaymentPlanForCreateFlow(prototype, planId);
     const cycleHook = useBillingCycleForCreateFlow(planHook.paymentPlan, cycleId);
     const setPrototypeIdParam = useSetRecoilState(prototypeIdParamsState);

@@ -3,7 +3,7 @@ import {ContentPanel, ContentPanelMiniTitle} from '^layouts/ContentLayout';
 import {useApplicationPrototype} from '^hooks/useApplicationPrototypes';
 
 export const ConnectPanel = memo(() => {
-    const proto = useApplicationPrototype();
+    const [proto] = useApplicationPrototype();
 
     if (!proto) return <></>;
 

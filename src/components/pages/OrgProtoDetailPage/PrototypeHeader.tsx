@@ -1,9 +1,13 @@
-import {memo} from 'react';
+import {memo, useEffect} from 'react';
 import {prototypeIdParamsState, useRouterIdParamState} from '^atoms/common';
 import {useApplicationPrototype} from '^hooks/useApplicationPrototypes';
 
 export const PrototypeHeader = memo(() => {
-    const proto = useApplicationPrototype();
+    const [proto, mutation] = useApplicationPrototype();
+
+    useEffect(() => {
+        mutation(undefined);
+    }, []);
 
     if (!proto) return <></>;
 

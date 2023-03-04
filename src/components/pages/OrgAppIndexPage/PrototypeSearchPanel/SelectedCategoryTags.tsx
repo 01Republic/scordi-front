@@ -1,8 +1,8 @@
 import React, {memo, useCallback, useEffect} from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState} from 'recoil';
 import {usePrototypeSearch} from '^hooks/useApplicationPrototypes';
 import {selectedCategoriesState} from './FilterCategorySelect';
-import {AiOutlineCloseCircle, AiOutlineTags} from 'react-icons/ai';
+import {AiOutlineCloseCircle} from 'react-icons/ai';
 
 export const SelectedCategoryTags = memo(() => {
     const [cateTags, setCateTags] = useRecoilState(selectedCategoriesState);
