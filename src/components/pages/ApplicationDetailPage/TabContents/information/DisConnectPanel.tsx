@@ -22,15 +22,12 @@ export const DisConnectPanel = memo(() => {
             confirmButtonText: 'Disconnect',
         }).then((result) => {
             console.log(result);
+            if (!result.isConfirmed) return;
             destroyApplication(id)
                 .then((res) => {
-                    if (result.isConfirmed) {
-                        Swal.fire('Disconnect!', 'Please go to the site and cancel the subscription.', 'success').then(
-                            function () {
-                                router.push(OrgAppsIndexPageRoute.path(id));
-                            },
-                        );
-                    }
+                    Swal.fire('Disconnect!', 'Please go to the site and cancel the subscription.', 'success').then(() =>
+                        router.push(OrgAppsIndexPageRoute.path(id)),
+                    );
                 })
                 .catch((error) => {
                     if (error.code === 'ERR_BAD_REQUEST') {

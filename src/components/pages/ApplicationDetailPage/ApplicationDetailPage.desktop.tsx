@@ -13,6 +13,7 @@ import {
 } from './TabContents';
 import {CurrentConnectStatus} from './CurrentConnectStatus';
 import {Breadcrumb} from './Breadcrumb';
+import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const navTabIndex = atom({
     key: 'ApplicationDetailPageDesktop/NavTabIndex',
@@ -22,6 +23,7 @@ export const navTabIndex = atom({
 export const ApplicationDetailPageDesktop = memo(() => {
     useRouterIdParamState('id', orgIdParamState);
     useRouterIdParamState('appId', applicationIdParamState);
+    const {currentUser} = useCurrentUser();
     const tabIndex = useRecoilValue(navTabIndex);
 
     const tabs = [
@@ -29,8 +31,11 @@ export const ApplicationDetailPageDesktop = memo(() => {
         {label: 'spend', Component: TabContentForSpend},
         {label: 'invoices', Component: TabContentForInvoices},
         {label: 'histories', Component: TabContentForHistories},
-        {label: 'settings', Component: TabContentForSettings},
     ];
+
+    if (currentUser && currentUser.isAdmin) {
+        tabs.push({label: 'settings (admin only)', Component: TabContentForSettings});
+    }
 
     const TabContentComponent = tabs[tabIndex]?.Component || Fragment;
 
