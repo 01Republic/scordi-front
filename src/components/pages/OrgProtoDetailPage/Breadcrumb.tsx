@@ -17,6 +17,9 @@ export const Breadcrumb = memo(() => {
                         Apps
                     </a>
                 </li>
+                <li>
+                    <span className="text-gray-400">Integrations</span>
+                </li>
                 <li>{proto && proto.name}</li>
             </ul>
         </section>
