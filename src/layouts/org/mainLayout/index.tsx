@@ -11,6 +11,7 @@ import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {ApprovalStatus, MembershipLevel} from '^types/membership.type';
 import {PreLoader} from '^components/PreLoader';
 import {useCurrentUser} from '^hooks/useCurrentUser';
+import {WebPush2} from '^components/webPush/WebPush2';
 
 interface OrgMainLayoutProps {
     org?: OrganizationDto | undefined;
@@ -107,6 +108,8 @@ const OrgMainLayout = ({children}: OrgMainLayoutProps) => {
             <div className="drawer-side">
                 <label htmlFor="drawer" className="drawer-overlay" />
             </div>
+
+            <WebPush2 />
         </div>
     );
 };

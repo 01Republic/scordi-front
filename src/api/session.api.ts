@@ -1,4 +1,4 @@
-import {UsersWebpushRegisterDto, UsersWebpushTestDto} from './../types/user.type';
+import {CreateUserDeviceRequestDto, UsersWebpushRegisterDto, UsersWebpushTestDto} from './../types/user.type';
 import {
     JwtContainer,
     UserDto,
@@ -41,8 +41,13 @@ export const getGoogleUserData = (accessToken: string) => {
     return axios.get<GoogleSignedUserData>(url, {headers});
 };
 
+// TODO: 이 함수는 만료되었습니다. 이 엔드포인트는 서버에서 제거될 예정입니다. 아래 registerUsersWebpushDevice 를 사용해주세요.
 export const patchUsersWebpushRegister = (data: UsersWebpushRegisterDto) => {
     return api.patch('/users/webpush/register', data);
+};
+
+export const registerUsersWebpushDevice = (data: CreateUserDeviceRequestDto) => {
+    return api.post('/users/webpush/devices', data);
 };
 
 export const postUserWebpushTest = () => {

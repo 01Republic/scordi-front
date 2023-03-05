@@ -14,7 +14,7 @@ import {
 import AOS from 'aos';
 import styles from '../styles/Home.module.css';
 import 'aos/dist/aos.css';
-import {WebPush} from '^components/webPush';
+// import {WebPush} from '^components/webPush';
 
 const LandingPage1: NextPage = () => {
     const paneWidth = '1050px';
@@ -34,7 +34,7 @@ const LandingPage1: NextPage = () => {
 
             <div>
                 <LandingPageNavBar />
-                <WebPush />
+                {/*<WebPush />*/}
 
                 {/* 헤딩 */}
                 <div className="pt-24">

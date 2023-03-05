@@ -75,3 +75,18 @@ export type UsersWebpushTestDto = {
     code: string;
     message: string;
 };
+
+export type UserDeviceDto = {
+    id: number; // 아이디
+    userId: number; // 회원 ID
+    isMobile: boolean; // 모바일여부
+    fcmToken: string; // FCM 토큰
+    createdAt: Date; // 생성일시
+    updatedAt: Date; // 수정일시
+    user?: UserDto; // 회원
+};
+
+export type CreateUserDeviceRequestDto = {
+    isMobile: boolean; // 모바일여부
+    fcmToken: string; // FCM 토큰
+};
