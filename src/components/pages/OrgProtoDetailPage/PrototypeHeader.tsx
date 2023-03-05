@@ -1,18 +1,37 @@
-import {memo, useEffect} from 'react';
-import {prototypeIdParamsState, useRouterIdParamState} from '^atoms/common';
+import {memo, useEffect, useState} from 'react';
+import {orgIdParamState, prototypeIdParamsState, useRouterIdParamState} from '^atoms/common';
 import {useApplicationPrototype} from '^hooks/useApplicationPrototypes';
+import {WithChildren} from '^types/global.type';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {getApplications} from '^api/application.api';
+import {errorNotify} from '^utils/toast-notify';
+import {subscriptionsForThisPrototypeAtom} from './OrgProtoDetailPage.desktop';
 
-export const PrototypeHeader = memo(() => {
+export const PrototypeHeader = memo((props: WithChildren) => {
+    const {children} = props;
+    const organizationId = useRecoilValue(orgIdParamState);
     const [proto, mutation] = useApplicationPrototype();
+    const [apps, setApps] = useRecoilState(subscriptionsForThisPrototypeAtom);
 
     useEffect(() => {
         mutation(undefined);
     }, []);
 
+    useEffect(() => {
+        if (!organizationId || isNaN(organizationId)) return;
+        if (!proto) return;
+
+        const where = {organizationId, prototypeId: proto.id};
+        getApplications({where})
+            .then((res) => res.data.items)
+            .then(setApps)
+            .catch(errorNotify);
+    }, [organizationId, proto]);
+
     if (!proto) return <></>;
 
     return (
-        <section id="PrototypeHeader" className="flex mb-10">
+        <section id="PrototypeHeader" className="flex mb-10 justify-between items-center">
             <div className="flex gap-6">
                 {/* logo */}
                 <div>
@@ -31,6 +50,12 @@ export const PrototypeHeader = memo(() => {
                 <div>
                     <span className="btn btn-primary btn-sm btn-weekly hover-no capitalize">{proto.tagline}</span>
                 </div>
+            </div>
+
+            <div>
+                <p className="capitalize text-gray-500 underline cursor-default">
+                    now {apps.length} subscription exist.
+                </p>
             </div>
         </section>
     );

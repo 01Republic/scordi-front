@@ -11,7 +11,6 @@ import {
     TabContentForHistories,
     TabContentForSettings,
 } from './TabContents';
-import {Badge} from '^components/Badge';
 import {CurrentConnectStatus} from './CurrentConnectStatus';
 import {Breadcrumb} from './Breadcrumb';
 

@@ -1,33 +1,38 @@
 import {memo} from 'react';
 import {ContentPanel, ContentPanelMiniTitle} from '^layouts/ContentLayout';
 import {WithChildren} from '^types/global.type';
-import {useApplicationPrototype} from '^hooks/useApplicationPrototypes';
+import {useApplication} from '^hooks/useApplications';
+import {OutLink} from '^components/OutLink';
 
 export const InfoPanel = memo(() => {
-    const [proto] = useApplicationPrototype();
+    const application = useApplication();
 
-    if (!proto) return <></>;
+    if (!application) return <></>;
+
+    const {prototype} = application;
 
     return (
         <ContentPanel>
-            <ContentPanelMiniTitle>Description</ContentPanelMiniTitle>
+            <ContentPanelMiniTitle>Introduce</ContentPanelMiniTitle>
 
             <div
                 className="text-sm whitespace-pre-line mb-5"
-                dangerouslySetInnerHTML={{
-                    __html: `
-            Amazon Web Services (AWS) began exposing key infrastructure services to businesses in the form of web services -- now widely known as cloud computing. The ultimate benefit of cloud computing, and AWS, is the ability to leverage a new business model and turn capital infrastructure expenses into variable costs. Businesses no longer need to plan and procure servers and other IT resources weeks or months in advance. Using AWS, businesses can take advantage of Amazon's expertise and economies of scale to access resources when their business needs them, delivering results faster and at a lower cost.
-            `.trim(),
-                }}
+                dangerouslySetInnerHTML={{__html: prototype.desc.trim()}}
             />
 
             <div className="overflow-x-auto">
                 <table className="table w-full text-sm">
-                    <Tr label="Category">CategoryCategory</Tr>
-                    <Tr label="Sub-Category">CategoryCategory</Tr>
-                    <Tr label="Phone">CategoryCategory</Tr>
-                    <Tr label="Website">{proto.desc}</Tr>
-                    <Tr label="Pricing">CategoryCategory</Tr>
+                    <tbody>
+                        <Tr label="Category">CategoryCategory</Tr>
+                        <Tr label="Sub-Category">CategoryCategory</Tr>
+                        <Tr label="Phone">CategoryCategory</Tr>
+                        <Tr label="Website">
+                            <OutLink href={prototype.homepageUrl} />
+                        </Tr>
+                        <Tr label="Pricing">
+                            <OutLink href={prototype.pricingPageUrl} />
+                        </Tr>
+                    </tbody>
                 </table>
             </div>
         </ContentPanel>

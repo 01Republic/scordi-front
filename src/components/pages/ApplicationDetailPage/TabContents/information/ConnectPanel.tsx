@@ -1,11 +1,14 @@
 import {memo} from 'react';
 import {ContentPanel, ContentPanelMiniTitle} from '^layouts/ContentLayout';
 import {useApplicationPrototype} from '^hooks/useApplicationPrototypes';
+import {useApplication} from '^hooks/useApplications';
 
 export const ConnectPanel = memo(() => {
-    const [proto] = useApplicationPrototype();
+    const application = useApplication();
 
-    if (!proto) return <></>;
+    if (!application) return <></>;
+
+    const {prototype} = application;
 
     const connectionDesc = `
             We use app connections to measure app activity and usage.

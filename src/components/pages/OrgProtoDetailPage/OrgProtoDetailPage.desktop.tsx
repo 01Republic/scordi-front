@@ -12,10 +12,16 @@ import {
 import {atom, useRecoilValue} from 'recoil';
 import {TabContentForSetting} from '^components/pages/OrgProtoDetailPage/TabContents/TabContentForSetting';
 import {useCurrentUser} from '^hooks/useCurrentUser';
+import {ApplicationDto} from '^types/application.type';
 
 export const navTabIndex = atom({
     key: 'Prototypes/NavTabIndex',
     default: 0,
+});
+
+export const subscriptionsForThisPrototypeAtom = atom<ApplicationDto[]>({
+    key: 'subscriptionsForThisPrototypeAtom',
+    default: [],
 });
 
 export const OrgProtoDetailPageDesktop = memo(() => {
