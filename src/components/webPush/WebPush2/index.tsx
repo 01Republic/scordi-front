@@ -56,6 +56,8 @@ export const WebPush2 = memo(() => {
         //포그라운드 메시지 수신
         onMessage(messaging, (payload) => {
             const notification = payload.notification!;
+            payload.data ||= {} as {[p: string]: string};
+            if (payload.fcmOptions?.link) payload.data.link = payload.fcmOptions.link;
             new Notification(`${notification.title}`, {
                 body: notification.body,
                 image: notification.image,

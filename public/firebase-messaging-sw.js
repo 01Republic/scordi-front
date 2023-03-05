@@ -17,15 +17,17 @@ const scordiIcon = 'https://payplo-service.s3.ap-northeast-2.amazonaws.com/email
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 if (firebase.messaging.isSupported()) {
-    console.log('firebaseConfig', firebaseConfig);
     const messaging = firebase.messaging(firebaseApp);
 
     //백그라운드 서비스워커 설정
     messaging.onBackgroundMessage((payload) => {
-        console.log('[firebase-messaging-sw.js] Received background message ', payload);
+        // 1. push 서비스가 메시지를 받았을때 트리거하는 이벤트
+        console.log('🦊===>', payload);
         const notification = payload.notification;
+        payload.data ||= {};
+        if (payload.fcmOptions?.link) payload.data.link = payload.fcmOptions.link;
         // Customize notification here
-        self.registration.showNotification(`[BG] ${notification.title}`, {
+        self.registration.showNotification(`${notification.title}`, {
             body: notification.body,
             image: notification.image,
             icon: notification.icon || scordiIcon,
@@ -35,3 +37,24 @@ if (firebase.messaging.isSupported()) {
         });
     });
 }
+
+//유저가 webpush를 클릭했을때 발생하는 이벤트
+self.addEventListener('notificationclick', function (event) {
+    // 1. push 서비스가 메시지를 받았을때 트리거하는 이벤트
+    console.log('🦊===>', event);
+    const url = event?.notification?.data?.link;
+    if (!url) return;
+
+    event.waitUntil(
+        clients.matchAll({type: 'window'}).then((windowClients) => {
+            // Check if there is already a window/tab open with the target URL
+            const client = windowClients.find((client) => client.url === url && 'focus' in client);
+            if (client) return client.focus();
+
+            // If not, then open the target URL in a new window/tab.
+            if (clients.openWindow) {
+                return clients.openWindow(url);
+            }
+        }),
+    );
+});
