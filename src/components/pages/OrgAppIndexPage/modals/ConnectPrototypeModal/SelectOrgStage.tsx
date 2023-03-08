@@ -5,6 +5,7 @@ import {LoginWithOrgs} from '^types/crawler';
 import Swal from 'sweetalert2';
 import {getOrganizationByCrawlerApi} from '^api/crawler';
 import {PreLoaderSm} from '^components/PreLoaderSm';
+import {OutLink} from '^components/OutLink';
 
 export const SelectOrgStage = memo(() => {
     const {
@@ -58,38 +59,79 @@ export const SelectOrgStage = memo(() => {
             .finally(() => setIsLoading(false));
     };
 
+    const backButtonClick = () => {
+        setCurrentStage(ConnectModalStage.AuthFormStage);
+    };
+
     return (
         <form className="flex flex-col mb-4 gap-y-4" onSubmit={selectOrgForm.handleSubmit(submitOrg)}>
-            {typeof checkTeams === 'object' ? (
-                checkTeams.map((team) => (
-                    <div key={team.name} className="flex flex-col gap-y-4">
-                        <h4>Select your Organization</h4>
-                        <label
-                            className="label cursor-pointer border border-indigo-300 rounded-xl shadow hover:shadow-lg p-3"
-                            htmlFor={team.name}
-                        >
-                            <span className="label-text text-lg">{team.name}</span>
-                            <input
-                                id={team.name}
-                                value={team.name}
-                                type="radio"
-                                className="radio radio-primary"
-                                {...selectOrgForm.register('organizationName')}
-                            />
-                        </label>
+            {/* 조회된 조직이 하나도 없을 때 */}
+            {checkTeams.length === 0 && (
+                <>
+                    <div className="flex flex-col gap-y-4">
+                        <h4>There's no organization to show</h4>
                     </div>
-                ))
-            ) : (
-                <h4>There's no organization to show</h4>
+
+                    <ModalActionWrapper>
+                        <button type="button" className="btn mr-auto" onClick={backButtonClick}>
+                            Back
+                        </button>
+                        <button type="button" className="btn" onClick={closeModal}>
+                            Close
+                        </button>
+                    </ModalActionWrapper>
+                </>
             )}
-            <ModalActionWrapper>
-                <button type="button" className="btn" onClick={closeModal}>
-                    Close
-                </button>
-                <button type="submit" className="btn btn-primary">
-                    Next
-                </button>
-            </ModalActionWrapper>
+
+            {/* 조회된 조직이 한 개 이상 있을 때 */}
+            {checkTeams.length > 0 && (
+                <>
+                    <h4>Select your Organization</h4>
+                    <div className="flex flex-col gap-y-2">
+                        {checkTeams.map((team, i) => (
+                            <label
+                                className="label cursor-pointer border border-indigo-100 rounded-xl shadow hover:shadow-lg p-3"
+                                htmlFor={team.name}
+                                key={i}
+                            >
+                                <div className="flex gap-3 items-center">
+                                    <img src={team.image} className="w-7" />
+                                    <div className="flex flex-col">
+                                        <span className="label-text font-semibold text-gray-500">{team.name}</span>
+                                        <p className="text-xs leading-none">
+                                            <small>
+                                                <OutLink
+                                                    href={`${team.profileUrl}`}
+                                                    text={`Open in ${currentPrototype.name}`}
+                                                />
+                                            </small>
+                                        </p>
+                                    </div>
+                                </div>
+                                <input
+                                    id={team.name}
+                                    value={team.name}
+                                    type="radio"
+                                    className="radio radio-primary"
+                                    {...selectOrgForm.register('organizationName')}
+                                />
+                            </label>
+                        ))}
+                    </div>
+
+                    <ModalActionWrapper>
+                        <button type="button" className="btn mr-auto" onClick={backButtonClick}>
+                            Back
+                        </button>
+                        <button type="button" className="btn" onClick={closeModal}>
+                            Close
+                        </button>
+                        <button type="submit" className="btn btn-primary">
+                            Next
+                        </button>
+                    </ModalActionWrapper>
+                </>
+            )}
         </form>
     );
 });
