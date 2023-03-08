@@ -31,6 +31,7 @@ export const AuthFormStage = memo(() => {
         closeModal,
     } = useConnectPrototypeModalState();
 
+    if (isLoading) return <PreLoaderSm />;
     if (currentPrototype === null) return <></>;
     const orgName = currentPrototype.name;
 
@@ -64,8 +65,6 @@ export const AuthFormStage = memo(() => {
             })
             .finally(() => setIsLoading(false));
     };
-
-    if (isLoading) return <PreLoaderSm />;
 
     return (
         <form onSubmit={authForm.handleSubmit(startConnectingProtoType)} className="pt-4">

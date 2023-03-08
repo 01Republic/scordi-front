@@ -18,6 +18,9 @@ export const currentPrototypeState = atom<ApplicationPrototypeDto | null>({
 
 // 연동 모달의 진행 단계
 export const connectModalStageState = atom({
+// 1 = AuthFormStage
+// 2 = SelectOrgStage
+// 3 = SuccessfullySubmitted
     key: 'connectModalStageState',
     default: 1,
 });
