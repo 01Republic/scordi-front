@@ -11,20 +11,25 @@ import {
     connectModalStageState,
     connectPrototypeModalState,
     currentPrototypeState,
+    useConnectPrototypeModalState,
 } from '^atoms/connectPrototypes.atom';
 import {getOrganizationListByCrawlerApi} from '^api/crawler';
 import {errorNotify} from '^utils/toast-notify';
 import {PreLoaderSm} from '^components/PreLoaderSm';
 
 export const AuthFormStage = memo(() => {
-    const form = useForm<LoginDto | LoginWithVerify>();
-    const [isConnectModalOpen, setIsConnectModalOpen] = useRecoilState(connectPrototypeModalState);
-    const [currentPrototype] = useRecoilState(currentPrototypeState);
-    const [currentStage, setCurrentStage] = useRecoilState(connectModalStageState);
-    const [isLoading, setIsLoading] = useRecoilState(connectModalIsLoadingState);
-    const [userInfo, setUserInfo] = useRecoilState(connectModalAuthInfoState);
-    const [isCodeNeeded, setIsCodeNeeded] = useState(false);
-    const [checkTeams, setCheckTeams] = useRecoilState(connectModalConnectableOrgListState);
+    const {
+        authForm,
+        currentPrototype,
+        setCurrentStage,
+        isLoading,
+        setIsLoading,
+        setUserInfo,
+        isCodeNeeded,
+        setIsCodeNeeded,
+        setCheckTeams,
+        closeModal,
+    } = useConnectPrototypeModalState();
 
     if (currentPrototype === null) return <></>;
     const orgName = currentPrototype.name;
@@ -42,7 +47,7 @@ export const AuthFormStage = memo(() => {
                 console.log('통신성공', res);
                 setCheckTeams(res.data);
                 setCurrentStage(2);
-                form.resetField('verificationCode');
+                authForm.resetField('verificationCode');
             })
             .catch((err) => {
                 switch (err?.response?.data?.code) {
@@ -60,21 +65,12 @@ export const AuthFormStage = memo(() => {
             .finally(() => setIsLoading(false));
     };
 
-    const closeModal = () => {
-        form.resetField('email');
-        form.resetField('password');
-        form.resetField('verificationCode');
-        setIsConnectModalOpen(false);
-        setIsCodeNeeded(false);
-        setCurrentStage(1);
-    };
-
     if (isLoading) return <PreLoaderSm />;
 
     return (
-        <form onSubmit={form.handleSubmit(startConnectingProtoType)} className="pt-4">
+        <form onSubmit={authForm.handleSubmit(startConnectingProtoType)} className="pt-4">
             <div className="flex items-center mb-4">
-                <TextInput id="email" label={`${orgName} ID`} required type="email" {...form.register('email')} />
+                <TextInput id="email" label={`${orgName} ID`} required type="email" {...authForm.register('email')} />
             </div>
             <div className="flex items-center mb-4">
                 <TextInput
@@ -82,7 +78,7 @@ export const AuthFormStage = memo(() => {
                     label={`${orgName} PW`}
                     type="password"
                     required
-                    {...form.register('password')}
+                    {...authForm.register('password')}
                 />
             </div>
             {isCodeNeeded && (
@@ -93,7 +89,7 @@ export const AuthFormStage = memo(() => {
                         type="text"
                         required
                         placeholder="Check your email and get your megic code"
-                        {...form.register('verificationCode')}
+                        {...authForm.register('verificationCode')}
                     />
                 </div>
             )}

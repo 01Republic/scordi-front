@@ -1,62 +1,27 @@
-import {memo, useState} from 'react';
-import {useForm} from 'react-hook-form';
-import {toast} from 'react-toastify';
-import {useRecoilState} from 'recoil';
+import {memo} from 'react';
 import Swal from 'sweetalert2';
-import {getOrganizationByCrawlerApi, getOrganizationListByCrawlerApi} from '^api/crawler';
-import {connectPrototypeModalState, currentPrototypeState} from '^atoms/connectPrototypes.atom';
+import {getOrganizationByCrawlerApi} from '^api/crawler';
+import {useConnectPrototypeModalState} from '^atoms/connectPrototypes.atom';
 import {Modal, ModalActionWrapper} from '^components/Modal';
-import {PreLoaderSm} from '^components/PreLoaderSm';
-import {TextInput} from '^components/TextInput';
-import {LoginDto, LoginWithOrgs, LoginWithVerify, OrgItemDto} from '^types/crawler';
+import {LoginWithOrgs} from '^types/crawler';
 import {errorNotify} from '^utils/toast-notify';
+import {AuthFormStage} from './ConnectPrototypeModal/AuthFormStage';
 
 export const ConnectPrototypeModal = memo(() => {
-    const loginForm = useForm<LoginDto | LoginWithVerify>();
-    const selectOrgForm = useForm<LoginWithOrgs>();
-    const [isConnectModalOpen, setIsConnectModalOpen] = useRecoilState(connectPrototypeModalState);
-    const [currentPrototype] = useRecoilState(currentPrototypeState);
-    const [isCodeNeeded, setIsCodeNeeded] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-    const [userInfo, setUserInfo] = useState<LoginDto | null>();
-    const [checkTeams, setCheckTeams] = useState<OrgItemDto[]>([]);
-    const [currentStage, setCurrentStage] = useState(1);
+    const {
+        selectOrgForm,
+        isConnectModalOpen,
+        currentPrototype,
+        currentStage,
+        setCurrentStage,
+        setIsLoading,
+        userInfo,
+        checkTeams,
+        closeModal,
+    } = useConnectPrototypeModalState();
 
     if (currentPrototype === null) return <></>;
     const orgName = currentPrototype.name;
-
-    const startConnectingProtoType = (params: LoginDto | LoginWithVerify) => {
-        setIsLoading(true);
-        setIsCodeNeeded(false);
-        setUserInfo({
-            email: params.email,
-            password: params.password,
-        });
-
-        getOrganizationListByCrawlerApi(currentPrototype.id, params)
-            .then((res) => {
-                console.log('통신성공', res, checkTeams.length);
-                setCheckTeams(res.data);
-                setCurrentStage(2);
-                loginForm.resetField('verificationCode');
-            })
-            .catch((err) => {
-                if (err.response.data) {
-                    const {code, message} = err.response.data;
-                    if (code === 'DeviseVerificationError') {
-                        setIsCodeNeeded(true);
-                        toast.error(message);
-                    }
-                    if (code === 'AvailableOrgNotFoundError') {
-                        toast.error(message);
-                    }
-                    console.log('에러!!!!!!', err);
-                } else {
-                    errorNotify(err);
-                }
-            })
-            .finally(() => setIsLoading(false));
-    };
 
     const submitOrg = (params: LoginWithOrgs) => {
         if (!params.organizationName) {
@@ -81,60 +46,10 @@ export const ConnectPrototypeModal = memo(() => {
         }
     };
 
-    const closeModal = () => {
-        loginForm.setValue('email', '');
-        loginForm.setValue('password', '');
-        loginForm.resetField('verificationCode');
-        setIsConnectModalOpen(false);
-        setIsCodeNeeded(false);
-        setCurrentStage(1);
-    };
-
     return (
         <Modal type={'info'} isOpen={isConnectModalOpen} title={`Connect ${orgName}`}>
-            {isLoading ? (
-                <PreLoaderSm />
-            ) : currentStage === 1 ? (
-                <form onSubmit={loginForm.handleSubmit(startConnectingProtoType)} className="pt-4">
-                    <div className="flex items-center mb-4">
-                        <TextInput
-                            id="email"
-                            label={`${orgName} ID`}
-                            required
-                            type="email"
-                            {...loginForm.register('email')}
-                        />
-                    </div>
-                    <div className="flex items-center mb-4">
-                        <TextInput
-                            id="password"
-                            label={`${orgName} PW`}
-                            type="password"
-                            required
-                            {...loginForm.register('password')}
-                        />
-                    </div>
-                    {isCodeNeeded && (
-                        <div className="flex mb-4">
-                            <TextInput
-                                id="verificationCode"
-                                label={`${orgName} Verification Code`}
-                                type="text"
-                                required
-                                placeholder="Check your email and get your megic code"
-                                {...loginForm.register('verificationCode')}
-                            />
-                        </div>
-                    )}
-                    <ModalActionWrapper>
-                        <button type="button" className="btn" onClick={closeModal}>
-                            Close
-                        </button>
-                        <button type="submit" className="btn btn-primary">
-                            Next
-                        </button>
-                    </ModalActionWrapper>
-                </form>
+            {currentStage === 1 ? (
+                <AuthFormStage />
             ) : currentStage === 2 ? (
                 <form className="flex flex-col mb-4 gap-y-4" onSubmit={selectOrgForm.handleSubmit(submitOrg)}>
                     {typeof checkTeams === 'object' ? (

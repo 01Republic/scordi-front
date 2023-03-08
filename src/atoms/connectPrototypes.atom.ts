@@ -1,6 +1,8 @@
-import {atom} from 'recoil';
+import {atom, useRecoilState} from 'recoil';
 import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
-import {LoginDto, OrgItemDto} from '^types/crawler';
+import {LoginDto, LoginWithOrgs, LoginWithVerify, OrgItemDto} from '^types/crawler';
+import {useCallback, useState} from 'react';
+import {useForm} from 'react-hook-form';
 
 // 연동 모달의 활성화 여부
 export const connectPrototypeModalState = atom({
@@ -37,3 +39,44 @@ export const connectModalConnectableOrgListState = atom<OrgItemDto[]>({
     key: 'connectModalConnectableOrgListState',
     default: [],
 });
+
+// 연동 모달 내부의 여러 컴포넌트에서 공유할 필요가 있는 상태값을 한 번에 관리
+export const useConnectPrototypeModalState = () => {
+    const [isConnectModalOpen, setIsConnectModalOpen] = useRecoilState(connectPrototypeModalState);
+    const [currentPrototype] = useRecoilState(currentPrototypeState);
+    const [currentStage, setCurrentStage] = useRecoilState(connectModalStageState);
+    const [isLoading, setIsLoading] = useRecoilState(connectModalIsLoadingState);
+    const [userInfo, setUserInfo] = useRecoilState(connectModalAuthInfoState);
+    const [isCodeNeeded, setIsCodeNeeded] = useState(false);
+    const [checkTeams, setCheckTeams] = useRecoilState(connectModalConnectableOrgListState);
+    const authForm = useForm<LoginDto | LoginWithVerify>();
+    const selectOrgForm = useForm<LoginWithOrgs>();
+
+    const closeModal = useCallback(() => {
+        authForm.resetField('email');
+        authForm.resetField('password');
+        authForm.resetField('verificationCode');
+        setIsConnectModalOpen(false);
+        setIsCodeNeeded(false);
+        setCurrentStage(1);
+    }, []);
+
+    return {
+        isConnectModalOpen,
+        setIsConnectModalOpen,
+        currentPrototype,
+        currentStage,
+        setCurrentStage,
+        isLoading,
+        setIsLoading,
+        userInfo,
+        setUserInfo,
+        isCodeNeeded,
+        setIsCodeNeeded,
+        checkTeams,
+        setCheckTeams,
+        authForm,
+        selectOrgForm,
+        closeModal,
+    };
+};
