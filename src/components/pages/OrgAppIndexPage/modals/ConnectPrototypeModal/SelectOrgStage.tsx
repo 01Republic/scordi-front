@@ -1,49 +1,61 @@
 import {memo} from 'react';
-import {WithChildren} from '^types/global.type';
 import {ModalActionWrapper} from '^components/Modal';
 import {ConnectModalStage, useConnectPrototypeModalState} from '^atoms/connectPrototypes.atom';
 import {LoginWithOrgs} from '^types/crawler';
 import Swal from 'sweetalert2';
 import {getOrganizationByCrawlerApi} from '^api/crawler';
-import {errorNotify} from '^utils/toast-notify';
 import {PreLoaderSm} from '^components/PreLoaderSm';
 
 export const SelectOrgStage = memo(() => {
     const {
+        authForm,
         selectOrgForm,
         currentPrototype,
         setCurrentStage,
         isLoading,
         setIsLoading,
-        userInfo,
         checkTeams,
         closeModal,
+        connectApiCatchHandler,
     } = useConnectPrototypeModalState();
 
     if (isLoading) return <PreLoaderSm />;
     if (currentPrototype === null) return <></>;
 
     const submitOrg = (params: LoginWithOrgs) => {
-        if (!params.organizationName) {
+        // 사용자의 입력 값이 올바르지 않은 경우.
+        // => 모종의 이유로 params 가 기대한 형태로 넘어오지 않은 경우
+        if (!params || !params.organizationName) {
+            // 얼럿을 듸워주고 더이상의 실행은 하지 않도록 흐름 차단.
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
                 text: "You didn't select organization!",
             });
-        } else {
-            if (params === undefined) return;
-            if (!userInfo) return;
-            setIsLoading(true);
-            const protoName = params.organizationName;
-
-            getOrganizationByCrawlerApi(currentPrototype.id, protoName, userInfo)
-                .then((res) => {
-                    console.log(res);
-                    setCurrentStage(ConnectModalStage.SuccessfullySubmitted);
-                })
-                .catch(errorNotify)
-                .finally(() => setIsLoading(false));
+            return;
         }
+
+        const selectedOrgName = params.organizationName;
+        const authInfo = authForm.getValues();
+
+        setIsLoading(true);
+        getOrganizationByCrawlerApi(currentPrototype.id, selectedOrgName, authInfo)
+            // 크롤러를 통해 조직 기본 정보를 1차로 가지고 오면
+            .then((res) => {
+                console.log('통신성공', res);
+                return res.data;
+            })
+
+            // 다음으로 서버에 [신규구독 생성] "요청"을 수행합니다.
+            .then((orgProfileInfo) => {
+                // 서버에 신규구독 생성 요청하는 코드
+            })
+
+            // 그리고 [신규구독 생성] "요청"이 완료되면,
+            // "요청 성공!" 단계로 이동시킵니다.
+            .then(() => setCurrentStage(ConnectModalStage.SuccessfullySubmitted))
+            .catch(connectApiCatchHandler)
+            .finally(() => setIsLoading(false));
     };
 
     return (

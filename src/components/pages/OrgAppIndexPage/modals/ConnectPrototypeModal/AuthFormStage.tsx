@@ -1,21 +1,9 @@
-import {Dispatch, memo, SetStateAction, useState} from 'react';
+import {memo, useEffect} from 'react';
 import {TextInput} from '^components/TextInput';
 import {ModalActionWrapper} from '^components/Modal';
-import {useForm, UseFormReturn} from 'react-hook-form';
 import {LoginDto, LoginWithVerify} from '^types/crawler';
-import {useRecoilState} from 'recoil';
-import {
-    connectModalAuthInfoState,
-    connectModalConnectableOrgListState,
-    connectModalIsLoadingState,
-    ConnectModalStage,
-    connectModalStageState,
-    connectPrototypeModalState,
-    currentPrototypeState,
-    useConnectPrototypeModalState,
-} from '^atoms/connectPrototypes.atom';
+import {ConnectModalStage, useConnectPrototypeModalState} from '^atoms/connectPrototypes.atom';
 import {getOrganizationListByCrawlerApi} from '^api/crawler';
-import {errorNotify} from '^utils/toast-notify';
 import {PreLoaderSm} from '^components/PreLoaderSm';
 
 export const AuthFormStage = memo(() => {
@@ -25,12 +13,18 @@ export const AuthFormStage = memo(() => {
         setCurrentStage,
         isLoading,
         setIsLoading,
-        setUserInfo,
         isCodeNeeded,
         setIsCodeNeeded,
         setCheckTeams,
         closeModal,
+        connectApiCatchHandler,
     } = useConnectPrototypeModalState();
+
+    // 이 단계가 로딩시 초기화
+    useEffect(() => {
+        setIsLoading(false);
+        setIsCodeNeeded(false);
+    }, []);
 
     if (isLoading) return <PreLoaderSm />;
     if (currentPrototype === null) return <></>;
@@ -38,32 +32,14 @@ export const AuthFormStage = memo(() => {
 
     const startConnectingProtoType = (params: LoginDto | LoginWithVerify) => {
         setIsLoading(true);
-        setIsCodeNeeded(false);
-        setUserInfo({
-            email: params.email,
-            password: params.password,
-        });
 
         getOrganizationListByCrawlerApi(currentPrototype.id, params)
             .then((res) => {
                 console.log('통신성공', res);
                 setCheckTeams(res.data);
                 setCurrentStage(ConnectModalStage.SelectOrgStage);
-                authForm.resetField('verificationCode');
             })
-            .catch((err) => {
-                switch (err?.response?.data?.code) {
-                    case 'DeviseVerificationError':
-                        setIsCodeNeeded(true);
-                        break;
-                    case 'AvailableOrgNotFoundError':
-                        break;
-                    default:
-                        break;
-                }
-                console.log('에러!!!!!!', err);
-                errorNotify(err);
-            })
+            .catch(connectApiCatchHandler)
             .finally(() => setIsLoading(false));
     };
 

@@ -3,6 +3,8 @@ import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
 import {LoginDto, LoginWithOrgs, LoginWithVerify, OrgItemDto} from '^types/crawler';
 import {useCallback, useState} from 'react';
 import {useForm} from 'react-hook-form';
+import {errorNotify} from '^utils/toast-notify';
+import {AxiosError} from 'axios';
 
 // 연동 모달의 활성화 여부
 export const connectPrototypeModalState = atom({
@@ -36,11 +38,11 @@ export const connectModalIsLoadingState = atom<boolean>({
     default: false,
 });
 
-// 연동 모달에 입력한 계정정보
-export const connectModalAuthInfoState = atom<LoginDto | null>({
-    key: 'connectModalAuthInfoState',
-    default: null,
-});
+// // 연동 모달에 입력한 계정정보
+// export const connectModalAuthInfoState = atom<LoginDto | null>({
+//     key: 'connectModalAuthInfoState',
+//     default: null,
+// });
 
 // 연동 모달로 불러온 연동가능한 조직 후보 목록
 export const connectModalConnectableOrgListState = atom<OrgItemDto[]>({
@@ -54,7 +56,7 @@ export const useConnectPrototypeModalState = () => {
     const [currentPrototype] = useRecoilState(currentPrototypeState);
     const [currentStage, setCurrentStage] = useRecoilState(connectModalStageState);
     const [isLoading, setIsLoading] = useRecoilState(connectModalIsLoadingState);
-    const [userInfo, setUserInfo] = useRecoilState(connectModalAuthInfoState);
+    // const [userInfo, setUserInfo] = useRecoilState(connectModalAuthInfoState);
     const [isCodeNeeded, setIsCodeNeeded] = useState(false);
     const [checkTeams, setCheckTeams] = useRecoilState(connectModalConnectableOrgListState);
     const authForm = useForm<LoginDto | LoginWithVerify>();
@@ -69,6 +71,20 @@ export const useConnectPrototypeModalState = () => {
         setCurrentStage(ConnectModalStage.AuthFormStage);
     }, []);
 
+    const connectApiCatchHandler = useCallback((err: AxiosError<any>) => {
+        switch (err?.response?.data?.code) {
+            case 'DeviseVerificationError':
+                setIsCodeNeeded(true);
+                break;
+            case 'AvailableOrgNotFoundError':
+                break;
+            default:
+                break;
+        }
+        console.log('에러!!!!!!', err);
+        errorNotify(err);
+    }, []);
+
     return {
         isConnectModalOpen,
         setIsConnectModalOpen,
@@ -77,8 +93,8 @@ export const useConnectPrototypeModalState = () => {
         setCurrentStage,
         isLoading,
         setIsLoading,
-        userInfo,
-        setUserInfo,
+        // userInfo,
+        // setUserInfo,
         isCodeNeeded,
         setIsCodeNeeded,
         checkTeams,
@@ -86,5 +102,6 @@ export const useConnectPrototypeModalState = () => {
         authForm,
         selectOrgForm,
         closeModal,
+        connectApiCatchHandler,
     };
 };
