@@ -1,7 +1,7 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {ModalActionWrapper} from '^components/Modal';
-import {useConnectPrototypeModalState} from '^atoms/connectPrototypes.atom';
+import {ConnectModalStage, useConnectPrototypeModalState} from '^atoms/connectPrototypes.atom';
 import {LoginWithOrgs} from '^types/crawler';
 import Swal from 'sweetalert2';
 import {getOrganizationByCrawlerApi} from '^api/crawler';
@@ -39,7 +39,7 @@ export const SelectOrgStage = memo(() => {
             getOrganizationByCrawlerApi(currentPrototype.id, protoName, userInfo)
                 .then((res) => {
                     console.log(res);
-                    setCurrentStage(3);
+                    setCurrentStage(ConnectModalStage.SuccessfullySubmitted);
                 })
                 .catch(errorNotify)
                 .finally(() => setIsLoading(false));

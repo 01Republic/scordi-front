@@ -8,6 +8,7 @@ import {
     connectModalAuthInfoState,
     connectModalConnectableOrgListState,
     connectModalIsLoadingState,
+    ConnectModalStage,
     connectModalStageState,
     connectPrototypeModalState,
     currentPrototypeState,
@@ -47,7 +48,7 @@ export const AuthFormStage = memo(() => {
             .then((res) => {
                 console.log('통신성공', res);
                 setCheckTeams(res.data);
-                setCurrentStage(2);
+                setCurrentStage(ConnectModalStage.SelectOrgStage);
                 authForm.resetField('verificationCode');
             })
             .catch((err) => {

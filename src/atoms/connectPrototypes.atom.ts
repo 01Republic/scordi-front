@@ -17,12 +17,17 @@ export const currentPrototypeState = atom<ApplicationPrototypeDto | null>({
 });
 
 // 연동 모달의 진행 단계
-export const connectModalStageState = atom({
 // 1 = AuthFormStage
 // 2 = SelectOrgStage
 // 3 = SuccessfullySubmitted
+export enum ConnectModalStage {
+    AuthFormStage = 1,
+    SelectOrgStage = 2,
+    SuccessfullySubmitted = 3,
+}
+export const connectModalStageState = atom<ConnectModalStage>({
     key: 'connectModalStageState',
-    default: 1,
+    default: ConnectModalStage.AuthFormStage,
 });
 
 // 연동 모달의 로딩 상태
@@ -61,7 +66,7 @@ export const useConnectPrototypeModalState = () => {
         authForm.resetField('verificationCode');
         setIsConnectModalOpen(false);
         setIsCodeNeeded(false);
-        setCurrentStage(1);
+        setCurrentStage(ConnectModalStage.AuthFormStage);
     }, []);
 
     return {
