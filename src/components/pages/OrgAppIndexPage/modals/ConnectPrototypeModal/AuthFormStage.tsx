@@ -5,6 +5,7 @@ import {LoginDto, LoginWithVerify} from '^types/crawler';
 import {ConnectModalStage, useConnectPrototypeModalState} from '^atoms/connectPrototypes.atom';
 import {getOrganizationListByCrawlerApi} from '^api/crawler';
 import {PreLoaderSm} from '^components/PreLoaderSm';
+import {MdNavigateNext} from 'react-icons/md';
 
 export const AuthFormStage = memo(() => {
     const {
@@ -13,10 +14,10 @@ export const AuthFormStage = memo(() => {
         setCurrentStage,
         isLoading,
         setIsLoading,
+        setAuthInfo,
         isCodeNeeded,
         setIsCodeNeeded,
         setCheckTeams,
-        closeModal,
         connectApiCatchHandler,
     } = useConnectPrototypeModalState();
 
@@ -37,11 +38,20 @@ export const AuthFormStage = memo(() => {
             .then((res) => {
                 console.log('통신성공', res);
                 setCheckTeams(res.data);
+                setAuthInfo({email: params.email, password: params.password});
                 setCurrentStage(ConnectModalStage.SelectOrgStage);
             })
             .catch(connectApiCatchHandler)
             .finally(() => setIsLoading(false));
     };
+
+    const nextButtonActive = (() => {
+        if (isCodeNeeded) {
+            return authForm.watch('email') && authForm.watch('password') && authForm.watch('verificationCode');
+        } else {
+            return authForm.watch('email') && authForm.watch('password');
+        }
+    })();
 
     return (
         <form onSubmit={authForm.handleSubmit(startConnectingProtoType)} className="pt-4">
@@ -70,11 +80,9 @@ export const AuthFormStage = memo(() => {
                 </div>
             )}
             <ModalActionWrapper>
-                <button type="button" className="btn" onClick={closeModal}>
-                    Close
-                </button>
-                <button type="submit" className="btn btn-primary">
-                    Next
+                <button type="submit" className="btn btn-primary" disabled={!nextButtonActive}>
+                    <span>Next</span>
+                    <MdNavigateNext size={20} className="mr-[-6px]" />
                 </button>
             </ModalActionWrapper>
         </form>

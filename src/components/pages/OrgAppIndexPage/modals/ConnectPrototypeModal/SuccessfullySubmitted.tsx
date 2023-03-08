@@ -7,7 +7,7 @@ export const SuccessfullySubmitted = memo(() => {
     return (
         <div className="flex flex-col mb-4 gap-y-4">
             <h4>Successfully Submitted!</h4>
-            <p>Please wait untill connected.</p>
+            <p>Please wait until connected.</p>
             <button className="btn btn-primary" onClick={closeModal}>
                 ok
             </button>

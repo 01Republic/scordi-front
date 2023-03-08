@@ -1,12 +1,17 @@
 import {MouseEvent} from 'react';
 import {WithChildren} from '^types/global.type';
 import {DefaultButton} from '^components/Button';
+import {IoClose} from 'react-icons/io5';
 
 export type ModalProps = {
     type: 'error' | 'success' | 'warning' | 'info';
     isOpen: boolean;
     title?: string;
     description?: string;
+    closeButton?: {
+        isDisplayed: boolean;
+        onClick: () => any;
+    };
     buttons?: ModalActionButtonProps[];
     backdrop?: {
         onClick: (e: MouseEvent<HTMLDivElement>) => void;
@@ -27,7 +32,14 @@ export const Modal = (props: ModalProps) => {
                 }}
             >
                 <div className="modal-box">
-                    {props.title && <h3 className="font-bold text-lg">{props.title}</h3>}
+                    <div className="flex justify-between items-center">
+                        {props.title && <h3 className="font-bold text-lg">{props.title}</h3>}
+                        {props.closeButton?.isDisplayed && (
+                            <button className="btn btn-circle btn-xs shadow" onClick={props.closeButton.onClick}>
+                                <IoClose size={13} />
+                            </button>
+                        )}
+                    </div>
                     {props.description && <p className="py-4">{props.description}</p>}
                     {props.children}
                     {props.buttons && (

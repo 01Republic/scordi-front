@@ -1,7 +1,7 @@
 import {atom, useRecoilState} from 'recoil';
 import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
 import {LoginDto, LoginWithOrgs, LoginWithVerify, OrgItemDto} from '^types/crawler';
-import {useCallback, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {errorNotify} from '^utils/toast-notify';
 import {AxiosError} from 'axios';
@@ -38,11 +38,17 @@ export const connectModalIsLoadingState = atom<boolean>({
     default: false,
 });
 
+// 연동 모달의 에러메세지
+export const connectModalErrorMessage = atom({
+    key: 'connectModalErrorMessage',
+    default: '',
+});
+
 // // 연동 모달에 입력한 계정정보
-// export const connectModalAuthInfoState = atom<LoginDto | null>({
-//     key: 'connectModalAuthInfoState',
-//     default: null,
-// });
+export const connectModalAuthInfoState = atom<LoginDto | null>({
+    key: 'connectModalAuthInfoState',
+    default: null,
+});
 
 // 연동 모달로 불러온 연동가능한 조직 후보 목록
 export const connectModalConnectableOrgListState = atom<OrgItemDto[]>({
@@ -56,7 +62,8 @@ export const useConnectPrototypeModalState = () => {
     const [currentPrototype] = useRecoilState(currentPrototypeState);
     const [currentStage, setCurrentStage] = useRecoilState(connectModalStageState);
     const [isLoading, setIsLoading] = useRecoilState(connectModalIsLoadingState);
-    // const [userInfo, setUserInfo] = useRecoilState(connectModalAuthInfoState);
+    const [errorMessage, setErrorMessage] = useRecoilState(connectModalErrorMessage);
+    const [authInfo, setAuthInfo] = useRecoilState(connectModalAuthInfoState);
     const [isCodeNeeded, setIsCodeNeeded] = useState(false);
     const [checkTeams, setCheckTeams] = useRecoilState(connectModalConnectableOrgListState);
     const authForm = useForm<LoginDto | LoginWithVerify>();
@@ -82,8 +89,13 @@ export const useConnectPrototypeModalState = () => {
                 break;
         }
         console.log('에러!!!!!!', err);
+        setErrorMessage(err?.response?.data?.message);
         errorNotify(err);
     }, []);
+
+    useEffect(() => {
+        if (isLoading) setErrorMessage('');
+    }, [isLoading]);
 
     return {
         isConnectModalOpen,
@@ -93,8 +105,10 @@ export const useConnectPrototypeModalState = () => {
         setCurrentStage,
         isLoading,
         setIsLoading,
-        // userInfo,
-        // setUserInfo,
+        errorMessage,
+        setErrorMessage,
+        authInfo,
+        setAuthInfo,
         isCodeNeeded,
         setIsCodeNeeded,
         checkTeams,

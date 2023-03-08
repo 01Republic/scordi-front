@@ -122,6 +122,7 @@ const PrototypeItem = memo((props: PrototypeItemProps) => {
                 ) : (
                     <button
                         className="btn2 btn-sm flex-nowrap gap-1 btn-primary"
+                        style={{flexWrap: 'nowrap'}}
                         onClick={() => clickConnectBtn(proto)}
                     >
                         <GoPlug size={16} />

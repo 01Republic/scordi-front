@@ -6,22 +6,23 @@ import Swal from 'sweetalert2';
 import {getOrganizationByCrawlerApi} from '^api/crawler';
 import {PreLoaderSm} from '^components/PreLoaderSm';
 import {OutLink} from '^components/OutLink';
+import {MdNavigateBefore, MdNavigateNext} from 'react-icons/md';
 
 export const SelectOrgStage = memo(() => {
     const {
-        authForm,
         selectOrgForm,
         currentPrototype,
         setCurrentStage,
         isLoading,
         setIsLoading,
+        authInfo,
         checkTeams,
-        closeModal,
         connectApiCatchHandler,
     } = useConnectPrototypeModalState();
 
     if (isLoading) return <PreLoaderSm />;
     if (currentPrototype === null) return <></>;
+    if (!authInfo) return <></>;
 
     const submitOrg = (params: LoginWithOrgs) => {
         // 사용자의 입력 값이 올바르지 않은 경우.
@@ -37,19 +38,17 @@ export const SelectOrgStage = memo(() => {
         }
 
         const selectedOrgName = params.organizationName;
-        const authInfo = authForm.getValues();
 
         setIsLoading(true);
         getOrganizationByCrawlerApi(currentPrototype.id, selectedOrgName, authInfo)
             // 크롤러를 통해 조직 기본 정보를 1차로 가지고 오면
-            .then((res) => {
-                console.log('통신성공', res);
-                return res.data;
-            })
+            .then((res) => res.data)
 
             // 다음으로 서버에 [신규구독 생성] "요청"을 수행합니다.
             .then((orgProfileInfo) => {
                 // 서버에 신규구독 생성 요청하는 코드
+                console.log('authInfo', authInfo);
+                console.log('orgProfileInfo', orgProfileInfo);
             })
 
             // 그리고 [신규구독 생성] "요청"이 완료되면,
@@ -63,6 +62,8 @@ export const SelectOrgStage = memo(() => {
         setCurrentStage(ConnectModalStage.AuthFormStage);
     };
 
+    const nextButtonActive = !!selectOrgForm.watch('organizationName');
+
     return (
         <form className="flex flex-col mb-4 gap-y-4" onSubmit={selectOrgForm.handleSubmit(submitOrg)}>
             {/* 조회된 조직이 하나도 없을 때 */}
@@ -71,15 +72,6 @@ export const SelectOrgStage = memo(() => {
                     <div className="flex flex-col gap-y-4">
                         <h4>There's no organization to show</h4>
                     </div>
-
-                    <ModalActionWrapper>
-                        <button type="button" className="btn mr-auto" onClick={backButtonClick}>
-                            Back
-                        </button>
-                        <button type="button" className="btn" onClick={closeModal}>
-                            Close
-                        </button>
-                    </ModalActionWrapper>
                 </>
             )}
 
@@ -118,20 +110,21 @@ export const SelectOrgStage = memo(() => {
                             </label>
                         ))}
                     </div>
-
-                    <ModalActionWrapper>
-                        <button type="button" className="btn mr-auto" onClick={backButtonClick}>
-                            Back
-                        </button>
-                        <button type="button" className="btn" onClick={closeModal}>
-                            Close
-                        </button>
-                        <button type="submit" className="btn btn-primary">
-                            Next
-                        </button>
-                    </ModalActionWrapper>
                 </>
             )}
+
+            <ModalActionWrapper>
+                <button type="button" className="btn mr-auto" onClick={backButtonClick}>
+                    <MdNavigateBefore size={20} className="ml-[-6px]" />
+                    <span>Back</span>
+                </button>
+                {checkTeams.length > 0 && (
+                    <button type="submit" className="btn btn-primary" disabled={!nextButtonActive}>
+                        <span>Next</span>
+                        <MdNavigateNext size={20} className="mr-[-6px]" />
+                    </button>
+                )}
+            </ModalActionWrapper>
         </form>
     );
 });
