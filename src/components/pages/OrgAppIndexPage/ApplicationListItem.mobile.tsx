@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {ApplicationDto} from '^types/application.type';
 import Link from 'next/link';
-import {AppInfoPageRoute} from '^pages/orgs/[id]/apps/[appId]';
+import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
 import {t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
 import {safeImageSrc} from '^types/applicationPrototype.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
@@ -13,7 +13,7 @@ export const ApplicationListItemMobile = memo((props: {applicationDto: Applicati
 
     return (
         <div className="bs-col-12">
-            <Link href={AppInfoPageRoute.path(organizationId, applicationDto.id)}>
+            <Link href={OrgAppShowPageRoute.path(organizationId, applicationDto.id)}>
                 <div
                     id={`ApplicationListItem-${applicationDto.id}`}
                     className="flex justify-items-stretch px-3 py-3 mb-3 bg-[#F9FAFB] shadow-sm rounded-xl cursor-pointer"

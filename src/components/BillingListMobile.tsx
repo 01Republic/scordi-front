@@ -2,7 +2,7 @@ import React, {memo, useEffect} from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {useRouter} from 'next/router';
 import {ApplicationDto} from '^types/application.type';
-import {AppInfoPageRoute} from '^pages/orgs/[id]/apps/[appId]';
+import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
 import {BillingScheduleShallowDto as ScheduleDto} from '^types/billing.type';
 import {intlDateShort, yyyy_mm_dd} from '^utils/dateTime';
 import {useDashboardSummary} from '^hooks/useDashboardSummary';
@@ -56,7 +56,7 @@ export const BillingListMobile = memo(() => {
                             shallow={app}
                             app={apps.find((item) => item.id === app.applicationId)!}
                             key={index}
-                            onClick={() => router.push(AppInfoPageRoute.path(organizationId, app.applicationId))}
+                            onClick={() => router.push(OrgAppShowPageRoute.path(organizationId, app.applicationId))}
                         />
                     ))}
                 </>
@@ -69,7 +69,7 @@ export const BillingListMobile = memo(() => {
                             shallow={app}
                             app={apps.find((item) => item.id === app.applicationId)!}
                             key={index}
-                            onClick={() => router.push(AppInfoPageRoute.path(organizationId, app.applicationId))}
+                            onClick={() => router.push(OrgAppShowPageRoute.path(organizationId, app.applicationId))}
                         />
                     ))}
                 </>

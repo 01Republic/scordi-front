@@ -1,8 +1,7 @@
 import {Fragment, memo, useState} from 'react';
 import {DangerPanel} from './Spend/DangerPanel';
-import {SettingsPanel} from './Spend/SettingsPanel';
 import {SubmenuGroup} from '^components/pages/OrgProtoDetailPage/TabContents/Setting';
-import {ApplicationSettingSubmenuPanel} from '^components/pages/ApplicationDetailPage/TabContents/Setting';
+import {ApplicationSettingSubmenuPanel} from './Setting';
 
 const menuGroups: SubmenuGroup[] = [
     {

@@ -7,7 +7,7 @@ import {errorNotify} from '^utils/toast-notify';
 import {Page} from '^types/page';
 import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
 import {CreateApplicationRequestDto} from '^types/application.type';
-import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
+import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {getApplications} from '^api/application.api';
 import {getApplicationPrototype} from '^api/applicationPrototype.api';
 import {ContentLayout} from '^layouts/ContentLayout';
@@ -39,7 +39,7 @@ export const OrgAddAppInfoPage: Page = () => {
     // 폼이 정상적으로 전송되고난 후 페이지는 만료되어야 하므로, push 대신 replace 로 화면을 전환합니다.
     // 그러면 사용자가 다시 뒤로 돌아오는 행동을 했을 때 이 페이지로 오지 않고 더 이전 페이지(여기서는 앱선택 페이지)로 되돌아가게 됩니다.
     const redirectNext = useCallback(() => {
-        router.replace(OrgAppsIndexPageRoute.path(organizationId));
+        router.replace(OrgAppIndexPageRoute.path(organizationId));
     }, [organizationId]);
 
     const selectedPlan = useMemo(() => {

@@ -1,16 +1,15 @@
 import React from 'react';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {useOnResize} from '^hooks/useOnResize';
-import {ApplicationDetailPageMobile} from '^components/pages/ApplicationDetailPage';
-import {ApplicationDetailPageDesktop} from '^components/pages/ApplicationDetailPage';
+import {OrgAppShowPageMobile, OrgAppShowPageDesktop} from '^components/pages/OrgAppShowPage';
 
-export const AppInfoPageRoute = pathRoute({
+export const OrgAppShowPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/[appId]',
-    path: (orgId: number, appId: number) => pathReplace(AppInfoPageRoute.pathname, {id: orgId, appId}),
+    path: (orgId: number, appId: number) => pathReplace(OrgAppShowPageRoute.pathname, {id: orgId, appId}),
 });
 
-export default function AppInfoPage() {
+export default function OrgAppShowPage() {
     const {mobileView} = useOnResize();
 
-    return mobileView ? <ApplicationDetailPageMobile /> : <ApplicationDetailPageDesktop />;
+    return mobileView ? <OrgAppShowPageMobile /> : <OrgAppShowPageDesktop />;
 }

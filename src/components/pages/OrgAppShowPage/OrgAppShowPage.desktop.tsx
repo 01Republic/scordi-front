@@ -16,11 +16,11 @@ import {Breadcrumb} from './Breadcrumb';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const navTabIndex = atom({
-    key: 'ApplicationDetailPageDesktop/NavTabIndex',
+    key: 'OrgAppShowPageDesktop/NavTabIndex',
     default: 0,
 });
 
-export const ApplicationDetailPageDesktop = memo(() => {
+export const OrgAppShowPageDesktop = memo(() => {
     useRouterIdParamState('id', orgIdParamState);
     useRouterIdParamState('appId', applicationIdParamState);
     const {currentUser} = useCurrentUser();

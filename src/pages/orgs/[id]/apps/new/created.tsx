@@ -5,7 +5,7 @@ import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {useApplication} from '^hooks/useApplications';
 import {PreLoader} from '^components/PreLoader';
 import {ApplicationPrototypeDto, safeImageSrc} from '^types/applicationPrototype.type';
-import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
+import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {ImageV2} from '^components/v2/ui/Image';
 import {useSetRecoilState} from 'recoil';
 import {applicationIdParamState} from '^atoms/common';
@@ -32,7 +32,7 @@ export default function NewAppCreatedPage() {
 
     if (application) {
         setTimeout(() => {
-            router.push(OrgAppsIndexPageRoute.path(application.organizationId));
+            router.push(OrgAppIndexPageRoute.path(application.organizationId));
         }, 1.5 * 1000);
     }
 

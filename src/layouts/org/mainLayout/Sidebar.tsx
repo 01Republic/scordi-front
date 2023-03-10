@@ -3,7 +3,7 @@ import Image from 'next/image';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {Sidebar} from '^components/Sidebar';
 import {Icon} from '^components/Icon';
-import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
+import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {OrgMembershipIndexPageRoute} from '^pages/orgs/[id]/memberships';
 import {OrgShowRoute} from '^pages/orgs/[id]';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
@@ -56,8 +56,8 @@ export const OrgSidebar = memo(() => {
                 />
                 <Sidebar.Menu.Item
                     text="apps"
-                    to={OrgAppsIndexPageRoute.path(organizationId)}
-                    selected={pathname.startsWith(OrgAppsIndexPageRoute.pathname)}
+                    to={OrgAppIndexPageRoute.path(organizationId)}
+                    selected={pathname.startsWith(OrgAppIndexPageRoute.pathname)}
                     icon={() => <AiOutlineAppstoreAdd size={24} />}
                     iconTransform={false}
                 />

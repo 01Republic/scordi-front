@@ -3,7 +3,7 @@ import {searchOrganizations, createOrganization} from '^api/organization.api';
 import {CreateOrganizationRequestDto, OrganizationDto, SearchOrgQueryDto} from '^types/organization.type';
 import {useForm} from 'react-hook-form';
 import {useRouter} from 'next/router';
-import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
+import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {SearchedOrgResultItem} from './SearchedOrgResultItem';
 
 export const OrgSearchPage = memo(() => {
@@ -26,7 +26,7 @@ export const OrgSearchPage = memo(() => {
         data.name.length > 0 &&
             createOrganization(data).then((res) => {
                 const createdOrg = res.data;
-                router.push(OrgAppsIndexPageRoute.path(createdOrg.id));
+                router.push(OrgAppIndexPageRoute.path(createdOrg.id));
             });
     };
 

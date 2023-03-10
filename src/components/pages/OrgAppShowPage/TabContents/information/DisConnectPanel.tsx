@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import {destroyApplication} from '^api/application.api';
 import {applicationIdParamState} from '^atoms/common';
 import {ContentPanel, ContentPanelMiniTitle} from '^layouts/ContentLayout';
-import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
+import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 
 export const DisConnectPanel = memo(() => {
     const [appId] = useRecoilState(applicationIdParamState);
@@ -26,7 +26,7 @@ export const DisConnectPanel = memo(() => {
             destroyApplication(id)
                 .then((res) => {
                     Swal.fire('Disconnect!', 'Please go to the site and cancel the subscription.', 'success').then(() =>
-                        router.push(OrgAppsIndexPageRoute.path(id)),
+                        router.push(OrgAppIndexPageRoute.path(id)),
                     );
                 })
                 .catch((error) => {

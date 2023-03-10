@@ -1,6 +1,6 @@
 import {MobileTopNav} from '^components/v2/MobileTopNav';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
-import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
+import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {TitleSection} from '^components/v2/TitleSection';
 import {MobileKeyValueItem} from '^components/v2/MobileKeyValueItem';
 import {BillingCalendar} from '^components/pages/dashboard/BillingCalendar';
@@ -25,7 +25,7 @@ export const DashboardPageMobile = memo(() => {
     return (
         <>
             <MobileTopNav>
-                <BackButton href={OrgAppsIndexPageRoute.path(organizationId)} />
+                <BackButton href={OrgAppIndexPageRoute.path(organizationId)} />
             </MobileTopNav>
 
             <TitleSection.Collapse title={`${month}월`} triggerText={`US$ ${summaryDto.didPayAmount.toLocaleString()}`}>

@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {ApplicationDto} from '^types/application.type';
 import {useRouter} from 'next/router';
 import Link from 'next/link';
-import {AppInfoPageRoute} from '^pages/orgs/[id]/apps/[appId]';
+import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
 import {ApplicationDetailPageRoute} from '^pages/orgs/[id]/prototypes/[protoId]/applications/[appId]';
 import {t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
 import {safeImageSrc} from '^types/applicationPrototype.type';
@@ -20,7 +20,7 @@ export const ApplicationListItemDesktop = memo((props: {applicationDto: Applicat
 
     return (
         <tr className="text-sm">
-            <td onClick={() => router.push(AppInfoPageRoute.path(orgId, appId))}>
+            <td onClick={() => router.push(OrgAppShowPageRoute.path(orgId, appId))}>
                 <div className="flex items-center cursor-pointer">
                     <img src={prototype.image} alt="" width={24} className="mr-4" />
                     <span>{prototype.name}</span>

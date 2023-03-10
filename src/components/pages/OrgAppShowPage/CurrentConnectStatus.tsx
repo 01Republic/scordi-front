@@ -2,11 +2,10 @@ import React, {memo, useEffect, useState} from 'react';
 import {AiOutlineSync} from 'react-icons/ai';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import {getApplication} from '^api/application.api';
-import {getApplicationPrototype} from '^api/applicationPrototype.api';
 import {applicationIdParamState} from '^atoms/common';
 import {ConnectStatus} from '^types/application.type';
 import {errorNotify} from '^utils/toast-notify';
-import {navTabIndex} from './ApplicationDetailPage.desktop';
+import {navTabIndex} from './OrgAppShowPage.desktop';
 
 export const CurrentConnectStatus = memo(() => {
     const [appId] = useRecoilState(applicationIdParamState);

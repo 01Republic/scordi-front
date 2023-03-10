@@ -1,7 +1,7 @@
 import React, {memo, useEffect} from 'react';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 import {useRouter} from 'next/router';
-import {OrgAppsIndexPageRoute} from '^pages/orgs/[id]/apps';
+import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {MobileTopNav, MobileTopNavRight} from '^components/v2/MobileTopNav';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
 import {MobileBottomNav} from '^components/v2/MobileBottomNav';
@@ -18,7 +18,7 @@ import {applicationIdParamState} from '^atoms/common';
 import {getBillingHistoriesParamsState} from '^atoms/billingHistories.atom';
 import {OrgApplicationEditPageRoute} from '^pages/orgs/[id]/apps/[appId]/edit';
 
-export const ApplicationDetailPageMobile = memo(() => {
+export const OrgAppShowPageMobile = memo(() => {
     //TODO : ApplicationDetailPage.mobile 로 수정해야 됨
     const router = useRouter();
     const organizationId = Number(router.query.id);
@@ -43,7 +43,7 @@ export const ApplicationDetailPageMobile = memo(() => {
     return (
         <OrgMobileLayout>
             <MobileTopNav>
-                <BackButton href={OrgAppsIndexPageRoute.path(organizationId)} />
+                <BackButton href={OrgAppIndexPageRoute.path(organizationId)} />
                 <MobileTopNavRight>
                     <EditButton href={OrgApplicationEditPageRoute.path(organizationId, applicationId)} />
                     <DeleteButton />

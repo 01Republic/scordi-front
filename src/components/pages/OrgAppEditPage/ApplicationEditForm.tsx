@@ -3,7 +3,7 @@ import {WithChildren} from '^types/global.type';
 import {UseFormReturn} from 'react-hook-form';
 import {UpdateApplicationRequestDto} from '^types/application.type';
 import {applicationIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {AppInfoPageRoute} from '^pages/orgs/[id]/apps/[appId]';
+import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
 import {updateApplication} from '^api/application.api';
 import {useSetRecoilState} from 'recoil';
 import {getApplicationQuery} from '^atoms/applications.atom';
@@ -26,7 +26,7 @@ export const ApplicationEditForm = memo((props: ApplicationEditFormProps) => {
     const onSubmit = (data: UpdateApplicationRequestDto) => {
         if (!organizationId || !applicationId) return;
 
-        const redirectUrl = AppInfoPageRoute.path(organizationId, applicationId);
+        const redirectUrl = OrgAppShowPageRoute.path(organizationId, applicationId);
         updateApplication(applicationId, data)
             .then(({data: updatedApp}) => {
                 fetchApp(updatedApp);

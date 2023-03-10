@@ -3,12 +3,12 @@ import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {useOnResize} from '^hooks/useOnResize';
 import {OrgAppIndexPageDesktop, OrgAppIndexPageMobile} from '^components/pages/OrgAppIndexPage';
 
-export const OrgAppsIndexPageRoute = pathRoute({
+export const OrgAppIndexPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps',
-    path: (orgId: number) => pathReplace(OrgAppsIndexPageRoute.pathname, {id: orgId}),
+    path: (orgId: number) => pathReplace(OrgAppIndexPageRoute.pathname, {id: orgId}),
 });
 
-export default function OrgAppsIndexPage() {
+export default function OrgAppIndexPage() {
     const {mobileView} = useOnResize();
 
     return mobileView ? <OrgAppIndexPageMobile /> : <OrgAppIndexPageDesktop />;
