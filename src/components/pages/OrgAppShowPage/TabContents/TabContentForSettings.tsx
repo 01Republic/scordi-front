@@ -1,13 +1,12 @@
 import {Fragment, memo, useState} from 'react';
-import {DangerPanel} from './Spend/DangerPanel';
 import {SubmenuGroup} from '^components/pages/OrgProtoDetailPage/TabContents/Setting';
-import {ApplicationSettingSubmenuPanel} from './Setting';
+import {ApplicationSettingSubmenuPanel, ConnectionSetting} from './Setting';
 
 const menuGroups: SubmenuGroup[] = [
     {
         name: '설정',
         items: [
-            {name: '연동 정보', Component: Fragment},
+            {name: '연동 정보', Component: ConnectionSetting},
             {name: '조직 정보', Component: Fragment},
             {name: '구독 정보', Component: Fragment},
             {name: '구성원 정보', Component: Fragment},
@@ -39,7 +38,6 @@ export const TabContentForSettings = memo(() => {
                 {/* Right Col */}
                 <div className="bs-col-12 sm:bs-col px-0">
                     <DisplayingComponent />
-                    <DangerPanel />
                 </div>
             </div>
         </div>

@@ -1,8 +1,9 @@
 import {Fragment, memo} from 'react';
+import {atom, useRecoilValue} from 'recoil';
+import {applicationIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import OrgMainLayout from '^layouts/org/mainLayout';
 import {ContentLayout, ContentTabNav} from '^layouts/ContentLayout';
-import {applicationIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {atom, useRecoilValue} from 'recoil';
+import {useCurrentUser} from '^hooks/useCurrentUser';
 import {ApplicationHeader} from './ApplicationHeader';
 import {
     TabContentForInformation,
@@ -13,7 +14,6 @@ import {
 } from './TabContents';
 import {CurrentConnectStatus} from './CurrentConnectStatus';
 import {Breadcrumb} from './Breadcrumb';
-import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const navTabIndex = atom({
     key: 'OrgAppShowPageDesktop/NavTabIndex',

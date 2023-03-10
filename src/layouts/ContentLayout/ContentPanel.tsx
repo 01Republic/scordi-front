@@ -44,7 +44,7 @@ export function ContentPanelHeading(props: ContentPanelHeadingProps & WithChildr
     return (
         <div className="flex items-center p-4 bg-neutral border-b border-b-[#dbd6e1]">
             <div>
-                <h2 className="m-0 text-sm text-gray-600 font-semibold uppercase">{title}</h2>
+                <h2 className="m-0 text-sm text-gray-600 font-semibold">{title}</h2>
                 {desc && <p className="text-xs text-gray-600" dangerouslySetInnerHTML={{__html: desc}} />}
             </div>
             {children}
