@@ -1,6 +1,7 @@
 import {HTMLAttributeAnchorTarget, memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {ApplicationDto} from '^types/application.type';
+import {ButtonTo} from '^components/ButtonTo';
 
 interface CurrentPlanZoneHeaderProps {
     application: ApplicationDto;
@@ -32,37 +33,5 @@ export const CurrentPlanZoneHeader = memo((props: CurrentPlanZoneHeaderProps) =>
                 {upgradePageUrlStr && <ButtonTo href={upgradePageUrl} target="_blank" color="success" text="Upgrade" />}
             </div>
         </div>
-    );
-});
-
-interface ButtonToProps {
-    href?: string;
-    text?: string;
-    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-    color?: 'success' | 'gray';
-    outline?: boolean;
-    className?: string;
-    target?: HTMLAttributeAnchorTarget;
-    onClick?: () => any;
-}
-
-const ButtonTo = memo((props: ButtonToProps & WithChildren) => {
-    const {text, size = 'sm', color, outline = false, className = '', children, ...attrs} = props;
-
-    const classNames = ['btn normal-case'];
-
-    // size
-    if (size !== 'md') classNames.push(`btn-${size}`);
-
-    // colors
-    if (color === 'success') classNames.push('btn-success border border-success text-white');
-    if (color === 'gray') classNames.push('btn-gray');
-
-    if (outline) classNames.push('btn-outline');
-
-    return (
-        <a className={classNames.join(' ')} {...attrs}>
-            {text || children}
-        </a>
     );
 });
