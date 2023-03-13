@@ -1,8 +1,11 @@
-import {memo} from 'react';
+import {memo, useCallback, useEffect} from 'react';
 import {ApplicationDto} from '^types/application.type';
 import {HistoryItem} from '^components/pages/OrgAppShowPage/TabContents/Histories/HistoryItem';
 import {SyncNowButton} from '^components/pages/OrgAppShowPage/TabContents/Histories/SyncNowButton';
-import {mockSyncHistoryList as syncHistories} from '^types/applicationSyncHistory.type';
+import {useCurrentSyncHistory, useSyncHistoryList} from '^hooks/useApplicationSyncHistories';
+import {Paginator} from '^components/Paginator';
+import {SyncHistoryDto} from '^types/applicationSyncHistory.type';
+import {toast} from 'react-toastify';
 
 interface HistoryTableProps {
     application: ApplicationDto;
@@ -10,10 +13,23 @@ interface HistoryTableProps {
 
 export const HistoryTable = memo((props: HistoryTableProps) => {
     const {application} = props;
+    const {items: syncHistories, fetchItems: fetchSyncHistories, pagination} = useSyncHistoryList();
+    const {currentSyncHistory} = useCurrentSyncHistory();
+
+    useEffect(() => {
+        if (!application) return;
+        fetchSyncHistories(application.id, 1);
+    }, [application]);
 
     const {prototype} = application;
 
-    const currentHistory = syncHistories[0];
+    const onRefreshItem = useCallback(
+        (history: SyncHistoryDto) => {
+            const req = fetchSyncHistories(application.id, pagination.currentPage, true);
+            req && req.then(() => toast.success('Refreshed'));
+        },
+        [application, pagination],
+    );
 
     return (
         <div className="bs-container mb-10">
@@ -25,7 +41,7 @@ export const HistoryTable = memo((props: HistoryTableProps) => {
 
                 {/* Right */}
                 <div className="ml-auto flex gap-2">
-                    <SyncNowButton application={application} history={currentHistory} />
+                    <SyncNowButton application={application} history={currentSyncHistory} />
                 </div>
             </div>
 
@@ -38,7 +54,7 @@ export const HistoryTable = memo((props: HistoryTableProps) => {
                                     <tr>
                                         <th>Status</th>
                                         <th>Sync ID</th>
-                                        <th style={{width: '50%'}}>Name</th>
+                                        <th style={{width: '50%'}}>Message</th>
                                         <th>Duration</th>
                                         <th>Finished at</th>
                                         <th></th>
@@ -46,20 +62,16 @@ export const HistoryTable = memo((props: HistoryTableProps) => {
                                 </thead>
                                 <tbody>
                                     {syncHistories.map((history, i) => (
-                                        <HistoryItem key={i} application={application} history={history} />
+                                        <HistoryItem
+                                            key={i}
+                                            application={application}
+                                            history={history}
+                                            onRefresh={onRefreshItem}
+                                        />
                                     ))}
                                 </tbody>
                             </table>
                         </div>
-
-                        {/*<div className="card-body py-3 border-t">*/}
-                        {/*    <div className="btn-group ml-auto">*/}
-                        {/*        <button className="btn">1</button>*/}
-                        {/*        <button className="btn btn-active">2</button>*/}
-                        {/*        <button className="btn">3</button>*/}
-                        {/*        <button className="btn">4</button>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
                     </div>
                 </div>
             </div>
@@ -67,12 +79,12 @@ export const HistoryTable = memo((props: HistoryTableProps) => {
             <div className="bs-row">
                 <div className="bs-col-12 px-0">
                     <div className="flex justify-end gap-3">
-                        <div className="btn-group border shadow rounded-lg">
-                            <button className="btn">1</button>
-                            <button className="btn btn-active">2</button>
-                            <button className="btn">3</button>
-                            <button className="btn">4</button>
-                        </div>
+                        <Paginator
+                            className="border shadow rounded-lg"
+                            currentPage={pagination.currentPage}
+                            totalPage={pagination.totalPage}
+                            onClick={(pageNum) => fetchSyncHistories(application.id, pageNum)}
+                        />
                     </div>
                 </div>
             </div>

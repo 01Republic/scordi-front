@@ -20,3 +20,6 @@ export const ceilNumber = (num: number, pos = 0): number => {
 export const floorNumber = (num: number, pos = 0): number => {
     return Math.floor(num * 10 ** pos) / 10 ** pos;
 };
+
+// Zero padding
+export const zeroPad = (num: string): string => (num.length == 1 ? `0${num}` : num);

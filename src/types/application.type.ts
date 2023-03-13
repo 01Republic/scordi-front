@@ -31,6 +31,7 @@ export function t_ConnectStatus(status: ConnectStatus) {
 export type ApplicationDto = {
     id: number;
     connectStatus: ConnectStatus;
+    isSyncRunning: boolean; // 싱크 실행중 여부
     displayName: string;
     organizationId: number;
     prototypeId: number;

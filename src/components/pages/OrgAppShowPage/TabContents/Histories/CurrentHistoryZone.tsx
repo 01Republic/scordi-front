@@ -1,9 +1,9 @@
-import {memo} from 'react';
+import {memo, useEffect} from 'react';
 import {BiGitCommit} from 'react-icons/bi';
 import {BsCalendarDay, BsStopwatch} from 'react-icons/bs';
 import {ApplicationDto} from '^types/application.type';
 import {
-    ApplicationSyncHistoryDto,
+    SyncHistoryDto,
     restartSyncButtonIsActive,
     syncHistoryAssets,
     SyncHistoryResultStatus,
@@ -11,23 +11,56 @@ import {
 } from '^types/applicationSyncHistory.type';
 import {IoMdRefresh} from 'react-icons/io';
 import {Avatar} from '^components/Avatar';
+import {getDistanceOfTime, humanizeTimeDistance} from '^utils/dateTime';
+import {useCurrentSyncHistory} from '^hooks/useApplicationSyncHistories';
 
 interface CurrentHistoryZoneProps {
     application: ApplicationDto;
-    history: ApplicationSyncHistoryDto;
 }
 
 export const CurrentHistoryZone = memo((props: CurrentHistoryZoneProps) => {
-    const {application, history} = props;
+    const {application} = props;
+    const {currentSyncHistory, fetchCurrentSyncHistory} = useCurrentSyncHistory();
 
-    if (!history) return <></>;
+    useEffect(() => {
+        if (!application) return;
+        fetchCurrentSyncHistory(application.id);
+    }, [application]);
+
+    if (!currentSyncHistory) return <></>;
 
     const {prototype} = application;
 
-    const asset = syncHistoryAssets[history.resultStatus];
+    const asset = syncHistoryAssets[currentSyncHistory.resultStatus];
     const Icon = asset.Icon;
-    const label = t_syncHistoryResultStatus(history.resultStatus);
-    const syncButtonIsActive = restartSyncButtonIsActive(history);
+    const label = t_syncHistoryResultStatus(currentSyncHistory.resultStatus);
+    const syncButtonIsActive = restartSyncButtonIsActive(currentSyncHistory);
+
+    const madeByMsg = (() => {
+        const {isScheduled, runner} = currentSyncHistory;
+        if (!isScheduled && runner) return `Made by ${runner.name}`;
+
+        return `Made by the system schedule.`;
+    })();
+
+    const durationMsg = (() => {
+        if (currentSyncHistory.finishedAt === null) return 'Running ...';
+
+        const distance = getDistanceOfTime(
+            new Date(currentSyncHistory.createdAt),
+            new Date(currentSyncHistory.finishedAt),
+        );
+        const distanceText = humanizeTimeDistance(distance, {text: {minute: 'min', second: 'sec'}});
+        return `Ran for ${distanceText} ago`;
+        // const distanceText = humanizeTimeDistance(distance, {text: {hour: '시간', minute: '분', second: '초'}});
+        // return `${distanceText} 동안 실행됨`;
+    })();
+
+    const finishedAgoMsg = (() => {
+        const distance = getDistanceOfTime(new Date(currentSyncHistory.createdAt), new Date());
+        const distanceText = humanizeTimeDistance(distance, {shorten: true});
+        return `about ${distanceText} ago`;
+    })();
 
     return (
         <div className="bs-container mb-10">
@@ -42,14 +75,14 @@ export const CurrentHistoryZone = memo((props: CurrentHistoryZoneProps) => {
                                 <div className="flex-1 flex flex-col">
                                     <div className="flex-1">
                                         <p className={`card-title text-${asset.darken} leading-none`}>Current sync</p>
-                                        <span></span>
+                                        <div dangerouslySetInnerHTML={{__html: currentSyncHistory.content}} />
                                     </div>
 
                                     <div className="flex items-center gap-2">
                                         <div className="w-6">
                                             <Avatar className="border" />
                                         </div>
-                                        <p className="text-gray-500">Made by the system schedule.</p>
+                                        <p className="text-gray-500">{madeByMsg}</p>
                                     </div>
                                 </div>
 
@@ -58,19 +91,19 @@ export const CurrentHistoryZone = memo((props: CurrentHistoryZoneProps) => {
                                     <div className={`text-${asset.darken} flex gap-3 items-center mb-5`}>
                                         <BiGitCommit size={14} />
                                         <p>
-                                            <span className="mr-2">#{history.id}</span>
+                                            <span className="mr-2">#{currentSyncHistory.id}</span>
                                             <span>{label}</span>
                                         </p>
                                     </div>
 
                                     <div className={`text-gray-500 flex gap-3 items-center`}>
                                         <BsStopwatch size={14} />
-                                        <p>Ran for 53 sec</p>
+                                        <p>{durationMsg}</p>
                                     </div>
 
                                     <div className={`text-gray-500 flex gap-3 items-center`}>
                                         <BsCalendarDay size={14} />
-                                        <p>about 2 hours ago</p>
+                                        <p>{finishedAgoMsg}</p>
                                     </div>
                                 </div>
 

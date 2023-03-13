@@ -11,6 +11,7 @@ import {
     ContentPanelItem,
     ContentPanelList,
 } from '^layouts/ContentLayout';
+import {Paginator} from '^components/Paginator';
 
 export const BillingHistoriesPanel = memo(() => {
     const router = useRouter();
@@ -53,15 +54,6 @@ export const BillingHistoriesPanel = memo(() => {
 
     if (!application) return <></>;
 
-    const pageNumbers: number[] = [];
-    const minNum = currentPage - 2;
-    const maxNum = currentPage + 2;
-    for (let num = 1; num <= totalPage; num++) {
-        if (minNum <= num && num <= maxNum) {
-            pageNumbers.push(num);
-        }
-    }
-
     return (
         <div>
             <ContentPanel title={`Billing histories (${totalItemCount})`}>
@@ -71,23 +63,12 @@ export const BillingHistoriesPanel = memo(() => {
                     ))}
 
                     <ContentPanelItem>
-                        <div className="btn-group ml-auto">
-                            <button className="btn" onClick={() => fetchHistories(application.id, 1)}>
-                                «
-                            </button>
-                            {pageNumbers.map((pageNum, i) => (
-                                <button
-                                    key={i}
-                                    className={`btn ${pageNum === currentPage && 'btn-active'}`}
-                                    onClick={() => fetchHistories(application.id, pageNum)}
-                                >
-                                    {pageNum}
-                                </button>
-                            ))}
-                            <button className="btn" onClick={() => fetchHistories(application.id, totalPage)}>
-                                »
-                            </button>
-                        </div>
+                        <Paginator
+                            className="ml-auto"
+                            currentPage={currentPage}
+                            totalPage={totalPage}
+                            onClick={(pageNum) => fetchHistories(application.id, pageNum)}
+                        />
                     </ContentPanelItem>
                 </ContentPanelList>
             </ContentPanel>

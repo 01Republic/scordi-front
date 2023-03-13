@@ -1,4 +1,7 @@
 import {BiBlock, BiBot, BiCheckCircle, BiError} from 'react-icons/bi';
+import {ApplicationDto} from '^types/application.type';
+import {UserDto} from '^types/user.type';
+import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
 export enum SyncHistoryResultStatus {
     IN_PROGRESS = 'in progress',
@@ -6,6 +9,37 @@ export enum SyncHistoryResultStatus {
     FAILED = 'failed',
     CANCELED = 'canceled',
 }
+
+export type SyncHistoryDto = {
+    id: number;
+    applicationId: number; // 구독 ID
+    runnerId: number | null; // 실행자 ID
+    isScheduled: boolean; // 정기실행여부
+    content: string; // 실행주요내용
+    resultStatus: SyncHistoryResultStatus; // 실행결과상태
+    createdAt: string; // 생성일시 (실행시작일시)
+    updatedAt: string;
+    finishedAt: string | null; // 완료일시
+
+    // relation
+
+    application?: ApplicationDto; // 대상 구독
+    runner?: UserDto; // 실행자
+};
+
+export type FindAllSyncHistoryQuery = FindAllQueryDto<SyncHistoryDto> & {};
+
+export type CreateSyncHistoryDto = {
+    runnerId?: number; // 실행자 ID
+    content?: string; // 실행주요내용
+};
+
+export type UpdateSyncHistoryDto = Partial<CreateSyncHistoryDto> & {
+    applicationId?: number; // 구독 ID
+    isScheduled?: boolean; // 정기실행여부
+    resultStatus?: SyncHistoryResultStatus; // 실행결과상태
+    finishedAt?: Date; // 완료일시
+};
 
 export function t_syncHistoryResultStatus(status: SyncHistoryResultStatus) {
     return {
@@ -23,57 +57,63 @@ export const syncHistoryAssets = {
     [SyncHistoryResultStatus.CANCELED]: {normal: 'gray-300', darken: 'gray-600', Icon: BiBlock},
 };
 
-export type ApplicationSyncHistoryDto = {
-    id: number;
-    applicationId: number;
-    resultStatus: SyncHistoryResultStatus;
-    createdAt: string;
-    updatedAt: string;
-    finishedAt: string | null;
-};
-
-export function restartSyncButtonIsActive(history: ApplicationSyncHistoryDto) {
+export function restartSyncButtonIsActive(history: SyncHistoryDto) {
     if (history.resultStatus === SyncHistoryResultStatus.IN_PROGRESS) return false;
     return true;
 }
 
-export const mockSyncHistoryList: ApplicationSyncHistoryDto[] = [
-    // {
-    //     id: 315,
-    //     applicationId: 7,
-    //     resultStatus: SyncHistoryResultStatus.IN_PROGRESS,
-    //     createdAt: new Date('2023-03-07').toISOString(),
-    //     updatedAt: new Date('2023-03-07').toISOString(),
-    //     finishedAt: null,
-    // },
+export const mockSyncHistoryList: SyncHistoryDto[] = [
+    {
+        id: 315,
+        applicationId: 7,
+        resultStatus: SyncHistoryResultStatus.IN_PROGRESS,
+        runnerId: null,
+        isScheduled: true,
+        content: '',
+        createdAt: new Date('2023-03-13T08:33:00Z').toISOString(),
+        updatedAt: new Date('2023-03-07').toISOString(),
+        finishedAt: null,
+    },
     // {
     //     id: 314,
     //     applicationId: 7,
     //     resultStatus: SyncHistoryResultStatus.SUCCESS,
+    //     runnerId: null,
+    //     isScheduled: true,
+    //     content: '',
     //     createdAt: new Date('2023-03-07').toISOString(),
     //     updatedAt: new Date('2023-03-07').toISOString(),
     //     finishedAt: new Date('2023-03-07').toISOString(),
     // },
-    // {
-    //     id: 313,
-    //     applicationId: 7,
-    //     resultStatus: SyncHistoryResultStatus.CANCELED,
-    //     createdAt: new Date('2023-03-07').toISOString(),
-    //     updatedAt: new Date('2023-03-07').toISOString(),
-    //     finishedAt: new Date('2023-03-07').toISOString(),
-    // },
-    // {
-    //     id: 312,
-    //     applicationId: 7,
-    //     resultStatus: SyncHistoryResultStatus.FAILED,
-    //     createdAt: new Date('2023-03-07').toISOString(),
-    //     updatedAt: new Date('2023-03-07').toISOString(),
-    //     finishedAt: new Date('2023-03-07').toISOString(),
-    // },
+    {
+        id: 313,
+        applicationId: 7,
+        resultStatus: SyncHistoryResultStatus.CANCELED,
+        runnerId: null,
+        isScheduled: true,
+        content: '',
+        createdAt: new Date('2023-03-13T08:00:00Z').toISOString(),
+        updatedAt: new Date('2023-03-07').toISOString(),
+        finishedAt: new Date('2023-03-13T09:33:15Z').toISOString(),
+    },
+    {
+        id: 312,
+        applicationId: 7,
+        resultStatus: SyncHistoryResultStatus.FAILED,
+        runnerId: null,
+        isScheduled: true,
+        content: '',
+        createdAt: new Date('2023-03-07').toISOString(),
+        updatedAt: new Date('2023-03-07').toISOString(),
+        finishedAt: new Date('2023-03-07').toISOString(),
+    },
     // {
     //     id: 311,
     //     applicationId: 7,
     //     resultStatus: SyncHistoryResultStatus.CANCELED,
+    //     runnerId: null,
+    //     isScheduled: true,
+    //     content: '',
     //     createdAt: new Date('2023-03-07').toISOString(),
     //     updatedAt: new Date('2023-03-07').toISOString(),
     //     finishedAt: new Date('2023-03-07').toISOString(),
@@ -82,6 +122,9 @@ export const mockSyncHistoryList: ApplicationSyncHistoryDto[] = [
     //     id: 310,
     //     applicationId: 7,
     //     resultStatus: SyncHistoryResultStatus.FAILED,
+    //     runnerId: null,
+    //     isScheduled: true,
+    //     content: '',
     //     createdAt: new Date('2023-03-07').toISOString(),
     //     updatedAt: new Date('2023-03-07').toISOString(),
     //     finishedAt: new Date('2023-03-07').toISOString(),
@@ -90,6 +133,9 @@ export const mockSyncHistoryList: ApplicationSyncHistoryDto[] = [
     //     id: 308,
     //     applicationId: 7,
     //     resultStatus: SyncHistoryResultStatus.SUCCESS,
+    //     runnerId: null,
+    //     isScheduled: true,
+    //     content: '',
     //     createdAt: new Date('2023-03-07').toISOString(),
     //     updatedAt: new Date('2023-03-07').toISOString(),
     //     finishedAt: new Date('2023-03-07').toISOString(),
@@ -98,6 +144,9 @@ export const mockSyncHistoryList: ApplicationSyncHistoryDto[] = [
     //     id: 307,
     //     applicationId: 7,
     //     resultStatus: SyncHistoryResultStatus.SUCCESS,
+    //     runnerId: null,
+    //     isScheduled: true,
+    //     content: '',
     //     createdAt: new Date('2023-03-07').toISOString(),
     //     updatedAt: new Date('2023-03-07').toISOString(),
     //     finishedAt: new Date('2023-03-07').toISOString(),
@@ -106,6 +155,9 @@ export const mockSyncHistoryList: ApplicationSyncHistoryDto[] = [
     //     id: 306,
     //     applicationId: 7,
     //     resultStatus: SyncHistoryResultStatus.SUCCESS,
+    //     runnerId: null,
+    //     isScheduled: true,
+    //     content: '',
     //     createdAt: new Date('2023-03-07').toISOString(),
     //     updatedAt: new Date('2023-03-07').toISOString(),
     //     finishedAt: new Date('2023-03-07').toISOString(),
@@ -114,6 +166,9 @@ export const mockSyncHistoryList: ApplicationSyncHistoryDto[] = [
     //     id: 305,
     //     applicationId: 7,
     //     resultStatus: SyncHistoryResultStatus.SUCCESS,
+    //     runnerId: null,
+    //     isScheduled: true,
+    //     content: '',
     //     createdAt: new Date('2023-03-07').toISOString(),
     //     updatedAt: new Date('2023-03-07').toISOString(),
     //     finishedAt: new Date('2023-03-07').toISOString(),
@@ -122,6 +177,9 @@ export const mockSyncHistoryList: ApplicationSyncHistoryDto[] = [
     //     id: 304,
     //     applicationId: 7,
     //     resultStatus: SyncHistoryResultStatus.SUCCESS,
+    //     runnerId: null,
+    //     isScheduled: true,
+    //     content: '',
     //     createdAt: new Date('2023-03-07').toISOString(),
     //     updatedAt: new Date('2023-03-07').toISOString(),
     //     finishedAt: new Date('2023-03-07').toISOString(),
@@ -130,6 +188,9 @@ export const mockSyncHistoryList: ApplicationSyncHistoryDto[] = [
     //     id: 303,
     //     applicationId: 7,
     //     resultStatus: SyncHistoryResultStatus.SUCCESS,
+    //     runnerId: null,
+    //     isScheduled: true,
+    //     content: '',
     //     createdAt: new Date('2023-03-07').toISOString(),
     //     updatedAt: new Date('2023-03-07').toISOString(),
     //     finishedAt: new Date('2023-03-07').toISOString(),
@@ -138,6 +199,9 @@ export const mockSyncHistoryList: ApplicationSyncHistoryDto[] = [
     //     id: 303,
     //     applicationId: 7,
     //     resultStatus: SyncHistoryResultStatus.SUCCESS,
+    //     runnerId: null,
+    //     isScheduled: true,
+    //     content: '',
     //     createdAt: new Date('2023-03-07').toISOString(),
     //     updatedAt: new Date('2023-03-07').toISOString(),
     //     finishedAt: new Date('2023-03-07').toISOString(),
@@ -146,6 +210,9 @@ export const mockSyncHistoryList: ApplicationSyncHistoryDto[] = [
     //     id: 302,
     //     applicationId: 7,
     //     resultStatus: SyncHistoryResultStatus.SUCCESS,
+    //     runnerId: null,
+    //     isScheduled: true,
+    //     content: '',
     //     createdAt: new Date('2023-03-07').toISOString(),
     //     updatedAt: new Date('2023-03-07').toISOString(),
     //     finishedAt: new Date('2023-03-07').toISOString(),
@@ -154,6 +221,9 @@ export const mockSyncHistoryList: ApplicationSyncHistoryDto[] = [
     //     id: 301,
     //     applicationId: 7,
     //     resultStatus: SyncHistoryResultStatus.SUCCESS,
+    //     runnerId: null,
+    //     isScheduled: true,
+    //     content: '',
     //     createdAt: new Date('2023-03-07').toISOString(),
     //     updatedAt: new Date('2023-03-07').toISOString(),
     //     finishedAt: new Date('2023-03-07').toISOString(),
@@ -162,6 +232,9 @@ export const mockSyncHistoryList: ApplicationSyncHistoryDto[] = [
         id: 300,
         applicationId: 7,
         resultStatus: SyncHistoryResultStatus.SUCCESS,
+        runnerId: null,
+        isScheduled: true,
+        content: '',
         createdAt: new Date('2023-03-07').toISOString(),
         updatedAt: new Date('2023-03-07').toISOString(),
         finishedAt: new Date('2023-03-07').toISOString(),
