@@ -1,7 +1,7 @@
 import {memo} from 'react';
 import {ApplicationDto} from '^types/application.type';
 import {ContentPanelHeading} from '^layouts/ContentLayout';
-import {BsFillCaretDownFill} from 'react-icons/bs';
+import {BsFillCaretDownFill} from '^components/react-icons';
 import {Locale, t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
 
 interface CurrentPlanPanelHeader {
@@ -15,9 +15,9 @@ export const CurrentPlanPanelHeader = memo((props: CurrentPlanPanelHeader) => {
 
     const protoName = prototype.name;
     const protoImage = prototype.image;
-    const planName = paymentPlan.name;
+    const planName = paymentPlan?.name || '-';
     const planDesc = 'The basics for organizations and developers';
-    const cycleName = t_BillingCycleTerm(billingCycle.term, true, Locale.en);
+    const cycleName = billingCycle ? t_BillingCycleTerm(billingCycle.term, true, Locale.en) : '-';
 
     return (
         <ContentPanelHeading>

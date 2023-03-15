@@ -1,7 +1,7 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {ApplicationDto} from '^types/application.type';
-import {BiCalendarStar} from 'react-icons/bi';
+import {BiCalendarStar} from '^components/react-icons';
 import {useSetRecoilState} from 'recoil';
 import {navTabIndex} from '^components/pages/OrgAppShowPage';
 

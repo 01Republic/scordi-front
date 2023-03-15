@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import {getOrganizationByCrawlerApi} from '^api/crawler';
 import {PreLoaderSm} from '^components/PreLoaderSm';
 import {OutLink} from '^components/OutLink';
-import {MdNavigateBefore, MdNavigateNext} from 'react-icons/md';
+import {MdNavigateBefore, MdNavigateNext} from '^components/react-icons';
 
 export const SelectOrgStage = memo(() => {
     const {

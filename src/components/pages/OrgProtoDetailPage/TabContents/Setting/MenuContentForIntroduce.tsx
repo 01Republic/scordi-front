@@ -13,7 +13,7 @@ import {
     ContentPanelList,
 } from '^layouts/ContentLayout';
 import {WysiwygEditor} from '^components/WysiwygEditor';
-import {IoMdRefresh} from 'react-icons/io';
+import {IoMdRefresh} from '^components/react-icons';
 
 export const MenuContentForIntroduce = memo(() => {
     const [proto, mutation] = useApplicationPrototype();

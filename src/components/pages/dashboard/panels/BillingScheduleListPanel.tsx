@@ -4,7 +4,7 @@ import {ContentPanelBody, ContentPanelMiniTitle} from '^layouts/ContentLayout';
 import {yyyy_mm_dd} from '^utils/dateTime';
 import {useBillingList} from '^hooks/useBillingHistories';
 import {fetchApplicationQueryById} from '^atoms/applications.atom';
-import {AiOutlineWarning} from 'react-icons/ai';
+import {AiOutlineWarning} from '^components/react-icons';
 
 export const BillingScheduleListPanel = memo(() => {
     const {selectedDate, billingHistories, billingSchedules} = useBillingList();

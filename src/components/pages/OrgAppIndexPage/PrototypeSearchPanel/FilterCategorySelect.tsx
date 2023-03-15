@@ -1,5 +1,5 @@
 import React, {memo, useEffect} from 'react';
-import {AiFillCaretDown} from 'react-icons/ai';
+import {AiFillCaretDown} from '^components/react-icons';
 import {atom, useRecoilState, useRecoilValue} from 'recoil';
 import {getApplicationTags} from '^api/applicationTag.api';
 

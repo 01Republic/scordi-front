@@ -1,6 +1,6 @@
 import {useRouter} from 'next/router';
 import {memo} from 'react';
-import {FcOk} from 'react-icons/fc';
+import {FcOk} from '^components/react-icons';
 import {useRecoilState} from 'recoil';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';

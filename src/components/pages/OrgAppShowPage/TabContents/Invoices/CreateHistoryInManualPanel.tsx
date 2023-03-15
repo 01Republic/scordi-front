@@ -1,7 +1,6 @@
 import {memo} from 'react';
 import {ContentPanel, ContentPanelMiniTitle} from '^layouts/ContentLayout';
-import {BsFillPencilFill, BsLightningChargeFill} from 'react-icons/bs';
-import {FiUpload} from 'react-icons/fi';
+import {BsFillPencilFill, BsLightningChargeFill, FiUpload} from '^components/react-icons';
 
 export const CreateHistoryInManualPanel = memo(() => {
     return (

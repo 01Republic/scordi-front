@@ -1,5 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
-import {AiOutlineSync} from 'react-icons/ai';
+import {AiOutlineSync} from '^components/react-icons';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import {getApplication} from '^api/application.api';
 import {applicationIdParamState} from '^atoms/common';

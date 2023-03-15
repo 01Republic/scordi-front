@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {OrgInfo} from './OrgInfo';
 import {ProfileDropDown} from './ProfileDropDown';
-import {TbLayoutSidebarLeftCollapse, TbLayoutSidebarRightCollapse} from 'react-icons/tb';
+import {TbLayoutSidebarLeftCollapse, TbLayoutSidebarRightCollapse} from '^components/react-icons';
 import {useRecoilState} from 'recoil';
 import {sidebarActiveAtom} from '^layouts/org/mainLayout/Sidebar';
 

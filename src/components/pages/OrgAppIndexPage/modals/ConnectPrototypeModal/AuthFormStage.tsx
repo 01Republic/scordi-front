@@ -5,7 +5,7 @@ import {LoginDto, LoginWithVerify} from '^types/crawler';
 import {ConnectModalStage, useConnectPrototypeModalState} from '^atoms/connectPrototypes.atom';
 import {getOrganizationListByCrawlerApi} from '^api/crawler';
 import {PreLoaderSm} from '^components/PreLoaderSm';
-import {MdNavigateNext} from 'react-icons/md';
+import {MdNavigateNext} from '^components/react-icons';
 
 export const AuthFormStage = memo(() => {
     const {

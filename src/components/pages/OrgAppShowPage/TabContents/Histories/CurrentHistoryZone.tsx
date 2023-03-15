@@ -1,15 +1,11 @@
 import {memo, useEffect} from 'react';
-import {BiGitCommit} from 'react-icons/bi';
-import {BsCalendarDay, BsStopwatch} from 'react-icons/bs';
+import {BiGitCommit, BsCalendarDay, BsStopwatch, IoMdRefresh} from '^components/react-icons';
 import {ApplicationDto} from '^types/application.type';
 import {
-    SyncHistoryDto,
     restartSyncButtonIsActive,
     syncHistoryAssets,
-    SyncHistoryResultStatus,
     t_syncHistoryResultStatus,
 } from '^types/applicationSyncHistory.type';
-import {IoMdRefresh} from 'react-icons/io';
 import {Avatar} from '^components/Avatar';
 import {getDistanceOfTime, humanizeTimeDistance} from '^utils/dateTime';
 import {useCurrentSyncHistory} from '^hooks/useApplicationSyncHistories';
@@ -75,7 +71,10 @@ export const CurrentHistoryZone = memo((props: CurrentHistoryZoneProps) => {
                                 <div className="flex-1 flex flex-col">
                                     <div className="flex-1">
                                         <p className={`card-title text-${asset.darken} leading-none`}>Current sync</p>
-                                        <div dangerouslySetInnerHTML={{__html: currentSyncHistory.content}} />
+                                        <div
+                                            className="text-sm pt-4 pb-6 whitespace-pre-line"
+                                            dangerouslySetInnerHTML={{__html: currentSyncHistory.content}}
+                                        />
                                     </div>
 
                                     <div className="flex items-center gap-2">

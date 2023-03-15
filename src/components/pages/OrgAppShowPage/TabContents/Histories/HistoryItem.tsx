@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {IoMdClose, IoMdRefresh} from 'react-icons/io';
+import {IoMdClose, IoMdRefresh} from '^components/react-icons';
 import {ApplicationDto} from '^types/application.type';
 import {HistoryStatusButton} from './HistoryStatusButton';
 import {SyncHistoryDto, SyncHistoryResultStatus} from '^types/applicationSyncHistory.type';

@@ -1,9 +1,8 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {ApplicationDto} from '^types/application.type';
-import {BsArrowRightShort} from 'react-icons/bs';
 import {OutLink} from '^components/OutLink';
-import {BiCreditCard} from 'react-icons/bi';
+import {BsArrowRightShort, BiCreditCard} from '^components/react-icons';
 import {IoWarningOutline} from 'react-icons/io5';
 
 interface PaymentInfoProps {

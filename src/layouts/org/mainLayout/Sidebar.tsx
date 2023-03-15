@@ -8,7 +8,7 @@ import {OrgMembershipIndexPageRoute} from '^pages/orgs/[id]/memberships';
 import {OrgShowRoute} from '^pages/orgs/[id]';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
-import {AiOutlineAppstoreAdd, AiOutlineDashboard, AiOutlineSetting} from 'react-icons/ai';
+import {AiOutlineAppstoreAdd, AiOutlineDashboard, AiOutlineSetting} from '^components/react-icons';
 import {atom, useRecoilValue} from 'recoil';
 
 export const sidebarActiveAtom = atom({

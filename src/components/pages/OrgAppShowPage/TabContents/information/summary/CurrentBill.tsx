@@ -1,7 +1,7 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {ApplicationDto} from '^types/application.type';
-import {BiReceipt} from 'react-icons/bi';
+import {BiReceipt} from '^components/react-icons';
 import {Locale, t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
 
 interface CurrentBillProps {
@@ -12,7 +12,7 @@ export const CurrentBill = memo((props: CurrentBillProps & WithChildren) => {
     const {application, children} = props;
     const {prototype, paymentPlan, billingCycle} = application;
 
-    const cycleName = t_BillingCycleTerm(billingCycle.term, true, Locale.en);
+    const cycleName = billingCycle ? t_BillingCycleTerm(billingCycle.term, true, Locale.en) : '-';
     const totalPrice = `$${application.nextBillingAmount.toFixed(2)}`;
 
     const diffPercent = (() => {

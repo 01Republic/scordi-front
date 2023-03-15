@@ -1,5 +1,5 @@
 import React, {HTMLAttributeAnchorTarget, memo, ReactNode} from 'react';
-import {BiLinkExternal} from 'react-icons/bi';
+import {BiLinkExternal} from '^components/react-icons';
 import {WithChildren} from '^types/global.type';
 
 interface OutLinkProps {

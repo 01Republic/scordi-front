@@ -1,4 +1,4 @@
-import {BiBlock, BiBot, BiCheckCircle, BiError} from 'react-icons/bi';
+import {BiBlock, BiBot, BiCheckCircle, BiError} from '^components/react-icons';
 import {ApplicationDto} from '^types/application.type';
 import {UserDto} from '^types/user.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
