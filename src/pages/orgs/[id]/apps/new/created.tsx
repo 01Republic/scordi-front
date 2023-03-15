@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
-import {useApplication} from '^hooks/useApplications';
+import {useCurrentApplication} from '^hooks/useApplications';
 import {PreLoader} from '^components/PreLoader';
 import {ApplicationPrototypeDto, safeImageSrc} from '^types/applicationPrototype.type';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
@@ -23,7 +23,7 @@ export const NewAppCreatedPageRoute = pathRoute({
 export default function NewAppCreatedPage() {
     const router = useRouter();
     const applicationId = Number(router.query.applicationId);
-    const application = useApplication();
+    const {currentApplication: application} = useCurrentApplication();
     const setApplicationIdParam = useSetRecoilState(applicationIdParamState);
 
     useEffect(() => {

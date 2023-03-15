@@ -1,10 +1,9 @@
 import {memo} from 'react';
 import {ContentPanel, ContentPanelMiniTitle} from '^layouts/ContentLayout';
-import {useApplicationPrototype} from '^hooks/useApplicationPrototypes';
-import {useApplication} from '^hooks/useApplications';
+import {useCurrentApplication} from '^hooks/useApplications';
 
 export const ConnectPanel = memo(() => {
-    const application = useApplication();
+    const {currentApplication: application} = useCurrentApplication();
 
     if (!application) return <></>;
 

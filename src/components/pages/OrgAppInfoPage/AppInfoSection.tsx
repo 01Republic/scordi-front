@@ -1,7 +1,7 @@
 import React, {memo, useEffect} from 'react';
 import {MobileSection} from '^components/v2/MobileSection';
 import {MobileKeyValueItem} from '^components/v2/MobileKeyValueItem';
-import {useApplication} from '^hooks/useApplications';
+import {useCurrentApplication} from '^hooks/useApplications';
 import {t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
 import {TitleSection} from '^components/v2/TitleSection';
 import {AppNameWithLogoBlock} from './AppNameWithLogoBlock';
@@ -10,7 +10,7 @@ import {AppNextPayInfoBlock} from '^components/pages/OrgAppInfoPage/AppNextPayIn
 type AppInfoSectionProps = {};
 
 export const AppInfoSection = memo((props: AppInfoSectionProps) => {
-    const application = useApplication();
+    const {currentApplication: application} = useCurrentApplication();
 
     if (!application) return <></>;
 

@@ -49,6 +49,29 @@ export const getApplicationsQueryWithParams = selectorFamily<Paginated<Applicati
     set: () => {},
 });
 
+export const getCurrentApplicationQueryTrigger = atom({
+    key: 'getCurrentApplicationQueryTrigger',
+    default: 0,
+});
+
+export const getCurrentApplicationQuery = selector({
+    key: 'getCurrentApplicationQuery',
+    get: async ({get}) => {
+        get(getCurrentApplicationQueryTrigger);
+        const id = get(applicationIdParamState);
+        if (isNaN(id)) return;
+        try {
+            const res = await getApplication(id);
+            return res.data;
+        } catch (e) {
+            errorNotify(e);
+        }
+    },
+    set: ({get, set}) => {
+        set(getCurrentApplicationQueryTrigger, (v) => v + 1);
+    },
+});
+
 export const getApplicationQueryTrigger = atom({
     key: 'getApplicationQueryTrigger',
     default: 0,

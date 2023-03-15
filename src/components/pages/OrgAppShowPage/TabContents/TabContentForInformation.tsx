@@ -1,6 +1,6 @@
 import {memo} from 'react';
 import {useRouter} from 'next/router';
-import {useApplication} from '^hooks/useApplications';
+import {useCurrentApplication} from '^hooks/useApplications';
 import {SummaryZone} from './information/SummaryZone';
 import {CurrentPlanZone} from './information/CurrentPlanZone';
 
@@ -21,7 +21,7 @@ import {CurrentPlanZone} from './information/CurrentPlanZone';
  */
 
 export const TabContentForInformation = memo(() => {
-    const app = useApplication();
+    const {currentApplication: app} = useCurrentApplication();
 
     if (!app) return <></>;
 

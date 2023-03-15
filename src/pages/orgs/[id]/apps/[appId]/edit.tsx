@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
-import {useApplication} from '^hooks/useApplications';
+import {useCurrentApplication} from '^hooks/useApplications';
 import {useSetRecoilState} from 'recoil';
 import {applicationIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useForm} from 'react-hook-form';
@@ -25,7 +25,7 @@ export const OrgApplicationEditPageRoute = pathRoute({
 export default function OrgAppEditPage() {
     useRouterIdParamState('id', orgIdParamState);
     useRouterIdParamState('appId', applicationIdParamState);
-    const application = useApplication();
+    const {currentApplication: application} = useCurrentApplication();
     const form = useForm<UpdateApplicationRequestDto>();
 
     if (!application) return <></>;

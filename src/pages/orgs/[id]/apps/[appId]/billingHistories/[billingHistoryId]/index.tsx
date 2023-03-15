@@ -8,7 +8,7 @@ import {DeleteButton} from '^components/v2/ui/buttons/DeleteButton';
 import {BillingHistoryInfoSection} from '^components/pages/BillingHistoryShowPage/BillingHistoryInfoSection';
 import {AppBillingSummarySection} from '^components/pages/OrgAppInfoPage/AppBillingSummarySection';
 import {AppBillingHistoryListSection} from '^components/pages/OrgAppInfoPage/AppBillingHistoryListSection';
-import {useApplication} from '^hooks/useApplications';
+import {useCurrentApplication} from '^hooks/useApplications';
 import {MobileBottomNav} from '^components/v2/MobileBottomNav';
 import {NewBillingHistoryOnAppPageRoute} from '^pages/orgs/[id]/apps/[appId]/billingHistories/new';
 import {Icon} from '^components/Icon';
@@ -37,7 +37,7 @@ export default function BillingHistoryShowPage() {
     const organizationId = useRouterIdParamState('id', orgIdParamState);
     const applicationId = useRouterIdParamState('appId', applicationIdParamState);
     const billingHistoryId = useRouterIdParamState('billingHistoryId', billingHistoryIdParamState);
-    const application = useApplication();
+    const {currentApplication: application} = useCurrentApplication();
     const setBillingHistoriesQueryParam = useSetRecoilState(getBillingHistoriesParamsState);
 
     useEffect(() => {

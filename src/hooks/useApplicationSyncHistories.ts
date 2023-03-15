@@ -6,7 +6,6 @@ import {
     syncHistoryListFetchItemsQueryParamAtom,
     syncHistoryListPaginationAtom,
 } from '^atoms/applicationSyncHistories.atom';
-import {useApplication} from '^hooks/useApplications';
 import {getSyncHistories, getSyncHistory} from '^api/applicationSyncHistories.api';
 import {errorNotify} from '^utils/toast-notify';
 import {FindAllSyncHistoryQuery} from '^types/applicationSyncHistory.type';

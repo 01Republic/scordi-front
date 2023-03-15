@@ -11,7 +11,7 @@ import {yyyy_mm_dd} from '^utils/dateTime';
 import {MobileBottomNav} from '^components/v2/MobileBottomNav';
 import {ApplicationDto} from '^types/application.type';
 import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
-import {useApplication} from '^hooks/useApplications';
+import {useCurrentApplication} from '^hooks/useApplications';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 
 type CreateBillingHistoryFormProps = {};
@@ -19,7 +19,7 @@ type CreateBillingHistoryFormProps = {};
 export const CreateBillingHistoryForm = memo((props: CreateBillingHistoryFormProps) => {
     const router = useRouter();
     const organizationId = useRouterIdParamState('id', orgIdParamState);
-    const application = useApplication();
+    const {currentApplication: application} = useCurrentApplication();
     const form = useForm<CreateDto>();
 
     if (!application || !organizationId) return <></>;

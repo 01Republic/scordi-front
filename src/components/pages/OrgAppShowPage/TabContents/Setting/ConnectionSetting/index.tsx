@@ -1,5 +1,5 @@
 import {memo, useEffect} from 'react';
-import {useApplication} from '^hooks/useApplications';
+import {useCurrentApplication} from '^hooks/useApplications';
 import {useForm} from 'react-hook-form';
 import {UpdateApplicationRequestDto as UpdateDto} from '^types/application.type';
 import {ContentForm, ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/ContentLayout';
@@ -7,7 +7,7 @@ import {TextInput} from '^components/TextInput';
 import {DangerPanel} from './DangerPanel';
 
 export const ConnectionSetting = memo(() => {
-    const app = useApplication();
+    const {currentApplication: app} = useCurrentApplication();
     const form = useForm<UpdateDto>();
 
     useEffect(() => {

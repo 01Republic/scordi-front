@@ -1,19 +1,18 @@
 import {memo} from 'react';
-import {useApplicationPrototype} from '^hooks/useApplicationPrototypes';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
-import {useApplication} from '^hooks/useApplications';
+import {useCurrentApplication} from '^hooks/useApplications';
 
 // Application Detail Page Breadcrumb
 export const Breadcrumb = memo(() => {
     const router = useRouter();
     const orgId = useRouterIdParamState('id', orgIdParamState);
-    const app = useApplication();
+    const {currentApplication} = useCurrentApplication();
 
-    if (!app) return <></>;
+    if (!currentApplication) return <></>;
 
-    const proto = app?.prototype;
+    const proto = currentApplication.prototype;
 
     return (
         <section className="text-sm breadcrumbs mb-5">

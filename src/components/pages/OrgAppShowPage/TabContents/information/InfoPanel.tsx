@@ -1,11 +1,11 @@
 import {memo} from 'react';
 import {ContentPanel, ContentPanelMiniTitle} from '^layouts/ContentLayout';
 import {WithChildren} from '^types/global.type';
-import {useApplication} from '^hooks/useApplications';
+import {useCurrentApplication} from '^hooks/useApplications';
 import {OutLink} from '^components/OutLink';
 
 export const InfoPanel = memo(() => {
-    const application = useApplication();
+    const {currentApplication: application} = useCurrentApplication();
 
     if (!application) return <></>;
 

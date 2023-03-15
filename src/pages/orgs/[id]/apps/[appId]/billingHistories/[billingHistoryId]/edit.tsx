@@ -1,11 +1,9 @@
 import React, {useEffect} from 'react';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
-import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {MobileTopNav, MobileTopNavRight} from '^components/v2/MobileTopNav';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
-import {BasicButton} from '^components/v2/ui/buttons/BasicButton';
 import {TitleSection} from '^components/v2/TitleSection';
-import {useApplication} from '^hooks/useApplications';
+import {useCurrentApplication} from '^hooks/useApplications';
 import {useBillingHistory} from '^hooks/useBillingHistories';
 import {AppNameWithLogoBlock} from '^components/pages/OrgAppInfoPage/AppNameWithLogoBlock';
 import {applicationIdParamState, billingHistoryIdParamState, useRouterIdParamState} from '^atoms/common';
@@ -16,7 +14,6 @@ import {t_paidAt, UpdateBillingHistoryRequestDto} from '^types/billing.type';
 import {BillingHistoryInputsBlock} from '^components/pages/BillingHistoryEditPage/BillingHistoryInputsBlock';
 import {MobileBottomNav} from '^components/v2/MobileBottomNav';
 import {CTAButton} from '^components/v2/ui/buttons/CTAButton';
-import {GetStaticPaths, GetStaticProps} from 'next';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const BillingHistoryEditPageRoute = pathRoute({
@@ -32,7 +29,7 @@ export const BillingHistoryEditPageRoute = pathRoute({
 export default function BillingHistoryEditPage() {
     useRouterIdParamState('appId', applicationIdParamState);
     useRouterIdParamState('billingHistoryId', billingHistoryIdParamState);
-    const application = useApplication();
+    const {currentApplication: application} = useCurrentApplication();
     const billingHistory = useBillingHistory();
     const form = useForm<UpdateBillingHistoryRequestDto>();
 

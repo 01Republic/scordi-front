@@ -1,15 +1,13 @@
-import {memo, useEffect, useState} from 'react';
-import {useApplication} from '^hooks/useApplications';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {memo} from 'react';
+import {useCurrentApplication} from '^hooks/useApplications';
 import {WithChildren} from '^types/global.type';
 import {useRouter} from 'next/router';
 import {OrgProtoDetailPageRoute} from '^pages/orgs/[id]/prototypes/[protoId]';
-import {OutLink} from '^components/OutLink';
 
 export const ApplicationHeader = memo((props: WithChildren) => {
     const {children} = props;
     const router = useRouter();
-    const app = useApplication();
+    const {currentApplication: app} = useCurrentApplication();
 
     if (!app) return <></>;
 

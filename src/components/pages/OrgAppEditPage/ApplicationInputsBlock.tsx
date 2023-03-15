@@ -2,7 +2,7 @@ import React, {memo, useEffect, useState} from 'react';
 import {UpdateApplicationRequestDto} from '^types/application.type';
 import {TitleSection} from '^components/v2/TitleSection';
 import {UseFormReturn} from 'react-hook-form';
-import {useApplication} from '^hooks/useApplications';
+import {useCurrentApplication} from '^hooks/useApplications';
 import {MobileSection} from '^components/v2/MobileSection';
 import {MobileKeyValueItem} from '^components/v2/MobileKeyValueItem';
 import {Select} from '^components/Select';
@@ -15,7 +15,7 @@ type AppNextPayInputsBlockProps = {
 
 export const ApplicationInputsBlock = memo((props: AppNextPayInputsBlockProps) => {
     const {form} = props;
-    const application = useApplication();
+    const {currentApplication: application} = useCurrentApplication();
     const [cycleOptions, setCycleOptions] = useState<ApplicationBillingCycleDto[]>([]);
 
     if (!application) return <></>;

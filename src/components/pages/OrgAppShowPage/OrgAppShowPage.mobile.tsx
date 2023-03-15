@@ -12,7 +12,7 @@ import {AppInfoSection} from '^components/pages/OrgAppInfoPage/AppInfoSection';
 import {AppBillingSummarySection} from '^components/pages/OrgAppInfoPage/AppBillingSummarySection';
 import {AppBillingHistoryListSection} from '^components/pages/OrgAppInfoPage/AppBillingHistoryListSection';
 import {NewBillingHistoryOnAppPageRoute} from '^pages/orgs/[id]/apps/[appId]/billingHistories/new';
-import {useApplication} from '^hooks/useApplications';
+import {useCurrentApplication} from '^hooks/useApplications';
 import {useSetRecoilState} from 'recoil';
 import {applicationIdParamState} from '^atoms/common';
 import {getBillingHistoriesParamsState} from '^atoms/billingHistories.atom';
@@ -23,7 +23,7 @@ export const OrgAppShowPageMobile = memo(() => {
     const router = useRouter();
     const organizationId = Number(router.query.id);
     const applicationId = Number(router.query.appId);
-    const application = useApplication();
+    const {currentApplication: application} = useCurrentApplication();
     const setApplicationIdParam = useSetRecoilState(applicationIdParamState);
     const setBillingHistoriesQueryParam = useSetRecoilState(getBillingHistoriesParamsState);
 

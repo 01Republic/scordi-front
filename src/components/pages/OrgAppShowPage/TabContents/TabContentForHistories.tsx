@@ -1,10 +1,10 @@
 import {memo} from 'react';
 import {HistoryTable} from './Histories/HistoryTable';
-import {useApplication} from '^hooks/useApplications';
+import {useCurrentApplication} from '^hooks/useApplications';
 import {CurrentHistoryZone} from './Histories/CurrentHistoryZone';
 
 export const TabContentForHistories = memo(() => {
-    const app = useApplication();
+    const {currentApplication: app} = useCurrentApplication();
 
     if (!app) return <></>;
 

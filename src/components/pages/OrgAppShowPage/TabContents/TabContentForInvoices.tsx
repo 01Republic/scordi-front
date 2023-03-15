@@ -1,12 +1,10 @@
 import {memo} from 'react';
-import {useApplication} from '^hooks/useApplications';
 import {useRouter} from 'next/router';
 import {BillingHistoriesPanel} from './Invoices';
 import {CreateHistoryInManualPanel} from './Invoices/CreateHistoryInManualPanel';
 
 export const TabContentForInvoices = memo(() => {
     const router = useRouter();
-    const application = useApplication();
 
     return (
         <div className="bs-container">

@@ -1,25 +1,14 @@
 import React, {memo, useEffect, useState} from 'react';
-import {AiOutlineSync} from '^components/react-icons';
-import {useRecoilState, useSetRecoilState} from 'recoil';
-import {getApplication} from '^api/application.api';
-import {applicationIdParamState} from '^atoms/common';
+import {AiOutlineSync, BsFillCaretDownFill, BsTrash} from '^components/react-icons';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {ConnectStatus} from '^types/application.type';
-import {errorNotify} from '^utils/toast-notify';
 import {navTabIndex} from './OrgAppShowPage.desktop';
+import {useCurrentApplication} from '^hooks/useApplications';
 
 export const CurrentConnectStatus = memo(() => {
-    const [appId] = useRecoilState(applicationIdParamState);
-    const [connectStatus, setConnectStatus] = useState('');
+    const {currentApplication} = useCurrentApplication();
     const [isSync, setIsSync] = useState(false);
     const setNavTabIndex = useSetRecoilState(navTabIndex);
-
-    useEffect(() => {
-        if (!appId || isNaN(appId)) return;
-
-        getApplication(appId)
-            .then((res) => setConnectStatus(res.data.connectStatus))
-            .catch((err) => errorNotify(err));
-    }, [appId]);
 
     const goSync = () => {
         setIsSync(true);
@@ -32,6 +21,9 @@ export const CurrentConnectStatus = memo(() => {
         // });
     };
 
+    const connectStatus = currentApplication ? currentApplication.connectStatus : '';
+    console.log('connectStatus', connectStatus);
+
     return (
         <>
             {connectStatus === ConnectStatus.pending && (
@@ -40,31 +32,33 @@ export const CurrentConnectStatus = memo(() => {
                 </div>
             )}
             {connectStatus === ConnectStatus.success && (
-                <div className="flex flex-col">
-                    <p className="badge badge-info badge-outline">{connectStatus}</p>
-                    <div className="flex">
-                        <button className={`btn btn-square ${isSync ? 'loading' : ''}`} onClick={goSync}>
-                            {!isSync && <AiOutlineSync />}
-                        </button>
-                        <button className="btn btn-error">Disconnect</button>
-                    </div>
+                <div className="dropdown dropdown-end dropdown-hover">
+                    <label tabIndex={0} className="btn btn-green-500 btn-outline shadow gap-2">
+                        <span className="normal-case">Connected</span>
+                        <BsFillCaretDownFill size={11} className="-mr-1" />
+                    </label>
+                    <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                        <li>
+                            <a onClick={goSync}>
+                                <AiOutlineSync /> Sync again
+                            </a>
+                        </li>
+                        <li className="menu-title pt-3">
+                            <span>Warning</span>
+                        </li>
+                        <li>
+                            <a className="text-red-600 hover:bg-red-600 hover:text-white">
+                                <BsTrash /> Remove
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             )}
-            {/* <div className="flex flex-col gap-3 items-end">
-                <div className="badge badge-error badge-outline p-5 font-bold">{connectStatus}</div>
-                <div className="flex gap-2">
-                    <button
-                        className={`btn btn-square btn-error btn-outline ${isSync ? 'loading' : ''}`}
-                        onClick={goSync}
-                    >
-                        {!isSync && <AiOutlineSync size="24px" />}
-                    </button>
-                    <button className="btn btn-error text-white">Disconnect</button>
-                </div>
-            </div> */}
-            <p className="badge badge-info badge-outline p-5 font-bold" title="We're struggling to connecting">
-                {connectStatus}
-            </p>
+            {connectStatus === '' && (
+                <p className="badge badge-info badge-outline p-5 font-bold" title="We're struggling to connecting">
+                    {connectStatus}
+                </p>
+            )}
         </>
     );
 });
