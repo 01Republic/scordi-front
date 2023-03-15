@@ -8,7 +8,7 @@ import CryptoJS from 'crypto-js';
  * [크롤러] 서비스 연동 API
  */
 const CRAWLER_SIGN_SECRET = process.env.NEXT_PUBLIC_CRAWLER_SIGN_SECRET as string;
-const makeSignHeader = (params: LoginDto | LoginWithVerify) => {
+export const makeSignHeader = (params: LoginDto | LoginWithVerify) => {
     const loginData = JSON.stringify(params);
     const encrypted = CryptoJS.AES.encrypt(loginData, CRAWLER_SIGN_SECRET).toString();
     return {'Crawler-Sign': encrypted};

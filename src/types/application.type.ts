@@ -35,8 +35,8 @@ export type ApplicationDto = {
     displayName: string;
     organizationId: number;
     prototypeId: number;
-    paymentPlanId: number;
-    billingCycleId: number;
+    paymentPlanId: number | null;
+    billingCycleId: number | null;
     isFreeTier: boolean;
     registeredAt: Date; // 사용 시작일
     nextBillingDate: string | null; // 다음결제일
@@ -46,8 +46,8 @@ export type ApplicationDto = {
     usedMemberCount: number;
     createdAt: Date;
     updatedAt: Date;
-    paymentPlan: ApplicationPaymentPlanDto;
-    billingCycle: ApplicationBillingCycleDto;
+    paymentPlan?: ApplicationPaymentPlanDto | null;
+    billingCycle?: ApplicationBillingCycleDto | null;
     prototype: ApplicationPrototypeDto;
     organization?: OrganizationDto;
     paymentHistories?: [];
@@ -58,15 +58,16 @@ export type FindAllAppsQuery = FindAllQueryDto<ApplicationDto>;
 
 export type CreateApplicationRequestDto = {
     sign?: string | null; // 연동계정 Sign
-    displayName: string; // 조직이름 (연동서비스 내에서)
     organizationId: number; // 조직 ID
     prototypeId: number; // 프로토타입 ID
-    paymentPlanId: number; // 결제플랜 ID
-    billingCycleId: number; // 결제주기 ID
-    isFreeTier: boolean; // 프리티어 여부
-    registeredAt: Date | string; // 사용시작일
-    paidMemberCount: number; // 결제되는 사용자 수
-    usedMemberCount?: number; // 사용중인 사용자 수
+    connectedSlug: string; // 워크스페이스 Slug (연동서비스 내에서)
+    // displayName: string; // 워크스페이스 이름 (연동서비스 내에서)
+    // paymentPlanId: number; // 결제플랜 ID
+    // billingCycleId: number; // 결제주기 ID
+    // isFreeTier: boolean; // 프리티어 여부
+    // registeredAt: Date | string; // 사용시작일
+    // paidMemberCount: number; // 결제되는 사용자 수
+    // usedMemberCount?: number; // 사용중인 사용자 수
 };
 
 export type CreateApplicationByInvoicesRequestDto = {

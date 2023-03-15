@@ -27,10 +27,10 @@ export const ApplicationListItemDesktop = memo((props: {applicationDto: Applicat
                 </div>
             </td>
             <td>
-                <div>{paymentPlan.name}</div>
+                <div>{paymentPlan?.name ?? '-'}</div>
             </td>
             <td>
-                <div>{t_BillingCycleTerm(billingCycle.term, true)}</div>
+                <div>{billingCycle ? t_BillingCycleTerm(billingCycle.term, true) : '-'}</div>
             </td>
             {/*<td className="text-right">*/}
             {/*    <p className="flex items-center justify-end font-semibold text-sm leading-none">*/}

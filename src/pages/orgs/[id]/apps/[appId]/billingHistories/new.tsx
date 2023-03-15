@@ -52,7 +52,10 @@ export default function NewBillingHistoryOnAppPage() {
             <MobileTopNav>
                 <BackButton />
             </MobileTopNav>
-            <SelectedStatusSection proto={proto} text={[plan.name, t_BillingCycleTerm(cycle.term, true)].join(' / ')} />
+            <SelectedStatusSection
+                proto={proto}
+                text={[plan?.name || '-', cycle ? t_BillingCycleTerm(cycle.term, true) : '-'].join(' / ')}
+            />
             <LeadMessageSection text="새로운 결제가 있나요?" />
             <CreateBillingHistoryForm />
         </OrgMobileLayout>

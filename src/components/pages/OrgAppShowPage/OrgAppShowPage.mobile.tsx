@@ -60,8 +60,8 @@ export const OrgAppShowPageMobile = memo(() => {
                         organizationId,
                         applicationId,
                         prototype.id,
-                        paymentPlan.id,
-                        billingCycle.id,
+                        paymentPlan?.id || 0,
+                        billingCycle?.id || 0,
                     )}
                     icon={<Icon.Plus />}
                 />

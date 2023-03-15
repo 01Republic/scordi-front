@@ -10,8 +10,8 @@ export const CurrentPlanPaidAccountStatus = memo((props: CurrentPlanPaidAccountS
     const {application} = props;
     const {prototype, paymentPlan, billingCycle} = application;
 
-    const cycleName = t_BillingCycleTerm(billingCycle.term, false, Locale.en);
-    const unitPrice = `$${billingCycle.unitPrice}`;
+    const cycleName = billingCycle ? t_BillingCycleTerm(billingCycle.term, false, Locale.en) : '-';
+    const unitPrice = billingCycle ? `$${billingCycle.unitPrice}` : '-';
     const paidMemberCount = application.paidMemberCount;
     const usingMemberCount = application.usedMemberCount;
     const totalPrice = `$${application.nextBillingAmount.toFixed(2)}`;

@@ -48,15 +48,16 @@ export const ConnectComplete = (props: ConnectCompleteProps) => {
         if (paymentPlan && billingCycle) {
             createApplication({
                 sign: JSON.stringify(loginDto),
-                displayName: orgName,
                 organizationId,
                 prototypeId,
-                paymentPlanId: paymentPlan.id,
-                billingCycleId: billingCycle.id,
-                isFreeTier,
-                registeredAt: new Date(),
-                paidMemberCount: billingInfo.paidMemberCount,
-                usedMemberCount: billingInfo.usedMemberCount,
+                connectedSlug: orgItem.name,
+                // displayName: orgName,
+                // paymentPlanId: paymentPlan.id,
+                // billingCycleId: billingCycle.id,
+                // isFreeTier,
+                // registeredAt: new Date(),
+                // paidMemberCount: billingInfo.paidMemberCount,
+                // usedMemberCount: billingInfo.usedMemberCount,
             })
                 .then(() => {
                     toast.success('Successfully Saved');

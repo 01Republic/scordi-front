@@ -65,8 +65,8 @@ export const OrgAddAppInfoPage: Page = () => {
             getApplicationPrototype(prototypeId)
                 .then(({data: proto}) => {
                     setProtoApp(proto);
-                    form.setValue('paymentPlanId', proto.paymentPlans[0].id);
-                    form.setValue('billingCycleId', proto.billingCycles[0].id);
+                    // form.setValue('paymentPlanId', proto.paymentPlans[0].id);
+                    // form.setValue('billingCycleId', proto.billingCycles[0].id);
                     setSelectedPlanId(proto.paymentPlans[0].id);
                 })
                 .catch(errorNotify);

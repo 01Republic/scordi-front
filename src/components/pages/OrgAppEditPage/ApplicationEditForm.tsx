@@ -46,13 +46,13 @@ export const ApplicationEditForm = memo((props: ApplicationEditFormProps) => {
         // paidMemberCount?: number; // 결제되는 사용자 수
         // usedMemberCount?: number; // 사용중인 사용자 수
         // connectStatus?: ConnectStatus; // 연동상태
-        form.setValue('displayName', application.displayName); // 조직이름 (연동서비스 내에서)
-        form.setValue('paymentPlanId', application.paymentPlanId); // 결제플랜 ID
-        form.setValue('billingCycleId', application.billingCycleId); // 결제주기 ID
-        form.setValue('isFreeTier', application.isFreeTier); // 프리티어 여부
-        form.setValue('registeredAt', `${application.registeredAt}`.split('T')[0]); // 사용시작일
-        form.setValue('paidMemberCount', application.paidMemberCount); // 결제되는 사용자 수
-        form.setValue('usedMemberCount', application.usedMemberCount); // 사용중인 사용자 수
+        // form.setValue('displayName', application.displayName); // 조직이름 (연동서비스 내에서)
+        // form.setValue('paymentPlanId', application.paymentPlanId); // 결제플랜 ID
+        // form.setValue('billingCycleId', application.billingCycleId); // 결제주기 ID
+        // form.setValue('isFreeTier', application.isFreeTier); // 프리티어 여부
+        // form.setValue('registeredAt', `${application.registeredAt}`.split('T')[0]); // 사용시작일
+        // form.setValue('paidMemberCount', application.paidMemberCount); // 결제되는 사용자 수
+        // form.setValue('usedMemberCount', application.usedMemberCount); // 사용중인 사용자 수
         // form.setValue('connectStatus', application.connectStatus); // 연동상태
     }, [application]);
 

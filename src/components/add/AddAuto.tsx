@@ -6,17 +6,11 @@ import {useRouter} from 'next/router';
 import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
 import {CrawlerError, CrawlerErrors, LoginDto, LoginWithVerify, OrgItemDto} from '^types/crawler';
 import {useForm} from 'react-hook-form';
-import {
-    getBillingHistoriesByCrawlerApi,
-    getOrganizationByCrawlerApi,
-    getOrganizationListByCrawlerApi,
-    getOrgBillingInfoByCrawlerApi,
-} from '^api/crawler';
+import {getOrganizationListByCrawlerApi, makeSignHeader} from '^api/crawler';
 import {errorNotify} from '^utils/toast-notify';
 import {createApplication} from '^api/application.api';
 import {getApplicationPrototype} from '^api/applicationPrototype.api';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
-import {createAppsBillingHistory} from '^api/billing.api';
 import {toast} from 'react-toastify';
 import {MobileViewContainer} from '^components/MobileTopNav';
 
@@ -74,58 +68,21 @@ export const AddAuto = (props: AddAutoProps) => {
             return;
         }
 
-        Promise.all([
-            getOrganizationByCrawlerApi(prototypeId, name, dto),
-            getOrgBillingInfoByCrawlerApi(prototypeId, name, dto),
-            getBillingHistoriesByCrawlerApi(prototypeId, name, dto),
-        ]).then(([{data: profile}, {data: billingInfo}, {data: billingHistories}]) => {
-            // console.log('billingInfo', billingInfo);
-            const plan = proto.paymentPlans.find((plan) => plan.name === billingInfo.planName);
-            // console.log('paymentPlans', proto.paymentPlans, 'plan', plan);
-            const cycle = !plan ? null : plan.billingCycles.find((cycle) => cycle.term === billingInfo.cycleTerm);
-            // console.log('billingCycles', plan ? plan.billingCycles : null, 'cycle', cycle);
-
-            if (!plan || !cycle) {
-                toast.error('일차하는 플랜과 주기 정보를 찾지 못했습니다. :(');
-                return;
-            }
-
-            // 서비스 연동 정보 생성하고
-            createApplication({
-                sign: JSON.stringify(dto),
-                displayName: profile.displayName || name,
-                organizationId: orgId,
-                prototypeId,
-                paymentPlanId: plan.id,
-                billingCycleId: cycle.id,
-                isFreeTier: billingInfo.isFreeTier,
-                registeredAt: new Date(),
-                paidMemberCount: billingInfo.paidMemberCount,
-                usedMemberCount: billingInfo.usedMemberCount,
+        // 서비스 연동 정보 생성하고
+        createApplication({
+            sign: makeSignHeader(dto)['Crawler-Sign'],
+            organizationId: orgId,
+            prototypeId,
+            connectedSlug: name,
+        })
+            .then(({data: app}) => app)
+            .then((app) => {
+                toast.success('연동이 시작되었습니다!\n완료되면 알려드릴게요 :)');
+                return app;
             })
-                // 연동 정보 아래에 결제내역 정보 집어넣고
-                .then(({data: application}) => {
-                    console.log('Created Application', application);
-                    const createHistories = billingHistories.map((history) =>
-                        createAppsBillingHistory(application.id, {
-                            paidAmount: history.amount.amount,
-                            paidAt: history.issuedDate,
-                            isSuccess: history.isSuccessfulPaid,
-                            invoiceUrl: history.receiptUrl,
-                        }),
-                    );
-                    return Promise.all(createHistories);
-                })
-                // 홈으로.
-                .then(([...resList]) => {
-                    // console.log(
-                    //     'Created Histories',
-                    //     resList.map((r) => r.data),
-                    // );
-                    router.replace(OrgHomeRoute.path(orgId));
-                })
-                .catch(errorNotify);
-        });
+            // 홈으로.
+            .then((app) => router.replace(OrgHomeRoute.path(orgId)))
+            .catch(errorNotify);
     };
 
     if (orgListVisible) {

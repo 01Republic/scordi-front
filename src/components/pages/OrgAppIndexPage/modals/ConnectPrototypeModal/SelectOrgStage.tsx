@@ -3,12 +3,15 @@ import {ModalActionWrapper} from '^components/Modal';
 import {ConnectModalStage, useConnectPrototypeModalState} from '^atoms/connectPrototypes.atom';
 import {LoginWithOrgs} from '^types/crawler';
 import Swal from 'sweetalert2';
-import {getOrganizationByCrawlerApi} from '^api/crawler';
+import {getOrganizationByCrawlerApi, makeSignHeader} from '^api/crawler';
 import {PreLoaderSm} from '^components/PreLoaderSm';
 import {OutLink} from '^components/OutLink';
 import {MdNavigateBefore, MdNavigateNext} from '^components/react-icons';
+import {createApplication} from '^api/application.api';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 
 export const SelectOrgStage = memo(() => {
+    const organizationId = useRouterIdParamState('id', orgIdParamState);
     const {
         selectOrgForm,
         currentPrototype,
@@ -40,17 +43,14 @@ export const SelectOrgStage = memo(() => {
         const selectedOrgName = params.organizationName;
 
         setIsLoading(true);
-        getOrganizationByCrawlerApi(currentPrototype.id, selectedOrgName, authInfo)
-            // 크롤러를 통해 조직 기본 정보를 1차로 가지고 오면
-            .then((res) => res.data)
 
-            // 다음으로 서버에 [신규구독 생성] "요청"을 수행합니다.
-            .then((orgProfileInfo) => {
-                // 서버에 신규구독 생성 요청하는 코드
-                console.log('authInfo', authInfo);
-                console.log('orgProfileInfo', orgProfileInfo);
-            })
-
+        // 서버에 [신규구독 생성] "요청"을 수행합니다.
+        createApplication({
+            sign: makeSignHeader(authInfo)['Crawler-Sign'],
+            organizationId,
+            prototypeId: currentPrototype.id,
+            connectedSlug: selectedOrgName,
+        })
             // 그리고 [신규구독 생성] "요청"이 완료되면,
             // "요청 성공!" 단계로 이동시킵니다.
             .then(() => setCurrentStage(ConnectModalStage.SuccessfullySubmitted))

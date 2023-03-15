@@ -73,8 +73,8 @@ export default function BillingHistoryShowPage() {
                         organizationId,
                         applicationId,
                         application.prototypeId,
-                        application.paymentPlanId,
-                        application.billingCycleId,
+                        application.paymentPlanId || 0,
+                        application.billingCycleId || 0,
                     )}
                     icon={<Icon.Plus />}
                 />

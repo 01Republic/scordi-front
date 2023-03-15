@@ -6,6 +6,8 @@ import {ConnectModalStage, useConnectPrototypeModalState} from '^atoms/connectPr
 import {getOrganizationListByCrawlerApi} from '^api/crawler';
 import {PreLoaderSm} from '^components/PreLoaderSm';
 import {MdNavigateNext} from '^components/react-icons';
+import {errorNotify} from '^utils/toast-notify';
+import {toast} from 'react-toastify';
 
 export const AuthFormStage = memo(() => {
     const {
@@ -37,9 +39,13 @@ export const AuthFormStage = memo(() => {
         getOrganizationListByCrawlerApi(currentPrototype.id, params)
             .then((res) => {
                 console.log('통신성공', res);
-                setCheckTeams(res.data);
-                setAuthInfo({email: params.email, password: params.password});
-                setCurrentStage(ConnectModalStage.SelectOrgStage);
+                if (res.data instanceof Array) {
+                    setCheckTeams(res.data);
+                    setAuthInfo({email: params.email, password: params.password});
+                    setCurrentStage(ConnectModalStage.SelectOrgStage);
+                } else {
+                    toast.error(`Server failed.\nPlease request to admin.`);
+                }
             })
             .catch(connectApiCatchHandler)
             .finally(() => setIsLoading(false));

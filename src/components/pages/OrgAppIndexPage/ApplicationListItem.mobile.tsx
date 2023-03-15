@@ -32,14 +32,15 @@ export const ApplicationListItemMobile = memo((props: {applicationDto: Applicati
                             <b>{prototype.name}</b>
                         </p>
                         <p className="text-sm text-gray-500">
-                            {paymentPlan.name} &middot; {t_BillingCycleTerm(billingCycle.term, true)}
+                            {paymentPlan?.name || '-'} &middot;{' '}
+                            {billingCycle ? t_BillingCycleTerm(billingCycle.term, true) : '-'}
                         </p>
                     </div>
                     <div className="flex items-center">
                         <div className="px-1 text-right">
                             <p className="flex items-center justify-end font-bold text-lg leading-none">
                                 <small className="mr-[2px]">US$</small>
-                                <span>{billingCycle.unitPrice || 0}</span>
+                                <span>{billingCycle?.unitPrice || 0}</span>
                             </p>
                             {/*<p className="leading-none text-xs text-gray-500">*/}
                             {/*    명 / {t_BillingCycleTerm(billingCycle.term)}*/}
