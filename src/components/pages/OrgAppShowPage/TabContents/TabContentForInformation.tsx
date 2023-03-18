@@ -3,6 +3,7 @@ import {useRouter} from 'next/router';
 import {useCurrentApplication} from '^hooks/useApplications';
 import {SummaryZone} from './information/SummaryZone';
 import {CurrentPlanZone} from './information/CurrentPlanZone';
+import {PaymentInfoZone} from '^components/pages/OrgAppShowPage/TabContents/information/PaymentInfoZone';
 
 /**
  * 구독에 대해서 알고 싶은 정보 (또는 알아야 하는 정보)
@@ -29,6 +30,7 @@ export const TabContentForInformation = memo(() => {
         <>
             <SummaryZone application={app} />
             <CurrentPlanZone application={app} />
+            {/*<PaymentInfoZone application={app} />*/}
         </>
     );
 });

@@ -1,33 +1,52 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
 import {AiOutlineSync, BsFillCaretDownFill, BsTrash} from '^components/react-icons';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {ConnectStatus} from '^types/application.type';
 import {navTabIndex} from './OrgAppShowPage.desktop';
 import {useCurrentApplication} from '^hooks/useApplications';
+import {createSyncHistory} from '^api/applicationSyncHistories.api';
+import {toast} from 'react-toastify';
+import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentSyncHistory, useSyncHistoryList} from '^hooks/useApplicationSyncHistories';
 
 export const CurrentConnectStatus = memo(() => {
-    const {currentApplication} = useCurrentApplication();
-    const [isSync, setIsSync] = useState(false);
-    const setNavTabIndex = useSetRecoilState(navTabIndex);
+    const {currentUser} = useCurrentUser();
+    const {currentApplication, reload: reloadCurrentApp} = useCurrentApplication();
+    const {fetchItems: fetchSyncHistories, pagination} = useSyncHistoryList();
+    const {fetchCurrentSyncHistory} = useCurrentSyncHistory();
+    const tabIndex = useRecoilValue(navTabIndex);
 
-    const goSync = () => {
-        setIsSync(true);
-        // 동기화 작업
-        // .then((res) => console.log(res))
-        // .catch((err) => errorNotify(err))
-        // .finally(() => {
-        //     setIsSync(false);
-        //     setNavTabIndex(3);
-        // });
-    };
+    const goSync = useCallback(() => {
+        if (!currentApplication || !currentUser) return;
+        createSyncHistory(currentApplication.id, {
+            runnerId: currentUser.id,
+            content: `Synchronize manually.`,
+        }).then(() => {
+            toast.success('New Sync started!');
+            if (tabIndex === 3) {
+                // if current tab is histories
+                fetchSyncHistories(currentApplication.id, pagination.currentPage, true);
+                fetchCurrentSyncHistory(currentApplication.id);
+            }
+            reloadCurrentApp();
+        });
+    }, [currentApplication, currentUser, tabIndex]);
 
     const connectStatus = currentApplication ? currentApplication.connectStatus : '';
-    console.log('connectStatus', connectStatus);
+    const isSyncRunning = currentApplication?.isSyncRunning;
+
+    if (isSyncRunning) {
+        return (
+            <div className="btn btn-orange-600 loading" title="We're struggling to connecting">
+                Sync running ...
+            </div>
+        );
+    }
 
     return (
         <>
             {connectStatus === ConnectStatus.pending && (
-                <div className="badge badge-info badge-outline" title="We're struggling to connecting">
+                <div className="btn btn-info btn-outline" title="We're struggling to connecting">
                     {connectStatus}
                 </div>
             )}

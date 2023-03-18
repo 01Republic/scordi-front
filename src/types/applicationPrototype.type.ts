@@ -20,6 +20,11 @@ export type ApplicationPrototypeDto = {
     companyName: string; // 운영사명
     isAutoTrackable: boolean;
     isFreeTierAvailable: boolean;
+    orgPageUrlScheme: string; // 조직 메인 페이지 URL Scheme
+    billingInfoPageUrlScheme: string; // 결제정보 페이지 URL Scheme
+    planComparePageUrlScheme: string; // 결제플랜 비교 페이지 URL Scheme
+    upgradePlanPageUrlScheme: string; // 결제플랜 변경 페이지 URL Scheme
+    updatePayMethodUrlScheme: string; // 결제수단 변경 페이지 URL Scheme
     createdAt: Date;
     updatedAt: Date;
     paymentPlans: ApplicationPaymentPlanDto[];

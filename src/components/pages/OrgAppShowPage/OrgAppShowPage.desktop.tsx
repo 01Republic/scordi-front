@@ -14,6 +14,7 @@ import {
 } from './TabContents';
 import {CurrentConnectStatus} from './CurrentConnectStatus';
 import {Breadcrumb} from './Breadcrumb';
+import {ConnectStatusPooling} from './ConnectStatusPooling';
 
 export const navTabIndex = atom({
     key: 'OrgAppShowPageDesktop/NavTabIndex',
@@ -42,12 +43,14 @@ export const OrgAppShowPageDesktop = memo(() => {
     return (
         <OrgMainLayout>
             <ContentLayout>
+                <ConnectStatusPooling />
                 <div className="flex justify-between items-baseline">
                     <Breadcrumb />
                 </div>
                 <ApplicationHeader>
                     <CurrentConnectStatus />
                 </ApplicationHeader>
+
                 <ContentTabNav resetIndex={true} tabs={tabs.map((tab) => tab.label)} recoilState={navTabIndex} />
 
                 <TabContentComponent />

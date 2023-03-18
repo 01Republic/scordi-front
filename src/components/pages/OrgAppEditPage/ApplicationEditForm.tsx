@@ -26,7 +26,7 @@ export const ApplicationEditForm = memo((props: ApplicationEditFormProps) => {
         const redirectUrl = OrgAppShowPageRoute.path(organizationId, applicationId);
         updateApplication(applicationId, data)
             .then(() => {
-                reload((v) => v);
+                reload();
                 router.replace(redirectUrl);
             })
             .catch(errorNotify);

@@ -15,7 +15,7 @@ export const CurrentPlanPaidAccountStatus = memo((props: CurrentPlanPaidAccountS
     const paidMemberCount = application.paidMemberCount;
     const usingMemberCount = application.usedMemberCount;
     const totalPrice = `$${application.nextBillingAmount.toFixed(2)}`;
-    const isDependOnAccounts = true; // TODO: application 에 isDependOnAccounts 속성 필요할듯.
+    const isDependOnAccounts = !!billingCycle?.isPerUser;
 
     if (!isDependOnAccounts) return <></>;
 

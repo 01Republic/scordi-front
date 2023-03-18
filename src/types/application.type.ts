@@ -33,6 +33,8 @@ export type ApplicationDto = {
     connectStatus: ConnectStatus;
     isSyncRunning: boolean; // 싱크 실행중 여부
     displayName: string;
+    profileImage: string | null; // 조직 프로필 이미지 주소
+    connectedSlug: string | null; // 워크스페이스 Slug (연동서비스 내에서)
     organizationId: number;
     prototypeId: number;
     paymentPlanId: number | null;
@@ -44,12 +46,14 @@ export type ApplicationDto = {
     accountCount: number;
     paidMemberCount: number;
     usedMemberCount: number;
+    publicEmail: string | null; // 공개 이메일
+    billingEmail: string | null; // 결제 이메일
     createdAt: Date;
     updatedAt: Date;
+    organization?: OrganizationDto;
+    prototype: ApplicationPrototypeDto;
     paymentPlan?: ApplicationPaymentPlanDto | null;
     billingCycle?: ApplicationBillingCycleDto | null;
-    prototype: ApplicationPrototypeDto;
-    organization?: OrganizationDto;
     paymentHistories?: [];
     accounts?: [];
 };

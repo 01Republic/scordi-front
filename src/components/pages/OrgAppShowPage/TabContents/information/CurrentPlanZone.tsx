@@ -13,7 +13,7 @@ export const CurrentPlanZone = memo((props: CurrentPlanZoneProps) => {
     const {prototype, paymentPlan} = application;
 
     return (
-        <div className="bs-container mb-10">
+        <div className="bs-container mb-20">
             <CurrentPlanZoneHeader application={application} />
 
             <div className="divider mb-4 -mx-[20px]" />

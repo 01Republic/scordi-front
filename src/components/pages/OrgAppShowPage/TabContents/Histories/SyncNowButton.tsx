@@ -6,6 +6,7 @@ import {createSyncHistory} from '^api/applicationSyncHistories.api';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {useCurrentSyncHistory, useSyncHistoryList} from '^hooks/useApplicationSyncHistories';
 import {toast} from 'react-toastify';
+import {useCurrentApplication} from '^hooks/useApplications';
 
 interface SyncNowButtonProps {
     application: ApplicationDto;
@@ -15,6 +16,7 @@ interface SyncNowButtonProps {
 export const SyncNowButton = memo((props: SyncNowButtonProps) => {
     const {application, history} = props;
     const {currentUser} = useCurrentUser();
+    const {reload: reloadCurrentApp} = useCurrentApplication();
     const {fetchItems: fetchSyncHistories, pagination} = useSyncHistoryList();
     const {fetchCurrentSyncHistory} = useCurrentSyncHistory();
 
@@ -31,6 +33,7 @@ export const SyncNowButton = memo((props: SyncNowButtonProps) => {
             toast.success('New Sync started!');
             fetchSyncHistories(application.id, pagination.currentPage, true);
             fetchCurrentSyncHistory(application.id);
+            reloadCurrentApp();
         });
     };
 

@@ -2,7 +2,7 @@ import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {ApplicationDto} from '^types/application.type';
 import {OutLink} from '^components/OutLink';
-import {BsArrowRightShort, BiCreditCard} from '^components/react-icons';
+import {BsArrowRightShort, BiCreditCard, MdOutlineEmail} from '^components/react-icons';
 import {IoWarningOutline} from 'react-icons/io5';
 
 interface PaymentInfoProps {
@@ -14,9 +14,10 @@ export const PaymentInfo = memo((props: PaymentInfoProps & WithChildren) => {
 
     const {prototype} = application;
 
-    const appSlug = application.displayName; // TODO: application.slug
-    const paymentInfoUrlStr = 'https://github.com/organizations/${appSlug}/settings/billing';
-    const paymentInfoUrl = eval(`\`${paymentInfoUrlStr}\``) as string; // TODO: 프로토타입에 paymentInfoUrl
+    const {connectedSlug, billingEmail} = application;
+    const paymentInfoUrl = eval(`\`${prototype.billingInfoPageUrlScheme}\``) as string;
+    const updatePaymentMethodUrl = eval(`\`${prototype.updatePayMethodUrlScheme}\``) as string;
+    const open = (url: string) => (url ? window.open(url, '_blank') : alert('This service linkage is not ready :('));
 
     return (
         <>
@@ -36,10 +37,18 @@ export const PaymentInfo = memo((props: PaymentInfoProps & WithChildren) => {
                 </OutLink>
             </div>
 
-            {/*<div className="stat-value mb-3">86%</div>*/}
+            <div className="stat-desc">
+                <p className="flex items-center gap-2">
+                    <MdOutlineEmail size={18} />
+                    <span>{billingEmail}</span>
+                </p>
+            </div>
 
             <div className="stat-actions">
-                <button className="btn btn-xs gap-2 capitalize btn-error items-center text-white">
+                <button
+                    className="btn btn-xs gap-2 capitalize btn-error items-center text-white"
+                    onClick={() => open(updatePaymentMethodUrl)}
+                >
                     <IoWarningOutline size={14} strokeWidth="2" />
                     <span>Update payment method</span>
                 </button>

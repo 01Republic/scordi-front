@@ -12,11 +12,9 @@ export const CurrentPlanZoneHeader = memo((props: CurrentPlanZoneHeaderProps) =>
 
     const {prototype} = application;
 
-    const appSlug = application.displayName; // TODO: application.slug
-    const planCompareUrlStr = 'https://github.com/organizations/${appSlug}/billing/plans';
-    const upgradePageUrlStr = 'https://github.com/organizations/${appSlug}/billing/plans';
-    const planCompareUrl = eval(`\`${planCompareUrlStr}\``) as string; // TODO: 프로토타입에 planCompareUrl
-    const upgradePageUrl = eval(`\`${upgradePageUrlStr}\``) as string; // TODO: 프로토타입에 upgradePageUrl
+    const {connectedSlug} = application;
+    const planCompareUrl = eval(`\`${prototype.planComparePageUrlScheme}\``) as string;
+    const upgradePageUrl = eval(`\`${prototype.upgradePlanPageUrlScheme}\``) as string;
 
     return (
         <div className="bs-row items-center mb-4">
@@ -27,10 +25,10 @@ export const CurrentPlanZoneHeader = memo((props: CurrentPlanZoneHeaderProps) =>
 
             {/* Right */}
             <div className="ml-auto flex gap-2">
-                {planCompareUrlStr && (
+                {planCompareUrl && (
                     <ButtonTo href={planCompareUrl} target="_blank" color="gray" outline text="Compare all plans" />
                 )}
-                {upgradePageUrlStr && <ButtonTo href={upgradePageUrl} target="_blank" color="success" text="Upgrade" />}
+                {upgradePageUrl && <ButtonTo href={upgradePageUrl} target="_blank" color="success" text="Upgrade" />}
             </div>
         </div>
     );

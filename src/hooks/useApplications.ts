@@ -14,7 +14,7 @@ import {getApplication} from '^api/application.api';
 
 export const useCurrentApplication = () => {
     const [currentApplication, reload] = useRecoilState(getCurrentApplicationQuery);
-    return {currentApplication, reload};
+    return {currentApplication, reload: () => reload((v) => v)};
 };
 
 export const useApplications = () => useRecoilValue(getApplicationsQuery);
