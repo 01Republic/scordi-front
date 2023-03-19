@@ -40,20 +40,26 @@ export type BillingScheduleShallowDto = {
 };
 
 export type BillingHistoryDto = {
-    id: number;
-    organizationId: number;
-    applicationId: number;
-    paidAt: string;
-    paidAmount: number;
-    isSuccess: boolean;
-    invoiceUrl?: string;
-    createdAt: string;
-    updatedAt: string;
-    organization: OrganizationDto;
-    application: ApplicationDto;
+    id: number; // ID
+    uid: string; // UID
+    organizationId: number; // 조직 ID
+    applicationId: number; // 구독정보 ID
+    issuedAt: string; // 결제 요청 일시
+    paidAt: string | null; // 결제 완료 일시
+    paidAmount: number; // 결제금액
+    paymentMethod: string; // 결제수단
+    isSuccess: boolean; // 결제완료여부
+    invoiceUrl?: string | null; // 인보이스(파일) 주소
+    createdAt: string; // 생성일시
+    updatedAt: string; // 수정일시
+    organization?: OrganizationDto; // 조직
+    application?: ApplicationDto; // 구독정보
 };
 
-export const t_paidAt = (dto: BillingHistoryDto) => new Date(dto.paidAt).toLocaleString();
+export const t_paidAt = (dto: BillingHistoryDto) => {
+    if (!dto.paidAt) return null;
+    return new Date(dto.paidAt).toLocaleString();
+};
 
 export class CreateBillingHistoryRequestDto {
     paidAt!: Date; // 결제일시

@@ -1,24 +1,30 @@
 import {memo} from 'react';
-import {useRouter} from 'next/router';
 import {BillingHistoriesPanel} from './Invoices';
 import {CreateHistoryInManualPanel} from './Invoices/CreateHistoryInManualPanel';
+import {BillingHistoryTable} from './Invoices/BillingHistoryTable';
+import {useCurrentApplication} from '^hooks/useApplications';
 
 export const TabContentForInvoices = memo(() => {
-    const router = useRouter();
+    const {currentApplication: app} = useCurrentApplication();
+
+    if (!app) return <></>;
 
     return (
-        <div className="bs-container">
-            <div className="bs-row gap-8">
-                {/* Left Col */}
-                <div className="bs-col-12 sm:bs-col px-0">
-                    <BillingHistoriesPanel />
-                </div>
+        <>
+            <BillingHistoryTable application={app} />
+            {/*<div className="bs-container px-0">*/}
+            {/*    <div className="grid grid-cols-12 gap-8">*/}
+            {/*        /!* Left Col *!/*/}
+            {/*        <div className="col-span-12 sm:col-span-8">*/}
+            {/*            <BillingHistoriesPanel />*/}
+            {/*        </div>*/}
 
-                {/* Right Col */}
-                <div className="bs-col-12 sm:bs-col-4 px-0">
-                    <CreateHistoryInManualPanel />
-                </div>
-            </div>
-        </div>
+            {/*        /!* Right Col *!/*/}
+            {/*        <div className="col-span-12 sm:col-span-4">*/}
+            {/*            <CreateHistoryInManualPanel />*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
+        </>
     );
 });

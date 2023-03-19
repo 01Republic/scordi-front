@@ -10,6 +10,7 @@ import {errorNotify} from '^utils/toast-notify';
 import {getBillingHistories, getBillingHistory, getBillingSchedules} from '^api/billing.api';
 import {billingHistoryIdParamState} from '^atoms/common';
 import {useForm} from 'react-hook-form';
+import {PaginationMetaData} from '^types/utils/paginated.dto';
 
 /**
  * Billing Schedule
@@ -65,14 +66,25 @@ export const didPayAppsState = selector({
  * Billing History
  */
 
-export const billingHistoriesState = atom({
+export const billingHistoriesState = atom<BillingHistoryDto[]>({
     key: 'billingHistoriesState',
-    default: [] as BillingHistoryDto[],
+    default: [],
 });
 
 export const getBillingHistoriesParamsState = atom<GetBillingHistoriesParams>({
     key: 'getBillingHistoriesParamsState',
     default: {},
+});
+
+export const billingHistoryListPaginationAtom = atom<PaginationMetaData>({
+    key: 'billingHistoryList/paginationAtom',
+    default: {
+        totalItemCount: 0,
+        currentItemCount: 0,
+        totalPage: 0,
+        currentPage: 0,
+        itemsPerPage: 15,
+    },
 });
 
 export const getBillingHistoriesQuery = selector({
