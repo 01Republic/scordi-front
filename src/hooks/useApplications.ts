@@ -1,16 +1,8 @@
-import {errorNotify} from '^utils/toast-notify';
-import {useRouter} from 'next/router';
-import {ApplicationDto} from './../types/application.type';
-import {useState, useEffect} from 'react';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {
-    getApplicationQuery,
-    getApplicationsQuery,
-    getApplicationsQueryWithParams,
-    getCurrentApplicationQuery,
-} from '^atoms/applications.atom';
-import {FindAllAppsQuery} from '^types/application.type';
-import {getApplication} from '^api/application.api';
+import {ApplicationDto} from '^types/application.type';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {getApplicationQuery, getApplicationsQuery, getCurrentApplicationQuery} from '^atoms/applications.atom';
+import {getApplications} from '^api/application.api';
+import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook';
 
 export const useCurrentApplication = () => {
     const [currentApplication, reload] = useRecoilState(getCurrentApplicationQuery);
@@ -18,8 +10,6 @@ export const useCurrentApplication = () => {
 };
 
 export const useApplications = () => useRecoilValue(getApplicationsQuery);
-export const useApplicationsWithParams = (params: FindAllAppsQuery) =>
-    useRecoilValue(getApplicationsQueryWithParams(params));
 export const useApplication = () => useRecoilValue(getApplicationQuery);
 // export const useApplication = () => {
 //     const router = useRouter();
@@ -38,3 +28,14 @@ export const useApplication = () => useRecoilValue(getApplicationQuery);
 //
 //     return application;
 // };
+
+export const {paginatedListHook: useApplicationList} = makePaginatedListHookWithAtoms<number, ApplicationDto>({
+    subject: 'PaginatedApplicationList',
+    buildParams: (organizationId, page, pagination) => ({
+        where: {organizationId},
+        order: {id: 'DESC'},
+        page,
+        itemsPerPage: 300,
+    }),
+    request: (_, params) => getApplications(params),
+});

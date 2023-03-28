@@ -21,7 +21,7 @@ export const BillingHistoryTable = memo((props: BillingHistoryTableProps) => {
 
     useEffect(() => {
         if (!application) return;
-        fetchBillingHistories(application.id, 1);
+        fetchBillingHistories(application.id, 1, true);
     }, [application]);
 
     return (

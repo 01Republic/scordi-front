@@ -45,7 +45,9 @@ export const SelectOrgStage = memo(() => {
             return;
         }
 
-        const selectedOrgName = params.organizationName;
+        const checkedTeam = checkTeams.find((team) => team.key === params.organizationName);
+        const connectedSlug = checkedTeam!.key;
+        const displayName = checkedTeam!.name;
 
         setIsLoading(true);
 
@@ -54,7 +56,8 @@ export const SelectOrgStage = memo(() => {
             sign: makeSignHeader(authInfo)['Crawler-Sign'],
             organizationId,
             prototypeId: currentPrototype.id,
-            connectedSlug: selectedOrgName,
+            connectedSlug,
+            displayName,
         })
             // 그리고 [신규구독 생성] "요청"이 완료되면,
             // "요청 성공!" 단계로 이동시킵니다.

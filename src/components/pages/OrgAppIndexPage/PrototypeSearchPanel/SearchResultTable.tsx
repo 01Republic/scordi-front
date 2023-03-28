@@ -85,10 +85,10 @@ const PrototypeItem = memo((props: PrototypeItemProps) => {
     }, [proto]);
 
     const clickConnectBtn = (proto: ApplicationPrototypeDto) => {
-        if (app) return;
         isConnectModalOpen(true);
         currentPrototype(proto);
     };
+
     return (
         <tr>
             {/* App */}
@@ -108,25 +108,14 @@ const PrototypeItem = memo((props: PrototypeItemProps) => {
             </td>
             {/* status */}
             <td>
-                {app ? (
-                    <button
-                        className="btn2 btn-sm gap-1 btn-green"
-                        style={{flexWrap: 'nowrap'}}
-                        onClick={() => clickConnectBtn(proto)}
-                    >
-                        <GoPrimitiveDot size={16} />
-                        <span>{app.connectStatus}</span>
-                    </button>
-                ) : (
-                    <button
-                        className="btn2 btn-sm flex-nowrap gap-1 btn-primary"
-                        style={{flexWrap: 'nowrap'}}
-                        onClick={() => clickConnectBtn(proto)}
-                    >
-                        <GoPlug size={16} />
-                        <span>connect</span>
-                    </button>
-                )}
+                <button
+                    className="btn2 btn-sm flex-nowrap gap-1 btn-primary"
+                    style={{flexWrap: 'nowrap'}}
+                    onClick={() => clickConnectBtn(proto)}
+                >
+                    <GoPlug size={16} />
+                    <span>connect</span>
+                </button>
             </td>
             <td>
                 {isAdmin && (

@@ -65,7 +65,7 @@ export type CreateApplicationRequestDto = {
     organizationId: number; // 조직 ID
     prototypeId: number; // 프로토타입 ID
     connectedSlug: string; // 워크스페이스 Slug (연동서비스 내에서)
-    // displayName: string; // 워크스페이스 이름 (연동서비스 내에서)
+    displayName: string; // 워크스페이스 이름 (연동서비스 내에서)
     // paymentPlanId: number; // 결제플랜 ID
     // billingCycleId: number; // 결제주기 ID
     // isFreeTier: boolean; // 프리티어 여부

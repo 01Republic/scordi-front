@@ -21,7 +21,7 @@ export const AppBillingHistoryListSection = memo((props: AppBillingHistoryListSe
 
     const groupedList: {[key: string]: BillingHistoryDto[]} = {};
     billingHistories.forEach((item) => {
-        const paidAt = new Date(item.paidAt);
+        const paidAt = new Date(item.paidAt!);
         const now = new Date();
 
         const bits: string[] = [];

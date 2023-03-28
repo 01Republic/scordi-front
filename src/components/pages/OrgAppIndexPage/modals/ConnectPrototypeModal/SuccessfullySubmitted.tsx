@@ -8,9 +8,10 @@ import {useRecoilValue} from 'recoil';
 export const SuccessfullySubmitted = memo(() => {
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
-    const {createdApplicationId} = useConnectPrototypeModalState();
+    const {createdApplicationId, closeModal} = useConnectPrototypeModalState();
 
     const completeBtnClick = () => {
+        closeModal();
         router.replace(OrgAppShowPageRoute.path(orgId, createdApplicationId));
     };
 

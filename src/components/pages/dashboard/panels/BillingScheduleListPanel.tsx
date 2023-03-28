@@ -21,7 +21,7 @@ export const BillingScheduleListPanel = memo(() => {
                         <BillingScheduleItem
                             key={i}
                             applicationId={history.applicationId}
-                            date={new Date(history.paidAt)}
+                            date={new Date(history.paidAt!)}
                             payAmount={history.paidAmount}
                             isPaid={history.isSuccess}
                             historyId={history.id}

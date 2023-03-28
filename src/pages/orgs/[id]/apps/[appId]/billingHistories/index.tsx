@@ -48,7 +48,7 @@ export default function BillingHistoriesPage() {
                     </div>
                 )}
                 {billingHistory.map((item, index) => (
-                    <SummaryListItem key={index} title={intlDateLong(item.paidAt)} value={`USD ${item.paidAmount}`} />
+                    <SummaryListItem key={index} title={intlDateLong(item.paidAt!)} value={`USD ${item.paidAmount}`} />
                 ))}
             </MobileViewContainer>
         </OrgMobileLayout>

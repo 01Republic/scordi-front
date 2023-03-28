@@ -30,25 +30,6 @@ export const getApplicationsQuery = selector({
     },
 });
 
-// @ts-ignore
-export const getApplicationsQueryWithParams = selectorFamily<Paginated<ApplicationDto>, FindAllAppsQuery>({
-    key: 'getApplicationsQueryWithParams',
-    get:
-        (params: FindAllAppsQuery) =>
-        async ({get}) => {
-            params ||= get(getApplicationsParamsState);
-            if (!params.where?.organizationId) return;
-
-            try {
-                const res = await getApplications(params);
-                return res.data;
-            } catch (e) {
-                errorNotify(e);
-            }
-        },
-    set: () => {},
-});
-
 export const getCurrentApplicationQueryTrigger = atom({
     key: 'getCurrentApplicationQueryTrigger',
     default: 0,

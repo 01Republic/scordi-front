@@ -28,7 +28,7 @@ export const CreateAppForm = memo((props: CreateAppFormProps) => {
         createAppsByBillingHistory(body)
             .then(({data}) => {
                 const {application} = data;
-                router.push(NewAppCreatedPageRoute.path(organizationId, application.id));
+                router.push(NewAppCreatedPageRoute.path(organizationId, application!.id));
             })
             .catch(errorNotify);
     };

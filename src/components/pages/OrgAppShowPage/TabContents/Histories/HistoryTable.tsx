@@ -18,7 +18,7 @@ export const HistoryTable = memo((props: HistoryTableProps) => {
 
     useEffect(() => {
         if (!application) return;
-        fetchSyncHistories(application.id, 1);
+        fetchSyncHistories(application.id, 1, true);
     }, [application]);
 
     const {prototype} = application;

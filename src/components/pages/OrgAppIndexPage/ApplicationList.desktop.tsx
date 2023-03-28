@@ -1,30 +1,17 @@
 import React, {memo, useEffect} from 'react';
-import {useApplicationsWithParams} from '^hooks/useApplications';
+import {useApplicationList} from '^hooks/useApplications';
 import {ContentPanelBody, ContentTable} from '^layouts/ContentLayout';
 import {ApplicationListItemDesktop} from '^components/pages/OrgAppIndexPage/ApplicationListItem.desktop';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useRecoilState} from 'recoil';
-import {applicationsState} from '^atoms/applications.atom';
 
 export const ApplicationListDesktop = memo(() => {
     const organizationId = useRouterIdParamState('id', orgIdParamState);
-    const apps = useApplicationsWithParams({
-        where: {organizationId},
-        order: {id: 'DESC'},
-        itemsPerPage: 300,
-    });
-    const [applications, setApplications] = useRecoilState(applicationsState);
+    const {items: applications, fetchItems: fetchApplications, pagination} = useApplicationList();
 
     useEffect(() => {
-        if (!apps) return;
-
-        const o_ids = applications.map((app) => app.id);
-        const n_ids = apps.items.map((app) => app.id);
-        if (JSON.stringify(o_ids) === JSON.stringify(n_ids)) return;
-        setApplications(apps.items);
-    }, [apps?.pagination?.currentPage]);
-
-    if (!apps) return <></>;
+        if (!organizationId || isNaN(organizationId)) return;
+        fetchApplications(organizationId, 1, true);
+    }, [organizationId]);
 
     return (
         <>

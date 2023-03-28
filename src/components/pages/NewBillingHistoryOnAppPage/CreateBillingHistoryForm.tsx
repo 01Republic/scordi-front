@@ -29,7 +29,7 @@ export const CreateBillingHistoryForm = memo((props: CreateBillingHistoryFormPro
         createAppsBillingHistory(application.id, body)
             .then(({data}) => {
                 const {application} = data;
-                router.push(OrgAppShowPageRoute.path(organizationId, application.id));
+                router.push(OrgAppShowPageRoute.path(organizationId, application!.id));
             })
             .catch(errorNotify);
     };
