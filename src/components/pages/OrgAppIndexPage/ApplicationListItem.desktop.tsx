@@ -19,11 +19,13 @@ export const ApplicationListItemDesktop = memo((props: {applicationDto: Applicat
     const appId = applicationDto.id;
 
     return (
-        <tr className="text-sm">
-            <td onClick={() => router.push(OrgAppShowPageRoute.path(orgId, appId))}>
-                <div className="flex items-center cursor-pointer">
+        <tr className="text-sm cursor-pointer" onClick={() => router.push(OrgAppShowPageRoute.path(orgId, appId))}>
+            <td>
+                <div className="flex items-center">
                     <img src={prototype.image} alt="" width={24} className="mr-4" />
-                    <span>{prototype.name}</span>
+                    <span>
+                        {prototype.name} - {applicationDto.displayName}
+                    </span>
                 </div>
             </td>
             <td>

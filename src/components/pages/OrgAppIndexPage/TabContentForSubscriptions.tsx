@@ -14,10 +14,10 @@ export const TabContentForSubscriptions = memo(() => {
                 </div>
 
                 {/* Right Col */}
-                <div className="bs-col-12 sm:bs-col-4 px-0">
-                    <ContentPanel />
-                    <ContentPanel />
-                </div>
+                {/*<div className="bs-col-12 sm:bs-col-4 px-0">*/}
+                {/*    <ContentPanel />*/}
+                {/*    <ContentPanel />*/}
+                {/*</div>*/}
             </div>
         </div>
     );
