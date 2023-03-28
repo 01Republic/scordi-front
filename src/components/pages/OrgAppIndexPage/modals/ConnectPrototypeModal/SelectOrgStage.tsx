@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {ModalActionWrapper} from '^components/Modal';
 import {ConnectModalStage, useConnectPrototypeModalState} from '^atoms/connectPrototypes.atom';
 import {LoginWithOrgs} from '^types/crawler';
@@ -21,7 +21,12 @@ export const SelectOrgStage = memo(() => {
         authInfo,
         checkTeams,
         connectApiCatchHandler,
+        setCreatedApplicationId,
     } = useConnectPrototypeModalState();
+
+    useEffect(() => {
+        setCreatedApplicationId(0);
+    }, []);
 
     if (isLoading) return <PreLoaderSm />;
     if (currentPrototype === null) return <></>;
@@ -53,6 +58,7 @@ export const SelectOrgStage = memo(() => {
         })
             // 그리고 [신규구독 생성] "요청"이 완료되면,
             // "요청 성공!" 단계로 이동시킵니다.
+            .then((res) => setCreatedApplicationId(res.data.id))
             .then(() => setCurrentStage(ConnectModalStage.SuccessfullySubmitted))
             .catch(connectApiCatchHandler)
             .finally(() => setIsLoading(false));

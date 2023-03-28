@@ -56,6 +56,11 @@ export const connectModalConnectableOrgListState = atom<OrgItemDto[]>({
     default: [],
 });
 
+export const createdApplicationIdState = atom<number>({
+    key: 'createdApplicationId',
+    default: 0,
+});
+
 // 연동 모달 내부의 여러 컴포넌트에서 공유할 필요가 있는 상태값을 한 번에 관리
 export const useConnectPrototypeModalState = () => {
     const [isConnectModalOpen, setIsConnectModalOpen] = useRecoilState(connectPrototypeModalState);
@@ -66,6 +71,7 @@ export const useConnectPrototypeModalState = () => {
     const [authInfo, setAuthInfo] = useRecoilState(connectModalAuthInfoState);
     const [isCodeNeeded, setIsCodeNeeded] = useState(false);
     const [checkTeams, setCheckTeams] = useRecoilState(connectModalConnectableOrgListState);
+    const [createdApplicationId, setCreatedApplicationId] = useRecoilState(createdApplicationIdState);
     const authForm = useForm<LoginDto | LoginWithVerify>();
     const selectOrgForm = useForm<LoginWithOrgs>();
 
@@ -113,6 +119,8 @@ export const useConnectPrototypeModalState = () => {
         setIsCodeNeeded,
         checkTeams,
         setCheckTeams,
+        createdApplicationId,
+        setCreatedApplicationId,
         authForm,
         selectOrgForm,
         closeModal,
