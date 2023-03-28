@@ -87,7 +87,20 @@ export const SelectOrgStage = memo(() => {
                                 key={i}
                             >
                                 <div className="flex gap-3 items-center">
-                                    <img src={team.image} className="w-7" />
+                                    {team.image ? (
+                                        <div className="avatar w-7">
+                                            <div className="w-full mask mask-squircle bg-white">
+                                                <img src={team.image} />
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="avatar w-7 placeholder inline-flex">
+                                            <div className="w-full mask mask-squircle bg-neutral-focus text-neutral-content border">
+                                                <span className="font-bold">{`${team.name}`[0]}</span>
+                                            </div>
+                                        </div>
+                                    )}
+
                                     <div className="flex flex-col">
                                         <span className="label-text font-semibold text-gray-500">{team.name}</span>
                                         <p className="text-xs leading-none">
@@ -102,7 +115,7 @@ export const SelectOrgStage = memo(() => {
                                 </div>
                                 <input
                                     id={team.name}
-                                    value={team.name}
+                                    value={team.key}
                                     type="radio"
                                     className="radio radio-primary"
                                     {...selectOrgForm.register('organizationName')}
