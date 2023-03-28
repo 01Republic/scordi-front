@@ -40,7 +40,7 @@ export const PaymentInfo = memo((props: PaymentInfoProps & WithChildren) => {
             <div className="stat-desc">
                 <p className="flex items-center gap-2">
                     <MdOutlineEmail size={18} />
-                    <span>{billingEmail}</span>
+                    <span>{billingEmail || 'Email not set'}</span>
                 </p>
             </div>
 

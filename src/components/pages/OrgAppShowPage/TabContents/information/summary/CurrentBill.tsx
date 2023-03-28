@@ -12,6 +12,7 @@ export const CurrentBill = memo((props: CurrentBillProps & WithChildren) => {
     const {application, children} = props;
     const {prototype, paymentPlan, billingCycle} = application;
 
+    const isFreeTier = application.isFreeTier;
     const cycleName = billingCycle ? t_BillingCycleTerm(billingCycle.term, true, Locale.en) : '-';
     const totalPrice = `$${application.nextBillingAmount.toFixed(2)}`;
 
@@ -39,7 +40,7 @@ export const CurrentBill = memo((props: CurrentBillProps & WithChildren) => {
                 <BiReceipt size={36} />
             </div>
             <div className="stat-title mb-2">Current {cycleName} bill</div>
-            <div className="stat-value mb-3 text-primary">{totalPrice}</div>
+            <div className="stat-value mb-3 text-primary">{isFreeTier ? 'Free' : totalPrice}</div>
             <div className="stat-desc">{diffMessage}</div>
         </>
     );

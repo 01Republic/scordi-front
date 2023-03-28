@@ -15,7 +15,7 @@ export const PaymentDue = memo((props: PaymentDueProps & WithChildren) => {
 
     const {prototype} = application;
 
-    const paymentDue = application.nextBillingDate || 'Today';
+    const paymentDue = application.nextBillingDate || '-';
 
     const colorClass = (() => {
         return 'text-primary';
