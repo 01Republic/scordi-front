@@ -1,8 +1,9 @@
 import {Fragment, memo, useState} from 'react';
 import {
+    PrototypeSettingSubmenuPanel,
     MenuContentForEditPrototype,
     MenuContentForIntroduce,
-    PrototypeSettingSubmenuPanel,
+    MenuContentForEditPlanCycle,
     SubmenuGroup,
 } from './Setting';
 
@@ -12,7 +13,7 @@ const menuGroups: SubmenuGroup[] = [
         items: [
             {name: '기본 정보', Component: MenuContentForEditPrototype},
             {name: '소개 작성', Component: MenuContentForIntroduce},
-            {name: '플랜-주기', Component: Fragment},
+            {name: '플랜-주기', Component: MenuContentForEditPlanCycle},
             {name: '카테고리', Component: Fragment},
             {name: '공개 상태', Component: Fragment},
         ],
