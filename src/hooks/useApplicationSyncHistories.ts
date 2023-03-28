@@ -1,49 +1,21 @@
-import {useCallback, useEffect, useState} from 'react';
-import {atom, useRecoilState} from 'recoil';
-import {
-    syncCurrentHistoryAtom,
-    syncHistoryListAtom,
-    syncHistoryListFetchItemsQueryParamAtom,
-    syncHistoryListPaginationAtom,
-} from '^atoms/applicationSyncHistories.atom';
-import {getSyncHistories, getSyncHistory} from '^api/applicationSyncHistories.api';
+import {useCallback} from 'react';
+import {useRecoilState} from 'recoil';
+import {syncCurrentHistoryAtom} from '^atoms/applicationSyncHistories.atom';
+import {getSyncHistories} from '^api/applicationSyncHistories.api';
 import {errorNotify} from '^utils/toast-notify';
-import {FindAllSyncHistoryQuery} from '^types/applicationSyncHistory.type';
+import {SyncHistoryDto} from '^types/applicationSyncHistory.type';
+import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook';
 
-export const useSyncHistoryList = () => {
-    const [items, setItems] = useRecoilState(syncHistoryListAtom);
-    const [pagination, setPagination] = useRecoilState(syncHistoryListPaginationAtom);
-    const [queryParams, setQueryParams] = useRecoilState(syncHistoryListFetchItemsQueryParamAtom);
-
-    const fetchItems = useCallback(
-        (applicationId: number, page: number, force?: boolean) => {
-            if (!force && pagination.currentPage === page) return;
-
-            const params: FindAllSyncHistoryQuery = {
-                where: {applicationId},
-                order: {id: 'DESC'},
-                page,
-                itemsPerPage: pagination.itemsPerPage,
-            };
-            if (!force && JSON.stringify(queryParams) === JSON.stringify(params)) return;
-
-            setQueryParams(params);
-            return getSyncHistories(applicationId, params)
-                .then((res) => {
-                    setItems(res.data.items);
-                    setPagination(res.data.pagination);
-                })
-                .catch(errorNotify);
-        },
-        [pagination, queryParams],
-    );
-
-    return {
-        items,
-        fetchItems,
-        pagination,
-    };
-};
+export const {paginatedListHook: useSyncHistoryList} = makePaginatedListHookWithAtoms<number, SyncHistoryDto>({
+    subject: 'syncHistoryList',
+    buildParams: (applicationId, page, pagination) => ({
+        where: {applicationId},
+        order: {id: 'DESC'},
+        page,
+        itemsPerPage: pagination.itemsPerPage,
+    }),
+    request: getSyncHistories,
+});
 
 export const useCurrentSyncHistory = () => {
     const [currentSyncHistory, setCurrentSyncHistory] = useRecoilState(syncCurrentHistoryAtom);
