@@ -36,6 +36,7 @@ export const MenuContentForEditPrototype = memo(() => {
         form.setValue('companyName', proto.companyName); // 운영사명
 
         // 아래는 수정 폼에서만 노출되는 인풋
+        form.setValue('searchText', proto.searchText); // 검색키워드
         form.setValue('connectMethod', proto.connectMethod as PrototypeConnectMethod); // 연동방법
         form.setValue('isAutoTrackable', proto.isAutoTrackable); // API 지원 여부
         form.setValue('isFreeTierAvailable', proto.isFreeTierAvailable); // 프리티어 지원 여부
