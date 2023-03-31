@@ -51,7 +51,7 @@ export const ConnectComplete = (props: ConnectCompleteProps) => {
                 organizationId,
                 prototypeId,
                 connectedSlug: orgItem.name,
-                // displayName: orgName,
+                displayName: orgName,
                 // paymentPlanId: paymentPlan.id,
                 // billingCycleId: billingCycle.id,
                 // isFreeTier,

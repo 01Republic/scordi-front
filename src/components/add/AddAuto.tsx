@@ -74,6 +74,7 @@ export const AddAuto = (props: AddAutoProps) => {
             organizationId: orgId,
             prototypeId,
             connectedSlug: name,
+            displayName: name,
         })
             .then(({data: app}) => app)
             .then((app) => {
