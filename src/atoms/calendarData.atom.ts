@@ -2,6 +2,7 @@ import {atom, selector} from 'recoil';
 import {DashboardDaySumDto, DashboardSummaryDto} from '^types/dashboard.type';
 import {getDashboardCalendar, getDashboardSummary} from '^api/dashboard.api';
 import {errorNotify} from '^utils/toast-notify';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 
 /**
  * Calendar
@@ -33,8 +34,10 @@ export const getDashboardCalendarQuery = selector({
     key: 'getDashboardCalendarQuery',
     get: async ({get}) => {
         const {year, month} = get(calendarParamsState);
+        const organizationId = useRouterIdParamState('id', orgIdParamState);
+
         try {
-            const res = await getDashboardCalendar(year, month);
+            const res = await getDashboardCalendar(organizationId, year, month);
             return res.data;
         } catch (e) {
             errorNotify(e);
@@ -57,9 +60,10 @@ export const getDashboardSummaryQuery = selector({
     key: 'getDashboardSummary',
     get: async ({get}) => {
         const {year, month} = get(calendarParamsState);
-        console.log(1, {year, month});
+        const organizationId = useRouterIdParamState('id', orgIdParamState);
+
         try {
-            const res = await getDashboardSummary(year, month);
+            const res = await getDashboardSummary(organizationId, year, month);
             return res.data;
         } catch (e) {
             errorNotify(e);

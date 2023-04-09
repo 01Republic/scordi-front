@@ -15,7 +15,7 @@ import {
 export const DashboardPageDesktop = memo(() => {
     return (
         <OrgMainLayout>
-            <ContentLayout title="대시보드">
+            <ContentLayout title="Dashboard">
                 <SummaryPanel />
                 <BillingSchedulePanel />
 

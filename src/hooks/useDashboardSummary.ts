@@ -4,6 +4,7 @@ import {getDashboardSummary} from '^api/dashboard.api';
 import {errorNotify} from '^utils/toast-notify';
 import {getQueryParams} from '^utils/get-query-params';
 import {dashboardSummaryState, getDashboardSummaryQuery} from '^atoms/calendarData.atom';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 
 export const useDashboardSummary = () => useRecoilValue(getDashboardSummaryQuery);
 
@@ -15,15 +16,16 @@ export function useDashboardSummary2() {
     const year = parseInt(`${queryParams.y || today.getFullYear()}`);
     const month = parseInt(`${queryParams.m || today.getMonth() + 1}`);
     const [summaryData, setSummaryData] = useRecoilState(dashboardSummaryState);
+    const organizationId = useRouterIdParamState('id', orgIdParamState);
 
-    const setSummary = useCallback((y: number, m: number) => {
-        getDashboardSummary(y, m)
+    const setSummary = useCallback((organizationId: number, y: number, m: number) => {
+        getDashboardSummary(organizationId, y, m)
             .then((res) => setSummaryData(res.data))
             .catch(errorNotify);
     }, []);
 
     useEffect(() => {
-        if (!isNaN(year) && !isNaN(month)) setSummary(year, month);
+        if (!isNaN(year) && !isNaN(month)) setSummary(organizationId, year, month);
     }, [year, month]);
 
     return {summaryData, setSummary, year, month};

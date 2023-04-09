@@ -16,8 +16,8 @@ export const BillingCalendarDesktop = memo(() => {
         const m = activeStartDate.getMonth() + 1;
         const url = `${OrgHomeRoute.path(organizationId)}?y=${y}&m=${m}`;
         history.replaceState({}, '', url);
-        setCalendar(y, m);
-        setSummary(y, m);
+        setCalendar(organizationId, y, m);
+        setSummary(organizationId, y, m);
         selectDate(new Date(y, m - 1, 1));
     };
 

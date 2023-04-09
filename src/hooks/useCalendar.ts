@@ -10,6 +10,7 @@ import {
 import {getDashboardCalendar} from '^api/dashboard.api';
 import {errorNotify} from '^utils/toast-notify';
 import {getQueryParams} from '^utils/get-query-params';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 
 export function useCalendar() {
     const {query} = useRouter();
@@ -39,15 +40,16 @@ export function useCalendar2() {
     const month = parseInt(`${queryParams.m || today.getMonth() + 1}`);
     const [calendarData, setCalendarData] = useRecoilState(calendarDataAtom);
     const selectDate = useSetRecoilState(calendarSelectedDateState);
+    const organizationId = useRouterIdParamState('id', orgIdParamState);
 
-    const setCalendar = useCallback((y: number, m: number) => {
-        getDashboardCalendar(y, m)
+    const setCalendar = useCallback((organizationId: number, y: number, m: number) => {
+        getDashboardCalendar(organizationId, y, m)
             .then((res) => setCalendarData(res.data))
             .catch(errorNotify);
     }, []);
 
     useEffect(() => {
-        if (!isNaN(year) && !isNaN(month)) setCalendar(year, month);
+        if (!isNaN(year) && !isNaN(month)) setCalendar(organizationId, year, month);
     }, [year, month]);
 
     return {calendarData, setCalendar, year, month, selectDate};

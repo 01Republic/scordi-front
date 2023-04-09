@@ -13,12 +13,16 @@ export const SummaryPanel = memo(() => {
             <ContentPanelTitle>Summary</ContentPanelTitle>
 
             <div className="flex gap-6 items-stretch flex-wrap justify-between">
-                <SummaryItem label="active apps">181</SummaryItem>
-                <SummaryItem label="spending apps">81</SummaryItem>
-                <SummaryItem label="usage members">6</SummaryItem>
-                <SummaryItem label="total spend">{currencyFormat(summaryData.total, 'US$', '%u%n')}</SummaryItem>
-                <SummaryItem label="paid amount">268,153.98 원</SummaryItem>
-                <SummaryItem label="pending amount">268,153.98 원</SummaryItem>
+                <SummaryItem label="active apps">{summaryData.activeApps.length}</SummaryItem>
+                <SummaryItem label="spending apps">{summaryData.spendingApps.length}</SummaryItem>
+                <SummaryItem label="usage members">{summaryData.memberships.length}</SummaryItem>
+                <SummaryItem label="total spend">{currencyFormat(summaryData.total, 'USD', '%n %u')}</SummaryItem>
+                <SummaryItem label="paid amount">
+                    {currencyFormat(summaryData.didPayAmount, 'USD', '%n %u')}
+                </SummaryItem>
+                <SummaryItem label="pending amount">
+                    {currencyFormat(summaryData.willPayAmount, 'USD', '%n %u')}
+                </SummaryItem>
             </div>
         </ContentPanel>
     );
