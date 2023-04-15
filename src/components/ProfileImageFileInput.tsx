@@ -32,7 +32,7 @@ export const ProfileImageFileInput = forwardRef((props: ProfileImageFileInputPro
 
     return (
         <div className="relative w-fit">
-            {url && (
+            {url && !props.disabled && (
                 <button
                     type="button"
                     className="btn btn-xs btn-error btn-circle text-xs text-white absolute"
@@ -65,13 +65,15 @@ export const ProfileImageFileInput = forwardRef((props: ProfileImageFileInputPro
                         </div>
                     </div>
                 )}
-                <div
-                    className={`${
-                        isHover ? '' : 'hidden'
-                    } absolute bottom-0 w-full h-fit bg-[#00000080] rounded-b text-center text-white font-bold flex items-center justify-center py-1`}
-                >
-                    <span className="text-xs">Change</span>
-                </div>
+                {!props.disabled && (
+                    <div
+                        className={`${
+                            isHover ? '' : 'hidden'
+                        } absolute bottom-0 w-full h-fit bg-[#00000080] rounded-b text-center text-white font-bold flex items-center justify-center py-1`}
+                    >
+                        <span className="text-xs">Change</span>
+                    </div>
+                )}
             </label>
 
             <input

@@ -7,6 +7,7 @@ type DefaultButtonProps = {
     onClick?: () => void;
     disabled?: boolean;
     type?: 'button' | 'submit';
+    isInline?: boolean;
 };
 
 const colorSets: {[index: string]: string} = {
@@ -22,8 +23,8 @@ export const DefaultButton = (props: DefaultButtonProps) => {
             type={`${props.type ? props.type : 'button'}`}
             disabled={props.disabled}
             className={`
-                    btn btn-primary btn-block rounded-[14px] border-none
-                    disabled:bg-[#D1D6DB] disabled:drop-shadow-none 
+                    btn btn-primary ${!props.isInline && `btn-block`} rounded-[14px] border-none
+                    disabled:bg-[#D1D6DB] disabled:drop-shadow-none
                     ${makeButtonColor(props.color ? props.color : 'purple')}
                 `}
             onClick={props.onClick}

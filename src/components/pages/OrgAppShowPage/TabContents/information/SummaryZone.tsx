@@ -14,7 +14,7 @@ export const SummaryZone = memo((props: SummaryZoneProps) => {
     const {application} = props;
 
     return (
-        <div className="bs-container mb-10">
+        <div className="bs-container mb-20">
             <BsStats className="bs-row shadow border">
                 <BsStat className="bs-col-12 sm:bs-col">
                     <CurrentBill application={application} />

@@ -23,7 +23,7 @@ const SummaryPage = () => {
     useEffect(() => {
         if (!organizationId) return;
 
-        getDashboardSummary(year, month)
+        getDashboardSummary(organizationId, year, month)
             .then(({data}) => {
                 setSummaryDto(data);
             })

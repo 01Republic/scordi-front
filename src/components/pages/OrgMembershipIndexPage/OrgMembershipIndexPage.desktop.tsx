@@ -3,6 +3,7 @@ import {ContentHeading, ContentHeadingPrimaryButton, ContentLayout, ContentPanel
 import OrgMainLayout from '^layouts/org/mainLayout';
 import {InviteMemberModal} from './InviteMemberModal';
 import {MembershipList} from './MembershipList';
+import {DefaultButton} from '^components/Button';
 
 export const OrgMembershipIndexPageDesktop = memo(() => {
     const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -12,12 +13,10 @@ export const OrgMembershipIndexPageDesktop = memo(() => {
             <InviteMemberModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
             <ContentLayout>
                 <ContentHeading title={'Members'}>
-                    <ContentHeadingPrimaryButton onClick={() => setIsModalOpen(true)}>
-                        멤버 초대하기
-                    </ContentHeadingPrimaryButton>
+                    <DefaultButton text={'Invite Members'} isInline={true} onClick={() => setIsModalOpen(true)} />
                 </ContentHeading>
 
-                <ContentPanel title={'멤버 목록'} bodyWrap={false}>
+                <ContentPanel title={'Member List'} bodyWrap={false}>
                     <MembershipList />
                 </ContentPanel>
             </ContentLayout>

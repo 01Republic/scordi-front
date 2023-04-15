@@ -21,6 +21,8 @@ import {ProfileImageFileInput} from '^components/ProfileImageFileInput';
 import {destroyOrganization, updateOrganization} from '^api/organization.api';
 import {errorNotify, successNotify} from '^utils/toast-notify';
 import {toast} from 'react-toastify';
+import {useCurrentUser} from '^hooks/useCurrentUser';
+import {MembershipLevel} from '^types/membership.type';
 
 export const OrgShowRoute = pathRoute({
     pathname: '/orgs/[id]',
@@ -29,6 +31,7 @@ export const OrgShowRoute = pathRoute({
 
 export default function OrgShowPage() {
     const router = useRouter();
+    const {currentUserMembership} = useCurrentUser(null);
     const {currentOrg, setCurrentOrg} = useCurrentOrg(Number(router.query.id));
     const org = currentOrg || ({} as OrganizationDto);
     const orgUpdateForm = useForm<UpdateOrganizationRequestDto>({
@@ -46,32 +49,36 @@ export default function OrgShowPage() {
         },
     });
 
+    const isOwner = currentUserMembership?.level === MembershipLevel.OWNER;
+
+    if (!currentUserMembership) return <PreLoader />;
     if (!org.id) return <PreLoader />;
 
     const UpdateOrgHandler = (dto: UpdateOrganizationRequestDto) => {
         updateOrganization(org.id, dto)
             .then((res) => {
                 setCurrentOrg(res.data);
-                successNotify('성공적으로 업데이트 되었습니다.');
+                successNotify('Update completed.');
             })
             .catch(errorNotify);
     };
 
     const DestroyOrgHandler = () => {
         destroyOrganization(org.id)
-            .then(() => toast.success('삭제되었습니다.'))
+            .then(() => toast.success('Delete completed.'))
             .catch(errorNotify);
     };
 
     return (
         <OrgMainLayout>
-            <ContentLayout title="회사정보 설정">
+            <ContentLayout title="Settings">
                 <ContentForm onSubmit={orgUpdateForm.handleSubmit(UpdateOrgHandler)}>
-                    <ContentPanel title="일반">
+                    <ContentPanel title="General">
                         <ContentPanelList>
-                            <ContentPanelInput title="회사 ID" text="회사 ID는 유일한 값입니다." required={true}>
+                            <ContentPanelInput title="Organization ID" required={true}>
                                 <TextInput
                                     required={true}
+                                    disabled={!isOwner}
                                     {...orgUpdateForm.register('slug', {
                                         required: true,
                                         value: org.slug,
@@ -79,9 +86,10 @@ export default function OrgShowPage() {
                                 />
                             </ContentPanelInput>
 
-                            <ContentPanelInput title="회사명" text="회사명을 정확히 써주세요." required={true}>
+                            <ContentPanelInput title="Organization Name" required={true}>
                                 <TextInput
                                     required={true}
+                                    disabled={!isOwner}
                                     {...orgUpdateForm.register('name', {
                                         required: true,
                                         value: org.name,
@@ -89,9 +97,10 @@ export default function OrgShowPage() {
                                 />
                             </ContentPanelInput>
 
-                            <ContentPanelInput title="회사 로고" text="회사의 로고를 업로드 해주세요." required={false}>
+                            <ContentPanelInput title="Logo" required={false}>
                                 <ProfileImageFileInput
                                     imageUrl={org.image}
+                                    disabled={!isOwner}
                                     fallbackLetter={org.name[0]}
                                     {...orgUpdateForm.register('image')}
                                     onChange={(e) => {
@@ -131,21 +140,27 @@ export default function OrgShowPage() {
                 {/*  </ContentPanel>*/}
                 {/*</ContentForm>*/}
 
-                <ContentPanel title="이 회사 삭제">
-                    <ContentPanelList>
-                        <ContentPanelItem>
-                            <div className="flex-1">
-                                <ContentPanelItemTitle text="삭제하기" />
-                                <ContentPanelItemText text="회사 정보를 삭제하시면 모든 데이터가 사라집니다." />
-                            </div>
-                            <div className="flex-1 text-end">
-                                <button type="button" className="btn btn-error text-white" onClick={DestroyOrgHandler}>
-                                    삭제 요청하기
-                                </button>
-                            </div>
-                        </ContentPanelItem>
-                    </ContentPanelList>
-                </ContentPanel>
+                {isOwner && (
+                    <ContentPanel title="Remove this organization">
+                        <ContentPanelList>
+                            <ContentPanelItem>
+                                <div className="flex-1">
+                                    <ContentPanelItemTitle text="Remove" />
+                                    {/*<ContentPanelItemText text="회사 정보를 삭제하시면 모든 데이터가 사라집니다." />*/}
+                                </div>
+                                <div className="flex-1 text-end">
+                                    <button
+                                        type="button"
+                                        className="btn btn-error text-white"
+                                        onClick={DestroyOrgHandler}
+                                    >
+                                        Request to remove
+                                    </button>
+                                </div>
+                            </ContentPanelItem>
+                        </ContentPanelList>
+                    </ContentPanel>
+                )}
             </ContentLayout>
         </OrgMainLayout>
     );

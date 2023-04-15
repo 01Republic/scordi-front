@@ -1,5 +1,6 @@
 import React, {FC, FormEventHandler} from 'react';
 import {WithChildren} from '^types/global.type';
+import {DefaultButton} from '^components/Button';
 
 interface ContentFormProps {
     onSubmit: FormEventHandler;
@@ -18,7 +19,7 @@ export const ContentForm: FC<WithChildren & ContentFormProps> = ({onSubmit, subm
 
                 {!submitBtnHidden && (
                     <div className="w-full mb-10 text-right">
-                        <button className="btn btn-primary">저장하기</button>
+                        <DefaultButton text={'Save'} type={'submit'} isInline={true} />
                     </div>
                 )}
             </form>
