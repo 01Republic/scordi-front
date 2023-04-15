@@ -13,9 +13,15 @@ export const SummaryPanel = memo(() => {
             <ContentPanelTitle>Summary</ContentPanelTitle>
 
             <div className="flex gap-6 items-stretch flex-wrap justify-between">
-                <SummaryItem label="active apps">{summaryData.activeApps.length}</SummaryItem>
-                <SummaryItem label="spending apps">{summaryData.spendingApps.length}</SummaryItem>
-                <SummaryItem label="usage members">{summaryData.memberships.length}</SummaryItem>
+                <SummaryItem label="active apps">
+                    {!!summaryData.activeApps ? summaryData.activeApps.length : 0}
+                </SummaryItem>
+                <SummaryItem label="spending apps">
+                    {!!summaryData.spendingApps ? summaryData.spendingApps.length : 0}
+                </SummaryItem>
+                <SummaryItem label="usage members">
+                    {summaryData.memberships ? summaryData.memberships.length : 0}
+                </SummaryItem>
                 <SummaryItem label="total spend">{currencyFormat(summaryData.total, 'USD', '%n %u')}</SummaryItem>
                 <SummaryItem label="paid amount">
                     {currencyFormat(summaryData.didPayAmount, 'USD', '%n %u')}
