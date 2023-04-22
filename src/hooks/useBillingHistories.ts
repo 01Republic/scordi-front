@@ -1,7 +1,6 @@
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {
     billingHistoriesState,
-    billingHistoryListPaginationAtom,
     billingSchedulesState,
     getBillingHistoriesParamsState,
     getBillingHistoriesQuery,

@@ -76,16 +76,16 @@ export const getBillingHistoriesParamsState = atom<GetBillingHistoriesParams>({
     default: {},
 });
 
-export const billingHistoryListPaginationAtom = atom<PaginationMetaData>({
-    key: 'billingHistoryList/paginationAtom',
-    default: {
-        totalItemCount: 0,
-        currentItemCount: 0,
-        totalPage: 0,
-        currentPage: 0,
-        itemsPerPage: 15,
-    },
-});
+// export const billingHistoryListPaginationAtom = atom<PaginationMetaData>({
+//     key: 'billingHistoryList/paginationAtom',
+//     default: {
+//         totalItemCount: 0,
+//         currentItemCount: 0,
+//         totalPage: 0,
+//         currentPage: 0,
+//         itemsPerPage: 15,
+//     },
+// });
 
 export const getBillingHistoriesQuery = selector({
     key: 'getBillingHistoriesQuery',
