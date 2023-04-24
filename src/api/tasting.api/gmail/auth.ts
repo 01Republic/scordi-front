@@ -25,7 +25,7 @@ export function googleAuthForGmail() {
         include_granted_scopes: true,
         response_type: 'code',
         // response_type: 'token',
-        redirect_uri: 'http://localhost:3000/tasting',
+        redirect_uri: `${process.env.NEXT_PUBLIC_SERVICE_HOST}/tasting`,
         client_id: googleOauthClientId,
     };
     const url = buildUrl(baseUrl, params);
@@ -52,7 +52,7 @@ export async function getGoogleAccessTokenByCode(code: string) {
         code,
         client_id: googleOauthClientId,
         client_secret: googleOauthClientSecret,
-        redirect_uri: `http://localhost:3000/tasting`,
+        redirect_uri: `${process.env.NEXT_PUBLIC_SERVICE_HOST}/tasting`,
         grant_type: 'authorization_code',
     });
     return axios.post<GoogleAccessTokenData>(baseUrl, body, {headers}).then((res) => {
