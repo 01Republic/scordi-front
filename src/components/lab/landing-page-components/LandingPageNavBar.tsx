@@ -1,14 +1,22 @@
 import Image from 'next/image';
 import {UserLoginPageRoute} from '^pages/users/login';
 
-export const LandingPageNavBar = () => {
+interface LandingPageNavBarProps {
+    fluid?: boolean;
+    showLoginButton?: boolean;
+    className?: string;
+}
+
+export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
+    const {fluid = false, showLoginButton = true, className = ''} = props;
+
     const onClickCta = () => {
         const ctaBtn = document.querySelector('#cta-1') as HTMLElement;
         if (ctaBtn) ctaBtn.click();
     };
 
     return (
-        <div className="container navbar">
+        <div className={`${fluid ? '' : 'container'} navbar ${className}`}>
             <div className="navbar-start">
                 <a className="btn btn-ghost btn-hover-init normal-case text-2xl md:text-3xl" href="/">
                     <Image
@@ -22,11 +30,13 @@ export const LandingPageNavBar = () => {
                 </a>
             </div>
             <div className="navbar-center lg:flex" />
-            <div className="navbar-end">
-                <a className="btn btn-outline btn-primary" href={UserLoginPageRoute.path()}>
-                    클로즈베타 로그인
-                </a>
-            </div>
+            {showLoginButton && (
+                <div className="navbar-end">
+                    <a className="btn btn-outline btn-primary" href={UserLoginPageRoute.path()}>
+                        클로즈베타 로그인
+                    </a>
+                </div>
+            )}
         </div>
     );
 };
