@@ -1,3 +1,3 @@
-import MainPage from "./LandingPage1";
+import MainPage from './LandingPage2';
 
 export default MainPage;
