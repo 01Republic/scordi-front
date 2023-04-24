@@ -1,0 +1,57 @@
+#mainPage {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    background-color: #fff;
+
+    .container-box {
+    }
+
+    .section-box {
+        width: 75%;
+
+        .head-text {
+            font-size: 3.7em;
+            line-height: 1.2em;
+        }
+
+        .body-text {
+            font-size: 1.5em;
+            line-height: 1.6em;
+            font-weight: 500;
+        }
+
+        .closeBeta-btn {
+            width: 13.5rem;
+            height: 4.2rem;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            background: linear-gradient(90deg, rgb(36, 123, 255) 0%, rgb(49, 80, 217) 100%);
+            color: #fff;
+            font-size: 1.125rem;
+            font-weight: 500;
+            line-height: 1.5rem;
+            transform: none;
+
+            &:hover {
+                transform: scale(1.03) translateZ(0px);
+            }
+        }
+    }
+
+    #section-2 {
+        .logos-slide {
+            gap: 40px;
+            width: 8rem;
+            height: 3rem;
+            border: 1px solid #333d4b;
+
+            .logo-img {
+                height: 100%;
+                object-fit: contain;
+                margin: 0 auto;
+            }
+        }
+    }
+}

@@ -1,6 +1,7 @@
 import '../styles/index.css';
 import '../styles/grid.scss';
 import '../styles/globals.scss';
+import '../styles/mainPage.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/dashboard-calendar.scss';
 import '../styles/v2/index.scss';
