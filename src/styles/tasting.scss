@@ -1,0 +1,29 @@
+#TastingPage {
+  min-height: 100vh;
+
+  #tasting-handler {
+    #tasting-handler--start-button {
+      position: relative;
+      overflow: hidden;
+      transition: all 200ms ease;
+      height: auto;
+    }
+
+    #tasting-handler--summary-section {
+      position: relative;
+      overflow: hidden;
+      transition: all 200ms ease;
+      height: 0;
+    }
+
+    &.active {
+      #tasting-handler--start-button {
+        height: 0;
+      }
+
+      #tasting-handler--summary-section {
+        height: initial;
+      }
+    }
+  }
+}

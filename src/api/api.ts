@@ -1,8 +1,8 @@
-import axios, { AxiosError } from 'axios';
+import axios, {AxiosError} from 'axios';
 import Qs from 'qs';
-import { UserLoginPageRoute } from '^pages/users/login';
-import { UserSignUpPageRoute } from '^pages/users/signup';
-import { toast } from 'react-toastify';
+import {UserLoginPageRoute} from '^pages/users/login';
+import {UserSignUpPageRoute} from '^pages/users/signup';
+import {toast} from 'react-toastify';
 
 export const SIGNED_TOKEN_STORAGE_KEY = 'token';
 export const getToken = () => localStorage.getItem(SIGNED_TOKEN_STORAGE_KEY);
@@ -27,33 +27,31 @@ api.interceptors.request.use((config) => {
     }
 
     // Middleware 2. Format nested params correctly
-    config.paramsSerializer = (params) => Qs.stringify(params, {
-        arrayFormat: "brackets",
-        encode: false
-    });
+    config.paramsSerializer = (params) =>
+        Qs.stringify(params, {
+            arrayFormat: 'brackets',
+            encode: false,
+        });
 
     return config;
 });
 
 type ApiError = {
     message: string;
-}
+};
 api.interceptors.response.use(undefined, (error: AxiosError<ApiError>) => {
-    console.log(window.location.pathname)
+    console.log(window.location.pathname);
 
-    const { response } = error;
+    const {response} = error;
     if (!response || !response.data) {
         toast.error('네트워크 연결 상태를 확인해주세요');
         return Promise.reject(error);
     }
 
     if (
-      !([
-        UserLoginPageRoute.pathname,
-          UserSignUpPageRoute.pathname,
-      ].includes(window.location.pathname))
-      && response.status === 401
-      && String(response.statusText) === 'Unauthorized'
+        ![UserLoginPageRoute.pathname, UserSignUpPageRoute.pathname].includes(window.location.pathname) &&
+        response.status === 401 &&
+        String(response.statusText) === 'Unauthorized'
     ) {
         // updateToken()
         //     .then(() => window.location.reload())
@@ -64,6 +62,6 @@ api.interceptors.response.use(undefined, (error: AxiosError<ApiError>) => {
         window.location.assign(UserLoginPageRoute.path());
     }
     // toast.error(error.response.data.message.toString());
-    console.log(response.data.message.toString());
+    console.log(response?.data?.message?.toString());
     return Promise.reject(error);
 });

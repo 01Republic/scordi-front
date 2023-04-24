@@ -5,6 +5,7 @@ import '../styles/dashboard-calendar.scss';
 import '../styles/content-layout/index.scss';
 import '../styles/v2/index.scss';
 import '../styles/button.scss';
+import '../styles/tasting.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import {Fragment, Suspense} from 'react';
