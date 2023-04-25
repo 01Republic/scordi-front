@@ -14,28 +14,28 @@ export const USPSection = memo((props: USPSectionProps) => {
     const {direct, imgUrl, imgWidth = '60%', title, desc1, desc2} = props;
 
     return (
-        <div className="hero container sm:min-h-[80vh]">
+        <div className="hero container md:min-h-[80vh]">
             <div
-                className={`hero-content text-center px-10 sm:text-left justify-between w-full flex-col ${
-                    direct === 'left' ? 'sm:flex-row-reverse' : 'sm:flex-row'
+                className={`hero-content text-center px-10 md:text-left justify-between w-full flex-col ${
+                    direct === 'left' ? 'md:flex-row-reverse' : 'md:flex-row'
                 }`}
             >
                 <img
                     src={imgUrl}
-                    className={`sm:w-[${imgWidth}] rounded-lg relative`}
+                    className={`md:w-[${imgWidth}] rounded-lg relative`}
                     data-aos="fade-up"
                     data-aos-anchor-placement="center-bottom"
                 />
                 <div>
                     <h1
-                        className="text-4xl sm:text-5xl font-bold mb-6"
+                        className="text-4xl md:text-5xl font-bold mb-6"
                         dangerouslySetInnerHTML={{__html: title}}
                         data-aos="fade-up"
                         data-aos-anchor-placement="center-bottom"
                     />
                     {desc1 && (
                         <p
-                            className="mb-3 text-lg sm:text-xl italic text-gray-500 font-light"
+                            className="mb-3 text-lg md:text-xl italic text-gray-500 font-light"
                             dangerouslySetInnerHTML={{__html: desc1}}
                             data-aos="fade-up"
                             data-aos-anchor-placement="center-bottom"
@@ -43,7 +43,7 @@ export const USPSection = memo((props: USPSectionProps) => {
                     )}
                     {desc2 && (
                         <p
-                            className="mb-10 font-semibold sm:font-normal text-lg sm:text-xl text-gray-600"
+                            className="mb-10 font-semibold md:font-normal text-lg md:text-xl text-gray-600"
                             dangerouslySetInnerHTML={{__html: desc2}}
                             data-aos="fade-up"
                             data-aos-anchor-placement="center-bottom"
