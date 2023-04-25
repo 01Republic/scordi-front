@@ -28,14 +28,14 @@ export const USPSection = memo((props: USPSectionProps) => {
                 />
                 <div>
                     <h1
-                        className="text-3xl sm:text-5xl font-bold mb-6"
+                        className="text-4xl sm:text-5xl font-bold mb-6"
                         dangerouslySetInnerHTML={{__html: title}}
                         data-aos="fade-up"
                         data-aos-anchor-placement="center-bottom"
                     />
                     {desc1 && (
                         <p
-                            className="mb-3 sm:text-xl italic text-gray-500 font-light"
+                            className="mb-3 text-lg sm:text-xl italic text-gray-500 font-light"
                             dangerouslySetInnerHTML={{__html: desc1}}
                             data-aos="fade-up"
                             data-aos-anchor-placement="center-bottom"
@@ -43,7 +43,7 @@ export const USPSection = memo((props: USPSectionProps) => {
                     )}
                     {desc2 && (
                         <p
-                            className="mb-10 font-semibold sm:font-normal sm:text-xl text-gray-600"
+                            className="mb-10 font-semibold sm:font-normal text-lg sm:text-xl text-gray-600"
                             dangerouslySetInnerHTML={{__html: desc2}}
                             data-aos="fade-up"
                             data-aos-anchor-placement="center-bottom"

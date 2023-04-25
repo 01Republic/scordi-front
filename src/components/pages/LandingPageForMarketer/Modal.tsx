@@ -39,8 +39,11 @@ export const LandingPageForMarketerModal = memo(() => {
     return (
         <>
             {/* Put this part before </body> tag */}
-            {/*<input type="checkbox" id="my-modal-4" className="modal-toggle" defaultChecked={isModalOpen} />*/}
-            <label htmlFor="my-modal-4" className="modal cursor-pointer" onClick={() => setModalOpen(false)}>
+            <label
+                htmlFor="my-modal-4"
+                className={`modal cursor-pointer ${isModalOpen ? 'modal-open' : ''}`}
+                onClick={() => setModalOpen(false)}
+            >
                 <label
                     className="modal-box relative"
                     htmlFor=""
