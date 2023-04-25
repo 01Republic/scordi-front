@@ -82,3 +82,82 @@ p {
   background: #333D4B !important;
   border-radius: 14px !important;
 }
+
+$color-scordi: #5c5fee;
+$color-scordi-light: #a5a6f5;
+
+@function rgba-to-rgb($rgba, $background: #fff) {
+  @return mix(rgb(red($rgba), green($rgba), blue($rgba)), $background, alpha($rgba) * 100%);
+}
+
+@function get-scaled-color($base_color, $scale) {
+  @return if($scale <= 500, rgba-to-rgb(rgba($base_color, $scale * 2 / 1000)), rgba-to-rgb(rgba($base_color, (1000 - $scale) * 2 / 1000), #000));
+}
+
+@mixin set-scaled-class($base_class, $attr, $base_color, $state: '') {
+  @each $scale in (50, 100, 200, 300, 400, 500, 600, 700, 800, 900) {
+    @if str-length($state) > 0 {
+      .#{$state}\:#{$base_class}-#{$scale}:#{$state} {
+        #{$attr}: get-scaled-color($base_color, $scale);
+      }
+    } @else {
+      .#{$base_class}-#{$scale} {
+        #{$attr}: get-scaled-color($base_color, $scale);
+      }
+    }
+  }
+}
+
+@mixin make-generic-class($component, $color_name, $attr, $color) {
+  $base_class: #{$component}-#{$color_name};
+
+  .#{$base_class} { #{$attr}: $color; }
+  @include set-scaled-class($base_class, $attr, $color);
+
+  @each $state in ('hover', 'active', 'visited', 'focus') {
+    .#{$state}\:#{$base_class}:#{$state} { #{$attr}: $color; }
+    @include set-scaled-class($base_class, $attr, $color, $state);
+  }
+}
+
+@mixin makeGenericClassByColorName($name, $color) {
+  @include make-generic-class('text', $name, 'color', $color);
+  @include make-generic-class('bg', $name, 'background-color', $color);
+  @include make-generic-class('border', $name, 'border-color', $color);
+}
+
+@include makeGenericClassByColorName('scordi', $color-scordi);
+@include makeGenericClassByColorName('scordi-light', $color-scordi-light);
+
+@each $color-name in ('scordi', 'scordi-light') {
+  @each $scale in (100, 200, 300, 400, 500, 600, 700, 800, 900) {
+    $scale-darken: if($scale > 700, 900, $scale + 200);
+    $scale_lower: if($scale - 100 < 100, 100, $scale - 100);
+    $scale_higher: if($scale + 100 > 900, 900, $scale + 100);
+
+    .btn-#{$color-name}-#{$scale} {
+      @apply bg-#{$color-name}-#{$scale} border-#{$color-name}-#{$scale_lower};
+
+      @if $scale >= 500 {
+        @apply text-#{$color-name}-100;
+      } @else {
+        @apply text-#{$color-name}-900;
+      }
+
+      &:hover {
+        @apply bg-#{$color-name}-#{$scale_higher} border-#{$color-name}-#{$scale};
+        @apply text-white; // white
+      }
+
+      &.btn-outline {
+        @apply border-#{$color-name}-#{$scale} text-#{$color-name}-#{$scale};
+        background-color: initial;
+
+        &:hover {
+          @apply bg-#{$color-name}-#{$scale};
+          @apply text-white; // white
+        }
+      }
+    }
+  }
+}

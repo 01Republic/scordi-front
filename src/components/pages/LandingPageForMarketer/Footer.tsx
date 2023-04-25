@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export const LandingPageForMarketerFooter = memo(() => {
     return (
-        <footer className="footer p-10 bg-neutral text-neutral-content">
+        <footer className="footer p-10 text-neutral-content">
             <div>
                 <Image
                     src="/logo-transparent.png"

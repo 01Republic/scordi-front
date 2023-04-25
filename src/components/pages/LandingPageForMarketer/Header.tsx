@@ -12,13 +12,13 @@ export const LandingPageForMarketerHeader = memo(() => {
                 <div>
                     <h1 className="text-4xl sm:text-5xl font-bold leading-snug mb-6">
                         마케팅 비용관리,
-                        <br /> 스코디로 시작하세요.
+                        <br /> <span className="text-scordi">스코디</span>로 시작하세요.
                     </h1>
                     <p className="text-lg sm:text-xl text-gray-500 mb-10" style={{lineHeight: '1.75'}}>
                         마케터가 원하는 매체별 예산 관리의 모든 것, <br /> 연동부터 운영까지 엑셀 없이 1분만에
                         끝내보세요.
                     </p>
-                    <LandingPageForMarketerCTAButton />
+                    <LandingPageForMarketerCTAButton aos={false} />
                 </div>
                 <img
                     src="https://framerusercontent.com/images/CLQDm6WfxBICz2mxLDwMRrbRzSo.png?scale-down-to=1024"
