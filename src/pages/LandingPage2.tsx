@@ -18,9 +18,9 @@ export default function LandingPage2() {
                     </a>
                 </div>
             </header>
-            <section id="section-1" className="section-box flex pt-32">
-                <div className="section-1-box flex flex-row items-center">
-                    <div className="section-1-head flex flex-col flex-nowrap items-start gap-6">
+            <section id="section-1" className="section-box flex pt-40">
+                <div className="section-1-box flex flex-row items-center justify-between">
+                    <div className="section-1-head flex flex-col flex-nowrap items-start gap-9">
                         <div>
                             <h1 className="head-text">
                                 구독 서비스 관리를
@@ -29,39 +29,27 @@ export default function LandingPage2() {
                             </h1>
                         </div>
                         <div className="flex flex-col justify-start shrink-0">
-                            <p className="body-text text-gray-500">
+                            <p className="body-text">
                                 이용이 적은 계정에 대한 비용,
                                 <br />
                                 직원 온보딩의 번거로움,
                                 <br />
-                                민감한 데이터에 액세스할 수 있는 퇴사자 까지
+                                민감한 데이터에 액세스 가능한 퇴사자 까지
                                 <br />
-                                SaaS 관리는 어렵지만, Scordi와 함께라면 쉽습니다.
+                                {/* SaaS 관리는 어렵지만, Scordi와 함께라면 쉽습니다. */}
                             </p>
                         </div>
                         <div>
                             <button className="btn closeBeta-btn">클로즈베타 신청하기</button>
                         </div>
                     </div>
-                    <div className="section-1-body w-7/12">
+                    <div className="section-1-body w-3/5">
                         <img src="/home/image1.png" alt="service preview image" className="w-full" />
                     </div>
                 </div>
             </section>
-            <section id="section-2" className="py-32">
-                <ul className="inline-flex justify-between items-start g-10">
-                    <li className="logos-slide">
-                        <img src="/images/logo/logo_figma.png" alt="notion-logo" className="logo-img" />
-                    </li>
-                    <li className="logos-slide">
-                        <img src="/images/logo/logo_notion.png" alt="notion-logo" className="logo-img" />
-                    </li>
-                    <li className="logos-slide">
-                        <img src="/images/logo/logo_figma.png" alt="notion-logo" className="logo-img" />
-                    </li>
-                    <li className="logos-slide">
-                        <img src="/images/logo/logo_notion.png" alt="notion-logo" className="logo-img" />
-                    </li>
+            <section id="section-2" className="section-box py-48">
+                <ul className="logos-slide-box inline-flex justify-between items-start g-10">
                     <li className="logos-slide">
                         <img src="/images/logo/logo_figma.png" alt="notion-logo" className="logo-img" />
                     </li>
@@ -90,8 +78,88 @@ export default function LandingPage2() {
                         <img src="/images/logo/logo_figma.png" alt="notion-logo" className="logo-img" />
                     </li>
                 </ul>
+                <ul className="logos-slide-box inline-flex justify-between items-start g-10">
+                    <li className="logos-slide">
+                        <img src="/images/logo/logo_notion.png" alt="notion-logo" className="logo-img" />
+                    </li>
+                    <li className="logos-slide">
+                        <img src="/images/logo/logo_figma.png" alt="notion-logo" className="logo-img" />
+                    </li>
+                    <li className="logos-slide">
+                        <img src="/images/logo/logo_notion.png" alt="notion-logo" className="logo-img" />
+                    </li>
+                    <li className="logos-slide">
+                        <img src="/images/logo/logo_figma.png" alt="notion-logo" className="logo-img" />
+                    </li>
+                    <li className="logos-slide">
+                        <img src="/images/logo/logo_notion.png" alt="notion-logo" className="logo-img" />
+                    </li>
+                    <li className="logos-slide">
+                        <img src="/images/logo/logo_figma.png" alt="notion-logo" className="logo-img" />
+                    </li>
+                    <li className="logos-slide">
+                        <img src="/images/logo/logo_notion.png" alt="notion-logo" className="logo-img" />
+                    </li>
+                    <li className="logos-slide">
+                        <img src="/images/logo/logo_figma.png" alt="notion-logo" className="logo-img" />
+                    </li>
+                    <li className="logos-slide">
+                        <img src="/images/logo/logo_notion.png" alt="notion-logo" className="logo-img" />
+                    </li>
+                </ul>
             </section>
-            <section></section>
+
+            {/* section 3 */}
+            <section id="section-3" className="section-box flex justify-center items-center">
+                <div className="section-3-box">
+                    <div className="section-3-head">
+                        <div className="flex flex-col text-center">
+                            <p className="body-text text-gray-500">
+                                <span className="text-black">Scordi</span> 와 함께라면 쉽습니다
+                                <br />더 많은 고객을, 더 빨리 미팅으로 이끌어 매출을 끌어올리세요
+                            </p>
+                        </div>
+                    </div>
+                    <div className="section-3-body flex my-14">
+                        <div className="section-3-image-box">
+                            <div className="s3-image">
+                                <img src="/images/illustration/section3_img01.png" className="w-full" />
+                            </div>
+                            <div className="s3-text">
+                                <div>
+                                    <span className="s3-text-sm mr-3">미팅 수립률</span>
+                                    <span className="s3-text-xl">200%</span>
+                                    <span className="s3-text-sm ml-3">상승</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="section-3-image-box">
+                            <div className="s3-image">
+                                <img src="/images/illustration/section3_img02.png" className="w-full" />
+                            </div>
+                            <div className="s3-text">
+                                <div>
+                                    <span className="mr-3 s3-text-sm">노쇼</span>
+                                    <span className="s3-text-xl">50%</span>
+                                    <span className="ml-3 s3-text-sm">감소</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="section-3-image-box">
+                            <div className="s3-image">
+                                <img src="/images/illustration/section3_img03.png" className="w-full" />
+                            </div>
+                            <div className="s3-text">
+                                <div>
+                                    <span className="mr-3 s3-text-sm">매출</span>
+                                    <span className="s3-text-xl">150%</span>
+                                    <span className="ml-3 s3-text-sm">증가</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
             <section></section>
             <section></section>
             <section></section>

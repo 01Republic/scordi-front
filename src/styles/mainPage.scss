@@ -17,9 +17,10 @@
         }
 
         .body-text {
-            font-size: 1.5em;
-            line-height: 1.6em;
+            font-size: 1.6em;
+            line-height: 1.7em;
             font-weight: 500;
+            color: rgb(107, 114, 128);
         }
 
         .closeBeta-btn {
@@ -41,16 +42,55 @@
     }
 
     #section-2 {
-        .logos-slide {
-            gap: 40px;
-            width: 8rem;
-            height: 3rem;
-            border: 1px solid #333d4b;
+        -webkit-mask-image: linear-gradient(
+            to right,
+            rgba(0, 0, 0, 0) 0%,
+            rgb(0, 0, 0) 12.5%,
+            rgb(0, 0, 0) 87.5%,
+            rgba(0, 0, 0, 0) 100%
+        );
+        .logos-slide-box {
+            margin: 2.3rem 0;
+            .logos-slide {
+                gap: 40px;
+                width: 8rem;
+                height: 3rem;
+                // border: 1px solid #333d4b;
 
-            .logo-img {
-                height: 100%;
-                object-fit: contain;
-                margin: 0 auto;
+                .logo-img {
+                    height: 100%;
+                    object-fit: contain;
+                    margin: 0 auto;
+                }
+            }
+        }
+    }
+
+    #section-3 {
+        .section-3-image-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .s3-image {
+                width: 50%;
+                margin: 0 2.5rem;
+            }
+
+            .s3-text {
+                margin-top: -0.8rem;
+            }
+
+            .s3-text-sm {
+                font-size: 1.25rem;
+                color: rgb(107, 114, 128);
+            }
+
+            .s3-text-xl {
+                font-size: 4.5rem;
+                font-weight: 700;
+                color: #000;
+                letter-spacing: -0.025em;
             }
         }
     }
