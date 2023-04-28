@@ -8,13 +8,14 @@ interface USPSectionProps {
     desc1?: string;
     desc2?: string;
     direct: 'left' | 'right';
+    bgGray?: boolean;
 }
 
 export const USPSection = memo((props: USPSectionProps) => {
-    const {direct, imgUrl, imgWidth = '60%', title, desc1, desc2} = props;
+    const {direct, imgUrl, imgWidth = '60%', title, desc1, desc2, bgGray = false} = props;
 
     return (
-        <div className="hero container md:min-h-[80vh]">
+        <div className={`hero md:min-h-[80vh] ${bgGray ? 'bg-base-200' : ''}`}>
             <div
                 className={`hero-content text-center px-10 md:text-left justify-between w-full flex-col ${
                     direct === 'left' ? 'md:flex-row-reverse' : 'md:flex-row'

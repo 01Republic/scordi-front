@@ -3,7 +3,15 @@ import {LandingPageForMarketerCTAButton} from './CTAButton';
 
 export const LandingPageForMarketerHeader = memo(() => {
     return (
-        <div className="hero mb-[100px]" style={{minHeight: '80vh'}}>
+        <div
+            className="hero pb-[100px]"
+            style={{
+                minHeight: '80vh',
+                // background: 'rgb(92,95,238)',
+                background:
+                    'linear-gradient(9deg, rgba(92,95,238,0.1951374299719888) 0%, rgba(92,95,238,0.20354079131652658) 30%, rgba(255,255,255,0) 60%, rgba(255,255,255,0) 100%)',
+            }}
+        >
             <div className="hero-content py-16 md:py-0 flex-col md:flex-row-reverse">
                 <img
                     src="https://framerusercontent.com/images/CLQDm6WfxBICz2mxLDwMRrbRzSo.png?scale-down-to=1024"

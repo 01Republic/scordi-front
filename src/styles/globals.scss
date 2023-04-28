@@ -161,3 +161,51 @@ $color-scordi-light: #a5a6f5;
     }
   }
 }
+
+@keyframes marquee {
+  0% { left: 0; }
+  100% { left: -100%; }
+}
+
+@keyframes marquee-reverse {
+  0% { left: -100%; }
+  100% { left: 0; }
+}
+
+.marqueeMoving,
+.marqueeMoving-reverse {
+  position: absolute;
+  overflow: hidden;
+  width: 200%;
+  display: inline-flex;
+
+  img {
+    max-width: 100px;
+    max-height: 100px;
+  }
+}
+
+.marqueeMoving {
+  animation: marquee 30s linear 0s infinite;
+  &-reverse {
+    animation: marquee-reverse 30s linear 0s infinite;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .marqueeMoving,
+  .marqueeMoving-reverse {
+    width: 400%;
+    img {
+      max-width: 100px;
+      max-height: 40px;
+    }
+  }
+
+  .marqueeMoving {
+    animation: marquee 10s linear 0s infinite;
+    &-reverse {
+      animation: marquee-reverse 30s linear 0s infinite;
+    }
+  }
+}
