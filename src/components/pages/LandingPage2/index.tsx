@@ -1,24 +1,29 @@
 import Image from 'next/image';
 import React from 'react';
+import {Header} from '^components/pages/LandingPage2/Header';
+import {LogoItem} from '^components/pages/LandingPage2/LogoItem';
+import {ArticleSection} from '^components/pages/LandingPage2/ArticleSection';
 
-export default function LandingPage2() {
+export function LandingPage2() {
+    const imgUrls = [
+        '/images/logo/logo_figma.png',
+        '/images/logo/logo_notion.png',
+        '/images/logo/logo_figma.png',
+        '/images/logo/logo_notion.png',
+        '/images/logo/logo_figma.png',
+        '/images/logo/logo_notion.png',
+        '/images/logo/logo_figma.png',
+        '/images/logo/logo_notion.png',
+        '/images/logo/logo_figma.png',
+        '/images/logo/logo_notion.png',
+        '/images/logo/logo_notion.png',
+        '/images/logo/logo_notion.png',
+    ];
+
     return (
         <div id="mainPage" className="container-box w-full flex flex-col gap-20">
             {/* nav */}
-            <header className="navbar px-10 py-4">
-                <div className="navbar-start">
-                    <a className="btn btn-ghost btn-hover-init normal-case text-2xl md:text-3xl h-20" href="/">
-                        <Image
-                            src="/logo-transparent.png"
-                            alt="Scordi logo"
-                            width={36}
-                            height={36}
-                            className="relative top-1 mr-1"
-                        />
-                        <span>Scordi</span>
-                    </a>
-                </div>
-            </header>
+            <Header />
 
             {/* section 1 */}
             <section id="section-1" className="section-box flex pt-20">
@@ -56,39 +61,9 @@ export default function LandingPage2() {
             <section id="section-2" className="section-box py-28">
                 <div className="section-inner">
                     <ul className="logos-slide-box inline-flex justify-between items-start g-10">
-                        <li className="logos-slide">
-                            <img src="/images/logo/logo_figma.png" alt="notion-logo" className="logo-img" />
-                        </li>
-                        <li className="logos-slide">
-                            <img src="/images/logo/logo_notion.png" alt="notion-logo" className="logo-img" />
-                        </li>
-                        <li className="logos-slide">
-                            <img src="/images/logo/logo_figma.png" alt="notion-logo" className="logo-img" />
-                        </li>
-                        <li className="logos-slide">
-                            <img src="/images/logo/logo_notion.png" alt="notion-logo" className="logo-img" />
-                        </li>
-                        <li className="logos-slide">
-                            <img src="/images/logo/logo_figma.png" alt="notion-logo" className="logo-img" />
-                        </li>
-                        <li className="logos-slide">
-                            <img src="/images/logo/logo_notion.png" alt="notion-logo" className="logo-img" />
-                        </li>
-                        <li className="logos-slide">
-                            <img src="/images/logo/logo_figma.png" alt="notion-logo" className="logo-img" />
-                        </li>
-                        <li className="logos-slide">
-                            <img src="/images/logo/logo_notion.png" alt="notion-logo" className="logo-img" />
-                        </li>
-                        <li className="logos-slide">
-                            <img src="/images/logo/logo_figma.png" alt="notion-logo" className="logo-img" />
-                        </li>
-                        <li className="logos-slide">
-                            <img src="/images/logo/logo_notion.png" alt="notion-logo" className="logo-img" />
-                        </li>
-                        <li className="logos-slide">
-                            <img src="/images/logo/logo_figma.png" alt="notion-logo" className="logo-img" />
-                        </li>
+                        {imgUrls.map((url, i) => (
+                            <LogoItem key={i} imgSrc={url} />
+                        ))}
                     </ul>
                 </div>
             </section>
@@ -171,107 +146,54 @@ export default function LandingPage2() {
             </section>
 
             {/* section 5 */}
-            <section id="section-5" className="section-box pt-48 pb-24">
-                <div className="section-5-box section-inner">
-                    <div className="section-5-left section-desc">
-                        <div className="section-5-left-title">
-                            <div className="title-top">
-                                <div className="inline-block w-10 mr-3">
-                                    <img src="/home/icons/main-icons/icon-highfive.png" alt="icon" className="w-full" />
-                                </div>
-                                <p className="s-text-top mt-3">스코디로 관리를 더 쉽게!</p>
-                            </div>
-                            <h2 className="h2-text">
-                                팀이 사용하는 서비스들을
-                                <br />한 곳에서 관리해보세요
-                            </h2>
-                        </div>
-                        <div className="section-5-left-desc flex flex-col justify-start shrink-0">
-                            <p className="s-text-sm">
-                                아직도 서비스마다 일일이 들어가세요?
-                                <br />
-                                요금부터 플랜, 구성원, 이용빈도, 결제까지
-                                <br />한 곳에서 간편하게!
-                            </p>
-                        </div>
-                        <div className="section-5-left-btn">
-                            <button className="btn closeBeta-btn">클로즈베타 신청하기</button>
-                        </div>
-                    </div>
-                    <div className="section-5-right w-2/4 flex justify-end">
-                        <img src="/home/image2.png" alt="service preview image" className="w-10/12" />
-                    </div>
-                </div>
-            </section>
+            <ArticleSection
+                iconUrl="/home/icons/main-icons/icon-highfive.png"
+                subtitle="스코디로 관리를 더 쉽게!"
+                // title={
+                //     <span>
+                //         팀이 사용하는 서비스들을
+                //         <br />한 곳에서 관리해보세요
+                //     </span>
+                // }
+                title="팀이 사용하는 서비스들을<br />한 곳에서 관리해보세요"
+                desc="아직도 서비스마다 일일이 들어가세요?
+                            <br />
+                            요금부터 플랜, 구성원, 이용빈도, 결제까지
+                            <br />한 곳에서 간편하게!"
+                imgUrl="/home/image2.png"
+                left={true}
+            />
 
             {/* section 6 */}
-            <section id="section-6" className="section-box pt-48 pb-24">
-                <div className="section-6-box section-inner">
-                    <div className="section-6-left w-2/4">
-                        <img src="/home/image3.png" alt="service preview image" className="w-10/12" />
-                    </div>
-                    <div className="section-6-right section-desc">
-                        <div className="section-6-left-title">
-                            <div className="title-top">
-                                <div className="inline-block w-10 mr-3">
-                                    <img src="/home/icons/main-icons/icon-money.png" alt="icon" className="w-full" />
-                                </div>
-                                <p className="s-text-top mt-1">스코디로 원 클릭 페이!</p>
-                            </div>
-                            <h2 className="h2-text">이번 달 나갈 비용을 한번에!</h2>
-                        </div>
-                        <div className="section-6-left-desc flex flex-col justify-start shrink-0">
-                            <p className="s-text-sm">
-                                매 달 나가는 비용을 한 눈에!
-                                <br />
-                                몰래 결제되는 일 없이 불필요한 비용은 바로 줄이기!
-                                <br />
-                            </p>
-                        </div>
-                        <div className="section-6-left-btn">
-                            <button className="btn closeBeta-btn">클로즈베타 신청하기</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <ArticleSection
+                iconUrl="/home/icons/main-icons/icon-money.png"
+                subtitle="스코디로 원 클릭 페이!"
+                title="이번 달 나갈 비용을 한번에!"
+                desc="매 달 나가는 비용을 한 눈에!
+                <br />
+                몰래 결제되는 일 없이 불필요한 비용은 바로 줄이기!
+                <br />"
+                imgUrl="/home/image3.png"
+                left={false}
+            />
 
             {/* section 7 */}
-            <section id="section-7" className="section-box py-48">
-                <div className="section-7-box section-inner">
-                    <div className="section-7-left section-desc">
-                        <div className="section-7-left-title">
-                            <div className="title-top">
-                                <div className="inline-block w-8 mr-3">
-                                    <img src="/home/icons/main-icons/icon-chk.png" alt="icon" className="w-full" />
-                                </div>
-                                <p className="s-text-top mt-1">스코디로 스마트한 비용 관리!</p>
-                            </div>
-                            <h2 className="h2-text">
-                                입사자, 퇴사자
-                                <br />
-                                관리로 새는 비용 막기!
-                            </h2>
-                        </div>
-                        <div className="section-7-left-desc flex flex-col justify-start shrink-0">
-                            <p className="s-text-sm">
-                                상시로 벌어지는 입사와 퇴사,
-                                <br />
-                                일일이 계정 초대와 삭제하기 번거로우시죠?
-                                <br />
-                                클릭 한 번으로 시간 비용 Down!
-                                <br />
-                                체크되지 않는 SaaS 비용까지 Down!
-                            </p>
-                        </div>
-                        <div className="section-7-left-btn">
-                            <button className="btn closeBeta-btn">클로즈베타 신청하기</button>
-                        </div>
-                    </div>
-                    <div className="section-7-right w-2/4 flex justify-end">
-                        <img src="/home/image4.png" alt="service preview image" className="w-10/12" />
-                    </div>
-                </div>
-            </section>
+            <ArticleSection
+                iconUrl="/home/icons/main-icons/icon-chk.png"
+                subtitle="스코디로 스마트한 비용 관리!"
+                title="입사자, 퇴사자<br />관리로 새는 비용 막기!"
+                desc="상시로 벌어지는 입사와 퇴사,
+                <br />
+                일일이 계정 초대와 삭제하기 번거로우시죠?
+                <br />
+                클릭 한 번으로 시간 비용 Down!
+                <br />
+                체크되지 않는 SaaS 비용까지 Down!"
+                imgUrl="/home/image4.png"
+                left={true}
+            />
+
+            <br />
 
             {/* aside */}
             <aside id="section-aside" className="flex justify-center items-center w-full h-52 bg-[#f3f6f6]">

@@ -1,3 +1,5 @@
-import MainPage from './LandingPage2';
+import {LandingPage2} from '^components/pages/LandingPage2';
 
-export default MainPage;
+export default function MainPage() {
+    return <LandingPage2 />;
+}
