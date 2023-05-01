@@ -1,8 +1,11 @@
 import Image from 'next/image';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Header} from '^components/pages/LandingPage2/Header';
 import {LogoItem} from '^components/pages/LandingPage2/LogoItem';
 import {ArticleSection} from '^components/pages/LandingPage2/ArticleSection';
+
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 export function LandingPage2() {
     const imgUrls = [
@@ -19,6 +22,10 @@ export function LandingPage2() {
         '/images/logo/logo_notion.png',
         '/images/logo/logo_notion.png',
     ];
+
+    useEffect(() => {
+        AOS.init({duration: 750});
+    }, []);
 
     return (
         <div id="mainPage" className="container-box w-full flex flex-col gap-20">
