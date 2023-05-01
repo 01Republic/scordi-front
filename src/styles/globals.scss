@@ -1,13 +1,13 @@
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.4/dist/web/variable/pretendardvariable.css");
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.4/dist/web/variable/pretendardvariable.css');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  a {
-    @apply text-blue-600 underline;
-  }
+    a {
+        @apply text-blue-600 underline;
+    }
 }
 
 html,
@@ -22,65 +22,121 @@ body {
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+    color: inherit;
+    text-decoration: none;
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 h1 {
-  font-weight: 700;
-  font-size: 2rem;
-  line-height: 2.75rem;
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 2.75rem;
 }
 
 h2 {
-  font-weight: 700;
-  font-size: 1.5rem;
-  line-height: 2.25rem;
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 2.25rem;
 }
 
 h3 {
-  font-weight: 600;
-  font-size: 1.5rem;
-  line-height: 2.25rem;
+    font-weight: 600;
+    font-size: 1.5rem;
+    line-height: 2.25rem;
 }
 
 h4 {
-  font-weight: 600;
-  font-size: 1.5rem;
-  line-height: 2.25rem;
+    font-weight: 600;
+    font-size: 1.5rem;
+    line-height: 2.25rem;
 }
 
 h5 {
-  font-weight: 500;
-  font-size: 1.5rem; /* 24px */
-  line-height: 1.67rem;
+    font-weight: 500;
+    font-size: 1.5rem; /* 24px */
+    line-height: 1.67rem;
 }
 
 h6 {
-  font-weight: 500;
-  font-size: 0.94rem; /* 15px */
-  line-height: 1.44rem;
+    font-weight: 500;
+    font-size: 0.94rem; /* 15px */
+    line-height: 1.44rem;
 }
 
 p {
-  font-weight: 400;
-  font-size: 0.875rem; /* 14px */
-  line-height: 1.375rem; /* 22px */
+    font-weight: 400;
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.375rem; /* 22px */
+}
+
+.btn-hover-init:hover {
+    background-color: inherit !important;
+}
+
+@each $n in (2, 3) {
+    .badge-#{$n}xs {
+        height: calc(0.75rem / #{$n}) !important;
+        width: calc(0.75rem / #{$n}) !important;
+        font-size: calc(0.75rem / #{$n}) !important;
+        line-height: calc(0.75rem / #{$n}) !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
 }
 
 .select.select-bordered {
-  border-color: hsl(var(--bc) / var(--tw-border-opacity));
-  --tw-border-opacity: 0.2;
+    border-color: hsl(var(--bc) / var(--tw-border-opacity));
+    --tw-border-opacity: 0.2;
+}
+
+/**
+ * Buttons
+ */
+.btn {
+    & > .btn-icon {
+        //@extend .text-xl, .font-bold, .mr-2 !optional;
+
+        //@extend .text-xl;
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+
+        //@extend .font-bold;
+        font-weight: 700;
+
+        //@extend .mr-2;
+        margin-right: 0.5rem;
+    }
+
+    &-sm > .btn-icon {
+        //@extend .text-lg, .font-bold, .mr-1 !optional;
+
+        //@extend .text-lg;
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+
+        //@extend .font-bold;
+        font-weight: 700;
+
+        //@extend .mr-1;
+        margin-right: 0.25rem;
+    }
+
+    &-big {
+        height: 3.5rem;
+        min-height: 3.5rem;
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+        font-size: 1rem;
+    }
 }
 
 .Toastify__toast {
-  margin: 20px !important;
-  background: #333D4B !important;
-  border-radius: 14px !important;
+    margin: 20px !important;
+    background: #333d4b !important;
+    border-radius: 14px !important;
 }
 
 $color-scordi: #5c5fee;
