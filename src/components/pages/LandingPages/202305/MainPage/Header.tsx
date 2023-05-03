@@ -27,7 +27,7 @@ export const MainPageHeader = memo(() => {
                             </h1>
 
                             <div className="py-6">
-                                <MainPageCTAButton aos={false} />
+                                <MainPageCTAButton mobileShow={true} aos={false} />
                             </div>
 
                             {/*/!* pc *!/*/}

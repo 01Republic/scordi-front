@@ -46,7 +46,7 @@ export const USPSectionCentered = memo((props: USPSectionCenteredProps) => {
                     </>
                 )}
 
-                <div className="flex justify-evenly">{children}</div>
+                <div className="px-10 md:px-0 md:flex justify-evenly">{children}</div>
             </div>
         </section>
     );
