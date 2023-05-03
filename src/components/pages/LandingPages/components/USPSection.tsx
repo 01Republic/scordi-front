@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo, ReactElement} from 'react';
 import {BetaUserApplyCTAButton} from './CTAButton';
 
 interface USPSectionProps {
@@ -9,10 +9,12 @@ interface USPSectionProps {
     desc2?: string;
     direct: 'left' | 'right';
     bgGray?: boolean;
+    showCTA?: boolean;
+    CTAButton?: ReactElement;
 }
 
 export const USPSection = memo((props: USPSectionProps) => {
-    const {direct, imgUrl, imgWidth = '60%', title, desc1, desc2, bgGray = false} = props;
+    const {direct, imgUrl, imgWidth = '60%', title, desc1, desc2, bgGray = false, showCTA = true, CTAButton} = props;
 
     return (
         <div className={`hero md:min-h-[80vh] ${bgGray ? 'bg-base-200' : ''}`}>
@@ -28,7 +30,7 @@ export const USPSection = memo((props: USPSectionProps) => {
                     data-aos-anchor-placement="center-bottom"
                 />
                 <div>
-                    <h1
+                    <h2
                         className="text-4xl md:text-5xl font-bold mb-6"
                         dangerouslySetInnerHTML={{__html: title}}
                         data-aos="fade-up"
@@ -50,7 +52,8 @@ export const USPSection = memo((props: USPSectionProps) => {
                             data-aos-anchor-placement="center-bottom"
                         />
                     )}
-                    <BetaUserApplyCTAButton />
+
+                    {showCTA && <div>{CTAButton ? CTAButton : <BetaUserApplyCTAButton />}</div>}
                 </div>
             </div>
         </div>

@@ -1,37 +1,68 @@
 import React, {memo} from 'react';
-import {BetaUserApplyCTAButton} from '^components/pages/LandingPages/components';
+import Image from 'next/image';
+import {MainPageCTAButton} from './CTAButton';
 
 export const MainPageHeader = memo(() => {
     return (
         <div
-            className="hero pb-[100px]"
             style={{
-                minHeight: '80vh',
-                // background: 'rgb(92,95,238)',
-                background:
-                    'linear-gradient(9deg, rgba(92,95,238,0.1951374299719888) 0%, rgba(92,95,238,0.20354079131652658) 30%, rgba(255,255,255,0) 60%, rgba(255,255,255,0) 100%)',
+                backgroundImage: 'url(/home/202305/header-bg.png)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
             }}
         >
-            <div className="hero-content py-16 md:py-0 flex-col md:flex-row-reverse">
-                <img
-                    src="https://framerusercontent.com/images/CLQDm6WfxBICz2mxLDwMRrbRzSo.png?scale-down-to=1024"
-                    className="w-[66%] rounded-lg relative top-[100px] hidden md:block"
-                />
-                <div>
-                    <h1 className="text-4xl md:text-5xl font-bold leading-snug mb-6">
-                        마케팅 비용관리,
-                        <br /> <span className="text-scordi">스코디</span>로 시작하세요.
-                    </h1>
-                    <p className="text-lg md:text-xl text-gray-500 mb-10" style={{lineHeight: '1.75'}}>
-                        마케터가 원하는 매체별 예산 관리의 모든 것, <br /> 연동부터 운영까지 엑셀 없이 1분만에
-                        끝내보세요.
-                    </p>
-                    <BetaUserApplyCTAButton aos={false} />
-                </div>
-                <img
-                    src="https://framerusercontent.com/images/CLQDm6WfxBICz2mxLDwMRrbRzSo.png?scale-down-to=1024"
-                    className="relative md:hidden"
-                />
+            <div
+                className="pt-24"
+                style={{
+                    backgroundImage: 'url(/home/202305/header-bg2.png)',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                }}
+            >
+                <section id="section-1" className="hero mb-3">
+                    <div className="hero-content text-center">
+                        <div className="">
+                            <h1 className="text-3xl md:text-6xl font-bold" style={{lineHeight: 1.3}}>
+                                SaaS 관리 <br /> <span className="text-scordi">클릭 한 번</span>으로 끝내보세요
+                            </h1>
+
+                            <div className="py-6">
+                                <MainPageCTAButton aos={false} />
+                            </div>
+
+                            {/*/!* pc *!/*/}
+                            {/*<p className="text-2xl py-6 hidden md:block" style={{lineHeight: 1.7}}>*/}
+                            {/*    잘 사용되지 않는 계정에 대한 비용, 직원 온보딩의 번거로움,*/}
+                            {/*    <br />*/}
+                            {/*    민감한 데이터에 액세스할 수 있는 퇴사자 까지.*/}
+                            {/*    <br />*/}
+                            {/*    <b>SaaS 관리는 정말 어렵지만, Scordi와 함께라면 쉽습니다.</b>*/}
+                            {/*</p>*/}
+                            {/*/!* mobile *!/*/}
+                            {/*<p className="text-lg py-6 block md:hidden" style={{lineHeight: 1.7}}>*/}
+                            {/*    잘 사용되지 않는 계정에 대한 비용,*/}
+                            {/*    <br /> 직원 온보딩의 번거로움,*/}
+                            {/*    <br />*/}
+                            {/*    민감한 데이터에 액세스할 수 있는 퇴사자 까지.*/}
+                            {/*    <br />*/}
+                            {/*    <br />*/}
+                            {/*    <b>*/}
+                            {/*        SaaS 관리는 정말 어렵지만,*/}
+                            {/*        <br /> 스코디와 함께라면 쉽습니다.*/}
+                            {/*    </b>*/}
+                            {/*</p>*/}
+                        </div>
+                    </div>
+                </section>
+
+                {/* pc */}
+                <section className="hidden md:flex justify-center pb-20">
+                    <Image src="/home/202305/header-image.png" alt="service preview image" width={1270} height={563} />
+                </section>
+                {/* mobile */}
+                <section className="flex md:hidden justify-center">
+                    <Image src="/home/202305/header-image.png" alt="service preview image" width={1270} height={563} />
+                </section>
             </div>
         </div>
     );

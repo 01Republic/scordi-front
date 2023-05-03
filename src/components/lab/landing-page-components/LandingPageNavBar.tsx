@@ -1,14 +1,15 @@
 import Image from 'next/image';
 import {UserLoginPageRoute} from '^pages/users/login';
+import {WithChildren} from '^types/global.type';
 
-interface LandingPageNavBarProps {
+interface LandingPageNavBarProps extends WithChildren {
     fluid?: boolean;
     showLoginButton?: boolean;
     className?: string;
 }
 
 export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
-    const {fluid = false, showLoginButton = true, className = ''} = props;
+    const {fluid = false, showLoginButton = true, className = '', children} = props;
 
     const onClickCta = () => {
         const ctaBtn = document.querySelector('#cta-1') as HTMLElement;
@@ -30,13 +31,16 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
                 </a>
             </div>
             <div className="navbar-center lg:flex" />
-            {showLoginButton && (
-                <div className="navbar-end">
+
+            <div className="navbar-end">
+                {children}
+
+                {showLoginButton && (
                     <a className="btn btn-outline btn-primary" href={UserLoginPageRoute.path()}>
                         클로즈베타 로그인
                     </a>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 };

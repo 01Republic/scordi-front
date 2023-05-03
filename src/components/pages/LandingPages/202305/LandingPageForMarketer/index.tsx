@@ -9,9 +9,9 @@ import {
     USPSection,
     AOSWrapper,
     AOSProvider,
+    BetaServiceFooter,
 } from '../../components';
 import {LandingPageForMarketerHeader} from './Header';
-import {LandingPageForMarketerFooter} from './Footer';
 
 export const LandingPageForMarketer = memo(() => {
     return (
@@ -137,7 +137,7 @@ export const LandingPageForMarketer = memo(() => {
                     </div>
                 </div>
 
-                <LandingPageForMarketerFooter />
+                <BetaServiceFooter />
 
                 <BetaUserApplyCTAButtonMobile />
 

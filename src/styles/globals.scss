@@ -156,22 +156,30 @@ $color-scordi-light: #a5a6f5;
       .#{$state}\:#{$base_class}-#{$scale}:#{$state} {
         #{$attr}: get-scaled-color($base_color, $scale);
       }
+      @include set-important-class('#{$state}\:#{$base_class}-#{$scale}:#{$state}', $attr, get-scaled-color($base_color, $scale));
     } @else {
       .#{$base_class}-#{$scale} {
         #{$attr}: get-scaled-color($base_color, $scale);
       }
+      @include set-important-class('#{$base_class}-#{$scale}', $attr, get-scaled-color($base_color, $scale));
     }
   }
+}
+
+@mixin set-important-class($base_class, $attr, $base_color) {
+  .\!#{$base_class} { #{$attr}: $base_color !important; }
 }
 
 @mixin make-generic-class($component, $color_name, $attr, $color) {
   $base_class: #{$component}-#{$color_name};
 
   .#{$base_class} { #{$attr}: $color; }
+  @include set-important-class($base_class, $attr, $color);
   @include set-scaled-class($base_class, $attr, $color);
 
   @each $state in ('hover', 'active', 'visited', 'focus') {
     .#{$state}\:#{$base_class}:#{$state} { #{$attr}: $color; }
+    @include set-important-class('#{$state}\:#{$base_class}:#{$state}', $attr, $color);
     @include set-scaled-class($base_class, $attr, $color, $state);
   }
 }

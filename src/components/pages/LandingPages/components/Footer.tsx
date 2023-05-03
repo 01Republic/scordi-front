@@ -1,7 +1,7 @@
 import {memo} from 'react';
 import Image from 'next/image';
 
-export const LandingPageForMarketerFooter = memo(() => {
+export const BetaServiceFooter = memo(() => {
     return (
         <footer className="footer p-10 text-neutral-content">
             <div>
