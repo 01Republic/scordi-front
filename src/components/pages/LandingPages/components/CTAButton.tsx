@@ -1,17 +1,17 @@
 import React, {memo} from 'react';
 import {BsArrowRight} from '^components/react-icons';
 import {useSetRecoilState} from 'recoil';
-import {landingPageForMarketerModalShowAtom} from './Modal';
+import {BetaUserApplyModalShowAtom} from './BetaUserApplyModal';
 
-interface LandingPageForMarketerCTAButtonProps {
+interface BetaUserApplyCTAButtonProps {
     reverseColor?: boolean;
     useArrow?: boolean;
     mobileShow?: boolean;
     aos?: boolean;
 }
 
-export const LandingPageForMarketerCTAButton = memo((props: LandingPageForMarketerCTAButtonProps) => {
-    const setIsModalOpen = useSetRecoilState(landingPageForMarketerModalShowAtom);
+export const BetaUserApplyCTAButton = memo((props: BetaUserApplyCTAButtonProps) => {
+    const setIsModalOpen = useSetRecoilState(BetaUserApplyModalShowAtom);
     const {reverseColor = false, useArrow = false, mobileShow = false, aos = true} = props;
 
     const dataAos: any = {};
@@ -35,8 +35,8 @@ export const LandingPageForMarketerCTAButton = memo((props: LandingPageForMarket
     );
 });
 
-export const LandingPageForMarketerCTAButtonMobile = memo((props: LandingPageForMarketerCTAButtonProps) => {
-    const setIsModalOpen = useSetRecoilState(landingPageForMarketerModalShowAtom);
+export const BetaUserApplyCTAButtonMobile = memo((props: BetaUserApplyCTAButtonProps) => {
+    const setIsModalOpen = useSetRecoilState(BetaUserApplyModalShowAtom);
     const {reverseColor = false, useArrow = false} = props;
     return (
         <label

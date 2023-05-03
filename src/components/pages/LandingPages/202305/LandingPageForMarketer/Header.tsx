@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {LandingPageForMarketerCTAButton} from './CTAButton';
+import {BetaUserApplyCTAButton} from '../../components';
 
 export const LandingPageForMarketerHeader = memo(() => {
     return (
@@ -26,7 +26,7 @@ export const LandingPageForMarketerHeader = memo(() => {
                         마케터가 원하는 매체별 예산 관리의 모든 것, <br /> 연동부터 운영까지 엑셀 없이 1분만에
                         끝내보세요.
                     </p>
-                    <LandingPageForMarketerCTAButton aos={false} />
+                    <BetaUserApplyCTAButton aos={false} />
                 </div>
                 <img
                     src="https://framerusercontent.com/images/CLQDm6WfxBICz2mxLDwMRrbRzSo.png?scale-down-to=1024"

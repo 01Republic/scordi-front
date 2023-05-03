@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {LandingPageForMarketerCTAButton} from './CTAButton';
+import {BetaUserApplyCTAButton} from './CTAButton';
 
 interface USPSectionProps {
     imgUrl: string;
@@ -50,7 +50,7 @@ export const USPSection = memo((props: USPSectionProps) => {
                             data-aos-anchor-placement="center-bottom"
                         />
                     )}
-                    <LandingPageForMarketerCTAButton />
+                    <BetaUserApplyCTAButton />
                 </div>
             </div>
         </div>

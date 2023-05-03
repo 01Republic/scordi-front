@@ -9,7 +9,7 @@ export const MarqueeMoving = memo((props: MarqueeMovingProps) => {
     const {imageUrls, reverse = false} = props;
 
     return (
-        <div className="w-full relative" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+        <div className="w-full relative">
             <div className="h-[40px] md:h-[100px] w-full" />
             <div
                 className={`items-center justify-between ${reverse ? 'marqueeMoving-reverse' : 'marqueeMoving'} top-0`}

@@ -4,23 +4,23 @@ import {sendSlackNotificationApi} from '^api/utils.api';
 import {toast} from 'react-toastify';
 import {atom, useRecoilState} from 'recoil';
 
-type LandingPageForMarketerFormData = {
+type BetaUserApplyModalFormData = {
     name: string;
     company: string;
     phone: string;
     email: string;
 };
 
-export const landingPageForMarketerModalShowAtom = atom({
-    key: 'landingPageForMarketerModalShowAtom',
+export const BetaUserApplyModalShowAtom = atom({
+    key: 'BetaUserApplyModalShowAtom',
     default: false,
 });
 
-export const LandingPageForMarketerModal = memo(() => {
-    const [isModalOpen, setModalOpen] = useRecoilState(landingPageForMarketerModalShowAtom);
-    const form = useForm<LandingPageForMarketerFormData>();
+export const BetaUserApplyModal = memo(() => {
+    const [isModalOpen, setModalOpen] = useRecoilState(BetaUserApplyModalShowAtom);
+    const form = useForm<BetaUserApplyModalFormData>();
 
-    const onSubmit = (data: LandingPageForMarketerFormData) => {
+    const onSubmit = (data: BetaUserApplyModalFormData) => {
         sendSlackNotificationApi({
             title: '*[마케터 타겟실험-1] 사전알림 신청이 접수되었습니다!*',
             fields: [
