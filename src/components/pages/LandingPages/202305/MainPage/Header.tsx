@@ -12,7 +12,7 @@ export const MainPageHeader = memo(() => {
             }}
         >
             <div
-                className="pt-24"
+                className="pt-6 sm:pt-24"
                 style={{
                     backgroundImage: 'url(/home/202305/header-bg2.png)',
                     backgroundSize: 'cover',
