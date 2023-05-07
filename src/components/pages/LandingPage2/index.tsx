@@ -6,6 +6,7 @@ import {ArticleSection} from '^components/pages/LandingPage2/ArticleSection';
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import {ImageBox} from './ImageBox';
 
 export function LandingPage2() {
     const imgUrls = [
@@ -28,12 +29,12 @@ export function LandingPage2() {
     }, []);
 
     return (
-        <div id="mainPage" className="container-box w-full flex flex-col gap-20">
+        <div id="mainPage" className="container-box w-full flex flex-col gap-20 xl:gap-[4.2rem]">
             {/* nav */}
             <Header />
 
             {/* section 1 */}
-            <section id="section-1" className="section-box flex pt-20">
+            <section id="section-1" className="section-box flex pt-20 ml-12 xl:pt-14">
                 <div className="section-1-box section-inner">
                     <div className="section-1-head flex flex-col flex-nowrap items-start gap-9">
                         <div className="section-1-left-title">
@@ -58,7 +59,7 @@ export function LandingPage2() {
                             <button className="btn closeBeta-btn">클로즈베타 신청하기</button>
                         </div>
                     </div>
-                    <div className="section-1-body w-3/5">
+                    <div className="section-1-body w-3/5 xl:w-[45rem]">
                         <img src="/home/image1.png" alt="service preview image" className="w-full" />
                     </div>
                 </div>
@@ -80,49 +81,35 @@ export function LandingPage2() {
                 <div className="section-3-box">
                     <div className="section-3-head">
                         <div className="flex flex-col text-center">
-                            <p className="body-text text-gray-500">
+                            <p
+                                className="body-text text-gray-500"
+                                data-aos="fade-up"
+                                data-aos-anchor-placement="center-bottom"
+                            >
                                 <span className="text-black">Scordi</span> 와 함께라면 쉽습니다
                                 <br />더 많은 고객을, 더 빨리 미팅으로 이끌어 매출을 끌어올리세요
                             </p>
                         </div>
                     </div>
                     <div className="section-3-body flex my-14">
-                        <div className="section-3-image-box">
-                            <div className="s3-image">
-                                <img src="/images/illustration/section3_img01.png" className="w-full" />
-                            </div>
-                            <div className="s3-text">
-                                <div>
-                                    <span className="s-text-sm mr-3">미팅 수립률</span>
-                                    <span className="s-text-xl">200%</span>
-                                    <span className="s-text-sm ml-3">상승</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="section-3-image-box">
-                            <div className="s3-image">
-                                <img src="/images/illustration/section3_img02.png" className="w-full" />
-                            </div>
-                            <div className="s3-text">
-                                <div>
-                                    <span className="s-text-sm mr-3">노쇼</span>
-                                    <span className="s-text-xl">50%</span>
-                                    <span className="s-text-sm ml-3">감소</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="section-3-image-box">
-                            <div className="s3-image">
-                                <img src="/images/illustration/section3_img03.png" className="w-full" />
-                            </div>
-                            <div className="s3-text">
-                                <div>
-                                    <span className="mr-3 s-text-sm">매출</span>
-                                    <span className="s-text-xl">150%</span>
-                                    <span className="ml-3 s-text-sm">증가</span>
-                                </div>
-                            </div>
-                        </div>
+                        <ImageBox
+                            imgUrl="/images/illustration/section3_img01.png"
+                            leftTxt="미팅 수립률"
+                            centerNum={200}
+                            rightTxt="상승"
+                        />
+                        <ImageBox
+                            imgUrl="/images/illustration/section3_img02.png"
+                            leftTxt="노쇼"
+                            centerNum={50}
+                            rightTxt="감소"
+                        />
+                        <ImageBox
+                            imgUrl="/images/illustration/section3_img03.png"
+                            leftTxt="매출"
+                            centerNum={150}
+                            rightTxt="증가"
+                        />
                     </div>
                 </div>
             </section>
@@ -130,13 +117,17 @@ export function LandingPage2() {
             {/* section 4 */}
             <section id="section-4" className="section-box !w-full text-center">
                 <div className="section-4-box">
-                    <div className="section-4-head">
-                        <h1 className="text-5xl">고객은 기다리지 않습니다</h1>
+                    <div className="section-4-head" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+                        <h1 className="text-5xl xl:text-[2.8rem]">고객은 기다리지 않습니다</h1>
                     </div>
-                    <div className="section-4-img w-[50rem]">
+                    <div
+                        className="section-4-img w-[50rem] xl:w-[45rem]"
+                        data-aos="fade-up"
+                        data-aos-anchor-placement="center-bottom"
+                    >
                         <img src="/images/illustration/section4_img01.png" alt="section4_img" className="w-full" />
                     </div>
-                    <div className="section-4-body">
+                    <div className="section-4-body" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
                         <p className="s-text-sm">
                             기다림이 길어질수록 고객은 하나둘씩 이탈합니다.
                             <br />
@@ -206,23 +197,25 @@ export function LandingPage2() {
             <aside id="section-aside" className="flex justify-center items-center w-full h-52 bg-[#f3f6f6]">
                 <div className="section-box flex justify-between items-center m-auto">
                     <div className="aside-left">
-                        <h2 className="h2-text">
+                        <h2 className="h2-text" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
                             스코디의 골든타임 5분,
                             <br />
                             놓치지 마세요
                         </h2>
                     </div>
-                    <div className="aside-right w-[37%] flex justify-end">
+                    <div className="aside-right w-[40%] xl:w-[37%] flex justify-end">
                         <div className="w-full">
-                            <p className="s-text-sm mb-2">B2B 마케팅 & 스코디 인사이트 받아보기</p>
-                            <div className="w-full">
+                            <p className="s-text-sm mb-2" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+                                B2B 마케팅 & 스코디 인사이트 받아보기
+                            </p>
+                            <div className="w-full" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
                                 <input
                                     type="email"
                                     placeholder="Email"
-                                    className="input w-3/5 h-14 mr-5 max-w-xs placeholder:text-lg"
+                                    className="input inline-block w-3/5 h-14 mr-5 max-w-xs placeholder:text-lg xl:placeholder:text-base"
                                 />
                                 <div className="aside-btn inline-block">
-                                    <button className="btn closeBeta-btn !w-40 !h-14">스코디 구독</button>
+                                    <button className="btn closeBeta-btn inline-block">스코디 구독</button>
                                 </div>
                             </div>
                         </div>

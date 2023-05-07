@@ -13,7 +13,7 @@ export const ArticleSection = memo((props: ArticleSectionProps) => {
     const {iconUrl, title, subtitle, desc, imgUrl, left = true} = props;
 
     return (
-        <section id="section-5" className="section-box pt-48 pb-24">
+        <section id="section-5" className="section-box pt-48 pb-24 xl:pt-40 xl:pb-20">
             <div className={`section-5-box section-inner ${left ? '' : '!flex-row-reverse'}`}>
                 <div className="section-5-left section-desc">
                     <div className="section-5-left-title">
