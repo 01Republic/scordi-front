@@ -29,14 +29,14 @@ export function LandingPage2() {
     }, []);
 
     return (
-        <div id="mainPage" className="container-box w-full flex flex-col gap-20 xl:gap-[4.2rem]">
+        <div id="mainPage" className="container-box flex flex-col gap-20 lg:gap-14 w-full md:text-center">
             {/* nav */}
             <Header />
 
             {/* section 1 */}
-            <section id="section-1" className="section-box flex pt-20 ml-12 xl:pt-14">
+            <section id="section-1" className="section-box flex pt-8 md:pt-0">
                 <div className="section-1-box section-inner">
-                    <div className="section-1-head flex flex-col flex-nowrap items-start gap-9">
+                    <div className="section-1-head flex flex-col flex-nowrap items-start md:items-center gap-9 lg:gap-8">
                         <div className="section-1-left-title">
                             <h1 className="h1-text">
                                 구독 서비스 관리를
@@ -55,18 +55,21 @@ export function LandingPage2() {
                                 {/* SaaS 관리는 어렵지만, Scordi와 함께라면 쉽습니다. */}
                             </p>
                         </div>
-                        <div className="section-1-left-btn">
-                            <button className="btn closeBeta-btn">클로즈베타 신청하기</button>
+                        <div className="section-1-left-btn md:hidden">
+                            <button className="btn closeBeta-btn ">클로즈베타 신청하기</button>
                         </div>
                     </div>
-                    <div className="section-1-body w-3/5 xl:w-[45rem]">
+                    <div className="section-1-body w-3/5 md:w-full md:mt-10">
                         <img src="/home/image1.png" alt="service preview image" className="w-full" />
+                    </div>
+                    <div className="section-1-left-btn" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+                        <button className="btn closeBeta-btn hidden md:block">클로즈베타 신청하기</button>
                     </div>
                 </div>
             </section>
 
             {/* section 2: logo-slide */}
-            <section id="section-2" className="section-box py-28">
+            <section id="section-2" className="section-box py-28 lg:py-24">
                 <div className="section-inner">
                     <ul className="logos-slide-box inline-flex justify-between items-start g-10">
                         {imgUrls.map((url, i) => (
@@ -91,7 +94,7 @@ export function LandingPage2() {
                             </p>
                         </div>
                     </div>
-                    <div className="section-3-body flex my-14">
+                    <div className="section-3-body flex my-14 lg:mt-10 lg:mb-14">
                         <ImageBox
                             imgUrl="/images/illustration/section3_img01.png"
                             leftTxt="미팅 수립률"
@@ -118,14 +121,14 @@ export function LandingPage2() {
             <section id="section-4" className="section-box !w-full text-center">
                 <div className="section-4-box">
                     <div className="section-4-head" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
-                        <h1 className="text-5xl xl:text-[2.8rem]">고객은 기다리지 않습니다</h1>
+                        <h1 className="text-5xl lg:text-[2.8rem]">고객은 기다리지 않습니다</h1>
                     </div>
                     <div
-                        className="section-4-img w-[50rem] xl:w-[45rem]"
+                        className="section-4-img w-[50rem] lg:w-[43rem]"
                         data-aos="fade-up"
                         data-aos-anchor-placement="center-bottom"
                     >
-                        <img src="/images/illustration/section4_img01.png" alt="section4_img" className="w-full" />
+                        <img src="/images/illustration/section4_img01.png" alt="section4_img" className="w-full mt-5" />
                     </div>
                     <div className="section-4-body" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
                         <p className="s-text-sm">
@@ -212,10 +215,10 @@ export function LandingPage2() {
                                 <input
                                     type="email"
                                     placeholder="Email"
-                                    className="input inline-block w-3/5 h-14 mr-5 max-w-xs placeholder:text-lg xl:placeholder:text-base"
+                                    className="input inline-block w-3/5 h-14 mr-3 max-w-xs placeholder:text-lg lg:placeholder:text-base"
                                 />
                                 <div className="aside-btn inline-block">
-                                    <button className="btn closeBeta-btn inline-block">스코디 구독</button>
+                                    <button className="btn subscribe-btn inline-block">스코디 구독</button>
                                 </div>
                             </div>
                         </div>

@@ -13,17 +13,18 @@ export const ArticleSection = memo((props: ArticleSectionProps) => {
     const {iconUrl, title, subtitle, desc, imgUrl, left = true} = props;
 
     return (
-        <section id="section-5" className="section-box pt-48 pb-24 xl:pt-40 xl:pb-20">
+        <section id="section-5" className="section-box pt-48 pb-24 lg:pt-36 lg:pb-16">
             <div className={`section-5-box section-inner ${left ? '' : '!flex-row-reverse'}`}>
                 <div className="section-5-left section-desc">
                     <div className="section-5-left-title">
+                        {/* Sub title */}
                         <div className="title-top" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
-                            <div className="inline-block w-10 mr-3">
+                            <div className="inline-block w-10 lg:w-9 mr-3">
                                 <img src={iconUrl} alt="icon" className="w-full" />
                             </div>
                             <p className="s-text-top mt-3">{subtitle}</p>
                         </div>
-
+                        {/* Title */}
                         <h2
                             className="h2-text"
                             data-aos="fade-up"
@@ -31,7 +32,7 @@ export const ArticleSection = memo((props: ArticleSectionProps) => {
                             dangerouslySetInnerHTML={{__html: title}}
                         />
                     </div>
-
+                    {/* Description */}
                     <div
                         className="section-5-left-desc flex flex-col justify-start shrink-0"
                         data-aos="fade-up"

@@ -16,9 +16,9 @@ export const ImageBox = memo((props: ImageBoxProps) => {
                 <img src={imgUrl} className="w-full" />
             </div>
             <div className="s3-text -mt-[0.5rem]" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
-                <span className="s-text-sm mr-3">{leftTxt}</span>
+                <span className="s-text-sm mr-3 lg:mr-2">{leftTxt}</span>
                 <span className="s-text-xl">{centerNum}%</span>
-                <span className="s-text-sm ml-3">{rightTxt}</span>
+                <span className="s-text-sm ml-3 lg:mr-2">{rightTxt}</span>
             </div>
         </div>
     );
