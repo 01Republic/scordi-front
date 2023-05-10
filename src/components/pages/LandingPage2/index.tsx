@@ -29,14 +29,14 @@ export function LandingPage2() {
     }, []);
 
     return (
-        <div id="mainPage" className="container-box flex flex-col gap-20 lg:gap-14 w-full md:text-center">
+        <div id="mainPage" className="container-box flex flex-col gap-20 lg:gap-14 w-full">
             {/* nav */}
             <Header />
 
             {/* section 1 */}
             <section id="section-1" className="section-box flex pt-8 md:pt-0">
                 <div className="section-1-box section-inner">
-                    <div className="section-1-head flex flex-col flex-nowrap items-start md:items-center gap-9 lg:gap-8">
+                    <div className="section-1-head flex flex-col flex-nowrap items-start gap-9 lg:gap-8">
                         <div className="section-1-left-title">
                             <h1 className="h1-text">
                                 구독 서비스 관리를

@@ -104,7 +104,7 @@
         }
 
         /* ✨ RESPONSIVE STYLE ✨ */
-        @media (max-width: 1024px) {
+        @media (min-width: 1024px) {
             .h1-text {
                 font-size: 3rem;
                 line-height: 4.1rem;
@@ -156,7 +156,7 @@
             }
         }
 
-        @media (max-width: 1024px) {
+        @media (min-width: 768px) {
             .section-inner {
                 flex-direction: column;
             }
@@ -239,5 +239,12 @@
                 height: 45rem;
             }
         }
+    }
+}
+
+/* ✨ RESPONSIVE STYLE ✨ */
+@media (min-width: 768px) {
+    #mainPage {
+        text-align: center;
     }
 }
