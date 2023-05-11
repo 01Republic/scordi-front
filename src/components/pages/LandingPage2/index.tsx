@@ -29,12 +29,12 @@ export function LandingPage2() {
     }, []);
 
     return (
-        <div id="mainPage" className="container-box flex flex-col gap-20 xl:gap-14 lg:gap-12 w-full">
+        <div id="mainPage" className="container-box flex flex-col gap-20 lg:gap-14 md:gap-12 w-full">
             {/* nav */}
             <Header />
 
-            {/* section 1 */}
-            <section id="section-1" className="hidden sm:flex section-box pt-8 ml-14 lg:ml-0 !lg:pt-8">
+            {/* 🖥️  section 1 */}
+            <section id="section-1" className="sm:hidden lg:flex section-box pt-8 ml-14 md:ml-0 md:pt-8">
                 <div className="section-1-box section-inner">
                     <div className="section-1-head flex flex-col flex-nowrap items-start gap-9 xl:gap-6">
                         <div className="section-1-left-title">
@@ -55,7 +55,7 @@ export function LandingPage2() {
                                 {/* SaaS 관리는 어렵지만, Scordi와 함께라면 쉽습니다. */}
                             </p>
                         </div>
-                        <div className="section-1-left-btn md:hidden lg:hidden">
+                        <div className="section-1-left-btn lg:block md:hidden">
                             <button className="btn closeBeta-btn">클로즈베타 신청하기</button>
                         </div>
                     </div>
@@ -63,13 +63,13 @@ export function LandingPage2() {
                         <img src="/home/image1.png" alt="service preview image" className="w-full" />
                     </div>
                     <div className="section-1-left-btn" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
-                        <button className="btn closeBeta-btn hidden md:block lg:block">클로즈베타 신청하기</button>
+                        <button className="btn closeBeta-btn lg:hidden md:block">클로즈베타 신청하기</button>
                     </div>
                 </div>
             </section>
 
-            {/* section 1 mobile (sm 밑은 모바일, 이상은 데스크탑) */}
-            <section id="section-1-mobile" className="flex sm:hidden section-box-mobile pt-8 ml-14 lg:ml-0 !lg:pt-8">
+            {/* 📱 section 1 (sm 밑은 모바일, 이상은 데스크탑) */}
+            <section id="section-1-mobile" className="lg:hidden sm:block section-box-mobile pt-8 ml-14 lg:ml-0 lg:pt-8">
                 <div className="section-1-box section-inner">
                     <div className="section-1-head flex flex-col flex-nowrap items-start gap-9 xl:gap-6">
                         <div className="section-1-left-title">

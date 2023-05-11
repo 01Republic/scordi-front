@@ -1,6 +1,9 @@
 #mainPage {
+    // $sm 이하는 태블릿
     $sm: '768px'; // 태블릿
     $md: '1024px';
+    $lg: '1280px';
+    $xl: '1536px';
 
     display: flex;
     flex-direction: column;
@@ -107,7 +110,7 @@
         }
 
         /* ✨ RESPONSIVE STYLE ✨ */
-        @media all and (min-width: 1024px) and (max-width: 1280px) {
+        @media (min-width: $md) {
             .h1-text {
                 font-size: 3rem;
                 line-height: 4.1rem;
@@ -159,7 +162,7 @@
             }
         }
 
-        @media all and (min-width: 768px) and (max-width: 1023px) {
+        @media (min-width: $sm) {
             .section-inner {
                 flex-direction: column;
             }
@@ -550,19 +553,12 @@
                 letter-spacing: -0.025em;
             }
 
-            @media all and (min-width: 768px) and (max-width: 1023px) {
+            @media (min-width: $sm) {
                 .s3-image {
                     width: 45%;
                     margin: 0 1.5rem;
                 }
             }
-
-            // @media all and (max-width: 768px) {
-            //     .s3-image {
-            //         width: 45%;
-            //         margin: 0 1.5rem;
-            //     }
-            // }
         }
     }
 
@@ -579,38 +575,25 @@
         }
 
         /* ✨ RESPONSIVE STYLE ✨ */
-        @media all and (min-width: 1024px) and (max-width: 1280px) {
+        @media (min-width: $md) {
             .section-4-box {
                 gap: 1.7rem;
                 height: 45rem;
             }
         }
 
-        @media all and (min-width: 768px) and (max-width: 1023px) {
+        @media (min-width: $sm) {
             .section-4-box {
                 gap: 1.8rem;
                 height: 47rem;
             }
         }
-
-        // @media all and (max-width: 768px) {
-        //     .section-4-box {
-        //         gap: 1.8rem;
-        //         height: 47rem;
-        //     }
-        // }
     }
 }
 
 /* ✨ RESPONSIVE STYLE ✨ */
-@media all and (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 768px) {
     #mainPage {
         text-align: center;
     }
 }
-
-// @media all and (max-width: 768px) {
-//     #mainPage {
-//         text-align: center;
-//     }
-// }
