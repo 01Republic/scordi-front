@@ -51,7 +51,12 @@ export const HomePageHeader = memo(() => {
                             {/*</p>*/}
 
                             <div className="py-7">
-                                <HomePageCTAButton />
+                                <div
+                                    className="tooltip tooltip-open tooltip-primary tooltip-bottom"
+                                    data-tip="아직 구글 검수중이에요! 🛠️"
+                                >
+                                    <HomePageCTAButton />
+                                </div>
                             </div>
                         </div>
                     </div>
