@@ -96,7 +96,6 @@ export const HomePageHeader = memo(() => {
                                 id="mobile-swiping-image"
                                 src="/home/202305/tasting/header-image.png"
                                 alt="service preview image"
-                                className="shadow-2xl"
                                 style={{
                                     height: '450px',
                                     maxWidth: 'initial',
