@@ -11,6 +11,7 @@ import {TastingPageRoute} from '^pages/tasting';
 import {useRouter} from 'next/router';
 import {useRecoilState} from 'recoil';
 import {gmailAccessTokenDataAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
+import {ChannelTalkCDN} from '^components/lib/channel-talk/ChannelTalkCDN';
 
 type LandingV2HomePageProps = {} & WithChildren;
 
@@ -34,6 +35,7 @@ export const LandingV2HomePage = memo((props: LandingV2HomePageProps) => {
     return (
         <AOSProvider>
             <HeadTag />
+            <ChannelTalkCDN />
             <div className="bg-white">
                 <LandingPageNavBar showLoginButton={false} fluid={true} />
 
