@@ -7,7 +7,7 @@ import {
     Price,
 } from '^api/tasting.api/gmail/agent/parse-email-price';
 import {useRecoilValue} from 'recoil';
-import {displayCurrencyAtom} from '^components/pages/TastingPage/pageAtoms';
+import {displayCurrencyAtom} from './pageAtoms';
 
 interface EmailParsedTableRowProps {
     date: Date;

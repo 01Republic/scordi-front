@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {CountUp} from 'countup.js';
-import {gmailItemsAtom, gmailItemsLoadedAtom} from '^components/pages/TastingPage/pageAtoms';
+import {gmailItemsAtom, gmailItemsLoadedAtom} from './pageAtoms';
 
 export const SummarySectionStatServices = memo(() => {
     const gmailItems = useRecoilValue(gmailItemsAtom);
@@ -26,16 +26,16 @@ export const SummarySectionStatServices = memo(() => {
     }, [gmailItems]);
 
     return (
-        <div className="stats shadow md:w-[20%]">
-            <div className="stat place-items-center">
-                <div className="stat-title">Subscription</div>
+        <div className="stats bg-[#fafafa] shadow-xl md:w-[20%]">
+            <div className="stat place-items-center py-7">
+                <div className="stat-title !text-black !opacity-100 font-semibold mb-3">이용중인 서비스</div>
                 <div
-                    className={`stat-value text-secondary ${
+                    className={`stat-value !text-2xl text-secondary ${
                         !isLoaded ? 'w-full bg-slate-300 rounded-full animate-pulse' : ''
                     }`}
                 >
-                    <span id="detected-services" />
-                    <small className={!isLoaded ? 'invisible' : ''}>&nbsp;EA</small>
+                    <span id="detected-services" className="!text-4xl" />
+                    <small className={!isLoaded ? 'invisible' : ''}>&nbsp;개</small>
                 </div>
             </div>
         </div>

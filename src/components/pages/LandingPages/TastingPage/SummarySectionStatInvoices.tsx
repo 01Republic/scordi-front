@@ -1,6 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
-import {gmailItemsAtom, gmailItemsLoadedAtom} from '^components/pages/TastingPage/pageAtoms';
+import {gmailItemsAtom, gmailItemsLoadedAtom} from './pageAtoms';
 import {CountUp} from 'countup.js';
 
 export const SummarySectionStatInvoices = memo(() => {
@@ -20,16 +20,16 @@ export const SummarySectionStatInvoices = memo(() => {
     }, [gmailItems]);
 
     return (
-        <div className="stats shadow md:w-[20%]">
-            <div className="stat place-items-center">
-                <div className="stat-title">Invoices</div>
+        <div className="stats bg-[#fafafa] shadow-xl md:w-[20%]">
+            <div className="stat place-items-center py-7">
+                <div className="stat-title !text-black !opacity-100 font-semibold mb-3">결제 영수증 메일</div>
                 <div
-                    className={`stat-value text-primary ${
+                    className={`stat-value !text-2xl text-primary ${
                         !isLoaded ? 'w-full bg-slate-300 rounded-full animate-pulse' : ''
                     }`}
                 >
-                    <span id="detected-invoices" />
-                    <small className={!isLoaded ? 'invisible' : ''}>&nbsp;EA</small>
+                    <span id="detected-invoices" className="!text-4xl" />
+                    <small className={!isLoaded ? 'invisible' : ''}>&nbsp;건</small>
                 </div>
             </div>
         </div>

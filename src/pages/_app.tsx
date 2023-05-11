@@ -25,11 +25,16 @@ function MyApp(props: Props) {
     return (
         <RecoilRoot>
             <Head>
+                <meta charSet="utf-8" />
                 <title>Scordi | 똑똑한 팀을 위한 SaaS 관리 솔루션</title>
                 <meta
                     name="viewport"
                     content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"
                 />
+                <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1,IE=EmulateIE7" />
+
+                <link rel="icon" href="/logo-transparent.png" />
+                <link rel="canonical" href="https://scordi.io" />
             </Head>
             <Suspense fallback={<></>}>
                 <Layout>{getLayout(<Component {...pageProps} />)}</Layout>

@@ -2,9 +2,15 @@ import React, {memo, useEffect, useState} from 'react';
 import {getGoogleAccessTokenByCode, GmailAgent, googleAuthForGmail} from '^api/tasting.api';
 import {useRouter} from 'next/router';
 import {useRecoilState, useSetRecoilState} from 'recoil';
-import {gmailItemsAtom, gmailAccessTokenDataAtom, gmailProfileAtom, gmailItemsLoadedAtom} from './pageAtoms';
+import {
+    gmailItemsAtom,
+    gmailAccessTokenDataAtom,
+    gmailProfileAtom,
+    gmailItemsLoadedAtom,
+    gmailItemsLoadingAtom,
+} from './pageAtoms';
 import {TastingPageRoute} from '^pages/tasting';
-import {SummarySection} from '^components/pages/TastingPage/SummarySection';
+import {SummarySection} from './SummarySection';
 
 interface FindByGmailButtonProps {
     // gmailAuthClient: OAuth2Client;
@@ -16,6 +22,7 @@ export const FindByGmailButton = memo((props: FindByGmailButtonProps) => {
     const [accessTokenData, setAccessTokenData] = useRecoilState(gmailAccessTokenDataAtom);
     const setGmailProfile = useSetRecoilState(gmailProfileAtom);
     const setGmailItems = useSetRecoilState(gmailItemsAtom);
+    const [isLoading, setIsLoading] = useRecoilState(gmailItemsLoadingAtom);
     const [isLoaded, setIsLoaded] = useRecoilState(gmailItemsLoadedAtom);
 
     // 엑세스 토큰이 세팅되어 있지 않으면, 주소창에서 토큰값을 확인하여 세팅을 하고,
@@ -39,13 +46,17 @@ export const FindByGmailButton = memo((props: FindByGmailButtonProps) => {
         if (!accessTokenData) return;
         const gmailAgent = new GmailAgent(accessTokenData);
         gmailAgent.getProfile().then(setGmailProfile);
+        setIsLoading(true);
         gmailAgent
             .getList()
             .then((items) => {
                 return items;
             })
             .then(setGmailItems)
-            .then(() => setIsLoaded(true));
+            .then(() => {
+                setIsLoading(false);
+                setIsLoaded(true);
+            });
     }, [accessTokenData]);
 
     return (
@@ -53,10 +64,10 @@ export const FindByGmailButton = memo((props: FindByGmailButtonProps) => {
             <div id="tasting-handler--start-button">
                 <button
                     onClick={googleAuthForGmail}
-                    className="btn btn-lg btn-outline shadow font-medium normal-case mb-3 space-x-4 bg-white border-slate-200 text-slate-700 hover:bg-white hover:border-primary hover:text-slate-700 focus:bg-blue-50 active:bg-primary-100"
+                    className="btn btn-lg btn-outline shadow rounded-full font-medium normal-case mb-3 space-x-4 bg-white border-slate-200 text-slate-700 hover:bg-white hover:border-primary hover:text-slate-700 focus:bg-blue-50 active:bg-primary-100"
                 >
                     <img src="https://www.svgrepo.com/show/355037/google.svg" className="w-6 h-6" alt="" />
-                    <span>Find by Google account</span>
+                    <span>Google 계정으로 시작하기</span>
                 </button>
             </div>
 

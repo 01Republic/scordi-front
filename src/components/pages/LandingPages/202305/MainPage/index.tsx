@@ -33,7 +33,7 @@ export const LandingPage202305MainPage = memo(() => {
                 <HeaderSubLine />
 
                 <USPSectionCentered
-                    title="SaaS, <span class='block md:inline'>전부 따로 관리하세요?<br /></span> 스코디에게 맡겨주세요"
+                    title="SaaS 관리, <span class='block md:inline'>번거롭지 않으신가요?<br /></span> 스코디에게 맡겨주세요"
                     showCTA={false}
                 >
                     <div className="text-center" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
@@ -59,8 +59,8 @@ export const LandingPage202305MainPage = memo(() => {
                         title="업무 효율성을 높여<br>시간과 비용 감소"
                         desc2="
                     얼마나 쓰고 있을지 고민 할 필요 없이<br>
-                    클릭 한 번에 서비스를 이용하고 있는 구성원과 <br>
-                    SaaS 지출 내역을 모두 확인 할 수 있어요
+                    클릭 한 번에 SaaS 사용 인원과 <br>
+                    지출 내역을 모두 확인 할 수 있어요
                     "
                         direct="right"
                         CTAButton={<MainPageCTAButton />}

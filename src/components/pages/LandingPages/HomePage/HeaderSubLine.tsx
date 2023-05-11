@@ -1,16 +1,16 @@
 import {memo} from 'react';
 import {GiClick} from '@react-icons/all-files/gi/GiClick';
 import {IconType} from '@react-icons/all-files';
-import {BiTrendingDown} from '@react-icons/all-files/bi/BiTrendingDown';
-import {GoChecklist} from '@react-icons/all-files/go/GoChecklist';
+import {GoTasklist} from '@react-icons/all-files/go/GoTasklist';
+import {BsCalendarEvent} from '^components/react-icons';
 
 export const HeaderSubLine = memo(() => {
     return (
         <section className="bg-scordi py-6">
             <div className="container flex flex-col md:flex-row gap-4 md:gap-0 md:items-center justify-between max-w-[70%]">
-                <HeaderSubLineItem icon={GiClick} text="클릭 한 번으로 SaaS 관리 끝" />
-                <HeaderSubLineItem icon={BiTrendingDown} text="비용 지출까지 똑똑하게 확인" />
-                <HeaderSubLineItem icon={GoChecklist} text="계정 연동과 해제를 한 번에" />
+                <HeaderSubLineItem icon={GiClick} text="클릭 한 번으로 비용 확인 완료" />
+                <HeaderSubLineItem icon={BsCalendarEvent} text="다가올 지출까지 똑똑하게 확인" />
+                <HeaderSubLineItem icon={GoTasklist} text="일일이 인보이스 찾지 않고 해결" />
             </div>
         </section>
     );

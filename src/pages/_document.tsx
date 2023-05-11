@@ -5,9 +5,9 @@ import ExternalCDNScripts from '../components/ExternalCDNScripts';
 const ld = {
     '@context': 'http://schema.org',
     '@type': 'Organization',
-    url: 'https://www.payplo.me',
-    name: 'Team Payplo',
-    image: 'https://www.payplo.me/logo.png',
+    url: 'https://scordi.io',
+    name: 'Team Scordi',
+    image: 'https://scordi.io/logo.png',
 
     // 채널톡 참고
     // "contactPoint" : [
@@ -32,14 +32,9 @@ export default class MyDocument extends Document {
         return (
             <Html>
                 <Head>
-                    <meta charSet="utf-8" />
-                    <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1,IE=EmulateIE7" />
-
-                    <link rel="icon" href="/logo-transparent.png" />
-                    <link rel="canonical" href="https://www.payplo.me" />
                     <meta
                         name="description"
-                        content="모르는새 놓치고 있는 비용은 없나요? 우리 팀의 구독 서비스 한 곳에서 관리하세요. 똑똑한 팀을 위한 SaaS 관리 솔루션, Payplo - 구독 서비스 관리를 한 곳에서 쉽고 편하게"
+                        content="모르는새 놓치고 있는 비용은 없나요? 우리 팀의 구독 서비스 한 곳에서 관리하세요. 똑똑한 팀을 위한 SaaS 관리 솔루션, Scordi - 구독 서비스 관리를 한 곳에서 쉽고 편하게"
                     />
                     <meta
                         name="keywords"
@@ -50,19 +45,19 @@ export default class MyDocument extends Document {
                     <meta property="og:title" content="Scordi | 똑똑한 팀을 위한 SaaS 관리 솔루션" />
                     <meta
                         property="og:description"
-                        content="모르는새 놓치고 있는 비용은 없나요? 우리 팀의 구독 서비스 한 곳에서 관리하세요. 똑똑한 팀을 위한 SaaS 관리 솔루션, Payplo - 구독 서비스 관리를 한 곳에서 쉽고 편하게"
+                        content="모르는새 놓치고 있는 비용은 없나요? 우리 팀의 구독 서비스 한 곳에서 관리하세요. 똑똑한 팀을 위한 SaaS 관리 솔루션, Scordi - 구독 서비스 관리를 한 곳에서 쉽고 편하게"
                     />
-                    <meta property="og:image" content="https://www.payplo.me/main-og.jpg" />
+                    <meta property="og:image" content="https://scordi.io/main-og.jpg" />
                     <meta property="og:type" content="website" />
                     <meta property="og:site_name" content="Scordi" />
-                    <meta property="og:url" content="https://www.payplo.me" />
+                    <meta property="og:url" content="https://scordi.io" />
 
                     <meta name="twitter:title" content="Scordi | 똑똑한 팀을 위한 SaaS 관리 솔루션" />
                     <meta
                         name="twitter:description"
-                        content="모르는새 놓치고 있는 비용은 없나요? 우리 팀의 구독 서비스 한 곳에서 관리하세요. 똑똑한 팀을 위한 SaaS 관리 솔루션, Payplo - 구독 서비스 관리를 한 곳에서 쉽고 편하게"
+                        content="모르는새 놓치고 있는 비용은 없나요? 우리 팀의 구독 서비스 한 곳에서 관리하세요. 똑똑한 팀을 위한 SaaS 관리 솔루션, Scordi - 구독 서비스 관리를 한 곳에서 쉽고 편하게"
                     />
-                    <meta name="twitter:image" content="https://www.payplo.me/main-og.jpg" />
+                    <meta name="twitter:image" content="https://scordi.io/main-og.jpg" />
                     <meta name="twitter:card" content="summary_large_image" />
 
                     <script

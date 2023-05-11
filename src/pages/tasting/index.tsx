@@ -1,7 +1,7 @@
 import React from 'react';
 import {useRouter} from 'next/router';
 import {pathRoute} from '^types/pageRoute.type';
-import {TastingPage as Page} from '^components/pages/TastingPage';
+import {TastingPage as Page} from '^components/pages/LandingPages/TastingPage';
 
 export const TastingPageRoute = pathRoute({
     pathname: '/tasting',
