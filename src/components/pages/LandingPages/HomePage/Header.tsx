@@ -6,14 +6,16 @@ export const HomePageHeader = memo(() => {
     const {mobileView} = useOnResize();
 
     useEffect(() => {
-        const img = document.querySelector('#mobile-swiping-image')!;
-        const moveTarget = img.closest('div')!;
-        const section = img.closest('section')!;
-
         if (mobileView) {
             window.addEventListener('scroll', (e) => {
+                const img = document.querySelector('#mobile-swiping-image')!;
+                const moveTarget = img.closest('div')!;
+                const section = img.closest('section')!;
                 const sectionRect = section.getClientRects()[0];
-                moveTarget.style.right = sectionRect.bottom <= window.innerHeight ? '120%' : '0';
+                if (sectionRect) {
+                    const size = 'calc(860px - 100% + 4rem)';
+                    moveTarget.style.right = sectionRect.bottom <= window.innerHeight ? size : '0';
+                }
             });
         }
     }, [mobileView]);

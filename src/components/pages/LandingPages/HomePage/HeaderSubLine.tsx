@@ -7,10 +7,10 @@ import {BsCalendarEvent} from '^components/react-icons';
 export const HeaderSubLine = memo(() => {
     return (
         <section className="bg-scordi py-6">
-            <div className="container flex flex-col md:flex-row gap-4 md:gap-0 md:items-center justify-between max-w-[70%]">
-                <HeaderSubLineItem icon={GiClick} text="클릭 한 번으로 비용 확인 완료" />
+            <div className="flex flex-col md:flex-row gap-4 md:gap-0 md:items-center justify-between max-w-[70%] mx-auto">
+                <HeaderSubLineItem icon={GiClick} text="클릭 한 번에 비용 확인 완료" />
                 <HeaderSubLineItem icon={BsCalendarEvent} text="다가올 지출까지 똑똑하게 확인" />
-                <HeaderSubLineItem icon={GoTasklist} text="일일이 인보이스 찾지 않고 해결" />
+                <HeaderSubLineItem icon={GoTasklist} text="인보이스 찾는 비효율 해결" />
             </div>
         </section>
     );

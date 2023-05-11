@@ -9,11 +9,12 @@ import '../styles/button.scss';
 import '../styles/tasting.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
-import {Fragment, Suspense} from 'react';
+import React, {Fragment, Suspense} from 'react';
 import Head from 'next/head';
 import {ToastContainer, Slide} from 'react-toastify';
 import type {Props} from '^types/page';
 import {RecoilRoot} from 'recoil';
+import {ChannelTalkCDN} from '^components/lib/channel-talk/ChannelTalkCDN';
 
 function MyApp(props: Props) {
     const {Component, pageProps} = props;
@@ -36,6 +37,7 @@ function MyApp(props: Props) {
                 <link rel="icon" href="/logo-transparent.png" />
                 <link rel="canonical" href="https://scordi.io" />
             </Head>
+            <ChannelTalkCDN />
             <Suspense fallback={<></>}>
                 <Layout>{getLayout(<Component {...pageProps} />)}</Layout>
             </Suspense>

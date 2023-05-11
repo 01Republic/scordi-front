@@ -35,7 +35,6 @@ export const LandingV2HomePage = memo((props: LandingV2HomePageProps) => {
     return (
         <AOSProvider>
             <HeadTag />
-            <ChannelTalkCDN />
             <div className="bg-white">
                 <LandingPageNavBar showLoginButton={false} fluid={true} />
 
@@ -43,7 +42,7 @@ export const LandingV2HomePage = memo((props: LandingV2HomePageProps) => {
                 <HeaderSubLine />
                 <HomePageSection3 />
 
-                <div className="pt-20 pb-10 md:py-0">
+                <div className="py-16 md:py-0">
                     <USPSection
                         imgUrl="/home/202305/tasting/section-4.png"
                         title="똑같은 출금 내역은 그만! <br> 클릭 한 번으로 고민 해결"

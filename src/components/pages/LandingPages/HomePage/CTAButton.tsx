@@ -24,7 +24,7 @@ export const HomePageCTAButton2 = memo((props: HomePageCTAButtonProps) => {
     const {text} = props;
 
     return (
-        <button onClick={googleAuthForGmail} className="btn btn-lg btn-scordi-500 rounded-full shadow-xl">
+        <button onClick={googleAuthForGmail} className="btn btn-lg btn-scordi-500 rounded-2xl shadow-xl">
             {text}
         </button>
     );
