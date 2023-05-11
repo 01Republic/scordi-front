@@ -56,6 +56,12 @@ module.exports = {
                 96: ['6rem', {lineHeight: 1}],
                 128: ['8rem', {lineHeight: 1}],
             },
+            screens: {
+                sm: {min: '0px', max: '499px'},
+                md: {min: '500px', max: '767px'},
+                lg: {min: '768px', max: '1023px'},
+                xl: {min: '1024px', max: '1280px'},
+            },
         },
         container: {
             center: true,

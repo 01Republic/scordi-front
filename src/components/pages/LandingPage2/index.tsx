@@ -29,14 +29,14 @@ export function LandingPage2() {
     }, []);
 
     return (
-        <div id="mainPage" className="container-box flex flex-col gap-20 lg:gap-14 w-full">
+        <div id="mainPage" className="container-box flex flex-col gap-20 xl:gap-14 lg:gap-12 w-full">
             {/* nav */}
             <Header />
 
             {/* section 1 */}
-            <section id="section-1" className="section-box flex pt-8 md:pt-0">
+            <section id="section-1" className="section-box flex pt-8 ml-14 lg:ml-0 lg:pt-8">
                 <div className="section-1-box section-inner">
-                    <div className="section-1-head flex flex-col flex-nowrap items-start gap-9 lg:gap-8">
+                    <div className="section-1-head flex flex-col flex-nowrap items-start gap-9 xl:gap-6">
                         <div className="section-1-left-title">
                             <h1 className="h1-text">
                                 구독 서비스 관리를
@@ -55,21 +55,21 @@ export function LandingPage2() {
                                 {/* SaaS 관리는 어렵지만, Scordi와 함께라면 쉽습니다. */}
                             </p>
                         </div>
-                        <div className="section-1-left-btn md:hidden">
-                            <button className="btn closeBeta-btn ">클로즈베타 신청하기</button>
+                        <div className="section-1-left-btn md:hidden lg:hidden">
+                            <button className="btn closeBeta-btn">클로즈베타 신청하기</button>
                         </div>
                     </div>
-                    <div className="section-1-body w-3/5 md:w-full md:mt-10">
+                    <div className="section-1-body w-3/5 xl:w-[61%] lg:w-fit lg:mt-12">
                         <img src="/home/image1.png" alt="service preview image" className="w-full" />
                     </div>
                     <div className="section-1-left-btn" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
-                        <button className="btn closeBeta-btn hidden md:block">클로즈베타 신청하기</button>
+                        <button className="btn closeBeta-btn hidden md:block lg:block">클로즈베타 신청하기</button>
                     </div>
                 </div>
             </section>
 
             {/* section 2: logo-slide */}
-            <section id="section-2" className="section-box py-28 lg:py-24">
+            <section id="section-2" className="section-box py-28 xl:py-24">
                 <div className="section-inner">
                     <ul className="logos-slide-box inline-flex justify-between items-start g-10">
                         {imgUrls.map((url, i) => (
@@ -94,7 +94,7 @@ export function LandingPage2() {
                             </p>
                         </div>
                     </div>
-                    <div className="section-3-body flex my-14 lg:mt-10 lg:mb-14">
+                    <div className="section-3-body flex lg:flex-col my-14 xl:mt-10 xl:mb-14">
                         <ImageBox
                             imgUrl="/images/illustration/section3_img01.png"
                             leftTxt="미팅 수립률"
@@ -121,10 +121,10 @@ export function LandingPage2() {
             <section id="section-4" className="section-box !w-full text-center">
                 <div className="section-4-box">
                     <div className="section-4-head" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
-                        <h1 className="text-5xl lg:text-[2.8rem]">고객은 기다리지 않습니다</h1>
+                        <h1 className="text-5xl xl:text-[2.8rem] lg:text-[2.6rem]">고객은 기다리지 않습니다</h1>
                     </div>
                     <div
-                        className="section-4-img w-[50rem] lg:w-[43rem]"
+                        className="section-4-img w-[50rem] xl:w-[41rem] lg:w-[39rem]"
                         data-aos="fade-up"
                         data-aos-anchor-placement="center-bottom"
                     >
@@ -197,8 +197,11 @@ export function LandingPage2() {
             <br />
 
             {/* aside */}
-            <aside id="section-aside" className="flex justify-center items-center w-full h-52 bg-[#f3f6f6]">
-                <div className="section-box flex justify-between items-center m-auto">
+            <aside
+                id="section-aside"
+                className="flex justify-center items-center w-full h-52 lg:h-auto lg:py-12 bg-[#f3f6f6]"
+            >
+                <div className="section-box flex lg:flex-col justify-between items-center m-auto">
                     <div className="aside-left">
                         <h2 className="h2-text" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
                             스코디의 골든타임 5분,
@@ -206,16 +209,20 @@ export function LandingPage2() {
                             놓치지 마세요
                         </h2>
                     </div>
-                    <div className="aside-right w-[40%] xl:w-[37%] flex justify-end">
+                    <div className="aside-right w-[40%] lg:w-[80%] lg:mt-4 flex justify-end">
                         <div className="w-full">
-                            <p className="s-text-sm mb-2" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+                            <p
+                                className="s-text-sm aside-text mb-2"
+                                data-aos="fade-up"
+                                data-aos-anchor-placement="center-bottom"
+                            >
                                 B2B 마케팅 & 스코디 인사이트 받아보기
                             </p>
                             <div className="w-full" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
                                 <input
                                     type="email"
                                     placeholder="Email"
-                                    className="input inline-block w-3/5 h-14 mr-3 max-w-xs placeholder:text-lg lg:placeholder:text-base"
+                                    className="input inline-block w-3/5 h-14 mr-3 max-w-xs placeholder:text-lg xl:placeholder:text-base"
                                 />
                                 <div className="aside-btn inline-block">
                                     <button className="btn subscribe-btn inline-block">스코디 구독</button>
@@ -228,18 +235,16 @@ export function LandingPage2() {
 
             {/* footer */}
             <footer className="section-box mt-[-3rem]">
-                <div className="px-4 md:px-0">
-                    <div className="py-8 md:py-16" style={{minHeight: '10rem'}}>
+                <div className="px-4 lg:px-0">
+                    <div className="py-8 lg:py-16" style={{minHeight: '10rem'}}>
                         <p>
-                            <span className="text-3xl md:text-4xl font-bold mb-3 md:mb-5">Scordi</span>
-                            <span className="text-sm text-gray-500 ml-3 relative" style={{top: '-2px'}}>
-                                (주) 제로원리퍼블릭
-                            </span>
+                            <span className="text-3xl lg:text-[2rem] font-bold mb-2">Scordi</span>
+                            <span className="text-sm text-gray-500 ml-3 relative">(주) 제로원리퍼블릭</span>
                         </p>
                         <p className="text-lg md:text-xl text-black opacity-60 mb-3">
                             똑똑한 팀을 위한 구독 관리 플랫폼
                         </p>
-                        <div className="text-sm md:text-xl text-black opacity-60">
+                        <div className="text-sm lg:text-xl text-black opacity-60">
                             <p className="">
                                 <span>대표자</span> : <span>김용현</span> | <span>사업자번호</span> :{' '}
                                 <span>227-86-02683</span>
@@ -268,8 +273,8 @@ export function LandingPage2() {
                         </div>
                     </div>
                     <hr />
-                    <div className="py-8">
-                        <p className="md:text-lg text-black opacity-60">© 2022 01Republic, Inc. All Rights Reserved.</p>
+                    <div className="py-8 lg:py-5">
+                        <p className="lg:text-lg text-black opacity-60">© 2022 01Republic, Inc. All Rights Reserved.</p>
                     </div>
                 </div>
             </footer>

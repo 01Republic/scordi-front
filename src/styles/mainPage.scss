@@ -104,7 +104,7 @@
         }
 
         /* ✨ RESPONSIVE STYLE ✨ */
-        @media (min-width: 1024px) {
+        @media all and (min-width: 1024px) and (max-width: 1280px) {
             .h1-text {
                 font-size: 3rem;
                 line-height: 4.1rem;
@@ -126,7 +126,7 @@
             }
 
             .s-text-xl {
-                font-size: 3.8rem;
+                font-size: 3.7rem;
             }
 
             .s-text-top {
@@ -142,7 +142,7 @@
 
             .subscribe-btn {
                 width: 8rem;
-                height: 3.5rem;
+                height: 3.6rem;
                 padding: 1rem 1rem;
                 font-size: 1rem;
             }
@@ -156,17 +156,102 @@
             }
         }
 
-        @media (min-width: 768px) {
+        @media all and (min-width: 768px) and (max-width: 1023px) {
             .section-inner {
                 flex-direction: column;
+            }
+
+            .h2-text {
+                font-size: 2.5rem;
+                line-height: 3.4rem;
+            }
+
+            .s-text-sm {
+                font-size: 1.5rem;
+                line-height: 2.6rem;
+            }
+
+            .aside-text {
+                font-size: 1.3rem;
+            }
+
+            .s-text-xl {
+                font-size: 4rem;
             }
 
             .closeBeta-btn {
                 width: 14rem;
                 height: 4.5rem;
                 padding: 1rem 2rem;
-                margin-top: 3rem;
+                margin-top: 2rem;
             }
+
+            .subscribe-btn {
+                width: 9rem;
+                padding: 1rem 0;
+            }
+
+            .title-top {
+                justify-content: center;
+                margin-bottom: 2rem;
+            }
+
+            .section-desc {
+                align-items: center;
+                gap: 2rem;
+            }
+        }
+
+        // @media all and (max-width: 768px) {
+        //     .section-inner {
+        //         flex-direction: column;
+        //     }
+
+        //     .h2-text {
+        //         font-size: 2.5rem;
+        //         line-height: 3.4rem;
+        //     }
+
+        //     .s-text-sm {
+        //         font-size: 1.5rem;
+        //         line-height: 2.6rem;
+        //     }
+
+        //     .aside-text {
+        //         font-size: 1.3rem;
+        //     }
+
+        //     .s-text-xl {
+        //         font-size: 4rem;
+        //     }
+
+        //     .closeBeta-btn {
+        //         width: 14rem;
+        //         height: 4.5rem;
+        //         padding: 1rem 2rem;
+        //         margin-top: 2rem;
+        //     }
+
+        //     .subscribe-btn {
+        //         width: 9rem;
+        //         padding: 1rem 0;
+        //     }
+
+        //     .title-top {
+        //         justify-content: center;
+        //         margin-bottom: 2rem;
+        //     }
+
+        //     .section-desc {
+        //         align-items: center;
+        //         gap: 2rem;
+        //     }
+        // }
+    }
+
+    @media all and (min-width: 1024px) and (max-width: 1280px) {
+        .section-box {
+            width: 80%;
         }
     }
 
@@ -217,6 +302,20 @@
                 color: #000;
                 letter-spacing: -0.025em;
             }
+
+            @media all and (min-width: 768px) and (max-width: 1023px) {
+                .s3-image {
+                    width: 45%;
+                    margin: 0 1.5rem;
+                }
+            }
+
+            // @media all and (max-width: 768px) {
+            //     .s3-image {
+            //         width: 45%;
+            //         margin: 0 1.5rem;
+            //     }
+            // }
         }
     }
 
@@ -233,18 +332,38 @@
         }
 
         /* ✨ RESPONSIVE STYLE ✨ */
-        @media (min-width: 1024px) {
+        @media all and (min-width: 1024px) and (max-width: 1280px) {
             .section-4-box {
-                gap: 1.5rem;
+                gap: 1.7rem;
                 height: 45rem;
             }
         }
+
+        @media all and (min-width: 768px) and (max-width: 1023px) {
+            .section-4-box {
+                gap: 1.8rem;
+                height: 47rem;
+            }
+        }
+
+        // @media all and (max-width: 768px) {
+        //     .section-4-box {
+        //         gap: 1.8rem;
+        //         height: 47rem;
+        //     }
+        // }
     }
 }
 
 /* ✨ RESPONSIVE STYLE ✨ */
-@media (min-width: 768px) {
+@media all and (min-width: 768px) and (max-width: 1023px) {
     #mainPage {
         text-align: center;
     }
 }
+
+// @media all and (max-width: 768px) {
+//     #mainPage {
+//         text-align: center;
+//     }
+// }
