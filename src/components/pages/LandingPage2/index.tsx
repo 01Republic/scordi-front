@@ -29,14 +29,14 @@ export function LandingPage2() {
     }, []);
 
     return (
-        <div id="mainPage" className="container-box flex flex-col gap-16 lg:gap-20 w-full">
+        <div id="mainPage" className="container-box flex gap-16 lg:gap-20 w-full">
             {/* header */}
             <Header />
 
             {/* section 1 */}
-            <section id="section-1" className="hidden sm:flex section-box pt-8 ml-14 md:ml-0 md:pt-8">
+            <section id="section-1" className="hidden sm:flex section-box pt-8 sm:ml-0 sm:pt-8">
                 <div className="section-1-box section-inner">
-                    <div className="section-1-head flex flex-col flex-nowrap items-start gap-9 xl:gap-6">
+                    <div className="section-1-head flex flex-col flex-nowrap items-start sm:items-center gap-9">
                         <div className="section-1-left-title">
                             <h1 className="h1-text">
                                 구독 서비스 관리를
@@ -55,12 +55,15 @@ export function LandingPage2() {
                                 {/* SaaS 관리는 어렵지만, Scordi와 함께라면 쉽습니다. */}
                             </p>
                         </div>
-                        <div className="section-1-left-btn lg:block md:hidden">
+                        <div className="section-1-left-btn hidden md:block">
                             <button className="btn closeBeta-btn">클로즈베타 신청하기</button>
                         </div>
                     </div>
-                    <div className="section-1-body w-3/5 xl:w-[61%] lg:w-fit lg:mt-12">
+                    <div className="section-1-body w-3/5 sm:w-full sm:py-10">
                         <img src="/home/image1.png" alt="service preview image" className="w-full" />
+                    </div>
+                    <div className="section-1-left-btn">
+                        <button className="btn closeBeta-btn block md:hidden">클로즈베타 신청하기</button>
                     </div>
                 </div>
             </section>
@@ -102,9 +105,9 @@ export function LandingPage2() {
             </section>
 
             {/* section 2: logo-slide */}
-            <section id="section-2" className="hidden sm:flex section-box py-28 xl:py-24">
+            <section id="section-2" className="hidden sm:flex section-box py-28 sm:py-24">
                 <div className="section-inner">
-                    <ul className="logos-slide-box inline-flex justify-between items-start g-10">
+                    <ul className="logos-slide-box inline-flex justify-between items-start">
                         {imgUrls.map((url, i) => (
                             <LogoItem key={i} imgSrc={url} />
                         ))}
@@ -138,7 +141,7 @@ export function LandingPage2() {
                             </p>
                         </div>
                     </div>
-                    <div className="section-3-body flex lg:flex-col my-14 xl:mt-10 xl:mb-14">
+                    <div className="section-3-body flex sm:flex-col my-14">
                         <ImageBox
                             imgUrl="/images/illustration/section3_img01.png"
                             leftTxt="미팅 수립률"
@@ -205,10 +208,10 @@ export function LandingPage2() {
             <section id="section-4" className="hidden sm:flex section-box !w-full text-center">
                 <div className="section-4-box">
                     <div className="section-4-head" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
-                        <h1 className="text-5xl xl:text-[2.8rem] lg:text-[2.6rem]">고객은 기다리지 않습니다</h1>
+                        <h1 className="text-5xl sm:text-4xl">고객은 기다리지 않습니다</h1>
                     </div>
                     <div
-                        className="section-4-img w-[50rem] xl:w-[41rem] lg:w-[39rem]"
+                        className="section-4-img w-[50rem] sm:w-[80%]"
                         data-aos="fade-up"
                         data-aos-anchor-placement="center-bottom"
                     >
@@ -317,7 +320,7 @@ export function LandingPage2() {
 
             {/* section 7 */}
             <ArticleSection
-                iconUrl="/home/icons/main-icons/icon-chk.png"
+                iconUrl="/home/icons/main-icons/icon-smart.png"
                 subtitle="스코디로 스마트한 비용 관리!"
                 title="입사자, 퇴사자<br />관리로 새는 비용 막기!"
                 desc="상시로 벌어지는 입사와 퇴사,
@@ -350,9 +353,9 @@ export function LandingPage2() {
             {/* aside */}
             <aside
                 id="section-aside"
-                className="hidden sm:flex justify-center items-center w-full h-52 lg:h-auto lg:py-12 bg-[#f3f6f6]"
+                className="hidden sm:flex justify-center items-center w-full h-52 sm:h-auto sm:py-12 bg-[#f3f6f6]"
             >
-                <div className="section-box flex lg:flex-col justify-between items-center m-auto">
+                <div className="section-box flex sm:flex-col justify-between items-center m-auto">
                     <div className="aside-left">
                         <h2 className="h2-text" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
                             스코디의 골든타임 5분,
@@ -360,10 +363,10 @@ export function LandingPage2() {
                             놓치지 마세요
                         </h2>
                     </div>
-                    <div className="aside-right w-[40%] lg:w-[80%] lg:mt-4 flex justify-end">
+                    <div className="aside-right flex justify-end w-[40%] sm:w-full sm:pt-5">
                         <div className="w-full">
                             <p
-                                className="s-text-sm aside-text mb-2"
+                                className="s-text-sm aside-text mb-3"
                                 data-aos="fade-up"
                                 data-aos-anchor-placement="center-bottom"
                             >
@@ -373,7 +376,7 @@ export function LandingPage2() {
                                 <input
                                     type="email"
                                     placeholder="Email"
-                                    className="input inline-block w-3/5 h-14 mr-3 max-w-xs placeholder:text-lg xl:placeholder:text-base"
+                                    className="input inline-block w-3/5 h-14 mr-3 placeholder:text-lg"
                                 />
                                 <div className="aside-btn inline-block">
                                     <button className="btn subscribe-btn inline-block">스코디 구독</button>
@@ -462,7 +465,7 @@ export function LandingPage2() {
                     </div>
                     <hr />
                     <div className="py-6 sm:py-8">
-                        <p className="lg:text-lg text-black opacity-60">© 2022 01Republic, Inc. All Rights Reserved.</p>
+                        <p className="sm:text-lg text-black opacity-60">© 2022 01Republic, Inc. All Rights Reserved.</p>
                     </div>
                 </div>
             </footer>
