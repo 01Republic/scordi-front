@@ -1,15 +1,14 @@
 #mainPage {
+    // *** ex) min-width: 640px === 640px 이상인 애들에 적용된다.
     // $sm 이하는 태블릿
-    $sm: '768px'; // 태블릿
-    $md: '1024px';
-    $lg: '1280px';
-    $xl: '1536px';
+    $sm: '640px'; // 태블릿
+    $md: '768px';
+    $lg: '1024px';
+    $xl: '1280px';
 
     display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
     align-items: center;
-    background-color: #fff;
+    text-align: center;
 
     .section-box {
         width: 75%;
@@ -109,7 +108,6 @@
             gap: 2.25rem;
         }
 
-        /* ✨ RESPONSIVE STYLE ✨ */
         @media (min-width: $md) {
             .h1-text {
                 font-size: 3rem;
@@ -207,89 +205,43 @@
                 gap: 2rem;
             }
         }
-
-        // @media all and (max-width: 768px) {
-        //     .section-inner {
-        //         flex-direction: column;
-        //     }
-
-        //     .h2-text {
-        //         font-size: 2.5rem;
-        //         line-height: 3.4rem;
-        //     }
-
-        //     .s-text-sm {
-        //         font-size: 1.5rem;
-        //         line-height: 2.6rem;
-        //     }
-
-        //     .aside-text {
-        //         font-size: 1.3rem;
-        //     }
-
-        //     .s-text-xl {
-        //         font-size: 4rem;
-        //     }
-
-        //     .closeBeta-btn {
-        //         width: 14rem;
-        //         height: 4.5rem;
-        //         padding: 1rem 2rem;
-        //         margin-top: 2rem;
-        //     }
-
-        //     .subscribe-btn {
-        //         width: 9rem;
-        //         padding: 1rem 0;
-        //     }
-
-        //     .title-top {
-        //         justify-content: center;
-        //         margin-bottom: 2rem;
-        //     }
-
-        //     .section-desc {
-        //         align-items: center;
-        //         gap: 2rem;
-        //     }
-        // }
     }
 
     .section-box-mobile {
-        width: 75%;
+        width: 80%;
 
         .section-inner {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             justify-content: space-between;
             align-items: center;
         }
 
         .h1-text {
-            font-size: 3.5rem;
-            line-height: 4.6rem;
+            font-size: 2.3rem;
+            line-height: 3.2rem;
         }
 
         .h2-text {
-            font-size: 3rem;
-            line-height: 3.9rem;
+            font-size: 1.8rem;
+            line-height: 2.7rem;
         }
 
         .body-text {
-            font-size: 1.5rem;
-            line-height: 2.5rem;
+            font-size: 1.1rem;
+            line-height: 1.9rem;
             font-weight: 500;
             color: rgb(107, 114, 128);
         }
 
         .s-text-sm {
-            font-size: 1.4rem;
+            font-size: 1.1rem;
+            line-height: 1.9rem;
             color: rgb(107, 114, 128);
-            line-height: 2.2rem;
         }
 
         .s-text-xl {
-            font-size: 4.5rem;
+            font-size: 3.5rem;
             font-weight: 700;
             color: #000;
             letter-spacing: -0.025em;
@@ -297,7 +249,7 @@
 
         .s-text-top {
             display: inline-block;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: rgb(107, 114, 128);
             opacity: 0.7;
@@ -305,18 +257,19 @@
 
         .title-top {
             display: flex;
+            justify-content: center;
             align-items: center;
-            margin-bottom: 1.4rem;
+            margin-bottom: 1rem;
         }
 
         .closeBeta-btn {
-            width: 13.5rem;
+            width: 12rem;
             height: 4.2rem;
-            padding: 1rem 2rem;
+            padding: 1rem;
             border-radius: 0.75rem;
             background: linear-gradient(90deg, rgb(36, 123, 255) 0%, rgb(49, 80, 217) 100%);
             color: #fff;
-            font-size: 1.125rem;
+            font-size: 1rem;
             font-weight: 500;
             line-height: 1.5rem;
             transform: none;
@@ -328,15 +281,14 @@
         }
 
         .subscribe-btn {
-            width: 9.5rem;
+            width: 8rem;
             height: 3.5rem;
-            padding: 1rem 2rem;
+            padding: 1rem;
             border-radius: 0.75rem;
             background: linear-gradient(90deg, rgb(36, 123, 255) 0%, rgb(49, 80, 217) 100%);
             color: #fff;
-            font-size: 1.125rem;
+            font-size: 1rem;
             font-weight: 500;
-            line-height: 1.5rem;
             transform: none;
 
             &:hover {
@@ -349,154 +301,9 @@
             display: flex;
             flex-direction: column;
             flex-wrap: nowrap;
-            align-items: flex-start;
-            gap: 2.25rem;
+            align-items: center;
+            gap: 1.7rem;
         }
-
-        /* ✨ RESPONSIVE STYLE ✨ */
-        @media all and (min-width: 1024px) and (max-width: 1280px) {
-            .h1-text {
-                font-size: 3rem;
-                line-height: 4.1rem;
-            }
-
-            .h2-text {
-                font-size: 2.6rem;
-                line-height: 3.5rem;
-            }
-
-            .body-text {
-                font-size: 1.4rem;
-                line-height: 2.3rem;
-            }
-
-            .s-text-sm {
-                font-size: 1.2rem;
-                line-height: 2rem;
-            }
-
-            .s-text-xl {
-                font-size: 3.7rem;
-            }
-
-            .s-text-top {
-                font-size: 1.5rem;
-            }
-
-            .closeBeta-btn {
-                width: 13rem;
-                height: 4rem;
-                color: #fff;
-                font-size: 1rem;
-            }
-
-            .subscribe-btn {
-                width: 8rem;
-                height: 3.6rem;
-                padding: 1rem 1rem;
-                font-size: 1rem;
-            }
-
-            .section-desc {
-                gap: 1.8rem;
-
-                .title-top {
-                    margin-bottom: 1.2rem;
-                }
-            }
-        }
-
-        @media all and (min-width: 768px) and (max-width: 1023px) {
-            .section-inner {
-                flex-direction: column;
-            }
-
-            .h2-text {
-                font-size: 2.5rem;
-                line-height: 3.4rem;
-            }
-
-            .s-text-sm {
-                font-size: 1.5rem;
-                line-height: 2.6rem;
-            }
-
-            .aside-text {
-                font-size: 1.3rem;
-            }
-
-            .s-text-xl {
-                font-size: 4rem;
-            }
-
-            .closeBeta-btn {
-                width: 14rem;
-                height: 4.5rem;
-                padding: 1rem 2rem;
-                margin-top: 2rem;
-            }
-
-            .subscribe-btn {
-                width: 9rem;
-                padding: 1rem 0;
-            }
-
-            .title-top {
-                justify-content: center;
-                margin-bottom: 2rem;
-            }
-
-            .section-desc {
-                align-items: center;
-                gap: 2rem;
-            }
-        }
-
-        // @media all and (max-width: 768px) {
-        //     .section-inner {
-        //         flex-direction: column;
-        //     }
-
-        //     .h2-text {
-        //         font-size: 2.5rem;
-        //         line-height: 3.4rem;
-        //     }
-
-        //     .s-text-sm {
-        //         font-size: 1.5rem;
-        //         line-height: 2.6rem;
-        //     }
-
-        //     .aside-text {
-        //         font-size: 1.3rem;
-        //     }
-
-        //     .s-text-xl {
-        //         font-size: 4rem;
-        //     }
-
-        //     .closeBeta-btn {
-        //         width: 14rem;
-        //         height: 4.5rem;
-        //         padding: 1rem 2rem;
-        //         margin-top: 2rem;
-        //     }
-
-        //     .subscribe-btn {
-        //         width: 9rem;
-        //         padding: 1rem 0;
-        //     }
-
-        //     .title-top {
-        //         justify-content: center;
-        //         margin-bottom: 2rem;
-        //     }
-
-        //     .section-desc {
-        //         align-items: center;
-        //         gap: 2rem;
-        //     }
-        // }
     }
 
     @media (min-width: $md) {
@@ -526,6 +333,28 @@
                     object-fit: contain;
                     margin: 0 auto;
                 }
+            }
+        }
+    }
+
+    #section-2-mobile {
+        mask-image: linear-gradient(
+            to right,
+            rgba(0, 0, 0, 0) 0%,
+            rgb(0, 0, 0) 12.5%,
+            rgb(0, 0, 0) 87.5%,
+            rgba(0, 0, 0, 0) 100%
+        );
+
+        .logos-slide {
+            gap: 2rem;
+            width: 5rem;
+            height: 3rem;
+
+            .logo-img {
+                height: 100%;
+                object-fit: contain;
+                margin: 0 auto;
             }
         }
     }
@@ -562,6 +391,38 @@
         }
     }
 
+    #section-3-mobile {
+        .section-3-image-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .s3-image {
+                width: 50%;
+                margin: 0 2.5rem;
+            }
+
+            .s3-text-sm {
+                font-size: 1.25rem;
+                color: rgb(107, 114, 128);
+            }
+
+            .s3-text-xl {
+                font-size: 4.5rem;
+                font-weight: 700;
+                color: #000;
+                letter-spacing: -0.025em;
+            }
+
+            // @media (min-width: $sm) {
+            //     .s3-image {
+            //         width: 45%;
+            //         margin: 0 1.5rem;
+            //     }
+            // }
+        }
+    }
+
     #section-4 {
         .section-4-box {
             display: flex;
@@ -574,7 +435,6 @@
             background: #f3f6f6;
         }
 
-        /* ✨ RESPONSIVE STYLE ✨ */
         @media (min-width: $md) {
             .section-4-box {
                 gap: 1.7rem;
@@ -589,11 +449,25 @@
             }
         }
     }
+
+    #section-4-mobile {
+        .section-4-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            height: 33rem;
+            padding: 5rem 1rem;
+            background: #f3f6f6;
+        }
+    }
 }
 
-/* ✨ RESPONSIVE STYLE ✨ */
-@media (min-width: 768px) {
+@media (min-width: 640px) {
     #mainPage {
-        text-align: center;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        background-color: #fff;
     }
 }
