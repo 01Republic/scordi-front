@@ -7,7 +7,7 @@ export const AOSProvider = memo((props: WithChildren) => {
     const {children} = props;
 
     useEffect(() => {
-        AOS.init({duration: 750});
+        AOS.init({duration: 500});
     }, []);
 
     return <>{children}</>;

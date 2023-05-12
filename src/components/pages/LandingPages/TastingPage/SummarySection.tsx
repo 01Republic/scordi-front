@@ -25,3 +25,17 @@ export const SummarySection = memo(() => {
         </div>
     );
 });
+
+export const SummarySection2 = memo(() => {
+    return (
+        <div id="tasting-handler--summary-section">
+            <div className="mb-6 text-left">
+                <div className="flex justify-center gap-6">
+                    <SummarySectionStatServices />
+                    <SummarySectionStatInvoices />
+                    <SummarySectionStatBalance />
+                </div>
+            </div>
+        </div>
+    );
+});

@@ -12,7 +12,7 @@ export const MainPageHeader = memo(() => {
             }}
         >
             <div
-                className="pt-6 sm:pt-24"
+                className="pt-6 sm:pt-14"
                 style={{
                     backgroundImage: 'url(/home/202305/header-bg2.png)',
                     backgroundSize: 'cover',
@@ -26,7 +26,7 @@ export const MainPageHeader = memo(() => {
                                 SaaS 관리 <br /> <span className="text-scordi">클릭 한 번</span>으로 끝내보세요
                             </h1>
 
-                            <div className="py-6">
+                            <div className="py-7">
                                 <MainPageCTAButton mobileShow={true} aos={false} />
                             </div>
 
@@ -56,12 +56,41 @@ export const MainPageHeader = memo(() => {
                 </section>
 
                 {/* pc */}
-                <section className="hidden md:flex justify-center pb-20">
-                    <Image src="/home/202305/header-image.png" alt="service preview image" width={1270} height={563} />
+                <section className="hidden md:flex justify-center pb-20 container">
+                    <img src="/home/202305/header-image.png" alt="service preview image" />
                 </section>
                 {/* mobile */}
                 <section className="flex md:hidden justify-center">
-                    <Image src="/home/202305/header-image.png" alt="service preview image" width={1270} height={563} />
+                    <div
+                        className="hide-scrollbar"
+                        style={{
+                            // height: '450px',
+                            overflow: 'hidden',
+                        }}
+                    >
+                        <div
+                            className="!pb-20"
+                            style={{
+                                height: '100%',
+                                padding: '0 2rem',
+                                width: 'fit-content',
+                                position: 'relative',
+                                // right: '100%',
+                                right: '0',
+                                transition: 'all 200ms ease',
+                            }}
+                        >
+                            <img
+                                src="/home/202305/header-image.png"
+                                alt="service preview image"
+                                className="shadow-2xl"
+                                style={{
+                                    height: '450px',
+                                    maxWidth: 'initial',
+                                }}
+                            />
+                        </div>
+                    </div>
                 </section>
             </div>
         </div>

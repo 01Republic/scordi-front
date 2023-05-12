@@ -36,7 +36,7 @@ export const EmailParsedTable = memo(() => {
                         <tr>
                             <th>Date</th>
                             <th>Service</th>
-                            <th>Billing</th>
+                            <th>Receipt</th>
                             <th className="text-right">Price</th>
                             <th></th>
                         </tr>

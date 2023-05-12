@@ -4,7 +4,7 @@ import {BetaUserApplyCTAButton} from '^components/pages/LandingPages/components/
 import {WithChildren} from '^types/global.type';
 
 interface USPSectionCenteredProps<T = FunctionComponent<any>> extends WithChildren {
-    title: string;
+    title: string | ReactElement;
     desc1?: string;
     showCTA?: boolean;
     CTAButton?: ReactElement;
@@ -15,25 +15,43 @@ export const USPSectionCentered = memo((props: USPSectionCenteredProps) => {
 
     return (
         <section className="bg-scordi-light-100 py-20">
-            <div className="container">
-                <h2
-                    className="text-center text-4xl mb-6 leading-[1.3em]"
-                    dangerouslySetInnerHTML={{__html: title}}
-                    data-aos="fade-up"
-                    data-aos-anchor-placement="center-bottom"
-                />
+            <div
+                className="container"
+                // data-aos="fade-up"
+                // data-aos-anchor-placement="center-bottom"
+            >
+                {typeof title === 'string' ? (
+                    <h2
+                        className="text-center text-3xl sm:text-4xl mb-6 !leading-snug"
+                        dangerouslySetInnerHTML={{__html: title}}
+                        // data-aos="fade-up"
+                        // data-aos-anchor-placement="center-bottom"
+                    />
+                ) : (
+                    <h2
+                        className="text-center text-3xl sm:text-4xl mb-6 !leading-snug"
+                        // data-aos="fade-up"
+                        // data-aos-anchor-placement="center-bottom"
+                    >
+                        {title}
+                    </h2>
+                )}
 
                 {desc1 && (
                     <p
                         className="text-center mb-6 font-semibold md:font-normal text-lg md:text-xl text-gray-600"
                         dangerouslySetInnerHTML={{__html: desc1}}
-                        data-aos="fade-up"
-                        data-aos-anchor-placement="center-bottom"
+                        // data-aos="fade-up"
+                        // data-aos-anchor-placement="center-bottom"
                     />
                 )}
 
                 {showCTA && (
-                    <div className="mb-6 w-full flex items-center justify-center">
+                    <div
+                        className="mb-6 w-full flex items-center justify-center"
+                        // data-aos="fade-up"
+                        // data-aos-anchor-placement="center-bottom"
+                    >
                         {CTAButton ? CTAButton : <BetaUserApplyCTAButton />}
                     </div>
                 )}

@@ -46,12 +46,16 @@ export const SummarySectionStatBalance = memo(() => {
     }, [totalPrice]);
 
     return (
-        <div className="stats shadow md:w-[20%]">
-            <div className="stat place-items-center">
-                <div className="stat-title">Total balance</div>
-                <div className={`stat-value ${!isLoaded ? 'w-full bg-slate-300 rounded-full animate-pulse' : ''}`}>
+        <div className="stats bg-[#fafafa] shadow-xl md:w-[20%]">
+            <div className="stat place-items-center py-7">
+                <div className="stat-title !text-black !opacity-100 font-semibold mb-3">총 비용</div>
+                <div
+                    className={`stat-value !text-3xl ${
+                        !isLoaded ? 'w-full bg-slate-300 rounded-full animate-pulse' : ''
+                    }`}
+                >
                     {isLoaded && <small className="mr-1">{getCurrencySymbol(totalPrice.currency)}</small>}
-                    <span id="total-balance" />
+                    <span id="total-balance" className="!text-4xl" />
                     &nbsp;
                 </div>
             </div>

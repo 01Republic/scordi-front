@@ -8,6 +8,11 @@ export const gmailAccessTokenDataAtom = atom<GoogleAccessTokenData | null>({
     default: null,
 });
 
+export const gmailItemsLoadingAtom = atom({
+    key: 'gmailItemsLoadingAtom',
+    default: false,
+});
+
 export const gmailItemsLoadedAtom = atom({
     key: 'gmailItemsLoadedAtom',
     default: false,

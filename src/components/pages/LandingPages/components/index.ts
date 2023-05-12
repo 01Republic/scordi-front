@@ -5,3 +5,4 @@ export * from './USPSection';
 export * from './USPSectionCentered';
 export * from './aos';
 export * from './Footer';
+export * from './HeadTag';

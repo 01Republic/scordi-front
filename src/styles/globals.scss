@@ -273,3 +273,12 @@ $color-scordi-light: #a5a6f5;
     }
   }
 }
+
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-right {
+  transition: all 200ms ease;
+}

@@ -27,7 +27,7 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
                         height={36}
                         className="relative top-1 mr-1"
                     />
-                    <span>Scordi</span>
+                    <span>scordi</span>
                 </a>
             </div>
             <div className="navbar-center lg:flex" />
