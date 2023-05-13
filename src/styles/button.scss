@@ -150,3 +150,14 @@ $color-scale-list: (50, 100, 200, 300, 400, 500, 600, 700, 800, 900);
 .btn-hover-init:hover {
   background-color: inherit !important;
 }
+
+.btn_google_signin_light {
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  background-image: url("/home/202305/btn_google_signin_light_normal_web@2x.png");
+  &:hover {
+    background-image: url("/home/202305/btn_google_signin_light_pressed_web@2x.png");
+  }
+}

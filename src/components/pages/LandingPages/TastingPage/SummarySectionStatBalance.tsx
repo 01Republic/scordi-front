@@ -30,7 +30,7 @@ export const SummarySectionStatBalance = memo(() => {
     }, [gmailItems, displayCurrency]);
 
     useEffect(() => {
-        // if (!totalPrice.amount) return;
+        if (!totalPrice?.amount) return;
         // const amount = currencyFormat(totalPrice.amount, totalPrice.currency);
         const option = {
             duration: 0.5,

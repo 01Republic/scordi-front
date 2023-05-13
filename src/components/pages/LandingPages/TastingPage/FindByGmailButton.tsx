@@ -62,13 +62,15 @@ export const FindByGmailButton = memo((props: FindByGmailButtonProps) => {
     return (
         <div id="tasting-handler" className={`${isLoaded ? 'active' : ''}`}>
             <div id="tasting-handler--start-button">
-                <button
-                    onClick={googleAuthForGmail}
-                    className="btn btn-lg btn-outline shadow rounded-full font-medium normal-case mb-3 space-x-4 bg-white border-slate-200 text-slate-700 hover:bg-white hover:border-primary hover:text-slate-700 focus:bg-blue-50 active:bg-primary-100"
-                >
-                    <img src="https://www.svgrepo.com/show/355037/google.svg" className="w-6 h-6" alt="" />
-                    <span>Google 계정으로 시작하기</span>
-                </button>
+                {/*<button*/}
+                {/*    onClick={googleAuthForGmail}*/}
+                {/*    className="btn btn-lg btn-outline shadow rounded-full font-medium normal-case mb-3 space-x-4 bg-white border-slate-200 text-slate-700 hover:bg-white hover:border-primary hover:text-slate-700 focus:bg-blue-50 active:bg-primary-100"*/}
+                {/*>*/}
+                {/*    <img src="https://www.svgrepo.com/show/355037/google.svg" className="w-6 h-6" alt="" />*/}
+                {/*    <span>Google 계정으로 시작하기</span>*/}
+                {/*</button>*/}
+
+                <button onClick={googleAuthForGmail} className="btn_google_signin_light w-[280px] h-[64px]"></button>
             </div>
 
             <SummarySection />

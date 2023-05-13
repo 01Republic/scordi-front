@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {LandingPageNavBar} from '^components/lab/landing-page-components';
 import {TastingPageProps} from '^pages/tasting';
 import {EmailParsedTable} from './EmailParsedTable';
-import {AOSProvider, HeadTag} from '../components';
+import {AOSProvider, BetaServiceFooter, HeadTag} from '../components';
 import {TastingPageHeader} from './TastingPageHeader';
 import {useRecoilValue} from 'recoil';
 import {gmailItemsLoadedAtom, gmailItemsLoadingAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
@@ -25,6 +25,8 @@ export const TastingPage = memo((props: TastingPageProps) => {
                         <EmailParsedTable />
                     </div>
                 </section>
+
+                <BetaServiceFooter />
             </div>
         </AOSProvider>
     );
