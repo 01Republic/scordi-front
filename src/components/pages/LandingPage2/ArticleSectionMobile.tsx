@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 
-interface ArticleSectionProps {
+interface ArticleSectionMobileProps {
     iconUrl: string;
     title: string;
     subtitle: string;
@@ -9,20 +9,16 @@ interface ArticleSectionProps {
     left?: boolean;
 }
 
-export const ArticleSection = memo((props: ArticleSectionProps) => {
+export const ArticleSectionMobile = memo((props: ArticleSectionMobileProps) => {
     const {iconUrl, title, subtitle, desc, imgUrl, left = true} = props;
 
     return (
-        <section id="section-5" className="hidden sm:flex sm:justify-center section-box pt-48 pb-24 sm:pt-14 sm:pb-10">
-            <div className={`section-5-box section-inner ${left ? '' : 'md:!flex-row-reverse !flex-col'}`}>
-                <div className="section-5-left section-desc">
-                    <div className="section-5-left-title">
+        <section id="article-section-mobile" className="flex sm:hidden section-box-mobile py-8">
+            <div className={`article-section-mobile-box section-inner`}>
+                <div className="article-section-mobile-left section-desc">
+                    <div className="article-section-mobile-left-title">
                         {/* Sub title */}
-                        <div
-                            className="title-top sm:justify-center"
-                            data-aos="fade-up"
-                            data-aos-anchor-placement="center-bottom"
-                        >
+                        <div className="title-top" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
                             <div className="inline-block w-10 mr-3">
                                 <img src={iconUrl} alt="icon" className="w-full" />
                             </div>
@@ -38,25 +34,15 @@ export const ArticleSection = memo((props: ArticleSectionProps) => {
                     </div>
                     {/* Description */}
                     <div
-                        className="section-5-left-desc flex flex-col justify-start shrink-0"
+                        className="article-section-mobile-left-desc flex flex-col shrink-0"
                         data-aos="fade-up"
                         data-aos-anchor-placement="center-bottom"
                     >
                         <p className="s-text-sm" dangerouslySetInnerHTML={{__html: desc}} />
                     </div>
-
-                    <div
-                        className="section-5-left-btn hidden md:block"
-                        data-aos="fade-up"
-                        data-aos-anchor-placement="center-bottom"
-                    >
-                        <button className="btn closeBeta-btn">클로즈베타 신청하기</button>
-                    </div>
                 </div>
 
-                <div
-                    className={`section-5-right w-2/4 sm:w-[80%] sm:pt-10 sm:pb-6 flex ${left ? 'justify-center' : ''}`}
-                >
+                <div className={`article-section-mobile-right w-[80%] flex mt-7`}>
                     <img
                         src={imgUrl}
                         alt="service preview image"
@@ -66,11 +52,11 @@ export const ArticleSection = memo((props: ArticleSectionProps) => {
                     />
                 </div>
                 <div
-                    className="section-5-left-btn block md:hidden"
+                    className="article-section-mobile-left-btn"
                     data-aos="fade-up"
                     data-aos-anchor-placement="center-bottom"
                 >
-                    <button className="btn closeBeta-btn">클로즈베타 신청하기</button>
+                    <button className="btn closeBeta-btn mt-5">클로즈베타 신청하기</button>
                 </div>
             </div>
         </section>
