@@ -49,8 +49,14 @@ export const BetaServiceFooter = memo(() => {
                 <div className="pt-[24px] pb-[30px]">
                     <p className="text-[15px] font-semibold mb-[16px]">스코디 기본약관</p>
                     <ul className="menu menu-horizontal gap-7 text-[13px] text-gray-500">
-                        <TermLinkItem href="#" name="서비스 이용약관" />
-                        <TermLinkItem href="#" name="개인정보 처리방침" />
+                        <TermLinkItem
+                            href="https://api.scordi.io/terms/serviceUsageTerm-v20221101-1.txt"
+                            name="서비스 이용약관"
+                        />
+                        <TermLinkItem
+                            href="https://api.scordi.io/terms/개인정보처리방침-v20221101-1.html"
+                            name="개인정보 처리방침"
+                        />
                     </ul>
                 </div>
 
