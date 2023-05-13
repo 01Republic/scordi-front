@@ -62,8 +62,7 @@ export const BetaServiceFooter = memo(() => {
                     />
                     <SocialIcon
                         name="Scordi Instagram"
-                        href="#"
-                        target="_self"
+                        href="https://instagram.com/saas.scordi?igshid=NTc4MTIwNjQ2YQ=="
                         imgSrc="https://static.toss.im/assets/homepage/safety/icn-instagram.svg"
                     />
                 </ul>
@@ -102,7 +101,7 @@ const SocialIcon = memo((props: SocialIconProps) => {
     return (
         <li className="p-footer__social-list-item mr-[8px]">
             <a
-                className="w-[36px] h-[36px] cursor-pointer inline-block opacity-70 rounded-full"
+                className="w-[36px] h-[36px] cursor-pointer inline-block opacity-70 rounded-full hover:opacity-100"
                 style={{transition: 'opacity .2s ease'}}
                 aria-label={name}
                 target={target}

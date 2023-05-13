@@ -13,7 +13,7 @@ export const HomePageHeader = memo(() => {
                 const section = img.closest('section')!;
                 const sectionRect = section.getClientRects()[0];
                 if (sectionRect) {
-                    const size = 'calc(860px - 100% + 4rem)';
+                    const size = 'calc(750px - 100% + 4rem)';
                     moveTarget.style.right = sectionRect.bottom <= window.innerHeight ? size : '0';
                 }
             });
@@ -67,7 +67,7 @@ export const HomePageHeader = memo(() => {
                 {/* pc */}
                 <section className="hidden md:flex justify-center container">
                     <img
-                        className="sm:max-w-[80%] md:max-w-[80%]"
+                        className="sm:max-w-[80%] md:max-w-[70%]"
                         src="/home/202305/tasting/header-image.png"
                         alt="service preview image"
                     />

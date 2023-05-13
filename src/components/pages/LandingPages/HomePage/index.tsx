@@ -11,7 +11,6 @@ import {TastingPageRoute} from '^pages/tasting';
 import {useRouter} from 'next/router';
 import {useRecoilState} from 'recoil';
 import {gmailAccessTokenDataAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
-import {ChannelTalkCDN} from '^components/lib/channel-talk/ChannelTalkCDN';
 
 type LandingV2HomePageProps = {} & WithChildren;
 
