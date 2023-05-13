@@ -56,13 +56,14 @@ export const BetaServiceFooter = memo(() => {
 
                 <ul className="flex list-none">
                     <SocialIcon
-                        name="TossPayments KakaoTalk"
+                        name="Scordi KakaoTalk"
                         href="https://pf.kakao.com/_AZZPxj?utm_source=kakaochannel&utm_medium=link&utm_campaign=homepage"
                         imgSrc="https://static.toss.im/assets/homepage/safety/icn-kakao.svg"
                     />
                     <SocialIcon
-                        name="TossPayments Instagram"
-                        href="https://www.instagram.com/toss.business/?utm_source=instagram&utm_medium=link&utm_campaign=hompage"
+                        name="Scordi Instagram"
+                        href="#"
+                        target="_self"
                         imgSrc="https://static.toss.im/assets/homepage/safety/icn-instagram.svg"
                     />
                 </ul>
