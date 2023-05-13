@@ -1,6 +1,14 @@
 import React, {memo, useEffect} from 'react';
 import {WithChildren} from '^types/global.type';
-import {AOSProvider, BetaServiceFooter, HeadTag, USPSection, USPSectionCentered} from '../components';
+import {
+    AOSProvider,
+    BetaServiceFooter,
+    BetaUserApplyCTAButton,
+    BetaUserApplyModal,
+    HeadTag,
+    USPSection,
+    USPSectionCentered,
+} from '../components';
 import {LandingPageNavBar} from '^components/lab/landing-page-components';
 import {HomePageHeader} from './Header';
 import {HeaderSubLine} from '^components/pages/LandingPages/HomePage/HeaderSubLine';
@@ -89,6 +97,8 @@ export const LandingV2HomePage = memo((props: LandingV2HomePageProps) => {
                 </USPSectionCentered>
 
                 <BetaServiceFooter />
+
+                <BetaUserApplyModal />
             </div>
         </AOSProvider>
     );

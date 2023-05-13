@@ -21,8 +21,9 @@ export const BetaUserApplyModal = memo(() => {
     const form = useForm<BetaUserApplyModalFormData>();
 
     const onSubmit = (data: BetaUserApplyModalFormData) => {
+        console.log(data);
         sendSlackNotificationApi({
-            title: '*[마케터 타겟실험-1] 사전알림 신청이 접수되었습니다!*',
+            title: '*[실험-2023.05.13] 사전알림 신청이 접수되었습니다!*',
             fields: [
                 {label: '성함', value: data.name},
                 {label: '회사명', value: data.company},
@@ -42,16 +43,13 @@ export const BetaUserApplyModal = memo(() => {
             <label
                 htmlFor="my-modal-4"
                 className={`modal cursor-pointer ${isModalOpen ? 'modal-open' : ''}`}
-                onClick={() => setModalOpen(false)}
+                onClick={(e) => {
+                    const clickedElem = e.target as any;
+                    const isBackdrop = clickedElem.classList.contains('modal-open');
+                    if (isBackdrop) setModalOpen(false);
+                }}
             >
-                <label
-                    className="modal-box relative"
-                    htmlFor=""
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                    }}
-                >
+                <div className="modal-box relative">
                     <div className="card flex-shrink-0 w-full bg-base-100">
                         <div className="card-body p-5">
                             <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -105,7 +103,7 @@ export const BetaUserApplyModal = memo(() => {
                             </form>
                         </div>
                     </div>
-                </label>
+                </div>
             </label>
         </>
     );
