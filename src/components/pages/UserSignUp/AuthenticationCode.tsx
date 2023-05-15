@@ -1,8 +1,18 @@
-import {memo, useEffect, useState} from 'react';
+import {memo, useCallback, useEffect, useState} from 'react';
 import {toast} from 'react-toastify';
 
-export const Timer = memo(() => {
-    const MINUTES_IN_MS = 5 * 60 * 1000;
+interface TimerProps {
+    sec?: number; // 5min default.
+    onFinish?: () => any;
+    resettable?: boolean;
+}
+
+const SEC = 5 * 60;
+const ON_FINISH = () => toast.info('Timeout!');
+
+export const Timer = memo((props: TimerProps) => {
+    const {sec = SEC, onFinish = ON_FINISH, resettable = false} = props;
+    const MINUTES_IN_MS = sec * 1000;
     const INTERVAL = 1000;
     const [timeLeft, setTimeLeft] = useState<number>(MINUTES_IN_MS);
 
@@ -16,7 +26,7 @@ export const Timer = memo(() => {
 
         if (timeLeft <= 0) {
             clearInterval(timer);
-            toast.info('Please check your code');
+            onFinish();
         }
 
         return () => {
@@ -24,8 +34,10 @@ export const Timer = memo(() => {
         };
     }, [timeLeft]);
 
+    const reset = useCallback(() => setTimeLeft(MINUTES_IN_MS), [MINUTES_IN_MS]);
+
     return (
-        <div>
+        <div onClick={(timeLeft === 0 && resettable && reset) || undefined}>
             {minutes} : {second}
         </div>
     );

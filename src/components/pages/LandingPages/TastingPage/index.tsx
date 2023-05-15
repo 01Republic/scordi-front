@@ -5,7 +5,7 @@ import {EmailParsedTable} from './EmailParsedTable';
 import {AOSProvider, BetaServiceFooter, HeadTag} from '../components';
 import {TastingPageHeader} from './TastingPageHeader';
 import {useRecoilValue} from 'recoil';
-import {gmailItemsLoadedAtom, gmailItemsLoadingAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
+import {gmailItemsLoadedAtom, gmailItemsLoadingAtom} from './pageAtoms';
 import {TastingPageLoadedHeader} from './TastingPageLoadedHeader';
 
 export const TastingPage = memo((props: TastingPageProps) => {

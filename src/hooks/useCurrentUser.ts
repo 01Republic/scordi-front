@@ -106,3 +106,19 @@ export function useCurrentUser(fallbackPath?: string | null) {
         setAuthenticatedUserData,
     };
 }
+
+export const useSocialLogin = () => {
+    const router = useRouter();
+    const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
+
+    return (data: UserSocialLoginRequestDto, href?: string): Promise<UserDto> => {
+        return postUserSessionBySocialAccount(data)
+            .then(({data: {token}}) => setToken(token))
+            .then(() => getUserSession())
+            .then(({data: user}) => {
+                setCurrentUser(user);
+                if (href) router.push(href);
+                return user;
+            });
+    };
+};

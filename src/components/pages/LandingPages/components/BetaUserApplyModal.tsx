@@ -3,6 +3,8 @@ import {useForm} from 'react-hook-form';
 import {sendSlackNotificationApi} from '^api/utils.api';
 import {toast} from 'react-toastify';
 import {atom, useRecoilState} from 'recoil';
+import {useRouter} from 'next/router';
+import {useCalendly} from '^components/pages/LandingPages/components/calendly';
 
 type BetaUserApplyModalFormData = {
     name: string;
@@ -16,9 +18,16 @@ export const BetaUserApplyModalShowAtom = atom({
     default: false,
 });
 
-export const BetaUserApplyModal = memo(() => {
+export interface BetaUserApplyModalProps {
+    redirect?: boolean;
+}
+
+export const BetaUserApplyModal = memo((props: BetaUserApplyModalProps) => {
+    const {redirect = false} = props;
+    const router = useRouter();
     const [isModalOpen, setModalOpen] = useRecoilState(BetaUserApplyModalShowAtom);
     const form = useForm<BetaUserApplyModalFormData>();
+    const {startCalendly} = useCalendly();
 
     const onSubmit = (data: BetaUserApplyModalFormData) => {
         console.log(data);
@@ -32,8 +41,9 @@ export const BetaUserApplyModal = memo(() => {
                 {label: '신청일시', value: new Date().toLocaleString()},
             ],
         }).then(() => {
-            toast('신청해주셔서 감사합니다.');
             setModalOpen(false);
+            startCalendly();
+            // toast('신청해주셔서 감사합니다.');
         });
     };
 
@@ -98,7 +108,7 @@ export const BetaUserApplyModal = memo(() => {
                                     />
                                 </div>
                                 <div className="form-control mt-6">
-                                    <button className="btn btn-primary">제출하기</button>
+                                    <button className="btn btn-scordi-500">제출하기</button>
                                 </div>
                             </form>
                         </div>

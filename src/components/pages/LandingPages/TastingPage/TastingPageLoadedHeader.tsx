@@ -1,19 +1,23 @@
 import React, {memo, useEffect} from 'react';
 import {FindByGmailButton} from './FindByGmailButton';
 import {WithChildren} from '^types/global.type';
-import {useRecoilState, useRecoilValue} from 'recoil';
-import {
-    gmailItemsLoadedAtom,
-    gmailItemsLoadingAtom,
-    gmailProfileAtom,
-} from '^components/pages/LandingPages/TastingPage/pageAtoms';
-import {useOnResize} from '^hooks/useOnResize';
-import {SummarySection2} from '^components/pages/LandingPages/TastingPage/SummarySection';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {gmailItemsLoadedAtom, gmailItemsLoadingAtom, gmailProfileAtom} from './pageAtoms';
+import {SummarySection2} from './SummarySection';
+import {useRouter} from 'next/router';
+import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
 
 export const TastingPageLoadedHeader = memo(({children}: WithChildren) => {
+    const router = useRouter();
     const isLoading = useRecoilValue(gmailItemsLoadingAtom);
     const isLoaded = useRecoilValue(gmailItemsLoadedAtom);
     const gmailProfile = useRecoilValue(gmailProfileAtom);
+
+    useEffect(() => {
+        if (!gmailProfile) return;
+
+        window.localStorage.setItem('scordi/tasting/gmailProfile', JSON.stringify(gmailProfile));
+    }, [gmailProfile]);
 
     if (!isLoaded) return <div />;
 
@@ -36,7 +40,12 @@ export const TastingPageLoadedHeader = memo(({children}: WithChildren) => {
                             </p>
 
                             <div className="py-7 mb-6">
-                                <button className="btn btn-scordi-500 rounded-2xl shadow-xl">
+                                <button
+                                    className="btn btn-scordi-500 rounded-2xl shadow-xl"
+                                    onClick={() => {
+                                        router.push(SignPhoneAuthPageRoute.path());
+                                    }}
+                                >
                                     지금 바로 무료 체험하기
                                 </button>
                             </div>
