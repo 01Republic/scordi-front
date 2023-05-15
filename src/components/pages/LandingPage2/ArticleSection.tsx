@@ -13,20 +13,23 @@ export const ArticleSection = memo((props: ArticleSectionProps) => {
     const {iconUrl, title, subtitle, desc, imgUrl, left = true} = props;
 
     return (
-        <section id="section-5" className="hidden sm:flex sm:justify-center section-box pt-48 pb-24 sm:pt-14 sm:pb-10">
-            <div className={`section-5-box section-inner ${left ? '' : 'md:!flex-row-reverse !flex-col'}`}>
+        <section
+            id="section-5"
+            className="hidden sm:flex sm:justify-center section-box pt-14 pb-10 lg:pt-20 lg:pb-12 lg:text-left"
+        >
+            <div className={`section-5-box section-inner ${left ? '' : 'lg:!flex-row-reverse !flex-col'}`}>
                 <div className="section-5-left section-desc">
                     <div className="section-5-left-title">
                         {/* Sub title */}
                         <div
-                            className="title-top sm:justify-center"
+                            className="title-top justify-center lg:justify-start"
                             data-aos="fade-up"
                             data-aos-anchor-placement="center-bottom"
                         >
                             <div className="inline-block w-10 mr-3">
                                 <img src={iconUrl} alt="icon" className="w-full" />
                             </div>
-                            <p className="s-text-top mt-1">{subtitle}</p>
+                            <p className="s-text-top mt-1 lg:mt-2">{subtitle}</p>
                         </div>
                         {/* Title */}
                         <h2
@@ -46,7 +49,7 @@ export const ArticleSection = memo((props: ArticleSectionProps) => {
                     </div>
 
                     <div
-                        className="section-5-left-btn hidden md:block"
+                        className="section-5-left-btn hidden lg:block"
                         data-aos="fade-up"
                         data-aos-anchor-placement="center-bottom"
                     >
@@ -55,7 +58,9 @@ export const ArticleSection = memo((props: ArticleSectionProps) => {
                 </div>
 
                 <div
-                    className={`section-5-right w-2/4 sm:w-[80%] sm:pt-10 sm:pb-6 flex ${left ? 'justify-center' : ''}`}
+                    className={`section-5-right w-2/4 sm:w-[80%] lg:w-[45%] sm:pt-10 sm:pb-6 lg:py-0 flex ${
+                        left ? 'justify-center lg:justify-end' : ''
+                    }`}
                 >
                     <img
                         src={imgUrl}
@@ -66,7 +71,7 @@ export const ArticleSection = memo((props: ArticleSectionProps) => {
                     />
                 </div>
                 <div
-                    className="section-5-left-btn block md:hidden"
+                    className="section-5-left-btn block lg:hidden"
                     data-aos="fade-up"
                     data-aos-anchor-placement="center-bottom"
                 >

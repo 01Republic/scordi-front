@@ -7,6 +7,8 @@
     }
 }
 
+// md, 768px 이상부터 다시 해주면 됨.
+
 #mainPage {
     // *** ex) min-width: 640px === 640px 이상인 애들에 적용된다.
     // $sm 이하는 태블릿
@@ -118,58 +120,58 @@
             align-items: center;
             gap: 2rem;
         }
+    }
 
-        // @media (min-width: $md) {
-        //     .h1-text {
-        //         font-size: 3rem;
-        //         line-height: 4.1rem;
-        //     }
+    @media (min-width: $lg) {
+        .section-box {
+            .section-inner {
+                flex-direction: row;
+                gap: 7rem;
+            }
 
-        //     .h2-text {
-        //         font-size: 2.6rem;
-        //         line-height: 3.5rem;
-        //     }
+            .h1-text {
+                font-size: 2.7rem;
+                line-height: 3.7rem;
+            }
 
-        //     .body-text {
-        //         font-size: 1.4rem;
-        //         line-height: 2.3rem;
-        //     }
+            .body-text {
+                font-size: 1.3rem;
+                line-height: 2.2rem;
+            }
 
-        //     .s-text-sm {
-        //         font-size: 1.2rem;
-        //         line-height: 2rem;
-        //     }
+            .s-text-sm {
+                font-size: 1.2rem;
+                line-height: 2.1rem;
+            }
 
-        //     .s-text-xl {
-        //         font-size: 3.7rem;
-        //     }
+            .s-text-xl {
+                font-size: 3.2rem;
+            }
 
-        //     .s-text-top {
-        //         font-size: 1.5rem;
-        //     }
+            .s-text-top {
+                font-size: 1.5rem;
+            }
 
-        //     .closeBeta-btn {
-        //         width: 13rem;
-        //         height: 4rem;
-        //         color: #fff;
-        //         font-size: 1rem;
-        //     }
+            .closeBeta-btn {
+                width: 13rem;
+                height: 4.2rem;
+                padding: 1rem;
+                font-size: 1.1rem;
+                font-weight: 500;
+            }
 
-        //     .subscribe-btn {
-        //         width: 8rem;
-        //         height: 3.6rem;
-        //         padding: 1rem 1rem;
-        //         font-size: 1rem;
-        //     }
+            .subscribe-btn {
+                width: 8rem;
+                padding: 1rem;
+                font-size: 1rem;
+            }
 
-        //     .section-desc {
-        //         gap: 1.8rem;
-
-        //         .title-top {
-        //             margin-bottom: 1.2rem;
-        //         }
-        //     }
-        // }
+            .section-desc {
+                justify-content: flex-start;
+                align-items: flex-start;
+                gap: 1.7rem;
+            }
+        }
     }
 
     .section-box-mobile {
@@ -271,12 +273,6 @@
         }
     }
 
-    // @media (min-width: $md) {
-    //     .section-box {
-    //         width: 75%;
-    //     }
-    // }
-
     #section-2 {
         mask-image: linear-gradient(
             to right,
@@ -296,6 +292,21 @@
                     height: 100%;
                     object-fit: contain;
                     margin: 0 auto;
+                }
+            }
+        }
+
+        @media (min-width: $lg) {
+            .logos-slide-box {
+                .logos-slide {
+                    width: 6rem;
+                    height: 2.8rem;
+
+                    .logo-img {
+                        height: 100%;
+                        object-fit: contain;
+                        margin: 0 auto;
+                    }
                 }
             }
         }
@@ -345,13 +356,15 @@
                 color: #000;
                 letter-spacing: -0.025em;
             }
+        }
 
-            // @media (min-width: $sm) {
-            //     .s3-image {
-            //         width: 45%;
-            //         margin: 0 1.5rem;
-            //     }
-            // }
+        @media (min-width: $lg) {
+            .section-3-image-box {
+                .s3-image {
+                    width: 70%;
+                    margin-bottom: 0.5rem;
+                }
+            }
         }
     }
 
@@ -399,19 +412,12 @@
             background: #f3f6f6;
         }
 
-        // @media (min-width: $md) {
-        //     .section-4-box {
-        //         gap: 1.7rem;
-        //         height: 45rem;
-        //     }
-        // }
-
-        // @media (min-width: $sm) {
-        //     .section-4-box {
-        //         gap: 1.8rem;
-        //         height: 47rem;
-        //     }
-        // }
+        @media (min-width: $lg) {
+            .section-4-box {
+                gap: 1.9rem;
+                height: 48rem;
+            }
+        }
     }
 
     #section-4-mobile {
