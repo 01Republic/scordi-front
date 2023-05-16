@@ -4,6 +4,7 @@ import {useSetRecoilState} from 'recoil';
 import {BetaUserApplyModalShowAtom} from './BetaUserApplyModal';
 
 interface BetaUserApplyCTAButtonProps {
+    text?: string;
     reverseColor?: boolean;
     useArrow?: boolean;
     mobileShow?: boolean;
@@ -12,7 +13,7 @@ interface BetaUserApplyCTAButtonProps {
 
 export const BetaUserApplyCTAButton = memo((props: BetaUserApplyCTAButtonProps) => {
     const setIsModalOpen = useSetRecoilState(BetaUserApplyModalShowAtom);
-    const {reverseColor = false, useArrow = false, mobileShow = false, aos = true} = props;
+    const {text = '', reverseColor = false, useArrow = false, mobileShow = false, aos = true} = props;
 
     const dataAos: any = {};
     if (aos) {
@@ -29,7 +30,7 @@ export const BetaUserApplyCTAButton = memo((props: BetaUserApplyCTAButtonProps) 
             {...dataAos}
             onClick={() => setIsModalOpen(true)}
         >
-            <span>사전알림 신청하기</span>
+            <span>{text || '사전알림 신청하기'}</span>
             {useArrow && <BsArrowRight size={20} className="ml-2" />}
         </label>
     );

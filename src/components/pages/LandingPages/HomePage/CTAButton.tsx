@@ -19,7 +19,7 @@ export const HomePageCTAButton = memo((props: HomePageCTAButtonProps) => {
     //         <span>{text || 'Google 계정으로 시작하기'}</span>
     //     </button>
     // );
-    return <BetaUserApplyCTAButton aos={false} />;
+    return <BetaUserApplyCTAButton aos={false} mobileShow={true} />;
 });
 
 export const HomePageCTAButton2 = memo((props: HomePageCTAButtonProps) => {
@@ -30,5 +30,5 @@ export const HomePageCTAButton2 = memo((props: HomePageCTAButtonProps) => {
     //         {text}
     //     </button>
     // );
-    return <BetaUserApplyCTAButton aos={false} />;
+    return <BetaUserApplyCTAButton aos={false} mobileShow={true} text={text} />;
 });
