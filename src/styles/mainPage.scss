@@ -7,7 +7,8 @@
     }
 }
 
-// md, 768px 이상부터 다시 해주면 됨.
+// xl, 1280px 이상부터 하면 끝
+// 리팩토링도 하기
 
 #mainPage {
     // *** ex) min-width: 640px === 640px 이상인 애들에 적용된다.
@@ -15,7 +16,7 @@
     $sm: '640px'; // 태블릿
     $md: '768px';
     $lg: '1024px';
-    $xl: '1280px';
+    $xl: '1280px'; // 데스크탑
 
     display: flex;
     flex-direction: column;
@@ -174,6 +175,55 @@
         }
     }
 
+    @media (min-width: $xl) {
+        .section-box {
+            .h1-text {
+                font-size: 3rem;
+                line-height: 4rem;
+            }
+
+            .h2-text {
+                font-size: 2.5rem;
+                line-height: 3.4rem;
+            }
+
+            .body-text {
+                font-size: 1.5rem;
+                line-height: 2.4rem;
+            }
+
+            .s-text-sm {
+                font-size: 1.3rem;
+                line-height: 2.2rem;
+            }
+
+            .s-text-xl {
+                font-size: 4.3rem;
+            }
+
+            .s-text-top {
+                font-size: 1.8rem;
+            }
+
+            .closeBeta-btn {
+                width: 13.5rem;
+                height: 4.3rem;
+                padding: 1rem 2rem;
+                font-size: 1.125rem;
+            }
+
+            .subscribe-btn {
+                width: 9rem;
+                padding: 1rem 1.5rem;
+                font-size: 1.125rem;
+            }
+
+            .section-desc {
+                gap: 2rem;
+            }
+        }
+    }
+
     .section-box-mobile {
         width: 80%;
 
@@ -301,12 +351,15 @@
                 .logos-slide {
                     width: 6rem;
                     height: 2.8rem;
+                }
+            }
+        }
 
-                    .logo-img {
-                        height: 100%;
-                        object-fit: contain;
-                        margin: 0 auto;
-                    }
+        @media (min-width: $xl) {
+            .logos-slide-box {
+                .logos-slide {
+                    width: 8rem;
+                    height: 3rem;
                 }
             }
         }
@@ -366,6 +419,14 @@
                 }
             }
         }
+
+        @media (min-width: $xl) {
+            .section-3-image-box {
+                .s3-image {
+                    width: 65%;
+                }
+            }
+        }
     }
 
     #section-3-mobile {
@@ -416,6 +477,14 @@
             .section-4-box {
                 gap: 1.9rem;
                 height: 48rem;
+            }
+        }
+
+        @media (min-width: $xl) {
+            .section-4-box {
+                gap: 2.2rem;
+                height: 57rem;
+                padding: 4.5rem 2rem 4rem 2rem;
             }
         }
     }
