@@ -15,7 +15,7 @@ export const ArticleSection = memo((props: ArticleSectionProps) => {
     return (
         <section
             id="section-5"
-            className="hidden sm:flex sm:justify-center section-box pt-14 pb-10 lg:pt-20 lg:pb-12 lg:text-left"
+            className="hidden sm:flex justify-center section-box pt-12 pb-10 lg:pt-20 lg:pb-12 lg:text-left"
         >
             <div
                 className={`section-5-box section-inner xl:w-full xl:px-16 ${
@@ -62,7 +62,7 @@ export const ArticleSection = memo((props: ArticleSectionProps) => {
                 </div>
 
                 <div
-                    className={`section-5-right w-2/4 sm:w-[80%] lg:w-[45%] xl:w-[42%] sm:pt-10 sm:pb-6 lg:py-0 flex ${
+                    className={`section-5-right w-[80%] pt-10 pb-6 lg:w-[42%] xl:w-[42%] lg:py-0 flex ${
                         left ? 'justify-center lg:justify-end' : ''
                     }`}
                 >

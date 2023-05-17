@@ -20,9 +20,9 @@ export const ImageBox = memo((props: ImageBoxProps) => {
                 data-aos="fade-up"
                 data-aos-anchor-placement="center-bottom"
             >
-                <span className="s-text-sm mr-2 sm:mr-3 lg:mr-2">{leftTxt}</span>
+                <span className="s-text-sm mr-3 lg:mr-2">{leftTxt}</span>
                 <span className="s-text-xl">{centerNum}%</span>
-                <span className="s-text-sm ml-2 sm:mr-3 lg:mr-2">{rightTxt}</span>
+                <span className="s-text-sm ml-2">{rightTxt}</span>
             </div>
         </div>
     );

@@ -20,7 +20,7 @@ export function LandingPage2() {
         '/images/logo/logo_notion.png',
         '/images/logo/logo_figma.png',
         '/images/logo/logo_notion.png',
-        '/images/logo/logo_notion.png',
+        '/images/logo/logo_figma.png',
         '/images/logo/logo_notion.png',
     ];
 
@@ -34,12 +34,9 @@ export function LandingPage2() {
             <Header />
 
             {/* section 1 */}
-            <section
-                id="section-1"
-                className="hidden sm:flex section-box pt-8 sm:ml-0 md:pt-5 lg:pt-12 lg:ml-12 xl:ml-24"
-            >
+            <section id="section-1" className="hidden sm:flex section-box pt-8 md:pt-5 lg:pt-12 lg:ml-12 xl:ml-24">
                 <div className="section-1-box section-inner lg:!gap-0">
-                    <div className="section-1-head flex flex-col flex-nowrap sm:items-center lg:items-start gap-9 lg:gap-7 xl:gap-10 lg:text-left">
+                    <div className="section-1-head flex flex-col flex-nowrap items-center lg:items-start gap-9 lg:gap-7 xl:gap-10 lg:text-left">
                         <div className="section-1-left-title">
                             <h1 className="h1-text">
                                 구독 서비스 관리를
@@ -62,7 +59,7 @@ export function LandingPage2() {
                             <button className="btn closeBeta-btn">클로즈베타 신청하기</button>
                         </div>
                     </div>
-                    <div className="section-1-body sm:w-full lg:w-[58%] xl:w-[63%] sm:py-10 xl:py-0">
+                    <div className="section-1-body sm:w-full lg:w-[58%] xl:w-[63%] my-10 xl:py-0">
                         <img src="/home/image1.png" alt="service preview image" className="w-full" />
                     </div>
                     <div className="section-1-left-btn">
@@ -108,7 +105,7 @@ export function LandingPage2() {
             </section>
 
             {/* section 2: logo-slide */}
-            <section id="section-2" className="hidden sm:flex section-box py-28 sm:py-24 lg:py-32 xl:py-48">
+            <section id="section-2" className="hidden sm:flex section-box py-28 md:py-[7.5rem] lg:py-32 xl:py-48">
                 <div className="section-inner">
                     <ul className="logos-slide-box inline-flex justify-between items-start">
                         {imgUrls.map((url, i) => (
@@ -144,7 +141,7 @@ export function LandingPage2() {
                             </p>
                         </div>
                     </div>
-                    <div className="section-3-body flex sm:flex-col lg:flex-row my-14">
+                    <div className="section-3-body flex flex-col lg:flex-row my-14">
                         <ImageBox
                             imgUrl="/images/illustration/section3_img01.png"
                             leftTxt="미팅 수립률"
@@ -208,13 +205,13 @@ export function LandingPage2() {
             </section>
 
             {/* section 4 */}
-            <section id="section-4" className="hidden sm:flex section-box !w-full text-center lg:mb-10 xl:mb-14">
+            <section id="section-4" className="hidden sm:flex section-box !w-full text-center mb-7 lg:mb-9 xl:mb-14">
                 <div className="section-4-box">
                     <div className="section-4-head" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
                         <h1 className="text-4xl lg:text-[2.5rem] xl:text-5xl">고객은 기다리지 않습니다</h1>
                     </div>
                     <div
-                        className="section-4-img w-[50rem] sm:w-[80%] lg:w-[65%] xl:w-[61%]"
+                        className="section-4-img w-[87%] lg:w-[65%] xl:w-[61%]"
                         data-aos="fade-up"
                         data-aos-anchor-placement="center-bottom"
                     >
@@ -356,7 +353,7 @@ export function LandingPage2() {
             {/* aside */}
             <aside
                 id="section-aside"
-                className="hidden sm:flex justify-center items-center w-full h-52 lg:h-56 xl:h-60 sm:h-auto sm:py-12 lg:mt-10 xl:mt-14 bg-[#f3f6f6]"
+                className="hidden sm:flex justify-center items-center w-full h-[22rem] mt-7 lg:h-56 xl:h-60 lg:mt-9 xl:mt-14 bg-[#f3f6f6]"
             >
                 <div className="section-box flex flex-col lg:flex-row justify-between items-center m-auto lg:text-left">
                     <div className="aside-left">
@@ -366,7 +363,7 @@ export function LandingPage2() {
                             놓치지 마세요
                         </h2>
                     </div>
-                    <div className="aside-right flex justify-end sm:w-full md:w-[80%] lg:w-[45%] xl:w-[40%] pt-5 lg:pt-0">
+                    <div className="aside-right flex justify-end w-[93%] md:w-[80%] lg:w-[45%] xl:w-[40%] pt-5 lg:pt-0">
                         <div className="w-full">
                             <p
                                 className="s-text-sm aside-text mb-3 xl:mb-4"
@@ -468,8 +465,10 @@ export function LandingPage2() {
                         </div>
                     </div>
                     <hr />
-                    <div className="py-6 sm:py-8">
-                        <p className="sm:text-lg text-black opacity-60">© 2022 01Republic, Inc. All Rights Reserved.</p>
+                    <div className="py-6 sm:py-7">
+                        <p className="sm:text-[1.1rem] text-black opacity-60">
+                            © 2022 01Republic, Inc. All Rights Reserved.
+                        </p>
                     </div>
                 </div>
             </footer>
