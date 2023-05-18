@@ -1,7 +1,7 @@
 import React from 'react';
 import {useRouter} from 'next/router';
 import {pathRoute} from '^types/pageRoute.type';
-import {CalendlyWelcomePage} from '^components/pages/LandingPages/CalendlyWelcomePage';
+import {WelcomePage} from '^components/pages/LandingPages/WelcomePage';
 
 export const SignWelcomePageRoute = pathRoute({
     pathname: '/sign/welcome',
@@ -11,5 +11,5 @@ export const SignWelcomePageRoute = pathRoute({
 export default function SignWelcomePage() {
     const router = useRouter();
 
-    return <CalendlyWelcomePage />;
+    return <WelcomePage />;
 }

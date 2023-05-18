@@ -1,10 +1,9 @@
 import React, {memo} from 'react';
 import {useForm} from 'react-hook-form';
 import {sendSlackNotificationApi} from '^api/utils.api';
-import {toast} from 'react-toastify';
 import {atom, useRecoilState} from 'recoil';
 import {useRouter} from 'next/router';
-import {useCalendly} from '^components/pages/LandingPages/components/calendly';
+import {SignWelcomePageRoute} from '^pages/sign/welcome';
 
 type BetaUserApplyModalFormData = {
     name: string;
@@ -27,7 +26,6 @@ export const BetaUserApplyModal = memo((props: BetaUserApplyModalProps) => {
     const router = useRouter();
     const [isModalOpen, setModalOpen] = useRecoilState(BetaUserApplyModalShowAtom);
     const form = useForm<BetaUserApplyModalFormData>();
-    const {startCalendly} = useCalendly();
 
     const onSubmit = (data: BetaUserApplyModalFormData) => {
         console.log(data);
@@ -42,8 +40,7 @@ export const BetaUserApplyModal = memo((props: BetaUserApplyModalProps) => {
             ],
         }).then(() => {
             setModalOpen(false);
-            startCalendly();
-            // toast('신청해주셔서 감사합니다.');
+            router.push(SignWelcomePageRoute.path());
         });
     };
 
