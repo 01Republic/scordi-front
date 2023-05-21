@@ -1,0 +1,141 @@
+import {ForwardedRef, forwardRef, memo, useEffect, useState} from 'react';
+import {atom, useRecoilState, useRecoilValue} from 'recoil';
+import {IoClose} from '@react-icons/all-files/io5/IoClose';
+import {UserAvatar} from '^v3/share/UserAvatar';
+import {useCurrentUser} from '^hooks/useCurrentUser';
+import {currentOrgAtom} from '^atoms/organizations.atom';
+import {MembershipDto} from '^types/membership.type';
+
+export const userEditModalIsShow = atom({
+    key: 'v3/userEditModalIsShow',
+    default: false,
+});
+
+export const UserEditModal = memo(() => {
+    const [isShow, setIsShow] = useRecoilState(userEditModalIsShow);
+    const currentOrg = useRecoilValue(currentOrgAtom);
+    const {currentUser} = useCurrentUser(undefined, {
+        orgIdParam: 'orgId',
+    });
+    const [currentMembership, setCurrentMembership] = useState<null | MembershipDto>(null);
+
+    useEffect(() => {
+        if (!currentUser || !currentOrg) return;
+
+        const membership = currentOrg.memberships?.find((membership) => {
+            return membership.userId === currentUser.id;
+        });
+        if (membership) setCurrentMembership(membership);
+    }, [currentUser, currentOrg]);
+
+    const close = () => setIsShow(false);
+    const prevent = (e: any) => {
+        e.stopPropagation();
+        e.preventDefault();
+    };
+
+    console.log(currentMembership);
+    if (!currentUser || !currentOrg || !currentMembership) return <></>;
+
+    return (
+        <div className={`modal cursor-pointer ${isShow ? 'modal-open' : ''}`} onClick={close}>
+            <div className="modal-box px-12 py-10 cursor-default md:max-w-md lg:max-w-3xl" onClick={prevent}>
+                <div className="flex justify-between items-center mb-10 sticky top-0 bg-base-100 z-10">
+                    <h3 className="font-bold text-lg flex-1">내 계정</h3>
+                    <button onClick={close} className="btn btn-link p-0 text-gray-500 hover:text-gray-900">
+                        <IoClose size={26} />
+                    </button>
+                </div>
+
+                <div className="grid grid-cols-3">
+                    <div className="col-span-1">
+                        <UserAvatar user={currentUser} size="w-32" textClass="!text-2xl" />
+                    </div>
+
+                    <div className="col-span-2">
+                        <h4 className="font-bold text-lg">{currentUser.name}</h4>
+
+                        <p className="text-gray-700 text-14 capitalize">
+                            {currentMembership?.level?.toLowerCase()} @{currentOrg.name}
+                        </p>
+
+                        <div className="flex flex-col gap-3 my-7">
+                            <p className="text-gray-900 font-[500] text-14 flex gap-4">
+                                <span className="w-[100px]">휴대전화 번호</span>
+                                <span>{currentUser.phone}</span>
+                            </p>
+                            <p className="text-gray-900 font-[500] text-14 flex gap-4">
+                                <span className="w-[100px]">이메일</span>
+                                <span>{currentUser.email}</span>
+                            </p>
+                        </div>
+
+                        <a className="link link-primary no-underline text-sm">비밀번호 변경하기</a>
+
+                        <div className="divider my-7"></div>
+
+                        <div className="flex flex-col gap-4 mb-7">
+                            <p className="text-sm font-semibold">알림</p>
+
+                            <SwitchBox
+                                title="Email"
+                                desc={`${currentUser.email}으로 scordi 관련 알림 메일이 발송됩니다.`}
+                                checked={true}
+                                onChange={console.log}
+                            />
+                            <SwitchBox
+                                title="SMS"
+                                desc={`${currentUser.phone}으로 scordi 관련 알림 SMS가 발송됩니다.`}
+                                checked={true}
+                                onChange={console.log}
+                            />
+                        </div>
+
+                        <div className="flex flex-col gap-4 mb-7">
+                            <p className="text-sm font-semibold">혜택 및 이벤트 알림</p>
+
+                            <SwitchBox
+                                title="마케팅 정보 수신 동의"
+                                desc="scordi의 혜택·정보를 받아 볼 수 있습니다."
+                                checked={true}
+                                onChange={console.log}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+});
+
+interface SwitchBoxProps {
+    title: string;
+    desc: string;
+    checked: boolean;
+    onChange: (checked: boolean) => any;
+}
+
+const SwitchBox = forwardRef((props: SwitchBoxProps, ref: ForwardedRef<any>) => {
+    const {title, desc, checked, onChange} = props;
+
+    return (
+        <div className="card card-bordered">
+            <div className="card-body p-4">
+                <p className="card-title text-sm justify-between">
+                    <span>{title}</span>
+                    <input
+                        ref={ref}
+                        type="checkbox"
+                        className="toggle toggle-primary toggle-sm"
+                        defaultChecked={checked}
+                        onChange={(e) => {
+                            console.log(title, 'checked', e.target.checked);
+                            onChange(e.target.checked);
+                        }}
+                    />
+                </p>
+                <p className="card-text text-xs text-gray-400">{desc}</p>
+            </div>
+        </div>
+    );
+});

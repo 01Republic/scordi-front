@@ -4,8 +4,11 @@ import {UserAvatar} from '^v3/share/UserAvatar';
 import {AiOutlineSetting} from '@react-icons/all-files/ai/AiOutlineSetting';
 import {AiOutlineQuestionCircle} from '@react-icons/all-files/ai/AiOutlineQuestionCircle';
 import {BiLogOut} from '@react-icons/all-files/bi/BiLogOut';
+import {useSetRecoilState} from 'recoil';
+import {userEditModalIsShow} from '^v3/share/modals/UserEditModal';
 
 export const TopNavProfileButton = memo(() => {
+    const setUserEditModalIsShow = useSetRecoilState(userEditModalIsShow);
     const {currentUser} = useCurrentUser(undefined, {
         orgIdParam: 'orgId',
     });
@@ -27,7 +30,10 @@ export const TopNavProfileButton = memo(() => {
                     </div>
                 </li>
                 <li>
-                    <a className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi">
+                    <a
+                        className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi"
+                        onClick={() => setUserEditModalIsShow(true)}
+                    >
                         <AiOutlineSetting />
                         <span>설정</span>
                     </a>

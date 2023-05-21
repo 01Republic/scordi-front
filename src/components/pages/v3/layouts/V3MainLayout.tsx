@@ -4,6 +4,7 @@ import {V3TopNav} from '^v3/share/TobNav/TopNav';
 import styles from '^styles/v3/V3MainLayout.module.scss';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^hooks/useCurrentOrg';
+import {UserEditModal} from '^v3/share/modals/UserEditModal';
 
 interface V3MainLayoutProps extends WithChildren {
     //
@@ -21,6 +22,7 @@ export const V3MainLayout = memo((props: V3MainLayoutProps) => {
                 <V3TopNav />
                 {children}
             </div>
+            <UserEditModal />
         </>
     );
 });
