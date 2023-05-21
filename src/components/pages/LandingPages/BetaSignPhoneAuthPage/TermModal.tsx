@@ -41,6 +41,7 @@ export const TermModal = memo((props: TermModalProps) => {
             <div className="modal modal-bottom">
                 <div className="modal-box max-w-lg">
                     <h3 className="font-bold text-lg">동의 하시면 무료 체험이 확정됩니다.</h3>
+
                     <div className="flex items-center mt-4 mb-4 pb-4 border-b">
                         <input
                             id="all_check"
@@ -52,15 +53,18 @@ export const TermModal = memo((props: TermModalProps) => {
                             onClick={() => {
                                 const privacy = form.getValues('isAgreeForPrivacyPolicyTerm');
                                 const serviceUsage = form.getValues('isAgreeForServiceUsageTerm');
-                                const allChecked = privacy && serviceUsage;
+                                const marketing = form.getValues('isAgreeForMarketingTerm');
+                                const allChecked = privacy && serviceUsage && marketing;
                                 form.setValue('isAgreeForPrivacyPolicyTerm', !allChecked);
                                 form.setValue('isAgreeForServiceUsageTerm', !allChecked);
+                                form.setValue('isAgreeForMarketingTerm', !allChecked);
                             }}
                         />
                         <label htmlFor="all_check" className="ml-2 text-sm font-medium text-gray-500 cursor-pointer">
                             전체 동의
                         </label>
                     </div>
+
                     <div className="flex items-center mb-4">
                         <input
                             id="terms_checkbox"
@@ -78,6 +82,7 @@ export const TermModal = memo((props: TermModalProps) => {
                             </a>
                         </label>
                     </div>
+
                     <div className="flex items-center mb-4">
                         <input
                             id="privacy_checkbox"
@@ -95,6 +100,22 @@ export const TermModal = memo((props: TermModalProps) => {
                             </a>
                         </label>
                     </div>
+
+                    <div className="flex items-center mb-4">
+                        <input
+                            id="marketing_checkbox"
+                            type="checkbox"
+                            className="checkbox checkbox-primary w-4 h-4 rounded"
+                            {...form.register('isAgreeForMarketingTerm')}
+                        />
+                        <label
+                            htmlFor="privacy_checkbox"
+                            className="ml-2 text-sm font-medium text-gray-500 cursor-pointer"
+                        >
+                            [선택] 마케팅 수신 동의
+                        </label>
+                    </div>
+
                     <div className="text-xl absolute right-5 top-7 cursor-pointer" onClick={onCloseModal}>
                         <RiCloseLine />
                     </div>
