@@ -23,6 +23,10 @@ body {
     "Segoe UI Symbol", sans-serif;
   background-color: #fafafa;
 }
+body.modal-opened {
+  height: 100vh;
+  overflow-y: hidden;
+}
 
 a {
     color: inherit;

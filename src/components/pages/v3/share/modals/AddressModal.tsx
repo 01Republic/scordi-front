@@ -1,6 +1,7 @@
 import React, {memo} from 'react';
 import DaumPostcode, {Address} from 'react-daum-postcode';
 import {atom, useRecoilState, useSetRecoilState} from 'recoil';
+import {useModal} from '^v3/share/modals/useModal';
 
 export const addressModalIsShow = atom({
     key: 'v3/addressModalIsShow',
@@ -13,14 +14,8 @@ export const addressValueAtom = atom<string | null>({
 });
 
 export const AddressModal = memo(() => {
-    const [isShow, setIsShow] = useRecoilState(addressModalIsShow);
+    const {setIsShow, Modal} = useModal({isShowAtom: addressModalIsShow});
     const setAddressValueAtom = useSetRecoilState(addressValueAtom);
-
-    const close = () => setIsShow(false);
-    const prevent = (e: any) => {
-        e.stopPropagation();
-        e.preventDefault();
-    };
 
     const onComplete = (data: Address) => {
         let fullAddress = data.address;
@@ -43,10 +38,8 @@ export const AddressModal = memo(() => {
     };
 
     return (
-        <div className={`modal cursor-pointer ${isShow ? 'modal-open' : ''}`} onClick={close}>
-            <div className="modal-box px-0 py-4 cursor-default" onClick={prevent}>
-                <DaumPostcode autoClose={false} onComplete={onComplete} />
-            </div>
-        </div>
+        <Modal className="px-0 py-4">
+            <DaumPostcode autoClose={false} onComplete={onComplete} />
+        </Modal>
     );
 });
