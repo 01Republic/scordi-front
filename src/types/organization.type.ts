@@ -8,6 +8,8 @@ export type CreateOrganizationRequestDto = {
 export type UpdateOrganizationRequestDto = Partial<CreateOrganizationRequestDto> & {
     slug?: string;
     image?: File | string;
+    address?: string;
+    addressDetail?: string;
 };
 
 export type SearchOrgQueryDto = {
@@ -19,6 +21,8 @@ export type OrganizationDto = {
     name: string;
     slug: string;
     image?: string;
+    address?: string | null;
+    addressDetail?: string | null;
     createdAt: Date;
     updatedAt: Date;
     memberships?: MembershipDto[];

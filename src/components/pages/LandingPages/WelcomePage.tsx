@@ -3,9 +3,11 @@ import {LandingPageLayout} from '^components/pages/LandingPages/LandingPageLayou
 import {CheckCircle} from '^components/react-icons/check-circle';
 import {useRouter} from 'next/router';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
+import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const WelcomePage = memo(() => {
     const router = useRouter();
+    const {currentUser} = useCurrentUser();
     const [isAccessible, setIsAccessible] = useState(false);
 
     useEffect(() => {
@@ -13,6 +15,8 @@ export const WelcomePage = memo(() => {
         if (!accessible) return;
         setIsAccessible(accessible === 'true');
     }, [router.isReady]);
+
+    console.log('currentUser', currentUser);
 
     return (
         <LandingPageLayout pageName="WelcomePage">
@@ -34,7 +38,7 @@ export const WelcomePage = memo(() => {
 
                         {isAccessible ? (
                             <a
-                                href={`${V3OrgHomePageRoute.path(24)}`}
+                                href={currentUser ? `${V3OrgHomePageRoute.path(currentUser.orgId)}` : ''}
                                 className="mb-4 btn sm:btn-lg btn-block btn-ghost rounded-2xl hover:!bg-white text-lg sm:!text-xl text-scordi-light-500 hover:text-scordi-500"
                             >
                                 사이트 내부로 이동 (관리자전용 노출)
