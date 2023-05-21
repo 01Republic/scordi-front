@@ -36,4 +36,6 @@ export type MembershipDto = {
     user: UserDto;
 };
 
-export type FindAllMembershipQuery = FindAllQueryDto<MembershipDto>;
+export type FindAllMembershipQuery = FindAllQueryDto<MembershipDto> & {
+    keyword?: string;
+};

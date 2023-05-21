@@ -20,6 +20,7 @@
             "^hooks/*": ["./src/hooks/*"],
             "^layouts/*": ["./src/layouts/*"],
             "^components/*": ["./src/components/*"],
+            "^v3/*": ["./src/components/pages/v3/*"],
             "^atoms/*": ["./src/atoms/*"],
             "^pages/*": ["./src/pages/*"],
             "^api/*": ["./src/api/*"],

@@ -1,0 +1,45 @@
+@import "../variables/all";
+@import "../functions/color";
+
+.layout {
+  background-color: #f9fafb;
+}
+
+.gnb {
+  box-shadow: 0 4px 22px rgba(0,0,0,.04);
+}
+
+.greeting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.5;
+    margin-left: 1.75rem;
+  }
+}
+
+.panel_table {
+  width: 100%;
+  display: inline-grid;
+
+  table {
+    width: 100%;
+
+    :where(th, td) {
+      padding: 0.5rem;
+      font-size: $text-xs-size;
+      line-height: $text-xs-line-height;
+    }
+
+    :where(th) {
+      background-color: $color-base-100;
+      font-weight: 600;
+      color: $color-gray-500;
+    }
+  }
+}

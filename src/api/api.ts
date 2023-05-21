@@ -59,6 +59,7 @@ api.interceptors.response.use(undefined, (error: AxiosError<ApiError>) => {
         //         tokenState.reset();
         //         window.location.assign('/admin/login');
         //     });
+        alert('[401] Login required.');
         window.location.assign(UserLoginPageRoute.path());
     }
     // toast.error(error.response.data.message.toString());
