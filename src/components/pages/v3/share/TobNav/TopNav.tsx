@@ -19,7 +19,7 @@ export const V3TopNav = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
 
     return (
-        <div className={`navbar bg-base-100 ${styles.gnb} sticky top-0 z-10`}>
+        <div className={`navbar bg-base-100 ${styles.gnb} sticky top-0 z-20`}>
             {/* 로고 */}
             <div className="navbar-start">
                 <div className="dropdown">

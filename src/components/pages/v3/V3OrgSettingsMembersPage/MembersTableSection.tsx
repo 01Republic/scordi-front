@@ -15,7 +15,7 @@ export const MembersTableSection = memo(() => {
         if (!currentOrg) return;
 
         // first loaded.
-        searchMemberships({where: {organizationId: currentOrg.id}, order: {id: 'DESC'}});
+        searchMemberships({where: {organizationId: currentOrg.id}, order: {id: 'DESC'}, itemsPerPage: 10});
     }, [currentOrg]);
 
     const {pagination} = membershipSearchResult;

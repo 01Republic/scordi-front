@@ -32,8 +32,8 @@ export const UserEditModal = memo(() => {
     if (!currentUser || !currentOrg || !currentMembership) return <></>;
 
     return (
-        <Modal className="px-12 py-10 md:max-w-md lg:max-w-3xl">
-            <div className="flex justify-between items-center mb-10 sticky top-0 bg-base-100 z-10">
+        <Modal className="px-12 pt-0 pb-10 md:max-w-md lg:max-w-3xl">
+            <div className="flex justify-between items-center mb-10 pt-10 sticky top-0 bg-base-100 z-10">
                 <h3 className="font-bold text-lg flex-1">내 계정</h3>
                 <CloseButton />
             </div>
