@@ -17,7 +17,7 @@ export const V3OrgSettingsMenuPanel = memo(() => {
             <li>
                 <ActiveLinkTo href={V3OrgSettingsOrgPageRoute.path(orgId)} className="mb-0.5">
                     <HiOutlineBuildingOffice2 />
-                    <span>회사 정보</span>
+                    <span>워크스페이스 정보</span>
                 </ActiveLinkTo>
             </li>
             <li>
