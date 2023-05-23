@@ -25,6 +25,12 @@ export type UserSocialSignUpRequestDto = {
     isAgreeForMarketingTerm: boolean; // 마케팅 수신 동의 여부
 };
 
+// 사용자 언어 설정
+export enum UserLocale {
+    Ko = 'ko',
+    En = 'en',
+}
+
 export type UserDto = {
     id: number;
     name: string;
@@ -33,6 +39,7 @@ export type UserDto = {
     orgName: string;
     email: string;
     isAdmin: boolean;
+    locale: UserLocale | null;
     serviceUsageTermAgreedAt: string;
     privacyPolicyTermAgreedAt: string;
     marketingTermAgreedAt: Date | null; // 마케팅 수신 동의 여부
@@ -62,6 +69,7 @@ export type UserEditProfileRequestDto = {
     password?: string;
     passwordConfirmation?: string;
     isAgreeForMarketingTerm?: boolean; // 마케팅 수신 동의 여부
+    locale?: UserLocale | null; // 사용자 언어 설정
 };
 
 export type SendPhoneAuthMessageDto = {
