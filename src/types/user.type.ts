@@ -35,6 +35,7 @@ export type UserDto = {
     isAdmin: boolean;
     serviceUsageTermAgreedAt: string;
     privacyPolicyTermAgreedAt: string;
+    marketingTermAgreedAt: Date | null; // 마케팅 수신 동의 여부
     createdAt: string;
     updatedAt: string;
 };
@@ -60,6 +61,7 @@ export type UserEditProfileRequestDto = {
     orgName?: string;
     password?: string;
     passwordConfirmation?: string;
+    isAgreeForMarketingTerm?: boolean; // 마케팅 수신 동의 여부
 };
 
 export type SendPhoneAuthMessageDto = {

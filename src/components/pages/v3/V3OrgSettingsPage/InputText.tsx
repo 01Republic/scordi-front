@@ -30,3 +30,17 @@ export const InputText = forwardRef((props: InputTextProps, ref: ForwardedRef<an
         </div>
     );
 });
+
+export const FormControl = forwardRef((props: InputTextProps, ref: ForwardedRef<any>) => {
+    const [id] = useId(1, 'form_control');
+    const {label, children} = props;
+
+    return (
+        <div className="form-control gap-4 flex-row">
+            <label htmlFor={id} className="label px-0 cursor-pointer w-[30%]">
+                <span className="label-text font-semibold text-lg">{label}</span>
+            </label>
+            <div className="flex-grow flex items-center">{children}</div>
+        </div>
+    );
+});

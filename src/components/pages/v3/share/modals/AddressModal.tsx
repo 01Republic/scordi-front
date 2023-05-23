@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import DaumPostcode, {Address} from 'react-daum-postcode';
-import {atom, useRecoilState, useSetRecoilState} from 'recoil';
+import {atom, useSetRecoilState} from 'recoil';
 import {useModal} from '^v3/share/modals/useModal';
 
 export const addressModalIsShow = atom({
