@@ -1,9 +1,6 @@
 import React, {memo, useCallback} from 'react';
 import {SelectDropdown, SelectOptionProps} from '^v3/share/Select';
 import {FormControl} from '^v3/V3OrgSettingsPage/InputText';
-import {useCurrentOrg} from '^hooks/useCurrentOrg';
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useCurrentUserMembership} from '^hooks/useMemberships';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {modifyUser} from '^api/session.api';
 import {UserLocale} from '^types/user.type';
@@ -25,7 +22,7 @@ export const LanguageInput = memo(() => {
             console.log(selectedLocale);
 
             modifyUser({locale: selectedLocale.code}).then(() => {
-                toast('저장되었습니다.');
+                // toast('저장되었습니다.');
             });
         },
         [locales],

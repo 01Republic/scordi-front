@@ -25,7 +25,7 @@ export const MemberListItem = memo((props: MemberProps) => {
     }, [currentUserMembership]);
 
     const acceptMember = (data: UpdateMembershipRequestDto, id: number) => {
-        patchMemberships(data, id)
+        patchMemberships(id, data)
             .then((res) => {
                 toast.success('Successfully approve');
             })

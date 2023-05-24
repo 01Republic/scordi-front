@@ -19,10 +19,16 @@ export type CreateMembershipRequestDto = {
     level?: MembershipLevel;
 };
 
-export type UpdateMembershipRequestDto = Partial<CreateMembershipRequestDto> & {
-    level: MembershipLevel;
-    approvalStatus: ApprovalStatus;
+export type UpdateMembershipRequestDto = Partial<Omit<CreateMembershipRequestDto, 'organizationId' | 'userId'>> & {
+    approvalStatus?: ApprovalStatus; // 멤버십 승인 요청 상태 (가입 승인 요청 상태)
+    displayCurrency?: DisplayCurrency; // 조직 화폐 사용자보기
 };
+
+// 조직 화폐 사용자보기
+export enum DisplayCurrency {
+    USD = 'USD',
+    KRW = 'KRW',
+}
 
 export type MembershipDto = {
     id: number;
@@ -30,6 +36,7 @@ export type MembershipDto = {
     userId: number;
     level: MembershipLevel;
     approvalStatus: ApprovalStatus; // 멤버십 승인 요청 상태 (가입 승인 요청 상태)
+    displayCurrency: DisplayCurrency; // 조직 화폐 사용자보기
     createdAt: Date;
     updatedAt: Date;
     organization: OrganizationDto;
