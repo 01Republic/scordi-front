@@ -10,10 +10,10 @@ export const V3OrgHomePageRoute = pathRoute({
 });
 
 export default function V3OrgHomePage() {
-    // const orgId = useRouterIdParamState('orgId', orgIdParamState);
-    // useCurrentOrg(orgId);
+    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    useCurrentOrg(orgId);
+
+    if (!orgId) return <></>;
 
     return <Page />;
 }
-
-V3OrgHomePage.getInitialProps = async () => ({});

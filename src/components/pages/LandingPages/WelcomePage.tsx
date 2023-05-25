@@ -16,8 +16,6 @@ export const WelcomePage = memo(() => {
         setIsAccessible(accessible === 'true');
     }, [router.isReady]);
 
-    console.log('currentUser', currentUser);
-
     return (
         <LandingPageLayout pageName="WelcomePage">
             <div className="mx-auto text-center py-20 w-full max-w-lg space-y-5 min-h-[100vh]">

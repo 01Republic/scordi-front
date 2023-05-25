@@ -13,8 +13,6 @@ interface V3MainLayoutProps extends WithChildren {
 
 export const V3MainLayout = memo((props: V3MainLayoutProps) => {
     const {children} = props;
-    const orgId = useRouterIdParamState('orgId', orgIdParamState);
-    useCurrentOrg(orgId);
 
     return (
         <>

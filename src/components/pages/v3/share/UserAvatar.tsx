@@ -10,7 +10,6 @@ interface UserAvatarProps {
 export const UserAvatar = memo((props: UserAvatarProps) => {
     const {user, size = 'w-8', textClass = ''} = props;
 
-    console.log(user);
     return (
         <div className="avatar placeholder">
             <div className={`bg-neutral-focus text-neutral-content rounded-full ${size}`}>

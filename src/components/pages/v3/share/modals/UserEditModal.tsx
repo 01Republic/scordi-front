@@ -37,7 +37,6 @@ export const UserEditModal = memo(() => {
         form.setValue('isAgreeForMarketingTerm', !!currentMembership.user.marketingTermAgreedAt);
     }, [currentMembership]);
 
-    console.log(currentMembership);
     if (!currentUser || !currentOrg || !currentMembership) return <></>;
 
     return (

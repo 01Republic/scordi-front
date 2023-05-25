@@ -19,6 +19,8 @@ import {TopNavOrgSelect} from '^v3/share/TobNav/TopNavOrgSelect';
 export const V3TopNav = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
 
+    if (!currentOrg) return <></>;
+
     return (
         <div className={`navbar bg-base-100 ${styles.gnb} sticky top-0 z-20`}>
             {/* 로고 */}

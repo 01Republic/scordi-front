@@ -7,8 +7,6 @@ import {currentOrgAtom} from '^atoms/organizations.atom';
 export const V3OrgHomePage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
 
-    console.log('currentOrg', currentOrg);
-
     return (
         <V3MainLayout>
             {currentOrg && (

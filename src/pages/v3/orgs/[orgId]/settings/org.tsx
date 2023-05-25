@@ -1,7 +1,8 @@
 import React from 'react';
-import {useRouter} from 'next/router';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {V3OrgSettingsPage as Page} from '^v3/V3OrgSettingsPage';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {useCurrentOrg} from '^hooks/useCurrentOrg';
 
 export const V3OrgSettingsOrgPageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]/settings/org',
@@ -12,9 +13,10 @@ export const V3OrgSettingsOrgPageRoute = pathRoute({
 });
 
 export default function V3OrgSettingsPage() {
-    const router = useRouter();
+    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    useCurrentOrg(orgId);
+
+    if (!orgId) return <></>;
 
     return <Page />;
 }
-
-V3OrgSettingsPage.getInitialProps = async () => ({});

@@ -15,8 +15,6 @@ export const TopNavProfileButton = memo(() => {
 
     if (!currentUser) return <></>;
 
-    console.log('currentUser', currentUser);
-
     return (
         <div className="dropdown dropdown-bottom dropdown-end">
             <label tabIndex={0} className="cursor-pointer px-2">
