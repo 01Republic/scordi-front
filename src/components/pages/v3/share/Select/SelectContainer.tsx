@@ -13,7 +13,7 @@ export const SelectContainer = memo((props: SelectContainerProps) => {
 
     return (
         <div className="dropdown">
-            <label tabIndex={0} className={`btn btn !bg-base-100 items-center justify-between ${widthClass}`}>
+            <label tabIndex={0} className={`btn !bg-base-100 items-center justify-between ${widthClass}`}>
                 <span className={`text-sm normal-case ${isNotSelected ? 'text-gray-300' : 'text-gray-700'}`}>
                     {currentVal}
                 </span>

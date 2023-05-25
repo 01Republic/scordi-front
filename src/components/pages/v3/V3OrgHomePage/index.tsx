@@ -11,9 +11,7 @@ export const V3OrgHomePage = memo(() => {
 
     return (
         <V3MainLayout>
-            {!currentOrg ? (
-                <></>
-            ) : (
+            {currentOrg && (
                 <V3MainLayoutContainer>
                     <section className={`${styles.greeting} flex items-center justify-between`}>
                         <div className="flex items-center gap-3">

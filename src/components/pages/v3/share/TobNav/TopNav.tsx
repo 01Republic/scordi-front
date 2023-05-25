@@ -14,6 +14,7 @@ import {AiFillSetting} from '@react-icons/all-files/ai/AiFillSetting';
 import {AiFillAppstore} from '@react-icons/all-files/ai/AiFillAppstore';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^atoms/organizations.atom';
+import {TopNavOrgSelect} from '^v3/share/TobNav/TopNavOrgSelect';
 
 export const V3TopNav = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -105,7 +106,8 @@ export const V3TopNav = memo(() => {
             )}
 
             {/* 프로필 버튼 */}
-            <div className="navbar-end">
+            <div className="navbar-end gap-4">
+                <TopNavOrgSelect />
                 <TopNavProfileButton />
             </div>
         </div>
