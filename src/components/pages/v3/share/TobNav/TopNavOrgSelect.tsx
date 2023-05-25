@@ -27,7 +27,9 @@ export const TopNavOrgSelect = memo(() => {
             <label
                 tabIndex={0}
                 className={`btn btn-sm items-center justify-between cursor-pointer gap-2 ${
-                    isEmpty ? 'btn-outline !text-gray-500 !bg-base-100 !no-animation' : ''
+                    isEmpty
+                        ? 'btn-outline !border-slate-300 !text-slate-400 hover:!border-slate-400 hover:!text-slate-500 !bg-base-100 !no-animation'
+                        : ''
                 }`}
             >
                 <span>{currentOrg.name}</span>
