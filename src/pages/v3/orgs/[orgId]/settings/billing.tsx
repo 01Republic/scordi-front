@@ -16,3 +16,5 @@ export default function V3OrgSettingsBillingPage() {
 
     return <Page />;
 }
+
+V3OrgSettingsBillingPage.getInitialProps = async () => ({});

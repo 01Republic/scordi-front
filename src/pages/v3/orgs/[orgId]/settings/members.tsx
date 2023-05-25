@@ -16,3 +16,5 @@ export default function V3OrgSettingsMembersPage() {
 
     return <Page />;
 }
+
+V3OrgSettingsMembersPage.getInitialProps = async () => ({});

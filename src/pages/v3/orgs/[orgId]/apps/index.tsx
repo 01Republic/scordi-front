@@ -16,3 +16,5 @@ export default function V3OrgAppsPage() {
 
     return <Page />;
 }
+
+V3OrgAppsPage.getInitialProps = async () => ({});
