@@ -17,6 +17,6 @@ export const getMemberships = (params: FindAllMembershipQuery) => {
     return api.get<Paginated<MembershipDto>>(`/${NAMESPACE}`, {params});
 };
 
-export const patchMemberships = (data: UpdateMembershipRequestDto, id: number) => {
+export const patchMemberships = (id: number, data: UpdateMembershipRequestDto) => {
     return api.patch<MembershipDto>(`/${NAMESPACE}/${id}`, data);
 };

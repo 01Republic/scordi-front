@@ -1,8 +1,23 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {LandingPageLayout} from '^components/pages/LandingPages/LandingPageLayout';
 import {CheckCircle} from '^components/react-icons/check-circle';
+import {useRouter} from 'next/router';
+import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
+import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const WelcomePage = memo(() => {
+    const router = useRouter();
+    const {currentUser} = useCurrentUser();
+    const [isAccessible, setIsAccessible] = useState(false);
+
+    useEffect(() => {
+        const accessible = router.query.accessible as string | undefined;
+        if (!accessible) return;
+        setIsAccessible(accessible === 'true');
+    }, [router.isReady]);
+
+    console.log('currentUser', currentUser);
+
     return (
         <LandingPageLayout pageName="WelcomePage">
             <div className="mx-auto text-center py-20 w-full max-w-lg space-y-5 min-h-[100vh]">
@@ -21,12 +36,21 @@ export const WelcomePage = memo(() => {
                             📞 1영업일 내에 전화로 연락 드릴게요.
                         </div>
 
-                        <a
-                            href="/"
-                            className="mb-4 btn sm:btn-lg btn-block btn-ghost rounded-2xl hover:!bg-white text-lg sm:!text-xl text-scordi-light-500 hover:text-scordi-500"
-                        >
-                            홈페이지로 이동
-                        </a>
+                        {isAccessible ? (
+                            <a
+                                href={currentUser ? `${V3OrgHomePageRoute.path(currentUser.orgId)}` : ''}
+                                className="mb-4 btn sm:btn-lg btn-block btn-ghost rounded-2xl hover:!bg-white text-lg sm:!text-xl text-scordi-light-500 hover:text-scordi-500"
+                            >
+                                사이트 내부로 이동 (관리자전용 노출)
+                            </a>
+                        ) : (
+                            <a
+                                href="/"
+                                className="mb-4 btn sm:btn-lg btn-block btn-ghost rounded-2xl hover:!bg-white text-lg sm:!text-xl text-scordi-light-500 hover:text-scordi-500"
+                            >
+                                홈페이지로 이동
+                            </a>
+                        )}
                     </div>
                 </div>
             </div>

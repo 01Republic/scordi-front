@@ -27,7 +27,7 @@ function MyApp(props: Props) {
         <RecoilRoot>
             <Head>
                 <meta charSet="utf-8" />
-                <title>Scordi | 똑똑한 팀을 위한 SaaS 관리 솔루션</title>
+                {/*<title>Scordi | 똑똑한 팀을 위한 SaaS 관리 솔루션</title>*/}
                 <meta
                     name="viewport"
                     content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"

@@ -1,0 +1,58 @@
+
+@mixin make_colored_button($color-name) {
+  .btn-#{$color-name} {
+    $scale-darken: 700;
+    $scale_lower: 400;
+    $scale_higher: 600;
+    @apply bg-#{$color-name} border-#{$color-name}-#{$scale_lower};
+
+    //@apply text-#{$color-name}-100;
+    color: rgba(255, 255, 255, .9);
+
+    &:hover {
+      @apply bg-#{$color-name}-#{$scale_higher} border-#{$color-name};
+      @apply text-white; // white
+    }
+
+    &.btn-outline {
+      @apply border-#{$color-name} text-#{$color-name};
+      background-color: initial;
+
+      &:hover {
+        @apply bg-#{$color-name};
+        @apply text-white; // white
+      }
+    }
+  }
+
+  @each $scale in (100, 200, 300, 400, 500, 600, 700, 800, 900) {
+    $scale-darken: if($scale > 700, 900, $scale + 200);
+    $scale_lower: if($scale - 100 < 100, 100, $scale - 100);
+    $scale_higher: if($scale + 100 > 900, 900, $scale + 100);
+
+    .btn-#{$color-name}-#{$scale} {
+      @apply bg-#{$color-name}-#{$scale} border-#{$color-name}-#{$scale_lower};
+
+      @if $scale >= 500 {
+        @apply text-#{$color-name}-100;
+      } @else {
+        @apply text-#{$color-name}-900;
+      }
+
+      &:hover {
+        @apply bg-#{$color-name}-#{$scale_higher} border-#{$color-name}-#{$scale};
+        @apply text-white; // white
+      }
+
+      &.btn-outline {
+        @apply border-#{$color-name}-#{$scale} text-#{$color-name}-#{$scale};
+        background-color: initial;
+
+        &:hover {
+          @apply bg-#{$color-name}-#{$scale};
+          @apply text-white; // white
+        }
+      }
+    }
+  }
+}

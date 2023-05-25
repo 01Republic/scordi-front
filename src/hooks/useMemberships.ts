@@ -1,8 +1,28 @@
 import {useRecoilState} from 'recoil';
 import {currentUserMembershipAtom, getCurrentUserMembershipsQuery} from '^atoms/currentUser.atom';
-import {useCallback, useEffect} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {getMemberships} from '^api/membership.api';
-import {MembershipDto} from '^types/membership.type';
+import {FindAllMembershipQuery, MembershipDto} from '^types/membership.type';
+import {orgMembershipSearchResultAtom} from '^atoms/memberships.atom';
+
+export const useMemberships = () => {
+    const [membershipSearchResult, setMembershipSearchResult] = useRecoilState(orgMembershipSearchResultAtom);
+    const [query, setQuery] = useState<FindAllMembershipQuery>({});
+
+    async function searchMemberships(params: FindAllMembershipQuery) {
+        if (JSON.stringify(query) === JSON.stringify(params)) return;
+
+        const data = await getMemberships(params).then((res) => res.data);
+        setMembershipSearchResult(data);
+        setQuery(params);
+    }
+
+    return {
+        query,
+        membershipSearchResult,
+        searchMemberships,
+    };
+};
 
 export const useCurrentUserMemberships = () => {
     const [currentUserMemberships, refreshCurrentUserMemberships] = useRecoilState(getCurrentUserMembershipsQuery);
