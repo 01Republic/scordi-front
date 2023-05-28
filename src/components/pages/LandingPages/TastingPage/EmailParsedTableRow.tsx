@@ -1,7 +1,6 @@
 import React, {memo} from 'react';
 import {
     changePriceCurrency,
-    Currency,
     currencyFormat,
     getCurrencySymbol,
     Price,

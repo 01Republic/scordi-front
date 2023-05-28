@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
-import {Currency} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {useRecoilState} from 'recoil';
 import {displayCurrencyAtom} from './pageAtoms';
+import {Currency} from '^types/crawler';
 
 export const CurrencyToggle = memo(() => {
     const [displayCurrency, setDisplayCurrency] = useRecoilState(displayCurrencyAtom);

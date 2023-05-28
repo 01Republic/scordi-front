@@ -9,6 +9,8 @@ import '../styles/button.scss';
 import '../styles/tasting.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
+import 'react-date-range/dist/styles.css'; // main css file
+import 'react-date-range/dist/theme/default.css'; // theme css file
 import React, {Fragment, Suspense} from 'react';
 import Head from 'next/head';
 import {ToastContainer, Slide} from 'react-toastify';

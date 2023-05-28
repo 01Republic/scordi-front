@@ -312,3 +312,17 @@ body.hide-channel-talk {
     }
   }
 }
+
+
+.swap {
+  display: inline-grid;
+
+  ul:not(.active) {
+    opacity: 0 !important;
+    height: 0;
+    overflow-y: hidden;
+  }
+  ul.active {
+    opacity: 1 !important;
+  }
+}

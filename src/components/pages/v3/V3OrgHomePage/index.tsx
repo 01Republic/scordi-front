@@ -3,6 +3,12 @@ import {V3MainLayout, V3MainLayoutContainer} from '^v3//layouts/V3MainLayout';
 import styles from '^styles/v3/V3MainLayout.module.scss';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^atoms/organizations.atom';
+import {InvoiceAccountAddingButton} from './InvoiceAccountAddingButton';
+import {NewInvoiceAccountModal} from './NewInvoiceAccountModal';
+import {InvoiceSearchControllerSection} from './InvoiceSearchControllerSection';
+import {InvoiceSummarySection} from './InvoiceSummarySection';
+import {InvoiceTabNav} from './InvoiceTabNav';
+import {InvoiceTable} from './InvoiceTable';
 
 export const V3OrgHomePage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -11,7 +17,7 @@ export const V3OrgHomePage = memo(() => {
         <V3MainLayout>
             {currentOrg && (
                 <V3MainLayoutContainer>
-                    <section className={`${styles.greeting} flex items-center justify-between`}>
+                    <section className={`${styles.greeting} flex items-center justify-between mb-20`}>
                         <div className="flex items-center gap-3">
                             <img src="/images/v3/home-calendar.png" width={80} />
                             <h1 className="max-w-[24rem]" style={{wordBreak: 'keep-all'}}>
@@ -20,15 +26,16 @@ export const V3OrgHomePage = memo(() => {
                             </h1>
                         </div>
 
-                        <div>
-                            <button className="btn btn-lg btn-scordi-500 shadow gap-2">
-                                <span>청구메일 추가</span>
-                                <span>📩</span>
-                            </button>
-                        </div>
+                        <InvoiceAccountAddingButton />
                     </section>
+
+                    <InvoiceSearchControllerSection />
+                    <InvoiceSummarySection />
+                    <InvoiceTabNav />
+                    <InvoiceTable />
                 </V3MainLayoutContainer>
             )}
+            <NewInvoiceAccountModal />
         </V3MainLayout>
     );
 });

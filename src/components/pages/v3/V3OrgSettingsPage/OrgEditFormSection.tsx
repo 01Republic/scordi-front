@@ -1,13 +1,10 @@
-import React, {ForwardedRef, forwardRef, memo, useEffect, useState} from 'react';
-import {atom, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import React, {memo, useEffect, useState} from 'react';
+import {useRecoilState} from 'recoil';
 import {currentOrgAtom} from '^atoms/organizations.atom';
-import {useForm, UseFormReturn} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import {UpdateOrganizationRequestDto} from '^types/organization.type';
 import {EditFormSection} from '^v3/share/EditFormSection';
 import {InputText} from '^v3/V3OrgSettingsPage/InputText';
-import {useId} from 'react-id-generator';
-import DaumPostcode from 'react-daum-postcode';
-import {addressModalIsShow, addressValueAtom} from '^v3/share/modals/AddressModal';
 import {updateOrganization} from '^api/organization.api';
 import {AddressInput} from '^v3/V3OrgSettingsPage/AddressInput';
 

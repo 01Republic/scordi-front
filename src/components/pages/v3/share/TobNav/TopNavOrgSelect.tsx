@@ -38,12 +38,15 @@ export const TopNavOrgSelect = memo(() => {
 
             {!isEmpty && (
                 <ul tabIndex={0} className="dropdown-content menu p-2 shadow-xl bg-base-100 rounded-box w-52">
-                    {otherMemberships.map((membership, i) => {
+                    {myMemberships.map((membership, i) => {
                         const org = membership.organization;
+                        const isCurrent = org.id === currentOrg.id;
                         return (
                             <li key={i}>
                                 <a
-                                    className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi"
+                                    className={`text-sm !normal-case flex gap-2 py-2 ${
+                                        isCurrent ? 'bg-scordi-light-100' : 'bg-base-100'
+                                    } font-[500] text-gray-700 hover:text-scordi`}
                                     onClick={() => router.push(V3OrgHomePageRoute.path(org.id))}
                                 >
                                     <Avatar className="w-5" src={org.image} />

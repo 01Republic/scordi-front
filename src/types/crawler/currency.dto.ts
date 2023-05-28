@@ -1,5 +1,10 @@
 type ValuesOf<OBJ> = OBJ[keyof OBJ];
 
+export enum Currency {
+    USD = 'USD',
+    KRW = 'KRW',
+}
+
 const CurrencyValues = {
     en: {code: 'USD', symbol: '$'},
     ko: {code: 'KRW', symbol: '₩'},

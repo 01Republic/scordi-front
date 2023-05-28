@@ -1,8 +1,9 @@
 import React, {memo, useEffect, useState} from 'react';
-import {changePriceCurrency, Currency, getCurrencySymbol, Price} from '^api/tasting.api/gmail/agent/parse-email-price';
+import {changePriceCurrency, getCurrencySymbol, Price} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {displayCurrencyAtom, gmailItemsAtom, gmailItemsLoadedAtom} from './pageAtoms';
 import {CountUp} from 'countup.js';
+import {Currency} from '^types/crawler';
 
 export const SummarySectionStatBalance = memo(() => {
     const gmailItems = useRecoilValue(gmailItemsAtom);

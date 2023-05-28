@@ -1,5 +1,5 @@
 import {atom, selector} from 'recoil';
-import {DashboardDaySumDto, DashboardSummaryDto} from '^types/dashboard.type';
+import {DashboardDaySumDto, DashboardSummaryDto, SummaryOfBillingHistoriesDto} from '^types/dashboard.type';
 import {getDashboardCalendar, getDashboardSummary} from '^api/dashboard.api';
 import {errorNotify} from '^utils/toast-notify';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
@@ -69,4 +69,13 @@ export const getDashboardSummaryQuery = selector({
             errorNotify(e);
         }
     },
+});
+
+/**
+ * V3 Dashboard
+ */
+
+export const dashboardSummaryV3State = atom<SummaryOfBillingHistoriesDto | null>({
+    key: 'dashboardSummaryV3State',
+    default: null,
 });

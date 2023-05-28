@@ -1,3 +1,5 @@
+import {CurrencyDto} from '^types/crawler';
+
 export type DashboardSummaryDto = {
     total: number; // 이번달 총 비용
     didPayAmount: number; // 오늘까지 결제한 금액
@@ -16,4 +18,19 @@ export type DashboardDaySumDto = {
     day: number; // 일
     amount: number; // 금액
     serviceCount: number; // 서비스 개수
+};
+
+export type SummaryOfState = {
+    count: number;
+    amount: number;
+};
+
+export type SummaryOfBillingHistoriesDto = {
+    startDate: Date | null;
+    endDate: Date | null;
+    currency?: CurrencyDto['code'];
+    total: SummaryOfState;
+    pending: SummaryOfState;
+    success: SummaryOfState;
+    failure: SummaryOfState;
 };

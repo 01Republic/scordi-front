@@ -9,7 +9,7 @@ import {userEditModalIsShow} from '^v3/share/modals/UserEditModal';
 
 export const TopNavProfileButton = memo(() => {
     const setUserEditModalIsShow = useSetRecoilState(userEditModalIsShow);
-    const {currentUser} = useCurrentUser(undefined, {
+    const {currentUser, logout} = useCurrentUser(undefined, {
         orgIdParam: 'orgId',
     });
 
@@ -18,12 +18,12 @@ export const TopNavProfileButton = memo(() => {
     return (
         <div className="dropdown dropdown-bottom dropdown-end">
             <label tabIndex={0} className="cursor-pointer px-2">
-                <UserAvatar user={currentUser} />
+                <UserAvatar user={currentUser} roundClass="rounded-lg" />
             </label>
             <ul tabIndex={0} className="dropdown-content menu p-2 shadow-xl bg-base-100 rounded-box w-52">
                 <li>
                     <div className="flex gap-2 bg-base-100 cursor-default p-2">
-                        <UserAvatar user={currentUser} />
+                        <UserAvatar user={currentUser} roundClass="rounded-lg" />
                         <p className="text-sm font-semibold text-gray-900">{currentUser.name}님</p>
                     </div>
                 </li>
@@ -44,7 +44,10 @@ export const TopNavProfileButton = memo(() => {
                 </li>
                 <li className="" />
                 <li>
-                    <a className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-400 hover:text-scordi">
+                    <a
+                        className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-400 hover:text-scordi"
+                        onClick={() => logout()}
+                    >
                         <BiLogOut />
                         <span>로그아웃</span>
                     </a>
