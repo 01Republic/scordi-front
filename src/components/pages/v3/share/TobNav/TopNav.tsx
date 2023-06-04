@@ -82,7 +82,7 @@ export const V3TopNav = memo(() => {
             {/* 본 메뉴 */}
             {currentOrg && (
                 <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal px-1 gap-10">
+                    <ul className="menu menu-horizontal px-1 gap-10 hidden">
                         <TopNavItem
                             text="홈"
                             href={V3OrgHomePageRoute.path(currentOrg.id)}

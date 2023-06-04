@@ -4,16 +4,25 @@ import {UserAvatar} from '^v3/share/UserAvatar';
 import {AiOutlineSetting} from '@react-icons/all-files/ai/AiOutlineSetting';
 import {AiOutlineQuestionCircle} from '@react-icons/all-files/ai/AiOutlineQuestionCircle';
 import {BiLogOut} from '@react-icons/all-files/bi/BiLogOut';
-import {useSetRecoilState} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {userEditModalIsShow} from '^v3/share/modals/UserEditModal';
+import {MembershipLevel} from '^types/membership.type';
+import {V3OrgSettingsOrgPageRoute} from '^pages/v3/orgs/[orgId]/settings/org';
+import {useRouter} from 'next/router';
+import {currentOrgAtom} from '^atoms/organizations.atom';
+import {AiOutlineHome} from '@react-icons/all-files/ai/AiOutlineHome';
 
 export const TopNavProfileButton = memo(() => {
+    const router = useRouter();
+    const currentOrg = useRecoilValue(currentOrgAtom);
     const setUserEditModalIsShow = useSetRecoilState(userEditModalIsShow);
-    const {currentUser, logout} = useCurrentUser(undefined, {
+    const {currentUser, logout, currentUserMembership} = useCurrentUser(undefined, {
         orgIdParam: 'orgId',
     });
 
-    if (!currentUser) return <></>;
+    if (!currentOrg || !currentUser || !currentUserMembership) return <></>;
+
+    const isOwner = currentUserMembership.level === MembershipLevel.OWNER;
 
     return (
         <div className="dropdown dropdown-bottom dropdown-end">
@@ -37,11 +46,39 @@ export const TopNavProfileButton = memo(() => {
                     </a>
                 </li>
                 <li>
-                    <a className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi">
+                    <a
+                        className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi"
+                        href="https://scordi.channel.io/lounge"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         <AiOutlineQuestionCircle />
                         <span>고객센터</span>
                     </a>
                 </li>
+                <li>
+                    <a
+                        className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi"
+                        onClick={() => router.push('/')}
+                    >
+                        <AiOutlineHome />
+                        <span>스코디 홈페이지로 이동</span>
+                    </a>
+                </li>
+                {isOwner && (
+                    <>
+                        <li className="" />
+                        <li>
+                            <a
+                                className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi"
+                                onClick={() => router.push(V3OrgSettingsOrgPageRoute.path(currentOrg.id))}
+                            >
+                                <AiOutlineSetting />
+                                <span>조직 설정</span>
+                            </a>
+                        </li>
+                    </>
+                )}
                 <li className="" />
                 <li>
                     <a
