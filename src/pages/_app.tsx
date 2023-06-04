@@ -17,6 +17,7 @@ import {ToastContainer, Slide} from 'react-toastify';
 import type {Props} from '^types/page';
 import {RecoilRoot} from 'recoil';
 import {ChannelTalkCDN} from '^components/lib/channel-talk/ChannelTalkCDN';
+import {appWithTranslation} from 'next-i18next';
 
 function MyApp(props: Props) {
     const {Component, pageProps} = props;
@@ -61,4 +62,4 @@ function MyApp(props: Props) {
     );
 }
 
-export default MyApp;
+export default appWithTranslation(MyApp);

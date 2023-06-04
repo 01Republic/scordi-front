@@ -11,9 +11,12 @@ import {V3OrgSettingsOrgPageRoute} from '^pages/v3/orgs/[orgId]/settings/org';
 import {useRouter} from 'next/router';
 import {currentOrgAtom} from '^atoms/organizations.atom';
 import {AiOutlineHome} from '@react-icons/all-files/ai/AiOutlineHome';
+import {useTranslation} from 'next-i18next';
 
 export const TopNavProfileButton = memo(() => {
     const router = useRouter();
+    const commonLocale = useTranslation('common');
+    const profileLocale = useTranslation('profile');
     const currentOrg = useRecoilValue(currentOrgAtom);
     const setUserEditModalIsShow = useSetRecoilState(userEditModalIsShow);
     const {currentUser, logout, currentUserMembership} = useCurrentUser(undefined, {
@@ -23,6 +26,8 @@ export const TopNavProfileButton = memo(() => {
     if (!currentOrg || !currentUser || !currentUserMembership) return <></>;
 
     const isOwner = currentUserMembership.level === MembershipLevel.OWNER;
+
+    const {t} = profileLocale;
 
     return (
         <div className="dropdown dropdown-bottom dropdown-end">
@@ -42,7 +47,7 @@ export const TopNavProfileButton = memo(() => {
                         onClick={() => setUserEditModalIsShow(true)}
                     >
                         <AiOutlineSetting />
-                        <span>설정</span>
+                        <span>{t('dropdown.setting')}</span>
                     </a>
                 </li>
                 <li>
@@ -53,7 +58,7 @@ export const TopNavProfileButton = memo(() => {
                         rel="noopener noreferrer"
                     >
                         <AiOutlineQuestionCircle />
-                        <span>고객센터</span>
+                        <span>{t('dropdown.help')}</span>
                     </a>
                 </li>
                 <li>
@@ -62,7 +67,7 @@ export const TopNavProfileButton = memo(() => {
                         onClick={() => router.push('/')}
                     >
                         <AiOutlineHome />
-                        <span>스코디 홈페이지로 이동</span>
+                        <span>{t('dropdown.goHomePage')}</span>
                     </a>
                 </li>
                 {isOwner && (
@@ -86,7 +91,7 @@ export const TopNavProfileButton = memo(() => {
                         onClick={() => logout()}
                     >
                         <BiLogOut />
-                        <span>로그아웃</span>
+                        <span>{t('dropdown.logout')}</span>
                     </a>
                 </li>
             </ul>
