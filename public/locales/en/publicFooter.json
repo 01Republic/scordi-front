@@ -21,5 +21,8 @@
     "heading": "Scordi Terms",
     "serviceUsage": "Term of Service Usage",
     "privacy": "Term of Privacy"
+  },
+  "lang": {
+    "placeholder": "Select Language"
   }
 }

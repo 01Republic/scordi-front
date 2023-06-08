@@ -1,6 +1,10 @@
-import {HTMLAttributeAnchorTarget, memo} from 'react';
+import React, {HTMLAttributeAnchorTarget, memo, useEffect, useState} from 'react';
 import Image from 'next/image';
 import {useTranslation} from 'next-i18next';
+import {SelectDropdown} from '^v3/share/Select';
+import {locales} from '^v3/V3OrgSettingsPage/LanguageInput';
+import {UserLocale} from '^types/user.type';
+import {useRouter} from 'next/router';
 
 export const BetaServiceFooter2 = memo(() => {
     return (
@@ -30,7 +34,15 @@ export const BetaServiceFooter2 = memo(() => {
 });
 
 export const BetaServiceFooter = memo(() => {
+    const router = useRouter();
     const {t} = useTranslation('publicFooter');
+    const [currentLocale, setCurrentLocale] = useState<UserLocale>(UserLocale.Ko);
+
+    useEffect(() => {
+        const locale = router.locale as UserLocale;
+        if (!locale) return;
+        setCurrentLocale(locale);
+    }, [router.locale]);
 
     return (
         <footer className="footer p-10 text-neutral-content pb-[100px]">
@@ -63,7 +75,7 @@ export const BetaServiceFooter = memo(() => {
                     </ul>
                 </div>
 
-                <ul className="flex list-none">
+                <ul className="flex list-none gap-2 mb-[30px]">
                     <SocialIcon
                         name="Scordi KakaoTalk"
                         href="https://pf.kakao.com/_AZZPxj?utm_source=kakaochannel&utm_medium=link&utm_campaign=homepage"
@@ -75,6 +87,18 @@ export const BetaServiceFooter = memo(() => {
                         imgSrc="https://static.toss.im/assets/homepage/safety/icn-instagram.svg"
                     />
                 </ul>
+
+                <div>
+                    <SelectDropdown
+                        placeholder={t('lang.placeholder')!}
+                        options={locales.map((locale) => ({
+                            value: locale.code,
+                            text: locale.text,
+                            selected: currentLocale === locale.code,
+                        }))}
+                        onChange={(selected) => router.push('', '', {locale: selected.value})}
+                    />
+                </div>
             </div>
         </footer>
     );

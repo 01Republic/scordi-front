@@ -20,7 +20,6 @@ import {useRouter} from 'next/router';
 import {useRecoilState} from 'recoil';
 import {gmailAccessTokenDataAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
 import {useTranslation} from 'next-i18next';
-import {useI18n} from '^types/utils/18n.type';
 
 type LandingV2HomePageProps = {} & WithChildren;
 

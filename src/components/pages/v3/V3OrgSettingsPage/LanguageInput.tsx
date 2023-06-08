@@ -6,7 +6,7 @@ import {modifyUser} from '^api/session.api';
 import {UserLocale} from '^types/user.type';
 import {toast} from 'react-toastify';
 
-const locales = [
+export const locales = [
     {code: UserLocale.Ko, text: '한국어'},
     {code: UserLocale.En, text: 'English'},
 ];
