@@ -1,0 +1,25 @@
+{
+  "companyName": "(주) 제로원리퍼블릭",
+  "regNo": {
+    "label": "사업자등록번호",
+    "value": "227-86-02683"
+  },
+  "ceo": {
+    "label": "대표",
+    "value": "김용현"
+  },
+  "tel": {
+    "label": "전화번호",
+    "value": "010-2482-4541"
+  },
+  "contact": {
+    "label": "문의",
+    "value": "official@01republic.io"
+  },
+  "address": "서울특별시 강남구 영동대로85길 34, 9층 907호",
+  "terms": {
+    "heading": "스코디 기본약관",
+    "serviceUsage": "서비스 이용약관",
+    "privacy": "개인정보 처리방침"
+  }
+}

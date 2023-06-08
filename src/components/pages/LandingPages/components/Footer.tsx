@@ -1,5 +1,6 @@
 import {HTMLAttributeAnchorTarget, memo} from 'react';
 import Image from 'next/image';
+import {useTranslation} from 'next-i18next';
 
 export const BetaServiceFooter2 = memo(() => {
     return (
@@ -29,6 +30,8 @@ export const BetaServiceFooter2 = memo(() => {
 });
 
 export const BetaServiceFooter = memo(() => {
+    const {t} = useTranslation('publicFooter');
+
     return (
         <footer className="footer p-10 text-neutral-content pb-[100px]">
             <div className="container mx-auto sm:px-[67px] max-w-[1064px]">
@@ -37,25 +40,25 @@ export const BetaServiceFooter = memo(() => {
                         Copyright ⓒ 01Republic, Inc. All Rights Reserved
                     </p>
                     <p className="text-[13px] leading-[20px] whitespace-pre-wrap text-gray-500">
-                        (주) 제로원리퍼블릭 <br />
-                        사업자등록번호 : 227-86-02683 | 대표 : 김용현 <br />
+                        {t('companyName')} <br />
+                        {t('regNo.label')} : {t('regNo.value')} | {t('ceo.label')} : {t('ceo.value')} <br />
                         {/*전화번호 : 010-2482-4541 | 통신판매업 신고번호 : 제2020-서울강남-01164호 사업자정보*/}
                         {/*확인 <br />*/}
-                        전화번호 : 010-2482-4541 | 문의 : official@01republic.io <br />
-                        서울특별시 강남구 영동대로85길 34, 9층 907호 <br />
+                        {t('tel.label')} : {t('tel.value')} | {t('contact.label')} : {t('contact.value')} <br />
+                        {t('address')} <br />
                     </p>
                 </address>
 
                 <div className="pt-[24px] pb-[30px]">
-                    <p className="text-[15px] font-semibold mb-[16px]">스코디 기본약관</p>
+                    <p className="text-[15px] font-semibold mb-[16px]">{t('terms.heading')}</p>
                     <ul className="menu menu-horizontal gap-7 text-[13px] text-gray-500">
                         <TermLinkItem
                             href="https://api.scordi.io/terms/serviceUsageTerm-v20221101-1.txt"
-                            name="서비스 이용약관"
+                            name={t('terms.serviceUsage')}
                         />
                         <TermLinkItem
                             href="https://api.scordi.io/terms/개인정보처리방침-v20221101-1.html"
-                            name="개인정보 처리방침"
+                            name={t('terms.privacy')}
                         />
                     </ul>
                 </div>

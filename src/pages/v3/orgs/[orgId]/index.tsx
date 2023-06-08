@@ -11,22 +11,17 @@ export const V3OrgHomePageRoute = pathRoute({
     path: (orgId: number) => pathReplace(V3OrgHomePageRoute.pathname, {orgId}),
 });
 
-export async function getStaticPaths() {
-    return {
-        paths: [{params: {orgId: '24'}}],
-        fallback: true,
-    };
-}
+export const getStaticPaths = async () => ({
+    paths: [{params: {orgId: '1'}}],
+    fallback: true,
+});
 
-// @ts-ignore
-export async function getStaticProps({locale}) {
-    return {
-        props: {
-            ...(await serverSideTranslations(locale, [...v3CommonRequires, 'org-home'])),
-            // Will be passed to the page component as props
-        },
-    };
-}
+export const getStaticProps = async ({locale}: any) => ({
+    props: {
+        ...(await serverSideTranslations(locale, [...v3CommonRequires, 'org-home'])),
+        // Will be passed to the page component as props
+    },
+});
 
 export default function V3OrgHomePage() {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);

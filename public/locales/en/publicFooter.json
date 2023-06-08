@@ -1,0 +1,25 @@
+{
+  "companyName": "01Republic, Inc.",
+  "regNo": {
+    "label": "Reg No",
+    "value": "227-86-02683"
+  },
+  "ceo": {
+    "label": "CEO",
+    "value": "Yonghyun, Kim."
+  },
+  "tel": {
+    "label": "Tel",
+    "value": "010-2482-4541"
+  },
+  "contact": {
+    "label": "Contact",
+    "value": "official@01republic.io"
+  },
+  "address": "9F 907, 34 Yeongdong-daero 85-gil, Gangnam-gu, Seoul, Republic of Korea",
+  "terms": {
+    "heading": "Scordi Terms",
+    "serviceUsage": "Term of Service Usage",
+    "privacy": "Term of Privacy"
+  }
+}
