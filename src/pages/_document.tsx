@@ -31,6 +31,7 @@ export default class MyDocument extends Document {
     render() {
         const serviceHost = 'https://scordi.io';
         const thumbnail = `${serviceHost}/home/202305/tasting/thumbnail.png`;
+        const title = '스코디 Scordi - 서비스 결제 내역, 클릭 한 번으로 확인하세요';
         const description =
             '법인 카드 내역과 결제 영수증 조회 되는 인보이스 메일 일일이 대조해서 찾지 마세요. 스코디로 딱 5초만에 확인할 수 있습니다.';
         return (
@@ -44,6 +45,7 @@ export default class MyDocument extends Document {
                     />
                     <meta property="og:url" content={serviceHost} />
                     <meta property="og:type" content="website" />
+                    <meta property="og:title" content={title} />
                     <meta property="og:description" content={description} />
                     <meta property="og:image" content={thumbnail} />
                     <meta property="og:site_name" content="Scordi" />
