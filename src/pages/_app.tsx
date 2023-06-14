@@ -26,7 +26,7 @@ function MyApp(props: Props) {
     return (
         <RecoilRoot>
             <Head>
-                <title>스코디 Scordi - 서비스 결제 내역, 클릭 한 번으로 확인하세요</title>
+                <title>스코디 scordi - 서비스 결제 내역, 클릭 한 번으로 확인하세요</title>
                 <meta charSet="utf-8" />
                 <meta
                     name="viewport"
