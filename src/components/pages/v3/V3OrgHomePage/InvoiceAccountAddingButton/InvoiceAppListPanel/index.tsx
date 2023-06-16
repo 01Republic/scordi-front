@@ -1,8 +1,13 @@
-import React, {memo} from 'react';
-import {atom, useRecoilState} from 'recoil';
+import React, {memo, useCallback} from 'react';
+import {atom, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {BiChevronsLeft} from '@react-icons/all-files/bi/BiChevronsLeft';
 import {InvoiceAccountDto} from '^types/invoiceAccount.type';
 import {InvoiceAppItem} from './InvoiceAppItem';
+import {RemoveAccountItem} from '^v3/V3OrgHomePage/InvoiceAccountAddingButton/InvoiceAppListPanel/RemoveAccountItem';
+import {deleteInvoiceAccount} from '^api/invoiceAccount.api';
+import {currentOrgAtom} from '^atoms/organizations.atom';
+import {invoiceAccountsAtom} from '^v3/V3OrgHomePage/InvoiceAccountAddingButton/InvoiceAccountListPanel';
+import {useTranslation} from 'next-i18next';
 
 export const selectedInvoiceAccountAtom = atom<InvoiceAccountDto | null>({
     key: 'InvoiceAccountListPanel--selectedInvoiceAccountAtom',
@@ -10,9 +15,29 @@ export const selectedInvoiceAccountAtom = atom<InvoiceAccountDto | null>({
 });
 
 export const InvoiceAppListPanel = memo(() => {
+    const currentOrg = useRecoilValue(currentOrgAtom);
+    const setInvoiceAccounts = useSetRecoilState(invoiceAccountsAtom);
     const [selectedInvoiceAccount, setSelectedInvoiceAccount] = useRecoilState(selectedInvoiceAccountAtom);
+    const {t} = useTranslation('org-home');
 
     const invoiceApps = selectedInvoiceAccount?.invoiceApps || [];
+
+    const onRemove = useCallback(
+        (invoiceAccount: InvoiceAccountDto) => {
+            if (!currentOrg) return;
+
+            deleteInvoiceAccount(currentOrg.id, invoiceAccount.id).then(() => {
+                setSelectedInvoiceAccount(null);
+                setInvoiceAccounts((accounts) => {
+                    const remainAccounts = accounts.filter((account) => {
+                        return account.id !== invoiceAccount.id;
+                    });
+                    return [...remainAccounts];
+                });
+            });
+        },
+        [currentOrg],
+    );
 
     return (
         <ul
@@ -36,7 +61,7 @@ export const InvoiceAppListPanel = memo(() => {
                                 onClick={() => setSelectedInvoiceAccount(null)}
                             >
                                 <BiChevronsLeft />
-                                <span>계정</span>
+                                <span>{t('invoiceAccountAddingModal.account')}</span>
                             </div>
                             <div className="text-xs font-extralight">{selectedInvoiceAccount.email}</div>
                         </div>
@@ -44,7 +69,7 @@ export const InvoiceAppListPanel = memo(() => {
                     {invoiceApps.map((invoiceApp, i) => (
                         <InvoiceAppItem key={i} invoiceApp={invoiceApp} />
                     ))}
-                    {/*<AddNewAccountItem onClick={createAccount} />*/}
+                    <RemoveAccountItem onClick={onRemove} />
                 </>
             )}
         </ul>

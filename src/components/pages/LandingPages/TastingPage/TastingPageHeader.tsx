@@ -4,9 +4,11 @@ import {useRecoilValue} from 'recoil';
 import {gmailItemsLoadingAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
 import {SummarySection2} from '^components/pages/LandingPages/TastingPage/SummarySection';
 import {TypeAnimation} from 'react-type-animation';
+import {useTranslation} from 'next-i18next';
 
 export const TastingPageHeader = memo(() => {
     const isLoading = useRecoilValue(gmailItemsLoadingAtom);
+    const {t} = useTranslation('publicTasting');
 
     // Before
 
@@ -18,11 +20,11 @@ export const TastingPageHeader = memo(() => {
                 <section id="section-1" className="hero mb-3">
                     <div className="text-center w-[100vw]">
                         <div className="mb-10">
-                            <h1 className="text-3xl md:text-6xl font-bold mb-5" style={{lineHeight: 1.3}}>
-                                서비스 결제 내역 <br />
-                                <span className="text-scordi">클릭 한 번</span>으로 확인하세요
-                                {/*SaaS 관리 <br /> <span className="text-scordi">클릭 한 번</span>으로 끝내보세요*/}
-                            </h1>
+                            <h1
+                                className="text-3xl md:text-6xl font-bold mb-5"
+                                style={{lineHeight: 1.3}}
+                                dangerouslySetInnerHTML={{__html: t('title')}}
+                            />
                             {/*<h1 className="text-5xl mb-3">Find all your team subscription usage</h1>*/}
                             {/*<p className="text-lg text-gray-500">(This is just a tasting. It will never be saved.)</p>*/}
                             <p className="text-xl text-gray-500">

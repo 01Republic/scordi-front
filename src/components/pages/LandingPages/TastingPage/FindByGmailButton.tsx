@@ -44,6 +44,7 @@ export const FindByGmailButton = memo((props: FindByGmailButtonProps) => {
     // 엑세스 토큰이 세팅되어 있는 상태면 지메일을 호출한다.
     useEffect(() => {
         if (!accessTokenData) return;
+        console.log('accessTokenData', accessTokenData);
         const gmailAgent = new GmailAgent(accessTokenData);
         gmailAgent.getProfile().then(setGmailProfile);
         setIsLoading(true);

@@ -19,12 +19,14 @@ export const InvoiceAppItem = memo((props: InvoiceAppItemProps) => {
         form.setValue('isActive', invoiceApp.isActive);
     }, []);
 
+    const proto = invoiceApp.prototype;
+
     return (
         <li>
             <div className="flex items-center gap-4 px-6 cursor-default bg-base-100 text-gray-700 border-1 border-b border-b-gray-200">
-                <Avatar src={invoiceApp.image} className="w-7" />
+                <Avatar src={proto.image} className="w-7" />
                 <div className="flex-1">
-                    <p className="text-sm">{invoiceApp.name}</p>
+                    <p className="text-sm">{proto.name}</p>
                 </div>
                 <div className="flex items-center">
                     <SwitchCheckbox className="toggle-sm" {...form.register('isActive')} />

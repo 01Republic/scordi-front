@@ -9,9 +9,11 @@ import {InvoiceSearchControllerSection} from './InvoiceSearchControllerSection';
 import {InvoiceSummarySection} from './InvoiceSummarySection';
 import {InvoiceTabNav} from './InvoiceTabNav';
 import {InvoiceTable} from './InvoiceTable';
+import {useTranslation} from 'next-i18next';
 
 export const V3OrgHomePage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
+    const {t} = useTranslation('org-home');
 
     return (
         <V3MainLayout>

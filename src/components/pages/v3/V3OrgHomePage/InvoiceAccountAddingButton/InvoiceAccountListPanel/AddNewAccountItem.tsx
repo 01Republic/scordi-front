@@ -1,10 +1,13 @@
 import React, {memo} from 'react';
-import {BsEnvelopePlus} from '../../../../../react-icons';
+import {BsEnvelopePlus} from '^components/react-icons';
 import {useSetRecoilState} from 'recoil';
 import {isOpenNewInvoiceAccountModalAtom} from '../../NewInvoiceAccountModal';
+import {useTranslation} from 'next-i18next';
 
 export const AddNewAccountItem = memo(() => {
     const setModalShow = useSetRecoilState(isOpenNewInvoiceAccountModalAtom);
+    const {t} = useTranslation('org-home');
+
     return (
         <li>
             <a
@@ -12,7 +15,7 @@ export const AddNewAccountItem = memo(() => {
                 onClick={() => setModalShow(true)}
             >
                 <BsEnvelopePlus className="w-7" />
-                <span className="">다른 계정 추가</span>
+                <span className="">{t('invoiceAccountAddingModal.addAnotherAccount')}</span>
             </a>
         </li>
     );

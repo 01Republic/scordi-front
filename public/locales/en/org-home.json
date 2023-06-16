@@ -1,3 +1,9 @@
 {
-  "heading": "Check out the scattered payment history of the {{orgName}} team!"
+  "heading": "Check out the scattered payment history of the {{orgName}} team!",
+  "newInvoiceAccount": "Add account",
+  "invoiceAccountAddingModal": {
+    "addAnotherAccount": "Add another account",
+    "account": "Accounts",
+    "removeAccount": "Remove this account"
+  }
 }

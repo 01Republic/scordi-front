@@ -1,3 +1,9 @@
 {
-  "heading": "{{orgName}} 팀의 흩어진 결제내역을 확인 해보세요!"
+  "heading": "{{orgName}} 팀의 흩어진 결제내역을 확인 해보세요!",
+  "newInvoiceAccount": "청구메일 추가",
+  "invoiceAccountAddingModal": {
+    "addAnotherAccount": "다른 계정 추가",
+    "account": "계정",
+    "removeAccount": "계정 삭제"
+  }
 }

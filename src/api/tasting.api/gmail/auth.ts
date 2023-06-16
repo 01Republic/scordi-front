@@ -25,6 +25,11 @@ export function googleAuthForGmail() {
         include_granted_scopes: true,
         response_type: 'code',
         // response_type: 'token',
+        /**
+         prompt=content 옵션은 refreshToken 을 발급해주나 매번 재로그인을 요구함.
+         * 실제 서비스 환경에서는 불편할 수 있음.
+         */
+        prompt: 'consent',
         redirect_uri: `${process.env.NEXT_PUBLIC_SERVICE_HOST}/tasting`,
         client_id: googleOauthClientId,
     };
