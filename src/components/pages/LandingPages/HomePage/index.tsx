@@ -1,9 +1,7 @@
-import React, {memo, useEffect} from 'react';
-import {WithChildren} from '^types/global.type';
+import React, {memo} from 'react';
 import {
     AOSProvider,
     BetaServiceFooter,
-    BetaUserApplyCTAButton,
     BetaUserApplyModal,
     HeadTag,
     USPSection,
@@ -14,32 +12,13 @@ import {HomePageHeader} from './Header';
 import {HeaderSubLine} from '^components/pages/LandingPages/HomePage/HeaderSubLine';
 import {HomePageSection3} from '^components/pages/LandingPages/HomePage/Section3';
 import {HomePageCTAButton, HomePageCTAButton2} from './CTAButton';
-import {getGoogleAccessTokenByCode, googleAuthForGmail} from '^api/tasting.api';
 import {TastingPageRoute} from '^pages/tasting';
-import {useRouter} from 'next/router';
-import {useRecoilState} from 'recoil';
-import {gmailAccessTokenDataAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
+import {useGoogleAccessTokenCallback} from '^hooks/useGoogleAccessToken';
 import {useTranslation} from 'next-i18next';
 
-type LandingV2HomePageProps = {} & WithChildren;
-
-export const LandingV2HomePage = memo((props: LandingV2HomePageProps) => {
-    const router = useRouter();
-    const [accessTokenData, setAccessTokenData] = useRecoilState(gmailAccessTokenDataAtom);
+export const LandingV2HomePage = memo(() => {
     const {t} = useTranslation('publicMain');
-
-    useEffect(() => {
-        if (accessTokenData) return;
-
-        const code = router.query.code as string | undefined;
-        if (!code) return;
-
-        getGoogleAccessTokenByCode(code).then(async (tokenData) => {
-            if (!tokenData) return;
-            setAccessTokenData(tokenData);
-            await router.push(TastingPageRoute.path());
-        });
-    }, [router.isReady]);
+    useGoogleAccessTokenCallback(TastingPageRoute.path());
 
     return (
         <AOSProvider>

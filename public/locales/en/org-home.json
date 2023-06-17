@@ -1,9 +1,14 @@
 {
   "heading": "Check out the scattered payment history of the {{orgName}} team!",
   "newInvoiceAccount": "Add account",
-  "invoiceAccountAddingModal": {
+  "invoiceAccountAddingPanel": {
     "addAnotherAccount": "Add another account",
     "account": "Accounts",
     "removeAccount": "Remove this account"
+  },
+  "newInvoiceAccountModal": {
+    "title": "Add a billing email account",
+    "description": "Register multiple email accounts <br /> Sign up in one click",
+    "googleLoginText": "Sign up with google"
   }
 }

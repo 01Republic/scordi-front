@@ -1,14 +1,9 @@
-import React, {memo, useEffect, useState} from 'react';
-import {getGoogleAccessTokenByCode, GmailAgent, googleAuthForGmail} from '^api/tasting.api';
+import React, {memo, useEffect} from 'react';
+import {GmailAgent, googleAuthForGmail} from '^api/tasting.api';
 import {useRouter} from 'next/router';
 import {useRecoilState, useSetRecoilState} from 'recoil';
-import {
-    gmailItemsAtom,
-    gmailAccessTokenDataAtom,
-    gmailProfileAtom,
-    gmailItemsLoadedAtom,
-    gmailItemsLoadingAtom,
-} from './pageAtoms';
+import {gmailItemsAtom, gmailProfileAtom, gmailItemsLoadedAtom, gmailItemsLoadingAtom} from './pageAtoms';
+import {useGoogleAccessToken} from '^hooks/useGoogleAccessToken';
 import {TastingPageRoute} from '^pages/tasting';
 import {SummarySection} from './SummarySection';
 
@@ -19,26 +14,11 @@ interface FindByGmailButtonProps {
 export const FindByGmailButton = memo((props: FindByGmailButtonProps) => {
     const {} = props;
     const router = useRouter();
-    const [accessTokenData, setAccessTokenData] = useRecoilState(gmailAccessTokenDataAtom);
     const setGmailProfile = useSetRecoilState(gmailProfileAtom);
     const setGmailItems = useSetRecoilState(gmailItemsAtom);
     const [isLoading, setIsLoading] = useRecoilState(gmailItemsLoadingAtom);
     const [isLoaded, setIsLoaded] = useRecoilState(gmailItemsLoadedAtom);
-
-    // 엑세스 토큰이 세팅되어 있지 않으면, 주소창에서 토큰값을 확인하여 세팅을 하고,
-    // 엑세스 토큰이 이미 세팅되어 있는 상태면 생략한다.
-    useEffect(() => {
-        if (accessTokenData) return;
-
-        const code = router.query.code as string | undefined;
-        if (!code) return;
-
-        getGoogleAccessTokenByCode(code).then(async (tokenData) => {
-            if (!tokenData) return;
-            setAccessTokenData(tokenData);
-            await router.replace(TastingPageRoute.path());
-        });
-    }, [router.isReady]);
+    const {accessTokenData} = useGoogleAccessToken();
 
     // 엑세스 토큰이 아직 세팅되어 있지 않은 상태면 생략하고,
     // 엑세스 토큰이 세팅되어 있는 상태면 지메일을 호출한다.
@@ -71,7 +51,10 @@ export const FindByGmailButton = memo((props: FindByGmailButtonProps) => {
                 {/*    <span>Google 계정으로 시작하기</span>*/}
                 {/*</button>*/}
 
-                <button onClick={googleAuthForGmail} className="btn_google_signin_light w-[280px] h-[64px]"></button>
+                <button
+                    onClick={() => googleAuthForGmail(TastingPageRoute.path())}
+                    className="btn_google_signin_light w-[280px] h-[64px]"
+                />
             </div>
 
             <SummarySection />

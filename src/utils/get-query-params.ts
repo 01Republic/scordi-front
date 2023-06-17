@@ -6,3 +6,10 @@ export function getQueryParams<T>(keys: string[]): T {
     });
     return data as T;
 }
+
+export const buildUrl = (baseUrl: string, params: Record<string, any>) => {
+    const queryString = Object.entries(params)
+        .map(([k, v]) => [k, v].join('='))
+        .join('&');
+    return [baseUrl, queryString].join('?');
+};

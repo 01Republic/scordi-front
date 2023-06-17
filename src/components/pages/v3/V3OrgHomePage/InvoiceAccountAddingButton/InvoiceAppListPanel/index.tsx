@@ -61,7 +61,7 @@ export const InvoiceAppListPanel = memo(() => {
                                 onClick={() => setSelectedInvoiceAccount(null)}
                             >
                                 <BiChevronsLeft />
-                                <span>{t('invoiceAccountAddingModal.account')}</span>
+                                <span>{t('invoiceAccountAddingPanel.account')}</span>
                             </div>
                             <div className="text-xs font-extralight">{selectedInvoiceAccount.email}</div>
                         </div>

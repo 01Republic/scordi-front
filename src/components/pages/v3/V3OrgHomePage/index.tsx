@@ -10,6 +10,7 @@ import {InvoiceSummarySection} from './InvoiceSummarySection';
 import {InvoiceTabNav} from './InvoiceTabNav';
 import {InvoiceTable} from './InvoiceTable';
 import {useTranslation} from 'next-i18next';
+import {InvoiceAccountAddingAlert} from '^v3/V3OrgHomePage/InvoiceAccountAddingAlert';
 
 export const V3OrgHomePage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -17,6 +18,7 @@ export const V3OrgHomePage = memo(() => {
 
     return (
         <V3MainLayout>
+            <InvoiceAccountAddingAlert />
             {currentOrg && (
                 <V3MainLayoutContainer>
                     <section className={`${styles.greeting} flex items-center justify-between mb-20`}>

@@ -1,14 +1,7 @@
 import {googleOauthClientId, googleOauthClientSecret} from './constant';
-import {NextRouter} from 'next/router';
 import axios from 'axios';
 import Qs from 'qs';
-
-const buildUrl = (baseUrl: string, params: Record<string, any>) => {
-    const queryString = Object.entries(params)
-        .map(([k, v]) => [k, v].join('='))
-        .join('&');
-    return [baseUrl, queryString].join('?');
-};
+import {buildUrl} from '^utils/get-query-params';
 
 function getExpireAtFromSecond(expiresIn: number) {
     const date = new Date();
@@ -16,11 +9,15 @@ function getExpireAtFromSecond(expiresIn: number) {
     return date;
 }
 
-// 구글 로그인 버튼 클릭시 구글로그인 창 호출. (지메일 권한을 포함해서 토큰을 얻어옴)
-export function googleAuthForGmail() {
+/**
+ * [Step1] 구글 로그인 버튼 클릭시 구글로그인 창 호출.
+ * ---
+ * 지메일 권한을 포함해서 1회성 code 를 얻어옵니다.
+ */
+export function googleAuthForGmail(redirectPath: string) {
     const baseUrl: string = 'https://accounts.google.com/o/oauth2/v2/auth';
     const params = {
-        scope: 'https://mail.google.com',
+        scope: 'email profile openid https://mail.google.com/ https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
         access_type: 'offline',
         include_granted_scopes: true,
         response_type: 'code',
@@ -30,7 +27,8 @@ export function googleAuthForGmail() {
          * 실제 서비스 환경에서는 불편할 수 있음.
          */
         prompt: 'consent',
-        redirect_uri: `${process.env.NEXT_PUBLIC_SERVICE_HOST}/tasting`,
+        state: redirectPath,
+        redirect_uri: `${process.env.NEXT_PUBLIC_SERVICE_HOST}/callback/google`,
         client_id: googleOauthClientId,
     };
     const url = buildUrl(baseUrl, params);
@@ -47,7 +45,12 @@ export type GoogleAccessTokenData = {
     expireAt: Date; // 응답을 받은 직후 expire_in 을 통해 계산해서 세팅함.
 };
 
-export async function getGoogleAccessTokenByCode(code: string) {
+/**
+ * [Step2] code 로 액세스 토큰 가져오기
+ * ---
+ * 구글로그인 창의 콜백으로 얻은 code 로 액세스 토큰과 리프레시 토큰을 가져옵니다.
+ */
+export async function getGoogleAccessTokenByCode(code: string, redirectPath?: string) {
     const baseUrl: string = 'https://oauth2.googleapis.com/token';
     const headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -57,7 +60,8 @@ export async function getGoogleAccessTokenByCode(code: string) {
         code,
         client_id: googleOauthClientId,
         client_secret: googleOauthClientSecret,
-        redirect_uri: `${process.env.NEXT_PUBLIC_SERVICE_HOST}/tasting`,
+        state: redirectPath,
+        redirect_uri: `${process.env.NEXT_PUBLIC_SERVICE_HOST}/callback/google`,
         grant_type: 'authorization_code',
     });
     return axios.post<GoogleAccessTokenData>(baseUrl, body, {headers}).then((res) => {
@@ -75,6 +79,11 @@ export type GoogleRefreshedTokenData = {
     expireAt: Date; // 응답을 받은 직후 expire_in 을 통해 계산해서 세팅함.
 };
 
+/**
+ * [Step3] 리프레시 토큰으로 만료된 액세스 토큰 갱시하기
+ * ---
+ * 구글로그인 창의 콜백으로 얻은 code 로 액세스 토큰을 가져옵니다.
+ */
 export async function getGoogleAccessTokenByRefreshToken(refreshToken: string) {
     const baseUrl: string = 'https://oauth2.googleapis.com/token';
     const headers = {

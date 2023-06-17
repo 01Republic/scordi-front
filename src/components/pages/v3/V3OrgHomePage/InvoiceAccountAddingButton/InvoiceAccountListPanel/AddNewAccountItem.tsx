@@ -15,7 +15,7 @@ export const AddNewAccountItem = memo(() => {
                 onClick={() => setModalShow(true)}
             >
                 <BsEnvelopePlus className="w-7" />
-                <span className="">{t('invoiceAccountAddingModal.addAnotherAccount')}</span>
+                <span className="">{t('invoiceAccountAddingPanel.addAnotherAccount')}</span>
             </a>
         </li>
     );

@@ -24,7 +24,7 @@ export type GmailItem = {
 };
 
 export class GmailAgent {
-    private readonly accessTokenData: GoogleAccessTokenData;
+    readonly accessTokenData: GoogleAccessTokenData;
 
     constructor(accessTokenData: GoogleAccessTokenData) {
         this.accessTokenData = accessTokenData;

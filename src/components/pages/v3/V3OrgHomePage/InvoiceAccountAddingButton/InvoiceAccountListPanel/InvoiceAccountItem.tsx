@@ -14,11 +14,12 @@ export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
     const {invoiceAccount} = props;
     const appNames: string[] = [];
 
+    const len = invoiceAccount.invoiceApps.length;
     invoiceAccount.invoiceApps.forEach((app, i) => {
         if (i < 2) {
             appNames.push(app.prototype.name);
         }
-        if (i === 2) appNames.push(`${app.prototype.name} ...`);
+        if (i === 2) appNames.push(`${app.prototype.name} ... ${len} apps`);
         if (i > 2) return;
     });
 

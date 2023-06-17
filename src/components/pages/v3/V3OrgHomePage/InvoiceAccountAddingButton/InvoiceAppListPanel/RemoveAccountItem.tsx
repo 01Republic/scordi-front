@@ -20,7 +20,7 @@ export const RemoveAccountItem = memo((props: RemoveAccountItemProps) => {
                 onClick={() => currentAccountItem && onClick(currentAccountItem)}
             >
                 {/*<BsEnvelopePlus className="w-7" />*/}
-                <span className="">{t('invoiceAccountAddingModal.removeAccount')}</span>
+                <span className="">{t('invoiceAccountAddingPanel.removeAccount')}</span>
             </a>
         </li>
     );
