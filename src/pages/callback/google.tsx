@@ -29,17 +29,33 @@ export default function GoogleCallbackPage() {
         if (!router.isReady) return;
 
         const {state, ...query} = router.query;
-        const redirectUri = state as string;
+        const redirectUri = state as string | undefined;
 
         console.log('query', query);
-        router.replace(buildUrl(redirectUri, query));
+        if (redirectUri) router.replace(buildUrl(redirectUri, query));
     }, [router.isReady]);
 
     return (
-        <div>
+        <div className="fixed top-0 bottom-0 left-0 right-0 m-auto flex items-center justify-center">
             <div>
-                {/* TODO: 나중에 프리로더로 바꿀 것 */}
-                <p>Google auth redirect ...</p>
+                <div className="loadingio-spinner-spinner-cb6o2gc2by">
+                    <div className="ldio-pcdc4ae6leg">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+
+                <p className="text-center">Loading ...</p>
             </div>
         </div>
     );

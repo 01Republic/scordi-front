@@ -1,4 +1,5 @@
 import '../styles/index.css';
+import '../styles/loading.scss';
 import '../styles/grid.scss';
 import '../styles/globals.scss';
 import '../styles/mainPage.scss';
