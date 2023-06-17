@@ -1,6 +1,7 @@
 import {ApplicationDto} from '^types/application.type';
 import {OrganizationDto} from '^types/organization.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
+import {GmailItem} from '^api/tasting.api';
 
 // 쿼리가 가능한 엔티티. (dto 와 entity 의 형태 차이가 좀 있음)
 export class BillingSchedule {
@@ -41,9 +42,10 @@ export type BillingScheduleShallowDto = {
 
 export type BillingHistoryDto = {
     id: number; // ID
-    uid: string; // UID
+    uid: string | null; // UID
     organizationId: number; // 조직 ID
     applicationId: number; // 구독정보 ID
+    invoiceAppId: number | null; // 인보이스 앱 ID
     issuedAt: string; // 결제 요청 일시
     paidAt: string | null; // 결제 완료 일시
     paidAmount: number; // 결제금액
@@ -54,6 +56,7 @@ export type BillingHistoryDto = {
     updatedAt: string; // 수정일시
     organization?: OrganizationDto; // 조직
     application?: ApplicationDto; // 구독정보
+    emailContent: GmailItem | null;
 };
 
 export const t_paidAt = (dto: BillingHistoryDto) => {

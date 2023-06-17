@@ -13,32 +13,33 @@ interface FindByGmailButtonProps {
 
 export const FindByGmailButton = memo((props: FindByGmailButtonProps) => {
     const {} = props;
-    const router = useRouter();
-    const setGmailProfile = useSetRecoilState(gmailProfileAtom);
-    const setGmailItems = useSetRecoilState(gmailItemsAtom);
-    const [isLoading, setIsLoading] = useRecoilState(gmailItemsLoadingAtom);
+    // const router = useRouter();
+    // const setGmailProfile = useSetRecoilState(gmailProfileAtom);
+    // const setGmailItems = useSetRecoilState(gmailItemsAtom);
+    // const [isLoading, setIsLoading] = useRecoilState(gmailItemsLoadingAtom);
     const [isLoaded, setIsLoaded] = useRecoilState(gmailItemsLoadedAtom);
-    const {accessTokenData} = useGoogleAccessToken();
+    // const {accessTokenData} = useGoogleAccessToken();
 
-    // 엑세스 토큰이 아직 세팅되어 있지 않은 상태면 생략하고,
-    // 엑세스 토큰이 세팅되어 있는 상태면 지메일을 호출한다.
-    useEffect(() => {
-        if (!accessTokenData) return;
-        console.log('accessTokenData', accessTokenData);
-        const gmailAgent = new GmailAgent(accessTokenData);
-        gmailAgent.getProfile().then(setGmailProfile);
-        setIsLoading(true);
-        gmailAgent
-            .getList()
-            .then((items) => {
-                return items;
-            })
-            .then(setGmailItems)
-            .then(() => {
-                setIsLoading(false);
-                setIsLoaded(true);
-            });
-    }, [accessTokenData]);
+    // console.log('accessTokenData', accessTokenData);
+    // // 엑세스 토큰이 아직 세팅되어 있지 않은 상태면 생략하고,
+    // // 엑세스 토큰이 세팅되어 있는 상태면 지메일을 호출한다.
+    // useEffect(() => {
+    //     if (!accessTokenData) return;
+    //     console.log('accessTokenData', accessTokenData);
+    //     const gmailAgent = new GmailAgent(accessTokenData);
+    //     gmailAgent.getProfile().then(setGmailProfile);
+    //     setIsLoading(true);
+    //     gmailAgent
+    //         .getList()
+    //         .then((items) => {
+    //             return items;
+    //         })
+    //         .then(setGmailItems)
+    //         .then(() => {
+    //             setIsLoading(false);
+    //             setIsLoaded(true);
+    //         });
+    // }, [accessTokenData]);
 
     return (
         <div id="tasting-handler" className={`${isLoaded ? 'active' : ''}`}>

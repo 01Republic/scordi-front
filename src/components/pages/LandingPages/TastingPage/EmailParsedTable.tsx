@@ -9,7 +9,7 @@ import {dateSortBy} from '^components/util/date';
 export const EmailParsedTable = memo(() => {
     const gmailItems = useRecoilValue(gmailItemsAtom);
     const oldestItem = gmailItems[0];
-    const sortedItems = [...gmailItems].sort(dateSortBy('DESC', (item) => item.metadata.date));
+    const sortedItems = [...gmailItems].sort(dateSortBy('DESC', (item) => new Date(item.metadata.date)));
 
     const getDate = (item: GmailItem) => item?.metadata?.date;
     const dateFormat = (date: Date) => {
@@ -49,11 +49,7 @@ export const EmailParsedTable = memo(() => {
                                 date={item.metadata.date}
                                 serviceName={item.provider}
                                 title={item.title}
-                                attachments={item.attachments.map((file) => ({
-                                    id: file.body.attachmentId,
-                                    filename: file.filename,
-                                    mimeType: file.mimeType,
-                                }))}
+                                attachments={item.attachments}
                                 sender={item.metadata.sender || item.metadata.from?.replace(/.*<(.+)>/, '$1')}
                                 price={item.price}
                             />
