@@ -20,7 +20,7 @@ export const WelcomePage = memo(() => {
 
     return (
         <LandingPageLayout pageName="WelcomePage">
-            <div className="mx-auto text-center py-20 w-full max-w-lg space-y-5 min-h-[100vh]">
+            <div className="mx-auto text-center py-20 w-full max-w-lg space-y-5">
                 <CheckCircle className="w-[60px] mb-10" color="#5E5FEE" />
 
                 <h1 className="text-2xl sm:text-4xl mb-8 font-bold">{t('welcome_page.title')}</h1>
@@ -54,6 +54,8 @@ export const WelcomePage = memo(() => {
                     </div>
                 </div>
             </div>
+
+            <hr />
         </LandingPageLayout>
     );
 });

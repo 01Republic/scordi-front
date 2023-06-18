@@ -64,7 +64,7 @@ export const BetaSignPhoneAuthPage = memo(() => {
 
     return (
         <LandingPageLayout pageName="BetaSignPhoneAuthPage">
-            <div className="mx-auto text-center py-20 w-full max-w-lg space-y-5 min-h-[100vh]">
+            <div className="mx-auto text-center py-20 w-full max-w-lg space-y-5">
                 <h1
                     className="text-2xl sm:text-4xl mb-8 font-bold"
                     onClick={() => {
@@ -92,6 +92,8 @@ export const BetaSignPhoneAuthPage = memo(() => {
                     </div>
                 </div>
             </div>
+
+            <hr />
 
             <TermModal form={form} onConfirm={agreeModalOnConfirm} />
         </LandingPageLayout>
