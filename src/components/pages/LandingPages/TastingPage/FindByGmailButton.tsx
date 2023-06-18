@@ -1,10 +1,7 @@
-import React, {memo, useEffect} from 'react';
-import {GmailAgent, googleAuthForGmail} from '^api/tasting.api';
-import {useRouter} from 'next/router';
-import {useRecoilState, useSetRecoilState} from 'recoil';
-import {gmailItemsAtom, gmailProfileAtom, gmailItemsLoadedAtom, gmailItemsLoadingAtom} from './pageAtoms';
-import {useGoogleAccessToken} from '^hooks/useGoogleAccessToken';
-import {TastingPageRoute} from '^pages/tasting';
+import React, {memo} from 'react';
+import {googleAuthForGmail} from '^api/tasting.api';
+import {useRecoilState} from 'recoil';
+import {gmailItemsLoadedAtom} from './pageAtoms';
 import {SummarySection} from './SummarySection';
 
 interface FindByGmailButtonProps {
@@ -52,10 +49,7 @@ export const FindByGmailButton = memo((props: FindByGmailButtonProps) => {
                 {/*    <span>Google 계정으로 시작하기</span>*/}
                 {/*</button>*/}
 
-                <button
-                    onClick={() => googleAuthForGmail(TastingPageRoute.path())}
-                    className="btn_google_signin_light w-[280px] h-[64px]"
-                />
+                <button onClick={() => googleAuthForGmail()} className="btn_google_signin_light w-[280px] h-[64px]" />
             </div>
 
             <SummarySection />
