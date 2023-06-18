@@ -4,6 +4,7 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import {displayCurrencyAtom, gmailItemsAtom, gmailItemsLoadedAtom} from './pageAtoms';
 import {CountUp} from 'countup.js';
 import {Currency} from '^types/crawler';
+import {useTranslation} from 'next-i18next';
 
 export const SummarySectionStatBalance = memo(() => {
     const gmailItems = useRecoilValue(gmailItemsAtom);
@@ -13,6 +14,7 @@ export const SummarySectionStatBalance = memo(() => {
         amount: 0,
         currency: Currency.USD,
     });
+    const {t} = useTranslation('publicTasting');
 
     useEffect(() => {
         if (gmailItems.length === 0) return;
@@ -49,7 +51,9 @@ export const SummarySectionStatBalance = memo(() => {
     return (
         <div className="stats bg-[#fafafa] shadow-xl md:w-[20%]">
             <div className="stat place-items-center py-7">
-                <div className="stat-title !text-black !opacity-100 font-semibold mb-3">총 비용</div>
+                <div className="stat-title !text-black !opacity-100 font-semibold mb-3">
+                    {t('summary_stat.balance.label')}
+                </div>
                 <div
                     className={`stat-value !text-3xl ${
                         !isLoaded ? 'w-full bg-slate-300 rounded-full animate-pulse' : ''

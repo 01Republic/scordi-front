@@ -1,3 +1,26 @@
 {
-  "title": "서비스 결제 내역 <br /> <span class=\"text-scordi\">클릭 한 번</span>으로 확인하세요"
+  "title": "서비스 결제 내역 <br /> <span class=\"text-scordi\">클릭 한 번</span>으로 확인하세요",
+  "subtitle1": "카드 내역과 결제 영수증 인보이스",
+  "subtitle2": "일일이 대조해서 찾지 마세요.",
+  "subtitle3": "스코디로 딱 5초만에 확인할 수 있습니다.",
+  "loading_payment_list": "결제 내역을 불러오고 있어요",
+  "hey_payment_list_arrived": "{{name}}님, 결제 내역이 도착했어요!",
+  "scordi_will_take_care": "번거로우셨던 비용 관리는 스코디에게 맡겨주세요.",
+  "wanna_keep_tracking": "서비스 결제 내역을 저장하고, 날짜를 설정하여 보고 싶으시다면",
+  "click_the_button": "아래 버튼을 눌러 무료 체험을 신청해주세요.",
+  "try_it_free_now": "지금 바로 무료 체험하기",
+  "summary_stat": {
+    "services": {
+      "label": "이용중인 서비스",
+      "unit": "개"
+    },
+    "invoice": {
+      "label": "결제 영수증 메일",
+      "unit": "건"
+    },
+    "balance": {
+      "label": "총 비용",
+      "unit": ""
+    }
+  }
 }
