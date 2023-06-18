@@ -1,0 +1,29 @@
+{
+  "phone_auth": {
+    "page_title": "This is all I need!",
+    "phone_input": {
+      "placeholder": "Enter your phone number.",
+      "send": "Send",
+      "code_has_been_sent": "The code has been sent."
+    },
+    "code_input": {
+      "placeholder": "Enter your verification code.",
+      "code_has_been_expired": "The verification code has been expired.",
+      "shall_i_send_new_code": "Shall I send you a new verification code?"
+    },
+    "start_with_phone_number": "Start with a phone number"
+  },
+  "terms_modal": {
+    "title": "Once you agree, your free trial will be confirmed!",
+    "agree_all": "Agree all",
+    "agree_to": "[{{prefix}}] Agree to the {{termName}}",
+    "required": "Required",
+    "optional": "Optional",
+    "show": "show",
+    "serviceUsage": "terms of service usage",
+    "privacy": "terms of privacy policy",
+    "marketing": "terms of marketing and advertising information",
+    "done": "Done!",
+    "please_check_agree": "Please check required terms"
+  }
+}

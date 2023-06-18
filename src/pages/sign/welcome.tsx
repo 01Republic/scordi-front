@@ -1,11 +1,20 @@
 import React from 'react';
 import {useRouter} from 'next/router';
-import {pathRoute} from '^types/pageRoute.type';
+import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {WelcomePage} from '^components/pages/LandingPages/WelcomePage';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {publicPageRequires} from '^types/utils/18n.type';
 
 export const SignWelcomePageRoute = pathRoute({
     pathname: '/sign/welcome',
-    path: () => SignWelcomePageRoute.pathname,
+    path: () => pathReplace(SignWelcomePageRoute.pathname),
+});
+
+export const getStaticProps = async ({locale}: any) => ({
+    props: {
+        ...(await serverSideTranslations(locale, [...publicPageRequires])),
+        // Will be passed to the page component as props
+    },
 });
 
 export default function SignWelcomePage() {

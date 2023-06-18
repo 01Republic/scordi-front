@@ -16,6 +16,7 @@ import {WelcomePageRoute} from '^pages/users/signup/welcome';
 import {errorNotify} from '^utils/toast-notify';
 import {useSocialLogin} from '^hooks/useCurrentUser';
 import {SignWelcomePageRoute} from '^pages/sign/welcome';
+import {useTranslation} from 'next-i18next';
 
 export const BetaSignPhoneAuthPage = memo(() => {
     const router = useRouter();
@@ -24,6 +25,7 @@ export const BetaSignPhoneAuthPage = memo(() => {
     const form = useForm<UserSocialSignUpRequestDto>();
     const [isOpened, setIsOpened] = useRecoilState(isTermModalOpenedState);
     const [isLastConfirmable, setIsLastConfirmable] = useState<boolean>(false);
+    const {t} = useTranslation('sign');
 
     useEffect(() => {
         const gmailProfileData = window.localStorage.getItem('scordi/tasting/gmailProfile');
@@ -68,9 +70,8 @@ export const BetaSignPhoneAuthPage = memo(() => {
                     onClick={() => {
                         console.log(form.getValues());
                     }}
-                >
-                    무료 체험 안내를 위해 <br /> 꼭 필요한 정보만 받을게요
-                </h1>
+                    dangerouslySetInnerHTML={{__html: t('phone_auth.page_title')}}
+                />
 
                 <div className="p-4">
                     <form className="mx-auto mb-14">
@@ -83,10 +84,10 @@ export const BetaSignPhoneAuthPage = memo(() => {
 
                     <div>
                         <button
-                            className="btn sm:btn-lg btn-block btn-scordi-500 disabled:!bg-slate-100 disabled:!border-slate-300"
+                            className="btn sm:btn-lg btn-block btn-scordi-500 normal-case disabled:!bg-slate-100 disabled:!border-slate-300"
                             onClick={agreeModalOnConfirm}
                         >
-                            휴대폰 번호로 시작하기
+                            {t('phone_auth.start_with_phone_number')}
                         </button>
                     </div>
                 </div>

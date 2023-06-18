@@ -6,8 +6,8 @@ export enum LocalList {
     EN = 'en',
 }
 
-export const publicPageRequires = ['common', 'publicFooter'];
-export const v3CommonRequires = ['common', 'profile'];
+export const publicPageRequires = ['common', 'sign', 'publicFooter'];
+export const v3CommonRequires = ['common', 'sign', 'profile'];
 
 export function useI18n<T extends string>(localeFilenames: T[]) {
     // @ts-ignore
