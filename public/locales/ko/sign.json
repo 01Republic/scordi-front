@@ -25,5 +25,12 @@
     "marketing": "마케팅 및 광고성 정보 수신",
     "done": "완료!",
     "please_check_agree": "모든 약관에 동의해 주세요"
+  },
+  "welcome_page": {
+    "title": "무료 체험 신청이 완료되었어요!",
+    "we_will_contact_you": "스코디 팀 매니저가 확인 후, 순차적으로 연락드릴 예정이에요.",
+    "then_free_trial_would_be_opened": "이후 무료 체험을 열어드릴게요.",
+    "we_will_call_you_soon": "\uD83D\uDCDE 1영업일 내에 전화로 연락 드릴게요.",
+    "go_home": "홈페이지로 이동"
   }
 }

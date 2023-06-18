@@ -25,5 +25,12 @@
     "marketing": "terms of marketing and advertising information",
     "done": "Done!",
     "please_check_agree": "Please check required terms"
+  },
+  "welcome_page": {
+    "title": "Free trial signup is complete!",
+    "we_will_contact_you": "We'll confirm and contact you in order.",
+    "then_free_trial_would_be_opened": "Then free trial would be opened.",
+    "we_will_call_you_soon": "\uD83D\uDCE8 Please check your signed email",
+    "go_home": "Go home page"
   }
 }
