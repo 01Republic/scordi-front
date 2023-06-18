@@ -38,6 +38,10 @@ run "로컬에서 빌드를 실행합니다." "NODE_ENV=production APP_ENV=stagi
 echo ""
 NODE_ENV=production APP_ENV=staging yarn build:staging
 
+run "서버가 Git repo 를 pull 받습니다." "ssh $SERVER_NAME \"cd ~/$APP_NAME && git pull origin develop\""
+echo ""
+ssh "$SERVER_NAME" "cd ~/$APP_NAME && git pull origin develop"
+
 run "서버의 기존 빌드결과 폴더가 있다면 삭제합니다." "ssh $SERVER_NAME \"rm -rf ~/$APP_NAME/.next\""
 ssh "$SERVER_NAME" "rm -rf ~/$APP_NAME/.next"
 
