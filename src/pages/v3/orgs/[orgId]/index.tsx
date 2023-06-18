@@ -46,14 +46,14 @@ export default function V3OrgHomePage() {
         const gmailAgent = new GmailAgent(accessTokenData);
 
         gmailAgent.getProfile().then((userData) => {
-            const accessTokenData = gmailAgent.accessTokenData;
+            const tokenData = gmailAgent.accessTokenData;
             createInvoiceAccount(orgId, {
                 email: userData.email,
                 image: userData.picture,
                 tokenData: {
-                    accessToken: accessTokenData.access_token,
-                    refreshToken: accessTokenData.refresh_token,
-                    expireAt: accessTokenData.expires_in,
+                    accessToken: tokenData.access_token,
+                    refreshToken: tokenData.refresh_token,
+                    expireAt: tokenData.expires_in,
                 },
             }).then(() => {
                 window.location.reload();

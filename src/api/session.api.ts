@@ -27,6 +27,10 @@ export const putUserSession = () => {
     return api.put<JwtContainer>('/users/session');
 };
 
+export const findUserByEmail = (email: string) => {
+    return api.get<UserDto>(`/users/${email}`);
+};
+
 export const postUser = (data: UserSocialSignUpRequestDto) => {
     return api.post<UserDto>('/users', data);
 };

@@ -37,16 +37,19 @@ export default function TastingPage() {
         if (!accessTokenData) return;
 
         setIsLoading(true);
+
         const gmailAgent = new GmailAgent(accessTokenData);
+
         gmailAgent.getProfile().then(async (userData) => {
+            const tokenData = gmailAgent.accessTokenData;
             setGmailProfile(userData);
             const draftAccount = await draftInvoiceAccount({
                 email: userData.email,
                 image: userData.picture,
                 tokenData: {
-                    accessToken: accessTokenData.access_token,
-                    refreshToken: accessTokenData.refresh_token,
-                    expireAt: accessTokenData.expires_in,
+                    accessToken: tokenData.access_token,
+                    refreshToken: tokenData.refresh_token,
+                    expireAt: tokenData.expires_in,
                 },
             }).then((res) => res.data);
 

@@ -3,7 +3,7 @@ import {LandingPageLayout} from '../LandingPageLayout';
 import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
 import {patchPhoneAuthSession} from '^api/authlization';
-import {SendPhoneAuthMessageDto, UserSocialSignUpRequestDto} from '^types/user.type';
+import {SendPhoneAuthMessageDto, UserDto, UserSocialSignUpRequestDto} from '^types/user.type';
 import {toast} from 'react-toastify';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {codeSentState, isTermModalOpenedState, phoneAuthDataState, useSendCode} from './BetaSignPhoneAuthPage.atom';
@@ -11,21 +11,27 @@ import {PhoneNumberInput} from './PhoneNumberInput';
 import {AuthCodeInput} from './AuthCodeInput';
 import {TermModal} from '^components/pages/LandingPages/BetaSignPhoneAuthPage/TermModal';
 import {GoogleSignedUserData} from '^atoms/currentUser.atom';
-import {postUser} from '^api/session.api';
+import {findUserByEmail, postUser} from '^api/session.api';
 import {WelcomePageRoute} from '^pages/users/signup/welcome';
 import {errorNotify} from '^utils/toast-notify';
 import {useSocialLogin} from '^hooks/useCurrentUser';
 import {SignWelcomePageRoute} from '^pages/sign/welcome';
 import {useTranslation} from 'next-i18next';
+import {createInvoiceAccount} from '^api/invoiceAccount.api';
+import {gmailAccessTokenDataAtom} from '^hooks/useGoogleAccessToken';
+import {GmailAgent} from '^api/tasting.api';
 
 export const BetaSignPhoneAuthPage = memo(() => {
     const router = useRouter();
     const socialLogin = useSocialLogin();
+    const accessTokenData = useRecoilValue(gmailAccessTokenDataAtom);
     const phoneAuthData = useRecoilValue(phoneAuthDataState);
     const form = useForm<UserSocialSignUpRequestDto>();
     const [isOpened, setIsOpened] = useRecoilState(isTermModalOpenedState);
     const [isLastConfirmable, setIsLastConfirmable] = useState<boolean>(false);
     const {t} = useTranslation('sign');
+
+    console.log('accessTokenData', accessTokenData);
 
     useEffect(() => {
         const gmailProfileData = window.localStorage.getItem('scordi/tasting/gmailProfile');
@@ -43,6 +49,35 @@ export const BetaSignPhoneAuthPage = memo(() => {
         form.setValue('phone', phoneAuthData.phoneNumber);
     }, [phoneAuthData.phoneNumber]);
 
+    // 가입 후처리 콜백
+    const findOrCreateUserCallback = (user: UserDto, data: UserSocialSignUpRequestDto) => {
+        /*
+         * 가입이 완료되면 데모페이지로부터 넘어온 경우
+         * (accessTokenData 가 존재하는 경우)
+         * 가입한 회원의 조직에 인보이스메일계정을 기본으로 하나 생성합니다.
+         */
+        if (accessTokenData) {
+            const gmailAgent = new GmailAgent(accessTokenData);
+            gmailAgent.getProfile().then(async (userData) => {
+                const tokenData = gmailAgent.accessTokenData;
+                return createInvoiceAccount(user.orgId, {
+                    email: userData.email,
+                    image: userData.picture,
+                    tokenData: {
+                        accessToken: tokenData.access_token,
+                        refreshToken: tokenData.refresh_token,
+                        expireAt: tokenData.expires_in,
+                    },
+                });
+            });
+        }
+
+        // 정상적인 온보딩 플로우
+        socialLogin({provider: data.provider, uid: data.uid})
+            .then(() => router.push(SignWelcomePageRoute.path()))
+            .catch(errorNotify);
+    };
+
     // 인증 완료 후 최종 가입시도
     const onLastSubmit = (data: UserSocialSignUpRequestDto) => {
         if (!data.isAgreeForServiceUsageTerm || !data.isAgreeForPrivacyPolicyTerm) {
@@ -50,13 +85,31 @@ export const BetaSignPhoneAuthPage = memo(() => {
             return;
         }
 
-        postUser(data)
-            .then(() => {
-                socialLogin({provider: data.provider, uid: data.uid})
-                    .then(() => router.push(SignWelcomePageRoute.path()))
-                    .catch(errorNotify);
+        // 먼저 이메일을 통해 가입여부를 확인하고
+        findUserByEmail(data.email)
+            .then((res) => {
+                // 가입된 사용자라면 후처리 로직만 실행하고
+                const user = res.data;
+                if (user.orgId) {
+                    toast.info('가입한 계정이 있어 기존 계정으로 진행합니다.');
+                    findOrCreateUserCallback(res.data, data);
+                } else {
+                    alert('[에러] 조직이 설정되지 않은 사용자입니다.\n관리자에게 문의해주세요.');
+                }
             })
-            .catch(errorNotify);
+            .catch((err) => {
+                // 기존에 가입되어있지 않은 사용자라면
+                if (err?.response?.data?.code === 404) {
+                    // 가입을 시킵니다.
+                    postUser(data)
+                        .then((res) => {
+                            findOrCreateUserCallback(res.data, data);
+                        })
+                        .catch(errorNotify);
+                } else {
+                    errorNotify(err);
+                }
+            });
     };
 
     // 약관 동의 모달 완료
