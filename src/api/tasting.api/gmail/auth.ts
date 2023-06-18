@@ -2,6 +2,7 @@ import {googleOauthClientId, googleOauthClientSecret} from './constant';
 import axios from 'axios';
 import Qs from 'qs';
 import {buildUrl} from '^utils/get-query-params';
+import {buildLocalePath} from '^utils/locale-helper';
 
 function getExpireAtFromSecond(expiresIn: number) {
     const date = new Date();
@@ -15,8 +16,9 @@ function getExpireAtFromSecond(expiresIn: number) {
  * - 지메일 권한을 포함해서 1회성 code 를 얻어옵니다.
  * - redirectPath 를 설정하지 않으면, 호출한 페이지로 돌아옵니다. (location.pathname)
  */
-export function googleAuthForGmail(redirectPath?: string) {
+export function googleAuthForGmail(redirectPath?: string, locale?: string) {
     const baseUrl: string = 'https://accounts.google.com/o/oauth2/v2/auth';
+    const redirectUrl = buildLocalePath(redirectPath, locale);
     const params = {
         scope: 'email profile openid https://mail.google.com/ https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
         access_type: 'offline',
@@ -28,7 +30,7 @@ export function googleAuthForGmail(redirectPath?: string) {
          * 실제 서비스 환경에서는 불편할 수 있음.
          */
         prompt: 'consent',
-        state: redirectPath ?? window.location.pathname,
+        state: redirectUrl ?? window.location.pathname,
         redirect_uri: `${process.env.NEXT_PUBLIC_SERVICE_HOST}/callback/google`,
         client_id: googleOauthClientId,
     };
