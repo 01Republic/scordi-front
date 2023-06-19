@@ -30,7 +30,7 @@ export function googleAuthForGmail(redirectPath?: string, locale?: string) {
          * 실제 서비스 환경에서는 불편할 수 있음.
          */
         prompt: 'consent',
-        state: redirectUrl ?? window.location.pathname,
+        state: redirectUrl || window.location.pathname,
         redirect_uri: `${process.env.NEXT_PUBLIC_SERVICE_HOST}/callback/google`,
         client_id: googleOauthClientId,
     };
