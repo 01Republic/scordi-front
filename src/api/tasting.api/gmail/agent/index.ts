@@ -15,6 +15,11 @@ export type GmailItem = {
     price: Price;
 };
 
+export type GmailQueryOptions = {
+    from: Date; // 메일 쿼리 - 언제부터
+    to: Date; // 메일 쿼리 - 언제까지
+};
+
 export class GmailAgent {
     readonly accessTokenData: GoogleAccessTokenData;
 

@@ -2,17 +2,15 @@ import React, {memo, useEffect, useState} from 'react';
 import {LandingPageLayout} from '../LandingPageLayout';
 import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
-import {patchPhoneAuthSession} from '^api/authlization';
-import {SendPhoneAuthMessageDto, UserDto, UserSocialSignUpRequestDto} from '^types/user.type';
+import {UserDto, UserSocialSignUpRequestDto} from '^types/user.type';
 import {toast} from 'react-toastify';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {codeSentState, isTermModalOpenedState, phoneAuthDataState, useSendCode} from './BetaSignPhoneAuthPage.atom';
+import {isTermModalOpenedState, phoneAuthDataState} from './BetaSignPhoneAuthPage.atom';
 import {PhoneNumberInput} from './PhoneNumberInput';
 import {AuthCodeInput} from './AuthCodeInput';
 import {TermModal} from '^components/pages/LandingPages/BetaSignPhoneAuthPage/TermModal';
 import {GoogleSignedUserData} from '^atoms/currentUser.atom';
 import {findUserByEmail, postUser} from '^api/session.api';
-import {WelcomePageRoute} from '^pages/users/signup/welcome';
 import {errorNotify} from '^utils/toast-notify';
 import {useSocialLogin} from '^hooks/useCurrentUser';
 import {SignWelcomePageRoute} from '^pages/sign/welcome';
@@ -20,6 +18,8 @@ import {useTranslation} from 'next-i18next';
 import {createInvoiceAccount} from '^api/invoiceAccount.api';
 import {gmailAccessTokenDataAtom} from '^hooks/useGoogleAccessToken';
 import {GmailAgent} from '^api/tasting.api';
+import {dayAfter, firstDayOfYear, yearBefore} from '^components/util/date';
+import {draftFromTo} from '^types/invoiceAccount.type';
 
 export const BetaSignPhoneAuthPage = memo(() => {
     const router = useRouter();
@@ -68,6 +68,7 @@ export const BetaSignPhoneAuthPage = memo(() => {
                         refreshToken: tokenData.refresh_token,
                         expireAt: tokenData.expires_in,
                     },
+                    gmailQueryOptions: draftFromTo(),
                 });
             });
         }

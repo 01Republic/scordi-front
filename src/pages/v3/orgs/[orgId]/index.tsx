@@ -8,6 +8,7 @@ import {v3CommonRequires} from '^types/utils/18n.type';
 import {useGoogleAccessTokenCallback} from '^hooks/useGoogleAccessToken';
 import {createInvoiceAccount} from '^api/invoiceAccount.api';
 import {GmailAgent} from '^api/tasting.api';
+import {createFromTo} from '^types/invoiceAccount.type';
 
 export const V3OrgHomePageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]',
@@ -55,6 +56,7 @@ export default function V3OrgHomePage() {
                     refreshToken: tokenData.refresh_token,
                     expireAt: tokenData.expires_in,
                 },
+                gmailQueryOptions: createFromTo(),
             }).then(() => {
                 window.location.reload();
             });
