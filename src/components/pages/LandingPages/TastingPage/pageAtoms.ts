@@ -25,5 +25,5 @@ export const gmailItemsAtom = atom<GmailItem[]>({
 
 export const displayCurrencyAtom = atom<Currency>({
     key: 'displayCurrencyAtom',
-    default: Currency.USD,
+    default: Currency.KRW,
 });
