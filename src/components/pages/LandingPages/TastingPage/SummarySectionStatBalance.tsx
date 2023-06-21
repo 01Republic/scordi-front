@@ -12,7 +12,7 @@ export const SummarySectionStatBalance = memo(() => {
     const isLoaded = useRecoilValue(gmailItemsLoadedAtom);
     const [totalPrice, setTotalPrice] = useState<Pick<Price, 'amount' | 'currency'>>({
         amount: 0,
-        currency: Currency.USD,
+        currency: Currency.KRW,
     });
     const {t} = useTranslation('publicTasting');
 
