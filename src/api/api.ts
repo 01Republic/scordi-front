@@ -9,6 +9,14 @@ export const getToken = () => localStorage.getItem(SIGNED_TOKEN_STORAGE_KEY);
 export const setToken = (token: string) => localStorage.setItem(SIGNED_TOKEN_STORAGE_KEY, token);
 export const removeToken = () => localStorage.removeItem(SIGNED_TOKEN_STORAGE_KEY);
 
+export type ApiErrorDto = {
+    code: string;
+    message: string;
+    status: number;
+};
+
+export class ApiError<T = ApiErrorDto, D = any> extends AxiosError<T, D> {}
+
 export const api = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BASE_API,
 });
@@ -36,10 +44,7 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
-type ApiError = {
-    message: string;
-};
-api.interceptors.response.use(undefined, (error: AxiosError<ApiError>) => {
+api.interceptors.response.use(undefined, (error: AxiosError<ApiErrorDto>) => {
     console.log(window.location.pathname);
 
     const {response} = error;
