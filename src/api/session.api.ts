@@ -28,7 +28,7 @@ export const putUserSession = () => {
 };
 
 export const findUserByEmail = (email: string) => {
-    return api.get<UserDto>(`/users/${email}`);
+    return api.get<UserDto>(`/users/find-by/${email}`);
 };
 
 export const postUser = (data: UserSocialSignUpRequestDto) => {

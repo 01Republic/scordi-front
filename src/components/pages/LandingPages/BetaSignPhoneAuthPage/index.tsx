@@ -18,8 +18,8 @@ import {useTranslation} from 'next-i18next';
 import {createInvoiceAccount} from '^api/invoiceAccount.api';
 import {gmailAccessTokenDataAtom} from '^hooks/useGoogleAccessToken';
 import {GmailAgent} from '^api/tasting.api';
-import {dayAfter, firstDayOfYear, yearBefore} from '^components/util/date';
-import {draftFromTo} from '^types/invoiceAccount.type';
+import {createFromTo} from '^types/invoiceAccount.type';
+import {ApiError} from '^api/api';
 
 export const BetaSignPhoneAuthPage = memo(() => {
     const router = useRouter();
@@ -51,6 +51,7 @@ export const BetaSignPhoneAuthPage = memo(() => {
 
     // 가입 후처리 콜백
     const findOrCreateUserCallback = (user: UserDto, data: UserSocialSignUpRequestDto) => {
+        console.log('findOrCreateUserCallback', user);
         /*
          * 가입이 완료되면 데모페이지로부터 넘어온 경우
          * (accessTokenData 가 존재하는 경우)
@@ -68,7 +69,7 @@ export const BetaSignPhoneAuthPage = memo(() => {
                         refreshToken: tokenData.refresh_token,
                         expireAt: tokenData.expires_in,
                     },
-                    gmailQueryOptions: draftFromTo(),
+                    gmailQueryOptions: createFromTo(),
                 });
             });
         }
@@ -93,20 +94,25 @@ export const BetaSignPhoneAuthPage = memo(() => {
                 const user = res.data;
                 if (user.orgId) {
                     toast.info('가입한 계정이 있어 기존 계정으로 진행합니다.');
-                    findOrCreateUserCallback(res.data, data);
+                    findOrCreateUserCallback(user, data);
                 } else {
                     alert('[에러] 조직이 설정되지 않은 사용자입니다.\n관리자에게 문의해주세요.');
                 }
             })
-            .catch((err) => {
+            .catch((err: ApiError) => {
+                console.log({err});
                 // 기존에 가입되어있지 않은 사용자라면
-                if (err?.response?.data?.code === 404) {
+                if (err?.response?.data?.status === 404) {
                     // 가입을 시킵니다.
                     postUser(data)
                         .then((res) => {
+                            console.log('가입 then', res);
                             findOrCreateUserCallback(res.data, data);
                         })
-                        .catch(errorNotify);
+                        .catch((err: ApiError) => {
+                            console.log('가입 catch', err);
+                            errorNotify(err);
+                        });
                 } else {
                     errorNotify(err);
                 }
