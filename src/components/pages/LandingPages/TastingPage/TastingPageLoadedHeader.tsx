@@ -44,7 +44,7 @@ export const TastingPageLoadedHeader = memo(({children}: WithChildren) => {
 
                             <div className="py-7 mb-6">
                                 <button
-                                    className="btn btn-scordi-500 rounded-2xl shadow-xl"
+                                    className="btn btn-scordi-500 btn-lg rounded-2xl shadow-xl"
                                     onClick={() => {
                                         router.push(SignPhoneAuthPageRoute.path());
                                     }}
