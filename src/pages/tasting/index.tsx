@@ -13,7 +13,7 @@ import {
     gmailProfileAtom,
 } from '^components/pages/LandingPages/TastingPage/pageAtoms';
 import {draftInvoiceAccount} from '^api/invoiceAccount.api';
-import {draftFromTo} from '^types/invoiceAccount.type';
+import {getDraftInvoiceAccountFromTo} from '^types/invoiceAccount.type';
 
 export const TastingPageRoute = pathRoute({
     pathname: '/tasting',
@@ -52,7 +52,7 @@ export default function TastingPage() {
                     refreshToken: tokenData.refresh_token,
                     expireAt: tokenData.expires_in,
                 },
-                gmailQueryOptions: draftFromTo(),
+                gmailQueryOptions: getDraftInvoiceAccountFromTo(),
             }).then((res) => res.data);
 
             const emails = draftAccount.invoiceApps

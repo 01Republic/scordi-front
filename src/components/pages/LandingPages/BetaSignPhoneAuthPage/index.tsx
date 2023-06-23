@@ -18,7 +18,7 @@ import {useTranslation} from 'next-i18next';
 import {createInvoiceAccount} from '^api/invoiceAccount.api';
 import {gmailAccessTokenDataAtom} from '^hooks/useGoogleAccessToken';
 import {GmailAgent} from '^api/tasting.api';
-import {createFromTo} from '^types/invoiceAccount.type';
+import {getCreateInvoiceAccountFromTo} from '^types/invoiceAccount.type';
 import {ApiError} from '^api/api';
 
 export const BetaSignPhoneAuthPage = memo(() => {
@@ -69,7 +69,7 @@ export const BetaSignPhoneAuthPage = memo(() => {
                         refreshToken: tokenData.refresh_token,
                         expireAt: tokenData.expires_in,
                     },
-                    gmailQueryOptions: createFromTo(),
+                    gmailQueryOptions: getCreateInvoiceAccountFromTo(),
                 });
             });
         }
