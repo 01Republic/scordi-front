@@ -162,3 +162,7 @@ input::-webkit-inner-spin-button {
 input[type='number'] {
     -moz-appearance: textfield;
 }
+
+.Toastify__toast-body > div:last-child {
+    white-space: nowrap !important;
+}
