@@ -1,10 +1,11 @@
 import {useCallback, useEffect} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {getDashboardSummary} from '^api/dashboard.api';
+import {getDashboardSummary, getDashboardSummaryV3} from '^api/dashboard.api';
 import {errorNotify} from '^utils/toast-notify';
 import {getQueryParams} from '^utils/get-query-params';
-import {dashboardSummaryState, getDashboardSummaryQuery} from '^atoms/calendarData.atom';
+import {dashboardSummaryState, dashboardSummaryV3State, getDashboardSummaryQuery} from '^atoms/calendarData.atom';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {GetBillingHistoriesParams} from '^types/billing.type';
 
 export const useDashboardSummary = () => useRecoilValue(getDashboardSummaryQuery);
 
@@ -30,3 +31,19 @@ export function useDashboardSummary2() {
 
     return {summaryData, setSummary, year, month};
 }
+
+/**
+ * V3
+ */
+
+export const useDashboardSummaryV3 = () => {
+    const [summary, setSummary] = useRecoilState(dashboardSummaryV3State);
+    async function getSummary(params: GetBillingHistoriesParams) {
+        const orgId = params.where?.organizationId;
+        if (!orgId) return;
+        const data = await getDashboardSummaryV3(orgId, params).then((res) => res.data);
+        setSummary(data);
+    }
+
+    return {data: summary, mutate: getSummary};
+};

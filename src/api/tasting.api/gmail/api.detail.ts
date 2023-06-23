@@ -1,10 +1,10 @@
-import axios from 'axios';
-import {gmailPath} from './constant';
-
-export type GetGmailContentParam = {
-    accessToken: string;
-    id: string;
-};
+// import axios from 'axios';
+// import {gmailPath} from './constant';
+//
+// export type GetGmailContentParam = {
+//     accessToken: string;
+//     id: string;
+// };
 
 export type GmailContentPayloadHeader = {
     name: string;
@@ -67,8 +67,8 @@ export type GmailContent = {
     internalDate: string;
 };
 
-export const getGmailContent = async (params: GetGmailContentParam) => {
-    const {accessToken, id} = params;
-    const headers = {Authorization: `Bearer ${accessToken}`, Accept: 'application/json'};
-    return axios.get<GmailContent>(gmailPath(`gmail/v1/users/me/messages/${id}`), {headers}).then((res) => res.data);
-};
+// export const getGmailContent = async (params: GetGmailContentParam) => {
+//     const {accessToken, id} = params;
+//     const headers = {Authorization: `Bearer ${accessToken}`, Accept: 'application/json'};
+//     return axios.get<GmailContent>(gmailPath(`gmail/v1/users/me/messages/${id}`), {headers}).then((res) => res.data);
+// };

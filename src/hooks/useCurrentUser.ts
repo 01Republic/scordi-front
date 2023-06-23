@@ -12,6 +12,7 @@ import {UserDto, UserLoginRequestDto, UserSocialLoginRequestDto} from '^types/us
 import {errorNotify} from '^utils/toast-notify';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentUserMembership} from '^hooks/useMemberships';
+import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 
 type AxiosErrorData = {
     status: number;
@@ -32,9 +33,14 @@ const loginRequiredHandler = (err: AxiosError<AxiosErrorData>, router: NextRoute
     }
 };
 
-export function useCurrentUser(fallbackPath?: string | null) {
+interface CurrentUserOption {
+    orgIdParam?: string;
+}
+
+export function useCurrentUser(fallbackPath?: string | null, opt?: CurrentUserOption) {
+    const option = opt || {};
     const router = useRouter();
-    const organizationId = useRouterIdParamState('id', orgIdParamState);
+    const organizationId = useRouterIdParamState(option.orgIdParam || 'id', orgIdParamState);
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
     const {currentUserMembership, setCurrentUserMembership} = useCurrentUserMembership({
         organizationId,
@@ -80,7 +86,7 @@ export function useCurrentUser(fallbackPath?: string | null) {
         // org ? 대시보드로 이동
         // : search페이지로 이동
         if (user.orgId) {
-            router.push(OrgHomeRoute.path(user.orgId));
+            router.push(V3OrgHomePageRoute.path(user.orgId));
         } else {
             router.push(OrgSearchRoute.path());
         }

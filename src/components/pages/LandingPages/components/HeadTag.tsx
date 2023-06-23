@@ -5,17 +5,17 @@ import Head from 'next/head';
 type HeadTagProps = {} & WithChildren;
 
 export const HeadTag = memo((props: HeadTagProps) => {
-    const {children} = props;
+    // const {children} = props;
 
-    const serviceHost = 'https://scordi.io';
-    const title = '스코디 - 서비스 결제 내역, 클릭 한 번으로 확인하세요';
-    const description =
-        '법인 카드 내역과 결제 영수증 조회 되는 인보이스 메일 일일이 대조해서 찾지 마세요. 스코디로 딱 5초만에 확인할 수 있습니다.';
-    const thumbnail = `${serviceHost}/home/202305/tasting/thumbnail.png`;
+    // const serviceHost = 'https://scordi.io';
+    // const title = '스코디 - 서비스 결제 내역, 클릭 한 번으로 확인하세요';
+    // const description =
+    //     '법인 카드 내역과 결제 영수증 조회 되는 인보이스 메일 일일이 대조해서 찾지 마세요. 스코디로 딱 5초만에 확인할 수 있습니다.';
+    // const thumbnail = `${serviceHost}/home/202305/tasting/thumbnail.png`;
 
     return (
         <Head>
-            <title>{title}</title>
+            {/* <title>{title}</title>
             <meta name="description" content={description} />
             <meta name="author" content="Team Scordi" />
             <meta
@@ -32,7 +32,7 @@ export const HeadTag = memo((props: HeadTagProps) => {
             <meta name="twitter:title" content={title} />
             <meta name="twitter:description" content={description} />
             <meta name="twitter:image" content={thumbnail} />
-            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:card" content="summary_large_image" /> */}
         </Head>
     );
 });

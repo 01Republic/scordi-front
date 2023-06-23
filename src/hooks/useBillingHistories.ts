@@ -6,10 +6,12 @@ import {
     getBillingHistoriesQuery,
     getBillingHistoryQuery,
     getBillingSchedulesQuery,
+    orgBillingHistoriesQueryV3Atom,
+    orgBillingHistoriesResultV3Atom,
 } from '^atoms/billingHistories.atom';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {calendarSelectedDateState} from '^atoms/calendarData.atom';
-import {useCallback, useEffect} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {dayAfter} from '^utils/dateTime';
 import {getBillingHistories, getBillingSchedules} from '^api/billing.api';
 import {errorNotify} from '^utils/toast-notify';
@@ -42,6 +44,23 @@ export const useBillingList = () => {
     }, [selectedDate]);
 
     return {selectedDate, billingHistories, billingSchedules};
+};
+
+export const useBillingHistoriesV3 = () => {
+    const [result, setResult] = useRecoilState(orgBillingHistoriesResultV3Atom);
+    const [query, setQuery] = useRecoilState(orgBillingHistoriesQueryV3Atom);
+
+    async function search(params: GetBillingHistoriesParams) {
+        if (JSON.stringify(query) === JSON.stringify(params)) return;
+
+        const data = await getBillingHistories(params).then((res) => res.data);
+        setResult(data);
+        setQuery(params);
+    }
+
+    const movePage = (page: number) => search({...query, page});
+
+    return {query, result, search, movePage};
 };
 
 // export const useBillingHistoryList = () => {

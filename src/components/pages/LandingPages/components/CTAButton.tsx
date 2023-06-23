@@ -2,6 +2,7 @@ import React, {memo} from 'react';
 import {BsArrowRight} from '^components/react-icons';
 import {useSetRecoilState} from 'recoil';
 import {BetaUserApplyModalShowAtom} from './BetaUserApplyModal';
+import {useTranslation} from 'next-i18next';
 
 interface BetaUserApplyCTAButtonProps {
     text?: string;
@@ -14,6 +15,7 @@ interface BetaUserApplyCTAButtonProps {
 export const BetaUserApplyCTAButton = memo((props: BetaUserApplyCTAButtonProps) => {
     const setIsModalOpen = useSetRecoilState(BetaUserApplyModalShowAtom);
     const {text = '', reverseColor = false, useArrow = false, mobileShow = false, aos = true} = props;
+    const {t} = useTranslation('publicMain');
 
     const dataAos: any = {};
     if (aos) {
@@ -30,7 +32,7 @@ export const BetaUserApplyCTAButton = memo((props: BetaUserApplyCTAButtonProps) 
             {...dataAos}
             onClick={() => setIsModalOpen(true)}
         >
-            <span>{text || '사전알림 신청하기'}</span>
+            <span>{text || t('cta.default')}</span>
             {useArrow && <BsArrowRight size={20} className="ml-2" />}
         </label>
     );

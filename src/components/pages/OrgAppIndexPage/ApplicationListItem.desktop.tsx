@@ -3,7 +3,7 @@ import {ApplicationDto} from '^types/application.type';
 import {useRouter} from 'next/router';
 import Link from 'next/link';
 import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
-import {ApplicationDetailPageRoute} from '^pages/orgs/[id]/prototypes/[protoId]/applications/[appId]';
+import {ApplicationDetailPageRoute} from '^pages/orgs/[id]/prototypes/[protoId]/applications/[appId]';
 import {t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
 import {safeImageSrc} from '^types/applicationPrototype.type';
 import {ContentPanelItem} from '^layouts/ContentLayout';

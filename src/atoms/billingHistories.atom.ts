@@ -10,7 +10,7 @@ import {errorNotify} from '^utils/toast-notify';
 import {getBillingHistories, getBillingHistory, getBillingSchedules} from '^api/billing.api';
 import {billingHistoryIdParamState} from '^atoms/common';
 import {useForm} from 'react-hook-form';
-import {PaginationMetaData} from '^types/utils/paginated.dto';
+import {Paginated, PaginationMetaData} from '^types/utils/paginated.dto';
 
 /**
  * Billing Schedule
@@ -129,5 +129,26 @@ export const getBillingHistoryQuery = selector({
         // setter 가 호출되면 트리거의 값을 1만큼 증가
         // => 트리거 값 변경으로 인해 api call
         set(getBillingHistoryQueryTrigger, (v) => v + 1);
+    },
+});
+
+// useBillingHistoriesV3 에서 사용되는 Query State
+export const orgBillingHistoriesQueryV3Atom = atom<GetBillingHistoriesParams>({
+    key: 'orgBillingHistoriesQueryV3Atom',
+    default: {},
+});
+
+// useBillingHistoriesV3 에서 사용되는 Result State
+export const orgBillingHistoriesResultV3Atom = atom<Paginated<BillingHistoryDto>>({
+    key: 'orgBillingHistoriesResultV3Atom',
+    default: {
+        items: [],
+        pagination: {
+            totalItemCount: 0,
+            currentItemCount: 0,
+            totalPage: 1,
+            currentPage: 1,
+            itemsPerPage: 30,
+        },
     },
 });

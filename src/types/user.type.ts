@@ -22,7 +22,14 @@ export type UserSocialSignUpRequestDto = {
     email: string; // 이메일
     isAgreeForServiceUsageTerm: boolean; // 서비스 이용약관 동의 여부
     isAgreeForPrivacyPolicyTerm: boolean; // 개인정보 활용 동의 여부
+    isAgreeForMarketingTerm: boolean; // 마케팅 수신 동의 여부
 };
+
+// 사용자 언어 설정
+export enum UserLocale {
+    Ko = 'ko',
+    En = 'en',
+}
 
 export type UserDto = {
     id: number;
@@ -32,8 +39,10 @@ export type UserDto = {
     orgName: string;
     email: string;
     isAdmin: boolean;
+    locale: UserLocale | null;
     serviceUsageTermAgreedAt: string;
     privacyPolicyTermAgreedAt: string;
+    marketingTermAgreedAt: Date | null; // 마케팅 수신 동의 여부
     createdAt: string;
     updatedAt: string;
 };
@@ -59,6 +68,8 @@ export type UserEditProfileRequestDto = {
     orgName?: string;
     password?: string;
     passwordConfirmation?: string;
+    isAgreeForMarketingTerm?: boolean; // 마케팅 수신 동의 여부
+    locale?: UserLocale | null; // 사용자 언어 설정
 };
 
 export type SendPhoneAuthMessageDto = {

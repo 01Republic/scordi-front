@@ -1,11 +1,13 @@
-import {GmailContent, GmailContentPayloadPartAttachment} from '^api/tasting.api';
+// Deprecated
 
-export function parseEmailAttachments(email: GmailContent) {
-    if (email.payload.mimeType !== 'multipart/mixed') return [];
-
-    const parts = email.payload.parts.filter((part) => {
-        return part.mimeType.startsWith('application');
-    });
-
-    return parts as GmailContentPayloadPartAttachment[];
-}
+import {Base64} from 'js-base64';
+// import {GmailContent, GmailContentPayloadPartAttachment} from '^api/tasting.api';
+// export function parseEmailAttachments(email: GmailContent) {
+//     if (email.payload.mimeType !== 'multipart/mixed') return [];
+//
+//     const parts = email.payload.parts.filter((part) => {
+//         return part.mimeType.startsWith('application');
+//     });
+//
+//     return parts as GmailContentPayloadPartAttachment[];
+// }

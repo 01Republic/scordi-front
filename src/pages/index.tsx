@@ -2,6 +2,21 @@ import LandingPage1 from './LandingPage1';
 import {LandingPage2} from '^components/pages/LandingPage2';
 import {LandingPage202305MainPage} from '^components/pages/LandingPages/202305/MainPage';
 import {LandingV2HomePage} from '^components/pages/LandingPages/HomePage';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {publicPageRequires} from '^types/utils/18n.type';
+import {pathReplace, pathRoute} from '^types/pageRoute.type';
+
+export const MainPageRoute = pathRoute({
+    pathname: '/',
+    path: () => pathReplace(MainPageRoute.pathname),
+});
+
+export const getStaticProps = async ({locale}: any) => ({
+    props: {
+        ...(await serverSideTranslations(locale, [...publicPageRequires, 'publicMain'])),
+        // Will be passed to the page component as props
+    },
+});
 
 export default function MainPage() {
     return <LandingV2HomePage />;

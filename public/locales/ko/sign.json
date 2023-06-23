@@ -1,0 +1,36 @@
+{
+  "phone_auth": {
+    "page_title": "무료 체험 안내를 위해 <br /> 꼭 필요한 정보만 받을게요",
+    "phone_input": {
+      "placeholder": "휴대폰 번호를 입력하세요.",
+      "send": "인증",
+      "code_has_been_sent": "인증 번호를 발송해드렸어요."
+    },
+    "code_input": {
+      "placeholder": "인증 번호를 입력하세요.",
+      "code_has_been_expired": "인증 번호가 만료되었습니다.",
+      "shall_i_send_new_code": "새 인증 번호를 보낼까요?"
+    },
+    "start_with_phone_number": "휴대폰 번호로 시작하기"
+  },
+  "terms_modal": {
+    "title": "동의 하시면 무료 체험이 확정됩니다.",
+    "agree_all": "전체 동의",
+    "agree_to": "[{{prefix}}] {{termName}} 동의",
+    "required": "필수",
+    "optional": "선택",
+    "show": "보기",
+    "serviceUsage": "서비스 이용약관",
+    "privacy": "개인정보 수집·이용",
+    "marketing": "마케팅 및 광고성 정보 수신",
+    "done": "완료!",
+    "please_check_agree": "모든 약관에 동의해 주세요"
+  },
+  "welcome_page": {
+    "title": "무료 체험 신청이 완료되었어요!",
+    "we_will_contact_you": "스코디 팀 매니저가 확인 후, 순차적으로 연락드릴 예정이에요.",
+    "then_free_trial_would_be_opened": "이후 무료 체험을 열어드릴게요.",
+    "we_will_call_you_soon": "\uD83D\uDCDE 1영업일 내에 전화로 연락 드릴게요.",
+    "go_home": "홈페이지로 이동"
+  }
+}

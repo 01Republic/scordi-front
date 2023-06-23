@@ -1,4 +1,5 @@
 import '../styles/index.css';
+import '../styles/loading.scss';
 import '../styles/grid.scss';
 import '../styles/globals.scss';
 import '../styles/mainPage.scss';
@@ -9,12 +10,15 @@ import '../styles/button.scss';
 import '../styles/tasting.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
+import 'react-date-range/dist/styles.css'; // main css file
+import 'react-date-range/dist/theme/default.css'; // theme css file
 import React, {Fragment, Suspense} from 'react';
 import Head from 'next/head';
 import {ToastContainer, Slide} from 'react-toastify';
 import type {Props} from '^types/page';
 import {RecoilRoot} from 'recoil';
 import {ChannelTalkCDN} from '^components/lib/channel-talk/ChannelTalkCDN';
+import {appWithTranslation} from 'next-i18next';
 
 function MyApp(props: Props) {
     const {Component, pageProps} = props;
@@ -27,7 +31,7 @@ function MyApp(props: Props) {
         <RecoilRoot>
             <Head>
                 <meta charSet="utf-8" />
-                <title>Scordi | 똑똑한 팀을 위한 SaaS 관리 솔루션</title>
+                <title>스코디 - 서비스 결제 내역, 클릭 한 번으로 확인하세요</title>
                 <meta
                     name="viewport"
                     content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"
@@ -59,4 +63,4 @@ function MyApp(props: Props) {
     );
 }
 
-export default MyApp;
+export default appWithTranslation(MyApp);

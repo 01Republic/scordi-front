@@ -1,0 +1,26 @@
+{
+  "title": "Collect your team billing <br /> Just in <span class=\"text-scordi\">One-Click</span>",
+  "subtitle1": "There is no need to visit",
+  "subtitle2": "to collect payment receipts.",
+  "subtitle3": "Check it in just 5 sec with Scordi.",
+  "loading_payment_list": "Loading payment list",
+  "hey_payment_list_arrived": "{{name}}, payment arrived!",
+  "scordi_will_take_care": "Scordi will take care of your team billing!",
+  "wanna_keep_tracking": "Want to keep tracking automatically?",
+  "click_the_button": "Click the button",
+  "try_it_free_now": "Try it for free now",
+  "summary_stat": {
+    "services": {
+      "label": "Services you use",
+      "unit": "app"
+    },
+    "invoice": {
+      "label": "Payment Invoice",
+      "unit": "ea"
+    },
+    "balance": {
+      "label": "Total cost",
+      "unit": ""
+    }
+  }
+}

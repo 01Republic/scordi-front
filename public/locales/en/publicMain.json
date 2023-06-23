@@ -1,0 +1,45 @@
+{
+  "headline": {
+    "line1": "Collect SaaS invoice",
+    "line2": "<span class=\"text-scordi\">Just one click</span>"
+  },
+  "cta": {
+    "default": "Start for free"
+  },
+  "image": "/home/202305/tasting/header-image-en.png",
+  "subLine": {
+    "1st": "Expenses in one click",
+    "2nd": "Upcoming spending easily",
+    "3rd": "No need to find invoices"
+  },
+  "section3": {
+    "title": "Doesn’t show up detail. <br /> Check scordi.",
+    "titleMobile": "Doesn’t show up detail. <br /> Check scordi.",
+    "left": {
+      "image": "/home/202305/tasting/section-3-left.png",
+      "text": "Scattered receipts"
+    },
+    "right": {
+      "image": "/home/202305/tasting/section-3-right.png",
+      "text": "Check all your billing"
+    }
+  },
+  "section4": {
+    "image": "/home/202305/tasting/section-4-en.png",
+    "title": "Still looking like a PG? <br> Fix it with one click.",
+    "desc2": "When everything is PG, don't know where it's coming from. and where it was paid from in 5 seconds with Scodi.",
+    "cta": "Start for free"
+  },
+  "section5": {
+    "image": "/home/202305/tasting/section-5-en.png",
+    "title": "Multiple billing e-mail, <br> You can see them all.",
+    "desc2": "Once you've registered all the email from, just click to confirm without having to look in your inbox.",
+    "cta": "Check in 5 seconds"
+  },
+  "section6": {
+    "imagePc": "/home/202305/section-6-image-en.png",
+    "imageMobile": "/home/202305/section-6-image-en.png",
+    "title": "<span class='text-scordi md:text-6xl !leading-snug'>Get started <br /> with one click</span>",
+    "desc1": "<span class='text-lg md:text-2xl !leading-snug'>Card history and payment receipt invoices. <br /> Don't manually match to find your service spend. <br /> <b>You can see it in 5 seconds with scordi.</b></span>"
+  }
+}

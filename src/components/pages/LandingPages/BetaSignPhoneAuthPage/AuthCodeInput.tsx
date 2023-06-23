@@ -10,6 +10,7 @@ import {
     useSendCode,
 } from './BetaSignPhoneAuthPage.atom';
 import {BsCheck2} from '^components/react-icons';
+import {useTranslation} from 'next-i18next';
 
 export const AuthCodeInput = memo(() => {
     const [phoneAuthData, setPhoneAuthData] = useRecoilState(phoneAuthDataState);
@@ -17,6 +18,7 @@ export const AuthCodeInput = memo(() => {
     const codeConfirmed = useRecoilValue(codeConfirmedState);
     const sendCode = useSendCode();
     const confirmCode = useConfirmCode();
+    const {t} = useTranslation('sign');
 
     if (!codeSent) return <></>;
 
@@ -28,7 +30,7 @@ export const AuthCodeInput = memo(() => {
                 autoComplete="no"
                 mask="999999"
                 maskPlaceholder={null}
-                placeholder="인증 번호를 입력하세요."
+                placeholder={`${t('phone_auth.code_input.placeholder')}`}
                 callback={(mask, value) => {
                     const fulfilled = mask.length === value.length;
                     if (fulfilled) {
@@ -61,7 +63,13 @@ export const AuthCodeInput = memo(() => {
                     <Timer
                         sec={1 * 60}
                         onFinish={() => {
-                            if (confirm('인증 번호가 만료되었습니다.\n새 인증 번호를 보낼까요?')) {
+                            if (
+                                confirm(
+                                    `${t('phone_auth.code_input.code_has_been_expired')}\n${t(
+                                        'phone_auth.code_input.shall_i_send_new_code',
+                                    )}`,
+                                )
+                            ) {
                                 sendCode({phoneNumber});
                             }
                         }}

@@ -442,7 +442,11 @@ export function LandingPage2() {
                                 <span>227-86-02683</span>
                             </p>
                             <p className="mb-2">
-                                <span>이메일</span> : <span>official@01republic.io</span>
+                                <span>이메일</span> :{' '}
+                                <a href="mailto:official@01republic.io" className="link !text-gray-500">
+                                    {' '}
+                                    official@01republic.io{' '}
+                                </a>
                             </p>
                             <p className="mb-2">
                                 <span>서울특별시 강남구 영동대로85길 34, 9층 907</span>

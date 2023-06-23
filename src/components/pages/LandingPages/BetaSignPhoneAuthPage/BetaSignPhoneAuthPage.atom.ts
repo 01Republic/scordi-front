@@ -2,6 +2,7 @@ import {atom, useRecoilCallback} from 'recoil';
 import {SendPhoneAuthMessageDto} from '^types/user.type';
 import {patchPhoneAuthSession, postPhoneAuthSession} from '^api/authlization';
 import {toast} from 'react-toastify';
+import {useTranslation} from 'next-i18next';
 
 export const phoneAuthDataState = atom<SendPhoneAuthMessageDto>({
     key: 'BetaSign/phoneAuthDataState',
@@ -35,10 +36,11 @@ export const isTermModalOpenedState = atom<boolean>({
 
 // 인증번호 발급
 export const useSendCode = () => {
+    const {t} = useTranslation('sign');
     return useRecoilCallback(({set}) => (data: SendPhoneAuthMessageDto) => {
         postPhoneAuthSession(data).then((res) => {
             set(codeSentState, true);
-            toast.info('인증 번호를 발송해드렸어요.');
+            toast.info(t('phone_auth.phone_input.code_has_been_sent'));
         });
     });
 };

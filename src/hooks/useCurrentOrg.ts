@@ -10,7 +10,7 @@ export function useCurrentOrg(id: number) {
     const [currentOrg, setCurrentOrg] = useRecoilState(currentOrgAtom);
 
     useEffect(() => {
-        if (!id) return;
+        if (!id || isNaN(id)) return;
         if (currentOrg && currentOrg.id === id) return;
         getOrganization(id).then((res) => setCurrentOrg(res.data));
     }, [id, currentOrg]);

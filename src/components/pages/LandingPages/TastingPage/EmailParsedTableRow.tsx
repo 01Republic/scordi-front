@@ -1,7 +1,6 @@
 import React, {memo} from 'react';
 import {
     changePriceCurrency,
-    Currency,
     currencyFormat,
     getCurrencySymbol,
     Price,
@@ -14,9 +13,9 @@ interface EmailParsedTableRowProps {
     serviceName: string;
     title: string;
     attachments: {
-        id: string;
-        filename: string;
-        mimeType: string;
+        uid: string;
+        fileName: string;
+        url: string;
     }[];
     sender: string;
     price: Price;
@@ -51,7 +50,7 @@ export const EmailParsedTableRow = memo((props: EmailParsedTableRowProps) => {
                 <div className="flex space-x-1">
                     {attachments.map((attachment, i) => (
                         <span key={i} className="badge badge-ghost badge-sm">
-                            {attachment.filename}
+                            {attachment.fileName}
                         </span>
                     ))}
                 </div>

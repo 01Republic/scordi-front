@@ -5,6 +5,8 @@ import {errorNotify} from '^utils/toast-notify';
 import {OrganizationDto} from '^types/organization.type';
 import {getMemberships} from '^api/membership.api';
 import {currentUserAtom} from '^atoms/currentUser.atom';
+import {Paginated} from '^types/utils/paginated.dto';
+import {MembershipDto} from '^types/membership.type';
 
 // export const currentMembershipAtom = atom<OrganizationDto | null>({
 //     key: 'currentMembershipAtom',
@@ -38,3 +40,17 @@ import {currentUserAtom} from '^atoms/currentUser.atom';
 //         set(getMembershipQueryTrigger, (v) => v + 1);
 //     },
 // });
+
+export const orgMembershipSearchResultAtom = atom<Paginated<MembershipDto>>({
+    key: 'org/Membership/SearchResult/Atom',
+    default: {
+        items: [],
+        pagination: {
+            totalItemCount: 0,
+            currentItemCount: 0,
+            totalPage: 1,
+            currentPage: 1,
+            itemsPerPage: 30,
+        },
+    },
+});
