@@ -5,7 +5,7 @@ import {useForm} from 'react-hook-form';
 import {UserDto, UserSocialSignUpRequestDto} from '^types/user.type';
 import {toast} from 'react-toastify';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {isTermModalOpenedState, phoneAuthDataState} from './BetaSignPhoneAuthPage.atom';
+import {codeConfirmedState, isTermModalOpenedState, phoneAuthDataState} from './BetaSignPhoneAuthPage.atom';
 import {PhoneNumberInput} from './PhoneNumberInput';
 import {AuthCodeInput} from './AuthCodeInput';
 import {TermModal} from '^components/pages/LandingPages/BetaSignPhoneAuthPage/TermModal';
@@ -28,7 +28,7 @@ export const BetaSignPhoneAuthPage = memo(() => {
     const phoneAuthData = useRecoilValue(phoneAuthDataState);
     const form = useForm<UserSocialSignUpRequestDto>();
     const [isOpened, setIsOpened] = useRecoilState(isTermModalOpenedState);
-    const [isLastConfirmable, setIsLastConfirmable] = useState<boolean>(false);
+    const codeConfirmed = useRecoilValue(codeConfirmedState);
     const {t} = useTranslation('sign');
 
     console.log('accessTokenData', accessTokenData);
@@ -145,6 +145,7 @@ export const BetaSignPhoneAuthPage = memo(() => {
                     <div>
                         <button
                             className="btn sm:btn-lg btn-block btn-scordi-500 normal-case disabled:!bg-slate-100 disabled:!border-slate-300"
+                            disabled={!form.watch('phone') || !codeConfirmed}
                             onClick={agreeModalOnConfirm}
                         >
                             {t('phone_auth.start_with_phone_number')}
