@@ -2,6 +2,7 @@ import {ApplicationDto} from '^types/application.type';
 import {OrganizationDto} from '^types/organization.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {GmailItem} from '^api/tasting.api';
+import {InvoiceAppDto} from '^types/invoiceApp.type';
 
 // 쿼리가 가능한 엔티티. (dto 와 entity 의 형태 차이가 좀 있음)
 export class BillingSchedule {
@@ -56,6 +57,7 @@ export type BillingHistoryDto = {
     updatedAt: string; // 수정일시
     organization?: OrganizationDto; // 조직
     application?: ApplicationDto; // 구독정보
+    invoiceApp?: InvoiceAppDto; // 인보이스 앱
     emailContent: GmailItem | null;
 };
 

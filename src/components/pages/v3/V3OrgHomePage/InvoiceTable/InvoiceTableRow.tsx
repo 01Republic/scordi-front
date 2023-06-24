@@ -8,17 +8,21 @@ interface InvoiceTableRowProps {
 
 export const InvoiceTableRow = memo((props: InvoiceTableRowProps) => {
     const {invoiceData: billingHistory} = props;
-    const {application} = billingHistory;
+    const {application, invoiceApp, emailContent} = billingHistory;
+    const proto = application?.prototype || invoiceApp?.prototype;
+    console.log('billingHistory', billingHistory);
 
     // 결제일
     const issuedAt = yyyy_mm_dd(new Date(billingHistory.issuedAt));
     // 청구자
-    const issuedTo = application?.displayName;
+    const issuedTo = application?.displayName || emailContent?.sender;
     // 상태
     const paidStatus = billingHistory.isSuccess ? 'Completed' : 'Failure';
     // 서비스명
-    const appLogo = application?.prototype.image;
-    const appName = application?.prototype.name;
+    const appLogo = proto?.image;
+    const appName = proto?.name;
+    // 청구 메일
+    const receivedMail = application?.billingEmail || emailContent?.metadata.receiver;
 
     return (
         <tr className="text-sm">
@@ -75,10 +79,10 @@ export const InvoiceTableRow = memo((props: InvoiceTableRowProps) => {
             <td>₩328,999</td>
 
             {/* 청구 메일 */}
-            <td>diana@01repbulic.io</td>
+            <td>{receivedMail}</td>
 
-            {/* PG사 */}
-            <td>나이스페이</td>
+            {/*/!* PG사 *!/*/}
+            {/*<td>나이스페이</td>*/}
         </tr>
     );
 });

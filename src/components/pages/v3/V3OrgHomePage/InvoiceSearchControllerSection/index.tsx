@@ -19,7 +19,7 @@ export const InvoiceSearchControllerSection = memo(() => {
         // first loaded.
         const params: GetBillingHistoriesParams = {
             where: {organizationId: currentOrg.id},
-            order: {id: 'DESC'},
+            order: {issuedAt: 'DESC'},
             page: 1,
             itemsPerPage: 10,
         };
