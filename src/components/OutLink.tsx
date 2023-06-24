@@ -7,17 +7,26 @@ interface OutLinkProps {
     text?: string;
     target?: HTMLAttributeAnchorTarget;
     icon?: ReactNode;
+    className?: string;
 }
 
-const isLinkString = (str: string) => `${str}`.trim().startsWith('http');
+const isLinkString = (str: string) => {
+    const protocols = ['http', 'mailto'];
+    const sentence = `${str}`.trim();
+    return !!protocols.find((protocol) => sentence.startsWith(protocol));
+};
 
 export const OutLink = memo((props: OutLinkProps & WithChildren) => {
-    const {href, text, target = '_blank', icon, children} = props;
+    const {href, text, target = '_blank', icon, className = '', children} = props;
 
     return (
         <>
             {isLinkString(href) ? (
-                <a href={href} target={target} className="link text-gray-400 inline-flex items-center gap-1">
+                <a
+                    href={href}
+                    target={target}
+                    className={`link text-gray-400 inline-flex items-center gap-1 ${className}`}
+                >
                     <span>{children || text || href}</span>
                     {icon ? icon : <BiLinkExternal size={11} />}
                 </a>

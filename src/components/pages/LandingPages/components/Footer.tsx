@@ -2,9 +2,9 @@ import React, {HTMLAttributeAnchorTarget, memo, useEffect, useState} from 'react
 import Image from 'next/image';
 import {useTranslation} from 'next-i18next';
 import {SelectDropdown} from '^v3/share/Select';
-import {locales} from '^v3/V3OrgSettingsPage/LanguageInput';
-import {UserLocale} from '^types/user.type';
 import {useRouter} from 'next/router';
+import {useCurrentLocale} from '^hooks/useCurrentLocale';
+import {locales} from '^utils/locale-helper';
 
 export const BetaServiceFooter2 = memo(() => {
     return (
@@ -36,13 +36,7 @@ export const BetaServiceFooter2 = memo(() => {
 export const BetaServiceFooter = memo(() => {
     const router = useRouter();
     const {t} = useTranslation('publicFooter');
-    const [currentLocale, setCurrentLocale] = useState<UserLocale>(UserLocale.Ko);
-
-    useEffect(() => {
-        const locale = router.locale as UserLocale;
-        if (!locale) return;
-        setCurrentLocale(locale);
-    }, [router.locale]);
+    const {currentLocale} = useCurrentLocale();
 
     return (
         <footer className="footer p-10 text-neutral-content pb-[100px]">

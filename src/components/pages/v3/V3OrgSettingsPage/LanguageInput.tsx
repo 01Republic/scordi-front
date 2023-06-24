@@ -3,13 +3,7 @@ import {SelectDropdown, SelectOptionProps} from '^v3/share/Select';
 import {FormControl} from '^v3/V3OrgSettingsPage/InputText';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {modifyUser} from '^api/session.api';
-import {UserLocale} from '^types/user.type';
-import {toast} from 'react-toastify';
-
-export const locales = [
-    {code: UserLocale.Ko, text: '한국어'},
-    {code: UserLocale.En, text: 'English'},
-];
+import {locales} from '^utils/locale-helper';
 
 export const LanguageInput = memo(() => {
     const {currentUser} = useCurrentUser(null, {

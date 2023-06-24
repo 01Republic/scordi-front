@@ -6,6 +6,7 @@ import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^hooks/useCurrentOrg';
 import {UserEditModal} from '^v3/share/modals/UserEditModal';
 import {AddressModal} from '^v3/share/modals/AddressModal';
+import {V3Footer} from '^v3/share/Footer';
 
 interface V3MainLayoutProps extends WithChildren {
     //
@@ -20,6 +21,7 @@ export const V3MainLayout = memo((props: V3MainLayoutProps) => {
             <div className={`${styles.layout} h-full`}>
                 <V3TopNav />
                 {children}
+                <V3Footer />
             </div>
             <UserEditModal />
             <AddressModal />
@@ -28,11 +30,11 @@ export const V3MainLayout = memo((props: V3MainLayoutProps) => {
 });
 
 interface V3MainLayoutContainerProps extends WithChildren {
-    //
+    className?: string;
 }
 
 export const V3MainLayoutContainer = memo((props: V3MainLayoutContainerProps) => {
-    const {children} = props;
+    const {className = '', children} = props;
 
-    return <div className="py-[72px] max-w-[62.3%] mx-auto">{children}</div>;
+    return <div className={`py-[72px] max-w-[62.3%] mx-auto ${className}`}>{children}</div>;
 });
