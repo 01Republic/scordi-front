@@ -30,7 +30,9 @@ const ld = {
 export default class MyDocument extends Document {
     render() {
         const serviceHost = 'https://scordi.io';
-        const thumbnail = `${serviceHost}/home/202305/tasting/thumbnail.png`;
+        // const thumbnail = `${serviceHost}/home/202305/tasting/thumbnail.png`;
+        const thumbnail = `${serviceHost}/images/thumbnails/scordi-og_img-230624.png`;
+        const title = '스코디 scordi - 서비스 결제 내역, 클릭 한 번으로 확인하세요';
         const description =
             '법인 카드 내역과 결제 영수증 조회 되는 인보이스 메일 일일이 대조해서 찾지 마세요. 스코디로 딱 5초만에 확인할 수 있습니다.';
         return (
@@ -44,6 +46,7 @@ export default class MyDocument extends Document {
                     />
                     <meta property="og:url" content={serviceHost} />
                     <meta property="og:type" content="website" />
+                    <meta property="og:title" content={title} />
                     <meta property="og:description" content={description} />
                     <meta property="og:image" content={thumbnail} />
                     <meta property="og:site_name" content="Scordi" />
@@ -55,8 +58,29 @@ export default class MyDocument extends Document {
                         type="application/ld+json"
                         dangerouslySetInnerHTML={{__html: `${JSON.stringify(ld, null, 2)}`}}
                     />
-
+                    <script
+                        dangerouslySetInnerHTML={{
+                            __html: `!function(f,b,e,v,n,t,s)
+                    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+                    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                    n.queue=[];t=b.createElement(e);t.async=!0;
+                    t.src=v;s=b.getElementsByTagName(e)[0];
+                    s.parentNode.insertBefore(t,s)}(window, document,'script',
+                    'https://connect.facebook.net/en_US/fbevents.js');
+                    fbq('init', '231220323004567');
+                    fbq('track', 'PageView');`,
+                        }}
+                    />
                     <script src="../components/webPush/index"></script>
+                    <noscript>
+                        <img
+                            height="1"
+                            width="1"
+                            style={{display: 'none'}}
+                            src="https://www.facebook.com/tr?id=231220323004567&ev=PageView&noscript=1"
+                        />
+                    </noscript>
 
                     <ExternalCDNScripts />
                 </Head>
