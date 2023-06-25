@@ -1,10 +1,9 @@
-import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
-import {UserDto} from '^types/user.type';
 import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
+import {FindAllUserByAdminDto, UserDto} from '^types/user.type';
 
 export const userManageApi = {
-    index(params?: FindAllQueryDto<UserDto>) {
+    index(params?: FindAllUserByAdminDto) {
         const url = `/admin/users`;
         return api.get<Paginated<UserDto>>(url, {params});
     },

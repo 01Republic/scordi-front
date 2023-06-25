@@ -16,7 +16,7 @@ export const AdminPageLayout = memo((props: AdminPageLayoutProps) => {
     const [signedAdminKey, setSignedAdminKey] = useRecoilState(adminSignedInState);
 
     const login = () => {
-        const text = prompt('관리자 비밀번호를 입력해주세요.');
+        const text = prompt(`관리자 비밀번호를 입력해주세요.\n힌트: ㅎㅅㅇㄷ`);
         if (text && text === 'we can do it') {
             setSignedAdminKey(text);
         } else {
@@ -43,7 +43,7 @@ export const AdminPageLayout = memo((props: AdminPageLayoutProps) => {
                     <FiMenu />
                 </label>
 
-                <div id="page-content" className="w-full block">
+                <div id="page-content" className="w-full block pb-40">
                     {children}
                 </div>
             </div>

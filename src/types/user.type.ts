@@ -1,6 +1,7 @@
 import {CreateOrganizationRequestDto, OrganizationDto} from '^types/organization.type';
 import {MembershipDto} from '^types/membership.type';
 import {UsersSocialAccountDto} from '^types/users-social-account.type';
+import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
 export type UserSignUpRequestDto = {
     name: string;
@@ -106,4 +107,8 @@ export type UserDeviceDto = {
 export type CreateUserDeviceRequestDto = {
     isMobile: boolean; // 모바일여부
     fcmToken: string; // FCM 토큰
+};
+
+export type FindAllUserByAdminDto = FindAllQueryDto<UserDto> & {
+    keyword?: string;
 };
