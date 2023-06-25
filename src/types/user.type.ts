@@ -35,6 +35,7 @@ export type UserDto = {
     id: number;
     name: string;
     phone: string;
+    profileImgUrl: string;
     orgId: number;
     orgName: string;
     email: string;
@@ -45,6 +46,7 @@ export type UserDto = {
     marketingTermAgreedAt: Date | null; // 마케팅 수신 동의 여부
     createdAt: string;
     updatedAt: string;
+    memberships?: MembershipDto[];
 };
 
 export type UserLoginRequestDto = {
