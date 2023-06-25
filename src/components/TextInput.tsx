@@ -1,4 +1,5 @@
 import {ForwardedRef, forwardRef, InputHTMLAttributes} from 'react';
+import {useId} from 'react-id-generator';
 
 export type TextInputProps = InputHTMLAttributes<HTMLInputElement> & {
     label?: string;
@@ -7,13 +8,15 @@ export type TextInputProps = InputHTMLAttributes<HTMLInputElement> & {
     defaultValue?: string;
     helpText?: string | JSX.Element;
     helpClass?: string;
+    inputClass?: string;
 };
 
 export const TextInput = forwardRef((props: TextInputProps, ref: ForwardedRef<any>) => {
+    const [id] = useId(1, 'TextInput');
     return (
         <div className="form-control w-full">
             {props.label && (
-                <label className="label">
+                <label className="label" htmlFor={id}>
                     <span className="label-text">
                         {props.label}
                         {props.required && <span className="text-red-500"> *</span>}
@@ -22,10 +25,11 @@ export const TextInput = forwardRef((props: TextInputProps, ref: ForwardedRef<an
             )}
             <input
                 type="text"
+                id={id}
                 ref={ref}
                 defaultValue={props.defaultValue}
                 disabled={props.disabled}
-                className="input input-bordered w-full bg-slate-50 border-slate-100"
+                className={`input input-bordered w-full bg-slate-50 border-slate-100 ${props.inputClass || ''}`}
                 {...props}
             />
             {props.helpText && (

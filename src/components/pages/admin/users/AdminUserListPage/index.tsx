@@ -7,10 +7,6 @@ import {AdminListPageLayout} from '^components/pages/admin/layouts/ListPageLayou
 import {useForm} from 'react-hook-form';
 import {Paginator} from '^components/Paginator';
 
-/**
- * TODO: [회원관리목록p] 검색 기능
- * TODO: [회원관리목록p] 페이지네이션 기능
- */
 export const AdminUserListPage = memo(() => {
     const form = useForm<FindAllUserByAdminDto>();
     const [userListPage, setUserListPage] = useState<Paginated<UserDto>>({

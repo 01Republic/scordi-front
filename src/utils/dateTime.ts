@@ -15,6 +15,17 @@ export const yyyy_mm_dd = (date: Date): string => {
     return `${yyyy}-${mm}-${dd}`;
 };
 
+export const hh_mm = (date: Date): string => {
+    const hour = zeroPad(`${date.getHours()}`);
+    const min = zeroPad(`${date.getMinutes()}`);
+    return `${hour}:${min}`;
+};
+
+export const datetime_local = (date: Date): string => {
+    // return `${date.toISOString().replace(/:\d\d\..*/, '')}`;
+    return [yyyy_mm_dd(date), hh_mm(date)].join('T');
+};
+
 export const getToday = () => new Date();
 
 export const dayAfter = (n: number, date?: Date): Date => {
@@ -114,4 +125,20 @@ export function humanizeTimeDistance(obj: DistanceOfTimeObj, option?: HumanizeTi
     if (isShorten(obj.minute) && obj.second) words.push(`${obj.second} ${text.second}`);
 
     return words.join(' ');
+}
+
+export function humanizeTimeDistance2(date1: Date, date2: Date, option?: HumanizeTimeDistanceOption) {
+    const text = humanizeTimeDistance(getDistanceOfTime(date1, date2), {
+        shorten: option?.shorten || false,
+        text: option?.text || {
+            year: '년',
+            month: '월',
+            day: '일',
+            hour: '시간',
+            minute: '분',
+            second: '초',
+        },
+    }).trim();
+
+    return text.startsWith('-') ? `${text} 지남` : `${text} 후`;
 }
