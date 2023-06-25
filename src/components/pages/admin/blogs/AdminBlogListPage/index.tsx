@@ -9,6 +9,7 @@ import {postManageApi} from '^api/post-manage.api';
 import {useRouter} from 'next/router';
 import {AdminPostPageRoute} from '^pages/admin/posts/[id]';
 import {humanizeTimeDistance2} from '^utils/dateTime';
+import {AdminEditPostPageRoute} from '^pages/admin/posts/[id]/edit';
 
 export const AdminBlogListPage = memo(() => {
     const router = useRouter();
@@ -86,10 +87,23 @@ export const AdminBlogListPage = memo(() => {
                                 render: (post) => (
                                     <div className="flex gap-1">
                                         <button
-                                            className="btn btn-info btn-sm"
-                                            onClick={() => router.push(AdminPostPageRoute.path(post.id))}
+                                            className="btn btn-warning btn-sm"
+                                            onClick={() => router.push(AdminEditPostPageRoute.path(post.id))}
                                         >
-                                            상세
+                                            수정
+                                        </button>
+
+                                        <button
+                                            className="btn btn-error btn-sm"
+                                            onClick={() => {
+                                                if (confirm('Are you sure?')) {
+                                                    postManageApi.destroy(post.id).then(() => {
+                                                        fetchData({order: {id: 'DESC'}});
+                                                    });
+                                                }
+                                            }}
+                                        >
+                                            삭제
                                         </button>
                                     </div>
                                 ),

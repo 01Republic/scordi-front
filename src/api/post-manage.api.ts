@@ -16,21 +16,18 @@ export const postManageApi = {
     create(data: CreatePostByAdminDto) {
         const url = `/admin/posts`;
         const headers = {'Content-Type': 'multipart/form-data'};
-        if (data.seoKeywords) {
-            console.log(data.seoKeywords);
-        }
-        return api.post<PostDto>(url, data, {headers});
+        const body = {...data};
+        // @ts-ignore
+        if (data.seoKeywords) body.seoKeywords = data.seoKeywords.join(',');
+        return api.post<PostDto>(url, body, {headers});
     },
 
     update(id: number, data: UpdatePostByAdminDto) {
         const url = `/admin/posts/${id}`;
         const headers = {'Content-Type': 'multipart/form-data'};
         const body = {...data};
-        if (data.seoKeywords) {
-            console.log(data.seoKeywords);
-            // @ts-ignore
-            body.seoKeywords = data.seoKeywords.join(',');
-        }
+        // @ts-ignore
+        if (data.seoKeywords) body.seoKeywords = data.seoKeywords.join(',');
         return api.patch<PostDto>(url, body, {headers});
     },
 
