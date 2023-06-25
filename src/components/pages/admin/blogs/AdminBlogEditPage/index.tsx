@@ -8,6 +8,7 @@ import {AdminPostPageRoute} from '^pages/admin/posts/[id]';
 import {AdminPostsPageRoute} from '^pages/admin/posts';
 import {BlogForm} from '../form/BlogForm';
 import {toast} from 'react-toastify';
+import {AdminEditPostPageRoute} from '^pages/admin/posts/[id]/edit';
 
 export const AdminBlogEditPage = memo(() => {
     const router = useRouter();
@@ -38,7 +39,7 @@ export const AdminBlogEditPage = memo(() => {
     const onSubmit = (data: UpdatePostByAdminDto) => {
         if (!post) return;
         postManageApi.update(post.id, data).then(async (res) => {
-            await router.push(AdminPostPageRoute.path(res.data.id));
+            await router.push(AdminEditPostPageRoute.path(res.data.id));
             toast.success('Successfully Saved!');
         });
     };

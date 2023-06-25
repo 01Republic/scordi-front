@@ -7,6 +7,7 @@ import {postManageApi} from '^api/post-manage.api';
 import {useRouter} from 'next/router';
 import {AdminPostPageRoute} from '^pages/admin/posts/[id]';
 import {BlogForm} from '../form/BlogForm';
+import {AdminEditPostPageRoute} from '^pages/admin/posts/[id]/edit';
 
 export const AdminBlogNewPage = memo(() => {
     const router = useRouter();
@@ -14,7 +15,7 @@ export const AdminBlogNewPage = memo(() => {
 
     const onSubmit = (data: CreatePostByAdminDto) => {
         postManageApi.create(data).then((res) => {
-            router.replace(AdminPostPageRoute.path(res.data.id));
+            router.replace(AdminEditPostPageRoute.path(res.data.id));
         });
     };
 
