@@ -1,24 +1,9 @@
 import {memo} from 'react';
 import {MembershipDto} from '^types/membership.type';
-import {WithChildren} from '^types/global.type';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {serviceHost} from '^config/environments';
 import {Avatar} from '^components/Avatar';
-
-interface MembershipLiProps extends WithChildren {
-    gridClass?: string;
-    className?: string;
-}
-
-export const MembershipLi = memo((props: MembershipLiProps) => {
-    const {gridClass = 'grid-cols-5', className = '', children} = props;
-
-    return (
-        <li>
-            <div className={`py-2 px-4 grid ${gridClass} gap-2 ${className}`}>{children}</div>
-        </li>
-    );
-});
+import {CardTableTR} from '../../../share/panels/CardTablePanel';
 
 interface MembershipItemProps {
     membership: MembershipDto;
@@ -36,10 +21,7 @@ export const MembershipItem = memo((props: MembershipItemProps) => {
     };
 
     return (
-        <MembershipLi
-            gridClass="grid-cols-7"
-            className={`text-sm items-center hover:bg-neutral ${borderBottom ? 'border-b' : ''}`}
-        >
+        <CardTableTR gridClass="grid-cols-7" borderBottom={borderBottom}>
             <div>
                 <div className="flex gap-2 items-center">
                     <Avatar src={org.image} className="w-[32px]" />
@@ -59,6 +41,6 @@ export const MembershipItem = memo((props: MembershipItemProps) => {
             <div>
                 <span className="whitespace-nowrap">{new Date(membership.createdAt).toLocaleString()}</span>
             </div>
-        </MembershipLi>
+        </CardTableTR>
     );
 });

@@ -1,5 +1,6 @@
 import {CreateOrganizationRequestDto, OrganizationDto} from '^types/organization.type';
 import {MembershipDto} from '^types/membership.type';
+import {UsersSocialAccountDto} from '^types/users-social-account.type';
 
 export type UserSignUpRequestDto = {
     name: string;
@@ -44,9 +45,12 @@ export type UserDto = {
     serviceUsageTermAgreedAt: string;
     privacyPolicyTermAgreedAt: string;
     marketingTermAgreedAt: Date | null; // 마케팅 수신 동의 여부
+    isEmailNoticeAllowed: boolean; // 이메일 알림 수신 허용 여부
+    isSMSNoticeAllowed: boolean; // SMS 알림 수신 허용 여부
     createdAt: string;
     updatedAt: string;
     memberships?: MembershipDto[];
+    socialAccounts?: UsersSocialAccountDto[];
 };
 
 export type UserLoginRequestDto = {

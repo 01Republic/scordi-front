@@ -6,8 +6,9 @@ import {userManageApi} from '^api/user-manage.api';
 import {AdminUsersPageRoute} from '^pages/admin/users';
 import {ContentTabNav} from '^layouts/ContentLayout';
 import {AdminDetailPageLayout} from '../../layouts/DetailPageLayout';
-import {UserBasicInfoPanel} from './UserBasicInfoPanel';
+import {UserBasicInfoTabContent} from './UserBasicInfoTabContent';
 import {MembershipListTabContent} from './MembershipListTabContent';
+import {SocialAccountListTabContent} from './SocialAccountListTabContent';
 
 export const adminUserDetail = atom<UserDto | null>({
     key: 'adminUserDetail',
@@ -33,8 +34,9 @@ export const AdminUserDetailPage = memo(() => {
     if (!user) return <>User(#{router.query.id}) Not Found.</>;
 
     const tabs = [
-        {label: '기본정보', Component: UserBasicInfoPanel},
+        {label: '기본정보', Component: UserBasicInfoTabContent},
         {label: '소속정보', Component: MembershipListTabContent},
+        {label: '소셜계정 연동정보', Component: SocialAccountListTabContent},
     ];
 
     const TabContentComponent = tabs[tabIndex]?.Component || Fragment;
