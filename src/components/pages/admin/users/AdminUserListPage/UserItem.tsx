@@ -55,7 +55,7 @@ export const UserItem = memo((props: UserItemProps) => {
                         <button className="btn btn-sm btn-warning">수정</button>
                         <button className="btn btn-sm btn-error">삭제</button>
                     </div>
-                    <p className="sm:hidden relative -top-[1px]">{`>`}</p>
+                    <p className="sm:hidden relative -top-[1px]" onClick={gotoDetailPage}>{`>`}</p>
                 </div>
             </div>
         </button>
