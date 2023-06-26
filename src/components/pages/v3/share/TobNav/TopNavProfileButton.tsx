@@ -12,6 +12,9 @@ import {useRouter} from 'next/router';
 import {currentOrgAtom} from '^atoms/organizations.atom';
 import {AiOutlineHome} from '@react-icons/all-files/ai/AiOutlineHome';
 import {useTranslation} from 'next-i18next';
+import {AdminUsersPageRoute} from '^pages/admin/users';
+import {PiLinkBold} from 'react-icons/pi';
+import {BsArrowRight} from 'react-icons/bs';
 
 export const TopNavProfileButton = memo(() => {
     const router = useRouter();
@@ -94,6 +97,19 @@ export const TopNavProfileButton = memo(() => {
                         <span>{t('dropdown.logout')}</span>
                     </a>
                 </li>
+                {currentUser.isAdmin && (
+                    <li>
+                        <a
+                            className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-400 hover:text-scordi"
+                            onClick={() => router.push(AdminUsersPageRoute.path())}
+                        >
+                            <PiLinkBold />
+                            <span className="flex gap-2 items-center justify-between w-full">
+                                스코디 어드민 <BsArrowRight />
+                            </span>
+                        </a>
+                    </li>
+                )}
             </ul>
         </div>
     );

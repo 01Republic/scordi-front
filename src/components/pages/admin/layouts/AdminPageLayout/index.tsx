@@ -3,6 +3,8 @@ import {WithChildren} from '^types/global.type';
 import {FiMenu} from '@react-icons/all-files/fi/FiMenu';
 import {AdminSideBar} from './AdminSideBar';
 import {atom, useRecoilState} from 'recoil';
+import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useRouter} from 'next/router';
 
 interface AdminPageLayoutProps extends WithChildren {}
 
@@ -13,11 +15,14 @@ const adminSignedInState = atom<false | string>({
 
 export const AdminPageLayout = memo((props: AdminPageLayoutProps) => {
     const {children} = props;
+    const router = useRouter();
+    const {currentUser} = useCurrentUser();
     const [signedAdminKey, setSignedAdminKey] = useRecoilState(adminSignedInState);
 
     const login = () => {
-        const text = prompt(`관리자 비밀번호를 입력해주세요.\n힌트: ㅎㅅㅇㄷ`);
+        const text = localStorage.getItem('signedAdmin') || prompt(`관리자 비밀번호를 입력해주세요.\n힌트: ㅎㅅㅇㄷ`);
         if (text && text === 'we can do it') {
+            localStorage.setItem('signedAdmin', text);
             setSignedAdminKey(text);
         } else {
             alert('비밀번호가 맞지 않습니다.');
@@ -26,8 +31,9 @@ export const AdminPageLayout = memo((props: AdminPageLayoutProps) => {
     };
 
     useEffect(() => {
-        if (!signedAdminKey) login();
-    }, [signedAdminKey]);
+        if (!router.isReady) return;
+        if (currentUser && !signedAdminKey) login();
+    }, [router.isReady, currentUser, signedAdminKey]);
 
     if (!signedAdminKey) return <>관리자 로그인이 필요합니다.</>;
 
