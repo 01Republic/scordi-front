@@ -18,11 +18,18 @@ export const InvoiceTableRow = memo((props: InvoiceTableRowProps) => {
     const issuedTo = application?.displayName || emailContent?.sender;
     // 상태
     const paidStatus = billingHistory.isSuccess ? 'Completed' : 'Failure';
+    // 지불금액
+    const paidPrice = (() => {
+        return `$${billingHistory.paidAmount.toLocaleString()}`;
+    })();
+
     // 서비스명
     const appLogo = proto?.image;
     const appName = proto?.name;
     // 청구 메일
-    const receivedMail = application?.billingEmail || emailContent?.metadata.receiver;
+    const receivedMail = application
+        ? application.billingEmail || application.publicEmail
+        : emailContent?.metadata.receiver;
 
     return (
         <tr className="text-sm">
@@ -71,12 +78,12 @@ export const InvoiceTableRow = memo((props: InvoiceTableRowProps) => {
             {/* 타입 */}
             <td>정기결제(연간)</td>
 
-            {/* 결제수단 */}
-            <td>-</td>
+            {/*/!* 결제수단 *!/*/}
+            {/*<td>-</td>*/}
             {/*<td>신용/체크카드</td>*/}
 
             {/* 결제금액 */}
-            <td>₩328,999</td>
+            <td>{paidPrice}</td>
 
             {/* 청구 메일 */}
             <td>{receivedMail}</td>
