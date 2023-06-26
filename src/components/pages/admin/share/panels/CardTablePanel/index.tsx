@@ -9,6 +9,7 @@ export * from './columns';
 
 interface CardTableColumns<T> {
     th: ReactNodeLike;
+    className?: string;
     render: (entry: T) => ReactNodeLike;
 }
 
@@ -41,7 +42,9 @@ export const CardTablePanel = <T,>(props: CardTablePanelProps<T>) => {
                         ) : (
                             <CardTableTH gridClass={gridClass}>
                                 {columns.map((column, i) => (
-                                    <div key={i}>{column.th}</div>
+                                    <div key={i} className={column.className}>
+                                        {column.th}
+                                    </div>
                                 ))}
                             </CardTableTH>
                         )}
@@ -52,7 +55,9 @@ export const CardTablePanel = <T,>(props: CardTablePanelProps<T>) => {
                             ) : (
                                 <CardTableTR key={i} gridClass={gridClass} borderBottom={i + 1 < arr.length}>
                                     {columns.map((column, j) => (
-                                        <div key={j}>{column.render(entry)}</div>
+                                        <div key={j} className={column.className}>
+                                            {column.render(entry)}
+                                        </div>
                                     ))}
                                 </CardTableTR>
                             ),

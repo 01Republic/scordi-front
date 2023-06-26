@@ -17,22 +17,25 @@ const CardTableTr = memo((props: CardTableTrProps) => {
 });
 
 export const CardTableTH = memo((props: CardTableTrProps) => {
-    const {gridClass, children} = props;
+    const {className = '', gridClass, children} = props;
 
     return (
-        <CardTableTr gridClass={gridClass} className="font-semibold border-b bg-gray-300 rounded-tl-box rounded-tr-box">
+        <CardTableTr
+            gridClass={gridClass}
+            className={`font-semibold border-b bg-gray-300 rounded-tl-box rounded-tr-box ${className}`}
+        >
             {children}
         </CardTableTr>
     );
 });
 
 export const CardTableTR = memo((props: CardTableTrProps & {borderBottom?: boolean}) => {
-    const {gridClass, borderBottom = true, children} = props;
+    const {className = '', gridClass, borderBottom = true, children} = props;
 
     return (
         <CardTableTr
             gridClass={gridClass}
-            className={`text-sm items-center hover:bg-neutral ${borderBottom ? 'border-b' : ''}`}
+            className={`text-sm items-center hover:bg-neutral ${borderBottom ? 'border-b' : ''} ${className}`}
         >
             {children}
         </CardTableTr>

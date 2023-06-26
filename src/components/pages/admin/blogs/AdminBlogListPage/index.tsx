@@ -10,6 +10,14 @@ import {useRouter} from 'next/router';
 import {AdminPostPageRoute} from '^pages/admin/posts/[id]';
 import {humanizeTimeDistance2} from '^utils/dateTime';
 import {AdminEditPostPageRoute} from '^pages/admin/posts/[id]/edit';
+import {ThumbnailColumn} from '^components/pages/admin/blogs/AdminBlogListPage/ThumbnailColumn';
+import {IsPublishedColumn} from '^components/pages/admin/blogs/AdminBlogListPage/IsPublishedColumn';
+import {StatColumn} from '^components/pages/admin/blogs/AdminBlogListPage/StatColumn';
+import {ActionColumn} from '^components/pages/admin/blogs/AdminBlogListPage/ActionColumn';
+import {DefaultColumn} from '^components/pages/admin/blogs/AdminBlogListPage/DefaultColumn';
+import {TitleColumn} from '^components/pages/admin/blogs/AdminBlogListPage/TitleColumn';
+import {IdColumn} from '^components/pages/admin/blogs/AdminBlogListPage/IdColumn';
+import {MobileItem} from '^components/pages/admin/blogs/AdminBlogListPage/MobileItem';
 
 export const AdminBlogListPage = memo(() => {
     const router = useRouter();
@@ -44,69 +52,48 @@ export const AdminBlogListPage = memo(() => {
             <div className="container pt-10 px-2 sm:px-8">
                 <div className="w-full">
                     <CardTablePanel
-                        gridClass="grid-cols-8"
+                        gridClass="grid-cols-1 lg:grid-cols-8"
                         entries={listPage.items}
                         columns={[
-                            {th: '아이디', render: (post) => post.id},
+                            // Xs
+                            {
+                                th: '',
+                                className: 'block lg:hidden',
+                                render: (post) => <MobileItem post={post} fetchData={fetchData} />,
+                            },
+
+                            // Lg
+                            {th: '아이디', className: 'hidden lg:block', render: (post) => <IdColumn post={post} />},
                             {
                                 th: '썸네일',
-                                render: (post) => (
-                                    <div className="max-w-[80px]">
-                                        {post.thumbnailUrl ? (
-                                            <img src={post.thumbnailUrl} alt="" loading="lazy" className="w-full" />
-                                        ) : (
-                                            <span className="text-gray-500 italic">unset</span>
-                                        )}
-                                    </div>
-                                ),
+                                className: 'hidden lg:block',
+                                render: (post) => <ThumbnailColumn post={post} />,
                             },
-                            {th: '제목', render: (post) => post.title},
-                            {th: '작성일', render: (post) => <DateTimeColumn value={post.createdAt} />},
+                            {th: '제목', className: 'hidden lg:block', render: (post) => <TitleColumn post={post} />},
+                            {
+                                th: '작성일',
+                                className: 'hidden lg:block',
+                                render: (post) => <DateTimeColumn value={post.createdAt} />,
+                            },
                             {
                                 th: '공개여부',
-                                render: (post) => {
-                                    if (!post.publishAt) return <BooleanColumn value={false} />;
-                                    const publishAt = new Date(post.publishAt);
-                                    const now = new Date();
-                                    const published = publishAt.getTime() <= now.getTime();
-                                    return (
-                                        <BooleanColumn
-                                            value={published}
-                                            falseVal={humanizeTimeDistance2(now, publishAt)}
-                                        />
-                                    );
-                                },
+                                className: 'hidden lg:block',
+                                render: (post) => <IsPublishedColumn post={post} />,
                             },
-                            {th: '발행일', render: (post) => <DateTimeColumn value={post.publishAt} />},
+                            {
+                                th: '발행일',
+                                className: 'hidden lg:block',
+                                render: (post) => <DateTimeColumn value={post.publishAt} />,
+                            },
                             {
                                 th: '조회수/좋아요/싫어요',
-                                render: (post) => [post.visitCount, post.likeCount, post.unlikeCount].join(' / '),
+                                className: 'hidden lg:block',
+                                render: (post) => <StatColumn post={post} />,
                             },
                             {
                                 th: '',
-                                render: (post) => (
-                                    <div className="flex gap-1">
-                                        <button
-                                            className="btn btn-warning btn-sm"
-                                            onClick={() => router.push(AdminEditPostPageRoute.path(post.id))}
-                                        >
-                                            수정
-                                        </button>
-
-                                        <button
-                                            className="btn btn-error btn-sm"
-                                            onClick={() => {
-                                                if (confirm('Are you sure?')) {
-                                                    postManageApi.destroy(post.id).then(() => {
-                                                        fetchData({order: {id: 'DESC'}});
-                                                    });
-                                                }
-                                            }}
-                                        >
-                                            삭제
-                                        </button>
-                                    </div>
-                                ),
+                                className: 'hidden lg:block',
+                                render: (post) => <ActionColumn post={post} fetchData={fetchData} />,
                             },
                         ]}
                         pagination={listPage.pagination}
