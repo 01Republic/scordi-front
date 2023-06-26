@@ -24,7 +24,7 @@ export const TastingPage = memo(() => {
 
                 {!isLoaded ? <TastingPageHeader /> : <TastingPageLoadedHeader />}
 
-                <section className="container mb-24">
+                <section className="container mb-24 px-4">
                     <div className="text-center">
                         <EmailParsedTable />
                     </div>
