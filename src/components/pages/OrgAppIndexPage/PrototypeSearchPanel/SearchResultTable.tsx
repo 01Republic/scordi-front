@@ -8,7 +8,7 @@ import {OrgProtoDetailPageRoute} from '^pages/orgs/[id]/prototypes/[protoId]';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
 import {currentUserAtom} from '^atoms/currentUser.atom';
-import {GoPlug, GoPrimitiveDot} from '^components/react-icons';
+import {GoPlug} from '^components/react-icons';
 import {editingProtoTargetState} from '^components/pages/OrgAppIndexPage/modals/PrototypeEditModal';
 import {deleteApplicationPrototype} from '^api/applicationPrototype.api';
 import {errorNotify} from '^utils/toast-notify';
