@@ -82,7 +82,7 @@ export const TopNavProfileButton = memo(() => {
                                 onClick={() => router.push(V3OrgSettingsOrgPageRoute.path(currentOrg.id))}
                             >
                                 <AiOutlineSetting />
-                                <span>조직 설정</span>
+                                <span>{t('dropdown.orgSetting')}</span>
                             </a>
                         </li>
                     </>

@@ -3,6 +3,7 @@
     "setting": "설정",
     "help": "고객센터",
     "goHomePage": "스코디 홈페이지로 이동",
-    "logout": "로그아웃"
+    "logout": "로그아웃",
+    "orgSetting": "조직설정"
   }
 }
