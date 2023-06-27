@@ -6,7 +6,7 @@ import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {publicPageRequires} from '^types/utils/18n.type';
 
 export const SignPhoneAuthPageRoute = pathRoute({
-    pathname: 'sign/phone',
+    pathname: '/sign/phone',
     path: () => pathReplace(SignPhoneAuthPageRoute.pathname),
 });
 

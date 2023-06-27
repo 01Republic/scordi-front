@@ -1,12 +1,14 @@
 import {useRouter} from 'next/router';
 import {GoogleSignedUserData} from '^atoms/currentUser.atom';
-import {UserSignUpPageRoute} from '^pages/users/signup';
 import {UserDto} from '^types/user.type';
 import {getGoogleUserData, getUserSession, postUserSessionBySocialAccount} from '^api/session.api';
 import {setToken} from '^api/api';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 
-// 구글로 사용자 인증에 성공했을 때, 후속 로직의 코드가 길어서 별도로 분리했습니다.
+// v2 -> v3 로 넘어가면서 구글 사용자 인증 직후 가입정보가 없으면 리디렉션 되는 위치가 바뀌었습니다.
+// import {UserSignUpPageRoute} from '^pages/users/signup'; // Deprecated.
+import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
+
 export const useGoogleLoginSuccessHandler = () => {
     const router = useRouter();
     const {setCurrentUser, loginRedirect, setAuthenticatedUserData} = useCurrentUser(null);
@@ -14,7 +16,7 @@ export const useGoogleLoginSuccessHandler = () => {
     // 추가정보 입력을 위해 가입페이지로 넘기는 함수.
     const moveToSignUpPage = (data: GoogleSignedUserData) => {
         setAuthenticatedUserData(data);
-        router.push(UserSignUpPageRoute.path());
+        router.push(SignPhoneAuthPageRoute.path());
     };
 
     // 그냥 로그인 시키고 적절한 다음 페이지로 이동시키는 함수.

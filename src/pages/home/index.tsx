@@ -4,7 +4,7 @@ import {pathRoute} from '^types/pageRoute.type';
 import {LandingV2HomePage as Page} from '^components/pages/LandingPages/HomePage';
 
 export const LandingV2HomePageRoute = pathRoute({
-    pathname: 'home',
+    pathname: '/home',
     path: () => LandingV2HomePageRoute.pathname,
 });
 
