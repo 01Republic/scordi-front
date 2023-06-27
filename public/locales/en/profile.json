@@ -3,6 +3,7 @@
     "setting": "Edit profile",
     "help": "Help",
     "goHomePage": "Homepage",
-    "logout": "Logout"
+    "logout": "Logout",
+    "orgSetting": "Org Settings"
   }
 }
