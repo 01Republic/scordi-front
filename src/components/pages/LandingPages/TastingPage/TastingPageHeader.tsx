@@ -27,7 +27,7 @@ export const TastingPageHeader = memo(() => {
                             />
                             {/*<h1 className="text-5xl mb-3">Find all your team subscription usage</h1>*/}
                             {/*<p className="text-lg text-gray-500">(This is just a tasting. It will never be saved.)</p>*/}
-                            <p className="text-xl text-gray-500 mb-8">
+                            <p className="text-xl text-gray-500 mb-8" style={{lineHeight: 1.7}}>
                                 {t('subtitle1')} <span className="block sm:inline-block">{t('subtitle2')}</span> <br />
                                 <b className="text-gray-900">{t('subtitle3')}</b>
                             </p>
