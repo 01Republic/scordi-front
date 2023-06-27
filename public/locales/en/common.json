@@ -1,3 +1,27 @@
 {
-  "hi": "Hello"
+  "hi": "Hello",
+  "date": {
+    "year": "year",
+    "years": "years",
+    "month": "month",
+    "months": "months",
+    "month2": "month",
+    "month3": "months",
+    "week": "week",
+    "weeks": "weeks",
+    "day": "day",
+    "days": "days",
+    "hour": "hour",
+    "hours": "hours",
+    "minute": "min",
+    "minutes": "min",
+    "second": "sec",
+    "seconds": "sec",
+    "range": {
+      "all": "All",
+      "recent": "Recent {{value}}",
+      "this": "This {{value}}",
+      "last": "Last {{value}}"
+    }
+  }
 }

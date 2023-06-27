@@ -24,10 +24,11 @@ export const V3OrgHomePage = memo(() => {
                     <section className={`${styles.greeting} flex items-center justify-between mb-20`}>
                         <div className="flex items-center gap-3">
                             <img src="/images/v3/home-calendar.png" width={80} />
-                            <h1 className="max-w-[24rem]" style={{wordBreak: 'keep-all'}}>
-                                {currentOrg.name} 팀의 흩어진{' '}
-                                <span className="whitespace-nowrap">결제내역을 확인 해보세요!</span>
-                            </h1>
+                            <h1
+                                className="max-w-[24rem]"
+                                style={{wordBreak: 'keep-all'}}
+                                dangerouslySetInnerHTML={{__html: t('heading', {orgName: currentOrg.name})}}
+                            />
                         </div>
 
                         <InvoiceAccountAddingButton />

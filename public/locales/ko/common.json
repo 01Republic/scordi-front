@@ -1,3 +1,27 @@
 {
-  "hi": "안녕"
+  "hi": "안녕",
+  "date": {
+    "year": "년",
+    "years": "년",
+    "month": "월",
+    "months": "월",
+    "month2": "달",
+    "month3": "개월",
+    "week": "주",
+    "weeks": "주",
+    "day": "일",
+    "days": "일",
+    "hour": "사",
+    "hours": "사",
+    "minute": "분",
+    "minutes": "분",
+    "second": "초",
+    "seconds": "초",
+    "range": {
+      "all": "전체",
+      "recent": "최근 {{value}}",
+      "this": "이번 {{value}}",
+      "last": "지난 {{value}}"
+    }
+  }
 }

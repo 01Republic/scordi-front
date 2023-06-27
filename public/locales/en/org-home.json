@@ -1,5 +1,5 @@
 {
-  "heading": "Check out the scattered payment history of the {{orgName}} team!",
+  "heading": "{{orgName}} team, <span class=\"whitespace-nowrap\">Check payment history!</span>",
   "newInvoiceAccount": "Add account",
   "invoiceAccountAddingPanel": {
     "addAnotherAccount": "Add another account",

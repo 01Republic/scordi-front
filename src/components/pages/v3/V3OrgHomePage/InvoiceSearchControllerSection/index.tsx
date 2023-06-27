@@ -7,11 +7,16 @@ import {endOfWeek, lastDayOfMonth, startOfMonth, startOfWeek} from 'date-fns';
 import {useBillingHistoriesV3} from '^hooks/useBillingHistories';
 import {currentOrgAtom} from '^atoms/organizations.atom';
 import {GetBillingHistoriesParams} from '^types/billing.type';
+import {useTranslation} from 'next-i18next';
+import {localeDateHelper} from '^utils/locale-helper';
 
 export const InvoiceSearchControllerSection = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
     const setDateRange = useSetRecoilState(dateRangeSelectAtom);
     const {query, search} = useBillingHistoriesV3();
+    const {t} = useTranslation('org-home');
+    const {t: c} = useTranslation('common');
+    const {range} = localeDateHelper(c);
 
     useEffect(() => {
         if (!currentOrg) return;
@@ -71,16 +76,16 @@ export const InvoiceSearchControllerSection = memo(() => {
                         className="dropdown-content menu menu-compact p-2 shadow bg-base-100 rounded-box w-52"
                     >
                         <li>
-                            <a onClick={() => setClear()}>전체</a>
+                            <a onClick={() => setClear()}>{range.all()}</a>
                         </li>
                         <li>
-                            <a onClick={() => setRecent(30)}>최근 30일</a>
+                            <a onClick={() => setRecent(30)}>{range.recent(30, 'days')}</a>
                         </li>
                         <li>
-                            <a onClick={() => setRecent(15)}>최근 15일</a>
+                            <a onClick={() => setRecent(15)}>{range.recent(15, 'days')}</a>
                         </li>
                         <li>
-                            <a onClick={() => setRecent(7)}>최근 7일</a>
+                            <a onClick={() => setRecent(7)}>{range.recent(7, 'days')}</a>
                         </li>
                         <li>
                             <a
@@ -89,7 +94,7 @@ export const InvoiceSearchControllerSection = memo(() => {
                                     setRange(startOfWeek(date), endOfWeek(date));
                                 }}
                             >
-                                이번 주
+                                {range.this('week')}
                             </a>
                         </li>
                         <li>
@@ -99,7 +104,7 @@ export const InvoiceSearchControllerSection = memo(() => {
                                     setRange(startOfWeek(date), endOfWeek(date));
                                 }}
                             >
-                                지난 주
+                                {range.last('week')}
                             </a>
                         </li>
                         <li>
@@ -109,7 +114,7 @@ export const InvoiceSearchControllerSection = memo(() => {
                                     setRange(startOfMonth(date), lastDayOfMonth(date));
                                 }}
                             >
-                                이번 달
+                                {range.this('month2')}
                             </a>
                         </li>
                         <li>
@@ -119,7 +124,7 @@ export const InvoiceSearchControllerSection = memo(() => {
                                     setRange(startOfMonth(date), lastDayOfMonth(date));
                                 }}
                             >
-                                지난 달
+                                {range.last('month2')}
                             </a>
                         </li>
                     </ul>

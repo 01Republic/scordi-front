@@ -1,5 +1,5 @@
 {
-  "heading": "{{orgName}} 팀의 흩어진 결제내역을 확인 해보세요!",
+  "heading": "{{orgName}} 팀의 흩어진 <span class=\"whitespace-nowrap\">결제내역을 확인 해보세요!</span>",
   "newInvoiceAccount": "청구메일 추가",
   "invoiceAccountAddingPanel": {
     "addAnotherAccount": "다른 계정 추가",

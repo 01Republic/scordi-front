@@ -1,3 +1,4 @@
+import {TFunction} from 'i18next';
 import {UserLocale} from '^types/user.type';
 
 export const locales = [
@@ -15,4 +16,26 @@ export function buildLocalePath(redirectPath?: string, locale?: string): string 
     if (!locale) return redirectPath;
 
     return `/${locale}${shouldStartWith('/', redirectPath)}`;
+}
+
+/**
+ *
+ */
+export function localeDateHelper(c: TFunction<'common', undefined, 'common'>) {
+    const rangeScoping = (scope: string) => (value: number | string, unit?: string) => {
+        if (!unit && typeof value === 'string') {
+            return c(`date.range.${scope}`, {value: c(`date.${value}`)});
+        }
+        return c(`date.range.${scope}`, {value: `${value}${c(`date.${unit}`)}`});
+    };
+
+    return {
+        l: (...str: string[]) => {},
+        range: {
+            all: () => c('date.range.all'),
+            recent: rangeScoping('recent'),
+            this: rangeScoping('this'),
+            last: rangeScoping('last'),
+        },
+    };
 }

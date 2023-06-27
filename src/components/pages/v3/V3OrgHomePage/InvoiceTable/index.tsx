@@ -3,9 +3,11 @@ import {InvoiceTableRow} from './InvoiceTableRow';
 import {TablePaginator} from '^v3/share/table/TablePaginator';
 import {useBillingHistoriesV3} from '^hooks/useBillingHistories';
 import {RiMailAddLine} from '^components/react-icons';
+import {useTranslation} from 'next-i18next';
 
 export const InvoiceTable = memo(() => {
     const {result, movePage} = useBillingHistoriesV3();
+    const {t} = useTranslation('org-home');
     const isEmpty = result.pagination.totalItemCount === 0;
 
     if (isEmpty) {
