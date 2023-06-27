@@ -1,7 +1,6 @@
 import React, {memo, useEffect} from 'react';
-import {FindByGmailButton} from './FindByGmailButton';
 import {WithChildren} from '^types/global.type';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {gmailItemsLoadedAtom, gmailItemsLoadingAtom, gmailProfileAtom} from './pageAtoms';
 import {SummarySection2} from './SummarySection';
 import {useRouter} from 'next/router';

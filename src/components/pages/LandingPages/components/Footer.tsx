@@ -39,8 +39,8 @@ export const BetaServiceFooter = memo(() => {
     const {currentLocale} = useCurrentLocale();
 
     return (
-        <footer className="footer p-10 text-neutral-content pb-[100px]">
-            <div className="container mx-auto sm:px-[67px] max-w-[1064px]">
+        <footer className="footer py-10 text-neutral-content pb-[100px]">
+            <div className="container px-4">
                 <address className="mb-4" style={{fontStyle: 'normal'}}>
                     <p className="text-[15px] font-semibold mb-[16px]">
                         Copyright ⓒ 01Republic, Inc. All Rights Reserved

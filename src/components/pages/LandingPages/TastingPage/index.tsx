@@ -25,9 +25,7 @@ export const TastingPage = memo(() => {
                 {!isLoaded ? <TastingPageHeader /> : <TastingPageLoadedHeader />}
 
                 <section className="container mb-24 px-4">
-                    <div className="text-center">
-                        <EmailParsedTable />
-                    </div>
+                    <div className="text-center">{isLoaded && <EmailParsedTable />}</div>
 
                     {isLoaded && (
                         <div className="text-center mt-10">
@@ -43,7 +41,7 @@ export const TastingPage = memo(() => {
                     )}
                 </section>
 
-                <BetaServiceFooter />
+                {isLoaded && <BetaServiceFooter />}
             </div>
         </AOSProvider>
     );

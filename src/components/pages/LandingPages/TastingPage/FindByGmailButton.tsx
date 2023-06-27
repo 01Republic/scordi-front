@@ -49,7 +49,11 @@ export const FindByGmailButton = memo((props: FindByGmailButtonProps) => {
                 {/*    <span>Google 계정으로 시작하기</span>*/}
                 {/*</button>*/}
 
-                <button onClick={() => googleAuthForGmail()} className="btn_google_signin_light w-[280px] h-[64px]" />
+                <button
+                    onClick={() => googleAuthForGmail()}
+                    className="btn_google_signin_light w-[266px] h-[64px]"
+                    style={{backgroundPosition: 'left'}}
+                />
             </div>
 
             <SummarySection />

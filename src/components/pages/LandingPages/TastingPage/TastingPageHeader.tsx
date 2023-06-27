@@ -18,16 +18,16 @@ export const TastingPageHeader = memo(() => {
         <div>
             <div className="pt-6 sm:pt-14">
                 <section id="section-1" className="hero mb-3">
-                    <div className="text-center w-[100vw]">
-                        <div className="mb-10">
+                    <div className="text-left w-[100vw]">
+                        <div className="my-10 container px-4">
                             <h1
-                                className="text-3xl md:text-6xl font-bold mb-5"
+                                className="text-3xl md:text-6xl font-bold mb-8"
                                 style={{lineHeight: 1.3}}
                                 dangerouslySetInnerHTML={{__html: t('title')}}
                             />
                             {/*<h1 className="text-5xl mb-3">Find all your team subscription usage</h1>*/}
                             {/*<p className="text-lg text-gray-500">(This is just a tasting. It will never be saved.)</p>*/}
-                            <p className="text-xl text-gray-500">
+                            <p className="text-xl text-gray-500 mb-8">
                                 {t('subtitle1')} <span className="block sm:inline-block">{t('subtitle2')}</span> <br />
                                 <b className="text-gray-900">{t('subtitle3')}</b>
                             </p>
