@@ -3,6 +3,7 @@ import axios from 'axios';
 import Qs from 'qs';
 import {buildUrl} from '^utils/get-query-params';
 import {buildLocalePath} from '^utils/locale-helper';
+import {GoogleCallbackPageRoute} from '^pages/callback/google';
 
 function getExpireAtFromSecond(expiresIn: number) {
     const date = new Date();
@@ -31,7 +32,7 @@ export function googleAuthForGmail(redirectPath?: string, locale?: string) {
          */
         prompt: 'consent',
         state: redirectUrl || window.location.pathname,
-        redirect_uri: `${process.env.NEXT_PUBLIC_SERVICE_HOST}/callback/google`,
+        redirect_uri: GoogleCallbackPageRoute.url(),
         client_id: googleOauthClientId,
     };
     const url = buildUrl(baseUrl, params);
@@ -64,7 +65,7 @@ export async function getGoogleAccessTokenByCode(code: string, redirectPath?: st
         client_id: googleOauthClientId,
         client_secret: googleOauthClientSecret,
         state: redirectPath,
-        redirect_uri: `${process.env.NEXT_PUBLIC_SERVICE_HOST}/callback/google`,
+        redirect_uri: GoogleCallbackPageRoute.url(),
         grant_type: 'authorization_code',
     });
     return axios.post<GoogleAccessTokenData>(baseUrl, body, {headers}).then((res) => {
