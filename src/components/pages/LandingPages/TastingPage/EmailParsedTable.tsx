@@ -91,18 +91,18 @@ const SummarySectionMobile = memo(() => {
     const {t} = useTranslation('publicTasting');
 
     return (
-        <div className="flex sm:hidden items-center justify-around py-5">
+        <div className="flex sm:hidden items-center justify-around py-6">
             <div className="text-center">
-                <p className="text-xs text-gray-500 mb-1">{t('summary_stat.services.label')}</p>
-                <p className="font-semibold text-16">
+                <p className="text-sm text-gray-500 mb-1">{t('summary_stat.services.label')}</p>
+                <p className="font-semibold text-18">
                     <span id="detected-services2" className="" />
                     <small className={!isLoaded ? 'invisible' : ''}>&nbsp;{t('summary_stat.services.unit')}</small>
                 </p>
             </div>
 
             <div className="text-center">
-                <p className="text-xs text-gray-500 mb-1">{t('summary_stat.invoice.label')}</p>
-                <p className="font-semibold text-16">
+                <p className="text-sm text-gray-500 mb-1">{t('summary_stat.invoice.label')}</p>
+                <p className="font-semibold text-18">
                     <span id="detected-invoices2" className="" />
                     <small className={!isLoaded ? 'invisible' : ''}>&nbsp;{t('summary_stat.invoice.unit')}</small>
                 </p>
