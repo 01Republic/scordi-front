@@ -21,6 +21,10 @@ export const hh_mm = (date: Date): string => {
     return `${hour}:${min}`;
 };
 
+export const yyyy_mm_dd_hh_mm = (date: Date): string => {
+    return `${yyyy_mm_dd(date)} ${hh_mm(date)}`;
+};
+
 export const datetime_local = (date: Date): string => {
     // return `${date.toISOString().replace(/:\d\d\..*/, '')}`;
     return [yyyy_mm_dd(date), hh_mm(date)].join('T');

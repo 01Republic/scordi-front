@@ -6,6 +6,7 @@ import {SummarySection2} from './SummarySection';
 import {useRouter} from 'next/router';
 import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
 import {useTranslation} from 'next-i18next';
+import {TastingPageLoadedHeaderMobile} from './TastingPageLoadedHeaderMobile';
 
 export const TastingPageLoadedHeader = memo(({children}: WithChildren) => {
     const router = useRouter();
@@ -26,7 +27,8 @@ export const TastingPageLoadedHeader = memo(({children}: WithChildren) => {
     return (
         <div>
             <div className="pt-6 sm:pt-14">
-                <section id="section-1" className="hero mb-3">
+                {/* PC */}
+                <section id="section-1" className="hero mb-3 hidden sm:block">
                     <div className="text-center w-[100vw]">
                         <div className="mb-10">
                             <h1 className="text-2xl md:text-4xl font-bold mb-5" style={{lineHeight: 1.3}}>
@@ -58,6 +60,11 @@ export const TastingPageLoadedHeader = memo(({children}: WithChildren) => {
                         </div>
                     </div>
                 </section>
+
+                {/* Mobile */}
+                <div className="block sm:hidden pb-3 bg-gray-200">
+                    <TastingPageLoadedHeaderMobile />
+                </div>
             </div>
         </div>
     );

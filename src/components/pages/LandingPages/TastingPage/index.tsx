@@ -33,9 +33,9 @@ export const TastingPage = memo(() => {
                             <div className="text-center">{isLoaded && <EmailParsedTable />}</div>
 
                             {isLoaded && (
-                                <div className="text-center mt-10">
+                                <div className="text-center mt-10 fixed sm:relative bottom-0 w-full left-0 p-4 sm:p-0 z-20 sm:z-0 bg-white">
                                     <button
-                                        className="btn btn-scordi-500 btn-lg rounded-2xl shadow-xl"
+                                        className="btn btn-scordi-500 btn-block btn-lg rounded-2xl shadow-xl"
                                         onClick={() => {
                                             router.push(SignPhoneAuthPageRoute.path());
                                         }}

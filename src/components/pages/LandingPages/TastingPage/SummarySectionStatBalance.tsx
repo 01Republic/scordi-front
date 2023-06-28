@@ -6,15 +6,13 @@ import {CountUp} from 'countup.js';
 import {Currency} from '^types/crawler';
 import {useTranslation} from 'next-i18next';
 
-export const SummarySectionStatBalance = memo(() => {
+export const useSummaryStatBalance = (counterElemId: string) => {
     const gmailItems = useRecoilValue(gmailItemsAtom);
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
-    const isLoaded = useRecoilValue(gmailItemsLoadedAtom);
     const [totalPrice, setTotalPrice] = useState<Pick<Price, 'amount' | 'currency'>>({
         amount: 0,
         currency: Currency.KRW,
     });
-    const {t} = useTranslation('publicTasting');
 
     useEffect(() => {
         if (gmailItems.length === 0) return;
@@ -44,9 +42,17 @@ export const SummarySectionStatBalance = memo(() => {
         if (totalPrice.currency === Currency.USD) {
             option.decimalPlaces = 2;
         }
-        const countUp = new CountUp('total-balance', totalPrice.amount, option);
+        const countUp = new CountUp(counterElemId, totalPrice.amount, option);
         setTimeout(() => countUp.start(), 0);
     }, [totalPrice]);
+
+    return {totalPrice};
+};
+
+export const SummarySectionStatBalance = memo(() => {
+    const isLoaded = useRecoilValue(gmailItemsLoadedAtom);
+    const {t} = useTranslation('publicTasting');
+    const {totalPrice} = useSummaryStatBalance('total-balance');
 
     return (
         <div className="stats bg-[#fafafa] shadow-xl md:w-[20%]">

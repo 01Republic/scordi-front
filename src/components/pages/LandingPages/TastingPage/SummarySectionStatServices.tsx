@@ -4,10 +4,8 @@ import {CountUp} from 'countup.js';
 import {gmailItemsAtom, gmailItemsLoadedAtom} from './pageAtoms';
 import {useTranslation} from 'next-i18next';
 
-export const SummarySectionStatServices = memo(() => {
+export const useSummaryStatServices = (counterElemId: string) => {
     const gmailItems = useRecoilValue(gmailItemsAtom);
-    const isLoaded = useRecoilValue(gmailItemsLoadedAtom);
-    const {t} = useTranslation('publicTasting');
 
     useEffect(() => {
         if (gmailItems.length === 0) return;
@@ -23,9 +21,15 @@ export const SummarySectionStatServices = memo(() => {
             separator: ',',
             decimal: '.',
         };
-        const countUp = new CountUp('detected-services', count, option);
+        const countUp = new CountUp(counterElemId, count, option);
         setTimeout(() => countUp.start(), 0);
     }, [gmailItems]);
+};
+
+export const SummarySectionStatServices = memo(() => {
+    const isLoaded = useRecoilValue(gmailItemsLoadedAtom);
+    const {t} = useTranslation('publicTasting');
+    useSummaryStatServices('detected-services');
 
     return (
         <div className="stats bg-[#fafafa] shadow-xl md:w-[20%]">
