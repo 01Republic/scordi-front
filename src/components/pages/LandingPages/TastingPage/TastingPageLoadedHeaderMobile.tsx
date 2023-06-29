@@ -26,17 +26,17 @@ export const TastingPageLoadedHeaderMobile = memo(() => {
 
     return (
         <section className="container px-6 border-b bg-white">
-            <h1 className="text-xl font-bold mb-5" style={{lineHeight: 1.3}}>
+            <h1 className="text-2xl font-bold mb-5" style={{lineHeight: 1.3}}>
                 {t('payment_list_arrived')}
             </h1>
 
             {gmailProfile && (
-                <div className="flex items-center space-x-3 mb-2">
-                    <Avatar src={gmailProfile.picture} className="w-5 h-5" />
-                    <p className="text-xs">{gmailProfile.name}</p>
+                <div className="flex items-center space-x-2 mb-2">
+                    <Avatar src={gmailProfile.picture} className="w-6 h-6" />
+                    <p className="text-sm">{gmailProfile.name}</p>
                 </div>
             )}
-            <h2 className="text-2xl font-bold mb-12">
+            <h2 className="text-3xl font-bold mb-12">
                 <small className="mr-1">{getCurrencySymbol(totalPrice.currency)}</small>
                 <span id="total-balance2" />
             </h2>
@@ -57,7 +57,7 @@ const ListItem = memo((props: {label: ReactNodeLike; value?: ReactNodeLike} & Wi
     const {label, value, children} = props;
 
     return (
-        <li className="flex justify-between items-center text-sm h-[50px]">
+        <li className="flex justify-between items-center text-[16px] h-[50px]">
             <div className="">{label}</div>
             {children ? <div className="">{children}</div> : <div className="font-light">{value}</div>}
         </li>

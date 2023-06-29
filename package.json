@@ -34,7 +34,7 @@
     "crypto-js": "^4.1.1",
     "daisyui": "^2.52.0",
     "date-fns": "^2.30.0",
-    "dayjs": "^1.11.7",
+    "dayjs": "^1.11.8",
     "env-cmd": "^10.1.0",
     "firebase": "^9.17.2",
     "fs": "^0.0.1-security",

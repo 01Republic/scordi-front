@@ -11,6 +11,8 @@ import {WithChildren} from '^types/global.type';
 import {GmailItem} from '^api/tasting.api';
 import {Avatar} from '^components/Avatar';
 import {hh_mm} from '^utils/dateTime';
+import {dayjs} from '^utils/dayjs';
+import {useRouter} from 'next/router';
 
 interface EmailParsedTableRowProps {
     date: Date;
@@ -91,10 +93,24 @@ export function groupByDate(items: GmailItem[]): Record<string, GmailItem[]> {
 
 export const EmailParsedTableGroupByDay = memo((props: {date: Date; items: GmailItem[]}) => {
     const {date, items} = props;
+    const router = useRouter();
+
+    dayjs.locale(router.locale);
+
+    const dateText = (() => {
+        const long = dayjs(date).format('llll');
+        const short = dayjs(date).format('LT');
+        let text = long.replace(short, '');
+        if (date.getFullYear() === new Date().getFullYear()) {
+            const year = dayjs(date).format('YYYY');
+            text = text.replace(new RegExp(`\\S*${year}\\S*`), '');
+        }
+        return text.trim();
+    })();
 
     return (
         <li className="py-1">
-            <p className="text-xs text-gray-500 pl-2 border-l border-scordi">{date.toLocaleDateString()}</p>
+            <p className="text-xs text-gray-500 pl-2 border-l border-scordi">{dateText}</p>
             <ul className="py-4 w-full pl-2 border-l">
                 {items.map((item, i) => (
                     <EmailParsedTableRowMobile
@@ -121,14 +137,14 @@ export const EmailParsedTableRowMobile = memo((props: EmailParsedTableRowProps) 
     return (
         <li className="flex gap-4 mb-4 px-0">
             <div className="">
-                <p className="text-sm font-semibold">{serviceName}</p>
+                <p className="text-[16px] font-semibold">{serviceName}</p>
                 <p className="leading-none">
                     <small className="text-xs text-gray-500">{hh_mm(date)}</small>
                 </p>
             </div>
 
             <div className="ml-auto flex flex-col items-start">
-                <p className="text-right font-bold">
+                <p className="text-[16px] text-right font-bold">
                     {price.hide ? (
                         <span className="text-gray-500">-</span>
                     ) : (
