@@ -42,10 +42,10 @@ export const TastingPageLoadedHeaderMobile = memo(() => {
             </h2>
 
             <ul className="py-0">
-                <ListItem label="이메일" value={gmailProfile?.email} />
-                <ListItem label="조회 시작 날짜" value={yyyy_mm_dd_hh_mm(getDateOfItem(oldest))} />
-                <ListItem label="조회 종료 날짜" value={yyyy_mm_dd_hh_mm(getDateOfItem(latest))} />
-                <ListItem label="원화로 보기">
+                <ListItem label={t('connected_email')} value={gmailProfile?.email} />
+                <ListItem label={t('search_started_at')} value={yyyy_mm_dd_hh_mm(getDateOfItem(oldest))} />
+                <ListItem label={t('search_finished_at')} value={yyyy_mm_dd_hh_mm(getDateOfItem(latest))} />
+                <ListItem label={t('display_as_krw')}>
                     <CurrencyToggle className="px-0" leftText="" rightText="" />
                 </ListItem>
             </ul>

@@ -10,6 +10,10 @@
   "wanna_keep_tracking": "Want to keep tracking automatically?",
   "click_the_button": "Click the button",
   "try_it_free_now": "Try it for free now",
+  "connected_email": "Email",
+  "search_started_at": "Oldest date",
+  "search_finished_at": "Latest date",
+  "display_as_krw": "Display as KRW",
   "summary_stat": {
     "services": {
       "label": "Services you use",
