@@ -38,7 +38,7 @@ function MyApp(props: Props) {
                 />
                 <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1,IE=EmulateIE7" />
 
-                <link rel="icon" href="/logo-transparent.png" />
+                <link rel="icon" href="/favicon-64x64.png" />
                 <link rel="canonical" href="https://scordi.io" />
             </Head>
             <ChannelTalkCDN />
