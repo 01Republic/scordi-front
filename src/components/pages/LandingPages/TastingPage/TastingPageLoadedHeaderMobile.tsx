@@ -11,7 +11,6 @@ import {getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price'
 import {gmailItemsAtom, gmailProfileAtom} from './pageAtoms';
 import {CurrencyToggle} from './CurrencyToggle';
 import {useSummaryStatBalance} from './SummarySectionStatBalance';
-import {Currency} from '^types/crawler';
 
 export const TastingPageLoadedHeaderMobile = memo(() => {
     const gmailProfile = useRecoilValue(gmailProfileAtom);

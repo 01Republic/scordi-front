@@ -10,6 +10,7 @@ import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
 import {useRouter} from 'next/router';
 import {useTranslation} from 'next-i18next';
 import {TypeAnimation} from 'react-type-animation';
+import {ChannelTalkHideStyle} from '^components/lib/channel-talk/ChannelTalkHideStyle';
 
 export const TastingPage = memo(() => {
     const isLoading = useRecoilValue(gmailItemsLoadingAtom);
@@ -20,6 +21,7 @@ export const TastingPage = memo(() => {
     return (
         <AOSProvider>
             <HeadTag />
+            <ChannelTalkHideStyle />
             <div id="TastingPage" className="bg-white">
                 <LandingPageNavBar showLoginButton={false} fluid={true} />
 
