@@ -1,5 +1,3 @@
-import {serviceHost} from '^config/environments';
-
 // export type PageRoute<T> = {
 //     pathname: string;
 //     // path: <T extends Array<infer P>>(...args: T) => string;
@@ -9,7 +7,7 @@ import {serviceHost} from '^config/environments';
 // type PageRoute<T> = {pathname: string; path: T};
 
 export const pathRoute = <T extends Function>(route: {pathname: string; path: T}) => {
-    const url = ((...args: any[]) => `${serviceHost}${route.path(...args)}`) as unknown as T;
+    const url = ((...args: any[]) => `${window.location.origin}${route.path(...args)}`) as unknown as T;
     return {...route, url};
 };
 
