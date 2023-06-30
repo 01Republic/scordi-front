@@ -28,5 +28,6 @@
       "label": "Total cost",
       "unit": ""
     }
-  }
+  },
+  "something_went_to_wrong": "Something wrong! :(\nplz refresh page and try again"
 }

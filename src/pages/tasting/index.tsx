@@ -15,6 +15,7 @@ import {
 } from '^components/pages/LandingPages/TastingPage/pageAtoms';
 import {draftInvoiceAccount} from '^api/invoiceAccount.api';
 import {getDraftInvoiceAccountFromTo} from '^types/invoiceAccount.type';
+import {useTranslation} from 'next-i18next';
 
 export const TastingPageRoute = pathRoute({
     pathname: '/tasting',
@@ -35,6 +36,7 @@ export default function TastingPage() {
     const setIsLoading = useSetRecoilState(gmailItemsLoadingAtom);
     const setIsLoaded = useSetRecoilState(gmailItemsLoadedAtom);
     const {accessTokenData} = useGoogleAccessTokenCallback(TastingPageRoute.path());
+    const {t} = useTranslation('publicTasting');
 
     useEffect(() => {
         if (!accessTokenData) return;
@@ -55,25 +57,31 @@ export default function TastingPage() {
                     expireAt: tokenData.expires_in,
                 },
                 gmailQueryOptions: getDraftInvoiceAccountFromTo(),
-            }).then((res) => res.data);
+            })
+                .then((res) => res.data)
+                .catch(() => {
+                    alert(t('something_went_to_wrong'));
+                });
 
-            const emails = draftAccount.invoiceApps
-                .map((invoiceApp) => {
-                    return invoiceApp.billingHistories
-                        .map((history) => {
-                            const email = history.emailContent;
-                            if (!email) return;
-                            email.metadata.date = new Date(email.metadata.date);
-                            return email;
-                        })
-                        .filter((e) => !!e) as GmailItem[];
-                })
-                .flat();
-            setDraftAccount(draftAccount);
-            setGmailItems(emails);
+            if (draftAccount) {
+                const emails = draftAccount.invoiceApps
+                    .map((invoiceApp) => {
+                        return invoiceApp.billingHistories
+                            .map((history) => {
+                                const email = history.emailContent;
+                                if (!email) return;
+                                email.metadata.date = new Date(email.metadata.date);
+                                return email;
+                            })
+                            .filter((e) => !!e) as GmailItem[];
+                    })
+                    .flat();
+                setDraftAccount(draftAccount);
+                setGmailItems(emails);
 
-            setIsLoading(false);
-            setIsLoaded(true);
+                setIsLoading(false);
+                setIsLoaded(true);
+            }
         });
     }, [accessTokenData]);
 
