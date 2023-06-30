@@ -12,6 +12,7 @@ import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {EmailParsedTableGroupByDay, groupByDate} from '^components/pages/LandingPages/TastingPage/EmailParsedTableRow';
 import {dateSortBy} from '^components/util/date';
 import {sumBy} from 'lodash';
+import {useRouter} from 'next/router';
 
 const isShowTastingItemDetailModalState = atom<boolean>({
     key: 'isShowTastingItemDetailModalState',
@@ -28,6 +29,10 @@ export const useTastingItemDetailModal = () => {
     const [modalIsShow, setDetailModalIsShow] = useRecoilState(isShowTastingItemDetailModalState);
 
     const setModal = (item: GmailItem | null) => {
+        const isModalOpened = window.history.state === 'modal-opened';
+        if (!modalIsShow && !isModalOpened) {
+            window.history.pushState('modal-opened', '');
+        }
         console.log(item);
         setDetailModalItem(item);
         setDetailModalIsShow(!!item);
@@ -37,6 +42,7 @@ export const useTastingItemDetailModal = () => {
 };
 
 export const TastingItemDetailModal = memo(() => {
+    const router = useRouter();
     const {close, Modal} = useModal({isShowAtom: isShowTastingItemDetailModalState});
     const [item, setItem] = useRecoilState(tastingItemDetailModalItemState);
     const [modalIsShow, setDetailModalIsShow] = useRecoilState(isShowTastingItemDetailModalState);
@@ -53,6 +59,16 @@ export const TastingItemDetailModal = memo(() => {
         });
         if (invoiceApp) setCurrentInvoiceApp(invoiceApp);
     }, [item, draftAccount]);
+
+    useEffect(() => {
+        if (!router.isReady) return;
+
+        window.onpopstate = function () {
+            const isModalOpened = window.history.state === 'modal-opened';
+            console.log('isModalOpened', isModalOpened);
+            if (!isModalOpened) close();
+        };
+    }, [router.isReady]);
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
