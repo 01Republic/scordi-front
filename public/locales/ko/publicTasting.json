@@ -13,6 +13,7 @@
   "connected_email": "이메일",
   "search_started_at": "조회 시작 날짜",
   "search_finished_at": "조회 종료 날짜",
+  "result_in_since_n_ago": "<b>{{since}}</b> 부터 집계한 결과에요.",
   "display_as_krw": "원화로 보기",
   "summary_stat": {
     "services": {

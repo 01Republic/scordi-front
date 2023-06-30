@@ -13,6 +13,7 @@
   "connected_email": "Email",
   "search_started_at": "Oldest date",
   "search_finished_at": "Latest date",
+  "since_n_ago": "This is result from <b>{{since}}</b>",
   "display_as_krw": "Display as KRW",
   "summary_stat": {
     "services": {

@@ -8,11 +8,13 @@ import {displayCurrencyAtom, draftAccountAtom} from '^components/pages/LandingPa
 import {InvoiceAppDto} from '^types/invoiceApp.type';
 import {changePriceCurrency, currencyFormat, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {MobileInfoListItem} from '^components/pages/LandingPages/TastingPage/MobileInfoListItem';
-import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
+import {yyyy_mm_dd, yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {EmailParsedTableGroupByDay, groupByDate} from '^components/pages/LandingPages/TastingPage/EmailParsedTableRow';
 import {dateSortBy} from '^components/util/date';
 import {sumBy} from 'lodash';
 import {useRouter} from 'next/router';
+import {useTranslation} from 'next-i18next';
+import {dayjs} from '^utils/dayjs';
 
 const isShowTastingItemDetailModalState = atom<boolean>({
     key: 'isShowTastingItemDetailModalState',
@@ -97,6 +99,7 @@ interface TastingItemDetailModalBodyProps {
 export const TastingItemDetailModalBody = memo((props: TastingItemDetailModalBodyProps) => {
     const {item, invoiceApp} = props;
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
+    const {t} = useTranslation('publicTasting');
 
     const {prototype: proto, billingHistories} = invoiceApp;
     const date = item.metadata.date;
@@ -112,6 +115,11 @@ export const TastingItemDetailModalBody = memo((props: TastingItemDetailModalBod
     const items = billingHistories.map((history) => history.emailContent).filter((e) => !!e) as GmailItem[];
     const sortedItems = [...items].sort(dateSortBy('DESC', (item) => new Date(item.metadata.date)));
     const groupedItems = groupByDate(sortedItems);
+
+    const getDateOfItem = (item: GmailItem) => new Date(item.metadata.date);
+    const latest = sortedItems[0];
+    const oldest = sortedItems[sortedItems.length - 1];
+    const since = dayjs(getDateOfItem(oldest)).fromNow();
 
     const getTotalBalance = (gmailItems: GmailItem[]) => {
         if (gmailItems.length === 0) return 0;
@@ -181,18 +189,19 @@ export const TastingItemDetailModalBody = memo((props: TastingItemDetailModalBod
                 </ul>
             </div>
 
-            <div className="container px-4 pb-4 pt-0 bg-white">
-                <div className="flex items-center justify-around py-6">
+            <div className="container px-4 pb-4 pt-6 bg-white">
+                <p className="font-semibold mb-3" dangerouslySetInnerHTML={{__html: t('since_n_ago', {since})}} />
+                <div className="flex items-center justify-around pb-6">
                     <div className="text-center">
-                        <p className="text-sm text-gray-500 mb-1">건수</p>
+                        <p className="text-sm text-gray-500 mb-1">{t('summary_stat.invoice.label')}</p>
                         <p className="font-semibold text-18">
-                            <span className="">{billingHistories.length}건</span>
-                            {/*<small >&nbsp;</small>*/}
+                            <span className="">{billingHistories.length}</span>
+                            <small>&nbsp;{t('summary_stat.invoice.unit')}</small>
                         </p>
                     </div>
 
                     <div className="text-center">
-                        <p className="text-sm text-gray-500 mb-1">총 금액</p>
+                        <p className="text-sm text-gray-500 mb-1">{t('summary_stat.balance.label')}</p>
                         <p className="font-semibold text-18">
                             <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>
                             <span className="">{getTotalBalance(items).toLocaleString()}</span>
