@@ -27,14 +27,24 @@ interface EmailParsedTableRowProps {
     price: Price;
 }
 
-export const EmailParsedTableRow = memo((props: EmailParsedTableRowProps) => {
-    const {date, serviceName, title, attachments, sender, price} = props;
+export const EmailParsedTableRow = memo((props: {item: GmailItem}) => {
+    // const {date, serviceName, title, attachments, sender, price} = props;
+    const {item} = props;
+    const {setModal} = useTastingItemDetailModal();
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
+
+    const date = item.metadata.date;
+    const serviceName = item.provider;
+    const title = item.title;
+    const attachments = item.attachments;
+    const sender = item.metadata.sender || item.metadata.from?.replace(/.*<(.+)>/, '$1');
+    const price = item.price;
+
     const symbol = getCurrencySymbol(displayCurrency);
     const amount = changePriceCurrency(price.amount, price.currency, displayCurrency);
 
     return (
-        <tr>
+        <tr onClick={() => setModal(item)}>
             <td>
                 <p className="text-gray-700">{date.toLocaleString()}</p>
             </td>

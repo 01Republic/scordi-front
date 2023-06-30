@@ -58,15 +58,7 @@ export const EmailParsedTable = memo(() => {
 
                         <tbody>
                             {sortedItems.map((item, i) => (
-                                <EmailParsedTableRow
-                                    key={i}
-                                    date={item.metadata.date}
-                                    serviceName={item.provider}
-                                    title={item.title}
-                                    attachments={item.attachments}
-                                    sender={item.metadata.sender || item.metadata.from?.replace(/.*<(.+)>/, '$1')}
-                                    price={item.price}
-                                />
+                                <EmailParsedTableRow key={i} item={item} />
                             ))}
                         </tbody>
                     </table>
