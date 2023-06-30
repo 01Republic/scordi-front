@@ -190,7 +190,10 @@ export const TastingItemDetailModalBody = memo((props: TastingItemDetailModalBod
             </div>
 
             <div className="container px-4 pb-4 pt-6 bg-white">
-                <p className="font-semibold mb-3" dangerouslySetInnerHTML={{__html: t('since_n_ago', {since})}} />
+                <p
+                    className="font-semibold mb-3"
+                    dangerouslySetInnerHTML={{__html: t('result_in_since_n_ago', {since})}}
+                />
                 <div className="flex items-center justify-around pb-6">
                     <div className="text-center">
                         <p className="text-sm text-gray-500 mb-1">{t('summary_stat.invoice.label')}</p>
