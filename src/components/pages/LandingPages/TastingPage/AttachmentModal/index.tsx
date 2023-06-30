@@ -34,7 +34,7 @@ export const AttachmentModal = memo(() => {
 
     return (
         <div className={`modal cursor-pointer ${isShow ? 'modal-open' : ''}`} onClick={close}>
-            <div className={`modal-box cursor-default`} onClick={prevent}>
+            <div className={`modal-box cursor-default h-full`} onClick={prevent}>
                 {attachment && (
                     <>
                         <div className="flex justify-between items-center mb-6">
