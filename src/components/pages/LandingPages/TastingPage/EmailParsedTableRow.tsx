@@ -101,8 +101,8 @@ export function groupByDate(items: GmailItem[]): Record<string, GmailItem[]> {
     return container;
 }
 
-export const EmailParsedTableGroupByDay = memo((props: {date: Date; items: GmailItem[]}) => {
-    const {date, items} = props;
+export const EmailParsedTableGroupByDay = memo((props: {date: Date; items: GmailItem[]; showTitle?: boolean}) => {
+    const {date, items, showTitle = false} = props;
     const router = useRouter();
 
     dayjs.locale(router.locale);
@@ -123,15 +123,15 @@ export const EmailParsedTableGroupByDay = memo((props: {date: Date; items: Gmail
             <p className="text-xs text-gray-500 pl-2 border-l border-scordi">{dateText}</p>
             <ul className="py-4 w-full pl-2 border-l">
                 {items.map((item, i) => (
-                    <EmailParsedTableRowMobile key={i} item={item} />
+                    <EmailParsedTableRowMobile key={i} item={item} showTitle={showTitle} />
                 ))}
             </ul>
         </li>
     );
 });
 
-export const EmailParsedTableRowMobile = memo((props: {item: GmailItem}) => {
-    const {item} = props;
+export const EmailParsedTableRowMobile = memo((props: {item: GmailItem; showTitle?: boolean}) => {
+    const {item, showTitle = false} = props;
     const {setModal} = useTastingItemDetailModal();
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
 
@@ -152,13 +152,13 @@ export const EmailParsedTableRowMobile = memo((props: {item: GmailItem}) => {
             onClick={() => setModal(item)}
         >
             <div className="">
-                <p className="text-[16px] font-semibold">{serviceName}</p>
+                <p className="text-[16px] font-semibold whitespace-nowrap">{serviceName}</p>
                 <p className="leading-none">
                     <small className="text-xs text-gray-500">{hh_mm(date)}</small>
                 </p>
             </div>
 
-            <div className="ml-auto flex flex-col items-start">
+            <div className="ml-auto flex flex-col items-end max-w-[70%]">
                 <p className="text-[16px] text-right font-bold">
                     {price.hide ? (
                         <span className="text-gray-500">-</span>
@@ -169,6 +169,11 @@ export const EmailParsedTableRowMobile = memo((props: {item: GmailItem}) => {
                         </>
                     )}
                 </p>
+                {showTitle && (
+                    <p className="leading-none text-right font-light">
+                        <small className="text-xs text-gray-500">{item.title}</small>
+                    </p>
+                )}
             </div>
         </li>
     );

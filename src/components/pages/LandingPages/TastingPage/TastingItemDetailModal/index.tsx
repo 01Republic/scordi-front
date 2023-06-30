@@ -215,7 +215,7 @@ export const TastingItemDetailModalBody = memo((props: TastingItemDetailModalBod
 
                 <ul className="w-full text-left">
                     {Object.entries(groupedItems).map(([date, items], i) => (
-                        <EmailParsedTableGroupByDay key={i} date={new Date(date)} items={items} />
+                        <EmailParsedTableGroupByDay key={i} date={new Date(date)} items={items} showTitle={true} />
                     ))}
                 </ul>
             </div>
