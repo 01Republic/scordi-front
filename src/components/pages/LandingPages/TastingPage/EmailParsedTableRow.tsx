@@ -7,12 +7,12 @@ import {
 } from '^api/tasting.api/gmail/agent/parse-email-price';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from './pageAtoms';
-import {WithChildren} from '^types/global.type';
 import {GmailItem} from '^api/tasting.api';
 import {Avatar} from '^components/Avatar';
 import {hh_mm} from '^utils/dateTime';
 import {dayjs} from '^utils/dayjs';
 import {useRouter} from 'next/router';
+import {useTastingItemDetailModal} from './TastingItemDetailModal';
 
 interface EmailParsedTableRowProps {
     date: Date;
@@ -113,29 +113,34 @@ export const EmailParsedTableGroupByDay = memo((props: {date: Date; items: Gmail
             <p className="text-xs text-gray-500 pl-2 border-l border-scordi">{dateText}</p>
             <ul className="py-4 w-full pl-2 border-l">
                 {items.map((item, i) => (
-                    <EmailParsedTableRowMobile
-                        key={i}
-                        date={item.metadata.date}
-                        serviceName={item.provider}
-                        title={item.title}
-                        attachments={item.attachments}
-                        sender={item.metadata.sender || item.metadata.from?.replace(/.*<(.+)>/, '$1')}
-                        price={item.price}
-                    />
+                    <EmailParsedTableRowMobile key={i} item={item} />
                 ))}
             </ul>
         </li>
     );
 });
 
-export const EmailParsedTableRowMobile = memo((props: EmailParsedTableRowProps) => {
-    const {date, sender, serviceName, title, attachments, price} = props;
+export const EmailParsedTableRowMobile = memo((props: {item: GmailItem}) => {
+    const {item} = props;
+    const {setModal} = useTastingItemDetailModal();
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
+
+    const date = item.metadata.date;
+    const serviceName = item.provider;
+    const title = item.title;
+    const attachments = item.attachments;
+    const sender = item.metadata.sender || item.metadata.from?.replace(/.*<(.+)>/, '$1');
+    const price = item.price;
+
     const symbol = getCurrencySymbol(displayCurrency);
     const amount = changePriceCurrency(price.amount, price.currency, displayCurrency);
 
     return (
-        <li className="flex gap-4 mb-4 px-0">
+        <li
+            data-component="EmailParsedTableRowMobile"
+            className="flex gap-4 mb-4 px-0 cursor-pointer"
+            onClick={() => setModal(item)}
+        >
             <div className="">
                 <p className="text-[16px] font-semibold">{serviceName}</p>
                 <p className="leading-none">

@@ -11,6 +11,7 @@ import {useRouter} from 'next/router';
 import {useTranslation} from 'next-i18next';
 import {TypeAnimation} from 'react-type-animation';
 import {ChannelTalkHideStyle} from '^components/lib/channel-talk/ChannelTalkHideStyle';
+import {TastingItemDetailModal} from '^components/pages/LandingPages/TastingPage/TastingItemDetailModal';
 
 export const TastingPage = memo(() => {
     const isLoading = useRecoilValue(gmailItemsLoadingAtom);
@@ -51,6 +52,8 @@ export const TastingPage = memo(() => {
                         {isLoaded && <BetaServiceFooter />}
                     </>
                 )}
+
+                {isLoaded && <TastingItemDetailModal />}
             </div>
         </AOSProvider>
     );

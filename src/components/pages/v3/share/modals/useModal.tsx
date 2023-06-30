@@ -10,6 +10,7 @@ interface UseModalOption {
 
 interface ModalProps extends WithChildren {
     className?: string;
+    wrapperClassName?: string;
 }
 
 export const useModal = (option: UseModalOption) => {
@@ -36,8 +37,8 @@ export const useModal = (option: UseModalOption) => {
         open,
         close,
         prevent,
-        Modal: memo(({children, className = ''}: ModalProps) => (
-            <div className={`modal cursor-pointer ${isShow ? 'modal-open' : ''}`} onClick={close}>
+        Modal: memo(({children, wrapperClassName = '', className = ''}: ModalProps) => (
+            <div className={`modal cursor-pointer ${wrapperClassName} ${isShow ? 'modal-open' : ''}`} onClick={close}>
                 <div className={`modal-box cursor-default ${className}`} onClick={prevent}>
                     {children}
                 </div>

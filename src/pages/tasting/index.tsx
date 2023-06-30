@@ -7,6 +7,7 @@ import {useGoogleAccessTokenCallback} from '^hooks/useGoogleAccessToken';
 import {GmailAgent, GmailItem} from '^api/tasting.api';
 import {useSetRecoilState} from 'recoil';
 import {
+    draftAccountAtom,
     gmailItemsAtom,
     gmailItemsLoadedAtom,
     gmailItemsLoadingAtom,
@@ -29,6 +30,7 @@ export const getStaticProps = async ({locale}: any) => ({
 
 export default function TastingPage() {
     const setGmailProfile = useSetRecoilState(gmailProfileAtom);
+    const setDraftAccount = useSetRecoilState(draftAccountAtom);
     const setGmailItems = useSetRecoilState(gmailItemsAtom);
     const setIsLoading = useSetRecoilState(gmailItemsLoadingAtom);
     const setIsLoaded = useSetRecoilState(gmailItemsLoadedAtom);
@@ -67,6 +69,7 @@ export default function TastingPage() {
                         .filter((e) => !!e) as GmailItem[];
                 })
                 .flat();
+            setDraftAccount(draftAccount);
             setGmailItems(emails);
 
             setIsLoading(false);

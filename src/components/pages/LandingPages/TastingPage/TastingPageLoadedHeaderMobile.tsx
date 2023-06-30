@@ -1,16 +1,15 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {useTranslation} from 'next-i18next';
-import {ReactNodeLike} from 'prop-types';
 import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {Avatar} from '^components/Avatar';
 import {dateSortBy} from '^components/util/date';
-import {WithChildren} from '^types/global.type';
 import {GmailItem} from '^api/tasting.api';
 import {getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {gmailItemsAtom, gmailProfileAtom} from './pageAtoms';
 import {CurrencyToggle} from './CurrencyToggle';
 import {useSummaryStatBalance} from './SummarySectionStatBalance';
+import {MobileInfoListItem} from './MobileInfoListItem';
 
 export const TastingPageLoadedHeaderMobile = memo(() => {
     const gmailProfile = useRecoilValue(gmailProfileAtom);
@@ -41,24 +40,13 @@ export const TastingPageLoadedHeaderMobile = memo(() => {
             </h2>
 
             <ul className="py-0">
-                <ListItem label={t('connected_email')} value={gmailProfile?.email} />
-                <ListItem label={t('search_started_at')} value={yyyy_mm_dd_hh_mm(getDateOfItem(oldest))} />
-                <ListItem label={t('search_finished_at')} value={yyyy_mm_dd_hh_mm(getDateOfItem(latest))} />
-                <ListItem label={t('display_as_krw')}>
+                <MobileInfoListItem label={t('connected_email')} value={gmailProfile?.email} />
+                <MobileInfoListItem label={t('search_started_at')} value={yyyy_mm_dd_hh_mm(getDateOfItem(oldest))} />
+                <MobileInfoListItem label={t('search_finished_at')} value={yyyy_mm_dd_hh_mm(getDateOfItem(latest))} />
+                <MobileInfoListItem label={t('display_as_krw')}>
                     <CurrencyToggle className="px-0" leftText="" rightText="" />
-                </ListItem>
+                </MobileInfoListItem>
             </ul>
         </section>
-    );
-});
-
-const ListItem = memo((props: {label: ReactNodeLike; value?: ReactNodeLike} & WithChildren) => {
-    const {label, value, children} = props;
-
-    return (
-        <li className="flex justify-between items-center text-[16px] h-[50px]">
-            <div className="">{label}</div>
-            {children ? <div className="">{children}</div> : <div className="font-light">{value}</div>}
-        </li>
     );
 });
