@@ -137,9 +137,9 @@ export const EmailParsedTableRowMobile = memo((props: {item: GmailItem; showTitl
 
     const date = item.metadata.date;
     const serviceName = item.provider;
-    const title = item.title;
-    const attachments = item.attachments;
-    const sender = item.metadata.sender || item.metadata.from?.replace(/.*<(.+)>/, '$1');
+    // const title = item.title;
+    // const attachments = item.attachments;
+    // const sender = item.metadata.sender || item.metadata.from?.replace(/.*<(.+)>/, '$1');
     const price = item.price;
 
     const symbol = getCurrencySymbol(displayCurrency);

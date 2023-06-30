@@ -15,6 +15,8 @@ import {sumBy} from 'lodash';
 import {useRouter} from 'next/router';
 import {useTranslation} from 'next-i18next';
 import {dayjs} from '^utils/dayjs';
+import {OutLink} from '^components/OutLink';
+import {attachmentModalState} from '^components/pages/LandingPages/TastingPage/AttachmentModal';
 
 const isShowTastingItemDetailModalState = atom<boolean>({
     key: 'isShowTastingItemDetailModalState',
@@ -99,6 +101,7 @@ interface TastingItemDetailModalBodyProps {
 export const TastingItemDetailModalBody = memo((props: TastingItemDetailModalBodyProps) => {
     const {item, invoiceApp} = props;
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
+    const setAttachmentModal = useSetRecoilState(attachmentModalState);
     const {t} = useTranslation('publicTasting');
 
     const {prototype: proto, billingHistories} = invoiceApp;
@@ -179,8 +182,12 @@ export const TastingItemDetailModalBody = memo((props: TastingItemDetailModalBod
                                     <div
                                         key={i}
                                         className="font-light text-xs badge overflow-hidden justify-start whitespace-nowrap mb-4"
+                                        onClick={() => {
+                                            setAttachmentModal(attachment);
+                                            console.log(attachment.url);
+                                        }}
                                     >
-                                        {attachment.fileName}
+                                        <OutLink href={attachment.url} text={attachment.fileName} />
                                     </div>
                                 ))}
                             </div>
