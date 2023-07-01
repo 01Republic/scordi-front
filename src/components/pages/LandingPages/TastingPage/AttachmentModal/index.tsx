@@ -1,6 +1,5 @@
 import React, {memo} from 'react';
 import {atom, useRecoilState} from 'recoil';
-import {IoClose} from '@react-icons/all-files/io5/IoClose';
 
 type AttachmentFile = {
     fileName: string;

@@ -8,10 +8,6 @@ import {
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from './pageAtoms';
 import {GmailItem} from '^api/tasting.api';
-import {Avatar} from '^components/Avatar';
-import {hh_mm} from '^utils/dateTime';
-import {dayjs} from '^utils/dayjs';
-import {useRouter} from 'next/router';
 import {useTastingItemDetailModal} from './TastingItemDetailModal';
 
 interface EmailParsedTableRowProps {
@@ -85,96 +81,5 @@ export const EmailParsedTableRow = memo((props: {item: GmailItem}) => {
             </td>
             <th>{/*<button className="btn btn-ghost btn-xs">details</button>*/}</th>
         </tr>
-    );
-});
-
-export function groupByDate(items: GmailItem[]): Record<string, GmailItem[]> {
-    const container: Record<string, GmailItem[]> = {};
-    const getDate = (item: GmailItem) => item?.metadata?.date;
-
-    items.forEach((item) => {
-        const date = getDate(item);
-        container[date?.toISOString()] ||= [];
-        container[date?.toISOString()].push(item);
-    });
-
-    return container;
-}
-
-export const EmailParsedTableGroupByDay = memo((props: {date: Date; items: GmailItem[]; showTitle?: boolean}) => {
-    const {date, items, showTitle = false} = props;
-    const router = useRouter();
-
-    dayjs.locale(router.locale);
-
-    const dateText = (() => {
-        const long = dayjs(date).format('llll');
-        const short = dayjs(date).format('LT');
-        let text = long.replace(short, '');
-        if (date.getFullYear() === new Date().getFullYear()) {
-            const year = dayjs(date).format('YYYY');
-            text = text.replace(new RegExp(`\\S*${year}\\S*`), '');
-        }
-        return text.trim();
-    })();
-
-    return (
-        <li className="py-1">
-            <p className="text-xs text-gray-500 pl-2 border-l border-scordi">{dateText}</p>
-            <ul className="py-4 w-full pl-2 border-l">
-                {items.map((item, i) => (
-                    <EmailParsedTableRowMobile key={i} item={item} showTitle={showTitle} />
-                ))}
-            </ul>
-        </li>
-    );
-});
-
-export const EmailParsedTableRowMobile = memo((props: {item: GmailItem; showTitle?: boolean}) => {
-    const {item, showTitle = false} = props;
-    const {setModal} = useTastingItemDetailModal();
-    const displayCurrency = useRecoilValue(displayCurrencyAtom);
-
-    const date = item.metadata.date;
-    const serviceName = item.provider;
-    // const title = item.title;
-    // const attachments = item.attachments;
-    // const sender = item.metadata.sender || item.metadata.from?.replace(/.*<(.+)>/, '$1');
-    const price = item.price;
-
-    const symbol = getCurrencySymbol(displayCurrency);
-    const amount = changePriceCurrency(price.amount, price.currency, displayCurrency);
-
-    return (
-        <li
-            data-component="EmailParsedTableRowMobile"
-            className="flex gap-4 mb-4 px-0 cursor-pointer"
-            onClick={() => setModal(item)}
-        >
-            <div className="">
-                <p className="text-[16px] font-semibold whitespace-nowrap">{serviceName}</p>
-                <p className="leading-none">
-                    <small className="text-xs text-gray-500">{hh_mm(date)}</small>
-                </p>
-            </div>
-
-            <div className="ml-auto flex flex-col items-end max-w-[70%]">
-                <p className="text-[16px] text-right font-bold">
-                    {price.hide ? (
-                        <span className="text-gray-500">-</span>
-                    ) : (
-                        <>
-                            <small className="mr-1">{symbol}</small>
-                            <span>{currencyFormat(amount || 0, displayCurrency)}</span>
-                        </>
-                    )}
-                </p>
-                {showTitle && (
-                    <p className="leading-none text-right font-light">
-                        <small className="text-xs text-gray-500">{item.title}</small>
-                    </p>
-                )}
-            </div>
-        </li>
     );
 });

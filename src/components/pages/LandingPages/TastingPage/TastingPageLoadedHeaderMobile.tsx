@@ -6,7 +6,7 @@ import {Avatar} from '^components/Avatar';
 import {dateSortBy} from '^components/util/date';
 import {GmailItem} from '^api/tasting.api';
 import {getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
-import {gmailItemsAtom, gmailProfileAtom} from './pageAtoms';
+import {draftAccountAtom, gmailItemsAtom, gmailProfileAtom} from './pageAtoms';
 import {CurrencyToggle} from './CurrencyToggle';
 import {useSummaryStatBalance} from './SummarySectionStatBalance';
 import {MobileInfoListItem} from './MobileInfoListItem';
@@ -14,8 +14,11 @@ import {MobileInfoListItem} from './MobileInfoListItem';
 export const TastingPageLoadedHeaderMobile = memo(() => {
     const gmailProfile = useRecoilValue(gmailProfileAtom);
     const gmailItems = useRecoilValue(gmailItemsAtom);
+    const draftAccount = useRecoilValue(draftAccountAtom);
     const {t} = useTranslation('publicTasting');
     const {totalPrice} = useSummaryStatBalance('total-balance2');
+
+    console.log('draftAccount', draftAccount);
 
     const getDateOfItem = (item: GmailItem) => new Date(item.metadata.date);
     const sortedItems = [...gmailItems].sort(dateSortBy('DESC', getDateOfItem));

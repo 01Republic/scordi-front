@@ -1,18 +1,13 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
-import {gmailItemsAtom, gmailItemsLoadedAtom} from './pageAtoms';
-import {
-    EmailParsedTableGroupByDay,
-    EmailParsedTableRow,
-    EmailParsedTableRowMobile,
-    groupByDate,
-} from './EmailParsedTableRow';
+import {gmailItemsAtom} from './pageAtoms';
+import {EmailParsedTableRow} from './EmailParsedTableRow';
 import {CurrencyToggle} from './CurrencyToggle';
 import {GmailItem} from '^api/tasting.api';
 import {dateSortBy} from '^components/util/date';
-import {useSummaryStatServices} from '^components/pages/LandingPages/TastingPage/SummarySectionStatServices';
-import {useTranslation} from 'next-i18next';
-import {useSummaryStatInvoices} from '^components/pages/LandingPages/TastingPage/SummarySectionStatInvoices';
+import {SummarySectionMobile} from './mobile/SummarySectionMobile';
+import {groupByDate} from './mobile/util/group-by-date';
+import {EmailParsedTableGroupByDay} from './mobile/EmailParsedTableGroupByDay';
 
 export const EmailParsedTable = memo(() => {
     const gmailItems = useRecoilValue(gmailItemsAtom);
@@ -73,32 +68,5 @@ export const EmailParsedTable = memo(() => {
                 </div>
             </>
         </>
-    );
-});
-
-const SummarySectionMobile = memo(() => {
-    const isLoaded = useRecoilValue(gmailItemsLoadedAtom);
-    useSummaryStatServices('detected-services2');
-    useSummaryStatInvoices('detected-invoices2');
-    const {t} = useTranslation('publicTasting');
-
-    return (
-        <div className="flex sm:hidden items-center justify-around py-6">
-            <div className="text-center">
-                <p className="text-sm text-gray-500 mb-1">{t('summary_stat.services.label')}</p>
-                <p className="font-semibold text-18">
-                    <span id="detected-services2" className="" />
-                    <small className={!isLoaded ? 'invisible' : ''}>&nbsp;{t('summary_stat.services.unit')}</small>
-                </p>
-            </div>
-
-            <div className="text-center">
-                <p className="text-sm text-gray-500 mb-1">{t('summary_stat.invoice.label')}</p>
-                <p className="font-semibold text-18">
-                    <span id="detected-invoices2" className="" />
-                    <small className={!isLoaded ? 'invisible' : ''}>&nbsp;{t('summary_stat.invoice.unit')}</small>
-                </p>
-            </div>
-        </div>
     );
 });
