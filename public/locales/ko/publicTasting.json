@@ -34,5 +34,5 @@
     }
   },
   "something_went_to_wrong": "데이터를 가져오는 중에 무언가 잘못됐어요! :(\n새로고침 후 다시 시도해주세요",
-  "this_is_detected_subscriptions_from_emails": "구독중이거나 메일함에서 발견된 서비스들 입니다."
+  "this_is_detected_subscriptions_from_emails": "구독중이거나 메일함에서 발견했어요!"
 }

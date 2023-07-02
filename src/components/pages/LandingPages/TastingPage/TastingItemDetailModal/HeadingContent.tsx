@@ -27,7 +27,9 @@ export const HeadingContent = memo((props: HeadingContentProps) => {
                 </div>
             </MobileInfoListItem>
             <MobileInfoListItem label={t('sent_from')} className="!items-start">
-                <div className="font-light mb-4">{metadata.from}</div>
+                <div className="font-light mb-4" style={{wordBreak: 'keep-all'}}>
+                    {metadata.from}
+                </div>
             </MobileInfoListItem>
             <MobileInfoListItem label={t('sent_at')} className="!items-start" value={yyyy_mm_dd_hh_mm(metadata.date)} />
             {attachments.length > 0 && (
@@ -37,10 +39,7 @@ export const HeadingContent = memo((props: HeadingContentProps) => {
                             <div
                                 key={i}
                                 className="font-light text-xs badge overflow-hidden justify-start whitespace-nowrap mb-4"
-                                onClick={() => {
-                                    setAttachmentModal(attachment);
-                                    console.log(attachment.url);
-                                }}
+                                onClick={() => setAttachmentModal(attachment)}
                             >
                                 <OutLink href={attachment.url} text={attachment.fileName} />
                             </div>

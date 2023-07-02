@@ -18,10 +18,10 @@ export const InvoiceAppItem = memo((props: InvoiceAppItemProps) => {
 
     return (
         <li>
-            <div className="grid grid-cols-5 py-3 w-full">
-                <div className="col-span-3 flex items-center gap-4">
-                    <Avatar src={proto.image} className="w-9 h-9" />
-                    <div>
+            <div className="grid grid-cols-6 py-3 px-3 -mx-3 rounded-box cursor-pointer hover:bg-neutral">
+                <div className="col-span-4 flex items-center gap-4">
+                    <Avatar src={proto.image} className="w-9 h-9 outline outline-offset-1 outline-slate-100" />
+                    <div className="flex-1">
                         <p className="text-xs text-gray-500">{proto.name}</p>
                         <p className="text-[16px]">
                             <small className="mr-0.5">{getCurrencySymbol(totalPrice.currency)}</small>

@@ -47,7 +47,9 @@ export const EmailParsedTableRowMobile = memo((props: {item: GmailItem; showTitl
                 </p>
                 {showTitle && (
                     <p className="leading-none text-right font-light">
-                        <small className="text-xs text-gray-500">{item.title}</small>
+                        <small className="text-xs text-gray-500" style={{wordBreak: 'keep-all'}}>
+                            {item.title}
+                        </small>
                     </p>
                 )}
             </div>
