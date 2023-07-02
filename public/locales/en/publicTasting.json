@@ -15,6 +15,10 @@
   "search_finished_at": "Latest date",
   "result_in_since_n_ago": "This is result from <b>{{since}}</b>",
   "display_as_krw": "Display as KRW",
+  "email_title": "Title",
+  "sent_from": "Sender",
+  "sent_at": "Sent at",
+  "attachments": "Attachments",
   "summary_stat": {
     "services": {
       "label": "Services you use",
@@ -29,5 +33,6 @@
       "unit": ""
     }
   },
-  "something_went_to_wrong": "Something wrong! :(\nplz refresh page and try again"
+  "something_went_to_wrong": "Something wrong! :(\nplz refresh page and try again",
+  "this_is_detected_subscriptions_from_emails": "These are detected from your inbox"
 }

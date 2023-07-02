@@ -1,24 +1,8 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
-import {gmailItemsAtom, gmailItemsLoadedAtom} from './pageAtoms';
-import {CountUp} from 'countup.js';
+import {gmailItemsLoadedAtom} from './pageAtoms';
 import {useTranslation} from 'next-i18next';
-
-export const useSummaryStatInvoices = (counterElemId: string) => {
-    const gmailItems = useRecoilValue(gmailItemsAtom);
-
-    useEffect(() => {
-        if (gmailItems.length === 0) return;
-        const count = gmailItems.filter((item) => !item.price.hide).length;
-        const option = {
-            duration: 0.5,
-            separator: ',',
-            decimal: '.',
-        };
-        const countUp = new CountUp(counterElemId, count, option);
-        setTimeout(() => countUp.start(), 0);
-    }, [gmailItems]);
-};
+import {useSummaryStatInvoices} from './hooks/useSummaryStatInvoices';
 
 export const SummarySectionStatInvoices = memo(() => {
     const isLoaded = useRecoilValue(gmailItemsLoadedAtom);

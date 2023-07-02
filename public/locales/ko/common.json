@@ -23,5 +23,7 @@
       "this": "이번 {{value}}",
       "last": "지난 {{value}}"
     }
-  }
+  },
+  "count_of_name": "{{count}}개의 {{name}}",
+  "subscribing_service": "구독중인 서비스"
 }

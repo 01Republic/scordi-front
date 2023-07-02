@@ -1,30 +1,8 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
-import {CountUp} from 'countup.js';
-import {gmailItemsAtom, gmailItemsLoadedAtom} from './pageAtoms';
+import {gmailItemsLoadedAtom} from './pageAtoms';
 import {useTranslation} from 'next-i18next';
-
-export const useSummaryStatServices = (counterElemId: string) => {
-    const gmailItems = useRecoilValue(gmailItemsAtom);
-
-    useEffect(() => {
-        if (gmailItems.length === 0) return;
-        const services: Record<string, number> = {};
-        gmailItems.forEach((item) => {
-            services[item.provider] ||= 0;
-            services[item.provider] += 1;
-        });
-
-        const count = Object.keys(services).length;
-        const option = {
-            duration: 0.5,
-            separator: ',',
-            decimal: '.',
-        };
-        const countUp = new CountUp(counterElemId, count, option);
-        setTimeout(() => countUp.start(), 0);
-    }, [gmailItems]);
-};
+import {useSummaryStatServices} from './hooks/useSummaryStatServices';
 
 export const SummarySectionStatServices = memo(() => {
     const isLoaded = useRecoilValue(gmailItemsLoadedAtom);

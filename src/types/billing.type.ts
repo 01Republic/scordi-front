@@ -3,6 +3,8 @@ import {OrganizationDto} from '^types/organization.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {GmailItem} from '^api/tasting.api';
 import {InvoiceAppDto} from '^types/invoiceApp.type';
+import {changePriceCurrency} from '^api/tasting.api/gmail/agent/parse-email-price';
+import {Currency} from '^types/crawler';
 
 // 쿼리가 가능한 엔티티. (dto 와 entity 의 형태 차이가 좀 있음)
 export class BillingSchedule {
@@ -60,6 +62,30 @@ export type BillingHistoryDto = {
     invoiceApp?: InvoiceAppDto; // 인보이스 앱
     emailContent: GmailItem | null;
 };
+
+export function getTotalPriceOfEmails(histories: BillingHistoryDto[], displayCurrency = Currency.KRW) {
+    // Email 로부터 생성된 결제히스토리만 걸러냅니다.
+    const historyListFromEmail = histories.filter((his) => {
+        const email = his.emailContent;
+        return email && !email.price.hide && !isNaN(email.price.amount);
+    });
+
+    // 합계 금액을 계산합니다.
+    const amount = historyListFromEmail
+
+        // Email 의 가격부분 추리기
+        .map((his) => {
+            const price = his.emailContent!.price;
+            return changePriceCurrency(price.amount, price.currency, displayCurrency);
+        })
+
+        // 합계 계산
+        .reduce((acc, a) => acc + a, 0);
+
+    return {
+        totalPrice: {amount, currency: displayCurrency},
+    };
+}
 
 export const t_paidAt = (dto: BillingHistoryDto) => {
     if (!dto.paidAt) return null;

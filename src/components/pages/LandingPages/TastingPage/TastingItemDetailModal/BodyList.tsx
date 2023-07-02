@@ -1,6 +1,7 @@
 import React, {memo} from 'react';
-import {EmailParsedTableGroupByDay, groupByDate} from '../EmailParsedTableRow';
 import {GmailItem} from '^api/tasting.api';
+import {groupByDate} from '../mobile/util/group-by-date';
+import {EmailParsedTableGroupByDay} from '../mobile/EmailParsedTableGroupByDay';
 
 interface BodyListProps {
     sortedItems: GmailItem[];

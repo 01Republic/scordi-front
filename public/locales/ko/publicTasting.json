@@ -15,6 +15,10 @@
   "search_finished_at": "조회 종료 날짜",
   "result_in_since_n_ago": "<b>{{since}}</b> 부터 집계한 결과에요.",
   "display_as_krw": "원화로 보기",
+  "email_title": "제목",
+  "sent_from": "발신",
+  "sent_at": "발신일시",
+  "attachments": "첨부파일",
   "summary_stat": {
     "services": {
       "label": "이용중인 서비스",
@@ -29,5 +33,6 @@
       "unit": ""
     }
   },
-  "something_went_to_wrong": "데이터를 가져오는 중에 무언가 잘못됐어요! :(\n새로고침 후 다시 시도해주세요"
+  "something_went_to_wrong": "데이터를 가져오는 중에 무언가 잘못됐어요! :(\n새로고침 후 다시 시도해주세요",
+  "this_is_detected_subscriptions_from_emails": "구독중이거나 메일함에서 발견된 서비스들 입니다."
 }

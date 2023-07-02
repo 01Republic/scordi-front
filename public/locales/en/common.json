@@ -23,5 +23,7 @@
       "this": "This {{value}}",
       "last": "Last {{value}}"
     }
-  }
+  },
+  "count_of_name": "{{count}} of {{name}}",
+  "subscribing_service": "Subs"
 }
