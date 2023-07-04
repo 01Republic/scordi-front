@@ -38,6 +38,7 @@ export const PhoneNumberInput = memo(() => {
                     type="button"
                     disabled={codeSent}
                     className="btn btn-xs sm:btn-sm border-slate-300 absolute right-4 top-0 bottom-0 m-auto"
+                    onClick={() => sendCode({phoneNumber: phoneAuthData.phoneNumber})}
                 >
                     {t('phone_auth.phone_input.send')}
                 </button>

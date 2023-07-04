@@ -14,7 +14,7 @@ import {useTranslation} from 'next-i18next';
 
 export const AuthCodeInput = memo(() => {
     const [phoneAuthData, setPhoneAuthData] = useRecoilState(phoneAuthDataState);
-    const codeSent = useRecoilValue(codeSentState);
+    const [codeSent, setCodeSent] = useRecoilState(codeSentState);
     const codeConfirmed = useRecoilValue(codeConfirmedState);
     const sendCode = useSendCode();
     const confirmCode = useConfirmCode();
@@ -62,15 +62,17 @@ export const AuthCodeInput = memo(() => {
                 >
                     <Timer
                         sec={1 * 60}
-                        onFinish={() => {
-                            if (
-                                confirm(
-                                    `${t('phone_auth.code_input.code_has_been_expired')}\n${t(
-                                        'phone_auth.code_input.shall_i_send_new_code',
-                                    )}`,
-                                )
-                            ) {
+                        onFinish={({reset}) => {
+                            const confirmMessage = `${t('phone_auth.code_input.code_has_been_expired')}\n${t(
+                                'phone_auth.code_input.shall_i_send_new_code',
+                            )}`;
+
+                            const isOkClicked = confirm(confirmMessage);
+                            if (isOkClicked) {
                                 sendCode({phoneNumber});
+                                reset();
+                            } else {
+                                setCodeSent(false);
                             }
                         }}
                         resettable
