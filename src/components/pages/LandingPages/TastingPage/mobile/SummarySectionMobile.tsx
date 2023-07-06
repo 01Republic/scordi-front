@@ -1,15 +1,15 @@
 import React, {memo} from 'react';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {useSetRecoilState} from 'recoil';
 import {useTranslation} from 'next-i18next';
-import {gmailItemsLoadedAtom} from '../pageAtoms';
 import {isShowInvoiceAppsModalState} from '../InvoiceAppsModal';
 import {useSummaryStatServices} from '../hooks/useSummaryStatServices';
 import {useSummaryStatInvoices} from '../hooks/useSummaryStatInvoices';
 import {SummarySectionContainer} from './share/SummarySectionContainer';
 import {SummarySectionItem} from './share/SummarySectionItem';
+import {useDraftResult} from '../hooks/useDraft';
 
 export const SummarySectionMobile = memo(() => {
-    const isLoaded = useRecoilValue(gmailItemsLoadedAtom);
+    const {isLoaded} = useDraftResult();
     const setInvoiceAppsModalOpen = useSetRecoilState(isShowInvoiceAppsModalState);
     useSummaryStatServices('detected-services2');
     useSummaryStatInvoices('detected-invoices2');

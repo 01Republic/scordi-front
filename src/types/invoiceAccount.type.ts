@@ -1,6 +1,6 @@
 import {InvoiceAppDto} from '^types/invoiceApp.type';
 import {GmailQueryOptions} from '^api/tasting.api';
-import {dayAfter, firstDayOfYear, yearBefore} from '^components/util/date';
+import {dayAfter, firstDayOfMonth, firstDayOfYear, monthBefore, yearBefore} from '^components/util/date';
 
 export type GmailAgentTokenData = {
     accessToken: string; //Gmail Access Token
@@ -27,7 +27,7 @@ export type CreateInvoiceAccountRequestDto = {
 };
 
 export const getDraftInvoiceAccountFromTo = () => ({
-    from: firstDayOfYear(), // 올 해 1월 1일 부터
+    from: monthBefore(2, firstDayOfMonth(new Date())), // 두 달 전 1일 부터
     to: new Date(), // 오늘까지
 });
 

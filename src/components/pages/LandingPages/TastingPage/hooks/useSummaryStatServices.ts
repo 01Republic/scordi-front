@@ -1,10 +1,9 @@
 import {useEffect} from 'react';
-import {useRecoilValue} from 'recoil';
 import {CountUp} from 'countup.js';
-import {draftAccountAtom} from '../pageAtoms';
+import {useDraftResult} from './useDraft';
 
 export const useSummaryStatServices = (counterElemId: string) => {
-    const draftAccount = useRecoilValue(draftAccountAtom);
+    const {draftAccount} = useDraftResult();
 
     useEffect(() => {
         if (!draftAccount) return;

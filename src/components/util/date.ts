@@ -23,7 +23,7 @@ export const dayAfter = (n: number, date = new Date()) => {
 };
 export const monthAfter = (n: number, date = new Date()) => {
     const base = new Date(date);
-    base.setDate(base.getDate() + n);
+    base.setMonth(base.getMonth() + n);
     return base;
 };
 export const yearAfter = (n: number, date = new Date()) => {

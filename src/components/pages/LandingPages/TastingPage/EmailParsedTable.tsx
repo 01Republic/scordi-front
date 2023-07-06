@@ -5,29 +5,30 @@ import {EmailParsedTableRow} from './EmailParsedTableRow';
 import {CurrencyToggle} from './CurrencyToggle';
 import {GmailItem} from '^api/tasting.api';
 import {dateSortBy} from '^components/util/date';
+import {useDraftResult} from './hooks/useDraft';
 import {SummarySectionMobile} from './mobile/SummarySectionMobile';
 import {groupByDate} from './mobile/util/group-by-date';
 import {EmailParsedTableGroupByDay} from './mobile/EmailParsedTableGroupByDay';
+import {LoadMoreDraftButton} from './LoadMore/LoadMoreDraftButton';
 
 export const EmailParsedTable = memo(() => {
-    const gmailItems = useRecoilValue(gmailItemsAtom);
-    const oldestItem = gmailItems[0];
-    const sortedItems = [...gmailItems].sort(dateSortBy('DESC', (item) => new Date(item.metadata.date)));
+    const {billingHistories, oldestHistory} = useDraftResult();
 
-    const getDate = (item: GmailItem) => item?.metadata?.date;
     const dateFormat = (date: Date) => {
         return `${date.toLocaleDateString('en', {month: 'long'})}, ${date.getFullYear()}`;
     };
-    const groupedItems = groupByDate(sortedItems);
+    const groupedHistories = groupByDate(billingHistories, (history) => {
+        return new Date(history.issuedAt);
+    });
 
     return (
         <>
             <>
                 <div className="hidden sm:flex items-end justify-between mb-3">
                     <p className="text-center">
-                        {oldestItem && (
+                        {oldestHistory && (
                             <span>
-                                Since <b>{dateFormat(getDate(oldestItem))}</b>
+                                Since <b>{dateFormat(new Date(oldestHistory.issuedAt))}</b>
                             </span>
                         )}
                     </p>
@@ -52,8 +53,8 @@ export const EmailParsedTable = memo(() => {
                         </thead>
 
                         <tbody>
-                            {sortedItems.map((item, i) => (
-                                <EmailParsedTableRow key={i} item={item} />
+                            {billingHistories.map((history, i) => (
+                                <EmailParsedTableRow key={i} billingHistory={history} />
                             ))}
                         </tbody>
                     </table>
@@ -61,10 +62,14 @@ export const EmailParsedTable = memo(() => {
 
                 <div className="block sm:hidden py-0">
                     <ul className="w-full text-left">
-                        {Object.entries(groupedItems).map(([date, items], i) => (
-                            <EmailParsedTableGroupByDay key={i} date={new Date(date)} items={items} />
+                        {Object.entries(groupedHistories).map(([date, histories], i) => (
+                            <EmailParsedTableGroupByDay key={i} date={new Date(date)} entries={histories} />
                         ))}
                     </ul>
+                </div>
+
+                <div className="text-center mt-10 w-full p-4 sm:p-0">
+                    <LoadMoreDraftButton />
                 </div>
             </>
         </>

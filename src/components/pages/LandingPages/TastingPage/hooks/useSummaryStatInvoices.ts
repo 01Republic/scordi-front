@@ -1,19 +1,18 @@
 import {useEffect} from 'react';
-import {useRecoilValue} from 'recoil';
 import {CountUp} from 'countup.js';
-import {gmailItemsAtom} from '../pageAtoms';
+import {useDraftResult} from './useDraft';
 
 export const useSummaryStatInvoices = (counterElemId: string) => {
-    const gmailItems = useRecoilValue(gmailItemsAtom);
+    const {billingHistories} = useDraftResult();
 
     useEffect(() => {
-        if (gmailItems.length === 0) return;
-        const count = gmailItems.filter((item) => !item.price.hide).length;
+        if (billingHistories.length === 0) return;
+        const count = billingHistories.filter((his) => !his.emailContent?.price.hide).length;
         const countUp = new CountUp(counterElemId, count, {
             duration: 0.5,
             separator: ',',
             decimal: '.',
         });
         setTimeout(() => countUp.start(), 0);
-    }, [gmailItems]);
+    }, [billingHistories]);
 };

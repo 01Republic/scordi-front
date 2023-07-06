@@ -3,17 +3,18 @@ import {GmailPermittedMetadata} from '^api/tasting.api/gmail/agent/get-email-met
 import {ProviderNames, SenderNames} from '^api/tasting.api/gmail/agent/detect-provider-name';
 import {Price} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {getGoogleUserData} from '^api/session.api';
+import {Type} from 'class-transformer';
 
-export type GmailItem = {
-    id: string;
-    sender: SenderNames;
-    provider: ProviderNames;
-    metadata: GmailPermittedMetadata;
-    title: string;
-    content: string[];
-    attachments: any[];
-    price: Price;
-};
+export class GmailItem {
+    id!: string;
+    sender!: SenderNames;
+    provider!: ProviderNames;
+    metadata!: GmailPermittedMetadata;
+    title!: string;
+    content!: string[];
+    attachments!: any[];
+    price!: Price;
+}
 
 export type GmailQueryOptions = {
     from: Date; // 메일 쿼리 - 언제부터

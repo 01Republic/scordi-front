@@ -7,8 +7,8 @@ import {
 } from '^api/tasting.api/gmail/agent/parse-email-price';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from './pageAtoms';
-import {GmailItem} from '^api/tasting.api';
 import {useTastingItemDetailModal} from './TastingItemDetailModal';
+import {BillingHistoryDto} from '^types/billing.type';
 
 interface EmailParsedTableRowProps {
     date: Date;
@@ -23,16 +23,17 @@ interface EmailParsedTableRowProps {
     price: Price;
 }
 
-export const EmailParsedTableRow = memo((props: {item: GmailItem}) => {
+export const EmailParsedTableRow = memo((props: {billingHistory: BillingHistoryDto}) => {
     // const {date, serviceName, title, attachments, sender, price} = props;
-    const {item} = props;
+    const {billingHistory} = props;
     const {setModal} = useTastingItemDetailModal();
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
 
-    const date = item.metadata.date;
+    const date = billingHistory.issuedAt;
+    const item = billingHistory.emailContent!;
     const serviceName = item.provider;
     const title = item.title;
-    const attachments = item.attachments;
+    const attachments = item.attachments || [];
     const sender = item.metadata.sender || item.metadata.from?.replace(/.*<(.+)>/, '$1');
     const price = item.price;
 
@@ -40,7 +41,7 @@ export const EmailParsedTableRow = memo((props: {item: GmailItem}) => {
     const amount = changePriceCurrency(price.amount, price.currency, displayCurrency);
 
     return (
-        <tr onClick={() => setModal(item)}>
+        <tr onClick={() => setModal(billingHistory)}>
             <td>
                 <p className="text-gray-700">{date.toLocaleString()}</p>
             </td>

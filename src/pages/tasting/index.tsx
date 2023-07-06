@@ -16,6 +16,7 @@ import {
 import {draftInvoiceAccount} from '^api/invoiceAccount.api';
 import {getDraftInvoiceAccountFromTo} from '^types/invoiceAccount.type';
 import {useTranslation} from 'next-i18next';
+import {useDraft} from '^components/pages/LandingPages/TastingPage/hooks/useDraft';
 
 export const TastingPageRoute = pathRoute({
     pathname: '/tasting',
@@ -31,12 +32,10 @@ export const getStaticProps = async ({locale}: any) => ({
 
 export default function TastingPage() {
     const setGmailProfile = useSetRecoilState(gmailProfileAtom);
-    const setDraftAccount = useSetRecoilState(draftAccountAtom);
-    const setGmailItems = useSetRecoilState(gmailItemsAtom);
     const setIsLoading = useSetRecoilState(gmailItemsLoadingAtom);
-    const setIsLoaded = useSetRecoilState(gmailItemsLoadedAtom);
+    const {fetchDraftAccount} = useDraft();
     const {accessTokenData} = useGoogleAccessTokenCallback(TastingPageRoute.path());
-    const {t} = useTranslation('publicTasting');
+    // const {t} = useTranslation('publicTasting');
 
     useEffect(() => {
         if (!accessTokenData) return;
@@ -48,7 +47,8 @@ export default function TastingPage() {
         gmailAgent.getProfile().then(async (userData) => {
             const tokenData = gmailAgent.accessTokenData;
             setGmailProfile(userData);
-            const draftAccount = await draftInvoiceAccount({
+
+            await fetchDraftAccount({
                 email: userData.email,
                 image: userData.picture,
                 tokenData: {
@@ -57,31 +57,7 @@ export default function TastingPage() {
                     expireAt: tokenData.expires_in,
                 },
                 gmailQueryOptions: getDraftInvoiceAccountFromTo(),
-            })
-                .then((res) => res.data)
-                .catch(() => {
-                    alert(t('something_went_to_wrong'));
-                });
-
-            if (draftAccount) {
-                const emails = draftAccount.invoiceApps
-                    .map((invoiceApp) => {
-                        return invoiceApp.billingHistories
-                            .map((history) => {
-                                const email = history.emailContent;
-                                if (!email) return;
-                                email.metadata.date = new Date(email.metadata.date);
-                                return email;
-                            })
-                            .filter((e) => !!e) as GmailItem[];
-                    })
-                    .flat();
-                setDraftAccount(draftAccount);
-                setGmailItems(emails);
-
-                setIsLoading(false);
-                setIsLoaded(true);
-            }
+            });
         });
     }, [accessTokenData]);
 

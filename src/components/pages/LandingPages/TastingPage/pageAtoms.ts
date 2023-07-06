@@ -3,6 +3,7 @@ import {GmailItem, GoogleAccessTokenData} from '^api/tasting.api';
 import {GoogleSignedUserData} from '^atoms/currentUser.atom';
 import {Currency} from '^types/crawler';
 import {InvoiceAccountDto} from '^types/invoiceAccount.type';
+import {BillingHistoryDto} from '^types/billing.type';
 
 export const gmailItemsLoadingAtom = atom({
     key: 'gmailItemsLoadingAtom',
@@ -27,6 +28,11 @@ export const gmailItemsAtom = atom<GmailItem[]>({
 export const draftAccountAtom = atom<InvoiceAccountDto | null>({
     key: 'draftAccountAtom',
     default: null,
+});
+
+export const draftBillingHistoriesAtom = atom<BillingHistoryDto[]>({
+    key: 'draftBillingHistoriesAtom',
+    default: [],
 });
 
 export const displayCurrencyAtom = atom<Currency>({

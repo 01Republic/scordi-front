@@ -49,7 +49,7 @@ export type BillingHistoryDto = {
     organizationId: number; // 조직 ID
     applicationId: number; // 구독정보 ID
     invoiceAppId: number | null; // 인보이스 앱 ID
-    issuedAt: string; // 결제 요청 일시
+    issuedAt: Date; // 결제 요청 일시
     paidAt: string | null; // 결제 완료 일시
     paidAmount: number; // 결제금액
     paymentMethod: string; // 결제수단

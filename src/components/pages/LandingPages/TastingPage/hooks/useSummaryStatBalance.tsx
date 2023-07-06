@@ -1,12 +1,27 @@
 import {useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {CountUp} from 'countup.js';
-import {displayCurrencyAtom, gmailItemsAtom} from '../pageAtoms';
 import {changePriceCurrency, Price} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {Currency} from '^types/crawler';
+import {displayCurrencyAtom} from '../pageAtoms';
+import {useDraftResult} from './useDraft';
+import {BillingHistoryDto} from '^types/billing.type';
+
+export const getTotalBalance = (histories: BillingHistoryDto[], displayCurrency: Currency) => {
+    let amount = 0;
+    histories.forEach((history) => {
+        const item = history.emailContent;
+        if (!item || item.price.hide) return;
+        const {price} = item;
+        if (!isNaN(price.amount)) {
+            amount += changePriceCurrency(price.amount, price.currency, displayCurrency);
+        }
+    });
+    return amount;
+};
 
 export const useSummaryStatBalance = (counterElemId: string) => {
-    const gmailItems = useRecoilValue(gmailItemsAtom);
+    const {billingHistories} = useDraftResult();
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
     const [totalPrice, setTotalPrice] = useState<Pick<Price, 'amount' | 'currency'>>({
         amount: 0,
@@ -14,20 +29,10 @@ export const useSummaryStatBalance = (counterElemId: string) => {
     });
 
     useEffect(() => {
-        if (gmailItems.length === 0) return;
-        // console.log({gmailItems});
-        let amount = 0;
-        gmailItems.forEach((item) => {
-            const {price} = item;
-            if (price.hide) return;
-            if (isNaN(price.amount)) {
-                console.log('priceAmount', price.amount);
-                console.log('item', item);
-            }
-            amount += changePriceCurrency(price.amount, price.currency, displayCurrency);
-        });
+        if (billingHistories.length === 0) return;
+        const amount = getTotalBalance(billingHistories, displayCurrency);
         setTotalPrice({amount, currency: displayCurrency});
-    }, [gmailItems, displayCurrency]);
+    }, [billingHistories, displayCurrency]);
 
     useEffect(() => {
         if (!totalPrice?.amount) return;

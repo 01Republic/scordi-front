@@ -1,13 +1,13 @@
 // import {GmailContent} from '../api.detail';
 
-export type GmailPermittedMetadata = {
-    date: Date;
-    subject: string;
-    from: string;
-    to: string;
-    sender: string;
-    receiver: string;
-};
+export class GmailPermittedMetadata {
+    date!: Date;
+    subject!: string;
+    from!: string;
+    to!: string;
+    sender!: string;
+    receiver!: string;
+}
 
 // export function getEmailMetadata(email: GmailContent): GmailPermittedMetadata {
 //     const headers = email.payload.headers;

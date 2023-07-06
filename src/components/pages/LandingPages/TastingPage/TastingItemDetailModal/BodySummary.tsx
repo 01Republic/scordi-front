@@ -5,33 +5,20 @@ import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '../pageAtoms';
 import {GmailItem} from '^api/tasting.api';
 import {dayjs} from '^utils/dayjs';
+import {BillingHistoryDto} from '^types/billing.type';
+import {getTotalBalance} from '^components/pages/LandingPages/TastingPage/hooks/useSummaryStatBalance';
 
 interface BodySummaryProps {
-    sortedItems: GmailItem[];
+    billingHistories: BillingHistoryDto[];
 }
 
 export const BodySummary = memo((props: BodySummaryProps) => {
-    const {sortedItems} = props;
+    const {billingHistories} = props;
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
     const {t} = useTranslation('publicTasting');
 
-    const oldest = sortedItems[sortedItems.length - 1];
-    const since = dayjs(new Date(oldest.metadata.date)).fromNow();
-
-    const getTotalBalance = (gmailItems: GmailItem[]) => {
-        if (gmailItems.length === 0) return 0;
-        let amount = 0;
-        gmailItems.forEach((item) => {
-            const {price} = item;
-            if (price.hide) return;
-            if (!isNaN(price.amount)) {
-                // console.log('priceAmount', price.amount);
-                // console.log('item', item);
-                amount += changePriceCurrency(price.amount, price.currency, displayCurrency);
-            }
-        });
-        return amount;
-    };
+    const oldest = billingHistories[billingHistories.length - 1];
+    const since = dayjs(oldest.issuedAt).fromNow();
 
     return (
         <>
@@ -41,7 +28,7 @@ export const BodySummary = memo((props: BodySummaryProps) => {
                 <div className="text-center">
                     <p className="text-sm text-gray-500 mb-1">{t('summary_stat.invoice.label')}</p>
                     <p className="font-semibold text-18">
-                        <span className="">{sortedItems.length}</span>
+                        <span className="">{billingHistories.length}</span>
                         <small>&nbsp;{t('summary_stat.invoice.unit')}</small>
                     </p>
                 </div>
@@ -50,7 +37,7 @@ export const BodySummary = memo((props: BodySummaryProps) => {
                     <p className="text-sm text-gray-500 mb-1">{t('summary_stat.balance.label')}</p>
                     <p className="font-semibold text-18">
                         <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>
-                        <span className="">{getTotalBalance(sortedItems).toLocaleString()}</span>
+                        <span className="">{getTotalBalance(billingHistories, displayCurrency).toLocaleString()}</span>
                         {/*<small className={!isLoaded ? 'invisible' : ''}>&nbsp;{t('summary_stat.invoice.unit')}</small>*/}
                     </p>
                 </div>

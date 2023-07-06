@@ -1,9 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
 import {atom, useRecoilState, useRecoilValue} from 'recoil';
-import {GmailItem} from '^api/tasting.api';
 import {useModal} from '^v3/share/modals/useModal';
 import {InvoiceAppDto} from '^types/invoiceApp.type';
-import {dateSortBy} from '^components/util/date';
 import {useRouter} from 'next/router';
 import {draftAccountAtom} from '../pageAtoms';
 import {ModalTopbar} from './ModalTopbar';
@@ -12,13 +10,14 @@ import {HeadingPrice} from './HeadingPrice';
 import {HeadingContent} from './HeadingContent';
 import {BodySummary} from './BodySummary';
 import {BodyList} from './BodyList';
+import {BillingHistoryDto} from '^types/billing.type';
 
 const isShowTastingItemDetailModalState = atom<boolean>({
     key: 'isShowTastingItemDetailModalState',
     default: false,
 });
 
-const tastingItemDetailModalItemState = atom<GmailItem | null>({
+const tastingItemDetailModalItemState = atom<BillingHistoryDto | null>({
     key: 'tastingItemDetailModalItemState',
     default: null,
 });
@@ -27,14 +26,14 @@ export const useTastingItemDetailModal = () => {
     const [modalItem, setDetailModalItem] = useRecoilState(tastingItemDetailModalItemState);
     const [modalIsShow, setDetailModalIsShow] = useRecoilState(isShowTastingItemDetailModalState);
 
-    const setModal = (item: GmailItem | null) => {
+    const setModal = (billingHistory: BillingHistoryDto | null) => {
         const isModalOpened = window.history.state === 'modal-opened';
         if (!modalIsShow && !isModalOpened) {
             window.history.pushState('modal-opened', '');
         }
-        console.log(item);
-        setDetailModalItem(item);
-        setDetailModalIsShow(!!item);
+        console.log(billingHistory);
+        setDetailModalItem(billingHistory);
+        setDetailModalIsShow(!!billingHistory);
     };
 
     return {modalItem, modalIsShow, setModal};
@@ -43,20 +42,20 @@ export const useTastingItemDetailModal = () => {
 export const TastingItemDetailModal = memo(() => {
     const router = useRouter();
     const {close, Modal} = useModal({isShowAtom: isShowTastingItemDetailModalState});
-    const [item, setItem] = useRecoilState(tastingItemDetailModalItemState);
+    const [billingHistory, setItem] = useRecoilState(tastingItemDetailModalItemState);
     const draftAccount = useRecoilValue(draftAccountAtom);
     const [currentInvoiceApp, setCurrentInvoiceApp] = useState<InvoiceAppDto | null>(null);
 
     useEffect(() => {
-        if (!item || !draftAccount) return;
+        if (!billingHistory || !draftAccount) return;
 
         const invoiceApp = draftAccount.invoiceApps.find((app) => {
             return app.billingHistories.find((history) => {
-                return history.emailContent?.id === item.id;
+                return history.emailContent?.id === billingHistory.emailContent?.id;
             });
         });
         if (invoiceApp) setCurrentInvoiceApp(invoiceApp);
-    }, [item, draftAccount]);
+    }, [billingHistory, draftAccount]);
 
     useEffect(() => {
         if (!router.isReady) return;
@@ -72,22 +71,23 @@ export const TastingItemDetailModal = memo(() => {
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
             <ModalTopbar backBtnOnClick={close} />
 
-            {item && currentInvoiceApp && <TastingItemDetailModalBody item={item} invoiceApp={currentInvoiceApp} />}
+            {billingHistory && currentInvoiceApp && (
+                <TastingItemDetailModalBody billingHistory={billingHistory} invoiceApp={currentInvoiceApp} />
+            )}
         </Modal>
     );
 });
 
 interface TastingItemDetailModalBodyProps {
-    item: GmailItem;
+    billingHistory: BillingHistoryDto;
     invoiceApp: InvoiceAppDto;
 }
 
 export const TastingItemDetailModalBody = memo((props: TastingItemDetailModalBodyProps) => {
-    const {item, invoiceApp} = props;
+    const {billingHistory, invoiceApp} = props;
     const {prototype: proto, billingHistories} = invoiceApp;
 
-    const items = billingHistories.map((history) => history.emailContent).filter((e) => !!e) as GmailItem[];
-    const sortedItems = [...items].sort(dateSortBy('DESC', (item) => new Date(item.metadata.date)));
+    const item = billingHistory.emailContent!;
 
     return (
         <div className="bg-gray-200 flex flex-col gap-4">
@@ -101,8 +101,8 @@ export const TastingItemDetailModalBody = memo((props: TastingItemDetailModalBod
             </div>
 
             <div className="container px-4 pb-4 pt-6 bg-white">
-                <BodySummary sortedItems={sortedItems} />
-                <BodyList sortedItems={sortedItems} />
+                <BodySummary billingHistories={billingHistories} />
+                <BodyList billingHistories={billingHistories} />
             </div>
 
             <div className="modal-action hidden" />

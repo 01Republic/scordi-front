@@ -3,26 +3,20 @@ import {useRecoilValue} from 'recoil';
 import {useTranslation} from 'next-i18next';
 import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {Avatar} from '^components/Avatar';
-import {dateSortBy} from '^components/util/date';
-import {GmailItem} from '^api/tasting.api';
 import {getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
-import {draftAccountAtom, gmailItemsAtom, gmailProfileAtom} from './pageAtoms';
+import {gmailProfileAtom} from './pageAtoms';
 import {useSummaryStatBalance} from './hooks/useSummaryStatBalance';
 import {CurrencyToggle} from './CurrencyToggle';
 import {MobileInfoListItem} from './MobileInfoListItem';
+import {useDraftResult} from './hooks/useDraft';
 
 export const TastingPageLoadedHeaderMobile = memo(() => {
     const gmailProfile = useRecoilValue(gmailProfileAtom);
-    const gmailItems = useRecoilValue(gmailItemsAtom);
-    const draftAccount = useRecoilValue(draftAccountAtom);
-    console.log('draftAccount', draftAccount);
+    const {latestHistory, oldestHistory} = useDraftResult();
     const {t} = useTranslation('publicTasting');
     const {totalPrice} = useSummaryStatBalance('total-balance2');
 
-    const getDateOfItem = (item: GmailItem) => new Date(item.metadata.date);
-    const sortedItems = [...gmailItems].sort(dateSortBy('DESC', getDateOfItem));
-    const latest = sortedItems[0];
-    const oldest = sortedItems[sortedItems.length - 1];
+    const asTimeString = (value: string | Date) => yyyy_mm_dd_hh_mm(new Date(value));
 
     return (
         <section className="container px-6 border-b bg-white">
@@ -43,8 +37,8 @@ export const TastingPageLoadedHeaderMobile = memo(() => {
 
             <ul className="py-0">
                 <MobileInfoListItem label={t('connected_email')} value={gmailProfile?.email} />
-                <MobileInfoListItem label={t('search_started_at')} value={yyyy_mm_dd_hh_mm(getDateOfItem(oldest))} />
-                <MobileInfoListItem label={t('search_finished_at')} value={yyyy_mm_dd_hh_mm(getDateOfItem(latest))} />
+                <MobileInfoListItem label={t('search_started_at')} value={asTimeString(oldestHistory.issuedAt)} />
+                <MobileInfoListItem label={t('search_finished_at')} value={asTimeString(latestHistory.issuedAt)} />
                 <MobileInfoListItem label={t('display_as_krw')}>
                     <CurrencyToggle className="px-0" leftText="" rightText="" />
                 </MobileInfoListItem>

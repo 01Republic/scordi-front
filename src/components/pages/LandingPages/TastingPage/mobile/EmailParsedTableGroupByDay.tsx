@@ -1,17 +1,17 @@
 import React, {memo} from 'react';
 import {useRouter} from 'next/router';
 import {dayjs} from '^utils/dayjs';
-import {GmailItem} from '^api/tasting.api';
+import {BillingHistoryDto} from '^types/billing.type';
 import {EmailParsedTableRowMobile} from './EmailParsedTableRowMobile';
 
 interface EmailParsedTableGroupByDayProps {
     date: Date;
-    items: GmailItem[];
+    entries: BillingHistoryDto[];
     showTitle?: boolean;
 }
 
 export const EmailParsedTableGroupByDay = memo((props: EmailParsedTableGroupByDayProps) => {
-    const {date, items, showTitle = false} = props;
+    const {date, entries, showTitle = false} = props;
     const router = useRouter();
 
     dayjs.locale(router.locale);
@@ -31,8 +31,8 @@ export const EmailParsedTableGroupByDay = memo((props: EmailParsedTableGroupByDa
         <li className="py-1">
             <p className="text-xs text-gray-500 pl-2 border-l border-scordi">{dateText}</p>
             <ul className="py-4 w-full pl-2 border-l">
-                {items.map((item, i) => (
-                    <EmailParsedTableRowMobile key={i} item={item} showTitle={showTitle} />
+                {entries.map((entry, i) => (
+                    <EmailParsedTableRowMobile key={i} entry={entry} showTitle={showTitle} />
                 ))}
             </ul>
         </li>
