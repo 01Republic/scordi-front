@@ -7,20 +7,23 @@ import {
 } from '^api/tasting.api/gmail/agent/parse-email-price';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
+import {MoneyDto} from '^types/money.type';
 
 interface ItemPriceProps {
-    price: Price;
+    price: MoneyDto | null;
 }
 
 export const HeadingPrice = memo((props: ItemPriceProps) => {
     const {price} = props;
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
+
+    const isHide = !price;
     const symbol = getCurrencySymbol(displayCurrency);
-    const amount = changePriceCurrency(price.amount, price.currency, displayCurrency);
+    const amount = !price ? 0 : changePriceCurrency(price.amount, price.code, displayCurrency);
 
     return (
         <p className="text-3xl font-bold mb-12">
-            {price.hide ? (
+            {isHide ? (
                 <span className="text-gray-500">-</span>
             ) : (
                 <>

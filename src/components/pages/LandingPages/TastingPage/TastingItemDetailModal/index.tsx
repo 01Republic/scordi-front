@@ -96,7 +96,7 @@ export const TastingItemDetailModalBody = memo((props: TastingItemDetailModalBod
                     <br />
                 </div>
                 <PrototypeAvatar proto={proto} />
-                <HeadingPrice price={item.price} />
+                <HeadingPrice price={billingHistory.payAmount} />
                 <HeadingContent item={item} />
             </div>
 

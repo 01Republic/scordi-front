@@ -7,7 +7,7 @@ export const useSummaryStatInvoices = (counterElemId: string) => {
 
     useEffect(() => {
         if (billingHistories.length === 0) return;
-        const count = billingHistories.filter((his) => !his.emailContent?.price.hide).length;
+        const count = billingHistories.filter((his) => his.payAmount).length;
         const countUp = new CountUp(counterElemId, count, {
             duration: 0.5,
             separator: ',',

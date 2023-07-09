@@ -3,6 +3,7 @@
 // import {getAttachment} from '^api/tasting.api/gmail/api.attachment';
 // import {getPdfText} from '^api/tasting.api/util/pdf';
 import {Currency, CurrencyDto} from '^types/crawler';
+import {Currency as MoneyCurrency} from '^types/money.type';
 
 export const getCurrencySymbol = (currency: Currency) =>
     ({
@@ -28,7 +29,11 @@ export function currencyFormat(amount: number, currency: Currency) {
     }
 }
 
-export function changePriceCurrency(amount: number, fromCurrency: Currency, toCurrency: Currency): number {
+export function changePriceCurrency(
+    amount: number,
+    fromCurrency: Currency | MoneyCurrency,
+    toCurrency: Currency,
+): number {
     if (fromCurrency === toCurrency) return amount;
 
     const ratioPerDollar = {

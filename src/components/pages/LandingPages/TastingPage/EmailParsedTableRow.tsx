@@ -9,6 +9,7 @@ import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from './pageAtoms';
 import {useTastingItemDetailModal} from './TastingItemDetailModal';
 import {BillingHistoryDto} from '^types/billing.type';
+import {BillingInfo} from '^api/tasting.api';
 
 interface EmailParsedTableRowProps {
     date: Date;
@@ -30,15 +31,12 @@ export const EmailParsedTableRow = memo((props: {billingHistory: BillingHistoryD
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
 
     const date = billingHistory.issuedAt;
+    const payAmount = billingHistory.payAmount;
     const item = billingHistory.emailContent!;
     const serviceName = item.provider;
     const title = item.title;
     const attachments = item.attachments || [];
     const sender = item.metadata.sender || item.metadata.from?.replace(/.*<(.+)>/, '$1');
-    const price = item.price;
-
-    const symbol = getCurrencySymbol(displayCurrency);
-    const amount = changePriceCurrency(price.amount, price.currency, displayCurrency);
 
     return (
         <tr onClick={() => setModal(billingHistory)}>
@@ -70,12 +68,17 @@ export const EmailParsedTableRow = memo((props: {billingHistory: BillingHistoryD
             </td>
             <td>
                 <p className="text-right">
-                    {price.hide ? (
+                    {!payAmount ? (
                         <span className="text-gray-500">-</span>
                     ) : (
                         <>
-                            <small className="mr-1">{symbol}</small>
-                            <span>{currencyFormat(amount || 0, displayCurrency)}</span>
+                            <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>
+                            <span>
+                                {currencyFormat(
+                                    changePriceCurrency(payAmount.amount, payAmount.code, displayCurrency) || 0,
+                                    displayCurrency,
+                                )}
+                            </span>
                         </>
                     )}
                 </p>

@@ -12,15 +12,12 @@ export const EmailParsedTableRowMobile = memo((props: {entry: BillingHistoryDto;
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
 
     const date = new Date(billingHistory.issuedAt);
+    const payAmount = billingHistory.payAmount;
     const item = billingHistory.emailContent!;
     const serviceName = item.provider;
     // const title = item.title;
     // const attachments = item.attachments;
     // const sender = item.metadata.sender || item.metadata.from?.replace(/.*<(.+)>/, '$1');
-    const price = item.price;
-
-    const symbol = getCurrencySymbol(displayCurrency);
-    const amount = changePriceCurrency(price.amount, price.currency, displayCurrency);
 
     return (
         <li
@@ -37,12 +34,17 @@ export const EmailParsedTableRowMobile = memo((props: {entry: BillingHistoryDto;
 
             <div className="ml-auto flex flex-col items-end max-w-[70%]">
                 <p className="text-[16px] text-right font-bold">
-                    {price.hide ? (
+                    {!payAmount ? (
                         <span className="text-gray-500">-</span>
                     ) : (
                         <>
-                            <small className="mr-1">{symbol}</small>
-                            <span>{currencyFormat(amount || 0, displayCurrency)}</span>
+                            <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>
+                            <span>
+                                {currencyFormat(
+                                    changePriceCurrency(payAmount.amount, payAmount.code, displayCurrency) || 0,
+                                    displayCurrency,
+                                )}
+                            </span>
                         </>
                     )}
                 </p>

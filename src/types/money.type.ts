@@ -25,3 +25,5 @@ export type CreateMoneyRequestDto = {
     code: Currency; // 화폐 코드
     exchangeRate: number; // 달러 대비 환율
 };
+
+export type MoneyLike = Pick<MoneyDto, 'text' | 'format' | 'amount' | 'code' | 'symbol' | 'exchangeRate'>;

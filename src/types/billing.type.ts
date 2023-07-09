@@ -69,7 +69,8 @@ export function getTotalPriceOfEmails(histories: BillingHistoryDto[], displayCur
     // Email 로부터 생성된 결제히스토리만 걸러냅니다.
     const historyListFromEmail = histories.filter((his) => {
         const email = his.emailContent;
-        return email && !email.price.hide && !isNaN(email.price.amount);
+        const isHide = !email?.billingInfo?.payAmount;
+        return email && !isHide;
     });
 
     // 합계 금액을 계산합니다.
@@ -77,8 +78,8 @@ export function getTotalPriceOfEmails(histories: BillingHistoryDto[], displayCur
 
         // Email 의 가격부분 추리기
         .map((his) => {
-            const price = his.emailContent!.price;
-            return changePriceCurrency(price.amount, price.currency, displayCurrency);
+            const price = his.payAmount!;
+            return changePriceCurrency(price.amount, price.code, displayCurrency);
         })
 
         // 합계 계산

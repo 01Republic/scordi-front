@@ -1,9 +1,9 @@
 import {getGoogleAccessTokenByRefreshToken, GoogleAccessTokenData} from '^api/tasting.api';
 import {GmailPermittedMetadata} from '^api/tasting.api/gmail/agent/get-email-metadata';
 import {ProviderNames, SenderNames} from '^api/tasting.api/gmail/agent/detect-provider-name';
-import {Price} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {getGoogleUserData} from '^api/session.api';
-import {Type} from 'class-transformer';
+import {MoneyLike} from '^types/money.type';
+import {BillingType} from '^types/invoiceApp.type';
 
 export class GmailItem {
     id!: string;
@@ -13,7 +13,17 @@ export class GmailItem {
     title!: string;
     content!: string[];
     attachments!: any[];
-    price!: Price;
+    billingInfo?: BillingInfo;
+}
+
+export class BillingInfo {
+    issuedAt!: Date;
+    lastRequestedAt?: Date | null;
+    paidAt?: Date | null;
+    paymentMethod?: string | null;
+    payAmount?: MoneyLike | null;
+    assumedBillingType?: BillingType | null;
+    invoiceUrl?: string | null;
 }
 
 export type GmailQueryOptions = {

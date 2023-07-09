@@ -11,11 +11,10 @@ export const getTotalBalance = (histories: BillingHistoryDto[], displayCurrency:
     let amount = 0;
     histories.forEach((history) => {
         const item = history.emailContent;
-        if (!item || item.price.hide) return;
-        const {price} = item;
-        if (!isNaN(price.amount)) {
-            amount += changePriceCurrency(price.amount, price.currency, displayCurrency);
-        }
+        const price = history.payAmount;
+        if (!item || !price || isNaN(price.amount)) return;
+
+        amount += changePriceCurrency(price.amount, price.code, displayCurrency);
     });
     return amount;
 };
