@@ -14,19 +14,19 @@ export const BillingHistoryItem = memo((props: BillingHistoryItemProps) => {
     const failedBgColorClass = 'bg-red-50';
 
     return (
-        <tr id={`billing-history--${billingHistory.id}`} className={`${!billingHistory.isSuccess && 'text-red-600'}`}>
-            <td className={`${!billingHistory.isSuccess && failedBgColorClass}`}>
-                {billingHistory.isSuccess ? <IoMdCheckmark className="text-green-600" /> : <IoClose />}
+        <tr id={`billing-history--${billingHistory.id}`} className={`${!billingHistory.paidAt && 'text-red-600'}`}>
+            <td className={`${!billingHistory.paidAt && failedBgColorClass}`}>
+                {billingHistory.paidAt ? <IoMdCheckmark className="text-green-600" /> : <IoClose />}
             </td>
-            <td className={`${!billingHistory.isSuccess && failedBgColorClass}`}>{billingHistory.uid}</td>
-            <td className={`${!billingHistory.isSuccess && failedBgColorClass}`}>
+            <td className={`${!billingHistory.paidAt && failedBgColorClass}`}>{billingHistory.uid}</td>
+            <td className={`${!billingHistory.paidAt && failedBgColorClass}`}>
                 {yyyy_mm_dd(new Date(billingHistory.issuedAt))}
             </td>
-            <td className={`${!billingHistory.isSuccess && failedBgColorClass}`}>{billingHistory.paymentMethod}</td>
-            <td className={`${!billingHistory.isSuccess && failedBgColorClass}`}>
-                ${billingHistory.paidAmount.toFixed(2)}
+            <td className={`${!billingHistory.paidAt && failedBgColorClass}`}>{billingHistory.paymentMethod}</td>
+            <td className={`${!billingHistory.paidAt && failedBgColorClass}`}>
+                {billingHistory.payAmount ? `${billingHistory.payAmount?.amount.toFixed(2)}` : '-'}
             </td>
-            <td className={`${!billingHistory.isSuccess && failedBgColorClass}`}>
+            <td className={`${!billingHistory.paidAt && failedBgColorClass}`}>
                 {billingHistory.invoiceUrl && (
                     <FiDownload
                         strokeWidth={3}

@@ -54,29 +54,29 @@ export const CreateAppForm = memo((props: CreateAppFormProps) => {
                 </div>
             </MobileSection>
 
-            <MobileSection className="mb-5">
-                <div className="form-control">
-                    <div className="bs-row mx-0">
-                        <div className="bs-col-5 px-0">
-                            <input
-                                id="lastPaidAmount"
-                                type="number"
-                                step="0.01"
-                                placeholder="0.01"
-                                className="input input-bordered w-full"
-                                autoComplete="off"
-                                required
-                                {...form.register('paidAmount')}
-                            />
-                        </div>
-                        <div className="bs-col px-2 flex items-center">
-                            <label htmlFor="lastPaidAmount" className="label">
-                                <span className="label-text">달러</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </MobileSection>
+            {/*<MobileSection className="mb-5">*/}
+            {/*    <div className="form-control">*/}
+            {/*        <div className="bs-row mx-0">*/}
+            {/*            <div className="bs-col-5 px-0">*/}
+            {/*                <input*/}
+            {/*                    id="lastPaidAmount"*/}
+            {/*                    type="number"*/}
+            {/*                    step="0.01"*/}
+            {/*                    placeholder="0.01"*/}
+            {/*                    className="input input-bordered w-full"*/}
+            {/*                    autoComplete="off"*/}
+            {/*                    required*/}
+            {/*                    {...form.register('paidAmount')}*/}
+            {/*                />*/}
+            {/*            </div>*/}
+            {/*            <div className="bs-col px-2 flex items-center">*/}
+            {/*                <label htmlFor="lastPaidAmount" className="label">*/}
+            {/*                    <span className="label-text">달러</span>*/}
+            {/*                </label>*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</MobileSection>*/}
 
             <MobileBottomNav>
                 <CTAButton type="submit" text="완료" />

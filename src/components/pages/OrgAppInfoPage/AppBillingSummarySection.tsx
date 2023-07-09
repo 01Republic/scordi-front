@@ -17,7 +17,7 @@ export const AppBillingSummarySection = memo((props: AppBillingSummarySectionPro
     const {items: histories, pagination} = billingHistoriesQueryResult;
 
     const totalItemCount = pagination.totalItemCount;
-    const totalPrice = sumOf(histories.map((h) => h.paidAmount));
+    const totalPrice = sumOf(histories.map((h) => h.payAmount?.amount || 0));
 
     return (
         <MobileGrid.Section className="mb-3">

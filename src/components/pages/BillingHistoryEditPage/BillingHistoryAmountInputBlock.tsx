@@ -23,9 +23,9 @@ export const BillingHistoryAmountInputBlock = memo((props: BillingHistoryAmountI
                         placeholder="0.01"
                         className="input input-underline w-full text-2xl px-1"
                         autoComplete="off"
-                        required
-                        {...form.register('paidAmount')}
+                        readOnly
                     />
+                    {/*{...form.register('paidAmount')}*/}
                     <span />
                     {/*<input type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />*/}
                     {/*<label className="label">*/}

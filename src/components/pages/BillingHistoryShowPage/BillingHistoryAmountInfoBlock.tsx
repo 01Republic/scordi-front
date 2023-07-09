@@ -13,7 +13,11 @@ export const BillingHistoryAmountInfoBlock = memo((props: BillingHistoryAmountIn
 
     return (
         <TitleSection.Title size="2xl" className="text-left py-3">
-            <div className="font-bold">- US$ {billingHistory.paidAmount.toLocaleString()}</div>
+            {billingHistory.payAmount ? (
+                <div className="font-bold">- US$ {billingHistory.payAmount.amount.toLocaleString()}</div>
+            ) : (
+                <div className="font-bold">-</div>
+            )}
         </TitleSection.Title>
     );
 });

@@ -24,27 +24,27 @@ export const BillingHistoryInputsBlock = memo((props: BillingHistoryInputsBlockP
                 </div>
             </MobileKeyValueItem>
 
-            <MobileKeyValueItem label="결제상태">
-                {/*<div className="form-control w-3/5 max-w-xs">*/}
-                {/*    /!*<select className="select select-ghost w-full max-w-xs">*!/*/}
-                {/*    /!*    <option disabled selected>*!/*/}
-                {/*    /!*        Pick the best JS framework*!/*/}
-                {/*    /!*    </option>*!/*/}
-                {/*    /!*    <option>Svelte</option>*!/*/}
-                {/*    /!*    <option>Vue</option>*!/*/}
-                {/*    /!*    <option>React</option>*!/*/}
-                {/*    /!*</select>*!/*/}
-                {/*</div>*/}
-                <div className="form-control w-3/5 max-w-xs">
-                    <label className="cursor-pointer label px-3 text-right">
-                        <input
-                            type="checkbox"
-                            className="toggle toggle-primary ml-auto"
-                            {...form.register('isSuccess')}
-                        />
-                    </label>
-                </div>
-            </MobileKeyValueItem>
+            {/*<MobileKeyValueItem label="결제상태">*/}
+            {/*    /!*<div className="form-control w-3/5 max-w-xs">*!/*/}
+            {/*    /!*    /!*<select className="select select-ghost w-full max-w-xs">*!/*!/*/}
+            {/*    /!*    /!*    <option disabled selected>*!/*!/*/}
+            {/*    /!*    /!*        Pick the best JS framework*!/*!/*/}
+            {/*    /!*    /!*    </option>*!/*!/*/}
+            {/*    /!*    /!*    <option>Svelte</option>*!/*!/*/}
+            {/*    /!*    /!*    <option>Vue</option>*!/*!/*/}
+            {/*    /!*    /!*    <option>React</option>*!/*!/*/}
+            {/*    /!*    /!*</select>*!/*!/*/}
+            {/*    /!*</div>*!/*/}
+            {/*    <div className="form-control w-3/5 max-w-xs">*/}
+            {/*        <label className="cursor-pointer label px-3 text-right">*/}
+            {/*            <input*/}
+            {/*                type="checkbox"*/}
+            {/*                className="toggle toggle-primary ml-auto"*/}
+            {/*                {...form.register('isSuccess')}*/}
+            {/*            />*/}
+            {/*        </label>*/}
+            {/*    </div>*/}
+            {/*</MobileKeyValueItem>*/}
         </MobileSection>
     );
 });

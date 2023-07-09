@@ -50,15 +50,15 @@ export const InvoiceTabNav = memo(() => {
         const params = {...query, where: {...query.where}};
         switch (tabIndex) {
             case 0:
-                params.where.isSuccess = undefined;
+                // params.where.isSuccess = undefined;
                 search(params);
                 break;
             case 2:
-                params.where.isSuccess = true;
+                // params.where.isSuccess = true;
                 search(params);
                 break;
             case 3:
-                params.where.isSuccess = false;
+                // params.where.isSuccess = false;
                 search(params);
                 break;
             default:

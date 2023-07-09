@@ -5,6 +5,7 @@ import {yyyy_mm_dd} from '^utils/dateTime';
 import {useBillingList} from '^hooks/useBillingHistories';
 import {fetchApplicationQueryById} from '^atoms/applications.atom';
 import {AiOutlineWarning} from '^components/react-icons';
+import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
 
 export const BillingScheduleListPanel = memo(() => {
     const {selectedDate, billingHistories, billingSchedules} = useBillingList();
@@ -20,10 +21,10 @@ export const BillingScheduleListPanel = memo(() => {
                     billingHistories.map((history, i) => (
                         <BillingScheduleItem
                             key={i}
-                            applicationId={history.applicationId}
+                            proto={history.application ? history.application.prototype : history.invoiceApp!.prototype}
                             date={new Date(history.paidAt!)}
-                            payAmount={history.paidAmount}
-                            isPaid={history.isSuccess}
+                            payAmount={history.payAmount?.amount || 0}
+                            isPaid={!!history.paidAt}
                             historyId={history.id}
                         />
                     ))}
@@ -43,7 +44,7 @@ export const BillingScheduleListPanel = memo(() => {
     );
 });
 
-interface BillingScheduleItemProps {
+interface BillingScheduleItemPropsByApplicationId {
     applicationId: number;
     date: Date;
     payAmount: number;
@@ -51,14 +52,28 @@ interface BillingScheduleItemProps {
     historyId: number;
 }
 
+interface BillingScheduleItemPropsByProto {
+    proto: ApplicationPrototypeDto;
+    date: Date;
+    payAmount: number;
+    isPaid: boolean;
+    historyId: number;
+}
+
+type BillingScheduleItemProps = BillingScheduleItemPropsByApplicationId | BillingScheduleItemPropsByProto;
 const BillingScheduleItem = memo((props: BillingScheduleItemProps) => {
-    const {applicationId, date, payAmount, isPaid, historyId} = props;
-    const isOverdue = !isPaid && new Date().getTime() > date.getTime();
+    const {date, payAmount, isPaid, historyId} = props;
+    // @ts-ignore
     const application = useRecoilValue(fetchApplicationQueryById(applicationId));
+    const isOverdue = !isPaid && new Date().getTime() > date.getTime();
+    let proto: ApplicationPrototypeDto | undefined;
+    if ('proto' in props) {
+        proto = props.proto || application?.prototype;
+    }
 
-    if (!application) return <></>;
+    if (!proto) return <></>;
 
-    const {prototype: proto} = application;
+    // const {prototype: proto} = application;
 
     return (
         <li className={`shadow-sm mb-2 ${historyId && 'bordered'}`}>

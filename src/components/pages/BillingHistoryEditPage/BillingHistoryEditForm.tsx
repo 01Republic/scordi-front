@@ -10,6 +10,7 @@ import {billingHistoryIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useSetRecoilState} from 'recoil';
 import {getBillingHistoryQuery} from '^atoms/billingHistories.atom';
 import {useBillingHistory} from '^hooks/useBillingHistories';
+import {CreateMoneyRequestDto, Currency, CurrencyList} from '^types/money.type';
 
 type BillingHistoryEditFormProps = {
     form: UseFormReturn<UpdateBillingHistoryRequestDto, any>;
@@ -39,9 +40,14 @@ export const BillingHistoryEditForm = memo((props: BillingHistoryEditFormProps) 
     useEffect(() => {
         if (!billingHistory) return;
 
-        form.setValue('paidAmount', billingHistory.paidAmount);
+        const payAmount = billingHistory.payAmount;
+        form.setValue('payAmount', {
+            text: payAmount?.text || '',
+            amount: payAmount?.amount || 0, // 금액
+            code: payAmount?.code || Currency.KRW, // 화폐 코드
+            exchangeRate: payAmount?.exchangeRate || CurrencyList.ko.exchangeRate, // 달러 대비 환율
+        });
         form.setValue('paidAt', `${billingHistory.paidAt}`.split('T')[0]);
-        form.setValue('isSuccess', billingHistory.isSuccess);
     }, [billingHistory]);
 
     return <form onSubmit={form.handleSubmit(onSubmit)}>{children}</form>;

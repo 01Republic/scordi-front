@@ -19,7 +19,7 @@ export const BillingHistoryItem = memo((props: BillingHistoryItemProps) => {
     if (!application) return <></>;
     const {prototype, organizationId} = application;
 
-    const {isSuccess} = billingHistory;
+    const isSuccess = !!billingHistory.paidAt;
 
     return (
         <MobileEntityListItem
@@ -46,7 +46,7 @@ export const BillingHistoryItem = memo((props: BillingHistoryItemProps) => {
                             isSuccess ? 'text-base' : 'text-gray-400 line-through'
                         }`}
                     >
-                        -${billingHistory.paidAmount}
+                        -${billingHistory.payAmount?.amount || 0}
                     </span>
                     <span
                         className={`block leading-none text-xs ${isSuccess ? 'text-gray-500' : 'text-gray-400'}`}

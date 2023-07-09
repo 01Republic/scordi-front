@@ -17,10 +17,11 @@ export const InvoiceTableRow = memo((props: InvoiceTableRowProps) => {
     // 청구자
     const issuedTo = application?.displayName || emailContent?.sender;
     // 상태
-    const paidStatus = billingHistory.isSuccess ? 'Completed' : 'Failure';
+    const paidStatus = billingHistory.paidAt ? 'Completed' : 'Failure';
     // 지불금액
     const paidPrice = (() => {
-        return `$${billingHistory.paidAmount.toLocaleString()}`;
+        if (!billingHistory.payAmount) return '-';
+        return `$${billingHistory.payAmount.amount.toLocaleString()}`;
     })();
 
     // 서비스명
@@ -51,7 +52,7 @@ export const InvoiceTableRow = memo((props: InvoiceTableRowProps) => {
             <td>
                 <div
                     className={`badge h-6 border-none rounded-lg text-xs ${
-                        billingHistory.isSuccess ? 'bg-green-200 text-green-700' : 'bg-red-200 text-red-700'
+                        billingHistory.paidAt ? 'bg-green-200 text-green-700' : 'bg-red-200 text-red-700'
                     }`}
                 >
                     {paidStatus}

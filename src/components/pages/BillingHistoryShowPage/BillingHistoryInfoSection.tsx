@@ -26,7 +26,7 @@ export const BillingHistoryInfoSection = memo((props: BillingHistoryInfoSectionP
 
             <MobileSection className="pb-3 border-b-8">
                 <MobileKeyValueItem label="결제일시" value={t_paidAt(billingHistory)} />
-                <MobileKeyValueItem label="결제상태" value={billingHistory.isSuccess ? '결제완료' : '-'} />
+                {/*<MobileKeyValueItem label="결제상태" value={billingHistory.isSuccess ? '결제완료' : '-'} />*/}
             </MobileSection>
         </>
     );
