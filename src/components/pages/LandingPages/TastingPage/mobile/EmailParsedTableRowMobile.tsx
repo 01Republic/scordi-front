@@ -1,10 +1,10 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {hh_mm} from '^utils/dateTime';
-import {BillingHistoryDto} from '^types/billing.type';
-import {changePriceCurrency, currencyFormat, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
+import {BillingHistoryDto, BillingHistoryStatus, getBillingHistoryStatus} from '^types/billing.type';
 import {displayCurrencyAtom} from '../pageAtoms';
 import {useTastingItemDetailModal} from '../TastingItemDetailModal';
+import {EmailParsedTableRowPriceText} from '^components/pages/LandingPages/TastingPage/EmailParsedTableRowPriceText';
 
 export const EmailParsedTableRowMobile = memo((props: {entry: BillingHistoryDto; showTitle?: boolean}) => {
     const {entry: billingHistory, showTitle = false} = props;
@@ -15,6 +15,14 @@ export const EmailParsedTableRowMobile = memo((props: {entry: BillingHistoryDto;
     const payAmount = billingHistory.payAmount;
     const item = billingHistory.emailContent!;
     const serviceName = item.provider;
+
+    const status = getBillingHistoryStatus(billingHistory);
+    const showTitleByStatus = (() => {
+        if (status === BillingHistoryStatus.Info) return true;
+        if (status === BillingHistoryStatus.Unknown) return true;
+        if (status === BillingHistoryStatus.PayFail) return true;
+        return false;
+    })();
     // const title = item.title;
     // const attachments = item.attachments;
     // const sender = item.metadata.sender || item.metadata.from?.replace(/.*<(.+)>/, '$1');
@@ -34,21 +42,9 @@ export const EmailParsedTableRowMobile = memo((props: {entry: BillingHistoryDto;
 
             <div className="ml-auto flex flex-col items-end max-w-[70%]">
                 <p className="text-[16px] text-right font-bold">
-                    {!payAmount ? (
-                        <span className="text-gray-500">-</span>
-                    ) : (
-                        <>
-                            <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>
-                            <span>
-                                {currencyFormat(
-                                    changePriceCurrency(payAmount.amount, payAmount.code, displayCurrency) || 0,
-                                    displayCurrency,
-                                )}
-                            </span>
-                        </>
-                    )}
+                    <EmailParsedTableRowPriceText billingHistory={billingHistory} status={status} />
                 </p>
-                {showTitle && (
+                {(showTitle || showTitleByStatus) && (
                     <p className="leading-none text-right font-light">
                         <small className="text-xs text-gray-500" style={{wordBreak: 'keep-all'}}>
                             {item.title}

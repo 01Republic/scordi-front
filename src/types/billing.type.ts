@@ -65,6 +65,40 @@ export type BillingHistoryDto = {
     emailContent: GmailItem | null; // email content
 };
 
+// This used on Front-end Only.
+export enum BillingHistoryStatus {
+    Unknown = 'Unknown', // 구분되지 않음.
+    Info = 'Info', // 정보성
+    Warning = 'Warning', // 결고성
+    PayWait = 'PayWait', // 결제예정(대기)
+    PaySuccess = 'PaySuccess', // 결제성공
+    PayFail = 'PayFail', // 결제실패
+}
+
+/**
+ * BillingHistory 로부터 결제금액 텍스트를 보여주기 위해,
+ * 해당 결제내역이 어떤 "지불 유형" 인지 구분하는 정책을 정의합니다.
+ *
+ * 이메일 트래커 billingHistory.emailContent 내에서 상태구분
+ * BillingInfo 에서 구분함.
+ *  - 결제성공 : paidAt 이 있음.
+ *  - 결제실패 : lastRequestedAt 이 있고 / paidAt 이 없음
+ *  - 정보알림 : issuedAt 이 있고 / lastRequestedAt 이 없음
+ */
+export function getBillingHistoryStatus(billingHistory: BillingHistoryDto) {
+    const billingInfo = billingHistory.emailContent?.billingInfo;
+    if (!billingInfo) return BillingHistoryStatus.Unknown;
+
+    const {issuedAt, lastRequestedAt, paidAt} = billingInfo;
+
+    if (paidAt) return BillingHistoryStatus.PaySuccess;
+    if (lastRequestedAt && !paidAt) return BillingHistoryStatus.PayFail;
+    if (issuedAt && !lastRequestedAt) return BillingHistoryStatus.Info;
+
+    // 위에서 분류되지 못한 케이스는 Unknown 으로 처리.
+    return BillingHistoryStatus.Unknown;
+}
+
 export function getTotalPriceOfEmails(histories: BillingHistoryDto[], displayCurrency = Currency.KRW) {
     // Email 로부터 생성된 결제히스토리만 걸러냅니다.
     const historyListFromEmail = histories.filter((his) => {
