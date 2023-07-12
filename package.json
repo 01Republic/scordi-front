@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "deploy:staging": "bash tasks/deploy.staging.sh",
-    "deploy:production": "ssh payplo \"bash ~/deploy-production.sh\""
+    "deploy:production": "bash tasks/deploy.production.sh"
   },
   "dependencies": {
     "@googleapis/docs": "^2.0.1",
