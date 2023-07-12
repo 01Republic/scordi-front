@@ -99,6 +99,13 @@ export function getBillingHistoryStatus(billingHistory: BillingHistoryDto) {
     return BillingHistoryStatus.Unknown;
 }
 
+export function getBillingHistoryPaidPrice(billingHistory: BillingHistoryDto) {
+    const payAmount = billingHistory.payAmount;
+    if (!payAmount) return '-';
+    const {symbol, format, amount} = payAmount;
+    return format.replace('%n', `${amount.toLocaleString()}`).replace('%u', symbol);
+}
+
 export function getTotalPriceOfEmails(histories: BillingHistoryDto[], displayCurrency = Currency.KRW) {
     // Email 로부터 생성된 결제히스토리만 걸러냅니다.
     const historyListFromEmail = histories.filter((his) => {

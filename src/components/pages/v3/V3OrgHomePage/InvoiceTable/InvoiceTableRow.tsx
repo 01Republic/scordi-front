@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {BillingHistoryDto} from '^types/billing.type';
+import {BillingHistoryDto, getBillingHistoryPaidPrice, getBillingHistoryStatus} from '^types/billing.type';
 import {yyyy_mm_dd} from '^utils/dateTime';
 
 interface InvoiceTableRowProps {
@@ -17,12 +17,9 @@ export const InvoiceTableRow = memo((props: InvoiceTableRowProps) => {
     // 청구자
     const issuedTo = application?.displayName || emailContent?.sender;
     // 상태
-    const paidStatus = billingHistory.paidAt ? 'Completed' : 'Failure';
+    const paidStatus = getBillingHistoryStatus(billingHistory);
     // 지불금액
-    const paidPrice = (() => {
-        if (!billingHistory.payAmount) return '-';
-        return `$${billingHistory.payAmount.amount.toLocaleString()}`;
-    })();
+    const paidPrice = getBillingHistoryPaidPrice(billingHistory);
 
     // 서비스명
     const appLogo = proto?.image;
@@ -52,7 +49,7 @@ export const InvoiceTableRow = memo((props: InvoiceTableRowProps) => {
             <td>
                 <div
                     className={`badge h-6 border-none rounded-lg text-xs ${
-                        billingHistory.paidAt ? 'bg-green-200 text-green-700' : 'bg-red-200 text-red-700'
+                        paidStatus === 'PaySuccess' ? 'bg-green-200 text-green-700' : 'bg-red-200 text-red-700'
                     }`}
                 >
                     {paidStatus}
