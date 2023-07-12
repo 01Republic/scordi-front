@@ -4,11 +4,15 @@ import {TablePaginator} from '^v3/share/table/TablePaginator';
 import {useBillingHistoriesV3} from '^hooks/useBillingHistories';
 import {RiMailAddLine} from '^components/react-icons';
 import {useTranslation} from 'next-i18next';
+import {useSetRecoilState} from 'recoil';
+import {isOpenNewInvoiceAccountModalAtom} from '^v3/V3OrgHomePage/NewInvoiceAccountModal';
 
 export const InvoiceTable = memo(() => {
     const {result, movePage} = useBillingHistoriesV3();
     const {t} = useTranslation('org-home');
     const isEmpty = result.pagination.totalItemCount === 0;
+
+    const setModalShow = useSetRecoilState(isOpenNewInvoiceAccountModalAtom);
 
     if (isEmpty) {
         return (
@@ -27,7 +31,9 @@ export const InvoiceTable = memo(() => {
                             청구 메일을 받고 있는 계정을 연결해서 <br />
                             결제 내역을 5초만에 확인해보세요.
                         </p>
-                        <button className="btn btn-scordi">인보이스 찾아보기</button>
+                        <button className="btn btn-scordi" onClick={() => setModalShow(true)}>
+                            인보이스 찾아보기
+                        </button>
                     </div>
                 </div>
             </div>
