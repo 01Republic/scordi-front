@@ -143,6 +143,8 @@ function billingHistoryListReady(histories: BillingHistoryDto[]) {
 }
 
 function billingHistoryReady(history: BillingHistoryDto) {
+    if (!history) return;
+
     const email = history.emailContent;
     if (!email) return;
 
@@ -153,5 +155,7 @@ function billingHistoryReady(history: BillingHistoryDto) {
 }
 
 function sortHistories(items: BillingHistoryDto[]) {
-    return items.sort(dateSortBy('DESC', (history) => new Date(history.issuedAt)));
+    if (items.length < 1) return items;
+
+    return items.sort(dateSortBy('DESC', (history) => new Date(history?.issuedAt)));
 }
