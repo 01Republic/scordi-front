@@ -38,7 +38,7 @@ run "로컬에서 빌드를 실행합니다." "NODE_ENV=production APP_ENV=produ
 echo ""
 NODE_ENV=production APP_ENV=production yarn build:production
 
-run "서버가 Git repo 를 pull 받습니다." "ssh $SERVER_NAME \"cd ~/$APP_NAME && git pull origin main\""
+run "서버가 Git repo 를 pull 받습니다." "ssh $SERVER_NAME \"cd ~/$APP_NAME && git pull origin production\""
 echo ""
 ssh "$SERVER_NAME" "cd ~/$APP_NAME && git pull origin production"
 
