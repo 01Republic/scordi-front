@@ -2,7 +2,7 @@ import {ApplicationDto} from '^types/application.type';
 import {OrganizationDto} from '^types/organization.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {GmailItem} from '^api/tasting.api';
-import {BillingType, InvoiceAppDto} from '^types/invoiceApp.type';
+import {InvoiceAppDto} from '^types/invoiceApp.type';
 import {changePriceCurrency} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {Currency} from '^types/crawler';
 import {CreateMoneyRequestDto, MoneyDto} from '^types/money.type';
@@ -107,11 +107,11 @@ export function getBillingHistoryPaidPrice(billingHistory: BillingHistoryDto) {
 }
 
 export function getInvoiceAppBillingCycle(application?: ApplicationDto, invoiceApp?: InvoiceAppDto): string {
-    if (!application && !invoiceApp) return BillingType.UNDEF;
-    if (application && !invoiceApp) return application?.paymentPlan?.name || BillingType.UNDEF;
-    if (!application && invoiceApp) return invoiceApp?.billingType || BillingType.UNDEF;
-    if (application && invoiceApp) return invoiceApp?.billingType || BillingType.UNDEF;
-    return BillingType.UNDEF;
+    if (!application && !invoiceApp) return '-';
+    if (application && !invoiceApp) return application?.paymentPlan?.name || '-';
+    if (!application && invoiceApp) return invoiceApp?.billingType || '-';
+    if (application && invoiceApp) return invoiceApp?.billingType || '-';
+    return '-';
 }
 
 export function getTotalPriceOfEmails(histories: BillingHistoryDto[], displayCurrency = Currency.KRW) {

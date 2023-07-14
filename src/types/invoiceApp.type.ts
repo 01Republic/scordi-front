@@ -13,7 +13,7 @@ export type InvoiceAppDto = {
     invoiceAccountId: number;
     prototypeId: number;
     isActive: boolean;
-    billingType: BillingType; // 결제 유형
+    billingType: BillingType; // 결제 유형 (BillingCycle과 같은 개념)
     createdAt: string; // 생성일시
     updatedAt: string; // 수정일시
     billingHistories: BillingHistoryDto[];
