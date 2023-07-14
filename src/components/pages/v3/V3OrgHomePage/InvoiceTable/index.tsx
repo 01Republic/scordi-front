@@ -55,7 +55,7 @@ export const InvoiceTable = memo(() => {
                             <th>결제일/청구자</th>
                             <th>상태</th>
                             <th>서비스명</th>
-                            <th>타입</th>
+                            <th>결제주기</th>
                             {/*<th>결제수단</th>*/}
                             <th>결제금액</th>
                             <th>청구 메일</th>

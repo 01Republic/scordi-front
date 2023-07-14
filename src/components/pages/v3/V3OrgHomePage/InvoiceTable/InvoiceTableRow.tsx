@@ -65,7 +65,13 @@ export const InvoiceTableRow = memo((props: InvoiceTableRowProps) => {
             <td>
                 <div
                     className={`badge h-6 border-none rounded-lg text-xs ${
-                        paidStatus === 'PaySuccess' ? 'bg-green-200 text-green-700' : 'bg-red-200 text-red-700'
+                        paidStatus === 'PaySuccess'
+                            ? 'bg-green-200 text-green-700'
+                            : paidStatus === 'PayFail'
+                            ? 'bg-red-200 text-red-700'
+                            : paidStatus === 'Info'
+                            ? 'bg-blue-200 text-blue-700'
+                            : 'bg-amber-200 text-amber-700'
                     }`}
                 >
                     {tableTranslator('paidStatus', paidStatus)}
