@@ -2,7 +2,7 @@ import React, {memo, useEffect} from 'react';
 import {FiMoreHorizontal} from '^components/react-icons';
 import {DateRangeSelect, dateRangeSelectAtom} from '^v3/V3OrgHomePage/InvoiceSearchControllerSection/DateRangeSelect';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {dayBefore, monthBefore} from '^utils/dateTime';
+import {dayAfter, dayBefore, monthBefore} from '^utils/dateTime';
 import {endOfWeek, lastDayOfMonth, startOfMonth, startOfWeek} from 'date-fns';
 import {useBillingHistoriesV3} from '^hooks/useBillingHistories';
 import {currentOrgAtom} from '^atoms/organizations.atom';
@@ -61,8 +61,11 @@ export const InvoiceSearchControllerSection = memo(() => {
                     startDate={query.startDate ? new Date(query.startDate) : undefined}
                     endDate={query.endDate ? new Date(query.endDate) : undefined}
                     onChange={(range) => {
+                        const isSameDate =
+                            range.startDate && range.endDate && range.endDate.getTime() === range.startDate.getTime();
+                        const modifiedEndDate = isSameDate ? dayAfter(1, range.startDate) : range.endDate;
                         const startDate = range.startDate?.toISOString();
-                        const endDate = range.startDate?.toISOString();
+                        const endDate = isSameDate ? modifiedEndDate?.toISOString() : range.endDate?.toISOString();
                         search({...query, startDate, endDate});
                     }}
                 />
