@@ -3,7 +3,9 @@ import {PaginationMetaData} from '^types/utils/paginated.dto';
 
 interface TablePaginatorProps {
     pagination: PaginationMetaData;
-    movePage: (targetPageNum: number) => any;
+    onPrev?: (prevPageNum: number) => any;
+    onNext?: (nextPageNum: number) => any;
+    movePage?: (targetPageNum: number) => any;
 }
 
 export const TablePaginator = memo((props: TablePaginatorProps) => {
@@ -27,7 +29,7 @@ export const TablePaginator = memo((props: TablePaginatorProps) => {
                 return (
                     <button
                         className="btn btn-ghost"
-                        onClick={() => movePage(pageNum)}
+                        onClick={() => movePage && movePage(pageNum)}
                         disabled={pageNum === currentPage}
                     >
                         {pageNum}
