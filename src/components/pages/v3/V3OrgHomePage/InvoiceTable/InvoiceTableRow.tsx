@@ -1,16 +1,30 @@
 import {memo} from 'react';
-import {BillingHistoryDto, getBillingHistoryPaidPrice, getBillingHistoryStatus} from '^types/billing.type';
+import {
+    BillingHistoryDto,
+    getBillingHistoryPaidPrice,
+    getBillingHistoryStatus,
+    getInvoiceAppBillingCycle,
+} from '^types/billing.type';
 import {yyyy_mm_dd} from '^utils/dateTime';
+import {useTranslation} from 'next-i18next';
 
 interface InvoiceTableRowProps {
     invoiceData: BillingHistoryDto;
 }
 
 export const InvoiceTableRow = memo((props: InvoiceTableRowProps) => {
+    // const {t} = useTranslation('org-home', {keyPrefix: 'invoiceTable'});
     const {invoiceData: billingHistory} = props;
     const {application, invoiceApp, emailContent} = billingHistory;
     const proto = application?.prototype || invoiceApp?.prototype;
+
     console.log('billingHistory', billingHistory);
+
+    const tableTranslator = (rowKey: string, value: string) => {
+        const keyPrefix = `invoiceTable.${rowKey}`;
+        const {t} = useTranslation('org-home', {keyPrefix});
+        return t(value);
+    };
 
     // 결제일
     const issuedAt = yyyy_mm_dd(new Date(billingHistory.issuedAt));
@@ -20,6 +34,8 @@ export const InvoiceTableRow = memo((props: InvoiceTableRowProps) => {
     const paidStatus = getBillingHistoryStatus(billingHistory);
     // 지불금액
     const paidPrice = getBillingHistoryPaidPrice(billingHistory);
+    // 결제 유형
+    const billingCycle = getInvoiceAppBillingCycle(application, invoiceApp);
 
     // 서비스명
     const appLogo = proto?.image;
@@ -52,7 +68,7 @@ export const InvoiceTableRow = memo((props: InvoiceTableRowProps) => {
                         paidStatus === 'PaySuccess' ? 'bg-green-200 text-green-700' : 'bg-red-200 text-red-700'
                     }`}
                 >
-                    {paidStatus}
+                    {tableTranslator('paidStatus', paidStatus)}
                 </div>
             </td>
 
@@ -73,8 +89,8 @@ export const InvoiceTableRow = memo((props: InvoiceTableRowProps) => {
                 </div>
             </td>
 
-            {/* 타입 */}
-            <td>정기결제(연간)</td>
+            {/* 결제주기 */}
+            <td>{billingCycle}</td>
 
             {/*/!* 결제수단 *!/*/}
             {/*<td>-</td>*/}

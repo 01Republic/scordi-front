@@ -10,5 +10,21 @@
     "title": "청구 메일 계정 추가하기",
     "description": "여러 메일 계정 등록도 가능해요 <br /> 구글 로그인으로 클릭 한 번에 등록해보세요",
     "googleLoginText": "구글 계정으로 로그인"
+  },
+  "invoiceTable": {
+    "paidStatus": {
+      "PaySuccess": "결제 성공",
+      "PaiFail": "결제 실패",
+      "Info": "알림",
+      "Unknown": "-",
+      "PayWait": "결제 대기",
+      "Warning": "경고"
+    },
+    "billingCycle": {
+      "perCase": "단건 결제",
+      "monthly": "정기 결제 (월)",
+      "yearly": "정기 결제 (연)",
+      "undef": "-"
+    }
   }
 }

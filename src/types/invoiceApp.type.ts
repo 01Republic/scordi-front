@@ -4,7 +4,7 @@ import {BillingHistoryDto} from '^types/billing.type';
 export enum BillingType {
     MONTHLY = 'monthly',
     YEARLY = 'yearly',
-    PER_CASE = 'perCase',
+    ONETIME = 'onetime',
     UNDEF = 'undef',
 }
 
