@@ -26,7 +26,7 @@ export const InvoiceTable = memo(() => {
                                 </div>
                             </div>
                         </div>
-                        <h3 className="text-xl mb-4">앗! 아직 결제 내역을 확인 할 수 없어요 🥲</h3>
+                        <h3 className="text-xl mb-4">앗! 아직 결제 내역을 확인 할 수 없어요</h3>
                         <p className="text-16 font-light mb-6">
                             청구 메일을 받고 있는 계정을 연결해서 <br />
                             결제 내역을 5초만에 확인해보세요.
@@ -71,7 +71,7 @@ export const InvoiceTable = memo(() => {
             </div>
 
             <div className="flex justify-center">
-                <TablePaginator pagination={result.pagination} onPrev={movePage} onNext={movePage} />
+                <TablePaginator pagination={result.pagination} movePage={movePage} />
             </div>
         </div>
     );
