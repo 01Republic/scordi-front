@@ -16,6 +16,9 @@ export type PostDto = {
     unlikeCount: number;
 };
 
+export type FindAllPostQueryDto = FindAllQueryDto<PostDto> & {
+    isPublished?: boolean;
+};
 export type FindAllPostByAdminDto = FindAllQueryDto<PostDto> & {};
 
 export type CreatePostByAdminDto = {

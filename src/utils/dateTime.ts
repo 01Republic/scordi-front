@@ -56,6 +56,16 @@ export const lastDayOfMonth = (date?: Date): Date => {
     return monthAfter(1, dayBefore(1, firstDayOfMonth(date)));
 };
 
+export const dateIsEqual = (d1?: Date, d2?: Date) => {
+    if (!d1 || !d2) return false;
+    return d1.getTime() === d2.getTime();
+};
+
+export const dateIsBeforeThen = (d1?: Date, d2?: Date) => {
+    if (!d1 || !d2) return false;
+    return d1.getTime() <= d2.getTime();
+};
+
 /**
  * Duration
  */
