@@ -3,6 +3,7 @@ import {usePost} from '^hooks/usePosts';
 import {Avatar} from '^components/Avatar';
 import {ShareButton} from './ShareButton';
 import {OpinionButton} from './OpinionButton';
+import {GoListButton} from './GoListButton';
 
 export const BlogPostDetailBody = memo(() => {
     const {post} = usePost();
@@ -14,7 +15,8 @@ export const BlogPostDetailBody = memo(() => {
             <div className="article-content" dangerouslySetInnerHTML={{__html: post.content}} />
 
             <div className="article-share flex flex-row-reverse items-start justify-between">
-                <OpinionButton />
+                {/*<OpinionButton />*/}
+                <GoListButton />
                 <ShareButton />
             </div>
 
