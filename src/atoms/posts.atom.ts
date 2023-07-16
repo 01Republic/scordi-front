@@ -20,3 +20,8 @@ export const getPostListResultAtom = atom<Paginated<PostDto>>({
         },
     },
 });
+
+export const postAtom = atom<PostDto | null>({
+    key: 'postAtom',
+    default: null,
+});
