@@ -18,8 +18,6 @@ export const InvoiceTableRow = memo((props: InvoiceTableRowProps) => {
     const {application, invoiceApp, emailContent} = billingHistory;
     const proto = application?.prototype || invoiceApp?.prototype;
 
-    console.log('billingHistory', billingHistory);
-
     const tableTranslator = (rowKey: string, value: string) => {
         const keyPrefix = `invoiceTable.${rowKey}`;
         const {t} = useTranslation('org-home', {keyPrefix});

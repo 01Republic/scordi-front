@@ -52,7 +52,7 @@ export type BillingHistoryDto = {
     invoiceAppId: number | null; // 인보이스 앱 ID
     issuedAt: Date; // 인보이스 발행 일시
     lastRequestedAt: Date | null; // 최근 결제 요청 일시
-    paidAt: string | null; // 결제 완료 일시
+    paidAt: Date | null; // 결제 완료 일시
     payAmount: MoneyDto | null; // 결제금액
     paymentMethod: string; // 결제수단
     // isSuccess: boolean; // 결제완료여부
@@ -70,9 +70,9 @@ export enum BillingHistoryStatus {
     Unknown = 'Unknown', // 구분되지 않음.
     Info = 'Info', // 정보성
     Warning = 'Warning', // 결고성
-    PayWait = 'PayWait', // 결제예정(대기)
-    PaySuccess = 'PaySuccess', // 결제성공
-    PayFail = 'PayFail', // 결제실패
+    PayWait = 'PayWait', // 결제 대기
+    PaySuccess = 'PaySuccess', // 결제 완료
+    PayFail = 'PayFail', // 결제 실패
 }
 
 /**
@@ -175,5 +175,15 @@ export type StartEndParams = {
     endDate?: string;
 };
 
+export enum StatusQueryOptions {
+    Success = 'success',
+    Pending = 'pending',
+    Failed = 'failed',
+}
+
+export type StatusParams = {
+    status?: StatusQueryOptions;
+};
+
 export type GetBillingSchedulesParams = FindAllQueryDto<BillingSchedule> & StartEndParams;
-export type GetBillingHistoriesParams = FindAllQueryDto<BillingHistoryDto> & StartEndParams;
+export type GetBillingHistoriesParams = FindAllQueryDto<BillingHistoryDto> & StartEndParams & StatusParams;

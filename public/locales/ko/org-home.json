@@ -13,7 +13,7 @@
   },
   "invoiceTable": {
     "paidStatus": {
-      "PaySuccess": "결제 성공",
+      "PaySuccess": "결제 완료",
       "PaiFail": "결제 실패",
       "Info": "알림",
       "Unknown": "-",
