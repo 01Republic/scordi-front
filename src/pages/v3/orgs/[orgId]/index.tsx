@@ -6,7 +6,7 @@ import {useCurrentOrg} from '^hooks/useCurrentOrg';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {useGoogleAccessTokenCallback} from '^hooks/useGoogleAccessToken';
-import {createInvoiceAccount} from '^api/invoiceAccount.api';
+import {createInvoiceAccount, getInvoiceAccounts, syncInvoiceAccount} from '^api/invoiceAccount.api';
 import {GmailAgent} from '^api/tasting.api';
 import {getCreateInvoiceAccountFromTo} from '^types/invoiceAccount.type';
 
@@ -57,9 +57,26 @@ export default function V3OrgHomePage() {
                     expireAt: tokenData.expires_in,
                 },
                 gmailQueryOptions: getCreateInvoiceAccountFromTo(),
-            }).then(() => {
-                window.location.reload();
-            });
+            })
+                .then(() => {
+                    window.location.reload();
+                })
+                .catch((err) => {
+                    const code = err.response?.data?.code;
+                    // 중복된 계정 오류 시, invoiceAccount sync API 호출
+                    if (code === 'DUPLICATED_ENTITY') {
+                        getInvoiceAccounts(orgId, {where: {email: userData.email}}).then((res) => {
+                            const {items, pagination} = res.data;
+                            if (pagination.totalItemCount === 1) {
+                                const [account] = items;
+                                syncInvoiceAccount(orgId, account.id).then(() => window.location.reload());
+                            } else {
+                                console.log('Too many accounts');
+                                window.location.reload();
+                            }
+                        });
+                    }
+                });
         });
     }, [orgId, accessTokenData]);
 
