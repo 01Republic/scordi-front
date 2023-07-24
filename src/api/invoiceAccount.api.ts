@@ -18,3 +18,7 @@ export const createInvoiceAccount = (organizationId: number, data: CreateInvoice
 export const deleteInvoiceAccount = (organizationId: number, id: number) => {
     return api.delete(`/organizations/${organizationId}/invoice_accounts/${id}`);
 };
+
+export const syncInvoiceAccount = (organizationId: number, id: number) => {
+    return api.patch(`/organizations/${organizationId}/invoice_accounts/${id}/sync`);
+};

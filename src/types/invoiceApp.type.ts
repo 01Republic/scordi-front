@@ -8,6 +8,10 @@ export enum BillingType {
     UNDEF = 'undef',
 }
 
+export type UpdateInvoiceAppRequestDto = {
+    isActive: boolean;
+};
+
 export type InvoiceAppDto = {
     id: number;
     invoiceAccountId: number;
