@@ -12,7 +12,7 @@ import {EmailParsedTableGroupByDay} from './mobile/EmailParsedTableGroupByDay';
 import {LoadMoreDraftButton} from './LoadMore/LoadMoreDraftButton';
 
 export const EmailParsedTable = memo(() => {
-    const {billingHistories, oldestHistory} = useDraftResult();
+    const {billingHistories = [], oldestHistory} = useDraftResult();
 
     const dateFormat = (date: Date) => {
         return `${date.toLocaleDateString('en', {month: 'long'})}, ${date.getFullYear()}`;

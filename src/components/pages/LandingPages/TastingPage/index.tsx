@@ -14,10 +14,14 @@ import {ChannelTalkHideStyle} from '^components/lib/channel-talk/ChannelTalkHide
 import {TastingItemDetailModal} from './TastingItemDetailModal';
 import {AttachmentModal} from './AttachmentModal';
 import {InvoiceAppsModal} from './InvoiceAppsModal';
+import {useDraftResult} from '^components/pages/LandingPages/TastingPage/hooks/useDraft';
+import {googleAuthForGmail} from '^api/tasting.api';
+import {EmptyTable} from '^components/pages/LandingPages/TastingPage/EmptyTable';
 
 export const TastingPage = memo(() => {
     const isLoading = useRecoilValue(gmailItemsLoadingAtom);
     const isLoaded = useRecoilValue(gmailItemsLoadedAtom);
+    const {billingHistories, isEmpty} = useDraftResult();
     const router = useRouter();
     const {t} = useTranslation('publicTasting');
 
@@ -33,23 +37,26 @@ export const TastingPage = memo(() => {
                 ) : (
                     <>
                         {!isLoaded ? <TastingPageHeader /> : <TastingPageLoadedHeader />}
+                        {isLoaded && isEmpty ? (
+                            <EmptyTable />
+                        ) : (
+                            <section className="container mb-24 px-4">
+                                <div className="text-center">{isLoaded && <EmailParsedTable />}</div>
 
-                        <section className="container mb-24 px-4">
-                            <div className="text-center">{isLoaded && <EmailParsedTable />}</div>
-
-                            {isLoaded && (
-                                <div className="text-center mt-10 fixed sm:relative bottom-0 w-full left-0 p-4 sm:p-0 z-20 sm:z-0 bg-white">
-                                    <button
-                                        className="btn btn-scordi-500 btn-block btn-lg rounded-2xl shadow-xl"
-                                        onClick={() => {
-                                            router.push(SignPhoneAuthPageRoute.path());
-                                        }}
-                                    >
-                                        {t('try_it_free_now')}
-                                    </button>
-                                </div>
-                            )}
-                        </section>
+                                {isLoaded && (
+                                    <div className="text-center mt-10 fixed sm:relative bottom-0 w-full left-0 p-4 sm:p-0 z-20 sm:z-0 bg-white">
+                                        <button
+                                            className="btn btn-scordi-500 btn-block btn-lg rounded-2xl shadow-xl"
+                                            onClick={() => {
+                                                router.push(SignPhoneAuthPageRoute.path());
+                                            }}
+                                        >
+                                            {t('try_it_free_now')}
+                                        </button>
+                                    </div>
+                                )}
+                            </section>
+                        )}
 
                         {isLoaded && <BetaServiceFooter />}
                     </>

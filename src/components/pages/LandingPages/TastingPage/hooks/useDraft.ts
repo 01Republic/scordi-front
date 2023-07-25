@@ -95,6 +95,7 @@ export const useDraftResult = () => {
     const isLoaded = useRecoilValue(gmailItemsLoadedAtom);
     const query = useRecoilValue(draftQueryAtom);
     const draftSearchFrom = useRecoilValue(draftSearchFromAtom);
+    const isEmpty = billingHistories.length === 0;
 
     const latestHistory = billingHistories[0];
     const oldestHistory = billingHistories[billingHistories.length - 1];
@@ -108,6 +109,7 @@ export const useDraftResult = () => {
         oldestHistory,
         isLoading,
         isLoaded,
+        isEmpty,
     };
 };
 

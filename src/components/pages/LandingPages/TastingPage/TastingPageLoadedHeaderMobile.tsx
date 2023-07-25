@@ -37,8 +37,12 @@ export const TastingPageLoadedHeaderMobile = memo(() => {
 
             <ul className="py-0">
                 <MobileInfoListItem label={t('connected_email')} value={gmailProfile?.email} />
-                <MobileInfoListItem label={t('search_started_at')} value={asTimeString(oldestHistory.issuedAt)} />
-                <MobileInfoListItem label={t('search_finished_at')} value={asTimeString(latestHistory.issuedAt)} />
+                {oldestHistory && (
+                    <MobileInfoListItem label={t('search_started_at')} value={asTimeString(oldestHistory.issuedAt)} />
+                )}
+                {latestHistory && (
+                    <MobileInfoListItem label={t('search_finished_at')} value={asTimeString(latestHistory.issuedAt)} />
+                )}
                 <MobileInfoListItem label={t('display_as_krw')}>
                     <CurrencyToggle className="px-0" leftText="" rightText="" />
                 </MobileInfoListItem>
