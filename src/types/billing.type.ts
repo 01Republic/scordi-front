@@ -86,10 +86,9 @@ export enum BillingHistoryStatus {
  *  - 정보알림 : issuedAt 이 있고 / lastRequestedAt 이 없음
  */
 export function getBillingHistoryStatus(billingHistory: BillingHistoryDto) {
-    const billingInfo = billingHistory.emailContent?.billingInfo;
-    if (!billingInfo) return BillingHistoryStatus.Unknown;
+    // const billingInfo = billingHistory.emailContent?.billingInfo;
 
-    const {issuedAt, lastRequestedAt, paidAt} = billingInfo;
+    const {issuedAt, lastRequestedAt, paidAt} = billingHistory;
 
     if (paidAt) return BillingHistoryStatus.PaySuccess;
     if (lastRequestedAt && !paidAt) return BillingHistoryStatus.PayFail;

@@ -11,9 +11,11 @@ interface TablePaginatorProps {
 export const TablePaginator = memo((props: TablePaginatorProps) => {
     const {pagination, movePage} = props;
     const {currentPage, totalPage, totalItemCount} = pagination;
-    const currentPageIndex = Math.floor(currentPage / 10);
-    const pagesCount = totalPage - currentPageIndex * 10;
-    const pageList = Array.from({length: pagesCount}, (v, i) => currentPageIndex * 10 + i + 1);
+
+    const twoDigitIndex = Math.ceil(currentPage / 10) * 10;
+    const startPageNum = twoDigitIndex - 9;
+    const endPageNum = totalPage > twoDigitIndex ? twoDigitIndex : totalPage;
+    const pageList = Array.from({length: endPageNum - startPageNum + 1}, (v, i) => startPageNum + i);
 
     const prevPageNum = currentPage > 1 ? currentPage - 1 : NaN;
     const nextPageNum = currentPage < totalPage ? currentPage + 1 : NaN;
