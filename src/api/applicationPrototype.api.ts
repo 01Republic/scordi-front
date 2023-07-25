@@ -45,3 +45,32 @@ export const applyNewApplicationPrototype = (data: ApplyToAddDto) => {
 export const applyApplicationPrototypeAddedAlert = (prototypeId: number) => {
     return api.post<boolean>(`${NAMESPACE}/${prototypeId}/added-alerts`);
 };
+
+export const applicationPrototypeApi = {
+    index(params?: FindAllAppPrototypeQuery) {
+        const url = `/${NAMESPACE}`;
+        return api.get<Paginated<ApplicationPrototypeDto>>(url, {params});
+    },
+
+    show(id: number) {
+        const url = `/${NAMESPACE}/${id}`;
+        return api.get<ApplicationPrototypeDto>(url);
+    },
+
+    create(data: CreateApplicationPrototypeRequestDto) {
+        const url = `/${NAMESPACE}`;
+        const headers = {'Content-Type': 'multipart/form-data'};
+        return api.post<ApplicationPrototypeDto>(url, data, {headers});
+    },
+
+    update(id: number, data: UpdateApplicationPrototypeRequestDto) {
+        const url = `/${NAMESPACE}/${id}`;
+        const headers = {'Content-Type': 'multipart/form-data'};
+        return api.patch<ApplicationPrototypeDto>(url, data, {headers});
+    },
+
+    destroy(id: number) {
+        const url = `/${NAMESPACE}/${id}`;
+        return api.delete<ApplicationPrototypeDto>(url);
+    },
+};
