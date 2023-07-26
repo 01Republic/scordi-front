@@ -27,7 +27,7 @@ export const AuthCodeInput = memo(() => {
     return (
         <div className="form-control relative mb-6">
             <MaskedInput
-                autoComplete="no"
+                autoComplete="off"
                 mask="999999"
                 maskPlaceholder={null}
                 placeholder={`${t('phone_auth.code_input.placeholder')}`}
