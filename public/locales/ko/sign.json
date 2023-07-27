@@ -1,4 +1,10 @@
 {
+  "auth_check": {
+    "page_title": "인증된 계정을 확인하고 있어요.."
+  },
+  "pre_sign_page": {
+    "page_title": "스코디 가입하기"
+  },
   "phone_auth": {
     "page_title": "무료 체험 안내를 위해 <br /> 꼭 필요한 정보만 받을게요",
     "phone_input": {

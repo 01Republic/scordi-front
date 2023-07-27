@@ -20,6 +20,7 @@ import {gmailAccessTokenDataAtom} from '^hooks/useGoogleAccessToken';
 import {GmailAgent} from '^api/tasting.api';
 import {getCreateInvoiceAccountFromTo} from '^types/invoiceAccount.type';
 import {ApiError} from '^api/api';
+import {BetaSignSocialPageRoute} from '^pages/sign/social';
 
 export const BetaSignPhoneAuthPage = memo(() => {
     const router = useRouter();
@@ -30,12 +31,16 @@ export const BetaSignPhoneAuthPage = memo(() => {
     const [isOpened, setIsOpened] = useRecoilState(isTermModalOpenedState);
     const codeConfirmed = useRecoilValue(codeConfirmedState);
     const {t} = useTranslation('sign');
+    const [pageLoaded, setPageLoaded] = useState(false);
 
     console.log('accessTokenData', accessTokenData);
 
     useEffect(() => {
         const gmailProfileData = window.localStorage.getItem('scordi/tasting/gmailProfile');
-        if (!gmailProfileData) return;
+        if (!gmailProfileData) {
+            router.replace(BetaSignSocialPageRoute.path());
+            return;
+        }
 
         const gmailProfile = JSON.parse(gmailProfileData) as GoogleSignedUserData;
         form.setValue('provider', 'google');
@@ -43,6 +48,7 @@ export const BetaSignPhoneAuthPage = memo(() => {
         form.setValue('email', gmailProfile.email);
         form.setValue('name', gmailProfile.name);
         form.setValue('profileImageUrl', gmailProfile.picture);
+        setPageLoaded(true);
     }, []);
 
     useEffect(() => {
@@ -121,6 +127,19 @@ export const BetaSignPhoneAuthPage = memo(() => {
 
     // 약관 동의 모달 완료
     const agreeModalOnConfirm = () => onLastSubmit(form.getValues());
+
+    if (!pageLoaded) {
+        return (
+            <LandingPageLayout pageName="BetaSignPhoneAuthPage">
+                <div className="mx-auto text-center py-20 w-full max-w-lg space-y-5">
+                    <h1
+                        className="text-2xl sm:text-4xl mb-8 font-bold"
+                        dangerouslySetInnerHTML={{__html: t('auth_check.page_title')}}
+                    />
+                </div>
+            </LandingPageLayout>
+        );
+    }
 
     return (
         <LandingPageLayout pageName="BetaSignPhoneAuthPage">

@@ -1,4 +1,10 @@
 {
+  "auth_check": {
+    "page_title": "Checking authenticated account first.."
+  },
+  "pre_sign_page": {
+    "page_title": "Join scordi"
+  },
   "phone_auth": {
     "page_title": "This is all I need!",
     "phone_input": {
