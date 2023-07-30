@@ -2,9 +2,10 @@ import React from 'react';
 import AsyncCreatableSelect from 'react-select/async-creatable';
 import {MultiValue} from 'react-select';
 
-interface Option {
-    value: string;
-    label: string;
+export interface Option {
+    value: any;
+    label: any;
+    __isNew__?: boolean;
 }
 
 interface MultiSelectProps {

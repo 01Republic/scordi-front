@@ -2,13 +2,18 @@ import {CardPanel} from '^components/pages/admin/share/panels/CardPanel';
 import {TextInput} from '^components/TextInput';
 import {WysiwygEditor} from '^components/WysiwygEditor';
 import {fileApi} from '^api/file.api';
-import React, {useCallback, useEffect, useState} from 'react';
-import {UseFormReturn} from 'react-hook-form';
+import React, {memo, useCallback, useEffect, useState} from 'react';
+import {useForm, UseFormReturn} from 'react-hook-form';
 import {CreatePostByAdminDto, PostDto, UpdatePostByAdminDto} from '^types/post.type';
 import {datetime_local, yyyy_mm_dd} from '^utils/dateTime';
 import {SelectDropdown} from '^v3/share/Select';
-import {MultiSelect} from '^components/util/select/MultiSelect';
-import {postTagManageApi} from '^api/post-manage.api';
+import {MultiSelect, Option} from '^components/util/select/MultiSelect';
+import {postAuthorManageApi, postTagManageApi} from '^api/post-manage.api';
+import {PostAuthorDto, UpdatePostAuthorByAdminDto} from '^types/post-author.type';
+import {MultiValue} from 'react-select';
+import {toast} from 'react-toastify';
+import {errorNotify} from '^utils/toast-notify';
+import {debounce} from 'lodash';
 
 interface CreateBlogFormProps {
     form: UseFormReturn<CreatePostByAdminDto>;
@@ -21,6 +26,13 @@ interface UpdateBlogFormProps {
     post: PostDto;
 }
 
+const byId = (id: number) => (author: PostAuthorDto) => author.id === id;
+const pluckId = (entity: {id: number}) => entity.id;
+const findAuthorsById = (authors: PostAuthorDto[], ids: number[]): PostAuthorDto[] => {
+    const foundAuthors = ids.map((id) => authors.find(byId(id)));
+    return foundAuthors.filter((e) => !!e) as PostAuthorDto[];
+};
+
 export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
     const {form, onSubmit} = props;
     const post = 'post' in props ? props.post : null;
@@ -28,14 +40,14 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
     const [thumbnailUrl, setThumbnailUrl] = useState<string>('');
     const [seoKeywords, setSeoKeywords] = useState<string[]>([]);
     const [tagNames, setTagNames] = useState<string[]>([]);
+    const [authors, setAuthors] = useState<PostAuthorDto[]>([]);
+    const [selectedAuthors, setSelectedAuthors] = useState<PostAuthorDto[]>([]);
 
     useEffect(() => {
         // @ts-ignore
         setPublishAt(form.getValues('publishAt') as Date | null);
         // @ts-ignore
         setSeoKeywords(form.getValues('seoKeywords') || []);
-        // // @ts-ignore
-        // setTagNames(form.getValues('tagNames') || []);
     }, []);
 
     const resetThumbnailUrl = useCallback(() => {
@@ -52,9 +64,19 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
         }
     }, [post]);
 
+    const resetAuthors = useCallback(() => {
+        if (!post) return;
+        if (post.authors) {
+            const authorIds = post.authors.map(pluckId);
+            setSelectedAuthors(post.authors);
+            form.setValue('authorIds', authorIds);
+        }
+    }, [post]);
+
     useEffect(() => {
         resetThumbnailUrl();
         resetTags();
+        resetAuthors();
     }, [post]);
 
     const addKeyword = (text: string) => {
@@ -69,7 +91,7 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
         form.setValue('seoKeywords', arr);
     };
 
-    const searchTags = async (inputValue: string): Promise<{value: string; label: string}[]> => {
+    const searchTags = async (inputValue: string) => {
         const tags = await postTagManageApi
             .index({
                 name: inputValue,
@@ -83,9 +105,45 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
         }));
     };
 
-    // const createTag = async (inputValue: string) => {
-    //     const tags = await postTagManageApi.create({name: inputValue}).then((res) => res.data);
-    // };
+    const searchAuthors = async (inputValue: string) => {
+        const authors = await postAuthorManageApi
+            .index({
+                name: inputValue,
+                order: {name: 'ASC', id: 'DESC'},
+            })
+            .then((res) => res.data);
+
+        setAuthors((old) => [...old, ...authors]);
+        return authors.map((author) => ({
+            value: author.id,
+            label: author.name,
+        }));
+    };
+
+    const onSelectAuthors = async (options: MultiValue<Option>) => {
+        const newAuthors = await Promise.all(
+            options
+                .filter((o) => o.__isNew__)
+                .map(async (o) => {
+                    return postAuthorManageApi.create({name: o.value}).then((res) => res.data);
+                }),
+        );
+
+        const ids = options.map((o) => {
+            if (typeof o.value === 'number') return o.value;
+            if (typeof o.value === 'string' && o.__isNew__) {
+                const author = newAuthors.find((newAuthor) => newAuthor.name === o.value)!;
+                return author.id;
+            }
+            return o.value;
+        });
+
+        const dataList = [...authors, ...newAuthors];
+        const foundList = findAuthorsById(dataList, ids);
+        setSelectedAuthors(foundList);
+        setAuthors((old) => [...old, ...newAuthors]);
+        form.setValue('authorIds', foundList.map(pluckId));
+    };
 
     return (
         // @ts-ignore
@@ -239,6 +297,27 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
                                 }}
                             />
                         </div>
+
+                        <div className="mb-4">
+                            <label htmlFor="publishAt" className="label">
+                                <span className="label-text">Editors</span>
+                            </label>
+
+                            <MultiSelect
+                                value={selectedAuthors.map((author) => ({
+                                    value: author.id,
+                                    label: author.name,
+                                }))}
+                                loadOptions={searchAuthors}
+                                onChange={onSelectAuthors}
+                            />
+
+                            <div className="mt-4 flex flex-col gap-2">
+                                {selectedAuthors.map((author, i) => (
+                                    <AuthorEditCard author={author} key={i} />
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </CardPanel>
@@ -249,3 +328,88 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
         </form>
     );
 };
+
+interface AuthorEditCardProps {
+    author: PostAuthorDto;
+}
+
+export const AuthorEditCard = memo(({author}: AuthorEditCardProps) => {
+    // const form = useForm<UpdatePostAuthorByAdminDto>();
+    const [name, setName] = useState(author.name);
+    const [profileImg, setProfileImg] = useState(author.profileImg);
+    const [introduce, setIntroduce] = useState(author.introduce);
+    const [imgChanged, setImgChanged] = useState(false);
+
+    useEffect(() => {
+        setName(author.name);
+        setProfileImg(author.profileImg);
+        setIntroduce(author.introduce);
+    }, []);
+
+    const onSubmit = () => {
+        const data = {name, profileImg, introduce};
+        postAuthorManageApi
+            .update(author.id, data)
+            .then(() => debounce(() => toast.success('Author info Successfully saved'), 1000))
+            .then(() => setImgChanged(false))
+            .catch(errorNotify);
+    };
+
+    return (
+        <div className="card card-bordered bg-white card-compact rounded border-slate-300">
+            <div className="p-2 flex gap-2 items-start">
+                <div>
+                    <label htmlFor={`author-${author.id}-profileImg`} className="cursor-pointer">
+                        <div className="avatar">
+                            <div className="w-10 rounded-full border">
+                                <img src={profileImg} alt={name} />
+                            </div>
+                        </div>
+                    </label>
+                    {imgChanged && (
+                        <p
+                            className="block text-center text-xs cursor-pointer underline text-scordi-light hover:text-scordi"
+                            onClick={() => onSubmit()}
+                        >
+                            <span className="block">img</span>
+                            save
+                        </p>
+                    )}
+                    <input
+                        type="file"
+                        id={`author-${author.id}-profileImg`}
+                        className="hidden"
+                        onChange={(e) => {
+                            if (!e.target.files) return;
+                            console.log(e.target.files);
+                            const file = e.target.files[0];
+                            fileApi
+                                .upload({file})
+                                .then((fileDto) => setProfileImg(fileDto.url))
+                                .then(() => setImgChanged(true))
+                                .catch(errorNotify);
+                        }}
+                    />
+                </div>
+
+                <div className="flex-1 flex flex-col gap-1.5">
+                    <input
+                        type="text"
+                        className="text-lg font-semibold input input-xs input-ghost rounded px-0"
+                        defaultValue={name}
+                        onChange={(e) => setName(e.target.value)}
+                        onBlur={() => onSubmit()}
+                    />
+
+                    <textarea
+                        rows={4}
+                        className="textarea textarea-ghost textarea-xs w-full p-0"
+                        defaultValue={introduce}
+                        onChange={(e) => setIntroduce(e.target.value)}
+                        onBlur={() => onSubmit()}
+                    />
+                </div>
+            </div>
+        </div>
+    );
+});

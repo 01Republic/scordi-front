@@ -34,6 +34,7 @@ export type CreatePostByAdminDto = {
     thumbnailImage?: File; // 썸네일이미지
     publishAt?: Date; // 발행일시
     tagNames?: string[] | null; // 태그명 목록
+    authorIds?: number[] | null; // 작성자 ID 목록
 };
 
 export type UpdatePostByAdminDto = Partial<CreatePostByAdminDto> & {};
