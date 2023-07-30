@@ -6,10 +6,10 @@ export const PostList = memo(() => {
     const {result} = usePosts();
 
     return (
-        <ul className="blog-post-list">
+        <div className="blog-post-list mb-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {result.items.map((post, i) => (
                 <PostItem key={i} post={post} />
             ))}
-        </ul>
+        </div>
     );
 });

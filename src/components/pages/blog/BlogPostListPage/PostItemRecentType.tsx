@@ -22,11 +22,28 @@ export const PostItemRecentType = memo((props: PostItemProps) => {
                 </div>
 
                 <div className="flex flex-col items-start justify-start w-full h-full mr-[20px] sm:mr-0">
-                    <span></span>
+                    {/* Tags */}
+                    <p className="flex items-center gap-2 pt-3">
+                        {post.tags.map((tag, i) => (
+                            <span key={i} className="badge mb-2 sm:mb-4 sm:badge-lg bg-gray-200">
+                                {tag.name}
+                            </span>
+                        ))}
+                    </p>
+
+                    {/* Title */}
                     <h4 className="blog-post-item-title text-max-line max-h-[2.8em] mb-[10px] text-[16px] font-semibold sm:text-[32px] sm:font-bold">
                         {post.title}
                     </h4>
-                    <p className="blog-post-item-subtitle hidden sm:block text-gray-500">{post.seoDescription}</p>
+
+                    {/* Seo Desc */}
+                    <p className="blog-post-item-subtitle hidden sm:block text-gray-500 flex-1">
+                        <span className="block overflow-hidden" style={{maxHeight: 'calc(1.4em * 4)'}}>
+                            {post.seoDescription}
+                        </span>
+                    </p>
+
+                    {/* Published At */}
                     <time className="text-[13px] sm:text-[15px] text-gray-400">
                         {isPublished ? (
                             yyyy_mm_dd(new Date(post.publishAt!))

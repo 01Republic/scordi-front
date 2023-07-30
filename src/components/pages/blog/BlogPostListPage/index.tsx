@@ -23,7 +23,7 @@ export const BlogPostListPage = memo(() => {
         <div className="bg-white">
             <LandingPageNavBar showLoginButton={true} fluid={true} className="sticky top-0 z-10 bg-white" />
             <BlogPostListHeader />
-            <div className="blog-body !pb-0">
+            <div className="hidden sm:block blog-body !pb-0">
                 <div className="blog-container blog-container--default">
                     <div className="blog-container--inner">
                         {recentPost && <PostItemRecentType post={recentPost} />}
