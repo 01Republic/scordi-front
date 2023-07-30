@@ -21,6 +21,11 @@ export const getPostListResultAtom = atom<Paginated<PostDto>>({
     },
 });
 
+export const recentPostAtom = atom<PostDto | null>({
+    key: 'recentPostAtom',
+    default: null,
+});
+
 export const postAtom = atom<PostDto | null>({
     key: 'postAtom',
     default: null,

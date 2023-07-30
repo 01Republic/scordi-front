@@ -45,6 +45,14 @@ $breakpoint-mobile: 639px;
   }
 }
 
+.text-max-line {
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+  //max-height: 3.6em;
+  //line-height: 1.8em;
+}
+
 .blog-post-item-title {
   color: #333d4b;
   transition: all 0.2s ease-in-out 0s;

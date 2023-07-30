@@ -8,6 +8,18 @@ export const postApi = {
         return api.get<Paginated<PostDto>>(url, {params});
     },
 
+    recent() {
+        const url = `/posts`;
+        const params: FindAllPostQueryDto = {
+            order: {id: 'DESC'},
+            page: 1,
+            itemsPerPage: 1,
+        };
+        return api.get<Paginated<PostDto>>(url, {params}).then((res) => {
+            return res.data.items[0] || null;
+        });
+    },
+
     show(id: number) {
         const url = `/posts/${id}`;
         return api.get<PostDto>(url);

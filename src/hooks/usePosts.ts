@@ -1,5 +1,5 @@
 import {useRecoilState} from 'recoil';
-import {getPostListQueryAtom, getPostListResultAtom, postAtom} from '^atoms/posts.atom';
+import {getPostListQueryAtom, getPostListResultAtom, postAtom, recentPostAtom} from '^atoms/posts.atom';
 import {FindAllPostQueryDto} from '^types/post.type';
 import {postApi} from '^api/post.api';
 
@@ -18,6 +18,16 @@ export const usePosts = () => {
     const movePage = (page: number) => search({...query, page});
 
     return {query, result, search, movePage};
+};
+
+export const useRecentPost = () => {
+    const [post, setPost] = useRecoilState(recentPostAtom);
+
+    async function load() {
+        postApi.recent().then((data) => setPost(data));
+    }
+
+    return {data: post, load};
 };
 
 export const usePost = () => {
