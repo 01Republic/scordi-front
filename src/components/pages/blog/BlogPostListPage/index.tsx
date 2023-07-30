@@ -6,6 +6,7 @@ import {BlogPostListBody} from './BlogPostListBody';
 import {BetaServiceFooter} from '^components/pages/LandingPages/components';
 import {LandingPageNavBar} from '^components/lab/landing-page-components';
 import {PostItemRecentType} from '^components/pages/blog/BlogPostListPage/PostItemRecentType';
+import {NewsLetterSection} from '^components/pages/LandingPages/components/NewsLetterSection';
 
 export const BlogPostListPage = memo(() => {
     const router = useRouter();
@@ -31,6 +32,8 @@ export const BlogPostListPage = memo(() => {
                 </div>
             </div>
             <BlogPostListBody />
+
+            <NewsLetterSection />
 
             <div className="w-full">
                 <div className="blog-container blog-container--default">

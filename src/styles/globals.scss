@@ -368,3 +368,36 @@ body.hide-channel-talk {
   border: none;
   outline: none;
 }
+
+.NewsLetterSection {
+  z-index: 0;
+  position: relative;
+
+  .card.image-full {
+    //height: 500px;
+    //max-height: 50vw;
+    background-color: #232528;
+    position: relative;
+
+    &:before {
+      border-radius: 0;
+      opacity: 0;
+    }
+  }
+
+  figure {
+    position: absolute;
+    height: 100%;
+    left: 0;
+    right: 0;
+  }
+
+  .title {
+    font-weight: 500;
+    color: white;
+  }
+  .subtitle {
+    color: white;
+    flex-grow: initial;
+  }
+}
