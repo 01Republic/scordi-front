@@ -20,7 +20,7 @@ export const BlogPostDetailPage = memo(() => {
 
     return (
         <div className="bg-white blog-post-detail">
-            <LandingPageNavBar showLoginButton={false} fluid={true} className="fixed top-0 z-10" />
+            <LandingPageNavBar showLoginButton={true} fluid={true} className="sticky top-0 z-10 bg-white" />
             <div className="blog-container blog-container--default">
                 <div className="blog-container--inner">
                     <article>

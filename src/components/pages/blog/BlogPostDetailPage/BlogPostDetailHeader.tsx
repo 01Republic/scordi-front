@@ -10,28 +10,13 @@ export const BlogPostDetailHeader = memo(() => {
     const isPublished = !!post.publishAt && dateIsBeforeThen(new Date(post.publishAt), new Date());
 
     return (
-        <header>
-            <div className="header-inner">
-                <div className="w-full h-full">
-                    <div className="img-content">
-                        <span className="img-wrapper">
-                            <img
-                                src={post.thumbnailUrl}
-                                alt=""
-                                draggable={false}
-                                sizes="100vw"
-                                decoding="async"
-                                data-nimg="fill"
-                            />
-                        </span>
-                    </div>
-                </div>
-                <div className="mask-top"></div>
-                <div className="mask-bottom"></div>
-            </div>
-            <div className="header-content">
-                <h1 className="header-title">{post.title}</h1>
-                <p className="header-written-by">
+        <header className="blog-container blog-container--default pt-[78px] sm:pt-[158px]">
+            <div className="blog-container--inner">
+                <h1 className="text-center font-[600] text-gray-800 mb-3 sm:mb-8 leading-[1.4] text-[28px] sm:text-[52px]">
+                    {post.title}
+                </h1>
+
+                <p className="header-written-by flex items-center justify-center">
                     <time>
                         {isPublished ? (
                             yyyy_mm_dd(new Date(post.publishAt!))
@@ -39,8 +24,8 @@ export const BlogPostDetailHeader = memo(() => {
                             <span className="btn btn-xs btn-error text-white">아직 발행되지 않은 게시글입니다.</span>
                         )}
                     </time>
-                    <span>ㆍ by {'Scordi'}</span>
                 </p>
+
                 <button className="header-button">
                     <span className="header-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="line-icon">

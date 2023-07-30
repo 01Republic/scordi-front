@@ -11,7 +11,13 @@ export const BlogPostDetailBody = memo(() => {
     if (!post) return <></>;
 
     return (
-        <div className="article-body">
+        <div className="article-body blog-article-body-styles-of-element">
+            <div>
+                <img src={post.thumbnailUrl} alt="thumbnail of this post" loading="lazy" draggable={false} />
+            </div>
+
+            <br />
+
             <div className="article-content" dangerouslySetInnerHTML={{__html: post.content}} />
 
             <div className="article-share flex flex-row-reverse items-start justify-between">
