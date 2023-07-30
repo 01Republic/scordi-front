@@ -6,6 +6,9 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {UseFormReturn} from 'react-hook-form';
 import {CreatePostByAdminDto, PostDto, UpdatePostByAdminDto} from '^types/post.type';
 import {datetime_local, yyyy_mm_dd} from '^utils/dateTime';
+import {SelectDropdown} from '^v3/share/Select';
+import {MultiSelect} from '^components/util/select/MultiSelect';
+import {postTagManageApi} from '^api/post-manage.api';
 
 interface CreateBlogFormProps {
     form: UseFormReturn<CreatePostByAdminDto>;
@@ -24,12 +27,15 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
     const [publishAt, setPublishAt] = useState<Date | null>(null);
     const [thumbnailUrl, setThumbnailUrl] = useState<string>('');
     const [seoKeywords, setSeoKeywords] = useState<string[]>([]);
+    const [tagNames, setTagNames] = useState<string[]>([]);
 
     useEffect(() => {
         // @ts-ignore
         setPublishAt(form.getValues('publishAt') as Date | null);
         // @ts-ignore
         setSeoKeywords(form.getValues('seoKeywords') || []);
+        // // @ts-ignore
+        // setTagNames(form.getValues('tagNames') || []);
     }, []);
 
     const resetThumbnailUrl = useCallback(() => {
@@ -37,21 +43,49 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
         if (post.thumbnailUrl) setThumbnailUrl(post.thumbnailUrl);
     }, [post]);
 
-    useEffect(() => {
-        resetThumbnailUrl();
+    const resetTags = useCallback(() => {
+        if (!post) return;
+        if (post.tags) {
+            const names = post.tags.map((tag) => tag.name);
+            setTagNames(names);
+            form.setValue('tagNames', names);
+        }
     }, [post]);
 
-    const addTag = (text: string) => {
+    useEffect(() => {
+        resetThumbnailUrl();
+        resetTags();
+    }, [post]);
+
+    const addKeyword = (text: string) => {
         const arr = [...seoKeywords, text];
         setSeoKeywords(arr);
         form.setValue('seoKeywords', arr);
     };
 
-    const removeTag = (i: number) => {
+    const removeKeyword = (i: number) => {
         const arr = [...seoKeywords.filter((v, ai) => ai !== i)];
         setSeoKeywords(arr);
         form.setValue('seoKeywords', arr);
     };
+
+    const searchTags = async (inputValue: string): Promise<{value: string; label: string}[]> => {
+        const tags = await postTagManageApi
+            .index({
+                name: inputValue,
+                order: {id: 'DESC'},
+            })
+            .then((res) => res.data);
+
+        return tags.map((tag) => ({
+            value: tag.name,
+            label: tag.name,
+        }));
+    };
+
+    // const createTag = async (inputValue: string) => {
+    //     const tags = await postTagManageApi.create({name: inputValue}).then((res) => res.data);
+    // };
 
     return (
         // @ts-ignore
@@ -142,7 +176,7 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
                                 {seoKeywords.map((keyword, i) => (
                                     <div key={i} className="tag-item">
                                         <span className="text-sm">{keyword}</span>
-                                        <span className="close" onClick={() => removeTag(i)}>
+                                        <span className="close" onClick={() => removeKeyword(i)}>
                                             &times;
                                         </span>
                                     </div>
@@ -155,7 +189,7 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
                                         const input = e.target;
                                         if (input.value.includes(',')) {
                                             const value = input.value.replace(/,/g, '');
-                                            addTag(value);
+                                            addKeyword(value);
                                             input.value = '';
                                         }
                                     }}
@@ -183,6 +217,25 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
                                     const value = e.target.value;
                                     const date = new Date(value);
                                     form.setValue('publishAt', date);
+                                }}
+                            />
+                        </div>
+
+                        <div className="mb-4">
+                            <label htmlFor="publishAt" className="label">
+                                <span className="label-text">Tags</span>
+                            </label>
+
+                            <MultiSelect
+                                value={tagNames.map((name) => ({
+                                    label: name,
+                                    value: name,
+                                }))}
+                                loadOptions={searchTags}
+                                onChange={(options) => {
+                                    const names = options.map(({value}) => value);
+                                    setTagNames(names);
+                                    form.setValue('tagNames', names);
                                 }}
                             />
                         </div>

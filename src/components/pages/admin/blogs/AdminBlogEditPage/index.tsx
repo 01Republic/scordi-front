@@ -34,6 +34,10 @@ export const AdminBlogEditPage = memo(() => {
         if (post.seoKeywords) {
             form.setValue('seoKeywords', post.seoKeywords);
         }
+        if (post.tags) {
+            const tagNames = post.tags.map((tag) => tag.name);
+            form.setValue('tagNames', tagNames);
+        }
     }, [post]);
 
     const onSubmit = (data: UpdatePostByAdminDto) => {
