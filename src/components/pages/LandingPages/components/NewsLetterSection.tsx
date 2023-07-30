@@ -1,60 +1,92 @@
-import {memo} from 'react';
+import {memo, useState} from 'react';
 import {useModal} from '^v3/share/modals/useModal';
 import {atom} from 'recoil';
+import {newsLetterApi} from '^api/news-letter.api';
+import {toast} from 'react-toastify';
+import {errorNotify} from '^utils/toast-notify';
+import {useForm} from 'react-hook-form';
+import {CreateNewsLetterSubscriberDto} from '^types/news-letter-subscriber.type';
 
 export const NewsLetterSection = memo(() => {
     const {open} = useModal({isShowAtom: newsLetterTermsModalIsOpenAtom});
+    const form = useForm<CreateNewsLetterSubscriberDto>();
+    const [emailValue, setEmailValue] = useState('');
+
+    const createSubscriber = (dto: CreateNewsLetterSubscriberDto) => {
+        dto.isPrivacyTermAgreed = true;
+        newsLetterApi.subscribers
+            .create(dto)
+            .then(() => {
+                toast.success('등록되었습니다 :)');
+                form.resetField('email');
+                form.resetField('isPrivacyTermAgreed');
+            })
+            .catch(errorNotify);
+    };
 
     return (
         <>
             <section className="w-full NewsLetterSection">
-                <div className="card w-full image-full !rounded-none">
-                    <figure>
-                        <img
-                            src="/images/illustration/news-letter-section-bg.svg"
-                            alt="new letter section background"
-                            draggable={false}
-                            loading="lazy"
-                        />
-                    </figure>
-                    <div className="card-body py-[3rem] items-center text-center">
-                        <h2 className="title mb-4 text-[2rem] sm:text-[3rem] leading-[1.2]">
-                            효율적인 관리는 <br /> 성장의 시작입니다.
-                        </h2>
-                        <p className="subtitle sm:text-[1.2rem] mb-4">
-                            조직과 팀 운영 관리 & 업무 생산성 인사이트 받아보기
-                        </p>
+                <form onSubmit={form.handleSubmit(createSubscriber)}>
+                    <div className="card w-full image-full !rounded-none">
+                        <figure>
+                            <img
+                                src="/images/illustration/news-letter-section-bg.svg"
+                                alt="new letter section background"
+                                draggable={false}
+                                loading="lazy"
+                            />
+                        </figure>
+                        <div className="card-body py-[3rem] items-center text-center">
+                            <h2 className="title mb-4 text-[2rem] sm:text-[3rem] leading-[1.2]">
+                                효율적인 관리는 <br /> 성장의 시작입니다.
+                            </h2>
+                            <p className="subtitle sm:text-[1.2rem] mb-4">
+                                조직과 팀 운영 관리 & 업무 생산성 인사이트 받아보기
+                            </p>
 
-                        <div className="form-control w-full sm:w-2/3 md:w-1/2 lg:w-1/3">
-                            <label className="label">
-                                <span className="label-text text-white">이메일 주소 *</span>
-                            </label>
-                            <input type="text" placeholder="info@site.com" className="input input-bordered mb-4" />
-
-                            <div className="form-control mb-4">
-                                <label className="label cursor-pointer justify-start gap-2 px-0">
-                                    <input type="checkbox" className="checkbox bg-white checkbox-info" />
-                                    <span className="label-text text-white">
-                                        (필수){' '}
-                                        <span
-                                            className="cursor-pointer text-scordi-light hover:text-scordi"
-                                            onClick={(e) => {
-                                                open();
-                                                e.stopPropagation();
-                                                e.preventDefault();
-                                            }}
-                                        >
-                                            개인정보 수집 및 이용
-                                        </span>
-                                        에 동의합니다.
-                                    </span>
+                            <div className="form-control w-full sm:w-2/3 md:w-1/2 lg:w-1/3">
+                                <label className="label">
+                                    <span className="label-text text-white">이메일 주소 *</span>
                                 </label>
-                            </div>
+                                <input
+                                    required
+                                    type="email"
+                                    placeholder="info@site.com"
+                                    className="input input-bordered mb-4"
+                                    {...form.register('email', {required: true})}
+                                />
 
-                            <button className="btn btn-scordi border-none">뉴스레터 구독하기</button>
+                                <div className="form-control mb-4">
+                                    <label className="label cursor-pointer justify-start gap-2 px-0">
+                                        <input
+                                            required
+                                            type="checkbox"
+                                            className="checkbox bg-white checkbox-info"
+                                            {...form.register('isPrivacyTermAgreed')}
+                                        />
+                                        <span className="label-text text-white">
+                                            (필수){' '}
+                                            <span
+                                                className="cursor-pointer text-scordi-light hover:text-scordi"
+                                                onClick={(e) => {
+                                                    open();
+                                                    e.stopPropagation();
+                                                    e.preventDefault();
+                                                }}
+                                            >
+                                                개인정보 수집 및 이용
+                                            </span>
+                                            에 동의합니다.
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <button className="btn btn-scordi border-none">뉴스레터 구독하기</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </section>
             <NewsLetterTermsModal />
         </>
