@@ -6,6 +6,7 @@ import {BetaServiceFooter} from '^components/pages/LandingPages/components';
 import {BlogPostDetailHeader} from './BlogPostDetailHeader';
 import {BlogPostDetailBody} from './BlogPostDetailBody';
 import {OtherPostList} from './OtherPostList';
+import {NewsLetterSection} from '^components/pages/LandingPages/components/NewsLetterSection';
 
 export const BlogPostDetailPage = memo(() => {
     const router = useRouter();
@@ -30,15 +31,18 @@ export const BlogPostDetailPage = memo(() => {
                 </div>
             </div>
 
-            <div className="bg-gray-100 py-[120px]">
+            <div className="bg-white pb-[90px]">
                 <div className="blog-container blog-container--default">
                     <div className="blog-container--inner">
+                        <h2 className="text-3xl mb-8">Similar Posts</h2>
                         <div className="other-posts">
                             <OtherPostList />
                         </div>
                     </div>
                 </div>
             </div>
+
+            <NewsLetterSection />
 
             <div className="w-full">
                 <div className="blog-container blog-container--default">

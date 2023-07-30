@@ -2,6 +2,7 @@ import {memo, useEffect} from 'react';
 import {OtherPostItem} from './OtherPostItem';
 import {usePosts} from '^hooks/usePosts';
 import {useRouter} from 'next/router';
+import {PostItem} from '^components/pages/blog/BlogPostListPage/PostItem';
 
 export const OtherPostList = memo(() => {
     const router = useRouter();
@@ -14,9 +15,9 @@ export const OtherPostList = memo(() => {
     }, [router.isReady]);
 
     return (
-        <ul className="other-posts-grid grid grid-cols-2 md:grid-cols-3">
+        <ul className="other-posts-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
             {result.items.map((post, i) => (
-                <OtherPostItem post={post} key={i} />
+                <PostItem post={post} key={i} />
             ))}
         </ul>
     );
