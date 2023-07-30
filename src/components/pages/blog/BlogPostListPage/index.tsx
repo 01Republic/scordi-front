@@ -18,7 +18,7 @@ export const BlogPostListPage = memo(() => {
 
     return (
         <div className="bg-white">
-            <LandingPageNavBar showLoginButton={false} fluid={true} className="sticky top-0 z-10 bg-white" />
+            <LandingPageNavBar showLoginButton={true} fluid={true} className="sticky top-0 z-10 bg-white" />
             <BlogPostListHeader />
             <BlogPostListBody />
 

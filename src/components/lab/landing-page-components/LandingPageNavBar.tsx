@@ -3,6 +3,9 @@ import {UserLoginPageRoute} from '^pages/users/login';
 import {WithChildren} from '^types/global.type';
 import {useRouter} from 'next/router';
 import {MainPageRoute} from '^pages/index';
+import {TastingPageRoute} from '^pages/tasting';
+import {FiMenu} from '@react-icons/all-files/fi/FiMenu';
+import {PostListPageRoute} from '^pages/posts';
 
 interface LandingPageNavBarProps extends WithChildren {
     fluid?: boolean;
@@ -18,6 +21,10 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
         const ctaBtn = document.querySelector('#cta-1') as HTMLElement;
         if (ctaBtn) ctaBtn.click();
     };
+
+    const introducePath = '';
+    const saasPath = '';
+    const blogPath = PostListPageRoute.path();
 
     return (
         <div className={`${fluid ? '' : 'container'} navbar ${className}`}>
@@ -40,17 +47,55 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
                         className="relative mr-1 w-[120px]"
                     />
                 </a>
+
+                <div className="hidden sm:flex gap-2 items-center justify-between px-4">
+                    <a href={introducePath} className="btn btn-ghost btn-sm normal-case btn-hover-init">
+                        제품소개
+                    </a>
+                    <a href={saasPath} className="btn btn-ghost btn-sm normal-case btn-hover-init">
+                        SaaS
+                    </a>
+                    <a href={blogPath} className="btn btn-ghost btn-sm normal-case btn-hover-init">
+                        블로그
+                    </a>
+                </div>
             </div>
             <div className="navbar-center lg:flex" />
 
-            <div className="navbar-end">
+            <div className="navbar-end gap-2">
                 {children}
 
                 {showLoginButton && (
-                    <a className="btn btn-outline btn-primary" href={UserLoginPageRoute.path()}>
-                        클로즈베타 로그인
-                    </a>
+                    <div className="flex gap-2 items-center justify-between sm:px-4">
+                        <a
+                            className="btn btn-sm hidden sm:inline-flex btn-outline btn-scordi"
+                            href={UserLoginPageRoute.path()}
+                        >
+                            로그인
+                        </a>
+
+                        <a className="btn btn-sm btn-scordi" href={TastingPageRoute.path()}>
+                            데모 체험하기
+                        </a>
+                    </div>
                 )}
+
+                <div className="dropdown dropdown-end">
+                    <label tabIndex={0} className="btn btn-sm btn-outline border-gray-400 text-gray-500 sm:hidden">
+                        <FiMenu size={20} />
+                    </label>
+                    <ul tabIndex={0} className="menu dropdown-content p-2 shadow-lg bg-base-100 !fixed left-0 w-full">
+                        <li>
+                            <a href={introducePath}>제품소개</a>
+                        </li>
+                        <li>
+                            <a href={saasPath}>SaaS</a>
+                        </li>
+                        <li>
+                            <a href={blogPath}>블로그</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     );

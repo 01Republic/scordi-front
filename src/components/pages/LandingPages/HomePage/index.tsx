@@ -24,7 +24,7 @@ export const LandingV2HomePage = memo(() => {
         <AOSProvider>
             <HeadTag />
             <div className="bg-white">
-                <LandingPageNavBar showLoginButton={false} fluid={true} />
+                <LandingPageNavBar showLoginButton={true} fluid={true} />
 
                 <HomePageHeader />
                 <HeaderSubLine />

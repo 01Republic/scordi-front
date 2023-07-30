@@ -15,7 +15,7 @@ export const LandingPageLayout = memo((props: LandingPageLayoutProps) => {
         <>
             <HeadTag />
             <div id={pageName.replace(/\s/g, '-')} className="bg-white">
-                <LandingPageNavBar showLoginButton={false} fluid={true} />
+                <LandingPageNavBar showLoginButton={true} fluid={true} />
                 {children}
                 {!hideFooter && <BetaServiceFooter />}
             </div>

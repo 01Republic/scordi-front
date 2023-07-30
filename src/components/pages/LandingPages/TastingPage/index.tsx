@@ -30,7 +30,7 @@ export const TastingPage = memo(() => {
             <HeadTag />
             <ChannelTalkHideStyle />
             <div id="TastingPage" className="bg-white">
-                <LandingPageNavBar showLoginButton={false} fluid={true} />
+                <LandingPageNavBar showLoginButton={true} fluid={true} />
 
                 {isLoading ? (
                     <LoadingProgressFullScreen />
