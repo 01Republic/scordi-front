@@ -22,7 +22,7 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
         if (ctaBtn) ctaBtn.click();
     };
 
-    const introducePath = '';
+    const introducePath = '#product-section';
     const saasPath = '';
     const blogPath = PostListPageRoute.path();
 
