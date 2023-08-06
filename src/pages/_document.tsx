@@ -31,10 +31,12 @@ export default class MyDocument extends Document {
     render() {
         const serviceHost = 'https://scordi.io';
         // const thumbnail = `${serviceHost}/home/202305/tasting/thumbnail.png`;
-        const thumbnail = `${serviceHost}/images/thumbnails/scordi-og_img-230624.png`;
-        const title = '스코디 scordi - 서비스 결제 내역, 클릭 한 번으로 확인하세요';
+        const thumbnail = `${serviceHost}/images/thumbnails/scordi-og_img-230806.png`;
+        const title = '스코디 scordi - 사내 협업툴 구독 관리';
+        // const description =
+        //     '법인 카드 내역과 결제 영수증 조회 되는 인보이스 메일 일일이 대조해서 찾지 마세요. 스코디로 딱 5초만에 확인할 수 있습니다.';
         const description =
-            '법인 카드 내역과 결제 영수증 조회 되는 인보이스 메일 일일이 대조해서 찾지 마세요. 스코디로 딱 5초만에 확인할 수 있습니다.';
+            '스코디는 회사 내 구독한 SaaS들을 클릭 한 번에 모아서 비용 지출, 팀 구성원, 공용계정을 실시간으로 한 눈에 파악할 수 있는 사내 협업툴 관리 서비스입니다. 신규 입사자와 퇴사자 발생 시 계정 연동 및 해제 뿐만 아니라 회사 재정, 조직 운영 문제까지 스코디 하나로 간편하게 해결하세요.';
         return (
             <Html>
                 <Head>
