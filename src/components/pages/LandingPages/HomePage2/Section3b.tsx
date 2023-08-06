@@ -6,15 +6,15 @@ export const Section3b = memo(() => {
         <HomePageSection sectionClass="bg-white">
             <div className="sm:flex gap-8 relative">
                 <div className="sm:w-[45%] text-left">
-                    <p className="font-semibold text-scordi-light text-xl mb-4">입ㆍ퇴사 관리</p>
+                    <p className="font-semibold text-scordi-light text-[16px] sm:text-xl mb-4">입ㆍ퇴사 관리</p>
 
-                    <p className="font-bold text-4xl leading-snug mb-4">
-                        지금까지 경험하지 못한
+                    <p className="font-bold text-[25px] sm:text-4xl leading-snug mb-4">
+                        팀원 계정 연동ㆍ해제도
                         <br />
-                        원클릭 입퇴사 계정 관리
+                        클릭 한 번이면 해결
                     </p>
 
-                    <button className="btn btn-lg !bg-black !text-white mb-12">100개 고객사 한정 무료</button>
+                    <button className="btn !bg-black !text-white mb-12">100개 고객사 한정 무료</button>
                 </div>
 
                 <div className="flex-1">

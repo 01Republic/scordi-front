@@ -28,15 +28,15 @@ export const Section3a = memo(() => {
                 </div>
 
                 <div className="w-full sm:w-[45%] sm:text-right">
-                    <p className="font-semibold text-scordi-light text-xl mb-4">지출ㆍ사용자 관리</p>
+                    <p className="font-semibold text-scordi-light text-[16px] sm:text-xl mb-4">SaaS 지출ㆍ팀원 관리</p>
 
-                    <p className="font-bold text-4xl leading-snug mb-4">
+                    <p className="font-bold text-[25px] sm:text-4xl leading-snug mb-4">
                         누가 쓰고 얼마 빠지는지
                         <br />
                         실시간으로 한 눈에 파악
                     </p>
 
-                    <button className="btn btn-lg !bg-black !text-white">100개 고객사 한정 무료</button>
+                    <button className="btn !bg-black !text-white">100개 고객사 한정 무료</button>
                 </div>
 
                 <div className="block sm:hidden relative pt-12">

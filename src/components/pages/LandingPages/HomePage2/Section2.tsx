@@ -22,8 +22,9 @@ export const Section2 = memo(() => {
                         <span>
                             우선순위에 밀려 놓쳤던
                             <br />
-                            회사 운영 관리를 로그인 한 번에
-                            <br />다 볼 수 있어서 너무 좋습니다.
+                            회사 운영 관리, 클릭 한 번에
+                            <br />
+                            해결 돼서 좋습니다.
                         </span>
                     }
                 />
@@ -32,24 +33,23 @@ export const Section2 = memo(() => {
                     src="/home/202308/section2-persona-2.png"
                     desc={
                         <span>
-                            갑작스럽게 누가 뭘 쓰는지
+                            갑자기 누가 뭘 쓰는지
                             <br />
-                            파악해야 할 때 부담스러웠는데,
+                            파악해야 할 때 번거로운데,
                             <br />
-                            이젠 부담없이 확인할 수 있습니다.
+                            로그인만 하면 돼서 편해요.
                         </span>
                     }
                 />
                 <Section2_Card
-                    label="경영지원/IR 담당자"
+                    label="경영지원/HR 담당자"
                     src="/home/202308/section2-persona-3.png"
                     desc={
                         <span>
-                            매일 30분씩 만들던 리포트를
+                            매일 업데이트 하던 재무회계
                             <br />
-                            자동으로 받게 되면서 HR업무에
-                            <br />
-                            집중할 수 있게 되었습니다.
+                            시트를 자동화된 데이터로
+                            <br />볼 수 있다니! 진짜 최고에요.
                         </span>
                     }
                 />
@@ -63,7 +63,7 @@ export const Section2_Card = memo((props: {label: string; src: string; desc: Rea
 
     return (
         <div className="card bg-[#212022] shadow-2xl transition-all hover:-translate-y-4">
-            <div className="hidden sm:flex card-body">
+            <div className="hidden sm:flex card-body p-[1.2rem] sm:p-[2rem]">
                 <p className="text-white opacity-70 text-lg mb-8">{label}</p>
                 <div className="flex justify-center mb-8">
                     <img src={src} alt="persona img" className="w-2/3" loading="lazy" />
