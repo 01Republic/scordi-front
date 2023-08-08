@@ -74,6 +74,26 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
     }, [post]);
 
     useEffect(() => {
+        form.setValue('content', '');
+        if (!post) return;
+
+        form.setValue('title', post.title);
+        form.setValue('content', post.content);
+        form.setValue('seoTitle', post.seoTitle);
+        form.setValue('seoDescription', post.seoDescription);
+        if (post.publishAt) {
+            form.setValue('publishAt', new Date(post.publishAt));
+        }
+        if (post.seoKeywords) {
+            form.setValue('seoKeywords', post.seoKeywords);
+        }
+        if (post.tags) {
+            const tagNames = post.tags.map((tag) => tag.name);
+            form.setValue('tagNames', tagNames);
+        }
+    }, [post]);
+
+    useEffect(() => {
         resetThumbnailUrl();
         resetTags();
         resetAuthors();
@@ -156,6 +176,7 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
                                 label="제목"
                                 inputClass="!bg-white !border-gray-300"
                                 {...form.register('title', {required: true})}
+                                required={true}
                             />
                         </div>
 
@@ -215,6 +236,7 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
                                 label="SEO 제목"
                                 inputClass="!bg-white !border-gray-300"
                                 {...form.register('seoTitle', {required: true})}
+                                required={true}
                             />
                         </div>
 
@@ -223,6 +245,7 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
                                 label="SEO 설명"
                                 inputClass="!bg-white !border-gray-300"
                                 {...form.register('seoDescription', {required: true})}
+                                required={true}
                             />
                         </div>
 

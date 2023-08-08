@@ -17,6 +17,17 @@ export type ApiErrorDto = {
 
 export class ApiError<T = ApiErrorDto, D = any> extends AxiosError<T, D> {}
 
+export function errorToast(e: ApiError) {
+    if (e.response) {
+        const message = e.response.data.message as string | string[];
+        if (message instanceof Array) {
+            message.forEach((msg) => toast.error(msg));
+        } else {
+            toast.error(message);
+        }
+    }
+}
+
 export const api = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BASE_API,
 });
