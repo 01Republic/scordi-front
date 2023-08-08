@@ -17,7 +17,11 @@ export const BlogPostDetailBody = memo(() => {
         <div className="article-body !pb-[90px]">
             <div className="blog-article-body-styles-of-element">
                 <div>
-                    <img src={post.thumbnailUrl} alt="thumbnail of this post" loading="lazy" draggable={false} />
+                    {post.thumbnailUrl ? (
+                        <img src={post.thumbnailUrl} alt="thumbnail of this post" loading="lazy" draggable={false} />
+                    ) : (
+                        <span className="text-gray-500 italic">unset</span>
+                    )}
                 </div>
 
                 <br />

@@ -6,7 +6,7 @@ export type PostDto = {
     id: number; // 게시글 ID
     title: string; // 제목
     content: string; // 본문
-    thumbnailUrl: string; // 썸네일이미지 주소
+    thumbnailUrl?: string | null; // 썸네일이미지 주소
     seoTitle: string; // SEO 제목
     seoDescription: string; // SEO 설명
     seoKeywords: string[] | null; // SEO 키워드
