@@ -6,7 +6,7 @@ export const Section1 = memo(() => {
     return (
         <HomePageSection sectionClass="bg-white">
             <div>
-                <h2 className="text-center text-4xl mb-[4rem]">
+                <h2 className="text-center text-[25px] sm:text-4xl mb-4 sm:mb-[4rem]">
                     스코디와 함께하면{' '}
                     <span className="block">
                         <span className="text-scordi">이만큼</span> 아낄 수 있어요

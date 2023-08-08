@@ -36,6 +36,8 @@ export const HomePageHeader = memo(() => {
                                             alt="make it easy"
                                             className="h-[1em]"
                                             loading="lazy"
+                                            draggable={false}
+                                            style={{transform: 'scaleX(-1)'}}
                                         />
                                     </span>
                                     spend
@@ -52,6 +54,8 @@ export const HomePageHeader = memo(() => {
                                             alt="make it easy"
                                             className="h-[1em]"
                                             loading="lazy"
+                                            draggable={false}
+                                            style={{transform: 'scaleX(-1)'}}
                                         />
                                     </span>
                                     바꾸다
