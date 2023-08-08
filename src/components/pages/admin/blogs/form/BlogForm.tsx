@@ -333,12 +333,20 @@ interface AuthorEditCardProps {
     author: PostAuthorDto;
 }
 
+enum SAVE_STATUS {
+    NO = 'no',
+    PENDING = 'pending',
+    SUCCESS = 'success',
+    FAILED = 'failed',
+}
+
 export const AuthorEditCard = memo(({author}: AuthorEditCardProps) => {
     // const form = useForm<UpdatePostAuthorByAdminDto>();
     const [name, setName] = useState(author.name);
     const [profileImg, setProfileImg] = useState(author.profileImg);
     const [introduce, setIntroduce] = useState(author.introduce);
     const [imgChanged, setImgChanged] = useState(false);
+    const [saveStatus, setSaveStatus] = useState<SAVE_STATUS>(SAVE_STATUS.NO);
 
     useEffect(() => {
         setName(author.name);
@@ -348,15 +356,25 @@ export const AuthorEditCard = memo(({author}: AuthorEditCardProps) => {
 
     const onSubmit = () => {
         const data = {name, profileImg, introduce};
+        setSaveStatus(SAVE_STATUS.PENDING);
         postAuthorManageApi
             .update(author.id, data)
-            .then(() => debounce(() => toast.success('Author info Successfully saved'), 1000))
-            .then(() => setImgChanged(false))
-            .catch(errorNotify);
+            .then(() => {
+                setSaveStatus(SAVE_STATUS.SUCCESS);
+                setTimeout(() => setSaveStatus(SAVE_STATUS.NO), 5000);
+            })
+            .catch(() => {
+                setSaveStatus(SAVE_STATUS.FAILED);
+            })
+            .finally(() => {
+                setImgChanged(false);
+            });
     };
 
     return (
-        <div className="card card-bordered bg-white card-compact rounded border-slate-300">
+        <div
+            className={`card card-bordered bg-white card-compact rounded border-slate-300 save-status save-status--${saveStatus}`}
+        >
             <div className="p-2 flex gap-2 items-start">
                 <div>
                     <label htmlFor={`author-${author.id}-profileImg`} className="cursor-pointer">

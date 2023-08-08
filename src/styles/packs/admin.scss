@@ -1,0 +1,65 @@
+.save-status {
+  position: relative;
+
+  &:before {
+    content: "";
+  }
+
+  &:after {
+    content: '';
+  }
+}
+
+.save-status--no {}
+
+.save-status--pending {
+  input, textarea {
+    background-color: #eee !important;
+    opacity: .75;
+  }
+
+  &:before {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid lightgrey;
+    border-top-color: blue;
+    -webkit-animation: spin 0.8s linear infinite;
+    animation: spin 0.8s linear infinite;
+  }
+}
+
+.save-status--success {
+  &:before {
+    content: '✔';
+    box-sizing: border-box;
+    position: absolute;
+    bottom: .75rem;
+    left: 1rem;
+    color: lightgreen;
+    animation: pulse .5s ease-in-out;
+  }
+
+  &:after {
+    content: '* 저장되었습니다.';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    font-size: 11px;
+  }
+}
+
+.save-status--failed {
+  &:after {
+    content: '* 문제가 발생했습니다.';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    font-size: 11px;
+  }
+}

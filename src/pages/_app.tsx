@@ -1,4 +1,5 @@
 import '../styles/packs/app.scss';
+import '../styles/packs/admin.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import 'react-date-range/dist/styles.css'; // main css file
@@ -21,7 +22,7 @@ function MyApp(props: Props) {
     return (
         <RecoilRoot>
             <Head>
-                <title>스코디 scordi - 서비스 결제 내역, 클릭 한 번으로 확인하세요</title>
+                <title>스코디 scordi - 사내 협업툴 구독 관리</title>
                 <meta charSet="utf-8" />
                 <meta
                     name="viewport"
