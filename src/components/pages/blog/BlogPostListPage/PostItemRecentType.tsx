@@ -18,7 +18,11 @@ export const PostItemRecentType = memo((props: PostItemProps) => {
         <div id={`post-${post.id}`} className={`blog-post-item w-full ${isPublished ? 'published' : 'not-published'}`}>
             <a href={link} className="w-full grid grid-cols-2 gap-8 items-center justify-between">
                 <div className="">
-                    <ThumbnailImg src={post.thumbnailUrl} alt={`${post.title}'s thumbnail`} />
+                    {post.thumbnailUrl ? (
+                        <ThumbnailImg src={post.thumbnailUrl} alt={`${post.title}'s thumbnail`} />
+                    ) : (
+                        <span className="text-gray-500 italic">unset</span>
+                    )}
                 </div>
 
                 <div className="flex flex-col items-start justify-start w-full h-full mr-[20px] sm:mr-0">

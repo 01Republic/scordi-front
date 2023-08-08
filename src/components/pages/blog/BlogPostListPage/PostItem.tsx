@@ -21,14 +21,18 @@ export const PostItem = memo((props: PostItemProps) => {
                             <div className="blog-post-item-img-hover-container w-full h-full overflow-hidden rounded-t-box">
                                 <div className="w-full h-full object-cover" style={{transform: 'translateZ(0)'}}>
                                     <span className="blog-post-item-img-wrapper">
-                                        <img
-                                            src={post.thumbnailUrl}
-                                            alt=""
-                                            draggable={false}
-                                            sizes="100vw"
-                                            decoding="async"
-                                            data-nimg="fill"
-                                        />
+                                        {post.thumbnailUrl ? (
+                                            <img
+                                                src={post.thumbnailUrl}
+                                                alt=""
+                                                draggable={false}
+                                                sizes="100vw"
+                                                decoding="async"
+                                                data-nimg="fill"
+                                            />
+                                        ) : (
+                                            <span className="text-gray-500 italic">unset</span>
+                                        )}
                                     </span>
                                 </div>
                             </div>
