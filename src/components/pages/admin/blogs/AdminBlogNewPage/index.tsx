@@ -5,18 +5,22 @@ import {useForm} from 'react-hook-form';
 import {CreatePostByAdminDto} from '^types/post.type';
 import {postManageApi} from '^api/post-manage.api';
 import {useRouter} from 'next/router';
-import {AdminPostPageRoute} from '^pages/admin/posts/[id]';
 import {BlogForm} from '../form/BlogForm';
-import {AdminEditPostPageRoute} from '^pages/admin/posts/[id]/edit';
+import {toast} from 'react-toastify';
+import {errorToast} from '^api/api';
 
 export const AdminBlogNewPage = memo(() => {
     const router = useRouter();
     const form = useForm<CreatePostByAdminDto>();
 
     const onSubmit = (data: CreatePostByAdminDto) => {
-        postManageApi.create(data).then((res) => {
-            router.replace(AdminEditPostPageRoute.path(res.data.id));
-        });
+        postManageApi
+            .create(data)
+            .then(async (res) => {
+                router.replace(AdminPostsPageRoute.path());
+                toast.success('Successfully Created!');
+            })
+            .catch(errorToast);
     };
 
     return (
