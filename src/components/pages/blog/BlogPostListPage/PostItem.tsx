@@ -70,6 +70,7 @@ export const PostItemOld = memo((props: PostItemProps) => {
 
     const link = PostDetailPageRoute.path(post.id);
     const isPublished = !!post.publishAt && dateIsBeforeThen(new Date(post.publishAt), new Date());
+    const defaultThumbnailUrl = 'https://scordi.io/logo-560.png';
 
     return (
         <div id={`post-${post.id}`} className={`blog-post-item w-full ${isPublished ? 'published' : 'not-published'}`}>
@@ -95,14 +96,18 @@ export const PostItemOld = memo((props: PostItemProps) => {
                             <div className="blog-post-item-img-hover-container w-full h-full overflow-hidden border rounded-[12px] sm:rounded-box">
                                 <div className="w-full h-full object-cover" style={{transform: 'translateZ(0)'}}>
                                     <span className="blog-post-item-img-wrapper">
-                                        <img
-                                            src={post.thumbnailUrl}
-                                            alt=""
-                                            draggable={false}
-                                            sizes="100vw"
-                                            decoding="async"
-                                            data-nimg="fill"
-                                        />
+                                        {post.thumbnailUrl ? (
+                                            <img
+                                                src={post.thumbnailUrl}
+                                                alt=""
+                                                draggable={false}
+                                                sizes="100vw"
+                                                decoding="async"
+                                                data-nimg="fill"
+                                            />
+                                        ) : (
+                                            <span className="text-gray-500 italic">unset</span>
+                                        )}
                                     </span>
                                 </div>
                             </div>

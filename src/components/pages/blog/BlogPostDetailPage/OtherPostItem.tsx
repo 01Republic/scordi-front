@@ -14,6 +14,7 @@ export const OtherPostItem = memo((props: OtherPostItemProps) => {
 
     const link = PostDetailPageRoute.path(post.id);
     const isPublished = !!post.publishAt && dateIsBeforeThen(new Date(post.publishAt), new Date());
+    const defaultThumbnailUrl = 'https://scordi.io/logo-560.png';
 
     return (
         <li>
@@ -23,15 +24,19 @@ export const OtherPostItem = memo((props: OtherPostItemProps) => {
                         <div className="blog-post-item-img-hover-container w-full h-full rounded-box">
                             <div className="w-full h-full object-cover" style={{transform: 'translateZ(0)'}}>
                                 <figure className="blog-post-item-img-wrapper rounded-box">
-                                    <img
-                                        src={post.thumbnailUrl}
-                                        alt=""
-                                        loading="lazy"
-                                        draggable={false}
-                                        sizes="100vw"
-                                        decoding="async"
-                                        data-nimg="fill"
-                                    />
+                                    {post.thumbnailUrl ? (
+                                        <img
+                                            src={post.thumbnailUrl}
+                                            alt=""
+                                            loading="lazy"
+                                            draggable={false}
+                                            sizes="100vw"
+                                            decoding="async"
+                                            data-nimg="fill"
+                                        />
+                                    ) : (
+                                        <span className="text-gray-500 italic">unset</span>
+                                    )}
                                 </figure>
                             </div>
                         </div>
