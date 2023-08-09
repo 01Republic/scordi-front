@@ -5,6 +5,8 @@ import {UserLoginRequestDto} from '^types/user.type';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {Modal} from '^components/Modal';
 import {GoogleLoginBtn} from './GoogleLoginBtn';
+import {TextInput} from '^components/TextInput';
+import {TesterLoginForm} from '^components/pages/UsersLogin/TesterLoginForm';
 
 export const UsersLoginPage = memo(() => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,8 +40,12 @@ export const UsersLoginPage = memo(() => {
                         <div>
                             <GoogleLoginBtn />
                         </div>
+                        <div></div>
                     </div>
                     {/*</form>*/}
+                </div>
+                <div className="mx-auto py-10 w-full max-w-md space-y-5">
+                    <TesterLoginForm />
                 </div>
             </GoogleOAuthProvider>
         </div>
