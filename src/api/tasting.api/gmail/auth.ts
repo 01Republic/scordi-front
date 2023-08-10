@@ -21,7 +21,7 @@ export function googleAuthForGmail(redirectPath?: string, locale?: string) {
     const baseUrl: string = 'https://accounts.google.com/o/oauth2/v2/auth';
     const redirectUrl = buildLocalePath(redirectPath, locale);
     const params = {
-        scope: 'email profile openid https://mail.google.com/ https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
+        scope: 'email profile openid https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
         access_type: 'offline',
         include_granted_scopes: true,
         response_type: 'code',
