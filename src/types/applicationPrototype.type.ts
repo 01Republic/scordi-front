@@ -44,7 +44,10 @@ export type CreateApplicationPrototypeRequestDto = {
     companyName: string; // 운영사명
     isAutoTrackable: boolean; // API 지원 여부
     isFreeTierAvailable: boolean; // 프리티어 지원 여부
+    connectMethod?: PrototypeConnectMethod; // 연동 방법
 };
+
+export type UpdateApplicationPrototypeRequestDto2 = Partial<CreateApplicationPrototypeRequestDto>;
 
 export type UpdateApplicationPrototypeRequestDto = Partial<CreateApplicationPrototypeRequestDto> & {
     name?: string; // 서비스명
