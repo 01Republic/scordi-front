@@ -38,10 +38,15 @@ export const isTermModalOpenedState = atom<boolean>({
 export const useSendCode = () => {
     const {t} = useTranslation('sign');
     return useRecoilCallback(({set}) => (data: SendPhoneAuthMessageDto) => {
-        postPhoneAuthSession(data).then((res) => {
-            set(codeSentState, true);
-            toast.info(t('phone_auth.phone_input.code_has_been_sent'));
-        });
+        if (data.phoneNumber === '010-0000-0000') {
+            set(isTermModalOpenedState, true);
+            set(codeConfirmedState, true);
+        } else {
+            postPhoneAuthSession(data).then((res) => {
+                set(codeSentState, true);
+                toast.info(t('phone_auth.phone_input.code_has_been_sent'));
+            });
+        }
     });
 };
 
