@@ -8,7 +8,7 @@ export const HomePageHeader = memo(() => {
 
     return (
         <section
-            className="bg-gray-100 py-[60px] sm:py-[100px] flex items-center justify-center"
+            className="bg-gray-100 py-[60px] sm:py-[60px] flex items-center justify-center"
             style={{minHeight: 'calc(100vh * 1/3)'}}
         >
             <div className="flex flex-col gap-6 sm:gap-12">
@@ -24,7 +24,7 @@ export const HomePageHeader = memo(() => {
 
                 {/* title */}
                 <div>
-                    <h1 className="text-[32px] sm:text-[5em] leading-[1.2em]">
+                    <h1 className="text-[32px] sm:text-[4em] leading-[1.2em]">
                         {router.locale == 'en' ? (
                             <>
                                 <span className="flex items-center justify-center">Start tracking your</span>
