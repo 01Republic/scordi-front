@@ -7,6 +7,7 @@ import {Modal} from '^components/Modal';
 import {GoogleLoginBtn} from './GoogleLoginBtn';
 import {TextInput} from '^components/TextInput';
 import {TesterLoginForm} from '^components/pages/UsersLogin/TesterLoginForm';
+import {LandingPageNavBar} from '^components/lab/landing-page-components';
 
 export const UsersLoginPage = memo(() => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,11 +33,31 @@ export const UsersLoginPage = memo(() => {
                     description={'Create a Google Account'}
                     buttons={[{text: 'Try again', onClick: () => setIsModalOpen(false)}]}
                 />
-                <div className={'mx-auto py-20 w-full max-w-md space-y-5'} style={{minHeight: '100vh'}}>
+                <LandingPageNavBar showLoginButton={true} fluid={true} className="sticky top-0 bg-white z-10" />
+
+                <div className={'mx-auto py-20 w-full max-w-md sm:max-w-lg space-y-5'} style={{minHeight: '100vh'}}>
                     {/*<form onSubmit={form.handleSubmit(submit)}>*/}
-                    <div className="p-4 m-auto">
-                        <h1 className="text-7xl  mb-8 font-bold">Login</h1>
-                        <h5 className="text-4xl  mb-32">You can join us with Google account ! </h5>
+                    <div className="p-4 m-auto text-center">
+                        {/*<img src="/logo-sign_in_page.png" alt="" />*/}
+                        <h1 className="text-3xl sm:text-5xl  mb-8 font-bold">스코디 시작하기</h1>
+                        <h5 className="text-lg sm:text-2xl mb-8">
+                            반가워요, 고객님!
+                            <span className="block">스코디를 이렇게 이용해보세요 🙂</span>
+                        </h5>
+                        <div className="pb-8">
+                            <div className="flex items-center justify-center rounded-box btn-lg bg-scordi-light-200 text-scordi-600 text-lg font-semibold shadow mb-6">
+                                📲 회사에서 이용중인 앱이 있다면 모두 등록 해주세요
+                            </div>
+
+                            <div className="flex items-center justify-center rounded-box btn-lg bg-scordi-light-200 text-scordi-600 text-lg font-semibold shadow mb-6">
+                                📨 구글 이메일로 1분만에 앱을 등록해서 관리 할 수 있어요
+                            </div>
+
+                            <div className="flex items-center justify-center rounded-box btn-lg bg-scordi-light-200 text-scordi-600 text-lg font-semibold shadow mb-6">
+                                👥 팀별로 어떤 앱을 쓰고 있는지 한 눈에 확인할 수 있어요
+                            </div>
+                        </div>
+
                         <div>
                             <GoogleLoginBtn />
                         </div>

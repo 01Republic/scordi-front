@@ -11,7 +11,7 @@ export const HomePageSection = memo((props: HomePageSectionProps) => {
 
     return (
         <section className={sectionClass}>
-            <div className={`container max-w-5xl px-4 sm:px-0 py-[100px] ${containerClass}`}>{children}</div>
+            <div className={`container max-w-5xl px-4 sm:px-0 py-[60px] ${containerClass}`}>{children}</div>
         </section>
     );
 });

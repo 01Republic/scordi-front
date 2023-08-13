@@ -98,30 +98,30 @@ export const BetaServiceFooter = memo(() => {
                         imgSrc="/home/icons/footer-icons/linked_in-g-80_80.png"
                         imgSrcHover="/home/icons/footer-icons/linked_in-p-80_80.png"
                     />
-                    <SocialIcon
-                        name="Scordi Facebook"
-                        href="https://www.facebook.com/profile.php?id=100092455911269"
-                        imgSrc="/home/icons/footer-icons/facebook-g-80_80.png"
-                        imgSrcHover="/home/icons/footer-icons/facebook-p-80_80.png"
-                    />
+                    {/*<SocialIcon*/}
+                    {/*    name="Scordi Facebook"*/}
+                    {/*    href="https://www.facebook.com/profile.php?id=100092455911269"*/}
+                    {/*    imgSrc="/home/icons/footer-icons/facebook-g-80_80.png"*/}
+                    {/*    imgSrcHover="/home/icons/footer-icons/facebook-p-80_80.png"*/}
+                    {/*/>*/}
                     <SocialIcon
                         name="Scordi Naver blog"
                         href="https://blog.naver.com/saas_scordi"
                         imgSrc="/home/icons/footer-icons/naver_blog-g-80_80.png"
                         imgSrcHover="/home/icons/footer-icons/naver_blog-p-80_80.png"
                     />
-                    <SocialIcon
-                        name="Scordi Medium"
-                        href="https://medium.com/@official_82899"
-                        imgSrc="/home/icons/footer-icons/medium-g-80_80.png"
-                        imgSrcHover="/home/icons/footer-icons/medium-p-80_80.png"
-                    />
-                    <SocialIcon
-                        name="Scordi Youtube"
-                        href="https://youtube.com/@01republic"
-                        imgSrc="/home/icons/footer-icons/youtube-g-80_80.png"
-                        imgSrcHover="/home/icons/footer-icons/youtube-p-80_80.png"
-                    />
+                    {/*<SocialIcon*/}
+                    {/*    name="Scordi Medium"*/}
+                    {/*    href="https://medium.com/@official_82899"*/}
+                    {/*    imgSrc="/home/icons/footer-icons/medium-g-80_80.png"*/}
+                    {/*    imgSrcHover="/home/icons/footer-icons/medium-p-80_80.png"*/}
+                    {/*/>*/}
+                    {/*<SocialIcon*/}
+                    {/*    name="Scordi Youtube"*/}
+                    {/*    href="https://youtube.com/@01republic"*/}
+                    {/*    imgSrc="/home/icons/footer-icons/youtube-g-80_80.png"*/}
+                    {/*    imgSrcHover="/home/icons/footer-icons/youtube-p-80_80.png"*/}
+                    {/*/>*/}
                 </ul>
 
                 <div>
