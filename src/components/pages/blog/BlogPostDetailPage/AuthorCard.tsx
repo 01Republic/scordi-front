@@ -26,8 +26,8 @@ export const AuthorCard = memo((props: AuthorCardProps) => {
                 </div>
 
                 <div className="flex-1">
-                    <h2 className="text-xl">{author.name}</h2>
-                    <p className="w-full whitespace-pre-wrap">{author.introduce}</p>
+                    <h2 className="text-xl mb-[1em]">{author.name}</h2>
+                    <p className="text-[18px] leading-[1.6] w-full whitespace-pre-wrap">{author.introduce}</p>
                 </div>
             </div>
         </div>

@@ -2,7 +2,7 @@ import {memo} from 'react';
 
 export const BlogPostListHeader = memo(() => {
     return (
-        <div className="blog-container blog-container--default pt-[110px] sm:pt-[158px]">
+        <div className="blog-container blog-container--default pt-[80px]">
             <div className="blog-container--inner">
                 <h1 className="text-center font-[600] text-gray-800 leading-[1.4] text-[28px] sm:text-[52px]">
                     성장하는 팀에 꼭 필요한 정보, <br />

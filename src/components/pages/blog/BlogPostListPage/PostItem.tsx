@@ -5,15 +5,16 @@ import {dateIsBeforeThen, yyyy_mm_dd} from '^utils/dateTime';
 
 interface PostItemProps {
     post: PostDto;
+    className?: string;
 }
 
 export const PostItem = memo((props: PostItemProps) => {
-    const {post} = props;
+    const {post, className = ''} = props;
     const link = PostDetailPageRoute.path(post.id);
     const isPublished = !!post.publishAt && dateIsBeforeThen(new Date(post.publishAt), new Date());
 
     return (
-        <a href={link}>
+        <a href={link} className={className}>
             <div className="card card-compact card-bordered h-full hover:shadow">
                 <div className="">
                     <div className="w-full relative h-0 pt-[67.5%]">
