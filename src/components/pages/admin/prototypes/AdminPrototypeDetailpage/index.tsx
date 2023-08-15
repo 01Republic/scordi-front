@@ -6,8 +6,9 @@ import {useRouter} from 'next/router';
 import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
 import {applicationPrototypeApi} from '^api/applicationPrototype.api';
 import {ContentTabNav} from '^layouts/ContentLayout';
-import {PrototypeInfoTabContent} from 'src/components/pages/admin/prototypes/AdminPrototypeDetailpage/PrototypeInfoTabContent';
-import {PrototypeSettingTabContent} from 'src/components/pages/admin/prototypes/AdminPrototypeDetailpage/PrototypeSettingTabContent';
+import {EditPrototypeDetail} from '^components/pages/admin/prototypes/AdminPrototypeDetailpage/MenuContents/EditPrototypeDetail';
+import {EditPrototypePost} from '^components/pages/admin/prototypes/AdminPrototypeDetailpage/MenuContents/EditPrototypePost';
+import {EditPrototypePlanCycle} from '^components/pages/admin/prototypes/AdminPrototypeDetailpage/MenuContents/EditPrototypePlanCycle';
 
 export const adminPrototypeDetail = atom<ApplicationPrototypeDto | null>({
     key: 'adminPrototypeDetail',
@@ -22,24 +23,24 @@ export const navTabIndex = atom({
 export const AdminPrototypeDetailPage = memo(() => {
     const router = useRouter();
     const prototypeId = Number(router.query.id);
-    const [prototype, setPrototype] = useRecoilState(adminPrototypeDetail);
-    const tabIndex = useRecoilValue(navTabIndex);
+    const [_, setPrototype] = useRecoilState(adminPrototypeDetail);
 
     useEffect(() => {
         if (!prototypeId || isNaN(prototypeId)) return;
         applicationPrototypeApi.show(prototypeId).then((res) => setPrototype(res.data));
     }, [prototypeId]);
 
-    if (!prototype) return <>Prototype(#{router.query.id}) Not Found.</>;
-
+    const tabIndex = useRecoilValue(navTabIndex);
     const tabs = [
-        {label: '기본정보', Component: PrototypeInfoTabContent},
-        {label: '설정', Component: PrototypeSettingTabContent},
+        {label: '정보', Component: EditPrototypeDetail},
+        {label: '소개', Component: EditPrototypePost},
+        {label: '구독 관리', Component: Fragment},
+        {label: '크롤링 이력 조회', Component: Fragment},
         //
     ];
-
     const TabContentComponent = tabs[tabIndex]?.Component || Fragment;
 
+    if (!prototypeId) return <>Prototype(id: #{prototypeId}) Not Found.</>;
     return (
         <AdminDetailPageLayout
             title="앱 상세"

@@ -1,6 +1,7 @@
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {ApplicationPaymentPlanDto} from '^types/applicationPaymentPlan.type';
 import {ApplicationBillingCycleDto} from '^types/applicationBillingCycle.type';
+import {PostDto} from '^types/post.type';
 
 export enum PrototypeConnectMethod {
     AUTO = 'AUTO',
@@ -30,6 +31,7 @@ export type ApplicationPrototypeDto = {
     paymentPlans: ApplicationPaymentPlanDto[];
     billingCycles: ApplicationBillingCycleDto[];
     connectMethod: PrototypeConnectMethod | string;
+    posts: PostDto[];
 };
 
 export type CreateApplicationPrototypeRequestDto = {
@@ -44,7 +46,10 @@ export type CreateApplicationPrototypeRequestDto = {
     companyName: string; // 운영사명
     isAutoTrackable: boolean; // API 지원 여부
     isFreeTierAvailable: boolean; // 프리티어 지원 여부
+    connectMethod?: PrototypeConnectMethod; // 연동 방법
 };
+
+export type UpdateApplicationPrototypeRequestDto2 = Partial<CreateApplicationPrototypeRequestDto>;
 
 export type UpdateApplicationPrototypeRequestDto = Partial<CreateApplicationPrototypeRequestDto> & {
     name?: string; // 서비스명

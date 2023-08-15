@@ -9,6 +9,7 @@ import {useGoogleAccessTokenCallback} from '^hooks/useGoogleAccessToken';
 import {createInvoiceAccount, getInvoiceAccounts, syncInvoiceAccount} from '^api/invoiceAccount.api';
 import {GmailAgent} from '^api/tasting.api';
 import {getCreateInvoiceAccountFromTo} from '^types/invoiceAccount.type';
+import {toast} from 'react-toastify';
 
 export const V3OrgHomePageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]',
@@ -43,6 +44,11 @@ export default function V3OrgHomePage() {
         if (!orgId) return;
         // 청구메일 추가 콜백으로부터 리디렉션 된 경우가 아니라면 accessTokenData 는 null 입니다.
         if (!accessTokenData) return;
+
+        if (!accessTokenData.scope.includes('https://mail.google.com')) {
+            toast.error('에러가 발생했습니다. 다시 한 번 추가해주세요!');
+            return;
+        }
 
         const gmailAgent = new GmailAgent(accessTokenData);
 

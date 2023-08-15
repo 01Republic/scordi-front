@@ -35,6 +35,7 @@ export type CreatePostByAdminDto = {
     publishAt?: Date; // 발행일시
     tagNames?: string[] | null; // 태그명 목록
     authorIds?: number[] | null; // 작성자 ID 목록
+    prototypeId?: number; // 프로토타입 ID
 };
 
 export type UpdatePostByAdminDto = Partial<CreatePostByAdminDto> & {};
