@@ -29,6 +29,7 @@ export type CreatePostByAdminDto = {
     seoKeywords?: string[]; // SEO 키워드
     thumbnailImage?: File; // 썸네일이미지
     publishAt?: Date; // 발행일시
+    prototypeId?: number; // 프로토타입 ID
 };
 
 export type UpdatePostByAdminDto = Partial<CreatePostByAdminDto> & {};

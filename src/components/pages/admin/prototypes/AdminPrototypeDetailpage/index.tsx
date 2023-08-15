@@ -7,7 +7,7 @@ import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
 import {applicationPrototypeApi} from '^api/applicationPrototype.api';
 import {ContentTabNav} from '^layouts/ContentLayout';
 import {EditPrototypeDetail} from '^components/pages/admin/prototypes/AdminPrototypeDetailpage/MenuContents/EditPrototypeDetail';
-import {EditPrototypeIntroduce} from '^components/pages/admin/prototypes/AdminPrototypeDetailpage/MenuContents/EditPrototypeIntroduce';
+import {EditPrototypePost} from '^components/pages/admin/prototypes/AdminPrototypeDetailpage/MenuContents/EditPrototypePost';
 import {EditPrototypePlanCycle} from '^components/pages/admin/prototypes/AdminPrototypeDetailpage/MenuContents/EditPrototypePlanCycle';
 
 export const adminPrototypeDetail = atom<ApplicationPrototypeDto | null>({
@@ -33,7 +33,7 @@ export const AdminPrototypeDetailPage = memo(() => {
     const tabIndex = useRecoilValue(navTabIndex);
     const tabs = [
         {label: '정보', Component: EditPrototypeDetail},
-        {label: '소개', Component: EditPrototypeIntroduce},
+        {label: '소개', Component: EditPrototypePost},
         {label: '구독 관리', Component: Fragment},
         {label: '크롤링 이력 조회', Component: Fragment},
         //

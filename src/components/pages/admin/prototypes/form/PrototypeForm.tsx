@@ -55,7 +55,7 @@ export const PrototypeForm = (props: CreatePrototypeFormProps | UpdatePrototypeF
         form.setValue('connectMethod', prototype.connectMethod as PrototypeConnectMethod); // 연동방법
         form.setValue('isAutoTrackable', prototype.isAutoTrackable); // API 지원 여부
         form.setValue('isFreeTierAvailable', prototype.isFreeTierAvailable); // 프리티어 지원 여부
-        form.setValue('desc', prototype.desc); // 설명
+        form.setValue('desc', prototype.desc); // 비고
     }, [prototype]);
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -118,6 +118,13 @@ export const PrototypeForm = (props: CreatePrototypeFormProps | UpdatePrototypeF
                             text="앱 이름과 함께 검색어로 등록할 키워드들을 쉼표(,) 로 구분하여 입력해주세요."
                         >
                             <TextInput placeholder="ex. Github,깃헙,깃허브,git" {...form.register('searchText')} />
+                        </ContentPanelInput>
+
+                        <ContentPanelInput title="Note" text="프로모션과 같이 메모할 정보들을 입력해주세요.">
+                            <TextInput
+                                placeholder="ex. 첫 6개월 구독 시 50% 할인 정보 공유할 것"
+                                {...form.register('desc')}
+                            />
                         </ContentPanelInput>
 
                         <ContentPanelInput title="API Supported?" text="API 지원 여부">

@@ -1,6 +1,7 @@
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {ApplicationPaymentPlanDto} from '^types/applicationPaymentPlan.type';
 import {ApplicationBillingCycleDto} from '^types/applicationBillingCycle.type';
+import {PostDto} from '^types/post.type';
 
 export enum PrototypeConnectMethod {
     AUTO = 'AUTO',
@@ -30,6 +31,7 @@ export type ApplicationPrototypeDto = {
     paymentPlans: ApplicationPaymentPlanDto[];
     billingCycles: ApplicationBillingCycleDto[];
     connectMethod: PrototypeConnectMethod | string;
+    posts: PostDto[];
 };
 
 export type CreateApplicationPrototypeRequestDto = {
