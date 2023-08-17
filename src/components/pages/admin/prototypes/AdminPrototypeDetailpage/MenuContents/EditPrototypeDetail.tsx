@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {useForm} from 'react-hook-form';
 import {UpdateApplicationPrototypeRequestDto} from '^types/applicationPrototype.type';
-import {updateApplicationPrototype} from '^api/applicationPrototype.api';
+import {applicationPrototypeApi} from '^api/applicationPrototype.api';
 import {toast} from 'react-toastify';
 import {adminPrototypeDetail} from '^components/pages/admin/prototypes/AdminPrototypeDetailpage';
 import {useRecoilState} from 'recoil';
@@ -13,7 +13,7 @@ export const EditPrototypeDetail = memo(() => {
 
     const onSubmit = (data: UpdateApplicationPrototypeRequestDto) => {
         if (!prototype) return;
-        updateApplicationPrototype(prototype.id, data).then((res) => {
+        applicationPrototypeApi.update(prototype.id, data).then((res) => {
             if (res.status === 200) {
                 setPrototype(res.data);
                 toast.success('Successfully Updated.');
@@ -21,5 +21,5 @@ export const EditPrototypeDetail = memo(() => {
         });
     };
 
-    return <PrototypeForm form={form} onSubmit={onSubmit} prototype={prototype ?? undefined}></PrototypeForm>;
+    return <PrototypeForm form={form} onSubmit={onSubmit} prototype={prototype ?? null}></PrototypeForm>;
 });

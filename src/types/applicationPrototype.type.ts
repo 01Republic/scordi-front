@@ -2,6 +2,7 @@ import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {ApplicationPaymentPlanDto} from '^types/applicationPaymentPlan.type';
 import {ApplicationBillingCycleDto} from '^types/applicationBillingCycle.type';
 import {PostDto} from '^types/post.type';
+import {TagDto} from '^types/tag.type';
 
 export enum PrototypeConnectMethod {
     AUTO = 'AUTO',
@@ -31,16 +32,18 @@ export type ApplicationPrototypeDto = {
     paymentPlans: ApplicationPaymentPlanDto[];
     billingCycles: ApplicationBillingCycleDto[];
     connectMethod: PrototypeConnectMethod | string;
+    tags: TagDto[];
     posts: PostDto[];
 };
 
 export type CreateApplicationPrototypeRequestDto = {
     name: string; // 서비스명
+    tagline: string; // 요약
+    tagIds: number[]; // tag ID 목록
     desc?: string; // 설명
     searchText?: string; // 검색키워드
     image?: string; // 이미지 url
     imageFile?: File; // 이미지 file
-    tagline: string; // Tagline
     homepageUrl: string; // Homepage url
     pricingPageUrl: string; // Pricing Page url
     companyName: string; // 운영사명
@@ -48,8 +51,6 @@ export type CreateApplicationPrototypeRequestDto = {
     isFreeTierAvailable: boolean; // 프리티어 지원 여부
     connectMethod?: PrototypeConnectMethod; // 연동 방법
 };
-
-export type UpdateApplicationPrototypeRequestDto2 = Partial<CreateApplicationPrototypeRequestDto>;
 
 export type UpdateApplicationPrototypeRequestDto = Partial<CreateApplicationPrototypeRequestDto> & {
     name?: string; // 서비스명

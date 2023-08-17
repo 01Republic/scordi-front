@@ -60,13 +60,20 @@ export const applicationPrototypeApi = {
     create(data: CreateApplicationPrototypeRequestDto) {
         const url = `/${NAMESPACE}`;
         const headers = {'Content-Type': 'multipart/form-data'};
-        return api.post<ApplicationPrototypeDto>(url, data, {headers});
+        const body = {...data};
+        // @ts-ignore
+        if (data.tagIds) body.tagIds = data.tagIds.join(',');
+        return api.post<ApplicationPrototypeDto>(url, body, {headers});
     },
 
     update(id: number, data: UpdateApplicationPrototypeRequestDto) {
         const url = `/${NAMESPACE}/${id}`;
         const headers = {'Content-Type': 'multipart/form-data'};
-        return api.patch<ApplicationPrototypeDto>(url, data, {headers});
+        const body = {...data};
+        // @ts-ignore
+        if (data.tagIds) body.tagIds = data.tagIds.join(',');
+        console.log(body.tagIds);
+        return api.patch<ApplicationPrototypeDto>(url, body, {headers});
     },
 
     destroy(id: number) {

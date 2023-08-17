@@ -1,26 +1,19 @@
 import {
     ApplicationPrototypeDto,
     CreateApplicationPrototypeRequestDto as CreateDto,
-    UpdateApplicationPrototypeRequestDto2 as UpdateDto,
     PrototypeConnectMethod,
-    UpdateApplicationPrototypeRequestDto2,
+    UpdateApplicationPrototypeRequestDto as UpdateDto,
 } from '^types/applicationPrototype.type';
 import {UseFormReturn} from 'react-hook-form';
 import {TextInput} from '^components/TextInput';
 import React, {memo, useEffect, useState} from 'react';
-import {
-    ContentForm,
-    ContentPanel,
-    ContentPanelInput,
-    ContentPanelItem,
-    ContentPanelItemText,
-    ContentPanelItemTitle,
-    ContentPanelList,
-} from '^layouts/ContentLayout';
+import {ContentForm, ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/ContentLayout';
 import {ProfileImageFileInput} from '^components/ProfileImageFileInput';
-import {applicationPrototypeApi} from '^api/applicationPrototype.api';
-import {AdminPrototypeListPage} from '^components/pages/admin/prototypes/AdminPrototypeListPage';
 import {PrototypeDeletePanel} from '^components/pages/admin/prototypes/form/PrototypeDeletePanel';
+import {MultiSelect, Option, Option as SelectOption} from '^components/util/select/MultiSelect';
+import {useTagSearch} from '^hooks/useTags';
+import {TagDto, TagGroup} from '^types/tag.type';
+import {MultiValue, ActionMeta} from 'react-select';
 
 interface CreatePrototypeFormProps {
     form: UseFormReturn<CreateDto>;
@@ -30,13 +23,23 @@ interface CreatePrototypeFormProps {
 interface UpdatePrototypeFormProps {
     form: UseFormReturn<UpdateDto>;
     onSubmit: (data: UpdateDto) => any;
-    prototype?: ApplicationPrototypeDto;
+    prototype: ApplicationPrototypeDto | null;
 }
+
+/**
+ * TODO (리팩토링)
+ * 1. 해당 form component에서 Tag State 관리를 분리하기
+ * 2. Tag state와 Multi Select가 종속적, 이 둘을 분리하거나 아예 하나의 모듈로 합쳐서 다루기
+ */
 
 export const PrototypeForm = (props: CreatePrototypeFormProps | UpdatePrototypeFormProps) => {
     const {form, onSubmit} = props;
     const prototype = 'prototype' in props ? props.prototype : null;
+    const [tags, setTags] = useState<TagDto[]>([]);
+    const [tagSearchResult, setTagSearchResult] = useState<TagDto[]>([]);
+    const {search, createByName} = useTagSearch(TagGroup.Application);
 
+    // set loaded prototype data on form
     useEffect(() => {
         if (!prototype) {
             form.setValue('desc', '');
@@ -58,6 +61,87 @@ export const PrototypeForm = (props: CreatePrototypeFormProps | UpdatePrototypeF
         form.setValue('desc', prototype.desc); // 비고
     }, [prototype]);
 
+    // set loaded prototype's tag data on form & tag state
+    useEffect(() => {
+        if (!prototype) return;
+        if (prototype?.tags?.length === 0) return;
+
+        const ids = prototype.tags.map((tag) => tag.id);
+
+        setTags(prototype.tags);
+        form.setValue('tagIds', ids);
+    }, [prototype?.tags]);
+
+    const selectOptionMapper = (tag: TagDto): SelectOption => {
+        return {label: tag.name, value: tag.name};
+    };
+
+    const searchTagOptions = async (input: string) => {
+        const params = input ? {where: {name: input}} : {};
+        const tags = await search(params);
+
+        setTagSearchResult(tags);
+
+        return tags.map(selectOptionMapper);
+    };
+
+    const onSelectTag = async (options: MultiValue<Option>, actionType?: ActionMeta<Option>) => {
+        const addTag = (tag: TagDto) => {
+            const oldIds = form.getValues().tagIds ?? [];
+            form.setValue('tagIds', [...oldIds, tag.id]);
+            setTags((old) => [...old, tag]);
+        };
+
+        const removeTag = (tag: TagDto) => {
+            const oldIds = form.getValues().tagIds ?? [];
+            const filteredIds = oldIds.filter((id) => id !== tag.id);
+
+            form.setValue('tagIds', filteredIds);
+            setTags((oldTags) => oldTags.filter((oldTag) => oldTag.id !== tag.id));
+        };
+
+        switch (actionType?.action) {
+            case 'create-option':
+                const newOption = actionType.option;
+                if (!newOption.__isNew__) return;
+
+                const newTag = await createByName(newOption.value);
+
+                addTag(newTag);
+                break;
+
+            case 'select-option':
+                const selectedOption = actionType.option;
+                if (!selectedOption) return;
+
+                const tag = tagSearchResult.find((tag) => tag.name === selectedOption.value);
+                if (!tag) return;
+
+                addTag(tag);
+                break;
+
+            case 'remove-value':
+                const {removedValue} = actionType;
+                if (!removedValue) return;
+
+                const targetTag = tags.find((tag) => tag.name === removedValue.value);
+                if (!targetTag) return;
+                removeTag(targetTag);
+                break;
+
+            case 'clear':
+                const {removedValues} = actionType;
+                if (removedValues.length > 0) {
+                    form.setValue('tagIds', []);
+                    setTags([]);
+                }
+                break;
+
+            default:
+                break;
+        }
+    };
+
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const formSubmit = form.handleSubmit(onSubmit);
@@ -72,6 +156,14 @@ export const PrototypeForm = (props: CreatePrototypeFormProps | UpdatePrototypeF
                                 required={true}
                                 placeholder="ex. Github"
                                 {...form.register('name', {required: true})}
+                            />
+                        </ContentPanelInput>
+
+                        <ContentPanelInput title="Category" required={true}>
+                            <MultiSelect
+                                value={tags.map(selectOptionMapper)}
+                                loadOptions={searchTagOptions}
+                                onChange={onSelectTag}
                             />
                         </ContentPanelInput>
 
