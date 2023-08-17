@@ -47,3 +47,8 @@ export const billingHistoryIdParamState = atom({
     key: 'billingHistoryIdParamState',
     default: NaN,
 });
+
+export const tagIdParamState = atom({
+    key: 'tagIdParamState',
+    default: NaN,
+});
