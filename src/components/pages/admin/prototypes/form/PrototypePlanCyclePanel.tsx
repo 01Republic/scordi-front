@@ -1,14 +1,14 @@
 import {Fragment, memo} from 'react';
 import {ContentPanel, ContentTable} from '^layouts/ContentLayout';
 import {t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
-import {useRecoilState} from 'recoil';
-import {adminPrototypeDetail} from '^components/pages/admin/prototypes/AdminPrototypeDetailpage';
+import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
 
-export const EditPrototypePlanCycle = memo(() => {
-    const [prototype] = useRecoilState(adminPrototypeDetail);
+interface PrototypePlanCyclePanelProps {
+    prototype: ApplicationPrototypeDto;
+}
 
-    if (!prototype) return <></>;
-
+export const PrototypePlanCyclePanel = memo((props: PrototypePlanCyclePanelProps) => {
+    const {prototype} = props;
     const {paymentPlans} = prototype;
 
     return (

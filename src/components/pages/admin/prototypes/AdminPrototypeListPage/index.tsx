@@ -66,6 +66,13 @@ export const AdminPrototypeListPage = memo(() => {
                                 render: (prototype) => <DefaultColumn value={prototype.name} />,
                             },
                             {
+                                th: 'category',
+                                className: 'hidden lg:block',
+                                render: (prototype) => (
+                                    <DefaultColumn value={prototype.tags.map((tag) => tag.name).join(', ')} />
+                                ),
+                            },
+                            {
                                 th: 'summary',
                                 className: 'hidden lg:block',
                                 render: (prototype) => <DefaultColumn value={prototype.tagline} />,
@@ -74,11 +81,6 @@ export const AdminPrototypeListPage = memo(() => {
                                 th: 'homepage',
                                 className: 'hidden lg:block',
                                 render: (prototype) => <DefaultColumn value={prototype.homepageUrl} />,
-                            },
-                            {
-                                th: 'pricing page',
-                                className: 'hidden lg:block',
-                                render: (prototype) => <DefaultColumn value={prototype.pricingPageUrl} />,
                             },
                             {
                                 th: '',

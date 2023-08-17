@@ -14,6 +14,7 @@ import {MultiSelect, Option, Option as SelectOption} from '^components/util/sele
 import {useTagSearch} from '^hooks/useTags';
 import {TagDto, TagGroup} from '^types/tag.type';
 import {MultiValue, ActionMeta} from 'react-select';
+import {PrototypePlanCyclePanel} from '^components/pages/admin/prototypes/form/PrototypePlanCyclePanel';
 
 interface CreatePrototypeFormProps {
     form: UseFormReturn<CreateDto>;
@@ -237,7 +238,7 @@ export const PrototypeForm = (props: CreatePrototypeFormProps | UpdatePrototypeF
                     </ContentPanelList>
                 </ContentPanel>
             </ContentForm>
-
+            {prototype && <PrototypePlanCyclePanel prototype={prototype} />}
             {prototype && <PrototypeDeletePanel prototype={prototype} />}
         </div>
     );
