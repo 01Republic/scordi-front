@@ -1,6 +1,6 @@
 import React from 'react';
 import AsyncCreatableSelect from 'react-select/async-creatable';
-import {MultiValue, ActionMeta} from 'react-select';
+import {MultiValue, ActionMeta, StylesConfig} from 'react-select';
 
 export interface Option {
     value: any;
@@ -12,9 +12,10 @@ interface MultiSelectProps {
     value: Option[];
     loadOptions: (inputValue: string) => Promise<Option[]>;
     onChange: (options: MultiValue<Option>, action?: ActionMeta<Option>) => any;
+    style?: StylesConfig<Option>;
 }
 
-export const MultiSelect = ({value, loadOptions, onChange}: MultiSelectProps) => {
+export const MultiSelect = ({value, loadOptions, onChange, style}: MultiSelectProps) => {
     return (
         <AsyncCreatableSelect
             isMulti
@@ -26,6 +27,7 @@ export const MultiSelect = ({value, loadOptions, onChange}: MultiSelectProps) =>
             onChange={(newValue, actionMeta) => onChange(newValue, actionMeta)}
             isClearable={true}
             backspaceRemovesValue={true}
+            styles={style}
         />
     );
 };

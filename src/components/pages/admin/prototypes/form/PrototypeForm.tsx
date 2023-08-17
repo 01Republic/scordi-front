@@ -13,7 +13,7 @@ import {PrototypeDeletePanel} from '^components/pages/admin/prototypes/form/Prot
 import {MultiSelect, Option, Option as SelectOption} from '^components/util/select/MultiSelect';
 import {useTagSearch} from '^hooks/useTags';
 import {TagDto, TagGroup} from '^types/tag.type';
-import {MultiValue, ActionMeta} from 'react-select';
+import {MultiValue, ActionMeta, StylesConfig} from 'react-select';
 import {PrototypePlanCyclePanel} from '^components/pages/admin/prototypes/form/PrototypePlanCyclePanel';
 
 interface CreatePrototypeFormProps {
@@ -84,6 +84,16 @@ export const PrototypeForm = (props: CreatePrototypeFormProps | UpdatePrototypeF
         setTagSearchResult(tags);
 
         return tags.map(selectOptionMapper);
+    };
+
+    const multiSelectStyle: StylesConfig<Option> = {
+        control: (styles) => ({
+            ...styles,
+            backgroundColor: 'rgb(248 250 252 / 1)',
+            borderColor: 'rgb(241 245 249 / 1)',
+            height: '3rem',
+            borderWidth: '1px',
+        }),
     };
 
     const onSelectTag = async (options: MultiValue<Option>, actionType?: ActionMeta<Option>) => {
@@ -165,6 +175,7 @@ export const PrototypeForm = (props: CreatePrototypeFormProps | UpdatePrototypeF
                                 value={tags.map(selectOptionMapper)}
                                 loadOptions={searchTagOptions}
                                 onChange={onSelectTag}
+                                style={multiSelectStyle}
                             />
                         </ContentPanelInput>
 
