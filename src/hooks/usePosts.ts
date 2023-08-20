@@ -1,7 +1,8 @@
 import {useRecoilState} from 'recoil';
 import {getPostListQueryAtom, getPostListResultAtom, postAtom, recentPostAtom} from '^atoms/posts.atom';
-import {FindAllPostQueryDto} from '^types/post.type';
+import {FindAllPostQueryDto, PostDto} from '^types/post.type';
 import {postApi} from '^api/post.api';
+import {useEffect} from 'react';
 
 export const usePosts = () => {
     const [result, setResult] = useRecoilState(getPostListResultAtom);
@@ -30,8 +31,10 @@ export const useRecentPost = () => {
     return {data: post, load};
 };
 
-export const usePost = () => {
+export const usePost = (postData?: PostDto) => {
     const [post, setPost] = useRecoilState(postAtom);
+
+    if (postData) setPost(postData);
 
     const getPost = async (id: number) => {
         postApi
@@ -42,5 +45,5 @@ export const usePost = () => {
             });
     };
 
-    return {post, getPost};
+    return {post, getPost, setPost};
 };

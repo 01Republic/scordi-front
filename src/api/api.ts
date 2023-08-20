@@ -5,7 +5,7 @@ import {UserSignUpPageRoute} from '^pages/users/signup';
 import {toast} from 'react-toastify';
 
 export const SIGNED_TOKEN_STORAGE_KEY = 'token';
-export const getToken = () => localStorage.getItem(SIGNED_TOKEN_STORAGE_KEY);
+export const getToken = () => typeof window !== 'undefined' && localStorage.getItem(SIGNED_TOKEN_STORAGE_KEY);
 export const setToken = (token: string) => localStorage.setItem(SIGNED_TOKEN_STORAGE_KEY, token);
 export const removeToken = () => localStorage.removeItem(SIGNED_TOKEN_STORAGE_KEY);
 
@@ -56,7 +56,7 @@ api.interceptors.request.use((config) => {
 });
 
 api.interceptors.response.use(undefined, (error: AxiosError<ApiErrorDto>) => {
-    console.log(window.location.pathname);
+    // console.log(window.location.pathname);
 
     const {response} = error;
     if (!response || !response.data) {
@@ -76,7 +76,7 @@ api.interceptors.response.use(undefined, (error: AxiosError<ApiErrorDto>) => {
         //         window.location.assign('/admin/login');
         //     });
         alert('[401] Login required.');
-        window.location.assign(UserLoginPageRoute.path());
+        typeof window !== 'undefined' && window.location.assign(UserLoginPageRoute.path());
     }
     // toast.error(error.response.data.message.toString());
     console.log(response?.data?.message?.toString());

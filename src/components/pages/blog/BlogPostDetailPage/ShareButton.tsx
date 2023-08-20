@@ -1,13 +1,17 @@
-import {memo} from 'react';
+import {memo, useEffect} from 'react';
 import {usePost} from '^hooks/usePosts';
 import {BiLink} from 'react-icons/bi';
 import {toast} from 'react-toastify';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+import {isPageLoadedAtom, PostDetailPageRoute} from '^pages/posts/[id]';
+import {useRecoilValue} from 'recoil';
 
 export const ShareButton = memo(() => {
     const {post} = usePost();
+    const isLoaded = useRecoilValue(isPageLoadedAtom);
 
     if (!post) return <></>;
+    if (!isLoaded) return <></>;
 
     const showToast = () => {
         toast.info('복사되었습니다.', {
@@ -16,7 +20,7 @@ export const ShareButton = memo(() => {
     };
 
     return (
-        <CopyToClipboard text={window.location.href} onCopy={() => showToast()}>
+        <CopyToClipboard text={PostDetailPageRoute.path(post.id)} onCopy={() => showToast()}>
             <button className="btn">
                 <BiLink size={18} />
                 <span>공유하기</span>
