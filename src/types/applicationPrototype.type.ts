@@ -17,6 +17,7 @@ export type ApplicationPrototypeDto = {
     desc: string;
     image: string;
     tagline: string; // Tagline
+    ogImageUrl?: string | null; // OpenGraph 이미지 URL
     homepageUrl: string; // Homepage url
     pricingPageUrl: string; // Pricing Page url
     companyName: string; // 운영사명
@@ -44,6 +45,7 @@ export type CreateApplicationPrototypeRequestDto = {
     searchText?: string; // 검색키워드
     image?: string; // 이미지 url
     imageFile?: File; // 이미지 file
+    ogImageUrl?: string; // OpenGraph image url
     homepageUrl: string; // Homepage url
     pricingPageUrl: string; // Pricing Page url
     companyName: string; // 운영사명

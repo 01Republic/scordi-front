@@ -69,7 +69,9 @@ export const AdminPrototypeListPage = memo(() => {
                                 th: 'category',
                                 className: 'hidden lg:block',
                                 render: (prototype) => (
-                                    <DefaultColumn value={prototype.tags.map((tag) => tag.name).join(', ')} />
+                                    <DefaultColumn
+                                        value={prototype.tags ? prototype.tags.map((tag) => tag.name).join(', ') : ''}
+                                    />
                                 ),
                             },
                             {

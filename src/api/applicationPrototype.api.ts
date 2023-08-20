@@ -72,7 +72,6 @@ export const applicationPrototypeApi = {
         const body = {...data};
         // @ts-ignore
         if (data.tagIds) body.tagIds = data.tagIds.join(',');
-        console.log(body.tagIds);
         return api.patch<ApplicationPrototypeDto>(url, body, {headers});
     },
 
