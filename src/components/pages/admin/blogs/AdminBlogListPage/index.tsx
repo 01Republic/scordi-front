@@ -1,23 +1,19 @@
 import {memo, useEffect, useState} from 'react';
-import {AdminListPageLayout} from '^components/pages/admin/layouts/ListPageLayout';
 import {AdminNewPostPageRoute} from '^pages/admin/posts/new';
-import {BooleanColumn, CardTablePanel, DateTimeColumn} from '^components/pages/admin/share/panels/CardTablePanel';
 import {useForm} from 'react-hook-form';
 import {Paginated} from '^types/utils/paginated.dto';
 import {FindAllPostByAdminDto, PostDto} from '^types/post.type';
 import {postManageApi} from '^api/post-manage.api';
 import {useRouter} from 'next/router';
-import {AdminPostPageRoute} from '^pages/admin/posts/[id]';
-import {humanizeTimeDistance2} from '^utils/dateTime';
-import {AdminEditPostPageRoute} from '^pages/admin/posts/[id]/edit';
-import {ThumbnailColumn} from '^components/pages/admin/blogs/AdminBlogListPage/ThumbnailColumn';
-import {IsPublishedColumn} from '^components/pages/admin/blogs/AdminBlogListPage/IsPublishedColumn';
-import {StatColumn} from '^components/pages/admin/blogs/AdminBlogListPage/StatColumn';
-import {ActionColumn} from '^components/pages/admin/blogs/AdminBlogListPage/ActionColumn';
-import {DefaultColumn} from '^components/pages/admin/blogs/AdminBlogListPage/DefaultColumn';
-import {TitleColumn} from '^components/pages/admin/blogs/AdminBlogListPage/TitleColumn';
-import {IdColumn} from '^components/pages/admin/blogs/AdminBlogListPage/IdColumn';
-import {MobileItem} from '^components/pages/admin/blogs/AdminBlogListPage/MobileItem';
+import {AdminListPageLayout} from '../../layouts/ListPageLayout';
+import {CardTablePanel, DateTimeColumn} from '../../share/panels/CardTablePanel';
+import {ThumbnailColumn} from './ThumbnailColumn';
+import {IsPublishedColumn} from './IsPublishedColumn';
+import {StatColumn} from './StatColumn';
+import {ActionColumn} from './ActionColumn';
+import {TitleColumn} from './TitleColumn';
+import {IdColumn} from './IdColumn';
+import {MobileItem} from './MobileItem';
 
 export const AdminBlogListPage = memo(() => {
     const router = useRouter();
