@@ -8,7 +8,7 @@ import {applicationPrototypeApi} from '^api/applicationPrototype.api';
 import {ContentTabNav} from '^layouts/ContentLayout';
 import {EditPrototypeDetail} from '^components/pages/admin/prototypes/AdminPrototypeDetailpage/MenuContents/EditPrototypeDetail';
 import {EditPrototypePost} from '^components/pages/admin/prototypes/AdminPrototypeDetailpage/MenuContents/EditPrototypePost';
-import {PrototypePlanCyclePanel} from '^components/pages/admin/prototypes/form/PrototypePlanCyclePanel';
+import {PrototypePlanCyclePanel} from '^components/pages/admin/prototypes/form/panels/PrototypePlanCyclePanel';
 
 export const adminPrototypeDetail = atom<ApplicationPrototypeDto | null>({
     key: 'adminPrototypeDetail',

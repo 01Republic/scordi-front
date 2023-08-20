@@ -18,12 +18,14 @@ import {debounce} from 'lodash';
 interface CreateBlogFormProps {
     form: UseFormReturn<CreatePostByAdminDto>;
     onSubmit: (data: CreatePostByAdminDto) => any;
+    useTag?: boolean;
 }
 
 interface UpdateBlogFormProps {
     form: UseFormReturn<UpdatePostByAdminDto>;
     onSubmit: (data: UpdatePostByAdminDto) => any;
     post: PostDto;
+    useTag?: boolean;
 }
 
 const byId = (id: number) => (author: PostAuthorDto) => author.id === id;
@@ -36,6 +38,7 @@ const findAuthorsById = (authors: PostAuthorDto[], ids: number[]): PostAuthorDto
 export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
     const {form, onSubmit} = props;
     const post = 'post' in props ? props.post : null;
+    const useTag = props.useTag ?? true;
     const [publishAt, setPublishAt] = useState<Date | null>(null);
     const [thumbnailUrl, setThumbnailUrl] = useState<string>('');
     const [seoKeywords, setSeoKeywords] = useState<string[]>([]);
@@ -302,24 +305,26 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
                             />
                         </div>
 
-                        <div className="mb-4">
-                            <label htmlFor="publishAt" className="label">
-                                <span className="label-text">Tags</span>
-                            </label>
+                        {useTag && (
+                            <div className="mb-4">
+                                <label htmlFor="publishAt" className="label">
+                                    <span className="label-text">Tags</span>
+                                </label>
 
-                            <MultiSelect
-                                value={tagNames.map((name) => ({
-                                    label: name,
-                                    value: name,
-                                }))}
-                                loadOptions={searchTags}
-                                onChange={(options) => {
-                                    const names = options.map(({value}) => value);
-                                    setTagNames(names);
-                                    form.setValue('tagNames', names);
-                                }}
-                            />
-                        </div>
+                                <MultiSelect
+                                    value={tagNames.map((name) => ({
+                                        label: name,
+                                        value: name,
+                                    }))}
+                                    loadOptions={searchTags}
+                                    onChange={(options) => {
+                                        const names = options.map(({value}) => value);
+                                        setTagNames(names);
+                                        form.setValue('tagNames', names);
+                                    }}
+                                />
+                            </div>
+                        )}
 
                         <div className="mb-4">
                             <label htmlFor="publishAt" className="label">
