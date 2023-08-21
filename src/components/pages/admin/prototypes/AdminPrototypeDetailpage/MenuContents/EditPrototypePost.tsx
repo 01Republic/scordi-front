@@ -44,5 +44,5 @@ export const EditPrototypePost = memo(() => {
         });
 
     // @ts-ignore
-    return <BlogForm form={form} onSubmit={onSubmit} post={post} />;
+    return <BlogForm form={form} onSubmit={onSubmit} post={post} useTag={false} />;
 });
