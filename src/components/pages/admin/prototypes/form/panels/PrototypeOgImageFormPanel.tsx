@@ -1,4 +1,4 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useEffect} from 'react';
 import {ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/ContentLayout';
 import {TextInput} from '^components/TextInput';
 import {ProfileImageFileInput} from '^components/ProfileImageFileInput';
@@ -9,6 +9,12 @@ import {
 } from '^types/applicationPrototype.type';
 import {UseFormReturn} from 'react-hook-form';
 import {getOgImageUrl} from '^api/utils.api/open-graph.api';
+import {atom, useRecoilState} from 'recoil';
+
+export const ogImgUrlAtom = atom({
+    key: 'ogImgUrlAtom',
+    default: '',
+});
 
 interface OgImageFormPanelProps {
     proto: ApplicationPrototypeDto | null;
@@ -17,10 +23,12 @@ interface OgImageFormPanelProps {
 
 export const OgImageFormPanel = memo((props: OgImageFormPanelProps) => {
     const {proto, form} = props;
-    const [result, setResult] = useState('');
+    const [result, setResult] = useRecoilState(ogImgUrlAtom);
 
     useEffect(() => {
-        form.setValue('ogImageUrl', proto?.ogImageUrl ?? undefined);
+        const ogImageUrl = proto?.ogImageUrl ?? undefined;
+        form.setValue('ogImageUrl', ogImageUrl);
+        if (ogImageUrl) setResult(ogImageUrl);
     }, [proto]);
 
     return (
@@ -42,7 +50,7 @@ export const OgImageFormPanel = memo((props: OgImageFormPanelProps) => {
                         <p className="text-sm mb-2">Result:</p>
                         {result && (
                             <div className="flex gap-4 items-end">
-                                <img src={result} className="w-24 border rounded" />
+                                <img src={result} className="w-48 border rounded" />
                                 <button
                                     type="button"
                                     className="btn btn-sm btn-accent text-white"

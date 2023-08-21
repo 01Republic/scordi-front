@@ -14,8 +14,14 @@ import {useTagSearch} from '^hooks/useTags';
 import {TagDto, TagGroup} from '^types/tag.type';
 import {MultiValue, ActionMeta, StylesConfig} from 'react-select';
 import {PrototypePlanCyclePanel} from '^components/pages/admin/prototypes/form/panels/PrototypePlanCyclePanel';
-import {LogoImageFormPanel} from '^components/pages/admin/prototypes/form/panels/PrototypeLogoImageFormPanel';
-import {OgImageFormPanel} from '^components/pages/admin/prototypes/form/panels/PrototypeOgImageFormPanel';
+import {
+    faviconUrlAtom,
+    LogoImageFormPanel,
+    logoUrlAtom,
+} from '^components/pages/admin/prototypes/form/panels/PrototypeLogoImageFormPanel';
+import {OgImageFormPanel, ogImgUrlAtom} from '^components/pages/admin/prototypes/form/panels/PrototypeOgImageFormPanel';
+import {getOpenGraphData} from '^api/utils.api/open-graph.api';
+import {useSetRecoilState} from 'recoil';
 
 interface CreatePrototypeFormProps {
     form: UseFormReturn<CreateDto>;
@@ -40,6 +46,9 @@ export const PrototypeForm = (props: CreatePrototypeFormProps | UpdatePrototypeF
     const [tags, setTags] = useState<TagDto[]>([]);
     const [tagSearchResult, setTagSearchResult] = useState<TagDto[]>([]);
     const {search, createByName} = useTagSearch(TagGroup.Application);
+    const setFaviconUrl = useSetRecoilState(faviconUrlAtom);
+    const setLogoUrl = useSetRecoilState(logoUrlAtom);
+    const setOgImgUrl = useSetRecoilState(ogImgUrlAtom);
 
     // set loaded prototype data on form
     useEffect(() => {
@@ -159,8 +168,34 @@ export const PrototypeForm = (props: CreatePrototypeFormProps | UpdatePrototypeF
     // @ts-ignore
     const formSubmit = form.handleSubmit(onSubmit);
 
+    const onPrompt = async () => {
+        const url = prompt('웹사이트 주소를 넣어주세요.');
+        if (url) {
+            const openGraphData = await getOpenGraphData(url);
+            console.log(openGraphData);
+            form.setValue('name', openGraphData.hybridGraph.site_name);
+            form.setValue('tagline', openGraphData.htmlInferred.description);
+            form.setValue('homepageUrl', openGraphData.htmlInferred.url);
+
+            // favicon
+            setFaviconUrl(openGraphData.htmlInferred.favicon);
+            setLogoUrl(openGraphData.htmlInferred.favicon);
+            form.setValue('image', openGraphData.htmlInferred.favicon);
+
+            // thumbnail
+            setOgImgUrl(openGraphData.htmlInferred.image);
+            form.setValue('ogImageUrl', openGraphData.htmlInferred.image);
+        }
+    };
+
     return (
         <div>
+            <div className="flex justify-end mb-4">
+                <button className="btn btn-scordi-light btn-sm" onClick={onPrompt}>
+                    사이트에서 불러오기
+                </button>
+            </div>
+
             <ContentForm onSubmit={formSubmit}>
                 <ContentPanel title="기본정보">
                     <ContentPanelList>

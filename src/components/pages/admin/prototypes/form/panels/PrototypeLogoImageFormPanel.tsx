@@ -8,6 +8,17 @@ import {
     UpdateApplicationPrototypeRequestDto as UpdateDto,
 } from '^types/applicationPrototype.type';
 import {UseFormReturn} from 'react-hook-form';
+import {atom, useRecoilState} from 'recoil';
+
+export const faviconUrlAtom = atom({
+    key: 'faviconUrlAtom',
+    default: '',
+});
+
+export const logoUrlAtom = atom({
+    key: 'logoUrlAtom',
+    default: '',
+});
 
 interface LogoImageFormPanelProps {
     proto: ApplicationPrototypeDto | null;
@@ -16,9 +27,9 @@ interface LogoImageFormPanelProps {
 
 export const LogoImageFormPanel = memo((props: LogoImageFormPanelProps) => {
     const {proto, form} = props;
-    const [faviconUrl, setFaviconUrl] = useState('');
+    const [faviconUrl, setFaviconUrl] = useRecoilState(faviconUrlAtom);
     const [initial, setInitial] = useState('');
-    const [logoUrl, setLogoUrl] = useState('');
+    const [logoUrl, setLogoUrl] = useRecoilState(logoUrlAtom);
     const base = `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=128&url=`;
 
     useEffect(() => {

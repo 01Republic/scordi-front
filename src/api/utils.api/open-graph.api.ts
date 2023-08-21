@@ -52,11 +52,14 @@ export interface OpenGraphData {
     url?: string;
 }
 
-export async function getOgImageUrl(siteUrl: string) {
+export function getOpenGraphData(siteUrl: string) {
     const apiKey = 'd2a23c47-e020-44ca-bac7-959d3661f68e';
     const encodedSiteUrl = encodeURIComponent(siteUrl);
     const url = `https://opengraph.io/api/1.1/site/${encodedSiteUrl}?app_id=${apiKey}`;
-    const openGraph = await api.get<OpenGraphData>(url).then((res) => res.data.openGraph);
+    return api.get<OpenGraphData>(url).then((res) => res.data);
+}
 
+export async function getOgImageUrl(siteUrl: string) {
+    const {openGraph} = await getOpenGraphData(siteUrl);
     return openGraph.image.url;
 }
