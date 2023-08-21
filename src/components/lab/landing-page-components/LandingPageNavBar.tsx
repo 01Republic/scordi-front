@@ -6,6 +6,7 @@ import {MainPageRoute} from '^pages/index';
 import {TastingPageRoute} from '^pages/tasting';
 import {FiMenu} from '@react-icons/all-files/fi/FiMenu';
 import {PostListPageRoute} from '^pages/posts';
+import {ProductListPageRoute} from '^pages/products';
 
 interface LandingPageNavBarProps extends WithChildren {
     fluid?: boolean;
@@ -17,13 +18,8 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
     const {fluid = false, showLoginButton = true, className = '', children} = props;
     const router = useRouter();
 
-    const onClickCta = () => {
-        const ctaBtn = document.querySelector('#cta-1') as HTMLElement;
-        if (ctaBtn) ctaBtn.click();
-    };
-
-    const introducePath = '#product-section';
-    const saasPath = '';
+    const introducePath = '/#product-section';
+    const saasPath = ProductListPageRoute.path();
     const blogPath = PostListPageRoute.path();
 
     return (
