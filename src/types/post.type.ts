@@ -1,7 +1,6 @@
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {PostTagDto} from '^types/post-tag.type';
 import {PostAuthorDto} from '^types/post-author.type';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
 
 export type PostDto = {
     id: number; // 게시글 ID
@@ -17,8 +16,6 @@ export type PostDto = {
     visitCount: number; // 조회수
     likeCount: number; // 좋아요수
     unlikeCount: number; // 싫어요수
-    prototypeId?: number | null; // 앱 ID
-    prototype?: ApplicationPrototypeDto | null; // 앱
     tags: PostTagDto[]; // Tag 리스트
     authors: PostAuthorDto[]; // 저자 리스트
 };
@@ -26,7 +23,6 @@ export type PostDto = {
 export type FindAllPostQueryDto = FindAllQueryDto<PostDto> & {
     isPublished?: boolean;
     isPrototypePost?: boolean;
-    tagIds?: number[];
 };
 export type FindAllPostByAdminDto = FindAllQueryDto<PostDto> & {};
 

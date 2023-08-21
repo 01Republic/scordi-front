@@ -16,7 +16,7 @@ export const useTag = () => {
     return {tag, getTag};
 };
 
-export const useTags = (group: TagGroup) => {
+export const useTagSearch = (group: TagGroup) => {
     const [result, setResult] = useRecoilState(tagSearchResultsState);
     const [query, setQuery] = useRecoilState(tagSearchParams);
 
