@@ -22,6 +22,7 @@ export type PostDto = {
 
 export type FindAllPostQueryDto = FindAllQueryDto<PostDto> & {
     isPublished?: boolean;
+    isPrototypePost?: boolean;
 };
 export type FindAllPostByAdminDto = FindAllQueryDto<PostDto> & {};
 

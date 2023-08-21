@@ -31,6 +31,17 @@ export const useRecentPost = () => {
     return {data: post, load};
 };
 
+export const useProductPosts = () => {
+    const {search, ...rest} = usePosts();
+
+    const productPostsSearch = (params: FindAllPostQueryDto) => {
+        params.isPrototypePost = true;
+        return search(params);
+    };
+
+    return {search: productPostsSearch, ...rest};
+};
+
 export const usePost = (postData?: PostDto) => {
     const [post, setPost] = useRecoilState(postAtom);
 
