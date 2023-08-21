@@ -3,17 +3,17 @@ import {WithChildren} from '^types/global.type';
 
 interface ProductPostListSidePanelItemProps extends WithChildren {
     text: string;
-    isActive?: boolean;
+    isActive: (text: string) => boolean;
+    onClick: () => void;
 }
 
 export const ProductPostListSidePanelItem = memo((props: ProductPostListSidePanelItemProps) => {
-    const {text, isActive = false, children} = props;
-
+    const {text, isActive, onClick, children} = props;
     const [icon, ...texts] = text.split(' ');
 
     return (
         <li className="">
-            <a className={`rounded-full font-semibold ${isActive ? 'active' : ''}`}>
+            <a className={`rounded-full font-semibold ${isActive(text) ? 'active' : ''}`} onClick={onClick}>
                 <span>{icon}</span>
                 <span>{texts.join(' ')}</span>
             </a>

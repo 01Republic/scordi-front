@@ -1,9 +1,12 @@
 import {memo} from 'react';
 
-export const ProductPostListContentPanelTitle = memo(() => {
+interface TitleProps {
+    title: string;
+}
+export const ProductPostListContentPanelTitle = memo((props: TitleProps) => {
     return (
         <div>
-            <h2 className="text-5xl">All</h2>
+            <h2 className="text-5xl">{props.title}</h2>
         </div>
     );
 });

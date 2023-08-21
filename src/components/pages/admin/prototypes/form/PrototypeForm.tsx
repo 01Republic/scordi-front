@@ -10,7 +10,7 @@ import React, {useEffect, useState} from 'react';
 import {ContentForm, ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/ContentLayout';
 import {PrototypeDeletePanel} from '^components/pages/admin/prototypes/form/panels/PrototypeDeletePanel';
 import {MultiSelect, Option, Option as SelectOption} from '^components/util/select/MultiSelect';
-import {useTagSearch} from '^hooks/useTags';
+import {useTags} from '^hooks/useTags';
 import {TagDto, TagGroup} from '^types/tag.type';
 import {MultiValue, ActionMeta, StylesConfig} from 'react-select';
 import {PrototypePlanCyclePanel} from '^components/pages/admin/prototypes/form/panels/PrototypePlanCyclePanel';
@@ -45,7 +45,7 @@ export const PrototypeForm = (props: CreatePrototypeFormProps | UpdatePrototypeF
     const prototype = 'prototype' in props ? props.prototype : null;
     const [tags, setTags] = useState<TagDto[]>([]);
     const [tagSearchResult, setTagSearchResult] = useState<TagDto[]>([]);
-    const {search, createByName} = useTagSearch(TagGroup.Application);
+    const {search, createByName} = useTags(TagGroup.Application);
     const setFaviconUrl = useSetRecoilState(faviconUrlAtom);
     const setLogoUrl = useSetRecoilState(logoUrlAtom);
     const setOgImgUrl = useSetRecoilState(ogImgUrlAtom);

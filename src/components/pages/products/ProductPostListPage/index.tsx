@@ -1,6 +1,5 @@
 import React, {memo, useEffect} from 'react';
 import {useRouter} from 'next/router';
-import {useProductPosts} from '^hooks/usePosts';
 import {LandingPageNavBar} from '^components/lab/landing-page-components';
 import {ProductPostListHeader} from '^components/pages/products/ProductPostListPage/ProductPostListHeader';
 import {ProductPostListSidePanel} from '^components/pages/products/ProductPostListPage/ProductPostListSidePanel';
@@ -8,7 +7,6 @@ import {ProductPostListContentPanel} from '^components/pages/products/ProductPos
 
 export const ProductPostListPage = memo(() => {
     const router = useRouter();
-    const {search} = useProductPosts();
 
     useEffect(() => {
         if (!router.isReady) return;
