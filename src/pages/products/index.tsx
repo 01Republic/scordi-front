@@ -4,9 +4,9 @@ import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {publicPageRequires} from '^types/utils/18n.type';
 import {ProductPostListPage} from '^components/pages/products/ProductPostListPage';
 
-export const ProductListPageRoute = pathRoute({
+export const ProductPostListPageRoute = pathRoute({
     pathname: '/products',
-    path: () => pathReplace(ProductListPageRoute.pathname, {}),
+    path: () => pathReplace(ProductPostListPageRoute.pathname, {}),
 });
 
 export const getStaticProps = async ({locale}: any) => ({
@@ -18,6 +18,6 @@ export const getStaticProps = async ({locale}: any) => ({
     },
 });
 
-export default function ProductsPage() {
+export default function ProductPostsPage() {
     return <ProductPostListPage />;
 }
