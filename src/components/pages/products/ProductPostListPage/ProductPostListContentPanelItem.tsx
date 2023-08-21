@@ -3,9 +3,10 @@ import {PostDto} from '^types/post.type';
 import {ProductPostDetailPageRoute} from '^pages/products/[id]';
 
 interface ProductPostListContentPanelItemProps {
-    post?: PostDto;
+    post: PostDto;
 }
 
+// @ts-ignore
 export const ProductPostListContentPanelItem = memo((props: ProductPostListContentPanelItemProps) => {
     const {post} = props;
 

@@ -28,6 +28,7 @@ export type FindAllPostQueryDto = FindAllQueryDto<PostDto> & {
     isPrototypePost?: boolean;
     tagIds?: number[];
     keyword?: string;
+    tagName?: string;
 };
 export type FindAllPostByAdminDto = FindAllQueryDto<PostDto> & {};
 

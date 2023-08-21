@@ -16,17 +16,14 @@ export const ProductPostListContentPanel = memo(() => {
     const currentCategory = useRecoilValue(currentProductPostCategoryAtom);
     const postResult = useRecoilValue(getPostListResultAtom);
 
+    const items = postResult.items.filter((item) => !!item);
+
     useEffect(() => {
         const [emoji, ...nameStrings] = currentCategory.split(' ');
         const name = nameStrings.join(' ');
-        if (name === 'All') {
-            searchPosts({});
-        } else {
-            searchTags({where: {name}}).then((tags) => {
-                const tagIds = tags.map((tag) => tag.id);
-                searchPosts({tagIds});
-            });
-        }
+        const query = name === 'All' ? {} : {tagName: name};
+
+        searchPosts(query);
     }, [currentCategory]);
 
     return (
@@ -37,8 +34,8 @@ export const ProductPostListContentPanel = memo(() => {
             </div>
 
             <div className="grid grid-cols-3 gap-3">
-                {postResult.items.map((post) => (
-                    <ProductPostListContentPanelItem post={post} />
+                {items.map((post, i) => (
+                    <ProductPostListContentPanelItem key={i} post={post} />
                 ))}
             </div>
 
