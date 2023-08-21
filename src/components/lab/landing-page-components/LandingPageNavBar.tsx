@@ -19,6 +19,11 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
     const router = useRouter();
 
     const introducePath = '/#product-section';
+    const onClickCta = () => {
+        const ctaBtn = document.querySelector('#cta-1') as HTMLElement;
+        if (ctaBtn) ctaBtn.click();
+    };
+
     const saasPath = ProductListPageRoute.path();
     const blogPath = PostListPageRoute.path();
 

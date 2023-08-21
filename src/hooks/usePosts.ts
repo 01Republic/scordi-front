@@ -2,7 +2,6 @@ import {useRecoilState} from 'recoil';
 import {getPostListQueryAtom, getPostListResultAtom, postAtom, recentPostAtom} from '^atoms/posts.atom';
 import {FindAllPostQueryDto, PostDto} from '^types/post.type';
 import {postApi} from '^api/post.api';
-import {useEffect} from 'react';
 
 export const usePosts = () => {
     const [result, setResult] = useRecoilState(getPostListResultAtom);
