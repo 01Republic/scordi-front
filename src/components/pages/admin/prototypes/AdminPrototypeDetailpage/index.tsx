@@ -23,7 +23,7 @@ export const navTabIndex = atom({
 export const AdminPrototypeDetailPage = memo(() => {
     const router = useRouter();
     const prototypeId = Number(router.query.id);
-    const [_, setPrototype] = useRecoilState(adminPrototypeDetail);
+    const [prototype, setPrototype] = useRecoilState(adminPrototypeDetail);
 
     useEffect(() => {
         if (!prototypeId || isNaN(prototypeId)) return;
@@ -40,14 +40,15 @@ export const AdminPrototypeDetailPage = memo(() => {
     ];
     const TabContentComponent = tabs[tabIndex]?.Component || Fragment;
 
-    if (!prototypeId) return <>Prototype(id: #{prototypeId}) Not Found.</>;
+    if (!prototype) return <>Prototype(id: #{prototypeId}) Not Found.</>;
+
     return (
         <AdminDetailPageLayout
-            title="앱 상세"
+            title={`${prototype.name} (#${prototype.id})`}
             breadcrumbs={[
                 {text: '앱 관리'},
                 {text: '앱 목록', href: AdminPrototypesPageRoute.path()},
-                {text: '앱 상세'},
+                {text: `${prototype.name} (#${prototype.id})`},
                 //
             ]}
             tabNav={<ContentTabNav resetIndex={true} tabs={tabs.map((tab) => tab.label)} recoilState={navTabIndex} />}
