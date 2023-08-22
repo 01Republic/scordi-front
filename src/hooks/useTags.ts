@@ -1,6 +1,6 @@
 import {useRecoilState} from 'recoil';
 import {tagAtom, tagSearchParams, tagSearchResultsState} from '^atoms/tags.atom';
-import {CreateTagByAdminDto, FindAllTagQueryDto, TagDto, TagGroup} from '^types/tag.type';
+import {FindAllTagQueryDto, TagGroup} from '^types/tag.type';
 import {tagApi} from '^api/tag.api';
 
 export const useTag = () => {
@@ -34,8 +34,6 @@ export const useTags = (group: TagGroup) => {
 
         setResult(data);
         setQuery(params);
-
-        return data;
     };
 
     const createByName = (name: string) => tagApi.create({name, group}).then((res) => res.data);

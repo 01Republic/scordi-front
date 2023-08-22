@@ -6,13 +6,9 @@ import {
 } from '^types/applicationPrototype.type';
 import {UseFormReturn} from 'react-hook-form';
 import {TextInput} from '^components/TextInput';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {ContentForm, ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/ContentLayout';
 import {PrototypeDeletePanel} from '^components/pages/admin/prototypes/form/panels/PrototypeDeletePanel';
-import {MultiSelect, Option, Option as SelectOption} from '^components/util/select/MultiSelect';
-import {useTags} from '^hooks/useTags';
-import {TagDto, TagGroup} from '^types/tag.type';
-import {MultiValue, ActionMeta, StylesConfig} from 'react-select';
 import {PrototypePlanCyclePanel} from '^components/pages/admin/prototypes/form/panels/PrototypePlanCyclePanel';
 import {
     faviconUrlAtom,
@@ -22,6 +18,7 @@ import {
 import {OgImageFormPanel, ogImgUrlAtom} from '^components/pages/admin/prototypes/form/panels/PrototypeOgImageFormPanel';
 import {getOpenGraphData} from '^api/utils.api/open-graph.api';
 import {useSetRecoilState} from 'recoil';
+import {PrototypeTagMultiSelect} from '^components/pages/admin/prototypes/form/PrototypeTagMultiSelect';
 
 interface CreatePrototypeFormProps {
     form: UseFormReturn<CreateDto>;
@@ -34,18 +31,9 @@ interface UpdatePrototypeFormProps {
     prototype: ApplicationPrototypeDto | null;
 }
 
-/**
- * TODO (리팩토링)
- * 1. 해당 form component에서 Tag State 관리를 분리하기
- * 2. Tag state와 Multi Select가 종속적, 이 둘을 분리하거나 아예 하나의 모듈로 합쳐서 다루기
- */
-
 export const PrototypeForm = (props: CreatePrototypeFormProps | UpdatePrototypeFormProps) => {
     const {form, onSubmit} = props;
     const prototype = 'prototype' in props ? props.prototype : null;
-    const [tags, setTags] = useState<TagDto[]>([]);
-    const [tagSearchResult, setTagSearchResult] = useState<TagDto[]>([]);
-    const {search, createByName} = useTags(TagGroup.Application);
     const setFaviconUrl = useSetRecoilState(faviconUrlAtom);
     const setLogoUrl = useSetRecoilState(logoUrlAtom);
     const setOgImgUrl = useSetRecoilState(ogImgUrlAtom);
@@ -72,97 +60,6 @@ export const PrototypeForm = (props: CreatePrototypeFormProps | UpdatePrototypeF
         form.setValue('isFreeTierAvailable', prototype.isFreeTierAvailable); // 프리티어 지원 여부
         form.setValue('desc', prototype.desc); // 비고
     }, [prototype]);
-
-    // set loaded prototype's tag data on form & tag state
-    useEffect(() => {
-        if (!prototype) return;
-        if (prototype?.tags?.length === 0) return;
-
-        const ids = prototype.tags.map((tag) => tag.id);
-
-        setTags(prototype.tags);
-        form.setValue('tagIds', ids);
-    }, [prototype?.tags]);
-
-    const selectOptionMapper = (tag: TagDto): SelectOption => {
-        return {label: tag.name, value: tag.name};
-    };
-
-    const searchTagOptions = async (input: string) => {
-        const params = input ? {where: {name: input}} : {};
-        const tags = await search(params);
-
-        setTagSearchResult(tags);
-
-        return tags.map(selectOptionMapper);
-    };
-
-    const multiSelectStyle: StylesConfig<Option> = {
-        control: (styles) => ({
-            ...styles,
-            backgroundColor: 'rgb(248 250 252 / 1)',
-            borderColor: 'rgb(241 245 249 / 1)',
-            height: '3rem',
-            borderWidth: '1px',
-        }),
-    };
-
-    const onSelectTag = async (options: MultiValue<Option>, actionType?: ActionMeta<Option>) => {
-        const addTag = (tag: TagDto) => {
-            const oldIds = form.getValues().tagIds ?? [];
-            form.setValue('tagIds', [...oldIds, tag.id]);
-            setTags((old) => [...old, tag]);
-        };
-
-        const removeTag = (tag: TagDto) => {
-            const oldIds = form.getValues().tagIds ?? [];
-            const filteredIds = oldIds.filter((id) => id !== tag.id);
-
-            form.setValue('tagIds', filteredIds);
-            setTags((oldTags) => oldTags.filter((oldTag) => oldTag.id !== tag.id));
-        };
-
-        switch (actionType?.action) {
-            case 'create-option':
-                const newOption = actionType.option;
-                if (!newOption.__isNew__) return;
-
-                const newTag = await createByName(newOption.value);
-
-                addTag(newTag);
-                break;
-
-            case 'select-option':
-                const selectedOption = actionType.option;
-                if (!selectedOption) return;
-
-                const tag = tagSearchResult.find((tag) => tag.name === selectedOption.value);
-                if (!tag) return;
-
-                addTag(tag);
-                break;
-
-            case 'remove-value':
-                const {removedValue} = actionType;
-                if (!removedValue) return;
-
-                const targetTag = tags.find((tag) => tag.name === removedValue.value);
-                if (!targetTag) return;
-                removeTag(targetTag);
-                break;
-
-            case 'clear':
-                const {removedValues} = actionType;
-                if (removedValues.length > 0) {
-                    form.setValue('tagIds', []);
-                    setTags([]);
-                }
-                break;
-
-            default:
-                break;
-        }
-    };
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -207,14 +104,7 @@ export const PrototypeForm = (props: CreatePrototypeFormProps | UpdatePrototypeF
                             />
                         </ContentPanelInput>
 
-                        <ContentPanelInput title="Category" required={true}>
-                            <MultiSelect
-                                value={tags.map(selectOptionMapper)}
-                                loadOptions={searchTagOptions}
-                                onChange={onSelectTag}
-                                style={multiSelectStyle}
-                            />
-                        </ContentPanelInput>
+                        <PrototypeTagMultiSelect tags={prototype?.tags ?? []} form={form} />
 
                         <ContentPanelInput title="Summary" required={true}>
                             <TextInput

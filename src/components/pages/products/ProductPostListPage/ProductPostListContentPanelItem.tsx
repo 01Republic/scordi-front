@@ -1,4 +1,3 @@
-import {memo} from 'react';
 import {PostDto} from '^types/post.type';
 import {ProductPostDetailPageRoute} from '^pages/products/[id]';
 
@@ -6,8 +5,7 @@ interface ProductPostListContentPanelItemProps {
     post: PostDto;
 }
 
-// @ts-ignore
-export const ProductPostListContentPanelItem = memo((props: ProductPostListContentPanelItemProps) => {
+export const ProductPostListContentPanelItem = (props: ProductPostListContentPanelItemProps) => {
     const {post} = props;
 
     if (!post) return;
@@ -40,4 +38,4 @@ export const ProductPostListContentPanelItem = memo((props: ProductPostListConte
             </div>
         </a>
     );
-});
+};
