@@ -8,7 +8,7 @@ interface ProductPostListContentPanelItemProps {
 export const ProductPostListContentPanelItem = (props: ProductPostListContentPanelItemProps) => {
     const {post} = props;
 
-    if (!post) return;
+    if (!post) return <></>;
 
     const link = ProductPostDetailPageRoute.path(post.id);
     const thumbnailUrl = post.prototype?.ogImageUrl ?? post.thumbnailUrl ?? 'https://placehold.co/600x400';
