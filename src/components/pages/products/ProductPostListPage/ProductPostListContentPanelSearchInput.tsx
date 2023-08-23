@@ -11,11 +11,11 @@ export const ProductPostListContentPanelSearchInput = memo(() => {
     };
 
     return (
-        <div className="relative">
+        <div className="relative flex-1 sm:flex-none">
             <form>
                 <input
                     type="text"
-                    className="input input-bordered min-w-[300px] pl-[48px]"
+                    className="input input-bordered min-w-[300px] w-full pl-[48px]"
                     placeholder="Search ..."
                     onChange={onChange}
                 />

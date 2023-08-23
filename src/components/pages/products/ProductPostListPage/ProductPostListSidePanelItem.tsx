@@ -12,7 +12,7 @@ export const ProductPostListSidePanelItem = memo((props: ProductPostListSidePane
     const [icon, ...texts] = text.split(' ');
 
     return (
-        <li className="">
+        <li className="w-full">
             <a className={`rounded-full font-semibold ${isActive(text) ? 'active' : ''}`} onClick={onClick}>
                 <span>{icon}</span>
                 <span>{texts.join(' ')}</span>

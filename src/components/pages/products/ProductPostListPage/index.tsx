@@ -18,8 +18,8 @@ export const ProductPostListPage = memo(() => {
             <ProductPostListHeader />
 
             <div className="w-full">
-                <div className="blog-container blog-container--default">
-                    <div className="grid grid-cols-4 gap-8">
+                <div className="blog-container blog-container--default px-4">
+                    <div className="sm:grid grid-cols-4 gap-8">
                         <div className="">
                             <ProductPostListSidePanel />
                         </div>
