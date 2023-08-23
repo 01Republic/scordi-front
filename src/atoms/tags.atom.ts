@@ -3,10 +3,20 @@ import {FindAllTagQueryDto, TagDto} from '^types/tag.type';
 import {tagApi} from '^api/tag.api';
 import {errorNotify} from '^utils/toast-notify';
 import {tagIdParamState} from '^atoms/common';
+import {Paginated} from '^types/utils/paginated.dto';
 
-export const tagSearchResultsState = atom<TagDto[]>({
+export const tagSearchResultsState = atom<Paginated<TagDto>>({
     key: 'tagSearchResultsState',
-    default: [],
+    default: {
+        items: [],
+        pagination: {
+            totalItemCount: 0,
+            currentItemCount: 0,
+            totalPage: 1,
+            currentPage: 1,
+            itemsPerPage: 30,
+        },
+    },
 });
 
 export const tagSearchParams = atom<FindAllTagQueryDto>({

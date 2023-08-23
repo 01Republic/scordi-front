@@ -1,7 +1,24 @@
 import {useRecoilState} from 'recoil';
 import {tagAtom, tagSearchParams, tagSearchResultsState} from '^atoms/tags.atom';
-import {FindAllTagQueryDto, TagGroup} from '^types/tag.type';
+import {FindAllTagQueryDto, TagDto, TagGroup} from '^types/tag.type';
 import {tagApi} from '^api/tag.api';
+import {Option} from '^components/util/select/MultiSelect';
+import {Paginated} from '^types/utils/paginated.dto';
+import {useMultiSelect} from '^hooks/useMultiSelect';
+
+interface TagMultiSelectParams {
+    componentControl: {
+        add: (tag: TagDto) => void;
+        remove: (tag: TagDto) => void;
+        reset: () => void;
+    };
+    hooks: {
+        search: (params: FindAllTagQueryDto) => Promise<Paginated<TagDto>>;
+        createByName: (name: string) => Promise<TagDto>;
+        result: Paginated<TagDto>;
+        query: FindAllTagQueryDto;
+    };
+}
 
 export const useTag = () => {
     const [tag, setTag] = useRecoilState(tagAtom);
@@ -30,13 +47,53 @@ export const useTags = (group: TagGroup) => {
                 ...params,
                 itemsPerPage: 500,
             })
-            .then((res) => res.data.items);
+            .then((res) => res.data);
 
         setResult(data);
         setQuery(params);
+
+        return data;
     };
 
     const createByName = (name: string) => tagApi.create({name, group}).then((res) => res.data);
 
     return {result, query, search, createByName};
+};
+
+export const useTagMultiSelect = (params: TagMultiSelectParams) => {
+    const {componentControl, hooks} = params;
+    const {add, remove, reset} = componentControl;
+    const {search, createByName, result} = hooks;
+
+    const mapper = (tag: TagDto): Option => ({label: tag.name, value: tag.name});
+    const defaultLoader = () => search({}).then((data) => data.items);
+    const loader = (input: string) => search({where: {name: input}}).then((data) => data.items);
+    const filter = (option: Option, input: string) => option.value.toLowerCase().includes(input);
+
+    const onCreate = async (option: Option) => {
+        const newTag = await createByName(option.value);
+        add(newTag);
+    };
+
+    const onSelect = (option: Option) => {
+        const tag = result.items.find((tag) => tag.name === option.value);
+        if (!tag) return;
+        add(tag);
+    };
+
+    const onRemove = (option: Option) => {
+        const tag = result.items.find((tag) => tag.name === option.value);
+        if (!tag) return;
+        remove(tag);
+    };
+
+    const onClear = () => reset();
+
+    return useMultiSelect({
+        mapper,
+        filter,
+        defaultLoader,
+        loader,
+        onChangeCallbacks: {onCreate, onSelect, onRemove, onClear},
+    });
 };
