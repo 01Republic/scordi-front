@@ -1,5 +1,6 @@
 import {memo} from 'react';
 import {usePost} from '^hooks/usePosts';
+import {GrShare} from 'react-icons/gr';
 
 export const ProductPostContentTitle = memo(() => {
     const {post} = usePost();
@@ -7,8 +8,8 @@ export const ProductPostContentTitle = memo(() => {
 
     const product = post.prototype ?? null;
 
-    const thumbnailUrl = product?.ogImageUrl ?? post.thumbnailUrl;
-    const logoImgUrl = product?.image ?? null;
+    const thumbnailUrl = product?.ogImageUrl ?? post.thumbnailUrl ?? 'https://placehold.co/600x400';
+    const logoImgUrl = product?.image ?? 'https://placehold.co/400x400';
     const link = product?.homepageUrl;
     const title = product?.name ?? post.title;
     const subTitle = product?.tagline ?? post.seoDescription;
@@ -17,55 +18,38 @@ export const ProductPostContentTitle = memo(() => {
     return (
         <div>
             <div className="pb-5">
-                {thumbnailUrl ? (
-                    <img src={thumbnailUrl} alt="thumbnail of this post" loading="lazy" draggable={false} />
-                ) : (
-                    <span className="text-gray-500 italic">unset</span>
-                )}
+                <img src={thumbnailUrl} alt="thumbnail of this post" loading="lazy" draggable={false} />
             </div>
-            <div className="grid grid-cols-8">
-                <div className="col-span-1">
-                    {logoImgUrl ? (
-                        <img src={logoImgUrl} alt="logo image of this product" loading="lazy" draggable={false} />
-                    ) : (
-                        <span className="text-gray-500 italic">unset</span>
-                    )}
-                </div>
-                <div className="col-span-6">
-                    <h2 className="text-center font-[500] text-gray-800 mb-3 leading-[1.4] text-[28px] sm:text-[52px]">
+            <div className="flex justify-between">
+                <div className="flex gap-6 items-center">
+                    <div className="avatar hidden sm:inline-block">
+                        <div className="w-16 rounded-full">
+                            <img src={logoImgUrl} alt="logo image of this product" loading="lazy" draggable={false} />
+                        </div>
+                    </div>
+                    <h2 className="text-center font-semibold text-gray-800 leading-[1.4] text-[28px] sm:text-[52px]">
                         {title}
                     </h2>
                 </div>
-                <div className="col-span-1">
+
+                <div>
                     {link && (
-                        <a role="button" className="btn w-full h-full" href={link}>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                fill="currentColor"
-                                className="bi bi-box-arrow-up-right"
-                                viewBox="0 0 16 16"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"
-                                />
-                                <path
-                                    fill-rule="evenodd"
-                                    d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"
-                                />
-                            </svg>
+                        <a role="button" className="btn sm:btn-lg" href={link} target="_blank">
+                            <GrShare />
                         </a>
                     )}
                 </div>
             </div>
-            <div className="py-5">
+
+            <div className="py-5 text-[16px]">
                 <span>{subTitle}</span>
             </div>
-            <div className="flex flex-row">
-                {tagNames.map((tagName) => (
-                    <div className="badge badge-ghost">{tagName}</div>
+
+            <div className="flex flex-row gap-2">
+                {tagNames.map((tagName, i) => (
+                    <div className="badge badge-sm sm:badge-md badge-ghost" key={i}>
+                        {tagName}
+                    </div>
                 ))}
             </div>
         </div>
