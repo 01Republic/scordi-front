@@ -185,8 +185,10 @@ export const usePrototypePostContent = () => {
     const makeContent = (prototype: ApplicationPrototypeDto) => {
         const [post] = prototype.posts;
 
+        const shortName = prototype?.name?.split(' ')?.[0] ?? 'untitled';
+
         const thumbnailUrl = post?.thumbnailUrl ?? prototype?.ogImageUrl ?? 'https://placehold.co/400x200';
-        const logoImgUrl = prototype?.image ?? 'https://placehold.co/400x400';
+        const logoImgUrl = prototype?.image || `https://placehold.co/200x200?text=${shortName}`;
         const homePageUrl = prototype?.homepageUrl ?? null;
         const title = prototype?.name ?? post?.title ?? 'untitled';
         const subTitle = prototype?.tagline ?? post?.seoDescription ?? 'unset';
