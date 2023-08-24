@@ -1,13 +1,16 @@
 import {memo} from 'react';
+import {getProgressPercentage, ProgressType} from '^api/biz-ops/progress.api';
 
 interface WorkflowCardProps {
     title: string;
     onClick: () => any;
-    inProgress: boolean;
+    progress: ProgressType;
 }
 
 export const WorkflowCard = memo((props: WorkflowCardProps) => {
-    const {title, onClick, inProgress} = props;
+    const {title, onClick, progress} = props;
+    const {inProgress, taskFile} = progress;
+    const percentage = taskFile ? getProgressPercentage(taskFile) : 0;
 
     return (
         <div
@@ -16,7 +19,7 @@ export const WorkflowCard = memo((props: WorkflowCardProps) => {
         >
             <div className="card-body">
                 <p className="card-title text-sm">{title}</p>
-                {inProgress && <p className="text-xs">in progress ...</p>}
+                {inProgress && <p className="text-xs">in progress ... {percentage}%</p>}
             </div>
         </div>
     );

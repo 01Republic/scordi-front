@@ -10,38 +10,78 @@ import {RequestDto} from './request.dto';
 import {KBCardExcelToNotionInProgress, KBCardExcelToNotionIsModalShowAtom} from './atom';
 import {api} from '^api/api';
 import {toast} from 'react-toastify';
+import progressApi, {getProgressPercentage, ProgressType, TaskFileDto} from '^api/biz-ops/progress.api';
 
 export const KBCardExcelToNotionCard = memo(() => {
     const setIsModalShow = useSetRecoilState(KBCardExcelToNotionIsModalShowAtom);
-    const inProgress = useRecoilValue(KBCardExcelToNotionInProgress);
+    const progress = useRecoilValue(KBCardExcelToNotionInProgress);
 
     return (
         <WorkflowCard
             title="카드내역(국민) 엑셀 Notion에 업로드"
             onClick={() => setIsModalShow(true)}
-            inProgress={inProgress}
+            progress={progress}
         />
     );
 });
 
 export const KBCardExcelToNotionModal = () => {
     const form = useForm<RequestDto>();
-    const [inProgress, setInProgress] = useRecoilState(KBCardExcelToNotionInProgress);
+    const [progress, setProgress] = useRecoilState(KBCardExcelToNotionInProgress);
+
+    const progressPercentage = ((prog: ProgressType) => {
+        if (!prog.inProgress || !prog.taskFile) return 0;
+        return getProgressPercentage(prog.taskFile);
+    })(progress);
+
+    const checkProgress = (key: string) => {
+        progressApi.check(key).then((res) => {
+            const taskFile = res.data;
+            const percentage = getProgressPercentage(taskFile);
+            const isFinished = percentage >= 100;
+
+            if (isFinished) {
+                toast.success('Done');
+                setProgress({inProgress: false, taskFile: null});
+            } else {
+                setProgress({inProgress: true, taskFile});
+                setTimeout(() => checkProgress(key), 1000);
+            }
+        });
+    };
 
     const onSubmit = (data: RequestDto) => {
-        setInProgress(true);
-        api.post('/biz-ops/organizations/excel-to-notion', data, {
+        setProgress({inProgress: true, taskFile: null});
+        api.post<TaskFileDto>('/biz-ops/organizations/excel-to-notion', data, {
             headers: {'Content-Type': 'multipart/form-data'},
         })
-            .then(() => toast.success('Done'))
-            .catch(() => toast.error('Error'))
-            .finally(() => setInProgress(false));
+            .then((res) => {
+                setProgress({inProgress: true, taskFile: res.data});
+                checkProgress(res.data.key);
+            })
+            .catch(() => {
+                toast.error('Error');
+                setProgress({inProgress: false, taskFile: null});
+            });
     };
 
     return (
         <WorkflowExecuteModal isShowAtom={KBCardExcelToNotionIsModalShowAtom}>
-            {inProgress ? (
-                <>진행중 ...</>
+            {progress.inProgress ? (
+                <div>
+                    <p>진행중 ... ({progressPercentage}%)</p>
+                    <div className="flex items-center justify-between">
+                        <div className="flex-1">
+                            <progress
+                                className="progress progress-success w-full"
+                                value={progressPercentage}
+                                max="100"
+                            ></progress>
+                        </div>
+
+                        <div>{progressPercentage}%</div>
+                    </div>
+                </div>
             ) : (
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                     <ExecuteStepCard
