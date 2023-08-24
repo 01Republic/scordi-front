@@ -70,6 +70,7 @@ export type FindAllAppPrototypeQuery = FindAllQueryDto<ApplicationPrototypeDto> 
     isLive?: boolean;
     name?: string;
     tagIds?: number[];
+    tagName?: string;
 };
 
 export type ApplyToAddDto = {

@@ -2,11 +2,11 @@ import React from 'react';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {publicPageRequires} from '^types/utils/18n.type';
-import {ProductPostListPage} from '^components/pages/products/ProductPostListPage';
+import {ProductListPage} from 'src/components/pages/products/ProductListPage';
 
-export const ProductPostListPageRoute = pathRoute({
+export const ProductListPageRoute = pathRoute({
     pathname: '/products',
-    path: () => pathReplace(ProductPostListPageRoute.pathname, {}),
+    path: () => pathReplace(ProductListPageRoute.pathname, {}),
 });
 
 export const getStaticProps = async ({locale}: any) => ({
@@ -18,6 +18,6 @@ export const getStaticProps = async ({locale}: any) => ({
     },
 });
 
-export default function ProductPostsPage() {
-    return <ProductPostListPage />;
+export default function ProductsPage() {
+    return <ProductListPage />;
 }

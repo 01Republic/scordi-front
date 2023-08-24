@@ -18,7 +18,7 @@ export type PostDto = {
     likeCount: number; // 좋아요수
     unlikeCount: number; // 싫어요수
     prototypeId?: number | null;
-    prototype?: ApplicationPrototypeDto | null;
+    // prototype?: ApplicationPrototypeDto | null;
     tags: PostTagDto[]; // Tag 리스트
     authors: PostAuthorDto[]; // 저자 리스트
 };

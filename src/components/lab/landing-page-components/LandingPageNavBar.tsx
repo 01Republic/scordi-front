@@ -6,7 +6,7 @@ import {MainPageRoute} from '^pages/index';
 import {TastingPageRoute} from '^pages/tasting';
 import {FiMenu} from '@react-icons/all-files/fi/FiMenu';
 import {PostListPageRoute} from '^pages/posts';
-import {ProductPostListPageRoute} from '^pages/products';
+import {ProductListPageRoute} from '^pages/products';
 
 interface LandingPageNavBarProps extends WithChildren {
     fluid?: boolean;
@@ -19,7 +19,7 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
     const router = useRouter();
 
     const introducePath = '/#product-section';
-    const saasPath = ProductPostListPageRoute.path();
+    const saasPath = ProductListPageRoute.path();
     const blogPath = PostListPageRoute.path();
 
     return (

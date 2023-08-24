@@ -86,3 +86,17 @@ export const getPrototypeQuery = selector({
         set(getPrototypeQueryTrigger, (v) => v + 1);
     },
 });
+
+export type PrototypePostDto = {
+    thumbnailUrl?: string | null;
+    logoImgUrl?: string | null;
+    homepageUrl?: string | null;
+    title: string;
+    subTitle: string;
+    tagNames: string[];
+};
+
+export const getPrototypePostContent = atom({
+    key: 'prototypePostContent',
+    default: {} as PrototypePostDto,
+});

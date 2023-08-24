@@ -1,11 +1,11 @@
 import React, {memo, useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {LandingPageNavBar} from '^components/lab/landing-page-components';
-import {ProductPostListHeader} from '^components/pages/products/ProductPostListPage/ProductPostListHeader';
-import {ProductPostListSidePanel} from '^components/pages/products/ProductPostListPage/ProductPostListSidePanel';
-import {ProductPostListContentPanel} from '^components/pages/products/ProductPostListPage/ProductPostListContentPanel';
+import {ProductListHeader} from '^components/pages/products/ProductListPage/ProductListHeader';
+import {ProductListSidePanel} from '^components/pages/products/ProductListPage/ProductListSidePanel';
+import {ProductListContentPanel} from '^components/pages/products/ProductListPage/ProductListContentPanel';
 
-export const ProductPostListPage = memo(() => {
+export const ProductListPage = memo(() => {
     const router = useRouter();
 
     useEffect(() => {
@@ -15,17 +15,17 @@ export const ProductPostListPage = memo(() => {
     return (
         <div className="bg-white">
             <LandingPageNavBar showLoginButton={true} fluid={true} className="sticky top-0 z-10 bg-white" />
-            <ProductPostListHeader />
+            <ProductListHeader />
 
             <div className="w-full">
                 <div className="blog-container blog-container--default px-4">
                     <div className="sm:grid grid-cols-4 gap-8">
                         <div className="">
-                            <ProductPostListSidePanel />
+                            <ProductListSidePanel />
                         </div>
 
                         <div className="col-span-3">
-                            <ProductPostListContentPanel />
+                            <ProductListContentPanel />
                         </div>
                     </div>
                 </div>

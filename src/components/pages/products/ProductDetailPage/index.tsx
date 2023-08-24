@@ -1,25 +1,28 @@
 import React, {memo} from 'react';
-import {PostDto} from '^types/post.type';
-import {useRouter} from 'next/router';
+import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
 import {useRecoilValue} from 'recoil';
 import {isPageLoadedAtom, PostDetailPageRoute} from '^pages/posts/[id]';
-import {usePost} from '^hooks/usePosts';
 import {PageSEO} from '^components/SEO';
 import {LandingPageNavBar} from '^components/lab/landing-page-components';
-import {OtherPostList} from '^components/pages/blog/BlogPostDetailPage/OtherPostList';
-import {NewsLetterSection} from '^components/pages/LandingPages/components/NewsLetterSection';
 import {BetaServiceFooter} from '^components/pages/LandingPages/components';
-import {ProductPostContent} from '^components/pages/products/ProductPostDetailPage/ProductPostContent';
-import {SaaSReportSection} from '^components/pages/products/ProductPostDetailPage/SaaSReportSection';
+import {ProductPostContent} from '^components/pages/products/ProductDetailPage/ProductPostContent';
+import {OtherProductList} from '^components/pages/products/ProductDetailPage/OtherProductList';
+import {SaaSReportSection} from '^components/pages/products/ProductDetailPage/SaaSReportSection';
+import {usePrototypePostContent} from '^hooks/useApplicationPrototypes';
 
-export const ProductPostDetailPage = memo(({post}: {post: PostDto}) => {
-    const router = useRouter();
-    const postId = Number(router.query.id);
+interface ProductDetailPageProps {
+    prototype: ApplicationPrototypeDto;
+}
+
+export const ProductDetailPage = memo((props: ProductDetailPageProps) => {
+    const {prototype} = props;
     const isLoaded = useRecoilValue(isPageLoadedAtom);
-    usePost(post);
+    const {makeContent} = usePrototypePostContent();
+    const [post] = prototype.posts;
 
-    const title = post.prototype?.name ?? post.title;
-    const thumbnailUrl = post.prototype?.ogImageUrl ?? post.thumbnailUrl;
+    if (!post) return <></>;
+
+    const {title, thumbnailUrl} = makeContent(prototype);
 
     return (
         <div className="bg-white blog-post-detail">
@@ -38,7 +41,7 @@ export const ProductPostDetailPage = memo(({post}: {post: PostDto}) => {
                     <div className="blog-container blog-container--default">
                         <div className="blog-container--inner">
                             <article>
-                                <ProductPostContent />
+                                <ProductPostContent prototype={prototype} />
                             </article>
                         </div>
                     </div>
@@ -48,7 +51,7 @@ export const ProductPostDetailPage = memo(({post}: {post: PostDto}) => {
                             <div className="blog-container--inner">
                                 <h2 className="text-3xl mb-8">More SaaS</h2>
                                 <div className="other-posts">
-                                    <OtherPostList />
+                                    <OtherProductList />
                                 </div>
                             </div>
                         </div>

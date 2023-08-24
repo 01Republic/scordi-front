@@ -4,13 +4,18 @@ import {
     applicationPrototypeAtom,
     applicationPrototypesAtom,
     billingCycleForCreateFlowAtom,
+    getPrototypePostContent,
     getPrototypeQuery,
     getPrototypesQuery,
     paymentPlanForCreateFlowAtom,
 } from '^atoms/applicationPrototypes.atom';
 import {useCallback, useEffect, useState} from 'react';
 import {ApplicationPrototypeDto, FindAllAppPrototypeQuery} from '^types/applicationPrototype.type';
-import {getApplicationPrototype, getApplicationPrototypes} from '^api/applicationPrototype.api';
+import {
+    applicationPrototypeApi,
+    getApplicationPrototype,
+    getApplicationPrototypes,
+} from '^api/applicationPrototype.api';
 import {errorNotify} from '^utils/toast-notify';
 import {ApplicationPaymentPlanDto} from '^types/applicationPaymentPlan.type';
 import {useRouter} from 'next/router';
@@ -32,10 +37,10 @@ export const searchPrototypesParams = atom<FindAllAppPrototypeQuery>({
 
 export const usePrototypeSearch = () => {
     const [results, setResults] = useRecoilState(prototypeSearchResultsState);
-    const [params, setParams] = useRecoilState(searchPrototypesParams);
+    const [query, setQuery] = useRecoilState(searchPrototypesParams);
 
     const searchPrototypes = useCallback((params: FindAllAppPrototypeQuery) => {
-        setParams(params);
+        setQuery(params);
         getApplicationPrototypes({
             isLive: params.isLive ?? true,
             itemsPerPage: 500,
@@ -45,9 +50,25 @@ export const usePrototypeSearch = () => {
             .catch(errorNotify);
     }, []);
 
-    const mutation = useCallback(() => searchPrototypes(params), [params]);
+    const mutation = useCallback(() => searchPrototypes(query), [query]);
 
-    return {results, searchPrototypes, params, mutation};
+    const search = async (params: FindAllAppPrototypeQuery) => {
+        if (JSON.stringify(query) === JSON.stringify(params)) return results;
+
+        const data = await applicationPrototypeApi
+            .index({
+                itemsPerPage: 500,
+                ...params,
+            })
+            .then((res) => res.data);
+
+        setResults(data.items);
+        setQuery(params);
+
+        return data.items;
+    };
+
+    return {results, searchPrototypes, query, mutation, search};
 };
 
 // export const useApplicationPrototype = () => useRecoilValue(getPrototypeQuery);
@@ -158,4 +179,22 @@ export const useCreateFlow = () => {
         ...planHook,
         ...cycleHook,
     };
+};
+
+export const usePrototypePostContent = () => {
+    const makeContent = (prototype: ApplicationPrototypeDto) => {
+        const [post] = prototype.posts;
+
+        const thumbnailUrl = post?.thumbnailUrl ?? prototype?.ogImageUrl ?? 'https://placehold.co/400x200';
+        const logoImgUrl = prototype?.image ?? 'https://placehold.co/400x400';
+        const homePageUrl = prototype?.homepageUrl ?? null;
+        const title = prototype?.name ?? post?.title ?? 'untitled';
+        const subTitle = prototype?.tagline ?? post?.seoDescription ?? 'unset';
+        const tags = prototype?.tags ?? post.tags ?? [];
+        const tagNames = tags.map((tag) => tag.name);
+
+        return {thumbnailUrl, logoImgUrl, homePageUrl, title, subTitle, tagNames};
+    };
+
+    return {makeContent};
 };

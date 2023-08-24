@@ -1,19 +1,15 @@
 import {memo} from 'react';
-import {usePost} from '^hooks/usePosts';
 import {GrShare} from 'react-icons/gr';
+import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {usePrototypePostContent} from '^hooks/useApplicationPrototypes';
 
-export const ProductPostContentTitle = memo(() => {
-    const {post} = usePost();
+export const ProductPostContentTitle = memo((props: {prototype: ApplicationPrototypeDto}) => {
+    const {prototype} = props;
+    const [post] = prototype.posts;
     if (!post) return <></>;
+    const {makeContent} = usePrototypePostContent();
 
-    const product = post.prototype ?? null;
-
-    const thumbnailUrl = product?.ogImageUrl ?? post.thumbnailUrl ?? 'https://placehold.co/600x400';
-    const logoImgUrl = product?.image ?? 'https://placehold.co/400x400';
-    const link = product?.homepageUrl;
-    const title = product?.name ?? post.title;
-    const subTitle = product?.tagline ?? post.seoDescription;
-    const tagNames = product?.tags.map((tag) => tag.name) ?? post.tags.map((tag) => tag.name);
+    const {thumbnailUrl, logoImgUrl, homePageUrl, title, subTitle, tagNames} = makeContent(prototype);
 
     return (
         <div>
@@ -33,8 +29,8 @@ export const ProductPostContentTitle = memo(() => {
                 </div>
 
                 <div>
-                    {link && (
-                        <a role="button" className="btn sm:btn-lg" href={link} target="_blank">
+                    {homePageUrl && (
+                        <a role="button" className="btn sm:btn-lg" href={homePageUrl} target="_blank">
                             <GrShare />
                         </a>
                     )}
@@ -44,7 +40,6 @@ export const ProductPostContentTitle = memo(() => {
             <div className="py-5 text-[16px]">
                 <span>{subTitle}</span>
             </div>
-
             <div className="flex flex-row gap-2">
                 {tagNames.map((tagName, i) => (
                     <div className="badge badge-sm sm:badge-md badge-ghost" key={i}>

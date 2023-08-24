@@ -7,7 +7,7 @@ interface ProductPostListSidePanelItemProps extends WithChildren {
     onClick: () => void;
 }
 
-export const ProductPostListSidePanelItem = memo((props: ProductPostListSidePanelItemProps) => {
+export const ProductListSidePanelItem = memo((props: ProductPostListSidePanelItemProps) => {
     const {text, isActive, onClick, children} = props;
     const [icon, ...texts] = text.split(' ');
 

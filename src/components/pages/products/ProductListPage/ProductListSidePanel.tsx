@@ -1,9 +1,9 @@
 import {memo} from 'react';
-import {ProductPostListSidePanelItem} from '^components/pages/products/ProductPostListPage/ProductPostListSidePanelItem';
+import {ProductListSidePanelItem} from '^components/pages/products/ProductListPage/ProductListSidePanelItem';
 import {atom, useRecoilState} from 'recoil';
 import {PiCaretDownBold} from 'react-icons/pi';
 
-export const currentProductPostCategoryAtom = atom({
+export const currentProductCategoryAtom = atom({
     key: 'currentProductPostCategory',
     default: `☁️ All`,
 });
@@ -29,8 +29,8 @@ const categoryTextList = [
     `📈️ Analytics`,
 ];
 
-export const ProductPostListSidePanel = memo(() => {
-    const [currentCategory, setCurrentCategory] = useRecoilState(currentProductPostCategoryAtom);
+export const ProductListSidePanel = memo(() => {
+    const [currentCategory, setCurrentCategory] = useRecoilState(currentProductCategoryAtom);
     const isActive = (category: string) => category === currentCategory;
 
     return (
@@ -51,7 +51,7 @@ export const ProductPostListSidePanel = memo(() => {
                     className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-full overflow-y-auto max-h-[46vh] block"
                 >
                     {categoryTextList.map((text, i) => (
-                        <ProductPostListSidePanelItem
+                        <ProductListSidePanelItem
                             key={i}
                             text={text}
                             isActive={isActive}
@@ -63,7 +63,7 @@ export const ProductPostListSidePanel = memo(() => {
 
             <ul className="hidden sm:flex menu bg-base-100 py-0">
                 {categoryTextList.map((text, i) => (
-                    <ProductPostListSidePanelItem
+                    <ProductListSidePanelItem
                         key={i}
                         text={text}
                         isActive={isActive}
