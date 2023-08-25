@@ -27,8 +27,8 @@ export const ProductDetailPage = memo((props: ProductDetailPageProps) => {
     return (
         <div className="bg-white blog-post-detail">
             <PageSEO
-                url={PostDetailPageRoute.path(post.id)}
-                title={`${title} | scordi blog`}
+                url={PostDetailPageRoute.url(post.id)}
+                title={`${title} | scordi`}
                 description={post.seoDescription}
                 author={post.authors[0]?.name}
                 keywords={(post.seoKeywords || []).join(', ')}

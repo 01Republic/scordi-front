@@ -2,16 +2,16 @@ import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import ExternalCDNScripts from '^components/ExternalCDNScripts';
 import Head from 'next/head';
+import {serviceHost} from '^config/environments';
 
 interface SEOProps extends WithChildren {}
 
 export const SEO = memo((props: SEOProps) => {
     const {children} = props;
 
-    const serviceHost = 'https://scordi.io';
     // const thumbnail = `${serviceHost}/home/202305/tasting/thumbnail.png`;
     const thumbnail = `${serviceHost}/images/thumbnails/scordi-og_img-230806.png`;
-    const title = '스코디 scordi - 사내 협업툴 구독 관리';
+    const title = '스코디 scordi - 기업 SaaS 구독 관리';
     const description =
         '반복되는 단순 운영 업무, 1분만에 자동화 해 보세요. 스코디로 클릭 한 번에 SaaS를 관리할 수 있습니다.';
 

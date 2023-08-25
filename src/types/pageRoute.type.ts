@@ -6,9 +6,12 @@
 
 // type PageRoute<T> = {pathname: string; path: T};
 
+import {serviceHost} from '^config/environments';
+
 export const pathRoute = <T extends Function>(route: {pathname: string; path: T}) => {
-    const url = ((...args: any[]) =>
-        `${typeof window !== 'undefined' && window.location.origin}${route.path(...args)}`) as unknown as T;
+    const origin = serviceHost;
+
+    const url = ((...args: any[]) => `${origin}${route.path(...args)}`) as unknown as T;
     return {...route, url};
 };
 

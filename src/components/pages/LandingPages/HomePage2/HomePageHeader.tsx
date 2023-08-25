@@ -45,7 +45,7 @@ export const HomePageHeader = memo(() => {
                             </>
                         ) : (
                             <>
-                                <span className="flex items-center justify-center">협업툴 구독 관리를</span>
+                                <span className="flex items-center justify-center">SaaS 구독 관리를</span>
                                 <span className="flex items-center gap-2 justify-between">
                                     간편하게
                                     <span className="inline-block animate-[spin_2s_linear_infinite]">
