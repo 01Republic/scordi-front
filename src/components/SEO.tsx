@@ -42,7 +42,7 @@ export const SEO = memo((props: SEOProps) => {
 
     return (
         <Head>
-            <title>스코디 scordi - 사내 협업툴 구독 관리</title>
+            <title>{title}</title>
             <meta charSet="utf-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
             <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1,IE=EmulateIE7" />
