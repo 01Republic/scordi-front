@@ -13,7 +13,7 @@ export const ProductPostContentTitle = memo((props: {prototype: ApplicationProto
 
     return (
         <div>
-            <div className="pb-5">
+            <div className="pb-5 border-none">
                 <img src={thumbnailUrl} alt="thumbnail of this post" loading="lazy" draggable={false} />
             </div>
             <div className="flex justify-between">
