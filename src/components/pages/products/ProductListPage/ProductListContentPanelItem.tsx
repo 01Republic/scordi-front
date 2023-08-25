@@ -23,7 +23,7 @@ export const ProductListContentPanelItem = (props: ProductPostListContentPanelIt
     return (
         <a {...aTagOption}>
             <div className="card cursor-pointer">
-                <figure className="blog-post-item-img-hover-container overflow-hidden rounded-box border border-gray-300 w-[266.34px] h-[133.17px]">
+                <figure className="blog-post-item-img-hover-container overflow-hidden rounded-box border border-gray-300 w-full">
                     <img src={thumbnailUrl} alt="Shoes" className="rounded-xl" />
                 </figure>
                 <div className="card-body px-0 pt-4 relative">
@@ -36,12 +36,14 @@ export const ProductListContentPanelItem = (props: ProductPostListContentPanelIt
                         </div>
                     </div>
                     <h2 className="card-title">{title}</h2>
-                    <p>{subTitle}</p>
+                    <p className="overflow-hidden" style={{maxHeight: 'calc(1.375rem * 3)'}}>
+                        {subTitle}
+                    </p>
 
                     <p className="flex items-center gap-1.5 overflow-hidden">
                         {tagNames &&
                             tagNames.map((tagName, i) => (
-                                <span key={i} className="badge mb-2 bg-gray-200">
+                                <span key={i} className="badge mb-2 bg-gray-200 whitespace-nowrap">
                                     {tagName}
                                 </span>
                             ))}

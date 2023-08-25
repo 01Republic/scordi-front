@@ -43,7 +43,7 @@ export const PostItem = memo((props: PostItemProps) => {
                 <div className="card-body gap-0">
                     <p className="flex items-center gap-1.5">
                         {post.tags.map((tag, i) => (
-                            <span key={i} className="badge mb-2 bg-gray-200">
+                            <span key={i} className="badge mb-2 bg-gray-200 whitespace-nowrap">
                                 {tag.name}
                             </span>
                         ))}

@@ -93,6 +93,20 @@ $breakpoint-mobile: 639px;
   -webkit-box-orient: vertical;
 }
 
+.blog-post-subtitle-max-line-shadow {
+  position: relative;
+  &:before {
+    content: '';
+    position: absolute;
+    display: block;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1.375rem;
+    background: linear-gradient(0deg, rgb(255, 255, 255) 20%, rgba(255, 255, 255, 0) 100%);
+  }
+}
+
 .blog-post-item-img-hover-container {
   transform: translateZ(0);
   transition: 0.2s ease-in-out;

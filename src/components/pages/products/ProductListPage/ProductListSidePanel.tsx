@@ -55,7 +55,12 @@ export const ProductListSidePanel = memo(() => {
                             key={i}
                             text={text}
                             isActive={isActive}
-                            onClick={() => setCurrentCategory(text)}
+                            onClick={() => {
+                                setCurrentCategory(text);
+                                const elem = document.activeElement;
+                                // @ts-ignore
+                                if (elem) elem?.blur();
+                            }}
                         />
                     ))}
                 </ul>
