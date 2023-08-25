@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
 import {ProductPostContentTitle} from '^components/pages/products/ProductDetailPage/ProductPostContentTitle';
-import {ShareButton} from '^components/pages/blog/BlogPostDetailPage/ShareButton';
 import {GoListButton} from '^components/pages/products/ProductDetailPage/GoListButton';
 import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {ShareButton} from '^components/pages/products/ProductDetailPage/ShareButton';
 
 export const ProductPostContent = memo((props: {prototype: ApplicationPrototypeDto}) => {
     const {prototype} = props;
@@ -18,8 +18,8 @@ export const ProductPostContent = memo((props: {prototype: ApplicationPrototypeD
             </div>
 
             <div className="article-share flex flex-row-reverse items-start justify-between">
-                <ShareButton />
                 <GoListButton />
+                <ShareButton prototype={prototype} />
             </div>
         </div>
     );

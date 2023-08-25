@@ -17,9 +17,9 @@ export const ProductPostContentTitle = memo((props: {prototype: ApplicationProto
                 <img src={thumbnailUrl} alt="thumbnail of this post" loading="lazy" draggable={false} />
             </div>
             <div className="flex justify-between">
-                <div className="flex gap-6 items-center">
-                    <div className="avatar hidden sm:inline-block">
-                        <div className="w-16 rounded-full">
+                <div className="flex gap-4 sm:gap-6 items-center">
+                    <div className="avatar ring-1 ring-gray-300 ring-offset-2 bg-white">
+                        <div className="w-[40px] sm:w-16 rounded-full">
                             <img src={logoImgUrl} alt="logo image of this product" loading="lazy" draggable={false} />
                         </div>
                     </div>

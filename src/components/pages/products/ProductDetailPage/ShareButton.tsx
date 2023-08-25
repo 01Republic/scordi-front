@@ -1,13 +1,14 @@
-import {memo} from 'react';
-import {usePost} from '^hooks/usePosts';
-import {BiLink} from 'react-icons/bi';
+import React, {memo} from 'react';
+import {useRecoilValue} from 'recoil';
+import {isPageLoadedAtom} from '^pages/posts/[id]';
 import {toast} from 'react-toastify';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
-import {isPageLoadedAtom} from '^pages/posts/[id]';
-import {useRecoilValue} from 'recoil';
+import {BiLink} from 'react-icons/bi';
+import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
 
-export const ShareButton = memo(() => {
-    const {post} = usePost();
+export const ShareButton = memo((props: {prototype: ApplicationPrototypeDto}) => {
+    const {prototype} = props;
+    const [post] = prototype.posts;
     const isLoaded = useRecoilValue(isPageLoadedAtom);
 
     if (!post) return <></>;
