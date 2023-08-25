@@ -23,6 +23,7 @@ export const AdminPrototypeListPage = memo(() => {
     });
 
     const fetchData = (params: FindAllAppPrototypeQuery) => {
+        params.order = {id: 'DESC'};
         applicationPrototypeApi.index(params).then((res) => setListPage(res.data));
     };
 
