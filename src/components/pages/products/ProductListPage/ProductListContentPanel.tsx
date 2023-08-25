@@ -26,7 +26,7 @@ export const ProductListContentPanel = memo(() => {
     }, [tagName]);
 
     return (
-        <div>
+        <div className="pb-[100px]">
             <div className="flex justify-between items-center mb-[60px]">
                 <ProductListContentPanelTitle title={currentCategory} />
                 <ProductListContentPanelSearchInput />
@@ -39,7 +39,7 @@ export const ProductListContentPanel = memo(() => {
             </div>
 
             <div>
-                <p className="text-2xl text-center text-gray-500">All-in-one SaaS for SaaS 🧑‍💻</p>
+                <p className="text-2xl text-center text-gray-500 py-[80px]">All-in-one SaaS for SaaS 🧑‍💻</p>
             </div>
         </div>
     );
