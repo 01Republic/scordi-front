@@ -27,8 +27,11 @@ export const ProductListContentPanelItem = (props: ProductPostListContentPanelIt
                     <img src={thumbnailUrl} alt="Shoes" className="rounded-xl" />
                 </figure>
                 <div className="card-body px-0 pt-4 relative">
-                    <div className="avatar absolute right-6" style={{top: 'calc(3.25rem / 2 * -1 - 6px)'}}>
-                        <div className="w-14 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 bg-white">
+                    <div className="avatar absolute right-6" style={{top: 'calc((3.5rem - 24px) / -2)'}}>
+                        <div
+                            className="rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 bg-white"
+                            style={{width: 'calc(3.5rem - 24px)'}}
+                        >
                             <img src={logoImgUrl} alt={`logo image of ${title}`} loading="lazy" draggable={false} />
                         </div>
                     </div>
