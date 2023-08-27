@@ -1,6 +1,7 @@
 import {memo} from 'react';
 import {useTranslation} from 'next-i18next';
 import {useRouter} from 'next/router';
+import {CTAButton} from '^components/pages/LandingPages/HomePage2/CTAButton';
 
 export const HomePageHeader = memo(() => {
     const router = useRouter();
@@ -67,7 +68,7 @@ export const HomePageHeader = memo(() => {
 
                 {/* cta button */}
                 <div className="flex items-center justify-center">
-                    <button className="btn btn-scordi sm:btn-lg">100개 고객사 한정 무료</button>
+                    <CTAButton className="btn btn-scordi sm:btn-lg" />
                 </div>
             </div>
         </section>

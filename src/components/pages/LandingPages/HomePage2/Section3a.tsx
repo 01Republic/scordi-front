@@ -1,5 +1,6 @@
 import {memo} from 'react';
 import {HomePageSection} from './HomePageSection';
+import {CTAButton} from '^components/pages/LandingPages/HomePage2/CTAButton';
 
 export const Section3a = memo(() => {
     return (
@@ -36,7 +37,7 @@ export const Section3a = memo(() => {
                         실시간으로 한 눈에 파악
                     </p>
 
-                    <button className="btn !bg-black !text-white">100개 고객사 한정 무료</button>
+                    <CTAButton className="btn !bg-black !text-white" />
                 </div>
 
                 <div className="block sm:hidden relative pt-12">

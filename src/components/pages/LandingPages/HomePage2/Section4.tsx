@@ -1,5 +1,6 @@
 import {memo} from 'react';
 import {HomePageSection} from './HomePageSection';
+import {CTAButton} from '^components/pages/LandingPages/HomePage2/CTAButton';
 
 export const Section4 = memo(() => {
     return (
@@ -14,7 +15,7 @@ export const Section4 = memo(() => {
 
                 {/* cta button */}
                 <div className="flex items-center justify-center">
-                    <button className="btn btn-scordi btn-lg">100개 고객사 한정 무료</button>
+                    <CTAButton className="btn btn-scordi btn-lg" />
                 </div>
             </HomePageSection>
         </div>

@@ -1,5 +1,6 @@
 import {memo} from 'react';
 import {HomePageSection} from './HomePageSection';
+import {CTAButton} from '^components/pages/LandingPages/HomePage2/CTAButton';
 
 export const Section3b = memo(() => {
     return (
@@ -14,7 +15,7 @@ export const Section3b = memo(() => {
                         클릭 한 번이면 해결
                     </p>
 
-                    <button className="btn !bg-black !text-white mb-12">100개 고객사 한정 무료</button>
+                    <CTAButton className="btn !bg-black !text-white mb-12" />
                 </div>
 
                 <div className="flex-1">
