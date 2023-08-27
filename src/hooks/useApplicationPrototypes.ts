@@ -185,17 +185,19 @@ export const usePrototypePostContent = () => {
     const makeContent = (prototype: ApplicationPrototypeDto) => {
         const [post] = prototype.posts;
 
-        const shortName = prototype?.name?.split(' ')?.[0] ?? 'untitled';
+        const title = prototype?.name ?? post?.title ?? 'untitled';
+        const shortName = title.split(' ')[0];
 
-        const thumbnailUrl = post?.thumbnailUrl ?? prototype?.ogImageUrl ?? 'https://placehold.co/400x200';
+        const thumbnailUrl =
+            post?.thumbnailUrl ?? prototype?.ogImageUrl ?? `https://placehold.co/1200x630?text=${shortName}`;
         const logoImgUrl = prototype?.image || `https://placehold.co/200x200?text=${shortName}`;
         const homePageUrl = prototype?.homepageUrl ?? null;
-        const title = prototype?.name ?? post?.title ?? 'untitled';
+
         const subTitle = prototype?.tagline ?? post?.seoDescription ?? 'unset';
         const tags = prototype?.tags ?? post.tags ?? [];
         const tagNames = tags.map((tag) => tag.name);
 
-        return {thumbnailUrl, logoImgUrl, homePageUrl, title, subTitle, tagNames};
+        return {thumbnailUrl, logoImgUrl, homePageUrl, shortName, title, subTitle, tagNames};
     };
 
     return {makeContent};
