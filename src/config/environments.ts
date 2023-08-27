@@ -1,4 +1,4 @@
-export const appEnv = process.env.NODE_ENV!;
+export const appEnv = process.env.NODE_ENV! as 'development' | 'production' | 'test' | 'staging';
 export const serviceHost = process.env.NEXT_PUBLIC_SERVICE_HOST!;
 
 export const channelTalkEnv = {
