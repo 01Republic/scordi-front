@@ -45,7 +45,7 @@ export default function V3OrgHomePage() {
         // 청구메일 추가 콜백으로부터 리디렉션 된 경우가 아니라면 accessTokenData 는 null 입니다.
         if (!accessTokenData) return;
 
-        if (!accessTokenData.scope.includes('https://mail.google.com')) {
+        if (!accessTokenData.scope.includes('https://www.googleapis.com/auth/gmail.readonly')) {
             toast.error('에러가 발생했습니다. 다시 한 번 추가해주세요!');
             return;
         }
