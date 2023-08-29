@@ -2,6 +2,8 @@ import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
 import {CreateTagByAdminDto, FindAllTagQueryDto, TagDto, UpdateTagByAdminDto} from '^types/tag.type';
 
+const NAMESPACE = 'tags';
+
 export const tagApi = {
     index(params?: FindAllTagQueryDto) {
         const url = `/tags`;

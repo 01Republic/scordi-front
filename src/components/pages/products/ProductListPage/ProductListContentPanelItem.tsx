@@ -1,7 +1,7 @@
 import {ProductDetailPageRoute} from '^pages/products/[id]';
 import {ProductDto} from '^types/product.type';
 import {toast} from 'react-toastify';
-import {usePrototypePostContent} from '^hooks/useProducts';
+import {useProductPostContent} from '^hooks/useProducts';
 
 export const ProductListContentPanelItem = (props: {product: ProductDto}) => {
     const {product} = props;
@@ -12,7 +12,7 @@ export const ProductListContentPanelItem = (props: {product: ProductDto}) => {
     const aTagOption = {
         ...(post ? {href: ProductDetailPageRoute.path(product.id)} : {onClick: () => toast.info('준비 중입니다.')}),
     };
-    const {makeContent} = usePrototypePostContent();
+    const {makeContent} = useProductPostContent();
 
     const {thumbnailUrl, logoImgUrl, title, subTitle, tagNames} = makeContent(product);
 

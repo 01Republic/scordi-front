@@ -25,10 +25,10 @@ export const OrgApplicationEditPageRoute = pathRoute({
 export default function OrgAppEditPage() {
     useRouterIdParamState('id', orgIdParamState);
     useRouterIdParamState('appId', subscriptionIdParamState);
-    const {currentApplication: application} = useCurrentSubscription();
+    const {currentSubscription: subscription} = useCurrentSubscription();
     const form = useForm<UpdateSubscriptionRequestDto>();
 
-    if (!application) return <></>;
+    if (!subscription) return <></>;
 
     return (
         <OrgMobileLayout>
@@ -39,7 +39,7 @@ export default function OrgAppEditPage() {
 
                 <TitleSection.TopPadding />
                 <TitleSection.Simple flex={false}>
-                    <AppNameWithLogoBlock prototype={application.prototype} />
+                    <AppNameWithLogoBlock prototype={subscription.product} />
                 </TitleSection.Simple>
 
                 <ApplicationInputsBlock form={form} />

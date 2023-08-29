@@ -3,23 +3,23 @@ import {dateIsBeforeThen, yyyy_mm_dd} from '^utils/dateTime';
 import {ProductDto} from '^types/product.type';
 import {ProductDetailPageRoute} from '^pages/products/[id]';
 import {toast} from 'react-toastify';
-import {usePrototypePostContent} from '^hooks/useProducts';
+import {useProductPostContent} from '^hooks/useProducts';
 
 interface OtherProductItemProps {
-    prototype?: ProductDto;
+    product?: ProductDto;
 }
 
 export const OtherProductItem = memo((props: OtherProductItemProps) => {
-    const {prototype} = props;
-    const {makeContent} = usePrototypePostContent();
+    const {product} = props;
+    const {makeContent} = useProductPostContent();
 
-    if (!prototype) return <></>;
-    const [post] = prototype.posts;
+    if (!product) return <></>;
+    const [post] = product.posts;
 
-    const {thumbnailUrl, title, subTitle, tagNames} = makeContent(prototype);
+    const {thumbnailUrl, title, subTitle, tagNames} = makeContent(product);
 
     const aTagOption = {
-        ...(post ? {href: ProductDetailPageRoute.path(prototype.id)} : {onClick: () => toast.info('준비 중입니다.')}),
+        ...(post ? {href: ProductDetailPageRoute.path(product.id)} : {onClick: () => toast.info('준비 중입니다.')}),
     };
 
     return (

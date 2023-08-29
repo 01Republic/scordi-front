@@ -9,7 +9,7 @@ export const OtherProductList = memo(() => {
     const {search} = useProductSearch();
     const [pageNum, setPageNum] = useState(1);
 
-    const prototypes = useRecoilValue(productSearchResultsState);
+    const products = useRecoilValue(productSearchResultsState);
 
     useEffect(() => {
         if (!router.isReady) return;
@@ -19,8 +19,8 @@ export const OtherProductList = memo(() => {
 
     return (
         <ul className="other-posts-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-            {prototypes.map((prototype, i) => (
-                <ProductItem prototype={prototype} key={i} />
+            {products.map((product, i) => (
+                <ProductItem product={product} key={i} />
             ))}
         </ul>
     );

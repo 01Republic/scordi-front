@@ -1,12 +1,10 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {CreateProductRequestDto as CreateDto, UpdateProductRequestDto as UpdateDto} from '^types/product.type';
 import {UseFormReturn} from 'react-hook-form';
-import {TagDto, TagGroup} from '^types/tag.type';
-import {MultiSelect, Option} from '^components/util/select/MultiSelect';
+import {TagDto} from '^types/tag.type';
+import {MultiSelect} from '^components/util/select/MultiSelect';
 import {ContentPanelInput} from '^layouts/ContentLayout';
-import {ActionMeta, MultiValue, StylesConfig} from 'react-select';
-import {useTagMultiSelect, useTags} from '^hooks/useTags';
-import {useMultiSelect} from '^hooks/useMultiSelect';
+import {useProductTags, useTagMultiSelect} from '^hooks/useTags';
 
 interface PrototypeTagMultiSelectProps {
     tags: TagDto[];
@@ -51,7 +49,7 @@ export const PrototypeTagMultiSelect = (props: PrototypeTagMultiSelectProps) => 
             remove: removeTag,
             reset: resetTag,
         },
-        hooks: useTags(TagGroup.Application),
+        hooks: useProductTags(),
     });
 
     return (
