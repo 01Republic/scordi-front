@@ -26,13 +26,13 @@ export const SelectCyclePageProps = pathRoute({
 export default function SelectCyclePage() {
     const router = useRouter();
     const organizationId = Number(router.query.id) || null;
-    const {prototype: proto, paymentPlan: plan} = useCreateFlow();
+    const {product, paymentPlan: plan} = useCreateFlow();
 
-    const pageLoaded = !!organizationId && !!proto && !!plan;
+    const pageLoaded = !!organizationId && !!product && !!plan;
     if (!pageLoaded) return <PreLoader />;
 
     const cycleOnClickHandler = (billingCycle: SubscriptionBillingCycleDto) => {
-        router.push(NewAppBillingHistoryPageRoute.path(organizationId, proto.id, plan.id, billingCycle.id));
+        router.push(NewAppBillingHistoryPageRoute.path(organizationId, product.id, plan.id, billingCycle.id));
     };
 
     return (
@@ -40,7 +40,7 @@ export default function SelectCyclePage() {
             <MobileTopNav>
                 <BackButton />
             </MobileTopNav>
-            <SelectedStatusSection proto={proto} text={plan.name} />
+            <SelectedStatusSection product={product} text={plan.name} />
             <LeadMessageSection text="결제 주기는 어떻게 되세요?" />
             <MobileEntityListSection
                 listOfData={plan.billingCycles}

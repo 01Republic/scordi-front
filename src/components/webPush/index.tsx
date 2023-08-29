@@ -47,7 +47,7 @@ export const WebPush = memo(() => {
                 applicationServerKey: urlBase64ToUint8Array(publicVapidKey!),
                 userVisibleOnly: true,
             });
-            console.log('🐯 subscription 내용 : ', subscription);
+            console.log('🐯 apps 내용 : ', subscription);
 
             //구독 정보 서버로 patch
             patchUsersWebpushRegister({subscription}).then((res) => setUserInfo(res.data));

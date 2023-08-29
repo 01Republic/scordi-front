@@ -7,7 +7,7 @@ interface PaymentInfoZoneProps {
 
 export const PaymentInfoZone = memo((props: PaymentInfoZoneProps) => {
     const {application} = props;
-    const {prototype, paymentPlan} = application;
+    const {product, paymentPlan} = application;
 
     const {publicEmail, billingEmail} = application;
 

@@ -18,7 +18,7 @@ export const CreateAppForm = memo((props: CreateAppFormProps) => {
     const {} = props;
     const router = useRouter();
     const organizationId = Number(router.query.id) || null;
-    const {prototype: proto, paymentPlan: plan, billingCycle: cycle} = useCreateFlow();
+    const {product: proto, paymentPlan: plan, billingCycle: cycle} = useCreateFlow();
     const form = useForm<CreateDto>();
 
     const pageLoaded = !!organizationId && !!proto && !!plan && !!cycle;

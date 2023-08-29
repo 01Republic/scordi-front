@@ -25,7 +25,7 @@ export const CurrentHistoryZone = memo((props: CurrentHistoryZoneProps) => {
 
     if (!currentSyncHistory) return <></>;
 
-    const {prototype} = application;
+    const {product} = application;
 
     const asset = syncHistoryAssets[currentSyncHistory.resultStatus];
     const Icon = asset.Icon;

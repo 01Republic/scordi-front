@@ -13,7 +13,7 @@ export const PaymentDue = memo((props: PaymentDueProps & WithChildren) => {
     const {application, children} = props;
     const setTabIndex = useSetRecoilState(navTabIndex);
 
-    const {prototype} = application;
+    const {product} = application;
 
     const paymentDue = application.nextBillingDate || '-';
 

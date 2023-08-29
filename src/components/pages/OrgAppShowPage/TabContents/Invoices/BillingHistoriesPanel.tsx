@@ -15,7 +15,7 @@ import {Paginator} from '^components/Paginator';
 
 export const BillingHistoriesPanel = memo(() => {
     const router = useRouter();
-    const {currentApplication: application} = useCurrentSubscription();
+    const {currentSubscription: application} = useCurrentSubscription();
     const [histories, setHistories] = useState<BillingHistoryDto[]>([]);
 
     const [currentPage, setCurrentPage] = useState<number>(0);

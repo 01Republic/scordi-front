@@ -23,12 +23,12 @@ export const OrgAppShowPageMobile = memo(() => {
     const router = useRouter();
     const organizationId = Number(router.query.id);
     const applicationId = Number(router.query.appId);
-    const {currentApplication: application} = useCurrentSubscription();
-    const setApplicationIdParam = useSetRecoilState(subscriptionIdParamState);
+    const {currentSubscription: application} = useCurrentSubscription();
+    const setSubscriptionIdParam = useSetRecoilState(subscriptionIdParamState);
     const setBillingHistoriesQueryParam = useSetRecoilState(getBillingHistoriesParamsState);
 
     useEffect(() => {
-        setApplicationIdParam(applicationId);
+        setSubscriptionIdParam(applicationId);
         setBillingHistoriesQueryParam({
             where: {applicationId},
             order: {id: 'DESC'},
@@ -38,7 +38,7 @@ export const OrgAppShowPageMobile = memo(() => {
 
     if (!application) return <></>;
 
-    const {prototype, paymentPlan, billingCycle} = application;
+    const {product, paymentPlan, billingCycle} = application;
 
     return (
         <OrgMobileLayout>
@@ -59,7 +59,7 @@ export const OrgAppShowPageMobile = memo(() => {
                     href={NewBillingHistoryOnAppPageRoute.path(
                         organizationId,
                         applicationId,
-                        prototype.id,
+                        product.id,
                         paymentPlan?.id || 0,
                         billingCycle?.id || 0,
                     )}

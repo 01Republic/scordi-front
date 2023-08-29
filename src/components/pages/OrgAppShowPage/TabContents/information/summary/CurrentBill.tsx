@@ -10,7 +10,7 @@ interface CurrentBillProps {
 
 export const CurrentBill = memo((props: CurrentBillProps & WithChildren) => {
     const {application, children} = props;
-    const {prototype, paymentPlan, billingCycle} = application;
+    const {product, paymentPlan, billingCycle} = application;
 
     const isFreeTier = application.isFreeTier;
     const cycleName = billingCycle ? t_BillingCycleTerm(billingCycle.term, true, Locale.en) : '-';

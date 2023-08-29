@@ -85,7 +85,7 @@ interface TastingItemDetailModalBodyProps {
 
 export const TastingItemDetailModalBody = memo((props: TastingItemDetailModalBodyProps) => {
     const {billingHistory, invoiceApp} = props;
-    const {prototype: proto, billingHistories} = invoiceApp;
+    const {product: proto, billingHistories} = invoiceApp;
 
     const item = billingHistory.emailContent!;
 

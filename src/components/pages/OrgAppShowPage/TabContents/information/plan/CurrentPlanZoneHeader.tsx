@@ -10,11 +10,11 @@ interface CurrentPlanZoneHeaderProps {
 export const CurrentPlanZoneHeader = memo((props: CurrentPlanZoneHeaderProps) => {
     const {application} = props;
 
-    const {prototype} = application;
+    const {product} = application;
 
     const {connectedSlug} = application;
-    const planCompareUrl = eval(`\`${prototype.planComparePageUrlScheme}\``) as string;
-    const upgradePageUrl = eval(`\`${prototype.upgradePlanPageUrlScheme}\``) as string;
+    const planCompareUrl = eval(`\`${product.planComparePageUrlScheme}\``) as string;
+    const upgradePageUrl = eval(`\`${product.upgradePlanPageUrlScheme}\``) as string;
 
     return (
         <div className="bs-row items-center mb-4">

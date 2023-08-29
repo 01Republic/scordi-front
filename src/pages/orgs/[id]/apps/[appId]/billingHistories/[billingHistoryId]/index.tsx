@@ -37,11 +37,11 @@ export default function BillingHistoryShowPage() {
     const organizationId = useRouterIdParamState('id', orgIdParamState);
     const applicationId = useRouterIdParamState('appId', subscriptionIdParamState);
     const billingHistoryId = useRouterIdParamState('billingHistoryId', billingHistoryIdParamState);
-    const {currentApplication: application} = useCurrentSubscription();
+    const {currentSubscription: application} = useCurrentSubscription();
     const setBillingHistoriesQueryParam = useSetRecoilState(getBillingHistoriesParamsState);
 
     useEffect(() => {
-        // setApplicationIdParam(applicationId);
+        // setSubscriptionIdParam(applicationId);
         if (!applicationId || isNaN(applicationId)) return;
         setBillingHistoriesQueryParam({
             where: {applicationId},
@@ -72,7 +72,7 @@ export default function BillingHistoryShowPage() {
                     href={NewBillingHistoryOnAppPageRoute.path(
                         organizationId,
                         applicationId,
-                        application.prototypeId,
+                        application.productId,
                         application.paymentPlanId || 0,
                         application.billingCycleId || 0,
                     )}

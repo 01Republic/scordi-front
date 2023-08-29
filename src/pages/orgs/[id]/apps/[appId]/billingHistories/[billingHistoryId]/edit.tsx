@@ -29,7 +29,7 @@ export const BillingHistoryEditPageRoute = pathRoute({
 export default function BillingHistoryEditPage() {
     useRouterIdParamState('appId', subscriptionIdParamState);
     useRouterIdParamState('billingHistoryId', billingHistoryIdParamState);
-    const {currentApplication: application} = useCurrentSubscription();
+    const {currentSubscription: application} = useCurrentSubscription();
     const billingHistory = useBillingHistory();
     const form = useForm<UpdateBillingHistoryRequestDto>();
 
@@ -44,7 +44,7 @@ export default function BillingHistoryEditPage() {
 
                 <TitleSection.TopPadding />
                 <TitleSection.Simple flex={false}>
-                    <AppNameWithLogoBlock prototype={application.prototype} />
+                    <AppNameWithLogoBlock product={application.product} />
                     <BillingHistoryAmountInputBlock form={form} />
                 </TitleSection.Simple>
 

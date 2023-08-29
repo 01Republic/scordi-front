@@ -18,7 +18,7 @@ export const ServiceSuggestList: React.FC<ServiceSuggestListProps> = ({title, se
             </div>
             <div className={'py-[20px] bs-row'}>
                 {serviceList.map((item, index) => {
-                    const myApp = myApps.find((app) => app.prototypeId === item.id);
+                    const myApp = myApps.find((app) => app.productId === item.id);
                     return (
                         <div
                             className={'bs-col-6 xs:bs-col-4 sm:bs-col-3 md:bs-col-2 xl:bs-col text-center'}

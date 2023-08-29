@@ -24,10 +24,10 @@ export default function NewAppCreatedPage() {
     const router = useRouter();
     const subscriptionId = Number(router.query.applicationId);
     const {currentSubscription: subscription} = useCurrentSubscription();
-    const setApplicationIdParam = useSetRecoilState(subscriptionIdParamState);
+    const setSubscriptionIdParam = useSetRecoilState(subscriptionIdParamState);
 
     useEffect(() => {
-        setApplicationIdParam(subscriptionId);
+        setSubscriptionIdParam(subscriptionId);
     }, [subscriptionId]);
 
     if (subscription) {

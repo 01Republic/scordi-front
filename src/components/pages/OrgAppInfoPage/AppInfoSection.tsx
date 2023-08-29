@@ -10,18 +10,18 @@ import {AppNextPayInfoBlock} from '^components/pages/OrgAppInfoPage/AppNextPayIn
 type AppInfoSectionProps = {};
 
 export const AppInfoSection = memo((props: AppInfoSectionProps) => {
-    const {currentApplication: application} = useCurrentSubscription();
+    const {currentSubscription: application} = useCurrentSubscription();
 
     if (!application) return <></>;
 
-    const {prototype, paymentPlan, billingCycle} = application;
+    const {product, paymentPlan, billingCycle} = application;
     console.log(application);
 
     return (
         <>
             <TitleSection.TopPadding />
             <TitleSection.Simple flex={false}>
-                <AppNameWithLogoBlock prototype={prototype} />
+                <AppNameWithLogoBlock product={product} />
                 <AppNextPayInfoBlock application={application} />
             </TitleSection.Simple>
 

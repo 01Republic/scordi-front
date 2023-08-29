@@ -12,7 +12,7 @@ type AppBillingHistoryListSectionProps = {
 
 export const AppBillingHistoryListSection = memo((props: AppBillingHistoryListSectionProps) => {
     const {onClickMethod} = props;
-    const {currentApplication: application} = useCurrentSubscription();
+    const {currentSubscription: application} = useCurrentSubscription();
     const billingHistoriesQueryResult = useBillingHistories();
 
     if (!application || !billingHistoriesQueryResult) return <PreLoader screenSize={false} />;

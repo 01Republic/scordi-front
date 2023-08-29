@@ -9,7 +9,7 @@ interface ApplicationLogoProps {
 export const ApplicationLogo = memo((props: ApplicationLogoProps) => {
     const {application} = props;
 
-    const {prototype: proto, profileImage, displayName} = application;
+    const {product: proto, profileImage, displayName} = application;
 
     return (
         <div className="relative">

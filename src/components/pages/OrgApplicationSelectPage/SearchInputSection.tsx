@@ -9,11 +9,11 @@ import {getProductsParamsState} from '^atoms/products.atom';
 type SearchSectionProps = {};
 
 export const SearchInputSection = memo((props: SearchSectionProps) => {
-    const setPrototypesParams = useSetRecoilState(getProductsParamsState);
+    const setProductsParams = useSetRecoilState(getProductsParamsState);
     const form = useForm<FindAllProductQuery>();
 
     const searchHandler = useCallback((data: FindAllProductQuery) => {
-        setPrototypesParams({name: data.name});
+        setProductsParams({name: data.name});
     }, []);
 
     return (

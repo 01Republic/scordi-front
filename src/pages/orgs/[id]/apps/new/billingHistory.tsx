@@ -29,9 +29,9 @@ export const NewAppBillingHistoryPageRoute = pathRoute({
 export default function NewAppBillingHistoryPage() {
     const router = useRouter();
     const organizationId = Number(router.query.id) || null;
-    const {prototype: proto, paymentPlan: plan, billingCycle: cycle} = useCreateFlow();
+    const {product, paymentPlan: plan, billingCycle: cycle} = useCreateFlow();
 
-    const pageLoaded = !!organizationId && !!proto && !!plan && !!cycle;
+    const pageLoaded = !!organizationId && !!product && !!plan && !!cycle;
     if (!pageLoaded) return <PreLoader />;
 
     return (
@@ -39,7 +39,10 @@ export default function NewAppBillingHistoryPage() {
             <MobileTopNav>
                 <BackButton />
             </MobileTopNav>
-            <SelectedStatusSection proto={proto} text={[plan.name, t_BillingCycleTerm(cycle.term, true)].join(' / ')} />
+            <SelectedStatusSection
+                product={product}
+                text={[plan.name, t_BillingCycleTerm(cycle.term, true)].join(' / ')}
+            />
             <LeadMessageSection text="최근에 얼마나 결제 되셨어요?" />
             <CreateAppForm />
         </OrgMobileLayout>

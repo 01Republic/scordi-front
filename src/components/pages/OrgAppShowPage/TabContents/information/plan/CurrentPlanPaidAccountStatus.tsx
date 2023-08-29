@@ -8,7 +8,7 @@ interface CurrentPlanPaidAccountStatusProps {
 
 export const CurrentPlanPaidAccountStatus = memo((props: CurrentPlanPaidAccountStatusProps) => {
     const {application} = props;
-    const {prototype, paymentPlan, billingCycle} = application;
+    const {product, paymentPlan, billingCycle} = application;
 
     const cycleName = billingCycle ? t_BillingCycleTerm(billingCycle.term, false, Locale.en) : '-';
     const unitPrice = billingCycle ? `$${billingCycle.unitPrice}` : '-';

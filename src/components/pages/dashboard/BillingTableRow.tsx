@@ -13,7 +13,7 @@ export const BillingTableRow = (props: BillingTableRowProps) => {
     const {app} = props;
     const router = useRouter();
     const organizationId = Number(router.query.id);
-    const {prototype, paymentPlan, billingCycle} = app;
+    const {product, paymentPlan, billingCycle} = app;
 
     const onEditBtnClick = () => {};
 
@@ -27,11 +27,11 @@ export const BillingTableRow = (props: BillingTableRowProps) => {
                 <div className="flex items-center space-x-3">
                     <div className="avatar">
                         <div className="mask mask-squircle h-12 w-12">
-                            <img src={prototype.image} alt={`${prototype.name} logo`} />
+                            <img src={product.image} alt={`${product.name} logo`} />
                         </div>
                     </div>
                     <div>
-                        <div className="font-bold">{prototype.name}</div>
+                        <div className="font-bold">{product.name}</div>
                     </div>
                 </div>
             </td>

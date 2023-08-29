@@ -4,7 +4,7 @@ import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {useSyncHistoryList} from '^hooks/useSubscriptionSyncHistories';
 
 export const ConnectStatusPooling = memo(() => {
-    const {currentApplication, reload} = useCurrentSubscription();
+    const {currentSubscription, reload} = useCurrentSubscription();
     const {fetchItems: fetchSyncHistories, pagination} = useSyncHistoryList();
 
     const pool = useCallback((id: number, reloadable: boolean) => {
@@ -24,9 +24,9 @@ export const ConnectStatusPooling = memo(() => {
     }, []);
 
     useEffect(() => {
-        if (!currentApplication) return;
-        pool(currentApplication.id, false);
-    }, [currentApplication]);
+        if (!currentSubscription) return;
+        pool(currentSubscription.id, false);
+    }, [currentSubscription]);
 
     return <></>;
 });

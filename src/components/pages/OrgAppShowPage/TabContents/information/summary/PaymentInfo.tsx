@@ -12,11 +12,11 @@ interface PaymentInfoProps {
 export const PaymentInfo = memo((props: PaymentInfoProps & WithChildren) => {
     const {application, children} = props;
 
-    const {prototype} = application;
+    const {product} = application;
 
     const {connectedSlug, billingEmail} = application;
-    const paymentInfoUrl = eval(`\`${prototype.billingInfoPageUrlScheme}\``) as string;
-    const updatePaymentMethodUrl = eval(`\`${prototype.updatePayMethodUrlScheme}\``) as string;
+    const paymentInfoUrl = eval(`\`${product.billingInfoPageUrlScheme}\``) as string;
+    const updatePaymentMethodUrl = eval(`\`${product.updatePayMethodUrlScheme}\``) as string;
     const open = (url: string) => (url ? window.open(url, '_blank') : alert('This service linkage is not ready :('));
 
     return (

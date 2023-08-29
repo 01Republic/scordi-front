@@ -38,8 +38,8 @@ export default function BillingHistoriesPage() {
         <OrgMobileLayout>
             <MobileTopNav title={'구독 정보'} />
             <MobileViewContainer>
-                <Image src={appInfo.prototype.image} width={80} height={80} />
-                <h2 className={'my-[20px]'}>{appInfo.prototype.name}</h2>
+                <Image src={appInfo.product.image} width={80} height={80} />
+                <h2 className={'my-[20px]'}>{appInfo.product.name}</h2>
                 <p>구독시작일 : {intlDateLong(appInfo.registeredAt)}</p>
                 <h2 className={'mt-[40px]'}>구독 내역</h2>
                 {billingHistory.length === 0 && (

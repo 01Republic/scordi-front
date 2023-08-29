@@ -21,7 +21,7 @@ export const PrototypeHeader = memo((props: WithChildren) => {
         if (!organizationId || isNaN(organizationId)) return;
         if (!proto) return;
 
-        const where = {organizationId, prototypeId: proto.id};
+        const where = {organizationId, productId: proto.id};
         getSubscriptions({where})
             .then((res) => res.data.items)
             .then(setApps)

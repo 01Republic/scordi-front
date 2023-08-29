@@ -39,7 +39,7 @@ export default function OrgAppEditPage() {
 
                 <TitleSection.TopPadding />
                 <TitleSection.Simple flex={false}>
-                    <AppNameWithLogoBlock prototype={subscription.product} />
+                    <AppNameWithLogoBlock product={subscription.product} />
                 </TitleSection.Simple>
 
                 <ApplicationInputsBlock form={form} />

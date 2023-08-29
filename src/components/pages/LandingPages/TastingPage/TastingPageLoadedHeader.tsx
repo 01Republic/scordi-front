@@ -35,7 +35,7 @@ export const TastingPageLoadedHeader = memo(({children}: WithChildren) => {
                                 {t('hey_payment_list_arrived', {name: gmailProfile?.name || ''})}
                                 {/*{gmailProfile ? `${gmailProfile.name}님, ` : ''} 결제 내역이 도착했어요!*/}
                             </h1>
-                            {/*<h1 className="text-5xl mb-3">Find all your team subscription usage</h1>*/}
+                            {/*<h1 className="text-5xl mb-3">Find all your team apps usage</h1>*/}
                             {/*<p className="text-lg text-gray-500">(This is just a tasting. It will never be saved.)</p>*/}
                             <p className="text-lg text-gray-500">
                                 {t('scordi_will_take_care')} <br />

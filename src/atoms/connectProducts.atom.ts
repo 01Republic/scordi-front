@@ -13,8 +13,8 @@ export const connectProductModalState = atom({
 });
 
 // 연동 모달의 연동대상 SaaS 앱
-export const currentPrototypeState = atom<ProductDto | null>({
-    key: 'currentPrototypeState',
+export const currentProductState = atom<ProductDto | null>({
+    key: 'currentProductState',
     default: null,
 });
 
@@ -64,7 +64,7 @@ export const createdApplicationIdState = atom<number>({
 // 연동 모달 내부의 여러 컴포넌트에서 공유할 필요가 있는 상태값을 한 번에 관리
 export const useConnectPrototypeModalState = () => {
     const [isConnectModalOpen, setIsConnectModalOpen] = useRecoilState(connectProductModalState);
-    const [currentPrototype] = useRecoilState(currentPrototypeState);
+    const [currentProduct] = useRecoilState(currentProductState);
     const [currentStage, setCurrentStage] = useRecoilState(connectModalStageState);
     const [isLoading, setIsLoading] = useRecoilState(connectModalIsLoadingState);
     const [errorMessage, setErrorMessage] = useRecoilState(connectModalErrorMessage);
@@ -106,7 +106,7 @@ export const useConnectPrototypeModalState = () => {
     return {
         isConnectModalOpen,
         setIsConnectModalOpen,
-        currentPrototype,
+        currentProduct,
         currentStage,
         setCurrentStage,
         isLoading,

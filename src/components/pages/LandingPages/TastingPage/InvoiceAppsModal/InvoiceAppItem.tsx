@@ -13,16 +13,16 @@ interface InvoiceAppItemProps {
 export const InvoiceAppItem = memo((props: InvoiceAppItemProps) => {
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
     const {invoiceApp} = props;
-    const {prototype: proto, billingHistories} = invoiceApp;
+    const {product: product, billingHistories} = invoiceApp;
     const {totalPrice} = getTotalPriceOfEmails(invoiceApp.billingHistories, displayCurrency);
 
     return (
         <li>
             <div className="grid grid-cols-6 py-3 px-3 -mx-3 rounded-box cursor-pointer hover:bg-neutral">
                 <div className="col-span-4 flex items-center gap-4">
-                    <Avatar src={proto.image} className="w-9 h-9 outline outline-offset-1 outline-slate-100" />
+                    <Avatar src={product.image} className="w-9 h-9 outline outline-offset-1 outline-slate-100" />
                     <div className="flex-1">
-                        <p className="text-xs text-gray-500">{proto.name}</p>
+                        <p className="text-xs text-gray-500">{product.name}</p>
                         <p className="text-[16px]">
                             <small className="mr-0.5">{getCurrencySymbol(totalPrice.currency)}</small>
                             <span className="font-semibold">

@@ -41,11 +41,11 @@ export const NewBillingHistoryOnAppPageRoute = pathRoute({
 export default function NewBillingHistoryOnAppPage() {
     useRouterIdParamState('id', orgIdParamState);
     useRouterIdParamState('appId', subscriptionIdParamState);
-    const {currentApplication: application} = useCurrentSubscription();
+    const {currentSubscription: application} = useCurrentSubscription();
 
     if (!application) return <PreLoader />;
 
-    const {product: proto, paymentPlan: plan, billingCycle: cycle} = application;
+    const {product, paymentPlan: plan, billingCycle: cycle} = application;
 
     return (
         <OrgMobileLayout>
@@ -53,7 +53,7 @@ export default function NewBillingHistoryOnAppPage() {
                 <BackButton />
             </MobileTopNav>
             <SelectedStatusSection
-                proto={proto}
+                product={product}
                 text={[plan?.name || '-', cycle ? t_BillingCycleTerm(cycle.term, true) : '-'].join(' / ')}
             />
             <LeadMessageSection text="새로운 결제가 있나요?" />

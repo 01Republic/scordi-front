@@ -5,12 +5,12 @@ import {RadioSetInput} from '^components/RadioSetInput';
 import {t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 import {TextInput} from '^components/TextInput';
 import {ProductDto} from '^types/product.type';
-import {CreateApplicationRequestDto} from '^types/subscription.type';
+import {CreateSubscriptionRequestDto} from '^types/subscription.type';
 import {UseFormReturn} from 'react-hook-form';
 import {SubscriptionPaymentPlanDto} from '^types/subscriptionPaymentPlan.type';
 
 interface ConnectPanelV1Props {
-    form: UseFormReturn<CreateApplicationRequestDto, any>;
+    form: UseFormReturn<CreateSubscriptionRequestDto, any>;
     protoApp: ProductDto;
     selectedPlan: SubscriptionPaymentPlanDto;
     setSelectedPlanId: React.Dispatch<React.SetStateAction<number>>;

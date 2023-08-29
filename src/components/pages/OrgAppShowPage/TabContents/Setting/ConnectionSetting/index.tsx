@@ -7,7 +7,7 @@ import {TextInput} from '^components/TextInput';
 import {DangerPanel} from './DangerPanel';
 
 export const ConnectionSetting = memo(() => {
-    const {currentApplication: app} = useCurrentSubscription();
+    const {currentSubscription: app} = useCurrentSubscription();
     const form = useForm<UpdateDto>();
 
     useEffect(() => {

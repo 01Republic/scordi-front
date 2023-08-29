@@ -55,7 +55,7 @@ export default function OrgApplicationSelectPage() {
     /**
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [myApps, setMyApps] = useState<SubscriptionDto[]>([]);
-    const [prototypes, setPrototypes] = useState<ProductDto[]>([]);
+    const [products, setProducts] = useState<ProductDto[]>([]);
     const [categories, setCategories] = useState<ProductTagDto[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<ProductTagDto | null>(null);
     const form = useForm<SearchAppPrototypeForm>();
@@ -64,7 +64,7 @@ export default function OrgApplicationSelectPage() {
         setIsLoading(true);
         getProducts(params)
             .then(({data}) => {
-                setPrototypes(data.items);
+                setProducts(data.items);
             })
             .catch(errorNotify)
             .finally(() => {
@@ -127,13 +127,13 @@ export default function OrgApplicationSelectPage() {
             <ContentPanel>
                 <div className="bs-row mx-0 pt-3">
                     <div className="bs-col px-0">
-                        <div className={`bs-row mx-0 ${isLoading || prototypes.length <= 0 ? 'h-full' : ''}`}>
+                        <div className={`bs-row mx-0 ${isLoading || products.length <= 0 ? 'h-full' : ''}`}>
                             {isLoading && (
                                 <div className="w-full min-h-[12rem]">
                                     <PreLoader screenSize={false} />
                                 </div>
                             )}
-                            {!isLoading && prototypes.length <= 0 && (
+                            {!isLoading && products.length <= 0 && (
                                 <div className="bs-col flex flex-col gap-4 items-center justify-center">
                                     <img
                                         className="w-[50%] min-w-[200px]"
@@ -146,9 +146,9 @@ export default function OrgApplicationSelectPage() {
                                 </div>
                             )}
                             {!isLoading &&
-                                prototypes.length > 0 &&
+                                products.length > 0 &&
                                 [1].map(() =>
-                                    prototypes.map((proto) => {
+                                    products.map((proto) => {
                                         return (
                                             <SelectablePrototypeCard
                                                 key={proto.id}

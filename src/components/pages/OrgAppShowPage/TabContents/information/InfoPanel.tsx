@@ -5,20 +5,17 @@ import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {OutLink} from '^components/OutLink';
 
 export const InfoPanel = memo(() => {
-    const {currentApplication: application} = useCurrentSubscription();
+    const {currentSubscription: application} = useCurrentSubscription();
 
     if (!application) return <></>;
 
-    const {prototype} = application;
+    const {product} = application;
 
     return (
         <ContentPanel>
             <ContentPanelMiniTitle>Introduce</ContentPanelMiniTitle>
 
-            <div
-                className="text-sm whitespace-pre-line mb-5"
-                dangerouslySetInnerHTML={{__html: prototype.desc.trim()}}
-            />
+            <div className="text-sm whitespace-pre-line mb-5" dangerouslySetInnerHTML={{__html: product.desc.trim()}} />
 
             <div className="overflow-x-auto">
                 <table className="table w-full text-sm">
@@ -27,10 +24,10 @@ export const InfoPanel = memo(() => {
                         <Tr label="Sub-Category">CategoryCategory</Tr>
                         <Tr label="Phone">CategoryCategory</Tr>
                         <Tr label="Website">
-                            <OutLink href={prototype.homepageUrl} />
+                            <OutLink href={product.homepageUrl} />
                         </Tr>
                         <Tr label="Pricing">
-                            <OutLink href={prototype.pricingPageUrl} />
+                            <OutLink href={product.pricingPageUrl} />
                         </Tr>
                     </tbody>
                 </table>

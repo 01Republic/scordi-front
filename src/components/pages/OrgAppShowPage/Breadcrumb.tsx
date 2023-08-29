@@ -8,11 +8,11 @@ import {useCurrentSubscription} from '^hooks/useSubscriptions';
 export const Breadcrumb = memo(() => {
     const router = useRouter();
     const orgId = useRouterIdParamState('id', orgIdParamState);
-    const {currentApplication} = useCurrentSubscription();
+    const {currentSubscription} = useCurrentSubscription();
 
-    if (!currentApplication) return <></>;
+    if (!currentSubscription) return <></>;
 
-    const proto = currentApplication.prototype;
+    const proto = currentSubscription.product;
 
     return (
         <section className="text-sm breadcrumbs mb-5">

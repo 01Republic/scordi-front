@@ -11,10 +11,10 @@ interface CurrentPlanPanelHeader {
 export const CurrentPlanPanelHeader = memo((props: CurrentPlanPanelHeader) => {
     const {application} = props;
 
-    const {prototype, paymentPlan, billingCycle} = application;
+    const {product, paymentPlan, billingCycle} = application;
 
-    const protoName = prototype.name;
-    const protoImage = prototype.image;
+    const protoName = product.name;
+    const protoImage = product.image;
     const planName = paymentPlan?.name || '-';
     const planDesc = 'The basics for organizations and developers';
     const cycleName = billingCycle ? t_BillingCycleTerm(billingCycle.term, true, Locale.en) : '-';

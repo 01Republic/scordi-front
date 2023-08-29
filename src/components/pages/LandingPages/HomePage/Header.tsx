@@ -46,7 +46,7 @@ export const HomePageHeader = memo(() => {
                                 <span dangerouslySetInnerHTML={{__html: t('headline.line2')}} />
                                 {/*SaaS 관리 <br /> <span className="text-scordi">클릭 한 번</span>으로 끝내보세요*/}
                             </h1>
-                            {/*<h1 className="text-5xl mb-3">Find all your team subscription usage</h1>*/}
+                            {/*<h1 className="text-5xl mb-3">Find all your team apps usage</h1>*/}
                             {/*<p className="text-lg text-gray-500">(This is just a tasting. It will never be saved.)</p>*/}
                             {/*<p className="text-xl text-gray-500">*/}
                             {/*    카드 내역과 결제 영수증 인보이스{' '}*/}

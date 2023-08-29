@@ -10,7 +10,7 @@ interface ConnectAppProgressModalProps {
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
     organizationId: number;
     organization: OrganizationDto;
-    prototypeId: number;
+    productId: number;
     protoApp: ProductDto;
 }
 

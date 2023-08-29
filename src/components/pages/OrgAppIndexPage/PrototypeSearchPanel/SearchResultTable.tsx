@@ -4,7 +4,7 @@ import {ProductDto, ProductConnectMethod} from '^types/product.type';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {subscriptionsState} from '^atoms/subscriptions.atom';
 import {useProductSearch} from '^hooks/useProducts';
-import {OrgProtoDetailPageRoute} from '^pages/orgs/[id]/prototypes/[protoId]';
+import {OrgProtoDetailPageRoute} from 'src/pages/orgs/[id]/products/[productId]';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
 import {currentUserAtom} from '^atoms/currentUser.atom';
@@ -13,11 +13,11 @@ import {editingProtoTargetState} from '^components/pages/OrgAppIndexPage/modals/
 import {deleteProduct} from '^api/product.api';
 import {errorNotify} from '^utils/toast-notify';
 import {toast} from 'react-toastify';
-import {connectProductModalState, currentPrototypeState} from '^atoms/connectProducts.atom';
+import {connectProductModalState, currentProductState} from '^atoms/connectProducts.atom';
 import {OutLink} from '^components/OutLink';
 
 export const SearchResultTable = memo(() => {
-    const {results: prototypes, mutation} = useProductSearch();
+    const {results: products, mutation} = useProductSearch();
     const {isAdmin} = useRecoilValue(currentUserAtom) || {};
 
     useEffect(() => {
@@ -44,7 +44,7 @@ export const SearchResultTable = memo(() => {
                 </tr>
             }
         >
-            {(prototypes || []).map((proto, i) => (
+            {(products || []).map((proto, i) => (
                 <PrototypeItem
                     key={i}
                     proto={proto}
@@ -72,7 +72,7 @@ interface PrototypeItemProps {
 const PrototypeItem = memo((props: PrototypeItemProps) => {
     const {proto, isAdmin, onRemove} = props;
     const isConnectModalOpen = useSetRecoilState(connectProductModalState);
-    const currentPrototype = useSetRecoilState(currentPrototypeState);
+    const currentProduct = useSetRecoilState(currentProductState);
     const router = useRouter();
     const orgId = useRouterIdParamState('id', orgIdParamState);
     const apps = useRecoilValue(subscriptionsState);
@@ -86,7 +86,7 @@ const PrototypeItem = memo((props: PrototypeItemProps) => {
 
     const clickConnectBtn = (proto: ProductDto) => {
         isConnectModalOpen(true);
-        currentPrototype(proto);
+        currentProduct(proto);
     };
 
     return (

@@ -19,7 +19,7 @@ type CreateBillingHistoryFormProps = {};
 export const CreateBillingHistoryForm = memo((props: CreateBillingHistoryFormProps) => {
     const router = useRouter();
     const organizationId = useRouterIdParamState('id', orgIdParamState);
-    const {currentApplication: application} = useCurrentSubscription();
+    const {currentSubscription: application} = useCurrentSubscription();
     const form = useForm<CreateDto>();
 
     if (!application || !organizationId) return <></>;

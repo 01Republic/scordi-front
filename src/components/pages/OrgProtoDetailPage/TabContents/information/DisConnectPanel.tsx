@@ -28,9 +28,9 @@ export const DisConnectPanel = memo(() => {
                 .then((res) => {
                     console.log('💖===>', res);
                     if (result.isConfirmed) {
-                        Swal.fire('Disconnect!', 'Please go to the site and cancel the subscription.', 'success');
+                        Swal.fire('Disconnect!', 'Please go to the site and cancel the apps.', 'success');
                     } else if (result.isConfirmed === false) {
-                        Swal.fire('Disconnect!', 'Please go to the site and cancel the subscription.', 'success');
+                        Swal.fire('Disconnect!', 'Please go to the site and cancel the apps.', 'success');
                     }
                 })
                 .catch(errorNotify);

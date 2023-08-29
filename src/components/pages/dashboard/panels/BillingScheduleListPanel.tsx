@@ -3,7 +3,7 @@ import {useRecoilValue} from 'recoil';
 import {ContentPanelBody, ContentPanelMiniTitle} from '^layouts/ContentLayout';
 import {yyyy_mm_dd} from '^utils/dateTime';
 import {useBillingList} from '^hooks/useBillingHistories';
-import {fetchApplicationQueryById} from '^atoms/subscriptions.atom';
+import {fetchSubscriptionQueryById} from '^atoms/subscriptions.atom';
 import {AiOutlineWarning} from '^components/react-icons';
 import {ProductDto} from '^types/product.type';
 
@@ -21,7 +21,7 @@ export const BillingScheduleListPanel = memo(() => {
                     billingHistories.map((history, i) => (
                         <BillingScheduleItem
                             key={i}
-                            proto={history.application ? history.application.prototype : history.invoiceApp!.prototype}
+                            proto={history.application ? history.application.product : history.invoiceApp!.product}
                             date={new Date(history.paidAt!)}
                             payAmount={history.payAmount?.amount || 0}
                             isPaid={!!history.paidAt}
@@ -63,17 +63,17 @@ interface BillingScheduleItemPropsByProto {
 type BillingScheduleItemProps = BillingScheduleItemPropsByApplicationId | BillingScheduleItemPropsByProto;
 const BillingScheduleItem = memo((props: BillingScheduleItemProps) => {
     const {date, payAmount, isPaid, historyId} = props;
-    // @ts-ignore
-    const application = useRecoilValue(fetchApplicationQueryById(applicationId));
+    const applicationId = 'applicationId' in props ? props.applicationId : null;
+    const application = applicationId ? useRecoilValue(fetchSubscriptionQueryById(applicationId)) : undefined;
     const isOverdue = !isPaid && new Date().getTime() > date.getTime();
     let proto: ProductDto | undefined;
     if ('proto' in props) {
-        proto = props.proto || application?.prototype;
+        proto = props.proto || application?.product;
     }
 
     if (!proto) return <></>;
 
-    // const {prototype: proto} = application;
+    // const {product: proto} = application;
 
     return (
         <li className={`shadow-sm mb-2 ${historyId && 'bordered'}`}>

@@ -16,7 +16,7 @@ export const InvoiceTableRow = memo((props: InvoiceTableRowProps) => {
     // const {t} = useTranslation('org-home', {keyPrefix: 'invoiceTable'});
     const {invoiceData: billingHistory} = props;
     const {application, invoiceApp, emailContent} = billingHistory;
-    const proto = application?.prototype || invoiceApp?.prototype;
+    const product = application?.product || invoiceApp?.product;
 
     const tableTranslator = (rowKey: string, value: string) => {
         const keyPrefix = `invoiceTable.${rowKey}`;
@@ -36,8 +36,8 @@ export const InvoiceTableRow = memo((props: InvoiceTableRowProps) => {
     const billingCycle = getInvoiceAppBillingCycle(application, invoiceApp);
 
     // 서비스명
-    const appLogo = proto?.image;
-    const appName = proto?.name;
+    const appLogo = product?.image;
+    const appName = product?.name;
     // 청구 메일
     const receivedMail = application
         ? application.billingEmail || application.publicEmail

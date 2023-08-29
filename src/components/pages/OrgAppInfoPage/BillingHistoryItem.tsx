@@ -17,7 +17,7 @@ export const BillingHistoryItem = memo((props: BillingHistoryItemProps) => {
     const router = useRouter();
     const {application, billingHistory, onClickMethod = 'push'} = props;
     if (!application) return <></>;
-    const {prototype, organizationId} = application;
+    const {product, organizationId} = application;
 
     const isSuccess = !!billingHistory.paidAt;
 
@@ -35,8 +35,8 @@ export const BillingHistoryItem = memo((props: BillingHistoryItemProps) => {
                     width={32}
                     height={32}
                     className="mask mask-squircle"
-                    src={safeImageSrc(prototype, 32, 32)}
-                    alt={`${prototype.name} logo image`}
+                    src={safeImageSrc(product, 32, 32)}
+                    alt={`${product.name} logo image`}
                 />
             </div>
             <div className="flex flex-1 items-center px-3">
@@ -52,7 +52,7 @@ export const BillingHistoryItem = memo((props: BillingHistoryItemProps) => {
                         className={`block leading-none text-xs ${isSuccess ? 'text-gray-500' : 'text-gray-400'}`}
                         style={{textTransform: 'none'}}
                     >
-                        {prototype.name} {isSuccess}
+                        {product.name} {isSuccess}
                     </span>
                 </p>
             </div>

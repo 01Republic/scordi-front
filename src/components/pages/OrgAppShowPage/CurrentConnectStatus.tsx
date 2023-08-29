@@ -11,29 +11,29 @@ import {useCurrentSyncHistory, useSyncHistoryList} from '^hooks/useSubscriptionS
 
 export const CurrentConnectStatus = memo(() => {
     const {currentUser} = useCurrentUser();
-    const {currentApplication, reload: reloadCurrentApp} = useCurrentSubscription();
+    const {currentSubscription, reload: reloadCurrentApp} = useCurrentSubscription();
     const {fetchItems: fetchSyncHistories, pagination} = useSyncHistoryList();
     const {fetchCurrentSyncHistory} = useCurrentSyncHistory();
     const tabIndex = useRecoilValue(navTabIndex);
 
     const goSync = useCallback(() => {
-        if (!currentApplication || !currentUser) return;
-        createSyncHistory(currentApplication.id, {
+        if (!currentSubscription || !currentUser) return;
+        createSyncHistory(currentSubscription.id, {
             runnerId: currentUser.id,
             content: `Synchronize manually.`,
         }).then(() => {
             toast.success('New Sync started!');
             if (tabIndex === 3) {
                 // if current tab is histories
-                fetchSyncHistories(currentApplication.id, pagination.currentPage, true);
-                fetchCurrentSyncHistory(currentApplication.id);
+                fetchSyncHistories(currentSubscription.id, pagination.currentPage, true);
+                fetchCurrentSyncHistory(currentSubscription.id);
             }
             reloadCurrentApp();
         });
-    }, [currentApplication, currentUser, tabIndex]);
+    }, [currentSubscription, currentUser, tabIndex]);
 
-    const connectStatus = currentApplication ? currentApplication.connectStatus : '';
-    const isSyncRunning = currentApplication?.isSyncRunning;
+    const connectStatus = currentSubscription ? currentSubscription.connectStatus : '';
+    const isSyncRunning = currentSubscription?.isSyncRunning;
 
     if (isSyncRunning) {
         return (

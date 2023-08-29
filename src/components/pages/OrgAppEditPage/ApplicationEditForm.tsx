@@ -18,7 +18,7 @@ export const ApplicationEditForm = memo((props: ApplicationEditFormProps) => {
     const router = useRouter();
     const organizationId = useRouterIdParamState('id', orgIdParamState);
     const applicationId = useRouterIdParamState('appId', subscriptionIdParamState);
-    const {currentApplication, reload} = useCurrentSubscription();
+    const {currentSubscription, reload} = useCurrentSubscription();
 
     const onSubmit = (data: UpdateSubscriptionRequestDto) => {
         if (!organizationId || !applicationId) return;
@@ -33,7 +33,7 @@ export const ApplicationEditForm = memo((props: ApplicationEditFormProps) => {
     };
 
     useEffect(() => {
-        if (!currentApplication) return;
+        if (!currentSubscription) return;
 
         // displayName?: string; // 조직이름 (연동서비스 내에서)
         // paymentPlanId?: number; // 결제플랜 ID
@@ -51,7 +51,7 @@ export const ApplicationEditForm = memo((props: ApplicationEditFormProps) => {
         // form.setValue('paidMemberCount', application.paidMemberCount); // 결제되는 사용자 수
         // form.setValue('usedMemberCount', application.usedMemberCount); // 사용중인 사용자 수
         // form.setValue('connectStatus', application.connectStatus); // 연동상태
-    }, [currentApplication]);
+    }, [currentSubscription]);
 
     return <form onSubmit={form.handleSubmit(onSubmit)}>{children}</form>;
 });

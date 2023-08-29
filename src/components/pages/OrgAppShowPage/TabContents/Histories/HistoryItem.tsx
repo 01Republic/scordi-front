@@ -19,7 +19,7 @@ export const HistoryItem = memo((props: HistoryItemProps) => {
     const {application, history, onRefresh} = props;
     const {currentSyncHistory, fetchCurrentSyncHistory} = useCurrentSyncHistory();
 
-    const {prototype} = application;
+    const {product} = application;
 
     const durationMsg = (() => {
         if (history.finishedAt === null) return 'Running ...';

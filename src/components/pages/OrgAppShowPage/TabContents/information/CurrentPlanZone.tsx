@@ -10,7 +10,7 @@ interface CurrentPlanZoneProps {
 
 export const CurrentPlanZone = memo((props: CurrentPlanZoneProps) => {
     const {application} = props;
-    const {prototype, paymentPlan} = application;
+    const {product, paymentPlan} = application;
 
     return (
         <div className="bs-container mb-20">

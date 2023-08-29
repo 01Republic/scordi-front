@@ -14,7 +14,7 @@ export const SelectOrgStage = memo(() => {
     const organizationId = useRouterIdParamState('id', orgIdParamState);
     const {
         selectOrgForm,
-        currentPrototype,
+        currentProduct,
         setCurrentStage,
         isLoading,
         setIsLoading,
@@ -29,7 +29,7 @@ export const SelectOrgStage = memo(() => {
     }, []);
 
     if (isLoading) return <PreLoaderSm />;
-    if (currentPrototype === null) return <></>;
+    if (currentProduct === null) return <></>;
     if (!authInfo) return <></>;
 
     const submitOrg = (params: LoginWithOrgs) => {
@@ -55,7 +55,7 @@ export const SelectOrgStage = memo(() => {
         createSubscription({
             sign: makeSignHeader(authInfo)['Crawler-Sign'],
             organizationId,
-            prototypeId: currentPrototype.id,
+            productId: currentProduct.id,
             connectedSlug,
             displayName,
         })
@@ -116,7 +116,7 @@ export const SelectOrgStage = memo(() => {
                                             <small>
                                                 <OutLink
                                                     href={`${team.profileUrl}`}
-                                                    text={`Open in ${currentPrototype.name}`}
+                                                    text={`Open in ${currentProduct.name}`}
                                                 />
                                             </small>
                                         </p>

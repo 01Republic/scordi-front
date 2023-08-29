@@ -21,7 +21,7 @@ export const HistoryTable = memo((props: HistoryTableProps) => {
         fetchSyncHistories(application.id, 1, true);
     }, [application]);
 
-    const {prototype} = application;
+    const {product} = application;
 
     const onRefreshItem = useCallback(
         (history: SyncHistoryDto) => {

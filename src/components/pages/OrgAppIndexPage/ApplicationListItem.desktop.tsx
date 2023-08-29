@@ -3,7 +3,7 @@ import {SubscriptionDto} from '^types/subscription.type';
 import {useRouter} from 'next/router';
 import Link from 'next/link';
 import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
-import {ApplicationDetailPageRoute} from '^pages/orgs/[id]/prototypes/[protoId]/applications/[appId]';
+import {ApplicationDetailPageRoute} from 'src/pages/orgs/[id]/products/[productId]/apps/[appId]';
 import {t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 import {safeImageSrc} from '^types/product.type';
 import {ContentPanelItem} from '^layouts/ContentLayout';

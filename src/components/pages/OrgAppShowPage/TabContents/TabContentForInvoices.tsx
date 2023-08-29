@@ -5,7 +5,7 @@ import {BillingHistoryTable} from './Invoices/BillingHistoryTable';
 import {useCurrentSubscription} from '^hooks/useSubscriptions';
 
 export const TabContentForInvoices = memo(() => {
-    const {currentApplication: app} = useCurrentSubscription();
+    const {currentSubscription: app} = useCurrentSubscription();
 
     if (!app) return <></>;
 

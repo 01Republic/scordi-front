@@ -9,7 +9,7 @@ const sumOf = (arr: number[]) => arr.reduce((acc, a) => acc + a, 0);
 type AppBillingSummarySectionProps = {} & WithChildren;
 
 export const AppBillingSummarySection = memo((props: AppBillingSummarySectionProps) => {
-    const {currentApplication: application} = useCurrentSubscription();
+    const {currentSubscription: application} = useCurrentSubscription();
     const billingHistoriesQueryResult = useBillingHistories();
 
     if (!application || !billingHistoriesQueryResult) return <></>;

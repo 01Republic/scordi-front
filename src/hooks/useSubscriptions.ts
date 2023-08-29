@@ -14,14 +14,14 @@ export const useSubscription = () => useRecoilValue(getSubscriptionQuery);
 // export const useSubscription = () => {
 //     const router = useRouter();
 //     const appId = router.query.appId;
-//     const [application, setApplication] = useState<SubscriptionDto | null>(null);
+//     const [application, setSubscription] = useState<SubscriptionDto | null>(null);
 //
 //     useEffect(() => {
 //         if (!appId || isNaN(appId)) return;
 //
 //         getSubscription(appId)
 //             .then((res) => {
-//                 setApplication(res.data);
+//                 setSubscription(res.data);
 //             })
 //             .catch(errorNotify);
 //     }, [appId]);

@@ -7,12 +7,12 @@ import {MobileEntityListSection} from '^components/v2/MobileEntityListSection';
 interface SearchResultSectionProps {}
 
 export const SearchResultSection = memo((props: SearchResultSectionProps) => {
-    const {items: prototypes} = useProducts();
+    const {items: products} = useProducts();
 
     return (
         <MobileEntityListSection
-            listOfData={prototypes || []}
-            preloader={!prototypes && <SearchResultPreLoader />}
+            listOfData={products || []}
+            preloader={!products && <SearchResultPreLoader />}
             itemCustomRender={(proto, i) => <SearchResultItem data={proto} key={i} />}
         />
     );

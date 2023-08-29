@@ -3,11 +3,11 @@ import {ContentPanel, ContentPanelMiniTitle} from '^layouts/ContentLayout';
 import {useCurrentSubscription} from '^hooks/useSubscriptions';
 
 export const ConnectPanel = memo(() => {
-    const {currentApplication: application} = useCurrentSubscription();
+    const {currentSubscription: application} = useCurrentSubscription();
 
     if (!application) return <></>;
 
-    const {prototype} = application;
+    const {product} = application;
 
     const connectionDesc = `
             We use app connections to measure app activity and usage.

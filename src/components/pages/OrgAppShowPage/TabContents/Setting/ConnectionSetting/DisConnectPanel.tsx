@@ -25,7 +25,7 @@ export const DisConnectPanel = memo(() => {
             if (!result.isConfirmed) return;
             destroySubscription(id)
                 .then((res) => {
-                    Swal.fire('Disconnect!', 'Please go to the site and cancel the subscription.', 'success').then(() =>
+                    Swal.fire('Disconnect!', 'Please go to the site and cancel the apps.', 'success').then(() =>
                         router.push(OrgAppIndexPageRoute.path(id)),
                     );
                 })

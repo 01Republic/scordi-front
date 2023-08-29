@@ -38,7 +38,7 @@ export const ApplicationInputsBlock = memo((props: AppNextPayInputsBlockProps) =
     };
 
     useEffect(() => {
-        // onPlanChange(subscription.paymentPlanId);
+        // onPlanChange(apps.paymentPlanId);
     }, [subscription]);
 
     return (

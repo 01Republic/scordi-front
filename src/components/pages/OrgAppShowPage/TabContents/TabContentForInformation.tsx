@@ -22,7 +22,7 @@ import {PaymentInfoZone} from '^components/pages/OrgAppShowPage/TabContents/info
  */
 
 export const TabContentForInformation = memo(() => {
-    const {currentApplication: app} = useCurrentSubscription();
+    const {currentSubscription: app} = useCurrentSubscription();
 
     if (!app) return <></>;
 

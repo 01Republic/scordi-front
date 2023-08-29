@@ -20,7 +20,7 @@ export const SyncNowButton = memo((props: SyncNowButtonProps) => {
     const {fetchItems: fetchSyncHistories, pagination} = useSyncHistoryList();
     const {fetchCurrentSyncHistory} = useCurrentSyncHistory();
 
-    const {prototype} = application;
+    const {product} = application;
 
     const isActive = history ? restartSyncButtonIsActive(history) : true;
 

@@ -7,7 +7,7 @@ import {useCurrentUser} from '^hooks/useCurrentUser';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {PiSignOut} from 'react-icons/pi';
 import {AiOutlineHome} from '@react-icons/all-files/ai/AiOutlineHome';
-import {AdminPrototypesPageRoute} from '^pages/admin/prototypes';
+import {AdminProductsPageRoute} from '^pages/admin/products';
 import {BizOpsWorkspaceListRoute} from '^pages/admin/biz-ops/manual/workspaces';
 
 interface AdminSideBarProps extends WithChildren {}
@@ -29,7 +29,7 @@ export const AdminSideBar = memo((props: AdminSideBarProps) => {
                     <a onClick={() => router.push(AdminPostsPageRoute.path())}>블로그 관리</a>
                 </li>
                 <li>
-                    <a onClick={() => router.push(AdminPrototypesPageRoute.path())}>앱 관리</a>
+                    <a onClick={() => router.push(AdminProductsPageRoute.path())}>앱 관리</a>
                 </li>
                 <li>
                     <a onClick={() => router.push(BizOpsWorkspaceListRoute.path())}>BizOps Workspaces</a>

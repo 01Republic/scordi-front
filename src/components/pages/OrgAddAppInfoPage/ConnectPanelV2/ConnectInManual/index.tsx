@@ -22,7 +22,7 @@ export const ConnectInManual = (props: ConnectInManualProps) => {
     const {protoApp, setConnectMethod} = props;
     const router = useRouter();
     const organizationId = Number(router.query.id);
-    const prototypeId = Number(router.query.appId);
+    const productId = Number(router.query.appId);
     const [parsedInvoiceDataList, setParsedInvoiceDataList] = useState<InvoiceDataDto[]>([]);
     const [isSaving, setIsSaving] = useState(false);
     const api = useMemo(() => new ApplicationConnectApi(protoApp.name as AppCode), [protoApp.name]);
@@ -53,7 +53,7 @@ export const ConnectInManual = (props: ConnectInManualProps) => {
                 createSubscriptionByInvoices({
                     displayName: recentData.displayName,
                     organizationId,
-                    prototypeId,
+                    productId,
                     paymentPlanId: paymentPlan.id,
                     billingCycleId: billingCycle.id,
                     isFreeTier,

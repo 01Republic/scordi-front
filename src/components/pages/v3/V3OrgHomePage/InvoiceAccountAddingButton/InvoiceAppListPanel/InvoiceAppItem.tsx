@@ -27,7 +27,7 @@ export const InvoiceAppItem = memo((props: InvoiceAppItemProps) => {
         currentOrg &&
         invoiceAppApi.update(currentOrg.id, invoiceApp.id, form.getValues()).then((res) => window.location.reload());
 
-    const proto = invoiceApp.prototype;
+    const proto = invoiceApp.product;
 
     return (
         <li>
