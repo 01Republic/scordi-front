@@ -1,25 +1,25 @@
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {getApplicationQuery, getApplicationsQuery, getCurrentApplicationQuery} from '^atoms/applications.atom';
-import {getApplications} from '^api/application.api';
+import {getSubscriptionQuery, getSubscriptionsQuery, getCurrentSubscriptionQuery} from '^atoms/subscriptions.atom';
+import {getSubscriptions} from '^api/subscription.api';
 import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook';
 
 export const useCurrentApplication = () => {
-    const [currentApplication, reload] = useRecoilState(getCurrentApplicationQuery);
+    const [currentApplication, reload] = useRecoilState(getCurrentSubscriptionQuery);
     return {currentApplication, reload: () => reload((v) => v)};
 };
 
-export const useApplications = () => useRecoilValue(getApplicationsQuery);
-export const useApplication = () => useRecoilValue(getApplicationQuery);
+export const useApplications = () => useRecoilValue(getSubscriptionsQuery);
+export const useApplication = () => useRecoilValue(getSubscriptionQuery);
 // export const useApplication = () => {
 //     const router = useRouter();
 //     const appId = router.query.appId;
-//     const [application, setApplication] = useState<ApplicationDto | null>(null);
+//     const [application, setApplication] = useState<SubscriptionDto | null>(null);
 //
 //     useEffect(() => {
 //         if (!appId || isNaN(appId)) return;
 //
-//         getApplication(appId)
+//         getSubscription(appId)
 //             .then((res) => {
 //                 setApplication(res.data);
 //             })
@@ -29,7 +29,7 @@ export const useApplication = () => useRecoilValue(getApplicationQuery);
 //     return application;
 // };
 
-export const {paginatedListHook: useApplicationList} = makePaginatedListHookWithAtoms<number, ApplicationDto>({
+export const {paginatedListHook: useApplicationList} = makePaginatedListHookWithAtoms<number, SubscriptionDto>({
     subject: 'PaginatedApplicationList',
     buildParams: (organizationId, page, pagination) => ({
         where: {organizationId},
@@ -37,5 +37,5 @@ export const {paginatedListHook: useApplicationList} = makePaginatedListHookWith
         page,
         itemsPerPage: 300,
     }),
-    request: (_, params) => getApplications(params),
+    request: (_, params) => getSubscriptions(params),
 });

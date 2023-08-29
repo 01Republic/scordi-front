@@ -1,9 +1,9 @@
 import {memo, useEffect, useState} from 'react';
-import {ApplicationPrototypeDto, FindAllAppPrototypeQuery} from '^types/applicationPrototype.type';
+import {ProductDto, FindAllProductQuery} from '^types/product.type';
 import {Paginated} from '^types/utils/paginated.dto';
 import {AdminListPageLayout} from '^components/pages/admin/layouts/ListPageLayout';
 import {CardTablePanel} from '^components/pages/admin/share/panels/CardTablePanel';
-import {applicationPrototypeApi} from '^api/applicationPrototype.api';
+import {productApi} from '^api/product.api';
 import {AdminNewPrototypePageRoute} from '^pages/admin/prototypes/new';
 import {DefaultColumn} from '^components/pages/admin/prototypes/AdminPrototypeListPage/columns/DefaultColumn';
 import {ImageColumn} from '^components/pages/admin/prototypes/AdminPrototypeListPage/columns/ImageColumn';
@@ -11,7 +11,7 @@ import {MobileItem} from '^components/pages/admin/prototypes/AdminPrototypeListP
 import {ActionColumn} from '^components/pages/admin/prototypes/AdminPrototypeListPage/columns/ActionColumn';
 
 export const AdminPrototypeListPage = memo(() => {
-    const [listPage, setListPage] = useState<Paginated<ApplicationPrototypeDto>>({
+    const [listPage, setListPage] = useState<Paginated<ProductDto>>({
         items: [],
         pagination: {
             totalItemCount: 0,
@@ -22,9 +22,9 @@ export const AdminPrototypeListPage = memo(() => {
         },
     });
 
-    const fetchData = (params: FindAllAppPrototypeQuery) => {
+    const fetchData = (params: FindAllProductQuery) => {
         params.order = {id: 'DESC'};
-        applicationPrototypeApi.index(params).then((res) => setListPage(res.data));
+        productApi.index(params).then((res) => setListPage(res.data));
     };
 
     useEffect(() => {

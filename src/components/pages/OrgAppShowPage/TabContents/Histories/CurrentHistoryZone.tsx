@@ -1,17 +1,17 @@
 import {memo, useEffect} from 'react';
 import {BiGitCommit, BsCalendarDay, BsStopwatch, IoMdRefresh} from '^components/react-icons';
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {
     restartSyncButtonIsActive,
     syncHistoryAssets,
     t_syncHistoryResultStatus,
-} from '^types/applicationSyncHistory.type';
+} from '^types/subscriptionSyncHistory.type';
 import {Avatar} from '^components/Avatar';
 import {getDistanceOfTime, humanizeTimeDistance} from '^utils/dateTime';
 import {useCurrentSyncHistory} from '^hooks/useApplicationSyncHistories';
 
 interface CurrentHistoryZoneProps {
-    application: ApplicationDto;
+    application: SubscriptionDto;
 }
 
 export const CurrentHistoryZone = memo((props: CurrentHistoryZoneProps) => {

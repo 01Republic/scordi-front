@@ -3,10 +3,10 @@ import {ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/Conten
 import {TextInput} from '^components/TextInput';
 import {ProfileImageFileInput} from '^components/ProfileImageFileInput';
 import {
-    ApplicationPrototypeDto,
-    CreateApplicationPrototypeRequestDto as CreateDto,
-    UpdateApplicationPrototypeRequestDto as UpdateDto,
-} from '^types/applicationPrototype.type';
+    ProductDto,
+    CreateProductRequestDto as CreateDto,
+    UpdateProductRequestDto as UpdateDto,
+} from '^types/product.type';
 import {UseFormReturn} from 'react-hook-form';
 import {getOgImageUrl} from '^api/utils.api/open-graph.api';
 import {atom, useRecoilState} from 'recoil';
@@ -17,7 +17,7 @@ export const ogImgUrlAtom = atom({
 });
 
 interface OgImageFormPanelProps {
-    proto: ApplicationPrototypeDto | null;
+    proto: ProductDto | null;
     form: UseFormReturn<CreateDto> | UseFormReturn<UpdateDto>;
 }
 

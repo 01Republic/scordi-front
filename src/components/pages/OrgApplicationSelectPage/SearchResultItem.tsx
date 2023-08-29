@@ -1,12 +1,12 @@
 import React, {memo} from 'react';
-import {ApplicationPrototypeDto, safeImageSrc} from '^types/applicationPrototype.type';
+import {ProductDto, safeImageSrc} from '^types/product.type';
 import {BasicButton2} from '^components/v2/ui/buttons/BasicButton2';
 import Link from 'next/link';
 import {SelectPlanPageRoute} from '^pages/orgs/[id]/apps/new/selectPlan';
 import {useRouter} from 'next/router';
 
 interface SearchResultItemProps {
-    data: ApplicationPrototypeDto;
+    data: ProductDto;
 }
 
 export const SearchResultItem = memo((props: SearchResultItemProps) => {

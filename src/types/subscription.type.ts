@@ -1,8 +1,8 @@
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {ProductDto} from '^types/product.type';
 import {OrganizationDto} from '^types/organization.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
-import {ApplicationPaymentPlanDto} from '^types/applicationPaymentPlan.type';
-import {ApplicationBillingCycleDto} from '^types/applicationBillingCycle.type';
+import {SubscriptionPaymentPlanDto} from '^types/subscriptionPaymentPlan.type';
+import {SubscriptionBillingCycleDto} from '^types/subscriptionBillingCycle.type';
 import {InvoiceDataDto} from '^components/ApplicationConnectStage/dto/fetched.responses.dto';
 
 // ConnectStatus 연동상태.
@@ -28,7 +28,7 @@ export function t_ConnectStatus(status: ConnectStatus) {
     }
 }
 
-export type ApplicationDto = {
+export type SubscriptionDto = {
     id: number;
     connectStatus: ConnectStatus;
     isSyncRunning: boolean; // 싱크 실행중 여부
@@ -36,7 +36,7 @@ export type ApplicationDto = {
     profileImage: string | null; // 조직 프로필 이미지 주소
     connectedSlug: string | null; // 워크스페이스 Slug (연동서비스 내에서)
     organizationId: number;
-    prototypeId: number;
+    productId: number;
     paymentPlanId: number | null;
     billingCycleId: number | null;
     isFreeTier: boolean;
@@ -51,19 +51,19 @@ export type ApplicationDto = {
     createdAt: Date;
     updatedAt: Date;
     organization?: OrganizationDto;
-    prototype: ApplicationPrototypeDto;
-    paymentPlan?: ApplicationPaymentPlanDto | null;
-    billingCycle?: ApplicationBillingCycleDto | null;
+    product: ProductDto;
+    paymentPlan?: SubscriptionPaymentPlanDto | null;
+    billingCycle?: SubscriptionBillingCycleDto | null;
     paymentHistories?: [];
     accounts?: [];
 };
 
-export type FindAllAppsQuery = FindAllQueryDto<ApplicationDto>;
+export type FindAllSubscriptionsQuery = FindAllQueryDto<SubscriptionDto>;
 
-export type CreateApplicationRequestDto = {
+export type CreateSubscriptionRequestDto = {
     sign?: string | null; // 연동계정 Sign
     organizationId: number; // 조직 ID
-    prototypeId: number; // 프로토타입 ID
+    productId: number; // 프로토타입 ID
     connectedSlug: string; // 워크스페이스 Slug (연동서비스 내에서)
     displayName: string; // 워크스페이스 이름 (연동서비스 내에서)
     // paymentPlanId: number; // 결제플랜 ID
@@ -74,10 +74,10 @@ export type CreateApplicationRequestDto = {
     // usedMemberCount?: number; // 사용중인 사용자 수
 };
 
-export type CreateApplicationByInvoicesRequestDto = {
+export type CreateSubscriptionByInvoicesRequestDto = {
     displayName: string; // 조직이름 (연동서비스 내에서)
     organizationId: number; // 조직 ID
-    prototypeId: number; // 프로토타입 ID
+    productId: number; // 프로토타입 ID
     paymentPlanId: number; // 결제플랜 ID
     billingCycleId: number; // 결제주기 ID
     isFreeTier: boolean; // 프리티어 여부
@@ -86,34 +86,34 @@ export type CreateApplicationByInvoicesRequestDto = {
     invoiceDataList: InvoiceDataDto[];
 };
 
-export type UpdateApplicationRequestDto = Partial<
-    Omit<CreateApplicationRequestDto, 'organizationId' | 'prototypeId'>
+export type UpdateSubscriptionRequestDto = Partial<
+    Omit<CreateSubscriptionRequestDto, 'organizationId' | 'productId'>
 > & {
     connectStatus?: ConnectStatus; // 연동상태
 };
 
-// export const applicationMockDataList: ApplicationDto[] = [
+// export const applicationMockDataList: SubscriptionDto[] = [
 //   {
 //     id: 1,
-//     prototypeId: 1,
+//     productId: 1,
 //     isFreeTier: false,
 //     paymentPlan: 'business',
 //     billingCycle: 'monthly',
 //     registeredAt: new Date(),
 //     accountCount: 4,
-//     prototype: applicationPrototypeMockDataList.find(app => app.id === 1)!,
+//     product: applicationPrototypeMockDataList.find(app => app.id === 1)!,
 //     createdAt: new Date(),
 //     updatedAt: new Date(),
 //   },
 //   {
 //     id: 2,
-//     prototypeId: 2,
+//     productId: 2,
 //     isFreeTier: true,
 //     paymentPlan: 'free',
 //     billingCycle: 'undef',
 //     registeredAt: new Date(),
 //     accountCount: 3,
-//     prototype: applicationPrototypeMockDataList.find(app => app.id === 2)!,
+//     product: applicationPrototypeMockDataList.find(app => app.id === 2)!,
 //     createdAt: new Date(),
 //     updatedAt: new Date(),
 //   },

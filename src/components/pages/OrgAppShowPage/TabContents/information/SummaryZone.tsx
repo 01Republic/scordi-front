@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {BsStats} from '^components/v2/Stats/Stats';
 import {BsStat} from '^components/v2/Stats/Stat';
 import {CurrentBill} from './summary/CurrentBill';
@@ -7,7 +7,7 @@ import {PaymentDue} from './summary/PaymentDue';
 import {PaymentInfo} from './summary/PaymentInfo';
 
 interface SummaryZoneProps {
-    application: ApplicationDto;
+    application: SubscriptionDto;
 }
 
 export const SummaryZone = memo((props: SummaryZoneProps) => {

@@ -2,7 +2,7 @@ import {memo, useEffect} from 'react';
 import {TextInput} from '^components/TextInput';
 import {ModalActionWrapper} from '^components/Modal';
 import {LoginDto, LoginWithVerify} from '^types/crawler';
-import {ConnectModalStage, useConnectPrototypeModalState} from '^atoms/connectPrototypes.atom';
+import {ConnectModalStage, useConnectPrototypeModalState} from '^atoms/connectProducts.atom';
 import {getOrganizationListByCrawlerApi} from '^api/crawler';
 import {PreLoaderSm} from '^components/PreLoaderSm';
 import {MdNavigateNext} from '^components/react-icons';

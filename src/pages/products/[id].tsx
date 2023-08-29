@@ -3,8 +3,8 @@ import {useRouter} from 'next/router';
 import {useSetRecoilState} from 'recoil';
 import React, {useEffect} from 'react';
 import {NextPageContext} from 'next';
-import {applicationPrototypeApi} from '^api/applicationPrototype.api';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {productApi} from '^api/product.api';
+import {ProductDto} from '^types/product.type';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {isPageLoadedAtom} from '^pages/posts/[id]';
@@ -15,7 +15,7 @@ export const ProductDetailPageRoute = pathRoute({
     path: (id: number) => pathReplace(ProductDetailPageRoute.pathname, {id}),
 });
 
-export default function ProductPage({prototype}: {prototype: ApplicationPrototypeDto}) {
+export default function ProductPage({prototype}: {prototype: ProductDto}) {
     const router = useRouter();
     const setIsLoaded = useSetRecoilState(isPageLoadedAtom);
 
@@ -32,7 +32,7 @@ export const getServerSideProps = async function ({req, query, locale}: NextPage
     const id = Number(query.id); // postId
 
     // 데이터 load api를 호출하여 post data load
-    const prototype = await applicationPrototypeApi.show(id).then((res) => res.data);
+    const prototype = await productApi.show(id).then((res) => res.data);
 
     return {
         props: {

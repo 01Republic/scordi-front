@@ -3,9 +3,9 @@ import {useRecoilValue} from 'recoil';
 import {ContentPanelBody, ContentPanelMiniTitle} from '^layouts/ContentLayout';
 import {yyyy_mm_dd} from '^utils/dateTime';
 import {useBillingList} from '^hooks/useBillingHistories';
-import {fetchApplicationQueryById} from '^atoms/applications.atom';
+import {fetchApplicationQueryById} from '^atoms/subscriptions.atom';
 import {AiOutlineWarning} from '^components/react-icons';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {ProductDto} from '^types/product.type';
 
 export const BillingScheduleListPanel = memo(() => {
     const {selectedDate, billingHistories, billingSchedules} = useBillingList();
@@ -53,7 +53,7 @@ interface BillingScheduleItemPropsByApplicationId {
 }
 
 interface BillingScheduleItemPropsByProto {
-    proto: ApplicationPrototypeDto;
+    proto: ProductDto;
     date: Date;
     payAmount: number;
     isPaid: boolean;
@@ -66,7 +66,7 @@ const BillingScheduleItem = memo((props: BillingScheduleItemProps) => {
     // @ts-ignore
     const application = useRecoilValue(fetchApplicationQueryById(applicationId));
     const isOverdue = !isPaid && new Date().getTime() > date.getTime();
-    let proto: ApplicationPrototypeDto | undefined;
+    let proto: ProductDto | undefined;
     if ('proto' in props) {
         proto = props.proto || application?.prototype;
     }

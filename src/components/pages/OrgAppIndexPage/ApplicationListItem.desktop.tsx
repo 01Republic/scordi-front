@@ -1,30 +1,30 @@
 import React, {memo} from 'react';
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {useRouter} from 'next/router';
 import Link from 'next/link';
 import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
 import {ApplicationDetailPageRoute} from '^pages/orgs/[id]/prototypes/[protoId]/applications/[appId]';
-import {t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
-import {safeImageSrc} from '^types/applicationPrototype.type';
+import {t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
+import {safeImageSrc} from '^types/product.type';
 import {ContentPanelItem} from '^layouts/ContentLayout';
-import {applicationIdParamState, orgIdParamState, prototypeIdParamsState} from '^atoms/common';
+import {subscriptionIdParamState, orgIdParamState, productIdParamsState} from '^atoms/common';
 import {useRecoilState} from 'recoil';
 import {useRouterIdParamState} from '^atoms/common';
 
-export const ApplicationListItemDesktop = memo((props: {applicationDto: ApplicationDto}) => {
+export const ApplicationListItemDesktop = memo((props: {applicationDto: SubscriptionDto}) => {
     const router = useRouter();
     const orgId = useRouterIdParamState('id', orgIdParamState);
     const {applicationDto} = props;
-    const {billingCycle, paymentPlan, prototype} = applicationDto;
+    const {billingCycle, paymentPlan, product} = applicationDto;
     const appId = applicationDto.id;
 
     return (
         <tr className="text-sm cursor-pointer" onClick={() => router.push(OrgAppShowPageRoute.path(orgId, appId))}>
             <td>
                 <div className="flex items-center">
-                    <img src={prototype.image} alt="" width={24} className="mr-4" />
+                    <img src={product.image} alt="" width={24} className="mr-4" />
                     <span>
-                        {prototype.name} - {applicationDto.displayName}
+                        {product.name} - {applicationDto.displayName}
                     </span>
                 </div>
             </td>

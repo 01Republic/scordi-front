@@ -1,5 +1,5 @@
 import {BiBlock, BiBot, BiCheckCircle, BiError} from '^components/react-icons';
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {UserDto} from '^types/user.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
@@ -12,7 +12,7 @@ export enum SyncHistoryResultStatus {
 
 export type SyncHistoryDto = {
     id: number;
-    applicationId: number; // 구독 ID
+    subscriptionId: number; // 구독 ID
     runnerId: number | null; // 실행자 ID
     isScheduled: boolean; // 정기실행여부
     content: string; // 실행주요내용
@@ -23,7 +23,7 @@ export type SyncHistoryDto = {
 
     // relation
 
-    application?: ApplicationDto; // 대상 구독
+    subscription?: SubscriptionDto; // 대상 구독
     runner?: UserDto; // 실행자
 };
 
@@ -35,7 +35,7 @@ export type CreateSyncHistoryDto = {
 };
 
 export type UpdateSyncHistoryDto = Partial<CreateSyncHistoryDto> & {
-    applicationId?: number; // 구독 ID
+    subscriptionId?: number; // 구독 ID
     isScheduled?: boolean; // 정기실행여부
     resultStatus?: SyncHistoryResultStatus; // 실행결과상태
     finishedAt?: Date; // 완료일시
@@ -65,7 +65,7 @@ export function restartSyncButtonIsActive(history: SyncHistoryDto) {
 export const mockSyncHistoryList: SyncHistoryDto[] = [
     {
         id: 315,
-        applicationId: 7,
+        subscriptionId: 7,
         resultStatus: SyncHistoryResultStatus.IN_PROGRESS,
         runnerId: null,
         isScheduled: true,
@@ -76,7 +76,7 @@ export const mockSyncHistoryList: SyncHistoryDto[] = [
     },
     // {
     //     id: 314,
-    //     applicationId: 7,
+    //     subscriptionId: 7,
     //     resultStatus: SyncHistoryResultStatus.SUCCESS,
     //     runnerId: null,
     //     isScheduled: true,
@@ -87,7 +87,7 @@ export const mockSyncHistoryList: SyncHistoryDto[] = [
     // },
     {
         id: 313,
-        applicationId: 7,
+        subscriptionId: 7,
         resultStatus: SyncHistoryResultStatus.CANCELED,
         runnerId: null,
         isScheduled: true,
@@ -98,7 +98,7 @@ export const mockSyncHistoryList: SyncHistoryDto[] = [
     },
     {
         id: 312,
-        applicationId: 7,
+        subscriptionId: 7,
         resultStatus: SyncHistoryResultStatus.FAILED,
         runnerId: null,
         isScheduled: true,
@@ -109,7 +109,7 @@ export const mockSyncHistoryList: SyncHistoryDto[] = [
     },
     // {
     //     id: 311,
-    //     applicationId: 7,
+    //     subscriptionId: 7,
     //     resultStatus: SyncHistoryResultStatus.CANCELED,
     //     runnerId: null,
     //     isScheduled: true,
@@ -120,7 +120,7 @@ export const mockSyncHistoryList: SyncHistoryDto[] = [
     // },
     // {
     //     id: 310,
-    //     applicationId: 7,
+    //     subscriptionId: 7,
     //     resultStatus: SyncHistoryResultStatus.FAILED,
     //     runnerId: null,
     //     isScheduled: true,
@@ -131,7 +131,7 @@ export const mockSyncHistoryList: SyncHistoryDto[] = [
     // },
     // {
     //     id: 308,
-    //     applicationId: 7,
+    //     subscriptionId: 7,
     //     resultStatus: SyncHistoryResultStatus.SUCCESS,
     //     runnerId: null,
     //     isScheduled: true,
@@ -142,7 +142,7 @@ export const mockSyncHistoryList: SyncHistoryDto[] = [
     // },
     // {
     //     id: 307,
-    //     applicationId: 7,
+    //     subscriptionId: 7,
     //     resultStatus: SyncHistoryResultStatus.SUCCESS,
     //     runnerId: null,
     //     isScheduled: true,
@@ -153,7 +153,7 @@ export const mockSyncHistoryList: SyncHistoryDto[] = [
     // },
     // {
     //     id: 306,
-    //     applicationId: 7,
+    //     subscriptionId: 7,
     //     resultStatus: SyncHistoryResultStatus.SUCCESS,
     //     runnerId: null,
     //     isScheduled: true,
@@ -164,7 +164,7 @@ export const mockSyncHistoryList: SyncHistoryDto[] = [
     // },
     // {
     //     id: 305,
-    //     applicationId: 7,
+    //     subscriptionId: 7,
     //     resultStatus: SyncHistoryResultStatus.SUCCESS,
     //     runnerId: null,
     //     isScheduled: true,
@@ -175,7 +175,7 @@ export const mockSyncHistoryList: SyncHistoryDto[] = [
     // },
     // {
     //     id: 304,
-    //     applicationId: 7,
+    //     subscriptionId: 7,
     //     resultStatus: SyncHistoryResultStatus.SUCCESS,
     //     runnerId: null,
     //     isScheduled: true,
@@ -186,7 +186,7 @@ export const mockSyncHistoryList: SyncHistoryDto[] = [
     // },
     // {
     //     id: 303,
-    //     applicationId: 7,
+    //     subscriptionId: 7,
     //     resultStatus: SyncHistoryResultStatus.SUCCESS,
     //     runnerId: null,
     //     isScheduled: true,
@@ -197,7 +197,7 @@ export const mockSyncHistoryList: SyncHistoryDto[] = [
     // },
     // {
     //     id: 303,
-    //     applicationId: 7,
+    //     subscriptionId: 7,
     //     resultStatus: SyncHistoryResultStatus.SUCCESS,
     //     runnerId: null,
     //     isScheduled: true,
@@ -208,7 +208,7 @@ export const mockSyncHistoryList: SyncHistoryDto[] = [
     // },
     // {
     //     id: 302,
-    //     applicationId: 7,
+    //     subscriptionId: 7,
     //     resultStatus: SyncHistoryResultStatus.SUCCESS,
     //     runnerId: null,
     //     isScheduled: true,
@@ -219,7 +219,7 @@ export const mockSyncHistoryList: SyncHistoryDto[] = [
     // },
     // {
     //     id: 301,
-    //     applicationId: 7,
+    //     subscriptionId: 7,
     //     resultStatus: SyncHistoryResultStatus.SUCCESS,
     //     runnerId: null,
     //     isScheduled: true,
@@ -230,7 +230,7 @@ export const mockSyncHistoryList: SyncHistoryDto[] = [
     // },
     {
         id: 300,
-        applicationId: 7,
+        subscriptionId: 7,
         resultStatus: SyncHistoryResultStatus.SUCCESS,
         runnerId: null,
         isScheduled: true,

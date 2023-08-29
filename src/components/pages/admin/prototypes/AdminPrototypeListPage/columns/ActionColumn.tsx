@@ -2,7 +2,7 @@ import {memo} from 'react';
 import {ColumnProps} from './props';
 import {useRouter} from 'next/router';
 import {AdminPrototypePageRoute} from '^pages/admin/prototypes/[id]';
-import {applicationPrototypeApi} from '^api/applicationPrototype.api';
+import {productApi} from '^api/product.api';
 
 export const ActionColumn = memo((props: ColumnProps) => {
     const {prototype, fetchData} = props;
@@ -12,7 +12,7 @@ export const ActionColumn = memo((props: ColumnProps) => {
 
     const onDeleteButtonClick = () => {
         if (confirm('Are you sure?')) {
-            applicationPrototypeApi.destroy(prototype.id).then(() => {
+            productApi.destroy(prototype.id).then(() => {
                 if (fetchData) fetchData({});
             });
         }

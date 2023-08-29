@@ -1,8 +1,8 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useApplicationPrototype} from '^hooks/useApplicationPrototypes';
 import {useForm} from 'react-hook-form';
-import {UpdateApplicationPrototypeRequestDto as UpdateDto} from '^types/applicationPrototype.type';
-import {updateApplicationPrototype} from '^api/applicationPrototype.api';
+import {UpdateProductRequestDto as UpdateDto} from '^types/product.type';
+import {updateProduct} from '^api/product.api';
 import {toast} from 'react-toastify';
 import {
     ContentForm,
@@ -31,7 +31,7 @@ export const MenuContentForIntroduce = memo(() => {
 
     const onSubmit = (data: UpdateDto) => {
         if (!proto) return;
-        updateApplicationPrototype(proto.id, data).then((res) => {
+        updateProduct(proto.id, data).then((res) => {
             if (res.status === 200) {
                 mutation(undefined);
                 toast.success('Successfully Updated.');

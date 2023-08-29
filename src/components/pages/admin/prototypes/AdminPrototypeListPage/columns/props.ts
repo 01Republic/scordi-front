@@ -1,6 +1,6 @@
-import {ApplicationPrototypeDto, FindAllAppPrototypeQuery} from '^types/applicationPrototype.type';
+import {ProductDto, FindAllProductQuery} from '^types/product.type';
 
 export interface ColumnProps {
-    prototype: ApplicationPrototypeDto;
-    fetchData?: (params: FindAllAppPrototypeQuery) => any;
+    prototype: ProductDto;
+    fetchData?: (params: FindAllProductQuery) => any;
 }

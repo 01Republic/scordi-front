@@ -1,10 +1,10 @@
-import {ApplicationDto, t_ConnectStatus} from '^types/application.type';
+import {SubscriptionDto, t_ConnectStatus} from '^types/subscription.type';
 import {ContentPanelItem} from '^layouts/ContentLayout/ContentPanel';
-import {t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
+import {t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 import React from 'react';
 
 interface OrgAppListItemProps {
-    app: ApplicationDto;
+    app: SubscriptionDto;
 }
 
 export function OrgAppListItem({app}: OrgAppListItemProps) {

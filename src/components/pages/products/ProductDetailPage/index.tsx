@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {ProductDto} from '^types/product.type';
 import {useRecoilValue} from 'recoil';
 import {isPageLoadedAtom, PostDetailPageRoute} from '^pages/posts/[id]';
 import {PageSEO} from '^components/SEO';
@@ -11,7 +11,7 @@ import {SaaSReportSection} from '^components/pages/products/ProductDetailPage/Sa
 import {usePrototypePostContent} from '^hooks/useApplicationPrototypes';
 
 interface ProductDetailPageProps {
-    prototype: ApplicationPrototypeDto;
+    prototype: ProductDto;
 }
 
 export const ProductDetailPage = memo((props: ProductDetailPageProps) => {

@@ -1,12 +1,12 @@
 import {memo} from 'react';
 import {dateIsBeforeThen, yyyy_mm_dd} from '^utils/dateTime';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {ProductDto} from '^types/product.type';
 import {ProductDetailPageRoute} from '^pages/products/[id]';
 import {toast} from 'react-toastify';
 import {usePrototypePostContent} from '^hooks/useApplicationPrototypes';
 
 interface OtherProductItemProps {
-    prototype?: ApplicationPrototypeDto;
+    prototype?: ProductDto;
 }
 
 export const OtherProductItem = memo((props: OtherProductItemProps) => {

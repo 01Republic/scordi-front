@@ -6,7 +6,7 @@ import {MobileTopNav} from '^components/v2/MobileTopNav';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
 import {SelectedStatusSection} from '^components/pages/OrgApplicationCreateFlow/SelectedStatusSection';
 import {LeadMessageSection} from '^components/pages/OrgApplicationCreateFlow/LeadMessageSection';
-import {t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
+import {t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 import {useCreateFlow} from '^hooks/useApplicationPrototypes';
 import {PreLoader} from '^components/PreLoader';
 import {CreateAppForm} from '^components/pages/OrgApplicationCreateFlow/CreateAppForm';

@@ -1,12 +1,12 @@
 import {Badge} from '^components/Badge';
 import {GrowthText} from '^components/GrowthText';
 import {useRouter} from 'next/router';
-import {ApplicationDto, ConnectStatus, t_ConnectStatus} from '^types/application.type';
+import {SubscriptionDto, ConnectStatus, t_ConnectStatus} from '^types/subscription.type';
 import {useEffect} from 'react';
-import {PaymentCycle, t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
+import {PaymentCycle, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 
 interface BillingTableRowProps {
-    app: ApplicationDto;
+    app: SubscriptionDto;
 }
 
 export const BillingTableRow = (props: BillingTableRowProps) => {

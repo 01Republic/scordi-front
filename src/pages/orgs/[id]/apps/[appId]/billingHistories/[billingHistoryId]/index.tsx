@@ -15,7 +15,7 @@ import {Icon} from '^components/Icon';
 import {BillingHistoryEditPageRoute} from '^pages/orgs/[id]/apps/[appId]/billingHistories/[billingHistoryId]/edit';
 import {useSetRecoilState} from 'recoil';
 import {
-    applicationIdParamState,
+    subscriptionIdParamState,
     billingHistoryIdParamState,
     orgIdParamState,
     useRouterIdParamState,
@@ -35,7 +35,7 @@ export const BillingHistoryShowPageRoute = pathRoute({
 
 export default function BillingHistoryShowPage() {
     const organizationId = useRouterIdParamState('id', orgIdParamState);
-    const applicationId = useRouterIdParamState('appId', applicationIdParamState);
+    const applicationId = useRouterIdParamState('appId', subscriptionIdParamState);
     const billingHistoryId = useRouterIdParamState('billingHistoryId', billingHistoryIdParamState);
     const {currentApplication: application} = useCurrentApplication();
     const setBillingHistoriesQueryParam = useSetRecoilState(getBillingHistoriesParamsState);

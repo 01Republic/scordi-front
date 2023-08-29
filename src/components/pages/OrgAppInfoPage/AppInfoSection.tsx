@@ -2,7 +2,7 @@ import React, {memo, useEffect} from 'react';
 import {MobileSection} from '^components/v2/MobileSection';
 import {MobileKeyValueItem} from '^components/v2/MobileKeyValueItem';
 import {useCurrentApplication} from '^hooks/useApplications';
-import {t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
+import {t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 import {TitleSection} from '^components/v2/TitleSection';
 import {AppNameWithLogoBlock} from './AppNameWithLogoBlock';
 import {AppNextPayInfoBlock} from '^components/pages/OrgAppInfoPage/AppNextPayInfoBlock';

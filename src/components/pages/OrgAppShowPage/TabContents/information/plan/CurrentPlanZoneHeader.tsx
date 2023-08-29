@@ -1,10 +1,10 @@
 import {HTMLAttributeAnchorTarget, memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {ButtonTo} from '^components/ButtonTo';
 
 interface CurrentPlanZoneHeaderProps {
-    application: ApplicationDto;
+    application: SubscriptionDto;
 }
 
 export const CurrentPlanZoneHeader = memo((props: CurrentPlanZoneHeaderProps) => {

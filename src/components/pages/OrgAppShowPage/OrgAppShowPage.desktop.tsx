@@ -1,6 +1,6 @@
 import {Fragment, memo} from 'react';
 import {atom, useRecoilValue} from 'recoil';
-import {applicationIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {subscriptionIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import OrgMainLayout from '^layouts/org/mainLayout';
 import {ContentLayout, ContentTabNav} from '^layouts/ContentLayout';
 import {useCurrentUser} from '^hooks/useCurrentUser';
@@ -23,7 +23,7 @@ export const navTabIndex = atom({
 
 export const OrgAppShowPageDesktop = memo(() => {
     useRouterIdParamState('id', orgIdParamState);
-    useRouterIdParamState('appId', applicationIdParamState);
+    useRouterIdParamState('appId', subscriptionIdParamState);
     const {currentUser} = useCurrentUser();
     const tabIndex = useRecoilValue(navTabIndex);
 

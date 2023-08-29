@@ -1,4 +1,4 @@
-import {BillingCycleTerm} from '^types/applicationBillingCycle.type';
+import {BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 import {CurrencyDto} from '^types/crawler/currency.dto';
 
 export class OrgBillingDto {

@@ -6,8 +6,8 @@ import {getAppsBillingHistory} from '^api/billing.api';
 import {useRouter} from 'next/router';
 import {errorNotify} from '^utils/toast-notify';
 import {BillingHistoryDto} from '^types/billing.type';
-import {ApplicationDto} from '^types/application.type';
-import {getApplication} from '^api/application.api';
+import {SubscriptionDto} from '^types/subscription.type';
+import {getSubscription} from '^api/subscription.api';
 import {intlDateLong} from '^utils/dateTime';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
@@ -21,11 +21,11 @@ export default function BillingHistoriesPage() {
     const router = useRouter();
     const appId = Number(router.query.appId);
     const [billingHistory, setBillingHistory] = useState<BillingHistoryDto[]>([]);
-    const [appInfo, setAppInfo] = useState<ApplicationDto | undefined>(undefined);
+    const [appInfo, setAppInfo] = useState<SubscriptionDto | undefined>(undefined);
 
     useEffect(() => {
         if (isNaN(appId)) return;
-        getApplication(appId)
+        getSubscription(appId)
             .then((res) => setAppInfo(res.data))
             .catch((err) => errorNotify(err));
         getAppsBillingHistory(appId)

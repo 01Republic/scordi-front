@@ -1,8 +1,8 @@
 import React, {memo, useCallback, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
-import {CreateApplicationPrototypeRequestDto as CreateDto} from '^types/applicationPrototype.type';
+import {CreateProductRequestDto as CreateDto} from '^types/product.type';
 import {FormControlInput} from '^layouts/ContentLayout/FormControlInput';
-import {createApplicationPrototype} from '^api/applicationPrototype.api';
+import {createProduct} from '^api/product.api';
 import {usePrototypeSearch} from '^hooks/useApplicationPrototypes';
 import {errorNotify} from '^utils/toast-notify';
 
@@ -20,7 +20,7 @@ export const PrototypeCreateModal = memo(() => {
     }, []) as any;
 
     const onSubmit = useCallback((data: CreateDto) => {
-        createApplicationPrototype(data)
+        createProduct(data)
             .then((res) => {
                 if (res.status === 201) {
                     mutation();

@@ -1,9 +1,9 @@
 import React, {memo, ReactNode} from 'react';
 import {TitleSection} from '^components/v2/TitleSection';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {ProductDto} from '^types/product.type';
 
 type SelectStatusSectionProps = {
-    proto: ApplicationPrototypeDto;
+    proto: ProductDto;
     text?: ReactNode | undefined;
 };
 

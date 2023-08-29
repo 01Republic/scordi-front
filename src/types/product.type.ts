@@ -1,16 +1,16 @@
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
-import {ApplicationPaymentPlanDto} from '^types/applicationPaymentPlan.type';
-import {ApplicationBillingCycleDto} from '^types/applicationBillingCycle.type';
+import {SubscriptionPaymentPlanDto} from '^types/subscriptionPaymentPlan.type';
+import {SubscriptionBillingCycleDto} from '^types/subscriptionBillingCycle.type';
 import {PostDto} from '^types/post.type';
 import {TagDto} from '^types/tag.type';
 
-export enum PrototypeConnectMethod {
+export enum ProductConnectMethod {
     AUTO = 'AUTO',
     MANUAL = 'MANUAL',
     PREPARE = 'PREPARE',
 }
 
-export type ApplicationPrototypeDto = {
+export type ProductDto = {
     id: number;
     name: string;
     searchText: string; // 검색키워드
@@ -30,14 +30,14 @@ export type ApplicationPrototypeDto = {
     updatePayMethodUrlScheme: string; // 결제수단 변경 페이지 URL Scheme
     createdAt: Date;
     updatedAt: Date;
-    paymentPlans: ApplicationPaymentPlanDto[];
-    billingCycles: ApplicationBillingCycleDto[];
-    connectMethod: PrototypeConnectMethod | string;
+    paymentPlans: SubscriptionPaymentPlanDto[];
+    billingCycles: SubscriptionBillingCycleDto[];
+    connectMethod: ProductConnectMethod | string;
     tags: TagDto[];
     posts: PostDto[];
 };
 
-export type CreateApplicationPrototypeRequestDto = {
+export type CreateProductRequestDto = {
     name: string; // 서비스명
     tagline: string; // 요약
     tagIds: number[]; // tag ID 목록
@@ -51,22 +51,22 @@ export type CreateApplicationPrototypeRequestDto = {
     companyName: string; // 운영사명
     isAutoTrackable: boolean; // API 지원 여부
     isFreeTierAvailable: boolean; // 프리티어 지원 여부
-    connectMethod?: PrototypeConnectMethod; // 연동 방법
+    connectMethod?: ProductConnectMethod; // 연동 방법
 };
 
-export type UpdateApplicationPrototypeRequestDto = Partial<CreateApplicationPrototypeRequestDto> & {
+export type UpdateProductRequestDto = Partial<CreateProductRequestDto> & {
     name?: string; // 서비스명
-    connectMethod?: PrototypeConnectMethod; // 연동방법
+    connectMethod?: ProductConnectMethod; // 연동방법
 };
 
-export function safeImageSrc(proto: ApplicationPrototypeDto, w: number, h: number): string {
+export function safeImageSrc(product: ProductDto, w: number, h: number): string {
     return (
-        proto.image ||
-        `https://via.placeholder.com/${w}x${h}.png?text=${(proto.name || '').replace(/\s/g, '+')[0] || ''}`
+        product.image ||
+        `https://via.placeholder.com/${w}x${h}.png?text=${(product.name || '').replace(/\s/g, '+')[0] || ''}`
     );
 }
 
-export type FindAllAppPrototypeQuery = FindAllQueryDto<ApplicationPrototypeDto> & {
+export type FindAllProductQuery = FindAllQueryDto<ProductDto> & {
     isLive?: boolean;
     name?: string;
     tagIds?: number[];
@@ -78,7 +78,7 @@ export type ApplyToAddDto = {
     url?: string;
 };
 
-// export const applicationPrototypeMockDataList: ApplicationPrototypeDto[] = [
+// export const productMockDataList: ProductDto[] = [
 //   {
 //     id: 1,
 //     name: 'Google',

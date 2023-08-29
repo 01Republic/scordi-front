@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {TitleSection} from '^components/v2/TitleSection';
 
 type AppNextPayInfoBlockProps = {
-    application: ApplicationDto;
+    application: SubscriptionDto;
 };
 
 export const AppNextPayInfoBlock = memo((props: AppNextPayInfoBlockProps) => {

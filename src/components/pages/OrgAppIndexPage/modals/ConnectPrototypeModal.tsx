@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {ConnectModalStage, useConnectPrototypeModalState} from '^atoms/connectPrototypes.atom';
+import {ConnectModalStage, useConnectPrototypeModalState} from '^atoms/connectProducts.atom';
 import {IoIosCloseCircleOutline} from '^components/react-icons';
 import {Modal} from '^components/Modal';
 import {AuthFormStage} from './ConnectPrototypeModal/AuthFormStage';

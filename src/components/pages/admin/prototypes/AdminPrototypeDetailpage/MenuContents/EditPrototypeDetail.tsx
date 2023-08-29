@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {useForm} from 'react-hook-form';
-import {UpdateApplicationPrototypeRequestDto} from '^types/applicationPrototype.type';
-import {applicationPrototypeApi} from '^api/applicationPrototype.api';
+import {UpdateProductRequestDto} from '^types/product.type';
+import {productApi} from '^api/product.api';
 import {toast} from 'react-toastify';
 import {adminPrototypeDetail} from '^components/pages/admin/prototypes/AdminPrototypeDetailpage';
 import {useRecoilState} from 'recoil';
@@ -9,11 +9,11 @@ import {PrototypeForm} from '^components/pages/admin/prototypes/form/PrototypeFo
 
 export const EditPrototypeDetail = memo(() => {
     const [prototype, setPrototype] = useRecoilState(adminPrototypeDetail);
-    const form = useForm<UpdateApplicationPrototypeRequestDto>();
+    const form = useForm<UpdateProductRequestDto>();
 
-    const onSubmit = (data: UpdateApplicationPrototypeRequestDto) => {
+    const onSubmit = (data: UpdateProductRequestDto) => {
         if (!prototype) return;
-        applicationPrototypeApi.update(prototype.id, data).then((res) => {
+        productApi.update(prototype.id, data).then((res) => {
             if (res.status === 200) {
                 setPrototype(res.data);
                 toast.success('Successfully Updated.');

@@ -14,7 +14,7 @@ import {AppBillingHistoryListSection} from '^components/pages/OrgAppInfoPage/App
 import {NewBillingHistoryOnAppPageRoute} from '^pages/orgs/[id]/apps/[appId]/billingHistories/new';
 import {useCurrentApplication} from '^hooks/useApplications';
 import {useSetRecoilState} from 'recoil';
-import {applicationIdParamState} from '^atoms/common';
+import {subscriptionIdParamState} from '^atoms/common';
 import {getBillingHistoriesParamsState} from '^atoms/billingHistories.atom';
 import {OrgApplicationEditPageRoute} from '^pages/orgs/[id]/apps/[appId]/edit';
 
@@ -24,7 +24,7 @@ export const OrgAppShowPageMobile = memo(() => {
     const organizationId = Number(router.query.id);
     const applicationId = Number(router.query.appId);
     const {currentApplication: application} = useCurrentApplication();
-    const setApplicationIdParam = useSetRecoilState(applicationIdParamState);
+    const setApplicationIdParam = useSetRecoilState(subscriptionIdParamState);
     const setBillingHistoriesQueryParam = useSetRecoilState(getBillingHistoriesParamsState);
 
     useEffect(() => {

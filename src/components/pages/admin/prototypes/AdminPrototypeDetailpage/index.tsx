@@ -3,14 +3,14 @@ import {AdminPrototypesPageRoute} from '^pages/admin/prototypes';
 import {Fragment, memo, useEffect} from 'react';
 import {atom, useRecoilState, useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
-import {applicationPrototypeApi} from '^api/applicationPrototype.api';
+import {ProductDto} from '^types/product.type';
+import {productApi} from '^api/product.api';
 import {ContentTabNav} from '^layouts/ContentLayout';
 import {EditPrototypeDetail} from '^components/pages/admin/prototypes/AdminPrototypeDetailpage/MenuContents/EditPrototypeDetail';
 import {EditPrototypePost} from '^components/pages/admin/prototypes/AdminPrototypeDetailpage/MenuContents/EditPrototypePost';
 import {PrototypePlanCyclePanel} from '^components/pages/admin/prototypes/form/panels/PrototypePlanCyclePanel';
 
-export const adminPrototypeDetail = atom<ApplicationPrototypeDto | null>({
+export const adminPrototypeDetail = atom<ProductDto | null>({
     key: 'adminPrototypeDetail',
     default: null,
 });
@@ -27,7 +27,7 @@ export const AdminPrototypeDetailPage = memo(() => {
 
     useEffect(() => {
         if (!prototypeId || isNaN(prototypeId)) return;
-        applicationPrototypeApi.show(prototypeId).then((res) => setPrototype(res.data));
+        productApi.show(prototypeId).then((res) => setPrototype(res.data));
     }, [prototypeId]);
 
     const tabIndex = useRecoilValue(navTabIndex);

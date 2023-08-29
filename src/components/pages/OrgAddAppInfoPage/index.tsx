@@ -5,11 +5,11 @@ import {IoArrowBack} from '@react-icons/all-files/io5/IoArrowBack';
 import {useCurrentOrg} from '^hooks/useCurrentOrg';
 import {errorNotify} from '^utils/toast-notify';
 import {Page} from '^types/page';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
-import {CreateApplicationRequestDto} from '^types/application.type';
+import {ProductDto} from '^types/product.type';
+import {CreateApplicationRequestDto} from '^types/subscription.type';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
-import {getApplications} from '^api/application.api';
-import {getApplicationPrototype} from '^api/applicationPrototype.api';
+import {getSubscriptions} from '^api/subscription.api';
+import {getProduct} from '^api/product.api';
 import {ContentLayout} from '^layouts/ContentLayout';
 import {ContentForm} from '^layouts/ContentLayout/ContentForm';
 import {ContentHeading, ContentHeadingSecondaryButton} from '^layouts/ContentLayout/ContentHeading';
@@ -26,7 +26,7 @@ export const OrgAddAppInfoPage: Page = () => {
     const prototypeId = Number(router.query.appId);
     const [progressModalOpen, setProgressModalOpen] = useState<boolean>(false);
     const {currentOrg} = useCurrentOrg(organizationId);
-    const [protoApp, setProtoApp] = useState<ApplicationPrototypeDto | null>(null);
+    const [protoApp, setProtoApp] = useState<ProductDto | null>(null);
     const [selectedPlanId, setSelectedPlanId] = useState<number>(0);
     const form = useForm<CreateApplicationRequestDto>({
         defaultValues: {
@@ -53,7 +53,7 @@ export const OrgAddAppInfoPage: Page = () => {
         if (prototypeId) {
             // 굳이굳이 주소를 치고 이 페이지로 진입하는 경우에도, 이미 추가한 앱의 경우 튕겨내도록 합니다.
             const where = {organizationId, prototypeId};
-            getApplications({itemsPerPage: 999, where})
+            getSubscriptions({itemsPerPage: 999, where})
                 .then(({data}) => {
                     if (data.items[0]) {
                         alert('이미 추가된 앱입니다.');
@@ -62,7 +62,7 @@ export const OrgAddAppInfoPage: Page = () => {
                 })
                 .catch(errorNotify);
 
-            getApplicationPrototype(prototypeId)
+            getProduct(prototypeId)
                 .then(({data: proto}) => {
                     setProtoApp(proto);
                     // form.setValue('paymentPlanId', proto.paymentPlans[0].id);
@@ -81,7 +81,7 @@ export const OrgAddAppInfoPage: Page = () => {
         form.setValue('organizationId', organizationId);
         form.setValue('prototypeId', protoApp.id);
         const values = form.getValues();
-        // createApplication(values)
+        // createSubscription(values)
         //   .then(() => {
         //     toast('Successfully Saved');
         //     toast('Then, Oauth2 Popup');

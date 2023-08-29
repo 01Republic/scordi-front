@@ -1,10 +1,10 @@
 import React, {memo} from 'react';
 import {ImageV2} from '^components/v2/ui/Image';
-import {ApplicationPrototypeDto, safeImageSrc} from '^types/applicationPrototype.type';
+import {ProductDto, safeImageSrc} from '^types/product.type';
 import {TitleSection} from '^components/v2/TitleSection';
 
 type AppNameWithLogoBlockProps = {
-    prototype: ApplicationPrototypeDto;
+    prototype: ProductDto;
 };
 
 export const AppNameWithLogoBlock = memo((props: AppNameWithLogoBlockProps) => {

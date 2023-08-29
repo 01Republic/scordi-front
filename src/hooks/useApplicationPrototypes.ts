@@ -1,36 +1,32 @@
 import {atom, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {prototypeIdParamsState} from '^atoms/common';
+import {productIdParamsState} from '^atoms/common';
 import {
-    applicationPrototypeAtom,
-    applicationPrototypesAtom,
+    productAtom,
+    productsAtom,
     billingCycleForCreateFlowAtom,
-    getPrototypePostContent,
-    getPrototypeQuery,
-    getPrototypesQuery,
+    getProductPostContent,
+    getProductQuery,
+    getProductsQuery,
     paymentPlanForCreateFlowAtom,
-} from '^atoms/applicationPrototypes.atom';
+} from '^atoms/products.atom';
 import {useCallback, useEffect, useState} from 'react';
-import {ApplicationPrototypeDto, FindAllAppPrototypeQuery} from '^types/applicationPrototype.type';
-import {
-    applicationPrototypeApi,
-    getApplicationPrototype,
-    getApplicationPrototypes,
-} from '^api/applicationPrototype.api';
+import {ProductDto, FindAllProductQuery} from '^types/product.type';
+import {productApi, getProduct, getProducts} from '^api/product.api';
 import {errorNotify} from '^utils/toast-notify';
-import {ApplicationPaymentPlanDto} from '^types/applicationPaymentPlan.type';
+import {SubscriptionPaymentPlanDto} from '^types/subscriptionPaymentPlan.type';
 import {useRouter} from 'next/router';
 
 export const useApplicationPrototypes = () => {
-    const result = useRecoilValue(getPrototypesQuery);
+    const result = useRecoilValue(getProductsQuery);
     return result || {items: undefined, pagination: {}};
 };
 
 export const prototypeSearchResultsState = atom({
     key: 'prototypeSearchResultsState',
-    default: [] as ApplicationPrototypeDto[],
+    default: [] as ProductDto[],
 });
 
-export const searchPrototypesParams = atom<FindAllAppPrototypeQuery>({
+export const searchPrototypesParams = atom<FindAllProductQuery>({
     key: 'prototypes/searchParams',
     default: {},
 });
@@ -39,9 +35,9 @@ export const usePrototypeSearch = () => {
     const [results, setResults] = useRecoilState(prototypeSearchResultsState);
     const [query, setQuery] = useRecoilState(searchPrototypesParams);
 
-    const searchPrototypes = useCallback((params: FindAllAppPrototypeQuery) => {
+    const searchPrototypes = useCallback((params: FindAllProductQuery) => {
         setQuery(params);
-        getApplicationPrototypes({
+        getProducts({
             isLive: params.isLive ?? true,
             itemsPerPage: 500,
             ...params,
@@ -52,10 +48,10 @@ export const usePrototypeSearch = () => {
 
     const mutation = useCallback(() => searchPrototypes(query), [query]);
 
-    const search = async (params: FindAllAppPrototypeQuery) => {
+    const search = async (params: FindAllProductQuery) => {
         if (JSON.stringify(query) === JSON.stringify(params)) return results;
 
-        const data = await applicationPrototypeApi
+        const data = await productApi
             .index({
                 itemsPerPage: 500,
                 ...params,
@@ -71,21 +67,21 @@ export const usePrototypeSearch = () => {
     return {results, searchPrototypes, query, mutation, search};
 };
 
-// export const useApplicationPrototype = () => useRecoilValue(getPrototypeQuery);
-export const useApplicationPrototype = () => useRecoilState(getPrototypeQuery);
+// export const useApplicationPrototype = () => useRecoilValue(getProductQuery);
+export const useApplicationPrototype = () => useRecoilState(getProductQuery);
 
 // export const useApplicationPrototypes2 = (deps: any[]) => {
 //     const [page, setPage] = useState<number>(0);
 //     const [totalPage, setTotalPage] = useState<number>(0);
 //     const [totalItemCount, setTotalItemCount] = useState<number>(0);
 //     const [isLoading, setIsLoading] = useState<boolean>(false);
-//     const [list, setList] = useRecoilState(applicationPrototypesAtom);
+//     const [list, setList] = useRecoilState(productsAtom);
 //
-//     const fetch = (params: FindAllAppPrototypeQuery = {}) => {
+//     const fetch = (params: FindAllProductQuery = {}) => {
 //         params.where ||= {};
 //         params.isLive ??= true;
 //         setIsLoading(true);
-//         getApplicationPrototypes(params)
+//         getProducts(params)
 //             .then(({data}) => {
 //                 setPage(data.pagination.currentPage);
 //                 setTotalPage(data.pagination.totalPage);
@@ -114,11 +110,11 @@ export const useApplicationPrototype = () => useRecoilState(getPrototypeQuery);
 //
 // export const useApplicationPrototype2 = (id: number | null, deps: any[]) => {
 //     const [isLoading, setIsLoading] = useState<boolean>(false);
-//     const [prototype, setPrototype] = useRecoilState(applicationPrototypeAtom);
+//     const [prototype, setPrototype] = useRecoilState(productAtom);
 //
 //     const fetchApplicationPrototype = (id: number) => {
 //         setIsLoading(true);
-//         getApplicationPrototype(id)
+//         getProduct(id)
 //             .then(({data}) => {
 //                 setPrototype(data);
 //             })
@@ -133,7 +129,7 @@ export const useApplicationPrototype = () => useRecoilState(getPrototypeQuery);
 //     return {prototype, setPrototype, isLoading, fetchApplicationPrototype};
 // };
 
-export const usePaymentPlanForCreateFlow = (proto: ApplicationPrototypeDto | null | undefined, id: number) => {
+export const usePaymentPlanForCreateFlow = (proto: ProductDto | null | undefined, id: number) => {
     const [paymentPlan, setPaymentPlan] = useRecoilState(paymentPlanForCreateFlowAtom);
 
     useEffect(() => {
@@ -145,7 +141,7 @@ export const usePaymentPlanForCreateFlow = (proto: ApplicationPrototypeDto | nul
     return {paymentPlan, setPaymentPlan};
 };
 
-export const useBillingCycleForCreateFlow = (plan: ApplicationPaymentPlanDto | null | undefined, id: number) => {
+export const useBillingCycleForCreateFlow = (plan: SubscriptionPaymentPlanDto | null | undefined, id: number) => {
     const [billingCycle, setBillingCycle] = useRecoilState(billingCycleForCreateFlowAtom);
 
     useEffect(() => {
@@ -165,7 +161,7 @@ export const useCreateFlow = () => {
     const [prototype] = useApplicationPrototype();
     const planHook = usePaymentPlanForCreateFlow(prototype, planId);
     const cycleHook = useBillingCycleForCreateFlow(planHook.paymentPlan, cycleId);
-    const setPrototypeIdParam = useSetRecoilState(prototypeIdParamsState);
+    const setPrototypeIdParam = useSetRecoilState(productIdParamsState);
 
     useEffect(() => {
         setPrototypeIdParam(prototypeId);
@@ -182,7 +178,7 @@ export const useCreateFlow = () => {
 };
 
 export const usePrototypePostContent = () => {
-    const makeContent = (prototype: ApplicationPrototypeDto) => {
+    const makeContent = (prototype: ProductDto) => {
         const [post] = prototype.posts;
 
         const shortName = prototype?.name?.split(' ')?.[0] ?? 'untitled';

@@ -1,10 +1,10 @@
 import {ProductDetailPageRoute} from '^pages/products/[id]';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {ProductDto} from '^types/product.type';
 import {toast} from 'react-toastify';
 import {usePrototypePostContent} from '^hooks/useApplicationPrototypes';
 
 interface ProductPostListContentPanelItemProps {
-    prototype: ApplicationPrototypeDto;
+    prototype: ProductDto;
 }
 
 export const ProductListContentPanelItem = (props: ProductPostListContentPanelItemProps) => {

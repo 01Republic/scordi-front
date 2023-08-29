@@ -1,12 +1,12 @@
 import React, {memo, useEffect, useState} from 'react';
-import {UpdateApplicationRequestDto} from '^types/application.type';
+import {UpdateApplicationRequestDto} from '^types/subscription.type';
 import {TitleSection} from '^components/v2/TitleSection';
 import {UseFormReturn} from 'react-hook-form';
 import {useCurrentApplication} from '^hooks/useApplications';
 import {MobileSection} from '^components/v2/MobileSection';
 import {MobileKeyValueItem} from '^components/v2/MobileKeyValueItem';
 import {Select} from '^components/Select';
-import {ApplicationBillingCycleDto, t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
+import {ApplicationBillingCycleDto, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 import {toast} from 'react-toastify';
 
 type AppNextPayInputsBlockProps = {

@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {ProductDto} from '^types/product.type';
 import {Avatar} from '^components/Avatar';
 
 interface PrototypeAvatarProps {
-    proto: ApplicationPrototypeDto;
+    proto: ProductDto;
 }
 
 export const PrototypeAvatar = memo((props: PrototypeAvatarProps) => {

@@ -6,7 +6,7 @@ import {TitleSection} from '^components/v2/TitleSection';
 import {useCurrentApplication} from '^hooks/useApplications';
 import {useBillingHistory} from '^hooks/useBillingHistories';
 import {AppNameWithLogoBlock} from '^components/pages/OrgAppInfoPage/AppNameWithLogoBlock';
-import {applicationIdParamState, billingHistoryIdParamState, useRouterIdParamState} from '^atoms/common';
+import {subscriptionIdParamState, billingHistoryIdParamState, useRouterIdParamState} from '^atoms/common';
 import {BillingHistoryEditForm} from '^components/pages/BillingHistoryEditPage/BillingHistoryEditForm';
 import {BillingHistoryAmountInputBlock} from '^components/pages/BillingHistoryEditPage/BillingHistoryAmountInputBlock';
 import {useForm} from 'react-hook-form';
@@ -27,7 +27,7 @@ export const BillingHistoryEditPageRoute = pathRoute({
 });
 
 export default function BillingHistoryEditPage() {
-    useRouterIdParamState('appId', applicationIdParamState);
+    useRouterIdParamState('appId', subscriptionIdParamState);
     useRouterIdParamState('billingHistoryId', billingHistoryIdParamState);
     const {currentApplication: application} = useCurrentApplication();
     const billingHistory = useBillingHistory();

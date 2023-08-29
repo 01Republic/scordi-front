@@ -1,10 +1,10 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {AiOutlineSync, BsFillCaretDownFill, BsTrash} from '^components/react-icons';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {ConnectStatus} from '^types/application.type';
+import {ConnectStatus} from '^types/subscription.type';
 import {navTabIndex} from './OrgAppShowPage.desktop';
 import {useCurrentApplication} from '^hooks/useApplications';
-import {createSyncHistory} from '^api/applicationSyncHistories.api';
+import {createSyncHistory} from '^api/subscriptionSyncHistories.api';
 import {toast} from 'react-toastify';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {useCurrentSyncHistory, useSyncHistoryList} from '^hooks/useApplicationSyncHistories';

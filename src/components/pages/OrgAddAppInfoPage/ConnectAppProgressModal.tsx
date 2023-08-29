@@ -3,7 +3,7 @@ import {stageMarkUps} from '^components/ApplicationConnectStage';
 import {AppCode, ApplicationConnectApi} from '^api/applicationConnect.api';
 import {Modal} from '^components/Modal';
 import {OrganizationDto} from '^types/organization.type';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {ProductDto} from '^types/product.type';
 
 interface ConnectAppProgressModalProps {
     isOpen: boolean;
@@ -11,7 +11,7 @@ interface ConnectAppProgressModalProps {
     organizationId: number;
     organization: OrganizationDto;
     prototypeId: number;
-    protoApp: ApplicationPrototypeDto;
+    protoApp: ProductDto;
 }
 
 export function ConnectAppProgressModal(props: ConnectAppProgressModalProps) {

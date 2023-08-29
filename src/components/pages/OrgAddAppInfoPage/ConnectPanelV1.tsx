@@ -2,17 +2,17 @@ import React from 'react';
 import {ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/ContentLayout/ContentPanel';
 import {SwitchCheckbox} from '^components/SwitchCheckbox';
 import {RadioSetInput} from '^components/RadioSetInput';
-import {t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
+import {t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 import {TextInput} from '^components/TextInput';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
-import {CreateApplicationRequestDto} from '^types/application.type';
+import {ProductDto} from '^types/product.type';
+import {CreateApplicationRequestDto} from '^types/subscription.type';
 import {UseFormReturn} from 'react-hook-form';
-import {ApplicationPaymentPlanDto} from '^types/applicationPaymentPlan.type';
+import {SubscriptionPaymentPlanDto} from '^types/subscriptionPaymentPlan.type';
 
 interface ConnectPanelV1Props {
     form: UseFormReturn<CreateApplicationRequestDto, any>;
-    protoApp: ApplicationPrototypeDto;
-    selectedPlan: ApplicationPaymentPlanDto;
+    protoApp: ProductDto;
+    selectedPlan: SubscriptionPaymentPlanDto;
     setSelectedPlanId: React.Dispatch<React.SetStateAction<number>>;
 }
 

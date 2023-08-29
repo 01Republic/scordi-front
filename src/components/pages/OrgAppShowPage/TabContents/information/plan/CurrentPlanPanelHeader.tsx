@@ -1,11 +1,11 @@
 import {memo} from 'react';
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {ContentPanelHeading} from '^layouts/ContentLayout';
 import {BsFillCaretDownFill} from '^components/react-icons';
-import {Locale, t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
+import {Locale, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 
 interface CurrentPlanPanelHeader {
-    application: ApplicationDto;
+    application: SubscriptionDto;
 }
 
 export const CurrentPlanPanelHeader = memo((props: CurrentPlanPanelHeader) => {

@@ -1,19 +1,15 @@
 import React, {memo, MouseEventHandler, useCallback, useEffect} from 'react';
 import {atom, useRecoilState} from 'recoil';
-import {
-    ApplicationPrototypeDto,
-    PrototypeConnectMethod,
-    UpdateApplicationPrototypeRequestDto as UpdateDto,
-} from '^types/applicationPrototype.type';
+import {ProductDto, ProductConnectMethod, UpdateProductRequestDto as UpdateDto} from '^types/product.type';
 import {useForm} from 'react-hook-form';
 import {FormControlInput} from '^layouts/ContentLayout/FormControlInput';
-import {updateApplicationPrototype} from '^api/applicationPrototype.api';
+import {updateProduct} from '^api/product.api';
 import {usePrototypeSearch} from '^hooks/useApplicationPrototypes';
 import {FormControlCheckbox} from '^layouts/ContentLayout/FormControlCheckbox';
 import {FormControlSelect} from '^layouts/ContentLayout/FormControlSelect';
 import {FormControlTextArea} from '^layouts/ContentLayout/FormControlTextArea';
 
-export const editingProtoTargetState = atom<ApplicationPrototypeDto | null>({
+export const editingProtoTargetState = atom<ProductDto | null>({
     key: 'editingProtoTargetState',
     default: null,
 });
@@ -41,7 +37,7 @@ export const PrototypeEditModal = memo((props: PrototypeEditModalProps) => {
     const onSubmit = useCallback(
         (data: UpdateDto) => {
             if (!protoTarget) return;
-            updateApplicationPrototype(protoTarget.id, data).then((res) => {
+            updateProduct(protoTarget.id, data).then((res) => {
                 if (res.status === 200) {
                     if (searchMutationAfterSave) mutation();
                     onClose();
@@ -66,7 +62,7 @@ export const PrototypeEditModal = memo((props: PrototypeEditModalProps) => {
         form.setValue('isAutoTrackable', protoTarget.isAutoTrackable); // API 지원 여부
         form.setValue('isFreeTierAvailable', protoTarget.isFreeTierAvailable); // 프리티어 지원 여부
         form.setValue('desc', protoTarget.desc); // 설명
-        form.setValue('connectMethod', protoTarget.connectMethod as PrototypeConnectMethod); // 연동방법
+        form.setValue('connectMethod', protoTarget.connectMethod as ProductConnectMethod); // 연동방법
     }, [protoTarget]);
 
     return (
@@ -144,7 +140,7 @@ export const PrototypeEditModal = memo((props: PrototypeEditModalProps) => {
                         />
                         <FormControlSelect
                             labelTop="Connect Method"
-                            options={Object.entries(PrototypeConnectMethod)}
+                            options={Object.entries(ProductConnectMethod)}
                             {...form.register('connectMethod')}
                         />
                     </div>

@@ -1,10 +1,10 @@
 import {Fragment, memo} from 'react';
 import {ContentPanel, ContentTable} from '^layouts/ContentLayout';
-import {t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
+import {ProductDto} from '^types/product.type';
 
 interface PrototypePlanCyclePanelProps {
-    prototype: ApplicationPrototypeDto;
+    prototype: ProductDto;
 }
 
 export const PrototypePlanCyclePanel = memo((props: PrototypePlanCyclePanelProps) => {

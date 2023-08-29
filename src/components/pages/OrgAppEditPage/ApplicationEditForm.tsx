@@ -1,30 +1,30 @@
 import {memo, useEffect} from 'react';
 import {WithChildren} from '^types/global.type';
 import {UseFormReturn} from 'react-hook-form';
-import {UpdateApplicationRequestDto} from '^types/application.type';
-import {applicationIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {UpdateSubscriptionRequestDto} from '^types/subscription.type';
+import {subscriptionIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
-import {updateApplication} from '^api/application.api';
+import {updateSubscription} from '^api/subscription.api';
 import {useRouter} from 'next/router';
 import {errorNotify} from '^utils/toast-notify';
 import {useCurrentApplication} from '^hooks/useApplications';
 
 type ApplicationEditFormProps = {
-    form: UseFormReturn<UpdateApplicationRequestDto, any>;
+    form: UseFormReturn<UpdateSubscriptionRequestDto, any>;
 } & WithChildren;
 
 export const ApplicationEditForm = memo((props: ApplicationEditFormProps) => {
     const {form, children} = props;
     const router = useRouter();
     const organizationId = useRouterIdParamState('id', orgIdParamState);
-    const applicationId = useRouterIdParamState('appId', applicationIdParamState);
+    const applicationId = useRouterIdParamState('appId', subscriptionIdParamState);
     const {currentApplication, reload} = useCurrentApplication();
 
-    const onSubmit = (data: UpdateApplicationRequestDto) => {
+    const onSubmit = (data: UpdateSubscriptionRequestDto) => {
         if (!organizationId || !applicationId) return;
 
         const redirectUrl = OrgAppShowPageRoute.path(organizationId, applicationId);
-        updateApplication(applicationId, data)
+        updateSubscription(applicationId, data)
             .then(() => {
                 reload();
                 router.replace(redirectUrl);

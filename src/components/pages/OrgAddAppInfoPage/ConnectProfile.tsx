@@ -1,18 +1,24 @@
-import { IoFlash } from '@react-icons/all-files/io5/IoFlash';
+import {IoFlash} from '@react-icons/all-files/io5/IoFlash';
 import React from 'react';
-import { ApplicationPrototypeDto } from '^types/applicationPrototype.type';
+import {ProductDto} from '^types/product.type';
 
 interface ConnectProfileProps {
-  protoApp: ApplicationPrototypeDto;
+    protoApp: ProductDto;
 }
 
-export const ConnectProfile = ({ protoApp }: ConnectProfileProps) => {
-  return (
-    <div className="flex flex-col gap-4">
-      <img src={protoApp.image} alt={`${protoApp.name} Logo`} width={210} height={210} className="bg-white rounded-xl p-3 shadow" />
-      {/*<button className="btn btn-secondary btn-block text-lg gap-2">*/}
-      {/*  <IoFlash /> Connect App*/}
-      {/*</button>*/}
-    </div>
-  )
-}
+export const ConnectProfile = ({protoApp}: ConnectProfileProps) => {
+    return (
+        <div className="flex flex-col gap-4">
+            <img
+                src={protoApp.image}
+                alt={`${protoApp.name} Logo`}
+                width={210}
+                height={210}
+                className="bg-white rounded-xl p-3 shadow"
+            />
+            {/*<button className="btn btn-secondary btn-block text-lg gap-2">*/}
+            {/*  <IoFlash /> Connect App*/}
+            {/*</button>*/}
+        </div>
+    );
+};

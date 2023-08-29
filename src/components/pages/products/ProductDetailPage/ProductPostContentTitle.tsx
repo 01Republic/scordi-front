@@ -1,15 +1,15 @@
 import {memo} from 'react';
 import {GrShare} from 'react-icons/gr';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {ProductDto} from '^types/product.type';
 import {usePrototypePostContent} from '^hooks/useApplicationPrototypes';
 
-export const ProductPostContentTitle = memo((props: {prototype: ApplicationPrototypeDto}) => {
-    const {prototype} = props;
-    const [post] = prototype.posts;
+export const ProductPostContentTitle = memo((props: {product: ProductDto}) => {
+    const {product} = props;
+    const [post] = product.posts;
     if (!post) return <></>;
     const {makeContent} = usePrototypePostContent();
 
-    const {thumbnailUrl, logoImgUrl, homePageUrl, title, subTitle, tagNames} = makeContent(prototype);
+    const {thumbnailUrl, logoImgUrl, homePageUrl, title, subTitle, tagNames} = makeContent(product);
 
     return (
         <div>

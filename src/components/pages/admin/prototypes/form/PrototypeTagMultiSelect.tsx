@@ -1,8 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {
-    CreateApplicationPrototypeRequestDto as CreateDto,
-    UpdateApplicationPrototypeRequestDto as UpdateDto,
-} from '^types/applicationPrototype.type';
+import {CreateProductRequestDto as CreateDto, UpdateProductRequestDto as UpdateDto} from '^types/product.type';
 import {UseFormReturn} from 'react-hook-form';
 import {TagDto, TagGroup} from '^types/tag.type';
 import {MultiSelect, Option} from '^components/util/select/MultiSelect';

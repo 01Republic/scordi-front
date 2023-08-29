@@ -1,5 +1,5 @@
 import {atom, useRecoilState} from 'recoil';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {ProductDto} from '^types/product.type';
 import {LoginDto, LoginWithOrgs, LoginWithVerify, OrgItemDto} from '^types/crawler';
 import {useCallback, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
@@ -7,13 +7,13 @@ import {errorNotify} from '^utils/toast-notify';
 import {AxiosError} from 'axios';
 
 // 연동 모달의 활성화 여부
-export const connectPrototypeModalState = atom({
-    key: 'connectPrototypeModalState',
+export const connectProductModalState = atom({
+    key: 'connectProductModalState',
     default: false,
 });
 
 // 연동 모달의 연동대상 SaaS 앱
-export const currentPrototypeState = atom<ApplicationPrototypeDto | null>({
+export const currentPrototypeState = atom<ProductDto | null>({
     key: 'currentPrototypeState',
     default: null,
 });
@@ -63,7 +63,7 @@ export const createdApplicationIdState = atom<number>({
 
 // 연동 모달 내부의 여러 컴포넌트에서 공유할 필요가 있는 상태값을 한 번에 관리
 export const useConnectPrototypeModalState = () => {
-    const [isConnectModalOpen, setIsConnectModalOpen] = useRecoilState(connectPrototypeModalState);
+    const [isConnectModalOpen, setIsConnectModalOpen] = useRecoilState(connectProductModalState);
     const [currentPrototype] = useRecoilState(currentPrototypeState);
     const [currentStage, setCurrentStage] = useRecoilState(connectModalStageState);
     const [isLoading, setIsLoading] = useRecoilState(connectModalIsLoadingState);

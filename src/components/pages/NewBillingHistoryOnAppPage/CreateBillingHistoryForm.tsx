@@ -9,7 +9,7 @@ import {errorNotify} from '^utils/toast-notify';
 import {MobileSection} from '^components/v2/MobileSection';
 import {yyyy_mm_dd} from '^utils/dateTime';
 import {MobileBottomNav} from '^components/v2/MobileBottomNav';
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
 import {useCurrentApplication} from '^hooks/useApplications';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';

@@ -1,11 +1,11 @@
 import {memo} from 'react';
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {CurrentPlanPanelHeader} from './plan/CurrentPlanPanelHeader';
 import {CurrentPlanZoneHeader} from './plan/CurrentPlanZoneHeader';
 import {CurrentPlanPaidAccountStatus} from './plan/CurrentPlanPaidAccountStatus';
 
 interface CurrentPlanZoneProps {
-    application: ApplicationDto;
+    application: SubscriptionDto;
 }
 
 export const CurrentPlanZone = memo((props: CurrentPlanZoneProps) => {

@@ -1,15 +1,15 @@
 import {memo} from 'react';
 import {ButtonTo} from '^components/ButtonTo';
-import {ApplicationDto} from '^types/application.type';
-import {SyncHistoryDto, restartSyncButtonIsActive} from '^types/applicationSyncHistory.type';
-import {createSyncHistory} from '^api/applicationSyncHistories.api';
+import {SubscriptionDto} from '^types/subscription.type';
+import {SyncHistoryDto, restartSyncButtonIsActive} from '^types/subscriptionSyncHistory.type';
+import {createSyncHistory} from '^api/subscriptionSyncHistories.api';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {useCurrentSyncHistory, useSyncHistoryList} from '^hooks/useApplicationSyncHistories';
 import {toast} from 'react-toastify';
 import {useCurrentApplication} from '^hooks/useApplications';
 
 interface SyncNowButtonProps {
-    application: ApplicationDto;
+    application: SubscriptionDto;
     history: SyncHistoryDto | null;
 }
 

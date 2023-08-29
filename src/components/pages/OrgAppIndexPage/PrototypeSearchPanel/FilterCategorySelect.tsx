@@ -1,7 +1,7 @@
 import React, {memo, useEffect} from 'react';
 import {AiFillCaretDown} from '^components/react-icons';
 import {atom, useRecoilState, useRecoilValue} from 'recoil';
-import {getApplicationTags} from '^api/applicationTag.api';
+import {getProductTags} from '^api/productTag.api';
 
 type CategoryDto = {id: number; name: string};
 export const categoriesState = atom<CategoryDto[]>({
@@ -28,7 +28,7 @@ export const FilterCategorySelect = memo(() => {
     const [cateTags, setCateTags] = useRecoilState(selectedCategoriesState);
 
     useEffect(() => {
-        getApplicationTags({}).then((res) => setCategories(res.data.items));
+        getProductTags({}).then((res) => setCategories(res.data.items));
     }, []);
 
     return (

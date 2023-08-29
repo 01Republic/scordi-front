@@ -1,15 +1,15 @@
 import React, {memo} from 'react';
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import Link from 'next/link';
 import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
-import {t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
-import {safeImageSrc} from '^types/applicationPrototype.type';
+import {t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
+import {safeImageSrc} from '^types/product.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 
-export const ApplicationListItemMobile = memo((props: {applicationDto: ApplicationDto}) => {
+export const ApplicationListItemMobile = memo((props: {applicationDto: SubscriptionDto}) => {
     const {applicationDto} = props;
     const organizationId = useRouterIdParamState('id', orgIdParamState);
-    const {billingCycle, paymentPlan, prototype} = applicationDto;
+    const {billingCycle, paymentPlan, product} = applicationDto;
 
     return (
         <div className="bs-col-12">
@@ -23,13 +23,13 @@ export const ApplicationListItemMobile = memo((props: {applicationDto: Applicati
                             width={32}
                             height={32}
                             className="mask mask-squircle"
-                            src={safeImageSrc(prototype, 32, 32)}
-                            alt={`${prototype.name} logo image`}
+                            src={safeImageSrc(product, 32, 32)}
+                            alt={`${product.name} logo image`}
                         />
                     </div>
                     <div className="flex-1 px-3">
                         <p>
-                            <b>{prototype.name}</b>
+                            <b>{product.name}</b>
                         </p>
                         <p className="text-sm text-gray-500">
                             {paymentPlan?.name || '-'} &middot;{' '}

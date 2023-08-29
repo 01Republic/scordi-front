@@ -1,11 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useApplicationPrototype} from '^hooks/useApplicationPrototypes';
 import {useForm, UseFormReturn} from 'react-hook-form';
-import {
-    ApplicationPrototypeDto,
-    PrototypeConnectMethod,
-    UpdateApplicationPrototypeRequestDto as UpdateDto,
-} from '^types/applicationPrototype.type';
+import {ProductDto, ProductConnectMethod, UpdateProductRequestDto as UpdateDto} from '^types/product.type';
 import {
     ContentForm,
     ContentPanel,
@@ -17,7 +13,7 @@ import {
 } from '^layouts/ContentLayout';
 import {TextInput} from '^components/TextInput';
 import {ProfileImageFileInput} from '^components/ProfileImageFileInput';
-import {updateApplicationPrototype} from '^api/applicationPrototype.api';
+import {updateProduct} from '^api/product.api';
 import {toast} from 'react-toastify';
 import {WysiwygEditor} from '^components/WysiwygEditor';
 
@@ -37,7 +33,7 @@ export const MenuContentForEditPrototype = memo(() => {
 
         // 아래는 수정 폼에서만 노출되는 인풋
         form.setValue('searchText', proto.searchText); // 검색키워드
-        form.setValue('connectMethod', proto.connectMethod as PrototypeConnectMethod); // 연동방법
+        form.setValue('connectMethod', proto.connectMethod as ProductConnectMethod); // 연동방법
         form.setValue('isAutoTrackable', proto.isAutoTrackable); // API 지원 여부
         form.setValue('isFreeTierAvailable', proto.isFreeTierAvailable); // 프리티어 지원 여부
         form.setValue('desc', proto.desc); // 설명
@@ -45,7 +41,7 @@ export const MenuContentForEditPrototype = memo(() => {
 
     const onSubmit = (data: UpdateDto) => {
         if (!proto) return;
-        updateApplicationPrototype(proto.id, data).then((res) => {
+        updateProduct(proto.id, data).then((res) => {
             if (res.status === 200) {
                 mutation(undefined);
                 toast.success('Successfully Updated.');
@@ -157,7 +153,7 @@ export const MenuContentForEditPrototype = memo(() => {
 });
 
 interface LogoImageFormPanelProps {
-    proto: ApplicationPrototypeDto | undefined;
+    proto: ProductDto | undefined;
     form: UseFormReturn<UpdateDto, any>;
 }
 

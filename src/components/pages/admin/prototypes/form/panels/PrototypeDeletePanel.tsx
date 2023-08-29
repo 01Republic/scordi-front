@@ -6,19 +6,19 @@ import {
     ContentPanelItemTitle,
     ContentPanelList,
 } from '^layouts/ContentLayout';
-import {applicationPrototypeApi} from '^api/applicationPrototype.api';
+import {productApi} from '^api/product.api';
 import React from 'react';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {ProductDto} from '^types/product.type';
 import {AdminPrototypesPageRoute} from '^pages/admin/prototypes';
 
 interface PrototypeDeletePanelProps {
-    prototype: ApplicationPrototypeDto;
+    prototype: ProductDto;
 }
 export const PrototypeDeletePanel = (props: PrototypeDeletePanelProps) => {
     const router = useRouter();
     const {prototype} = props;
     const onclick = () => {
-        applicationPrototypeApi.destroy(prototype.id).then(() => router.replace(AdminPrototypesPageRoute.path()));
+        productApi.destroy(prototype.id).then(() => router.replace(AdminPrototypesPageRoute.path()));
     };
 
     return (

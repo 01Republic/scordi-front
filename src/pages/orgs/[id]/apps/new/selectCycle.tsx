@@ -8,7 +8,7 @@ import {useCreateFlow} from '^hooks/useApplicationPrototypes';
 import {PreLoader} from '^components/PreLoader';
 import {SelectedStatusSection} from '^components/pages/OrgApplicationCreateFlow/SelectedStatusSection';
 import {LeadMessageSection} from '^components/pages/OrgApplicationCreateFlow/LeadMessageSection';
-import {ApplicationBillingCycleDto, t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
+import {ApplicationBillingCycleDto, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 import {MobileEntityListSection} from '^components/v2/MobileEntityListSection';
 import {NewAppBillingHistoryPageRoute} from '^pages/orgs/[id]/apps/new/billingHistory';
 import OrgMobileLayout from '^layouts/org/mobileLayout';

@@ -1,11 +1,11 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {BiReceipt} from '^components/react-icons';
-import {Locale, t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
+import {Locale, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 
 interface CurrentBillProps {
-    application: ApplicationDto;
+    application: SubscriptionDto;
 }
 
 export const CurrentBill = memo((props: CurrentBillProps & WithChildren) => {

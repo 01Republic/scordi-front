@@ -1,12 +1,12 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {OutLink} from '^components/OutLink';
 import {BsArrowRightShort, BiCreditCard, MdOutlineEmail} from '^components/react-icons';
 import {IoWarningOutline} from 'react-icons/io5';
 
 interface PaymentInfoProps {
-    application: ApplicationDto;
+    application: SubscriptionDto;
 }
 
 export const PaymentInfo = memo((props: PaymentInfoProps & WithChildren) => {

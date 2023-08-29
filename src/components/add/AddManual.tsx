@@ -4,12 +4,12 @@ import {DefaultButton} from '^components/Button';
 import {AddCompletePageRoute} from '^pages/apps/add/complete';
 import {useRouter} from 'next/router';
 import {useState} from 'react';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {ProductDto} from '^types/product.type';
 import {Icon} from '^components/Icon';
 import {MobileViewContainer} from '^components/MobileTopNav';
 
 type AddManualProps = {
-    appInfo: ApplicationPrototypeDto;
+    appInfo: ProductDto;
 };
 
 export const AddManual = (props: AddManualProps) => {

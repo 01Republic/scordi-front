@@ -1,13 +1,13 @@
 import React from 'react';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
-import {ApplicationDto} from '^types/application.type';
+import {ProductDto} from '^types/product.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {AppIconButton} from '^components/AppIconButton';
 
 export interface ServiceSuggestListProps {
     title: string;
-    serviceList: ApplicationPrototypeDto[];
-    myApps: ApplicationDto[];
-    onClick: (item: ApplicationPrototypeDto) => void;
+    serviceList: ProductDto[];
+    myApps: SubscriptionDto[];
+    onClick: (item: ProductDto) => void;
 }
 
 export const ServiceSuggestList: React.FC<ServiceSuggestListProps> = ({title, serviceList, myApps, onClick}) => {

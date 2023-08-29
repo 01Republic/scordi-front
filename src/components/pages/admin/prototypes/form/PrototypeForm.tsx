@@ -1,9 +1,9 @@
 import {
-    ApplicationPrototypeDto,
-    CreateApplicationPrototypeRequestDto as CreateDto,
-    UpdateApplicationPrototypeRequestDto as UpdateDto,
-    PrototypeConnectMethod,
-} from '^types/applicationPrototype.type';
+    ProductDto,
+    CreateProductRequestDto as CreateDto,
+    UpdateProductRequestDto as UpdateDto,
+    ProductConnectMethod,
+} from '^types/product.type';
 import {UseFormReturn} from 'react-hook-form';
 import {TextInput} from '^components/TextInput';
 import React, {useEffect} from 'react';
@@ -28,7 +28,7 @@ interface CreatePrototypeFormProps {
 interface UpdatePrototypeFormProps {
     form: UseFormReturn<UpdateDto>;
     onSubmit: (data: UpdateDto) => any;
-    prototype: ApplicationPrototypeDto | null;
+    prototype: ProductDto | null;
 }
 
 export const PrototypeForm = (props: CreatePrototypeFormProps | UpdatePrototypeFormProps) => {
@@ -55,7 +55,7 @@ export const PrototypeForm = (props: CreatePrototypeFormProps | UpdatePrototypeF
 
         // 아래는 수정 폼에서만 노출되는 인풋
         form.setValue('searchText', prototype.searchText); // 검색키워드
-        form.setValue('connectMethod', prototype.connectMethod as PrototypeConnectMethod); // 연동방법
+        form.setValue('connectMethod', prototype.connectMethod as ProductConnectMethod); // 연동방법
         form.setValue('isAutoTrackable', prototype.isAutoTrackable); // API 지원 여부
         form.setValue('isFreeTierAvailable', prototype.isFreeTierAvailable); // 프리티어 지원 여부
         form.setValue('desc', prototype.desc); // 비고

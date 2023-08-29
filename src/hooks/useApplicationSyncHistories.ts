@@ -1,15 +1,15 @@
 import {useCallback} from 'react';
 import {useRecoilState} from 'recoil';
-import {syncCurrentHistoryAtom} from '^atoms/applicationSyncHistories.atom';
-import {getSyncHistories} from '^api/applicationSyncHistories.api';
+import {syncCurrentHistoryAtom} from '^atoms/subscriptionSyncHistories.atom';
+import {getSyncHistories} from '^api/subscriptionSyncHistories.api';
 import {errorNotify} from '^utils/toast-notify';
-import {SyncHistoryDto} from '^types/applicationSyncHistory.type';
+import {SyncHistoryDto} from '^types/subscriptionSyncHistory.type';
 import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook';
 
 export const {paginatedListHook: useSyncHistoryList} = makePaginatedListHookWithAtoms<number, SyncHistoryDto>({
     subject: 'syncHistoryList',
-    buildParams: (applicationId, page, pagination) => ({
-        where: {applicationId},
+    buildParams: (subscriptionId, page, pagination) => ({
+        where: {subscriptionId},
         order: {id: 'DESC'},
         page,
         itemsPerPage: pagination.itemsPerPage,
@@ -20,9 +20,9 @@ export const {paginatedListHook: useSyncHistoryList} = makePaginatedListHookWith
 export const useCurrentSyncHistory = () => {
     const [currentSyncHistory, setCurrentSyncHistory] = useRecoilState(syncCurrentHistoryAtom);
 
-    const mutate = useCallback((applicationId: number) => {
-        getSyncHistories(applicationId, {
-            where: {applicationId},
+    const mutate = useCallback((subscriptionId: number) => {
+        getSyncHistories(subscriptionId, {
+            where: {subscriptionId},
             order: {id: 'DESC'},
             itemsPerPage: 1,
         })

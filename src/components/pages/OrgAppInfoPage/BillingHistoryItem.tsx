@@ -1,14 +1,14 @@
 import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {safeImageSrc} from '^types/applicationPrototype.type';
+import {safeImageSrc} from '^types/product.type';
 import {MobileEntityListItem} from '^components/v2/MobileEntityListSection/MobileEntityListItem';
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {BillingHistoryDto} from '^types/billing.type';
 import {useRouter} from 'next/router';
 import {BillingHistoryShowPageRoute} from '^pages/orgs/[id]/apps/[appId]/billingHistories/[billingHistoryId]';
 
 type BillingHistoryItemProps = {
-    application: ApplicationDto;
+    application: SubscriptionDto;
     billingHistory: BillingHistoryDto;
     onClickMethod?: 'push' | 'replace' | undefined; // default: "push"
 };

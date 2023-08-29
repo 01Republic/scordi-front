@@ -4,11 +4,11 @@ import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {useCurrentApplication} from '^hooks/useApplications';
 import {PreLoader} from '^components/PreLoader';
-import {ApplicationPrototypeDto, safeImageSrc} from '^types/applicationPrototype.type';
+import {ProductDto, safeImageSrc} from '^types/product.type';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {ImageV2} from '^components/v2/ui/Image';
 import {useSetRecoilState} from 'recoil';
-import {applicationIdParamState} from '^atoms/common';
+import {subscriptionIdParamState} from '^atoms/common';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const NewAppCreatedPageRoute = pathRoute({
@@ -24,7 +24,7 @@ export default function NewAppCreatedPage() {
     const router = useRouter();
     const applicationId = Number(router.query.applicationId);
     const {currentApplication: application} = useCurrentApplication();
-    const setApplicationIdParam = useSetRecoilState(applicationIdParamState);
+    const setApplicationIdParam = useSetRecoilState(subscriptionIdParamState);
 
     useEffect(() => {
         setApplicationIdParam(applicationId);

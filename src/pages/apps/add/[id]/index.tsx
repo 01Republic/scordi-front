@@ -5,8 +5,8 @@ import {DefaultButton} from '^components/Button';
 import {useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import AddComplete, {AddCompletePageRoute} from '^pages/apps/add/complete';
-import {getApplicationPrototype, getApplicationPrototypes} from '^api/applicationPrototype.api';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {getProduct, getProducts} from '^api/product.api';
+import {ProductDto} from '^types/product.type';
 import {AddAuto} from '^components/add/AddAuto';
 import {AddManual} from '^components/add/AddManual';
 import {AddPrepare} from '^components/add/AddPrepare';
@@ -21,11 +21,11 @@ export const AddServicePageRoute = {
 const AddService = () => {
     const router = useRouter();
     const prototypeId = Number(router.query.id);
-    const [target, setTarget] = useState<ApplicationPrototypeDto>({} as ApplicationPrototypeDto);
+    const [target, setTarget] = useState<ProductDto>({} as ProductDto);
 
     useEffect(() => {
         if (router.isReady) {
-            getApplicationPrototype(prototypeId).then((res) => {
+            getProduct(prototypeId).then((res) => {
                 setTarget(res.data);
             });
         }
