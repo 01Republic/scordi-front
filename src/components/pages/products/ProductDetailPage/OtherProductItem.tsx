@@ -3,7 +3,7 @@ import {dateIsBeforeThen, yyyy_mm_dd} from '^utils/dateTime';
 import {ProductDto} from '^types/product.type';
 import {ProductDetailPageRoute} from '^pages/products/[id]';
 import {toast} from 'react-toastify';
-import {usePrototypePostContent} from '^hooks/useApplicationPrototypes';
+import {usePrototypePostContent} from '^hooks/useProducts';
 
 interface OtherProductItemProps {
     prototype?: ProductDto;

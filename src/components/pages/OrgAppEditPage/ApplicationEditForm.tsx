@@ -7,7 +7,7 @@ import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
 import {updateSubscription} from '^api/subscription.api';
 import {useRouter} from 'next/router';
 import {errorNotify} from '^utils/toast-notify';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 
 type ApplicationEditFormProps = {
     form: UseFormReturn<UpdateSubscriptionRequestDto, any>;
@@ -18,7 +18,7 @@ export const ApplicationEditForm = memo((props: ApplicationEditFormProps) => {
     const router = useRouter();
     const organizationId = useRouterIdParamState('id', orgIdParamState);
     const applicationId = useRouterIdParamState('appId', subscriptionIdParamState);
-    const {currentApplication, reload} = useCurrentApplication();
+    const {currentApplication, reload} = useCurrentSubscription();
 
     const onSubmit = (data: UpdateSubscriptionRequestDto) => {
         if (!organizationId || !applicationId) return;

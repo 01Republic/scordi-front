@@ -10,7 +10,7 @@ import {SubscriptionDto} from '^types/subscription.type';
 import {getSubscription} from '^api/subscription.api';
 import {intlDateLong} from '^utils/dateTime';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {PreLoader} from '^components/PreLoader';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
 import {MobileTopNav} from '^components/v2/MobileTopNav';
@@ -41,7 +41,7 @@ export const NewBillingHistoryOnAppPageRoute = pathRoute({
 export default function NewBillingHistoryOnAppPage() {
     useRouterIdParamState('id', orgIdParamState);
     useRouterIdParamState('appId', subscriptionIdParamState);
-    const {currentApplication: application} = useCurrentApplication();
+    const {currentApplication: application} = useCurrentSubscription();
 
     if (!application) return <PreLoader />;
 

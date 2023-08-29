@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {useApplicationPrototype} from '^hooks/useApplicationPrototypes';
+import {useProduct} from '^hooks/useProducts';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
@@ -7,7 +7,7 @@ import {useRouter} from 'next/router';
 export const Breadcrumb = memo(() => {
     const router = useRouter();
     const orgId = useRouterIdParamState('id', orgIdParamState);
-    const [proto] = useApplicationPrototype();
+    const [proto] = useProduct();
 
     return (
         <section className="text-sm breadcrumbs mb-5">

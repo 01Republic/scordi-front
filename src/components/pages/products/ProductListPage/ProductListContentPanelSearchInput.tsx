@@ -1,10 +1,10 @@
 import {memo} from 'react';
 import {BsSearch} from 'react-icons/bs';
 import {useForm} from 'react-hook-form';
-import {usePrototypeSearch} from '^hooks/useApplicationPrototypes';
+import {useProductSearch} from '^hooks/useProducts';
 
 export const ProductListContentPanelSearchInput = memo(() => {
-    const {search} = usePrototypeSearch();
+    const {search} = useProductSearch();
     const form = useForm<{name?: string}>();
     const onSubmit = (query: {name?: string}) => search(query);
 

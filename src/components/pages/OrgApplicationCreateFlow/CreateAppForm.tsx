@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {useRouter} from 'next/router';
-import {useCreateFlow} from '^hooks/useApplicationPrototypes';
+import {useCreateFlow} from '^hooks/useProducts';
 import {useForm} from 'react-hook-form';
 import {CreateBillingHistoryStandAloneRequestDto as CreateDto} from '^types/billing.type';
 import {MobileSection} from '^components/v2/MobileSection';

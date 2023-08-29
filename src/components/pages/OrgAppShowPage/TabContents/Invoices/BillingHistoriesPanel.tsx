@@ -1,6 +1,6 @@
 import {memo, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {BillingHistoryDto} from '^types/billing.type';
 import {getBillingHistories} from '^api/billing.api';
 import {errorNotify} from '^utils/toast-notify';
@@ -15,7 +15,7 @@ import {Paginator} from '^components/Paginator';
 
 export const BillingHistoriesPanel = memo(() => {
     const router = useRouter();
-    const {currentApplication: application} = useCurrentApplication();
+    const {currentApplication: application} = useCurrentSubscription();
     const [histories, setHistories] = useState<BillingHistoryDto[]>([]);
 
     const [currentPage, setCurrentPage] = useState<number>(0);

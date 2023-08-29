@@ -3,7 +3,7 @@ import {ContentTable} from '^layouts/ContentLayout';
 import {ProductDto, ProductConnectMethod} from '^types/product.type';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {subscriptionsState} from '^atoms/subscriptions.atom';
-import {usePrototypeSearch} from '^hooks/useApplicationPrototypes';
+import {useProductSearch} from '^hooks/useProducts';
 import {OrgProtoDetailPageRoute} from '^pages/orgs/[id]/prototypes/[protoId]';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
@@ -17,7 +17,7 @@ import {connectProductModalState, currentPrototypeState} from '^atoms/connectPro
 import {OutLink} from '^components/OutLink';
 
 export const SearchResultTable = memo(() => {
-    const {results: prototypes, mutation} = usePrototypeSearch();
+    const {results: prototypes, mutation} = useProductSearch();
     const {isAdmin} = useRecoilValue(currentUserAtom) || {};
 
     useEffect(() => {

@@ -2,7 +2,7 @@ import {memo, useCallback, useEffect} from 'react';
 import {SubscriptionDto} from '^types/subscription.type';
 import {HistoryItem} from '^components/pages/OrgAppShowPage/TabContents/Histories/HistoryItem';
 import {SyncNowButton} from '^components/pages/OrgAppShowPage/TabContents/Histories/SyncNowButton';
-import {useCurrentSyncHistory, useSyncHistoryList} from '^hooks/useApplicationSyncHistories';
+import {useCurrentSyncHistory, useSyncHistoryList} from '^hooks/useSubscriptionSyncHistories';
 import {Paginator} from '^components/Paginator';
 import {SyncHistoryDto} from '^types/subscriptionSyncHistory.type';
 import {toast} from 'react-toastify';

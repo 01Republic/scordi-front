@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {WithChildren} from '^types/global.type';
 import {useRouter} from 'next/router';
 import {OrgProtoDetailPageRoute} from '^pages/orgs/[id]/prototypes/[protoId]';
@@ -9,7 +9,7 @@ import {FiExternalLink} from '^components/react-icons';
 export const ApplicationHeader = memo((props: WithChildren) => {
     const {children} = props;
     const router = useRouter();
-    const {currentApplication: app} = useCurrentApplication();
+    const {currentApplication: app} = useCurrentSubscription();
 
     if (!app) return <></>;
 

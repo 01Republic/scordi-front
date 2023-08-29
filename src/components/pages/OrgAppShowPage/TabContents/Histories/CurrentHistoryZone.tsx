@@ -8,7 +8,7 @@ import {
 } from '^types/subscriptionSyncHistory.type';
 import {Avatar} from '^components/Avatar';
 import {getDistanceOfTime, humanizeTimeDistance} from '^utils/dateTime';
-import {useCurrentSyncHistory} from '^hooks/useApplicationSyncHistories';
+import {useCurrentSyncHistory} from '^hooks/useSubscriptionSyncHistories';
 
 interface CurrentHistoryZoneProps {
     application: SubscriptionDto;

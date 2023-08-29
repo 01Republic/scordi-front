@@ -1,33 +1,33 @@
 import React, {memo, useEffect, useState} from 'react';
-import {UpdateApplicationRequestDto} from '^types/subscription.type';
+import {UpdateSubscriptionRequestDto} from '^types/subscription.type';
 import {TitleSection} from '^components/v2/TitleSection';
 import {UseFormReturn} from 'react-hook-form';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {MobileSection} from '^components/v2/MobileSection';
 import {MobileKeyValueItem} from '^components/v2/MobileKeyValueItem';
 import {Select} from '^components/Select';
-import {ApplicationBillingCycleDto, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
+import {SubscriptionBillingCycleDto, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 import {toast} from 'react-toastify';
 
 type AppNextPayInputsBlockProps = {
-    form: UseFormReturn<UpdateApplicationRequestDto, any>;
+    form: UseFormReturn<UpdateSubscriptionRequestDto, any>;
 };
 
 export const ApplicationInputsBlock = memo((props: AppNextPayInputsBlockProps) => {
     const {form} = props;
-    const {currentApplication: application} = useCurrentApplication();
-    const [cycleOptions, setCycleOptions] = useState<ApplicationBillingCycleDto[]>([]);
+    const {currentSubscription: subscription} = useCurrentSubscription();
+    const [cycleOptions, setCycleOptions] = useState<SubscriptionBillingCycleDto[]>([]);
 
-    if (!application) return <></>;
+    if (!subscription) return <></>;
 
-    const {prototype} = application;
-    const {paymentPlans} = prototype;
+    const {product} = subscription;
+    const {paymentPlans} = product;
 
     const onPlanChange = (planId: number) => {
         // form.setValue('paymentPlanId', planId);
         const plan = paymentPlans.find((plan) => plan.id === planId);
         const cyclesOfNewPlan = plan?.billingCycles || [];
-        const cycle = cyclesOfNewPlan.find((cycle) => cycle.id === application.billingCycleId) || cyclesOfNewPlan[0];
+        const cycle = cyclesOfNewPlan.find((cycle) => cycle.id === subscription.billingCycleId) || cyclesOfNewPlan[0];
         if (cycle) {
             // form.setValue('billingCycleId', cycle.id);
             console.log({plan, cycle});
@@ -38,15 +38,15 @@ export const ApplicationInputsBlock = memo((props: AppNextPayInputsBlockProps) =
     };
 
     useEffect(() => {
-        // onPlanChange(application.paymentPlanId);
-    }, [application]);
+        // onPlanChange(subscription.paymentPlanId);
+    }, [subscription]);
 
     return (
         <>
             <MobileSection className="pb-3 border-b-8">
                 <TitleSection.Title size="lg" className="text-right mb-3">
-                    <div className="text-base font-medium">Next {application.nextBillingDate}</div>
-                    <div>US${application.nextBillingAmount.toLocaleString()}</div>
+                    <div className="text-base font-medium">Next {subscription.nextBillingDate}</div>
+                    <div>US${subscription.nextBillingAmount.toLocaleString()}</div>
                 </TitleSection.Title>
             </MobileSection>
 

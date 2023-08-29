@@ -3,15 +3,15 @@ import {AiOutlineSync, BsFillCaretDownFill, BsTrash} from '^components/react-ico
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {ConnectStatus} from '^types/subscription.type';
 import {navTabIndex} from './OrgAppShowPage.desktop';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {createSyncHistory} from '^api/subscriptionSyncHistories.api';
 import {toast} from 'react-toastify';
 import {useCurrentUser} from '^hooks/useCurrentUser';
-import {useCurrentSyncHistory, useSyncHistoryList} from '^hooks/useApplicationSyncHistories';
+import {useCurrentSyncHistory, useSyncHistoryList} from '^hooks/useSubscriptionSyncHistories';
 
 export const CurrentConnectStatus = memo(() => {
     const {currentUser} = useCurrentUser();
-    const {currentApplication, reload: reloadCurrentApp} = useCurrentApplication();
+    const {currentApplication, reload: reloadCurrentApp} = useCurrentSubscription();
     const {fetchItems: fetchSyncHistories, pagination} = useSyncHistoryList();
     const {fetchCurrentSyncHistory} = useCurrentSyncHistory();
     const tabIndex = useRecoilValue(navTabIndex);

@@ -7,7 +7,7 @@ import {getDistanceOfTime, humanizeTimeDistance} from '^utils/dateTime';
 import {zeroPad} from '^utils/number';
 import {updateSyncHistory} from '^api/subscriptionSyncHistories.api';
 import {toast} from 'react-toastify';
-import {useCurrentSyncHistory} from '^hooks/useApplicationSyncHistories';
+import {useCurrentSyncHistory} from '^hooks/useSubscriptionSyncHistories';
 
 interface HistoryItemProps {
     application: SubscriptionDto;

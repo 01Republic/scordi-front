@@ -10,11 +10,11 @@ import {
     ContentPanelItemTitle,
     ContentPanelList,
 } from '^layouts/ContentLayout';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 
 export const DangerPanel = memo(() => {
     const router = useRouter();
-    const {currentApplication: app} = useCurrentApplication();
+    const {currentApplication: app} = useCurrentSubscription();
 
     const onDisconnect = useCallback((id: number) => {
         Swal.fire({

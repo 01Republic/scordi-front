@@ -1,6 +1,6 @@
 import {memo, useEffect, useState} from 'react';
 import {orgIdParamState, productIdParamsState, useRouterIdParamState} from '^atoms/common';
-import {useApplicationPrototype} from '^hooks/useApplicationPrototypes';
+import {useProduct} from '^hooks/useProducts';
 import {WithChildren} from '^types/global.type';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {getSubscriptions} from '^api/subscription.api';
@@ -10,7 +10,7 @@ import {subscriptionsForThisPrototypeAtom} from './OrgProtoDetailPage.desktop';
 export const PrototypeHeader = memo((props: WithChildren) => {
     const {children} = props;
     const organizationId = useRecoilValue(orgIdParamState);
-    const [proto, mutation] = useApplicationPrototype();
+    const [proto, mutation] = useProduct();
     const [apps, setApps] = useRecoilState(subscriptionsForThisPrototypeAtom);
 
     useEffect(() => {

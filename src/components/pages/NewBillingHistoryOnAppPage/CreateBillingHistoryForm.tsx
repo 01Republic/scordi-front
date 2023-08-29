@@ -1,6 +1,6 @@
 import {memo, useEffect} from 'react';
 import {useRouter} from 'next/router';
-import {useCreateFlow} from '^hooks/useApplicationPrototypes';
+import {useCreateFlow} from '^hooks/useProducts';
 import {useForm} from 'react-hook-form';
 import {CreateBillingHistoryRequestDto as CreateDto} from '^types/billing.type';
 import {createAppsBillingHistory, createAppsByBillingHistory} from '^api/billing.api';
@@ -11,7 +11,7 @@ import {yyyy_mm_dd} from '^utils/dateTime';
 import {MobileBottomNav} from '^components/v2/MobileBottomNav';
 import {SubscriptionDto} from '^types/subscription.type';
 import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 
 type CreateBillingHistoryFormProps = {};
@@ -19,7 +19,7 @@ type CreateBillingHistoryFormProps = {};
 export const CreateBillingHistoryForm = memo((props: CreateBillingHistoryFormProps) => {
     const router = useRouter();
     const organizationId = useRouterIdParamState('id', orgIdParamState);
-    const {currentApplication: application} = useCurrentApplication();
+    const {currentApplication: application} = useCurrentSubscription();
     const form = useForm<CreateDto>();
 
     if (!application || !organizationId) return <></>;

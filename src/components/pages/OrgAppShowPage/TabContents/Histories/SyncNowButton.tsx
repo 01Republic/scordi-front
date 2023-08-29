@@ -4,9 +4,9 @@ import {SubscriptionDto} from '^types/subscription.type';
 import {SyncHistoryDto, restartSyncButtonIsActive} from '^types/subscriptionSyncHistory.type';
 import {createSyncHistory} from '^api/subscriptionSyncHistories.api';
 import {useCurrentUser} from '^hooks/useCurrentUser';
-import {useCurrentSyncHistory, useSyncHistoryList} from '^hooks/useApplicationSyncHistories';
+import {useCurrentSyncHistory, useSyncHistoryList} from '^hooks/useSubscriptionSyncHistories';
 import {toast} from 'react-toastify';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 
 interface SyncNowButtonProps {
     application: SubscriptionDto;
@@ -16,7 +16,7 @@ interface SyncNowButtonProps {
 export const SyncNowButton = memo((props: SyncNowButtonProps) => {
     const {application, history} = props;
     const {currentUser} = useCurrentUser();
-    const {reload: reloadCurrentApp} = useCurrentApplication();
+    const {reload: reloadCurrentApp} = useCurrentSubscription();
     const {fetchItems: fetchSyncHistories, pagination} = useSyncHistoryList();
     const {fetchCurrentSyncHistory} = useCurrentSyncHistory();
 

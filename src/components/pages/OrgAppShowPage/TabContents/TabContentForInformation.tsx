@@ -1,6 +1,6 @@
 import {memo} from 'react';
 import {useRouter} from 'next/router';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {SummaryZone} from './information/SummaryZone';
 import {CurrentPlanZone} from './information/CurrentPlanZone';
 import {PaymentInfoZone} from '^components/pages/OrgAppShowPage/TabContents/information/PaymentInfoZone';
@@ -22,7 +22,7 @@ import {PaymentInfoZone} from '^components/pages/OrgAppShowPage/TabContents/info
  */
 
 export const TabContentForInformation = memo(() => {
-    const {currentApplication: app} = useCurrentApplication();
+    const {currentApplication: app} = useCurrentSubscription();
 
     if (!app) return <></>;
 

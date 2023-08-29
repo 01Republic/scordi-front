@@ -1,11 +1,11 @@
 import {memo} from 'react';
 import {ContentPanel, ContentPanelMiniTitle} from '^layouts/ContentLayout';
 import {WithChildren} from '^types/global.type';
-import {useApplicationPrototype} from '^hooks/useApplicationPrototypes';
+import {useProduct} from '^hooks/useProducts';
 import {OutLink} from '^components/OutLink';
 
 export const InfoPanel = memo(() => {
-    const [proto] = useApplicationPrototype();
+    const [proto] = useProduct();
 
     if (!proto) return <></>;
 

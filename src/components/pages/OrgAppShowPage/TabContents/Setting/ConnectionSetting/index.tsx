@@ -1,13 +1,13 @@
 import {memo, useEffect} from 'react';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {useForm} from 'react-hook-form';
-import {UpdateApplicationRequestDto as UpdateDto} from '^types/subscription.type';
+import {UpdateSubscriptionRequestDto as UpdateDto} from '^types/subscription.type';
 import {ContentForm, ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/ContentLayout';
 import {TextInput} from '^components/TextInput';
 import {DangerPanel} from './DangerPanel';
 
 export const ConnectionSetting = memo(() => {
-    const {currentApplication: app} = useCurrentApplication();
+    const {currentApplication: app} = useCurrentSubscription();
     const form = useForm<UpdateDto>();
 
     useEffect(() => {

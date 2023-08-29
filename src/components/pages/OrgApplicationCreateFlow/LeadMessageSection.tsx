@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {MobileSection} from '^components/v2/MobileSection';
-import {useCreateFlow} from '^hooks/useApplicationPrototypes';
+import {useCreateFlow} from '^hooks/useProducts';
 
 type LeadMessageSectionProps = {
     text: string;

@@ -4,7 +4,7 @@ import {ProductDto, ProductConnectMethod, UpdateProductRequestDto as UpdateDto} 
 import {useForm} from 'react-hook-form';
 import {FormControlInput} from '^layouts/ContentLayout/FormControlInput';
 import {updateProduct} from '^api/product.api';
-import {usePrototypeSearch} from '^hooks/useApplicationPrototypes';
+import {useProductSearch} from '^hooks/useProducts';
 import {FormControlCheckbox} from '^layouts/ContentLayout/FormControlCheckbox';
 import {FormControlSelect} from '^layouts/ContentLayout/FormControlSelect';
 import {FormControlTextArea} from '^layouts/ContentLayout/FormControlTextArea';
@@ -22,7 +22,7 @@ export const PrototypeEditModal = memo((props: PrototypeEditModalProps) => {
     const {searchMutationAfterSave = false} = props;
     const [protoTarget, setEditingProtoTarget] = useRecoilState(editingProtoTargetState);
     const form = useForm<UpdateDto>();
-    const {mutation} = usePrototypeSearch();
+    const {mutation} = useProductSearch();
 
     const onClose = useCallback(() => {
         setEditingProtoTarget(null);

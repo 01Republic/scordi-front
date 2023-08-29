@@ -2,10 +2,10 @@ import {memo} from 'react';
 import {BillingHistoriesPanel} from './Invoices';
 import {CreateHistoryInManualPanel} from './Invoices/CreateHistoryInManualPanel';
 import {BillingHistoryTable} from './Invoices/BillingHistoryTable';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 
 export const TabContentForInvoices = memo(() => {
-    const {currentApplication: app} = useCurrentApplication();
+    const {currentApplication: app} = useCurrentSubscription();
 
     if (!app) return <></>;
 

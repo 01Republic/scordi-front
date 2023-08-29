@@ -2,13 +2,13 @@ import {memo} from 'react';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 
 // Application Detail Page Breadcrumb
 export const Breadcrumb = memo(() => {
     const router = useRouter();
     const orgId = useRouterIdParamState('id', orgIdParamState);
-    const {currentApplication} = useCurrentApplication();
+    const {currentApplication} = useCurrentSubscription();
 
     if (!currentApplication) return <></>;
 

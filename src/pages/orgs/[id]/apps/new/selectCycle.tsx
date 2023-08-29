@@ -4,11 +4,11 @@ import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {MobileTopNav} from '^components/v2/MobileTopNav';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
-import {useCreateFlow} from '^hooks/useApplicationPrototypes';
+import {useCreateFlow} from '^hooks/useProducts';
 import {PreLoader} from '^components/PreLoader';
 import {SelectedStatusSection} from '^components/pages/OrgApplicationCreateFlow/SelectedStatusSection';
 import {LeadMessageSection} from '^components/pages/OrgApplicationCreateFlow/LeadMessageSection';
-import {ApplicationBillingCycleDto, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
+import {SubscriptionBillingCycleDto, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 import {MobileEntityListSection} from '^components/v2/MobileEntityListSection';
 import {NewAppBillingHistoryPageRoute} from '^pages/orgs/[id]/apps/new/billingHistory';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
@@ -31,7 +31,7 @@ export default function SelectCyclePage() {
     const pageLoaded = !!organizationId && !!proto && !!plan;
     if (!pageLoaded) return <PreLoader />;
 
-    const cycleOnClickHandler = (billingCycle: ApplicationBillingCycleDto) => {
+    const cycleOnClickHandler = (billingCycle: SubscriptionBillingCycleDto) => {
         router.push(NewAppBillingHistoryPageRoute.path(organizationId, proto.id, plan.id, billingCycle.id));
     };
 

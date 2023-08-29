@@ -1,15 +1,15 @@
 import {memo, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
-import {prototypeSearchResultsState, usePrototypeSearch} from '^hooks/useApplicationPrototypes';
+import {productSearchResultsState, useProductSearch} from '^hooks/useProducts';
 import {OtherProductItem as ProductItem} from '^components/pages/products/ProductDetailPage/OtherProductItem';
 
 export const OtherProductList = memo(() => {
     const router = useRouter();
-    const {search} = usePrototypeSearch();
+    const {search} = useProductSearch();
     const [pageNum, setPageNum] = useState(1);
 
-    const prototypes = useRecoilValue(prototypeSearchResultsState);
+    const prototypes = useRecoilValue(productSearchResultsState);
 
     useEffect(() => {
         if (!router.isReady) return;

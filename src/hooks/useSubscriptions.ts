@@ -4,14 +4,14 @@ import {getSubscriptionQuery, getSubscriptionsQuery, getCurrentSubscriptionQuery
 import {getSubscriptions} from '^api/subscription.api';
 import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook';
 
-export const useCurrentApplication = () => {
-    const [currentApplication, reload] = useRecoilState(getCurrentSubscriptionQuery);
-    return {currentApplication, reload: () => reload((v) => v)};
+export const useCurrentSubscription = () => {
+    const [currentSubscription, reload] = useRecoilState(getCurrentSubscriptionQuery);
+    return {currentSubscription, reload: () => reload((v) => v)};
 };
 
-export const useApplications = () => useRecoilValue(getSubscriptionsQuery);
-export const useApplication = () => useRecoilValue(getSubscriptionQuery);
-// export const useApplication = () => {
+export const useSubscriptions = () => useRecoilValue(getSubscriptionsQuery);
+export const useSubscription = () => useRecoilValue(getSubscriptionQuery);
+// export const useSubscription = () => {
 //     const router = useRouter();
 //     const appId = router.query.appId;
 //     const [application, setApplication] = useState<SubscriptionDto | null>(null);
@@ -29,7 +29,7 @@ export const useApplication = () => useRecoilValue(getSubscriptionQuery);
 //     return application;
 // };
 
-export const {paginatedListHook: useApplicationList} = makePaginatedListHookWithAtoms<number, SubscriptionDto>({
+export const {paginatedListHook: useSubscriptionList} = makePaginatedListHookWithAtoms<number, SubscriptionDto>({
     subject: 'PaginatedApplicationList',
     buildParams: (organizationId, page, pagination) => ({
         where: {organizationId},

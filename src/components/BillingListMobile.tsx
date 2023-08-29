@@ -7,7 +7,7 @@ import {BillingScheduleShallowDto as ScheduleDto} from '^types/billing.type';
 import {intlDateShort, yyyy_mm_dd} from '^utils/dateTime';
 import {useDashboardSummary} from '^hooks/useDashboardSummary';
 import {useCalendar} from '^hooks/useCalendar';
-import {useApplications} from '^hooks/useApplications';
+import {useSubscriptions} from '^hooks/useSubscriptions';
 import {MobileSection} from '^components/v2/MobileSection';
 import {didPayAppsState, getBillingSchedulesParamsState, willPayAppsState} from '^atoms/billingHistories.atom';
 import {getSubscriptionsParamsState} from '^atoms/subscriptions.atom';
@@ -17,7 +17,7 @@ export const BillingListMobile = memo(() => {
     const organizationId = Number(router.query.id);
     const {year, month} = useCalendar();
     const summaryDto = useDashboardSummary();
-    const appsQueryResult = useApplications();
+    const appsQueryResult = useSubscriptions();
     const setAppsQueryParam = useSetRecoilState(getSubscriptionsParamsState);
     const setSchedulesQueryParam = useSetRecoilState(getBillingSchedulesParamsState);
     const willPayApps = useRecoilValue(willPayAppsState);

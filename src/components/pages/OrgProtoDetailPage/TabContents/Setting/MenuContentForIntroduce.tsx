@@ -1,5 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useApplicationPrototype} from '^hooks/useApplicationPrototypes';
+import {useProduct} from '^hooks/useProducts';
 import {useForm} from 'react-hook-form';
 import {UpdateProductRequestDto as UpdateDto} from '^types/product.type';
 import {updateProduct} from '^api/product.api';
@@ -16,7 +16,7 @@ import {WysiwygEditor} from '^components/WysiwygEditor';
 import {IoMdRefresh} from '^components/react-icons';
 
 export const MenuContentForIntroduce = memo(() => {
-    const [proto, mutation] = useApplicationPrototype();
+    const [proto, mutation] = useProduct();
     const form = useForm<UpdateDto>();
     const [value, setValue] = useState('');
 

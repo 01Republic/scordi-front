@@ -1,7 +1,7 @@
 import {memo} from 'react';
 import {GrShare} from 'react-icons/gr';
 import {ProductDto} from '^types/product.type';
-import {usePrototypePostContent} from '^hooks/useApplicationPrototypes';
+import {usePrototypePostContent} from '^hooks/useProducts';
 
 export const ProductPostContentTitle = memo((props: {product: ProductDto}) => {
     const {product} = props;

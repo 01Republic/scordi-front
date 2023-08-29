@@ -8,7 +8,7 @@ import {BetaServiceFooter} from '^components/pages/LandingPages/components';
 import {ProductPostContent} from '^components/pages/products/ProductDetailPage/ProductPostContent';
 import {OtherProductList} from '^components/pages/products/ProductDetailPage/OtherProductList';
 import {SaaSReportSection} from '^components/pages/products/ProductDetailPage/SaaSReportSection';
-import {usePrototypePostContent} from '^hooks/useApplicationPrototypes';
+import {usePrototypePostContent} from '^hooks/useProducts';
 
 interface ProductDetailPageProps {
     prototype: ProductDto;

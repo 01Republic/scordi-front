@@ -2,11 +2,11 @@ import React, {useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {useSetRecoilState} from 'recoil';
 import {subscriptionIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useForm} from 'react-hook-form';
-import {ConnectStatus, UpdateApplicationRequestDto} from '^types/subscription.type';
+import {ConnectStatus, UpdateSubscriptionRequestDto} from '^types/subscription.type';
 import {ApplicationEditForm} from '^components/pages/OrgAppEditPage/ApplicationEditForm';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
 import {MobileTopNav} from '^components/v2/MobileTopNav';
@@ -25,8 +25,8 @@ export const OrgApplicationEditPageRoute = pathRoute({
 export default function OrgAppEditPage() {
     useRouterIdParamState('id', orgIdParamState);
     useRouterIdParamState('appId', subscriptionIdParamState);
-    const {currentApplication: application} = useCurrentApplication();
-    const form = useForm<UpdateApplicationRequestDto>();
+    const {currentApplication: application} = useCurrentSubscription();
+    const form = useForm<UpdateSubscriptionRequestDto>();
 
     if (!application) return <></>;
 

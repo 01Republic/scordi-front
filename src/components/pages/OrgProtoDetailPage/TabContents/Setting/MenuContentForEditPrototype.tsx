@@ -1,5 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useApplicationPrototype} from '^hooks/useApplicationPrototypes';
+import {useProduct} from '^hooks/useProducts';
 import {useForm, UseFormReturn} from 'react-hook-form';
 import {ProductDto, ProductConnectMethod, UpdateProductRequestDto as UpdateDto} from '^types/product.type';
 import {
@@ -18,7 +18,7 @@ import {toast} from 'react-toastify';
 import {WysiwygEditor} from '^components/WysiwygEditor';
 
 export const MenuContentForEditPrototype = memo(() => {
-    const [proto, mutation] = useApplicationPrototype();
+    const [proto, mutation] = useProduct();
     const form = useForm<UpdateDto>();
 
     useEffect(() => {

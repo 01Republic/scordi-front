@@ -3,7 +3,7 @@ import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {MobileTopNav, MobileTopNavRight} from '^components/v2/MobileTopNav';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
 import {TitleSection} from '^components/v2/TitleSection';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {useBillingHistory} from '^hooks/useBillingHistories';
 import {AppNameWithLogoBlock} from '^components/pages/OrgAppInfoPage/AppNameWithLogoBlock';
 import {subscriptionIdParamState, billingHistoryIdParamState, useRouterIdParamState} from '^atoms/common';
@@ -29,7 +29,7 @@ export const BillingHistoryEditPageRoute = pathRoute({
 export default function BillingHistoryEditPage() {
     useRouterIdParamState('appId', subscriptionIdParamState);
     useRouterIdParamState('billingHistoryId', billingHistoryIdParamState);
-    const {currentApplication: application} = useCurrentApplication();
+    const {currentApplication: application} = useCurrentSubscription();
     const billingHistory = useBillingHistory();
     const form = useForm<UpdateBillingHistoryRequestDto>();
 

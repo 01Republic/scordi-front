@@ -16,26 +16,26 @@ import {errorNotify} from '^utils/toast-notify';
 import {SubscriptionPaymentPlanDto} from '^types/subscriptionPaymentPlan.type';
 import {useRouter} from 'next/router';
 
-export const useApplicationPrototypes = () => {
+export const useProducts = () => {
     const result = useRecoilValue(getProductsQuery);
     return result || {items: undefined, pagination: {}};
 };
 
-export const prototypeSearchResultsState = atom({
-    key: 'prototypeSearchResultsState',
+export const productSearchResultsState = atom({
+    key: 'productSearchResultsState',
     default: [] as ProductDto[],
 });
 
-export const searchPrototypesParams = atom<FindAllProductQuery>({
-    key: 'prototypes/searchParams',
+export const searchProductsParams = atom<FindAllProductQuery>({
+    key: 'products/searchParams',
     default: {},
 });
 
-export const usePrototypeSearch = () => {
-    const [results, setResults] = useRecoilState(prototypeSearchResultsState);
-    const [query, setQuery] = useRecoilState(searchPrototypesParams);
+export const useProductSearch = () => {
+    const [results, setResults] = useRecoilState(productSearchResultsState);
+    const [query, setQuery] = useRecoilState(searchProductsParams);
 
-    const searchPrototypes = useCallback((params: FindAllProductQuery) => {
+    const searchProducts = useCallback((params: FindAllProductQuery) => {
         setQuery(params);
         getProducts({
             isLive: params.isLive ?? true,
@@ -46,7 +46,7 @@ export const usePrototypeSearch = () => {
             .catch(errorNotify);
     }, []);
 
-    const mutation = useCallback(() => searchPrototypes(query), [query]);
+    const mutation = useCallback(() => searchProducts(query), [query]);
 
     const search = async (params: FindAllProductQuery) => {
         if (JSON.stringify(query) === JSON.stringify(params)) return results;
@@ -64,13 +64,13 @@ export const usePrototypeSearch = () => {
         return data.items;
     };
 
-    return {results, searchPrototypes, query, mutation, search};
+    return {results, searchProducts, query, mutation, search};
 };
 
-// export const useApplicationPrototype = () => useRecoilValue(getProductQuery);
-export const useApplicationPrototype = () => useRecoilState(getProductQuery);
+// export const useProduct = () => useRecoilValue(getProductQuery);
+export const useProduct = () => useRecoilState(getProductQuery);
 
-// export const useApplicationPrototypes2 = (deps: any[]) => {
+// export const useProducts2 = (deps: any[]) => {
 //     const [page, setPage] = useState<number>(0);
 //     const [totalPage, setTotalPage] = useState<number>(0);
 //     const [totalItemCount, setTotalItemCount] = useState<number>(0);
@@ -108,25 +108,25 @@ export const useApplicationPrototype = () => useRecoilState(getProductQuery);
 //     };
 // };
 //
-// export const useApplicationPrototype2 = (id: number | null, deps: any[]) => {
+// export const useProduct2 = (id: number | null, deps: any[]) => {
 //     const [isLoading, setIsLoading] = useState<boolean>(false);
-//     const [prototype, setPrototype] = useRecoilState(productAtom);
+//     const [product, setProduct] = useRecoilState(productAtom);
 //
-//     const fetchApplicationPrototype = (id: number) => {
+//     const fetchApplicationProduct = (id: number) => {
 //         setIsLoading(true);
 //         getProduct(id)
 //             .then(({data}) => {
-//                 setPrototype(data);
+//                 setProduct(data);
 //             })
 //             .catch(errorNotify)
 //             .finally(() => setIsLoading(false));
 //     };
 //
 //     useEffect(() => {
-//         if (typeof id === 'number') fetchApplicationPrototype(id);
+//         if (typeof id === 'number') fetchApplicationProduct(id);
 //     }, [id, ...(deps ?? [])]);
 //
-//     return {prototype, setPrototype, isLoading, fetchApplicationPrototype};
+//     return {product, setProduct, isLoading, fetchApplicationProduct};
 // };
 
 export const usePaymentPlanForCreateFlow = (proto: ProductDto | null | undefined, id: number) => {
@@ -155,40 +155,40 @@ export const useBillingCycleForCreateFlow = (plan: SubscriptionPaymentPlanDto | 
 
 export const useCreateFlow = () => {
     const router = useRouter();
-    const prototypeId = Number(router.query.prototypeId);
+    const productId = Number(router.query.productId);
     const planId = Number(router.query.planId);
     const cycleId = Number(router.query.cycleId);
-    const [prototype] = useApplicationPrototype();
-    const planHook = usePaymentPlanForCreateFlow(prototype, planId);
+    const [product] = useProduct();
+    const planHook = usePaymentPlanForCreateFlow(product, planId);
     const cycleHook = useBillingCycleForCreateFlow(planHook.paymentPlan, cycleId);
-    const setPrototypeIdParam = useSetRecoilState(productIdParamsState);
+    const setProductIdParam = useSetRecoilState(productIdParamsState);
 
     useEffect(() => {
-        setPrototypeIdParam(prototypeId);
-    }, [prototypeId]);
+        setProductIdParam(productId);
+    }, [productId]);
 
     return {
-        prototypeId,
+        productId,
         paymentPlanId: planId,
         billingCycleId: cycleId,
-        prototype,
+        product,
         ...planHook,
         ...cycleHook,
     };
 };
 
-export const usePrototypePostContent = () => {
-    const makeContent = (prototype: ProductDto) => {
-        const [post] = prototype.posts;
+export const useProductPostContent = () => {
+    const makeContent = (product: ProductDto) => {
+        const [post] = product.posts;
 
-        const shortName = prototype?.name?.split(' ')?.[0] ?? 'untitled';
+        const shortName = product?.name?.split(' ')?.[0] ?? 'untitled';
 
-        const thumbnailUrl = post?.thumbnailUrl ?? prototype?.ogImageUrl ?? 'https://placehold.co/400x200';
-        const logoImgUrl = prototype?.image || `https://placehold.co/200x200?text=${shortName}`;
-        const homePageUrl = prototype?.homepageUrl ?? null;
-        const title = prototype?.name ?? post?.title ?? 'untitled';
-        const subTitle = prototype?.tagline ?? post?.seoDescription ?? 'unset';
-        const tags = prototype?.tags ?? post.tags ?? [];
+        const thumbnailUrl = post?.thumbnailUrl ?? product?.ogImageUrl ?? 'https://placehold.co/400x200';
+        const logoImgUrl = product?.image || `https://placehold.co/200x200?text=${shortName}`;
+        const homePageUrl = product?.homepageUrl ?? null;
+        const title = product?.name ?? post?.title ?? 'untitled';
+        const subTitle = product?.tagline ?? post?.seoDescription ?? 'unset';
+        const tags = product?.tags ?? post.tags ?? [];
         const tagNames = tags.map((tag) => tag.name);
 
         return {thumbnailUrl, logoImgUrl, homePageUrl, title, subTitle, tagNames};
