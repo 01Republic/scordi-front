@@ -5,7 +5,7 @@ import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {ContentHeading, ContentHeadingSecondaryButton} from '^layouts/ContentLayout/ContentHeading';
 import {ContentPanel} from '^layouts/ContentLayout/ContentPanel';
 import {ProductDto, FindAllProductQuery} from '^types/product.type';
-import {ApplicationTagDto} from '^types/productTag.type';
+import {ProductTagDto} from '^types/productTag.type';
 import {useRouter} from 'next/router';
 import {IoArrowBack} from '@react-icons/all-files/io5/IoArrowBack';
 import {useForm} from 'react-hook-form';
@@ -13,7 +13,7 @@ import {PreLoader} from '^components/PreLoader';
 import {SearchInput} from '^components/SearchInput';
 import {getProducts} from '^api/product.api';
 import {errorNotify} from '^utils/toast-notify';
-import {getSubscriptionTags} from '^api/productTag.api';
+import {getProductTags} from '^api/productTag.api';
 import {SubscriptionDto} from '^types/subscription.type';
 import {getSubscriptions} from '^api/subscription.api';
 import {toast} from 'react-toastify';
@@ -56,8 +56,8 @@ export default function OrgApplicationSelectPage() {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [myApps, setMyApps] = useState<SubscriptionDto[]>([]);
     const [prototypes, setPrototypes] = useState<ProductDto[]>([]);
-    const [categories, setCategories] = useState<ApplicationTagDto[]>([]);
-    const [selectedCategory, setSelectedCategory] = useState<ApplicationTagDto | null>(null);
+    const [categories, setCategories] = useState<ProductTagDto[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState<ProductTagDto | null>(null);
     const form = useForm<SearchAppPrototypeForm>();
 
     const fetchApplicationPrototypes = ({page = 1, itemsPerPage = 30, ...params}: FindAllProductQuery) => {
@@ -80,7 +80,7 @@ export default function OrgApplicationSelectPage() {
     );
 
     useEffect(() => {
-        getSubscriptionTags({where: {isFeatured: 1}})
+        getProductTags({where: {isFeatured: 1}})
             .then(({data}) => setCategories(data.items))
             .catch(errorNotify);
 
@@ -99,7 +99,7 @@ export default function OrgApplicationSelectPage() {
         router.push(OrgAddAppInfoPageRoute.path(organizationId, appId));
     };
 
-    const selectCategoryHandler = (category: ApplicationTagDto) => {
+    const selectCategoryHandler = (category: ProductTagDto) => {
         setSelectedCategory(category);
         form.resetField('name');
         fetchApplicationPrototypes({
