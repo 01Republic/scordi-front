@@ -1,19 +1,19 @@
 import {Badge} from '^components/Badge';
 import {GrowthText} from '^components/GrowthText';
 import {useRouter} from 'next/router';
-import {ApplicationDto, ConnectStatus, t_ConnectStatus} from '^types/application.type';
+import {SubscriptionDto, ConnectStatus, t_ConnectStatus} from '^types/subscription.type';
 import {useEffect} from 'react';
-import {PaymentCycle, t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
+import {PaymentCycle, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 
 interface BillingTableRowProps {
-    app: ApplicationDto;
+    app: SubscriptionDto;
 }
 
 export const BillingTableRow = (props: BillingTableRowProps) => {
     const {app} = props;
     const router = useRouter();
     const organizationId = Number(router.query.id);
-    const {prototype, paymentPlan, billingCycle} = app;
+    const {product, paymentPlan, billingCycle} = app;
 
     const onEditBtnClick = () => {};
 
@@ -27,11 +27,11 @@ export const BillingTableRow = (props: BillingTableRowProps) => {
                 <div className="flex items-center space-x-3">
                     <div className="avatar">
                         <div className="mask mask-squircle h-12 w-12">
-                            <img src={prototype.image} alt={`${prototype.name} logo`} />
+                            <img src={product.image} alt={`${product.name} logo`} />
                         </div>
                     </div>
                     <div>
-                        <div className="font-bold">{prototype.name}</div>
+                        <div className="font-bold">{product.name}</div>
                     </div>
                 </div>
             </td>

@@ -4,12 +4,12 @@ import {ProductListContentPanelSearchInput} from './ProductListContentPanelSearc
 import {ProductListContentPanelItem} from './ProductListContentPanelItem';
 import {useRecoilValue} from 'recoil';
 import {currentProductCategoryAtom} from '^components/pages/products/ProductListPage/ProductListSidePanel';
-import {prototypeSearchResultsState, usePrototypeSearch} from '^hooks/useApplicationPrototypes';
+import {productSearchResultsState, useProductSearch} from '^hooks/useProducts';
 
 export const ProductListContentPanel = memo(() => {
     const currentCategory = useRecoilValue(currentProductCategoryAtom);
-    const prototypes = useRecoilValue(prototypeSearchResultsState);
-    const {search} = usePrototypeSearch();
+    const products = useRecoilValue(productSearchResultsState);
+    const {search} = useProductSearch();
 
     const [tagName, setTagName] = useState('');
 
@@ -33,8 +33,8 @@ export const ProductListContentPanel = memo(() => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                {prototypes.map((prototype) => (
-                    <ProductListContentPanelItem prototype={prototype} />
+                {products.map((product, i) => (
+                    <ProductListContentPanelItem key={i} product={product} />
                 ))}
             </div>
 

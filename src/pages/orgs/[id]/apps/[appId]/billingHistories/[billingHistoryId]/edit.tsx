@@ -3,10 +3,10 @@ import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {MobileTopNav, MobileTopNavRight} from '^components/v2/MobileTopNav';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
 import {TitleSection} from '^components/v2/TitleSection';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {useBillingHistory} from '^hooks/useBillingHistories';
 import {AppNameWithLogoBlock} from '^components/pages/OrgAppInfoPage/AppNameWithLogoBlock';
-import {applicationIdParamState, billingHistoryIdParamState, useRouterIdParamState} from '^atoms/common';
+import {subscriptionIdParamState, billingHistoryIdParamState, useRouterIdParamState} from '^atoms/common';
 import {BillingHistoryEditForm} from '^components/pages/BillingHistoryEditPage/BillingHistoryEditForm';
 import {BillingHistoryAmountInputBlock} from '^components/pages/BillingHistoryEditPage/BillingHistoryAmountInputBlock';
 import {useForm} from 'react-hook-form';
@@ -27,9 +27,9 @@ export const BillingHistoryEditPageRoute = pathRoute({
 });
 
 export default function BillingHistoryEditPage() {
-    useRouterIdParamState('appId', applicationIdParamState);
+    useRouterIdParamState('appId', subscriptionIdParamState);
     useRouterIdParamState('billingHistoryId', billingHistoryIdParamState);
-    const {currentApplication: application} = useCurrentApplication();
+    const {currentSubscription: application} = useCurrentSubscription();
     const billingHistory = useBillingHistory();
     const form = useForm<UpdateBillingHistoryRequestDto>();
 
@@ -44,7 +44,7 @@ export default function BillingHistoryEditPage() {
 
                 <TitleSection.TopPadding />
                 <TitleSection.Simple flex={false}>
-                    <AppNameWithLogoBlock prototype={application.prototype} />
+                    <AppNameWithLogoBlock product={application.product} />
                     <BillingHistoryAmountInputBlock form={form} />
                 </TitleSection.Simple>
 

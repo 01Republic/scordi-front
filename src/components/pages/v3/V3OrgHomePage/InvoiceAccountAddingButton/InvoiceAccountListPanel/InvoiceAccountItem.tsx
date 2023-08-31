@@ -17,9 +17,9 @@ export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
     const len = invoiceAccount.invoiceApps.length;
     invoiceAccount.invoiceApps.forEach((app, i) => {
         if (i < 2) {
-            appNames.push(app.prototype.name);
+            appNames.push(app.product.name);
         }
-        if (i === 2) appNames.push(`${app.prototype.name} ... ${len} apps`);
+        if (i === 2) appNames.push(`${app.product.name} ... ${len} apps`);
         if (i > 2) return;
     });
 

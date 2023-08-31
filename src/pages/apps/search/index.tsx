@@ -4,14 +4,10 @@ import {SearchInput} from '^components/SearchInput';
 import {useRouter} from 'next/router';
 import {AddServicePageRoute} from '^pages/apps/add/[id]';
 import {useEffect, useState} from 'react';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
-import {
-    applyNewApplicationPrototype,
-    getApplicationPrototypeRecommend,
-    getApplicationPrototypes,
-} from '^api/applicationPrototype.api';
-import {getApplications} from '^api/application.api';
-import {ApplicationDto} from '^types/application.type';
+import {ProductDto} from '^types/product.type';
+import {applyNewProduct, getProductRecommend, getProducts} from '^api/product.api';
+import {getSubscriptions} from '^api/subscription.api';
+import {SubscriptionDto} from '^types/subscription.type';
 import {DefaultButton} from '^components/Button';
 import {ApplyPageRoute} from '^pages/apps/apply';
 import {toast} from 'react-toastify';
@@ -31,24 +27,24 @@ const AppSearchPage = () => {
     const router = useRouter();
     const orgId = Number(router.query.orgId);
     const {currentUser: user} = useCurrentUser();
-    const [recommendList, setRecommendList] = useState<ApplicationPrototypeDto[]>([]);
-    const [myApps, setMyApps] = useState<ApplicationDto[]>([]);
-    const [searchResults, setSearchResults] = useState<ApplicationPrototypeDto[]>([]);
+    const [recommendList, setRecommendList] = useState<ProductDto[]>([]);
+    const [myApps, setMyApps] = useState<SubscriptionDto[]>([]);
+    const [searchResults, setSearchResults] = useState<ProductDto[]>([]);
 
     const searchService = () => {
-        getApplicationPrototypes(router.query).then((res) => {
+        getProducts(router.query).then((res) => {
             setSearchResults(res.data.items);
         });
     };
 
     const applyNewApp = () => {
-        applyNewApplicationPrototype({name: router.query.name as string}).then(() => {
+        applyNewProduct({name: router.query.name as string}).then(() => {
             router.push(ApplyPageRoute.pathname);
         });
     };
 
     const startAddService = (id: number) => {
-        if (myApps.find((app) => app.prototype.id === id)) {
+        if (myApps.find((subscription) => subscription.product.id === id)) {
             toast.info('이미 연동된 서비스입니다.');
         } else {
             router.push(AddServicePageRoute.path(id, orgId));
@@ -56,14 +52,14 @@ const AppSearchPage = () => {
     };
 
     useEffect(() => {
-        getApplicationPrototypeRecommend().then((res) => {
+        getProductRecommend().then((res) => {
             setRecommendList(res.data.items);
         });
     }, []);
 
     useEffect(() => {
         user &&
-            getApplications({where: {organizationId: user.orgId}}).then((res) => {
+            getSubscriptions({where: {organizationId: user.orgId}}).then((res) => {
                 console.log('apps', res.data.items);
                 setMyApps(res.data.items);
             });

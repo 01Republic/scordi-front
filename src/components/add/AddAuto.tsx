@@ -3,26 +3,26 @@ import {TextInput} from '^components/TextInput';
 import {DefaultButton} from '^components/Button';
 import {useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {ProductDto} from '^types/product.type';
 import {CrawlerError, CrawlerErrors, LoginDto, LoginWithVerify, OrgItemDto} from '^types/crawler';
 import {useForm} from 'react-hook-form';
 import {getOrganizationListByCrawlerApi, makeSignHeader} from '^api/crawler';
 import {errorNotify} from '^utils/toast-notify';
-import {createApplication} from '^api/application.api';
-import {getApplicationPrototype} from '^api/applicationPrototype.api';
+import {createSubscription} from '^api/subscription.api';
+import {getProduct} from '^api/product.api';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {toast} from 'react-toastify';
 import {MobileViewContainer} from '^components/MobileTopNav';
 
 type AddAutoProps = {
-    appInfo: ApplicationPrototypeDto;
+    appInfo: ProductDto;
 };
 
 export const AddAuto = (props: AddAutoProps) => {
     const router = useRouter();
     const orgId = Number(router.query.orgId);
-    const prototypeId = Number(router.query.id);
-    const [proto, setProto] = useState<ApplicationPrototypeDto>();
+    const productId = Number(router.query.id);
+    const [product, setProduct] = useState<ProductDto>();
     const loginForm = useForm<LoginDto | LoginWithVerify>();
     const [isFailed, setIsFailed] = useState(false);
     const [verifyCodeRequiredMSG, setVerifyCodeRequiredMSG] = useState('');
@@ -30,7 +30,7 @@ export const AddAuto = (props: AddAutoProps) => {
     const [orgList, setOrgList] = useState<OrgItemDto[]>([]);
 
     useEffect(() => {
-        getApplicationPrototype(prototypeId).then(({data}) => setProto(data));
+        getProduct(productId).then(({data}) => setProduct(data));
     }, []);
 
     /**
@@ -38,7 +38,7 @@ export const AddAuto = (props: AddAutoProps) => {
      * 다음 로직을 실행하고, 다음 페이지로 넘어갑니다.
      */
     const logIntoService = (dto: LoginDto | LoginWithVerify) => {
-        getOrganizationListByCrawlerApi(prototypeId, dto)
+        getOrganizationListByCrawlerApi(productId, dto)
             .then((res) => {
                 if (res.data instanceof Array) {
                     setOrgList(res.data);
@@ -52,7 +52,7 @@ export const AddAuto = (props: AddAutoProps) => {
                 if (err.code === CrawlerErrors.verifyRequest) {
                     setVerifyCodeRequiredMSG(err.message);
                 } else if (err.code === CrawlerErrors.blocked) {
-                    toast.warning(`${err.message} - By ${proto!.name}`);
+                    toast.warning(`${err.message} - By ${product!.name}`);
                 }
             });
     };
@@ -63,16 +63,16 @@ export const AddAuto = (props: AddAutoProps) => {
      */
     const selectOrgItem = (name: string) => {
         const dto = loginForm.getValues();
-        if (!orgId || !prototypeId || !proto) {
-            toast.error('orgId, prototypeId, prototype 세 가지는 모두 존재해야 합니다. :(');
+        if (!orgId || !productId || !product) {
+            toast.error('orgId, productId, producttype 세 가지는 모두 존재해야 합니다. :(');
             return;
         }
 
         // 서비스 연동 정보 생성하고
-        createApplication({
+        createSubscription({
             sign: makeSignHeader(dto)['Crawler-Sign'],
             organizationId: orgId,
-            prototypeId,
+            productId,
             connectedSlug: name,
             displayName: name,
         })
@@ -159,7 +159,7 @@ export const AddAuto = (props: AddAutoProps) => {
 };
 
 interface OrgListPageProps {
-    appInfo: ApplicationPrototypeDto;
+    appInfo: ProductDto;
     orgList: OrgItemDto[];
     onSelect: (name: string) => void;
 }

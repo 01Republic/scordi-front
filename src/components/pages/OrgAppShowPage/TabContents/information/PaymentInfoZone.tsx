@@ -1,13 +1,13 @@
 import {memo} from 'react';
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 
 interface PaymentInfoZoneProps {
-    application: ApplicationDto;
+    application: SubscriptionDto;
 }
 
 export const PaymentInfoZone = memo((props: PaymentInfoZoneProps) => {
     const {application} = props;
-    const {prototype, paymentPlan} = application;
+    const {product, paymentPlan} = application;
 
     const {publicEmail, billingEmail} = application;
 

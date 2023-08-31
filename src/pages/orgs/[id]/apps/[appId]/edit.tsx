@@ -2,11 +2,11 @@ import React, {useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {useSetRecoilState} from 'recoil';
-import {applicationIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {subscriptionIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useForm} from 'react-hook-form';
-import {ConnectStatus, UpdateApplicationRequestDto} from '^types/application.type';
+import {ConnectStatus, UpdateSubscriptionRequestDto} from '^types/subscription.type';
 import {ApplicationEditForm} from '^components/pages/OrgAppEditPage/ApplicationEditForm';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
 import {MobileTopNav} from '^components/v2/MobileTopNav';
@@ -24,11 +24,11 @@ export const OrgApplicationEditPageRoute = pathRoute({
 
 export default function OrgAppEditPage() {
     useRouterIdParamState('id', orgIdParamState);
-    useRouterIdParamState('appId', applicationIdParamState);
-    const {currentApplication: application} = useCurrentApplication();
-    const form = useForm<UpdateApplicationRequestDto>();
+    useRouterIdParamState('appId', subscriptionIdParamState);
+    const {currentSubscription: subscription} = useCurrentSubscription();
+    const form = useForm<UpdateSubscriptionRequestDto>();
 
-    if (!application) return <></>;
+    if (!subscription) return <></>;
 
     return (
         <OrgMobileLayout>
@@ -39,7 +39,7 @@ export default function OrgAppEditPage() {
 
                 <TitleSection.TopPadding />
                 <TitleSection.Simple flex={false}>
-                    <AppNameWithLogoBlock prototype={application.prototype} />
+                    <AppNameWithLogoBlock product={subscription.product} />
                 </TitleSection.Simple>
 
                 <ApplicationInputsBlock form={form} />

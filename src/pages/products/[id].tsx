@@ -1,13 +1,12 @@
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {useRouter} from 'next/router';
-import {useSetRecoilState} from 'recoil';
+import {atom, useSetRecoilState} from 'recoil';
 import React, {useEffect} from 'react';
 import {NextPageContext} from 'next';
-import {applicationPrototypeApi} from '^api/applicationPrototype.api';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {productApi} from '^api/product.api';
+import {ProductDto} from '^types/product.type';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {publicPageRequires} from '^types/utils/18n.type';
-import {isPageLoadedAtom} from '^pages/posts/[id]';
 import {ProductDetailPage} from 'src/components/pages/products/ProductDetailPage';
 
 export const ProductDetailPageRoute = pathRoute({
@@ -15,16 +14,21 @@ export const ProductDetailPageRoute = pathRoute({
     path: (id: number) => pathReplace(ProductDetailPageRoute.pathname, {id}),
 });
 
-export default function ProductPage({prototype}: {prototype: ApplicationPrototypeDto}) {
+export const isProductDetailPageLoadedAtom = atom({
+    key: 'productDetailPage/isLoaded',
+    default: false,
+});
+
+export default function ProductPage({product}: {product: ProductDto}) {
     const router = useRouter();
-    const setIsLoaded = useSetRecoilState(isPageLoadedAtom);
+    const setIsLoaded = useSetRecoilState(isProductDetailPageLoadedAtom);
 
     useEffect(() => {
         if (!router.isReady) return;
         setIsLoaded(true);
     }, [router.isReady]);
 
-    return <ProductDetailPage prototype={prototype} />;
+    return <ProductDetailPage product={product} />;
 }
 
 // SSR 파트
@@ -32,11 +36,11 @@ export const getServerSideProps = async function ({req, query, locale}: NextPage
     const id = Number(query.id); // postId
 
     // 데이터 load api를 호출하여 post data load
-    const prototype = await applicationPrototypeApi.show(id).then((res) => res.data);
+    const product = await productApi.show(id).then((res) => res.data);
 
     return {
         props: {
-            prototype,
+            product,
             // Will be passed to the page component as props
             ...(await serverSideTranslations(locale!, [
                 ...publicPageRequires, // 여기에 이 페이지에서 사용할 locale 파일을 추가하세요.

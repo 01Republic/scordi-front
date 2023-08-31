@@ -1,20 +1,20 @@
 import {memo} from 'react';
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {ContentPanelHeading} from '^layouts/ContentLayout';
 import {BsFillCaretDownFill} from '^components/react-icons';
-import {Locale, t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
+import {Locale, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 
 interface CurrentPlanPanelHeader {
-    application: ApplicationDto;
+    application: SubscriptionDto;
 }
 
 export const CurrentPlanPanelHeader = memo((props: CurrentPlanPanelHeader) => {
     const {application} = props;
 
-    const {prototype, paymentPlan, billingCycle} = application;
+    const {product, paymentPlan, billingCycle} = application;
 
-    const protoName = prototype.name;
-    const protoImage = prototype.image;
+    const protoName = product.name;
+    const protoImage = product.image;
     const planName = paymentPlan?.name || '-';
     const planDesc = 'The basics for organizations and developers';
     const cycleName = billingCycle ? t_BillingCycleTerm(billingCycle.term, true, Locale.en) : '-';

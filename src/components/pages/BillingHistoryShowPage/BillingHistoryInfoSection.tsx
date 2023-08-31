@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {TitleSection} from '^components/v2/TitleSection';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {AppNameWithLogoBlock} from '^components/pages/OrgAppInfoPage/AppNameWithLogoBlock';
 import {BillingHistoryAmountInfoBlock} from '^components/pages/BillingHistoryShowPage/BillingHistoryAmountInfoBlock';
 import {MobileKeyValueItem} from '^components/v2/MobileKeyValueItem';
@@ -11,7 +11,7 @@ import {t_paidAt} from '^types/billing.type';
 type BillingHistoryInfoSectionProps = {};
 
 export const BillingHistoryInfoSection = memo((props: BillingHistoryInfoSectionProps) => {
-    const {currentApplication: application} = useCurrentApplication();
+    const {currentSubscription: application} = useCurrentSubscription();
     const billingHistory = useBillingHistory();
 
     if (!application || !billingHistory) return <></>;
@@ -20,7 +20,7 @@ export const BillingHistoryInfoSection = memo((props: BillingHistoryInfoSectionP
         <>
             <TitleSection.TopPadding />
             <TitleSection.Simple flex={false}>
-                <AppNameWithLogoBlock prototype={application.prototype} />
+                <AppNameWithLogoBlock product={application.product} />
                 <BillingHistoryAmountInfoBlock billingHistory={billingHistory} />
             </TitleSection.Simple>
 

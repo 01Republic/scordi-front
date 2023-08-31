@@ -1,7 +1,7 @@
 import React, {memo, useCallback} from 'react';
 import {useRouter} from 'next/router';
 import Swal from 'sweetalert2';
-import {destroyApplication} from '^api/application.api';
+import {destroySubscription} from '^api/subscription.api';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {
     ContentPanel,
@@ -10,11 +10,11 @@ import {
     ContentPanelItemTitle,
     ContentPanelList,
 } from '^layouts/ContentLayout';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 
 export const DangerPanel = memo(() => {
     const router = useRouter();
-    const {currentApplication: app} = useCurrentApplication();
+    const {currentSubscription: app} = useCurrentSubscription();
 
     const onDisconnect = useCallback((id: number) => {
         Swal.fire({
@@ -28,9 +28,9 @@ export const DangerPanel = memo(() => {
         }).then((result) => {
             console.log(result);
             if (!result.isConfirmed) return;
-            destroyApplication(id)
+            destroySubscription(id)
                 .then((res) => {
-                    Swal.fire('Disconnect!', 'Please go to the site and cancel the subscription.', 'success').then(() =>
+                    Swal.fire('Disconnect!', 'Please go to the site and cancel the apps.', 'success').then(() =>
                         router.push(OrgAppIndexPageRoute.path(id)),
                     );
                 })

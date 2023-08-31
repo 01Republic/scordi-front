@@ -1,39 +1,39 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {AiOutlineSync, BsFillCaretDownFill, BsTrash} from '^components/react-icons';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {ConnectStatus} from '^types/application.type';
+import {ConnectStatus} from '^types/subscription.type';
 import {navTabIndex} from './OrgAppShowPage.desktop';
-import {useCurrentApplication} from '^hooks/useApplications';
-import {createSyncHistory} from '^api/applicationSyncHistories.api';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
+import {createSyncHistory} from '^api/subscriptionSyncHistories.api';
 import {toast} from 'react-toastify';
 import {useCurrentUser} from '^hooks/useCurrentUser';
-import {useCurrentSyncHistory, useSyncHistoryList} from '^hooks/useApplicationSyncHistories';
+import {useCurrentSyncHistory, useSyncHistoryList} from '^hooks/useSubscriptionSyncHistories';
 
 export const CurrentConnectStatus = memo(() => {
     const {currentUser} = useCurrentUser();
-    const {currentApplication, reload: reloadCurrentApp} = useCurrentApplication();
+    const {currentSubscription, reload: reloadCurrentApp} = useCurrentSubscription();
     const {fetchItems: fetchSyncHistories, pagination} = useSyncHistoryList();
     const {fetchCurrentSyncHistory} = useCurrentSyncHistory();
     const tabIndex = useRecoilValue(navTabIndex);
 
     const goSync = useCallback(() => {
-        if (!currentApplication || !currentUser) return;
-        createSyncHistory(currentApplication.id, {
+        if (!currentSubscription || !currentUser) return;
+        createSyncHistory(currentSubscription.id, {
             runnerId: currentUser.id,
             content: `Synchronize manually.`,
         }).then(() => {
             toast.success('New Sync started!');
             if (tabIndex === 3) {
                 // if current tab is histories
-                fetchSyncHistories(currentApplication.id, pagination.currentPage, true);
-                fetchCurrentSyncHistory(currentApplication.id);
+                fetchSyncHistories(currentSubscription.id, pagination.currentPage, true);
+                fetchCurrentSyncHistory(currentSubscription.id);
             }
             reloadCurrentApp();
         });
-    }, [currentApplication, currentUser, tabIndex]);
+    }, [currentSubscription, currentUser, tabIndex]);
 
-    const connectStatus = currentApplication ? currentApplication.connectStatus : '';
-    const isSyncRunning = currentApplication?.isSyncRunning;
+    const connectStatus = currentSubscription ? currentSubscription.connectStatus : '';
+    const isSyncRunning = currentSubscription?.isSyncRunning;
 
     if (isSyncRunning) {
         return (

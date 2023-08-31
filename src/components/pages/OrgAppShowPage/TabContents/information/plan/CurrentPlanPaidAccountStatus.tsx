@@ -1,14 +1,14 @@
 import {memo} from 'react';
-import {ApplicationDto} from '^types/application.type';
-import {Locale, t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
+import {SubscriptionDto} from '^types/subscription.type';
+import {Locale, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 
 interface CurrentPlanPaidAccountStatusProps {
-    application: ApplicationDto;
+    application: SubscriptionDto;
 }
 
 export const CurrentPlanPaidAccountStatus = memo((props: CurrentPlanPaidAccountStatusProps) => {
     const {application} = props;
-    const {prototype, paymentPlan, billingCycle} = application;
+    const {product, paymentPlan, billingCycle} = application;
 
     const cycleName = billingCycle ? t_BillingCycleTerm(billingCycle.term, false, Locale.en) : '-';
     const unitPrice = billingCycle ? `$${billingCycle.unitPrice}` : '-';

@@ -12,9 +12,9 @@ import {AppInfoSection} from '^components/pages/OrgAppInfoPage/AppInfoSection';
 import {AppBillingSummarySection} from '^components/pages/OrgAppInfoPage/AppBillingSummarySection';
 import {AppBillingHistoryListSection} from '^components/pages/OrgAppInfoPage/AppBillingHistoryListSection';
 import {NewBillingHistoryOnAppPageRoute} from '^pages/orgs/[id]/apps/[appId]/billingHistories/new';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {useSetRecoilState} from 'recoil';
-import {applicationIdParamState} from '^atoms/common';
+import {subscriptionIdParamState} from '^atoms/common';
 import {getBillingHistoriesParamsState} from '^atoms/billingHistories.atom';
 import {OrgApplicationEditPageRoute} from '^pages/orgs/[id]/apps/[appId]/edit';
 
@@ -23,12 +23,12 @@ export const OrgAppShowPageMobile = memo(() => {
     const router = useRouter();
     const organizationId = Number(router.query.id);
     const applicationId = Number(router.query.appId);
-    const {currentApplication: application} = useCurrentApplication();
-    const setApplicationIdParam = useSetRecoilState(applicationIdParamState);
+    const {currentSubscription: application} = useCurrentSubscription();
+    const setSubscriptionIdParam = useSetRecoilState(subscriptionIdParamState);
     const setBillingHistoriesQueryParam = useSetRecoilState(getBillingHistoriesParamsState);
 
     useEffect(() => {
-        setApplicationIdParam(applicationId);
+        setSubscriptionIdParam(applicationId);
         setBillingHistoriesQueryParam({
             where: {applicationId},
             order: {id: 'DESC'},
@@ -38,7 +38,7 @@ export const OrgAppShowPageMobile = memo(() => {
 
     if (!application) return <></>;
 
-    const {prototype, paymentPlan, billingCycle} = application;
+    const {product, paymentPlan, billingCycle} = application;
 
     return (
         <OrgMobileLayout>
@@ -59,7 +59,7 @@ export const OrgAppShowPageMobile = memo(() => {
                     href={NewBillingHistoryOnAppPageRoute.path(
                         organizationId,
                         applicationId,
-                        prototype.id,
+                        product.id,
                         paymentPlan?.id || 0,
                         billingCycle?.id || 0,
                     )}

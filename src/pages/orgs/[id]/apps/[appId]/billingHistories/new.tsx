@@ -6,21 +6,21 @@ import {getAppsBillingHistory} from '^api/billing.api';
 import {useRouter} from 'next/router';
 import {errorNotify} from '^utils/toast-notify';
 import {BillingHistoryDto} from '^types/billing.type';
-import {ApplicationDto} from '^types/application.type';
-import {getApplication} from '^api/application.api';
+import {SubscriptionDto} from '^types/subscription.type';
+import {getSubscription} from '^api/subscription.api';
 import {intlDateLong} from '^utils/dateTime';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {PreLoader} from '^components/PreLoader';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
 import {MobileTopNav} from '^components/v2/MobileTopNav';
-import {t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
+import {t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 import {SelectedStatusSection} from '^components/pages/OrgApplicationCreateFlow/SelectedStatusSection';
 import {LeadMessageSection} from '^components/pages/OrgApplicationCreateFlow/LeadMessageSection';
 import {CreateBillingHistoryForm} from '^components/pages/NewBillingHistoryOnAppPage/CreateBillingHistoryForm';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {useSetRecoilState} from 'recoil';
-import {applicationIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {subscriptionIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const NewBillingHistoryOnAppPageRoute = pathRoute({
@@ -40,12 +40,12 @@ export const NewBillingHistoryOnAppPageRoute = pathRoute({
 
 export default function NewBillingHistoryOnAppPage() {
     useRouterIdParamState('id', orgIdParamState);
-    useRouterIdParamState('appId', applicationIdParamState);
-    const {currentApplication: application} = useCurrentApplication();
+    useRouterIdParamState('appId', subscriptionIdParamState);
+    const {currentSubscription: application} = useCurrentSubscription();
 
     if (!application) return <PreLoader />;
 
-    const {prototype: proto, paymentPlan: plan, billingCycle: cycle} = application;
+    const {product, paymentPlan: plan, billingCycle: cycle} = application;
 
     return (
         <OrgMobileLayout>
@@ -53,7 +53,7 @@ export default function NewBillingHistoryOnAppPage() {
                 <BackButton />
             </MobileTopNav>
             <SelectedStatusSection
-                proto={proto}
+                product={product}
                 text={[plan?.name || '-', cycle ? t_BillingCycleTerm(cycle.term, true) : '-'].join(' / ')}
             />
             <LeadMessageSection text="새로운 결제가 있나요?" />
@@ -68,11 +68,11 @@ NewBillingHistoryOnAppPage.getInitialProps = async () => ({});
 //     const router = useRouter();
 //     const appId = Number(router.query.appId);
 //     const [billingHistory, setBillingHistory] = useState<BillingHistoryDto[]>([]);
-//     const [appInfo, setAppInfo] = useState<ApplicationDto | undefined>(undefined);
+//     const [appInfo, setAppInfo] = useState<SubscriptionDto | undefined>(undefined);
 //
 //     useEffect(() => {
 //         if (isNaN(appId)) return;
-//         getApplication(appId)
+//         getSubscription(appId)
 //             .then((res) => setAppInfo(res.data))
 //             .catch((err) => errorNotify(err));
 //         getAppsBillingHistory(appId)

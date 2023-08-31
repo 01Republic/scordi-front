@@ -1,30 +1,30 @@
 import {memo, useEffect} from 'react';
 import {WithChildren} from '^types/global.type';
 import {UseFormReturn} from 'react-hook-form';
-import {UpdateApplicationRequestDto} from '^types/application.type';
-import {applicationIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {UpdateSubscriptionRequestDto} from '^types/subscription.type';
+import {subscriptionIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
-import {updateApplication} from '^api/application.api';
+import {updateSubscription} from '^api/subscription.api';
 import {useRouter} from 'next/router';
 import {errorNotify} from '^utils/toast-notify';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 
 type ApplicationEditFormProps = {
-    form: UseFormReturn<UpdateApplicationRequestDto, any>;
+    form: UseFormReturn<UpdateSubscriptionRequestDto, any>;
 } & WithChildren;
 
 export const ApplicationEditForm = memo((props: ApplicationEditFormProps) => {
     const {form, children} = props;
     const router = useRouter();
     const organizationId = useRouterIdParamState('id', orgIdParamState);
-    const applicationId = useRouterIdParamState('appId', applicationIdParamState);
-    const {currentApplication, reload} = useCurrentApplication();
+    const applicationId = useRouterIdParamState('appId', subscriptionIdParamState);
+    const {currentSubscription, reload} = useCurrentSubscription();
 
-    const onSubmit = (data: UpdateApplicationRequestDto) => {
+    const onSubmit = (data: UpdateSubscriptionRequestDto) => {
         if (!organizationId || !applicationId) return;
 
         const redirectUrl = OrgAppShowPageRoute.path(organizationId, applicationId);
-        updateApplication(applicationId, data)
+        updateSubscription(applicationId, data)
             .then(() => {
                 reload();
                 router.replace(redirectUrl);
@@ -33,7 +33,7 @@ export const ApplicationEditForm = memo((props: ApplicationEditFormProps) => {
     };
 
     useEffect(() => {
-        if (!currentApplication) return;
+        if (!currentSubscription) return;
 
         // displayName?: string; // 조직이름 (연동서비스 내에서)
         // paymentPlanId?: number; // 결제플랜 ID
@@ -51,7 +51,7 @@ export const ApplicationEditForm = memo((props: ApplicationEditFormProps) => {
         // form.setValue('paidMemberCount', application.paidMemberCount); // 결제되는 사용자 수
         // form.setValue('usedMemberCount', application.usedMemberCount); // 사용중인 사용자 수
         // form.setValue('connectStatus', application.connectStatus); // 연동상태
-    }, [currentApplication]);
+    }, [currentSubscription]);
 
     return <form onSubmit={form.handleSubmit(onSubmit)}>{children}</form>;
 });

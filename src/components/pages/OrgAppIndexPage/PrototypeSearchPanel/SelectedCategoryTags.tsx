@@ -1,16 +1,16 @@
 import React, {memo, useCallback, useEffect} from 'react';
 import {useRecoilState} from 'recoil';
-import {usePrototypeSearch} from '^hooks/useApplicationPrototypes';
+import {useProductSearch} from '^hooks/useProducts';
 import {selectedCategoriesState} from './FilterCategorySelect';
 import {AiOutlineCloseCircle} from '^components/react-icons';
 
 export const SelectedCategoryTags = memo(() => {
     const [cateTags, setCateTags] = useRecoilState(selectedCategoriesState);
-    const {searchPrototypes} = usePrototypeSearch();
+    const {searchProducts} = useProductSearch();
 
     useEffect(() => {
         const tagIds = cateTags.map((cateTag) => cateTag.id);
-        searchPrototypes({tagIds: tagIds});
+        searchProducts({tagIds: tagIds});
     }, [cateTags]);
 
     const removeTag = useCallback(
@@ -18,7 +18,7 @@ export const SelectedCategoryTags = memo(() => {
             const tags = cateTags.filter((tag) => tag.id !== tagId);
             const tagIds = tags.map((cateTag) => cateTag.id);
             setCateTags(tags);
-            searchPrototypes({tagIds: tagIds});
+            searchProducts({tagIds: tagIds});
         },
         [cateTags],
     );

@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {useConnectPrototypeModalState} from '^atoms/connectPrototypes.atom';
+import {useConnectPrototypeModalState} from '^atoms/connectProducts.atom';
 import {useRouter} from 'next/router';
 import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';

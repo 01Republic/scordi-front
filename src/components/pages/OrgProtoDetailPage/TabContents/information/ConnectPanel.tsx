@@ -1,9 +1,9 @@
 import {memo} from 'react';
 import {ContentPanel, ContentPanelMiniTitle} from '^layouts/ContentLayout';
-import {useApplicationPrototype} from '^hooks/useApplicationPrototypes';
+import {useProduct} from '^hooks/useProducts';
 
 export const ConnectPanel = memo(() => {
-    const [proto] = useApplicationPrototype();
+    const [proto] = useProduct();
 
     if (!proto) return <></>;
 

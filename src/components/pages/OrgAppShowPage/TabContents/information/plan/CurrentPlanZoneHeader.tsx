@@ -1,20 +1,20 @@
 import {HTMLAttributeAnchorTarget, memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {ButtonTo} from '^components/ButtonTo';
 
 interface CurrentPlanZoneHeaderProps {
-    application: ApplicationDto;
+    application: SubscriptionDto;
 }
 
 export const CurrentPlanZoneHeader = memo((props: CurrentPlanZoneHeaderProps) => {
     const {application} = props;
 
-    const {prototype} = application;
+    const {product} = application;
 
     const {connectedSlug} = application;
-    const planCompareUrl = eval(`\`${prototype.planComparePageUrlScheme}\``) as string;
-    const upgradePageUrl = eval(`\`${prototype.upgradePlanPageUrlScheme}\``) as string;
+    const planCompareUrl = eval(`\`${product.planComparePageUrlScheme}\``) as string;
+    const upgradePageUrl = eval(`\`${product.upgradePlanPageUrlScheme}\``) as string;
 
     return (
         <div className="bs-row items-center mb-4">

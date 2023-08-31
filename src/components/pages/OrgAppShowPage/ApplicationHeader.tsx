@@ -1,21 +1,21 @@
 import React, {memo} from 'react';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {WithChildren} from '^types/global.type';
 import {useRouter} from 'next/router';
-import {OrgProtoDetailPageRoute} from '^pages/orgs/[id]/prototypes/[protoId]';
+import {OrgProtoDetailPageRoute} from 'src/pages/orgs/[id]/products/[productId]';
 import {ApplicationLogo} from './ApplicationLogo';
 import {FiExternalLink} from '^components/react-icons';
 
 export const ApplicationHeader = memo((props: WithChildren) => {
     const {children} = props;
     const router = useRouter();
-    const {currentApplication: app} = useCurrentApplication();
+    const {currentSubscription: app} = useCurrentSubscription();
 
     if (!app) return <></>;
 
     const {connectedSlug} = app;
-    const proto = app.prototype;
-    const goToProtoDetailPage = () => router.push(OrgProtoDetailPageRoute.path(app.organizationId, app.prototypeId));
+    const proto = app.product;
+    const goToProtoDetailPage = () => router.push(OrgProtoDetailPageRoute.path(app.organizationId, app.productId));
 
     const orgPageUrl = eval(`\`${proto.orgPageUrlScheme}\``) as string;
     const open = (url: string) => (url ? window.open(url, '_blank') : alert('This service linkage is not ready :('));

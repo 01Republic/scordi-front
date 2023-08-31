@@ -1,5 +1,5 @@
 import React, {memo, useEffect} from 'react';
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {Paginator} from '^components/Paginator';
 import {useBillingHistoryList} from '^hooks/useBillingHistories';
 import {BillingHistoryItem} from './BillingHistoryItem';
@@ -12,7 +12,7 @@ import {
 } from '^components/react-icons';
 
 interface BillingHistoryTableProps {
-    application: ApplicationDto;
+    application: SubscriptionDto;
 }
 
 export const BillingHistoryTable = memo((props: BillingHistoryTableProps) => {

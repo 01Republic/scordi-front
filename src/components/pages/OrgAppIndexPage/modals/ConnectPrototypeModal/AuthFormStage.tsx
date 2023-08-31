@@ -2,7 +2,7 @@ import {memo, useEffect} from 'react';
 import {TextInput} from '^components/TextInput';
 import {ModalActionWrapper} from '^components/Modal';
 import {LoginDto, LoginWithVerify} from '^types/crawler';
-import {ConnectModalStage, useConnectPrototypeModalState} from '^atoms/connectPrototypes.atom';
+import {ConnectModalStage, useConnectPrototypeModalState} from '^atoms/connectProducts.atom';
 import {getOrganizationListByCrawlerApi} from '^api/crawler';
 import {PreLoaderSm} from '^components/PreLoaderSm';
 import {MdNavigateNext} from '^components/react-icons';
@@ -12,7 +12,7 @@ import {toast} from 'react-toastify';
 export const AuthFormStage = memo(() => {
     const {
         authForm,
-        currentPrototype,
+        currentProduct,
         setCurrentStage,
         isLoading,
         setIsLoading,
@@ -30,13 +30,13 @@ export const AuthFormStage = memo(() => {
     }, []);
 
     if (isLoading) return <PreLoaderSm />;
-    if (currentPrototype === null) return <></>;
-    const orgName = currentPrototype.name;
+    if (currentProduct === null) return <></>;
+    const orgName = currentProduct.name;
 
     const startConnectingProtoType = (params: LoginDto | LoginWithVerify) => {
         setIsLoading(true);
 
-        getOrganizationListByCrawlerApi(currentPrototype.id, params)
+        getOrganizationListByCrawlerApi(currentProduct.id, params)
             .then((res) => {
                 console.log('통신성공', res);
                 if (res.data instanceof Array) {

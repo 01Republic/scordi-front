@@ -1,4 +1,4 @@
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {OrganizationDto} from '^types/organization.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {GmailItem} from '^api/tasting.api';
@@ -60,7 +60,7 @@ export type BillingHistoryDto = {
     createdAt: string; // 생성일시
     updatedAt: string; // 수정일시
     organization?: OrganizationDto; // 조직
-    application?: ApplicationDto; // 구독정보
+    application?: SubscriptionDto; // 구독정보
     invoiceApp?: InvoiceAppDto; // 인보이스 앱
     emailContent: GmailItem | null; // email content
 };
@@ -105,11 +105,11 @@ export function getBillingHistoryPaidPrice(billingHistory: BillingHistoryDto) {
     return format.replace('%n', `${amount.toLocaleString()}`).replace('%u', symbol);
 }
 
-export function getInvoiceAppBillingCycle(application?: ApplicationDto, invoiceApp?: InvoiceAppDto): string {
-    if (!application && !invoiceApp) return '-';
+export function getInvoiceAppBillingCycle(subscription?: SubscriptionDto, invoiceApp?: InvoiceAppDto): string {
+    if (!subscription && !invoiceApp) return '-';
     if (invoiceApp?.billingType === BillingType.UNDEF) return '-';
     if (invoiceApp) return invoiceApp?.billingType || '-';
-    if (application) return application?.paymentPlan?.name || '-';
+    if (subscription) return subscription?.paymentPlan?.name || '-';
     return '-';
 }
 

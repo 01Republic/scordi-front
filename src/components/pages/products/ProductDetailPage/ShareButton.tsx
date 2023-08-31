@@ -4,11 +4,11 @@ import {isPageLoadedAtom} from '^pages/posts/[id]';
 import {toast} from 'react-toastify';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import {BiLink} from 'react-icons/bi';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {ProductDto} from '^types/product.type';
 
-export const ShareButton = memo((props: {prototype: ApplicationPrototypeDto}) => {
-    const {prototype} = props;
-    const [post] = prototype.posts;
+export const ShareButton = memo((props: {product: ProductDto}) => {
+    const {product} = props;
+    const [post] = product.posts;
     const isLoaded = useRecoilValue(isPageLoadedAtom);
 
     if (!post) return <></>;

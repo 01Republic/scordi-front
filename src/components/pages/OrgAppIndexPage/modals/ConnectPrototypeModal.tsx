@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {ConnectModalStage, useConnectPrototypeModalState} from '^atoms/connectPrototypes.atom';
+import {ConnectModalStage, useConnectPrototypeModalState} from '^atoms/connectProducts.atom';
 import {IoIosCloseCircleOutline} from '^components/react-icons';
 import {Modal} from '^components/Modal';
 import {AuthFormStage} from './ConnectPrototypeModal/AuthFormStage';
@@ -7,11 +7,11 @@ import {SelectOrgStage} from './ConnectPrototypeModal/SelectOrgStage';
 import {SuccessfullySubmitted} from './ConnectPrototypeModal/SuccessfullySubmitted';
 
 export const ConnectPrototypeModal = memo(() => {
-    const {isConnectModalOpen, currentPrototype, currentStage, errorMessage, closeModal} =
+    const {isConnectModalOpen, currentProduct, currentStage, errorMessage, closeModal} =
         useConnectPrototypeModalState();
 
-    if (currentPrototype === null) return <></>;
-    const protoName = currentPrototype.name;
+    if (currentProduct === null) return <></>;
+    const protoName = currentProduct.name;
 
     return (
         <Modal

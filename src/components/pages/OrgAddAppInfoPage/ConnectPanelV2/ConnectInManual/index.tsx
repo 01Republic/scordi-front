@@ -1,5 +1,5 @@
 import React, {useMemo, useState} from 'react';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {ProductDto} from '^types/product.type';
 import {ConnectMethod} from '../SelectConnectMethod';
 import {ContentPanel, ContentPanelItem, ContentPanelList} from '^layouts/ContentLayout/ContentPanel';
 import {InvoiceDropZone} from '^components/pages/OrgAddAppInfoPage/ConnectPanelV2/ConnectInManual/InvoiceDropZone';
@@ -7,14 +7,14 @@ import {AppCode, ApplicationConnectApi} from '^api/applicationConnect.api';
 import {InvoiceDataDto} from '^components/ApplicationConnectStage/dto/fetched.responses.dto';
 import {IoChevronBackOutline} from '@react-icons/all-files/io5/IoChevronBackOutline';
 import {IoFlash} from '@react-icons/all-files/io5/IoFlash';
-import {createApplicationByInvoices} from '^api/application.api';
+import {createSubscriptionByInvoices} from '^api/subscription.api';
 import {useRouter} from 'next/router';
 import {toast} from 'react-toastify';
 import {errorNotify} from '^utils/toast-notify';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 
 interface ConnectInManualProps {
-    protoApp: ApplicationPrototypeDto;
+    protoApp: ProductDto;
     setConnectMethod: React.Dispatch<React.SetStateAction<ConnectMethod | undefined>>;
 }
 
@@ -22,7 +22,7 @@ export const ConnectInManual = (props: ConnectInManualProps) => {
     const {protoApp, setConnectMethod} = props;
     const router = useRouter();
     const organizationId = Number(router.query.id);
-    const prototypeId = Number(router.query.appId);
+    const productId = Number(router.query.appId);
     const [parsedInvoiceDataList, setParsedInvoiceDataList] = useState<InvoiceDataDto[]>([]);
     const [isSaving, setIsSaving] = useState(false);
     const api = useMemo(() => new ApplicationConnectApi(protoApp.name as AppCode), [protoApp.name]);
@@ -50,10 +50,10 @@ export const ConnectInManual = (props: ConnectInManualProps) => {
 
             if (paymentPlan && billingCycle) {
                 setIsSaving(true);
-                createApplicationByInvoices({
+                createSubscriptionByInvoices({
                     displayName: recentData.displayName,
                     organizationId,
-                    prototypeId,
+                    productId,
                     paymentPlanId: paymentPlan.id,
                     billingCycleId: billingCycle.id,
                     isFreeTier,

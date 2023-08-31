@@ -1,14 +1,14 @@
 import React, {memo, useCallback, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
-import {CreateApplicationPrototypeRequestDto as CreateDto} from '^types/applicationPrototype.type';
+import {CreateProductRequestDto as CreateDto} from '^types/product.type';
 import {FormControlInput} from '^layouts/ContentLayout/FormControlInput';
-import {createApplicationPrototype} from '^api/applicationPrototype.api';
-import {usePrototypeSearch} from '^hooks/useApplicationPrototypes';
+import {createProduct} from '^api/product.api';
+import {useProductSearch} from '^hooks/useProducts';
 import {errorNotify} from '^utils/toast-notify';
 
 export const PrototypeCreateModal = memo(() => {
     const form = useForm<CreateDto>();
-    const {mutation} = usePrototypeSearch();
+    const {mutation} = useProductSearch();
 
     const onClose = useCallback(() => {
         document.getElementById('proto-create-modal--dismiss-button')?.click();
@@ -20,7 +20,7 @@ export const PrototypeCreateModal = memo(() => {
     }, []) as any;
 
     const onSubmit = useCallback((data: CreateDto) => {
-        createApplicationPrototype(data)
+        createProduct(data)
             .then((res) => {
                 if (res.status === 201) {
                     mutation();

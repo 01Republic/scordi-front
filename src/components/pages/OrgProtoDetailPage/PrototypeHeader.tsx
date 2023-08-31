@@ -1,16 +1,16 @@
 import {memo, useEffect, useState} from 'react';
-import {orgIdParamState, prototypeIdParamsState, useRouterIdParamState} from '^atoms/common';
-import {useApplicationPrototype} from '^hooks/useApplicationPrototypes';
+import {orgIdParamState, productIdParamsState, useRouterIdParamState} from '^atoms/common';
+import {useProduct} from '^hooks/useProducts';
 import {WithChildren} from '^types/global.type';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {getApplications} from '^api/application.api';
+import {getSubscriptions} from '^api/subscription.api';
 import {errorNotify} from '^utils/toast-notify';
 import {subscriptionsForThisPrototypeAtom} from './OrgProtoDetailPage.desktop';
 
 export const PrototypeHeader = memo((props: WithChildren) => {
     const {children} = props;
     const organizationId = useRecoilValue(orgIdParamState);
-    const [proto, mutation] = useApplicationPrototype();
+    const [proto, mutation] = useProduct();
     const [apps, setApps] = useRecoilState(subscriptionsForThisPrototypeAtom);
 
     useEffect(() => {
@@ -21,8 +21,8 @@ export const PrototypeHeader = memo((props: WithChildren) => {
         if (!organizationId || isNaN(organizationId)) return;
         if (!proto) return;
 
-        const where = {organizationId, prototypeId: proto.id};
-        getApplications({where})
+        const where = {organizationId, productId: proto.id};
+        getSubscriptions({where})
             .then((res) => res.data.items)
             .then(setApps)
             .catch(errorNotify);

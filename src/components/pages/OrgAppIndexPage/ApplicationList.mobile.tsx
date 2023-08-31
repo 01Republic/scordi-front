@@ -1,10 +1,10 @@
 import React, {memo} from 'react';
 import {MobileSection} from '^components/v2/MobileSection';
 import {ApplicationListItemMobile} from './ApplicationListItem.mobile';
-import {useApplications} from '^hooks/useApplications';
+import {useSubscriptions} from '^hooks/useSubscriptions';
 
 export const ApplicationListMobile = memo(() => {
-    const appsQueryResult = useApplications();
+    const appsQueryResult = useSubscriptions();
 
     if (!appsQueryResult) return <></>;
 

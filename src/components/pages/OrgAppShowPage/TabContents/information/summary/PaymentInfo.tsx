@@ -1,22 +1,22 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {OutLink} from '^components/OutLink';
 import {BsArrowRightShort, BiCreditCard, MdOutlineEmail} from '^components/react-icons';
 import {IoWarningOutline} from 'react-icons/io5';
 
 interface PaymentInfoProps {
-    application: ApplicationDto;
+    application: SubscriptionDto;
 }
 
 export const PaymentInfo = memo((props: PaymentInfoProps & WithChildren) => {
     const {application, children} = props;
 
-    const {prototype} = application;
+    const {product} = application;
 
     const {connectedSlug, billingEmail} = application;
-    const paymentInfoUrl = eval(`\`${prototype.billingInfoPageUrlScheme}\``) as string;
-    const updatePaymentMethodUrl = eval(`\`${prototype.updatePayMethodUrlScheme}\``) as string;
+    const paymentInfoUrl = eval(`\`${product.billingInfoPageUrlScheme}\``) as string;
+    const updatePaymentMethodUrl = eval(`\`${product.updatePayMethodUrlScheme}\``) as string;
     const open = (url: string) => (url ? window.open(url, '_blank') : alert('This service linkage is not ready :('));
 
     return (

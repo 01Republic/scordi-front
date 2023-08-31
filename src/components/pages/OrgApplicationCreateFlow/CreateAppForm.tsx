@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {useRouter} from 'next/router';
-import {useCreateFlow} from '^hooks/useApplicationPrototypes';
+import {useCreateFlow} from '^hooks/useProducts';
 import {useForm} from 'react-hook-form';
 import {CreateBillingHistoryStandAloneRequestDto as CreateDto} from '^types/billing.type';
 import {MobileSection} from '^components/v2/MobileSection';
@@ -18,7 +18,7 @@ export const CreateAppForm = memo((props: CreateAppFormProps) => {
     const {} = props;
     const router = useRouter();
     const organizationId = Number(router.query.id) || null;
-    const {prototype: proto, paymentPlan: plan, billingCycle: cycle} = useCreateFlow();
+    const {product: proto, paymentPlan: plan, billingCycle: cycle} = useCreateFlow();
     const form = useForm<CreateDto>();
 
     const pageLoaded = !!organizationId && !!proto && !!plan && !!cycle;

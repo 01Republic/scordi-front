@@ -2,13 +2,13 @@ import {useRouter} from 'next/router';
 import {memo} from 'react';
 import {useRecoilState} from 'recoil';
 import Swal from 'sweetalert2';
-import {destroyApplication} from '^api/application.api';
-import {applicationIdParamState} from '^atoms/common';
+import {destroySubscription} from '^api/subscription.api';
+import {subscriptionIdParamState} from '^atoms/common';
 import {ContentPanel, ContentPanelMiniTitle} from '^layouts/ContentLayout';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 
 export const DisConnectPanel = memo(() => {
-    const [appId] = useRecoilState(applicationIdParamState);
+    const [appId] = useRecoilState(subscriptionIdParamState);
     const router = useRouter();
 
     const onDisconnect = (id: number) => {
@@ -23,9 +23,9 @@ export const DisConnectPanel = memo(() => {
         }).then((result) => {
             console.log(result);
             if (!result.isConfirmed) return;
-            destroyApplication(id)
+            destroySubscription(id)
                 .then((res) => {
-                    Swal.fire('Disconnect!', 'Please go to the site and cancel the subscription.', 'success').then(() =>
+                    Swal.fire('Disconnect!', 'Please go to the site and cancel the apps.', 'success').then(() =>
                         router.push(OrgAppIndexPageRoute.path(id)),
                     );
                 })

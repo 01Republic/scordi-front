@@ -1,4 +1,4 @@
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {ProductDto} from '^types/product.type';
 import {OrgResponseDataDto} from '^components/ApplicationConnectStage/dto/OrgResponseData.dto';
 import {LoginDto} from '^components/ApplicationConnectStage/dto/login.dto';
 import {
@@ -7,7 +7,7 @@ import {
 } from '^components/ApplicationConnectStage/dto/fetched.responses.dto';
 import {ContentPanel} from '^layouts/ContentLayout/ContentPanel';
 import {IoSaveOutline} from '@react-icons/all-files/io5/IoSaveOutline';
-import {createApplication} from '^api/application.api';
+import {createSubscription} from '^api/subscription.api';
 import {useRouter} from 'next/router';
 import {toast} from 'react-toastify';
 import {errorNotify} from '^utils/toast-notify';
@@ -15,7 +15,7 @@ import {useCallback} from 'react';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 
 interface ConnectCompleteProps {
-    protoApp: ApplicationPrototypeDto;
+    protoApp: ProductDto;
     orgItem: OrgResponseDataDto;
     loginDto: LoginDto;
     profile: FetchedProfileDto;
@@ -26,7 +26,7 @@ export const ConnectComplete = (props: ConnectCompleteProps) => {
     const {protoApp, orgItem, loginDto, profile, billingInfo} = props;
     const router = useRouter();
     const organizationId = Number(router.query.id);
-    const prototypeId = Number(router.query.appId);
+    const productId = Number(router.query.appId);
     const orgName = profile.displayName || orgItem.name;
 
     const redirectNext = (id: number) => {
@@ -46,10 +46,10 @@ export const ConnectComplete = (props: ConnectCompleteProps) => {
             : null;
 
         if (paymentPlan && billingCycle) {
-            createApplication({
+            createSubscription({
                 sign: JSON.stringify(loginDto),
                 organizationId,
-                prototypeId,
+                productId,
                 connectedSlug: orgItem.name,
                 displayName: orgName,
                 // paymentPlanId: paymentPlan.id,

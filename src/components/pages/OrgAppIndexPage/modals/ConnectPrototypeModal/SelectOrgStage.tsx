@@ -1,20 +1,20 @@
 import React, {memo, useEffect} from 'react';
 import {ModalActionWrapper} from '^components/Modal';
-import {ConnectModalStage, useConnectPrototypeModalState} from '^atoms/connectPrototypes.atom';
+import {ConnectModalStage, useConnectPrototypeModalState} from '^atoms/connectProducts.atom';
 import {LoginWithOrgs} from '^types/crawler';
 import Swal from 'sweetalert2';
 import {getOrganizationByCrawlerApi, makeSignHeader} from '^api/crawler';
 import {PreLoaderSm} from '^components/PreLoaderSm';
 import {OutLink} from '^components/OutLink';
 import {MdNavigateBefore, MdNavigateNext} from '^components/react-icons';
-import {createApplication} from '^api/application.api';
+import {createSubscription} from '^api/subscription.api';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 
 export const SelectOrgStage = memo(() => {
     const organizationId = useRouterIdParamState('id', orgIdParamState);
     const {
         selectOrgForm,
-        currentPrototype,
+        currentProduct,
         setCurrentStage,
         isLoading,
         setIsLoading,
@@ -29,7 +29,7 @@ export const SelectOrgStage = memo(() => {
     }, []);
 
     if (isLoading) return <PreLoaderSm />;
-    if (currentPrototype === null) return <></>;
+    if (currentProduct === null) return <></>;
     if (!authInfo) return <></>;
 
     const submitOrg = (params: LoginWithOrgs) => {
@@ -52,10 +52,10 @@ export const SelectOrgStage = memo(() => {
         setIsLoading(true);
 
         // 서버에 [신규구독 생성] "요청"을 수행합니다.
-        createApplication({
+        createSubscription({
             sign: makeSignHeader(authInfo)['Crawler-Sign'],
             organizationId,
-            prototypeId: currentPrototype.id,
+            productId: currentProduct.id,
             connectedSlug,
             displayName,
         })
@@ -116,7 +116,7 @@ export const SelectOrgStage = memo(() => {
                                             <small>
                                                 <OutLink
                                                     href={`${team.profileUrl}`}
-                                                    text={`Open in ${currentPrototype.name}`}
+                                                    text={`Open in ${currentProduct.name}`}
                                                 />
                                             </small>
                                         </p>

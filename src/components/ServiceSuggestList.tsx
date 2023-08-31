@@ -1,13 +1,13 @@
 import React from 'react';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
-import {ApplicationDto} from '^types/application.type';
+import {ProductDto} from '^types/product.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {AppIconButton} from '^components/AppIconButton';
 
 export interface ServiceSuggestListProps {
     title: string;
-    serviceList: ApplicationPrototypeDto[];
-    myApps: ApplicationDto[];
-    onClick: (item: ApplicationPrototypeDto) => void;
+    serviceList: ProductDto[];
+    myApps: SubscriptionDto[];
+    onClick: (item: ProductDto) => void;
 }
 
 export const ServiceSuggestList: React.FC<ServiceSuggestListProps> = ({title, serviceList, myApps, onClick}) => {
@@ -18,7 +18,7 @@ export const ServiceSuggestList: React.FC<ServiceSuggestListProps> = ({title, se
             </div>
             <div className={'py-[20px] bs-row'}>
                 {serviceList.map((item, index) => {
-                    const myApp = myApps.find((app) => app.prototypeId === item.id);
+                    const myApp = myApps.find((app) => app.productId === item.id);
                     return (
                         <div
                             className={'bs-col-6 xs:bs-col-4 sm:bs-col-3 md:bs-col-2 xl:bs-col text-center'}

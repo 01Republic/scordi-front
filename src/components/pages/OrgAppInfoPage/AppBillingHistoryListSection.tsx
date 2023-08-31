@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {useBillingHistories} from '^hooks/useBillingHistories';
 import {MobileEntityListSection} from '^components/v2/MobileEntityListSection';
 import {PreLoader} from '^components/PreLoader';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {BillingHistoryItem} from '^components/pages/OrgAppInfoPage/BillingHistoryItem';
 import {BillingHistoryDto} from '^types/billing.type';
 
@@ -12,7 +12,7 @@ type AppBillingHistoryListSectionProps = {
 
 export const AppBillingHistoryListSection = memo((props: AppBillingHistoryListSectionProps) => {
     const {onClickMethod} = props;
-    const {currentApplication: application} = useCurrentApplication();
+    const {currentSubscription: application} = useCurrentSubscription();
     const billingHistoriesQueryResult = useBillingHistories();
 
     if (!application || !billingHistoriesQueryResult) return <PreLoader screenSize={false} />;

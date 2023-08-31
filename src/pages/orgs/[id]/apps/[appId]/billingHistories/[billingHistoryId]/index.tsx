@@ -8,14 +8,14 @@ import {DeleteButton} from '^components/v2/ui/buttons/DeleteButton';
 import {BillingHistoryInfoSection} from '^components/pages/BillingHistoryShowPage/BillingHistoryInfoSection';
 import {AppBillingSummarySection} from '^components/pages/OrgAppInfoPage/AppBillingSummarySection';
 import {AppBillingHistoryListSection} from '^components/pages/OrgAppInfoPage/AppBillingHistoryListSection';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {MobileBottomNav} from '^components/v2/MobileBottomNav';
 import {NewBillingHistoryOnAppPageRoute} from '^pages/orgs/[id]/apps/[appId]/billingHistories/new';
 import {Icon} from '^components/Icon';
 import {BillingHistoryEditPageRoute} from '^pages/orgs/[id]/apps/[appId]/billingHistories/[billingHistoryId]/edit';
 import {useSetRecoilState} from 'recoil';
 import {
-    applicationIdParamState,
+    subscriptionIdParamState,
     billingHistoryIdParamState,
     orgIdParamState,
     useRouterIdParamState,
@@ -35,13 +35,13 @@ export const BillingHistoryShowPageRoute = pathRoute({
 
 export default function BillingHistoryShowPage() {
     const organizationId = useRouterIdParamState('id', orgIdParamState);
-    const applicationId = useRouterIdParamState('appId', applicationIdParamState);
+    const applicationId = useRouterIdParamState('appId', subscriptionIdParamState);
     const billingHistoryId = useRouterIdParamState('billingHistoryId', billingHistoryIdParamState);
-    const {currentApplication: application} = useCurrentApplication();
+    const {currentSubscription: application} = useCurrentSubscription();
     const setBillingHistoriesQueryParam = useSetRecoilState(getBillingHistoriesParamsState);
 
     useEffect(() => {
-        // setApplicationIdParam(applicationId);
+        // setSubscriptionIdParam(applicationId);
         if (!applicationId || isNaN(applicationId)) return;
         setBillingHistoriesQueryParam({
             where: {applicationId},
@@ -72,7 +72,7 @@ export default function BillingHistoryShowPage() {
                     href={NewBillingHistoryOnAppPageRoute.path(
                         organizationId,
                         applicationId,
-                        application.prototypeId,
+                        application.productId,
                         application.paymentPlanId || 0,
                         application.billingCycleId || 0,
                     )}

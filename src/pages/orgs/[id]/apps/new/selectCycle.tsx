@@ -4,11 +4,11 @@ import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {MobileTopNav} from '^components/v2/MobileTopNav';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
-import {useCreateFlow} from '^hooks/useApplicationPrototypes';
+import {useCreateFlow} from '^hooks/useProducts';
 import {PreLoader} from '^components/PreLoader';
 import {SelectedStatusSection} from '^components/pages/OrgApplicationCreateFlow/SelectedStatusSection';
 import {LeadMessageSection} from '^components/pages/OrgApplicationCreateFlow/LeadMessageSection';
-import {ApplicationBillingCycleDto, t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
+import {SubscriptionBillingCycleDto, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 import {MobileEntityListSection} from '^components/v2/MobileEntityListSection';
 import {NewAppBillingHistoryPageRoute} from '^pages/orgs/[id]/apps/new/billingHistory';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
@@ -26,13 +26,13 @@ export const SelectCyclePageProps = pathRoute({
 export default function SelectCyclePage() {
     const router = useRouter();
     const organizationId = Number(router.query.id) || null;
-    const {prototype: proto, paymentPlan: plan} = useCreateFlow();
+    const {product, paymentPlan: plan} = useCreateFlow();
 
-    const pageLoaded = !!organizationId && !!proto && !!plan;
+    const pageLoaded = !!organizationId && !!product && !!plan;
     if (!pageLoaded) return <PreLoader />;
 
-    const cycleOnClickHandler = (billingCycle: ApplicationBillingCycleDto) => {
-        router.push(NewAppBillingHistoryPageRoute.path(organizationId, proto.id, plan.id, billingCycle.id));
+    const cycleOnClickHandler = (billingCycle: SubscriptionBillingCycleDto) => {
+        router.push(NewAppBillingHistoryPageRoute.path(organizationId, product.id, plan.id, billingCycle.id));
     };
 
     return (
@@ -40,7 +40,7 @@ export default function SelectCyclePage() {
             <MobileTopNav>
                 <BackButton />
             </MobileTopNav>
-            <SelectedStatusSection proto={proto} text={plan.name} />
+            <SelectedStatusSection product={product} text={plan.name} />
             <LeadMessageSection text="결제 주기는 어떻게 되세요?" />
             <MobileEntityListSection
                 listOfData={plan.billingCycles}

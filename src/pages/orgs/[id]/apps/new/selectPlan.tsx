@@ -4,8 +4,8 @@ import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {MobileTopNav} from '^components/v2/MobileTopNav';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
 import {PreLoader} from '^components/PreLoader';
-import {useCreateFlow} from '^hooks/useApplicationPrototypes';
-import {ApplicationPaymentPlanDto} from '^types/applicationPaymentPlan.type';
+import {useCreateFlow} from '^hooks/useProducts';
+import {SubscriptionPaymentPlanDto} from '^types/subscriptionPaymentPlan.type';
 import {SelectedStatusSection} from '^components/pages/OrgApplicationCreateFlow/SelectedStatusSection';
 import {LeadMessageSection} from '^components/pages/OrgApplicationCreateFlow/LeadMessageSection';
 import {MobileEntityListSection} from '^components/v2/MobileEntityListSection';
@@ -25,13 +25,13 @@ export const SelectPlanPageRoute = pathRoute({
 export default function SelectPlanPage() {
     const router = useRouter();
     const organizationId = Number(router.query.id);
-    const {prototype: proto} = useCreateFlow();
+    const {product} = useCreateFlow();
 
-    const pageLoaded = !!organizationId && !!proto;
+    const pageLoaded = !!organizationId && !!product;
     if (!pageLoaded) return <PreLoader />;
 
-    const planOnClickHandler = (paymentPlan: ApplicationPaymentPlanDto) => {
-        router.push(SelectCyclePageProps.path(organizationId, proto.id, paymentPlan.id));
+    const planOnClickHandler = (paymentPlan: SubscriptionPaymentPlanDto) => {
+        router.push(SelectCyclePageProps.path(organizationId, product.id, paymentPlan.id));
     };
 
     return (
@@ -39,10 +39,10 @@ export default function SelectPlanPage() {
             <MobileTopNav>
                 <BackButton />
             </MobileTopNav>
-            <SelectedStatusSection proto={proto} />
+            <SelectedStatusSection product={product} />
             <LeadMessageSection text="어느 플랜을 이용하고 계세요?" />
             <MobileEntityListSection
-                listOfData={proto.paymentPlans}
+                listOfData={product.paymentPlans}
                 itemOnClick={planOnClickHandler}
                 itemChild={(paymentPlan) => paymentPlan.name}
             />

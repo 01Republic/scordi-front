@@ -1,18 +1,18 @@
 import {ForwardedRef, forwardRef, HTMLInputTypeAttribute, InputHTMLAttributes, memo, useCallback} from 'react';
 import {ContentPanel} from '^layouts/ContentLayout';
 import {useForm} from 'react-hook-form';
-import {ApplyToAddDto, CreateApplicationPrototypeRequestDto} from '^types/applicationPrototype.type';
+import {ApplyToAddDto, CreateProductRequestDto} from '^types/product.type';
 import {Input} from 'postcss';
-import {createApplicationPrototype} from '^api/applicationPrototype.api';
+import {createProduct} from '^api/product.api';
 import {FormControlInput} from '^layouts/ContentLayout/FormControlInput';
 
 export const PrototypeAddFormPanel = memo(() => {
     const applyForm = useForm<ApplyToAddDto>();
-    const createForm = useForm<CreateApplicationPrototypeRequestDto>();
+    const createForm = useForm<CreateProductRequestDto>();
 
-    const onCreateFormSubmit = useCallback((data: CreateApplicationPrototypeRequestDto) => {
+    const onCreateFormSubmit = useCallback((data: CreateProductRequestDto) => {
         console.log(data);
-        // createApplicationPrototype(data).then((res) => {
+        // createProduct(data).then((res) => {
         //     res.data;
         // });
     }, []);

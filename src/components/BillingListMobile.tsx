@@ -1,24 +1,24 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {useRouter} from 'next/router';
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
 import {BillingScheduleShallowDto as ScheduleDto} from '^types/billing.type';
 import {intlDateShort, yyyy_mm_dd} from '^utils/dateTime';
 import {useDashboardSummary} from '^hooks/useDashboardSummary';
 import {useCalendar} from '^hooks/useCalendar';
-import {useApplications} from '^hooks/useApplications';
+import {useSubscriptions} from '^hooks/useSubscriptions';
 import {MobileSection} from '^components/v2/MobileSection';
 import {didPayAppsState, getBillingSchedulesParamsState, willPayAppsState} from '^atoms/billingHistories.atom';
-import {getApplicationsParamsState} from '^atoms/applications.atom';
+import {getSubscriptionsParamsState} from '^atoms/subscriptions.atom';
 
 export const BillingListMobile = memo(() => {
     const router = useRouter();
     const organizationId = Number(router.query.id);
     const {year, month} = useCalendar();
     const summaryDto = useDashboardSummary();
-    const appsQueryResult = useApplications();
-    const setAppsQueryParam = useSetRecoilState(getApplicationsParamsState);
+    const appsQueryResult = useSubscriptions();
+    const setAppsQueryParam = useSetRecoilState(getSubscriptionsParamsState);
     const setSchedulesQueryParam = useSetRecoilState(getBillingSchedulesParamsState);
     const willPayApps = useRecoilValue(willPayAppsState);
     const didPayApps = useRecoilValue(didPayAppsState);
@@ -93,7 +93,7 @@ const BillingListTitle = memo((props: BillingListTitleProps) => {
 });
 
 type BillingListMobileItemProps = {
-    app: ApplicationDto;
+    app: SubscriptionDto;
     onClick?: () => void;
     shallow?: ScheduleDto;
 };
@@ -103,8 +103,8 @@ const BillingListMobileItem = memo((props: BillingListMobileItemProps) => {
     const amount = schedule?.billingAmount || 0;
     const billingDate = schedule?.billingDate || '';
     const billingDateStr = intlDateShort(billingDate);
-    const prototype = app.prototype || {};
-    const serviceName = prototype.name;
+    const product = app.product || {};
+    const serviceName = product.name;
 
     // 결제가 안됐는데(결제기록이 존재하지 않음) 그대로 시간이 지나버린 건.
     // -> '지금까지 결제한 금액'으로 놓기에는 어색하여, '앞으로 결제될 금액'에서 보여짐.
@@ -114,7 +114,7 @@ const BillingListMobileItem = memo((props: BillingListMobileItemProps) => {
         <div className={'flex bg-[#F9FAFB] rounded-[14px] p-[14px] items-center mb-3'} onClick={props.onClick}>
             <div className={`avatar ${somethingWrong ? 'opacity-50' : ''}`}>
                 <div className="mask mask-squircle h-12 w-12">
-                    <img src={prototype.image} alt={`${serviceName} logo`} />
+                    <img src={product.image} alt={`${serviceName} logo`} />
                 </div>
             </div>
             <div className={`pl-[10px]`}>

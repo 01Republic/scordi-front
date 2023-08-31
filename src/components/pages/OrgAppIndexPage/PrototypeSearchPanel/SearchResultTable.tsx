@@ -1,23 +1,23 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {ContentTable} from '^layouts/ContentLayout';
-import {ApplicationPrototypeDto, PrototypeConnectMethod} from '^types/applicationPrototype.type';
+import {ProductDto, ProductConnectMethod} from '^types/product.type';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {applicationsState} from '^atoms/applications.atom';
-import {usePrototypeSearch} from '^hooks/useApplicationPrototypes';
-import {OrgProtoDetailPageRoute} from '^pages/orgs/[id]/prototypes/[protoId]';
+import {subscriptionsState} from '^atoms/subscriptions.atom';
+import {useProductSearch} from '^hooks/useProducts';
+import {OrgProtoDetailPageRoute} from 'src/pages/orgs/[id]/products/[productId]';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
 import {currentUserAtom} from '^atoms/currentUser.atom';
 import {GoPlug} from '^components/react-icons';
 import {editingProtoTargetState} from '^components/pages/OrgAppIndexPage/modals/PrototypeEditModal';
-import {deleteApplicationPrototype} from '^api/applicationPrototype.api';
+import {deleteProduct} from '^api/product.api';
 import {errorNotify} from '^utils/toast-notify';
 import {toast} from 'react-toastify';
-import {connectPrototypeModalState, currentPrototypeState} from '^atoms/connectPrototypes.atom';
+import {connectProductModalState, currentProductState} from '^atoms/connectProducts.atom';
 import {OutLink} from '^components/OutLink';
 
 export const SearchResultTable = memo(() => {
-    const {results: prototypes, mutation} = usePrototypeSearch();
+    const {results: products, mutation} = useProductSearch();
     const {isAdmin} = useRecoilValue(currentUserAtom) || {};
 
     useEffect(() => {
@@ -44,7 +44,7 @@ export const SearchResultTable = memo(() => {
                 </tr>
             }
         >
-            {(prototypes || []).map((proto, i) => (
+            {(products || []).map((proto, i) => (
                 <PrototypeItem
                     key={i}
                     proto={proto}
@@ -52,7 +52,7 @@ export const SearchResultTable = memo(() => {
                     onRemove={(proto) => {
                         if (!confirm('Are you sure?')) return;
 
-                        deleteApplicationPrototype(proto.id)
+                        deleteProduct(proto.id)
                             .then(() => toast(`[${proto.name}] Successfully removed`))
                             .then(() => mutation())
                             .catch(errorNotify);
@@ -64,29 +64,29 @@ export const SearchResultTable = memo(() => {
 });
 
 interface PrototypeItemProps {
-    proto: ApplicationPrototypeDto;
+    proto: ProductDto;
     isAdmin: boolean;
-    onRemove: (proto: ApplicationPrototypeDto) => void;
+    onRemove: (proto: ProductDto) => void;
 }
 
 const PrototypeItem = memo((props: PrototypeItemProps) => {
     const {proto, isAdmin, onRemove} = props;
-    const isConnectModalOpen = useSetRecoilState(connectPrototypeModalState);
-    const currentPrototype = useSetRecoilState(currentPrototypeState);
+    const isConnectModalOpen = useSetRecoilState(connectProductModalState);
+    const currentProduct = useSetRecoilState(currentProductState);
     const router = useRouter();
     const orgId = useRouterIdParamState('id', orgIdParamState);
-    const apps = useRecoilValue(applicationsState);
+    const apps = useRecoilValue(subscriptionsState);
     const setEditingProtoTarget = useSetRecoilState(editingProtoTargetState);
     const [isLive, setIsLive] = useState(false);
-    const app = apps.find((app) => app.prototypeId === proto.id);
+    const app = apps.find((app) => app.productId === proto.id);
 
     useEffect(() => {
-        setIsLive(proto.connectMethod !== PrototypeConnectMethod.PREPARE);
+        setIsLive(proto.connectMethod !== ProductConnectMethod.PREPARE);
     }, [proto]);
 
-    const clickConnectBtn = (proto: ApplicationPrototypeDto) => {
+    const clickConnectBtn = (proto: ProductDto) => {
         isConnectModalOpen(true);
-        currentPrototype(proto);
+        currentProduct(proto);
     };
 
     return (

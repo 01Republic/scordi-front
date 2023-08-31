@@ -2,13 +2,13 @@ import {AppIconButton} from '^components/AppIconButton';
 import {DefaultButton} from '^components/Button';
 import {useRouter} from 'next/router';
 import {NotificationPageRoute} from '^pages/apps/add/notification';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
-import {applyApplicationPrototypeAddedAlert} from '^api/applicationPrototype.api';
+import {ProductDto} from '^types/product.type';
+import {applyProductAddedAlert} from '^api/product.api';
 import {errorNotify} from '^utils/toast-notify';
 import {MobileViewContainer} from '^components/MobileTopNav';
 
 type AddPrepareProps = {
-    appInfo: ApplicationPrototypeDto;
+    appInfo: ProductDto;
 };
 
 export const AddPrepare = ({appInfo}: AddPrepareProps) => {
@@ -17,7 +17,7 @@ export const AddPrepare = ({appInfo}: AddPrepareProps) => {
     const applyAlert = () => {
         if (!appInfo || !appInfo.id) return;
 
-        applyApplicationPrototypeAddedAlert(appInfo.id)
+        applyProductAddedAlert(appInfo.id)
             .then((res) => {
                 if (`${res.data}` === 'true') {
                     router.push(NotificationPageRoute.pathname);

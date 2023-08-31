@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {MobileGrid} from '^components/v2/MobileGridSection';
 import {useBillingHistories} from '^hooks/useBillingHistories';
 
@@ -9,7 +9,7 @@ const sumOf = (arr: number[]) => arr.reduce((acc, a) => acc + a, 0);
 type AppBillingSummarySectionProps = {} & WithChildren;
 
 export const AppBillingSummarySection = memo((props: AppBillingSummarySectionProps) => {
-    const {currentApplication: application} = useCurrentApplication();
+    const {currentSubscription: application} = useCurrentSubscription();
     const billingHistoriesQueryResult = useBillingHistories();
 
     if (!application || !billingHistoriesQueryResult) return <></>;

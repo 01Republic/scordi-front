@@ -1,25 +1,25 @@
 import React, {memo, useCallback, useEffect, useMemo} from 'react';
 import {useForm} from 'react-hook-form';
-import {FindAllAppPrototypeQuery} from '^types/applicationPrototype.type';
-import {usePrototypeSearch} from '^hooks/useApplicationPrototypes';
+import {FindAllProductQuery} from '^types/product.type';
+import {useProductSearch} from '^hooks/useProducts';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const SearchInput = memo(() => {
     const {currentUser} = useCurrentUser();
-    const {searchPrototypes} = usePrototypeSearch();
-    const form = useForm<FindAllAppPrototypeQuery>();
+    const {searchProducts} = useProductSearch();
+    const form = useForm<FindAllProductQuery>();
     const isLive = useMemo(() => !currentUser?.isAdmin, [currentUser]);
 
     const searchHandler = useCallback(
-        (data: FindAllAppPrototypeQuery) => {
-            searchPrototypes({name: data.name, isLive});
+        (data: FindAllProductQuery) => {
+            searchProducts({name: data.name, isLive});
         },
         [isLive],
     );
 
     useEffect(() => {
         if (!currentUser) return;
-        searchPrototypes({isLive});
+        searchProducts({isLive});
     }, [currentUser, isLive]);
 
     return (

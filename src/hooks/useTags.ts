@@ -60,6 +60,8 @@ export const useTags = (group: TagGroup) => {
     return {result, query, search, createByName};
 };
 
+export const useProductTags = () => useTags(TagGroup.Product);
+
 export const useTagMultiSelect = (params: TagMultiSelectParams) => {
     const {componentControl, hooks} = params;
     const {add, remove, reset} = componentControl;

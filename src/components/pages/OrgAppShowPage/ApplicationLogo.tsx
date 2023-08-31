@@ -1,15 +1,15 @@
 import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 
 interface ApplicationLogoProps {
-    application: ApplicationDto;
+    application: SubscriptionDto;
 }
 
 export const ApplicationLogo = memo((props: ApplicationLogoProps) => {
     const {application} = props;
 
-    const {prototype: proto, profileImage, displayName} = application;
+    const {product: proto, profileImage, displayName} = application;
 
     return (
         <div className="relative">

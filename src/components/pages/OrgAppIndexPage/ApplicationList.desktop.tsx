@@ -1,12 +1,12 @@
 import React, {memo, useEffect} from 'react';
-import {useApplicationList} from '^hooks/useApplications';
+import {useSubscriptionList} from '^hooks/useSubscriptions';
 import {ContentPanelBody, ContentTable} from '^layouts/ContentLayout';
 import {ApplicationListItemDesktop} from '^components/pages/OrgAppIndexPage/ApplicationListItem.desktop';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 
 export const ApplicationListDesktop = memo(() => {
     const organizationId = useRouterIdParamState('id', orgIdParamState);
-    const {items: applications, fetchItems: fetchApplications, pagination} = useApplicationList();
+    const {items: applications, fetchItems: fetchApplications, pagination} = useSubscriptionList();
 
     useEffect(() => {
         if (!organizationId || isNaN(organizationId)) return;

@@ -1,19 +1,19 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {BiCalendarStar} from '^components/react-icons';
 import {useSetRecoilState} from 'recoil';
 import {navTabIndex} from '^components/pages/OrgAppShowPage';
 
 interface PaymentDueProps {
-    application: ApplicationDto;
+    application: SubscriptionDto;
 }
 
 export const PaymentDue = memo((props: PaymentDueProps & WithChildren) => {
     const {application, children} = props;
     const setTabIndex = useSetRecoilState(navTabIndex);
 
-    const {prototype} = application;
+    const {product} = application;
 
     const paymentDue = application.nextBillingDate || '-';
 

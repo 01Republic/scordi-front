@@ -1,7 +1,7 @@
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {PostTagDto} from '^types/post-tag.type';
 import {PostAuthorDto} from '^types/post-author.type';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {ProductDto} from '^types/product.type';
 
 export type PostDto = {
     id: number; // 게시글 ID
@@ -17,8 +17,8 @@ export type PostDto = {
     visitCount: number; // 조회수
     likeCount: number; // 좋아요수
     unlikeCount: number; // 싫어요수
-    prototypeId?: number | null;
-    // prototype?: ApplicationPrototypeDto | null;
+    productId?: number | null;
+    // product?: ProductDto | null;
     tags: PostTagDto[]; // Tag 리스트
     authors: PostAuthorDto[]; // 저자 리스트
 };
@@ -42,7 +42,7 @@ export type CreatePostByAdminDto = {
     publishAt?: Date; // 발행일시
     tagNames?: string[] | null; // 태그명 목록
     authorIds?: number[] | null; // 작성자 ID 목록
-    prototypeId?: number; // 프로토타입 ID
+    productId?: number; // 프로토타입 ID
 };
 
 export type UpdatePostByAdminDto = Partial<CreatePostByAdminDto> & {};

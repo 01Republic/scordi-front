@@ -2,13 +2,13 @@ import React, {useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
-import {useCurrentApplication} from '^hooks/useApplications';
+import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {PreLoader} from '^components/PreLoader';
-import {ApplicationPrototypeDto, safeImageSrc} from '^types/applicationPrototype.type';
+import {ProductDto, safeImageSrc} from '^types/product.type';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {ImageV2} from '^components/v2/ui/Image';
 import {useSetRecoilState} from 'recoil';
-import {applicationIdParamState} from '^atoms/common';
+import {subscriptionIdParamState} from '^atoms/common';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const NewAppCreatedPageRoute = pathRoute({
@@ -22,21 +22,21 @@ export const NewAppCreatedPageRoute = pathRoute({
 
 export default function NewAppCreatedPage() {
     const router = useRouter();
-    const applicationId = Number(router.query.applicationId);
-    const {currentApplication: application} = useCurrentApplication();
-    const setApplicationIdParam = useSetRecoilState(applicationIdParamState);
+    const subscriptionId = Number(router.query.applicationId);
+    const {currentSubscription: subscription} = useCurrentSubscription();
+    const setSubscriptionIdParam = useSetRecoilState(subscriptionIdParamState);
 
     useEffect(() => {
-        setApplicationIdParam(applicationId);
-    }, [applicationId]);
+        setSubscriptionIdParam(subscriptionId);
+    }, [subscriptionId]);
 
-    if (application) {
+    if (subscription) {
         setTimeout(() => {
-            router.push(OrgAppIndexPageRoute.path(application.organizationId));
+            router.push(OrgAppIndexPageRoute.path(subscription.organizationId));
         }, 1.5 * 1000);
     }
 
-    if (!application) return <PreLoader />;
+    if (!subscription) return <PreLoader />;
 
     return (
         <OrgMobileLayout>
@@ -46,17 +46,17 @@ export default function NewAppCreatedPage() {
                         <ImageV2
                             className="animate-bounce mb-10"
                             src={
-                                application
-                                    ? safeImageSrc(application.prototype, 120, 120)
+                                subscription
+                                    ? safeImageSrc(subscription.product, 120, 120)
                                     : 'https://placeimg.com/120/120/arch'
                             }
-                            alt={`${application.prototype.name} logo`}
+                            alt={`${subscription.product.name} logo`}
                             width={120}
                         />
                     </div>
                     <p className="font-bold text-center" style={{fontSize: '1.6rem'}}>
                         <em>
-                            <span className="text-primary">{application?.prototype?.name || 'Slack'}</span> 등록 완료!
+                            <span className="text-primary">{subscription?.product?.name || 'Slack'}</span> 등록 완료!
                         </em>
                     </p>
                 </div>

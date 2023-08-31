@@ -2,18 +2,18 @@ import React, {memo, useCallback} from 'react';
 import {SearchInput} from '^components/SearchInput';
 import {MobileSection} from '^components/v2/MobileSection';
 import {useForm} from 'react-hook-form';
-import {FindAllAppPrototypeQuery} from '^types/applicationPrototype.type';
+import {FindAllProductQuery} from '^types/product.type';
 import {useSetRecoilState} from 'recoil';
-import {getPrototypesParamsState} from '^atoms/applicationPrototypes.atom';
+import {getProductsParamsState} from '^atoms/products.atom';
 
 type SearchSectionProps = {};
 
 export const SearchInputSection = memo((props: SearchSectionProps) => {
-    const setPrototypesParams = useSetRecoilState(getPrototypesParamsState);
-    const form = useForm<FindAllAppPrototypeQuery>();
+    const setProductsParams = useSetRecoilState(getProductsParamsState);
+    const form = useForm<FindAllProductQuery>();
 
-    const searchHandler = useCallback((data: FindAllAppPrototypeQuery) => {
-        setPrototypesParams({name: data.name});
+    const searchHandler = useCallback((data: FindAllProductQuery) => {
+        setProductsParams({name: data.name});
     }, []);
 
     return (

@@ -1,14 +1,14 @@
-import {ApplicationDto, t_ConnectStatus} from '^types/application.type';
+import {SubscriptionDto, t_ConnectStatus} from '^types/subscription.type';
 import {ContentPanelItem} from '^layouts/ContentLayout/ContentPanel';
-import {t_BillingCycleTerm} from '^types/applicationBillingCycle.type';
+import {t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 import React from 'react';
 
 interface OrgAppListItemProps {
-    app: ApplicationDto;
+    app: SubscriptionDto;
 }
 
 export function OrgAppListItem({app}: OrgAppListItemProps) {
-    const appProto = app.prototype;
+    const {product} = app;
 
     return (
         <ContentPanelItem>
@@ -16,11 +16,11 @@ export function OrgAppListItem({app}: OrgAppListItemProps) {
             <div className="bs-col px-0 bs-row mx-0 items-center">
                 <div className="avatar mr-3">
                     <div className="mask mask-squircle h-8 w-8">
-                        <img alt={`${appProto.name} Logo`} src={appProto.image} />
+                        <img alt={`${product.name} Logo`} src={product.image} />
                     </div>
                 </div>
                 <div className="bs-col px-0">
-                    <p className="font-bold">{appProto.name}</p>
+                    <p className="font-bold">{product.name}</p>
                     <p className="text-xs text-gray-500">{app.displayName}</p>
 
                     {/*<p className="text-xs text-gray-500">*/}

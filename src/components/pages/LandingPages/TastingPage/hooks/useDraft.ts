@@ -114,12 +114,12 @@ export const useDraftResult = () => {
 };
 
 function mergeInvoiceApps(oldApps: InvoiceAppDto[], newApps: InvoiceAppDto[]) {
-    const protoIds = oldApps.map((app) => app.prototypeId);
+    const protoIds = oldApps.map((app) => app.productId);
     const oldFoundApps = [...oldApps];
-    const newFoundApps = newApps.filter((app) => !protoIds.includes(app.prototypeId));
+    const newFoundApps = newApps.filter((app) => !protoIds.includes(app.productId));
 
     const oldMergedApps = oldFoundApps.map((oldApp) => {
-        const newApp = newApps.find((newApp) => newApp.prototypeId === oldApp.prototypeId);
+        const newApp = newApps.find((newApp) => newApp.productId === oldApp.productId);
         if (!newApp) return {...oldApp};
         const billingHistories = mergeBillingHistories(oldApp.billingHistories, newApp.billingHistories);
         return {...oldApp, billingHistories};

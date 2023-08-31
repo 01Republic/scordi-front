@@ -1,25 +1,21 @@
 import {ProductDetailPageRoute} from '^pages/products/[id]';
-import {ApplicationPrototypeDto} from '^types/applicationPrototype.type';
+import {ProductDto} from '^types/product.type';
 import {toast} from 'react-toastify';
-import {usePrototypePostContent} from '^hooks/useApplicationPrototypes';
 import {ResponsiveFigureImg} from '^components/ResponsiveFigureImg';
+import {useProductPostContent} from '^hooks/useProducts';
 
-interface ProductPostListContentPanelItemProps {
-    prototype: ApplicationPrototypeDto;
-}
+export const ProductListContentPanelItem = (props: {product: ProductDto}) => {
+    const {product} = props;
 
-export const ProductListContentPanelItem = (props: ProductPostListContentPanelItemProps) => {
-    const {prototype} = props;
-
-    if (!prototype) return <></>;
-    const [post] = prototype.posts;
+    if (!product) return <></>;
+    const [post] = product.posts;
 
     const aTagOption = {
-        ...(post ? {href: ProductDetailPageRoute.path(prototype.id)} : {onClick: () => toast.info('준비 중입니다.')}),
+        ...(post ? {href: ProductDetailPageRoute.path(product.id)} : {onClick: () => toast.info('준비 중입니다.')}),
     };
-    const {makeContent} = usePrototypePostContent();
+    const {makeContent} = useProductPostContent();
 
-    const {thumbnailUrl, logoImgUrl, title, subTitle, tagNames} = makeContent(prototype);
+    const {thumbnailUrl, logoImgUrl, title, subTitle, tagNames} = makeContent(product);
 
     return (
         <a {...aTagOption}>

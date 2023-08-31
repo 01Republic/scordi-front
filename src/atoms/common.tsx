@@ -33,13 +33,13 @@ export const orgIdParamState = atom({
     default: NaN,
 });
 
-export const prototypeIdParamsState = atom({
-    key: 'prototypeIdParamsState',
+export const productIdParamsState = atom({
+    key: 'productIdParamsState',
     default: NaN,
 });
 
-export const applicationIdParamState = atom({
-    key: 'applicationIdParamState',
+export const subscriptionIdParamState = atom({
+    key: 'subscriptionIdParamState',
     default: NaN,
 });
 

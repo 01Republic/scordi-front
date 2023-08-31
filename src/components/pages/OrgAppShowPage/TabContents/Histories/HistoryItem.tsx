@@ -1,16 +1,16 @@
 import {memo} from 'react';
 import {IoMdClose, IoMdRefresh} from '^components/react-icons';
-import {ApplicationDto} from '^types/application.type';
+import {SubscriptionDto} from '^types/subscription.type';
 import {HistoryStatusButton} from './HistoryStatusButton';
-import {SyncHistoryDto, SyncHistoryResultStatus} from '^types/applicationSyncHistory.type';
+import {SyncHistoryDto, SyncHistoryResultStatus} from '^types/subscriptionSyncHistory.type';
 import {getDistanceOfTime, humanizeTimeDistance} from '^utils/dateTime';
 import {zeroPad} from '^utils/number';
-import {updateSyncHistory} from '^api/applicationSyncHistories.api';
+import {updateSyncHistory} from '^api/subscriptionSyncHistories.api';
 import {toast} from 'react-toastify';
-import {useCurrentSyncHistory} from '^hooks/useApplicationSyncHistories';
+import {useCurrentSyncHistory} from '^hooks/useSubscriptionSyncHistories';
 
 interface HistoryItemProps {
-    application: ApplicationDto;
+    application: SubscriptionDto;
     history: SyncHistoryDto;
     onRefresh: (history: SyncHistoryDto) => any;
 }
@@ -19,7 +19,7 @@ export const HistoryItem = memo((props: HistoryItemProps) => {
     const {application, history, onRefresh} = props;
     const {currentSyncHistory, fetchCurrentSyncHistory} = useCurrentSyncHistory();
 
-    const {prototype} = application;
+    const {product} = application;
 
     const durationMsg = (() => {
         if (history.finishedAt === null) return 'Running ...';

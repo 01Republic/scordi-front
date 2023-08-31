@@ -4,18 +4,18 @@ import {ContentLayout} from '^layouts/ContentLayout';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {ContentHeading, ContentHeadingSecondaryButton} from '^layouts/ContentLayout/ContentHeading';
 import {ContentPanel} from '^layouts/ContentLayout/ContentPanel';
-import {ApplicationPrototypeDto, FindAllAppPrototypeQuery} from '^types/applicationPrototype.type';
-import {ApplicationTagDto} from '^types/applicationTag.type';
+import {ProductDto, FindAllProductQuery} from '^types/product.type';
+import {ProductTagDto} from '^types/productTag.type';
 import {useRouter} from 'next/router';
 import {IoArrowBack} from '@react-icons/all-files/io5/IoArrowBack';
 import {useForm} from 'react-hook-form';
 import {PreLoader} from '^components/PreLoader';
 import {SearchInput} from '^components/SearchInput';
-import {getApplicationPrototypes} from '^api/applicationPrototype.api';
+import {getProducts} from '^api/product.api';
 import {errorNotify} from '^utils/toast-notify';
-import {getApplicationTags} from '^api/applicationTag.api';
-import {ApplicationDto} from '^types/application.type';
-import {getApplications} from '^api/application.api';
+import {getProductTags} from '^api/productTag.api';
+import {SubscriptionDto} from '^types/subscription.type';
+import {getSubscriptions} from '^api/subscription.api';
 import {toast} from 'react-toastify';
 import {OrgAddAppInfoPageRoute} from '^pages/orgs/[id]/apps/new/[appId]/information';
 import {MobileTopNav} from '^components/v2/MobileTopNav';
@@ -54,17 +54,17 @@ export default function OrgApplicationSelectPage() {
 
     /**
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [myApps, setMyApps] = useState<ApplicationDto[]>([]);
-    const [prototypes, setPrototypes] = useState<ApplicationPrototypeDto[]>([]);
-    const [categories, setCategories] = useState<ApplicationTagDto[]>([]);
-    const [selectedCategory, setSelectedCategory] = useState<ApplicationTagDto | null>(null);
+    const [myApps, setMyApps] = useState<SubscriptionDto[]>([]);
+    const [products, setProducts] = useState<ProductDto[]>([]);
+    const [categories, setCategories] = useState<ProductTagDto[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState<ProductTagDto | null>(null);
     const form = useForm<SearchAppPrototypeForm>();
 
-    const fetchApplicationPrototypes = ({page = 1, itemsPerPage = 30, ...params}: FindAllAppPrototypeQuery) => {
+    const fetchApplicationPrototypes = ({page = 1, itemsPerPage = 30, ...params}: FindAllProductQuery) => {
         setIsLoading(true);
-        getApplicationPrototypes(params)
+        getProducts(params)
             .then(({data}) => {
-                setPrototypes(data.items);
+                setProducts(data.items);
             })
             .catch(errorNotify)
             .finally(() => {
@@ -80,11 +80,11 @@ export default function OrgApplicationSelectPage() {
     );
 
     useEffect(() => {
-        getApplicationTags({where: {isFeatured: 1}})
+        getProductTags({where: {isFeatured: 1}})
             .then(({data}) => setCategories(data.items))
             .catch(errorNotify);
 
-        getApplications({itemsPerPage: 999, where: {organizationId}})
+        getSubscriptions({itemsPerPage: 999, where: {organizationId}})
             .then(({data}) => setMyApps(data.items))
             .catch(errorNotify);
 
@@ -99,7 +99,7 @@ export default function OrgApplicationSelectPage() {
         router.push(OrgAddAppInfoPageRoute.path(organizationId, appId));
     };
 
-    const selectCategoryHandler = (category: ApplicationTagDto) => {
+    const selectCategoryHandler = (category: ProductTagDto) => {
         setSelectedCategory(category);
         form.resetField('name');
         fetchApplicationPrototypes({
@@ -127,13 +127,13 @@ export default function OrgApplicationSelectPage() {
             <ContentPanel>
                 <div className="bs-row mx-0 pt-3">
                     <div className="bs-col px-0">
-                        <div className={`bs-row mx-0 ${isLoading || prototypes.length <= 0 ? 'h-full' : ''}`}>
+                        <div className={`bs-row mx-0 ${isLoading || products.length <= 0 ? 'h-full' : ''}`}>
                             {isLoading && (
                                 <div className="w-full min-h-[12rem]">
                                     <PreLoader screenSize={false} />
                                 </div>
                             )}
-                            {!isLoading && prototypes.length <= 0 && (
+                            {!isLoading && products.length <= 0 && (
                                 <div className="bs-col flex flex-col gap-4 items-center justify-center">
                                     <img
                                         className="w-[50%] min-w-[200px]"
@@ -146,9 +146,9 @@ export default function OrgApplicationSelectPage() {
                                 </div>
                             )}
                             {!isLoading &&
-                                prototypes.length > 0 &&
+                                products.length > 0 &&
                                 [1].map(() =>
-                                    prototypes.map((proto) => {
+                                    products.map((proto) => {
                                         return (
                                             <SelectablePrototypeCard
                                                 key={proto.id}
@@ -191,7 +191,7 @@ export default function OrgApplicationSelectPage() {
 // OrgApplicationSelectPage.getLayout = getOrgMainLayout;
 
 // interface SelectablePrototypeCardProps {
-//     proto: ApplicationPrototypeDto;
+//     proto: ProductDto;
 //     selectable: boolean;
 //     onClick: (input: HTMLInputElement) => any;
 // }
