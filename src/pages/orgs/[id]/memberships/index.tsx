@@ -12,9 +12,9 @@ export const OrgMembershipIndexPageRoute = pathRoute({
 
 export default function OrgMembershipIndexPage() {
     const organizationId = useRouterIdParamState('id', orgIdParamState);
-    const {mobileView} = useOnResize();
+    const {isMobile} = useOnResize();
 
     if (!organizationId) return <PreLoader />;
 
-    return mobileView ? <OrgMembershipIndexPageMobile /> : <OrgMembershipIndexPageDesktop />;
+    return isMobile ? <OrgMembershipIndexPageMobile /> : <OrgMembershipIndexPageDesktop />;
 }

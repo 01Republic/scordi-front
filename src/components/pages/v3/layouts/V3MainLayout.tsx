@@ -7,6 +7,7 @@ import {useCurrentOrg} from '^hooks/useCurrentOrg';
 import {UserEditModal} from '^v3/share/modals/UserEditModal';
 import {AddressModal} from '^v3/share/modals/AddressModal';
 import {V3Footer} from '^v3/share/Footer';
+import {useOnResize2} from '^components/util/onResize2';
 
 interface V3MainLayoutProps extends WithChildren {
     //
@@ -14,12 +15,13 @@ interface V3MainLayoutProps extends WithChildren {
 
 export const V3MainLayout = memo((props: V3MainLayoutProps) => {
     const {children} = props;
+    const {isMobile} = useOnResize2();
 
     return (
         <>
             <style dangerouslySetInnerHTML={{__html: `html, body, #__next { min-height: 100vh }`}} />
             <div className={`${styles.layout} h-full`}>
-                <V3TopNav />
+                {!isMobile ? <V3TopNav /> : <>dddd</>}
                 {children}
                 <V3Footer />
             </div>

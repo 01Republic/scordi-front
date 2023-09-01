@@ -4,11 +4,11 @@ import {useOnResize} from '^hooks/useOnResize';
 import {useTranslation} from 'next-i18next';
 
 export const HomePageHeader = memo(() => {
-    const {mobileView} = useOnResize();
+    const {isMobile} = useOnResize();
     const {t} = useTranslation('publicMain');
 
     useEffect(() => {
-        if (mobileView) {
+        if (isMobile) {
             window.addEventListener('scroll', (e) => {
                 const img = document.querySelector('#mobile-swiping-image')!;
                 const moveTarget = img.closest('div')!;
@@ -20,7 +20,7 @@ export const HomePageHeader = memo(() => {
                 }
             });
         }
-    }, [mobileView]);
+    }, [isMobile]);
 
     return (
         <div

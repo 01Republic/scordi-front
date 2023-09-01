@@ -9,7 +9,7 @@ export const OrgAppIndexPageRoute = pathRoute({
 });
 
 export default function OrgAppIndexPage() {
-    const {mobileView} = useOnResize();
+    const {isMobile} = useOnResize();
 
-    return mobileView ? <OrgAppIndexPageMobile /> : <OrgAppIndexPageDesktop />;
+    return isMobile ? <OrgAppIndexPageMobile /> : <OrgAppIndexPageDesktop />;
 }

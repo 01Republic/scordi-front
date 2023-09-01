@@ -22,7 +22,7 @@ export const V3TopNav = memo(() => {
     if (!currentOrg) return <></>;
 
     return (
-        <div className={`navbar bg-base-100 ${styles.gnb} sticky top-0 z-20`}>
+        <div className={`navbar hidden sm:flex bg-base-100 ${styles.gnb} sticky top-0 z-20`}>
             {/* 로고 */}
             <div className="navbar-start">
                 <div className="dropdown">

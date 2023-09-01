@@ -11,6 +11,7 @@ import {RecoilRoot} from 'recoil';
 import {ChannelTalkCDN} from '^components/lib/channel-talk/ChannelTalkCDN';
 import {appWithTranslation} from 'next-i18next';
 import {SEO} from '^components/SEO';
+import {OnResizeProvider} from '^components/util/onResize2';
 
 function MyApp(props: Props) {
     const {Component, pageProps} = props;
@@ -22,6 +23,7 @@ function MyApp(props: Props) {
     return (
         <RecoilRoot>
             <SEO />
+            <OnResizeProvider />
             <Suspense fallback={<></>}>
                 <Layout>{getLayout(<Component {...pageProps} />)}</Layout>
             </Suspense>

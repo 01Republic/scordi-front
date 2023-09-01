@@ -12,7 +12,7 @@ export const OrgHomeRoute = pathRoute({
 });
 
 export default function HomePage() {
-    const {mobileView} = useOnResize();
+    const {isMobile} = useOnResize();
 
-    return mobileView ? <DashboardPageMobile /> : <DashboardPageDesktop />;
+    return isMobile ? <DashboardPageMobile /> : <DashboardPageDesktop />;
 }

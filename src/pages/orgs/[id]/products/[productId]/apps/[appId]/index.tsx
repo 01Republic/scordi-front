@@ -11,8 +11,8 @@ export const ApplicationDetailPageRoute = pathRoute({
 });
 
 export default function ApplicationDetailPage() {
-    const {mobileView} = useOnResize();
+    const {isMobile} = useOnResize();
 
     //TODO : ApplicationDetailPageMobile  생성 후 컴포넌트 import해야됨
-    return mobileView ? <OrgProtoDetailPageMobile /> : <OrgAppShowPageDesktop />;
+    return isMobile ? <OrgProtoDetailPageMobile /> : <OrgAppShowPageDesktop />;
 }

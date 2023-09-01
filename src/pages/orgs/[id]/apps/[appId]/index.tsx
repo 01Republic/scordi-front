@@ -9,7 +9,7 @@ export const OrgAppShowPageRoute = pathRoute({
 });
 
 export default function OrgAppShowPage() {
-    const {mobileView} = useOnResize();
+    const {isMobile} = useOnResize();
 
-    return mobileView ? <OrgAppShowPageMobile /> : <OrgAppShowPageDesktop />;
+    return isMobile ? <OrgAppShowPageMobile /> : <OrgAppShowPageDesktop />;
 }

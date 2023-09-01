@@ -10,7 +10,7 @@ export const OrgProtoDetailPageRoute = pathRoute({
 });
 
 export default function OrgProtoDetailPage() {
-    const {mobileView} = useOnResize();
+    const {isMobile} = useOnResize();
 
-    return mobileView ? <OrgProtoDetailPageMobile /> : <OrgProtoDetailPageDesktop />;
+    return isMobile ? <OrgProtoDetailPageMobile /> : <OrgProtoDetailPageDesktop />;
 }
