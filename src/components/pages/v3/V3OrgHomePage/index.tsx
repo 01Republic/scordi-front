@@ -17,6 +17,7 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {SubscriptionsPanel} from '^v3/V3OrgHomePage/mobile/SubscriptionsPanel';
 import {InvoiceAccountsPanel} from '^v3/V3OrgHomePage/mobile/InvoiceAccountsPanel';
 import {SummaryHeaderPanel} from '^v3/V3OrgHomePage/mobile/SummaryHeaderPanel';
+import {ApplyNotFoundProduct} from '^v3/share/sections/ApplyNotFoundProduct';
 
 export const V3OrgHomePage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -57,14 +58,14 @@ export const V3OrgHomePage = memo(() => {
         return (
             <V3MainLayoutMobile title={currentOrg?.name} activeTabIndex={0}>
                 <InvoiceAccountAddingAlert />
-                {currentOrg && (
-                    <MobileSection.List>
-                        <SummaryHeaderPanel />
-                        <SubscriptionsPanel />
-                        <InvoiceAccountsPanel />
-                        <MobileSection.Item noStyle>no styled section</MobileSection.Item>
-                    </MobileSection.List>
-                )}
+                <MobileSection.List>
+                    <SummaryHeaderPanel />
+                    <SubscriptionsPanel />
+                    <InvoiceAccountsPanel />
+                    <MobileSection.Item noStyle className="px-4 mb-16">
+                        <ApplyNotFoundProduct />
+                    </MobileSection.Item>
+                </MobileSection.List>
                 <NewInvoiceAccountModal />
             </V3MainLayoutMobile>
         );
