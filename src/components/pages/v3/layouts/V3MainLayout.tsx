@@ -15,15 +15,15 @@ interface V3MainLayoutProps extends WithChildren {
 
 export const V3MainLayout = memo((props: V3MainLayoutProps) => {
     const {children} = props;
-    const {isMobile} = useOnResize2();
+    const {isDesktop} = useOnResize2();
 
     return (
         <>
             <style dangerouslySetInnerHTML={{__html: `html, body, #__next { min-height: 100vh }`}} />
             <div className={`${styles.layout} h-full`}>
-                {!isMobile ? <V3TopNav /> : <>dddd</>}
+                {isDesktop && <V3TopNav />}
                 {children}
-                <V3Footer />
+                {isDesktop && <V3Footer />}
             </div>
             <UserEditModal />
             <AddressModal />
@@ -31,12 +31,4 @@ export const V3MainLayout = memo((props: V3MainLayoutProps) => {
     );
 });
 
-interface V3MainLayoutContainerProps extends WithChildren {
-    className?: string;
-}
-
-export const V3MainLayoutContainer = memo((props: V3MainLayoutContainerProps) => {
-    const {className = '', children} = props;
-
-    return <div className={`py-[72px] max-w-[62.3%] mx-auto ${className}`}>{children}</div>;
-});
+export * from './V3MainLayout/Container';
