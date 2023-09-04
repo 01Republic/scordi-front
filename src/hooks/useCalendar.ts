@@ -1,16 +1,21 @@
 import {useRouter} from 'next/router';
 import {useCallback, useEffect, useMemo} from 'react';
-import {SetterOrUpdater, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {atom, SetterOrUpdater, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {
+    calendarActiveStartDateAtom,
     calendarDataAtom,
     calendarParamsState,
     calendarSelectedDateState,
     getDashboardCalendarQuery,
 } from '^atoms/calendarData.atom';
-import {getDashboardCalendar} from '^api/dashboard.api';
+import {getDashboardCalendar, getDashboardCalendarV2} from '^api/dashboard.api';
 import {errorNotify} from '^utils/toast-notify';
 import {getQueryParams} from '^utils/get-query-params';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {FromToQueryDto} from '^types/billing.type';
+import {focusedMonthAtom, useFocusedMonth} from '^v3/V3OrgHomePage/feature/useFocusedMonth';
+import {getBillingHistories} from '^api/billing.api';
+import {firstDayOfMonth, lastDayOfMonth, monthAfter, monthBefore} from '^utils/dateTime';
 
 export function useCalendar() {
     const {query} = useRouter();
@@ -53,4 +58,34 @@ export function useCalendar2() {
     }, [year, month]);
 
     return {calendarData, setCalendar, year, month, selectDate};
+}
+
+export function useCalendar3() {
+    const [calendarData, setCalendarData] = useRecoilState(calendarDataAtom);
+    const selectDate = useSetRecoilState(calendarSelectedDateState);
+    const organizationId = useRecoilValue(orgIdParamState);
+    const [activeStartDate, setActiveStartDate] = useRecoilState(calendarActiveStartDateAtom);
+
+    const loadCalendar = (params: FromToQueryDto) => {
+        getDashboardCalendarV2(organizationId, params)
+            .then((res) => setCalendarData(res.data))
+            .catch(errorNotify);
+    };
+
+    // getBillingHistories()
+
+    // useEffect(() => {
+    //     if (!focusedMonth) return;
+    //
+    //     const from = firstDayOfMonth(monthBefore(1, focusedMonth));
+    //     const to = lastDayOfMonth(monthAfter(1, focusedMonth));
+    //     console.log('focusedMonth loaded', focusedMonth, {from, to});
+    //     getBillingHistories({
+    //         where: { organizationId },
+    //         startDate: from.toISOString(),
+    //         endDate: to.toISOString(),
+    //     })
+    // }, [focusedMonth]);
+
+    return {calendarData, loadCalendar, selectDate, activeStartDate, setActiveStartDate};
 }

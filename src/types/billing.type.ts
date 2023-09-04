@@ -184,5 +184,10 @@ export type StatusParams = {
     status?: StatusQueryOptions;
 };
 
+export type FromToQueryDto = {
+    from: Date; // 기간 시작일
+    to: Date; // 기간 종료일
+};
+
 export type GetBillingSchedulesParams = FindAllQueryDto<BillingSchedule> & StartEndParams;
 export type GetBillingHistoriesParams = FindAllQueryDto<BillingHistoryDto> & StartEndParams & StatusParams;

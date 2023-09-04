@@ -15,6 +15,16 @@ export const getBillingSchedules = (params: GetBillingSchedulesParams) => {
     return api.get<Paginated<BillingScheduleShallowDto>>(`/billing_schedules`, {params});
 };
 
+export const getBillingSchedulesAll = (params: GetBillingSchedulesParams) => {
+    params.itemsPerPage = 1;
+    return getBillingSchedules(params).then(async (res) => {
+        params.itemsPerPage = res.data.pagination.totalItemCount;
+        if (params.itemsPerPage === 0) return [];
+        const result = await getBillingSchedules(params);
+        return result.data.items;
+    });
+};
+
 // [구독서비스] 결제 일정 API (BillingSchedule) / 개별 구독 서비스의 결제 일정 조회 *
 export const getAppsBillingSchedule = (id: number, params: GetBillingSchedulesParams) => {
     return api.get<Paginated<BillingScheduleShallowDto>>(`/applications/${id}/billing_schedules`, {params});
@@ -22,6 +32,16 @@ export const getAppsBillingSchedule = (id: number, params: GetBillingSchedulesPa
 
 export const getBillingHistories = (params: GetBillingHistoriesParams) => {
     return api.get<Paginated<BillingHistoryDto>>(`/billing_histories`, {params});
+};
+
+export const getBillingHistoriesAll = (params: GetBillingHistoriesParams) => {
+    params.itemsPerPage = 1;
+    return getBillingHistories(params).then(async (res) => {
+        params.itemsPerPage = res.data.pagination.totalItemCount;
+        if (params.itemsPerPage === 0) return [];
+        const result = await getBillingHistories(params);
+        return result.data.items;
+    });
 };
 
 export const getAppsBillingHistory = (applicationId: number, params?: GetBillingHistoriesParams) => {

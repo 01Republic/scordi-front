@@ -8,10 +8,13 @@ import {changePriceCurrency, currencyFormat, getCurrencySymbol} from '^api/tasti
 import {BiCaretLeft, BiCaretRight} from 'react-icons/bi';
 import {useFocusedMonth} from '^v3/V3OrgHomePage/feature/useFocusedMonth';
 import {lastDayOfMonth} from '^utils/dateTime';
+import {useModal} from '^v3/share/modals/useModal';
+import {billingHistoriesPayModal} from '^v3/V3OrgBillingHistoriesPage/modals/BillingHistoriesPageModal';
 
 export const SummaryHeaderPanel = memo(() => {
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
     const symbol = getCurrencySymbol(displayCurrency);
+    const {open: billingHistoriesPageModalOpen} = useModal(billingHistoriesPayModal);
     // const amount = !price ? 0 : changePriceCurrency(price.amount, price.code, displayCurrency);
 
     return (
@@ -26,7 +29,9 @@ export const SummaryHeaderPanel = memo(() => {
                         <span>{currencyFormat(0, displayCurrency)}</span>
                     </p>
 
-                    <button className="btn btn-sm btn-scordi">내역</button>
+                    <button className="btn btn-sm btn-scordi" onClick={billingHistoriesPageModalOpen}>
+                        내역
+                    </button>
                 </div>
                 <ul className="py-0">
                     <MobileInfoListItem label="오늘까지 결제된 금액" value={`0원`} />

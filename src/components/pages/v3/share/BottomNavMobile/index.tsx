@@ -2,7 +2,6 @@ import {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^atoms/organizations.atom';
 import {BottomNavItem} from '^v3/share/BottomNavMobile/BottomNavItem';
-import {AiFillHome, AiFillCalendar} from 'react-icons/ai';
 import {FaGear, FaHouse, FaRegCalendarCheck, FaUsers} from 'react-icons/fa6';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {V3OrgSettingsOrgPageRoute} from '^pages/v3/orgs/[orgId]/settings/org';

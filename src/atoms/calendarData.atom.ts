@@ -25,6 +25,11 @@ export const calendarDataAtom = atom({
     default: [] as DashboardDaySumDto[],
 });
 
+export const calendarActiveStartDateAtom = atom({
+    key: 'calendarActiveStartDateAtom',
+    default: new Date(),
+});
+
 export const calendarSelectedDateState = atom({
     key: 'calendarSelectedDateState',
     default: new Date(),

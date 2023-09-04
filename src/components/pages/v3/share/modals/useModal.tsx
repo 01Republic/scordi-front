@@ -6,6 +6,7 @@ import {IoClose} from '@react-icons/all-files/io5/IoClose';
 interface UseModalOption {
     isShowAtom: RecoilState<boolean>;
     allowBodyScroll?: boolean;
+    popStateSyncKey?: string;
 }
 
 interface ModalProps extends WithChildren {
@@ -14,7 +15,7 @@ interface ModalProps extends WithChildren {
 }
 
 export const useModal = (option: UseModalOption) => {
-    const {isShowAtom, allowBodyScroll = false} = option;
+    const {isShowAtom, allowBodyScroll = false, popStateSyncKey = ''} = option;
     const [isShow, setIsShow] = useRecoilState(isShowAtom);
 
     useEffect(() => {
@@ -24,8 +25,26 @@ export const useModal = (option: UseModalOption) => {
         }
     }, [isShow]);
 
-    const open = () => setIsShow(true);
-    const close = () => setIsShow(false);
+    const open = (callback?: (() => any) | any) => {
+        if (popStateSyncKey) {
+            const isModalOpened = window.history.state === popStateSyncKey;
+            if (!isShow && !isModalOpened) {
+                window.history.pushState(popStateSyncKey, '');
+                console.log('open modal', popStateSyncKey);
+                window.onpopstate = function () {
+                    const isModalOpened = window.history.state === popStateSyncKey;
+                    console.log('close modal', popStateSyncKey);
+                    if (!isModalOpened) close();
+                };
+            }
+        }
+        setIsShow(true);
+        if (callback && typeof callback === 'function') callback();
+    };
+    const close = (callback?: (() => any) | any) => {
+        setIsShow(false);
+        if (callback && typeof callback === 'function') callback();
+    };
     const prevent = (e: any) => {
         e.stopPropagation();
         e.preventDefault();

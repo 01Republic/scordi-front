@@ -41,6 +41,27 @@ export const getBillingSchedulesQuery = selector({
     },
 });
 
+// useBillingSchedulesV3 에서 사용되는 Query State
+export const orgBillingSchedulesQueryV3Atom = atom<GetBillingSchedulesParams>({
+    key: 'orgBillingSchedulesQueryV3Atom',
+    default: {},
+});
+
+// useBillingSchedulesV3 에서 사용되는 Result State
+export const orgBillingSchedulesResultV3Atom = atom<Paginated<ScheduleDto>>({
+    key: 'orgBillingSchedulesResultV3Atom',
+    default: {
+        items: [],
+        pagination: {
+            totalItemCount: 0,
+            currentItemCount: 0,
+            totalPage: 1,
+            currentPage: 1,
+            itemsPerPage: 30,
+        },
+    },
+});
+
 const sortByBillingDate = (direct: 'ASC' | 'DESC') => (a: ScheduleDto, b: ScheduleDto) => {
     const diff = new Date(a.billingDate).getTime() - new Date(b.billingDate).getTime();
     return direct === 'ASC' ? diff : diff * -1;
