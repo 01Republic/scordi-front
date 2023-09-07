@@ -34,7 +34,7 @@ export const InvoiceAppItem = memo((props: InvoiceAppItemProps) => {
             <div className="flex items-center gap-4 px-6 cursor-default bg-base-100 text-gray-700 border-1 border-b border-b-gray-200">
                 <Avatar src={proto.image} className="w-7" />
                 <div className="flex-1">
-                    <p className="text-sm">{proto.name}</p>
+                    <p className="text-sm">{proto.nameEn}</p>
                 </div>
                 <div className="flex items-center">
                     <SwitchCheckbox

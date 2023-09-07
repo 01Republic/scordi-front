@@ -116,7 +116,7 @@ export const SelectOrgStage = memo(() => {
                                             <small>
                                                 <OutLink
                                                     href={`${team.profileUrl}`}
-                                                    text={`Open in ${currentProduct.name}`}
+                                                    text={`Open in ${currentProduct.nameEn}`}
                                                 />
                                             </small>
                                         </p>

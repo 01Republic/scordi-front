@@ -34,7 +34,7 @@ export const LogoImageFormPanel = memo((props: LogoImageFormPanelProps) => {
 
     useEffect(() => {
         if (product) {
-            setInitial(product.name);
+            setInitial(product.nameEn);
             setLogoUrl(product.image);
         }
         form.setValue('imageFile', undefined);

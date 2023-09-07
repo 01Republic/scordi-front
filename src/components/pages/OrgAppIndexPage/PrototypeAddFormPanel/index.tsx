@@ -24,7 +24,7 @@ export const PrototypeAddFormPanel = memo(() => {
                     type="text"
                     labelTop="App Name"
                     placeholder="ex. Github"
-                    {...createForm.register('name')}
+                    {...createForm.register('nameEn')}
                     required
                 />
                 <FormControlInput

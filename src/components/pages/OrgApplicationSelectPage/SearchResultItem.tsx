@@ -24,11 +24,11 @@ export const SearchResultItem = memo((props: SearchResultItemProps) => {
                             height={38}
                             className="mask mask-squircle"
                             src={safeImageSrc(proto, 38, 38)}
-                            alt={`${proto.name} logo image`}
+                            alt={`${proto.nameEn} logo image`}
                         />
                     </div>
                     <div className="flex flex-1 items-center px-3">
-                        <p className="leading-none text-left text-base font-semibold text-gray-500">{proto.name}</p>
+                        <p className="leading-none text-left text-base font-semibold text-gray-500">{proto.nameEn}</p>
                     </div>
                     <div className="flex items-center">
                         <div className="px-2 text-right">

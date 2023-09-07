@@ -11,7 +11,7 @@ export const ConnectPrototypeModal = memo(() => {
         useConnectPrototypeModalState();
 
     if (currentProduct === null) return <></>;
-    const protoName = currentProduct.name;
+    const protoName = currentProduct.nameEn;
 
     return (
         <Modal

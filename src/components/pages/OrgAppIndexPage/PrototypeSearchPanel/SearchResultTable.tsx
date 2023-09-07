@@ -53,7 +53,7 @@ export const SearchResultTable = memo(() => {
                         if (!confirm('Are you sure?')) return;
 
                         deleteProduct(proto.id)
-                            .then(() => toast(`[${proto.name}] Successfully removed`))
+                            .then(() => toast(`[${proto.nameEn}] Successfully removed`))
                             .then(() => mutation())
                             .catch(errorNotify);
                     }}
@@ -96,7 +96,7 @@ const PrototypeItem = memo((props: PrototypeItemProps) => {
                 <div className="flex items-center">
                     <img src={proto.image} alt="" width={24} className="mr-4" />
                     <span className="leading-[1.2]" style={{whiteSpace: 'break-spaces'}}>
-                        {proto.name}
+                        {proto.nameEn}
                     </span>
                 </div>
             </td>

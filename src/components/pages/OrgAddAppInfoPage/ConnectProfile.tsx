@@ -11,7 +11,7 @@ export const ConnectProfile = ({protoApp}: ConnectProfileProps) => {
         <div className="flex flex-col gap-4">
             <img
                 src={protoApp.image}
-                alt={`${protoApp.name} Logo`}
+                alt={`${protoApp.nameEn} Logo`}
                 width={210}
                 height={210}
                 className="bg-white rounded-xl p-3 shadow"

@@ -25,7 +25,7 @@ export const ConnectInManual = (props: ConnectInManualProps) => {
     const productId = Number(router.query.appId);
     const [parsedInvoiceDataList, setParsedInvoiceDataList] = useState<InvoiceDataDto[]>([]);
     const [isSaving, setIsSaving] = useState(false);
-    const api = useMemo(() => new ApplicationConnectApi(protoApp.name as AppCode), [protoApp.name]);
+    const api = useMemo(() => new ApplicationConnectApi(protoApp.nameEn as AppCode), [protoApp.nameEn]);
     const connectable = parsedInvoiceDataList.length > 0;
 
     const getTime = (timeStr: string) => new Date(timeStr).getTime();
@@ -74,7 +74,7 @@ export const ConnectInManual = (props: ConnectInManualProps) => {
     return (
         <ContentPanel
             title="인보이스(결제청구서)를 업로드해주세요."
-            desc={`<b>${protoApp.name}</b> 에서 이메일로 전달받은 결제 청구서를 업로드해주세요.`}
+            desc={`<b>${protoApp.nameEn}</b> 에서 이메일로 전달받은 결제 청구서를 업로드해주세요.`}
         >
             <ContentPanelList>
                 <InvoiceDropZone

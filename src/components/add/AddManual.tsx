@@ -37,7 +37,7 @@ export const AddManual = (props: AddManualProps) => {
             )}
 
             <div className={'py-[30px] text-center'}>
-                <AppIconButton name={props.appInfo.name} icon={props.appInfo.image} />
+                <AppIconButton name={props.appInfo.nameEn} icon={props.appInfo.image} />
             </div>
 
             <div className={'bg-[#F0EFFF] py-[40px] rounded-xl mb-16 text-center'}>

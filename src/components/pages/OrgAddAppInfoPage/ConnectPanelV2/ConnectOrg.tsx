@@ -27,7 +27,7 @@ export const ConnectOrg = (props: ConnectOrgProps) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [profile, setProfile] = useState<FetchedProfileDto>();
     const [billingInfo, setBillingInfo] = useState<FetchedOrgPlanAndCycleDto>();
-    const api = useMemo(() => new ApplicationConnectApi(protoApp.name as AppCode), [protoApp.name]);
+    const api = useMemo(() => new ApplicationConnectApi(protoApp.nameEn as AppCode), [protoApp.nameEn]);
 
     const onClickHandler = (item: OrgResponseDataDto) => {
         setPendingOrg(item);

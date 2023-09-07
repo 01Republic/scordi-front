@@ -22,14 +22,14 @@ export function ConnectAppProgressModal(props: ConnectAppProgressModalProps) {
     const StageForm = useMemo(() => stageMarkUp.StageForm, [stage]);
     // const { StageForm } = stageMarkUp;
 
-    const api = useMemo(() => new ApplicationConnectApi(protoApp.name as AppCode), [protoApp.name]);
+    const api = useMemo(() => new ApplicationConnectApi(protoApp.nameEn as AppCode), [protoApp.nameEn]);
 
     return (
         <Modal type="info" isOpen={isOpen}>
             {isOpen && StageForm && (
                 <StageForm
                     api={api}
-                    title={stageMarkUp.title(protoApp.name)}
+                    title={stageMarkUp.title(protoApp.nameEn)}
                     description={stageMarkUp.description}
                     next={(data) => {
                         setStage(stage + 1);

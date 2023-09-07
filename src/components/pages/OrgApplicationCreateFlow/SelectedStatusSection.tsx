@@ -15,7 +15,7 @@ export const SelectedStatusSection = memo((props: SelectStatusSectionProps) => {
     return (
         <TitleSection.Simple>
             <div className="px-0 bs-col-7">
-                <TitleSection.Title text={product.name} size="2xl" />
+                <TitleSection.Title text={product.nameEn} size="2xl" />
             </div>
             {text && (
                 <div className="px-0 bs-col-5 text-right">

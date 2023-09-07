@@ -15,6 +15,7 @@ import {productApi, getProduct, getProducts} from '^api/product.api';
 import {errorNotify} from '^utils/toast-notify';
 import {SubscriptionPaymentPlanDto} from '^types/subscriptionPaymentPlan.type';
 import {useRouter} from 'next/router';
+import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const useProducts = () => {
     const result = useRecoilValue(getProductsQuery);
@@ -178,15 +179,18 @@ export const useCreateFlow = () => {
 };
 
 export const useProductPostContent = () => {
+    const {currentUser} = useCurrentUser();
+    const locale = currentUser?.locale ?? 'ko';
     const makeContent = (product: ProductDto) => {
         const [post] = product.posts;
+        const productName = locale === 'ko' ? product.nameKo : product.nameEn;
 
-        const shortName = product?.name?.split(' ')?.[0] ?? 'untitled';
+        const shortName = productName?.split(' ')?.[0] ?? 'untitled';
 
         const thumbnailUrl = post?.thumbnailUrl ?? product?.ogImageUrl ?? 'https://placehold.co/400x200';
         const logoImgUrl = product?.image || `https://placehold.co/200x200?text=${shortName}`;
         const homePageUrl = product?.homepageUrl ?? null;
-        const title = product?.name ?? post?.title ?? 'untitled';
+        const title = productName ?? post?.title ?? 'untitled';
         const subTitle = product?.tagline ?? post?.seoDescription ?? 'unset';
         const tags = product?.tags ?? post.tags ?? [];
         const tagNames = tags.map((tag) => tag.name);

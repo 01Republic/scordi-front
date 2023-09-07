@@ -12,7 +12,8 @@ export enum ProductConnectMethod {
 
 export type ProductDto = {
     id: number;
-    name: string;
+    nameKo: string;
+    nameEn: string;
     searchText: string; // 검색키워드
     desc: string;
     image: string;
@@ -38,7 +39,8 @@ export type ProductDto = {
 };
 
 export type CreateProductRequestDto = {
-    name: string; // 서비스명
+    nameKo: string; // 한글 서비스명
+    nameEn: string; // 영문 서비스명
     tagline: string; // 요약
     tagIds: number[]; // tag ID 목록
     desc?: string; // 설명
@@ -55,14 +57,14 @@ export type CreateProductRequestDto = {
 };
 
 export type UpdateProductRequestDto = Partial<CreateProductRequestDto> & {
-    name?: string; // 서비스명
+    // name?: string; // 서비스명
     connectMethod?: ProductConnectMethod; // 연동방법
 };
 
 export function safeImageSrc(product: ProductDto, w: number, h: number): string {
     return (
         product.image ||
-        `https://via.placeholder.com/${w}x${h}.png?text=${(product.name || '').replace(/\s/g, '+')[0] || ''}`
+        `https://via.placeholder.com/${w}x${h}.png?text=${(product.nameEn || '').replace(/\s/g, '+')[0] || ''}`
     );
 }
 

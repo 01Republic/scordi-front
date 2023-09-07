@@ -12,8 +12,8 @@ export const AppNameWithLogoBlock = memo((props: AppNameWithLogoBlockProps) => {
 
     return (
         <TitleSection.Title size="xl" className="flex items-center">
-            <ImageV2 width={30} src={safeImageSrc(product, 30, 30)} alt={`${product.name} logo`} />
-            <span className="mx-2">{product.name}</span>
+            <ImageV2 width={30} src={safeImageSrc(product, 30, 30)} alt={`${product.nameEn} logo`} />
+            <span className="mx-2">{product.nameEn}</span>
         </TitleSection.Title>
     );
 });

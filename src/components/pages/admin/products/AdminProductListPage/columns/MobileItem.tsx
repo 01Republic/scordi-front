@@ -19,7 +19,7 @@ export const MobileItem = memo((props: ColumnProps) => {
                     )}
                 </figure>
                 <div className="card-body !pl-4 !py-2 !pr-0">
-                    <h2 className="card-title text-sm mb-2">{product.name}</h2>
+                    <h2 className="card-title text-sm mb-2">{product.nameEn}</h2>
 
                     <div>
                         <p className="text-xs flex items-center justify-between whitespace-nowrap gap-3">

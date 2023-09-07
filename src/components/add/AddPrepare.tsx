@@ -36,7 +36,7 @@ export const AddPrepare = ({appInfo}: AddPrepareProps) => {
             </p>
 
             <div className={'py-[30px] text-center'}>
-                <AppIconButton name={appInfo.name} icon={appInfo.image} />
+                <AppIconButton name={appInfo.nameEn} icon={appInfo.image} />
             </div>
             <DefaultButton text={'작업이 완료되면 알림받기'} onClick={applyAlert} />
         </MobileViewContainer>

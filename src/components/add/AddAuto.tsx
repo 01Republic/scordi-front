@@ -52,7 +52,7 @@ export const AddAuto = (props: AddAutoProps) => {
                 if (err.code === CrawlerErrors.verifyRequest) {
                     setVerifyCodeRequiredMSG(err.message);
                 } else if (err.code === CrawlerErrors.blocked) {
-                    toast.warning(`${err.message} - By ${product!.name}`);
+                    toast.warning(`${err.message} - By ${product!.nameEn}`);
                 }
             });
     };
@@ -111,7 +111,7 @@ export const AddAuto = (props: AddAutoProps) => {
             )}
 
             <div className={'py-[30px] text-center'}>
-                <AppIconButton name={props.appInfo.name} icon={props.appInfo.image} />
+                <AppIconButton name={props.appInfo.nameEn} icon={props.appInfo.image} />
             </div>
 
             {isFailed ? (
@@ -179,7 +179,7 @@ function OrgListPage(props: OrgListPageProps) {
             </p>
 
             {/*<div className={'py-[30px] text-left'}>*/}
-            {/*    <AppIconButton name={appInfo.name} icon={appInfo.image} />*/}
+            {/*    <AppIconButton name={appInfo.nameEn} icon={appInfo.image} />*/}
             {/*</div>*/}
 
             <div>

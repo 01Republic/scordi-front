@@ -212,7 +212,7 @@ export default function OrgApplicationSelectPage() {
 //
 //     const labelClickHandler = (e: any) => {
 //         if (!selectable) return toast('Already Added');
-//         if (!isReady) return toast(`The ${proto.name} Coming Soon`);
+//         if (!isReady) return toast(`The ${proto.nameEn} Coming Soon`);
 //         const label = (e.target as HTMLElement).closest('label')!;
 //         const inputId = label.getAttribute('for')!;
 //         const input = document.getElementById(inputId) as HTMLInputElement;
@@ -230,10 +230,10 @@ export default function OrgApplicationSelectPage() {
 //                 >
 //                     <div className="card p-3">
 //                         <figure className="pt-2 text-center mb-3">
-//                             <img src={proto.image} alt={`${proto.name} Logo`} className="w-[42px]" />
+//                             <img src={proto.image} alt={`${proto.nameEn} Logo`} className="w-[42px]" />
 //                         </figure>
 //                         <div className="card-body items-center text-center p-0">
-//                             <h3 className="card-title text-sm text-gray-600">{proto.name}</h3>
+//                             <h3 className="card-title text-sm text-gray-600">{proto.nameEn}</h3>
 //                             <p className="text-xs text-gray-500">{proto.desc}</p>
 //                             {isReady && selectable ? (
 //                                 <button className="btn btn-xs btn-success">Add</button>

@@ -47,7 +47,7 @@ export const PrototypeCreateModal = memo(() => {
                             type="text"
                             labelTop="App Name *"
                             placeholder="ex. Github"
-                            {...form.register('name', {required: true})}
+                            {...form.register('nameEn', {required: true})}
                             required
                         />
                         <FormControlInput

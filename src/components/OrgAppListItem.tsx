@@ -16,11 +16,11 @@ export function OrgAppListItem({app}: OrgAppListItemProps) {
             <div className="bs-col px-0 bs-row mx-0 items-center">
                 <div className="avatar mr-3">
                     <div className="mask mask-squircle h-8 w-8">
-                        <img alt={`${product.name} Logo`} src={product.image} />
+                        <img alt={`${product.nameEn} Logo`} src={product.image} />
                     </div>
                 </div>
                 <div className="bs-col px-0">
-                    <p className="font-bold">{product.name}</p>
+                    <p className="font-bold">{product.nameEn}</p>
                     <p className="text-xs text-gray-500">{app.displayName}</p>
 
                     {/*<p className="text-xs text-gray-500">*/}

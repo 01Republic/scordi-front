@@ -22,7 +22,7 @@ export const InvoiceAppItem = memo((props: InvoiceAppItemProps) => {
                 <div className="col-span-4 flex items-center gap-4">
                     <Avatar src={product.image} className="w-9 h-9 outline outline-offset-1 outline-slate-100" />
                     <div className="flex-1">
-                        <p className="text-xs text-gray-500">{product.name}</p>
+                        <p className="text-xs text-gray-500">{product.nameEn}</p>
                         <p className="text-[16px]">
                             <small className="mr-0.5">{getCurrencySymbol(totalPrice.currency)}</small>
                             <span className="font-semibold">

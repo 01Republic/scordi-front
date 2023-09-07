@@ -37,7 +37,7 @@ export const InvoiceTableRow = memo((props: InvoiceTableRowProps) => {
 
     // 서비스명
     const appLogo = product?.image;
-    const appName = product?.name;
+    const appName = product?.nameEn;
     // 청구 메일
     const receivedMail = application
         ? application.billingEmail || application.publicEmail

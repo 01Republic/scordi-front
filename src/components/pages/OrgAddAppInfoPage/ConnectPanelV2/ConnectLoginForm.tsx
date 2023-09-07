@@ -27,7 +27,7 @@ export const ConnectLoginForm = (props: ConnectLoginFormProps) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [orgItems, setOrgItems] = useState<OrgResponseDataDto[]>([]);
     const form = useForm<LoginDto>();
-    const api = useMemo(() => new ApplicationConnectApi(protoApp.name as AppCode), [protoApp.name]);
+    const api = useMemo(() => new ApplicationConnectApi(protoApp.nameEn as AppCode), [protoApp.nameEn]);
 
     function organizationResponseHandler(res: AxiosResponse<OrgResponseDataDto[]>) {
         const {data} = res;
@@ -114,7 +114,7 @@ export const ConnectLoginForm = (props: ConnectLoginFormProps) => {
                             {verifyNeeded && (
                                 <ContentPanelInput
                                     title="Verification Code"
-                                    text={`${protoApp.name} 로부터 이메일로 전송된 인증번호 또는 코드를 확인해주세요`}
+                                    text={`${protoApp.nameEn} 로부터 이메일로 전송된 인증번호 또는 코드를 확인해주세요`}
                                 >
                                     <TextInput
                                         type="text"

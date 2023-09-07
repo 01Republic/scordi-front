@@ -50,7 +50,7 @@ export const PrototypeEditModal = memo((props: PrototypeEditModalProps) => {
     useEffect(() => {
         if (!protoTarget) return;
         // 수정과 생성 모두에서 사용하는 인풋
-        form.setValue('name', protoTarget.name); // 서비스명
+        form.setValue('nameEn', protoTarget.nameEn); // 서비스명
         form.setValue('searchText', protoTarget.searchText); // 검색키워드
         form.setValue('tagline', protoTarget.tagline); // Tagline
         form.setValue('homepageUrl', protoTarget.homepageUrl); // Homepage url
@@ -76,7 +76,7 @@ export const PrototypeEditModal = memo((props: PrototypeEditModalProps) => {
                             type="text"
                             labelTop="App Name *"
                             placeholder="ex. Github"
-                            {...form.register('name', {required: true})}
+                            {...form.register('nameEn', {required: true})}
                             required
                         />
                         <FormControlInput

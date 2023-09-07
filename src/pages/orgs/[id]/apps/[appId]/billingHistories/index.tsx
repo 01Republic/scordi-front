@@ -11,6 +11,7 @@ import {getSubscription} from '^api/subscription.api';
 import {intlDateLong} from '^utils/dateTime';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
+import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const BillingHistoriesPageRoute = {
     pathname: '/orgs/:id/apps/:appId/billingHistories',
@@ -21,26 +22,31 @@ export default function BillingHistoriesPage() {
     const router = useRouter();
     const appId = Number(router.query.appId);
     const [billingHistory, setBillingHistory] = useState<BillingHistoryDto[]>([]);
-    const [appInfo, setAppInfo] = useState<SubscriptionDto | undefined>(undefined);
+    const [subInfo, setSubInfo] = useState<SubscriptionDto | undefined>(undefined);
+
+    const {currentUser} = useCurrentUser();
+    const locale = currentUser?.locale || 'ko';
 
     useEffect(() => {
         if (isNaN(appId)) return;
         getSubscription(appId)
-            .then((res) => setAppInfo(res.data))
+            .then((res) => setSubInfo(res.data))
             .catch((err) => errorNotify(err));
         getAppsBillingHistory(appId)
             .then((res) => setBillingHistory(res.data.items))
             .catch((err) => errorNotify(err));
     }, [appId]);
 
-    if (!appInfo) return;
+    if (!subInfo) return;
+
+    const productName = locale === 'ko' ? subInfo.product.nameKo : subInfo.product.nameEn;
     return (
         <OrgMobileLayout>
             <MobileTopNav title={'구독 정보'} />
             <MobileViewContainer>
-                <Image src={appInfo.product.image} width={80} height={80} />
-                <h2 className={'my-[20px]'}>{appInfo.product.name}</h2>
-                <p>구독시작일 : {intlDateLong(appInfo.registeredAt)}</p>
+                <Image src={subInfo.product.image} width={80} height={80} />
+                <h2 className={'my-[20px]'}>{productName}</h2>
+                <p>구독시작일 : {intlDateLong(subInfo.registeredAt)}</p>
                 <h2 className={'mt-[40px]'}>구독 내역</h2>
                 {billingHistory.length === 0 && (
                     <div className={'text-center py-10'}>

@@ -45,7 +45,8 @@ export const ProductForm = (props: CreatePrototypeFormProps | UpdatePrototypeFor
             return;
         }
         // 수정과 생성 모두에서 사용하는 인풋
-        form.setValue('name', product.name); // 서비스명
+        form.setValue('nameKo', product.nameKo); // 서비스명 (한글)
+        form.setValue('nameEn', product.nameEn); // 서비스명 (영문)
         form.setValue('tagline', product.tagline); // Tagline
         form.setValue('homepageUrl', product.homepageUrl); // Homepage url
         form.setValue('image', product.image); // 이미지 url
@@ -70,7 +71,7 @@ export const ProductForm = (props: CreatePrototypeFormProps | UpdatePrototypeFor
         if (url) {
             const openGraphData = await getOpenGraphData(url);
             console.log(openGraphData);
-            form.setValue('name', openGraphData.hybridGraph.site_name);
+            form.setValue('nameEn', openGraphData.hybridGraph.site_name);
             form.setValue('tagline', openGraphData.htmlInferred.description);
             form.setValue('homepageUrl', openGraphData.htmlInferred.url);
 
@@ -96,11 +97,19 @@ export const ProductForm = (props: CreatePrototypeFormProps | UpdatePrototypeFor
             <ContentForm onSubmit={formSubmit}>
                 <ContentPanel title="기본정보">
                     <ContentPanelList>
-                        <ContentPanelInput title="App name" required={true}>
+                        <ContentPanelInput title="App name (ko)" required={true}>
                             <TextInput
                                 required={true}
                                 placeholder="ex. Github"
-                                {...form.register('name', {required: true})}
+                                {...form.register('nameKo', {required: true})}
+                            />
+                        </ContentPanelInput>
+
+                        <ContentPanelInput title="App name (en)" required={true}>
+                            <TextInput
+                                required={true}
+                                placeholder="ex. Github"
+                                {...form.register('nameEn', {required: true})}
                             />
                         </ContentPanelInput>
 

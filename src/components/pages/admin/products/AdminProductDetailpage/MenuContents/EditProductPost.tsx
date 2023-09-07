@@ -25,9 +25,9 @@ export const EditProductPost = memo(() => {
         if (!product) return;
 
         form.setValue('productId', product.id);
-        form.setValue('title', product.name);
+        form.setValue('title', product.nameEn);
         form.setValue('content', '');
-        form.setValue('seoTitle', product.name);
+        form.setValue('seoTitle', product.nameEn);
         form.setValue('seoDescription', product.tagline);
     }, [product]);
 
@@ -38,9 +38,9 @@ export const EditProductPost = memo(() => {
         if (!product) return;
         if (!post) return;
 
-        form.setValue('title', post.title || product.name);
+        form.setValue('title', post.title || product.nameEn);
         form.setValue('content', post.content);
-        form.setValue('seoTitle', post.seoTitle || product.name);
+        form.setValue('seoTitle', post.seoTitle || product.nameEn);
         form.setValue('seoDescription', post.seoDescription || product.tagline);
         if (post.publishAt) {
             form.setValue('publishAt', new Date(post.publishAt));

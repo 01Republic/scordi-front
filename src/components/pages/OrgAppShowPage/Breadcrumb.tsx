@@ -26,7 +26,7 @@ export const Breadcrumb = memo(() => {
                     <span className="text-gray-400">Subscriptions</span>
                 </li>
                 <li>
-                    <b>{proto && proto.name}</b>
+                    <b>{proto && proto.nameEn}</b>
                 </li>
             </ul>
         </section>

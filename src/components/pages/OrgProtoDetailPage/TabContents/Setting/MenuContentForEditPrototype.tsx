@@ -24,7 +24,7 @@ export const MenuContentForEditPrototype = memo(() => {
     useEffect(() => {
         if (!proto) return;
         // 수정과 생성 모두에서 사용하는 인풋
-        form.setValue('name', proto.name); // 서비스명
+        form.setValue('nameEn', proto.nameEn); // 서비스명
         form.setValue('tagline', proto.tagline); // Tagline
         form.setValue('homepageUrl', proto.homepageUrl); // Homepage url
         form.setValue('image', proto.image); // 이미지 url
@@ -58,7 +58,7 @@ export const MenuContentForEditPrototype = memo(() => {
                             <TextInput
                                 required={true}
                                 placeholder="ex. Github"
-                                {...form.register('name', {required: true})}
+                                {...form.register('nameEn', {required: true})}
                             />
                         </ContentPanelInput>
 
@@ -165,7 +165,7 @@ export const LogoImageFormPanel = memo((props: LogoImageFormPanelProps) => {
     const base = `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=128&url=`;
 
     useEffect(() => {
-        setInitial((form.getValues('name') ?? '')[0]);
+        setInitial((form.getValues('nameEn') ?? '')[0]);
         setLogoUrl(form.getValues('image'));
         form.setValue('imageFile', undefined);
     }, []);

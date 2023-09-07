@@ -31,7 +31,7 @@ export const AuthFormStage = memo(() => {
 
     if (isLoading) return <PreLoaderSm />;
     if (currentProduct === null) return <></>;
-    const orgName = currentProduct.name;
+    const orgName = currentProduct.nameEn;
 
     const startConnectingProtoType = (params: LoginDto | LoginWithVerify) => {
         setIsLoading(true);

@@ -36,7 +36,7 @@ export const BillingHistoryItem = memo((props: BillingHistoryItemProps) => {
                     height={32}
                     className="mask mask-squircle"
                     src={safeImageSrc(product, 32, 32)}
-                    alt={`${product.name} logo image`}
+                    alt={`${product.nameEn} logo image`}
                 />
             </div>
             <div className="flex flex-1 items-center px-3">
@@ -52,7 +52,7 @@ export const BillingHistoryItem = memo((props: BillingHistoryItemProps) => {
                         className={`block leading-none text-xs ${isSuccess ? 'text-gray-500' : 'text-gray-400'}`}
                         style={{textTransform: 'none'}}
                     >
-                        {product.name} {isSuccess}
+                        {product.nameEn} {isSuccess}
                     </span>
                 </p>
             </div>

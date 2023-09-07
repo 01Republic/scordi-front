@@ -50,13 +50,13 @@ export default function NewAppCreatedPage() {
                                     ? safeImageSrc(subscription.product, 120, 120)
                                     : 'https://placeimg.com/120/120/arch'
                             }
-                            alt={`${subscription.product.name} logo`}
+                            alt={`${subscription.product.nameEn} logo`}
                             width={120}
                         />
                     </div>
                     <p className="font-bold text-center" style={{fontSize: '1.6rem'}}>
                         <em>
-                            <span className="text-primary">{subscription?.product?.name || 'Slack'}</span> 등록 완료!
+                            <span className="text-primary">{subscription?.product?.nameEn || 'Slack'}</span> 등록 완료!
                         </em>
                     </p>
                 </div>

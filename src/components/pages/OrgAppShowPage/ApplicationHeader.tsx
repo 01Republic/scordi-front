@@ -35,7 +35,7 @@ export const ApplicationHeader = memo((props: WithChildren) => {
                             className="text-gray-900 cursor-pointer hover:underline"
                             onClick={() => goToProtoDetailPage()}
                         >
-                            {proto.name}
+                            {proto.nameEn}
                         </span>
                         <span className="text-sm normal-case">
                             {/*<OutLink href="https://github.com/organizations/ATOZ-TEAM/settings/profile" />*/}

@@ -8,6 +8,7 @@ import {productApi} from '^api/product.api';
 import {ContentTabNav} from '^layouts/ContentLayout';
 import {EditProductDetail} from '^components/pages/admin/products/AdminProductDetailpage/MenuContents/EditProductDetail';
 import {EditProductPost} from '^components/pages/admin/products/AdminProductDetailpage/MenuContents/EditProductPost';
+import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const adminProductDetail = atom<ProductDto | null>({
     key: 'adminProductDetail',
@@ -23,6 +24,8 @@ export const AdminProductDetailPage = memo(() => {
     const router = useRouter();
     const productId = Number(router.query.id);
     const [product, setProduct] = useRecoilState(adminProductDetail);
+    const {currentUser} = useCurrentUser();
+    const locale = currentUser?.locale || 'ko';
 
     useEffect(() => {
         if (!productId || isNaN(productId)) return;
@@ -40,14 +43,15 @@ export const AdminProductDetailPage = memo(() => {
     const TabContentComponent = tabs[tabIndex]?.Component || Fragment;
 
     if (!product) return <>Prototype(id: #{productId}) Not Found.</>;
+    const productName = locale === 'ko' ? product.nameKo : product.nameEn;
 
     return (
         <AdminDetailPageLayout
-            title={`${product.name} (#${product.id})`}
+            title={`${productName} (#${product.id})`}
             breadcrumbs={[
                 {text: '앱 관리'},
                 {text: '앱 목록', href: AdminProductsPageRoute.path()},
-                {text: `${product.name} (#${product.id})`},
+                {text: `${productName} (#${product.id})`},
                 //
             ]}
             tabNav={<ContentTabNav resetIndex={true} tabs={tabs.map((tab) => tab.label)} recoilState={navTabIndex} />}

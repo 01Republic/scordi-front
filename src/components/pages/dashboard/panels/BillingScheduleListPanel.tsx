@@ -83,7 +83,7 @@ const BillingScheduleItem = memo((props: BillingScheduleItemProps) => {
                         <img src={proto.image} className="w-8" />
                     </div>
                     <div className="mr-auto">
-                        <p className="font-semibold">{proto.name}</p>
+                        <p className="font-semibold">{proto.nameEn}</p>
                         <p className="text-xs text-gray-500">
                             {yyyy_mm_dd(date)}{' '}
                             {historyId ? <span className="font-medium">(Recorded: #{historyId})</span> : ''}

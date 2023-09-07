@@ -27,11 +27,11 @@ export const BillingTableRow = (props: BillingTableRowProps) => {
                 <div className="flex items-center space-x-3">
                     <div className="avatar">
                         <div className="mask mask-squircle h-12 w-12">
-                            <img src={product.image} alt={`${product.name} logo`} />
+                            <img src={product.image} alt={`${product.nameEn} logo`} />
                         </div>
                     </div>
                     <div>
-                        <div className="font-bold">{product.name}</div>
+                        <div className="font-bold">{product.nameEn}</div>
                     </div>
                 </div>
             </td>

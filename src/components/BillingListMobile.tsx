@@ -104,7 +104,7 @@ const BillingListMobileItem = memo((props: BillingListMobileItemProps) => {
     const billingDate = schedule?.billingDate || '';
     const billingDateStr = intlDateShort(billingDate);
     const product = app.product || {};
-    const serviceName = product.name;
+    const serviceName = product.nameEn;
 
     // 결제가 안됐는데(결제기록이 존재하지 않음) 그대로 시간이 지나버린 건.
     // -> '지금까지 결제한 금액'으로 놓기에는 어색하여, '앞으로 결제될 금액'에서 보여짐.

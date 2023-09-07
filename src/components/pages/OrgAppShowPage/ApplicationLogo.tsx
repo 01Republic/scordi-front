@@ -16,7 +16,7 @@ export const ApplicationLogo = memo((props: ApplicationLogoProps) => {
             {profileImage ? (
                 <div className="avatar">
                     <div className="w-16 mask mask-squircle">
-                        <img src={profileImage} alt={`${displayName} logo on ${proto.name}`} />
+                        <img src={profileImage} alt={`${displayName} logo on ${proto.nameEn}`} />
                     </div>
                 </div>
             ) : (
@@ -29,7 +29,7 @@ export const ApplicationLogo = memo((props: ApplicationLogoProps) => {
             <div className="absolute w-2/5 right-0 bottom-0">
                 <div className="avatar">
                     <div className="w-full mask mask-squircle bg-white">
-                        <img src={proto.image} alt={`${proto.name} logo`} />
+                        <img src={proto.image} alt={`${proto.nameEn} logo`} />
                     </div>
                 </div>
             </div>

@@ -107,7 +107,7 @@ export const OrgAddAppInfoPage: Page = () => {
                 protoApp={protoApp}
             />
             <ContentLayout>
-                <ContentHeading title={protoApp.name}>
+                <ContentHeading title={protoApp.nameEn}>
                     <div>
                         <ContentHeadingSecondaryButton className="gap-2" onClick={() => router.back()}>
                             <IoArrowBack /> Back

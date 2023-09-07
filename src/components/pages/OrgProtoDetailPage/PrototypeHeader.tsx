@@ -35,12 +35,12 @@ export const PrototypeHeader = memo((props: WithChildren) => {
             <div className="flex gap-6">
                 {/* logo */}
                 <div>
-                    <img src={proto.image} width={56} height={56} alt={`${proto.name} logo`} />
+                    <img src={proto.image} width={56} height={56} alt={`${proto.nameEn} logo`} />
                 </div>
 
                 {/* title */}
                 <div className="flex flex-col justify-between">
-                    <p className="text-[2rem] leading-none text-gray-900 font-semibold">{proto.name}</p>
+                    <p className="text-[2rem] leading-none text-gray-900 font-semibold">{proto.nameEn}</p>
                     <p className="text-lg leading-none text-gray-400 capitalize">
                         by <span className="text-gray-900">{proto.companyName}</span>
                     </p>

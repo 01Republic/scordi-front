@@ -64,7 +64,7 @@ export const AdminProductListPage = memo(() => {
                             {
                                 th: 'name',
                                 className: 'hidden lg:block',
-                                render: (product) => <DefaultColumn value={product.name} />,
+                                render: (product) => <DefaultColumn value={product.nameEn} />,
                             },
                             {
                                 th: 'category',

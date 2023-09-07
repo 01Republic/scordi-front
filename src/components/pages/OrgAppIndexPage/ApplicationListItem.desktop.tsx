@@ -24,7 +24,7 @@ export const ApplicationListItemDesktop = memo((props: {applicationDto: Subscrip
                 <div className="flex items-center">
                     <img src={product.image} alt="" width={24} className="mr-4" />
                     <span>
-                        {product.name} - {applicationDto.displayName}
+                        {product.nameEn} - {applicationDto.displayName}
                     </span>
                 </div>
             </td>

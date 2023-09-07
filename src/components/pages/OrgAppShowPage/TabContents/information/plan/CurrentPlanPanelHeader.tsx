@@ -13,7 +13,7 @@ export const CurrentPlanPanelHeader = memo((props: CurrentPlanPanelHeader) => {
 
     const {product, paymentPlan, billingCycle} = application;
 
-    const protoName = product.name;
+    const protoName = product.nameEn;
     const protoImage = product.image;
     const planName = paymentPlan?.name || '-';
     const planDesc = 'The basics for organizations and developers';

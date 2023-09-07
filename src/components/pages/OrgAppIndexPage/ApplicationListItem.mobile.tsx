@@ -24,12 +24,12 @@ export const ApplicationListItemMobile = memo((props: {applicationDto: Subscript
                             height={32}
                             className="mask mask-squircle"
                             src={safeImageSrc(product, 32, 32)}
-                            alt={`${product.name} logo image`}
+                            alt={`${product.nameEn} logo image`}
                         />
                     </div>
                     <div className="flex-1 px-3">
                         <p>
-                            <b>{product.name}</b>
+                            <b>{product.nameEn}</b>
                         </p>
                         <p className="text-sm text-gray-500">
                             {paymentPlan?.name || '-'} &middot;{' '}
