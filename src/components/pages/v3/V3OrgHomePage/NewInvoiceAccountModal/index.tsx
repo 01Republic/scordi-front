@@ -4,6 +4,7 @@ import {useModal} from '^v3/share/modals/useModal';
 import Image from 'next/image';
 import {useTranslation} from 'next-i18next';
 import {googleAuthForGmail} from '^api/tasting.api';
+import {GoogleComplianceDisclosureTag} from '^components/GoogleCompliance';
 
 export const isOpenNewInvoiceAccountModalAtom = atom({
     key: 'isOpenNewInvoiceAccountModalAtom',
@@ -25,7 +26,7 @@ export const NewInvoiceAccountModal = memo(() => {
                 className="py-4 text-center text-lg"
                 dangerouslySetInnerHTML={{__html: t('newInvoiceAccountModal.description')}}
             />
-            <div className="modal-action justify-center">
+            <div className="modal-action justify-center pb-4">
                 <a
                     className="btn btn-lg btn-ghost bg-base-100 border-base-200 shadow normal-case gap-4"
                     onClick={() => googleAuthForGmail()}
@@ -34,6 +35,7 @@ export const NewInvoiceAccountModal = memo(() => {
                     <span>{t('newInvoiceAccountModal.googleLoginText')}</span>
                 </a>
             </div>
+            <GoogleComplianceDisclosureTag />
         </Modal>
     );
 });

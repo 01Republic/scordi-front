@@ -5,6 +5,7 @@ import {gmailItemsLoadingAtom} from '^components/pages/LandingPages/TastingPage/
 import {SummarySection2} from '^components/pages/LandingPages/TastingPage/SummarySection';
 import {TypeAnimation} from 'react-type-animation';
 import {useTranslation} from 'next-i18next';
+import {GoogleComplianceDisclosureTag} from '^components/GoogleCompliance';
 
 export const TastingPageHeader = memo(() => {
     const isLoading = useRecoilValue(gmailItemsLoadingAtom);
@@ -34,6 +35,7 @@ export const TastingPageHeader = memo(() => {
 
                             <div className="py-7">
                                 <FindByGmailButton />
+                                <GoogleComplianceDisclosureTag />
                             </div>
                         </div>
                     </div>

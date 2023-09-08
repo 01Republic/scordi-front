@@ -25,7 +25,7 @@ export const TastingPageRoute = pathRoute({
 
 export const getStaticProps = async ({locale}: any) => ({
     props: {
-        ...(await serverSideTranslations(locale, [...publicPageRequires, 'publicTasting'])),
+        ...(await serverSideTranslations(locale, [...publicPageRequires, 'publicTasting', 'google-compliance'])),
         // Will be passed to the page component as props
     },
 });
