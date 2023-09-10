@@ -100,7 +100,7 @@ export const ProductForm = (props: CreatePrototypeFormProps | UpdatePrototypeFor
                         <ContentPanelInput title="App name (ko)" required={true}>
                             <TextInput
                                 required={true}
-                                placeholder="ex. Github"
+                                placeholder="ex. 깃허브"
                                 {...form.register('nameKo', {required: true})}
                             />
                         </ContentPanelInput>
