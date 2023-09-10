@@ -8,6 +8,7 @@ import {bizOpsApi} from '^api/biz-ops';
 import {CardTablePanel, DateTimeColumn} from '^components/pages/admin/share/panels/CardTablePanel';
 import {ActionColumn} from '^components/pages/admin/share/panels/CardTablePanel/columns/ActionColumn';
 import {KBCardExcelToNotionCard, KBCardExcelToNotionModal} from './workflows/KBCardExcelToNotion';
+import {KBBankExcelToNotionCard, KBBankExcelToNotionModal} from './workflows/KBBankExcelToNotion';
 
 export const AdminBizOpsWorkspaceListPage = memo(() => {
     const router = useRouter();
@@ -34,8 +35,9 @@ export const AdminBizOpsWorkspaceListPage = memo(() => {
         <>
             <AdminListPageLayout title="[BizOps] Workspace List" breadcrumbs={[{text: '1'}, {text: '2'}]}>
                 <div className="container pt-10 px-2 sm:px-8">
-                    <div className="mb-8 flex">
+                    <div className="mb-8 flex gap-4">
                         <KBCardExcelToNotionCard />
+                        <KBBankExcelToNotionCard />
                     </div>
 
                     <div className="w-full">
@@ -65,6 +67,7 @@ export const AdminBizOpsWorkspaceListPage = memo(() => {
             </AdminListPageLayout>
             <div>
                 <KBCardExcelToNotionModal />
+                <KBBankExcelToNotionModal />
             </div>
         </>
     );

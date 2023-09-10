@@ -15,6 +15,7 @@ export type TaskDto = {
     current: number;
     text: string;
     progress: number;
+    isFinished: boolean;
 };
 
 export type TaskFileDto = {
