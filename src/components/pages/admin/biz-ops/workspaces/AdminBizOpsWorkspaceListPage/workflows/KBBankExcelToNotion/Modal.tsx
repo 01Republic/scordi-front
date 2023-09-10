@@ -107,7 +107,6 @@ export const KBBankExcelToNotionModal = () => {
                                 if (file) form.setValue('overseasBankingListFile', file);
                                 return e;
                             }}
-                            required
                         />
                     </ExecuteStepCard>
 
