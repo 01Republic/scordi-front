@@ -15,11 +15,6 @@ export const KBBankExcelToNotionModal = () => {
     const form = useForm<KBBankExcelToNotionRequestDto>();
     const [progress, setProgress] = useRecoilState(KBBankExcelToNotionInProgress);
 
-    const progressPercentage = ((prog: ProgressType) => {
-        if (!prog.inProgress || !prog.taskFile) return 0;
-        return getProgressPercentage(prog.taskFile);
-    })(progress);
-
     const checkProgress = (key: string) => {
         bizOpsApi.progressApi.check(key).then((res) => {
             const taskFile = res.data;
@@ -50,121 +45,97 @@ export const KBBankExcelToNotionModal = () => {
     };
 
     return (
-        <WorkflowExecuteModal isShowAtom={KBBankExcelToNotionIsModalShowAtom}>
-            {progress.inProgress ? (
-                <div>
-                    <p>진행중 ... ({progressPercentage}%)</p>
-                    <p className="text-slate-500">
-                        <small>{progress.taskFile?.data.text || ''}</small>
-                    </p>
-                    <div className="flex items-center justify-between">
-                        <div className="flex-1">
-                            <progress
-                                className="progress progress-success w-full"
-                                value={progressPercentage}
-                                max="100"
-                            ></progress>
-                        </div>
+        <WorkflowExecuteModal
+            isShowAtom={KBBankExcelToNotionIsModalShowAtom}
+            onSubmit={form.handleSubmit(onSubmit)}
+            progress={progress}
+        >
+            <ExecuteStepCard
+                title="Excel files"
+                logoImg={
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg/2203px-Microsoft_Office_Excel_%282019%E2%80%93present%29.svg.png'
+                }
+            >
+                <FileInput
+                    label={
+                        <p className="leading-[1.2]">
+                            <span>국내계좌내역 엑셀 *</span>
+                            <small className="block">(KB국민)</small>
+                        </p>
+                    }
+                    multiple={false}
+                    onChange={(e) => {
+                        // {/*{...form.register('approvedListFile')}*/}
+                        const file = e.target.files ? e.target.files[0] : null;
+                        console.log('file', file);
+                        if (file) form.setValue('koBankingListFile', file);
+                        return e;
+                    }}
+                    required
+                />
+                <FileInput
+                    label={
+                        <p className="leading-[1.2]">
+                            <span>해외계좌내역 엑셀</span>
+                            <small className="block">(KB국민)</small>
+                        </p>
+                    }
+                    multiple={false}
+                    onChange={(e) => {
+                        const file = e.target.files ? e.target.files[0] : null;
+                        if (file) form.setValue('overseasBankingListFile', file);
+                        return e;
+                    }}
+                />
+            </ExecuteStepCard>
 
-                        <div>{progressPercentage}%</div>
-                    </div>
-                </div>
-            ) : (
-                <form onSubmit={form.handleSubmit(onSubmit)}>
-                    <ExecuteStepCard
-                        title="Excel files"
-                        logoImg={
-                            'https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg/2203px-Microsoft_Office_Excel_%282019%E2%80%93present%29.svg.png'
-                        }
-                    >
-                        <FileInput
-                            label={
-                                <p className="leading-[1.2]">
-                                    <span>국내계좌내역 엑셀</span>
-                                    <small className="block">(KB국민)</small>
-                                </p>
-                            }
-                            multiple={false}
-                            onChange={(e) => {
-                                // {/*{...form.register('approvedListFile')}*/}
-                                const file = e.target.files ? e.target.files[0] : null;
-                                console.log('file', file);
-                                if (file) form.setValue('koBankingListFile', file);
-                                return e;
-                            }}
-                            required
-                        />
-                        <FileInput
-                            label={
-                                <p className="leading-[1.2]">
-                                    <span>해외계좌내역 엑셀</span>
-                                    <small className="block">(KB국민)</small>
-                                </p>
-                            }
-                            multiple={false}
-                            onChange={(e) => {
-                                const file = e.target.files ? e.target.files[0] : null;
-                                if (file) form.setValue('overseasBankingListFile', file);
-                                return e;
-                            }}
-                        />
-                    </ExecuteStepCard>
+            <div className="divider">To</div>
 
-                    <div className="divider">To</div>
-
-                    <ExecuteStepCard
-                        title="Notion Database"
-                        logoImg={'https://assets.stickpng.com/images/5fb6d3336e2d460004a5e31f.png'}
-                    >
-                        <TextInput
-                            label={
-                                <p className="leading-[1.2]">
-                                    <span>카테고리DB ID</span>
-                                    <small className="block" />
-                                </p>
-                            }
-                            {...form.register('categoryDBId')}
-                            required
-                        />
-                        <TextInput
-                            label={
-                                <p className="leading-[1.2]">
-                                    <span>카드/계좌DB ID</span>
-                                    <small className="block" />
-                                </p>
-                            }
-                            {...form.register('bankAccountDBId')}
-                            required
-                        />
-                        <TextInput
-                            label={
-                                <p className="leading-[1.2]">
-                                    <span>집계DB ID</span>
-                                    <small className="block" />
-                                </p>
-                            }
-                            {...form.register('aggCalendarDBId')}
-                            required
-                        />
-                        <TextInput
-                            label={
-                                <p className="leading-[1.2]">
-                                    <span>입출금내역DB ID</span>
-                                    <small className="block" />
-                                </p>
-                            }
-                            {...form.register('moneyLogDBId')}
-                            required
-                        />
-                    </ExecuteStepCard>
-
-                    <div className="my-4">
-                        <button type="submit" className="btn btn-block btn-primary">
-                            Run
-                        </button>
-                    </div>
-                </form>
-            )}
+            <ExecuteStepCard
+                title="Notion Database"
+                logoImg={'https://assets.stickpng.com/images/5fb6d3336e2d460004a5e31f.png'}
+            >
+                <TextInput
+                    label={
+                        <p className="leading-[1.2]">
+                            <span>카테고리DB ID</span>
+                            <small className="block" />
+                        </p>
+                    }
+                    {...form.register('categoryDBId')}
+                    required
+                />
+                <TextInput
+                    label={
+                        <p className="leading-[1.2]">
+                            <span>카드/계좌DB ID</span>
+                            <small className="block" />
+                        </p>
+                    }
+                    {...form.register('bankAccountDBId')}
+                    required
+                />
+                <TextInput
+                    label={
+                        <p className="leading-[1.2]">
+                            <span>집계DB ID</span>
+                            <small className="block" />
+                        </p>
+                    }
+                    {...form.register('aggCalendarDBId')}
+                    required
+                />
+                <TextInput
+                    label={
+                        <p className="leading-[1.2]">
+                            <span>입출금내역DB ID</span>
+                            <small className="block" />
+                        </p>
+                    }
+                    {...form.register('moneyLogDBId')}
+                    required
+                />
+            </ExecuteStepCard>
         </WorkflowExecuteModal>
     );
 };
