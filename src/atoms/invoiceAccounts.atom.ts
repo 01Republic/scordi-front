@@ -1,9 +1,15 @@
 import {atom} from 'recoil';
 import {Paginated} from '^types/utils/paginated.dto';
 import {InvoiceAccountDto} from '^types/invoiceAccount.type';
+import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
-export const orgInvoiceAccountsSearchResultAtom = atom<Paginated<InvoiceAccountDto>>({
-    key: 'org/InvoiceAccount/Index/Atom',
+export const getInvoiceAccountsQueryAtom = atom<FindAllQueryDto<InvoiceAccountDto>>({
+    key: 'getInvoiceAccountsQueryAtom',
+    default: {},
+});
+
+export const invoiceAccountsSearchResultAtom = atom<Paginated<InvoiceAccountDto>>({
+    key: 'invoiceAccountsSearchResultAtom',
     default: {
         items: [],
         pagination: {
