@@ -5,13 +5,13 @@ import {BillingHistoryTable} from './Invoices/BillingHistoryTable';
 import {useCurrentSubscription} from '^hooks/useSubscriptions';
 
 export const TabContentForInvoices = memo(() => {
-    const {currentSubscription: app} = useCurrentSubscription();
+    const {currentSubscription: subscription} = useCurrentSubscription();
 
-    if (!app) return <></>;
+    if (!subscription) return <></>;
 
     return (
         <>
-            <BillingHistoryTable application={app} />
+            <BillingHistoryTable subscription={subscription} />
             {/*<div className="bs-container px-0">*/}
             {/*    <div className="grid grid-cols-12 gap-8">*/}
             {/*        /!* Left Col *!/*/}

@@ -22,15 +22,15 @@ import {PaymentInfoZone} from '^components/pages/OrgAppShowPage/TabContents/info
  */
 
 export const TabContentForInformation = memo(() => {
-    const {currentSubscription: app} = useCurrentSubscription();
+    const {currentSubscription: subscription} = useCurrentSubscription();
 
-    if (!app) return <></>;
+    if (!subscription) return <></>;
 
     return (
         <>
-            <SummaryZone application={app} />
-            <CurrentPlanZone application={app} />
-            {/*<PaymentInfoZone application={app} />*/}
+            <SummaryZone subscription={subscription} />
+            <CurrentPlanZone subscription={subscription} />
+            {/*<PaymentInfoZone application={subscription} />*/}
         </>
     );
 });

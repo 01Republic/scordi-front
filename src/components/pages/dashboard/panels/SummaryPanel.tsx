@@ -14,10 +14,10 @@ export const SummaryPanel = memo(() => {
 
             <div className="flex gap-6 items-stretch flex-wrap justify-between">
                 <SummaryItem label="active apps">
-                    {!!summaryData.activeApps ? summaryData.activeApps.length : 0}
+                    {!!summaryData.activeSubscriptions ? summaryData.activeSubscriptions.length : 0}
                 </SummaryItem>
                 <SummaryItem label="spending apps">
-                    {!!summaryData.spendingApps ? summaryData.spendingApps.length : 0}
+                    {!!summaryData.spendingSubscriptions ? summaryData.spendingSubscriptions.length : 0}
                 </SummaryItem>
                 <SummaryItem label="usage members">
                     {summaryData.memberships ? summaryData.memberships.length : 0}

@@ -7,18 +7,18 @@ import {TextInput} from '^components/TextInput';
 import {DangerPanel} from './DangerPanel';
 
 export const ConnectionSetting = memo(() => {
-    const {currentSubscription: app} = useCurrentSubscription();
+    const {currentSubscription: subscription} = useCurrentSubscription();
     const form = useForm<UpdateDto>();
 
     useEffect(() => {
-        if (!app) return;
+        if (!subscription) return;
 
-        form.setValue('connectStatus', app.connectStatus);
-        // form.setValue('displayName', app.displayName);
-        // form.setValue('isFreeTier', app.isFreeTier);
-        // form.setValue('registeredAt', app.registeredAt);
-        // form.setValue('paidMemberCount', app.paidMemberCount);
-    }, [app]);
+        form.setValue('connectStatus', subscription.connectStatus);
+        // form.setValue('displayName', subscription.displayName);
+        // form.setValue('isFreeTier', subscription.isFreeTier);
+        // form.setValue('registeredAt', subscription.registeredAt);
+        // form.setValue('paidMemberCount', subscription.paidMemberCount);
+    }, [subscription]);
 
     const onSubmit = (data: UpdateDto) => {
         console.log(data);

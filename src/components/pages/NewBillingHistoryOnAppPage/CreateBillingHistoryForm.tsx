@@ -19,17 +19,17 @@ type CreateBillingHistoryFormProps = {};
 export const CreateBillingHistoryForm = memo((props: CreateBillingHistoryFormProps) => {
     const router = useRouter();
     const organizationId = useRouterIdParamState('id', orgIdParamState);
-    const {currentSubscription: application} = useCurrentSubscription();
+    const {currentSubscription: subscription} = useCurrentSubscription();
     const form = useForm<CreateDto>();
 
-    if (!application || !organizationId) return <></>;
-    // const {billingCycle: cycle} = application;
+    if (!subscription || !organizationId) return <></>;
+    // const {billingCycle: cycle} = subscription;
 
     const onSubmit = (body: CreateDto) => {
-        createAppsBillingHistory(application.id, body)
+        createAppsBillingHistory(subscription.id, body)
             .then(({data}) => {
-                const {application} = data;
-                router.push(OrgAppShowPageRoute.path(organizationId, application!.id));
+                const {subscription} = data;
+                router.push(OrgAppShowPageRoute.path(organizationId, subscription!.id));
             })
             .catch(errorNotify);
     };

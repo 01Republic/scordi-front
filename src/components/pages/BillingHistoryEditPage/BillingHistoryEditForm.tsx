@@ -20,15 +20,15 @@ export const BillingHistoryEditForm = memo((props: BillingHistoryEditFormProps) 
     const {form, children} = props;
     const router = useRouter();
     const organizationId = Number(router.query.id) || null;
-    const applicationId = Number(router.query.appId) || null;
+    const subscriptionId = Number(router.query.appId) || null;
     const billingHistoryId = useRouterIdParamState('billingHistoryId', billingHistoryIdParamState);
     const billingHistory = useBillingHistory();
     const fetchBillingHistory = useSetRecoilState(getBillingHistoryQuery);
 
     const onSubmit = (data: UpdateBillingHistoryRequestDto) => {
-        if (!organizationId || !applicationId || !billingHistoryId) return;
+        if (!organizationId || !subscriptionId || !billingHistoryId) return;
 
-        const redirectUrl = BillingHistoryShowPageRoute.path(organizationId, applicationId, billingHistoryId);
+        const redirectUrl = BillingHistoryShowPageRoute.path(organizationId, subscriptionId, billingHistoryId);
         updateBillingHistory(billingHistoryId, data)
             .then(({data: updatedHistory}) => {
                 fetchBillingHistory(updatedHistory);

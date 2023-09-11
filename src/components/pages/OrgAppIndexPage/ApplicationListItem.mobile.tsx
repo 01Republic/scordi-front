@@ -6,16 +6,16 @@ import {t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 import {safeImageSrc} from '^types/product.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 
-export const ApplicationListItemMobile = memo((props: {applicationDto: SubscriptionDto}) => {
-    const {applicationDto} = props;
+export const ApplicationListItemMobile = memo((props: {subscription: SubscriptionDto}) => {
+    const {subscription} = props;
     const organizationId = useRouterIdParamState('id', orgIdParamState);
-    const {billingCycle, paymentPlan, product} = applicationDto;
+    const {billingCycle, paymentPlan, product} = subscription;
 
     return (
         <div className="bs-col-12">
-            <Link href={OrgAppShowPageRoute.path(organizationId, applicationDto.id)}>
+            <Link href={OrgAppShowPageRoute.path(organizationId, subscription.id)}>
                 <div
-                    id={`ApplicationListItem-${applicationDto.id}`}
+                    id={`ApplicationListItem-${subscription.id}`}
                     className="flex justify-items-stretch px-3 py-3 mb-3 bg-[#F9FAFB] shadow-sm rounded-xl cursor-pointer"
                 >
                     <div className="flex items-center px-1">

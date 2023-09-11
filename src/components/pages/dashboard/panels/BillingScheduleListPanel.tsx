@@ -21,7 +21,7 @@ export const BillingScheduleListPanel = memo(() => {
                     billingHistories.map((history, i) => (
                         <BillingScheduleItem
                             key={i}
-                            proto={history.application ? history.application.product : history.invoiceApp!.product}
+                            product={history.subscription ? history.subscription.product : history.invoiceApp!.product}
                             date={new Date(history.paidAt!)}
                             payAmount={history.payAmount?.amount || 0}
                             isPaid={!!history.paidAt}
@@ -32,7 +32,7 @@ export const BillingScheduleListPanel = memo(() => {
                     billingSchedules.map((schedule, i) => (
                         <BillingScheduleItem
                             key={i}
-                            applicationId={schedule.applicationId}
+                            subscriptionId={schedule.subscriptionId}
                             date={new Date(schedule.billingDate)}
                             payAmount={schedule.unitPrice * schedule.paidMemberCount}
                             isPaid={schedule.isSuccess}
@@ -45,7 +45,7 @@ export const BillingScheduleListPanel = memo(() => {
 });
 
 interface BillingScheduleItemPropsByApplicationId {
-    applicationId: number;
+    subscriptionId: number;
     date: Date;
     payAmount: number;
     isPaid: boolean;
@@ -53,7 +53,7 @@ interface BillingScheduleItemPropsByApplicationId {
 }
 
 interface BillingScheduleItemPropsByProto {
-    proto: ProductDto;
+    product: ProductDto;
     date: Date;
     payAmount: number;
     isPaid: boolean;
@@ -63,15 +63,15 @@ interface BillingScheduleItemPropsByProto {
 type BillingScheduleItemProps = BillingScheduleItemPropsByApplicationId | BillingScheduleItemPropsByProto;
 const BillingScheduleItem = memo((props: BillingScheduleItemProps) => {
     const {date, payAmount, isPaid, historyId} = props;
-    const applicationId = 'applicationId' in props ? props.applicationId : null;
-    const application = applicationId ? useRecoilValue(fetchSubscriptionQueryById(applicationId)) : undefined;
+    const subscriptionId = 'subscriptionId' in props ? props.subscriptionId : null;
+    const subscription = subscriptionId ? useRecoilValue(fetchSubscriptionQueryById(subscriptionId)) : undefined;
     const isOverdue = !isPaid && new Date().getTime() > date.getTime();
-    let proto: ProductDto | undefined;
-    if ('proto' in props) {
-        proto = props.proto || application?.product;
+    let product: ProductDto | undefined;
+    if ('product' in props) {
+        product = props.product || subscription?.product;
     }
 
-    if (!proto) return <></>;
+    if (!product) return <></>;
 
     // const {product: proto} = application;
 
@@ -80,10 +80,10 @@ const BillingScheduleItem = memo((props: BillingScheduleItemProps) => {
             <a className="bg-gray-100 text-gray-900 hover:bg-gray-200 block">
                 <div className="flex gap-4 items-center">
                     <div>
-                        <img src={proto.image} className="w-8" />
+                        <img src={product.image} className="w-8" />
                     </div>
                     <div className="mr-auto">
-                        <p className="font-semibold">{proto.nameEn}</p>
+                        <p className="font-semibold">{product.nameEn}</p>
                         <p className="text-xs text-gray-500">
                             {yyyy_mm_dd(date)}{' '}
                             {historyId ? <span className="font-medium">(Recorded: #{historyId})</span> : ''}

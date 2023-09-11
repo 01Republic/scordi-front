@@ -10,8 +10,8 @@ import {CreateMoneyRequestDto, MoneyDto} from '^types/money.type';
 // 쿼리가 가능한 엔티티. (dto 와 entity 의 형태 차이가 좀 있음)
 export class BillingSchedule {
     organizationId!: number;
-    applicationId!: number;
-    prototypeId!: number;
+    subscriptionId!: number;
+    productId!: number;
     paymentPlanId!: number;
     billingCycleId!: number;
     isSuccess!: boolean;
@@ -26,8 +26,8 @@ export class BillingSchedule {
 
 export type BillingScheduleShallowDto = {
     organizationId: number;
-    applicationId: number;
-    prototypeId: number;
+    subscriptionId: number;
+    productId: number;
     paymentPlanId: number;
     billingCycleId: number;
     orgName: string;
@@ -48,7 +48,7 @@ export type BillingHistoryDto = {
     id: number; // ID
     uid: string | null; // UID
     organizationId: number; // 조직 ID
-    applicationId: number | null; // 구독정보 ID
+    subscriptionId: number | null; // 구독정보 ID
     invoiceAppId: number | null; // 인보이스 앱 ID
     issuedAt: Date; // 인보이스 발행 일시
     lastRequestedAt: Date | null; // 최근 결제 요청 일시

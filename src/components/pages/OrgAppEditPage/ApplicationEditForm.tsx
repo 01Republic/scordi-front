@@ -17,14 +17,14 @@ export const ApplicationEditForm = memo((props: ApplicationEditFormProps) => {
     const {form, children} = props;
     const router = useRouter();
     const organizationId = useRouterIdParamState('id', orgIdParamState);
-    const applicationId = useRouterIdParamState('appId', subscriptionIdParamState);
+    const productId = useRouterIdParamState('appId', subscriptionIdParamState);
     const {currentSubscription, reload} = useCurrentSubscription();
 
     const onSubmit = (data: UpdateSubscriptionRequestDto) => {
-        if (!organizationId || !applicationId) return;
+        if (!organizationId || !productId) return;
 
-        const redirectUrl = OrgAppShowPageRoute.path(organizationId, applicationId);
-        updateSubscription(applicationId, data)
+        const redirectUrl = OrgAppShowPageRoute.path(organizationId, productId);
+        updateSubscription(productId, data)
             .then(() => {
                 reload();
                 router.replace(redirectUrl);

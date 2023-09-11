@@ -4,14 +4,14 @@ import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {CurrentHistoryZone} from './Histories/CurrentHistoryZone';
 
 export const TabContentForHistories = memo(() => {
-    const {currentSubscription: app} = useCurrentSubscription();
+    const {currentSubscription: subscription} = useCurrentSubscription();
 
-    if (!app) return <></>;
+    if (!subscription) return <></>;
 
     return (
         <>
-            <CurrentHistoryZone application={app} />
-            <HistoryTable application={app} />
+            <CurrentHistoryZone subscription={subscription} />
+            <HistoryTable subscription={subscription} />
         </>
     );
 });

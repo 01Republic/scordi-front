@@ -11,16 +11,16 @@ import {t_paidAt} from '^types/billing.type';
 type BillingHistoryInfoSectionProps = {};
 
 export const BillingHistoryInfoSection = memo((props: BillingHistoryInfoSectionProps) => {
-    const {currentSubscription: application} = useCurrentSubscription();
+    const {currentSubscription: subscription} = useCurrentSubscription();
     const billingHistory = useBillingHistory();
 
-    if (!application || !billingHistory) return <></>;
+    if (!subscription || !billingHistory) return <></>;
 
     return (
         <>
             <TitleSection.TopPadding />
             <TitleSection.Simple flex={false}>
-                <AppNameWithLogoBlock product={application.product} />
+                <AppNameWithLogoBlock product={subscription.product} />
                 <BillingHistoryAmountInfoBlock billingHistory={billingHistory} />
             </TitleSection.Simple>
 

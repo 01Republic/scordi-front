@@ -22,30 +22,30 @@ export const OrgAppShowPageMobile = memo(() => {
     //TODO : ApplicationDetailPage.mobile 로 수정해야 됨
     const router = useRouter();
     const organizationId = Number(router.query.id);
-    const applicationId = Number(router.query.appId);
-    const {currentSubscription: application} = useCurrentSubscription();
+    const productId = Number(router.query.appId);
+    const {currentSubscription: subscription} = useCurrentSubscription();
     const setSubscriptionIdParam = useSetRecoilState(subscriptionIdParamState);
     const setBillingHistoriesQueryParam = useSetRecoilState(getBillingHistoriesParamsState);
 
     useEffect(() => {
-        setSubscriptionIdParam(applicationId);
+        setSubscriptionIdParam(productId);
         setBillingHistoriesQueryParam({
-            where: {applicationId},
+            where: {subscriptionId: subscription?.id},
             order: {id: 'DESC'},
             itemsPerPage: 300,
         });
-    }, [applicationId]);
+    }, [productId]);
 
-    if (!application) return <></>;
+    if (!subscription) return <></>;
 
-    const {product, paymentPlan, billingCycle} = application;
+    const {product, paymentPlan, billingCycle} = subscription;
 
     return (
         <OrgMobileLayout>
             <MobileTopNav>
                 <BackButton href={OrgAppIndexPageRoute.path(organizationId)} />
                 <MobileTopNavRight>
-                    <EditButton href={OrgApplicationEditPageRoute.path(organizationId, applicationId)} />
+                    <EditButton href={OrgApplicationEditPageRoute.path(organizationId, productId)} />
                     <DeleteButton />
                 </MobileTopNavRight>
             </MobileTopNav>
@@ -58,7 +58,7 @@ export const OrgAppShowPageMobile = memo(() => {
                 <MobileBottomNav.Item
                     href={NewBillingHistoryOnAppPageRoute.path(
                         organizationId,
-                        applicationId,
+                        productId,
                         product.id,
                         paymentPlan?.id || 0,
                         billingCycle?.id || 0,

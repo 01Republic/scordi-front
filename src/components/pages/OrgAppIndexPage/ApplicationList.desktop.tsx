@@ -6,11 +6,11 @@ import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 
 export const ApplicationListDesktop = memo(() => {
     const organizationId = useRouterIdParamState('id', orgIdParamState);
-    const {items: applications, fetchItems: fetchApplications, pagination} = useSubscriptionList();
+    const {items: subscriptions, fetchItems: fetchSubscriptions, pagination} = useSubscriptionList();
 
     useEffect(() => {
         if (!organizationId || isNaN(organizationId)) return;
-        fetchApplications(organizationId, 1, true);
+        fetchSubscriptions(organizationId, 1, true);
     }, [organizationId]);
 
     return (
@@ -37,8 +37,8 @@ export const ApplicationListDesktop = memo(() => {
                         </tr>
                     }
                 >
-                    {applications.map((app, i) => (
-                        <ApplicationListItemDesktop applicationDto={app} key={i} />
+                    {subscriptions.map((subscription, i) => (
+                        <ApplicationListItemDesktop subscription={subscription} key={i} />
                     ))}
                 </ContentTable>
             </ContentPanelBody>

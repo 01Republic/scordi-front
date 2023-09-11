@@ -27,7 +27,7 @@ export const getBillingSchedulesAll = (params: GetBillingSchedulesParams) => {
 
 // [구독서비스] 결제 일정 API (BillingSchedule) / 개별 구독 서비스의 결제 일정 조회 *
 export const getAppsBillingSchedule = (id: number, params: GetBillingSchedulesParams) => {
-    return api.get<Paginated<BillingScheduleShallowDto>>(`/applications/${id}/billing_schedules`, {params});
+    return api.get<Paginated<BillingScheduleShallowDto>>(`/subscriptions/${id}/billing_schedules`, {params});
 };
 
 export const getBillingHistories = (params: GetBillingHistoriesParams) => {
@@ -44,8 +44,8 @@ export const getBillingHistoriesAll = (params: GetBillingHistoriesParams) => {
     });
 };
 
-export const getAppsBillingHistory = (applicationId: number, params?: GetBillingHistoriesParams) => {
-    return api.get<Paginated<BillingHistoryDto>>(`/applications/${applicationId}/billing_histories`, {params});
+export const getAppsBillingHistory = (subscriptionId: number, params?: GetBillingHistoriesParams) => {
+    return api.get<Paginated<BillingHistoryDto>>(`/subscriptions/${subscriptionId}/billing_histories`, {params});
 };
 
 export const getBillingHistory = (id: number) => {
@@ -53,8 +53,8 @@ export const getBillingHistory = (id: number) => {
 };
 
 // 구독서비스의 결제내역 생성 *
-export function createAppsBillingHistory(applicationId: number, dto: CreateBillingHistoryRequestDto) {
-    return api.post<BillingHistoryDto>(`/applications/${applicationId}/billing_histories`, dto);
+export function createAppsBillingHistory(subscriptionId: number, dto: CreateBillingHistoryRequestDto) {
+    return api.post<BillingHistoryDto>(`/subscriptions/${subscriptionId}/billing_histories`, dto);
 }
 
 // 결제내역 생성을 통한 구독서비스 생성 *

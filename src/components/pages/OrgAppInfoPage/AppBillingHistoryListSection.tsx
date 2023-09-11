@@ -12,10 +12,10 @@ type AppBillingHistoryListSectionProps = {
 
 export const AppBillingHistoryListSection = memo((props: AppBillingHistoryListSectionProps) => {
     const {onClickMethod} = props;
-    const {currentSubscription: application} = useCurrentSubscription();
+    const {currentSubscription: subscription} = useCurrentSubscription();
     const billingHistoriesQueryResult = useBillingHistories();
 
-    if (!application || !billingHistoriesQueryResult) return <PreLoader screenSize={false} />;
+    if (!subscription || !billingHistoriesQueryResult) return <PreLoader screenSize={false} />;
 
     const {items: billingHistories} = billingHistoriesQueryResult;
 
@@ -44,7 +44,7 @@ export const AppBillingHistoryListSection = memo((props: AppBillingHistoryListSe
                     groupTitle={<span className="text-gray-500">{key}</span>}
                     itemCustomRender={(billingHistory, i) => (
                         <BillingHistoryItem
-                            application={application}
+                            subscription={subscription}
                             billingHistory={billingHistory}
                             onClickMethod={onClickMethod}
                             key={i}

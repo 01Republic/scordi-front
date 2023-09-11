@@ -17,23 +17,23 @@ import {CTAButton} from '^components/v2/ui/buttons/CTAButton';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const BillingHistoryEditPageRoute = pathRoute({
-    pathname: '/orgs/[id]/apps/[appId]/billingHistories/[billingHistoryId]/edit',
-    path: (orgId: number, appId: number, billingHistoryId: number) =>
+    pathname: '/orgs/[id]/apps/[subscriptionId]/billingHistories/[billingHistoryId]/edit',
+    path: (orgId: number, subscriptionId: number, billingHistoryId: number) =>
         pathReplace(BillingHistoryEditPageRoute.pathname, {
             id: orgId,
-            appId,
+            subscriptionId,
             billingHistoryId,
         }),
 });
 
 export default function BillingHistoryEditPage() {
-    useRouterIdParamState('appId', subscriptionIdParamState);
+    useRouterIdParamState('subscriptionId', subscriptionIdParamState);
     useRouterIdParamState('billingHistoryId', billingHistoryIdParamState);
-    const {currentSubscription: application} = useCurrentSubscription();
+    const {currentSubscription: subscription} = useCurrentSubscription();
     const billingHistory = useBillingHistory();
     const form = useForm<UpdateBillingHistoryRequestDto>();
 
-    if (!application || !billingHistory) return <></>;
+    if (!subscription || !billingHistory) return <></>;
 
     return (
         <OrgMobileLayout>
@@ -44,7 +44,7 @@ export default function BillingHistoryEditPage() {
 
                 <TitleSection.TopPadding />
                 <TitleSection.Simple flex={false}>
-                    <AppNameWithLogoBlock product={application.product} />
+                    <AppNameWithLogoBlock product={subscription.product} />
                     <BillingHistoryAmountInputBlock form={form} />
                 </TitleSection.Simple>
 

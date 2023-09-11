@@ -14,7 +14,7 @@ import {useCurrentSubscription} from '^hooks/useSubscriptions';
 
 export const DangerPanel = memo(() => {
     const router = useRouter();
-    const {currentSubscription: app} = useCurrentSubscription();
+    const {currentSubscription: subscription} = useCurrentSubscription();
 
     const onDisconnect = useCallback((id: number) => {
         Swal.fire({
@@ -42,7 +42,7 @@ export const DangerPanel = memo(() => {
         });
     }, []);
 
-    if (!app) return <></>;
+    if (!subscription) return <></>;
 
     return (
         <ContentPanel title="Danger Zone">
@@ -63,7 +63,7 @@ export const DangerPanel = memo(() => {
                         <button
                             type="button"
                             className="btn btn-error text-white capitalize"
-                            onClick={() => onDisconnect(app.id)}
+                            onClick={() => onDisconnect(subscription.id)}
                         >
                             Disconnect This Subscription
                         </button>

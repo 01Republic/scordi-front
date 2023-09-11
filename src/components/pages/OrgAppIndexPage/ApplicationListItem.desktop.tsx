@@ -11,12 +11,12 @@ import {subscriptionIdParamState, orgIdParamState, productIdParamsState} from '^
 import {useRecoilState} from 'recoil';
 import {useRouterIdParamState} from '^atoms/common';
 
-export const ApplicationListItemDesktop = memo((props: {subscriptionDto: SubscriptionDto}) => {
+export const ApplicationListItemDesktop = memo((props: {subscription: SubscriptionDto}) => {
     const router = useRouter();
     const orgId = useRouterIdParamState('id', orgIdParamState);
-    const {subscriptionDto} = props;
-    const {billingCycle, paymentPlan, product, workspace} = subscriptionDto;
-    const appId = subscriptionDto.id;
+    const {subscription} = props;
+    const {billingCycle, paymentPlan, product, workspace} = subscription;
+    const appId = subscription.id;
 
     return (
         <tr className="text-sm cursor-pointer" onClick={() => router.push(OrgAppShowPageRoute.path(orgId, appId))}>
@@ -40,11 +40,11 @@ export const ApplicationListItemDesktop = memo((props: {subscriptionDto: Subscri
             {/*        <span>{billingCycle.unitPrice || 0}</span>*/}
             {/*    </p>*/}
             {/*</td>*/}
-            <td className="text-right">{subscriptionDto.nextBillingDate}</td>
+            <td className="text-right">{subscription.nextBillingDate}</td>
             <td className="text-right">
                 <p className="flex items-center justify-end font-semibold text-sm leading-none">
                     <small className="mr-[2px]">US$</small>
-                    <span>{subscriptionDto.nextBillingAmount || 0}</span>
+                    <span>{subscription.nextBillingAmount || 0}</span>
                 </p>
             </td>
             <td>-</td>
