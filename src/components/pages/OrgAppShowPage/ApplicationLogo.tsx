@@ -3,20 +3,21 @@ import {WithChildren} from '^types/global.type';
 import {SubscriptionDto} from '^types/subscription.type';
 
 interface ApplicationLogoProps {
-    application: SubscriptionDto;
+    subscription: SubscriptionDto;
 }
 
 export const ApplicationLogo = memo((props: ApplicationLogoProps) => {
-    const {application} = props;
+    const {subscription} = props;
 
-    const {product: proto, profileImage, displayName} = application;
+    const {product: product, workspace} = subscription;
+    const {profileImageUrl, displayName} = workspace;
 
     return (
         <div className="relative">
-            {profileImage ? (
+            {profileImageUrl ? (
                 <div className="avatar">
                     <div className="w-16 mask mask-squircle">
-                        <img src={profileImage} alt={`${displayName} logo on ${proto.nameEn}`} />
+                        <img src={profileImageUrl} alt={`${displayName} logo on ${product.nameEn}`} />
                     </div>
                 </div>
             ) : (
@@ -29,7 +30,7 @@ export const ApplicationLogo = memo((props: ApplicationLogoProps) => {
             <div className="absolute w-2/5 right-0 bottom-0">
                 <div className="avatar">
                     <div className="w-full mask mask-squircle bg-white">
-                        <img src={proto.image} alt={`${proto.nameEn} logo`} />
+                        <img src={product.image} alt={`${product.nameEn} logo`} />
                     </div>
                 </div>
             </div>

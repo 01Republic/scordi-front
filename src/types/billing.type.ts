@@ -60,7 +60,7 @@ export type BillingHistoryDto = {
     createdAt: string; // 생성일시
     updatedAt: string; // 수정일시
     organization?: OrganizationDto; // 조직
-    application?: SubscriptionDto; // 구독정보
+    subscription: SubscriptionDto; // 구독정보
     invoiceApp?: InvoiceAppDto; // 인보이스 앱
     emailContent: GmailItem | null; // email content
 };

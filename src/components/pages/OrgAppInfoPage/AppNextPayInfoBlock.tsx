@@ -3,16 +3,16 @@ import {SubscriptionDto} from '^types/subscription.type';
 import {TitleSection} from '^components/v2/TitleSection';
 
 type AppNextPayInfoBlockProps = {
-    application: SubscriptionDto;
+    subscription: SubscriptionDto;
 };
 
 export const AppNextPayInfoBlock = memo((props: AppNextPayInfoBlockProps) => {
-    const {application} = props;
+    const {subscription} = props;
 
     return (
         <TitleSection.Title size="lg" className="text-right">
-            <div className="text-base font-medium">Next {application.nextBillingDate}</div>
-            <div>US${application.nextBillingAmount.toLocaleString()}</div>
+            <div className="text-base font-medium">Next {subscription.nextBillingDate}</div>
+            <div>US${subscription.nextBillingAmount.toLocaleString()}</div>
         </TitleSection.Title>
     );
 });

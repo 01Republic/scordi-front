@@ -6,15 +6,18 @@ import {BsArrowRightShort, BiCreditCard, MdOutlineEmail} from '^components/react
 import {IoWarningOutline} from 'react-icons/io5';
 
 interface PaymentInfoProps {
-    application: SubscriptionDto;
+    subscription: SubscriptionDto;
 }
 
 export const PaymentInfo = memo((props: PaymentInfoProps & WithChildren) => {
-    const {application, children} = props;
+    const {subscription, children} = props;
 
-    const {product} = application;
+    const {product} = subscription;
 
-    const {connectedSlug, billingEmail} = application;
+    const {
+        workspace: {slug},
+        billingEmail,
+    } = subscription;
     const paymentInfoUrl = eval(`\`${product.billingInfoPageUrlScheme}\``) as string;
     const updatePaymentMethodUrl = eval(`\`${product.updatePayMethodUrlScheme}\``) as string;
     const open = (url: string) => (url ? window.open(url, '_blank') : alert('This service linkage is not ready :('));

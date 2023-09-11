@@ -5,16 +5,16 @@ import {BsFillCaretDownFill} from '^components/react-icons';
 import {Locale, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 
 interface CurrentPlanPanelHeader {
-    application: SubscriptionDto;
+    subscription: SubscriptionDto;
 }
 
 export const CurrentPlanPanelHeader = memo((props: CurrentPlanPanelHeader) => {
-    const {application} = props;
+    const {subscription} = props;
 
-    const {product, paymentPlan, billingCycle} = application;
+    const {product, paymentPlan, billingCycle} = subscription;
 
-    const protoName = product.nameEn;
-    const protoImage = product.image;
+    const productName = product.nameEn;
+    const productImage = product.image;
     const planName = paymentPlan?.name || '-';
     const planDesc = 'The basics for organizations and developers';
     const cycleName = billingCycle ? t_BillingCycleTerm(billingCycle.term, true, Locale.en) : '-';
@@ -24,8 +24,8 @@ export const CurrentPlanPanelHeader = memo((props: CurrentPlanPanelHeader) => {
             <div className="flex items-center w-full px-3.5">
                 <div className="flex items-center gap-3">
                     <img
-                        src={protoImage}
-                        alt={`${protoName}'s logo`}
+                        src={productImage}
+                        alt={`${productName}'s logo`}
                         className="w-8 h-8 bg-white border shadow rounded-full"
                     />
 

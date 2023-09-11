@@ -4,6 +4,7 @@ import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {SubscriptionPaymentPlanDto} from '^types/subscriptionPaymentPlan.type';
 import {SubscriptionBillingCycleDto} from '^types/subscriptionBillingCycle.type';
 import {InvoiceDataDto} from '^components/ApplicationConnectStage/dto/fetched.responses.dto';
+import {WorkspaceDto} from '^types/workspace.type';
 
 // ConnectStatus 연동상태.
 export enum ConnectStatus {
@@ -32,11 +33,12 @@ export type SubscriptionDto = {
     id: number;
     connectStatus: ConnectStatus;
     isSyncRunning: boolean; // 싱크 실행중 여부
-    displayName: string;
-    profileImage: string | null; // 조직 프로필 이미지 주소
-    connectedSlug: string | null; // 워크스페이스 Slug (연동서비스 내에서)
+    // displayName: string;
+    // profileImage: string | null; // 조직 프로필 이미지 주소
+    // connectedSlug: string | null; // 워크스페이스 Slug (연동서비스 내에서)
     organizationId: number;
     productId: number;
+    workspaceId: number;
     paymentPlanId: number | null;
     billingCycleId: number | null;
     isFreeTier: boolean;
@@ -52,6 +54,7 @@ export type SubscriptionDto = {
     updatedAt: Date;
     organization?: OrganizationDto;
     product: ProductDto;
+    workspace: WorkspaceDto;
     paymentPlan?: SubscriptionPaymentPlanDto | null;
     billingCycle?: SubscriptionBillingCycleDto | null;
     paymentHistories?: [];

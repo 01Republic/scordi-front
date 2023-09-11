@@ -93,17 +93,17 @@ const BillingListTitle = memo((props: BillingListTitleProps) => {
 });
 
 type BillingListMobileItemProps = {
-    app: SubscriptionDto;
+    subscription: SubscriptionDto;
     onClick?: () => void;
     shallow?: ScheduleDto;
 };
 
 const BillingListMobileItem = memo((props: BillingListMobileItemProps) => {
-    const {shallow: schedule, app} = props;
+    const {shallow: schedule, subscription} = props;
     const amount = schedule?.billingAmount || 0;
     const billingDate = schedule?.billingDate || '';
     const billingDateStr = intlDateShort(billingDate);
-    const product = app.product || {};
+    const product = subscription.product || {};
     const serviceName = product.nameEn;
 
     // 결제가 안됐는데(결제기록이 존재하지 않음) 그대로 시간이 지나버린 건.

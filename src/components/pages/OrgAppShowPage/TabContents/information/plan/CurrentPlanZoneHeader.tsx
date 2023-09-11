@@ -4,15 +4,17 @@ import {SubscriptionDto} from '^types/subscription.type';
 import {ButtonTo} from '^components/ButtonTo';
 
 interface CurrentPlanZoneHeaderProps {
-    application: SubscriptionDto;
+    subscription: SubscriptionDto;
 }
 
 export const CurrentPlanZoneHeader = memo((props: CurrentPlanZoneHeaderProps) => {
-    const {application} = props;
+    const {subscription} = props;
 
-    const {product} = application;
+    const {product} = subscription;
 
-    const {connectedSlug} = application;
+    const {
+        workspace: {slug},
+    } = subscription;
     const planCompareUrl = eval(`\`${product.planComparePageUrlScheme}\``) as string;
     const upgradePageUrl = eval(`\`${product.upgradePlanPageUrlScheme}\``) as string;
 

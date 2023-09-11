@@ -2,14 +2,14 @@ import {memo} from 'react';
 import {SubscriptionDto} from '^types/subscription.type';
 
 interface PaymentInfoZoneProps {
-    application: SubscriptionDto;
+    subscription: SubscriptionDto;
 }
 
 export const PaymentInfoZone = memo((props: PaymentInfoZoneProps) => {
-    const {application} = props;
-    const {product, paymentPlan} = application;
+    const {subscription} = props;
+    const {product, paymentPlan} = subscription;
 
-    const {publicEmail, billingEmail} = application;
+    const {publicEmail, billingEmail} = subscription;
 
     return (
         <div className="bs-container mb-20">

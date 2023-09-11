@@ -3,18 +3,18 @@ import {SubscriptionDto} from '^types/subscription.type';
 import {Locale, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 
 interface CurrentPlanPaidAccountStatusProps {
-    application: SubscriptionDto;
+    subscription: SubscriptionDto;
 }
 
 export const CurrentPlanPaidAccountStatus = memo((props: CurrentPlanPaidAccountStatusProps) => {
-    const {application} = props;
-    const {product, paymentPlan, billingCycle} = application;
+    const {subscription} = props;
+    const {product, paymentPlan, billingCycle} = subscription;
 
     const cycleName = billingCycle ? t_BillingCycleTerm(billingCycle.term, false, Locale.en) : '-';
     const unitPrice = billingCycle ? `$${billingCycle.unitPrice}` : '-';
-    const paidMemberCount = application.paidMemberCount;
-    const usingMemberCount = application.usedMemberCount;
-    const totalPrice = `$${application.nextBillingAmount.toFixed(2)}`;
+    const paidMemberCount = subscription.paidMemberCount;
+    const usingMemberCount = subscription.usedMemberCount;
+    const totalPrice = `$${subscription.nextBillingAmount.toFixed(2)}`;
     const isDependOnAccounts = !!billingCycle?.isPerUser;
 
     if (!isDependOnAccounts) return <></>;
