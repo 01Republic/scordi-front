@@ -1,10 +1,15 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ContentEmpty} from '^v3/V3OrgHomePage/mobile/ContentEmpty';
+import {useSubscriptionsV2} from '^hooks/useSubscriptions';
 
 export const SubscriptionsPanel = memo(() => {
-    const [subscriptions, setSubscriptions] = useState([]);
-    const length = subscriptions.length;
+    const {result, search} = useSubscriptionsV2();
+    const length = result.items.length;
+
+    useEffect(() => {
+        search({});
+    }, []);
 
     return (
         <MobileSection.Item>

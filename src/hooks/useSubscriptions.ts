@@ -1,8 +1,16 @@
-import {SubscriptionDto} from '^types/subscription.type';
+import {FindAllSubscriptionsQuery, SubscriptionDto} from '^types/subscription.type';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {getSubscriptionQuery, getSubscriptionsQuery, getCurrentSubscriptionQuery} from '^atoms/subscriptions.atom';
+import {
+    getSubscriptionQuery,
+    getSubscriptionsQuery,
+    getCurrentSubscriptionQuery,
+    getSubscriptionsQueryAtom,
+    subscriptionsSearchResultAtom,
+} from '^atoms/subscriptions.atom';
 import {getSubscriptions} from '^api/subscription.api';
 import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const useCurrentSubscription = () => {
     const [currentSubscription, reload] = useRecoilState(getCurrentSubscriptionQuery);
@@ -10,6 +18,30 @@ export const useCurrentSubscription = () => {
 };
 
 export const useSubscriptions = () => useRecoilValue(getSubscriptionsQuery);
+
+export const useSubscriptionsV2 = () => {
+    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const {currentUser} = useCurrentUser();
+    const [result, setResult] = useRecoilState(subscriptionsSearchResultAtom);
+    const [query, setQuery] = useRecoilState(getSubscriptionsQueryAtom);
+
+    async function search(params: FindAllSubscriptionsQuery) {
+        if (!orgId) return;
+        if (currentUser?.orgId !== orgId) return;
+
+        params.where = {organizationId: orgId, ...params.where};
+
+        const data = await getSubscriptions(params).then((res) => res.data);
+        setResult(data);
+        setQuery(params);
+
+        return data;
+    }
+
+    const movePage = (page: number) => search({...query, page});
+
+    return {query, result, search, movePage};
+};
 export const useSubscription = () => useRecoilValue(getSubscriptionQuery);
 // export const useSubscription = () => {
 //     const router = useRouter();
