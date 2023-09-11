@@ -11,13 +11,6 @@ export default {
         return api.get<Paginated<OrganizationDto>>(this.collectionPath(), {params});
     },
 
-    excelToNotion(data: ExcelToNotionRequestDto) {
-        const url = `${this.collectionPath()}/excel-to-notion`;
-        return api.post(url, data, {
-            headers: {'Content-Type': 'multipart/form-data'},
-        });
-    },
-
     destroy(id: number) {
         return api.delete(this.memberPath(id));
     },
