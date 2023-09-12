@@ -8,10 +8,10 @@ import React, {Fragment, Suspense} from 'react';
 import {ToastContainer, Slide} from 'react-toastify';
 import type {Props} from '^types/page';
 import {RecoilRoot} from 'recoil';
-import {ChannelTalkCDN} from '^components/lib/channel-talk/ChannelTalkCDN';
 import {appWithTranslation} from 'next-i18next';
 import {SEO} from '^components/SEO';
 import {OnResizeProvider} from '^components/util/onResize2';
+import ExternalCDNScripts from '^components/ExternalCDNScripts';
 
 function MyApp(props: Props) {
     const {Component, pageProps} = props;
@@ -27,7 +27,6 @@ function MyApp(props: Props) {
             <Suspense fallback={<></>}>
                 <Layout>{getLayout(<Component {...pageProps} />)}</Layout>
             </Suspense>
-            {typeof window !== 'undefined' && <ChannelTalkCDN />}
             <ToastContainer
                 position="bottom-center"
                 autoClose={3000}
@@ -42,6 +41,7 @@ function MyApp(props: Props) {
                 theme="dark"
                 transition={Slide}
             />
+            <ExternalCDNScripts />
         </RecoilRoot>
     );
 }
