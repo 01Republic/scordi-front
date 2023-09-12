@@ -6,9 +6,11 @@ import {AdminNewProductPageRoute} from '^pages/admin/products/new';
 import {AdminListPageLayout} from '^admin/layouts';
 import {CardTablePanel} from '^admin/share';
 import {DefaultColumn} from './columns/DefaultColumn';
-import {ImageColumn} from './columns/ImageColumn';
+import {ImageColumn, ThumbnailColumn} from './columns/ImageColumn';
 import {MobileItem} from './columns/MobileItem';
 import {ActionColumn} from './columns/ActionColumn';
+import {OutLink} from '^components/OutLink';
+import {isValidUrl, truncate} from '^components/util/string';
 
 export const AdminProductListPage = memo(() => {
     const [listPage, setListPage] = useState<Paginated<ProductDto>>({
@@ -52,14 +54,28 @@ export const AdminProductListPage = memo(() => {
 
                             // LG
                             {
-                                th: '',
+                                th: '로고(image)',
                                 className: 'hidden lg:block',
                                 render: (product) => <ImageColumn product={product} />,
                             },
                             {
+                                th: '썸네일(og:img)',
+                                className: 'hidden lg:block',
+                                render: (product) => <ThumbnailColumn product={product} />,
+                            },
+                            {
                                 th: 'name',
                                 className: 'hidden lg:block',
-                                render: (product) => <DefaultColumn value={product.nameEn} />,
+                                render: (product) => (
+                                    <DefaultColumn
+                                        value={
+                                            <p>
+                                                {product.nameEn}{' '}
+                                                <small className="text-gray-500">({product.nameKo})</small>
+                                            </p>
+                                        }
+                                    />
+                                ),
                             },
                             {
                                 th: 'category',
@@ -72,13 +88,22 @@ export const AdminProductListPage = memo(() => {
                             },
                             {
                                 th: 'summary',
-                                className: 'hidden lg:block',
+                                className: 'hidden lg:block col-span-2',
                                 render: (product) => <DefaultColumn value={product.tagline} />,
                             },
                             {
                                 th: 'homepage',
                                 className: 'hidden lg:block',
-                                render: (product) => <DefaultColumn value={product.homepageUrl} />,
+                                render: (product) => (
+                                    <OutLink
+                                        href={product.homepageUrl}
+                                        text={
+                                            isValidUrl(product.homepageUrl)
+                                                ? truncate(new URL(product.homepageUrl).host, 20)
+                                                : product.homepageUrl
+                                        }
+                                    />
+                                ),
                             },
                             {
                                 th: '',

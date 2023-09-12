@@ -5,7 +5,7 @@ import {UserDto} from '^types/user.type';
 import {userManageApi} from '^api/user-manage.api';
 import {AdminUsersPageRoute} from '^pages/admin/users';
 import {ContentTabNav} from '^layouts/ContentLayout';
-import {AdminDetailPageLayout} from '../../layouts/DetailPageLayout';
+import {AdminDetailPageLayout} from '^admin/layouts';
 import {UserBasicInfoTabContent} from './UserBasicInfoTabContent';
 import {MembershipListTabContent} from './MembershipListTabContent';
 import {SocialAccountListTabContent} from './SocialAccountListTabContent';
