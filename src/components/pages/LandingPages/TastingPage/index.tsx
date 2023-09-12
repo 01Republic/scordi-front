@@ -10,7 +10,7 @@ import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
 import {useRouter} from 'next/router';
 import {useTranslation} from 'next-i18next';
 import {TypeAnimation} from 'react-type-animation';
-import {ChannelTalkHideStyle} from '^components/lib/channel-talk/ChannelTalkHideStyle';
+import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
 import {TastingItemDetailModal} from './TastingItemDetailModal';
 import {AttachmentModal} from './AttachmentModal';
 import {InvoiceAppsModal} from './InvoiceAppsModal';

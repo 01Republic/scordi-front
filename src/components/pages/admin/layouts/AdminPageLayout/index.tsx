@@ -2,7 +2,7 @@ import {memo, useEffect} from 'react';
 import {WithChildren} from '^types/global.type';
 import {FiMenu} from '@react-icons/all-files/fi/FiMenu';
 import {AdminSideBar} from './AdminSideBar';
-import {atom, useRecoilState} from 'recoil';
+import {atom, useRecoilState, useSetRecoilState} from 'recoil';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {useRouter} from 'next/router';
 

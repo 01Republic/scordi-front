@@ -1,6 +1,5 @@
 import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import ExternalCDNScripts from '^components/ExternalCDNScripts';
 import Head from 'next/head';
 import {serviceHost} from '^config/environments';
 
@@ -68,8 +67,6 @@ export const SEO = memo((props: SEOProps) => {
             <meta name="twitter:card" content="summary_large_image" />
             <script type="application/ld+json" dangerouslySetInnerHTML={{__html: `${JSON.stringify(ld, null, 2)}`}} />
             <script src="../components/webPush/index"></script>
-
-            <ExternalCDNScripts />
         </Head>
     );
 });

@@ -1,10 +1,13 @@
 import {Appearance, BootOption, Callback, EventProperty, FollowUpProfile, UpdateUserInfo} from './channel-talk.type';
 
+const DO_NOT_RUN_IF_URL_INCLUDE_THIS = ['/admin'];
+
 class ChannelService {
     public isBooted = false;
 
     loadScript() {
         if (typeof window === 'undefined') return;
+        if (DO_NOT_RUN_IF_URL_INCLUDE_THIS.some((blocker) => window.location.href.includes(blocker))) return;
         (function () {
             const w = window;
             if (w.ChannelIO) {
