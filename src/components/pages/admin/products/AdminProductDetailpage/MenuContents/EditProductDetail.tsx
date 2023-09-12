@@ -6,7 +6,7 @@ import {toast} from 'react-toastify';
 import {adminProductDetail} from '^components/pages/admin/products/AdminProductDetailpage';
 import {useRecoilState} from 'recoil';
 import {ProductForm} from '^components/pages/admin/products/form/ProductForm';
-import {AxiosError, AxiosResponse} from 'axios';
+import {AxiosError} from 'axios';
 
 export const EditProductDetail = memo(() => {
     const [product, setProduct] = useRecoilState(adminProductDetail);
@@ -15,8 +15,8 @@ export const EditProductDetail = memo(() => {
     const onSubmit = (data: UpdateProductRequestDto) => {
         if (!product) return;
 
-        if (data.nameKo === form.getValues('nameKo')) delete data.nameKo;
-        if (data.nameEn === form.getValues('nameEn')) delete data.nameEn;
+        if (data.nameKo === product.nameKo) delete data.nameKo;
+        if (data.nameEn === product.nameEn) delete data.nameEn;
 
         productApi
             .update(product.id, data)
