@@ -81,6 +81,7 @@ export const LogoImageFormPanel = memo((props: LogoImageFormPanelProps) => {
                         imageUrl={logoUrl}
                         fallbackLetter={initial}
                         {...form.register('imageFile')}
+                        className="w-24"
                         onChange={(e) => {
                             const uploadedFiles = e.target.files as FileList;
                             form.setValue('imageFile', uploadedFiles[0]);

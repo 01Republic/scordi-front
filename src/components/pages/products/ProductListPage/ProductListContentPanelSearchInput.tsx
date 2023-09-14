@@ -1,12 +1,30 @@
-import {memo} from 'react';
+import {memo, useEffect} from 'react';
 import {BsSearch} from 'react-icons/bs';
 import {useForm} from 'react-hook-form';
 import {useProductSearch} from '^hooks/useProducts';
+import {useRecoilState, useSetRecoilState} from 'recoil';
+import {currentProductCategoryAtom} from '^components/pages/products/ProductListPage/ProductListSidePanel';
+import {FindAllProductQuery} from '^types/product.type';
 
 export const ProductListContentPanelSearchInput = memo(() => {
     const {search} = useProductSearch();
-    const form = useForm<{name?: string}>();
-    const onSubmit = (query: {name?: string}) => search(query);
+    const form = useForm<FindAllProductQuery>();
+    const [currentCategory, setCurrentCategory] = useRecoilState(currentProductCategoryAtom);
+    const onSubmit = (query: FindAllProductQuery) => {
+        query.order = {id: 'DESC'};
+        search(query);
+        setCurrentCategory(`Search: ${query.name}`);
+    };
+
+    // 사이드패널에서 카테고리 클릭시, 인풋을 클리어해줍니다.
+    useEffect(() => {
+        // 카테고리가 변경될 때 마다,
+
+        // 카테고리가 'Search: ' 로 시작하면, 검색으로 인한 변동이르모, 인풋을 비우지 않도록 합니다.
+        if (currentCategory.startsWith('Search: ')) return;
+
+        form.resetField('name');
+    }, [currentCategory]);
 
     return (
         <div className="relative flex-1 sm:flex-none">
