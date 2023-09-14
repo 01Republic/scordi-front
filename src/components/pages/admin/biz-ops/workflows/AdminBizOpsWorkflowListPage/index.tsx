@@ -5,12 +5,10 @@ import {Paginated} from '^types/utils/paginated.dto';
 import {OrganizationDto} from '^types/organization.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {bizOpsApi} from '^api/biz-ops';
-import {CardTablePanel, DateTimeColumn} from '^components/pages/admin/share/panels/CardTablePanel';
-import {ActionColumn} from '^components/pages/admin/share/panels/CardTablePanel/columns/ActionColumn';
 import {KBCardExcelToNotionCard, KBCardExcelToNotionModal} from './workflows/KBCardExcelToNotion';
 import {KBBankExcelToNotionCard, KBBankExcelToNotionModal} from './workflows/KBBankExcelToNotion';
 
-export const AdminBizOpsWorkspaceListPage = memo(() => {
+export const AdminBizOpsWorkflowListPage = memo(() => {
     const router = useRouter();
     const [dataListPage, setDataListPage] = useState<Paginated<OrganizationDto>>({
         items: [],
@@ -31,9 +29,11 @@ export const AdminBizOpsWorkspaceListPage = memo(() => {
         fetchData({order: {id: 'DESC'}});
     }, []);
 
+    console.log(dataListPage);
+
     return (
         <>
-            <AdminListPageLayout title="[BizOps] Workspace List" breadcrumbs={[{text: '1'}, {text: '2'}]}>
+            <AdminListPageLayout title="[BizOps] Workflow List" breadcrumbs={[{text: 'BizOps'}, {text: 'Workflows'}]}>
                 <div className="container pt-10 px-2 sm:px-8">
                     <div className="mb-8 flex gap-4">
                         <KBCardExcelToNotionCard />
