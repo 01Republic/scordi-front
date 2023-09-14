@@ -6,8 +6,8 @@ import {useRouter} from 'next/router';
 import {ProductDto} from '^types/product.type';
 import {productApi} from '^api/product.api';
 import {ContentTabNav} from '^layouts/ContentLayout';
-import {EditProductDetail} from '^components/pages/admin/products/AdminProductDetailpage/MenuContents/EditProductDetail';
-import {EditProductPost} from '^components/pages/admin/products/AdminProductDetailpage/MenuContents/EditProductPost';
+import {EditProductDetail} from './MenuContents/EditProductDetail';
+import {EditProductPost} from './MenuContents/EditProductPost';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const adminProductDetail = atom<ProductDto | null>({

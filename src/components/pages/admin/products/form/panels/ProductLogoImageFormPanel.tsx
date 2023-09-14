@@ -28,8 +28,8 @@ interface LogoImageFormPanelProps {
 export const LogoImageFormPanel = memo((props: LogoImageFormPanelProps) => {
     const {product, form} = props;
     const [faviconUrl, setFaviconUrl] = useRecoilState(faviconUrlAtom);
-    const [initial, setInitial] = useState('');
     const [logoUrl, setLogoUrl] = useRecoilState(logoUrlAtom);
+    const [initial, setInitial] = useState('');
     const base = `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=128&url=`;
 
     useEffect(() => {
@@ -81,6 +81,7 @@ export const LogoImageFormPanel = memo((props: LogoImageFormPanelProps) => {
                         imageUrl={logoUrl}
                         fallbackLetter={initial}
                         {...form.register('imageFile')}
+                        className="w-24"
                         onChange={(e) => {
                             const uploadedFiles = e.target.files as FileList;
                             form.setValue('imageFile', uploadedFiles[0]);

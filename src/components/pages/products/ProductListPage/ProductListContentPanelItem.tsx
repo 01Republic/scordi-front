@@ -51,7 +51,7 @@ export const ProductListContentPanelItem = (props: {product: ProductDto}) => {
                     <p className="flex items-center gap-1.5 overflow-hidden">
                         {tagNames &&
                             tagNames.map((tagName, i) => (
-                                <span key={i} className="badge mb-2 bg-gray-200 whitespace-nowrap">
+                                <span key={i} className="badge mb-2 bg-gray-200 whitespace-nowrap text-xs font-light">
                                     {tagName}
                                 </span>
                             ))}
