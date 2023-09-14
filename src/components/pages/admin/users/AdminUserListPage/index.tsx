@@ -1,34 +1,16 @@
-import {memo, useEffect, useState} from 'react';
-import {Paginated} from '^types/utils/paginated.dto';
-import {FindAllUserByAdminDto, UserDto} from '^types/user.type';
+import {memo, useEffect} from 'react';
 import {userManageApi} from '^api/user-manage.api';
 import {UserItem} from './UserItem';
 import {AdminListPageLayout} from '^components/pages/admin/layouts/ListPageLayout';
-import {useForm} from 'react-hook-form';
-import {Paginator} from '^components/Paginator';
+import {useListPageSearchForm} from '^admin/share/list-page/use-list-page-search-form';
 
 export const AdminUserListPage = memo(() => {
-    const form = useForm<FindAllUserByAdminDto>();
-    const [userListPage, setUserListPage] = useState<Paginated<UserDto>>({
-        items: [],
-        pagination: {
-            totalItemCount: 0,
-            currentItemCount: 0,
-            totalPage: 0,
-            currentPage: 0,
-            itemsPerPage: 0,
-        },
-    });
-
-    const fetchData = (params: FindAllUserByAdminDto) => {
-        userManageApi.index(params).then((res) => setUserListPage(res.data));
-    };
+    const form = useListPageSearchForm(userManageApi.index);
+    const {searchForm, onSearch, fetchData, SearchForm, SearchResultContainer, listPage} = form;
 
     useEffect(() => {
         fetchData({order: {id: 'DESC'}});
     }, []);
-
-    const onSearch = (data: FindAllUserByAdminDto) => fetchData({keyword: data.keyword, order: {id: 'DESC'}});
 
     return (
         <AdminListPageLayout
@@ -40,37 +22,20 @@ export const AdminUserListPage = memo(() => {
                 <div className="flex items-center justify-between mb-10">
                     <div></div>
                     <div className="min-w-[25vw]">
-                        <form onSubmit={form.handleSubmit(onSearch)}>
-                            <input
-                                type="text"
-                                placeholder="Type here"
-                                className="input input-bordered w-full"
-                                {...form.register('keyword')}
-                            />
-                        </form>
+                        <SearchForm
+                            searchForm={searchForm}
+                            onSearch={onSearch}
+                            registerName="keyword"
+                            placeholder="Type here"
+                            className="input input-bordered w-full"
+                        />
                     </div>
                 </div>
-                <div className="flex flex-col gap-2">
-                    {userListPage.items.length === 0 ? (
-                        <div>검색 결과가 없습니다.</div>
-                    ) : (
-                        <>
-                            {userListPage.items.map((user, i) => (
-                                <UserItem key={i} user={user} />
-                            ))}
-
-                            <div className="flex justify-center w-full">
-                                <Paginator
-                                    currentPage={userListPage.pagination.currentPage}
-                                    totalPage={userListPage.pagination.totalPage}
-                                    onClick={(n) => {
-                                        fetchData({keyword: form.getValues('keyword'), order: {id: 'DESC'}, page: n});
-                                    }}
-                                />
-                            </div>
-                        </>
-                    )}
-                </div>
+                <SearchResultContainer>
+                    {listPage.items.map((user, i) => (
+                        <UserItem key={i} user={user} />
+                    ))}
+                </SearchResultContainer>
             </div>
         </AdminListPageLayout>
     );
