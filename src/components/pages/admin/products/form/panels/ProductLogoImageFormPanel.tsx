@@ -28,8 +28,8 @@ interface LogoImageFormPanelProps {
 export const LogoImageFormPanel = memo((props: LogoImageFormPanelProps) => {
     const {product, form} = props;
     const [faviconUrl, setFaviconUrl] = useRecoilState(faviconUrlAtom);
-    const [initial, setInitial] = useState('');
     const [logoUrl, setLogoUrl] = useRecoilState(logoUrlAtom);
+    const [initial, setInitial] = useState('');
     const base = `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=128&url=`;
 
     useEffect(() => {

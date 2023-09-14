@@ -7,7 +7,7 @@ interface ProfileImageFileInputProps extends InputHTMLAttributes<any> {
 }
 
 export const ProfileImageFileInput = forwardRef((props: ProfileImageFileInputProps, ref: ForwardedRef<any>) => {
-    const {imageUrl, fallbackLetter, onChange, ...form} = props;
+    const {imageUrl, fallbackLetter, onChange, className = '', style = {}, ...form} = props;
     const [url, setUrl] = useState(imageUrl);
     const [isHover, setHovered] = useState(false);
     const [id] = useId(1, 'profileImageInput');
@@ -54,13 +54,13 @@ export const ProfileImageFileInput = forwardRef((props: ProfileImageFileInputPro
             >
                 {url ? (
                     <div className="avatar inline-flex">
-                        <div className="w-24 border rounded">
+                        <div className={`min-w-24 border rounded ${className}`} style={style}>
                             <img src={url} />
                         </div>
                     </div>
                 ) : (
                     <div className="avatar inline-flex placeholder">
-                        <div className="w-24 rounded bg-neutral-focus text-neutral-content">
+                        <div className="min-w-24 rounded bg-neutral-focus text-neutral-content">
                             <span className="text-2xl font-bold">{fallbackLetter}</span>
                         </div>
                     </div>
