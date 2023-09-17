@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {BsEnvelopePlus} from '^components/react-icons';
 import {useSetRecoilState} from 'recoil';
-import {isOpenNewInvoiceAccountModalAtom} from '../../NewInvoiceAccountModal';
+import {isOpenNewInvoiceAccountModalAtom} from '../../NewInvoiceAccountModal/atom';
 import {useTranslation} from 'next-i18next';
 
 export const AddNewAccountItem = memo(() => {
