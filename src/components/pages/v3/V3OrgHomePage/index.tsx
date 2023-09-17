@@ -62,10 +62,18 @@ export const V3OrgHomePage = memo(() => {
                 activeTabIndex={0}
                 modals={[NewInvoiceAccountModal, BillingHistoriesPageModal]}
             >
+                {/* 월간 요약 패널 */}
                 <SummaryHeaderPanel />
+
+                {/* 이용중인 앱 */}
                 <SubscriptionsPanel />
+
+                {/* 결제 수신 계정 */}
                 <InvoiceAccountsPanel />
+
+                {/* 하단 여백 */}
                 <MobileSection.Item noStyle className="px-4 mb-16">
+                    {/* 스코디에 제보하기 */}
                     <ApplyNotFoundProduct />
                 </MobileSection.Item>
             </V3MainLayoutMobile>

@@ -12,9 +12,8 @@ import {isValidUrl, truncate} from '^components/util/string';
 import {useListPageSearchForm} from '^admin/share/list-page/use-list-page-search-form';
 
 export const AdminProductListPage = memo(() => {
-    const {searchForm, onSearch, fetchData, SearchForm, SearchResultContainer, listPage} = useListPageSearchForm(
-        productApi.index,
-    );
+    const form = useListPageSearchForm(productApi.index);
+    const {searchForm, onSearch, fetchData, SearchForm, SearchResultContainer, listPage} = form;
 
     useEffect(() => {
         fetchData({order: {id: 'DESC'}});

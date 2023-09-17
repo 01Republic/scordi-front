@@ -21,13 +21,11 @@ export const useSubscriptions = () => useRecoilValue(getSubscriptionsQuery);
 
 export const useSubscriptionsV2 = () => {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
-    const {currentUser} = useCurrentUser();
     const [result, setResult] = useRecoilState(subscriptionsSearchResultAtom);
     const [query, setQuery] = useRecoilState(getSubscriptionsQueryAtom);
 
     async function search(params: FindAllSubscriptionsQuery) {
         if (!orgId) return;
-        if (currentUser?.orgId !== orgId) return;
 
         params.where = {organizationId: orgId, ...params.where};
 
@@ -42,6 +40,7 @@ export const useSubscriptionsV2 = () => {
 
     return {query, result, search, movePage};
 };
+
 export const useSubscription = () => useRecoilValue(getSubscriptionQuery);
 // export const useSubscription = () => {
 //     const router = useRouter();

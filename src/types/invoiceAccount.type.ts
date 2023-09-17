@@ -15,8 +15,8 @@ export type InvoiceAccountDto = {
     image: string | null;
     email: string;
     invoiceApps: InvoiceAppDto[];
-    createAt: string;
-    updateAt: string;
+    createdAt: string;
+    updatedAt: string;
 };
 
 export type CreateInvoiceAccountRequestDto = {

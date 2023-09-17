@@ -57,7 +57,7 @@ export type SubscriptionDto = {
     workspace: WorkspaceDto;
     paymentPlan?: SubscriptionPaymentPlanDto | null;
     billingCycle?: SubscriptionBillingCycleDto | null;
-    paymentHistories?: [];
+    billingHistories?: [];
     accounts?: [];
 };
 

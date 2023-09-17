@@ -1,6 +1,5 @@
-export const dateSortBy =
-    <T>(method: 'ASC' | 'DESC', getDateFn?: (obj: T) => Date) =>
-    (a: T, b: T) => {
+export const dateSortBy = <T>(method: 'ASC' | 'DESC', getDateFn?: (obj: T) => Date) => {
+    return (a: T, b: T) => {
         const dateA = getDateFn ? getDateFn(a) : (a as Date);
         const dateB = getDateFn ? getDateFn(b) : (b as Date);
 
@@ -10,6 +9,7 @@ export const dateSortBy =
             return dateB.getTime() - dateA.getTime();
         }
     };
+};
 
 export function largerThan(target: Date, now = new Date()) {
     const base = new Date(now);
