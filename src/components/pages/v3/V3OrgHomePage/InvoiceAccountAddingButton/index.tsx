@@ -1,11 +1,11 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {InvoiceAccountListPanel, invoiceAccountsAtom} from './InvoiceAccountListPanel';
-import {isOpenNewInvoiceAccountModalAtom} from '../NewInvoiceAccountModal';
 import {InvoiceAppListPanel, selectedInvoiceAccountAtom} from './InvoiceAppListPanel';
 import {currentOrgAtom} from '^atoms/organizations.atom';
 import {useTranslation} from 'next-i18next';
 import {getInvoiceAccounts} from '^api/invoiceAccount.api';
+import {isOpenNewInvoiceAccountModalAtom} from '../NewInvoiceAccountModal/atom';
 
 export const InvoiceAccountAddingButton = memo(() => {
     const [invoiceAccounts, setInvoiceAccounts] = useRecoilState(invoiceAccountsAtom);
