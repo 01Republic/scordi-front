@@ -1,16 +1,19 @@
 import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {useTranslation} from 'next-i18next';
 import {useOnResize2} from '^components/util/onResize2';
 import {V3MainLayout} from '../layouts/V3MainLayout';
 import {currentOrgAtom} from '^atoms/organizations.atom';
 import {V3ModalLikeLayoutMobile} from '^v3/layouts/V3ModalLikeLayout.mobile';
 import {MobileSection} from '^v3/share/sections/MobileSection';
+import {isOpenNewInvoiceAccountModalAtom} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/atom';
+import {NewInvoiceAccountModalMobile} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/mobile';
 
 export const V3OrgAppsNewPage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
     const {t} = useTranslation('org-home');
     const {isDesktop} = useOnResize2();
+    const setModalShow = useSetRecoilState(isOpenNewInvoiceAccountModalAtom);
 
     if (isDesktop) {
         // PC size screen
@@ -26,7 +29,7 @@ export const V3OrgAppsNewPage = memo(() => {
     } else {
         // Mobile size screen
         return (
-            <V3ModalLikeLayoutMobile>
+            <V3ModalLikeLayoutMobile modals={[NewInvoiceAccountModalMobile]}>
                 <div className="h-full px-5 flex flex-col justify-start gap-20">
                     <div className="py-5">
                         <br />
@@ -38,7 +41,7 @@ export const V3OrgAppsNewPage = memo(() => {
                     </div>
 
                     <div className="flex flex-col gap-2">
-                        <button className="btn btn-block border border-gray-200">
+                        <button onClick={() => setModalShow(true)} className="btn btn-block border border-gray-200">
                             이메일로부터 여러 앱 한꺼번에 등록하기
                         </button>
                         <button className="btn btn-block border border-gray-200">
