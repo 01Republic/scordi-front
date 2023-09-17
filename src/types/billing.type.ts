@@ -6,6 +6,7 @@ import {BillingType, InvoiceAppDto} from '^types/invoiceApp.type';
 import {changePriceCurrency} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {Currency} from '^types/crawler';
 import {CreateMoneyRequestDto, MoneyDto} from '^types/money.type';
+import {dateSortBy} from '^components/util/date';
 
 // 쿼리가 가능한 엔티티. (dto 와 entity 의 형태 차이가 좀 있음)
 export class BillingSchedule {
@@ -136,6 +137,10 @@ export function getTotalPriceOfEmails(histories: BillingHistoryDto[], displayCur
     return {
         totalPrice: {amount, currency: displayCurrency},
     };
+}
+
+export function sortBillingHistories(billingHistories: BillingHistoryDto[], method: 'ASC' | 'DESC') {
+    return [...billingHistories].sort(dateSortBy(method, (his) => new Date(his.issuedAt)));
 }
 
 export const t_paidAt = (dto: BillingHistoryDto) => {

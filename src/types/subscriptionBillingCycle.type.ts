@@ -33,6 +33,7 @@ export enum Locale {
     en = 'en',
 }
 
+// 구독에서 결제주기 텍스트 추출
 export function t_BillingCycleTerm(v: BillingCycleTerm | null, standalone = false, locale = Locale.ko) {
     if (locale === Locale.ko) return t_BillingCycleTerm_ko(v, standalone);
     if (locale === Locale.en) return t_BillingCycleTerm_en(v, standalone);
