@@ -4,7 +4,7 @@ import {DefaultButton} from '^components/Button';
 import {useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {ProductDto} from '^types/product.type';
-import {CrawlerError, CrawlerErrors, LoginDto, LoginWithVerify, OrgItemDto} from '^types/crawler';
+import {CrawlerError, CrawlerErrors, LoginDto, LoginWithVerify, WorkspaceItemDto} from '^types/crawler';
 import {useForm} from 'react-hook-form';
 import {getOrganizationListByCrawlerApi, makeSignHeader} from '^api/crawler';
 import {errorNotify} from '^utils/toast-notify';
@@ -27,7 +27,7 @@ export const AddAuto = (props: AddAutoProps) => {
     const [isFailed, setIsFailed] = useState(false);
     const [verifyCodeRequiredMSG, setVerifyCodeRequiredMSG] = useState('');
     const [orgListVisible, setOrgListVisible] = useState(false);
-    const [orgList, setOrgList] = useState<OrgItemDto[]>([]);
+    const [orgList, setOrgList] = useState<WorkspaceItemDto[]>([]);
 
     useEffect(() => {
         getProduct(productId).then(({data}) => setProduct(data));
@@ -160,7 +160,7 @@ export const AddAuto = (props: AddAutoProps) => {
 
 interface OrgListPageProps {
     appInfo: ProductDto;
-    orgList: OrgItemDto[];
+    orgList: WorkspaceItemDto[];
     onSelect: (name: string) => void;
 }
 

@@ -1,7 +1,7 @@
-import {LoginDto, LoginWithVerify, OrgBillingDto, OrgItemDto, OrgProfileDto} from '^types/crawler';
+import {LoginDto, LoginWithVerify, WorkspaceBillingDto, WorkspaceItemDto, WorkspaceProfileDto} from '^types/crawler';
 import {api} from '^api/api';
-import {OrgBillingHistoryDto} from '^types/crawler/org-billing-history.dto';
-import {OrgMemberDto} from '^types/crawler/org-member.dto';
+import {WorkspaceBillingHistoryDto} from '^types/crawler/workspace-billing-history.dto';
+import {WorkspaceMemberDto} from '^types/crawler/workspace-member.dto';
 import CryptoJS from 'crypto-js';
 
 /**
@@ -21,33 +21,33 @@ export function getOrganizationListByCrawlerApi(prototypeId: number, params: Log
         ? `/crawler/${prototypeId}/organizations/verify`
         : `/crawler/${prototypeId}/organizations`;
     const headers = makeSignHeader(params);
-    return api.get<OrgItemDto[]>(url, {headers});
+    return api.get<WorkspaceItemDto[]>(url, {headers});
 }
 
 // [Step 2] 서비스에서 연동할 조직의 세부 정보 가져오기 *
 export function getOrganizationByCrawlerApi(prototypeId: number, name: string, params: LoginDto | LoginWithVerify) {
     const url = `/crawler/${prototypeId}/organizations/${name}`;
     const headers = makeSignHeader(params);
-    return api.get<OrgProfileDto>(url, {headers});
+    return api.get<WorkspaceProfileDto>(url, {headers});
 }
 
 // 조직 플랜 & 결제주기 정보 가져오기 *
 export function getOrgBillingInfoByCrawlerApi(prototypeId: number, name: string, params: LoginDto | LoginWithVerify) {
     const url = `/crawler/${prototypeId}/organizations/${name}/billing`;
     const headers = makeSignHeader(params);
-    return api.get<OrgBillingDto>(url, {headers});
+    return api.get<WorkspaceBillingDto>(url, {headers});
 }
 
 // 조직 결제내역 가져오기 *
 export function getBillingHistoriesByCrawlerApi(prototypeId: number, name: string, params: LoginDto | LoginWithVerify) {
     const url = `/crawler/${prototypeId}/organizations/${name}/billing/histories`;
     const headers = makeSignHeader(params);
-    return api.get<OrgBillingHistoryDto[]>(url, {headers});
+    return api.get<WorkspaceBillingHistoryDto[]>(url, {headers});
 }
 
 // 조직 구성원 목록 가져오기 *
 export function getMembersByCrawlerApi(prototypeId: number, name: string, params: LoginDto | LoginWithVerify) {
     const url = `/crawler/${prototypeId}/organizations/${name}/members`;
     const headers = makeSignHeader(params);
-    return api.get<OrgMemberDto[]>(url, {headers});
+    return api.get<WorkspaceMemberDto[]>(url, {headers});
 }
