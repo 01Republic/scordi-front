@@ -77,6 +77,12 @@ export type CreateSubscriptionRequestDto = {
     // usedMemberCount?: number; // 사용중인 사용자 수
 };
 
+export type CreateSubscriptionRequestDto2 = {
+    isFreeTier: boolean; // 프리티어 여부
+    paidMemberCount: number; // 결제되는 사용자 수
+    usedMemberCount?: number; // 사용중인 사용자 수
+};
+
 export type CreateSubscriptionByInvoicesRequestDto = {
     displayName: string; // 조직이름 (연동서비스 내에서)
     organizationId: number; // 조직 ID

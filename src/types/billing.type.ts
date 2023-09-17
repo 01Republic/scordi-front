@@ -4,7 +4,7 @@ import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {GmailItem} from '^api/tasting.api';
 import {BillingType, InvoiceAppDto} from '^types/invoiceApp.type';
 import {changePriceCurrency} from '^api/tasting.api/gmail/agent/parse-email-price';
-import {Currency} from '^types/crawler';
+import {Currency, CurrencyDto} from '^types/crawler';
 import {CreateMoneyRequestDto, MoneyDto} from '^types/money.type';
 import {dateSortBy} from '^components/util/date';
 
@@ -153,6 +153,16 @@ export class CreateBillingHistoryRequestDto {
     payAmount!: CreateMoneyRequestDto; // 결제금액
     invoiceUrl?: string | null; // 인보이스(파일) 주소
 }
+
+export type CreateBillingHistoryRequestDto2 = {
+    uid: string;
+    issuedDate: Date;
+    paidDate?: Date | null;
+    paymentMethod: string;
+    amount: CurrencyDto;
+    isSuccessfulPaid: boolean;
+    receiptUrl: string;
+};
 
 interface Type<T = any> extends Function {
     new (...args: any[]): T;

@@ -4,6 +4,7 @@ import {
     BillingHistoryDto,
     BillingScheduleShallowDto,
     CreateBillingHistoryRequestDto,
+    CreateBillingHistoryRequestDto2,
     CreateBillingHistoryStandAloneRequestDto,
     GetBillingHistoriesParams,
     GetBillingSchedulesParams,
@@ -64,4 +65,12 @@ export function createAppsByBillingHistory(dto: CreateBillingHistoryStandAloneRe
 
 export const updateBillingHistory = (id: number, dto: UpdateBillingHistoryRequestDto) => {
     return api.patch<BillingHistoryDto>(`/billing_histories/${id}`, dto);
+};
+
+const NAMESPACE = 'billing_histories';
+
+export const billingHistoryApi = {
+    createBillingHistory: (subscriptionId: number, dto: CreateBillingHistoryRequestDto2) => {
+        return api.post<BillingHistoryDto>(`/${NAMESPACE}`, dto);
+    },
 };

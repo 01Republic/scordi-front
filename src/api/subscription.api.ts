@@ -4,6 +4,7 @@ import {
     CreateSubscriptionRequestDto,
     FindAllSubscriptionsQuery,
     UpdateSubscriptionRequestDto,
+    CreateSubscriptionRequestDto2,
 } from '^types/subscription.type';
 import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
@@ -32,4 +33,10 @@ export const updateSubscription = (id: number, dto: UpdateSubscriptionRequestDto
 
 export const destroySubscription = (id: number) => {
     return api.delete<Omit<SubscriptionDto, 'id'>>(`/${NAMESPACE}/${id}`);
+};
+
+export const subscriptionApi = {
+    createSubscription: (workspaceId: number, productId: number, dto: CreateSubscriptionRequestDto2) => {
+        return api.post<SubscriptionDto>(`/${NAMESPACE}`, {workspaceId, productId, dto});
+    },
 };

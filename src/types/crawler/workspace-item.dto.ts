@@ -1,4 +1,4 @@
-export class OrgItemDto {
+export class WorkspaceItemDto {
     name!: string; // 서비스 내 조직 이름
     key!: string; // 목록에서 조직을 선택하기 위한 식별자 (slug 성격)
     image!: string; // 이미지
