@@ -25,6 +25,7 @@
             "^atoms/*": ["./src/atoms/*"],
             "^pages/*": ["./src/pages/*"],
             "^api/*": ["./src/api/*"],
+            "^models/*": ["./src/models/*"],
             "^styles/*": ["./src/styles/*"],
             "^types/*": ["./src/types/*"]
         },

@@ -10,7 +10,6 @@ import {
 import {getSubscriptions} from '^api/subscription.api';
 import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const useCurrentSubscription = () => {
     const [currentSubscription, reload] = useRecoilState(getCurrentSubscriptionQuery);

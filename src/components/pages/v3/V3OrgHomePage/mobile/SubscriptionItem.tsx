@@ -5,10 +5,11 @@ import {Avatar} from '^components/Avatar';
 import {currencyFormat, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
-import {getTotalPriceOfEmails, sortBillingHistories} from '^types/billing.type';
 import {useRouter} from 'next/router';
 import {V3OrgAppShowPageRoute} from '^pages/v3/orgs/[orgId]/apps/[appId]';
 import {orgIdParamState} from '^atoms/common';
+import {AppTypeQuery} from '^v3/V3OrgAppShowPage/atom';
+import {BillingHistoryManager} from '^models/BillingHistory';
 
 interface SubscriptionItemProps {
     item: SubscriptionDto | InvoiceAppDto;
@@ -21,15 +22,17 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
     const {item} = props;
     const {product, billingHistories = []} = item;
 
-    const paymentHistories = billingHistories.filter((his) => his.payAmount);
-    const sortedHistories = sortBillingHistories(paymentHistories, 'DESC');
-
-    const [lastBillingHistory] = sortedHistories;
-    const {totalPrice} = getTotalPriceOfEmails([lastBillingHistory], displayCurrency);
     const billingType = getBillingType(item);
+    const appType: AppTypeQuery = Object.hasOwn(item, 'invoiceAccountId') ? 'InvoiceApp' : 'Subscription';
+
+    const BillingHistory = BillingHistoryManager.init(billingHistories).validateToListing();
+    const totalPrice = BillingHistory.paymentOnly().latestIssue().getTotalPrice(displayCurrency);
 
     const onClick = () => {
-        router.push(V3OrgAppShowPageRoute.path(orgId, item.id));
+        router.push({
+            pathname: V3OrgAppShowPageRoute.path(orgId, item.id),
+            query: {appType},
+        });
     };
 
     return (

@@ -139,10 +139,6 @@ export function getTotalPriceOfEmails(histories: BillingHistoryDto[], displayCur
     };
 }
 
-export function sortBillingHistories(billingHistories: BillingHistoryDto[], method: 'ASC' | 'DESC') {
-    return [...billingHistories].sort(dateSortBy(method, (his) => new Date(his.issuedAt)));
-}
-
 export const t_paidAt = (dto: BillingHistoryDto) => {
     if (!dto.paidAt) return null;
     return new Date(dto.paidAt).toLocaleString();

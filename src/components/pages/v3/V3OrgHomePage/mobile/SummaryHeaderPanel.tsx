@@ -33,6 +33,7 @@ export const SummaryHeaderPanel = memo(() => {
                         내역
                     </button>
                 </div>
+
                 <ul className="py-0">
                     <MobileInfoListItem label="오늘까지 결제된 금액" value={`0원`} />
                     <MobileInfoListItem label="남은 결제 금액" value={`0원`} />

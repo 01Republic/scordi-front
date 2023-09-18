@@ -22,17 +22,19 @@ export const V3ModalLikeLayoutMobile = memo((props: V3ModalLikeLayoutMobileProps
     return (
         <>
             <style dangerouslySetInnerHTML={{__html: `html, body, #__next { min-height: 100vh }`}} />
-            <div className={`${styles.layout} h-[100vh]`}>
+            <div className={`${styles.layout} min-h-[100vh]`}>
                 <ModalLikeTopbar backBtnOnClick={onBack} />
                 <div className="bg-white" style={{height: 'calc(100% - 50px)'}}>
                     {children}
                 </div>
-                {buttons.length && (
+                {buttons.length ? (
                     <ModalLikeBottomBar>
                         {buttons.map((BottomBarButton, i) => (
                             <BottomBarButton key={i} />
                         ))}
                     </ModalLikeBottomBar>
+                ) : (
+                    <></>
                 )}
             </div>
             {modals.map((ModalComponent, i) => (

@@ -26,5 +26,16 @@
       "yearly": "정기 결제 (연)",
       "undef": "-"
     }
+  },
+  "result_in_since_n_ago": "<b>{{since}}</b> 부터 집계한 결과에요.",
+  "summary_stat": {
+    "counter": {
+      "label": "관련 내역",
+      "unit": "건"
+    },
+    "balance": {
+      "label": "총 금액",
+      "unit": ""
+    }
   }
 }
