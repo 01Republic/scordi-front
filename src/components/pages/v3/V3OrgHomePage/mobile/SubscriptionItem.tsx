@@ -10,6 +10,7 @@ import {V3OrgAppShowPageRoute} from '^pages/v3/orgs/[orgId]/apps/[appId]';
 import {orgIdParamState} from '^atoms/common';
 import {AppTypeQuery} from '^v3/V3OrgAppShowPage/atom';
 import {BillingHistoryManager} from '^models/BillingHistory';
+import {Locale} from '^types/subscriptionBillingCycle.type';
 
 interface SubscriptionItemProps {
     item: SubscriptionDto | InvoiceAppDto;
@@ -18,11 +19,12 @@ interface SubscriptionItemProps {
 export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
+    const locale = (router.locale as Locale) || Locale.ko;
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
     const {item} = props;
     const {product, billingHistories = []} = item;
 
-    const billingType = getBillingType(item);
+    const billingType = getBillingType(item, true, locale);
     const appType: AppTypeQuery = Object.hasOwn(item, 'invoiceAccountId') ? 'InvoiceApp' : 'Subscription';
 
     const BillingHistory = BillingHistoryManager.init(billingHistories).validateToListing();

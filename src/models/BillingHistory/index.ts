@@ -42,4 +42,11 @@ export class BillingHistoryManager extends BasicModel<BillingHistoryDto> {
     groupByIssuedAt() {
         return groupByDate(this.list, (his) => new Date(his.issuedAt));
     }
+
+    lastPaidHistory() {
+        return this.filter<BillingHistoryManager>((his) => his.paidAt)
+            .latestIssue()
+            .first(1)
+            .take();
+    }
 }

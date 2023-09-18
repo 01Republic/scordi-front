@@ -1,7 +1,12 @@
 import {ProductDto} from '^types/product.type';
 import {BillingHistoryDto} from '^types/billing.type';
 import {SubscriptionDto} from '^types/subscription.type';
-import {Locale, SubscriptionBillingCycleDto, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
+import {
+    BillingCycleTerm,
+    Locale,
+    SubscriptionBillingCycleDto,
+    t_BillingCycleTerm,
+} from '^types/subscriptionBillingCycle.type';
 
 export enum BillingType {
     MONTHLY = 'monthly',
@@ -42,13 +47,21 @@ export function t_BillingType(v: BillingType | null, standalone = false, locale 
     }
 }
 
-export function getBillingType(item: InvoiceAppDto | SubscriptionDto): string {
-    if (Object.hasOwn(item, 'billingType')) {
-        return t_BillingType((item as InvoiceAppDto).billingType) || '?';
-    } else {
-        const cycle = ((item as SubscriptionDto).billingCycle || {}) as SubscriptionBillingCycleDto;
-        return t_BillingCycleTerm(cycle.term) || '?';
+export function billingTypeToCycleTerm(v: BillingType | null) {
+    switch (v) {
+        case BillingType.MONTHLY:
+            return BillingCycleTerm.monthly;
+        case BillingType.YEARLY:
+            return BillingCycleTerm.yearly;
+        default:
+            return null; // 1회성
     }
 }
 
-// export function t_BillingType
+export function getBillingType(item: InvoiceAppDto | SubscriptionDto, standalone = false, locale = Locale.ko): string {
+    const cycleTerm = Object.hasOwn(item, 'billingType')
+        ? billingTypeToCycleTerm((item as InvoiceAppDto).billingType)
+        : (((item as SubscriptionDto).billingCycle || {}) as SubscriptionBillingCycleDto).term;
+
+    return t_BillingCycleTerm(cycleTerm, standalone, locale) || '?';
+}
