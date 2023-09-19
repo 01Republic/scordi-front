@@ -7,7 +7,7 @@ import {InvoiceDataDto} from '^components/ApplicationConnectStage/dto/fetched.re
 import {WorkspaceDto} from '^types/workspace.type';
 import {BillingHistoryDto} from '^types/billing.type';
 import {TypeCast} from '^types/utils/class-transformer';
-import {BillingType} from '^types/invoiceApp.type';
+import {BillingType, billingTypeToCycleTerm} from '^types/invoiceApp.type';
 
 // ConnectStatus 연동상태.
 export enum ConnectStatus {
@@ -75,7 +75,7 @@ export class SubscriptionDto {
     accounts?: [];
 
     getBillingType(standalone = false, locale = Locale.ko) {
-        const cycleTerm = this.billingCycle?.term || null;
+        const cycleTerm = this.billingCycle?.term || billingTypeToCycleTerm(this.assumedBillingType);
         return t_BillingCycleTerm(cycleTerm, standalone, locale) || '';
     }
 }
