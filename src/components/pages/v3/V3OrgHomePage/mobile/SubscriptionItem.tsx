@@ -23,8 +23,6 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
     const {product, billingHistories = []} = item;
 
     const BillingHistory = BillingHistoryManager.init(billingHistories).validateToListing();
-    console.log('billingHistory', BillingHistory);
-    console.log('item', item);
     const totalPrice = BillingHistory.paymentOnly().latestIssue().getTotalPrice(displayCurrency);
 
     const onClick = () => router.push(V3OrgAppShowPageRoute.path(orgId, item.id));

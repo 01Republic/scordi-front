@@ -41,7 +41,7 @@ export const HeadingContent = memo((props: HeadingContentProps) => {
                                 className="font-light text-xs badge overflow-hidden justify-start whitespace-nowrap mb-4"
                                 onClick={() => setAttachmentModal(attachment)}
                             >
-                                <OutLink href={attachment.url} text={attachment.fileName} />
+                                <OutLink href={attachment.url!} text={attachment.fileName} />
                             </div>
                         ))}
                     </div>

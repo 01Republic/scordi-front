@@ -3,6 +3,7 @@ import {useRouter} from 'next/router';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
+import {V3OrgBillingHistoryShowPage} from '^v3/V3OrgBillingHistoryShowPage';
 
 export const V3OrgBillingHistoryDetailPageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]/billingHistories/[id]',
@@ -28,13 +29,5 @@ export const getStaticProps = async ({locale}: any) => ({
 });
 
 export default function V3OrgBillingHistoryDetailPage() {
-    const router = useRouter();
-
-    return (
-        <div>
-            <div>
-                <p>V3OrgBillingHistoryDetailPage</p>
-            </div>
-        </div>
-    );
+    return <V3OrgBillingHistoryShowPage />;
 }

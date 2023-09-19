@@ -13,10 +13,6 @@ interface BillingHistorySummaryProps {
     billingHistories: BillingHistoryDto[];
 }
 
-//  TODO: 워딩변경
-//   - 최근 3개월 거래내역
-//   - 거래 횟수
-//   - 총 금액
 export const BillingHistorySummary = memo((props: BillingHistorySummaryProps) => {
     const router = useRouter();
     const {billingHistories} = props;
