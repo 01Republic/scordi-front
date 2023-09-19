@@ -14,18 +14,15 @@ export const SubscriptionsPanel = memo(() => {
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
     const {result: subscriptionsResult, search} = useSubscriptionsV2();
-    const {result: invoiceAccountsResult} = useInvoiceAccounts();
     const subscriptions = subscriptionsResult.items;
-    const accounts = invoiceAccountsResult.items;
-    const invoiceApps = accounts.flatMap((account) => account.invoiceApps);
-    const length = subscriptions.length + invoiceApps.length;
+    const length = subscriptions.length;
 
     useEffect(() => {
         search({});
     }, []);
 
     const onAddButtonClick = () => {
-        console.log({subscriptionsResult, invoiceAccountsResult});
+        console.log({subscriptionsResult});
         router.push(V3OrgAppsNewPageRoute.path(orgId));
     };
 
@@ -44,10 +41,6 @@ export const SubscriptionsPanel = memo(() => {
                     <>
                         {subscriptions.map((subscription, i) => (
                             <SubscriptionItem key={i} item={subscription} />
-                        ))}
-
-                        {invoiceApps.map((invoiceApp, i) => (
-                            <SubscriptionItem key={i} item={invoiceApp} />
                         ))}
                     </>
                 ) : (

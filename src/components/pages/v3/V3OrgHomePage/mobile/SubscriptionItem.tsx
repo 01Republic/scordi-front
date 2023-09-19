@@ -1,6 +1,5 @@
 import React, {memo} from 'react';
 import {SubscriptionDto} from '^types/subscription.type';
-import {getBillingType, InvoiceAppDto, t_BillingType} from '^types/invoiceApp.type';
 import {Avatar} from '^components/Avatar';
 import {currencyFormat, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {useRecoilValue} from 'recoil';
@@ -8,12 +7,11 @@ import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pa
 import {useRouter} from 'next/router';
 import {V3OrgAppShowPageRoute} from '^pages/v3/orgs/[orgId]/apps/[appId]';
 import {orgIdParamState} from '^atoms/common';
-import {AppTypeQuery} from '^v3/V3OrgAppShowPage/atom';
 import {BillingHistoryManager} from '^models/BillingHistory';
 import {Locale} from '^types/subscriptionBillingCycle.type';
 
 interface SubscriptionItemProps {
-    item: SubscriptionDto | InvoiceAppDto;
+    item: SubscriptionDto;
 }
 
 export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
@@ -24,18 +22,11 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
     const {item} = props;
     const {product, billingHistories = []} = item;
 
-    const billingType = getBillingType(item, true, locale);
-    const appType: AppTypeQuery = Object.hasOwn(item, 'invoiceAccountId') ? 'InvoiceApp' : 'Subscription';
-
     const BillingHistory = BillingHistoryManager.init(billingHistories).validateToListing();
+    console.log('billingHistory', BillingHistory);
     const totalPrice = BillingHistory.paymentOnly().latestIssue().getTotalPrice(displayCurrency);
 
-    const onClick = () => {
-        router.push({
-            pathname: V3OrgAppShowPageRoute.path(orgId, item.id),
-            query: {appType},
-        });
-    };
+    const onClick = () => router.push(V3OrgAppShowPageRoute.path(orgId, item.id));
 
     return (
         <div
@@ -49,7 +40,7 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
                     <small className="mr-0.5">{getCurrencySymbol(totalPrice.currency)}</small>
                     <span className="font-semibold">{currencyFormat(totalPrice.amount || 0, displayCurrency)}</span>
 
-                    <span className="ml-1.5 text-xs text-gray-500">/ {billingType}</span>
+                    <span className="ml-1.5 text-xs text-gray-500">/ {item.getBillingType(true, locale)}</span>
                 </p>
             </div>
             <div></div>

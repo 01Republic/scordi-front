@@ -57,11 +57,3 @@ export function billingTypeToCycleTerm(v: BillingType | null) {
             return null; // 1회성
     }
 }
-
-export function getBillingType(item: InvoiceAppDto | SubscriptionDto, standalone = false, locale = Locale.ko): string {
-    const cycleTerm = Object.hasOwn(item, 'billingType')
-        ? billingTypeToCycleTerm((item as InvoiceAppDto).billingType)
-        : (((item as SubscriptionDto).billingCycle || {}) as SubscriptionBillingCycleDto).term;
-
-    return t_BillingCycleTerm(cycleTerm, standalone, locale) || '?';
-}

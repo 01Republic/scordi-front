@@ -4,7 +4,7 @@ import {ProductDto} from '^types/product.type';
 import {OrganizationDto} from '^types/organization.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
-export type WorkspaceDto = {
+export class WorkspaceDto {
     id: number;
     displayName: string;
     slug: string;
@@ -23,7 +23,7 @@ export type WorkspaceDto = {
     productId: number;
     product: ProductDto;
     subscriptions?: SubscriptionDto[] | null;
-};
+}
 
 export type FindAllWorkspacesQuery = FindAllQueryDto<WorkspaceDto>;
 

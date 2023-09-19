@@ -55,6 +55,10 @@ export class BasicModel<DTO> {
         return this.list.length;
     }
 
+    attrMap<Model extends BasicModel<DTO>, K extends keyof DTO>(this: Model, attr: K): DTO[K][] {
+        return this.list.map((d) => d[attr]);
+    }
+
     /**
      * Private Methods
      */

@@ -2,9 +2,11 @@ import {ProductDto} from '^types/product.type';
 import {OrganizationDto} from '^types/organization.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {SubscriptionPaymentPlanDto} from '^types/subscriptionPaymentPlan.type';
-import {SubscriptionBillingCycleDto} from '^types/subscriptionBillingCycle.type';
+import {Locale, SubscriptionBillingCycleDto, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 import {InvoiceDataDto} from '^components/ApplicationConnectStage/dto/fetched.responses.dto';
 import {WorkspaceDto} from '^types/workspace.type';
+import {BillingHistoryDto} from '^types/billing.type';
+import {TypeCast} from '^types/utils/class-transformer';
 
 // ConnectStatus 연동상태.
 export enum ConnectStatus {
@@ -29,7 +31,7 @@ export function t_ConnectStatus(status: ConnectStatus) {
     }
 }
 
-export type SubscriptionDto = {
+export class SubscriptionDto {
     id: number;
     connectStatus: ConnectStatus;
     isSyncRunning: boolean; // 싱크 실행중 여부
@@ -42,7 +44,8 @@ export type SubscriptionDto = {
     paymentPlanId: number | null;
     billingCycleId: number | null;
     isFreeTier: boolean;
-    registeredAt: Date; // 사용 시작일
+
+    @TypeCast(() => Date) registeredAt: Date; // 사용 시작일
     nextBillingDate: string | null; // 다음결제일
     nextBillingAmount: number; // 결제예정금액
     accountCount: number;
@@ -50,16 +53,31 @@ export type SubscriptionDto = {
     usedMemberCount: number;
     publicEmail: string | null; // 공개 이메일
     billingEmail: string | null; // 결제 이메일
-    createdAt: Date;
-    updatedAt: Date;
+
+    @TypeCast(() => Date) createdAt: Date;
+    @TypeCast(() => Date) updatedAt: Date;
+
+    @TypeCast(() => OrganizationDto)
     organization?: OrganizationDto;
+
+    @TypeCast(() => ProductDto)
     product: ProductDto;
+
+    @TypeCast(() => WorkspaceDto)
     workspace: WorkspaceDto;
+
     paymentPlan?: SubscriptionPaymentPlanDto | null;
     billingCycle?: SubscriptionBillingCycleDto | null;
-    billingHistories?: [];
+
+    @TypeCast(() => BillingHistoryDto)
+    billingHistories?: BillingHistoryDto[];
     accounts?: [];
-};
+
+    getBillingType(standalone = false, locale = Locale.ko) {
+        const cycleTerm = this.billingCycle?.term || null;
+        return t_BillingCycleTerm(cycleTerm, standalone, locale) || '';
+    }
+}
 
 export type FindAllSubscriptionsQuery = FindAllQueryDto<SubscriptionDto>;
 

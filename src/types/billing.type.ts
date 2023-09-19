@@ -7,6 +7,7 @@ import {changePriceCurrency} from '^api/tasting.api/gmail/agent/parse-email-pric
 import {Currency, CurrencyDto} from '^types/crawler';
 import {CreateMoneyRequestDto, MoneyDto} from '^types/money.type';
 import {dateSortBy} from '^components/util/date';
+import {TypeCast} from '^types/utils/class-transformer';
 
 // 쿼리가 가능한 엔티티. (dto 와 entity 의 형태 차이가 좀 있음)
 export class BillingSchedule {
@@ -45,26 +46,43 @@ export type BillingScheduleShallowDto = {
     paidMemberCount: number;
 };
 
-export type BillingHistoryDto = {
+export class BillingHistoryDto {
     id: number; // ID
     uid: string | null; // UID
     organizationId: number; // 조직 ID
     subscriptionId: number | null; // 구독정보 ID
     invoiceAppId: number | null; // 인보이스 앱 ID
+
+    @TypeCast(() => Date)
     issuedAt: Date; // 인보이스 발행 일시
+
+    @TypeCast(() => Date)
     lastRequestedAt: Date | null; // 최근 결제 요청 일시
+
+    @TypeCast(() => Date)
     paidAt: Date | null; // 결제 완료 일시
+
+    @TypeCast(() => MoneyDto)
     payAmount: MoneyDto | null; // 결제금액
+
     paymentMethod: string; // 결제수단
     // isSuccess: boolean; // 결제완료여부
     invoiceUrl?: string | null; // 인보이스(파일) 주소
-    createdAt: string; // 생성일시
-    updatedAt: string; // 수정일시
+
+    @TypeCast(() => Date)
+    createdAt: Date; // 생성일시
+
+    @TypeCast(() => Date)
+    updatedAt: Date; // 수정일시
+
+    @TypeCast(() => OrganizationDto)
     organization?: OrganizationDto; // 조직
+
+    @TypeCast(() => SubscriptionDto)
     subscription: SubscriptionDto; // 구독정보
     invoiceApp?: InvoiceAppDto; // 인보이스 앱
     emailContent: GmailItem | null; // email content
-};
+}
 
 // This used on Front-end Only.
 export enum BillingHistoryStatus {

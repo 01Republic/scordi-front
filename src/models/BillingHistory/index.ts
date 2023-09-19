@@ -2,7 +2,8 @@ import {dateSortBy} from '^components/util/date';
 import {Currency} from '^types/crawler';
 import {BillingHistoryDto, getTotalPriceOfEmails} from '^types/billing.type';
 import {BasicModel} from '../BasicModel';
-import {groupByDate} from '^utils/dateTime';
+import {groupByDate, monthBefore, yearBefore, yyyy_mm_dd} from '^utils/dateTime';
+import {BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 
 export class BillingHistoryManager extends BasicModel<BillingHistoryDto> {
     /**
@@ -22,6 +23,10 @@ export class BillingHistoryManager extends BasicModel<BillingHistoryDto> {
 
     paymentOnly() {
         return this.filter<BillingHistoryManager>((his) => his.payAmount);
+    }
+
+    paid() {
+        return this.filter<BillingHistoryManager>((his) => his.paidAt);
     }
 
     sortByIssue(method: 'ASC' | 'DESC') {
@@ -44,9 +49,32 @@ export class BillingHistoryManager extends BasicModel<BillingHistoryDto> {
     }
 
     lastPaidHistory() {
-        return this.filter<BillingHistoryManager>((his) => his.paidAt)
-            .latestIssue()
-            .first(1)
-            .take();
+        return this.paid().latestIssue().first(1).take();
+    }
+
+    inferBillingCycle() {
+        const list = this.validateToListing().paymentOnly().sortByIssue('DESC');
+        const ids = list.attrMap('id');
+        const [last1, last2] = list.paid().all();
+
+        const equal = (date1: Date, date2: Date) => yyyy_mm_dd(date1) === yyyy_mm_dd(date2);
+        const checkMonth = (date1: Date, date2: Date) => equal(monthBefore(1, date1), date2);
+        const checkYear = (date1: Date, date2: Date) => equal(yearBefore(1, date1), date2);
+
+        const indexOfLatest = ids.findIndex((id) => id === last1.id);
+        if (indexOfLatest === 0) {
+            if (last2) {
+                if (checkMonth(last1.issuedAt, last2.issuedAt)) {
+                    return BillingCycleTerm.monthly;
+                } else if (checkYear(last1.issuedAt, last2.issuedAt)) {
+                    return BillingCycleTerm.yearly;
+                } else {
+                    //
+                }
+            } else {
+                //
+            }
+        } else {
+        }
     }
 }

@@ -3,6 +3,7 @@ import {SubscriptionPaymentPlanDto} from '^types/subscriptionPaymentPlan.type';
 import {SubscriptionBillingCycleDto} from '^types/subscriptionBillingCycle.type';
 import {PostDto} from '^types/post.type';
 import {TagDto} from '^types/tag.type';
+import {TypeCast} from '^types/utils/class-transformer';
 
 export enum ProductConnectMethod {
     AUTO = 'AUTO',
@@ -10,7 +11,7 @@ export enum ProductConnectMethod {
     PREPARE = 'PREPARE',
 }
 
-export type ProductDto = {
+export class ProductDto {
     id: number;
     nameKo: string;
     nameEn: string;
@@ -29,14 +30,16 @@ export type ProductDto = {
     planComparePageUrlScheme: string; // 결제플랜 비교 페이지 URL Scheme
     upgradePlanPageUrlScheme: string; // 결제플랜 변경 페이지 URL Scheme
     updatePayMethodUrlScheme: string; // 결제수단 변경 페이지 URL Scheme
-    createdAt: Date;
-    updatedAt: Date;
+
+    @TypeCast(() => Date) createdAt: Date;
+    @TypeCast(() => Date) updatedAt: Date;
+
     paymentPlans: SubscriptionPaymentPlanDto[];
     billingCycles: SubscriptionBillingCycleDto[];
     connectMethod: ProductConnectMethod | string;
     tags: TagDto[];
     posts: PostDto[];
-};
+}
 
 export type CreateProductRequestDto = {
     nameKo: string; // 한글 서비스명

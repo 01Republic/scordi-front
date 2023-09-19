@@ -5,11 +5,9 @@ import {v3CommonRequires} from '^types/utils/18n.type';
 import {orgIdParamState, subscriptionIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^hooks/useCurrentOrg';
 import {V3OrgAppShowPage} from '^v3/V3OrgAppShowPage';
-import {AppTypeQuery, useCurrentApp} from '^v3/V3OrgAppShowPage/atom';
+import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {useRouter} from 'next/router';
-import {useRecoilValue} from 'recoil';
 import {useBillingHistoriesV3} from '^hooks/useBillingHistories';
-import {GetBillingHistoriesParams} from '^types/billing.type';
 
 export const V3OrgAppShowPageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]/apps/[appId]',
@@ -39,26 +37,22 @@ export const getStaticProps = async ({locale}: any) => ({
 
 export default function Page() {
     const router = useRouter();
-    const appType = router.query.appType as AppTypeQuery | undefined;
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const appId = useRouterIdParamState('appId', subscriptionIdParamState);
     useCurrentOrg(orgId);
-    const {loadCurrentApp} = useCurrentApp();
+    const {loadCurrentSubscription} = useCurrentSubscription();
     const {search: loadCurrentHistories} = useBillingHistoriesV3();
 
     useEffect(() => {
         if (!router.isReady) return;
         if (!orgId || !appId) return;
-        if (!appType) {
-            alert('잘못된 접근입니다. [AppType error]');
-            return router.back();
-        }
-        loadCurrentApp(orgId, appId, appType);
+        loadCurrentSubscription(orgId, appId);
 
-        const where: GetBillingHistoriesParams['where'] = {};
-        appType === 'Subscription' ? (where.subscriptionId = appId) : (where.invoiceAppId = appId);
-        loadCurrentHistories({where, order: {issuedAt: 'DESC'}});
-    }, [router.isReady, orgId, appId, appType]);
+        loadCurrentHistories({
+            where: {subscriptionId: appId},
+            order: {issuedAt: 'DESC'},
+        });
+    }, [router.isReady, orgId, appId]);
 
     if (!orgId || !appId) return <></>;
 
