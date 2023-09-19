@@ -15,15 +15,16 @@ interface SubscriptionItemProps {
 }
 
 export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
+    const {item} = props;
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
     const locale = (router.locale as Locale) || Locale.ko;
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
-    const {item} = props;
     const {product, billingHistories = []} = item;
 
     const BillingHistory = BillingHistoryManager.init(billingHistories).validateToListing();
     console.log('billingHistory', BillingHistory);
+    console.log('item', item);
     const totalPrice = BillingHistory.paymentOnly().latestIssue().getTotalPrice(displayCurrency);
 
     const onClick = () => router.push(V3OrgAppShowPageRoute.path(orgId, item.id));
