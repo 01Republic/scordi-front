@@ -2,12 +2,19 @@ import {ProductDto} from '^types/product.type';
 import {OrganizationDto} from '^types/organization.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {SubscriptionPaymentPlanDto} from '^types/subscriptionPaymentPlan.type';
-import {Locale, SubscriptionBillingCycleDto, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
+import {
+    BillingCycleTerm,
+    Locale,
+    SubscriptionBillingCycleDto,
+    t_BillingCycleTerm,
+} from '^types/subscriptionBillingCycle.type';
 import {InvoiceDataDto} from '^components/ApplicationConnectStage/dto/fetched.responses.dto';
 import {WorkspaceDto} from '^types/workspace.type';
 import {BillingHistoryDto} from '^types/billing.type';
 import {TypeCast} from '^types/utils/class-transformer';
 import {BillingType, billingTypeToCycleTerm} from '^types/invoiceApp.type';
+import {monthAfter, yearAfter} from '^utils/dateTime';
+import {MoneyDto} from '^types/money.type';
 
 // ConnectStatus 연동상태.
 export enum ConnectStatus {
@@ -44,7 +51,7 @@ export class SubscriptionDto {
     workspaceId: number;
     paymentPlanId: number | null;
     billingCycleId: number | null;
-    assumedBillingType: BillingType;
+    assumedBillingType: BillingType; // 인보이스 추정 결제 주기
     isFreeTier: boolean;
     @TypeCast(() => Date) registeredAt?: Date | null; // 사용 시작일
     nextBillingDate: string | null; // 다음결제일
@@ -74,9 +81,59 @@ export class SubscriptionDto {
     billingHistories?: BillingHistoryDto[];
     accounts?: [];
 
+    getCycleTerm() {
+        return this.billingCycle?.term || billingTypeToCycleTerm(this.assumedBillingType);
+    }
+
     getBillingType(standalone = false, locale = Locale.ko) {
-        const cycleTerm = this.billingCycle?.term || billingTypeToCycleTerm(this.assumedBillingType);
+        const cycleTerm = this.getCycleTerm();
         return t_BillingCycleTerm(cycleTerm, standalone, locale) || '';
+    }
+
+    getNextPayDate(lastPaidAt?: Date | null) {
+        // 프리티어인지 확인하고, 프리티어라면 무료플랜으로 응답한다.
+        if (this.isFreeTier) return null;
+
+        // 서버에서 보내준 데이터에 입력되어 있으면, 이 데이터를 우선적으로 쓴다.
+        if (this.nextBillingDate) return new Date(this.nextBillingDate);
+
+        // lastPaidAt 이 주어지지 않았다면 무료플랜으로 응답한다.
+        if (!lastPaidAt) return null;
+
+        // cycleTerm 을 통해 계산한다.
+        const cycleTerm = this.getCycleTerm();
+
+        // // 월반복결제
+        // // 연반복결제
+        // // 1회성결제
+        // // 알수없음: 무료플랜처럼 취급
+        switch (cycleTerm) {
+            case BillingCycleTerm.yearly:
+                return yearAfter(1, lastPaidAt);
+            case BillingCycleTerm.monthly:
+                return monthAfter(1, lastPaidAt);
+            default:
+                return null;
+        }
+    }
+
+    getNextPayAmount(lastHistory?: BillingHistoryDto | null) {
+        // 프리티어인지 확인하고, 프리티어라면 무료플랜으로 응답한다.
+        if (this.isFreeTier) return null;
+
+        // 마지막 결제내역이 주어지지 않으면, 무료처럼 응답한다.
+        if (!lastHistory || !lastHistory.payAmount) return null;
+
+        const lastAmount = lastHistory.payAmount;
+
+        // 마지막 결제금액과 다음 결제금액은 기본적으로 동일한 스펙을 공유할 것으로 가정한다.
+        const nextAmount = MoneyDto.dup(lastAmount);
+
+        // nextBillingAmount 에 값이 있다면, 이것을 우선으로 적용하고
+        // 값이 없는 경우, 마지막 결제금액을 그대로 다음 결제금액으로 사용한다.
+        nextAmount.changeAmount(this.nextBillingAmount || lastAmount.amount);
+
+        return nextAmount;
     }
 }
 

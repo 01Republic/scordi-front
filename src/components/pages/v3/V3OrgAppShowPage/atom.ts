@@ -6,6 +6,7 @@ import {useRouter} from 'next/router';
 
 const currentSubscriptionState = atom<SubscriptionDto | null>({
     key: 'currentSubscription',
+    default: null,
 });
 
 const currentSubscriptionLoadingState = atom<boolean>({
@@ -24,6 +25,7 @@ export const useCurrentSubscription = () => {
         request.then((res) => setCurrentSubscription(res.data));
         request.finally(() => setIsLoading(false));
     };
+
     const getBillingType = (standalone = false) => {
         if (!currentSubscription) return '';
 
