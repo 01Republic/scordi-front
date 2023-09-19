@@ -70,7 +70,7 @@ export const updateBillingHistory = (id: number, dto: UpdateBillingHistoryReques
 const NAMESPACE = 'billing_histories';
 
 export const billingHistoryApi = {
-    createBillingHistory: (subscriptionId: number, dto: CreateBillingHistoryRequestDto2) => {
+    create: (subscriptionId: number, dto: CreateBillingHistoryRequestDto2) => {
         return api.post<BillingHistoryDto>(`/${NAMESPACE}`, dto);
     },
 };

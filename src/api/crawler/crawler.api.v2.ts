@@ -6,7 +6,11 @@ import {
     WorkspaceMemberDto,
     LoginDto,
 } from '^types/crawler';
-import {ConnectResultResponseDto, ConnectWorkspaceResponseDto} from '^types/crawler/connect-result-response.dto';
+import {
+    ConnectResultDto,
+    ConnectResultResponseDto,
+    ConnectWorkspaceResponseDto,
+} from '^types/crawler/connect-result-response.dto';
 import CryptoJS from 'crypto-js';
 
 const CRAWLER_SIGN_SECRET = process.env.NEXT_PUBLIC_CRAWLER_SIGN_SECRET as string;
@@ -56,5 +60,10 @@ export const crawlerApiV2 = {
     getAll(productId: number, accountId: number, key: string) {
         const url = `/crawler/${productId}/workspaces/${key}/all?syncAccountId=${accountId}`;
         return api.get<ConnectResultResponseDto>(url);
+    },
+
+    connect(productId: number, accountId: number, key: string, dto: ConnectResultDto) {
+        const url = `/crawler/${productId}/workspaces/${key}/connect?syncAccountId=${accountId}`;
+        return api.post<ConnectResultResponseDto>(url, dto);
     },
 };

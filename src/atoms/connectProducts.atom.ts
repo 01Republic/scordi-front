@@ -207,20 +207,9 @@ export const useConnectPrototypeModalState = () => {
 
         const {profile, billingInfo, billingHistories, members} = result;
 
-        workspaceApi.createWorkspace({...profile, ...billingInfo.getWorkspaceInfo()}).then((res) => {
-            const workspace = res.data;
-
-            subscriptionApi.createSubscription(workspace.id, currentProduct.id, {...billingInfo}).then((res) => {
-                const subscription = res.data;
-
-                billingHistories.forEach((history) => {
-                    billingHistoryApi.createBillingHistory(subscription.id, {...history});
-                });
-
-                members.forEach((member) => {
-                    workspaceMemberApi.createWorkspaceMember(workspace.id, {...member});
-                });
-            });
+        crawlerApiV2.connect(currentProduct.id, syncAccount.id, profile.slug, result).then((res) => {
+            console.log(res.data);
+            return res.data;
         });
     };
 

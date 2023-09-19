@@ -7,6 +7,7 @@ import {InvoiceDataDto} from '^components/ApplicationConnectStage/dto/fetched.re
 import {WorkspaceDto} from '^types/workspace.type';
 import {BillingHistoryDto} from '^types/billing.type';
 import {TypeCast} from '^types/utils/class-transformer';
+import {BillingType} from '^types/invoiceApp.type';
 
 // ConnectStatus 연동상태.
 export enum ConnectStatus {
@@ -43,9 +44,9 @@ export class SubscriptionDto {
     workspaceId: number;
     paymentPlanId: number | null;
     billingCycleId: number | null;
+    assumedBillingType: BillingType;
     isFreeTier: boolean;
-
-    @TypeCast(() => Date) registeredAt: Date; // 사용 시작일
+    @TypeCast(() => Date) registeredAt?: Date | null; // 사용 시작일
     nextBillingDate: string | null; // 다음결제일
     nextBillingAmount: number; // 결제예정금액
     accountCount: number;

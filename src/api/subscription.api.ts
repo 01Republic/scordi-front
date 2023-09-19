@@ -37,7 +37,7 @@ export const destroySubscription = (id: number) => {
 };
 
 export const subscriptionApi = {
-    createSubscription: (workspaceId: number, productId: number, dto: CreateSubscriptionRequestDto2) => {
+    create: (workspaceId: number, productId: number, dto: CreateSubscriptionRequestDto2) => {
         return api
             .post<SubscriptionDto>(`/${NAMESPACE}`, {workspaceId, productId, dto})
             .then(oneDtoOf(SubscriptionDto));

@@ -4,7 +4,6 @@ import {BillingHistoryListView} from '^v3/share/BillingHistoryListView';
 import {getBillingHistories} from '^api/billing.api';
 import {useRecoilValue} from 'recoil';
 import {subscriptionIdParamState} from '^atoms/common';
-import {AppTypeQuery} from '^v3/V3OrgAppShowPage/atom';
 import {useRouter} from 'next/router';
 import {BillingHistoryDto, GetBillingHistoriesParams} from '^types/billing.type';
 import {Paginated} from '^types/utils/paginated.dto';
