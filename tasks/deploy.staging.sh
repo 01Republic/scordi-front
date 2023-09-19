@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+tsc
 
 function start_log() {
   printf "===============\n\n"
