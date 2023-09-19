@@ -28,7 +28,7 @@ export const HistoryItem = memo((props: {entry: BillingHistoryDto; showTitle?: b
         return false;
     })();
 
-    const onClick = () => showModal(billingHistory.id, billingHistory.subscriptionId);
+    const onClick = () => showModal(billingHistory.id, billingHistory.subscriptionId!);
 
     return (
         <li
