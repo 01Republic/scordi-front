@@ -5,13 +5,15 @@ import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {currencyFormat} from '^utils/number';
 import {FiChevronRight} from '^components/react-icons';
 import {useModal} from '^v3/share/modals/useModal';
-import {accountListModal} from '^v3/share/modals/AccountListModal/atom';
+import {accountListModal, accountPagedInModalState} from '^v3/share/modals/AccountListModal/atom';
+import {useSetRecoilState} from 'recoil';
 
 export const ListItemForAccount = memo(() => {
     const {result: pagedAccounts, search} = useAccounts();
     const {currentSubscription} = useCurrentSubscription();
     const [isLoading, setIsLoading] = useState(false);
     const {open: accountListModalOpen} = useModal(accountListModal);
+    const setPagedAccountInModal = useSetRecoilState(accountPagedInModalState);
 
     useEffect(() => {
         if (!currentSubscription) return;
@@ -23,7 +25,13 @@ export const ListItemForAccount = memo(() => {
     const count = pagedAccounts.pagination.totalItemCount;
 
     const onClick = () => {
-        console.log(pagedAccounts);
+        if (!currentSubscription) return;
+
+        setPagedAccountInModal({
+            productId: currentSubscription.productId,
+            subscription: currentSubscription,
+            pagedData: pagedAccounts,
+        });
         accountListModalOpen();
     };
 
