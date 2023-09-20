@@ -3,6 +3,10 @@ import Qs from 'qs';
 import {UserLoginPageRoute} from '^pages/users/login';
 import {UserSignUpPageRoute} from '^pages/users/signup';
 import {toast} from 'react-toastify';
+import {ProductListPageRoute} from '^pages/products';
+import {ProductDetailPageRoute} from '^pages/products/[id]';
+import {PostListPageRoute} from '^pages/posts';
+import {PostDetailPageRoute} from '^pages/posts/[id]';
 
 export const SIGNED_TOKEN_STORAGE_KEY = 'token';
 export const getToken = () => typeof window !== 'undefined' && localStorage.getItem(SIGNED_TOKEN_STORAGE_KEY);
@@ -36,6 +40,15 @@ export const api = axios.create({
  * Request Middleware
  */
 
+const IgnoreSignCheckPagePathList = [
+    UserLoginPageRoute.pathname,
+    UserSignUpPageRoute.pathname,
+    ProductListPageRoute.pathname,
+    ProductDetailPageRoute.pathname,
+    PostListPageRoute.pathname,
+    PostDetailPageRoute.pathname,
+];
+
 api.interceptors.request.use((config) => {
     // Middleware 1. Token Header Handler
     const token = getToken();
@@ -65,7 +78,7 @@ api.interceptors.response.use(undefined, (error: AxiosError<ApiErrorDto>) => {
     }
 
     if (
-        ![UserLoginPageRoute.pathname, UserSignUpPageRoute.pathname].includes(window.location.pathname) &&
+        !IgnoreSignCheckPagePathList.includes(window.location.pathname) &&
         response.status === 401 &&
         String(response.statusText) === 'Unauthorized'
     ) {
