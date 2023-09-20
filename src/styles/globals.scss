@@ -150,6 +150,10 @@ p {
     border-radius: 14px !important;
 }
 
+.keep-all {
+  word-break: keep-all;
+}
+
 .no-selectable {
   -webkit-touch-callout: none;
   -webkit-user-select: none;

@@ -47,16 +47,12 @@ export const BillingHistoryShowModal = memo(() => {
                                 <HeadingPrice price={billingHistory.payAmount} />
 
                                 <MobileInfoList>
-                                    <MobileInfoListItem
-                                        label="제목"
-                                        className="!items-start"
-                                        value={billingHistory.title}
-                                    />
-                                    <MobileInfoListItem
-                                        label="발신"
-                                        className="!items-start"
-                                        value={billingHistory.from()}
-                                    />
+                                    <MobileInfoListItem label="제목" className="!items-start">
+                                        <div className="font-light mb-4 keep-all">{billingHistory.title}</div>
+                                    </MobileInfoListItem>
+                                    <MobileInfoListItem label="발신" className="!items-start">
+                                        <div className="font-light mb-4 keep-all">{billingHistory.from()}</div>
+                                    </MobileInfoListItem>
                                     <MobileInfoListItem
                                         label="발신일시"
                                         className="!items-start"
