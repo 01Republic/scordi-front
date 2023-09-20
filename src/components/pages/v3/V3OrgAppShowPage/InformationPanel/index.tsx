@@ -1,15 +1,16 @@
 import React, {memo} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
-import {PrototypeAvatar} from '^components/pages/LandingPages/TastingPage/TastingItemDetailModal/PrototypeAvatar';
 import {useBillingHistoriesV3} from '^hooks/useBillingHistories';
 import {useRecoilValue} from 'recoil';
+import {yyyy_mm_dd, yyyy_mm_dd_hh_mm} from '^utils/dateTime';
+import {PrototypeAvatar} from '^components/pages/LandingPages/TastingPage/TastingItemDetailModal/PrototypeAvatar';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
 import {BillingHistoryManager} from '^models/BillingHistory';
-import {PriceHeader} from '^v3/V3OrgAppShowPage/InformationPanel/PriceHeader';
 import {MobileInfoList} from '^v3/share/MobileInfoList';
 import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
-import {yyyy_mm_dd, yyyy_mm_dd_hh_mm} from '^utils/dateTime';
+import {PriceHeader} from './PriceHeader';
+import {ListItemForAccount} from './ListItemForAccount';
 
 // 정기결제금액 *
 // 결제주기 *
@@ -45,6 +46,12 @@ export const InformationPanel = memo(() => {
                     <div>
                         {currentSubscription && <PrototypeAvatar proto={currentSubscription.product} />}
                         <PriceHeader totalPrice={totalPrice} billingType={billingType} />
+
+                        <MobileInfoList>
+                            <ListItemForAccount />
+                        </MobileInfoList>
+
+                        <hr />
 
                         <MobileInfoList>
                             {/*<MobileInfoListItem label="카테고리" />*/}

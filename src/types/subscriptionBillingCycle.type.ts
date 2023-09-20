@@ -11,7 +11,7 @@ export enum BillingCycleTerm {
     yearly = 'YEARLY',
 }
 
-export type SubscriptionBillingCycleDto = {
+export class SubscriptionBillingCycleDto {
     id: number; // ID
     productId: number; // 프로토타입 ID
     paymentPlanId: number; // 결제플랜 ID
@@ -20,7 +20,7 @@ export type SubscriptionBillingCycleDto = {
     isPerUser: boolean; // 회원당 과금 여부
     createdAt: Date; // 생성일시
     updatedAt: Date; // 수정일시
-};
+}
 
 export enum PaymentCycle {
     YEAR = '매년',

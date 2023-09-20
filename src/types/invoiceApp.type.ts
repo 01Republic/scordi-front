@@ -9,10 +9,14 @@ import {
 } from '^types/subscriptionBillingCycle.type';
 
 export enum BillingType {
-    MONTHLY = 'monthly',
-    YEARLY = 'yearly',
-    ONETIME = 'onetime',
-    UNDEF = 'undef',
+    // MONTHLY = 'monthly',
+    // YEARLY = 'yearly',
+    // ONETIME = 'onetime',
+    // UNDEF = 'undef',
+    monthly = 'MONTHLY',
+    yearly = 'YEARLY',
+    onetime = 'ONETIME',
+    undefined = 'UNDEFINED',
 }
 
 export type UpdateInvoiceAppRequestDto = {
@@ -36,22 +40,22 @@ export function t_BillingType(v: BillingType | null, standalone = false, locale 
     switch (v) {
         case null:
             return '무관';
-        case BillingType.MONTHLY:
+        case BillingType.monthly:
             return '매월';
-        case BillingType.YEARLY:
+        case BillingType.yearly:
             return '매년';
-        case BillingType.ONETIME:
+        case BillingType.onetime:
             return '1회';
-        case BillingType.UNDEF:
+        case BillingType.undefined:
             return '무관';
     }
 }
 
 export function billingTypeToCycleTerm(v: BillingType | null) {
     switch (v) {
-        case BillingType.MONTHLY:
+        case BillingType.monthly:
             return BillingCycleTerm.monthly;
-        case BillingType.YEARLY:
+        case BillingType.yearly:
             return BillingCycleTerm.yearly;
         default:
             return null; // 1회성

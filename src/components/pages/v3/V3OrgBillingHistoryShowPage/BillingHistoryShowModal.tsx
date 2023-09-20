@@ -21,11 +21,7 @@ export const BillingHistoryShowModal = memo(() => {
     const {billingHistory, isLoading: isSubjectLoading} = useBillingHistoryInModal();
     const {billingHistoriesPage, isLoading: isSiblingsLoading} = useBillingHistoriesInModal();
 
-    const onBack = () => {
-        close();
-    };
-
-    console.log('billingHistory', billingHistory);
+    const onBack = () => close();
     const attachments = billingHistory ? billingHistory.getAttachments() : [];
 
     return (

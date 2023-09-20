@@ -157,7 +157,7 @@ export function getBillingHistoryPaidPrice(billingHistory: BillingHistoryDto) {
 
 export function getInvoiceAppBillingCycle(subscription?: SubscriptionDto, invoiceApp?: InvoiceAppDto): string {
     if (!subscription && !invoiceApp) return '-';
-    if (invoiceApp?.billingType === BillingType.UNDEF) return '-';
+    if (invoiceApp?.billingType === BillingType.undefined) return '-';
     if (invoiceApp) return invoiceApp?.billingType || '-';
     if (subscription) return subscription?.paymentPlan?.name || '-';
     return '-';

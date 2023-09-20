@@ -75,7 +75,9 @@ export class SubscriptionDto {
     workspace: WorkspaceDto;
 
     paymentPlan?: SubscriptionPaymentPlanDto | null;
-    billingCycle?: SubscriptionBillingCycleDto | null;
+
+    @TypeCast(() => SubscriptionBillingCycleDto)
+    billingCycle: SubscriptionBillingCycleDto | null;
 
     @TypeCast(() => BillingHistoryDto)
     billingHistories?: BillingHistoryDto[];

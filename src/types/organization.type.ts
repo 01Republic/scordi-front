@@ -1,6 +1,6 @@
 import {UserDto} from '^types/user.type';
 import {MembershipDto} from './membership.type';
-import {Type} from 'class-transformer';
+import {TypeCast} from '^types/utils/class-transformer';
 
 export type CreateOrganizationRequestDto = {
     name: string;
@@ -24,8 +24,8 @@ export class OrganizationDto {
     image?: string;
     address?: string | null;
     addressDetail?: string | null;
-    @Type(() => Date) createdAt: Date;
-    @Type(() => Date) updatedAt: Date;
+    @TypeCast(() => Date) createdAt: Date;
+    @TypeCast(() => Date) updatedAt: Date;
 
     memberships?: MembershipDto[];
     users?: UserDto[];

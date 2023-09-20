@@ -3,6 +3,7 @@ import {SubscriptionDto} from '^types/subscription.type';
 import {ProductDto} from '^types/product.type';
 import {OrganizationDto} from '^types/organization.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
+import {TypeCast} from '^types/utils/class-transformer';
 
 export class WorkspaceDto {
     id: number;
@@ -17,11 +18,18 @@ export class WorkspaceDto {
     billingEmail?: string | null;
     description?: string | null;
     organizationId: number;
-    organization: OrganizationDto;
-    syncAccountId: number;
-    syncAccount: AccountDto;
     productId: number;
+    syncAccountId: number;
+
+    @TypeCast(() => OrganizationDto)
+    organization: OrganizationDto;
+
+    syncAccount: AccountDto;
+
+    @TypeCast(() => ProductDto)
     product: ProductDto;
+
+    @TypeCast(() => SubscriptionDto)
     subscriptions?: SubscriptionDto[] | null;
 }
 
