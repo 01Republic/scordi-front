@@ -1,13 +1,19 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {BillingHistoryDto, BillingHistoryStatus, getBillingHistoryStatus} from '^types/billing.type';
-import {useRecoilValue} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
 import {hh_mm} from '^utils/dateTime';
 import {PriceText} from '^v3/share/BillingHistoryListView/PriceText';
+import {useRouter} from 'next/router';
+import {orgIdParamState} from '^atoms/common';
+import {useBillingHistoryModal} from '^v3/V3OrgBillingHistoryShowPage/useBillingHistoryModal';
 
 export const HistoryItem = memo((props: {entry: BillingHistoryDto; showTitle?: boolean}) => {
     const {entry: billingHistory, showTitle = false} = props;
+    const router = useRouter();
+    const orgId = useRecoilValue(orgIdParamState);
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
+    const {showModal} = useBillingHistoryModal();
 
     const date = new Date(billingHistory.issuedAt);
     const payAmount = billingHistory.payAmount;
@@ -22,11 +28,13 @@ export const HistoryItem = memo((props: {entry: BillingHistoryDto; showTitle?: b
         return false;
     })();
 
+    const onClick = () => showModal(billingHistory.id, billingHistory.subscriptionId!);
+
     return (
         <li
             data-component="EmailParsedTableRowMobile"
             className="flex gap-4 mb-4 px-0 cursor-pointer"
-            onClick={() => console.log(billingHistory)}
+            onClick={onClick}
         >
             <div className="">
                 <p className="text-[16px] font-semibold whitespace-nowrap">{serviceName}</p>

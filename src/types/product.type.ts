@@ -39,6 +39,10 @@ export class ProductDto {
     connectMethod: ProductConnectMethod | string;
     tags: TagDto[];
     posts: PostDto[];
+
+    name() {
+        return this.nameKo || this.nameEn;
+    }
 }
 
 export type CreateProductRequestDto = {

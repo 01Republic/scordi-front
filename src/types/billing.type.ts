@@ -6,8 +6,8 @@ import {BillingType, InvoiceAppDto} from '^types/invoiceApp.type';
 import {changePriceCurrency} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {Currency, CurrencyDto} from '^types/crawler';
 import {CreateMoneyRequestDto, MoneyDto} from '^types/money.type';
-import {dateSortBy} from '^components/util/date';
 import {TypeCast} from '^types/utils/class-transformer';
+import {BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 
 // 쿼리가 가능한 엔티티. (dto 와 entity 의 형태 차이가 좀 있음)
 export class BillingSchedule {
@@ -81,7 +81,38 @@ export class BillingHistoryDto {
     @TypeCast(() => SubscriptionDto)
     subscription: SubscriptionDto; // 구독정보
     invoiceApp?: InvoiceAppDto; // 인보이스 앱
+
+    @TypeCast(() => GmailItem)
     emailContent: GmailItem | null; // email content
+
+    getServiceName() {
+        return this.subscription.product.name();
+    }
+
+    get title() {
+        if (this.emailContent) return this.emailContent.title;
+
+        const serviceName = this.getServiceName();
+        const cycleTerm = this.subscription.getCycleTerm();
+        const term =
+            {
+                [BillingCycleTerm.yearly]: () => `${this.issuedAt.getFullYear()}년 결제분`,
+                [BillingCycleTerm.monthly]: () => `${this.issuedAt.getMonth() + 1}월 결제분`,
+            }[cycleTerm!] || (() => '(제목 없음)');
+
+        return [serviceName, term()].join(' ');
+    }
+
+    from() {
+        if (this.emailContent) return this.emailContent.metadata.from;
+        return this.getServiceName();
+    }
+
+    getAttachments() {
+        if (this.emailContent) return this.emailContent.attachments;
+        if (this.invoiceUrl) return [{url: this.invoiceUrl, fileName: 'File 1'}];
+        return [];
+    }
 }
 
 // This used on Front-end Only.

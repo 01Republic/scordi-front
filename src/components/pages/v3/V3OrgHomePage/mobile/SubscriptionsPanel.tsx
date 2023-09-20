@@ -22,7 +22,6 @@ export const SubscriptionsPanel = memo(() => {
     }, []);
 
     const onAddButtonClick = () => {
-        console.log({subscriptionsResult});
         router.push(V3OrgAppsNewPageRoute.path(orgId));
     };
 
