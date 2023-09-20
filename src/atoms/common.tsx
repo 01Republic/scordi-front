@@ -52,3 +52,13 @@ export const tagIdParamState = atom({
     key: 'tagIdParamState',
     default: NaN,
 });
+
+export const teamIdParamState = atom({
+    key: 'teamIdParamState',
+    default: NaN,
+});
+
+export const teamMemberIdParamState = atom({
+    key: 'teamMemberIdParamState',
+    default: NaN,
+});

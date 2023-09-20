@@ -38,6 +38,7 @@ export const InformationPanel = memo(() => {
 
     return (
         <MobileSection.Item>
+            M
             <MobileSection.Padding>
                 <div className="w-full h-[40px]" />
                 {isLoading ? (
