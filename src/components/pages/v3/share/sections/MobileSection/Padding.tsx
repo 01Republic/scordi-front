@@ -7,7 +7,7 @@ export default memo((props: PaddingProps) => {
     const {children} = props;
 
     return (
-        <div data-component="MobileSection.Padding" className="p-4">
+        <div data-component="MobileSection.Padding" className="py-4 px-6">
             {children}
         </div>
     );

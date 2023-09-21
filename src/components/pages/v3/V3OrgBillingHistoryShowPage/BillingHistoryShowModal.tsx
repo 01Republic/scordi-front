@@ -26,7 +26,11 @@ export const BillingHistoryShowModal = memo(() => {
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
-            <ModalLikeTopbar backBtnOnClick={onBack} topbarPosition="sticky" />
+            <ModalLikeTopbar
+                backBtnOnClick={onBack}
+                title={billingHistory ? billingHistory.pageSubject : '결제 세부사항'}
+                topbarPosition="sticky"
+            />
             <MobileSection.List>
                 <MobileSection.Item>
                     <MobileSection.Padding>
@@ -54,11 +58,13 @@ export const BillingHistoryShowModal = memo(() => {
                                         className="!items-start"
                                         value={yyyy_mm_dd_hh_mm(billingHistory.issuedAt)}
                                     />
-                                    <MobileInfoListItem
-                                        label="결제수단"
-                                        className="!items-start"
-                                        value={billingHistory.paymentMethod}
-                                    />
+                                    {billingHistory.paymentMethod && (
+                                        <MobileInfoListItem
+                                            label="결제수단"
+                                            className="!items-start"
+                                            value={billingHistory.paymentMethod}
+                                        />
+                                    )}
                                     {attachments.length > 0 && (
                                         <MobileInfoListItem label="인보이스" className="!items-start">
                                             <div className="w-full overflow-auto">

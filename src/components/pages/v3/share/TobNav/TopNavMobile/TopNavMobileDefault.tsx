@@ -11,7 +11,7 @@ export const TopNavMobileDefault = memo((props: TopNavMobileProps) => {
 
     return (
         <TopNavMobileContainer>
-            <h1 className="px-4 m-0 text-xl capitalize">{title}</h1>
+            <h1 className="px-6 m-0 text-xl capitalize">{title}</h1>
         </TopNavMobileContainer>
     );
 });

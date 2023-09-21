@@ -89,6 +89,12 @@ export class BillingHistoryDto {
         return this.subscription.product.name();
     }
 
+    get pageSubject() {
+        const month = this.issuedAt.getMonth() + 1;
+        const day = this.issuedAt.getDate();
+        return `${month}월 ${day}일의 결제내역`;
+    }
+
     get title() {
         if (this.emailContent) return this.emailContent.title;
 

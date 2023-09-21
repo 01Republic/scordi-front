@@ -1,13 +1,16 @@
 import React, {memo} from 'react';
 import {IoChevronBack} from '@react-icons/all-files/io5/IoChevronBack';
+import {FiArrowLeft} from 'react-icons/fi';
+import {ReactNodeLike} from 'prop-types';
 
 interface ModalLikeTopbarProps {
     backBtnOnClick: () => any;
+    title?: ReactNodeLike;
     topbarPosition?: 'fixed' | 'sticky';
 }
 
 export const ModalLikeTopbar = memo((props: ModalLikeTopbarProps) => {
-    const {backBtnOnClick, topbarPosition = 'fixed'} = props;
+    const {title, backBtnOnClick, topbarPosition = 'fixed'} = props;
 
     return (
         <>
@@ -17,12 +20,12 @@ export const ModalLikeTopbar = memo((props: ModalLikeTopbarProps) => {
                 } top-0 h-[50px] bg-white z-10`}
             >
                 <div className="text-sm h-full flex items-center">
-                    <div className="px-4 h-full flex items-center cursor-pointer" onClick={backBtnOnClick}>
-                        <IoChevronBack />
+                    <div className="px-6 h-full flex items-center cursor-pointer" onClick={backBtnOnClick}>
+                        <FiArrowLeft size={20} strokeWidth={2.5} />
                     </div>
                 </div>
-                <p className="h-full flex items-center font-bold text-16" />
-                <div className="text-sm px-4 h-full flex items-center">
+                <div className="h-full flex-1 flex items-center font-semibold text-16">{title}</div>
+                <div className="text-sm px-6 h-full flex items-center">
                     <br />
                 </div>
             </div>

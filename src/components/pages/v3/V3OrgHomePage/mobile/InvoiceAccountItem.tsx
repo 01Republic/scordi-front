@@ -29,13 +29,13 @@ export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
 
     return (
         <div
-            className="flex items-center gap-4 px-3 py-2.5 -mx-3 bg-base-100 text-gray-700 cursor-pointer hover:bg-neutral"
+            className="flex items-center gap-4 px-4 py-3 -mx-4 bg-base-100 text-gray-700 cursor-pointer hover:bg-neutral"
             onClick={() => setSelectedInvoiceAccount(invoiceAccount)}
         >
-            <Avatar src={invoiceAccount.image || ''} className="w-8 h-8 outline outline-offset-1 outline-slate-100" />
+            <Avatar src={invoiceAccount.image || ''} className="w-9 h-9 outline outline-offset-1 outline-slate-100" />
             <div className="flex-1">
-                <p className="text-xs font-extralight">{len}개의 서비스 알림을 받아요</p>
-                <p className="text-sm">{invoiceAccount.email}</p>
+                <p className="text-sm font-extralight">{len}개의 서비스 알림을 받아요</p>
+                <p className="text-[16px]">{invoiceAccount.email}</p>
             </div>
             <div>
                 {/*<BiChevronRight size={22.5} />*/}
