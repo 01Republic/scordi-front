@@ -1,34 +1,36 @@
 import React, {memo, useEffect} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ContentEmpty} from '^v3/V3OrgHomePage/mobile/ContentEmpty';
-import {TeamMemberItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/mobile/TeamMemberItem';
+import {TeamItem} from '^v3/V3OrgTeam/V3OrgTeamsPage/mobile/TeamItem';
+import {useTeams} from '^pages/v3/orgs/[orgId]/teams/atom';
 import {useModal} from '^v3/share/modals/useModal';
-import {isOpenNewTeamMemberModalAtom} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/NewTeamMemberModal/atom';
-import {useTeamMembers} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/atom';
+import {toast} from 'react-toastify';
+// import {isOpenNewTeamModalAtom} from '^v3/V3OrgTeam/V3OrgTeamsPage/NewTeamModal/atom';
 
-interface TeamMembersPanel {
+interface TeamListPanel {
     maxLength?: number | null;
 }
 
-export const TeamMembersPanel = memo((props: TeamMembersPanel) => {
-    const {isShow, setIsShow} = useModal({isShowAtom: isOpenNewTeamMemberModalAtom});
-    const {result} = useTeamMembers();
+export const TeamListPanel = memo((props: TeamListPanel) => {
+    // const {isShow, setIsShow} = useModal({isShowAtom: isOpenNewTeamModalAtom});
+    const {result} = useTeams();
     const teamMembers = result.items;
     const length = teamMembers.length;
     const {maxLength} = props;
 
     const onAddButtonClick = () => {
-        setIsShow(true);
-        console.log(isShow);
+        toast.warning('준비 중입니다.');
+        // setIsShow(true);
+        // console.log(isShow);
     };
 
     return (
         <MobileSection.Item>
             <MobileSection.Padding>
-                <MobileSection.Heading title="멤버">
+                <MobileSection.Heading title="팀">
                     <div className="text-sm text-gray-500">
                         <div className="cursor-pointer" onClick={onAddButtonClick}>
-                            {length ? '멤버 추가' : '멤버 없음'}
+                            {length ? '팀 추가' : '팀 없음'}
                         </div>
                     </div>
                 </MobileSection.Heading>
@@ -37,11 +39,11 @@ export const TeamMembersPanel = memo((props: TeamMembersPanel) => {
                     <>
                         {teamMembers.map((teamMember, i) => {
                             if (i > (maxLength ?? result.pagination.itemsPerPage)) return;
-                            return <TeamMemberItem key={i} item={teamMember} />;
+                            return <TeamItem key={i} item={teamMember} />;
                         })}
                     </>
                 ) : (
-                    <ContentEmpty text="등록된 멤버가 없어요" subtext="눌러서 멤버 추가" onClick={onAddButtonClick} />
+                    <ContentEmpty text="등록된 팀이 없어요" subtext="눌러서 팀 추가" onClick={onAddButtonClick} />
                 )}
             </MobileSection.Padding>
         </MobileSection.Item>

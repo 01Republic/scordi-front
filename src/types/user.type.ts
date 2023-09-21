@@ -2,6 +2,7 @@ import {CreateOrganizationRequestDto, OrganizationDto} from '^types/organization
 import {MembershipDto} from '^types/membership.type';
 import {UsersSocialAccountDto} from '^types/users-social-account.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
+import {TypeCast} from '^types/utils/class-transformer';
 
 export type UserSignUpRequestDto = {
     name: string;
@@ -33,7 +34,7 @@ export enum UserLocale {
     En = 'en',
 }
 
-export type UserDto = {
+export class UserDto {
     id: number;
     name: string;
     phone: string;
@@ -50,9 +51,11 @@ export type UserDto = {
     isSMSNoticeAllowed: boolean; // SMS 알림 수신 허용 여부
     createdAt: string;
     updatedAt: string;
+    // @TypeCast(() => MembershipDto)
     memberships?: MembershipDto[];
+    // @TypeCast(() => UsersSocialAccountDto)
     socialAccounts?: UsersSocialAccountDto[];
-};
+}
 
 export type UserLoginRequestDto = {
     email: string;

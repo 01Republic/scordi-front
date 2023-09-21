@@ -6,6 +6,9 @@ import {useTranslation} from 'next-i18next';
 import {useOnResize2} from '^components/util/onResize2';
 import {V3MainLayoutMobile} from '^v3/layouts/V3MainLayout.mobile';
 
+/**
+ * 팀 기능 추가시 업데이트 필요함.
+ */
 export const V3OrgTeamsPage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
     const {t} = useTranslation('org-home');

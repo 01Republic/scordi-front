@@ -2,21 +2,33 @@ import {OrganizationDto} from '^types/organization.type';
 import {SubscriptionDto} from '^types/subscription.type';
 import {TagDto} from '^types/tag.type';
 import {TeamMemberDto} from '^types/team-member.type';
+import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
+import {TypeCast} from '^types/utils/class-transformer';
 
-export type TeamDto = {
+export class TeamDto {
     id: number;
     name: string;
     organizationId: number;
+
+    @TypeCast(() => OrganizationDto)
     organization: OrganizationDto;
+
+    @TypeCast(() => TeamMemberDto)
     members: TeamMemberDto[];
+
+    @TypeCast(() => SubscriptionDto)
     subscriptions: SubscriptionDto[];
+
+    // @TypeCast(() => TagDto)
     tags: TagDto[];
-};
+}
 
-export type CreateTeamDto = {
+export class CreateTeamDto {
     name: string;
-};
+}
 
-export type UpdateTeamDto = {
+export class UpdateTeamDto {
     name?: string | null;
-};
+}
+
+export class FindAllTeamQueryDto extends FindAllQueryDto<TeamDto> {}
