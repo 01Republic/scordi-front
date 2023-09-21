@@ -11,6 +11,12 @@ export const getCurrencySymbol = (currency: Currency) =>
         [Currency.KRW]: '₩',
     }[currency] || '$');
 
+export const getCurrencyUnit = (currency: Currency) =>
+    ({
+        [Currency.USD]: '달러',
+        [Currency.KRW]: '원',
+    }[currency] || '달러');
+
 export type Price = {
     text: string;
     amount: number;
