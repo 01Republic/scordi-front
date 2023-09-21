@@ -9,14 +9,18 @@ import {ModalLikeBottomBar} from './V3ModalLikeLayout.mobile/ModalLikeBottomBar'
 import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
 
 interface V3ModalLikeLayoutMobileProps extends WithChildren {
+    // 페이지 상단의 제목
     title?: ReactNodeLike;
+    // 페이지 상단 우측 버튼들
+    topRightButtons?: ReactComponentLike[];
+    // 페이지 하단 고정 버튼들
     buttons?: ReactComponentLike[];
     // 이 페이지에서만 사용되는 모달들을 등록
     modals?: ReactComponentLike[];
 }
 
 export const V3ModalLikeLayoutMobile = memo((props: V3ModalLikeLayoutMobileProps) => {
-    const {title, buttons = [], modals = [], children} = props;
+    const {title, topRightButtons, buttons = [], modals = [], children} = props;
     const router = useRouter();
 
     const onBack = () => router.back();
@@ -26,7 +30,7 @@ export const V3ModalLikeLayoutMobile = memo((props: V3ModalLikeLayoutMobileProps
             <style dangerouslySetInnerHTML={{__html: `html, body, #__next { min-height: 100vh }`}} />
             <ChannelTalkHideStyle />
             <div className={`${styles.layout} min-h-[100vh]`}>
-                <ModalLikeTopbar backBtnOnClick={onBack} title={title} />
+                <ModalLikeTopbar backBtnOnClick={onBack} title={title} rightButtons={topRightButtons} />
                 <div className="bg-white" style={{height: 'calc(100% - 50px)'}}>
                     {children}
                 </div>

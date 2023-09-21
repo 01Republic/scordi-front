@@ -14,6 +14,8 @@ interface V3MainLayoutMobileProps extends WithChildren {
     title: ReactNodeLike;
     // 하단 네비게이션 중에서 활성상태로 보여줄 탭의 인덱스
     activeTabIndex: number;
+    // 페이지 상단 우측 버튼들
+    topRightButtons?: ReactComponentLike[];
     // 이 페이지에서만 사용되는 모달들을 등록
     modals?: ReactComponentLike[];
 }
@@ -25,14 +27,14 @@ interface V3MainLayoutMobileProps extends WithChildren {
  * - children 은 MobileSection.Item 을 쌓는 구조입니다.
  */
 export const V3MainLayoutMobile = memo((props: V3MainLayoutMobileProps) => {
-    const {title, activeTabIndex, modals = [], children} = props;
+    const {title, activeTabIndex, topRightButtons, modals = [], children} = props;
 
     return (
         <>
             <style dangerouslySetInnerHTML={{__html: `html, body, #__next { min-height: 100vh }`}} />
             <ChannelTalkHideStyle />
             <div className={`${styles.layout} h-full`}>
-                <TopNavMobileDefault title={title} />
+                <TopNavMobileDefault title={title} rightButtons={topRightButtons} />
                 <MobileSection.List>{children}</MobileSection.List>
                 <BottomNavMobile activeIndex={activeTabIndex} />
             </div>
