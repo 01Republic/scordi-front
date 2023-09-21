@@ -17,7 +17,7 @@ export const TeamMemberItem = memo((props: TeamMemberItemProps) => {
 
     const avatar = teamMember.profileImgUrl ?? teamMember.user.profileImgUrl;
     const name = teamMember.name;
-    const job = teamMember.jobName ?? '';
+    const job = teamMember.jobName ?? '미정';
 
     const onClick = () => router.push(V3OrgTeamMemberShowPageRoute.path(orgId, teamMember.id));
 
@@ -28,7 +28,7 @@ export const TeamMemberItem = memo((props: TeamMemberItemProps) => {
         >
             <Avatar src={avatar} className="w-8 h-8 outline outline-offset-1 outline-slate-100" />
             <div className="flex-1">
-                <p className="text-xs text-gray-500">{name}</p>
+                <p className="text-xl text-500">{name}</p>
                 <p className="text-[16px]">
                     <small className="mr-0.5">{job}</small>
                 </p>

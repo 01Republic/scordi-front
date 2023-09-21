@@ -45,7 +45,6 @@ export default function V3OrgAppsPage() {
         if (!orgId) return;
 
         loadTeamMembers({
-            where: {organizationId: orgId},
             order: {createdAt: 'DESC'},
         });
     }, [router.isReady, orgId]);
