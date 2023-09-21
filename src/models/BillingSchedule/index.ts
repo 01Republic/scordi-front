@@ -1,12 +1,26 @@
 import {BasicModel} from '^models/BasicModel';
-import {BillingScheduleShallowDto} from '^types/billing.type';
+import {BillingHistoryDto, BillingScheduleShallowDto} from '^types/billing.type';
 import {Currency, CurrencyList} from '^types/money.type';
 import {groupBy, groupByDate, yyyy_mm_dd} from '^utils/dateTime';
+import {BillingHistoryManager} from '^models/BillingHistory';
+import {dateSortBy} from '^components/util/date';
 
 export class BillingScheduleManager extends BasicModel<BillingScheduleShallowDto> {
     /**
      * Scoping Methods
      */
+    exceptFor(BillingHistory: BillingHistoryManager) {
+        const lastPaidHistoryForSubscriptions: Record<number, BillingHistoryDto> = {};
+        return this.sortByBillingDate('DESC').filter<BillingScheduleManager>((sch) => {
+            const alreadyExists = !!lastPaidHistoryForSubscriptions[sch.subscriptionId];
+            lastPaidHistoryForSubscriptions[sch.subscriptionId] ||= BillingHistory.filter(
+                (his) => his.subscriptionId === sch.subscriptionId,
+            )
+                .sortByIssue('DESC')
+                .take();
+            return !alreadyExists;
+        });
+    }
 
     validateToListing() {
         return this.isNotDead().filter<BillingScheduleManager>((record) => {
@@ -30,6 +44,10 @@ export class BillingScheduleManager extends BasicModel<BillingScheduleShallowDto
 
     isNotOverdue() {
         return this.filter<BillingScheduleManager>((record) => !record.isOverdue);
+    }
+
+    sortByBillingDate(method: 'ASC' | 'DESC') {
+        return this.sort<BillingScheduleManager>(dateSortBy(method, (record) => record.billingDate));
     }
 
     /**

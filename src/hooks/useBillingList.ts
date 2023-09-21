@@ -65,7 +65,9 @@ export const useBillingListV3 = () => {
     }, [startDate, endDate]);
 
     const BillingHistory = BillingHistoryManager.init(pagedHistories.items).paid();
-    const BillingSchedule = BillingScheduleManager.init(pagedSchedules.items).validateToListing();
+    const BillingSchedule = BillingScheduleManager.init(pagedSchedules.items)
+        .exceptFor(BillingHistory)
+        .validateToListing();
 
     const groupedHistories = BillingHistory.groupByIssuedAtYMD();
     const groupedSchedules = BillingSchedule.groupByBillingDateYMD();
