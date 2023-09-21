@@ -6,6 +6,7 @@ import {useTranslation} from 'next-i18next';
 import {useOnResize2} from '^components/util/onResize2';
 import {V3MainLayoutMobile} from '^v3/layouts/V3MainLayout.mobile';
 import {TeamMembersPanel} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/mobile/TeamMembersPanel';
+import {NewTeamMemberModal} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/NewTeamMemberModal';
 
 export const V3OrgTeamMembersPage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -22,8 +23,8 @@ export const V3OrgTeamMembersPage = memo(() => {
         );
     } else {
         return (
-            <V3MainLayoutMobile title={currentOrg?.name} activeTabIndex={4} modals={[]}>
-                <TeamMembersPanel></TeamMembersPanel>
+            <V3MainLayoutMobile title={currentOrg?.name} activeTabIndex={4} modals={[NewTeamMemberModal]}>
+                <TeamMembersPanel />
             </V3MainLayoutMobile>
         );
     }

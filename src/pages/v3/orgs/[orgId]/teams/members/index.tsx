@@ -5,7 +5,7 @@ import {v3CommonRequires} from '^types/utils/18n.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^hooks/useCurrentOrg';
 import {useRouter} from 'next/router';
-import {V3OrgTeamMemberShowPage} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/mobile';
+import {V3OrgTeamMembersPage} from '^v3/V3OrgTeam/V3OrgTeamMembersPage';
 import {useTeamMembers} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/atom';
 
 export const V3OrgTeamMembersPageRoute = pathRoute({
@@ -48,5 +48,5 @@ export default function Page() {
 
     if (!orgId) return <></>;
 
-    return <V3OrgTeamMemberShowPage />;
+    return <V3OrgTeamMembersPage />;
 }
