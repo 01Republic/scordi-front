@@ -1,49 +1,48 @@
 import React, {memo, useEffect} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {makeTeamMemberProfile, useCurrentTeamMember} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/atom';
-import {useForm} from 'react-hook-form';
+import {useForm, UseFormReturn} from 'react-hook-form';
 import {UpdateTeamMemberDto} from '^types/team-member.type';
 import {teamMemberApi} from '^api/team-member.api';
 import {MobileInfoList} from '^v3/share/MobileInfoList';
-import {OnClickEditInput, MobileInfoInputList} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/mobile/input';
+import {
+    EditTriggeredInput,
+    isTeamMemberInfoEditableAtom,
+    MobileTeamMemberInfoInput,
+} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/mobile/input';
 import {Avatar} from '^components/Avatar';
+import {useRecoilValue} from 'recoil';
 
-export const TeamMemberInfoPanel = memo(() => {
+interface TeamMemberInfoPanelProps {
+    form: UseFormReturn<UpdateTeamMemberDto>;
+    onSubmit: (data: UpdateTeamMemberDto) => void;
+}
+
+export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
+    const {form, onSubmit} = props;
     const {currentTeamMember: member, isLoading} = useCurrentTeamMember();
-    const form = useForm<UpdateTeamMemberDto>();
-    const {name, jobName, profileImgUrl, phone, email} = makeTeamMemberProfile(member);
+    const {profileImgUrl} = makeTeamMemberProfile(member);
+    const isEditable = useRecoilValue(isTeamMemberInfoEditableAtom);
 
     useEffect(() => {
-        if (!member) return;
-
-        form.setValue('name', name);
-        form.setValue('jobName', jobName);
-        form.setValue('profileImgUrl', profileImgUrl);
-        form.setValue('phone', phone);
-        form.setValue('email', email);
-    }, [member]);
+        if (!isEditable) onSubmit(form.getValues());
+    }, [isEditable]);
 
     if (!member) return <></>;
-    const onSubmit = (data: UpdateTeamMemberDto) => {
-        teamMemberApi.update(member.organizationId, member.id, data).then(({data}) => {
-            console.log('update success');
-            console.log(data);
-        });
-    };
 
     return (
         <form onSubmit={form.handleSubmit(onSubmit)}>
             <MobileSection.Item>
                 <MobileSection.Padding>
-                    <div className="flex items-center space-x-2 mb-2">
-                        <div>
-                            <OnClickEditInput
-                                className="font-bold text-2xl"
+                    <div className="flex justify-between mb-2">
+                        <div className="flex-1">
+                            <EditTriggeredInput
+                                className="font-bold text-2xl w-full"
                                 required={true}
                                 {...form.register('name')}
                             />
-                            <OnClickEditInput
-                                className="font-medium text-xl"
+                            <EditTriggeredInput
+                                className="font-medium text-xl w-full"
                                 required={true}
                                 {...form.register('jobName')}
                             />
@@ -55,10 +54,10 @@ export const TeamMemberInfoPanel = memo(() => {
 
             <MobileSection.Item>
                 <MobileSection.Padding>
-                    <h4 className="pb-1">연락처</h4>
+                    <p className="font-bold text-xl pb-3">연락처</p>
                     <MobileInfoList>
-                        <MobileInfoInputList label="휴대폰" required={true} {...form.register('phone')} />
-                        <MobileInfoInputList label="이메일" required={true} {...form.register('email')} />
+                        <MobileTeamMemberInfoInput label="휴대폰" required={true} {...form.register('phone')} />
+                        <MobileTeamMemberInfoInput label="이메일" required={true} {...form.register('email')} />
                     </MobileInfoList>
                 </MobileSection.Padding>
             </MobileSection.Item>

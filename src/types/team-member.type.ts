@@ -21,7 +21,7 @@ export class TeamMemberDto {
     userId: number;
 
     @TypeCast(() => UserDto)
-    user: UserDto;
+    user?: UserDto | null;
 
     @TypeCast(() => TeamDto)
     teams: TeamDto[];
@@ -42,7 +42,7 @@ export type CreateTeamMemberDto = {
     jobDescription?: string | null;
     notes?: string | null;
     profileImgUrl?: string | null;
-    userId: number;
+    userId?: number | null;
 };
 
 export type UpdateTeamMemberDto = {

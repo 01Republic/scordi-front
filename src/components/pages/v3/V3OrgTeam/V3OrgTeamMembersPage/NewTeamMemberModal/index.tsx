@@ -10,12 +10,15 @@ import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
 import {orgIdParamState} from '^atoms/common';
 import {V3OrgTeamMemberShowPageRoute} from '^pages/v3/orgs/[orgId]/teams/members/[memberId]';
+import {ModalLikeTopbar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeTopbar';
+import {MobileSection} from '^v3/share/sections/MobileSection';
+import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 
 export const NewTeamMemberModal = memo(() => {
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
 
-    const {Modal} = useModal({isShowAtom: isOpenNewTeamMemberModalAtom});
+    const {close, Modal} = useModal({isShowAtom: isOpenNewTeamMemberModalAtom});
     const form = useForm<CreateTeamMemberDto>();
 
     const onSubmit = (data: CreateTeamMemberDto) => {
@@ -26,25 +29,45 @@ export const NewTeamMemberModal = memo(() => {
     };
 
     return (
-        <Modal className="py-12">
-            <div className="flex items-center justify-center gap-3 mb-10">
-                <h3 className="font-bold text-2xl">멤버를 등록해보세요.</h3>
-                <form onSubmit={form.handleSubmit(onSubmit)}>
-                    <ContentPanelInput title={'이름'}>
-                        <TextInput required={true} placeholder="스코디" {...form.register('name', {required: true})} />
-                    </ContentPanelInput>
-                    <ContentPanelInput title={'직급'}>
-                        <TextInput
-                            required={true}
-                            placeholder="스코디"
-                            {...form.register('jobName', {required: true})}
-                        />
-                    </ContentPanelInput>
+        <form>
+            <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
+                <ModalLikeTopbar
+                    backBtnOnClick={() => close}
+                    // title={'멤버 등록}
+                    topbarPosition="sticky"
+                />
+                <MobileSection.List>
+                    <MobileSection.Item className="border-none">
+                        <MobileSection.Padding>
+                            <div className="h-full py-32">
+                                <h3 className="font-bold text-2xl py-5">
+                                    멤버를 <br /> 등록해보세요.
+                                </h3>
 
-                    <button type={'submit'}>완료</button>
-                </form>
-            </div>
-            <div className="text-center"></div>
-        </Modal>
+                                <div className="py-5">
+                                    <TextInput
+                                        label={'이름'}
+                                        inputClass="bg-white border-b-2"
+                                        {...form.register('name', {required: true})}
+                                    />
+                                </div>
+                                <div className="py-5">
+                                    <TextInput label={'직급'} {...form.register('jobName', {required: true})} />
+                                </div>
+                            </div>
+                        </MobileSection.Padding>
+                    </MobileSection.Item>
+                </MobileSection.List>
+                <ModalLikeBottomBar>
+                    <button
+                        className="btn btn-lg btn-block btn-scordi font-medium font-white text-xl bg-slate-50"
+                        type="button"
+                        onClick={form.handleSubmit(onSubmit)}
+                    >
+                        완료
+                    </button>
+                </ModalLikeBottomBar>
+            </Modal>
+        </form>
     );
 });

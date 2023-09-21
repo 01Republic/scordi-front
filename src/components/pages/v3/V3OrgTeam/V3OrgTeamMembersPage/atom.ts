@@ -53,11 +53,12 @@ export const makeTeamMemberProfile = (member?: TeamMemberDto | null) => {
 
     return {
         name: member.name,
-        email: member.email ?? user.email,
-        phone: member.phone ?? user.phone,
+        email: member.email ?? user?.email ?? '',
+        phone: member.phone ?? user?.phone ?? '',
         jobName: member.jobName,
         jobDescription: member.jobDescription,
-        profileImgUrl: member.profileImgUrl ?? user.profileImgUrl,
+        profileImgUrl:
+            member.profileImgUrl ?? user?.profileImgUrl ?? `https://placehold.co/200x200?text=${member.name}`,
     };
 };
 

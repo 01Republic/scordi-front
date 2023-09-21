@@ -1,33 +1,29 @@
 import {ReactNodeLike} from 'prop-types';
 import {ForwardedRef, forwardRef, InputHTMLAttributes, memo, useEffect, useState} from 'react';
-import {BiSolidPencil} from 'react-icons/bi';
+import {atom, useRecoilState, useRecoilValue} from 'recoil';
 
-interface MobileInfoInputProps extends InputHTMLAttributes<HTMLInputElement> {
-    label?: ReactNodeLike;
+interface MobileTeamMemberInfoInputProps extends InputHTMLAttributes<HTMLInputElement> {
+    label: ReactNodeLike;
     defaultValue?: string;
 }
-export const MobileInfoInputList = forwardRef((props: MobileInfoInputProps, ref: ForwardedRef<any>) => {
+export const MobileTeamMemberInfoInput = forwardRef((props: MobileTeamMemberInfoInputProps, ref: ForwardedRef<any>) => {
     const {label, defaultValue} = props;
-    const [isEditable, setIsEditable] = useState(false);
+    const isEditable = useRecoilValue(isTeamMemberInfoEditableAtom);
+    const border = isEditable ? 'border-none' : 'border-b-1';
 
     return (
-        <div className="grid grid-cols-12 gap-0.5 w-full py-1">
-            {label && (
-                <label className="col-span-3">
-                    <span className="text-[16px]">{label}</span>
-                </label>
-            )}
+        <div className="grid grid-cols-10 py-2">
+            <label className="col-span-3">
+                <span className="text-[16px]">{label}</span>
+            </label>
             <input
-                className="col-span-6 col-start-6 bg-white font-bold text-right"
+                className={`col-span-5 col-start-6 input-ghost bg-white font-bold ${border} text-right`}
                 type="text"
-                ref={ref}
                 defaultValue={defaultValue}
+                ref={ref}
                 {...props}
                 disabled={!isEditable}
             />
-            <button onClick={(e) => setIsEditable((editable) => !editable)}>
-                <BiSolidPencil className="col-span-1 content-center justify-center" />
-            </button>
         </div>
     );
 });
@@ -37,24 +33,52 @@ interface EditableInputProps extends InputHTMLAttributes<HTMLInputElement> {
     className?: string;
 }
 
-export const OnClickEditInput = forwardRef((props: EditableInputProps, ref: ForwardedRef<any>) => {
+export const EditTriggeredInput = forwardRef((props: EditableInputProps, ref: ForwardedRef<any>) => {
     const {defaultValue, className} = props;
-    const [isEditable, setIsEditable] = useState(false);
-
-    useEffect(() => {
-        console.log(isEditable);
-    }, [isEditable]);
+    const isEditable = useRecoilValue(isTeamMemberInfoEditableAtom);
+    const onEdit = isEditable ? 'input-bordered border-b-2 border-slate-100' : 'border-none';
 
     return (
         <>
             <input
-                className={`bg-white ${className}`}
+                className={`input-ghost bg-white ${onEdit} ${className}`}
                 type="text"
-                ref={ref}
                 defaultValue={defaultValue}
+                ref={ref}
                 {...props}
                 disabled={!isEditable}
             />
         </>
     );
 });
+
+export const isTeamMemberInfoEditableAtom = atom<boolean>({
+    key: 'isTeamMemberInfoEditableAtom',
+    default: false,
+});
+
+interface TriggerButtonProps {
+    onClick: () => void;
+}
+
+export const EditTriggerButton = (props: TriggerButtonProps) => {
+    const {onClick} = props;
+    const [isEditable, setIsEditable] = useRecoilState(isTeamMemberInfoEditableAtom);
+    const text = isEditable ? '완료 /' : '수정 /';
+
+    return (
+        <button
+            onClick={() => {
+                setIsEditable((editable) => !editable);
+                !isEditable && onClick();
+            }}
+        >
+            {text}
+        </button>
+    );
+};
+
+export const DeleteTriggerButton = (props: TriggerButtonProps) => {
+    const {onClick} = props;
+    return <button onClick={() => onClick()}> 삭제</button>;
+};

@@ -5,6 +5,7 @@ import {BottomNavItem} from '^v3/share/BottomNavMobile/BottomNavItem';
 import {FaGear, FaHouse, FaRegCalendarCheck, FaUsers} from 'react-icons/fa6';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {V3OrgSettingsOrgPageRoute} from '^pages/v3/orgs/[orgId]/settings/org';
+import {V3OrgTeamsPageRoute} from '^pages/v3/orgs/[orgId]/teams';
 
 interface BottomNavMobileProps {
     activeIndex: number;
@@ -21,7 +22,7 @@ export const BottomNavMobile = memo((props: BottomNavMobileProps) => {
     const tabs = [
         {text: '홈', Icon: FaHouse, href: V3OrgHomePageRoute.path(currentOrg.id)},
         {text: '일정', Icon: FaRegCalendarCheck, href: ''},
-        {text: '팀', Icon: FaUsers, href: ''},
+        {text: '팀', Icon: FaUsers, href: V3OrgTeamsPageRoute.path(currentOrg.id)},
         {text: '관리', Icon: FaGear, href: V3OrgSettingsOrgPageRoute.path(currentOrg.id)},
     ];
 
