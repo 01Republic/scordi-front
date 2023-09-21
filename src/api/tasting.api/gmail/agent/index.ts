@@ -4,6 +4,7 @@ import {ProviderNames, SenderNames} from '^api/tasting.api/gmail/agent/detect-pr
 import {getGoogleUserData} from '^api/session.api';
 import {MoneyLike} from '^types/money.type';
 import {BillingType} from '^types/invoiceApp.type';
+import {TypeCast} from '^types/utils/class-transformer';
 
 export class GmailItem {
     id!: string;
@@ -12,8 +13,14 @@ export class GmailItem {
     metadata!: GmailPermittedMetadata;
     title!: string;
     content!: string[];
-    attachments!: any[];
+    @TypeCast(() => AttachmentFile)
+    attachments!: AttachmentFile[];
     billingInfo?: BillingInfo;
+}
+
+export class AttachmentFile {
+    fileName: string;
+    url?: string;
 }
 
 export class BillingInfo {

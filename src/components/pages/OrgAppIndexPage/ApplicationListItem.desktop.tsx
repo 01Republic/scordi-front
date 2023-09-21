@@ -11,12 +11,12 @@ import {subscriptionIdParamState, orgIdParamState, productIdParamsState} from '^
 import {useRecoilState} from 'recoil';
 import {useRouterIdParamState} from '^atoms/common';
 
-export const ApplicationListItemDesktop = memo((props: {applicationDto: SubscriptionDto}) => {
+export const ApplicationListItemDesktop = memo((props: {subscription: SubscriptionDto}) => {
     const router = useRouter();
     const orgId = useRouterIdParamState('id', orgIdParamState);
-    const {applicationDto} = props;
-    const {billingCycle, paymentPlan, product} = applicationDto;
-    const appId = applicationDto.id;
+    const {subscription} = props;
+    const {billingCycle, paymentPlan, product, workspace} = subscription;
+    const appId = subscription.id;
 
     return (
         <tr className="text-sm cursor-pointer" onClick={() => router.push(OrgAppShowPageRoute.path(orgId, appId))}>
@@ -24,7 +24,7 @@ export const ApplicationListItemDesktop = memo((props: {applicationDto: Subscrip
                 <div className="flex items-center">
                     <img src={product.image} alt="" width={24} className="mr-4" />
                     <span>
-                        {product.nameEn} - {applicationDto.displayName}
+                        {product.nameEn} - {workspace.displayName}
                     </span>
                 </div>
             </td>
@@ -40,11 +40,11 @@ export const ApplicationListItemDesktop = memo((props: {applicationDto: Subscrip
             {/*        <span>{billingCycle.unitPrice || 0}</span>*/}
             {/*    </p>*/}
             {/*</td>*/}
-            <td className="text-right">{applicationDto.nextBillingDate}</td>
+            <td className="text-right">{subscription.nextBillingDate}</td>
             <td className="text-right">
                 <p className="flex items-center justify-end font-semibold text-sm leading-none">
                     <small className="mr-[2px]">US$</small>
-                    <span>{applicationDto.nextBillingAmount || 0}</span>
+                    <span>{subscription.nextBillingAmount || 0}</span>
                 </p>
             </td>
             <td>-</td>

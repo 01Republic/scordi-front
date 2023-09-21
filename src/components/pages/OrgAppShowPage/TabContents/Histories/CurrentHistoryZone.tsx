@@ -11,21 +11,21 @@ import {getDistanceOfTime, humanizeTimeDistance} from '^utils/dateTime';
 import {useCurrentSyncHistory} from '^hooks/useSubscriptionSyncHistories';
 
 interface CurrentHistoryZoneProps {
-    application: SubscriptionDto;
+    subscription: SubscriptionDto;
 }
 
 export const CurrentHistoryZone = memo((props: CurrentHistoryZoneProps) => {
-    const {application} = props;
+    const {subscription} = props;
     const {currentSyncHistory, fetchCurrentSyncHistory} = useCurrentSyncHistory();
 
     useEffect(() => {
-        if (!application) return;
-        fetchCurrentSyncHistory(application.id);
-    }, [application]);
+        if (!subscription) return;
+        fetchCurrentSyncHistory(subscription.id);
+    }, [subscription]);
 
     if (!currentSyncHistory) return <></>;
 
-    const {product} = application;
+    const {product} = subscription;
 
     const asset = syncHistoryAssets[currentSyncHistory.resultStatus];
     const Icon = asset.Icon;

@@ -12,17 +12,17 @@ import {
 } from '^components/react-icons';
 
 interface BillingHistoryTableProps {
-    application: SubscriptionDto;
+    subscription: SubscriptionDto;
 }
 
 export const BillingHistoryTable = memo((props: BillingHistoryTableProps) => {
-    const {application} = props;
+    const {subscription} = props;
     const {items: billingHistories, fetchItems: fetchBillingHistories, pagination} = useBillingHistoryList();
 
     useEffect(() => {
-        if (!application) return;
-        fetchBillingHistories(application.id, 1, true);
-    }, [application]);
+        if (!subscription) return;
+        fetchBillingHistories(subscription.id, 1, true);
+    }, [subscription]);
 
     return (
         <div className="bs-container mb-10">
@@ -102,7 +102,7 @@ export const BillingHistoryTable = memo((props: BillingHistoryTableProps) => {
                             className="border shadow rounded-lg"
                             currentPage={pagination.currentPage}
                             totalPage={pagination.totalPage}
-                            onClick={(pageNum) => fetchBillingHistories(application.id, pageNum)}
+                            onClick={(pageNum) => fetchBillingHistories(subscription.id, pageNum)}
                         />
                     </div>
                 </div>

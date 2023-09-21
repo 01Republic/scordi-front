@@ -6,6 +6,8 @@
         "skipLibCheck": true,
         "strict": true,
         "forceConsistentCasingInFileNames": true,
+        "strictPropertyInitialization": false,
+        "experimentalDecorators": true,
         "noEmit": true,
         "esModuleInterop": true,
         "module": "esnext",
@@ -25,6 +27,7 @@
             "^atoms/*": ["./src/atoms/*"],
             "^pages/*": ["./src/pages/*"],
             "^api/*": ["./src/api/*"],
+            "^models/*": ["./src/models/*"],
             "^styles/*": ["./src/styles/*"],
             "^types/*": ["./src/types/*"]
         },

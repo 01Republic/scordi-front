@@ -17,7 +17,7 @@ export const BillingListMobile = memo(() => {
     const organizationId = Number(router.query.id);
     const {year, month} = useCalendar();
     const summaryDto = useDashboardSummary();
-    const appsQueryResult = useSubscriptions();
+    const subsQueryResult = useSubscriptions();
     const setAppsQueryParam = useSetRecoilState(getSubscriptionsParamsState);
     const setSchedulesQueryParam = useSetRecoilState(getBillingSchedulesParamsState);
     const willPayApps = useRecoilValue(willPayAppsState);
@@ -43,20 +43,22 @@ export const BillingListMobile = memo(() => {
         updateQueryParam();
     }, [year, month]);
 
-    if (!summaryDto || !organizationId || !appsQueryResult) return <></>;
-    const {items: apps} = appsQueryResult;
+    if (!summaryDto || !organizationId || !subsQueryResult) return <></>;
+    const {items: subs} = subsQueryResult;
 
     return (
         <MobileSection>
             {willPayApps.length > 0 && (
                 <>
                     <BillingListTitle title={'앞으로 결제될 금액'} price={summaryDto.willPayAmount} />
-                    {willPayApps.map((app, index) => (
+                    {willPayApps.map((schedule, index) => (
                         <BillingListMobileItem
-                            shallow={app}
-                            app={apps.find((item) => item.id === app.applicationId)!}
+                            shallow={schedule}
+                            subscription={subs.find((item) => item.id === schedule.subscriptionId)!}
                             key={index}
-                            onClick={() => router.push(OrgAppShowPageRoute.path(organizationId, app.applicationId))}
+                            onClick={() =>
+                                router.push(OrgAppShowPageRoute.path(organizationId, schedule.subscriptionId))
+                            }
                         />
                     ))}
                 </>
@@ -64,12 +66,14 @@ export const BillingListMobile = memo(() => {
             {didPayApps.length > 0 && (
                 <>
                     <BillingListTitle title={'지금까지 결제한 금액'} price={summaryDto.didPayAmount} />
-                    {didPayApps.map((app, index) => (
+                    {didPayApps.map((schedule, index) => (
                         <BillingListMobileItem
-                            shallow={app}
-                            app={apps.find((item) => item.id === app.applicationId)!}
+                            shallow={schedule}
+                            subscription={subs.find((item) => item.id === schedule.subscriptionId)!}
                             key={index}
-                            onClick={() => router.push(OrgAppShowPageRoute.path(organizationId, app.applicationId))}
+                            onClick={() =>
+                                router.push(OrgAppShowPageRoute.path(organizationId, schedule.subscriptionId))
+                            }
                         />
                     ))}
                 </>
@@ -93,17 +97,17 @@ const BillingListTitle = memo((props: BillingListTitleProps) => {
 });
 
 type BillingListMobileItemProps = {
-    app: SubscriptionDto;
+    subscription: SubscriptionDto;
     onClick?: () => void;
     shallow?: ScheduleDto;
 };
 
 const BillingListMobileItem = memo((props: BillingListMobileItemProps) => {
-    const {shallow: schedule, app} = props;
+    const {shallow: schedule, subscription} = props;
     const amount = schedule?.billingAmount || 0;
     const billingDate = schedule?.billingDate || '';
     const billingDateStr = intlDateShort(billingDate);
-    const product = app.product || {};
+    const product = subscription.product || {};
     const serviceName = product.nameEn;
 
     // 결제가 안됐는데(결제기록이 존재하지 않음) 그대로 시간이 지나버린 건.

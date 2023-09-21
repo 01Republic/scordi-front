@@ -5,11 +5,11 @@ import {SubscriptionDto} from '^types/subscription.type';
 const tableLabel = ['제품', '요금제명', '주기', '다음 결제일', '이용자 수', '결제 비용', '전달 대비', '관리', '액션'];
 
 interface BillingTableProps {
-    apps: SubscriptionDto[];
+    subscriptions: SubscriptionDto[];
 }
 
 export const BillingTable = (props: BillingTableProps) => {
-    const {apps} = props;
+    const {subscriptions} = props;
     const router = useRouter();
     const organizationId = Number(router.query.id);
 
@@ -27,8 +27,8 @@ export const BillingTable = (props: BillingTableProps) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {apps.map((app) => (
-                        <BillingTableRow app={app} key={app.id} />
+                    {subscriptions.map((subscription) => (
+                        <BillingTableRow subscription={subscription} key={subscription.id} />
                     ))}
                 </tbody>
             </table>

@@ -9,33 +9,35 @@ import {FiExternalLink} from '^components/react-icons';
 export const ApplicationHeader = memo((props: WithChildren) => {
     const {children} = props;
     const router = useRouter();
-    const {currentSubscription: app} = useCurrentSubscription();
+    const {currentSubscription: subscription} = useCurrentSubscription();
 
-    if (!app) return <></>;
+    if (!subscription) return <></>;
 
-    const {connectedSlug} = app;
-    const proto = app.product;
-    const goToProtoDetailPage = () => router.push(OrgProtoDetailPageRoute.path(app.organizationId, app.productId));
+    const {workspace, product} = subscription;
+    const {slug = '', displayName = ''} = workspace || {};
 
-    const orgPageUrl = eval(`\`${proto.orgPageUrlScheme}\``) as string;
+    const goToProtoDetailPage = () =>
+        router.push(OrgProtoDetailPageRoute.path(subscription.organizationId, subscription.productId));
+
+    const orgPageUrl = eval(`\`${product.orgPageUrlScheme}\``) as string;
     const open = (url: string) => (url ? window.open(url, '_blank') : alert('This service linkage is not ready :('));
 
     return (
         <section id="PrototypeHeader" className="flex mb-10 justify-between items-center">
             <div className="flex gap-6">
                 {/* logo */}
-                <ApplicationLogo application={app} />
+                <ApplicationLogo subscription={subscription} />
 
                 {/* title */}
                 <div className="flex flex-col justify-between">
-                    <p className="text-[2rem] leading-none text-gray-900 font-semibold">{app.displayName}</p>
+                    <p className="text-[2rem] leading-none text-gray-900 font-semibold">{displayName}</p>
                     <p className="text-lg leading-none text-gray-400 capitalize flex gap-2">
                         <span>On</span>
                         <span
                             className="text-gray-900 cursor-pointer hover:underline"
                             onClick={() => goToProtoDetailPage()}
                         >
-                            {proto.nameEn}
+                            {product.nameEn}
                         </span>
                         <span className="text-sm normal-case">
                             {/*<OutLink href="https://github.com/organizations/ATOZ-TEAM/settings/profile" />*/}
@@ -45,7 +47,7 @@ export const ApplicationHeader = memo((props: WithChildren) => {
 
                 {/* one-liner */}
                 <div>
-                    <span className="btn btn-primary btn-sm btn-weekly hover-no capitalize">{proto.tagline}</span>
+                    <span className="btn btn-primary btn-sm btn-weekly hover-no capitalize">{product.tagline}</span>
                 </div>
             </div>
 

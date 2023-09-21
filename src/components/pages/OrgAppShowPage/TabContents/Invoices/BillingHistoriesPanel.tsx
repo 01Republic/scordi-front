@@ -15,7 +15,7 @@ import {Paginator} from '^components/Paginator';
 
 export const BillingHistoriesPanel = memo(() => {
     const router = useRouter();
-    const {currentSubscription: application} = useCurrentSubscription();
+    const {currentSubscription: subscription} = useCurrentSubscription();
     const [histories, setHistories] = useState<BillingHistoryDto[]>([]);
 
     const [currentPage, setCurrentPage] = useState<number>(0);
@@ -27,11 +27,11 @@ export const BillingHistoriesPanel = memo(() => {
         window.scroll({top: 0});
     };
 
-    function fetchHistories(applicationId: number, page: number) {
+    function fetchHistories(productId: number, page: number) {
         if (currentPage === page) return;
 
         getBillingHistories({
-            where: {applicationId},
+            where: {subscriptionId: subscription?.id},
             order: {id: 'DESC'},
             page,
             itemsPerPage: 10,
@@ -48,11 +48,11 @@ export const BillingHistoriesPanel = memo(() => {
     }
 
     useEffect(() => {
-        if (!application) return;
-        fetchHistories(application.id, 1);
-    }, [application]);
+        if (!subscription) return;
+        fetchHistories(subscription.id, 1);
+    }, [subscription]);
 
-    if (!application) return <></>;
+    if (!subscription) return <></>;
 
     return (
         <div>
@@ -67,7 +67,7 @@ export const BillingHistoriesPanel = memo(() => {
                             className="ml-auto"
                             currentPage={currentPage}
                             totalPage={totalPage}
-                            onClick={(pageNum) => fetchHistories(application.id, pageNum)}
+                            onClick={(pageNum) => fetchHistories(subscription.id, pageNum)}
                         />
                     </ContentPanelItem>
                 </ContentPanelList>

@@ -8,16 +8,16 @@ import {useRouter} from 'next/router';
 import {BillingHistoryShowPageRoute} from '^pages/orgs/[id]/apps/[appId]/billingHistories/[billingHistoryId]';
 
 type BillingHistoryItemProps = {
-    application: SubscriptionDto;
+    subscription: SubscriptionDto;
     billingHistory: BillingHistoryDto;
     onClickMethod?: 'push' | 'replace' | undefined; // default: "push"
 };
 
 export const BillingHistoryItem = memo((props: BillingHistoryItemProps) => {
     const router = useRouter();
-    const {application, billingHistory, onClickMethod = 'push'} = props;
-    if (!application) return <></>;
-    const {product, organizationId} = application;
+    const {subscription, billingHistory, onClickMethod = 'push'} = props;
+    if (!subscription) return <></>;
+    const {product, organizationId} = subscription;
 
     const isSuccess = !!billingHistory.paidAt;
 
@@ -26,7 +26,7 @@ export const BillingHistoryItem = memo((props: BillingHistoryItemProps) => {
             id={`billingHistory-${billingHistory.id}`}
             size="big"
             onClick={() => {
-                const path = BillingHistoryShowPageRoute.path(organizationId, application.id, billingHistory.id);
+                const path = BillingHistoryShowPageRoute.path(organizationId, subscription.id, billingHistory.id);
                 onClickMethod === 'replace' ? router.replace(path) : router.push(path);
             }}
         >

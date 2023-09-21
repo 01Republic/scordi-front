@@ -4,14 +4,16 @@ import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {GmailItem} from '^api/tasting.api';
 import {BillingType, InvoiceAppDto} from '^types/invoiceApp.type';
 import {changePriceCurrency} from '^api/tasting.api/gmail/agent/parse-email-price';
-import {Currency} from '^types/crawler';
+import {Currency, CurrencyDto} from '^types/crawler';
 import {CreateMoneyRequestDto, MoneyDto} from '^types/money.type';
+import {TypeCast} from '^types/utils/class-transformer';
+import {BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 
 // 쿼리가 가능한 엔티티. (dto 와 entity 의 형태 차이가 좀 있음)
 export class BillingSchedule {
     organizationId!: number;
-    applicationId!: number;
-    prototypeId!: number;
+    subscriptionId!: number;
+    productId!: number;
     paymentPlanId!: number;
     billingCycleId!: number;
     isSuccess!: boolean;
@@ -26,8 +28,8 @@ export class BillingSchedule {
 
 export type BillingScheduleShallowDto = {
     organizationId: number;
-    applicationId: number;
-    prototypeId: number;
+    subscriptionId: number;
+    productId: number;
     paymentPlanId: number;
     billingCycleId: number;
     orgName: string;
@@ -44,26 +46,74 @@ export type BillingScheduleShallowDto = {
     paidMemberCount: number;
 };
 
-export type BillingHistoryDto = {
+export class BillingHistoryDto {
     id: number; // ID
     uid: string | null; // UID
     organizationId: number; // 조직 ID
-    applicationId: number | null; // 구독정보 ID
+    subscriptionId: number | null; // 구독정보 ID
     invoiceAppId: number | null; // 인보이스 앱 ID
+
+    @TypeCast(() => Date)
     issuedAt: Date; // 인보이스 발행 일시
+
+    @TypeCast(() => Date)
     lastRequestedAt: Date | null; // 최근 결제 요청 일시
+
+    @TypeCast(() => Date)
     paidAt: Date | null; // 결제 완료 일시
+
+    @TypeCast(() => MoneyDto)
     payAmount: MoneyDto | null; // 결제금액
+
     paymentMethod: string; // 결제수단
     // isSuccess: boolean; // 결제완료여부
     invoiceUrl?: string | null; // 인보이스(파일) 주소
-    createdAt: string; // 생성일시
-    updatedAt: string; // 수정일시
+
+    @TypeCast(() => Date)
+    createdAt: Date; // 생성일시
+
+    @TypeCast(() => Date)
+    updatedAt: Date; // 수정일시
+
+    @TypeCast(() => OrganizationDto)
     organization?: OrganizationDto; // 조직
-    application?: SubscriptionDto; // 구독정보
+
+    @TypeCast(() => SubscriptionDto)
+    subscription: SubscriptionDto; // 구독정보
     invoiceApp?: InvoiceAppDto; // 인보이스 앱
+
+    @TypeCast(() => GmailItem)
     emailContent: GmailItem | null; // email content
-};
+
+    getServiceName() {
+        return this.subscription.product.name();
+    }
+
+    get title() {
+        if (this.emailContent) return this.emailContent.title;
+
+        const serviceName = this.getServiceName();
+        const cycleTerm = this.subscription.getCycleTerm();
+        const term =
+            {
+                [BillingCycleTerm.yearly]: () => `${this.issuedAt.getFullYear()}년 결제분`,
+                [BillingCycleTerm.monthly]: () => `${this.issuedAt.getMonth() + 1}월 결제분`,
+            }[cycleTerm!] || (() => '(제목 없음)');
+
+        return [serviceName, term()].join(' ');
+    }
+
+    from() {
+        if (this.emailContent) return this.emailContent.metadata.from;
+        return this.getServiceName();
+    }
+
+    getAttachments() {
+        if (this.emailContent) return this.emailContent.attachments;
+        if (this.invoiceUrl) return [{url: this.invoiceUrl, fileName: 'File 1'}];
+        return [];
+    }
+}
 
 // This used on Front-end Only.
 export enum BillingHistoryStatus {
@@ -107,7 +157,7 @@ export function getBillingHistoryPaidPrice(billingHistory: BillingHistoryDto) {
 
 export function getInvoiceAppBillingCycle(subscription?: SubscriptionDto, invoiceApp?: InvoiceAppDto): string {
     if (!subscription && !invoiceApp) return '-';
-    if (invoiceApp?.billingType === BillingType.UNDEF) return '-';
+    if (invoiceApp?.billingType === BillingType.undefined) return '-';
     if (invoiceApp) return invoiceApp?.billingType || '-';
     if (subscription) return subscription?.paymentPlan?.name || '-';
     return '-';
@@ -148,6 +198,16 @@ export class CreateBillingHistoryRequestDto {
     payAmount!: CreateMoneyRequestDto; // 결제금액
     invoiceUrl?: string | null; // 인보이스(파일) 주소
 }
+
+export type CreateBillingHistoryRequestDto2 = {
+    uid: string;
+    issuedDate: Date;
+    paidDate?: Date | null;
+    paymentMethod: string;
+    amount: CurrencyDto;
+    isSuccessfulPaid: boolean;
+    receiptUrl: string;
+};
 
 interface Type<T = any> extends Function {
     new (...args: any[]): T;

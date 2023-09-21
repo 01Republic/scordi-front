@@ -15,6 +15,25 @@ export const getSubscriptionsParamsState = atom<FindAllSubscriptionsQuery>({
     default: {},
 });
 
+export const getSubscriptionsQueryAtom = atom<FindAllSubscriptionsQuery>({
+    key: 'getSubscriptionsQueryAtom',
+    default: {},
+});
+
+export const subscriptionsSearchResultAtom = atom<Paginated<SubscriptionDto>>({
+    key: 'subscriptionsSearchResultAtom',
+    default: {
+        items: [],
+        pagination: {
+            totalItemCount: 0,
+            currentItemCount: 0,
+            totalPage: 1,
+            currentPage: 1,
+            itemsPerPage: 30,
+        },
+    },
+});
+
 export const getSubscriptionsQuery = selector({
     key: 'getSubscriptionsQuery',
     get: async ({get}) => {

@@ -37,16 +37,24 @@ export const dayAfter = (n: number, date?: Date): Date => {
     d.setDate(d.getDate() + n);
     return d;
 };
-
 export const monthAfter = (n: number, date?: Date): Date => {
     const d = new Date(date || getToday());
     d.setMonth(d.getMonth() + n);
     return d;
 };
+export const yearAfter = (n: number, date = new Date()) => {
+    const base = new Date(date);
+    base.setFullYear(base.getFullYear() + n);
+    return base;
+};
 
 export const dayBefore = (n: number, date?: Date) => dayAfter(n * -1, date);
 export const monthBefore = (n: number, date?: Date) => monthAfter(n * -1, date);
+export const yearBefore = (n: number, date = new Date()) => yearAfter(n * -1, date);
 
+/**
+ * Month
+ */
 export const firstDayOfMonth = (date?: Date): Date => {
     date ||= getToday();
     return new Date(date.getFullYear(), date.getMonth(), 1);
@@ -54,6 +62,17 @@ export const firstDayOfMonth = (date?: Date): Date => {
 
 export const lastDayOfMonth = (date?: Date): Date => {
     return monthAfter(1, dayBefore(1, firstDayOfMonth(date)));
+};
+
+/**
+ * Year
+ */
+export const firstDayOfYear = (date = new Date()): Date => {
+    const base = new Date(date);
+    return new Date(base.getFullYear(), 0, 1);
+};
+export const lastDayOfYear = (date = new Date()): Date => {
+    return yearAfter(1, dayBefore(1, firstDayOfYear(date)));
 };
 
 export const dateIsEqual = (d1?: Date, d2?: Date) => {
@@ -155,4 +174,17 @@ export function humanizeTimeDistance2(date1: Date, date2: Date, option?: Humaniz
     }).trim();
 
     return text.startsWith('-') ? `${text} 지남` : `${text} 후`;
+}
+
+export function groupByDate<T>(items: T[], getDate: (item: T) => Date): Record<string, T[]> {
+    const container: Record<string, T[]> = {};
+    // const getDate = (item: GmailItem) => item?.metadata?.date;
+
+    items.forEach((item) => {
+        const date = getDate(item);
+        container[date.toISOString()] ||= [];
+        container[date.toISOString()].push(item);
+    });
+
+    return container;
 }

@@ -13,16 +13,16 @@ import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const NewAppCreatedPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/new/created',
-    path: (orgId: number, applicationId: number) =>
-        pathReplace(`${NewAppCreatedPageRoute.pathname}?applicationId=[applicationId]`, {
+    path: (orgId: number, productId: number) =>
+        pathReplace(`${NewAppCreatedPageRoute.pathname}?productId=[productId]`, {
             id: orgId,
-            applicationId,
+            productId,
         }),
 });
 
 export default function NewAppCreatedPage() {
     const router = useRouter();
-    const subscriptionId = Number(router.query.applicationId);
+    const subscriptionId = Number(router.query.productId);
     const {currentSubscription: subscription} = useCurrentSubscription();
     const setSubscriptionIdParam = useSetRecoilState(subscriptionIdParamState);
 

@@ -1,10 +1,18 @@
 import {atom, useRecoilState} from 'recoil';
 import {ProductDto} from '^types/product.type';
-import {LoginDto, LoginWithOrgs, LoginWithVerify, OrgItemDto} from '^types/crawler';
+import {LoginDto, LoginWithOrgs, LoginWithVerify, WorkspaceItemDto} from '^types/crawler';
 import {useCallback, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {errorNotify} from '^utils/toast-notify';
 import {AxiosError} from 'axios';
+import {AccountDto} from '^types/account.type';
+import {crawlerApiV2} from '^api/crawler/crawler.api.v2';
+import {errorToast} from '^api/api';
+import {toast} from 'react-toastify';
+import {ConnectResultDto, ConnectResultResponseDto} from '^types/crawler/connect-result-response.dto';
+import {workspaceApi, workspaceMemberApi} from '^api/workspace.api';
+import {subscriptionApi} from '^api/subscription.api';
+import {billingHistoryApi} from '^api/billing.api';
 
 // 연동 모달의 활성화 여부
 export const connectProductModalState = atom({
@@ -25,7 +33,8 @@ export const currentProductState = atom<ProductDto | null>({
 export enum ConnectModalStage {
     AuthFormStage = 1,
     SelectOrgStage = 2,
-    SuccessfullySubmitted = 3,
+    AllFetched = 3,
+    SuccessfullySubmitted = 4,
 }
 export const connectModalStageState = atom<ConnectModalStage>({
     key: 'connectModalStageState',
@@ -51,7 +60,7 @@ export const connectModalAuthInfoState = atom<LoginDto | null>({
 });
 
 // 연동 모달로 불러온 연동가능한 조직 후보 목록
-export const connectModalConnectableOrgListState = atom<OrgItemDto[]>({
+export const connectModalConnectableOrgListState = atom<WorkspaceItemDto[]>({
     key: 'connectModalConnectableOrgListState',
     default: [],
 });
@@ -59,6 +68,17 @@ export const connectModalConnectableOrgListState = atom<OrgItemDto[]>({
 export const createdApplicationIdState = atom<number>({
     key: 'createdApplicationId',
     default: 0,
+});
+
+// V2
+export const syncAccountAtom = atom({
+    key: `syncAccount`,
+    default: {} as AccountDto,
+});
+
+export const workspaceListAtom = atom({
+    key: `workspaceList`,
+    default: [] as WorkspaceItemDto[],
 });
 
 // 연동 모달 내부의 여러 컴포넌트에서 공유할 필요가 있는 상태값을 한 번에 관리
@@ -103,6 +123,96 @@ export const useConnectPrototypeModalState = () => {
         if (isLoading) setErrorMessage('');
     }, [isLoading]);
 
+    // V2
+    const [syncAccount, setSyncAccount] = useRecoilState(syncAccountAtom);
+    const [workspaces, setWorkspaces] = useRecoilState(workspaceListAtom);
+    const [result, setResult] = useState<ConnectResultDto | null>(null);
+
+    const login = (loginQuery: LoginDto) => {
+        if (!currentProduct) return null;
+
+        setIsLoading(true);
+
+        crawlerApiV2
+            .getWorkspaces(currentProduct.id, loginQuery)
+            .then((res) => {
+                const {data, isSuccess, account} = res.data;
+                if (isSuccess && account) {
+                    setSyncAccount(account);
+                    setWorkspaces(data);
+                    setCurrentStage(ConnectModalStage.SelectOrgStage);
+
+                    return data;
+                } else {
+                    toast.error(`Server failed.\nPlease request to admin.`);
+                }
+            })
+            .catch(connectApiCatchHandler)
+            .finally(() => setIsLoading(false));
+    };
+
+    const loginWithVerifyCode = (loginQuery: LoginDto, verificationCode: string) => {
+        if (!currentProduct) return null;
+
+        setIsLoading(true);
+
+        crawlerApiV2
+            .deviseVerification(currentProduct.id, loginQuery, verificationCode)
+            .then((res) => {
+                const {data, isSuccess, account} = res.data;
+                if (isSuccess && account) {
+                    setSyncAccount(account);
+                    setWorkspaces(data);
+                    setCurrentStage(ConnectModalStage.SelectOrgStage);
+
+                    return data;
+                } else {
+                    toast.error(`Server failed.\nPlease request to admin.`);
+                }
+            })
+            .catch(connectApiCatchHandler)
+            .finally(() => setIsLoading(false));
+    };
+
+    const getAll = (key: string) => {
+        if (!currentProduct) return null;
+
+        setIsLoading(true);
+
+        crawlerApiV2
+            .getAll(currentProduct.id, syncAccount.id, key)
+            .then((res) => {
+                const {data, isSuccess, failed} = res.data;
+                if (isSuccess) {
+                    if (failed && failed.length > 0) {
+                        // 실패한 요청에 대한 대응
+                    }
+                    setCurrentStage(ConnectModalStage.AllFetched);
+                    setResult(data);
+
+                    return data;
+                } else {
+                    toast.error(`Server failed.\nPlease request to admin.`);
+                }
+            })
+            .catch(connectApiCatchHandler)
+            .finally(() => setIsLoading(false));
+    };
+
+    const connect = () => {
+        if (!currentProduct) return;
+        if (!result) return;
+
+        setIsLoading(true);
+
+        const {profile, billingInfo, billingHistories, members} = result;
+
+        crawlerApiV2.connect(currentProduct.id, syncAccount.id, profile.slug, result).then((res) => {
+            console.log(res.data);
+            return res.data;
+        });
+    };
+
     return {
         isConnectModalOpen,
         setIsConnectModalOpen,
@@ -125,5 +235,10 @@ export const useConnectPrototypeModalState = () => {
         selectOrgForm,
         closeModal,
         connectApiCatchHandler,
+        // v2
+        login,
+        loginWithVerifyCode,
+        getAll,
+        connect,
     };
 };

@@ -21,11 +21,11 @@ import {errorNotify} from '^utils/toast-notify';
  *     const [queryParams, setQueryParams] = useRecoilState(syncHistoryListFetchItemsQueryParamAtom);
  *
  *     const fetchItems = useCallback(
- *         (applicationId: number, page: number, force?: boolean) => {
+ *         (productId: number, page: number, force?: boolean) => {
  *             if (!force && pagination.currentPage === page) return;
  *
  *             const params: FindAllSyncHistoryQuery = {
- *                 where: {applicationId},
+ *                 where: {productId},
  *                 order: {id: 'DESC'},
  *                 page,
  *                 itemsPerPage: pagination.itemsPerPage,
@@ -33,7 +33,7 @@ import {errorNotify} from '^utils/toast-notify';
  *             if (!force && JSON.stringify(queryParams) === JSON.stringify(params)) return;
  *
  *             setQueryParams(params);
- *             return getSyncHistories(applicationId, params)
+ *             return getSyncHistories(productId, params)
  *                 .then((res) => {
  *                     setItems(res.data.items);
  *                     setPagination(res.data.pagination);

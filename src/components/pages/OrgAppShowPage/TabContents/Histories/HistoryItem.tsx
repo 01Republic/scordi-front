@@ -10,16 +10,16 @@ import {toast} from 'react-toastify';
 import {useCurrentSyncHistory} from '^hooks/useSubscriptionSyncHistories';
 
 interface HistoryItemProps {
-    application: SubscriptionDto;
+    subscription: SubscriptionDto;
     history: SyncHistoryDto;
     onRefresh: (history: SyncHistoryDto) => any;
 }
 
 export const HistoryItem = memo((props: HistoryItemProps) => {
-    const {application, history, onRefresh} = props;
+    const {subscription, history, onRefresh} = props;
     const {currentSyncHistory, fetchCurrentSyncHistory} = useCurrentSyncHistory();
 
-    const {product} = application;
+    const {product} = subscription;
 
     const durationMsg = (() => {
         if (history.finishedAt === null) return 'Running ...';
@@ -42,12 +42,12 @@ export const HistoryItem = memo((props: HistoryItemProps) => {
     const onRefreshClick = () => {
         onRefresh(history);
         if (currentSyncHistory && history.id === currentSyncHistory.id) {
-            fetchCurrentSyncHistory(application.id);
+            fetchCurrentSyncHistory(subscription.id);
         }
     };
 
     const onCancel = () => {
-        updateSyncHistory(application.id, history.id, {
+        updateSyncHistory(subscription.id, history.id, {
             resultStatus: SyncHistoryResultStatus.CANCELED,
             finishedAt: new Date(),
         }).then(() => onRefreshClick());

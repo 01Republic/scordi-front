@@ -4,11 +4,11 @@ import {t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 import React from 'react';
 
 interface OrgAppListItemProps {
-    app: SubscriptionDto;
+    subscription: SubscriptionDto;
 }
 
-export function OrgAppListItem({app}: OrgAppListItemProps) {
-    const {product} = app;
+export function OrgAppListItem({subscription}: OrgAppListItemProps) {
+    const {product} = subscription;
 
     return (
         <ContentPanelItem>
@@ -21,7 +21,7 @@ export function OrgAppListItem({app}: OrgAppListItemProps) {
                 </div>
                 <div className="bs-col px-0">
                     <p className="font-bold">{product.nameEn}</p>
-                    <p className="text-xs text-gray-500">{app.displayName}</p>
+                    <p className="text-xs text-gray-500">{subscription.workspace.displayName}</p>
 
                     {/*<p className="text-xs text-gray-500">*/}
                     {/*  <div className="badge badge-xs text-2xs">neutral</div>*/}
@@ -35,7 +35,7 @@ export function OrgAppListItem({app}: OrgAppListItemProps) {
             <div className="bs-col px-0">
                 <div>
                     <div className="rounded px-2 py-1 text-center font-semibold bg-pink-50 text-pink-500 text-xs w-[60px]">
-                        {app.paymentPlan?.name || '-'}
+                        {subscription.paymentPlan?.name || '-'}
                     </div>
                 </div>
             </div>
@@ -45,11 +45,13 @@ export function OrgAppListItem({app}: OrgAppListItemProps) {
             <div className="bs-col px-0">
                 <div>
                     <span className="text-sm">$</span>
-                    <span className="font-bold">{app.billingCycle?.unitPrice || 0}</span>
+                    <span className="font-bold">{subscription.billingCycle?.unitPrice || 0}</span>
                     &nbsp;
-                    <span className="text-sm text-gray-500">{app.billingCycle?.isPerUser ? '사용자/' : ''}</span>
                     <span className="text-sm text-gray-500">
-                        {app.billingCycle ? t_BillingCycleTerm(app.billingCycle.term) : '-'}
+                        {subscription.billingCycle?.isPerUser ? '사용자/' : ''}
+                    </span>
+                    <span className="text-sm text-gray-500">
+                        {subscription.billingCycle ? t_BillingCycleTerm(subscription.billingCycle.term) : '-'}
                     </span>
                 </div>
             </div>
@@ -60,7 +62,7 @@ export function OrgAppListItem({app}: OrgAppListItemProps) {
                 <div className="w-fit text-right">
                     <div className="" style={{lineHeight: 1}}>
                         <span className="text-sm">x</span>
-                        <span className="font-bold">{app.paidMemberCount}</span>
+                        <span className="font-bold">{subscription.paidMemberCount}</span>
                         &nbsp;
                         <span className="text-sm text-gray-500">{`명`}</span>
                         &nbsp;
@@ -84,7 +86,7 @@ export function OrgAppListItem({app}: OrgAppListItemProps) {
                     {/*    </div>*/}
                     {/*    <div className="avatar placeholder">*/}
                     {/*      <div className="w-6 bg-neutral-focus text-neutral-content">*/}
-                    {/*        <span className="text-2xs">+{app.accountCount}</span>*/}
+                    {/*        <span className="text-2xs">+{subscription.accountCount}</span>*/}
                     {/*      </div>*/}
                     {/*    </div>*/}
                     {/*  </div>*/}
@@ -98,7 +100,9 @@ export function OrgAppListItem({app}: OrgAppListItemProps) {
                     {/* 결제예정금액 */}
                     <div className="text-info" style={{lineHeight: 1}}>
                         <span className="text-sm">$</span>
-                        <span className="font-bold">{(app.billingCycle?.unitPrice || 0) * app.paidMemberCount}</span>
+                        <span className="font-bold">
+                            {(subscription.billingCycle?.unitPrice || 0) * subscription.paidMemberCount}
+                        </span>
                     </div>
                     {/* 결제예정일 */}
                     <div style={{lineHeight: 1}}>

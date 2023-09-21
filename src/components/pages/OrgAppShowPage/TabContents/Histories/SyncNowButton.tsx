@@ -9,30 +9,30 @@ import {toast} from 'react-toastify';
 import {useCurrentSubscription} from '^hooks/useSubscriptions';
 
 interface SyncNowButtonProps {
-    application: SubscriptionDto;
+    subscription: SubscriptionDto;
     history: SyncHistoryDto | null;
 }
 
 export const SyncNowButton = memo((props: SyncNowButtonProps) => {
-    const {application, history} = props;
+    const {subscription, history} = props;
     const {currentUser} = useCurrentUser();
     const {reload: reloadCurrentApp} = useCurrentSubscription();
     const {fetchItems: fetchSyncHistories, pagination} = useSyncHistoryList();
     const {fetchCurrentSyncHistory} = useCurrentSyncHistory();
 
-    const {product} = application;
+    const {product} = subscription;
 
     const isActive = history ? restartSyncButtonIsActive(history) : true;
 
     const onClick = () => {
-        if (!application || !currentUser) return;
-        createSyncHistory(application.id, {
+        if (!subscription || !currentUser) return;
+        createSyncHistory(subscription.id, {
             runnerId: currentUser.id,
             content: `Synchronize manually.`,
         }).then(() => {
             toast.success('New Sync started!');
-            fetchSyncHistories(application.id, pagination.currentPage, true);
-            fetchCurrentSyncHistory(application.id);
+            fetchSyncHistories(subscription.id, pagination.currentPage, true);
+            fetchCurrentSyncHistory(subscription.id);
             reloadCurrentApp();
         });
     };

@@ -5,23 +5,23 @@ import {CurrentPlanZoneHeader} from './plan/CurrentPlanZoneHeader';
 import {CurrentPlanPaidAccountStatus} from './plan/CurrentPlanPaidAccountStatus';
 
 interface CurrentPlanZoneProps {
-    application: SubscriptionDto;
+    subscription: SubscriptionDto;
 }
 
 export const CurrentPlanZone = memo((props: CurrentPlanZoneProps) => {
-    const {application} = props;
-    const {product, paymentPlan} = application;
+    const {subscription} = props;
+    const {product, paymentPlan} = subscription;
 
     return (
         <div className="bs-container mb-20">
-            <CurrentPlanZoneHeader application={application} />
+            <CurrentPlanZoneHeader subscription={subscription} />
 
             <div className="divider mb-4 -mx-[20px]" />
 
             <div className="bs-row mb-3">
                 <div className="bs-col px-0">
                     <div className="card w-full bg-white shadow border">
-                        <CurrentPlanPanelHeader application={application} />
+                        <CurrentPlanPanelHeader subscription={subscription} />
 
                         <div className="card-body">
                             {/* Plan Content */}
@@ -66,7 +66,7 @@ export const CurrentPlanZone = memo((props: CurrentPlanZoneProps) => {
                             {/*</div>*/}
                         </div>
 
-                        <CurrentPlanPaidAccountStatus application={application} />
+                        <CurrentPlanPaidAccountStatus subscription={subscription} />
                     </div>
                 </div>
             </div>

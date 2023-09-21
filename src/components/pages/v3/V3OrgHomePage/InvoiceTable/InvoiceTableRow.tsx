@@ -15,8 +15,8 @@ interface InvoiceTableRowProps {
 export const InvoiceTableRow = memo((props: InvoiceTableRowProps) => {
     // const {t} = useTranslation('org-home', {keyPrefix: 'invoiceTable'});
     const {invoiceData: billingHistory} = props;
-    const {application, invoiceApp, emailContent} = billingHistory;
-    const product = application?.product || invoiceApp?.product;
+    const {subscription, invoiceApp, emailContent} = billingHistory;
+    const product = subscription?.product || invoiceApp?.product;
 
     const tableTranslator = (rowKey: string, value: string) => {
         const keyPrefix = `invoiceTable.${rowKey}`;
@@ -27,20 +27,20 @@ export const InvoiceTableRow = memo((props: InvoiceTableRowProps) => {
     // 결제일
     const issuedAt = yyyy_mm_dd(new Date(billingHistory.issuedAt));
     // 청구자
-    const issuedTo = application?.displayName || emailContent?.sender;
+    const issuedTo = subscription?.workspace?.displayName || emailContent?.sender;
     // 상태
     const paidStatus = getBillingHistoryStatus(billingHistory);
     // 지불금액
     const paidPrice = getBillingHistoryPaidPrice(billingHistory);
     // 결제 유형
-    const billingCycle = getInvoiceAppBillingCycle(application, invoiceApp);
+    const billingCycle = getInvoiceAppBillingCycle(subscription, invoiceApp);
 
     // 서비스명
     const appLogo = product?.image;
     const appName = product?.nameEn;
     // 청구 메일
-    const receivedMail = application
-        ? application.billingEmail || application.publicEmail
+    const receivedMail = subscription
+        ? subscription.billingEmail || subscription.publicEmail
         : emailContent?.metadata.receiver;
 
     return (

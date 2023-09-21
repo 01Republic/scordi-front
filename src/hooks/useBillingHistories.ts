@@ -11,6 +11,7 @@ import {
 import {getBillingHistories, getBillingSchedules} from '^api/billing.api';
 import {BillingHistoryDto, GetBillingHistoriesParams, GetBillingSchedulesParams} from '^types/billing.type';
 import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook';
+import {useState} from 'react';
 
 export const useBillingSchedules = () => useRecoilValue(getBillingSchedulesQuery);
 export const useBillingHistories = () => useRecoilValue(getBillingHistoriesQuery);
@@ -19,18 +20,21 @@ export const useBillingHistory = () => useRecoilValue(getBillingHistoryQuery);
 export const useBillingHistoriesV3 = () => {
     const [result, setResult] = useRecoilState(orgBillingHistoriesResultV3Atom);
     const [query, setQuery] = useRecoilState(orgBillingHistoriesQueryV3Atom);
+    const [isLoading, setIsLoading] = useState(false);
 
     async function search(params: GetBillingHistoriesParams) {
         if (JSON.stringify(query) === JSON.stringify(params)) return;
 
+        setIsLoading(true);
         const data = await getBillingHistories(params).then((res) => res.data);
         setResult(data);
         setQuery(params);
+        setIsLoading(false);
     }
 
     const movePage = (page: number) => search({...query, page});
 
-    return {query, result, search, movePage};
+    return {query, result, search, movePage, isLoading};
 };
 
 export const useBillingSchedulesV3 = () => {
@@ -56,11 +60,11 @@ export const useBillingSchedulesV3 = () => {
 //     const [queryParams, setQueryParams] = useRecoilState(getBillingHistoriesParamsState);
 //
 //     const fetchItems = useCallback(
-//         (applicationId: number, page: number, force?: boolean) => {
+//         (productId: number, page: number, force?: boolean) => {
 //             if (!force && pagination.currentPage === page) return;
 //
 //             const params: GetBillingHistoriesParams = {
-//                 where: {applicationId},
+//                 where: {productId},
 //                 order: {id: 'DESC'},
 //                 page,
 //                 itemsPerPage: pagination.itemsPerPage,
@@ -86,8 +90,8 @@ export const useBillingSchedulesV3 = () => {
 // This is real !!
 export const {paginatedListHook: useBillingHistoryList} = makePaginatedListHookWithAtoms<number, BillingHistoryDto>({
     subject: 'billingHistoryList',
-    buildParams: (applicationId, page, pagination) => ({
-        where: {applicationId},
+    buildParams: (subscriptionId, page, pagination) => ({
+        where: {subscriptionId},
         order: {id: 'DESC'},
         page,
         itemsPerPage: pagination.itemsPerPage,

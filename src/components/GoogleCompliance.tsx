@@ -9,12 +9,13 @@ export const GoogleComplianceDisclosureTag = () => {
     return (
         <p className="pb-4 font-extralight font-sans text-xs">
             {t('description1')}
-            <a className="texl-xl btn-link" href={GooglePolicyLink}>
+            <a className="text-xs btn-link" href={GooglePolicyLink}>
                 {t('policy')}
             </a>
             {t('description2')}
             <br />
-            {t('assure')}
+            <br />
+            <b>{t('assure')}</b>
         </p>
     );
 };

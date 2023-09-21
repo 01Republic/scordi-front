@@ -7,25 +7,25 @@ import {PaymentDue} from './summary/PaymentDue';
 import {PaymentInfo} from './summary/PaymentInfo';
 
 interface SummaryZoneProps {
-    application: SubscriptionDto;
+    subscription: SubscriptionDto;
 }
 
 export const SummaryZone = memo((props: SummaryZoneProps) => {
-    const {application} = props;
+    const {subscription} = props;
 
     return (
         <div className="bs-container mb-20">
             <BsStats className="bs-row shadow border">
                 <BsStat className="bs-col-12 sm:bs-col">
-                    <CurrentBill application={application} />
+                    <CurrentBill subscription={subscription} />
                 </BsStat>
 
                 <BsStat className="bs-col-12 sm:bs-col">
-                    <PaymentDue application={application} />
+                    <PaymentDue subscription={subscription} />
                 </BsStat>
 
                 <BsStat className="bs-col-12 sm:bs-col">
-                    <PaymentInfo application={application} />
+                    <PaymentInfo subscription={subscription} />
                 </BsStat>
             </BsStats>
         </div>

@@ -6,16 +6,16 @@ import {useSetRecoilState} from 'recoil';
 import {navTabIndex} from '^components/pages/OrgAppShowPage';
 
 interface PaymentDueProps {
-    application: SubscriptionDto;
+    subscription: SubscriptionDto;
 }
 
 export const PaymentDue = memo((props: PaymentDueProps & WithChildren) => {
-    const {application, children} = props;
+    const {subscription, children} = props;
     const setTabIndex = useSetRecoilState(navTabIndex);
 
-    const {product} = application;
+    const {product} = subscription;
 
-    const paymentDue = application.nextBillingDate || '-';
+    const paymentDue = subscription.nextBillingDate || '-';
 
     const colorClass = (() => {
         return 'text-primary';

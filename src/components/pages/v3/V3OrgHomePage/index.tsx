@@ -19,6 +19,7 @@ import {InvoiceAccountsPanel} from '^v3/V3OrgHomePage/mobile/InvoiceAccountsPane
 import {SummaryHeaderPanel} from '^v3/V3OrgHomePage/mobile/SummaryHeaderPanel';
 import {ApplyNotFoundProduct} from '^v3/share/sections/ApplyNotFoundProduct';
 import {BillingHistoriesPageModal} from '^v3/V3OrgBillingHistoriesPage/modals/BillingHistoriesPageModal';
+import {NewInvoiceAccountModalMobile} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/mobile';
 
 export const V3OrgHomePage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -60,12 +61,20 @@ export const V3OrgHomePage = memo(() => {
             <V3MainLayoutMobile
                 title={currentOrg?.name}
                 activeTabIndex={0}
-                modals={[NewInvoiceAccountModal, BillingHistoriesPageModal]}
+                modals={[BillingHistoriesPageModal, NewInvoiceAccountModalMobile]}
             >
+                {/* 월간 요약 패널 */}
                 <SummaryHeaderPanel />
+
+                {/* 이용중인 앱 */}
                 <SubscriptionsPanel />
+
+                {/* 결제 수신 계정 */}
                 <InvoiceAccountsPanel />
+
+                {/* 하단 여백 */}
                 <MobileSection.Item noStyle className="px-4 mb-16">
+                    {/* 스코디에 제보하기 */}
                     <ApplyNotFoundProduct />
                 </MobileSection.Item>
             </V3MainLayoutMobile>

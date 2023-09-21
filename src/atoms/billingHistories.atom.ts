@@ -112,7 +112,7 @@ export const getBillingHistoriesQuery = selector({
     key: 'getBillingHistoriesQuery',
     get: async ({get}) => {
         const params = get(getBillingHistoriesParamsState);
-        if (!params.where?.applicationId) return;
+        if (!params.where?.subscriptionId) return;
 
         try {
             const res = await getBillingHistories(params);

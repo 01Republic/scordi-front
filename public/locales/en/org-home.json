@@ -10,5 +10,16 @@
     "title": "Add a billing email account",
     "description": "Register multiple email accounts <br /> Sign up in one click",
     "googleLoginText": "Sign up with google"
+  },
+  "result_in_since_n_ago": "This is result from <b>{{since}}</b>",
+  "summary_stat": {
+    "counter": {
+      "label": "Found",
+      "unit": "ea"
+    },
+    "balance": {
+      "label": "Total cost",
+      "unit": ""
+    }
   }
 }

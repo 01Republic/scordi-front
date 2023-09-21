@@ -46,7 +46,7 @@ export default function BillingHistoriesPage() {
             <MobileViewContainer>
                 <Image src={subInfo.product.image} width={80} height={80} />
                 <h2 className={'my-[20px]'}>{productName}</h2>
-                <p>구독시작일 : {intlDateLong(subInfo.registeredAt)}</p>
+                <p>구독시작일 : {subInfo.registeredAt ? intlDateLong(subInfo.registeredAt) : ''}</p>
                 <h2 className={'mt-[40px]'}>구독 내역</h2>
                 {billingHistory.length === 0 && (
                     <div className={'text-center py-10'}>

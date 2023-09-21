@@ -44,7 +44,7 @@ export const useBillingListV3 = () => {
 
     const uniqueSortSchedules = (items: ScheduleDto[]) => {
         return sortBy(
-            uniqBy(items, (item) => [item.applicationId, item.billingDate, item.billingAmount]),
+            uniqBy(items, (item) => [item.productId, item.billingDate, item.billingAmount]),
             'billingDate',
         );
     };

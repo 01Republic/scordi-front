@@ -8,27 +8,27 @@ import {SyncHistoryDto} from '^types/subscriptionSyncHistory.type';
 import {toast} from 'react-toastify';
 
 interface HistoryTableProps {
-    application: SubscriptionDto;
+    subscription: SubscriptionDto;
 }
 
 export const HistoryTable = memo((props: HistoryTableProps) => {
-    const {application} = props;
+    const {subscription} = props;
     const {items: syncHistories, fetchItems: fetchSyncHistories, pagination} = useSyncHistoryList();
     const {currentSyncHistory} = useCurrentSyncHistory();
 
     useEffect(() => {
-        if (!application) return;
-        fetchSyncHistories(application.id, 1, true);
-    }, [application]);
+        if (!subscription) return;
+        fetchSyncHistories(subscription.id, 1, true);
+    }, [subscription]);
 
-    const {product} = application;
+    const {product} = subscription;
 
     const onRefreshItem = useCallback(
         (history: SyncHistoryDto) => {
-            const req = fetchSyncHistories(application.id, pagination.currentPage, true);
+            const req = fetchSyncHistories(subscription.id, pagination.currentPage, true);
             req && req.then(() => toast.success('Refreshed'));
         },
-        [application, pagination],
+        [subscription, pagination],
     );
 
     return (
@@ -41,7 +41,7 @@ export const HistoryTable = memo((props: HistoryTableProps) => {
 
                 {/* Right */}
                 <div className="ml-auto flex gap-2">
-                    <SyncNowButton application={application} history={currentSyncHistory} />
+                    <SyncNowButton subscription={subscription} history={currentSyncHistory} />
                 </div>
             </div>
 
@@ -64,7 +64,7 @@ export const HistoryTable = memo((props: HistoryTableProps) => {
                                     {syncHistories.map((history, i) => (
                                         <HistoryItem
                                             key={i}
-                                            application={application}
+                                            subscription={subscription}
                                             history={history}
                                             onRefresh={onRefreshItem}
                                         />
@@ -83,7 +83,7 @@ export const HistoryTable = memo((props: HistoryTableProps) => {
                             className="border shadow rounded-lg"
                             currentPage={pagination.currentPage}
                             totalPage={pagination.totalPage}
-                            onClick={(pageNum) => fetchSyncHistories(application.id, pageNum)}
+                            onClick={(pageNum) => fetchSyncHistories(subscription.id, pageNum)}
                         />
                     </div>
                 </div>

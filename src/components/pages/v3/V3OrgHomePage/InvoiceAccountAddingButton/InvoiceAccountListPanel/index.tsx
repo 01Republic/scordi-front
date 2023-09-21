@@ -1,7 +1,6 @@
 import {atom, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {InvoiceAccountDto} from '^types/invoiceAccount.type';
 import React, {memo} from 'react';
-import {isOpenNewInvoiceAccountModalAtom} from '^v3/V3OrgHomePage/NewInvoiceAccountModal';
 import {InvoiceAccountItem} from './InvoiceAccountItem';
 import {AddNewAccountItem} from './AddNewAccountItem';
 import {selectedInvoiceAccountAtom} from '^v3/V3OrgHomePage/InvoiceAccountAddingButton/InvoiceAppListPanel';

@@ -5,20 +5,20 @@ import {BiReceipt} from '^components/react-icons';
 import {Locale, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 
 interface CurrentBillProps {
-    application: SubscriptionDto;
+    subscription: SubscriptionDto;
 }
 
 export const CurrentBill = memo((props: CurrentBillProps & WithChildren) => {
-    const {application, children} = props;
-    const {product, paymentPlan, billingCycle} = application;
+    const {subscription, children} = props;
+    const {product, paymentPlan, billingCycle} = subscription;
 
-    const isFreeTier = application.isFreeTier;
+    const isFreeTier = subscription.isFreeTier;
     const cycleName = billingCycle ? t_BillingCycleTerm(billingCycle.term, true, Locale.en) : '-';
-    const totalPrice = `$${application.nextBillingAmount.toFixed(2)}`;
+    const totalPrice = `$${subscription.nextBillingAmount.toFixed(2)}`;
 
     const diffPercent = (() => {
-        const nextAmt = application.nextBillingAmount;
-        const prevAmt = application.nextBillingAmount; // TODO: application.prevBillingAmount or application.paymentHistories.last.amount
+        const nextAmt = subscription.nextBillingAmount;
+        const prevAmt = subscription.nextBillingAmount; // TODO: application.prevBillingAmount or application.paymentHistories.last.amount
         const sub = nextAmt - prevAmt;
         // const delta = sub > 0 ? sub : -1 * sub;
         const ratio = sub / prevAmt;

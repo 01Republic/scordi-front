@@ -35,23 +35,23 @@ export const BillingHistoryShowPageRoute = pathRoute({
 
 export default function BillingHistoryShowPage() {
     const organizationId = useRouterIdParamState('id', orgIdParamState);
-    const applicationId = useRouterIdParamState('appId', subscriptionIdParamState);
+    const subscriptionId = useRouterIdParamState('appId', subscriptionIdParamState);
     const billingHistoryId = useRouterIdParamState('billingHistoryId', billingHistoryIdParamState);
-    const {currentSubscription: application} = useCurrentSubscription();
+    const {currentSubscription: subscription} = useCurrentSubscription();
     const setBillingHistoriesQueryParam = useSetRecoilState(getBillingHistoriesParamsState);
 
     useEffect(() => {
-        // setSubscriptionIdParam(applicationId);
-        if (!applicationId || isNaN(applicationId)) return;
+        // setSubscriptionIdParam(subscriptionId);
+        if (!subscriptionId || isNaN(subscriptionId)) return;
         setBillingHistoriesQueryParam({
-            where: {applicationId},
+            where: {subscriptionId},
             order: {id: 'DESC'},
             itemsPerPage: 300,
         });
-    }, [applicationId]);
+    }, [subscriptionId]);
 
-    if (!application) return <></>;
-    const editPath = BillingHistoryEditPageRoute.path(organizationId, applicationId, billingHistoryId);
+    if (!subscription) return <></>;
+    const editPath = BillingHistoryEditPageRoute.path(organizationId, subscriptionId, billingHistoryId);
 
     return (
         <OrgMobileLayout>
@@ -71,10 +71,10 @@ export default function BillingHistoryShowPage() {
                 <MobileBottomNav.Item
                     href={NewBillingHistoryOnAppPageRoute.path(
                         organizationId,
-                        applicationId,
-                        application.productId,
-                        application.paymentPlanId || 0,
-                        application.billingCycleId || 0,
+                        subscriptionId,
+                        subscription.productId,
+                        subscription.paymentPlanId || 0,
+                        subscription.billingCycleId || 0,
                     )}
                     icon={<Icon.Plus />}
                 />

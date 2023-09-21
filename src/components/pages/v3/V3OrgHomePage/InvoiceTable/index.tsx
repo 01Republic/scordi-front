@@ -5,7 +5,7 @@ import {useBillingHistoriesV3} from '^hooks/useBillingHistories';
 import {RiMailAddLine} from '^components/react-icons';
 import {useTranslation} from 'next-i18next';
 import {useSetRecoilState} from 'recoil';
-import {isOpenNewInvoiceAccountModalAtom} from '^v3/V3OrgHomePage/NewInvoiceAccountModal';
+import {isOpenNewInvoiceAccountModalAtom} from '../NewInvoiceAccountModal/atom';
 
 export const InvoiceTable = memo(() => {
     const {result, movePage} = useBillingHistoriesV3();

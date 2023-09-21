@@ -24,14 +24,14 @@ import {subscriptionIdParamState, orgIdParamState, useRouterIdParamState} from '
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const NewBillingHistoryOnAppPageRoute = pathRoute({
-    pathname: '/orgs/[id]/apps/[appId]/billingHistories/new',
-    path: (orgId: number, appId: number, protoId: number, planId: number, cycleId: number) =>
+    pathname: '/orgs/[id]/apps/[subscriptionId]/billingHistories/new',
+    path: (orgId: number, subscriptionId: number, productId: number, planId: number, cycleId: number) =>
         pathReplace(
-            `${NewBillingHistoryOnAppPageRoute.pathname}?prototypeId=[prototypeId]&planId=[planId]&cycleId=[cycleId]`,
+            `${NewBillingHistoryOnAppPageRoute.pathname}?productId=[productId]&planId=[planId]&cycleId=[cycleId]`,
             {
                 id: orgId,
-                appId,
-                prototypeId: protoId,
+                subscriptionId: subscriptionId,
+                productId: productId,
                 planId,
                 cycleId,
             },
@@ -40,12 +40,12 @@ export const NewBillingHistoryOnAppPageRoute = pathRoute({
 
 export default function NewBillingHistoryOnAppPage() {
     useRouterIdParamState('id', orgIdParamState);
-    useRouterIdParamState('appId', subscriptionIdParamState);
-    const {currentSubscription: application} = useCurrentSubscription();
+    useRouterIdParamState('subscriptionId', subscriptionIdParamState);
+    const {currentSubscription: subscription} = useCurrentSubscription();
 
-    if (!application) return <PreLoader />;
+    if (!subscription) return <PreLoader />;
 
-    const {product, paymentPlan: plan, billingCycle: cycle} = application;
+    const {product, paymentPlan: plan, billingCycle: cycle} = subscription;
 
     return (
         <OrgMobileLayout>

@@ -6,19 +6,19 @@ import {useEffect} from 'react';
 import {PaymentCycle, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 
 interface BillingTableRowProps {
-    app: SubscriptionDto;
+    subscription: SubscriptionDto;
 }
 
 export const BillingTableRow = (props: BillingTableRowProps) => {
-    const {app} = props;
+    const {subscription} = props;
     const router = useRouter();
     const organizationId = Number(router.query.id);
-    const {product, paymentPlan, billingCycle} = app;
+    const {product, paymentPlan, billingCycle} = subscription;
 
     const onEditBtnClick = () => {};
 
     useEffect(() => {
-        console.log(1, app);
+        console.log(1, subscription);
     }, []);
 
     return (
@@ -61,7 +61,7 @@ export const BillingTableRow = (props: BillingTableRowProps) => {
                     {(156000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </span>
             </td>
-            <td>{t_ConnectStatus(app.connectStatus)}</td>
+            <td>{t_ConnectStatus(subscription.connectStatus)}</td>
             <th>
                 <button className="btn btn-ghost btn-xs" onClick={onEditBtnClick}>
                     Edit
