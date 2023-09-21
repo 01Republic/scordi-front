@@ -59,6 +59,11 @@ export class BasicModel<DTO> {
         return this.list.map((d) => d[attr]);
     }
 
+    attrSum<Model extends BasicModel<DTO>, K extends keyof DTO>(this: Model, attr: K): number {
+        const nums = this.attrMap<Model, K>(attr) as number[];
+        return nums.reduce((acc, a) => acc + a, 0);
+    }
+
     /**
      * Private Methods
      */

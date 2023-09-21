@@ -22,7 +22,7 @@ export class BillingHistoryManager extends BasicModel<BillingHistoryDto> {
     }
 
     paymentOnly() {
-        return this.filter((his) => his.payAmount);
+        return this.filter<BillingHistoryManager>((his) => his.payAmount);
     }
 
     paid() {

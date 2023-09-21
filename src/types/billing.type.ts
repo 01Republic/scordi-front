@@ -10,7 +10,7 @@ import {TypeCast} from '^types/utils/class-transformer';
 import {BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 
 // 쿼리가 가능한 엔티티. (dto 와 entity 의 형태 차이가 좀 있음)
-export class BillingSchedule {
+export class BillingScheduleDto {
     organizationId!: number;
     subscriptionId!: number;
     productId!: number;
@@ -26,7 +26,7 @@ export class BillingSchedule {
     paidMemberCount!: number;
 }
 
-export type BillingScheduleShallowDto = {
+export class BillingScheduleShallowDto {
     organizationId: number;
     subscriptionId: number;
     productId: number;
@@ -44,7 +44,7 @@ export type BillingScheduleShallowDto = {
     isPerUser: boolean;
     unitPrice: number;
     paidMemberCount: number;
-};
+}
 
 export class BillingHistoryDto {
     id: number; // ID
@@ -255,5 +255,5 @@ export type FromToQueryDto = {
     to: Date; // 기간 종료일
 };
 
-export type GetBillingSchedulesParams = FindAllQueryDto<BillingSchedule> & StartEndParams;
+export type GetBillingSchedulesParams = FindAllQueryDto<BillingScheduleDto> & StartEndParams;
 export type GetBillingHistoriesParams = FindAllQueryDto<BillingHistoryDto> & StartEndParams & StatusParams;
