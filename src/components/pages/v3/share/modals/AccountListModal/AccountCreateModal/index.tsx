@@ -67,7 +67,7 @@ export const AccountCreateModal = memo(() => {
                     <input type="hidden" {...form.register('productId')} />
 
                     <div className="w-full sm:grid grid-cols-3">
-                        <div className="col-span-1 mb-2">Email</div>
+                        <div className="col-span-1 mb-2">아이디</div>
                         <div className="col-span-2">
                             <input
                                 type="text"
@@ -79,7 +79,7 @@ export const AccountCreateModal = memo(() => {
                     </div>
 
                     <div className="w-full sm:grid grid-cols-3">
-                        <div className="col-span-1 mb-2">Password</div>
+                        <div className="col-span-1 mb-2">비밀번호</div>
                         <div className="col-span-2">
                             <input
                                 type="password"
