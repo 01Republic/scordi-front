@@ -14,7 +14,7 @@ import {useBillingHistoriesV3, useBillingSchedulesV3} from '^hooks/useBillingHis
 import {orgIdParamState} from '^atoms/common';
 import {BillingHistoryManager} from '^models/BillingHistory';
 import {currencyFormat} from '^utils/number';
-import {BillingSchedule} from '^models/BillingSchedule';
+import {BillingScheduleManager} from '^models/BillingSchedule';
 
 export const SummaryHeaderPanel = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -41,9 +41,11 @@ export const SummaryHeaderPanel = memo(() => {
         loadSchedules({...query, order: {billingDate: 'ASC'}, itemsPerPage: 0});
     }, [orgId, focusedMonth]);
 
-    const monthlyPaidAmount = BillingHistoryManager.init(pagedHistories.items).paid().getTotalPrice(displayCurrency);
-    const monthlyWillPayAmount = BillingSchedule.init(pagedSchedules.items).getTotalPrice();
-    const monthlyTotalAmount = monthlyPaidAmount.amount + monthlyWillPayAmount;
+    const BillingHistory = BillingHistoryManager.init(pagedHistories.items).paid();
+    const BillingSchedule = BillingScheduleManager.init(pagedSchedules.items).isNotDead();
+    const monthlyPaidAmount = BillingHistory.getTotalPrice(displayCurrency);
+    const monthlyWillPayAmount = BillingSchedule.getTotalPrice(displayCurrency);
+    const monthlyTotalAmount = Math.round(monthlyPaidAmount.amount + monthlyWillPayAmount);
 
     return (
         <MobileSection.Item>
@@ -67,7 +69,10 @@ export const SummaryHeaderPanel = memo(() => {
                         label="오늘까지 결제된 금액"
                         value={currencyFormat(monthlyPaidAmount.amount, unit)}
                     />
-                    <MobileInfoListItem label="남은 결제 금액" value={`0원`} />
+                    <MobileInfoListItem
+                        label="남은 결제 금액"
+                        value={currencyFormat(Math.round(monthlyWillPayAmount), unit)}
+                    />
                 </ul>
             </MobileSection.Padding>
         </MobileSection.Item>

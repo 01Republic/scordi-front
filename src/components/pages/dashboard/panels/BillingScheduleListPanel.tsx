@@ -34,8 +34,8 @@ export const BillingScheduleListPanel = memo(() => {
                             key={i}
                             subscriptionId={schedule.subscriptionId}
                             date={new Date(schedule.billingDate)}
-                            payAmount={schedule.unitPrice * schedule.paidMemberCount}
-                            isPaid={schedule.isSuccess}
+                            payAmount={schedule.payAmount?.amount || 0}
+                            isPaid={schedule.isDead}
                             historyId={0}
                         />
                     ))}

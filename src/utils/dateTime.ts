@@ -188,3 +188,15 @@ export function groupByDate<T>(items: T[], getDate: (item: T) => Date): Record<s
 
     return container;
 }
+
+export function groupBy<T, R extends string | number | symbol>(items: T[], fn: (item: T) => R): Record<R, T[]> {
+    const container = {} as Record<R, T[]>;
+
+    items.forEach((item) => {
+        const key = fn(item);
+        container[key] ||= [];
+        container[key].push(item);
+    });
+
+    return container;
+}

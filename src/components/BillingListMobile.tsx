@@ -104,15 +104,15 @@ type BillingListMobileItemProps = {
 
 const BillingListMobileItem = memo((props: BillingListMobileItemProps) => {
     const {shallow: schedule, subscription} = props;
-    const amount = schedule?.billingAmount || 0;
-    const billingDate = schedule?.billingDate || '';
+
+    if (!schedule) return <></>;
+
+    const amount = schedule.payAmount?.amount || 0;
+    const billingDate = schedule.billingDate || '';
     const billingDateStr = intlDateShort(billingDate);
     const product = subscription.product || {};
     const serviceName = product.nameEn;
-
-    // 결제가 안됐는데(결제기록이 존재하지 않음) 그대로 시간이 지나버린 건.
-    // -> '지금까지 결제한 금액'으로 놓기에는 어색하여, '앞으로 결제될 금액'에서 보여짐.
-    const somethingWrong = schedule?.isOverdue && schedule?.isSuccess === false;
+    const somethingWrong = schedule.somethingWrong();
 
     return (
         <div className={'flex bg-[#F9FAFB] rounded-[14px] p-[14px] items-center mb-3'} onClick={props.onClick}>

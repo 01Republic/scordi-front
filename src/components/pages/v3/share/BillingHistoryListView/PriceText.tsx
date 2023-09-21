@@ -29,15 +29,50 @@ export const PriceText = memo((props: PriceTextProps) => {
     }
 });
 
+interface BillingListPriceTextProps {
+    amount?: MoneyDto | null;
+    status: BillingHistoryStatus;
+}
+export const BillingListPriceText = memo((props: BillingListPriceTextProps) => {
+    const {amount, status} = props;
+
+    console.log('amount', amount, status);
+    switch (status) {
+        case BillingHistoryStatus.PaySuccess:
+            return <PriceTextSuccess payAmount={amount!} />; // PaySuccess 조건에서는 payAmount 가 반드시 존재함
+        case BillingHistoryStatus.PayFail:
+            return <PriceTextFail payAmount={amount!} />; // PayFail 조건에서는 payAmount 가 반드시 존재함
+        case BillingHistoryStatus.Info:
+            return <PriceTextInfo payAmount={amount} />;
+        case BillingHistoryStatus.Unknown:
+        default:
+            return <PriceTextUnknown />;
+    }
+});
+
 const PriceTextUnknown = memo(() => {
     return <span className="text-gray-500">-</span>;
 });
 
-const PriceTextInfo = memo(() => {
+const PriceTextInfo = memo(({payAmount}: {payAmount: MoneyDto | null}) => {
+    const displayCurrency = useRecoilValue(displayCurrencyAtom);
     return (
-        <span className="text-scordi-light relative -top-[4px]">
-            <BsInfoCircle />
-        </span>
+        <div className="flex items-end gap-2">
+            <span className="text-scordi-light relative -top-[4px]">
+                <BsInfoCircle />
+            </span>
+            {payAmount && (
+                <div className="text-gray-300">
+                    <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>
+                    <span>
+                        {currencyFormat(
+                            changePriceCurrency(payAmount.amount, payAmount.code, displayCurrency) || 0,
+                            displayCurrency,
+                        )}
+                    </span>
+                </div>
+            )}
+        </div>
     );
 });
 
@@ -56,23 +91,23 @@ const PriceTextSuccess = memo(({payAmount}: {payAmount: MoneyDto}) => {
     );
 });
 
-const PriceTextFail = memo(({payAmount}: {payAmount: MoneyDto | null}) => {
-    // const displayCurrency = useRecoilValue(displayCurrencyAtom);
+const PriceTextFail = memo(({payAmount}: {payAmount: MoneyDto}) => {
+    const displayCurrency = useRecoilValue(displayCurrencyAtom);
 
     return (
-        <span className="text-error relative -top-[4px]">
-            <BiError />
-        </span>
+        <div className="flex items-end gap-2">
+            <span className="text-error relative -top-[4px]">
+                <BiError />
+            </span>
+            <div className="text-gray-300">
+                <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>
+                <span>
+                    {currencyFormat(
+                        changePriceCurrency(payAmount.amount, payAmount.code, displayCurrency) || 0,
+                        displayCurrency,
+                    )}
+                </span>
+            </div>
+        </div>
     );
-    // return (
-    //     <>
-    //         <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>
-    //         <span>
-    //             {currencyFormat(
-    //                 changePriceCurrency(payAmount.amount, payAmount.code, displayCurrency) || 0,
-    //                 displayCurrency,
-    //             )}
-    //         </span>
-    //     </>
-    // );
 });

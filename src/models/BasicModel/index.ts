@@ -55,6 +55,11 @@ export class BasicModel<DTO> {
         return this.list.length;
     }
 
+    map<R>(predicate: (value: DTO, index: number, array: DTO[]) => R, thisArg?: any) {
+        const newList = this.list.filter(predicate, thisArg);
+        return this.list.map(predicate, thisArg);
+    }
+
     attrMap<Model extends BasicModel<DTO>, K extends keyof DTO>(this: Model, attr: K): DTO[K][] {
         return this.list.map((d) => d[attr]);
     }

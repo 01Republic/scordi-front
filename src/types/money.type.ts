@@ -24,6 +24,10 @@ export class MoneyDto {
         return plainToInstance(MoneyDto, base);
     }
 
+    get dollar() {
+        return this.amount / this.exchangeRate;
+    }
+
     changeAmount(amount: number) {
         this.amount = amount;
         this.updateText();

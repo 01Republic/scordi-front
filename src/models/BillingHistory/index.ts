@@ -2,7 +2,7 @@ import {dateSortBy} from '^components/util/date';
 import {Currency} from '^types/crawler';
 import {BillingHistoryDto, getTotalPriceOfEmails} from '^types/billing.type';
 import {BasicModel} from '../BasicModel';
-import {groupByDate, monthBefore, yearBefore, yyyy_mm_dd} from '^utils/dateTime';
+import {groupBy, groupByDate, monthBefore, yearBefore, yyyy_mm_dd} from '^utils/dateTime';
 import {BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 
 export class BillingHistoryManager extends BasicModel<BillingHistoryDto> {
@@ -46,6 +46,10 @@ export class BillingHistoryManager extends BasicModel<BillingHistoryDto> {
 
     groupByIssuedAt() {
         return groupByDate(this.list, (his) => new Date(his.issuedAt));
+    }
+
+    groupByIssuedAtYMD() {
+        return groupBy(this.list, (his) => yyyy_mm_dd(his.issuedAt));
     }
 
     lastPaidHistory() {

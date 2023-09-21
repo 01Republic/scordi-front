@@ -7,22 +7,18 @@ import {firstDayOfMonth, lastDayOfMonth, monthAfter, monthBefore, yyyy_mm_dd} fr
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {useBillingListV3} from '^hooks/useBillingList';
+import {useBillingHistoriesV3, useBillingSchedulesV3} from '^hooks/useBillingHistories';
+import {BillingHistoryManager} from '^models/BillingHistory';
+import {BillingScheduleManager} from '^models/BillingSchedule';
+import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
+import {getCurrencySymbol, getCurrencyUnit} from '^api/tasting.api/gmail/agent/parse-email-price';
+import {currencyFormat} from '^utils/number';
 
 export const CalendarPanel = memo(() => {
-    const organizationId = useRecoilValue(orgIdParamState);
-    const {focusedMonth} = useFocusedMonth();
-    const {calendarData, activeStartDate, setActiveStartDate, loadCalendar} = useCalendar3();
-    const {startDate, endDate, groupedBillingList, initRangeDate, updateStartDate, updateEndDate} = useBillingListV3();
-    const now = new Date();
-
-    useEffect(() => {
-        if (!focusedMonth) return;
-        setActiveStartDate(firstDayOfMonth(focusedMonth || now));
-
-        const from = firstDayOfMonth(monthBefore(1, focusedMonth));
-        const to = lastDayOfMonth(monthAfter(1, focusedMonth));
-        initRangeDate(from, to);
-    }, []);
+    const displayCurrency = useRecoilValue(displayCurrencyAtom);
+    const symbol = getCurrencySymbol(displayCurrency);
+    const {activeStartDate, setActiveStartDate} = useCalendar3();
+    const {startDate, endDate, updateStartDate, updateEndDate, groupedHistories, groupedSchedules} = useBillingListV3();
 
     const calendarPrevMonthHandler = (date: Date) => {
         console.log('prev', {date, startDate});
@@ -36,7 +32,7 @@ export const CalendarPanel = memo(() => {
         setActiveStartDate(date);
     };
 
-    console.log('groupedBillingList', groupedBillingList);
+    const now = new Date();
 
     return (
         <MobileSection.Item>
@@ -51,15 +47,21 @@ export const CalendarPanel = memo(() => {
                 formatDay={(locale, date) => date.getDate().toString()}
                 tileContent={({date}) => {
                     // const thisDay = intlDateLong(date);
-                    const dayKey = yyyy_mm_dd(date);
-                    const billingList = groupedBillingList[dayKey] || [];
                     // const payDay = calendarData?.find((item) => new Date(item.date).getDate() === date.getDate());
-                    if (billingList.length) console.log(dayKey, billingList);
-                    return billingList.length ? (
+                    const dayKey = yyyy_mm_dd(date);
+                    const histories = BillingHistoryManager.init(groupedHistories[dayKey] || []);
+                    const schedules = BillingScheduleManager.init(groupedSchedules[dayKey] || []);
+                    const allLength = histories.length + schedules.length;
+
+                    const paidAmount = histories.getTotalPrice(displayCurrency).amount;
+                    const willPayAmount = schedules.getTotalPrice(displayCurrency);
+                    const totalAmount = Math.round(paidAmount + willPayAmount);
+
+                    return allLength ? (
                         <div>
                             <p className="money-text active">
-                                <span className="symbol">$</span>
-                                <span className="amount">{10}</span>
+                                <span className="symbol">{symbol}</span>
+                                <span className="amount">{currencyFormat(totalAmount, '')}</span>
                             </p>
                         </div>
                     ) : (
@@ -68,8 +70,8 @@ export const CalendarPanel = memo(() => {
                 }}
                 onActiveStartDateChange={({action, activeStartDate: date}: ViewCallbackProperties) => {
                     const handler = {
-                        next: () => calendarNextMonthHandler(date),
                         prev: () => calendarPrevMonthHandler(date),
+                        next: () => calendarNextMonthHandler(date),
                     }[action as 'next' | 'prev'];
                     handler();
                 }}

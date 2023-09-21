@@ -71,7 +71,7 @@ export const willPayAppsState = selector({
     key: 'willPayAppsState',
     get: ({get}) => {
         const result = get(getBillingSchedulesQuery);
-        return result ? result.items.filter((d) => !d.isSuccess).sort(sortByBillingDate('DESC')) : [];
+        return result ? result.items.filter((d) => !d.isDead).sort(sortByBillingDate('DESC')) : [];
     },
 });
 
@@ -79,7 +79,7 @@ export const didPayAppsState = selector({
     key: 'didPayAppsState',
     get: ({get}) => {
         const result = get(getBillingSchedulesQuery);
-        return result ? result.items.filter((d) => d.isSuccess).sort(sortByBillingDate('DESC')) : [];
+        return result ? result.items.filter((d) => d.isDead).sort(sortByBillingDate('DESC')) : [];
     },
 });
 

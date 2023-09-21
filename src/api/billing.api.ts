@@ -14,7 +14,9 @@ import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 
 // [구독서비스] 결제 일정 API (BillingSchedule) / 결제 일정 조회 *
 export const getBillingSchedules = (params: GetBillingSchedulesParams) => {
-    return api.get<Paginated<BillingScheduleShallowDto>>(`/billing_schedules`, {params});
+    return api
+        .get<Paginated<BillingScheduleShallowDto>>(`/billing_schedules`, {params})
+        .then(paginatedDtoOf(BillingScheduleShallowDto));
 };
 
 export const getBillingSchedulesAll = (params: GetBillingSchedulesParams) => {
@@ -33,7 +35,9 @@ export const getAppsBillingSchedule = (id: number, params: GetBillingSchedulesPa
 };
 
 export const getBillingHistories = (params: GetBillingHistoriesParams) => {
-    return api.get<Paginated<BillingHistoryDto>>(`/billing_histories`, {params});
+    return api
+        .get<Paginated<BillingHistoryDto>>(`/billing_histories`, {params})
+        .then(paginatedDtoOf(BillingHistoryDto));
 };
 
 export const getBillingHistoriesAll = (params: GetBillingHistoriesParams) => {

@@ -1,6 +1,6 @@
 import React, {memo, useEffect} from 'react';
 import {CalendarPanel} from './mobile/CalendarPanel';
-import {BillingHistoryListPanel} from './mobile/BillingHistoryListPanel';
+import {BillingListPanel} from './mobile/BillingListPanel';
 import {useRouter} from 'next/router';
 
 export const BillingHistoriesPageBody = memo(() => {
@@ -9,7 +9,7 @@ export const BillingHistoriesPageBody = memo(() => {
     return (
         <>
             <CalendarPanel />
-            <BillingHistoryListPanel />
+            <BillingListPanel />
         </>
     );
 });
