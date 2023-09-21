@@ -20,9 +20,9 @@ export const PriceText = memo((props: PriceTextProps) => {
         case BillingHistoryStatus.PaySuccess:
             return <PriceTextSuccess payAmount={payAmount!} />; // PaySuccess 조건에서는 payAmount 가 반드시 존재함
         case BillingHistoryStatus.PayFail:
-            return <PriceTextFail payAmount={payAmount} />; // PayFail 조건에서는 payAmount 가 반드시 존재함
+            return <PriceTextFail payAmount={payAmount!} />; // PayFail 조건에서는 payAmount 가 반드시 존재함
         case BillingHistoryStatus.Info:
-            return <PriceTextInfo />;
+            return <PriceTextInfo payAmount={payAmount} />;
         case BillingHistoryStatus.Unknown:
         default:
             return <PriceTextUnknown />;
@@ -43,7 +43,7 @@ export const BillingListPriceText = memo((props: BillingListPriceTextProps) => {
         case BillingHistoryStatus.PayFail:
             return <PriceTextFail payAmount={amount!} />; // PayFail 조건에서는 payAmount 가 반드시 존재함
         case BillingHistoryStatus.Info:
-            return <PriceTextInfo payAmount={amount} />;
+            return <PriceTextInfo payAmount={amount || null} />;
         case BillingHistoryStatus.Unknown:
         default:
             return <PriceTextUnknown />;
