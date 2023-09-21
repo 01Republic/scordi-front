@@ -25,12 +25,9 @@ export const SummaryHeaderPanel = memo(() => {
     const focusedMonth = useRecoilValue(focusedMonthAtom);
     const {result: pagedHistories, search: loadHistories} = useBillingHistoriesV3();
     const {result: pagedSchedules, search: loadSchedules} = useBillingSchedulesV3();
-    const [isLoaded, setIsLoaded] = useState(false);
 
-    // const amount = !price ? 0 : changePriceCurrency(price.amount, price.code, displayCurrency);
     useEffect(() => {
         if (!orgId || !focusedMonth) return;
-        if (isLoaded) return;
 
         const startDate = firstDayOfMonth(focusedMonth);
         const endDate = lastDayOfMonth(focusedMonth);
@@ -42,8 +39,7 @@ export const SummaryHeaderPanel = memo(() => {
 
         loadHistories({...query, order: {issuedAt: 'ASC'}, itemsPerPage: 0});
         loadSchedules({...query, order: {billingDate: 'ASC'}, itemsPerPage: 0});
-        setIsLoaded(true);
-    }, [orgId, focusedMonth, isLoaded]);
+    }, [orgId, focusedMonth]);
 
     const monthlyPaidAmount = BillingHistoryManager.init(pagedHistories.items).paid().getTotalPrice(displayCurrency);
     const monthlyWillPayAmount = BillingSchedule.init(pagedSchedules.items).getTotalPrice();
