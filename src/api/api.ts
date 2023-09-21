@@ -40,7 +40,7 @@ export const api = axios.create({
  * Request Middleware
  */
 
-const IgnoreSignCheckPagePathList = [
+const IgnoreSignCheckPagePathList = () => [
     UserLoginPageRoute.pathname,
     UserSignUpPageRoute.pathname,
     ProductListPageRoute.pathname,
@@ -78,7 +78,7 @@ api.interceptors.response.use(undefined, (error: AxiosError<ApiErrorDto>) => {
     }
 
     if (
-        !IgnoreSignCheckPagePathList.includes(window.location.pathname) &&
+        !IgnoreSignCheckPagePathList().includes(window.location.pathname) &&
         response.status === 401 &&
         String(response.statusText) === 'Unauthorized'
     ) {
