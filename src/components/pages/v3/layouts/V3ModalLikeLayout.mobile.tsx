@@ -6,6 +6,7 @@ import styles from '^styles/v3/V3MainLayout.module.scss';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ModalLikeTopbar} from './V3ModalLikeLayout.mobile/ModalLikeTopbar';
 import {ModalLikeBottomBar} from './V3ModalLikeLayout.mobile/ModalLikeBottomBar';
+import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
 
 interface V3ModalLikeLayoutMobileProps extends WithChildren {
     buttons?: ReactComponentLike[];
@@ -22,6 +23,7 @@ export const V3ModalLikeLayoutMobile = memo((props: V3ModalLikeLayoutMobileProps
     return (
         <>
             <style dangerouslySetInnerHTML={{__html: `html, body, #__next { min-height: 100vh }`}} />
+            <ChannelTalkHideStyle />
             <div className={`${styles.layout} min-h-[100vh]`}>
                 <ModalLikeTopbar backBtnOnClick={onBack} />
                 <div className="bg-white" style={{height: 'calc(100% - 50px)'}}>

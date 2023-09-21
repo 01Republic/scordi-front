@@ -63,14 +63,11 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
 
                 {showLoginButton && (
                     <div className="flex gap-2 items-center justify-between sm:px-4">
-                        <a
-                            className="btn btn-sm hidden sm:inline-flex btn-outline btn-scordi"
-                            href={UserLoginPageRoute.path()}
-                        >
+                        <a className="btn btn-sm btn-outline btn-scordi" href={UserLoginPageRoute.path()}>
                             로그인
                         </a>
 
-                        <a className="btn btn-sm btn-scordi" href={TastingPageRoute.path()}>
+                        <a className="btn btn-sm hidden sm:inline-flex btn-scordi" href={TastingPageRoute.path()}>
                             데모 체험하기
                         </a>
                     </div>

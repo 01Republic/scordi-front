@@ -7,6 +7,7 @@ import {BottomNavMobile} from '^v3/share/BottomNavMobile';
 import {TopNavMobileDefault} from '^v3/share/TobNav/TopNavMobile';
 import {ReactComponentLike, ReactNodeLike} from 'prop-types';
 import {MobileSection} from '../share/sections/MobileSection';
+import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
 
 interface V3MainLayoutMobileProps extends WithChildren {
     // 페이지 상단의 제목
@@ -29,6 +30,7 @@ export const V3MainLayoutMobile = memo((props: V3MainLayoutMobileProps) => {
     return (
         <>
             <style dangerouslySetInnerHTML={{__html: `html, body, #__next { min-height: 100vh }`}} />
+            <ChannelTalkHideStyle />
             <div className={`${styles.layout} h-full`}>
                 <TopNavMobileDefault title={title} />
                 <MobileSection.List>{children}</MobileSection.List>
