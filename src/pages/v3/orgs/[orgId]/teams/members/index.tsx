@@ -5,8 +5,8 @@ import {v3CommonRequires} from '^types/utils/18n.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^hooks/useCurrentOrg';
 import {useRouter} from 'next/router';
-import {useTeamMembers} from '^pages/v3/orgs/[orgId]/teams/members/atom';
 import {V3OrgTeamMemberShowPage} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/mobile';
+import {useTeamMembers} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/atom';
 
 export const V3OrgTeamMembersPageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]/teams/members',

@@ -2,9 +2,9 @@ import React, {memo, useEffect} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ContentEmpty} from '^v3/V3OrgHomePage/mobile/ContentEmpty';
 import {TeamMemberItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/mobile/TeamMemberItem';
-import {useTeamMembers} from '^pages/v3/orgs/[orgId]/teams/members/atom';
 import {useModal} from '^v3/share/modals/useModal';
 import {isOpenNewTeamMemberModalAtom} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/NewTeamMemberModal/atom';
+import {useTeamMembers} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/atom';
 
 interface TeamMembersPanel {
     maxLength?: number | null;

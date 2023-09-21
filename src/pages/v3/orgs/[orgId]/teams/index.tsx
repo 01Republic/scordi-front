@@ -6,7 +6,7 @@ import {useCurrentOrg} from '^hooks/useCurrentOrg';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {useRouter} from 'next/router';
-import {useTeamMembers} from '^pages/v3/orgs/[orgId]/teams/members/atom';
+import {useTeamMembers} from '^components/pages/v3/V3OrgTeam/V3OrgTeamMembersPage/atom';
 
 export const V3OrgTeamsPageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]/teams',
