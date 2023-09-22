@@ -19,7 +19,7 @@ export const TeamListPanel = memo((props: TeamListPanel) => {
     const {maxLength} = props;
 
     const onAddButtonClick = () => {
-        toast.warning('준비 중입니다.');
+        toast.info('준비 중입니다.');
         // setIsShow(true);
         // console.log(isShow);
     };

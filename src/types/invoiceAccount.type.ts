@@ -27,6 +27,10 @@ export type CreateInvoiceAccountRequestDto = {
     gmailQueryOptions: GmailQueryOptions; // 지메일 쿼리
 };
 
+export type SyncInvoiceAccountRequestDto = {
+    tokenData: GmailAgentTokenData; // 인증 토큰
+};
+
 export const getDraftInvoiceAccountFromTo = () => ({
     from: monthBefore(2, firstDayOfMonth(new Date())), // 두 달 전 1일 부터
     to: new Date(), // 오늘까지
