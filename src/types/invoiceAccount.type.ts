@@ -6,7 +6,7 @@ import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 export type GmailAgentTokenData = {
     accessToken: string; //Gmail Access Token
     refreshToken: string; // Gmail Refresh Token
-    expireAt: number; // Gmail Token expire at (Timestamp - sec)
+    expireAt: Date; // When Gmail Token expire at
 };
 
 export type InvoiceAccountDto = {
