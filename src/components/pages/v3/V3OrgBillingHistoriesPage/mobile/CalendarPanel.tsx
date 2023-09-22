@@ -30,19 +30,17 @@ export const CalendarPanel = memo(() => {
     };
 
     const calendarPrevMonthHandler = (date: Date) => {
-        console.log('action: prev', {date, startDate});
         updateStartDate(date);
         setActiveStartDate(date);
     };
 
     const calendarNextMonthHandler = (date: Date) => {
-        console.log('action: next', {date, endDate});
         updateEndDate(date);
         setActiveStartDate(date);
     };
 
     return (
-        <MobileSection.Item className="sticky top-0 shadow">
+        <MobileSection.Item className="sticky top-0 shadow z-10">
             <Calendar
                 locale={'ko-KR'}
                 calendarType={'US'}
