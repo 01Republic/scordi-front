@@ -13,7 +13,7 @@ export const BillingScheduleListPanel = memo(() => {
     return (
         <ContentPanelBody>
             <ContentPanelMiniTitle>
-                On: <span>{yyyy_mm_dd(selectedDate)}</span>
+                On: <span>{yyyy_mm_dd(selectedDate || new Date())}</span>
             </ContentPanelMiniTitle>
 
             <ul className="menu bg-base-100 w-full p-2 rounded-box">

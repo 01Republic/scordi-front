@@ -106,10 +106,11 @@ export const useBillingList = () => {
     const [billingSchedules, setBillingSchedules] = useRecoilState(billingSchedulesState);
 
     useEffect(() => {
+        const date = selectedDate || new Date();
         const query = {
             where: {organizationId},
-            startDate: selectedDate.toISOString(),
-            endDate: dayAfter(1, selectedDate).toISOString(),
+            startDate: date.toISOString(),
+            endDate: dayAfter(1, date).toISOString(),
         };
 
         Promise.all([getBillingHistories(query), getBillingSchedules(query)])
