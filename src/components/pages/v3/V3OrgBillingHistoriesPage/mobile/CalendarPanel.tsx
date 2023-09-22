@@ -5,10 +5,11 @@ import {useCalendar3} from '^hooks/useCalendar';
 import {useBillingListV3} from '^hooks/useBillingList';
 import {CalendarDateComment} from '^v3/V3OrgBillingHistoriesPage/mobile/CalendarDateComment';
 import {yyyy_mm_dd} from '^utils/dateTime';
+import {BsFillCaretLeftFill, BsFillCaretRightFill} from 'react-icons/bs';
 
 export const CalendarPanel = memo(() => {
     const {selectedDate, selectDate, activeStartDate, setActiveStartDate} = useCalendar3();
-    const {startDate, endDate, updateStartDate, updateEndDate, groupedHistories, groupedSchedules} = useBillingListV3();
+    const {updateStartDate, updateEndDate, groupedHistories, groupedSchedules} = useBillingListV3();
 
     const onDayClick = (date: Date) => {
         const focusedColorClass = 'bg-scordi-light-50';
@@ -46,8 +47,10 @@ export const CalendarPanel = memo(() => {
                 calendarType={'US'}
                 value={selectedDate}
                 activeStartDate={activeStartDate}
-                next2Label={null}
+                prevLabel={<BsFillCaretLeftFill className="mx-auto" />}
+                nextLabel={<BsFillCaretRightFill className="mx-auto" />}
                 prev2Label={null}
+                next2Label={null}
                 // showNavigation={false}
                 formatDay={(locale, date) => date.getDate().toString()}
                 tileContent={({date}) => {
