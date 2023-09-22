@@ -4,6 +4,10 @@ import {Avatar} from '^components/Avatar';
 import {useSetRecoilState} from 'recoil';
 import {selectedInvoiceAccountAtom} from '^v3/V3OrgHomePage/InvoiceAccountAddingButton/InvoiceAppListPanel';
 import {zeroPad} from '^utils/dateTime';
+import {syncInvoiceAccount} from '^api/invoiceAccount.api';
+import {FiRefreshCw} from 'react-icons/fi';
+import {toast} from 'react-toastify';
+import {GmailAgentProgress, gmailAgentProgressAtom} from '^hooks/useGoogleAccessToken';
 
 interface InvoiceAccountItemProps {
     invoiceAccount: InvoiceAccountDto;
@@ -11,6 +15,7 @@ interface InvoiceAccountItemProps {
 
 export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
     const setSelectedInvoiceAccount = useSetRecoilState(selectedInvoiceAccountAtom);
+    const setGmailAgentProgress = useSetRecoilState(gmailAgentProgressAtom);
     const {invoiceAccount} = props;
     const appNames: string[] = [];
 
@@ -27,6 +32,16 @@ export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
         .map((e) => zeroPad(e.toString()))
         .join('.');
 
+    const sync = () => {
+        setGmailAgentProgress(GmailAgentProgress.started);
+        syncInvoiceAccount(invoiceAccount.organizationId, invoiceAccount.id)
+            .then((res) => {
+                setGmailAgentProgress(GmailAgentProgress.no_running);
+                window.location.reload();
+            })
+            .catch((err) => toast.error(err.response.data.message));
+    };
+
     return (
         <div
             className="flex items-center gap-4 px-4 py-3 -mx-4 bg-base-100 text-gray-700 cursor-pointer hover:bg-neutral"
@@ -41,6 +56,11 @@ export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
                 {/*<BiChevronRight size={22.5} />*/}
                 <button className="btn btn-sm bg-slate-200 text-xs" data-created_at={createdAt}>
                     {since} ~
+                </button>
+            </div>
+            <div>
+                <button className="btn btn-sm btn-scordi text-xs" onClick={() => sync()}>
+                    <FiRefreshCw size="10" />
                 </button>
             </div>
         </div>

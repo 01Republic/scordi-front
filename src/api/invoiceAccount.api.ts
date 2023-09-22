@@ -1,4 +1,8 @@
-import {CreateInvoiceAccountRequestDto, InvoiceAccountDto} from '^types/invoiceAccount.type';
+import {
+    CreateInvoiceAccountRequestDto,
+    InvoiceAccountDto,
+    SyncInvoiceAccountRequestDto,
+} from '^types/invoiceAccount.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
@@ -20,5 +24,8 @@ export const deleteInvoiceAccount = (organizationId: number, id: number) => {
 };
 
 export const syncInvoiceAccount = (organizationId: number, id: number) => {
-    return api.patch(`/organizations/${organizationId}/invoice_accounts/${id}/sync`);
+    return api.patch<InvoiceAccountDto>(`/organizations/${organizationId}/invoice_accounts/${id}/sync`);
+};
+export const reSyncInvoiceAccount = (organizationId: number, id: number, data: SyncInvoiceAccountRequestDto) => {
+    return api.patch<InvoiceAccountDto>(`/organizations/${organizationId}/invoice_accounts/${id}/re-sync`, data);
 };
