@@ -2,7 +2,9 @@ import React from 'react';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
-import {V3OrgBillingHistoriesPage as Page} from '^v3/V3OrgBillingHistoriesPage';
+import {V3OrgBillingHistoriesPage} from '^v3/V3OrgBillingHistoriesPage';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {useCurrentOrg} from '^hooks/useCurrentOrg';
 
 export const V3OrgBillingHistoriesPageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]/billingHistories',
@@ -26,6 +28,9 @@ export const getStaticProps = async ({locale}: any) => ({
     },
 });
 
-export default function V3OrgBillingHistoriesPage() {
-    return <Page />;
+export default function Page() {
+    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    useCurrentOrg(orgId);
+    // return <>V3OrgBillingHistoriesPage</>;
+    return <V3OrgBillingHistoriesPage />;
 }
