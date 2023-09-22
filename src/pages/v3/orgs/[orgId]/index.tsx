@@ -50,6 +50,7 @@ export default function V3OrgHomePage() {
             return;
         }
 
+        alert(accessTokenData.access_token);
         const gmailAgent = new GmailAgent(accessTokenData);
 
         gmailAgent.getProfile().then((userData) => {

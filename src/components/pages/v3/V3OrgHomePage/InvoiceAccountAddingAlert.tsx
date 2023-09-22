@@ -26,9 +26,9 @@ export const InvoiceAccountAddingAlertBanner = memo(() => {
     const gmailAgentProgress = useRecoilValue(gmailAgentProgressAtom);
     const {t} = useTranslation('org-home');
 
-    // if (gmailAgentProgress === GmailAgentProgress.no_running) {
-    //     return <></>;
-    // }
+    if (gmailAgentProgress === GmailAgentProgress.no_running) {
+        return <></>;
+    }
 
     return (
         <MobileSection.Padding>
