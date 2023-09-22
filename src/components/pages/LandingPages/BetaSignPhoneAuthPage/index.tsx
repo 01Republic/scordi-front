@@ -73,7 +73,7 @@ export const BetaSignPhoneAuthPage = memo(() => {
                     tokenData: {
                         accessToken: tokenData.access_token,
                         refreshToken: tokenData.refresh_token,
-                        expireAt: tokenData.expires_in,
+                        expireAt: tokenData.expireAt,
                     },
                     gmailQueryOptions: getCreateInvoiceAccountFromTo(),
                 });
