@@ -11,7 +11,7 @@ import {InvoiceSummarySection} from './InvoiceSummarySection';
 import {InvoiceTabNav} from './InvoiceTabNav';
 import {InvoiceTable} from './InvoiceTable';
 import {useTranslation} from 'next-i18next';
-import {InvoiceAccountAddingAlert} from '^v3/V3OrgHomePage/InvoiceAccountAddingAlert';
+import {InvoiceAccountAddingAlert, InvoiceAccountAddingAlertBanner} from '^v3/V3OrgHomePage/InvoiceAccountAddingAlert';
 import {useOnResize2} from '^components/util/onResize2';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {SubscriptionsPanel} from '^v3/V3OrgHomePage/mobile/SubscriptionsPanel';

@@ -5,11 +5,12 @@ import {InvoiceAppListPanel, selectedInvoiceAccountAtom} from './InvoiceAppListP
 import {currentOrgAtom} from '^atoms/organizations.atom';
 import {useTranslation} from 'next-i18next';
 import {getInvoiceAccounts} from '^api/invoiceAccount.api';
-import {isOpenNewInvoiceAccountModalAtom} from '../NewInvoiceAccountModal/atom';
+import {newInvoiceAccountModal} from '../NewInvoiceAccountModal/atom';
+import {useModal} from '^v3/share/modals/useModal';
 
 export const InvoiceAccountAddingButton = memo(() => {
     const [invoiceAccounts, setInvoiceAccounts] = useRecoilState(invoiceAccountsAtom);
-    const setModalShow = useSetRecoilState(isOpenNewInvoiceAccountModalAtom);
+    const {open: newInvoiceAccountModalOpen} = useModal(newInvoiceAccountModal);
     const currentOrg = useRecoilValue(currentOrgAtom);
     const setSelectedInvoiceAccount = useSetRecoilState(selectedInvoiceAccountAtom);
     const {t} = useTranslation('org-home');
@@ -32,7 +33,7 @@ export const InvoiceAccountAddingButton = memo(() => {
         >
             <button
                 className="btn btn-lg btn-scordi-500 shadow gap-2 normal-case"
-                onClick={isEmpty ? () => setModalShow(true) : undefined}
+                onClick={isEmpty ? () => newInvoiceAccountModalOpen() : undefined}
             >
                 <span>{t('newInvoiceAccount')}</span>
                 <span>📩</span>

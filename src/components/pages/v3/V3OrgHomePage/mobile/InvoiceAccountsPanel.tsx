@@ -5,13 +5,13 @@ import {ContentEmpty} from './ContentEmpty';
 import {InvoiceAccountItem} from './InvoiceAccountItem';
 import {useRouter} from 'next/router';
 import {AddButton} from '^v3/V3OrgHomePage/mobile/AddButton';
-import {useSetRecoilState} from 'recoil';
-import {isOpenNewInvoiceAccountModalAtom} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/atom';
+import {newInvoiceAccountModal} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/atom';
+import {useModal} from '^v3/share/modals/useModal';
 
 export const InvoiceAccountsPanel = memo(() => {
     const router = useRouter();
     const {result, search} = useInvoiceAccounts();
-    const setModalShow = useSetRecoilState(isOpenNewInvoiceAccountModalAtom);
+    const {open: newInvoiceAccountModalShow} = useModal(newInvoiceAccountModal);
     const {items} = result;
 
     useEffect(() => {
@@ -21,7 +21,7 @@ export const InvoiceAccountsPanel = memo(() => {
 
     const onAddButtonClick = () => {
         console.log(result);
-        setModalShow(true);
+        newInvoiceAccountModalShow();
     };
 
     return (
