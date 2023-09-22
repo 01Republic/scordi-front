@@ -7,6 +7,7 @@ import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {V3OrgSettingsOrgPageRoute} from '^pages/v3/orgs/[orgId]/settings/org';
 import {V3OrgTeamsPageRoute} from '^pages/v3/orgs/[orgId]/teams';
 import {V3OrgBillingHistoriesPageRoute} from '^pages/v3/orgs/[orgId]/billingHistories';
+import {orgIdParamState} from '^atoms/common';
 
 interface BottomNavMobileProps {
     activeIndex: number;
@@ -16,15 +17,13 @@ export const BottomNavMobile = memo((props: BottomNavMobileProps) => {
     const {activeIndex} = props;
     const currentOrg = useRecoilValue(currentOrgAtom);
 
-    if (!currentOrg) return <></>;
-
     const height = 60;
-
+    const orgId = currentOrg?.id || 0;
     const tabs = [
-        {text: '홈', Icon: FaHouse, href: V3OrgHomePageRoute.path(currentOrg.id)},
-        {text: '일정', Icon: FaRegCalendarCheck, href: V3OrgBillingHistoriesPageRoute.path(currentOrg.id)},
-        {text: '팀', Icon: FaUsers, href: V3OrgTeamsPageRoute.path(currentOrg.id)},
-        {text: '관리', Icon: FaGear, href: V3OrgSettingsOrgPageRoute.path(currentOrg.id)},
+        {text: '홈', Icon: FaHouse, href: V3OrgHomePageRoute.path(orgId)},
+        {text: '일정', Icon: FaRegCalendarCheck, href: V3OrgBillingHistoriesPageRoute.path(orgId)},
+        {text: '팀', Icon: FaUsers, href: V3OrgTeamsPageRoute.path(orgId)},
+        {text: '관리', Icon: FaGear, href: V3OrgSettingsOrgPageRoute.path(orgId)},
     ];
 
     return (

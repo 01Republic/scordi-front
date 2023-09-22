@@ -30,9 +30,9 @@ export const calendarActiveStartDateAtom = atom({
     default: new Date(),
 });
 
-export const calendarSelectedDateState = atom({
+export const calendarSelectedDateState = atom<Date | null>({
     key: 'calendarSelectedDateState',
-    default: new Date(),
+    default: null,
 });
 
 export const getDashboardCalendarQuery = selector({

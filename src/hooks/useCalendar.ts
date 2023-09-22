@@ -61,31 +61,13 @@ export function useCalendar2() {
 }
 
 export function useCalendar3() {
-    const [calendarData, setCalendarData] = useRecoilState(calendarDataAtom);
-    const selectDate = useSetRecoilState(calendarSelectedDateState);
-    const organizationId = useRecoilValue(orgIdParamState);
+    const [selectedDate, selectDate] = useRecoilState(calendarSelectedDateState);
     const [activeStartDate, setActiveStartDate] = useRecoilState(calendarActiveStartDateAtom);
 
-    const loadCalendar = (params: FromToQueryDto) => {
-        getDashboardCalendarV2(organizationId, params)
-            .then((res) => setCalendarData(res.data))
-            .catch(errorNotify);
+    return {
+        selectedDate: selectedDate || new Date(),
+        selectDate,
+        activeStartDate,
+        setActiveStartDate,
     };
-
-    // getBillingHistories()
-
-    // useEffect(() => {
-    //     if (!focusedMonth) return;
-    //
-    //     const from = firstDayOfMonth(monthBefore(1, focusedMonth));
-    //     const to = lastDayOfMonth(monthAfter(1, focusedMonth));
-    //     console.log('focusedMonth loaded', focusedMonth, {from, to});
-    //     getBillingHistories({
-    //         where: { organizationId },
-    //         startDate: from.toISOString(),
-    //         endDate: to.toISOString(),
-    //     })
-    // }, [focusedMonth]);
-
-    return {calendarData, loadCalendar, selectDate, activeStartDate, setActiveStartDate};
 }

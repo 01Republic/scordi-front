@@ -16,9 +16,7 @@ export const billingHistoriesPayModal = {
 };
 
 export const BillingHistoriesPageModal = memo(() => {
-    const router = useRouter();
     const {isShow, close, Modal, CloseButton} = useModal(billingHistoriesPayModal);
-    const currentOrg = useRecoilValue(currentOrgAtom);
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">

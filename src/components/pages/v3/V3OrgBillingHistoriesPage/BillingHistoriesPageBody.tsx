@@ -1,10 +1,13 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo} from 'react';
 import {CalendarPanel} from './mobile/CalendarPanel';
 import {BillingListPanel} from './mobile/BillingListPanel';
-import {useRouter} from 'next/router';
+import {useRecoilValue} from 'recoil';
+import {currentOrgAtom} from '^atoms/organizations.atom';
 
 export const BillingHistoriesPageBody = memo(() => {
-    const router = useRouter();
+    const currentOrg = useRecoilValue(currentOrgAtom);
+
+    if (!currentOrg) return <></>;
 
     return (
         <>

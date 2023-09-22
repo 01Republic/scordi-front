@@ -1,30 +1,18 @@
 // 결제내역과 결제예정내역을 통합 조회합니다.
 // 옛날 버전 조직홈에서(대시보드) 특정일의 결제내역과 결제예정내역을 조회하는 기능입니다.
-import {useEffect} from 'react';
-import {atom, useRecoilState, useRecoilValue} from 'recoil';
+import {useCallback, useEffect} from 'react';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {calendarSelectedDateState} from '^atoms/calendarData.atom';
 import {billingHistoriesState, billingSchedulesState} from '^atoms/billingHistories.atom';
-import {
-    getBillingHistories,
-    getBillingHistoriesAll,
-    getBillingSchedules,
-    getBillingSchedulesAll,
-} from '^api/billing.api';
-import {BillingHistoryDto, BillingScheduleShallowDto as ScheduleDto} from '^types/billing.type';
-import {sortBy, uniq, uniqBy} from 'lodash';
-import {dayAfter, firstDayOfMonth, lastDayOfMonth, yyyy_mm_dd} from '^utils/dateTime';
+import {getBillingHistories, getBillingSchedules} from '^api/billing.api';
+import {dayAfter, firstDayOfMonth, lastDayOfMonth} from '^utils/dateTime';
 import {errorNotify} from '^utils/toast-notify';
-import {
-    billingListEndDateAtom,
-    billingListStartDateAtom,
-    billingListGroupByDateAtom,
-    BillingListItemDto,
-} from '^atoms/billingList.atom';
+import {billingListEndDateAtom, billingListStartDateAtom} from '^atoms/billingList.atom';
 import {useBillingHistoriesV3, useBillingSchedulesV3} from '^hooks/useBillingHistories';
 import {BillingHistoryManager} from '^models/BillingHistory';
 import {BillingScheduleManager} from '^models/BillingSchedule';
-import {useFocusedMonth} from '^v3/V3OrgHomePage/feature/useFocusedMonth';
+import {focusedMonthAtom} from '^v3/V3OrgHomePage/feature/useFocusedMonth';
 
 interface GetBillingListParams {
     startDate: Date;
@@ -36,24 +24,30 @@ interface GetBillingListParams {
 // 새롭게 페이지네이션과 날짜범위검색 기능을 지원할 수 있도록 개선하여 만들었습니다.
 export const useBillingListV3 = () => {
     const organizationId = useRecoilValue(orgIdParamState);
-    const {focusedMonth} = useFocusedMonth();
+    const focusedMonth = useRecoilValue(focusedMonthAtom);
     const [startDate, setStartDate] = useRecoilState(billingListStartDateAtom);
     const [endDate, setEndDate] = useRecoilState(billingListEndDateAtom);
 
     const {result: pagedHistories, search: loadHistories} = useBillingHistoriesV3();
     const {result: pagedSchedules, search: loadSchedules} = useBillingSchedulesV3();
-    const loadData = (_startDate: Date, _endDate: Date) => {
-        const params = {
-            where: {organizationId},
-            startDate: _startDate.toISOString(),
-            endDate: _endDate.toISOString(),
-        };
-        loadHistories({...params, order: {issuedAt: 'ASC'}, itemsPerPage: 0});
-        loadSchedules({...params, order: {billingDate: 'ASC'}, itemsPerPage: 0});
-    };
+
+    const loadData = useCallback(
+        (_startDate: Date, _endDate: Date) => {
+            if (!organizationId || isNaN(organizationId)) return;
+            const params = {
+                where: {organizationId},
+                startDate: _startDate.toISOString(),
+                endDate: _endDate.toISOString(),
+            };
+            loadHistories({...params, order: {issuedAt: 'ASC'}, itemsPerPage: 0});
+            loadSchedules({...params, order: {billingDate: 'ASC'}, itemsPerPage: 0});
+        },
+        [organizationId],
+    );
 
     useEffect(() => {
         if (!organizationId || !focusedMonth) return;
+        if (isNaN(organizationId)) return;
 
         setStartDate(firstDayOfMonth(focusedMonth));
         setEndDate(lastDayOfMonth(focusedMonth));
