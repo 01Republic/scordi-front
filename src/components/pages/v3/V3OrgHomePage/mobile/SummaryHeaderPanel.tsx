@@ -15,6 +15,7 @@ import {orgIdParamState} from '^atoms/common';
 import {BillingHistoryManager} from '^models/BillingHistory';
 import {currencyFormat} from '^utils/number';
 import {BillingScheduleManager} from '^models/BillingSchedule';
+import {InvoiceAccountAddingAlertBanner} from '^v3/V3OrgHomePage/InvoiceAccountAddingAlert';
 
 export const SummaryHeaderPanel = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -49,6 +50,8 @@ export const SummaryHeaderPanel = memo(() => {
 
     return (
         <MobileSection.Item>
+            <InvoiceAccountAddingAlertBanner />
+
             <MobileSection.Padding>
                 <div className="w-full h-[40px]" />
                 <CurrentMonthHandler />

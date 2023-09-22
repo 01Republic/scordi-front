@@ -1,11 +1,11 @@
 import React, {memo} from 'react';
 import {useModal} from '^v3/share/modals/useModal';
 import Image from 'next/image';
-import {isOpenNewInvoiceAccountModalAtom} from './atom';
+import {newInvoiceAccountModal} from './atom';
 import {NewInvoiceAccountModalBody} from './body';
 
 export const NewInvoiceAccountModal = memo(() => {
-    const {Modal} = useModal({isShowAtom: isOpenNewInvoiceAccountModalAtom});
+    const {Modal} = useModal(newInvoiceAccountModal);
 
     return (
         <Modal className="py-12">
