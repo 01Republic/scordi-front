@@ -1,5 +1,5 @@
 import {ReactNodeLike} from 'prop-types';
-import {ForwardedRef, forwardRef, InputHTMLAttributes, memo, useEffect, useState} from 'react';
+import {ForwardedRef, forwardRef, InputHTMLAttributes} from 'react';
 import {atom, useRecoilState, useRecoilValue} from 'recoil';
 
 interface MobileTeamMemberInfoInputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -64,7 +64,7 @@ interface TriggerButtonProps {
 export const EditTriggerButton = (props: TriggerButtonProps) => {
     const {onClick} = props;
     const [isEditable, setIsEditable] = useRecoilState(isTeamMemberInfoEditableAtom);
-    const text = isEditable ? '완료 /' : '수정 /';
+    const text = isEditable ? '완료' : '수정';
 
     return (
         <button
@@ -80,5 +80,5 @@ export const EditTriggerButton = (props: TriggerButtonProps) => {
 
 export const DeleteTriggerButton = (props: TriggerButtonProps) => {
     const {onClick} = props;
-    return <button onClick={() => onClick()}> 삭제</button>;
+    return <button onClick={() => onClick()}>삭제</button>;
 };
