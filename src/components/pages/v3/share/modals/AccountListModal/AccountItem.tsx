@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useRef} from 'react';
 import {BiChevronRight, BiCopy} from 'react-icons/bi';
 import {BsChevronRight} from 'react-icons/bs';
 import {FaKey, FaRegCopy} from 'react-icons/fa6';
@@ -7,6 +7,8 @@ import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {dayjs} from '^utils/dayjs';
 import {Avatar} from '^components/Avatar';
 import {AvatarGroup} from '^v3/share/AvatarGroup';
+import {toast} from 'react-toastify';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 interface AccountItemProps {
     account: AccountDto;
@@ -14,12 +16,17 @@ interface AccountItemProps {
 
 export const AccountItem = memo((props: AccountItemProps) => {
     const {account} = props;
-    const {product, permittedMembers = []} = account;
+    const toastId = useRef<number | string>('');
 
     const decrypted = account.decryptSign();
 
     const copyBtnClick = () => {
-        console.log(decrypted);
+        if (!toast.isActive(toastId.current)) {
+            toastId.current = toast.info('비밀번호를 복사했어요.', {
+                toastId: 'copyBtnClick',
+                position: 'bottom-center',
+            });
+        }
     };
 
     return (
@@ -59,9 +66,11 @@ export const AccountItem = memo((props: AccountItemProps) => {
                         {/*/>*/}
                     </div>
 
-                    <button className="btn btn-square btn-ghost" onClick={copyBtnClick}>
-                        <BiCopy className="text-[22px]" />
-                    </button>
+                    <CopyToClipboard text={decrypted.password} onCopy={() => copyBtnClick()}>
+                        <button className="btn btn-square btn-ghost">
+                            <BiCopy className="text-[22px]" />
+                        </button>
+                    </CopyToClipboard>
                 </div>
             </div>
         </li>

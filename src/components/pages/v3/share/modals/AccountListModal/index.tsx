@@ -37,12 +37,12 @@ export const AccountListModal = memo(() => {
 
     return (
         <>
-            <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
+            <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] flex flex-col">
                 {isShow && <ChannelTalkHideStyle />}
                 <ModalLikeTopbar backBtnOnClick={onBack} topbarPosition="sticky" />
 
-                <MobileSection.List>
-                    <MobileSection.Item>
+                <MobileSection.List className="flex-1">
+                    <MobileSection.Item className="sticky top-[50px] bg-white z-10">
                         <MobileSection.Padding>
                             <div className="flex items-center space-x-2 mb-2">
                                 <h3 className="h2 flex-1">보관중인 계정</h3>
@@ -60,7 +60,10 @@ export const AccountListModal = memo(() => {
                     </MobileSection.Item>
                 </MobileSection.List>
 
-                <ModalLikeBottomBar>
+                <ModalLikeBottomBar
+                    className="sticky bottom-0"
+                    style={{background: 'linear-gradient(0, white, transparent)'}}
+                >
                     <button onClick={openCreateModal} className="btn btn-lg btn-block btn-scordi capitalize">
                         새 계정 등록하기
                     </button>

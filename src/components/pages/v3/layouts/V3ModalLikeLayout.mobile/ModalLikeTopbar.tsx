@@ -28,7 +28,7 @@ export const ModalLikeTopbar = memo((props: ModalLikeTopbarProps) => {
             <div
                 className={`flex container items-center justify-between ${
                     topbarPosition === 'fixed' ? 'fixed' : 'sticky'
-                } top-0 h-[50px] bg-white z-10`}
+                } top-0 h-[50px] min-h-[50px] bg-white z-10`}
             >
                 <div className="text-sm h-full flex items-center">
                     <div className="px-5 h-full flex items-center cursor-pointer" onClick={backBtnOnClick}>
