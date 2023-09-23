@@ -21,8 +21,8 @@ export const ModalLikeTopbar = memo((props: ModalLikeTopbarProps) => {
                 } top-0 h-[50px] bg-white z-10`}
             >
                 <div className="text-sm h-full flex items-center">
-                    <div className="px-6 h-full flex items-center cursor-pointer" onClick={backBtnOnClick}>
-                        <FiArrowLeft size={20} strokeWidth={2.5} />
+                    <div className="px-5 h-full flex items-center cursor-pointer" onClick={backBtnOnClick}>
+                        <FiArrowLeft size={24} strokeWidth={2.5} />
                     </div>
                 </div>
                 <div className="h-full flex-1 flex items-center font-semibold text-16">{title}</div>

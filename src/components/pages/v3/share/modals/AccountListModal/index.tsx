@@ -8,6 +8,9 @@ import {MobileSection} from '../../sections/MobileSection';
 import {accountListModal, accountPagedInModalState} from './atom';
 import {AccountList} from './AccountList';
 import {AccountCreateModal, accountCreateModalShowAtom} from './AccountCreateModal';
+import {ProductAvatar} from '^v3/share/ProductAvatar';
+import {AiOutlineCaretDown} from 'react-icons/ai';
+import {ProductSelector} from '^v3/share/modals/AccountListModal/ProductSelector';
 
 export const AccountListModal = memo(() => {
     const {isShow, Modal, close} = useModal(accountListModal);
@@ -25,9 +28,17 @@ export const AccountListModal = memo(() => {
                 <MobileSection.List>
                     <MobileSection.Item>
                         <MobileSection.Padding>
-                            <div className="w-full h-[20px]" />
                             <div className="flex items-center space-x-2 mb-2">
-                                <h3 className="h2">보관중인 계정</h3>
+                                <h3 className="h2 flex-1">보관중인 계정</h3>
+
+                                {/*{pagedAccounts.subscription && (*/}
+                                {/*    <ProductSelector product={pagedAccounts.subscription.product} />*/}
+                                {/*)}*/}
+                            </div>
+                            <div className="flex pt-6">
+                                {pagedAccounts.subscription && (
+                                    <ProductSelector product={pagedAccounts.subscription.product} />
+                                )}
                             </div>
                         </MobileSection.Padding>
                     </MobileSection.Item>

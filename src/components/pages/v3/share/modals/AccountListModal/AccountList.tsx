@@ -10,7 +10,7 @@ export const AccountList = memo((props: AccountListProps) => {
     const {accounts} = props;
 
     return (
-        <ul className="w-full text-left">
+        <ul className="w-full text-left py-4">
             {accounts.length ? (
                 accounts.map((account, i) => <AccountItem key={i} account={account} />)
             ) : (

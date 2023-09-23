@@ -161,3 +161,19 @@ $color-scale-list: (50, 100, 200, 300, 400, 500, 600, 700, 800, 900);
     background-image: url("/home/202305/btn_google_signin_light_pressed_web@2x.png");
   }
 }
+
+.btn-like {
+  @apply w-full flex items-center;
+  @apply rounded-lg btn-animation cursor-pointer;
+
+  & + .absolute .btn-like-follow {
+    @apply transition-all;
+  }
+  &:active + .absolute .btn-like-follow {
+    transform: translateX(-10px);
+  }
+}
+
+.btn-animation {
+  @apply transform active:scale-95 transition-all;
+}

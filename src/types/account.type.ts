@@ -5,28 +5,39 @@ import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';
 import {crawlerSign} from '^config/environments';
 import CryptoJS from 'crypto-js';
+import {TeamMemberDto} from '^types/team-member.type';
 
 export enum ConnectSession {
-    IN_VERIFICATION = 'in_verification',
-    SUCCESS = 'success',
-    FAILURE = 'failure',
+    IN_VERIFICATION = 'IN_VERIFICATION',
+    SUCCESS = 'SUCCESS',
+    FAILURE = 'FAILURE',
+}
+
+export class LoginQueryDto {
+    email: string; // 이메일
+    password: string; // 비밀번호
 }
 
 export class AccountDto {
-    id: number;
-    sign: string;
-    productId: number;
-    organizationId: number;
+    id: number; // 아이디
+    sign: string; // 계정 sign
+    productId: number; // 프로덕트 ID
+    organizationId: number; // 조직 ID
+    connectSession: ConnectSession; // 연동 상태
+    // [optional] 로그인 페이지 링크
+    // [optional] 구분 (로그인방법 (dynamic tag 방식))
+    memo?: string; // [optional] 메모
+    @TypeCast(() => Date) createdAt: Date; // 생성일시
+    @TypeCast(() => Date) updatedAt: Date; // 수정일시
+    @TypeCast(() => ProductDto) product: ProductDto; // 프로덕트
+    @TypeCast(() => WorkspaceDto) workspaces: WorkspaceDto[]; // 워크스페이스 목록
+    @TypeCast(() => OrganizationDto) organization: OrganizationDto; // 조직
+    @TypeCast(() => TeamMemberDto) permittedMembers: TeamMemberDto[]; // 허용된 멤버 // [optional] 사용자 (member multi-select)
 
-    @TypeCast(() => ProductDto)
-    product: ProductDto;
-
-    @TypeCast(() => WorkspaceDto)
-    workspaces: WorkspaceDto[];
-
-    @TypeCast(() => OrganizationDto)
-    organization: OrganizationDto;
-    connectSession: ConnectSession;
+    decryptSign() {
+        const bytes = CryptoJS.AES.decrypt(this.sign, crawlerSign);
+        return JSON.parse(bytes.toString(CryptoJS.enc.Utf8)) as LoginQueryDto;
+    }
 }
 
 export type FindAllAccountsQueryDto = FindAllQueryDto<AccountDto> & {
