@@ -24,11 +24,9 @@ export class AccountDto {
     productId: number; // 프로덕트 ID
     organizationId: number; // 조직 ID
     connectSession: ConnectSession; // 연동 상태
-    // [optional] 로그인 페이지 링크
-    loginPageUrl?: string;
-    // [optional] 구분 (로그인방법 (dynamic tag 방식))
-    loginMethod?: string;
-    memo?: string; // [optional] 메모
+    loginPageUrl?: string | null; // 로그인 페이지 URL // [optional] 로그인 페이지 링크
+    loginMethod?: string | null; // 로그인 구분 // [optional] 구분 (로그인방법 (dynamic tag 방식))
+    memo?: string | null;
     @TypeCast(() => Date) createdAt: Date; // 생성일시
     @TypeCast(() => Date) updatedAt: Date; // 수정일시
     @TypeCast(() => ProductDto) product: ProductDto; // 프로덕트
