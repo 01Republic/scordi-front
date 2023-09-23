@@ -58,7 +58,9 @@ export const makeTeamMemberProfile = (member?: TeamMemberDto | null) => {
         jobName: member.jobName,
         jobDescription: member.jobDescription,
         profileImgUrl:
-            member.profileImgUrl ?? user?.profileImgUrl ?? `https://placehold.co/200x200?text=${member.name}`,
+            member.profileImgUrl ??
+            user?.profileImgUrl ??
+            `https://placehold.co/200x200?text=${encodeURIComponent(member.name)}`,
     };
 };
 

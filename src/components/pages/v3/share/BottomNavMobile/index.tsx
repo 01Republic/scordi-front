@@ -22,7 +22,7 @@ export const BottomNavMobile = memo((props: BottomNavMobileProps) => {
     const tabs = [
         {text: '홈', Icon: FaHouse, href: V3OrgHomePageRoute.path(orgId)},
         {text: '일정', Icon: FaRegCalendarCheck, href: V3OrgBillingHistoriesPageRoute.path(orgId)},
-        {text: '팀', Icon: FaUsers, href: V3OrgTeamsPageRoute.path(orgId)},
+        {text: '멤버', Icon: FaUsers, href: V3OrgTeamsPageRoute.path(orgId)},
         {text: '관리', Icon: FaGear, href: V3OrgSettingsOrgPageRoute.path(orgId)},
     ];
 

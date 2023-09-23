@@ -25,7 +25,9 @@ export class AccountDto {
     organizationId: number; // 조직 ID
     connectSession: ConnectSession; // 연동 상태
     // [optional] 로그인 페이지 링크
+    loginPageUrl?: string;
     // [optional] 구분 (로그인방법 (dynamic tag 방식))
+    loginMethod?: string;
     memo?: string; // [optional] 메모
     @TypeCast(() => Date) createdAt: Date; // 생성일시
     @TypeCast(() => Date) updatedAt: Date; // 수정일시
@@ -48,6 +50,9 @@ export class UnSignedAccountFormData {
     productId: number;
     email: string;
     password: string;
+    loginPageUrl?: string | null;
+    loginMethod?: string | null;
+    memo?: string | null;
 
     get sign(): string {
         const json = JSON.stringify({email: this.email, password: this.password});
@@ -58,9 +63,15 @@ export class UnSignedAccountFormData {
 export type CreateAccountDto = {
     sign: string;
     productId: number;
+    loginPageUrl?: string | null;
+    loginMethod?: string | null;
+    memo?: string | null;
 };
 
 export type UpdateAccountDto = {
     sign: string;
     connectSession: ConnectSession;
+    loginPageUrl?: string | null;
+    loginMethod?: string | null;
+    memo?: string | null;
 };

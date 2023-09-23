@@ -16,7 +16,6 @@ export const AccountItem = memo((props: AccountItemProps) => {
     const {account} = props;
     const {product, permittedMembers = []} = account;
 
-    // console.log('account', account);
     const decrypted = account.decryptSign();
 
     const copyBtnClick = () => {
