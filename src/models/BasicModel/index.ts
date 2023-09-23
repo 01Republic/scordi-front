@@ -35,6 +35,42 @@ export class BasicModel<DTO> {
         return this.asManager<Model>(newList);
     }
 
+    sortBy<Model extends BasicModel<DTO>>(
+        this: Model,
+        attr: {[P in keyof DTO]?: 'ASC' | 'DESC'} | ((a: DTO, b: DTO) => number),
+    ): Model {
+        function recursive(a: DTO, b: DTO, attrs: (keyof DTO)[], deps: number): number {
+            const attr = attrs[0] as keyof DTO;
+            const aVal = a[attr] as any;
+            const bVal = b[attr] as any;
+
+            return aVal === bVal ? recursive(a, b, attrs, deps + 1) : aVal - bVal;
+        }
+
+        const newList = [...this.list].sort((a, b) => {
+            if (typeof attr === 'function') {
+                return attr(a, b);
+            } else {
+                const attrs = Object.keys(attr) as (keyof DTO)[];
+                return recursive(a, b, attrs, 0);
+            }
+        });
+
+        return this.asManager<Model>(newList);
+    }
+
+    unique<Model extends BasicModel<DTO>>(this: Model, attr?: keyof DTO | ((record: DTO) => any)): Model {
+        if (attr) {
+            const seen: any[] = [];
+            return this.filter<Model>((record) => {
+                const val = typeof attr === 'function' ? attr(record) : record[attr];
+                return seen.indexOf(val) >= 0 ? false : seen.push(val);
+            });
+        } else {
+            return this.filter<Model>((d, i, arr) => arr.indexOf(d) === i);
+        }
+    }
+
     first<Model extends BasicModel<DTO>>(this: Model, count: number): Model {
         return this.filter<Model>((_, i) => i < count);
     }

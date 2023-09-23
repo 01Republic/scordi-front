@@ -1,7 +1,7 @@
 import React, {memo, useEffect} from 'react';
 import {useModal} from '^v3/share/modals/useModal';
-import {atom, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {accountPagedInModalState} from '^v3/share/modals/AccountListModal/atom';
+import {atom, useRecoilValue} from 'recoil';
+import {subjectProductOfAccountsInModalState} from '^v3/share/modals/AccountListModal/atom';
 import {useForm} from 'react-hook-form';
 import {UnSignedAccountFormData} from '^types/account.type';
 import {accountApi} from '^api/account.api';
@@ -21,16 +21,15 @@ export const AccountCreateModal = memo(() => {
     const {Modal, close} = useModal({
         isShowAtom: accountCreateModalShowAtom,
     });
-    const [pagedAccounts, setPagedAccountInModal] = useRecoilState(accountPagedInModalState);
-    const {productId, subscription} = pagedAccounts;
-    const {result: AfterCreatedPage, search} = useAccounts();
+    const product = useRecoilValue(subjectProductOfAccountsInModalState);
+    const {search} = useAccounts();
 
     const onBack = () => close();
 
     useEffect(() => {
-        if (!productId) return;
-        form.setValue('productId', productId);
-    }, [productId]);
+        if (!product) return;
+        form.setValue('productId', product.id);
+    }, [product]);
 
     useEffect(() => {
         const keyClicked = (e: KeyboardEvent) => {
@@ -44,18 +43,15 @@ export const AccountCreateModal = memo(() => {
     }, []);
 
     const onSubmit = (data: UnSignedAccountFormData) => {
-        if (!data.productId) {
+        const {productId} = data;
+        if (!productId) {
             alert('무언가 잘못되었습니다. 스코디팅에게 문의해주세요!');
             return;
         }
 
         const formData = plainToInstance(UnSignedAccountFormData, data);
-        accountApi.create(orgId, {sign: formData.sign, productId: data.productId}).then(() => {
-            onBack();
-            setPagedAccountInModal((data) => ({
-                ...data,
-                pagedData: AfterCreatedPage,
-            }));
+        accountApi.create(orgId, {sign: formData.sign, productId}).then(() => {
+            search({where: {productId}, itemsPerPage: 0}, true).finally(() => onBack());
         });
     };
 
@@ -67,12 +63,12 @@ export const AccountCreateModal = memo(() => {
                     <input type="hidden" {...form.register('productId')} />
 
                     <div className="w-full">
-                        {subscription && (
+                        {product && (
                             <div className="w-full sm:grid grid-cols-3">
                                 <div className="col-span-1 mb-2">서비스</div>
                                 <div className="col-span-2">
                                     <div className="mb-2 p-4 bg-scordi-light-100 rounded-lg">
-                                        <ProductAvatar product={subscription.product} />
+                                        <ProductAvatar product={product} />
                                     </div>
                                 </div>
                             </div>

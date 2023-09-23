@@ -11,8 +11,8 @@ export const useAccounts = () => {
     const [result, setResult] = useRecoilState(accountsSearchResultAtom);
     const [query, setQuery] = useRecoilState(getAccountsQueryAtom);
 
-    async function search(params: FindAllAccountsQueryDto) {
-        if (JSON.stringify(query) === JSON.stringify(params)) return;
+    async function search(params: FindAllAccountsQueryDto, force = false) {
+        if (!force && JSON.stringify(query) === JSON.stringify(params)) return;
 
         const data = await accountApi.index(orgId, params).then((res) => res.data);
         setResult(data);

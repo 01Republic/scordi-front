@@ -17,3 +17,18 @@
     border-radius: 0;
   }
 }
+
+.modal {
+  &.modal-bottom {
+    .modal-box {
+      transition: all 200ms ease;
+      transform: translateY(100%);
+    }
+
+    &.modal-open {
+      .modal-box {
+        transform: translateY(0);
+      }
+    }
+  }
+}
