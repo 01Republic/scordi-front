@@ -76,8 +76,8 @@ export type CreateAccountDto = {
 };
 
 export type UpdateAccountDto = {
-    sign: string;
-    connectSession: ConnectSession;
+    sign?: string;
+    connectSession?: ConnectSession;
     loginPageUrl?: string | null;
     loginMethod?: string | null;
     memo?: string | null;
