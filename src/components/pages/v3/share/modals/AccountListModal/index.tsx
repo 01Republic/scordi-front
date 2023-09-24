@@ -22,7 +22,8 @@ export const AccountListModal = memo(() => {
     const [originProduct, setOriginProduct] = useState<ProductDto | null>(null);
 
     const onBack = () => {
-        const productId = originProduct?.id;
+        if (!originProduct) return;
+        const productId = originProduct.id;
         search({where: {productId}, itemsPerPage: 0}, true).finally(() => close());
     };
 
@@ -32,8 +33,8 @@ export const AccountListModal = memo(() => {
 
     useEffect(() => {
         if (!product) return;
-
-        search({where: {productId: product.id}, itemsPerPage: 0});
+        const productId = product.id;
+        search({where: {productId}, itemsPerPage: 0});
     }, [product]);
 
     return (

@@ -25,7 +25,7 @@ export const BillingListPanel = memo(() => {
         <MobileSection.Item>
             <MobileSection.Padding>
                 <ul className="w-full text-left">
-                    {BillingList.dateKeys.map((dateKey, i) => {
+                    {BillingList.dateKeys.reverse().map((dateKey, i) => {
                         const histories = groupedHistories[dateKey] || [];
                         const schedules = groupedSchedules[dateKey] || [];
 
