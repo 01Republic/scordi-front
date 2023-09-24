@@ -21,21 +21,22 @@ export const AccountListModal = memo(() => {
     const product = useRecoilValue(subjectProductOfAccountsInModalState);
     const [originProduct, setOriginProduct] = useState<ProductDto | null>(null);
 
-    const onBack = () => {
-        if (!originProduct) return;
-        const productId = originProduct.id;
-        search({where: {productId}, itemsPerPage: 0}, true).finally(() => close());
-    };
-
     useEffect(() => {
         setOriginProduct(product);
-    }, []);
+    }, [product]);
 
     useEffect(() => {
         if (!product) return;
         const productId = product.id;
         search({where: {productId}, itemsPerPage: 0});
     }, [product]);
+
+    const onBack = () => {
+        console.log(originProduct);
+        if (!originProduct) return;
+        const productId = originProduct.id;
+        search({where: {productId}, itemsPerPage: 0}, true).finally(() => close());
+    };
 
     return (
         <>

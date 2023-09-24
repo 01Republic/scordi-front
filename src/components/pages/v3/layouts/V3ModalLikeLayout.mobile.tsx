@@ -17,6 +17,8 @@ interface V3ModalLikeLayoutMobileProps extends WithChildren {
     buttons?: ReactComponentLike[];
     // 이 페이지에서만 사용되는 모달들을 등록
     modals?: ReactComponentLike[];
+    // 뒤로가기 버튼 클릭시의 동작
+    backBTnOnClick?: () => void;
 }
 
 export const V3ModalLikeLayoutMobile = memo((props: V3ModalLikeLayoutMobileProps) => {
