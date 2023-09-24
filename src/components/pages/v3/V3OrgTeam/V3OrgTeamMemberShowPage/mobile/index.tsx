@@ -8,8 +8,15 @@ import {DeleteTriggerButton, EditTriggerButton} from '^v3/V3OrgTeam/V3OrgTeamMem
 import {UpdateTeamMemberDto} from '^types/team-member.type';
 import {teamMemberApi} from '^api/team-member.api';
 import {useForm} from 'react-hook-form';
+import {useRouter} from 'next/router';
+import {V3OrgTeamMembersPageRoute} from '^pages/v3/orgs/[orgId]/teams/members';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
 export const V3OrgTeamMemberShowPage = memo(() => {
-    const {currentTeamMember: member, isLoading} = useCurrentTeamMember();
+    const router = useRouter();
+    const orgId = useRecoilValue(orgIdParamState);
+
+    const {currentTeamMember: member, setCurrentTeamMember, isLoading} = useCurrentTeamMember();
     const form = useForm<UpdateTeamMemberDto>();
     const {name, jobName, phone, email} = makeTeamMemberProfile(member);
 
@@ -28,7 +35,10 @@ export const V3OrgTeamMemberShowPage = memo(() => {
 
     const deleteFn = () => {
         if (!member) return;
-        teamMemberApi.destroy(member.organizationId, member.id).then(({data}) => {});
+        teamMemberApi.destroy(member.organizationId, member.id).then(({data}) => {
+            router.push(V3OrgTeamMembersPageRoute.path(orgId));
+            setCurrentTeamMember(null);
+        });
     };
 
     return (
@@ -37,6 +47,7 @@ export const V3OrgTeamMemberShowPage = memo(() => {
                 () => <EditTriggerButton onClick={updateFn} />,
                 () => <DeleteTriggerButton onClick={deleteFn} />,
             ]}
+            backBTnOnClick={() => router.push(V3OrgTeamMembersPageRoute.path(orgId))}
         >
             <MobileSection.List className="h-full">
                 {isLoading ? (

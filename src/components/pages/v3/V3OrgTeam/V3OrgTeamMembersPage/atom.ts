@@ -43,7 +43,7 @@ export const useCurrentTeamMember = () => {
         request.finally(() => setIsLoading(false));
     };
 
-    return {currentTeamMember, loadCurrentTeamMember, isLoading};
+    return {currentTeamMember, loadCurrentTeamMember, setCurrentTeamMember, isLoading};
 };
 
 export const makeTeamMemberProfile = (member?: TeamMemberDto | null) => {

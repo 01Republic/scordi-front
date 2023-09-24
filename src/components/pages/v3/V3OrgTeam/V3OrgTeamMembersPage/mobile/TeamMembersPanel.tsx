@@ -17,10 +17,7 @@ export const TeamMembersPanel = memo((props: TeamMembersPanel) => {
     const length = teamMembers.length;
     const {maxLength} = props;
 
-    const onAddButtonClick = () => {
-        setIsShow(true);
-        console.log(isShow);
-    };
+    const onAddButtonClick = () => setIsShow(true);
 
     return (
         <MobileSection.Item>

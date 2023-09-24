@@ -37,12 +37,12 @@ export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
                     <div className="flex justify-between mb-2">
                         <div className="flex-1">
                             <EditTriggeredInput
-                                className="font-bold text-2xl w-full"
+                                inputClassName="font-bold text-2xl w-full py-2"
                                 required={true}
                                 {...form.register('name')}
                             />
                             <EditTriggeredInput
-                                className="font-medium text-xl w-full"
+                                inputClassName="font-medium text-xl w-full"
                                 required={true}
                                 {...form.register('jobName')}
                             />

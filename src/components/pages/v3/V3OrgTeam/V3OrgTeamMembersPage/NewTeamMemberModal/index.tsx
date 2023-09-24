@@ -13,6 +13,7 @@ import {V3OrgTeamMemberShowPageRoute} from '^pages/v3/orgs/[orgId]/teams/members
 import {ModalLikeTopbar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
+import {V3OrgTeamMembersPageRoute} from '^pages/v3/orgs/[orgId]/teams/members';
 
 export const NewTeamMemberModal = memo(() => {
     const router = useRouter();
@@ -22,17 +23,25 @@ export const NewTeamMemberModal = memo(() => {
     const form = useForm<CreateTeamMemberDto>();
 
     const onSubmit = (data: CreateTeamMemberDto) => {
-        teamMemberApi.create(orgId, data).then((res) => {
-            const newMember = res.data;
-            router.push(V3OrgTeamMemberShowPageRoute.path(orgId, newMember.id));
-        });
+        teamMemberApi
+            .create(orgId, data)
+            .then((res) => {
+                const newMember = res.data;
+                router.push(V3OrgTeamMemberShowPageRoute.path(orgId, newMember.id));
+            })
+            .finally(() => close());
+    };
+
+    const backBtnOnClick = () => {
+        close();
+        router.push(V3OrgTeamMembersPageRoute.path(orgId));
     };
 
     return (
         <form>
             <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
                 <ModalLikeTopbar
-                    backBtnOnClick={() => close}
+                    backBtnOnClick={backBtnOnClick}
                     // title={'멤버 등록}
                     topbarPosition="sticky"
                 />
