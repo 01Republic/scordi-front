@@ -12,6 +12,7 @@ import {ProductSelector} from './ProductSelector';
 import {ProductChangeModal} from './ProductChangeModal';
 import {useAccounts} from '^hooks/useAccounts';
 import {ProductDto} from '^types/product.type';
+import {AccountEditModal} from '^v3/share/modals/AccountListModal/AccountEditModal';
 
 export const AccountListModal = memo(() => {
     const {isShow, Modal, close} = useModal(accountListModal);
@@ -71,6 +72,7 @@ export const AccountListModal = memo(() => {
             </Modal>
 
             <AccountCreateModal />
+            <AccountEditModal />
             <ProductChangeModal />
         </>
     );

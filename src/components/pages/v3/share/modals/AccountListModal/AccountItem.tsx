@@ -1,14 +1,10 @@
 import React, {memo, useRef} from 'react';
 import {BiChevronRight, BiCopy} from 'react-icons/bi';
-import {BsChevronRight} from 'react-icons/bs';
-import {FaKey, FaRegCopy} from 'react-icons/fa6';
+import {FaKey} from 'react-icons/fa6';
 import {AccountDto} from '^types/account.type';
-import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
-import {dayjs} from '^utils/dayjs';
-import {Avatar} from '^components/Avatar';
-import {AvatarGroup} from '^v3/share/AvatarGroup';
 import {toast} from 'react-toastify';
 import CopyToClipboard from 'react-copy-to-clipboard';
+import {useAccountEditModal} from '^v3/share/modals/AccountListModal/AccountEditModal/atom';
 
 interface AccountItemProps {
     account: AccountDto;
@@ -17,6 +13,7 @@ interface AccountItemProps {
 export const AccountItem = memo((props: AccountItemProps) => {
     const {account} = props;
     const toastId = useRef<number | string>('');
+    const accountEditModal = useAccountEditModal();
 
     const decrypted = account.decryptSign();
 
@@ -31,7 +28,7 @@ export const AccountItem = memo((props: AccountItemProps) => {
 
     return (
         <li className="px-2 mb-2 relative" data-id={account.id}>
-            <div onClick={() => console.log(account, decrypted)} className="btn-like gap-4 p-4 hover:bg-slate-200">
+            <div onClick={() => accountEditModal.show(account)} className="btn-like gap-4 p-4 hover:bg-slate-200">
                 <div className="hidden sm:block">
                     <div className="btn btn-square">
                         <FaKey />

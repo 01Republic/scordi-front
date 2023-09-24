@@ -9,6 +9,7 @@ import {orgIdParamState} from '^atoms/common';
 import {plainToInstance} from 'class-transformer';
 import {useAccounts} from '^hooks/useAccounts';
 import {ProductAvatar} from '^v3/share/ProductAvatar';
+import {toast} from 'react-toastify';
 
 export const accountCreateModalShowAtom = atom({
     key: 'accountCreateModalShowAtom',
@@ -51,6 +52,7 @@ export const AccountCreateModal = memo(() => {
 
         const formData = plainToInstance(UnSignedAccountFormData, data);
         accountApi.create(orgId, {sign: formData.sign, productId}).then(() => {
+            toast.success('등록되었습니다.');
             search({where: {productId}, itemsPerPage: 0}, true).finally(() => onBack());
         });
     };
@@ -76,9 +78,12 @@ export const AccountCreateModal = memo(() => {
                     </div>
 
                     <div className="w-full sm:grid grid-cols-3">
-                        <div className="col-span-1 mb-2">아이디</div>
+                        <div className="col-span-1 mb-2">
+                            <label htmlFor="email">아이디</label>
+                        </div>
                         <div className="col-span-2">
                             <input
+                                id="email"
                                 type="text"
                                 className="input input-bordered w-full"
                                 {...form.register('email')}

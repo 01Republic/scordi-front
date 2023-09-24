@@ -1,0 +1,57 @@
+@import "./variables/color";
+
+//.input.input-underline {
+//  @apply w-full px-0 text-xl;
+//  @apply rounded-none border-0 border-b-2 border-gray-300;
+//
+//  height: 2.5rem;
+//  font-weight: 500;
+//  outline: 2px solid $color-scordi;
+//  outline-offset: 0;
+//
+//  &:focus {
+//    //
+//  }
+//}
+
+.input-underline {
+  // 기존 스타일 초기화
+  --tw-bg-opacity: 0.05;
+  outline: none !important;
+  position: relative;
+  border-radius: inherit;
+
+  $height: 1.5px;
+  $speed: 150ms;
+  $inactive-color: #d3d3d3;
+  $active-color: #0070f3;
+
+  & + span {
+    display: block;
+    height: $height;
+    background-color: #{$inactive-color};
+    width: 100%;
+
+    &:after {
+      content: '';
+      display: block;
+      height: $height;
+      background-color: #{$active-color};
+      width: 0;
+      transition: width #{$speed} ease;
+    }
+  }
+
+  &:focus {
+    // 기존 스타일 초기화
+    --tw-bg-opacity: 1;
+    --tw-text-opacity: 1;
+    color: hsl(var(--bc) / var(--tw-text-opacity));
+
+    & + span {
+      &:after {
+        width: 100%;
+      }
+    }
+  }
+}
