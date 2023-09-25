@@ -18,7 +18,7 @@ export const BillingHistoriesPageModal = memo(() => {
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
-            <ModalLikeTopbar backBtnOnClick={close} />
+            <ModalLikeTopbar backBtnOnClick={close} topbarPosition="sticky" />
             <MobileSection.List>{isShow && <BillingHistoriesPageBody />}</MobileSection.List>
         </Modal>
     );

@@ -5,14 +5,6 @@ import {ModalLikeTopbar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeTop
 import {atom} from 'recoil';
 import {newInvoiceAccountModal} from './atom';
 
-export const accountListModal = {
-    isShowAtom: atom({
-        key: 'v3/accountListModal/IsShow',
-        default: false,
-    }),
-    popStateSyncKey: 'accountListModal',
-};
-
 export const NewInvoiceAccountModalMobile = memo(() => {
     const {Modal, close} = useModal(newInvoiceAccountModal);
 
