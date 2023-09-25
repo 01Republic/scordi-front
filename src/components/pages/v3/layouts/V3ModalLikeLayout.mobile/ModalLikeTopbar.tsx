@@ -31,7 +31,11 @@ export const ModalLikeTopbar = memo((props: ModalLikeTopbarProps) => {
                 } top-0 h-[50px] min-h-[50px] bg-white z-10`}
             >
                 <div className="text-sm h-full flex items-center">
-                    <div className="px-5 h-full flex items-center cursor-pointer" onClick={backBtnOnClick}>
+                    <div
+                        data-component="CloseModalButton"
+                        className="px-5 h-full flex items-center cursor-pointer"
+                        onClick={backBtnOnClick}
+                    >
                         <FiArrowLeft size={24} strokeWidth={2.5} />
                     </div>
                 </div>

@@ -5,5 +5,5 @@ export const accountCreateModalAtom = {
         key: 'accountCreateModalShowAtom',
         default: false,
     }),
-    popStateSyncKey: 'accountCreateModalAtom',
+    popStateSyncKey: 'accountCreateModal',
 };

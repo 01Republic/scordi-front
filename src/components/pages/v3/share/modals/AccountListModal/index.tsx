@@ -33,7 +33,6 @@ export const AccountListModal = memo(() => {
     }, [product]);
 
     const onBack = () => {
-        console.log(originProduct);
         if (!originProduct) return;
         const productId = originProduct.id;
         search({where: {productId}, itemsPerPage: 0}, true).finally(() => close());
