@@ -70,4 +70,4 @@ printf "\t\t%s\n" "$ ssh $SERVER_NAME"
 printf "\t\t%s\n" "$ pm2 log $APP_NAME"
 printf "%s\n" "========================"
 
-curl -X POST -H 'Content-type: application/json' --data '{"text":"Deploy:Production Success"}' https://hooks.slack.com/services/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
+curl -X POST -H 'Content-type: application/json' --data '{"text":"Deploy:Production Success"}' https://hooks.slack.com/services/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
