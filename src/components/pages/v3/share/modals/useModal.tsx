@@ -1,7 +1,12 @@
-import {RecoilState, useRecoilState} from 'recoil';
+import {atom, RecoilState, useRecoilState} from 'recoil';
 import React, {memo, useEffect} from 'react';
 import {WithChildren} from '^types/global.type';
 import {IoClose} from '@react-icons/all-files/io5/IoClose';
+
+const openedModalsAtom = atom<{key: string}[]>({
+    key: 'openedModalsAtom',
+    default: [],
+});
 
 interface UseModalOption {
     isShowAtom: RecoilState<boolean>;
@@ -31,20 +36,34 @@ export const useModal = (option: UseModalOption) => {
             if (!isShow && !isModalOpened) {
                 window.history.pushState(popStateSyncKey, '');
                 console.log('open modal', popStateSyncKey);
-                window.onpopstate = function () {
+                window.addEventListener('popstate', () => {
                     const isModalOpened = window.history.state === popStateSyncKey;
-                    console.log('close modal', popStateSyncKey);
-                    if (!isModalOpened) close();
-                };
+                    if (!isModalOpened) {
+                        console.log('close modal', popStateSyncKey);
+                        close(-1);
+                    }
+                });
             }
         }
         setIsShow(true);
         if (callback && typeof callback === 'function') callback();
     };
+
     const close = (callback?: (() => any) | any) => {
-        setIsShow(false);
+        if (popStateSyncKey) {
+            if (!callback) {
+                // 백버튼 UI 를 클릭한 경우
+                history.back();
+            } else {
+                // onPopState() 로부터 호출된 경우
+                setIsShow(false);
+            }
+        } else {
+            setIsShow(false);
+        }
         if (callback && typeof callback === 'function') callback();
     };
+
     const prevent = (e: any) => {
         e.stopPropagation();
         e.preventDefault();
@@ -57,14 +76,22 @@ export const useModal = (option: UseModalOption) => {
         close,
         prevent,
         Modal: memo(({children, wrapperClassName = '', className = ''}: ModalProps) => (
-            <div className={`modal cursor-pointer ${wrapperClassName} ${isShow ? 'modal-open' : ''}`} onClick={close}>
+            <div
+                id={popStateSyncKey}
+                className={`modal cursor-pointer ${wrapperClassName} ${isShow ? 'modal-open' : ''}`}
+                onClick={close}
+            >
                 <div className={`modal-box cursor-default ${className}`} onClick={prevent}>
                     {children}
                 </div>
             </div>
         )),
         CloseButton: memo(() => (
-            <button onClick={close} className="btn btn-link p-0 text-gray-500 hover:text-gray-900">
+            <button
+                data-component="CloseModalButton"
+                onClick={close}
+                className="btn btn-link p-0 text-gray-500 hover:text-gray-900"
+            >
                 <IoClose size={26} />
             </button>
         )),

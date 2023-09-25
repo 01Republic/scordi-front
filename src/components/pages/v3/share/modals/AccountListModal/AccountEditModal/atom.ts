@@ -10,7 +10,7 @@ export const accountEditModalAtom = {
         key: 'accountEditModalShowAtom',
         default: false,
     }),
-    popStateSyncKey: 'accountEditModalAtom',
+    popStateSyncKey: 'accountEditModal',
 };
 
 export const subjectAccountInModalState = atom<AccountDto | null>({
