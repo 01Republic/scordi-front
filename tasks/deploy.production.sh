@@ -69,3 +69,5 @@ printf "\n\t\t%s\n" "# 만약 pm2 명령어를 ssh shell 에서 인식하지 못
 printf "\t\t%s\n" "$ ssh $SERVER_NAME"
 printf "\t\t%s\n" "$ pm2 log $APP_NAME"
 printf "%s\n" "========================"
+
+curl -X POST -H 'Content-type: application/json' --data '{"text":"Deploy:Production Success"}' https://hooks.slack.com/services/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

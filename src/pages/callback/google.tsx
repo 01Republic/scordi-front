@@ -31,7 +31,7 @@ export default function GoogleCallbackPage() {
         const {state, ...query} = router.query;
         const redirectUri = state as string | undefined;
 
-        console.log('query', query);
+        // console.log('query', query);
         if (redirectUri) router.replace(buildUrl(redirectUri, query));
     }, [router.isReady]);
 
