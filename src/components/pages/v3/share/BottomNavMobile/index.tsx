@@ -23,7 +23,7 @@ export const BottomNavMobile = memo((props: BottomNavMobileProps) => {
         {text: '홈', Icon: FaHouse, href: V3OrgHomePageRoute.path(orgId)},
         {text: '일정', Icon: FaRegCalendarCheck, href: V3OrgBillingHistoriesPageRoute.path(orgId)},
         {text: '멤버', Icon: FaUsers, href: V3OrgTeamsPageRoute.path(orgId)},
-        {text: '관리', Icon: FaGear, href: V3OrgSettingsOrgPageRoute.path(orgId)},
+        {text: '관리', Icon: FaGear, href: 'javascript:alert("준비중입니다. 금방 완성될거에요!")'}, // V3OrgSettingsOrgPageRoute.path(orgId)
     ];
 
     return (
