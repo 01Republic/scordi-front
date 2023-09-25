@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 tsc
 
+function send_slack() {
+  curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$1\"}" https://hooks.slack.com/services/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
+}
+
 function start_log() {
   printf "===============\n\n"
   printf "\t%s" "$1"
@@ -70,4 +74,4 @@ printf "\t\t%s\n" "$ ssh $SERVER_NAME"
 printf "\t\t%s\n" "$ pm2 log $APP_NAME"
 printf "%s\n" "========================"
 
-curl -X POST -H 'Content-type: application/json' --data '{"text":"Deploy:Staging Success"}' https://hooks.slack.com/services/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
+send_slack "Deploy:Staging Success"
