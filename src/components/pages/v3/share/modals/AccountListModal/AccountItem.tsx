@@ -4,7 +4,7 @@ import {FaKey} from 'react-icons/fa6';
 import {AccountDto} from '^types/account.type';
 import {toast} from 'react-toastify';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import {useAccountEditModal} from '^v3/share/modals/AccountListModal/AccountEditModal/atom';
+import {useAccountEditModal} from './AccountEditModal/hook';
 
 interface AccountItemProps {
     account: AccountDto;

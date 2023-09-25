@@ -1,31 +1,33 @@
 import React, {memo, useEffect, useState} from 'react';
+import {ProductAvatar} from '^v3/share/ProductAvatar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ModalLikeTopbar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeTopbar';
-import {useAccountEditModal} from './atom';
-import {ProductAvatar} from '^v3/share/ProductAvatar';
-import {useForm} from 'react-hook-form';
-import {UnSignedAccountFormData} from '^types/account.type';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
-import {Input} from '^v3/share/modals/AccountListModal/AccountEditModal/Input';
-import {BsChevronDown, BsEye, BsEyeSlash} from 'react-icons/bs';
-import {accountApi} from '^api/account.api';
-import {plainToInstance} from 'class-transformer';
-import {useAccounts} from '^hooks/useAccounts';
-import {PasswordInput} from '^v3/share/modals/AccountListModal/AccountEditModal/PasswordInput';
+import {useForm} from 'react-hook-form';
 import {toast} from 'react-toastify';
+import {BsChevronDown} from 'react-icons/bs';
+import {plainToInstance} from 'class-transformer';
+import {UnSignedAccountFormData} from '^types/account.type';
+import {accountApi} from '^api/account.api';
+import {useAccounts} from '^hooks/useAccounts';
+import {useAccountEditModal} from './hook';
+import {Input} from './Input';
+import {PasswordInput} from './PasswordInput';
 
 export const AccountEditModal = memo(() => {
     const form = useForm<UnSignedAccountFormData>();
     const {isShow, Modal, hide, data} = useAccountEditModal();
     const {search} = useAccounts();
-    const {product, account} = data;
     const onBack = () => hide();
     const [isAdvancedInputsShow, setIsAdvancedInputsShow] = useState(false);
+    const {product, account} = data;
 
+    // 기본적으로 디테일 인풋은 접혀있는 상태
     useEffect(() => {
         setIsAdvancedInputsShow(false);
     }, [isShow]);
 
+    // 폼 기본값 채우기
     useEffect(() => {
         if (!account) return;
 
@@ -38,12 +40,28 @@ export const AccountEditModal = memo(() => {
         form.setValue('memo', account.memo);
     }, [account]);
 
-    const onSubmit = (data: UnSignedAccountFormData) => {
+    // 키보드 이벤트 바인딩
+    useEffect(() => {
+        const keyClicked = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') onBack();
+            return e;
+        };
+        window.addEventListener('keyup', keyClicked);
+        return () => {
+            window.removeEventListener('keyup', keyClicked);
+        };
+    }, []);
+
+    const onSubmit = (dto: UnSignedAccountFormData) => {
         if (!account) return;
         const {organizationId, id} = account;
-        const {productId} = data;
 
-        const formData = plainToInstance(UnSignedAccountFormData, data).toUpdateDto();
+        const {productId} = dto;
+        if (!productId) {
+            alert('무언가 잘못되었습니다. 스코디팅에게 문의해주세요!');
+            return;
+        }
+        const formData = plainToInstance(UnSignedAccountFormData, dto).toUpdateDto();
         accountApi.update(organizationId, id, formData).then(() => {
             toast.success('저장되었습니다.');
             search({where: {productId}, itemsPerPage: 0}, true).finally(() => onBack());
@@ -72,7 +90,15 @@ export const AccountEditModal = memo(() => {
                                 )}
                             </div>
 
-                            <Input type="email" label="아이디" formObj={form} name="email" required autoFocus />
+                            <Input
+                                type="email"
+                                label="아이디"
+                                formObj={form}
+                                name="email"
+                                required
+                                autoFocus
+                                autoComplete="off"
+                            />
                             <PasswordInput form={form} />
 
                             {!isAdvancedInputsShow && (

@@ -1,8 +1,8 @@
 import React, {memo, useEffect, useState} from 'react';
 import {Input} from '^v3/share/modals/AccountListModal/AccountEditModal/Input';
-import {useAccountEditModal} from '^v3/share/modals/AccountListModal/AccountEditModal/atom';
 import {UseFormReturn} from 'react-hook-form';
 import {UnSignedAccountFormData} from '^types/account.type';
+import {useAccountEditModal} from './hook';
 
 interface PasswordInputProps {
     form: UseFormReturn<UnSignedAccountFormData, any>;
@@ -25,6 +25,7 @@ export const PasswordInput = memo((props: PasswordInputProps) => {
                 label="비밀번호"
                 formObj={form}
                 name="password"
+                autoComplete="off"
                 required
             />
             <div

@@ -57,6 +57,16 @@ export class UnSignedAccountFormData {
         return CryptoJS.AES.encrypt(json, crawlerSign).toString();
     }
 
+    toCreateDto(): CreateAccountDto {
+        return {
+            sign: this.sign,
+            productId: this.productId,
+            loginPageUrl: this.loginPageUrl,
+            loginMethod: this.loginMethod,
+            memo: this.memo,
+        };
+    }
+
     toUpdateDto(): UpdateAccountDto {
         return {
             sign: this.sign,

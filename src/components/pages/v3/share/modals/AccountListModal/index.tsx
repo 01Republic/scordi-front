@@ -7,16 +7,17 @@ import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/
 import {MobileSection} from '../../sections/MobileSection';
 import {accountListModal, subjectProductOfAccountsInModalState} from './atom';
 import {AccountList} from './AccountList';
-import {AccountCreateModal, accountCreateModalShowAtom} from './AccountCreateModal';
+import {AccountCreateModal} from './AccountCreateModal';
 import {ProductSelector} from './ProductSelector';
 import {ProductChangeModal} from './ProductChangeModal';
 import {useAccounts} from '^hooks/useAccounts';
 import {ProductDto} from '^types/product.type';
-import {AccountEditModal} from '^v3/share/modals/AccountListModal/AccountEditModal';
+import {AccountEditModal} from './AccountEditModal';
+import {useAccountCreateModal} from './AccountCreateModal/hook';
 
 export const AccountListModal = memo(() => {
     const {isShow, Modal, close} = useModal(accountListModal);
-    const {open: openCreateModal} = useModal({isShowAtom: accountCreateModalShowAtom});
+    const {show: openCreateModal} = useAccountCreateModal();
     const {result: pagedAccounts, search} = useAccounts();
     const product = useRecoilValue(subjectProductOfAccountsInModalState);
     const [originProduct, setOriginProduct] = useState<ProductDto | null>(null);
