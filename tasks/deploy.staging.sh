@@ -2,7 +2,7 @@
 tsc
 
 function send_slack() {
-  curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$1\"}" https://hooks.slack.com/services/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
+  curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$1\"}" https://hooks.slack.com/services/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
 }
 
 function start_log() {
