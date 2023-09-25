@@ -41,6 +41,12 @@
     cursor: pointer;
   }
 }
+
+section[data-component="MobileSection.Item"].h-0 {
+  .react-calendar__navigation {
+    margin-bottom: 0;
+  }
+}
 .react-calendar__navigation {
   display: flex;
   height: 44px;
@@ -132,19 +138,16 @@
 
   abbr {
     display: inline-block;
-    width: 30px;
-    height: 28px;
-    padding-top: 7px;
+    width: 26px;
+    height: 26px;
+    padding-top: 5px;
+    border-radius: 100px;
+    transition: all 200ms ease;
   }
 
   &--active {
     abbr {
-      display: inline-block;
-      width: 30px;
-      height: 30px;
-      padding-top: 7px;
       background: #7963F7;
-      border-radius: 100px;
       color: white;
     }
 
@@ -157,12 +160,16 @@
   }
 
   .money-text {
-    height: 22px;
+    height: 20px;
     line-height: 1;
 
     $size: 0.68rem;
     font-size: $size;
     //font-weight: bold;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     .symbol {
       font-size: calc(#{$size} - 1px);

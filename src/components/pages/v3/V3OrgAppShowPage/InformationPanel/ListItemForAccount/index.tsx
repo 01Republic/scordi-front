@@ -27,7 +27,6 @@ export const ListItemForAccount = memo(() => {
     const onClick = () => {
         if (!currentSubscription) return;
 
-        console.log(currentSubscription.product);
         setSubjectProduct(currentSubscription.product);
         accountListModalOpen();
     };

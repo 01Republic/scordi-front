@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useState} from 'react';
 import Calendar, {ViewCallbackProperties} from 'react-calendar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {useCalendar3} from '^hooks/useCalendar';
@@ -10,6 +10,7 @@ import {BsFillCaretLeftFill, BsFillCaretRightFill} from 'react-icons/bs';
 export const CalendarPanel = memo(() => {
     const {selectedDate, selectDate, activeStartDate, setActiveStartDate} = useCalendar3();
     const {updateStartDate, updateEndDate, groupedHistories, groupedSchedules} = useBillingListV3();
+    const [isFold, setFold] = useState(false);
 
     const onDayClick = (date: Date) => {
         const focusedColorClass = 'bg-scordi-light-50';
@@ -41,7 +42,17 @@ export const CalendarPanel = memo(() => {
     };
 
     return (
-        <MobileSection.Item className="sticky top-0 shadow z-10">
+        <MobileSection.Item
+            className={`sticky top-0 shadow z-10 transition-all overflow-y-hidden ${isFold ? 'min-h-0 h-0' : ''}`}
+        >
+            <div
+                className={`fixed right-0 px-4 text-[16px] text-gray-500 transition-all ${
+                    isFold ? 'top-0 py-4' : 'top-[50px] py-3'
+                }`}
+                onClick={() => setFold((d) => !d)}
+            >
+                달력 {!isFold ? <span>접기</span> : <span>펼치기</span>}
+            </div>
             <Calendar
                 locale={'ko-KR'}
                 calendarType={'US'}
