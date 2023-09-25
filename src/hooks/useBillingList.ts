@@ -24,7 +24,6 @@ interface GetBillingListParams {
 // 새롭게 페이지네이션과 날짜범위검색 기능을 지원할 수 있도록 개선하여 만들었습니다.
 export const useBillingListV3 = () => {
     const organizationId = useRecoilValue(orgIdParamState);
-    const focusedMonth = useRecoilValue(focusedMonthAtom);
     const [startDate, setStartDate] = useRecoilState(billingListStartDateAtom);
     const [endDate, setEndDate] = useRecoilState(billingListEndDateAtom);
 
@@ -45,15 +44,8 @@ export const useBillingListV3 = () => {
         [organizationId],
     );
 
-    useEffect(() => {
-        if (!organizationId || !focusedMonth) return;
-        if (isNaN(organizationId)) return;
-
-        setStartDate(firstDayOfMonth(focusedMonth));
-        setEndDate(lastDayOfMonth(focusedMonth));
-        loadData(startDate, endDate);
-    }, [organizationId, focusedMonth]);
-
+    // 시작일 또는 종료일이 변경되면
+    // 데이터를 호출합니다.
     useEffect(() => {
         if (startDate && endDate) loadData(startDate, endDate);
     }, [startDate, endDate]);
@@ -70,7 +62,7 @@ export const useBillingListV3 = () => {
     const updateStartDate = async (date: Date) => {
         // 새 조회시작일은 이전 조회시작일보다 작아야 합니다.
         // => 새 조회시작일이 이전 조회시작일보다 크거나 같으면 흐름을 차단합니다.
-        if (startDate.getTime() <= date.getTime()) {
+        if (startDate && startDate.getTime() <= date.getTime()) {
             return console.log('[skipped] updateStartDate');
         }
         setStartDate(date);
@@ -80,7 +72,7 @@ export const useBillingListV3 = () => {
     const updateEndDate = async (date: Date) => {
         // 새 조회종료일은 이전 조회종료일보다 커야 합니다.
         // => 새 조회종료일이 이전 조회종료일보다 작거나 같으면 흐름을 차단합니다.
-        if (date.getTime() <= endDate.getTime()) {
+        if (endDate && date.getTime() <= endDate.getTime()) {
             return console.log('[skipped] updateEndDate');
         }
         setEndDate(date);
@@ -93,6 +85,8 @@ export const useBillingListV3 = () => {
         updateEndDate,
         groupedHistories,
         groupedSchedules,
+        setStartDate,
+        setEndDate,
     };
 };
 

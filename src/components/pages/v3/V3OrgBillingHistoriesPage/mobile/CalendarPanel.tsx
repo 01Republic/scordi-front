@@ -1,16 +1,27 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import Calendar, {ViewCallbackProperties} from 'react-calendar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {useCalendar3} from '^hooks/useCalendar';
 import {useBillingListV3} from '^hooks/useBillingList';
 import {CalendarDateComment} from '^v3/V3OrgBillingHistoriesPage/mobile/CalendarDateComment';
-import {yyyy_mm_dd} from '^utils/dateTime';
+import {firstDayOfMonth, lastDayOfMonth, monthAfter, monthBefore, yyyy_mm_dd} from '^utils/dateTime';
 import {BsFillCaretLeftFill, BsFillCaretRightFill} from 'react-icons/bs';
+import {useRouter} from 'next/router';
 
 export const CalendarPanel = memo(() => {
-    const {selectedDate, selectDate, activeStartDate, setActiveStartDate} = useCalendar3();
-    const {updateStartDate, updateEndDate, groupedHistories, groupedSchedules} = useBillingListV3();
+    const router = useRouter();
+    const {selectedDate, selectDate, activeStartDate, setActiveStartDate, focusedMonth} = useCalendar3();
+    const {updateStartDate, updateEndDate, groupedHistories, groupedSchedules, setStartDate, setEndDate} =
+        useBillingListV3();
     const [isFold, setFold] = useState(false);
+
+    useEffect(() => {
+        if (focusedMonth) {
+            setActiveStartDate(focusedMonth);
+            setStartDate(firstDayOfMonth(monthBefore(1, focusedMonth)));
+            setEndDate(lastDayOfMonth(monthAfter(1, focusedMonth)));
+        }
+    }, [focusedMonth]);
 
     const onDayClick = (date: Date) => {
         const focusedColorClass = 'bg-scordi-light-50';
@@ -69,15 +80,13 @@ export const CalendarPanel = memo(() => {
                     next2Label={null}
                     // showNavigation={false}
                     formatDay={(locale, date) => date.getDate().toString()}
-                    tileContent={({date}) => {
-                        return (
-                            <CalendarDateComment
-                                date={date}
-                                groupedHistories={groupedHistories}
-                                groupedSchedules={groupedSchedules}
-                            />
-                        );
-                    }}
+                    tileContent={({date}) => (
+                        <CalendarDateComment
+                            date={date}
+                            groupedHistories={groupedHistories}
+                            groupedSchedules={groupedSchedules}
+                        />
+                    )}
                     onActiveStartDateChange={({action, activeStartDate: date}: ViewCallbackProperties) => {
                         const handler =
                             {

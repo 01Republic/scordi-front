@@ -63,11 +63,14 @@ export function useCalendar2() {
 export function useCalendar3() {
     const [selectedDate, selectDate] = useRecoilState(calendarSelectedDateState);
     const [activeStartDate, setActiveStartDate] = useRecoilState(calendarActiveStartDateAtom);
+    const [focusedMonth, setFocusedMonth] = useRecoilState(focusedMonthAtom);
 
     return {
         selectedDate: selectedDate || new Date(),
         selectDate,
         activeStartDate,
         setActiveStartDate,
+        focusedMonth,
+        setFocusedMonth,
     };
 }
