@@ -1,16 +1,15 @@
 import React, {memo, useEffect, useState} from 'react';
-import {Input} from '^v3/share/modals/AccountListModal/AccountEditModal/Input';
 import {UseFormReturn} from 'react-hook-form';
 import {UnSignedAccountFormData} from '^types/account.type';
-import {useAccountEditModal} from './hook';
+import {Input} from './Input';
 
 interface PasswordInputProps {
     form: UseFormReturn<UnSignedAccountFormData, any>;
+    isShow: boolean;
 }
 
 export const PasswordInput = memo((props: PasswordInputProps) => {
-    const {form} = props;
-    const {isShow} = useAccountEditModal();
+    const {form, isShow} = props;
     const [isPasswordOpen, setIsPasswordOpen] = useState(false);
 
     useEffect(() => {
