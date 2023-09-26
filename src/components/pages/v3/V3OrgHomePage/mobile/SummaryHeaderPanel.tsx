@@ -9,7 +9,7 @@ import {BiCaretLeft, BiCaretRight} from 'react-icons/bi';
 import {focusedMonthAtom, useFocusedMonth} from '^v3/V3OrgHomePage/feature/useFocusedMonth';
 import {firstDayOfMonth, lastDayOfMonth} from '^utils/dateTime';
 import {useModal} from '^v3/share/modals/useModal';
-import {billingHistoriesPayModal} from '^v3/V3OrgBillingHistoriesPage/modals/BillingHistoriesPageModal';
+import {billingHistoriesPageModal} from '^v3/V3OrgBillingHistoriesPage/modals/BillingHistoriesPageModal';
 import {useBillingHistoriesV3, useBillingSchedulesV3} from '^hooks/useBillingHistories';
 import {orgIdParamState} from '^atoms/common';
 import {BillingHistoryManager} from '^models/BillingHistory';
@@ -22,7 +22,7 @@ export const SummaryHeaderPanel = memo(() => {
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
     const symbol = getCurrencySymbol(displayCurrency);
     const unit = getCurrencyUnit(displayCurrency);
-    const {open: billingHistoriesPageModalOpen} = useModal(billingHistoriesPayModal);
+    const {open: billingHistoriesPageModalOpen} = useModal(billingHistoriesPageModal);
     const focusedMonth = useRecoilValue(focusedMonthAtom);
     const {result: pagedHistories, search: loadHistories} = useBillingHistoriesV3();
     const {result: pagedSchedules, search: loadSchedules} = useBillingSchedulesV3();

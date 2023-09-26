@@ -59,7 +59,15 @@ export const V3OrgHomePage = memo(() => {
         // Mobile size screen
         return (
             <V3MainLayoutMobile
-                title={currentOrg?.name}
+                title={
+                    <img
+                        src="/images/logo/scordi/png/text/text-black.png"
+                        alt="Scordi LOGO"
+                        className="h-[15px]"
+                        loading="lazy"
+                        draggable={false}
+                    />
+                }
                 activeTabIndex={0}
                 modals={[BillingHistoriesPageModal, NewInvoiceAccountModalMobile]}
             >
