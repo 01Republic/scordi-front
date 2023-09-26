@@ -54,7 +54,11 @@ export const CalendarPanel = memo(() => {
 
     return (
         <>
-            <div className={`sticky top-0 z-20 ${isFold ? 'mt-[-50px] h-[50px] -mb-8 border-b shadow' : '-mb-4'}`}>
+            <div
+                className={`sticky top-0 z-20 ${
+                    isFold ? 'mt-[-50px] h-[50px] -mb-8 ml-[50%] w-fit pr-[50%]' : '-mb-4'
+                }`}
+            >
                 <div
                     className={`absolute top-0 right-0 z-20 px-5 text-[16px] cursor-pointer text-gray-500 transition-all ${
                         isFold ? 'py-3.5' : 'py-2.5'
