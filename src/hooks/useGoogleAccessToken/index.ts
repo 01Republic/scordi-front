@@ -48,6 +48,7 @@ export function useGoogleAccessTokenCallback(redirectPath: string, deps?: any[])
         if (!code) return;
 
         setProgress(GmailAgentProgress.started);
+        toast.info(`계정을 연동하는 중입니다.\n 1분 이내로 완료되니 잠시만 기다려주세요!`);
         getGoogleAccessTokenByCode(code, redirectPath).then(async (tokenData) => {
             if (!tokenData) return;
             setAccessTokenData((old) => {
