@@ -1,9 +1,9 @@
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
 export enum TagGroup {
-    Product = 'product',
-    Team = 'team',
-    User = 'user',
+    Product = 'PRODUCT',
+    Team = 'TEAM',
+    User = 'USER',
 }
 
 export type TagDto = {

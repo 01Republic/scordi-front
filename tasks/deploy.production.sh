@@ -2,7 +2,8 @@
 tsc
 
 function send_slack() {
-  curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$1\"}" https://hooks.slack.com/services/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
+  source $( pwd )/.env.local
+  curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$1\"}" $SLACK_DEPLOY_NOTIFICATION_WEBHOOK_URL
 }
 
 function start_log() {
