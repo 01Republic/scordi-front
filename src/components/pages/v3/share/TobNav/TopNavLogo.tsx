@@ -25,7 +25,7 @@ export const TopNavLogo = memo(() => {
             {/*    className="relative top-1 mr-1"*/}
             {/*/>*/}
             <img
-                src="/images/logo/logo-black-transparent-2.png"
+                src="/images/logo/scordi/logo-black-transparent-2.png"
                 alt="Scordi logo"
                 className="relative mr-1 w-[120px]"
             />

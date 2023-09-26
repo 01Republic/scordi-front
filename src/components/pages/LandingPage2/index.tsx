@@ -10,18 +10,18 @@ import {ArticleSectionMobile} from './ArticleSectionMobile';
 
 export function LandingPage2() {
     const imgUrls = [
-        '/images/logo/logo_figma.png',
-        '/images/logo/logo_notion.png',
-        '/images/logo/logo_figma.png',
-        '/images/logo/logo_notion.png',
-        '/images/logo/logo_figma.png',
-        '/images/logo/logo_notion.png',
-        '/images/logo/logo_figma.png',
-        '/images/logo/logo_notion.png',
-        '/images/logo/logo_figma.png',
-        '/images/logo/logo_notion.png',
-        '/images/logo/logo_figma.png',
-        '/images/logo/logo_notion.png',
+        '/images/logo/external/logo_figma.png',
+        '/images/logo/external/logo_notion.png',
+        '/images/logo/external/logo_figma.png',
+        '/images/logo/external/logo_notion.png',
+        '/images/logo/external/logo_figma.png',
+        '/images/logo/external/logo_notion.png',
+        '/images/logo/external/logo_figma.png',
+        '/images/logo/external/logo_notion.png',
+        '/images/logo/external/logo_figma.png',
+        '/images/logo/external/logo_notion.png',
+        '/images/logo/external/logo_figma.png',
+        '/images/logo/external/logo_notion.png',
     ];
 
     useEffect(() => {
