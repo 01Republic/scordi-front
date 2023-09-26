@@ -55,7 +55,12 @@ export const useTags = (group: TagGroup) => {
         return data;
     };
 
-    const createByName = (name: string) => tagApi.create({name, group}).then((res) => res.data);
+    const createByName = (name: string) =>
+        tagApi.create({name, group}).then((res) => {
+            // 새로 생긴 tag를 reload
+            tagApi.index({where: {name}, itemsPerPage: 500}).then((res) => setResult(res.data));
+            return res.data;
+        });
 
     return {result, query, search, createByName};
 };
