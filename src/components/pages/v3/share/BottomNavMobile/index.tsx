@@ -36,7 +36,21 @@ export const BottomNavMobile = memo((props: BottomNavMobileProps) => {
                     <BottomNavItem key={i} {...tab} isActive={i === activeIndex} />
                 ))}
             </div>
-            <div className="flex container sticky bottom-0" style={{height}} />
+            <div
+                className={`flex items-center justify-center container sticky bottom-0 bg-white bg-opacity-75 ${
+                    orgId ? '' : 'z-20'
+                }`}
+                style={{height}}
+            >
+                {!orgId && (
+                    <span
+                        className="btn btn-link loading font-bold text-gray-400 no-underline normal-case"
+                        onClick={() => alert(`열심히 데이터를 가져오고 있어요\n잠시만 기다려주세요!`)}
+                    >
+                        loading ...
+                    </span>
+                )}
+            </div>
         </>
     );
 });
