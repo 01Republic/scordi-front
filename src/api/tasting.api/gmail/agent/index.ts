@@ -5,6 +5,7 @@ import {getGoogleUserData} from '^api/session.api';
 import {MoneyLike} from '^types/money.type';
 import {BillingType} from '^types/invoiceApp.type';
 import {TypeCast} from '^types/utils/class-transformer';
+import {GmailAgentTokenData} from '^types/invoiceAccount.type';
 
 export class GmailItem {
     id!: string;
@@ -67,6 +68,15 @@ export class GmailAgent {
     async getProfile() {
         const accessToken = await this.getAccessToken();
         return getGoogleUserData(accessToken).then((res) => res.data);
+    }
+
+    getGmailAgentTokenData() {
+        const tokenData: GmailAgentTokenData = {
+            accessToken: this.accessTokenData.access_token,
+            refreshToken: this.accessTokenData.refresh_token,
+            expireAt: this.accessTokenData.expireAt,
+        };
+        return tokenData;
     }
 
     // async getList(): Promise<GmailItem[]> {

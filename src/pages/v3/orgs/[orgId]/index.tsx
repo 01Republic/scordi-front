@@ -6,7 +6,12 @@ import {useCurrentOrg} from '^hooks/useCurrentOrg';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {useGoogleAccessTokenCallback} from '^hooks/useGoogleAccessToken';
-import {createInvoiceAccount, getInvoiceAccounts, syncInvoiceAccount} from '^api/invoiceAccount.api';
+import {
+    createInvoiceAccount,
+    getInvoiceAccounts,
+    reSyncInvoiceAccount,
+    syncInvoiceAccount,
+} from '^api/invoiceAccount.api';
 import {GmailAgent} from '^api/tasting.api';
 import {getCreateInvoiceAccountFromTo} from '^types/invoiceAccount.type';
 import {toast} from 'react-toastify';
@@ -54,15 +59,11 @@ export default function V3OrgHomePage() {
         const gmailAgent = new GmailAgent(accessTokenData);
 
         gmailAgent.getProfile().then((userData) => {
-            const tokenData = gmailAgent.accessTokenData;
+            const tokenData = gmailAgent.getGmailAgentTokenData();
             createInvoiceAccount(orgId, {
                 email: userData.email,
                 image: userData.picture,
-                tokenData: {
-                    accessToken: tokenData.access_token,
-                    refreshToken: tokenData.refresh_token,
-                    expireAt: tokenData.expireAt,
-                },
+                tokenData,
                 gmailQueryOptions: getCreateInvoiceAccountFromTo(),
             })
                 .then(() => {
@@ -76,7 +77,9 @@ export default function V3OrgHomePage() {
                             const {items, pagination} = res.data;
                             if (pagination.totalItemCount === 1) {
                                 const [account] = items;
-                                syncInvoiceAccount(orgId, account.id).then(() => window.location.reload());
+                                reSyncInvoiceAccount(orgId, account.id, {tokenData}).then(() =>
+                                    window.location.reload(),
+                                );
                             } else {
                                 console.log('Too many accounts');
                                 window.location.reload();
