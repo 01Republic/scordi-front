@@ -5,7 +5,7 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {BillingHistoriesPageBody} from '../BillingHistoriesPageBody';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 
-export const billingHistoriesPayModal = {
+export const billingHistoriesPageModal = {
     isShowAtom: atom({
         key: 'v3/billingHistoriesPageModalIsShow',
         default: false,
@@ -14,7 +14,7 @@ export const billingHistoriesPayModal = {
 };
 
 export const BillingHistoriesPageModal = memo(() => {
-    const {isShow, close, Modal, CloseButton} = useModal(billingHistoriesPayModal);
+    const {isShow, close, Modal, CloseButton} = useModal(billingHistoriesPageModal);
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
