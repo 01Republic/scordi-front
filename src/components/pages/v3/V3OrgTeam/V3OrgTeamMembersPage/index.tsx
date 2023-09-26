@@ -23,7 +23,7 @@ export const V3OrgTeamMembersPage = memo(() => {
         );
     } else {
         return (
-            <V3MainLayoutMobile title={currentOrg?.name} activeTabIndex={4} modals={[NewTeamMemberModal]}>
+            <V3MainLayoutMobile title="멤버 목록" activeTabIndex={2} modals={[NewTeamMemberModal]}>
                 <TeamMembersPanel />
             </V3MainLayoutMobile>
         );
