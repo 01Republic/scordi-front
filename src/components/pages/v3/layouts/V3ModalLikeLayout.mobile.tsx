@@ -21,6 +21,11 @@ interface V3ModalLikeLayoutMobileProps extends WithChildren {
     backBTnOnClick?: () => void;
 }
 
+/**
+ * 모달처럼 보이는 페이지 레이아웃 컴포넌트
+ * - 페이지 상단바는 뒤로가기 버튼을 운영함.
+ * - 페이지 하단탭 네비게이션 없음.
+ */
 export const V3ModalLikeLayoutMobile = memo((props: V3ModalLikeLayoutMobileProps) => {
     const {title, topRightButtons, buttons = [], modals = [], children} = props;
     const router = useRouter();

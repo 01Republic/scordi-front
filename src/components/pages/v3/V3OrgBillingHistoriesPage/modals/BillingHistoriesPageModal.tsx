@@ -3,7 +3,7 @@ import React, {memo} from 'react';
 import {useModal} from '^v3/share/modals/useModal';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {BillingHistoriesPageBody} from '../BillingHistoriesPageBody';
-import {ModalLikeTopbar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeTopbar';
+import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 
 export const billingHistoriesPayModal = {
     isShowAtom: atom({
@@ -18,7 +18,7 @@ export const BillingHistoriesPageModal = memo(() => {
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
-            <ModalLikeTopbar backBtnOnClick={close} topbarPosition="sticky" />
+            <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
             <MobileSection.List>{isShow && <BillingHistoriesPageBody />}</MobileSection.List>
         </Modal>
     );

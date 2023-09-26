@@ -1,7 +1,5 @@
 import React, {memo} from 'react';
-import {useRouter} from 'next/router';
 import {useModal} from '^v3/share/modals/useModal';
-import {ModalLikeTopbar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeTopbar';
 import {MobileSection} from '../share/sections/MobileSection';
 import {billingHistoryShowModal} from './atom';
 import {useBillingHistoriesInModal, useBillingHistoryInModal} from './useBillingHistoryModal';
@@ -14,6 +12,7 @@ import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {OutLink} from '^components/OutLink';
 import {useSetRecoilState} from 'recoil';
 import {attachmentModalState} from '^components/pages/LandingPages/TastingPage/AttachmentModal';
+import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 
 export const BillingHistoryShowModal = memo(() => {
     const {close, Modal} = useModal(billingHistoryShowModal);
@@ -26,7 +25,7 @@ export const BillingHistoryShowModal = memo(() => {
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
-            <ModalLikeTopbar
+            <ModalTopbar
                 backBtnOnClick={onBack}
                 title={billingHistory ? billingHistory.pageSubject : '결제 세부사항'}
                 topbarPosition="sticky"

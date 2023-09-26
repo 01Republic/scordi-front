@@ -5,9 +5,9 @@ import {toast} from 'react-toastify';
 import {UnSignedAccountFormData} from '^types/account.type';
 import {accountApi} from '^api/account.api';
 import {useAccounts} from '^hooks/useAccounts';
-import {ModalLikeTopbar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeTopbar';
 import {AccountForm} from '../form';
 import {useAccountEditModal} from './hook';
+import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 
 export const AccountEditModal = memo(() => {
     const form = useForm<UnSignedAccountFormData>();
@@ -59,7 +59,7 @@ export const AccountEditModal = memo(() => {
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
-            <ModalLikeTopbar title="계정 정보 변경" backBtnOnClick={onBack} topbarPosition="sticky" />
+            <ModalTopbar title="계정 정보 변경" backBtnOnClick={onBack} topbarPosition="sticky" />
             <AccountForm form={form} isShow={isShow} product={product} onSubmit={onSubmit} />
         </Modal>
     );

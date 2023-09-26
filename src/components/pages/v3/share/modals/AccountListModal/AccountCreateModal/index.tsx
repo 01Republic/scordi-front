@@ -5,9 +5,9 @@ import {toast} from 'react-toastify';
 import {UnSignedAccountFormData} from '^types/account.type';
 import {accountApi} from '^api/account.api';
 import {useAccounts} from '^hooks/useAccounts';
-import {ModalLikeTopbar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeTopbar';
 import {AccountForm} from '../form';
 import {useAccountCreateModal} from './hook';
+import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 
 export const AccountCreateModal = memo(() => {
     const form = useForm<UnSignedAccountFormData>();
@@ -49,7 +49,7 @@ export const AccountCreateModal = memo(() => {
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
-            <ModalLikeTopbar title="새 계정 등록하기" backBtnOnClick={onBack} topbarPosition="sticky" />
+            <ModalTopbar title="새 계정 등록하기" backBtnOnClick={onBack} topbarPosition="sticky" />
             <AccountForm form={form} isShow={isShow} product={product} onSubmit={onSubmit} />
         </Modal>
     );

@@ -1,7 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {useModal} from '^v3/share/modals/useModal';
-import {ModalLikeTopbar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeTopbar';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
 import {MobileSection} from '../../sections/MobileSection';
@@ -14,6 +13,7 @@ import {useAccounts} from '^hooks/useAccounts';
 import {ProductDto} from '^types/product.type';
 import {AccountEditModal} from './AccountEditModal';
 import {useAccountCreateModal} from './AccountCreateModal/hook';
+import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 
 export const AccountListModal = memo(() => {
     const {isShow, Modal, close} = useModal(accountListModal);
@@ -42,7 +42,7 @@ export const AccountListModal = memo(() => {
         <>
             <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] flex flex-col">
                 {isShow && <ChannelTalkHideStyle />}
-                <ModalLikeTopbar backBtnOnClick={onBack} topbarPosition="sticky" />
+                <ModalTopbar backBtnOnClick={onBack} topbarPosition="sticky" />
 
                 <MobileSection.List className="flex-1">
                     <MobileSection.Item className="sticky top-[50px] bg-white z-10">

@@ -7,7 +7,7 @@ export const TopNavMobileContainer = memo((props: TopNavMobileContainerProps) =>
     const {children} = props;
 
     return (
-        <div className="flex container items-center justify-between sticky top-0 h-[50px] bg-white z-10">
+        <div className="flex container-fluid items-center justify-between sticky top-0 h-[50px] bg-white z-10">
             {children}
         </div>
     );

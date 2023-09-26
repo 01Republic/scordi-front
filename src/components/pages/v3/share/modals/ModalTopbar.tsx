@@ -1,15 +1,15 @@
+import {ReactComponentLike, ReactNodeLike} from 'prop-types';
 import React, {memo} from 'react';
 import {FiArrowLeft} from 'react-icons/fi';
-import {ReactComponentLike, ReactNodeLike} from 'prop-types';
 
-interface ModalLikeTopbarProps {
+interface ModalTopbarProps {
     backBtnOnClick: () => any;
     title?: ReactNodeLike;
     topbarPosition?: 'fixed' | 'sticky';
     rightButtons?: ReactComponentLike[];
 }
 
-export const ModalLikeTopbar = memo((props: ModalLikeTopbarProps) => {
+export const ModalTopbar = memo((props: ModalTopbarProps) => {
     const {title, backBtnOnClick, topbarPosition = 'fixed', rightButtons = []} = props;
     const mappedButtons = rightButtons.length ? (
         rightButtons.map((RightButton, i) => {
@@ -26,7 +26,7 @@ export const ModalLikeTopbar = memo((props: ModalLikeTopbarProps) => {
     return (
         <>
             <div
-                className={`flex container-fluid items-center justify-between ${
+                className={`flex container items-center justify-between ${
                     topbarPosition === 'fixed' ? 'fixed' : 'sticky'
                 } top-0 h-[50px] min-h-[50px] bg-white z-10`}
             >

@@ -4,16 +4,15 @@ import {isOpenNewTeamMemberModalAtom} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/N
 import {CreateTeamMemberDto} from '^types/team-member.type';
 import {useForm} from 'react-hook-form';
 import {TextInput} from '^components/TextInput';
-import {ContentPanelInput} from '^layouts/ContentLayout';
 import {teamMemberApi} from '^api/team-member.api';
 import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
 import {orgIdParamState} from '^atoms/common';
 import {V3OrgTeamMemberShowPageRoute} from '^pages/v3/orgs/[orgId]/teams/members/[memberId]';
-import {ModalLikeTopbar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {V3OrgTeamMembersPageRoute} from '^pages/v3/orgs/[orgId]/teams/members';
+import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 
 export const NewTeamMemberModal = memo(() => {
     const router = useRouter();
@@ -40,7 +39,7 @@ export const NewTeamMemberModal = memo(() => {
     return (
         <form>
             <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
-                <ModalLikeTopbar
+                <ModalTopbar
                     backBtnOnClick={backBtnOnClick}
                     // title={'멤버 등록}
                     topbarPosition="sticky"
