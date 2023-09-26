@@ -3,7 +3,8 @@ tsc
 
 function send_slack() {
   source $( pwd )/.env.local
-  curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$1\"}" $SLACK_DEPLOY_NOTIFICATION_WEBHOOK_URL
+  DATA="{\"text\":\"<!subteam^$SLACK_PRODUCT_SUBTEAM_ID> $1 by <@$SLACK_USER_ID>\"}"
+  curl -X POST -H 'Content-type: application/json' --data $DATA $SLACK_DEPLOY_NOTIFICATION_WEBHOOK_URL
 }
 
 function start_log() {
