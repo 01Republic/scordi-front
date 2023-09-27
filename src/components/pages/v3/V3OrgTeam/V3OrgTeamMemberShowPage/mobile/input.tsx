@@ -7,19 +7,17 @@ interface MobileTeamMemberInfoInputProps extends InputHTMLAttributes<HTMLInputEl
     defaultValue?: string;
 }
 export const MobileTeamMemberInfoInput = forwardRef((props: MobileTeamMemberInfoInputProps, ref: ForwardedRef<any>) => {
-    const {label, defaultValue} = props;
     const isEditable = useRecoilValue(isTeamMemberInfoEditableAtom);
     const border = isEditable ? 'input-bordered border-b-2' : 'input-ghost border-none';
 
     return (
         <div className="grid grid-cols-10 py-2">
             <label className="col-span-3">
-                <span className="text-[16px]">{label}</span>
+                <span className="text-[16px]">{props.label}</span>
             </label>
             <input
                 className={`col-span-5 col-start-6 bg-white font-bold ${border} text-right`}
                 type="text"
-                defaultValue={defaultValue}
                 ref={ref}
                 {...props}
                 disabled={!isEditable}
@@ -34,17 +32,16 @@ interface EditableInputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const EditTriggeredInput = forwardRef((props: EditableInputProps, ref: ForwardedRef<any>) => {
-    const {defaultValue, inputClassName} = props;
     const isEditable = useRecoilValue(isTeamMemberInfoEditableAtom);
     const border = isEditable ? 'input-bordered border-b-2' : 'input-ghost border-none';
 
     return (
         <>
             <input
-                className={`bg-white ${border} ${inputClassName}`}
+                className={`bg-white ${border} ${props.inputClassName}`}
                 type="text"
-                defaultValue={defaultValue}
                 ref={ref}
+                {...props}
                 disabled={!isEditable}
             />
         </>
@@ -67,9 +64,12 @@ export const EditTriggerButton = (props: TriggerButtonProps) => {
 
     return (
         <button
-            onClick={() => {
+            onClick={(event) => {
+                event.preventDefault();
+                // 수정 가능한 상태였다면 onClick 이벤트 실행
+                isEditable && onClick();
+                // 다시 수정 불가능한 상태로 변경
                 setIsEditable((editable) => !editable);
-                !isEditable && onClick();
             }}
         >
             {text}
@@ -79,5 +79,14 @@ export const EditTriggerButton = (props: TriggerButtonProps) => {
 
 export const DeleteTriggerButton = (props: TriggerButtonProps) => {
     const {onClick} = props;
-    return <button onClick={() => onClick()}>삭제</button>;
+    return (
+        <button
+            onClick={(event) => {
+                event.preventDefault();
+                onClick();
+            }}
+        >
+            삭제
+        </button>
+    );
 };
