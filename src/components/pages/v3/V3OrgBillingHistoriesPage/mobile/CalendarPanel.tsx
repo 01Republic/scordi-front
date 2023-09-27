@@ -60,8 +60,8 @@ export const CalendarPanel = memo(() => {
     return (
         <>
             <div
-                className={`sticky top-0 z-20 ${
-                    isFold ? 'mt-[-50px] h-[50px] -mb-8 ml-[50%] w-fit pr-[50%]' : '-mb-4'
+                className={`sticky z-20 ${
+                    isFold ? 'mt-[-50px] h-[50px] -mb-8 ml-[50%] w-fit pr-[50%] top-0' : '-mb-4 top-[50px]'
                 }`}
             >
                 <div
@@ -74,8 +74,8 @@ export const CalendarPanel = memo(() => {
                 </div>
             </div>
             <MobileSection.Item
-                className={`sticky top-0 z-10 transition-all overflow-y-hidden ${
-                    isFold ? 'min-h-0 h-0 border-b-0' : 'shadow'
+                className={`sticky z-10 transition-all overflow-y-hidden ${
+                    isFold ? 'min-h-0 h-0 border-b-0 top-0' : 'shadow top-[50px]'
                 }`}
             >
                 <Calendar
