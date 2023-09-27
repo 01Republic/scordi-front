@@ -20,9 +20,21 @@ export const accountProductChangeModal = {
     }),
 };
 
+const hasAllOptionAtom = atom({
+    key: 'hasAllOption/AccountProductChangeModal/Atom',
+    default: false,
+});
+
+export const useAccountProductChangeModal = () => {
+    const {...res} = useModal(accountProductChangeModal);
+    const [hasAllOption, setHasAllOption] = useRecoilState(hasAllOptionAtom);
+
+    return {...res, hasAllOption, setHasAllOption};
+};
+
 export const ProductChangeModal = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
-    const {isShow, Modal, close} = useModal({isShowAtom: accountProductChangeModal.isShowAtom});
+    const {isShow, Modal, close, hasAllOption} = useAccountProductChangeModal();
     const [selectedProduct, setSelectedProduct] = useRecoilState(subjectProductOfAccountsInModalState);
     const {result: pagedAccounts, search} = useAccounts();
     const [Product, setProductManager] = useState<ProductManager>();
@@ -42,7 +54,8 @@ export const ProductChangeModal = memo(() => {
             order: {productId: 'ASC'},
             itemsPerPage: 0,
         }).then((res) => {
-            setProductManager(SubscriptionManager.init(res.data.items).products().sortBy({id: 'ASC'}));
+            const products = SubscriptionManager.init(res.data.items).products();
+            setProductManager(products.sortBy({id: 'ASC'}));
         });
     }, [isShow, orgId]);
 
@@ -54,6 +67,12 @@ export const ProductChangeModal = memo(() => {
         onBack();
     };
 
+    // Clear
+    const clearProduct = () => {
+        setSelectedProduct(null);
+        onBack();
+    };
+
     return (
         <Modal wrapperClassName="modal-bottom" className="pt-0">
             {isShow && <ChannelTalkHideStyle />}
@@ -62,7 +81,9 @@ export const ProductChangeModal = memo(() => {
             </h3>
 
             <div className="w-full flex flex-col gap-2 items-stretch pt-2">
-                {Product &&
+                {Account && hasAllOption && <ProductItem onClick={clearProduct} accountManager={Account} />}
+                {Account &&
+                    Product &&
                     Product.all().map((product, i) => (
                         <ProductItem
                             key={i}

@@ -21,6 +21,7 @@ import {ApplyNotFoundProduct} from '^v3/share/sections/ApplyNotFoundProduct';
 import {BillingHistoriesPageModal} from '^v3/V3OrgBillingHistoriesPage/modals/BillingHistoriesPageModal';
 import {BillingHistoryDetailModal} from '^v3/share/modals/BillingHistoryDetailModal';
 import {NewInvoiceAccountModalMobile} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/mobile';
+import {BottomTabIndex} from '^v3/share/BottomNavMobile';
 
 export const V3OrgHomePage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -69,7 +70,7 @@ export const V3OrgHomePage = memo(() => {
                         draggable={false}
                     />
                 }
-                activeTabIndex={0}
+                activeTabIndex={BottomTabIndex.HOME}
                 modals={[BillingHistoriesPageModal, BillingHistoryDetailModal, NewInvoiceAccountModalMobile]}
             >
                 {/* 월간 요약 패널 */}

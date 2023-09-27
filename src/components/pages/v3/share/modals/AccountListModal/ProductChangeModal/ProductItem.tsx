@@ -6,17 +6,17 @@ import {orgIdParamState} from '^atoms/common';
 import {AccountManager} from '^models/Account/manager';
 
 interface ItemProps {
-    product: ProductDto;
+    product?: ProductDto | null;
     onClick: () => any;
-    accountManager?: AccountManager;
+    accountManager: AccountManager;
 }
 
 export const ProductItem = memo((props: ItemProps) => {
-    const {product, onClick, accountManager} = props;
+    const {product = null, onClick, accountManager} = props;
 
-    const accountLength = accountManager
-        ? accountManager.filter((account) => account.productId === product.id).length
-        : 0;
+    const accountLength = !product
+        ? accountManager.length
+        : accountManager.filter((account) => account.productId === product.id).length;
 
     return (
         <div
@@ -24,10 +24,10 @@ export const ProductItem = memo((props: ItemProps) => {
             onClick={onClick}
         >
             <div>
-                <Avatar src={product.image} draggable={false} className="w-6 ring ring-offset-2" loading="lazy" />
+                <Avatar src={product?.image} draggable={false} className="w-6 ring ring-offset-2" loading="lazy" />
             </div>
             <div className="flex-1">
-                <p className="leading-none text-[18px] font-semibold mb-1">{product.name()}</p>
+                <p className="leading-none text-[18px] font-semibold mb-1">{product?.name() || '전체'}</p>
                 {/*<p className="leading-none text-[14px] text-gray-500">{product.id}</p>*/}
             </div>
             <div>

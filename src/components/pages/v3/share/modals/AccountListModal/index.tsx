@@ -7,13 +7,13 @@ import {MobileSection} from '../../sections/MobileSection';
 import {accountListModal, subjectProductOfAccountsInModalState} from './atom';
 import {AccountList} from './AccountList';
 import {AccountCreateModal} from './AccountCreateModal';
-import {ProductSelector} from './ProductSelector';
-import {ProductChangeModal} from './ProductChangeModal';
+import {ProductChangeModal, useAccountProductChangeModal} from './ProductChangeModal';
 import {useAccounts} from '^hooks/useAccounts';
 import {ProductDto} from '^types/product.type';
 import {AccountEditModal} from './AccountEditModal';
 import {useAccountCreateModal} from './AccountCreateModal/hook';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
+import {HeaderPanel} from './HeaderPanel';
 
 export const AccountListModal = memo(() => {
     const {isShow, Modal, close} = useModal(accountListModal);
@@ -21,17 +21,31 @@ export const AccountListModal = memo(() => {
     const {result: pagedAccounts, search} = useAccounts();
     const product = useRecoilValue(subjectProductOfAccountsInModalState);
     const [originProduct, setOriginProduct] = useState<ProductDto | null>(null);
+    const {setHasAllOption} = useAccountProductChangeModal();
 
+    useEffect(() => {
+        setHasAllOption(false);
+    }, []);
+
+    // 모달을 켜기 전 원래 조회하던 product 를 저장해둡니다.
     useEffect(() => {
         setOriginProduct(product);
     }, [product]);
 
+    /**
+     * product 를 변경하면, 그에 맞는 계정내역을 조회합니다.
+     * ---
+     * 페이지와는 달리, 모달은 구독 상세에서 진입하므로, 전체 옵션을 운영하지 않습니다.
+     * 위 이유로 페이지와 공유하는 컴포넌트인 HeaderPanel 에 로직을 두지 않고
+     * 대신에 껍데기 컨테이너에 해당하는 모달 컴포넌트에서 이 로직을 운영합니다.
+     */
     useEffect(() => {
         if (!product) return;
         const productId = product.id;
         search({where: {productId}, itemsPerPage: 0});
     }, [product]);
 
+    // 모달을 닫으면 계정내역을 원래 조회하던 product 를 기준으로 다시 돌려둡니다.
     const onBack = () => {
         if (!originProduct) return;
         const productId = originProduct.id;
@@ -45,18 +59,7 @@ export const AccountListModal = memo(() => {
                 <ModalTopbar backBtnOnClick={onBack} topbarPosition="sticky" />
 
                 <MobileSection.List className="flex-1">
-                    <MobileSection.Item className="sticky top-[50px] bg-white z-10">
-                        <MobileSection.Padding>
-                            <div className="flex items-center space-x-2 mb-2">
-                                <h3 className="h2 flex-1">보관중인 계정</h3>
-
-                                {/*{pagedAccounts.subscription && (*/}
-                                {/*    <ProductSelector product={pagedAccounts.subscription.product} />*/}
-                                {/*)}*/}
-                            </div>
-                            <div className="flex pt-6">{product && <ProductSelector product={product} />}</div>
-                        </MobileSection.Padding>
-                    </MobileSection.Item>
+                    <HeaderPanel />
 
                     <MobileSection.Item className="border-none">
                         <AccountList accounts={pagedAccounts.items} />

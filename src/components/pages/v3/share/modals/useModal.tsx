@@ -26,7 +26,8 @@ export const useModal = (option: UseModalOption) => {
     useEffect(() => {
         if (!allowBodyScroll) {
             const noScrollClass = 'modal-opened';
-            isShow ? document.body.classList.add(noScrollClass) : document.body.classList.remove(noScrollClass);
+            const openedExist = document.querySelector('.modal.modal-open');
+            openedExist ? document.body.classList.add(noScrollClass) : document.body.classList.remove(noScrollClass);
         }
     }, [isShow]);
 

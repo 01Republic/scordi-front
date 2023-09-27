@@ -3,7 +3,7 @@ import {Avatar} from '^components/Avatar';
 import {ProductDto} from '^types/product.type';
 
 interface ProductAvatarProps {
-    product: ProductDto;
+    product: ProductDto | null;
     size?: number;
     wrapperClass?: string;
 }
@@ -13,8 +13,8 @@ export const ProductAvatar = memo((props: ProductAvatarProps) => {
 
     return (
         <div className="flex items-center space-x-4">
-            <Avatar src={product.image} className="w-8 h-8 ring ring-gray-200 ring-offset-base-100 ring-offset-4" />
-            <p className="text-lg font-semibold no-selectable">{product.name()}</p>
+            <Avatar src={product?.image} className="w-8 h-8 ring ring-gray-200 ring-offset-base-100 ring-offset-4" />
+            <p className="text-lg font-semibold no-selectable">{product?.name() || '전체'}</p>
         </div>
     );
 });

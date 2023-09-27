@@ -7,6 +7,7 @@ import {useOnResize2} from '^components/util/onResize2';
 import {V3MainLayoutMobile} from '^v3/layouts/V3MainLayout.mobile';
 import {TeamMembersPanel} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/mobile/TeamMembersPanel';
 import {NewTeamMemberModal} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/NewTeamMemberModal';
+import {BottomTabIndex} from '^v3/share/BottomNavMobile';
 
 export const V3OrgTeamMembersPage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -23,7 +24,7 @@ export const V3OrgTeamMembersPage = memo(() => {
         );
     } else {
         return (
-            <V3MainLayoutMobile title="멤버 목록" activeTabIndex={2} modals={[NewTeamMemberModal]}>
+            <V3MainLayoutMobile title="멤버 목록" activeTabIndex={BottomTabIndex.MEMBERS} modals={[NewTeamMemberModal]}>
                 <TeamMembersPanel />
             </V3MainLayoutMobile>
         );
