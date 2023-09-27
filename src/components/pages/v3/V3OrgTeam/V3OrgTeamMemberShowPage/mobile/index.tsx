@@ -12,6 +12,7 @@ import {useRouter} from 'next/router';
 import {V3OrgTeamMembersPageRoute} from '^pages/v3/orgs/[orgId]/teams/members';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
+
 export const V3OrgTeamMemberShowPage = memo(() => {
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);

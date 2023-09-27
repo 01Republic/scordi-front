@@ -1,9 +1,8 @@
 import React, {memo, useEffect} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {makeTeamMemberProfile, useCurrentTeamMember} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/atom';
-import {useForm, UseFormReturn} from 'react-hook-form';
+import {UseFormReturn} from 'react-hook-form';
 import {UpdateTeamMemberDto} from '^types/team-member.type';
-import {teamMemberApi} from '^api/team-member.api';
 import {MobileInfoList} from '^v3/share/MobileInfoList';
 import {
     EditTriggeredInput,
@@ -25,7 +24,8 @@ export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
     const isEditable = useRecoilValue(isTeamMemberInfoEditableAtom);
 
     useEffect(() => {
-        if (!isEditable) onSubmit(form.getValues());
+        const touchedFields = Object.values(form.formState.touchedFields);
+        if (touchedFields.length > 0 && !isEditable) onSubmit(form.getValues());
     }, [isEditable]);
 
     if (!member) return <></>;

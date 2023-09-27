@@ -14,9 +14,9 @@ export const ModalLikeTopbar = memo((props: ModalLikeTopbarProps) => {
     const mappedButtons = rightButtons.length ? (
         rightButtons.map((RightButton, i) => {
             return (
-                <>
-                    <RightButton key={i} /> {i === rightButtons.length - 1 ? <span /> : <span>&nbsp;/&nbsp;</span>}
-                </>
+                <div key={i}>
+                    <RightButton /> {i === rightButtons.length - 1 ? <span /> : <span>&nbsp;/&nbsp;</span>}
+                </div>
             );
         })
     ) : (

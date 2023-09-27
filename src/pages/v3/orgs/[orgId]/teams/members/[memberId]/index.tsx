@@ -44,11 +44,13 @@ export default function Page() {
 
     useEffect(() => {
         if (!router.isReady) return;
-        if (!orgId || !memberId) return;
+        if (!orgId || isNaN(orgId)) return;
+        if (!memberId || isNaN(memberId)) return;
         loadCurrentTeamMember(orgId, memberId);
     }, [router.isReady, orgId, memberId]);
 
-    if (!orgId || !memberId) return <></>;
+    if (!orgId || isNaN(orgId)) return <></>;
+    if (!memberId || isNaN(memberId)) return <></>;
 
     return <V3OrgTeamMemberShowPage />;
 }
