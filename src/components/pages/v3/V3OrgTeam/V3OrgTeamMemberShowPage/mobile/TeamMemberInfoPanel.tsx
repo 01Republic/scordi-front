@@ -17,6 +17,9 @@ interface TeamMemberInfoPanelProps {
     onSubmit: (data: UpdateTeamMemberDto) => void;
 }
 
+/**
+ * 첫 수정 시 완료 버튼을 두 번 클릭해야 submit 되는 현상이 있습니다.
+ */
 export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
     const {form, onSubmit} = props;
     const {currentTeamMember: member, isLoading} = useCurrentTeamMember();
@@ -26,12 +29,12 @@ export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
     useEffect(() => {
         const touchedFields = Object.values(form.formState.touchedFields);
         if (touchedFields.length > 0 && !isEditable) onSubmit(form.getValues());
-    }, [isEditable]);
+    }, [isEditable, form.formState.touchedFields]);
 
     if (!member) return <></>;
 
     return (
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form>
             <MobileSection.Item>
                 <MobileSection.Padding>
                     <div className="flex justify-between mb-2">

@@ -19,10 +19,11 @@ export const V3OrgTeamMemberShowPage = memo(() => {
 
     const {currentTeamMember: member, setCurrentTeamMember, isLoading} = useCurrentTeamMember();
     const form = useForm<UpdateTeamMemberDto>();
-    const {name, jobName, phone, email} = makeTeamMemberProfile(member);
 
     useEffect(() => {
         if (!member) return;
+        const {name, jobName, phone, email} = makeTeamMemberProfile(member);
+
         form.setValue('name', name);
         form.setValue('jobName', jobName);
         form.setValue('phone', phone);
@@ -31,7 +32,9 @@ export const V3OrgTeamMemberShowPage = memo(() => {
 
     const updateFn = () => {
         if (!member) return;
-        teamMemberApi.update(member.organizationId, member.id, form.getValues()).then(({data}) => {});
+        teamMemberApi
+            .update(member.organizationId, member.id, form.getValues())
+            .then((res) => setCurrentTeamMember(res.data));
     };
 
     const deleteFn = () => {
