@@ -77,7 +77,7 @@ export const useModal = (option: UseModalOption) => {
         prevent,
         Modal: memo(({children, wrapperClassName = '', className = ''}: ModalProps) => (
             <div
-                id={popStateSyncKey}
+                data-modal-id={popStateSyncKey}
                 className={`modal cursor-pointer ${wrapperClassName} ${isShow ? 'modal-open' : ''}`}
                 onClick={close}
             >

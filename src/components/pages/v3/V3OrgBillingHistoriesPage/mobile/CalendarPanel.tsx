@@ -15,6 +15,8 @@ export const CalendarPanel = memo(() => {
         useBillingListV3();
     const [isFold, setFold] = useState(false);
 
+    // focusedMonth 는 [일정]에서는 절대 변경하지 않습니다.
+    // 이러한 특성을 활용해 [일정]의 componentDidMount 를 식별할 수 있습니다.
     useEffect(() => {
         if (focusedMonth) {
             setActiveStartDate(focusedMonth);

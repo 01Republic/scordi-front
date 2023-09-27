@@ -1,5 +1,5 @@
 import React, {memo, useEffect} from 'react';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {useRouter} from 'next/router';
 import {SubscriptionDto} from '^types/subscription.type';
 import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
@@ -9,8 +9,9 @@ import {useDashboardSummary} from '^hooks/useDashboardSummary';
 import {useCalendar} from '^hooks/useCalendar';
 import {useSubscriptions} from '^hooks/useSubscriptions';
 import {MobileSection} from '^components/v2/MobileSection';
-import {didPayAppsState, getBillingSchedulesParamsState, willPayAppsState} from '^atoms/billingHistories.atom';
 import {getSubscriptionsParamsState} from '^atoms/subscriptions.atom';
+import {didPayAppsState, willPayAppsState} from '^atoms/billingSchedules.atom';
+import {getBillingSchedulesParamsState} from '^atoms/billingSchedules.atom';
 
 export const BillingListMobile = memo(() => {
     const router = useRouter();
