@@ -33,7 +33,7 @@ export const V3MainLayoutMobile = memo((props: V3MainLayoutMobileProps) => {
         <>
             <style dangerouslySetInnerHTML={{__html: `html, body, #__next { min-height: 100vh }`}} />
             <ChannelTalkHideStyle />
-            <div className={`${styles.layout} h-full`}>
+            <div className={`${styles.layout} h-[100vh] flex flex-col overflow-y-auto`}>
                 <TopNavMobileDefault title={title} rightButtons={topRightButtons} />
                 <MobileSection.List>{children}</MobileSection.List>
                 <BottomNavMobile activeIndex={activeTabIndex} />
