@@ -19,6 +19,7 @@ import {InvoiceAccountsPanel} from '^v3/V3OrgHomePage/mobile/InvoiceAccountsPane
 import {SummaryHeaderPanel} from '^v3/V3OrgHomePage/mobile/SummaryHeaderPanel';
 import {ApplyNotFoundProduct} from '^v3/share/sections/ApplyNotFoundProduct';
 import {BillingHistoriesPageModal} from '^v3/V3OrgBillingHistoriesPage/modals/BillingHistoriesPageModal';
+import {BillingHistoryDetailModal} from '^v3/share/modals/BillingHistoryDetailModal';
 import {NewInvoiceAccountModalMobile} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/mobile';
 
 export const V3OrgHomePage = memo(() => {
@@ -69,7 +70,7 @@ export const V3OrgHomePage = memo(() => {
                     />
                 }
                 activeTabIndex={0}
-                modals={[BillingHistoriesPageModal, NewInvoiceAccountModalMobile]}
+                modals={[BillingHistoriesPageModal, BillingHistoryDetailModal, NewInvoiceAccountModalMobile]}
             >
                 {/* 월간 요약 패널 */}
                 <SummaryHeaderPanel />

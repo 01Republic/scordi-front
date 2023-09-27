@@ -6,6 +6,7 @@ import {
     GetBillingSchedulesParams,
 } from '^types/billing.type';
 import {Paginated} from '^types/utils/paginated.dto';
+import {BillingHistoryManager} from '^models/BillingHistory';
 
 // [전방탐색] 조회 시작일
 export const billingListStartDateAtom = atom<Date | null>({
@@ -25,18 +26,9 @@ export const billingListHistoriesAtom = {
         key: 'billingList/Histories/QueryAtom',
         default: {},
     }),
-    resultAtom: atom<Paginated<BillingHistoryDto>>({
+    resultAtom: atom<Record<string, BillingHistoryDto[]>>({
         key: 'billingList/Histories/ResultAtom',
-        default: {
-            items: [],
-            pagination: {
-                totalItemCount: 0,
-                currentItemCount: 0,
-                totalPage: 1,
-                currentPage: 1,
-                itemsPerPage: 30,
-            },
-        },
+        default: {},
     }),
 };
 
@@ -46,17 +38,8 @@ export const billingListSchedulesAtom = {
         key: 'billingList/Schedules/QueryAtom',
         default: {},
     }),
-    resultAtom: atom<Paginated<ScheduleDto>>({
+    resultAtom: atom<Record<string, ScheduleDto[]>>({
         key: 'billingList/Schedules/ResultAtom',
-        default: {
-            items: [],
-            pagination: {
-                totalItemCount: 0,
-                currentItemCount: 0,
-                totalPage: 1,
-                currentPage: 1,
-                itemsPerPage: 30,
-            },
-        },
+        default: {},
     }),
 };

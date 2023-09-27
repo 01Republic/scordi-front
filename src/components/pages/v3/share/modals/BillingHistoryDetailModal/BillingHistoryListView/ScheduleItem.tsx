@@ -1,17 +1,8 @@
-import React, {memo, useEffect} from 'react';
-import {
-    BillingHistoryDto,
-    BillingHistoryStatus,
-    BillingScheduleShallowDto,
-    getBillingHistoryStatus,
-} from '^types/billing.type';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
+import React, {memo} from 'react';
+import {BillingHistoryStatus, BillingScheduleShallowDto} from '^types/billing.type';
 import {hh_mm} from '^utils/dateTime';
-import {BillingListPriceText, PriceText} from '^v3/share/BillingHistoryListView/PriceText';
 import {useRouter} from 'next/router';
-import {orgIdParamState} from '^atoms/common';
-import {useBillingHistoryModal} from '^v3/V3OrgBillingHistoryShowPage/useBillingHistoryModal';
+import {BillingListPriceText} from './PriceText';
 
 export const ScheduleItem = memo((props: {entry: BillingScheduleShallowDto; showTitle?: boolean}) => {
     const {entry: data, showTitle = false} = props;

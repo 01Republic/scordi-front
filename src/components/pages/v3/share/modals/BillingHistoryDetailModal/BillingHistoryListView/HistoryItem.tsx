@@ -1,18 +1,13 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo} from 'react';
 import {BillingHistoryDto, BillingHistoryStatus, getBillingHistoryStatus} from '^types/billing.type';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
 import {hh_mm} from '^utils/dateTime';
-import {PriceText} from '^v3/share/BillingHistoryListView/PriceText';
 import {useRouter} from 'next/router';
-import {orgIdParamState} from '^atoms/common';
-import {useBillingHistoryModal} from '^v3/V3OrgBillingHistoryShowPage/useBillingHistoryModal';
+import {useBillingHistoryModal} from '../hook';
+import {PriceText} from './PriceText';
 
 export const HistoryItem = memo((props: {entry: BillingHistoryDto; showTitle?: boolean}) => {
     const {entry: billingHistory, showTitle = false} = props;
     const router = useRouter();
-    const orgId = useRecoilValue(orgIdParamState);
-    const displayCurrency = useRecoilValue(displayCurrencyAtom);
     const {showModal} = useBillingHistoryModal();
 
     const date = new Date(billingHistory.issuedAt);

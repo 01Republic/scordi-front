@@ -8,6 +8,9 @@ import {firstDayOfMonth, lastDayOfMonth, monthAfter, monthBefore, yyyy_mm_dd} fr
 import {BsFillCaretLeftFill, BsFillCaretRightFill} from 'react-icons/bs';
 import {useRouter} from 'next/router';
 
+const asStartDate = (date: Date) => monthBefore(1, firstDayOfMonth(date));
+const asEndDate = (date: Date) => monthAfter(1, lastDayOfMonth(date));
+
 export const CalendarPanel = memo(() => {
     const router = useRouter();
     const {selectedDate, selectDate, activeStartDate, setActiveStartDate, focusedMonth} = useCalendar3();
@@ -20,8 +23,8 @@ export const CalendarPanel = memo(() => {
     useEffect(() => {
         if (focusedMonth) {
             setActiveStartDate(focusedMonth);
-            setStartDate(firstDayOfMonth(monthBefore(1, focusedMonth)));
-            setEndDate(lastDayOfMonth(monthAfter(1, focusedMonth)));
+            setStartDate(asStartDate(focusedMonth));
+            setEndDate(asEndDate(focusedMonth));
         }
     }, [focusedMonth]);
 
@@ -45,12 +48,12 @@ export const CalendarPanel = memo(() => {
     };
 
     const calendarPrevMonthHandler = (date: Date) => {
-        updateStartDate(date);
+        updateStartDate(asStartDate(date));
         setActiveStartDate(date);
     };
 
     const calendarNextMonthHandler = (date: Date) => {
-        updateEndDate(date);
+        updateEndDate(asEndDate(date));
         setActiveStartDate(date);
     };
 

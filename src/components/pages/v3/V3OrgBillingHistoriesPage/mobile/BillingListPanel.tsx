@@ -1,11 +1,11 @@
 import React, {memo} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {useBillingListV3} from '^hooks/useBillingList';
-import {DayGroupedAnyList, DayGroupedList} from '^v3/share/BillingHistoryListView/DayGroupedList';
-import {HistoryItem} from '^v3/share/BillingHistoryListView/HistoryItem';
 import {BillingHistoryDto, BillingScheduleShallowDto} from '^types/billing.type';
 import {plainToInstance} from 'class-transformer';
-import {ScheduleItem} from '^v3/share/BillingHistoryListView/ScheduleItem';
+import {DayGroupedList} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryListView/DayGroupedList';
+import {HistoryItem} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryListView/HistoryItem';
+import {ScheduleItem} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryListView/ScheduleItem';
 
 class BillingListManager {
     groupedHistories: Record<string, BillingHistoryDto[]>;
@@ -36,7 +36,7 @@ export const BillingListPanel = memo(() => {
                         });
 
                         return (
-                            <DayGroupedAnyList key={i} date={new Date(dateKey)} showTitle={true}>
+                            <DayGroupedList key={i} date={new Date(dateKey)} showTitle={true}>
                                 {list.map((item, j) => {
                                     return Object.hasOwn(item, 'id') ? (
                                         <HistoryItem key={j} entry={item as BillingHistoryDto} showTitle={true} />
@@ -48,7 +48,7 @@ export const BillingListPanel = memo(() => {
                                         />
                                     );
                                 })}
-                            </DayGroupedAnyList>
+                            </DayGroupedList>
                         );
                     })}
                 </ul>
