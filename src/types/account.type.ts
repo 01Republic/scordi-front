@@ -70,6 +70,7 @@ export class UnSignedAccountFormData {
     toUpdateDto(): UpdateAccountDto {
         return {
             sign: this.sign,
+            productId: this.productId,
             loginPageUrl: this.loginPageUrl,
             loginMethod: this.loginMethod,
             memo: this.memo,
@@ -87,6 +88,7 @@ export type CreateAccountDto = {
 
 export type UpdateAccountDto = {
     sign?: string;
+    productId?: number;
     connectSession?: ConnectSession;
     loginPageUrl?: string | null;
     loginMethod?: string | null;

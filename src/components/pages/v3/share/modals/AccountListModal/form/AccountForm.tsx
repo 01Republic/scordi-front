@@ -9,6 +9,7 @@ import {ProductAvatar} from '^v3/share/ProductAvatar';
 import {Input} from './Input';
 import {PasswordInput} from './PasswordInput';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
+import {SelectProduct} from '^v3/share/modals/AccountListModal/form/SelectProduct';
 
 interface AccountFormProps extends WithChildren {
     form: UseFormReturn<UnSignedAccountFormData, any>;
@@ -32,20 +33,7 @@ export const AccountForm = memo((props: AccountFormProps) => {
                 <MobileSection.Item className="border-b-0">
                     <MobileSection.Padding>
                         <form className="flex flex-col gap-4">
-                            <input type="hidden" {...form.register('productId')} />
-
-                            <div className="w-full">
-                                {product && (
-                                    <div className="w-full">
-                                        <div className="col-span-1 mb-2">서비스</div>
-                                        <div className="col-span-2">
-                                            <div className="mb-2 p-4 bg-scordi-light-100 rounded-lg">
-                                                <ProductAvatar product={product} />
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
+                            <SelectProduct form={form} />
 
                             <Input
                                 type="email"
@@ -69,6 +57,15 @@ export const AccountForm = memo((props: AccountFormProps) => {
                             )}
 
                             <div className={`flex flex-col gap-4 ${isAdvancedInputsShow ? '' : 'hidden'}`}>
+                                {/* [optional] 메모 */}
+                                <Input
+                                    type="text"
+                                    label="메모"
+                                    formObj={form}
+                                    name="memo"
+                                    placeholder="추가된 메모 없음"
+                                />
+
                                 {/* [optional] 사용자 (member multi-select) */}
                                 <div className="w-full">
                                     <div className="col-span-1">사용자</div>
@@ -81,8 +78,8 @@ export const AccountForm = memo((props: AccountFormProps) => {
                                     </div>
                                 </div>
 
-                                {/* [optional] 로그인 페이지 링크 */}
-                                <Input type="url" label="로그인 페이지 링크" formObj={form} name="loginPageUrl" />
+                                {/* [optional] 사이트 */}
+                                <Input type="url" label="사이트" formObj={form} name="loginPageUrl" />
 
                                 {/* [optional] 로그인방법 (dynamic tag 방식) */}
                                 <div className="w-full">
@@ -95,9 +92,6 @@ export const AccountForm = memo((props: AccountFormProps) => {
                                         <span />
                                     </div>
                                 </div>
-
-                                {/* [optional] 메모 */}
-                                <Input type="text" label="메모" formObj={form} name="memo" />
                             </div>
 
                             <br />

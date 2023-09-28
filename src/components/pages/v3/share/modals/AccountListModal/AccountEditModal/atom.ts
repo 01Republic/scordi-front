@@ -1,9 +1,5 @@
-import {atom, useRecoilState, useRecoilValue} from 'recoil';
-import {useModal} from '^v3/share/modals/useModal';
+import {atom} from 'recoil';
 import {AccountDto} from '^types/account.type';
-import {subjectProductOfAccountsInModalState} from '^v3/share/modals/AccountListModal/atom';
-import {orgIdParamState} from '^atoms/common';
-import {useState} from 'react';
 
 export const accountEditModalAtom = {
     isShowAtom: atom({

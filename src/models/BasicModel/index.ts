@@ -91,6 +91,11 @@ export class BasicModel<DTO> {
         return this.list.length;
     }
 
+    find(predicate: (value: DTO, index: number, array: DTO[]) => any, thisArg?: any): DTO | undefined {
+        const newList = this.list.filter(predicate, thisArg);
+        return newList[0];
+    }
+
     map<R>(predicate: (value: DTO, index: number, array: DTO[]) => R, thisArg?: any) {
         const newList = this.list.filter(predicate, thisArg);
         return this.list.map(predicate, thisArg);

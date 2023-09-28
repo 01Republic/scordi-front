@@ -16,6 +16,7 @@ import {AccountList} from '^v3/share/modals/AccountListModal/AccountList';
 import {HeaderPanel} from '^v3/V3OrgAccountListPage/HeaderPanel';
 import {BsPlus} from '^components/react-icons';
 import {useAccountEditModal} from '^v3/share/modals/AccountListModal/AccountEditModal/hook';
+import {SelectProductModal} from '^v3/share/modals/AccountListModal/SelectProductModal';
 
 export const V3OrgAccountListPage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -47,7 +48,7 @@ export const V3OrgAccountListPage = memo(() => {
         <V3MainLayoutMobile
             title="Credentails"
             activeTabIndex={BottomTabIndex.ACCOUNTS}
-            modals={[AccountCreateModal, AccountEditModal, ProductChangeModal]}
+            modals={[AccountCreateModal, AccountEditModal, SelectProductModal, ProductChangeModal]}
         >
             <HeaderPanel />
 
