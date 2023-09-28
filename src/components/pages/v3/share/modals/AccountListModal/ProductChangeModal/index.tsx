@@ -34,7 +34,7 @@ export const useAccountProductChangeModal = () => {
 
 export const ProductChangeModal = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
-    const {isShow, Modal, close, hasAllOption} = useAccountProductChangeModal();
+    const {isShow, Modal, CloseButton, close, hasAllOption} = useAccountProductChangeModal();
     const [selectedProduct, setSelectedProduct] = useRecoilState(subjectProductOfAccountsInModalState);
     const {result: pagedAccounts, search} = useAccounts();
     const [Product, setProductManager] = useState<ProductManager>();
@@ -76,8 +76,9 @@ export const ProductChangeModal = memo(() => {
     return (
         <Modal wrapperClassName="modal-bottom" className="pt-0">
             {isShow && <ChannelTalkHideStyle />}
-            <h3 className="font-bold text-xl no-selectable -mx-6 p-6 bg-white sticky top-0 z-10">
-                서비스를 선택해주세요
+            <h3 className="font-bold text-xl no-selectable -mx-6 p-6 bg-white sticky top-0 z-10 flex items-center justify-between">
+                <span>서비스를 선택해주세요</span>
+                <CloseButton />
             </h3>
 
             <div className="w-full flex flex-col gap-2 items-stretch pt-2">

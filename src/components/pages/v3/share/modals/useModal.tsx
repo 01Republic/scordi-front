@@ -87,13 +87,13 @@ export const useModal = (option: UseModalOption) => {
                 </div>
             </div>
         )),
-        CloseButton: memo(() => (
+        CloseButton: memo(({children, className = ''}: WithChildren & {className?: string}) => (
             <button
                 data-component="CloseModalButton"
                 onClick={close}
-                className="btn btn-link p-0 text-gray-500 hover:text-gray-900"
+                className={`btn btn-link p-0 text-gray-500 hover:text-gray-900 ${className}`}
             >
-                <IoClose size={26} />
+                {children || <IoClose size={26} />}
             </button>
         )),
     };
