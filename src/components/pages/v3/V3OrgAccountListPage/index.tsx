@@ -14,6 +14,7 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {subjectProductOfAccountsInModalState} from '^v3/share/modals/AccountListModal/atom';
 import {AccountList} from '^v3/share/modals/AccountListModal/AccountList';
 import {HeaderPanel} from '^v3/V3OrgAccountListPage/HeaderPanel';
+import {BsPlus} from '^components/react-icons';
 
 export const V3OrgAccountListPage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -51,6 +52,10 @@ export const V3OrgAccountListPage = memo(() => {
             <MobileSection.Item className="border-none">
                 <AccountList accounts={pagedAccounts.items} />
             </MobileSection.Item>
+
+            <button onClick={openCreateModal} className="btn btn-lg btn-scordi btn-circle btn-floating">
+                <BsPlus size={48} />
+            </button>
         </V3MainLayoutMobile>
     );
 });
