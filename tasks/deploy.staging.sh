@@ -1,31 +1,7 @@
 #!/usr/bin/env bash
 tsc
 
-function send_slack() {
-  source $( pwd )/.env.local
-  DATA="{\"text\":\"<!subteam^$SLACK_PRODUCT_SUBTEAM_ID> $1 by <@$SLACK_USER_ID>\"}"
-  curl -X POST -H 'Content-type: application/json' --data "$DATA" "$SLACK_DEPLOY_NOTIFICATION_WEBHOOK_URL"
-}
-
-function start_log() {
-  printf "===============\n\n"
-  printf "\t%s" "$1"
-  printf "\n\n"
-  echo "==============="
-  echo ""
-}
-
-function log() {
-  printf "\n\t# %s\n\t%s: \t$ %s\n" "$1" "$2" "$3"
-}
-
-function set() {
-  log "$1" "SET" "$2"
-}
-
-function run() {
-  log "$1" "RUN" "$2"
-}
+source "$(pwd)/tasks/deploy.util.sh"
 
 start_log "Staging Deployment"
 
@@ -76,4 +52,4 @@ printf "\t\t%s\n" "$ ssh $SERVER_NAME"
 printf "\t\t%s\n" "$ pm2 log $APP_NAME"
 printf "%s\n" "========================"
 
-send_slack "Deploy:Staging Success"
+send_slack '*[스테이징 배포 완료!]*\n:point_right: 사이트 바로가기 <https://scordi.io:8080>\n'"$1"'\n'

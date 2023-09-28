@@ -8,6 +8,9 @@ import {firstDayOfMonth, lastDayOfMonth, monthAfter, monthBefore, yyyy_mm_dd} fr
 import {BsFillCaretLeftFill, BsFillCaretRightFill} from 'react-icons/bs';
 import {useRouter} from 'next/router';
 
+const asStartDate = (date: Date) => monthBefore(1, firstDayOfMonth(date));
+const asEndDate = (date: Date) => monthAfter(1, lastDayOfMonth(date));
+
 export const CalendarPanel = memo(() => {
     const router = useRouter();
     const {selectedDate, selectDate, activeStartDate, setActiveStartDate, focusedMonth} = useCalendar3();
@@ -15,11 +18,13 @@ export const CalendarPanel = memo(() => {
         useBillingListV3();
     const [isFold, setFold] = useState(false);
 
+    // focusedMonth 는 [일정]에서는 절대 변경하지 않습니다.
+    // 이러한 특성을 활용해 [일정]의 componentDidMount 를 식별할 수 있습니다.
     useEffect(() => {
         if (focusedMonth) {
             setActiveStartDate(focusedMonth);
-            setStartDate(firstDayOfMonth(monthBefore(1, focusedMonth)));
-            setEndDate(lastDayOfMonth(monthAfter(1, focusedMonth)));
+            setStartDate(asStartDate(focusedMonth));
+            setEndDate(asEndDate(focusedMonth));
         }
     }, [focusedMonth]);
 
@@ -43,18 +48,22 @@ export const CalendarPanel = memo(() => {
     };
 
     const calendarPrevMonthHandler = (date: Date) => {
-        updateStartDate(date);
+        updateStartDate(asStartDate(date));
         setActiveStartDate(date);
     };
 
     const calendarNextMonthHandler = (date: Date) => {
-        updateEndDate(date);
+        updateEndDate(asEndDate(date));
         setActiveStartDate(date);
     };
 
     return (
         <>
-            <div className={`sticky top-0 z-20 ${isFold ? 'mt-[-50px] h-[50px] -mb-8 border-b shadow' : '-mb-4'}`}>
+            <div
+                className={`sticky z-20 ${
+                    isFold ? 'mt-[-50px] h-[50px] -mb-8 ml-[50%] w-fit pr-[50%] top-0' : '-mb-4 top-[50px]'
+                }`}
+            >
                 <div
                     className={`absolute top-0 right-0 z-20 px-5 text-[16px] cursor-pointer text-gray-500 transition-all ${
                         isFold ? 'py-3.5' : 'py-2.5'
@@ -65,8 +74,8 @@ export const CalendarPanel = memo(() => {
                 </div>
             </div>
             <MobileSection.Item
-                className={`sticky top-0 z-10 transition-all overflow-y-hidden ${
-                    isFold ? 'min-h-0 h-0 border-b-0' : 'shadow'
+                className={`sticky z-10 transition-all overflow-y-hidden ${
+                    isFold ? 'min-h-0 h-0 border-b-0 top-0' : 'shadow top-[50px]'
                 }`}
             >
                 <Calendar

@@ -2,23 +2,18 @@ import React, {memo} from 'react';
 import {ProductAvatar} from '^v3/share/ProductAvatar';
 import {AiOutlineCaretDown} from 'react-icons/ai';
 import {ProductDto} from '^types/product.type';
-import {accountProductChangeModal} from '^v3/share/modals/AccountListModal/ProductChangeModal';
-import {useModal} from '^v3/share/modals/useModal';
+import {useAccountProductChangeModal} from '^v3/share/modals/AccountListModal/ProductChangeModal';
 
 interface ProductSelectorProps {
-    product: ProductDto;
+    product: ProductDto | null;
 }
 
 export const ProductSelector = memo((props: ProductSelectorProps) => {
     const {product} = props;
-    const {open: openProductChangeModal} = useModal({isShowAtom: accountProductChangeModal.isShowAtom});
-
-    const onClick = () => {
-        openProductChangeModal();
-    };
+    const {open: openProductChangeModal} = useAccountProductChangeModal();
 
     return (
-        <div className="flex items-center gap-4 cursor-pointer" onClick={onClick}>
+        <div className="flex items-center gap-4 cursor-pointer" onClick={openProductChangeModal}>
             <ProductAvatar product={product} />
             <div>
                 <AiOutlineCaretDown />

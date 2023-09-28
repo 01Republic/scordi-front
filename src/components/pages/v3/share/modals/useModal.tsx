@@ -26,7 +26,8 @@ export const useModal = (option: UseModalOption) => {
     useEffect(() => {
         if (!allowBodyScroll) {
             const noScrollClass = 'modal-opened';
-            isShow ? document.body.classList.add(noScrollClass) : document.body.classList.remove(noScrollClass);
+            const openedExist = document.querySelector('.modal.modal-open');
+            openedExist ? document.body.classList.add(noScrollClass) : document.body.classList.remove(noScrollClass);
         }
     }, [isShow]);
 
@@ -77,7 +78,7 @@ export const useModal = (option: UseModalOption) => {
         prevent,
         Modal: memo(({children, wrapperClassName = '', className = ''}: ModalProps) => (
             <div
-                id={popStateSyncKey}
+                data-modal-id={popStateSyncKey}
                 className={`modal cursor-pointer ${wrapperClassName} ${isShow ? 'modal-open' : ''}`}
                 onClick={close}
             >

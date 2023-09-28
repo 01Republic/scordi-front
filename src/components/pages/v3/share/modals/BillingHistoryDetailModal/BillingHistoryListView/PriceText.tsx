@@ -36,7 +36,6 @@ interface BillingListPriceTextProps {
 export const BillingListPriceText = memo((props: BillingListPriceTextProps) => {
     const {amount, status} = props;
 
-    console.log('amount', amount, status);
     switch (status) {
         case BillingHistoryStatus.PaySuccess:
             return <PriceTextSuccess payAmount={amount!} />; // PaySuccess 조건에서는 payAmount 가 반드시 존재함
@@ -93,7 +92,6 @@ const PriceTextSuccess = memo(({payAmount}: {payAmount: MoneyDto}) => {
 
 const PriceTextFail = memo(({payAmount}: {payAmount: MoneyDto}) => {
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
-
     return (
         <div className="flex items-end gap-2">
             <span className="text-error relative -top-[4px]">

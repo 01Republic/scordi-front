@@ -70,7 +70,7 @@ export const useTeamMembers = () => {
     const [query, setQuery] = useRecoilState(getTeamMembersQueryAtom);
 
     async function search(params: FindAllTeamMemberQueryDto) {
-        if (JSON.stringify(query) === JSON.stringify(params)) return;
+        // if (JSON.stringify(query) === JSON.stringify(params)) return;
 
         const data = await teamMemberApi.index(orgId, params).then((res) => res.data);
         setResult(data);

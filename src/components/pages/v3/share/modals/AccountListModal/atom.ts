@@ -9,6 +9,7 @@ export const accountListModal = {
     popStateSyncKey: 'accountListModal',
 };
 
+// 계정관리 목록 (페이지/모달) 에서 어느 product 의 것인지 선택한 값입니다.
 export const subjectProductOfAccountsInModalState = atom<ProductDto | null>({
     key: 'subjectProductOfAccountsInModalState',
     default: null,

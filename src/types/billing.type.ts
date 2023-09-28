@@ -8,7 +8,6 @@ import {Currency, CurrencyDto} from '^types/crawler';
 import {CreateMoneyRequestDto, MoneyDto} from '^types/money.type';
 import {TypeCast} from '^types/utils/class-transformer';
 import {BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
-import {willPayAppsState} from '^atoms/billingHistories.atom';
 
 // 쿼리가 가능한 엔티티. (dto 와 entity 의 형태 차이가 좀 있음)
 export class BillingScheduleDto {

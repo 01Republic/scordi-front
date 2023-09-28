@@ -42,7 +42,7 @@ export default function Page() {
 
     useEffect(() => {
         if (!router.isReady) return;
-        if (!orgId) return;
+        if (!orgId || isNaN(orgId)) return;
         search({where: {organizationId: orgId}});
     }, [router.isReady, orgId]);
 

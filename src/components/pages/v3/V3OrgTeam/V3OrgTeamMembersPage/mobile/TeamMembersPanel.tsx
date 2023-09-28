@@ -33,7 +33,7 @@ export const TeamMembersPanel = memo((props: TeamMembersPanel) => {
                 {length ? (
                     <>
                         {teamMembers.map((teamMember, i) => {
-                            if (i > (maxLength ?? result.pagination.itemsPerPage)) return;
+                            if (i > (maxLength ?? result.pagination.itemsPerPage)) return <></>;
                             return <TeamMemberItem key={i} item={teamMember} />;
                         })}
                     </>

@@ -2,6 +2,9 @@ import {atom} from 'recoil';
 import {BillingHistoryDto} from '^types/billing.type';
 import {Paginated} from '^types/utils/paginated.dto';
 
+/**
+ * 결제내역 상세모달 상태
+ */
 export const billingHistoryShowModal = {
     isShowAtom: atom({
         key: 'v3/billingHistoryShowModal/IsShow',
@@ -10,13 +13,19 @@ export const billingHistoryShowModal = {
     popStateSyncKey: 'billingHistoryShowModal',
 };
 
-export const billingHistoryDetailState = atom<BillingHistoryDto | null>({
-    key: 'billingHistoryDetailState',
+/**
+ * [결제내역 상세모달에서] 대상 결제내역 세부 정보 상태
+ */
+export const billingHistoryDetailStateInShowModal = atom<BillingHistoryDto | null>({
+    key: 'billingHistoryDetailState/InShowModal',
     default: null,
 });
 
-export const billingHistoryPagedState = atom<Paginated<BillingHistoryDto>>({
-    key: 'billingHistoryPagedState',
+/**
+ * [결제내역 상세모달에서] 해당 구독의 전체 결제내역 상태 (paginated)
+ */
+export const billingHistoryPagedStateInShowModal = atom<Paginated<BillingHistoryDto>>({
+    key: 'billingHistoryPagedState/InShowModal',
     default: {
         items: [],
         pagination: {

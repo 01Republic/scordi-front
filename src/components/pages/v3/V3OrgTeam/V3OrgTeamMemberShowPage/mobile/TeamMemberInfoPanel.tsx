@@ -1,9 +1,8 @@
 import React, {memo, useEffect} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {makeTeamMemberProfile, useCurrentTeamMember} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/atom';
-import {useForm, UseFormReturn} from 'react-hook-form';
+import {UseFormReturn} from 'react-hook-form';
 import {UpdateTeamMemberDto} from '^types/team-member.type';
-import {teamMemberApi} from '^api/team-member.api';
 import {MobileInfoList} from '^v3/share/MobileInfoList';
 import {
     EditTriggeredInput,
@@ -18,6 +17,9 @@ interface TeamMemberInfoPanelProps {
     onSubmit: (data: UpdateTeamMemberDto) => void;
 }
 
+/**
+ * 첫 수정 시 완료 버튼을 두 번 클릭해야 submit 되는 현상이 있습니다.
+ */
 export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
     const {form, onSubmit} = props;
     const {currentTeamMember: member, isLoading} = useCurrentTeamMember();
@@ -25,13 +27,14 @@ export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
     const isEditable = useRecoilValue(isTeamMemberInfoEditableAtom);
 
     useEffect(() => {
-        if (!isEditable) onSubmit(form.getValues());
-    }, [isEditable]);
+        const touchedFields = Object.values(form.formState.touchedFields);
+        if (touchedFields.length > 0 && !isEditable) onSubmit(form.getValues());
+    }, [isEditable, form.formState.touchedFields]);
 
     if (!member) return <></>;
 
     return (
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form>
             <MobileSection.Item>
                 <MobileSection.Padding>
                     <div className="flex justify-between mb-2">
