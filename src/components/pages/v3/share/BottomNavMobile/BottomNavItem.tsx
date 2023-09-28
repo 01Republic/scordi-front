@@ -22,9 +22,7 @@ export const BottomNavItem = memo((props: BottomNavItemProps) => {
                 <span>
                     <Icon size={18} />
                 </span>
-                <span className="text-xs">
-                    <small>{text}</small>
-                </span>
+                <span className="text-[11px]">{text}</span>
             </a>
         </div>
     );
