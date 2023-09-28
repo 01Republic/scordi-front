@@ -15,15 +15,17 @@ import {subjectProductOfAccountsInModalState} from '^v3/share/modals/AccountList
 import {AccountList} from '^v3/share/modals/AccountListModal/AccountList';
 import {HeaderPanel} from '^v3/V3OrgAccountListPage/HeaderPanel';
 import {BsPlus} from '^components/react-icons';
+import {useAccountEditModal} from '^v3/share/modals/AccountListModal/AccountEditModal/hook';
 
 export const V3OrgAccountListPage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
     const {t} = useTranslation('org-home');
     const {isDesktop} = useOnResize2();
-    const {show: openCreateModal} = useAccountCreateModal();
-    const {result: pagedAccounts, search} = useAccounts();
     const product = useRecoilValue(subjectProductOfAccountsInModalState);
-    const {setHasAllOption} = useAccountProductChangeModal();
+    const {result: pagedAccounts, search} = useAccounts();
+    const {isShow: isCreateModalShow, show: openCreateModal} = useAccountCreateModal();
+    const {isShow: isEditModalShow} = useAccountEditModal();
+    const {isShow: isProductChangeModalShow, setHasAllOption} = useAccountProductChangeModal();
 
     useEffect(() => {
         setHasAllOption(true);
@@ -53,9 +55,12 @@ export const V3OrgAccountListPage = memo(() => {
                 <AccountList accounts={pagedAccounts.items} />
             </MobileSection.Item>
 
-            <button onClick={openCreateModal} className="btn btn-lg btn-scordi btn-circle btn-floating">
-                <BsPlus size={48} />
-            </button>
+            {/* 모든 모달이 꺼진 상태일 때에만 생성모달 플로팅 버튼이 활성화됩니다. */}
+            {[!isCreateModalShow, !isEditModalShow, !isProductChangeModalShow].every((e) => e) && (
+                <button onClick={openCreateModal} className="btn btn-lg btn-scordi btn-circle btn-floating">
+                    <BsPlus size={48} />
+                </button>
+            )}
         </V3MainLayoutMobile>
     );
 });
