@@ -4,12 +4,11 @@ import {BsChevronDown} from 'react-icons/bs';
 import {WithChildren} from '^types/global.type';
 import {ProductDto} from '^types/product.type';
 import {UnSignedAccountFormData} from '^types/account.type';
+import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {ProductAvatar} from '^v3/share/ProductAvatar';
 import {Input} from './Input';
 import {PasswordInput} from './PasswordInput';
-import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
-import {SelectProduct} from '^v3/share/modals/AccountListModal/form/SelectProduct';
+import {SelectProduct} from './SelectProduct';
 
 interface AccountFormProps extends WithChildren {
     form: UseFormReturn<UnSignedAccountFormData, any>;

@@ -8,7 +8,6 @@ import {useAccounts} from '^hooks/useAccounts';
 import {AccountForm} from '../form';
 import {useAccountEditModal} from './hook';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
-import {SelectProductModal} from '^v3/share/modals/AccountListModal/SelectProductModal';
 
 export const AccountEditModal = memo(() => {
     const form = useForm<UnSignedAccountFormData>();

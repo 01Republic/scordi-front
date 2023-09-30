@@ -14,7 +14,7 @@ import {AccountEditModal} from './AccountEditModal';
 import {useAccountCreateModal} from './AccountCreateModal/hook';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 import {HeaderPanel} from './HeaderPanel';
-import {SelectProductModal} from '^v3/share/modals/AccountListModal/SelectProductModal';
+import {SelectProductModal} from './SelectProductModal';
 
 export const AccountListModal = memo(() => {
     const {isShow, Modal, close} = useModal(accountListModal);
