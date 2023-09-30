@@ -50,11 +50,12 @@ export const SelectProduct = memo((props: SelectProductProps) => {
     if (!Product) return <div className="w-full min-h-[70px] bg-slate-200 opacity-40" />;
 
     const search = async (inputValue: string): Promise<Option[]> => {
+        const value = (inputValue || '').toLowerCase();
         const filtered = Product.all().filter((product) => {
-            if (product.nameEn.toLowerCase().includes(inputValue)) return true;
-            if (product.nameKo.toLowerCase().includes(inputValue)) return true;
-            if (product.searchText.toLowerCase().includes(inputValue)) return true;
-            if (product.companyName.toLowerCase().includes(inputValue)) return true;
+            if (product.nameEn.toLowerCase().includes(value)) return true;
+            if (product.nameKo.toLowerCase().includes(value)) return true;
+            if (product.searchText.toLowerCase().includes(value)) return true;
+            if (product.companyName.toLowerCase().includes(value)) return true;
 
             return false;
         });
