@@ -37,12 +37,15 @@ export const TopNavOrgSelect = memo(() => {
             </label>
 
             {!isEmpty && (
-                <ul tabIndex={0} className="dropdown-content menu p-2 shadow-xl bg-base-100 rounded-box w-52">
-                    {myMemberships.map((membership, i) => {
+                <ul
+                    tabIndex={0}
+                    className="dropdown-content menu p-2 shadow-xl bg-base-100 rounded-box w-52 max-h-[200px] overflow-y-auto flex-row items-stretch justify-items-stretch"
+                >
+                    {[...myMemberships].reverse().map((membership, i) => {
                         const org = membership.organization;
                         const isCurrent = org.id === currentOrg.id;
                         return (
-                            <li key={i}>
+                            <li key={i} className="w-full">
                                 <a
                                     className={`text-sm !normal-case flex gap-2 py-2 ${
                                         isCurrent ? 'bg-scordi-light-100' : 'bg-base-100'
