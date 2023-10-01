@@ -7,17 +7,21 @@ import {useRouter} from 'next/router';
 import {AddButton} from '^v3/V3OrgHomePage/mobile/AddButton';
 import {newInvoiceAccountModal} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/atom';
 import {useModal} from '^v3/share/modals/useModal';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
 
 export const InvoiceAccountsPanel = memo(() => {
     const router = useRouter();
+    const orgId = useRecoilValue(orgIdParamState);
     const {result, search} = useInvoiceAccounts();
     const {open: newInvoiceAccountModalShow} = useModal(newInvoiceAccountModal);
     const {items} = result;
 
     useEffect(() => {
         if (!router.isReady) return;
+        if (!orgId || isNaN(orgId)) return;
         search({order: {id: 'DESC'}});
-    }, [router.isReady]);
+    }, [router.isReady, orgId]);
 
     const onAddButtonClick = () => {
         console.log(result);

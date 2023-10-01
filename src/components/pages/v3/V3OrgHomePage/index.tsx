@@ -22,9 +22,13 @@ import {BillingHistoriesPageModal} from '^v3/V3OrgBillingHistoriesPage/modals/Bi
 import {BillingHistoryDetailModal} from '^v3/share/modals/BillingHistoryDetailModal';
 import {NewInvoiceAccountModalMobile} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/mobile';
 import {BottomTabIndex} from '^v3/share/BottomNavMobile';
+import {currentUserAtom} from '^atoms/currentUser.atom';
+import {TopNavProfileButton} from '^v3/share/TobNav/TopNavProfileButton';
+import {TopNavOrgSelect} from '^v3/share/TobNav/TopNavOrgSelect';
 
 export const V3OrgHomePage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
+    const currentUser = useRecoilValue(currentUserAtom);
     const {t} = useTranslation('org-home');
     const {isDesktop} = useOnResize2();
 
@@ -72,6 +76,7 @@ export const V3OrgHomePage = memo(() => {
                 }
                 activeTabIndex={BottomTabIndex.HOME}
                 modals={[BillingHistoriesPageModal, BillingHistoryDetailModal, NewInvoiceAccountModalMobile]}
+                topRightButtons={currentUser?.isAdmin ? [TopNavOrgSelect, TopNavProfileButton] : []}
             >
                 {/* 월간 요약 패널 */}
                 <SummaryHeaderPanel />

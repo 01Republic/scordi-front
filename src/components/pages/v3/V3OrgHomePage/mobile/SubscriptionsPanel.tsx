@@ -18,8 +18,9 @@ export const SubscriptionsPanel = memo(() => {
     const length = subscriptions.length;
 
     useEffect(() => {
+        if (!orgId || isNaN(orgId)) return;
         search({});
-    }, []);
+    }, [orgId]);
 
     const onAddButtonClick = () => {
         router.push(V3OrgAppsNewPageRoute.path(orgId));
