@@ -4,12 +4,12 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {useCalendar3} from '^hooks/useCalendar';
 import {useBillingListV3} from '^hooks/useBillingList';
 import {CalendarDateComment} from '^v3/V3OrgBillingHistoriesPage/mobile/CalendarDateComment';
-import {firstDayOfMonth, lastDayOfMonth, monthAfter, monthBefore, yyyy_mm_dd} from '^utils/dateTime';
+import {firstDayOfMonth, lastDayOfMonth, monthBefore, yyyy_mm_dd} from '^utils/dateTime';
 import {BsFillCaretLeftFill, BsFillCaretRightFill} from 'react-icons/bs';
 import {useRouter} from 'next/router';
 
 const asStartDate = (date: Date) => monthBefore(1, firstDayOfMonth(date));
-const asEndDate = (date: Date) => monthAfter(1, lastDayOfMonth(date));
+const asEndDate = (date: Date) => lastDayOfMonth(date);
 
 export const CalendarPanel = memo(() => {
     const router = useRouter();

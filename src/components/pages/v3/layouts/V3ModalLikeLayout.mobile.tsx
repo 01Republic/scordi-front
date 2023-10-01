@@ -38,7 +38,7 @@ export const V3ModalLikeLayoutMobile = memo((props: V3ModalLikeLayoutMobileProps
             <ChannelTalkHideStyle maxWidth="640px" />
             <div className={`${styles.layout}`}>
                 <ModalLikeTopbar backBtnOnClick={onBack} title={title} rightButtons={topRightButtons} />
-                <div className="bg-white" style={{height: 'calc(100% - 50px)'}}>
+                <div className="bg-white" style={{minHeight: 'calc(100vh - 50px)'}}>
                     {children}
                 </div>
                 {buttons.length ? (
