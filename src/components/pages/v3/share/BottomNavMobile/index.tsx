@@ -42,6 +42,7 @@ export const BottomNavMobile = memo((props: BottomNavMobileProps) => {
     return (
         <>
             <div
+                data-component="BottomNavMobile"
                 className={`w-full px-4 grid grid-cols-${tabCount} items-center justify-between fixed bottom-0 bg-white border-t z-10`}
                 style={{height}}
             >
@@ -50,6 +51,7 @@ export const BottomNavMobile = memo((props: BottomNavMobileProps) => {
                 ))}
             </div>
             <div
+                data-component="BottomNavMobileBackdrop"
                 className={`flex items-center justify-center container-fluid sticky bottom-0 mt-auto bg-opacity-75 ${
                     orgId ? '' : 'bg-white z-20'
                 }`}

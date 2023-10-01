@@ -8,6 +8,7 @@ import {TopNavMobileDefault} from '^v3/share/TobNav/TopNavMobile';
 import {ReactComponentLike, ReactNodeLike} from 'prop-types';
 import {MobileSection} from '../share/sections/MobileSection';
 import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
+import Head from 'next/head';
 
 interface V3MainLayoutMobileProps extends WithChildren {
     // 페이지 상단의 제목
@@ -30,10 +31,10 @@ export const V3MainLayoutMobile = memo((props: V3MainLayoutMobileProps) => {
     const {title, activeTabIndex, topRightButtons, modals = [], children} = props;
 
     return (
-        <>
+        <div className={styles.viewport}>
             <style dangerouslySetInnerHTML={{__html: `html, body, #__next { min-height: 100vh }`}} />
-            <ChannelTalkHideStyle />
-            <div className={`${styles.layout} h-[100vh] flex flex-col overflow-y-auto`}>
+            <ChannelTalkHideStyle maxWidth="640px" />
+            <div className={`${styles.layout} flex flex-col overflow-y-auto`}>
                 <TopNavMobileDefault title={title} rightButtons={topRightButtons} />
                 <MobileSection.List>{children}</MobileSection.List>
                 <BottomNavMobile activeIndex={activeTabIndex} />
@@ -43,6 +44,6 @@ export const V3MainLayoutMobile = memo((props: V3MainLayoutMobileProps) => {
             ))}
             <UserEditModal />
             <AddressModal />
-        </>
+        </div>
     );
 });

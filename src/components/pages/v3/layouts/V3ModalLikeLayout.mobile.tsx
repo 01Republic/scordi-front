@@ -3,10 +3,10 @@ import {useRouter} from 'next/router';
 import {ReactComponentLike, ReactNodeLike} from 'prop-types';
 import {WithChildren} from '^types/global.type';
 import styles from '^styles/v3/V3MainLayout.module.scss';
-import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ModalLikeTopbar} from './V3ModalLikeLayout.mobile/ModalLikeTopbar';
 import {ModalLikeBottomBar} from './V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
+import Head from 'next/head';
 
 interface V3ModalLikeLayoutMobileProps extends WithChildren {
     // 페이지 상단의 제목
@@ -33,10 +33,10 @@ export const V3ModalLikeLayoutMobile = memo((props: V3ModalLikeLayoutMobileProps
     const onBack = () => router.back();
 
     return (
-        <>
+        <div className={styles.viewport}>
             <style dangerouslySetInnerHTML={{__html: `html, body, #__next { min-height: 100vh }`}} />
-            <ChannelTalkHideStyle />
-            <div className={`${styles.layout} min-h-[100vh]`}>
+            <ChannelTalkHideStyle maxWidth="640px" />
+            <div className={`${styles.layout}`}>
                 <ModalLikeTopbar backBtnOnClick={onBack} title={title} rightButtons={topRightButtons} />
                 <div className="bg-white" style={{height: 'calc(100% - 50px)'}}>
                     {children}
@@ -54,6 +54,6 @@ export const V3ModalLikeLayoutMobile = memo((props: V3ModalLikeLayoutMobileProps
             {modals.map((ModalComponent, i) => (
                 <ModalComponent key={i} />
             ))}
-        </>
+        </div>
     );
 });

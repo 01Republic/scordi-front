@@ -1,8 +1,39 @@
 @import "../variables/all";
 @import "../functions/color";
+@import "../variables/grid";
+
+// 뷰포트 사이즈를 모바일에 맞게 (것 처럼 보이는) 컴포넌트를 조정합니다.
+.viewport {
+  //background-color: #333d4b;
+
+  //$max-width: map-get($breakpoints, 'sm'); // 640px
+  $max-width: 580px;
+
+  .layout,
+  [data-component="BottomNavMobile"],
+  [data-component="BottomNavMobileBackdrop"],
+  div[class*="modal-open"] {
+    max-width: $max-width;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  [class*="btn-floating"] {
+    $btn-original-floating-right-size: 2.5rem;
+
+    @media (min-width: $max-width) {
+      right: calc(50% - (#{$max-width} / 2) + #{$btn-original-floating-right-size});
+    }
+  }
+
+  .layout {
+    @apply shadow-2xl;
+  }
+}
 
 .layout {
   background-color: #f9fafb;
+  min-height: 100vh;
 }
 
 .gnb {
