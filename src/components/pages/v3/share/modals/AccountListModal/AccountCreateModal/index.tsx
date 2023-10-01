@@ -12,7 +12,7 @@ import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 export const AccountCreateModal = memo(() => {
     const form = useForm<UnSignedAccountFormData>();
     const {isShow, Modal, hide, data} = useAccountCreateModal();
-    const {search} = useAccounts();
+    const {fetchAllAccountsBy} = useAccounts();
     const onBack = () => hide();
     const {product, organizationId} = data;
 
@@ -43,7 +43,7 @@ export const AccountCreateModal = memo(() => {
         const formData = plainToInstance(UnSignedAccountFormData, dto).toCreateDto();
         accountApi.create(organizationId, formData).then(() => {
             toast.success('등록되었습니다.');
-            search({where: {productId}, itemsPerPage: 0}, true).finally(() => onBack());
+            fetchAllAccountsBy({productId}).finally(() => onBack());
         });
     };
 

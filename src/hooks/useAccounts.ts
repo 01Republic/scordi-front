@@ -21,7 +21,11 @@ export const useAccounts = () => {
 
     const movePage = (page: number) => search({...query, page});
 
-    return {query, result, search, movePage};
+    function fetchAllAccountsBy(where: FindAllAccountsQueryDto['where'], force = false) {
+        return search({relations: ['product'], where, itemsPerPage: 0}, force);
+    }
+
+    return {query, result, search, movePage, fetchAllAccountsBy};
 };
 
 export const useAccountSign = () => {

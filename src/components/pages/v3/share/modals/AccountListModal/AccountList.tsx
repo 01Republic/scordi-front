@@ -4,15 +4,16 @@ import {AccountItem} from './AccountItem';
 
 interface AccountListProps {
     accounts: AccountDto[];
+    hideProduct?: boolean;
 }
 
 export const AccountList = memo((props: AccountListProps) => {
-    const {accounts} = props;
+    const {accounts, hideProduct = false} = props;
 
     return (
         <ul className="w-full text-left py-4">
             {accounts.length ? (
-                accounts.map((account, i) => <AccountItem key={i} account={account} />)
+                accounts.map((account, i) => <AccountItem key={i} account={account} hideProduct={hideProduct} />)
             ) : (
                 <li className="flex items-center justify-center h-52">
                     <div className="text-center no-selectable">

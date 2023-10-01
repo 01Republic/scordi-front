@@ -19,7 +19,7 @@ import {SelectProductModal} from './SelectProductModal';
 export const AccountListModal = memo(() => {
     const {isShow, Modal, close} = useModal(accountListModal);
     const {show: openCreateModal} = useAccountCreateModal();
-    const {result: pagedAccounts, search} = useAccounts();
+    const {result: pagedAccounts, fetchAllAccountsBy} = useAccounts();
     const product = useRecoilValue(subjectProductOfAccountsInModalState);
     const [originProduct, setOriginProduct] = useState<ProductDto | null>(null);
     const {setHasAllOption} = useAccountProductChangeModal();
@@ -43,14 +43,13 @@ export const AccountListModal = memo(() => {
     useEffect(() => {
         if (!product) return;
         const productId = product.id;
-        search({where: {productId}, itemsPerPage: 0});
+        fetchAllAccountsBy({productId});
     }, [product]);
 
     // 모달을 닫으면 계정내역을 원래 조회하던 product 를 기준으로 다시 돌려둡니다.
     const onBack = () => {
         if (!originProduct) return;
-        const productId = originProduct.id;
-        search({where: {productId}, itemsPerPage: 0}, true).finally(() => close());
+        fetchAllAccountsBy({productId: originProduct.id}, true).finally(() => close());
     };
 
     return (
@@ -63,7 +62,7 @@ export const AccountListModal = memo(() => {
                     <HeaderPanel />
 
                     <MobileSection.Item className="border-none">
-                        <AccountList accounts={pagedAccounts.items} />
+                        <AccountList accounts={pagedAccounts.items} hideProduct={true} />
                     </MobileSection.Item>
                 </MobileSection.List>
 

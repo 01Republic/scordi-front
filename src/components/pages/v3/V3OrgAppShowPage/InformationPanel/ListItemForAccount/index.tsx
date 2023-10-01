@@ -9,7 +9,7 @@ import {accountListModal, subjectProductOfAccountsInModalState} from '^v3/share/
 import {useSetRecoilState} from 'recoil';
 
 export const ListItemForAccount = memo(() => {
-    const {result: pagedAccounts, search} = useAccounts();
+    const {result: pagedAccounts, fetchAllAccountsBy} = useAccounts();
     const {currentSubscription} = useCurrentSubscription();
     const [isLoading, setIsLoading] = useState(false);
     const {open: accountListModalOpen} = useModal(accountListModal);
@@ -19,7 +19,7 @@ export const ListItemForAccount = memo(() => {
         if (!currentSubscription) return;
 
         setIsLoading(true);
-        search({where: {productId: currentSubscription.productId}, itemsPerPage: 0}).finally(() => setIsLoading(false));
+        fetchAllAccountsBy({productId: currentSubscription.productId}).finally(() => setIsLoading(false));
     }, [currentSubscription]);
 
     const count = pagedAccounts.pagination.totalItemCount;

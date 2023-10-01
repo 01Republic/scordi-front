@@ -23,7 +23,7 @@ export const V3OrgAccountListPage = memo(() => {
     const {t} = useTranslation('org-home');
     const {isDesktop} = useOnResize2();
     const product = useRecoilValue(subjectProductOfAccountsInModalState);
-    const {result: pagedAccounts, search} = useAccounts();
+    const {result: pagedAccounts, fetchAllAccountsBy} = useAccounts();
     const {isShow: isCreateModalShow, show: openCreateModal} = useAccountCreateModal();
     const {isShow: isEditModalShow} = useAccountEditModal();
     const {isShow: isProductChangeModalShow, setHasAllOption} = useAccountProductChangeModal();
@@ -41,7 +41,7 @@ export const V3OrgAccountListPage = memo(() => {
      */
     useEffect(() => {
         const productId = product ? product.id : undefined;
-        search({where: {productId}, itemsPerPage: 0});
+        fetchAllAccountsBy({productId});
     }, [product]);
 
     return (

@@ -5,16 +5,19 @@ import {AccountDto} from '^types/account.type';
 import {toast} from 'react-toastify';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import {useAccountEditModal} from './AccountEditModal/hook';
+import {Avatar} from '^components/Avatar';
 
 interface AccountItemProps {
     account: AccountDto;
+    hideProduct?: boolean;
 }
 
 export const AccountItem = memo((props: AccountItemProps) => {
-    const {account} = props;
+    const {account, hideProduct = false} = props;
     const toastId = useRef<number | string>('');
     const accountEditModal = useAccountEditModal();
 
+    const {product} = account;
     const decrypted = account.decryptSign();
 
     const copyBtnClick = () => {
@@ -27,22 +30,32 @@ export const AccountItem = memo((props: AccountItemProps) => {
     };
 
     return (
-        <li className="px-2 mb-2 relative" data-id={account.id}>
+        <li className="px-3 mb-2 relative" data-account-id={account.id} data-product-id={product.id}>
             <div onClick={() => accountEditModal.show(account)} className="btn-like gap-4 p-4 hover:bg-slate-200">
-                <div className="hidden sm:block">
-                    <div className="btn btn-square">
-                        <FaKey />
+                {hideProduct ? (
+                    <div className="">
+                        <div className="btn btn-square">
+                            <FaKey />
+                        </div>
                     </div>
-                </div>
+                ) : (
+                    <Avatar src={product.image} draggable={false} className="w-7 ring-1 ring-offset-1" loading="lazy" />
+                )}
+
                 <div className="flex-1">
                     <p className="text-[16px] font-[500] flex items-center">
                         <span>{decrypted.email}</span>
                         <BiChevronRight size={22} />
                     </p>
                     <p className="text-sm text-gray-500">
-                        <span>
-                            업데이트: {account.updatedAt.getMonth() + 1}월 {account.updatedAt.getDate()}일
-                        </span>
+                        {hideProduct ? (
+                            <span>
+                                업데이트: {account.updatedAt.getMonth() + 1}월 {account.updatedAt.getDate()}일
+                            </span>
+                        ) : (
+                            <span>{product.name()}</span>
+                        )}
+
                         {account.memo && (
                             <>
                                 <span className="mx-2">|</span>
@@ -52,7 +65,7 @@ export const AccountItem = memo((props: AccountItemProps) => {
                     </p>
                 </div>
             </div>
-            <div className="px-2 absolute top-0 bottom-0 right-0 flex items-stretch">
+            <div className="px-3 absolute top-0 bottom-0 right-0 flex items-stretch">
                 <div className="flex gap-2 justify-around items-center btn-like-follow">
                     <div>
                         {/*<AvatarGroup*/}

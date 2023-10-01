@@ -12,7 +12,7 @@ import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 export const AccountEditModal = memo(() => {
     const form = useForm<UnSignedAccountFormData>();
     const {isShow, Modal, hide, data} = useAccountEditModal();
-    const {search} = useAccounts();
+    const {fetchAllAccountsBy} = useAccounts();
     const onBack = () => hide();
     const {product, account} = data;
 
@@ -53,7 +53,7 @@ export const AccountEditModal = memo(() => {
         const formData = plainToInstance(UnSignedAccountFormData, dto).toUpdateDto();
         accountApi.update(organizationId, id, formData).then(() => {
             toast.success('저장되었습니다.');
-            search({where: {productId}, itemsPerPage: 0}, true).finally(() => onBack());
+            fetchAllAccountsBy({productId}, true).finally(() => onBack());
         });
     };
 
