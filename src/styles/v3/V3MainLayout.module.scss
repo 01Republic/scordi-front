@@ -10,6 +10,8 @@
   $max-width: 580px;
 
   .layout,
+  [data-component="TopNavMobileContainer"],
+  [data-component="ModalLikeTopbar"],
   [data-component="BottomNavMobile"],
   [data-component="BottomNavMobileBackdrop"],
   div[class*="modal-open"] {

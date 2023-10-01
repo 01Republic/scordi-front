@@ -26,8 +26,9 @@ export const ModalLikeTopbar = memo((props: ModalLikeTopbarProps) => {
     return (
         <>
             <div
+                data-component="ModalLikeTopbar"
                 className={`flex container-fluid items-center justify-between ${
-                    topbarPosition === 'fixed' ? 'fixed' : 'sticky'
+                    topbarPosition === 'fixed' ? 'fixed w-full' : 'sticky'
                 } top-0 h-[50px] min-h-[50px] bg-white z-10`}
             >
                 <div className="text-sm h-full flex items-center">
@@ -42,7 +43,9 @@ export const ModalLikeTopbar = memo((props: ModalLikeTopbarProps) => {
                 <div className="h-full flex-1 flex items-center font-semibold text-16">{title}</div>
                 <div className="text-sm px-6 h-full flex items-center">{mappedButtons}</div>
             </div>
-            {topbarPosition === 'fixed' && <div className="w-full h-[50px] bg-white" />}
+            {topbarPosition === 'fixed' && (
+                <div data-component="ModalLikeTopbarBackdrop" className="w-full h-[50px] bg-white" />
+            )}
         </>
     );
 });
