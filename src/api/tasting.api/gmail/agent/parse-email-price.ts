@@ -2,33 +2,37 @@
 // import {ProviderNames} from '^api/tasting.api/gmail/agent/detect-provider-name';
 // import {getAttachment} from '^api/tasting.api/gmail/api.attachment';
 // import {getPdfText} from '^api/tasting.api/util/pdf';
-import {Currency, CurrencyDto} from '^types/crawler';
+import {Currency} from '^types/crawler';
 import {Currency as MoneyCurrency} from '^types/money.type';
 
-export const getCurrencySymbol = (currency: Currency) =>
+export const getCurrencySymbol = (currency: Currency | MoneyCurrency) =>
     ({
         [Currency.USD]: '$',
         [Currency.KRW]: '₩',
+        [MoneyCurrency.VND]: 'đ',
     }[currency] || '$');
 
-export const getCurrencyUnit = (currency: Currency) =>
+export const getCurrencyUnit = (currency: Currency | MoneyCurrency) =>
     ({
         [Currency.USD]: '달러',
         [Currency.KRW]: '원',
+        [MoneyCurrency.VND]: '동',
     }[currency] || '달러');
 
 export type Price = {
     text: string;
     amount: number;
-    currency: Currency;
+    currency: Currency | MoneyCurrency;
     hide?: boolean;
 };
 
-export function currencyFormat(amount: number, currency: Currency) {
+export function currencyFormat(amount: number, currency: Currency | MoneyCurrency) {
     switch (currency) {
         case Currency.KRW:
             return amount.toLocaleString();
         case Currency.USD:
+            return amount.toFixed(2);
+        case MoneyCurrency.VND:
             return amount.toFixed(2);
         default:
             return '-';
@@ -38,7 +42,7 @@ export function currencyFormat(amount: number, currency: Currency) {
 export function changePriceCurrency(
     amount: number,
     fromCurrency: Currency | MoneyCurrency,
-    toCurrency: Currency,
+    toCurrency: Currency | MoneyCurrency,
 ): number {
     if (fromCurrency === toCurrency) return amount;
 

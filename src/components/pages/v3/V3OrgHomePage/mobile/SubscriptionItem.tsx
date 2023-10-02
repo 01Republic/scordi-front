@@ -20,6 +20,7 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
     const router = useRouter();
     const locale = (router.locale as Locale) || Locale.ko;
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
+    const symbol = getCurrencySymbol(displayCurrency);
     const {product, billingHistories = []} = item;
 
     const BillingHistory = BillingHistoryManager.init(billingHistories).validateToListing();
@@ -33,8 +34,8 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
             <div className="flex-1">
                 <p className="text-sm text-gray-500">{product.nameEn}</p>
                 <p className="text-[16px]">
-                    <small className="mr-0.5">{getCurrencySymbol(totalPrice.currency)}</small>
-                    <span className="font-semibold">{currencyFormat(totalPrice.amount || 0, displayCurrency)}</span>
+                    <small className="mr-0.5">{symbol}</small>
+                    <span className="font-semibold">{currencyFormat(totalPrice, displayCurrency)}</span>
 
                     <span className="ml-1.5 text-sm text-gray-500">/ {item.getBillingType(true, locale)}</span>
                 </p>

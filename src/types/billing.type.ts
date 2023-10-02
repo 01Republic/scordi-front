@@ -4,8 +4,8 @@ import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {GmailItem} from '^api/tasting.api';
 import {BillingType, InvoiceAppDto} from '^types/invoiceApp.type';
 import {changePriceCurrency} from '^api/tasting.api/gmail/agent/parse-email-price';
-import {Currency, CurrencyDto} from '^types/crawler';
-import {CreateMoneyRequestDto, MoneyDto} from '^types/money.type';
+import {CurrencyDto} from '^types/crawler';
+import {CreateMoneyRequestDto, CurrencyList, MoneyDto, Currency} from '^types/money.type';
 import {TypeCast} from '^types/utils/class-transformer';
 import {BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
 
@@ -83,6 +83,16 @@ export class BillingScheduleShallowDto {
 
         // 위에서 분류되지 못한 케이스는 Unknown 으로 처리.
         return BillingHistoryStatus.Unknown;
+    }
+
+    getPriceIn(currencyCode = Currency.KRW) {
+        if (!this.payAmount) return 0;
+        // 얻으려는 화폐와 기록된 화폐가 같으면 그대로 가격을 반환하고
+        if (this.payAmount.code === currencyCode) return this.payAmount.amount;
+
+        // 얻으려는 화폐와 기록된 화폐가 다르면, 달러로 변환후 환율을 적용한다.
+        const currency = Object.values(CurrencyList).find((item) => item.code === currencyCode);
+        return this.payAmount.dollar * (currency?.exchangeRate || 1);
     }
 }
 
@@ -162,6 +172,16 @@ export class BillingHistoryDto {
         if (this.emailContent) return this.emailContent.attachments;
         if (this.invoiceUrl) return [{url: this.invoiceUrl, fileName: 'File 1'}];
         return [];
+    }
+
+    getPriceIn(currencyCode = Currency.KRW) {
+        if (!this.payAmount) return 0;
+        // 얻으려는 화폐와 기록된 화폐가 같으면 그대로 가격을 반환하고
+        if (this.payAmount.code === currencyCode) return this.payAmount.amount;
+
+        // 얻으려는 화폐와 기록된 화폐가 다르면, 달러로 변환후 환율을 적용한다.
+        const currency = Object.values(CurrencyList).find((item) => item.code === currencyCode);
+        return this.payAmount.dollar * (currency?.exchangeRate || 1);
     }
 }
 

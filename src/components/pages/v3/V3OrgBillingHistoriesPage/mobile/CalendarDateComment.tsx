@@ -24,7 +24,7 @@ export const CalendarDateComment = memo((props: CalendarDateCommentProps) => {
     const schedules = BillingScheduleManager.init(groupedSchedules[dayKey] || []);
     const allLength = histories.length + schedules.length;
 
-    const paidAmount = histories.getTotalPrice(displayCurrency).amount;
+    const paidAmount = histories.getTotalPrice(displayCurrency);
     const willPayAmount = schedules.getTotalPrice(displayCurrency);
     const totalAmount = Math.round(paidAmount + willPayAmount);
 

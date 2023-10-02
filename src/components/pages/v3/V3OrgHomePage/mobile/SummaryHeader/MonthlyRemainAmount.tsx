@@ -19,8 +19,8 @@ export const MonthlyRemainAmount = memo(() => {
     const [remainAmount, setRemainAmount] = useRecoilState(monthlyRemainAmountAtom);
 
     useEffect(() => {
-        const BillingSchedule = BillingScheduleManager.init(result.items).isNotDead();
-        const monthlyRemainAmount = BillingSchedule.getTotalPrice(displayCurrency);
+        const BillingSchedule = BillingScheduleManager.init(result.items).validateToListing();
+        const monthlyRemainAmount = BillingSchedule.uniqByIdentity().getTotalPrice(displayCurrency);
         setRemainAmount(monthlyRemainAmount);
     }, [result]);
 

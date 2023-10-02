@@ -1,9 +1,10 @@
 import {dateSortBy} from '^components/util/date';
 import {Currency} from '^types/crawler';
-import {BillingHistoryDto, getTotalPriceOfEmails} from '^types/billing.type';
+import {BillingHistoryDto} from '^types/billing.type';
 import {BasicModel} from '../BasicModel';
 import {groupBy, groupByDate, monthBefore, yearBefore, yyyy_mm_dd} from '^utils/dateTime';
 import {BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
+import {uniqWith} from 'lodash';
 
 export class BillingHistoryManager extends BasicModel<BillingHistoryDto> {
     /**
@@ -36,12 +37,24 @@ export class BillingHistoryManager extends BasicModel<BillingHistoryDto> {
     oldestIssue = () => this.sortByIssue('ASC').first(1);
     latestIssue = () => this.sortByIssue('DESC').first(1);
 
+    uniqByIdentity() {
+        const newList = uniqWith(
+            this.list,
+            (a, b) =>
+                a.organizationId === b.organizationId &&
+                a.subscriptionId === b.subscriptionId &&
+                a.issuedAt.getTime() === b.issuedAt.getTime(),
+        );
+        return this.asManager<BillingHistoryManager>(newList);
+    }
+
     /**
      * Final Methods (returning non-chainable value)
      */
 
     getTotalPrice(displayCurrency = Currency.KRW) {
-        return getTotalPriceOfEmails(this.list, displayCurrency).totalPrice;
+        const priceList = this.map((history) => history.getPriceIn(displayCurrency));
+        return priceList.reduce((a, b) => a + b, 0);
     }
 
     groupByIssuedAt() {
@@ -50,6 +63,19 @@ export class BillingHistoryManager extends BasicModel<BillingHistoryDto> {
 
     groupByIssuedAtYMD() {
         return groupBy(this.list, (his) => yyyy_mm_dd(his.issuedAt));
+        // const grouped = groupBy(this.list, (his) => yyyy_mm_dd(his.issuedAt));
+        // const newGrouped: Record<string, BillingHistoryDto[]> = {};
+        // Object.entries(grouped).forEach(([ymd, list]) => {
+        //     console.log('list', list);
+        //     newGrouped[ymd] = uniqWith(list, (a, b) => {
+        //         return a.organizationId === b.organizationId && a.subscriptionId === b.subscriptionId;
+        //     });
+        // });
+        // return newGrouped;
+    }
+
+    toCalendarData() {
+        return this.paid().uniqByIdentity().groupByIssuedAtYMD();
     }
 
     lastPaidHistory() {

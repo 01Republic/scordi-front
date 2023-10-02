@@ -20,8 +20,8 @@ export const MonthlyPaidAmount = memo(() => {
 
     useEffect(() => {
         const BillingHistory = BillingHistoryManager.init(result.items).paid();
-        const monthlyPaidAmount = BillingHistory.getTotalPrice(displayCurrency);
-        setPaidAmount(monthlyPaidAmount.amount);
+        const monthlyPaidAmount = BillingHistory.uniqByIdentity().getTotalPrice(displayCurrency);
+        setPaidAmount(monthlyPaidAmount);
     }, [result]);
 
     return (

@@ -93,8 +93,7 @@ const useBillingHistoriesInCalendar = () => {
 
         setIsLoading(true);
         const items = await getBillingHistories(params).then((res) => res.data.items);
-        const BillingHistory = BillingHistoryManager.init(items).paid();
-        const groupedHistories = BillingHistory.groupByIssuedAtYMD();
+        const groupedHistories = BillingHistoryManager.init(items).toCalendarData();
 
         setResult(groupedHistories);
         setQuery(params);
@@ -116,8 +115,7 @@ const useBillingSchedulesInCalendar = () => {
 
         setIsLoading(true);
         const items = await getBillingSchedules(params).then((res) => res.data.items);
-        const BillingSchedule = BillingScheduleManager.init(items).validateToListing();
-        const groupedSchedules = BillingSchedule.groupByBillingDateYMD();
+        const groupedSchedules = BillingScheduleManager.init(items).toCalendarData();
 
         setResult(groupedSchedules);
         setQuery(params);

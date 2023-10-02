@@ -1,9 +1,9 @@
 import {BasicModel} from '^models/BasicModel';
 import {BillingHistoryDto, BillingScheduleShallowDto} from '^types/billing.type';
-import {Currency, CurrencyList} from '^types/money.type';
-import {groupBy, groupByDate, yyyy_mm_dd} from '^utils/dateTime';
-import {BillingHistoryManager} from '^models/BillingHistory';
+import {Currency} from '^types/money.type';
+import {groupBy, yyyy_mm_dd} from '^utils/dateTime';
 import {dateSortBy} from '^components/util/date';
+import {uniqWith} from 'lodash';
 
 export class BillingScheduleManager extends BasicModel<BillingScheduleShallowDto> {
     /**
@@ -52,18 +52,40 @@ export class BillingScheduleManager extends BasicModel<BillingScheduleShallowDto
         return this.sort<BillingScheduleManager>(dateSortBy(method, (record) => record.billingDate));
     }
 
+    uniqByIdentity() {
+        const newList = uniqWith(
+            this.list,
+            (a, b) =>
+                a.organizationId === b.organizationId &&
+                a.subscriptionId === b.subscriptionId &&
+                a.billingDate.getTime() === b.billingDate.getTime(),
+        );
+        return this.asManager<BillingScheduleManager>(newList);
+    }
+
     /**
      * Final Methods (returning non-chainable value)
      */
-    getTotalPrice(currency = Currency.KRW) {
-        const dollars = this.map((schedule) => schedule.payAmount?.dollar || 0);
-        const priceSum = dollars.reduce((a, b) => a + b, 0);
-        const item = Object.values(CurrencyList).find((item) => item.code === currency);
-        return priceSum * (item?.exchangeRate || 1);
+    getTotalPrice(displayCurrency = Currency.KRW) {
+        const priceList = this.map((schedule) => schedule.getPriceIn(displayCurrency));
+        return priceList.reduce((a, b) => a + b, 0);
     }
 
     groupByBillingDateYMD() {
         return groupBy(this.list, (sch) => yyyy_mm_dd(sch.billingDate));
+        // const grouped = groupBy(this.list, (sch) => yyyy_mm_dd(sch.billingDate));
+        // const newGrouped: Record<string, BillingScheduleShallowDto[]> = {};
+        // Object.entries(grouped).forEach(([ymd, list]) => {
+        //     newGrouped[ymd] = uniqWith(list, (a, b) => {
+        //         return a.organizationId === b.organizationId && a.subscriptionId === b.subscriptionId;
+        //     });
+        //     console.log('newGroupedYmd', newGrouped[ymd]);
+        // });
+        // return newGrouped;
+    }
+
+    toCalendarData() {
+        return this.validateToListing().uniqByIdentity().groupByBillingDateYMD();
     }
 }
 
