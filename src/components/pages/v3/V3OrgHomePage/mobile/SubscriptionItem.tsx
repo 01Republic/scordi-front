@@ -28,10 +28,7 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
     const onClick = () => router.push(V3OrgAppShowPageRoute.path(orgId, item.id));
 
     return (
-        <div
-            className="flex items-center gap-4 px-4 py-3 -mx-4 bg-base-100 text-gray-700 cursor-pointer hover:bg-neutral"
-            onClick={onClick}
-        >
+        <div className="!w-auto gap-4 px-4 py-3 -mx-4 hover:bg-neutral btn-like no-selectable" onClick={onClick}>
             <Avatar src={product.image} className="w-9 h-9 outline outline-offset-1 outline-slate-100" />
             <div className="flex-1">
                 <p className="text-sm text-gray-500">{product.nameEn}</p>

@@ -44,7 +44,7 @@ export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
 
     return (
         <div
-            className="flex items-center gap-4 px-4 py-3 -mx-4 bg-base-100 text-gray-700 cursor-pointer hover:bg-neutral"
+            className="!w-auto gap-4 px-4 py-3 -mx-4 hover:bg-neutral btn-like no-selectable"
             onClick={() => setSelectedInvoiceAccount(invoiceAccount)}
         >
             <Avatar src={invoiceAccount.image || ''} className="w-9 h-9 outline outline-offset-1 outline-slate-100" />
