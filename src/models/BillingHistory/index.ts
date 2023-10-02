@@ -38,13 +38,13 @@ export class BillingHistoryManager extends BasicModel<BillingHistoryDto> {
     latestIssue = () => this.sortByIssue('DESC').first(1);
 
     uniqByIdentity() {
-        const newList = uniqWith(
-            this.list,
-            (a, b) =>
+        const newList = uniqWith(this.list, (a, b) => {
+            return (
                 a.organizationId === b.organizationId &&
                 a.subscriptionId === b.subscriptionId &&
-                a.issuedAt.getTime() === b.issuedAt.getTime(),
-        );
+                a.issuedAt.getTime() === b.issuedAt.getTime()
+            );
+        });
         return this.asManager<BillingHistoryManager>(newList);
     }
 

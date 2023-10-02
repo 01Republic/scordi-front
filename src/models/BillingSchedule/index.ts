@@ -53,13 +53,13 @@ export class BillingScheduleManager extends BasicModel<BillingScheduleShallowDto
     }
 
     uniqByIdentity() {
-        const newList = uniqWith(
-            this.list,
-            (a, b) =>
+        const newList = uniqWith(this.list, (a, b) => {
+            return (
                 a.organizationId === b.organizationId &&
                 a.subscriptionId === b.subscriptionId &&
-                a.billingDate.getTime() === b.billingDate.getTime(),
-        );
+                a.billingDate.getTime() === b.billingDate.getTime()
+            );
+        });
         return this.asManager<BillingScheduleManager>(newList);
     }
 
