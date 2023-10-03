@@ -15,7 +15,10 @@ export const useGoogleLoginSuccessHandler = () => {
 
     // 추가정보 입력을 위해 가입페이지로 넘기는 함수.
     const moveToSignUpPage = (data: GoogleSignedUserData) => {
+        // 용도 불분명
         setAuthenticatedUserData(data);
+        // 용도 분명 -> sign/phone page에서 google signed user data를 조회하여 가입 처리를 진행하기 때문.
+        window.localStorage.setItem('scordi/tasting/gmailProfile', JSON.stringify(data));
         router.push(SignPhoneAuthPageRoute.path());
     };
 
