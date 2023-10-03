@@ -1,7 +1,7 @@
 import {useEffect} from 'react';
 import {useRecoilState} from 'recoil';
 import {AxiosError} from 'axios';
-import {removeToken, setToken} from '^api/api';
+import {getToken, removeToken, setToken} from '^api/api';
 import {getUserSession, postUserSession, postUserSessionBySocialAccount} from '^api/session.api';
 import {currentUserAtom, authenticatedUserDataAtom} from '^atoms/currentUser.atom';
 import {UserLoginPageRoute} from '^pages/users/login';
@@ -49,6 +49,10 @@ export function useCurrentUser(fallbackPath?: string | null, opt?: CurrentUserOp
 
     useEffect(() => {
         if (currentUser) return;
+
+        const apiToken = getToken();
+        if (!apiToken) return;
+
         getUserSession()
             .then((res) => setCurrentUser(res.data))
             .catch((err) => loginRequiredHandler(err, router, fallbackPath));
