@@ -9,7 +9,10 @@ interface BillingHistoryListViewProps {
 
 export const BillingHistoryListView = memo((props: BillingHistoryListViewProps) => {
     const {billingHistories} = props;
-    const groupedHistories = BillingHistoryManager.init(billingHistories).validateToListing().groupByIssuedAt();
+    const groupedHistories = BillingHistoryManager.init(billingHistories)
+        .validateToListing()
+        .uniqByIdentity()
+        .groupByIssuedAtYMD();
 
     return (
         <ul className="w-full text-left">

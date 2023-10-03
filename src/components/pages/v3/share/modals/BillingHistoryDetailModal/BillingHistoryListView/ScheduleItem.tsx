@@ -5,10 +5,10 @@ import {useRouter} from 'next/router';
 import {BillingListPriceText} from './PriceText';
 
 export const ScheduleItem = memo((props: {entry: BillingScheduleShallowDto; showTitle?: boolean}) => {
-    const {entry: data, showTitle = false} = props;
+    const {entry: billingSchedule, showTitle = false} = props;
     const router = useRouter();
 
-    const status = data.getStatus();
+    const status = billingSchedule.getStatus();
     const showTitleByStatus = (() => {
         if (status === BillingHistoryStatus.Info) return true;
         if (status === BillingHistoryStatus.Unknown) return true;
@@ -16,29 +16,31 @@ export const ScheduleItem = memo((props: {entry: BillingScheduleShallowDto; show
         return false;
     })();
 
-    const onClick = () => console.log(data);
+    const onClick = () => console.log(billingSchedule);
 
     return (
         <li
-            data-component="EmailParsedTableRowMobile"
+            data-component="ScheduleItem"
+            data-resource_name="BillingSchedule"
+            data-resource_data={JSON.stringify(billingSchedule)}
             className="flex gap-4 mb-4 px-0 cursor-pointer"
             onClick={onClick}
         >
             <div className="">
-                <p className="text-[16px] font-semibold whitespace-nowrap">{data.serviceName}</p>
+                <p className="text-[16px] font-semibold whitespace-nowrap">{billingSchedule.serviceName}</p>
                 <p className="leading-none">
-                    <small className="text-xs text-gray-500">{hh_mm(data.sortKey)}</small>
+                    <small className="text-xs text-gray-500">{hh_mm(billingSchedule.sortKey)}</small>
                 </p>
             </div>
 
             <div className="ml-auto flex flex-col items-end max-w-[70%]">
                 <p className="text-[16px] text-right font-bold">
-                    <BillingListPriceText amount={data.payAmount} status={status} />
+                    <BillingListPriceText amount={billingSchedule.payAmount} status={status} />
                 </p>
                 {(showTitle || showTitleByStatus) && (
                     <p className="leading-none text-right font-light">
                         <small className="text-xs text-gray-500" style={{wordBreak: 'keep-all'}}>
-                            {data.pageSubject}
+                            {billingSchedule.pageSubject}
                         </small>
                     </p>
                 )}

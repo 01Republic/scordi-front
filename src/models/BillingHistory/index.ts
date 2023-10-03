@@ -42,7 +42,9 @@ export class BillingHistoryManager extends BasicModel<BillingHistoryDto> {
             return (
                 a.organizationId === b.organizationId &&
                 a.subscriptionId === b.subscriptionId &&
-                a.issuedAt.getTime() === b.issuedAt.getTime()
+                yyyy_mm_dd(a.sortKey) === yyyy_mm_dd(b.sortKey) &&
+                a.paymentMethod === b.paymentMethod &&
+                a.payAmount?.amount === b.payAmount?.amount
             );
         });
         return this.asManager<BillingHistoryManager>(newList);
@@ -57,9 +59,9 @@ export class BillingHistoryManager extends BasicModel<BillingHistoryDto> {
         return priceList.reduce((a, b) => a + b, 0);
     }
 
-    groupByIssuedAt() {
-        return groupByDate(this.list, (his) => new Date(his.issuedAt));
-    }
+    // groupByIssuedAt() {
+    //     return groupByDate(this.list, (his) => new Date(his.issuedAt));
+    // }
 
     groupByIssuedAtYMD() {
         return groupBy(this.list, (his) => yyyy_mm_dd(his.issuedAt));

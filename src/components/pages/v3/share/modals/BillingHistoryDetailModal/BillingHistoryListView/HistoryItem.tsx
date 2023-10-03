@@ -27,7 +27,10 @@ export const HistoryItem = memo((props: {entry: BillingHistoryDto; showTitle?: b
 
     return (
         <li
-            data-component="EmailParsedTableRowMobile"
+            id={`HistoryItem-${billingHistory.id}`}
+            data-component="HistoryItem"
+            data-resource_name="BillingHistory"
+            data-resource_id={billingHistory.id}
             className="flex gap-4 mb-4 px-0 cursor-pointer"
             onClick={onClick}
         >

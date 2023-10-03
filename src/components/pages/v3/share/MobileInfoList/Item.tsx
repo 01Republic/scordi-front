@@ -14,11 +14,7 @@ export const MobileInfoListItem = memo((props: MobileInfoListItemProps) => {
     return (
         <li className={`flex justify-between items-center text-[16px] min-h-[50px] no-selectable ${className}`}>
             <div className="">{label}</div>
-            {children ? (
-                <div className="max-w-[70%] text-right">{children}</div>
-            ) : (
-                <div className="font-light">{value}</div>
-            )}
+            <div className="max-w-[70%] text-right font-light">{children || value}</div>
         </li>
     );
 });

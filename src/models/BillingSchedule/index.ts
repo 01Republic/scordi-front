@@ -57,7 +57,7 @@ export class BillingScheduleManager extends BasicModel<BillingScheduleShallowDto
             return (
                 a.organizationId === b.organizationId &&
                 a.subscriptionId === b.subscriptionId &&
-                a.billingDate.getTime() === b.billingDate.getTime()
+                yyyy_mm_dd(a.sortKey) === yyyy_mm_dd(b.sortKey)
             );
         });
         return this.asManager<BillingScheduleManager>(newList);
