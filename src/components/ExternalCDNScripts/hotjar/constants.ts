@@ -1,1 +1,1 @@
-export const HOTJAR_ID = '3088152';
+export const HOTJAR_ID = '3541997';
