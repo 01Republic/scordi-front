@@ -8,11 +8,11 @@ import {OrgConfigSection} from '^v3/V3OrgSettingsPage/OrgConfigSection';
 import {useOnResize2} from '^components/util/onResize2';
 import {V3MainLayoutMobile} from '../layouts/V3MainLayout.mobile';
 import {BottomTabIndex} from '../share/BottomNavMobile';
-import {TopNavProfileButton} from '../share/TobNav/TopNavProfileButton';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ApplyNotFoundProduct} from '../share/sections/ApplyNotFoundProduct';
 import {SettingInfoPanel} from './mobile/SettingInfoPanel';
 import {ToggleSettingPanel} from './mobile/ToggleSettingPanel';
+import {ProfilePanel} from './mobile/profilePanel';
 
 export const V3OrgSettingsPage = memo(() => {
     const {isDesktop} = useOnResize2();
@@ -41,7 +41,7 @@ export const V3OrgSettingsPage = memo(() => {
         return (
             <V3MainLayoutMobile title="설정" activeTabIndex={BottomTabIndex.SETTINGS}>
                 {/* 개인프로필 */}
-                <TopNavProfileButton />
+                <ProfilePanel />
 
                 {/* 워크스페이스 관리하기 */}
                 <ToggleSettingPanel />
