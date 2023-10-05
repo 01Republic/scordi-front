@@ -5,16 +5,15 @@ import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^hooks/useCurrentOrg';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {v3CommonRequires} from '^types/utils/18n.type';
-import {useGoogleAccessTokenCallback} from '^hooks/useGoogleAccessToken';
-import {
-    createInvoiceAccount,
-    getInvoiceAccounts,
-    reSyncInvoiceAccount,
-    syncInvoiceAccount,
-} from '^api/invoiceAccount.api';
+import {GmailAgentProgress, useGoogleAccessTokenCallback} from '^hooks/useGoogleAccessToken';
+import {createInvoiceAccount, getInvoiceAccounts, renewInvoiceAccount} from '^api/invoiceAccount.api';
 import {GmailAgent} from '^api/tasting.api';
 import {getCreateInvoiceAccountFromTo} from '^types/invoiceAccount.type';
 import {toast} from 'react-toastify';
+import {useModal} from '^v3/share/modals/useModal';
+import {renewInvoiceAccountAtom, renewInvoiceAccountModal} from '^v3/V3OrgHomePage/RenewInvoiceAccountModal/atom';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRouter} from 'next/router';
 
 export const V3OrgHomePageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]',
@@ -34,9 +33,14 @@ export const getStaticProps = async ({locale}: any) => ({
 });
 
 export default function V3OrgHomePage() {
+    const router = useRouter();
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     useCurrentOrg(orgId);
-    const {accessTokenData} = useGoogleAccessTokenCallback(V3OrgHomePageRoute.path(orgId), [orgId]);
+    const {accessTokenData, complete, noRunning} = useGoogleAccessTokenCallback(V3OrgHomePageRoute.path(orgId), [
+        orgId,
+    ]);
+    const {isShow: isRenewModalOpen, close: closeRenewModal} = useModal(renewInvoiceAccountModal);
+    const [targetInvoiceAccount, initInvoiceAccount] = useRecoilState(renewInvoiceAccountAtom);
 
     /**
      * 청구메일 계정 추가시, 구글계정 인증 콜백으로부터 리디렉션 된 경우
@@ -48,18 +52,41 @@ export default function V3OrgHomePage() {
     useEffect(() => {
         if (!orgId) return;
         // 청구메일 추가 콜백으로부터 리디렉션 된 경우가 아니라면 accessTokenData 는 null 입니다.
-        if (!accessTokenData) return;
-
-        if (!accessTokenData.scope.includes('https://www.googleapis.com/auth/gmail.readonly')) {
-            toast.error('에러가 발생했습니다. 다시 한 번 추가해주세요!');
+        if (!accessTokenData) {
+            console.log('token data initiated');
             return;
         }
 
-        // alert(accessTokenData.access_token);
+        if (!accessTokenData.scope.includes('https://www.googleapis.com/auth/gmail.readonly')) {
+            toast.error('에러가 발생했습니다. 다시 한 번 추가해주세요!');
+            noRunning();
+            return;
+        }
+
         const gmailAgent = new GmailAgent(accessTokenData);
+        const tokenData = gmailAgent.getGmailAgentTokenData();
+
+        // 토큰이 만료되어 갱신하는 경우
+        if (isRenewModalOpen && targetInvoiceAccount) {
+            renewInvoiceAccount(orgId, targetInvoiceAccount.id, {tokenData})
+                .then(() => {
+                    complete();
+                    /**
+                     * renew invoice account도 캡슐화 필요함.
+                     */
+                    closeRenewModal();
+                    initInvoiceAccount(null);
+                    router.replace(V3OrgHomePageRoute.path(orgId));
+                })
+                .catch(() => {
+                    noRunning();
+                    toast.error('에러가 발생했습니다. 관리자에게 문의해주세요');
+                });
+        }
+
+        // alert(accessTokenData.access_token);
 
         gmailAgent.getProfile().then((userData) => {
-            const tokenData = gmailAgent.getGmailAgentTokenData();
             createInvoiceAccount(orgId, {
                 email: userData.email,
                 image: userData.picture,
@@ -75,14 +102,17 @@ export default function V3OrgHomePage() {
                     if (code === 'DUPLICATED_ENTITY') {
                         getInvoiceAccounts(orgId, {where: {email: userData.email}}).then((res) => {
                             const {items, pagination} = res.data;
-                            if (pagination.totalItemCount === 1) {
+                            if (pagination.totalItemCount > 0) {
                                 const [account] = items;
-                                reSyncInvoiceAccount(orgId, account.id, {tokenData}).then(() =>
-                                    window.location.reload(),
-                                );
+                                renewInvoiceAccount(orgId, account.id, {tokenData})
+                                    .then(() => complete())
+                                    .catch(() => {
+                                        noRunning();
+                                        toast.error('에러가 발생했습니다. 관리자에게 문의해주세요');
+                                    });
                             } else {
-                                console.log('Too many accounts');
-                                window.location.reload();
+                                complete();
+                                toast.error('에러가 발생했습니다. 관리자에게 문의해주세요');
                             }
                         });
                     }

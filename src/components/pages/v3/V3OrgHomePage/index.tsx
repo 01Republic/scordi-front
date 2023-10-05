@@ -25,6 +25,7 @@ import {BottomTabIndex} from '^v3/share/BottomNavMobile';
 import {currentUserAtom} from '^atoms/currentUser.atom';
 import {TopNavProfileButton} from '^v3/share/TobNav/TopNavProfileButton';
 import {TopNavOrgSelect} from '^v3/share/TobNav/TopNavOrgSelect';
+import {RenewInvoiceAccountModalMobile} from '^v3/V3OrgHomePage/RenewInvoiceAccountModal/mobile';
 
 export const V3OrgHomePage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -75,7 +76,12 @@ export const V3OrgHomePage = memo(() => {
                     />
                 }
                 activeTabIndex={BottomTabIndex.HOME}
-                modals={[BillingHistoriesPageModal, BillingHistoryDetailModal, NewInvoiceAccountModalMobile]}
+                modals={[
+                    BillingHistoriesPageModal,
+                    BillingHistoryDetailModal,
+                    NewInvoiceAccountModalMobile,
+                    RenewInvoiceAccountModalMobile,
+                ]}
                 topRightButtons={currentUser?.isAdmin ? [TopNavOrgSelect, TopNavProfileButton] : []}
             >
                 {/* 월간 요약 패널 */}

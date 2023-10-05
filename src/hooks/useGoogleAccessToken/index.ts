@@ -60,5 +60,20 @@ export function useGoogleAccessTokenCallback(redirectPath: string, deps?: any[])
         });
     }, [...(deps || []), router.isReady]);
 
-    return {accessTokenData, progress};
+    const initAccessToken = () => setAccessTokenData(null);
+    const finish = () => {
+        setProgress(GmailAgentProgress.finished);
+    };
+
+    const noRunning = () => {
+        setProgress(GmailAgentProgress.no_running);
+    };
+
+    const complete = () => {
+        setProgress(GmailAgentProgress.no_running);
+        initAccessToken();
+        router.replace(window.location.pathname);
+    };
+
+    return {accessTokenData, progress, finish, noRunning, complete};
 }
