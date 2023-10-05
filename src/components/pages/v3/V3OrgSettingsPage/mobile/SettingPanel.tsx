@@ -6,7 +6,7 @@ interface OrganizationProps {
     setIsOrganization: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const ToggleSettingPanel = memo((props: OrganizationProps) => {
+export const SettingPanel = memo((props: OrganizationProps) => {
     const {isOrganization, setIsOrganization} = props;
 
     return (

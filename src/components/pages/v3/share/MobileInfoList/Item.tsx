@@ -6,14 +6,17 @@ interface MobileInfoListItemProps extends WithChildren {
     label: ReactNodeLike;
     value?: ReactNodeLike;
     className?: string;
-    clickEvent?: () => void;
+    onClick?: () => void;
 }
 
 export const MobileInfoListItem = memo((props: MobileInfoListItemProps) => {
-    const {label, value, children, className = ''} = props;
+    const {label, value, children, className = '', onClick} = props;
 
     return (
-        <li className={`flex justify-between items-center text-[16px] min-h-[50px] no-selectable ${className}`}>
+        <li
+            onClick={onClick}
+            className={`flex justify-between items-center text-[16px] min-h-[50px] no-selectable ${className}`}
+        >
             <div className="">{label}</div>
             <div className="max-w-[70%] text-right font-light">{children || value}</div>
         </li>
