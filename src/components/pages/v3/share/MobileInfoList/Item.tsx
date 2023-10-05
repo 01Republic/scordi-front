@@ -6,6 +6,7 @@ interface MobileInfoListItemProps extends WithChildren {
     label: ReactNodeLike;
     value?: ReactNodeLike;
     className?: string;
+    clickEvent?: () => void;
 }
 
 export const MobileInfoListItem = memo((props: MobileInfoListItemProps) => {
