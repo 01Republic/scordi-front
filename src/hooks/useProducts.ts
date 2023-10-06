@@ -175,14 +175,8 @@ export const useCreateFlow = () => {
 };
 
 export const useProductPostContent = () => {
-    const [currentUserLocale, setCurrentUserLocale] = useState<string | null | undefined>();
-
-    useEffect(() => {
-        const locale = localStorage.getItem('locale');
-        setCurrentUserLocale(locale);
-    }, []);
-
-    const locale = currentUserLocale ?? 'ko';
+    const localLocale = localStorage.getItem('locale');
+    const locale = localLocale ?? 'ko';
 
     const makeContent = (product: ProductDto) => {
         const [post] = product.posts;
