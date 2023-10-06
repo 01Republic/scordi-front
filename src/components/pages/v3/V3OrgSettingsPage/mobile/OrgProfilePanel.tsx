@@ -2,7 +2,7 @@ import React, {memo, useEffect, useState} from 'react';
 import {Avatar} from '^components/Avatar';
 import {Icon} from '^components/Icon';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState} from 'recoil';
 import {currentOrgAtom} from '^atoms/organizations.atom';
 import {Modal} from '^components/Modal';
 import {useForm} from 'react-hook-form';
@@ -19,14 +19,10 @@ interface OrganizationProps {
 
 export const OrgProfilePanel = memo((props: OrganizationProps) => {
     const {isOrganization} = props;
-    const currentOrg = useRecoilValue(currentOrgAtom);
-    const [orgName, setOrgName] = useState('');
+    const [currentOrg, setCurrentOrg] = useRecoilState(currentOrgAtom);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const orgNameForm = useForm<UpdateOrganizationRequestDto>();
-
-    useEffect(() => {
-        currentOrg?.name && setOrgName(currentOrg?.name);
-    }, [currentOrg]);
+    const CurrentOrgName = currentOrg?.name;
 
     const UpdateOrgName = (dto: UpdateOrganizationRequestDto) => {
         if (!dto.name) {
@@ -34,7 +30,7 @@ export const OrgProfilePanel = memo((props: OrganizationProps) => {
             return;
         }
 
-        if (dto.name === currentOrg?.name) {
+        if (dto.name === CurrentOrgName) {
             toast.error('이미 등록된 조직명과 같습니다.');
             return;
         }
@@ -46,7 +42,7 @@ export const OrgProfilePanel = memo((props: OrganizationProps) => {
         orgId &&
             updateOrganization(orgId, dto)
                 .then((res) => {
-                    setOrgName(res.data.name);
+                    setCurrentOrg({...currentOrg, name: res.data.name});
                     toast.success('조직명이 변경됐습니다.');
                 })
                 .catch(errorNotify);
@@ -61,7 +57,7 @@ export const OrgProfilePanel = memo((props: OrganizationProps) => {
                 >
                     <Avatar src={currentOrg?.image} className="w-16 h-16 outline outline-offset-1 outline-slate-100" />
                     <div className="flex-1">
-                        <h1 className="text-xl text-500">{orgName}</h1>
+                        <h1 className="text-xl text-500">{CurrentOrgName}</h1>
                         {/* TODO: currentUser에서 직급 가져올 수 없음 수정 예정 */}
                         <p className="text-[16px]">
                             <small className="mr-0.5"></small>
@@ -75,7 +71,7 @@ export const OrgProfilePanel = memo((props: OrganizationProps) => {
                         <form onSubmit={orgNameForm.handleSubmit(UpdateOrgName)} className="mt-5 flex flex-col gap-5">
                             <TextInput
                                 type="text"
-                                defaultValue={orgName}
+                                defaultValue={CurrentOrgName}
                                 placeholder="변경하실 조직명을 입력해주세요"
                                 {...orgNameForm.register('name')}
                             />
