@@ -12,12 +12,11 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ApplyNotFoundProduct} from '../share/sections/ApplyNotFoundProduct';
 import {WorkspacePanel} from './mobile/WorkspacePanel';
 import {SettingPanel} from './mobile/SettingPanel';
-import {ProfilePanel} from './mobile/ProfilePanel';
-import {currentOrgAtom} from '^atoms/organizations.atom';
-import {useRecoilValue} from 'recoil';
 import {MembershipPanel} from './mobile/MembershipPanel';
 import {InformationPanel} from './mobile/InformationPanel';
 import {SystemPanel} from './mobile/SystemPanel';
+import {UserProfilePanel} from './mobile/UserProfilePanel';
+import {OrgProfilePanel} from './mobile/OrgProfilePanel';
 
 export const V3OrgSettingsPage = memo(() => {
     const {isDesktop} = useOnResize2();
@@ -46,7 +45,7 @@ export const V3OrgSettingsPage = memo(() => {
     } else {
         return (
             <V3MainLayoutMobile title={isOrganization ? '관리' : '설정'} activeTabIndex={BottomTabIndex.SETTINGS}>
-                <ProfilePanel isOrganization={isOrganization} />
+                {isOrganization ? <OrgProfilePanel isOrganization={isOrganization} /> : <UserProfilePanel />}
 
                 <SettingPanel isOrganization={isOrganization} setIsOrganization={setIsOrganization} />
 

@@ -3,7 +3,6 @@ import {Avatar} from '^components/Avatar';
 import {Icon} from '^components/Icon';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {useRecoilValue} from 'recoil';
-import {currentUserAtom} from '^atoms/currentUser.atom';
 import {currentOrgAtom} from '^atoms/organizations.atom';
 import {Modal} from '^components/Modal';
 import {useForm} from 'react-hook-form';
@@ -18,17 +17,16 @@ interface OrganizationProps {
     isOrganization: boolean;
 }
 
-export const ProfilePanel = memo((props: OrganizationProps) => {
+export const OrgProfilePanel = memo((props: OrganizationProps) => {
     const {isOrganization} = props;
-    const currentUser = useRecoilValue(currentUserAtom);
     const currentOrg = useRecoilValue(currentOrgAtom);
     const [orgName, setOrgName] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const orgNameForm = useForm<UpdateOrganizationRequestDto>();
 
     useEffect(() => {
-        // currentOrg?.name && setOrgName(currentOrg?.name);
-    }, [orgName]);
+        currentOrg?.name && setOrgName(currentOrg?.name);
+    }, [currentOrg]);
 
     const UpdateOrgName = (dto: UpdateOrganizationRequestDto) => {
         if (!dto.name) {
@@ -58,22 +56,15 @@ export const ProfilePanel = memo((props: OrganizationProps) => {
         <MobileSection.Item>
             <MobileSection.Padding>
                 <div
-                    onClick={() => {
-                        isOrganization && setIsModalOpen(true);
-                    }}
+                    onClick={() => isOrganization && setIsModalOpen(true)}
                     className="flex items-center gap-6 px-3 py-2.5 -mx-3 bg-base-100 text-gray-700 cursor-pointer hover:bg-neutral"
                 >
-                    <Avatar
-                        src={isOrganization ? currentOrg?.image : currentUser?.profileImgUrl}
-                        className="w-16 h-16 outline outline-offset-1 outline-slate-100"
-                    />
+                    <Avatar src={currentOrg?.image} className="w-16 h-16 outline outline-offset-1 outline-slate-100" />
                     <div className="flex-1">
-                        <h1 className="text-xl text-500">
-                            {isOrganization ? (!orgName ? currentOrg?.name : orgName) : currentUser?.name}
-                        </h1>
+                        <h1 className="text-xl text-500">{orgName}</h1>
                         {/* TODO: currentUser에서 직급 가져올 수 없음 수정 예정 */}
                         <p className="text-[16px]">
-                            <small className="mr-0.5">{isOrganization ? '' : ''} </small>
+                            <small className="mr-0.5"></small>
                         </p>
                     </div>
                     <Icon.ChevronRight />
@@ -84,7 +75,7 @@ export const ProfilePanel = memo((props: OrganizationProps) => {
                         <form onSubmit={orgNameForm.handleSubmit(UpdateOrgName)} className="mt-5 flex flex-col gap-5">
                             <TextInput
                                 type="text"
-                                defaultValue={orgName ? orgName : currentOrg?.name}
+                                defaultValue={orgName}
                                 placeholder="변경하실 조직명을 입력해주세요"
                                 {...orgNameForm.register('name')}
                             />
