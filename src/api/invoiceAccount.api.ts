@@ -26,6 +26,6 @@ export const deleteInvoiceAccount = (organizationId: number, id: number) => {
 export const syncInvoiceAccount = (organizationId: number, id: number) => {
     return api.patch<InvoiceAccountDto>(`/organizations/${organizationId}/invoice_accounts/${id}/sync`);
 };
-export const reSyncInvoiceAccount = (organizationId: number, id: number, data: SyncInvoiceAccountRequestDto) => {
+export const renewInvoiceAccount = (organizationId: number, id: number, data: SyncInvoiceAccountRequestDto) => {
     return api.patch<InvoiceAccountDto>(`/organizations/${organizationId}/invoice_accounts/${id}/re-sync`, data);
 };

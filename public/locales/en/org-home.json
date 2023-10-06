@@ -11,6 +11,11 @@
     "description": "Register multiple email accounts <br /> Sign up in one click",
     "googleLoginText": "Sign up with google"
   },
+  "renewInvoiceAccountModal": {
+    "title": "Renew billing email account",
+    "description": "Please sign in {{email}} or scordi can't show right billing history",
+    "googleLoginText": "Sign up with google"
+  },
   "result_in_since_n_ago": "This is result from <b>{{since}}</b>",
   "summary_stat": {
     "counter": {

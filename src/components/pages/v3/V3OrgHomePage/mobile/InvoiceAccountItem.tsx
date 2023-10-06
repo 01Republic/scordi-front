@@ -8,6 +8,8 @@ import {syncInvoiceAccount} from '^api/invoiceAccount.api';
 import {FiRefreshCw} from 'react-icons/fi';
 import {toast} from 'react-toastify';
 import {GmailAgentProgress, gmailAgentProgressAtom} from '^hooks/useGoogleAccessToken';
+import {useModal} from '^v3/share/modals/useModal';
+import {renewInvoiceAccountModal} from '^v3/V3OrgHomePage/RenewInvoiceAccountModal/atom';
 
 interface InvoiceAccountItemProps {
     invoiceAccount: InvoiceAccountDto;
@@ -16,6 +18,7 @@ interface InvoiceAccountItemProps {
 export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
     const setSelectedInvoiceAccount = useSetRecoilState(selectedInvoiceAccountAtom);
     const setGmailAgentProgress = useSetRecoilState(gmailAgentProgressAtom);
+    const {open: openRenewModal} = useModal(renewInvoiceAccountModal);
     const {invoiceAccount} = props;
     const appNames: string[] = [];
 
@@ -39,7 +42,10 @@ export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
                 setGmailAgentProgress(GmailAgentProgress.no_running);
                 window.location.reload();
             })
-            .catch((err) => toast.error(err.response.data.message));
+            .catch((err) => {
+                toast.error('구글 로그인이 만료되었습니다.');
+                openRenewModal();
+            });
     };
 
     return (
