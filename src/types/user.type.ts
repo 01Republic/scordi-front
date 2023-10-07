@@ -44,17 +44,17 @@ export class UserDto {
     email: string;
     isAdmin: boolean;
     locale: UserLocale | null;
-    serviceUsageTermAgreedAt: string;
-    privacyPolicyTermAgreedAt: string;
-    marketingTermAgreedAt: Date | null; // 마케팅 수신 동의 여부
+    @TypeCast(() => Date) serviceUsageTermAgreedAt: Date;
+    @TypeCast(() => Date) privacyPolicyTermAgreedAt: Date;
+    @TypeCast(() => Date) marketingTermAgreedAt: Date | null; // 마케팅 수신 동의 여부
     isEmailNoticeAllowed: boolean; // 이메일 알림 수신 허용 여부
     isSMSNoticeAllowed: boolean; // SMS 알림 수신 허용 여부
-    createdAt: string;
-    updatedAt: string;
-    // @TypeCast(() => MembershipDto)
-    memberships?: MembershipDto[];
-    // @TypeCast(() => UsersSocialAccountDto)
-    socialAccounts?: UsersSocialAccountDto[];
+    @TypeCast(() => Date) createdAt: Date;
+    @TypeCast(() => Date) updatedAt: Date;
+
+    // relations
+    @TypeCast(() => MembershipDto) memberships?: MembershipDto[];
+    @TypeCast(() => UsersSocialAccountDto) socialAccounts?: UsersSocialAccountDto[];
 }
 
 export type UserLoginRequestDto = {

@@ -15,6 +15,7 @@ import {TypeCast} from '^types/utils/class-transformer';
 import {BillingType, billingTypeToCycleTerm} from '^types/invoiceApp.type';
 import {monthAfter, yearAfter} from '^utils/dateTime';
 import {MoneyDto} from '^types/money.type';
+import {InvoiceAccountDto} from '^types/invoiceAccount.type';
 
 // ConnectStatus 연동상태.
 export enum ConnectStatus {
@@ -76,11 +77,9 @@ export class SubscriptionDto {
 
     paymentPlan?: SubscriptionPaymentPlanDto | null;
 
-    @TypeCast(() => SubscriptionBillingCycleDto)
-    billingCycle: SubscriptionBillingCycleDto | null;
-
-    @TypeCast(() => BillingHistoryDto)
-    billingHistories?: BillingHistoryDto[];
+    @TypeCast(() => SubscriptionBillingCycleDto) billingCycle: SubscriptionBillingCycleDto | null;
+    @TypeCast(() => BillingHistoryDto) billingHistories?: BillingHistoryDto[];
+    @TypeCast(() => InvoiceAccountDto) invoiceAccount?: InvoiceAccountDto;
     accounts?: [];
 
     getCycleTerm() {

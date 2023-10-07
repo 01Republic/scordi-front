@@ -37,6 +37,11 @@ export const destroySubscription = (id: number) => {
 };
 
 export const subscriptionApi = {
+    index: (params?: FindAllSubscriptionsQuery) => {
+        const url = `/${NAMESPACE}`;
+        return api.get<Paginated<SubscriptionDto>>(url, {params}).then(paginatedDtoOf(SubscriptionDto));
+    },
+
     create: (workspaceId: number, productId: number, dto: CreateSubscriptionRequestDto2) => {
         return api
             .post<SubscriptionDto>(`/${NAMESPACE}`, {workspaceId, productId, dto})

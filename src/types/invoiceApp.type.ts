@@ -7,6 +7,7 @@ import {
     SubscriptionBillingCycleDto,
     t_BillingCycleTerm,
 } from '^types/subscriptionBillingCycle.type';
+import {TypeCast} from '^types/utils/class-transformer';
 
 export enum BillingType {
     // MONTHLY = 'monthly',
@@ -23,17 +24,19 @@ export type UpdateInvoiceAppRequestDto = {
     isActive: boolean;
 };
 
-export type InvoiceAppDto = {
+export class InvoiceAppDto {
     id: number;
     invoiceAccountId: number;
     productId: number;
     isActive: boolean;
     billingType: BillingType; // 결제 유형 (BillingCycle과 같은 개념)
-    createdAt: string; // 생성일시
-    updatedAt: string; // 수정일시
-    billingHistories: BillingHistoryDto[];
-    product: ProductDto;
-};
+    @TypeCast(() => Date) createdAt: Date; // 생성일시
+    @TypeCast(() => Date) updatedAt: Date; // 수정일시
+
+    // relations
+    @TypeCast(() => ProductDto) product: ProductDto;
+    @TypeCast(() => BillingHistoryDto) billingHistories: BillingHistoryDto[];
+}
 
 // 인보이스 앱에서 결제주기 텍스트 추출
 export function t_BillingType(v: BillingType | null, standalone = false, locale = Locale.ko) {

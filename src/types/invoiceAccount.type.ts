@@ -2,6 +2,7 @@ import {InvoiceAppDto} from '^types/invoiceApp.type';
 import {GmailQueryOptions} from '^api/tasting.api';
 import {dayAfter, firstDayOfMonth, firstDayOfYear, monthBefore, yearBefore} from '^components/util/date';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
+import {TypeCast} from '^types/utils/class-transformer';
 
 export type GmailAgentTokenData = {
     accessToken: string; //Gmail Access Token
@@ -9,15 +10,17 @@ export type GmailAgentTokenData = {
     expireAt: Date; // When Gmail Token expire at
 };
 
-export type InvoiceAccountDto = {
+export class InvoiceAccountDto {
     id: number;
     organizationId: number;
     image: string | null;
     email: string;
-    invoiceApps: InvoiceAppDto[];
-    createdAt: string;
-    updatedAt: string;
-};
+    @TypeCast(() => Date) createdAt: Date;
+    @TypeCast(() => Date) updatedAt: Date;
+
+    // relations
+    @TypeCast(() => InvoiceAppDto) invoiceApps: InvoiceAppDto[];
+}
 
 export type CreateInvoiceAccountRequestDto = {
     email: string; // 이메일

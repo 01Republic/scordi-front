@@ -27,6 +27,7 @@ export class OrganizationDto {
     @TypeCast(() => Date) createdAt: Date;
     @TypeCast(() => Date) updatedAt: Date;
 
-    memberships?: MembershipDto[];
-    users?: UserDto[];
+    // relations
+    @TypeCast(() => MembershipDto) memberships?: MembershipDto[];
+    @TypeCast(() => UserDto) users?: UserDto[];
 }

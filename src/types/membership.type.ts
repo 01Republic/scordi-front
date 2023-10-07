@@ -1,6 +1,7 @@
 import {UserDto} from '^types/user.type';
 import {OrganizationDto} from '^types/organization.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
+import {TypeCast} from '^types/utils/class-transformer';
 
 export enum MembershipLevel {
     MEMBER = 'MEMBER',
@@ -30,18 +31,20 @@ export enum DisplayCurrency {
     KRW = 'KRW',
 }
 
-export type MembershipDto = {
+export class MembershipDto {
     id: number;
     organizationId: number;
     userId: number;
     level: MembershipLevel;
     approvalStatus: ApprovalStatus; // 멤버십 승인 요청 상태 (가입 승인 요청 상태)
     displayCurrency: DisplayCurrency; // 조직 화폐 사용자보기
-    createdAt: Date;
-    updatedAt: Date;
-    organization: OrganizationDto;
-    user: UserDto;
-};
+    @TypeCast(() => Date) createdAt: Date;
+    @TypeCast(() => Date) updatedAt: Date;
+
+    // relations
+    @TypeCast(() => OrganizationDto) organization: OrganizationDto;
+    @TypeCast(() => UserDto) user: UserDto;
+}
 
 export type FindAllMembershipQuery = FindAllQueryDto<MembershipDto> & {
     keyword?: string;
