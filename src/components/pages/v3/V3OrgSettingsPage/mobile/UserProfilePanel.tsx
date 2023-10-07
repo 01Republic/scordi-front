@@ -3,7 +3,8 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {Avatar} from '^components/Avatar';
 import {currentUserAtom} from '^atoms/currentUser.atom';
 import {useRecoilValue} from 'recoil';
-import {Icon} from '^components/Icon';
+import {BiChevronRight} from 'react-icons/bi';
+import {toast} from 'react-toastify';
 
 export const UserProfilePanel = memo(() => {
     const currentUser = useRecoilValue(currentUserAtom);
@@ -11,7 +12,10 @@ export const UserProfilePanel = memo(() => {
     return (
         <MobileSection.Item>
             <MobileSection.Padding>
-                <div className="flex items-center gap-6 px-3 py-2.5 -mx-3 bg-base-100 text-gray-700 cursor-pointer hover:bg-neutral">
+                <div
+                    onClick={() => toast.info('준비 중입니다.')}
+                    className="flex items-center gap-6 px-3 py-2.5 -mx-3 bg-base-100 text-gray-700 cursor-pointer hover:bg-neutral"
+                >
                     <Avatar
                         src={currentUser?.profileImgUrl}
                         className="w-16 h-16 outline outline-offset-1 outline-slate-100"
@@ -23,7 +27,7 @@ export const UserProfilePanel = memo(() => {
                             <small className="mr-0.5"></small>
                         </p>
                     </div>
-                    <Icon.ChevronRight />
+                    <BiChevronRight size={28} />
                 </div>
             </MobileSection.Padding>
         </MobileSection.Item>

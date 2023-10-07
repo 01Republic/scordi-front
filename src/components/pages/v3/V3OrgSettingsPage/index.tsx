@@ -17,6 +17,7 @@ import {InformationPanel} from './mobile/InformationPanel';
 import {SystemPanel} from './mobile/SystemPanel';
 import {UserProfilePanel} from './mobile/UserProfilePanel';
 import {OrgProfilePanel} from './mobile/OrgProfilePanel';
+import {ModifyOrgNameModal} from './ModifyOrgNameModal';
 
 export const V3OrgSettingsPage = memo(() => {
     const {isDesktop} = useOnResize2();
@@ -44,8 +45,12 @@ export const V3OrgSettingsPage = memo(() => {
         );
     } else {
         return (
-            <V3MainLayoutMobile title={isOrganization ? '관리' : '설정'} activeTabIndex={BottomTabIndex.SETTINGS}>
-                {isOrganization ? <OrgProfilePanel isOrganization={isOrganization} /> : <UserProfilePanel />}
+            <V3MainLayoutMobile
+                title={isOrganization ? '관리' : '설정'}
+                activeTabIndex={BottomTabIndex.SETTINGS}
+                modals={[ModifyOrgNameModal]}
+            >
+                {isOrganization ? <OrgProfilePanel /> : <UserProfilePanel />}
 
                 <SettingPanel isOrganization={isOrganization} setIsOrganization={setIsOrganization} />
 

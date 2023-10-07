@@ -1,12 +1,12 @@
-import React, {memo} from 'react';
+import React, {Dispatch, SetStateAction, memo} from 'react';
 import {IoSettingsOutline} from 'react-icons/io5';
 
-interface OrganizationProps {
+interface SettingPanelProps {
     isOrganization: boolean;
-    setIsOrganization: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsOrganization: Dispatch<SetStateAction<boolean>>;
 }
 
-export const SettingPanel = memo((props: OrganizationProps) => {
+export const SettingPanel = memo((props: SettingPanelProps) => {
     const {isOrganization, setIsOrganization} = props;
 
     return (
