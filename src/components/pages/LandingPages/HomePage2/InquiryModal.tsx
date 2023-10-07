@@ -6,6 +6,7 @@ import {useForm} from 'react-hook-form';
 import {sendSlackNotificationApi} from '^api/utils.api';
 import {useRouter} from 'next/router';
 import {toast} from 'react-toastify';
+import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
 
 type IntroductionInquiryModalFormData = {
     name: string;
@@ -25,7 +26,7 @@ export const inquiryModalAtom = {
 };
 
 export const InquiryModal = memo(() => {
-    const {Modal, CloseButton, close} = useModal(inquiryModalAtom);
+    const {Modal, CloseButton, close, isShow} = useModal(inquiryModalAtom);
     const form = useForm<IntroductionInquiryModalFormData>();
 
     const onSubmit = (data: IntroductionInquiryModalFormData) => {
@@ -50,6 +51,7 @@ export const InquiryModal = memo(() => {
 
     return (
         <Modal className="py-6 w-full max-h-[100vh]">
+            {isShow && <ChannelTalkHideStyle />}
             <div className="flex justify-between items-center gap-3 mb-3">
                 <span className="font-bold text-lg flex-1">고객님의 정보가 필요해요!</span>
                 <CloseButton />
@@ -73,7 +75,7 @@ export const InquiryModal = memo(() => {
                     </label>
                     <input
                         type="text"
-                        placeholder="재무팀"
+                        placeholder="재무팀 / 팀장"
                         className="input input-bordered"
                         {...form.register('team', {required: true})}
                         required
@@ -126,7 +128,7 @@ export const InquiryModal = memo(() => {
                     </label>
                     <input
                         type="email"
-                        placeholder="hello@01republic.io"
+                        placeholder="official@01republic.io"
                         className="input input-bordered"
                         {...form.register('email', {required: true})}
                         required
