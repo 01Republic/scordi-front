@@ -47,4 +47,9 @@ export const subscriptionApi = {
             .post<SubscriptionDto>(`/${NAMESPACE}`, {workspaceId, productId, dto})
             .then(oneDtoOf(SubscriptionDto));
     },
+
+    update(id: number, data: UpdateSubscriptionRequestDto) {
+        const url = `/subscriptions/${id}`;
+        return api.patch<SubscriptionDto>(url, data).then(oneDtoOf(SubscriptionDto));
+    },
 };

@@ -38,6 +38,11 @@ export const productIdParamsState = atom({
     default: NaN,
 });
 
+export const invoiceAccountIdParamState = atom({
+    key: 'invoiceAccountIdParamState',
+    default: NaN,
+});
+
 export const subscriptionIdParamState = atom({
     key: 'subscriptionIdParamState',
     default: NaN,

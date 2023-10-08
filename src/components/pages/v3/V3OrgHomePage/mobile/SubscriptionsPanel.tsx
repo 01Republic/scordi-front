@@ -19,7 +19,7 @@ export const SubscriptionsPanel = memo(() => {
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
-        search({});
+        search({where: {isActive: true}});
     }, [orgId]);
 
     const onAddButtonClick = () => {

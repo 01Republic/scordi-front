@@ -37,3 +37,15 @@ export const syncInvoiceAccount = (organizationId: number, id: number) => {
 export const renewInvoiceAccount = (organizationId: number, id: number, data: SyncInvoiceAccountRequestDto) => {
     return api.patch<InvoiceAccountDto>(`/organizations/${organizationId}/invoice_accounts/${id}/re-sync`, data);
 };
+
+export const invoiceAccountApi = {
+    index(orgId: number, params?: FindAllQueryDto<InvoiceAccountDto>) {
+        const url = `/organizations/${orgId}/invoice_accounts`;
+        return api.get<Paginated<InvoiceAccountDto>>(url, {params}).then(paginatedDtoOf(InvoiceAccountDto));
+    },
+
+    show(orgId: number, id: number) {
+        const url = `/organizations/${orgId}/invoice_accounts/${id}`;
+        return api.get<InvoiceAccountDto>(url).then(oneDtoOf(InvoiceAccountDto));
+    },
+};

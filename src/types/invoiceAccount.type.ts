@@ -3,6 +3,8 @@ import {GmailQueryOptions} from '^api/tasting.api';
 import {dayAfter, firstDayOfMonth, firstDayOfYear, monthBefore, yearBefore} from '^components/util/date';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';
+import {SubscriptionDto} from '^types/subscription.type';
+import {OrganizationDto} from '^types/organization.type';
 
 export type GmailAgentTokenData = {
     accessToken: string; //Gmail Access Token
@@ -19,7 +21,17 @@ export class InvoiceAccountDto {
     @TypeCast(() => Date) updatedAt: Date;
 
     // relations
-    @TypeCast(() => InvoiceAppDto) invoiceApps: InvoiceAppDto[];
+    @TypeCast(() => OrganizationDto) organization?: OrganizationDto[];
+    @TypeCast(() => InvoiceAppDto) invoiceApps?: InvoiceAppDto[];
+    @TypeCast(() => SubscriptionDto) subscriptions?: SubscriptionDto[];
+
+    get provider() {
+        return 'Google';
+    }
+
+    get providerImg() {
+        return 'https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png';
+    }
 }
 
 export type CreateInvoiceAccountRequestDto = {

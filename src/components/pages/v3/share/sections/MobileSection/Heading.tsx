@@ -10,7 +10,7 @@ export default memo((props: Props) => {
     const {title, children} = props;
 
     return (
-        <div data-component="MobileSection.Heading" className="flex items-center justify-between mb-3">
+        <div data-component="MobileSection.Heading" className="flex items-center justify-between mb-3 no-selectable">
             <div className="text-sm font-semibold">{title}</div>
             {children}
         </div>

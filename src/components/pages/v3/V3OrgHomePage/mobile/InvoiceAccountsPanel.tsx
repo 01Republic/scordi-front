@@ -20,7 +20,7 @@ export const InvoiceAccountsPanel = memo(() => {
     useEffect(() => {
         if (!router.isReady) return;
         if (!orgId || isNaN(orgId)) return;
-        search({order: {id: 'DESC'}});
+        search({relations: ['subscriptions'], order: {id: 'DESC'}, itemsPerPage: 0});
     }, [router.isReady, orgId]);
 
     const onAddButtonClick = () => {

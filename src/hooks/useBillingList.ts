@@ -32,13 +32,18 @@ export const useBillingListV3 = () => {
     const loadData = useCallback(
         (_startDate: Date, _endDate: Date) => {
             if (!organizationId || isNaN(organizationId)) return;
-            const params = {
+
+            const query = {
                 where: {organizationId},
                 startDate: _startDate.toISOString(),
                 endDate: _endDate.toISOString(),
+                itemsPerPage: 0,
+                isActiveSubscription: true,
             };
-            loadHistories({...params, order: {issuedAt: 'ASC'}, itemsPerPage: 0});
-            loadSchedules({...params, order: {billingDate: 'ASC'}, itemsPerPage: 0});
+
+            // @ts-ignore
+            loadHistories({...query, order: {issuedAt: 'ASC'}});
+            loadSchedules({...query, order: {billingDate: 'ASC'}});
         },
         [organizationId],
     );

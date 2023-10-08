@@ -28,8 +28,10 @@ export const MonthHandler = memo(() => {
             startDate: asStartDate(focusedMonth),
             endDate: asEndDate(focusedMonth),
             itemsPerPage: 0,
+            isActiveSubscription: true,
         };
 
+        // @ts-ignore
         loadHistories({...query, order: {issuedAt: 'ASC'}});
         loadSchedules({...query, order: {billingDate: 'ASC'}});
     }, [organizationId, focusedMonth]);

@@ -1,8 +1,9 @@
 import {WithChildren} from '^types/global.type';
-import {memo} from 'react';
+import {CSSProperties, memo} from 'react';
 
 interface Props extends WithChildren {
     className?: string;
+    style?: CSSProperties;
 }
 
 /**
@@ -12,10 +13,14 @@ interface Props extends WithChildren {
  * 복수개의 Item 을 담는 그릇으로서의 동작을 정의합니다.
  */
 export default memo((props: Props) => {
-    const {className = '', children} = props;
+    const {className = '', children, style} = props;
 
     return (
-        <div data-component="MobileSection.List" className={`flex flex-col gap-4 bg-gray-100 ${className}`}>
+        <div
+            data-component="MobileSection.List"
+            className={`flex flex-col gap-4 bg-gray-100 ${className}`}
+            style={style}
+        >
             {children}
         </div>
     );

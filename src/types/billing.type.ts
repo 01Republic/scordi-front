@@ -322,5 +322,12 @@ export type FromToQueryDto = {
     to: Date; // 기간 종료일
 };
 
-export type GetBillingSchedulesParams = FindAllQueryDto<BillingScheduleDto> & StartEndParams;
-export type GetBillingHistoriesParams = FindAllQueryDto<BillingHistoryDto> & StartEndParams & StatusParams;
+export type IsActiveSubsParams = {
+    isActiveSubscription?: boolean; // 동기화된 구독만
+};
+
+export type GetBillingSchedulesParams = FindAllQueryDto<BillingScheduleDto> & StartEndParams & IsActiveSubsParams;
+export type GetBillingHistoriesParams = FindAllQueryDto<BillingHistoryDto> &
+    StartEndParams &
+    StatusParams &
+    IsActiveSubsParams;

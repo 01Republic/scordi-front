@@ -10,24 +10,28 @@ import {toast} from 'react-toastify';
 import {GmailAgentProgress, gmailAgentProgressAtom} from '^hooks/useGoogleAccessToken';
 import {useModal} from '^v3/share/modals/useModal';
 import {renewInvoiceAccountModal} from '^v3/V3OrgHomePage/RenewInvoiceAccountModal/atom';
+import {useRouter} from 'next/router';
+import {V3OrgInvoiceAccountShowPageRoute} from '^pages/v3/orgs/[orgId]/invoiceAccounts/[invoiceAccountId]';
 
 interface InvoiceAccountItemProps {
     invoiceAccount: InvoiceAccountDto;
 }
 
 export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
+    const router = useRouter();
     const setSelectedInvoiceAccount = useSetRecoilState(selectedInvoiceAccountAtom);
     const setGmailAgentProgress = useSetRecoilState(gmailAgentProgressAtom);
     const {open: openRenewModal} = useModal(renewInvoiceAccountModal);
     const {invoiceAccount} = props;
     const appNames: string[] = [];
 
-    const len = invoiceAccount.invoiceApps.length;
-    invoiceAccount.invoiceApps.forEach((app, i) => {
+    const subscriptions = invoiceAccount.subscriptions || [];
+    const len = subscriptions.filter((s) => s.isActive).length;
+    subscriptions.forEach((subscription, i) => {
         if (i < 2) {
-            appNames.push(app.product.nameEn);
+            appNames.push(subscription.product.name());
         }
-        if (i === 2) appNames.push(`${app.product.nameEn} ... ${len} apps`);
+        if (i === 2) appNames.push(`${subscription.product.name()} ... ${len} apps`);
         if (i > 2) return;
     });
     const createdAt = new Date(invoiceAccount.createdAt);
@@ -51,7 +55,9 @@ export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
     return (
         <div
             className="!w-auto gap-4 px-4 py-3 -mx-4 hover:bg-neutral btn-like no-selectable"
-            onClick={() => setSelectedInvoiceAccount(invoiceAccount)}
+            onClick={() =>
+                router.push(V3OrgInvoiceAccountShowPageRoute.path(invoiceAccount.organizationId, invoiceAccount.id))
+            }
         >
             <Avatar src={invoiceAccount.image || ''} className="w-9 h-9 outline outline-offset-1 outline-slate-100" />
             <div className="flex-1">
