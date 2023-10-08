@@ -8,21 +8,27 @@ export const intlDateShort = (dateString: string | Date) => {
     return Intl.DateTimeFormat('ko', {month: 'long', day: '2-digit'}).format(new Date(dateString));
 };
 
-export const yyyy_mm_dd = (date: Date): string => {
+export const yyyy_mm_dd = (date: Date, sep = '-'): string => {
     const yyyy = date.getFullYear().toString();
     const mm = zeroPad(`${date.getMonth() + 1}`);
     const dd = zeroPad(`${date.getDate()}`);
-    return `${yyyy}-${mm}-${dd}`;
+    return [yyyy, mm, dd].join(sep);
 };
 
-export const hh_mm = (date: Date): string => {
+export const hh_mm = (date: Date, sep = ':'): string => {
     const hour = zeroPad(`${date.getHours()}`);
     const min = zeroPad(`${date.getMinutes()}`);
-    return `${hour}:${min}`;
+    return [hour, min].join(sep);
 };
 
 export const yyyy_mm_dd_hh_mm = (date: Date): string => {
     return `${yyyy_mm_dd(date)} ${hh_mm(date)}`;
+};
+
+export const mm_dd = (date: Date, sep = '.'): string => {
+    const mm = zeroPad(`${date.getMonth() + 1}`);
+    const dd = zeroPad(`${date.getDate()}`);
+    return [mm, dd].join(sep);
 };
 
 export const datetime_local = (date: Date): string => {

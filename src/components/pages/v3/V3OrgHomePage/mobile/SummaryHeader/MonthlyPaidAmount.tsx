@@ -1,11 +1,13 @@
 import React, {memo, useEffect} from 'react';
 import {currencyFormat} from '^utils/number';
 import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
-import {atom, useRecoilState, useRecoilValue} from 'recoil';
+import {atom, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
 import {getCurrencyUnit} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {useBillingHistoriesV3} from '^hooks/useBillingHistories';
 import {BillingHistoryManager} from '^models/BillingHistory';
+import {useModal} from '^v3/share/modals/useModal';
+import {monthlyBillingHistoryAtom, monthlyPaidAmountModal} from '^v3/V3OrgHomePage/MonthlyPaidAmountModal/atom';
 
 export const monthlyPaidAmountAtom = atom({
     key: 'monthlyPaidAmountAtom',
@@ -17,15 +19,18 @@ export const MonthlyPaidAmount = memo(() => {
     const unit = getCurrencyUnit(displayCurrency);
     const {result, isLoading} = useBillingHistoriesV3();
     const [paidAmount, setPaidAmount] = useRecoilState(monthlyPaidAmountAtom);
+    const setHistories = useSetRecoilState(monthlyBillingHistoryAtom);
+    const {open} = useModal(monthlyPaidAmountModal);
 
     useEffect(() => {
-        const BillingHistory = BillingHistoryManager.init(result.items).paid();
-        const monthlyPaidAmount = BillingHistory.uniqByIdentity().getTotalPrice(displayCurrency);
+        const BillingHistory = BillingHistoryManager.init(result.items).paid().uniqByIdentity();
+        const monthlyPaidAmount = BillingHistory.getTotalPrice(displayCurrency);
+        setHistories(BillingHistory.all());
         setPaidAmount(monthlyPaidAmount);
     }, [result]);
 
     return (
-        <MobileInfoListItem label="오늘까지 결제된 금액">
+        <MobileInfoListItem label="오늘까지 결제된 금액" onClick={open}>
             {isLoading ? 'loading...' : currencyFormat(Math.round(paidAmount), unit)}
         </MobileInfoListItem>
     );

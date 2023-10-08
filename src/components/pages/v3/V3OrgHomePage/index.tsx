@@ -26,6 +26,8 @@ import {currentUserAtom} from '^atoms/currentUser.atom';
 import {TopNavProfileButton} from '^v3/share/TobNav/TopNavProfileButton';
 import {TopNavOrgSelect} from '^v3/share/TobNav/TopNavOrgSelect';
 import {RenewInvoiceAccountModalMobile} from '^v3/V3OrgHomePage/RenewInvoiceAccountModal/mobile';
+import {MonthlyPaidAmountModal} from '^v3/V3OrgHomePage/MonthlyPaidAmountModal';
+import {MonthlyRemainAmountModal} from '^v3/V3OrgHomePage/MonthlyRemainAmountModal';
 
 export const V3OrgHomePage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -81,6 +83,8 @@ export const V3OrgHomePage = memo(() => {
                     BillingHistoryDetailModal,
                     NewInvoiceAccountModalMobile,
                     RenewInvoiceAccountModalMobile,
+                    MonthlyPaidAmountModal,
+                    MonthlyRemainAmountModal,
                 ]}
                 topRightButtons={currentUser?.isAdmin ? [TopNavOrgSelect, TopNavProfileButton] : []}
             >
