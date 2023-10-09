@@ -48,4 +48,9 @@ export const invoiceAccountApi = {
         const url = `/organizations/${orgId}/invoice_accounts/${id}`;
         return api.get<InvoiceAccountDto>(url).then(oneDtoOf(InvoiceAccountDto));
     },
+
+    destroy(orgId: number, id: number) {
+        const url = `/organizations/${orgId}/invoice_accounts/${id}`;
+        return api.delete<InvoiceAccountDto>(url).then(oneDtoOf(InvoiceAccountDto));
+    },
 };

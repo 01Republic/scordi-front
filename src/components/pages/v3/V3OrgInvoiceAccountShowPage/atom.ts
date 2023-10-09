@@ -2,7 +2,6 @@ import {atom, useRecoilState} from 'recoil';
 import {InvoiceAccountDto} from '^types/invoiceAccount.type';
 import {invoiceAccountApi} from '^api/invoiceAccount.api';
 import {SubscriptionDto} from '^types/subscription.type';
-import {useEffect} from 'react';
 import {subscriptionApi} from '^api/subscription.api';
 
 const currentInvoiceAccountState = atom<InvoiceAccountDto | null>({

@@ -10,6 +10,7 @@ import {BillingHistoryManager} from '^models/BillingHistory';
 import {subscriptionApi} from '^api/subscription.api';
 import {toast} from 'react-toastify';
 import {useCurrentSubscriptions} from '^v3/V3OrgInvoiceAccountShowPage/atom';
+import {mm_dd} from '^utils/dateTime';
 
 interface SubscriptionItemProps {
     subscription: SubscriptionDto;
@@ -42,11 +43,18 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
         });
     };
 
+    const BillingHistory = BillingHistoryManager.init(subscription.billingHistories);
+    const lastHistory = BillingHistory.lastPaidHistory();
+
     return (
-        <div className="!w-auto gap-4 px-4 py-3 -mx-4 hover:bg-neutral btn-like no-selectable !transform-none">
+        <div
+            className="!w-auto gap-4 px-4 py-3 -mx-4 hover:bg-neutral btn-like no-selectable !transform-none"
+            onClick={() => console.log(subscription)}
+        >
             <Avatar src={product.image} className="w-9 h-9 outline outline-offset-1 outline-slate-100" />
             <div className="flex-1">
-                <p className="text-[16px] text-gray-500">{product.name()}</p>
+                <p className="text-[16px]">{product.name()}</p>
+                <p className="leading-none text-[11px] text-gray-500">마지막 결제일: {mm_dd(lastHistory.issuedAt)}</p>
             </div>
             <div className="flex items-center">
                 <input

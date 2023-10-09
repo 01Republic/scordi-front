@@ -17,6 +17,8 @@ export class InvoiceAccountDto {
     organizationId: number;
     image: string | null;
     email: string;
+    isActive: boolean; // 활성화 여부
+    isSyncRunning: boolean; // 싱크 실행중 여부
     @TypeCast(() => Date) createdAt: Date;
     @TypeCast(() => Date) updatedAt: Date;
 
