@@ -7,7 +7,7 @@ export const useSummaryStatServices = (counterElemId: string) => {
 
     useEffect(() => {
         if (!draftAccount) return;
-        const count = draftAccount.invoiceApps.length;
+        const count = (draftAccount.invoiceApps || []).length;
         const countUp = new CountUp(counterElemId, count, {
             duration: 0.5,
             separator: ',',

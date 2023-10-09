@@ -49,7 +49,7 @@ export const TastingItemDetailModal = memo(() => {
     useEffect(() => {
         if (!billingHistory || !draftAccount) return;
 
-        const invoiceApp = draftAccount.invoiceApps.find((app) => {
+        const invoiceApp = (draftAccount.invoiceApps || []).find((app) => {
             return app.billingHistories.find((history) => {
                 return history.emailContent?.id === billingHistory.emailContent?.id;
             });
