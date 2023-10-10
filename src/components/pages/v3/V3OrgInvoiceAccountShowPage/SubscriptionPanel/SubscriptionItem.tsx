@@ -1,11 +1,6 @@
 import React, {ChangeEvent, memo, useRef, useState} from 'react';
 import {SubscriptionDto} from '^types/subscription.type';
 import {Avatar} from '^components/Avatar';
-import {currencyFormat, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
-import {useRecoilValue} from 'recoil';
-import {useRouter} from 'next/router';
-import {Locale} from '^types/subscriptionBillingCycle.type';
-import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
 import {BillingHistoryManager} from '^models/BillingHistory';
 import {subscriptionApi} from '^api/subscription.api';
 import {toast} from 'react-toastify';
@@ -44,7 +39,8 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
     };
 
     const BillingHistory = BillingHistoryManager.init(subscription.billingHistories);
-    const lastHistory = BillingHistory.lastPaidHistory();
+    const lastPaidHistory = BillingHistory.lastPaidHistory();
+    const lastHistory = BillingHistory.latestIssue().first(1).take();
 
     return (
         <div
@@ -54,7 +50,13 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
             <Avatar src={product.image} className="w-9 h-9 outline outline-offset-1 outline-slate-100" />
             <div className="flex-1">
                 <p className="text-[16px]">{product.name()}</p>
-                <p className="leading-none text-[11px] text-gray-500">마지막 결제일: {mm_dd(lastHistory.issuedAt)}</p>
+                {lastPaidHistory ? (
+                    <p className="leading-none text-[11px] text-gray-500">
+                        마지막 결제일: {mm_dd(lastPaidHistory.issuedAt)}
+                    </p>
+                ) : (
+                    <p className="leading-none text-[11px] text-gray-500">마지막 알림: {mm_dd(lastHistory.issuedAt)}</p>
+                )}
             </div>
             <div className="flex items-center">
                 <input
