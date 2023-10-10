@@ -30,7 +30,7 @@ export const CalendarDateComment = memo((props: CalendarDateCommentProps) => {
 
     return allLength ? (
         <div className="h-[22px]">
-            <p className="money-text active absolute sm:relative">
+            <p className="money-text active relative">
                 <span className="symbol hidden sm:block">{symbol}</span>
                 <span className="amount">{currencyFormat(totalAmount, '')}</span>
             </p>
