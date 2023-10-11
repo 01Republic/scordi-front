@@ -40,54 +40,49 @@ export const InformationPanel = memo(() => {
         <MobileSection.Item>
             <MobileSection.Padding>
                 <div className="w-full h-[40px]" />
-                {isLoading ? (
-                    <p className="text-center">loading ...</p>
-                ) : (
-                    <div>
-                        {currentSubscription && <PrototypeAvatar proto={currentSubscription.product} />}
-                        <PriceHeader totalPrice={totalPrice} billingType={billingType} />
+                <div>
+                    {currentSubscription && <PrototypeAvatar proto={currentSubscription.product} />}
+                    <PriceHeader totalPrice={totalPrice} billingType={billingType} />
 
-                        <MobileInfoList>
-                            <ListItemForAccount />
-                        </MobileInfoList>
+                    <MobileInfoList>
+                        <ListItemForAccount />
+                    </MobileInfoList>
 
-                        <hr />
+                    <hr />
 
-                        <MobileInfoList>
-                            {/*<MobileInfoListItem label="카테고리" />*/}
-                            {/*<MobileInfoListItem label="현재 플랜" />*/}
-                            <MobileInfoListItem label="결제수단" value={lastPaidHistory?.paymentMethod} />
-                            {nextPayAmount && nextPayAmount.isNotDomestic() && (
-                                <MobileInfoListItem
-                                    label="해외결제금액"
-                                    value={
-                                        <span>
-                                            {lastPaidHistory?.payAmount?.text}{' '}
-                                            <span className="text-gray-500">({lastPaidHistory?.payAmount?.code})</span>
-                                        </span>
-                                    }
-                                />
-                            )}
-
-                            {lastPaidAt && (
-                                <MobileInfoListItem label="마지막 결제일" value={yyyy_mm_dd_hh_mm(lastPaidAt)} />
-                            )}
+                    <MobileInfoList>
+                        {/*<MobileInfoListItem label="카테고리" />*/}
+                        {/*<MobileInfoListItem label="현재 플랜" />*/}
+                        <MobileInfoListItem label="결제수단" value={lastPaidHistory?.paymentMethod} />
+                        {nextPayAmount && nextPayAmount.isNotDomestic() && (
                             <MobileInfoListItem
-                                label="다음 결제 예정일"
-                                value={nextPayDate ? yyyy_mm_dd(nextPayDate) : '-'}
-                            />
-                            <MobileInfoListItem
-                                label="결제 예정 금액"
+                                label="해외결제금액"
                                 value={
                                     <span>
-                                        {nextPayAmount?.text}{' '}
-                                        <span className="text-gray-500">({nextPayAmount?.code})</span>
+                                        {lastPaidHistory?.payAmount?.text}{' '}
+                                        <span className="text-gray-500">({lastPaidHistory?.payAmount?.code})</span>
                                     </span>
                                 }
                             />
-                        </MobileInfoList>
-                    </div>
-                )}
+                        )}
+
+                        {lastPaidAt && (
+                            <MobileInfoListItem label="마지막 결제일" value={yyyy_mm_dd_hh_mm(lastPaidAt)} />
+                        )}
+                        <MobileInfoListItem
+                            label="다음 결제 예정일"
+                            value={nextPayDate ? yyyy_mm_dd(nextPayDate) : '-'}
+                        />
+                        <MobileInfoListItem
+                            label="결제 예정 금액"
+                            value={
+                                <span>
+                                    {nextPayAmount?.text} <span className="text-gray-500">({nextPayAmount?.code})</span>
+                                </span>
+                            }
+                        />
+                    </MobileInfoList>
+                </div>
             </MobileSection.Padding>
         </MobileSection.Item>
     );
