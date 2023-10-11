@@ -182,9 +182,28 @@ export function humanizeTimeDistance2(date1: Date, date2: Date, option?: Humaniz
     return text.startsWith('-') ? `${text} 지남` : `${text} 후`;
 }
 
+/**
+ * D-day 계산기 (자연수면 남은거, 음수면 지난거)
+ * @param target: 목표일
+ * @param base: 기준일(기본값: 오늘)
+ * @return number
+ */
+export function d_day(target: Date, base?: Date) {
+    base ||= new Date();
+
+    const diff = target.getTime() - base.getTime(); // ms 기준 차이 계산하여 정수 반환
+    const distance = Math.abs(diff); // 절대값 적용하여 차이를 양수로 만듦.
+    const direction = diff >= 0 ? 1 : -1;
+
+    const distanceOfDay = Math.ceil(distance / (1000 * 3600 * 24));
+    return distanceOfDay * direction;
+}
+
+/**
+ * Group By
+ */
 export function groupByDate<T>(items: T[], getDate: (item: T) => Date): Record<string, T[]> {
     const container: Record<string, T[]> = {};
-    // const getDate = (item: GmailItem) => item?.metadata?.date;
 
     items.forEach((item) => {
         const date = getDate(item);

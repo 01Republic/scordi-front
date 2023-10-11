@@ -3,7 +3,7 @@ import {atom, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {CreateInvoiceAccountRequestDto, InvoiceAccountDto} from '^types/invoiceAccount.type';
 import {useTranslation} from 'next-i18next';
 import {draftAccountAtom, draftBillingHistoriesAtom, gmailItemsLoadedAtom, gmailItemsLoadingAtom} from '../pageAtoms';
-import {dateSortBy, dayAfter, monthBefore} from '^components/util/date';
+import {dateSortBy, monthBefore} from '^components/util/date';
 import {InvoiceAppDto} from '^types/invoiceApp.type';
 import {BillingHistoryDto} from '^types/billing.type';
 import {useCallback} from 'react';

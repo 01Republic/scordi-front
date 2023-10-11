@@ -1,4 +1,4 @@
-import {Fragment, memo, useCallback, useEffect} from 'react';
+import {memo, useEffect} from 'react';
 import {AdminDetailPageLayout} from '^admin/layouts';
 import {useRouter} from 'next/router';
 import {atom, useRecoilState, useRecoilValue} from 'recoil';
@@ -44,7 +44,7 @@ export const AdminOrgDetailPage = memo(() => {
     const tabs = [
         {label: '기본정보', Component: InformationTabContent},
         {label: '연동된 앱 (구독리스트)', Component: SubscriptionListTabContent},
-        {label: '연동계정', Component: InvoiceAccountListTabContent},
+        {label: '인보이스계정', Component: InvoiceAccountListTabContent},
         {label: '보관계정', Component: AccountListTabContent},
         {label: '멤버', Component: MemberListTabContent},
         {label: '회원', Component: UserListTabContent},
