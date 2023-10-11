@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {OutLink} from '^components/OutLink';
-import {GmailItem} from '^api/tasting.api';
+import {GmailParsedItem} from '^api/tasting.api';
 import {useTranslation} from 'next-i18next';
 import {MobileInfoListItem} from '../MobileInfoListItem';
 import {attachmentModalState} from '../AttachmentModal';
@@ -10,7 +10,7 @@ import {CurrencyToggle} from '../CurrencyToggle';
 import {displayCurrencyAtom} from '../pageAtoms';
 
 interface HeadingContentProps {
-    item: GmailItem;
+    item: GmailParsedItem;
 }
 
 export const HeadingContent = memo((props: HeadingContentProps) => {

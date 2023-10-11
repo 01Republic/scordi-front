@@ -3,7 +3,6 @@ import {useRecoilValue} from 'recoil';
 import {gmailItemsAtom} from './pageAtoms';
 import {EmailParsedTableRow} from './EmailParsedTableRow';
 import {CurrencyToggle} from './CurrencyToggle';
-import {GmailItem} from '^api/tasting.api';
 import {dateSortBy} from '^components/util/date';
 import {useDraftResult} from './hooks/useDraft';
 import {SummarySectionMobile} from './mobile/SummarySectionMobile';

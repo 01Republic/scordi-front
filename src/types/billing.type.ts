@@ -1,7 +1,7 @@
 import {SubscriptionDto} from '^types/subscription.type';
 import {OrganizationDto} from '^types/organization.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
-import {GmailItem} from '^api/tasting.api';
+import {GmailParsedItem} from '^api/tasting.api';
 import {BillingType, InvoiceAppDto} from '^types/invoiceApp.type';
 import {changePriceCurrency} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {CurrencyDto} from '^types/crawler';
@@ -139,8 +139,8 @@ export class BillingHistoryDto {
     subscription: SubscriptionDto; // 구독정보
     invoiceApp?: InvoiceAppDto; // 인보이스 앱
 
-    @TypeCast(() => GmailItem)
-    emailContent: GmailItem | null; // email content
+    @TypeCast(() => GmailParsedItem)
+    emailContent: GmailParsedItem | null; // email content
 
     getServiceName() {
         return this.subscription.product.name();
@@ -175,6 +175,12 @@ export class BillingHistoryDto {
         if (this.emailContent) return this.emailContent.attachments;
         if (this.invoiceUrl) return [{url: this.invoiceUrl, fileName: 'File 1'}];
         return [];
+    }
+
+    getEmailContents() {
+        if (!this.emailContent) return [];
+        const content = this.emailContent.content;
+        return content instanceof Array ? content : [content];
     }
 
     getPriceIn(currencyCode = Currency.KRW) {

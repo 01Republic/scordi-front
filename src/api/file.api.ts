@@ -5,7 +5,7 @@ export type UploadFileDto = {
     file: File | Blob;
 };
 
-export type FileDto = {
+export class FileDto {
     dir: string;
     filename: string;
     mimetype: string;
@@ -14,7 +14,7 @@ export type FileDto = {
     key: string;
     bucket: string;
     etag: string;
-};
+}
 
 export const fileApi = {
     upload(data: UploadFileDto) {
