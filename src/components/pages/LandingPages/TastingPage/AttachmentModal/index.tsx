@@ -52,9 +52,23 @@ export const AttachmentModal = memo(() => {
                         />
                         <div className="modal-action sticky bottom-0 justify-center bg-white py-4">
                             {/*<button className="btn btn-block btn-scordi normal-case">Save</button>*/}
-                            <button className="btn btn-block normal-case" onClick={close}>
-                                Close
-                            </button>
+                            {attachment.url ? (
+                                <div className="grid grid-cols-2 gap-2 w-full">
+                                    <button className="btn btn-block normal-case" onClick={close}>
+                                        현재 창 닫기
+                                    </button>
+                                    <button
+                                        className="btn btn-block normal-case"
+                                        onClick={() => window.open(attachment.url, '_blank')}
+                                    >
+                                        새 창에서 열기
+                                    </button>
+                                </div>
+                            ) : (
+                                <button className="btn btn-block normal-case" onClick={close}>
+                                    현재 창 닫기
+                                </button>
+                            )}
                         </div>
                     </>
                 )}
