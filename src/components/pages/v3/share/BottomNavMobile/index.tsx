@@ -34,7 +34,7 @@ export const BottomNavMobile = memo((props: BottomNavMobileProps) => {
         {text: '일정', Icon: FaRegCalendarCheck, href: orgId ? V3OrgBillingHistoriesPageRoute.path(orgId) : voidLink},
         {text: '계정', Icon: FaKey, href: orgId ? V3OrgAccountListPageRoute.path(orgId) : voidLink},
         {text: '멤버', Icon: FaUsers, href: orgId ? V3OrgTeamsPageRoute.path(orgId) : voidLink},
-        {text: '관리', Icon: FaGear, href: 'javascript:alert("준비중입니다. 금방 완성될거에요!")'}, // V3OrgSettingsOrgPageRoute.path(orgId)
+        {text: '관리', Icon: FaGear, href: orgId ? V3OrgSettingsOrgPageRoute.path(orgId) : voidLink},
     ];
 
     const tabCount = tabs.length;
