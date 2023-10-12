@@ -24,6 +24,7 @@ export const useGoogleLoginSuccessHandler = () => {
 
     // 그냥 로그인 시키고 적절한 다음 페이지로 이동시키는 함수.
     const moveWithLogin = (user: UserDto) => {
+        localStorage.setItem('locale', user?.locale ?? 'ko');
         setCurrentUser(user);
         loginRedirect(user);
     };
