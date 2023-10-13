@@ -46,3 +46,8 @@ export type MembershipDto = {
 export type FindAllMembershipQuery = FindAllQueryDto<MembershipDto> & {
     keyword?: string;
 };
+
+export type CreateMembershipInviteDto = {
+    organizationId: number;
+    invitedEmails: string[];
+};

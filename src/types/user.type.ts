@@ -115,3 +115,7 @@ export type CreateUserDeviceRequestDto = {
 export type FindAllUserByAdminDto = FindAllQueryDto<UserDto> & {
     keyword?: string;
 };
+
+export type InvitedEmailDto = {
+    email: string;
+};

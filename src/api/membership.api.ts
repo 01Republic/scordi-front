@@ -1,5 +1,6 @@
 import {api} from '^api/api';
 import {
+    CreateMembershipInviteDto,
     CreateMembershipRequestDto,
     FindAllMembershipQuery,
     MembershipDto,
@@ -19,4 +20,8 @@ export const getMemberships = (params: FindAllMembershipQuery) => {
 
 export const patchMemberships = (id: number, data: UpdateMembershipRequestDto) => {
     return api.patch<MembershipDto>(`/${NAMESPACE}/${id}`, data);
+};
+
+export const CreateMembershipInvite = (data: CreateMembershipInviteDto) => {
+    return api.post<MembershipDto>(`/${NAMESPACE}/invite`, data);
 };
