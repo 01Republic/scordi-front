@@ -37,7 +37,10 @@ export const InviteEmailInput = memo((props: InviteEmailInputProps) => {
         <form className="border w-full min-h-44 rounded-lg py-1 px-3">
             <div className="flex flex-wrap">
                 {fieldArray.fields.map((field, index) => (
-                    <span key={field.id} className="m-1 py-1 px-2 rounded-sm bg-gray-100 flex justify-between text-sm">
+                    <span
+                        key={field.id}
+                        className="m-1 py-1 px-2 rounded-lg bg-scordi-light-200 flex justify-between text-sm"
+                    >
                         {field.email}
                         <IoClose
                             size={13}
@@ -50,7 +53,7 @@ export const InviteEmailInput = memo((props: InviteEmailInputProps) => {
             <div className="flex gap-2 justify-between">
                 <input
                     type="email"
-                    placeholder="이메일 주소를 입력하세요."
+                    placeholder="이메일을 입력하세요."
                     onKeyDown={(e) => keyDownAddInvitedEmail(e)}
                     className="input w-full p-2 focus:outline-none"
                     {...form.register('email')}
