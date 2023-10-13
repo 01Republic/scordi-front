@@ -12,7 +12,7 @@ interface Props extends WithChildren {
  * 각 섹션은 Item 이고, 이 컴포넌트에서는 섹션간 간격 등
  * 복수개의 Item 을 담는 그릇으로서의 동작을 정의합니다.
  */
-export default memo((props: Props) => {
+export default memo(function MobileSectionList(props: Props) {
     const {className = '', children, style} = props;
 
     return (

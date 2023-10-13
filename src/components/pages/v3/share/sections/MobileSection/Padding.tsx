@@ -3,7 +3,7 @@ import {WithChildren} from '^types/global.type';
 
 interface PaddingProps extends WithChildren {}
 
-export default memo((props: PaddingProps) => {
+export default memo(function MobileSectionItemPadding(props: PaddingProps) {
     const {children} = props;
 
     return (

@@ -20,3 +20,4 @@ export const BillingHistoryContentPanel = memo((props: BillingHistoryContentPane
         </MobileSection.Item>
     );
 });
+BillingHistoryContentPanel.displayName = 'BillingHistoryContentPanel';

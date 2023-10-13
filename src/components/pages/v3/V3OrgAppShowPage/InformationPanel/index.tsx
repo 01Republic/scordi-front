@@ -11,6 +11,7 @@ import {MobileInfoList} from '^v3/share/MobileInfoList';
 import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
 import {PriceHeader} from './PriceHeader';
 import {ListItemForAccount} from './ListItemForAccount';
+import {ListItemForSourceAccount} from './ListItemForSourceAccount';
 
 // 정기결제금액 *
 // 결제주기 *
@@ -41,10 +42,15 @@ export const InformationPanel = memo(() => {
             <MobileSection.Padding>
                 <div className="w-full h-[40px]" />
                 <div>
-                    {currentSubscription && <PrototypeAvatar proto={currentSubscription.product} />}
-                    <PriceHeader totalPrice={totalPrice} billingType={billingType} />
+                    <div className="flex items-center justify-between">
+                        {currentSubscription && <PrototypeAvatar proto={currentSubscription.product} />}
+                    </div>
+                    <div>
+                        <PriceHeader totalPrice={totalPrice} billingType={billingType} />
+                    </div>
 
                     <MobileInfoList>
+                        <ListItemForSourceAccount />
                         <ListItemForAccount />
                     </MobileInfoList>
 
@@ -87,6 +93,7 @@ export const InformationPanel = memo(() => {
         </MobileSection.Item>
     );
 });
+InformationPanel.displayName = 'InformationPanel';
 
 const InformationPanelLoading = memo(() => {
     return (
@@ -98,3 +105,4 @@ const InformationPanelLoading = memo(() => {
         </MobileSection.Item>
     );
 });
+InformationPanelLoading.displayName = 'InformationPanelLoading';
