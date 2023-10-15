@@ -37,24 +37,23 @@ export const useGoogleLoginSuccessHandler = () => {
     };
 
     // Org Join 페이지에서 로그인했을 경우 초대된 유저가 맞는지 확인하는 함수.
-    const checkInvitedEmail = () => {
+    const checkInvitedEmail = async () => {
         if (!currentUser) return;
 
         const invitedOrgId = Number(router.query.orgId);
         const encodedUri = encodeURI(currentUser.email);
-        let isInvited = false;
 
-        getMembershipInviteValidate(invitedOrgId, encodedUri)
-            .then((datas) => {
-                datas.status === 200 &&
-                    patchInvitedMemberships(datas.data.id).then(() =>
-                        router.push(V3OrgHomePageRoute.path(invitedOrgId)),
-                    );
-                isInvited = true;
-            })
-            .catch(() => router.push(V3OrgJoinErrorPageRoute.path(invitedOrgId)));
-
-        return isInvited;
+        try {
+            const datas = await getMembershipInviteValidate(invitedOrgId, encodedUri);
+            if (datas.status === 200) {
+                await patchInvitedMemberships(datas.data.id);
+                await router.push(V3OrgHomePageRoute.path(invitedOrgId));
+            }
+            return true;
+        } catch {
+            await router.push(V3OrgJoinErrorPageRoute.path(invitedOrgId));
+            return false;
+        }
     };
 
     /**
