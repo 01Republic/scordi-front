@@ -35,8 +35,8 @@ export const InviteEmailInput = memo((props: InviteEmailInputProps) => {
 
     return (
         <form className="border w-full min-h-44 rounded-lg py-1 px-3">
-            <div className="flex flex-wrap">
-                {fieldArray.fields.map((field, index) => (
+            <div className="flex flex-wrap max-h-64 overflow-y-auto">
+                {fieldArray.fields.map((field: any, index) => (
                     <span
                         key={field.id}
                         className="m-1 py-1 px-2 rounded-lg bg-scordi-light-200 flex justify-between text-sm"

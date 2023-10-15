@@ -11,7 +11,6 @@ import {useFieldArray, useForm} from 'react-hook-form';
 import {toast} from 'react-toastify';
 import {CreateMembershipInvite} from '^api/membership.api';
 import {MembershipDto} from '^types/membership.type';
-import {DefaultButton} from '^components/Button';
 import {AiFillCheckCircle} from 'react-icons/ai';
 
 export const InviteOrgMemberModal = memo(() => {
@@ -35,7 +34,9 @@ export const InviteOrgMemberModal = memo(() => {
         if (!currentOrg) return;
 
         const invitedEmail = form.getValues('email');
-        const invitedEmails = fieldArray.fields.length ? fieldArray.fields.map((field) => field.email) : [invitedEmail];
+        const invitedEmails = fieldArray.fields.length
+            ? fieldArray.fields.map((field: any) => field.email)
+            : [invitedEmail];
 
         if (!invitedEmail && !invitedEmails[0]) {
             toast.error('이메일을 입력해주세요');
@@ -46,7 +47,8 @@ export const InviteOrgMemberModal = memo(() => {
             .then((datas) => {
                 setRegisteredAccount(datas.data);
                 setIsSendEmail(true);
-                registeredAccount?.approvalStatus === 'PENDING' && toast.error('이미 등록된 계정입니다.');
+                // 초대받고 가입하지 않은 유저도 approved로 값 내려옴
+                registeredAccount?.approvalStatus === 'APPROVED' && toast.error('이미 등록된 계정입니다.');
                 return;
             })
             .catch((err) => console.log(err));
