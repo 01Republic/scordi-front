@@ -7,7 +7,7 @@ import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^atoms/organizations.atom';
 import {InviteEmailInput} from './InviteEmailInput';
-import {useFieldArray, useForm} from 'react-hook-form';
+import {FieldValues, useFieldArray, useForm} from 'react-hook-form';
 import {toast} from 'react-toastify';
 import {CreateMembershipInvite} from '^api/membership.api';
 import {AiFillCheckCircle} from 'react-icons/ai';
@@ -16,9 +16,8 @@ export const InviteOrgMemberModal = memo(() => {
     const [isendEmail, setIsSendEmail] = useState(false);
     const {isShow, Modal, close} = useModal({isShowAtom: isOpeninviteOrgMemberModalAtom});
     const currentOrg = useRecoilValue(currentOrgAtom);
-    const form = useForm();
-    const control = form.control;
-    const fieldArray = useFieldArray({control, name: 'emails'});
+    const form = useForm<FieldValues>();
+    const fieldArray = useFieldArray({control: form.control, name: 'emails'});
 
     useEffect(() => {
         if (!isShow) {

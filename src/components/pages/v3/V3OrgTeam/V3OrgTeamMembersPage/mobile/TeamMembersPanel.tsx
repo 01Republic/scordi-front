@@ -4,6 +4,8 @@ import {ContentEmpty} from '^v3/V3OrgHomePage/mobile/ContentEmpty';
 import {TeamMemberItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/mobile/TeamMemberItem';
 import {useTeamMembers} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/atom';
 import {AddMemberButton} from '../AddMemberButton';
+import {isOpeninviteOrgMemberModalAtom} from '../modals/InviteMemberModal/atom';
+import {useModal} from '^components/pages/v3/share/modals/useModal';
 
 interface TeamMembersPanel {
     maxLength?: number | null;
@@ -14,6 +16,9 @@ export const TeamMembersPanel = memo((props: TeamMembersPanel) => {
     const teamMembers = result.items;
     const length = teamMembers.length;
     const {maxLength} = props;
+    const {setIsShow} = useModal({
+        isShowAtom: isOpeninviteOrgMemberModalAtom,
+    });
 
     return (
         <MobileSection.Item>
@@ -33,7 +38,7 @@ export const TeamMembersPanel = memo((props: TeamMembersPanel) => {
                     <ContentEmpty
                         text="등록된 멤버가 없어요"
                         subtext="눌러서 멤버 추가"
-                        // onClick={inviteOrgMemberModalShow}
+                        onClick={() => setIsShow(true)}
                     />
                 )}
 
