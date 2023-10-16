@@ -4,14 +4,17 @@ import {UserDto} from '^types/user.type';
 import {getGoogleUserData, getUserSession, postUserSessionBySocialAccount} from '^api/session.api';
 import {setToken} from '^api/api';
 import {useCurrentUser} from '^hooks/useCurrentUser';
+import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
+import {getMembershipInviteValidate, patchInvitedMemberships} from '^api/membership.api';
+import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';
+import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 
 // v2 -> v3 로 넘어가면서 구글 사용자 인증 직후 가입정보가 없으면 리디렉션 되는 위치가 바뀌었습니다.
 // import {UserSignUpPageRoute} from '^pages/users/signup'; // Deprecated.
-import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
 
 export const useGoogleLoginSuccessHandler = () => {
     const router = useRouter();
-    const {setCurrentUser, loginRedirect, setAuthenticatedUserData} = useCurrentUser(null);
+    const {currentUser, setCurrentUser, loginRedirect, setAuthenticatedUserData} = useCurrentUser(null);
 
     // 추가정보 입력을 위해 가입페이지로 넘기는 함수.
     const moveToSignUpPage = (data: GoogleSignedUserData) => {
@@ -26,7 +29,33 @@ export const useGoogleLoginSuccessHandler = () => {
     const moveWithLogin = (user: UserDto) => {
         localStorage.setItem('locale', user?.locale ?? 'ko');
         setCurrentUser(user);
+        const isInvitied = checkInvitedEmail();
+        if (!isInvitied) {
+            return;
+        }
         loginRedirect(user);
+    };
+
+    // Org Join 페이지에서 로그인했을 경우 초대된 유저가 맞는지 확인하는 함수.
+    const checkInvitedEmail = async () => {
+        if (!currentUser) return;
+
+        const invitedOrgId = Number(router.query.orgId);
+        if (!invitedOrgId) return;
+
+        const encodedUri = encodeURI(currentUser.email);
+
+        try {
+            const datas = await getMembershipInviteValidate(invitedOrgId, encodedUri);
+            if (datas.status === 200) {
+                await patchInvitedMemberships(datas.data.id);
+                await router.push(V3OrgHomePageRoute.path(invitedOrgId));
+            }
+            return true;
+        } catch {
+            await router.push(V3OrgJoinErrorPageRoute.path(invitedOrgId));
+            return false;
+        }
     };
 
     /**

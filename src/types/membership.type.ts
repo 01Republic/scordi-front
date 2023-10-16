@@ -37,6 +37,7 @@ export type MembershipDto = {
     level: MembershipLevel;
     approvalStatus: ApprovalStatus; // 멤버십 승인 요청 상태 (가입 승인 요청 상태)
     displayCurrency: DisplayCurrency; // 조직 화폐 사용자보기
+    invitedEmail: string;
     createdAt: Date;
     updatedAt: Date;
     organization: OrganizationDto;
@@ -45,4 +46,9 @@ export type MembershipDto = {
 
 export type FindAllMembershipQuery = FindAllQueryDto<MembershipDto> & {
     keyword?: string;
+};
+
+export type CreateMembershipInviteDto = {
+    organizationId: number;
+    invitedEmails: string[];
 };
