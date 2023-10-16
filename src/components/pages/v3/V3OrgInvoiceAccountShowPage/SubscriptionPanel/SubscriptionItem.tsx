@@ -54,8 +54,10 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
                     <p className="leading-none text-[11px] text-gray-500">
                         마지막 결제일: {mm_dd(lastPaidHistory.issuedAt)}
                     </p>
-                ) : (
+                ) : lastHistory ? (
                     <p className="leading-none text-[11px] text-gray-500">마지막 알림: {mm_dd(lastHistory.issuedAt)}</p>
+                ) : (
+                    <p className="leading-none text-[11px] text-gray-500">결제내역이 없습니다.</p>
                 )}
             </div>
             <div className="flex items-center">
