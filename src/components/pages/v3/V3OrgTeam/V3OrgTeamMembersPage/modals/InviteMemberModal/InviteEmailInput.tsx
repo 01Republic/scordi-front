@@ -1,4 +1,5 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
+import {useMemberships} from '^hooks/useMemberships';
 import {FieldValues, UseFieldArrayReturn, UseFormReturn} from 'react-hook-form';
 import {IoClose} from 'react-icons/io5';
 import {toast} from 'react-toastify';
@@ -10,23 +11,56 @@ interface InviteEmailInputProps {
 
 export const InviteEmailInput = memo((props: InviteEmailInputProps) => {
     const {form, fieldArray} = props;
+    const {membershipSearchResult, searchMemberships} = useMemberships();
 
-    const keyDownAddInvitedEmail = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    useEffect(() => {
+        searchMemberships({where: {organizationId: 36}, order: {id: 'DESC'}});
+    }, []);
+
+    // 이미 조직에 등록된 멤버인지 확인하는 함수
+    const confirmOrgMember = () => {
+        const invitedEmail = form.getValues('email');
+
+        const orgMemberEmails = membershipSearchResult.items.filter((item) => {
+            return item.invitedEmail === invitedEmail;
+        });
+
+        if (orgMemberEmails.length === 0) return;
+
+        const orgMemberEmail = orgMemberEmails[0].approvalStatus;
+
+        if (orgMemberEmail === 'PENDING') {
+            toast.error('승인 대기 중인 멤버입니다.');
+            return true;
+        }
+
+        if (orgMemberEmail === 'APPROVED') {
+            toast.error('이미 등록된 멤버입니다.');
+            return true;
+        }
+    };
+
+    // 초대 이메일 보내는 함수
+    const addInvitedEmail = (e: React.KeyboardEvent<HTMLInputElement>) => {
         const invitedEmail = e.target.value;
-        const isClickEnterKey = e.key === 'Enter';
         const isEmail = invitedEmail.includes('.') && invitedEmail.includes('@');
+        const isOrgMember = confirmOrgMember();
 
-        if (isClickEnterKey && !isEmail) {
+        if (!isEmail) {
             toast.error('이메일 형식을 확인해주세요');
             e.stopPropagation();
             e.preventDefault();
             return;
         }
 
-        if (isClickEnterKey && isEmail) {
-            fieldArray.append({email: invitedEmail});
-            form.resetField('email');
+        if (isOrgMember) {
+            e.stopPropagation();
+            e.preventDefault();
+            return;
         }
+
+        fieldArray.append({email: invitedEmail});
+        form.resetField('email');
     };
 
     const removeInvitedEmail = (index: number) => {
@@ -54,7 +88,7 @@ export const InviteEmailInput = memo((props: InviteEmailInputProps) => {
                 <input
                     type="email"
                     placeholder="이메일을 입력하세요."
-                    onKeyDown={(e) => keyDownAddInvitedEmail(e)}
+                    onKeyDown={(e) => e.key === 'Enter' && addInvitedEmail(e)}
                     className="input w-full p-2 focus:outline-none"
                     {...form.register('email')}
                 />

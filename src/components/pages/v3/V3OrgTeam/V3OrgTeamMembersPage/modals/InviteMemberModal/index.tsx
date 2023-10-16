@@ -6,15 +6,13 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^atoms/organizations.atom';
-import {InviteEmailInput} from '../../InviteEmailInput';
+import {InviteEmailInput} from './InviteEmailInput';
 import {useFieldArray, useForm} from 'react-hook-form';
 import {toast} from 'react-toastify';
 import {CreateMembershipInvite} from '^api/membership.api';
-import {MembershipDto} from '^types/membership.type';
 import {AiFillCheckCircle} from 'react-icons/ai';
 
 export const InviteOrgMemberModal = memo(() => {
-    const [registeredAccount, setRegisteredAccount] = useState<MembershipDto>();
     const [isendEmail, setIsSendEmail] = useState(false);
     const {isShow, Modal, close} = useModal({isShowAtom: isOpeninviteOrgMemberModalAtom});
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -44,13 +42,7 @@ export const InviteOrgMemberModal = memo(() => {
         }
 
         CreateMembershipInvite({organizationId: currentOrg.id, invitedEmails: invitedEmails})
-            .then((datas) => {
-                setRegisteredAccount(datas.data);
-                setIsSendEmail(true);
-                // 초대받고 가입하지 않은 유저도 approved로 값 내려옴
-                registeredAccount?.approvalStatus === 'APPROVED' && toast.error('이미 등록된 계정입니다.');
-                return;
-            })
+            .then(() => setIsSendEmail(true))
             .catch((err) => console.log(err));
     };
 
