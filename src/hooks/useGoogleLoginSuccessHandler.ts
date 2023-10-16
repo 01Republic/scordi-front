@@ -41,9 +41,9 @@ export const useGoogleLoginSuccessHandler = () => {
         if (!currentUser) return;
 
         const invitedOrgId = Number(router.query.orgId);
-        const encodedUri = encodeURI(currentUser.email);
-
         if (!invitedOrgId) return;
+
+        const encodedUri = encodeURI(currentUser.email);
 
         try {
             const datas = await getMembershipInviteValidate(invitedOrgId, encodedUri);
