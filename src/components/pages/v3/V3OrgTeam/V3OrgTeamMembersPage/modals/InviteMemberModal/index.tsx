@@ -10,11 +10,13 @@ import {InviteEmailInput} from './InviteEmailInput';
 import {FieldValues, useFieldArray, useForm} from 'react-hook-form';
 import {toast} from 'react-toastify';
 import {CreateMembershipInvite} from '^api/membership.api';
-import {AiFillCheckCircle} from 'react-icons/ai';
+import {useMemberships} from '^hooks/useMemberships';
+import {SuccessInvite} from './SuccessInvite';
 
 export const InviteOrgMemberModal = memo(() => {
-    const [isendEmail, setIsSendEmail] = useState(false);
+    const [isSendEmail, setIsSendEmail] = useState(false);
     const {isShow, Modal, close} = useModal({isShowAtom: isOpeninviteOrgMemberModalAtom});
+    const {membershipSearchResult, searchMemberships} = useMemberships();
     const currentOrg = useRecoilValue(currentOrgAtom);
     const form = useForm<FieldValues>();
     const fieldArray = useFieldArray({control: form.control, name: 'emails'});
@@ -27,10 +29,44 @@ export const InviteOrgMemberModal = memo(() => {
         }
     }, [isShow]);
 
+    useEffect(() => {
+        if (!currentOrg) return;
+        searchMemberships({where: {organizationId: currentOrg.id}});
+    }, [currentOrg]);
+
+    // 이미 조직에 등록된 멤버인지 확인하는 함수
+    const confirmOrgMember = () => {
+        const invitedEmail = form.getValues('email');
+
+        const orgMemberEmails = membershipSearchResult.items.filter((item) => {
+            return item.invitedEmail === invitedEmail;
+        });
+        if (orgMemberEmails.length === 0) return;
+
+        const orgMemberEmail = orgMemberEmails[0].approvalStatus;
+
+        if (orgMemberEmail === 'PENDING') {
+            toast.error('승인 대기 중인 멤버입니다.');
+            return true;
+        }
+
+        if (orgMemberEmail === 'APPROVED') {
+            toast.error('이미 등록된 멤버입니다.');
+            return true;
+        }
+    };
+
+    // 초대 이메일 보내는 함수
     const inviteMembership = () => {
         if (!currentOrg) return;
 
         const invitedEmail = form.getValues('email');
+        const isOrgMember = confirmOrgMember();
+        // 이미 조직에 가입된 멤버라면 return
+        if (isOrgMember) {
+            return;
+        }
+
         const invitedEmails = fieldArray.fields.length
             ? fieldArray.fields.map((field: any) => field.email)
             : [invitedEmail];
@@ -50,17 +86,8 @@ export const InviteOrgMemberModal = memo(() => {
             <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
 
             <MobileSection.Padding>
-                {isendEmail ? (
-                    <div className="text-center py-32 flex flex-col gap-8">
-                        <AiFillCheckCircle size={52} className="text-scordi mx-auto" />
-                        <h3 className="font-bold text-2xl">멤버 초대가 완료되었어요! </h3>
-                        <p>
-                            워크스페이스에 멤버를 초대했어요.
-                            <br />
-                            멤버가 가입 후 워크스페이스에 들어오기 전까지 기다려주세요.
-                        </p>
-                        <button className="btn btn-scordi-light w-full text-lg">📩 초대 메일이 발송되었어요</button>
-                    </div>
+                {isSendEmail ? (
+                    <SuccessInvite />
                 ) : (
                     <>
                         <div className="py-32 flex flex-col gap-5">
@@ -69,12 +96,12 @@ export const InviteOrgMemberModal = memo(() => {
                             </h3>
 
                             <p>초대할 멤버의 이메일을 입력해주세요.</p>
-                            <InviteEmailInput form={form} fieldArray={fieldArray} />
+                            <InviteEmailInput form={form} fieldArray={fieldArray} confirmOrgMember={confirmOrgMember} />
                         </div>
                     </>
                 )}
             </MobileSection.Padding>
-            {!isendEmail && (
+            {!isSendEmail && (
                 <ModalLikeBottomBar>
                     <button
                         className="btn btn-lg btn-block btn-scordi font-medium font-white text-xl bg-slate-50"
