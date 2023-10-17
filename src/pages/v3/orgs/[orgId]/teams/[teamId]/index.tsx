@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
-import {orgIdParamState, subscriptionIdParamState, useRouterIdParamState} from '^atoms/common';
+import {orgIdParamState, teamIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^hooks/useCurrentOrg';
 import {V3OrgTeamShowPage} from 'src/components/pages/v3/V3OrgTeam/V3OrgTeamShowPage';
 import {useRouter} from 'next/router';
@@ -37,7 +37,7 @@ export const getStaticProps = async ({locale}: any) => ({
 export default function Page() {
     const router = useRouter();
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
-    const teamId = useRouterIdParamState('teamId', subscriptionIdParamState);
+    const teamId = useRouterIdParamState('teamId', teamIdParamState);
 
     useCurrentOrg(orgId);
     const {search: loadTeamMembers} = useTeamMembers();

@@ -49,7 +49,7 @@ export default function Page() {
         loadCurrentSubscription(orgId, appId);
 
         loadCurrentHistories({
-            where: {subscriptionId: appId},
+            where: {subscriptionId: appId, organizationId: orgId},
             order: {issuedAt: 'DESC'},
         });
     }, [router.isReady, orgId, appId]);

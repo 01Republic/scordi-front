@@ -27,7 +27,7 @@ export const ModalLikeTopbar = memo((props: ModalLikeTopbarProps) => {
         <>
             <div
                 data-component="ModalLikeTopbar"
-                className={`flex container-fluid items-center justify-between ${
+                className={`flex container-fluid items-center justify-between no-selectable ${
                     topbarPosition === 'fixed' ? 'fixed w-full' : 'sticky'
                 } top-0 h-[50px] min-h-[50px] bg-white z-10`}
             >

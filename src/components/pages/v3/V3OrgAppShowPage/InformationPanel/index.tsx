@@ -11,6 +11,7 @@ import {MobileInfoList} from '^v3/share/MobileInfoList';
 import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
 import {PriceHeader} from './PriceHeader';
 import {ListItemForAccount} from './ListItemForAccount';
+import {ListItemForSourceAccount} from './ListItemForSourceAccount';
 
 // 정기결제금액 *
 // 결제주기 *
@@ -40,58 +41,59 @@ export const InformationPanel = memo(() => {
         <MobileSection.Item>
             <MobileSection.Padding>
                 <div className="w-full h-[40px]" />
-                {isLoading ? (
-                    <p className="text-center">loading ...</p>
-                ) : (
-                    <div>
+                <div>
+                    <div className="flex items-center justify-between">
                         {currentSubscription && <PrototypeAvatar proto={currentSubscription.product} />}
+                    </div>
+                    <div>
                         <PriceHeader totalPrice={totalPrice} billingType={billingType} />
+                    </div>
 
-                        <MobileInfoList>
-                            <ListItemForAccount />
-                        </MobileInfoList>
+                    <MobileInfoList>
+                        <ListItemForSourceAccount />
+                        <ListItemForAccount />
+                    </MobileInfoList>
 
-                        <hr />
+                    <hr />
 
-                        <MobileInfoList>
-                            {/*<MobileInfoListItem label="카테고리" />*/}
-                            {/*<MobileInfoListItem label="현재 플랜" />*/}
-                            <MobileInfoListItem label="결제수단" value={lastPaidHistory?.paymentMethod} />
-                            {nextPayAmount && nextPayAmount.isNotDomestic() && (
-                                <MobileInfoListItem
-                                    label="해외결제금액"
-                                    value={
-                                        <span>
-                                            {lastPaidHistory?.payAmount?.text}{' '}
-                                            <span className="text-gray-500">({lastPaidHistory?.payAmount?.code})</span>
-                                        </span>
-                                    }
-                                />
-                            )}
-
-                            {lastPaidAt && (
-                                <MobileInfoListItem label="마지막 결제일" value={yyyy_mm_dd_hh_mm(lastPaidAt)} />
-                            )}
+                    <MobileInfoList>
+                        {/*<MobileInfoListItem label="카테고리" />*/}
+                        {/*<MobileInfoListItem label="현재 플랜" />*/}
+                        <MobileInfoListItem label="결제수단" value={lastPaidHistory?.paymentMethod} />
+                        {nextPayAmount && nextPayAmount.isNotDomestic() && (
                             <MobileInfoListItem
-                                label="다음 결제 예정일"
-                                value={nextPayDate ? yyyy_mm_dd(nextPayDate) : '-'}
-                            />
-                            <MobileInfoListItem
-                                label="결제 예정 금액"
+                                label="해외결제금액"
                                 value={
                                     <span>
-                                        {nextPayAmount?.text}{' '}
-                                        <span className="text-gray-500">({nextPayAmount?.code})</span>
+                                        {lastPaidHistory?.payAmount?.text}{' '}
+                                        <span className="text-gray-500">({lastPaidHistory?.payAmount?.code})</span>
                                     </span>
                                 }
                             />
-                        </MobileInfoList>
-                    </div>
-                )}
+                        )}
+
+                        {lastPaidAt && (
+                            <MobileInfoListItem label="마지막 결제일" value={yyyy_mm_dd_hh_mm(lastPaidAt)} />
+                        )}
+                        <MobileInfoListItem
+                            label="다음 결제 예정일"
+                            value={nextPayDate ? yyyy_mm_dd(nextPayDate) : '-'}
+                        />
+                        <MobileInfoListItem
+                            label="결제 예정 금액"
+                            value={
+                                <span>
+                                    {nextPayAmount?.text} <span className="text-gray-500">({nextPayAmount?.code})</span>
+                                </span>
+                            }
+                        />
+                    </MobileInfoList>
+                </div>
             </MobileSection.Padding>
         </MobileSection.Item>
     );
 });
+InformationPanel.displayName = 'InformationPanel';
 
 const InformationPanelLoading = memo(() => {
     return (
@@ -103,3 +105,4 @@ const InformationPanelLoading = memo(() => {
         </MobileSection.Item>
     );
 });
+InformationPanelLoading.displayName = 'InformationPanelLoading';

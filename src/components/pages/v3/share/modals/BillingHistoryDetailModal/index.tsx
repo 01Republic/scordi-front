@@ -81,6 +81,17 @@ export const BillingHistoryDetailModal = memo(() => {
                                                 </div>
                                             </MobileInfoListItem>
                                         )}
+                                        <MobileInfoListItem label="이메일 원문" className="!items-start">
+                                            <div className="flex gap-3">
+                                                {billingHistory.getEmailContents().map((file, i) => (
+                                                    <a
+                                                        key={i}
+                                                        className="link text-gray-400"
+                                                        onClick={() => window.open(file.url, '_blank')}
+                                                    >{`아카이브${i + 1}`}</a>
+                                                ))}
+                                            </div>
+                                        </MobileInfoListItem>
                                     </MobileInfoList>
                                 </div>
                             )}

@@ -4,7 +4,7 @@ import {TastingPage as Page} from '^components/pages/LandingPages/TastingPage';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {publicPageRequires} from '^types/utils/18n.type';
 import {useGoogleAccessTokenCallback} from '^hooks/useGoogleAccessToken';
-import {GmailAgent, GmailItem} from '^api/tasting.api';
+import {GmailAgent} from '^api/tasting.api';
 import {useSetRecoilState} from 'recoil';
 import {
     draftAccountAtom,

@@ -29,9 +29,9 @@ export const CalendarDateComment = memo((props: CalendarDateCommentProps) => {
     const totalAmount = Math.round(paidAmount + willPayAmount);
 
     return allLength ? (
-        <div>
-            <p className="money-text active">
-                <span className="symbol">{symbol}</span>
+        <div className="h-[22px]">
+            <p className="money-text active relative">
+                <span className="symbol hidden sm:block">{symbol}</span>
                 <span className="amount">{currencyFormat(totalAmount, '')}</span>
             </p>
         </div>

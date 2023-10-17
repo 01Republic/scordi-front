@@ -10,7 +10,7 @@ interface MobileInfoListItemProps extends WithChildren {
 }
 
 export const MobileInfoListItem = memo((props: MobileInfoListItemProps) => {
-    const {label, value, children, className = '', onClick} = props;
+    const {label, value, children, onClick, className = ''} = props;
 
     return (
         <li
@@ -20,7 +20,9 @@ export const MobileInfoListItem = memo((props: MobileInfoListItemProps) => {
             }`}
         >
             <div className="">{label}</div>
-            <div className="max-w-[70%] text-right font-light">{children || value}</div>
+            <div className={`max-w-[70%] text-right font-light ${onClick ? 'cursor-pointer' : ''}`} onClick={onClick}>
+                {children || value}
+            </div>
         </li>
     );
 });

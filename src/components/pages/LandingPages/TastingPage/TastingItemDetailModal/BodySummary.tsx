@@ -3,7 +3,6 @@ import {changePriceCurrency, getCurrencySymbol} from '^api/tasting.api/gmail/age
 import {useTranslation} from 'next-i18next';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '../pageAtoms';
-import {GmailItem} from '^api/tasting.api';
 import {dayjs} from '^utils/dayjs';
 import {BillingHistoryDto} from '^types/billing.type';
 import {getTotalBalance} from '^components/pages/LandingPages/TastingPage/hooks/useSummaryStatBalance';

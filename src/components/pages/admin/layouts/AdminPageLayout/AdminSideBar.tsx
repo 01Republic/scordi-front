@@ -9,6 +9,7 @@ import {PiSignOut} from 'react-icons/pi';
 import {AiOutlineHome} from '@react-icons/all-files/ai/AiOutlineHome';
 import {AdminProductsPageRoute} from '^pages/admin/products';
 import {BizOpsWorkflowListRoute} from '^pages/admin/biz-ops/manual/workflows';
+import {AdminOrgsPageRoute} from '^pages/admin/orgs';
 
 interface AdminSideBarProps extends WithChildren {}
 
@@ -22,6 +23,9 @@ export const AdminSideBar = memo((props: AdminSideBarProps) => {
             <div className="p-4 bg-scordi text-white font-bold text-2xl text-center">scordi admin</div>
             <ul className="menu p-4">
                 {/*Sidebar content here*/}
+                <li>
+                    <a onClick={() => router.push(AdminOrgsPageRoute.path())}>조직관리</a>
+                </li>
                 <li>
                     <a onClick={() => router.push(AdminUsersPageRoute.path())}>회원관리</a>
                 </li>

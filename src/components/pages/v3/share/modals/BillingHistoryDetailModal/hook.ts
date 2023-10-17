@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {getBillingHistories, getBillingHistory} from '^api/billing.api';
 import {useModal} from '^v3/share/modals/useModal';
 import {GetBillingHistoriesParams} from '^types/billing.type';
@@ -9,19 +9,25 @@ import {
     billingHistoryPagedStateInShowModal,
     billingHistoryShowModal,
 } from './atom';
+import {orgIdParamState} from '^atoms/common';
 
 /**
  * 결제내역 상세모달 호출
  */
 export const useBillingHistoryModal = () => {
+    const organizationId = useRecoilValue(orgIdParamState);
     const {open, ...res} = useModal(billingHistoryShowModal);
     const {loadData: loadSubjectHistory} = useBillingHistoryInModal();
     const {loadData: loadSiblingHistories} = useBillingHistoriesInModal();
 
     const showModal = (billingHistoryId: number, subscriptionId: number) => {
+        if (!organizationId) {
+            alert('조직 아이디를 식별할 수 없습니다.');
+            return;
+        }
         open();
         loadSubjectHistory(billingHistoryId);
-        loadSiblingHistories({where: {subscriptionId}});
+        loadSiblingHistories({where: {subscriptionId, organizationId}});
     };
 
     return {showModal, ...res};

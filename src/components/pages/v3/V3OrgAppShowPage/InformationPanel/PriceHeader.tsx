@@ -16,13 +16,12 @@ export const PriceHeader = memo((props: PriceHeaderProps) => {
     const {totalPrice, billingType} = props;
 
     return (
-        <div>
-            <p className="text-3xl font-bold mb-12">
-                <small className="mr-1">{symbol}</small>
-                <span>{currencyFormat(totalPrice, displayCurrency)}</span>
+        <p className="text-3xl font-bold mb-12">
+            <small className="mr-1">{symbol}</small>
+            <span>{currencyFormat(totalPrice, displayCurrency)}</span>
 
-                <span className="ml-2 text-lg font-normal text-gray-500">/ {billingType}</span>
-            </p>
-        </div>
+            <span className="ml-2 text-lg font-normal text-gray-500">/ {billingType}</span>
+        </p>
     );
 });
+PriceHeader.displayName = 'PriceHeader';

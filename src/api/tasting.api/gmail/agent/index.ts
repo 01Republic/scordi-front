@@ -6,26 +6,27 @@ import {MoneyLike} from '^types/money.type';
 import {BillingType} from '^types/invoiceApp.type';
 import {TypeCast} from '^types/utils/class-transformer';
 import {GmailAgentTokenData} from '^types/invoiceAccount.type';
+import {FileDto} from '^api/file.api';
 
-export class GmailItem {
-    id!: string;
-    sender!: SenderNames;
-    provider!: ProviderNames;
-    metadata!: GmailPermittedMetadata;
-    title!: string;
-    content!: string[];
-    @TypeCast(() => AttachmentFile)
-    attachments!: AttachmentFile[];
-    billingInfo?: BillingInfo;
+export class GmailParsedItem {
+    id: string;
+    sender: SenderNames;
+    provider: ProviderNames;
+    @TypeCast(() => GmailPermittedMetadata) metadata: GmailPermittedMetadata;
+    title: string;
+    @TypeCast(() => FileDto) content: FileDto[] | FileDto;
+    @TypeCast(() => AttachmentFile) attachments: AttachmentFile[];
+    @TypeCast(() => BillingInfo) billingInfo?: BillingInfo;
 }
 
 export class AttachmentFile {
+    uid: string;
     fileName: string;
     url?: string;
 }
 
 export class BillingInfo {
-    issuedAt!: Date;
+    issuedAt: Date;
     lastRequestedAt?: Date | null;
     paidAt?: Date | null;
     paymentMethod?: string | null;

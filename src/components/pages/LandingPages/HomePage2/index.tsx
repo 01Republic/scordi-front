@@ -8,12 +8,14 @@ import {Section2} from './Section2';
 import {Section3a} from './Section3a';
 import {Section3b} from './Section3b';
 import {Section4} from './Section4';
+import {InquiryModal} from '^components/pages/LandingPages/HomePage2/InquiryModal';
 
 export const LandingHomePage2 = memo(() => {
     const {t} = useTranslation('publicMain');
 
     return (
         <AOSProvider>
+            <InquiryModal />
             <HeadTag />
 
             <div className="bg-white">

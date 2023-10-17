@@ -1,7 +1,7 @@
 import {SubscriptionDto} from '^types/subscription.type';
 import {OrganizationDto} from '^types/organization.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
-import {GmailItem} from '^api/tasting.api';
+import {GmailParsedItem} from '^api/tasting.api';
 import {BillingType, InvoiceAppDto} from '^types/invoiceApp.type';
 import {changePriceCurrency} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {CurrencyDto} from '^types/crawler';
@@ -57,6 +57,9 @@ export class BillingScheduleShallowDto {
     // isPerUser: boolean;
     // unitPrice: number;
     // paidMemberCount: number;
+
+    @TypeCast(() => SubscriptionDto)
+    subscription: SubscriptionDto;
 
     // 결제가 안됐는데(결제기록이 존재하지 않음) 그대로 시간이 지나버린 건.
     // -> '지금까지 결제한 금액'으로 놓기에는 어색하여, '앞으로 결제될 금액'에서 보여짐.
@@ -136,8 +139,8 @@ export class BillingHistoryDto {
     subscription: SubscriptionDto; // 구독정보
     invoiceApp?: InvoiceAppDto; // 인보이스 앱
 
-    @TypeCast(() => GmailItem)
-    emailContent: GmailItem | null; // email content
+    @TypeCast(() => GmailParsedItem)
+    emailContent: GmailParsedItem | null; // email content
 
     getServiceName() {
         return this.subscription.product.name();
@@ -172,6 +175,12 @@ export class BillingHistoryDto {
         if (this.emailContent) return this.emailContent.attachments;
         if (this.invoiceUrl) return [{url: this.invoiceUrl, fileName: 'File 1'}];
         return [];
+    }
+
+    getEmailContents() {
+        if (!this.emailContent) return [];
+        const content = this.emailContent.content;
+        return content instanceof Array ? content : [content];
     }
 
     getPriceIn(currencyCode = Currency.KRW) {
@@ -319,5 +328,12 @@ export type FromToQueryDto = {
     to: Date; // 기간 종료일
 };
 
-export type GetBillingSchedulesParams = FindAllQueryDto<BillingScheduleDto> & StartEndParams;
-export type GetBillingHistoriesParams = FindAllQueryDto<BillingHistoryDto> & StartEndParams & StatusParams;
+export type IsActiveSubsParams = {
+    isActiveSubscription?: boolean; // 동기화된 구독만
+};
+
+export type GetBillingSchedulesParams = FindAllQueryDto<BillingScheduleDto> & StartEndParams & IsActiveSubsParams;
+export type GetBillingHistoriesParams = FindAllQueryDto<BillingHistoryDto> &
+    StartEndParams &
+    StatusParams &
+    IsActiveSubsParams;

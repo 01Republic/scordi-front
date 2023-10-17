@@ -3,7 +3,7 @@ import {atom, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {CreateInvoiceAccountRequestDto, InvoiceAccountDto} from '^types/invoiceAccount.type';
 import {useTranslation} from 'next-i18next';
 import {draftAccountAtom, draftBillingHistoriesAtom, gmailItemsLoadedAtom, gmailItemsLoadingAtom} from '../pageAtoms';
-import {dateSortBy, dayAfter, monthBefore} from '^components/util/date';
+import {dateSortBy, monthBefore} from '^components/util/date';
 import {InvoiceAppDto} from '^types/invoiceApp.type';
 import {BillingHistoryDto} from '^types/billing.type';
 import {useCallback} from 'react';
@@ -31,11 +31,11 @@ export const useDraft = () => {
     const appendDraftAccount = useCallback((draftAccount: InvoiceAccountDto) => {
         setDraftAccount((account) => {
             if (!account) {
-                const invoiceApps = mergeInvoiceApps([], draftAccount.invoiceApps);
-                return {...draftAccount, invoiceApps};
+                const invoiceApps = mergeInvoiceApps([], draftAccount.invoiceApps || []);
+                return {...draftAccount, invoiceApps} as InvoiceAccountDto;
             } else {
-                const invoiceApps = mergeInvoiceApps(account.invoiceApps, draftAccount.invoiceApps);
-                return {...account, invoiceApps};
+                const invoiceApps = mergeInvoiceApps(account.invoiceApps || [], draftAccount.invoiceApps || []);
+                return {...account, invoiceApps} as InvoiceAccountDto;
             }
         });
     }, []);
@@ -56,7 +56,7 @@ export const useDraft = () => {
             .catch(() => alert(t('something_went_to_wrong')));
 
         if (draftAccount) {
-            const billingHistories = draftAccount.invoiceApps.map((app) => app.billingHistories).flat();
+            const billingHistories = (draftAccount.invoiceApps || []).map((app) => app.billingHistories).flat();
 
             appendDraftAccount(draftAccount);
             appendBillingHistories(billingHistories);
@@ -113,7 +113,7 @@ export const useDraftResult = () => {
     };
 };
 
-function mergeInvoiceApps(oldApps: InvoiceAppDto[], newApps: InvoiceAppDto[]) {
+function mergeInvoiceApps(oldApps: InvoiceAppDto[], newApps: InvoiceAppDto[]): InvoiceAppDto[] {
     const protoIds = oldApps.map((app) => app.productId);
     const oldFoundApps = [...oldApps];
     const newFoundApps = newApps.filter((app) => !protoIds.includes(app.productId));

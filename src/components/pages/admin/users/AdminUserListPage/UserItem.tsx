@@ -18,7 +18,7 @@ interface UserItemProps {
 export const UserItem = memo((props: UserItemProps) => {
     const router = useRouter();
     const {user} = props;
-    const createdAt = new Date(user.createdAt);
+    const {createdAt} = user;
 
     const gotoDetailPage = () => router.push(AdminUserPageRoute.path(user.id));
 

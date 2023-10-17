@@ -6,7 +6,7 @@ interface ItemProps extends WithChildren {
     noStyle?: boolean;
 }
 
-export default memo((props: ItemProps) => {
+export default memo(function MobileSectionItem(props: ItemProps) {
     const {className = '', children, noStyle = false} = props;
 
     if (noStyle) {

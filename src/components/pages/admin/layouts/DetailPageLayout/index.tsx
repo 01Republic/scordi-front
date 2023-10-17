@@ -3,15 +3,17 @@ import {WithChildren} from '^types/global.type';
 import {AdminPageLayout} from '../AdminPageLayout';
 import {AdminPageHeader, AdminPageHeaderProps} from '../AdminPageLayout/AdminPageHeader';
 import {useRouter} from 'next/router';
+import {ReactComponentLike} from 'prop-types';
 
 type AdminDetailPageLayoutProps = WithChildren &
     Omit<AdminPageHeaderProps, 'children'> & {
         editPageRoute?: string;
         onDelete?: () => any;
+        buttons?: ReactComponentLike[];
     };
 
 export const AdminDetailPageLayout = memo((props: AdminDetailPageLayoutProps) => {
-    const {title, breadcrumbs, editPageRoute, onDelete, tabNav, children} = props;
+    const {title, breadcrumbs, editPageRoute, onDelete, buttons = [], tabNav, children} = props;
     const router = useRouter();
 
     return (
@@ -40,6 +42,10 @@ export const AdminDetailPageLayout = memo((props: AdminDetailPageLayoutProps) =>
                             delete
                         </button>
                     )}
+
+                    {buttons.map((Button, i) => (
+                        <Button key={i} />
+                    ))}
                 </div>
             </AdminPageHeader>
 

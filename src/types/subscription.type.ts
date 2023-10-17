@@ -15,6 +15,7 @@ import {TypeCast} from '^types/utils/class-transformer';
 import {BillingType, billingTypeToCycleTerm} from '^types/invoiceApp.type';
 import {monthAfter, yearAfter} from '^utils/dateTime';
 import {MoneyDto} from '^types/money.type';
+import {InvoiceAccountDto} from '^types/invoiceAccount.type';
 
 // ConnectStatus 연동상태.
 export enum ConnectStatus {
@@ -42,12 +43,14 @@ export function t_ConnectStatus(status: ConnectStatus) {
 export class SubscriptionDto {
     id: number;
     connectStatus: ConnectStatus;
+    isActive: boolean; // 활성화 여부
     isSyncRunning: boolean; // 싱크 실행중 여부
     // displayName: string;
     // profileImage: string | null; // 조직 프로필 이미지 주소
     // connectedSlug: string | null; // 워크스페이스 Slug (연동서비스 내에서)
     organizationId: number;
     productId: number;
+    invoiceAccountId: number | null;
     workspaceId: number;
     paymentPlanId: number | null;
     billingCycleId: number | null;
@@ -76,11 +79,9 @@ export class SubscriptionDto {
 
     paymentPlan?: SubscriptionPaymentPlanDto | null;
 
-    @TypeCast(() => SubscriptionBillingCycleDto)
-    billingCycle: SubscriptionBillingCycleDto | null;
-
-    @TypeCast(() => BillingHistoryDto)
-    billingHistories?: BillingHistoryDto[];
+    @TypeCast(() => SubscriptionBillingCycleDto) billingCycle: SubscriptionBillingCycleDto | null;
+    @TypeCast(() => BillingHistoryDto) billingHistories?: BillingHistoryDto[];
+    @TypeCast(() => InvoiceAccountDto) invoiceAccount?: InvoiceAccountDto;
     accounts?: [];
 
     getCycleTerm() {
@@ -177,6 +178,7 @@ export type UpdateSubscriptionRequestDto = Partial<
     Omit<CreateSubscriptionRequestDto, 'organizationId' | 'productId'>
 > & {
     connectStatus?: ConnectStatus; // 연동상태
+    isActive?: boolean; // 활성화 여부
 };
 
 // export const applicationMockDataList: SubscriptionDto[] = [
