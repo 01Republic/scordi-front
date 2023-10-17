@@ -20,6 +20,12 @@ export const TeamMembersPanel = memo((props: TeamMembersPanel) => {
         isShowAtom: isOpeninviteOrgMemberModalAtom,
     });
 
+    // approvalStatus Approved -> Pending 순으로 보여지도록 구현
+    const newTeamMembersArray = [...teamMembers];
+    const newTeamMembers = newTeamMembersArray.sort((a, b) => {
+        return a.membership.approvalStatus > b.membership.approvalStatus ? 1 : -1;
+    });
+
     return (
         <MobileSection.Item>
             <MobileSection.Padding>
@@ -29,7 +35,7 @@ export const TeamMembersPanel = memo((props: TeamMembersPanel) => {
 
                 {length ? (
                     <>
-                        {teamMembers.map((teamMember, i) => {
+                        {newTeamMembers.map((teamMember, i) => {
                             if (i > (maxLength ?? result.pagination.itemsPerPage)) return <></>;
                             return <TeamMemberItem key={i} item={teamMember} />;
                         })}

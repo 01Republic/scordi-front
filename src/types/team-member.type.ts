@@ -4,6 +4,7 @@ import {AccountDto} from '^types/account.type';
 import {TeamDto} from '^types/team.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';
+import {MembershipDto} from './membership.type';
 
 export class TeamMemberDto {
     id: number; // 아이디
@@ -15,7 +16,9 @@ export class TeamMemberDto {
     notes?: string | null; // 메모, 비고
     profileImgUrl?: string | null; // 프로필 이미지 주소
     organizationId: number; // 스코디 조직 ID
-    userId?: number | null; // 스코디 유저 ID
+    membership: MembershipDto; // 멤버십 상세
+    membershipId?: number | null; // 스코디 멤버십 ID
+
     @TypeCast(() => Date) createdAt: Date; // 생성일시
     @TypeCast(() => Date) updatedAt: Date; // 수정일시
     @TypeCast(() => OrganizationDto) organization: OrganizationDto; // 스코디 조직

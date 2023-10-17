@@ -16,12 +16,15 @@ export const TeamMemberItem = memo((props: TeamMemberItemProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
     const {name, jobName, profileImgUrl} = makeTeamMemberProfile(teamMember);
+    const approvalStatus = teamMember.membership.approvalStatus;
 
     const onClick = () => router.push(V3OrgTeamMemberShowPageRoute.path(orgId, teamMember.id));
 
     return (
         <div
-            className="flex items-center gap-4 px-3 py-2.5 -mx-3 bg-base-100 text-gray-700 cursor-pointer hover:bg-neutral"
+            className={`flex items-center gap-4 px-3 py-2.5 -mx-3 bg-base-100 text-gray-700 cursor-pointer hover:bg-neutral ${
+                approvalStatus === 'PENDING' && 'opacity-50'
+            }`}
             onClick={onClick}
         >
             <Avatar src={profileImgUrl} className="w-8 h-8 outline outline-offset-1 outline-slate-100" />
@@ -31,7 +34,7 @@ export const TeamMemberItem = memo((props: TeamMemberItemProps) => {
                     <small className="mr-0.5">{jobName}</small>
                 </p>
             </div>
-            <div></div>
+            {approvalStatus === 'PENDING' && <button className="btn btn-xs btn-scordi">초대중</button>}
         </div>
     );
 });
