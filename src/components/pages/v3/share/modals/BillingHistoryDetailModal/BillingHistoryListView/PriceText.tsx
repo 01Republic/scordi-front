@@ -77,15 +77,22 @@ const PriceTextInfo = memo(({payAmount}: {payAmount: MoneyDto | null}) => {
 
 const PriceTextSuccess = memo(({payAmount}: {payAmount: MoneyDto}) => {
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
+
     return (
         <>
-            <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>
-            <span>
-                {currencyFormat(
-                    changePriceCurrency(payAmount.amount, payAmount.code, displayCurrency) || 0,
-                    displayCurrency,
-                )}
-            </span>
+            {payAmount ? (
+                <>
+                    <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>
+                    <span>
+                        {currencyFormat(
+                            changePriceCurrency(payAmount.amount, payAmount.code, displayCurrency) || 0,
+                            displayCurrency,
+                        )}
+                    </span>
+                </>
+            ) : (
+                <span className="text-gray-500 text-sm">관리자에게 문의하세요</span>
+            )}
         </>
     );
 });
