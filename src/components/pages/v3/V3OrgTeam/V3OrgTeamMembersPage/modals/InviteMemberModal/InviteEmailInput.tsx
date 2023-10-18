@@ -47,7 +47,7 @@ export const InviteEmailInput = memo((props: InviteEmailInputProps) => {
     };
 
     return (
-        <form className="border w-full min-h-44 rounded-lg py-1 px-3">
+        <div className="border w-full min-h-44 rounded-lg py-1 px-3">
             <div className="flex flex-wrap max-h-64 overflow-y-auto">
                 {fieldArray.fields.map((field: any, index) => (
                     <span
@@ -67,11 +67,11 @@ export const InviteEmailInput = memo((props: InviteEmailInputProps) => {
                 <input
                     type="email"
                     placeholder="이메일을 입력하세요."
-                    onKeyDown={(e) => e.key === 'Enter' && addInvitedEmail(e)}
+                    onKeyUp={(e) => e.key === 'Enter' && addInvitedEmail(e)}
                     className="input w-full p-2 focus:outline-none"
                     {...form.register('email')}
                 />
             </div>
-        </form>
+        </div>
     );
 });

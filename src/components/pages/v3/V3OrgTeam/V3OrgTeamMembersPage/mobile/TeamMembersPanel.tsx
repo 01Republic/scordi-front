@@ -8,6 +8,7 @@ import {isOpeninviteOrgMemberModalAtom} from '../modals/InviteMemberModal/atom';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^atoms/organizations.atom';
+import {ApprovalStatus} from '^types/membership.type';
 
 interface TeamMembersPanel {
     maxLength?: number | null;
@@ -31,10 +32,8 @@ export const TeamMembersPanel = memo((props: TeamMembersPanel) => {
     }, [isShow]);
 
     // approvalStatus Approved -> Pending 순으로 보여지도록 구현
-    const newTeamMembersArray = [...teamMembers];
-    const newTeamMembers = newTeamMembersArray.sort((a, b) => {
-        return a.membership.approvalStatus > b.membership.approvalStatus ? 1 : -1;
-    });
+    const persistedTeamMembers = teamMembers.filter((m) => m.membership.approvalStatus === ApprovalStatus.APPROVED);
+    const newTeamMembers = teamMembers.filter((m) => m.membership.approvalStatus !== ApprovalStatus.APPROVED);
 
     return (
         <MobileSection.Item>
@@ -45,6 +44,9 @@ export const TeamMembersPanel = memo((props: TeamMembersPanel) => {
 
                 {length ? (
                     <>
+                        {persistedTeamMembers.map((teamMember, i) => (
+                            <TeamMemberItem key={i} item={teamMember} />
+                        ))}
                         {newTeamMembers.map((teamMember, i) => {
                             if (i > (maxLength ?? result.pagination.itemsPerPage)) return <></>;
                             return <TeamMemberItem key={i} item={teamMember} />;
