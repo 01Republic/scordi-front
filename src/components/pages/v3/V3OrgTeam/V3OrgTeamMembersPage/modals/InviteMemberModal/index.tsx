@@ -11,6 +11,7 @@ import {FieldValues, useFieldArray, useForm} from 'react-hook-form';
 import {toast} from 'react-toastify';
 import {CreateMembershipInvite} from '^api/membership.api';
 import {useMemberships} from '^hooks/useMemberships';
+import {debounce} from 'lodash';
 
 export const InviteOrgMemberModal = memo(() => {
     const {isShow, Modal, close} = useModal({isShowAtom: isOpeninviteOrgMemberModalAtom});
@@ -54,25 +55,23 @@ export const InviteOrgMemberModal = memo(() => {
     };
 
     // 초대 이메일 보내는 함수
-    const inviteMembership = () => {
+    const inviteMembership = debounce(() => {
         if (!currentOrg) return;
 
-        const invitedEmail = form.getValues('email');
         const isOrgMember = confirmOrgMember();
         // 이미 조직에 가입된 멤버라면 return
         if (isOrgMember) {
             return;
         }
 
+        const invitedEmail = form.getValues('email');
         const invitedEmails = fieldArray.fields.length
             ? fieldArray.fields.map((field: any) => field.email)
             : [invitedEmail];
-
         if (!invitedEmail && !invitedEmails[0]) {
             toast.error('이메일을 입력해주세요');
             return;
         }
-
         CreateMembershipInvite({organizationId: currentOrg.id, invitedEmails: invitedEmails})
             .then(() => {
                 toast.info('초대가 완료되었습니다!');
@@ -81,7 +80,7 @@ export const InviteOrgMemberModal = memo(() => {
                 }, 3000);
             })
             .catch((err) => console.log(err));
-    };
+    }, 500);
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">

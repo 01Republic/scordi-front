@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, KeyboardEvent} from 'react';
 import {FieldValues, UseFieldArrayReturn, UseFormReturn} from 'react-hook-form';
 import {IoClose} from 'react-icons/io5';
 import {toast} from 'react-toastify';
@@ -13,8 +13,15 @@ export const InviteEmailInput = memo((props: InviteEmailInputProps) => {
     const {form, fieldArray, confirmOrgMember} = props;
 
     // 초대 이메일 배열에 추가하는 함수
-    const addInvitedEmail = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        const invitedEmail = e.target.value;
+    const addInvitedEmail = (e: KeyboardEvent<HTMLInputElement>) => {
+        const invitedEmail = e.target.value.trim();
+
+        if (invitedEmail.length === 0) {
+            e.stopPropagation();
+            e.preventDefault();
+            return;
+        }
+
         const isEmail = invitedEmail.includes('.') && invitedEmail.includes('@');
         const isOrgMember = confirmOrgMember();
 
