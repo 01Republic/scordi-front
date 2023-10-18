@@ -1,4 +1,4 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useEffect} from 'react';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {isOpeninviteOrgMemberModalAtom} from './atom';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
@@ -11,10 +11,8 @@ import {FieldValues, useFieldArray, useForm} from 'react-hook-form';
 import {toast} from 'react-toastify';
 import {CreateMembershipInvite} from '^api/membership.api';
 import {useMemberships} from '^hooks/useMemberships';
-import {SuccessInvite} from './SuccessInvite';
 
 export const InviteOrgMemberModal = memo(() => {
-    const [isSendEmail, setIsSendEmail] = useState(false);
     const {isShow, Modal, close} = useModal({isShowAtom: isOpeninviteOrgMemberModalAtom});
     const {membershipSearchResult, searchMemberships} = useMemberships();
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -23,7 +21,6 @@ export const InviteOrgMemberModal = memo(() => {
 
     useEffect(() => {
         if (!isShow) {
-            setIsSendEmail(false);
             fieldArray.remove();
             form.reset();
         }
@@ -77,41 +74,37 @@ export const InviteOrgMemberModal = memo(() => {
         }
 
         CreateMembershipInvite({organizationId: currentOrg.id, invitedEmails: invitedEmails})
-            .then(() => setIsSendEmail(true))
+            .then(() => {
+                toast.info('초대가 완료되었습니다!');
+                setTimeout(() => {
+                    close();
+                }, 3000);
+            })
             .catch((err) => console.log(err));
     };
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
             <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
-
             <MobileSection.Padding>
-                {isSendEmail ? (
-                    <SuccessInvite />
-                ) : (
-                    <>
-                        <div className="py-32 flex flex-col gap-5">
-                            <h3 className="font-bold text-2xl">
-                                초대 메일 전송을 위해 <br /> 계정 정보가 필요해요
-                            </h3>
+                <div className="py-32 flex flex-col gap-5">
+                    <h3 className="font-bold text-2xl">
+                        초대 메일 전송을 위해 <br /> 계정 정보가 필요해요
+                    </h3>
 
-                            <p>초대할 멤버의 이메일을 입력해주세요.</p>
-                            <InviteEmailInput form={form} fieldArray={fieldArray} confirmOrgMember={confirmOrgMember} />
-                        </div>
-                    </>
-                )}
+                    <p>초대할 멤버의 이메일을 입력해주세요.</p>
+                    <InviteEmailInput form={form} fieldArray={fieldArray} confirmOrgMember={confirmOrgMember} />
+                </div>
             </MobileSection.Padding>
-            {!isSendEmail && (
-                <ModalLikeBottomBar>
-                    <button
-                        className="btn btn-lg btn-block btn-scordi font-medium font-white text-xl bg-slate-50"
-                        type="button"
-                        onClick={inviteMembership}
-                    >
-                        워크스페이스 멤버 초대하기
-                    </button>
-                </ModalLikeBottomBar>
-            )}
+            <ModalLikeBottomBar>
+                <button
+                    className="btn btn-lg btn-block btn-scordi font-medium font-white text-xl bg-slate-50"
+                    type="button"
+                    onClick={inviteMembership}
+                >
+                    워크스페이스 멤버 초대하기
+                </button>
+            </ModalLikeBottomBar>
         </Modal>
     );
 });
