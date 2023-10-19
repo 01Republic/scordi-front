@@ -1,5 +1,5 @@
 import React, {memo, useEffect} from 'react';
-import {toast} from 'react-toastify';
+import {toast} from 'react-hot-toast';
 import {useForm} from 'react-hook-form';
 import {useRecoilState, atom} from 'recoil';
 import {useModal} from '../../share/modals/useModal';

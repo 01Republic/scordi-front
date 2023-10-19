@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {toast} from 'react-toastify';
+import toast from 'react-hot-toast';
 import {useRouter} from 'next/router';
 import {invoiceAccountApi} from '^api/invoiceAccount.api';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';

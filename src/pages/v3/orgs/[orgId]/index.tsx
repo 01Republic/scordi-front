@@ -9,7 +9,7 @@ import {GmailAgentProgress, useGoogleAccessTokenCallback} from '^hooks/useGoogle
 import {createInvoiceAccount, getInvoiceAccounts, renewInvoiceAccount} from '^api/invoiceAccount.api';
 import {GmailAgent} from '^api/tasting.api';
 import {getCreateInvoiceAccountFromTo} from '^types/invoiceAccount.type';
-import {toast} from 'react-toastify';
+import toast from 'react-hot-toast';
 import {useModal} from '^v3/share/modals/useModal';
 import {renewInvoiceAccountAtom, renewInvoiceAccountModal} from '^v3/V3OrgHomePage/RenewInvoiceAccountModal/atom';
 import {useRecoilState, useRecoilValue} from 'recoil';

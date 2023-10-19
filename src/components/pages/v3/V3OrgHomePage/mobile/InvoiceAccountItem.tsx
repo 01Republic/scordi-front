@@ -6,7 +6,7 @@ import {selectedInvoiceAccountAtom} from '^v3/V3OrgHomePage/InvoiceAccountAdding
 import {zeroPad} from '^utils/dateTime';
 import {syncInvoiceAccount} from '^api/invoiceAccount.api';
 import {FiRefreshCw} from 'react-icons/fi';
-import {toast} from 'react-toastify';
+import toast, {Toaster} from 'react-hot-toast';
 import {GmailAgentProgress, gmailAgentProgressAtom} from '^hooks/useGoogleAccessToken';
 import {useModal} from '^v3/share/modals/useModal';
 import {renewInvoiceAccountModal} from '^v3/V3OrgHomePage/RenewInvoiceAccountModal/atom';

@@ -8,7 +8,7 @@ import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^atoms/organizations.atom';
 import {InviteEmailInput} from './InviteEmailInput';
 import {FieldValues, useFieldArray, useForm} from 'react-hook-form';
-import {toast} from 'react-toastify';
+import {toast} from 'react-hot-toast';
 import {CreateMembershipInvite} from '^api/membership.api';
 import {useMemberships} from '^hooks/useMemberships';
 import {debounce} from 'lodash';
@@ -74,7 +74,7 @@ export const InviteOrgMemberModal = memo(() => {
         }
         CreateMembershipInvite({organizationId: currentOrg.id, invitedEmails: invitedEmails})
             .then(() => {
-                toast.info('초대가 완료되었습니다!');
+                toast.success('초대가 완료되었습니다!');
                 setTimeout(() => {
                     close();
                 }, 3000);

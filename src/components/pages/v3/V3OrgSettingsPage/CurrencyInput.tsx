@@ -4,7 +4,7 @@ import {SelectDropdown, SelectOptionProps} from '^v3/share/Select';
 import {DisplayCurrency} from '^types/membership.type';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {patchMemberships} from '^api/membership.api';
-import {toast} from 'react-toastify';
+import {toast} from 'react-hot-toast';
 
 export const CurrencyInput = memo(() => {
     const {currentUserMembership} = useCurrentUser(null, {
@@ -23,7 +23,7 @@ export const CurrencyInput = memo(() => {
             if (!currentUserMembership) return;
 
             patchMemberships(currentUserMembership.id, {displayCurrency: selectedCurrency.code}).then(() => {
-                // toast('저장되었습니다.');
+                // toast.success('저장되었습니다.');
             });
         },
         [currentUserMembership, currencyList],

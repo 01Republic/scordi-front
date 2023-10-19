@@ -4,7 +4,7 @@ import {ContentEmpty} from '^v3/V3OrgHomePage/mobile/ContentEmpty';
 import {TeamItem} from '^v3/V3OrgTeam/V3OrgTeamsPage/mobile/TeamItem';
 import {useTeams} from '^v3/V3OrgTeam/V3OrgTeamsPage/atom';
 import {useModal} from '^v3/share/modals/useModal';
-import {toast} from 'react-toastify';
+import {toast} from 'react-hot-toast';
 // import {isOpenNewTeamModalAtom} from '^v3/V3OrgTeam/V3OrgTeamsPage/NewTeamModal/atom';
 
 interface TeamListPanel {
@@ -19,7 +19,7 @@ export const TeamListPanel = memo((props: TeamListPanel) => {
     const {maxLength} = props;
 
     const onAddButtonClick = () => {
-        toast.info('준비 중입니다.');
+        toast('준비중입니다.', {icon: 'ℹ️'});
         // setIsShow(true);
         // console.log(isShow);
     };
