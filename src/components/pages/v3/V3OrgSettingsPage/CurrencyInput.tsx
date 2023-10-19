@@ -4,7 +4,6 @@ import {SelectDropdown, SelectOptionProps} from '^v3/share/Select';
 import {DisplayCurrency} from '^types/membership.type';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {patchMemberships} from '^api/membership.api';
-import {toast} from 'react-hot-toast';
 
 export const CurrencyInput = memo(() => {
     const {currentUserMembership} = useCurrentUser(null, {

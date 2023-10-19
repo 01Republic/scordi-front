@@ -6,6 +6,7 @@ import {toast} from 'react-toastify';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import {useAccountEditModal} from './AccountEditModal/hook';
 import {Avatar} from '^components/Avatar';
+import {useToast} from '^hooks/useToast';
 
 interface AccountItemProps {
     account: AccountDto;
@@ -14,19 +15,14 @@ interface AccountItemProps {
 
 export const AccountItem = memo((props: AccountItemProps) => {
     const {account, hideProduct = false} = props;
-    const toastId = useRef<number | string>('');
     const accountEditModal = useAccountEditModal();
+    const {toast} = useToast();
 
     const {product} = account;
     const decrypted = account.decryptSign();
 
-    const copyBtnClick = () => {
-        if (!toast.isActive(toastId.current)) {
-            toastId.current = toast.info('비밀번호를 복사했어요.', {
-                toastId: 'copyBtnClick',
-                position: 'bottom-center',
-            });
-        }
+    const copyBtnClick = (id: number) => {
+        toast.info('비밀번호를 복사했어요', `account-${id}`);
     };
 
     return (
@@ -75,8 +71,7 @@ export const AccountItem = memo((props: AccountItemProps) => {
                         {/*    onClick={() => console.log(permittedMembers)}*/}
                         {/*/>*/}
                     </div>
-
-                    <CopyToClipboard text={decrypted.password} onCopy={() => copyBtnClick()}>
+                    <CopyToClipboard text={decrypted.password} onCopy={() => copyBtnClick(account.id)}>
                         <button className="btn btn-square btn-ghost">
                             <BiCopy className="text-[22px]" />
                         </button>

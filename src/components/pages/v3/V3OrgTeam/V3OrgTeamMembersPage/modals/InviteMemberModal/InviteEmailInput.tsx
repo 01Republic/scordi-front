@@ -1,6 +1,6 @@
+import {useToast} from '^hooks/useToast';
 import React, {memo, KeyboardEvent} from 'react';
 import {FieldValues, UseFieldArrayReturn, UseFormReturn} from 'react-hook-form';
-import toast from 'react-hot-toast';
 import {IoClose} from 'react-icons/io5';
 
 interface InviteEmailInputProps {
@@ -11,6 +11,7 @@ interface InviteEmailInputProps {
 
 export const InviteEmailInput = memo((props: InviteEmailInputProps) => {
     const {form, fieldArray, confirmOrgMember} = props;
+    const {toast} = useToast();
 
     // 초대 이메일 배열에 추가하는 함수
     const addInvitedEmail = (e: KeyboardEvent<HTMLInputElement>) => {

@@ -1,13 +1,14 @@
 import React, {memo} from 'react';
-import toast from 'react-hot-toast';
 import {useRouter} from 'next/router';
 import {invoiceAccountApi} from '^api/invoiceAccount.api';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {useCurrentInvoiceAccount} from './atom';
+import {useToast} from '^hooks/useToast';
 
 export const RemoveAccountButton = memo(() => {
     const router = useRouter();
     const {currentInvoiceAccount} = useCurrentInvoiceAccount();
+    const {toast} = useToast();
 
     const removeAccount = () => {
         if (!currentInvoiceAccount) return;

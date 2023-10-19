@@ -7,7 +7,7 @@ import {useAccounts} from '^hooks/useAccounts';
 import {AccountForm} from '../form';
 import {useAccountEditModal} from './hook';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
-import toast from 'react-hot-toast';
+import {useToast} from '^hooks/useToast';
 
 export const AccountEditModal = memo(() => {
     const form = useForm<UnSignedAccountFormData>();
@@ -15,6 +15,7 @@ export const AccountEditModal = memo(() => {
     const {fetchAllAccountsBy} = useAccounts();
     const onBack = () => hide();
     const {product, account} = data;
+    const {toast} = useToast();
 
     // 폼 기본값 채우기
     useEffect(() => {

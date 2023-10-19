@@ -8,10 +8,10 @@ import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^atoms/organizations.atom';
 import {InviteEmailInput} from './InviteEmailInput';
 import {FieldValues, useFieldArray, useForm} from 'react-hook-form';
-import {toast} from 'react-hot-toast';
 import {CreateMembershipInvite} from '^api/membership.api';
 import {useMemberships} from '^hooks/useMemberships';
 import {debounce} from 'lodash';
+import {useToast} from '^hooks/useToast';
 
 export const InviteOrgMemberModal = memo(() => {
     const {isShow, Modal, close} = useModal({isShowAtom: isOpeninviteOrgMemberModalAtom});
@@ -19,6 +19,9 @@ export const InviteOrgMemberModal = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
     const form = useForm<FieldValues>();
     const fieldArray = useFieldArray({control: form.control, name: 'emails'});
+    const {toast} = useToast();
+
+    // const {startPause, endPause} = handlers;
 
     useEffect(() => {
         if (!isShow) {

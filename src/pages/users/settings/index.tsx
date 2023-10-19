@@ -9,7 +9,7 @@ import {useCurrentUser} from '^hooks/useCurrentUser';
 import {useRecoilState} from 'recoil';
 import {currentUserAtom} from '^atoms/currentUser.atom';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
-import toast from 'react-hot-toast';
+import {useToast} from '^hooks/useToast';
 
 export const UserSettingsPageRoute = {
     pathname: '/users/settings',
@@ -19,6 +19,7 @@ export const UserSettingsPageRoute = {
 const Settings = () => {
     const router = useRouter();
     const {currentUser} = useCurrentUser();
+    const {toast} = useToast();
     if (!currentUser) return <></>;
 
     const settingContents = [

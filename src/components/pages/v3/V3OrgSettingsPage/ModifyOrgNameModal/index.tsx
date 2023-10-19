@@ -1,5 +1,4 @@
 import React, {memo, useEffect} from 'react';
-import {toast} from 'react-hot-toast';
 import {useForm} from 'react-hook-form';
 import {useRecoilState, atom} from 'recoil';
 import {useModal} from '../../share/modals/useModal';
@@ -9,6 +8,7 @@ import {currentOrgAtom} from '^atoms/organizations.atom';
 import {UpdateOrganizationRequestDto} from '^types/organization.type';
 import {updateOrganization} from '^api/organization.api';
 import {errorNotify} from '^utils/toast-notify';
+import {useToast} from '^hooks/useToast';
 
 export const isOpenModifyOrgNameModalAtom = atom({
     key: 'v3/isOpenModifyOrgNameModalAtom',
@@ -19,6 +19,7 @@ export const ModifyOrgNameModal = memo(() => {
     const [currentOrg, setCurrentOrg] = useRecoilState(currentOrgAtom);
     const {close, Modal, CloseButton} = useModal({isShowAtom: isOpenModifyOrgNameModalAtom});
     const form = useForm<UpdateOrganizationRequestDto>();
+    const {toast} = useToast();
 
     useEffect(() => {
         if (!currentOrg) return;

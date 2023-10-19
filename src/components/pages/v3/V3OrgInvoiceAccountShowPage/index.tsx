@@ -4,7 +4,6 @@ import {MobileSection} from '../share/sections/MobileSection';
 import {InformationPanel} from './InformationPanel';
 import {SubscriptionPanel} from './SubscriptionPanel';
 import {RemoveAccountButton} from './RemoveAccountButton';
-import toast from 'react-hot-toast';
 
 export const V3OrgInvoiceAccountShowPage = memo(() => {
     return (

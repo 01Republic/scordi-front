@@ -4,16 +4,17 @@ import {Avatar} from '^components/Avatar';
 import {currentUserAtom} from '^atoms/currentUser.atom';
 import {useRecoilValue} from 'recoil';
 import {BiChevronRight} from 'react-icons/bi';
-import {toast} from 'react-hot-toast';
+import {useToast} from '^hooks/useToast';
 
 export const UserProfilePanel = memo(() => {
     const currentUser = useRecoilValue(currentUserAtom);
+    const {toast} = useToast();
 
     return (
         <MobileSection.Item>
             <MobileSection.Padding>
                 <div
-                    onClick={() => toast('준비중입니다.', {icon: 'ℹ️'})}
+                    onClick={() => toast.info('준비중입니다.')}
                     className="flex items-center gap-6 px-3 py-2.5 -mx-3 bg-base-100 text-gray-700 cursor-pointer hover:bg-neutral"
                 >
                     <Avatar
