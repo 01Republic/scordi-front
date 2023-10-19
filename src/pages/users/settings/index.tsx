@@ -9,7 +9,7 @@ import {useCurrentUser} from '^hooks/useCurrentUser';
 import {useRecoilState} from 'recoil';
 import {currentUserAtom} from '^atoms/currentUser.atom';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
-import toast, {Toaster} from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 export const UserSettingsPageRoute = {
     pathname: '/users/settings',
@@ -60,7 +60,6 @@ const Settings = () => {
                     </div>
                 ))}
             </div>
-            <Toaster position="bottom-center" />
         </OrgMobileLayout>
     );
 };

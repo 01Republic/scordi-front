@@ -9,7 +9,7 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {newInvoiceAccountModal} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/atom';
 import {NewInvoiceAccountModalMobile} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/mobile';
 import {useModal} from '^v3/share/modals/useModal';
-import toast, {Toaster} from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 export const V3OrgAppsNewPage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -63,7 +63,6 @@ export const V3OrgAppsNewPage = memo(() => {
                         </button>
                     </div>
                 </div>
-                <Toaster position="bottom-center" />
             </V3ModalLikeLayoutMobile>
         );
     }

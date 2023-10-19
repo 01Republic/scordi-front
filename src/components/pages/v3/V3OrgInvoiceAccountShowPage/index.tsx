@@ -4,7 +4,7 @@ import {MobileSection} from '../share/sections/MobileSection';
 import {InformationPanel} from './InformationPanel';
 import {SubscriptionPanel} from './SubscriptionPanel';
 import {RemoveAccountButton} from './RemoveAccountButton';
-import {Toaster} from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 export const V3OrgInvoiceAccountShowPage = memo(() => {
     return (
@@ -21,7 +21,6 @@ export const V3OrgInvoiceAccountShowPage = memo(() => {
                     <RemoveAccountButton />
                 </MobileSection.Item>
             </MobileSection.List>
-            <Toaster position="bottom-center" />
         </V3ModalLikeLayoutMobile>
     );
 });

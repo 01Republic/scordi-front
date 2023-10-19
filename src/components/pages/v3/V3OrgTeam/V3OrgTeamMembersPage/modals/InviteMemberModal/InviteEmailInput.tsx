@@ -1,6 +1,6 @@
 import React, {memo, KeyboardEvent} from 'react';
 import {FieldValues, UseFieldArrayReturn, UseFormReturn} from 'react-hook-form';
-import toast, {Toaster} from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import {IoClose} from 'react-icons/io5';
 
 interface InviteEmailInputProps {
@@ -72,7 +72,6 @@ export const InviteEmailInput = memo((props: InviteEmailInputProps) => {
                     {...form.register('email')}
                 />
             </div>
-            <Toaster position="bottom-center" />
         </div>
     );
 });

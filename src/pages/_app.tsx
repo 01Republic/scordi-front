@@ -12,6 +12,7 @@ import {appWithTranslation} from 'next-i18next';
 import {SEO} from '^components/SEO';
 import {OnResizeProvider} from '^components/util/onResize2';
 import ExternalCDNScripts from '^components/ExternalCDNScripts';
+import {Toaster} from 'react-hot-toast';
 
 function MyApp(props: Props) {
     const {Component, pageProps} = props;
@@ -41,6 +42,7 @@ function MyApp(props: Props) {
                 theme="dark"
                 transition={Slide}
             />
+            <Toaster position="bottom-center" />
             <ExternalCDNScripts />
         </RecoilRoot>
     );

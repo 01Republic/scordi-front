@@ -18,7 +18,6 @@ import {SystemPanel} from './mobile/SystemPanel';
 import {UserProfilePanel} from './mobile/UserProfilePanel';
 import {OrgProfilePanel} from './mobile/OrgProfilePanel';
 import {ModifyOrgNameModal} from './ModifyOrgNameModal';
-import {Toaster} from 'react-hot-toast';
 
 export const V3OrgSettingsPage = memo(() => {
     const {isDesktop} = useOnResize2();
@@ -71,7 +70,6 @@ export const V3OrgSettingsPage = memo(() => {
                     {/* 스코디에 제보하기 */}
                     <ApplyNotFoundProduct />
                 </MobileSection.Item>
-                <Toaster position="bottom-center" />
             </V3MainLayoutMobile>
         );
     }
