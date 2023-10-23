@@ -28,6 +28,7 @@ import {TopNavOrgSelect} from '^v3/share/TobNav/TopNavOrgSelect';
 import {RenewInvoiceAccountModalMobile} from '^v3/V3OrgHomePage/RenewInvoiceAccountModal/mobile';
 import {MonthlyPaidAmountModal} from '^v3/V3OrgHomePage/MonthlyPaidAmountModal';
 import {MonthlyRemainAmountModal} from '^v3/V3OrgHomePage/MonthlyRemainAmountModal';
+import {CardsPanel} from './mobile/CradsPanel';
 
 export const V3OrgHomePage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -96,6 +97,9 @@ export const V3OrgHomePage = memo(() => {
 
                 {/* 결제 수신 계정 */}
                 <InvoiceAccountsPanel />
+
+                {/* 카드 패널 */}
+                <CardsPanel />
 
                 {/* 하단 여백 */}
                 <MobileSection.Item noStyle className="px-4 mb-16">
