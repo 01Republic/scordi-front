@@ -14,3 +14,4 @@ export const termsUrl = {
 };
 
 export const crawlerSign = process.env.NEXT_PUBLIC_CRAWLER_SIGN_SECRET as string;
+export const cardSign = process.env.CARD_SIGN_KEY as string;
