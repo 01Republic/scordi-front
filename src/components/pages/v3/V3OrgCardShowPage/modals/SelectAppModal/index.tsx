@@ -3,7 +3,6 @@ import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {DefaultButton} from '^components/Button';
 import {creditcardAtom, inputCardHoldingMemeberModal, selectAppModal} from '../atom';
-import {ProductList} from './ProductList';
 import {useRecoilState} from 'recoil';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-crads.api';
