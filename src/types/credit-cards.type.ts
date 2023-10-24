@@ -16,7 +16,7 @@ export class CreditCardDto {
     isPersonal: boolean; // 법인 카드 여부
     organizationId: number; // 조직 ID
     @TypeCast(() => OrganizationDto) organization?: OrganizationDto | null; // 조직
-    holdingMemberId?: string | null; // 카드 소유자 ID
+    holdingMemberId?: number | null; // 카드 소유자 ID
     @TypeCast(() => TeamMemberDto) holdingMember?: TeamMemberDto | null; // 카드 소유자
     @TypeCast(() => SubscriptionDto) subscriptions?: SubscriptionDto[] | null; // 결제한 구독 목록
     @TypeCast(() => BillingHistoryDto) billingHistories?: BillingHistoryDto[] | null; // 결제 내역
@@ -24,6 +24,10 @@ export class CreditCardDto {
     decryptSign(): CreditCardSecretInfo {
         const json = CryptoJS.AES.decrypt(this.sign, cardSign).toString(CryptoJS.enc.Utf8);
         return JSON.parse(json) as CreditCardSecretInfo;
+    }
+
+    get secretInfo(): CreditCardSecretInfo {
+        return this.decryptSign();
     }
 }
 
@@ -43,7 +47,7 @@ export class UnSignedCreditCardFormData extends CreditCardSecretInfo {
     networkCompany?: string | null;
     memo?: string | null;
     isPersonal?: boolean | null;
-    holdingMemberId?: string | null;
+    holdingMemberId?: number | null;
     productIds?: number[] | null;
 
     get sign(): string {
@@ -97,7 +101,7 @@ export type CreateCreditCardDto = {
     networkCompany?: string | null;
     memo?: string | null;
     isPersonal?: boolean | null;
-    holdingMemberId?: string | null;
+    holdingMemberId?: number | null;
     productIds?: number[] | null;
 };
 
@@ -108,6 +112,6 @@ export type UpdateCreditCardDto = {
     networkCompany?: string | null;
     memo?: string | null;
     isPersonal?: boolean | null;
-    holdingMemberId?: string | null;
+    holdingMemberId?: number | null;
     productIds?: number[] | null;
 };
