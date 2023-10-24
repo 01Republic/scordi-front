@@ -1,33 +1,38 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
+import {useModal} from '../share/modals/useModal';
 import {CardItem} from '../V3OrgHomePage/mobile/CardItem';
-import {MobileSection} from '../share/sections/MobileSection';
-import {useRecoilValue} from 'recoil';
-import {cardListResultAtom} from '^atoms/cards.atom';
+import {inputCardNumberModal} from './modals/atom';
+import {ContentEmpty} from '../V3OrgHomePage/mobile/ContentEmpty';
+import {creditCardApi} from '^api/credit-crads.api';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {useRecoilState} from 'recoil';
+import {creditCardListAtom} from './atom';
 
 export const CardList = memo(() => {
-    const cardListResult = useRecoilValue(cardListResultAtom);
-    const cardList = cardListResult.items;
+    const {open: openInputCardNumberModal} = useModal(inputCardNumberModal);
+    const [creditCardList, setCreditCardList] = useRecoilState(creditCardListAtom);
+    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+
+    useEffect(() => {
+        if (!orgId && isNaN(orgId)) return;
+        creditCardApi.index(orgId).then((res) => setCreditCardList(res.data.items));
+    }, []);
 
     return (
         <ul>
-            <MobileSection.Item>
-                <MobileSection.Padding>
-                    {cardList.length ? (
-                        <>
-                            {cardList.map((item, i) => (
-                                <CardItem key={i} card={item} />
-                            ))}
-                        </>
-                    ) : (
-                        <div className="w-full transition-all border-dashed border-slate-300 hover:border-slate-400 border-[2px] py-8 rounded-box cursor-pointer hover:bg-slate-50">
-                            <div className="text-xs w-full text-center text-slate-500">
-                                <p>아직 보관중인 카드가 없네요</p>
-                                <p>카드를 안전하게 보관하고 관리해보세요</p>
-                            </div>
-                        </div>
-                    )}
-                </MobileSection.Padding>
-            </MobileSection.Item>
+            {creditCardList.length ? (
+                <>
+                    {creditCardList.map((item, i) => (
+                        <CardItem key={i} card={item} setCreditCardList={setCreditCardList} />
+                    ))}
+                </>
+            ) : (
+                <ContentEmpty
+                    onClick={openInputCardNumberModal}
+                    text="등록된 카드가 없어요"
+                    subtext="눌러서 카드 추가"
+                />
+            )}
         </ul>
     );
 });
