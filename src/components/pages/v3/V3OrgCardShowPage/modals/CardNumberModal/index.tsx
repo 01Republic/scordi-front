@@ -1,4 +1,4 @@
-import React, {memo, useEffect, useRef, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useRecoilState} from 'recoil';
 import {useForm} from 'react-hook-form';
 import CryptoJS from 'crypto-js';
@@ -10,6 +10,7 @@ import {CreditCardSecretInfo} from '^types/credit-cards.type';
 import {cardSign} from '^config/environments';
 import {useToast} from '^hooks/useToast';
 import {AddOptionalData} from './AddOptionalData';
+import {InputCardNumber} from './InputCardNumber';
 
 export const CardNumberModal = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardNumberModal);
@@ -18,50 +19,26 @@ export const CardNumberModal = memo(() => {
     const [cardNumbers, setCardNumbers] = useState<CreditCardSecretInfo>({});
     const form = useForm();
     const {toast} = useToast();
-    const inputRefs = [
-        useRef<HTMLInputElement>(null),
-        useRef<HTMLInputElement>(null),
-        useRef<HTMLInputElement>(null),
-        useRef<HTMLInputElement>(null),
-    ];
 
     useEffect(() => {
         if (!isShow) {
             form.reset();
         }
-        inputRefs[0].current?.focus();
     }, [isShow]);
 
-    const moveNextInput = (inputIndex: number, value: string) => {
-        if (value.length === 4 && inputIndex < 3) {
-            inputRefs[inputIndex + 1].current?.focus();
-        }
-    };
-
     const checkCardInfomations = () => {
-        const cardNum1 = inputRefs[0].current?.value;
-        const cardNum2 = inputRefs[1].current?.value;
-        const cardNum3 = inputRefs[2].current?.value;
-        const cardNum4 = inputRefs[3].current?.value;
+        const cardNum1 = form.watch('number1');
+        const cardNum2 = form.watch('number2');
+        const cardNum3 = form.watch('number3');
+        const cardNum4 = form.watch('number4');
 
         if (!cardNum1 && !cardNum2 && !cardNum3 && !cardNum4) {
             toast.error('카드 번호를 확인해주세요');
             return false;
         }
+        const formData = form.watch();
 
-        const formExpiry = form.watch('expiry');
-        const expiry = formExpiry.replace(' / ', '');
-        const cvc = form.watch('cvc');
-
-        setCardNumbers({
-            ...cardNumbers,
-            number1: cardNum1,
-            number2: cardNum2,
-            number3: cardNum3,
-            number4: cardNum4,
-            expiry: expiry,
-            cvc: cvc,
-        });
+        setCardNumbers(formData);
         return true;
     };
 
@@ -77,10 +54,11 @@ export const CardNumberModal = memo(() => {
         const encrypted = CryptoJS.AES.encrypt(json, cardSign).toString();
         setCreditCardData({...creditCardData, sign: encrypted});
 
-        const isCorporateCard = form.watch('isCorporateCard');
-        const isPersonal = !isCorporateCard;
+        // TODO: 법인카드 체크 오류 수정
+        // const isCorporateCard = form.watch('isCorporateCard');
+        // const isPersonal = !isCorporateCard;
 
-        setCreditCardData({...creditCardData, isPersonal: isPersonal});
+        // setCreditCardData({...creditCardData, isPersonal: isPersonal});
         openInputCardCompanyModal();
     };
 
@@ -88,41 +66,19 @@ export const CardNumberModal = memo(() => {
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
             <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
 
-            <div className="px-5 flex flex-col justify-start gap-10">
+            <form className="px-5 ">
                 <div className="py-5 pt-20">
                     <p className="mb-4">새로운 카드 등록하기</p>
                     <h2 className="h1 leading-tight">카드 번호를 입력해주세요</h2>
                 </div>
 
-                <div>
-                    {/* 카드번호 input */}
-                    <label className="label label-text w-fit">
-                        카드번호 <span className="text-red-500 pl-1">*</span>
-                    </label>
+                <InputCardNumber form={form} />
+                <AddOptionalData form={form} />
 
-                    <div className="flex gap-3 mb-3">
-                        {inputRefs.map((inputRef, index) => (
-                            <input
-                                key={index}
-                                type="text"
-                                placeholder="● ● ● ●"
-                                pattern="\d*"
-                                maxLength={4}
-                                defaultValue={cardNumbers.number1 || ''}
-                                className="input input-bordered w-full placeholder:text-[0.5rem]"
-                                ref={inputRef}
-                                onChange={(e) => {
-                                    moveNextInput(index, e.target.value);
-                                }}
-                            />
-                        ))}
-                    </div>
-
-                    <AddOptionalData form={form} />
+                <div className="mt-10">
+                    <DefaultButton text="다음" type="button" onClick={submitCardInfomations} />
                 </div>
-
-                <DefaultButton text="다음" type="button" onClick={submitCardInfomations} />
-            </div>
+            </form>
         </Modal>
     );
 });

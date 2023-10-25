@@ -37,12 +37,9 @@ export const V3OrgCardDetailPage = memo(() => {
     const [cardDetailInfo, setCardDetailInfo] = useState<CreditCardDto>();
 
     useEffect(() => {
-        console.log(orgId, cardId);
         if (!orgId && !cardId) return;
         creditCardApi.show(orgId, cardId).then((res) => setCardDetailInfo(res.data));
     }, [cardId]);
-
-    console.log(cardDetailInfo);
 
     return (
         <V3ModalLikeLayoutMobile
