@@ -1,13 +1,15 @@
 import React, {memo, useEffect, useRef, useState} from 'react';
+import {useRecoilState} from 'recoil';
 import {useForm} from 'react-hook-form';
+import CryptoJS from 'crypto-js';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {DefaultButton} from '^components/Button';
-import {creditcardAtom, inputCardNumberModal, selectCardCompanyModal} from './atom';
-import {useRecoilState} from 'recoil';
+import {creditcardAtom, inputCardNumberModal, selectCardCompanyModal} from '../atom';
 import {CreditCardSecretInfo} from '^types/credit-cards.type';
-import CryptoJS from 'crypto-js';
 import {cardSign} from '^config/environments';
+import {useToast} from '^hooks/useToast';
+import {AddOptionalData} from './AddOptionalData';
 
 export const CardNumberModal = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardNumberModal);
@@ -15,13 +17,13 @@ export const CardNumberModal = memo(() => {
     const [creditCardData, setCreditCardData] = useRecoilState(creditcardAtom);
     const [cardNumbers, setCardNumbers] = useState<CreditCardSecretInfo>({});
     const form = useForm();
+    const {toast} = useToast();
     const inputRefs = [
         useRef<HTMLInputElement>(null),
         useRef<HTMLInputElement>(null),
         useRef<HTMLInputElement>(null),
         useRef<HTMLInputElement>(null),
     ];
-    // const [disabled, setDisabled] = useState(true);
 
     useEffect(() => {
         if (!isShow) {
@@ -34,25 +36,52 @@ export const CardNumberModal = memo(() => {
         if (value.length === 4 && inputIndex < 3) {
             inputRefs[inputIndex + 1].current?.focus();
         }
-
-        // if (inputIndex === 3 && value.length === 4) {
-        //     setDisabled(false);
-        // } else {
-        //     setDisabled(true);
-        // }
     };
 
-    const submitCardNumber = () => {
+    const checkCardInfomations = () => {
         const cardNum1 = inputRefs[0].current?.value;
         const cardNum2 = inputRefs[1].current?.value;
         const cardNum3 = inputRefs[2].current?.value;
         const cardNum4 = inputRefs[3].current?.value;
-        setCardNumbers({number1: cardNum1, number2: cardNum2, number3: cardNum3, number4: cardNum4});
+
+        if (!cardNum1 && !cardNum2 && !cardNum3 && !cardNum4) {
+            toast.error('카드 번호를 확인해주세요');
+            return false;
+        }
+
+        const formExpiry = form.watch('expiry');
+        const expiry = formExpiry.replace(' / ', '');
+        const cvc = form.watch('cvc');
+
+        setCardNumbers({
+            ...cardNumbers,
+            number1: cardNum1,
+            number2: cardNum2,
+            number3: cardNum3,
+            number4: cardNum4,
+            expiry: expiry,
+            cvc: cvc,
+        });
+        return true;
+    };
+
+    // 카드 번호 등록 함수
+    const submitCardInfomations = () => {
+        const isCheckCardNumber = checkCardInfomations();
+
+        if (!isCheckCardNumber) return;
+
+        checkCardInfomations();
 
         const json = JSON.stringify(cardNumbers);
-
         const encrypted = CryptoJS.AES.encrypt(json, cardSign).toString();
         setCreditCardData({...creditCardData, sign: encrypted});
+
+        const isCorporateCard = form.watch('isCorporateCard');
+        const isPersonal = !isCorporateCard;
+
+        setCreditCardData({...creditCardData, isPersonal: isPersonal});
+        openInputCardCompanyModal();
     };
 
     return (
@@ -75,8 +104,11 @@ export const CardNumberModal = memo(() => {
                         {inputRefs.map((inputRef, index) => (
                             <input
                                 key={index}
-                                type="number"
+                                type="text"
                                 placeholder="● ● ● ●"
+                                pattern="\d*"
+                                maxLength={4}
+                                defaultValue={cardNumbers.number1 || ''}
                                 className="input input-bordered w-full placeholder:text-[0.5rem]"
                                 ref={inputRef}
                                 onChange={(e) => {
@@ -85,59 +117,11 @@ export const CardNumberModal = memo(() => {
                             />
                         ))}
                     </div>
-                    <div className="w-full flex justify-between gap-10 mb-3">
-                        <div className="form-control w-full max-w-xs">
-                            <label className="label label-text">유효기간</label>
-                            <div className="flex gap-3 items-center input input-bordered">
-                                <input
-                                    {...form.register('expiry-year')}
-                                    type="number"
-                                    placeholder="년"
-                                    className="w-full max-w-xs"
-                                />
-                                <span className="">/</span>
-                                <input
-                                    {...form.register('expiry-month')}
-                                    type="number"
-                                    placeholder="월"
-                                    className="w-full max-w-xs"
-                                />
-                            </div>
-                        </div>
-                        <div className="form-control w-full max-w-xs">
-                            <label className="label label-text">cvc</label>
-                            <input
-                                {...form.register('cvc')}
-                                type="number"
-                                placeholder="000"
-                                className="input input-bordered w-full max-w-xs"
-                            />
-                        </div>
-                    </div>
 
-                    {/* 법인카드 checkbox */}
-                    <label className="label cursor-pointer w-fit">
-                        <input
-                            type="checkbox"
-                            className="checkbox checkbox-primary"
-                            {...form.register('isCorporateCard')}
-                            onChange={(e) => {
-                                e.preventDefault();
-                            }}
-                        />
-                        <span className="label-text font-semibold pl-5">법인 카드</span>
-                    </label>
+                    <AddOptionalData form={form} />
                 </div>
 
-                <DefaultButton
-                    text="다음"
-                    type="button"
-                    // disabled={disabled}
-                    onClick={() => {
-                        submitCardNumber();
-                        openInputCardCompanyModal();
-                    }}
-                />
+                <DefaultButton text="다음" type="button" onClick={submitCardInfomations} />
             </div>
         </Modal>
     );
