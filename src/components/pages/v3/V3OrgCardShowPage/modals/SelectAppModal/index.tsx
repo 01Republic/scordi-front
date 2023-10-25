@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useState} from 'react';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {DefaultButton} from '^components/Button';
@@ -8,16 +8,23 @@ import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-crads.api';
 import {useRouter} from 'next/router';
 import {V3OrgCardDetailPageRoute} from '^pages/v3/orgs/[orgId]/cards/[cardId]';
+import {CardAppList} from './CardAppList';
+import {ProductDto} from '^types/product.type';
 
 export const SelectAppModal = memo(() => {
     const {Modal, close} = useModal(selectAppModal);
     const {close: closeInputCardHoldingMemberModal} = useModal(inputCardHoldingMemeberModal);
     const [creditCardData, setCreditCardData] = useRecoilState(creditcardAtom);
+    const [selectedApps, setSelectedApps] = useState<ProductDto[]>([]);
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const router = useRouter();
 
     const submitCardNumber = () => {
-        setCreditCardData({...creditCardData, productIds: []});
+        const productIds = selectedApps.map((app) => {
+            return app.id;
+        });
+        setCreditCardData({...creditCardData, productIds: productIds});
+
         creditCardApi.create(orgId, creditCardData).then((res) => {
             router.push(V3OrgCardDetailPageRoute.path(orgId, res.data.id));
         });
@@ -40,7 +47,7 @@ export const SelectAppModal = memo(() => {
                     </h2>
                 </div>
 
-                {/* <ProductList /> */}
+                <CardAppList selectedApps={selectedApps} setSelectedApps={setSelectedApps} />
 
                 <DefaultButton text="완료" type="button" onClick={submitCardNumber} />
             </div>
