@@ -12,6 +12,7 @@ import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
 import {PriceHeader} from './PriceHeader';
 import {ListItemForAccount} from './ListItemForAccount';
 import {ListItemForSourceAccount} from './ListItemForSourceAccount';
+import {ListItemForPaymentMethod} from '^v3/V3OrgAppShowPage/InformationPanel/ListItemForPaymentMethod';
 
 // 정기결제금액 *
 // 결제주기 *
@@ -59,7 +60,7 @@ export const InformationPanel = memo(() => {
                     <MobileInfoList>
                         {/*<MobileInfoListItem label="카테고리" />*/}
                         {/*<MobileInfoListItem label="현재 플랜" />*/}
-                        <MobileInfoListItem label="결제수단" value={lastPaidHistory?.paymentMethod} />
+                        <ListItemForPaymentMethod lastPaidHistory={lastPaidHistory} />
                         {nextPayAmount && nextPayAmount.isNotDomestic() && (
                             <MobileInfoListItem
                                 label="해외결제금액"
