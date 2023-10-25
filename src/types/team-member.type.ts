@@ -31,7 +31,8 @@ export class TeamMemberDto {
 }
 
 export type FindAllTeamMemberQueryDto = FindAllQueryDto<TeamMemberDto> & {
-    teamId?: number;
+    teamId?: number | null;
+    name?: string | null;
 };
 
 export type CreateTeamMemberDto = {

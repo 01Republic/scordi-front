@@ -5,12 +5,16 @@ import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {DefaultButton} from '^components/Button';
 import {creditcardAtom, inputCardHoldingMemeberModal, selectAppModal} from './atom';
 import {useRecoilState} from 'recoil';
+import {CardHoldingMemberMultiSelect} from '^v3/V3OrgCardShowPage/modals/CardHoldingMemberMultiSelect';
 
+export interface IdListDto {
+    ids: number[];
+}
 export const CardHoldingMember = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardHoldingMemeberModal);
     const {open: openSelectAppModal} = useModal(selectAppModal);
     const [creditCardData, setCreditCardData] = useRecoilState(creditcardAtom);
-    const form = useForm();
+    const form = useForm<IdListDto>();
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
@@ -22,6 +26,7 @@ export const CardHoldingMember = memo(() => {
     }, [isShow]);
 
     const submitCardNumber = () => {
+        console.log(form);
         // TODO: 완료되면 모든 모달 닫기
         // const cardHoldingMember = form.getValues('cardHoldingMember') ?? 1;
         // setCreditCardData({...creditCardData, holdingMemberId: cardHoldingMember});
@@ -40,15 +45,7 @@ export const CardHoldingMember = memo(() => {
                 </div>
 
                 {/* 카드 소유자 input */}
-                <div className="flex gap-3">
-                    <input
-                        {...form.register('cardHoldingMember')}
-                        type="text"
-                        placeholder="홍길동"
-                        ref={inputRef}
-                        className="input input-bordered w-full"
-                    />
-                </div>
+                <CardHoldingMemberMultiSelect form={form} />
 
                 <DefaultButton
                     text="다음"
