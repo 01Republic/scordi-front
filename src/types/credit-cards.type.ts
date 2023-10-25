@@ -29,6 +29,12 @@ export class CreditCardDto {
     get secretInfo(): CreditCardSecretInfo {
         return this.decryptSign();
     }
+
+    get card(): string {
+        const {number1 = '****', number2 = '****', number3 = '****', number4 = '****'} = this.secretInfo;
+        const company = this.issuerCompany || this.networkCompany || '';
+        return `${company} ${number1}-${number2}-${number3}-${number4}`;
+    }
 }
 
 export class CreditCardSecretInfo {

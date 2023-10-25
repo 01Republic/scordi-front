@@ -29,6 +29,7 @@ export function useMultiSelect(params: UseMultiSelectParams) {
     const [defaultOptions, setDefaultOptions] = useState<Option[]>([]);
 
     const loadOptions = async (input: string) => {
+        // 처음 렌더링 될 때 빈 input 이 loader 에 전달되는 것을 이용합니다.
         if (input.length === 0) {
             return defaultLoader().then((data) => {
                 const options = data.map(mapper);
@@ -56,6 +57,7 @@ export function useMultiSelect(params: UseMultiSelectParams) {
                 if (!newOption.__isNew__) return;
 
                 await onCreate(newOption);
+                setDefaultOptions((prev) => [...prev, newOption]);
                 break;
 
             case 'select-option':
