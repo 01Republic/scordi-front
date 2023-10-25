@@ -14,6 +14,11 @@ export const creditCardApi = {
         return api.post<CreditCardDto>(url, data).then(oneDtoOf(CreditCardDto));
     },
 
+    show(orgId: number, id: number) {
+        const url = `/organizations/${orgId}/credit-cards/${id}`;
+        return api.get<CreditCardDto>(url);
+    },
+
     destory(orgId: number, id: number) {
         const url = `/organizations/${orgId}/credit-cards/${id}`;
         return api.delete<CreditCardDto>(url);

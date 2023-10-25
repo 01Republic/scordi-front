@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {AiOutlineEdit} from 'react-icons/ai';
 import {useModal} from '../../share/modals/useModal';
@@ -8,12 +8,30 @@ import {
     inputCardNumberModal,
     selectCardCompanyModal,
 } from '../../V3OrgCardShowPage/modals/atom';
+import {CreditCardDto, CreditCardSecretInfo} from '^types/credit-cards.type';
+import {cardSign} from '^config/environments';
+import CryptoJS from 'crypto-js';
 
-export const InformationPanel = memo(() => {
+interface informationPanelProps {
+    cardDetailInfo: CreditCardDto | undefined;
+}
+
+export const InformationPanel = memo((props: informationPanelProps) => {
+    const {cardDetailInfo} = props;
+    const [cardInfo, setCardInfo] = useState<CreditCardSecretInfo>({});
     const {open: openInputCardNameModal} = useModal(inputCardNameModal);
     const {open: openInputCardNumberModal} = useModal(inputCardNumberModal);
     const {open: openInputCardHoldingMemberModal} = useModal(inputCardHoldingMemeberModal);
     const {open: openSelectCardCompanyModal} = useModal(selectCardCompanyModal);
+
+    useEffect(() => {
+        if (!cardDetailInfo) return;
+
+        const json = CryptoJS.AES.decrypt(cardDetailInfo?.sign, cardSign).toString(CryptoJS.enc.Utf8);
+        const toString = JSON.parse(json);
+
+        setCardInfo(toString);
+    }, [cardDetailInfo?.id]);
 
     // TODO: ui 수정 필요
     return (
@@ -23,7 +41,11 @@ export const InformationPanel = memo(() => {
                     <div>
                         {/* 카드 명 */}
                         <div onClick={openInputCardNameModal} className="flex items-center gap-3 cursor-pointer group">
-                            <p className="font-bold">경영지원팀</p>
+                            {cardDetailInfo?.name ? (
+                                <p className="font-bold">{cardDetailInfo.name}</p>
+                            ) : (
+                                <p className="text-gray-300">카드의 별칭을 입력하기</p>
+                            )}
                             <AiOutlineEdit size={13} className="invisible group-hover:visible" />
                         </div>
 
@@ -32,7 +54,11 @@ export const InformationPanel = memo(() => {
                             onClick={openSelectCardCompanyModal}
                             className="flex items-center gap-3 cursor-pointer group"
                         >
-                            <p className="text-gray-500">국민카드</p>
+                            {cardDetailInfo?.issuerCompany ? (
+                                <p className="font-bold">{cardDetailInfo.issuerCompany}</p>
+                            ) : (
+                                <p className="text-gray-300">카드사를 입력하기</p>
+                            )}
                             <AiOutlineEdit size={13} className="invisible group-hover:visible" />
                         </div>
 
@@ -41,7 +67,7 @@ export const InformationPanel = memo(() => {
                             onClick={openInputCardNumberModal}
                             className="flex items-center gap-3 cursor-pointer group"
                         >
-                            <p className="text-lg font-bold">0000-****-****-0000</p>
+                            <p className="text-lg font-bold">{`${cardInfo.number1}-${cardInfo.number2}-${cardInfo.number3}-${cardInfo.number4}`}</p>
                             <AiOutlineEdit size={13} className="invisible group-hover:visible" />
                         </div>
 
@@ -50,24 +76,14 @@ export const InformationPanel = memo(() => {
                             onClick={openInputCardHoldingMemberModal}
                             className="flex items-center gap-3 cursor-pointer group"
                         >
-                            <p>카드소유자 : 이진경</p>
+                            {cardDetailInfo?.holdingMember ? (
+                                <p className="font-bold">{cardDetailInfo.holdingMemberId}</p>
+                            ) : (
+                                <p className="text-gray-300">카드 소유자 등록하기</p>
+                            )}
                             <AiOutlineEdit size={13} className="invisible group-hover:visible" />
                         </div>
                     </div>
-                    {/* <div className="dropdown dropdown-end">
-                        <GoKebabHorizontal size={16} tabIndex={0} />
-
-                        <ul
-                            tabIndex={0}
-                            className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-                        >
-                            <li>
-                                <span onClick={() => deleteCreditCard(card.id)} className="text-error">
-                                    삭제
-                                </span>
-                            </li>
-                        </ul>
-                    </div> */}
                 </div>
             </MobileSection.Padding>
         </MobileSection.Item>

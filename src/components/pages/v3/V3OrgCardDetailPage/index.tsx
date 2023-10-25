@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {MobileSection} from '../share/sections/MobileSection';
 import {V3ModalLikeLayoutMobile} from '../layouts/V3ModalLikeLayout.mobile';
 import {InformationPanel} from './InformationPanel';
@@ -19,6 +19,9 @@ import {CardCompanyModal} from '../V3OrgCardShowPage/modals/CardCompanyModal';
 import {SelectAppModal} from '../V3OrgCardShowPage/modals/SelectAppModal';
 import {CardHoldingMember} from '../V3OrgCardShowPage/modals/CardHoldingMemberModal';
 import {ContentEmpty} from '../V3OrgHomePage/mobile/ContentEmpty';
+import {creditCardApi} from '^api/credit-crads.api';
+import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {CreditCardDto} from '^types/credit-cards.type';
 
 export const V3OrgCardDetailPage = memo(() => {
     const {isShow: isAddCardModal} = useModal(addCardModal);
@@ -28,6 +31,19 @@ export const V3OrgCardDetailPage = memo(() => {
     const {isShow: isSelectCardCompanyModal} = useModal(selectCardCompanyModal);
     const {open: openSelectAppModal, isShow: isSelectAppModal} = useModal(selectAppModal);
 
+    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const cardId = useRouterIdParamState('cardId', cardIdParamState);
+
+    const [cardDetailInfo, setCardDetailInfo] = useState<CreditCardDto>();
+
+    useEffect(() => {
+        console.log(orgId, cardId);
+        if (!orgId && !cardId) return;
+        creditCardApi.show(orgId, cardId).then((res) => setCardDetailInfo(res.data));
+    }, [cardId]);
+
+    console.log(cardDetailInfo);
+
     return (
         <V3ModalLikeLayoutMobile
             title="카드"
@@ -35,10 +51,10 @@ export const V3OrgCardDetailPage = memo(() => {
         >
             <MobileSection.List>
                 {/* 카드정보 */}
-                <InformationPanel />
+                <InformationPanel cardDetailInfo={cardDetailInfo} />
                 <div className="bg-white">
                     <MobileSection.Padding>
-                        <ContentEmpty text="등록된 카드가 없어요" subtext="눌러서 카드 추가" />
+                        <ContentEmpty text="등록된 앱이 없어요" subtext="눌러서 앱 추가" onClick={openSelectAppModal} />
                     </MobileSection.Padding>
                 </div>
 
