@@ -25,7 +25,7 @@ export const AddOptionalData = memo((props: AddOptionalDataProps) => {
             toast.error('유효기간을 확인해주세요');
             return;
         }
-        setExpiryNumber(`${inputMonth} / ${inputYear}`);
+        setExpiryNumber(`${inputMonth}${inputYear}`);
     };
 
     const checkIsPersonal = () => {
