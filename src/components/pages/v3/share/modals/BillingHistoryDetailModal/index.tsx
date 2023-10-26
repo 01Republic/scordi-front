@@ -60,7 +60,7 @@ export const BillingHistoryDetailModal = memo(() => {
                                             <MobileInfoListItem
                                                 label="결제수단"
                                                 className="!items-start"
-                                                value={billingHistory.paymentMethod}
+                                                value={billingHistory.getPaymentMethod()}
                                             />
                                         )}
                                         {attachments.length > 0 && (

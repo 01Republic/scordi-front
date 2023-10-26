@@ -5,6 +5,7 @@ import {SubscriptionDto} from '^types/subscription.type';
 import {BillingHistoryDto} from '^types/billing.type';
 import {cardSign} from '^config/environments';
 import CryptoJS from 'crypto-js';
+import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
 export class CreditCardDto {
     id: number; // 카드 ID
@@ -30,7 +31,7 @@ export class CreditCardDto {
         return this.decryptSign();
     }
 
-    get card(): string {
+    get label(): string {
         const {number1 = '****', number2 = '****', number3 = '****', number4 = '****'} = this.secretInfo;
         const company = this.issuerCompany || this.networkCompany || '';
         return `${company} ${number1}-${number2}-${number3}-${number4}`;
@@ -121,3 +122,5 @@ export type UpdateCreditCardDto = {
     holdingMemberId?: number | null;
     productIds?: number[] | null;
 };
+
+export type FindAllCreditCardDto = FindAllQueryDto<CreditCardDto> & {};

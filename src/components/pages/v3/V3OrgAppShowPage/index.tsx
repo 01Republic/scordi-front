@@ -7,6 +7,7 @@ import {AccountListModal} from '^v3/share/modals/AccountListModal';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {BillingHistoryDetailModal} from '^v3/share/modals/BillingHistoryDetailModal';
 import {BillingHistoryContentPanel} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryContentPanel';
+import {RegisterCreditCardModal} from '^v3/share/modals/RegisterCreditCardModal';
 
 export const V3OrgAppShowPage = memo(() => {
     const {currentSubscription} = useCurrentSubscription();
@@ -15,7 +16,7 @@ export const V3OrgAppShowPage = memo(() => {
     return (
         <V3ModalLikeLayoutMobile
             title={currentSubscription ? currentSubscription.product.name() : ''}
-            modals={[BillingHistoryDetailModal, AccountListModal]}
+            modals={[BillingHistoryDetailModal, AccountListModal, RegisterCreditCardModal]}
         >
             <MobileSection.List className="h-full">
                 <InformationPanel />

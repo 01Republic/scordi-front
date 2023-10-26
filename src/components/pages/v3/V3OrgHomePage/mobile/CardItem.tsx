@@ -34,7 +34,7 @@ export const CardItem = memo((props: CardItemProps) => {
         if (!orgId && !cardId) return;
 
         alert('카드를 삭제하시겠습니까?');
-        creditCardApi.destory(orgId, cardId).then(() =>
+        creditCardApi.destroy(orgId, cardId).then(() =>
             setCreditCardList((cards) => {
                 const remainCards = cards.filter((card) => {
                     return card.id !== cardId;
