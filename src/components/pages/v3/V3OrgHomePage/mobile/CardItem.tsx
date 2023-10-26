@@ -45,13 +45,10 @@ export const CardItem = memo((props: CardItemProps) => {
     };
 
     return (
-        <li
-            onClick={() => router.push(V3OrgCardDetailPageRoute.path(orgId, card.id))}
-            className="!w-auto gap-4 px-5 py-3 -mx-4 hover:bg-neutral btn-like no-selectable"
-        >
+        <li className="!w-auto gap-4 px-5 py-3 -mx-4 hover:bg-neutral btn-like no-selectable">
             {/* TODO: 카드사 이미지 띄워주기 */}
             <Avatar className="w-8 h-8 outline outline-offset-1 outline-slate-100" />
-            <div className="flex-1">
+            <div onClick={() => router.push(V3OrgCardDetailPageRoute.path(orgId, card.id))} className="flex-1">
                 <p className="text-sm text-gray-500 flex">
                     {card.name && <span>{card.name} / </span>}
                     {card.issuerCompany && <span>{card.issuerCompany} </span>}

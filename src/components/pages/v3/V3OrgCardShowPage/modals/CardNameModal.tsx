@@ -22,7 +22,8 @@ export const CardNameModal = memo(() => {
     }, [isShow]);
 
     const submitCardNumber = () => {
-        const cardName = form.getValues('cardName') ?? null;
+        const cardName = form.getValues('cardName');
+        if (!cardName) return;
 
         setCreditCardData({...creditCardData, name: cardName});
     };

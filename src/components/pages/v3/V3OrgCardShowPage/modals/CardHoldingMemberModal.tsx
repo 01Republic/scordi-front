@@ -25,10 +25,11 @@ export const CardHoldingMember = memo(() => {
         inputRef.current?.focus();
     }, [isShow]);
 
-    const submitCardNumber = () => {
-        console.log(form);
-        // TODO: 완료되면 모든 모달 닫기
-        // const cardHoldingMember = form.getValues('cardHoldingMember') ?? 1;
+    // TODO: 멤버 아이디로 수정
+    const submitCardHoldingMember = () => {
+        const cardHoldingMember = form.getValues('cardHoldingMember');
+        if (!cardHoldingMember) return;
+
         // setCreditCardData({...creditCardData, holdingMemberId: cardHoldingMember});
     };
 
@@ -52,7 +53,7 @@ export const CardHoldingMember = memo(() => {
                     type="button"
                     onClick={() => {
                         openSelectAppModal();
-                        submitCardNumber();
+                        submitCardHoldingMember();
                     }}
                 />
             </div>

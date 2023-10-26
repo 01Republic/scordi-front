@@ -1,20 +1,20 @@
 import React, {memo, useState} from 'react';
-import {useModal} from '../../share/modals/useModal';
-import {creditcardAtom, inputCardNameModal, selectCardCompanyModal} from './atom';
-import {ModalTopbar} from '../../share/modals/ModalTopbar';
-import {useForm} from 'react-hook-form';
-import {DefaultButton} from '^components/Button';
-import Select from 'react-select/async';
 import {useRecoilState} from 'recoil';
+import Select from 'react-select';
+import {useModal} from '../../share/modals/useModal';
+import {ModalTopbar} from '../../share/modals/ModalTopbar';
+import {creditcardAtom, inputCardNameModal, selectCardCompanyModal} from './atom';
+import {DefaultButton} from '^components/Button';
 
 export const CardCompanyModal = memo(() => {
     const {Modal, close} = useModal(selectCardCompanyModal);
     const {open: openInputCardNameModal} = useModal(inputCardNameModal);
     const [creditCardData, setCreditCardData] = useRecoilState(creditcardAtom);
     const [issuerCompany, setIssuerCompany] = useState('');
-    const form = useForm();
 
     const submitCardCompany = () => {
+        if (!issuerCompany) return;
+
         setCreditCardData({...creditCardData, issuerCompany: issuerCompany});
     };
 
@@ -27,14 +27,20 @@ export const CardCompanyModal = memo(() => {
                     <h2 className="h1 leading-tight">카드사를 선택해주세요</h2>
                 </div>
                 <div>
-                    <Select options={OPTIONS} className="select-underline input-underline" placeholder="전체" />
+                    <Select
+                        value={OPTIONS.find((option) => option.value === issuerCompany)}
+                        options={OPTIONS}
+                        onChange={(e) => e && setIssuerCompany(e?.value)}
+                        className="select-underline input-underline"
+                        placeholder="전체"
+                    />
                     <span></span>
                 </div>
 
                 <DefaultButton
                     onClick={() => {
-                        openInputCardNameModal();
                         submitCardCompany();
+                        openInputCardNameModal();
                     }}
                     text="다음"
                     type="button"
@@ -44,6 +50,7 @@ export const CardCompanyModal = memo(() => {
     );
 });
 
+// TODO: 카드사 로고 보여지도록 수정
 const OPTIONS = [
     {value: 'KB국민카드', label: 'KB국민카드'},
     {value: '신한카드', label: '신한카드'},
