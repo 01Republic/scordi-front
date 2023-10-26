@@ -3,7 +3,7 @@ import {useModal} from '../share/modals/useModal';
 import {CardItem} from '../V3OrgHomePage/mobile/CardItem';
 import {inputCardNumberModal} from './modals/atom';
 import {ContentEmpty} from '../V3OrgHomePage/mobile/ContentEmpty';
-import {creditCardApi} from '^api/credit-crads.api';
+import {creditCardApi} from '^api/credit-cards.api';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useRecoilState} from 'recoil';
 import {creditCardListAtom} from './atom';

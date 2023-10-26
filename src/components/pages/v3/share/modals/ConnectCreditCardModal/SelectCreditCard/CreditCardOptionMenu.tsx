@@ -1,5 +1,5 @@
 import {FormatOptionLabelMeta} from 'react-select';
-import {CreditCardOption} from '^v3/share/modals/RegisterCreditCardModal/SelectCreditCard/CreditCardOption';
+import {CreditCardOption} from '^v3/share/modals/ConnectCreditCardModal/SelectCreditCard/CreditCardOption';
 import {CreditCardDto} from '^types/credit-cards.type';
 import React, {memo} from 'react';
 import {Avatar} from '^components/Avatar';

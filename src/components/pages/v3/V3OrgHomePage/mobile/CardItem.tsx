@@ -7,7 +7,7 @@ import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import CryptoJS from 'crypto-js';
 import {cardSign} from '^config/environments';
 import {GoKebabHorizontal} from 'react-icons/go';
-import {creditCardApi} from '^api/credit-crads.api';
+import {creditCardApi} from '^api/credit-cards.api';
 
 interface CardItemProps {
     card: CreditCardDto;

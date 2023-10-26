@@ -1,19 +1,19 @@
 import {memo} from 'react';
 import {useModal} from '^v3/share/modals/useModal';
-import {addCreditCardModal} from '^v3/share/modals/RegisterCreditCardModal/atom';
+import {connectCreditCardModal} from '^v3/share/modals/ConnectCreditCardModal/atom';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 import {DefaultButton} from '^components/Button';
 import {subscriptionApi} from '^api/subscription.api';
 import {UpdateSubscriptionRequestDto} from '^types/subscription.type';
 import {useForm} from 'react-hook-form';
-import {SelectCreditCard} from '^v3/share/modals/RegisterCreditCardModal/SelectCreditCard';
+import {SelectCreditCard} from '^v3/share/modals/ConnectCreditCardModal/SelectCreditCard';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 
 export const RegisterCreditCardModal = memo(() => {
     const {currentSubscription, loadCurrentSubscription} = useCurrentSubscription();
 
     const form = useForm<UpdateSubscriptionRequestDto>();
-    const {Modal, close} = useModal(addCreditCardModal);
+    const {Modal, close} = useModal(connectCreditCardModal);
 
     if (!currentSubscription) return <></>;
     const onSubmit = (data: UpdateSubscriptionRequestDto) => {

@@ -19,7 +19,7 @@ import {CardCompanyModal} from '../V3OrgCardShowPage/modals/CardCompanyModal';
 import {SelectAppModal} from '../V3OrgCardShowPage/modals/SelectAppModal';
 import {CardHoldingMember} from '../V3OrgCardShowPage/modals/CardHoldingMemberModal';
 import {ContentEmpty} from '../V3OrgHomePage/mobile/ContentEmpty';
-import {creditCardApi} from '^api/credit-crads.api';
+import {creditCardApi} from '^api/credit-cards.api';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {CreditCardDto} from '^types/credit-cards.type';
 

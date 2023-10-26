@@ -7,7 +7,7 @@ import {AccountListModal} from '^v3/share/modals/AccountListModal';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {BillingHistoryDetailModal} from '^v3/share/modals/BillingHistoryDetailModal';
 import {BillingHistoryContentPanel} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryContentPanel';
-import {RegisterCreditCardModal} from '^v3/share/modals/RegisterCreditCardModal';
+import {RegisterCreditCardModal} from '^v3/share/modals/ConnectCreditCardModal';
 
 export const V3OrgAppShowPage = memo(() => {
     const {currentSubscription} = useCurrentSubscription();
