@@ -33,6 +33,7 @@ import {CardNumberModal} from '^v3/V3OrgCardShowPage/modals/CardNumberModal';
 import {CardCompanyModal} from '^v3/V3OrgCardShowPage/modals/CardCompanyModal';
 import {CardNameModal} from '^v3/V3OrgCardShowPage/modals/CardNameModal';
 import {CardHoldingMember} from '^v3/V3OrgCardShowPage/modals/CardHoldingMemberModal';
+import {SelectAppModal} from '^v3/V3OrgCardShowPage/modals/SelectAppModal';
 
 export const V3OrgHomePage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -94,6 +95,7 @@ export const V3OrgHomePage = memo(() => {
                     CardCompanyModal,
                     CardNameModal,
                     CardHoldingMember,
+                    SelectAppModal,
                 ]}
                 topRightButtons={currentUser?.isAdmin ? [TopNavOrgSelect, TopNavProfileButton] : []}
             >
