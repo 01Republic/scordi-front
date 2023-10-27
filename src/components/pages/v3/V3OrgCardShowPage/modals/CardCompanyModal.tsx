@@ -4,10 +4,12 @@ import Select from 'react-select';
 import {useToast} from '^hooks/useToast';
 import {useModal} from '../../share/modals/useModal';
 import {ModalTopbar} from '../../share/modals/ModalTopbar';
-import {DefaultButton} from '^components/Button';
 import {creditcardAtom, inputCardNameModal, selectCardCompanyModal} from './atom';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
+import {SkipButton} from './skipButton';
+import {MobileSection} from '^v3/share/sections/MobileSection';
+import {ModalLikeBottomBar} from '../../layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 
 export const CardCompanyModal = memo(() => {
     const {Modal, close} = useModal(selectCardCompanyModal);
@@ -47,11 +49,11 @@ export const CardCompanyModal = memo(() => {
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
             <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
-            <div className="px-5 flex flex-col justify-start gap-10">
-                <div className="py-5 pt-20">
-                    <p className="mb-4">{cardId ? '카드 수정하기' : '새로운 카드 등록하기'}</p>
-                    <h2 className="h1 leading-tight">카드사를 선택해주세요</h2>
-                </div>
+            <MobileSection.Padding>
+                <p className="mb-4 pt-20">{cardId ? '카드 수정하기' : '새로운 카드 등록하기'}</p>
+                <h2 className="h1 leading-tight mb-10">카드사를 선택해주세요</h2>
+                <SkipButton currentModal="cardCompany" />
+
                 <div>
                     <Select
                         value={OPTIONS.find((option) => option.value === issuerCompany)}
@@ -63,19 +65,24 @@ export const CardCompanyModal = memo(() => {
                     />
                     <span></span>
                 </div>
+            </MobileSection.Padding>
+            <ModalLikeBottomBar>
                 {cardId ? (
-                    <DefaultButton onClick={updateCardCompany} text="확인" type="button" />
+                    <button onClick={updateCardCompany} className="btn-modal">
+                        확인
+                    </button>
                 ) : (
-                    <DefaultButton
+                    <button
                         onClick={() => {
                             submitCardCompany();
                             openInputCardNameModal();
                         }}
-                        text="다음"
-                        type="button"
-                    />
+                        className="btn-modal"
+                    >
+                        다음
+                    </button>
                 )}
-            </div>
+            </ModalLikeBottomBar>
         </Modal>
     );
 });

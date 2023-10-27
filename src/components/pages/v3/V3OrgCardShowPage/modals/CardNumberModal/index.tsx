@@ -4,7 +4,7 @@ import CryptoJS from 'crypto-js';
 import {useForm} from 'react-hook-form';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
-import {DefaultButton} from '^components/Button';
+import {MobileSection} from '^v3/share/sections/MobileSection';
 import {creditcardAtom, inputCardNumberModal, selectCardCompanyModal} from '../atom';
 import {cardSign} from '^config/environments';
 import {useToast} from '^hooks/useToast';
@@ -12,6 +12,7 @@ import {InputCardNumber} from './InputCardNumber';
 import {creditCardSignAtom} from '../../atom';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
+import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 
 export const CardNumberModal = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardNumberModal);
@@ -53,6 +54,7 @@ export const CardNumberModal = memo(() => {
         checkCardInfomations();
 
         const formData = form.watch();
+
         const json = JSON.stringify(formData);
         const encrypted = CryptoJS.AES.encrypt(json, cardSign).toString();
         setCreditCardData({...creditCardData, sign: encrypted});
@@ -62,7 +64,7 @@ export const CardNumberModal = memo(() => {
         // const isPersonal = !isCorporateCard;
 
         // setCreditCardData({...creditCardData, isPersonal: isPersonal});
-        openInputCardCompanyModal();
+        // openInputCardCompanyModal();
     };
 
     //카드 번호 수정 함수
@@ -95,22 +97,26 @@ export const CardNumberModal = memo(() => {
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
             <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
+            <form>
+                <MobileSection.Padding>
+                    <div className="py-5 pt-20">
+                        <p className="mb-4">{cardId ? '카드 수정하기' : '새로운 카드 등록하기'}</p>
+                        <h2 className="h1 leading-tight">카드 번호를 입력해주세요</h2>
+                    </div>
 
-            <form className="px-5 ">
-                <div className="py-5 pt-20">
-                    <p className="mb-4">{cardId ? '카드 수정하기' : '새로운 카드 등록하기'}</p>
-                    <h2 className="h1 leading-tight">카드 번호를 입력해주세요</h2>
-                </div>
-
-                <InputCardNumber form={form} />
-
-                <div className="mt-10">
+                    <InputCardNumber form={form} />
+                </MobileSection.Padding>
+                <ModalLikeBottomBar>
                     {cardId ? (
-                        <DefaultButton text="확인" type="button" onClick={updateCardInfomations} />
+                        <button onClick={updateCardInfomations} className="btn-modal">
+                            확인
+                        </button>
                     ) : (
-                        <DefaultButton text="다음" type="button" onClick={submitCardInfomations} />
+                        <button onClick={submitCardInfomations} className="btn-modal">
+                            다음
+                        </button>
                     )}
-                </div>
+                </ModalLikeBottomBar>
             </form>
         </Modal>
     );
