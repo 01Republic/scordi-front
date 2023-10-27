@@ -1,5 +1,5 @@
-import {useEffect, useState} from 'react';
-import {toast as toaster, useToasterStore, ToastOptions} from 'react-hot-toast';
+import {useState} from 'react';
+import {toast as toaster} from 'react-hot-toast';
 
 export function useToast() {
     // 이 전 실행된 토스트 알림과 같은 알림인지 확인하는 state
@@ -32,7 +32,13 @@ export function useToast() {
     const error = (msg: string, id?: string) => {
         id ||= msg;
         const duration = 4000;
-        activeScope(id, () => toaster.error(msg, {id, duration}));
+
+        activeScope(id, () =>
+            toaster.error(msg, {
+                id,
+                duration,
+            }),
+        );
     };
 
     return {
