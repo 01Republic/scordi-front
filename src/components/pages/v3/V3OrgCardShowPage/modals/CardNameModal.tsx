@@ -2,12 +2,14 @@ import React, {memo, useEffect, useRef} from 'react';
 import {useForm} from 'react-hook-form';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
-import {DefaultButton} from '^components/Button';
+import {MobileSection} from '^v3/share/sections/MobileSection';
 import {creditcardAtom, inputCardNameModal, inputCardHoldingMemeberModal} from './atom';
 import {useRecoilState} from 'recoil';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {useToast} from '^hooks/useToast';
+import {SkipButton} from './skipButton';
+import {ModalLikeBottomBar} from '../../layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 
 export const CardNameModal = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardNameModal);
@@ -63,38 +65,39 @@ export const CardNameModal = memo(() => {
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
             <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
-
-            <div className="px-5 flex flex-col justify-start gap-10">
-                <div className="py-5 pt-20">
-                    <p className="mb-4">{cardId ? '카드 수정하기' : '새로운 카드 등록하기'}</p>
-                    <h2 className="h1 leading-tight">
-                        카드를 구분할 수 있는 <br /> 별칭을 입력해주세요
-                    </h2>
-                </div>
+            <MobileSection.Padding>
+                <p className="pt-20 mb-4">{cardId ? '카드 수정하기' : '새로운 카드 등록하기'}</p>
+                <h2 className="h1 leading-tight mb-10">
+                    카드를 구분할 수 있는 <br /> 별칭을 입력해주세요
+                </h2>
+                <SkipButton currentModal="cardName" />
 
                 {/* 카드 이름 input */}
-                <div className="flex gap-3">
-                    <input
-                        {...form.register('cardName')}
-                        type="text"
-                        placeholder="개발팀"
-                        defaultValue={cardDetailInfo.name ?? ''}
-                        className="input input-bordered w-full"
-                    />
-                </div>
+                <input
+                    {...form.register('cardName')}
+                    type="text"
+                    placeholder="개발팀"
+                    defaultValue={cardDetailInfo.name ?? ''}
+                    className="input input-bordered w-full"
+                />
+            </MobileSection.Padding>
+            <ModalLikeBottomBar>
                 {cardId ? (
-                    <DefaultButton text="확인" type="button" onClick={updateCardNumber} />
+                    <button onClick={updateCardNumber} className="btn-modal">
+                        확인
+                    </button>
                 ) : (
-                    <DefaultButton
-                        text="다음"
-                        type="button"
+                    <button
                         onClick={() => {
                             submitCardNumber();
                             openInputCardHoldingMemeberModal();
                         }}
-                    />
+                        className="btn-modal"
+                    >
+                        다음
+                    </button>
                 )}
-            </div>
+            </ModalLikeBottomBar>
         </Modal>
     );
 });
