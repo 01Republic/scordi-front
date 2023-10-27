@@ -11,6 +11,11 @@ import {
     selectCardCompanyModal,
 } from '../../V3OrgCardShowPage/modals/atom';
 import {creditCardSignAtom} from '../../V3OrgCardShowPage/atom';
+import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {creditCardApi} from '^api/credit-cards.api';
+import {useRouter} from 'next/router';
+import {V3OrgCardShowPageRoute} from '^pages/v3/orgs/[orgId]/cards';
+import Swal from 'sweetalert2';
 
 export const InformationPanel = memo(() => {
     const cardInfo = useRecoilValue(creditCardSignAtom);
@@ -19,7 +24,33 @@ export const InformationPanel = memo(() => {
     const {open: openInputCardNumberModal} = useModal(inputCardNumberModal);
     const {open: openInputCardHoldingMemberModal} = useModal(inputCardHoldingMemeberModal);
     const {open: openSelectCardCompanyModal} = useModal(selectCardCompanyModal);
+    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const cardId = useRouterIdParamState('cardId', cardIdParamState);
+    const router = useRouter();
 
+    // 카드 삭제 함수
+    const deleteCreditCard = () => {
+        if (!orgId && !cardId) return;
+
+        Swal.fire({
+            title: '카드를 삭제하시겠습니까?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '',
+            cancelButtonColor: 'error',
+            confirmButtonText: '삭제',
+            cancelButtonText: '취소',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({icon: 'success', title: '삭제가 완료되었습니다.', showConfirmButton: false, timer: 1500});
+                setTimeout(() => {
+                    creditCardApi.destroy(orgId, cardId).then(() => {
+                        router.push(V3OrgCardShowPageRoute.path(orgId));
+                    });
+                }, 1500);
+            }
+        });
+    };
     // TODO: ui 수정 필요
     return (
         <MobileSection.Item>
@@ -70,6 +101,9 @@ export const InformationPanel = memo(() => {
                             )}
                             <AiOutlineEdit size={13} className="invisible group-hover:visible" />
                         </div>
+                    </div>
+                    <div onClick={deleteCreditCard} className="cursor-pointer align-top text-error">
+                        카드 삭제
                     </div>
                 </div>
             </MobileSection.Padding>
