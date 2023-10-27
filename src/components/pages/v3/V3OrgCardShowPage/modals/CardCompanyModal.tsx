@@ -7,7 +7,7 @@ import {ModalTopbar} from '../../share/modals/ModalTopbar';
 import {DefaultButton} from '^components/Button';
 import {creditcardAtom, inputCardNameModal, selectCardCompanyModal} from './atom';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {creditCardApi} from '^api/credit-crads.api';
+import {creditCardApi} from '^api/credit-cards.api';
 
 export const CardCompanyModal = memo(() => {
     const {Modal, close} = useModal(selectCardCompanyModal);

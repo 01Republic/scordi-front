@@ -6,7 +6,7 @@ import {DefaultButton} from '^components/Button';
 import {creditcardAtom, inputCardNameModal, inputCardHoldingMemeberModal} from './atom';
 import {useRecoilState} from 'recoil';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {creditCardApi} from '^api/credit-crads.api';
+import {creditCardApi} from '^api/credit-cards.api';
 import {useToast} from '^hooks/useToast';
 
 export const CardNameModal = memo(() => {

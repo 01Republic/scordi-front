@@ -32,7 +32,7 @@ import {CardsPanel} from './mobile/CardsPanel';
 import {CardNumberModal} from '^v3/V3OrgCardShowPage/modals/CardNumberModal';
 import {CardCompanyModal} from '^v3/V3OrgCardShowPage/modals/CardCompanyModal';
 import {CardNameModal} from '^v3/V3OrgCardShowPage/modals/CardNameModal';
-import {CardHoldingMember} from '^v3/V3OrgCardShowPage/modals/CardHoldingMemberModal';
+import {CardHoldingMember} from '^v3/V3OrgCardShowPage/modals/CardHoldingMemberModal/CardHoldingMemberModal';
 import {SelectAppModal} from '^v3/V3OrgCardShowPage/modals/SelectAppModal';
 
 export const V3OrgHomePage = memo(() => {

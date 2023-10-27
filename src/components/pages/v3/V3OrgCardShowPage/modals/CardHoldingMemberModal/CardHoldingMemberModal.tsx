@@ -7,7 +7,7 @@ import {creditcardAtom, inputCardHoldingMemeberModal, selectAppModal} from '../a
 import {useRecoilState} from 'recoil';
 import {CardHoldingMemberMultiSelect} from '^components/pages/v3/V3OrgCardShowPage/modals/CardHoldingMemberModal/CardHoldingMemberMultiSelect';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {creditCardApi} from '^api/credit-crads.api';
+import {creditCardApi} from '^api/credit-cards.api';
 import {useToast} from '^hooks/useToast';
 
 export interface IdDto {
