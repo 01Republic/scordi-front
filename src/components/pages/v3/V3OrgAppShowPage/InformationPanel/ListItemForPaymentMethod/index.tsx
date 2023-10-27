@@ -15,6 +15,10 @@ export const ListItemForPaymentMethod = memo((props: ListItemForPaymentMethodPro
 
     const {open} = useModal(connectCreditCardModal);
     const value = subscription?.creditCard?.label || lastPaidHistory?.paymentMethod || '';
+    const onClick = () => {
+        if (lastPaidHistory?.paymentMethod.includes('계좌')) return;
+        open();
+    };
 
-    return <MobileInfoListItem label="결제수단" value={value} onClick={open} />;
+    return <MobileInfoListItem label="결제수단" value={value} onClick={onClick} />;
 });
