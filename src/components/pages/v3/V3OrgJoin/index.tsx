@@ -1,19 +1,20 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import styles from '^styles/v3/V3MainLayout.module.scss';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {WithChildren} from '^types/global.type';
-import {useRouter} from 'next/router';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useSetRecoilState} from 'recoil';
 import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
 
 export const V3OrgJoin = memo(() => {
-    const router = useRouter();
-    const orgId = router.query.orgId as string;
+    const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const setInvitedOrgId = useSetRecoilState(invitedOrgIdAtom);
 
-    if (orgId) setInvitedOrgId(Number(orgId));
+    setInvitedOrgId(orgId);
+
+    if (!orgId || isNaN(orgId)) return <></>;
 
     const googleOauthClientId = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID!;
 

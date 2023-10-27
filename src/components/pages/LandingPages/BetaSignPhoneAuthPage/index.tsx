@@ -36,6 +36,7 @@ export const BetaSignPhoneAuthPage = memo(() => {
     const [pageLoaded, setPageLoaded] = useState(false);
 
     useEffect(() => {
+        console.log('\ninvited from', invitedOrgId);
         const gmailProfileData = window.localStorage.getItem('scordi/tasting/gmailProfile');
         if (!gmailProfileData) {
             router.replace(BetaSignSocialPageRoute.path());
@@ -110,6 +111,7 @@ export const BetaSignPhoneAuthPage = memo(() => {
                 if (err?.response?.data?.status === 404) {
                     // 가입을 시킵니다.
                     // 초대된 회원의 경우 다른 API를 사용합니다.
+                    if (!invitedOrgId) throw Error('test error');
                     if (invitedOrgId) {
                         createInvitedUser({organizationId: invitedOrgId, ...data})
                             .then((res) => {
@@ -118,17 +120,17 @@ export const BetaSignPhoneAuthPage = memo(() => {
                             .catch((err: ApiError) => {
                                 errorNotify(err);
                             });
+                    } else {
+                        postUser(data)
+                            .then((res) => {
+                                console.log('가입 then', res);
+                                findOrCreateUserCallback(res.data, data);
+                            })
+                            .catch((err: ApiError) => {
+                                console.log('가입 catch', err);
+                                errorNotify(err);
+                            });
                     }
-
-                    postUser(data)
-                        .then((res) => {
-                            console.log('가입 then', res);
-                            findOrCreateUserCallback(res.data, data);
-                        })
-                        .catch((err: ApiError) => {
-                            console.log('가입 catch', err);
-                            errorNotify(err);
-                        });
                 } else {
                     errorNotify(err);
                 }
