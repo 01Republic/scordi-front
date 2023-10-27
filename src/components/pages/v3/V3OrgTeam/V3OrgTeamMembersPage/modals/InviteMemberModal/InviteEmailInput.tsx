@@ -1,17 +1,22 @@
 import {useToast} from '^hooks/useToast';
-import React, {memo, KeyboardEvent} from 'react';
+import React, {memo, KeyboardEvent, useEffect} from 'react';
 import {FieldValues, UseFieldArrayReturn, UseFormReturn} from 'react-hook-form';
 import {IoClose} from 'react-icons/io5';
 
 interface InviteEmailInputProps {
     form: UseFormReturn<FieldValues, any>;
     fieldArray: UseFieldArrayReturn<FieldValues, 'emails', 'id'>;
-    confirmOrgMember: () => true | undefined;
+    confirmOrgMember: () => boolean | undefined;
 }
 
 export const InviteEmailInput = memo((props: InviteEmailInputProps) => {
     const {form, fieldArray, confirmOrgMember} = props;
     const {toast} = useToast();
+
+    useEffect(() => {
+        const emailInput = document.querySelector('input[name=email]') as HTMLElement;
+        emailInput.focus();
+    });
 
     // 초대 이메일 배열에 추가하는 함수
     const addInvitedEmail = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -33,7 +38,7 @@ export const InviteEmailInput = memo((props: InviteEmailInputProps) => {
             return;
         }
 
-        if (isOrgMember) {
+        if (!isOrgMember) {
             e.stopPropagation();
             e.preventDefault();
             return;
@@ -66,11 +71,11 @@ export const InviteEmailInput = memo((props: InviteEmailInputProps) => {
             </div>
             <div className="flex gap-2 justify-between">
                 <input
+                    {...form.register('email')}
                     type="email"
                     placeholder="이메일을 입력하세요."
                     onKeyUp={(e) => e.key === 'Enter' && addInvitedEmail(e)}
                     className="input w-full p-2 focus:outline-none"
-                    {...form.register('email')}
                 />
             </div>
         </div>

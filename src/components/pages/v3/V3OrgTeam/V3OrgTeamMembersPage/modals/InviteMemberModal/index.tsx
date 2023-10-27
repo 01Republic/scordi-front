@@ -12,6 +12,7 @@ import {CreateMembershipInvite} from '^api/membership.api';
 import {useMemberships} from '^hooks/useMemberships';
 import {debounce} from 'lodash';
 import {useToast} from '^hooks/useToast';
+import Swal from 'sweetalert2';
 
 export const InviteOrgMemberModal = memo(() => {
     const {isShow, Modal, close} = useModal({isShowAtom: isOpeninviteOrgMemberModalAtom});
@@ -20,8 +21,6 @@ export const InviteOrgMemberModal = memo(() => {
     const form = useForm<FieldValues>();
     const fieldArray = useFieldArray({control: form.control, name: 'emails'});
     const {toast} = useToast();
-
-    // const {startPause, endPause} = handlers;
 
     useEffect(() => {
         if (!isShow) {
@@ -39,22 +38,24 @@ export const InviteOrgMemberModal = memo(() => {
     const confirmOrgMember = () => {
         const invitedEmail = form.getValues('email');
 
-        const orgMemberEmails = membershipSearchResult.items.filter((item) => {
+        const membership = membershipSearchResult.items.filter((item) => {
             return item.invitedEmail === invitedEmail;
         });
-        if (orgMemberEmails.length === 0) return;
+        if (membership.length === 0) return true;
 
-        const orgMemberEmail = orgMemberEmails[0].approvalStatus;
+        const orgMemberEmail = membership[0].approvalStatus;
 
         if (orgMemberEmail === 'PENDING') {
             toast.error('승인 대기 중인 멤버입니다.');
-            return true;
+            return false;
         }
 
         if (orgMemberEmail === 'APPROVED') {
             toast.error('이미 등록된 멤버입니다.');
-            return true;
+            return false;
         }
+
+        return true;
     };
 
     // 초대 이메일 보내는 함수
@@ -62,8 +63,9 @@ export const InviteOrgMemberModal = memo(() => {
         if (!currentOrg) return;
 
         const isOrgMember = confirmOrgMember();
+        console.log('isOrgMember', isOrgMember);
         // 이미 조직에 가입된 멤버라면 return
-        if (isOrgMember) {
+        if (!isOrgMember) {
             return;
         }
 
@@ -77,10 +79,16 @@ export const InviteOrgMemberModal = memo(() => {
         }
         CreateMembershipInvite({organizationId: currentOrg.id, invitedEmails: invitedEmails})
             .then(() => {
-                toast.success('초대가 완료되었습니다!');
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: '초대가 완료되었습니다.',
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
                 setTimeout(() => {
                     close();
-                }, 3000);
+                }, 2000);
             })
             .catch((err) => console.log(err));
     }, 500);

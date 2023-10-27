@@ -6,6 +6,7 @@ import {useRouter} from 'next/router';
 import {orgIdParamState} from '^atoms/common';
 import {V3OrgTeamMemberShowPageRoute} from '^pages/v3/orgs/[orgId]/teams/members/[memberId]';
 import {makeTeamMemberProfile} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/atom';
+import {useToast} from '^hooks/useToast';
 
 interface TeamMemberItemProps {
     item: TeamMemberDto;
@@ -14,16 +15,21 @@ interface TeamMemberItemProps {
 export const TeamMemberItem = memo((props: TeamMemberItemProps) => {
     const {item: teamMember} = props;
     const orgId = useRecoilValue(orgIdParamState);
-    const router = useRouter();
     const {name, jobName, profileImgUrl} = makeTeamMemberProfile(teamMember);
     const approvalStatus = teamMember.membership.approvalStatus;
+    const router = useRouter();
+    const {toast} = useToast();
 
-    const onClick = () => router.push(V3OrgTeamMemberShowPageRoute.path(orgId, teamMember.id));
+    const onClick = () => {
+        approvalStatus === 'APPROVED'
+            ? router.push(V3OrgTeamMemberShowPageRoute.path(orgId, teamMember.id))
+            : toast.error('초대중인 멤버입니다.');
+    };
 
     return (
         <div
-            className={`flex items-center gap-4 px-3 py-2.5 -mx-3 bg-base-100 text-gray-700 cursor-pointer hover:bg-neutral ${
-                approvalStatus === 'PENDING' && 'opacity-50'
+            className={`flex items-center gap-4 px-3 py-2.5 -mx-3 bg-base-100 text-gray-700  hover:bg-neutral ${
+                approvalStatus === 'PENDING' ? 'opacity-50' : 'cursor-pointer'
             }`}
             onClick={onClick}
         >
