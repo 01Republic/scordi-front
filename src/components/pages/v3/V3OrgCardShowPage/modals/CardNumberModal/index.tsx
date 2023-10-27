@@ -54,6 +54,7 @@ export const CardNumberModal = memo(() => {
         checkCardInfomations();
 
         const formData = form.watch();
+
         const json = JSON.stringify(formData);
         const encrypted = CryptoJS.AES.encrypt(json, cardSign).toString();
         setCreditCardData({...creditCardData, sign: encrypted});
@@ -63,7 +64,7 @@ export const CardNumberModal = memo(() => {
         // const isPersonal = !isCorporateCard;
 
         // setCreditCardData({...creditCardData, isPersonal: isPersonal});
-        openInputCardCompanyModal();
+        // openInputCardCompanyModal();
     };
 
     //카드 번호 수정 함수
