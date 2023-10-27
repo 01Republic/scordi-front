@@ -61,7 +61,7 @@ export const AuthCodeInput = memo(() => {
                     className="btn btn-sm btn-ghost text-scordi-500 absolute right-4 top-0 bottom-0 m-auto w-[80px]"
                 >
                     <Timer
-                        sec={1 * 60}
+                        sec={2 * 60}
                         onFinish={({reset}) => {
                             const confirmMessage = `${t('phone_auth.code_input.code_has_been_expired')}\n${t(
                                 'phone_auth.code_input.shall_i_send_new_code',
