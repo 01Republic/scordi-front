@@ -5,7 +5,7 @@ import {DefaultButton} from '^components/Button';
 import {creditcardAtom, inputCardHoldingMemeberModal, selectAppModal} from '../atom';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {creditCardApi} from '^api/credit-crads.api';
+import {creditCardApi} from '^api/credit-cards.api';
 import {useRouter} from 'next/router';
 import {V3OrgCardDetailPageRoute} from '^pages/v3/orgs/[orgId]/cards/[cardId]';
 import {CardAppList} from './CardAppList';

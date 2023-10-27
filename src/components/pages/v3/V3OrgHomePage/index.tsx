@@ -28,7 +28,12 @@ import {TopNavOrgSelect} from '^v3/share/TobNav/TopNavOrgSelect';
 import {RenewInvoiceAccountModalMobile} from '^v3/V3OrgHomePage/RenewInvoiceAccountModal/mobile';
 import {MonthlyPaidAmountModal} from '^v3/V3OrgHomePage/MonthlyPaidAmountModal';
 import {MonthlyRemainAmountModal} from '^v3/V3OrgHomePage/MonthlyRemainAmountModal';
-import {CardsPanel} from './mobile/CradsPanel';
+import {CardsPanel} from './mobile/CardsPanel';
+import {CardNumberModal} from '^v3/V3OrgCardShowPage/modals/CardNumberModal';
+import {CardCompanyModal} from '^v3/V3OrgCardShowPage/modals/CardCompanyModal';
+import {CardNameModal} from '^v3/V3OrgCardShowPage/modals/CardNameModal';
+import {CardHoldingMember} from '^v3/V3OrgCardShowPage/modals/CardHoldingMemberModal';
+import {SelectAppModal} from '^v3/V3OrgCardShowPage/modals/SelectAppModal';
 
 export const V3OrgHomePage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -86,6 +91,11 @@ export const V3OrgHomePage = memo(() => {
                     RenewInvoiceAccountModalMobile,
                     MonthlyPaidAmountModal,
                     MonthlyRemainAmountModal,
+                    CardNumberModal,
+                    CardCompanyModal,
+                    CardNameModal,
+                    CardHoldingMember,
+                    SelectAppModal,
                 ]}
                 topRightButtons={currentUser?.isAdmin ? [TopNavOrgSelect, TopNavProfileButton] : []}
             >

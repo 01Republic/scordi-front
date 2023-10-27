@@ -10,8 +10,8 @@ import {cardSign} from '^config/environments';
 import {useToast} from '^hooks/useToast';
 import {InputCardNumber} from './InputCardNumber';
 import {creditCardSignAtom} from '../../atom';
-import {creditCardApi} from '^api/credit-crads.api';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {creditCardApi} from '^api/credit-cards.api';
 
 export const CardNumberModal = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardNumberModal);
@@ -78,16 +78,13 @@ export const CardNumberModal = memo(() => {
         const encrypted = CryptoJS.AES.encrypt(json, cardSign).toString();
         setCreditCardData({...creditCardData, sign: encrypted});
 
-        const data = await creditCardApi.update(orgId, cardId, creditCardData).then((res) => {
-            return res;
-        });
+        const data = await creditCardApi.update(orgId, cardId, creditCardData);
 
-        if (data.status === 200) {
+        if (data) {
             toast.success('카드번호가 수정되었습니다');
             const json = CryptoJS.AES.decrypt(data.data.sign, cardSign).toString(CryptoJS.enc.Utf8);
             const toString = JSON.parse(json);
             setCardSignInfo(toString);
-            // TODO: null로 복호화됨
 
             setTimeout(() => {
                 close();

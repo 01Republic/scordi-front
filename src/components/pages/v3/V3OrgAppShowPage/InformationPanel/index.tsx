@@ -60,7 +60,11 @@ export const InformationPanel = memo(() => {
                     <MobileInfoList>
                         {/*<MobileInfoListItem label="카테고리" />*/}
                         {/*<MobileInfoListItem label="현재 플랜" />*/}
-                        <ListItemForPaymentMethod lastPaidHistory={lastPaidHistory} />
+                        <ListItemForPaymentMethod
+                            subscription={currentSubscription}
+                            lastPaidHistory={lastPaidHistory}
+                        />
+
                         {nextPayAmount && nextPayAmount.isNotDomestic() && (
                             <MobileInfoListItem
                                 label="해외결제금액"

@@ -21,7 +21,7 @@ import {SelectAppModal} from '../V3OrgCardShowPage/modals/SelectAppModal';
 import {CardHoldingMember} from '../V3OrgCardShowPage/modals/CardHoldingMemberModal/CardHoldingMemberModal';
 import {ContentEmpty} from '../V3OrgHomePage/mobile/ContentEmpty';
 import {CardList} from '../V3OrgCardShowPage/CardList';
-import {creditCardApi} from '^api/credit-crads.api';
+import {creditCardApi} from '^api/credit-cards.api';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 
 export const V3OrgCardDetailPage = memo(() => {

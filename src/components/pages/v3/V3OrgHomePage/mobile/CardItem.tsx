@@ -7,7 +7,7 @@ import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import CryptoJS from 'crypto-js';
 import {cardSign} from '^config/environments';
 import {GoKebabHorizontal} from 'react-icons/go';
-import {creditCardApi} from '^api/credit-crads.api';
+import {creditCardApi} from '^api/credit-cards.api';
 
 interface CardItemProps {
     card: CreditCardDto;
@@ -34,7 +34,7 @@ export const CardItem = memo((props: CardItemProps) => {
         if (!orgId && !cardId) return;
 
         alert('카드를 삭제하시겠습니까?');
-        creditCardApi.destory(orgId, cardId).then(() =>
+        creditCardApi.destroy(orgId, cardId).then(() =>
             setCreditCardList((cards) => {
                 const remainCards = cards.filter((card) => {
                     return card.id !== cardId;

@@ -1,18 +1,18 @@
 import {UpdateCreditCardDto} from './../types/credit-cards.type';
 import {Paginated} from '^types/utils/paginated.dto';
 import {api} from './api';
-import {CreateCreditCardDto, CreditCardDto} from '^types/credit-cards.type';
+import {CreateCreditCardDto, CreditCardDto, FindAllCreditCardDto} from '^types/credit-cards.type';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 
 export const creditCardApi = {
-    index(orgId: number) {
+    index(orgId: number, params?: FindAllCreditCardDto) {
         const url = `/organizations/${orgId}/credit-cards`;
         return api.get<Paginated<CreditCardDto>>(url).then(paginatedDtoOf(CreditCardDto));
     },
 
     show(orgId: number, id: number) {
         const url = `/organizations/${orgId}/credit-cards/${id}`;
-        return api.get<CreditCardDto>(url);
+        return api.get<CreditCardDto>(url).then(oneDtoOf(CreditCardDto));
     },
 
     create(orgId: number, data: CreateCreditCardDto) {
@@ -25,7 +25,7 @@ export const creditCardApi = {
         return api.patch<CreditCardDto>(url, data).then(oneDtoOf(CreditCardDto));
     },
 
-    destory(orgId: number, id: number) {
+    destroy(orgId: number, id: number) {
         const url = `/organizations/${orgId}/credit-cards/${id}`;
         return api.delete<CreditCardDto>(url);
     },
