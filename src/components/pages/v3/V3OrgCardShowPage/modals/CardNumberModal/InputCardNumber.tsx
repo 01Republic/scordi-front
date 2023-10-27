@@ -1,5 +1,8 @@
 import React, {memo, useEffect} from 'react';
 import {FieldValues, UseFormReturn} from 'react-hook-form';
+import {creditCardSignAtom} from '../../atom';
+import {useRecoilValue} from 'recoil';
+import {CreditCardNumber} from '^types/credit-cards.type';
 
 interface InputCardNumberProps {
     form: UseFormReturn<FieldValues, any>;
@@ -8,6 +11,7 @@ interface InputCardNumberProps {
 export const InputCardNumber = memo((props: InputCardNumberProps) => {
     const {form} = props;
     const inputFields = ['number1', 'number2', 'number3', 'number4'];
+    const cardSignInfo = useRecoilValue(creditCardSignAtom);
 
     useEffect(() => {
         const number1 = document.querySelector('input[name="number1"]') as HTMLInputElement;
@@ -20,9 +24,11 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
             const nextInput = document.querySelector(`input[name="number${nextPart}"]`) as HTMLInputElement;
             if (nextInput) {
                 nextInput.focus();
+                nextInput.value = '';
             }
         }
     };
+
     return (
         <div>
             {/* 카드번호 input */}
@@ -31,18 +37,22 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
             </label>
 
             <div className="flex gap-3 mb-3">
-                {inputFields.map((field, i) => (
-                    <input
-                        key={i}
-                        {...form.register(field)}
-                        type="text"
-                        placeholder="● ● ● ●"
-                        pattern="\d*"
-                        maxLength={4}
-                        className="input input-bordered w-full placeholder:text-[0.5rem]"
-                        onChange={(e) => moveNextInput(i + 1, e.target.value)}
-                    />
-                ))}
+                {inputFields.map((field, i) => {
+                    const key = `number${i + 1}` as keyof CreditCardNumber;
+                    return (
+                        <input
+                            {...form.register(field)}
+                            key={i}
+                            type="text"
+                            placeholder="● ● ● ●"
+                            pattern="\d*"
+                            maxLength={4}
+                            defaultValue={cardSignInfo[key] ?? ''}
+                            className="input input-bordered w-full placeholder:text-[0.5rem]"
+                            onChange={(e) => moveNextInput(i + 1, e.target.value)}
+                        />
+                    );
+                })}
             </div>
         </div>
     );

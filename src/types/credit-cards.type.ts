@@ -47,6 +47,8 @@ export class CreditCardSecretInfo {
     expiry?: string;
 }
 
+export type CreditCardNumber = Pick<CreditCardSecretInfo, 'number1' | 'number2' | 'number3' | 'number4'>;
+
 export class UnSignedCreditCardFormData extends CreditCardSecretInfo {
     name?: string | null;
     issuerCompany?: string | null;

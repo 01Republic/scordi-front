@@ -1,21 +1,47 @@
 import React, {memo, useState} from 'react';
 import {useRecoilState} from 'recoil';
 import Select from 'react-select';
+import {useToast} from '^hooks/useToast';
 import {useModal} from '../../share/modals/useModal';
 import {ModalTopbar} from '../../share/modals/ModalTopbar';
-import {creditcardAtom, inputCardNameModal, selectCardCompanyModal} from './atom';
 import {DefaultButton} from '^components/Button';
+import {creditcardAtom, inputCardNameModal, selectCardCompanyModal} from './atom';
+import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {creditCardApi} from '^api/credit-crads.api';
 
 export const CardCompanyModal = memo(() => {
     const {Modal, close} = useModal(selectCardCompanyModal);
     const {open: openInputCardNameModal} = useModal(inputCardNameModal);
-    const [creditCardData, setCreditCardData] = useRecoilState(creditcardAtom);
+    const [cardDetailInfo, setCardDetailInfo] = useRecoilState(creditcardAtom);
     const [issuerCompany, setIssuerCompany] = useState('');
+    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const cardId = useRouterIdParamState('cardId', cardIdParamState);
+    const {toast} = useToast();
 
+    // 카드사 등록 함수
     const submitCardCompany = () => {
         if (!issuerCompany) return;
 
-        setCreditCardData({...creditCardData, issuerCompany: issuerCompany});
+        setCardDetailInfo({...cardDetailInfo, issuerCompany: issuerCompany});
+    };
+
+    // 카드사 수정 함수
+    const updateCardCompany = async () => {
+        if (!issuerCompany) return;
+
+        const data = await creditCardApi.update(orgId, cardId, {
+            issuerCompany: issuerCompany,
+        });
+
+        if (data) {
+            if (!data.data) return;
+
+            toast.success('카드 별칭이 변경되었습니다.');
+            setTimeout(() => {
+                close();
+            }, 2000);
+            setCardDetailInfo({...cardDetailInfo, issuerCompany: issuerCompany});
+        }
     };
 
     return (
@@ -23,28 +49,32 @@ export const CardCompanyModal = memo(() => {
             <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
             <div className="px-5 flex flex-col justify-start gap-10">
                 <div className="py-5 pt-20">
-                    <p className="mb-4">새로운 카드 등록하기</p>
+                    <p className="mb-4">{cardId ? '카드 수정하기' : '새로운 카드 등록하기'}</p>
                     <h2 className="h1 leading-tight">카드사를 선택해주세요</h2>
                 </div>
                 <div>
                     <Select
                         value={OPTIONS.find((option) => option.value === issuerCompany)}
                         options={OPTIONS}
+                        defaultValue={{value: cardDetailInfo.issuerCompany ?? '', label: cardDetailInfo.issuerCompany}}
                         onChange={(e) => e && setIssuerCompany(e?.value)}
                         className="select-underline input-underline"
                         placeholder="전체"
                     />
                     <span></span>
                 </div>
-
-                <DefaultButton
-                    onClick={() => {
-                        submitCardCompany();
-                        openInputCardNameModal();
-                    }}
-                    text="다음"
-                    type="button"
-                />
+                {cardId ? (
+                    <DefaultButton onClick={updateCardCompany} text="확인" type="button" />
+                ) : (
+                    <DefaultButton
+                        onClick={() => {
+                            submitCardCompany();
+                            openInputCardNameModal();
+                        }}
+                        text="다음"
+                        type="button"
+                    />
+                )}
             </div>
         </Modal>
     );

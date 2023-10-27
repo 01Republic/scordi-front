@@ -1,24 +1,27 @@
-import React, {memo, useState} from 'react';
+import React, {memo} from 'react';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {DefaultButton} from '^components/Button';
 import {creditcardAtom, inputCardHoldingMemeberModal, selectAppModal} from '../atom';
-import {useRecoilState} from 'recoil';
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-crads.api';
 import {useRouter} from 'next/router';
 import {V3OrgCardDetailPageRoute} from '^pages/v3/orgs/[orgId]/cards/[cardId]';
 import {CardAppList} from './CardAppList';
-import {ProductDto} from '^types/product.type';
+import {toast} from 'react-toastify';
+import {selectedAppsAtom} from '../../atom';
 
 export const SelectAppModal = memo(() => {
     const {Modal, close} = useModal(selectAppModal);
     const {close: closeInputCardHoldingMemberModal} = useModal(inputCardHoldingMemeberModal);
     const [creditCardData, setCreditCardData] = useRecoilState(creditcardAtom);
-    const [selectedApps, setSelectedApps] = useState<ProductDto[]>([]);
+    const selectedApps = useRecoilValue(selectedAppsAtom);
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const cardId = useRouterIdParamState('cardId', cardIdParamState);
     const router = useRouter();
 
+    // 카드 연동 앱 등록 함수
     const submitCardNumber = () => {
         const productIds = selectedApps.map((app) => {
             return app.id;
@@ -31,6 +34,23 @@ export const SelectAppModal = memo(() => {
 
         close();
         closeInputCardHoldingMemberModal();
+    };
+
+    // 카드 연동 앱 수정 함수
+    const updateCardApps = async () => {
+        if (!selectedApps) return;
+        const productIds = selectedApps.map((app) => {
+            return app.id;
+        });
+
+        const data = await creditCardApi.update(orgId, cardId, {productIds: productIds});
+
+        if (data) {
+            toast.success('앱 등록이 완료되었습니다.');
+            setTimeout(() => {
+                close();
+            }, 2000);
+        }
     };
 
     return (
@@ -47,9 +67,12 @@ export const SelectAppModal = memo(() => {
                     </h2>
                 </div>
 
-                <CardAppList selectedApps={selectedApps} setSelectedApps={setSelectedApps} />
-
-                <DefaultButton text="완료" type="button" onClick={submitCardNumber} />
+                <CardAppList />
+                {cardId ? (
+                    <DefaultButton text="확인" type="button" onClick={updateCardApps} />
+                ) : (
+                    <DefaultButton text="완료" type="button" onClick={submitCardNumber} />
+                )}
             </div>
         </Modal>
     );

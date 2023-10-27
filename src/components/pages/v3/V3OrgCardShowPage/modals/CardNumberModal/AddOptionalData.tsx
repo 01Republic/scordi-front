@@ -1,6 +1,8 @@
 import {useToast} from '^hooks/useToast';
 import React, {ChangeEvent, memo, useState} from 'react';
 import {FieldValues, UseFormReturn} from 'react-hook-form';
+import {useRecoilValue} from 'recoil';
+import {creditCardSignAtom} from '../../atom';
 
 interface AddOptionalDataProps {
     form: UseFormReturn<FieldValues, any>;
@@ -11,6 +13,7 @@ export const AddOptionalData = memo((props: AddOptionalDataProps) => {
     const {toast} = useToast();
     const [expiryNumber, setExpiryNumber] = useState<string>('');
     const [isChecked, setIsChecked] = useState(false);
+    const cardSignInfo = useRecoilValue(creditCardSignAtom);
 
     const checkExpiryDate = (e: ChangeEvent<HTMLInputElement>) => {
         const expiryDate = e.target.value.trim();
@@ -43,6 +46,7 @@ export const AddOptionalData = memo((props: AddOptionalDataProps) => {
                         placeholder="MM/YY"
                         pattern="\d*"
                         maxLength={4}
+                        defaultValue={cardSignInfo.expiry}
                         value={expiryNumber}
                         className="input input-bordered w-full max-w-xs"
                         onChange={(e) => checkExpiryDate(e)}
@@ -53,8 +57,9 @@ export const AddOptionalData = memo((props: AddOptionalDataProps) => {
                     <input
                         {...form.register('cvc')}
                         type="text"
-                        placeholder="CVC"
                         pattern="\d*"
+                        defaultValue={cardSignInfo.cvc ?? ''}
+                        placeholder="CVC"
                         maxLength={3}
                         className="input input-bordered w-full max-w-xs"
                     />

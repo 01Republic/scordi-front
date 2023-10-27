@@ -1,22 +1,26 @@
-import React, {memo, useEffect, useState} from 'react';
-import {useRecoilState} from 'recoil';
-import {useForm} from 'react-hook-form';
+import React, {memo, useEffect} from 'react';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import CryptoJS from 'crypto-js';
+import {useForm} from 'react-hook-form';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {DefaultButton} from '^components/Button';
 import {creditcardAtom, inputCardNumberModal, selectCardCompanyModal} from '../atom';
-import {CreditCardSecretInfo} from '^types/credit-cards.type';
 import {cardSign} from '^config/environments';
 import {useToast} from '^hooks/useToast';
-import {AddOptionalData} from './AddOptionalData';
 import {InputCardNumber} from './InputCardNumber';
+import {creditCardSignAtom} from '../../atom';
+import {creditCardApi} from '^api/credit-crads.api';
+import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 
 export const CardNumberModal = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardNumberModal);
     const {open: openInputCardCompanyModal} = useModal(selectCardCompanyModal);
     const [creditCardData, setCreditCardData] = useRecoilState(creditcardAtom);
-    const [cardNumbers, setCardNumbers] = useState<CreditCardSecretInfo>({});
+    const setCardSignInfo = useSetRecoilState(creditCardSignAtom);
+    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const cardId = useRouterIdParamState('cardId', cardIdParamState);
+
     const form = useForm();
     const {toast} = useToast();
 
@@ -36,9 +40,7 @@ export const CardNumberModal = memo(() => {
             toast.error('카드 번호를 확인해주세요');
             return false;
         }
-        const formData = form.watch();
 
-        setCardNumbers(formData);
         return true;
     };
 
@@ -50,7 +52,8 @@ export const CardNumberModal = memo(() => {
 
         checkCardInfomations();
 
-        const json = JSON.stringify(cardNumbers);
+        const formData = form.watch();
+        const json = JSON.stringify(formData);
         const encrypted = CryptoJS.AES.encrypt(json, cardSign).toString();
         setCreditCardData({...creditCardData, sign: encrypted});
 
@@ -62,21 +65,54 @@ export const CardNumberModal = memo(() => {
         openInputCardCompanyModal();
     };
 
+    //카드 번호 수정 함수
+    const updateCardInfomations = async () => {
+        const isCheckCardNumber = checkCardInfomations();
+
+        if (!isCheckCardNumber) return;
+
+        checkCardInfomations();
+        const updateCardData = form.watch();
+
+        const json = JSON.stringify(updateCardData);
+        const encrypted = CryptoJS.AES.encrypt(json, cardSign).toString();
+        setCreditCardData({...creditCardData, sign: encrypted});
+
+        const data = await creditCardApi.update(orgId, cardId, creditCardData).then((res) => {
+            return res;
+        });
+
+        if (data.status === 200) {
+            toast.success('카드번호가 수정되었습니다');
+            const json = CryptoJS.AES.decrypt(data.data.sign, cardSign).toString(CryptoJS.enc.Utf8);
+            const toString = JSON.parse(json);
+            setCardSignInfo(toString);
+            // TODO: null로 복호화됨
+
+            setTimeout(() => {
+                close();
+            }, 2000);
+        }
+    };
+
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
             <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
 
             <form className="px-5 ">
                 <div className="py-5 pt-20">
-                    <p className="mb-4">새로운 카드 등록하기</p>
+                    <p className="mb-4">{cardId ? '카드 수정하기' : '새로운 카드 등록하기'}</p>
                     <h2 className="h1 leading-tight">카드 번호를 입력해주세요</h2>
                 </div>
 
                 <InputCardNumber form={form} />
-                <AddOptionalData form={form} />
 
                 <div className="mt-10">
-                    <DefaultButton text="다음" type="button" onClick={submitCardInfomations} />
+                    {cardId ? (
+                        <DefaultButton text="확인" type="button" onClick={updateCardInfomations} />
+                    ) : (
+                        <DefaultButton text="다음" type="button" onClick={submitCardInfomations} />
+                    )}
                 </div>
             </form>
         </Modal>

@@ -11,18 +11,20 @@ export interface Option {
 interface MultiSelectProps {
     value: Option[];
     defaultOptions?: Option[];
+    defaultValue?: Option;
     loadOptions: (inputValue: string) => Promise<Option[]>;
     onChange: (options: MultiValue<Option>, action?: ActionMeta<Option>) => any;
     style?: StylesConfig<Option>;
 }
 
-export const MultiSelect = ({value, defaultOptions, loadOptions, onChange, style}: MultiSelectProps) => {
+export const MultiSelect = ({value, defaultOptions, defaultValue, loadOptions, onChange, style}: MultiSelectProps) => {
     return (
         <AsyncCreatableSelect
             isMulti
             cacheOptions
             defaultOptions={defaultOptions ?? true}
             // getOptionLabel={getOptionLabel}
+            defaultValue={defaultValue}
             value={value}
             loadOptions={loadOptions}
             onChange={(newValue, actionMeta) => onChange(newValue, actionMeta)}

@@ -1,37 +1,24 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo} from 'react';
+import {useRecoilValue} from 'recoil';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {AiOutlineEdit} from 'react-icons/ai';
 import {useModal} from '../../share/modals/useModal';
 import {
+    creditcardAtom,
     inputCardHoldingMemeberModal,
     inputCardNameModal,
     inputCardNumberModal,
     selectCardCompanyModal,
 } from '../../V3OrgCardShowPage/modals/atom';
-import {CreditCardDto, CreditCardSecretInfo} from '^types/credit-cards.type';
-import {cardSign} from '^config/environments';
-import CryptoJS from 'crypto-js';
+import {creditCardSignAtom} from '../../V3OrgCardShowPage/atom';
 
-interface informationPanelProps {
-    cardDetailInfo: CreditCardDto | undefined;
-}
-
-export const InformationPanel = memo((props: informationPanelProps) => {
-    const {cardDetailInfo} = props;
-    const [cardInfo, setCardInfo] = useState<CreditCardSecretInfo>({});
+export const InformationPanel = memo(() => {
+    const cardInfo = useRecoilValue(creditCardSignAtom);
+    const cardDetailInfo = useRecoilValue(creditcardAtom);
     const {open: openInputCardNameModal} = useModal(inputCardNameModal);
     const {open: openInputCardNumberModal} = useModal(inputCardNumberModal);
     const {open: openInputCardHoldingMemberModal} = useModal(inputCardHoldingMemeberModal);
     const {open: openSelectCardCompanyModal} = useModal(selectCardCompanyModal);
-
-    useEffect(() => {
-        if (!cardDetailInfo) return;
-
-        const json = CryptoJS.AES.decrypt(cardDetailInfo?.sign, cardSign).toString(CryptoJS.enc.Utf8);
-        const toString = JSON.parse(json);
-
-        setCardInfo(toString);
-    }, [cardDetailInfo?.id]);
 
     // TODO: ui 수정 필요
     return (
@@ -76,7 +63,7 @@ export const InformationPanel = memo((props: informationPanelProps) => {
                             onClick={openInputCardHoldingMemberModal}
                             className="flex items-center gap-3 cursor-pointer group"
                         >
-                            {cardDetailInfo?.holdingMember ? (
+                            {cardDetailInfo.holdingMemberId ? (
                                 <p className="font-bold">{cardDetailInfo.holdingMemberId}</p>
                             ) : (
                                 <p className="text-gray-300">카드 소유자 등록하기</p>

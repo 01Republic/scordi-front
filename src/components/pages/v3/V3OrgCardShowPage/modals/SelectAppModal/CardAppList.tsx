@@ -5,22 +5,34 @@ import {cardIdParamState, useRouterIdParamState} from '^atoms/common';
 import {ProductDto} from '^types/product.type';
 import {ProductOption} from '^components/pages/v3/share/modals/AccountListModal/form/SelectProduct/ProductOption.type';
 import {CardAppItem} from './CardAppItem';
+import {creditcardAtom} from '../atom';
+import {useRecoilState} from 'recoil';
+import {selectedAppsAtom} from '../../atom';
 
-interface CardAppListProps {
-    selectedApps: ProductDto[];
-    setSelectedApps: Dispatch<React.SetStateAction<ProductDto[]>>;
-}
+export const CardAppList = memo(() => {
+    const [selectedApps, setSelectedApps] = useRecoilState(selectedAppsAtom);
 
-export const CardAppList = memo((props: CardAppListProps) => {
-    const {selectedApps, setSelectedApps} = props;
     const cardId = useRouterIdParamState('orgId', cardIdParamState);
+    const [cardDetailInfo, setCardDetailInfo] = useRecoilState(creditcardAtom);
 
     const [allAppList, setAllAppList] = useState<ProductDto[]>([]);
 
+    // select options 받아오기
     useEffect(() => {
         if (!cardId) return;
         getProducts().then((res) => setAllAppList(res.data.items));
     }, []);
+
+    // TODO: 카드 등록 후 에러 -> 수정 예정
+    // useEffect(() => {
+    //     if (!cardDetailInfo.productIds) return;
+
+    //     const cardProductId = allAppList.filter((app) => {
+    //         return cardDetailInfo.productIds?.includes(app.id);
+    //     });
+
+    //     setSelectedApps(cardProductId);
+    // }, [cardId]);
 
     const selectApp = (e: ProductOption) => {
         const selectedAppId = e.value;

@@ -1,4 +1,5 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useEffect} from 'react';
+import {useRecoilState} from 'recoil';
 import {MobileSection} from '../share/sections/MobileSection';
 import {V3ModalLikeLayoutMobile} from '../layouts/V3ModalLikeLayout.mobile';
 import {InformationPanel} from './InformationPanel';
@@ -11,17 +12,17 @@ import {
     inputCardNumberModal,
     selectAppModal,
     inputCardHoldingMemeberModal,
+    creditcardAtom,
 } from '../V3OrgCardShowPage/modals/atom';
-
 import {CardNumberModal} from '../V3OrgCardShowPage/modals/CardNumberModal';
 import {CardNameModal} from '../V3OrgCardShowPage/modals/CardNameModal';
 import {CardCompanyModal} from '../V3OrgCardShowPage/modals/CardCompanyModal';
 import {SelectAppModal} from '../V3OrgCardShowPage/modals/SelectAppModal';
-import {CardHoldingMember} from '../V3OrgCardShowPage/modals/CardHoldingMemberModal';
+import {CardHoldingMember} from '../V3OrgCardShowPage/modals/CardHoldingMemberModal/CardHoldingMemberModal';
 import {ContentEmpty} from '../V3OrgHomePage/mobile/ContentEmpty';
+import {CardList} from '../V3OrgCardShowPage/CardList';
 import {creditCardApi} from '^api/credit-crads.api';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {CreditCardDto} from '^types/credit-cards.type';
 
 export const V3OrgCardDetailPage = memo(() => {
     const {isShow: isAddCardModal} = useModal(addCardModal);
@@ -33,11 +34,10 @@ export const V3OrgCardDetailPage = memo(() => {
 
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
-
-    const [cardDetailInfo, setCardDetailInfo] = useState<CreditCardDto>();
+    const [cardDetailInfo, setCardDetailInfo] = useRecoilState(creditcardAtom);
 
     useEffect(() => {
-        if (!orgId && !cardId) return;
+        if (!cardId && isNaN(cardId)) return;
         creditCardApi.show(orgId, cardId).then((res) => setCardDetailInfo(res.data));
     }, [cardId]);
 
@@ -48,10 +48,18 @@ export const V3OrgCardDetailPage = memo(() => {
         >
             <MobileSection.List>
                 {/* 카드정보 */}
-                <InformationPanel cardDetailInfo={cardDetailInfo} />
+                <InformationPanel />
                 <div className="bg-white">
                     <MobileSection.Padding>
-                        <ContentEmpty text="등록된 앱이 없어요" subtext="눌러서 앱 추가" onClick={openSelectAppModal} />
+                        {cardDetailInfo.productIds ? (
+                            <CardList />
+                        ) : (
+                            <ContentEmpty
+                                text="등록된 앱이 없어요"
+                                subtext="눌러서 앱 추가"
+                                onClick={openSelectAppModal}
+                            />
+                        )}
                     </MobileSection.Padding>
                 </div>
 
