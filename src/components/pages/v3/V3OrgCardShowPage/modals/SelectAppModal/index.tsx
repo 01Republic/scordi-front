@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
-import {DefaultButton} from '^components/Button';
+import {MobileSection} from '^v3/share/sections/MobileSection';
 import {creditcardAtom, inputCardHoldingMemeberModal, selectAppModal} from '../atom';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
@@ -11,6 +11,8 @@ import {V3OrgCardDetailPageRoute} from '^pages/v3/orgs/[orgId]/cards/[cardId]';
 import {CardAppList} from './CardAppList';
 import {toast} from 'react-toastify';
 import {selectedAppsAtom} from '../../atom';
+import {SkipButton} from '../skipButton';
+import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 
 export const SelectAppModal = memo(() => {
     const {Modal, close} = useModal(selectAppModal);
@@ -23,6 +25,7 @@ export const SelectAppModal = memo(() => {
 
     // 카드 연동 앱 등록 함수
     const submitCardNumber = () => {
+        console.log('실행');
         const productIds = selectedApps.map((app) => {
             return app.id;
         });
@@ -56,24 +59,32 @@ export const SelectAppModal = memo(() => {
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
             <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
-
-            <div className="px-5 flex flex-col justify-start gap-10">
-                <div className="py-5 pt-20">
-                    <p className="mb-4">새로운 카드 등록하기</p>
-                    <h2 className="h1 leading-tight">
-                        사용중인 서비스를
-                        <br />
-                        등록해주세요
-                    </h2>
-                </div>
+            <MobileSection.Padding>
+                <p className="mb-4 pt-20">새로운 카드 등록하기</p>
+                <h2 className="h1 leading-tight mb-10">
+                    사용중인 서비스를
+                    <br />
+                    등록해주세요
+                </h2>
+                <SkipButton
+                    submitCardNumber={submitCardNumber}
+                    currentModal="selectAppModal"
+                    isModify={cardId ? true : false}
+                />
 
                 <CardAppList />
+            </MobileSection.Padding>
+            <ModalLikeBottomBar>
                 {cardId ? (
-                    <DefaultButton text="확인" type="button" onClick={updateCardApps} />
+                    <button onClick={updateCardApps} className="btn-modal">
+                        확인
+                    </button>
                 ) : (
-                    <DefaultButton text="완료" type="button" onClick={submitCardNumber} />
+                    <button onClick={submitCardNumber} className="btn-modal">
+                        다음
+                    </button>
                 )}
-            </div>
+            </ModalLikeBottomBar>
         </Modal>
     );
 });
