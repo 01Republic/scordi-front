@@ -16,7 +16,7 @@ export const TeamMemberItem = memo((props: TeamMemberItemProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
     const {name, jobName, profileImgUrl} = makeTeamMemberProfile(teamMember);
-    const approvalStatus = teamMember.membership.approvalStatus;
+    const approvalStatus = teamMember.membership?.approvalStatus;
 
     const onClick = () => router.push(V3OrgTeamMemberShowPageRoute.path(orgId, teamMember.id));
 

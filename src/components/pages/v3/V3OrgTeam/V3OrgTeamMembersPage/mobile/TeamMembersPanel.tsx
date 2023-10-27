@@ -32,8 +32,8 @@ export const TeamMembersPanel = memo((props: TeamMembersPanel) => {
     }, [isShow]);
 
     // approvalStatus Approved -> Pending 순으로 보여지도록 구현
-    const persistedTeamMembers = teamMembers.filter((m) => m.membership.approvalStatus === ApprovalStatus.APPROVED);
-    const newTeamMembers = teamMembers.filter((m) => m.membership.approvalStatus !== ApprovalStatus.APPROVED);
+    const persistedTeamMembers = teamMembers.filter((m) => m.membership?.approvalStatus === ApprovalStatus.APPROVED);
+    const newTeamMembers = teamMembers.filter((m) => m.membership?.approvalStatus !== ApprovalStatus.APPROVED);
 
     return (
         <MobileSection.Item>
