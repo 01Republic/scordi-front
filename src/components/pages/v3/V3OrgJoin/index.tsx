@@ -4,8 +4,17 @@ import {GoogleOAuthProvider} from '@react-oauth/google';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {WithChildren} from '^types/global.type';
+import {useRouter} from 'next/router';
+import {useSetRecoilState} from 'recoil';
+import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
 
 export const V3OrgJoin = memo(() => {
+    const router = useRouter();
+    const orgId = router.query.orgId as string;
+    const setInvitedOrgId = useSetRecoilState(invitedOrgIdAtom);
+
+    if (orgId) setInvitedOrgId(Number(orgId));
+
     const googleOauthClientId = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID!;
 
     return (

@@ -30,6 +30,6 @@ export const getMembershipInviteValidate = (orgId: number, email: string) => {
     return api.get<MembershipDto>(`/${NAMESPACE}/invite/validate?orgId=${orgId}&email=${email}`);
 };
 
-export const patchInvitedMemberships = (id: number) => {
+export const confirmInvitedMemberships = (id: number) => {
     return api.patch<MembershipDto>(`/${NAMESPACE}/${id}/invite/confirm`);
 };
