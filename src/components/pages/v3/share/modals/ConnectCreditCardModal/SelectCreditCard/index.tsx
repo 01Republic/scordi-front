@@ -15,7 +15,7 @@ interface SelectCreditCardProps {
 
 function toOption(card: CreditCardDto): CreditCardOption {
     return {
-        label: card.name || card.issuerCompany || card.networkCompany || '',
+        label: card.label,
         value: card.id,
     };
 }
