@@ -13,6 +13,7 @@ import {toast} from 'react-toastify';
 import {selectedAppsAtom} from '../../atom';
 import {SkipButton} from '../skipButton';
 import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
+import {useFieldArray, useForm} from 'react-hook-form';
 
 export const SelectAppModal = memo(() => {
     const {Modal, close} = useModal(selectAppModal);
@@ -22,13 +23,18 @@ export const SelectAppModal = memo(() => {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
     const router = useRouter();
+    const form = useForm();
+    const fieldArray = useFieldArray({
+        control: form.control,
+        name: 'productIds',
+    });
 
     // 카드 연동 앱 등록 함수
     const submitCardNumber = () => {
-        console.log('실행');
-        const productIds = selectedApps.map((app) => {
-            return app.id;
+        const productIds = fieldArray.fields.map((app) => {
+            return app.productId;
         });
+
         setCreditCardData({...creditCardData, productIds: productIds});
 
         creditCardApi.create(orgId, creditCardData).then((res) => {
@@ -42,8 +48,9 @@ export const SelectAppModal = memo(() => {
     // 카드 연동 앱 수정 함수
     const updateCardApps = async () => {
         if (!selectedApps) return;
-        const productIds = selectedApps.map((app) => {
-            return app.id;
+
+        const productIds = fieldArray.fields.map((app) => {
+            return app.productId;
         });
 
         const data = await creditCardApi.update(orgId, cardId, {productIds: productIds});
@@ -71,8 +78,7 @@ export const SelectAppModal = memo(() => {
                     currentModal="selectAppModal"
                     isModify={cardId ? true : false}
                 />
-
-                <CardAppList />
+                <CardAppList form={form} fieldArray={fieldArray} />
             </MobileSection.Padding>
             <ModalLikeBottomBar>
                 {cardId ? (

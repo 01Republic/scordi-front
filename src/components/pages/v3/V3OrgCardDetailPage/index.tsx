@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import CryptoJS from 'crypto-js';
 import {MobileSection} from '../share/sections/MobileSection';
@@ -21,11 +21,11 @@ import {CardCompanyModal} from '../V3OrgCardShowPage/modals/CardCompanyModal';
 import {SelectAppModal} from '../V3OrgCardShowPage/modals/SelectAppModal';
 import {CardHoldingMember} from '../V3OrgCardShowPage/modals/CardHoldingMemberModal/CardHoldingMemberModal';
 import {ContentEmpty} from '../V3OrgHomePage/mobile/ContentEmpty';
-import {CardList} from '../V3OrgCardShowPage/CardList';
 import {creditCardApi} from '^api/credit-cards.api';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {cardSign} from '^config/environments';
-import {creditCardSignAtom} from '../V3OrgCardShowPage/atom';
+import {creditCardSignAtom, subscriptionsAtom} from '../V3OrgCardShowPage/atom';
+import {SubscriptionItem} from '../V3OrgHomePage/mobile/SubscriptionItem';
 
 export const V3OrgCardDetailPage = memo(() => {
     const {isShow: isAddCardModal} = useModal(addCardModal);
@@ -35,15 +35,18 @@ export const V3OrgCardDetailPage = memo(() => {
     const {isShow: isSelectCardCompanyModal} = useModal(selectCardCompanyModal);
     const {open: openSelectAppModal, isShow: isSelectAppModal} = useModal(selectAppModal);
 
+    const [subscriptions, setSubscriptions] = useRecoilState(subscriptionsAtom);
+    const setCardDetailInfo = useSetRecoilState(creditcardAtom);
+    const setCardSignInfo = useSetRecoilState(creditCardSignAtom);
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
-    const [cardDetailInfo, setCardDetailInfo] = useRecoilState(creditcardAtom);
-    const setCardSignInfo = useSetRecoilState(creditCardSignAtom);
 
     useEffect(() => {
         if (!cardId && isNaN(cardId)) return;
+
         creditCardApi.show(orgId, cardId).then((res) => {
             setCardDetailInfo(res.data);
+            setSubscriptions(res.data.subscriptions ?? []);
             const json = CryptoJS.AES.decrypt(res.data.sign, cardSign).toString(CryptoJS.enc.Utf8);
             const toString = JSON.parse(json);
             setCardSignInfo(toString);
@@ -60,8 +63,8 @@ export const V3OrgCardDetailPage = memo(() => {
                 <InformationPanel />
                 <div className="bg-white">
                     <MobileSection.Padding>
-                        {cardDetailInfo.productIds ? (
-                            <CardList />
+                        {subscriptions.length ? (
+                            subscriptions.map((subscription, i) => <SubscriptionItem key={i} item={subscription} />)
                         ) : (
                             <ContentEmpty
                                 text="등록된 앱이 없어요"
