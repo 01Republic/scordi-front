@@ -141,4 +141,6 @@ export type UpdateCreditCardDto = {
     productIds?: number[] | null;
 };
 
-export type FindAllCreditCardDto = FindAllQueryDto<CreditCardDto> & {};
+export type FindAllCreditCardDto = FindAllQueryDto<CreditCardDto> & {
+    keyword?: string;
+};
