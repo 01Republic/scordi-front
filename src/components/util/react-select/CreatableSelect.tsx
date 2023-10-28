@@ -6,6 +6,7 @@ import {BasicOption} from '^components/util/react-select/Option';
 interface CreatableSelectProps<Option extends BasicOption> {
     toOption: (value: any) => Option;
     loader: (inputValue?: string) => Promise<any[]>;
+    defaultOptions?: Option[];
     onChangeCallbacks: {
         onCreate?: (option: Option) => void;
         onSelect?: (option: Option) => void;
@@ -15,49 +16,41 @@ interface CreatableSelectProps<Option extends BasicOption> {
     };
     style?: StylesConfig<Option>;
     // 적용방법 모르는 옵션들 (10.28)
-    defaultOptions?: Option[];
     defaultValue?: Option;
 }
 
 export const CreatableSelect = <Option extends BasicOption>(props: CreatableSelectProps<Option>) => {
-    const {toOption, loader, onChangeCallbacks, style} = props;
-    const [defaultOptions, setDefaultOptions] = useState<Option[]>([]);
+    const {toOption, loader, defaultOptions, onChangeCallbacks, style} = props;
     const [selectedOption, setSelectedOption] = useState<Option | null>(null);
 
     const value = useMemo(() => selectedOption, [selectedOption]);
+
     const loadOptions = async (inputValue?: string) => {
-        return loader(inputValue).then((data) => {
-            const options = data.map(toOption);
-            setDefaultOptions(options);
-            return options;
-        });
+        return loader(inputValue).then((data) => data.map(toOption));
     };
 
     const onChange = (option: SingleValue<Option>, actionType: ActionMeta<Option>) => {
-        console.log('onChange option: ', option);
         const {onCreate, onSelect, onRemove, onClear, selectOnCreate = true} = onChangeCallbacks;
 
         switch (actionType.action) {
             case 'create-option':
-                const newOption = actionType.option;
-                if (!newOption || !newOption.__isNew__) return;
+                if (!option || !option.__isNew__) return;
 
-                onCreate && onCreate(newOption);
-                setDefaultOptions((prev) => [...prev, newOption]);
+                onCreate && onCreate(option);
+                // setDefaultOptions((prev) => [...prev, option]);/
 
                 if (selectOnCreate) {
-                    setSelectedOption(newOption);
-                    onSelect && onSelect(newOption);
+                    setSelectedOption(option);
+                    onSelect && onSelect(option);
                 }
 
                 break;
 
             case 'select-option':
-                const selectedOption = actionType.option;
-                if (!selectedOption) return;
+                if (!option) return;
 
-                setSelectedOption(selectedOption);
-                onSelect && onSelect(selectedOption);
+                setSelectedOption(option);
+                onSelect && onSelect(option);
 
                 break;
 

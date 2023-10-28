@@ -1,28 +1,28 @@
 import React, {memo, useEffect} from 'react';
-import {useRecoilState, useSetRecoilState} from 'recoil';
-import CryptoJS from 'crypto-js';
-import {useForm} from 'react-hook-form';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {useForm, UseFormReturn} from 'react-hook-form';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {creditcardAtom, inputCardNumberModal, selectCardCompanyModal} from '../atom';
-import {cardSign} from '^config/environments';
+import {inputCardNumberModal, selectCardCompanyModal, createCreditCardDtoAtom} from '../atom';
 import {useToast} from '^hooks/useToast';
 import {InputCardNumber} from './InputCardNumber';
 import {creditCardSignAtom} from '../../atom';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
+import {UnSignedCreditCardFormData} from '^types/credit-cards.type';
+import {plainToInstance} from 'class-transformer';
 
 export const CardNumberModal = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardNumberModal);
     const {open: openInputCardCompanyModal} = useModal(selectCardCompanyModal);
-    const [creditCardData, setCreditCardData] = useRecoilState(creditcardAtom);
+    const form = useForm<UnSignedCreditCardFormData>();
+    const [createCreditCardDto, setCreateCreditCardDto] = useRecoilState(createCreditCardDtoAtom);
+
     const setCardSignInfo = useSetRecoilState(creditCardSignAtom);
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
-
-    const form = useForm();
     const {toast} = useToast();
 
     useEffect(() => {
@@ -31,7 +31,7 @@ export const CardNumberModal = memo(() => {
         }
     }, [isShow]);
 
-    const checkCardInfomations = () => {
+    const checkCardInformation = () => {
         const cardNum1 = form.watch('number1');
         const cardNum2 = form.watch('number2');
         const cardNum3 = form.watch('number3');
@@ -46,47 +46,38 @@ export const CardNumberModal = memo(() => {
     };
 
     // 카드 번호 등록 함수
-    const submitCardInfomations = () => {
-        const isCheckCardNumber = checkCardInfomations();
-
+    const submitCardInformation = () => {
+        const isCheckCardNumber = checkCardInformation();
         if (!isCheckCardNumber) return;
 
-        checkCardInfomations();
-
-        const formData = form.watch();
-
-        const json = JSON.stringify(formData);
-        const encrypted = CryptoJS.AES.encrypt(json, cardSign).toString();
-        setCreditCardData({...creditCardData, sign: encrypted});
+        const formData = plainToInstance(UnSignedCreditCardFormData, form.getValues());
+        console.log(formData);
+        setCreateCreditCardDto({...createCreditCardDto, ...formData.toCreateDto()});
 
         openInputCardCompanyModal();
     };
 
     //카드 번호 수정 함수
-    const updateCardInfomations = async () => {
-        const isCheckCardNumber = checkCardInfomations();
-
+    const updateCardInformation = async () => {
+        const isCheckCardNumber = checkCardInformation();
         if (!isCheckCardNumber) return;
 
-        checkCardInfomations();
-        const updateCardData = form.watch();
+        const formData = form.getValues();
+        // setUpdateCreditCardDto(formData);
 
-        const json = JSON.stringify(updateCardData);
-        const encrypted = CryptoJS.AES.encrypt(json, cardSign).toString();
-        setCreditCardData({...creditCardData, sign: encrypted});
+        creditCardApi.update(orgId, cardId, formData.toUpdateDto()).then((response) => {
+            if (response.status === 200) {
+                toast.success('카드번호가 수정되었습니다');
+                setCardSignInfo(response.data.secretInfo);
 
-        const data = await creditCardApi.update(orgId, cardId, creditCardData);
-
-        if (data) {
-            toast.success('카드번호가 수정되었습니다');
-            const json = CryptoJS.AES.decrypt(data.data.sign, cardSign).toString(CryptoJS.enc.Utf8);
-            const toString = JSON.parse(json);
-            setCardSignInfo(toString);
-
-            setTimeout(() => {
-                close();
-            }, 2000);
-        }
+                setTimeout(() => {
+                    close();
+                }, 2000);
+            } else {
+                toast.error('카드번호 수정에 실패했습니다.');
+                return;
+            }
+        });
     };
 
     return (
@@ -103,11 +94,11 @@ export const CardNumberModal = memo(() => {
                 </MobileSection.Padding>
                 <ModalLikeBottomBar>
                     {cardId ? (
-                        <button onClick={updateCardInfomations} className="btn-modal">
+                        <button onClick={updateCardInformation} className="btn-modal">
                             확인
                         </button>
                     ) : (
-                        <button onClick={submitCardInfomations} className="btn-modal">
+                        <button onClick={submitCardInformation} className="btn-modal">
                             다음
                         </button>
                     )}

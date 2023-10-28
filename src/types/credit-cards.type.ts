@@ -39,6 +39,16 @@ export class CreditCardDto {
         return this.issuerCompany || this.networkCompany || null;
     }
 
+    get numbers(): CreditCardNumber {
+        const secretInfo = this.secretInfo;
+        return {
+            number1: secretInfo.number1,
+            number2: secretInfo.number2,
+            number3: secretInfo.number3,
+            number4: secretInfo.number4,
+        };
+    }
+
     private get endNumber(): string {
         const number4 = this.secretInfo.number4 || '****';
         return `${number4}`;

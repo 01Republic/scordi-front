@@ -1,21 +1,23 @@
 import {UseFormReturn} from 'react-hook-form';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {TeamMemberDto} from '^types/team-member.type';
 import {useTeamMembers} from '^hooks/useTeamMembers';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {HoldingMemberIdDto} from '^v3/V3OrgCardShowPage/modals/CardHoldingMemberModal/index';
 import {CreatableSelect} from '^components/util/react-select/CreatableSelect';
 import {useCreditCardsOfOrganization} from '^hooks/useCreditCards';
 import {TeamMemberSelectOption as Option} from '^v3/V3OrgCardShowPage/modals/CardHoldingMemberModal/TeamMemberSelectOption';
+import {UnSignedCreditCardFormData} from '^types/credit-cards.type';
 
 interface SelectCardHoldingMemberProps {
-    form: UseFormReturn<HoldingMemberIdDto>;
+    form: UseFormReturn<UnSignedCreditCardFormData>;
 }
 export const SelectCardHoldingMember = (props: SelectCardHoldingMemberProps) => {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
     const {CreditCard} = useCreditCardsOfOrganization(true);
-    const {search, createByName} = useTeamMembers(orgId);
+    const [isShow, setIsShow] = useState(true);
+    const [allTeamMembers, setAllTeamMembers] = useState<TeamMemberDto[]>([]);
+    const {load, createByName} = useTeamMembers(orgId);
     const {form} = props;
 
     useEffect(() => {
@@ -27,15 +29,21 @@ export const SelectCardHoldingMember = (props: SelectCardHoldingMemberProps) => 
         }
     }, [cardId, CreditCard]);
 
+    useEffect(() => {
+        if (!isShow) return;
+        load().then((teamMembers) => {
+            setAllTeamMembers(teamMembers);
+            setIsShow(false);
+        });
+    }, [isShow]);
+
     const toOption = (teamMember: TeamMemberDto): Option => ({
         label: teamMember.name,
         value: teamMember.id,
     });
 
     const loader = async (inputValue?: string) => {
-        const {items: teamMembers} = await search({});
-
-        return teamMembers
+        return allTeamMembers
             .filter((teamMember) => {
                 if (!inputValue || inputValue === '') return true;
                 const value = (inputValue || '').toLowerCase();
@@ -47,10 +55,15 @@ export const SelectCardHoldingMember = (props: SelectCardHoldingMemberProps) => 
             .map(toOption);
     };
 
+    const defaultOptions = allTeamMembers.map(toOption);
+
     const onSelect = (option: Option) => form.setValue('holdingMemberId', option.value);
 
     const onCreate = (option: Option) =>
-        createByName(option.label).then((teamMember) => form.setValue('holdingMemberId', teamMember.id));
+        createByName(option.label).then((teamMember) => {
+            setAllTeamMembers((prev) => [...prev, teamMember]);
+            form.setValue('holdingMemberId', teamMember.id);
+        });
 
     const onRemove = () => form.setValue('holdingMemberId', null);
 
@@ -59,6 +72,7 @@ export const SelectCardHoldingMember = (props: SelectCardHoldingMemberProps) => 
     return (
         <CreatableSelect<Option>
             toOption={toOption}
+            defaultOptions={defaultOptions}
             loader={loader}
             onChangeCallbacks={{onSelect, onCreate, onRemove, onClear}}
         />

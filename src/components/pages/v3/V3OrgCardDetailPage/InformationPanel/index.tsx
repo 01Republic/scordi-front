@@ -4,7 +4,7 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {AiOutlineEdit} from 'react-icons/ai';
 import {useModal} from '../../share/modals/useModal';
 import {
-    creditcardAtom,
+    updateCreditCardDtoAtom,
     inputCardHoldingMemeberModal,
     inputCardNameModal,
     inputCardNumberModal,
@@ -19,7 +19,7 @@ import Swal from 'sweetalert2';
 
 export const InformationPanel = memo(() => {
     const cardInfo = useRecoilValue(creditCardSignAtom);
-    const cardDetailInfo = useRecoilValue(creditcardAtom);
+    const cardDetailInfo = useRecoilValue(updateCreditCardDtoAtom);
     const {open: openInputCardNameModal} = useModal(inputCardNameModal);
     const {open: openInputCardNumberModal} = useModal(inputCardNumberModal);
     const {open: openInputCardHoldingMemberModal} = useModal(inputCardHoldingMemeberModal);

@@ -3,7 +3,7 @@ import {useForm} from 'react-hook-form';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {creditcardAtom, inputCardNameModal, inputCardHoldingMemeberModal} from './atom';
+import {updateCreditCardDtoAtom, inputCardNameModal, inputCardHoldingMemeberModal} from './atom';
 import {useRecoilState} from 'recoil';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
@@ -15,7 +15,7 @@ import {SkipButton} from '^v3/V3OrgCardShowPage/modals/SkipButton';
 export const CardNameModal = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardNameModal);
     const {open: openInputCardHoldingMemeberModal} = useModal(inputCardHoldingMemeberModal);
-    const [cardDetailInfo, setCardDetailInfo] = useRecoilState(creditcardAtom);
+    const [cardDetailInfo, setCardDetailInfo] = useRecoilState(updateCreditCardDtoAtom);
 
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
