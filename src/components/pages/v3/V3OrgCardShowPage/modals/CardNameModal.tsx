@@ -8,8 +8,9 @@ import {useRecoilState} from 'recoil';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {useToast} from '^hooks/useToast';
-import {SkipButton} from './skipButton';
+
 import {ModalLikeBottomBar} from '../../layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
+import {SkipButton} from '^v3/V3OrgCardShowPage/modals/SkipButton';
 
 export const CardNameModal = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardNameModal);

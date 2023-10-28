@@ -5,15 +5,15 @@ import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {creditcardAtom, inputCardHoldingMemeberModal, selectAppModal} from '../atom';
 import {useRecoilState} from 'recoil';
-import {CardHoldingMemberMultiSelect} from '^components/pages/v3/V3OrgCardShowPage/modals/CardHoldingMemberModal/CardHoldingMemberMultiSelect';
+import {SelectCardHoldingMember} from '^v3/V3OrgCardShowPage/modals/CardHoldingMemberModal/SelectCardHoldingMember';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {useToast} from '^hooks/useToast';
 import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
-import {SkipButton} from '../skipButton';
+import {SkipButton} from '^v3/V3OrgCardShowPage/modals/SkipButton';
 
-export interface IdDto {
-    id: number;
+export interface HoldingMemberIdDto {
+    holdingMemberId: number | null;
 }
 export const CardHoldingMember = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardHoldingMemeberModal);
@@ -21,7 +21,7 @@ export const CardHoldingMember = memo(() => {
     const [creditCardData, setCreditCardData] = useRecoilState(creditcardAtom);
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
-    const form = useForm<IdDto>();
+    const form = useForm<HoldingMemberIdDto>();
     const {toast} = useToast();
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -33,15 +33,14 @@ export const CardHoldingMember = memo(() => {
         inputRef.current?.focus();
     }, [isShow]);
 
-    // TODO: 멤버 아이디로 수정
     const submitCardHoldingMember = () => {
-        const cardHoldingMember = form.getValues('id');
+        const cardHoldingMember = form.getValues('holdingMemberId');
         if (!cardHoldingMember) return;
         setCreditCardData({...creditCardData, holdingMemberId: cardHoldingMember});
     };
 
     const updateCardHoldingMember = async () => {
-        const cardHoldingMember = form.getValues('id');
+        const cardHoldingMember = form.getValues('holdingMemberId');
         if (!cardHoldingMember) return;
 
         const data = await creditCardApi.update(orgId, cardId, {holdingMemberId: cardHoldingMember});
@@ -66,7 +65,7 @@ export const CardHoldingMember = memo(() => {
                 <SkipButton currentModal="cardHoldingMember" />
 
                 {/* 카드 소유자 input */}
-                <CardHoldingMemberMultiSelect form={form} />
+                <SelectCardHoldingMember form={form} />
             </MobileSection.Padding>
             <ModalLikeBottomBar>
                 {cardId ? (

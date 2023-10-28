@@ -19,7 +19,7 @@ import {CardNumberModal} from '../V3OrgCardShowPage/modals/CardNumberModal';
 import {CardNameModal} from '../V3OrgCardShowPage/modals/CardNameModal';
 import {CardCompanyModal} from '../V3OrgCardShowPage/modals/CardCompanyModal';
 import {SelectAppModal} from '../V3OrgCardShowPage/modals/SelectAppModal';
-import {CardHoldingMember} from '../V3OrgCardShowPage/modals/CardHoldingMemberModal/CardHoldingMemberModal';
+import {CardHoldingMember} from '../V3OrgCardShowPage/modals/CardHoldingMemberModal';
 import {ContentEmpty} from '../V3OrgHomePage/mobile/ContentEmpty';
 import {CardList} from '../V3OrgCardShowPage/CardList';
 import {creditCardApi} from '^api/credit-cards.api';
