@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {CreateProductRequestDto as CreateDto, UpdateProductRequestDto as UpdateDto} from '^types/product.type';
 import {UseFormReturn} from 'react-hook-form';
 import {TagDto} from '^types/tag.type';
-import {MultiSelect} from '^components/util/select/MultiSelect';
+import {MultiSelect} from '^components/util/react-select/MultiSelect';
 import {ContentPanelInput} from '^layouts/ContentLayout';
 import {useProductTags, useTagMultiSelect} from '^hooks/useTags';
 

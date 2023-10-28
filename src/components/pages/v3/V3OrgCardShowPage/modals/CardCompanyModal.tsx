@@ -7,7 +7,7 @@ import {ModalTopbar} from '../../share/modals/ModalTopbar';
 import {creditcardAtom, inputCardNameModal, selectCardCompanyModal} from './atom';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
-import {SkipButton} from './skipButton';
+import {SkipButton} from '^v3/V3OrgCardShowPage/modals/SkipButton';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ModalLikeBottomBar} from '../../layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 

@@ -1,5 +1,5 @@
 import {useMultiSelect} from '^hooks/useMultiSelect';
-import {Option} from '^components/util/select/MultiSelect';
+import {Option} from '^components/util/react-select/Option';
 import {FindAllTeamMemberQueryDto, TeamMemberDto} from '^types/team-member.type';
 import {teamMemberApi} from '^api/team-member.api';
 import {useRecoilState} from 'recoil';

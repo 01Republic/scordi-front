@@ -11,7 +11,7 @@ import {V3OrgCardDetailPageRoute} from '^pages/v3/orgs/[orgId]/cards/[cardId]';
 import {CardAppList} from './CardAppList';
 import {toast} from 'react-toastify';
 import {selectedAppsAtom} from '../../atom';
-import {SkipButton} from '../skipButton';
+import {SkipButton} from '^v3/V3OrgCardShowPage/modals/SkipButton';
 import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 
 export const SelectAppModal = memo(() => {

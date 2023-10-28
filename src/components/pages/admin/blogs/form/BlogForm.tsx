@@ -7,7 +7,7 @@ import {useForm, UseFormReturn} from 'react-hook-form';
 import {CreatePostByAdminDto, PostDto, UpdatePostByAdminDto} from '^types/post.type';
 import {datetime_local, yyyy_mm_dd} from '^utils/dateTime';
 import {SelectDropdown} from '^v3/share/Select';
-import {MultiSelect, Option} from '^components/util/select/MultiSelect';
+import {MultiSelect, Option} from '^components/util/react-select';
 import {postAuthorManageApi, postTagManageApi} from '^api/post-manage.api';
 import {PostAuthorDto, UpdatePostAuthorByAdminDto} from '^types/post-author.type';
 import {MultiValue} from 'react-select';

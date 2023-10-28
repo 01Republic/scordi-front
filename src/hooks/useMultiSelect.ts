@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {Option} from '^components/util/select/MultiSelect';
+import {Option} from '^components/util/react-select/Option';
 import {ActionMeta, MultiValue, StylesConfig} from 'react-select';
 
 /**
@@ -56,7 +56,7 @@ export function useMultiSelect(params: UseMultiSelectParams) {
                 const newOption = actionType.option;
                 if (!newOption.__isNew__) return;
 
-                await onCreate(newOption);
+                onCreate(newOption);
                 setDefaultOptions((prev) => [...prev, newOption]);
                 break;
 
