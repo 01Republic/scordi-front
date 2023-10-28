@@ -71,13 +71,13 @@ export const CardNameModal = memo(() => {
                 <h2 className="h1 leading-tight mb-10">
                     카드를 구분할 수 있는 <br /> 별칭을 입력해주세요
                 </h2>
-                <SkipButton currentModal="cardName" />
+                <SkipButton currentModal="cardName" isModify={cardId ? true : false} />
 
                 {/* 카드 이름 input */}
                 <input
                     {...form.register('cardName')}
                     type="text"
-                    placeholder="개발팀"
+                    placeholder="광고비 카드"
                     defaultValue={cardDetailInfo.name ?? ''}
                     className="input input-bordered w-full"
                 />

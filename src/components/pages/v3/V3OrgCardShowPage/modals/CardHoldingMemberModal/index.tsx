@@ -62,7 +62,7 @@ export const CardHoldingMember = memo(() => {
                 <h2 className="h1 leading-tight mb-10">
                     카드를 소유하고 있는 <br /> 사람을 선택해주세요
                 </h2>
-                <SkipButton currentModal="cardHoldingMember" />
+                <SkipButton currentModal="cardHoldingMember" isModify={cardId ? true : false} />
 
                 {/* 카드 소유자 input */}
                 <SelectCardHoldingMember form={form} />

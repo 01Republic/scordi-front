@@ -1,32 +1,39 @@
 import {Avatar} from '^components/Avatar';
 import {ProductDto} from '^types/product.type';
-import React, {Dispatch, memo} from 'react';
+import React, {memo} from 'react';
 import {IoClose} from 'react-icons/io5';
+import {useRecoilState} from 'recoil';
+import {selectedAppsAtom} from '../../atom';
+import {FieldValues, UseFieldArrayReturn, UseFormReturn} from 'react-hook-form';
 
 interface CardAppItemProps {
-    app: ProductDto;
-    setSelectedApps: Dispatch<React.SetStateAction<ProductDto[]>>;
+    item: ProductDto;
+    form: UseFormReturn<FieldValues, any>;
+    fieldArray: UseFieldArrayReturn<FieldValues, 'productIds', 'id'>;
 }
 
 export const CardAppItem = memo((props: CardAppItemProps) => {
-    const {app, setSelectedApps} = props;
-    if (!app) return <></>;
+    const {item, fieldArray} = props;
+    const [selectedApps, setSelectedApps] = useRecoilState(selectedAppsAtom);
+
+    if (!item) return <></>;
 
     const deleteApp = (id: number) => {
-        setSelectedApps((apps) => {
-            const remainApps = apps.filter((app) => {
-                return app.id !== id;
-            });
-            return [...remainApps];
+        const remainProducts = selectedApps.filter((app) => {
+            return app.id !== id;
         });
+
+        setSelectedApps(remainProducts);
+        fieldArray.remove(id);
     };
 
     return (
-        <div className={`!w-auto flex items-center gap-6 btn-like py-2 no-selectable my-2`}>
-            <Avatar src={app.image} draggable={false} className="w-5 ring-1 ring-offset-1 top-[-1px]" loading="lazy" />
-            <p className="leading-none text-[18px] font-semibold">{app.nameKo}</p>
-            <button>
-                <IoClose size={13} onClick={() => deleteApp(app.id)} />
+        <div className="!w-auto gap-4 px-4 py-3 -mx-4 hover:bg-neutral btn-like no-selectable">
+            <Avatar src={item.image} className="w-9 h-9 outline outline-offset-1 outline-slate-100" />
+            <p className="leading-none text-[18px] font-semibold">{item.nameEn}</p>
+
+            <button onClick={() => deleteApp(item.id)}>
+                <IoClose size={13} />
             </button>
         </div>
     );

@@ -59,12 +59,7 @@ export const CardNumberModal = memo(() => {
         const encrypted = CryptoJS.AES.encrypt(json, cardSign).toString();
         setCreditCardData({...creditCardData, sign: encrypted});
 
-        // TODO: 법인카드 체크 오류 수정
-        // const isCorporateCard = form.watch('isCorporateCard');
-        // const isPersonal = !isCorporateCard;
-
-        // setCreditCardData({...creditCardData, isPersonal: isPersonal});
-        // openInputCardCompanyModal();
+        openInputCardCompanyModal();
     };
 
     //카드 번호 수정 함수

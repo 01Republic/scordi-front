@@ -13,6 +13,7 @@ import {toast} from 'react-toastify';
 import {selectedAppsAtom} from '../../atom';
 import {SkipButton} from '^v3/V3OrgCardShowPage/modals/SkipButton';
 import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
+import {useFieldArray, useForm} from 'react-hook-form';
 
 export const SelectAppModal = memo(() => {
     const {Modal, close} = useModal(selectAppModal);
@@ -22,12 +23,18 @@ export const SelectAppModal = memo(() => {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
     const router = useRouter();
+    const form = useForm();
+    const fieldArray = useFieldArray({
+        control: form.control,
+        name: 'productIds',
+    });
 
     // 카드 연동 앱 등록 함수
     const submitCardNumber = () => {
-        const productIds = selectedApps.map((app) => {
-            return app.id;
+        const productIds = fieldArray.fields.map((app) => {
+            return app.productId;
         });
+
         setCreditCardData({...creditCardData, productIds: productIds});
 
         creditCardApi.create(orgId, creditCardData).then((res) => {
@@ -41,8 +48,9 @@ export const SelectAppModal = memo(() => {
     // 카드 연동 앱 수정 함수
     const updateCardApps = async () => {
         if (!selectedApps) return;
-        const productIds = selectedApps.map((app) => {
-            return app.id;
+
+        const productIds = fieldArray.fields.map((app) => {
+            return app.productId;
         });
 
         const data = await creditCardApi.update(orgId, cardId, {productIds: productIds});
@@ -59,15 +67,18 @@ export const SelectAppModal = memo(() => {
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
             <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
             <MobileSection.Padding>
-                <p className="mb-4 pt-20">새로운 카드 등록하기</p>
+                <p className="mb-4 pt-20">{cardId ? '카드 수정하기' : '새로운 카드 등록하기'}</p>
                 <h2 className="h1 leading-tight mb-10">
                     사용중인 서비스를
                     <br />
                     등록해주세요
                 </h2>
-                <SkipButton currentModal="selectAppModal" />
-
-                <CardAppList />
+                <SkipButton
+                    submitCardNumber={submitCardNumber}
+                    currentModal="selectAppModal"
+                    isModify={cardId ? true : false}
+                />
+                <CardAppList form={form} fieldArray={fieldArray} />
             </MobileSection.Padding>
             <ModalLikeBottomBar>
                 {cardId ? (

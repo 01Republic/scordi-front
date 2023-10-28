@@ -1,3 +1,4 @@
+import {SubscriptionDto} from '^types/subscription.type';
 import {atom} from 'recoil';
 import {CreditCardDto, CreditCardSecretInfo} from '^types/credit-cards.type';
 import {ProductDto} from '^types/product.type';
@@ -13,8 +14,13 @@ export const creditCardSignAtom = atom({
     default: <CreditCardSecretInfo>{},
 });
 
-// 카드 앱 정보
+// 선택된 앱 정보
 export const selectedAppsAtom = atom({
     key: 'selectedAppsAtom',
     default: <ProductDto[]>[],
+});
+
+export const subscriptionsAtom = atom({
+    key: 'subscriptionsAtom',
+    default: <SubscriptionDto[]>[],
 });
