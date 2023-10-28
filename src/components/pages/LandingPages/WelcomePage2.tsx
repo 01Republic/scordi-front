@@ -5,8 +5,11 @@ import {useRouter} from 'next/router';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {useTranslation} from 'next-i18next';
+import {useRecoilValue} from 'recoil';
+import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
 
 export const WelcomePage2 = memo(() => {
+    const invitedOrgId = useRecoilValue(invitedOrgIdAtom);
     const router = useRouter();
     const {currentUser} = useCurrentUser();
     const [isAccessible, setIsAccessible] = useState(false);
@@ -33,7 +36,11 @@ export const WelcomePage2 = memo(() => {
 
                     <div>
                         <div className="mb-4 btn sm:btn-lg btn-block normal-case rounded-2xl text-lg sm:!text-xl shadow-lg btn-scordi-light-200 !text-scordi-500">
-                            <a href={currentUser ? `${V3OrgHomePageRoute.path(currentUser.orgId)}` : ''}>
+                            <a
+                                href={
+                                    currentUser ? `${V3OrgHomePageRoute.path(invitedOrgId || currentUser.orgId)}` : ''
+                                }
+                            >
                                 메인페이지로 이동하기
                             </a>
                         </div>

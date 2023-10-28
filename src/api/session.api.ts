@@ -1,4 +1,9 @@
-import {CreateUserDeviceRequestDto, UsersWebpushRegisterDto, UsersWebpushTestDto} from './../types/user.type';
+import {
+    CreateUserDeviceRequestDto,
+    UserSocialSignUpInvitedRequestDto,
+    UsersWebpushRegisterDto,
+    UsersWebpushTestDto,
+} from './../types/user.type';
 import {
     JwtContainer,
     UserDto,
@@ -56,4 +61,8 @@ export const registerUsersWebpushDevice = (data: CreateUserDeviceRequestDto) => 
 
 export const postUserWebpushTest = () => {
     return api.post<UsersWebpushTestDto>('/users/webpush/test');
+};
+
+export const createInvitedUser = (data: UserSocialSignUpInvitedRequestDto) => {
+    return api.post<UserDto>('/users/invitation', data);
 };

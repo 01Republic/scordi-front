@@ -54,15 +54,11 @@ export const CardNumberModal = memo(() => {
         checkCardInfomations();
 
         const formData = form.watch();
+
         const json = JSON.stringify(formData);
         const encrypted = CryptoJS.AES.encrypt(json, cardSign).toString();
         setCreditCardData({...creditCardData, sign: encrypted});
 
-        // TODO: 법인카드 체크 오류 수정
-        // const isCorporateCard = form.watch('isCorporateCard');
-        // const isPersonal = !isCorporateCard;
-
-        // setCreditCardData({...creditCardData, isPersonal: isPersonal});
         openInputCardCompanyModal();
     };
 

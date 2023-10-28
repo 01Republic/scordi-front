@@ -11,9 +11,10 @@ import {GmailAgent} from '^api/tasting.api';
 import {getCreateInvoiceAccountFromTo} from '^types/invoiceAccount.type';
 import {useModal} from '^v3/share/modals/useModal';
 import {renewInvoiceAccountAtom, renewInvoiceAccountModal} from '^v3/V3OrgHomePage/RenewInvoiceAccountModal/atom';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {useRouter} from 'next/router';
 import {useToast} from '^hooks/useToast';
+import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
 
 export const V3OrgHomePageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]',
@@ -36,6 +37,9 @@ export default function V3OrgHomePage() {
     const router = useRouter();
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     useCurrentOrg(orgId);
+    const setInvitedOrgId = useSetRecoilState(invitedOrgIdAtom);
+    // 초기화
+    setInvitedOrgId(0);
     const {accessTokenData, complete, noRunning} = useGoogleAccessTokenCallback(V3OrgHomePageRoute.path(orgId), [
         orgId,
     ]);

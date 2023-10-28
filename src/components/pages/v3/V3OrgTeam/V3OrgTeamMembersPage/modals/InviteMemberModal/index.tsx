@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {isOpeninviteOrgMemberModalAtom} from './atom';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
@@ -15,6 +15,7 @@ import {useToast} from '^hooks/useToast';
 
 export const InviteOrgMemberModal = memo(() => {
     const {isShow, Modal, close} = useModal({isShowAtom: isOpeninviteOrgMemberModalAtom});
+    const [isLoading, setIsLoading] = useState(false);
     const {membershipSearchResult, searchMemberships} = useMemberships();
     const currentOrg = useRecoilValue(currentOrgAtom);
     const form = useForm<FieldValues>();
@@ -75,14 +76,18 @@ export const InviteOrgMemberModal = memo(() => {
             toast.error('이메일을 입력해주세요');
             return;
         }
-        CreateMembershipInvite({organizationId: currentOrg.id, invitedEmails: invitedEmails})
-            .then(() => {
-                toast.success('초대가 완료되었습니다!');
-                setTimeout(() => {
-                    close();
-                }, 3000);
-            })
-            .catch((err) => console.log(err));
+
+        !isLoading &&
+            CreateMembershipInvite({organizationId: currentOrg.id, invitedEmails: invitedEmails})
+                .then(() => {
+                    setIsLoading(false);
+                    toast.success('초대가 완료되었습니다!');
+                    setTimeout(() => {
+                        close();
+                    }, 3000);
+                })
+                .catch((err) => console.log(err));
+        setIsLoading(true);
     }, 500);
 
     return (

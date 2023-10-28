@@ -1,4 +1,4 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useEffect} from 'react';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import CryptoJS from 'crypto-js';
 import {MobileSection} from '../share/sections/MobileSection';
