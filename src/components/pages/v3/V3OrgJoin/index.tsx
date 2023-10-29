@@ -12,7 +12,10 @@ export const V3OrgJoin = memo(() => {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const setInvitedOrgId = useSetRecoilState(invitedOrgIdAtom);
 
-    setInvitedOrgId(orgId);
+    useEffect(() => {
+        console.log('invited orgId in join page', orgId);
+        setInvitedOrgId(orgId);
+    }, [orgId]);
 
     if (!orgId || isNaN(orgId)) return <></>;
 
