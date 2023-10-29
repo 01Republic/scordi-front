@@ -7,24 +7,25 @@ import {selectedAppsAtom} from '../../atom';
 import {FieldValues, UseFieldArrayReturn, UseFormReturn} from 'react-hook-form';
 
 interface CardAppItemProps {
+    index: number;
     item: ProductDto;
     form: UseFormReturn<FieldValues, any>;
     fieldArray: UseFieldArrayReturn<FieldValues, 'productIds', 'id'>;
 }
 
 export const CardAppItem = memo((props: CardAppItemProps) => {
-    const {item, fieldArray} = props;
+    const {item, index, fieldArray} = props;
     const [selectedApps, setSelectedApps] = useRecoilState(selectedAppsAtom);
 
     if (!item) return <></>;
 
-    const deleteApp = (id: number) => {
+    const deleteApp = (index: number, itemId: number) => {
         const remainProducts = selectedApps.filter((app) => {
-            return app.id !== id;
+            return app.id !== itemId;
         });
 
         setSelectedApps(remainProducts);
-        fieldArray.remove(id);
+        fieldArray.remove(index);
     };
 
     return (
@@ -32,7 +33,7 @@ export const CardAppItem = memo((props: CardAppItemProps) => {
             <Avatar src={item.image} className="w-9 h-9 outline outline-offset-1 outline-slate-100" />
             <p className="leading-none text-[18px] font-semibold">{item.nameEn}</p>
 
-            <button onClick={() => deleteApp(item.id)}>
+            <button onClick={() => deleteApp(index, item.id)}>
                 <IoClose size={13} />
             </button>
         </div>

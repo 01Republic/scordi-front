@@ -7,6 +7,7 @@ import {CardAppItem} from './CardAppItem';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {selectedAppsAtom, subscriptionsAtom} from '../../atom';
 import {FieldValues, UseFieldArrayReturn, UseFormReturn} from 'react-hook-form';
+import {useToast} from '^hooks/useToast';
 
 interface CardApplistProps {
     form: UseFormReturn<FieldValues, any>;
@@ -18,6 +19,7 @@ export const CardAppList = memo((props: CardApplistProps) => {
     const [allAppList, setAllAppList] = useState<ProductDto[]>([]);
     const subscriptions = useRecoilValue(subscriptionsAtom);
     const [selectedApps, setSelectedApps] = useRecoilState(selectedAppsAtom);
+    const {toast} = useToast();
 
     const subscriptionProducts = subscriptions.map((subscription) => {
         return subscription.product;
@@ -46,6 +48,14 @@ export const CardAppList = memo((props: CardApplistProps) => {
         });
 
         if (!selectedApp) return;
+        const isSelected = fieldArray.fields.filter((field) => {
+            return field.productId === selectedAppId;
+        });
+
+        if (isSelected.length) {
+            toast.error('이미 선택된 앱입니다.');
+            return;
+        }
 
         setSelectedApps([selectedApp, ...selectedApps]);
         fieldArray.append({productId: option.value});
@@ -67,8 +77,8 @@ export const CardAppList = memo((props: CardApplistProps) => {
             />
             <span></span>
             <ul>
-                {selectedApps.map((product, i) => (
-                    <CardAppItem key={i} item={product} form={form} fieldArray={fieldArray} />
+                {selectedApps.map((product, index) => (
+                    <CardAppItem key={index} index={index} item={product} form={form} fieldArray={fieldArray} />
                 ))}
             </ul>
         </div>

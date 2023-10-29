@@ -14,12 +14,11 @@ import {selectedAppsAtom} from '../../atom';
 import {SkipButton} from '^v3/V3OrgCardShowPage/modals/SkipButton';
 import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {useFieldArray, useForm} from 'react-hook-form';
-import {UnSignedCreditCardFormData} from '^types/credit-cards.type';
 
 export const SelectAppModal = memo(() => {
     const {Modal, close} = useModal(selectAppModal);
     const {close: closeInputCardHoldingMemberModal} = useModal(inputCardHoldingMemeberModal);
-    const [createCreditCardDto, setCreateCreditCardData] = useRecoilState(createCreditCardDtoAtom);
+    const [createCreditCardDto, setCreateCreditCardDto] = useRecoilState(createCreditCardDtoAtom);
     const selectedApps = useRecoilValue(selectedAppsAtom);
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
@@ -33,10 +32,13 @@ export const SelectAppModal = memo(() => {
     // 카드 연동 앱 등록 함수
     const submitCardNumber = () => {
         const productIds = fieldArray.fields.map((app) => {
-            return Number(app.id);
+            return app.productId;
         });
+        console.log('productIds', productIds);
 
-        setCreateCreditCardData({...createCreditCardDto, productIds});
+        setCreateCreditCardDto({...createCreditCardDto, productIds});
+
+        if (!createCreditCardDto) return;
 
         creditCardApi.create(orgId, createCreditCardDto).then((res) => {
             router.push(V3OrgCardDetailPageRoute.path(orgId, res.data.id));
@@ -51,7 +53,7 @@ export const SelectAppModal = memo(() => {
         if (!selectedApps) return;
 
         const productIds = fieldArray.fields.map((app) => {
-            return Number(app.id);
+            return app.productId;
         });
 
         const data = await creditCardApi.update(orgId, cardId, {productIds: productIds});
