@@ -57,7 +57,7 @@ export const CardAppList = memo((props: CardApplistProps) => {
             return;
         }
 
-        setSelectedApps([selectedApp, ...selectedApps]);
+        setSelectedApps([...selectedApps, selectedApp]);
         fieldArray.append({productId: option.value});
     };
 
@@ -76,7 +76,7 @@ export const CardAppList = memo((props: CardApplistProps) => {
                 placeholder="전체"
             />
             <span></span>
-            <ul>
+            <ul className="max-h-96 overflow-y-auto">
                 {selectedApps.map((product, index) => (
                     <CardAppItem key={index} index={index} item={product} form={form} fieldArray={fieldArray} />
                 ))}

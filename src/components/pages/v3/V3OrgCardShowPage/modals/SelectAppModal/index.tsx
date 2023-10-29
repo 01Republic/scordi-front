@@ -1,8 +1,8 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {updateCreditCardDtoAtom, inputCardHoldingMemeberModal, selectAppModal, createCreditCardDtoAtom} from '../atom';
+import {inputCardHoldingMemeberModal, selectAppModal, createCreditCardDtoAtom} from '../atom';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
@@ -10,16 +10,17 @@ import {useRouter} from 'next/router';
 import {V3OrgCardDetailPageRoute} from '^pages/v3/orgs/[orgId]/cards/[cardId]';
 import {CardAppList} from './CardAppList';
 import {toast} from 'react-toastify';
-import {selectedAppsAtom} from '../../atom';
+import {selectedAppsAtom, subscriptionsAtom} from '../../atom';
 import {SkipButton} from '^v3/V3OrgCardShowPage/modals/SkipButton';
 import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {useFieldArray, useForm} from 'react-hook-form';
 
 export const SelectAppModal = memo(() => {
-    const {Modal, close} = useModal(selectAppModal);
+    const {Modal, close, isShow} = useModal(selectAppModal);
     const {close: closeInputCardHoldingMemberModal} = useModal(inputCardHoldingMemeberModal);
     const [createCreditCardDto, setCreateCreditCardDto] = useRecoilState(createCreditCardDtoAtom);
-    const selectedApps = useRecoilValue(selectedAppsAtom);
+    const [selectedApps, setSelectedApps] = useRecoilState(selectedAppsAtom);
+    const subscriptions = useRecoilValue(subscriptionsAtom);
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
     const router = useRouter();
@@ -28,6 +29,16 @@ export const SelectAppModal = memo(() => {
         control: form.control,
         name: 'productIds',
     });
+
+    useEffect(() => {
+        const subscriptionsProduct = subscriptions.map((subscription) => {
+            !fieldArray.fields.length && fieldArray.append({productId: subscription.product.id});
+            return subscription.product;
+        });
+
+        setSelectedApps(subscriptionsProduct);
+    }, [isShow]);
+    console.log('fieldArray.fields', fieldArray.fields);
 
     // 카드 연동 앱 등록 함수
     const submitCardNumber = () => {
