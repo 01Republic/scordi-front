@@ -71,7 +71,7 @@ export const useTeamMembers = () => {
 
     async function search(params: FindAllTeamMemberQueryDto) {
         // if (JSON.stringify(query) === JSON.stringify(params)) return;
-
+        if (!orgId && isNaN(orgId)) return;
         const data = await teamMemberApi.index(orgId, params).then((res) => res.data);
         setResult(data);
         setQuery(params);

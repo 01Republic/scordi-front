@@ -16,7 +16,7 @@ export class TeamMemberDto {
     notes?: string | null; // 메모, 비고
     profileImgUrl?: string | null; // 프로필 이미지 주소
     organizationId: number; // 스코디 조직 ID
-    membership: MembershipDto; // 멤버십 상세
+    membership?: MembershipDto | null; // 멤버십 상세
     membershipId?: number | null; // 스코디 멤버십 ID
 
     @TypeCast(() => Date) createdAt: Date; // 생성일시
@@ -31,7 +31,8 @@ export class TeamMemberDto {
 }
 
 export type FindAllTeamMemberQueryDto = FindAllQueryDto<TeamMemberDto> & {
-    teamId?: number;
+    teamId?: number | null;
+    name?: string | null;
 };
 
 export type CreateTeamMemberDto = {

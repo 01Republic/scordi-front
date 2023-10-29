@@ -16,6 +16,8 @@ export const PriceText = memo((props: PriceTextProps) => {
     const {billingHistory, status} = props;
     const {payAmount, emailContent} = billingHistory;
 
+    if (!payAmount) return <PriceTextUnknown />;
+
     switch (status) {
         case BillingHistoryStatus.PaySuccess:
             return <PriceTextSuccess payAmount={payAmount!} />; // PaySuccess 조건에서는 payAmount 가 반드시 존재함

@@ -5,6 +5,7 @@ import {SubscriptionDto} from '^types/subscription.type';
 import {BillingHistoryDto} from '^types/billing.type';
 import {cardSign} from '^config/environments';
 import CryptoJS from 'crypto-js';
+import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
 export class CreditCardDto {
     id: number; // 카드 ID
@@ -16,7 +17,7 @@ export class CreditCardDto {
     isPersonal: boolean; // 법인 카드 여부
     organizationId: number; // 조직 ID
     @TypeCast(() => OrganizationDto) organization?: OrganizationDto | null; // 조직
-    holdingMemberId?: string | null; // 카드 소유자 ID
+    holdingMemberId?: number | null; // 카드 소유자 ID
     @TypeCast(() => TeamMemberDto) holdingMember?: TeamMemberDto | null; // 카드 소유자
     @TypeCast(() => SubscriptionDto) subscriptions?: SubscriptionDto[] | null; // 결제한 구독 목록
     @TypeCast(() => BillingHistoryDto) billingHistories?: BillingHistoryDto[] | null; // 결제 내역
@@ -24,6 +25,42 @@ export class CreditCardDto {
     decryptSign(): CreditCardSecretInfo {
         const json = CryptoJS.AES.decrypt(this.sign, cardSign).toString(CryptoJS.enc.Utf8);
         return JSON.parse(json) as CreditCardSecretInfo;
+    }
+
+    get secretInfo(): CreditCardSecretInfo {
+        return this.decryptSign();
+    }
+
+    get label(): string {
+        return `${this.name} ${this.company} ${this.endNumber}`;
+    }
+
+    private get company(): string | null {
+        return this.issuerCompany || this.networkCompany || null;
+    }
+
+    get numbers(): CreditCardNumber {
+        const secretInfo = this.secretInfo;
+        return {
+            number1: secretInfo.number1,
+            number2: secretInfo.number2,
+            number3: secretInfo.number3,
+            number4: secretInfo.number4,
+        };
+    }
+
+    private get endNumber(): string {
+        const number4 = this.secretInfo.number4 || '****';
+        return `${number4}`;
+    }
+
+    private get fullNumber(): string {
+        const number1 = this.secretInfo.number1 || '****';
+        const number2 = this.secretInfo.number2 || '****';
+        const number3 = this.secretInfo.number3 || '****';
+        const number4 = this.secretInfo.number4 || '****';
+
+        return `${number1}-${number2}-${number3}-${number4}`;
     }
 }
 
@@ -37,13 +74,16 @@ export class CreditCardSecretInfo {
     expiry?: string;
 }
 
+export type CreditCardNumber = Pick<CreditCardSecretInfo, 'number1' | 'number2' | 'number3' | 'number4'>;
+
 export class UnSignedCreditCardFormData extends CreditCardSecretInfo {
     name?: string | null;
     issuerCompany?: string | null;
     networkCompany?: string | null;
     memo?: string | null;
     isPersonal?: boolean | null;
-    holdingMemberId?: string | null;
+    holdingMemberId?: number | null;
+    holdingMember?: TeamMemberDto;
     productIds?: number[] | null;
 
     get sign(): string {
@@ -60,6 +100,7 @@ export class UnSignedCreditCardFormData extends CreditCardSecretInfo {
             memo: this.memo,
             isPersonal: this.isPersonal,
             holdingMemberId: this.holdingMemberId,
+            holdingMember: this.holdingMember,
             productIds: this.productIds,
         };
     }
@@ -73,6 +114,7 @@ export class UnSignedCreditCardFormData extends CreditCardSecretInfo {
             memo: this.memo,
             isPersonal: this.isPersonal,
             holdingMemberId: this.holdingMemberId,
+            holdingMember: this.holdingMember,
             productIds: this.productIds,
         };
     }
@@ -97,7 +139,8 @@ export type CreateCreditCardDto = {
     networkCompany?: string | null;
     memo?: string | null;
     isPersonal?: boolean | null;
-    holdingMemberId?: string | null;
+    holdingMemberId?: number | null;
+    holdingMember?: TeamMemberDto;
     productIds?: number[] | null;
 };
 
@@ -108,6 +151,11 @@ export type UpdateCreditCardDto = {
     networkCompany?: string | null;
     memo?: string | null;
     isPersonal?: boolean | null;
-    holdingMemberId?: string | null;
+    holdingMemberId?: number | null;
+    holdingMember?: TeamMemberDto;
     productIds?: number[] | null;
+};
+
+export type FindAllCreditCardDto = FindAllQueryDto<CreditCardDto> & {
+    keyword?: string;
 };

@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {isOpeninviteOrgMemberModalAtom} from './atom';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
@@ -16,6 +16,7 @@ import Swal from 'sweetalert2';
 
 export const InviteOrgMemberModal = memo(() => {
     const {isShow, Modal, close} = useModal({isShowAtom: isOpeninviteOrgMemberModalAtom});
+    const [isLoading, setIsLoading] = useState(false);
     const {membershipSearchResult, searchMemberships} = useMemberships();
     const currentOrg = useRecoilValue(currentOrgAtom);
     const form = useForm<FieldValues>();
@@ -63,11 +64,8 @@ export const InviteOrgMemberModal = memo(() => {
         if (!currentOrg) return;
 
         const isOrgMember = confirmOrgMember();
-        console.log('isOrgMember', isOrgMember);
         // 이미 조직에 가입된 멤버라면 return
-        if (!isOrgMember) {
-            return;
-        }
+        if (!isOrgMember) return;
 
         const invitedEmail = form.getValues('email');
         const invitedEmails = fieldArray.fields.length
@@ -77,20 +75,23 @@ export const InviteOrgMemberModal = memo(() => {
             toast.error('이메일을 입력해주세요');
             return;
         }
-        CreateMembershipInvite({organizationId: currentOrg.id, invitedEmails: invitedEmails})
-            .then(() => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: '초대가 완료되었습니다.',
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
-                setTimeout(() => {
-                    close();
-                }, 2000);
-            })
-            .catch((err) => console.log(err));
+
+        !isLoading &&
+            CreateMembershipInvite({organizationId: currentOrg.id, invitedEmails: invitedEmails})
+                .then(() => {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: '초대가 완료되었습니다.',
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                    setTimeout(() => {
+                        close();
+                    }, 2000);
+                })
+                .catch((err) => console.log(err));
+        setIsLoading(true);
     }, 500);
 
     return (

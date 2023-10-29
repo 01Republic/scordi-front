@@ -28,6 +28,10 @@ export type UserSocialSignUpRequestDto = {
     isAgreeForMarketingTerm: boolean; // 마케팅 수신 동의 여부
 };
 
+export type UserSocialSignUpInvitedRequestDto = UserSocialSignUpRequestDto & {
+    organizationId: number; // 초대받은 조직 ID
+};
+
 // 사용자 언어 설정
 export enum UserLocale {
     Ko = 'ko',

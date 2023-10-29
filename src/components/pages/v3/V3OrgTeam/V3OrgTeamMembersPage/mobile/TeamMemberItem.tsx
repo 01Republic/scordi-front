@@ -16,7 +16,7 @@ export const TeamMemberItem = memo((props: TeamMemberItemProps) => {
     const {item: teamMember} = props;
     const orgId = useRecoilValue(orgIdParamState);
     const {name, jobName, profileImgUrl} = makeTeamMemberProfile(teamMember);
-    const approvalStatus = teamMember.membership.approvalStatus;
+    const approvalStatus = teamMember.membership?.approvalStatus;
     const router = useRouter();
     const {toast} = useToast();
 

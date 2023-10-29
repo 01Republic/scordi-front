@@ -10,7 +10,7 @@ import {PhoneNumberInput} from './PhoneNumberInput';
 import {AuthCodeInput} from './AuthCodeInput';
 import {TermModal} from '^components/pages/LandingPages/BetaSignPhoneAuthPage/TermModal';
 import {GoogleSignedUserData} from '^atoms/currentUser.atom';
-import {findUserByEmail, postUser} from '^api/session.api';
+import {createInvitedUser, findUserByEmail, postUser} from '^api/session.api';
 import {errorNotify} from '^utils/toast-notify';
 import {useSocialLogin} from '^hooks/useCurrentUser';
 import {SignWelcomePageRoute} from '^pages/sign/welcome';
@@ -21,21 +21,22 @@ import {GmailAgent} from '^api/tasting.api';
 import {getCreateInvoiceAccountFromTo} from '^types/invoiceAccount.type';
 import {ApiError} from '^api/api';
 import {BetaSignSocialPageRoute} from '^pages/sign/social';
+import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
 
 export const BetaSignPhoneAuthPage = memo(() => {
     const router = useRouter();
     const socialLogin = useSocialLogin();
     const accessTokenData = useRecoilValue(gmailAccessTokenDataAtom);
     const phoneAuthData = useRecoilValue(phoneAuthDataState);
+    const invitedOrgId = useRecoilValue(invitedOrgIdAtom);
     const form = useForm<UserSocialSignUpRequestDto>();
     const [isOpened, setIsOpened] = useRecoilState(isTermModalOpenedState);
     const codeConfirmed = useRecoilValue(codeConfirmedState);
     const {t} = useTranslation('sign');
     const [pageLoaded, setPageLoaded] = useState(false);
 
-    console.log('accessTokenData', accessTokenData);
-
     useEffect(() => {
+        console.log('\ninvited from', invitedOrgId);
         const gmailProfileData = window.localStorage.getItem('scordi/tasting/gmailProfile');
         if (!gmailProfileData) {
             router.replace(BetaSignSocialPageRoute.path());
@@ -57,17 +58,16 @@ export const BetaSignPhoneAuthPage = memo(() => {
 
     // 가입 후처리 콜백
     const findOrCreateUserCallback = (user: UserDto, data: UserSocialSignUpRequestDto) => {
-        console.log('findOrCreateUserCallback', user);
         /*
-         * 가입이 완료되면 데모페이지로부터 넘어온 경우
-         * (accessTokenData 가 존재하는 경우)
+         * 가입이 완료되면 (accessTokenData 가 존재하는 경우)
          * 가입한 회원의 조직에 인보이스메일계정을 기본으로 하나 생성합니다.
          */
         if (accessTokenData) {
+            const organizationId = invitedOrgId || user.orgId;
             const gmailAgent = new GmailAgent(accessTokenData);
             gmailAgent.getProfile().then(async (userData) => {
                 const tokenData = gmailAgent.accessTokenData;
-                return createInvoiceAccount(user.orgId, {
+                return createInvoiceAccount(organizationId, {
                     email: userData.email,
                     image: userData.picture,
                     tokenData: {
@@ -110,15 +110,27 @@ export const BetaSignPhoneAuthPage = memo(() => {
                 // 기존에 가입되어있지 않은 사용자라면
                 if (err?.response?.data?.status === 404) {
                     // 가입을 시킵니다.
-                    postUser(data)
-                        .then((res) => {
-                            console.log('가입 then', res);
-                            findOrCreateUserCallback(res.data, data);
-                        })
-                        .catch((err: ApiError) => {
-                            console.log('가입 catch', err);
-                            errorNotify(err);
-                        });
+                    // 초대된 회원의 경우 다른 API를 사용합니다.
+                    if (!invitedOrgId) throw Error('test error');
+                    if (invitedOrgId) {
+                        createInvitedUser({organizationId: invitedOrgId, ...data})
+                            .then((res) => {
+                                findOrCreateUserCallback(res.data, data);
+                            })
+                            .catch((err: ApiError) => {
+                                errorNotify(err);
+                            });
+                    } else {
+                        postUser(data)
+                            .then((res) => {
+                                console.log('가입 then', res);
+                                findOrCreateUserCallback(res.data, data);
+                            })
+                            .catch((err: ApiError) => {
+                                console.log('가입 catch', err);
+                                errorNotify(err);
+                            });
+                    }
                 } else {
                     errorNotify(err);
                 }
