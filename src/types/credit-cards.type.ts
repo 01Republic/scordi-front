@@ -111,6 +111,7 @@ export type CreateCreditCardDto = {
     memo?: string | null;
     isPersonal?: boolean | null;
     holdingMemberId?: number | null;
+    holdingMember?: TeamMemberDto;
     productIds?: number[] | null;
 };
 

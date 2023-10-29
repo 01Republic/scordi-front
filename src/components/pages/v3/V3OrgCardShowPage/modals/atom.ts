@@ -1,5 +1,5 @@
 import {atom} from 'recoil';
-import {CreateCreditCardDto} from '^types/credit-cards.type';
+import {CreditCardDto} from '^types/credit-cards.type';
 
 export const addCardModal = {
     isShowAtom: atom({
@@ -49,7 +49,7 @@ export const selectAppModal = {
     popStateSyncKey: 'selectAppModal',
 };
 
-export const creditcardAtom = atom<CreateCreditCardDto>({
+export const creditcardAtom = atom({
     key: 'creditcardAtom',
-    default: {} as CreateCreditCardDto,
+    default: {} as CreditCardDto,
 });
