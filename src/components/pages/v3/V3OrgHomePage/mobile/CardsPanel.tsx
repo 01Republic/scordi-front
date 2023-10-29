@@ -45,7 +45,7 @@ export const CardsPanel = memo(() => {
                         <AddButton title="더 보기" onClick={() => router.push(V3OrgCardShowPageRoute.path(orgId))} />
                     </>
                 ) : (
-                    <ContentEmpty text="연결된 계정이 없어요" subtext="눌러서 계정 추가" onClick={onAddButtonClick} />
+                    <ContentEmpty text="연결된 카드가 없어요" subtext="눌러서 카드 추가" onClick={onAddButtonClick} />
                 )}
             </MobileSection.Padding>
         </MobileSection.Item>
