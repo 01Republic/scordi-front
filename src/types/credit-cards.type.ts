@@ -83,6 +83,7 @@ export class UnSignedCreditCardFormData extends CreditCardSecretInfo {
     memo?: string | null;
     isPersonal?: boolean | null;
     holdingMemberId?: number | null;
+    holdingMember?: TeamMemberDto;
     productIds?: number[] | null;
 
     get sign(): string {
@@ -99,6 +100,7 @@ export class UnSignedCreditCardFormData extends CreditCardSecretInfo {
             memo: this.memo,
             isPersonal: this.isPersonal,
             holdingMemberId: this.holdingMemberId,
+            holdingMember: this.holdingMember,
             productIds: this.productIds,
         };
     }
@@ -112,6 +114,7 @@ export class UnSignedCreditCardFormData extends CreditCardSecretInfo {
             memo: this.memo,
             isPersonal: this.isPersonal,
             holdingMemberId: this.holdingMemberId,
+            holdingMember: this.holdingMember,
             productIds: this.productIds,
         };
     }
@@ -137,6 +140,7 @@ export type CreateCreditCardDto = {
     memo?: string | null;
     isPersonal?: boolean | null;
     holdingMemberId?: number | null;
+    holdingMember?: TeamMemberDto;
     productIds?: number[] | null;
 };
 
@@ -148,6 +152,7 @@ export type UpdateCreditCardDto = {
     memo?: string | null;
     isPersonal?: boolean | null;
     holdingMemberId?: number | null;
+    holdingMember?: TeamMemberDto;
     productIds?: number[] | null;
 };
 

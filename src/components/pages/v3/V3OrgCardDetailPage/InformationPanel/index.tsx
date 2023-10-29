@@ -51,6 +51,7 @@ export const InformationPanel = memo(() => {
             }
         });
     };
+
     // TODO: ui 수정 필요
     return (
         <MobileSection.Item>
@@ -94,8 +95,8 @@ export const InformationPanel = memo(() => {
                             onClick={openInputCardHoldingMemberModal}
                             className="flex items-center gap-3 cursor-pointer group"
                         >
-                            {cardDetailInfo.holdingMemberId ? (
-                                <p className="font-bold">{cardDetailInfo.holdingMemberId}</p>
+                            {cardDetailInfo.holdingMember ? (
+                                <p className="font-bold">카드 소유자 :{cardDetailInfo.holdingMember.name} </p>
                             ) : (
                                 <p className="text-gray-300">카드 소유자 등록하기</p>
                             )}

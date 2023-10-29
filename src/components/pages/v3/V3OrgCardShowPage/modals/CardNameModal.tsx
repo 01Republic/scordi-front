@@ -71,7 +71,7 @@ export const CardNameModal = memo(() => {
                 <h2 className="h1 leading-tight mb-10">
                     카드를 구분할 수 있는 <br /> 별칭을 입력해주세요
                 </h2>
-                <SkipButton currentModal="cardName" isModify={cardId ? true : false} />
+                <SkipButton currentModal="cardName" isModify={!!cardId} />
 
                 {/* 카드 이름 input */}
                 <input
