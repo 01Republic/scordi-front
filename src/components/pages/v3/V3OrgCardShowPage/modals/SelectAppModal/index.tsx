@@ -86,11 +86,7 @@ export const SelectAppModal = memo(() => {
                     <br />
                     등록해주세요
                 </h2>
-                <SkipButton
-                    submitCardNumber={submitCardNumber}
-                    currentModal="selectAppModal"
-                    isModify={cardId ? true : false}
-                />
+                <SkipButton submitCardNumber={submitCardNumber} currentModal="selectAppModal" isModify={!!cardId} />
                 <CardAppList form={form} fieldArray={fieldArray} />
             </MobileSection.Padding>
             <ModalLikeBottomBar>

@@ -52,7 +52,7 @@ export const CardCompanyModal = memo(() => {
             <MobileSection.Padding>
                 <p className="mb-4 pt-20">{cardId ? '카드 수정하기' : '새로운 카드 등록하기'}</p>
                 <h2 className="h1 leading-tight mb-10">카드사를 선택해주세요</h2>
-                <SkipButton currentModal="cardCompany" isModify={cardId ? true : false} />
+                <SkipButton currentModal="cardCompany" isModify={!!cardId} />
 
                 <div>
                     <Select
