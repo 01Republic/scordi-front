@@ -38,8 +38,8 @@ export const CardAppList = memo((props: CardApplistProps) => {
         });
     }, []);
 
-    const selectApp = (e: ProductOption) => {
-        const selectedAppId = e.value;
+    const selectApp = (option: ProductOption) => {
+        const selectedAppId = option.value;
 
         const selectedApp = allAppList.find((app) => {
             return app.id === selectedAppId;
@@ -48,7 +48,7 @@ export const CardAppList = memo((props: CardApplistProps) => {
         if (!selectedApp) return;
 
         setSelectedApps([selectedApp, ...selectedApps]);
-        fieldArray.append({productId: e.value});
+        fieldArray.append({productId: option.value});
     };
 
     return (
@@ -61,7 +61,7 @@ export const CardAppList = memo((props: CardApplistProps) => {
                         label: list.nameEn,
                     };
                 })}
-                onChange={(e) => e && selectApp(e)}
+                onChange={(option) => option && selectApp(option)}
                 className="select-underline input-underline"
                 placeholder="전체"
             />

@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {creditcardAtom, inputCardHoldingMemeberModal, selectAppModal} from '../atom';
+import {updateCreditCardDtoAtom, inputCardHoldingMemeberModal, selectAppModal, createCreditCardDtoAtom} from '../atom';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
@@ -11,14 +11,15 @@ import {V3OrgCardDetailPageRoute} from '^pages/v3/orgs/[orgId]/cards/[cardId]';
 import {CardAppList} from './CardAppList';
 import {toast} from 'react-toastify';
 import {selectedAppsAtom} from '../../atom';
-import {SkipButton} from '../skipButton';
+import {SkipButton} from '^v3/V3OrgCardShowPage/modals/SkipButton';
 import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {useFieldArray, useForm} from 'react-hook-form';
+import {UnSignedCreditCardFormData} from '^types/credit-cards.type';
 
 export const SelectAppModal = memo(() => {
     const {Modal, close} = useModal(selectAppModal);
     const {close: closeInputCardHoldingMemberModal} = useModal(inputCardHoldingMemeberModal);
-    const [creditCardData, setCreditCardData] = useRecoilState(creditcardAtom);
+    const [createCreditCardDto, setCreateCreditCardData] = useRecoilState(createCreditCardDtoAtom);
     const selectedApps = useRecoilValue(selectedAppsAtom);
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
@@ -32,12 +33,12 @@ export const SelectAppModal = memo(() => {
     // 카드 연동 앱 등록 함수
     const submitCardNumber = () => {
         const productIds = fieldArray.fields.map((app) => {
-            return app.productId;
+            return Number(app.id);
         });
 
-        setCreditCardData({...creditCardData, productIds: productIds});
+        setCreateCreditCardData({...createCreditCardDto, productIds});
 
-        creditCardApi.create(orgId, creditCardData).then((res) => {
+        creditCardApi.create(orgId, createCreditCardDto).then((res) => {
             router.push(V3OrgCardDetailPageRoute.path(orgId, res.data.id));
         });
 
@@ -50,7 +51,7 @@ export const SelectAppModal = memo(() => {
         if (!selectedApps) return;
 
         const productIds = fieldArray.fields.map((app) => {
-            return app.productId;
+            return Number(app.id);
         });
 
         const data = await creditCardApi.update(orgId, cardId, {productIds: productIds});

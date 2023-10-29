@@ -3,25 +3,23 @@ import {useForm} from 'react-hook-form';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {creditcardAtom, inputCardHoldingMemeberModal, selectAppModal} from '../atom';
+import {updateCreditCardDtoAtom, inputCardHoldingMemeberModal, selectAppModal, createCreditCardDtoAtom} from '../atom';
 import {useRecoilState} from 'recoil';
-import {CardHoldingMemberMultiSelect} from '^components/pages/v3/V3OrgCardShowPage/modals/CardHoldingMemberModal/CardHoldingMemberMultiSelect';
+import {SelectCardHoldingMember} from '^v3/V3OrgCardShowPage/modals/CardHoldingMemberModal/SelectCardHoldingMember';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {useToast} from '^hooks/useToast';
 import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
-import {SkipButton} from '../skipButton';
+import {SkipButton} from '^v3/V3OrgCardShowPage/modals/SkipButton';
+import {UnSignedCreditCardFormData} from '^types/credit-cards.type';
 
-export interface IdDto {
-    id: number;
-}
 export const CardHoldingMember = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardHoldingMemeberModal);
     const {open: openSelectAppModal} = useModal(selectAppModal);
-    const [creditCardData, setCreditCardData] = useRecoilState(creditcardAtom);
+    const [createCreditCardData, setCreateCreditCardData] = useRecoilState(createCreditCardDtoAtom);
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
-    const form = useForm<IdDto>();
+    const form = useForm<UnSignedCreditCardFormData>();
     const {toast} = useToast();
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -33,24 +31,23 @@ export const CardHoldingMember = memo(() => {
         inputRef.current?.focus();
     }, [isShow]);
 
-    // TODO: 멤버 아이디로 수정
     const submitCardHoldingMember = () => {
-        const cardHoldingMember = form.getValues('id');
-        if (!cardHoldingMember) return;
-        setCreditCardData({...creditCardData, holdingMemberId: cardHoldingMember});
+        const cardHoldingMemberId = form.getValues('holdingMemberId');
+        if (!cardHoldingMemberId) return;
+
+        setCreateCreditCardData({...createCreditCardData, holdingMemberId: cardHoldingMemberId});
     };
 
     const updateCardHoldingMember = async () => {
-        const cardHoldingMember = form.getValues('id');
-        if (!cardHoldingMember) return;
+        const holdingMemberId = form.getValues('holdingMemberId');
+        if (!holdingMemberId) return;
 
-        const data = await creditCardApi.update(orgId, cardId, {holdingMemberId: cardHoldingMember});
+        const data = await creditCardApi.update(orgId, cardId, {holdingMemberId});
         if (data) {
             toast.success('카드 소유자가 변경되었습니다.');
             setTimeout(() => {
                 close();
             }, 2000);
-            setCreditCardData({...creditCardData, holdingMemberId: cardHoldingMember});
         }
     };
 
@@ -63,10 +60,10 @@ export const CardHoldingMember = memo(() => {
                 <h2 className="h1 leading-tight mb-10">
                     카드를 소유하고 있는 <br /> 사람을 선택해주세요
                 </h2>
-                <SkipButton currentModal="cardHoldingMember" isModify={cardId ? true : false} />
+                <SkipButton currentModal="cardHoldingMember" isModify={!cardId} />
 
                 {/* 카드 소유자 input */}
-                <CardHoldingMemberMultiSelect form={form} />
+                <SelectCardHoldingMember form={form} />
             </MobileSection.Padding>
             <ModalLikeBottomBar>
                 {cardId ? (

@@ -13,13 +13,13 @@ import {
     inputCardNumberModal,
     selectAppModal,
     inputCardHoldingMemeberModal,
-    creditcardAtom,
+    currentCreditCardAtom,
 } from '../V3OrgCardShowPage/modals/atom';
 import {CardNumberModal} from '../V3OrgCardShowPage/modals/CardNumberModal';
 import {CardNameModal} from '../V3OrgCardShowPage/modals/CardNameModal';
 import {CardCompanyModal} from '../V3OrgCardShowPage/modals/CardCompanyModal';
 import {SelectAppModal} from '../V3OrgCardShowPage/modals/SelectAppModal';
-import {CardHoldingMember} from '../V3OrgCardShowPage/modals/CardHoldingMemberModal/CardHoldingMemberModal';
+import {CardHoldingMember} from '../V3OrgCardShowPage/modals/CardHoldingMemberModal';
 import {ContentEmpty} from '../V3OrgHomePage/mobile/ContentEmpty';
 import {creditCardApi} from '^api/credit-cards.api';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
@@ -36,7 +36,7 @@ export const V3OrgCardDetailPage = memo(() => {
     const {open: openSelectAppModal, isShow: isSelectAppModal} = useModal(selectAppModal);
 
     const [subscriptions, setSubscriptions] = useRecoilState(subscriptionsAtom);
-    const setCardDetailInfo = useSetRecoilState(creditcardAtom);
+    const setCurrentCreditCard = useSetRecoilState(currentCreditCardAtom);
     const setCardSignInfo = useSetRecoilState(creditCardSignAtom);
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
@@ -45,7 +45,7 @@ export const V3OrgCardDetailPage = memo(() => {
         if (!cardId && isNaN(cardId)) return;
 
         creditCardApi.show(orgId, cardId).then((res) => {
-            setCardDetailInfo(res.data);
+            setCurrentCreditCard(res.data);
             setSubscriptions(res.data.subscriptions ?? []);
             const json = CryptoJS.AES.decrypt(res.data.sign, cardSign).toString(CryptoJS.enc.Utf8);
             const toString = JSON.parse(json);

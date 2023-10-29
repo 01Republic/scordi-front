@@ -14,7 +14,7 @@ import {
 } from './modals/atom';
 import {CardNumberModal} from './modals/CardNumberModal';
 import {CardNameModal} from './modals/CardNameModal';
-import {CardHoldingMember} from './modals/CardHoldingMemberModal/CardHoldingMemberModal';
+import {CardHoldingMember} from './modals/CardHoldingMemberModal';
 import {SelectAppModal} from './modals/SelectAppModal';
 import {CardCompanyModal} from './modals/CardCompanyModal';
 

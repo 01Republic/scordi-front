@@ -5,7 +5,7 @@ import {UseFormReturn} from 'react-hook-form';
 import {UnSignedAccountFormData} from '^types/account.type';
 import {ProductAvatar} from '^v3/share/ProductAvatar';
 import {useSelectProductModal} from '../../SelectProductModal/hook';
-import {MultiSelect, Option} from '^components/util/select/MultiSelect';
+import {Option} from '^components/util/react-select/Option';
 import {useProductsOfAccounts} from '^v3/share/modals/AccountListModal/ProductChangeModal/use-products-of-accounts';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';

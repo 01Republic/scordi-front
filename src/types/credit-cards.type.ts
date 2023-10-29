@@ -32,9 +32,35 @@ export class CreditCardDto {
     }
 
     get label(): string {
-        const {number1 = '****', number2 = '****', number3 = '****', number4 = '****'} = this.secretInfo;
-        const company = this.issuerCompany || this.networkCompany || '';
-        return `${company} ${number1}-${number2}-${number3}-${number4}`;
+        return `${this.name} ${this.company} ${this.endNumber}`;
+    }
+
+    private get company(): string | null {
+        return this.issuerCompany || this.networkCompany || null;
+    }
+
+    get numbers(): CreditCardNumber {
+        const secretInfo = this.secretInfo;
+        return {
+            number1: secretInfo.number1,
+            number2: secretInfo.number2,
+            number3: secretInfo.number3,
+            number4: secretInfo.number4,
+        };
+    }
+
+    private get endNumber(): string {
+        const number4 = this.secretInfo.number4 || '****';
+        return `${number4}`;
+    }
+
+    private get fullNumber(): string {
+        const number1 = this.secretInfo.number1 || '****';
+        const number2 = this.secretInfo.number2 || '****';
+        const number3 = this.secretInfo.number3 || '****';
+        const number4 = this.secretInfo.number4 || '****';
+
+        return `${number1}-${number2}-${number3}-${number4}`;
     }
 }
 
@@ -123,7 +149,10 @@ export type UpdateCreditCardDto = {
     memo?: string | null;
     isPersonal?: boolean | null;
     holdingMemberId?: number | null;
+    holdingMember?: TeamMemberDto;
     productIds?: number[] | null;
 };
 
-export type FindAllCreditCardDto = FindAllQueryDto<CreditCardDto> & {};
+export type FindAllCreditCardDto = FindAllQueryDto<CreditCardDto> & {
+    keyword?: string;
+};
