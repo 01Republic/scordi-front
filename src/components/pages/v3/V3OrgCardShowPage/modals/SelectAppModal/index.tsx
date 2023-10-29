@@ -42,7 +42,7 @@ export const SelectAppModal = memo(() => {
     // 카드 연동 앱 등록 함수
     const submitCardNumber = () => {
         const productIds = fieldArray.fields.map((app) => {
-            return app.productId;
+            return app.id;
         });
         console.log('productIds', productIds);
 
@@ -63,7 +63,7 @@ export const SelectAppModal = memo(() => {
         if (!selectedApps) return;
 
         const productIds = fieldArray.fields.map((app) => {
-            return app.productId;
+            return app.id;
         });
 
         const data = await creditCardApi.update(orgId, cardId, {productIds: productIds});

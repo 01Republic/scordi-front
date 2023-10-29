@@ -14,6 +14,7 @@ import {
     selectAppModal,
     inputCardHoldingMemeberModal,
     currentCreditCardAtom,
+    updateCreditCardDtoAtom,
 } from '../V3OrgCardShowPage/modals/atom';
 import {CardNumberModal} from '../V3OrgCardShowPage/modals/CardNumberModal';
 import {CardNameModal} from '../V3OrgCardShowPage/modals/CardNameModal';
@@ -26,6 +27,8 @@ import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/c
 import {cardSign} from '^config/environments';
 import {creditCardSignAtom, subscriptionsAtom} from '../V3OrgCardShowPage/atom';
 import {SubscriptionItem} from '../V3OrgHomePage/mobile/SubscriptionItem';
+import {plainToInstance} from 'class-transformer';
+import {UnSignedCreditCardFormData, UpdateCreditCardDto} from '^types/credit-cards.type';
 
 export const V3OrgCardDetailPage = memo(() => {
     const {isShow: isAddCardModal} = useModal(addCardModal);
@@ -37,6 +40,7 @@ export const V3OrgCardDetailPage = memo(() => {
 
     const [subscriptions, setSubscriptions] = useRecoilState(subscriptionsAtom);
     const setCurrentCreditCard = useSetRecoilState(currentCreditCardAtom);
+    const setCardDetailInfo = useSetRecoilState(updateCreditCardDtoAtom);
     const setCardSignInfo = useSetRecoilState(creditCardSignAtom);
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
@@ -46,6 +50,8 @@ export const V3OrgCardDetailPage = memo(() => {
 
         creditCardApi.show(orgId, cardId).then((res) => {
             setCurrentCreditCard(res.data);
+            const updateDto = plainToInstance(UnSignedCreditCardFormData, res.data).toUpdateDto();
+            setCardDetailInfo(updateDto);
             setSubscriptions(res.data.subscriptions ?? []);
             const json = CryptoJS.AES.decrypt(res.data.sign, cardSign).toString(CryptoJS.enc.Utf8);
             const toString = JSON.parse(json);
