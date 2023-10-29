@@ -111,7 +111,6 @@ export const BetaSignPhoneAuthPage = memo(() => {
                 if (err?.response?.data?.status === 404) {
                     // 가입을 시킵니다.
                     // 초대된 회원의 경우 다른 API를 사용합니다.
-                    if (!invitedOrgId) throw Error('test error');
                     if (invitedOrgId) {
                         createInvitedUser({organizationId: invitedOrgId, ...data})
                             .then((res) => {
