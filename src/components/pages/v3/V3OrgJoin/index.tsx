@@ -5,17 +5,9 @@ import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {WithChildren} from '^types/global.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useSetRecoilState} from 'recoil';
-import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
 
 export const V3OrgJoin = memo(() => {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
-    const setInvitedOrgId = useSetRecoilState(invitedOrgIdAtom);
-
-    useEffect(() => {
-        console.log('invited orgId in join page', orgId);
-        setInvitedOrgId(orgId);
-    }, [orgId]);
 
     if (!orgId || isNaN(orgId)) return <></>;
 

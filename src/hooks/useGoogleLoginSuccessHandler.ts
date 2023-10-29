@@ -9,8 +9,10 @@ import {getMembershipInviteValidate, confirmInvitedMemberships} from '^api/membe
 import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {GoogleAccessTokenData} from '^api/tasting.api';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {useEffect} from 'react';
 
 // v2 -> v3 로 넘어가면서 구글 사용자 인증 직후 가입정보가 없으면 리디렉션 되는 위치가 바뀌었습니다.
 // import {UserSignUpPageRoute} from '^pages/users/signup'; // Deprecated.
@@ -20,9 +22,14 @@ import {GoogleAccessTokenData} from '^api/tasting.api';
  * 어디서 이 함수를 쓰는지에 대한 관리가 필요합니다.
  */
 export const useGoogleLoginSuccessHandler = () => {
+    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const [invitedOrgId, setInvitedOrgId] = useRecoilState(invitedOrgIdAtom);
     const router = useRouter();
     const {currentUser, setCurrentUser, loginRedirect, setAuthenticatedUserData} = useCurrentUser(null);
-    const invitedOrgId = useRecoilValue(invitedOrgIdAtom);
+
+    useEffect(() => {
+        setInvitedOrgId(orgId);
+    }, [orgId]);
 
     // 추가정보 입력을 위해 가입페이지로 넘기는 함수.
     const moveToSignUpPage = (userData: GoogleSignedUserData) => {
