@@ -16,7 +16,7 @@ interface CardItemProps {
 export const CardItem = memo((props: CardItemProps) => {
     const {card, setCreditCardList} = props;
     const [isCardsPage, setIsCardsPage] = useState(false);
-    const [cardInfo, setCardInfo] = useState<CreditCardSecretInfo>({});
+    const [cardInfo, setCardInfo] = useState<CreditCardSecretInfo>();
     const router = useRouter();
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
 
@@ -37,7 +37,7 @@ export const CardItem = memo((props: CardItemProps) => {
                     {card.name && <span>{card.name} / </span>}
                     {card.issuerCompany && <span>{card.issuerCompany} </span>}
                 </p>
-                <p className="font-semibold">{`${cardInfo.number1}-${cardInfo.number2}-${cardInfo.number3}-${cardInfo.number4}`}</p>
+                <p className="font-semibold">{cardInfo?.fullNumber}</p>
             </div>
         </li>
     );

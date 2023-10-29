@@ -54,7 +54,7 @@ export class CreditCardDto {
         return `${number4}`;
     }
 
-    private get fullNumber(): string {
+    get fullNumber(): string {
         const number1 = this.secretInfo.number1 || '****';
         const number2 = this.secretInfo.number2 || '****';
         const number3 = this.secretInfo.number3 || '****';
@@ -72,6 +72,15 @@ export class CreditCardSecretInfo {
     password?: string;
     cvc?: string;
     expiry?: string;
+
+    get fullNumber(): string {
+        const number1 = this.number1 || '****';
+        const number2 = this.number2 || '****';
+        const number3 = this.number3 || '****';
+        const number4 = this.number4 || '****';
+
+        return `${number1}-${number2}-${number3}-${number4}`;
+    }
 }
 
 export type CreditCardNumber = Pick<CreditCardSecretInfo, 'number1' | 'number2' | 'number3' | 'number4'>;
@@ -119,7 +128,7 @@ export class UnSignedCreditCardFormData extends CreditCardSecretInfo {
         };
     }
 
-    private get secretInfo(): CreditCardSecretInfo {
+    private get secretInfo(): Omit<CreditCardSecretInfo, 'fullNumber'> {
         return {
             number1: this.number1,
             number2: this.number2,
