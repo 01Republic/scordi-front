@@ -49,7 +49,7 @@ export const CardAppList = memo((props: CardApplistProps) => {
 
         if (!selectedApp) return;
         const isSelected = fieldArray.fields.filter((field) => {
-            return Number(field.id) === selectedAppId;
+            return field.productId === selectedAppId;
         });
 
         if (isSelected.length) {

@@ -6,7 +6,6 @@ import {V3OrgCardDetailPageRoute} from '^pages/v3/orgs/[orgId]/cards/[cardId]';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import CryptoJS from 'crypto-js';
 import {cardSign} from '^config/environments';
-import {GoKebabHorizontal} from 'react-icons/go';
 
 interface CardItemProps {
     card: CreditCardDto;
@@ -37,7 +36,9 @@ export const CardItem = memo((props: CardItemProps) => {
                     {card.name && <span>{card.name} / </span>}
                     {card.issuerCompany && <span>{card.issuerCompany} </span>}
                 </p>
-                <p className="font-semibold">{cardInfo?.fullNumber}</p>
+                <p className="font-semibold">
+                    {cardInfo?.number1}-{cardInfo?.number2}-{cardInfo?.number3}-{cardInfo?.number4}
+                </p>
             </div>
         </li>
     );

@@ -20,7 +20,7 @@ export const SelectAppModal = memo(() => {
     const {close: closeInputCardHoldingMemberModal} = useModal(inputCardHoldingMemeberModal);
     const [createCreditCardDto, setCreateCreditCardDto] = useRecoilState(createCreditCardDtoAtom);
     const [selectedApps, setSelectedApps] = useRecoilState(selectedAppsAtom);
-    const subscriptions = useRecoilValue(subscriptionsAtom);
+    const [subscriptions, setSubscriptions] = useRecoilState(subscriptionsAtom);
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
     const router = useRouter();
@@ -42,11 +42,11 @@ export const SelectAppModal = memo(() => {
     // 카드 연동 앱 등록 함수
     const submitCardNumber = () => {
         const productIds = fieldArray.fields.map((app) => {
-            return Number(app.id);
+            return app.productId;
         });
         console.log('productIds', productIds);
 
-        setCreateCreditCardDto({...createCreditCardDto, productIds});
+        setCreateCreditCardDto({...createCreditCardDto, productIds: productIds});
 
         if (!createCreditCardDto) return;
 
@@ -63,13 +63,14 @@ export const SelectAppModal = memo(() => {
         if (!selectedApps) return;
 
         const productIds = fieldArray.fields.map((app) => {
-            return Number(app.id);
+            return app.productId;
         });
 
         const data = await creditCardApi.update(orgId, cardId, {productIds: productIds});
 
         if (data) {
             toast.success('앱 등록이 완료되었습니다.');
+            setSubscriptions(data.data.subscriptions ?? []);
             setTimeout(() => {
                 close();
             }, 2000);
@@ -80,7 +81,7 @@ export const SelectAppModal = memo(() => {
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
             <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
             <MobileSection.Padding>
-                <p className="mb-4 pt-20">{cardId ? '카드 수정하기' : '새로운 카드 등록하기'}</p>
+                <p className="mb-4 pt-10">{cardId ? '카드 수정하기' : '새로운 카드 등록하기'}</p>
                 <h2 className="h1 leading-tight mb-10">
                     사용중인 서비스를
                     <br />
