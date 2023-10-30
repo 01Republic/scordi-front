@@ -10,7 +10,7 @@ interface CardAppItemProps {
     index: number;
     item: ProductDto;
     form: UseFormReturn<FieldValues, any>;
-    fieldArray: UseFieldArrayReturn<FieldValues, 'productIds', 'id'>;
+    fieldArray: UseFieldArrayReturn<FieldValues, 'productIds', 'productId'>;
 }
 
 export const CardAppItem = memo((props: CardAppItemProps) => {
