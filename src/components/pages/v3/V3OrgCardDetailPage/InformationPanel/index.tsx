@@ -70,7 +70,7 @@ export const InformationPanel = memo(() => {
                             ) : (
                                 <p className="text-gray-300">카드의 별칭을 입력하기</p>
                             )}
-                            <AiOutlineEdit size={13} className="invisible group-hover:visible" />
+                            <AiOutlineEdit size={13} className="text-gray-300 group-hover:text-gray-500" />
                         </div>
 
                         {/* 카드사 */}
@@ -83,7 +83,7 @@ export const InformationPanel = memo(() => {
                             ) : (
                                 <p className="text-gray-300">카드사를 입력하기</p>
                             )}
-                            <AiOutlineEdit size={13} className="invisible group-hover:visible" />
+                            <AiOutlineEdit size={13} className="text-gray-300 group-hover:text-gray-500" />
                         </div>
 
                         {/* 카드번호 */}
@@ -92,7 +92,7 @@ export const InformationPanel = memo(() => {
                             className="flex items-center gap-3 cursor-pointer group"
                         >
                             <p className="text-lg font-bold">{`${cardInfo.number1}-${cardInfo.number2}-${cardInfo.number3}-${cardInfo.number4}`}</p>
-                            <AiOutlineEdit size={13} className="invisible group-hover:visible" />
+                            <AiOutlineEdit size={13} className="text-gray-300 group-hover:text-gray-500" />
                         </div>
 
                         {/* 카드소유자 */}
@@ -101,11 +101,11 @@ export const InformationPanel = memo(() => {
                             className="flex items-center gap-3 cursor-pointer group"
                         >
                             {cardDetailInfo.holdingMember ? (
-                                <p className="font-bold">카드 소유자 :{cardDetailInfo.holdingMember.name} </p>
+                                <p className="font-bold">카드 소유자 : {cardDetailInfo.holdingMember.name} </p>
                             ) : (
                                 <p className="text-gray-300">카드 소유자 등록하기</p>
                             )}
-                            <AiOutlineEdit size={13} className="invisible group-hover:visible" />
+                            <AiOutlineEdit size={13} className="text-gray-300 group-hover:text-gray-500" />
                         </div>
                     </div>
                     <div onClick={deleteCreditCard} className="cursor-pointer align-top text-error">
