@@ -1,4 +1,5 @@
 import {FC, ImgHTMLAttributes, memo} from 'react';
+import {BiCreditCard} from 'react-icons/bi';
 
 export interface AvatarProps extends ImgHTMLAttributes<HTMLImageElement> {}
 
@@ -43,5 +44,22 @@ export const Avatar2 = memo((props: Avatar2Props) => {
                 )}
             </div>
         </div>
+    );
+});
+
+interface AvatarCardProps {
+    src?: string;
+    className?: string;
+}
+
+export const AvatarCard = memo((props: AvatarCardProps) => {
+    const {src, className} = props;
+
+    return src ? (
+        <img className={`avatar ${className}`} src={src} {...props} />
+    ) : (
+        <span className={`avatar-default ${className} p-0.5`}>
+            <BiCreditCard className="h-full w-full text-gray-300" />
+        </span>
     );
 });
