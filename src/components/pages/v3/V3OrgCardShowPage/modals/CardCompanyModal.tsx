@@ -4,7 +4,7 @@ import Select from 'react-select';
 import {useToast} from '^hooks/useToast';
 import {useModal} from '../../share/modals/useModal';
 import {ModalTopbar} from '../../share/modals/ModalTopbar';
-import {updateCreditCardDtoAtom, inputCardNameModal, selectCardCompanyModal} from './atom';
+import {updateCreditCardDtoAtom, inputCardNameModal, selectCardCompanyModal, createCreditCardDtoAtom} from './atom';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {SkipButton} from '^v3/V3OrgCardShowPage/modals/SkipButton';
@@ -14,7 +14,8 @@ import {ModalLikeBottomBar} from '../../layouts/V3ModalLikeLayout.mobile/ModalLi
 export const CardCompanyModal = memo(() => {
     const {Modal, close} = useModal(selectCardCompanyModal);
     const {open: openInputCardNameModal} = useModal(inputCardNameModal);
-    const [cardDetailInfo, setCardDetailInfo] = useRecoilState(updateCreditCardDtoAtom);
+    const [createCreditCardDto, setCreateCreditCardDto] = useRecoilState(createCreditCardDtoAtom);
+    const [updateCreditCardDto, setUpdateCreditCardDto] = useRecoilState(updateCreditCardDtoAtom);
     const [issuerCompany, setIssuerCompany] = useState('');
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
@@ -24,7 +25,7 @@ export const CardCompanyModal = memo(() => {
     const submitCardCompany = () => {
         if (!issuerCompany) return;
 
-        setCardDetailInfo({...cardDetailInfo, issuerCompany: issuerCompany});
+        setCreateCreditCardDto({...createCreditCardDto, issuerCompany: issuerCompany});
     };
 
     // 카드사 수정 함수
@@ -42,7 +43,7 @@ export const CardCompanyModal = memo(() => {
             setTimeout(() => {
                 close();
             }, 2000);
-            setCardDetailInfo({...cardDetailInfo, issuerCompany: issuerCompany});
+            setUpdateCreditCardDto({...updateCreditCardDto, issuerCompany: issuerCompany});
         }
     };
 
@@ -58,7 +59,10 @@ export const CardCompanyModal = memo(() => {
                     <Select
                         value={OPTIONS.find((option) => option.value === issuerCompany)}
                         options={OPTIONS}
-                        defaultValue={{value: cardDetailInfo.issuerCompany ?? '', label: cardDetailInfo.issuerCompany}}
+                        defaultValue={{
+                            value: updateCreditCardDto.issuerCompany ?? '',
+                            label: updateCreditCardDto.issuerCompany,
+                        }}
                         onChange={(e) => e && setIssuerCompany(e?.value)}
                         className="select-underline input-underline"
                         placeholder="전체"

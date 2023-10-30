@@ -42,11 +42,16 @@ export const InformationPanel = memo(() => {
             cancelButtonText: '취소',
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire({icon: 'success', title: '삭제가 완료되었습니다.', showConfirmButton: false, timer: 1500});
+                creditCardApi.destroy(orgId, cardId).then(() =>
+                    Swal.fire({
+                        icon: 'success',
+                        title: '삭제가 완료되었습니다.',
+                        showConfirmButton: false,
+                        timer: 1500,
+                    }),
+                );
                 setTimeout(() => {
-                    creditCardApi.destroy(orgId, cardId).then(() => {
-                        router.push(V3OrgCardShowPageRoute.path(orgId));
-                    });
+                    router.push(V3OrgCardShowPageRoute.path(orgId));
                 }, 1500);
             }
         });
