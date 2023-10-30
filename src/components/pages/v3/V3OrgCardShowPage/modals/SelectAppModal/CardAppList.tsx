@@ -11,7 +11,7 @@ import {useToast} from '^hooks/useToast';
 
 interface CardApplistProps {
     form: UseFormReturn<FieldValues, any>;
-    fieldArray: UseFieldArrayReturn<FieldValues, 'productIds', 'id'>;
+    fieldArray: UseFieldArrayReturn<FieldValues, 'productIds', 'productId'>;
 }
 
 export const CardAppList = memo((props: CardApplistProps) => {
@@ -49,7 +49,7 @@ export const CardAppList = memo((props: CardApplistProps) => {
 
         if (!selectedApp) return;
         const isSelected = fieldArray.fields.filter((field) => {
-            return field.productId === selectedAppId;
+            return Number(field.productId) === selectedAppId;
         });
 
         if (isSelected.length) {

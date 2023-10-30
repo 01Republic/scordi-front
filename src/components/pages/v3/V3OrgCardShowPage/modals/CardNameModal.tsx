@@ -13,7 +13,6 @@ import {useRecoilState} from 'recoil';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {useToast} from '^hooks/useToast';
-
 import {ModalLikeBottomBar} from '../../layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {SkipButton} from '^v3/V3OrgCardShowPage/modals/SkipButton';
 
@@ -59,11 +58,8 @@ export const CardNameModal = memo(() => {
 
         if (data) {
             if (!data.data) return;
-
+            close();
             toast.success('카드 별칭이 변경되었습니다.');
-            setTimeout(() => {
-                close();
-            }, 2000);
             setUpdateCreditCardDto({...updateCreditCardDto, name: cardName});
         }
     };

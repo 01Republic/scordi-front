@@ -38,11 +38,9 @@ export const CardCompanyModal = memo(() => {
 
         if (data) {
             if (!data.data) return;
+            close();
+            toast.success('변경되었습니다.');
 
-            toast.success('카드 별칭이 변경되었습니다.');
-            setTimeout(() => {
-                close();
-            }, 2000);
             setUpdateCreditCardDto({...updateCreditCardDto, issuerCompany: issuerCompany});
         }
     };
