@@ -7,7 +7,6 @@ import {InformationPanel} from './InformationPanel';
 import {BsPlus} from 'react-icons/bs';
 import {useModal} from '../share/modals/useModal';
 import {
-    addCardModal,
     inputCardNameModal,
     selectCardCompanyModal,
     inputCardNumberModal,
@@ -31,7 +30,6 @@ import {plainToInstance} from 'class-transformer';
 import {UnSignedCreditCardFormData, UpdateCreditCardDto} from '^types/credit-cards.type';
 
 export const V3OrgCardDetailPage = memo(() => {
-    const {isShow: isAddCardModal} = useModal(addCardModal);
     const {isShow: isInputCardNumberModal} = useModal(inputCardNumberModal);
     const {isShow: isInputCardNameModal} = useModal(inputCardNameModal);
     const {isShow: isInputCardHoldingMemberModal} = useModal(inputCardHoldingMemeberModal);
@@ -82,7 +80,6 @@ export const V3OrgCardDetailPage = memo(() => {
                 </div>
 
                 {[
-                    !isAddCardModal,
                     !isInputCardNumberModal,
                     !isInputCardNameModal,
                     !isInputCardHoldingMemberModal,

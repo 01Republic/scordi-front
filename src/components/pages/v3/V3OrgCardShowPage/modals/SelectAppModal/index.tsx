@@ -1,19 +1,19 @@
 import React, {memo, useEffect} from 'react';
+import {useRouter} from 'next/router';
+import {useRecoilState} from 'recoil';
+import {UseFormReturn, useFieldArray, useForm} from 'react-hook-form';
+import {useToast} from '^hooks/useToast';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
+import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
+import {SkipButton} from '^v3/V3OrgCardShowPage/modals/SkipButton';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {inputCardHoldingMemeberModal, selectAppModal, createCreditCardDtoAtom} from '../atom';
-import {useRecoilState} from 'recoil';
-import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {creditCardApi} from '^api/credit-cards.api';
-import {useRouter} from 'next/router';
 import {V3OrgCardDetailPageRoute} from '^pages/v3/orgs/[orgId]/cards/[cardId]';
 import {CardAppList} from './CardAppList';
-import {toast} from 'react-toastify';
+import {creditCardApi} from '^api/credit-cards.api';
 import {selectedAppsAtom, subscriptionsAtom} from '../../atom';
-import {SkipButton} from '^v3/V3OrgCardShowPage/modals/SkipButton';
-import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
-import {UseFormReturn, useFieldArray, useForm} from 'react-hook-form';
+import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {inputCardHoldingMemeberModal, selectAppModal, createCreditCardDtoAtom} from '../atom';
 
 interface FormValues {
     items: {
@@ -30,6 +30,7 @@ export const SelectAppModal = memo(() => {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
     const router = useRouter();
+    const {toast} = useToast();
     const form = useForm<UseFormReturn<FormValues>>();
 
     const fieldArray = useFieldArray<UseFieldArray<FormData>>({
@@ -48,13 +49,13 @@ export const SelectAppModal = memo(() => {
 
     // 카드 연동 앱 등록 함수
     const submitCardNumber = () => {
-        const productIds = fieldArray.fields.map((app) => {
-            return app.productId;
+        const productIds = fieldArray.fields.map((field) => {
+            return field.productId;
         });
 
-        setCreateCreditCardDto({...createCreditCardDto, productIds: productIds});
+        setCreateCreditCardDto({...createCreditCardDto, productIds: [...productIds]});
 
-        if (!createCreditCardDto) return;
+        if (!createCreditCardDto.productIds) return;
 
         creditCardApi.create(orgId, createCreditCardDto).then((res) => {
             router.push(V3OrgCardDetailPageRoute.path(orgId, res.data.id));
@@ -76,14 +77,17 @@ export const SelectAppModal = memo(() => {
 
         if (data) {
             close();
-            toast.success('앱 등록이 완료되었습니다.');
+            toast.success('변경되었습니다.');
             setSubscriptions(data.data.subscriptions ?? []);
         }
     };
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
-            <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
+            <ModalTopbar
+                backBtnOnClick={() => router.push(V3OrgCardDetailPageRoute.path(orgId, cardId))}
+                topbarPosition="sticky"
+            />
             <MobileSection.Padding>
                 <p className="mb-4 pt-10">{cardId ? '카드 수정하기' : '새로운 카드 등록하기'}</p>
                 <h2 className="h1 leading-tight mb-10">

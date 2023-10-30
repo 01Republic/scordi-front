@@ -61,7 +61,7 @@ export const CardNameModal = memo(() => {
             toast.error('변경 실패했습니다.');
         }
     };
-    console.log(updateCreditCardDto);
+
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
             <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
