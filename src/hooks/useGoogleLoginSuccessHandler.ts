@@ -28,6 +28,8 @@ export const useGoogleLoginSuccessHandler = () => {
     const {currentUser, setCurrentUser, loginRedirect, setAuthenticatedUserData} = useCurrentUser(null);
 
     useEffect(() => {
+        if (!orgId || isNaN(orgId)) return;
+
         setInvitedOrgId(orgId);
     }, [orgId]);
 
