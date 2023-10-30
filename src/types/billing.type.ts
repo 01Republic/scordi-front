@@ -8,6 +8,7 @@ import {CurrencyDto} from '^types/crawler';
 import {CreateMoneyRequestDto, CurrencyList, MoneyDto, Currency} from '^types/money.type';
 import {TypeCast} from '^types/utils/class-transformer';
 import {BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
+import {CreditCardDto} from '^types/credit-cards.type';
 
 // 쿼리가 가능한 엔티티. (dto 와 entity 의 형태 차이가 좀 있음)
 export class BillingScheduleDto {
@@ -109,6 +110,7 @@ export class BillingHistoryDto {
     organizationId: number; // 조직 ID
     subscriptionId: number | null; // 구독정보 ID
     invoiceAppId: number | null; // 인보이스 앱 ID
+    creditCardId: number | null; // 결제에 사용된 카드 ID
 
     @TypeCast(() => Date)
     issuedAt: Date; // 인보이스 발행 일시
@@ -138,6 +140,8 @@ export class BillingHistoryDto {
     @TypeCast(() => SubscriptionDto)
     subscription: SubscriptionDto; // 구독정보
     invoiceApp?: InvoiceAppDto; // 인보이스 앱
+    @TypeCast(() => CreditCardDto)
+    creditCard: CreditCardDto;
 
     @TypeCast(() => GmailParsedItem)
     emailContent: GmailParsedItem | null; // email content
@@ -191,6 +195,15 @@ export class BillingHistoryDto {
         // 얻으려는 화폐와 기록된 화폐가 다르면, 달러로 변환후 환율을 적용한다.
         const currency = Object.values(CurrencyList).find((item) => item.code === currencyCode);
         return this.payAmount.dollar * (currency?.exchangeRate || 1);
+    }
+
+    getCreditCard() {
+        return this.creditCardId === this.subscription.creditCardId ? this.subscription.creditCard : this.creditCard;
+    }
+
+    getPaymentMethod() {
+        const creditCard = this.getCreditCard();
+        return this.subscription.creditCard?.label ?? this.paymentMethod;
     }
 }
 

@@ -6,12 +6,12 @@ import {selectedInvoiceAccountAtom} from '^v3/V3OrgHomePage/InvoiceAccountAdding
 import {zeroPad} from '^utils/dateTime';
 import {syncInvoiceAccount} from '^api/invoiceAccount.api';
 import {FiRefreshCw} from 'react-icons/fi';
-import {toast} from 'react-toastify';
 import {GmailAgentProgress, gmailAgentProgressAtom} from '^hooks/useGoogleAccessToken';
 import {useModal} from '^v3/share/modals/useModal';
 import {renewInvoiceAccountModal} from '^v3/V3OrgHomePage/RenewInvoiceAccountModal/atom';
 import {useRouter} from 'next/router';
 import {V3OrgInvoiceAccountShowPageRoute} from '^pages/v3/orgs/[orgId]/invoiceAccounts/[invoiceAccountId]';
+import {useToast} from '^hooks/useToast';
 
 interface InvoiceAccountItemProps {
     invoiceAccount: InvoiceAccountDto;
@@ -24,6 +24,7 @@ export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
     const {open: openRenewModal} = useModal(renewInvoiceAccountModal);
     const {invoiceAccount} = props;
     const appNames: string[] = [];
+    const {toast} = useToast();
 
     const subscriptions = invoiceAccount.subscriptions || [];
     const len = subscriptions.filter((s) => s.isActive).length;

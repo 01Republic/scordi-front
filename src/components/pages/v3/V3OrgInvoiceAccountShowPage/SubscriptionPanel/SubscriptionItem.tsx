@@ -1,11 +1,11 @@
-import React, {ChangeEvent, memo, useRef, useState} from 'react';
+import React, {ChangeEvent, memo, useState} from 'react';
 import {SubscriptionDto} from '^types/subscription.type';
 import {Avatar} from '^components/Avatar';
 import {BillingHistoryManager} from '^models/BillingHistory';
 import {subscriptionApi} from '^api/subscription.api';
-import {toast} from 'react-toastify';
 import {useCurrentSubscriptions} from '^v3/V3OrgInvoiceAccountShowPage/atom';
 import {mm_dd} from '^utils/dateTime';
+import {useToast} from '^hooks/useToast';
 
 interface SubscriptionItemProps {
     subscription: SubscriptionDto;
@@ -16,23 +16,16 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
     const {product} = subscription;
     const [isActive, setIsActive] = useState(subscription.isActive);
     const {loadCurrentSubscriptions} = useCurrentSubscriptions();
-    const toastTrueId = useRef<number | string>('');
-    const toastFalseId = useRef<number | string>('');
+    const {toast} = useToast();
 
     const onActiveChange = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.checked;
         subscriptionApi.update(subscription.id, {isActive: value}).then(() => {
             setIsActive(value);
             if (value) {
-                if (!toast.isActive(toastTrueId.current)) {
-                    const msg = `동기화를 시작했어요`;
-                    toastTrueId.current = toast.success(msg, {toastId: 'toastTrueId'});
-                }
+                toast.success('동기화를 시작했어요', `subscription-${subscription.id}`);
             } else {
-                if (!toast.isActive(toastFalseId.current)) {
-                    const msg = `동기화를 해제했어요`;
-                    toastFalseId.current = toast.success(msg, {toastId: 'toastFalseId'});
-                }
+                toast.success('동기화를 해제했어요', `subscription-${subscription.id}`);
             }
             loadCurrentSubscriptions(subscription.invoiceAccountId!);
         });

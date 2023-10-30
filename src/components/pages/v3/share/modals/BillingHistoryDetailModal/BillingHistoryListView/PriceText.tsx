@@ -16,6 +16,8 @@ export const PriceText = memo((props: PriceTextProps) => {
     const {billingHistory, status} = props;
     const {payAmount, emailContent} = billingHistory;
 
+    if (!payAmount) return <PriceTextUnknown />;
+
     switch (status) {
         case BillingHistoryStatus.PaySuccess:
             return <PriceTextSuccess payAmount={payAmount!} />; // PaySuccess 조건에서는 payAmount 가 반드시 존재함
@@ -77,15 +79,22 @@ const PriceTextInfo = memo(({payAmount}: {payAmount: MoneyDto | null}) => {
 
 const PriceTextSuccess = memo(({payAmount}: {payAmount: MoneyDto}) => {
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
+
     return (
         <>
-            <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>
-            <span>
-                {currencyFormat(
-                    changePriceCurrency(payAmount.amount, payAmount.code, displayCurrency) || 0,
-                    displayCurrency,
-                )}
-            </span>
+            {payAmount ? (
+                <>
+                    <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>
+                    <span>
+                        {currencyFormat(
+                            changePriceCurrency(payAmount.amount, payAmount.code, displayCurrency) || 0,
+                            displayCurrency,
+                        )}
+                    </span>
+                </>
+            ) : (
+                <span className="text-gray-500 text-sm">관리자에게 문의하세요</span>
+            )}
         </>
     );
 });

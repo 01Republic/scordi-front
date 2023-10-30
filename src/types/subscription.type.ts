@@ -16,6 +16,7 @@ import {BillingType, billingTypeToCycleTerm} from '^types/invoiceApp.type';
 import {monthAfter, yearAfter} from '^utils/dateTime';
 import {MoneyDto} from '^types/money.type';
 import {InvoiceAccountDto} from '^types/invoiceAccount.type';
+import {CreditCardDto} from '^types/credit-cards.type';
 
 // ConnectStatus 연동상태.
 export enum ConnectStatus {
@@ -54,6 +55,7 @@ export class SubscriptionDto {
     workspaceId: number;
     paymentPlanId: number | null;
     billingCycleId: number | null;
+    creditCardId: number | null;
     assumedBillingType: BillingType; // 인보이스 추정 결제 주기
     isFreeTier: boolean;
     @TypeCast(() => Date) registeredAt?: Date | null; // 사용 시작일
@@ -83,6 +85,7 @@ export class SubscriptionDto {
     @TypeCast(() => BillingHistoryDto) billingHistories?: BillingHistoryDto[];
     @TypeCast(() => InvoiceAccountDto) invoiceAccount?: InvoiceAccountDto;
     accounts?: [];
+    @TypeCast(() => CreditCardDto) creditCard?: CreditCardDto;
 
     getCycleTerm() {
         return this.billingCycle?.term || billingTypeToCycleTerm(this.assumedBillingType);
@@ -148,6 +151,7 @@ export type CreateSubscriptionRequestDto = {
     productId: number; // 프로토타입 ID
     connectedSlug: string; // 워크스페이스 Slug (연동서비스 내에서)
     displayName: string; // 워크스페이스 이름 (연동서비스 내에서)
+    creditCardId?: number | null; // 카드 ID
     // paymentPlanId: number; // 결제플랜 ID
     // billingCycleId: number; // 결제주기 ID
     // isFreeTier: boolean; // 프리티어 여부

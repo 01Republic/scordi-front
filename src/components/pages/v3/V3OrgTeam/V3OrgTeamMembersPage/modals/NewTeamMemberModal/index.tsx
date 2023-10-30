@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {useModal} from '^v3/share/modals/useModal';
-import {isOpenNewTeamMemberModalAtom} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/NewTeamMemberModal/atom';
+import {isOpenNewTeamMemberModalAtom} from '^components/pages/v3/V3OrgTeam/V3OrgTeamMembersPage/modals/NewTeamMemberModal/atom';
 import {CreateTeamMemberDto} from '^types/team-member.type';
 import {useForm} from 'react-hook-form';
 import {TextInput} from '^components/TextInput';
@@ -38,7 +38,7 @@ export const NewTeamMemberModal = memo(() => {
 
     return (
         <form>
-            <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
+            <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-20">
                 <ModalTopbar
                     backBtnOnClick={backBtnOnClick}
                     // title={'멤버 등록}

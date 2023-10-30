@@ -1,21 +1,17 @@
 import {atom, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {productIdParamsState} from '^atoms/common';
 import {
-    productAtom,
-    productsAtom,
     billingCycleForCreateFlowAtom,
-    getProductPostContent,
     getProductQuery,
     getProductsQuery,
     paymentPlanForCreateFlowAtom,
 } from '^atoms/products.atom';
 import {useCallback, useEffect, useState} from 'react';
 import {ProductDto, FindAllProductQuery} from '^types/product.type';
-import {productApi, getProduct, getProducts} from '^api/product.api';
+import {productApi, getProducts} from '^api/product.api';
 import {errorNotify} from '^utils/toast-notify';
 import {SubscriptionPaymentPlanDto} from '^types/subscriptionPaymentPlan.type';
 import {useRouter} from 'next/router';
-import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const useProducts = () => {
     const result = useRecoilValue(getProductsQuery);
@@ -179,8 +175,9 @@ export const useCreateFlow = () => {
 };
 
 export const useProductPostContent = () => {
-    const {currentUser} = useCurrentUser();
-    const locale = currentUser?.locale ?? 'ko';
+    const localLocale = localStorage.getItem('locale');
+    const locale = localLocale ?? 'ko';
+
     const makeContent = (product: ProductDto) => {
         const [post] = product.posts;
         const productName = locale === 'ko' ? product.nameKo : product.nameEn;

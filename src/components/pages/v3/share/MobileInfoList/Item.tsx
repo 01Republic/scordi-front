@@ -13,7 +13,12 @@ export const MobileInfoListItem = memo((props: MobileInfoListItemProps) => {
     const {label, value, children, onClick, className = ''} = props;
 
     return (
-        <li className={`flex justify-between items-center text-[16px] min-h-[50px] no-selectable ${className}`}>
+        <li
+            onClick={onClick}
+            className={`flex justify-between items-center text-[16px] min-h-[50px] no-selectable ${className} ${
+                onClick && 'cursor-pointer'
+            }`}
+        >
             <div className="">{label}</div>
             <div className={`max-w-[70%] text-right font-light ${onClick ? 'cursor-pointer' : ''}`} onClick={onClick}>
                 {children || value}
