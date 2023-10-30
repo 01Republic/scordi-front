@@ -40,8 +40,9 @@ export const CardCompanyModal = memo(() => {
             if (!data.data) return;
             close();
             toast.success('변경되었습니다.');
-
             setUpdateCreditCardDto({...updateCreditCardDto, issuerCompany: issuerCompany});
+        } else {
+            toast.error('변경 실패했습니다.');
         }
     };
 

@@ -31,8 +31,8 @@ export const CardNameModal = memo(() => {
         if (!isShow) {
             form.reset();
         }
-
         inputRef.current?.focus();
+        form.setValue('cardName', updateCreditCardDto.name);
     }, [isShow]);
 
     // 카드 이름 등록 함수
@@ -48,22 +48,20 @@ export const CardNameModal = memo(() => {
         const cardName = form.getValues('cardName');
         if (!cardName) return;
 
-        const data = await creditCardApi
-            .update(orgId, cardId, {
-                name: cardName,
-            })
-            .then((res) => {
-                return res;
-            });
+        const data = await creditCardApi.update(orgId, cardId, {
+            name: cardName,
+        });
 
         if (data) {
             if (!data.data) return;
             close();
-            toast.success('카드 별칭이 변경되었습니다.');
-            setUpdateCreditCardDto({...updateCreditCardDto, name: cardName});
+            toast.success('변경되었습니다.');
+            setUpdateCreditCardDto({...updateCreditCardDto, name: data.data.name});
+        } else {
+            toast.error('변경 실패했습니다.');
         }
     };
-
+    console.log(updateCreditCardDto);
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
             <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
@@ -79,7 +77,7 @@ export const CardNameModal = memo(() => {
                     {...form.register('cardName')}
                     type="text"
                     placeholder="광고비 카드"
-                    defaultValue={updateCreditCardDto.name ?? ''}
+                    // defaultValue={updateCreditCardDto.name ?? ''}
                     className="input input-bordered w-full"
                 />
             </MobileSection.Padding>

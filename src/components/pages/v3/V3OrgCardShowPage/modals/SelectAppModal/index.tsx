@@ -13,7 +13,13 @@ import {toast} from 'react-toastify';
 import {selectedAppsAtom, subscriptionsAtom} from '../../atom';
 import {SkipButton} from '^v3/V3OrgCardShowPage/modals/SkipButton';
 import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
-import {useFieldArray, useForm} from 'react-hook-form';
+import {UseFormReturn, useFieldArray, useForm} from 'react-hook-form';
+
+interface FormValues {
+    items: {
+        name: string;
+    }[];
+}
 
 export const SelectAppModal = memo(() => {
     const {Modal, close, isShow} = useModal(selectAppModal);
@@ -24,11 +30,11 @@ export const SelectAppModal = memo(() => {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
     const router = useRouter();
-    const form = useForm();
-    const fieldArray = useFieldArray({
+    const form = useForm<UseFormReturn<FormValues>>();
+
+    const fieldArray = useFieldArray<UseFieldArray<FormData>>({
         control: form.control,
         name: 'productIds',
-        keyName: 'productId',
     });
 
     useEffect(() => {
@@ -43,9 +49,8 @@ export const SelectAppModal = memo(() => {
     // 카드 연동 앱 등록 함수
     const submitCardNumber = () => {
         const productIds = fieldArray.fields.map((app) => {
-            return Number(app.productId);
+            return app.productId;
         });
-        console.log('productIds', productIds);
 
         setCreateCreditCardDto({...createCreditCardDto, productIds: productIds});
 
@@ -64,7 +69,7 @@ export const SelectAppModal = memo(() => {
         if (!selectedApps) return;
 
         const productIds = fieldArray.fields.map((app) => {
-            return Number(app.productId);
+            return app.productId;
         });
 
         const data = await creditCardApi.update(orgId, cardId, {productIds: productIds});
