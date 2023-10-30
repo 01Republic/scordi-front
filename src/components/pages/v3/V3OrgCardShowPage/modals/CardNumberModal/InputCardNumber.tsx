@@ -31,6 +31,11 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
     useEffect(() => {
         if (!cardInfo) return;
 
+        form.setValue('number1', cardInfo.number1);
+        form.setValue('number2', cardInfo.number2);
+        form.setValue('number3', cardInfo.number3);
+        form.setValue('number4', cardInfo.number4);
+
         const number1 = document.querySelector('input[name="number1"]') as HTMLInputElement;
         number1.focus();
     }, [cardInfo]);
@@ -69,7 +74,7 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
             e.currentTarget.value = e.currentTarget.value.slice(0, e.currentTarget.maxLength);
     };
 
-    if (!cardInfo) return <></>;
+    // if (!cardInfo) return <></>;
     return (
         <div>
             {/* 카드번호 input */}

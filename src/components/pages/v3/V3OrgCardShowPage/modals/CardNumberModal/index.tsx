@@ -34,7 +34,6 @@ export const CardNumberModal = memo(() => {
     // 카드 번호 등록 함수
     const submitCardInformation = () => {
         const formData = plainToInstance(UnSignedCreditCardFormData, form.getValues());
-        console.log(formData);
         setCreateCreditCardDto({...createCreditCardDto, ...formData.toCreateDto()});
 
         openInputCardCompanyModal();
@@ -42,8 +41,7 @@ export const CardNumberModal = memo(() => {
 
     //카드 번호 수정 함수
     const updateCardInformation = async () => {
-        const formData = form.getValues();
-        // setUpdateCreditCardDto(formData);
+        const formData = plainToInstance(UnSignedCreditCardFormData, form.getValues());
 
         creditCardApi.update(orgId, cardId, formData.toUpdateDto()).then((response) => {
             if (response.status === 200) {
