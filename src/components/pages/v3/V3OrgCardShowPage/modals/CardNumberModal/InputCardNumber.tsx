@@ -1,7 +1,7 @@
-import React, {ChangeEvent, Dispatch, memo, useEffect} from 'react';
+import React, {ChangeEvent, Dispatch, FormEvent, memo, useEffect, useState} from 'react';
 import {UseFormReturn} from 'react-hook-form';
-import {useRecoilValue} from 'recoil';
-import {UnSignedCreditCardFormData} from '^types/credit-cards.type';
+import {DefaultValue, useRecoilValue} from 'recoil';
+import {CreditCardSecretInfo, UnSignedCreditCardFormData} from '^types/credit-cards.type';
 import {currentCreditCardAtom} from '^v3/V3OrgCardShowPage/modals/atom';
 import CryptoJS from 'crypto-js';
 import {cardSign} from '^config/environments';
@@ -13,6 +13,7 @@ interface InputCardNumberProps {
 
 export const InputCardNumber = memo((props: InputCardNumberProps) => {
     const {form, setDisabled} = props;
+    const [cardInfo, setCardInfo] = useState<CreditCardSecretInfo>();
 
     // Detail page 에서 모달 띄울 시 존재함.
     const currentCreditCard = useRecoilValue(currentCreditCardAtom);
@@ -24,16 +25,15 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
         const json = CryptoJS.AES.decrypt(currentCreditCard.sign, cardSign).toString(CryptoJS.enc.Utf8);
         const decrypted = JSON.parse(json);
 
-        form.setValue('number1', decrypted.number1);
-        form.setValue('number2', decrypted.number2);
-        form.setValue('number3', decrypted.number3);
-        form.setValue('number4', decrypted.number4);
-    }, []);
+        setCardInfo(decrypted);
+    }, [currentCreditCard]);
 
     useEffect(() => {
+        if (!cardInfo) return;
+
         const number1 = document.querySelector('input[name="number1"]') as HTMLInputElement;
         number1.focus();
-    }, []);
+    }, [cardInfo]);
 
     const moveNextInput = (currentPart: number, value: string) => {
         if (value.length === 4 && currentPart < 4) {
@@ -55,7 +55,7 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
         const cardNum1 = form.getValues('number1');
         const cardNum2 = form.getValues('number2');
         const cardNum3 = form.getValues('number3');
-        const cardNum4 = form.watch('number4');
+        const cardNum4 = form.getValues('number4');
 
         if (!cardNum1 || !cardNum2 || !cardNum3 || !cardNum4) {
             setDisabled(true);
@@ -64,6 +64,12 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
         setDisabled(false);
     };
 
+    const maxLength = (e: FormEvent<HTMLInputElement>) => {
+        if (e.currentTarget.value.length > e.currentTarget.maxLength)
+            e.currentTarget.value = e.currentTarget.value.slice(0, e.currentTarget.maxLength);
+    };
+
+    if (!cardInfo) return <></>;
     return (
         <div>
             {/* 카드번호 input */}
@@ -74,39 +80,43 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
             <div className="flex gap-3 mb-3">
                 <input
                     {...form.register('number1')}
-                    type="text"
+                    type="number"
                     placeholder="● ● ● ●"
-                    pattern="\d*"
                     maxLength={4}
+                    defaultValue={cardInfo?.number1 ?? ''}
                     className="input input-bordered w-full placeholder:text-[0.5rem]"
                     onChange={(e) => moveNextInput(1, e.target.value)}
+                    onInput={(e) => maxLength(e)}
                 />
                 <input
                     {...form.register('number2')}
-                    type="text"
+                    type="number"
                     placeholder="● ● ● ●"
-                    pattern="\d*"
                     maxLength={4}
+                    defaultValue={cardInfo?.number2 ?? ''}
                     className="input input-bordered w-full placeholder:text-[0.5rem]"
                     onChange={(e) => moveNextInput(2, e.target.value)}
+                    onInput={(e) => maxLength(e)}
                 />
                 <input
                     {...form.register('number3')}
-                    type="text"
+                    type="number"
                     placeholder="● ● ● ●"
-                    pattern="\d*"
                     maxLength={4}
+                    defaultValue={cardInfo?.number3 ?? ''}
                     className="input input-bordered w-full placeholder:text-[0.5rem]"
                     onChange={(e) => moveNextInput(3, e.target.value)}
+                    onInput={(e) => maxLength(e)}
                 />
                 <input
                     {...form.register('number4')}
-                    type="text"
+                    type="number"
                     placeholder="● ● ● ●"
-                    pattern="\d*"
                     maxLength={4}
+                    defaultValue={cardInfo?.number4 ?? ''}
                     className="input input-bordered w-full placeholder:text-[0.5rem]"
                     onChange={(e) => moveNextInput(4, e.target.value)}
+                    onInput={(e) => maxLength(e)}
                 />
             </div>
         </div>

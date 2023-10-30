@@ -56,7 +56,7 @@ export const CardHoldingMember = memo(() => {
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
             <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
             <MobileSection.Padding>
-                <p className="pt-20 mb-4">{cardId ? '카드 수정하기' : '새로운 카드 등록하기'}</p>
+                <p className="pt-10 mb-4">{cardId ? '카드 수정하기' : '새로운 카드 등록하기'}</p>
                 <h2 className="h1 leading-tight mb-10">
                     카드를 소유하고 있는 <br /> 사람을 선택해주세요
                 </h2>
