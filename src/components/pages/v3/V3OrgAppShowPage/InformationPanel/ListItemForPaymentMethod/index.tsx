@@ -31,7 +31,7 @@ export const ListItemForPaymentMethod = memo((props: ListItemForPaymentMethodPro
                     <button className="col-span-1 btn btn-xs btn-scordi opacity-75" onClick={onClick}>
                         변경하기
                     </button>
-                    <span className="col-span-2">{value}</span>
+                    {value !== '' && <span className="col-span-2">{value}</span>}
                 </div>
             </MobileInfoListItem>
         </>
