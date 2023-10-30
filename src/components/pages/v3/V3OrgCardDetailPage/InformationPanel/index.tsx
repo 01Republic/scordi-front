@@ -91,7 +91,7 @@ export const InformationPanel = memo(() => {
                             onClick={openInputCardNumberModal}
                             className="flex items-center gap-3 cursor-pointer group"
                         >
-                            <p className="text-lg font-bold">{`${cardInfo.number1}-${cardInfo.number2}-${cardInfo.number3}-${cardInfo.number4}`}</p>
+                            <p className="text-lg font-bold">{`${cardInfo?.number1}-${cardInfo?.number2}-${cardInfo?.number3}-${cardInfo?.number4}`}</p>
                             <AiOutlineEdit size={13} className="text-gray-300 group-hover:text-gray-500" />
                         </div>
 

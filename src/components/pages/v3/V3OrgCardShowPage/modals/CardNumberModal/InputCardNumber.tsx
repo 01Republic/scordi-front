@@ -1,6 +1,6 @@
-import React, {ChangeEvent, Dispatch, FormEvent, memo, useEffect, useState} from 'react';
+import React, {Dispatch, FormEvent, memo, useEffect, useState} from 'react';
 import {UseFormReturn} from 'react-hook-form';
-import {DefaultValue, useRecoilValue} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {CreditCardSecretInfo, UnSignedCreditCardFormData} from '^types/credit-cards.type';
 import {currentCreditCardAtom} from '^v3/V3OrgCardShowPage/modals/atom';
 import CryptoJS from 'crypto-js';
@@ -46,7 +46,6 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
             const nextInput = document.querySelector(`input[name="number${nextPart}"]`) as HTMLInputElement;
             if (nextInput) {
                 nextInput.focus();
-                nextInput.value = '';
             }
         }
 

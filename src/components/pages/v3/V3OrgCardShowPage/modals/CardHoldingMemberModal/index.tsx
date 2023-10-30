@@ -17,6 +17,7 @@ export const CardHoldingMember = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardHoldingMemeberModal);
     const {open: openSelectAppModal} = useModal(selectAppModal);
     const [createCreditCardData, setCreateCreditCardData] = useRecoilState(createCreditCardDtoAtom);
+    const [updateCreditCardDto, setUpdateCreditCardDto] = useRecoilState(updateCreditCardDtoAtom);
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
     const form = useForm<UnSignedCreditCardFormData>();
@@ -42,12 +43,10 @@ export const CardHoldingMember = memo(() => {
         const holdingMemberId = form.getValues('holdingMemberId');
         if (!holdingMemberId) return;
 
-        const data = await creditCardApi.update(orgId, cardId, {holdingMemberId});
+        const data = await creditCardApi.update(orgId, cardId, {holdingMemberId: holdingMemberId});
         if (data) {
+            close();
             toast.success('카드 소유자가 변경되었습니다.');
-            setTimeout(() => {
-                close();
-            }, 2000);
         }
     };
 

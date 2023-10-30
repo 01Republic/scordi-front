@@ -43,19 +43,16 @@ export const CardNumberModal = memo(() => {
     const updateCardInformation = async () => {
         const formData = plainToInstance(UnSignedCreditCardFormData, form.getValues());
 
-        creditCardApi.update(orgId, cardId, formData.toUpdateDto()).then((response) => {
-            if (response.status === 200) {
-                toast.success('카드번호가 수정되었습니다');
-                setCardSignInfo(response.data.secretInfo);
+        const data = await creditCardApi.update(orgId, cardId, formData.toUpdateDto());
 
-                setTimeout(() => {
-                    close();
-                }, 2000);
-            } else {
-                toast.error('카드번호 수정에 실패했습니다.');
-                return;
-            }
-        });
+        if (data) {
+            toast.success('카드번호가 수정되었습니다');
+            close();
+            setCardSignInfo(data.data.secretInfo);
+        } else {
+            toast.error('카드번호 수정에 실패했습니다.');
+            return;
+        }
     };
 
     return (

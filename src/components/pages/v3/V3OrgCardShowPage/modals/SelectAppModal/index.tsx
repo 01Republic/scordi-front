@@ -3,7 +3,7 @@ import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {inputCardHoldingMemeberModal, selectAppModal, createCreditCardDtoAtom} from '../atom';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState} from 'recoil';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {useRouter} from 'next/router';
@@ -70,11 +70,9 @@ export const SelectAppModal = memo(() => {
         const data = await creditCardApi.update(orgId, cardId, {productIds: productIds});
 
         if (data) {
+            close();
             toast.success('앱 등록이 완료되었습니다.');
             setSubscriptions(data.data.subscriptions ?? []);
-            setTimeout(() => {
-                close();
-            }, 2000);
         }
     };
 
