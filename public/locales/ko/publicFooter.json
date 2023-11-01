@@ -22,6 +22,9 @@
     "serviceUsage": "서비스 이용약관",
     "privacy": "개인정보 처리방침"
   },
+  "channels":{
+    "heading": "채널"
+  },
   "lang": {
     "placeholder": "언어를 선택해주세요."
   }

@@ -408,3 +408,330 @@ body.hide-channel-talk {
     flex-grow: initial;
   }
 }
+
+
+.main-header-img--base {
+  position: relative;
+  top: -1em;
+  left: 0;
+}
+@keyframes main-header-img {
+  from {
+    top: .5em;
+    left: -1em;
+  }
+  to {
+    @apply main-header-img--base;
+  }
+}
+.main-header-img {
+  @apply main-header-img--base;
+  transform-origin: 0 100%;
+  animation: main-header-img auto ease-in-out;
+  animation-timeline: scroll();
+  animation-range: 0 70vh;
+}
+
+
+.main-header-img-right--base {
+  bottom: 2em;
+  right: 1em;
+}
+@keyframes main-header-img-right {
+  from {
+    bottom: -3em;
+    right: 1em;
+  }
+  to {
+    @apply main-header-img-right--base;
+  }
+}
+.main-header-img-right {
+  @apply main-header-img-right--base;
+  transform-origin: 0 100%;
+  animation: main-header-img-right auto linear;
+  animation-timeline: scroll();
+  animation-range: 0 70vh;
+}
+
+.main-header-featured-customers-logo {
+  min-width: 200px;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    max-height: 36px;
+  }
+}
+
+#CollectAppSection {
+  $height: 5000px;
+  --anim-range-start: 160vh;
+  --anim-range-end: calc(200vh + #{$height});
+
+  height: $height;
+  //border: 10px dotted #000;
+  position: relative;
+
+  .title-container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /**
+     * title 1,2 common
+     */
+
+    p {
+      letter-spacing: -0.012em;
+      line-height: 130%;
+      font-weight: bold;
+      text-align: center;
+      @apply text-5xl;
+      visibility: hidden;
+    }
+
+    /**
+     * title 1
+     */
+
+    @keyframes title1 {
+      0% {
+        opacity: 0;
+        visibility: visible;
+      }
+      5% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 1;
+      }
+      70% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 0;
+        visibility: visible;
+      }
+    }
+
+    p:first-child {
+      animation: title1 auto linear;
+      opacity: 0;
+      transform-origin: 0 100%;
+      animation-timeline: scroll(nearest block);
+      animation-range: var(--anim-range-start) var(--anim-range-end);
+    }
+
+    /**
+     * title 2
+     */
+
+    @keyframes title2 {
+      0% {
+        opacity: 0;
+        transform: translateY(0);
+        visibility: visible;
+      }
+      50% {
+        opacity: 0;
+        transform: translateY(0);
+        visibility: visible;
+      }
+      70% {
+        opacity: 1;
+        transform: translateY(-3rem);
+        visibility: visible;
+      }
+      75% { opacity: 1 }
+      90% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-3rem);
+        visibility: visible;
+      }
+    }
+
+    p:last-child {
+      transform: translateY(-3rem);
+      animation: title2 auto linear;
+      opacity: 0;
+      transform-origin: 0 100%;
+      animation-timeline: scroll(nearest block);
+      animation-range: var(--anim-range-start) var(--anim-range-end);
+    }
+  }
+
+  .logo-container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @keyframes logo-collecting {
+      0% {
+        opacity: 0;
+        visibility: visible;
+      }
+      5% {
+        opacity: 1;
+        top: var(--logo-collecting-top);
+        right: var(--logo-collecting-right);
+        bottom: var(--logo-collecting-bottom);
+        left: var(--logo-collecting-left);
+      }
+      20% {}
+      50% {
+        opacity: 0;
+      }
+      60% {
+        opacity: 0;
+        visibility: visible;
+      }
+      100% {
+        top: 50%;
+        bottom: 50%;
+        left: 50%;
+        right: 50%;
+        visibility: hidden;
+      }
+    }
+
+    .logo {
+      position: absolute;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(3rem);
+
+      $square-size: 150px;
+      & > div {
+        min-width: $square-size;
+        min-height: $square-size;
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+
+      animation: logo-collecting auto linear;
+      transform-origin: 0 100%;
+      animation-timeline: scroll(nearest block);
+      animation-range: var(--anim-range-start) var(--anim-range-end);
+
+      $x-size: calc(25% - (#{$square-size} / 2));
+      $y-size: calc(33.3% - (#{$square-size} / 2));
+      top: var(--logo-collecting-top);
+      right: var(--logo-collecting-right);
+      bottom: var(--logo-collecting-bottom);
+      left: var(--logo-collecting-left);
+      --logo-collecting-x: #{$x-size};
+      --logo-collecting-y: #{$y-size};
+
+      &:nth-child(1) {
+        --logo-collecting-top: 0;
+        --logo-collecting-right: initial;
+        --logo-collecting-bottom: initial;
+        --logo-collecting-left: initial;
+      }
+      &:nth-child(2) {
+        --logo-collecting-top: #{$y-size};
+        --logo-collecting-right: #{$x-size};
+        --logo-collecting-bottom: initial;
+        --logo-collecting-left: initial;
+      }
+      &:nth-child(3) {
+        --logo-collecting-top: initial;
+        --logo-collecting-right: #{$x-size};
+        --logo-collecting-bottom: #{$y-size};
+        --logo-collecting-left: initial;
+      }
+      &:nth-child(4) {
+        --logo-collecting-top: initial;
+        --logo-collecting-right: initial;
+        --logo-collecting-bottom: 0;
+        --logo-collecting-left: initial;
+      }
+      &:nth-child(5) {
+        --logo-collecting-top: initial;
+        --logo-collecting-right: initial;
+        --logo-collecting-bottom: #{$y-size};
+        --logo-collecting-left: #{$x-size};
+      }
+      &:nth-child(6) {
+        --logo-collecting-top: #{$y-size};
+        --logo-collecting-right: initial;
+        --logo-collecting-bottom: initial;
+        --logo-collecting-left: #{$x-size};
+      }
+    }
+  }
+
+
+  .bg-container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @keyframes logo-background {
+      0% {
+        opacity: 0;
+      }
+      10% {
+        opacity: 0;
+      }
+      40% {
+        opacity: 1;
+      }
+      75% {
+        opacity: 1;
+      }
+      80% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+
+    .background {
+      width: 100vh;
+      height: 100vh;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      transform-origin: 0 100%;
+      animation: logo-background auto linear;
+      animation-timeline: scroll(nearest block);
+      animation-range: var(--anim-range-start) var(--anim-range-end);
+      opacity: 0;
+      transform: translateY(3rem);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      & > div {
+        $scordi-size: 150px;
+        width: $scordi-size;
+        height: $scordi-size;
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+}
