@@ -1,10 +1,8 @@
 import React, {HTMLAttributeAnchorTarget, memo, useEffect, useState} from 'react';
 import Image from 'next/image';
 import {useTranslation} from 'next-i18next';
-import {SelectDropdown} from '^v3/share/Select';
-import {useRouter} from 'next/router';
-import {useCurrentLocale} from '^hooks/useCurrentLocale';
-import {locales} from '^utils/locale-helper';
+import {Channels} from '^components/pages/LandingPages/components/Footer/Channels';
+import {FooterBottom} from '^components/pages/LandingPages/components/Footer/FooterBottom';
 
 export const BetaServiceFooter2 = memo(() => {
     return (
@@ -34,9 +32,7 @@ export const BetaServiceFooter2 = memo(() => {
 });
 
 export const BetaServiceFooter = memo(() => {
-    const router = useRouter();
     const {t} = useTranslation('publicFooter');
-    const {currentLocale} = useCurrentLocale();
 
     return (
         <>
@@ -66,140 +62,28 @@ export const BetaServiceFooter = memo(() => {
                             </address>
                         </div>
 
-                        <div className="min-w-[240px]">
-                            <div className="pt-[24px] sm:pt-0 pb-[30px]">
-                                <p className="text-[15px] font-semibold mb-[16px]">{t('terms.heading')}</p>
-                                <ul className="menu gap-2 text-[13px] text-gray-500">
-                                    <TermLinkItem
-                                        href="https://api.scordi.io/terms/serviceUsageTerm-v20221101-1.txt"
-                                        name={t('terms.serviceUsage')}
-                                    />
-                                    <TermLinkItem
-                                        href="https://api.scordi.io/terms/개인정보처리방침-v20221101-1.html"
-                                        name={t('terms.privacy')}
-                                    />
-                                </ul>
-                            </div>
-                        </div>
+                        {/* 푸터에 추가 열 들어가는거 형태 잡아뒀어서 코드 지우지 않고 주석처리 해둡니다. */}
+                        {/*<div className="min-w-[240px]">*/}
+                        {/*    <div className="pt-[24px] sm:pt-0 pb-[30px]">*/}
+                        {/*        <p className="text-[15px] font-semibold mb-[16px]">{t('terms.heading')}</p>*/}
+                        {/*        <ul className="menu gap-2 text-[13px] text-gray-500">*/}
+                        {/*            <TermLinkItem*/}
+                        {/*                href="https://api.scordi.io/terms/serviceUsageTerm-v20221101-1.txt"*/}
+                        {/*                name={t('terms.serviceUsage')}*/}
+                        {/*            />*/}
+                        {/*            <TermLinkItem*/}
+                        {/*                href="https://api.scordi.io/terms/개인정보처리방침-v20221101-1.html"*/}
+                        {/*                name={t('terms.privacy')}*/}
+                        {/*            />*/}
+                        {/*        </ul>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
 
-                        <div>
-                            <p className="text-[15px] font-semibold mb-[16px]">{t('channels.heading')}</p>
-                            <ul className="flex list-none gap-2 mb-[30px]">
-                                {/*<SocialIcon*/}
-                                {/*    name="Scordi KakaoTalk"*/}
-                                {/*    href="https://pf.kakao.com/_AZZPxj?utm_source=kakaochannel&utm_medium=link&utm_campaign=homepage"*/}
-                                {/*    imgSrc="https://static.toss.im/assets/homepage/safety/icn-kakao.svg"*/}
-                                {/*/>*/}
-                                {/*<SocialIcon*/}
-                                {/*    name="Scordi Instagram"*/}
-                                {/*    href="https://instagram.com/saas.scordi?igshid=NTc4MTIwNjQ2YQ=="*/}
-                                {/*    imgSrc="https://static.toss.im/assets/homepage/safety/icn-instagram.svg"*/}
-                                {/*/>*/}
-                                <SocialIcon
-                                    name="Scordi KakaoTalk"
-                                    href="https://pf.kakao.com/_AZZPxj?utm_source=kakaochannel&utm_medium=link&utm_campaign=homepage"
-                                    imgSrc="/home/icons/footer-icons/kakao_talk-g-80_80.png"
-                                    imgSrcHover="/home/icons/footer-icons/kakao_talk-p-80_80.png"
-                                />
-                                <SocialIcon
-                                    name="Scordi Instagram"
-                                    href="https://instagram.com/saas.scordi?igshid=NTc4MTIwNjQ2YQ=="
-                                    imgSrc="/home/icons/footer-icons/instagram-g-80_80.png"
-                                    imgSrcHover="/home/icons/footer-icons/instagram-p-80_80.png"
-                                />
-                                <SocialIcon
-                                    name="Scordi LinkedIn"
-                                    href="https://www.linkedin.com/company/01republic-inc"
-                                    imgSrc="/home/icons/footer-icons/linked_in-g-80_80.png"
-                                    imgSrcHover="/home/icons/footer-icons/linked_in-p-80_80.png"
-                                />
-                                {/*<SocialIcon*/}
-                                {/*    name="Scordi Facebook"*/}
-                                {/*    href="https://www.facebook.com/profile.php?id=100092455911269"*/}
-                                {/*    imgSrc="/home/icons/footer-icons/facebook-g-80_80.png"*/}
-                                {/*    imgSrcHover="/home/icons/footer-icons/facebook-p-80_80.png"*/}
-                                {/*/>*/}
-                                <SocialIcon
-                                    name="Scordi Naver blog"
-                                    href="https://blog.naver.com/saas_scordi"
-                                    imgSrc="/home/icons/footer-icons/naver_blog-g-80_80.png"
-                                    imgSrcHover="/home/icons/footer-icons/naver_blog-p-80_80.png"
-                                />
-                                {/*<SocialIcon*/}
-                                {/*    name="Scordi Medium"*/}
-                                {/*    href="https://medium.com/@official_82899"*/}
-                                {/*    imgSrc="/home/icons/footer-icons/medium-g-80_80.png"*/}
-                                {/*    imgSrcHover="/home/icons/footer-icons/medium-p-80_80.png"*/}
-                                {/*/>*/}
-                                {/*<SocialIcon*/}
-                                {/*    name="Scordi Youtube"*/}
-                                {/*    href="https://youtube.com/@01republic"*/}
-                                {/*    imgSrc="/home/icons/footer-icons/youtube-g-80_80.png"*/}
-                                {/*    imgSrcHover="/home/icons/footer-icons/youtube-p-80_80.png"*/}
-                                {/*/>*/}
-                            </ul>
-
-                            <div>
-                                <SelectDropdown
-                                    placeholder={t('lang.placeholder')!}
-                                    options={locales.map((locale) => ({
-                                        value: locale.code,
-                                        text: locale.text,
-                                        selected: currentLocale === locale.code,
-                                    }))}
-                                    onChange={(selected) => router.push('', '', {locale: selected.value})}
-                                />
-                            </div>
-                        </div>
+                        <Channels />
                     </div>
                 </div>
             </footer>
-            <div className="w-full text-center border-t py-2">
-                <p className="text-xs text-gray-500">Copyright ⓒ 01Republic, Inc. All Rights Reserved</p>
-            </div>
+            <FooterBottom />
         </>
-    );
-});
-
-interface TermLinkItemProps {
-    name: string;
-    href: string;
-    target?: HTMLAttributeAnchorTarget;
-}
-
-const TermLinkItem = memo((props: TermLinkItemProps) => {
-    const {name, href, target = '_blank'} = props;
-    return (
-        <li>
-            <a href={href} className="p-0 bg-transparent link link-hover" target={target}>
-                {name}
-            </a>
-        </li>
-    );
-});
-
-interface SocialIconProps {
-    name: string;
-    href: string;
-    imgSrc: string;
-    imgSrcHover: string;
-    target?: HTMLAttributeAnchorTarget;
-}
-
-const SocialIcon = memo((props: SocialIconProps) => {
-    const {name, href, imgSrc, imgSrcHover, target = '_blank'} = props;
-
-    return (
-        <li className="p-footer__social-list-item mr-[8px]">
-            <a
-                className="w-[36px] h-[36px] cursor-pointer inline-block opacity-70 rounded-full hover:opacity-100"
-                style={{transition: 'opacity .2s ease'}}
-                aria-label={name}
-                target={target}
-                href={href}
-            >
-                <img src={imgSrc} alt={name} loading="lazy" draggable={false} className="inline-block" />
-            </a>
-        </li>
     );
 });
