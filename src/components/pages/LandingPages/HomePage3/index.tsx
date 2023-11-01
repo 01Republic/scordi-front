@@ -25,7 +25,7 @@ export const LandingHomePage3 = memo(() => {
         <AOSProvider>
             <HeadTag />
 
-            <div className="bg-white">
+            <div className="bg-white relative z-10">
                 <LandingPageNavBar showLoginButton={true} sticky bgBlur />
 
                 <HomePageHeader />
