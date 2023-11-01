@@ -410,6 +410,10 @@ body.hide-channel-talk {
 }
 
 
+/**
+ * 랜딩페이지 2023.11
+ */
+
 .main-header-img--base {
   position: relative;
   top: -1em;
@@ -731,6 +735,60 @@ body.hide-channel-talk {
         background-position: center;
         background-size: contain;
         background-repeat: no-repeat;
+      }
+    }
+  }
+}
+
+#faq-list {
+  @apply max-w-screen-md mx-auto;
+
+  & > li {
+    cursor: pointer;
+    padding: 40px 0;
+    border-bottom: 1px solid;
+
+    label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+
+      .question {
+        //margin-right: auto;
+        @apply text-2xl font-semibold;
+      }
+
+      .icon-wrapper {
+        transition: all 250ms ease-in-out;
+      }
+    }
+
+    .answer-wrapper {
+      overflow: hidden;
+      max-height: 0;
+      transition: all 500ms ease-in-out;
+
+      pre {
+        padding-top: 40px;
+        font-family: inherit;
+        white-space: pre-line;
+        word-break: keep-all;
+        opacity: .8;
+        line-height: 1.6 !important;
+        @apply text-lg;
+      }
+    }
+
+    input[type=checkbox] {
+      &:not(:checked) {
+        & + label .icon-wrapper {
+          transform: rotate(225deg);
+        }
+
+        & ~ .answer-wrapper {
+          max-height: 1000px;
+        }
       }
     }
   }

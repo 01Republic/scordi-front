@@ -16,6 +16,7 @@ import {Section4} from './Section4';
 import {HomePageHeader} from './HomePageHeader';
 import {CollectAppSection} from './CollectAppSection';
 import {StatsSection} from './StatsSection';
+import {FAQ} from './FAQ';
 
 export const LandingHomePage3 = memo(() => {
     const {t} = useTranslation('publicMain');
@@ -163,12 +164,9 @@ export const LandingHomePage3 = memo(() => {
 
                 {/*후기 & 샤라웃*/}
                 {/*안심하세요 우리가 우리의 첫 고객이다최고의제품으로 보답하겠다.*/}
-                {/*Faq*/}
-
+                <FAQ />
                 <WhatTimeWidget />
-
                 <Section4 />
-
                 <BetaServiceFooter />
             </div>
 
