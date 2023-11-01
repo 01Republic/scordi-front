@@ -35,7 +35,6 @@ export const V3OrgCardDetailPage = memo(() => {
     const {isShow: isInputCardHoldingMemberModal} = useModal(inputCardHoldingMemeberModal);
     const {isShow: isSelectCardCompanyModal} = useModal(selectCardCompanyModal);
     const {open: openSelectAppModal, isShow: isSelectAppModal} = useModal(selectAppModal);
-
     const [subscriptions, setSubscriptions] = useRecoilState(subscriptionsAtom);
     const setCurrentCreditCard = useSetRecoilState(currentCreditCardAtom);
     const setCardDetailInfo = useSetRecoilState(updateCreditCardDtoAtom);

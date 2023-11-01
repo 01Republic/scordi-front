@@ -1,7 +1,6 @@
 import React, {memo, useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {useRecoilState} from 'recoil';
-import {UseFormReturn, useFieldArray, useForm} from 'react-hook-form';
 import {useToast} from '^hooks/useToast';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
@@ -11,15 +10,9 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {V3OrgCardDetailPageRoute} from '^pages/v3/orgs/[orgId]/cards/[cardId]';
 import {CardAppList} from './CardAppList';
 import {creditCardApi} from '^api/credit-cards.api';
-import {selectedAppsAtom, subscriptionsAtom} from '../../atom';
+import {productIdsAtom, selectedAppsAtom, subscriptionsAtom} from '../../atom';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {inputCardHoldingMemeberModal, selectAppModal, createCreditCardDtoAtom} from '../atom';
-
-interface FormValues {
-    items: {
-        name: string;
-    }[];
-}
 
 export const SelectAppModal = memo(() => {
     const {Modal, close, isShow} = useModal(selectAppModal);
@@ -27,51 +20,35 @@ export const SelectAppModal = memo(() => {
     const [createCreditCardDto, setCreateCreditCardDto] = useRecoilState(createCreditCardDtoAtom);
     const [selectedApps, setSelectedApps] = useRecoilState(selectedAppsAtom);
     const [subscriptions, setSubscriptions] = useRecoilState(subscriptionsAtom);
+    const [productIds, setProductIds] = useRecoilState(productIdsAtom);
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
     const router = useRouter();
     const {toast} = useToast();
-    const form = useForm<UseFormReturn<FormValues>>();
-
-    const fieldArray = useFieldArray<UseFieldArray<FormData>>({
-        control: form.control,
-        name: 'productIds',
-    });
 
     useEffect(() => {
-        const subscriptionsProduct = subscriptions.map((subscription) => {
-            !fieldArray.fields.length && fieldArray.append({productId: subscription.product.id});
-            return subscription.product;
+        subscriptions.map((subscription) => {
+            !selectedApps.length && setSelectedApps((prev) => [...prev, subscription.product]);
+            !productIds.length && setProductIds((prev) => [...prev, subscription.product.id]);
         });
-
-        setSelectedApps(subscriptionsProduct);
     }, [isShow]);
 
     // 카드 연동 앱 등록 함수
     const submitCardNumber = () => {
-        const productIds = fieldArray.fields.map((field) => {
-            return field.productId;
-        });
-
-        setCreateCreditCardDto({...createCreditCardDto, productIds: [...productIds]});
+        setCreateCreditCardDto({...createCreditCardDto, productIds: productIds});
 
         if (!createCreditCardDto.productIds) return;
 
         creditCardApi.create(orgId, createCreditCardDto).then((res) => {
             router.push(V3OrgCardDetailPageRoute.path(orgId, res.data.id));
+            closeInputCardHoldingMemberModal();
+            close();
         });
-
-        close();
-        closeInputCardHoldingMemberModal();
     };
 
     // 카드 연동 앱 수정 함수
     const updateCardApps = async () => {
         if (!selectedApps) return;
-
-        const productIds = fieldArray.fields.map((app) => {
-            return app.productId;
-        });
 
         const data = await creditCardApi.update(orgId, cardId, {productIds: productIds});
 
@@ -84,10 +61,7 @@ export const SelectAppModal = memo(() => {
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
-            <ModalTopbar
-                backBtnOnClick={() => router.push(V3OrgCardDetailPageRoute.path(orgId, cardId))}
-                topbarPosition="sticky"
-            />
+            <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
             <MobileSection.Padding>
                 <p className="mb-4 pt-10">{cardId ? '카드 수정하기' : '새로운 카드 등록하기'}</p>
                 <h2 className="h1 leading-tight mb-10">
@@ -96,7 +70,7 @@ export const SelectAppModal = memo(() => {
                     등록해주세요
                 </h2>
                 <SkipButton submitCardNumber={submitCardNumber} currentModal="selectAppModal" isModify={!!cardId} />
-                <CardAppList form={form} fieldArray={fieldArray} />
+                <CardAppList />
             </MobileSection.Padding>
             <ModalLikeBottomBar>
                 {cardId ? (

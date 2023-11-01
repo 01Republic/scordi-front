@@ -4,10 +4,11 @@ import {isOpeninviteOrgMemberModalAtom} from './atom';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^atoms/organizations.atom';
+import {invitedEmailsAtom} from '../../atom';
 import {InviteEmailInput} from './InviteEmailInput';
-import {FieldValues, useFieldArray, useForm} from 'react-hook-form';
+import {FieldValues, useForm} from 'react-hook-form';
 import {CreateMembershipInvite} from '^api/membership.api';
 import {useMemberships} from '^hooks/useMemberships';
 import {debounce} from 'lodash';
@@ -17,15 +18,15 @@ import Swal from 'sweetalert2';
 export const InviteOrgMemberModal = memo(() => {
     const {isShow, Modal, close} = useModal({isShowAtom: isOpeninviteOrgMemberModalAtom});
     const [isLoading, setIsLoading] = useState(false);
+    const [invitedEmails, setInvitedEmails] = useRecoilState(invitedEmailsAtom);
     const {membershipSearchResult, searchMemberships} = useMemberships();
     const currentOrg = useRecoilValue(currentOrgAtom);
     const form = useForm<FieldValues>();
-    const fieldArray = useFieldArray({control: form.control, name: 'emails'});
     const {toast} = useToast();
 
     useEffect(() => {
         if (!isShow) {
-            fieldArray.remove();
+            setInvitedEmails([]);
             form.reset();
         }
     }, [isShow]);
@@ -38,6 +39,11 @@ export const InviteOrgMemberModal = memo(() => {
     // 이미 조직에 등록된 멤버인지 확인하는 함수
     const confirmOrgMember = () => {
         const invitedEmail = form.getValues('email');
+
+        if (!invitedEmail && !invitedEmails.length) {
+            toast.error('이메일을 입력해주세요');
+            return false;
+        }
 
         const membership = membershipSearchResult.items.filter((item) => {
             return item.invitedEmail === invitedEmail;
@@ -60,24 +66,18 @@ export const InviteOrgMemberModal = memo(() => {
     };
 
     // 초대 이메일 보내는 함수
-    const inviteMembership = debounce(() => {
+    const inviteMembership = debounce(async () => {
         if (!currentOrg) return;
+        const invitedEmail = form.getValues('email');
 
-        const isOrgMember = confirmOrgMember();
         // 이미 조직에 가입된 멤버라면 return
+        const isOrgMember = confirmOrgMember();
         if (!isOrgMember) return;
 
-        const invitedEmail = form.getValues('email');
-        const invitedEmails = fieldArray.fields.length
-            ? fieldArray.fields.map((field: any) => field.email)
-            : [invitedEmail];
-        if (!invitedEmail && !invitedEmails[0]) {
-            toast.error('이메일을 입력해주세요');
-            return;
-        }
+        const createInvitedEmails = [...invitedEmails, invitedEmail];
 
         !isLoading &&
-            CreateMembershipInvite({organizationId: currentOrg.id, invitedEmails: invitedEmails})
+            CreateMembershipInvite({organizationId: currentOrg.id, invitedEmails: createInvitedEmails})
                 .then(() => {
                     Swal.fire({
                         position: 'center',
@@ -104,7 +104,7 @@ export const InviteOrgMemberModal = memo(() => {
                     </h3>
 
                     <p>초대할 멤버의 이메일을 입력해주세요.</p>
-                    <InviteEmailInput form={form} fieldArray={fieldArray} confirmOrgMember={confirmOrgMember} />
+                    <InviteEmailInput form={form} confirmOrgMember={confirmOrgMember} />
                 </div>
             </MobileSection.Padding>
             <ModalLikeBottomBar>

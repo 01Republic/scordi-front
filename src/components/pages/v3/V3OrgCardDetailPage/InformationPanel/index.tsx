@@ -101,7 +101,10 @@ export const InformationPanel = memo(() => {
                             className="flex items-center gap-3 cursor-pointer group"
                         >
                             {cardDetailInfo.holdingMember ? (
-                                <p className="font-bold">카드 소유자 : {cardDetailInfo.holdingMember.name} </p>
+                                <p className="font-bold">
+                                    카드 소유자 :{' '}
+                                    {cardDetailInfo.holdingMember.name ?? cardDetailInfo.holdingMember.email}
+                                </p>
                             ) : (
                                 <p className="text-gray-300">카드 소유자 등록하기</p>
                             )}

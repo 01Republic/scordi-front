@@ -5,17 +5,11 @@ import {ProductDto} from '^types/product.type';
 import {ProductOption} from '^components/pages/v3/share/modals/AccountListModal/form/SelectProduct/ProductOption.type';
 import {CardAppItem} from './CardAppItem';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {selectedAppsAtom, subscriptionsAtom} from '../../atom';
-import {FieldValues, UseFieldArrayReturn, UseFormReturn} from 'react-hook-form';
+import {productIdsAtom, selectedAppsAtom, subscriptionsAtom} from '../../atom';
 import {useToast} from '^hooks/useToast';
 
-interface CardApplistProps {
-    form: UseFormReturn<FieldValues, any>;
-    fieldArray: UseFieldArrayReturn<FieldValues, 'productIds', 'productId'>;
-}
-
-export const CardAppList = memo((props: CardApplistProps) => {
-    const {form, fieldArray} = props;
+export const CardAppList = memo(() => {
+    const [productIds, setProductIds] = useRecoilState(productIdsAtom);
     const [allAppList, setAllAppList] = useState<ProductDto[]>([]);
     const subscriptions = useRecoilValue(subscriptionsAtom);
     const [selectedApps, setSelectedApps] = useRecoilState(selectedAppsAtom);
@@ -47,23 +41,19 @@ export const CardAppList = memo((props: CardApplistProps) => {
             return app.id === selectedAppId;
         });
 
-        if (!selectedApp) return;
-        const isSelected = fieldArray.fields.filter((field) => {
-            return Number(field.productId) === selectedAppId;
-        });
-
-        if (isSelected.length) {
+        if (productIds.includes(option.value)) {
             toast.error('이미 선택된 앱입니다.');
             return;
         }
 
+        if (!selectedApp) return;
+
         setSelectedApps([...selectedApps, selectedApp]);
-        fieldArray.append({productId: option.value});
+        setProductIds([...productIds, option.value]);
     };
 
     return (
         <div>
-            <input type="hidden" {...form.register('productId')} />
             <Select
                 options={allAppList.map((list) => {
                     return {
@@ -78,7 +68,7 @@ export const CardAppList = memo((props: CardApplistProps) => {
             <span></span>
             <ul className="max-h-96 overflow-y-auto">
                 {selectedApps.map((product, index) => (
-                    <CardAppItem key={index} index={index} item={product} form={form} fieldArray={fieldArray} />
+                    <CardAppItem key={index} item={product} />
                 ))}
             </ul>
         </div>

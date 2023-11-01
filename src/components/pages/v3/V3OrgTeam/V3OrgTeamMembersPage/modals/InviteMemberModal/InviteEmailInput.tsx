@@ -1,17 +1,19 @@
 import {useToast} from '^hooks/useToast';
 import React, {memo, KeyboardEvent, useEffect} from 'react';
-import {FieldValues, UseFieldArrayReturn, UseFormReturn} from 'react-hook-form';
+import {FieldValues, UseFormReturn} from 'react-hook-form';
 import {IoClose} from 'react-icons/io5';
+import {useRecoilState} from 'recoil';
+import {invitedEmailsAtom} from '../../atom';
 
 interface InviteEmailInputProps {
     form: UseFormReturn<FieldValues, any>;
-    fieldArray: UseFieldArrayReturn<FieldValues, 'emails', 'id'>;
     confirmOrgMember: () => boolean | undefined;
 }
 
 export const InviteEmailInput = memo((props: InviteEmailInputProps) => {
-    const {form, fieldArray, confirmOrgMember} = props;
+    const {form, confirmOrgMember} = props;
     const {toast} = useToast();
+    const [invitedEmails, setInvitedEmails] = useRecoilState(invitedEmailsAtom);
 
     useEffect(() => {
         const emailInput = document.querySelector('input[name=email]') as HTMLElement;
@@ -44,27 +46,28 @@ export const InviteEmailInput = memo((props: InviteEmailInputProps) => {
             return;
         }
 
-        fieldArray.append({email: invitedEmail});
+        setInvitedEmails([...invitedEmails, invitedEmail]);
         form.resetField('email');
     };
 
-    const removeInvitedEmail = (index: number) => {
-        fieldArray.remove(index);
+    const removeInvitedEmail = (value: string) => {
+        const remainEmails = invitedEmails.filter((email) => {
+            return email !== value;
+        });
+
+        setInvitedEmails(remainEmails);
     };
 
     return (
         <div className="border w-full min-h-44 rounded-lg py-1 px-3">
             <div className="flex flex-wrap max-h-64 overflow-y-auto">
-                {fieldArray.fields.map((field: any, index) => (
-                    <span
-                        key={field.id}
-                        className="m-1 py-1 px-2 rounded-lg bg-scordi-light-200 flex justify-between text-sm"
-                    >
-                        {field.email}
+                {invitedEmails.map((email: string, i) => (
+                    <span key={i} className="m-1 py-1 px-2 rounded-lg bg-scordi-light-200 flex justify-between text-sm">
+                        {email}
                         <IoClose
                             size={13}
                             className="self-center ml-2 cursor-pointer"
-                            onClick={() => removeInvitedEmail(index)}
+                            onClick={() => removeInvitedEmail(email)}
                         />
                     </span>
                 ))}

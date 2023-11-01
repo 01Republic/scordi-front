@@ -24,3 +24,9 @@ export const subscriptionsAtom = atom({
     key: 'subscriptionsAtom',
     default: <SubscriptionDto[]>[],
 });
+
+// 카드에 연동된 앱 id
+export const productIdsAtom = atom({
+    key: 'productIdsAtom',
+    default: <number[]>[],
+});
