@@ -67,14 +67,14 @@ const StatBox = memo((props: StatBoxProps) => {
 
     return (
         <div
-            className="text-center mb-18"
+            className="text-center mb-16"
             data-aos="fade-up"
             data-aos-anchor-placement="bottom-bottom"
             data-aos-duration={duration}
         >
-            <div className="font-semibold text-gray-500 text-lg mb-2">{title}</div>
-            <div className="font-semibold text-4xl md:text-5xl text-scordi mb-2">{statText}</div>
-            <div className="font-semibold text-gray-500 text-lg sm:text-xl">{text}</div>
+            <div className="font-semibold text-gray-500 text-xl sm:text-lg mb-2">{title}</div>
+            <div className="font-semibold text-5xl md:text-5xl text-scordi mb-2">{statText}</div>
+            <div className="font-semibold text-gray-500 text-2xl sm:text-xl">{text}</div>
         </div>
     );
 });

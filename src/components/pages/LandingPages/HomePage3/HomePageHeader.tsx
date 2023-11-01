@@ -129,7 +129,7 @@ export const HomePageHeader = memo(() => {
                         <p className="text-[18px] text-center mb-6 text-gray-600 font-semibold">
                             성장하고 있는 여러 고객사들과 함께하고 있습니다
                         </p>
-                        <div className="flex items-center justify-around">
+                        <div className="grid grid-cols-2 sm:flex items-center justify-around">
                             <div className="main-header-featured-customers-logo">
                                 <img
                                     style={{transform: 'scale(1.25)'}}
@@ -155,7 +155,7 @@ export const HomePageHeader = memo(() => {
                                 />
                             </div>
                         </div>
-                        <div className="flex items-center justify-around">
+                        <div className="grid grid-cols-2 sm:flex items-center justify-around">
                             <div className="main-header-featured-customers-logo">
                                 <img
                                     style={{transform: 'scale(0.8)'}}
