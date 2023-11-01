@@ -50,11 +50,9 @@ export const CardNameModal = memo(() => {
         });
 
         if (datas) {
+            setCurrenCreditCard(datas.data);
             close();
             toast.success('변경되었습니다.');
-            setCurrenCreditCard(datas.data);
-        } else {
-            toast.error('변경 실패했습니다.');
         }
     };
 

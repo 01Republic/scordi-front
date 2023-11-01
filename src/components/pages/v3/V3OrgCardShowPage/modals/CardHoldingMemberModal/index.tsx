@@ -45,9 +45,9 @@ export const CardHoldingMember = memo(() => {
 
         const datas = await creditCardApi.update(orgId, cardId, {holdingMemberId: holdingMemberId});
         if (datas) {
+            setCurrenCreditCard(datas.data);
             close();
             toast.success('변경되었습니다.');
-            setCurrenCreditCard(datas.data);
         }
     };
 

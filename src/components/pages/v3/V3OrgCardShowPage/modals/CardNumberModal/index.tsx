@@ -46,12 +46,9 @@ export const CardNumberModal = memo(() => {
         const datas = await creditCardApi.update(orgId, cardId, formData.toUpdateDto());
 
         if (datas) {
-            toast.success('카드번호가 수정되었습니다');
-            close();
             setCardSignInfo(datas.data.secretInfo);
-        } else {
-            toast.error('카드번호 수정에 실패했습니다.');
-            return;
+            close();
+            toast.success('변경되었습니다.');
         }
     };
 

@@ -53,9 +53,9 @@ export const SelectAppModal = memo(() => {
         const datas = await creditCardApi.update(orgId, cardId, {productIds: productIds});
 
         if (datas) {
+            setSubscriptions(datas.data.subscriptions ?? []);
             close();
             toast.success('변경되었습니다.');
-            setSubscriptions(datas.data.subscriptions ?? []);
         }
     };
 

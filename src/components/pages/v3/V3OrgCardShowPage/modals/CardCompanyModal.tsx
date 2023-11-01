@@ -32,17 +32,14 @@ export const CardCompanyModal = memo(() => {
     const onUpdate = async () => {
         if (!issuerCompany) return;
 
-        const data = await creditCardApi.update(orgId, cardId, {
+        const datas = await creditCardApi.update(orgId, cardId, {
             issuerCompany: issuerCompany,
         });
 
-        if (data) {
-            if (!data.data) return;
+        if (datas) {
+            setCurrenCreditCard(datas.data);
             close();
             toast.success('변경되었습니다.');
-            setCurrenCreditCard(data.data);
-        } else {
-            toast.error('변경 실패했습니다.');
         }
     };
 
