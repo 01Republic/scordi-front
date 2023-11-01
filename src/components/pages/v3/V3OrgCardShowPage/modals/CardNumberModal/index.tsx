@@ -32,7 +32,7 @@ export const CardNumberModal = memo(() => {
     }, [isShow]);
 
     // 카드 번호 등록 함수
-    const submitCardInformation = () => {
+    const onSubmit = () => {
         const formData = plainToInstance(UnSignedCreditCardFormData, form.getValues());
         setCreateCreditCardDto({...createCreditCardDto, ...formData.toCreateDto()});
 
@@ -40,15 +40,15 @@ export const CardNumberModal = memo(() => {
     };
 
     //카드 번호 수정 함수
-    const updateCardInformation = async () => {
+    const onUpdate = async () => {
         const formData = plainToInstance(UnSignedCreditCardFormData, form.getValues());
 
-        const data = await creditCardApi.update(orgId, cardId, formData.toUpdateDto());
+        const datas = await creditCardApi.update(orgId, cardId, formData.toUpdateDto());
 
-        if (data) {
+        if (datas) {
             toast.success('카드번호가 수정되었습니다');
             close();
-            setCardSignInfo(data.data.secretInfo);
+            setCardSignInfo(datas.data.secretInfo);
         } else {
             toast.error('카드번호 수정에 실패했습니다.');
             return;
@@ -69,11 +69,11 @@ export const CardNumberModal = memo(() => {
                 </MobileSection.Padding>
                 <ModalLikeBottomBar>
                     {cardId ? (
-                        <button disabled={disabled} onClick={updateCardInformation} className="btn-modal">
+                        <button disabled={disabled} onClick={onUpdate} className="btn-modal">
                             확인
                         </button>
                     ) : (
-                        <button disabled={disabled} onClick={submitCardInformation} className="btn-modal">
+                        <button disabled={disabled} onClick={onSubmit} className="btn-modal">
                             다음
                         </button>
                     )}

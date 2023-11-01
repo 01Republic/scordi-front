@@ -34,7 +34,7 @@ export const SelectAppModal = memo(() => {
     }, [isShow]);
 
     // 카드 연동 앱 등록 함수
-    const submitCardNumber = () => {
+    const onSubmit = () => {
         setCreateCreditCardDto({...createCreditCardDto, productIds: productIds});
 
         if (!createCreditCardDto.productIds) return;
@@ -47,15 +47,15 @@ export const SelectAppModal = memo(() => {
     };
 
     // 카드 연동 앱 수정 함수
-    const updateCardApps = async () => {
+    const onUpdate = async () => {
         if (!selectedApps) return;
 
-        const data = await creditCardApi.update(orgId, cardId, {productIds: productIds});
+        const datas = await creditCardApi.update(orgId, cardId, {productIds: productIds});
 
-        if (data) {
+        if (datas) {
             close();
             toast.success('변경되었습니다.');
-            setSubscriptions(data.data.subscriptions ?? []);
+            setSubscriptions(datas.data.subscriptions ?? []);
         }
     };
 
@@ -69,16 +69,16 @@ export const SelectAppModal = memo(() => {
                     <br />
                     등록해주세요
                 </h2>
-                <SkipButton submitCardNumber={submitCardNumber} currentModal="selectAppModal" isModify={!!cardId} />
+                <SkipButton submitCardNumber={onSubmit} currentModal="selectAppModal" isModify={!!cardId} />
                 <CardAppList />
             </MobileSection.Padding>
             <ModalLikeBottomBar>
                 {cardId ? (
-                    <button onClick={updateCardApps} className="btn-modal">
+                    <button onClick={onUpdate} className="btn-modal">
                         확인
                     </button>
                 ) : (
-                    <button onClick={submitCardNumber} className="btn-modal">
+                    <button onClick={onSubmit} className="btn-modal">
                         다음
                     </button>
                 )}

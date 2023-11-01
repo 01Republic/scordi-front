@@ -1,15 +1,10 @@
 import React, {memo, useEffect, useRef} from 'react';
+import {useRecoilState} from 'recoil';
 import {useForm} from 'react-hook-form';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {
-    updateCreditCardDtoAtom,
-    inputCardNameModal,
-    inputCardHoldingMemeberModal,
-    createCreditCardDtoAtom,
-} from './atom';
-import {useRecoilState} from 'recoil';
+import {inputCardNameModal, inputCardHoldingMemeberModal, createCreditCardDtoAtom, currentCreditCardAtom} from './atom';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {useToast} from '^hooks/useToast';
@@ -20,10 +15,9 @@ export const CardNameModal = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardNameModal);
     const {open: openInputCardHoldingMemeberModal} = useModal(inputCardHoldingMemeberModal);
     const [createCreditCardDto, setCreateCreditCardDto] = useRecoilState(createCreditCardDtoAtom);
-    const [updateCreditCardDto, setUpdateCreditCardDto] = useRecoilState(updateCreditCardDtoAtom);
+    const [currentCreditCard, setCurrenCreditCard] = useRecoilState(currentCreditCardAtom);
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
-    const inputRef = useRef<HTMLInputElement>(null);
     const form = useForm();
     const {toast} = useToast();
 
@@ -31,12 +25,15 @@ export const CardNameModal = memo(() => {
         if (!isShow) {
             form.reset();
         }
-        inputRef.current?.focus();
-        form.setValue('cardName', updateCreditCardDto.name);
+
+        const cardNameInput = document.querySelector('input[name="cardName"]') as HTMLInputElement;
+        cardNameInput?.focus();
+
+        form.setValue('cardName', currentCreditCard.name);
     }, [isShow]);
 
     // 카드 이름 등록 함수
-    const submitCardNumber = () => {
+    const onSubmit = () => {
         const cardName = form.getValues('cardName');
         if (!cardName) return;
 
@@ -44,19 +41,18 @@ export const CardNameModal = memo(() => {
     };
 
     // 카드 이름 수정 함수
-    const updateCardNumber = async () => {
+    const onUpdate = async () => {
         const cardName = form.getValues('cardName');
         if (!cardName) return;
 
-        const data = await creditCardApi.update(orgId, cardId, {
+        const datas = await creditCardApi.update(orgId, cardId, {
             name: cardName,
         });
 
-        if (data) {
-            if (!data.data) return;
+        if (datas) {
             close();
             toast.success('변경되었습니다.');
-            setUpdateCreditCardDto({...updateCreditCardDto, name: data.data.name});
+            setCurrenCreditCard(datas.data);
         } else {
             toast.error('변경 실패했습니다.');
         }
@@ -75,21 +71,21 @@ export const CardNameModal = memo(() => {
                 {/* 카드 이름 input */}
                 <input
                     {...form.register('cardName')}
+                    name="cardName"
                     type="text"
                     placeholder="광고비 카드"
-                    // defaultValue={updateCreditCardDto.name ?? ''}
                     className="input input-bordered w-full"
                 />
             </MobileSection.Padding>
             <ModalLikeBottomBar>
                 {cardId ? (
-                    <button onClick={updateCardNumber} className="btn-modal">
+                    <button onClick={onUpdate} className="btn-modal">
                         확인
                     </button>
                 ) : (
                     <button
                         onClick={() => {
-                            submitCardNumber();
+                            onSubmit();
                             openInputCardHoldingMemeberModal();
                         }}
                         className="btn-modal"

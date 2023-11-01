@@ -3,8 +3,8 @@ import {useForm} from 'react-hook-form';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {updateCreditCardDtoAtom, inputCardHoldingMemeberModal, selectAppModal, createCreditCardDtoAtom} from '../atom';
-import {useRecoilState} from 'recoil';
+import {inputCardHoldingMemeberModal, selectAppModal, createCreditCardDtoAtom, currentCreditCardAtom} from '../atom';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {SelectCardHoldingMember} from '^v3/V3OrgCardShowPage/modals/CardHoldingMemberModal/SelectCardHoldingMember';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
@@ -17,7 +17,7 @@ export const CardHoldingMember = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardHoldingMemeberModal);
     const {open: openSelectAppModal} = useModal(selectAppModal);
     const [createCreditCardData, setCreateCreditCardData] = useRecoilState(createCreditCardDtoAtom);
-    const [updateCreditCardDto, setUpdateCreditCardDto] = useRecoilState(updateCreditCardDtoAtom);
+    const setCurrenCreditCard = useSetRecoilState(currentCreditCardAtom);
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
     const form = useForm<UnSignedCreditCardFormData>();
@@ -32,21 +32,22 @@ export const CardHoldingMember = memo(() => {
         inputRef.current?.focus();
     }, [isShow]);
 
-    const submitCardHoldingMember = () => {
+    const onSubmit = () => {
         const cardHoldingMemberId = form.getValues('holdingMemberId');
         if (!cardHoldingMemberId) return;
 
         setCreateCreditCardData({...createCreditCardData, holdingMemberId: cardHoldingMemberId});
     };
 
-    const updateCardHoldingMember = async () => {
+    const onUpdate = async () => {
         const holdingMemberId = form.getValues('holdingMemberId');
         if (!holdingMemberId) return;
 
-        const data = await creditCardApi.update(orgId, cardId, {holdingMemberId: holdingMemberId});
-        if (data) {
+        const datas = await creditCardApi.update(orgId, cardId, {holdingMemberId: holdingMemberId});
+        if (datas) {
             close();
-            toast.success('카드 소유자가 변경되었습니다.');
+            toast.success('변경되었습니다.');
+            setCurrenCreditCard(datas.data);
         }
     };
 
@@ -66,14 +67,14 @@ export const CardHoldingMember = memo(() => {
             </MobileSection.Padding>
             <ModalLikeBottomBar>
                 {cardId ? (
-                    <button onClick={updateCardHoldingMember} className="btn-modal">
+                    <button onClick={onUpdate} className="btn-modal">
                         확인
                     </button>
                 ) : (
                     <button
                         onClick={() => {
                             openSelectAppModal();
-                            submitCardHoldingMember();
+                            onSubmit();
                         }}
                         className="btn-modal"
                     >

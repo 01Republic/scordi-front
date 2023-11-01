@@ -4,11 +4,11 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {AiOutlineEdit} from 'react-icons/ai';
 import {useModal} from '../../share/modals/useModal';
 import {
-    updateCreditCardDtoAtom,
     inputCardHoldingMemeberModal,
     inputCardNameModal,
     inputCardNumberModal,
     selectCardCompanyModal,
+    currentCreditCardAtom,
 } from '../../V3OrgCardShowPage/modals/atom';
 import {creditCardSignAtom} from '../../V3OrgCardShowPage/atom';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
@@ -19,7 +19,7 @@ import Swal from 'sweetalert2';
 
 export const InformationPanel = memo(() => {
     const cardInfo = useRecoilValue(creditCardSignAtom);
-    const cardDetailInfo = useRecoilValue(updateCreditCardDtoAtom);
+    const currentCreditCard = useRecoilValue(currentCreditCardAtom);
     const {open: openInputCardNameModal} = useModal(inputCardNameModal);
     const {open: openInputCardNumberModal} = useModal(inputCardNumberModal);
     const {open: openInputCardHoldingMemberModal} = useModal(inputCardHoldingMemeberModal);
@@ -29,7 +29,7 @@ export const InformationPanel = memo(() => {
     const router = useRouter();
 
     // 카드 삭제 함수
-    const deleteCreditCard = () => {
+    const onDelete = () => {
         if (!orgId && !cardId) return;
 
         Swal.fire({
@@ -65,8 +65,8 @@ export const InformationPanel = memo(() => {
                     <div>
                         {/* 카드 명 */}
                         <div onClick={openInputCardNameModal} className="flex items-center gap-3 cursor-pointer group">
-                            {cardDetailInfo?.name ? (
-                                <p className="font-bold">{cardDetailInfo.name}</p>
+                            {currentCreditCard?.name ? (
+                                <p className="font-bold">{currentCreditCard.name}</p>
                             ) : (
                                 <p className="text-gray-300">카드의 별칭을 입력하기</p>
                             )}
@@ -78,8 +78,8 @@ export const InformationPanel = memo(() => {
                             onClick={openSelectCardCompanyModal}
                             className="flex items-center gap-3 cursor-pointer group"
                         >
-                            {cardDetailInfo?.issuerCompany ? (
-                                <p className="font-bold">{cardDetailInfo.issuerCompany}</p>
+                            {currentCreditCard?.issuerCompany ? (
+                                <p className="font-bold">{currentCreditCard.issuerCompany}</p>
                             ) : (
                                 <p className="text-gray-300">카드사를 입력하기</p>
                             )}
@@ -100,10 +100,10 @@ export const InformationPanel = memo(() => {
                             onClick={openInputCardHoldingMemberModal}
                             className="flex items-center gap-3 cursor-pointer group"
                         >
-                            {cardDetailInfo.holdingMember ? (
+                            {currentCreditCard.holdingMember ? (
                                 <p className="font-bold">
                                     카드 소유자 :{' '}
-                                    {cardDetailInfo.holdingMember.name ?? cardDetailInfo.holdingMember.email}
+                                    {currentCreditCard.holdingMember.name ?? currentCreditCard.holdingMember.email}
                                 </p>
                             ) : (
                                 <p className="text-gray-300">카드 소유자 등록하기</p>
@@ -111,7 +111,7 @@ export const InformationPanel = memo(() => {
                             <AiOutlineEdit size={13} className="text-gray-300 group-hover:text-gray-500" />
                         </div>
                     </div>
-                    <div onClick={deleteCreditCard} className="cursor-pointer align-top text-error">
+                    <div onClick={onDelete} className="cursor-pointer align-top text-error">
                         카드 삭제
                     </div>
                 </div>
