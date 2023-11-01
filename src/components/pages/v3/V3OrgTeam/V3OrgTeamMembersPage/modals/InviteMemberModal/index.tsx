@@ -74,24 +74,27 @@ export const InviteOrgMemberModal = memo(() => {
         const isOrgMember = confirmOrgMember();
         if (!isOrgMember) return;
 
-        const createInvitedEmails = [...invitedEmails, invitedEmail];
+        const createInvitedEmails = invitedEmail ? [...invitedEmails, invitedEmail] : invitedEmails;
 
-        !isLoading &&
-            CreateMembershipInvite({organizationId: currentOrg.id, invitedEmails: createInvitedEmails})
-                .then(() => {
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: '초대가 완료되었습니다.',
-                        showConfirmButton: false,
-                        timer: 1500,
-                    });
-                    setTimeout(() => {
-                        close();
-                    }, 2000);
-                })
-                .catch((err) => console.log(err));
-        setIsLoading(true);
+        // 로딩중이 아닐때만 실행
+        if (!isLoading) {
+            setIsLoading(true);
+            const datas = await CreateMembershipInvite({
+                organizationId: currentOrg.id,
+                invitedEmails: createInvitedEmails,
+            });
+            if (datas) {
+                close();
+                setIsLoading(false);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: '초대가 완료되었습니다.',
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            }
+        }
     }, 500);
 
     return (
