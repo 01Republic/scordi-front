@@ -12,11 +12,21 @@ import {CardAppList} from './CardAppList';
 import {creditCardApi} from '^api/credit-cards.api';
 import {productIdsAtom, selectedAppsAtom, subscriptionsAtom} from '../../atom';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {inputCardHoldingMemeberModal, selectAppModal, createCreditCardDtoAtom} from '../atom';
+import {
+    inputCardHoldingMemeberModal,
+    selectAppModal,
+    createCreditCardDtoAtom,
+    inputCardNameModal,
+    inputCardNumberModal,
+    selectCardCompanyModal,
+} from '../atom';
 
 export const SelectAppModal = memo(() => {
-    const {Modal, close, isShow} = useModal(selectAppModal);
+    const {close: closeCardNumberModal} = useModal(inputCardNumberModal);
+    const {close: closeCardCompanyModal} = useModal(selectCardCompanyModal);
+    const {close: closeCardNameModal} = useModal(inputCardNameModal);
     const {close: closeInputCardHoldingMemberModal} = useModal(inputCardHoldingMemeberModal);
+    const {Modal, close, isShow} = useModal(selectAppModal);
     const [createCreditCardDto, setCreateCreditCardDto] = useRecoilState(createCreditCardDtoAtom);
     const [selectedApps, setSelectedApps] = useRecoilState(selectedAppsAtom);
     const [subscriptions, setSubscriptions] = useRecoilState(subscriptionsAtom);
@@ -42,9 +52,14 @@ export const SelectAppModal = memo(() => {
         const datas = await creditCardApi.create(orgId, submitData);
 
         if (datas) {
+            closeCardNumberModal();
+            closeCardCompanyModal();
+            closeCardNameModal();
             closeInputCardHoldingMemberModal();
             close();
-            router.push(V3OrgCardDetailPageRoute.path(orgId, datas.data.id), undefined, {shallow: true});
+
+            const cardId = datas.data.id;
+            router.push(V3OrgCardDetailPageRoute.path(orgId, cardId));
         }
     };
 
@@ -63,7 +78,13 @@ export const SelectAppModal = memo(() => {
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
-            <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
+            <ModalTopbar
+                backBtnOnClick={close}
+                topbarPosition="sticky"
+                rightButtons={[
+                    () => <SkipButton submitCardNumber={onSubmit} currentModal="selectAppModal" isModify={!!cardId} />,
+                ]}
+            />
             <MobileSection.Padding>
                 <p className="mb-4 pt-10">{cardId ? '카드 수정하기' : '새로운 카드 등록하기'}</p>
                 <h2 className="h1 leading-tight mb-10">
@@ -71,7 +92,7 @@ export const SelectAppModal = memo(() => {
                     <br />
                     등록해주세요
                 </h2>
-                <SkipButton submitCardNumber={onSubmit} currentModal="selectAppModal" isModify={!!cardId} />
+
                 <CardAppList />
             </MobileSection.Padding>
             <ModalLikeBottomBar>
