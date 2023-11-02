@@ -1,28 +1,31 @@
 {
-    "companyName": "(주) 제로원리퍼블릭",
-    "regNo": {
-        "label": "사업자등록번호",
-        "value": "227-86-02683"
-    },
-    "ceo": {
-        "label": "대표",
-        "value": "김용현"
-    },
-    "tel": {
-        "label": "전화번호",
-        "value": "010-2482-4541"
-    },
-    "contact": {
-        "label": "문의",
-        "value": "official@01republic.io"
-    },
-    "address": "서울특별시 서초구 강남대로53길 8, 7-104호(서초동, 스타크 강남빌딩)",
-    "terms": {
-        "heading": "스코디 기본약관",
-        "serviceUsage": "서비스 이용약관",
-        "privacy": "개인정보 처리방침"
-    },
-    "lang": {
-        "placeholder": "언어를 선택해주세요."
-    }
+  "companyName": "(주) 제로원리퍼블릭",
+  "regNo": {
+    "label": "사업자등록번호",
+    "value": "227-86-02683"
+  },
+  "ceo": {
+    "label": "대표",
+    "value": "김용현"
+  },
+  "tel": {
+    "label": "전화번호",
+    "value": "010-2482-4541"
+  },
+  "contact": {
+    "label": "문의",
+    "value": "official@01republic.io"
+  },
+  "address": "서울특별시 서초구 강남대로 53길 8, 7-104 호 (서초동)",
+  "terms": {
+    "heading": "스코디 기본약관",
+    "serviceUsage": "서비스 이용약관",
+    "privacy": "개인정보 처리방침"
+  },
+  "channels":{
+    "heading": "채널"
+  },
+  "lang": {
+    "placeholder": "언어를 선택해주세요."
+  }
 }

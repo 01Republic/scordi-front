@@ -9,13 +9,13 @@ import {Section3a} from './Section3a';
 import {Section3b} from './Section3b';
 import {Section4} from './Section4';
 import {InquiryModal} from '^components/pages/LandingPages/HomePage2/InquiryModal';
+import {WhatTimeWidget} from '^components/pages/LandingPages/HomePage2/WhatTimeWidget';
 
 export const LandingHomePage2 = memo(() => {
     const {t} = useTranslation('publicMain');
 
     return (
         <AOSProvider>
-            <InquiryModal />
             <HeadTag />
 
             <div className="bg-white">
@@ -28,10 +28,13 @@ export const LandingHomePage2 = memo(() => {
                 <div id="product-section"></div>
                 <Section3a />
                 <Section3b />
+                <WhatTimeWidget />
                 <Section4 />
 
                 <BetaServiceFooter />
             </div>
+
+            <InquiryModal />
         </AOSProvider>
     );
 });
