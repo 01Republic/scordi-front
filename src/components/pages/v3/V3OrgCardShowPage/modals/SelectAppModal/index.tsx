@@ -37,9 +37,9 @@ export const SelectAppModal = memo(() => {
 
     // 카드 연동 앱 등록 함수
     const onSubmit = async () => {
-        setCreateCreditCardDto({...createCreditCardDto, productIds: productIds});
+        const submitData = {...createCreditCardDto, productIds: productIds};
 
-        const datas = await creditCardApi.create(orgId, createCreditCardDto);
+        const datas = await creditCardApi.create(orgId, submitData);
 
         if (datas) {
             closeInputCardHoldingMemberModal();
