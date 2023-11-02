@@ -27,14 +27,12 @@ export const SelectCreditCard = memo((props: SelectCreditCardProps) => {
     const creditCard = useMemo(() => {
         if (!CreditCard || !creditCardId) return;
         return CreditCard.findById(creditCardId);
-    }, [creditCardId]);
+    }, [creditCardId, CreditCard]);
 
     useEffect(() => {
         const exist = form.getValues('creditCardId');
-        if (exist && !creditCard) {
-            setCreditCardId(exist);
-        }
-    }, []);
+        if (exist && !creditCard) setCreditCardId(exist);
+    }, [form, creditCard]);
 
     useEffect(() => {
         if (creditCardId) form.setValue('creditCardId', creditCardId);

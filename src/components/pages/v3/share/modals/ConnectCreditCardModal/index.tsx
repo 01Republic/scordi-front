@@ -11,22 +11,23 @@ import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 
 export const RegisterCreditCardModal = memo(() => {
     const {currentSubscription, loadCurrentSubscription} = useCurrentSubscription();
-
     const form = useForm<UpdateSubscriptionRequestDto>();
     const {Modal, close} = useModal(connectCreditCardModal);
 
-    if (!currentSubscription) return <></>;
-
     useEffect(() => {
+        if (!currentSubscription?.creditCardId) return;
         form.setValue('creditCardId', currentSubscription.creditCardId);
     }, [currentSubscription]);
 
     const onSubmit = (data: UpdateSubscriptionRequestDto) => {
+        if (!currentSubscription) return;
         subscriptionApi.update(currentSubscription.id, data).then(() => {
             close();
             loadCurrentSubscription(currentSubscription.organizationId, currentSubscription.id);
         });
     };
+
+    if (!currentSubscription) return <></>;
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
