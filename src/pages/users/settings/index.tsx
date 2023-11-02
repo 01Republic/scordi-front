@@ -3,13 +3,13 @@ import {UserEditPageRoute} from '^pages/users/edit';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {MobileTopNav} from '^components/MobileTopNav';
 import {removeToken} from '^api/api';
-import {toast} from 'react-toastify';
 import {UserLoginPageRoute} from '^pages/users/login';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {useRecoilState} from 'recoil';
 import {currentUserAtom} from '^atoms/currentUser.atom';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
+import {useToast} from '^hooks/useToast';
 
 export const UserSettingsPageRoute = {
     pathname: '/users/settings',
@@ -19,6 +19,7 @@ export const UserSettingsPageRoute = {
 const Settings = () => {
     const router = useRouter();
     const {currentUser} = useCurrentUser();
+    const {toast} = useToast();
     if (!currentUser) return <></>;
 
     const settingContents = [
@@ -45,7 +46,7 @@ const Settings = () => {
             action: () => {
                 removeToken();
                 window.location.assign(UserLoginPageRoute.pathname);
-                toast.info('로그아웃 되었습니다.');
+                toast.success('로그아웃 되었습니다.');
             },
         },
     ];

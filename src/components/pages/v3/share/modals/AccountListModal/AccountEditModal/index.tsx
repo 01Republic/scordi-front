@@ -1,13 +1,13 @@
 import React, {memo, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
 import {plainToInstance} from 'class-transformer';
-import {toast} from 'react-toastify';
 import {UnSignedAccountFormData} from '^types/account.type';
 import {accountApi} from '^api/account.api';
 import {useAccounts} from '^hooks/useAccounts';
 import {AccountForm} from '../form';
 import {useAccountEditModal} from './hook';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
+import {useToast} from '^hooks/useToast';
 
 export const AccountEditModal = memo(() => {
     const form = useForm<UnSignedAccountFormData>();
@@ -15,6 +15,7 @@ export const AccountEditModal = memo(() => {
     const {fetchAllAccountsBy} = useAccounts();
     const onBack = () => hide();
     const {product, account} = data;
+    const {toast} = useToast();
 
     // 폼 기본값 채우기
     useEffect(() => {

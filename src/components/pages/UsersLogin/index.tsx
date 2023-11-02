@@ -63,11 +63,11 @@ export const UsersLoginPage = memo(() => {
                     {/*</form>*/}
                 </div>
 
-                {appEnv !== 'production' && (
-                    <div className="mx-auto py-10 w-full max-w-md space-y-5">
-                        <TesterLoginForm />
-                    </div>
-                )}
+                {/*{appEnv !== 'production' && (*/}
+                {/*    <div className="mx-auto py-10 w-full max-w-md space-y-5">*/}
+                {/*        <TesterLoginForm />*/}
+                {/*    </div>*/}
+                {/*)}*/}
             </GoogleOAuthProvider>
         </div>
     );

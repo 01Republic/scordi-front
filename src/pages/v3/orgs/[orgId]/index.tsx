@@ -9,11 +9,12 @@ import {GmailAgentProgress, useGoogleAccessTokenCallback} from '^hooks/useGoogle
 import {createInvoiceAccount, getInvoiceAccounts, renewInvoiceAccount} from '^api/invoiceAccount.api';
 import {GmailAgent} from '^api/tasting.api';
 import {getCreateInvoiceAccountFromTo} from '^types/invoiceAccount.type';
-import {toast} from 'react-toastify';
 import {useModal} from '^v3/share/modals/useModal';
 import {renewInvoiceAccountAtom, renewInvoiceAccountModal} from '^v3/V3OrgHomePage/RenewInvoiceAccountModal/atom';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {useRouter} from 'next/router';
+import {useToast} from '^hooks/useToast';
+import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
 
 export const V3OrgHomePageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]',
@@ -36,11 +37,15 @@ export default function V3OrgHomePage() {
     const router = useRouter();
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     useCurrentOrg(orgId);
+    const setInvitedOrgId = useSetRecoilState(invitedOrgIdAtom);
+    // 초기화
+    setInvitedOrgId(0);
     const {accessTokenData, complete, noRunning} = useGoogleAccessTokenCallback(V3OrgHomePageRoute.path(orgId), [
         orgId,
     ]);
     const {isShow: isRenewModalOpen, close: closeRenewModal} = useModal(renewInvoiceAccountModal);
     const [targetInvoiceAccount, initInvoiceAccount] = useRecoilState(renewInvoiceAccountAtom);
+    const {toast} = useToast();
 
     /**
      * 청구메일 계정 추가시, 구글계정 인증 콜백으로부터 리디렉션 된 경우

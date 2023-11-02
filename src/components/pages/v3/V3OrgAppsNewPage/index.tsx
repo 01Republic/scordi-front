@@ -9,13 +9,14 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {newInvoiceAccountModal} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/atom';
 import {NewInvoiceAccountModalMobile} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/mobile';
 import {useModal} from '^v3/share/modals/useModal';
-import {toast} from 'react-toastify';
+import {useToast} from '^hooks/useToast';
 
 export const V3OrgAppsNewPage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
     const {t} = useTranslation('org-home');
     const {isDesktop} = useOnResize2();
     const {open: newInvoiceAccountModalOpen} = useModal(newInvoiceAccountModal);
+    const {toast} = useToast();
 
     if (isDesktop) {
         // PC size screen
