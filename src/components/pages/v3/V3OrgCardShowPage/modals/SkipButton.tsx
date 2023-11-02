@@ -43,7 +43,10 @@ export const SkipButton = memo((props: SkipButtonProps) => {
     return (
         <>
             {!isModify && (
-                <div onClick={skipModal} className="btn btn-ghost absolute top-10 right-5 flex gap-2 sm:text-sm">
+                <div
+                    onClick={skipModal}
+                    className="btn btn-ghost absolute top-10 right-5 flex gap-2 sm:text-sm hover:bg-transparent"
+                >
                     <button>건너뛰기</button>
                     <AiOutlineArrowRight className="self-center" />
                 </div>

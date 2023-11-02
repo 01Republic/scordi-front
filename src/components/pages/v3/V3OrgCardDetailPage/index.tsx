@@ -28,6 +28,8 @@ import {creditCardSignAtom, subscriptionsAtom} from '../V3OrgCardShowPage/atom';
 import {SubscriptionItem} from '../V3OrgHomePage/mobile/SubscriptionItem';
 import {plainToInstance} from 'class-transformer';
 import {UnSignedCreditCardFormData, UpdateCreditCardDto} from '^types/credit-cards.type';
+import {useRouter} from 'next/router';
+import {V3OrgCardShowPageRoute} from '^pages/v3/orgs/[orgId]/cards';
 
 export const V3OrgCardDetailPage = memo(() => {
     const {isShow: isInputCardNumberModal} = useModal(inputCardNumberModal);
@@ -41,6 +43,7 @@ export const V3OrgCardDetailPage = memo(() => {
     const setCardSignInfo = useSetRecoilState(creditCardSignAtom);
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
+    const router = useRouter();
 
     useEffect(() => {
         if (!cardId && isNaN(cardId)) return;
@@ -56,10 +59,15 @@ export const V3OrgCardDetailPage = memo(() => {
         });
     }, [cardId]);
 
+    const backBtnOnclick = () => {
+        router.push(V3OrgCardShowPageRoute.path(orgId));
+    };
+
     return (
         <V3ModalLikeLayoutMobile
             title="카드"
             modals={[CardNumberModal, CardNameModal, CardHoldingMember, CardCompanyModal, SelectAppModal]}
+            backBtnOnClick={backBtnOnclick}
         >
             <MobileSection.List>
                 {/* 카드정보 */}
