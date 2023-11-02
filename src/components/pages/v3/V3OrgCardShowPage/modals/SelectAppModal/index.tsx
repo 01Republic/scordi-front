@@ -12,11 +12,21 @@ import {CardAppList} from './CardAppList';
 import {creditCardApi} from '^api/credit-cards.api';
 import {productIdsAtom, selectedAppsAtom, subscriptionsAtom} from '../../atom';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {inputCardHoldingMemeberModal, selectAppModal, createCreditCardDtoAtom} from '../atom';
+import {
+    inputCardHoldingMemeberModal,
+    selectAppModal,
+    createCreditCardDtoAtom,
+    inputCardNameModal,
+    inputCardNumberModal,
+    selectCardCompanyModal,
+} from '../atom';
 
 export const SelectAppModal = memo(() => {
-    const {Modal, close, isShow} = useModal(selectAppModal);
+    const {close: closeCardNumberModal} = useModal(inputCardNumberModal);
+    const {close: closeCardCompanyModal} = useModal(selectCardCompanyModal);
+    const {close: closeCardNameModal} = useModal(inputCardNameModal);
     const {close: closeInputCardHoldingMemberModal} = useModal(inputCardHoldingMemeberModal);
+    const {Modal, close, isShow} = useModal(selectAppModal);
     const [createCreditCardDto, setCreateCreditCardDto] = useRecoilState(createCreditCardDtoAtom);
     const [selectedApps, setSelectedApps] = useRecoilState(selectedAppsAtom);
     const [subscriptions, setSubscriptions] = useRecoilState(subscriptionsAtom);
@@ -42,9 +52,14 @@ export const SelectAppModal = memo(() => {
         const datas = await creditCardApi.create(orgId, submitData);
 
         if (datas) {
+            closeCardNumberModal();
+            closeCardCompanyModal();
+            closeCardNameModal();
             closeInputCardHoldingMemberModal();
             close();
-            router.push(V3OrgCardDetailPageRoute.path(orgId, datas.data.id), undefined, {shallow: true});
+
+            const cardId = datas.data.id;
+            router.push(V3OrgCardDetailPageRoute.path(orgId, cardId));
         }
     };
 

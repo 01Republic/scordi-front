@@ -17,6 +17,9 @@ import {CardNameModal} from './modals/CardNameModal';
 import {CardHoldingMember} from './modals/CardHoldingMemberModal';
 import {SelectAppModal} from './modals/SelectAppModal';
 import {CardCompanyModal} from './modals/CardCompanyModal';
+import {useRouter} from 'next/router';
+import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 
 export const V3OrgCardShowPage = memo(() => {
     const {
@@ -28,15 +31,22 @@ export const V3OrgCardShowPage = memo(() => {
     const {isShow: isInputCardNameModal} = useModal(inputCardNameModal);
     const {isShow: isInputCardHoldingMemeberModal} = useModal(inputCardHoldingMemeberModal);
     const {isShow: isSelectAppModal} = useModal(selectAppModal);
+    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const router = useRouter();
 
     useEffect(() => {
         setInputCardNumberModal(false);
     }, []);
 
+    const backBtnOnclick = () => {
+        router.push(V3OrgHomePageRoute.path(orgId));
+    };
+
     return (
         <V3ModalLikeLayoutMobile
             title="카드"
             modals={[CardNumberModal, CardCompanyModal, CardNameModal, CardHoldingMember, SelectAppModal]}
+            backBtnOnClick={backBtnOnclick}
         >
             <MobileSection.List>
                 <HeaderPanel />

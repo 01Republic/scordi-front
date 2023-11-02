@@ -51,7 +51,7 @@ export const InformationPanel = memo(() => {
                     }),
                 );
                 setTimeout(() => {
-                    router.push(V3OrgCardShowPageRoute.path(orgId));
+                    router.replace(V3OrgCardShowPageRoute.path(orgId));
                 }, 1500);
             }
         });

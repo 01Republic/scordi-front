@@ -1,20 +1,18 @@
 import React, {memo} from 'react';
-import {AiOutlineArrowRight} from 'react-icons/ai';
 import {inputCardHoldingMemeberModal, inputCardNameModal, selectAppModal} from './atom';
 import {useModal} from '../../share/modals/useModal';
 
 interface SkipButtonProps {
     currentModal: 'cardCompany' | 'cardName' | 'cardHoldingMember' | 'selectAppModal';
     isModify: boolean;
-    submitCardNumber?: () => void;
+    submitCardNumber?: (() => Promise<void>) | (() => void);
 }
 
 export const SkipButton = memo((props: SkipButtonProps) => {
     const {currentModal, isModify, submitCardNumber} = props;
-    const {open: openCardNameModal, close: closeCardNameModal} = useModal(inputCardNameModal);
-    const {open: openCardHoldingMemberModal, close: closeCardHoldingMemberModal} =
-        useModal(inputCardHoldingMemeberModal);
-    const {open: openSelectAppsModal, close: closeSelectAppsModal} = useModal(selectAppModal);
+    const {open: openCardNameModal} = useModal(inputCardNameModal);
+    const {open: openCardHoldingMemberModal} = useModal(inputCardHoldingMemeberModal);
+    const {open: openSelectAppsModal} = useModal(selectAppModal);
 
     const skipModal = () => {
         switch (currentModal) {
@@ -31,9 +29,6 @@ export const SkipButton = memo((props: SkipButtonProps) => {
                 return;
             }
             case 'selectAppModal': {
-                closeSelectAppsModal();
-                closeCardHoldingMemberModal();
-                closeCardNameModal();
                 submitCardNumber && submitCardNumber();
                 return;
             }
