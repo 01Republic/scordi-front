@@ -1,15 +1,7 @@
 import React, {memo} from 'react';
 import {useTranslation} from 'next-i18next';
-import {
-    AOSProvider,
-    BetaServiceFooter,
-    HeadTag,
-    USPSection2,
-    USPSectionCentered,
-} from '^components/pages/LandingPages/components';
+import {AOSProvider, BetaServiceFooter, HeadTag} from '^components/pages/LandingPages/components';
 import {LandingPageNavBar} from '^components/lab/landing-page-components';
-import {HomePageCTAButton, HomePageCTAButton2} from '^components/pages/LandingPages/HomePage/CTAButton';
-import {HomePageSection3} from '^components/pages/LandingPages/HomePage/Section3';
 import {InquiryModal} from '^components/pages/LandingPages/HomePage2/InquiryModal';
 import {WhatTimeWidget} from '^components/pages/LandingPages/HomePage2/WhatTimeWidget';
 import {Section4} from './Section4';
