@@ -27,23 +27,25 @@ export const SelectAppModal = memo(() => {
     const {toast} = useToast();
 
     useEffect(() => {
+        if (selectedApps.length && productIds.length) return;
+
         subscriptions.map((subscription) => {
-            !selectedApps.length && setSelectedApps((prev) => [...prev, subscription.product]);
-            !productIds.length && setProductIds((prev) => [...prev, subscription.product.id]);
+            setSelectedApps((prev) => [...prev, subscription.product]);
+            setProductIds((prev) => [...prev, subscription.product.id]);
         });
     }, [isShow]);
 
     // 카드 연동 앱 등록 함수
-    const onSubmit = () => {
+    const onSubmit = async () => {
         setCreateCreditCardDto({...createCreditCardDto, productIds: productIds});
 
-        if (!createCreditCardDto.productIds) return;
+        const datas = await creditCardApi.create(orgId, createCreditCardDto);
 
-        creditCardApi.create(orgId, createCreditCardDto).then((res) => {
-            router.push(V3OrgCardDetailPageRoute.path(orgId, res.data.id));
+        if (datas) {
             closeInputCardHoldingMemberModal();
             close();
-        });
+            router.push(V3OrgCardDetailPageRoute.path(orgId, datas.data.id), undefined, {shallow: true});
+        }
     };
 
     // 카드 연동 앱 수정 함수

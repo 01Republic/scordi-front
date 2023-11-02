@@ -18,7 +18,7 @@ interface V3ModalLikeLayoutMobileProps extends WithChildren {
     // 이 페이지에서만 사용되는 모달들을 등록
     modals?: ReactComponentLike[];
     // 뒤로가기 버튼 클릭시의 동작
-    backBTnOnClick?: () => void;
+    backBtnOnClick?: () => void;
 }
 
 /**
@@ -27,7 +27,7 @@ interface V3ModalLikeLayoutMobileProps extends WithChildren {
  * - 페이지 하단탭 네비게이션 없음.
  */
 export const V3ModalLikeLayoutMobile = memo((props: V3ModalLikeLayoutMobileProps) => {
-    const {title, topRightButtons, buttons = [], modals = [], children} = props;
+    const {title, topRightButtons, buttons = [], modals = [], children, backBtnOnClick} = props;
     const router = useRouter();
 
     const onBack = () => router.back();
@@ -37,7 +37,11 @@ export const V3ModalLikeLayoutMobile = memo((props: V3ModalLikeLayoutMobileProps
             <style dangerouslySetInnerHTML={{__html: `html, body, #__next { min-height: 100vh }`}} />
             <ChannelTalkHideStyle maxWidth="640px" />
             <div className={`${styles.layout}`}>
-                <ModalLikeTopbar backBtnOnClick={onBack} title={title} rightButtons={topRightButtons} />
+                <ModalLikeTopbar
+                    backBtnOnClick={backBtnOnClick ? backBtnOnClick : onBack}
+                    title={title}
+                    rightButtons={topRightButtons}
+                />
                 <div className="bg-white" style={{minHeight: 'calc(100vh - 50px)'}}>
                     {children}
                 </div>
