@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo, useEffect} from 'react';
 import {useModal} from '^v3/share/modals/useModal';
 import {connectCreditCardModal} from '^v3/share/modals/ConnectCreditCardModal/atom';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
@@ -16,6 +16,11 @@ export const RegisterCreditCardModal = memo(() => {
     const {Modal, close} = useModal(connectCreditCardModal);
 
     if (!currentSubscription) return <></>;
+
+    useEffect(() => {
+        form.setValue('creditCardId', currentSubscription.creditCardId);
+    }, [currentSubscription]);
+
     const onSubmit = (data: UpdateSubscriptionRequestDto) => {
         subscriptionApi.update(currentSubscription.id, data).then(() => {
             close();
