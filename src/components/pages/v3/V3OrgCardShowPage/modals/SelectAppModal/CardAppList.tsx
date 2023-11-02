@@ -7,12 +7,14 @@ import {CardAppItem} from './CardAppItem';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {productIdsAtom, selectedAppsAtom, subscriptionsAtom} from '../../atom';
 import {useToast} from '^hooks/useToast';
+import {useMoveScroll} from '^hooks/useMoveScroll';
 
 export const CardAppList = memo(() => {
     const [productIds, setProductIds] = useRecoilState(productIdsAtom);
     const [allAppList, setAllAppList] = useState<ProductDto[]>([]);
     const subscriptions = useRecoilValue(subscriptionsAtom);
     const [selectedApps, setSelectedApps] = useRecoilState(selectedAppsAtom);
+    const {selectRef, onScroll} = useMoveScroll();
     const {toast} = useToast();
 
     const subscriptionProducts = subscriptions.map((subscription) => {
@@ -53,7 +55,7 @@ export const CardAppList = memo(() => {
     };
 
     return (
-        <div>
+        <div ref={selectRef} onClick={onScroll}>
             <Select
                 options={allAppList.map((list) => {
                     return {
