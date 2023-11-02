@@ -66,16 +66,16 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
                             href={introducePath}
                             className="hidden md:inline-flex btn btn-ghost normal-case btn-hover-init"
                         >
-                            Solutions
+                            제품소개
                         </a>
                         <a href={TastingPageRoute.path()} className="btn btn-ghost normal-case btn-hover-init">
-                            Scan yours
+                            SaaS 스캐너
                         </a>
                         <a href={saasPath} className="btn btn-ghost normal-case btn-hover-init">
-                            SaaS Collection
+                            컬렉션
                         </a>
                         <a href={blogPath} className="hidden md:inline-flex btn btn-ghost normal-case btn-hover-init">
-                            Blogs
+                            블로그
                         </a>
                     </div>
                 </div>
@@ -87,11 +87,11 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
                     {showLoginButton && (
                         <div className="flex gap-2 items-center justify-between">
                             <a className="btn btn-ghost" href={UserLoginPageRoute.path()}>
-                                Login
+                                로그인
                             </a>
 
                             <a className="btn hidden sm:inline-flex btn-scordi" onClick={open}>
-                                Request Demo
+                                데모 요청하기
                             </a>
                         </div>
                     )}
@@ -105,13 +105,13 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
                             className="menu dropdown-content p-2 shadow-lg bg-base-100 !fixed left-0 w-full"
                         >
                             <li>
-                                <a href={introducePath}>Solutions</a>
+                                <a href={introducePath}>제품소개</a>
                             </li>
                             <li>
-                                <a href={saasPath}>SaaS Collection</a>
+                                <a href={saasPath}>컬렉션</a>
                             </li>
                             <li>
-                                <a href={blogPath}>Blogs</a>
+                                <a href={blogPath}>블로그</a>
                             </li>
                         </ul>
                     </div>
