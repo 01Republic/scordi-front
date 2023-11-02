@@ -11,7 +11,9 @@ export const Features = memo(function Features() {
             {/* 간단하고 쉬운 연동 */}
             <USPSection2
                 label="간편한 연동"
-                imgUrl={t('section4.image')}
+                imgUrl="/images/landing/features/1.simple-sync.png"
+                // imgStyle={{transform: 'scale(1.1)'}}
+                imgClass="py-16"
                 title={
                     <span>
                         클릭 하나로 <span className="block sm:inline-block">우리 회사 SaaS 찾기</span>
@@ -61,7 +63,9 @@ export const Features = memo(function Features() {
             {/* 결제내역 */}
             <USPSection2
                 label="주요알림"
-                imgUrl={t('section5.image')}
+                imgUrl="/images/landing/features/3.notifications.png"
+                imgStyle={{transform: 'scale(1)'}}
+                imgClass="py-16"
                 title={
                     <span>
                         신경쓰지 않아도, <span className="block">스코디가 알려드릴게요</span>
@@ -94,10 +98,16 @@ export const Features = memo(function Features() {
             {/* 일정과 알림 */}
             <USPSection2
                 label="자산보호"
-                imgUrl={t('section5.image')}
-                title={`민감한 계정관리까지 안전하고 쉽게`}
-                desc1={
+                imgUrl="/images/landing/features/4.assets-security.png"
+                imgStyle={{transform: 'scale(1.1)'}}
+                imgClass="py-16"
+                title={
                     <span>
+                        민감한 계정관리까지 <span className="block">안전하고 쉽게</span>
+                    </span>
+                }
+                desc1={
+                    <span className="sm:transform-[scale(1)]">
                         노션과 엑셀을 왔다갔다 하지 마세요.
                         <span className="block">매번 기록하지 않아도, 기억하지 않아도 OK</span>
                     </span>
@@ -142,7 +152,11 @@ export const Features = memo(function Features() {
             <USPSection2
                 label="자동화"
                 imgUrl={t('section5.image')}
-                title={`SaaS 관리자 페이지는 스코디 하나로 끝`}
+                title={
+                    <span>
+                        SaaS 관리자 페이지는 <span className="block">스코디 하나로 끝</span>
+                    </span>
+                }
                 desc1={
                     <span>
                         서비스마다 일일이 접속해야 했던 관리자 페이지.{' '}

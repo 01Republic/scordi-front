@@ -1,4 +1,4 @@
-import {memo, ReactElement} from 'react';
+import {CSSProperties, memo, ReactElement} from 'react';
 import {BetaUserApplyCTAButton} from './CTAButton';
 import {ReactNodeLike} from 'prop-types';
 
@@ -6,6 +6,8 @@ interface USPSectionProps {
     label: string;
     imgUrl: string;
     imgWidth?: string;
+    imgStyle?: CSSProperties;
+    imgClass?: string;
     title: ReactNodeLike;
     desc1?: ReactNodeLike;
     desc2?: ReactNodeLike;
@@ -21,6 +23,8 @@ export const USPSection2 = memo((props: USPSectionProps) => {
         direct,
         imgUrl,
         imgWidth = '60%',
+        imgStyle,
+        imgClass = '',
         title,
         desc1,
         desc2,
@@ -40,7 +44,8 @@ export const USPSection2 = memo((props: USPSectionProps) => {
             >
                 <img
                     src={imgUrl}
-                    className={`md:w-[${imgWidth}] rounded-lg relative`}
+                    className={`md:w-[${imgWidth}] rounded-lg relative ${imgClass}`}
+                    style={imgStyle}
                     // data-aos="fade-up"
                     // data-aos-anchor-placement="center-bottom"
                 />
