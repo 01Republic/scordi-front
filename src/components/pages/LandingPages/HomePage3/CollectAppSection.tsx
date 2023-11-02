@@ -10,8 +10,13 @@ export const CollectAppSection = memo((props: CollectAppSectionProps) => {
     return (
         <section id="CollectAppSection" className="bg-white">
             <div className="logo-container">
-                <div id="Jandi" className="logo">
-                    <div style={{backgroundImage: 'url(/images/landing/collect-apps/1.jandi.png)'}} />
+                <div id="Jira" className="logo">
+                    <div
+                        style={{
+                            backgroundImage: 'url(/images/landing/collect-apps/1.jira.png)',
+                            transform: 'scale(0.85)',
+                        }}
+                    />
                 </div>
                 <div id="Slack" className="logo">
                     <div style={{backgroundImage: 'url(/images/landing/collect-apps/2.slack.png)'}} />
