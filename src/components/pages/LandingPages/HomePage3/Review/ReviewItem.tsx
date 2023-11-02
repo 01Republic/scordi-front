@@ -1,21 +1,38 @@
 import {memo} from 'react';
+import {ReactNodeLike} from 'prop-types';
 
 interface ReviewItemProps {
     company: string;
     reviewer: string;
     role: string;
+    logo: string;
+    content: ReactNodeLike;
+    duration: number;
 }
 
 export const ReviewItem = memo((props: ReviewItemProps) => {
-    const {company, reviewer, role} = props;
+    const {logo, company, reviewer, role, content, duration} = props;
 
     return (
-        <div className="card card-side bg-white border">
+        <div
+            className="card card-side bg-white shadow-xl"
+            data-aos-anchor-placement="bottom-bottom"
+            data-aos-duration={duration}
+        >
             {/*<figure><img src="/images/stock/photo-1635805737707-575885ab0820.jpg" alt="Movie"/></figure>*/}
             <div className="card-body">
-                <h2 className="card-title">New movie is released!</h2>
-                <p className="mb-4">Click the button to watch on Jetflix app.</p>
-                <div className="card-actions justify-end">
+                <div className="text-right mb-6">
+                    <img
+                        className="inline"
+                        src={logo}
+                        alt={`${reviewer}'s review`}
+                        draggable={false}
+                        loading="lazy"
+                        style={{height: '30px'}}
+                    />
+                </div>
+                <div className="mb-auto">{content}</div>
+                <div className="card-actions justify-end pt-4">
                     <div>
                         {reviewer}님 |{' '}
                         <span className="text-gray-500">

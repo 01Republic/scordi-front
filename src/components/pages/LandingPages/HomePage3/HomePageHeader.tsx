@@ -185,7 +185,7 @@ export const HomePageHeader = memo(() => {
                                 <img
                                     style={{transform: 'scale(2.25)'}}
                                     src="/images/landing/featured-customer-logo/whattime.png"
-                                    alt="Corca"
+                                    alt="Wattime"
                                 />
                             </div>
                         </div>

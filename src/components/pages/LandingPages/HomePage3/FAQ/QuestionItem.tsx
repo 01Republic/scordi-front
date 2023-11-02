@@ -15,7 +15,7 @@ export const QuestionItem = memo(function QuestionItem(props: QuestionItemProps)
 
     return (
         <li>
-            <input id={inputId} type="checkbox" hidden />
+            <input id={inputId} type="checkbox" hidden defaultChecked={false} />
             <label htmlFor={inputId}>
                 <p className="question">{question}</p>
                 <div className="icon-wrapper">
