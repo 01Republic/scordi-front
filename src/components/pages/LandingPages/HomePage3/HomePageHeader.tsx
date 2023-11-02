@@ -47,14 +47,14 @@ export const HomePageHeader = memo(() => {
                     <section id="section-1" className="hero mb-3">
                         <div className="text-center w-[100vw]">
                             <div className="mb-10">
-                                <h1 className="text-5xl md:text-7xl font-bold mb-5 keep-all" style={{lineHeight: 1.3}}>
-                                    막막한 우리회사 SaaS 관리 <br />
-                                    <span className="text-scordi">클릭 한 번</span>에 끝내보세요
+                                <h1 className="text-4xl md:text-7xl font-bold mb-5 keep-all" style={{lineHeight: 1.3}}>
+                                    우리 회사 SaaS 관리 <br />
+                                    <span className="text-scordi">클릭 하나</span>로 끝내보세요
                                 </h1>
                                 <p className="text-[20px]">
-                                    스코디는 IT 스타트업을 위한{' '}
+                                    스코디로 <b>한 눈에 확인</b>하고{' '}
                                     <span className="block sm:inline-block">
-                                        <b>No.1 SaaS 관리 솔루션</b> 입니다.
+                                        <b>한 번에 관리</b>할 수 있어요.
                                     </span>
                                 </p>
 
@@ -80,13 +80,18 @@ export const HomePageHeader = memo(() => {
                         <div className="relative flex items-center justify-center">
                             <img
                                 className="main-header-img sm:max-w-[80%] md:max-w-[70%]"
-                                src="/images/landing/mockup1.png"
+                                src="/images/landing/mockup-main-screen.png"
                                 alt="service preview image"
                             />
                             <img
-                                className="main-header-img-right sm:max-h-[24em] md:max-h-[24em] absolute"
-                                src="/images/landing/mockup1-left.png"
-                                alt="service preview image"
+                                className="main-header-img-left sm:max-h-[24em] md:max-h-[13em] absolute"
+                                src="/images/landing/mockup-notifications.png"
+                                alt="notifications preview"
+                            />
+                            <img
+                                className="main-header-img-right sm:max-h-[24em] md:max-h-[13em] absolute"
+                                src="/images/landing/mockup-using-members.png"
+                                alt="using members preview"
                             />
                         </div>
                     </section>
@@ -127,7 +132,7 @@ export const HomePageHeader = memo(() => {
 
                     <section id="Featured LOGO" className="container max-w-[960px] py-4 sm:py-16 mt-8">
                         <p className="text-[18px] text-center mb-6 text-gray-600 font-semibold">
-                            성장하고 있는 여러 고객사들과 함께하고 있습니다
+                            성장하는 팀이 원했던 똑똑한 관리자들은 이미 쓰고 있어요
                         </p>
                         <div className="grid grid-cols-2 sm:flex items-center justify-around">
                             <div className="main-header-featured-customers-logo">
@@ -173,6 +178,13 @@ export const HomePageHeader = memo(() => {
                                 <img
                                     style={{transform: 'scale(2.75)'}}
                                     src="/images/landing/featured-customer-logo/corca.png"
+                                    alt="Corca"
+                                />
+                            </div>
+                            <div className="main-header-featured-customers-logo">
+                                <img
+                                    style={{transform: 'scale(2.25)'}}
+                                    src="/images/landing/featured-customer-logo/whattime.png"
                                     alt="Corca"
                                 />
                             </div>

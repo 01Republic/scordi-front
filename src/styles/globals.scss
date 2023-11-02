@@ -416,7 +416,8 @@ body.hide-channel-talk {
 
 .main-header-img--base {
   position: relative;
-  top: -1em;
+  //top: -1em;
+  top: 0;
   left: 0;
 }
 @keyframes main-header-img {
@@ -430,23 +431,45 @@ body.hide-channel-talk {
 }
 .main-header-img {
   @apply main-header-img--base;
+  //transform-origin: 0 100%;
+  //animation: main-header-img auto ease-in-out;
+  //animation-timeline: scroll();
+  //animation-range: 0 70vh;
+}
+
+
+.main-header-img-left--base {
+  bottom: 12em;
+  left: -1em;
+}
+@keyframes main-header-img-left {
+  from {
+    bottom: 5em;
+    left: -1em;
+  }
+  to {
+    @apply main-header-img-left--base;
+  }
+}
+.main-header-img-left {
+  @apply main-header-img-left--base;
   transform-origin: 0 100%;
-  animation: main-header-img auto ease-in-out;
+  animation: main-header-img-left auto linear;
   animation-timeline: scroll();
   animation-range: 0 70vh;
 }
 
 
 .main-header-img-right--base {
-  bottom: 2em;
-  right: 1em;
+  top: 15em;
+  right: -1em;
 }
 @keyframes main-header-img-right {
-  from {
-    bottom: -3em;
-    right: 1em;
+  0% {
+    top: 8em;
+    right: -1em;
   }
-  to {
+  100% {
     @apply main-header-img-right--base;
   }
 }
@@ -719,17 +742,17 @@ body.hide-channel-talk {
     }
 
     .background {
-      width: 100vh;
+      width: 100%;
       height: 100vh;
+      opacity: 0;
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
+      transform: translateY(3rem);
       transform-origin: 0 100%;
-      animation: logo-background auto linear;
       animation-timeline: scroll(nearest block);
       animation-range: var(--anim-range-start) var(--anim-range-end);
-      opacity: 0;
-      transform: translateY(3rem);
+      animation: logo-background auto linear;
 
       display: flex;
       align-items: center;

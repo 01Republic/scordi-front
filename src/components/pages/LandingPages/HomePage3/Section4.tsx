@@ -11,7 +11,7 @@ export const Section4 = memo(() => {
             <HomePageSection>
                 <div className="text-center mb-[3rem]">
                     <h2 className="text-[32px] sm:text-[4em] leading-[1.2em] mb-[1rem] sm:mb-[2rem]">
-                        새로운 SaaS 관리의 시작
+                        꼭 필요했던 SaaS 관리
                     </h2>
                     <p className="text-gray-500 text-[18px] sm:text-[25px]">클릭 한 번으로 시작해보세요</p>
                 </div>

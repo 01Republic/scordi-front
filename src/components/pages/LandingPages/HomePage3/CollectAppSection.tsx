@@ -32,8 +32,8 @@ export const CollectAppSection = memo((props: CollectAppSectionProps) => {
 
             <div className="title-container">
                 <div style={{transform: 'translateY(-3rem)'}}>
-                    <p>점점 늘어나는 SaaS</p>
-                    <p>몇 개나 쓰고 계세요?</p>
+                    <p>쓰다보니 계속 늘어나는 SaaS</p>
+                    <p>과연 우리 회사는 몇 개나 쓸까?</p>
                 </div>
             </div>
 
