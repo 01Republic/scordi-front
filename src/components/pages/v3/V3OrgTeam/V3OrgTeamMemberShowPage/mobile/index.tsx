@@ -51,7 +51,7 @@ export const V3OrgTeamMemberShowPage = memo(() => {
                 () => <EditTriggerButton onClick={updateFn} />,
                 () => <DeleteTriggerButton onClick={deleteFn} />,
             ]}
-            backBTnOnClick={() => router.push(V3OrgTeamMembersPageRoute.path(orgId))}
+            backBtnOnClick={() => router.push(V3OrgTeamMembersPageRoute.path(orgId))}
         >
             <MobileSection.List className="h-full">
                 {isLoading ? (
