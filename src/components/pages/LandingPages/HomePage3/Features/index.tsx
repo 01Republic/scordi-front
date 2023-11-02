@@ -2,6 +2,7 @@ import React, {memo} from 'react';
 import {USPSection2} from '^components/pages/LandingPages/components';
 import {HomePageCTAButton2} from '^components/pages/LandingPages/HomePage/CTAButton';
 import {useTranslation} from 'next-i18next';
+import {CTAButton} from '^components/pages/LandingPages/HomePage2/CTAButton';
 
 export const Features = memo(function Features() {
     const {t} = useTranslation('publicMain');
@@ -34,7 +35,7 @@ export const Features = memo(function Features() {
                 }
                 imgWidth="50%"
                 direct="right"
-                CTAButton={<HomePageCTAButton2 text={t('section4.cta')!} />}
+                CTAButton={<CTAButton className="btn btn-scordi btn-lg">지금 확인하기</CTAButton>}
             />
 
             {/* 구독현황 홈/분석 */}
@@ -57,7 +58,36 @@ export const Features = memo(function Features() {
                 }
                 imgWidth="50%"
                 direct="left"
-                CTAButton={<HomePageCTAButton2 text={t('section5.cta')!} />}
+                CTAButton={<CTAButton className="btn btn-scordi btn-lg">클릭 한 번에 확인</CTAButton>}
+            />
+
+            {/* 결제내역 */}
+            <USPSection2
+                label="결제내역"
+                imgUrl="/images/landing/features/3.notifications.png"
+                imgStyle={{transform: 'scale(1)'}}
+                imgClass="py-16"
+                title={
+                    <span>
+                        벌써 SaaS별 <span className="block">구독 빌링 분류 끝</span>
+                    </span>
+                }
+                desc1={
+                    <span>
+                        카드 결제내역과 인보이스를 찾지 않아도 돼요.
+                        <span className="block">PDF 파일이 첨부되어 부가세 신고와 증빙할 때도 유용해요.</span>
+                    </span>
+                }
+                desc2={
+                    <ul>
+                        <li>🚩 SaaS 가입 시 입력한 결제 수신 이메일 파악</li>
+                        <li>🚩 SaaS별로 연결된 결제카드 및 결제 방식 조회</li>
+                        <li>🚩 결제주기에 따른 최근 결제일과 예정일/금액 확인</li>
+                    </ul>
+                }
+                imgWidth="50%"
+                direct="right"
+                CTAButton={<CTAButton className="btn btn-scordi btn-lg">SaaS 결제내역 모아보기</CTAButton>}
             />
 
             {/* 결제내역 */}
@@ -91,8 +121,8 @@ export const Features = memo(function Features() {
                     </ul>
                 }
                 imgWidth="50%"
-                direct="right"
-                CTAButton={<HomePageCTAButton2 text={t('section5.cta')!} />}
+                direct="left"
+                CTAButton={<CTAButton className="btn btn-scordi btn-lg">SaaS 관리 알림받기</CTAButton>}
             />
 
             {/* 일정과 알림 */}
@@ -116,13 +146,13 @@ export const Features = memo(function Features() {
                     <ul>
                         <li>🚩 공용계정 보관 및 동기화</li>
                         <li>🚩 팀/구성원별 계정 접근 권한 제어</li>
-                        <li>🚩 퇴사자 발생 시 공용계정 비밀번호 변경 및 접근 해제</li>
+                        <li>🚩 퇴사자 발생시 공용계정 비밀번호 변경 및 접근해제</li>
                         <li>🚩 확장프로그램을 통한 로그인 자동완성</li>
                     </ul>
                 }
                 imgWidth="50%"
-                direct="left"
-                CTAButton={<HomePageCTAButton2 text={t('section5.cta')!} />}
+                direct="right"
+                CTAButton={<CTAButton className="btn btn-scordi btn-lg">SaaS 보안 챙기기</CTAButton>}
             />
 
             {/* 계정 */}
@@ -144,8 +174,8 @@ export const Features = memo(function Features() {
                     </ul>
                 }
                 imgWidth="50%"
-                direct="right"
-                CTAButton={<HomePageCTAButton2 text={t('section5.cta')!} />}
+                direct="left"
+                CTAButton={<CTAButton className="btn btn-scordi btn-lg">퇴사자 계정 제거하기</CTAButton>}
             />
 
             {/* 자동화 */}
@@ -171,8 +201,8 @@ export const Features = memo(function Features() {
                     </ul>
                 }
                 imgWidth="50%"
-                direct="left"
-                CTAButton={<HomePageCTAButton2 text={t('section5.cta')!} />}
+                direct="right"
+                CTAButton={<CTAButton className="btn btn-scordi btn-lg">Coming Soon</CTAButton>}
             />
         </div>
     );

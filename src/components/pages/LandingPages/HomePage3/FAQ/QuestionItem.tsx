@@ -4,7 +4,7 @@ import {useId} from 'react-id-generator';
 import {AiOutlinePlus} from '@react-icons/all-files/ai/AiOutlinePlus';
 
 interface QuestionItemProps {
-    question: string;
+    question: ReactNodeLike;
     answer: ReactNodeLike;
 }
 
@@ -15,7 +15,7 @@ export const QuestionItem = memo(function QuestionItem(props: QuestionItemProps)
 
     return (
         <li>
-            <input id={inputId} type="checkbox" hidden defaultChecked={false} />
+            <input id={inputId} type="checkbox" hidden defaultChecked={true} />
             <label htmlFor={inputId}>
                 <p className="question">{question}</p>
                 <div className="icon-wrapper">

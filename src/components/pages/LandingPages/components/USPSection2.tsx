@@ -34,7 +34,7 @@ export const USPSection2 = memo((props: USPSectionProps) => {
     } = props;
 
     return (
-        <div className={`hero md:min-h-[80vh] ${bgGray ? 'bg-base-200' : ''}`}>
+        <div className={`hero md:min-h-[80vh] mb-10 sm:mb-0 ${bgGray ? 'bg-base-200' : ''}`}>
             <div
                 className={`hero-content text-center px-10 md:text-left justify-between w-full flex-col ${
                     direct === 'left' ? 'md:flex-row-reverse' : 'md:flex-row'
@@ -59,13 +59,13 @@ export const USPSection2 = memo((props: USPSectionProps) => {
                         {title}
                     </h2>
                     {desc1 && (
-                        <p
-                            className="mb-3 md:text-xl italic text-gray-500 font-light"
+                        <div
+                            className="mb-6 md:text-xl italic text-gray-500 font-light"
                             // data-aos="fade-up"
                             // data-aos-anchor-placement="center-bottom"
                         >
                             {desc1}
-                        </p>
+                        </div>
                     )}
                     {desc2 && (
                         <div

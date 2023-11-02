@@ -786,7 +786,7 @@ body.hide-channel-talk {
 
       .question {
         //margin-right: auto;
-        @apply text-2xl font-semibold;
+        @apply text-lg sm:text-xl md:text-2xl font-semibold;
       }
 
       .icon-wrapper {

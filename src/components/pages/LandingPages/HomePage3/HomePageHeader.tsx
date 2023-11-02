@@ -11,20 +11,20 @@ export const HomePageHeader = memo(() => {
     const router = useRouter();
     const {t} = useTranslation('publicMain');
 
-    useEffect(() => {
-        if (isMobile) {
-            window.addEventListener('scroll', (e) => {
-                const img = document.querySelector('#mobile-swiping-image')!;
-                const moveTarget = img.closest('div')!;
-                const section = img.closest('section')!;
-                const sectionRect = section.getClientRects()[0];
-                if (sectionRect) {
-                    const size = 'calc(750px - 100% + 4rem)';
-                    moveTarget.style.right = sectionRect.bottom <= window.innerHeight ? size : '0';
-                }
-            });
-        }
-    }, [isMobile]);
+    // useEffect(() => {
+    //     if (isMobile) {
+    //         window.addEventListener('scroll', (e) => {
+    //             const img = document.querySelector('#mobile-swiping-image')!;
+    //             const moveTarget = img.closest('div')!;
+    //             const section = img.closest('section')!;
+    //             const sectionRect = section.getClientRects()[0];
+    //             if (sectionRect) {
+    //                 const size = 'calc(750px - 100% + 4rem)';
+    //                 moveTarget.style.right = sectionRect.bottom <= window.innerHeight ? size : '0';
+    //             }
+    //         });
+    //     }
+    // }, [isMobile]);
 
     return (
         <>
@@ -51,7 +51,7 @@ export const HomePageHeader = memo(() => {
                                     우리 회사 SaaS 관리 <br />
                                     <span className="text-scordi">클릭 하나</span>로 끝내보세요
                                 </h1>
-                                <p className="text-[20px]">
+                                <p className="text-[20px] leading-snug">
                                     스코디로 <b>한 눈에 확인</b>하고{' '}
                                     <span className="block sm:inline-block">
                                         <b>한 번에 관리</b>할 수 있어요.
@@ -61,12 +61,12 @@ export const HomePageHeader = memo(() => {
                                 <div className="py-7">
                                     <div className="flex items-center justify-center gap-4">
                                         <button
-                                            className="btn btn-scordi sm:btn-lg normal-case shadow-lg"
+                                            className="btn btn-lg btn-scordi sm:btn-lg normal-case shadow-lg"
                                             onClick={() => router.push(UserLoginPageRoute.path())}
                                         >
                                             시작하기
                                         </button>
-                                        <CTAButton className="btn sm:btn-lg normal-case shadow-lg">
+                                        <CTAButton className="btn btn-lg sm:btn-lg normal-case shadow-lg">
                                             데모 요청하기
                                         </CTAButton>
                                     </div>
@@ -76,20 +76,20 @@ export const HomePageHeader = memo(() => {
                     </section>
 
                     {/* pc */}
-                    <section className="hidden md:flex justify-center container">
+                    <section className="flex justify-center container">
                         <div className="relative flex items-center justify-center">
                             <img
-                                className="main-header-img sm:max-w-[80%] md:max-w-[70%]"
+                                className="main-header-img max-w-[80%] md:max-w-[70%]"
                                 src="/images/landing/mockup-main-screen.png"
                                 alt="service preview image"
                             />
                             <img
-                                className="main-header-img-left sm:max-h-[24em] md:max-h-[13em] absolute"
+                                className="hidden sm:inline-block main-header-img-left sm:max-h-[24em] md:max-h-[13em] absolute"
                                 src="/images/landing/mockup-notifications.png"
                                 alt="notifications preview"
                             />
                             <img
-                                className="main-header-img-right sm:max-h-[24em] md:max-h-[13em] absolute"
+                                className="hidden sm:inline-block main-header-img-right sm:max-h-[24em] md:max-h-[13em] absolute"
                                 src="/images/landing/mockup-using-members.png"
                                 alt="using members preview"
                             />
@@ -97,7 +97,7 @@ export const HomePageHeader = memo(() => {
                     </section>
 
                     {/* mobile */}
-                    <section className="flex md:hidden justify-center">
+                    <section className="hidden justify-center">
                         <div
                             className="hide-scrollbar"
                             style={{
@@ -132,7 +132,7 @@ export const HomePageHeader = memo(() => {
 
                     <section id="Featured LOGO" className="container max-w-[960px] py-4 sm:py-16 mt-8">
                         <p className="text-[18px] text-center mb-6 text-gray-600 font-semibold">
-                            성장하는 팀이 원했던 똑똑한 관리자들은 이미 쓰고 있어요
+                            성장하는 팀의 똑똑한 관리자들은 <span className="block sm:inline">이미 쓰고 있어요</span>
                         </p>
                         <div className="grid grid-cols-2 sm:flex items-center justify-around">
                             <div className="main-header-featured-customers-logo">
