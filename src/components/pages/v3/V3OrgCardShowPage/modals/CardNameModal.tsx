@@ -58,13 +58,18 @@ export const CardNameModal = memo(() => {
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
-            <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
+            <ModalTopbar
+                backBtnOnClick={close}
+                topbarPosition="sticky"
+                rightButtons={[
+                    () => <SkipButton submitCardNumber={onSubmit} currentModal="cardName" isModify={!!cardId} />,
+                ]}
+            />
             <MobileSection.Padding>
                 <p className="pt-10 mb-4">{cardId ? '카드 수정하기' : '새로운 카드 등록하기'}</p>
                 <h2 className="h1 leading-tight mb-10">
                     카드를 구분할 수 있는 <br /> 별칭을 입력해주세요
                 </h2>
-                <SkipButton currentModal="cardName" isModify={!!cardId} />
 
                 {/* 카드 이름 input */}
                 <input
