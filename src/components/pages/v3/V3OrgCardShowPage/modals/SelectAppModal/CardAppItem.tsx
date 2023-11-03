@@ -26,7 +26,7 @@ export const CardAppItem = memo((props: CardAppItemProps) => {
     };
 
     return (
-        <div className="!w-auto gap-4 px-4 py-3 -mx-4 hover:bg-neutral btn-like no-selectable">
+        <div className="w-full gap-4 px-4 py-3 -mx-4 hover:bg-neutral btn-like no-selectable">
             <Avatar src={item.image} className="w-9 h-9 outline outline-offset-1 outline-slate-100" />
             <p className="leading-none text-[18px] font-semibold">{item.nameEn}</p>
 

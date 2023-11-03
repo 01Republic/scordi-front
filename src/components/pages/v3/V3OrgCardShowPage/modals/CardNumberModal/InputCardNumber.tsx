@@ -5,6 +5,7 @@ import {CreditCardSecretInfo, UnSignedCreditCardFormData} from '^types/credit-ca
 import {currentCreditCardAtom} from '^v3/V3OrgCardShowPage/modals/atom';
 import CryptoJS from 'crypto-js';
 import {cardSign} from '^config/environments';
+import {cardIdParamState, useRouterIdParamState} from '^atoms/common';
 
 interface InputCardNumberProps {
     form: UseFormReturn<UnSignedCreditCardFormData>;
@@ -14,12 +15,14 @@ interface InputCardNumberProps {
 export const InputCardNumber = memo((props: InputCardNumberProps) => {
     const {form, setDisabled} = props;
     const [cardInfo, setCardInfo] = useState<CreditCardSecretInfo>();
+    const cardId = useRouterIdParamState('cardId', cardIdParamState);
 
     // Detail page 에서 모달 띄울 시 존재함.
     const currentCreditCard = useRecoilValue(currentCreditCardAtom);
 
     // 만약 수정 중인 경우 form에 기본 값을 세팅합니다.
     useEffect(() => {
+        if (!cardId) return;
         if (!currentCreditCard?.numbers) return;
 
         const json = CryptoJS.AES.decrypt(currentCreditCard.sign, cardSign).toString(CryptoJS.enc.Utf8);
@@ -29,15 +32,15 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
     }, [currentCreditCard]);
 
     useEffect(() => {
+        const number1 = document.querySelector('input[name="number1"]') as HTMLInputElement;
+        number1.focus();
+
         if (!cardInfo) return;
 
         form.setValue('number1', cardInfo.number1);
         form.setValue('number2', cardInfo.number2);
         form.setValue('number3', cardInfo.number3);
         form.setValue('number4', cardInfo.number4);
-
-        const number1 = document.querySelector('input[name="number1"]') as HTMLInputElement;
-        number1.focus();
     }, [cardInfo]);
 
     const moveNextInput = (currentPart: number, value: string) => {
@@ -84,6 +87,7 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
             <div className="flex gap-3 mb-3">
                 <input
                     {...form.register('number1')}
+                    name="number1"
                     type="number"
                     placeholder="● ● ● ●"
                     maxLength={4}

@@ -68,7 +68,7 @@ export const CardAppList = memo(() => {
                 placeholder="전체"
             />
             <span></span>
-            <ul className="max-h-96 overflow-y-auto">
+            <ul className="max-h-96 sm:max-h-60 overflow-y-auto">
                 {selectedApps.map((product, index) => (
                     <CardAppItem key={index} item={product} />
                 ))}

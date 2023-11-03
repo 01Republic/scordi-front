@@ -22,21 +22,13 @@ import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 
 export const V3OrgCardShowPage = memo(() => {
-    const {
-        open: openInputCardNumberModal,
-        isShow: isInputCardNumberModal,
-        setIsShow: setInputCardNumberModal,
-    } = useModal(inputCardNumberModal);
+    const {open: openInputCardNumberModal, isShow: isInputCardNumberModal} = useModal(inputCardNumberModal);
     const {isShow: isSelectCardCompanyModal} = useModal(selectCardCompanyModal);
     const {isShow: isInputCardNameModal} = useModal(inputCardNameModal);
     const {isShow: isInputCardHoldingMemeberModal} = useModal(inputCardHoldingMemeberModal);
     const {isShow: isSelectAppModal} = useModal(selectAppModal);
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const router = useRouter();
-
-    useEffect(() => {
-        setInputCardNumberModal(false);
-    }, []);
 
     const backBtnOnclick = () => {
         router.push(V3OrgHomePageRoute.path(orgId));
