@@ -32,6 +32,8 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
     }, [currentCreditCard]);
 
     useEffect(() => {
+        // TODO: [to.진경님] 아래쪽에 nextInput 과 lastInput 의 null 체크 해주신 것 처럼 여기도 필요해 보입니다.
+        //  number1 이 undefined 일 수 있어요. undefined 이면 .focus() 가 깨지고 이후 라인들이 모두 죽을거에요.
         const number1 = document.querySelector('input[name="number1"]') as HTMLInputElement;
         number1.focus();
 
@@ -72,6 +74,7 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
     };
 
     const maxLength = (e: FormEvent<HTMLInputElement>) => {
+        // TODO: [to.진경님] 한 줄로 붙일 수 없는 if 블록은 중괄호를 생략하지 않는게 좋겠어요!
         if (e.currentTarget.value.length > e.currentTarget.maxLength)
             e.currentTarget.value = e.currentTarget.value.slice(0, e.currentTarget.maxLength);
     };

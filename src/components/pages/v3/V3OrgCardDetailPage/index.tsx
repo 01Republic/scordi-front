@@ -31,6 +31,7 @@ import {UnSignedCreditCardFormData, UpdateCreditCardDto} from '^types/credit-car
 import {useRouter} from 'next/router';
 import {V3OrgCardShowPageRoute} from '^pages/v3/orgs/[orgId]/cards';
 
+// TODO: [to.진경님] V3OrgCardShowPage 에서 드렸던 코멘트들 참고해서 같은 부분들 많이 보이는데 리팩토링 해보시죠!
 export const V3OrgCardDetailPage = memo(() => {
     const {isShow: isInputCardNumberModal} = useModal(inputCardNumberModal);
     const {isShow: isInputCardNameModal} = useModal(inputCardNameModal);

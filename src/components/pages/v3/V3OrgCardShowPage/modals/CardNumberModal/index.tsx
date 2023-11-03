@@ -43,6 +43,8 @@ export const CardNumberModal = memo(() => {
     const onUpdate = async () => {
         const formData = plainToInstance(UnSignedCreditCardFormData, form.getValues());
 
+        // TODO: [to.진경님] api 요청(request)에 대한 응답(response)은 관례적으로 res 라고 변수명을 쓰고 있어욥
+        //  'const res = ...' 또는 'const { data } = ...' 로 변경해주시면 더 깔끔할 것 같아요!
         const datas = await creditCardApi.update(orgId, cardId, formData.toUpdateDto());
 
         if (datas) {

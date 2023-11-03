@@ -1,6 +1,10 @@
 import {atom} from 'recoil';
 import {CreateCreditCardDto, CreditCardDto, UpdateCreditCardDto} from '^types/credit-cards.type';
 
+// TODO: [to.진경님] 여기 있는 각각의 모달 관련 아톰들,
+//  자기 해당하는 모달 폴더 내에 아톰파일들로 분리되어있는게 낫지 않나욥??
+//  고민이 되긴 하는데 ㅎㅎ
+
 export const inputCardNumberModal = {
     isShowAtom: atom({
         key: 'v3/inputCardNumberModal',
@@ -26,6 +30,7 @@ export const inputCardNameModal = {
 };
 
 export const inputCardHoldingMemeberModal = {
+    // TODO: [to.진경님] 오잉? 스펠링 이거 오타같아요! 메메버 ㅋㅋㅋㅋㅋㅋ
     isShowAtom: atom({
         key: 'v3/inputCardHoldingMemeberModal',
         default: false,
