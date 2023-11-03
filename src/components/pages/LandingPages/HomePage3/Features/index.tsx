@@ -1,7 +1,6 @@
 import React, {memo} from 'react';
-import {USPSection2} from '^components/pages/LandingPages/components';
-import {HomePageCTAButton2} from '^components/pages/LandingPages/HomePage/CTAButton';
 import {useTranslation} from 'next-i18next';
+import {USPSection2} from '^components/pages/LandingPages/components';
 import {CTAButton} from '^components/pages/LandingPages/HomePage2/CTAButton';
 
 export const Features = memo(function Features() {
@@ -12,7 +11,7 @@ export const Features = memo(function Features() {
             {/* 간단하고 쉬운 연동 */}
             <USPSection2
                 label="간편한 연동"
-                imgUrl="/images/landing/features/1.simple-sync.png"
+                imgUrl="/images/landing/features/1.simple-sync-2.png"
                 // imgStyle={{transform: 'scale(1.1)'}}
                 imgClass="py-16"
                 title={
@@ -41,8 +40,9 @@ export const Features = memo(function Features() {
             {/* 구독현황 홈/분석 */}
             <USPSection2
                 label="대시보드"
-                imgUrl={t('section5.image')}
+                imgUrl="/images/landing/features/2.dashboard.png"
                 title={<span>누가, 무엇을, 얼마에 쓰는지 구독 현황을 한눈에!</span>}
+                imgClass="py-16"
                 desc1={
                     <span>
                         사람마다 팀마다 무얼 쓰는지,{' '}
@@ -64,7 +64,7 @@ export const Features = memo(function Features() {
             {/* 결제내역 */}
             <USPSection2
                 label="결제내역"
-                imgUrl="/images/landing/features/3.notifications.png"
+                imgUrl="/images/landing/features/3.billing-histories.png"
                 imgStyle={{transform: 'scale(1)'}}
                 imgClass="py-16"
                 title={
@@ -93,7 +93,7 @@ export const Features = memo(function Features() {
             {/* 결제내역 */}
             <USPSection2
                 label="주요알림"
-                imgUrl="/images/landing/features/3.notifications.png"
+                imgUrl="/images/landing/features/4.notifications-2.png"
                 imgStyle={{transform: 'scale(1)'}}
                 imgClass="py-16"
                 title={
@@ -128,7 +128,7 @@ export const Features = memo(function Features() {
             {/* 일정과 알림 */}
             <USPSection2
                 label="자산보호"
-                imgUrl="/images/landing/features/4.assets-security.png"
+                imgUrl="/images/landing/features/5.assets-security-2.png"
                 imgStyle={{transform: 'scale(1.1)'}}
                 imgClass="py-16"
                 title={
@@ -158,8 +158,9 @@ export const Features = memo(function Features() {
             {/* 계정 */}
             <USPSection2
                 label="관리권한"
-                imgUrl={t('section5.image')}
+                imgUrl="/images/landing/features/6.permissions.png"
                 title={`조직도로 한 눈에 권한 파악`}
+                imgClass="py-16"
                 desc1={
                     <span>
                         우리 회사 팀 체계에 맞게 배치하고,{` `}
@@ -181,7 +182,8 @@ export const Features = memo(function Features() {
             {/* 자동화 */}
             <USPSection2
                 label="자동화"
-                imgUrl={t('section5.image')}
+                imgUrl="/images/landing/features/7.automation.png"
+                imgClass="py-16"
                 title={
                     <span>
                         SaaS 관리자 페이지는 <span className="block">스코디 하나로 끝</span>

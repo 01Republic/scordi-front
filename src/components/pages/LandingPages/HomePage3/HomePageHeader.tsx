@@ -79,17 +79,17 @@ export const HomePageHeader = memo(() => {
                     <section className="flex justify-center container">
                         <div className="relative flex items-center justify-center">
                             <img
-                                className="main-header-img max-w-[80%] md:max-w-[70%]"
+                                className="main-header-img max-w-[90%] md:max-w-[70%]"
                                 src="/images/landing/mockup-main-screen.png"
                                 alt="service preview image"
                             />
                             <img
-                                className="hidden sm:inline-block main-header-img-left sm:max-h-[24em] md:max-h-[13em] absolute"
+                                className="hidden md:inline-block main-header-img-left max-h-[13em] absolute"
                                 src="/images/landing/mockup-notifications.png"
                                 alt="notifications preview"
                             />
                             <img
-                                className="hidden sm:inline-block main-header-img-right sm:max-h-[24em] md:max-h-[13em] absolute"
+                                className="hidden md:inline-block main-header-img-right max-h-[13em] absolute"
                                 src="/images/landing/mockup-using-members.png"
                                 alt="using members preview"
                             />
