@@ -6,40 +6,46 @@ interface ReviewItemProps {
     reviewer: string;
     role: string;
     logo: string;
+    title: ReactNodeLike;
     content: ReactNodeLike;
     duration: number;
 }
 
 export const ReviewItem = memo((props: ReviewItemProps) => {
-    const {logo, company, reviewer, role, content, duration} = props;
+    const {logo, company, reviewer, role, title, content, duration} = props;
 
     return (
         <div
             className="card card-side bg-white shadow-xl"
-            data-aos-anchor-placement="bottom-bottom"
+            data-aos="fade-up"
+            data-aos-anchor-placement="center-bottom"
             data-aos-duration={duration}
         >
-            {/*<figure><img src="/images/stock/photo-1635805737707-575885ab0820.jpg" alt="Movie"/></figure>*/}
             <div className="card-body">
-                <div className="text-right mb-6">
+                <div className="w-full flex items-center justify-between gap-4 mb-6">
                     <img
                         className="inline"
                         src={logo}
                         alt={`${reviewer}'s review`}
                         draggable={false}
                         loading="lazy"
-                        style={{height: '30px'}}
+                        style={{maxHeight: '30px', maxWidth: 'calc(40% - 1rem)'}}
                     />
-                </div>
-                <div className="mb-auto">{content}</div>
-                <div className="card-actions justify-end pt-4">
-                    <div>
-                        {reviewer}님 |{' '}
-                        <span className="text-gray-500">
-                            <b>{company}</b> {role}
-                        </span>
+
+                    <div className="min-w-[50%]">
+                        <p className="text-[16px] font-bold">{reviewer} 님</p>
+                        <p className="text-gray-500">
+                            {company} {role}
+                        </p>
                     </div>
-                    {/*    <button className="btn btn-primary">Watch</button>*/}
+                </div>
+                <div className="mb-auto">
+                    <img className="mb-2" src="/images/landing/review-flag.png" alt="review-mark" loading="lazy" />
+                    <p className="text-[18px] font-extrabold">{title}</p>
+                    <br />
+                    <pre className="text-[14px]" style={{whiteSpace: 'pre-line', fontFamily: 'inherit'}}>
+                        {content}
+                    </pre>
                 </div>
             </div>
         </div>
