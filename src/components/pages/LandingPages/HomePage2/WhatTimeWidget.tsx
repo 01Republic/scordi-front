@@ -6,7 +6,7 @@ export const WhatTimeWidget = memo(() => {
     <!-- WhatTime embed widget begin --> 
       <div 
         class="whattime-inline-widget" 
-        data-url="https://whattime.co.kr/01republic/scordi" 
+        data-url="https://whattime.co.kr/scordi_fred/onboarding"
         data-text-color="#1a1a1a" 
         data-button-color="#6454ff" 
         data-background-color="#ffffff" 

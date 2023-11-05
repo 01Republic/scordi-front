@@ -5,6 +5,7 @@ import {CTAButton} from '^components/pages/LandingPages/HomePage2/CTAButton';
 import {UserLoginPageRoute} from '^pages/users/login';
 import {useOnResize} from '^hooks/useOnResize';
 import {HomePageCTAButton} from '^components/pages/LandingPages/HomePage/CTAButton';
+import {downloadScordiProposal} from '^components/pages/LandingPages/HomePage3/links';
 
 export const HomePageHeader = memo(() => {
     const {isMobile} = useOnResize();
@@ -60,15 +61,15 @@ export const HomePageHeader = memo(() => {
 
                                 <div className="py-7">
                                     <div className="flex items-center justify-center gap-4">
-                                        <button
-                                            className="btn btn-lg btn-scordi sm:btn-lg normal-case shadow-lg"
-                                            onClick={() => router.push(UserLoginPageRoute.path())}
-                                        >
-                                            시작하기
-                                        </button>
-                                        <CTAButton className="btn btn-lg sm:btn-lg normal-case shadow-lg">
-                                            데모 요청하기
+                                        <CTAButton className="btn btn-lg btn-scordi normal-case shadow-lg">
+                                            도입 문의하기
                                         </CTAButton>
+                                        <button
+                                            className="btn btn-lg normal-case shadow-lg"
+                                            onClick={() => downloadScordiProposal()}
+                                        >
+                                            소개서 다운로드
+                                        </button>
                                     </div>
                                 </div>
                             </div>

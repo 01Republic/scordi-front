@@ -91,7 +91,7 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
                             </a>
 
                             <a className="btn hidden sm:inline-flex btn-scordi" onClick={open}>
-                                데모 요청하기
+                                도입 문의하기
                             </a>
                         </div>
                     )}
