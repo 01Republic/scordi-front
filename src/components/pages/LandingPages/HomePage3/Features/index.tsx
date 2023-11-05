@@ -64,7 +64,7 @@ export const Features = memo(function Features() {
             {/* 결제내역 */}
             <USPSection2
                 label="결제내역"
-                imgUrl="/images/landing/features/3.billing-histories.png"
+                imgUrl="/images/landing/features/3.billing-histories-2.png"
                 imgStyle={{transform: 'scale(1)'}}
                 imgClass="py-16"
                 title={
@@ -93,7 +93,7 @@ export const Features = memo(function Features() {
             {/* 결제내역 */}
             <USPSection2
                 label="주요알림"
-                imgUrl="/images/landing/features/4.notifications-2.png"
+                imgUrl="/images/landing/features/4.notifications-3.png"
                 imgStyle={{transform: 'scale(1)'}}
                 imgClass="py-16"
                 title={
@@ -158,7 +158,7 @@ export const Features = memo(function Features() {
             {/* 계정 */}
             <USPSection2
                 label="관리권한"
-                imgUrl="/images/landing/features/6.permissions.png"
+                imgUrl="/images/landing/features/6.permissions-2.png"
                 title={`조직도로 한 눈에 권한 파악`}
                 imgClass="py-16"
                 desc1={
@@ -182,7 +182,7 @@ export const Features = memo(function Features() {
             {/* 자동화 */}
             <USPSection2
                 label="자동화"
-                imgUrl="/images/landing/features/7.automation.png"
+                imgUrl="/images/landing/features/7.automation-2.png"
                 imgClass="py-16"
                 title={
                     <span>
