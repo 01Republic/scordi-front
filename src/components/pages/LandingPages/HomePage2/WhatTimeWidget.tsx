@@ -10,7 +10,7 @@ export const WhatTimeWidget = memo(() => {
         data-text-color="#1a1a1a" 
         data-button-color="#6454ff" 
         data-background-color="#ffffff" 
-        style="min-width: 320px; height: 690px;">
+        style="min-width: 320px;">
       </div>
       <link href="https://assets.whattime.co.kr/widget/widget.css" rel="stylesheet">
       <script src="https://assets.whattime.co.kr/widget/widget.js" type="text/javascript" async></script>
