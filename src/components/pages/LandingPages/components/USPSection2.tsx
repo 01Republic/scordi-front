@@ -34,7 +34,7 @@ export const USPSection2 = memo((props: USPSectionProps) => {
     } = props;
 
     return (
-        <div className={`hero md:min-h-[80vh] mb-10 sm:mb-0 ${bgGray ? 'bg-base-200' : ''}`}>
+        <div className={`hero md:min-h-[80vh] mb-10 sm:mb-0 container ${bgGray ? 'bg-base-200' : ''}`}>
             <div
                 className={`hero-content text-center px-10 md:text-left justify-between w-full flex-col ${
                     direct === 'left' ? 'md:flex-row-reverse' : 'md:flex-row'

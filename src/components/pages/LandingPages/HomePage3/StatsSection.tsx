@@ -2,7 +2,7 @@ import {memo} from 'react';
 
 export const StatsSection = memo(function StatsSection() {
     return (
-        <section id="StatsSection" className="py-16 bg-white">
+        <section id="StatsSection" className="py-16 bg-scordi-light-100">
             <div className="container px-4 sm:px-0">
                 <h2 className="text-center mb-16">
                     <p

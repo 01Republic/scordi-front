@@ -38,7 +38,7 @@ export const HomePageHeader = memo(() => {
                 }}
             >
                 <div
-                    className="pt-[8em] pb-6 sm:pt-[10em]"
+                    className="pt-[4em] pb-6"
                     style={{
                         backgroundImage: 'url(/home/202305/header-bg2.png)',
                         backgroundSize: 'cover',
@@ -48,7 +48,7 @@ export const HomePageHeader = memo(() => {
                     <section id="section-1" className="hero mb-3">
                         <div className="text-center w-[100vw]">
                             <div className="mb-10">
-                                <h1 className="text-4xl md:text-7xl font-bold mb-5 keep-all" style={{lineHeight: 1.3}}>
+                                <h1 className="text-4xl md:text-6xl font-bold mb-5 keep-all" style={{lineHeight: 1.3}}>
                                     우리 회사 SaaS 관리 <br />
                                     <span className="text-scordi">클릭 하나</span>로 끝내보세요
                                 </h1>
@@ -59,13 +59,13 @@ export const HomePageHeader = memo(() => {
                                     </span>
                                 </p>
 
-                                <div className="py-7">
-                                    <div className="flex items-center justify-center gap-4">
-                                        <CTAButton className="btn btn-lg btn-scordi normal-case shadow-lg">
+                                <div className="pt-7">
+                                    <div className="flex flex-col sm:flex-row items-center justify-center gap-[14px] sm:gap-4">
+                                        <CTAButton className="btn btn-scordi normal-case shadow-lg w-[11em] text-[18px] sm:w-auto sm:btn-lg">
                                             도입 문의하기
                                         </CTAButton>
                                         <button
-                                            className="btn btn-lg normal-case shadow-lg"
+                                            className="btn normal-case shadow-lg w-[11em] text-[18px] sm:w-auto sm:btn-lg"
                                             onClick={() => downloadScordiProposal()}
                                         >
                                             소개서 다운로드
@@ -132,62 +132,45 @@ export const HomePageHeader = memo(() => {
                     </section>
 
                     <section id="Featured LOGO" className="container max-w-[960px] py-4 sm:py-16 mt-8">
-                        <p className="text-[18px] text-center mb-6 text-gray-600 font-semibold">
+                        <p className="text-[20px] leading-[28px] text-center mb-6 text-gray-600 font-semibold">
                             성장하는 팀의 똑똑한 관리자들은 <span className="block sm:inline">이미 쓰고 있어요</span>
                         </p>
                         <div className="grid grid-cols-2 sm:flex items-center justify-around">
                             <div className="main-header-featured-customers-logo">
                                 <img
-                                    style={{transform: 'scale(1.25)'}}
-                                    src="/images/landing/featured-customer-logo/business-canvas.png"
+                                    src="/images/landing/featured-customer-logo/business-canvas-2.png"
                                     alt="Business Canvas"
                                 />
                             </div>
                             <div className="main-header-featured-customers-logo">
                                 <img
-                                    style={{transform: 'scale(3)'}}
-                                    src="/images/landing/featured-customer-logo/teamsparta.png"
+                                    style={{transform: 'scale(0.8)'}}
+                                    src="/images/landing/featured-customer-logo/teamsparta-2.png"
                                     alt="Team Sparta"
                                 />
                             </div>
                             <div className="main-header-featured-customers-logo">
-                                <img src="/images/landing/featured-customer-logo/peopet.png" alt="Peopet" />
+                                <img src="/images/landing/featured-customer-logo/peopet-2.png" alt="Peopet" />
                             </div>
                             <div className="main-header-featured-customers-logo">
-                                <img
-                                    style={{transform: 'scale(1.25)'}}
-                                    src="/images/landing/featured-customer-logo/testbank.png"
-                                    alt="Testbank"
-                                />
+                                <img src="/images/landing/featured-customer-logo/testbank-2.png" alt="Testbank" />
                             </div>
                         </div>
                         <div className="grid grid-cols-2 sm:flex items-center justify-around">
                             <div className="main-header-featured-customers-logo">
-                                <img
-                                    style={{transform: 'scale(0.8)'}}
-                                    src="/images/landing/featured-customer-logo/phylaxis.png"
-                                    alt="Phylaxis"
-                                />
+                                <img src="/images/landing/featured-customer-logo/phylaxis-2.png" alt="Phylaxis" />
                             </div>
                             <div className="main-header-featured-customers-logo">
-                                <img src="/images/landing/featured-customer-logo/teamcookie.png" alt="Team Cookie" />
+                                <img src="/images/landing/featured-customer-logo/teamcookie-2.png" alt="Team Cookie" />
+                            </div>
+                            {/*<div className="main-header-featured-customers-logo">*/}
+                            {/*    <img src="/images/landing/featured-customer-logo/devd.png" alt="DevD" />*/}
+                            {/*</div>*/}
+                            <div className="main-header-featured-customers-logo">
+                                <img src="/images/landing/featured-customer-logo/corca-2.png" alt="Corca" />
                             </div>
                             <div className="main-header-featured-customers-logo">
-                                <img src="/images/landing/featured-customer-logo/devd.png" alt="DevD" />
-                            </div>
-                            <div className="main-header-featured-customers-logo">
-                                <img
-                                    style={{transform: 'scale(2.75)'}}
-                                    src="/images/landing/featured-customer-logo/corca.png"
-                                    alt="Corca"
-                                />
-                            </div>
-                            <div className="main-header-featured-customers-logo">
-                                <img
-                                    style={{transform: 'scale(2.25)'}}
-                                    src="/images/landing/featured-customer-logo/whattime.png"
-                                    alt="Wattime"
-                                />
+                                <img src="/images/landing/featured-customer-logo/whattime-2.png" alt="Wattime" />
                             </div>
                         </div>
                     </section>

@@ -50,7 +50,7 @@ export const CollectAppSection = memo((props: CollectAppSectionProps) => {
                 <div className="bg-container animation-layer"></div>
             </section>
             <div
-                className="background logo-background-blurred"
+                className="background logo-background-blurred !hidden sm:!flex"
                 style={{backgroundImage: 'url(/images/landing/collect-apps/bg.png)'}}
             >
                 <div

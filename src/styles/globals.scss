@@ -495,7 +495,7 @@ body.hide-channel-talk {
   justify-content: center;
 
   img {
-    max-height: 36px;
+    //max-height: 36px;
   }
 }
 
@@ -528,11 +528,12 @@ body.hide-channel-talk {
      */
 
     p {
+      @apply text-4xl sm:text-5xl;
       letter-spacing: -0.012em;
       line-height: 130%;
+      //line-height: 28px;
       font-weight: bold;
       text-align: center;
-      @apply text-5xl;
       visibility: hidden;
       background-color: rgba(255, 255, 255, 0.7);
       box-shadow: 0 0 40px #fff;
