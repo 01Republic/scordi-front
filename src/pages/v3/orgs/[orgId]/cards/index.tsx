@@ -13,7 +13,7 @@ export const V3OrgCardShowPageRoute = pathRoute({
 });
 
 export const getStaticPaths = async () => ({
-    paths: [{params: {orgId: '1', invoiceAccountId: '1'}}],
+    paths: [{params: {orgId: '1'}}],
     fallback: true,
 });
 

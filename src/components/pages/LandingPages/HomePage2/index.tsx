@@ -16,7 +16,6 @@ export const LandingHomePage2 = memo(() => {
 
     return (
         <AOSProvider>
-            <InquiryModal />
             <HeadTag />
 
             <div className="bg-white">
@@ -34,6 +33,8 @@ export const LandingHomePage2 = memo(() => {
 
                 <BetaServiceFooter />
             </div>
+
+            <InquiryModal />
         </AOSProvider>
     );
 });

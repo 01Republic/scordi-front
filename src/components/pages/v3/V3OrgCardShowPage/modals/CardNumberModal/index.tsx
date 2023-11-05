@@ -32,32 +32,26 @@ export const CardNumberModal = memo(() => {
     }, [isShow]);
 
     // 카드 번호 등록 함수
-    const submitCardInformation = () => {
+    const onSubmit = () => {
         const formData = plainToInstance(UnSignedCreditCardFormData, form.getValues());
-        console.log(formData);
         setCreateCreditCardDto({...createCreditCardDto, ...formData.toCreateDto()});
 
         openInputCardCompanyModal();
     };
 
     //카드 번호 수정 함수
-    const updateCardInformation = async () => {
-        const formData = form.getValues();
-        // setUpdateCreditCardDto(formData);
+    const onUpdate = async () => {
+        const formData = plainToInstance(UnSignedCreditCardFormData, form.getValues());
 
-        creditCardApi.update(orgId, cardId, formData.toUpdateDto()).then((response) => {
-            if (response.status === 200) {
-                toast.success('카드번호가 수정되었습니다');
-                setCardSignInfo(response.data.secretInfo);
+        // TODO: [to.진경님] api 요청(request)에 대한 응답(response)은 관례적으로 res 라고 변수명을 쓰고 있어욥
+        //  'const res = ...' 또는 'const { data } = ...' 로 변경해주시면 더 깔끔할 것 같아요!
+        const datas = await creditCardApi.update(orgId, cardId, formData.toUpdateDto());
 
-                setTimeout(() => {
-                    close();
-                }, 2000);
-            } else {
-                toast.error('카드번호 수정에 실패했습니다.');
-                return;
-            }
-        });
+        if (datas) {
+            setCardSignInfo(datas.data.secretInfo);
+            close();
+            toast.success('변경되었습니다.');
+        }
     };
 
     return (
@@ -74,11 +68,11 @@ export const CardNumberModal = memo(() => {
                 </MobileSection.Padding>
                 <ModalLikeBottomBar>
                     {cardId ? (
-                        <button disabled={disabled} onClick={updateCardInformation} className="btn-modal">
+                        <button disabled={disabled} onClick={onUpdate} className="btn-modal">
                             확인
                         </button>
                     ) : (
-                        <button disabled={disabled} onClick={submitCardInformation} className="btn-modal">
+                        <button disabled={disabled} onClick={onSubmit} className="btn-modal">
                             다음
                         </button>
                     )}

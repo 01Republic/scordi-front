@@ -5,6 +5,7 @@ import {SubscriptionDto} from '^types/subscription.type';
 import {connectCreditCardModal} from '^v3/share/modals/ConnectCreditCardModal/atom';
 import {useModal} from '^v3/share/modals/useModal';
 import {toast} from 'react-toastify';
+import {FiChevronRight} from '^components/react-icons';
 
 interface ListItemForPaymentMethodProps {
     subscription?: SubscriptionDto | null;
@@ -14,26 +15,31 @@ export const ListItemForPaymentMethod = memo((props: ListItemForPaymentMethodPro
     const {subscription, lastPaidHistory} = props;
     if (!subscription && !lastPaidHistory) return <></>;
 
-    const {open} = useModal(connectCreditCardModal);
-    const value = subscription?.creditCard?.label || lastPaidHistory?.paymentMethod || '';
+    const {open: connectCreditCardModalOpen} = useModal(connectCreditCardModal);
+    const value = subscription?.creditCard?.label || lastPaidHistory?.paymentMethod;
     const onClick = () => {
-        if (lastPaidHistory?.paymentMethod.includes('계좌')) {
+        if (lastPaidHistory?.paymentMethod?.includes('계좌')) {
             toast.info('계좌 등록 기능은 준비 중입니다.');
             return;
         }
-        open();
+        connectCreditCardModalOpen();
     };
 
     return (
-        <>
-            <MobileInfoListItem label="결제수단">
-                <div className="grid grid-cols-3 gap-1">
-                    <button className="col-span-1 btn btn-xs btn-scordi opacity-75" onClick={onClick}>
-                        변경하기
-                    </button>
-                    {value !== '' && <span className="col-span-2">{value}</span>}
-                </div>
-            </MobileInfoListItem>
-        </>
+        <MobileInfoListItem label="결제수단">
+            <div
+                className="flex items-center justify-between gap-2 font-light cursor-pointer hover:font-semibold"
+                onClick={onClick}
+            >
+                {value ? (
+                    <span className="col-span-2">{value}</span>
+                ) : (
+                    <span className="text-sm text-gray-500">결제 수단을 등록해보세요</span>
+                )}
+                <span>
+                    <FiChevronRight />
+                </span>
+            </div>
+        </MobileInfoListItem>
     );
 });

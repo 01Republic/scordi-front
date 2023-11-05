@@ -4,64 +4,67 @@ import Select from 'react-select';
 import {useToast} from '^hooks/useToast';
 import {useModal} from '../../share/modals/useModal';
 import {ModalTopbar} from '../../share/modals/ModalTopbar';
-import {updateCreditCardDtoAtom, inputCardNameModal, selectCardCompanyModal, createCreditCardDtoAtom} from './atom';
+import {inputCardNameModal, selectCardCompanyModal, createCreditCardDtoAtom, currentCreditCardAtom} from './atom';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {SkipButton} from '^v3/V3OrgCardShowPage/modals/SkipButton';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ModalLikeBottomBar} from '../../layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
+import {useMoveScroll} from '^hooks/useMoveScroll';
 
 export const CardCompanyModal = memo(() => {
     const {Modal, close} = useModal(selectCardCompanyModal);
     const {open: openInputCardNameModal} = useModal(inputCardNameModal);
     const [createCreditCardDto, setCreateCreditCardDto] = useRecoilState(createCreditCardDtoAtom);
-    const [updateCreditCardDto, setUpdateCreditCardDto] = useRecoilState(updateCreditCardDtoAtom);
+    const [currentCreditCard, setCurrenCreditCard] = useRecoilState(currentCreditCardAtom);
     const [issuerCompany, setIssuerCompany] = useState('');
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
+    const {selectRef, onScroll} = useMoveScroll();
     const {toast} = useToast();
 
     // 카드사 등록 함수
-    const submitCardCompany = () => {
+    const onSubmit = () => {
         if (!issuerCompany) return;
 
         setCreateCreditCardDto({...createCreditCardDto, issuerCompany: issuerCompany});
     };
 
     // 카드사 수정 함수
-    const updateCardCompany = async () => {
+    const onUpdate = async () => {
         if (!issuerCompany) return;
 
-        const data = await creditCardApi.update(orgId, cardId, {
+        const datas = await creditCardApi.update(orgId, cardId, {
             issuerCompany: issuerCompany,
         });
 
-        if (data) {
-            if (!data.data) return;
-
-            toast.success('카드 별칭이 변경되었습니다.');
-            setTimeout(() => {
-                close();
-            }, 2000);
-            setUpdateCreditCardDto({...updateCreditCardDto, issuerCompany: issuerCompany});
+        if (datas) {
+            setCurrenCreditCard(datas.data);
+            close();
+            toast.success('변경되었습니다.');
         }
     };
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
-            <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
+            <ModalTopbar
+                backBtnOnClick={close}
+                topbarPosition="sticky"
+                rightButtons={[
+                    () => <SkipButton submitCardNumber={onSubmit} currentModal="cardCompany" isModify={!!cardId} />,
+                ]}
+            />
             <MobileSection.Padding>
                 <p className="mb-4 pt-10">{cardId ? '카드 수정하기' : '새로운 카드 등록하기'}</p>
                 <h2 className="h1 leading-tight mb-10">카드사를 선택해주세요</h2>
-                <SkipButton currentModal="cardCompany" isModify={!!cardId} />
 
-                <div>
+                <div ref={selectRef} onClick={onScroll}>
                     <Select
                         value={OPTIONS.find((option) => option.value === issuerCompany)}
                         options={OPTIONS}
                         defaultValue={{
-                            value: updateCreditCardDto.issuerCompany ?? '',
-                            label: updateCreditCardDto.issuerCompany,
+                            value: currentCreditCard.issuerCompany ?? '',
+                            label: currentCreditCard.issuerCompany,
                         }}
                         onChange={(e) => e && setIssuerCompany(e?.value)}
                         className="select-underline input-underline"
@@ -72,13 +75,13 @@ export const CardCompanyModal = memo(() => {
             </MobileSection.Padding>
             <ModalLikeBottomBar>
                 {cardId ? (
-                    <button onClick={updateCardCompany} className="btn-modal">
+                    <button onClick={onUpdate} className="btn-modal">
                         확인
                     </button>
                 ) : (
                     <button
                         onClick={() => {
-                            submitCardCompany();
+                            onSubmit();
                             openInputCardNameModal();
                         }}
                         className="btn-modal"

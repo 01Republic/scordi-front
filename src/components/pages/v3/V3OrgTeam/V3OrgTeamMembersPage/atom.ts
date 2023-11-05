@@ -32,6 +32,11 @@ export const teamMembersSearchResultAtom = atom<Paginated<TeamMemberDto>>({
     },
 });
 
+export const invitedEmailsAtom = atom<string[]>({
+    key: 'invitedEmailsAtom',
+    default: <string[]>[],
+});
+
 export const useCurrentTeamMember = () => {
     const [currentTeamMember, setCurrentTeamMember] = useRecoilState(currentTeamMemberState);
     const [isLoading, setIsLoading] = useRecoilState(currentTeamMemberLoadingState);

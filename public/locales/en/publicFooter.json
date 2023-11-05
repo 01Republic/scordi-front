@@ -22,6 +22,9 @@
     "serviceUsage": "Term of Service Usage",
     "privacy": "Term of Privacy"
   },
+  "channels":{
+    "heading": "Channels"
+  },
   "lang": {
     "placeholder": "Select Language"
   }

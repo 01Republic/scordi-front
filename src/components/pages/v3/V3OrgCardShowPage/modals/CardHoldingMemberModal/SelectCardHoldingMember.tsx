@@ -7,6 +7,7 @@ import {CreatableSelect} from '^components/util/react-select/CreatableSelect';
 import {useCreditCardsOfOrganization} from '^hooks/useCreditCards';
 import {TeamMemberSelectOption as Option} from '^v3/V3OrgCardShowPage/modals/CardHoldingMemberModal/TeamMemberSelectOption';
 import {UnSignedCreditCardFormData} from '^types/credit-cards.type';
+import {useMoveScroll} from '^hooks/useMoveScroll';
 
 interface SelectCardHoldingMemberProps {
     form: UseFormReturn<UnSignedCreditCardFormData>;
@@ -18,6 +19,7 @@ export const SelectCardHoldingMember = (props: SelectCardHoldingMemberProps) => 
     const [isShow, setIsShow] = useState(true);
     const [allTeamMembers, setAllTeamMembers] = useState<TeamMemberDto[]>([]);
     const {load, createByName} = useTeamMembers(orgId);
+    const {selectRef, onScroll} = useMoveScroll();
     const {form} = props;
 
     useEffect(() => {
@@ -70,11 +72,13 @@ export const SelectCardHoldingMember = (props: SelectCardHoldingMemberProps) => 
     const onClear = () => form.setValue('holdingMemberId', null);
 
     return (
-        <CreatableSelect<Option>
-            toOption={toOption}
-            defaultOptions={defaultOptions}
-            loader={loader}
-            onChangeCallbacks={{onSelect, onCreate, onRemove, onClear}}
-        />
+        <div ref={selectRef} onClick={onScroll}>
+            <CreatableSelect<Option>
+                toOption={toOption}
+                defaultOptions={defaultOptions}
+                loader={loader}
+                onChangeCallbacks={{onSelect, onCreate, onRemove, onClear}}
+            />
+        </div>
     );
 };

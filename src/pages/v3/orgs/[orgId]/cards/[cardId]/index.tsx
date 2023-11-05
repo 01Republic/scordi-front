@@ -1,4 +1,4 @@
-import {cardIdParamState, invoiceAccountIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {V3OrgCardDetailPage} from '^components/pages/v3/V3OrgCardDetailPage';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
@@ -10,7 +10,7 @@ export const V3OrgCardDetailPageRoute = pathRoute({
 });
 
 // export const getStaticPaths = async () => ({
-//     paths: [{params: {orgId: '1', invoiceAccountId: '1'}}],
+//     paths: [{params: {orgId: '1', cardId: '1'}}],
 //     fallback: true,
 // });
 
@@ -27,10 +27,14 @@ export const V3OrgCardDetailPageRoute = pathRoute({
 // });
 
 export default function Page() {
-    // const orgId = useRouterIdParamState('orgId', orgIdParamState);
-    // const cardId = useRouterIdParamState('cardId', cardIdParamState);
+    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const cardId = useRouterIdParamState('cardId', cardIdParamState);
 
-    // if (!orgId && cardId) return <></>;
+    // TODO: [to.진경님] 아래에 cardId 가 있으면 빈페이지를 리턴하게 되어있는데 의도하신건가요???
+    //  if (!orgId || !cardId) return <></>; 처럼 되는게 맞을 것 같아서요!
+    //  if (!orgId || isNaN(!orgId) || !cardId || isNaN(cardId)) return <></>; 이게 정확히 체크한 버전 같구욥 ㅎㅎ
+    //  이게 getStaticPaths 빌드 싶패와 관련이 있지는 않았을지 조심스럽게 예상해봅니다!!
+    if (!orgId && cardId) return <></>;
 
     return <V3OrgCardDetailPage />;
 }

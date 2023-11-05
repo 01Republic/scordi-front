@@ -6,6 +6,7 @@ import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {publicPageRequires} from '^types/utils/18n.type';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {LandingHomePage2} from '^components/pages/LandingPages/HomePage2';
+import {LandingHomePage3} from '^components/pages/LandingPages/HomePage3';
 
 export const MainPageRoute = pathRoute({
     pathname: '/',
@@ -20,7 +21,7 @@ export const getStaticProps = async ({locale}: any) => ({
 });
 
 export default function MainPage() {
-    return <LandingHomePage2 />;
+    return <LandingHomePage3 />;
 }
 
 /**

@@ -7,7 +7,6 @@ import {InformationPanel} from './InformationPanel';
 import {BsPlus} from 'react-icons/bs';
 import {useModal} from '../share/modals/useModal';
 import {
-    addCardModal,
     inputCardNameModal,
     selectCardCompanyModal,
     inputCardNumberModal,
@@ -29,21 +28,23 @@ import {creditCardSignAtom, subscriptionsAtom} from '../V3OrgCardShowPage/atom';
 import {SubscriptionItem} from '../V3OrgHomePage/mobile/SubscriptionItem';
 import {plainToInstance} from 'class-transformer';
 import {UnSignedCreditCardFormData, UpdateCreditCardDto} from '^types/credit-cards.type';
+import {useRouter} from 'next/router';
+import {V3OrgCardShowPageRoute} from '^pages/v3/orgs/[orgId]/cards';
 
+// TODO: [to.진경님] V3OrgCardShowPage 에서 드렸던 코멘트들 참고해서 같은 부분들 많이 보이는데 리팩토링 해보시죠!
 export const V3OrgCardDetailPage = memo(() => {
-    const {isShow: isAddCardModal} = useModal(addCardModal);
     const {isShow: isInputCardNumberModal} = useModal(inputCardNumberModal);
     const {isShow: isInputCardNameModal} = useModal(inputCardNameModal);
     const {isShow: isInputCardHoldingMemberModal} = useModal(inputCardHoldingMemeberModal);
     const {isShow: isSelectCardCompanyModal} = useModal(selectCardCompanyModal);
     const {open: openSelectAppModal, isShow: isSelectAppModal} = useModal(selectAppModal);
-
     const [subscriptions, setSubscriptions] = useRecoilState(subscriptionsAtom);
     const setCurrentCreditCard = useSetRecoilState(currentCreditCardAtom);
     const setCardDetailInfo = useSetRecoilState(updateCreditCardDtoAtom);
     const setCardSignInfo = useSetRecoilState(creditCardSignAtom);
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
+    const router = useRouter();
 
     useEffect(() => {
         if (!cardId && isNaN(cardId)) return;
@@ -59,10 +60,15 @@ export const V3OrgCardDetailPage = memo(() => {
         });
     }, [cardId]);
 
+    const backBtnOnclick = () => {
+        router.push(V3OrgCardShowPageRoute.path(orgId));
+    };
+
     return (
         <V3ModalLikeLayoutMobile
             title="카드"
             modals={[CardNumberModal, CardNameModal, CardHoldingMember, CardCompanyModal, SelectAppModal]}
+            backBtnOnClick={backBtnOnclick}
         >
             <MobileSection.List>
                 {/* 카드정보 */}
@@ -82,7 +88,6 @@ export const V3OrgCardDetailPage = memo(() => {
                 </div>
 
                 {[
-                    !isAddCardModal,
                     !isInputCardNumberModal,
                     !isInputCardNameModal,
                     !isInputCardHoldingMemberModal,

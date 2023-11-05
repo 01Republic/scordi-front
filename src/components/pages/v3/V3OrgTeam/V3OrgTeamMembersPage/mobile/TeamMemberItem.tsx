@@ -21,9 +21,11 @@ export const TeamMemberItem = memo((props: TeamMemberItemProps) => {
     const {toast} = useToast();
 
     const onClick = () => {
-        approvalStatus === 'APPROVED'
-            ? router.push(V3OrgTeamMemberShowPageRoute.path(orgId, teamMember.id))
-            : toast.error('초대중인 멤버입니다.');
+        if (approvalStatus === 'PENDING') {
+            toast.error('초대중인 멤버입니다.');
+            return;
+        }
+        router.push(V3OrgTeamMemberShowPageRoute.path(orgId, teamMember.id));
     };
 
     return (

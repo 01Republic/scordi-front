@@ -6,11 +6,11 @@ export const WhatTimeWidget = memo(() => {
     <!-- WhatTime embed widget begin --> 
       <div 
         class="whattime-inline-widget" 
-        data-url="https://whattime.co.kr/01republic/scordi" 
+        data-url="https://whattime.co.kr/scordi_fred/onboarding"
         data-text-color="#1a1a1a" 
         data-button-color="#6454ff" 
         data-background-color="#ffffff" 
-        style="min-width: 320px; height: 690px;">
+        style="min-width: 320px;">
       </div>
       <link href="https://assets.whattime.co.kr/widget/widget.css" rel="stylesheet">
       <script src="https://assets.whattime.co.kr/widget/widget.js" type="text/javascript" async></script>

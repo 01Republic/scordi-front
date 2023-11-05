@@ -32,7 +32,7 @@ export class CreditCardDto {
     }
 
     get label(): string {
-        return `${this.name} ${this.company} ${this.endNumber}`;
+        return `${this.name} / ${this.company} ${this.endNumber}`;
     }
 
     private get company(): string | null {
