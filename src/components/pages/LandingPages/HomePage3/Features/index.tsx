@@ -27,14 +27,14 @@ export const Features = memo(function Features() {
                 }
                 desc2={
                     <ul>
-                        <li>🚩 구글 로그인으로 간단하고 쉬운 SaaS 연동</li>
-                        <li>🚩 API 기반으로 청구서 메일만 집계</li>
-                        <li>🚩 잊혀졌지만 아직 결제중인 SaaS 발견</li>
+                        <li>✔️ 구글 로그인으로 간단하고 쉬운 SaaS 연동</li>
+                        <li>✔️ API 기반으로 청구서 메일만 집계</li>
+                        <li>✔️ 잊혀졌지만 아직 결제중인 SaaS 발견</li>
                     </ul>
                 }
                 imgWidth="50%"
                 direct="right"
-                CTAButton={<CTAButton className="btn btn-scordi btn-lg">지금 확인하기</CTAButton>}
+                CTAButton={<CTAButton className="btn btn-scordi btn-lg" />}
             />
 
             {/* 구독현황 홈/분석 */}
@@ -51,14 +51,14 @@ export const Features = memo(function Features() {
                 }
                 desc2={
                     <ul>
-                        <li>🚩 운영 관리 보드 구축</li>
-                        <li>🚩 월별 지출 그래프 시각화</li>
-                        <li>🚩 SaaS별 비용 증감 추이 및 원인 분석</li>
+                        <li>✔️ 운영 관리 보드 구축</li>
+                        <li>✔️ 월별 지출 그래프 시각화</li>
+                        <li>✔️ SaaS별 비용 증감 추이 및 원인 분석</li>
                     </ul>
                 }
                 imgWidth="50%"
                 direct="left"
-                CTAButton={<CTAButton className="btn btn-scordi btn-lg">클릭 한 번에 확인</CTAButton>}
+                CTAButton={<CTAButton className="btn btn-scordi btn-lg" />}
             />
 
             {/* 결제내역 */}
@@ -80,25 +80,25 @@ export const Features = memo(function Features() {
                 }
                 desc2={
                     <ul>
-                        <li>🚩 SaaS 가입 시 입력한 결제 수신 이메일 파악</li>
-                        <li>🚩 SaaS별로 연결된 결제카드 및 결제 방식 조회</li>
-                        <li>🚩 결제주기에 따른 최근 결제일과 예정일/금액 확인</li>
+                        <li>✔️ SaaS 가입 시 입력한 결제 수신 이메일 파악</li>
+                        <li>✔️ SaaS별로 연결된 결제카드 및 결제 방식 조회</li>
+                        <li>✔️ 결제주기에 따른 최근 결제일과 예정일/금액 확인</li>
                     </ul>
                 }
                 imgWidth="50%"
                 direct="right"
-                CTAButton={<CTAButton className="btn btn-scordi btn-lg">SaaS 결제내역 모아보기</CTAButton>}
+                CTAButton={<CTAButton className="btn btn-scordi btn-lg" />}
             />
 
             {/* 결제내역 */}
             <USPSection2
                 label="주요알림"
-                imgUrl="/images/landing/features/4.notifications-3.png"
+                imgUrl="/images/landing/features/4.notifications-4.png"
                 imgStyle={{transform: 'scale(1)'}}
                 imgClass="py-16"
                 title={
                     <span>
-                        신경쓰지 않아도, <span className="block">스코디가 알려드릴게요</span>
+                        신경 쓰지 않아도, <span className="block">스코디가 알려드릴게요</span>
                     </span>
                 }
                 desc1={
@@ -110,19 +110,19 @@ export const Features = memo(function Features() {
                 }
                 desc2={
                     <ul>
-                        <li>🚩 월결제 1주전, 연결제 1달전 결제 예정 알림</li>
-                        <li>🚩 기능 업데이트로 인한 권한 설정 변동 시</li>
-                        <li>🚩 요금제 변경이나 서비스 가격 변동 시</li>
-                        <li>🚩 SaaS 구매 전 바우처, 브랜드 할인 혜택</li>
+                        <li>✔️ 월결제 1주전, 연결제 1달전 결제 예정 알림</li>
+                        <li>✔️ 기능 업데이트로 인한 권한 설정 변동 시</li>
+                        <li>✔️ 요금제 변경이나 서비스 가격 변동 시</li>
+                        <li>✔️ SaaS 구매 전 바우처, 브랜드 할인 혜택</li>
                         <li className="flex items-center gap-2">
-                            🚩 슬랙 등 기업 메신저 연동까지{' '}
+                            ✔️ 슬랙 등 기업 메신저 연동까지{' '}
                             <span className="badge bg-scordi-light text-white">Soon</span>
                         </li>
                     </ul>
                 }
                 imgWidth="50%"
                 direct="left"
-                CTAButton={<CTAButton className="btn btn-scordi btn-lg">SaaS 관리 알림받기</CTAButton>}
+                CTAButton={<CTAButton className="btn btn-scordi btn-lg" />}
             />
 
             {/* 일정과 알림 */}
@@ -144,21 +144,21 @@ export const Features = memo(function Features() {
                 }
                 desc2={
                     <ul>
-                        <li>🚩 공용계정 보관 및 동기화</li>
-                        <li>🚩 팀/구성원별 계정 접근 권한 제어</li>
-                        <li>🚩 퇴사자 발생시 공용계정 비밀번호 변경 및 접근해제</li>
-                        <li>🚩 확장프로그램을 통한 로그인 자동완성</li>
+                        <li>✔️ 공용계정 보관 및 동기화</li>
+                        <li>✔️ 팀/구성원별 계정 접근 권한 제어</li>
+                        <li>✔️ 퇴사자 발생시 공용계정 비밀번호 변경 및 접근해제</li>
+                        <li>✔️ 확장프로그램을 통한 로그인 자동완성</li>
                     </ul>
                 }
                 imgWidth="50%"
                 direct="right"
-                CTAButton={<CTAButton className="btn btn-scordi btn-lg">SaaS 보안 챙기기</CTAButton>}
+                CTAButton={<CTAButton className="btn btn-scordi btn-lg" />}
             />
 
             {/* 계정 */}
             <USPSection2
                 label="관리권한"
-                imgUrl="/images/landing/features/6.permissions-2.png"
+                imgUrl="/images/landing/features/6.permissions-3.png"
                 title={`조직도로 한 눈에 권한 파악`}
                 imgClass="py-16"
                 desc1={
@@ -169,14 +169,14 @@ export const Features = memo(function Features() {
                 }
                 desc2={
                     <ul>
-                        <li>🚩 구성원별 SaaS 권한 관리</li>
-                        <li>🚩 입퇴사 발생 시 SaaS 관리자/사용자 확인 용이</li>
-                        <li>🚩 SaaS 관리자 퇴사 시 다른 구성원에게 권한 배정</li>
+                        <li>✔️ 구성원별 SaaS 권한 관리</li>
+                        <li>✔️ 입퇴사 발생 시 SaaS 관리자/사용자 확인 용이</li>
+                        <li>✔️ SaaS 관리자 퇴사 시 다른 구성원에게 권한 배정</li>
                     </ul>
                 }
                 imgWidth="50%"
                 direct="left"
-                CTAButton={<CTAButton className="btn btn-scordi btn-lg">퇴사자 계정 제거하기</CTAButton>}
+                CTAButton={<CTAButton className="btn btn-scordi btn-lg" />}
             />
 
             {/* 자동화 */}
@@ -197,14 +197,14 @@ export const Features = memo(function Features() {
                 }
                 desc2={
                     <ul>
-                        <li>🚩 입사자 온보딩, 팀에 맞게 일괄 초대</li>
-                        <li>🚩 퇴사자 오프보딩, 이용중인 서비스 일괄 해제</li>
-                        <li>🚩 서비스별 결제 수단 일괄 변경</li>
+                        <li>✔️ 입사자 온보딩, 팀에 맞게 일괄 초대</li>
+                        <li>✔️ 퇴사자 오프보딩, 이용중인 서비스 일괄 해제</li>
+                        <li>✔️ 서비스별 결제 수단 일괄 변경</li>
                     </ul>
                 }
                 imgWidth="50%"
                 direct="right"
-                CTAButton={<CTAButton className="btn btn-scordi btn-lg">Coming Soon</CTAButton>}
+                CTAButton={<CTAButton className="btn btn-scordi btn-lg" />}
             />
         </div>
     );
@@ -223,9 +223,9 @@ export const Features = memo(function Features() {
 //     }
 //     desc2={
 //         <ul>
-//             <li>🚩 구글 로그인으로 간단하고 쉬운 SaaS 연동</li>
-//             <li>🚩 API 기반으로 청구서 메일만 집계</li>
-//             <li>🚩 잊혀졌지만 아직 결제중인 SaaS 발견</li>
+//             <li>✔️ 구글 로그인으로 간단하고 쉬운 SaaS 연동</li>
+//             <li>✔️ API 기반으로 청구서 메일만 집계</li>
+//             <li>✔️ 잊혀졌지만 아직 결제중인 SaaS 발견</li>
 //         </ul>
 //     }
 //     imgWidth="50%"
@@ -241,9 +241,9 @@ export const Features = memo(function Features() {
 //     desc1={<span>더 쉽게 파악하고, 필요한 조치를 확인하세요</span>}
 //     desc2={
 //         <ul>
-//             <li>🚩 대시보드와 분석</li>
-//             <li>🚩 팀별, 멤버별 서비스 이용현황</li>
-//             <li>🚩 서비스별 결제수단 관리</li>
+//             <li>✔️ 대시보드와 분석</li>
+//             <li>✔️ 팀별, 멤버별 서비스 이용현황</li>
+//             <li>✔️ 서비스별 결제수단 관리</li>
 //         </ul>
 //     }
 //     imgWidth="50%"
@@ -277,9 +277,9 @@ export const Features = memo(function Features() {
 //     }
 //     desc2={
 //         <ul>
-//             <li>🚩 서비스 의사결정 어드바이저</li>
-//             <li>🚩 업데이트 소식 알림</li>
-//             <li>🚩 이상한 사용 패턴 탐지 & 위험 알림</li>
+//             <li>✔️ 서비스 의사결정 어드바이저</li>
+//             <li>✔️ 업데이트 소식 알림</li>
+//             <li>✔️ 이상한 사용 패턴 탐지 & 위험 알림</li>
 //         </ul>
 //     }
 //     imgWidth="50%"
@@ -300,9 +300,9 @@ export const Features = memo(function Features() {
 //     }
 //     desc2={
 //         <ul>
-//             <li>🚩 계정 자동완성 확장프로그램</li>
-//             <li>🚩 사용자별 공유 권한 설정</li>
-//             <li>🚩 비밀번호 변경과 유지관리도 한 번에</li>
+//             <li>✔️ 계정 자동완성 확장프로그램</li>
+//             <li>✔️ 사용자별 공유 권한 설정</li>
+//             <li>✔️ 비밀번호 변경과 유지관리도 한 번에</li>
 //         </ul>
 //     }
 //     imgWidth="50%"

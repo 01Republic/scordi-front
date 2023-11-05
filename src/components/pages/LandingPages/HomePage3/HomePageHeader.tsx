@@ -68,7 +68,7 @@ export const HomePageHeader = memo(() => {
                                             className="btn normal-case shadow-lg w-[11em] text-[18px] sm:w-auto sm:btn-lg"
                                             onClick={() => downloadScordiProposal()}
                                         >
-                                            소개서 다운로드
+                                            소개서 전달받기
                                         </button>
                                     </div>
                                 </div>

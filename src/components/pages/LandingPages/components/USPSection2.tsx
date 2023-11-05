@@ -60,7 +60,7 @@ export const USPSection2 = memo((props: USPSectionProps) => {
                     </h2>
                     {desc1 && (
                         <div
-                            className="mb-6 md:text-xl italic text-gray-500 font-light"
+                            className="mb-6 md:text-xl text-gray-500 font-light"
                             // data-aos="fade-up"
                             // data-aos-anchor-placement="center-bottom"
                         >
