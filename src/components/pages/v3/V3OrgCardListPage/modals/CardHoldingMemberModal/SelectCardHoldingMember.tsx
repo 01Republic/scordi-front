@@ -5,7 +5,7 @@ import {useTeamMembers} from '^hooks/useTeamMembers';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {CreatableSelect} from '^components/util/react-select/CreatableSelect';
 import {useCreditCardsOfOrganization} from '^hooks/useCreditCards';
-import {TeamMemberSelectOption as Option} from '^v3/V3OrgCardShowPage/modals/CardHoldingMemberModal/TeamMemberSelectOption';
+import {TeamMemberSelectOption as Option} from '^components/pages/v3/V3OrgCardListPage/modals/CardHoldingMemberModal/TeamMemberSelectOption';
 import {UnSignedCreditCardFormData} from '^types/credit-cards.type';
 import {useMoveScroll} from '^hooks/useMoveScroll';
 

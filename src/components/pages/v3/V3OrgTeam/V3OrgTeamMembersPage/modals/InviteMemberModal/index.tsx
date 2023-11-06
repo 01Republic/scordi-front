@@ -79,11 +79,11 @@ export const InviteOrgMemberModal = memo(() => {
         // 로딩중이 아닐때만 실행
         if (!isLoading) {
             setIsLoading(true);
-            const datas = await CreateMembershipInvite({
+            const res = await CreateMembershipInvite({
                 organizationId: currentOrg.id,
                 invitedEmails: createInvitedEmails,
             });
-            if (datas) {
+            if (res) {
                 close();
                 setIsLoading(false);
                 Swal.fire({

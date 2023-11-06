@@ -4,17 +4,17 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {AiOutlineEdit} from 'react-icons/ai';
 import {useModal} from '../../share/modals/useModal';
 import {
-    inputCardHoldingMemeberModal,
+    inputCardHoldingMemberModal,
     inputCardNameModal,
     inputCardNumberModal,
     selectCardCompanyModal,
     currentCreditCardAtom,
-} from '../../V3OrgCardShowPage/modals/atom';
-import {creditCardSignAtom} from '../../V3OrgCardShowPage/atom';
+} from '../../V3OrgCardListPage/modals/atom';
+import {creditCardSignAtom} from '../../V3OrgCardListPage/atom';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {useRouter} from 'next/router';
-import {V3OrgCardShowPageRoute} from '^pages/v3/orgs/[orgId]/cards';
+import {V3OrgCardListPageRoute} from '^pages/v3/orgs/[orgId]/cards';
 import Swal from 'sweetalert2';
 
 export const InformationPanel = memo(() => {
@@ -22,7 +22,7 @@ export const InformationPanel = memo(() => {
     const currentCreditCard = useRecoilValue(currentCreditCardAtom);
     const {open: openInputCardNameModal} = useModal(inputCardNameModal);
     const {open: openInputCardNumberModal} = useModal(inputCardNumberModal);
-    const {open: openInputCardHoldingMemberModal} = useModal(inputCardHoldingMemeberModal);
+    const {open: openInputCardHoldingMemberModal} = useModal(inputCardHoldingMemberModal);
     const {open: openSelectCardCompanyModal} = useModal(selectCardCompanyModal);
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
@@ -51,7 +51,7 @@ export const InformationPanel = memo(() => {
                     }),
                 );
                 setTimeout(() => {
-                    router.replace(V3OrgCardShowPageRoute.path(orgId));
+                    router.replace(V3OrgCardListPageRoute.path(orgId));
                 }, 1500);
             }
         });

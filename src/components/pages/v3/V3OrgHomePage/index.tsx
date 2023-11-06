@@ -29,11 +29,11 @@ import {RenewInvoiceAccountModalMobile} from '^v3/V3OrgHomePage/RenewInvoiceAcco
 import {MonthlyPaidAmountModal} from '^v3/V3OrgHomePage/MonthlyPaidAmountModal';
 import {MonthlyRemainAmountModal} from '^v3/V3OrgHomePage/MonthlyRemainAmountModal';
 import {CardsPanel} from './mobile/CardsPanel';
-import {CardNumberModal} from '^v3/V3OrgCardShowPage/modals/CardNumberModal';
-import {CardCompanyModal} from '^v3/V3OrgCardShowPage/modals/CardCompanyModal';
-import {CardNameModal} from '^v3/V3OrgCardShowPage/modals/CardNameModal';
-import {CardHoldingMember} from '^v3/V3OrgCardShowPage/modals/CardHoldingMemberModal';
-import {SelectAppModal} from '^v3/V3OrgCardShowPage/modals/SelectAppModal';
+import {CardNumberModal} from '^components/pages/v3/V3OrgCardListPage/modals/CardNumberModal';
+import {CardCompanyModal} from '^components/pages/v3/V3OrgCardListPage/modals/CardCompanyModal';
+import {CardNameModal} from '^components/pages/v3/V3OrgCardListPage/modals/CardNameModal';
+import {CardHoldingMember} from '^components/pages/v3/V3OrgCardListPage/modals/CardHoldingMemberModal';
+import {SelectAppModal} from '^components/pages/v3/V3OrgCardListPage/modals/SelectAppModal';
 
 export const V3OrgHomePage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);

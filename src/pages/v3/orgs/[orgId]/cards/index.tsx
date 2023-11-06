@@ -1,13 +1,13 @@
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {V3OrgCardShowPage} from '^components/pages/v3/V3OrgCardShowPage';
+import {V3OrgCardListPage} from '^components/pages/v3/V3OrgCardListPage';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 
-export const V3OrgCardShowPageRoute = pathRoute({
+export const V3OrgCardListPageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]/cards',
     path: (orgId: number) =>
-        pathReplace(V3OrgCardShowPageRoute.pathname, {
+        pathReplace(V3OrgCardListPageRoute.pathname, {
             orgId,
         }),
 });
@@ -33,5 +33,5 @@ export default function Page() {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     if (!orgId) return <></>;
 
-    return <V3OrgCardShowPage />;
+    return <V3OrgCardListPage />;
 }

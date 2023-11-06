@@ -11,31 +11,31 @@ import {
     selectCardCompanyModal,
     inputCardNumberModal,
     selectAppModal,
-    inputCardHoldingMemeberModal,
+    inputCardHoldingMemberModal,
     currentCreditCardAtom,
     updateCreditCardDtoAtom,
-} from '../V3OrgCardShowPage/modals/atom';
-import {CardNumberModal} from '../V3OrgCardShowPage/modals/CardNumberModal';
-import {CardNameModal} from '../V3OrgCardShowPage/modals/CardNameModal';
-import {CardCompanyModal} from '../V3OrgCardShowPage/modals/CardCompanyModal';
-import {SelectAppModal} from '../V3OrgCardShowPage/modals/SelectAppModal';
-import {CardHoldingMember} from '../V3OrgCardShowPage/modals/CardHoldingMemberModal';
+} from '../V3OrgCardListPage/modals/atom';
+import {CardNumberModal} from '../V3OrgCardListPage/modals/CardNumberModal';
+import {CardNameModal} from '../V3OrgCardListPage/modals/CardNameModal';
+import {CardCompanyModal} from '../V3OrgCardListPage/modals/CardCompanyModal';
+import {SelectAppModal} from '../V3OrgCardListPage/modals/SelectAppModal';
+import {CardHoldingMember} from '../V3OrgCardListPage/modals/CardHoldingMemberModal';
 import {ContentEmpty} from '../V3OrgHomePage/mobile/ContentEmpty';
 import {creditCardApi} from '^api/credit-cards.api';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {cardSign} from '^config/environments';
-import {creditCardSignAtom, subscriptionsAtom} from '../V3OrgCardShowPage/atom';
+import {creditCardSignAtom, subscriptionsAtom} from '../V3OrgCardListPage/atom';
 import {SubscriptionItem} from '../V3OrgHomePage/mobile/SubscriptionItem';
 import {plainToInstance} from 'class-transformer';
-import {UnSignedCreditCardFormData, UpdateCreditCardDto} from '^types/credit-cards.type';
+import {UnSignedCreditCardFormData} from '^types/credit-cards.type';
 import {useRouter} from 'next/router';
-import {V3OrgCardShowPageRoute} from '^pages/v3/orgs/[orgId]/cards';
+import {V3OrgCardListPageRoute} from '^pages/v3/orgs/[orgId]/cards';
 
 // TODO: [to.진경님] V3OrgCardShowPage 에서 드렸던 코멘트들 참고해서 같은 부분들 많이 보이는데 리팩토링 해보시죠!
 export const V3OrgCardDetailPage = memo(() => {
     const {isShow: isInputCardNumberModal} = useModal(inputCardNumberModal);
     const {isShow: isInputCardNameModal} = useModal(inputCardNameModal);
-    const {isShow: isInputCardHoldingMemberModal} = useModal(inputCardHoldingMemeberModal);
+    const {isShow: isInputCardHoldingMemberModal} = useModal(inputCardHoldingMemberModal);
     const {isShow: isSelectCardCompanyModal} = useModal(selectCardCompanyModal);
     const {open: openSelectAppModal, isShow: isSelectAppModal} = useModal(selectAppModal);
     const [subscriptions, setSubscriptions] = useRecoilState(subscriptionsAtom);
@@ -61,7 +61,7 @@ export const V3OrgCardDetailPage = memo(() => {
     }, [cardId]);
 
     const backBtnOnclick = () => {
-        router.push(V3OrgCardShowPageRoute.path(orgId));
+        router.push(V3OrgCardListPageRoute.path(orgId));
     };
 
     return (

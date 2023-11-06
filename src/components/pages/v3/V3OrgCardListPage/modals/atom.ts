@@ -29,13 +29,12 @@ export const inputCardNameModal = {
     popStateSyncKey: 'inputCardNameModal',
 };
 
-export const inputCardHoldingMemeberModal = {
-    // TODO: [to.진경님] 오잉? 스펠링 이거 오타같아요! 메메버 ㅋㅋㅋㅋㅋㅋ
+export const inputCardHoldingMemberModal = {
     isShowAtom: atom({
-        key: 'v3/inputCardHoldingMemeberModal',
+        key: 'v3/inputCardHoldingMemberModal',
         default: false,
     }),
-    popStateSyncKey: 'inputCardHoldingMemeberModal',
+    popStateSyncKey: 'inputCardHoldingMemberModal',
 };
 
 export const selectAppModal = {

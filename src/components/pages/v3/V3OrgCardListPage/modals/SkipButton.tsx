@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {inputCardHoldingMemeberModal, inputCardNameModal, selectAppModal} from './atom';
+import {inputCardHoldingMemberModal, inputCardNameModal, selectAppModal} from './atom';
 import {useModal} from '../../share/modals/useModal';
 
 interface SkipButtonProps {
@@ -11,7 +11,7 @@ interface SkipButtonProps {
 export const SkipButton = memo((props: SkipButtonProps) => {
     const {currentModal, isModify, submitCardNumber} = props;
     const {open: openCardNameModal} = useModal(inputCardNameModal);
-    const {open: openCardHoldingMemberModal} = useModal(inputCardHoldingMemeberModal);
+    const {open: openCardHoldingMemberModal} = useModal(inputCardHoldingMemberModal);
     const {open: openSelectAppsModal} = useModal(selectAppModal);
 
     const skipModal = () => {

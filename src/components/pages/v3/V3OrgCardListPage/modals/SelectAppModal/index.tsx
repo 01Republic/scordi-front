@@ -5,7 +5,7 @@ import {useToast} from '^hooks/useToast';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
-import {SkipButton} from '^v3/V3OrgCardShowPage/modals/SkipButton';
+import {SkipButton} from '^components/pages/v3/V3OrgCardListPage/modals/SkipButton';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {V3OrgCardDetailPageRoute} from '^pages/v3/orgs/[orgId]/cards/[cardId]';
 import {CardAppList} from './CardAppList';
@@ -38,10 +38,10 @@ export const SelectAppModal = memo(() => {
     const onSubmit = async () => {
         const submitData = {...createCreditCardDto, productIds: productIds};
 
-        const datas = await creditCardApi.create(orgId, submitData);
+        const res = await creditCardApi.create(orgId, submitData);
 
-        if (datas) {
-            const cardId = datas.data.id;
+        if (res) {
+            const cardId = res.data.id;
             router.push(V3OrgCardDetailPageRoute.path(orgId, cardId));
         }
     };
@@ -50,10 +50,10 @@ export const SelectAppModal = memo(() => {
     const onUpdate = async () => {
         if (!selectedApps) return;
 
-        const datas = await creditCardApi.update(orgId, cardId, {productIds: productIds});
+        const res = await creditCardApi.update(orgId, cardId, {productIds: productIds});
 
-        if (datas) {
-            setSubscriptions(datas.data.subscriptions ?? []);
+        if (res) {
+            setSubscriptions(res.data.subscriptions ?? []);
             close();
             toast.success('변경되었습니다.');
         }

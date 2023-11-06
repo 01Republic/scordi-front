@@ -8,21 +8,20 @@ import {useModal} from '../share/modals/useModal';
 import {
     inputCardNameModal,
     inputCardNumberModal,
-    inputCardHoldingMemeberModal,
+    inputCardHoldingMemberModal,
     selectAppModal,
     selectCardCompanyModal,
 } from './modals/atom';
 import {useRouter} from 'next/router';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {CardFormModalGroup} from '^v3/V3OrgCardShowPage/modals/CardFormModalGroup';
+import {CardFormModalGroup} from '^components/pages/v3/V3OrgCardListPage/modals/CardFormModalGroup';
 
-// TODO: [to.진경님] 엥 자세히 보니까 여기 카드 '목록페이지' 같아보이는데, 그 의도가 맞다면 이름이 V3OrgCardListPage 가 맞을 것 같아요!
-export const V3OrgCardShowPage = memo(() => {
+export const V3OrgCardListPage = memo(() => {
     const {open: openInputCardNumberModal, isShow: isInputCardNumberModal} = useModal(inputCardNumberModal);
     const {isShow: isSelectCardCompanyModal} = useModal(selectCardCompanyModal);
     const {isShow: isInputCardNameModal} = useModal(inputCardNameModal);
-    const cardHolderInputModal = useModal(inputCardHoldingMemeberModal);
+    const cardHolderInputModal = useModal(inputCardHoldingMemberModal);
     const selectAppInputModal = useModal(selectAppModal);
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const router = useRouter();
@@ -56,7 +55,7 @@ export const V3OrgCardShowPage = memo(() => {
                     //  2) isShow 가 반복적으로 등장하고 있다는 점이 오히려 통일감이 있어 가독성이 높아지는 것 같아요
                     //  3) useModal 처럼, 오브젝트로 리턴값을 반환하는 경우에, 꼭 반드시 구조분해해서 받을 필요는 없다는 점도 겸사겸사 말씀 드릴 수 있을 것 같아요. (지금처럼 경우에 따라서는, 오히려 구조분해한 변수를 작명하는 과정에서 의도치 않게 코드를 왜곡하게 될 위험이 있어요.)
                     !cardHolderInputModal.isShow,
-                    // !isInputCardHoldingMemeberModal,
+                    // !isInputCardHoldingMemberModal,
                     !selectAppInputModal.isShow,
                     // !isSelectAppModal,
                 ].every((e) => e) && (

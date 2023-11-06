@@ -1,16 +1,16 @@
 import React, {memo, useEffect} from 'react';
 import {useRouter} from 'next/router';
-import {V3OrgCardShowPageRoute} from '^pages/v3/orgs/[orgId]/cards';
+import {V3OrgCardListPageRoute} from '^pages/v3/orgs/[orgId]/cards';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {AddButton} from './AddButton';
 import {creditCardApi} from '^api/credit-cards.api';
 import {CardItem} from './CardItem';
 import {useRecoilState} from 'recoil';
-import {creditCardListAtom} from '^v3/V3OrgCardShowPage/atom';
+import {creditCardListAtom} from '^components/pages/v3/V3OrgCardListPage/atom';
 import {useModal} from '^v3/share/modals/useModal';
 import {ContentEmpty} from '^v3/V3OrgHomePage/mobile/ContentEmpty';
-import {inputCardNumberModal} from '^v3/V3OrgCardShowPage/modals/atom';
+import {inputCardNumberModal} from '^components/pages/v3/V3OrgCardListPage/modals/atom';
 
 export const CardsPanel = memo(() => {
     const router = useRouter();
@@ -42,7 +42,7 @@ export const CardsPanel = memo(() => {
                         {creditCardList.map((card) => (
                             <CardItem card={card} setCreditCardList={setCreditCardList} />
                         ))}
-                        <AddButton title="더 보기" onClick={() => router.push(V3OrgCardShowPageRoute.path(orgId))} />
+                        <AddButton title="더 보기" onClick={() => router.push(V3OrgCardListPageRoute.path(orgId))} />
                     </>
                 ) : (
                     <ContentEmpty text="연결된 카드가 없어요" subtext="눌러서 카드 추가" onClick={onAddButtonClick} />
