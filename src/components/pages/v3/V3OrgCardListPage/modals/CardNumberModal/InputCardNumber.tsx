@@ -74,9 +74,9 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
     };
 
     const maxLength = (e: FormEvent<HTMLInputElement>) => {
-        // TODO: [to.진경님] 한 줄로 붙일 수 없는 if 블록은 중괄호를 생략하지 않는게 좋겠어요!
-        if (e.currentTarget.value.length > e.currentTarget.maxLength)
+        if (e.currentTarget.value.length > e.currentTarget.maxLength) {
             e.currentTarget.value = e.currentTarget.value.slice(0, e.currentTarget.maxLength);
+        }
     };
 
     // if (!cardInfo) return <></>;

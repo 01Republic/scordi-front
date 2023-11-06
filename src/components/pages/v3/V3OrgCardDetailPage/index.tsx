@@ -33,10 +33,10 @@ import {V3OrgCardListPageRoute} from '^pages/v3/orgs/[orgId]/cards';
 
 // TODO: [to.진경님] V3OrgCardShowPage 에서 드렸던 코멘트들 참고해서 같은 부분들 많이 보이는데 리팩토링 해보시죠!
 export const V3OrgCardDetailPage = memo(() => {
-    const {isShow: isInputCardNumberModal} = useModal(inputCardNumberModal);
-    const {isShow: isInputCardNameModal} = useModal(inputCardNameModal);
-    const {isShow: isInputCardHoldingMemberModal} = useModal(inputCardHoldingMemberModal);
-    const {isShow: isSelectCardCompanyModal} = useModal(selectCardCompanyModal);
+    const cardNumberModal = useModal(inputCardNumberModal);
+    const cardNameModal = useModal(inputCardNameModal);
+    const cardHoldingMemberModal = useModal(inputCardHoldingMemberModal);
+    const cardCompanyModal = useModal(selectCardCompanyModal);
     const {open: openSelectAppModal, isShow: isSelectAppModal} = useModal(selectAppModal);
     const [subscriptions, setSubscriptions] = useRecoilState(subscriptionsAtom);
     const setCurrentCreditCard = useSetRecoilState(currentCreditCardAtom);
@@ -64,6 +64,18 @@ export const V3OrgCardDetailPage = memo(() => {
         router.push(V3OrgCardListPageRoute.path(orgId));
     };
 
+    const isModalClose = () => {
+        if (
+            cardNumberModal.isShow ||
+            cardNameModal.isShow ||
+            cardHoldingMemberModal.isShow ||
+            cardCompanyModal.isShow ||
+            isSelectAppModal
+        )
+            return false;
+        else return true;
+    };
+
     return (
         <V3ModalLikeLayoutMobile
             title="카드"
@@ -87,13 +99,7 @@ export const V3OrgCardDetailPage = memo(() => {
                     </MobileSection.Padding>
                 </div>
 
-                {[
-                    !isInputCardNumberModal,
-                    !isInputCardNameModal,
-                    !isInputCardHoldingMemberModal,
-                    !isSelectCardCompanyModal,
-                    !isSelectAppModal,
-                ].every((e) => e) && (
+                {isModalClose() && (
                     <button className="btn btn-lg btn-scordi btn-circle btn-floating">
                         <BsPlus size={48} onClick={openSelectAppModal} />
                     </button>
