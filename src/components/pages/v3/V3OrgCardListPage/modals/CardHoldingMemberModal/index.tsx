@@ -4,7 +4,7 @@ import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {createCreditCardDtoAtom, currentCreditCardAtom} from '../atom';
-import {useRecoilState, useSetRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {SelectCardHoldingMember} from '^components/pages/v3/V3OrgCardListPage/modals/CardHoldingMemberModal/SelectCardHoldingMember';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
@@ -20,7 +20,7 @@ export const CardHoldingMember = memo(() => {
     const {open: openSelectAppModal} = useModal(selectAppModal);
     const [createCreditCardData, setCreateCreditCardData] = useRecoilState(createCreditCardDtoAtom);
     const setCurrenCreditCard = useSetRecoilState(currentCreditCardAtom);
-    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const orgId = useRecoilValue(orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
     const form = useForm<UnSignedCreditCardFormData>();
     const {toast} = useToast();

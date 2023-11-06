@@ -2,11 +2,11 @@ import React, {memo, useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {V3OrgCardListPageRoute} from '^pages/v3/orgs/[orgId]/cards';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {orgIdParamState} from '^atoms/common';
 import {AddButton} from './AddButton';
 import {creditCardApi} from '^api/credit-cards.api';
 import {CardItem} from './CardItem';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {creditCardListAtom} from '^components/pages/v3/V3OrgCardListPage/atom';
 import {useModal} from '^v3/share/modals/useModal';
 import {ContentEmpty} from '^v3/V3OrgHomePage/mobile/ContentEmpty';
@@ -14,10 +14,10 @@ import {inputCardNumberModal} from '../../V3OrgCardListPage/modals/CardNumberMod
 
 export const CardsPanel = memo(() => {
     const router = useRouter();
-    const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const [creditCardList, setCreditCardList] = useRecoilState(creditCardListAtom);
-    const length = creditCardList.length;
+    const orgId = useRecoilValue(orgIdParamState);
     const cardNumberModal = useModal(inputCardNumberModal);
+    const length = creditCardList.length;
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;

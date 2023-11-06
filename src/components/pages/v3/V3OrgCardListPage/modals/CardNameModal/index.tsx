@@ -1,5 +1,5 @@
 import React, {memo, useEffect, useRef} from 'react';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {useForm} from 'react-hook-form';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
@@ -18,7 +18,7 @@ export const CardNameModal = memo(() => {
     const cardHolderModal = useModal(inputCardHoldingMemberModal);
     const [createCreditCardDto, setCreateCreditCardDto] = useRecoilState(createCreditCardDtoAtom);
     const [currentCreditCard, setCurrenCreditCard] = useRecoilState(currentCreditCardAtom);
-    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const orgId = useRecoilValue(orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
     const form = useForm();
     const {toast} = useToast();

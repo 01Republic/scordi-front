@@ -1,5 +1,5 @@
 import React, {memo, useState} from 'react';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import Select from 'react-select';
 import {useToast} from '^hooks/useToast';
 import {useModal} from '../../../share/modals/useModal';
@@ -20,7 +20,7 @@ export const CardCompanyModal = memo(() => {
     const [createCreditCardDto, setCreateCreditCardDto] = useRecoilState(createCreditCardDtoAtom);
     const [currentCreditCard, setCurrenCreditCard] = useRecoilState(currentCreditCardAtom);
     const [issuerCompany, setIssuerCompany] = useState('');
-    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const orgId = useRecoilValue(orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
     const {selectRef, onScroll} = useMoveScroll();
     const {toast} = useToast();

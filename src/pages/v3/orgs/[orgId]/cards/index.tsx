@@ -1,4 +1,4 @@
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {V3OrgCardListPage} from '^components/pages/v3/V3OrgCardListPage';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
@@ -31,6 +31,7 @@ export const getStaticProps = async ({locale}: any) => ({
 
 export default function Page() {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
+
     if (!orgId) return <></>;
 
     return <V3OrgCardListPage />;

@@ -1,5 +1,5 @@
 import React, {memo, useEffect} from 'react';
-import {useRecoilState, useSetRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import CryptoJS from 'crypto-js';
 import {MobileSection} from '../share/sections/MobileSection';
 import {V3ModalLikeLayoutMobile} from '../layouts/V3ModalLikeLayout.mobile';
@@ -34,8 +34,8 @@ export const V3OrgCardDetailPage = memo(() => {
     const setCurrentCreditCard = useSetRecoilState(currentCreditCardAtom);
     const setCardDetailInfo = useSetRecoilState(updateCreditCardDtoAtom);
     const setCardSignInfo = useSetRecoilState(creditCardSignAtom);
-    const orgId = useRouterIdParamState('orgId', orgIdParamState);
-    const cardId = useRouterIdParamState('cardId', cardIdParamState);
+    const orgId = useRecoilValue(orgIdParamState);
+    const cardId = useRecoilValue(cardIdParamState);
     const router = useRouter();
 
     useEffect(() => {
@@ -50,7 +50,7 @@ export const V3OrgCardDetailPage = memo(() => {
             const toString = JSON.parse(json);
             setCardSignInfo(toString);
         });
-    }, [cardId]);
+    }, [orgId, cardId]);
 
     const backBtnOnclick = () => {
         router.push(V3OrgCardListPageRoute.path(orgId));

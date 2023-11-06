@@ -1,6 +1,6 @@
 import React, {Dispatch, FormEvent, memo, useEffect, useState} from 'react';
 import {UseFormReturn} from 'react-hook-form';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {CreditCardSecretInfo, UnSignedCreditCardFormData} from '^types/credit-cards.type';
 import {currentCreditCardAtom} from '^components/pages/v3/V3OrgCardListPage/modals/atom';
 import CryptoJS from 'crypto-js';

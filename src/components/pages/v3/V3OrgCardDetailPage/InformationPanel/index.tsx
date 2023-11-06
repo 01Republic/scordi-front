@@ -22,8 +22,8 @@ export const InformationPanel = memo(() => {
     const {open: openInputCardNumberModal} = useModal(inputCardNumberModal);
     const {open: openInputCardHoldingMemberModal} = useModal(inputCardHoldingMemberModal);
     const {open: openSelectCardCompanyModal} = useModal(selectCardCompanyModal);
-    const orgId = useRouterIdParamState('orgId', orgIdParamState);
-    const cardId = useRouterIdParamState('cardId', cardIdParamState);
+    const orgId = useRecoilValue(orgIdParamState);
+    const cardId = useRecoilValue(cardIdParamState);
     const router = useRouter();
 
     // 카드 삭제 함수

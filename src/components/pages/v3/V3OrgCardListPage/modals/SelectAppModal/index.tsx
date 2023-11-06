@@ -1,6 +1,6 @@
 import React, {memo, useEffect} from 'react';
 import {useRouter} from 'next/router';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {useToast} from '^hooks/useToast';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
@@ -21,10 +21,14 @@ export const SelectAppModal = memo(() => {
     const [selectedApps, setSelectedApps] = useRecoilState(selectedAppsAtom);
     const [subscriptions, setSubscriptions] = useRecoilState(subscriptionsAtom);
     const [productIds, setProductIds] = useRecoilState(productIdsAtom);
-    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const orgId = useRecoilValue(orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
     const router = useRouter();
     const {toast} = useToast();
+
+    useEffect(() => {
+        console.log(cardId);
+    }, [cardId]);
 
     useEffect(() => {
         if (selectedApps.length && productIds.length) return;

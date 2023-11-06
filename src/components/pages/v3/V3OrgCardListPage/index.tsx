@@ -7,13 +7,15 @@ import {MobileSection} from '../share/sections/MobileSection';
 import {useModal} from '../share/modals/useModal';
 import {useRouter} from 'next/router';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {orgIdParamState} from '^atoms/common';
 import {CardFormModalGroup} from '^components/pages/v3/V3OrgCardListPage/modals/CardFormModalGroup';
 import {inputCardNumberModal} from './modals/CardNumberModal/atom';
+import {useRecoilValue} from 'recoil';
 
 export const V3OrgCardListPage = memo(() => {
     const cardNumberModal = useModal(inputCardNumberModal);
-    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const orgId = useRecoilValue(orgIdParamState);
+
     const router = useRouter();
 
     const backBtnOnclick = () => {
@@ -24,8 +26,6 @@ export const V3OrgCardListPage = memo(() => {
         <V3ModalLikeLayoutMobile title="카드" backBtnOnClick={backBtnOnclick}>
             <MobileSection.List>
                 <HeaderPanel />
-
-                {/* 연동된 서비스 목록 */}
 
                 <MobileSection.Item>
                     <MobileSection.Padding>

@@ -1,5 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useRecoilState, useSetRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {useForm} from 'react-hook-form';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
@@ -23,7 +23,7 @@ export const CardNumberModal = memo(() => {
     const [createCreditCardDto, setCreateCreditCardDto] = useRecoilState(createCreditCardDtoAtom);
     const [disabled, setDisabled] = useState(true);
     const setCardSignInfo = useSetRecoilState(creditCardSignAtom);
-    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const orgId = useRecoilValue(orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
     const {toast} = useToast();
 
