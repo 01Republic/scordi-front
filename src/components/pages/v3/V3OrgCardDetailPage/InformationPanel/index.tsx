@@ -3,19 +3,17 @@ import {useRecoilValue} from 'recoil';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {AiOutlineEdit} from 'react-icons/ai';
 import {useModal} from '../../share/modals/useModal';
-import {
-    inputCardHoldingMemberModal,
-    inputCardNameModal,
-    inputCardNumberModal,
-    selectCardCompanyModal,
-    currentCreditCardAtom,
-} from '../../V3OrgCardListPage/modals/atom';
+import {currentCreditCardAtom} from '../../V3OrgCardListPage/modals/atom';
 import {creditCardSignAtom} from '../../V3OrgCardListPage/atom';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {useRouter} from 'next/router';
 import {V3OrgCardListPageRoute} from '^pages/v3/orgs/[orgId]/cards';
 import Swal from 'sweetalert2';
+import {inputCardNumberModal} from '../../V3OrgCardListPage/modals/CardNumberModal/atom';
+import {selectCardCompanyModal} from '../../V3OrgCardListPage/modals/CardCompanyModal/atom';
+import {inputCardNameModal} from '../../V3OrgCardListPage/modals/CardNameModal/atom';
+import {inputCardHoldingMemberModal} from '../../V3OrgCardListPage/modals/CardHoldingMemberModal/atom';
 
 export const InformationPanel = memo(() => {
     const cardInfo = useRecoilValue(creditCardSignAtom);

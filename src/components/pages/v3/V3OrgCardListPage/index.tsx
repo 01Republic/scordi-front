@@ -5,11 +5,11 @@ import {CardList} from './CardList';
 import {V3ModalLikeLayoutMobile} from '../layouts/V3ModalLikeLayout.mobile';
 import {MobileSection} from '../share/sections/MobileSection';
 import {useModal} from '../share/modals/useModal';
-import {inputCardNumberModal} from './modals/atom';
 import {useRouter} from 'next/router';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {CardFormModalGroup} from '^components/pages/v3/V3OrgCardListPage/modals/CardFormModalGroup';
+import {inputCardNumberModal} from './modals/CardNumberModal/atom';
 
 export const V3OrgCardListPage = memo(() => {
     const cardNumberModal = useModal(inputCardNumberModal);
@@ -21,7 +21,7 @@ export const V3OrgCardListPage = memo(() => {
     };
 
     return (
-        <V3ModalLikeLayoutMobile title="카드" modals={[CardFormModalGroup]} backBtnOnClick={backBtnOnclick}>
+        <V3ModalLikeLayoutMobile title="카드" backBtnOnClick={backBtnOnclick}>
             <MobileSection.List>
                 <HeaderPanel />
 
@@ -42,6 +42,7 @@ export const V3OrgCardListPage = memo(() => {
                     </button>
                 )}
             </MobileSection.List>
+            <CardFormModalGroup />
         </V3ModalLikeLayoutMobile>
     );
 });

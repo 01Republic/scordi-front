@@ -1,12 +1,13 @@
 import React, {memo, useEffect} from 'react';
 import {useModal} from '../share/modals/useModal';
 import {CardItem} from '../V3OrgHomePage/mobile/CardItem';
-import {inputCardNumberModal} from './modals/atom';
+
 import {ContentEmpty} from '../V3OrgHomePage/mobile/ContentEmpty';
 import {creditCardApi} from '^api/credit-cards.api';
 import {orgIdParamState} from '^atoms/common';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {creditCardListAtom} from './atom';
+import {inputCardNumberModal} from './modals/CardNumberModal/atom';
 
 export const CardList = memo(() => {
     const {open: openInputCardNumberModal} = useModal(inputCardNumberModal);

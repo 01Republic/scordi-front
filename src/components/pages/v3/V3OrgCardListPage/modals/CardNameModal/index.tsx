@@ -4,16 +4,18 @@ import {useForm} from 'react-hook-form';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {inputCardNameModal, inputCardHoldingMemberModal, createCreditCardDtoAtom, currentCreditCardAtom} from './atom';
+import {createCreditCardDtoAtom, currentCreditCardAtom} from '../atom';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {useToast} from '^hooks/useToast';
-import {ModalLikeBottomBar} from '../../layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
+import {ModalLikeBottomBar} from '../../../layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {SkipButton} from '^components/pages/v3/V3OrgCardListPage/modals/SkipButton';
+import {inputCardNameModal} from './atom';
+import {inputCardHoldingMemberModal} from '../CardHoldingMemberModal/atom';
 
 export const CardNameModal = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardNameModal);
-    const {open: openInputCardHoldingMemberModal} = useModal(inputCardHoldingMemberModal);
+    const cardHolderModal = useModal(inputCardHoldingMemberModal);
     const [createCreditCardDto, setCreateCreditCardDto] = useRecoilState(createCreditCardDtoAtom);
     const [currentCreditCard, setCurrenCreditCard] = useRecoilState(currentCreditCardAtom);
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
@@ -89,7 +91,7 @@ export const CardNameModal = memo(() => {
                     <button
                         onClick={() => {
                             onSubmit();
-                            openInputCardHoldingMemberModal();
+                            cardHolderModal.open();
                         }}
                         className="btn-modal"
                     >

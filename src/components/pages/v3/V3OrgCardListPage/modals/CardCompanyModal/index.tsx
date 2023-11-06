@@ -2,15 +2,17 @@ import React, {memo, useState} from 'react';
 import {useRecoilState} from 'recoil';
 import Select from 'react-select';
 import {useToast} from '^hooks/useToast';
-import {useModal} from '../../share/modals/useModal';
-import {ModalTopbar} from '../../share/modals/ModalTopbar';
-import {inputCardNameModal, selectCardCompanyModal, createCreditCardDtoAtom, currentCreditCardAtom} from './atom';
+import {useModal} from '../../../share/modals/useModal';
+import {ModalTopbar} from '../../../share/modals/ModalTopbar';
+import {createCreditCardDtoAtom, currentCreditCardAtom} from '../atom';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {SkipButton} from '^components/pages/v3/V3OrgCardListPage/modals/SkipButton';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {ModalLikeBottomBar} from '../../layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
+import {ModalLikeBottomBar} from '../../../layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {useMoveScroll} from '^hooks/useMoveScroll';
+import {selectCardCompanyModal} from './atom';
+import {inputCardNameModal} from '../CardNameModal/atom';
 
 export const CardCompanyModal = memo(() => {
     const {Modal, close} = useModal(selectCardCompanyModal);

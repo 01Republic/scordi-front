@@ -6,20 +6,7 @@ import {V3ModalLikeLayoutMobile} from '../layouts/V3ModalLikeLayout.mobile';
 import {InformationPanel} from './InformationPanel';
 import {BsPlus} from 'react-icons/bs';
 import {useModal} from '../share/modals/useModal';
-import {
-    inputCardNameModal,
-    selectCardCompanyModal,
-    inputCardNumberModal,
-    selectAppModal,
-    inputCardHoldingMemberModal,
-    currentCreditCardAtom,
-    updateCreditCardDtoAtom,
-} from '../V3OrgCardListPage/modals/atom';
-import {CardNumberModal} from '../V3OrgCardListPage/modals/CardNumberModal';
-import {CardNameModal} from '../V3OrgCardListPage/modals/CardNameModal';
-import {CardCompanyModal} from '../V3OrgCardListPage/modals/CardCompanyModal';
-import {SelectAppModal} from '../V3OrgCardListPage/modals/SelectAppModal';
-import {CardHoldingMember} from '../V3OrgCardListPage/modals/CardHoldingMemberModal';
+import {currentCreditCardAtom, updateCreditCardDtoAtom} from '../V3OrgCardListPage/modals/atom';
 import {ContentEmpty} from '../V3OrgHomePage/mobile/ContentEmpty';
 import {creditCardApi} from '^api/credit-cards.api';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
@@ -30,8 +17,13 @@ import {plainToInstance} from 'class-transformer';
 import {UnSignedCreditCardFormData} from '^types/credit-cards.type';
 import {useRouter} from 'next/router';
 import {V3OrgCardListPageRoute} from '^pages/v3/orgs/[orgId]/cards';
+import {CardFormModalGroup} from '../V3OrgCardListPage/modals/CardFormModalGroup';
+import {inputCardNumberModal} from '../V3OrgCardListPage/modals/CardNumberModal/atom';
+import {selectCardCompanyModal} from '../V3OrgCardListPage/modals/CardCompanyModal/atom';
+import {inputCardNameModal} from '../V3OrgCardListPage/modals/CardNameModal/atom';
+import {inputCardHoldingMemberModal} from '../V3OrgCardListPage/modals/CardHoldingMemberModal/atom';
+import {selectAppModal} from '../V3OrgCardListPage/modals/SelectAppModal/atom';
 
-// TODO: [to.진경님] V3OrgCardShowPage 에서 드렸던 코멘트들 참고해서 같은 부분들 많이 보이는데 리팩토링 해보시죠!
 export const V3OrgCardDetailPage = memo(() => {
     const cardNumberModal = useModal(inputCardNumberModal);
     const cardNameModal = useModal(inputCardNameModal);
@@ -77,11 +69,7 @@ export const V3OrgCardDetailPage = memo(() => {
     };
 
     return (
-        <V3ModalLikeLayoutMobile
-            title="카드"
-            modals={[CardNumberModal, CardNameModal, CardHoldingMember, CardCompanyModal, SelectAppModal]}
-            backBtnOnClick={backBtnOnclick}
-        >
+        <V3ModalLikeLayoutMobile title="카드" backBtnOnClick={backBtnOnclick}>
             <MobileSection.List>
                 {/* 카드정보 */}
                 <InformationPanel />
@@ -105,6 +93,7 @@ export const V3OrgCardDetailPage = memo(() => {
                     </button>
                 )}
             </MobileSection.List>
+            <CardFormModalGroup />
         </V3ModalLikeLayoutMobile>
     );
 });

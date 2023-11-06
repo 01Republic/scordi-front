@@ -12,7 +12,8 @@ import {CardAppList} from './CardAppList';
 import {creditCardApi} from '^api/credit-cards.api';
 import {productIdsAtom, selectedAppsAtom, subscriptionsAtom} from '../../atom';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {selectAppModal, createCreditCardDtoAtom} from '../atom';
+import {createCreditCardDtoAtom} from '../atom';
+import {selectAppModal} from './atom';
 
 export const SelectAppModal = memo(() => {
     const {Modal, close, isShow} = useModal(selectAppModal);

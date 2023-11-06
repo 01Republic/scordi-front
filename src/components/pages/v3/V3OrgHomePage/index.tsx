@@ -11,7 +11,7 @@ import {InvoiceSummarySection} from './InvoiceSummarySection';
 import {InvoiceTabNav} from './InvoiceTabNav';
 import {InvoiceTable} from './InvoiceTable';
 import {useTranslation} from 'next-i18next';
-import {InvoiceAccountAddingAlert, InvoiceAccountAddingAlertBanner} from '^v3/V3OrgHomePage/InvoiceAccountAddingAlert';
+import {InvoiceAccountAddingAlert} from '^v3/V3OrgHomePage/InvoiceAccountAddingAlert';
 import {useOnResize2} from '^components/util/onResize2';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {SubscriptionsPanel} from '^v3/V3OrgHomePage/mobile/SubscriptionsPanel';
@@ -29,11 +29,7 @@ import {RenewInvoiceAccountModalMobile} from '^v3/V3OrgHomePage/RenewInvoiceAcco
 import {MonthlyPaidAmountModal} from '^v3/V3OrgHomePage/MonthlyPaidAmountModal';
 import {MonthlyRemainAmountModal} from '^v3/V3OrgHomePage/MonthlyRemainAmountModal';
 import {CardsPanel} from './mobile/CardsPanel';
-import {CardNumberModal} from '^components/pages/v3/V3OrgCardListPage/modals/CardNumberModal';
-import {CardCompanyModal} from '^components/pages/v3/V3OrgCardListPage/modals/CardCompanyModal';
-import {CardNameModal} from '^components/pages/v3/V3OrgCardListPage/modals/CardNameModal';
-import {CardHoldingMember} from '^components/pages/v3/V3OrgCardListPage/modals/CardHoldingMemberModal';
-import {SelectAppModal} from '^components/pages/v3/V3OrgCardListPage/modals/SelectAppModal';
+import {CardFormModalGroup} from '../V3OrgCardListPage/modals/CardFormModalGroup';
 
 export const V3OrgHomePage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -91,11 +87,6 @@ export const V3OrgHomePage = memo(() => {
                     RenewInvoiceAccountModalMobile,
                     MonthlyPaidAmountModal,
                     MonthlyRemainAmountModal,
-                    CardNumberModal,
-                    CardCompanyModal,
-                    CardNameModal,
-                    CardHoldingMember,
-                    SelectAppModal,
                 ]}
                 topRightButtons={currentUser?.isAdmin ? [TopNavOrgSelect, TopNavProfileButton] : []}
             >
@@ -116,6 +107,8 @@ export const V3OrgHomePage = memo(() => {
                     {/* 스코디에 제보하기 */}
                     <ApplyNotFoundProduct />
                 </MobileSection.Item>
+                {/* 카드추가 모달 */}
+                <CardFormModalGroup />
             </V3MainLayoutMobile>
         );
     }

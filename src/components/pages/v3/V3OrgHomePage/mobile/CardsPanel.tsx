@@ -10,21 +10,21 @@ import {useRecoilState} from 'recoil';
 import {creditCardListAtom} from '^components/pages/v3/V3OrgCardListPage/atom';
 import {useModal} from '^v3/share/modals/useModal';
 import {ContentEmpty} from '^v3/V3OrgHomePage/mobile/ContentEmpty';
-import {inputCardNumberModal} from '^components/pages/v3/V3OrgCardListPage/modals/atom';
+import {inputCardNumberModal} from '../../V3OrgCardListPage/modals/CardNumberModal/atom';
 
 export const CardsPanel = memo(() => {
     const router = useRouter();
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const [creditCardList, setCreditCardList] = useRecoilState(creditCardListAtom);
     const length = creditCardList.length;
-    const {open: addCreditCardModalShow} = useModal(inputCardNumberModal);
+    const cardNumberModal = useModal(inputCardNumberModal);
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
         creditCardApi.index(orgId).then((res) => setCreditCardList(res.data.items));
     }, [orgId]);
 
-    const onAddButtonClick = () => addCreditCardModalShow();
+    const onAddButtonClick = () => cardNumberModal.open();
 
     return (
         <MobileSection.Item>
