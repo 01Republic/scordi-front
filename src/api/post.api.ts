@@ -1,6 +1,6 @@
 import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
-import {FindAllPostQueryDto, PostDto} from '^types/post.type';
+import {FindAllPostQueryDto, PostDto, StaticPostDto} from '^types/post.type';
 
 export const postApi = {
     index(params?: FindAllPostQueryDto) {
@@ -25,3 +25,8 @@ export const postApi = {
         return api.get<PostDto>(url);
     },
 };
+
+export async function showStaticPost(id: number) {
+    const url = `/posts/${id}`;
+    return api.get<StaticPostDto>(url).then((res) => res.data);
+}

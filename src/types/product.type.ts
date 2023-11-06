@@ -45,6 +45,26 @@ export class ProductDto {
     }
 }
 
+export type StaticProductDto = {
+    id: number;
+    nameKo: string;
+    nameEn: string;
+    tagline: string;
+    desc: string;
+    image: string;
+    ogImageUrl?: string | null;
+    homepageUrl: string;
+    pricingPageUrl: string;
+    companyName: string;
+    isAutoTrackable: boolean;
+    isFreeTierAvailable: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    connectMethod: ProductConnectMethod | string;
+    tags: TagDto[];
+    posts: PostDto[];
+};
+
 export type CreateProductRequestDto = {
     nameKo: string; // 한글 서비스명
     nameEn: string; // 영문 서비스명

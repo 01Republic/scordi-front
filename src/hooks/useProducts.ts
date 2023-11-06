@@ -175,8 +175,8 @@ export const useCreateFlow = () => {
 };
 
 export const useProductPostContent = () => {
-    const localLocale = localStorage.getItem('locale');
-    const locale = localLocale ?? 'ko';
+    // SSR의 경우 localStorage에 접근하지 않음. url를 통해서 en을 추적해야 함.
+    const locale = getLocale();
 
     const makeContent = (product: ProductDto) => {
         const [post] = product.posts;
@@ -196,4 +196,9 @@ export const useProductPostContent = () => {
     };
 
     return {makeContent};
+};
+
+const getLocale = () => {
+    if (typeof window === 'undefined') return 'ko';
+    return localStorage.getItem('locale') ?? 'ko';
 };

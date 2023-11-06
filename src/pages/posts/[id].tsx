@@ -4,7 +4,7 @@ import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {publicPageRequires} from '^types/utils/18n.type';
 import {BlogPostDetailPage} from '^components/pages/blog/BlogPostDetailPage';
 import {NextPageContext} from 'next';
-import {postApi} from '^api/post.api';
+import {showStaticPost} from '^api/post.api';
 import {PostDto} from '^types/post.type';
 import {useRouter} from 'next/router';
 import {atom, useSetRecoilState} from 'recoil';
@@ -48,10 +48,10 @@ export default function PostDetailPage({post}: {post: PostDto}) {
 // SSR 파트
 export const getServerSideProps = async function ({req, query, locale}: NextPageContext) {
     const id = Number(query.id); // postId
+    if (isNaN(id)) return;
 
     // 데이터 load api를 호출하여 post data load
-    const post = await postApi.show(id).then((res) => res.data);
-
+    const post = await showStaticPost(id);
     return {
         props: {
             post,

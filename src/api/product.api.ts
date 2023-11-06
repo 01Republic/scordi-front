@@ -5,6 +5,7 @@ import {
     CreateProductRequestDto,
     FindAllProductQuery,
     UpdateProductRequestDto,
+    StaticProductDto,
 } from '^types/product.type';
 import {Paginated} from '^types/utils/paginated.dto';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
@@ -85,3 +86,8 @@ export const productApi = {
         return api.delete<ProductDto>(url).then(oneDtoOf(ProductDto));
     },
 };
+
+export async function showStaticProduct(id: number) {
+    const url = `/${NAMESPACE}/${id}`;
+    return api.get<StaticProductDto>(url).then((res) => res.data);
+}
