@@ -1,8 +1,8 @@
 import React, {Dispatch, FormEvent, memo, useEffect, useState} from 'react';
 import {UseFormReturn} from 'react-hook-form';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {CreditCardSecretInfo, UnSignedCreditCardFormData} from '^types/credit-cards.type';
-import {currentCreditCardAtom} from '^v3/V3OrgCardShowPage/modals/atom';
+import {currentCreditCardAtom} from '^components/pages/v3/V3OrgCardListPage/modals/atom';
 import CryptoJS from 'crypto-js';
 import {cardSign} from '^config/environments';
 import {cardIdParamState, useRouterIdParamState} from '^atoms/common';
@@ -32,10 +32,8 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
     }, [currentCreditCard]);
 
     useEffect(() => {
-        // TODO: [to.진경님] 아래쪽에 nextInput 과 lastInput 의 null 체크 해주신 것 처럼 여기도 필요해 보입니다.
-        //  number1 이 undefined 일 수 있어요. undefined 이면 .focus() 가 깨지고 이후 라인들이 모두 죽을거에요.
         const number1 = document.querySelector('input[name="number1"]') as HTMLInputElement;
-        number1.focus();
+        !number1.value && number1.focus();
 
         if (!cardInfo) return;
 
@@ -49,16 +47,12 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
         if (value.length === 4 && currentPart < 4) {
             const nextPart = currentPart + 1;
             const nextInput = document.querySelector(`input[name="number${nextPart}"]`) as HTMLInputElement;
-            if (nextInput) {
-                nextInput.focus();
-            }
+            nextInput && nextInput.focus();
         }
 
         if (value.length === 4 && currentPart === 4) {
             const lastInput = document.querySelector('input[name="number4"]') as HTMLInputElement;
-            if (lastInput) {
-                lastInput.blur();
-            }
+            lastInput && lastInput.blur();
         }
 
         const cardNum1 = form.getValues('number1');
@@ -74,12 +68,11 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
     };
 
     const maxLength = (e: FormEvent<HTMLInputElement>) => {
-        // TODO: [to.진경님] 한 줄로 붙일 수 없는 if 블록은 중괄호를 생략하지 않는게 좋겠어요!
-        if (e.currentTarget.value.length > e.currentTarget.maxLength)
+        if (e.currentTarget.value.length > e.currentTarget.maxLength) {
             e.currentTarget.value = e.currentTarget.value.slice(0, e.currentTarget.maxLength);
+        }
     };
 
-    // if (!cardInfo) return <></>;
     return (
         <div>
             {/* 카드번호 input */}

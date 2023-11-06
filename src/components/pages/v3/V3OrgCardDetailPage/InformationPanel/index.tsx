@@ -3,29 +3,27 @@ import {useRecoilValue} from 'recoil';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {AiOutlineEdit} from 'react-icons/ai';
 import {useModal} from '../../share/modals/useModal';
-import {
-    inputCardHoldingMemeberModal,
-    inputCardNameModal,
-    inputCardNumberModal,
-    selectCardCompanyModal,
-    currentCreditCardAtom,
-} from '../../V3OrgCardShowPage/modals/atom';
-import {creditCardSignAtom} from '../../V3OrgCardShowPage/atom';
+import {currentCreditCardAtom} from '../../V3OrgCardListPage/modals/atom';
+import {creditCardSignAtom} from '../../V3OrgCardListPage/atom';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {useRouter} from 'next/router';
-import {V3OrgCardShowPageRoute} from '^pages/v3/orgs/[orgId]/cards';
+import {V3OrgCardListPageRoute} from '^pages/v3/orgs/[orgId]/cards';
 import Swal from 'sweetalert2';
+import {inputCardNumberModal} from '../../V3OrgCardListPage/modals/CardNumberModal/atom';
+import {selectCardCompanyModal} from '../../V3OrgCardListPage/modals/CardCompanyModal/atom';
+import {inputCardNameModal} from '../../V3OrgCardListPage/modals/CardNameModal/atom';
+import {inputCardHoldingMemberModal} from '../../V3OrgCardListPage/modals/CardHoldingMemberModal/atom';
 
 export const InformationPanel = memo(() => {
     const cardInfo = useRecoilValue(creditCardSignAtom);
     const currentCreditCard = useRecoilValue(currentCreditCardAtom);
     const {open: openInputCardNameModal} = useModal(inputCardNameModal);
     const {open: openInputCardNumberModal} = useModal(inputCardNumberModal);
-    const {open: openInputCardHoldingMemberModal} = useModal(inputCardHoldingMemeberModal);
+    const {open: openInputCardHoldingMemberModal} = useModal(inputCardHoldingMemberModal);
     const {open: openSelectCardCompanyModal} = useModal(selectCardCompanyModal);
-    const orgId = useRouterIdParamState('orgId', orgIdParamState);
-    const cardId = useRouterIdParamState('cardId', cardIdParamState);
+    const orgId = useRecoilValue(orgIdParamState);
+    const cardId = useRecoilValue(cardIdParamState);
     const router = useRouter();
 
     // 카드 삭제 함수
@@ -51,7 +49,7 @@ export const InformationPanel = memo(() => {
                     }),
                 );
                 setTimeout(() => {
-                    router.replace(V3OrgCardShowPageRoute.path(orgId));
+                    router.replace(V3OrgCardListPageRoute.path(orgId));
                 }, 1500);
             }
         });

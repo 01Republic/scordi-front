@@ -1,10 +1,10 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useRecoilState, useSetRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {useForm} from 'react-hook-form';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {inputCardNumberModal, selectCardCompanyModal, createCreditCardDtoAtom} from '../atom';
+import {createCreditCardDtoAtom} from '../atom';
 import {useToast} from '^hooks/useToast';
 import {InputCardNumber} from './InputCardNumber';
 import {creditCardSignAtom} from '../../atom';
@@ -13,6 +13,8 @@ import {creditCardApi} from '^api/credit-cards.api';
 import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {UnSignedCreditCardFormData} from '^types/credit-cards.type';
 import {plainToInstance} from 'class-transformer';
+import {inputCardNumberModal} from './atom';
+import {selectCardCompanyModal} from '../CardCompanyModal/atom';
 
 export const CardNumberModal = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardNumberModal);
@@ -21,7 +23,7 @@ export const CardNumberModal = memo(() => {
     const [createCreditCardDto, setCreateCreditCardDto] = useRecoilState(createCreditCardDtoAtom);
     const [disabled, setDisabled] = useState(true);
     const setCardSignInfo = useSetRecoilState(creditCardSignAtom);
-    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const orgId = useRecoilValue(orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
     const {toast} = useToast();
 
@@ -43,12 +45,10 @@ export const CardNumberModal = memo(() => {
     const onUpdate = async () => {
         const formData = plainToInstance(UnSignedCreditCardFormData, form.getValues());
 
-        // TODO: [to.진경님] api 요청(request)에 대한 응답(response)은 관례적으로 res 라고 변수명을 쓰고 있어욥
-        //  'const res = ...' 또는 'const { data } = ...' 로 변경해주시면 더 깔끔할 것 같아요!
-        const datas = await creditCardApi.update(orgId, cardId, formData.toUpdateDto());
+        const res = await creditCardApi.update(orgId, cardId, formData.toUpdateDto());
 
-        if (datas) {
-            setCardSignInfo(datas.data.secretInfo);
+        if (res) {
+            setCardSignInfo(res.data.secretInfo);
             close();
             toast.success('변경되었습니다.');
         }

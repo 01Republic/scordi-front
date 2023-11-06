@@ -3,22 +3,24 @@ import {useForm} from 'react-hook-form';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {inputCardHoldingMemeberModal, selectAppModal, createCreditCardDtoAtom, currentCreditCardAtom} from '../atom';
-import {useRecoilState, useSetRecoilState} from 'recoil';
-import {SelectCardHoldingMember} from '^v3/V3OrgCardShowPage/modals/CardHoldingMemberModal/SelectCardHoldingMember';
+import {createCreditCardDtoAtom, currentCreditCardAtom} from '../atom';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {SelectCardHoldingMember} from '^components/pages/v3/V3OrgCardListPage/modals/CardHoldingMemberModal/SelectCardHoldingMember';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {useToast} from '^hooks/useToast';
 import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
-import {SkipButton} from '^v3/V3OrgCardShowPage/modals/SkipButton';
+import {SkipButton} from '^components/pages/v3/V3OrgCardListPage/modals/SkipButton';
 import {UnSignedCreditCardFormData} from '^types/credit-cards.type';
+import {inputCardHoldingMemberModal} from './atom';
+import {selectAppModal} from '../SelectAppModal/atom';
 
 export const CardHoldingMember = memo(() => {
-    const {Modal, close, isShow} = useModal(inputCardHoldingMemeberModal);
+    const {Modal, close, isShow} = useModal(inputCardHoldingMemberModal);
     const {open: openSelectAppModal} = useModal(selectAppModal);
     const [createCreditCardData, setCreateCreditCardData] = useRecoilState(createCreditCardDtoAtom);
     const setCurrenCreditCard = useSetRecoilState(currentCreditCardAtom);
-    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const orgId = useRecoilValue(orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
     const form = useForm<UnSignedCreditCardFormData>();
     const {toast} = useToast();
@@ -43,9 +45,9 @@ export const CardHoldingMember = memo(() => {
         const holdingMemberId = form.getValues('holdingMemberId');
         if (!holdingMemberId) return;
 
-        const datas = await creditCardApi.update(orgId, cardId, {holdingMemberId: holdingMemberId});
-        if (datas) {
-            setCurrenCreditCard(datas.data);
+        const res = await creditCardApi.update(orgId, cardId, {holdingMemberId: holdingMemberId});
+        if (res) {
+            setCurrenCreditCard(res.data);
             close();
             toast.success('변경되었습니다.');
         }
