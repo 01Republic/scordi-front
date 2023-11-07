@@ -4,7 +4,7 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {AiOutlineEdit} from 'react-icons/ai';
 import {useModal} from '../../share/modals/useModal';
 import {currentCreditCardAtom} from '../../V3OrgCardListPage/modals/atom';
-import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {cardIdParamState, orgIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {useRouter} from 'next/router';
 import {V3OrgCardListPageRoute} from '^pages/v3/orgs/[orgId]/cards';
@@ -29,7 +29,6 @@ export const InformationPanel = memo(() => {
     // 카드 삭제 함수
     const onDelete = () => {
         if (!orgId && !cardId) return;
-        console.log(1);
 
         Swal.fire({
             title: '카드를 삭제하시겠습니까?',
@@ -50,11 +49,9 @@ export const InformationPanel = memo(() => {
                         timer: 1500,
                     }),
                 );
-                console.log(3);
+
                 setTimeout(() => {
-                    console.log(4);
-                    router.replace(V3OrgCardListPageRoute.path(orgId)).then((res) => console.log('res', res));
-                    console.log(5);
+                    router.replace(V3OrgCardListPageRoute.path(orgId));
                 }, 1500);
             }
         });
