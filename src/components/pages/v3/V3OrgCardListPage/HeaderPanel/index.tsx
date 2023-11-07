@@ -3,7 +3,7 @@ import {useRecoilValue} from 'recoil';
 import {ProductSelector} from '../../share/modals/AccountListModal/ProductSelector';
 import {subjectProductOfAccountsInModalState} from '../../share/modals/AccountListModal/atom';
 import {MobileSection} from '../../share/sections/MobileSection';
-import {creditCardListAtom} from '../atom';
+import {creditCardListAtom} from '^models/CreditCard/atom';
 
 export const HeaderPanel = memo(() => {
     const product = useRecoilValue(subjectProductOfAccountsInModalState);

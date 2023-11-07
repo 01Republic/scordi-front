@@ -7,14 +7,14 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {createCreditCardDtoAtom} from '../atom';
 import {useToast} from '^hooks/useToast';
 import {InputCardNumber} from './InputCardNumber';
-import {creditCardSignAtom} from '../../atom';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
-import {UnSignedCreditCardFormData} from '^types/credit-cards.type';
 import {plainToInstance} from 'class-transformer';
 import {inputCardNumberModal} from './atom';
 import {selectCardCompanyModal} from '../CardCompanyModal/atom';
+import {creditCardSignAtom} from '^models/CreditCard/atom';
+import {UnSignedCreditCardFormData} from '^models/CreditCard/credit-cards.type';
 
 export const CardNumberModal = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardNumberModal);

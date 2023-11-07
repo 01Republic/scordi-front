@@ -1,12 +1,12 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {AvatarCard} from '^components/Avatar';
-import {CreditCardDto, CreditCardSecretInfo} from '^types/credit-cards.type';
 import {V3OrgCardDetailPageRoute} from '^pages/v3/orgs/[orgId]/cards/[cardId]';
 import {orgIdParamState} from '^atoms/common';
 import CryptoJS from 'crypto-js';
 import {cardSign} from '^config/environments';
 import {useRecoilValue} from 'recoil';
+import {CreditCardDto, CreditCardSecretInfo} from '^models/CreditCard/credit-cards.type';
 
 interface CardItemProps {
     card: CreditCardDto;

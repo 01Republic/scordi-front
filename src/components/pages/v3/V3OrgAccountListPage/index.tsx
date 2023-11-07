@@ -46,7 +46,7 @@ export const V3OrgAccountListPage = memo(() => {
 
     return (
         <V3MainLayoutMobile
-            title="Credentails"
+            title="Credentials"
             activeTabIndex={BottomTabIndex.ACCOUNTS}
             modals={[AccountCreateModal, AccountEditModal, SelectProductModal, ProductChangeModal]}
         >

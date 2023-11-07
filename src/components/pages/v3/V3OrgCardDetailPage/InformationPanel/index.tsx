@@ -4,7 +4,6 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {AiOutlineEdit} from 'react-icons/ai';
 import {useModal} from '../../share/modals/useModal';
 import {currentCreditCardAtom} from '../../V3OrgCardListPage/modals/atom';
-import {creditCardSignAtom} from '../../V3OrgCardListPage/atom';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {useRouter} from 'next/router';
@@ -14,6 +13,7 @@ import {inputCardNumberModal} from '../../V3OrgCardListPage/modals/CardNumberMod
 import {selectCardCompanyModal} from '../../V3OrgCardListPage/modals/CardCompanyModal/atom';
 import {inputCardNameModal} from '../../V3OrgCardListPage/modals/CardNameModal/atom';
 import {inputCardHoldingMemberModal} from '../../V3OrgCardListPage/modals/CardHoldingMemberModal/atom';
+import {creditCardSignAtom} from '^models/CreditCard/atom';
 
 export const InformationPanel = memo(() => {
     const cardInfo = useRecoilValue(creditCardSignAtom);
@@ -29,6 +29,7 @@ export const InformationPanel = memo(() => {
     // 카드 삭제 함수
     const onDelete = () => {
         if (!orgId && !cardId) return;
+        console.log(1);
 
         Swal.fire({
             title: '카드를 삭제하시겠습니까?',
@@ -40,6 +41,7 @@ export const InformationPanel = memo(() => {
             cancelButtonText: '취소',
         }).then((result) => {
             if (result.isConfirmed) {
+                console.log(2);
                 creditCardApi.destroy(orgId, cardId).then(() =>
                     Swal.fire({
                         icon: 'success',
@@ -48,8 +50,11 @@ export const InformationPanel = memo(() => {
                         timer: 1500,
                     }),
                 );
+                console.log(3);
                 setTimeout(() => {
-                    router.replace(V3OrgCardListPageRoute.path(orgId));
+                    console.log(4);
+                    router.replace(V3OrgCardListPageRoute.path(orgId)).then((res) => console.log('res', res));
+                    console.log(5);
                 }, 1500);
             }
         });

@@ -11,10 +11,8 @@ import {ContentEmpty} from '../V3OrgHomePage/mobile/ContentEmpty';
 import {creditCardApi} from '^api/credit-cards.api';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {cardSign} from '^config/environments';
-import {creditCardSignAtom, subscriptionsAtom} from '../V3OrgCardListPage/atom';
 import {SubscriptionItem} from '../V3OrgHomePage/mobile/SubscriptionItem';
 import {plainToInstance} from 'class-transformer';
-import {UnSignedCreditCardFormData} from '^types/credit-cards.type';
 import {useRouter} from 'next/router';
 import {V3OrgCardListPageRoute} from '^pages/v3/orgs/[orgId]/cards';
 import {CardFormModalGroup} from '../V3OrgCardListPage/modals/CardFormModalGroup';
@@ -22,7 +20,9 @@ import {inputCardNumberModal} from '../V3OrgCardListPage/modals/CardNumberModal/
 import {selectCardCompanyModal} from '../V3OrgCardListPage/modals/CardCompanyModal/atom';
 import {inputCardNameModal} from '../V3OrgCardListPage/modals/CardNameModal/atom';
 import {inputCardHoldingMemberModal} from '../V3OrgCardListPage/modals/CardHoldingMemberModal/atom';
-import {selectAppModal} from '../V3OrgCardListPage/modals/SelectAppModal/atom';
+import {selectAppModal, subscriptionsAtom} from '../V3OrgCardListPage/modals/SelectAppModal/atom';
+import {creditCardSignAtom} from '^models/CreditCard/atom';
+import {UnSignedCreditCardFormData} from '^models/CreditCard/credit-cards.type';
 
 export const V3OrgCardDetailPage = memo(() => {
     const cardNumberModal = useModal(inputCardNumberModal);
