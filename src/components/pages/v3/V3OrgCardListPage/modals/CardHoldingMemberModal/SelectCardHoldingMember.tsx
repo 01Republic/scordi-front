@@ -9,6 +9,7 @@ import {TeamMemberSelectOption as Option} from '^components/pages/v3/V3OrgCardLi
 import {UnSignedCreditCardFormData} from '^types/credit-cards.type';
 import {useMoveScroll} from '^hooks/useMoveScroll';
 import {useRecoilValue} from 'recoil';
+import {allTeamMemberSelector} from './atom';
 
 interface SelectCardHoldingMemberProps {
     form: UseFormReturn<UnSignedCreditCardFormData>;
@@ -19,7 +20,8 @@ export const SelectCardHoldingMember = (props: SelectCardHoldingMemberProps) => 
     const {CreditCard} = useCreditCardsOfOrganization(true);
     const [isShow, setIsShow] = useState(true);
     const [allTeamMembers, setAllTeamMembers] = useState<TeamMemberDto[]>([]);
-    const {load, createByName} = useTeamMembers(orgId);
+    const teamMembers = useRecoilValue(allTeamMemberSelector);
+    const {createByName} = useTeamMembers(orgId);
     const {selectRef, onScroll} = useMoveScroll();
     const {form} = props;
 
@@ -34,10 +36,9 @@ export const SelectCardHoldingMember = (props: SelectCardHoldingMemberProps) => 
 
     useEffect(() => {
         if (!isShow) return;
-        load().then((teamMembers) => {
-            setAllTeamMembers(teamMembers);
-            setIsShow(false);
-        });
+
+        setAllTeamMembers(teamMembers);
+        setIsShow(false);
     }, [isShow]);
 
     const toOption = (teamMember: TeamMemberDto): Option => ({
