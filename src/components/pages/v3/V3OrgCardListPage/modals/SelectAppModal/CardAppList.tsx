@@ -1,45 +1,24 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo} from 'react';
 import Select from 'react-select';
-import {getProducts} from '^api/product.api';
-import {ProductDto} from '^types/product.type';
 import {ProductOption} from '^components/pages/v3/share/modals/AccountListModal/form/SelectProduct/ProductOption.type';
 import {CardAppItem} from './CardAppItem';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {productIdsAtom, selectedAppsAtom, subscriptionsAtom} from '../../atom';
+import {productIdsAtom, selectedAppsAtom} from '../../atom';
 import {useToast} from '^hooks/useToast';
 import {useMoveScroll} from '^hooks/useMoveScroll';
+import {allProductsSelector} from './atom';
 
 export const CardAppList = memo(() => {
     const [productIds, setProductIds] = useRecoilState(productIdsAtom);
-    const [allAppList, setAllAppList] = useState<ProductDto[]>([]);
-    const subscriptions = useRecoilValue(subscriptionsAtom);
     const [selectedApps, setSelectedApps] = useRecoilState(selectedAppsAtom);
     const {selectRef, onScroll} = useMoveScroll();
     const {toast} = useToast();
-
-    const subscriptionProducts = subscriptions.map((subscription) => {
-        return subscription.product;
-    });
-
-    // SaaS 전체 리스트 받아오기
-    useEffect(() => {
-        getProducts().then((res) => {
-            const AllProducts = res.data.items;
-
-            // 구독하지 않은 SaaS 리스트
-            const unsubscribedProducts = AllProducts.filter((list) => {
-                return !subscriptionProducts.some((product) => product.id === list.id);
-            });
-
-            // 구독한 Saas 리스트 우선 보여주기
-            setAllAppList(subscriptionProducts.concat(unsubscribedProducts));
-        });
-    }, []);
+    const allProducts = useRecoilValue(allProductsSelector);
 
     const selectApp = (option: ProductOption) => {
         const selectedAppId = option.value;
 
-        const selectedApp = allAppList.find((app) => {
+        const selectedApp = allProducts.find((app) => {
             return app.id === selectedAppId;
         });
 
@@ -57,7 +36,7 @@ export const CardAppList = memo(() => {
     return (
         <div ref={selectRef} onClick={onScroll}>
             <Select
-                options={allAppList.map((list) => {
+                options={allProducts.map((list) => {
                     return {
                         value: list.id,
                         label: list.nameEn,
