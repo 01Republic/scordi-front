@@ -57,7 +57,7 @@ export const CardHoldingMember = memo(() => {
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
             <ModalTopbar
-                backBtnOnClick={close}
+                backBtnOnClick={() => close()}
                 topbarPosition="sticky"
                 rightButtons={[
                     () => (

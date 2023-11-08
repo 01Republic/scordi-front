@@ -87,6 +87,7 @@ export const V3OrgHomePage = memo(() => {
                     RenewInvoiceAccountModalMobile,
                     MonthlyPaidAmountModal,
                     MonthlyRemainAmountModal,
+                    CardFormModalGroup,
                 ]}
                 topRightButtons={currentUser?.isAdmin ? [TopNavOrgSelect, TopNavProfileButton] : []}
             >
@@ -107,8 +108,6 @@ export const V3OrgHomePage = memo(() => {
                     {/* 스코디에 제보하기 */}
                     <ApplyNotFoundProduct />
                 </MobileSection.Item>
-                {/* 카드추가 모달 */}
-                <CardFormModalGroup />
             </V3MainLayoutMobile>
         );
     }
