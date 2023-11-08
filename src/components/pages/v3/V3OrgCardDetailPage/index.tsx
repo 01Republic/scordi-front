@@ -1,18 +1,16 @@
 import React, {memo, useEffect} from 'react';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import CryptoJS from 'crypto-js';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {MobileSection} from '../share/sections/MobileSection';
 import {V3ModalLikeLayoutMobile} from '../layouts/V3ModalLikeLayout.mobile';
 import {InformationPanel} from './InformationPanel';
 import {BsPlus} from 'react-icons/bs';
 import {useModal} from '../share/modals/useModal';
-import {currentCreditCardAtom, updateCreditCardDtoAtom} from '../V3OrgCardListPage/modals/atom';
+import {currentCreditCardAtom, currentCreditCardSelector} from '../V3OrgCardListPage/modals/atom';
 import {ContentEmpty} from '../V3OrgHomePage/mobile/ContentEmpty';
-import {creditCardApi} from '^api/credit-cards.api';
-import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {cardIdParamState, orgIdParamState} from '^atoms/common';
 import {cardSign} from '^config/environments';
 import {SubscriptionItem} from '../V3OrgHomePage/mobile/SubscriptionItem';
-import {plainToInstance} from 'class-transformer';
 import {useRouter} from 'next/router';
 import {V3OrgCardListPageRoute} from '^pages/v3/orgs/[orgId]/cards';
 import {CardFormModalGroup} from '../V3OrgCardListPage/modals/CardFormModalGroup';
@@ -22,7 +20,6 @@ import {inputCardNameModal} from '../V3OrgCardListPage/modals/CardNameModal/atom
 import {inputCardHoldingMemberModal} from '../V3OrgCardListPage/modals/CardHoldingMemberModal/atom';
 import {selectAppModal, subscriptionsAtom} from '../V3OrgCardListPage/modals/SelectAppModal/atom';
 import {creditCardSignAtom} from '^models/CreditCard/atom';
-import {UnSignedCreditCardFormData} from '^models/CreditCard/credit-cards.type';
 
 export const V3OrgCardDetailPage = memo(() => {
     const cardNumberModal = useModal(inputCardNumberModal);
@@ -31,26 +28,27 @@ export const V3OrgCardDetailPage = memo(() => {
     const cardCompanyModal = useModal(selectCardCompanyModal);
     const {open: openSelectAppModal, isShow: isSelectAppModal} = useModal(selectAppModal);
     const [subscriptions, setSubscriptions] = useRecoilState(subscriptionsAtom);
-    const setCurrentCreditCard = useSetRecoilState(currentCreditCardAtom);
-    const setCardDetailInfo = useSetRecoilState(updateCreditCardDtoAtom);
+    const [currentCreditCard, setCurrentCreditCard] = useRecoilState(currentCreditCardAtom);
     const setCardSignInfo = useSetRecoilState(creditCardSignAtom);
+    const cardSelector = useRecoilValue(currentCreditCardSelector);
     const orgId = useRecoilValue(orgIdParamState);
     const cardId = useRecoilValue(cardIdParamState);
     const router = useRouter();
 
     useEffect(() => {
-        if (!cardId && isNaN(cardId)) return;
+        setCurrentCreditCard(cardSelector);
+    }, []);
 
-        creditCardApi.show(orgId, cardId).then((res) => {
-            setCurrentCreditCard(res.data);
-            const updateDto = plainToInstance(UnSignedCreditCardFormData, res.data).toUpdateDto();
-            setCardDetailInfo(updateDto);
-            setSubscriptions(res.data.subscriptions ?? []);
-            const json = CryptoJS.AES.decrypt(res.data.sign, cardSign).toString(CryptoJS.enc.Utf8);
-            const toString = JSON.parse(json);
-            setCardSignInfo(toString);
-        });
-    }, [orgId, cardId]);
+    useEffect(() => {
+        const isNotEmpty = Object.keys(currentCreditCard).length;
+        if (!cardId || isNaN(cardId) || !isNotEmpty) return;
+
+        setSubscriptions(currentCreditCard.subscriptions ?? []);
+
+        const json = CryptoJS.AES.decrypt(currentCreditCard.sign, cardSign).toString(CryptoJS.enc.Utf8);
+        const toString = JSON.parse(json);
+        setCardSignInfo(toString);
+    }, [orgId, cardId, currentCreditCard]);
 
     const backBtnOnclick = () => {
         router.push(V3OrgCardListPageRoute.path(orgId));
