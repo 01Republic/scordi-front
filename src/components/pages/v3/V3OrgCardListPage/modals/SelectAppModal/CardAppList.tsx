@@ -3,10 +3,9 @@ import Select from 'react-select';
 import {ProductOption} from '^components/pages/v3/share/modals/AccountListModal/form/SelectProduct/ProductOption.type';
 import {CardAppItem} from './CardAppItem';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {productIdsAtom, selectedAppsAtom} from '../../atom';
 import {useToast} from '^hooks/useToast';
 import {useMoveScroll} from '^hooks/useMoveScroll';
-import {allProductsSelector} from './atom';
+import {allProductsSelector, productIdsAtom, selectedAppsAtom} from './atom';
 
 export const CardAppList = memo(() => {
     const [productIds, setProductIds] = useRecoilState(productIdsAtom);

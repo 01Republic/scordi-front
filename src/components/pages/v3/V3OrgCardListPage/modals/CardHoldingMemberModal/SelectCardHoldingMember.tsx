@@ -6,10 +6,10 @@ import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/c
 import {CreatableSelect} from '^components/util/react-select/CreatableSelect';
 import {useCreditCardsOfOrganization} from '^hooks/useCreditCards';
 import {TeamMemberSelectOption as Option} from '^components/pages/v3/V3OrgCardListPage/modals/CardHoldingMemberModal/TeamMemberSelectOption';
-import {UnSignedCreditCardFormData} from '^types/credit-cards.type';
 import {useMoveScroll} from '^hooks/useMoveScroll';
 import {useRecoilValue} from 'recoil';
 import {allTeamMemberSelector} from './atom';
+import {UnSignedCreditCardFormData} from '^models/CreditCard/credit-cards.type';
 
 interface SelectCardHoldingMemberProps {
     form: UseFormReturn<UnSignedCreditCardFormData>;

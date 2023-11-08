@@ -3,7 +3,7 @@ import {ProductDto} from '^types/product.type';
 import React, {memo} from 'react';
 import {IoClose} from 'react-icons/io5';
 import {useRecoilState, useSetRecoilState} from 'recoil';
-import {productIdsAtom, selectedAppsAtom} from '../../atom';
+import {productIdsAtom, selectedAppsAtom} from '^v3/V3OrgCardListPage/modals/SelectAppModal/atom';
 
 interface CardAppItemProps {
     item: ProductDto;

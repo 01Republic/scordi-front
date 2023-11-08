@@ -15,7 +15,7 @@ export const allTeamMemberSelector = selector({
     get: async () => {
         const orgId = useRouterIdParamState('orgId', orgIdParamState);
 
-        const res = teamMemberApi.index(orgId).then((res) => res.data.items);
+        const res = await teamMemberApi.index(orgId).then((res) => res.data.items);
 
         return res;
     },

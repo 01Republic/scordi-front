@@ -7,10 +7,10 @@ import {AddButton} from './AddButton';
 import {creditCardApi} from '^api/credit-cards.api';
 import {CardItem} from './CardItem';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {creditCardListAtom} from '^components/pages/v3/V3OrgCardListPage/atom';
 import {useModal} from '^v3/share/modals/useModal';
 import {ContentEmpty} from '^v3/V3OrgHomePage/mobile/ContentEmpty';
 import {inputCardNumberModal} from '../../V3OrgCardListPage/modals/CardNumberModal/atom';
+import {creditCardListAtom} from '^models/CreditCard/atom';
 
 export const CardsPanel = memo(() => {
     const router = useRouter();

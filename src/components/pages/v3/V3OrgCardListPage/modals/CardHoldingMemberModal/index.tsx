@@ -11,9 +11,9 @@ import {creditCardApi} from '^api/credit-cards.api';
 import {useToast} from '^hooks/useToast';
 import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {SkipButton} from '^components/pages/v3/V3OrgCardListPage/modals/SkipButton';
-import {UnSignedCreditCardFormData} from '^types/credit-cards.type';
 import {inputCardHoldingMemberModal} from './atom';
 import {selectAppModal} from '../SelectAppModal/atom';
+import {UnSignedCreditCardFormData} from '^models/CreditCard/credit-cards.type';
 
 export const CardHoldingMember = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardHoldingMemberModal);

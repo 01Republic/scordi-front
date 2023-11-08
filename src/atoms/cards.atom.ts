@@ -1,6 +1,6 @@
 import {atom} from 'recoil';
 import {Paginated} from '^types/utils/paginated.dto';
-import {CreditCardDto} from '^types/credit-cards.type';
+import {CreditCardDto} from '^models/CreditCard/credit-cards.type';
 
 export const cardListResultAtom = atom<Paginated<CreditCardDto>>({
     key: 'cardListResultAtom',

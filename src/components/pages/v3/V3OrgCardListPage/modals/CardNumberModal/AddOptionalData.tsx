@@ -2,7 +2,7 @@ import {useToast} from '^hooks/useToast';
 import React, {ChangeEvent, memo, useState} from 'react';
 import {FieldValues, UseFormReturn} from 'react-hook-form';
 import {useRecoilValue} from 'recoil';
-import {creditCardSignAtom} from '../../atom';
+import {creditCardSignAtom} from '^models/CreditCard/atom';
 
 interface AddOptionalDataProps {
     form: UseFormReturn<FieldValues, any>;

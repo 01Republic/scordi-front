@@ -10,10 +10,9 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {V3OrgCardDetailPageRoute} from '^pages/v3/orgs/[orgId]/cards/[cardId]';
 import {CardAppList} from './CardAppList';
 import {creditCardApi} from '^api/credit-cards.api';
-import {productIdsAtom, selectedAppsAtom, subscriptionsAtom} from '../../atom';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {createCreditCardDtoAtom} from '../atom';
-import {selectAppModal} from './atom';
+import {productIdsAtom, selectAppModal, selectedAppsAtom, subscriptionsAtom} from './atom';
 
 export const SelectAppModal = memo(() => {
     const {Modal, close, isShow} = useModal(selectAppModal);

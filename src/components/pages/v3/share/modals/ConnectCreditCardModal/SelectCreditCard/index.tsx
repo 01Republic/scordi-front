@@ -2,12 +2,12 @@ import {UseFormReturn} from 'react-hook-form';
 import {UpdateSubscriptionRequestDto} from '^types/subscription.type';
 import React, {memo, useEffect, useMemo, useState} from 'react';
 import AsyncSelect from 'react-select/async';
-import {CreditCardDto} from '^types/credit-cards.type';
 import {useCreditCardsOfOrganization} from '^hooks/useCreditCards';
 import {FormatOptionLabelMeta} from 'react-select';
 import {CreditCardOption} from '^v3/share/modals/ConnectCreditCardModal/SelectCreditCard/CreditCardOption';
 import {CreditCardOptionMenu} from '^v3/share/modals/ConnectCreditCardModal/SelectCreditCard/CreditCardOptionMenu';
 import {CreditCardSelectedValue} from '^v3/share/modals/ConnectCreditCardModal/SelectCreditCard/CreditCardSelectedValue';
+import {CreditCardDto} from '^models/CreditCard/credit-cards.type';
 
 interface SelectCreditCardProps {
     form: UseFormReturn<UpdateSubscriptionRequestDto>;
