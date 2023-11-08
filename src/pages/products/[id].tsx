@@ -28,6 +28,8 @@ export default function ProductPage({product}: {product: ProductDto}) {
         setIsLoaded(true);
     }, [router.isReady]);
 
+    if (!product.id || isNaN(product.id)) return;
+
     return <ProductDetailPage product={product} />;
 }
 
