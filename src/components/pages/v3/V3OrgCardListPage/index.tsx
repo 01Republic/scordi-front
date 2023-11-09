@@ -23,7 +23,7 @@ export const V3OrgCardListPage = memo(() => {
     };
 
     return (
-        <V3ModalLikeLayoutMobile title="카드" backBtnOnClick={backBtnOnclick}>
+        <V3ModalLikeLayoutMobile title="카드" backBtnOnClick={backBtnOnclick} modals={[CardFormModalGroup]}>
             <MobileSection.List>
                 <HeaderPanel />
 
@@ -42,7 +42,6 @@ export const V3OrgCardListPage = memo(() => {
                     </button>
                 )}
             </MobileSection.List>
-            <CardFormModalGroup />
         </V3ModalLikeLayoutMobile>
     );
 });

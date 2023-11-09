@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useCallback, useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useToast} from '^hooks/useToast';
@@ -28,10 +28,6 @@ export const SelectAppModal = memo(() => {
     const {alert} = useAlert();
 
     useEffect(() => {
-        console.log(cardId);
-    }, [cardId]);
-
-    useEffect(() => {
         if (selectedApps.length && productIds.length) return;
 
         subscriptions.map((subscription) => {
@@ -41,7 +37,7 @@ export const SelectAppModal = memo(() => {
     }, [isShow]);
 
     // 카드 연동 앱 등록 함수
-    const onSubmit = async () => {
+    const onSubmit = useCallback(async () => {
         const submitData = {...createCreditCardDto, productIds: productIds};
 
         const res = await creditCardApi.create(orgId, submitData);
@@ -53,7 +49,7 @@ export const SelectAppModal = memo(() => {
                 router.push(V3OrgCardDetailPageRoute.path(orgId, cardId));
             }, 1500);
         }
-    };
+    }, [orgId, cardId, createCreditCardDto, productIds]);
 
     // 카드 연동 앱 수정 함수
     const onUpdate = async () => {
@@ -71,7 +67,7 @@ export const SelectAppModal = memo(() => {
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
             <ModalTopbar
-                backBtnOnClick={close}
+                backBtnOnClick={() => close()}
                 topbarPosition="sticky"
                 rightButtons={[
                     () => <SkipButton submitCardNumber={onSubmit} currentModal="selectAppModal" isModify={!!cardId} />,
