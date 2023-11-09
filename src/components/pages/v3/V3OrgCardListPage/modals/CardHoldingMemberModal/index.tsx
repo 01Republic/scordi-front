@@ -6,7 +6,7 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {createCreditCardDtoAtom, currentCreditCardAtom} from '../atom';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {SelectCardHoldingMember} from '^components/pages/v3/V3OrgCardListPage/modals/CardHoldingMemberModal/SelectCardHoldingMember';
-import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {orgIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {useToast} from '^hooks/useToast';
 import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
@@ -14,6 +14,7 @@ import {SkipButton} from '^components/pages/v3/V3OrgCardListPage/modals/SkipButt
 import {inputCardHoldingMemberModal} from './atom';
 import {selectAppModal} from '../SelectAppModal/atom';
 import {UnSignedCreditCardFormData} from '^models/CreditCard/credit-cards.type';
+import {cardIdParamState} from '^models/CreditCard/atom';
 
 export const CardHoldingMember = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardHoldingMemberModal);
@@ -21,7 +22,7 @@ export const CardHoldingMember = memo(() => {
     const [createCreditCardData, setCreateCreditCardData] = useRecoilState(createCreditCardDtoAtom);
     const setCurrenCreditCard = useSetRecoilState(currentCreditCardAtom);
     const orgId = useRecoilValue(orgIdParamState);
-    const cardId = useRouterIdParamState('cardId', cardIdParamState);
+    const cardId = useRecoilValue(cardIdParamState);
     const form = useForm<UnSignedCreditCardFormData>();
     const {toast} = useToast();
     const inputRef = useRef<HTMLInputElement>(null);
@@ -42,6 +43,8 @@ export const CardHoldingMember = memo(() => {
     };
 
     const onUpdate = async () => {
+        if (!orgId || isNaN(orgId) || !cardId || isNaN(cardId)) return;
+
         const holdingMemberId = form.getValues('holdingMemberId');
         if (!holdingMemberId) return;
 

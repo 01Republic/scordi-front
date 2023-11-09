@@ -1,8 +1,12 @@
-import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {V3OrgCardDetailPage} from '^components/pages/v3/V3OrgCardDetailPage';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {cardIdParamState} from '^models/CreditCard/atom';
+import {useSetRecoilState} from 'recoil';
+import {useEffect} from 'react';
+import {useRouter} from 'next/router';
 
 export const V3OrgCardDetailPageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]/cards/[cardId]',
@@ -28,7 +32,15 @@ export const V3OrgCardDetailPageRoute = pathRoute({
 
 export default function Page() {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
-    const cardId = useRouterIdParamState('cardId', cardIdParamState);
+    // const cardId = useRouterIdParamState('cardId', cardIdParamState);
+
+    const setCardId = useSetRecoilState(cardIdParamState);
+    const router = useRouter();
+    const cardId = Number(router.query.cardId);
+
+    useEffect(() => {
+        cardId && setCardId(cardId);
+    }, [cardId]);
 
     if (!orgId || isNaN(orgId) || !cardId || isNaN(cardId)) return <></>;
 

@@ -4,16 +4,16 @@ import {useForm} from 'react-hook-form';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {createCreditCardDtoAtom} from '../atom';
+import {createCreditCardDtoAtom, currentCreditCardAtom} from '../atom';
 import {useToast} from '^hooks/useToast';
 import {InputCardNumber} from './InputCardNumber';
-import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {orgIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {plainToInstance} from 'class-transformer';
 import {inputCardNumberModal} from './atom';
 import {selectCardCompanyModal} from '../CardCompanyModal/atom';
-import {creditCardSignAtom} from '^models/CreditCard/atom';
+import {cardIdParamState, creditCardSignAtom} from '^models/CreditCard/atom';
 import {UnSignedCreditCardFormData} from '^models/CreditCard/credit-cards.type';
 
 export const CardNumberModal = memo(() => {
@@ -23,8 +23,9 @@ export const CardNumberModal = memo(() => {
     const [createCreditCardDto, setCreateCreditCardDto] = useRecoilState(createCreditCardDtoAtom);
     const [disabled, setDisabled] = useState(true);
     const setCardSignInfo = useSetRecoilState(creditCardSignAtom);
+    const setCurrentCreditCard = useSetRecoilState(currentCreditCardAtom);
     const orgId = useRecoilValue(orgIdParamState);
-    const cardId = useRouterIdParamState('cardId', cardIdParamState);
+    const cardId = useRecoilValue(cardIdParamState);
     const {toast} = useToast();
 
     useEffect(() => {
@@ -43,12 +44,15 @@ export const CardNumberModal = memo(() => {
 
     //카드 번호 수정 함수
     const onUpdate = async () => {
+        if (!orgId || !cardId) return;
+
         const formData = plainToInstance(UnSignedCreditCardFormData, form.getValues());
 
         const res = await creditCardApi.update(orgId, cardId, formData.toUpdateDto());
 
         if (res) {
             setCardSignInfo(res.data.secretInfo);
+            setCurrentCreditCard(res.data);
             close();
             toast.success('변경되었습니다.');
         }

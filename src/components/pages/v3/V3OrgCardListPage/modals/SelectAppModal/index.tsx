@@ -10,10 +10,11 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {V3OrgCardDetailPageRoute} from '^pages/v3/orgs/[orgId]/cards/[cardId]';
 import {CardAppList} from './CardAppList';
 import {creditCardApi} from '^api/credit-cards.api';
-import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {orgIdParamState} from '^atoms/common';
 import {createCreditCardDtoAtom} from '../atom';
 import {productIdsAtom, selectAppModal, selectedAppsAtom, subscriptionsAtom} from './atom';
 import {useAlert} from '^hooks/useAlert';
+import {cardIdParamState} from '^models/CreditCard/atom';
 
 export const SelectAppModal = memo(() => {
     const {Modal, close, isShow} = useModal(selectAppModal);
@@ -24,7 +25,7 @@ export const SelectAppModal = memo(() => {
     const productIdsReset = useResetRecoilState(productIdsAtom);
     const selectedAppsReset = useResetRecoilState(selectedAppsAtom);
     const orgId = useRecoilValue(orgIdParamState);
-    const cardId = useRouterIdParamState('cardId', cardIdParamState);
+    const cardId = useRecoilValue(cardIdParamState);
     const router = useRouter();
     const {toast} = useToast();
     const {alert} = useAlert();
@@ -63,7 +64,7 @@ export const SelectAppModal = memo(() => {
 
     // 카드 연동 앱 수정 함수
     const onUpdate = async () => {
-        if (!selectedApps) return;
+        if (!selectedApps || !cardId || isNaN(cardId)) return;
 
         const res = await creditCardApi.update(orgId, cardId, {productIds: productIds});
 

@@ -5,7 +5,7 @@ import {useToast} from '^hooks/useToast';
 import {useModal} from '../../../share/modals/useModal';
 import {ModalTopbar} from '../../../share/modals/ModalTopbar';
 import {createCreditCardDtoAtom, currentCreditCardAtom} from '../atom';
-import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {orgIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {SkipButton} from '^components/pages/v3/V3OrgCardListPage/modals/SkipButton';
 import {MobileSection} from '^v3/share/sections/MobileSection';
@@ -13,28 +13,33 @@ import {ModalLikeBottomBar} from '../../../layouts/V3ModalLikeLayout.mobile/Moda
 import {useMoveScroll} from '^hooks/useMoveScroll';
 import {selectCardCompanyModal} from './atom';
 import {inputCardNameModal} from '../CardNameModal/atom';
+import {cardIdParamState} from '^models/CreditCard/atom';
 
 export const CardCompanyModal = memo(() => {
     const {Modal, close} = useModal(selectCardCompanyModal);
     const {open: openInputCardNameModal} = useModal(inputCardNameModal);
     const [createCreditCardDto, setCreateCreditCardDto] = useRecoilState(createCreditCardDtoAtom);
     const [currentCreditCard, setCurrenCreditCard] = useRecoilState(currentCreditCardAtom);
-    const [issuerCompany, setIssuerCompany] = useState('');
+    const [issuerCompany, setIssuerCompany] = useState<string | null>('');
     const [defaultValue, setDefaultValue] = useState({
         value: '',
         label: '',
     });
     const orgId = useRecoilValue(orgIdParamState);
-    const cardId = useRouterIdParamState('cardId', cardIdParamState);
+    const cardId = useRecoilValue(cardIdParamState);
     const {selectRef, onScroll} = useMoveScroll();
     const {toast} = useToast();
 
     useEffect(() => {
-        cardId &&
-            setDefaultValue({
-                value: currentCreditCard.issuerCompany ?? '',
-                label: currentCreditCard.issuerCompany ?? '',
-            });
+        cardId
+            ? setDefaultValue({
+                  value: currentCreditCard.issuerCompany ?? '',
+                  label: currentCreditCard.issuerCompany ?? '',
+              })
+            : setDefaultValue({
+                  value: '',
+                  label: '',
+              });
     }, [orgId, cardId, currentCreditCard]);
 
     // 카드사 등록 함수
@@ -46,7 +51,7 @@ export const CardCompanyModal = memo(() => {
 
     // 카드사 수정 함수
     const onUpdate = async () => {
-        if (!issuerCompany) return;
+        if (!orgId || isNaN(orgId) || !cardId || isNaN(cardId)) return;
 
         const res = await creditCardApi.update(orgId, cardId, {
             issuerCompany: issuerCompany,

@@ -1,8 +1,11 @@
-import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {V3OrgCardListPage} from '^components/pages/v3/V3OrgCardListPage';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {useEffect} from 'react';
+import {useSetRecoilState} from 'recoil';
+import {cardIdParamState} from '^models/CreditCard/atom';
 
 export const V3OrgCardListPageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]/cards',
@@ -31,7 +34,11 @@ export const V3OrgCardListPageRoute = pathRoute({
 
 export default function Page() {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const setCardId = useSetRecoilState(cardIdParamState);
 
+    useEffect(() => {
+        setCardId(null);
+    }, [orgId]);
     if (!orgId) return <></>;
 
     return <V3OrgCardListPage />;
