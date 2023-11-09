@@ -1,11 +1,11 @@
 import React, {Dispatch, FormEvent, memo, useEffect, useState} from 'react';
 import {UseFormReturn} from 'react-hook-form';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {currentCreditCardAtom} from '^components/pages/v3/V3OrgCardListPage/modals/atom';
 import CryptoJS from 'crypto-js';
 import {cardSign} from '^config/environments';
-import {cardIdParamState, useRouterIdParamState} from '^atoms/common';
 import {CreditCardSecretInfo, UnSignedCreditCardFormData} from '^models/CreditCard/credit-cards.type';
+import {cardIdParamState} from '^models/CreditCard/atom';
 
 interface InputCardNumberProps {
     form: UseFormReturn<UnSignedCreditCardFormData>;
@@ -15,14 +15,13 @@ interface InputCardNumberProps {
 export const InputCardNumber = memo((props: InputCardNumberProps) => {
     const {form, setDisabled} = props;
     const [cardInfo, setCardInfo] = useState<CreditCardSecretInfo>();
-    const cardId = useRouterIdParamState('cardId', cardIdParamState);
+    const cardId = useRecoilValue(cardIdParamState);
 
     // Detail page 에서 모달 띄울 시 존재함.
     const currentCreditCard = useRecoilValue(currentCreditCardAtom);
 
     // 만약 수정 중인 경우 form에 기본 값을 세팅합니다.
     useEffect(() => {
-        if (!cardId) return;
         if (!currentCreditCard?.numbers) return;
 
         const json = CryptoJS.AES.decrypt(currentCreditCard.sign, cardSign).toString(CryptoJS.enc.Utf8);
@@ -35,13 +34,13 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
         const number1 = document.querySelector('input[name="number1"]') as HTMLInputElement;
         !number1.value && number1.focus();
 
-        if (!cardInfo) return;
+        if (!cardInfo || !cardId || isNaN(cardId)) return;
 
         form.setValue('number1', cardInfo.number1);
         form.setValue('number2', cardInfo.number2);
         form.setValue('number3', cardInfo.number3);
         form.setValue('number4', cardInfo.number4);
-    }, [cardInfo]);
+    }, [cardInfo, cardId]);
 
     const moveNextInput = (currentPart: number, value: string) => {
         if (value.length === 4 && currentPart < 4) {

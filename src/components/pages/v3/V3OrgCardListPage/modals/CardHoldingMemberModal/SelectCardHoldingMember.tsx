@@ -2,21 +2,21 @@ import {UseFormReturn} from 'react-hook-form';
 import {useEffect, useState} from 'react';
 import {TeamMemberDto} from '^types/team-member.type';
 import {useTeamMembers} from '^hooks/useTeamMembers';
-import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {orgIdParamState} from '^atoms/common';
 import {CreatableSelect} from '^components/util/react-select/CreatableSelect';
 import {TeamMemberSelectOption as Option} from '^components/pages/v3/V3OrgCardListPage/modals/CardHoldingMemberModal/TeamMemberSelectOption';
 import {useMoveScroll} from '^hooks/useMoveScroll';
 import {useRecoilValue} from 'recoil';
 import {allTeamMemberSelector} from './atom';
 import {UnSignedCreditCardFormData} from '^models/CreditCard/credit-cards.type';
-import {creditCardListSelector} from '^models/CreditCard/atom';
+import {cardIdParamState, creditCardListSelector} from '^models/CreditCard/atom';
 
 interface SelectCardHoldingMemberProps {
     form: UseFormReturn<UnSignedCreditCardFormData>;
 }
 export const SelectCardHoldingMember = (props: SelectCardHoldingMemberProps) => {
     const orgId = useRecoilValue(orgIdParamState);
-    const cardId = useRouterIdParamState('cardId', cardIdParamState);
+    const cardId = useRecoilValue(cardIdParamState);
     const cardSelector = useRecoilValue(creditCardListSelector);
     const [isShow, setIsShow] = useState(true);
     const [allTeamMembers, setAllTeamMembers] = useState<TeamMemberDto[]>([]);

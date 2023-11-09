@@ -8,7 +8,7 @@ import {BsPlus} from 'react-icons/bs';
 import {useModal} from '../share/modals/useModal';
 import {currentCreditCardAtom} from '../V3OrgCardListPage/modals/atom';
 import {ContentEmpty} from '../V3OrgHomePage/mobile/ContentEmpty';
-import {cardIdParamState, orgIdParamState} from '^atoms/common';
+import {orgIdParamState} from '^atoms/common';
 import {cardSign} from '^config/environments';
 import {SubscriptionItem} from '../V3OrgHomePage/mobile/SubscriptionItem';
 import {useRouter} from 'next/router';
@@ -19,7 +19,7 @@ import {selectCardCompanyModal} from '../V3OrgCardListPage/modals/CardCompanyMod
 import {inputCardNameModal} from '../V3OrgCardListPage/modals/CardNameModal/atom';
 import {inputCardHoldingMemberModal} from '../V3OrgCardListPage/modals/CardHoldingMemberModal/atom';
 import {selectAppModal, subscriptionsAtom} from '../V3OrgCardListPage/modals/SelectAppModal/atom';
-import {creditCardSignAtom} from '^models/CreditCard/atom';
+import {cardIdParamState, creditCardSignAtom} from '^models/CreditCard/atom';
 import {creditCardApi} from '^api/credit-cards.api';
 
 export const V3OrgCardDetailPage = memo(() => {

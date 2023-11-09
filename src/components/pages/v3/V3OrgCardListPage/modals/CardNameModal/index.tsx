@@ -1,17 +1,18 @@
-import React, {memo, useEffect, useRef} from 'react';
+import React, {memo, useEffect} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useForm} from 'react-hook-form';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {createCreditCardDtoAtom, currentCreditCardAtom} from '../atom';
-import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {orgIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {useToast} from '^hooks/useToast';
 import {ModalLikeBottomBar} from '../../../layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {SkipButton} from '^components/pages/v3/V3OrgCardListPage/modals/SkipButton';
 import {inputCardNameModal} from './atom';
 import {inputCardHoldingMemberModal} from '../CardHoldingMemberModal/atom';
+import {cardIdParamState} from '^models/CreditCard/atom';
 
 export const CardNameModal = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardNameModal);
@@ -19,7 +20,7 @@ export const CardNameModal = memo(() => {
     const [createCreditCardDto, setCreateCreditCardDto] = useRecoilState(createCreditCardDtoAtom);
     const [currentCreditCard, setCurrenCreditCard] = useRecoilState(currentCreditCardAtom);
     const orgId = useRecoilValue(orgIdParamState);
-    const cardId = useRouterIdParamState('cardId', cardIdParamState);
+    const cardId = useRecoilValue(cardIdParamState);
     const form = useForm();
     const {toast} = useToast();
 
@@ -40,8 +41,10 @@ export const CardNameModal = memo(() => {
 
     // 카드 이름 수정 함수
     const onUpdate = async () => {
+        if (!orgId || isNaN(orgId) || !cardId || isNaN(cardId)) return;
+
         const cardName = form.getValues('cardName');
-        if (!cardName) return;
+        console.log(cardName);
 
         const res = await creditCardApi.update(orgId, cardId, {
             name: cardName,

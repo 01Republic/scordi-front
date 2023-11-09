@@ -14,7 +14,6 @@ interface CardItemProps {
 
 export const CardItem = memo((props: CardItemProps) => {
     const {card} = props;
-
     const [cardInfo, setCardInfo] = useState<CreditCardSecretInfo>();
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
@@ -24,7 +23,7 @@ export const CardItem = memo((props: CardItemProps) => {
         const toString = JSON.parse(json);
 
         setCardInfo(toString);
-    }, [card.id]);
+    }, [orgId, card]);
 
     return (
         <li className="!w-auto gap-4 px-5 py-3 -mx-4 hover:bg-neutral btn-like no-selectable">
@@ -32,8 +31,8 @@ export const CardItem = memo((props: CardItemProps) => {
             <AvatarCard className="w-9 h-9 outline outline-offset-1 outline-slate-100" />
             <div onClick={() => router.push(V3OrgCardDetailPageRoute.path(orgId, card.id))} className="flex-1">
                 <p className="text-sm text-gray-500 flex">
-                    {card.name && <span>{card.name} / </span>}
-                    {card.issuerCompany && <span className="pl-1"> {card.issuerCompany} </span>}
+                    {card.name && <span>{card.name} </span>}
+                    {card.issuerCompany && <span className="pl-1">| {card.issuerCompany} </span>}
                 </p>
                 <p className="font-semibold">
                     {cardInfo?.number1}-{cardInfo?.number2}-{cardInfo?.number3}-{cardInfo?.number4}

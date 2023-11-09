@@ -67,8 +67,3 @@ export const teamMemberIdParamState = atom({
     key: 'teamMemberIdParamState',
     default: NaN,
 });
-
-export const cardIdParamState = atom({
-    key: 'cardIdParamState',
-    default: NaN,
-});
