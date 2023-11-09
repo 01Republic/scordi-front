@@ -6,7 +6,7 @@ import {V3ModalLikeLayoutMobile} from '../layouts/V3ModalLikeLayout.mobile';
 import {InformationPanel} from './InformationPanel';
 import {BsPlus} from 'react-icons/bs';
 import {useModal} from '../share/modals/useModal';
-import {currentCreditCardAtom, currentCreditCardSelector} from '../V3OrgCardListPage/modals/atom';
+import {currentCreditCardAtom} from '../V3OrgCardListPage/modals/atom';
 import {ContentEmpty} from '../V3OrgHomePage/mobile/ContentEmpty';
 import {cardIdParamState, orgIdParamState} from '^atoms/common';
 import {cardSign} from '^config/environments';
@@ -20,6 +20,7 @@ import {inputCardNameModal} from '../V3OrgCardListPage/modals/CardNameModal/atom
 import {inputCardHoldingMemberModal} from '../V3OrgCardListPage/modals/CardHoldingMemberModal/atom';
 import {selectAppModal, subscriptionsAtom} from '../V3OrgCardListPage/modals/SelectAppModal/atom';
 import {creditCardSignAtom} from '^models/CreditCard/atom';
+import {creditCardApi} from '^api/credit-cards.api';
 
 export const V3OrgCardDetailPage = memo(() => {
     const cardNumberModal = useModal(inputCardNumberModal);
@@ -30,25 +31,21 @@ export const V3OrgCardDetailPage = memo(() => {
     const [subscriptions, setSubscriptions] = useRecoilState(subscriptionsAtom);
     const [currentCreditCard, setCurrentCreditCard] = useRecoilState(currentCreditCardAtom);
     const setCardSignInfo = useSetRecoilState(creditCardSignAtom);
-    const cardSelector = useRecoilValue(currentCreditCardSelector);
     const orgId = useRecoilValue(orgIdParamState);
     const cardId = useRecoilValue(cardIdParamState);
     const router = useRouter();
 
     useEffect(() => {
-        setCurrentCreditCard(cardSelector);
-    }, []);
+        if (!cardId || isNaN(cardId)) return;
 
-    useEffect(() => {
-        const isNotEmpty = Object.keys(currentCreditCard).length;
-        if (!cardId || isNaN(cardId) || !isNotEmpty) return;
-
-        setSubscriptions(currentCreditCard.subscriptions ?? []);
-
-        const json = CryptoJS.AES.decrypt(currentCreditCard.sign, cardSign).toString(CryptoJS.enc.Utf8);
-        const toString = JSON.parse(json);
-        setCardSignInfo(toString);
-    }, [orgId, cardId, currentCreditCard]);
+        creditCardApi.show(orgId, cardId).then((res) => {
+            setCurrentCreditCard(res.data);
+            const json = CryptoJS.AES.decrypt(res.data.sign, cardSign).toString(CryptoJS.enc.Utf8);
+            const toString = JSON.parse(json);
+            setCardSignInfo(toString);
+            setSubscriptions(currentCreditCard.subscriptions ?? []);
+        });
+    }, [orgId, cardId]);
 
     const backBtnOnclick = () => {
         router.push(V3OrgCardListPageRoute.path(orgId));
