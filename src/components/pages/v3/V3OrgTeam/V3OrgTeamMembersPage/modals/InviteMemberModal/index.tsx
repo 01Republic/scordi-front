@@ -13,7 +13,7 @@ import {CreateMembershipInvite} from '^api/membership.api';
 import {useMemberships} from '^hooks/useMemberships';
 import {debounce} from 'lodash';
 import {useToast} from '^hooks/useToast';
-import Swal from 'sweetalert2';
+import {useAlert} from '^hooks/useAlert';
 
 export const InviteOrgMemberModal = memo(() => {
     const {isShow, Modal, close} = useModal({isShowAtom: isOpeninviteOrgMemberModalAtom});
@@ -23,6 +23,7 @@ export const InviteOrgMemberModal = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
     const form = useForm<FieldValues>();
     const {toast} = useToast();
+    const {alert} = useAlert();
 
     useEffect(() => {
         if (!isShow) {
@@ -86,13 +87,7 @@ export const InviteOrgMemberModal = memo(() => {
             if (res) {
                 close();
                 setIsLoading(false);
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: '초대가 완료되었습니다.',
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
+                alert.success({title: '초대가 완료되었습니다.'});
             }
         }
     }, 500);

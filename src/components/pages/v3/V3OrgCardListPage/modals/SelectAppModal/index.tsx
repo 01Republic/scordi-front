@@ -13,6 +13,7 @@ import {creditCardApi} from '^api/credit-cards.api';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {createCreditCardDtoAtom} from '../atom';
 import {productIdsAtom, selectAppModal, selectedAppsAtom, subscriptionsAtom} from './atom';
+import {useAlert} from '^hooks/useAlert';
 
 export const SelectAppModal = memo(() => {
     const {Modal, close, isShow} = useModal(selectAppModal);
@@ -24,6 +25,7 @@ export const SelectAppModal = memo(() => {
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
     const router = useRouter();
     const {toast} = useToast();
+    const {alert} = useAlert();
 
     useEffect(() => {
         console.log(cardId);
@@ -45,8 +47,11 @@ export const SelectAppModal = memo(() => {
         const res = await creditCardApi.create(orgId, submitData);
 
         if (res) {
+            alert.success({title: '카드 추가가 완료되었습니다.'});
             const cardId = res.data.id;
-            router.push(V3OrgCardDetailPageRoute.path(orgId, cardId));
+            setTimeout(() => {
+                router.push(V3OrgCardDetailPageRoute.path(orgId, cardId));
+            }, 1500);
         }
     };
 

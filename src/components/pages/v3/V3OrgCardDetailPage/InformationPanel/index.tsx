@@ -8,12 +8,12 @@ import {cardIdParamState, orgIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {useRouter} from 'next/router';
 import {V3OrgCardListPageRoute} from '^pages/v3/orgs/[orgId]/cards';
-import Swal from 'sweetalert2';
 import {inputCardNumberModal} from '../../V3OrgCardListPage/modals/CardNumberModal/atom';
 import {selectCardCompanyModal} from '../../V3OrgCardListPage/modals/CardCompanyModal/atom';
 import {inputCardNameModal} from '../../V3OrgCardListPage/modals/CardNameModal/atom';
 import {inputCardHoldingMemberModal} from '../../V3OrgCardListPage/modals/CardHoldingMemberModal/atom';
 import {creditCardSignAtom} from '^models/CreditCard/atom';
+import {useAlert} from '^hooks/useAlert';
 
 export const InformationPanel = memo(() => {
     const cardInfo = useRecoilValue(creditCardSignAtom);
@@ -25,33 +25,16 @@ export const InformationPanel = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
     const cardId = useRecoilValue(cardIdParamState);
     const router = useRouter();
+    const {alert} = useAlert();
 
     // 카드 삭제 함수
     const onDelete = () => {
         if (!orgId && !cardId) return;
 
-        Swal.fire({
+        alert.destory({
             title: '카드를 삭제하시겠습니까?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '',
-            cancelButtonColor: 'error',
-            confirmButtonText: '삭제',
-            cancelButtonText: '취소',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                creditCardApi.destroy(orgId, cardId).then(() =>
-                    Swal.fire({
-                        icon: 'success',
-                        title: '삭제가 완료되었습니다.',
-                        showConfirmButton: false,
-                        timer: 1500,
-                    }),
-                );
-                setTimeout(() => {
-                    router.replace(V3OrgCardListPageRoute.path(orgId));
-                }, 1500);
-            }
+            confirmFn: () => creditCardApi.destroy(orgId, cardId),
+            routerFn: () => router.replace(V3OrgCardListPageRoute.path(orgId)),
         });
     };
 
