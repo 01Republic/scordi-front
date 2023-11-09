@@ -4,12 +4,12 @@ import {TeamMemberDto} from '^types/team-member.type';
 import {useTeamMembers} from '^hooks/useTeamMembers';
 import {cardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {CreatableSelect} from '^components/util/react-select/CreatableSelect';
-import {useCreditCardsOfOrganization} from '^hooks/useCreditCards';
 import {TeamMemberSelectOption as Option} from '^components/pages/v3/V3OrgCardListPage/modals/CardHoldingMemberModal/TeamMemberSelectOption';
 import {useMoveScroll} from '^hooks/useMoveScroll';
 import {useRecoilValue} from 'recoil';
 import {allTeamMemberSelector} from './atom';
 import {UnSignedCreditCardFormData} from '^models/CreditCard/credit-cards.type';
+import {creditCardListSelector} from '^models/CreditCard/atom';
 
 interface SelectCardHoldingMemberProps {
     form: UseFormReturn<UnSignedCreditCardFormData>;
@@ -17,7 +17,7 @@ interface SelectCardHoldingMemberProps {
 export const SelectCardHoldingMember = (props: SelectCardHoldingMemberProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
-    const {CreditCard} = useCreditCardsOfOrganization(true);
+    const cardSelector = useRecoilValue(creditCardListSelector);
     const [isShow, setIsShow] = useState(true);
     const [allTeamMembers, setAllTeamMembers] = useState<TeamMemberDto[]>([]);
     const teamMembers = useRecoilValue(allTeamMemberSelector);
@@ -26,13 +26,13 @@ export const SelectCardHoldingMember = (props: SelectCardHoldingMemberProps) => 
     const {form} = props;
 
     useEffect(() => {
-        if (!cardId || !CreditCard) return;
-        const card = CreditCard.findById(cardId);
+        if (!cardId || !cardSelector) return;
+        const card = cardSelector.filter((card) => card.id === cardId)[0];
 
         if (card?.holdingMemberId) {
             form.setValue('holdingMemberId', card.holdingMemberId);
         }
-    }, [cardId, CreditCard]);
+    }, [cardId, cardSelector]);
 
     useEffect(() => {
         if (!isShow) return;

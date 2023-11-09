@@ -1,6 +1,6 @@
 import React, {memo, useCallback, useEffect} from 'react';
 import {useRouter} from 'next/router';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {useToast} from '^hooks/useToast';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
@@ -21,6 +21,8 @@ export const SelectAppModal = memo(() => {
     const [selectedApps, setSelectedApps] = useRecoilState(selectedAppsAtom);
     const [subscriptions, setSubscriptions] = useRecoilState(subscriptionsAtom);
     const [productIds, setProductIds] = useRecoilState(productIdsAtom);
+    const productIdsReset = useResetRecoilState(productIdsAtom);
+    const selectedAppsReset = useResetRecoilState(selectedAppsAtom);
     const orgId = useRecoilValue(orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
     const router = useRouter();
@@ -28,13 +30,21 @@ export const SelectAppModal = memo(() => {
     const {alert} = useAlert();
 
     useEffect(() => {
-        if (selectedApps.length && productIds.length) return;
+        if (!orgId || isNaN(orgId)) return;
 
+        // cardId가 없으면 카드 새로 추가하는 상태
+        if (!cardId) {
+            selectedAppsReset();
+            productIdsReset();
+            return;
+        }
+
+        // cardId가 있으면 카드 수정하는 상태
         subscriptions.map((subscription) => {
-            setSelectedApps((prev) => [...prev, subscription.product]);
-            setProductIds((prev) => [...prev, subscription.product.id]);
+            !selectedApps.length && setSelectedApps((prev) => [...prev, subscription.product]);
+            !productIds.length && setProductIds((prev) => [...prev, subscription.product.id]);
         });
-    }, [isShow]);
+    }, [orgId, cardId, isShow]);
 
     // 카드 연동 앱 등록 함수
     const onSubmit = useCallback(async () => {

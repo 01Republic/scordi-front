@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import Select from 'react-select';
 import {useToast} from '^hooks/useToast';
@@ -20,10 +20,22 @@ export const CardCompanyModal = memo(() => {
     const [createCreditCardDto, setCreateCreditCardDto] = useRecoilState(createCreditCardDtoAtom);
     const [currentCreditCard, setCurrenCreditCard] = useRecoilState(currentCreditCardAtom);
     const [issuerCompany, setIssuerCompany] = useState('');
+    const [defaultValue, setDefaultValue] = useState({
+        value: '',
+        label: '',
+    });
     const orgId = useRecoilValue(orgIdParamState);
     const cardId = useRouterIdParamState('cardId', cardIdParamState);
     const {selectRef, onScroll} = useMoveScroll();
     const {toast} = useToast();
+
+    useEffect(() => {
+        cardId &&
+            setDefaultValue({
+                value: currentCreditCard.issuerCompany ?? '',
+                label: currentCreditCard.issuerCompany ?? '',
+            });
+    }, [orgId, cardId, currentCreditCard]);
 
     // 카드사 등록 함수
     const onSubmit = () => {
@@ -64,10 +76,7 @@ export const CardCompanyModal = memo(() => {
                     <Select
                         value={OPTIONS.find((option) => option.value === issuerCompany)}
                         options={OPTIONS}
-                        defaultValue={{
-                            value: currentCreditCard.issuerCompany ?? '',
-                            label: currentCreditCard.issuerCompany,
-                        }}
+                        defaultValue={defaultValue}
                         onChange={(e) => e && setIssuerCompany(e?.value)}
                         className="select-underline input-underline"
                         placeholder="전체"

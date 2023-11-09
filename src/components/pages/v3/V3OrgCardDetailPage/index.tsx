@@ -36,16 +36,22 @@ export const V3OrgCardDetailPage = memo(() => {
     const router = useRouter();
 
     useEffect(() => {
-        if (!cardId || isNaN(cardId)) return;
+        if (!orgId || isNaN(orgId) || !cardId || isNaN(cardId)) return;
 
         creditCardApi.show(orgId, cardId).then((res) => {
             setCurrentCreditCard(res.data);
-            const json = CryptoJS.AES.decrypt(res.data.sign, cardSign).toString(CryptoJS.enc.Utf8);
-            const toString = JSON.parse(json);
-            setCardSignInfo(toString);
-            setSubscriptions(currentCreditCard.subscriptions ?? []);
         });
     }, [orgId, cardId]);
+
+    useEffect(() => {
+        const isNotEmpty = Object.keys(currentCreditCard).length;
+        if (!cardId || isNaN(cardId) || !isNotEmpty) return;
+
+        const json = CryptoJS.AES.decrypt(currentCreditCard.sign, cardSign).toString(CryptoJS.enc.Utf8);
+        const toString = JSON.parse(json);
+        setCardSignInfo(toString);
+        setSubscriptions(currentCreditCard.subscriptions ?? []);
+    }, [orgId, cardId, currentCreditCard]);
 
     const backBtnOnclick = () => {
         router.push(V3OrgCardListPageRoute.path(orgId));

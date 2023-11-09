@@ -24,14 +24,10 @@ export const CardNameModal = memo(() => {
     const {toast} = useToast();
 
     useEffect(() => {
-        if (!isShow) {
-            form.reset();
-        }
+        cardId ? form.setValue('cardName', currentCreditCard.name) : form.reset();
 
         const cardNameInput = document.querySelector('input[name="cardName"]') as HTMLInputElement;
         cardNameInput?.focus();
-
-        form.setValue('cardName', currentCreditCard.name);
     }, [isShow]);
 
     // 카드 이름 등록 함수
