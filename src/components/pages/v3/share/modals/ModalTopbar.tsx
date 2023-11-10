@@ -1,6 +1,7 @@
 import {ReactComponentLike, ReactNodeLike} from 'prop-types';
 import React, {memo} from 'react';
 import {FiArrowLeft} from 'react-icons/fi';
+import {useId} from 'react-id-generator';
 
 interface ModalTopbarProps {
     backBtnOnClick: () => any;
@@ -14,9 +15,9 @@ export const ModalTopbar = memo((props: ModalTopbarProps) => {
     const mappedButtons = rightButtons.length ? (
         rightButtons.map((RightButton, i) => {
             return (
-                <>
-                    <RightButton key={i} /> {i === rightButtons.length - 1 ? <span /> : <span>&nbsp;/&nbsp;</span>}
-                </>
+                <div key={i}>
+                    <RightButton /> {i === rightButtons.length - 1 ? <span /> : <span>&nbsp;/&nbsp;</span>}
+                </div>
             );
         })
     ) : (

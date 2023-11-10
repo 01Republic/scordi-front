@@ -39,8 +39,8 @@ export const CardsPanel = memo(() => {
 
                 {length ? (
                     <>
-                        {creditCardList.map((card) => (
-                            <CardItem card={card} />
+                        {creditCardList.map((card, i) => (
+                            <CardItem key={i} card={card} />
                         ))}
                         <AddButton title="더 보기" onClick={() => router.push(V3OrgCardListPageRoute.path(orgId))} />
                     </>

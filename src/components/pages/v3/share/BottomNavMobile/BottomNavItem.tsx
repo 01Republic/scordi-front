@@ -1,5 +1,6 @@
 import {memo} from 'react';
 import {IconType} from '@react-icons/all-files';
+import {useRouter} from 'next/router';
 
 interface BottomNavItemProps {
     text: string;
@@ -10,12 +11,17 @@ interface BottomNavItemProps {
 
 export const BottomNavItem = memo((props: BottomNavItemProps) => {
     const {text, Icon, href, isActive} = props;
+    const router = useRouter();
+
+    const onclick = () => {
+        router.push(href);
+    };
 
     return (
         <div className="h-full">
-            <a
-                href={href}
-                className={`${
+            <div
+                onClick={onclick}
+                className={`cursor-pointer ${
                     isActive ? 'text-gray-900' : 'text-slate-400 hover:text-slate-500'
                 } flex flex-col gap-1 h-full items-center justify-center pt-1`}
             >
@@ -23,7 +29,7 @@ export const BottomNavItem = memo((props: BottomNavItemProps) => {
                     <Icon size={18} />
                 </span>
                 <span className="text-[11px]">{text}</span>
-            </a>
+            </div>
         </div>
     );
 });

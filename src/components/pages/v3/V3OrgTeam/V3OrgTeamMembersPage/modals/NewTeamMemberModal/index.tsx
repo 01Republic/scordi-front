@@ -55,7 +55,7 @@ export const NewTeamMemberModal = memo(() => {
                                 <div className="py-5">
                                     <TextInput
                                         label={'이름'}
-                                        inputClass="bg-white border-b-2"
+                                        inputclass="bg-white border-b-2"
                                         {...form.register('name', {required: true})}
                                     />
                                 </div>
