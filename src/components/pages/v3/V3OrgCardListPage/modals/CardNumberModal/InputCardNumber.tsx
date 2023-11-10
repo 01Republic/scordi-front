@@ -2,8 +2,6 @@ import React, {Dispatch, FormEvent, memo, useEffect, useState} from 'react';
 import {UseFormReturn} from 'react-hook-form';
 import {useRecoilValue} from 'recoil';
 import {currentCreditCardAtom} from '^components/pages/v3/V3OrgCardListPage/modals/atom';
-import CryptoJS from 'crypto-js';
-import {cardSign} from '^config/environments';
 import {CreditCardSecretInfo, UnSignedCreditCardFormData} from '^models/CreditCard/credit-cards.type';
 import {cardIdParamState} from '^models/CreditCard/atom';
 
@@ -24,9 +22,7 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
     useEffect(() => {
         if (!currentCreditCard?.numbers) return;
 
-        const json = CryptoJS.AES.decrypt(currentCreditCard.sign, cardSign).toString(CryptoJS.enc.Utf8);
-        const decrypted = JSON.parse(json);
-
+        const decrypted = currentCreditCard.decryptSign();
         setCardInfo(decrypted);
     }, [currentCreditCard]);
 

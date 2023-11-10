@@ -1,5 +1,4 @@
 import React, {memo, useEffect} from 'react';
-import CryptoJS from 'crypto-js';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {MobileSection} from '../share/sections/MobileSection';
 import {V3ModalLikeLayoutMobile} from '../layouts/V3ModalLikeLayout.mobile';
@@ -9,7 +8,6 @@ import {useModal} from '../share/modals/useModal';
 import {currentCreditCardAtom} from '../V3OrgCardListPage/modals/atom';
 import {ContentEmpty} from '../V3OrgHomePage/mobile/ContentEmpty';
 import {orgIdParamState} from '^atoms/common';
-import {cardSign} from '^config/environments';
 import {SubscriptionItem} from '../V3OrgHomePage/mobile/SubscriptionItem';
 import {useRouter} from 'next/router';
 import {V3OrgCardListPageRoute} from '^pages/v3/orgs/[orgId]/cards';
@@ -47,9 +45,9 @@ export const V3OrgCardDetailPage = memo(() => {
         const isNotEmpty = Object.keys(currentCreditCard).length;
         if (!cardId || isNaN(cardId) || !isNotEmpty) return;
 
-        const json = CryptoJS.AES.decrypt(currentCreditCard.sign, cardSign).toString(CryptoJS.enc.Utf8);
-        const toString = JSON.parse(json);
-        setCardSignInfo(toString);
+        const decrypted = currentCreditCard.decryptSign();
+        setCardSignInfo(decrypted);
+
         setSubscriptions(currentCreditCard.subscriptions ?? []);
     }, [orgId, cardId, currentCreditCard]);
 
