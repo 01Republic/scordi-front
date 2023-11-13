@@ -7,23 +7,32 @@ import {
     UpdateSyncHistoryDto,
 } from '^types/subscriptionSyncHistory.type';
 
-export const getSyncHistories = (subscriptionId: number, params?: FindAllSyncHistoryQuery) => {
-    return api.get<Paginated<SyncHistoryDto>>(`/subscriptions/${subscriptionId}/sync-histories`, {params});
-};
+const NAMESPACE = 'subscriptions';
 
-export const getSyncHistory = (subscriptionId: number, id: number) => {
-    return api.get<SyncHistoryDto>(`/subscriptions/${subscriptionId}/sync-histories/${id}`);
-};
+export const syncHistory = {
+    index: (subscriptionId: number, params?: FindAllSyncHistoryQuery) => {
+        const url = `/${NAMESPACE}/${subscriptionId}/sync-histories`;
+        return api.get<Paginated<SyncHistoryDto>>(url, {params});
+    },
 
-// Sync now / Restart sync
-export const createSyncHistory = (subscriptionId: number, data: CreateSyncHistoryDto) => {
-    return api.post<SyncHistoryDto>(`/subscriptions/${subscriptionId}/sync-histories`, data);
-};
+    show: (subscriptionId: number, id: number) => {
+        const url = `/${NAMESPACE}/${subscriptionId}/sync-histories/${id}`;
+        return api.get<SyncHistoryDto>(url);
+    },
 
-export const updateSyncHistory = (subscriptionId: number, id: number, data: UpdateSyncHistoryDto) => {
-    return api.patch<SyncHistoryDto>(`/subscriptions/${subscriptionId}/sync-histories/${id}`, data);
-};
+    // Sync now / Restart sync
+    create: (subscriptionId: number, data: CreateSyncHistoryDto) => {
+        const url = `/${NAMESPACE}/${subscriptionId}/sync-histories`;
+        return api.post<SyncHistoryDto>(url, data);
+    },
 
-export const deleteSyncHistory = (subscriptionId: number, id: number) => {
-    return api.delete<SyncHistoryDto>(`/subscriptions/${subscriptionId}/sync-histories/${id}`);
+    update: (subscriptionId: number, id: number, data: UpdateSyncHistoryDto) => {
+        const url = `/${NAMESPACE}/${subscriptionId}/sync-histories/${id}`;
+        return api.patch<SyncHistoryDto>(url, data);
+    },
+
+    destroy: (subscriptionId: number, id: number) => {
+        const url = `/${NAMESPACE}/${subscriptionId}/sync-histories/${id}`;
+        return api.delete<SyncHistoryDto>(url);
+    },
 };

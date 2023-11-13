@@ -65,7 +65,7 @@ export type WorkspaceRole = {
     role: WorkspaceRoleType;
 };
 
-export type WorkspaceMemberDto = {
+export class WorkspaceMemberDto {
     id: number;
     name: string;
     role?: string | null;
@@ -73,7 +73,7 @@ export type WorkspaceMemberDto = {
     profileImgUrl?: string | null;
     workspaceId: number;
     workspace: WorkspaceDto;
-};
+}
 
 export type FindAllWorkspaceMembersQuery = FindAllQueryDto<WorkspaceMemberDto>;
 

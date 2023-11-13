@@ -10,7 +10,7 @@ export enum SyncHistoryResultStatus {
     CANCELED = 'canceled',
 }
 
-export type SyncHistoryDto = {
+export class SyncHistoryDto {
     id: number;
     subscriptionId: number; // 구독 ID
     runnerId: number | null; // 실행자 ID
@@ -25,7 +25,7 @@ export type SyncHistoryDto = {
 
     subscription?: SubscriptionDto; // 대상 구독
     runner?: UserDto; // 실행자
-};
+}
 
 export type FindAllSyncHistoryQuery = FindAllQueryDto<SyncHistoryDto> & {};
 

@@ -5,9 +5,8 @@ import {HistoryStatusButton} from './HistoryStatusButton';
 import {SyncHistoryDto, SyncHistoryResultStatus} from '^types/subscriptionSyncHistory.type';
 import {getDistanceOfTime, humanizeTimeDistance} from '^utils/dateTime';
 import {zeroPad} from '^utils/number';
-import {updateSyncHistory} from '^api/subscriptionSyncHistories.api';
-import {toast} from 'react-toastify';
 import {useCurrentSyncHistory} from '^hooks/useSubscriptionSyncHistories';
+import {syncHistory} from '^api/subscriptionSyncHistories.api';
 
 interface HistoryItemProps {
     subscription: SubscriptionDto;
@@ -47,10 +46,12 @@ export const HistoryItem = memo((props: HistoryItemProps) => {
     };
 
     const onCancel = () => {
-        updateSyncHistory(subscription.id, history.id, {
-            resultStatus: SyncHistoryResultStatus.CANCELED,
-            finishedAt: new Date(),
-        }).then(() => onRefreshClick());
+        syncHistory
+            .update(subscription.id, history.id, {
+                resultStatus: SyncHistoryResultStatus.CANCELED,
+                finishedAt: new Date(),
+            })
+            .then(() => onRefreshClick());
     };
 
     return (

@@ -4,10 +4,10 @@ import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {ConnectStatus} from '^types/subscription.type';
 import {navTabIndex} from './OrgAppShowPage.desktop';
 import {useCurrentSubscription} from '^hooks/useSubscriptions';
-import {createSyncHistory} from '^api/subscriptionSyncHistories.api';
 import {toast} from 'react-toastify';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {useCurrentSyncHistory, useSyncHistoryList} from '^hooks/useSubscriptionSyncHistories';
+import {syncHistory} from '^api/subscriptionSyncHistories.api';
 
 export const CurrentConnectStatus = memo(() => {
     const {currentUser} = useCurrentUser();
@@ -18,18 +18,20 @@ export const CurrentConnectStatus = memo(() => {
 
     const goSync = useCallback(() => {
         if (!currentSubscription || !currentUser) return;
-        createSyncHistory(currentSubscription.id, {
-            runnerId: currentUser.id,
-            content: `Synchronize manually.`,
-        }).then(() => {
-            toast.success('New Sync started!');
-            if (tabIndex === 3) {
-                // if current tab is histories
-                fetchSyncHistories(currentSubscription.id, pagination.currentPage, true);
-                fetchCurrentSyncHistory(currentSubscription.id);
-            }
-            reloadCurrentApp();
-        });
+        syncHistory
+            .create(currentSubscription.id, {
+                runnerId: currentUser.id,
+                content: `Synchronize manually.`,
+            })
+            .then(() => {
+                toast.success('New Sync started!');
+                if (tabIndex === 3) {
+                    // if current tab is histories
+                    fetchSyncHistories(currentSubscription.id, pagination.currentPage, true);
+                    fetchCurrentSyncHistory(currentSubscription.id);
+                }
+                reloadCurrentApp();
+            });
     }, [currentSubscription, currentUser, tabIndex]);
 
     const connectStatus = currentSubscription ? currentSubscription.connectStatus : '';

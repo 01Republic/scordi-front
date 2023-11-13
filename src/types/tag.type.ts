@@ -6,7 +6,7 @@ export enum TagGroup {
     User = 'USER',
 }
 
-export type TagDto = {
+export class TagDto {
     id: number; // 태그 ID
     name: string;
     group: TagGroup;
@@ -16,7 +16,7 @@ export type TagDto = {
     depth: number;
     createdAt: string; // 생성일시
     updatedAt: string; // 수정일시
-};
+}
 
 export type FindAllTagQueryDto = FindAllQueryDto<TagDto> & {};
 
