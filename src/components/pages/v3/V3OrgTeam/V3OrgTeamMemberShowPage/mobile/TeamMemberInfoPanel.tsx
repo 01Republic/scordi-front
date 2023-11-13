@@ -2,7 +2,7 @@ import React, {memo, useEffect} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {makeTeamMemberProfile, useCurrentTeamMember} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/atom';
 import {UseFormReturn} from 'react-hook-form';
-import {UpdateTeamMemberDto} from '^types/team-member.type';
+import {UpdateTeamMemberDto} from '^models/TeamMember/types/team-member.type';
 import {MobileInfoList} from '^v3/share/MobileInfoList';
 import {
     EditTriggeredInput,

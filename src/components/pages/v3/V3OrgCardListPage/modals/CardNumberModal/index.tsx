@@ -4,7 +4,7 @@ import {useForm} from 'react-hook-form';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {createCreditCardDtoAtom, currentCreditCardAtom} from '../atom';
+import {createCreditCardDtoAtom} from '../atom';
 import {useToast} from '^hooks/useToast';
 import {InputCardNumber} from './InputCardNumber';
 import {orgIdParamState} from '^atoms/common';
@@ -13,7 +13,7 @@ import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout
 import {plainToInstance} from 'class-transformer';
 import {inputCardNumberModal} from './atom';
 import {selectCardCompanyModal} from '../CardCompanyModal/atom';
-import {cardIdParamState, creditCardSignAtom} from '^models/CreditCard/atom';
+import {cardIdParamState, creditCardSignAtom, currentCreditCardAtom} from '^models/CreditCard/atom';
 import {UnSignedCreditCardFormData} from '^models/CreditCard/credit-cards.type';
 
 export const CardNumberModal = memo(() => {

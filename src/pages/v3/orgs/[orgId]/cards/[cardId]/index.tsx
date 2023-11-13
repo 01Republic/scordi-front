@@ -32,7 +32,6 @@ export const V3OrgCardDetailPageRoute = pathRoute({
 
 export default function Page() {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
-    // const cardId = useRouterIdParamState('cardId', cardIdParamState);
 
     const setCardId = useSetRecoilState(cardIdParamState);
     const router = useRouter();

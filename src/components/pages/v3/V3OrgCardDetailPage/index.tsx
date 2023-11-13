@@ -5,7 +5,6 @@ import {V3ModalLikeLayoutMobile} from '../layouts/V3ModalLikeLayout.mobile';
 import {InformationPanel} from './InformationPanel';
 import {BsPlus} from 'react-icons/bs';
 import {useModal} from '../share/modals/useModal';
-import {currentCreditCardAtom} from '../V3OrgCardListPage/modals/atom';
 import {ContentEmpty} from '../V3OrgHomePage/mobile/ContentEmpty';
 import {orgIdParamState} from '^atoms/common';
 import {SubscriptionItem} from '../V3OrgHomePage/mobile/SubscriptionItem';
@@ -17,7 +16,7 @@ import {selectCardCompanyModal} from '../V3OrgCardListPage/modals/CardCompanyMod
 import {inputCardNameModal} from '../V3OrgCardListPage/modals/CardNameModal/atom';
 import {inputCardHoldingMemberModal} from '../V3OrgCardListPage/modals/CardHoldingMemberModal/atom';
 import {selectAppModal, subscriptionsAtom} from '../V3OrgCardListPage/modals/SelectAppModal/atom';
-import {cardIdParamState, creditCardSignAtom} from '^models/CreditCard/atom';
+import {cardIdParamState, creditCardSignAtom, currentCreditCardAtom} from '^models/CreditCard/atom';
 import {creditCardApi} from '^api/credit-cards.api';
 
 export const V3OrgCardDetailPage = memo(() => {

@@ -1,4 +1,4 @@
-import {teamMemberApi} from '^api/team-member.api';
+import {teamMemberApi} from '^models/TeamMember/api/team-member.api';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {atom, selector} from 'recoil';
 

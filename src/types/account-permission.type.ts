@@ -1,5 +1,5 @@
 import {AccountDto} from '^types/account.type';
-import {TeamMemberDto} from '^types/team-member.type';
+import {TeamMemberDto} from '^models/TeamMember/types/team-member.type';
 
 export enum Permission {
     READ = 'READ',

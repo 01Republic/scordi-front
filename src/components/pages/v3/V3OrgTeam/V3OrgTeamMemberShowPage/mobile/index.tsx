@@ -5,8 +5,8 @@ import {TeamMemberInfoPanel} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/mobile/
 import {TeamListPanel} from '^v3/V3OrgTeam/V3OrgTeamsPage/mobile/TeamListPanel';
 import {makeTeamMemberProfile, useCurrentTeamMember} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/atom';
 import {DeleteTriggerButton, EditTriggerButton} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/mobile/input';
-import {UpdateTeamMemberDto} from '^types/team-member.type';
-import {teamMemberApi} from '^api/team-member.api';
+import {UpdateTeamMemberDto} from '^models/TeamMember/types/team-member.type';
+import {teamMemberApi} from '^models/TeamMember/api/team-member.api';
 import {useForm} from 'react-hook-form';
 import {useRouter} from 'next/router';
 import {V3OrgTeamMembersPageRoute} from '^pages/v3/orgs/[orgId]/teams/members';

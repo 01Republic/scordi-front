@@ -3,7 +3,7 @@ import {useForm} from 'react-hook-form';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {createCreditCardDtoAtom, currentCreditCardAtom} from '../atom';
+import {createCreditCardDtoAtom} from '../atom';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {SelectCardHoldingMember} from '^components/pages/v3/V3OrgCardListPage/modals/CardHoldingMemberModal/SelectCardHoldingMember';
 import {orgIdParamState} from '^atoms/common';
@@ -14,7 +14,7 @@ import {SkipButton} from '^components/pages/v3/V3OrgCardListPage/modals/SkipButt
 import {inputCardHoldingMemberModal} from './atom';
 import {selectAppModal} from '../SelectAppModal/atom';
 import {UnSignedCreditCardFormData} from '^models/CreditCard/credit-cards.type';
-import {cardIdParamState} from '^models/CreditCard/atom';
+import {cardIdParamState, currentCreditCardAtom} from '^models/CreditCard/atom';
 
 export const CardHoldingMember = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardHoldingMemberModal);

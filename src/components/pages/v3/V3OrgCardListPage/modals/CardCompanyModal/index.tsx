@@ -4,7 +4,7 @@ import Select from 'react-select';
 import {useToast} from '^hooks/useToast';
 import {useModal} from '../../../share/modals/useModal';
 import {ModalTopbar} from '../../../share/modals/ModalTopbar';
-import {createCreditCardDtoAtom, currentCreditCardAtom} from '../atom';
+import {createCreditCardDtoAtom} from '../atom';
 import {orgIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {SkipButton} from '^components/pages/v3/V3OrgCardListPage/modals/SkipButton';
@@ -13,7 +13,7 @@ import {ModalLikeBottomBar} from '../../../layouts/V3ModalLikeLayout.mobile/Moda
 import {useMoveScroll} from '^hooks/useMoveScroll';
 import {selectCardCompanyModal} from './atom';
 import {inputCardNameModal} from '../CardNameModal/atom';
-import {cardIdParamState} from '^models/CreditCard/atom';
+import {cardIdParamState, currentCreditCardAtom} from '^models/CreditCard/atom';
 
 export const CardCompanyModal = memo(() => {
     const {Modal, close} = useModal(selectCardCompanyModal);

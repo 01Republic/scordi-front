@@ -1,4 +1,4 @@
-import {FindAllTeamMemberQueryDto, TeamMemberDto} from '^types/team-member.type';
+import {FindAllTeamMemberQueryDto, TeamMemberDto} from '^models/TeamMember/types/team-member.type';
 import {atom} from 'recoil';
 import {Paginated} from '^types/utils/paginated.dto';
 

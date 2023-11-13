@@ -1,6 +1,6 @@
 import {atom, useRecoilState} from 'recoil';
-import {FindAllTeamQueryDto, TeamDto} from '^types/team.type';
-import {teamApi} from '^api/team.api';
+import {FindAllTeamQueryDto, TeamDto} from '^models/Team/types/team.type';
+import {teamApi} from '^models/Team/api/team.api';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {Paginated} from '^types/utils/paginated.dto';
 

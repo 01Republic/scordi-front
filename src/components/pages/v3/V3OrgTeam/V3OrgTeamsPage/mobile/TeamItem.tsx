@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {TeamDto} from '^types/team.type';
+import {TeamDto} from '^models/Team/types/team.type';
 import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
 import {orgIdParamState} from '^atoms/common';

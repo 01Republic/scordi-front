@@ -1,6 +1,6 @@
 import {UseFormReturn} from 'react-hook-form';
 import {useEffect, useState} from 'react';
-import {TeamMemberDto} from '^types/team-member.type';
+import {TeamMemberDto} from '^models/TeamMember/types/team-member.type';
 import {useTeamMembers} from '^hooks/useTeamMembers';
 import {orgIdParamState} from '^atoms/common';
 import {CreatableSelect} from '^components/util/react-select/CreatableSelect';

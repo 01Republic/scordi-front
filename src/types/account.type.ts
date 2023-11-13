@@ -5,7 +5,7 @@ import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';
 import {crawlerSign} from '^config/environments';
 import CryptoJS from 'crypto-js';
-import {TeamMemberDto} from '^types/team-member.type';
+import {TeamMemberDto} from '^models/TeamMember/types/team-member.type';
 
 export enum ConnectSession {
     IN_VERIFICATION = 'IN_VERIFICATION',

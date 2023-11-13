@@ -8,6 +8,11 @@ export const cardIdParamState = atom<number | null>({
     default: null,
 });
 
+export const currentCreditCardAtom = atom<CreditCardDto>({
+    key: 'currentCreditCardAtom',
+    default: {} as CreditCardDto,
+});
+
 export const creditCardListAtom = atom({
     key: 'creditCardList',
     default: <CreditCardDto[]>[],

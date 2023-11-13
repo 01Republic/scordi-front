@@ -4,7 +4,7 @@ import {useForm} from 'react-hook-form';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {createCreditCardDtoAtom, currentCreditCardAtom} from '../atom';
+import {createCreditCardDtoAtom} from '../atom';
 import {orgIdParamState} from '^atoms/common';
 import {creditCardApi} from '^api/credit-cards.api';
 import {useToast} from '^hooks/useToast';
@@ -12,7 +12,7 @@ import {ModalLikeBottomBar} from '../../../layouts/V3ModalLikeLayout.mobile/Moda
 import {SkipButton} from '^components/pages/v3/V3OrgCardListPage/modals/SkipButton';
 import {inputCardNameModal} from './atom';
 import {inputCardHoldingMemberModal} from '../CardHoldingMemberModal/atom';
-import {cardIdParamState} from '^models/CreditCard/atom';
+import {cardIdParamState, currentCreditCardAtom} from '^models/CreditCard/atom';
 
 export const CardNameModal = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardNameModal);

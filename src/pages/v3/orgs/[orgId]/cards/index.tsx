@@ -39,6 +39,7 @@ export default function Page() {
     useEffect(() => {
         setCardId(null);
     }, [orgId]);
+
     if (!orgId) return <></>;
 
     return <V3OrgCardListPage />;
