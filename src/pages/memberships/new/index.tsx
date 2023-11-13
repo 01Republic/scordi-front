@@ -2,8 +2,6 @@ import React, {useState} from 'react';
 import {NextRouter, useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
 import {createOrganization, searchOrganizations} from '^api/organization.api';
-import {createMembership} from '^api/membership.api';
-import {useCurrentUser} from '^hooks/useCurrentUser';
 import {errorNotify} from '^utils/toast-notify';
 import {TextInputLg} from '^components/TextInput';
 import {OrganizationDto, SearchOrgQueryDto} from '^types/organization.type';
@@ -15,13 +13,15 @@ import {OrgSettingsLayout} from '^layouts/org/settingsLayout';
 import {toast} from 'react-toastify';
 import {useRecoilState} from 'recoil';
 import {currentUserAtom} from '^atoms/currentUser.atom';
+import {membershipApi} from '^api/membership.api';
 
 const createMembershipRequest = (org: OrganizationDto, user: UserDto, level: MembershipLevel, router: NextRouter) => {
-    createMembership({
-        organizationId: org.id,
-        userId: user.id,
-        level: level,
-    })
+    membershipApi
+        .create({
+            organizationId: org.id,
+            userId: user.id,
+            level: level,
+        })
         .then(() => router.push(OrgHomeRoute.path(org.id)))
         .catch(errorNotify);
 };

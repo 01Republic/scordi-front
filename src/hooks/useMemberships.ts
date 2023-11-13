@@ -1,9 +1,9 @@
 import {useRecoilState} from 'recoil';
 import {currentUserMembershipAtom, getCurrentUserMembershipsQuery} from '^atoms/currentUser.atom';
 import {useCallback, useEffect, useState} from 'react';
-import {getMemberships} from '^api/membership.api';
 import {FindAllMembershipQuery, MembershipDto} from '^types/membership.type';
 import {orgMembershipSearchResultAtom} from '^atoms/memberships.atom';
+import {membershipApi} from '^api/membership.api';
 
 export const useMemberships = () => {
     const [membershipSearchResult, setMembershipSearchResult] = useRecoilState(orgMembershipSearchResultAtom);
@@ -12,7 +12,7 @@ export const useMemberships = () => {
     async function searchMemberships(params: FindAllMembershipQuery) {
         if (JSON.stringify(query) === JSON.stringify(params)) return;
 
-        const data = await getMemberships(params).then((res) => res.data);
+        const data = await membershipApi.index(params).then((res) => res.data);
         setMembershipSearchResult(data);
         setQuery(params);
     }
@@ -75,7 +75,8 @@ export const useCurrentUserMembership = (option: UseCurrentUserMembershipOption)
             }
 
             // console.log('getMembership.query()', {userId, organizationId});
-            return getMemberships({where: {userId, organizationId}})
+            return membershipApi
+                .index({where: {userId, organizationId}})
                 .then((res) => res.data.items[0])
                 .then((membership) => {
                     if (callbackFn) callbackFn(membership);

@@ -1,10 +1,10 @@
 import {useRouter} from 'next/router';
 import React, {memo, useEffect, useState} from 'react';
 import {toast} from 'react-toastify';
-import {patchMemberships} from '^api/membership.api';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {ApprovalStatus, MembershipDto, MembershipLevel, UpdateMembershipRequestDto} from '^types/membership.type';
 import {errorNotify} from '^utils/toast-notify';
+import {membershipApi} from '^api/membership.api';
 
 interface MemberProps {
     memberShip: MembershipDto;
@@ -25,7 +25,8 @@ export const MemberListItem = memo((props: MemberProps) => {
     }, [currentUserMembership]);
 
     const acceptMember = (data: UpdateMembershipRequestDto, id: number) => {
-        patchMemberships(id, data)
+        membershipApi
+            .update(id, data)
             .then((res) => {
                 toast.success('Successfully approve');
             })

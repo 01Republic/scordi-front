@@ -10,26 +10,30 @@ import {Paginated} from '^types/utils/paginated.dto';
 
 const NAMESPACE = 'memberships';
 
-export const createMembership = (data: CreateMembershipRequestDto) => {
-    return api.post<MembershipDto>(`/${NAMESPACE}`, data);
+export const membershipApi = {
+    index(params: FindAllMembershipQuery) {
+        return api.get<Paginated<MembershipDto>>(`/${NAMESPACE}`, {params});
+    },
+
+    create(data: CreateMembershipRequestDto) {
+        return api.post<MembershipDto>(`/${NAMESPACE}`, data);
+    },
+
+    update(id: number, data: UpdateMembershipRequestDto) {
+        return api.patch<MembershipDto>(`/${NAMESPACE}/${id}`, data);
+    },
 };
 
-export const getMemberships = (params: FindAllMembershipQuery) => {
-    return api.get<Paginated<MembershipDto>>(`/${NAMESPACE}`, {params});
-};
+export const inviteMembershipApi = {
+    index(orgId: number, email: string) {
+        return api.get<MembershipDto>(`/${NAMESPACE}/invite/validate?orgId=${orgId}&email=${email}`);
+    },
 
-export const patchMemberships = (id: number, data: UpdateMembershipRequestDto) => {
-    return api.patch<MembershipDto>(`/${NAMESPACE}/${id}`, data);
-};
+    create(data: CreateMembershipInviteDto) {
+        return api.post<MembershipDto>(`/${NAMESPACE}/invite`, data);
+    },
 
-export const CreateMembershipInvite = (data: CreateMembershipInviteDto) => {
-    return api.post<MembershipDto>(`/${NAMESPACE}/invite`, data);
-};
-
-export const getMembershipInviteValidate = (orgId: number, email: string) => {
-    return api.get<MembershipDto>(`/${NAMESPACE}/invite/validate?orgId=${orgId}&email=${email}`);
-};
-
-export const confirmInvitedMemberships = (id: number) => {
-    return api.patch<MembershipDto>(`/${NAMESPACE}/${id}/invite/confirm`);
+    confirm(id: number) {
+        return api.patch<MembershipDto>(`/${NAMESPACE}/${id}/invite/confirm`);
+    },
 };

@@ -1,11 +1,11 @@
 import React, {memo, useEffect} from 'react';
 import {ContentPanelPreloader} from '^layouts/ContentLayout';
-import {getMemberships} from '^api/membership.api';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {Paginated} from '^types/utils/paginated.dto';
 import {MembershipDto} from '^types/membership.type';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {MemberListItem} from './MemberListItem';
+import {membershipApi} from '^api/membership.api';
 
 export const MembershipList = memo(() => {
     const organizationId = useRouterIdParamState('id', orgIdParamState);
@@ -14,7 +14,7 @@ export const MembershipList = memo(() => {
 
     useEffect(() => {
         !!organizationId &&
-            getMemberships({where: {organizationId}}).then((res) => {
+            membershipApi.index({where: {organizationId}}).then((res) => {
                 setMembers(res.data);
             });
     }, [organizationId]);

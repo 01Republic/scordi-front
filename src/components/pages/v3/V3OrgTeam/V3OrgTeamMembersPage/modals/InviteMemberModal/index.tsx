@@ -9,11 +9,11 @@ import {currentOrgAtom} from '^atoms/organizations.atom';
 import {invitedEmailsAtom} from '^models/TeamMember/atom/atom';
 import {InviteEmailInput} from './InviteEmailInput';
 import {FieldValues, useForm} from 'react-hook-form';
-import {CreateMembershipInvite} from '^api/membership.api';
 import {useMemberships} from '^hooks/useMemberships';
 import {debounce} from 'lodash';
 import {useToast} from '^hooks/useToast';
 import {useAlert} from '^hooks/useAlert';
+import {inviteMembershipApi} from '^api/membership.api';
 
 export const InviteOrgMemberModal = memo(() => {
     const {isShow, Modal, close} = useModal({isShowAtom: isOpeninviteOrgMemberModalAtom});
@@ -80,7 +80,7 @@ export const InviteOrgMemberModal = memo(() => {
         // 로딩중이 아닐때만 실행
         if (!isLoading) {
             setIsLoading(true);
-            const res = await CreateMembershipInvite({
+            const res = await inviteMembershipApi.create({
                 organizationId: currentOrg.id,
                 invitedEmails: createInvitedEmails,
             });

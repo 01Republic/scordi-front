@@ -4,8 +4,8 @@ import {UserDto} from '^types/user.type';
 import {getUserSession} from '^api/session.api';
 import {getToken} from '^api/api';
 import {errorNotify} from '^utils/toast-notify';
-import {getMemberships} from '^api/membership.api';
 import {orgIdParamState} from '^atoms/common';
+import {membershipApi} from '^api/membership.api';
 
 export type GoogleSignedUserData = {
     id: string;
@@ -40,7 +40,7 @@ export const getCurrentUserMembershipsQuery = selector({
         const currentUser = get(currentUserAtom);
         if (!currentUser) return [];
         try {
-            const res = await getMemberships({
+            const res = await membershipApi.index({
                 where: {userId: currentUser.id},
                 itemsPerPage: 100,
             });

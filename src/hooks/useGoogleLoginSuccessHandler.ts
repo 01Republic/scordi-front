@@ -5,7 +5,7 @@ import {getGoogleUserData, getUserSession, postUserSessionBySocialAccount} from 
 import {setToken} from '^api/api';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
-import {getMembershipInviteValidate, confirmInvitedMemberships} from '^api/membership.api';
+import {inviteMembershipApi} from '^api/membership.api';
 import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
@@ -67,9 +67,9 @@ export const useGoogleLoginSuccessHandler = () => {
         if (currentOrgId !== invitedOrgId) return false;
 
         try {
-            const response = await getMembershipInviteValidate(invitedOrgId, encodeURI(user.email));
+            const response = await inviteMembershipApi.index(invitedOrgId, encodeURI(user.email));
             if (response.status === 200) {
-                await confirmInvitedMemberships(response.data.id);
+                await inviteMembershipApi.confirm(response.data.id);
                 return true;
             }
         } catch {

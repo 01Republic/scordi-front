@@ -1,7 +1,6 @@
 import React, {memo} from 'react';
 import {MembershipLevel} from '^types/membership.type';
 import {JoinOrgRoute} from '^pages/orgs/joinOrg';
-import {createMembership} from '^api/membership.api';
 import {errorNotify} from '^utils/toast-notify';
 import {useRouter} from 'next/router';
 import {useCurrentUser} from '^hooks/useCurrentUser';
@@ -9,6 +8,7 @@ import {OrganizationDto} from '^types/organization.type';
 import {orgIdParamState} from '^atoms/common';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import Swal from 'sweetalert2';
+import {membershipApi} from '^api/membership.api';
 
 interface SearchedOrgResultItemProps {
     org: OrganizationDto;
@@ -43,7 +43,11 @@ export const SearchedOrgResultItem = memo((props: SearchedOrgResultItemProps) =>
                 confirmButtonText: 'Yes, join it!',
             })
                 .then(() => {
-                    createMembership({organizationId: org.id, userId: currentUser.id, level: MembershipLevel.MEMBER});
+                    membershipApi.create({
+                        organizationId: org.id,
+                        userId: currentUser.id,
+                        level: MembershipLevel.MEMBER,
+                    });
                 })
                 .then(() => {
                     if (org.memberships === undefined) return;

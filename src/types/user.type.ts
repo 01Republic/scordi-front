@@ -86,10 +86,10 @@ export type UserEditProfileRequestDto = {
     locale?: UserLocale | null; // 사용자 언어 설정
 };
 
-export type SendPhoneAuthMessageDto = {
+export class SendPhoneAuthMessageDto {
     phoneNumber: string;
     code?: string;
-};
+}
 
 export type UsersWebpushRegisterDto = {
     subscription: PushSubscription;

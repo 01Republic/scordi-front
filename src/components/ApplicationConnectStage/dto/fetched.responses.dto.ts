@@ -8,7 +8,7 @@ export type Currency = {
     amount: number;
 };
 
-export type FetchedProfileDto = {
+export class FetchedProfileDto {
     provider: string;
     requestSender: string;
     displayName: string;
@@ -16,9 +16,9 @@ export type FetchedProfileDto = {
     profileImageUrl: string;
     publicEmail: string;
     billingEmail: string;
-};
+}
 
-export type FetchedOrgPlanAndCycleDto = {
+export class FetchedOrgPlanAndCycleDto {
     // billingInfo
     provider: string;
     requestSender: string;
@@ -30,11 +30,11 @@ export type FetchedOrgPlanAndCycleDto = {
     paidMemberCount: number;
     usedMemberCount: number;
     unitPrice: Currency | null;
-};
-export type FetchedOrgBillingHistoryDto = {};
-export type FetchedOrgMemberDto = {};
+}
+export class FetchedOrgBillingHistoryDto {}
+export class FetchedOrgMemberDto {}
 
-export type InvoiceDataDto = {
+export class InvoiceDataDto {
     issuedAt: string;
     displayName: string;
     billingEmail: string;
@@ -44,4 +44,4 @@ export type InvoiceDataDto = {
     isPerUser: boolean;
     unitPrice: string;
     paidMemberCount: number;
-};
+}

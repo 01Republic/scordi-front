@@ -3,7 +3,7 @@ import {FormControl} from '^v3/V3OrgSettingsPage/InputText';
 import {SelectDropdown, SelectOptionProps} from '^v3/share/Select';
 import {DisplayCurrency} from '^types/membership.type';
 import {useCurrentUser} from '^hooks/useCurrentUser';
-import {patchMemberships} from '^api/membership.api';
+import {membershipApi} from '^api/membership.api';
 
 export const CurrencyInput = memo(() => {
     const {currentUserMembership} = useCurrentUser(null, {
@@ -21,7 +21,7 @@ export const CurrencyInput = memo(() => {
             console.log(selectedCurrency);
             if (!currentUserMembership) return;
 
-            patchMemberships(currentUserMembership.id, {displayCurrency: selectedCurrency.code}).then(() => {
+            membershipApi.update(currentUserMembership.id, {displayCurrency: selectedCurrency.code}).then(() => {
                 // toast.success('저장되었습니다.');
             });
         },

@@ -2,7 +2,7 @@ import {CurrencyDto} from '^types/crawler';
 import {SubscriptionDto} from '^types/subscription.type';
 import {MembershipDto} from '^types/membership.type';
 
-export type DashboardSummaryDto = {
+export class DashboardSummaryDto {
     total: number; // 이번달 총 비용
     didPayAmount: number; // 오늘까지 결제한 금액
     willPayAmount: number; // 남은 결제 금액
@@ -11,23 +11,23 @@ export type DashboardSummaryDto = {
     activeSubscriptions: SubscriptionDto[]; //TODO: 나중에 수정
     spendingSubscriptions: SubscriptionDto[]; //TODO: 나중에 수정
     memberships: MembershipDto[]; //TODO: 나중에 수정
-};
+}
 
-export type DashboardDaySumDto = {
+export class DashboardDaySumDto {
     date: string; // 날짜
     year: number; // 년도
     month: number; // 월
     day: number; // 일
     amount: number; // 금액
     serviceCount: number; // 서비스 개수
-};
+}
 
 export type SummaryOfState = {
     count: number;
     amount: number;
 };
 
-export type SummaryOfBillingHistoriesDto = {
+export class SummaryOfBillingHistoriesDto {
     startDate: Date | null;
     endDate: Date | null;
     currency?: CurrencyDto['code'];
@@ -35,4 +35,4 @@ export type SummaryOfBillingHistoriesDto = {
     pending: SummaryOfState;
     success: SummaryOfState;
     failure: SummaryOfState;
-};
+}
