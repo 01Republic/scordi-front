@@ -1,10 +1,9 @@
 import {OrganizationDto} from '^types/organization.type';
 import {UserDto} from '^types/user.type';
-import {AccountDto} from '^types/account.type';
-import {TeamDto} from '^types/team.type';
+import {TeamDto} from '^models/Team/types/team.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';
-import {MembershipDto} from './membership.type';
+import {MembershipDto} from '^types/membership.type';
 
 export class TeamMemberDto {
     id: number; // 아이디

@@ -5,7 +5,7 @@ import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
 import {orgIdParamState} from '^atoms/common';
 import {V3OrgTeamMemberShowPageRoute} from '^pages/v3/orgs/[orgId]/teams/members/[memberId]';
-import {makeTeamMemberProfile} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/atom';
+import {makeTeamMemberProfile} from '^models/TeamMember/atom/atom';
 import {useToast} from '^hooks/useToast';
 
 interface TeamMemberItemProps {

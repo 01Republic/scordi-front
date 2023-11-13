@@ -2,9 +2,8 @@ import React, {memo, useEffect} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ContentEmpty} from '^v3/V3OrgHomePage/mobile/ContentEmpty';
 import {TeamItem} from '^v3/V3OrgTeam/V3OrgTeamsPage/mobile/TeamItem';
-import {useTeams} from '^v3/V3OrgTeam/V3OrgTeamsPage/atom';
-import {useModal} from '^v3/share/modals/useModal';
 import {useToast} from '^hooks/useToast';
+import {useTeams} from '^models/Team/atom/atom';
 // import {isOpenNewTeamModalAtom} from '^v3/V3OrgTeam/V3OrgTeamsPage/NewTeamModal/atom';
 
 interface TeamListPanel {
