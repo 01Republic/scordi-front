@@ -8,7 +8,6 @@ import {Page} from '^types/page';
 import {ProductDto} from '^types/product.type';
 import {CreateSubscriptionRequestDto} from '^types/subscription.type';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
-import {getSubscriptions} from '^api/subscription.api';
 import {ContentLayout} from '^layouts/ContentLayout';
 import {ContentForm} from '^layouts/ContentLayout/ContentForm';
 import {ContentHeading, ContentHeadingSecondaryButton} from '^layouts/ContentLayout/ContentHeading';
@@ -19,6 +18,7 @@ import {ConnectPanelV1} from '^components/pages/OrgAddAppInfoPage/ConnectPanelV1
 import {ConnectPanelV2} from '^components/pages/OrgAddAppInfoPage/ConnectPanelV2';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 import {productApi} from '^api/product.api';
+import {subscriptionApi} from '^api/subscription.api';
 
 export const OrgAddAppInfoPage: Page = () => {
     const router = useRouter();
@@ -53,7 +53,8 @@ export const OrgAddAppInfoPage: Page = () => {
         if (productId) {
             // 굳이굳이 주소를 치고 이 페이지로 진입하는 경우에도, 이미 추가한 앱의 경우 튕겨내도록 합니다.
             const where = {organizationId, productId};
-            getSubscriptions({itemsPerPage: 999, where})
+            subscriptionApi
+                .index({itemsPerPage: 999, where})
                 .then(({data}) => {
                     if (data.items[0]) {
                         alert('이미 추가된 앱입니다.');

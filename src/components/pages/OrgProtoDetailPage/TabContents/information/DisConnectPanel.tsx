@@ -1,10 +1,10 @@
 import {memo} from 'react';
 import {useRecoilState} from 'recoil';
 import Swal from 'sweetalert2';
-import {destroySubscription} from '^api/subscription.api';
 import {productIdParamsState} from '^atoms/common';
 import {ContentPanel, ContentPanelMiniTitle} from '^layouts/ContentLayout';
 import {errorNotify} from '^utils/toast-notify';
+import {subscriptionApi} from '^api/subscription.api';
 // import {DeleteProductDto} from '^types/applicationPrototype.type';
 
 export const DisConnectPanel = memo(() => {
@@ -24,7 +24,8 @@ export const DisConnectPanel = memo(() => {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Disconnect',
         }).then((result) => {
-            destroySubscription(id)
+            subscriptionApi
+                .destroy(id)
                 .then((res) => {
                     console.log('💖===>', res);
                     if (result.isConfirmed) {

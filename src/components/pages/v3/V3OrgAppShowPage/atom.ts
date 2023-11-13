@@ -1,8 +1,8 @@
 import {atom, useRecoilState} from 'recoil';
 import {SubscriptionDto} from '^types/subscription.type';
-import {getSubscription} from '^api/subscription.api';
 import {Locale} from '^types/subscriptionBillingCycle.type';
 import {useRouter} from 'next/router';
+import {subscriptionApi} from '^api/subscription.api';
 
 const currentSubscriptionState = atom<SubscriptionDto | null>({
     key: 'currentSubscription',
@@ -21,7 +21,7 @@ export const useCurrentSubscription = () => {
 
     const loadCurrentSubscription = (organizationId: number, id: number) => {
         setIsLoading(true);
-        const request = getSubscription(id);
+        const request = subscriptionApi.show(id);
         request.then((res) => setCurrentSubscription(res.data));
         request.finally(() => setIsLoading(false));
     };

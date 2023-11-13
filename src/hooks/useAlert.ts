@@ -20,7 +20,7 @@ export function useAlert() {
     };
 
     // 삭제 alert
-    const destory = (props: AlertProps) => {
+    const destroy = (props: AlertProps) => {
         const {title, confirmFn, routerFn} = props;
         Swal.fire({
             title: title,
@@ -48,5 +48,5 @@ export function useAlert() {
             }
         });
     };
-    return {alert: {success, destory}};
+    return {alert: {success, destroy}};
 }

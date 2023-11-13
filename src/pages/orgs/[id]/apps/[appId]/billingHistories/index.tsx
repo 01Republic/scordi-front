@@ -7,11 +7,11 @@ import {useRouter} from 'next/router';
 import {errorNotify} from '^utils/toast-notify';
 import {BillingHistoryDto} from '^types/billing.type';
 import {SubscriptionDto} from '^types/subscription.type';
-import {getSubscription} from '^api/subscription.api';
 import {intlDateLong} from '^utils/dateTime';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 import {useCurrentUser} from '^hooks/useCurrentUser';
+import {subscriptionApi} from '^api/subscription.api';
 
 export const BillingHistoriesPageRoute = {
     pathname: '/orgs/:id/apps/:appId/billingHistories',
@@ -29,7 +29,8 @@ export default function BillingHistoriesPage() {
 
     useEffect(() => {
         if (isNaN(appId)) return;
-        getSubscription(appId)
+        subscriptionApi
+            .show(appId)
             .then((res) => setSubInfo(res.data))
             .catch((err) => errorNotify(err));
         getAppsBillingHistory(appId)

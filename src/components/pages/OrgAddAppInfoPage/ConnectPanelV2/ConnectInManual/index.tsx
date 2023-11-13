@@ -7,11 +7,11 @@ import {AppCode, ApplicationConnectApi} from '^api/applicationConnect.api';
 import {InvoiceDataDto} from '^components/ApplicationConnectStage/dto/fetched.responses.dto';
 import {IoChevronBackOutline} from '@react-icons/all-files/io5/IoChevronBackOutline';
 import {IoFlash} from '@react-icons/all-files/io5/IoFlash';
-import {createSubscriptionByInvoices} from '^api/subscription.api';
 import {useRouter} from 'next/router';
 import {toast} from 'react-toastify';
 import {errorNotify} from '^utils/toast-notify';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
+import {subscriptionApi} from '^api/subscription.api';
 
 interface ConnectInManualProps {
     protoApp: ProductDto;
@@ -50,17 +50,18 @@ export const ConnectInManual = (props: ConnectInManualProps) => {
 
             if (paymentPlan && billingCycle) {
                 setIsSaving(true);
-                createSubscriptionByInvoices({
-                    displayName: recentData.displayName,
-                    organizationId,
-                    productId,
-                    paymentPlanId: paymentPlan.id,
-                    billingCycleId: billingCycle.id,
-                    isFreeTier,
-                    registeredAt: oldestData.issuedAt,
-                    paidMemberCount: recentData.paidMemberCount,
-                    invoiceDataList: orderedList,
-                })
+                subscriptionApi
+                    .createByInvoice({
+                        displayName: recentData.displayName,
+                        organizationId,
+                        productId,
+                        paymentPlanId: paymentPlan.id,
+                        billingCycleId: billingCycle.id,
+                        isFreeTier,
+                        registeredAt: oldestData.issuedAt,
+                        paidMemberCount: recentData.paidMemberCount,
+                        invoiceDataList: orderedList,
+                    })
                     .then(() => {
                         setIsSaving(false);
                         toast.success('Successfully Saved');

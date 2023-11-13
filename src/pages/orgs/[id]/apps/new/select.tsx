@@ -14,7 +14,6 @@ import {SearchInput} from '^components/SearchInput';
 import {errorNotify} from '^utils/toast-notify';
 import {getProductTags} from '^api/productTag.api';
 import {SubscriptionDto} from '^types/subscription.type';
-import {getSubscriptions} from '^api/subscription.api';
 import {toast} from 'react-toastify';
 import {OrgAddAppInfoPageRoute} from '^pages/orgs/[id]/apps/new/[appId]/information';
 import {MobileTopNav} from '^components/v2/MobileTopNav';

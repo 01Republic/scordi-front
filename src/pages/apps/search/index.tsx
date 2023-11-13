@@ -6,7 +6,6 @@ import {AddServicePageRoute} from '^pages/apps/add/[id]';
 import {useEffect, useState} from 'react';
 import {ProductDto} from '^types/product.type';
 import {productApi} from '^api/product.api';
-import {getSubscriptions} from '^api/subscription.api';
 import {SubscriptionDto} from '^types/subscription.type';
 import {DefaultButton} from '^components/Button';
 import {ApplyPageRoute} from '^pages/apps/apply';
@@ -15,6 +14,7 @@ import {useCurrentUser} from '^hooks/useCurrentUser';
 import {ServiceSuggestList} from '^components/ServiceSuggestList';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
+import {subscriptionApi} from '^api/subscription.api';
 
 export const AppSearchPageRoute = {
     pathname: '/apps/search',
@@ -59,7 +59,7 @@ const AppSearchPage = () => {
 
     useEffect(() => {
         user &&
-            getSubscriptions({where: {organizationId: user.orgId}}).then((res) => {
+            subscriptionApi.index({where: {organizationId: user.orgId}}).then((res) => {
                 console.log('apps', res.data.items);
                 setMyApps(res.data.items);
             });

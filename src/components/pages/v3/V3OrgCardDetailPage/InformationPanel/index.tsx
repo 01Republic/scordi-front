@@ -30,7 +30,7 @@ export const InformationPanel = memo(() => {
     const onDelete = () => {
         if (!orgId || isNaN(orgId) || !cardId || isNaN(cardId)) return;
 
-        alert.destory({
+        alert.destroy({
             title: '카드를 삭제하시겠습니까?',
             confirmFn: () => creditCardApi.destroy(orgId, cardId),
             routerFn: () => {

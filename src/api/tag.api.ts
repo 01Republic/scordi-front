@@ -27,7 +27,7 @@ export const tagApi = {
         return api.patch<TagDto>(url, body);
     },
 
-    destory(id: number) {
+    destroy(id: number) {
         const url = `/tags/${id}`;
         return api.delete<TagDto>(url);
     },

@@ -1,14 +1,14 @@
 import {memo, useCallback, useEffect} from 'react';
-import {getSubscription} from '^api/subscription.api';
 import {useCurrentSubscription} from '^hooks/useSubscriptions';
 import {useSyncHistoryList} from '^hooks/useSubscriptionSyncHistories';
+import {subscriptionApi} from '^api/subscription.api';
 
 export const ConnectStatusPooling = memo(() => {
     const {currentSubscription, reload} = useCurrentSubscription();
     const {fetchItems: fetchSyncHistories, pagination} = useSyncHistoryList();
 
     const pool = useCallback((id: number, reloadable: boolean) => {
-        getSubscription(id).then((res) => {
+        subscriptionApi.show(id).then((res) => {
             const app = res.data;
             console.log('pooling app', app);
 

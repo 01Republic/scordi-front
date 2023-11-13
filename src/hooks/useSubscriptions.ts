@@ -7,9 +7,9 @@ import {
     getSubscriptionsQueryAtom,
     subscriptionsSearchResultAtom,
 } from '^atoms/subscriptions.atom';
-import {getSubscriptions} from '^api/subscription.api';
 import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {subscriptionApi} from '^api/subscription.api';
 
 export const useCurrentSubscription = () => {
     const [currentSubscription, reload] = useRecoilState(getCurrentSubscriptionQuery);
@@ -28,7 +28,7 @@ export const useSubscriptionsV2 = () => {
 
         params.where = {organizationId: orgId, ...params.where};
 
-        const data = await getSubscriptions(params).then((res) => res.data);
+        const data = await subscriptionApi.index(params).then((res) => res.data);
         setResult(data);
         setQuery(params);
 
@@ -67,5 +67,5 @@ export const {paginatedListHook: useSubscriptionList} = makePaginatedListHookWit
         page,
         itemsPerPage: 300,
     }),
-    request: (_, params) => getSubscriptions(params),
+    request: (_, params) => subscriptionApi.index(params),
 });
