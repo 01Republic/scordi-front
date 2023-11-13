@@ -5,8 +5,8 @@ import {useForm} from 'react-hook-form';
 import {UpdateOrganizationRequestDto} from '^types/organization.type';
 import {EditFormSection} from '^v3/share/EditFormSection';
 import {InputText} from '^v3/V3OrgSettingsPage/InputText';
-import {updateOrganization} from '^api/organization.api';
 import {AddressInput} from '^v3/V3OrgSettingsPage/AddressInput';
+import {organizationApi} from '^api/organization.api';
 
 export const OrgEditFormSection = memo(() => {
     const [currentOrg, setCurrentOrg] = useRecoilState(currentOrgAtom);
@@ -26,7 +26,7 @@ export const OrgEditFormSection = memo(() => {
     if (!currentOrg) return <></>;
 
     const onSubmit = (data: UpdateOrganizationRequestDto) => {
-        updateOrganization(currentOrg.id, data).then((res) => {
+        organizationApi.update(currentOrg.id, data).then((res) => {
             setCurrentOrg(res.data);
             setIsEditMode(false);
         });

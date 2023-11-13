@@ -1,8 +1,8 @@
 import {atom, selector} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {getOrganization} from '^api/organization.api';
 import {errorNotify} from '^utils/toast-notify';
 import {OrganizationDto} from '^types/organization.type';
+import {organizationApi} from '^api/organization.api';
 
 export const currentOrgAtom = atom<OrganizationDto | null>({
     key: 'currentOrgAtom',
@@ -24,7 +24,7 @@ export const getOrgQuery = selector({
         const id = get(orgIdParamState);
         if (isNaN(id)) return;
         try {
-            const res = await getOrganization(id);
+            const res = await organizationApi.show(id);
             return res.data;
         } catch (e) {
             errorNotify(e);

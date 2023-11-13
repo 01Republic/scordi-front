@@ -18,7 +18,7 @@ import {useForm} from 'react-hook-form';
 import {OrganizationDto, UpdateOrganizationRequestDto} from '^types/organization.type';
 import {TextInput} from '^components/TextInput';
 import {ProfileImageFileInput} from '^components/ProfileImageFileInput';
-import {destroyOrganization, updateOrganization} from '^api/organization.api';
+import {organizationApi} from '^api/organization.api';
 import {errorNotify, successNotify} from '^utils/toast-notify';
 import {toast} from 'react-toastify';
 import {useCurrentUser} from '^hooks/useCurrentUser';
@@ -55,7 +55,8 @@ export default function OrgShowPage() {
     if (!org.id) return <PreLoader />;
 
     const UpdateOrgHandler = (dto: UpdateOrganizationRequestDto) => {
-        updateOrganization(org.id, dto)
+        organizationApi
+            .update(org.id, dto)
             .then((res) => {
                 setCurrentOrg(res.data);
                 successNotify('Update completed.');
@@ -64,7 +65,8 @@ export default function OrgShowPage() {
     };
 
     const DestroyOrgHandler = () => {
-        destroyOrganization(org.id)
+        organizationApi
+            .destroy(org.id)
             .then(() => toast.success('Delete completed.'))
             .catch(errorNotify);
     };

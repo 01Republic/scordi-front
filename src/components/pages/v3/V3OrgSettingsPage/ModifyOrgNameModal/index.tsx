@@ -6,9 +6,9 @@ import {TextInput} from '^components/TextInput';
 import {DefaultButton} from '^components/Button';
 import {currentOrgAtom} from '^atoms/organizations.atom';
 import {UpdateOrganizationRequestDto} from '^types/organization.type';
-import {updateOrganization} from '^api/organization.api';
 import {errorNotify} from '^utils/toast-notify';
 import {useToast} from '^hooks/useToast';
+import {organizationApi} from '^api/organization.api';
 
 export const isOpenModifyOrgNameModalAtom = atom({
     key: 'v3/isOpenModifyOrgNameModalAtom',
@@ -45,7 +45,8 @@ export const ModifyOrgNameModal = memo(() => {
         form.reset();
         close();
 
-        updateOrganization(currentOrg.id, data)
+        organizationApi
+            .update(currentOrg.id, data)
             .then((res) => {
                 setCurrentOrg({...currentOrg, name: res.data.name});
                 toast.success('조직명이 변경됐습니다.');
