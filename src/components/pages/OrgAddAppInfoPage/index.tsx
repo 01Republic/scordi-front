@@ -9,7 +9,6 @@ import {ProductDto} from '^types/product.type';
 import {CreateSubscriptionRequestDto} from '^types/subscription.type';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {getSubscriptions} from '^api/subscription.api';
-import {getProduct} from '^api/product.api';
 import {ContentLayout} from '^layouts/ContentLayout';
 import {ContentForm} from '^layouts/ContentLayout/ContentForm';
 import {ContentHeading, ContentHeadingSecondaryButton} from '^layouts/ContentLayout/ContentHeading';
@@ -19,6 +18,7 @@ import {ConnectProfile} from '^components/pages/OrgAddAppInfoPage/ConnectProfile
 import {ConnectPanelV1} from '^components/pages/OrgAddAppInfoPage/ConnectPanelV1';
 import {ConnectPanelV2} from '^components/pages/OrgAddAppInfoPage/ConnectPanelV2';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
+import {productApi} from '^api/product.api';
 
 export const OrgAddAppInfoPage: Page = () => {
     const router = useRouter();
@@ -62,7 +62,8 @@ export const OrgAddAppInfoPage: Page = () => {
                 })
                 .catch(errorNotify);
 
-            getProduct(productId)
+            productApi
+                .show(productId)
                 .then(({data: proto}) => {
                     setProtoApp(proto);
                     // form.setValue('paymentPlanId', proto.paymentPlans[0].id);

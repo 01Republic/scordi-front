@@ -5,52 +5,11 @@ import {
     CreateProductRequestDto,
     FindAllProductQuery,
     UpdateProductRequestDto,
-    StaticProductDto,
 } from '^types/product.type';
 import {Paginated} from '^types/utils/paginated.dto';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 
 const NAMESPACE = 'products';
-
-export const getProducts = (params?: FindAllProductQuery) => {
-    return api.get<Paginated<ProductDto>>(`/${NAMESPACE}`, {params}).then(paginatedDtoOf(ProductDto));
-};
-
-export const getProduct = (id: number) => {
-    return api.get<ProductDto>(`/${NAMESPACE}/${id}`).then(oneDtoOf(ProductDto));
-};
-
-export const createProduct = (data: CreateProductRequestDto) => {
-    return api
-        .post<ProductDto>(`/${NAMESPACE}`, data, {
-            headers: {'Content-Type': 'multipart/form-data'},
-        })
-        .then(oneDtoOf(ProductDto));
-};
-
-export const updateProduct = (id: number, data: UpdateProductRequestDto) => {
-    return api
-        .patch<ProductDto>(`/${NAMESPACE}/${id}`, data, {
-            headers: {'Content-Type': 'multipart/form-data'},
-        })
-        .then(oneDtoOf(ProductDto));
-};
-
-export const deleteProduct = (id: number) => {
-    return api.delete<null>(`/${NAMESPACE}/${id}`);
-};
-
-export const getProductRecommend = () => {
-    return api.get<Paginated<ProductDto>>(`/${NAMESPACE}/recommend`);
-};
-
-export const applyNewProduct = (data: ApplyToAddDto) => {
-    return api.post(`${NAMESPACE}/applies/add`, data);
-};
-
-export const applyProductAddedAlert = (prototypeId: number) => {
-    return api.post<boolean>(`${NAMESPACE}/${prototypeId}/added-alerts`);
-};
 
 export const productApi = {
     index(params?: FindAllProductQuery) {
@@ -85,9 +44,19 @@ export const productApi = {
         const url = `/${NAMESPACE}/${id}`;
         return api.delete<ProductDto>(url).then(oneDtoOf(ProductDto));
     },
-};
 
-export async function showStaticProduct(id: number) {
-    const url = `/${NAMESPACE}/${id}`;
-    return api.get<StaticProductDto>(url).then((res) => res.data);
-}
+    recommend() {
+        const url = `/${NAMESPACE}/recommend`;
+        return api.get<Paginated<ProductDto>>(url);
+    },
+
+    apply(data: ApplyToAddDto) {
+        const url = `/${NAMESPACE}/applies/add`;
+        return api.post(url, data);
+    },
+
+    alert(prototypeId: number) {
+        const url = `${NAMESPACE}/${prototypeId}/added-alerts`;
+        return api.post<boolean>(url);
+    },
+};

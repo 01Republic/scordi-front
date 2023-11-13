@@ -11,7 +11,6 @@ import {IoArrowBack} from '@react-icons/all-files/io5/IoArrowBack';
 import {useForm} from 'react-hook-form';
 import {PreLoader} from '^components/PreLoader';
 import {SearchInput} from '^components/SearchInput';
-import {getProducts} from '^api/product.api';
 import {errorNotify} from '^utils/toast-notify';
 import {getProductTags} from '^api/productTag.api';
 import {SubscriptionDto} from '^types/subscription.type';

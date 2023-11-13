@@ -1,7 +1,7 @@
 import {atom, selector, useRecoilValue} from 'recoil';
-import {getProducts} from '^api/product.api';
 import {ProductDto} from '^types/product.type';
 import {SubscriptionDto} from '^types/subscription.type';
+import {productApi} from '^api/product.api';
 
 export const selectAppModal = {
     isShowAtom: atom({
@@ -40,7 +40,7 @@ export const allProductsSelector = selector({
         });
 
         // SaaS 전체 리스트 받아오기
-        const res = await getProducts();
+        const res = await productApi.index();
         const allProducts = res.data.items;
 
         // 구독하지 않은 Saas 리스트

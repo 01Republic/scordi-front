@@ -10,11 +10,11 @@ import {useRouter} from 'next/router';
 import {currentUserAtom} from '^atoms/currentUser.atom';
 import {GoPlug} from '^components/react-icons';
 import {editingProtoTargetState} from '^components/pages/OrgAppIndexPage/modals/PrototypeEditModal';
-import {deleteProduct} from '^api/product.api';
 import {errorNotify} from '^utils/toast-notify';
 import {toast} from 'react-toastify';
 import {connectProductModalState, currentProductState} from '^atoms/connectProducts.atom';
 import {OutLink} from '^components/OutLink';
+import {productApi} from '^api/product.api';
 
 export const SearchResultTable = memo(() => {
     const {results: products, mutation} = useProductSearch();
@@ -52,7 +52,8 @@ export const SearchResultTable = memo(() => {
                     onRemove={(proto) => {
                         if (!confirm('Are you sure?')) return;
 
-                        deleteProduct(proto.id)
+                        productApi
+                            .destroy(proto.id)
                             .then(() => toast(`[${proto.nameEn}] Successfully removed`))
                             .then(() => mutation())
                             .catch(errorNotify);

@@ -13,9 +13,9 @@ import {
 } from '^layouts/ContentLayout';
 import {TextInput} from '^components/TextInput';
 import {ProfileImageFileInput} from '^components/ProfileImageFileInput';
-import {updateProduct} from '^api/product.api';
 import {toast} from 'react-toastify';
 import {WysiwygEditor} from '^components/WysiwygEditor';
+import {productApi} from '^api/product.api';
 
 export const MenuContentForEditPrototype = memo(() => {
     const [proto, mutation] = useProduct();
@@ -41,7 +41,7 @@ export const MenuContentForEditPrototype = memo(() => {
 
     const onSubmit = (data: UpdateDto) => {
         if (!proto) return;
-        updateProduct(proto.id, data).then((res) => {
+        productApi.update(proto.id, data).then((res) => {
             if (res.status === 200) {
                 mutation(undefined);
                 toast.success('Successfully Updated.');

@@ -5,7 +5,7 @@ import {useRouter} from 'next/router';
 import {AddServicePageRoute} from '^pages/apps/add/[id]';
 import {useEffect, useState} from 'react';
 import {ProductDto} from '^types/product.type';
-import {applyNewProduct, getProductRecommend, getProducts} from '^api/product.api';
+import {productApi} from '^api/product.api';
 import {getSubscriptions} from '^api/subscription.api';
 import {SubscriptionDto} from '^types/subscription.type';
 import {DefaultButton} from '^components/Button';
@@ -32,13 +32,13 @@ const AppSearchPage = () => {
     const [searchResults, setSearchResults] = useState<ProductDto[]>([]);
 
     const searchService = () => {
-        getProducts(router.query).then((res) => {
+        productApi.index(router.query).then((res) => {
             setSearchResults(res.data.items);
         });
     };
 
     const applyNewApp = () => {
-        applyNewProduct({name: router.query.name as string}).then(() => {
+        productApi.apply({name: router.query.name as string}).then(() => {
             router.push(ApplyPageRoute.pathname);
         });
     };
@@ -52,7 +52,7 @@ const AppSearchPage = () => {
     };
 
     useEffect(() => {
-        getProductRecommend().then((res) => {
+        productApi.recommend().then((res) => {
             setRecommendList(res.data.items);
         });
     }, []);

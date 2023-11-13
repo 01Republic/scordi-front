@@ -3,7 +3,6 @@ import {ContentPanel} from '^layouts/ContentLayout';
 import {useForm} from 'react-hook-form';
 import {ApplyToAddDto, CreateProductRequestDto} from '^types/product.type';
 import {Input} from 'postcss';
-import {createProduct} from '^api/product.api';
 import {FormControlInput} from '^layouts/ContentLayout/FormControlInput';
 
 export const PrototypeAddFormPanel = memo(() => {

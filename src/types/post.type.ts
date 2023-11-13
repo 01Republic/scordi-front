@@ -3,7 +3,7 @@ import {PostTagDto} from '^types/post-tag.type';
 import {PostAuthorDto} from '^types/post-author.type';
 import {ProductDto} from '^types/product.type';
 
-export type PostDto = {
+export class PostDto {
     id: number; // 게시글 ID
     title: string; // 제목
     content: string; // 본문
@@ -21,7 +21,7 @@ export type PostDto = {
     // product?: ProductDto | null;
     tags: PostTagDto[]; // Tag 리스트
     authors: PostAuthorDto[]; // 저자 리스트
-};
+}
 
 export type StaticPostDto = {
     id: number; // 게시글 ID

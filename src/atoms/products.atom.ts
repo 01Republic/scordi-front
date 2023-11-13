@@ -2,7 +2,7 @@ import {atom, selector} from 'recoil';
 import {ProductDto, FindAllProductQuery} from '^types/product.type';
 import {SubscriptionPaymentPlanDto} from '^types/subscriptionPaymentPlan.type';
 import {SubscriptionBillingCycleDto} from '^types/subscriptionBillingCycle.type';
-import {getProduct, getProducts} from '^api/product.api';
+import {productApi} from '^api/product.api';
 import {errorNotify} from '^utils/toast-notify';
 import {productIdParamsState} from '^atoms/common';
 
@@ -45,7 +45,7 @@ export const getProductsQuery = selector({
         const params = get(getProductsParamsState);
 
         try {
-            const res = await getProducts({
+            const res = await productApi.index({
                 ...params,
                 isLive: params.isLive ?? true,
                 itemsPerPage: 500,
@@ -76,7 +76,7 @@ export const getProductQuery = selector({
         if (isNaN(id)) return;
 
         try {
-            const res = await getProduct(id);
+            const res = await productApi.show(id);
             return res.data;
         } catch (e) {
             errorNotify(e);

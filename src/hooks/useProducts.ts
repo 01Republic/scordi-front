@@ -8,7 +8,7 @@ import {
 } from '^atoms/products.atom';
 import {useCallback, useEffect, useState} from 'react';
 import {ProductDto, FindAllProductQuery} from '^types/product.type';
-import {productApi, getProducts} from '^api/product.api';
+import {productApi} from '^api/product.api';
 import {errorNotify} from '^utils/toast-notify';
 import {SubscriptionPaymentPlanDto} from '^types/subscriptionPaymentPlan.type';
 import {useRouter} from 'next/router';
@@ -34,11 +34,12 @@ export const useProductSearch = () => {
 
     const searchProducts = useCallback((params: FindAllProductQuery) => {
         setQuery(params);
-        getProducts({
-            isLive: params.isLive ?? true,
-            itemsPerPage: 500,
-            ...params,
-        })
+        productApi
+            .index({
+                isLive: params.isLive ?? true,
+                itemsPerPage: 500,
+                ...params,
+            })
             .then((res) => setResults(res.data.items))
             .catch(errorNotify);
     }, []);
