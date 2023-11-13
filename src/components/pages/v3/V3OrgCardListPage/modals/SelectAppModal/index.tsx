@@ -33,17 +33,15 @@ export const SelectAppModal = memo(() => {
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
 
-        // cardId가 없으면 카드 새로 추가하는 상태
-        if (!cardId) {
-            selectedAppsReset();
-            productIdsReset();
-            return;
-        }
+        selectedAppsReset();
+        productIdsReset();
+
+        if (!cardId || isNaN(cardId)) return;
 
         // cardId가 있으면 카드 수정하는 상태
         subscriptions.map((subscription) => {
-            !selectedApps.length && setSelectedApps((prev) => [...prev, subscription.product]);
-            !productIds.length && setProductIds((prev) => [...prev, subscription.product.id]);
+            setSelectedApps((prev) => [...prev, subscription.product]);
+            setProductIds((prev) => [...prev, subscription.product.id]);
         });
     }, [orgId, cardId, isShow]);
 
