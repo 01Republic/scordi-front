@@ -1,7 +1,7 @@
 import {useRecoilState} from 'recoil';
 import {FindAllInvoiceAccountQueryDto} from '^types/invoiceAccount.type';
 import {getInvoiceAccountsQueryAtom, invoiceAccountsSearchResultAtom} from '^atoms/invoiceAccounts.atom';
-import {getInvoiceAccounts} from '^api/invoiceAccount.api';
+import {invoiceAccountApi} from '^api/invoiceAccount.api';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 
 export const useInvoiceAccounts = () => {
@@ -12,7 +12,7 @@ export const useInvoiceAccounts = () => {
     async function search(params: FindAllInvoiceAccountQueryDto) {
         if (!orgId) return;
 
-        const data = await getInvoiceAccounts(orgId, params).then((res) => res.data);
+        const data = await invoiceAccountApi.index(orgId, params).then((res) => res.data);
         setResult(data);
         setQuery(params);
 

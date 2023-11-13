@@ -13,7 +13,6 @@ import {
     gmailItemsLoadingAtom,
     gmailProfileAtom,
 } from '^components/pages/LandingPages/TastingPage/pageAtoms';
-import {draftInvoiceAccount} from '^api/invoiceAccount.api';
 import {getDraftInvoiceAccountFromTo} from '^types/invoiceAccount.type';
 import {useTranslation} from 'next-i18next';
 import {useDraft} from '^components/pages/LandingPages/TastingPage/hooks/useDraft';

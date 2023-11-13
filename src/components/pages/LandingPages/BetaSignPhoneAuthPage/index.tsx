@@ -15,13 +15,13 @@ import {errorNotify} from '^utils/toast-notify';
 import {useSocialLogin} from '^hooks/useCurrentUser';
 import {SignWelcomePageRoute} from '^pages/sign/welcome';
 import {useTranslation} from 'next-i18next';
-import {createInvoiceAccount} from '^api/invoiceAccount.api';
 import {gmailAccessTokenDataAtom} from '^hooks/useGoogleAccessToken';
 import {GmailAgent} from '^api/tasting.api';
 import {getCreateInvoiceAccountFromTo} from '^types/invoiceAccount.type';
 import {ApiError} from '^api/api';
 import {BetaSignSocialPageRoute} from '^pages/sign/social';
 import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
+import {invoiceAccountApi} from '^api/invoiceAccount.api';
 
 export const BetaSignPhoneAuthPage = memo(() => {
     const router = useRouter();
@@ -67,7 +67,7 @@ export const BetaSignPhoneAuthPage = memo(() => {
             const gmailAgent = new GmailAgent(accessTokenData);
             gmailAgent.getProfile().then(async (userData) => {
                 const tokenData = gmailAgent.accessTokenData;
-                return createInvoiceAccount(organizationId, {
+                return invoiceAccountApi.create(organizationId, {
                     email: userData.email,
                     image: userData.picture,
                     tokenData: {
