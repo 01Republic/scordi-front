@@ -5,7 +5,7 @@ import {
     CreateSyncHistoryDto,
     FindAllSyncHistoryQuery,
     UpdateSyncHistoryDto,
-} from '^types/subscriptionSyncHistory.type';
+} from '^models/SubscriptionSyncHistory/type/subscriptionSyncHistory.type';
 
 const NAMESPACE = 'subscriptions';
 

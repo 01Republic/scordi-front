@@ -2,11 +2,14 @@ import {memo} from 'react';
 import {IoMdClose, IoMdRefresh} from '^components/react-icons';
 import {SubscriptionDto} from 'src/models/Subscription/types';
 import {HistoryStatusButton} from './HistoryStatusButton';
-import {SyncHistoryDto, SyncHistoryResultStatus} from '^types/subscriptionSyncHistory.type';
+import {
+    SyncHistoryDto,
+    SyncHistoryResultStatus,
+} from '^models/SubscriptionSyncHistory/type/subscriptionSyncHistory.type';
 import {getDistanceOfTime, humanizeTimeDistance} from '^utils/dateTime';
 import {zeroPad} from '^utils/number';
-import {useCurrentSyncHistory} from '^hooks/useSubscriptionSyncHistories';
-import {syncHistory} from '^api/subscriptionSyncHistories.api';
+import {useCurrentSyncHistory} from '^models/SubscriptionSyncHistory/hook';
+import {syncHistory} from '^models/SubscriptionSyncHistory/api';
 
 interface HistoryItemProps {
     subscription: SubscriptionDto;

@@ -6,8 +6,8 @@ import {navTabIndex} from './OrgAppShowPage.desktop';
 import {useCurrentSubscription} from '^models/Subscription/hook';
 import {toast} from 'react-toastify';
 import {useCurrentUser} from '^hooks/useCurrentUser';
-import {useCurrentSyncHistory, useSyncHistoryList} from '^hooks/useSubscriptionSyncHistories';
-import {syncHistory} from '^api/subscriptionSyncHistories.api';
+import {useCurrentSyncHistory, useSyncHistoryList} from '^models/SubscriptionSyncHistory/hook';
+import {syncHistory} from '^models/SubscriptionSyncHistory/api';
 
 export const CurrentConnectStatus = memo(() => {
     const {currentUser} = useCurrentUser();

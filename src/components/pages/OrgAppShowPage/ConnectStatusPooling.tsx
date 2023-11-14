@@ -1,6 +1,6 @@
 import {memo, useCallback, useEffect} from 'react';
 import {useCurrentSubscription} from '^models/Subscription/hook';
-import {useSyncHistoryList} from '^hooks/useSubscriptionSyncHistories';
+import {useSyncHistoryList} from '^models/SubscriptionSyncHistory/hook';
 import {subscriptionApi} from '^models/Subscription/api';
 
 export const ConnectStatusPooling = memo(() => {

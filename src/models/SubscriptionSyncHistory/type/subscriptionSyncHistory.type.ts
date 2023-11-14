@@ -1,5 +1,5 @@
 import {BiBlock, BiBot, BiCheckCircle, BiError} from '^components/react-icons';
-import {SubscriptionDto} from 'src/models/Subscription/types';
+import {SubscriptionDto} from '^models/Subscription/types';
 import {UserDto} from '^types/user.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 

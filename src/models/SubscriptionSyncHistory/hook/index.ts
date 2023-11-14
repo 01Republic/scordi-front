@@ -1,10 +1,10 @@
 import {useCallback} from 'react';
 import {useRecoilState} from 'recoil';
-import {syncCurrentHistoryAtom} from '^atoms/subscriptionSyncHistories.atom';
+import {syncCurrentHistoryAtom} from '^models/SubscriptionSyncHistory/atom';
 import {errorNotify} from '^utils/toast-notify';
-import {SyncHistoryDto} from '^types/subscriptionSyncHistory.type';
+import {SyncHistoryDto} from '^models/SubscriptionSyncHistory/type/subscriptionSyncHistory.type';
 import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook';
-import {syncHistory} from '^api/subscriptionSyncHistories.api';
+import {syncHistory} from '^models/SubscriptionSyncHistory/api';
 
 export const {paginatedListHook: useSyncHistoryList} = makePaginatedListHookWithAtoms<number, SyncHistoryDto>({
     subject: 'syncHistoryList',
