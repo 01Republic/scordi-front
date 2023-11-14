@@ -38,7 +38,7 @@ export const BillingHistoryInputsBlock = memo((props: BillingHistoryInputsBlockP
             {/*    <div className="form-control w-3/5 max-w-xs">*/}
             {/*        <label className="cursor-pointer label px-3 text-right">*/}
             {/*            <input*/}
-            {/*                type="checkbox"*/}
+            {/*                types="checkbox"*/}
             {/*                className="toggle toggle-primary ml-auto"*/}
             {/*                {...form.register('isSuccess')}*/}
             {/*            />*/}

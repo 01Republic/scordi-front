@@ -7,7 +7,7 @@ import {getOrganizationByCrawlerApi, makeSignHeader} from '^api/crawler';
 import {PreLoaderSm} from '^components/PreLoaderSm';
 import {OutLink} from '^components/OutLink';
 import {MdNavigateBefore, MdNavigateNext} from '^components/react-icons';
-import {createSubscription} from '^api/subscription.api';
+import {createSubscription} from '^models/Subscription/api';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 
 export const SelectOrgStage = memo(() => {

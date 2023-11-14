@@ -1,9 +1,9 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {AiOutlineSync, BsFillCaretDownFill, BsTrash} from '^components/react-icons';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {ConnectStatus} from '^types/subscription.type';
+import {ConnectStatus} from 'src/models/Subscription/types';
 import {navTabIndex} from './OrgAppShowPage.desktop';
-import {useCurrentSubscription} from '^hooks/useSubscriptions';
+import {useCurrentSubscription} from '^models/Subscription/hook';
 import {toast} from 'react-toastify';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {useCurrentSyncHistory, useSyncHistoryList} from '^hooks/useSubscriptionSyncHistories';

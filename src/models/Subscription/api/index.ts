@@ -5,7 +5,7 @@ import {
     FindAllSubscriptionsQuery,
     UpdateSubscriptionRequestDto,
     CreateSubscriptionRequestDto2,
-} from '^types/subscription.type';
+} from 'src/models/Subscription/types';
 import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';

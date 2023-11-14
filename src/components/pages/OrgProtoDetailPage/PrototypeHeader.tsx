@@ -5,7 +5,7 @@ import {WithChildren} from '^types/global.type';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {errorNotify} from '^utils/toast-notify';
 import {subscriptionsForThisPrototypeAtom} from './OrgProtoDetailPage.desktop';
-import {subscriptionApi} from '^api/subscription.api';
+import {subscriptionApi} from '^models/Subscription/api';
 
 export const PrototypeHeader = memo((props: WithChildren) => {
     const {children} = props;

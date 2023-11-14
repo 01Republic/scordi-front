@@ -1,6 +1,6 @@
 import {memo} from 'react';
 import {useRouter} from 'next/router';
-import {useCurrentSubscription} from '^hooks/useSubscriptions';
+import {useCurrentSubscription} from '^models/Subscription/hook';
 import {SummaryZone} from './information/SummaryZone';
 import {CurrentPlanZone} from './information/CurrentPlanZone';
 import {PaymentInfoZone} from '^components/pages/OrgAppShowPage/TabContents/information/PaymentInfoZone';

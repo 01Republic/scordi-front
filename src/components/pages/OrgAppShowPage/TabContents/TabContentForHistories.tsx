@@ -1,6 +1,6 @@
 import {memo} from 'react';
 import {HistoryTable} from './Histories/HistoryTable';
-import {useCurrentSubscription} from '^hooks/useSubscriptions';
+import {useCurrentSubscription} from '^models/Subscription/hook';
 import {CurrentHistoryZone} from './Histories/CurrentHistoryZone';
 
 export const TabContentForHistories = memo(() => {

@@ -1,6 +1,6 @@
 import {atom, selector, useRecoilValue} from 'recoil';
 import {ProductDto} from '^types/product.type';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {productApi} from '^api/product.api';
 
 export const selectAppModal = {

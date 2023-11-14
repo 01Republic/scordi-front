@@ -48,7 +48,7 @@ export const InvoiceAccountAddingButton = memo(() => {
                     //     e.preventDefault();
                     // }}
                 >
-                    {/*<input type="checkbox" />*/}
+                    {/*<input types="checkbox" />*/}
                     <InvoiceAccountListPanel />
                     <InvoiceAppListPanel />
                 </div>

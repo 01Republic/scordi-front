@@ -3,7 +3,7 @@ import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {MobileTopNav, MobileTopNavRight} from '^components/v2/MobileTopNav';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
 import {TitleSection} from '^components/v2/TitleSection';
-import {useCurrentSubscription} from '^hooks/useSubscriptions';
+import {useCurrentSubscription} from '^models/Subscription/hook';
 import {useBillingHistory} from '^hooks/useBillingHistories';
 import {AppNameWithLogoBlock} from '^components/pages/OrgAppInfoPage/AppNameWithLogoBlock';
 import {subscriptionIdParamState, billingHistoryIdParamState, useRouterIdParamState} from '^atoms/common';

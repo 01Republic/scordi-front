@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {useBillingHistories} from '^hooks/useBillingHistories';
 import {MobileEntityListSection} from '^components/v2/MobileEntityListSection';
 import {PreLoader} from '^components/PreLoader';
-import {useCurrentSubscription} from '^hooks/useSubscriptions';
+import {useCurrentSubscription} from '^models/Subscription/hook';
 import {BillingHistoryItem} from '^components/pages/OrgAppInfoPage/BillingHistoryItem';
 import {BillingHistoryDto} from '^types/billing.type';
 

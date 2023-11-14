@@ -1,7 +1,7 @@
 import {atom, selector} from 'recoil';
 import {ProductDto, FindAllProductQuery} from '^types/product.type';
-import {SubscriptionPaymentPlanDto} from '^types/subscriptionPaymentPlan.type';
-import {SubscriptionBillingCycleDto} from '^types/subscriptionBillingCycle.type';
+import {SubscriptionPaymentPlanDto} from '^models/Subscription/types/paymentPlanType';
+import {SubscriptionBillingCycleDto} from '^models/Subscription/types/billingCycleType';
 import {productApi} from '^api/product.api';
 import {errorNotify} from '^utils/toast-notify';
 import {productIdParamsState} from '^atoms/common';

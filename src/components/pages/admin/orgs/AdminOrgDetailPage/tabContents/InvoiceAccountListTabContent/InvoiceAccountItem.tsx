@@ -3,7 +3,7 @@ import {InvoiceAccountDto} from '^types/invoiceAccount.type';
 import {CardTableTR} from '^admin/share';
 import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {GoDotFill} from 'react-icons/go';
-import {SubscriptionManager} from '^models/Subscription';
+import {SubscriptionManager} from '^models/Subscription/manager';
 
 interface InvoiceAccountItemProps {
     invoiceAccount: InvoiceAccountDto;

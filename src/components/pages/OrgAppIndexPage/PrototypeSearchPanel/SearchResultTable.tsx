@@ -2,7 +2,7 @@ import React, {memo, useCallback, useEffect, useState} from 'react';
 import {ContentTable} from '^layouts/ContentLayout';
 import {ProductDto, ProductConnectMethod} from '^types/product.type';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {subscriptionsState} from '^atoms/subscriptions.atom';
+import {subscriptionsState} from '^models/Subscription/atom';
 import {useProductSearch} from '^hooks/useProducts';
 import {OrgProtoDetailPageRoute} from 'src/pages/orgs/[id]/products/[productId]';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';

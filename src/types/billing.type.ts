@@ -1,4 +1,4 @@
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {OrganizationDto} from '^types/organization.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {GmailParsedItem} from '^api/tasting.api';
@@ -7,7 +7,7 @@ import {changePriceCurrency} from '^api/tasting.api/gmail/agent/parse-email-pric
 import {CurrencyDto} from '^types/crawler';
 import {CreateMoneyRequestDto, CurrencyList, MoneyDto, Currency} from '^types/money.type';
 import {TypeCast} from '^types/utils/class-transformer';
-import {BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
+import {BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 import {CreditCardDto} from '^models/CreditCard/type';
 
 // 쿼리가 가능한 엔티티. (dto 와 entity 의 형태 차이가 좀 있음)

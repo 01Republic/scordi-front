@@ -1,13 +1,13 @@
 import {ProductDto} from '^types/product.type';
 import {OrganizationDto} from '^types/organization.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
-import {SubscriptionPaymentPlanDto} from '^types/subscriptionPaymentPlan.type';
+import {SubscriptionPaymentPlanDto} from '^models/Subscription/types/paymentPlanType';
 import {
     BillingCycleTerm,
     Locale,
     SubscriptionBillingCycleDto,
     t_BillingCycleTerm,
-} from '^types/subscriptionBillingCycle.type';
+} from '^models/Subscription/types/billingCycleType';
 import {InvoiceDataDto} from '^components/ApplicationConnectStage/dto/fetched.responses.dto';
 import {WorkspaceDto} from '^types/workspace.type';
 import {BillingHistoryDto} from '^types/billing.type';

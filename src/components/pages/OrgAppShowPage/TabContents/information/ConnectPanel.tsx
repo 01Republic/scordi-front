@@ -1,6 +1,6 @@
 import {memo} from 'react';
 import {ContentPanel, ContentPanelMiniTitle} from '^layouts/ContentLayout';
-import {useCurrentSubscription} from '^hooks/useSubscriptions';
+import {useCurrentSubscription} from '^models/Subscription/hook';
 
 export const ConnectPanel = memo(() => {
     const {currentSubscription: application} = useCurrentSubscription();

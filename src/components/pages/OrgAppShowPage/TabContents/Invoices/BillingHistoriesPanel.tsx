@@ -1,6 +1,6 @@
 import {memo, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
-import {useCurrentSubscription} from '^hooks/useSubscriptions';
+import {useCurrentSubscription} from '^models/Subscription/hook';
 import {BillingHistoryDto} from '^types/billing.type';
 import {getBillingHistories} from '^api/billing.api';
 import {errorNotify} from '^utils/toast-notify';

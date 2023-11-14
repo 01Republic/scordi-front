@@ -1,5 +1,5 @@
 import {BasicManager} from '^models/BasicManager';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {ProductManager} from '^models/Product/manager';
 
 export class SubscriptionManager extends BasicManager<SubscriptionDto> {

@@ -1,7 +1,7 @@
 import {memo, useEffect} from 'react';
-import {useCurrentSubscription} from '^hooks/useSubscriptions';
+import {useCurrentSubscription} from '^models/Subscription/hook';
 import {useForm} from 'react-hook-form';
-import {UpdateSubscriptionRequestDto as UpdateDto} from '^types/subscription.type';
+import {UpdateSubscriptionRequestDto as UpdateDto} from 'src/models/Subscription/types';
 import {ContentForm, ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/ContentLayout';
 import {TextInput} from '^components/TextInput';
 import {DangerPanel} from './DangerPanel';

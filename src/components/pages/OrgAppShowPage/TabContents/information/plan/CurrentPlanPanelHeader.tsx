@@ -1,8 +1,8 @@
 import {memo} from 'react';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {ContentPanelHeading} from '^layouts/ContentLayout';
 import {BsFillCaretDownFill} from '^components/react-icons';
-import {Locale, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
+import {Locale, t_BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 
 interface CurrentPlanPanelHeader {
     subscription: SubscriptionDto;

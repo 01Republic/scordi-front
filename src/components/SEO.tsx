@@ -27,18 +27,18 @@ export const SEO = memo((props: SEOProps) => {
 
     // const channelTalk = {
     //     '@context': 'https://schema.org',
-    //     '@type': 'Organization',
+    //     '@types': 'Organization',
     //     'name': 'Channel Corp.',
     //     'url': 'https://channel.io',
     //     'sameAs': ['https://www.youtube.com/channel/UCy4L-mlTgH-v8vBbtzCGhIA', 'https://www.facebook.com/channel.korea/', 'https://play.google.com/store/apps/details?id=com.zoyi.channel.desk.android', 'https://itunes.apple.com/app/channel-desk/id1088828788?mt=8'],
     // };
     // const channelTalk2 = {
     //     '@context': 'https://schema.org',
-    //     '@type': 'Organization',
+    //     '@types': 'Organization',
     //     'logo': 'https://channel.io/images2/common/channel.png',
     //     'url': 'https://channel.io',
     //     'contactPoint': [{
-    //         '@type': 'ContactPoint',
+    //         '@types': 'ContactPoint',
     //         'telephone': '+82-1644-4052',
     //         'contactType': 'Customer Service',
     //         'contactOption': 'TollFree',

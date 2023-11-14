@@ -9,8 +9,8 @@ import {
     ContentPanelItemTitle,
     ContentPanelList,
 } from '^layouts/ContentLayout';
-import {useCurrentSubscription} from '^hooks/useSubscriptions';
-import {subscriptionApi} from '^api/subscription.api';
+import {useCurrentSubscription} from '^models/Subscription/hook';
+import {subscriptionApi} from '^models/Subscription/api';
 
 export const DangerPanel = memo(() => {
     const router = useRouter();

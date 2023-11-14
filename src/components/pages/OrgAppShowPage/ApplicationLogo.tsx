@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 
 interface ApplicationLogoProps {
     subscription: SubscriptionDto;

@@ -1,7 +1,7 @@
 import {Fragment, memo} from 'react';
 import {useProduct} from '^hooks/useProducts';
 import {ContentPanel, ContentTable} from '^layouts/ContentLayout';
-import {t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
+import {t_BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 
 export const MenuContentForEditPlanCycle = memo(() => {
     const [proto] = useProduct();

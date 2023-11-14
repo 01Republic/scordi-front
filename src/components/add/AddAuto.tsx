@@ -8,7 +8,7 @@ import {CrawlerError, CrawlerErrors, LoginDto, LoginWithVerify, WorkspaceItemDto
 import {useForm} from 'react-hook-form';
 import {getOrganizationListByCrawlerApi, makeSignHeader} from '^api/crawler';
 import {errorNotify} from '^utils/toast-notify';
-import {createSubscription} from '^api/subscription.api';
+import {createSubscription} from '^models/Subscription/api';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {toast} from 'react-toastify';
 import {MobileViewContainer} from '^components/MobileTopNav';

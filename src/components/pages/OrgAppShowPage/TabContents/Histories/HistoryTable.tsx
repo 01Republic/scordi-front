@@ -1,5 +1,5 @@
 import {memo, useCallback, useEffect} from 'react';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {HistoryItem} from '^components/pages/OrgAppShowPage/TabContents/Histories/HistoryItem';
 import {SyncNowButton} from '^components/pages/OrgAppShowPage/TabContents/Histories/SyncNowButton';
 import {useCurrentSyncHistory, useSyncHistoryList} from '^hooks/useSubscriptionSyncHistories';

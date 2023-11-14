@@ -6,7 +6,7 @@ import {useCurrentOrg} from '^hooks/useCurrentOrg';
 import {errorNotify} from '^utils/toast-notify';
 import {Page} from '^types/page';
 import {ProductDto} from '^types/product.type';
-import {CreateSubscriptionRequestDto} from '^types/subscription.type';
+import {CreateSubscriptionRequestDto} from 'src/models/Subscription/types';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {ContentLayout} from '^layouts/ContentLayout';
 import {ContentForm} from '^layouts/ContentLayout/ContentForm';
@@ -18,7 +18,7 @@ import {ConnectPanelV1} from '^components/pages/OrgAddAppInfoPage/ConnectPanelV1
 import {ConnectPanelV2} from '^components/pages/OrgAddAppInfoPage/ConnectPanelV2';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 import {productApi} from '^api/product.api';
-import {subscriptionApi} from '^api/subscription.api';
+import {subscriptionApi} from '^models/Subscription/api';
 
 export const OrgAddAppInfoPage: Page = () => {
     const router = useRouter();

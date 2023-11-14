@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {TitleSection} from '^components/v2/TitleSection';
-import {useCurrentSubscription} from '^hooks/useSubscriptions';
+import {useCurrentSubscription} from '^models/Subscription/hook';
 import {AppNameWithLogoBlock} from '^components/pages/OrgAppInfoPage/AppNameWithLogoBlock';
 import {BillingHistoryAmountInfoBlock} from '^components/pages/BillingHistoryShowPage/BillingHistoryAmountInfoBlock';
 import {MobileKeyValueItem} from '^components/v2/MobileKeyValueItem';

@@ -1,6 +1,6 @@
 import {BillingTableRow} from '^components/pages/dashboard/BillingTableRow';
 import {useRouter} from 'next/router';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 
 const tableLabel = ['제품', '요금제명', '주기', '다음 결제일', '이용자 수', '결제 비용', '전달 대비', '관리', '액션'];
 

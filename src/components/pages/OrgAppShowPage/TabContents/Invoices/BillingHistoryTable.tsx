@@ -1,5 +1,5 @@
 import React, {memo, useEffect} from 'react';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {Paginator} from '^components/Paginator';
 import {useBillingHistoryList} from '^hooks/useBillingHistories';
 import {BillingHistoryItem} from './BillingHistoryItem';

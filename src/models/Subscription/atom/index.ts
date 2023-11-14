@@ -1,7 +1,7 @@
 import {atom, selector, selectorFamily} from 'recoil';
-import {SubscriptionDto, FindAllSubscriptionsQuery} from '^types/subscription.type';
+import {SubscriptionDto, FindAllSubscriptionsQuery} from 'src/models/Subscription/types';
 import {subscriptionIdParamState} from '^atoms/common';
-import {subscriptionApi} from '^api/subscription.api';
+import {subscriptionApi} from '^models/Subscription/api';
 import {errorNotify} from '^utils/toast-notify';
 import {Paginated} from '^types/utils/paginated.dto';
 
@@ -84,7 +84,7 @@ export const getSubscriptionQuery = selector({
         const id = get(subscriptionIdParamState);
         if (isNaN(id)) return;
         try {
-            const res = await getSubscription(id);
+            const res = await subscriptionApi.show(id);
             return res.data;
         } catch (e) {
             errorNotify(e);
@@ -99,7 +99,7 @@ export const fetchSubscriptionQueryById = selectorFamily({
     key: 'fetchSubscriptionQueryById',
     get: (id: number) => async () => {
         try {
-            const res = await getSubscription(id);
+            const res = await subscriptionApi.show(id);
             return res.data;
         } catch (e) {
             errorNotify(e);

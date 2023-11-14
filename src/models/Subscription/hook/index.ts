@@ -1,4 +1,4 @@
-import {FindAllSubscriptionsQuery, SubscriptionDto} from '^types/subscription.type';
+import {FindAllSubscriptionsQuery, SubscriptionDto} from 'src/models/Subscription/types';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {
     getSubscriptionQuery,
@@ -6,17 +6,17 @@ import {
     getCurrentSubscriptionQuery,
     getSubscriptionsQueryAtom,
     subscriptionsSearchResultAtom,
-} from '^atoms/subscriptions.atom';
+} from '^models/Subscription/atom';
 import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {subscriptionApi} from '^api/subscription.api';
+import {subscriptionApi} from '^models/Subscription/api';
 
 export const useCurrentSubscription = () => {
     const [currentSubscription, reload] = useRecoilState(getCurrentSubscriptionQuery);
     return {currentSubscription, reload: () => reload((v) => v)};
 };
 
-export const useSubscriptions = () => useRecoilValue(getSubscriptionsQuery);
+export const index = () => useRecoilValue(getSubscriptionsQuery);
 
 export const useSubscriptionsV2 = () => {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);

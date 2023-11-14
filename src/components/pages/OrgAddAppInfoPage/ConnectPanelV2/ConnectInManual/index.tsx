@@ -11,7 +11,7 @@ import {useRouter} from 'next/router';
 import {toast} from 'react-toastify';
 import {errorNotify} from '^utils/toast-notify';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
-import {subscriptionApi} from '^api/subscription.api';
+import {subscriptionApi} from '^models/Subscription/api';
 
 interface ConnectInManualProps {
     protoApp: ProductDto;

@@ -7,7 +7,7 @@ import {
 } from '^components/ApplicationConnectStage/dto/fetched.responses.dto';
 import {ContentPanel} from '^layouts/ContentLayout/ContentPanel';
 import {IoSaveOutline} from '@react-icons/all-files/io5/IoSaveOutline';
-import {createSubscription} from '^api/subscription.api';
+import {createSubscription} from '^models/Subscription/api';
 import {useRouter} from 'next/router';
 import {toast} from 'react-toastify';
 import {errorNotify} from '^utils/toast-notify';

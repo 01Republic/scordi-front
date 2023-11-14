@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {Avatar} from '^components/Avatar';
 import {currencyFormat, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {useRecoilValue} from 'recoil';
@@ -8,7 +8,7 @@ import {useRouter} from 'next/router';
 import {V3OrgAppShowPageRoute} from '^pages/v3/orgs/[orgId]/apps/[appId]';
 import {orgIdParamState} from '^atoms/common';
 import {BillingHistoryManager} from '^models/BillingHistory';
-import {Locale} from '^types/subscriptionBillingCycle.type';
+import {Locale} from '^models/Subscription/types/billingCycleType';
 
 interface SubscriptionItemProps {
     item: SubscriptionDto;

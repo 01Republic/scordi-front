@@ -27,7 +27,7 @@ export const BillingHistoryAmountInputBlock = memo((props: BillingHistoryAmountI
                     />
                     {/*{...form.register('paidAmount')}*/}
                     <span />
-                    {/*<input type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />*/}
+                    {/*<input types="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />*/}
                     {/*<label className="label">*/}
                     {/*    <span className="label-text-alt">Alt label</span>*/}
                     {/*    <span className="label-text-alt">Alt label</span>*/}

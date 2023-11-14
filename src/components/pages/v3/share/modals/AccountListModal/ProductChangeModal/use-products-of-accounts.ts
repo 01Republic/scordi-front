@@ -2,10 +2,10 @@ import {useEffect, useState} from 'react';
 import {ProductManager} from '^models/Product/manager';
 import {AccountManager} from '^models/Account/manager';
 import {accountApi} from '^api/account.api';
-import {SubscriptionManager} from '^models/Subscription';
+import {SubscriptionManager} from '^models/Subscription/manager';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {subscriptionApi} from '^api/subscription.api';
+import {subscriptionApi} from '^models/Subscription/api';
 
 export const useProductsOfAccounts = (isShow: boolean) => {
     const orgId = useRecoilValue(orgIdParamState);

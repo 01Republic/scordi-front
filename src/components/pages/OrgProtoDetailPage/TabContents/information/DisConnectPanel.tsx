@@ -4,8 +4,8 @@ import Swal from 'sweetalert2';
 import {productIdParamsState} from '^atoms/common';
 import {ContentPanel, ContentPanelMiniTitle} from '^layouts/ContentLayout';
 import {errorNotify} from '^utils/toast-notify';
-import {subscriptionApi} from '^api/subscription.api';
-// import {DeleteProductDto} from '^types/applicationPrototype.type';
+import {subscriptionApi} from '^models/Subscription/api';
+// import {DeleteProductDto} from '^types/applicationPrototype.types';
 
 export const DisConnectPanel = memo(() => {
     const [appId] = useRecoilState(productIdParamsState);

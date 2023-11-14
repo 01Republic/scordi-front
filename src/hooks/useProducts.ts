@@ -10,7 +10,7 @@ import {useCallback, useEffect, useState} from 'react';
 import {ProductDto, FindAllProductQuery} from '^types/product.type';
 import {productApi} from '^api/product.api';
 import {errorNotify} from '^utils/toast-notify';
-import {SubscriptionPaymentPlanDto} from '^types/subscriptionPaymentPlan.type';
+import {SubscriptionPaymentPlanDto} from '^models/Subscription/types/paymentPlanType';
 import {useRouter} from 'next/router';
 
 export const useProducts = () => {

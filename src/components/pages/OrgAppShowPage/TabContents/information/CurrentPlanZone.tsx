@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {CurrentPlanPanelHeader} from './plan/CurrentPlanPanelHeader';
 import {CurrentPlanZoneHeader} from './plan/CurrentPlanZoneHeader';
 import {CurrentPlanPaidAccountStatus} from './plan/CurrentPlanPaidAccountStatus';

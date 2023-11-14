@@ -1,12 +1,12 @@
 import {ProductDto} from '^types/product.type';
 import {BillingHistoryDto} from '^types/billing.type';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {
     BillingCycleTerm,
     Locale,
     SubscriptionBillingCycleDto,
     t_BillingCycleTerm,
-} from '^types/subscriptionBillingCycle.type';
+} from '^models/Subscription/types/billingCycleType';
 import {TypeCast} from '^types/utils/class-transformer';
 
 export enum BillingType {

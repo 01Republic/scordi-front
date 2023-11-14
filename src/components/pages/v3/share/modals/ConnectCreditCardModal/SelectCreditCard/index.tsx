@@ -1,5 +1,5 @@
 import {UseFormReturn} from 'react-hook-form';
-import {UpdateSubscriptionRequestDto} from '^types/subscription.type';
+import {UpdateSubscriptionRequestDto} from 'src/models/Subscription/types';
 import React, {memo, useEffect, useMemo, useState} from 'react';
 import AsyncSelect from 'react-select/async';
 

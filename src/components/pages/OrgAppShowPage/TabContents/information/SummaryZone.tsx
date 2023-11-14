@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {BsStats} from '^components/v2/Stats/Stats';
 import {BsStat} from '^components/v2/Stats/Stat';
 import {CurrentBill} from './summary/CurrentBill';

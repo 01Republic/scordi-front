@@ -1,10 +1,10 @@
-// export type PageRoute<T> = {
+// export types PageRoute<T> = {
 //     pathname: string;
 //     // path: <T extends Array<infer P>>(...args: T) => string;
 //     path: (...args: T extends (...args: infer P) => any ? P : never[]) => string;
 // };
 
-// type PageRoute<T> = {pathname: string; path: T};
+// types PageRoute<T> = {pathname: string; path: T};
 
 import {serviceHost} from '^config/environments';
 

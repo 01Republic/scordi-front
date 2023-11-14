@@ -6,7 +6,7 @@ import {AddServicePageRoute} from '^pages/apps/add/[id]';
 import {useEffect, useState} from 'react';
 import {ProductDto} from '^types/product.type';
 import {productApi} from '^api/product.api';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {DefaultButton} from '^components/Button';
 import {ApplyPageRoute} from '^pages/apps/apply';
 import {toast} from 'react-toastify';
@@ -14,7 +14,7 @@ import {useCurrentUser} from '^hooks/useCurrentUser';
 import {ServiceSuggestList} from '^components/ServiceSuggestList';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
-import {subscriptionApi} from '^api/subscription.api';
+import {subscriptionApi} from '^models/Subscription/api';
 
 export const AppSearchPageRoute = {
     pathname: '/apps/search',

@@ -1,5 +1,5 @@
 import {CurrencyDto} from '^types/crawler';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {MembershipDto} from '^types/membership.type';
 
 export class DashboardSummaryDto {

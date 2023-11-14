@@ -6,12 +6,12 @@ import {getAppsBillingHistory} from '^api/billing.api';
 import {useRouter} from 'next/router';
 import {errorNotify} from '^utils/toast-notify';
 import {BillingHistoryDto} from '^types/billing.type';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {intlDateLong} from '^utils/dateTime';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 import {useCurrentUser} from '^hooks/useCurrentUser';
-import {subscriptionApi} from '^api/subscription.api';
+import {subscriptionApi} from '^models/Subscription/api';
 
 export const BillingHistoriesPageRoute = {
     pathname: '/orgs/:id/apps/:appId/billingHistories',

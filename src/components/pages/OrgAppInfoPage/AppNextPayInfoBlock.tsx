@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {TitleSection} from '^components/v2/TitleSection';
 
 type AppNextPayInfoBlockProps = {

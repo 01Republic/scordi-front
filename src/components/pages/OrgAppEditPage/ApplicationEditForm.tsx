@@ -1,13 +1,13 @@
 import {memo, useEffect} from 'react';
 import {WithChildren} from '^types/global.type';
 import {UseFormReturn} from 'react-hook-form';
-import {UpdateSubscriptionRequestDto} from '^types/subscription.type';
+import {UpdateSubscriptionRequestDto} from 'src/models/Subscription/types';
 import {subscriptionIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
 import {useRouter} from 'next/router';
 import {errorNotify} from '^utils/toast-notify';
-import {useCurrentSubscription} from '^hooks/useSubscriptions';
-import {subscriptionApi} from '^api/subscription.api';
+import {useCurrentSubscription} from '^models/Subscription/hook';
+import {subscriptionApi} from '^models/Subscription/api';
 
 type ApplicationEditFormProps = {
     form: UseFormReturn<UpdateSubscriptionRequestDto, any>;

@@ -11,7 +11,7 @@ import {errorToast} from '^api/api';
 import {toast} from 'react-toastify';
 import {ConnectResultDto, ConnectResultResponseDto} from '^types/crawler/connect-result-response.dto';
 import {workspaceApi, workspaceMemberApi} from '^api/workspace.api';
-import {subscriptionApi} from '^api/subscription.api';
+import {subscriptionApi} from '^models/Subscription/api';
 import {billingHistoryApi} from '^api/billing.api';
 
 // 연동 모달의 활성화 여부

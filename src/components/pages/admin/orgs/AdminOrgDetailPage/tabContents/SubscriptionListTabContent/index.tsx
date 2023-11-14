@@ -1,8 +1,8 @@
 import {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
-import {SubscriptionManager} from '^models/Subscription';
-import {subscriptionApi} from '^api/subscription.api';
+import {SubscriptionManager} from '^models/Subscription/manager';
+import {subscriptionApi} from '^models/Subscription/api';
 import {CardTablePanel} from '^admin/share';
 import {SubscriptionItem} from '^admin/orgs/AdminOrgDetailPage/tabContents/SubscriptionListTabContent/SubscriptionItem';
 

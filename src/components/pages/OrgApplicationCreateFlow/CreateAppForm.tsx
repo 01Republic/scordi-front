@@ -60,7 +60,7 @@ export const CreateAppForm = memo((props: CreateAppFormProps) => {
             {/*            <div className="bs-col-5 px-0">*/}
             {/*                <input*/}
             {/*                    id="lastPaidAmount"*/}
-            {/*                    type="number"*/}
+            {/*                    types="number"*/}
             {/*                    step="0.01"*/}
             {/*                    placeholder="0.01"*/}
             {/*                    className="input input-bordered w-full"*/}

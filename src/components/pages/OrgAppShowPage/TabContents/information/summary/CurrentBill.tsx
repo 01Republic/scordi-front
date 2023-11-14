@@ -1,8 +1,8 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {BiReceipt} from '^components/react-icons';
-import {Locale, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
+import {Locale, t_BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 
 interface CurrentBillProps {
     subscription: SubscriptionDto;

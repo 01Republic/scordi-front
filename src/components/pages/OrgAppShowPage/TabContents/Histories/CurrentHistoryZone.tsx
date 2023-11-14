@@ -1,6 +1,6 @@
 import {memo, useEffect} from 'react';
 import {BiGitCommit, BsCalendarDay, BsStopwatch, IoMdRefresh} from '^components/react-icons';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {
     restartSyncButtonIsActive,
     syncHistoryAssets,

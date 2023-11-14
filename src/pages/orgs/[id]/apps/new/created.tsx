@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
-import {useCurrentSubscription} from '^hooks/useSubscriptions';
+import {useCurrentSubscription} from '^models/Subscription/hook';
 import {PreLoader} from '^components/PreLoader';
 import {ProductDto, safeImageSrc} from '^types/product.type';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';

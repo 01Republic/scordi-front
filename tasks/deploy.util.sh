@@ -22,5 +22,5 @@ function run() {
 function send_slack() {
   source "$(pwd)/.env.local"
   DATA="{\"text\":\"<"'!'"subteam^$SLACK_PRODUCT_SUBTEAM_ID> $1 by <@$SLACK_USER_ID>\"}"
-  curl -X POST -H 'Content-type: application/json' --data "$DATA" "$SLACK_DEPLOY_NOTIFICATION_WEBHOOK_URL"
+  curl -X POST -H 'Content-types: application/json' --data "$DATA" "$SLACK_DEPLOY_NOTIFICATION_WEBHOOK_URL"
 }

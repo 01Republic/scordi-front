@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import {subscriptionIdParamState} from '^atoms/common';
 import {ContentPanel, ContentPanelMiniTitle} from '^layouts/ContentLayout';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
-import {subscriptionApi} from '^api/subscription.api';
+import {subscriptionApi} from '^models/Subscription/api';
 
 export const DisConnectPanel = memo(() => {
     const [appId] = useRecoilState(subscriptionIdParamState);

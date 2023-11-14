@@ -1,4 +1,4 @@
-import {SubscriptionBillingCycleDto} from '^types/subscriptionBillingCycle.type';
+import {SubscriptionBillingCycleDto} from '^models/Subscription/types/billingCycleType';
 
 // // PaymentPlan 결제플랜
 // export enum PaymentPlan {

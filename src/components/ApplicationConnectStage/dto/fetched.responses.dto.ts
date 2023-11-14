@@ -1,4 +1,4 @@
-import {BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
+import {BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 
 export type Currency = {
     text: string;

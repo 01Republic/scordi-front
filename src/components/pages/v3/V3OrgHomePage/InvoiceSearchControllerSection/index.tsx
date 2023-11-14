@@ -52,7 +52,7 @@ export const InvoiceSearchControllerSection = memo(() => {
     return (
         <section className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-2">
-                {/*<input type="text" className="input input-bordered" />*/}
+                {/*<input types="text" className="input input-bordered" />*/}
                 {/*<SearchInput placeholder="검색어를 입력해주세요." onSearch={console.log} />*/}
             </div>
 

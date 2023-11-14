@@ -1,6 +1,6 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {BiCalendarStar} from '^components/react-icons';
 import {useSetRecoilState} from 'recoil';
 import {navTabIndex} from '^components/pages/OrgAppShowPage';

@@ -1,6 +1,6 @@
 import {memo} from 'react';
 import {IoMdClose, IoMdRefresh} from '^components/react-icons';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {HistoryStatusButton} from './HistoryStatusButton';
 import {SyncHistoryDto, SyncHistoryResultStatus} from '^types/subscriptionSyncHistory.type';
 import {getDistanceOfTime, humanizeTimeDistance} from '^utils/dateTime';

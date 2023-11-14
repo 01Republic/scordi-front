@@ -1,8 +1,8 @@
 import {atom, useRecoilState} from 'recoil';
-import {SubscriptionDto} from '^types/subscription.type';
-import {Locale} from '^types/subscriptionBillingCycle.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
+import {Locale} from '^models/Subscription/types/billingCycleType';
 import {useRouter} from 'next/router';
-import {subscriptionApi} from '^api/subscription.api';
+import {subscriptionApi} from '^models/Subscription/api';
 
 const currentSubscriptionState = atom<SubscriptionDto | null>({
     key: 'currentSubscription',

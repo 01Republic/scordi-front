@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {ProductDto} from '^types/product.type';
-import {SubscriptionPaymentPlanDto} from '^types/subscriptionPaymentPlan.type';
+import {SubscriptionPaymentPlanDto} from '^models/Subscription/types/paymentPlanType';
 import {ConnectMethod, SelectConnectMethod} from './SelectConnectMethod';
 import {ConnectLoginForm} from './ConnectLoginForm';
 import {ConnectInManual} from '^components/pages/OrgAddAppInfoPage/ConnectPanelV2/ConnectInManual';
