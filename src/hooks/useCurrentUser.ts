@@ -2,7 +2,7 @@ import {useEffect} from 'react';
 import {useRecoilState} from 'recoil';
 import {AxiosError} from 'axios';
 import {getToken, removeToken, setToken} from '^api/api';
-import {getUserSession, postUserSession, postUserSessionBySocialAccount} from '^api/session.api';
+import {userSessionApi} from '^api/session.api';
 import {currentUserAtom, authenticatedUserDataAtom} from '^atoms/currentUser.atom';
 import {UserLoginPageRoute} from '^pages/users/login';
 import {OrgSearchRoute} from '^pages/orgs/search';
@@ -19,7 +19,7 @@ type AxiosErrorData = {
 };
 
 const loginRequiredHandler = (err: AxiosError<AxiosErrorData>, router: NextRouter, fallbackPath?: string | null) => {
-    const status = err.response?.data.status!;
+    const status = err.response?.data.status;
     if (status === 401) {
         // fallbackPath 가 null 로 주입된 경우에는 튕기지 않습니다.
         if (fallbackPath === null) return;
@@ -53,18 +53,20 @@ export function useCurrentUser(fallbackPath?: string | null, opt?: CurrentUserOp
         const apiToken = getToken();
         if (!apiToken) return;
 
-        getUserSession()
+        userSessionApi
+            .index()
             .then((res) => setCurrentUser(res.data))
             .catch((err) => loginRequiredHandler(err, router, fallbackPath));
     }, []);
 
     const login = (data: UserLoginRequestDto, href?: string): Promise<UserDto> => {
         return (
-            postUserSession(data)
+            userSessionApi
+                .create(data)
                 // catch 는 login 함수를 사용하는 곳에서 개별처리 합니다.
                 .then((res) => {
                     setToken(res.data.token);
-                    return getUserSession().then(({data}) => {
+                    return userSessionApi.index().then(({data}) => {
                         setCurrentUser(data);
                         if (href) router.push(href);
                         return data;
@@ -74,9 +76,10 @@ export function useCurrentUser(fallbackPath?: string | null, opt?: CurrentUserOp
     };
 
     const socialLogin = (data: UserSocialLoginRequestDto, href?: string): Promise<UserDto> => {
-        return postUserSessionBySocialAccount(data)
+        return userSessionApi
+            .createBySocialAccount(data)
             .then(({data: {token}}) => setToken(token))
-            .then(() => getUserSession())
+            .then(() => userSessionApi.index())
             .then(({data: user}) => {
                 setCurrentUser(user);
                 if (href) router.push(href);
@@ -121,9 +124,10 @@ export const useSocialLogin = () => {
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
 
     return (data: UserSocialLoginRequestDto, href?: string): Promise<UserDto> => {
-        return postUserSessionBySocialAccount(data)
+        return userSessionApi
+            .createBySocialAccount(data)
             .then(({data: {token}}) => setToken(token))
-            .then(() => getUserSession())
+            .then(() => userSessionApi.index())
             .then(({data: user}) => {
                 setCurrentUser(user);
                 if (href) router.push(href);

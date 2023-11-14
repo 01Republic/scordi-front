@@ -4,7 +4,6 @@ import {WelcomePageRoute} from '^pages/users/signup/welcome';
 import {toast} from 'react-toastify';
 import {useForm} from 'react-hook-form';
 import {TextInput} from '^components/TextInput';
-import {postUser} from '^api/session.api';
 import {SendPhoneAuthMessageDto, UserSocialSignUpRequestDto} from '^types/user.type';
 import {errorNotify} from '^utils/toast-notify';
 import {DefaultButton} from '^components/Button';
@@ -12,6 +11,7 @@ import {useCurrentUser} from '^hooks/useCurrentUser';
 import {patchPhoneAuthSession, postPhoneAuthSession} from '^api/authlization';
 import {Timer} from './AuthenticationCode';
 import {AgreeModal} from './AgreeModal';
+import {user} from '^api/session.api';
 
 /**
  * 추가 정보 입력 페이지 (회원가입)
@@ -42,7 +42,7 @@ export const UserSignUpPage = memo(() => {
 
     // 회원가입 & 리디렉션
     const submit = (data: UserSocialSignUpRequestDto) => {
-        postUser(data)
+        user.create(data)
             .then(() => {
                 socialLogin({provider: data.provider, uid: data.uid})
                     .then(() => router.push(WelcomePageRoute.path()))

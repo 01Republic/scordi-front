@@ -1,7 +1,6 @@
 import {MembershipDto} from '^types/membership.type';
 import {atom, selector} from 'recoil';
 import {UserDto} from '^types/user.type';
-import {getUserSession} from '^api/session.api';
 import {getToken} from '^api/api';
 import {errorNotify} from '^utils/toast-notify';
 import {orgIdParamState} from '^atoms/common';

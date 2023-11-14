@@ -10,7 +10,7 @@ import {PhoneNumberInput} from './PhoneNumberInput';
 import {AuthCodeInput} from './AuthCodeInput';
 import {TermModal} from '^components/pages/LandingPages/BetaSignPhoneAuthPage/TermModal';
 import {GoogleSignedUserData} from '^atoms/currentUser.atom';
-import {createInvitedUser, findUserByEmail, postUser} from '^api/session.api';
+import {createInvitedUser, user} from '^api/session.api';
 import {errorNotify} from '^utils/toast-notify';
 import {useSocialLogin} from '^hooks/useCurrentUser';
 import {SignWelcomePageRoute} from '^pages/sign/welcome';
@@ -94,7 +94,7 @@ export const BetaSignPhoneAuthPage = memo(() => {
         }
 
         // 먼저 이메일을 통해 가입여부를 확인하고
-        findUserByEmail(data.email)
+        user.find(data.email)
             .then((res) => {
                 // 가입된 사용자라면 후처리 로직만 실행하고
                 const user = res.data;
@@ -120,7 +120,7 @@ export const BetaSignPhoneAuthPage = memo(() => {
                                 errorNotify(err);
                             });
                     } else {
-                        postUser(data)
+                        user.create(data)
                             .then((res) => {
                                 console.log('가입 then', res);
                                 findOrCreateUserCallback(res.data, data);

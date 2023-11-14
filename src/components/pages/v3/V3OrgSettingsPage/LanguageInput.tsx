@@ -2,8 +2,8 @@ import React, {memo, useCallback} from 'react';
 import {SelectDropdown, SelectOptionProps} from '^v3/share/Select';
 import {FormControl} from '^v3/V3OrgSettingsPage/InputText';
 import {useCurrentUser} from '^hooks/useCurrentUser';
-import {modifyUser} from '^api/session.api';
 import {locales} from '^utils/locale-helper';
+import {user} from '^api/session.api';
 
 export const LanguageInput = memo(() => {
     const {currentUser} = useCurrentUser(null, {
@@ -15,7 +15,7 @@ export const LanguageInput = memo(() => {
             const selectedLocale = locales.find((loc) => loc.code === opt.value)!;
             console.log(selectedLocale);
 
-            modifyUser({locale: selectedLocale.code}).then(() => {
+            user.update({locale: selectedLocale.code}).then(() => {
                 // toast('저장되었습니다.');
             });
         },

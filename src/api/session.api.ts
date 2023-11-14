@@ -16,32 +16,43 @@ import {api} from './api';
 import axios from 'axios';
 import {GoogleSignedUserData} from '^atoms/currentUser.atom';
 
-export const postUserSession = (data: UserLoginRequestDto) => {
-    return api.post<JwtContainer>('/users/session', data);
+export const userSessionApi = {
+    index: () => {
+        const url = '/users/session';
+        return api.get<UserDto>(url);
+    },
+
+    create: (data: UserLoginRequestDto) => {
+        const url = '/users/session';
+        return api.post<JwtContainer>(url, data);
+    },
+
+    createBySocialAccount: (data: UserSocialLoginRequestDto) => {
+        const url = '/users/session/social';
+        return api.post<JwtContainer>(url, data);
+    },
+
+    update: () => {
+        const url = '/users/session';
+        return api.put<JwtContainer>(url);
+    },
 };
 
-export const postUserSessionBySocialAccount = (data: UserSocialLoginRequestDto) => {
-    return api.post<JwtContainer>('/users/session/social', data);
-};
+export const user = {
+    create: (data: UserSocialSignUpRequestDto) => {
+        const url = '/users';
+        return api.post<UserDto>(url, data);
+    },
 
-export const getUserSession = () => {
-    return api.get<UserDto>('/users/session');
-};
+    update: (data: UserEditProfileRequestDto) => {
+        const url = `/users/my`;
+        return api.patch(url, data);
+    },
 
-export const putUserSession = () => {
-    return api.put<JwtContainer>('/users/session');
-};
-
-export const findUserByEmail = (email: string) => {
-    return api.get<UserDto>(`/users/find-by/${email}`);
-};
-
-export const postUser = (data: UserSocialSignUpRequestDto) => {
-    return api.post<UserDto>('/users', data);
-};
-
-export const modifyUser = (data: UserEditProfileRequestDto) => {
-    return api.patch(`/users/my`, data);
+    find: (email: string) => {
+        const url = `/users/find-by/${email}`;
+        return api.get<UserDto>(url);
+    },
 };
 
 export const getGoogleUserData = (accessToken: string) => {

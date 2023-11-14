@@ -1,7 +1,7 @@
 import {useRouter} from 'next/router';
 import {GoogleSignedUserData} from '^atoms/currentUser.atom';
 import {UserDto} from '^types/user.type';
-import {getGoogleUserData, getUserSession, postUserSessionBySocialAccount} from '^api/session.api';
+import {getGoogleUserData, userSessionApi} from '^api/session.api';
 import {setToken} from '^api/api';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
@@ -100,7 +100,7 @@ export const useGoogleLoginSuccessHandler = () => {
         const {data: googleSignedUserData} = await getGoogleUserData(accessToken);
 
         // 서버에 이 회원이 가입된 계정이 있는지 확인합니다.
-        const jwtRequest = postUserSessionBySocialAccount({
+        const jwtRequest = userSessionApi.createBySocialAccount({
             provider: 'google',
             uid: googleSignedUserData.id,
         });
@@ -109,7 +109,7 @@ export const useGoogleLoginSuccessHandler = () => {
         jwtRequest.then(({data: {token}}) => {
             // 토큰으로 사용자를 조회한 뒤
             setToken(token);
-            getUserSession().then(({data: user}) => {
+            userSessionApi.index().then(({data: user}) => {
                 user.phone
                     ? moveWithLogin(user) // 전화번호가 있으면 로그인 시키고
                     : moveToSignUpPage(googleSignedUserData); // 전화번호가 없으면 추가정보 입력을 위해 가입페이지로 넘깁니다.

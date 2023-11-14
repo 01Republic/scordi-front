@@ -7,11 +7,11 @@ import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {MobileTopNav, MobileViewContainer} from '^components/MobileTopNav';
 import {DefaultButton} from '^components/Button';
 import {UserDto, UserEditProfileRequestDto} from '^types/user.type';
-import {modifyUser} from '^api/session.api';
 import {toast} from 'react-toastify';
 import {useRecoilState} from 'recoil';
 import {currentUserAtom} from '^atoms/currentUser.atom';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
+import {user} from '^api/session.api';
 
 export const UserEditPageRoute = pathRoute({
     pathname: '/users/edit',
@@ -23,7 +23,7 @@ const UserEditPage = () => {
     const form = useForm<UserEditProfileRequestDto>();
 
     const UpdateUserHandler = () => {
-        modifyUser(form.getValues()).then((res) => {
+        user.update(form.getValues()).then((res) => {
             toast.success('프로필이 수정되었습니다.');
             setCurrentUser(res.data);
         });
