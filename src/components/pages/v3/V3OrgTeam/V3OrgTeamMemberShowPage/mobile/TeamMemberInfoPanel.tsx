@@ -1,8 +1,8 @@
 import React, {memo, useEffect} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {useCurrentTeamMember} from '^models/TeamMember/atom/atom';
+import {useCurrentTeamMember} from '^models/TeamMember/hook';
 import {UseFormReturn} from 'react-hook-form';
-import {UpdateTeamMemberDto} from '^models/TeamMember/types/team-member.type';
+import {UpdateTeamMemberDto} from '^models/TeamMember/type';
 import {MobileInfoList} from '^v3/share/MobileInfoList';
 import {
     EditTriggeredInput,

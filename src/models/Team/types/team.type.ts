@@ -1,7 +1,7 @@
 import {OrganizationDto} from '^types/organization.type';
 import {SubscriptionDto} from '^types/subscription.type';
 import {TagDto} from '^types/tag.type';
-import {TeamMemberDto} from '^models/TeamMember/types/team-member.type';
+import {TeamMemberDto} from '^models/TeamMember/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';
 

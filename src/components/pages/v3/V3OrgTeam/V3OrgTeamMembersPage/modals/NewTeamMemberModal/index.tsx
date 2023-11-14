@@ -1,10 +1,10 @@
 import React, {memo} from 'react';
 import {useModal} from '^v3/share/modals/useModal';
 import {isOpenNewTeamMemberModalAtom} from '^components/pages/v3/V3OrgTeam/V3OrgTeamMembersPage/modals/NewTeamMemberModal/atom';
-import {CreateTeamMemberDto} from '^models/TeamMember/types/team-member.type';
+import {CreateTeamMemberDto} from '^models/TeamMember/type';
 import {useForm} from 'react-hook-form';
 import {TextInput} from '^components/TextInput';
-import {teamMemberApi} from '^models/TeamMember/api/team-member.api';
+import {teamMemberApi} from '^models/TeamMember/api';
 import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
 import {orgIdParamState} from '^atoms/common';

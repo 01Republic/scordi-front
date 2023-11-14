@@ -1,6 +1,6 @@
 import {OrganizationDto} from '^types/organization.type';
 import {TypeCast} from '^types/utils/class-transformer';
-import {TeamMemberDto} from '^models/TeamMember/types/team-member.type';
+import {TeamMemberDto} from '^models/TeamMember/type';
 import {SubscriptionDto} from '^types/subscription.type';
 import {BillingHistoryDto} from '^types/billing.type';
 import {cardSign} from '^config/environments';

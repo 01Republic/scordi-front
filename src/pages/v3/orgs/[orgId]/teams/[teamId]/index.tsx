@@ -6,7 +6,7 @@ import {orgIdParamState, teamIdParamState, useRouterIdParamState} from '^atoms/c
 import {useCurrentOrg} from '^hooks/useCurrentOrg';
 import {V3OrgTeamShowPage} from 'src/components/pages/v3/V3OrgTeam/V3OrgTeamShowPage';
 import {useRouter} from 'next/router';
-import {useTeamMembers} from '^models/TeamMember/atom/atom';
+import {useTeamMembers} from '^models/TeamMember/hook';
 
 export const V3OrgTeamShowPageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]/teams/[teamId]',

@@ -1,41 +1,13 @@
-import {atom, useRecoilState} from 'recoil';
-import {FindAllTeamMemberQueryDto, TeamMemberDto} from '^models/TeamMember/types/team-member.type';
-import {teamMemberApi} from '^models/TeamMember/api/team-member.api';
+import {useRecoilState} from 'recoil';
+import {teamMemberApi} from '^models/TeamMember/api';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {Paginated} from '^types/utils/paginated.dto';
-
-const currentTeamMemberState = atom<TeamMemberDto | null>({
-    key: 'currentTeamMember',
-    default: null,
-});
-
-const currentTeamMemberLoadingState = atom<boolean>({
-    key: 'currentTeamMemberLoadingState',
-    default: false,
-});
-
-export const getTeamMembersQueryAtom = atom<FindAllTeamMemberQueryDto>({
-    key: 'getTeamMembersQueryAtom',
-    default: {},
-});
-export const teamMembersSearchResultAtom = atom<Paginated<TeamMemberDto>>({
-    key: 'teamMembersSearchResult',
-    default: {
-        items: [],
-        pagination: {
-            totalItemCount: 0,
-            currentItemCount: 0,
-            totalPage: 1,
-            currentPage: 1,
-            itemsPerPage: 30,
-        },
-    },
-});
-
-export const invitedEmailsAtom = atom<string[]>({
-    key: 'invitedEmailsAtom',
-    default: <string[]>[],
-});
+import {FindAllTeamMemberQueryDto} from '^models/TeamMember/type';
+import {
+    currentTeamMemberLoadingState,
+    currentTeamMemberState,
+    getTeamMembersQueryAtom,
+    teamMembersSearchResultAtom,
+} from '^models/TeamMember/atom';
 
 export const useCurrentTeamMember = () => {
     const [currentTeamMember, setCurrentTeamMember] = useRecoilState(currentTeamMemberState);

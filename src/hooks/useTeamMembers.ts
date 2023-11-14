@@ -1,5 +1,5 @@
-import {FindAllTeamMemberQueryDto} from '^models/TeamMember/types/team-member.type';
-import {teamMemberApi} from '^models/TeamMember/api/team-member.api';
+import {FindAllTeamMemberQueryDto} from '^models/TeamMember/type';
+import {teamMemberApi} from '^models/TeamMember/api';
 import {useRecoilState} from 'recoil';
 import {teamMemberSearchParams, teamMemberSearchResults} from '^atoms/teamMembers.atom';
 

@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {TeamMemberDto} from '^models/TeamMember/types/team-member.type';
+import {TeamMemberDto} from '^models/TeamMember/type';
 import {Avatar} from '^components/Avatar';
 import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';

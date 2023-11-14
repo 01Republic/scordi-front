@@ -3,7 +3,7 @@ import React, {memo, KeyboardEvent, useEffect} from 'react';
 import {FieldValues, UseFormReturn} from 'react-hook-form';
 import {IoClose} from 'react-icons/io5';
 import {useRecoilState} from 'recoil';
-import {invitedEmailsAtom} from '^models/TeamMember/atom/atom';
+import {invitedEmailsAtom} from '^models/TeamMember/atom';
 
 interface InviteEmailInputProps {
     form: UseFormReturn<FieldValues, any>;
