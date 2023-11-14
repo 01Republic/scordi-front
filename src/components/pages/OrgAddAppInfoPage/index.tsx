@@ -5,7 +5,7 @@ import {IoArrowBack} from '@react-icons/all-files/io5/IoArrowBack';
 import {useCurrentOrg} from '^hooks/useCurrentOrg';
 import {errorNotify} from '^utils/toast-notify';
 import {Page} from '^types/page';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {CreateSubscriptionRequestDto} from 'src/models/Subscription/types';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {ContentLayout} from '^layouts/ContentLayout';
@@ -17,7 +17,7 @@ import {ConnectProfile} from '^components/pages/OrgAddAppInfoPage/ConnectProfile
 import {ConnectPanelV1} from '^components/pages/OrgAddAppInfoPage/ConnectPanelV1';
 import {ConnectPanelV2} from '^components/pages/OrgAddAppInfoPage/ConnectPanelV2';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
-import {productApi} from '^api/product.api';
+import {productApi} from '^models/Product/api';
 import {subscriptionApi} from '^models/Subscription/api';
 
 export const OrgAddAppInfoPage: Page = () => {

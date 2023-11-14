@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useProduct} from '^hooks/useProducts';
+import {useProduct} from '^models/Product/hook';
 import {useForm, UseFormReturn} from 'react-hook-form';
-import {ProductDto, ProductConnectMethod, UpdateProductRequestDto as UpdateDto} from '^types/product.type';
+import {ProductDto, ProductConnectMethod, UpdateProductRequestDto as UpdateDto} from '^models/Product/type';
 import {
     ContentForm,
     ContentPanel,
@@ -15,7 +15,7 @@ import {TextInput} from '^components/TextInput';
 import {ProfileImageFileInput} from '^components/ProfileImageFileInput';
 import {toast} from 'react-toastify';
 import {WysiwygEditor} from '^components/WysiwygEditor';
-import {productApi} from '^api/product.api';
+import {productApi} from '^models/Product/api';
 
 export const MenuContentForEditPrototype = memo(() => {
     const [proto, mutation] = useProduct();

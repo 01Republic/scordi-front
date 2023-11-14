@@ -1,8 +1,8 @@
 import {ProductDetailPageRoute} from '^pages/products/[id]';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {toast} from 'react-toastify';
 import {ResponsiveFigureImg} from '^components/ResponsiveFigureImg';
-import {useProductPostContent} from '^hooks/useProducts';
+import {useProductPostContent} from '^models/Product/hook';
 
 export const ProductListContentPanelItem = (props: {product: ProductDto}) => {
     const {product} = props;

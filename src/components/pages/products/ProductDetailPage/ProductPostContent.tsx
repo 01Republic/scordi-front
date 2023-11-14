@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {ProductPostContentTitle} from '^components/pages/products/ProductDetailPage/ProductPostContentTitle';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {ShareButton} from '^components/pages/products/ProductDetailPage/ShareButton';
 import {GoListButton} from '^components/pages/products/ProductDetailPage/GoListButton';
 

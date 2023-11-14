@@ -3,7 +3,7 @@ import {SubscriptionDto} from 'src/models/Subscription/types';
 import Link from 'next/link';
 import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
 import {t_BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
-import {safeImageSrc} from '^types/product.type';
+import {safeImageSrc} from '^models/Product/type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 
 export const ApplicationListItemMobile = memo((props: {subscription: SubscriptionDto}) => {

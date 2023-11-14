@@ -1,5 +1,5 @@
 import {Avatar} from '^components/Avatar';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import React, {memo} from 'react';
 import {IoClose} from 'react-icons/io5';
 import {useRecoilState, useSetRecoilState} from 'recoil';

@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {useProduct} from '^hooks/useProducts';
+import {useProduct} from '^models/Product/hook';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';

@@ -1,4 +1,4 @@
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {OrgResponseDataDto} from '^components/ApplicationConnectStage/dto/OrgResponseData.dto';
 import {LoginDto} from '^components/ApplicationConnectStage/dto/login.dto';
 import {

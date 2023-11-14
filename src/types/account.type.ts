@@ -1,5 +1,5 @@
 import {OrganizationDto} from '^types/organization.type';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {WorkspaceDto} from '^types/workspace.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';

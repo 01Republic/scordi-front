@@ -5,7 +5,7 @@ import Link from 'next/link';
 import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
 import {ApplicationDetailPageRoute} from 'src/pages/orgs/[id]/products/[productId]/apps/[appId]';
 import {t_BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
-import {safeImageSrc} from '^types/product.type';
+import {safeImageSrc} from '^models/Product/type';
 import {ContentPanelItem} from '^layouts/ContentLayout';
 import {subscriptionIdParamState, orgIdParamState, productIdParamsState} from '^atoms/common';
 import {useRecoilState} from 'recoil';

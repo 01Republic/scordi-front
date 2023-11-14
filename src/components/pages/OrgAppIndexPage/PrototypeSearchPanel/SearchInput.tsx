@@ -1,7 +1,7 @@
 import React, {memo, useCallback, useEffect, useMemo} from 'react';
 import {useForm} from 'react-hook-form';
-import {FindAllProductQuery} from '^types/product.type';
-import {useProductSearch} from '^hooks/useProducts';
+import {FindAllProductQuery} from '^models/Product/type';
+import {useProductSearch} from '^models/Product/hook';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 
 export const SearchInput = memo(() => {

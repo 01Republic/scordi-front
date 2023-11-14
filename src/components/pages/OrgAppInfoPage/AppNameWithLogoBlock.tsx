@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {ImageV2} from '^components/v2/ui/Image';
-import {ProductDto, safeImageSrc} from '^types/product.type';
+import {ProductDto, safeImageSrc} from '^models/Product/type';
 import {TitleSection} from '^components/v2/TitleSection';
 
 type AppNameWithLogoBlockProps = {

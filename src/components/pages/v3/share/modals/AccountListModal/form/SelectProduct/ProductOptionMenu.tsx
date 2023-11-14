@@ -3,7 +3,7 @@ import {Avatar} from '^components/Avatar';
 import React, {memo} from 'react';
 import {ProductManager} from '^models/Product/manager';
 import {ProductOption} from './ProductOption.type';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 
 interface ProductOptionMenuProps {
     data: ProductOption;

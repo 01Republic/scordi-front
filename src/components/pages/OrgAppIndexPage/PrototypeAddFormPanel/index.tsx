@@ -1,7 +1,7 @@
 import {ForwardedRef, forwardRef, HTMLInputTypeAttribute, InputHTMLAttributes, memo, useCallback} from 'react';
 import {ContentPanel} from '^layouts/ContentLayout';
 import {useForm} from 'react-hook-form';
-import {ApplyToAddDto, CreateProductRequestDto} from '^types/product.type';
+import {ApplyToAddDto, CreateProductRequestDto} from '^models/Product/type';
 import {Input} from 'postcss';
 import {FormControlInput} from '^layouts/ContentLayout/FormControlInput';
 

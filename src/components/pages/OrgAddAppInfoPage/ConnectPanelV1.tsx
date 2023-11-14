@@ -4,7 +4,7 @@ import {SwitchCheckbox} from '^components/SwitchCheckbox';
 import {RadioSetInput} from '^components/RadioSetInput';
 import {t_BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 import {TextInput} from '^components/TextInput';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {CreateSubscriptionRequestDto} from 'src/models/Subscription/types';
 import {UseFormReturn} from 'react-hook-form';
 import {SubscriptionPaymentPlanDto} from '^models/Subscription/types/paymentPlanType';

@@ -1,8 +1,8 @@
 import {atom, selector} from 'recoil';
-import {ProductDto, FindAllProductQuery} from '^types/product.type';
+import {ProductDto, FindAllProductQuery} from '^models/Product/type';
 import {SubscriptionPaymentPlanDto} from '^models/Subscription/types/paymentPlanType';
 import {SubscriptionBillingCycleDto} from '^models/Subscription/types/billingCycleType';
-import {productApi} from '^api/product.api';
+import {productApi} from '^models/Product/api';
 import {errorNotify} from '^utils/toast-notify';
 import {productIdParamsState} from '^atoms/common';
 

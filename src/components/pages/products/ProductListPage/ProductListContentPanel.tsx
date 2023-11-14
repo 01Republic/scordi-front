@@ -4,8 +4,8 @@ import {ProductListContentPanelSearchInput} from './ProductListContentPanelSearc
 import {ProductListContentPanelItem} from './ProductListContentPanelItem';
 import {useRecoilValue} from 'recoil';
 import {currentProductCategoryAtom} from '^components/pages/products/ProductListPage/ProductListSidePanel';
-import {productSearchResultsState, useProductSearch} from '^hooks/useProducts';
-import {FindAllProductQuery} from '^types/product.type';
+import {productSearchResultsState, useProductSearch} from '^models/Product/hook';
+import {FindAllProductQuery} from '^models/Product/type';
 
 export const ProductListContentPanel = memo(() => {
     const currentCategory = useRecoilValue(currentProductCategoryAtom);

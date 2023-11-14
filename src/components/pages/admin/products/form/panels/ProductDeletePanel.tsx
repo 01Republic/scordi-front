@@ -6,9 +6,9 @@ import {
     ContentPanelItemTitle,
     ContentPanelList,
 } from '^layouts/ContentLayout';
-import {productApi} from '^api/product.api';
+import {productApi} from '^models/Product/api';
 import React from 'react';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {AdminProductsPageRoute} from '^pages/admin/products';
 
 interface PrototypeDeletePanelProps {

@@ -1,7 +1,7 @@
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {PostTagDto} from '^types/post-tag.type';
 import {PostAuthorDto} from '^types/post-author.type';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 
 export class PostDto {
     id: number; // 게시글 ID

@@ -9,7 +9,7 @@ import {AccountList} from './AccountList';
 import {AccountCreateModal} from './AccountCreateModal';
 import {ProductChangeModal, useAccountProductChangeModal} from './ProductChangeModal';
 import {useAccounts} from '^hooks/useAccounts';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {AccountEditModal} from './AccountEditModal';
 import {useAccountCreateModal} from './AccountCreateModal/hook';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';

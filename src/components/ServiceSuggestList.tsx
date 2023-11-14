@@ -1,5 +1,5 @@
 import React from 'react';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {SubscriptionDto} from 'src/models/Subscription/types';
 import {AppIconButton} from '^components/AppIconButton';
 

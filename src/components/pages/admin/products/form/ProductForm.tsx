@@ -3,7 +3,7 @@ import {
     CreateProductRequestDto as CreateDto,
     UpdateProductRequestDto as UpdateDto,
     ProductConnectMethod,
-} from '^types/product.type';
+} from '^models/Product/type';
 import {UseFormReturn} from 'react-hook-form';
 import {TextInput} from '^components/TextInput';
 import React, {useEffect} from 'react';

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {SubscriptionPaymentPlanDto} from '^models/Subscription/types/paymentPlanType';
 import {ConnectMethod, SelectConnectMethod} from './SelectConnectMethod';
 import {ConnectLoginForm} from './ConnectLoginForm';

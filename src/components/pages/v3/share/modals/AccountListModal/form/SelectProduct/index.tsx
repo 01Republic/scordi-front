@@ -1,6 +1,6 @@
 import React, {memo, useEffect, useMemo, useState} from 'react';
 import {WithChildren} from '^types/global.type';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {UseFormReturn} from 'react-hook-form';
 import {UnSignedAccountFormData} from '^types/account.type';
 import {ProductAvatar} from '^v3/share/ProductAvatar';

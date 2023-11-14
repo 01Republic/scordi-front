@@ -1,6 +1,6 @@
 import {memo} from 'react';
 import {ContentPanel, ContentPanelMiniTitle} from '^layouts/ContentLayout';
-import {useProduct} from '^hooks/useProducts';
+import {useProduct} from '^models/Product/hook';
 
 export const ConnectPanel = memo(() => {
     const [proto] = useProduct();

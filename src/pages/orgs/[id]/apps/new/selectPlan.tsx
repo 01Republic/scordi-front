@@ -4,7 +4,7 @@ import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {MobileTopNav} from '^components/v2/MobileTopNav';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
 import {PreLoader} from '^components/PreLoader';
-import {useCreateFlow} from '^hooks/useProducts';
+import {useCreateFlow} from '^models/Product/hook';
 import {SubscriptionPaymentPlanDto} from '^models/Subscription/types/paymentPlanType';
 import {SelectedStatusSection} from '^components/pages/OrgApplicationCreateFlow/SelectedStatusSection';
 import {LeadMessageSection} from '^components/pages/OrgApplicationCreateFlow/LeadMessageSection';

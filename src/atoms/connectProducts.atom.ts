@@ -1,5 +1,5 @@
 import {atom, useRecoilState} from 'recoil';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {LoginDto, LoginWithOrgs, LoginWithVerify, WorkspaceItemDto} from '^types/crawler';
 import {useCallback, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';

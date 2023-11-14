@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {useProducts} from '^hooks/useProducts';
+import {useProducts} from '^models/Product/hook';
 import {SearchResultPreLoader} from '^components/pages/OrgApplicationSelectPage/SearchResultPreLoader';
 import {SearchResultItem} from '^components/pages/OrgApplicationSelectPage/SearchResultItem';
 import {MobileEntityListSection} from '^components/v2/MobileEntityListSection';

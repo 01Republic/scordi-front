@@ -1,10 +1,10 @@
 import React, {memo, useCallback, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
-import {CreateProductRequestDto as CreateDto} from '^types/product.type';
+import {CreateProductRequestDto as CreateDto} from '^models/Product/type';
 import {FormControlInput} from '^layouts/ContentLayout/FormControlInput';
-import {useProductSearch} from '^hooks/useProducts';
+import {useProductSearch} from '^models/Product/hook';
 import {errorNotify} from '^utils/toast-notify';
-import {productApi} from '^api/product.api';
+import {productApi} from '^models/Product/api';
 
 export const PrototypeCreateModal = memo(() => {
     const form = useForm<CreateDto>();

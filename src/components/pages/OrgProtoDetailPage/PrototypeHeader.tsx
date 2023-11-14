@@ -1,6 +1,6 @@
 import {memo, useEffect, useState} from 'react';
 import {orgIdParamState, productIdParamsState, useRouterIdParamState} from '^atoms/common';
-import {useProduct} from '^hooks/useProducts';
+import {useProduct} from '^models/Product/hook';
 import {WithChildren} from '^types/global.type';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {errorNotify} from '^utils/toast-notify';

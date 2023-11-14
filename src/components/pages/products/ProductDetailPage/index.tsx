@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {useRecoilValue} from 'recoil';
 
 import {PageSEO} from '^components/SEO';
@@ -8,7 +8,7 @@ import {BetaServiceFooter} from '^components/pages/LandingPages/components';
 import {ProductPostContent} from '^components/pages/products/ProductDetailPage/ProductPostContent';
 import {OtherProductList} from '^components/pages/products/ProductDetailPage/OtherProductList';
 import {SaaSReportSection} from '^components/pages/products/ProductDetailPage/SaaSReportSection';
-import {useProductPostContent} from '^hooks/useProducts';
+import {useProductPostContent} from '^models/Product/hook';
 import {isProductDetailPageLoadedAtom, ProductDetailPageRoute} from '^pages/products/[id]';
 
 interface ProductDetailPageProps {

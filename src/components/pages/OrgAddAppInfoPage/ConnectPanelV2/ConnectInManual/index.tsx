@@ -1,5 +1,5 @@
 import React, {useMemo, useState} from 'react';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {ConnectMethod} from '../SelectConnectMethod';
 import {ContentPanel, ContentPanelItem, ContentPanelList} from '^layouts/ContentLayout/ContentPanel';
 import {InvoiceDropZone} from '^components/pages/OrgAddAppInfoPage/ConnectPanelV2/ConnectInManual/InvoiceDropZone';

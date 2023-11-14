@@ -1,9 +1,9 @@
 import {memo} from 'react';
 import {dateIsBeforeThen, yyyy_mm_dd} from '^utils/dateTime';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {ProductDetailPageRoute} from '^pages/products/[id]';
 import {toast} from 'react-toastify';
-import {useProductPostContent} from '^hooks/useProducts';
+import {useProductPostContent} from '^models/Product/hook';
 
 interface OtherProductItemProps {
     product?: ProductDto;

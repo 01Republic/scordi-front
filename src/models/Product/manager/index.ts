@@ -1,5 +1,5 @@
 import {BasicManager} from '^models/BasicManager';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 
 export class ProductManager extends BasicManager<ProductDto> {
     findById(id: number) {

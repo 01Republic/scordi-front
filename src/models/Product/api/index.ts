@@ -5,7 +5,7 @@ import {
     CreateProductRequestDto,
     FindAllProductQuery,
     UpdateProductRequestDto,
-} from '^types/product.type';
+} from '^models/Product/type';
 import {Paginated} from '^types/utils/paginated.dto';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 

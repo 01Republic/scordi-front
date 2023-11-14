@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {useForm} from 'react-hook-form';
-import {UpdateProductRequestDto} from '^types/product.type';
-import {productApi} from '^api/product.api';
+import {UpdateProductRequestDto} from '^models/Product/type';
+import {productApi} from '^models/Product/api';
 import {toast} from 'react-toastify';
 import {adminProductDetail} from '^components/pages/admin/products/AdminProductDetailpage';
 import {useRecoilState} from 'recoil';

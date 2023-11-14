@@ -3,7 +3,7 @@ import {ProductManager} from '^models/Product/manager';
 import {ProductOption} from '^v3/share/modals/AccountListModal/form/SelectProduct/ProductOption.type';
 import {FormatOptionLabelMeta} from 'react-select';
 import {Avatar} from '^components/Avatar';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 
 interface ProductSelectedValueProps {
     data: ProductOption;

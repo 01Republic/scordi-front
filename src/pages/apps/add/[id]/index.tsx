@@ -4,13 +4,13 @@ import {TextInput} from '^components/TextInput';
 import {DefaultButton} from '^components/Button';
 import {useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {AddAuto} from '^components/add/AddAuto';
 import {AddManual} from '^components/add/AddManual';
 import {AddPrepare} from '^components/add/AddPrepare';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
-import {productApi} from '^api/product.api';
+import {productApi} from '^models/Product/api';
 
 export const AddServicePageRoute = {
     pathname: '/apps/add/:id',

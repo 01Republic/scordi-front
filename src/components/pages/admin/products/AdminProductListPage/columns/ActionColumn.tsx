@@ -2,7 +2,7 @@ import {memo} from 'react';
 import {ColumnProps} from './props';
 import {useRouter} from 'next/router';
 import {AdminProductPageRoute} from '^pages/admin/products/[id]';
-import {productApi} from '^api/product.api';
+import {productApi} from '^models/Product/api';
 
 export const ActionColumn = memo((props: ColumnProps) => {
     const {product, fetchData} = props;

@@ -4,7 +4,7 @@ import {OrgResponseDataDto} from '^components/ApplicationConnectStage/dto/OrgRes
 import {ContentPanel, ContentPanelItem, ContentPanelList} from '^layouts/ContentLayout/ContentPanel';
 import {IoChevronForwardOutline} from '@react-icons/all-files/io5/IoChevronForwardOutline';
 import {AppCode, ApplicationConnectApi} from '^api/applicationConnect.api';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {ConnectMethod} from '^components/pages/OrgAddAppInfoPage/ConnectPanelV2/SelectConnectMethod';
 import {LoginDto} from '^components/ApplicationConnectStage/dto/login.dto';
 import {

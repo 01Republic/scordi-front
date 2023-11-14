@@ -5,10 +5,10 @@ import {
     getProductQuery,
     getProductsQuery,
     paymentPlanForCreateFlowAtom,
-} from '^atoms/products.atom';
+} from '^models/Product/atom';
 import {useCallback, useEffect, useState} from 'react';
-import {ProductDto, FindAllProductQuery} from '^types/product.type';
-import {productApi} from '^api/product.api';
+import {ProductDto, FindAllProductQuery} from '^models/Product/type';
+import {productApi} from '^models/Product/api';
 import {errorNotify} from '^utils/toast-notify';
 import {SubscriptionPaymentPlanDto} from '^models/Subscription/types/paymentPlanType';
 import {useRouter} from 'next/router';

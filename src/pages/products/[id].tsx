@@ -3,11 +3,11 @@ import {useRouter} from 'next/router';
 import {atom, useSetRecoilState} from 'recoil';
 import React, {useEffect} from 'react';
 import {NextPageContext} from 'next';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {publicPageRequires} from '^types/utils/18n.type';
 import {ProductDetailPage} from 'src/components/pages/products/ProductDetailPage';
-import {productApi} from '^api/product.api';
+import {productApi} from '^models/Product/api';
 
 export const ProductDetailPageRoute = pathRoute({
     pathname: '/products/[id]',

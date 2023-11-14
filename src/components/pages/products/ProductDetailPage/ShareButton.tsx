@@ -4,7 +4,7 @@ import {isPageLoadedAtom} from '^pages/posts/[id]';
 import {toast} from 'react-toastify';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import {BiLink} from 'react-icons/bi';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 
 export const ShareButton = memo((props: {product: ProductDto}) => {
     const {product} = props;

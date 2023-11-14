@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {atom, useRecoilState, useSetRecoilState} from 'recoil';
 import {useModal} from '^v3/share/modals/useModal';
 import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {ProductItem} from '^v3/share/modals/AccountListModal/ProductChangeModal/ProductItem';
 import {subjectProductOfAccountsInModalState} from '^v3/share/modals/AccountListModal/atom';
 import {useProductsOfAccounts} from '^v3/share/modals/AccountListModal/ProductChangeModal/use-products-of-accounts';

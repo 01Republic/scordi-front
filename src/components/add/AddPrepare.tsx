@@ -2,10 +2,10 @@ import {AppIconButton} from '^components/AppIconButton';
 import {DefaultButton} from '^components/Button';
 import {useRouter} from 'next/router';
 import {NotificationPageRoute} from '^pages/apps/add/notification';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {errorNotify} from '^utils/toast-notify';
 import {MobileViewContainer} from '^components/MobileTopNav';
-import {productApi} from '^api/product.api';
+import {productApi} from '^models/Product/api';
 
 type AddPrepareProps = {
     appInfo: ProductDto;

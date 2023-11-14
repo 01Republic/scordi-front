@@ -7,7 +7,7 @@ import {BackButton} from '^components/v2/ui/buttons/BackButton';
 import {SelectedStatusSection} from '^components/pages/OrgApplicationCreateFlow/SelectedStatusSection';
 import {LeadMessageSection} from '^components/pages/OrgApplicationCreateFlow/LeadMessageSection';
 import {t_BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
-import {useCreateFlow} from '^hooks/useProducts';
+import {useCreateFlow} from '^models/Product/hook';
 import {PreLoader} from '^components/PreLoader';
 import {CreateAppForm} from '^components/pages/OrgApplicationCreateFlow/CreateAppForm';
 import OrgMobileLayout from '^layouts/org/mobileLayout';

@@ -1,4 +1,4 @@
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {BillingHistoryDto} from '^types/billing.type';
 import {SubscriptionDto} from 'src/models/Subscription/types';
 import {

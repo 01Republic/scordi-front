@@ -4,7 +4,7 @@ import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {useCurrentSubscription} from '^models/Subscription/hook';
 import {PreLoader} from '^components/PreLoader';
-import {ProductDto, safeImageSrc} from '^types/product.type';
+import {ProductDto, safeImageSrc} from '^models/Product/type';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {ImageV2} from '^components/v2/ui/Image';
 import {useSetRecoilState} from 'recoil';

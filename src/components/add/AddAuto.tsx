@@ -3,7 +3,7 @@ import {TextInput} from '^components/TextInput';
 import {DefaultButton} from '^components/Button';
 import {useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {CrawlerError, CrawlerErrors, LoginDto, LoginWithVerify, WorkspaceItemDto} from '^types/crawler';
 import {useForm} from 'react-hook-form';
 import {getOrganizationListByCrawlerApi, makeSignHeader} from '^api/crawler';
@@ -12,7 +12,7 @@ import {createSubscription} from '^models/Subscription/api';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {toast} from 'react-toastify';
 import {MobileViewContainer} from '^components/MobileTopNav';
-import {productApi} from '^api/product.api';
+import {productApi} from '^models/Product/api';
 
 type AddAutoProps = {
     appInfo: ProductDto;

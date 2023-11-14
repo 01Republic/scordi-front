@@ -1,6 +1,6 @@
 import {memo, useEffect} from 'react';
 import {useRouter} from 'next/router';
-import {useCreateFlow} from '^hooks/useProducts';
+import {useCreateFlow} from '^models/Product/hook';
 import {useForm} from 'react-hook-form';
 import {CreateBillingHistoryRequestDto as CreateDto} from '^types/billing.type';
 import {createAppsBillingHistory, createAppsByBillingHistory} from '^api/billing.api';

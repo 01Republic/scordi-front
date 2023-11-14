@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {safeImageSrc} from '^types/product.type';
+import {safeImageSrc} from '^models/Product/type';
 import {MobileEntityListItem} from '^components/v2/MobileEntityListSection/MobileEntityListItem';
 import {SubscriptionDto} from 'src/models/Subscription/types';
 import {BillingHistoryDto} from '^types/billing.type';

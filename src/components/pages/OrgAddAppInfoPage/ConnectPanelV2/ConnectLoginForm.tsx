@@ -4,7 +4,7 @@ import {IoFlash} from '@react-icons/all-files/io5/IoFlash';
 import {IoChevronBackOutline} from '@react-icons/all-files/io5/IoChevronBackOutline';
 import {AxiosError, AxiosResponse} from 'axios';
 import {AppCode, ApplicationConnectApi} from '^api/applicationConnect.api';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {ContentPanel, ContentPanelList, ContentPanelItem, ContentPanelInput} from '^layouts/ContentLayout/ContentPanel';
 import {ContentForm} from '^layouts/ContentLayout/ContentForm';
 import {TextInput} from '^components/TextInput';

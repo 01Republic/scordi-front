@@ -1,6 +1,6 @@
 import {AccountDto} from '^types/account.type';
 import {SubscriptionDto} from 'src/models/Subscription/types';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {OrganizationDto} from '^types/organization.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';

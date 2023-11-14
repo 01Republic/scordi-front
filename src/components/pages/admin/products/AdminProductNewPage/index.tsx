@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
 import {useRouter} from 'next/router';
-import {CreateProductRequestDto} from '^types/product.type';
+import {CreateProductRequestDto} from '^models/Product/type';
 import {useForm} from 'react-hook-form';
-import {productApi} from '^api/product.api';
+import {productApi} from '^models/Product/api';
 import {AdminProductsPageRoute} from '^pages/admin/products';
 import {AdminDetailPageLayout} from '^components/pages/admin/layouts/DetailPageLayout';
 import {ProductForm} from '^components/pages/admin/products/form/ProductForm';

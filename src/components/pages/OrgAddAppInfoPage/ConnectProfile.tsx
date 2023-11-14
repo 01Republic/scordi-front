@@ -1,6 +1,6 @@
 import {IoFlash} from '@react-icons/all-files/io5/IoFlash';
 import React from 'react';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 
 interface ConnectProfileProps {
     protoApp: ProductDto;

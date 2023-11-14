@@ -1,9 +1,9 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {ContentTable} from '^layouts/ContentLayout';
-import {ProductDto, ProductConnectMethod} from '^types/product.type';
+import {ProductDto, ProductConnectMethod} from '^models/Product/type';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {subscriptionsState} from '^models/Subscription/atom';
-import {useProductSearch} from '^hooks/useProducts';
+import {useProductSearch} from '^models/Product/hook';
 import {OrgProtoDetailPageRoute} from 'src/pages/orgs/[id]/products/[productId]';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
@@ -14,7 +14,7 @@ import {errorNotify} from '^utils/toast-notify';
 import {toast} from 'react-toastify';
 import {connectProductModalState, currentProductState} from '^atoms/connectProducts.atom';
 import {OutLink} from '^components/OutLink';
-import {productApi} from '^api/product.api';
+import {productApi} from '^models/Product/api';
 
 export const SearchResultTable = memo(() => {
     const {results: products, mutation} = useProductSearch();

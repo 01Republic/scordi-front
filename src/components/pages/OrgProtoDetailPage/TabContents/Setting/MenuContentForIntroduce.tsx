@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useProduct} from '^hooks/useProducts';
+import {useProduct} from '^models/Product/hook';
 import {useForm} from 'react-hook-form';
-import {UpdateProductRequestDto as UpdateDto} from '^types/product.type';
+import {UpdateProductRequestDto as UpdateDto} from '^models/Product/type';
 import {toast} from 'react-toastify';
 import {
     ContentForm,
@@ -13,7 +13,7 @@ import {
 } from '^layouts/ContentLayout';
 import {WysiwygEditor} from '^components/WysiwygEditor';
 import {IoMdRefresh} from '^components/react-icons';
-import {productApi} from '^api/product.api';
+import {productApi} from '^models/Product/api';
 
 export const MenuContentForIntroduce = memo(() => {
     const [proto, mutation] = useProduct();

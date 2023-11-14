@@ -6,7 +6,7 @@ import {
     ProductDto,
     CreateProductRequestDto as CreateDto,
     UpdateProductRequestDto as UpdateDto,
-} from '^types/product.type';
+} from '^models/Product/type';
 import {UseFormReturn} from 'react-hook-form';
 import {getOgImageUrl} from '^api/utils.api/open-graph.api';
 import {atom, useRecoilState} from 'recoil';
