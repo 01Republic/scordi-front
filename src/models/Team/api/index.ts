@@ -1,6 +1,6 @@
 import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
-import {TeamDto, CreateTeamDto, UpdateTeamDto} from '^models/Team/types/team.type';
+import {TeamDto, CreateTeamDto, UpdateTeamDto} from '^models/Team/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
 export const teamApi = {

@@ -1,36 +1,8 @@
-import {atom, useRecoilState} from 'recoil';
-import {FindAllTeamQueryDto, TeamDto} from '^models/Team/types/team.type';
-import {teamApi} from '^models/Team/api/team.api';
+import {useRecoilState} from 'recoil';
+import {teamApi} from '^models/Team/api';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {Paginated} from '^types/utils/paginated.dto';
-
-const currentTeamState = atom<TeamDto | null>({
-    key: 'currentTeam',
-    default: null,
-});
-
-const currentTeamLoadingState = atom<boolean>({
-    key: 'currentTeamLoadingState',
-    default: false,
-});
-
-export const getTeamsQueryAtom = atom<FindAllTeamQueryDto>({
-    key: 'getTeamsQueryAtom',
-    default: {},
-});
-export const teamsSearchResultAtom = atom<Paginated<TeamDto>>({
-    key: 'teamsSearchResult',
-    default: {
-        items: [],
-        pagination: {
-            totalItemCount: 0,
-            currentItemCount: 0,
-            totalPage: 1,
-            currentPage: 1,
-            itemsPerPage: 30,
-        },
-    },
-});
+import {FindAllTeamQueryDto} from '^models/Team/type';
+import {currentTeamLoadingState, currentTeamState, getTeamsQueryAtom, teamsSearchResultAtom} from '^models/Team/atom';
 
 export const useCurrentTeam = () => {
     const [currentTeam, setCurrentTeam] = useRecoilState(currentTeamState);

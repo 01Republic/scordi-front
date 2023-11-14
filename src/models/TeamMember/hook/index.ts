@@ -31,12 +31,18 @@ export const useTeamMembers = () => {
     async function search(params: FindAllTeamMemberQueryDto) {
         // if (JSON.stringify(query) === JSON.stringify(params)) return;
         if (!orgId && isNaN(orgId)) return;
+
         const data = await teamMemberApi.index(orgId, params).then((res) => res.data);
         setResult(data);
         setQuery(params);
     }
 
+    const createByName = (name: string) =>
+        teamMemberApi.create(orgId, {name}).then((res) => {
+            return res.data;
+        });
+
     const movePage = (page: number) => search({...query, page});
 
-    return {query, result, search, movePage};
+    return {query, result, search, createByName, movePage};
 };

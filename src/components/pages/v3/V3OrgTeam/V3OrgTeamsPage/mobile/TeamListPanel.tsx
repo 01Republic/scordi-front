@@ -3,7 +3,8 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ContentEmpty} from '^v3/V3OrgHomePage/mobile/ContentEmpty';
 import {TeamItem} from '^v3/V3OrgTeam/V3OrgTeamsPage/mobile/TeamItem';
 import {useToast} from '^hooks/useToast';
-import {useTeams} from '^models/Team/atom/atom';
+import {useTeams} from '^models/Team/hook';
+
 // import {isOpenNewTeamModalAtom} from '^v3/V3OrgTeam/V3OrgTeamsPage/NewTeamModal/atom';
 
 interface TeamListPanel {
