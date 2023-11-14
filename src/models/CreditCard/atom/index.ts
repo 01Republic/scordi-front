@@ -1,6 +1,6 @@
 import {atom, selector} from 'recoil';
-import {CreditCardDto, CreditCardSecretInfo} from '^models/CreditCard/credit-cards.type';
-import {creditCardApi} from '^api/credit-cards.api';
+import {CreditCardDto, CreditCardSecretInfo} from '^models/CreditCard/type';
+import {creditCardApi} from '^models/CreditCard/api';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 
 export const cardIdParamState = atom<number | null>({

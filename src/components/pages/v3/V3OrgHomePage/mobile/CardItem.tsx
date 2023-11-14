@@ -4,7 +4,7 @@ import {AvatarCard} from '^components/Avatar';
 import {V3OrgCardDetailPageRoute} from '^pages/v3/orgs/[orgId]/cards/[cardId]';
 import {orgIdParamState} from '^atoms/common';
 import {useRecoilValue} from 'recoil';
-import {CreditCardDto, CreditCardSecretInfo} from '^models/CreditCard/credit-cards.type';
+import {CreditCardDto, CreditCardSecretInfo} from '^models/CreditCard/type';
 
 interface CardItemProps {
     card: CreditCardDto;

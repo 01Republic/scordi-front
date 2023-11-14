@@ -7,13 +7,13 @@ import {createCreditCardDtoAtom} from '../atom';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {SelectCardHoldingMember} from '^components/pages/v3/V3OrgCardListPage/modals/CardHoldingMemberModal/SelectCardHoldingMember';
 import {orgIdParamState} from '^atoms/common';
-import {creditCardApi} from '^api/credit-cards.api';
+import {creditCardApi} from '^models/CreditCard/api';
 import {useToast} from '^hooks/useToast';
 import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {SkipButton} from '^components/pages/v3/V3OrgCardListPage/modals/SkipButton';
 import {inputCardHoldingMemberModal} from './atom';
 import {selectAppModal} from '../SelectAppModal/atom';
-import {UnSignedCreditCardFormData} from '^models/CreditCard/credit-cards.type';
+import {UnSignedCreditCardFormData} from '^models/CreditCard/type';
 import {cardIdParamState, currentCreditCardAtom} from '^models/CreditCard/atom';
 
 export const CardHoldingMember = memo(() => {

@@ -17,7 +17,7 @@ import {inputCardNameModal} from '../V3OrgCardListPage/modals/CardNameModal/atom
 import {inputCardHoldingMemberModal} from '../V3OrgCardListPage/modals/CardHoldingMemberModal/atom';
 import {selectAppModal, subscriptionsAtom} from '../V3OrgCardListPage/modals/SelectAppModal/atom';
 import {cardIdParamState, creditCardSignAtom, currentCreditCardAtom} from '^models/CreditCard/atom';
-import {creditCardApi} from '^api/credit-cards.api';
+import {creditCardApi} from '^models/CreditCard/api';
 
 export const V3OrgCardDetailPage = memo(() => {
     const cardNumberModal = useModal(inputCardNumberModal);

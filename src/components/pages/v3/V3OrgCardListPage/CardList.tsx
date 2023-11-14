@@ -2,7 +2,7 @@ import React, {memo, useEffect} from 'react';
 import {useModal} from '../share/modals/useModal';
 import {CardItem} from '../V3OrgHomePage/mobile/CardItem';
 import {ContentEmpty} from '../V3OrgHomePage/mobile/ContentEmpty';
-import {creditCardApi} from '^api/credit-cards.api';
+import {creditCardApi} from '^models/CreditCard/api';
 import {orgIdParamState} from '^atoms/common';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {inputCardNumberModal} from './modals/CardNumberModal/atom';

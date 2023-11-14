@@ -9,7 +9,7 @@ import {SkipButton} from '^components/pages/v3/V3OrgCardListPage/modals/SkipButt
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {V3OrgCardDetailPageRoute} from '^pages/v3/orgs/[orgId]/cards/[cardId]';
 import {CardAppList} from './CardAppList';
-import {creditCardApi} from '^api/credit-cards.api';
+import {creditCardApi} from '^models/CreditCard/api';
 import {orgIdParamState} from '^atoms/common';
 import {createCreditCardDtoAtom} from '../atom';
 import {productIdsAtom, selectAppModal, selectedAppsAtom, subscriptionsAtom} from './atom';

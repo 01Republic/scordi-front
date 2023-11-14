@@ -2,7 +2,7 @@ import {CreditCardOption} from '^v3/share/modals/ConnectCreditCardModal/SelectCr
 import {FormatOptionLabelMeta} from 'react-select';
 import React, {memo} from 'react';
 import {BsCreditCard2Back} from 'react-icons/bs';
-import {CreditCardDto} from '^models/CreditCard/credit-cards.type';
+import {CreditCardDto} from '^models/CreditCard/type';
 
 interface CreditCardSelectedValueProps {
     option: CreditCardOption;

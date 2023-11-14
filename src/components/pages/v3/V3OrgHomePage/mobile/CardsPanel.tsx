@@ -4,7 +4,7 @@ import {V3OrgCardListPageRoute} from '^pages/v3/orgs/[orgId]/cards';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {orgIdParamState} from '^atoms/common';
 import {AddButton} from './AddButton';
-import {creditCardApi} from '^api/credit-cards.api';
+import {creditCardApi} from '^models/CreditCard/api';
 import {CardItem} from './CardItem';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useModal} from '^v3/share/modals/useModal';

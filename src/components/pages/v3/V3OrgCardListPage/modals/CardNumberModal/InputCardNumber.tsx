@@ -1,7 +1,7 @@
 import React, {Dispatch, FormEvent, memo, useEffect, useState} from 'react';
 import {UseFormReturn} from 'react-hook-form';
 import {useRecoilValue} from 'recoil';
-import {CreditCardSecretInfo, UnSignedCreditCardFormData} from '^models/CreditCard/credit-cards.type';
+import {CreditCardSecretInfo, UnSignedCreditCardFormData} from '^models/CreditCard/type';
 import {cardIdParamState, currentCreditCardAtom} from '^models/CreditCard/atom';
 
 interface InputCardNumberProps {

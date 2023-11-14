@@ -16,7 +16,7 @@ import {BillingType, billingTypeToCycleTerm} from '^types/invoiceApp.type';
 import {monthAfter, yearAfter} from '^utils/dateTime';
 import {MoneyDto} from '^types/money.type';
 import {InvoiceAccountDto} from '^types/invoiceAccount.type';
-import {CreditCardDto} from '^models/CreditCard/credit-cards.type';
+import {CreditCardDto} from '^models/CreditCard/type';
 
 // ConnectStatus 연동상태.
 export enum ConnectStatus {

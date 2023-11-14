@@ -1,8 +1,8 @@
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
-import {CreditCardManager} from '^models/CreditCard/manager';
 import {useEffect, useState} from 'react';
-import {creditCardApi} from '^api/credit-cards.api';
+import {useRecoilValue} from 'recoil';
+import {CreditCardManager} from '^models/CreditCard/manager';
+import {creditCardApi} from '^models/CreditCard/api';
+import {orgIdParamState} from '^atoms/common';
 
 export const useCreditCardsOfOrganization = (isShow: boolean) => {
     const orgId = useRecoilValue(orgIdParamState);

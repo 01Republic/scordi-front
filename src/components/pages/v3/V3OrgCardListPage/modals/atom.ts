@@ -1,5 +1,5 @@
 import {atom} from 'recoil';
-import {CreateCreditCardDto, CreditCardDto, UpdateCreditCardDto} from '^models/CreditCard/credit-cards.type';
+import {CreateCreditCardDto, CreditCardDto, UpdateCreditCardDto} from '^models/CreditCard/type';
 
 export const createCreditCardDtoAtom = atom<CreateCreditCardDto>({
     key: 'createCreditCardDtoAtom',
