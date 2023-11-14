@@ -1,11 +1,11 @@
 import React, {memo, useEffect} from 'react';
-import {InvoiceAppDto, UpdateInvoiceAppRequestDto} from '^types/invoiceApp.type';
+import {InvoiceAppDto, UpdateInvoiceAppRequestDto} from '^models/InvoiceApp/type';
 import {Avatar} from '^components/Avatar';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {selectedInvoiceAccountAtom} from './index';
 import {SwitchCheckbox} from '^components/SwitchCheckbox';
 import {useForm} from 'react-hook-form';
-import {invoiceAppApi} from '^api/invoiceApp.api';
+import {invoiceAppApi} from '^models/InvoiceApp/api';
 import {currentOrgAtom} from '^atoms/organizations.atom';
 
 interface InvoiceAppItemProps {

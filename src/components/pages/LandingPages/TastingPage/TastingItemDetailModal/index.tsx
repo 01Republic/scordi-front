@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
 import {atom, useRecoilState, useRecoilValue} from 'recoil';
 import {useModal} from '^v3/share/modals/useModal';
-import {InvoiceAppDto} from '^types/invoiceApp.type';
+import {InvoiceAppDto} from '^models/InvoiceApp/type';
 import {useRouter} from 'next/router';
 import {draftAccountAtom} from '../pageAtoms';
 import {ModalTopbar} from './ModalTopbar';

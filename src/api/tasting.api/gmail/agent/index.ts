@@ -3,7 +3,7 @@ import {GmailPermittedMetadata} from '^api/tasting.api/gmail/agent/get-email-met
 import {ProviderNames, SenderNames} from '^api/tasting.api/gmail/agent/detect-provider-name';
 import {getGoogleUserData} from '^api/session.api';
 import {MoneyLike} from '^types/money.type';
-import {BillingType} from '^types/invoiceApp.type';
+import {BillingType} from '^models/InvoiceApp/type';
 import {TypeCast} from '^types/utils/class-transformer';
 import {GmailAgentTokenData} from '^models/InvoiceAccount/type';
 import {FileDto} from '^api/file.api';

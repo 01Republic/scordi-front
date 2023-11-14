@@ -1,4 +1,4 @@
-import {InvoiceAppDto} from '^types/invoiceApp.type';
+import {InvoiceAppDto} from '^models/InvoiceApp/type';
 import {GmailQueryOptions} from '^api/tasting.api';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';

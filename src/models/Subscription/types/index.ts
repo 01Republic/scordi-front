@@ -12,7 +12,7 @@ import {InvoiceDataDto} from '^components/ApplicationConnectStage/dto/fetched.re
 import {WorkspaceDto} from '^types/workspace.type';
 import {BillingHistoryDto} from '^types/billing.type';
 import {TypeCast} from '^types/utils/class-transformer';
-import {BillingType, billingTypeToCycleTerm} from '^types/invoiceApp.type';
+import {BillingType, billingTypeToCycleTerm} from '^models/InvoiceApp/type';
 import {monthAfter, yearAfter} from '^utils/dateTime';
 import {MoneyDto} from '^types/money.type';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';

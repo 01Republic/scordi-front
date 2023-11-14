@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {InvoiceAppDto} from '^types/invoiceApp.type';
+import {InvoiceAppDto} from '^models/InvoiceApp/type';
 import {Avatar} from '^components/Avatar';
 import {getTotalPriceOfEmails} from '^types/billing.type';
 import {useRecoilValue} from 'recoil';

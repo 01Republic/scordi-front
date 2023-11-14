@@ -1,6 +1,6 @@
 import {ProductDto} from '^models/Product/type';
 import {BillingHistoryDto} from '^types/billing.type';
-import {SubscriptionDto} from 'src/models/Subscription/types';
+import {SubscriptionDto} from '^models/Subscription/types';
 import {
     BillingCycleTerm,
     Locale,

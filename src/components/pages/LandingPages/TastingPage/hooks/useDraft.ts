@@ -3,7 +3,7 @@ import {CreateInvoiceAccountRequestDto, InvoiceAccountDto} from '^models/Invoice
 import {useTranslation} from 'next-i18next';
 import {draftAccountAtom, draftBillingHistoriesAtom, gmailItemsLoadedAtom, gmailItemsLoadingAtom} from '../pageAtoms';
 import {dateSortBy, monthBefore} from '^components/util/date';
-import {InvoiceAppDto} from '^types/invoiceApp.type';
+import {InvoiceAppDto} from '^models/InvoiceApp/type';
 import {BillingHistoryDto} from '^types/billing.type';
 import {useCallback} from 'react';
 import {deepCopy} from '^utils/object';

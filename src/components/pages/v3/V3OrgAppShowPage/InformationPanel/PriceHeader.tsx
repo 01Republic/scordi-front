@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {t_BillingType} from '^types/invoiceApp.type';
+import {t_BillingType} from '^models/InvoiceApp/type';
 import {t_BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';

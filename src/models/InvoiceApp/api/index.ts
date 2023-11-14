@@ -1,5 +1,5 @@
 import {api} from '^api/api';
-import {InvoiceAppDto, UpdateInvoiceAppRequestDto} from '^types/invoiceApp.type';
+import {InvoiceAppDto, UpdateInvoiceAppRequestDto} from '^models/InvoiceApp/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {Paginated} from '^types/utils/paginated.dto';
 

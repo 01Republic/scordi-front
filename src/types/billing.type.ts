@@ -2,7 +2,7 @@ import {SubscriptionDto} from 'src/models/Subscription/types';
 import {OrganizationDto} from '^types/organization.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {GmailParsedItem} from '^api/tasting.api';
-import {BillingType, InvoiceAppDto} from '^types/invoiceApp.type';
+import {BillingType, InvoiceAppDto} from '^models/InvoiceApp/type';
 import {changePriceCurrency} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {CurrencyDto} from '^types/crawler';
 import {CreateMoneyRequestDto, CurrencyList, MoneyDto, Currency} from '^types/money.type';
