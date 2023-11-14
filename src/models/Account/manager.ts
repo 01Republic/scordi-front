@@ -1,6 +1,6 @@
-import {BasicModel} from '^models/BasicModel';
+import {BasicManager} from '^models/BasicManager';
 import {AccountDto} from '^types/account.type';
 
-export class AccountManager extends BasicModel<AccountDto> {
+export class AccountManager extends BasicManager<AccountDto> {
     //
 }
