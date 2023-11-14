@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {InvoiceAccountDto} from '^types/invoiceAccount.type';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {Avatar} from '^components/Avatar';
 import {BiChevronRight} from '@react-icons/all-files/bi/BiChevronRight';
 import {useSetRecoilState} from 'recoil';

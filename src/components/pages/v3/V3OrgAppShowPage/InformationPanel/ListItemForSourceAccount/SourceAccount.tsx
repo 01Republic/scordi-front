@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
-import {invoiceAccountApi} from '^api/invoiceAccount.api';
-import {InvoiceAccountDto} from '^types/invoiceAccount.type';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {Avatar} from '^components/Avatar';
 import {V3OrgInvoiceAccountShowPageRoute} from '^pages/v3/orgs/[orgId]/invoiceAccounts/[invoiceAccountId]';
 import {useRouter} from 'next/router';

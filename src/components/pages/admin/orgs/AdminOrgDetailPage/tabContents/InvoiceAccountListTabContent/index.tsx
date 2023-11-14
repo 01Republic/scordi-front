@@ -2,7 +2,7 @@ import {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {InvoiceAccountManager} from '^models/InvoiceAccount/manager';
-import {invoiceAccountApi} from '^api/invoiceAccount.api';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {CardTablePanel} from '^admin/share';
 import {InvoiceAccountItem} from './InvoiceAccountItem';
 

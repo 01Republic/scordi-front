@@ -1,5 +1,5 @@
 import {BasicManager} from '^models/BasicManager';
-import {InvoiceAccountDto} from '^types/invoiceAccount.type';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 
 export class InvoiceAccountManager extends BasicManager<InvoiceAccountDto> {
     //

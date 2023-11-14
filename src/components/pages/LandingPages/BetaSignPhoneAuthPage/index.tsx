@@ -17,11 +17,11 @@ import {SignWelcomePageRoute} from '^pages/sign/welcome';
 import {useTranslation} from 'next-i18next';
 import {gmailAccessTokenDataAtom} from '^hooks/useGoogleAccessToken';
 import {GmailAgent} from '^api/tasting.api';
-import {getCreateInvoiceAccountFromTo} from '^types/invoiceAccount.type';
+import {getCreateInvoiceAccountFromTo} from '^models/InvoiceAccount/type';
 import {ApiError} from '^api/api';
 import {BetaSignSocialPageRoute} from '^pages/sign/social';
 import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
-import {invoiceAccountApi} from '^api/invoiceAccount.api';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 
 export const BetaSignPhoneAuthPage = memo(() => {
     const router = useRouter();

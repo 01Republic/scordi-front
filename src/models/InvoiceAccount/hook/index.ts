@@ -1,8 +1,9 @@
 import {useRecoilState} from 'recoil';
-import {FindAllInvoiceAccountQueryDto} from '^types/invoiceAccount.type';
-import {getInvoiceAccountsQueryAtom, invoiceAccountsSearchResultAtom} from '^atoms/invoiceAccounts.atom';
-import {invoiceAccountApi} from '^api/invoiceAccount.api';
+import {FindAllInvoiceAccountQueryDto} from '^models/InvoiceAccount/type';
+
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {getInvoiceAccountsQueryAtom, invoiceAccountsSearchResultAtom} from '^models/InvoiceAccount/atom';
 
 export const useInvoiceAccounts = () => {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);

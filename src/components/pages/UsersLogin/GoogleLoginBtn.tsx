@@ -6,7 +6,7 @@ import {useRecoilValue} from 'recoil';
 import {GmailAgent, GoogleAccessTokenData, googleAuthForGmail} from '^api/tasting.api';
 import {UserLoginPageRoute} from '^pages/users/login';
 import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
-import {getCreateInvoiceAccountFromTo} from '^types/invoiceAccount.type';
+import {getCreateInvoiceAccountFromTo} from '^models/InvoiceAccount/type';
 
 export const GoogleLoginBtn = memo(() => {
     const googleLoginOnSuccess = useGoogleLoginSuccessHandler();

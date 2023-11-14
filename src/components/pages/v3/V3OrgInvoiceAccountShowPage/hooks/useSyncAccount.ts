@@ -1,5 +1,5 @@
 import {atom, useRecoilState} from 'recoil';
-import {InvoiceAccountDto} from '^types/invoiceAccount.type';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {useEffect} from 'react';
 
 const isSyncRunningAtom = atom({

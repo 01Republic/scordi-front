@@ -4,7 +4,7 @@ import {InvoiceAccountListPanel, invoiceAccountsAtom} from './InvoiceAccountList
 import {InvoiceAppListPanel, selectedInvoiceAccountAtom} from './InvoiceAppListPanel';
 import {currentOrgAtom} from '^atoms/organizations.atom';
 import {useTranslation} from 'next-i18next';
-import {invoiceAccountApi} from '^api/invoiceAccount.api';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {newInvoiceAccountModal} from '../NewInvoiceAccountModal/atom';
 import {useModal} from '^v3/share/modals/useModal';
 

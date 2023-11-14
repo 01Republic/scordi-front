@@ -2,7 +2,7 @@ import React, {memo, useEffect, useState} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ContentEmpty} from '^v3/V3OrgHomePage/mobile/ContentEmpty';
 import {useSubscriptionsV2} from '^models/Subscription/hook';
-import {useInvoiceAccounts} from '^hooks/useInvoiceAccounts';
+import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {AddButton} from '^v3/V3OrgHomePage/mobile/AddButton';
 import {SubscriptionItem} from '^v3/V3OrgHomePage/mobile/SubscriptionItem';
 import {useRouter} from 'next/router';

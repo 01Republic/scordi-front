@@ -2,7 +2,7 @@ import {
     CreateInvoiceAccountRequestDto,
     InvoiceAccountDto,
     SyncInvoiceAccountRequestDto,
-} from '^types/invoiceAccount.type';
+} from '^models/InvoiceAccount/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';

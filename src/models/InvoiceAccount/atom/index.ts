@@ -1,6 +1,6 @@
 import {atom} from 'recoil';
 import {Paginated} from '^types/utils/paginated.dto';
-import {InvoiceAccountDto} from '^types/invoiceAccount.type';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
 export const getInvoiceAccountsQueryAtom = atom<FindAllQueryDto<InvoiceAccountDto>>({

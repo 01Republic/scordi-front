@@ -5,7 +5,7 @@ import {getGoogleUserData} from '^api/session.api';
 import {MoneyLike} from '^types/money.type';
 import {BillingType} from '^types/invoiceApp.type';
 import {TypeCast} from '^types/utils/class-transformer';
-import {GmailAgentTokenData} from '^types/invoiceAccount.type';
+import {GmailAgentTokenData} from '^models/InvoiceAccount/type';
 import {FileDto} from '^api/file.api';
 
 export class GmailParsedItem {

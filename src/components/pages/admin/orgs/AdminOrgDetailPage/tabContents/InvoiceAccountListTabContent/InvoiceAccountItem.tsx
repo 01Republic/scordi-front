@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {InvoiceAccountDto} from '^types/invoiceAccount.type';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {CardTableTR} from '^admin/share';
 import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {GoDotFill} from 'react-icons/go';
