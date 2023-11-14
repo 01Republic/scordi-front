@@ -51,24 +51,6 @@ export const useCurrentTeamMember = () => {
     return {currentTeamMember, loadCurrentTeamMember, setCurrentTeamMember, isLoading};
 };
 
-export const makeTeamMemberProfile = (member?: TeamMemberDto | null) => {
-    if (!member) return {};
-
-    const user = member.user;
-
-    return {
-        name: member.name,
-        email: member.email ?? user?.email ?? '',
-        phone: member.phone ?? user?.phone ?? '',
-        jobName: member.jobName,
-        jobDescription: member.jobDescription,
-        profileImgUrl:
-            member.profileImgUrl ??
-            user?.profileImgUrl ??
-            `https://placehold.co/200x200?text=${encodeURIComponent(member.name)}`,
-    };
-};
-
 export const useTeamMembers = () => {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const [result, setResult] = useRecoilState(teamMembersSearchResultAtom);

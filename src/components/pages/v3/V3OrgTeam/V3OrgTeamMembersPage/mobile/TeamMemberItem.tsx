@@ -5,7 +5,6 @@ import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
 import {orgIdParamState} from '^atoms/common';
 import {V3OrgTeamMemberShowPageRoute} from '^pages/v3/orgs/[orgId]/teams/members/[memberId]';
-import {makeTeamMemberProfile} from '^models/TeamMember/atom/atom';
 import {useToast} from '^hooks/useToast';
 
 interface TeamMemberItemProps {
@@ -15,7 +14,7 @@ interface TeamMemberItemProps {
 export const TeamMemberItem = memo((props: TeamMemberItemProps) => {
     const {item: teamMember} = props;
     const orgId = useRecoilValue(orgIdParamState);
-    const {name, jobName, profileImgUrl} = makeTeamMemberProfile(teamMember);
+    const {name, jobName, profileImgUrl} = teamMember.makeTeamMemberProfile();
     const approvalStatus = teamMember.membership?.approvalStatus;
     const router = useRouter();
     const {toast} = useToast();

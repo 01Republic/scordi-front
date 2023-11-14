@@ -27,6 +27,22 @@ export class TeamMemberDto {
     get profileImageUrl() {
         return this.profileImgUrl || `https://placehold.co/200x200?text=${this.name[0]}`;
     }
+
+    makeTeamMemberProfile() {
+        const user = this.user;
+
+        return {
+            name: this.name,
+            email: this.email ?? user?.email ?? '',
+            phone: this.phone ?? user?.phone ?? '',
+            jobName: this.jobName,
+            jobDescription: this.jobDescription,
+            profileImgUrl:
+                this.profileImgUrl ??
+                user?.profileImgUrl ??
+                `https://placehold.co/200x200?text=${encodeURIComponent(this.name)}`,
+        };
+    }
 }
 
 export type FindAllTeamMemberQueryDto = FindAllQueryDto<TeamMemberDto> & {
