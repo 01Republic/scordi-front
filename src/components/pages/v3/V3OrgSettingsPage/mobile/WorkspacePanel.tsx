@@ -4,7 +4,7 @@ import {MobileInfoListItem} from '../../share/MobileInfoList/Item';
 import {MobileInfoList} from '../../share/MobileInfoList';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^atoms/organizations.atom';
-import {ApprovalStatus, MembershipLevel} from '^types/membership.type';
+import {ApprovalStatus, MembershipLevel} from '^models/Membership/type';
 import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 
 export const WorkspacePanel = memo(() => {

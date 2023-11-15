@@ -7,7 +7,7 @@ import {isOpeninviteOrgMemberModalAtom} from '../modals/InviteMemberModal/atom';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^atoms/organizations.atom';
-import {ApprovalStatus} from '^types/membership.type';
+import {ApprovalStatus} from '^models/Membership/type';
 import {useTeamMembers} from '^models/TeamMember/hook';
 
 interface TeamMembersPanel {

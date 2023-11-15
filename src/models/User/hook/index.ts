@@ -10,7 +10,7 @@ import {NextRouter, useRouter} from 'next/router';
 import {UserDto, UserLoginRequestDto, UserSocialLoginRequestDto} from '^models/User/types';
 import {errorNotify} from '^utils/toast-notify';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useCurrentUserMembership} from '^hooks/useMemberships';
+import {useCurrentUserMembership} from '^models/Membership/hook';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 
 type AxiosErrorData = {

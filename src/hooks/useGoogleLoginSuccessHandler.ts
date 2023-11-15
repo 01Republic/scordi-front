@@ -5,7 +5,7 @@ import {getGoogleUserData, userSessionApi} from '^api/session.api';
 import {setToken} from '^api/api';
 import {useCurrentUser} from '^models/User/hook';
 import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
-import {inviteMembershipApi} from '^api/membership.api';
+import {inviteMembershipApi} from '^models/Membership/api';
 import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';

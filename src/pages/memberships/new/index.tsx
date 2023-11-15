@@ -5,7 +5,7 @@ import {organizationApi} from '^api/organization.api';
 import {errorNotify} from '^utils/toast-notify';
 import {TextInputLg} from '^components/TextInput';
 import {OrganizationDto, SearchOrgQueryDto} from '^types/organization.type';
-import {MembershipLevel} from '^types/membership.type';
+import {MembershipLevel} from '^models/Membership/type';
 import {UserDto} from '^models/User/types';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {pathRoute} from '^types/pageRoute.type';
@@ -13,7 +13,7 @@ import {OrgSettingsLayout} from '^layouts/org/settingsLayout';
 import {toast} from 'react-toastify';
 import {useRecoilState} from 'recoil';
 import {currentUserAtom} from '^models/User/atom';
-import {membershipApi} from '^api/membership.api';
+import {membershipApi} from '^models/Membership/api';
 
 const createMembershipRequest = (org: OrganizationDto, user: UserDto, level: MembershipLevel, router: NextRouter) => {
     membershipApi

@@ -3,7 +3,7 @@ import {atom, useRecoilValue} from 'recoil';
 import {UserAvatar} from '^v3/share/UserAvatar';
 import {useCurrentUser} from '^models/User/hook';
 import {currentOrgAtom} from '^atoms/organizations.atom';
-import {MembershipDto} from '^types/membership.type';
+import {MembershipDto} from '^models/Membership/type';
 import {useModal} from '^v3/share/modals/useModal';
 import {useForm} from 'react-hook-form';
 import {UserEditProfileRequestDto} from '^models/User/types';

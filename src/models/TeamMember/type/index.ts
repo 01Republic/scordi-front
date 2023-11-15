@@ -3,7 +3,7 @@ import {UserDto} from '^models/User/types';
 import {TeamDto} from '^models/Team/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';
-import {MembershipDto} from '^types/membership.type';
+import {MembershipDto} from '^models/Membership/type';
 
 export class TeamMemberDto {
     id: number; // 아이디

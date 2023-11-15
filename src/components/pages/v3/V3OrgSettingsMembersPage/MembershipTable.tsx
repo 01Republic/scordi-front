@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {useMemberships} from '^hooks/useMemberships';
+import {useMemberships} from '^models/Membership/hook';
 import {MembershipTableRow} from '^v3/V3OrgSettingsMembersPage/MembershipTableRow';
 
 export const MembershipTable = memo(() => {

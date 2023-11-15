@@ -1,6 +1,6 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {MembershipDto} from '^types/membership.type';
+import {MembershipDto} from '^models/Membership/type';
 import {UserAvatar} from '^v3/share/UserAvatar';
 
 interface MembershipTableRowProps {

@@ -5,7 +5,7 @@ import {currentOrgAtom} from '^atoms/organizations.atom';
 import {BiChevronDown} from '@react-icons/all-files/bi/BiChevronDown';
 import {Avatar} from '^components/Avatar';
 import {useCurrentUser} from '^models/User/hook';
-import {useCurrentUserMemberships} from '^hooks/useMemberships';
+import {useCurrentUserMemberships} from '^models/Membership/hook';
 import {useRouter} from 'next/router';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 

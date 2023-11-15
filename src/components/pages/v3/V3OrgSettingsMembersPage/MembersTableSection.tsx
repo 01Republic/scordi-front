@@ -2,7 +2,7 @@ import {memo, useEffect} from 'react';
 import {debounce} from 'lodash';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^atoms/organizations.atom';
-import {useMemberships} from '^hooks/useMemberships';
+import {useMemberships} from '^models/Membership/hook';
 import {TablePaginator} from '^v3/share/table/TablePaginator';
 import {TableSearchControl} from '^v3/share/table/TableSearchControl';
 import {MembershipTable} from '^v3/V3OrgSettingsMembersPage/MembershipTable';

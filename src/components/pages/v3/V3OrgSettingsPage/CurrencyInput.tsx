@@ -1,9 +1,9 @@
 import React, {memo, useCallback} from 'react';
 import {FormControl} from '^v3/V3OrgSettingsPage/InputText';
 import {SelectDropdown, SelectOptionProps} from '^v3/share/Select';
-import {DisplayCurrency} from '^types/membership.type';
+import {DisplayCurrency} from '^models/Membership/type';
 import {useCurrentUser} from '^models/User/hook';
-import {membershipApi} from '^api/membership.api';
+import {membershipApi} from '^models/Membership/api';
 
 export const CurrencyInput = memo(() => {
     const {currentUserMembership} = useCurrentUser(null, {

@@ -5,7 +5,7 @@ import {
     FindAllMembershipQuery,
     MembershipDto,
     UpdateMembershipRequestDto,
-} from '^types/membership.type';
+} from '^models/Membership/type';
 import {Paginated} from '^types/utils/paginated.dto';
 
 const NAMESPACE = 'memberships';

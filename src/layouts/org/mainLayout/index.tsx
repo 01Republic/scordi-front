@@ -8,7 +8,7 @@ import {OrgSidebar} from './Sidebar';
 import {OrgTopbar} from './Topbar';
 import {OrgBar} from '^layouts/org/mainLayout/OrgBar';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {ApprovalStatus, MembershipLevel} from '^types/membership.type';
+import {ApprovalStatus, MembershipLevel} from '^models/Membership/type';
 import {PreLoader} from '^components/PreLoader';
 import {useCurrentUser} from '^models/User/hook';
 import {WebPush2} from '^components/webPush/WebPush2';

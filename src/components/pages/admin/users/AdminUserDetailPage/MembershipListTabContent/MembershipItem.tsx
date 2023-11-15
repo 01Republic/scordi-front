@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {MembershipDto} from '^types/membership.type';
+import {MembershipDto} from '^models/Membership/type';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {serviceHost} from '^config/environments';
 import {Avatar} from '^components/Avatar';

@@ -9,11 +9,11 @@ import {currentOrgAtom} from '^atoms/organizations.atom';
 import {invitedEmailsAtom} from '^models/TeamMember/atom';
 import {InviteEmailInput} from './InviteEmailInput';
 import {FieldValues, useForm} from 'react-hook-form';
-import {useMemberships} from '^hooks/useMemberships';
+import {useMemberships} from '^models/Membership/hook';
 import {debounce} from 'lodash';
 import {useToast} from '^hooks/useToast';
 import {useAlert} from '^hooks/useAlert';
-import {inviteMembershipApi} from '^api/membership.api';
+import {inviteMembershipApi} from '^models/Membership/api';
 
 export const InviteOrgMemberModal = memo(() => {
     const {isShow, Modal, close} = useModal({isShowAtom: isOpeninviteOrgMemberModalAtom});

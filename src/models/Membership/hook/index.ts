@@ -1,9 +1,9 @@
 import {useRecoilState} from 'recoil';
 import {currentUserMembershipAtom, getCurrentUserMembershipsQuery} from '^models/User/atom';
 import {useCallback, useEffect, useState} from 'react';
-import {FindAllMembershipQuery, MembershipDto} from '^types/membership.type';
-import {orgMembershipSearchResultAtom} from '^atoms/memberships.atom';
-import {membershipApi} from '^api/membership.api';
+import {FindAllMembershipQuery, MembershipDto} from '^models/Membership/type';
+import {orgMembershipSearchResultAtom} from '^models/Membership/atom';
+import {membershipApi} from '^models/Membership/api';
 
 export const useMemberships = () => {
     const [membershipSearchResult, setMembershipSearchResult] = useRecoilState(orgMembershipSearchResultAtom);

@@ -5,7 +5,7 @@ import {AiOutlinePlus} from '^components/react-icons';
 import {OrgSearchRoute} from '^pages/orgs/search';
 import {useRouter} from 'next/router';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
-import {useCurrentUserMemberships} from '^hooks/useMemberships';
+import {useCurrentUserMemberships} from '^models/Membership/hook';
 
 export const OrgBar = memo(() => {
     const router = useRouter();

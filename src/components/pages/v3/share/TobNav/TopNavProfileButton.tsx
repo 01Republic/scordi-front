@@ -6,7 +6,7 @@ import {AiOutlineQuestionCircle} from '@react-icons/all-files/ai/AiOutlineQuesti
 import {BiLogOut} from '@react-icons/all-files/bi/BiLogOut';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {userEditModalIsShow} from '^v3/share/modals/UserEditModal';
-import {MembershipLevel} from '^types/membership.type';
+import {MembershipLevel} from '^models/Membership/type';
 import {V3OrgSettingsOrgPageRoute} from '^pages/v3/orgs/[orgId]/settings/org';
 import {useRouter} from 'next/router';
 import {currentOrgAtom} from '^atoms/organizations.atom';

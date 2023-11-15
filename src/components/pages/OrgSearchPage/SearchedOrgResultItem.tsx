@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {MembershipLevel} from '^types/membership.type';
+import {MembershipLevel} from '^models/Membership/type';
 import {JoinOrgRoute} from '^pages/orgs/joinOrg';
 import {errorNotify} from '^utils/toast-notify';
 import {useRouter} from 'next/router';
@@ -8,7 +8,7 @@ import {OrganizationDto} from '^types/organization.type';
 import {orgIdParamState} from '^atoms/common';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import Swal from 'sweetalert2';
-import {membershipApi} from '^api/membership.api';
+import {membershipApi} from '^models/Membership/api';
 
 interface SearchedOrgResultItemProps {
     org: OrganizationDto;

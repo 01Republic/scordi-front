@@ -1,10 +1,10 @@
-import {MembershipDto} from '^types/membership.type';
+import {MembershipDto} from '^models/Membership/type';
 import {atom, selector} from 'recoil';
 import {UserDto} from '^models/User/types';
 import {getToken} from '^api/api';
 import {errorNotify} from '^utils/toast-notify';
 import {orgIdParamState} from '^atoms/common';
-import {membershipApi} from '^api/membership.api';
+import {membershipApi} from '^models/Membership/api';
 
 export type GoogleSignedUserData = {
     id: string;
