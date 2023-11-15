@@ -2,14 +2,12 @@ import React, {memo, useEffect, useState} from 'react';
 import {LandingPageLayout} from '../LandingPageLayout';
 import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
-import {UserDto, UserGoogleSocialSignUpRequestDtoV2} from '^types/user.type';
 import {toast} from 'react-toastify';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {codeConfirmedState, isTermModalOpenedState, phoneAuthDataState} from './BetaSignPhoneAuthPage.atom';
 import {PhoneNumberInput} from './PhoneNumberInput';
 import {AuthCodeInput} from './AuthCodeInput';
 import {errorNotify} from '^utils/toast-notify';
-import {useSocialLogin, useSocialLoginV2} from '^hooks/useCurrentUser';
 import {SignWelcomePageRoute} from '^pages/sign/welcome';
 import {useTranslation} from 'next-i18next';
 import {ApiError} from '^api/api';
@@ -18,6 +16,8 @@ import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
 import {googleCodeAtom} from '^components/pages/UsersLogin/atom';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {TermModalV2} from '^components/pages/LandingPages/BetaSignPhoneAuthPage/TermModalV2';
+import {useSocialLogin, useSocialLoginV2} from '^models/User/hook';
+import {UserGoogleSocialSignUpRequestDtoV2} from '^models/User/types';
 
 export const BetaSignPhoneAuthPage2 = memo(() => {
     const router = useRouter();
@@ -31,9 +31,9 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
     const codeConfirmed = useRecoilValue(codeConfirmedState);
     const {t} = useTranslation('sign');
     const [pageLoaded, setPageLoaded] = useState(false);
+    const resetGoogleCode = useResetRecoilState(googleCodeAtom);
 
     useEffect(() => {
-        console.log('\ninvited from', invitedOrgId);
         if (!code) {
             router.replace(BetaSignSocialPageRoute.path());
             return;
@@ -89,14 +89,16 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
                             .then(findOrCreateUserCallback)
                             .catch((err: ApiError) => {
                                 errorNotify(err);
-                            });
+                            })
+                            .finally(resetGoogleCode);
                     } else {
                         singUp(data)
                             .then(findOrCreateUserCallback)
                             .catch((err: ApiError) => {
                                 console.log('가입 catch', err);
                                 errorNotify(err);
-                            });
+                            })
+                            .finally(resetGoogleCode);
                     }
                 } else {
                     errorNotify(err);
