@@ -1,7 +1,7 @@
 import {memo} from 'react';
-import {BillingHistoryDto} from '^types/billing.type';
 import {DayGroupedList} from './DayGroupedList';
-import {BillingHistoryManager} from '^models/BillingHistory';
+import {BillingHistoryManager} from '^models/BillingHistory/manager';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 interface BillingHistoryListViewProps {
     billingHistories: BillingHistoryDto[];

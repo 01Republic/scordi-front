@@ -4,7 +4,7 @@ import {firstDayOfMonth, lastDayOfMonth} from '^utils/dateTime';
 import {BiCaretLeft, BiCaretRight} from 'react-icons/bi';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {useBillingHistoriesV3} from '^hooks/useBillingHistories';
+import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 import {useBillingSchedulesV3} from '^models/BillingSchedule/hook';
 
 export const asStartDate = (date: Date) => firstDayOfMonth(date).toISOString();

@@ -1,7 +1,7 @@
 import React, {memo, useEffect} from 'react';
 import {SubscriptionDto} from 'src/models/Subscription/types';
 import {Paginator} from '^components/Paginator';
-import {useBillingHistoryList} from '^hooks/useBillingHistories';
+import {useBillingHistoryList} from '^models/BillingHistory/hook';
 import {BillingHistoryItem} from './BillingHistoryItem';
 import {
     AiOutlineSync,

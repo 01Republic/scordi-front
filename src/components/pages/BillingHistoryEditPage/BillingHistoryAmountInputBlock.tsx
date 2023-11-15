@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
-import {UpdateBillingHistoryRequestDto} from '^types/billing.type';
 import {TitleSection} from '^components/v2/TitleSection';
 import {UseFormReturn} from 'react-hook-form';
+import {UpdateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 
 type BillingHistoryAmountInputBlockProps = {
     form: UseFormReturn<UpdateBillingHistoryRequestDto, any>;

@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {BillingHistoryDto} from '^types/billing.type';
 import {BillingHistorySummary} from '../BillingHistorySummary';
 import {BillingHistoryListView} from '../BillingHistoryListView';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 interface BillingHistoryContentPanelProps {
     billingHistories: BillingHistoryDto[];

@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
 import {TitleSection} from '^components/v2/TitleSection';
-import {useBillingHistory} from '^hooks/useBillingHistories';
+import {useBillingHistory} from '^models/BillingHistory/hook';
 import {useRouter} from 'next/router';
-import {BillingHistoryDto} from '^types/billing.type';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 type BillingHistoryAmountInfoBlockProps = {
     billingHistory: BillingHistoryDto;

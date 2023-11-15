@@ -1,10 +1,10 @@
 import React, {memo} from 'react';
 import {Avatar} from '^components/Avatar';
-import {BillingHistoryDto} from '^types/billing.type';
 import {currencyFormat, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
 import {mm_dd} from '^utils/dateTime';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 interface HistoryItemProps {
     history: BillingHistoryDto;

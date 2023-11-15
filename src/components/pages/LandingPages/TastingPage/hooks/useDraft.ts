@@ -4,10 +4,10 @@ import {useTranslation} from 'next-i18next';
 import {draftAccountAtom, draftBillingHistoriesAtom, gmailItemsLoadedAtom, gmailItemsLoadingAtom} from '../pageAtoms';
 import {dateSortBy, monthBefore} from '^components/util/date';
 import {InvoiceAppDto} from '^models/InvoiceApp/type';
-import {BillingHistoryDto} from '^types/billing.type';
 import {useCallback} from 'react';
 import {deepCopy} from '^utils/object';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 const draftQueryAtom = atom<CreateInvoiceAccountRequestDto | null>({
     key: 'draftQueryAtom',

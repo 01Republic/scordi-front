@@ -1,16 +1,16 @@
 import {memo, useEffect} from 'react';
 import {WithChildren} from '^types/global.type';
 import {useForm, UseFormReturn} from 'react-hook-form';
-import {UpdateBillingHistoryRequestDto} from '^types/billing.type';
 import {BillingHistoryShowPageRoute} from '^pages/orgs/[id]/apps/[appId]/billingHistories/[billingHistoryId]';
-import {updateBillingHistory} from '^models/BillingHistory/api';
 import {errorNotify} from '^utils/toast-notify';
 import {useRouter} from 'next/router';
 import {billingHistoryIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useSetRecoilState} from 'recoil';
-import {getBillingHistoryQuery} from '^atoms/billingHistories.atom';
-import {useBillingHistory} from '^hooks/useBillingHistories';
+import {getBillingHistoryQuery} from '^models/BillingHistory/atom';
+import {useBillingHistory} from '^models/BillingHistory/hook';
 import {CreateMoneyRequestDto, Currency, CurrencyList} from '^types/money.type';
+import {billingHistoryApi} from '^models/BillingHistory/api';
+import {UpdateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 
 type BillingHistoryEditFormProps = {
     form: UseFormReturn<UpdateBillingHistoryRequestDto, any>;
@@ -29,7 +29,8 @@ export const BillingHistoryEditForm = memo((props: BillingHistoryEditFormProps) 
         if (!organizationId || !subscriptionId || !billingHistoryId) return;
 
         const redirectUrl = BillingHistoryShowPageRoute.path(organizationId, subscriptionId, billingHistoryId);
-        updateBillingHistory(billingHistoryId, data)
+        billingHistoryApi
+            .update(billingHistoryId, data)
             .then(({data: updatedHistory}) => {
                 fetchBillingHistory(updatedHistory);
                 router.replace(redirectUrl);

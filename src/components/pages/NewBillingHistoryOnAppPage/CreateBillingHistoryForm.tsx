@@ -2,8 +2,6 @@ import {memo, useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {useCreateFlow} from '^models/Product/hook';
 import {useForm} from 'react-hook-form';
-import {CreateBillingHistoryRequestDto as CreateDto} from '^types/billing.type';
-import {createAppsBillingHistory, createAppsByBillingHistory} from '^models/BillingHistory/api';
 import {NewAppCreatedPageRoute} from '^pages/orgs/[id]/apps/new/created';
 import {errorNotify} from '^utils/toast-notify';
 import {MobileSection} from '^components/v2/MobileSection';
@@ -13,6 +11,8 @@ import {SubscriptionDto} from 'src/models/Subscription/types';
 import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
 import {useCurrentSubscription} from '^models/Subscription/hook';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {appBillingHistoryApi} from '^models/BillingHistory/api';
+import {CreateBillingHistoryRequestDto as CreateDto} from '^models/BillingHistory/type';
 
 type CreateBillingHistoryFormProps = {};
 
@@ -26,7 +26,8 @@ export const CreateBillingHistoryForm = memo((props: CreateBillingHistoryFormPro
     // const {billingCycle: cycle} = subscription;
 
     const onSubmit = (body: CreateDto) => {
-        createAppsBillingHistory(subscription.id, body)
+        appBillingHistoryApi
+            .create(subscription.id, body)
             .then(({data}) => {
                 const {subscription} = data;
                 router.push(OrgAppShowPageRoute.path(organizationId, subscription!.id));

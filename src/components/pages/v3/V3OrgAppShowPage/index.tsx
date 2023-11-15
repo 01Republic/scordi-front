@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {V3ModalLikeLayoutMobile} from '^v3/layouts/V3ModalLikeLayout.mobile';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {InformationPanel} from './InformationPanel';
-import {useBillingHistoriesV3} from '^hooks/useBillingHistories';
+import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 import {AccountListModal} from '^v3/share/modals/AccountListModal';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {BillingHistoryDetailModal} from '^v3/share/modals/BillingHistoryDetailModal';

@@ -1,10 +1,10 @@
 import {dateSortBy} from '^components/util/date';
 import {Currency} from '^types/crawler';
-import {BillingHistoryDto} from '^types/billing.type';
-import {BasicManager} from '../BasicManager';
+import {BasicManager} from '../../BasicManager';
 import {groupBy, groupByDate, monthBefore, yearBefore, yyyy_mm_dd} from '^utils/dateTime';
 import {BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 import {uniqWith} from 'lodash';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 export class BillingHistoryManager extends BasicManager<BillingHistoryDto> {
     /**

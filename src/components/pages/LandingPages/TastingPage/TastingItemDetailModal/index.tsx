@@ -10,7 +10,7 @@ import {HeadingPrice} from './HeadingPrice';
 import {HeadingContent} from './HeadingContent';
 import {BodySummary} from './BodySummary';
 import {BodyList} from './BodyList';
-import {BillingHistoryDto} from '^types/billing.type';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 const isShowTastingItemDetailModalState = atom<boolean>({
     key: 'isShowTastingItemDetailModalState',

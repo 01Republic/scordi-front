@@ -1,5 +1,4 @@
 import {ProductDto} from '^models/Product/type';
-import {BillingHistoryDto} from '^types/billing.type';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {
     BillingCycleTerm,
@@ -8,6 +7,7 @@ import {
     t_BillingCycleTerm,
 } from '^models/Subscription/types/billingCycleType';
 import {TypeCast} from '^types/utils/class-transformer';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 export enum BillingType {
     // MONTHLY = 'monthly',

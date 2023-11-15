@@ -2,16 +2,16 @@ import {MobileTopNav, MobileViewContainer} from '^components/MobileTopNav';
 import {SummaryListItem} from '^components/summaryListItem';
 import Image from 'next/image';
 import {useEffect, useState} from 'react';
-import {getAppsBillingHistory} from '^models/BillingHistory/api';
 import {useRouter} from 'next/router';
 import {errorNotify} from '^utils/toast-notify';
-import {BillingHistoryDto} from '^types/billing.type';
 import {SubscriptionDto} from 'src/models/Subscription/types';
 import {intlDateLong} from '^utils/dateTime';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {subscriptionApi} from '^models/Subscription/api';
+import {appBillingHistoryApi} from '^models/BillingHistory/api';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 export const BillingHistoriesPageRoute = {
     pathname: '/orgs/:id/apps/:appId/billingHistories',
@@ -33,7 +33,8 @@ export default function BillingHistoriesPage() {
             .show(appId)
             .then((res) => setSubInfo(res.data))
             .catch((err) => errorNotify(err));
-        getAppsBillingHistory(appId)
+        appBillingHistoryApi
+            .index(appId)
             .then((res) => setBillingHistory(res.data.items))
             .catch((err) => errorNotify(err));
     }, [appId]);

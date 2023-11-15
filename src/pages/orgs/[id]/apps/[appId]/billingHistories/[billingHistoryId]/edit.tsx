@@ -4,17 +4,17 @@ import {MobileTopNav, MobileTopNavRight} from '^components/v2/MobileTopNav';
 import {BackButton} from '^components/v2/ui/buttons/BackButton';
 import {TitleSection} from '^components/v2/TitleSection';
 import {useCurrentSubscription} from '^models/Subscription/hook';
-import {useBillingHistory} from '^hooks/useBillingHistories';
+import {useBillingHistory} from '^models/BillingHistory/hook';
 import {AppNameWithLogoBlock} from '^components/pages/OrgAppInfoPage/AppNameWithLogoBlock';
 import {subscriptionIdParamState, billingHistoryIdParamState, useRouterIdParamState} from '^atoms/common';
 import {BillingHistoryEditForm} from '^components/pages/BillingHistoryEditPage/BillingHistoryEditForm';
 import {BillingHistoryAmountInputBlock} from '^components/pages/BillingHistoryEditPage/BillingHistoryAmountInputBlock';
 import {useForm} from 'react-hook-form';
-import {t_paidAt, UpdateBillingHistoryRequestDto} from '^types/billing.type';
 import {BillingHistoryInputsBlock} from '^components/pages/BillingHistoryEditPage/BillingHistoryInputsBlock';
 import {MobileBottomNav} from '^components/v2/MobileBottomNav';
 import {CTAButton} from '^components/v2/ui/buttons/CTAButton';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
+import {UpdateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 
 export const BillingHistoryEditPageRoute = pathRoute({
     pathname: '/orgs/[id]/apps/[subscriptionId]/billingHistories/[billingHistoryId]/edit',

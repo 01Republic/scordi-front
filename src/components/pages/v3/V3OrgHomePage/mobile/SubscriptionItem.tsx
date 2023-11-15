@@ -7,7 +7,7 @@ import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pa
 import {useRouter} from 'next/router';
 import {V3OrgAppShowPageRoute} from '^pages/v3/orgs/[orgId]/apps/[appId]';
 import {orgIdParamState} from '^atoms/common';
-import {BillingHistoryManager} from '^models/BillingHistory';
+import {BillingHistoryManager} from '^models/BillingHistory/manager';
 import {Locale} from '^models/Subscription/types/billingCycleType';
 
 interface SubscriptionItemProps {

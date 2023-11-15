@@ -4,11 +4,11 @@ import {DateRangeSelect, dateRangeSelectAtom} from '^v3/V3OrgHomePage/InvoiceSea
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {dayAfter, dayBefore, monthBefore} from '^utils/dateTime';
 import {endOfWeek, lastDayOfMonth, startOfMonth, startOfWeek} from 'date-fns';
-import {useBillingHistoriesV3} from '^hooks/useBillingHistories';
+import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 import {currentOrgAtom} from '^atoms/organizations.atom';
-import {GetBillingHistoriesParams} from '^types/billing.type';
 import {useTranslation} from 'next-i18next';
 import {localeDateHelper} from '^utils/locale-helper';
+import {GetBillingHistoriesParams} from '^models/BillingHistory/type';
 
 export const InvoiceSearchControllerSection = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);

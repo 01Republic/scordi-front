@@ -1,10 +1,11 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {hh_mm} from '^utils/dateTime';
-import {BillingHistoryDto, BillingHistoryStatus, getBillingHistoryStatus} from '^types/billing.type';
 import {displayCurrencyAtom} from '../pageAtoms';
 import {useTastingItemDetailModal} from '../TastingItemDetailModal';
 import {EmailParsedTableRowPriceText} from '^components/pages/LandingPages/TastingPage/EmailParsedTableRowPriceText';
+import {BillingHistoryDto, BillingHistoryStatus} from '^models/BillingHistory/type';
+import {getBillingHistoryStatus} from '^models/BillingHistory/hook';
 
 export const EmailParsedTableRowMobile = memo((props: {entry: BillingHistoryDto; showTitle?: boolean}) => {
     const {entry: billingHistory, showTitle = false} = props;

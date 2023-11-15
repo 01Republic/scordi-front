@@ -1,6 +1,7 @@
 import {api} from '^api/api';
 import {DashboardDaySumDto, DashboardSummaryDto, SummaryOfBillingHistoriesDto} from '^types/dashboard.type';
-import {FromToQueryDto, GetBillingHistoriesParams} from '^types/billing.type';
+import {FromToQueryDto} from '^types/billing.type';
+import {GetBillingHistoriesParams} from '^models/BillingHistory/type';
 
 const NAMESPACE = 'dashboard';
 

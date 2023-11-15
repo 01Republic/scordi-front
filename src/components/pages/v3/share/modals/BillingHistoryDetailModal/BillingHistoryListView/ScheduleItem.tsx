@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
-import {BillingHistoryStatus} from '^types/billing.type';
 import {hh_mm} from '^utils/dateTime';
 import {useRouter} from 'next/router';
 import {BillingListPriceText} from './PriceText';
 import {BillingScheduleShallowDto} from '^models/BillingSchedule/type';
+import {BillingHistoryStatus} from '^models/BillingHistory/type';
 
 export const ScheduleItem = memo((props: {entry: BillingScheduleShallowDto; showTitle?: boolean}) => {
     const {entry: billingSchedule, showTitle = false} = props;

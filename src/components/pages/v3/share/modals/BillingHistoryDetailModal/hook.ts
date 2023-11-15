@@ -1,15 +1,15 @@
 import {useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {getBillingHistories, getBillingHistory} from '^models/BillingHistory/api';
+import {billingHistoryApi} from '^models/BillingHistory/api';
 import {useModal} from '^v3/share/modals/useModal';
-import {GetBillingHistoriesParams} from '^types/billing.type';
-import {BillingHistoryManager} from '^models/BillingHistory';
+import {BillingHistoryManager} from '^models/BillingHistory/manager';
 import {
     billingHistoryDetailStateInShowModal,
     billingHistoryPagedStateInShowModal,
     billingHistoryShowModal,
 } from './atom';
 import {orgIdParamState} from '^atoms/common';
+import {GetBillingHistoriesParams} from '^models/BillingHistory/type';
 
 /**
  * 결제내역 상세모달 호출
@@ -42,7 +42,8 @@ export const useBillingHistoryInModal = () => {
 
     const loadData = (id: number) => {
         setIsLoading(true);
-        getBillingHistory(id)
+        billingHistoryApi
+            .show(id)
             .then((res) => setBillingHistory(res.data))
             .finally(() => setIsLoading(false));
     };
@@ -59,7 +60,8 @@ export const useBillingHistoriesInModal = () => {
 
     const loadData = (params: GetBillingHistoriesParams = {}) => {
         setIsLoading(true);
-        getBillingHistories(params)
+        billingHistoryApi
+            .index(params)
             .then((res) => {
                 const items = BillingHistoryManager.init(res.data.items).validateToListing().sortByIssue('DESC');
                 setPagedHistories({...res.data, items: items.all()});

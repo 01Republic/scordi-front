@@ -1,9 +1,9 @@
 import {atom, selector} from 'recoil';
 import {errorNotify} from '^utils/toast-notify';
 import {billingHistoryIdParamState} from '^atoms/common';
-import {getBillingHistories, getBillingHistory} from '^models/BillingHistory/api';
+import {billingHistoryApi} from '^models/BillingHistory/api';
 import {Paginated} from '^types/utils/paginated.dto';
-import {BillingHistoryDto, GetBillingHistoriesParams} from '^types/billing.type';
+import {BillingHistoryDto, GetBillingHistoriesParams} from '^models/BillingHistory/type';
 
 /**
  * Billing History
@@ -37,7 +37,7 @@ export const getBillingHistoriesQuery = selector({
         if (!params.where?.subscriptionId) return;
 
         try {
-            const res = await getBillingHistories(params);
+            const res = await billingHistoryApi.index(params);
             return res.data;
         } catch (e) {
             errorNotify(e);
@@ -62,7 +62,7 @@ export const getBillingHistoryQuery = selector({
         const id = get(billingHistoryIdParamState);
         if (isNaN(id)) return;
         try {
-            const res = await getBillingHistory(id);
+            const res = await billingHistoryApi.show(id);
             return res.data;
         } catch (e) {
             errorNotify(e);

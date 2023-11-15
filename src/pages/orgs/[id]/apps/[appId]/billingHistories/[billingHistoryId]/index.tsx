@@ -20,7 +20,7 @@ import {
     orgIdParamState,
     useRouterIdParamState,
 } from '^atoms/common';
-import {getBillingHistoriesParamsState} from '^atoms/billingHistories.atom';
+import {getBillingHistoriesParamsState} from '^models/BillingHistory/atom';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const BillingHistoryShowPageRoute = pathRoute({

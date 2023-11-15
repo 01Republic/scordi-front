@@ -5,7 +5,7 @@ import {errorNotify} from '^utils/toast-notify';
 import {getQueryParams} from '^utils/get-query-params';
 import {dashboardSummaryState, dashboardSummaryV3State, getDashboardSummaryQuery} from '^atoms/calendarData.atom';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {GetBillingHistoriesParams} from '^types/billing.type';
+import {GetBillingHistoriesParams} from '^models/BillingHistory/type';
 
 export const useDashboardSummary = () => useRecoilValue(getDashboardSummaryQuery);
 

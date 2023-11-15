@@ -1,8 +1,6 @@
 import {memo, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {useCurrentSubscription} from '^models/Subscription/hook';
-import {BillingHistoryDto} from '^types/billing.type';
-import {getBillingHistories} from '^models/BillingHistory/api';
 import {errorNotify} from '^utils/toast-notify';
 import {
     ContentPanel,
@@ -12,6 +10,8 @@ import {
     ContentPanelList,
 } from '^layouts/ContentLayout';
 import {Paginator} from '^components/Paginator';
+import {billingHistoryApi} from '^models/BillingHistory/api';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 export const BillingHistoriesPanel = memo(() => {
     const router = useRouter();
@@ -30,12 +30,13 @@ export const BillingHistoriesPanel = memo(() => {
     function fetchHistories(productId: number, page: number) {
         if (currentPage === page) return;
 
-        getBillingHistories({
-            where: {subscriptionId: subscription?.id},
-            order: {id: 'DESC'},
-            page,
-            itemsPerPage: 10,
-        })
+        billingHistoryApi
+            .index({
+                where: {subscriptionId: subscription?.id},
+                order: {id: 'DESC'},
+                page,
+                itemsPerPage: 10,
+            })
             .then((res) => {
                 setHistories(res.data.items);
                 setCurrentPage(res.data.pagination.currentPage);

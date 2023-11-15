@@ -1,9 +1,10 @@
 import React, {memo} from 'react';
-import {BillingHistoryDto, BillingHistoryStatus, getBillingHistoryStatus} from '^types/billing.type';
 import {hh_mm} from '^utils/dateTime';
 import {useRouter} from 'next/router';
 import {useBillingHistoryModal} from '../hook';
 import {PriceText} from './PriceText';
+import {BillingHistoryDto, BillingHistoryStatus} from '^models/BillingHistory/type';
+import {getBillingHistoryStatus} from '^models/BillingHistory/hook';
 
 export const HistoryItem = memo((props: {entry: BillingHistoryDto; showTitle?: boolean}) => {
     const {entry: billingHistory, showTitle = false} = props;

@@ -1,6 +1,6 @@
 import {atom} from 'recoil';
-import {BillingHistoryDto} from '^types/billing.type';
 import {Paginated} from '^types/utils/paginated.dto';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 /**
  * 결제내역 상세모달 상태

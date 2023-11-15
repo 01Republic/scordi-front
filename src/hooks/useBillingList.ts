@@ -4,9 +4,8 @@ import {useCallback, useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {dayAfter} from '^utils/dateTime';
 import {errorNotify} from '^utils/toast-notify';
-import {getBillingHistories} from '^models/BillingHistory/api';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {billingHistoriesState} from '^atoms/billingHistories.atom';
+import {billingHistoriesState} from '^models/BillingHistory/atom';
 import {billingSchedulesState} from '^models/BillingSchedule/atom';
 import {calendarSelectedDateState} from '^atoms/calendarData.atom';
 import {
@@ -15,11 +14,12 @@ import {
     billingListSchedulesAtom,
     billingListStartDateAtom,
 } from '^atoms/billingList.atom';
-import {BillingHistoryManager} from '^models/BillingHistory';
+import {BillingHistoryManager} from '^models/BillingHistory/manager';
 import {BillingScheduleManager, exceptBilledSchedules} from '^models/BillingSchedule/manager';
-import {GetBillingHistoriesParams} from '^types/billing.type';
 import {getBillingSchedules} from '^models/BillingSchedule/api';
 import {GetBillingSchedulesParams} from '^models/BillingSchedule/type';
+import {billingHistoryApi} from '^models/BillingHistory/api';
+import {GetBillingHistoriesParams} from '^models/BillingHistory/type';
 
 // 결제내역과 결제예정내역을 통합 조회합니다.
 // 기존 함수가 페이지네이션 기능과 특정일 이상의 날짜범위 검색을 추가하기에 적절하지 않은 구조로 되어있어
@@ -99,7 +99,7 @@ const useBillingHistoriesInCalendar = () => {
         if (JSON.stringify(query) === JSON.stringify(params)) return;
 
         setIsLoading(true);
-        const items = await getBillingHistories(params).then((res) => res.data.items);
+        const items = await billingHistoryApi.index(params).then((res) => res.data.items);
         const groupedHistories = BillingHistoryManager.init(items).toCalendarData();
 
         setResult(groupedHistories);
@@ -149,7 +149,7 @@ export const useBillingList = () => {
             endDate: dayAfter(1, date).toISOString(),
         };
 
-        Promise.all([getBillingHistories(query), getBillingSchedules(query)])
+        Promise.all([billingHistoryApi.index(query), getBillingSchedules(query)])
             .then(([hisRes, schRes]) => {
                 setBillingHistories(hisRes.data.items);
                 setBillingSchedules(schRes.data.items);

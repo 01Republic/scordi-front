@@ -1,5 +1,4 @@
 import React, {memo} from 'react';
-import {BillingHistoryDto} from '^types/billing.type';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
 import {useTranslation} from 'next-i18next';
@@ -7,7 +6,8 @@ import {dayjs} from '^utils/dayjs';
 import {getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {getTotalBalance} from '^components/pages/LandingPages/TastingPage/hooks/useSummaryStatBalance';
 import {useRouter} from 'next/router';
-import {BillingHistoryManager} from '^models/BillingHistory';
+import {BillingHistoryManager} from '^models/BillingHistory/manager';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 interface BillingHistorySummaryProps {
     billingHistories: BillingHistoryDto[];

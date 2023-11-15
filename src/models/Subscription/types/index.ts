@@ -10,13 +10,13 @@ import {
 } from '^models/Subscription/types/billingCycleType';
 import {InvoiceDataDto} from '^components/ApplicationConnectStage/dto/fetched.responses.dto';
 import {WorkspaceDto} from '^types/workspace.type';
-import {BillingHistoryDto} from '^types/billing.type';
 import {TypeCast} from '^types/utils/class-transformer';
 import {BillingType, billingTypeToCycleTerm} from '^models/InvoiceApp/type';
 import {monthAfter, yearAfter} from '^utils/dateTime';
 import {MoneyDto} from '^types/money.type';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {CreditCardDto} from '^models/CreditCard/type';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 // ConnectStatus 연동상태.
 export enum ConnectStatus {

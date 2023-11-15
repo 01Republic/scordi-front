@@ -1,11 +1,11 @@
 import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
 import React, {memo} from 'react';
-import {BillingHistoryDto} from '^types/billing.type';
 import {SubscriptionDto} from 'src/models/Subscription/types';
 import {connectCreditCardModal} from '^v3/share/modals/ConnectCreditCardModal/atom';
 import {useModal} from '^v3/share/modals/useModal';
 import {toast} from 'react-toastify';
 import {FiChevronRight} from '^components/react-icons';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 interface ListItemForPaymentMethodProps {
     subscription?: SubscriptionDto | null;

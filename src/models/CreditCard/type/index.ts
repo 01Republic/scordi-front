@@ -2,10 +2,10 @@ import {OrganizationDto} from '^types/organization.type';
 import {TypeCast} from '^types/utils/class-transformer';
 import {TeamMemberDto} from '^models/TeamMember/type';
 import {SubscriptionDto} from 'src/models/Subscription/types';
-import {BillingHistoryDto} from '^types/billing.type';
 import {cardSign} from '^config/environments';
 import CryptoJS from 'crypto-js';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 export class CreditCardDto {
     id: number; // 카드 ID

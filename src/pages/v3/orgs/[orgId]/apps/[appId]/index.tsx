@@ -7,7 +7,7 @@ import {useCurrentOrg} from '^hooks/useCurrentOrg';
 import {V3OrgAppShowPage} from '^v3/V3OrgAppShowPage';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {useRouter} from 'next/router';
-import {useBillingHistoriesV3} from '^hooks/useBillingHistories';
+import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 
 export const V3OrgAppShowPageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]/apps/[appId]',

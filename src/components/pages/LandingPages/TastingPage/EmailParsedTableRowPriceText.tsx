@@ -1,11 +1,11 @@
 import React, {memo} from 'react';
-import {BillingHistoryDto, BillingHistoryStatus, getBillingHistoryStatus} from '^types/billing.type';
 import {changePriceCurrency, currencyFormat, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from './pageAtoms';
 import {MoneyDto} from '^types/money.type';
 import {BsInfoCircle} from 'react-icons/bs';
 import {BiError} from 'react-icons/bi';
+import {BillingHistoryDto, BillingHistoryStatus} from '^models/BillingHistory/type';
 
 interface RowPriceTextProps {
     billingHistory: BillingHistoryDto;

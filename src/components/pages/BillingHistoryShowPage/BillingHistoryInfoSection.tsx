@@ -5,8 +5,7 @@ import {AppNameWithLogoBlock} from '^components/pages/OrgAppInfoPage/AppNameWith
 import {BillingHistoryAmountInfoBlock} from '^components/pages/BillingHistoryShowPage/BillingHistoryAmountInfoBlock';
 import {MobileKeyValueItem} from '^components/v2/MobileKeyValueItem';
 import {MobileSection} from '^components/v2/MobileSection';
-import {useBillingHistory} from '^hooks/useBillingHistories';
-import {t_paidAt} from '^types/billing.type';
+import {t_paidAt, useBillingHistory} from '^models/BillingHistory/hook';
 
 type BillingHistoryInfoSectionProps = {};
 

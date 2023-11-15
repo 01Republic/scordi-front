@@ -8,8 +8,8 @@ import {
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from './pageAtoms';
 import {useTastingItemDetailModal} from './TastingItemDetailModal';
-import {BillingHistoryDto} from '^types/billing.type';
 import {BillingInfo} from '^api/tasting.api';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 interface EmailParsedTableRowProps {
     date: Date;

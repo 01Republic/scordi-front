@@ -5,7 +5,7 @@ import {changePriceCurrency, Price} from '^api/tasting.api/gmail/agent/parse-ema
 import {Currency} from '^types/crawler';
 import {displayCurrencyAtom} from '../pageAtoms';
 import {useDraftResult} from './useDraft';
-import {BillingHistoryDto} from '^types/billing.type';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 export const getTotalBalance = (histories: BillingHistoryDto[], displayCurrency: Currency) => {
     let amount = 0;

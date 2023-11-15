@@ -3,8 +3,8 @@ import {MobileGrid} from '^components/v2/MobileGridSection';
 import {WithChildren} from '^types/global.type';
 import {MobileSection} from '^components/v2/MobileSection';
 import {UseFormReturn} from 'react-hook-form';
-import {UpdateBillingHistoryRequestDto} from '^types/billing.type';
 import {MobileKeyValueItem} from '^components/v2/MobileKeyValueItem';
+import {UpdateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 
 type BillingHistoryInputsBlockProps = {
     form: UseFormReturn<UpdateBillingHistoryRequestDto, any>;

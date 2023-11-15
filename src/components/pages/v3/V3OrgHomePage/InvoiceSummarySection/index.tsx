@@ -5,7 +5,7 @@ import {useDashboardSummaryV3} from '^hooks/useDashboardSummary';
 import {Currency} from '^types/crawler';
 import {useCurrentUser} from '^hooks/useCurrentUser';
 import {changePriceCurrency} from '^api/tasting.api/gmail/agent/parse-email-price';
-import {useBillingHistoriesV3} from '^hooks/useBillingHistories';
+import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 
 export const InvoiceSummarySection = memo(() => {
     const {query} = useBillingHistoriesV3();
