@@ -9,7 +9,7 @@ import {
     t_BillingCycleTerm,
 } from '^models/Subscription/types/billingCycleType';
 import {InvoiceDataDto} from '^components/ApplicationConnectStage/dto/fetched.responses.dto';
-import {WorkspaceDto} from '^types/workspace.type';
+import {WorkspaceDto} from '^models/Workspace/type/workspace.type';
 import {TypeCast} from '^types/utils/class-transformer';
 import {BillingType, billingTypeToCycleTerm} from '^models/InvoiceApp/type';
 import {monthAfter, yearAfter} from '^utils/dateTime';

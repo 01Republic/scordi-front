@@ -1,6 +1,6 @@
 import {OrganizationDto} from '^models/Organization/type';
 import {ProductDto} from '^models/Product/type';
-import {WorkspaceDto} from '^types/workspace.type';
+import {WorkspaceDto} from '^models/Workspace/type/workspace.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';
 import {crawlerSign} from '^config/environments';

@@ -7,7 +7,7 @@ import {
     UpdateWorkspaceRequestDto,
     WorkspaceDto,
     WorkspaceMemberDto,
-} from '^types/workspace.type';
+} from '^models/Workspace/type/workspace.type';
 import {api} from '^api/api';
 
 const NAMESPACE = 'workspace';
