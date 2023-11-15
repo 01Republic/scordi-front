@@ -1,9 +1,9 @@
 import React, {memo, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
 import {plainToInstance} from 'class-transformer';
-import {UnSignedAccountFormData} from '^types/account.type';
-import {accountApi} from '^api/account.api';
-import {useAccounts} from '^hooks/useAccounts';
+import {UnSignedAccountFormData} from '^models/Account/types';
+import {accountApi} from '^models/Account/api';
+import {useAccounts} from '^models/Account/hook';
 import {AccountForm} from '../form';
 import {useAccountCreateModal} from './hook';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';

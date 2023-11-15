@@ -1,6 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
-import {useAccounts} from '^hooks/useAccounts';
+import {useAccounts} from '^models/Account/hook';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {currencyFormat} from '^utils/number';
 import {FiChevronRight} from '^components/react-icons';

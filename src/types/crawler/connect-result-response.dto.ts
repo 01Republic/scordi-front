@@ -1,4 +1,4 @@
-import {AccountDto} from '^types/account.type';
+import {AccountDto} from '^models/Account/types';
 import {
     WorkspaceProfileDto,
     WorkspaceBillingDto,

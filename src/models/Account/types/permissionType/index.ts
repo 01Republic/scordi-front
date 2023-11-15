@@ -1,4 +1,4 @@
-import {AccountDto} from '^types/account.type';
+import {AccountDto} from '^models/Account/types';
 import {TeamMemberDto} from '^models/TeamMember/type';
 
 export enum Permission {

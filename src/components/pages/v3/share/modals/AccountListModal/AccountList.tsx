@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {AccountDto} from '^types/account.type';
+import {AccountDto} from '^models/Account/types';
 import {AccountItem} from './AccountItem';
 
 interface AccountListProps {

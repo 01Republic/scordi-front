@@ -1,4 +1,4 @@
-import {AccountDto} from '^types/account.type';
+import {AccountDto} from '^models/Account/types';
 import {SubscriptionDto} from 'src/models/Subscription/types';
 import {ProductDto} from '^models/Product/type';
 import {OrganizationDto} from '^types/organization.type';

@@ -5,7 +5,7 @@ import {useCallback, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {errorNotify} from '^utils/toast-notify';
 import {AxiosError} from 'axios';
-import {AccountDto} from '^types/account.type';
+import {AccountDto} from '^models/Account/types';
 import {crawlerApiV2} from '^api/crawler/crawler.api.v2';
 import {errorToast} from '^api/api';
 import {toast} from 'react-toastify';

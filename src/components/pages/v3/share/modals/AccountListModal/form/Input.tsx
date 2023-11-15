@@ -2,7 +2,7 @@ import React, {ForwardedRef, forwardRef, InputHTMLAttributes} from 'react';
 import {FieldPath, FieldValues, UseFormReturn} from 'react-hook-form';
 import {useId} from 'react-id-generator';
 import {ReactNodeLike} from 'prop-types';
-import {UnSignedAccountFormData} from '^types/account.type';
+import {UnSignedAccountFormData} from '^models/Account/types';
 
 type TextInputProps<T extends FieldValues> = InputHTMLAttributes<HTMLInputElement> & {
     label: ReactNodeLike;

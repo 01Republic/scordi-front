@@ -3,7 +3,7 @@ import {UseFormReturn} from 'react-hook-form';
 import {BsChevronDown} from 'react-icons/bs';
 import {WithChildren} from '^types/global.type';
 import {ProductDto} from '^models/Product/type';
-import {UnSignedAccountFormData} from '^types/account.type';
+import {UnSignedAccountFormData} from '^models/Account/types';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {Input} from './Input';

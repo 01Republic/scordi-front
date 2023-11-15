@@ -1,6 +1,6 @@
 import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
-import {FindAllAccountsQueryDto, AccountDto, CreateAccountDto, UpdateAccountDto} from '^types/account.type';
+import {FindAllAccountsQueryDto, AccountDto, CreateAccountDto, UpdateAccountDto} from '^models/Account/types';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 
 const NAMESPACE = 'organizations';

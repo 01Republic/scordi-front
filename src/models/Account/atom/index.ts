@@ -1,5 +1,5 @@
 import {atom} from 'recoil';
-import {AccountDto, FindAllAccountsQueryDto} from '^types/account.type';
+import {AccountDto, FindAllAccountsQueryDto} from '^models/Account/types';
 import {Paginated} from '^types/utils/paginated.dto';
 
 export const getAccountsQueryAtom = atom<FindAllAccountsQueryDto>({

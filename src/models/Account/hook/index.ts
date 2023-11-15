@@ -1,8 +1,8 @@
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useRecoilState} from 'recoil';
-import {getAccountsQueryAtom, accountsSearchResultAtom} from '^atoms/accounts.atom';
-import {FindAllAccountsQueryDto} from '^types/account.type';
-import {accountApi} from '^api/account.api';
+import {getAccountsQueryAtom, accountsSearchResultAtom} from '^models/Account/atom';
+import {FindAllAccountsQueryDto} from '^models/Account/types';
+import {accountApi} from '^models/Account/api';
 import {LoginDto} from '^types/crawler';
 import CryptoJS from 'crypto-js';
 

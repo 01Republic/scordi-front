@@ -2,7 +2,7 @@ import React, {memo, useEffect, useMemo, useState} from 'react';
 import {WithChildren} from '^types/global.type';
 import {ProductDto} from '^models/Product/type';
 import {UseFormReturn} from 'react-hook-form';
-import {UnSignedAccountFormData} from '^types/account.type';
+import {UnSignedAccountFormData} from '^models/Account/types';
 import {ProductAvatar} from '^v3/share/ProductAvatar';
 import {useSelectProductModal} from '../../SelectProductModal/hook';
 import {Option} from '^components/util/react-select/Option';

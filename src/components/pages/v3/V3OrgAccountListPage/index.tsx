@@ -9,7 +9,7 @@ import {AccountCreateModal} from '^v3/share/modals/AccountListModal/AccountCreat
 import {AccountEditModal} from '^v3/share/modals/AccountListModal/AccountEditModal';
 import {ProductChangeModal, useAccountProductChangeModal} from '^v3/share/modals/AccountListModal/ProductChangeModal';
 import {useAccountCreateModal} from '^v3/share/modals/AccountListModal/AccountCreateModal/hook';
-import {useAccounts} from '^hooks/useAccounts';
+import {useAccounts} from '^models/Account/hook';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {subjectProductOfAccountsInModalState} from '^v3/share/modals/AccountListModal/atom';
 import {AccountList} from '^v3/share/modals/AccountListModal/AccountList';

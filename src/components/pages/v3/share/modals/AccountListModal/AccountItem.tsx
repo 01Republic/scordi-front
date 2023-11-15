@@ -1,7 +1,7 @@
 import React, {memo, useRef} from 'react';
 import {BiChevronRight, BiCopy} from 'react-icons/bi';
 import {FaKey} from 'react-icons/fa6';
-import {AccountDto} from '^types/account.type';
+import {AccountDto} from '^models/Account/types';
 import {toast} from 'react-toastify';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import {useAccountEditModal} from './AccountEditModal/hook';

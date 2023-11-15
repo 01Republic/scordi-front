@@ -8,7 +8,7 @@ import {accountListModal, subjectProductOfAccountsInModalState} from './atom';
 import {AccountList} from './AccountList';
 import {AccountCreateModal} from './AccountCreateModal';
 import {ProductChangeModal, useAccountProductChangeModal} from './ProductChangeModal';
-import {useAccounts} from '^hooks/useAccounts';
+import {useAccounts} from '^models/Account/hook';
 import {ProductDto} from '^models/Product/type';
 import {AccountEditModal} from './AccountEditModal';
 import {useAccountCreateModal} from './AccountCreateModal/hook';

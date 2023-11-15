@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {ProductManager} from '^models/Product/manager';
 import {AccountManager} from '^models/Account/manager';
-import {accountApi} from '^api/account.api';
+import {accountApi} from '^models/Account/api';
 import {SubscriptionManager} from '^models/Subscription/manager';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';

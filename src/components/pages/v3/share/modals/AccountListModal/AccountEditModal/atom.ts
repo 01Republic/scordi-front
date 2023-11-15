@@ -1,5 +1,5 @@
 import {atom} from 'recoil';
-import {AccountDto} from '^types/account.type';
+import {AccountDto} from '^models/Account/types';
 
 export const accountEditModalAtom = {
     isShowAtom: atom({
