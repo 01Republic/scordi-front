@@ -1,4 +1,4 @@
 import {useRecoilValue} from 'recoil';
-import {getOrgQuery} from '^atoms/organizations.atom';
+import {getOrgQuery} from '^models/Organization/atom';
 
 export const useOrganization = () => useRecoilValue(getOrgQuery);

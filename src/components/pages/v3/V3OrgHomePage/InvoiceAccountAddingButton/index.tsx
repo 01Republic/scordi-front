@@ -2,7 +2,7 @@ import React, {memo, useEffect} from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {InvoiceAccountListPanel, invoiceAccountsAtom} from './InvoiceAccountListPanel';
 import {InvoiceAppListPanel, selectedInvoiceAccountAtom} from './InvoiceAppListPanel';
-import {currentOrgAtom} from '^atoms/organizations.atom';
+import {currentOrgAtom} from '^models/Organization/atom';
 import {useTranslation} from 'next-i18next';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {newInvoiceAccountModal} from '../NewInvoiceAccountModal/atom';

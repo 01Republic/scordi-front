@@ -1,6 +1,6 @@
 import React, {memo, useState} from 'react';
-import {organizationApi} from '^api/organization.api';
-import {CreateOrganizationRequestDto, OrganizationDto, SearchOrgQueryDto} from '^types/organization.type';
+import {organizationApi} from '^models/Organization/api';
+import {CreateOrganizationRequestDto, OrganizationDto, SearchOrgQueryDto} from '^models/Organization/type';
 import {useForm} from 'react-hook-form';
 import {useRouter} from 'next/router';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';

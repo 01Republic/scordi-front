@@ -1,6 +1,6 @@
 import {api} from '^api/api';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
-import {OrganizationDto} from '^types/organization.type';
+import {OrganizationDto} from '^models/Organization/type';
 import {Paginated} from '^types/utils/paginated.dto';
 
 export default {

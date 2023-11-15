@@ -1,4 +1,4 @@
-import {OrganizationDto} from '^types/organization.type';
+import {OrganizationDto} from '^models/Organization/type';
 import {TypeCast} from '^types/utils/class-transformer';
 import {TeamMemberDto} from '^models/TeamMember/type';
 import {SubscriptionDto} from 'src/models/Subscription/types';

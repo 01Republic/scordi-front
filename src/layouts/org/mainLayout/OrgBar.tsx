@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {OrganizationDto} from '^types/organization.type';
+import {OrganizationDto} from '^models/Organization/type';
 import {useCurrentUser} from '^models/User/hook';
 import {AiOutlinePlus} from '^components/react-icons';
 import {OrgSearchRoute} from '^pages/orgs/search';

@@ -1,4 +1,4 @@
-import {OrganizationDto} from '^types/organization.type';
+import {OrganizationDto} from '^models/Organization/type';
 import {PreLoader} from '^components/PreLoader';
 import React, {useEffect} from 'react';
 import {useRouter} from 'next/router';

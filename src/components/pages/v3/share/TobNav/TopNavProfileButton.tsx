@@ -9,7 +9,7 @@ import {userEditModalIsShow} from '^v3/share/modals/UserEditModal';
 import {MembershipLevel} from '^models/Membership/type';
 import {V3OrgSettingsOrgPageRoute} from '^pages/v3/orgs/[orgId]/settings/org';
 import {useRouter} from 'next/router';
-import {currentOrgAtom} from '^atoms/organizations.atom';
+import {currentOrgAtom} from '^models/Organization/atom';
 import {AiOutlineHome} from '@react-icons/all-files/ai/AiOutlineHome';
 import {useTranslation} from 'next-i18next';
 import {AdminUsersPageRoute} from '^pages/admin/users';

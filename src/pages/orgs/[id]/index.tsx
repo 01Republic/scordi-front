@@ -15,10 +15,10 @@ import {
     ContentPanelList,
 } from '^layouts/ContentLayout/ContentPanel';
 import {useForm} from 'react-hook-form';
-import {OrganizationDto, UpdateOrganizationRequestDto} from '^types/organization.type';
+import {OrganizationDto, UpdateOrganizationRequestDto} from '^models/Organization/type';
 import {TextInput} from '^components/TextInput';
 import {ProfileImageFileInput} from '^components/ProfileImageFileInput';
-import {organizationApi} from '^api/organization.api';
+import {organizationApi} from '^models/Organization/api';
 import {errorNotify, successNotify} from '^utils/toast-notify';
 import {toast} from 'react-toastify';
 import {useCurrentUser} from '^models/User/hook';

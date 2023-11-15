@@ -3,7 +3,7 @@ import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {useTranslation} from 'next-i18next';
 import {useOnResize2} from '^components/util/onResize2';
 import {V3MainLayout} from '../layouts/V3MainLayout';
-import {currentOrgAtom} from '^atoms/organizations.atom';
+import {currentOrgAtom} from '^models/Organization/atom';
 import {V3ModalLikeLayoutMobile} from '^v3/layouts/V3ModalLikeLayout.mobile';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {newInvoiceAccountModal} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/atom';

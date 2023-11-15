@@ -3,7 +3,7 @@ import styles from '^styles/v3/V3MainLayout.module.scss';
 import {V3MainLayout, V3MainLayoutContainer} from '^v3//layouts/V3MainLayout';
 import {V3MainLayoutMobile} from '^v3/layouts/V3MainLayout.mobile';
 import {useRecoilValue} from 'recoil';
-import {currentOrgAtom} from '^atoms/organizations.atom';
+import {currentOrgAtom} from '^models/Organization/atom';
 import {InvoiceAccountAddingButton} from './InvoiceAccountAddingButton';
 import {NewInvoiceAccountModal} from './NewInvoiceAccountModal';
 import {InvoiceSearchControllerSection} from './InvoiceSearchControllerSection';

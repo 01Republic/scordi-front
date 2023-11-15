@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import styles from '^styles/v3/V3MainLayout.module.scss';
 import {EditFormSection} from '^v3/share/EditFormSection';
 import {useRecoilValue} from 'recoil';
-import {currentOrgAtom} from '^atoms/organizations.atom';
+import {currentOrgAtom} from '^models/Organization/atom';
 
 export const BillingHistorySection = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);

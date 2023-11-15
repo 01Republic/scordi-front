@@ -1,4 +1,4 @@
-import {OrganizationDto} from '^types/organization.type';
+import {OrganizationDto} from '^models/Organization/type';
 import {SubscriptionDto} from 'src/models/Subscription/types';
 import {TagDto} from '^types/tag.type';
 import {TeamMemberDto} from '^models/TeamMember/type';

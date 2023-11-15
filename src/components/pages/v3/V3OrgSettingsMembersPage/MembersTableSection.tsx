@@ -1,7 +1,7 @@
 import {memo, useEffect} from 'react';
 import {debounce} from 'lodash';
 import {useRecoilValue} from 'recoil';
-import {currentOrgAtom} from '^atoms/organizations.atom';
+import {currentOrgAtom} from '^models/Organization/atom';
 import {useMemberships} from '^models/Membership/hook';
 import {TablePaginator} from '^v3/share/table/TablePaginator';
 import {TableSearchControl} from '^v3/share/table/TableSearchControl';

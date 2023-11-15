@@ -4,7 +4,7 @@ import {JoinOrgRoute} from '^pages/orgs/joinOrg';
 import {errorNotify} from '^utils/toast-notify';
 import {useRouter} from 'next/router';
 import {useCurrentUser} from '^models/User/hook';
-import {OrganizationDto} from '^types/organization.type';
+import {OrganizationDto} from '^models/Organization/type';
 import {orgIdParamState} from '^atoms/common';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import Swal from 'sweetalert2';

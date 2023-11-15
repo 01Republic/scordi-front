@@ -1,7 +1,7 @@
 import {memo, useEffect} from 'react';
 import {AdminListPageLayout} from '^admin/layouts';
 import {useListPageSearchForm} from '^admin/share/list-page/use-list-page-search-form';
-import {organizationApi} from '^api/organization.api';
+import {organizationApi} from '^models/Organization/api';
 import {OrgItem} from '^admin/orgs/AdminOrgListPage/OrgItem';
 
 export const AdminOrgListPage = memo(() => {

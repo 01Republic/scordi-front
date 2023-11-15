@@ -4,11 +4,11 @@ import {useRecoilState, atom} from 'recoil';
 import {useModal} from '../../share/modals/useModal';
 import {TextInput} from '^components/TextInput';
 import {DefaultButton} from '^components/Button';
-import {currentOrgAtom} from '^atoms/organizations.atom';
-import {UpdateOrganizationRequestDto} from '^types/organization.type';
+import {currentOrgAtom} from '^models/Organization/atom';
+import {UpdateOrganizationRequestDto} from '^models/Organization/type';
 import {errorNotify} from '^utils/toast-notify';
 import {useToast} from '^hooks/useToast';
-import {organizationApi} from '^api/organization.api';
+import {organizationApi} from '^models/Organization/api';
 
 export const isOpenModifyOrgNameModalAtom = atom({
     key: 'v3/isOpenModifyOrgNameModalAtom',

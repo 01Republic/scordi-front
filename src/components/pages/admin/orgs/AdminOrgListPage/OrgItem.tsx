@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {OrganizationDto} from '^types/organization.type';
+import {OrganizationDto} from '^models/Organization/type';
 import {Avatar} from '^components/Avatar';
 import {useRouter} from 'next/router';
 import {AdminOrgPageRoute} from '^pages/admin/orgs/[id]';

@@ -1,6 +1,6 @@
 import {memo} from 'react';
 import {useRecoilValue} from 'recoil';
-import {currentOrgAtom} from '^atoms/organizations.atom';
+import {currentOrgAtom} from '^models/Organization/atom';
 import {BottomNavItem} from '^v3/share/BottomNavMobile/BottomNavItem';
 import {FaGear, FaHouse, FaKey, FaRegCalendarCheck, FaUsers} from 'react-icons/fa6';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';

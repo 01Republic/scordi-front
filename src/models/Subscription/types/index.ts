@@ -1,5 +1,5 @@
 import {ProductDto} from '^models/Product/type';
-import {OrganizationDto} from '^types/organization.type';
+import {OrganizationDto} from '^models/Organization/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {SubscriptionPaymentPlanDto} from '^models/Subscription/types/paymentPlanType';
 import {

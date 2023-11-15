@@ -5,7 +5,7 @@ import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {currentOrgAtom} from '^atoms/organizations.atom';
+import {currentOrgAtom} from '^models/Organization/atom';
 import {invitedEmailsAtom} from '^models/TeamMember/atom';
 import {InviteEmailInput} from './InviteEmailInput';
 import {FieldValues, useForm} from 'react-hook-form';

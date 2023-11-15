@@ -1,4 +1,4 @@
-import {OrganizationDto} from '^types/organization.type';
+import {OrganizationDto} from '^models/Organization/type';
 import {UserDto} from '^models/User/types';
 import {TeamDto} from '^models/Team/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';

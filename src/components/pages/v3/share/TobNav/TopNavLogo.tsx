@@ -3,7 +3,7 @@ import {useRouter} from 'next/router';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import Image from 'next/image';
 import {useRecoilValue} from 'recoil';
-import {currentOrgAtom} from '^atoms/organizations.atom';
+import {currentOrgAtom} from '^models/Organization/atom';
 import {UserLoginPageRoute} from '^pages/users/login';
 
 export const TopNavLogo = memo(() => {

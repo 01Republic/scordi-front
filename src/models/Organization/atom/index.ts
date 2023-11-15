@@ -1,8 +1,8 @@
 import {atom, selector} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {errorNotify} from '^utils/toast-notify';
-import {OrganizationDto} from '^types/organization.type';
-import {organizationApi} from '^api/organization.api';
+import {OrganizationDto} from '^models/Organization/type';
+import {organizationApi} from '^models/Organization/api';
 
 export const currentOrgAtom = atom<OrganizationDto | null>({
     key: 'currentOrgAtom',

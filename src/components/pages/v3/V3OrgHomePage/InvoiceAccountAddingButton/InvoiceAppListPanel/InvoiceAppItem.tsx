@@ -6,7 +6,7 @@ import {selectedInvoiceAccountAtom} from './index';
 import {SwitchCheckbox} from '^components/SwitchCheckbox';
 import {useForm} from 'react-hook-form';
 import {invoiceAppApi} from '^models/InvoiceApp/api';
-import {currentOrgAtom} from '^atoms/organizations.atom';
+import {currentOrgAtom} from '^models/Organization/atom';
 
 interface InvoiceAppItemProps {
     invoiceApp: InvoiceAppDto;

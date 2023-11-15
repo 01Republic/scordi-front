@@ -1,7 +1,7 @@
 import {atom, selector} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {errorNotify} from '^utils/toast-notify';
-import {OrganizationDto} from '^types/organization.type';
+import {OrganizationDto} from '^models/Organization/type';
 import {currentUserAtom} from '^models/User/atom';
 import {Paginated} from '^types/utils/paginated.dto';
 import {MembershipDto} from '^models/Membership/type';

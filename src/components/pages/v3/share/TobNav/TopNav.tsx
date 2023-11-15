@@ -13,7 +13,7 @@ import {AiOutlineHome} from '@react-icons/all-files/ai/AiOutlineHome';
 import {AiFillSetting} from '@react-icons/all-files/ai/AiFillSetting';
 import {AiFillAppstore} from '@react-icons/all-files/ai/AiFillAppstore';
 import {useRecoilValue} from 'recoil';
-import {currentOrgAtom} from '^atoms/organizations.atom';
+import {currentOrgAtom} from '^models/Organization/atom';
 import {TopNavOrgSelect} from '^v3/share/TobNav/TopNavOrgSelect';
 
 export const V3TopNav = memo(() => {

@@ -1,12 +1,12 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilState} from 'recoil';
-import {currentOrgAtom} from '^atoms/organizations.atom';
+import {currentOrgAtom} from '^models/Organization/atom';
 import {useForm} from 'react-hook-form';
-import {UpdateOrganizationRequestDto} from '^types/organization.type';
+import {UpdateOrganizationRequestDto} from '^models/Organization/type';
 import {EditFormSection} from '^v3/share/EditFormSection';
 import {InputText} from '^v3/V3OrgSettingsPage/InputText';
 import {AddressInput} from '^v3/V3OrgSettingsPage/AddressInput';
-import {organizationApi} from '^api/organization.api';
+import {organizationApi} from '^models/Organization/api';
 
 export const OrgEditFormSection = memo(() => {
     const [currentOrg, setCurrentOrg] = useRecoilState(currentOrgAtom);

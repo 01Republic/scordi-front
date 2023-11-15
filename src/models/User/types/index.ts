@@ -1,7 +1,7 @@
 import {UsersSocialAccountDto} from '^models/User/types/userSocialAccount';
-import {MembershipDto} from '^models/Membership/type/membership.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';
+import {MembershipDto} from '^models/Membership/type';
 
 export type UserSignUpRequestDto = {
     name: string;

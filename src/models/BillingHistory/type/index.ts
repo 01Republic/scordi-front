@@ -1,6 +1,6 @@
 import {TypeCast} from '^types/utils/class-transformer';
 import {CreateMoneyRequestDto, Currency, CurrencyList, MoneyDto} from '^types/money.type';
-import {OrganizationDto} from '^types/organization.type';
+import {OrganizationDto} from '^models/Organization/type';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {InvoiceAppDto} from '^models/InvoiceApp/type';
 import {CreditCardDto} from '^models/CreditCard/type';

@@ -1,10 +1,10 @@
-import {api} from './api';
+import {api} from '^api/api';
 import {
     CreateOrganizationRequestDto,
     OrganizationDto,
     SearchOrgQueryDto,
     UpdateOrganizationRequestDto,
-} from '^types/organization.type';
+} from '^models/Organization/type';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {Paginated} from '^types/utils/paginated.dto';

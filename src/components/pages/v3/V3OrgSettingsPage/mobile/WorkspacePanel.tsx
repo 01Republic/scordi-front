@@ -3,7 +3,7 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {MobileInfoListItem} from '../../share/MobileInfoList/Item';
 import {MobileInfoList} from '../../share/MobileInfoList';
 import {useRecoilValue} from 'recoil';
-import {currentOrgAtom} from '^atoms/organizations.atom';
+import {currentOrgAtom} from '^models/Organization/atom';
 import {ApprovalStatus, MembershipLevel} from '^models/Membership/type';
 import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 

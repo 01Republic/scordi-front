@@ -1,9 +1,9 @@
 import {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
-import {UserManager} from '^models/User/manager/manager';
 import {CardTablePanel} from '^admin/share';
 import {UserItem} from './UserItem';
+import {UserManager} from '^models/User/manager';
 
 export const UserListTabContent = memo(() => {
     const org = useRecoilValue(adminOrgDetail);

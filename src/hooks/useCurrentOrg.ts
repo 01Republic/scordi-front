@@ -1,9 +1,9 @@
 import {useEffect, useState} from 'react';
 import {UserDto} from '^models/User/types';
-import {OrganizationDto} from '^types/organization.type';
+import {OrganizationDto} from '^models/Organization/type';
 import {useRecoilState} from 'recoil';
-import {currentOrgAtom} from '^atoms/organizations.atom';
-import {organizationApi} from '^api/organization.api';
+import {currentOrgAtom} from '^models/Organization/atom';
+import {organizationApi} from '^models/Organization/api';
 
 export function useCurrentOrg(id: number) {
     const [currentOrg, setCurrentOrg] = useRecoilState(currentOrgAtom);
