@@ -1,13 +1,6 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo} from 'react';
 import {useGoogleLogin} from '@react-oauth/google';
-import {useGoogleLoginSuccessHandler} from '^hooks/useGoogleLoginSuccessHandler';
-import {useGoogleAccessTokenCallback} from '^hooks/useGoogleAccessToken';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {GmailAgent, GoogleAccessTokenData, googleAuthForGmail} from '^api/tasting.api';
-import {UserLoginPageRoute} from '^pages/users/login';
-import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
-import {getCreateInvoiceAccountFromTo} from '^models/InvoiceAccount/type';
-import {createInvoiceAccount} from '^api/invoiceAccount.api';
+import {useSetRecoilState} from 'recoil';
 import {useGoogleLoginSuccessHandler2} from '^hooks/useGoogleLoginSuccessHandler2';
 import {googleCodeAtom} from '^components/pages/UsersLogin/atom';
 

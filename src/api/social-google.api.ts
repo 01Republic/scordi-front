@@ -1,11 +1,11 @@
 import {api} from '^api/api';
+import {oneDtoOf} from '^types/utils/response-of';
 import {
     JwtContainer,
     UserDto,
     UserGoogleSocialSignUpInvitedRequestDto,
     UserGoogleSocialSignUpRequestDtoV2,
-} from '^types/user.type';
-import {oneDtoOf} from '^types/utils/response-of';
+} from '^models/User/types';
 
 export const userSocialGoogleApi = {
     google(code: string) {

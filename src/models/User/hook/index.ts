@@ -145,7 +145,7 @@ export const useSocialLoginV2 = () => {
         return userSocialGoogleApi
             .google(code)
             .then(({data: {token}}) => setToken(token))
-            .then(() => getUserSession())
+            .then(() => userSessionApi.index())
             .then(({data: user}) => {
                 setCurrentUser(user);
                 if (href) router.push(href);
