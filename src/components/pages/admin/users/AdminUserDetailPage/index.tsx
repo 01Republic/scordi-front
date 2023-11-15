@@ -1,8 +1,8 @@
 import {Fragment, memo, useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {atom, useRecoilState, useRecoilValue} from 'recoil';
-import {UserDto} from '^types/user.type';
-import {userManageApi} from '^api/user-manage.api';
+import {UserDto} from '^models/User/types';
+import {userManageApi} from '^models/User/api';
 import {AdminUsersPageRoute} from '^pages/admin/users';
 import {ContentTabNav} from '^layouts/ContentLayout';
 import {AdminDetailPageLayout} from '^admin/layouts';

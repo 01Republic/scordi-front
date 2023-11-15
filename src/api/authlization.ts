@@ -1,5 +1,5 @@
 import {api} from './api';
-import {SendPhoneAuthMessageDto} from '^types/user.type';
+import {SendPhoneAuthMessageDto} from '^models/User/types';
 
 export const postPhoneAuthSession = (data: SendPhoneAuthMessageDto) => {
     return api.post<boolean>('/users/auth/phone-auth-session', data);

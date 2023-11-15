@@ -1,7 +1,7 @@
 import {memo} from 'react';
-import {JwtContainer} from '^types/user.type';
+import {JwtContainer} from '^models/User/types';
 import {api, setToken} from '^api/api';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {useForm} from 'react-hook-form';
 import {userSessionApi} from '^api/session.api';
 

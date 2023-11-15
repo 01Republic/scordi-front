@@ -1,6 +1,6 @@
 import {atom} from 'recoil';
 import {GmailParsedItem, GoogleAccessTokenData} from '^api/tasting.api';
-import {GoogleSignedUserData} from '^atoms/currentUser.atom';
+import {GoogleSignedUserData} from '^models/User/atom';
 import {Currency} from '^types/crawler';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {BillingHistoryDto} from '^models/BillingHistory/type';

@@ -4,7 +4,7 @@ import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^atoms/organizations.atom';
 import {BiChevronDown} from '@react-icons/all-files/bi/BiChevronDown';
 import {Avatar} from '^components/Avatar';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {useCurrentUserMemberships} from '^hooks/useMemberships';
 import {useRouter} from 'next/router';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';

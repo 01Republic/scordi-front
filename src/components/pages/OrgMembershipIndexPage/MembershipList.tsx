@@ -3,7 +3,7 @@ import {ContentPanelPreloader} from '^layouts/ContentLayout';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {Paginated} from '^types/utils/paginated.dto';
 import {MembershipDto} from '^types/membership.type';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {MemberListItem} from './MemberListItem';
 import {membershipApi} from '^api/membership.api';
 

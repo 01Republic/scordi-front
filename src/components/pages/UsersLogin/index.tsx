@@ -1,8 +1,8 @@
 import React, {memo, useState} from 'react';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import {useForm} from 'react-hook-form';
-import {UserLoginRequestDto} from '^types/user.type';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {UserLoginRequestDto} from '^models/User/types';
+import {useCurrentUser} from '^models/User/hook';
 import {Modal} from '^components/Modal';
 import {GoogleLoginBtn} from './GoogleLoginBtn';
 import {TextInput} from '^components/TextInput';

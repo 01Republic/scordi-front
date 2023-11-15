@@ -8,7 +8,7 @@ import {SubscriptionDto} from 'src/models/Subscription/types';
 import {intlDateLong} from '^utils/dateTime';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {subscriptionApi} from '^models/Subscription/api';
 import {appBillingHistoryApi} from '^models/BillingHistory/api';
 import {BillingHistoryDto} from '^models/BillingHistory/type';

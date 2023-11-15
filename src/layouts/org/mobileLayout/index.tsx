@@ -8,9 +8,9 @@ import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {UserSettingsPageRoute} from '^pages/users/settings';
 import {AppSearchPageRoute} from '^pages/apps/search';
 import Image from 'next/image';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {useRecoilState} from 'recoil';
-import {currentUserAtom} from '^atoms/currentUser.atom';
+import {currentUserAtom} from '^models/User/atom';
 import {UserLoginPageRoute} from '^pages/users/login';
 import {userSessionApi} from '^api/session.api';
 

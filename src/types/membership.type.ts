@@ -1,4 +1,4 @@
-import {UserDto} from '^types/user.type';
+import {UserDto} from '^models/User/types';
 import {OrganizationDto} from '^types/organization.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';

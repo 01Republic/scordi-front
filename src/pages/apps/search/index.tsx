@@ -10,7 +10,7 @@ import {SubscriptionDto} from 'src/models/Subscription/types';
 import {DefaultButton} from '^components/Button';
 import {ApplyPageRoute} from '^pages/apps/apply';
 import {toast} from 'react-toastify';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {ServiceSuggestList} from '^components/ServiceSuggestList';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import OrgMobileLayout from '^layouts/org/mobileLayout';

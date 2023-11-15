@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {UserEditPageRoute} from '^pages/users/edit';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 
 export const ProfileDropDown = memo(() => {
     const {currentUser, logout} = useCurrentUser();

@@ -1,7 +1,7 @@
 import {memo} from 'react';
 import {Avatar} from '^components/Avatar';
 import {CardTableTR} from '^admin/share';
-import {UserDto} from '^types/user.type';
+import {UserDto} from '^models/User/types';
 
 interface UserItemProps {
     user: UserDto;

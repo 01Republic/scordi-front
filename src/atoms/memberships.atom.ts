@@ -2,7 +2,7 @@ import {atom, selector} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {errorNotify} from '^utils/toast-notify';
 import {OrganizationDto} from '^types/organization.type';
-import {currentUserAtom} from '^atoms/currentUser.atom';
+import {currentUserAtom} from '^models/User/atom';
 import {Paginated} from '^types/utils/paginated.dto';
 import {MembershipDto} from '^types/membership.type';
 

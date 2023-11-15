@@ -21,7 +21,7 @@ import {ProfileImageFileInput} from '^components/ProfileImageFileInput';
 import {organizationApi} from '^api/organization.api';
 import {errorNotify, successNotify} from '^utils/toast-notify';
 import {toast} from 'react-toastify';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {MembershipLevel} from '^types/membership.type';
 
 export const OrgShowRoute = pathRoute({

@@ -1,5 +1,5 @@
 import {BasicManager} from '^models/BasicManager';
-import {UserDto} from '^types/user.type';
+import {UserDto} from '^models/User/types';
 
 export class UserManager extends BasicManager<UserDto> {
     exceptAdmin() {

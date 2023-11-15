@@ -1,6 +1,6 @@
 import {BiBlock, BiBot, BiCheckCircle, BiError} from '^components/react-icons';
 import {SubscriptionDto} from '^models/Subscription/types';
-import {UserDto} from '^types/user.type';
+import {UserDto} from '^models/User/types';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
 export enum SyncHistoryResultStatus {

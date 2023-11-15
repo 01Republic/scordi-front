@@ -3,7 +3,7 @@ import {WithChildren} from '^types/global.type';
 import {FiMenu} from '@react-icons/all-files/fi/FiMenu';
 import {AdminSideBar} from './AdminSideBar';
 import {atom, useRecoilState, useSetRecoilState} from 'recoil';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {useRouter} from 'next/router';
 
 interface AdminPageLayoutProps extends WithChildren {}

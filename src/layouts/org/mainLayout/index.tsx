@@ -10,7 +10,7 @@ import {OrgBar} from '^layouts/org/mainLayout/OrgBar';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {ApprovalStatus, MembershipLevel} from '^types/membership.type';
 import {PreLoader} from '^components/PreLoader';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {WebPush2} from '^components/webPush/WebPush2';
 
 interface OrgMainLayoutProps {

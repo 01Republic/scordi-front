@@ -1,4 +1,4 @@
-import {UserDto} from '^types/user.type';
+import {UserDto} from '^models/User/types';
 import {TypeCast} from '^types/utils/class-transformer';
 
 export class UsersSocialAccountDto {

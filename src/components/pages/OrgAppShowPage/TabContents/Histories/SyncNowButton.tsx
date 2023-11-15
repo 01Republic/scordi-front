@@ -5,7 +5,7 @@ import {
     SyncHistoryDto,
     restartSyncButtonIsActive,
 } from '^models/SubscriptionSyncHistory/type/subscriptionSyncHistory.type';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {useCurrentSyncHistory, useSyncHistoryList} from '^models/SubscriptionSyncHistory/hook';
 import {toast} from 'react-toastify';
 import {useCurrentSubscription} from '^models/Subscription/hook';

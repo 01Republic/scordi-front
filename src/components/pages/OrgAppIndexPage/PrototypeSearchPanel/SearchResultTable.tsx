@@ -7,7 +7,7 @@ import {useProductSearch} from '^models/Product/hook';
 import {OrgProtoDetailPageRoute} from 'src/pages/orgs/[id]/products/[productId]';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
-import {currentUserAtom} from '^atoms/currentUser.atom';
+import {currentUserAtom} from '^models/User/atom';
 import {GoPlug} from '^components/react-icons';
 import {editingProtoTargetState} from '^components/pages/OrgAppIndexPage/modals/PrototypeEditModal';
 import {errorNotify} from '^utils/toast-notify';

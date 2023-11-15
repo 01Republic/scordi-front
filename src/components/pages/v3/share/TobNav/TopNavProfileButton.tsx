@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {UserAvatar} from '^v3/share/UserAvatar';
 import {AiOutlineSetting} from '@react-icons/all-files/ai/AiOutlineSetting';
 import {AiOutlineQuestionCircle} from '@react-icons/all-files/ai/AiOutlineQuestionCircle';

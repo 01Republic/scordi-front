@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {OrgInfo} from './OrgInfo';
 import {ProfileDropDown} from './ProfileDropDown';
 import {TbLayoutSidebarLeftCollapse, TbLayoutSidebarRightCollapse} from '^components/react-icons';

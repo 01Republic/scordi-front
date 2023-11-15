@@ -22,7 +22,7 @@ import {BillingHistoriesPageModal} from '^v3/V3OrgBillingHistoriesPage/modals/Bi
 import {BillingHistoryDetailModal} from '^v3/share/modals/BillingHistoryDetailModal';
 import {NewInvoiceAccountModalMobile} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/mobile';
 import {BottomTabIndex} from '^v3/share/BottomNavMobile';
-import {currentUserAtom} from '^atoms/currentUser.atom';
+import {currentUserAtom} from '^models/User/atom';
 import {TopNavProfileButton} from '^v3/share/TobNav/TopNavProfileButton';
 import {TopNavOrgSelect} from '^v3/share/TobNav/TopNavOrgSelect';
 import {RenewInvoiceAccountModalMobile} from '^v3/V3OrgHomePage/RenewInvoiceAccountModal/mobile';

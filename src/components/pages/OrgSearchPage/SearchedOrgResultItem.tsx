@@ -3,7 +3,7 @@ import {MembershipLevel} from '^types/membership.type';
 import {JoinOrgRoute} from '^pages/orgs/joinOrg';
 import {errorNotify} from '^utils/toast-notify';
 import {useRouter} from 'next/router';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {OrganizationDto} from '^types/organization.type';
 import {orgIdParamState} from '^atoms/common';
 import {useRecoilState, useSetRecoilState} from 'recoil';

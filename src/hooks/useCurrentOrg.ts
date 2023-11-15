@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {UserDto} from '^types/user.type';
+import {UserDto} from '^models/User/types';
 import {OrganizationDto} from '^types/organization.type';
 import {useRecoilState} from 'recoil';
 import {currentOrgAtom} from '^atoms/organizations.atom';

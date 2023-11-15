@@ -5,7 +5,7 @@ import {ConnectStatus} from 'src/models/Subscription/types';
 import {navTabIndex} from './OrgAppShowPage.desktop';
 import {useCurrentSubscription} from '^models/Subscription/hook';
 import {toast} from 'react-toastify';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {useCurrentSyncHistory, useSyncHistoryList} from '^models/SubscriptionSyncHistory/hook';
 import {syncHistory} from '^models/SubscriptionSyncHistory/api';
 

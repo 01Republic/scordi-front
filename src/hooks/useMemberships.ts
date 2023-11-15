@@ -1,5 +1,5 @@
 import {useRecoilState} from 'recoil';
-import {currentUserMembershipAtom, getCurrentUserMembershipsQuery} from '^atoms/currentUser.atom';
+import {currentUserMembershipAtom, getCurrentUserMembershipsQuery} from '^models/User/atom';
 import {useCallback, useEffect, useState} from 'react';
 import {FindAllMembershipQuery, MembershipDto} from '^types/membership.type';
 import {orgMembershipSearchResultAtom} from '^atoms/memberships.atom';

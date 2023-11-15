@@ -1,6 +1,5 @@
-import {CreateOrganizationRequestDto, OrganizationDto} from '^types/organization.type';
+import {UsersSocialAccountDto} from '^models/User/types/userSocialAccount';
 import {MembershipDto} from '^types/membership.type';
-import {UsersSocialAccountDto} from '^types/users-social-account.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';
 

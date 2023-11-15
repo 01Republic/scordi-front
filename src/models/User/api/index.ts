@@ -1,6 +1,6 @@
 import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
-import {FindAllUserByAdminDto, UserDto} from '^types/user.type';
+import {FindAllUserByAdminDto, UserDto} from '^models/User/types';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 
 export const userManageApi = {

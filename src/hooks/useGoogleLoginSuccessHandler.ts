@@ -1,9 +1,9 @@
 import {useRouter} from 'next/router';
-import {GoogleSignedUserData} from '^atoms/currentUser.atom';
-import {UserDto} from '^types/user.type';
+import {GoogleSignedUserData} from '^models/User/atom';
+import {UserDto} from '^models/User/types';
 import {getGoogleUserData, userSessionApi} from '^api/session.api';
 import {setToken} from '^api/api';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
 import {inviteMembershipApi} from '^api/membership.api';
 import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';

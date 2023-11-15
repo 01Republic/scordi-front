@@ -1,15 +1,15 @@
 import React, {useEffect} from 'react';
 import {pathRoute} from '^types/pageRoute.type';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {TextInput} from '^components/TextInput';
 import {useForm} from 'react-hook-form';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {MobileTopNav, MobileViewContainer} from '^components/MobileTopNav';
 import {DefaultButton} from '^components/Button';
-import {UserDto, UserEditProfileRequestDto} from '^types/user.type';
+import {UserDto, UserEditProfileRequestDto} from '^models/User/types';
 import {toast} from 'react-toastify';
 import {useRecoilState} from 'recoil';
-import {currentUserAtom} from '^atoms/currentUser.atom';
+import {currentUserAtom} from '^models/User/atom';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 import {user} from '^api/session.api';
 

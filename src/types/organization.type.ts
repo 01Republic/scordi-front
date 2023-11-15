@@ -1,4 +1,4 @@
-import {UserDto} from '^types/user.type';
+import {UserDto} from '^models/User/types';
 import {MembershipDto} from './membership.type';
 import {TypeCast} from '^types/utils/class-transformer';
 

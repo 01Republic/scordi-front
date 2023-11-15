@@ -1,5 +1,5 @@
 import {atom, useRecoilCallback} from 'recoil';
-import {SendPhoneAuthMessageDto} from '^types/user.type';
+import {SendPhoneAuthMessageDto} from '^models/User/types';
 import {patchPhoneAuthSession, postPhoneAuthSession} from '^api/authlization';
 import {toast} from 'react-toastify';
 import {useTranslation} from 'next-i18next';

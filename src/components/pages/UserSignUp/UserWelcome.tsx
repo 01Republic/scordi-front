@@ -2,7 +2,7 @@ import Image from 'next/image';
 import {useRouter} from 'next/router';
 import {memo} from 'react';
 import {DefaultButton} from '^components/Button';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {OrgSearchRoute} from '^pages/orgs/search';
 
 export const UserWelcomePage = memo(() => {

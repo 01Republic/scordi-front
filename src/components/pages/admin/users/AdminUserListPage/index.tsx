@@ -1,5 +1,5 @@
 import {memo, useEffect} from 'react';
-import {userManageApi} from '^api/user-manage.api';
+import {userManageApi} from '^models/User/api';
 import {UserItem} from './UserItem';
 import {AdminListPageLayout} from '^components/pages/admin/layouts/ListPageLayout';
 import {useListPageSearchForm} from '^admin/share/list-page/use-list-page-search-form';

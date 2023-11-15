@@ -3,7 +3,7 @@ import {
     UserSocialSignUpInvitedRequestDto,
     UsersWebpushRegisterDto,
     UsersWebpushTestDto,
-} from './../types/user.type';
+} from '^models/User/types';
 import {
     JwtContainer,
     UserDto,
@@ -11,10 +11,10 @@ import {
     UserLoginRequestDto,
     UserSocialLoginRequestDto,
     UserSocialSignUpRequestDto,
-} from '^types/user.type';
+} from '^models/User/types';
 import {api} from './api';
 import axios from 'axios';
-import {GoogleSignedUserData} from '^atoms/currentUser.atom';
+import {GoogleSignedUserData} from '^models/User/atom';
 
 export const userSessionApi = {
     index: () => {
