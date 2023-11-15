@@ -4,10 +4,10 @@ import {useCallback, useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {dayAfter} from '^utils/dateTime';
 import {errorNotify} from '^utils/toast-notify';
-import {getBillingHistories, getBillingSchedules} from '^api/billing.api';
+import {getBillingHistories} from '^models/BillingHistory/api';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {billingHistoriesState} from '^atoms/billingHistories.atom';
-import {billingSchedulesState} from '^atoms/billingSchedules.atom';
+import {billingSchedulesState} from '^models/BillingSchedule/atom';
 import {calendarSelectedDateState} from '^atoms/calendarData.atom';
 import {
     billingListEndDateAtom,
@@ -16,8 +16,10 @@ import {
     billingListStartDateAtom,
 } from '^atoms/billingList.atom';
 import {BillingHistoryManager} from '^models/BillingHistory';
-import {BillingScheduleManager, exceptBilledSchedules} from '^models/BillingSchedule';
-import {GetBillingHistoriesParams, GetBillingSchedulesParams} from '^types/billing.type';
+import {BillingScheduleManager, exceptBilledSchedules} from '^models/BillingSchedule/manager';
+import {GetBillingHistoriesParams} from '^types/billing.type';
+import {getBillingSchedules} from '^models/BillingSchedule/api';
+import {GetBillingSchedulesParams} from '^models/BillingSchedule/type';
 
 // 결제내역과 결제예정내역을 통합 조회합니다.
 // 기존 함수가 페이지네이션 기능과 특정일 이상의 날짜범위 검색을 추가하기에 적절하지 않은 구조로 되어있어

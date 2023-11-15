@@ -3,7 +3,7 @@ import {useRouter} from 'next/router';
 import {useCreateFlow} from '^models/Product/hook';
 import {useForm} from 'react-hook-form';
 import {CreateBillingHistoryRequestDto as CreateDto} from '^types/billing.type';
-import {createAppsBillingHistory, createAppsByBillingHistory} from '^api/billing.api';
+import {createAppsBillingHistory, createAppsByBillingHistory} from '^models/BillingHistory/api';
 import {NewAppCreatedPageRoute} from '^pages/orgs/[id]/apps/new/created';
 import {errorNotify} from '^utils/toast-notify';
 import {MobileSection} from '^components/v2/MobileSection';

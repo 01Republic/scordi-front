@@ -1,7 +1,7 @@
 import {atom, selector} from 'recoil';
 import {errorNotify} from '^utils/toast-notify';
 import {billingHistoryIdParamState} from '^atoms/common';
-import {getBillingHistories, getBillingHistory} from '^api/billing.api';
+import {getBillingHistories, getBillingHistory} from '^models/BillingHistory/api';
 import {Paginated} from '^types/utils/paginated.dto';
 import {BillingHistoryDto, GetBillingHistoriesParams} from '^types/billing.type';
 

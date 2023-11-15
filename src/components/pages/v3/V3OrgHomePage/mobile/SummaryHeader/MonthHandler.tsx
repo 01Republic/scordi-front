@@ -5,7 +5,7 @@ import {BiCaretLeft, BiCaretRight} from 'react-icons/bi';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {useBillingHistoriesV3} from '^hooks/useBillingHistories';
-import {useBillingSchedulesV3} from '^hooks/useBillingSchedules';
+import {useBillingSchedulesV3} from '^models/BillingSchedule/hook';
 
 export const asStartDate = (date: Date) => firstDayOfMonth(date).toISOString();
 export const asEndDate = (date: Date) => lastDayOfMonth(date).toISOString();

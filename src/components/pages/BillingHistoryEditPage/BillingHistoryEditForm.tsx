@@ -3,7 +3,7 @@ import {WithChildren} from '^types/global.type';
 import {useForm, UseFormReturn} from 'react-hook-form';
 import {UpdateBillingHistoryRequestDto} from '^types/billing.type';
 import {BillingHistoryShowPageRoute} from '^pages/orgs/[id]/apps/[appId]/billingHistories/[billingHistoryId]';
-import {updateBillingHistory} from '^api/billing.api';
+import {updateBillingHistory} from '^models/BillingHistory/api';
 import {errorNotify} from '^utils/toast-notify';
 import {useRouter} from 'next/router';
 import {billingHistoryIdParamState, useRouterIdParamState} from '^atoms/common';

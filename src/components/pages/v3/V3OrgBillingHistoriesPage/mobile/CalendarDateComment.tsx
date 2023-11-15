@@ -1,12 +1,13 @@
 import React, {memo} from 'react';
 import {yyyy_mm_dd} from '^utils/dateTime';
 import {BillingHistoryManager} from '^models/BillingHistory';
-import {BillingScheduleManager} from '^models/BillingSchedule';
+import {BillingScheduleManager} from '^models/BillingSchedule/manager';
 import {currencyFormat} from '^utils/number';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
 import {getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
-import {BillingHistoryDto, BillingScheduleShallowDto} from '^types/billing.type';
+import {BillingHistoryDto} from '^types/billing.type';
+import {BillingScheduleShallowDto} from '^models/BillingSchedule/type';
 
 interface CalendarDateCommentProps {
     date: Date;

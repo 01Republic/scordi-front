@@ -1,8 +1,8 @@
 import {atom, selector} from 'recoil';
 import {errorNotify} from '^utils/toast-notify';
-import {getBillingSchedules} from '^api/billing.api';
+import {getBillingSchedules} from '^models/BillingSchedule/api';
 import {Paginated} from '^types/utils/paginated.dto';
-import {BillingScheduleShallowDto as ScheduleDto, GetBillingSchedulesParams} from '^types/billing.type';
+import {BillingScheduleShallowDto as ScheduleDto, GetBillingSchedulesParams} from '^models/BillingSchedule/type';
 
 /**
  * Billing Schedule

@@ -12,7 +12,7 @@ import {toast} from 'react-toastify';
 import {ConnectResultDto, ConnectResultResponseDto} from '^types/crawler/connect-result-response.dto';
 import {workspaceApi, workspaceMemberApi} from '^api/workspace.api';
 import {subscriptionApi} from '^models/Subscription/api';
-import {billingHistoryApi} from '^api/billing.api';
+import {billingHistoryApi} from '^models/BillingHistory/api';
 
 // 연동 모달의 활성화 여부
 export const connectProductModalState = atom({

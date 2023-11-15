@@ -6,7 +6,7 @@ import {CreateBillingHistoryStandAloneRequestDto as CreateDto} from '^types/bill
 import {MobileSection} from '^components/v2/MobileSection';
 import {yyyy_mm_dd} from '^utils/dateTime';
 import {MobileBottomNav} from '^components/v2/MobileBottomNav';
-import {createAppsByBillingHistory} from '^api/billing.api';
+import {createAppsByBillingHistory} from '^models/BillingHistory/api';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {errorNotify} from '^utils/toast-notify';
 import {NewAppCreatedPageRoute} from '^pages/orgs/[id]/apps/new/created';

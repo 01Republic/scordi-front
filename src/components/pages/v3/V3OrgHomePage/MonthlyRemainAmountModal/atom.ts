@@ -1,5 +1,5 @@
 import {atom} from 'recoil';
-import {BillingScheduleShallowDto} from '^types/billing.type';
+import {BillingScheduleShallowDto} from '^models/BillingSchedule/type';
 
 export const monthlyRemainAmountModal = {
     isShowAtom: atom({

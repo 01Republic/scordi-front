@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {getBillingHistories, getBillingHistory} from '^api/billing.api';
+import {getBillingHistories, getBillingHistory} from '^models/BillingHistory/api';
 import {useModal} from '^v3/share/modals/useModal';
 import {GetBillingHistoriesParams} from '^types/billing.type';
 import {BillingHistoryManager} from '^models/BillingHistory';

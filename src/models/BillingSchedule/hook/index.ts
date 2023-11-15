@@ -1,13 +1,13 @@
 import {RecoilState, useRecoilState, useRecoilValue} from 'recoil';
-import {BillingScheduleShallowDto as ScheduleDto, GetBillingSchedulesParams} from '^types/billing.type';
-import {getBillingSchedules} from '^api/billing.api';
+import {getBillingSchedules} from '^models/BillingSchedule/api';
 import {
     getBillingSchedulesQuery,
     orgBillingSchedulesQueryV3Atom,
     orgBillingSchedulesResultV3Atom,
-} from '^atoms/billingSchedules.atom';
+} from '^models/BillingSchedule/atom';
 import {Paginated} from '^types/utils/paginated.dto';
 import {useState} from 'react';
+import {BillingScheduleShallowDt as ScheduleDto, GetBillingSchedulesParams} from '^models/BillingSchedule/type';
 
 export const useBillingSchedules = () => useRecoilValue(getBillingSchedulesQuery);
 

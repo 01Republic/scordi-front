@@ -2,7 +2,7 @@ import {MobileViewContainer} from '^components/MobileTopNav';
 import {SummaryListItem} from '^components/summaryListItem';
 import Image from 'next/image';
 import React, {useEffect, useState} from 'react';
-import {getAppsBillingHistory} from '^api/billing.api';
+import {getAppsBillingHistory} from '^models/BillingHistory/api';
 import {useRouter} from 'next/router';
 import {errorNotify} from '^utils/toast-notify';
 import {BillingHistoryDto} from '^types/billing.type';

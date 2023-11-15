@@ -1,9 +1,10 @@
 import {BasicManager} from '^models/BasicManager';
-import {BillingHistoryDto, BillingScheduleShallowDto} from '^types/billing.type';
+import {BillingHistoryDto} from '^types/billing.type';
 import {Currency} from '^types/money.type';
 import {groupBy, yyyy_mm_dd} from '^utils/dateTime';
 import {dateSortBy} from '^components/util/date';
 import {uniqWith} from 'lodash';
+import {BillingScheduleShallowDto} from '^models/BillingSchedule/type';
 
 export class BillingScheduleManager extends BasicManager<BillingScheduleShallowDto> {
     /**

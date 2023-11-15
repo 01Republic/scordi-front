@@ -2,7 +2,7 @@ import {memo, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {useCurrentSubscription} from '^models/Subscription/hook';
 import {BillingHistoryDto} from '^types/billing.type';
-import {getBillingHistories} from '^api/billing.api';
+import {getBillingHistories} from '^models/BillingHistory/api';
 import {errorNotify} from '^utils/toast-notify';
 import {
     ContentPanel,

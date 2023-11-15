@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {RecoilState, useRecoilState, useRecoilValue} from 'recoil';
 import {Paginated} from '^types/utils/paginated.dto';
 import {BillingHistoryDto, GetBillingHistoriesParams} from '^types/billing.type';
-import {getBillingHistories} from '^api/billing.api';
+import {getBillingHistories} from '^models/BillingHistory/api';
 import {
     getBillingHistoriesQuery,
     getBillingHistoryQuery,

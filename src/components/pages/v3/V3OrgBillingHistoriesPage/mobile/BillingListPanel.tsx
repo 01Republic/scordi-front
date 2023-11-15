@@ -1,11 +1,12 @@
 import React, {memo} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {useBillingListV3} from '^hooks/useBillingList';
-import {BillingHistoryDto, BillingScheduleShallowDto} from '^types/billing.type';
+import {BillingHistoryDto} from '^types/billing.type';
 import {plainToInstance} from 'class-transformer';
 import {DayGroupedList} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryListView/DayGroupedList';
 import {HistoryItem} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryListView/HistoryItem';
 import {ScheduleItem} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryListView/ScheduleItem';
+import {BillingScheduleShallowDto} from '^models/BillingSchedule/type';
 
 class BillingListManager {
     groupedHistories: Record<string, BillingHistoryDto[]>;
