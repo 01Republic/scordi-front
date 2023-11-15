@@ -1,6 +1,6 @@
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {PostTagDto} from '^types/post-tag.type';
-import {PostAuthorDto} from '^types/post-author.type';
+import {PostAuthorDto} from '^models/Post/type/authorType';
 import {ProductDto} from '^models/Product/type';
 
 export class PostDto {

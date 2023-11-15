@@ -4,10 +4,10 @@ import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {publicPageRequires} from '^types/utils/18n.type';
 import {BlogPostDetailPage} from '^components/pages/blog/BlogPostDetailPage';
 import {NextPageContext} from 'next';
-import {showStaticPost} from '^api/post.api';
-import {PostDto} from '^types/post.type';
+import {PostDto} from '^models/Post/type';
 import {useRouter} from 'next/router';
 import {atom, useSetRecoilState} from 'recoil';
+import {showStaticPost} from '^models/Post/api';
 
 export const PostDetailPageRoute = pathRoute({
     pathname: '/posts/[id]',

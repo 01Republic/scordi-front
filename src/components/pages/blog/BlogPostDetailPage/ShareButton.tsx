@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {usePost} from '^hooks/usePosts';
+import {usePost} from '^models/Post/hook';
 import {BiLink} from 'react-icons/bi';
 import {toast} from 'react-toastify';
 import {CopyToClipboard} from 'react-copy-to-clipboard';

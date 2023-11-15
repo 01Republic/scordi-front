@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {usePost} from '^hooks/usePosts';
+import {usePost} from '^models/Post/hook';
 import {dateIsBeforeThen, yyyy_mm_dd} from '^utils/dateTime';
 
 export const BlogPostDetailHeader = memo(() => {

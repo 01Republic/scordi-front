@@ -1,7 +1,7 @@
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {SubscriptionPaymentPlanDto} from '^models/Subscription/types/paymentPlanType';
 import {SubscriptionBillingCycleDto} from '^models/Subscription/types/billingCycleType';
-import {PostDto} from '^types/post.type';
+import {PostDto} from '^models/Post/type';
 import {TagDto} from '^models/Tag/type';
 import {TypeCast} from '^types/utils/class-transformer';
 

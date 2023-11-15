@@ -1,6 +1,6 @@
 import {memo} from 'react';
-import {PostAuthorDto} from '^types/post-author.type';
-import {PostDto} from '^types/post.type';
+import {PostAuthorDto} from '^models/Post/type/authorType';
+import {PostDto} from '^models/Post/type';
 
 interface AuthorCardProps {
     post: PostDto;

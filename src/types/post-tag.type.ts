@@ -1,4 +1,4 @@
-import {PostDto} from '^types/post.type';
+import {PostDto} from '^models/Post/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
 export type PostTagDto = {

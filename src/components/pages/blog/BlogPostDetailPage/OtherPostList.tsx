@@ -1,6 +1,6 @@
 import {memo, useEffect} from 'react';
 import {OtherPostItem} from './OtherPostItem';
-import {usePosts} from '^hooks/usePosts';
+import {usePosts} from '^models/Post/hook';
 import {useRouter} from 'next/router';
 import {PostItem} from '^components/pages/blog/BlogPostListPage/PostItem';
 

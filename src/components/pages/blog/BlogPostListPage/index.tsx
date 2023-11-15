@@ -1,6 +1,6 @@
 import React, {memo, useEffect} from 'react';
 import {useRouter} from 'next/router';
-import {usePosts, useRecentPost} from '^hooks/usePosts';
+import {usePosts, useRecentPost} from '^models/Post/hook';
 import {BlogPostListHeader} from './BlogPostListHeader';
 import {BlogPostListBody} from './BlogPostListBody';
 import {BetaServiceFooter} from '^components/pages/LandingPages/components';

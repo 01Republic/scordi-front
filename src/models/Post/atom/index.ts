@@ -1,6 +1,6 @@
 import {atom} from 'recoil';
 import {Paginated} from '^types/utils/paginated.dto';
-import {FindAllPostQueryDto, PostDto} from '^types/post.type';
+import {FindAllPostQueryDto, PostDto} from '^models/Post/type';
 
 export const getPostListQueryAtom = atom<FindAllPostQueryDto>({
     key: 'postListQueryAtom',

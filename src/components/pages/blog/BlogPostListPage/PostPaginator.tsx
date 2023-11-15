@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {Paginator} from '^components/Paginator';
-import {usePosts} from '^hooks/usePosts';
+import {usePosts} from '^models/Post/hook';
 
 export const PostPaginator = memo(() => {
     const {result, movePage} = usePosts();

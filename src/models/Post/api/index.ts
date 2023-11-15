@@ -1,14 +1,49 @@
 import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
-import {CreatePostByAdminDto, FindAllPostByAdminDto, PostDto, UpdatePostByAdminDto} from '^types/post.type';
+import {
+    CreatePostByAdminDto,
+    FindAllPostByAdminDto,
+    FindAllPostQueryDto,
+    PostDto,
+    StaticPostDto,
+    UpdatePostByAdminDto,
+} from '^models/Post/type';
 import {CreatePostTagByAdminDto, FindAllPostTagQueryDto, PostTagDto} from '^types/post-tag.type';
-import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {
     CreatePostAuthorByAdminDto,
     FindAllPostAuthorQueryDto,
     PostAuthorDto,
     UpdatePostAuthorByAdminDto,
-} from '^types/post-author.type';
+} from '^models/Post/type/authorType';
+
+export const postApi = {
+    index(params?: FindAllPostQueryDto) {
+        const url = `/posts`;
+        return api.get<Paginated<PostDto>>(url, {params});
+    },
+
+    recent() {
+        const url = `/posts`;
+        const params: FindAllPostQueryDto = {
+            order: {id: 'DESC'},
+            page: 1,
+            itemsPerPage: 1,
+        };
+        return api.get<Paginated<PostDto>>(url, {params}).then((res) => {
+            return res.data.items[0] || null;
+        });
+    },
+
+    show(id: number) {
+        const url = `/posts/${id}`;
+        return api.get<PostDto>(url);
+    },
+};
+
+export async function showStaticPost(id: number) {
+    const url = `/posts/${id}`;
+    return api.get<StaticPostDto>(url).then((res) => res.data);
+}
 
 export const postManageApi = {
     index(params?: FindAllPostByAdminDto) {

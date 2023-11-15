@@ -1,13 +1,13 @@
 import React, {memo, useEffect} from 'react';
 import {useRouter} from 'next/router';
-import {usePost} from '^hooks/usePosts';
+import {usePost} from '^models/Post/hook';
 import {LandingPageNavBar} from '^components/lab/landing-page-components';
 import {BetaServiceFooter} from '^components/pages/LandingPages/components';
 import {BlogPostDetailHeader} from './BlogPostDetailHeader';
 import {BlogPostDetailBody} from './BlogPostDetailBody';
 import {OtherPostList} from './OtherPostList';
 import {NewsLetterSection} from '^components/pages/LandingPages/components/NewsLetterSection';
-import {PostDto} from '^types/post.type';
+import {PostDto} from '^models/Post/type';
 import {PageSEO} from '^components/SEO';
 import {isPageLoadedAtom, PostDetailPageRoute} from '^pages/posts/[id]';
 import {useRecoilValue} from 'recoil';
