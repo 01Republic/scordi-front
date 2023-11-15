@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {AxiosError} from 'axios';
 import {getToken, removeToken, setToken} from '^api/api';
 import {userSessionApi} from '^models/User/api/session';
@@ -12,6 +12,7 @@ import {errorNotify} from '^utils/toast-notify';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentUserMembership} from '^models/Membership/hook';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
+import {userSocialGoogleApi} from '^api/social-google.api';
 
 type AxiosErrorData = {
     status: number;
@@ -128,6 +129,23 @@ export const useSocialLogin = () => {
             .createBySocialAccount(data)
             .then(({data: {token}}) => setToken(token))
             .then(() => userSessionApi.index())
+            .then(({data: user}) => {
+                setCurrentUser(user);
+                if (href) router.push(href);
+                return user;
+            });
+    };
+};
+
+export const useSocialLoginV2 = () => {
+    const router = useRouter();
+    const setCurrentUser = useSetRecoilState(currentUserAtom);
+
+    return async (code: string, href?: string): Promise<UserDto> => {
+        return userSocialGoogleApi
+            .google(code)
+            .then(({data: {token}}) => setToken(token))
+            .then(() => getUserSession())
             .then(({data: user}) => {
                 setCurrentUser(user);
                 if (href) router.push(href);

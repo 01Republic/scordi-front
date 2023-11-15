@@ -4,6 +4,7 @@ import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {BetaSignPhoneAuthPage} from '^components/pages/LandingPages/BetaSignPhoneAuthPage';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {publicPageRequires} from '^types/utils/18n.type';
+import {BetaSignPhoneAuthPage2} from '^components/pages/LandingPages/BetaSignPhoneAuthPage/v2';
 
 export const SignPhoneAuthPageRoute = pathRoute({
     pathname: '/sign/phone',
@@ -20,5 +21,5 @@ export const getStaticProps = async ({locale}: any) => ({
 export default function SignPhoneAuthPage() {
     const router = useRouter();
 
-    return <BetaSignPhoneAuthPage />;
+    return <BetaSignPhoneAuthPage2 />;
 }

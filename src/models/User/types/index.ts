@@ -27,7 +27,19 @@ export type UserSocialSignUpRequestDto = {
     isAgreeForMarketingTerm: boolean; // 마케팅 수신 동의 여부
 };
 
+export type UserGoogleSocialSignUpRequestDtoV2 = {
+    code: string; // 구글 소셜로그인 코드
+    phone: string; // 전화번호
+    isAgreeForServiceUsageTerm: boolean; // 서비스 이용약관 동의 여부
+    isAgreeForPrivacyPolicyTerm: boolean; // 개인정보 활용 동의 여부
+    isAgreeForMarketingTerm: boolean; // 마케팅 수신 동의 여부
+};
+
 export type UserSocialSignUpInvitedRequestDto = UserSocialSignUpRequestDto & {
+    organizationId: number; // 초대받은 조직 ID
+};
+
+export type UserGoogleSocialSignUpInvitedRequestDto = UserGoogleSocialSignUpRequestDtoV2 & {
     organizationId: number; // 초대받은 조직 ID
 };
 
