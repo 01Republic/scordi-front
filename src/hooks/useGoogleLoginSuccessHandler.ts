@@ -1,7 +1,7 @@
 import {useRouter} from 'next/router';
 import {GoogleSignedUserData} from '^models/User/atom';
 import {UserDto} from '^models/User/types';
-import {getGoogleUserData, userSessionApi} from '^api/session.api';
+import {getGoogleUserData, userSessionApi} from '^models/User/api/session';
 import {setToken} from '^api/api';
 import {useCurrentUser} from '^models/User/hook';
 import {SignPhoneAuthPageRoute} from '^pages/sign/phone';

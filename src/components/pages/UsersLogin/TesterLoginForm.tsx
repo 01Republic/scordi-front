@@ -3,7 +3,7 @@ import {JwtContainer} from '^models/User/types';
 import {api, setToken} from '^api/api';
 import {useCurrentUser} from '^models/User/hook';
 import {useForm} from 'react-hook-form';
-import {userSessionApi} from '^api/session.api';
+import {userSessionApi} from '^models/User/api/session';
 
 interface TesterLoginDto {
     credential: string;

@@ -3,7 +3,7 @@ import {initializeApp} from 'firebase/app';
 import {getMessaging, getToken, onMessage} from 'firebase/messaging';
 import {getAnalytics} from 'firebase/analytics';
 import {useRouter} from 'next/router';
-import {registerUsersWebpushDevice} from '^api/session.api';
+import {registerUsersWebpushDevice} from '^models/User/api/session';
 import {isMobile} from 'react-device-detect';
 
 const firebaseConfig = {

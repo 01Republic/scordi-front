@@ -10,7 +10,7 @@ import {PhoneNumberInput} from './PhoneNumberInput';
 import {AuthCodeInput} from './AuthCodeInput';
 import {TermModal} from '^components/pages/LandingPages/BetaSignPhoneAuthPage/TermModal';
 import {GoogleSignedUserData} from '^models/User/atom';
-import {createInvitedUser, user} from '^api/session.api';
+import {createInvitedUser, user} from '^models/User/api/session';
 import {errorNotify} from '^utils/toast-notify';
 import {useSocialLogin} from '^models/User/hook';
 import {SignWelcomePageRoute} from '^pages/sign/welcome';

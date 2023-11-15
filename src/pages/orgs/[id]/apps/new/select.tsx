@@ -12,7 +12,6 @@ import {useForm} from 'react-hook-form';
 import {PreLoader} from '^components/PreLoader';
 import {SearchInput} from '^components/SearchInput';
 import {errorNotify} from '^utils/toast-notify';
-import {getProductTags} from '^api/productTag.api';
 import {SubscriptionDto} from 'src/models/Subscription/types';
 import {toast} from 'react-toastify';
 import {OrgAddAppInfoPageRoute} from '^pages/orgs/[id]/apps/new/[appId]/information';

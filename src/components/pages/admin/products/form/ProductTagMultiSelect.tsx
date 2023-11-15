@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {CreateProductRequestDto as CreateDto, UpdateProductRequestDto as UpdateDto} from '^models/Product/type';
 import {UseFormReturn} from 'react-hook-form';
-import {TagDto} from '^types/tag.type';
+import {TagDto} from '^models/Tag/type';
 import {MultiSelect} from '^components/util/react-select/MultiSelect';
 import {ContentPanelInput} from '^layouts/ContentLayout';
-import {useProductTags, useTagMultiSelect} from '^hooks/useTags';
+import {useProductTags, useTagMultiSelect} from '^models/Tag/hook';
 
 interface PrototypeTagMultiSelectProps {
     tags: TagDto[];

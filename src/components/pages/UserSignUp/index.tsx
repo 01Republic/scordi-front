@@ -11,7 +11,7 @@ import {useCurrentUser} from '^models/User/hook';
 import {patchPhoneAuthSession, postPhoneAuthSession} from '^api/authlization';
 import {Timer} from './AuthenticationCode';
 import {AgreeModal} from './AgreeModal';
-import {user} from '^api/session.api';
+import {user} from '^models/User/api/session';
 
 /**
  * 추가 정보 입력 페이지 (회원가입)

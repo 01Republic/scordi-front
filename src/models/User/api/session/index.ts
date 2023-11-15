@@ -12,7 +12,7 @@ import {
     UserSocialLoginRequestDto,
     UserSocialSignUpRequestDto,
 } from '^models/User/types';
-import {api} from './api';
+import {api} from '^api/api';
 import axios from 'axios';
 import {GoogleSignedUserData} from '^models/User/atom';
 

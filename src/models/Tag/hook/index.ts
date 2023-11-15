@@ -1,7 +1,7 @@
 import {useRecoilState} from 'recoil';
-import {tagAtom, tagSearchParams, tagSearchResultsState} from '^atoms/tags.atom';
-import {FindAllTagQueryDto, TagDto, TagGroup} from '^types/tag.type';
-import {tagApi} from '^api/tag.api';
+import {tagAtom, tagSearchParams, tagSearchResultsState} from '^models/Tag/atom';
+import {FindAllTagQueryDto, TagDto, TagGroup} from '^models/Tag/type';
+import {tagApi} from '^models/Tag/api';
 import {Option} from '^components/util/react-select/Option';
 import {Paginated} from '^types/utils/paginated.dto';
 import {useMultiSelect} from '^hooks/useMultiSelect';

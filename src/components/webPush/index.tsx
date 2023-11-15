@@ -1,6 +1,6 @@
 import {useRouter} from 'next/router';
 import React, {memo, useEffect, useState} from 'react';
-import {patchUsersWebpushRegister, postUserWebpushTest} from '^api/session.api';
+import {patchUsersWebpushRegister, postUserWebpushTest} from '^models/User/api/session';
 
 declare global {
     interface Window {

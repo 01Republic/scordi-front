@@ -12,7 +12,7 @@ import {useCurrentUser} from '^models/User/hook';
 import {useRecoilState} from 'recoil';
 import {currentUserAtom} from '^models/User/atom';
 import {UserLoginPageRoute} from '^pages/users/login';
-import {userSessionApi} from '^api/session.api';
+import {userSessionApi} from '^models/User/api/session';
 
 type OrgMobileLayoutProps = {
     org?: OrganizationDto | null;

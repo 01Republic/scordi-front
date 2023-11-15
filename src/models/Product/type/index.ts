@@ -2,7 +2,7 @@ import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {SubscriptionPaymentPlanDto} from '^models/Subscription/types/paymentPlanType';
 import {SubscriptionBillingCycleDto} from '^models/Subscription/types/billingCycleType';
 import {PostDto} from '^types/post.type';
-import {TagDto} from '^types/tag.type';
+import {TagDto} from '^models/Tag/type';
 import {TypeCast} from '^types/utils/class-transformer';
 
 export enum ProductConnectMethod {

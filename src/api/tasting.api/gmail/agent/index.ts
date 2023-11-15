@@ -1,7 +1,7 @@
 import {getGoogleAccessTokenByRefreshToken, GoogleAccessTokenData} from '^api/tasting.api';
 import {GmailPermittedMetadata} from '^api/tasting.api/gmail/agent/get-email-metadata';
 import {ProviderNames, SenderNames} from '^api/tasting.api/gmail/agent/detect-provider-name';
-import {getGoogleUserData} from '^api/session.api';
+import {getGoogleUserData} from '^models/User/api/session';
 import {MoneyLike} from '^types/money.type';
 import {BillingType} from '^models/InvoiceApp/type';
 import {TypeCast} from '^types/utils/class-transformer';

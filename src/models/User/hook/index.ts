@@ -2,7 +2,7 @@ import {useEffect} from 'react';
 import {useRecoilState} from 'recoil';
 import {AxiosError} from 'axios';
 import {getToken, removeToken, setToken} from '^api/api';
-import {userSessionApi} from '^api/session.api';
+import {userSessionApi} from '^models/User/api/session';
 import {currentUserAtom, authenticatedUserDataAtom} from '^models/User/atom';
 import {UserLoginPageRoute} from '^pages/users/login';
 import {OrgSearchRoute} from '^pages/orgs/search';

@@ -1,6 +1,6 @@
 import {atom, selector} from 'recoil';
-import {FindAllTagQueryDto, TagDto} from '^types/tag.type';
-import {tagApi} from '^api/tag.api';
+import {FindAllTagQueryDto, TagDto} from '^models/Tag/type';
+import {tagApi} from '^models/Tag/api';
 import {errorNotify} from '^utils/toast-notify';
 import {tagIdParamState} from '^atoms/common';
 import {Paginated} from '^types/utils/paginated.dto';

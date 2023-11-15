@@ -11,7 +11,7 @@ import {toast} from 'react-toastify';
 import {useRecoilState} from 'recoil';
 import {currentUserAtom} from '^models/User/atom';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
-import {user} from '^api/session.api';
+import {user} from '^models/User/api/session';
 
 export const UserEditPageRoute = pathRoute({
     pathname: '/users/edit',
