@@ -3,7 +3,7 @@ import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {orgIdParamState, teamIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useCurrentOrg} from '^hooks/useCurrentOrg';
+import {useCurrentOrg} from '^models/Organization/hook';
 import {V3OrgTeamShowPage} from 'src/components/pages/v3/V3OrgTeam/V3OrgTeamShowPage';
 import {useRouter} from 'next/router';
 import {useTeamMembers} from '^models/TeamMember/hook';

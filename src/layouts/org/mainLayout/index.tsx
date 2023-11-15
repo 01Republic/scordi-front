@@ -1,7 +1,7 @@
 import React, {ReactElement, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {OrganizationDto} from '^models/Organization/type';
-import {useCurrentOrg} from '^hooks/useCurrentOrg';
+import {useCurrentOrg} from '^models/Organization/hook';
 import {isMobile} from 'react-device-detect';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 import {OrgSidebar} from './Sidebar';

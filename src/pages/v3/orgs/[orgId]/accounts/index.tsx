@@ -5,7 +5,7 @@ import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {V3OrgAccountListPage} from '^v3/V3OrgAccountListPage';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useCurrentOrg} from '^hooks/useCurrentOrg';
+import {useCurrentOrg} from '^models/Organization/hook';
 
 export const V3OrgAccountListPageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]/accounts',

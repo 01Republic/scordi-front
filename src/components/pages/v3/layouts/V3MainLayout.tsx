@@ -3,7 +3,7 @@ import {WithChildren} from '^types/global.type';
 import {V3TopNav} from '^v3/share/TobNav/TopNav';
 import styles from '^styles/v3/V3MainLayout.module.scss';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useCurrentOrg} from '^hooks/useCurrentOrg';
+import {useCurrentOrg} from '^models/Organization/hook';
 import {UserEditModal} from '^v3/share/modals/UserEditModal';
 import {AddressModal} from '^v3/share/modals/AddressModal';
 import {V3Footer} from '^v3/share/Footer';

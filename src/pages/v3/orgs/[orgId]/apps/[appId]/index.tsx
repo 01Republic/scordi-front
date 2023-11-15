@@ -3,7 +3,7 @@ import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {orgIdParamState, subscriptionIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useCurrentOrg} from '^hooks/useCurrentOrg';
+import {useCurrentOrg} from '^models/Organization/hook';
 import {V3OrgAppShowPage} from '^v3/V3OrgAppShowPage';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {useRouter} from 'next/router';

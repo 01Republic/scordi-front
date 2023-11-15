@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
 import {IoArrowBack} from '@react-icons/all-files/io5/IoArrowBack';
-import {useCurrentOrg} from '^hooks/useCurrentOrg';
+import {useCurrentOrg} from '^models/Organization/hook';
 import {errorNotify} from '^utils/toast-notify';
 import {Page} from '^types/page';
 import {ProductDto} from '^models/Product/type';

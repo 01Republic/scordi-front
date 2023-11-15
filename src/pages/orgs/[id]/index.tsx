@@ -1,7 +1,7 @@
 import React from 'react';
 import {useRouter} from 'next/router';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
-import {useCurrentOrg} from '^hooks/useCurrentOrg';
+import {useCurrentOrg} from '^models/Organization/hook';
 import OrgMainLayout from '^layouts/org/mainLayout';
 import {ContentLayout} from '^layouts/ContentLayout';
 import {PreLoader} from '^components/PreLoader';

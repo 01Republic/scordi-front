@@ -8,13 +8,13 @@ import {
     StaticPostDto,
     UpdatePostByAdminDto,
 } from '^models/Post/type';
-import {CreatePostTagByAdminDto, FindAllPostTagQueryDto, PostTagDto} from '^types/post-tag.type';
 import {
     CreatePostAuthorByAdminDto,
     FindAllPostAuthorQueryDto,
     PostAuthorDto,
     UpdatePostAuthorByAdminDto,
 } from '^models/Post/type/authorType';
+import {CreatePostTagByAdminDto, FindAllPostTagQueryDto, PostTagDto} from '^models/Tag/type';
 
 export const postApi = {
     index(params?: FindAllPostQueryDto) {

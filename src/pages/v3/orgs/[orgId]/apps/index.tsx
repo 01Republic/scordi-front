@@ -2,7 +2,7 @@ import React from 'react';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {V3OrgAppsPage as Page} from '^v3/V3OrgAppsPage';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useCurrentOrg} from '^hooks/useCurrentOrg';
+import {useCurrentOrg} from '^models/Organization/hook';
 
 export const V3OrgAppsPageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]/apps',
