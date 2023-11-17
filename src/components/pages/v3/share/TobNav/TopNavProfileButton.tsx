@@ -15,6 +15,7 @@ import {useTranslation} from 'next-i18next';
 import {AdminUsersPageRoute} from '^pages/admin/users';
 import {PiLinkBold} from 'react-icons/pi';
 import {BsArrowRight} from 'react-icons/bs';
+import {GrFormDown} from 'react-icons/gr';
 
 export const TopNavProfileButton = memo(() => {
     const router = useRouter();
@@ -34,8 +35,10 @@ export const TopNavProfileButton = memo(() => {
 
     return (
         <div className="dropdown dropdown-bottom dropdown-end">
-            <label tabIndex={0} className="cursor-pointer px-2">
-                <UserAvatar user={currentUser} roundClass="rounded-lg" />
+            <label tabIndex={0} className="btn btn-sm normal-case flex items-center gap-1">
+                {/*<UserAvatar user={currentUser} roundClass="rounded-lg" />*/}
+                <span>{currentUser.email}</span>
+                <GrFormDown size={18} />
             </label>
             <ul tabIndex={0} className="dropdown-content menu p-2 shadow-xl bg-base-100 rounded-box w-52">
                 <li>

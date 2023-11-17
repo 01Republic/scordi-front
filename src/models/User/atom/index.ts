@@ -46,6 +46,7 @@ export const getCurrentUserMembershipsQuery = selector({
             return res.data.items;
         } catch (e) {
             errorNotify(e);
+            throw Error('Cannot load current user membership list');
         }
     },
     set: ({set}) => {

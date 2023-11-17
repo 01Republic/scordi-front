@@ -5,8 +5,8 @@ import {atom} from 'recoil';
 // 화면 사이즈를 통해 모바일 인식이 필요한 경우,
 // 다른 UI 에서 "sm:xxx" 클래스를 사용하는 것과 호환 되도록 하기 위해
 // 640px 을 Breakpoint 값으로 사용합니다.
-// export const MOBILE_BREAKPOINT = 640;
-export const MOBILE_BREAKPOINT = 6640;
+export const MOBILE_BREAKPOINT = 640;
+// export const MOBILE_BREAKPOINT = 6640;
 
 export const isMobileAtom = atom({
     key: 'isMobileAtom',

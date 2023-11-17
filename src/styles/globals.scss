@@ -28,6 +28,7 @@ body {
     "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", sans-serif;
   background-color: #fafafa;
+  --topnav-min-height: 4rem;
 }
 body.modal-opened {
   height: 100vh;

@@ -7,7 +7,7 @@ const NAMESPACE = 'organizations';
 export const creditCardApi = {
     index(orgId: number, params?: FindAllCreditCardDto) {
         const url = `/${NAMESPACE}/${orgId}/credit-cards`;
-        return api.get<Paginated<CreditCardDto>>(url).then(paginatedDtoOf(CreditCardDto));
+        return api.get<Paginated<CreditCardDto>>(url, {params}).then(paginatedDtoOf(CreditCardDto));
     },
 
     show(orgId: number, id: number) {

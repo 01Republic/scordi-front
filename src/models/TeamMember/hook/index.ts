@@ -8,6 +8,7 @@ import {
     getTeamMembersQueryAtom,
     teamMembersSearchResultAtom,
 } from '^models/TeamMember/atom';
+import {useState} from 'react';
 
 export const useCurrentTeamMember = () => {
     const [currentTeamMember, setCurrentTeamMember] = useRecoilState(currentTeamMemberState);
@@ -25,6 +26,7 @@ export const useCurrentTeamMember = () => {
 
 export const useTeamMembers = () => {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const [isLoading, setIsLoading] = useState(false);
     const [result, setResult] = useRecoilState(teamMembersSearchResultAtom);
     const [query, setQuery] = useRecoilState(getTeamMembersQueryAtom);
 
@@ -32,9 +34,11 @@ export const useTeamMembers = () => {
         // if (JSON.stringify(query) === JSON.stringify(params)) return;
         if (!orgId && isNaN(orgId)) return;
 
+        setIsLoading(true);
         const data = await teamMemberApi.index(orgId, params).then((res) => res.data);
         setResult(data);
         setQuery(params);
+        setTimeout(() => setIsLoading(false), 1000);
     }
 
     const createByName = (name: string) =>
@@ -44,5 +48,5 @@ export const useTeamMembers = () => {
 
     const movePage = (page: number) => search({...query, page});
 
-    return {query, result, search, createByName, movePage};
+    return {query, result, search, createByName, movePage, isLoading};
 };

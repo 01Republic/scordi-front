@@ -30,8 +30,8 @@ export const getStaticProps = async ({locale}: any) => ({
 
 export default function Page() {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
-    if (!orgId) return <></>;
     useCurrentOrg(orgId);
+    if (!orgId) return <></>;
 
     return <V3OrgBillingHistoriesPage />;
 }

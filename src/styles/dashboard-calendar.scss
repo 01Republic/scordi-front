@@ -209,3 +209,64 @@ section[data-component="MobileSection.Item"].h-0 {
 abbr:where([title]) {
   text-decoration: none;
 }
+
+@media screen and (min-width: 960px) {
+  .react-calendar {
+    @apply px-8;
+
+    .react-calendar__month-view__weekdays__weekday,
+    .react-calender__pc__tile {
+      text-align: left;
+      @apply px-4 py-3.5;
+    }
+
+    .react-calendar__month-view__weekdays__weekday {
+      @apply text-14 text-gray-400;
+    }
+
+    .react-calender__pc__tile {
+      border-bottom: 1px solid;
+      @apply border-b-gray-300;
+
+      transition: all 200ms ease-in-out;
+
+      abbr {
+        @apply font-semibold pt-0 mb-3.5;
+        height: auto;
+      }
+
+      .react-calendar__pc__tile--content {
+        @apply pb-1;
+
+        .money-text {
+          font-size: 12px;
+          font-weight: 500;
+          line-height: 1.5;
+          height: auto;
+          @apply text-gray-400 block;
+
+          &.active {
+            @apply text-scordi;
+          }
+
+          .symbol {
+            @apply text-gray-400;
+            font-size: 80%;
+          }
+        }
+      }
+    }
+
+    .react-calendar__tile--active {
+      @apply bg-slate-100 hover:bg-slate-100;
+      &:focus,
+      &:active {
+        @apply bg-slate-100 hover:bg-slate-100;
+      }
+
+      abbr {
+        @apply text-gray-500 bg-transparent;
+      }
+    }
+  }
+}

@@ -12,7 +12,11 @@ export const useCreditCardsOfOrganization = (isShow: boolean) => {
         if (!isShow) return;
         if (!orgId || isNaN(orgId)) return;
 
-        creditCardApi.index(orgId, {itemsPerPage: 0}).then((res) => {
+        const req = creditCardApi.index(orgId, {
+            itemsPerPage: 0,
+            relations: ['holdingMember', 'subscriptions'],
+        });
+        req.then((res) => {
             setCreditCardManager(CreditCardManager.init(res.data.items));
         });
     }, [isShow, orgId]);
