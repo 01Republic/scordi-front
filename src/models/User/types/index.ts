@@ -85,6 +85,10 @@ export type JwtContainer = {
     token: string;
 };
 
+export type GoogleAccessTokenContainer = {
+    accessToken: string;
+};
+
 export type UserEditProfileRequestDto = {
     name?: string;
     phone?: string;

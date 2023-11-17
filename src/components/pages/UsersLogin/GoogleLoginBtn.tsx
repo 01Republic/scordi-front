@@ -21,7 +21,7 @@ export const GoogleLoginBtn = memo(() => {
             // setAccessTokenData(response)
             // await googleLoginOnSuccess(response.access_token);
             const {code, scope, state} = response;
-            const accessToken = await userSocialGoogleApi.token(code);
+            const {accessToken} = await userSocialGoogleApi.token(code);
             setAccessToken(accessToken);
             return await googleLoginOnSuccess(accessToken);
         },

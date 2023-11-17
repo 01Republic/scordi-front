@@ -1,6 +1,7 @@
 import {api} from '^api/api';
 import {oneDtoOf} from '^types/utils/response-of';
 import {
+    GoogleAccessTokenContainer,
     JwtContainer,
     UserDto,
     UserGoogleSocialSignUpInvitedRequestDto,
@@ -12,7 +13,7 @@ const makeHeaders = (accessToken: string) => ({'X-Google-Token': accessToken});
 export const userSocialGoogleApi = {
     token(code: string) {
         const url = `/users/auth/social/google/token?code=${code}`;
-        return api.get<string>(url).then((res) => res.data);
+        return api.get<GoogleAccessTokenContainer>(url).then((res) => res.data);
     },
 
     login(token: string) {
