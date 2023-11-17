@@ -141,9 +141,9 @@ export const useSocialLoginV2 = () => {
     const router = useRouter();
     const setCurrentUser = useSetRecoilState(currentUserAtom);
 
-    return async (code: string, href?: string): Promise<UserDto> => {
+    return async (accessToken: string, href?: string): Promise<UserDto> => {
         return userSocialGoogleApi
-            .google(code)
+            .login(accessToken)
             .then(({data: {token}}) => setToken(token))
             .then(() => userSessionApi.index())
             .then(({data: user}) => {

@@ -87,12 +87,12 @@ export const useGoogleLoginSuccessHandler2 = () => {
      *     });
      *
      */
-    return async function googleLoginOnSuccess(code: string) {
+    return async function googleLoginOnSuccess(accessToken: string) {
         // 토큰을 통해 구글 회원 정보를 불러온 뒤,
         // const {data: googleSignedUserData} = await getGoogleUserData(code);
 
         // 서버에 이 회원이 가입된 계정이 있는지 확인합니다.
-        const jwtRequest = userSocialGoogleApi.google(code);
+        const jwtRequest = userSocialGoogleApi.login(accessToken);
 
         // 만약 가입된 계정이 있다면, 응답으로 토큰이 오는데
         jwtRequest.then(({data: {token}}) => {

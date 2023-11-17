@@ -56,7 +56,7 @@ export type GoogleAccessTokenData = {
  * 구글로그인 창의 콜백으로 얻은 code 로 액세스 토큰과 리프레시 토큰을 가져옵니다.
  */
 export async function getGoogleAccessTokenByCode(code: string, redirectPath?: string) {
-    return await userSocialGoogleApi.google(code);
+    return await userSocialGoogleApi.login(code);
 
     const baseUrl: string = 'https://oauth2.googleapis.com/token';
     const headers = {

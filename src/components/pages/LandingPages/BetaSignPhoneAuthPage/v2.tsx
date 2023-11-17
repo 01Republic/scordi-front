@@ -13,7 +13,7 @@ import {useTranslation} from 'next-i18next';
 import {ApiError} from '^api/api';
 import {BetaSignSocialPageRoute} from '^pages/sign/social';
 import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
-import {googleCodeAtom} from '^components/pages/UsersLogin/atom';
+import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {TermModalV2} from '^components/pages/LandingPages/BetaSignPhoneAuthPage/TermModalV2';
 import {useSocialLogin, useSocialLoginV2} from '^models/User/hook';
@@ -23,7 +23,7 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
     const router = useRouter();
     const socialLogin = useSocialLogin();
     const socialLoginV2 = useSocialLoginV2();
-    const code = useRecoilValue(googleCodeAtom);
+    const googleAccessToken = useRecoilValue(googleAccessTokenAtom);
     const phoneAuthData = useRecoilValue(phoneAuthDataState);
     const invitedOrgId = useRecoilValue(invitedOrgIdAtom);
     const form = useForm<UserGoogleSocialSignUpRequestDtoV2>();
@@ -31,15 +31,14 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
     const codeConfirmed = useRecoilValue(codeConfirmedState);
     const {t} = useTranslation('sign');
     const [pageLoaded, setPageLoaded] = useState(false);
-    const resetGoogleCode = useResetRecoilState(googleCodeAtom);
+    const resetGoogleCode = useResetRecoilState(googleAccessTokenAtom);
 
     useEffect(() => {
-        if (!code) {
+        if (!googleAccessToken) {
             router.replace(BetaSignSocialPageRoute.path());
             return;
         }
 
-        form.setValue('code', 'code');
         setPageLoaded(true);
     }, []);
 
@@ -49,25 +48,27 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
 
     // 가입 후처리 콜백
     const findOrCreateUserCallback = async () => {
-        if (!code) return;
+        if (!googleAccessToken) return;
 
         // 정상적인 온보딩 플로우
-        await socialLoginV2(code)
+        await socialLoginV2(googleAccessToken)
             .then(() => router.push(SignWelcomePageRoute.path()))
             .catch(errorNotify);
     };
 
     // 인증 완료 후 최종 가입시도
     const onLastSubmit = (data: UserGoogleSocialSignUpRequestDtoV2) => {
+        if (!googleAccessToken) return;
+
         if (!data.isAgreeForServiceUsageTerm || !data.isAgreeForPrivacyPolicyTerm) {
             setIsOpened(true);
             return;
         }
 
-        const {googleSignUp: singUp, googleSignUpInvited: singUpInvited, findSocialUserByCode} = userSocialGoogleApi;
+        const {signUp: googleSignUp, signUpInvited: googleSignUpInvited, show: findByGoogleToken} = userSocialGoogleApi;
 
         // 먼저 이메일을 통해 가입여부를 확인하고
-        findSocialUserByCode(data.code)
+        findByGoogleToken(googleAccessToken)
             .then((res) => {
                 // 가입된 사용자라면 후처리 로직만 실행하고
                 const user = res.data;
@@ -85,14 +86,14 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
                     // 가입을 시킵니다.
                     // 초대된 회원의 경우 다른 API를 사용합니다.
                     if (invitedOrgId) {
-                        singUpInvited({organizationId: invitedOrgId, ...data})
+                        googleSignUpInvited(googleAccessToken, {organizationId: invitedOrgId, ...data})
                             .then(findOrCreateUserCallback)
                             .catch((err: ApiError) => {
                                 errorNotify(err);
                             })
                             .finally(resetGoogleCode);
                     } else {
-                        singUp(data)
+                        googleSignUp(googleAccessToken, data)
                             .then(findOrCreateUserCallback)
                             .catch((err: ApiError) => {
                                 console.log('가입 catch', err);
