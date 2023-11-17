@@ -10,7 +10,6 @@ import {NextRouter, useRouter} from 'next/router';
 import {UserDto, UserLoginRequestDto, UserSocialLoginRequestDto} from '^models/User/types';
 import {errorNotify} from '^utils/toast-notify';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useCurrentUserMembership} from '^models/Membership/hook';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {userSocialGoogleApi} from '^api/social-google.api';
 
@@ -42,11 +41,9 @@ export function useCurrentUser(fallbackPath?: string | null, opt?: CurrentUserOp
     const router = useRouter();
     const organizationId = useRouterIdParamState(option.orgIdParam || 'id', orgIdParamState);
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
-    const {currentUserMembership, setCurrentUserMembership} = useCurrentUserMembership({
-        organizationId,
-        userId: currentUser?.id,
-    });
+
     const [authenticatedUserData, setAuthenticatedUserData] = useRecoilState(authenticatedUserDataAtom);
+    const currentUserMembership = currentUser?.memberships?.[0];
 
     useEffect(() => {
         if (currentUser) return;
@@ -102,7 +99,6 @@ export function useCurrentUser(fallbackPath?: string | null, opt?: CurrentUserOp
     const logout = () => {
         removeToken();
         setCurrentUser(null);
-        setCurrentUserMembership(null);
         setAuthenticatedUserData(undefined);
         router.push(UserLoginPageRoute.path());
     };
