@@ -2,11 +2,12 @@ import React, {memo} from 'react';
 import {useGoogleLogin} from '@react-oauth/google';
 import {useSetRecoilState} from 'recoil';
 import {useGoogleLoginSuccessHandler2} from '^hooks/useGoogleLoginSuccessHandler2';
-import {googleCodeAtom} from '^components/pages/UsersLogin/atom';
+import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
+import {userSocialGoogleApi} from '^api/social-google.api';
 
 export const GoogleLoginBtn = memo(() => {
     const googleLoginOnSuccess = useGoogleLoginSuccessHandler2();
-    const setCode = useSetRecoilState(googleCodeAtom);
+    const setAccessToken = useSetRecoilState(googleAccessTokenAtom);
     // const {accessTokenData} = useGoogleAccessTokenCallback(UserLoginPageRoute.url());
     //
     // useEffect(() => {
@@ -20,10 +21,11 @@ export const GoogleLoginBtn = memo(() => {
             // setAccessTokenData(response)
             // await googleLoginOnSuccess(response.access_token);
             const {code, scope, state} = response;
-            setCode(code);
-            return await googleLoginOnSuccess(code);
+            const {accessToken} = await userSocialGoogleApi.token(code);
+            setAccessToken(accessToken);
+            return await googleLoginOnSuccess(accessToken);
         },
-        scope: 'email profile openid https://www.googleapis.com/auth/gmail.readonly',
+        scope: 'email profile openid https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/admin.reports.audit.readonly https://www.googleapis.com/auth/admin.reports.usage.readonly',
         flow: 'auth-code',
         onError: (error) => {
             console.log(error);
