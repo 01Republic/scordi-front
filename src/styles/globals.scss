@@ -94,17 +94,6 @@ p {
     background-color: inherit !important;
 }
 
-@each $n in (2, 3) {
-    .badge-#{$n}xs {
-        height: calc(0.75rem / #{$n}) !important;
-        width: calc(0.75rem / #{$n}) !important;
-        font-size: calc(0.75rem / #{$n}) !important;
-        line-height: calc(0.75rem / #{$n}) !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
-}
-
 .select.select-bordered {
     border-color: hsl(var(--bc) / var(--tw-border-opacity));
     --tw-border-opacity: 0.2;

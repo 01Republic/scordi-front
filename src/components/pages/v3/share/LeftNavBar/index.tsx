@@ -3,6 +3,7 @@ import {useRecoilValue} from 'recoil';
 import {
     FcAdvertising,
     FcCalendar,
+    FcComboChart,
     FcDiploma1,
     FcDocument,
     FcKey,
@@ -22,9 +23,11 @@ import {V3OrgAppsPageRoute} from '^pages/v3/orgs/[orgId]/apps';
 import {V3OrgAccountListPageRoute} from '^pages/v3/orgs/[orgId]/accounts';
 import {V3OrgTeamMembersPageRoute} from '^pages/v3/orgs/[orgId]/teams/members';
 import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
+import {V3OrgSettingsOrgPageRoute} from '^pages/v3/orgs/[orgId]/settings/org';
 
 export enum LNBIndex {
     Dashboard,
+    Insights,
     Calendar,
     Subscriptions,
     Cards,
@@ -53,6 +56,13 @@ export const LeftNavBar = memo(function LeftNavBar(props: LeftNavBarProps) {
                     href={safePath((org) => V3OrgHomePageRoute.path(org.id))}
                     Icon={() => <FcDocument size={24} />}
                     isActive={LNBIndex.Dashboard === activeIndex}
+                />
+                <MenuItem
+                    name="인사이트"
+                    href="#"
+                    Icon={() => <FcComboChart size={24} />}
+                    isActive={LNBIndex.Insights === activeIndex}
+                    status="soon"
                 />
                 <MenuItem
                     name="결제달력"
@@ -92,7 +102,7 @@ export const LeftNavBar = memo(function LeftNavBar(props: LeftNavBarProps) {
             <NavBottom>
                 <MenuItem
                     name="설정"
-                    href="#"
+                    href={safePath((org) => V3OrgSettingsOrgPageRoute.path(org.id))}
                     Icon={() => <FcSettings size={24} />}
                     isActive={LNBIndex.Settings === activeIndex}
                 />
@@ -103,6 +113,7 @@ export const LeftNavBar = memo(function LeftNavBar(props: LeftNavBarProps) {
                     href="#"
                     Icon={() => <FcAdvertising size={24} />}
                     isActive={LNBIndex.Updates === activeIndex}
+                    status="soon"
                 />
                 {/*<MenuItem name="관리" href="#" Icon={() => <FcBusiness size={24} />} />*/}
             </NavBottom>
