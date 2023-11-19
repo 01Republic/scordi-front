@@ -7,30 +7,31 @@ import {NewInvoiceAccountModal} from './NewInvoiceAccountModal';
 import {useTranslation} from 'next-i18next';
 import {useOnResize2} from '^components/util/onResize2';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {SubscriptionsPanel} from '^v3/V3OrgHomePage/mobile/SubscriptionsPanel';
-import {InvoiceAccountsPanel} from '^v3/V3OrgHomePage/mobile/InvoiceAccountsPanel';
-import {SummaryHeaderPanel} from '^v3/V3OrgHomePage/mobile/SummaryHeaderPanel';
+import {SubscriptionsPanel} from './mobile/SubscriptionsPanel';
+import {InvoiceAccountsPanel} from './mobile/InvoiceAccountsPanel';
+import {SummaryHeaderPanel} from './mobile/SummaryHeaderPanel';
 import {ApplyNotFoundProduct} from '^v3/share/sections/ApplyNotFoundProduct';
 import {BillingHistoriesPageModal} from '^v3/V3OrgBillingHistoriesPage/modals/BillingHistoriesPageModal';
 import {BillingHistoryDetailModal} from '^v3/share/modals/BillingHistoryDetailModal';
-import {NewInvoiceAccountModalMobile} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/mobile';
+import {NewInvoiceAccountModalMobile} from './NewInvoiceAccountModal/mobile';
 import {BottomTabIndex} from '^v3/share/BottomNavMobile';
 import {currentUserAtom} from '^models/User/atom';
 import {TopNavProfileButton} from '^v3/share/TobNav/TopNavProfileButton';
 import {TopNavOrgSelect} from '^v3/share/TobNav/TopNavOrgSelect';
-import {RenewInvoiceAccountModalMobile} from '^v3/V3OrgHomePage/RenewInvoiceAccountModal/mobile';
-import {MonthlyPaidAmountModal} from '^v3/V3OrgHomePage/MonthlyPaidAmountModal';
-import {MonthlyRemainAmountModal} from '^v3/V3OrgHomePage/MonthlyRemainAmountModal';
+import {RenewInvoiceAccountModalMobile} from './RenewInvoiceAccountModal/mobile';
+import {MonthlyPaidAmountModal} from './MonthlyPaidAmountModal';
+import {MonthlyRemainAmountModal} from './MonthlyRemainAmountModal';
 import {CardsPanel} from './mobile/CardsPanel';
 import {CardFormModalGroup} from '../V3OrgCardListPage/modals/CardFormModalGroup';
 import {LNBIndex} from '^v3/share/LeftNavBar';
-import {MemberListSection} from './desktop/sections';
-import {TeamMemberModal} from '^v3/V3OrgHomePage/desktop/modals';
-import {TeamMemberCreateModal} from '^v3/V3OrgHomePage/desktop/modals/TeamMemberCreateModal';
-import {CardListSection} from '^v3/V3OrgHomePage/desktop/sections/CardListSection';
-import {AccountListSection} from '^v3/V3OrgHomePage/desktop/sections/AccountListSection';
-import {SummarySection} from '^v3/V3OrgHomePage/desktop/sections/SummarySection';
-import {SubscriptionsSection} from '^v3/V3OrgHomePage/desktop/sections/SubscriptionsSection';
+import {TeamMemberModal, TeamMemberCreateModal} from './desktop/modals';
+import {
+    SummarySection,
+    MemberListSection,
+    CardListSection,
+    AccountListSection,
+    SubscriptionsSection,
+} from './desktop/sections';
 
 export const V3OrgHomePage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
