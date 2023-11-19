@@ -47,7 +47,7 @@ export const LeftNavBar = memo(function LeftNavBar(props: LeftNavBarProps) {
     const {safePath} = useSafePathInCurrentOrg();
 
     return (
-        <aside className={`lnb-container border-r flex flex-col gap-4 ${isHidden ? 'hide' : ''}`}>
+        <aside className={`lnb-container border-r flex flex-col z-10 gap-4 ${isHidden ? 'hide' : ''}`}>
             <Header />
 
             <MenuList title="조직">

@@ -1,0 +1,13 @@
+.tooltip {
+  &.tooltip-open,
+  &:hover {
+    &:before,
+    &:after {
+      //
+    }
+  }
+}
+
+.tooltip:after {
+  //position: fixed;
+}

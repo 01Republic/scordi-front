@@ -9,6 +9,6 @@ export class SubscriptionManager extends BasicManager<SubscriptionDto> {
     }
 
     uniqueByProduct() {
-        return this.sortBy<SubscriptionManager>({id: 'ASC'}).unique('productId');
+        return this.sortBy<SubscriptionManager>({id: 'ASC'}).unique((s) => s.productId || s.product.id);
     }
 }

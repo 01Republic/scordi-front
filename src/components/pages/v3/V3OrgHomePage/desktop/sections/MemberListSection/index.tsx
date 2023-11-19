@@ -12,8 +12,8 @@ import {MemberLoading} from './MemberLoading';
 
 export const MemberListSection = memo(function MemberListSection() {
     const currentOrg = useRecoilValue(currentOrgAtom);
-    const {safePath} = useSafePathInCurrentOrg();
     const {search: getTeamMembers, result: teamMembers, isLoading} = useTeamMembers();
+    const {safePath} = useSafePathInCurrentOrg();
 
     useEffect(() => {
         if (!currentOrg) return;
@@ -38,8 +38,7 @@ export const MemberListSection = memo(function MemberListSection() {
                 <MoreButton href={safePath((org) => V3OrgTeamMembersPageRoute.path(org.id))} text="전체보기" />,
             ]}
         >
-            {/* 가로로 카드 리스트 있고 오른쪽 끝에 더보기 */}
-            <div className="w-full flex gap-2 items-stretch min-h-[168px]">
+            <div className="w-full flex gap-2 items-stretch min-h-[168px] overflow-x-auto mb-[-2rem] mx-[-1rem] px-[1rem] pb-[2rem]">
                 <AddMemberItem />
                 {isLoading ? (
                     <MemberLoading />
