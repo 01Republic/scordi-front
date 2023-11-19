@@ -45,7 +45,6 @@ export const Header = memo(function Header() {
 
     useEffect(() => {
         if (!currentOrg) return;
-        // const otherMemberships = myMemberships.filter((membership) => membership.organizationId !== currentOrg.id);
         setOrganizations(MembershipManager.init(myMemberships).organizations());
     }, [currentOrg, myMemberships]);
 
