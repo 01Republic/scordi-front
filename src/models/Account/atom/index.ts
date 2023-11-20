@@ -6,6 +6,7 @@ import {accountApi} from '^models/Account/api';
 import {subjectProductOfAccountsInModalState} from '^v3/share/modals/AccountListModal/atom';
 import {subscriptionApi} from '^models/Subscription/api';
 import {errorNotify} from '^utils/toast-notify';
+import {ProductDto} from '^models/Product/type';
 
 export const getAccountsQueryAtom = atom<FindAllAccountsQueryDto>({
     key: 'getAccountsQueryAtom',
@@ -30,22 +31,39 @@ export const accountListAtom = atom<AccountDto[]>({
     default: [],
 });
 
+const getAccountsQueryTrigger = atom<number>({
+    key: 'getAccountsQueryTrigger',
+    default: 1,
+});
+
 export const getAccountsQuery = selector({
     key: 'getAccountsQuery',
     get: async ({get}) => {
         const orgId = get(orgIdParamState);
         if (!orgId) return;
 
-        get(subjectProductOfAccountsInModalState);
+        get(getAccountsQueryTrigger);
+        const product = get(subjectProductOfAccountsInModalState);
+
+        const where: FindAllAccountsQueryDto['where'] = {};
+        if (product) {
+            where.productId = product.id;
+        }
 
         try {
-            const res = await accountApi
-                .index(orgId, {relations: ['product'], itemsPerPage: 0})
+            return accountApi
+                .index(orgId, {
+                    relations: ['product'],
+                    where,
+                    itemsPerPage: 0,
+                    order: {id: 'DESC'},
+                })
                 .then((res) => res.data);
-
-            return res;
         } catch (e) {
             errorNotify(e);
         }
+    },
+    set: ({set}) => {
+        set(getAccountsQueryTrigger, (v) => v + 1);
     },
 });

@@ -11,18 +11,16 @@ interface AccountListProps {
 
 export const AccountList = memo((props: AccountListProps) => {
     const {hideProduct = false} = props;
-    const accounts = useRecoilValue(getAccountsQuery);
+    const pagedAccounts = useRecoilValue(getAccountsQuery);
     const [accountList, setAccountList] = useRecoilState(accountListAtom);
 
     useEffect(() => {
-        if (accountList.length || !accounts) return;
-
-        setAccountList(accounts.items);
-    }, [accounts, accountList]);
+        if (pagedAccounts) setAccountList(pagedAccounts.items);
+    }, [pagedAccounts]);
 
     return (
         <ul className="w-full text-left py-4">
-            {accountList?.length ? (
+            {accountList.length ? (
                 accountList.map((account, i) => <AccountItem key={i} account={account} hideProduct={hideProduct} />)
             ) : (
                 <li className="flex items-center justify-center h-52">
