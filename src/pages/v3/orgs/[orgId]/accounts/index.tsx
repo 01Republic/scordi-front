@@ -12,21 +12,21 @@ export const V3OrgAccountListPageRoute = pathRoute({
     path: (orgId: number) => pathReplace(V3OrgAccountListPageRoute.pathname, {orgId}),
 });
 
-export const getStaticPaths = async () => ({
-    paths: [{params: {orgId: '1'}}],
-    fallback: true,
-});
-
-export const getStaticProps = async ({locale}: any) => ({
-    props: {
-        // Will be passed to the page component as props
-        ...(await serverSideTranslations(locale, [
-            ...v3CommonRequires,
-            'org-home',
-            // 여기에 이 페이지에서 사용할 locale 파일을 추가하세요.
-        ])),
-    },
-});
+// export const getStaticPaths = async () => ({
+//     paths: [{params: {orgId: '1'}}],
+//     fallback: true,
+// });
+//
+// export const getStaticProps = async ({locale}: any) => ({
+//     props: {
+//         // Will be passed to the page component as props
+//         ...(await serverSideTranslations(locale, [
+//             ...v3CommonRequires,
+//             'org-home',
+//             // 여기에 이 페이지에서 사용할 locale 파일을 추가하세요.
+//         ])),
+//     },
+// });
 
 export default function Page() {
     const router = useRouter();

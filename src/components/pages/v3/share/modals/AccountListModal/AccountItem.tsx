@@ -1,8 +1,7 @@
-import React, {memo, useRef} from 'react';
+import React, {memo} from 'react';
 import {BiChevronRight, BiCopy} from 'react-icons/bi';
 import {FaKey} from 'react-icons/fa6';
 import {AccountDto} from '^models/Account/types';
-import {toast} from 'react-toastify';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import {useAccountEditModal} from './AccountEditModal/hook';
 import {Avatar} from '^components/Avatar';
@@ -24,6 +23,8 @@ export const AccountItem = memo((props: AccountItemProps) => {
     const copyBtnClick = (id: number) => {
         toast.info('비밀번호를 복사했어요', `account-${id}`);
     };
+
+    if (!account || !product) return <></>;
 
     return (
         <li className="px-3 mb-2 relative" data-account-id={account.id} data-product-id={product.id}>

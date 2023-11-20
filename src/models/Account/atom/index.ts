@@ -1,6 +1,9 @@
-import {atom} from 'recoil';
+import {atom, selector} from 'recoil';
 import {AccountDto, FindAllAccountsQueryDto} from '^models/Account/types';
 import {Paginated} from '^types/utils/paginated.dto';
+import {orgIdParamState} from '^atoms/common';
+import {accountApi} from '^models/Account/api';
+import {subjectProductOfAccountsInModalState} from '^v3/share/modals/AccountListModal/atom';
 
 export const getAccountsQueryAtom = atom<FindAllAccountsQueryDto>({
     key: 'getAccountsQueryAtom',
@@ -17,5 +20,23 @@ export const accountsSearchResultAtom = atom<Paginated<AccountDto>>({
             currentPage: 1,
             itemsPerPage: 30,
         },
+    },
+});
+
+export const accountListAtom = atom<AccountDto[]>({
+    key: 'accountList',
+    default: [],
+});
+
+export const getAccountsQuery = selector({
+    key: 'getAccountsQuery',
+    get: async ({get}) => {
+        const orgId = get(orgIdParamState);
+        if (!orgId) return;
+
+        get(subjectProductOfAccountsInModalState);
+
+        const data = await accountApi.index(orgId, {relations: ['product'], itemsPerPage: 0}).then((res) => res.data);
+        return data;
     },
 });

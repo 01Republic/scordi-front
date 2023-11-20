@@ -1,19 +1,29 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {AccountDto} from '^models/Account/types';
 import {AccountItem} from './AccountItem';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {accountListAtom, getAccountsQuery} from '^models/Account/atom';
 
 interface AccountListProps {
-    accounts: AccountDto[];
+    accounts?: AccountDto[];
     hideProduct?: boolean;
 }
 
 export const AccountList = memo((props: AccountListProps) => {
-    const {accounts, hideProduct = false} = props;
+    const {hideProduct = false} = props;
+    const accounts = useRecoilValue(getAccountsQuery);
+    const [accountList, setAccountList] = useRecoilState(accountListAtom);
+
+    useEffect(() => {
+        if (accountList.length || !accounts) return;
+
+        setAccountList(accounts.items);
+    }, [accounts, accountList]);
 
     return (
         <ul className="w-full text-left py-4">
-            {accounts.length ? (
-                accounts.map((account, i) => <AccountItem key={i} account={account} hideProduct={hideProduct} />)
+            {accountList?.length ? (
+                accountList.map((account, i) => <AccountItem key={i} account={account} hideProduct={hideProduct} />)
             ) : (
                 <li className="flex items-center justify-center h-52">
                     <div className="text-center no-selectable">
