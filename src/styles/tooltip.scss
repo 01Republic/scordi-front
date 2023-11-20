@@ -11,3 +11,40 @@
 .tooltip:after {
   //position: fixed;
 }
+
+@keyframes bounce2 {
+  0%, 100% {
+    transform: translateY(-8px);
+    -webkit-animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: none;
+    -webkit-animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.animate-bounce2 {
+  -webkit-animation: bounce2 1s infinite;
+  animation: bounce2 1s infinite;
+}
+
+.tooltip--TastingGoogleButton {
+
+  &:before, &:after {
+    @apply animate-bounce2;
+  }
+
+  &:before {
+    font-size: 1rem;
+    //font-weight: 500;
+    color: white;
+    left: 10%;
+  }
+
+  &:after {
+    border-width: 8px;
+    top: -8px !important;
+  }
+}
