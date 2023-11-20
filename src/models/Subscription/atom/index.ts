@@ -1,6 +1,6 @@
 import {atom, selector, selectorFamily} from 'recoil';
 import {SubscriptionDto, FindAllSubscriptionsQuery} from 'src/models/Subscription/types';
-import {subscriptionIdParamState} from '^atoms/common';
+import {orgIdParamState, subscriptionIdParamState} from '^atoms/common';
 import {subscriptionApi} from '^models/Subscription/api';
 import {errorNotify} from '^utils/toast-notify';
 import {Paginated} from '^types/utils/paginated.dto';
@@ -42,6 +42,25 @@ export const getSubscriptionsQuery = selector({
 
         try {
             const res = await subscriptionApi.index(params);
+            return res.data;
+        } catch (e) {
+            errorNotify(e);
+        }
+    },
+});
+
+export const getProjectQuery = selector({
+    key: 'getProjectQuery',
+    get: async ({get}) => {
+        const orgId = get(orgIdParamState);
+        if (!orgId || isNaN(orgId)) return;
+
+        try {
+            const res = await subscriptionApi.index({
+                where: {organizationId: orgId},
+                order: {productId: 'ASC'},
+                itemsPerPage: 0,
+            });
             return res.data;
         } catch (e) {
             errorNotify(e);

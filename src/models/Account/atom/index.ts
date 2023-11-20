@@ -4,6 +4,8 @@ import {Paginated} from '^types/utils/paginated.dto';
 import {orgIdParamState} from '^atoms/common';
 import {accountApi} from '^models/Account/api';
 import {subjectProductOfAccountsInModalState} from '^v3/share/modals/AccountListModal/atom';
+import {subscriptionApi} from '^models/Subscription/api';
+import {errorNotify} from '^utils/toast-notify';
 
 export const getAccountsQueryAtom = atom<FindAllAccountsQueryDto>({
     key: 'getAccountsQueryAtom',
@@ -36,7 +38,14 @@ export const getAccountsQuery = selector({
 
         get(subjectProductOfAccountsInModalState);
 
-        const data = await accountApi.index(orgId, {relations: ['product'], itemsPerPage: 0}).then((res) => res.data);
-        return data;
+        try {
+            const res = await accountApi
+                .index(orgId, {relations: ['product'], itemsPerPage: 0})
+                .then((res) => res.data);
+
+            return res;
+        } catch (e) {
+            errorNotify(e);
+        }
     },
 });

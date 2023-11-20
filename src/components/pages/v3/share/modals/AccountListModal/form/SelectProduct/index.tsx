@@ -1,17 +1,14 @@
 import React, {memo, useEffect, useMemo, useState} from 'react';
-import {WithChildren} from '^types/global.type';
 import {ProductDto} from '^models/Product/type';
 import {UseFormReturn} from 'react-hook-form';
 import {UnSignedAccountFormData} from '^models/Account/types';
-import {ProductAvatar} from '^v3/share/ProductAvatar';
 import {useSelectProductModal} from '../../SelectProductModal/hook';
 import {Option} from '^components/util/react-select/Option';
 import {useProductsOfAccounts} from '^v3/share/modals/AccountListModal/ProductChangeModal/use-products-of-accounts';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import AsyncSelect from 'react-select/async';
-import {ActionMeta, FormatOptionLabelMeta, SingleValue} from 'react-select';
-import {Avatar} from '^components/Avatar';
+import {FormatOptionLabelMeta} from 'react-select';
 import {ProductOption} from '^v3/share/modals/AccountListModal/form/SelectProduct/ProductOption.type';
 import {ProductOptionMenu} from '^v3/share/modals/AccountListModal/form/SelectProduct/ProductOptionMenu';
 import {ProductSelectedValue} from '^v3/share/modals/AccountListModal/form/SelectProduct/ProductSelectedValue';
