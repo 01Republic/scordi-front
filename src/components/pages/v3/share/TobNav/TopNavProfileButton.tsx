@@ -28,7 +28,9 @@ export const TopNavProfileButton = memo(() => {
     });
     const {isMobile} = useOnResize2();
 
-    if (!currentOrg || !currentUser || !currentUserMembership) return <></>;
+    if (!currentOrg || !currentUser || !currentUserMembership) {
+        return <span className="text-gray-500 text-sm px-4">조직 정보를 불러오고 있습니다...</span>;
+    }
 
     const isOwner = currentUserMembership.level === MembershipLevel.OWNER;
 

@@ -1,4 +1,4 @@
-import {memo, useEffect, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
 import {currentUserAtom} from '^models/User/atom';
@@ -56,7 +56,13 @@ export const Header = memo(function Header() {
                 <label tabIndex={0} className={`block py-3 ${hasMultiOrg ? '' : 'cursor-pointer'}`}>
                     <span className="block text-xs text-gray-400">워크스페이스</span>
                     <span className="flex items-center justify-between">
-                        <span className="font-semibold">{currentOrg?.name}</span>
+                        <span className="font-semibold">
+                            {currentOrg ? (
+                                currentOrg.name
+                            ) : (
+                                <span className="block h-4 bg-slate-200 rounded w-[80px] animate-pulse">&nbsp;</span>
+                            )}
+                        </span>
                         {hasMultiOrg && <DownIcon />}
                     </span>
                 </label>

@@ -17,7 +17,7 @@ import {HeaderPanel} from '^v3/V3OrgAccountListPage/HeaderPanel';
 import {BsPlus} from '^components/react-icons';
 import {useAccountEditModal} from '^v3/share/modals/AccountListModal/AccountEditModal/hook';
 import {SelectProductModal} from '^v3/share/modals/AccountListModal/SelectProductModal';
-import {V3MainLayout} from '^v3/layouts/V3MainLayout';
+import {V3MainLayout, V3MainLayoutContainer} from '^v3/layouts/V3MainLayout';
 import {LNBIndex} from '^v3/share/LeftNavBar';
 
 export const V3OrgAccountListPage = memo(() => {
@@ -49,9 +49,11 @@ export const V3OrgAccountListPage = memo(() => {
     if (isDesktop) {
         return (
             <V3MainLayout activeTabIndex={LNBIndex.Accounts}>
-                <div>
-                    <p>V3OrgAccountListPage</p>
-                </div>
+                <V3MainLayoutContainer>
+                    <section className="mb-6">
+                        <h1>계정 관리</h1>
+                    </section>
+                </V3MainLayoutContainer>
             </V3MainLayout>
         );
     } else {

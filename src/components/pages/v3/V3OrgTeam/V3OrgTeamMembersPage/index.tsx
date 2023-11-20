@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {V3MainLayout} from '^v3/layouts/V3MainLayout';
+import {V3MainLayout, V3MainLayoutContainer} from '^v3/layouts/V3MainLayout';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
 import {useTranslation} from 'next-i18next';
@@ -19,9 +19,11 @@ export const V3OrgTeamMembersPage = memo(() => {
     if (isDesktop) {
         return (
             <V3MainLayout activeTabIndex={LNBIndex.Members}>
-                <div>
-                    <p>V3OrgTeamsPage</p>
-                </div>
+                <V3MainLayoutContainer>
+                    <section className="mb-6">
+                        <h1>멤버 관리</h1>
+                    </section>
+                </V3MainLayoutContainer>
             </V3MainLayout>
         );
     } else {

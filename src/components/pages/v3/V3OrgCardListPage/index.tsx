@@ -12,7 +12,7 @@ import {CardFormModalGroup} from '^components/pages/v3/V3OrgCardListPage/modals/
 import {inputCardNumberModal} from './modals/CardNumberModal/atom';
 import {useRecoilValue} from 'recoil';
 import {useOnResize2} from '^components/util/onResize2';
-import {V3MainLayout} from '^v3/layouts/V3MainLayout';
+import {V3MainLayout, V3MainLayoutContainer} from '^v3/layouts/V3MainLayout';
 import {LNBIndex} from '^v3/share/LeftNavBar';
 import {currentOrgAtom} from '^models/Organization/atom';
 
@@ -30,9 +30,11 @@ export const V3OrgCardListPage = memo(() => {
     if (isDesktop) {
         return (
             <V3MainLayout activeTabIndex={LNBIndex.Cards}>
-                <div>
-                    <p>V3OrgCardListPage</p>
-                </div>
+                <V3MainLayoutContainer>
+                    <section className="mb-6">
+                        <h1>결제 수단</h1>
+                    </section>
+                </V3MainLayoutContainer>
             </V3MainLayout>
         );
     } else {

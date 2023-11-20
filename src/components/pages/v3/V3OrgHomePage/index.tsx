@@ -48,7 +48,19 @@ export const V3OrgHomePage = memo(() => {
             >
                 <V3MainLayoutContainer>
                     <section className="mb-6">
-                        <h1>{currentOrg?.name}의 대시보드</h1>
+                        <h1>
+                            {currentOrg ? (
+                                currentOrg.name
+                            ) : (
+                                <span
+                                    className="inline-block h-[2rem] bg-slate-200 rounded w-[80px] animate-pulse relative top-[-2px] mr-2"
+                                    style={{verticalAlign: 'middle'}}
+                                >
+                                    &nbsp;
+                                </span>
+                            )}
+                            의 대시보드
+                        </h1>
                     </section>
                     <SummarySection />
                     <MemberListSection />
