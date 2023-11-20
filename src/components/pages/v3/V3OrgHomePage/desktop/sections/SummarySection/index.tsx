@@ -1,19 +1,44 @@
 import React, {memo} from 'react';
 import {Panel} from '^v3/V3OrgHomePage/desktop/Panel';
 import {Section} from '^v3/V3OrgHomePage/desktop/Section';
+import {SummaryItem} from './SummaryItem';
+import {MonthHandler} from '^v3/V3OrgBillingHistoriesPage/desktop/MonthHandler';
+import {useFocusedMonth} from '^v3/V3OrgHomePage/feature/useFocusedMonth';
+import {MonthlyTotal} from '^v3/V3OrgHomePage/desktop/sections/SummarySection/MonthlyTotal';
 
 export const SummarySection = memo(function SummarySection() {
+    const {focusedMonth} = useFocusedMonth();
+
     return (
         <Section>
-            <Panel padding="compact">
-                <div className="w-full grid grid-cols-5 items-center justify-items-stretch">
-                    <div className="border-r">갱신완료</div>
-                    <div className="border-r">결제예정</div>
-                    <div className="border-r">결제실패</div>
-                    <div className="border-r">이상한놈</div>
-                    <div className="border-r">1</div>
+            <div className="hidden">
+                <MonthHandler />
+            </div>
+            <div className="grid grid-cols-1 items-center justify-between">
+                <div className="col-span-1 pb-2 mb-6 hidden">
+                    <h1 className="font-semibold text-gray-500 mb-2">
+                        <span className="text-black">{focusedMonth ? focusedMonth.getMonth() + 1 : ''}월</span> 총 결제
+                    </h1>
+                    <MonthlyTotal />
                 </div>
-            </Panel>
+
+                <div className="col-span-1">
+                    <Panel padding="compact">
+                        <div className="w-full grid grid-cols-6 items-center justify-items-stretch">
+                            {/*<SummaryItem title={'모든 구독'} />*/}
+                            <SummaryItem title={'유료 구독'} value={89} />
+                            <SummaryItem title={'무료 구독'} value={11} />
+                            <SummaryItem title={'결제 예정'} value={90} />
+                            {/*<SummaryItem title={'결제 완료'} />*/}
+                            <SummaryItem title={'결제 실패'} value={3} />
+                            {/*(블러 처리 하고 유료플랜)*/}
+                            <SummaryItem title={'이상 결제'} value="?" covered />
+                            {/*(블러 처리 하고 유료플랜)*/}
+                            <SummaryItem title={'무료플랜 만료'} value="?" covered />
+                        </div>
+                    </Panel>
+                </div>
+            </div>
         </Section>
     );
 });

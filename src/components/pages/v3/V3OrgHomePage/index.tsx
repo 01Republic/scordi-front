@@ -32,9 +32,9 @@ import {
     AccountListSection,
     SubscriptionsSection,
 } from './desktop/sections';
+import {HeaderSection} from '^v3/V3OrgHomePage/desktop/sections/HeaderSection';
 
 export const V3OrgHomePage = memo(() => {
-    const currentOrg = useRecoilValue(currentOrgAtom);
     const currentUser = useRecoilValue(currentUserAtom);
     const {t} = useTranslation('org-home');
     const {isDesktop} = useOnResize2();
@@ -47,21 +47,7 @@ export const V3OrgHomePage = memo(() => {
                 modals={[NewInvoiceAccountModal, TeamMemberModal, TeamMemberCreateModal]}
             >
                 <V3MainLayoutContainer>
-                    <section className="mb-6">
-                        <h1>
-                            {currentOrg ? (
-                                currentOrg.name
-                            ) : (
-                                <span
-                                    className="inline-block h-[2rem] bg-slate-200 rounded w-[80px] animate-pulse relative top-[-2px] mr-2"
-                                    style={{verticalAlign: 'middle'}}
-                                >
-                                    &nbsp;
-                                </span>
-                            )}
-                            의 대시보드
-                        </h1>
-                    </section>
+                    <HeaderSection />
                     <SummarySection />
                     <MemberListSection />
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
