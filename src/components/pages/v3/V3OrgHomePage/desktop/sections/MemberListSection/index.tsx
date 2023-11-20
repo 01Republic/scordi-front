@@ -1,7 +1,6 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
 import {V3OrgTeamMembersPageRoute} from '^pages/v3/orgs/[orgId]/teams/members';
-import {currentOrgAtom} from '^models/Organization/atom';
 import {useTeamMembers} from '^models/TeamMember/hook';
 import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
 import {Section} from '../../Section';
@@ -9,20 +8,21 @@ import {MoreButton} from '../../MoreButton';
 import {MemberItem} from './MemberItem';
 import {AddMemberItem} from './AddMemberItem';
 import {MemberLoading} from './MemberLoading';
+import {orgIdParamState} from '^atoms/common';
 
 export const MemberListSection = memo(function MemberListSection() {
-    const currentOrg = useRecoilValue(currentOrgAtom);
+    const orgId = useRecoilValue(orgIdParamState);
     const {search: getTeamMembers, result: teamMembers, isLoading} = useTeamMembers();
     const {safePath} = useSafePathInCurrentOrg();
 
     useEffect(() => {
-        if (!currentOrg) return;
+        if (!orgId || isNaN(orgId)) return;
         getTeamMembers({
             relations: ['membership', 'membership.user', 'organization', 'teams', 'teams.subscriptions'],
             order: {id: 'DESC'},
             itemsPerPage: 0,
         });
-    }, [currentOrg]);
+    }, [orgId]);
 
     return (
         <Section

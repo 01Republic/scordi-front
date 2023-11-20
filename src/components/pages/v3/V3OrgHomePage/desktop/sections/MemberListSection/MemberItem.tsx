@@ -20,8 +20,9 @@ export const MemberItem = memo((props: MemberItemProps) => {
     const [subscriptions, setSubscriptions] = useState<SubscriptionDto[]>([]);
 
     useEffect(() => {
-        const subs = member.teams.flatMap((team) => team.subscriptions);
-        setSubscriptions(SubscriptionManager.init(subs).uniqueByProduct().all());
+        const subs = (member.teams || []).flatMap((team) => team.subscriptions);
+        const validSubs = subs.filter((e) => e);
+        setSubscriptions(SubscriptionManager.init(validSubs).uniqueByProduct().all());
     }, [member]);
 
     const onClick = () => setSubjectMember(member);

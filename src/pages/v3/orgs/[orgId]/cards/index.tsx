@@ -6,6 +6,7 @@ import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {useEffect} from 'react';
 import {useSetRecoilState} from 'recoil';
 import {cardIdParamState} from '^models/CreditCard/atom';
+import {useCurrentOrg} from '^models/Organization/hook';
 
 export const V3OrgCardListPageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]/cards',
@@ -33,8 +34,9 @@ export const V3OrgCardListPageRoute = pathRoute({
 // });
 
 export default function Page() {
-    const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const setCardId = useSetRecoilState(cardIdParamState);
+    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    useCurrentOrg(orgId);
 
     useEffect(() => {
         setCardId(null);
