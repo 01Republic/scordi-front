@@ -1,15 +1,15 @@
 import React, {memo} from 'react';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {useTranslation} from 'next-i18next';
 import {useOnResize2} from '^components/util/onResize2';
 import {V3MainLayout} from '../layouts/V3MainLayout';
 import {currentOrgAtom} from '^models/Organization/atom';
 import {V3ModalLikeLayoutMobile} from '^v3/layouts/V3ModalLikeLayout.mobile';
-import {MobileSection} from '^v3/share/sections/MobileSection';
 import {newInvoiceAccountModal} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/atom';
 import {NewInvoiceAccountModalMobile} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/mobile';
 import {useModal} from '^v3/share/modals/useModal';
 import {useToast} from '^hooks/useToast';
+import {LNBIndex} from '^v3/share/LeftNavBar';
 
 export const V3OrgAppsNewPage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -21,7 +21,7 @@ export const V3OrgAppsNewPage = memo(() => {
     if (isDesktop) {
         // PC size screen
         return (
-            <V3MainLayout>
+            <V3MainLayout activeTabIndex={LNBIndex.Subscriptions}>
                 <div>
                     <div>
                         <p>V3OrgAppsNew</p>

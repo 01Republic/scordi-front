@@ -4,9 +4,9 @@ import {isTermModalOpenedState} from './BetaSignPhoneAuthPage.atom';
 import {RiCloseLine} from '^components/react-icons';
 import {termsUrl} from '^config/environments';
 import {UseFormReturn} from 'react-hook-form';
-import {UserGoogleSocialSignUpRequestDtoV2, UserSocialSignUpRequestDto} from '^types/user.type';
 import {toast} from 'react-toastify';
 import {useTranslation} from 'next-i18next';
+import {UserGoogleSocialSignUpRequestDtoV2} from '^models/User/types';
 
 export interface TermModalProps {
     form: UseFormReturn<UserGoogleSocialSignUpRequestDtoV2, any>;
