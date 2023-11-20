@@ -17,6 +17,8 @@ import {HeaderPanel} from '^v3/V3OrgAccountListPage/HeaderPanel';
 import {BsPlus} from '^components/react-icons';
 import {useAccountEditModal} from '^v3/share/modals/AccountListModal/AccountEditModal/hook';
 import {SelectProductModal} from '^v3/share/modals/AccountListModal/SelectProductModal';
+import {V3MainLayout} from '^v3/layouts/V3MainLayout';
+import {LNBIndex} from '^v3/share/LeftNavBar';
 
 export const V3OrgAccountListPage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -44,24 +46,34 @@ export const V3OrgAccountListPage = memo(() => {
         fetchAllAccountsBy({productId});
     }, [product]);
 
-    return (
-        <V3MainLayoutMobile
-            title="Credentials"
-            activeTabIndex={BottomTabIndex.ACCOUNTS}
-            modals={[AccountCreateModal, AccountEditModal, SelectProductModal, ProductChangeModal]}
-        >
-            <HeaderPanel />
+    if (isDesktop) {
+        return (
+            <V3MainLayout activeTabIndex={LNBIndex.Accounts}>
+                <div>
+                    <p>V3OrgAccountListPage</p>
+                </div>
+            </V3MainLayout>
+        );
+    } else {
+        return (
+            <V3MainLayoutMobile
+                title="Credentials"
+                activeTabIndex={BottomTabIndex.ACCOUNTS}
+                modals={[AccountCreateModal, AccountEditModal, SelectProductModal, ProductChangeModal]}
+            >
+                <HeaderPanel />
 
-            <MobileSection.Item className="border-none">
-                <AccountList accounts={pagedAccounts.items} />
-            </MobileSection.Item>
+                <MobileSection.Item className="border-none">
+                    <AccountList accounts={pagedAccounts.items} />
+                </MobileSection.Item>
 
-            {/* 모든 모달이 꺼진 상태일 때에만 생성모달 플로팅 버튼이 활성화됩니다. */}
-            {[!isCreateModalShow, !isEditModalShow, !isProductChangeModalShow].every((e) => e) && (
-                <button onClick={openCreateModal} className="btn btn-lg btn-scordi btn-circle btn-floating">
-                    <BsPlus size={48} />
-                </button>
-            )}
-        </V3MainLayoutMobile>
-    );
+                {/* 모든 모달이 꺼진 상태일 때에만 생성모달 플로팅 버튼이 활성화됩니다. */}
+                {[!isCreateModalShow, !isEditModalShow, !isProductChangeModalShow].every((e) => e) && (
+                    <button onClick={openCreateModal} className="btn btn-lg btn-scordi btn-circle btn-floating">
+                        <BsPlus size={48} />
+                    </button>
+                )}
+            </V3MainLayoutMobile>
+        );
+    }
 });

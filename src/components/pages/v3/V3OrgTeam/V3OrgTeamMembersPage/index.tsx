@@ -9,6 +9,7 @@ import {TeamMembersPanel} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/mobile/TeamMe
 import {NewTeamMemberModal} from '^components/pages/v3/V3OrgTeam/V3OrgTeamMembersPage/modals/NewTeamMemberModal';
 import {BottomTabIndex} from '^v3/share/BottomNavMobile';
 import {InviteOrgMemberModal} from './modals/InviteMemberModal';
+import {LNBIndex} from '^v3/share/LeftNavBar';
 
 export const V3OrgTeamMembersPage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -17,7 +18,7 @@ export const V3OrgTeamMembersPage = memo(() => {
 
     if (isDesktop) {
         return (
-            <V3MainLayout>
+            <V3MainLayout activeTabIndex={LNBIndex.Members}>
                 <div>
                     <p>V3OrgTeamsPage</p>
                 </div>
