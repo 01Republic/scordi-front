@@ -19,8 +19,8 @@ export const V3OrgAppShowPageRoute = pathRoute({
 });
 
 export const getStaticPaths = async () => ({
-    paths: [{params: {orgId: '1', appId: '1'}}],
-    fallback: true,
+    paths: [],
+    fallback: 'blocking',
 });
 
 export const getStaticProps = async ({locale}: any) => ({
