@@ -1,13 +1,19 @@
 import React, {memo} from 'react';
-import {useGoogleLogin} from '@react-oauth/google';
+import {GoogleOAuthProvider, useGoogleLogin} from '@react-oauth/google';
 import {useSetRecoilState} from 'recoil';
 import {useGoogleLoginSuccessHandler2} from '^hooks/useGoogleLoginSuccessHandler2';
 import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
 import {userSocialGoogleApi} from '^api/social-google.api';
 
-export const GoogleLoginBtn = memo(() => {
-    const googleLoginOnSuccess = useGoogleLoginSuccessHandler2();
+interface GoogleLoginBtnProps {
+    googleLoginOnSuccess: (accessToken: string) => Promise<void>;
+    scope?: 'string';
+}
+export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
+    const {googleLoginOnSuccess, scope} = props;
+    // const googleLoginOnSuccess = useGoogleLoginSuccessHandler2();
     const setAccessToken = useSetRecoilState(googleAccessTokenAtom);
+
     // const {accessTokenData} = useGoogleAccessTokenCallback(UserLoginPageRoute.url());
     //
     // useEffect(() => {

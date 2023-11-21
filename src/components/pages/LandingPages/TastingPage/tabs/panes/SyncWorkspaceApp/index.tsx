@@ -31,6 +31,7 @@ export const SyncWorkspaceApp = memo(function SyncWorkspaceApp() {
 
                             <div className="py-7">
                                 <GoogleAdminLoginButton />
+
                                 {/*<GoogleComplianceDisclosureTag />*/}
                             </div>
 

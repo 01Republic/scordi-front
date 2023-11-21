@@ -7,6 +7,7 @@ import {
     UserGoogleSocialSignUpInvitedRequestDto,
     UserGoogleSocialSignUpRequestDtoV2,
 } from '^models/User/types';
+import {ReportDto} from '^components/pages/LandingPages/TastingPage/tabs/type';
 
 const makeHeaders = (accessToken: string) => ({'X-Google-Token': accessToken});
 
@@ -38,5 +39,13 @@ export const userSocialGoogleApi = {
         const url = `/users/social/google`;
         const headers = makeHeaders(token);
         return api.get<UserDto>(url, {headers}).then(oneDtoOf(UserDto));
+    },
+
+    draft(token: string) {
+        // 2023.01.01월 부터 조회
+        const from = new Date(2023, 1, 1).toISOString();
+        const url = `subscriptions/usage-report/draft?from=${from}`;
+        const headers = makeHeaders(token);
+        return api.get<ReportDto>(url, {headers}).then(oneDtoOf(ReportDto));
     },
 };
