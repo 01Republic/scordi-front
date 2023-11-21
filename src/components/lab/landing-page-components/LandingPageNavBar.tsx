@@ -108,6 +108,9 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
                                 <a href={introducePath}>제품소개</a>
                             </li>
                             <li>
+                                <a href={TastingPageRoute.path()}>SaaS 스캐너</a>
+                            </li>
+                            <li>
                                 <a href={saasPath}>컬렉션</a>
                             </li>
                             <li>
