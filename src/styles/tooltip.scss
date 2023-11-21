@@ -40,11 +40,12 @@
     font-size: 1rem;
     //font-weight: 500;
     color: white;
-    left: 10%;
+    left: 5%;
   }
 
   &:after {
     border-width: 8px;
     top: -8px !important;
+    left: 125px
   }
 }

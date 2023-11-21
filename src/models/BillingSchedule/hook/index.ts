@@ -7,7 +7,7 @@ import {
 } from '^models/BillingSchedule/atom';
 import {Paginated} from '^types/utils/paginated.dto';
 import {useState} from 'react';
-import {BillingScheduleShallowDt as ScheduleDto, GetBillingSchedulesParams} from '^models/BillingSchedule/type';
+import {BillingScheduleShallowDto as ScheduleDto, GetBillingSchedulesParams} from '^models/BillingSchedule/type';
 
 export const useBillingSchedules = () => useRecoilValue(getBillingSchedulesQuery);
 

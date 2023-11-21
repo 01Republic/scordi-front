@@ -5,9 +5,16 @@ import {useGoogleLoginSuccessHandler2} from '^hooks/useGoogleLoginSuccessHandler
 import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
 import {userSocialGoogleApi} from '^api/social-google.api';
 
-export const GoogleLoginBtn = memo(() => {
-    const googleLoginOnSuccess = useGoogleLoginSuccessHandler2();
+interface GoogleLoginBtnProps {
+    googleLoginOnSuccessFn?: (accessToken: string) => Promise<void>;
+    scope?: 'string';
+}
+
+export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
+    const {googleLoginOnSuccessFn, scope} = props;
+    const googleLoginOnSuccess = googleLoginOnSuccessFn ? googleLoginOnSuccessFn : useGoogleLoginSuccessHandler2();
     const setAccessToken = useSetRecoilState(googleAccessTokenAtom);
+
     // const {accessTokenData} = useGoogleAccessTokenCallback(UserLoginPageRoute.url());
     //
     // useEffect(() => {
