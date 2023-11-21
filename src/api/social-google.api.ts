@@ -7,7 +7,7 @@ import {
     UserGoogleSocialSignUpInvitedRequestDto,
     UserGoogleSocialSignUpRequestDtoV2,
 } from '^models/User/types';
-import {ReportDto} from '^components/pages/LandingPages/TastingPage/tabs/type';
+import {ReportDto} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/dto/report.dto';
 
 const makeHeaders = (accessToken: string) => ({'X-Google-Token': accessToken});
 
