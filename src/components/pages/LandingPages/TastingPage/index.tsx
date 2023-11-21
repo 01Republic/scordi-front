@@ -1,25 +1,13 @@
 import React, {Fragment, memo} from 'react';
-import {LandingPageNavBar} from '^components/lab/landing-page-components';
-import {EmailParsedTable} from './EmailParsedTable';
-import {AOSProvider, BetaServiceFooter, HeadTag} from '../components';
-import {TastingPageHeader} from './TastingPageHeader';
-import {atom, useRecoilState, useRecoilValue} from 'recoil';
-import {gmailItemsLoadedAtom, gmailItemsLoadingAtom} from './pageAtoms';
-import {TastingPageLoadedHeader} from './TastingPageLoadedHeader';
-import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
-import {useRouter} from 'next/router';
-import {useTranslation} from 'next-i18next';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {TypeAnimation} from 'react-type-animation';
+import {LandingPageNavBar} from '^components/lab/landing-page-components';
 import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
-import {TastingItemDetailModal} from './TastingItemDetailModal';
-import {AttachmentModal} from './AttachmentModal';
-import {InvoiceAppsModal} from './InvoiceAppsModal';
-import {useDraftResult} from '^components/pages/LandingPages/TastingPage/hooks/useDraft';
-import {googleAuthForGmail} from '^api/tasting.api';
-import {EmptyTable} from '^components/pages/LandingPages/TastingPage/EmptyTable';
+import {AOSProvider, BetaServiceFooter, HeadTag} from '../components';
+import {gmailItemsLoadedAtom, gmailItemsLoadingAtom} from './pageAtoms';
 import {navTabIndex} from './tabs/atom';
 import {SyncWorkspaceApp} from './tabs/panes/SyncWorkspaceApp';
-import {InvoiceTrackerApp} from '^components/pages/LandingPages/TastingPage/tabs/panes/InvoiceTrackerApp';
+import {InvoiceTrackerApp} from './tabs/panes/InvoiceTrackerApp';
 
 export const TastingPage = memo(() => {
     const isLoading = useRecoilValue(gmailItemsLoadingAtom);
@@ -51,9 +39,6 @@ export const TastingPage = memo(() => {
                                         tabIndex === i ? 'text-gray-700' : 'text-gray-400'
                                     } hover:text-gray-700 cursor-pointer transition-all`}
                                 >
-                                    {/*<div className="font-bold" style={{transform: 'scale(0.5)'}}>*/}
-                                    {/*    |*/}
-                                    {/*</div>*/}
                                     <div className={tabIndex === i ? 'underline underline-offset-[14px]' : ''}>
                                         {tab.label}
                                     </div>
