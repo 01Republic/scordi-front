@@ -5,11 +5,13 @@ import {userSocialGoogleApi} from '^api/social-google.api';
 import {useSetRecoilState} from 'recoil';
 import {reportState} from '../../atom';
 import {ReportDto} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/dto/report.dto';
+import {useAlert} from '^hooks/useAlert';
 
 export const GoogleAdminLoginButton = memo(function GoogleAdminLoginButton() {
     const googleOauthClientId = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID!;
     const setReportData = useSetRecoilState(reportState);
     const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
+    const {alert} = useAlert();
 
     const lowBlackList = blackList.map((item) => {
         return item.toLowerCase();
@@ -33,11 +35,16 @@ export const GoogleAdminLoginButton = memo(function GoogleAdminLoginButton() {
     };
 
     const googleLoginSuccessHandler = async (accessToken: string) => {
-        // TODO: 관리자 권한 아닐시 return
-
-        return await googleUsageReportApi.draft(accessToken).then((res) => {
-            filterBlackList(res.data);
-        });
+        return await googleUsageReportApi
+            .draft(accessToken)
+            .then((res) => {
+                filterBlackList(res.data);
+            })
+            .catch((e) => {
+                if ((e.response.data.code = 'Unauthorized')) {
+                    alert.error('회사 대표 계정으로 시도해주세요', '예시 : official@scordi.io');
+                }
+            });
     };
 
     return (
