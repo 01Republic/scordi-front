@@ -9,11 +9,12 @@ import {reportState} from '../../atom';
 export const GoogleAdminLoginButton = memo(function GoogleAdminLoginButton() {
     const googleOauthClientId = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID!;
     const [reportData, setReportData] = useRecoilState(reportState);
+    const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
 
     const googleLoginSuccessHandler = async (accessToken: string) => {
         // TODO: 관리자 권한 아닐시 return
 
-        return await userSocialGoogleApi.draft(accessToken).then((res) => {
+        return await googleUsageReportApi.draft(accessToken).then((res) => {
             setReportData(res.data);
         });
     };

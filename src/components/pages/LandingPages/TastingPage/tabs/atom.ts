@@ -1,5 +1,5 @@
 import {atom} from 'recoil';
-import {ReportDto} from '^components/pages/LandingPages/TastingPage/tabs/type';
+import {ReportDto} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/dto/report.dto';
 
 export enum TastingTabs {
     SyncWorkspace,
