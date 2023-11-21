@@ -9,6 +9,7 @@ interface GoogleLoginBtnProps {
     googleLoginOnSuccess: (accessToken: string) => Promise<void>;
     scope?: 'string';
 }
+
 export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
     const {googleLoginOnSuccess, scope} = props;
     // const googleLoginOnSuccess = useGoogleLoginSuccessHandler2();
