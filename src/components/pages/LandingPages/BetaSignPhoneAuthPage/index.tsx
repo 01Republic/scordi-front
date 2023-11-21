@@ -36,6 +36,7 @@ export const BetaSignPhoneAuthPage = memo(() => {
     const [pageLoaded, setPageLoaded] = useState(false);
 
     useEffect(() => {
+        if (typeof window == 'undefined') return;
         console.log('\ninvited from', invitedOrgId);
         const gmailProfileData = window.localStorage.getItem('scordi/tasting/gmailProfile');
         if (!gmailProfileData) {

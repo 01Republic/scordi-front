@@ -17,6 +17,7 @@ export const TastingPageLoadedHeader = memo(({children}: WithChildren) => {
 
     useEffect(() => {
         if (!gmailProfile) return;
+        if (typeof window == 'undefined') return;
 
         window.localStorage.setItem('scordi/tasting/gmailProfile', JSON.stringify(gmailProfile));
     }, [gmailProfile]);
