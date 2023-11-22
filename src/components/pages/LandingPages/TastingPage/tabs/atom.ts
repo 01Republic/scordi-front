@@ -15,3 +15,8 @@ export const reportState = atom<ReportDto | null>({
     key: 'reportState',
     default: null,
 });
+
+export const connectIsLoadingState = atom<boolean>({
+    key: 'connectIsLoadingState',
+    default: false,
+});

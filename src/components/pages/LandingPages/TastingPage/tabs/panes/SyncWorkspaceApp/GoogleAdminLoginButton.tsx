@@ -3,7 +3,7 @@ import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {useSetRecoilState} from 'recoil';
-import {reportState} from '../../atom';
+import {connectIsLoadingState, reportState} from '../../atom';
 import {ReportDto} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/dto/report.dto';
 import {useAlert} from '^hooks/useAlert';
 
@@ -11,6 +11,7 @@ export const GoogleAdminLoginButton = memo(function GoogleAdminLoginButton() {
     const googleOauthClientId = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID!;
     const setReportData = useSetRecoilState(reportState);
     const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
+    const setIsLoading = useSetRecoilState(connectIsLoadingState);
     const {alert} = useAlert();
 
     const lowBlackList = blackList.map((item) => {
@@ -18,8 +19,6 @@ export const GoogleAdminLoginButton = memo(function GoogleAdminLoginButton() {
     });
 
     const filterBlackList = (reportList: ReportDto) => {
-        if (!reportList) return;
-
         reportList.items.forEach((item) => {
             const apps = item.apps;
 
@@ -29,22 +28,23 @@ export const GoogleAdminLoginButton = memo(function GoogleAdminLoginButton() {
             });
         });
 
-        setReportData(reportList);
-
         return reportList;
     };
 
     const googleLoginSuccessHandler = async (accessToken: string) => {
+        setIsLoading(true);
+
         return await googleUsageReportApi
             .draft(accessToken)
             .then((res) => {
-                filterBlackList(res.data);
+                setReportData(filterBlackList(res.data));
             })
             .catch((e) => {
                 if ((e.response.data.code = 'Unauthorized')) {
-                    alert.error('회사 대표 계정으로 시도해주세요', '예시 : official@scordi.io');
+                    alert.error('회사 대표 계정으로 시도해주세요', 'ex) official@scordi.io');
                 }
-            });
+            })
+            .finally(() => setIsLoading(false));
     };
 
     return (
