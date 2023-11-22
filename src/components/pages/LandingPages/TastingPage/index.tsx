@@ -1,17 +1,14 @@
 import React, {Fragment, memo} from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
-import {TypeAnimation} from 'react-type-animation';
+import {useRecoilState} from 'recoil';
 import {LandingPageNavBar} from '^components/lab/landing-page-components';
-import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
 import {AOSProvider, BetaServiceFooter, HeadTag} from '../components';
-import {gmailItemsLoadedAtom, gmailItemsLoadingAtom} from './pageAtoms';
+import {TypeAnimation} from 'react-type-animation';
+import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
 import {navTabIndex} from './tabs/atom';
 import {SyncWorkspaceApp} from './tabs/panes/SyncWorkspaceApp';
 import {InvoiceTrackerApp} from './tabs/panes/InvoiceTrackerApp';
 
 export const TastingPage = memo(() => {
-    const isLoading = useRecoilValue(gmailItemsLoadingAtom);
-    const isLoaded = useRecoilValue(gmailItemsLoadedAtom);
     const [tabIndex, setTabIndex] = useRecoilState(navTabIndex);
 
     const tabs = [

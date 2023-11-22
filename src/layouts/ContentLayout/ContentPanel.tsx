@@ -124,7 +124,7 @@ export function ContentPanelInput({
                 <div className="indicator">
                     {required && (
                         <span
-                            className="indicator-item badge badge-secondary badge-3xs indicator-middle"
+                            className="indicator-item badge badge-secondary indicator-middle w-[6px] h-[6px] p-0 leading-[6px] right-[-3px]"
                             style={{top: '33%'}}
                         />
                     )}

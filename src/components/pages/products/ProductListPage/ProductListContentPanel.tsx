@@ -10,7 +10,7 @@ import {FindAllProductQuery} from '^models/Product/type';
 export const ProductListContentPanel = memo(() => {
     const currentCategory = useRecoilValue(currentProductCategoryAtom);
     const products = useRecoilValue(productSearchResultsState);
-    const {search} = useProductSearch();
+    const {search: getAllProduct} = useProductSearch();
 
     const [tagName, setTagName] = useState('');
 
@@ -23,8 +23,12 @@ export const ProductListContentPanel = memo(() => {
     useEffect(() => {
         if (!tagName) return;
         const query: FindAllProductQuery = tagName === 'All' ? {} : {tagName: tagName};
-        query.order = {id: 'DESC'};
-        search(query);
+        getAllProduct({
+            ...query,
+            isLive: true,
+            itemsPerPage: 0,
+            order: {id: 'DESC'},
+        });
     }, [tagName]);
 
     return (

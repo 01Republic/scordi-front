@@ -1,7 +1,7 @@
 import {AxiosResponse} from 'axios';
 import Swal, {SweetAlertOptions} from 'sweetalert2';
 
-interface AlertProps {
+interface DestroyAlertProps {
     title: string;
     confirmFn: () => Promise<AxiosResponse<any>>;
     routerFn: () => void;
@@ -20,7 +20,7 @@ export function useAlert() {
     };
 
     // 삭제 alert
-    const destroy = (props: AlertProps) => {
+    const destroy = (props: DestroyAlertProps) => {
         const {title, confirmFn, routerFn} = props;
         Swal.fire({
             title: title,
@@ -48,5 +48,13 @@ export function useAlert() {
             }
         });
     };
-    return {alert: {success, destroy}};
+
+    const error = (title: string, text: string) => {
+        Swal.fire({
+            icon: 'error',
+            title: title,
+            text: text,
+        });
+    };
+    return {alert: {success, destroy, error}};
 }
