@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {useSetRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {useAlert} from '^hooks/useAlert';
@@ -22,15 +22,18 @@ export const GoogleAdminLoginButton = memo(function GoogleAdminLoginButton() {
             if (!res.data) return;
             const filteredReport = filterBlackList(res.data);
             setReportData(filteredReport);
+            setLoadingStatus(ReportLoadingStatus.Loaded);
         });
 
         req.catch((e) => {
+            setLoadingStatus(ReportLoadingStatus.NotLoaded);
+
             if ((e.response.data.code = 'Unauthorized')) {
                 alert.error('회사 대표 계정으로 시도해주세요', 'ex) official@scordi.io');
+            } else {
+                alert.error('다시 시도해주세요', e.response.data.message);
             }
         });
-
-        req.finally(() => setLoadingStatus(ReportLoadingStatus.Loaded));
     };
 
     return (
