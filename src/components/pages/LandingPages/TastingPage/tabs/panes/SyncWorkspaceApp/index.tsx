@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
-import {ReportLoadingStatus, reportLoadingStatus} from './atom';
+import {ReportLoadingStatus, reportLoadingStatus, reportState} from './atom';
 import {ReportList} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/ReportList';
 import {Loading} from './Loading';
 import {SyncWorkspaceAppStartBody} from './SyncWorkspaceAppStartBody';
