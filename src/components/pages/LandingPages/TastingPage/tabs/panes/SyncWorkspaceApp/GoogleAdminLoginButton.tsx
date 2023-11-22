@@ -1,50 +1,36 @@
 import {memo} from 'react';
-import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {GoogleOAuthProvider} from '@react-oauth/google';
-import {userSocialGoogleApi} from '^api/social-google.api';
 import {useSetRecoilState} from 'recoil';
-import {reportState} from '../../atom';
-import {ReportDto} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/dto/report.dto';
+import {GoogleOAuthProvider} from '@react-oauth/google';
+import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {useAlert} from '^hooks/useAlert';
+import {userSocialGoogleApi} from '^api/social-google.api';
+import {filterBlackList} from './features';
+import {ReportLoadingStatus, reportLoadingStatus, reportState} from './atom';
 
 export const GoogleAdminLoginButton = memo(function GoogleAdminLoginButton() {
     const googleOauthClientId = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID!;
+    const setLoadingStatus = useSetRecoilState(reportLoadingStatus);
     const setReportData = useSetRecoilState(reportState);
     const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
     const {alert} = useAlert();
 
-    const lowBlackList = blackList.map((item) => {
-        return item.toLowerCase();
-    });
+    const googleLoginSuccessHandler = (accessToken: string) => {
+        setLoadingStatus(ReportLoadingStatus.Loading);
+        const req = googleUsageReportApi.draft(accessToken);
 
-    const filterBlackList = (reportList: ReportDto) => {
-        if (!reportList) return;
-
-        reportList.items.forEach((item) => {
-            const apps = item.apps;
-
-            item.apps = apps.filter((app) => {
-                const appName = app.appName.toLowerCase();
-                return !lowBlackList.includes(appName);
-            });
+        req.then((res) => {
+            if (!res.data) return;
+            const filteredReport = filterBlackList(res.data);
+            setReportData(filteredReport);
         });
 
-        setReportData(reportList);
+        req.catch((e) => {
+            if ((e.response.data.code = 'Unauthorized')) {
+                alert.error('회사 대표 계정으로 시도해주세요', '예시 : official@scordi.io');
+            }
+        });
 
-        return reportList;
-    };
-
-    const googleLoginSuccessHandler = async (accessToken: string) => {
-        return await googleUsageReportApi
-            .draft(accessToken)
-            .then((res) => {
-                filterBlackList(res.data);
-            })
-            .catch((e) => {
-                if ((e.response.data.code = 'Unauthorized')) {
-                    alert.error('회사 대표 계정으로 시도해주세요', '예시 : official@scordi.io');
-                }
-            });
+        req.finally(() => setLoadingStatus(ReportLoadingStatus.Loaded));
     };
 
     return (
@@ -58,19 +44,3 @@ export const GoogleAdminLoginButton = memo(function GoogleAdminLoginButton() {
         </div>
     );
 });
-
-const blackList = [
-    'Scordi with admin api',
-    'Google Chrome',
-    'Scordi Dev',
-    'Scordi-google-admin-test',
-    'WOOWACON 2023',
-    'iOS',
-    'My Files',
-    'iOS Account Manager',
-    'Google Drive for desktop',
-    'macOS',
-    'Android device',
-    'SAMSUNG Account',
-    'Google APIs Explorer',
-];

@@ -6,7 +6,7 @@ import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
 import {userSocialGoogleApi} from '^api/social-google.api';
 
 interface GoogleLoginBtnProps {
-    googleLoginOnSuccessFn?: (accessToken: string) => Promise<void>;
+    googleLoginOnSuccessFn?: (accessToken: string) => Promise<void> | void;
     scope?: 'string';
 }
 
@@ -30,7 +30,7 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
             const {code, scope, state} = response;
             const {accessToken} = await userSocialGoogleApi.token(code);
             setAccessToken(accessToken);
-            return await googleLoginOnSuccess(accessToken);
+            return googleLoginOnSuccess(accessToken);
         },
         scope: 'email profile openid https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/admin.reports.audit.readonly https://www.googleapis.com/auth/admin.reports.usage.readonly',
         flow: 'auth-code',
