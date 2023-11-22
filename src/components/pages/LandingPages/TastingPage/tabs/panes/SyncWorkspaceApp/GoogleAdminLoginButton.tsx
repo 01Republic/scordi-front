@@ -6,14 +6,12 @@ import {useAlert} from '^hooks/useAlert';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {filterBlackList} from './features';
 import {ReportLoadingStatus, reportLoadingStatus, reportState} from './atom';
-import {connectIsLoadingState} from '../../atom';
 
 export const GoogleAdminLoginButton = memo(function GoogleAdminLoginButton() {
     const googleOauthClientId = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID!;
     const setLoadingStatus = useSetRecoilState(reportLoadingStatus);
     const setReportData = useSetRecoilState(reportState);
     const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
-    const setIsLoading = useSetRecoilState(connectIsLoadingState);
     const {alert} = useAlert();
 
     const googleLoginSuccessHandler = (accessToken: string) => {
