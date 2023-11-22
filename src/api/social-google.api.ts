@@ -45,7 +45,7 @@ export const userSocialGoogleApi = {
         usageReport: {
             draft(token: string) {
                 // 2023.01.01월 부터 조회
-                const from = new Date(2023, 1, 1).toISOString();
+                const from = new Date(2023, 0, 1).toISOString();
                 const url = `/subscriptions/usage-report/draft?from=${from}`;
                 const headers = makeHeaders(token);
                 return api.get<ReportDto>(url, {headers}).then(oneDtoOf(ReportDto));
