@@ -6,6 +6,7 @@ import {MoneyDto} from '^types/money.type';
 import {BsInfoCircle} from 'react-icons/bs';
 import {BiError} from 'react-icons/bi';
 import {BillingHistoryDto, BillingHistoryStatus} from '^models/BillingHistory/type';
+import {Currency} from '^types/crawler';
 
 interface RowPriceTextProps {
     billingHistory: BillingHistoryDto;
@@ -41,14 +42,14 @@ const PriceTextInfo = memo(() => {
     );
 });
 
-const PriceTextSuccess = memo(({payAmount}: {payAmount: MoneyDto}) => {
+const PriceTextSuccess = memo(({payAmount}: {payAmount?: MoneyDto}) => {
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
     return (
         <>
             <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>
             <span>
                 {currencyFormat(
-                    changePriceCurrency(payAmount.amount, payAmount.code, displayCurrency) || 0,
+                    changePriceCurrency(payAmount?.amount || 0, payAmount?.code || Currency.USD, displayCurrency) || 0,
                     displayCurrency,
                 )}
             </span>
