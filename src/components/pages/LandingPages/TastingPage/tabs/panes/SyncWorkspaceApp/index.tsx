@@ -4,6 +4,7 @@ import {ReportLoadingStatus, reportLoadingStatus, reportState} from './atom';
 import {ReportList} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/ReportList';
 import {Loading} from './Loading';
 import {SyncWorkspaceAppStartBody} from './SyncWorkspaceAppStartBody';
+import {SyncWorkspaceAppLoadedBody} from './SyncWorkspaceAppLoadedBody';
 
 export const SyncWorkspaceApp = memo(function SyncWorkspaceApp() {
     const loadingStatus = useRecoilValue(reportLoadingStatus);
@@ -16,7 +17,8 @@ export const SyncWorkspaceApp = memo(function SyncWorkspaceApp() {
                         <div className="my-10 container px-4 relative">
                             {loadingStatus === ReportLoadingStatus.NotLoaded && <SyncWorkspaceAppStartBody />}
                             {loadingStatus === ReportLoadingStatus.Loading && <Loading />}
-                            {loadingStatus === ReportLoadingStatus.Loaded && <ReportList />}
+                            {loadingStatus === ReportLoadingStatus.Loaded && <SyncWorkspaceAppLoadedBody />}
+                            {/*{loadingStatus === ReportLoadingStatus.Loaded && <ReportList />}*/}
                         </div>
                     </div>
                 </section>
