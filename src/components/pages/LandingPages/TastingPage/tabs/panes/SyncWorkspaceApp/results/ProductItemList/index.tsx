@@ -31,7 +31,7 @@ export const ProductItemList = memo((props: ProductItemListProps) => {
     };
 
     return (
-        <div className="w-full grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
+        <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {sort(items).map((item, i) => (
                 <div
                     key={i}

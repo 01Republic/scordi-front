@@ -9,6 +9,7 @@ import {Avatar} from '^components/Avatar';
 import {mm_dd, yyyy_mm_dd} from '^utils/dateTime';
 import {currencyFormat} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {LinkTo} from '^components/util/LinkTo';
+import {MdOutlineWatchLater} from 'react-icons/md';
 
 export const ReportItemModal = memo(function ReportItemModal() {
     const {setIsShow, Modal, CloseButton} = useModal({isShowAtom: reportItemModalIsShow});
@@ -33,7 +34,13 @@ export const ReportItemModal = memo(function ReportItemModal() {
 
                             <div className="flex-1">
                                 <p className="leading-none font-light text-xs underline">{member.email}</p>
-                                <p className="font-semibold text-gray-800">{yyyy_mm_dd(member.lastAuthorizedTime)}</p>
+                                <p className="font-semibold text-gray-800">
+                                    <span className="text-xs mr-2">
+                                        <MdOutlineWatchLater size={10} />
+                                    </span>
+                                    <span className="text-xs text-gray-500 font-normal mr-2">Last</span>
+                                    <span>{yyyy_mm_dd(member.lastAuthorizedTime)}</span>
+                                </p>
                             </div>
 
                             {/*<p className="text-[16px]">*/}

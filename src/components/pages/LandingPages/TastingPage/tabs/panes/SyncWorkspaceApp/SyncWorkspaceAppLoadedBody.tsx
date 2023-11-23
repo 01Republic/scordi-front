@@ -17,7 +17,13 @@ export const SyncWorkspaceAppLoadedBody = memo(function LoadedResult() {
 
     return (
         <section className="pt-8">
-            <h1 className="font-semibold mb-5">{reportByProduct.workspaceName}에서 사용하는 서비스</h1>
+            <h1 className="font-semibold mb-[3rem]">
+                <span className="text-scordi">{reportByProduct.workspaceName}</span>에서는{' '}
+                <span className="text-scordi">{reportByProduct.items.length}개</span>의 서비스를{' '}
+                <span className="text-scordi">{reportList?.items.length}명</span>이 쓰고 있어요
+            </h1>
+
+            {/*<div className="w-full"></div>*/}
 
             <ProductItemList items={reportByProduct.items} />
             <ReportItemModal />
