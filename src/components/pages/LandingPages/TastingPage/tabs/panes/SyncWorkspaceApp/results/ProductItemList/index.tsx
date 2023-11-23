@@ -1,6 +1,14 @@
-import {memo} from 'react';
+import React, {memo} from 'react';
 import {Avatar} from '^components/Avatar';
 import {ReportGroupedByProductItemDto} from '../../dto/view-types/group-by-product/report.grouped-by-product-item.dto';
+import {useModal} from '^v3/share/modals/useModal';
+import {
+    reportItemModalIsShow,
+    subjectReportProductItem,
+} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/atom';
+import {useSetRecoilState} from 'recoil';
+import {ReportItemModal} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/ReportItemModal';
+import {LinkTo} from '^components/util/LinkTo';
 
 interface ProductItemListProps {
     items: ReportGroupedByProductItemDto[];
@@ -14,9 +22,12 @@ function sort(items: ReportGroupedByProductItemDto[]) {
 
 export const ProductItemList = memo((props: ProductItemListProps) => {
     const {items} = props;
+    const {open: openModal} = useModal({isShowAtom: reportItemModalIsShow});
+    const setSubjectItem = useSetRecoilState(subjectReportProductItem);
 
     const onClickItem = (item: ReportGroupedByProductItemDto) => {
-        console.log(item);
+        setSubjectItem(item);
+        openModal();
     };
 
     return (
@@ -36,6 +47,14 @@ export const ProductItemList = memo((props: ProductItemListProps) => {
                     </div>
                 </div>
             ))}
+
+            <LinkTo
+                href="#"
+                onClick={() => alert('서비스 등록 기능은 곧 도와드릴게요!')}
+                className="card p-4 btn-scordi shadow-md hover:shadow-lg flex flex-row gap-2 items-start cursor-pointer"
+            >
+                혹시 우리가 쓰고 있는 <br /> 서비스가 더 있나요?
+            </LinkTo>
         </div>
     );
 });

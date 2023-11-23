@@ -2,6 +2,7 @@ import {memo, useEffect} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {reportGroupedByProductState, reportState} from './atom';
 import {ProductItemList} from './results/ProductItemList';
+import {ReportItemModal} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/ReportItemModal';
 
 export const SyncWorkspaceAppLoadedBody = memo(function LoadedResult() {
     const reportList = useRecoilValue(reportState);
@@ -19,6 +20,7 @@ export const SyncWorkspaceAppLoadedBody = memo(function LoadedResult() {
             <h1 className="font-semibold mb-5">{reportByProduct.workspaceName}에서 사용하는 서비스</h1>
 
             <ProductItemList items={reportByProduct.items} />
+            <ReportItemModal />
         </section>
     );
 });
