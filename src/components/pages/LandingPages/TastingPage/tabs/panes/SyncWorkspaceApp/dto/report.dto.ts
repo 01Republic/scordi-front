@@ -34,6 +34,8 @@ export class ReportDto {
                     email: item.email,
                     lastAuthorizedTime: app.lastAuthorizedTime,
                 });
+                member.isPersisted = item.isPersisted;
+                member.isEdited = item.isEdited;
 
                 /**
                  * member 를 lastAuthorizedTime 기준 최신 상태의 오브젝트로 유지

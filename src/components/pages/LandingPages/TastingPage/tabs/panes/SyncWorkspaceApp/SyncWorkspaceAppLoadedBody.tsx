@@ -2,7 +2,7 @@ import {memo, useEffect} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {reportGroupedByProductState, reportState} from './atom';
 import {ProductItemList} from './results/ProductItemList';
-import {ReportItemModal} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/ReportItemModal';
+import {ReportItemModal} from './results/ReportItemModal';
 
 export const SyncWorkspaceAppLoadedBody = memo(function LoadedResult() {
     const reportList = useRecoilValue(reportState);

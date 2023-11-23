@@ -1,14 +1,12 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {Avatar} from '^components/Avatar';
-import {ReportGroupedByProductItemDto} from '../../dto/view-types/group-by-product/report.grouped-by-product-item.dto';
-import {useModal} from '^v3/share/modals/useModal';
-import {
-    reportItemModalIsShow,
-    subjectReportProductItem,
-} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/atom';
-import {useSetRecoilState} from 'recoil';
-import {ReportItemModal} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/ReportItemModal';
 import {LinkTo} from '^components/util/LinkTo';
+import {useModal} from '^v3/share/modals/useModal';
+import {ReportGroupedByProductItemDto} from '../../dto/view-types/group-by-product/report.grouped-by-product-item.dto';
+import {reportItemModalIsShow, subjectReportProductItem} from '../../atom';
+import {plainToInstance} from 'class-transformer';
+import {isAddingModeState} from '../ReportItemModal/atom';
 
 interface ProductItemListProps {
     items: ReportGroupedByProductItemDto[];
@@ -23,10 +21,25 @@ function sort(items: ReportGroupedByProductItemDto[]) {
 export const ProductItemList = memo((props: ProductItemListProps) => {
     const {items} = props;
     const {open: openModal} = useModal({isShowAtom: reportItemModalIsShow});
+    const setIsNewMemberAddingMode = useSetRecoilState(isAddingModeState);
     const setSubjectItem = useSetRecoilState(subjectReportProductItem);
+
+    useEffect(() => {
+        if (!items || !items.length) return;
+        setSubjectItem((oldSubject) => {
+            if (!oldSubject) return oldSubject;
+
+            const maybeUpdated = items.find((item) => item.key === oldSubject.key);
+            if (!maybeUpdated) return oldSubject;
+            if (oldSubject.members.length === maybeUpdated.members.length) return oldSubject;
+
+            return plainToInstance(ReportGroupedByProductItemDto, {...maybeUpdated});
+        });
+    }, [items]);
 
     const onClickItem = (item: ReportGroupedByProductItemDto) => {
         setSubjectItem(item);
+        setIsNewMemberAddingMode(false);
         openModal();
     };
 

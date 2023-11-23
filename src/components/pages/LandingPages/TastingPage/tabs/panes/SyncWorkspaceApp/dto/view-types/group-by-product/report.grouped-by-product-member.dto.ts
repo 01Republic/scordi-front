@@ -4,4 +4,7 @@ export class ReportGroupedByProductMemberDto {
     email: string;
     @TypeCast(() => Date)
     lastAuthorizedTime: Date;
+
+    isPersisted: boolean;
+    isEdited: boolean;
 }

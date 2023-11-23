@@ -2,6 +2,7 @@ import {ReactComponentLike, ReactNodeLike} from 'prop-types';
 import React, {memo} from 'react';
 import {FiArrowLeft} from 'react-icons/fi';
 import {useId} from 'react-id-generator';
+import {WithChildren} from '^types/global.type';
 
 interface ModalTopbarProps {
     backBtnOnClick: () => any;
@@ -10,8 +11,8 @@ interface ModalTopbarProps {
     rightButtons?: ReactComponentLike[];
 }
 
-export const ModalTopbar = memo((props: ModalTopbarProps) => {
-    const {title, backBtnOnClick, topbarPosition = 'fixed', rightButtons = []} = props;
+export const ModalTopbar = memo((props: ModalTopbarProps & WithChildren) => {
+    const {title, backBtnOnClick, topbarPosition = 'fixed', rightButtons = [], children} = props;
     const mappedButtons = rightButtons.length ? (
         rightButtons.map((RightButton, i) => {
             return (
@@ -40,7 +41,7 @@ export const ModalTopbar = memo((props: ModalTopbarProps) => {
                         <FiArrowLeft size={24} strokeWidth={2.5} />
                     </div>
                 </div>
-                <div className="h-full flex-1 flex items-center font-semibold text-16">{title}</div>
+                <div className="h-full flex-1 flex items-center font-semibold text-16">{children || title}</div>
                 <div className="text-sm px-6 h-full flex items-center">{mappedButtons}</div>
             </div>
             {topbarPosition === 'fixed' && <div className="w-full h-[50px] bg-white" />}

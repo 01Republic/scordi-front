@@ -6,4 +6,7 @@ export class ReportItemDto {
 
     @TypeCast(() => ReportItemAppDto)
     apps: ReportItemAppDto[];
+
+    isPersisted = true;
+    isEdited = false;
 }
