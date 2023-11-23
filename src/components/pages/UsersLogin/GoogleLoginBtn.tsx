@@ -7,11 +7,11 @@ import {userSocialGoogleApi} from '^api/social-google.api';
 
 interface GoogleLoginBtnProps {
     googleLoginOnSuccessFn?: (accessToken: string) => Promise<void> | void;
-    scope?: 'string';
+    scope?: string[];
 }
 
 export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
-    const {googleLoginOnSuccessFn, scope} = props;
+    const {googleLoginOnSuccessFn} = props;
     const googleLoginOnSuccess = googleLoginOnSuccessFn ? googleLoginOnSuccessFn : useGoogleLoginSuccessHandler2();
     const setAccessToken = useSetRecoilState(googleAccessTokenAtom);
 
@@ -22,6 +22,17 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
     //
     //     googleLoginOnSuccess(accessTokenData.access_token);
     // }, [accessTokenData]);
+    const allInOneScope = [
+        'email',
+        'profile',
+        'openid',
+        'https://www.googleapis.com/auth/gmail.readonly', // 인보이스
+        'https://www.googleapis.com/auth/admin.reports.audit.readonly', // 토큰 사용량
+        'https://www.googleapis.com/auth/admin.directory.user', // 워크스페이스 유저 목록
+        'https://www.googleapis.com/auth/admin.directory.orgunit', // 워크스페이스 조직 정보
+    ];
+
+    const scope = props.scope ?? allInOneScope;
 
     const loginButtonOnClick = useGoogleLogin({
         onSuccess: async (response) => {
@@ -32,7 +43,7 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
             setAccessToken(accessToken);
             return googleLoginOnSuccess(accessToken);
         },
-        scope: 'email profile openid https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/admin.reports.audit.readonly https://www.googleapis.com/auth/admin.reports.usage.readonly',
+        scope: scope.join(' '),
         flow: 'auth-code',
         onError: (error) => {
             console.log(error);

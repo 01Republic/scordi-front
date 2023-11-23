@@ -36,13 +36,22 @@ export const GoogleAdminLoginButton = memo(function GoogleAdminLoginButton() {
         });
     };
 
+    const scope = [
+        'email',
+        'profile',
+        'openid',
+        'https://www.googleapis.com/auth/admin.reports.audit.readonly',
+        'https://www.googleapis.com/auth/admin.directory.user',
+        'https://www.googleapis.com/auth/admin.directory.orgunit',
+    ];
+
     return (
         <div
             className="tooltip--TastingGoogleButton tooltip tooltip-open tooltip-primary"
             data-tip="구글 워크스페이스 연동이 필요해요!"
         >
             <GoogleOAuthProvider clientId={googleOauthClientId}>
-                <GoogleLoginBtn googleLoginOnSuccessFn={googleLoginSuccessHandler} />
+                <GoogleLoginBtn googleLoginOnSuccessFn={googleLoginSuccessHandler} scope={scope} />
             </GoogleOAuthProvider>
         </div>
     );
