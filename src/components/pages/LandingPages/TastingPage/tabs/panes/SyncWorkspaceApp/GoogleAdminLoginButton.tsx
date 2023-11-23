@@ -29,7 +29,11 @@ export const GoogleAdminLoginButton = memo(function GoogleAdminLoginButton() {
             setLoadingStatus(ReportLoadingStatus.NotLoaded);
 
             if ((e.response.data.code = 'Unauthorized')) {
-                alert.error('회사 대표 계정으로 시도해주세요', 'ex) official@scordi.io');
+                alert.error('회사 대표 계정으로 시도해주세요', '', {
+                    html: `
+                    ex) official@scordi.io
+                    `,
+                });
             } else {
                 alert.error('다시 시도해주세요', e.response.data.message);
             }
@@ -47,7 +51,7 @@ export const GoogleAdminLoginButton = memo(function GoogleAdminLoginButton() {
 
     return (
         <div
-            className="tooltip--TastingGoogleButton tooltip tooltip-open tooltip-primary"
+            className="tooltip--TastingGoogleButton tooltip tooltip-open tooltip-bottom sm:tooltip-top tooltip-primary"
             data-tip="구글 워크스페이스 연동이 필요해요!"
         >
             <GoogleOAuthProvider clientId={googleOauthClientId}>
