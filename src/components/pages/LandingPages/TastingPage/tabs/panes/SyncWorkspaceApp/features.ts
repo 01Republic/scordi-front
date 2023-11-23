@@ -2,7 +2,7 @@ import {ReportDto} from './dto/report.dto';
 import {plainToInstance} from 'class-transformer';
 
 export const BLACK_LIST = [
-    'Scordi with admin api',
+    'Scordi with',
     'Google Chrome',
     'Scordi Dev',
     'Scordi-google-admin-test',

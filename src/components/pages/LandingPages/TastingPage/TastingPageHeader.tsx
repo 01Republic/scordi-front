@@ -22,7 +22,7 @@ export const TastingPageHeader = memo(() => {
                     <div className="text-left w-[100vw]">
                         <div className="my-10 container px-4 relative">
                             <div
-                                className="absolute w-[50%] h-[100%] right-0 bottom-0"
+                                className="absolute w-[50%] h-[100%] right-0 bottom-0 top-[-3rem] sm:top-0"
                                 style={{
                                     backgroundImage:
                                         'url(https://i.pinimg.com/originals/b1/7d/21/b17d21020e6a6374ce0637918c844d18.gif)',

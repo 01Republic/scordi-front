@@ -28,7 +28,7 @@ export const TastingPageLoadedHeader = memo(({children}: WithChildren) => {
     // Loaded After
     return (
         <div>
-            <div className="">
+            <div className="pt-8 sm:pt-0">
                 {/* PC */}
                 <section id="section-1" className="hero mb-3 hidden sm:block">
                     <div className="text-center w-[100vw]">
