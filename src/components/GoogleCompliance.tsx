@@ -7,7 +7,7 @@ export const GoogleComplianceDisclosureTag = () => {
         'https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes';
 
     return (
-        <p className="pb-4 font-extralight font-sans text-xs">
+        <p className="pb-4 pt-12 sm:pt-0 font-extralight font-sans text-xs">
             {t('description1')}
             <a className="text-xs btn-link" href={GooglePolicyLink}>
                 {t('policy')}

@@ -1,3 +1,5 @@
+@import "./variables/grid";
+
 .tooltip {
   &.tooltip-open,
   &:hover {
@@ -38,9 +40,10 @@
 
   &:before {
     font-size: 1rem;
-    //font-weight: 500;
     color: white;
     left: 5%;
+    top: auto;
+    bottom: var(--tooltip-offset);
   }
 
   &:after {
@@ -48,4 +51,44 @@
     top: -8px !important;
     left: 125px
   }
+
+  &.tooltip-bottom {
+    &:before {
+      top: var(--tooltip-offset);
+      bottom: auto;
+    }
+    &:after {
+      top: calc(100% - 10px) !important;
+    }
+  }
+
+  @media (min-width: 640px) {
+    &.sm\:tooltip-top {
+      &:before {
+        left: 5%;
+        top: auto;
+        bottom: var(--tooltip-offset);
+      }
+      &:after {
+        top: -8px !important;
+      }
+    }
+  }
+  //@each $abbrev, $min-width in $breakpoints {
+  //  &.#{$abbrev}\:tooltip-top {
+  //    @media (min-width: $min-width) {
+  //      &:after {
+  //        top: -8px !important;
+  //      }
+  //    }
+  //  }
+  //
+  //  &.#{$abbrev}\:tooltip-bottom {
+  //    @media (min-width: $min-width) {
+  //      &:after {
+  //        top: calc(100% - 10px) !important;
+  //      }
+  //    }
+  //  }
+  //}
 }

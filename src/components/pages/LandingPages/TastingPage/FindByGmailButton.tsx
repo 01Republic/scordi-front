@@ -50,7 +50,7 @@ export const FindByGmailButton = memo((props: FindByGmailButtonProps) => {
                 {/*</button>*/}
 
                 <div
-                    className="tooltip--TastingGoogleButton tooltip tooltip-open tooltip-secondary before:left-[0%]"
+                    className="tooltip--TastingGoogleButton tooltip tooltip-open tooltip-bottom sm:tooltip-top tooltip-secondary before:left-[0%]"
                     data-tip="서비스 알림을 받고있는 구글계정을 넣어주세요!"
                 >
                     <button
@@ -60,8 +60,6 @@ export const FindByGmailButton = memo((props: FindByGmailButtonProps) => {
                     />
                 </div>
             </div>
-
-            {/*<SummarySection />*/}
         </div>
     );
 });
