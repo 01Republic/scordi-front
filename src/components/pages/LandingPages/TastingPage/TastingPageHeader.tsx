@@ -40,13 +40,15 @@ export const TastingPageHeader = memo(() => {
                             />
                             {/*<h1 className="text-5xl mb-3">Find all your team apps usage</h1>*/}
                             {/*<p className="text-lg text-gray-500">(This is just a tasting. It will never be saved.)</p>*/}
-                            <p className="text-2xl text-gray-500 mb-8 relative" style={{lineHeight: 1.7}}>
-                                {t('InvoiceTrackerApp.subtitle1')}{' '}
+                            <p className="text-xl sm:text-2xl text-gray-500 mb-8 relative" style={{lineHeight: 1.7}}>
+                                <span>{t('InvoiceTrackerApp.subtitle1')} </span>
+                                <br className="sm:hidden block" />
+                                <span>{t('InvoiceTrackerApp.subtitle1-1')}</span>
                                 <span className="block sm:inline-block">{t('InvoiceTrackerApp.subtitle2')}</span> <br />
                                 <b className="text-gray-900">{t('InvoiceTrackerApp.subtitle3')}</b>
                             </p>
 
-                            <div className="py-7 relative">
+                            <div className="py-7 sm:text-start text-center relative">
                                 <FindByGmailButton />
                                 <GoogleComplianceDisclosureTag />
                             </div>

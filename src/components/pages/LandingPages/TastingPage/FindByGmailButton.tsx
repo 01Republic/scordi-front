@@ -3,13 +3,10 @@ import {googleAuthForGmail} from '^api/tasting.api';
 import {useRecoilState} from 'recoil';
 import {gmailItemsLoadedAtom} from './pageAtoms';
 import {SummarySection} from './SummarySection';
+import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
+import {GoogleOAuthProvider} from '@react-oauth/google';
 
-interface FindByGmailButtonProps {
-    // gmailAuthClient: OAuth2Client;
-}
-
-export const FindByGmailButton = memo((props: FindByGmailButtonProps) => {
-    const {} = props;
+export const FindByGmailButton = memo(() => {
     // const router = useRouter();
     // const setGmailProfile = useSetRecoilState(gmailProfileAtom);
     // const setGmailItems = useSetRecoilState(gmailItemsAtom);
@@ -50,7 +47,7 @@ export const FindByGmailButton = memo((props: FindByGmailButtonProps) => {
                 {/*</button>*/}
 
                 <div
-                    className="tooltip--TastingGoogleButton tooltip tooltip-open tooltip-bottom sm:tooltip-top tooltip-secondary before:left-[0%]"
+                    className="tooltip--TastingGoogleButton tooltip tooltip-open tooltip-bottom sm:tooltip-top tooltip-secondary sm:before:left-[0%] before:left-[-8%]"
                     data-tip="서비스 알림을 받고있는 구글계정을 넣어주세요!"
                 >
                     <button
