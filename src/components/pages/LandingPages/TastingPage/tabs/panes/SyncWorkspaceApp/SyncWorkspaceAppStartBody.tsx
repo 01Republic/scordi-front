@@ -26,13 +26,15 @@ export const SyncWorkspaceAppStartBody = memo(function AppStartBody() {
             />
             {/*<h1 className="text-5xl mb-3">Find all your team apps usage</h1>*/}
             {/*<p className="text-lg text-gray-500">(This is just a tasting. It will never be saved.)</p>*/}
-            <p className="text-2xl text-gray-500 mb-8 relative" style={{lineHeight: 1.7}}>
-                {t('SyncWorkspaceApp.subtitle1')}{' '}
+            <p className="text-xl sm:text-2xl text-gray-500 mb-8 relative" style={{lineHeight: 1.7}}>
+                <span>{t('SyncWorkspaceApp.subtitle1')} </span>
+                <br className="sm:hidden block" />
+                <span>{t('SyncWorkspaceApp.subtitle1-1')}</span>
                 <span className="block sm:inline-block">{t('SyncWorkspaceApp.subtitle2')}</span> <br />
                 <b className="text-gray-900">{t('SyncWorkspaceApp.subtitle3')}</b>
             </p>
 
-            <div className="py-7">
+            <div className="py-7 sm:text-start text-center relative">
                 <GoogleAdminLoginButton />
 
                 {/*<GoogleComplianceDisclosureTag />*/}
