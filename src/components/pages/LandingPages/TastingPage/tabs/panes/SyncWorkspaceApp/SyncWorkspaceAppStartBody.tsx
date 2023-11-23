@@ -8,7 +8,7 @@ export const SyncWorkspaceAppStartBody = memo(function AppStartBody() {
     return (
         <>
             <div
-                className="absolute w-[50%] h-[100%] right-0 bottom-0"
+                className="absolute w-[50%] h-[100%] top-8 sm:top-0 -right-7 sm:right-0 bottom-0"
                 style={{
                     backgroundImage:
                         'url(https://i.pinimg.com/originals/f0/95/63/f095637f523c52539e1016ab9735c0b0.gif)',
