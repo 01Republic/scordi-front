@@ -66,7 +66,9 @@ export const ProductItemList = memo((props: ProductItemListProps) => {
                 onClick={() => alert('서비스 등록 기능은 곧 도와드릴게요!')}
                 className="card p-4 btn-scordi shadow-md hover:shadow-lg flex flex-row gap-2 items-start cursor-pointer"
             >
-                혹시 우리가 쓰고 있는 <br /> 서비스가 더 있나요?
+                <span className="leading-[20px]">
+                    혹시 쓰고 있는데 <br /> 표시되지 않은 <br /> 서비스가 있나요?
+                </span>
             </LinkTo>
         </div>
     );

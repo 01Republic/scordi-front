@@ -1,15 +1,14 @@
 import React, {memo, useEffect, useRef} from 'react';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {Avatar} from '^components/Avatar';
-import {reportState, useReport, subjectReportProductItem} from '../../atom';
+import {useReportInDemo, subjectReportProductItem} from '../../atom';
 import {isAddingModeState} from './atom';
 
 type InputElem = EventTarget & HTMLInputElement;
 
 export const NewMemberInput = memo(function NewMemberInput() {
     const subjectItem = useRecoilValue(subjectReportProductItem);
-    const setReport = useSetRecoilState(reportState);
-    const {memberHandler} = useReport();
+    const {memberHandler} = useReportInDemo();
     const setAddingMode = useSetRecoilState(isAddingModeState);
     const inputRef = useRef<HTMLInputElement | null>(null);
 
