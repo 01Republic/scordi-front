@@ -1,15 +1,24 @@
-import React, {Fragment, memo} from 'react';
-import {useRecoilState} from 'recoil';
+import React, {Fragment, memo, useEffect} from 'react';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {LandingPageNavBar} from '^components/lab/landing-page-components';
 import {AOSProvider, BetaServiceFooter, HeadTag} from '../components';
 import {TypeAnimation} from 'react-type-animation';
 import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
-import {navTabIndex} from './tabs/atom';
+import {navTabIndex, TastingTabs} from './tabs/atom';
 import {SyncWorkspaceApp} from './tabs/panes/SyncWorkspaceApp';
 import {InvoiceTrackerApp} from './tabs/panes/InvoiceTrackerApp';
+import {gmailItemsLoadedAtom, gmailItemsLoadingAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
 
 export const TastingPage = memo(() => {
     const [tabIndex, setTabIndex] = useRecoilState(navTabIndex);
+    const isInvoiceTrackerLoading = useRecoilValue(gmailItemsLoadingAtom);
+    const isInvoiceTrackerLoaded = useRecoilValue(gmailItemsLoadedAtom);
+
+    useEffect(() => {
+        if (isInvoiceTrackerLoading || isInvoiceTrackerLoaded) {
+            setTabIndex(TastingTabs.InvoiceTracker);
+        }
+    }, [isInvoiceTrackerLoading, isInvoiceTrackerLoaded]);
 
     const tabs = [
         {label: '구독찾기', Component: SyncWorkspaceApp},
@@ -59,7 +68,13 @@ export const TastingPage = memo(() => {
 
 export const LoadingProgressFullScreen = memo(() => {
     return (
-        <div className="fixed top-0 bottom-0 left-0 right-0 m-auto flex items-center justify-center">
+        <div
+            className="fixed top-0 bottom-0 left-0 right-0 m-auto flex items-center justify-center"
+            style={{
+                zIndex: 1,
+                backdropFilter: 'blur(10px)',
+            }}
+        >
             <div className="flex flex-col items-center pb-[50px] sm:pb-[150px]">
                 <div className="loadingio-spinner-spinner-cb6o2gc2by">
                     <div className="ldio-pcdc4ae6leg">

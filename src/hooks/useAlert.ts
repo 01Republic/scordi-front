@@ -49,12 +49,14 @@ export function useAlert() {
         });
     };
 
-    const error = (title: string, text: string) => {
+    const error = (title: string, text: string, props?: SweetAlertOptions) => {
         Swal.fire({
             icon: 'error',
             title: title,
             text: text,
+            ...props,
         });
     };
+
     return {alert: {success, destroy, error}};
 }

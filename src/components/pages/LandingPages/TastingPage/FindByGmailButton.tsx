@@ -61,7 +61,7 @@ export const FindByGmailButton = memo((props: FindByGmailButtonProps) => {
                 </div>
             </div>
 
-            <SummarySection />
+            {/*<SummarySection />*/}
         </div>
     );
 });
