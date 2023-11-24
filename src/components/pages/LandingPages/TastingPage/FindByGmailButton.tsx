@@ -48,7 +48,7 @@ export const FindByGmailButton = memo(() => {
 
                 <div
                     className="tooltip--TastingGoogleButton tooltip tooltip-open tooltip-bottom sm:tooltip-top tooltip-secondary sm:before:left-[0%] before:left-[-8%]"
-                    data-tip="서비스 알림을 받고있는 구글계정을 넣어주세요!"
+                    data-tip="결제메일을 받고 있는 계정을 선택해주세요!"
                 >
                     <button
                         onClick={() => googleAuthForGmail()}
