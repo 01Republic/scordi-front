@@ -889,3 +889,16 @@ body.hide-channel-talk {
   left: 0;
   right: 0;
 }
+
+/**
+ * Browser specific
+ */
+body {
+  @each $browser-name in ('naver', 'whale', 'safari', 'chrome', 'firefox', 'etc') {
+    &.browser--#{$browser-name} {
+      .#{$browser-name}-hidden {
+        display: none !important;
+      }
+    }
+  }
+}

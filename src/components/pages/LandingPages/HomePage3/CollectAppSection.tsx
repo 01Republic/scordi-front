@@ -9,7 +9,7 @@ export const CollectAppSection = memo((props: CollectAppSectionProps) => {
 
     return (
         <>
-            <section id="CollectAppSection" className="bg-white">
+            <section id="CollectAppSection" className="bg-white safari-hidden naver-hidden">
                 <div className="logo-container animation-layer">
                     <div id="Jira" className="logo">
                         <div
@@ -50,7 +50,7 @@ export const CollectAppSection = memo((props: CollectAppSectionProps) => {
                 <div className="bg-container animation-layer"></div>
             </section>
             <div
-                className="background logo-background-blurred !hidden sm:!flex"
+                className="background logo-background-blurred !hidden sm:!flex safari-hidden naver-hidden"
                 style={{backgroundImage: 'url(/images/landing/collect-apps/bg.png)'}}
             >
                 <div
