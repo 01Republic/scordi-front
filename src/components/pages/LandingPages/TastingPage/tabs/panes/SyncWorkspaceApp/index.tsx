@@ -1,16 +1,20 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {ReportLoadingStatus, reportLoadingStatus, reportState} from './atom';
-import {ReportList} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/ReportList';
 import {Loading} from './Loading';
 import {SyncWorkspaceAppStartBody} from './SyncWorkspaceAppStartBody';
 import {SyncWorkspaceAppLoadedBody} from './SyncWorkspaceAppLoadedBody';
+import {ReportItemModal} from './results/ReportItemModal';
+import {LinkTo} from '^components/util/LinkTo';
+import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
+import {useTranslation} from 'next-i18next';
 
 export const SyncWorkspaceApp = memo(function SyncWorkspaceApp() {
     const loadingStatus = useRecoilValue(reportLoadingStatus);
+    const {t} = useTranslation('publicTasting');
 
     return (
-        <div>
+        <>
             <div className="">
                 <section id="section-1" className="hero mb-3">
                     <div className="text-left w-[100vw]">
@@ -18,11 +22,25 @@ export const SyncWorkspaceApp = memo(function SyncWorkspaceApp() {
                             {loadingStatus === ReportLoadingStatus.NotLoaded && <SyncWorkspaceAppStartBody />}
                             {loadingStatus === ReportLoadingStatus.Loading && <Loading />}
                             {loadingStatus === ReportLoadingStatus.Loaded && <SyncWorkspaceAppLoadedBody />}
-                            {/*{loadingStatus === ReportLoadingStatus.Loaded && <ReportList />}*/}
                         </div>
                     </div>
                 </section>
             </div>
-        </div>
+
+            {/* CTA */}
+            {loadingStatus === ReportLoadingStatus.Loaded && (
+                <div className="text-center mt-10 fixed bottom-0 w-full left-0 p-4 z-20 bg-white">
+                    <LinkTo
+                        href={SignPhoneAuthPageRoute.path()}
+                        className="btn btn-scordi-500 btn-block btn-lg rounded-2xl shadow-xl"
+                    >
+                        {t('try_it_free_now')}
+                    </LinkTo>
+                </div>
+            )}
+
+            {/* Modals */}
+            {loadingStatus === ReportLoadingStatus.Loaded && <ReportItemModal />}
+        </>
     );
 });

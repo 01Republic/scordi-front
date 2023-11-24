@@ -14,6 +14,7 @@ import {gmailItemsLoadedAtom, gmailItemsLoadingAtom} from '^components/pages/Lan
 import {useDraftResult} from '^components/pages/LandingPages/TastingPage/hooks/useDraft';
 import {useRouter} from 'next/router';
 import {useTranslation} from 'next-i18next';
+import {LinkTo} from '^components/util/LinkTo';
 
 export const InvoiceTrackerApp = memo(function InvoiceTrackerApp() {
     const isLoading = useRecoilValue(gmailItemsLoadingAtom);
@@ -22,37 +23,35 @@ export const InvoiceTrackerApp = memo(function InvoiceTrackerApp() {
     const router = useRouter();
     const {t} = useTranslation('publicTasting');
 
+    if (isLoading) return <LoadingProgressFullScreen />;
+
     return (
         <>
-            {isLoading ? (
-                <LoadingProgressFullScreen />
-            ) : (
-                <>
-                    {!isLoaded ? <TastingPageHeader /> : <TastingPageLoadedHeader />}
-                    {isLoaded && isEmpty ? (
-                        <EmptyTable />
-                    ) : (
-                        <section className="container mb-24 px-4">
-                            <div className="text-center">{isLoaded && <EmailParsedTable />}</div>
+            {!isLoaded ? <TastingPageHeader /> : <TastingPageLoadedHeader />}
 
-                            {isLoaded && (
-                                <div className="text-center mt-10 fixed sm:relative bottom-0 w-full left-0 p-4 sm:p-0 z-20 sm:z-0 bg-white">
-                                    <button
-                                        className="btn btn-scordi-500 btn-block btn-lg rounded-2xl shadow-xl"
-                                        onClick={() => {
-                                            router.push(SignPhoneAuthPageRoute.path());
-                                        }}
-                                    >
-                                        {t('try_it_free_now')}
-                                    </button>
-                                </div>
-                            )}
-                        </section>
-                    )}
+            {isLoaded && isEmpty && <EmptyTable />}
 
-                    {isLoaded && <BetaServiceFooter />}
-                </>
+            {isLoaded && !isEmpty && (
+                <section className="container mb-24 px-4">
+                    <div className="text-center">
+                        <EmailParsedTable />
+                    </div>
+                </section>
             )}
+
+            {/* CTA */}
+            {isLoaded && (
+                <div className="text-center mt-10 fixed sm:relative bottom-0 w-full left-0 p-4 z-20 sm:z-0 bg-white">
+                    <LinkTo
+                        href={SignPhoneAuthPageRoute.path()}
+                        className="btn btn-scordi-500 btn-block btn-lg rounded-2xl shadow-xl"
+                    >
+                        {t('try_it_free_now')}
+                    </LinkTo>
+                </div>
+            )}
+
+            {/* Modals */}
             {isLoaded && <TastingItemDetailModal />}
             {isLoaded && <AttachmentModal />}
             {isLoaded && <InvoiceAppsModal />}

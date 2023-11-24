@@ -1,12 +1,13 @@
-import {memo, useEffect} from 'react';
+import React, {memo, useEffect} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {reportGroupedByProductState, reportState} from './atom';
 import {ProductItemList} from './results/ProductItemList';
-import {ReportItemModal} from './results/ReportItemModal';
+import {useTranslation} from 'next-i18next';
 
 export const SyncWorkspaceAppLoadedBody = memo(function LoadedResult() {
     const reportList = useRecoilValue(reportState);
     const [reportByProduct, setReportByProduct] = useRecoilState(reportGroupedByProductState);
+    const {t} = useTranslation('publicTasting');
 
     useEffect(() => {
         if (!reportList) return;
@@ -25,10 +26,7 @@ export const SyncWorkspaceAppLoadedBody = memo(function LoadedResult() {
                 </span>
             </h1>
 
-            {/*<div className="w-full"></div>*/}
-
             <ProductItemList items={reportByProduct.items} />
-            <ReportItemModal />
         </section>
     );
 });
