@@ -7,7 +7,7 @@ export const Features = memo(function Features() {
     const {t} = useTranslation('publicMain');
 
     return (
-        <div className="py-16 md:py-0">
+        <div className="py-0 sm:py-16 md:py-0">
             {/* 간단하고 쉬운 연동 */}
             <USPSection2
                 label="간편한 연동"
@@ -69,18 +69,18 @@ export const Features = memo(function Features() {
                 imgClass="py-16"
                 title={
                     <span>
-                        벌써 SaaS별 <span className="block">구독 빌링 분류 끝</span>
+                        벌써 구독 서비스별 <span className="block">빌링 분류 끝</span>
                     </span>
                 }
                 desc1={
                     <span>
-                        카드 결제내역과 인보이스를 찾지 않아도 돼요.
-                        <span className="block">PDF 첨부가 되어 있어 증빙 할 때도 유용해요.</span>
+                        결제내역과 이메일 찾지 않아도 돼요.
+                        <span className="block">PDF가 첨부되어 증빙 할 때 유용해요.</span>
                     </span>
                 }
                 desc2={
                     <ul>
-                        <li>✔️ SaaS 가입 시 입력한 결제수신 메일 파악</li>
+                        <li>✔️ 서비스 가입시 입력한 결제수신 메일 파악</li>
                         <li>✔️ SaaS 별로 연결된 결제수단 조회</li>
                         <li>✔️ 최근 결제일, 예정일, 금액 모두 확인</li>
                     </ul>

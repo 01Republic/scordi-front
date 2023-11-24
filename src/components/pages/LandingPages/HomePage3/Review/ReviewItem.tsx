@@ -41,7 +41,9 @@ export const ReviewItem = memo((props: ReviewItemProps) => {
                 </div>
                 <div className="mb-auto">
                     <img className="mb-2" src="/images/landing/review-flag.png" alt="review-mark" loading="lazy" />
-                    <p className="text-[18px] font-extrabold">{title}</p>
+                    <p className="text-[18px] font-extrabold" style={{lineHeight: '26px'}}>
+                        {title}
+                    </p>
                     <br />
                     <pre className="text-[16px]" style={{whiteSpace: 'pre-line', fontFamily: 'inherit'}}>
                         {content}
