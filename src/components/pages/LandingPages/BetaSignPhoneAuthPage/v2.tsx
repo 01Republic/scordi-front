@@ -127,11 +127,15 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
         <LandingPageLayout pageName="BetaSignPhoneAuthPage">
             <div className="mx-auto text-center py-20 w-full max-w-lg space-y-5">
                 <h1
-                    className="text-2xl sm:text-4xl mb-8 font-bold"
+                    className="text-3xl sm:text-4xl font-bold"
                     onClick={() => {
                         console.log(form.getValues());
                     }}
                     dangerouslySetInnerHTML={{__html: t('phone_auth.page_title')}}
+                />
+                <p
+                    className="font-normal text-gray-600 block mt-4 pb-4 text-lg sm:text-2xl"
+                    dangerouslySetInnerHTML={{__html: t('phone_auth.page_subtitle')}}
                 />
 
                 <div className="p-4">
