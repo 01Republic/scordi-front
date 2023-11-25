@@ -1,4 +1,6 @@
-import {memo} from 'react';
+import {memo, useEffect} from 'react';
+import {BrowserNames, useGetClientBrowser} from '^hooks/useClientBrowser';
+import AOS from 'aos';
 
 interface CollectAppSectionProps {
     //
@@ -6,6 +8,23 @@ interface CollectAppSectionProps {
 
 export const CollectAppSection = memo((props: CollectAppSectionProps) => {
     const {} = props;
+    const {browser} = useGetClientBrowser();
+
+    useEffect(() => {
+        AOS.refresh();
+    }, [browser]);
+
+    if (
+        [
+            BrowserNames.unknown,
+            BrowserNames.naverWebview,
+            BrowserNames.safari,
+            BrowserNames.firefox,
+            BrowserNames.edge,
+        ].includes(browser)
+    ) {
+        return <></>;
+    }
 
     return (
         <>
