@@ -15,7 +15,7 @@ export class ReportItemAppDto {
     }
 
     get name() {
-        return this.product ? this.product.name() : toRegularName(this.appName);
+        return toRegularName(this.product ? this.product.name() : this.appName);
     }
 }
 

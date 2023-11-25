@@ -1,13 +1,14 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
-import {ReportLoadingStatus, reportLoadingStatus, reportState} from './atom';
+import {useTranslation} from 'next-i18next';
+import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
+import {LinkTo} from '^components/util/LinkTo';
+import {ReportLoadingStatus, reportLoadingStatus} from './atom';
 import {Loading} from './Loading';
 import {SyncWorkspaceAppStartBody} from './SyncWorkspaceAppStartBody';
 import {SyncWorkspaceAppLoadedBody} from './SyncWorkspaceAppLoadedBody';
 import {ReportItemModal} from './results/ReportItemModal';
-import {LinkTo} from '^components/util/LinkTo';
-import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
-import {useTranslation} from 'next-i18next';
+import {ReportMemberItemModal} from './results/ReportMemberItemModal';
 
 export const SyncWorkspaceApp = memo(function SyncWorkspaceApp() {
     const loadingStatus = useRecoilValue(reportLoadingStatus);
@@ -41,6 +42,7 @@ export const SyncWorkspaceApp = memo(function SyncWorkspaceApp() {
 
             {/* Modals */}
             {loadingStatus === ReportLoadingStatus.Loaded && <ReportItemModal />}
+            {loadingStatus === ReportLoadingStatus.Loaded && <ReportMemberItemModal />}
         </>
     );
 });
