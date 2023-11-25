@@ -97,7 +97,10 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
                     )}
 
                     <div className="dropdown dropdown-end sm:hidden">
-                        <label tabIndex={0} className="btn btn-outline border-gray-400 text-gray-500 sm:hidden">
+                        <label
+                            tabIndex={0}
+                            className="btn sm:btn-outline !bg-white !border-none sm:border-gray-400 text-gray-500 sm:hidden"
+                        >
                             <FiMenu size={20} />
                         </label>
                         <ul
