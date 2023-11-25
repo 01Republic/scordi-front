@@ -1,5 +1,6 @@
 import {ProductDto} from '^models/Product/type';
 import {ReportGroupedByProductMemberDto} from './report.grouped-by-product-member.dto';
+import {ReportItemFormDataDto} from '../../../../SyncWorkspaceApp/dto/report-item-form.dto';
 
 export class ReportGroupedByProductItemDto {
     key: string;
@@ -10,6 +11,8 @@ export class ReportGroupedByProductItemDto {
     isPersisted = true;
     isEdited = false;
     isNew = false;
+
+    formData: ReportItemFormDataDto;
 
     get memberList() {
         return this.members.filter((member) => member.email !== 'noname');

@@ -47,6 +47,7 @@ export class ReportDto {
                 });
                 container[app.key].appName ||= app.name;
                 container[app.key].product ||= app.product;
+                container[app.key].formData = app.formData;
                 if (app.isPersisted) container[app.key].isPersisted = app.isPersisted;
                 if (app.isEdited) container[app.key].isEdited = app.isEdited;
                 if (app.isNew) container[app.key].isNew = app.isNew;

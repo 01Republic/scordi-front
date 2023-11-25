@@ -4,8 +4,7 @@ import {useModal} from '^v3/share/modals/useModal';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 import {reportItemModalIsShow} from '../../atom';
 import {ReportItemModalHeader} from './Header';
-import {ReportItemModalMemberListTitle} from './MemberListTitle';
-import {ReportItemModalMemberListContainer} from './MemberListContainer';
+import {ReportItemModalBody} from './Body';
 import {ReportItemModalCTAButton} from './ModalCTAButton';
 
 export const ReportItemModal = memo(function ReportItemModal() {
@@ -17,17 +16,7 @@ export const ReportItemModal = memo(function ReportItemModal() {
 
             <MobileSection.List>
                 <ReportItemModalHeader />
-
-                <MobileSection.Item className="border-none">
-                    <MobileSection.Padding>
-                        <ReportItemModalMemberListTitle />
-
-                        <hr />
-
-                        <ReportItemModalMemberListContainer />
-                    </MobileSection.Padding>
-                </MobileSection.Item>
-
+                <ReportItemModalBody />
                 <ReportItemModalCTAButton />
             </MobileSection.List>
         </Modal>

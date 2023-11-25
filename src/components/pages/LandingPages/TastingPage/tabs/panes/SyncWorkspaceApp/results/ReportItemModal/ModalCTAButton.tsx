@@ -1,14 +1,19 @@
 import React, {memo} from 'react';
+import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
-import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
+import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
+import {isEditModeState} from './atom';
 
 export const ReportItemModalCTAButton = memo(function ReportItemModalCTAButton() {
     const router = useRouter();
+    const isEditMode = useRecoilValue(isEditModeState);
 
     const onClick = () => {
         router.push(SignPhoneAuthPageRoute.path());
     };
+
+    if (isEditMode) return <></>;
 
     return (
         <ModalLikeBottomBar

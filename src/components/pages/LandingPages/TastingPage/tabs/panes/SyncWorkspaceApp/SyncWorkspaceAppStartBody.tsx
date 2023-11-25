@@ -13,9 +13,10 @@ export const SyncWorkspaceAppStartBody = memo(function AppStartBody() {
                     backgroundImage:
                         'url(https://i.pinimg.com/originals/f0/95/63/f095637f523c52539e1016ab9735c0b0.gif)',
                     backgroundSize: 'contain',
-                    backgroundPosition: 'center center',
+                    backgroundPosition: 'right -5rem center',
                     backgroundRepeat: 'no-repeat',
                     transform: 'scale(1.2)',
+                    right: '4rem',
                 }}
             />
 

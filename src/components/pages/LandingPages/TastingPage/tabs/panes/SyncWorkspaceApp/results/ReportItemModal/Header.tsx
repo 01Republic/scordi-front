@@ -1,12 +1,19 @@
-import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
+import React, {memo, useEffect} from 'react';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {Avatar} from '^components/Avatar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {subjectReportProductItem, useReportInDemo} from '../../atom';
+import {isEditModeState} from './atom';
+import {EditItemForm} from './EditItemForm';
 
 export const ReportItemModalHeader = memo(function ReportItemModalHeader() {
     const subjectItem = useRecoilValue(subjectReportProductItem);
     const {productHandler} = useReportInDemo();
+    const [isEditMode, setIsEditMode] = useRecoilState(isEditModeState);
+
+    useEffect(() => {
+        setIsEditMode(false);
+    }, [subjectItem]);
 
     const removeProduct = () => {
         if (!subjectItem) return;
@@ -15,12 +22,10 @@ export const ReportItemModalHeader = memo(function ReportItemModalHeader() {
         }
     };
 
-    const setEditMode = () => {
-        alert('준비중인 기능입니다!\n열심히 만들고 있어요!');
-    };
+    const setEditMode = () => setIsEditMode(true);
 
     return (
-        <MobileSection.Item>
+        <MobileSection.Item className="border-none">
             <MobileSection.Padding>
                 <div className="flex items-center gap-3 mb-[3rem]">
                     <Avatar
@@ -30,17 +35,21 @@ export const ReportItemModalHeader = memo(function ReportItemModalHeader() {
                     <h3>{subjectItem?.appName}</h3>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
-                    <button className="btn btn-lg btn-block rounded-box" onClick={removeProduct}>
-                        <span className="inline sm:hidden">제외하기</span>
-                        <span className="hidden sm:inline">서비스 제외하기</span>
-                    </button>
-                    <button className="btn btn-lg btn-block rounded-box" onClick={setEditMode}>
-                        <span className="inline sm:hidden">유료/무료</span>
-                        <span className="hidden sm:inline">유/무료 선택하기</span>
-                        {/*<span className="hidden sm:inline">유료로 쓰는중</span>*/}
-                    </button>
-                </div>
+                {isEditMode ? (
+                    <EditItemForm />
+                ) : (
+                    <div className="grid grid-cols-2 gap-3">
+                        <button className="btn btn-lg btn-block rounded-box" onClick={removeProduct}>
+                            <span className="inline sm:hidden">제외하기</span>
+                            <span className="hidden sm:inline">서비스 제외하기</span>
+                        </button>
+                        <button className="btn btn-lg btn-block rounded-box" onClick={setEditMode}>
+                            <span className="inline sm:hidden">유료/무료</span>
+                            <span className="hidden sm:inline">유/무료 선택하기</span>
+                            {/*<span className="hidden sm:inline">유료로 쓰는중</span>*/}
+                        </button>
+                    </div>
+                )}
             </MobileSection.Padding>
         </MobileSection.Item>
     );

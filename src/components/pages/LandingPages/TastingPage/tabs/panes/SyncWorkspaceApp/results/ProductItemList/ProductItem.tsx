@@ -1,13 +1,13 @@
 import React, {memo, useState} from 'react';
-import {ReportGroupedByProductItemDto} from '../../dto/view-types/group-by-product/report.grouped-by-product-item.dto';
-import {Avatar} from '^components/Avatar';
-import {FaQuestion} from 'react-icons/fa6';
-import {useModal} from '^v3/share/modals/useModal';
 import {useSetRecoilState} from 'recoil';
-import {reportItemModalIsShow, subjectReportProductItem, useReportInDemo} from '../../atom';
-import {isAddingModeState} from '../../results/ReportItemModal/atom';
-import {BsDashCircle, BsFillXCircleFill} from 'react-icons/bs';
+import {FaQuestion} from 'react-icons/fa6';
+import {BsFillXCircleFill} from 'react-icons/bs';
+import {useModal} from '^v3/share/modals/useModal';
 import {useOnResize2} from '^components/util/onResize2';
+import {Avatar} from '^components/Avatar';
+import {ReportGroupedByProductItemDto} from '../../dto/view-types/group-by-product/report.grouped-by-product-item.dto';
+import {reportItemModalIsShow, subjectReportProductItem, useReportInDemo} from '../../atom';
+import {isAddingModeState} from '../ReportItemModal/atom';
 
 interface ProductItemProps {
     item: ReportGroupedByProductItemDto;

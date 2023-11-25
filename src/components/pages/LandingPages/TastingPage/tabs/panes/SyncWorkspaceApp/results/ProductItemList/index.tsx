@@ -30,7 +30,6 @@ export const ProductItemList = memo((props: ProductItemListProps) => {
 
             const maybeUpdated = items.find((item) => item.key === oldSubject.key);
             if (!maybeUpdated) return oldSubject;
-            if (oldSubject.members.length === maybeUpdated.members.length) return oldSubject;
 
             return plainToInstance(ReportGroupedByProductItemDto, {...maybeUpdated});
         });
