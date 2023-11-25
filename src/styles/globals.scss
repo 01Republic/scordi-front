@@ -894,7 +894,7 @@ body.hide-channel-talk {
  * Browser specific
  */
 body {
-  @each $browser-name in ('naver', 'whale', 'safari', 'chrome', 'firefox', 'etc') {
+  @each $browser-name in ('chrome', 'safari', 'firefox', 'kakaoWebview', 'naverWebview', 'whale', 'edge', 'ie', 'etc') {
     &.browser--#{$browser-name} {
       .#{$browser-name}-hidden {
         display: none !important;

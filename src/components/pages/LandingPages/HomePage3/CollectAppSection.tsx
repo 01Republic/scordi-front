@@ -9,7 +9,10 @@ export const CollectAppSection = memo((props: CollectAppSectionProps) => {
 
     return (
         <>
-            <section id="CollectAppSection" className="bg-white safari-hidden naver-hidden">
+            <section
+                id="CollectAppSection"
+                className="bg-white safari-hidden naverWebview-hidden firefox-hidden edge-hidden"
+            >
                 <div className="logo-container animation-layer">
                     <div id="Jira" className="logo">
                         <div
