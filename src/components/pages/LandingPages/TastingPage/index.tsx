@@ -8,11 +8,13 @@ import {navTabIndex, TastingTabs} from './tabs/atom';
 import {SyncWorkspaceApp} from './tabs/panes/SyncWorkspaceApp';
 import {InvoiceTrackerApp} from './tabs/panes/InvoiceTrackerApp';
 import {gmailItemsLoadedAtom, gmailItemsLoadingAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
+import {useOnResize2} from '^components/util/onResize2';
 
 export const TastingPage = memo(() => {
     const [tabIndex, setTabIndex] = useRecoilState(navTabIndex);
     const isInvoiceTrackerLoading = useRecoilValue(gmailItemsLoadingAtom);
     const isInvoiceTrackerLoaded = useRecoilValue(gmailItemsLoadedAtom);
+    const {isMobile} = useOnResize2();
 
     useEffect(() => {
         if (isInvoiceTrackerLoading || isInvoiceTrackerLoaded) {
@@ -30,7 +32,7 @@ export const TastingPage = memo(() => {
     return (
         <AOSProvider>
             <HeadTag />
-            <ChannelTalkHideStyle />
+            {isMobile && <ChannelTalkHideStyle />}
             <div id="TastingPage" className="bg-white">
                 <LandingPageNavBar showLoginButton={true} fluid={true} />
 
