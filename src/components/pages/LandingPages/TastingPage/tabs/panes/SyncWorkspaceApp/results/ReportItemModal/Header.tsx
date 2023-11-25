@@ -4,6 +4,7 @@ import {Avatar} from '^components/Avatar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {subjectReportProductItem, useReportInDemo} from '../../atom';
 import {isEditModeState} from './atom';
+import {ItemInfo} from './ItemInfo';
 import {EditItemForm} from './EditItemForm';
 
 export const ReportItemModalHeader = memo(function ReportItemModalHeader() {
@@ -34,6 +35,7 @@ export const ReportItemModalHeader = memo(function ReportItemModalHeader() {
                     />
                     <h3>{subjectItem?.appName}</h3>
                 </div>
+                {!isEditMode && <ItemInfo />}
 
                 {isEditMode ? (
                     <EditItemForm />
@@ -46,7 +48,6 @@ export const ReportItemModalHeader = memo(function ReportItemModalHeader() {
                         <button className="btn btn-lg btn-block rounded-box" onClick={setEditMode}>
                             <span className="inline sm:hidden">유료/무료</span>
                             <span className="hidden sm:inline">유/무료 선택하기</span>
-                            {/*<span className="hidden sm:inline">유료로 쓰는중</span>*/}
                         </button>
                     </div>
                 )}
