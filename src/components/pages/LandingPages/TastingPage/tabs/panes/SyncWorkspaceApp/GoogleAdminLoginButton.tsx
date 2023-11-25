@@ -21,6 +21,7 @@ export const GoogleAdminLoginButton = memo(function GoogleAdminLoginButton() {
         req.then((res) => {
             if (!res.data) return;
             const filteredReport = filterBlackList(res.data);
+            filteredReport.setNonameMember();
             setReportData(filteredReport);
             setLoadingStatus(ReportLoadingStatus.Loaded);
         });

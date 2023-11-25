@@ -9,6 +9,7 @@ import {SyncWorkspaceAppStartBody} from './SyncWorkspaceAppStartBody';
 import {SyncWorkspaceAppLoadedBody} from './SyncWorkspaceAppLoadedBody';
 import {ReportItemModal} from './results/ReportItemModal';
 import {ReportMemberItemModal} from './results/ReportMemberItemModal';
+import {NewReportItemModal} from './results/NewReportItemModal';
 
 export const SyncWorkspaceApp = memo(function SyncWorkspaceApp() {
     const loadingStatus = useRecoilValue(reportLoadingStatus);
@@ -43,6 +44,7 @@ export const SyncWorkspaceApp = memo(function SyncWorkspaceApp() {
             {/* Modals */}
             {loadingStatus === ReportLoadingStatus.Loaded && <ReportItemModal />}
             {loadingStatus === ReportLoadingStatus.Loaded && <ReportMemberItemModal />}
+            {loadingStatus === ReportLoadingStatus.Loaded && <NewReportItemModal />}
         </>
     );
 });

@@ -2,7 +2,7 @@ import {atom, useSetRecoilState} from 'recoil';
 import {ReportDto} from './dto/report.dto';
 import {ReportGroupedByProductDto} from './dto/view-types/group-by-product/report.grouped-by-product.dto';
 import {ReportGroupedByProductItemDto} from './dto/view-types/group-by-product/report.grouped-by-product-item.dto';
-import {addNewMemberService, removeMemberService, removeProductService} from './features';
+import {addNewMemberService, addNewProductService, removeMemberService, removeProductService} from './features';
 import {useModal} from '^v3/share/modals/useModal';
 
 /**
@@ -78,6 +78,10 @@ export const useReportInDemo = () => {
         setReport((oldReport) => removeMemberService(oldReport, reportProductItem, email));
     };
 
+    const addProduct = (appName: string) => {
+        setReport((oldReport) => addNewProductService(oldReport, appName));
+    };
+
     const removeProduct = (reportProductItem: ReportGroupedByProductItemDto) => {
         closeModal();
         setReport((oldReport) => removeProductService(oldReport, reportProductItem));
@@ -85,7 +89,7 @@ export const useReportInDemo = () => {
     };
 
     return {
-        productHandler: {remove: removeProduct},
+        productHandler: {add: addProduct, remove: removeProduct},
         memberHandler: {add: addMember, remove: removeMember},
     };
 };

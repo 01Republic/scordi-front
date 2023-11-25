@@ -1,12 +1,13 @@
 import React, {memo, useEffect} from 'react';
-import {useRecoilState, useSetRecoilState} from 'recoil';
+import {useSetRecoilState} from 'recoil';
+import {plainToInstance} from 'class-transformer';
 import {Avatar} from '^components/Avatar';
-import {LinkTo} from '^components/util/LinkTo';
 import {useModal} from '^v3/share/modals/useModal';
 import {ReportGroupedByProductItemDto} from '../../dto/view-types/group-by-product/report.grouped-by-product-item.dto';
 import {reportItemModalIsShow, subjectReportProductItem} from '../../atom';
-import {plainToInstance} from 'class-transformer';
 import {isAddingModeState} from '../ReportItemModal/atom';
+import {AddNewAppService} from './AddNewAppService';
+import {FaQuestion} from 'react-icons/fa6';
 
 interface ProductItemListProps {
     items: ReportGroupedByProductItemDto[];
@@ -14,6 +15,9 @@ interface ProductItemListProps {
 
 function sort(items: ReportGroupedByProductItemDto[]) {
     return [...items].sort((a, b) => {
+        const a1 = a.isNew ? 1 : 0;
+        const b1 = b.isNew ? 1 : 0;
+        if (b1 - a1 !== 0) return a1 - b1;
         return b.members.length - a.members.length;
     });
 }
@@ -49,27 +53,21 @@ export const ProductItemList = memo((props: ProductItemListProps) => {
                 <div
                     key={i}
                     onClick={() => onClickItem(item)}
-                    className="card p-4 bg-base-100 shadow-md hover:shadow-lg flex flex-row gap-2 items-start cursor-pointer"
+                    className="card p-4 bg-base-100 shadow-md hover:shadow-lg flex flex-row gap-2 items-start cursor-pointer btn-animation"
                 >
                     <div>
-                        <Avatar className="w-8" src={item.product?.image} />
+                        <Avatar className="w-8" src={item.product?.image}>
+                            <FaQuestion size={24} className="text-gray-300 h-full w-full p-[6px]" />
+                        </Avatar>
                     </div>
                     <div className="flex-1 h-full flex flex-col items-end gap-2">
                         <p className="text-15 font-semibold text-right leading-none min-h-[30px]">{item.appName}</p>
-                        <p className="mt-auto text-sm text-gray-500">{item.members.length}명</p>
+                        <p className="mt-auto text-sm text-gray-500">{item.memberList.length}명</p>
                     </div>
                 </div>
             ))}
 
-            <LinkTo
-                href="#"
-                onClick={() => alert('서비스 등록 기능은 곧 도와드릴게요!')}
-                className="card p-4 btn-scordi shadow-md hover:shadow-lg flex flex-row gap-2 items-start cursor-pointer"
-            >
-                <span className="leading-[20px]">
-                    혹시 쓰고 있는데 <br /> 표시되지 않은 <br /> 서비스가 있나요?
-                </span>
-            </LinkTo>
+            <AddNewAppService />
         </div>
     );
 });

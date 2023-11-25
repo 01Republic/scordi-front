@@ -28,7 +28,7 @@ export const ReportItemModalMemberList = memo(function ReportItemModalMemberList
 
     return (
         <>
-            {(subjectItem?.members || []).map((member, i) => (
+            {(subjectItem?.memberList || []).map((member, i) => (
                 <li key={i} className="px-4">
                     <div
                         onClick={() => clickMember(member)}

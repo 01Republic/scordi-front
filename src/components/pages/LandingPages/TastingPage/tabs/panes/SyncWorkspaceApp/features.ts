@@ -144,6 +144,34 @@ export function removeMemberService(
     return newReport;
 }
 
+export function addNewProductService(oldReport: ReportDto | null, appName: string) {
+    if (!oldReport) return oldReport;
+    const members = [...oldReport.items];
+
+    const existedApp = oldReport.groupByProduct().items.find((app) => app.key === appName);
+    if (existedApp) return oldReport;
+
+    const currentApp = plainToInstance(ReportItemAppDto, {appName});
+    currentApp.lastAuthorizedTime = new Date();
+    currentApp.isPersisted = false;
+    currentApp.isNew = true;
+
+    const newMemberData = oldReport.items.find((it) => it.email === 'noname') || {
+        email: 'noname',
+        apps: [],
+        isPersisted: false,
+        isEdited: true,
+    };
+    const newMember = plainToInstance(ReportItemDto, {...newMemberData});
+    newMember.apps = [...newMember.apps, currentApp];
+    members.push(newMember);
+
+    const newReport = plainToInstance(ReportDto, {...oldReport});
+    newReport.items = members;
+
+    return newReport;
+}
+
 export function removeProductService(oldReport: ReportDto | null, reportProductItem: ReportGroupedByProductItemDto) {
     if (!oldReport) return oldReport;
     const members = [...oldReport.items];

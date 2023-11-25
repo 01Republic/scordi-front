@@ -11,14 +11,18 @@ export class ReportItemDto {
     isEdited = false;
 
     appsInUniq() {
-        const container: Record<string, ReportItemAppDto> = {};
-        this.apps.forEach((app) => {
-            container[app.key] ||= app;
-            if (container[app.key].lastAuthorizedTime.getTime() - app.lastAuthorizedTime.getTime() > 0) {
-                container[app.key] = app;
-            }
-        });
-
-        return Object.values(container);
+        return reportItemAppsInUniq(this.apps);
     }
+}
+
+export function reportItemAppsInUniq(apps: ReportItemAppDto[]) {
+    const container: Record<string, ReportItemAppDto> = {};
+    apps.forEach((app) => {
+        container[app.key] ||= app;
+        if (container[app.key].lastAuthorizedTime.getTime() - app.lastAuthorizedTime.getTime() > 0) {
+            container[app.key] = app;
+        }
+    });
+
+    return Object.values(container);
 }

@@ -10,6 +10,10 @@ export class ReportItemAppDto {
     @TypeCast(() => ProductDto)
     product?: ProductDto;
 
+    isPersisted = true;
+    isEdited = false;
+    isNew = false;
+
     get key() {
         return this.name;
     }

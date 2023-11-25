@@ -6,4 +6,12 @@ export class ReportGroupedByProductItemDto {
     appName: string;
     product?: ProductDto;
     members: ReportGroupedByProductMemberDto[];
+
+    isPersisted = true;
+    isEdited = false;
+    isNew = false;
+
+    get memberList() {
+        return this.members.filter((member) => member.email !== 'noname');
+    }
 }
