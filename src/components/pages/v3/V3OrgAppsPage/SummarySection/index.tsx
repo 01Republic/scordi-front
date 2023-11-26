@@ -25,7 +25,7 @@ export const SummarySection = memo(function SummarySection() {
     const expireCount = 2; // 만료됨
 
     return (
-        <section className="grid grid-cols-5 gap-4 mb-6">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-6">
             <SummaryCard
                 icon={<TbCalendarCheck size={22} />}
                 label="활성"
@@ -54,7 +54,7 @@ export const SummarySection = memo(function SummarySection() {
                 icon={<TbCalendarOff size={22} />}
                 label="만료됨"
                 value={expireCount}
-                className="text-gray-500"
+                className="text-gray-500 flex md:hidden xl:flex"
             />
         </section>
     );

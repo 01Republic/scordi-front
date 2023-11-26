@@ -14,8 +14,10 @@ export const SummaryCard = memo((props: SummaryCardProps) => {
     return (
         <div className={`card shadow bg-white flex flex-row items-center p-4 ${className}`}>
             <div className="mr-3">{renderOne(icon)}</div>
-            <div className="grow font-semibold">{label}</div>
-            <div className="text-xl font-semibold">{value.toLocaleString()}</div>
+            <div className="grow flex items-center">
+                <div className="grow font-semibold">{label}</div>
+                <div className="text-xl font-semibold">{value.toLocaleString()}</div>
+            </div>
         </div>
     );
 });

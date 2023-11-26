@@ -9,7 +9,7 @@ export const SubscriptionListPageTitle = memo(function SubscriptionListPageTitle
     const subscriptions = useRecoilValue(subscriptionsForCurrentOrgState);
 
     return (
-        <section className="mb-6 flex justify-between">
+        <section className="mb-6 flex justify-between flex-col md:flex-row">
             <h1>
                 {/*<span className="block">*/}
                 {/*    <span className="text-scordi">{currentOrg?.name}</span> 팀,*/}
@@ -20,8 +20,11 @@ export const SubscriptionListPageTitle = memo(function SubscriptionListPageTitle
             </h1>
 
             <div>
-                <div className="dropdown dropdown-end">
-                    <label tabIndex={0} className="btn btn-scordi m-1 gap-2">
+                <div className="dropdown dropdown-end w-full md:w-auto">
+                    <label
+                        tabIndex={0}
+                        className="btn btn-scordi m-1 gap-2 whitespace-nowrap flex-nowrap mt-8 md:mt-0 btn-lg md:btn-md w-full md:w-auto"
+                    >
                         <span>서비스 등록</span>
                         <FaPlus />
                     </label>
