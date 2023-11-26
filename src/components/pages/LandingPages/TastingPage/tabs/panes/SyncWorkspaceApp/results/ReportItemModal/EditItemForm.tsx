@@ -23,7 +23,7 @@ export const EditItemForm = memo(function EditItemForm() {
         setIsFree(subjectItem.formData.isFree);
         setRecurringType(subjectItem.formData.recurringType);
         setIsPerUser(subjectItem.formData.isPerUser);
-        setPayAmount(subjectItem.formData.payAmount);
+        if (subjectItem.formData.payAmount) setPayAmount(subjectItem.formData.payAmount);
         setCurrencyType(subjectItem.formData.currencyType);
     }, [subjectItem]);
 
@@ -154,19 +154,30 @@ export const EditItemForm = memo(function EditItemForm() {
                         </label>
                         <div className="input-group relative focus:outline focus:outline-offset-2">
                             <input
-                                type="number"
+                                type="text"
                                 placeholder={currencyType === CurrencyType.KRW ? '57000' : '6.99'}
-                                className="input input-bordered flex-1 !outline-none border-gray-300 border-r-0 text-lg"
-                                value={payAmount}
-                                onChange={(e) => setPayAmount(Number(e.target.value.replace(/\D/g, '')))}
+                                step={currencyType === CurrencyType.KRW ? 1 : 0.1}
+                                className="input input-bordered !outline-none border-gray-300 border-r-0 text-lg min-w-0 grow"
+                                value={typeof payAmount != 'undefined' ? payAmount.toLocaleString() : undefined}
+                                data-pattern="localeString"
+                                onKeyUp={(e) => {
+                                    const value = e.target.value;
+                                    const number = value.length ? Number(value.replace(/\D/g, '')) : undefined;
+                                    if (number) e.target.value = number.toLocaleString();
+                                }}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    const number = value.length ? Number(value.replace(/\D/g, '')) : undefined;
+                                    setPayAmount(number);
+                                }}
                             />
-                            <span className="bg-white border-y border-gray-300 text-lg">
+                            <span className="bg-white border-y border-gray-300 text-lg whitespace-nowrap">
                                 {currencyType === CurrencyType.KRW && '원'}
                                 {currencyType === CurrencyType.USD && '달러'}
                             </span>
                             <button
                                 type="button"
-                                className="flex items-center px-4 cursor-pointer bg-gray-100 hover:bg-gray-200 border-y border-r border-gray-300 text-lg transition-all focus:bg-gray-300 focus:outline-gray-300"
+                                className="flex items-center px-4 cursor-pointer bg-gray-100 hover:bg-gray-200 border-y border-r border-gray-300 text-lg transition-all focus:bg-gray-300 focus:outline-gray-300 whitespace-nowrap"
                                 onClick={() =>
                                     setCurrencyType((v) => {
                                         if (v === CurrencyType.KRW) return CurrencyType.USD;
