@@ -1,12 +1,20 @@
 import React, {memo} from 'react';
 import {LNBIndex} from '^v3/share/LeftNavBar';
 import {V3ListPageLayout} from '^v3/layouts/V3ListPageLayout';
+import {SubscriptionTable} from '^v3/V3OrgAppsPage/SubscriptionTable';
+import {SubscriptionLoader} from '^v3/V3OrgAppsPage/SubscriptionLoader';
+import {SummarySection} from '^v3/V3OrgAppsPage/SummarySection';
+import {SubscriptionListPageTitle} from '^v3/V3OrgAppsPage/SubscriptionListPageTitle';
 
 export const V3OrgAppsPage = memo(() => {
     return (
         <V3ListPageLayout activeTabIndex={LNBIndex.Subscriptions}>
-            <section className="mb-6">
-                <h1>구독리스트</h1>
+            <SubscriptionListPageTitle />
+            <SubscriptionLoader />
+            <SummarySection />
+
+            <section>
+                <SubscriptionTable />
             </section>
         </V3ListPageLayout>
     );
