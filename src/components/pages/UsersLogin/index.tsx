@@ -23,7 +23,7 @@ export const UsersLoginPage = memo(() => {
     //         .catch(() => setIsModalOpen(true));
     // };
 
-    const googleOauthClientId = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID!;
+    const googleOauthClientId = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_ADMIN_CLIENT_ID!;
 
     return (
         <div className="bg-white">
