@@ -36,7 +36,7 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
         <tr>
             {/*<td></td>*/}
             <td>
-                <ProductProfile product={subscription.product} />
+                <ProductProfile product={subscription.product} subscriptionId={subscription.id} />
             </td>
             <td className="text-center">
                 <SubscriptionStatus

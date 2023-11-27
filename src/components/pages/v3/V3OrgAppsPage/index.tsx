@@ -5,6 +5,7 @@ import {SubscriptionTable} from '^v3/V3OrgAppsPage/SubscriptionTable';
 import {SubscriptionLoader} from '^v3/V3OrgAppsPage/SubscriptionLoader';
 import {SummarySection} from '^v3/V3OrgAppsPage/SummarySection';
 import {SubscriptionListPageTitle} from '^v3/V3OrgAppsPage/SubscriptionListPageTitle';
+import {AppShowPageModal} from '^v3/V3OrgAppShowPage/modals';
 
 export const V3OrgAppsPage = memo(() => {
     return (
@@ -16,6 +17,7 @@ export const V3OrgAppsPage = memo(() => {
             <section>
                 <SubscriptionTable />
             </section>
+            <AppShowPageModal />
         </V3ListPageLayout>
     );
 });
