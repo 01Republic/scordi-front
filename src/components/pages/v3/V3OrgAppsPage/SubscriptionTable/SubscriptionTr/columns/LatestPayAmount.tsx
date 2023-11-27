@@ -6,22 +6,14 @@ import {getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price'
 import {currencyFormat} from '^utils/number';
 
 interface LatestPayAmountProps {
-    latestBillingHistory: BillingHistoryDto;
+    latestBillingHistory?: BillingHistoryDto;
 }
 
 export const LatestPayAmount = memo((props: LatestPayAmountProps) => {
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
     const symbol = getCurrencySymbol(displayCurrency);
     const {latestBillingHistory} = props;
-    const [payAmount, setPayAmount] = useState(0);
-
-    useEffect(() => {
-        const amount = latestBillingHistory?.getPriceIn(displayCurrency);
-
-        if (!amount || isNaN(amount)) return;
-
-        setPayAmount(amount);
-    }, [latestBillingHistory]);
+    const payAmount = latestBillingHistory?.getPriceIn(displayCurrency) || 0;
 
     return (
         <p className="text-sm">
