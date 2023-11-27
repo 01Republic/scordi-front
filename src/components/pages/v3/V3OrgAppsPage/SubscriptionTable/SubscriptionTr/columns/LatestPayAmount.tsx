@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo, useEffect, useState} from 'react';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
@@ -13,8 +13,15 @@ export const LatestPayAmount = memo((props: LatestPayAmountProps) => {
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
     const symbol = getCurrencySymbol(displayCurrency);
     const {latestBillingHistory} = props;
+    const [payAmount, setPayAmount] = useState(0);
 
-    const payAmount = latestBillingHistory.getPriceIn(displayCurrency);
+    useEffect(() => {
+        const amount = latestBillingHistory?.getPriceIn(displayCurrency);
+
+        if (!amount || isNaN(amount)) return;
+
+        setPayAmount(amount);
+    }, [latestBillingHistory]);
 
     return (
         <p className="text-sm">
