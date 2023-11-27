@@ -80,7 +80,7 @@ export class BillingHistoryManager extends BasicManager<BillingHistoryDto> {
         return this.paid().uniqByIdentity().groupByIssuedAtYMD();
     }
 
-    lastPaidHistory() {
+    lastPaidHistory(): BillingHistoryDto | undefined {
         return this.paid().latestIssue().first(1).take();
     }
 

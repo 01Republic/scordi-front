@@ -1,4 +1,6 @@
-export const googleOauthClientId = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_GMAIL_CLIENT_ID!;
-export const googleOauthClientSecret = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_GMAIL_CLIENT_SECRET!;
+import {googleOAuth} from '^config/environments';
+
+export const googleOauthClientId = googleOAuth.gmailClient.id;
+export const googleOauthClientSecret = googleOAuth.gmailClient.secret;
 
 export const gmailPath = (path: string) => `https://gmail.googleapis.com/${path}`;
