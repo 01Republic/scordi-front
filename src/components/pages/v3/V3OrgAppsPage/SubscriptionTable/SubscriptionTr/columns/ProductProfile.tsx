@@ -30,7 +30,7 @@ export const ProductProfile = memo((props: ProductProfileProps) => {
                 </Avatar>
                 <div className="flex-1 h-full">
                     {/* FIXME: text 색깔 scordi일때만 변하지 않음 */}
-                    <p className="group-hover:text-purple-500 group-hover:transition-all">{product.name()}</p>
+                    <p className="group-hover:text-scordi group-hover:transition-all">{product.name()}</p>
                 </div>
             </div>
         </div>

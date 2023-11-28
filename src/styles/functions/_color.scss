@@ -19,6 +19,15 @@
     .#{$state}\:#{$name}:#{$state} { #{$attr}: $value; }
     @include set-important-class('#{$state}\:#{$name}:#{$state}', $attr, $value);
   }
+
+  @each $parent-state, $my-class in (hover: 'group-hover') {
+    .group:#{$parent-state} .#{$my-class}\:#{$name} {
+      #{$attr}: $value;
+    }
+    .group:#{$parent-state} .\!#{$my-class}\:#{$name} {
+      #{$attr}: $value !important;
+    }
+  }
 }
 
 @mixin set-scaled-class($name, $attr, $value) {
