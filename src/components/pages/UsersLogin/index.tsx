@@ -23,9 +23,11 @@ export const UsersLoginPage = memo(() => {
     //         .catch(() => setIsModalOpen(true));
     // };
 
+    const scope = ['email', 'profile', 'openid', 'https://www.googleapis.com/auth/gmail.readonly'];
+
     return (
         <div className="bg-white">
-            <GoogleOAuthProvider clientId={googleOAuth.adminClient.id}>
+            <GoogleOAuthProvider clientId={googleOAuth.gmailClient.id}>
                 <Modal
                     type={'info'}
                     isOpen={isModalOpen}
@@ -54,7 +56,7 @@ export const UsersLoginPage = memo(() => {
                         </div>
 
                         <div>
-                            <GoogleLoginBtn />
+                            <GoogleLoginBtn scope={scope} />
                         </div>
                         <div></div>
                     </div>

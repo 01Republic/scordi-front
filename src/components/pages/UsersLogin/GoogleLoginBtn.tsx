@@ -7,7 +7,6 @@ import {userSocialGoogleApi} from '^api/social-google.api';
 
 interface GoogleLoginBtnProps {
     googleLoginOnSuccessFn?: (accessToken: string) => Promise<void> | void;
-    feature?: 'admin' | 'gmail';
     scope?: string[];
 }
 
@@ -28,9 +27,17 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
 
     const scope = props.scope ?? allInOneScope;
 
+    const getFeature = () => {
+        return scope.find((i) => i.includes('gmail'))
+            ? 'gmail'
+            : scope.find((i) => i.includes('admin'))
+            ? 'admin'
+            : scope.find((i) => i.includes('gmail') && i.includes('admin')) && undefined;
+    };
+
     const loginButtonOnClick = useGoogleLogin({
         onSuccess: async (response) => {
-            const {feature} = props;
+            const feature = getFeature();
             const {code} = response;
             const {accessToken} = await userSocialGoogleApi.token({
                 code,
