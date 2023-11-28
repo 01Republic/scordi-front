@@ -1,5 +1,6 @@
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {PostDto} from '^models/Post/type';
+import {TypeCast} from '^types/utils/class-transformer';
 
 export enum TagGroup {
     Product = 'PRODUCT',
@@ -9,14 +10,14 @@ export enum TagGroup {
 
 export class TagDto {
     id: number; // 태그 ID
-    name: string;
-    group: TagGroup;
+    name: string; // 태그 이름
+    group: TagGroup; // 태그 그룹
+    parentTagId: number; // 상위 태그 ID
     isFeatured: boolean;
-    parentTagId: number;
-    parentTag: TagDto;
-    depth: number;
-    createdAt: string; // 생성일시
-    updatedAt: string; // 수정일시
+    @TypeCast(() => TagDto) parentTag?: TagDto; // 상위 태그
+    depth: number; // 깊이
+    @TypeCast(() => Date) createdAt: Date; // 생성일시
+    @TypeCast(() => Date) updatedAt: Date; // 수정일시
 }
 
 export type FindAllTagQueryDto = FindAllQueryDto<TagDto> & {};

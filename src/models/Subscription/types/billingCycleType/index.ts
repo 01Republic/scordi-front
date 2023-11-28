@@ -1,4 +1,6 @@
 // BillingCycle 결제주기
+import {TypeCast} from '^types/utils/class-transformer';
+
 export enum BillingCycle {
     undef = 'UNDEF',
     monthly = 'MONTHLY',
@@ -18,8 +20,8 @@ export class SubscriptionBillingCycleDto {
     unitPrice: number; // 단위가격
     term: BillingCycleTerm | null; // 주기
     isPerUser: boolean; // 회원당 과금 여부
-    createdAt: Date; // 생성일시
-    updatedAt: Date; // 수정일시
+    @TypeCast(() => Date) createdAt: Date; // 생성일시
+    @TypeCast(() => Date) updatedAt: Date; // 수정일시
 }
 
 export enum PaymentCycle {

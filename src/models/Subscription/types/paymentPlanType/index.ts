@@ -1,4 +1,5 @@
 import {SubscriptionBillingCycleDto} from '^models/Subscription/types/billingCycleType';
+import {TypeCast} from '^types/utils/class-transformer';
 
 // // PaymentPlan 결제플랜
 // export enum PaymentPlan {
@@ -9,11 +10,11 @@ import {SubscriptionBillingCycleDto} from '^models/Subscription/types/billingCyc
 //   enterprise = 'ENTERPRISE',
 // }
 
-export type SubscriptionPaymentPlanDto = {
+export class SubscriptionPaymentPlanDto {
     id: number;
     productId: number;
     name: string;
-    createdAt: Date;
-    updatedAt: Date;
-    billingCycles: SubscriptionBillingCycleDto[];
-};
+    @TypeCast(() => Date) createdAt: Date;
+    @TypeCast(() => Date) updatedAt: Date;
+    @TypeCast(() => SubscriptionBillingCycleDto) billingCycles: SubscriptionBillingCycleDto[];
+}

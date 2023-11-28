@@ -18,7 +18,7 @@ export const MemberListSection = memo(function MemberListSection() {
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
         getTeamMembers({
-            relations: ['membership', 'membership.user', 'organization', 'teams', 'teams.subscriptions'],
+            relations: ['membership', 'membership.user', 'organization', 'teams', 'subscriptions'],
             order: {id: 'DESC'},
             itemsPerPage: 0,
         });
