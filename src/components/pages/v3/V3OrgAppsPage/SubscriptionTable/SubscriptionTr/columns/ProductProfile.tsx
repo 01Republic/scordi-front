@@ -23,14 +23,13 @@ export const ProductProfile = memo((props: ProductProfileProps) => {
     };
 
     return (
-        <div onClick={onClick}>
-            <div className="flex items-center gap-2 group hover:cursor-pointer">
+        <div className="group cursor-pointer" onClick={onClick}>
+            <div className="flex items-center gap-2">
                 <Avatar className="w-8" src={product.image} alt={product.name()} draggable={false} loading="lazy">
                     <FaQuestion size={24} className="text-gray-300 h-full w-full p-[6px]" />
                 </Avatar>
-                <div className="flex-1 h-full">
-                    {/* FIXME: text 색깔 scordi일때만 변하지 않음 */}
-                    <p className="group-hover:text-purple-500 group-hover:transition-all">{product.name()}</p>
+                <div className="flex-1 h-full group-hover:text-scordi transition-all">
+                    <p className="">{product.name()}</p>
                 </div>
             </div>
         </div>
