@@ -47,6 +47,7 @@ export const GoogleAdminLoginButton = memo(function GoogleAdminLoginButton() {
         'openid',
         'https://www.googleapis.com/auth/admin.reports.audit.readonly',
         'https://www.googleapis.com/auth/admin.directory.user',
+        'https://www.googleapis.com/auth/admin.directory.user.security',
         'https://www.googleapis.com/auth/admin.directory.orgunit',
     ];
 
