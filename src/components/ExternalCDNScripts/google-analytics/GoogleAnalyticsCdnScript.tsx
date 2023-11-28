@@ -1,10 +1,10 @@
-import {GA_ID} from './constants';
-import {appEnv, serviceHost} from '^config/environments';
+import {appEnv, ga_id, serviceHost} from '^config/environments';
 
+// Google tag (gtag.js) -- production only
 export function GoogleAnalyticsCdnScript() {
     return appEnv === 'production' && serviceHost === 'https://scordi.io' ? (
         <>
-            <script id="cdn-ga-core" async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} />
+            <script id="cdn-ga-core" async src={`https://www.googletagmanager.com/gtag/js?id=${ga_id}`} />
             <script
                 id="cdn-ga-config"
                 dangerouslySetInnerHTML={{
@@ -13,7 +13,7 @@ export function GoogleAnalyticsCdnScript() {
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', '${GA_ID}');
+gtag('config', '${ga_id}');
         `,
                 }}
             />

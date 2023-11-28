@@ -12,6 +12,7 @@ export const termsUrl = {
     // 개인정보처리방침
     privacy: `${process.env.NEXT_PUBLIC_BASE_API}/terms/개인정보처리방침-v20221101-1.html`,
 };
-
 export const crawlerSign = process.env.NEXT_PUBLIC_CRAWLER_SIGN_SECRET as string;
 export const cardSign = process.env.NEXT_PUBLIC_CARD_SIGN_KEY as string;
+export const ga_id = 'G-3N0EEGXZ8D' as string;
+export const gtm_id = 'GTM-KHWGMDZT' as string;
