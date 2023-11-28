@@ -12,19 +12,31 @@
 }
 
 @mixin set-class($name, $attr, $value) {
+  // ex. .text-scordi, .!text-scordi
   .#{$name} { #{$attr}: $value; }
   @include set-important-class($name, $attr, $value);
 
+  // ex. .hover:text-scordi, .!hover:text-scordi
   @each $state in ('hover', 'active', 'visited', 'focus') {
     .#{$state}\:#{$name}:#{$state} { #{$attr}: $value; }
     @include set-important-class('#{$state}\:#{$name}:#{$state}', $attr, $value);
   }
 
-  @each $parent-state, $my-class in (hover: 'group-hover') {
-    .group:#{$parent-state} .#{$my-class}\:#{$name} {
+  // group, peer
+  @each $state in ('hover', 'active', 'visited', 'focus', 'invalid', 'valid') {
+    // ex. .group-hover:text-scordi, .!group-hover:text-scordi
+    .group:#{$state} .group-#{$state}\:#{$name} {
       #{$attr}: $value;
     }
-    .group:#{$parent-state} .\!#{$my-class}\:#{$name} {
+    .group:#{$state} .\!group-#{$state}\:#{$name} {
+      #{$attr}: $value !important;
+    }
+
+    // ex. .peer-hover:text-scordi, .!peer-hover:text-scordi
+    .peer:#{$state} ~ .peer-#{$state}\:#{$name} {
+      #{$attr}: $value;
+    }
+    .peer:#{$state} ~ .\!peer-#{$state}\:#{$name} {
       #{$attr}: $value !important;
     }
   }
