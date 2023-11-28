@@ -7,6 +7,7 @@ import {userSocialGoogleApi} from '^api/social-google.api';
 
 interface GoogleLoginBtnProps {
     googleLoginOnSuccessFn?: (accessToken: string) => Promise<void> | void;
+    feature?: 'admin' | 'gmail';
     scope?: string[];
 }
 
@@ -15,13 +16,6 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
     const googleLoginOnSuccess = googleLoginOnSuccessFn ? googleLoginOnSuccessFn : useGoogleLoginSuccessHandler2();
     const setAccessToken = useSetRecoilState(googleAccessTokenAtom);
 
-    // const {accessTokenData} = useGoogleAccessTokenCallback(UserLoginPageRoute.url());
-    //
-    // useEffect(() => {
-    //     if (!accessTokenData) return;
-    //
-    //     googleLoginOnSuccess(accessTokenData.access_token);
-    // }, [accessTokenData]);
     const allInOneScope = [
         'email',
         'profile',
@@ -36,10 +30,12 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
 
     const loginButtonOnClick = useGoogleLogin({
         onSuccess: async (response) => {
-            // setAccessTokenData(response)
-            // await googleLoginOnSuccess(response.access_token);
-            const {code, scope, state} = response;
-            const {accessToken} = await userSocialGoogleApi.token(code);
+            const {feature} = props;
+            const {code} = response;
+            const {accessToken} = await userSocialGoogleApi.token({
+                code,
+                ...(feature ? {feature} : {}),
+            });
             setAccessToken(accessToken);
             return googleLoginOnSuccess(accessToken);
         },

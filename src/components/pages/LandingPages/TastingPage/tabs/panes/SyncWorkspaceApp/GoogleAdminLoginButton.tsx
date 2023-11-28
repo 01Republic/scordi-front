@@ -6,9 +6,10 @@ import {useAlert} from '^hooks/useAlert';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {filterBlackList} from './features';
 import {ReportLoadingStatus, reportLoadingStatus, reportState} from './atom';
+import {googleOAuth} from '^config/environments';
 
 export const GoogleAdminLoginButton = memo(function GoogleAdminLoginButton() {
-    const googleOauthClientId = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_ADMIN_CLIENT_ID!;
+    const googleOauthClientId = googleOAuth.adminClient.id;
     const setLoadingStatus = useSetRecoilState(reportLoadingStatus);
     const setReportData = useSetRecoilState(reportState);
     const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
@@ -57,7 +58,7 @@ export const GoogleAdminLoginButton = memo(function GoogleAdminLoginButton() {
             data-tip="구글 워크스페이스 연동이 필요해요!"
         >
             <GoogleOAuthProvider clientId={googleOauthClientId}>
-                <GoogleLoginBtn googleLoginOnSuccessFn={googleLoginSuccessHandler} scope={scope} />
+                <GoogleLoginBtn googleLoginOnSuccessFn={googleLoginSuccessHandler} scope={scope} feature={'admin'} />
             </GoogleOAuthProvider>
         </div>
     );
