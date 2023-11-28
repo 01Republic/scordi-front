@@ -43,10 +43,10 @@ export const V3OrgHomePage = memo(() => {
                     <HeaderSection />
                     <SummarySection />
                     <MemberListSection />
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                        <CardListSection />
-                        <AccountListSection />
-                    </div>
+                    {/*<div className="grid grid-cols-1 sm:grid-cols-2 gap-8">*/}
+                    {/*    <CardListSection />*/}
+                    {/*    <AccountListSection />*/}
+                    {/*</div>*/}
                     <SubscriptionsSection />
                 </V3MainLayoutContainer>
             </V3MainLayout>

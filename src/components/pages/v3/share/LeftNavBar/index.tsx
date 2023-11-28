@@ -84,12 +84,14 @@ export const LeftNavBar = memo(function LeftNavBar(props: LeftNavBarProps) {
                     href={safePath((org) => V3OrgCardListPageRoute.path(org.id))}
                     Icon={() => <FcDiploma1 size={24} />}
                     isActive={LNBIndex.Cards === activeIndex}
+                    status="soon"
                 />
                 <MenuItem
                     name="계정 관리"
                     href={safePath((org) => V3OrgAccountListPageRoute.path(org.id))}
                     Icon={() => <FcKey size={24} />}
                     isActive={LNBIndex.Accounts === activeIndex}
+                    status="soon"
                 />
                 <MenuItem
                     name="멤버 관리"
