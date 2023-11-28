@@ -43,7 +43,9 @@ export const ReportItemModalMemberList = memo(function ReportItemModalMemberList
                                     <MdOutlineWatchLater size={14} className="relative" />
                                     {/*<span className="">마지막 인증</span>*/}
                                 </span>
-                                <span>{yyyy_mm_dd_hh_mm(member.lastAuthorizedTime)}</span>
+                                {member.lastAuthorizedTime && (
+                                    <span>{yyyy_mm_dd_hh_mm(member.lastAuthorizedTime)}</span>
+                                )}
                             </p>
                         </div>
 
