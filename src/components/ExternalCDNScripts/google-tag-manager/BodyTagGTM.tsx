@@ -1,8 +1,8 @@
 import {memo} from 'react';
-import {gtm_id} from '^config/environments';
+import {appEnv, gtm_id, serviceHost} from '^config/environments';
 
 export const BodyTagGTM = memo(function BodyTagGTM() {
-    return (
+    return appEnv === 'production' && serviceHost === 'https://scordi.io' ? (
         <>
             {/* Google Tag Manager (noscript) */}
             <noscript data-component="Google Tag Manager (noscript)">
@@ -15,5 +15,7 @@ export const BodyTagGTM = memo(function BodyTagGTM() {
             </noscript>
             {/* End Google Tag Manager (noscript) */}
         </>
+    ) : (
+        <></>
     );
 });

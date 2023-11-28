@@ -1,8 +1,8 @@
 import {memo} from 'react';
-import {gtm_id} from '^config/environments';
+import {appEnv, gtm_id, serviceHost} from '^config/environments';
 
 export const HeadTagGTM = memo(function HeadTagGTM() {
-    return (
+    return appEnv === 'production' && serviceHost === 'https://scordi.io' ? (
         <>
             <script
                 data-component="Google Tag Manager"
@@ -15,5 +15,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 }}
             />
         </>
+    ) : (
+        <></>
     );
 });
