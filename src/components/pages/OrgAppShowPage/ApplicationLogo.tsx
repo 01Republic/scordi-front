@@ -10,7 +10,7 @@ export const ApplicationLogo = memo((props: ApplicationLogoProps) => {
     const {subscription} = props;
 
     const {product: product, workspace} = subscription;
-    const {profileImageUrl, displayName} = workspace;
+    const {profileImageUrl, displayName} = workspace || {};
 
     return (
         <div className="relative">

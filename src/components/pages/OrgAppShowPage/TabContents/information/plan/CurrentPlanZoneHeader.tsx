@@ -12,9 +12,8 @@ export const CurrentPlanZoneHeader = memo((props: CurrentPlanZoneHeaderProps) =>
 
     const {product} = subscription;
 
-    const {
-        workspace: {slug},
-    } = subscription;
+    const {workspace, billingEmail} = subscription;
+    const {slug} = workspace || {};
     const planCompareUrl = eval(`\`${product.planComparePageUrlScheme}\``) as string;
     const upgradePageUrl = eval(`\`${product.upgradePlanPageUrlScheme}\``) as string;
 

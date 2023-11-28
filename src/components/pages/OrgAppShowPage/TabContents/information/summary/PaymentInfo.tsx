@@ -14,10 +14,8 @@ export const PaymentInfo = memo((props: PaymentInfoProps & WithChildren) => {
 
     const {product} = subscription;
 
-    const {
-        workspace: {slug},
-        billingEmail,
-    } = subscription;
+    const {workspace, billingEmail} = subscription;
+    const {slug} = workspace || {};
     const paymentInfoUrl = eval(`\`${product.billingInfoPageUrlScheme}\``) as string;
     const updatePaymentMethodUrl = eval(`\`${product.updatePayMethodUrlScheme}\``) as string;
     const open = (url: string) => (url ? window.open(url, '_blank') : alert('This service linkage is not ready :('));

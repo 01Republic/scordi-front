@@ -10,12 +10,14 @@ import {ContentPanelItem} from '^layouts/ContentLayout';
 import {subscriptionIdParamState, orgIdParamState, productIdParamsState} from '^atoms/common';
 import {useRecoilState} from 'recoil';
 import {useRouterIdParamState} from '^atoms/common';
+import {WorkspaceDto} from '^models/Workspace/type/workspace.type';
 
 export const ApplicationListItemDesktop = memo((props: {subscription: SubscriptionDto}) => {
     const router = useRouter();
     const orgId = useRouterIdParamState('id', orgIdParamState);
     const {subscription} = props;
-    const {billingCycle, paymentPlan, product, workspace} = subscription;
+    const {billingCycle, paymentPlan, product} = subscription;
+    const workspace = (subscription.workspace || {}) as WorkspaceDto;
     const appId = subscription.id;
 
     return (
