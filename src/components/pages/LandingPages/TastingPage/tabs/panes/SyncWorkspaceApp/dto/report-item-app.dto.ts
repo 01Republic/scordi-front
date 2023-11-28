@@ -10,7 +10,7 @@ export class ReportItemAppDto {
     appName: string;
 
     @TypeCast(() => Date)
-    lastAuthorizedTime: Date;
+    lastAuthorizedTime?: Date;
 
     @TypeCast(() => ProductDto)
     product?: ProductDto;
