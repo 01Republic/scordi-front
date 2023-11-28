@@ -27,16 +27,20 @@
   $active-color: #0070f3;
 
   & + span {
+    --input-underline--inactive-color: #{$inactive-color};
+    --input-underline--active-color: #{$active-color};
     display: block;
     height: $height;
-    background-color: #{$inactive-color};
+    background-color: var(--input-underline--inactive-color);
     width: 100%;
 
     &:after {
+      --input-underline--inactive-color: #{$inactive-color};
+      --input-underline--active-color: #{$active-color};
       content: '';
       display: block;
       height: $height;
-      background-color: #{$active-color};
+      background-color: var(--input-underline--active-color);
       width: 0;
       transition: width #{$speed} ease;
     }

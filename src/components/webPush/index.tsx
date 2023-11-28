@@ -1,6 +1,7 @@
 import {useRouter} from 'next/router';
 import React, {memo, useEffect, useState} from 'react';
 import {patchUsersWebpushRegister, postUserWebpushTest} from '^models/User/api/session';
+import {vapidPublicKey} from '^config/environments';
 
 declare global {
     interface Window {
@@ -8,8 +9,7 @@ declare global {
     }
 }
 
-const publicVapidKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
-const privateVapidKey = process.env.NEXT_PUBLIC_VAPID_PRIVATE_KEY;
+const publicVapidKey = vapidPublicKey;
 
 export const WebPush = memo(() => {
     const [userInfo, setUserInfo] = useState({});

@@ -1,5 +1,5 @@
 import {TypeCast} from '^types/utils/class-transformer';
-import {ReportItemDto} from './report-item.dto';
+import {reportItemAppsInUniq, ReportItemDto} from './report-item.dto';
 import {ReportRawMetadataDto} from './report-raw-metadata.dto';
 import {plainToInstance} from 'class-transformer';
 import {ReportGroupedByProductDto} from './view-types/group-by-product/report.grouped-by-product.dto';
@@ -16,6 +16,24 @@ export class ReportDto {
     @TypeCast(() => ReportRawMetadataDto)
     rawMetadata: ReportRawMetadataDto;
 
+    get memberList() {
+        return this.items.filter((item) => item.email !== 'noname');
+    }
+
+    setNonameMember() {
+        if (this.items.find((member) => member.email === 'noname')) return;
+
+        const apps = this.items.flatMap((member) => member.apps);
+        const uniqApps = reportItemAppsInUniq(apps);
+
+        const newMember = plainToInstance(ReportItemDto, {email: 'noname'});
+        newMember.apps = uniqApps;
+        newMember.isPersisted = false;
+        newMember.isEdited = true;
+
+        this.items.push(newMember);
+    }
+
     groupByProduct() {
         const {items, ...rest} = this;
         const dto = plainToInstance(ReportGroupedByProductDto, rest);
@@ -29,6 +47,10 @@ export class ReportDto {
                 });
                 container[app.key].appName ||= app.name;
                 container[app.key].product ||= app.product;
+                container[app.key].formData = app.formData;
+                if (app.isPersisted) container[app.key].isPersisted = app.isPersisted;
+                if (app.isEdited) container[app.key].isEdited = app.isEdited;
+                if (app.isNew) container[app.key].isNew = app.isNew;
 
                 const member = plainToInstance(ReportGroupedByProductMemberDto, {
                     email: item.email,

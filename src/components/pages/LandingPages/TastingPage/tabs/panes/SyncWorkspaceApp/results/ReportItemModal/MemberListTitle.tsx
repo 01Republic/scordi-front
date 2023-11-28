@@ -8,7 +8,7 @@ export const ReportItemModalMemberListTitle = memo(function ReportItemModalMembe
     return (
         <p className="py-3 text-xl font-semibold flex items-center">
             <span className="mr-2">총</span>
-            <span className="font-bold text-scordi">{(subjectItem?.members.length || 0).toLocaleString()} 명</span>
+            <span className="font-bold text-scordi">{(subjectItem?.memberList?.length || 0).toLocaleString()} 명</span>
             <span>이 쓰고 있어요</span>
         </p>
     );

@@ -4,6 +4,7 @@ import {toast as toaster} from 'react-hot-toast';
 import {ReportItemAppDto} from './dto/report-item-app.dto';
 import {ReportItemDto} from './dto/report-item.dto';
 import {ReportGroupedByProductItemDto} from './dto/view-types/group-by-product/report.grouped-by-product-item.dto';
+import {ReportItemFormDataDto} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/dto/report-item-form.dto';
 
 export const BLACK_LIST = [
     'Scordi with',
@@ -140,6 +141,66 @@ export function removeMemberService(
 
     const newReport = plainToInstance(ReportDto, {...oldReport});
     newReport.items = members;
+
+    return newReport;
+}
+
+export function addNewProductService(oldReport: ReportDto | null, appName: string) {
+    if (!oldReport) return oldReport;
+    const members = [...oldReport.items];
+
+    const existedApp = oldReport.groupByProduct().items.find((app) => app.key === appName);
+    if (existedApp) return oldReport;
+
+    const currentApp = plainToInstance(ReportItemAppDto, {appName});
+    currentApp.lastAuthorizedTime = new Date();
+    currentApp.isPersisted = false;
+    currentApp.isNew = true;
+
+    const newMemberData = oldReport.items.find((it) => it.email === 'noname') || {
+        email: 'noname',
+        apps: [],
+        isPersisted: false,
+        isEdited: true,
+    };
+    const newMember = plainToInstance(ReportItemDto, {...newMemberData});
+    newMember.apps = [...newMember.apps, currentApp];
+    members.push(newMember);
+
+    const newReport = plainToInstance(ReportDto, {...oldReport});
+    newReport.items = members;
+
+    return newReport;
+}
+
+export function editProductService(
+    oldReport: ReportDto | null,
+    reportProductItem: ReportGroupedByProductItemDto,
+    formData: ReportItemFormDataDto,
+) {
+    if (!oldReport) return oldReport;
+    const members = [...oldReport.items];
+
+    const existedApp = oldReport.groupByProduct().items.find((app) => app.key === reportProductItem.key);
+    if (!existedApp) return oldReport;
+
+    const currentApp = plainToInstance(ReportItemAppDto, {...existedApp});
+    currentApp.formData = formData;
+    currentApp.isEdited = true;
+    currentApp.lastAuthorizedTime = existedApp.members[0].lastAuthorizedTime;
+
+    const newReport = plainToInstance(ReportDto, {...oldReport});
+    newReport.items = members.map((member) => {
+        const apps = [...member.apps];
+        const oldApp = apps.find((app) => app.key === currentApp.key);
+
+        if (!oldApp) return member;
+
+        apps.splice(apps.indexOf(oldApp), 1, currentApp);
+        const newMember = plainToInstance(ReportItemDto, {...member});
+        newMember.apps = apps;
+        return newMember;
+    });
 
     return newReport;
 }

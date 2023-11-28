@@ -11,7 +11,7 @@ export const V3OrgJoin = memo(() => {
 
     if (!orgId || isNaN(orgId)) return <></>;
 
-    const googleOauthClientId = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID!;
+    const googleOauthClientId = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_ADMIN_CLIENT_ID!;
 
     return (
         <div className={styles.viewport}>

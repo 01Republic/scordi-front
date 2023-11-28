@@ -1,20 +1,24 @@
 import React, {memo} from 'react';
-import {WithChildren} from '^types/global.type';
-import {V3MainLayout, V3MainLayoutContainer} from '^v3/layouts/V3MainLayout';
 import {LNBIndex} from '^v3/share/LeftNavBar';
+import {V3ListPageLayout} from '^v3/layouts/V3ListPageLayout';
+import {SubscriptionTable} from '^v3/V3OrgAppsPage/SubscriptionTable';
+import {SubscriptionLoader} from '^v3/V3OrgAppsPage/SubscriptionLoader';
+import {SummarySection} from '^v3/V3OrgAppsPage/SummarySection';
+import {SubscriptionListPageTitle} from '^v3/V3OrgAppsPage/SubscriptionListPageTitle';
+import {AppShowPageModal} from '^v3/V3OrgAppShowPage/modals';
 
-interface V3OrgAppsPageProps extends WithChildren {}
-
-export const V3OrgAppsPage = memo((props: V3OrgAppsPageProps) => {
-    const {children} = props;
-
+export const V3OrgAppsPage = memo(() => {
     return (
-        <V3MainLayout activeTabIndex={LNBIndex.Subscriptions}>
-            <V3MainLayoutContainer>
-                <section className="mb-6">
-                    <h1>구독리스트</h1>
-                </section>
-            </V3MainLayoutContainer>
-        </V3MainLayout>
+        <V3ListPageLayout activeTabIndex={LNBIndex.Subscriptions}>
+            <SubscriptionListPageTitle />
+            <SubscriptionLoader />
+            <SummarySection />
+
+            <section>
+                <SubscriptionTable />
+            </section>
+            <AppShowPageModal />
+        </V3ListPageLayout>
     );
 });
+V3OrgAppsPage.displayName = 'V3OrgAppsPage';

@@ -2,8 +2,6 @@ import React, {memo} from 'react';
 import {V3MainLayout, V3MainLayoutContainer} from '^v3/layouts/V3MainLayout';
 import {V3MainLayoutMobile} from '^v3/layouts/V3MainLayout.mobile';
 import {useRecoilValue} from 'recoil';
-import {currentOrgAtom} from '^models/Organization/atom';
-import {NewInvoiceAccountModal} from './NewInvoiceAccountModal';
 import {useTranslation} from 'next-i18next';
 import {useOnResize2} from '^components/util/onResize2';
 import {MobileSection} from '^v3/share/sections/MobileSection';
@@ -13,7 +11,6 @@ import {SummaryHeaderPanel} from './mobile/SummaryHeaderPanel';
 import {ApplyNotFoundProduct} from '^v3/share/sections/ApplyNotFoundProduct';
 import {BillingHistoriesPageModal} from '^v3/V3OrgBillingHistoriesPage/modals/BillingHistoriesPageModal';
 import {BillingHistoryDetailModal} from '^v3/share/modals/BillingHistoryDetailModal';
-import {NewInvoiceAccountModalMobile} from './NewInvoiceAccountModal/mobile';
 import {BottomTabIndex} from '^v3/share/BottomNavMobile';
 import {currentUserAtom} from '^models/User/atom';
 import {TopNavProfileButton} from '^v3/share/TobNav/TopNavProfileButton';
@@ -33,6 +30,7 @@ import {
     SubscriptionsSection,
 } from './desktop/sections';
 import {HeaderSection} from '^v3/V3OrgHomePage/desktop/sections/HeaderSection';
+import {NewAppModal} from '^components/pages/v3/share/modals/NewAppModal';
 
 export const V3OrgHomePage = memo(() => {
     const currentUser = useRecoilValue(currentUserAtom);
@@ -42,10 +40,7 @@ export const V3OrgHomePage = memo(() => {
     if (isDesktop) {
         // PC size screen
         return (
-            <V3MainLayout
-                activeTabIndex={LNBIndex.Dashboard}
-                modals={[NewInvoiceAccountModal, TeamMemberModal, TeamMemberCreateModal]}
-            >
+            <V3MainLayout activeTabIndex={LNBIndex.Dashboard} modals={[TeamMemberModal, TeamMemberCreateModal]}>
                 <V3MainLayoutContainer>
                     <HeaderSection />
                     <SummarySection />
@@ -75,7 +70,7 @@ export const V3OrgHomePage = memo(() => {
                 modals={[
                     BillingHistoriesPageModal,
                     BillingHistoryDetailModal,
-                    NewInvoiceAccountModalMobile,
+                    NewAppModal,
                     RenewInvoiceAccountModalMobile,
                     MonthlyPaidAmountModal,
                     MonthlyRemainAmountModal,

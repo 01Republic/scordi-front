@@ -23,7 +23,10 @@ export const getStaticProps = async ({locale}: any) => ({
     props: {
         // Will be passed to the page component as props
         ...(await serverSideTranslations(locale, [
-            ...v3CommonRequires, // 여기에 이 페이지에서 사용할 locale 파일을 추가하세요.'org-home'
+            ...v3CommonRequires,
+            'org-home',
+            'google-compliance',
+            // 여기에 이 페이지에서 사용할 locale 파일을 추가하세요.'org-home'
         ])),
     },
 });

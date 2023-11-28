@@ -8,7 +8,7 @@ import {filterBlackList} from './features';
 import {ReportLoadingStatus, reportLoadingStatus, reportState} from './atom';
 
 export const GoogleAdminLoginButton = memo(function GoogleAdminLoginButton() {
-    const googleOauthClientId = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID!;
+    const googleOauthClientId = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_ADMIN_CLIENT_ID!;
     const setLoadingStatus = useSetRecoilState(reportLoadingStatus);
     const setReportData = useSetRecoilState(reportState);
     const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
@@ -21,6 +21,7 @@ export const GoogleAdminLoginButton = memo(function GoogleAdminLoginButton() {
         req.then((res) => {
             if (!res.data) return;
             const filteredReport = filterBlackList(res.data);
+            filteredReport.setNonameMember();
             setReportData(filteredReport);
             setLoadingStatus(ReportLoadingStatus.Loaded);
         });

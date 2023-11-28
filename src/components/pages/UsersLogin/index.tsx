@@ -9,7 +9,7 @@ import {TextInput} from '^components/TextInput';
 import {TesterLoginForm} from '^components/pages/UsersLogin/TesterLoginForm';
 import {LandingPageNavBar} from '^components/lab/landing-page-components';
 import {WithChildren} from '^types/global.type';
-import {appEnv} from '^config/environments';
+import {appEnv, googleOAuth} from '^config/environments';
 
 export const UsersLoginPage = memo(() => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,11 +23,9 @@ export const UsersLoginPage = memo(() => {
     //         .catch(() => setIsModalOpen(true));
     // };
 
-    const googleOauthClientId = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID!;
-
     return (
         <div className="bg-white">
-            <GoogleOAuthProvider clientId={googleOauthClientId}>
+            <GoogleOAuthProvider clientId={googleOAuth.adminClient.id}>
                 <Modal
                     type={'info'}
                     isOpen={isModalOpen}

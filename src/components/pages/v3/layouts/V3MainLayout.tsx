@@ -10,11 +10,11 @@ import {V3Footer} from '^v3/share/Footer';
 import {LeftNavBar, LNBIndex} from '^v3/share/LeftNavBar';
 import {ReactComponentLike, ReactNodeLike} from 'prop-types';
 
-interface V3MainLayoutProps extends WithChildren {
+export interface V3MainLayoutProps extends WithChildren {
     // 하단 네비게이션 중에서 활성상태로 보여줄 탭의 인덱스
     activeTabIndex: LNBIndex;
-    // 페이지 상단의 제목
-    title?: ReactNodeLike;
+    // // 페이지 상단의 제목
+    // title?: ReactNodeLike;
     // 이 페이지에서만 사용되는 모달들을 등록
     modals?: ReactComponentLike[];
 }
