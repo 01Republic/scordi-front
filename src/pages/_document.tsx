@@ -1,6 +1,7 @@
 /* eslint-disable */
 import Document, {Html, Head, Main, NextScript} from 'next/document';
 import ExternalCDNScripts from '../components/ExternalCDNScripts';
+import {BodyTagGTM} from '^components/ExternalCDNScripts/google-tag-manager/BodyTagGTM';
 
 export default class MyDocument extends Document {
     render() {
@@ -8,6 +9,8 @@ export default class MyDocument extends Document {
             <Html>
                 <Head />
                 <body>
+                    <BodyTagGTM />
+
                     <Main />
                     <NextScript />
                 </body>

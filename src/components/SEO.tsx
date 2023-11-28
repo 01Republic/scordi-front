@@ -2,6 +2,7 @@ import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import Head from 'next/head';
 import {serviceHost} from '^config/environments';
+import {HeadTagGTM} from '^components/ExternalCDNScripts/google-tag-manager/HeadTagGTM';
 
 interface SEOProps extends WithChildren {
     title?: string;
@@ -70,6 +71,7 @@ export const SEO = memo((props: SEOProps) => {
 
     return (
         <Head>
+            <HeadTagGTM />
             <title>{title}</title>
             <meta charSet="utf-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
