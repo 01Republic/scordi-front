@@ -10,18 +10,21 @@ interface ReportMemberAppItemProps {
 
 export const ReportMemberAppItem = memo((props: ReportMemberAppItemProps) => {
     const {app} = props;
+    const {product, lastAuthorizedTime, name} = app;
 
     return (
         <li>
             <div className="!w-auto gap-4 px-4 py-3 -mx-4 hover:bg-neutral btn-like no-selectable">
                 <Avatar
-                    src={app.product?.image}
+                    src={product?.image}
                     className="w-9 h-9 outline outline-offset-1 outline-slate-100 rounded-full"
                 />
 
                 <div className="flex-1">
-                    <p className="leading-none font-light text-xs">{yyyy_mm_dd_hh_mm(app.lastAuthorizedTime)}</p>
-                    <p className="font-semibold text-gray-800">{app.name}</p>
+                    {lastAuthorizedTime && (
+                        <p className="leading-none font-light text-xs">{yyyy_mm_dd_hh_mm(lastAuthorizedTime)}</p>
+                    )}
+                    <p className="font-semibold text-gray-800">{name}</p>
                 </div>
 
                 {/*<p className="text-[16px]">*/}

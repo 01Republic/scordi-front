@@ -1,13 +1,21 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {Panel} from '^v3/V3OrgHomePage/desktop/Panel';
 import {Section} from '^v3/V3OrgHomePage/desktop/Section';
 import {SummaryItem} from './SummaryItem';
 import {MonthHandler} from '^v3/V3OrgBillingHistoriesPage/desktop/MonthHandler';
 import {useFocusedMonth} from '^v3/V3OrgHomePage/feature/useFocusedMonth';
 import {MonthlyTotal} from '^v3/V3OrgHomePage/desktop/sections/SummarySection/MonthlyTotal';
+import {useSubscriptionsV2} from '^models/Subscription/hook';
+import {SubscriptionManager} from '^models/Subscription/manager';
 
 export const SummarySection = memo(function SummarySection() {
     const {focusedMonth} = useFocusedMonth();
+    const {result, search: getSubscriptions} = useSubscriptionsV2();
+    const Subscription = SubscriptionManager.init(result.items || []);
+
+    useEffect(() => {
+        getSubscriptions({where: {isActive: true}});
+    }, []);
 
     return (
         <Section>
@@ -26,11 +34,11 @@ export const SummarySection = memo(function SummarySection() {
                     <Panel padding="compact">
                         <div className="w-full grid grid-cols-6 items-center justify-items-stretch">
                             {/*<SummaryItem title={'모든 구독'} />*/}
-                            <SummaryItem title={'유료 구독'} value={89} />
-                            <SummaryItem title={'무료 구독'} value={11} />
-                            <SummaryItem title={'결제 예정'} value={90} />
+                            <SummaryItem title={'유료 구독'} value={Subscription.paid().length} />
+                            <SummaryItem title={'무료 구독'} value={Subscription.free().length} />
+                            <SummaryItem title={'결제 예정'} value={Subscription.pending().length} />
                             {/*<SummaryItem title={'결제 완료'} />*/}
-                            <SummaryItem title={'결제 실패'} value={3} />
+                            <SummaryItem title={'결제 실패'} value={Subscription.failed().length} />
                             {/*(블러 처리 하고 유료플랜)*/}
                             <SummaryItem title={'이상 결제'} value="?" covered />
                             {/*(블러 처리 하고 유료플랜)*/}

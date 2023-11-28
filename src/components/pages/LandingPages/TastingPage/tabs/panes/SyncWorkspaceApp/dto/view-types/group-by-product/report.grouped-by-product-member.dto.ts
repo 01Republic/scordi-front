@@ -3,7 +3,7 @@ import {TypeCast} from '^types/utils/class-transformer';
 export class ReportGroupedByProductMemberDto {
     email: string;
     @TypeCast(() => Date)
-    lastAuthorizedTime: Date;
+    lastAuthorizedTime?: Date;
 
     isPersisted: boolean;
     isEdited: boolean;

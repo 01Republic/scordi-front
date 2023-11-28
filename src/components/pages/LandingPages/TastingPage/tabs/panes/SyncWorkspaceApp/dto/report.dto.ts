@@ -64,9 +64,14 @@ export class ReportDto {
                  */
                 const already = container[app.key].members.find((m) => m.email === member.email);
                 if (!already) container[app.key].members.push(member);
-                if (already && already.lastAuthorizedTime.getTime() <= member.lastAuthorizedTime.getTime()) {
-                    const index = container[app.key].members.indexOf(already);
-                    container[app.key].members.splice(index, 1, member);
+                else {
+                    const alreadyTime = already.lastAuthorizedTime?.getTime();
+                    const newTime = member.lastAuthorizedTime?.getTime();
+                    const isLater = alreadyTime && newTime && alreadyTime <= newTime;
+                    if (isLater) {
+                        const index = container[app.key].members.indexOf(already);
+                        container[app.key].members.splice(index, 1, member);
+                    }
                 }
             });
         });

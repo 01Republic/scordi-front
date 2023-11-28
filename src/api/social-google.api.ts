@@ -12,8 +12,8 @@ import {ReportDto} from '^components/pages/LandingPages/TastingPage/tabs/panes/S
 const makeHeaders = (accessToken: string) => ({'X-Google-Token': accessToken});
 
 export const userSocialGoogleApi = {
-    token(code: string) {
-        const url = `/users/auth/social/google/token?code=${code}`;
+    token(dto: GoogleAccessTokenQueryDto) {
+        const url = `/users/auth/social/google/token?${makeQueryString(dto)}`;
         return api.get<GoogleAccessTokenContainer>(url).then((res) => res.data);
     },
 
@@ -52,4 +52,16 @@ export const userSocialGoogleApi = {
             },
         },
     },
+};
+
+export type GoogleAccessTokenQueryDto = {
+    code: string;
+    feature?: 'admin' | 'gmail';
+};
+
+const makeQueryString = (dto: GoogleAccessTokenQueryDto) => {
+    const {code, feature} = dto;
+    const query = new URLSearchParams({code});
+    if (feature) query.append('feature', feature);
+    return query.toString();
 };

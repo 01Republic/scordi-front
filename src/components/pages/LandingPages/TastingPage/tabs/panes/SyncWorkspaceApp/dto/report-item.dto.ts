@@ -19,7 +19,14 @@ export function reportItemAppsInUniq(apps: ReportItemAppDto[]) {
     const container: Record<string, ReportItemAppDto> = {};
     apps.forEach((app) => {
         container[app.key] ||= app;
-        if (container[app.key].lastAuthorizedTime.getTime() - app.lastAuthorizedTime.getTime() > 0) {
+
+        const lastAuthorizedTime = container[app.key].lastAuthorizedTime;
+
+        if (
+            app.lastAuthorizedTime &&
+            lastAuthorizedTime &&
+            lastAuthorizedTime.getTime() - app.lastAuthorizedTime.getTime() > 0
+        ) {
             container[app.key] = app;
         }
     });
