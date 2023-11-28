@@ -2,7 +2,6 @@ import React, {memo} from 'react';
 import {V3MainLayout, V3MainLayoutContainer} from '^v3/layouts/V3MainLayout';
 import {V3MainLayoutMobile} from '^v3/layouts/V3MainLayout.mobile';
 import {useRecoilValue} from 'recoil';
-import {useTranslation} from 'next-i18next';
 import {useOnResize2} from '^components/util/onResize2';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {SubscriptionsPanel} from './mobile/SubscriptionsPanel';
@@ -34,7 +33,6 @@ import {NewAppModal} from '^components/pages/v3/share/modals/NewAppModal';
 
 export const V3OrgHomePage = memo(() => {
     const currentUser = useRecoilValue(currentUserAtom);
-    const {t} = useTranslation('org-home');
     const {isDesktop} = useOnResize2();
 
     if (isDesktop) {

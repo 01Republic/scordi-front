@@ -11,4 +11,30 @@ export class SubscriptionManager extends BasicManager<SubscriptionDto> {
     uniqueByProduct() {
         return this.sortBy<SubscriptionManager>({id: 'ASC'}).unique((s) => s.productId || s.product.id);
     }
+
+    paid() {
+        return this.filter((item) => {
+            if (!item.billingHistories?.length) return;
+
+            return item.billingHistories?.length > 0;
+        });
+    }
+
+    free() {
+        return this.filter((item) => {
+            return !item.billingHistories?.length;
+        });
+    }
+
+    pending() {
+        return this.filter((item) => {
+            return item.status === 'PAYMENT_SUCCESS';
+        });
+    }
+
+    failed() {
+        return this.filter((item) => {
+            return item.status !== 'PAYMENT_SUCCESS';
+        });
+    }
 }

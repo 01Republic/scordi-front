@@ -79,6 +79,7 @@ export class SubscriptionDto {
     @TypeCast(() => WorkspaceDto)
     workspace: WorkspaceDto;
 
+    status: 'PAYMENT_SUCCESS' | 'PAYMENT_FAILURE';
     paymentPlan?: SubscriptionPaymentPlanDto | null;
 
     @TypeCast(() => SubscriptionBillingCycleDto) billingCycle: SubscriptionBillingCycleDto | null;
