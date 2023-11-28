@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo, useEffect} from 'react';
 import {FaRegCalendarCheck, FaRegCalendarMinus, FaRegCalendarTimes} from 'react-icons/fa';
 import {
     TbCalendarCancel,
@@ -9,6 +9,8 @@ import {
     TbCalendarX,
 } from 'react-icons/tb';
 import {SummaryCard} from '^v3/V3OrgAppsPage/SummarySection/SummaryCard';
+import {SubscriptionManager} from '^models/Subscription/manager';
+import {useSubscriptionsV2} from '^models/Subscription/hook';
 
 /**
  * 활성
@@ -18,11 +20,18 @@ import {SummaryCard} from '^v3/V3OrgAppsPage/SummarySection/SummaryCard';
  * 만료됨
  */
 export const SummarySection = memo(function SummarySection() {
-    const activeCount = 110; // 활성
-    const failedCount = 6; // 결제 실패
-    const pausedCount = 7; // 일시정지
-    const cancelCount = 75; // 구독취소
-    const expireCount = 2; // 만료됨
+    const {result, search: getSubscriptions} = useSubscriptionsV2();
+    const Subscription = SubscriptionManager.init(result.items || []);
+
+    useEffect(() => {
+        getSubscriptions({where: {isActive: true}});
+    }, []);
+
+    const activeCount = Subscription.success().length; // 활성
+    const failedCount = Subscription.failed().length; // 결제 실패
+    const pausedCount = Subscription.paused().length; // 일시정지
+    const cancelCount = Subscription.cancled().length; // 구독취소
+    const expireCount = Subscription.expired().length; // 만료됨
 
     return (
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-6">
