@@ -34,13 +34,8 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
     const resetGoogleCode = useResetRecoilState(googleAccessTokenAtom);
 
     useEffect(() => {
-        if (!googleAccessToken) {
-            router.replace(BetaSignSocialPageRoute.path());
-            return;
-        }
-
-        setPageLoaded(true);
-    }, []);
+        googleAccessToken && setPageLoaded(true);
+    }, [googleAccessToken]);
 
     useEffect(() => {
         form.setValue('phone', phoneAuthData.phoneNumber);

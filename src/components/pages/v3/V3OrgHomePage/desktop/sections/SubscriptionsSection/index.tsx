@@ -6,8 +6,8 @@ import {Panel} from '^v3/V3OrgHomePage/desktop/Panel';
 import {Section} from '^v3/V3OrgHomePage/desktop/Section';
 import {MoreButton} from '^v3/V3OrgHomePage/desktop/MoreButton';
 import {subscriptionsForCurrentOrgState} from '^v3/V3OrgAppsPage/atom';
-import {SubscriptionTable} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable';
 import {SubscriptionLoader} from '^v3/V3OrgAppsPage/SubscriptionLoader';
+import {SubscriptionTable} from '^v3/V3OrgAppsPage/SubscriptionTable';
 
 export const SubscriptionsSection = memo(function SubscriptionsSection() {
     const subscriptions = useRecoilValue(subscriptionsForCurrentOrgState);
