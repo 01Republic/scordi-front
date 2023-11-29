@@ -23,12 +23,14 @@ export const AppShowPageModal = memo(() => {
     const {loadCurrentSubscription} = useCurrentSubscription();
     const {search: loadCurrentHistories} = useBillingHistoriesV3();
 
-    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    // const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const orgId = useRecoilValue(orgIdParamState);
     const appId = useRecoilValue(appIdState);
 
     // FIXME: 네트워크 요청 에러 해결
     useEffect(() => {
-        if (!orgId || !appId) return;
+        if (!orgId || isNaN(orgId)) return;
+        if (!appId || isNaN(appId)) return;
 
         loadCurrentSubscription(orgId, appId);
         loadCurrentHistories({

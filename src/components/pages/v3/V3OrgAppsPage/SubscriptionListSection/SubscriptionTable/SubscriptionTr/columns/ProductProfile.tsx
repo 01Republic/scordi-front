@@ -9,19 +9,21 @@ import {appIdState} from '^v3/V3OrgAppShowPage/atom';
 import {useRouter} from 'next/router';
 import {V3OrgAppShowPageRoute} from '^pages/v3/orgs/[orgId]/apps/[appId]';
 import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
+import {SubscriptionDto} from '^models/Subscription/types';
 
 interface ProductProfileProps {
-    product: ProductDto;
-    subscriptionId: number;
+    subscription: SubscriptionDto;
 }
 
 export const ProductProfile = memo((props: ProductProfileProps) => {
-    const {product, subscriptionId} = props;
+    const {subscription} = props;
     const {open} = useModal(appShowPageModal);
     const setAppId = useSetRecoilState(appIdState);
     const [isAppsPage, setIsAppsPage] = useState(false);
     const {safePath} = useSafePathInCurrentOrg();
     const router = useRouter();
+
+    const {product} = subscription;
 
     useEffect(() => {
         router.pathname.includes('apps') && setIsAppsPage(true);
@@ -29,13 +31,13 @@ export const ProductProfile = memo((props: ProductProfileProps) => {
 
     const onClick = () => {
         if (isAppsPage) {
+            setAppId(subscription.id);
             open();
-            setAppId(subscriptionId);
             return;
         }
 
         if (!isAppsPage) {
-            safePath((org) => V3OrgAppShowPageRoute.path(org.id, subscriptionId));
+            safePath((org) => V3OrgAppShowPageRoute.path(org.id, subscription.id));
             return;
         }
     };
