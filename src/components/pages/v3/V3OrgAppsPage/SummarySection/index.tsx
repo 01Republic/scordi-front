@@ -11,6 +11,8 @@ import {
 import {SummaryCard} from '^v3/V3OrgAppsPage/SummarySection/SummaryCard';
 import {SubscriptionManager} from '^models/Subscription/manager';
 import {useSubscriptionsV2} from '^models/Subscription/hook';
+import {useRecoilValue} from 'recoil';
+import {subscriptionsForCurrentOrgState} from '^v3/V3OrgAppsPage/atom';
 
 /**
  * 활성
@@ -20,12 +22,17 @@ import {useSubscriptionsV2} from '^models/Subscription/hook';
  * 만료됨
  */
 export const SummarySection = memo(function SummarySection() {
-    const {result, search: getSubscriptions} = useSubscriptionsV2();
-    const Subscription = SubscriptionManager.init(result.items || []);
-
-    useEffect(() => {
-        getSubscriptions({where: {isActive: true}});
-    }, []);
+    // TODO: [fred] 이 컴포넌트는 폴더구조 내에서의 위치와 컴포넌트 이름에서 알 수 있듯이,
+    //  SubscriptionLoader 에서 로딩이 '이미 된' 구독리스트에 대하여 요약을 보여주는 컴포넌트 입니다.
+    //  이런 컴포넌트는 맥락 속에서 파악되어야 합니다.
+    //
+    // const {result, search: getSubscriptions} = useSubscriptionsV2();
+    //
+    // useEffect(() => {
+    //     getSubscriptions({where: {isActive: true}});
+    // }, []);
+    const subscriptions = useRecoilValue(subscriptionsForCurrentOrgState);
+    const Subscription = SubscriptionManager.init(subscriptions || []);
 
     const activeCount = Subscription.success().length; // 활성
     const failedCount = Subscription.failed().length; // 결제 실패
@@ -34,7 +41,7 @@ export const SummarySection = memo(function SummarySection() {
     const expireCount = Subscription.expired().length; // 만료됨
 
     return (
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-6">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-10">
             <SummaryCard
                 icon={<TbCalendarCheck size={22} />}
                 label="활성"
