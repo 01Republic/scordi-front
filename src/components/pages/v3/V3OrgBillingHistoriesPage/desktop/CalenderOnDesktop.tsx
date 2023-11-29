@@ -1,6 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import Calendar, {ViewCallbackProperties} from 'react-calendar';
-import {firstDayOfMonth, lastDayOfMonth, monthBefore, yyyy_mm_dd} from '^utils/dateTime';
+import {firstDayOfMonth, monthAfter, monthBefore, yyyy_mm_dd} from '^utils/dateTime';
 import {useCalendar3} from '^hooks/useCalendar';
 import {useBillingListV3} from '^hooks/useBillingList';
 import {useOnResize2} from '^components/util/onResize2';
@@ -8,7 +8,7 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {CalendarDateContent} from '^v3/V3OrgBillingHistoriesPage/desktop/CalendarDateContent';
 
 const asStartDate = (date: Date) => monthBefore(1, firstDayOfMonth(date));
-const asEndDate = (date: Date) => lastDayOfMonth(date);
+const asEndDate = (date: Date) => monthAfter(2, firstDayOfMonth(date));
 
 export const CalendarOnDesktop = memo(() => {
     const {selectedDate, selectDate, activeStartDate, setActiveStartDate, focusedMonth} = useCalendar3();
