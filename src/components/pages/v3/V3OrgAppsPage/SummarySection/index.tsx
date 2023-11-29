@@ -22,22 +22,13 @@ import {subscriptionsForCurrentOrgState} from '^v3/V3OrgAppsPage/atom';
  * 만료됨
  */
 export const SummarySection = memo(function SummarySection() {
-    // TODO: [fred] 이 컴포넌트는 폴더구조 내에서의 위치와 컴포넌트 이름에서 알 수 있듯이,
-    //  SubscriptionLoader 에서 로딩이 '이미 된' 구독리스트에 대하여 요약을 보여주는 컴포넌트 입니다.
-    //  이런 컴포넌트는 맥락 속에서 파악되어야 합니다.
-    //
-    // const {result, search: getSubscriptions} = useSubscriptionsV2();
-    //
-    // useEffect(() => {
-    //     getSubscriptions({where: {isActive: true}});
-    // }, []);
     const subscriptions = useRecoilValue(subscriptionsForCurrentOrgState);
     const Subscription = SubscriptionManager.init(subscriptions || []);
 
     const activeCount = Subscription.success().length; // 활성
     const failedCount = Subscription.failed().length; // 결제 실패
     const pausedCount = Subscription.paused().length; // 일시정지
-    const cancelCount = Subscription.cancled().length; // 구독취소
+    const cancelCount = Subscription.canceled().length; // 구독취소
     const expireCount = Subscription.expired().length; // 만료됨
 
     return (
