@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useEffect, useRef} from 'react';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import {AxiosError} from 'axios';
 import {getToken, removeToken, setToken} from '^api/api';
@@ -37,11 +37,9 @@ interface CurrentUserOption {
 }
 
 export function useCurrentUser(fallbackPath?: string | null, opt?: CurrentUserOption) {
-    const option = opt || {};
     const router = useRouter();
-    const organizationId = useRouterIdParamState(option.orgIdParam || 'id', orgIdParamState);
+    const initialized = useRef(false);
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
-
     const [authenticatedUserData, setAuthenticatedUserData] = useRecoilState(authenticatedUserDataAtom);
     const currentUserMembership = currentUser?.memberships?.[0];
 
@@ -51,10 +49,13 @@ export function useCurrentUser(fallbackPath?: string | null, opt?: CurrentUserOp
         const apiToken = getToken();
         if (!apiToken) return;
 
-        userSessionApi
-            .index()
-            .then((res) => setCurrentUser(res.data))
-            .catch((err) => loginRequiredHandler(err, router, fallbackPath));
+        if (!initialized.current) {
+            initialized.current = true;
+            userSessionApi
+                .index()
+                .then((res) => setCurrentUser(res.data))
+                .catch((err) => loginRequiredHandler(err, router, fallbackPath));
+        }
     }, []);
 
     const login = (data: UserLoginRequestDto, href?: string): Promise<UserDto> => {
