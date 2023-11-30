@@ -1,7 +1,7 @@
 import {useRecoilState} from 'recoil';
 import {teamMemberApi} from '^models/TeamMember/api';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {FindAllTeamMemberQueryDto} from '^models/TeamMember/type';
+import {FindAllTeamMemberQueryDto, UpdateTeamMemberDto} from '^models/TeamMember/type';
 import {
     currentTeamMemberLoadingState,
     currentTeamMemberState,
@@ -9,6 +9,9 @@ import {
     teamMembersSearchResultAtom,
 } from '^models/TeamMember/atom';
 import {useState} from 'react';
+import {UseFormReturn} from 'react-hook-form';
+import {useRouter} from 'next/router';
+import {V3OrgTeamMembersPageRoute} from '^pages/v3/orgs/[orgId]/teams/members';
 
 export const useCurrentTeamMember = () => {
     const [currentTeamMember, setCurrentTeamMember] = useRecoilState(currentTeamMemberState);
@@ -50,3 +53,25 @@ export const useTeamMembers = () => {
 
     return {query, result, search, createByName, movePage, isLoading};
 };
+
+export function useEditTeamMember(form: UseFormReturn<UpdateTeamMemberDto, any>, orgId: number) {
+    const {currentTeamMember: member, setCurrentTeamMember, isLoading} = useCurrentTeamMember();
+    const router = useRouter();
+
+    const updateFn = () => {
+        if (!member) return;
+        teamMemberApi
+            .update(member.organizationId, member.id, form.getValues())
+            .then((res) => setCurrentTeamMember(res.data));
+    };
+
+    const deleteFn = () => {
+        if (!member) return;
+        teamMemberApi.destroy(member.organizationId, member.id).then(({data}) => {
+            router.push(V3OrgTeamMembersPageRoute.path(orgId));
+            setCurrentTeamMember(null);
+        });
+    };
+
+    return {updateFn, deleteFn};
+}
