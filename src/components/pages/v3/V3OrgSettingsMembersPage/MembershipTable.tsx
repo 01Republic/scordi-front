@@ -1,10 +1,10 @@
 import {memo} from 'react';
-import {useMemberships} from '^models/Membership/hook';
 import {MembershipTableRow} from '^v3/V3OrgSettingsMembersPage/MembershipTableRow';
+import {useTeamMembers} from '^models/TeamMember/hook';
 
 export const MembershipTable = memo(() => {
-    const {membershipSearchResult} = useMemberships();
-    const {items} = membershipSearchResult;
+    const {result} = useTeamMembers();
+    const teamMembers = result.items;
 
     return (
         <div className="w-full inline-grid">
@@ -20,8 +20,8 @@ export const MembershipTable = memo(() => {
                     </thead>
 
                     <tbody>
-                        {items.map((membership, i) => (
-                            <MembershipTableRow membership={membership} key={i} />
+                        {teamMembers.map((teamMember, i) => (
+                            <MembershipTableRow teamMember={teamMember} key={i} />
                         ))}
                     </tbody>
                 </table>

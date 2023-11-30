@@ -1,28 +1,48 @@
-import {memo} from 'react';
-import {WithChildren} from '^types/global.type';
-import {MembershipDto} from '^models/Membership/type';
-import {UserAvatar} from '^v3/share/UserAvatar';
+import {memo, useEffect, useState} from 'react';
+import {useModal} from '^v3/share/modals/useModal';
+import {teamMemberShowModal} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/desktop/modals/TeamMemberShowModal';
+import {useSetRecoilState} from 'recoil';
+import {currentMemberIdState} from '^models/TeamMember/atom';
+import {TeamMemberDto} from '^models/TeamMember/type';
+import {approvalStatusOptions, OptionsType} from '^v3/V3OrgSettingsMembersPage/type';
 
 interface MembershipTableRowProps {
-    membership: MembershipDto;
+    teamMember: TeamMemberDto;
 }
 
 export const MembershipTableRow = memo((props: MembershipTableRowProps) => {
-    const {membership} = props;
-    const {user} = membership;
+    const {open} = useModal(teamMemberShowModal);
+    const setMemberId = useSetRecoilState(currentMemberIdState);
+    const [badgeOption, setBadgeOption] = useState<OptionsType>();
+    const {teamMember} = props;
+
+    useEffect(() => {
+        const defaultOption = approvalStatusOptions.find((option) => {
+            return option.status === teamMember.membership?.approvalStatus;
+        });
+
+        setBadgeOption(defaultOption);
+    }, []);
+
+    const onClick = () => {
+        open();
+        setMemberId(36594);
+    };
+
+    if (!teamMember.membership) return <></>;
 
     return (
         <tr>
             {/* 이름 */}
-            <td>
+            <td onClick={onClick}>
                 <div className="flex gap-2.5 items-center">
-                    <UserAvatar user={user} />
+                    {/*<UserAvatar user={user} />*/}
                     <div>
                         <p className="text-sm font-semibold flex gap-2 items-center">
-                            <span>{user.name}</span>
-                            {/*<span className="badge badge-sm badge-primary">승인</span>*/}
+                            <span>{teamMember.name}</span>
+                            <span className={`${badgeOption?.className} badge badge-sm`}>{badgeOption?.label}</span>
                         </p>
-                        <p className="block text-xs font-normal text-gray-400">{user.email}</p>
+                        <p className="block text-xs font-normal text-gray-400">{teamMember.email}</p>
                     </div>
                 </div>
             </td>
@@ -32,12 +52,12 @@ export const MembershipTableRow = memo((props: MembershipTableRowProps) => {
 
             {/* 권한 */}
             <td>
-                <p className="capitalize text-sm text-gray-500">{membership.level.toLowerCase()}</p>
+                <p className="capitalize text-sm text-gray-500">{teamMember.membership.level.toLowerCase()}</p>
             </td>
 
             {/* 상태 */}
             <td>
-                <p className="capitalize text-sm text-gray-500">{membership.approvalStatus.toLowerCase()}</p>
+                <p className="capitalize text-sm text-gray-500">{teamMember.membership.approvalStatus.toLowerCase()}</p>
             </td>
         </tr>
     );
