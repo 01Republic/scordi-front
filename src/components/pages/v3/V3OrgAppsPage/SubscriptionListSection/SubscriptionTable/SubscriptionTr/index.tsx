@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {useRecoilValue} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {BillingHistoryManager} from '^models/BillingHistory/manager';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
@@ -12,6 +12,9 @@ import {
     ProductProfile,
     SubscriptionStatus,
 } from './columns';
+import {useModal} from '^v3/share/modals/useModal';
+import {appShowPageModal} from '^v3/V3OrgAppShowPage/modals';
+import {appIdState} from '^v3/V3OrgAppShowPage/atom';
 
 interface SubscriptionTrProps {
     subscription: SubscriptionDto;
@@ -19,8 +22,9 @@ interface SubscriptionTrProps {
 
 export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
+    const {open: openSubscriptionShowPageModal} = useModal(appShowPageModal);
+    const setAppId = useSetRecoilState(appIdState);
     const {subscription} = props;
-    // console.log('subscription', subscription);
 
     const BillingHistory = BillingHistoryManager.init(subscription.billingHistories || []);
     const latestIssue = BillingHistory.paymentOnly().latestIssue();
@@ -32,10 +36,15 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
     const nextPayDate = subscription.getNextPayDate(lastPaidAt);
     const nextPayAmount = subscription.getNextPayAmount(lastPaidHistory);
 
+    const openDetail = () => {
+        setAppId(subscription.id);
+        openSubscriptionShowPageModal();
+    };
+
     return (
         <tr>
             {/*<td></td>*/}
-            <td>
+            <td className="group cursor-pointer" onClick={openDetail}>
                 <ProductProfile subscription={subscription} />
             </td>
             <td className="text-center">
