@@ -1,6 +1,7 @@
 import {memo} from 'react';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {MoneyDto} from '^types/money.type';
+import {SubscriptionStatusSelect} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/SubscriptionStatus/SubscriptionStatusSelect';
 
 interface SubscriptionStatusProps {
     subscription: SubscriptionDto;
@@ -10,18 +11,8 @@ interface SubscriptionStatusProps {
 }
 
 export const SubscriptionStatus = memo((props: SubscriptionStatusProps) => {
-    const {subscription, lastPaidAt, nextPayDate, nextPayAmount} = props;
+    const {subscription} = props;
 
-    // console.log({lastPaidAt, nextPayDate, nextPayAmount});
-
-    if (subscription.isFreeTier) {
-        return <div className="badge text-14">무료</div>;
-    }
-
-    return (
-        <div className="btn btn-xs !bg-green-200 !border-0 cursor-default">
-            <span className="font-normal">결제완료</span>
-        </div>
-    );
+    return <SubscriptionStatusSelect subscription={subscription} />;
 });
 SubscriptionStatus.displayName = 'SubscriptionStatus';

@@ -3,9 +3,10 @@ import {PostDto} from '^models/Post/type';
 import {TypeCast} from '^types/utils/class-transformer';
 
 export enum TagGroup {
-    Product = 'PRODUCT',
-    Team = 'TEAM',
     User = 'USER',
+    Team = 'TEAM',
+    Product = 'PRODUCT',
+    PayingType = 'PAYINGTYPE',
 }
 
 export class TagDto {
