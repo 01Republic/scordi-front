@@ -26,7 +26,7 @@ export const MembershipTableRow = memo((props: MembershipTableRowProps) => {
 
     const onClick = () => {
         open();
-        setMemberId(36594);
+        setMemberId(teamMember.id);
     };
 
     if (!teamMember.membership) return <></>;
