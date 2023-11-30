@@ -14,6 +14,18 @@ export enum ApprovalStatus {
     REJECTED = 'REJECTED', // 반려됨.
 }
 
+export class ApprovalStatusLabel {
+    static PENDING = '대기';
+    static APPROVED = '승인';
+    static REJECTED = '반려';
+}
+
+export class ApprovalStatusClassName {
+    static PENDING = 'badge-ghost';
+    static APPROVED = 'badge-primary';
+    static REJECTED = 'badge-error';
+}
+
 export type CreateMembershipRequestDto = {
     organizationId: number;
     userId: number;

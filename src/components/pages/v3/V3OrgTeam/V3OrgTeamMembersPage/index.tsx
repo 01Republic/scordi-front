@@ -10,6 +10,9 @@ import {NewTeamMemberModal} from '^components/pages/v3/V3OrgTeam/V3OrgTeamMember
 import {BottomTabIndex} from '^v3/share/BottomNavMobile';
 import {InviteOrgMemberModal} from './modals/InviteMemberModal';
 import {LNBIndex} from '^v3/share/LeftNavBar';
+import {MembersTableSection} from '^v3/V3OrgSettingsMembersPage/MembersTableSection';
+import {AddMemberButton} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/AddMemberButton';
+import {TeamMemberShowModal} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/desktop/modals/TeamMemberShowModal';
 
 export const V3OrgTeamMembersPage = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -18,10 +21,18 @@ export const V3OrgTeamMembersPage = memo(() => {
 
     if (isDesktop) {
         return (
-            <V3MainLayout activeTabIndex={LNBIndex.Members}>
+            <V3MainLayout
+                activeTabIndex={LNBIndex.Members}
+                modals={[NewTeamMemberModal, InviteOrgMemberModal, TeamMemberShowModal]}
+            >
                 <V3MainLayoutContainer>
                     <section className="mb-6">
-                        <h1>멤버 관리</h1>
+                        <div className="flex justify-between mb-5">
+                            <h1>멤버 관리</h1>
+
+                            <AddMemberButton textButton="등록하기" className="btn btn-scordi" />
+                        </div>
+                        <MembersTableSection />
                     </section>
                 </V3MainLayoutContainer>
             </V3MainLayout>

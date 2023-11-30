@@ -8,10 +8,11 @@ import {BsPlus} from 'react-icons/bs';
 interface AddMemberButtonProps {
     textButton?: string;
     direction?: string;
+    className?: string;
 }
 
 export const AddMemberButton = memo((props: AddMemberButtonProps) => {
-    const {textButton, direction} = props;
+    const {textButton, direction, className} = props;
 
     const {isShow: isNewTeamMemberModalShow, setIsShow: setNewTeamMemberModalShow} = useModal({
         isShowAtom: isOpenNewTeamMemberModalAtom,
@@ -33,7 +34,7 @@ export const AddMemberButton = memo((props: AddMemberButtonProps) => {
                     }`}
                 >
                     {textButton ? (
-                        <button tabIndex={0} className="cursor-pointer text-sm text-gray-500">
+                        <button tabIndex={0} className={`cursor-pointer text-sm text-gray-500 ${className}`}>
                             {textButton}
                         </button>
                     ) : (

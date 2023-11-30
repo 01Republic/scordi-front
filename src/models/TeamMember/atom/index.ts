@@ -34,3 +34,8 @@ export const invitedEmailsAtom = atom<string[]>({
     key: 'invitedEmailsAtom',
     default: <string[]>[],
 });
+
+export const currentMemberIdState = atom<number | null>({
+    key: 'currentMemberIdState',
+    default: null,
+});
