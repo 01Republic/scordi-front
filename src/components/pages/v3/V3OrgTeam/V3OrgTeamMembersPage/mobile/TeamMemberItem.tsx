@@ -5,13 +5,12 @@ import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {useRouter} from 'next/router';
 import {orgIdParamState} from '^atoms/common';
 import {V3OrgTeamMemberShowPageRoute} from '^pages/v3/orgs/[orgId]/teams/members/[memberId]';
-import {useToast} from '^hooks/useToast';
 import {approvalStatusOptions, OptionsType} from '^v3/V3OrgSettingsMembersPage/type';
 import {ApprovalStatus} from '^models/Membership/type';
 import {useOnResize2} from '^components/util/onResize2';
-import {teamMemberShowModal} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/desktop/modals/TeamMemberShowModal';
 import {useModal} from '^v3/share/modals/useModal';
-import {currentMemberIdState} from '^models/TeamMember/atom';
+import {useTeamMemberShowModalSubject} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/desktop/modals/hooks';
+import {teamMemberShowModal} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/desktop/modals/atom';
 
 interface TeamMemberItemProps {
     item: TeamMemberDto;
@@ -20,11 +19,10 @@ interface TeamMemberItemProps {
 export const TeamMemberItem = memo((props: TeamMemberItemProps) => {
     const [badgeOption, setBadgeOption] = useState<OptionsType>();
     const orgId = useRecoilValue(orgIdParamState);
-    const setMemberId = useSetRecoilState(currentMemberIdState);
     const {open} = useModal(teamMemberShowModal);
     const router = useRouter();
     const {isDesktop} = useOnResize2();
-    const {toast} = useToast();
+    const {setSubjectMemberShow} = useTeamMemberShowModalSubject();
 
     const {item: teamMember} = props;
     const {profileImgUrl} = teamMember.makeTeamMemberProfile();
@@ -40,14 +38,9 @@ export const TeamMemberItem = memo((props: TeamMemberItemProps) => {
     }, []);
 
     const onClick = () => {
-        if (isPending) {
-            toast.error('초대중인 멤버입니다.');
-            return;
-        }
-
         if (isDesktop) {
             open();
-            setMemberId(teamMember.id);
+            setSubjectMemberShow(teamMember);
             return;
         }
 

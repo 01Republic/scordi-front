@@ -1,6 +1,5 @@
 import React, {memo, useEffect} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {useCurrentTeamMember} from '^models/TeamMember/hook';
 import {UseFormReturn} from 'react-hook-form';
 import {UpdateTeamMemberDto} from '^models/TeamMember/type';
 import {MobileInfoList} from '^v3/share/MobileInfoList';
@@ -11,6 +10,7 @@ import {
 } from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/mobile/input';
 import {Avatar} from '^components/Avatar';
 import {useRecoilValue} from 'recoil';
+import {subjectTeamMemberAtom} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/desktop/modals/atom';
 
 interface TeamMemberInfoPanelProps {
     form: UseFormReturn<UpdateTeamMemberDto>;
@@ -22,14 +22,23 @@ interface TeamMemberInfoPanelProps {
  */
 export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
     const {form, onSubmit} = props;
-    const {currentTeamMember: member, isLoading} = useCurrentTeamMember();
+    const member = useRecoilValue(subjectTeamMemberAtom);
     const profileImgUrl = member?.makeTeamMemberProfile().profileImgUrl;
     const isEditable = useRecoilValue(isTeamMemberInfoEditableAtom);
 
     useEffect(() => {
         const touchedFields = Object.values(form.formState.touchedFields);
         if (touchedFields.length > 0 && !isEditable) onSubmit(form.getValues());
-    }, [isEditable, form.formState.touchedFields]);
+
+        if (!member) return;
+
+        const {name, jobName, phone, email} = member;
+
+        form.setValue('name', name);
+        form.setValue('jobName', jobName);
+        form.setValue('phone', phone);
+        form.setValue('email', email);
+    }, [isEditable, form.formState.touchedFields, member]);
 
     if (!member) return <></>;
 

@@ -1,11 +1,12 @@
 import {memo, useEffect, useState} from 'react';
-import {Avatar, Avatar2} from '^components/Avatar';
-import {FcConferenceCall, FcDoughnutChart, FcKey, FcLink, FcOrgUnit} from 'react-icons/fc';
-import {useTeamMemberModalSubject} from '../../modals/TeamMemberModal/hooks';
+import {Avatar} from '^components/Avatar';
+import {FcOrgUnit} from 'react-icons/fc';
 import {TeamMemberDto} from '^models/TeamMember/type';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {SubscriptionManager} from '^models/Subscription/manager';
 import {SubscriptionAvatars} from '^v3/V3OrgHomePage/desktop/sections/MemberListSection/SubscriptionAvatars';
+import {ApprovalStatus} from '^models/Membership/type';
+import {useTeamMemberShowModalSubject} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/desktop/modals/hooks';
 
 interface MemberItemProps {
     member: TeamMemberDto;
@@ -15,9 +16,10 @@ function collectSubscriptions() {}
 
 // TODO: 231117 멤버상세카드에 데이터 연결해야 함.
 export const MemberItem = memo((props: MemberItemProps) => {
-    const {member} = props;
-    const {setSubjectMember} = useTeamMemberModalSubject();
+    const {setSubjectMemberShow} = useTeamMemberShowModalSubject();
     const [subscriptions, setSubscriptions] = useState<SubscriptionDto[]>([]);
+    const {member} = props;
+    const approvalStatus = member.membership?.approvalStatus;
 
     useEffect(() => {
         const subs = (member.teams || []).flatMap((team) => team.subscriptions);
@@ -25,11 +27,13 @@ export const MemberItem = memo((props: MemberItemProps) => {
         setSubscriptions(SubscriptionManager.init(validSubs).uniqueByProduct().all());
     }, [member]);
 
-    const onClick = () => setSubjectMember(member);
+    const onClick = () => setSubjectMemberShow(member);
 
     return (
         <div
-            className="card card-compact bg-white shadow p-4 flex flex-col justify-between min-w-[300px] cursor-pointer transition-all hover:shadow-lg btn-animation"
+            className={`opacity-50 card card-compact bg-white shadow p-4 flex flex-col justify-between min-w-[300px] cursor-pointer transition-all hover:shadow-lg btn-animation ${
+                approvalStatus === ApprovalStatus.PENDING
+            }`}
             onClick={onClick}
         >
             <div>
