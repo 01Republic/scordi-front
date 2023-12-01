@@ -26,11 +26,11 @@ export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
     const profileImgUrl = member?.makeTeamMemberProfile().profileImgUrl;
     const isEditable = useRecoilValue(isTeamMemberInfoEditableAtom);
 
+    if (!member) return <></>;
+
     useEffect(() => {
         const touchedFields = Object.values(form.formState.touchedFields);
         if (touchedFields.length > 0 && !isEditable) onSubmit(form.getValues());
-
-        if (!member) return;
 
         const {name, jobName, phone, email} = member;
 
@@ -39,8 +39,6 @@ export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
         form.setValue('phone', phone);
         form.setValue('email', email);
     }, [isEditable, form.formState.touchedFields, member]);
-
-    if (!member) return <></>;
 
     return (
         <form>
@@ -60,6 +58,11 @@ export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
                             />
                         </div>
                         <Avatar src={profileImgUrl} className="w-10 h-10" />
+                    </div>
+                    {/*유저 가입 상태*/}
+                    <div className="flex justify-between border">
+                        <span className="text-base">가입상태</span>
+                        <span className="border border-orange-500"></span>
                     </div>
                 </MobileSection.Padding>
             </MobileSection.Item>

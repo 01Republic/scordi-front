@@ -3,7 +3,7 @@ import {UserDto} from '^models/User/types';
 import {TeamDto} from '^models/Team/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';
-import {MembershipDto} from '^models/Membership/type';
+import {MembershipDto} from 'src/models/Membership/types';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {CreditCardDto} from '^models/CreditCard/type';
 

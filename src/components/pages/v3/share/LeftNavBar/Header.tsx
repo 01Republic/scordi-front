@@ -2,7 +2,7 @@ import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
 import {currentUserAtom} from '^models/User/atom';
-import {MembershipDto} from '^models/Membership/type';
+import {MembershipDto} from 'src/models/Membership/types';
 import {membershipApi} from '^models/Membership/api';
 import {OrganizationDto} from '^models/Organization/type';
 import {MembershipManager} from '^models/Membership/manager';

@@ -5,7 +5,7 @@ import {organizationApi} from '^models/Organization/api';
 import {errorNotify} from '^utils/toast-notify';
 import {TextInputLg} from '^components/TextInput';
 import {OrganizationDto, SearchOrgQueryDto} from '^models/Organization/type';
-import {MembershipLevel} from '^models/Membership/type';
+import {MembershipLevel} from 'src/models/Membership/types';
 import {UserDto} from '^models/User/types';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {pathRoute} from '^types/pageRoute.type';

@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {MembershipLevel} from '^models/Membership/type';
+import {MembershipLevel} from 'src/models/Membership/types';
 import {JoinOrgRoute} from '^pages/orgs/joinOrg';
 import {errorNotify} from '^utils/toast-notify';
 import {useRouter} from 'next/router';

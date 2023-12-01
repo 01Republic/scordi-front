@@ -1,5 +1,5 @@
 import {BasicManager} from '^models/BasicManager';
-import {MembershipDto} from '^models/Membership/type';
+import {MembershipDto} from 'src/models/Membership/types';
 
 export class MembershipManager extends BasicManager<MembershipDto> {
     organizations() {
