@@ -10,14 +10,14 @@ interface PayingTypeSelectProps {
 
 export const PayingTypeSelect = memo((props: PayingTypeSelectProps) => {
     const {subscription} = props;
-    const billingType = subscription.getCycleTerm();
+    const billingType = subscription.getRecurringTypeText(true);
     const {search: getTags, result, createByName} = usePayingTypeTags();
     const form = useForm();
     const [tagOptions, setTagOptions] = useState<TagDto[]>();
     const [newTag, setNewTag] = useState<string>('');
 
     useEffect(() => {
-        form.setValue('tagName', subscription.recurringType?.name ?? billingType);
+        form.setValue('tagName', billingType);
         getTags({}).then((res) => setTagOptions(res.items));
     }, []);
 
@@ -26,7 +26,7 @@ export const PayingTypeSelect = memo((props: PayingTypeSelectProps) => {
 
         if (!tagName) return;
 
-        // options에 있는지 확인s
+        // options에 있는지 확인
         const isExist = tagOptions?.find((tag) => {
             tag.name === tagName;
         });
@@ -54,18 +54,18 @@ export const PayingTypeSelect = memo((props: PayingTypeSelectProps) => {
                 <input
                     {...form.register('tagName')}
                     tabIndex={0}
-                    className="input text-center text-sm border mb-1 focus:outline-none"
+                    className="input input-ghost input-xs text-sm text-center border"
                     onChange={(e) => setNewTag(e.target.value)}
                     onKeyUp={(e) => {
                         e.key === 'Enter' && onCreate();
                         e.key === 'Backspace' && onReset();
                     }}
                 />
-                {tagOptions?.length || newTag.length ? (
-                    <ul className="dropdown-content z-[1] py-2 px-5 shadow bg-base-100 rounded-box w-48">
+                {!!(tagOptions?.length || newTag.length) && (
+                    <ul className="dropdown-content z-[1] py-2 px-5 shadow bg-base-100 rounded-box w-48 mt-1">
                         <li className="text-xs text-start text-gray-500 mb-3">옵션 선택 또는 생성</li>
 
-                        {tagOptions?.length ? (
+                        {!!tagOptions?.length && (
                             <>
                                 {tagOptions.map((option) => (
                                     <li
@@ -78,20 +78,14 @@ export const PayingTypeSelect = memo((props: PayingTypeSelectProps) => {
                                     </li>
                                 ))}
                             </>
-                        ) : (
-                            ''
                         )}
-                        {newTag.length ? (
+                        {!!newTag.length && (
                             <li className="text-sm rounded-sm text-start  mb-3">
                                 생성:{' '}
                                 <span className="bg-scordi-100 text-start py-1 px-3 w-fit rounded-md">{newTag}</span>
                             </li>
-                        ) : (
-                            ''
                         )}
                     </ul>
-                ) : (
-                    <></>
                 )}
             </div>
         </>
