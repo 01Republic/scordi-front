@@ -11,6 +11,8 @@ import {
 import {Avatar} from '^components/Avatar';
 import {useRecoilValue} from 'recoil';
 import {subjectTeamMemberAtom} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/desktop/modals/atom';
+import {ApprovalStatus} from '^models/Membership/types';
+import {getDate} from '^components/util/date';
 
 interface TeamMemberInfoPanelProps {
     form: UseFormReturn<UpdateTeamMemberDto>;
@@ -25,6 +27,7 @@ export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
     const member = useRecoilValue(subjectTeamMemberAtom);
     const profileImgUrl = member?.makeTeamMemberProfile().profileImgUrl;
     const isEditable = useRecoilValue(isTeamMemberInfoEditableAtom);
+    const approvalStatus = member?.getApprovalStatusOption();
 
     if (!member) return <></>;
 
@@ -39,6 +42,11 @@ export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
         form.setValue('phone', phone);
         form.setValue('email', email);
     }, [isEditable, form.formState.touchedFields, member]);
+
+    const approvalDate =
+        approvalStatus?.status === ApprovalStatus.PENDING
+            ? getDate(member.createdAt)
+            : getDate(member.membership?.updatedAt || member.createdAt);
 
     return (
         <form>
@@ -60,9 +68,19 @@ export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
                         <Avatar src={profileImgUrl} className="w-10 h-10" />
                     </div>
                     {/*유저 가입 상태*/}
-                    <div className="flex justify-between border">
-                        <span className="text-base">가입상태</span>
-                        <span className="border border-orange-500"></span>
+                    <div className="flex justify-between py-2">
+                        <span className="text-base self-center">가입 상태</span>
+                        <span className={`badge p-3 font-bold ${approvalStatus?.className}`}>
+                            {approvalStatus?.label}
+                        </span>
+                    </div>
+
+                    {/*초대날짜 / 가입날짜*/}
+                    <div className="flex justify-between py-2">
+                        <span className="self-center text-base">
+                            {approvalStatus?.status === ApprovalStatus.PENDING ? '초대 날짜' : '가입 날짜'}
+                        </span>
+                        <p className="text-gray-500">{approvalDate}</p>
                     </div>
                 </MobileSection.Padding>
             </MobileSection.Item>
