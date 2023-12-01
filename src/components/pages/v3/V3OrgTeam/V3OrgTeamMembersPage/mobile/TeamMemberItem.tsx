@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {TeamMemberDto} from '^models/TeamMember/type';
 import {Avatar} from '^components/Avatar';
 import {useRecoilValue} from 'recoil';
@@ -6,6 +6,9 @@ import {useRouter} from 'next/router';
 import {orgIdParamState} from '^atoms/common';
 import {V3OrgTeamMemberShowPageRoute} from '^pages/v3/orgs/[orgId]/teams/members/[memberId]';
 import {useToast} from '^hooks/useToast';
+import {approvalStatusOptions, OptionsType} from '^v3/V3OrgSettingsMembersPage/type';
+import {ApprovalStatus} from '^models/Membership/type';
+import {useOnResize2} from '^components/util/onResize2';
 
 interface TeamMemberItemProps {
     item: TeamMemberDto;
@@ -14,13 +17,23 @@ interface TeamMemberItemProps {
 export const TeamMemberItem = memo((props: TeamMemberItemProps) => {
     const {item: teamMember} = props;
     const orgId = useRecoilValue(orgIdParamState);
-    const {name, jobName, profileImgUrl} = teamMember.makeTeamMemberProfile();
-    const approvalStatus = teamMember.membership?.approvalStatus;
+    const {profileImgUrl} = teamMember.makeTeamMemberProfile();
+    const [badgeOption, setBadgeOption] = useState<OptionsType>();
     const router = useRouter();
+    const {isDesktop} = useOnResize2();
     const {toast} = useToast();
+    const isPending = badgeOption?.status === ApprovalStatus.PENDING;
+
+    useEffect(() => {
+        const defaultOption = approvalStatusOptions.find((option) => {
+            return option.status === teamMember.membership?.approvalStatus;
+        });
+
+        setBadgeOption(defaultOption);
+    }, []);
 
     const onClick = () => {
-        if (approvalStatus === 'PENDING') {
+        if (isPending) {
             toast.error('초대중인 멤버입니다.');
             return;
         }
@@ -30,18 +43,22 @@ export const TeamMemberItem = memo((props: TeamMemberItemProps) => {
     return (
         <div
             className={`flex items-center gap-4 px-3 py-2.5 -mx-3 bg-base-100 text-gray-700  hover:bg-neutral ${
-                approvalStatus === 'PENDING' ? 'opacity-50' : 'cursor-pointer'
+                isPending ? 'opacity-50' : 'cursor-pointer'
             }`}
             onClick={onClick}
         >
+            {/*<UserAvatar user={user} />*/}
             <Avatar src={profileImgUrl} className="w-8 h-8 outline outline-offset-1 outline-slate-100" />
-            <div className="flex-1">
-                <p className="text-xl text-500">{name}</p>
-                <p className="text-[16px]">
-                    <small className="mr-0.5">{jobName}</small>
+
+            <div>
+                <p className={`font-semibold flex gap-2 items-center ${!isDesktop && 'text-base'}`}>
+                    <span>{teamMember.name}</span>
+                    {isPending && (
+                        <span className={`${badgeOption?.className} badge badge-sm`}>{badgeOption?.label}</span>
+                    )}
                 </p>
+                <p className="block text-sm font-normal text-gray-400">{teamMember.email}</p>
             </div>
-            {approvalStatus === 'PENDING' && <button className="btn btn-xs btn-scordi">초대중</button>}
         </div>
     );
 });
