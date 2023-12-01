@@ -1,52 +1,37 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {UseFormReturn} from 'react-hook-form';
 import {UpdateTeamMemberDto} from '^models/TeamMember/type';
 import {MobileInfoList} from '^v3/share/MobileInfoList';
-import {
-    EditTriggeredInput,
-    isTeamMemberInfoEditableAtom,
-    MobileTeamMemberInfoInput,
-} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/mobile/input';
+import {EditTriggeredInput, MobileTeamMemberInfoInput} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/mobile/input';
 import {Avatar} from '^components/Avatar';
 import {useRecoilValue} from 'recoil';
-import {subjectTeamMemberAtom} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/desktop/modals/atom';
 import {ApprovalStatus} from '^models/Membership/types';
 import {getDate} from '^components/util/date';
 
+import {currentTeamMemberState} from '^models/TeamMember/atom';
+
 interface TeamMemberInfoPanelProps {
-    form: UseFormReturn<UpdateTeamMemberDto>;
-    onSubmit: (data: UpdateTeamMemberDto) => void;
+    form: UseFormReturn<UpdateTeamMemberDto, any>;
 }
 
 /**
  * 첫 수정 시 완료 버튼을 두 번 클릭해야 submit 되는 현상이 있습니다.
  */
 export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
-    const {form, onSubmit} = props;
-    const member = useRecoilValue(subjectTeamMemberAtom);
-    const profileImgUrl = member?.makeTeamMemberProfile().profileImgUrl;
-    const isEditable = useRecoilValue(isTeamMemberInfoEditableAtom);
-    const approvalStatus = member?.getApprovalStatusOption();
+    const currentMember = useRecoilValue(currentTeamMemberState);
+    const {form} = props;
 
-    if (!member) return <></>;
+    if (!currentMember) return <></>;
 
-    useEffect(() => {
-        const touchedFields = Object.values(form.formState.touchedFields);
-        if (touchedFields.length > 0 && !isEditable) onSubmit(form.getValues());
-
-        const {name, jobName, phone, email} = member;
-
-        form.setValue('name', name);
-        form.setValue('jobName', jobName);
-        form.setValue('phone', phone);
-        form.setValue('email', email);
-    }, [isEditable, form.formState.touchedFields, member]);
+    const profileImgUrl = currentMember?.makeTeamMemberProfile().profileImgUrl;
+    const approvalStatus = currentMember?.getApprovalStatusOption();
+    const {name, jobName, phone, email} = currentMember;
 
     const approvalDate =
         approvalStatus?.status === ApprovalStatus.PENDING
-            ? getDate(member.createdAt)
-            : getDate(member.membership?.updatedAt || member.createdAt);
+            ? getDate(currentMember.createdAt)
+            : getDate(currentMember.membership?.updatedAt || currentMember.createdAt);
 
     return (
         <form>
@@ -57,11 +42,13 @@ export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
                             <EditTriggeredInput
                                 inputClassName="font-bold text-2xl w-full py-2"
                                 required={true}
+                                defaultValue={name}
                                 {...form.register('name')}
                             />
                             <EditTriggeredInput
                                 inputClassName="font-medium text-xl w-full"
                                 required={true}
+                                defaultValue={jobName || ''}
                                 {...form.register('jobName')}
                             />
                         </div>
@@ -89,8 +76,18 @@ export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
                 <MobileSection.Padding>
                     <p className="font-bold text-xl pb-3">연락처</p>
                     <MobileInfoList>
-                        <MobileTeamMemberInfoInput label="휴대폰" required={true} {...form.register('phone')} />
-                        <MobileTeamMemberInfoInput label="이메일" required={true} {...form.register('email')} />
+                        <MobileTeamMemberInfoInput
+                            label="휴대폰"
+                            required={true}
+                            defaultValue={phone || ''}
+                            {...form.register('phone')}
+                        />
+                        <MobileTeamMemberInfoInput
+                            label="이메일"
+                            required={true}
+                            defaultValue={email || ''}
+                            {...form.register('email')}
+                        />
                     </MobileInfoList>
                 </MobileSection.Padding>
             </MobileSection.Item>

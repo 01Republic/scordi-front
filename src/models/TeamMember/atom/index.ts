@@ -16,6 +16,11 @@ export const getTeamMembersQueryAtom = atom<FindAllTeamMemberQueryDto>({
     key: 'getTeamMembersQueryAtom',
     default: {},
 });
+
+export const teamMembersAtom = atom<TeamMemberDto[]>({
+    key: 'teamMembersAtom',
+    default: [],
+});
 export const teamMembersSearchResultAtom = atom<Paginated<TeamMemberDto>>({
     key: 'teamMembersSearchResult',
     default: {

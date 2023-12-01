@@ -79,6 +79,7 @@ export const EditTriggerButton = (props: TriggerButtonProps) => {
 
 export const DeleteTriggerButton = (props: TriggerButtonProps) => {
     const {onClick} = props;
+
     return (
         <button
             onClick={(event) => {

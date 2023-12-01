@@ -1,17 +1,17 @@
 import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
-import {useCurrentTeamMember, useEditTeamMember} from '^models/TeamMember/hook';
-import {useForm} from 'react-hook-form';
-import {UpdateTeamMemberDto} from '^models/TeamMember/type';
+import {useCurrentTeamMember} from '^models/TeamMember/hook';
 import {TeamMemberInfoPanel} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/mobile/TeamMemberInfoPanel';
 import {TeamListPanel} from '^v3/V3OrgTeam/V3OrgTeamsPage/mobile/TeamListPanel';
+import {UpdateTeamMemberDto} from '^models/TeamMember/type';
+import {UseFormReturn} from 'react-hook-form';
 
-export const TeamMemberShowBody = memo(() => {
-    const orgId = useRecoilValue(orgIdParamState);
-    const form = useForm<UpdateTeamMemberDto>();
+interface TeamMemberShowBodyProps {
+    form: UseFormReturn<UpdateTeamMemberDto>;
+}
+
+export const TeamMemberShowBody = memo((props: TeamMemberShowBodyProps) => {
     const {isLoading} = useCurrentTeamMember();
-    const {updateFn} = useEditTeamMember(form, orgId);
+    const {form} = props;
 
     return (
         <>
@@ -19,7 +19,7 @@ export const TeamMemberShowBody = memo(() => {
                 <p className="text-center">loading ...</p>
             ) : (
                 <>
-                    <TeamMemberInfoPanel form={form} onSubmit={updateFn} />
+                    <TeamMemberInfoPanel form={form} />
                     <TeamListPanel />
                     {/*<TeamMemberSubscriptionListPanel />*/}
                 </>

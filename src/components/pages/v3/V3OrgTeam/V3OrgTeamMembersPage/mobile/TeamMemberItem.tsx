@@ -20,7 +20,7 @@ export const TeamMemberItem = memo((props: TeamMemberItemProps) => {
     const {open} = useModal(teamMemberShowModal);
     const router = useRouter();
     const {isDesktop} = useOnResize2();
-    const {setSubjectMemberShow} = useTeamMemberShowModalSubject();
+    const {setCurrentTeamMember} = useTeamMemberShowModalSubject();
 
     const {item: teamMember} = props;
     const {profileImgUrl} = teamMember.makeTeamMemberProfile();
@@ -31,7 +31,7 @@ export const TeamMemberItem = memo((props: TeamMemberItemProps) => {
     const onClick = () => {
         if (isDesktop) {
             open();
-            setSubjectMemberShow(teamMember);
+            setCurrentTeamMember(teamMember);
             return;
         }
 
@@ -43,8 +43,8 @@ export const TeamMemberItem = memo((props: TeamMemberItemProps) => {
 
     return (
         <div
-            className={`flex items-center gap-4 px-3 py-2.5 -mx-3 bg-base-100 text-gray-700  hover:bg-neutral ${
-                isPending ? 'opacity-50' : 'cursor-pointer'
+            className={`flex items-center gap-4 px-3 py-2.5 -mx-3 bg-base-100 text-gray-700  hover:bg-neutral cursor-pointer ${
+                isPending && 'opacity-50'
             }`}
             onClick={onClick}
         >

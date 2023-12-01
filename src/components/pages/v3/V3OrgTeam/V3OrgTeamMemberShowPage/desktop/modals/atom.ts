@@ -1,5 +1,4 @@
 import {atom} from 'recoil';
-import {TeamMemberDto} from '^models/TeamMember/type';
 
 export const teamMemberShowModal = {
     isShowAtom: atom({
@@ -8,8 +7,3 @@ export const teamMemberShowModal = {
     }),
     popStateSyncKey: 'teamMemberShowModal',
 };
-
-export const subjectTeamMemberAtom = atom<TeamMemberDto | null>({
-    key: 'subjectTeamMemberAtom',
-    default: null,
-});

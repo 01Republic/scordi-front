@@ -16,7 +16,7 @@ function collectSubscriptions() {}
 
 // TODO: 231117 멤버상세카드에 데이터 연결해야 함.
 export const MemberItem = memo((props: MemberItemProps) => {
-    const {setSubjectMemberShow} = useTeamMemberShowModalSubject();
+    const {setCurrentTeamMember} = useTeamMemberShowModalSubject();
     const [subscriptions, setSubscriptions] = useState<SubscriptionDto[]>([]);
     const {member} = props;
     const approvalStatus = member.membership?.approvalStatus;
@@ -27,7 +27,7 @@ export const MemberItem = memo((props: MemberItemProps) => {
         setSubscriptions(SubscriptionManager.init(validSubs).uniqueByProduct().all());
     }, [member]);
 
-    const onClick = () => setSubjectMemberShow(member);
+    const onClick = () => setCurrentTeamMember(member);
 
     return (
         <div
