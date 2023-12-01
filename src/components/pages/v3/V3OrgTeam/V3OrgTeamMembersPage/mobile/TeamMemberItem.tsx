@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
 import {TeamMemberDto} from '^models/TeamMember/type';
 import {Avatar} from '^components/Avatar';
-import {useRecoilValue} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {useRouter} from 'next/router';
 import {orgIdParamState} from '^atoms/common';
 import {V3OrgTeamMemberShowPageRoute} from '^pages/v3/orgs/[orgId]/teams/members/[memberId]';
@@ -9,19 +9,26 @@ import {useToast} from '^hooks/useToast';
 import {approvalStatusOptions, OptionsType} from '^v3/V3OrgSettingsMembersPage/type';
 import {ApprovalStatus} from '^models/Membership/type';
 import {useOnResize2} from '^components/util/onResize2';
+import {teamMemberShowModal} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/desktop/modals/TeamMemberShowModal';
+import {useModal} from '^v3/share/modals/useModal';
+import {currentMemberIdState} from '^models/TeamMember/atom';
 
 interface TeamMemberItemProps {
     item: TeamMemberDto;
 }
 
 export const TeamMemberItem = memo((props: TeamMemberItemProps) => {
-    const {item: teamMember} = props;
-    const orgId = useRecoilValue(orgIdParamState);
-    const {profileImgUrl} = teamMember.makeTeamMemberProfile();
     const [badgeOption, setBadgeOption] = useState<OptionsType>();
+    const orgId = useRecoilValue(orgIdParamState);
+    const setMemberId = useSetRecoilState(currentMemberIdState);
+    const {open} = useModal(teamMemberShowModal);
     const router = useRouter();
     const {isDesktop} = useOnResize2();
     const {toast} = useToast();
+
+    const {item: teamMember} = props;
+    const {profileImgUrl} = teamMember.makeTeamMemberProfile();
+
     const isPending = badgeOption?.status === ApprovalStatus.PENDING;
 
     useEffect(() => {
@@ -37,7 +44,17 @@ export const TeamMemberItem = memo((props: TeamMemberItemProps) => {
             toast.error('초대중인 멤버입니다.');
             return;
         }
-        router.push(V3OrgTeamMemberShowPageRoute.path(orgId, teamMember.id));
+
+        if (isDesktop) {
+            open();
+            setMemberId(teamMember.id);
+            return;
+        }
+
+        if (!isDesktop) {
+            router.push(V3OrgTeamMemberShowPageRoute.path(orgId, teamMember.id));
+            return;
+        }
     };
 
     return (
