@@ -3,6 +3,7 @@ import {TypeCast} from '^types/utils/class-transformer';
 
 export class ReportItemDto {
     email: string;
+    name: string;
 
     @TypeCast(() => ReportItemAppDto)
     apps: ReportItemAppDto[];

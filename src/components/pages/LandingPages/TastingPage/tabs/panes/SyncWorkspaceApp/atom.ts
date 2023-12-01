@@ -11,6 +11,7 @@ import {
 } from './features';
 import {useModal} from '^v3/share/modals/useModal';
 import {ReportItemFormDataDto} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/dto/report-item-form.dto';
+import {localStorageEffect} from '^atoms/localStorageEffect';
 
 /**
  * SyncWorkspaceApp 구독찾기 데모를 위한
@@ -33,6 +34,7 @@ export const reportLoadingStatus = atom<ReportLoadingStatus>({
 export const reportState = atom<ReportDto | null>({
     key: 'reportState',
     default: null,
+    effects: [localStorageEffect('report')],
 });
 
 export const reportGroupedByProductState = atom<ReportGroupedByProductDto | null>({
