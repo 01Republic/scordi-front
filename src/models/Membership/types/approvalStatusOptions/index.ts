@@ -1,4 +1,4 @@
-import {ApprovalStatus, ApprovalStatusClassName, ApprovalStatusLabel} from '^models/Membership/type';
+import {ApprovalStatus, ApprovalStatusClassName, ApprovalStatusLabel} from '^models/Membership/types';
 
 export type OptionsType = {
     status: ApprovalStatus;

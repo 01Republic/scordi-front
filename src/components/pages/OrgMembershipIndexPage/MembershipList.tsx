@@ -2,7 +2,7 @@ import React, {memo, useEffect} from 'react';
 import {ContentPanelPreloader} from '^layouts/ContentLayout';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {Paginated} from '^types/utils/paginated.dto';
-import {MembershipDto} from '^models/Membership/type';
+import {MembershipDto} from 'src/models/Membership/types';
 import {useCurrentUser} from '^models/User/hook';
 import {MemberListItem} from './MemberListItem';
 import {membershipApi} from '^models/Membership/api';

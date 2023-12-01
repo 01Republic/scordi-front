@@ -60,6 +60,21 @@ export class SubscriptionDto {
         return this.billingCycle?.term || billingTypeToCycleTerm(this.assumedBillingType);
     }
 
+    getRecurringTypeText(standalone = false) {
+        if (typeof this.billingCycle?.term === 'undefined') {
+            return (
+                this.recurringType?.name ||
+                t_BillingCycleTerm(billingTypeToCycleTerm(this.assumedBillingType), standalone)
+            );
+        }
+
+        return (
+            t_BillingCycleTerm(this.billingCycle?.term, standalone) ||
+            this.recurringType?.name ||
+            t_BillingCycleTerm(billingTypeToCycleTerm(this.assumedBillingType), standalone)
+        );
+    }
+
     getBillingType(standalone = false, locale = Locale.ko) {
         const cycleTerm = this.getCycleTerm();
         return t_BillingCycleTerm(cycleTerm, standalone, locale) || '';

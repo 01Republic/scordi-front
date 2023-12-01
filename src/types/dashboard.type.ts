@@ -1,6 +1,6 @@
 import {CurrencyDto} from '^types/crawler';
 import {SubscriptionDto} from 'src/models/Subscription/types';
-import {MembershipDto} from '^models/Membership/type';
+import {MembershipDto} from 'src/models/Membership/types';
 
 export class DashboardSummaryDto {
     total: number; // 이번달 총 비용

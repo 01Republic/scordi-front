@@ -13,7 +13,7 @@ export const MembersTableSection = memo(() => {
 
     useEffect(() => {
         // first loaded.
-        search({order: {id: 'DESC'}, itemsPerPage: 10});
+        search({order: {id: 'DESC'}, itemsPerPage: 10, relations: ['membership.user']});
     }, []);
 
     const movePage = (page: number) => search({...query, page});

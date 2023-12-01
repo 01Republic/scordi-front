@@ -1,5 +1,5 @@
 import {UserDto} from '^models/User/types';
-import {MembershipDto} from '^models/Membership/type';
+import {MembershipDto} from 'src/models/Membership/types';
 import {TypeCast} from '^types/utils/class-transformer';
 
 export type CreateOrganizationRequestDto = {

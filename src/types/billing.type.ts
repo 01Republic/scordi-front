@@ -1,4 +1,4 @@
-// billing schedule / billing history에서 모두 사용되는 type
+// billing schedule / billing history에서 모두 사용되는 types
 
 export type StartEndParams = {
     startDate?: string;

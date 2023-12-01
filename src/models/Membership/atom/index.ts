@@ -4,7 +4,7 @@ import {errorNotify} from '^utils/toast-notify';
 import {OrganizationDto} from '^models/Organization/type';
 import {currentUserAtom} from '^models/User/atom';
 import {Paginated} from '^types/utils/paginated.dto';
-import {MembershipDto} from '^models/Membership/type';
+import {MembershipDto} from 'src/models/Membership/types';
 
 // export const currentMembershipAtom = atom<OrganizationDto | null>({
 //     key: 'currentMembershipAtom',

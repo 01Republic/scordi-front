@@ -1,4 +1,4 @@
-import {MembershipDto} from '^models/Membership/type';
+import {MembershipDto} from 'src/models/Membership/types';
 import {atom, selector} from 'recoil';
 import {UserDto} from '^models/User/types';
 import {getToken} from '^api/api';

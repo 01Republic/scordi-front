@@ -22,7 +22,7 @@ import {organizationApi} from '^models/Organization/api';
 import {errorNotify, successNotify} from '^utils/toast-notify';
 import {toast} from 'react-toastify';
 import {useCurrentUser} from '^models/User/hook';
-import {MembershipLevel} from '^models/Membership/type';
+import {MembershipLevel} from 'src/models/Membership/types';
 
 export const OrgShowRoute = pathRoute({
     pathname: '/orgs/[id]',

@@ -11,22 +11,25 @@ import {useForm} from 'react-hook-form';
 import {UpdateTeamMemberDto} from '^models/TeamMember/type';
 import {useEditTeamMember} from '^models/TeamMember/hook';
 
+import {currentTeamMemberState} from '^models/TeamMember/atom';
+
 export const V3OrgTeamMemberShowPage = memo(() => {
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
+    const {updateFn, deleteFn} = useEditTeamMember();
     const form = useForm<UpdateTeamMemberDto>();
-    const {updateFn, deleteFn} = useEditTeamMember(form, orgId);
+    const currentMember = useRecoilValue(currentTeamMemberState);
 
     return (
         <V3ModalLikeLayoutMobile
             topRightButtons={[
-                () => <EditTriggerButton onClick={updateFn} />,
-                () => <DeleteTriggerButton onClick={deleteFn} />,
+                () => <EditTriggerButton onClick={() => updateFn(form.getValues(), currentMember)} />,
+                () => <DeleteTriggerButton onClick={() => deleteFn(orgId, currentMember)} />,
             ]}
             backBtnOnClick={() => router.push(V3OrgTeamMembersPageRoute.path(orgId))}
         >
             <MobileSection.List className="h-full">
-                <TeamMemberShowBody />
+                <TeamMemberShowBody form={form} />
             </MobileSection.List>
         </V3ModalLikeLayoutMobile>
     );

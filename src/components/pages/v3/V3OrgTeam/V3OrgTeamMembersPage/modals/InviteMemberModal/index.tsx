@@ -1,29 +1,29 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
-import {isOpeninviteOrgMemberModalAtom} from './atom';
+import {isOpeninviteOrgMemberModalAtom} from './atom/atom';
 import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
-import {invitedEmailsAtom} from '^models/TeamMember/atom';
+import {invitedEmailsAtom, teamMembersSearchResultAtom} from '^models/TeamMember/atom';
 import {InviteEmailInput} from './InviteEmailInput';
 import {FieldValues, useForm} from 'react-hook-form';
 import {useMemberships} from '^models/Membership/hook';
 import {debounce} from 'lodash';
-import {useToast} from '^hooks/useToast';
 import {useAlert} from '^hooks/useAlert';
 import {inviteMembershipApi} from '^models/Membership/api';
+import {useInviteMember} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/modals/InviteMemberModal/hook';
 
 export const InviteOrgMemberModal = memo(() => {
     const {isShow, Modal, close} = useModal({isShowAtom: isOpeninviteOrgMemberModalAtom});
     const [isLoading, setIsLoading] = useState(false);
     const [invitedEmails, setInvitedEmails] = useRecoilState(invitedEmailsAtom);
-    const {membershipSearchResult, searchMemberships} = useMemberships();
+    const {searchMemberships} = useMemberships();
     const currentOrg = useRecoilValue(currentOrgAtom);
     const form = useForm<FieldValues>();
-    const {toast} = useToast();
     const {alert} = useAlert();
+    const {confirmOrgMember} = useInviteMember();
 
     useEffect(() => {
         if (!isShow) {
@@ -37,42 +37,13 @@ export const InviteOrgMemberModal = memo(() => {
         searchMemberships({where: {organizationId: currentOrg.id}});
     }, [currentOrg]);
 
-    // 이미 조직에 등록된 멤버인지 확인하는 함수
-    const confirmOrgMember = () => {
-        const invitedEmail = form.getValues('email');
-
-        if (!invitedEmail && !invitedEmails.length) {
-            toast.error('이메일을 입력해주세요');
-            return false;
-        }
-
-        const membership = membershipSearchResult.items.filter((item) => {
-            return item.invitedEmail === invitedEmail;
-        });
-        if (membership.length === 0) return true;
-
-        const orgMemberEmail = membership[0].approvalStatus;
-
-        if (orgMemberEmail === 'PENDING') {
-            toast.error('승인 대기 중인 멤버입니다.');
-            return false;
-        }
-
-        if (orgMemberEmail === 'APPROVED') {
-            toast.error('이미 등록된 멤버입니다.');
-            return false;
-        }
-
-        return true;
-    };
-
     // 초대 이메일 보내는 함수
     const inviteMembership = debounce(async () => {
         if (!currentOrg) return;
         const invitedEmail = form.getValues('email');
 
         // 이미 조직에 가입된 멤버라면 return
-        const isOrgMember = confirmOrgMember();
+        const isOrgMember = confirmOrgMember(invitedEmail);
         if (!isOrgMember) return;
 
         const createInvitedEmails = invitedEmail ? [...invitedEmails, invitedEmail] : invitedEmails;
@@ -102,7 +73,7 @@ export const InviteOrgMemberModal = memo(() => {
                     </h3>
 
                     <p>초대할 멤버의 이메일을 입력해주세요.</p>
-                    <InviteEmailInput form={form} confirmOrgMember={confirmOrgMember} />
+                    <InviteEmailInput form={form} />
                 </div>
             </MobileSection.Padding>
             <ModalLikeBottomBar>

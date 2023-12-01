@@ -9,9 +9,9 @@ interface MembershipTableRowProps {
 export const MembershipTableRow = memo((props: MembershipTableRowProps) => {
     const {teamMember} = props;
 
-    // const user = teamMember?.user();
+    const currentMember = teamMember.membership;
 
-    if (!teamMember.membership) return <></>;
+    if (!currentMember) return <></>;
 
     return (
         <tr>
@@ -25,12 +25,12 @@ export const MembershipTableRow = memo((props: MembershipTableRowProps) => {
 
             {/* 권한 */}
             <td>
-                <p className="capitalize text-sm text-gray-500">{teamMember.membership.level.toLowerCase()}</p>
+                <p className="capitalize text-sm text-gray-500">{currentMember.level.toLowerCase()}</p>
             </td>
 
             {/* 상태 */}
             <td>
-                <p className="capitalize text-sm text-gray-500">{teamMember.membership.approvalStatus.toLowerCase()}</p>
+                <p className="capitalize text-sm text-gray-500">{currentMember.approvalStatus.toLowerCase()}</p>
             </td>
         </tr>
     );

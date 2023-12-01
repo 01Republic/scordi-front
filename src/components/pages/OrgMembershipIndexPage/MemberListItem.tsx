@@ -2,7 +2,7 @@ import {useRouter} from 'next/router';
 import React, {memo, useEffect, useState} from 'react';
 import {toast} from 'react-toastify';
 import {useCurrentUser} from '^models/User/hook';
-import {ApprovalStatus, MembershipDto, MembershipLevel, UpdateMembershipRequestDto} from '^models/Membership/type';
+import {ApprovalStatus, MembershipDto, MembershipLevel, UpdateMembershipRequestDto} from 'src/models/Membership/types';
 import {errorNotify} from '^utils/toast-notify';
 import {membershipApi} from '^models/Membership/api';
 

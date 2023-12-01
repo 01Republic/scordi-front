@@ -3,11 +3,11 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ContentEmpty} from '^v3/V3OrgHomePage/mobile/ContentEmpty';
 import {TeamMemberItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/mobile/TeamMemberItem';
 import {AddMemberButton, ButtonTypes} from '../AddMemberButton';
-import {isOpeninviteOrgMemberModalAtom} from '../modals/InviteMemberModal/atom';
+import {isOpeninviteOrgMemberModalAtom} from '../modals/InviteMemberModal/atom/atom';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
-import {ApprovalStatus} from '^models/Membership/type';
+import {ApprovalStatus} from 'src/models/Membership/types';
 import {useTeamMembers} from '^models/TeamMember/hook';
 
 interface TeamMembersPanel {

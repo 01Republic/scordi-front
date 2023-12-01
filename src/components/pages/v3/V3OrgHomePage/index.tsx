@@ -20,18 +20,12 @@ import {MonthlyRemainAmountModal} from './MonthlyRemainAmountModal';
 import {CardsPanel} from './mobile/CardsPanel';
 import {CardFormModalGroup} from '../V3OrgCardListPage/modals/CardFormModalGroup';
 import {LNBIndex} from '^v3/share/LeftNavBar';
-import {TeamMemberModal, TeamMemberCreateModal} from './desktop/modals';
-import {
-    SummarySection,
-    MemberListSection,
-    CardListSection,
-    AccountListSection,
-    SubscriptionsSection,
-} from './desktop/sections';
+import {TeamMemberCreateModal} from './desktop/modals';
+import {SummarySection, MemberListSection, SubscriptionsSection} from './desktop/sections';
 import {HeaderSection} from '^v3/V3OrgHomePage/desktop/sections/HeaderSection';
 import {NewAppModal} from '^components/pages/v3/share/modals/NewAppModal';
 import {SubscriptionTrModalSet} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/SubscriptionTrModalSet';
-import {NewTeamMemberModal} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/modals/NewTeamMemberModal';
+import {TeamMemberShowModal} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/desktop/modals/TeamMemberShowModal';
 
 export const V3OrgHomePage = memo(() => {
     const currentUser = useRecoilValue(currentUserAtom);
@@ -42,7 +36,7 @@ export const V3OrgHomePage = memo(() => {
         return (
             <V3MainLayout
                 activeTabIndex={LNBIndex.Dashboard}
-                modals={[TeamMemberModal, TeamMemberCreateModal, NewTeamMemberModal, SubscriptionTrModalSet]}
+                modals={[TeamMemberShowModal, TeamMemberCreateModal, SubscriptionTrModalSet]}
             >
                 <V3MainLayoutContainer>
                     <HeaderSection />
