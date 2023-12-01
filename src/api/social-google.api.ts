@@ -14,7 +14,8 @@ const makeHeaders = (accessToken: string) => ({'X-Google-Token': accessToken});
 export const userSocialGoogleApi = {
     token(dto: GoogleAccessTokenQueryDto) {
         const url = `/users/auth/social/google/token?${makeQueryString(dto)}`;
-        return api.get<GoogleAccessTokenContainer>(url).then((res) => res.data);
+        // 쿠키를 Request에 담을 수 있도록 설정합니다.
+        return api.get<GoogleAccessTokenContainer>(url, {withCredentials: true}).then((res) => res.data);
     },
 
     login(token: string) {
