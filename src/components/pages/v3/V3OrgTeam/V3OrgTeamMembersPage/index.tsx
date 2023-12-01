@@ -11,7 +11,7 @@ import {BottomTabIndex} from '^v3/share/BottomNavMobile';
 import {InviteOrgMemberModal} from './modals/InviteMemberModal';
 import {LNBIndex} from '^v3/share/LeftNavBar';
 import {MembersTableSection} from '^v3/V3OrgSettingsMembersPage/MembersTableSection';
-import {AddMemberButton} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/AddMemberButton';
+import {AddMemberButton, ButtonTypes} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/AddMemberButton';
 import {TeamMemberShowModal} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/desktop/modals/TeamMemberShowModal';
 
 export const V3OrgTeamMembersPage = memo(() => {
@@ -30,7 +30,7 @@ export const V3OrgTeamMembersPage = memo(() => {
                         <div className="flex justify-between mb-5">
                             <h1>멤버 관리</h1>
 
-                            <AddMemberButton textButton="등록하기" className="btn btn-scordi" />
+                            <AddMemberButton text="멤버 등록" type={ButtonTypes.ScordiBtn} />
                         </div>
                         <MembersTableSection />
                     </section>

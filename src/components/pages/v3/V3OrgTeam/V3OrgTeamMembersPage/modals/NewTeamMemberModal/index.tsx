@@ -39,33 +39,27 @@ export const NewTeamMemberModal = memo(() => {
     return (
         <form>
             <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-20">
-                <ModalTopbar
-                    backBtnOnClick={backBtnOnClick}
-                    // title={'멤버 등록}
-                    topbarPosition="sticky"
-                />
-                <MobileSection.List>
-                    <MobileSection.Item className="border-none">
-                        <MobileSection.Padding>
-                            <div className="h-full py-32">
-                                <h3 className="font-bold text-2xl py-5">
-                                    멤버를 <br /> 등록해보세요.
-                                </h3>
+                <ModalTopbar backBtnOnClick={backBtnOnClick} topbarPosition="sticky" />
 
-                                <div className="py-5">
-                                    <TextInput
-                                        label={'이름'}
-                                        inputclass="bg-white border-b-2"
-                                        {...form.register('name', {required: true})}
-                                    />
-                                </div>
-                                <div className="py-5">
-                                    <TextInput label={'직급'} {...form.register('jobName', {required: true})} />
-                                </div>
-                            </div>
-                        </MobileSection.Padding>
-                    </MobileSection.Item>
-                </MobileSection.List>
+                <MobileSection.Padding>
+                    <div className="py-28">
+                        <h3 className="font-bold text-2xl py-5">
+                            멤버를 <br /> 등록해보세요.
+                        </h3>
+
+                        <div className="py-5">
+                            <TextInput
+                                label={'이름'}
+                                inputclass="bg-white border-b-2"
+                                {...form.register('name', {required: true})}
+                            />
+                        </div>
+                        <div className="py-5">
+                            <TextInput label={'직급'} {...form.register('jobName', {required: true})} />
+                        </div>
+                    </div>
+                </MobileSection.Padding>
+
                 <ModalLikeBottomBar>
                     <button
                         className="btn btn-lg btn-block btn-scordi font-medium font-white text-xl bg-slate-50"

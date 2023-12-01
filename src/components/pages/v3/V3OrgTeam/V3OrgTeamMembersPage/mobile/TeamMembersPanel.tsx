@@ -2,7 +2,7 @@ import React, {memo, useEffect} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ContentEmpty} from '^v3/V3OrgHomePage/mobile/ContentEmpty';
 import {TeamMemberItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/mobile/TeamMemberItem';
-import {AddMemberButton} from '../AddMemberButton';
+import {AddMemberButton, ButtonTypes} from '../AddMemberButton';
 import {isOpeninviteOrgMemberModalAtom} from '../modals/InviteMemberModal/atom';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {useRecoilValue} from 'recoil';
@@ -39,7 +39,7 @@ export const TeamMembersPanel = memo((props: TeamMembersPanel) => {
         <MobileSection.Item>
             <MobileSection.Padding>
                 <MobileSection.Heading title="멤버">
-                    <AddMemberButton textButton={length ? '멤버 추가' : '멤버 없음'} />
+                    <AddMemberButton text={length ? '멤버 등록' : '멤버 없음'} type={ButtonTypes.TextBtn} />
                 </MobileSection.Heading>
 
                 {length ? (
@@ -60,7 +60,7 @@ export const TeamMembersPanel = memo((props: TeamMembersPanel) => {
                     />
                 )}
 
-                <AddMemberButton direction="top" />
+                <AddMemberButton direction="top" type={ButtonTypes.PlusBtn} />
             </MobileSection.Padding>
         </MobileSection.Item>
     );
