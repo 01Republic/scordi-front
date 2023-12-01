@@ -20,6 +20,7 @@ export const SubscriptionsSection = memo(function SubscriptionsSection() {
 
         const req = subscriptionApi.index({
             where: {organizationId: orgId},
+            relations: ['master'],
             itemsPerPage: 0,
         });
 

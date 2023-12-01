@@ -26,6 +26,7 @@ export const SubscriptionLoader = memo(function SubscriptionLoader() {
 
         const req = subscriptionApi.index({
             where: {organizationId: orgId},
+            relations: ['master'],
             itemsPerPage: 0,
         });
 

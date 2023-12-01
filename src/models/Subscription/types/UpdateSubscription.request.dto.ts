@@ -8,4 +8,5 @@ export class UpdateSubscriptionRequestDto extends PartialType(
 ) {
     connectStatus?: ConnectStatus; // 연동상태
     isActive?: boolean; // 활성화 여부
+    masterId?: number; // 관리자 TeamMember ID
 }

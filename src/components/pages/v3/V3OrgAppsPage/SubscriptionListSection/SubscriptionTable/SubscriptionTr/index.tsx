@@ -56,7 +56,7 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
                 />
             </td>
             <td className="">
-                <MasterProfile />
+                <MasterProfile subscription={subscription} />
             </td>
             <td className="text-center">
                 <PayingType subscription={subscription} />
