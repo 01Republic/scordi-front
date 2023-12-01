@@ -2,9 +2,11 @@ import {memo} from 'react';
 import {useSetRecoilState} from 'recoil';
 import {HiOutlinePlus} from 'react-icons/hi';
 import {teamMemberCreateModal} from '^v3/V3OrgHomePage/desktop/modals/TeamMemberCreateModal/atom';
+import {isOpenNewTeamMemberModalAtom} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/modals/NewTeamMemberModal/atom';
 
 export const AddMemberItem = memo(function AddMemberItem() {
-    const setModalShow = useSetRecoilState(teamMemberCreateModal.isShowAtom);
+    // const setModalShow = useSetRecoilState(teamMemberCreateModal.isShowAtom);
+    const setModalShow = useSetRecoilState(isOpenNewTeamMemberModalAtom);
 
     return (
         <div
