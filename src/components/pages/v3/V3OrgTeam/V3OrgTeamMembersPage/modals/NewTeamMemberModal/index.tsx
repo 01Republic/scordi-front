@@ -36,7 +36,7 @@ export const NewTeamMemberModal = memo(() => {
     };
 
     return (
-        <form>
+        <form onSubmit={(e) => e.preventDefault()}>
             <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-20">
                 <ModalTopbar backBtnOnClick={backBtnOnClick} topbarPosition="sticky" />
 
