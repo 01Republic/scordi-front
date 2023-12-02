@@ -13,6 +13,7 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {V3OrgTeamMembersPageRoute} from '^pages/v3/orgs/[orgId]/teams/members';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
+import {useTeamMembers} from '^models/TeamMember/hook';
 
 export const NewTeamMemberModal = memo(() => {
     const router = useRouter();
@@ -21,19 +22,17 @@ export const NewTeamMemberModal = memo(() => {
     const {close, Modal} = useModal({isShowAtom: isOpenNewTeamMemberModalAtom});
     const form = useForm<CreateTeamMemberDto>();
 
+    const {search} = useTeamMembers();
     const onSubmit = (data: CreateTeamMemberDto) => {
         teamMemberApi
             .create(orgId, data)
-            .then((res) => {
-                const newMember = res.data;
-                router.push(V3OrgTeamMemberShowPageRoute.path(orgId, newMember.id));
-            })
-            .finally(() => close());
+            .then(() => close())
+            .then(() => search({order: {id: 'DESC'}, itemsPerPage: 10, relations: ['membership.user']}));
     };
 
     const backBtnOnClick = () => {
         close();
-        router.push(V3OrgTeamMembersPageRoute.path(orgId));
+        router.back();
     };
 
     return (
@@ -53,9 +52,6 @@ export const NewTeamMemberModal = memo(() => {
                                 inputclass="bg-white border-b-2"
                                 {...form.register('name', {required: true})}
                             />
-                        </div>
-                        <div className="py-5">
-                            <TextInput label={'직급'} {...form.register('jobName', {required: true})} />
                         </div>
                     </div>
                 </MobileSection.Padding>
