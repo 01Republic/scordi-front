@@ -8,7 +8,6 @@ import {userSocialGoogleApi} from '^api/social-google.api';
 import {reportState} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/atom';
 import {filterBlackList} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/features';
 import {useAlert} from '^hooks/useAlert';
-import {tChainStep, timeoutChain} from '^components/util/delay';
 import {workspaceTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectGoogleAdminIsLoading/workspaceTimeoutChain';
 
 interface Props extends StepContentProps {
