@@ -53,15 +53,15 @@ export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve
  *  ```
  */
 export function timeoutChain(startTimeout: number, chains: ([number, () => any] | [() => any])[]) {
-    const promise = Promise.resolve();
+    let promise: Promise<any> = Promise.resolve();
 
-    promise.then(() => delay(startTimeout));
+    promise = promise.then(() => delay(startTimeout));
 
     for (const chain of chains) {
         const duration = typeof chain[0] === 'function' ? 0 : chain[0];
         const fn = (typeof chain[0] === 'number' ? chain[1] : chain[0])!;
-        promise.then(() => fn());
-        promise.then(() => delay(duration));
+        promise = promise.then(() => fn());
+        promise = promise.then(() => delay(duration));
     }
 
     return promise;
