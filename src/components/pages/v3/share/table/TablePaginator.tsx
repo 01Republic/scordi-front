@@ -27,9 +27,10 @@ export const TablePaginator = memo((props: TablePaginatorProps) => {
             <button className="btn btn-ghost" onClick={getPrevPage} disabled={isNaN(prevPageNum)}>
                 «
             </button>
-            {pageList.map((pageNum) => {
+            {pageList.map((pageNum, i) => {
                 return (
                     <button
+                        key={i}
                         className="btn btn-ghost"
                         onClick={() => movePage && movePage(pageNum)}
                         disabled={pageNum === currentPage}

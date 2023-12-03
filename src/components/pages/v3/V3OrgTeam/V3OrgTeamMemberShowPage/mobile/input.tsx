@@ -28,7 +28,7 @@ export const MobileTeamMemberInfoInput = forwardRef((props: MobileTeamMemberInfo
 
 interface EditableInputProps extends InputHTMLAttributes<HTMLInputElement> {
     defaultValue?: string;
-    inputClassName?: string;
+    className?: string;
 }
 
 export const EditTriggeredInput = forwardRef((props: EditableInputProps, ref: ForwardedRef<any>) => {
@@ -38,7 +38,7 @@ export const EditTriggeredInput = forwardRef((props: EditableInputProps, ref: Fo
     return (
         <>
             <input
-                className={`bg-white ${border} ${props.inputClassName}`}
+                className={`bg-white ${border} ${props.className}`}
                 type="text"
                 ref={ref}
                 {...props}
