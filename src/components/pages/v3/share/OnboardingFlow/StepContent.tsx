@@ -22,7 +22,11 @@ export const StepContent = memo(function StepContent() {
             <Step name={Workspace.beforeLoad}>
                 <ConnectGoogleAdminBeforeLoad
                     onNext={() => setStep(Workspace.isLoading)}
-                    skip={() => setStep(Workspace.afterLoad)}
+                    onReady={() => {
+                        if (window.localStorage.getItem('report')) {
+                            setStep(Workspace.afterLoad);
+                        }
+                    }}
                 />
             </Step>
             <Step name={Workspace.isLoading}>
