@@ -5,6 +5,8 @@ import {StepContentProps} from '^components/util/funnel';
 import {FaArrowLeft, FaArrowRight} from 'react-icons/fa6';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
+import {useSetRecoilState} from 'recoil';
+import {connectInvoiceAccountCodeAtom} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
 
 interface Props extends StepContentProps {
     // onNext: () => any;
@@ -12,6 +14,11 @@ interface Props extends StepContentProps {
 
 export const ConnectInvoiceAccountBeforeLoad = memo(function ConnectInvoiceAccountBeforeLoad(props: Props) {
     const {onPrev, onNext} = props;
+    const setCode = useSetRecoilState(connectInvoiceAccountCodeAtom);
+    const onCode = (code: string) => {
+        setCode(code);
+        onNext();
+    };
     return (
         <GoogleOAuthProvider clientId={googleOAuth.gmailClient.id}>
             <div data-step="ConnectInvoiceAccount" className="h-full flex flex-col justify-center gap-7">
@@ -26,7 +33,7 @@ export const ConnectInvoiceAccountBeforeLoad = memo(function ConnectInvoiceAccou
 
                 <Container size="sm" className="">
                     <div className="w-full flex justify-center">
-                        <GoogleLoginBtn about="gmail" googleLoginOnSuccessFn={() => onNext()} />
+                        <GoogleLoginBtn about="gmail" onCode={onCode} />
                     </div>
 
                     {/* 뒤로가기 */}

@@ -26,12 +26,13 @@ const SCOPE_MAP = {
 const SCOPE_ALL = uniq(Object.values(SCOPE_MAP).flatMap((arr) => arr));
 
 interface GoogleLoginBtnProps {
+    onCode?: (code: string) => void;
     googleLoginOnSuccessFn?: (accessToken: string) => Promise<void> | void;
     about?: keyof typeof SCOPE_MAP;
 }
 
 export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
-    const {googleLoginOnSuccessFn, about} = props;
+    const {onCode, googleLoginOnSuccessFn, about} = props;
     const googleLoginOnSuccess = googleLoginOnSuccessFn ? googleLoginOnSuccessFn : useGoogleLoginSuccessHandler2();
     const setAccessToken = useSetRecoilState(googleAccessTokenAtom);
     const scope = about ? SCOPE_MAP[about] : SCOPE_ALL;
@@ -41,6 +42,8 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
         onSuccess: async (response) => {
             const feature = getFeature();
             const {code} = response;
+            if (onCode) return onCode(code);
+
             const {accessToken} = await userSocialGoogleApi.token({
                 code,
                 ...(feature ? {feature} : {}),

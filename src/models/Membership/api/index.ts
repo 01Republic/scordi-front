@@ -22,6 +22,10 @@ export const membershipApi = {
     update(id: number, data: UpdateMembershipRequestDto) {
         return api.patch<MembershipDto>(`/${NAMESPACE}/${id}`, data);
     },
+
+    destroy(id: number) {
+        return api.delete<MembershipDto>(`${NAMESPACE}/${id}`);
+    },
 };
 
 export const inviteMembershipApi = {

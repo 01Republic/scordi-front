@@ -4,6 +4,7 @@ import {invitedEmailsAtom} from '^models/TeamMember/atom';
 import {orgMembershipSearchResultAtom} from '^models/Membership/atom';
 import {KeyboardEvent} from 'react';
 import {FieldValues, UseFormReturn} from 'react-hook-form';
+import {ApprovalStatus} from '^models/Membership/types';
 
 export const useInviteMember = () => {
     const {toast} = useToast();
@@ -25,12 +26,12 @@ export const useInviteMember = () => {
 
         const orgMemberEmail = membership[0].approvalStatus;
 
-        if (orgMemberEmail === 'PENDING') {
+        if (orgMemberEmail === ApprovalStatus.PENDING) {
             toast.error('승인 대기 중인 멤버입니다.');
             return false;
         }
 
-        if (orgMemberEmail === 'APPROVED') {
+        if (orgMemberEmail === ApprovalStatus.APPROVED) {
             toast.error('이미 등록된 멤버입니다.');
             return false;
         }

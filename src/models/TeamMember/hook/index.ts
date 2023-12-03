@@ -1,4 +1,4 @@
-import {useRecoilState, useSetRecoilState} from 'recoil';
+import {useRecoilState} from 'recoil';
 import {teamMemberApi} from '^models/TeamMember/api';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {FindAllTeamMemberQueryDto, TeamMemberDto, UpdateTeamMemberDto} from '^models/TeamMember/type';
@@ -10,12 +10,14 @@ import {
 } from '^models/TeamMember/atom';
 import {useState} from 'react';
 import {useRouter} from 'next/router';
-import {V3OrgTeamMembersPageRoute} from '^pages/v3/orgs/[orgId]/teams/members';
 import {teamMemberShowModal} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/desktop/modals/atom';
 import {useOnResize2} from '^components/util/onResize2';
 import {useModal} from '^v3/share/modals/useModal';
 import {useAlert} from '^hooks/useAlert';
 import {useToast} from '^hooks/useToast';
+import {ApprovalStatus} from '^models/Membership/types';
+import {membershipApi} from '^models/Membership/api';
+import {V3OrgTeamMembersPageRoute} from '^pages/v3/orgs/[orgId]/teams/members';
 
 export const useCurrentTeamMember = () => {
     const [currentTeamMember, setCurrentTeamMember] = useRecoilState(currentTeamMemberState);
@@ -57,6 +59,7 @@ export const useTeamMembers = () => {
     return {query, result, search, createByName, movePage, isLoading};
 };
 
+// 멤버 수정 / 삭제 기능
 export function useEditTeamMember() {
     const [teamMembers, setTeamMembers] = useRecoilState(teamMembersSearchResultAtom);
     const router = useRouter();
@@ -78,9 +81,20 @@ export function useEditTeamMember() {
             return item.id !== member.id;
         });
 
+        console.log('삭제 요청 멤버 상태 ==>', member.membership?.approvalStatus);
+
+        const deletePendingMember = () => {
+            // membership 상태가 PENDING이면 team member와 membership 모두 삭제
+            if (member.membership?.approvalStatus === ApprovalStatus.PENDING) {
+                membershipApi.destroy(member.membershipId || 0);
+            }
+
+            return teamMemberApi.destroy(member.organizationId, member.id);
+        };
+
         alert.destroy({
             title: '멤버를 삭제하시겠습니까?',
-            confirmFn: () => teamMemberApi.destroy(member.organizationId, member.id),
+            confirmFn: () => deletePendingMember(),
             routerFn: () => {
                 if (isDesktop) {
                     setTeamMembers((prev) => ({

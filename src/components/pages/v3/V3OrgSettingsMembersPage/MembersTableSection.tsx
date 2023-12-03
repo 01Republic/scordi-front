@@ -18,10 +18,15 @@ export const MembersTableSection = memo(() => {
 
     const movePage = (page: number) => search({...query, page});
 
-    const onSearch = debounce(() => {
+    const onSearch = debounce((data) => {
         if (!query) return;
 
-        search({...query, page: 1});
+        const serchQuery = {
+            ...(data.length > 0 ? {where: {name: data}} : null),
+            page: 1,
+        };
+
+        search(serchQuery);
     }, 500);
 
     return (
