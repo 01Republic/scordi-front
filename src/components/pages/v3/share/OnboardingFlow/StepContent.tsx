@@ -1,6 +1,7 @@
 import {memo} from 'react';
+import {useSetRecoilState} from 'recoil';
 import {useFunnel} from '^components/util/funnel';
-import {onboardingFlowStepStatus, ONBOARDING_STEP} from './atom';
+import {onboardingFlowStepStatus, ONBOARDING_STEP, onboardingModalIsShow} from './atom';
 import {
     ConnectGoogleAdminBeforeLoad,
     ConnectGoogleAdminIsLoading,
@@ -13,6 +14,7 @@ import {
 
 export const StepContent = memo(function StepContent() {
     const {setStep, Step} = useFunnel(onboardingFlowStepStatus);
+    const setIsShow = useSetRecoilState(onboardingModalIsShow);
     const {Workspace, InvoiceAccount, Finish} = ONBOARDING_STEP;
 
     return (
@@ -39,7 +41,7 @@ export const StepContent = memo(function StepContent() {
                 <ConnectInvoiceAccountAfterLoad onNext={() => setStep(Finish)} />
             </Step>
             <Step name={Finish}>
-                <FinishStep onNext={() => setStep(Workspace.beforeLoad)} />
+                <FinishStep onNext={() => setIsShow(false)} />
             </Step>
         </section>
     );

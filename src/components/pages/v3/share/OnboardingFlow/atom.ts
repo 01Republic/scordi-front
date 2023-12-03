@@ -1,5 +1,10 @@
 import {atom} from 'recoil';
 
+export const onboardingModalIsShow = atom({
+    key: 'onboardingModalIsShow',
+    default: false,
+});
+
 export enum OnboardingStep {
     ConnectWorkspace_BeforeLoad,
     ConnectWorkspace_IsLoading,
