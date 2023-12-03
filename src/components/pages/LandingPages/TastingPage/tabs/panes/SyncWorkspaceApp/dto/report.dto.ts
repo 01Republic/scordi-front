@@ -26,7 +26,7 @@ export class ReportDto {
         const apps = this.items.flatMap((member) => member.apps);
         const uniqApps = reportItemAppsInUniq(apps);
 
-        const newMember = plainToInstance(ReportItemDto, {email: 'noname'});
+        const newMember = plainToInstance(ReportItemDto, {email: 'noname', name: 'noname'});
         newMember.apps = uniqApps;
         newMember.isPersisted = false;
         newMember.isEdited = true;

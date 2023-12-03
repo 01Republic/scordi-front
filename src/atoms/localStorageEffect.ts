@@ -16,8 +16,11 @@ export const localStorageEffect = (key: string) => {
         }
 
         // onSet : 해당하는 atom의 값이 변경이 되었을 때 실행되는 함수
-        onSet((newValue: string, isReset: boolean) => {
-            isReset ? storage.removeItem(key) : storage.setItem(key, JSON.stringify(newValue));
+        onSet((newValue: string, isReset: boolean | any) => {
+            // isReset 값이 불린으로 오지 않음. 기존에 storage에 저장된 값임.
+            // console.log(JSON.stringify(isReset) === savedValue); // true
+            // isReset ? storage.removeItem(key) : storage.setItem(key, JSON.stringify(newValue));
+            storage.setItem(key, JSON.stringify(newValue));
         });
     };
 };
