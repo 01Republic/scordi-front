@@ -32,7 +32,7 @@ export const SubscriptionStatusSelect = memo((props: SubscriptionStatusSelectPro
         setClassName(status);
 
         // 구독 업데이트 api
-        subscriptionApi.update(subscription.id, {connectStatus: status});
+        subscriptionApi.update(subscription.id, {subscriptionStatus: status});
     };
 
     const options = subscriptionStatusOptions();
