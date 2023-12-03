@@ -33,9 +33,9 @@ export const organizationApi = {
         return api.get<Paginated<OrganizationDto>>(url, {params}).then(paginatedDtoOf(OrganizationDto));
     },
 
-    show(id: number) {
+    show(id: number, params?: FindAllQueryDto<OrganizationDto>) {
         const url = `/${NAMESPACE}/${id}`;
-        return api.get<OrganizationDto>(url).then(oneDtoOf(OrganizationDto));
+        return api.get<OrganizationDto>(url, {params}).then(oneDtoOf(OrganizationDto));
     },
 
     create(data: CreateOrganizationRequestDto) {

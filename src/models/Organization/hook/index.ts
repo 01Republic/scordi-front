@@ -11,7 +11,11 @@ export function useCurrentOrg(id: number) {
     useEffect(() => {
         if (!id || isNaN(id)) return;
         if (currentOrg && currentOrg.id === id) return;
-        organizationApi.show(id).then((res) => setCurrentOrg(res.data));
+        organizationApi
+            .show(id, {
+                relations: ['lastGoogleSyncHistory'],
+            })
+            .then((res) => setCurrentOrg(res.data));
     }, [id, currentOrg]);
 
     return {currentOrg, setCurrentOrg};
