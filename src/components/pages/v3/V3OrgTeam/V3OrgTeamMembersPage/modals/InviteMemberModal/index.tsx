@@ -14,6 +14,7 @@ import {debounce} from 'lodash';
 import {useAlert} from '^hooks/useAlert';
 import {inviteMembershipApi} from '^models/Membership/api';
 import {useInviteMember} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/modals/InviteMemberModal/hook';
+import {useTeamMembers} from '^models/TeamMember/hook';
 
 export const InviteOrgMemberModal = memo(() => {
     const {isShow, Modal, close} = useModal({isShowAtom: isOpeninviteOrgMemberModalAtom});
@@ -24,6 +25,7 @@ export const InviteOrgMemberModal = memo(() => {
     const form = useForm<FieldValues>();
     const {alert} = useAlert();
     const {confirmOrgMember} = useInviteMember();
+    const {search: getTeamMembers} = useTeamMembers();
 
     useEffect(() => {
         if (!isShow) {
@@ -56,6 +58,10 @@ export const InviteOrgMemberModal = memo(() => {
                 invitedEmails: createInvitedEmails,
             });
             if (res) {
+                getTeamMembers({
+                    order: {id: 'DESC'},
+                    itemsPerPage: 10,
+                });
                 close();
                 setIsLoading(false);
                 alert.success({title: '초대가 완료되었습니다.'});

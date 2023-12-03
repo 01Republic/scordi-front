@@ -27,7 +27,7 @@ export const TableSearchControl = memo((props: TableSearchControlProps) => {
                     type="text"
                     className="input input-bordered pl-8"
                     placeholder="검색"
-                    onKeyUp={(e) => onSearch(e.target.value)}
+                    onChange={(e) => onSearch(e.target.value)}
                 />
             </div>
         </div>
