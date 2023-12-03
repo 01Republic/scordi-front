@@ -15,22 +15,21 @@ interface Props extends StepContentProps {
 
 export const ConnectInvoiceAccountIsLoading = memo(function ConnectInvoiceAccountIsLoading(props: Props) {
     const orgId = useRecoilValue(orgIdParamState);
+    const code = useRecoilValue(connectInvoiceAccountCodeAtom);
     const [title, setTitle] = useState('인증 정보를 가져오고 있어요.');
     const [desc, setDesc] = useState('최대 1분 정도 걸릴 수 있어요. 잠시만 기다려주세요.');
-
     const [isLoading, setIsLoading] = useState(false);
     const {onPrev, onNext} = props;
-    const code = useRecoilValue(connectInvoiceAccountCodeAtom);
 
     const createInvoiceAccount = (code: string) => {
         setIsLoading(true);
+        invoiceAccountTimeoutChain(setTitle, setDesc);
+
         const dto = {
             code,
             gmailQueryOptions: getCreateInvoiceAccountFromTo(),
         };
         const req = invoiceAccountApi.createV2(orgId, dto);
-
-        invoiceAccountTimeoutChain(setTitle, setDesc);
 
         req.then(() => onNext());
     };

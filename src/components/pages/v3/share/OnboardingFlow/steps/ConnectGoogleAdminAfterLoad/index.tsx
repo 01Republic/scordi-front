@@ -10,6 +10,7 @@ import {userSocialGoogleApi} from '^api/social-google.api';
 import {ReportDto} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/dto/report.dto';
 import {useAlert} from '^hooks/useAlert';
 import {orgIdParamState} from '^atoms/common';
+import {getReportFromLocalStorage} from '^v3/share/OnboardingFlow/steps/ConnectGoogleAdminAfterLoad/get-report-from-local-storage';
 
 interface Props extends StepContentProps {
     // onNext: () => any;
@@ -62,16 +63,8 @@ export const ConnectGoogleAdminAfterLoad = memo(function ConnectGoogleAdminAfter
         const accessToken = window.localStorage.getItem('accessToken');
         if (!accessToken) return;
 
-        const reportFromLocalStorage = window.localStorage.getItem('report');
-        const report: ReportDto = reportFromLocalStorage ? JSON.parse(reportFromLocalStorage) : null;
+        const report = getReportFromLocalStorage();
         if (!report) return;
-
-        console.log('\n');
-        console.log(reportByProduct);
-        console.log('\n');
-        console.log(reportFromLocalStorage);
-        console.log('\n');
-        console.log(report);
 
         saveReport(accessToken, report);
     }, []);
