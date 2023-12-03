@@ -26,6 +26,7 @@ import {HeaderSection} from '^v3/V3OrgHomePage/desktop/sections/HeaderSection';
 import {NewAppModal} from '^components/pages/v3/share/modals/NewAppModal';
 import {SubscriptionTrModalSet} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/SubscriptionTrModalSet';
 import {TeamMemberShowModal} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/desktop/modals/TeamMemberShowModal';
+import {NewTeamMemberModal} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/modals/NewTeamMemberModal';
 
 export const V3OrgHomePage = memo(() => {
     const currentUser = useRecoilValue(currentUserAtom);
@@ -36,7 +37,7 @@ export const V3OrgHomePage = memo(() => {
         return (
             <V3MainLayout
                 activeTabIndex={LNBIndex.Dashboard}
-                modals={[TeamMemberShowModal, TeamMemberCreateModal, SubscriptionTrModalSet]}
+                modals={[TeamMemberShowModal, SubscriptionTrModalSet, NewTeamMemberModal]}
             >
                 <V3MainLayoutContainer>
                     <HeaderSection />

@@ -37,11 +37,12 @@ export const SubscriptionStatusSelect = memo((props: SubscriptionStatusSelectPro
                 </div>
 
                 <ul className="dropdown-content z-[1] py-2 px-5 shadow bg-base-100 rounded-box flex flex-col gap-1">
-                    {options.map((option) => (
+                    {options.map((option, i) => (
                         <li
                             onClick={() => onChange(option.status)}
                             value={option.status}
                             className={`!${tagName?.className} btn btn-xs !border-0 cursor-pointer px-5 m-auto`}
+                            key={i}
                         >
                             <span className="font-normal">{option.name}</span>
                         </li>

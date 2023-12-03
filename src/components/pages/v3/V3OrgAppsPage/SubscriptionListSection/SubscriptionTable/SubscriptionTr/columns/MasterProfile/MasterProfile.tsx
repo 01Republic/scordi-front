@@ -67,8 +67,8 @@ export const MasterProfile = memo((props: MasterProfileProps) => {
                                 onChange={onChange}
                             />
                         </li>
-                        {(filteredMemberOptions ?? memberOptions)?.map((member) => (
-                            <li className="text-sm cursor-pointer text-start mb-1.5">
+                        {(filteredMemberOptions ?? memberOptions)?.map((member, i) => (
+                            <li className="text-sm cursor-pointer text-start mb-1.5" key={i}>
                                 <MasterProfileOption member={member} onClick={onClick} />
                             </li>
                         ))}
