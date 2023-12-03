@@ -56,7 +56,7 @@ export const UsersLoginPage = memo(() => {
                         </div>
 
                         <div>
-                            <GoogleLoginBtn scope={scope} />
+                            <GoogleLoginBtn about="gmail" />
                         </div>
                         <div></div>
                     </div>

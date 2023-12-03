@@ -11,4 +11,13 @@ export class ReportGroupedByProductDto {
 
     @TypeCast(() => ReportRawMetadataDto)
     rawMetadata: ReportRawMetadataDto;
+
+    sortItems() {
+        return [...this.items].sort((a, b) => {
+            const a1 = a.isNew ? 1 : 0;
+            const b1 = b.isNew ? 1 : 0;
+            if (b1 - a1 !== 0) return a1 - b1;
+            return b.members.length - a.members.length;
+        });
+    }
 }

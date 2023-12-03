@@ -4,36 +4,38 @@ import {useSetRecoilState} from 'recoil';
 import {useGoogleLoginSuccessHandler2} from '^hooks/useGoogleLoginSuccessHandler2';
 import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
 import {userSocialGoogleApi} from '^api/social-google.api';
+import {uniq} from '^utils/array';
 
-interface GoogleLoginBtnProps {
-    googleLoginOnSuccessFn?: (accessToken: string) => Promise<void> | void;
-    scope?: string[];
-}
-
-export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
-    const {googleLoginOnSuccessFn} = props;
-    const googleLoginOnSuccess = googleLoginOnSuccessFn ? googleLoginOnSuccessFn : useGoogleLoginSuccessHandler2();
-    const setAccessToken = useSetRecoilState(googleAccessTokenAtom);
-
-    const allInOneScope = [
+const SCOPE_MAP = {
+    gmail: [
         'email',
         'profile',
         'openid',
         'https://www.googleapis.com/auth/gmail.readonly', // 인보이스
+    ],
+    admin: [
+        'email',
+        'profile',
+        'openid',
         'https://www.googleapis.com/auth/admin.reports.audit.readonly', // 토큰 사용량
         'https://www.googleapis.com/auth/admin.directory.user', // 워크스페이스 유저 목록
+        'https://www.googleapis.com/auth/admin.directory.user.security',
         'https://www.googleapis.com/auth/admin.directory.orgunit', // 워크스페이스 조직 정보
-    ];
+    ],
+};
+const SCOPE_ALL = uniq(Object.values(SCOPE_MAP).flatMap((arr) => arr));
 
-    const scope = props.scope ?? allInOneScope;
+interface GoogleLoginBtnProps {
+    googleLoginOnSuccessFn?: (accessToken: string) => Promise<void> | void;
+    about?: keyof typeof SCOPE_MAP;
+}
 
-    const getFeature = () => {
-        return scope.find((i) => i.includes('gmail'))
-            ? 'gmail'
-            : scope.find((i) => i.includes('admin'))
-            ? 'admin'
-            : scope.find((i) => i.includes('gmail') && i.includes('admin')) && undefined;
-    };
+export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
+    const {googleLoginOnSuccessFn, about} = props;
+    const googleLoginOnSuccess = googleLoginOnSuccessFn ? googleLoginOnSuccessFn : useGoogleLoginSuccessHandler2();
+    const setAccessToken = useSetRecoilState(googleAccessTokenAtom);
+    const scope = about ? SCOPE_MAP[about] : SCOPE_ALL;
+    const getFeature = () => about;
 
     const loginButtonOnClick = useGoogleLogin({
         onSuccess: async (response) => {
