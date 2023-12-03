@@ -33,7 +33,8 @@ export const StepContent = memo(function StepContent() {
                 />
             </Step>
             <Step name={InvoiceAccount.isLoading}>
-                <ConnectInvoiceAccountIsLoading onNext={() => setStep(InvoiceAccount.afterLoad)} />
+                {/*<ConnectInvoiceAccountIsLoading onNext={() => setStep(InvoiceAccount.afterLoad)} />*/}
+                <ConnectInvoiceAccountIsLoading onNext={() => setStep(Finish)} />
             </Step>
             <Step name={InvoiceAccount.afterLoad}>
                 <ConnectInvoiceAccountAfterLoad onNext={() => setStep(Finish)} />
