@@ -1,5 +1,5 @@
 import {api} from '^api/api';
-import {oneDtoOf} from '^types/utils/response-of';
+import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {
     GoogleAccessTokenContainer,
     JwtContainer,
@@ -8,6 +8,9 @@ import {
     UserGoogleSocialSignUpRequestDtoV2,
 } from '^models/User/types';
 import {ReportDto} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/dto/report.dto';
+import {TeamMemberDto} from '^models/TeamMember/type';
+import {Paginated} from '^types/utils/paginated.dto';
+import {SaveTokenReportRequestDto} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/dto/save.report.request.dto';
 
 const makeHeaders = (accessToken: string) => ({'X-Google-Token': accessToken});
 
@@ -50,6 +53,11 @@ export const userSocialGoogleApi = {
                 const url = `/subscriptions/usage-report/draft?from=${from}`;
                 const headers = makeHeaders(token);
                 return api.get<ReportDto>(url, {headers}).then(oneDtoOf(ReportDto));
+            },
+            save(token: string, dto: SaveTokenReportRequestDto) {
+                const url = `/subscriptions/usage-report`;
+                const headers = makeHeaders(token);
+                return api.post<Paginated<TeamMemberDto>>(url, {...dto}, {headers}).then(paginatedDtoOf(TeamMemberDto));
             },
         },
     },

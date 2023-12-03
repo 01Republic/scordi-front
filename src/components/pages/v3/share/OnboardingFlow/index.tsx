@@ -1,12 +1,11 @@
-import {memo, useEffect, useState} from 'react';
-import {useFunnel} from '^components/util/funnel';
-import {onboardingFlowStepStatus} from './atom';
+import {memo, useEffect} from 'react';
+import {onboardingModalIsShow} from './atom';
 import {StepNavigator} from './StepNavigator';
 import {StepContent} from './StepContent';
+import {useRecoilState} from 'recoil';
 
 export const OnboardingFlow = memo(function OnboardingFlow() {
-    const {setStep, Step} = useFunnel(onboardingFlowStepStatus);
-    const [isShow, setIsShow] = useState(false);
+    const [isShow, setIsShow] = useRecoilState(onboardingModalIsShow);
 
     useEffect(() => {
         setIsShow(true);

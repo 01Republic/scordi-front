@@ -1,6 +1,7 @@
 import {memo} from 'react';
+import {useSetRecoilState} from 'recoil';
 import {useFunnel} from '^components/util/funnel';
-import {onboardingFlowStepStatus, ONBOARDING_STEP} from './atom';
+import {onboardingFlowStepStatus, ONBOARDING_STEP, onboardingModalIsShow} from './atom';
 import {
     ConnectGoogleAdminBeforeLoad,
     ConnectGoogleAdminIsLoading,
@@ -13,12 +14,20 @@ import {
 
 export const StepContent = memo(function StepContent() {
     const {setStep, Step} = useFunnel(onboardingFlowStepStatus);
+    const setIsShow = useSetRecoilState(onboardingModalIsShow);
     const {Workspace, InvoiceAccount, Finish} = ONBOARDING_STEP;
 
     return (
         <section data-component="StepContent" className="">
             <Step name={Workspace.beforeLoad}>
-                <ConnectGoogleAdminBeforeLoad onNext={() => setStep(Workspace.isLoading)} />
+                <ConnectGoogleAdminBeforeLoad
+                    onNext={() => setStep(Workspace.isLoading)}
+                    onReady={() => {
+                        if (window.localStorage.getItem('report')) {
+                            setStep(Workspace.afterLoad);
+                        }
+                    }}
+                />
             </Step>
             <Step name={Workspace.isLoading}>
                 <ConnectGoogleAdminIsLoading onNext={() => setStep(Workspace.afterLoad)} />
@@ -33,13 +42,14 @@ export const StepContent = memo(function StepContent() {
                 />
             </Step>
             <Step name={InvoiceAccount.isLoading}>
-                <ConnectInvoiceAccountIsLoading onNext={() => setStep(InvoiceAccount.afterLoad)} />
+                {/*<ConnectInvoiceAccountIsLoading onNext={() => setStep(InvoiceAccount.afterLoad)} />*/}
+                <ConnectInvoiceAccountIsLoading onNext={() => setStep(Finish)} />
             </Step>
             <Step name={InvoiceAccount.afterLoad}>
                 <ConnectInvoiceAccountAfterLoad onNext={() => setStep(Finish)} />
             </Step>
             <Step name={Finish}>
-                <FinishStep onNext={() => setStep(Workspace.beforeLoad)} />
+                <FinishStep onNext={() => setIsShow(false)} />
             </Step>
         </section>
     );

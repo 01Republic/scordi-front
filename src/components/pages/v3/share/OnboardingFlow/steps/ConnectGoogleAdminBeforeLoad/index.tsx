@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo, useEffect} from 'react';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import {googleOAuth} from '^config/environments';
 import {StepContentProps} from '^components/util/funnel';
@@ -10,7 +10,11 @@ interface Props extends StepContentProps {
 }
 
 export const ConnectGoogleAdminBeforeLoad = memo(function ConnectGoogleAdminBeforeLoad(props: Props) {
-    const {onNext} = props;
+    const {onNext, onReady} = props;
+
+    useEffect(() => {
+        onReady && onReady();
+    }, []);
 
     return (
         <GoogleOAuthProvider clientId={googleOAuth.adminClient.id}>

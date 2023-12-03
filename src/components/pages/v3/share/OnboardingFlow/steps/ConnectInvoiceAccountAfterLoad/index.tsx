@@ -1,10 +1,12 @@
-import {memo} from 'react';
+import {memo, useEffect} from 'react';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import {googleOAuth} from '^config/environments';
 import {StepContentProps} from '^components/util/funnel';
 import {FaArrowLeft, FaArrowRight} from 'react-icons/fa6';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
+import {ReportDto} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/dto/report.dto';
+import {userSocialGoogleApi} from '^api/social-google.api';
 
 interface Props extends StepContentProps {
     // onNext: () => any;
@@ -12,6 +14,7 @@ interface Props extends StepContentProps {
 
 export const ConnectInvoiceAccountAfterLoad = memo(function ConnectInvoiceAccountAfterLoad(props: Props) {
     const {onPrev, onNext} = props;
+
     return (
         <GoogleOAuthProvider clientId={googleOAuth.gmailClient.id}>
             <div data-step="ConnectInvoiceAccount" className="h-full flex flex-col justify-center gap-7">

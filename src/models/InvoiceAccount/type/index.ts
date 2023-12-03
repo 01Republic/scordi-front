@@ -61,6 +61,11 @@ export type CreateInvoiceAccountRequestDto = {
     gmailQueryOptions: GmailQueryOptions; // 지메일 쿼리
 };
 
+export type CreateInvoiceAccountRequestDto2 = {
+    code: string; // 구글 1회성 코드
+    gmailQueryOptions: GmailQueryOptions; // 지메일 쿼리
+};
+
 export type SyncInvoiceAccountRequestDto = {
     tokenData: GmailAgentTokenData; // 인증 토큰
 };
