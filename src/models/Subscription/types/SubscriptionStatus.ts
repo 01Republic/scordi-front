@@ -8,22 +8,48 @@ export enum SubscriptionStatus {
     CANCELED = 'CANCELED',
 }
 
-export class SubscriptionStatusLabel {
-    static FREE_TRIAL_STARTED = '무료 구독';
-    static FREE_TRIAL_EXPIRED = '구독 만료';
-    static PAYMENT_SUCCESS = '결제 완료';
-    static PAYMENT_PENDING = '결제 예정';
-    static PAYMENT_FAILURE = '결제 실패';
-    static PAUSED = '일시정지';
-    static CANCELED = '구독 취소';
+export function t_SubscriptionStatus(status: SubscriptionStatus) {
+    switch (status) {
+        case SubscriptionStatus.FREE_TRIAL_STARTED:
+            return '무료 구독';
+        case SubscriptionStatus.FREE_TRIAL_EXPIRED:
+            return '구독 만료';
+        case SubscriptionStatus.PAYMENT_SUCCESS:
+            return '결제 완료';
+        case SubscriptionStatus.PAYMENT_PENDING:
+            return '결제 예정';
+        case SubscriptionStatus.PAYMENT_FAILURE:
+            return '결제 실패';
+        case SubscriptionStatus.PAUSED:
+            return '일시 정지';
+        case SubscriptionStatus.CANCELED:
+            return '구독 취소';
+    }
 }
 
-export class SubscriptionStatusClassName {
-    static FREE_TRIAL_STARTED = 'bg-fuchsia-200';
-    static FREE_TRIAL_EXPIRED = 'bg-scordi-200';
-    static PAYMENT_SUCCESS = 'bg-green-200';
-    static PAYMENT_PENDING = 'bg-sky-200';
-    static PAYMENT_FAILURE = 'bg-red-200';
-    static PAUSED = 'bg-teal-200';
-    static CANCELED = 'bg-orange-200';
+export function c_SubscriptionStatus(status: SubscriptionStatus) {
+    switch (status) {
+        case SubscriptionStatus.FREE_TRIAL_STARTED:
+            return 'bg-fuchsia-200';
+        case SubscriptionStatus.FREE_TRIAL_EXPIRED:
+            return 'bg-scordi-200';
+        case SubscriptionStatus.PAYMENT_SUCCESS:
+            return 'bg-green-200';
+        case SubscriptionStatus.PAYMENT_PENDING:
+            return 'bg-sky-200';
+        case SubscriptionStatus.PAYMENT_FAILURE:
+            return 'bg-red-200';
+        case SubscriptionStatus.PAUSED:
+            return 'bg-teal-200';
+        case SubscriptionStatus.CANCELED:
+            return 'bg-orange-200';
+    }
+}
+
+export function subscriptionStatusOptions() {
+    return Object.values(SubscriptionStatus).map((status) => ({
+        status,
+        label: t_SubscriptionStatus(status),
+        className: c_SubscriptionStatus(status),
+    }));
 }

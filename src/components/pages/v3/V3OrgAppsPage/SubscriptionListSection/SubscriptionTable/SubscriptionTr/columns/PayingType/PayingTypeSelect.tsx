@@ -18,7 +18,7 @@ export const PayingTypeSelect = memo((props: PayingTypeSelectProps) => {
 
     useEffect(() => {
         form.setValue('tagName', billingType);
-        getTags({}).then((res) => setTagOptions(res.items));
+        // getTags({}).then((res) => setTagOptions(res.items));
     }, []);
 
     const onCreate = () => {
