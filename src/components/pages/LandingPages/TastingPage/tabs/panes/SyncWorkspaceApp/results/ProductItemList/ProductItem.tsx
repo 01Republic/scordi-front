@@ -11,10 +11,11 @@ import {isAddingModeState} from '../ReportItemModal/atom';
 
 interface ProductItemProps {
     item: ReportGroupedByProductItemDto;
+    preventRemove?: boolean;
 }
 
 export const ProductItem = memo((props: ProductItemProps) => {
-    const {item} = props;
+    const {item, preventRemove = false} = props;
     const {open: openModal} = useModal({isShowAtom: reportItemModalIsShow});
     const setIsNewMemberAddingMode = useSetRecoilState(isAddingModeState);
     const setSubjectItem = useSetRecoilState(subjectReportProductItem);
@@ -50,7 +51,7 @@ export const ProductItem = memo((props: ProductItemProps) => {
                 <p className="mt-auto text-sm text-gray-500">{item.memberList.length}명</p>
             </div>
 
-            {(isMobile || isHovered) && (
+            {!preventRemove && (isMobile || isHovered) && (
                 <div className="absolute top-[-3px] right-[-3px]">
                     <button
                         onClick={(e) => {

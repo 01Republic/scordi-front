@@ -1,9 +1,11 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
+import {onboardingFlowStepStatus} from '^v3/share/OnboardingFlow/atom';
 
 export const HeaderSection = memo(function HeaderSection() {
     const currentOrg = useRecoilValue(currentOrgAtom);
+    // useSet(onboardingFlowStepStatus);
 
     return (
         <section className="mb-6">
@@ -18,7 +20,7 @@ export const HeaderSection = memo(function HeaderSection() {
                         &nbsp;
                     </span>
                 )}
-                의 대시보드
+                의 <span>대시보드</span>
             </h1>
         </section>
     );
