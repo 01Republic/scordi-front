@@ -3,33 +3,41 @@ import {StepContentProps} from '^components/util/funnel';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {PiSpinnerGapThin} from 'react-icons/pi';
 import {useRecoilValue} from 'recoil';
-import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
-import {tChainStep, timeoutChain} from '^components/util/delay';
 import {invoiceAccountTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountIsLoading/invoiceAccountTimeoutChain';
+import {orgIdParamState} from '^atoms/common';
+import {connectInvoiceAccountCodeAtom} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
+import {getCreateInvoiceAccountFromTo} from '^models/InvoiceAccount/type';
 
 interface Props extends StepContentProps {
     // onNext: () => any;
 }
 
 export const ConnectInvoiceAccountIsLoading = memo(function ConnectInvoiceAccountIsLoading(props: Props) {
-    const accessToken = useRecoilValue(googleAccessTokenAtom);
+    const orgId = useRecoilValue(orgIdParamState);
     const [title, setTitle] = useState('인증 정보를 가져오고 있어요.');
     const [desc, setDesc] = useState('최대 1분 정도 걸릴 수 있어요. 잠시만 기다려주세요.');
-    const {onPrev, onNext} = props;
 
-    const getReport = (token: string) => {
-        // const req = invoiceAccountApi.create();
+    const [isLoading, setIsLoading] = useState(false);
+    const {onPrev, onNext} = props;
+    const code = useRecoilValue(connectInvoiceAccountCodeAtom);
+
+    const createInvoiceAccount = (code: string) => {
+        setIsLoading(true);
+        const dto = {
+            code,
+            gmailQueryOptions: getCreateInvoiceAccountFromTo(),
+        };
+        const req = invoiceAccountApi.createV2(orgId, dto);
 
         invoiceAccountTimeoutChain(setTitle, setDesc);
 
-        // TODO: 장한
-        // req.then(() => {});
+        req.then(() => onNext());
     };
 
     useEffect(() => {
-        if (accessToken) getReport(accessToken);
-    }, [accessToken]);
+        if (code && !isLoading) createInvoiceAccount(code);
+    }, [code, isLoading]);
 
     return (
         <div data-step="ConnectInvoiceAccount" className="h-full flex flex-col justify-center gap-7">

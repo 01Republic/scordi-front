@@ -1,5 +1,6 @@
 import {
     CreateInvoiceAccountRequestDto,
+    CreateInvoiceAccountRequestDto2,
     InvoiceAccountDto,
     SyncInvoiceAccountRequestDto,
 } from '^models/InvoiceAccount/type';
@@ -26,6 +27,11 @@ export const invoiceAccountApi = {
         return api.post<InvoiceAccountDto>(url, data).then(oneDtoOf(InvoiceAccountDto));
     },
 
+    createV2(orgId: number, data: CreateInvoiceAccountRequestDto2) {
+        const url = `/${NAMESPACE}/${orgId}/invoice_accounts_v2`;
+        return api.post<InvoiceAccountDto>(url, data).then(oneDtoOf(InvoiceAccountDto));
+    },
+
     destroy(orgId: number, id: number) {
         const url = `/${NAMESPACE}/${orgId}/invoice_accounts/${id}`;
         return api.delete<InvoiceAccountDto>(url).then(oneDtoOf(InvoiceAccountDto));
@@ -33,6 +39,11 @@ export const invoiceAccountApi = {
 
     draft(data: CreateInvoiceAccountRequestDto) {
         const url = `/${NAMESPACE}/0/invoice_accounts/draft`;
+        return api.post<InvoiceAccountDto>(url, data).then(oneDtoOf(InvoiceAccountDto));
+    },
+
+    draftV2(data: CreateInvoiceAccountRequestDto2) {
+        const url = `/${NAMESPACE}/0/invoice_accounts_v2/draft`;
         return api.post<InvoiceAccountDto>(url, data).then(oneDtoOf(InvoiceAccountDto));
     },
 
