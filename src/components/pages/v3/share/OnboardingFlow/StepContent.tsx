@@ -18,7 +18,10 @@ export const StepContent = memo(function StepContent() {
     return (
         <section data-component="StepContent" className="">
             <Step name={Workspace.beforeLoad}>
-                <ConnectGoogleAdminBeforeLoad onNext={() => setStep(Workspace.isLoading)} />
+                <ConnectGoogleAdminBeforeLoad
+                    onNext={() => setStep(Workspace.isLoading)}
+                    skip={() => setStep(Workspace.afterLoad)}
+                />
             </Step>
             <Step name={Workspace.isLoading}>
                 <ConnectGoogleAdminIsLoading onNext={() => setStep(Workspace.afterLoad)} />

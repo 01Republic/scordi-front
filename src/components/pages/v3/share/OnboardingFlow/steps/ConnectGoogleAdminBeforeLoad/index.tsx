@@ -1,16 +1,22 @@
-import {memo} from 'react';
+import {memo, useEffect} from 'react';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import {googleOAuth} from '^config/environments';
 import {StepContentProps} from '^components/util/funnel';
 import {Container} from '../../Container';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
-
 interface Props extends StepContentProps {
     // onNext: () => any;
+    skip: () => any;
 }
 
 export const ConnectGoogleAdminBeforeLoad = memo(function ConnectGoogleAdminBeforeLoad(props: Props) {
-    const {onNext} = props;
+    const {onNext, skip} = props;
+
+    const reportFromLocalStorage = window.localStorage.getItem('report');
+
+    useEffect(() => {
+        reportFromLocalStorage && skip();
+    }, [reportFromLocalStorage]);
 
     return (
         <GoogleOAuthProvider clientId={googleOAuth.adminClient.id}>
