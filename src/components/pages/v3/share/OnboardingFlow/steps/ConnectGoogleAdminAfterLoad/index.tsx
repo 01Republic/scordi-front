@@ -25,12 +25,13 @@ export const ConnectGoogleAdminAfterLoad = memo(function ConnectGoogleAdminAfter
     const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
     const reportByProduct = reportData?.groupByProduct && reportData?.groupByProduct();
 
-    const saveReport = (token: string, report: ReportDto) => {
+    const saveReport = (report: ReportDto) => {
         const {workspaceName, items} = report;
-        const req = googleUsageReportApi.save(token, {
+        const req = googleUsageReportApi.save2({
             organizationId,
             workspaceName,
             items,
+            syncedEmail: report.rawMetadata.syncedEmail,
         });
 
         req.then(() => {
@@ -58,15 +59,10 @@ export const ConnectGoogleAdminAfterLoad = memo(function ConnectGoogleAdminAfter
     }, []);
 
     useEffect(() => {
-        if (typeof window === 'undefined') return;
-
-        const accessToken = window.localStorage.getItem('accessToken');
-        if (!accessToken) return;
-
         const report = getReportFromLocalStorage();
         if (!report) return;
 
-        saveReport(accessToken, report);
+        saveReport(report);
     }, []);
 
     return (
