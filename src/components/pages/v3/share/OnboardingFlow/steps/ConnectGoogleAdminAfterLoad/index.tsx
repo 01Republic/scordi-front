@@ -11,7 +11,6 @@ import {userSocialGoogleApi} from '^api/social-google.api';
 import {useAlert} from '^hooks/useAlert';
 import {orgIdParamState} from '^atoms/common';
 import {onboardingFlowStepStatus, OnboardingStep} from '^v3/share/OnboardingFlow/atom';
-import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
 
 interface Props extends StepContentProps {
     // onNext: () => any;
@@ -20,7 +19,6 @@ interface Props extends StepContentProps {
 export const ConnectGoogleAdminAfterLoad = memo(function ConnectGoogleAdminAfterLoad(props: Props) {
     const [currentStep, setStep] = useRecoilState(onboardingFlowStepStatus);
     const organizationId = useRecoilValue(orgIdParamState);
-    const accessToken = useRecoilValue(googleAccessTokenAtom);
     const reportData = useRecoilValue(reportState);
     const [isLoaded, setIsLoaded] = useState(false);
     const {alert} = useAlert();
@@ -28,12 +26,13 @@ export const ConnectGoogleAdminAfterLoad = memo(function ConnectGoogleAdminAfter
     const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
     const reportByProduct = reportData?.groupByProduct && reportData?.groupByProduct();
 
-    const saveReport = (token: string, report: ReportDto) => {
+    const saveReport = (report: ReportDto) => {
         const {workspaceName, items} = report;
-        const req = googleUsageReportApi.save(token, {
+        const req = googleUsageReportApi.save2({
             organizationId,
             workspaceName,
             items,
+            syncedEmail: report.rawMetadata.syncedEmail,
         });
 
         req.then(() => {
@@ -62,13 +61,13 @@ export const ConnectGoogleAdminAfterLoad = memo(function ConnectGoogleAdminAfter
     useEffect(() => {
         if (currentStep !== OnboardingStep.ConnectWorkspace_AfterLoad) return;
 
-        if (accessToken && reportData) {
-            saveReport(accessToken, reportData);
+        if (reportData) {
+            saveReport(reportData);
         } else {
             window.alert('잘못된 접근입니다.\n데이터를 찾을 수 없습니다.\n스텝을 초기화 합니다.');
             setStep(OnboardingStep.ConnectWorkspace_BeforeLoad);
         }
-    }, [currentStep, accessToken, reportData]);
+    }, [currentStep, reportData]);
 
     return (
         <div data-step="ConnectGoogleAdmin" className="h-full flex flex-col gap-7">
