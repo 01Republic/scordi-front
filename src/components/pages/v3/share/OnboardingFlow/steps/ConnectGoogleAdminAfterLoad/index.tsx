@@ -1,23 +1,26 @@
 import React, {memo, useEffect, useState} from 'react';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {FaArrowRight} from 'react-icons/fa6';
 import {StepContentProps} from '^components/util/funnel';
 import {Container} from '../../Container';
 import {CheckCircle} from '^components/react-icons/check-circle';
-import {useRecoilValue} from 'recoil';
 import {reportState} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/atom';
 import {ProductItem} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/results/ProductItemList/ProductItem';
-import {FaArrowRight} from 'react-icons/fa6';
-import {userSocialGoogleApi} from '^api/social-google.api';
 import {ReportDto} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/dto/report.dto';
+import {userSocialGoogleApi} from '^api/social-google.api';
 import {useAlert} from '^hooks/useAlert';
 import {orgIdParamState} from '^atoms/common';
-import {getReportFromLocalStorage} from '^v3/share/OnboardingFlow/steps/ConnectGoogleAdminAfterLoad/get-report-from-local-storage';
+import {onboardingFlowStepStatus, OnboardingStep} from '^v3/share/OnboardingFlow/atom';
+import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
 
 interface Props extends StepContentProps {
     // onNext: () => any;
 }
 
 export const ConnectGoogleAdminAfterLoad = memo(function ConnectGoogleAdminAfterLoad(props: Props) {
+    const [currentStep, setStep] = useRecoilState(onboardingFlowStepStatus);
     const organizationId = useRecoilValue(orgIdParamState);
+    const accessToken = useRecoilValue(googleAccessTokenAtom);
     const reportData = useRecoilValue(reportState);
     const [isLoaded, setIsLoaded] = useState(false);
     const {alert} = useAlert();
@@ -35,12 +38,11 @@ export const ConnectGoogleAdminAfterLoad = memo(function ConnectGoogleAdminAfter
 
         req.then(() => {
             window.localStorage.removeItem('report');
-            onNext();
         });
 
         req.catch((e) => {
             if (e.response.data.code == 'Unauthorized') {
-                alert.error('회사 대표 계정으로 시도해주세요', '', {
+                alert.error('G-Suite 관리자 계정으로 시도해주세요', '', {
                     html: `
                     ex) official@scordi.io
                     `,
@@ -58,16 +60,15 @@ export const ConnectGoogleAdminAfterLoad = memo(function ConnectGoogleAdminAfter
     }, []);
 
     useEffect(() => {
-        if (typeof window === 'undefined') return;
+        if (currentStep !== OnboardingStep.ConnectWorkspace_AfterLoad) return;
 
-        const accessToken = window.localStorage.getItem('accessToken');
-        if (!accessToken) return;
-
-        const report = getReportFromLocalStorage();
-        if (!report) return;
-
-        saveReport(accessToken, report);
-    }, []);
+        if (accessToken && reportData) {
+            saveReport(accessToken, reportData);
+        } else {
+            window.alert('잘못된 접근입니다.\n데이터를 찾을 수 없습니다.\n스텝을 초기화 합니다.');
+            setStep(OnboardingStep.ConnectWorkspace_BeforeLoad);
+        }
+    }, [currentStep, accessToken, reportData]);
 
     return (
         <div data-step="ConnectGoogleAdmin" className="h-full flex flex-col gap-7">
