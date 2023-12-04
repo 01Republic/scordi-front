@@ -1,15 +1,14 @@
 import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {V3TopNav} from '^v3/share/TobNav/TopNav';
 import styles from '^styles/v3/V3MainLayout.module.scss';
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useCurrentOrg} from '^models/Organization/hook';
+import {ReactComponentLike} from 'prop-types';
+import {V3TopNav} from '^v3/share/TobNav/TopNav';
+import {LeftNavBar, LNBIndex} from '^v3/share/LeftNavBar';
+import {V3Footer} from '^v3/share/Footer';
 import {UserEditModal} from '^v3/share/modals/UserEditModal';
 import {AddressModal} from '^v3/share/modals/AddressModal';
-import {V3Footer} from '^v3/share/Footer';
-import {LeftNavBar, LNBIndex} from '^v3/share/LeftNavBar';
-import {ReactComponentLike, ReactNodeLike} from 'prop-types';
 import {OnboardingFlow} from '^v3/share/OnboardingFlow';
+import {PageLoadingCover} from '^v3/share/PageLoadingCover';
 
 export interface V3MainLayoutProps extends WithChildren {
     // 하단 네비게이션 중에서 활성상태로 보여줄 탭의 인덱스
@@ -40,6 +39,7 @@ export const V3MainLayout = memo((props: V3MainLayoutProps) => {
             ))}
             <UserEditModal />
             <AddressModal />
+            <PageLoadingCover />
             <OnboardingFlow />
         </>
     );

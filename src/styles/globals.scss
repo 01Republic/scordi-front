@@ -902,3 +902,8 @@ body {
     }
   }
 }
+
+progress::-webkit-progress-value,
+progress::-moz-progress-bar {
+  transition: width 200ms ease;
+}
