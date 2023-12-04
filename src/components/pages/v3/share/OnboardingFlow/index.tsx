@@ -20,7 +20,7 @@ export const OnboardingFlow = memo(function OnboardingFlow() {
             <div className="modal-box h-full min-w-full max-h-full rounded-none p-0">
                 <div className="h-full flex flex-col">
                     <StepNavigator />
-                    <StepContent />
+                    {currentOrg && !currentOrg.lastGoogleSyncHistoryId && <StepContent />}
                 </div>
             </div>
         </div>

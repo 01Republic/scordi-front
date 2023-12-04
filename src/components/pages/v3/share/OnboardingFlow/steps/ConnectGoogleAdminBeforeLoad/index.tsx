@@ -5,6 +5,9 @@ import {StepContentProps} from '^components/util/funnel';
 import {Container} from '../../Container';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 
+export * from './get-data-from-local-storage';
+export * from './StepContent';
+
 interface Props extends StepContentProps {
     // onNext: () => any;
 }

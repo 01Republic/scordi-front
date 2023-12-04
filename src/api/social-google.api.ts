@@ -59,6 +59,10 @@ export const userSocialGoogleApi = {
                 const headers = makeHeaders(token);
                 return api.post<Paginated<TeamMemberDto>>(url, {...dto}, {headers}).then(paginatedDtoOf(TeamMemberDto));
             },
+            save2(dto: SaveTokenReportRequestDto) {
+                const url = `/subscriptions/usage-report/v2`;
+                return api.post<Paginated<TeamMemberDto>>(url, {...dto}).then(paginatedDtoOf(TeamMemberDto));
+            },
         },
     },
 };

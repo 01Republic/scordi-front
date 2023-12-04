@@ -4,6 +4,7 @@ import {ReportItemDto} from '^components/pages/LandingPages/TastingPage/tabs/pan
 export class SaveTokenReportRequestDto {
     organizationId: number;
     workspaceName: string;
+    syncedEmail: string;
 
     @TypeCast(() => ReportItemDto)
     items: ReportItemDto[];

@@ -3,7 +3,7 @@ import {useSetRecoilState} from 'recoil';
 import {useFunnel} from '^components/util/funnel';
 import {onboardingFlowStepStatus, ONBOARDING_STEP, onboardingModalIsShow} from './atom';
 import {
-    ConnectGoogleAdminBeforeLoad,
+    ConnectGoogleAdminBeforeLoadStepContent,
     ConnectGoogleAdminIsLoading,
     ConnectGoogleAdminAfterLoad,
     ConnectInvoiceAccountBeforeLoad,
@@ -13,44 +13,38 @@ import {
 } from './steps';
 
 export const StepContent = memo(function StepContent() {
-    const {setStep, Step} = useFunnel(onboardingFlowStepStatus);
+    const {setStep, LazyStep} = useFunnel(onboardingFlowStepStatus);
     const setIsShow = useSetRecoilState(onboardingModalIsShow);
     const {Workspace, InvoiceAccount, Finish} = ONBOARDING_STEP;
 
     return (
         <section data-component="StepContent" className="">
-            <Step name={Workspace.beforeLoad}>
-                <ConnectGoogleAdminBeforeLoad
-                    onNext={() => setStep(Workspace.isLoading)}
-                    onReady={() => {
-                        if (window.localStorage.getItem('report')) {
-                            setStep(Workspace.afterLoad);
-                        }
-                    }}
-                />
-            </Step>
-            <Step name={Workspace.isLoading}>
-                <ConnectGoogleAdminIsLoading onNext={() => setStep(Workspace.afterLoad)} />
-            </Step>
-            <Step name={Workspace.afterLoad}>
-                <ConnectGoogleAdminAfterLoad onNext={() => setStep(InvoiceAccount.beforeLoad)} />
-            </Step>
-            <Step name={InvoiceAccount.beforeLoad}>
-                <ConnectInvoiceAccountBeforeLoad
-                    onPrev={() => setStep(Workspace.afterLoad)}
-                    onNext={() => setStep(InvoiceAccount.isLoading)}
-                />
-            </Step>
-            <Step name={InvoiceAccount.isLoading}>
-                {/*<ConnectInvoiceAccountIsLoading onNext={() => setStep(InvoiceAccount.afterLoad)} />*/}
-                <ConnectInvoiceAccountIsLoading onNext={() => setStep(Finish)} />
-            </Step>
-            <Step name={InvoiceAccount.afterLoad}>
-                <ConnectInvoiceAccountAfterLoad onNext={() => setStep(Finish)} />
-            </Step>
-            <Step name={Finish}>
-                <FinishStep onNext={() => setIsShow(false)} />
-            </Step>
+            <LazyStep name={Workspace.beforeLoad} render={ConnectGoogleAdminBeforeLoadStepContent} />
+            <LazyStep
+                name={Workspace.isLoading}
+                render={() => <ConnectGoogleAdminIsLoading onNext={() => setStep(Workspace.afterLoad)} />}
+            />
+            <LazyStep
+                name={Workspace.afterLoad}
+                render={() => <ConnectGoogleAdminAfterLoad onNext={() => setStep(InvoiceAccount.beforeLoad)} />}
+            />
+            <LazyStep
+                name={InvoiceAccount.beforeLoad}
+                render={() => (
+                    <ConnectInvoiceAccountBeforeLoad
+                        onPrev={() => setStep(Workspace.afterLoad)}
+                        onNext={() => setStep(InvoiceAccount.isLoading)}
+                    />
+                )}
+            />
+            <LazyStep
+                name={InvoiceAccount.isLoading}
+                render={() => <ConnectInvoiceAccountIsLoading onNext={() => setStep(Finish)} />}
+            />
+            {/*<Step name={InvoiceAccount.afterLoad}>*/}
+            {/*    <ConnectInvoiceAccountAfterLoad onNext={() => setStep(Finish)} />*/}
+            {/*</Step>*/}
+            <LazyStep name={Finish} render={() => <FinishStep onNext={() => setIsShow(false)} />} />
         </section>
     );
 });
