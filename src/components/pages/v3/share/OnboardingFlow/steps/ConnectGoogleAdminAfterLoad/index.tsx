@@ -10,7 +10,7 @@ import {ReportDto} from '^components/pages/LandingPages/TastingPage/tabs/panes/S
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {useAlert} from '^hooks/useAlert';
 import {orgIdParamState} from '^atoms/common';
-import {onboardingFlowStepStatus, OnboardingStep} from '^v3/share/OnboardingFlow/atom';
+import {onboardingFlowStepStatus, onboardingReportSavedEmail, OnboardingStep} from '^v3/share/OnboardingFlow/atom';
 
 interface Props extends StepContentProps {
     // onNext: () => any;
@@ -20,6 +20,7 @@ export const ConnectGoogleAdminAfterLoad = memo(function ConnectGoogleAdminAfter
     const [currentStep, setStep] = useRecoilState(onboardingFlowStepStatus);
     const organizationId = useRecoilValue(orgIdParamState);
     const reportData = useRecoilValue(reportState);
+    const [reportSavedEmail, setReportSavedEmail] = useRecoilState(onboardingReportSavedEmail);
     const [isLoaded, setIsLoaded] = useState(false);
     const {alert} = useAlert();
     const {onNext} = props;
@@ -37,6 +38,7 @@ export const ConnectGoogleAdminAfterLoad = memo(function ConnectGoogleAdminAfter
 
         req.then(() => {
             window.localStorage.removeItem('report');
+            setReportSavedEmail(report.rawMetadata.syncedEmail);
         });
 
         req.catch((e) => {
@@ -53,21 +55,23 @@ export const ConnectGoogleAdminAfterLoad = memo(function ConnectGoogleAdminAfter
     };
 
     useEffect(() => {
+        const timeout = reportSavedEmail ? 0 : 3000;
         setTimeout(() => {
             setIsLoaded(true);
-        }, 3000);
+        }, timeout);
     }, []);
 
     useEffect(() => {
         if (currentStep !== OnboardingStep.ConnectWorkspace_AfterLoad) return;
 
         if (reportData) {
+            if (reportSavedEmail) return;
             saveReport(reportData);
         } else {
             window.alert('잘못된 접근입니다.\n데이터를 찾을 수 없습니다.\n스텝을 초기화 합니다.');
             setStep(OnboardingStep.ConnectWorkspace_BeforeLoad);
         }
-    }, [currentStep, reportData]);
+    }, [currentStep, reportSavedEmail, reportData]);
 
     return (
         <div data-step="ConnectGoogleAdmin" className="h-full flex flex-col gap-7">

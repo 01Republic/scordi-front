@@ -33,3 +33,8 @@ export const onboardingFlowStepStatus = atom<OnboardingStep>({
     key: 'onboardingFlowStepStatus',
     default: OnboardingStep.ConnectWorkspace_BeforeLoad,
 });
+
+export const onboardingReportSavedEmail = atom<string | null>({
+    key: 'onboardingReportSavedEmail',
+    default: null,
+});
