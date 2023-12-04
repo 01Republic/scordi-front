@@ -6,7 +6,7 @@ export enum TagGroup {
     User = 'USER',
     Team = 'TEAM',
     Product = 'PRODUCT',
-    PayingType = 'PAYINGTYPE',
+    PayingType = 'PAYING-TYPE',
 }
 
 export class TagDto {

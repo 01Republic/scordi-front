@@ -1,10 +1,16 @@
-import {memo} from 'react';
+import {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
 import {subscriptionsForCurrentOrgState} from '../../atom';
 import {SubscriptionTr} from './SubscriptionTr';
+import {usePayingTypeTags} from '^models/Tag/hook';
 
 export const SubscriptionTable = memo(function SubscriptionTable() {
+    const {search: getTags} = usePayingTypeTags();
     const subscriptions = useRecoilValue(subscriptionsForCurrentOrgState);
+
+    useEffect(() => {
+        getTags({});
+    }, []);
 
     return (
         <div className="card bg-white shadow">

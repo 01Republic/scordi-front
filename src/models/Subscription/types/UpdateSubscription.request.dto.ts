@@ -8,7 +8,7 @@ export class UpdateSubscriptionRequestDto extends PartialType(
     OmitType(CreateSubscriptionRequestDto, ['organizationId', 'productId']),
 ) {
     connectStatus?: ConnectStatus; // 연동상태
-    subscriptionStatus?: SubscriptionStatus; // 구독상태
+    status?: SubscriptionStatus; // 구독상태
     isActive?: boolean; // 활성화 여부
     masterId?: number; // 관리자 TeamMember ID
 }

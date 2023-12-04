@@ -32,7 +32,7 @@ export const SubscriptionStatusSelect = memo((props: SubscriptionStatusSelectPro
         setClassName(status);
 
         // 구독 업데이트 api
-        subscriptionApi.update(subscription.id, {subscriptionStatus: status});
+        subscriptionApi.update(subscription.id, {status: status});
     };
 
     const options = subscriptionStatusOptions();
@@ -43,7 +43,7 @@ export const SubscriptionStatusSelect = memo((props: SubscriptionStatusSelectPro
             </div>
             <ul
                 tabIndex={0}
-                className="dropdown-content z-[1] menu py-2 px-5 shadow bg-base-100 rounded-box absolute top-8 -left-4"
+                className="dropdown-content z-[1] menu py-2 px-5 border shadow bg-base-100 rounded-box absolute top-8 -left-4"
             >
                 {options.map((option, i) => (
                     <li
