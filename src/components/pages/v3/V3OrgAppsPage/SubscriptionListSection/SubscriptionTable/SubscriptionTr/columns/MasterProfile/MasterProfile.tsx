@@ -58,12 +58,12 @@ export const MasterProfile = memo((props: MasterProfileProps) => {
                     <MasterProfileOption member={master} />
                 </div>
                 {memberOptions?.length || filteredMemberOptions?.length ? (
-                    <ul className="dropdown-content z-[1] py-2 px-5 bg-base-100 rounded-box w-48">
+                    <ul className="dropdown-content z-[1] py-2 px-3 mt-1 bg-base-100 rounded-box border">
                         <li>
                             <input
                                 {...form.register('masterName')}
                                 tabIndex={0}
-                                className="input text-sm border border-r mb-1 focus:outline-1"
+                                className="input input-bordered input-sm mb-3"
                                 onChange={onChange}
                             />
                         </li>
