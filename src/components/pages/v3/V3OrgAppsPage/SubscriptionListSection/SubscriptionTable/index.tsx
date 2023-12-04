@@ -1,12 +1,15 @@
 import {memo, useEffect} from 'react';
-import {useRecoilValue} from 'recoil';
-import {subscriptionsForCurrentOrgState} from '../../atom';
 import {SubscriptionTr} from './SubscriptionTr';
 import {usePayingTypeTags} from '^models/Tag/hook';
+import {SubscriptionDto} from '^models/Subscription/types';
 
-export const SubscriptionTable = memo(function SubscriptionTable() {
+interface SubscriptionTableProps {
+    items: SubscriptionDto[];
+}
+
+export const SubscriptionTable = memo(function SubscriptionTable(props: SubscriptionTableProps) {
     const {search: getTags} = usePayingTypeTags();
-    const subscriptions = useRecoilValue(subscriptionsForCurrentOrgState);
+    const {items: subscriptions} = props;
 
     useEffect(() => {
         getTags({});
@@ -14,7 +17,7 @@ export const SubscriptionTable = memo(function SubscriptionTable() {
 
     return (
         <div className="card bg-white shadow">
-            <div className="overflow-x-auto w-full">
+            <div className="overflow-x-auto overflow-y-hidden w-full">
                 <table className="table w-full">
                     <thead className="top-[50px]">
                         <tr className="text-gray-500">

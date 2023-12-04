@@ -30,7 +30,7 @@ export const MemberListSection = memo(function MemberListSection() {
                 <>
                     등록된 멤버{' '}
                     <span className="text-black">
-                        <b>{teamMembers.items.length}</b>명
+                        <b>{teamMembers.pagination.totalItemCount.toLocaleString()}</b>명
                     </span>
                 </>
             }
