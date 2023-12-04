@@ -1,4 +1,4 @@
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {teamMemberApi} from '^models/TeamMember/api';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {FindAllTeamMemberQueryDto, TeamMemberDto, UpdateTeamMemberDto} from '^models/TeamMember/type';
@@ -34,7 +34,7 @@ export const useCurrentTeamMember = () => {
 };
 
 export const useTeamMembers = () => {
-    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const orgId = useRecoilValue(orgIdParamState);
     const [isLoading, setIsLoading] = useState(false);
     const [result, setResult] = useRecoilState(teamMembersSearchResultAtom);
     const [query, setQuery] = useRecoilState(getTeamMembersQueryAtom);
