@@ -43,7 +43,6 @@ export const PayingTypeSelect = memo((props: PayingTypeSelectProps) => {
     };
 
     const onCreate = (name: string) => {
-        console.log('실행');
         if (!name) return;
 
         // options에 있는지 확인
@@ -74,7 +73,7 @@ export const PayingTypeSelect = memo((props: PayingTypeSelectProps) => {
                 defaultValue={defaultValue}
                 styles={selectStylesOptions}
                 options={getOptions(tagOptions)}
-                onChange={(e) => onCreate(e.value)}
+                onChange={(e) => e && onCreate((e as any).value)}
                 components={{SelectContainer, Control, Menu, MenuList, SingleValue}}
             />
         </>
