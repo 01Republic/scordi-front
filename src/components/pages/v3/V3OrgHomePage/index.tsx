@@ -20,7 +20,6 @@ import {MonthlyRemainAmountModal} from './MonthlyRemainAmountModal';
 import {CardsPanel} from './mobile/CardsPanel';
 import {CardFormModalGroup} from '../V3OrgCardListPage/modals/CardFormModalGroup';
 import {LNBIndex} from '^v3/share/LeftNavBar';
-import {TeamMemberCreateModal} from './desktop/modals';
 import {SummarySection, MemberListSection, SubscriptionsSection} from './desktop/sections';
 import {HeaderSection} from '^v3/V3OrgHomePage/desktop/sections/HeaderSection';
 import {NewAppModal} from '^components/pages/v3/share/modals/NewAppModal';
