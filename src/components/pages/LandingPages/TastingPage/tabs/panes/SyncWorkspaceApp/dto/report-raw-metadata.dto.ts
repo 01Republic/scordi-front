@@ -1,4 +1,4 @@
 export class ReportRawMetadataDto {
-    total: number;
+    totalTokenActivitiesCount: number;
     syncedEmail: string;
 }
