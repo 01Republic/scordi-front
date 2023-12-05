@@ -25,7 +25,7 @@ export const RenewInvoiceAccountModalBody = memo(() => {
                     __html: t('renewInvoiceAccountModal.description', {email: selectedInvoiceAccount.email}),
                 }}
             />
-            <GoogleComplianceDisclosureTag />
+            <GoogleComplianceDisclosureTag feature={'gmail'} />
             <div className="modal-action justify-center pb-4">
                 <a
                     className="btn btn-lg btn-block btn-ghost bg-base-100 border-base-200 shadow normal-case gap-4"

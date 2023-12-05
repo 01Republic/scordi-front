@@ -4,6 +4,7 @@ import {googleOAuth} from '^config/environments';
 import {StepContentProps} from '^components/util/funnel';
 import {Container} from '../../Container';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
+import {GoogleComplianceDisclosureTag} from '^components/GoogleCompliance';
 
 export * from './get-data-from-local-storage';
 export * from './StepContent';
@@ -36,6 +37,7 @@ export const ConnectGoogleAdminBeforeLoad = memo(function ConnectGoogleAdminBefo
 
                 <Container size="sm" className="flex justify-center">
                     <GoogleLoginBtn about="admin" googleLoginOnSuccessFn={() => onNext()} />
+                    <GoogleComplianceDisclosureTag feature={'admin'} />
                 </Container>
             </div>
         </GoogleOAuthProvider>

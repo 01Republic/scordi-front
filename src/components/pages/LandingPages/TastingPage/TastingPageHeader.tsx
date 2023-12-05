@@ -50,7 +50,7 @@ export const TastingPageHeader = memo(() => {
 
                             <div className="py-7 sm:text-start text-center relative">
                                 <FindByGmailButton />
-                                <GoogleComplianceDisclosureTag />
+                                <GoogleComplianceDisclosureTag feature={'gmail'} />
                             </div>
                         </div>
                     </div>

@@ -1,6 +1,7 @@
 import React, {memo} from 'react';
 import {useTranslation} from 'next-i18next';
 import {GoogleAdminLoginButton} from './GoogleAdminLoginButton';
+import {GoogleComplianceDisclosureTag} from '^components/GoogleCompliance';
 
 export const SyncWorkspaceAppStartBody = memo(function AppStartBody() {
     const {t} = useTranslation('publicTasting');
@@ -36,8 +37,7 @@ export const SyncWorkspaceAppStartBody = memo(function AppStartBody() {
 
             <div className="py-7 sm:text-start text-center relative">
                 <GoogleAdminLoginButton />
-
-                {/*<GoogleComplianceDisclosureTag />*/}
+                <GoogleComplianceDisclosureTag feature={'admin'} />
             </div>
         </>
     );

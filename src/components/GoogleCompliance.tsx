@@ -1,8 +1,15 @@
 import {useTranslation} from 'next-i18next';
 import React from 'react';
 
-export const GoogleComplianceDisclosureTag = () => {
+interface GoogleComplianceDisclosureTagProps {
+    feature: 'gmail' | 'admin';
+}
+
+export const GoogleComplianceDisclosureTag = (props?: GoogleComplianceDisclosureTagProps) => {
+    const feature = props?.feature ?? 'gmail';
     const {t} = useTranslation('google-compliance');
+    const assureTextKey = `assure.${feature}`;
+
     const GooglePolicyLink =
         'https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes';
 
@@ -15,7 +22,7 @@ export const GoogleComplianceDisclosureTag = () => {
             {t('description2')}
             <br />
             <br />
-            <b>{t('assure')}</b>
+            <b>{t(assureTextKey)}</b>
         </p>
     );
 };
