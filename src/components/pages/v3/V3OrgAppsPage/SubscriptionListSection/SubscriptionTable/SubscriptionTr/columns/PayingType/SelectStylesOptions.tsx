@@ -4,6 +4,7 @@ import Select, {
     ControlProps,
     MenuListProps,
     MenuProps,
+    OptionProps,
     SingleValueProps,
 } from 'react-select';
 
@@ -33,7 +34,7 @@ export const Control = (props: ControlProps<any>) => {
 };
 export const Menu = (props: MenuProps<any>) => {
     return (
-        <components.Menu {...props} className="!rounded-xl z-[1] py-2 shadow bg-base-100 rounded-box w-48 mt-1 text-sm">
+        <components.Menu {...props} className="z-[1] py-2 shadow bg-base-100 !rounded-box mt-1 text-sm">
             {props.children}
         </components.Menu>
     );
@@ -53,5 +54,15 @@ export const SingleValue = (props: SingleValueProps<any>) => {
         <components.SingleValue {...props}>
             <span className="btn btn-xs btn-outline btn-scordi px-5 font-normal">{props.children}</span>
         </components.SingleValue>
+    );
+};
+
+export const Option = (props: OptionProps<any>) => {
+    return (
+        <components.Option {...props} className="!bg-white">
+            <span className="btn btn-xs btn-outline btn-scordi px-5 font-normal focused:bg-red-500 bg-white">
+                {props.children}
+            </span>
+        </components.Option>
     );
 };
