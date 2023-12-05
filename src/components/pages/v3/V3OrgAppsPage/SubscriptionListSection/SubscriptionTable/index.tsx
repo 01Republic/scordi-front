@@ -3,9 +3,14 @@ import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {subscriptionsForCurrentOrgState} from '../../atom';
 import {SubscriptionTr} from './SubscriptionTr';
 import {usePayingTypeTags} from '^models/Tag/hook';
+import {SubscriptionDto} from '^models/Subscription/types';
+
+interface SubscriptionTableProps {
+    items: SubscriptionDto[];
+}
 import {tagOptionsState} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/PayingType/PayingTypeSelect';
 
-export const SubscriptionTable = memo(function SubscriptionTable() {
+export const SubscriptionTable = memo(function SubscriptionTable(props: SubscriptionTableProps) {
     const {search: getTags} = usePayingTypeTags();
     const subscriptions = useRecoilValue(subscriptionsForCurrentOrgState);
     const setTagOptions = useSetRecoilState(tagOptionsState);
@@ -16,7 +21,7 @@ export const SubscriptionTable = memo(function SubscriptionTable() {
 
     return (
         <div className="card bg-white shadow">
-            <div className="overflow-x-auto w-full">
+            <div className="overflow-x-auto overflow-y-hidden w-full">
                 <table className="table w-full">
                     <thead className="top-[50px]">
                         <tr className="text-gray-500">

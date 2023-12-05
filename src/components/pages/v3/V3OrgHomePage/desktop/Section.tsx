@@ -1,17 +1,17 @@
 import {memo} from 'react';
 import {ReactNodeLike} from 'prop-types';
 import {WithChildren} from '^types/global.type';
-import {ComponentLike, renderAll} from '^components/util/ComponentLike';
+import {ComponentLike, renderAll, renderOne} from '^components/util/ComponentLike';
 
 interface SectionProps extends WithChildren {
     title?: ReactNodeLike;
     titleButtons?: ComponentLike[];
+    rightTopCaption?: ComponentLike;
     rightButtons?: ComponentLike[];
 }
 
 export const Section = memo((props: SectionProps) => {
-    const {title, titleButtons = [], rightButtons = [], children} = props;
-
+    const {title, titleButtons = [], rightTopCaption, rightButtons = [], children} = props;
     return (
         <section className="mb-14">
             <div className="flex items-center justify-between">
@@ -20,7 +20,10 @@ export const Section = memo((props: SectionProps) => {
                     {renderAll(titleButtons)}
                 </div>
 
-                <div className="flex items-center gap-2">{renderAll(rightButtons)}</div>
+                <div className="flex items-center gap-2">
+                    {rightTopCaption && renderOne(rightTopCaption)}
+                    {renderAll(rightButtons)}
+                </div>
             </div>
 
             {children}

@@ -1,10 +1,12 @@
 import React, {memo} from 'react';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {subscriptionsForCurrentOrgState} from '^v3/V3OrgAppsPage/atom';
 import {SubscriptionListViewMode, subscriptionListViewModeState} from './atom';
 import {SubscriptionTable} from './SubscriptionTable';
 import {SubscriptionCardList} from './SubscriptionCardList';
 
 export const SubscriptionListSection = memo(function SubscriptionListSection() {
+    const subscriptions = useRecoilValue(subscriptionsForCurrentOrgState);
     const [viewMode, setViewMode] = useRecoilState(subscriptionListViewModeState);
 
     return (
@@ -57,8 +59,8 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
             </section>
 
             <section>
-                {viewMode === SubscriptionListViewMode.Cards && <SubscriptionCardList />}
-                {viewMode === SubscriptionListViewMode.Table && <SubscriptionTable />}
+                {viewMode === SubscriptionListViewMode.Cards && <SubscriptionCardList items={subscriptions} />}
+                {viewMode === SubscriptionListViewMode.Table && <SubscriptionTable items={subscriptions} />}
             </section>
         </>
     );

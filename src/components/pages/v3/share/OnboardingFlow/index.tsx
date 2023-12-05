@@ -12,11 +12,18 @@ export const OnboardingFlow = memo(function OnboardingFlow() {
     useEffect(() => {
         if (currentOrg && !currentOrg.lastGoogleSyncHistoryId) {
             setIsShow(true);
+            setTimeout(() => {
+                if (typeof window !== 'undefined') {
+                    window.document.body.classList.add('modal-opened');
+                }
+            }, 200);
         }
     }, [currentOrg]);
 
+    if (!isShow) return <></>;
+
     return (
-        <div className={`modal ${isShow ? 'modal-open' : ''}`}>
+        <div className={`modal modal-open`}>
             <div className="modal-box h-full min-w-full max-h-full rounded-none p-0">
                 <div className="h-full flex flex-col">
                     <StepNavigator />
