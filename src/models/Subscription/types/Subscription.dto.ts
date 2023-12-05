@@ -43,7 +43,7 @@ export class SubscriptionDto {
     @TypeCast(() => Date) createdAt: Date;
     @TypeCast(() => Date) updatedAt: Date;
 
-    @TypeCast(() => TagDto) recurringType?: TagDto; // 과금 방식
+    @TypeCast(() => TagDto) recurringTypeTag?: TagDto; // 과금 방식
     @TypeCast(() => OrganizationDto) organization?: OrganizationDto; // 조직
     @TypeCast(() => WorkspaceDto) workspace?: WorkspaceDto; // 워크스페이스
     @TypeCast(() => ProductDto) product: ProductDto; // 프로토타입 (eager load)
@@ -63,14 +63,14 @@ export class SubscriptionDto {
     getRecurringTypeText(standalone = false) {
         if (typeof this.billingCycle?.term === 'undefined') {
             return (
-                this.recurringType?.name ||
+                this.recurringTypeTag?.name ||
                 t_BillingCycleTerm(billingTypeToCycleTerm(this.assumedBillingType), standalone)
             );
         }
 
         return (
             t_BillingCycleTerm(this.billingCycle?.term, standalone) ||
-            this.recurringType?.name ||
+            this.recurringTypeTag?.name ||
             t_BillingCycleTerm(billingTypeToCycleTerm(this.assumedBillingType), standalone)
         );
     }

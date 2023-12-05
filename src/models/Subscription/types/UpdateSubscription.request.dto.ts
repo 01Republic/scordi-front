@@ -11,4 +11,5 @@ export class UpdateSubscriptionRequestDto extends PartialType(
     status?: SubscriptionStatus; // 구독상태
     isActive?: boolean; // 활성화 여부
     masterId?: number; // 관리자 TeamMember ID
+    recurringTypeTagId?: number; // 과금방식 태그
 }

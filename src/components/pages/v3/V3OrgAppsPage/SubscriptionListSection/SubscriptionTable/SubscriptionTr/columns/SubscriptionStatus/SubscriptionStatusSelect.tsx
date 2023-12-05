@@ -7,6 +7,7 @@ import {
 } from '^models/Subscription/types';
 import {SubscriptionStatus} from '^models/Subscription/types';
 import {subscriptionApi} from '^models/Subscription/api';
+import {useCurrentSubscription} from '^models/Subscription/hook';
 
 interface SubscriptionStatusSelectProps {
     subscription: SubscriptionDto;
@@ -15,6 +16,8 @@ interface SubscriptionStatusSelectProps {
 export const SubscriptionStatusSelect = memo((props: SubscriptionStatusSelectProps) => {
     const [tagName, setTagName] = useState<SubscriptionStatus>();
     const [className, setClassName] = useState<SubscriptionStatus>();
+    const {reload: reloadCurrentApp} = useCurrentSubscription();
+
     const {subscription} = props;
 
     if (!subscription) return <></>;
@@ -33,6 +36,8 @@ export const SubscriptionStatusSelect = memo((props: SubscriptionStatusSelectPro
 
         // 구독 업데이트 api
         subscriptionApi.update(subscription.id, {status: status});
+
+        reloadCurrentApp();
     };
 
     const options = subscriptionStatusOptions();

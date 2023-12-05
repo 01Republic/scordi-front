@@ -1,4 +1,6 @@
 import {memo, useEffect} from 'react';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {subscriptionsForCurrentOrgState} from '../../atom';
 import {SubscriptionTr} from './SubscriptionTr';
 import {usePayingTypeTags} from '^models/Tag/hook';
 import {SubscriptionDto} from '^models/Subscription/types';
@@ -6,13 +8,15 @@ import {SubscriptionDto} from '^models/Subscription/types';
 interface SubscriptionTableProps {
     items: SubscriptionDto[];
 }
+import {tagOptionsState} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/PayingType/PayingTypeSelect';
 
 export const SubscriptionTable = memo(function SubscriptionTable(props: SubscriptionTableProps) {
     const {search: getTags} = usePayingTypeTags();
-    const {items: subscriptions} = props;
+    const subscriptions = useRecoilValue(subscriptionsForCurrentOrgState);
+    const setTagOptions = useSetRecoilState(tagOptionsState);
 
     useEffect(() => {
-        getTags({});
+        getTags({}).then((res) => setTagOptions(res.items));
     }, []);
 
     return (
