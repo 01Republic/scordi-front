@@ -66,7 +66,7 @@ export const MemberItem = memo((props: MemberItemProps) => {
                     <div className="w-full flex gap-2 items-center">
                         <FcOrgUnit size={18} />
                         {/*<FcDoughnutChart size={18} />*/}
-                        <p>{subscriptions.length}개 이용 중</p>
+                        <p>{member.subscriptions?.length}개 이용 중</p>
                     </div>
                 </div>
             </div>

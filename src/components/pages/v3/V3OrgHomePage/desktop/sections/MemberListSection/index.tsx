@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {V3OrgTeamMembersPageRoute} from '^pages/v3/orgs/[orgId]/teams/members';
 import {useTeamMembers} from '^models/TeamMember/hook';
 import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
@@ -7,10 +7,22 @@ import {MoreButton} from '../../MoreButton';
 import {MemberItem} from './MemberItem';
 import {AddMemberItem} from './AddMemberItem';
 import {MemberLoading} from './MemberLoading';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
 
 export const MemberListSection = memo(function MemberListSection() {
-    const {result: teamMembers, isLoading} = useTeamMembers();
+    const orgId = useRecoilValue(orgIdParamState);
     const {safePath} = useSafePathInCurrentOrg();
+    const {result: teamMembers, search: getTeamMembers, isLoading} = useTeamMembers();
+
+    useEffect(() => {
+        // first loaded.
+        getTeamMembers({
+            relations: ['membership', 'membership.user', 'organization', 'teams', 'subscriptions'],
+            order: {id: 'DESC'},
+            itemsPerPage: 10,
+        });
+    }, [orgId]);
 
     return (
         <Section
