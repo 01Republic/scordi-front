@@ -1,6 +1,6 @@
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {teamMemberApi} from '^models/TeamMember/api';
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {orgIdParamState} from '^atoms/common';
 import {FindAllTeamMemberQueryDto, TeamMemberDto, UpdateTeamMemberDto} from '^models/TeamMember/type';
 import {
     currentTeamMemberLoadingState,
@@ -80,8 +80,6 @@ export function useEditTeamMember() {
         const remainMembers = [...teamMembers.items].filter((item) => {
             return item.id !== member.id;
         });
-
-        console.log('삭제 요청 멤버 상태 ==>', member.membership?.approvalStatus);
 
         const deletePendingMember = () => {
             // membership 상태가 PENDING이면 team member와 membership 모두 삭제

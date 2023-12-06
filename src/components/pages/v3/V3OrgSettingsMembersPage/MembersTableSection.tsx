@@ -4,19 +4,25 @@ import {TablePaginator} from '^v3/share/table/TablePaginator';
 import {TableSearchControl} from '^v3/share/table/TableSearchControl';
 import {MembershipTable} from '^v3/V3OrgSettingsMembersPage/MembershipTable';
 import {useTeamMembers} from '^models/TeamMember/hook';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
 
 export const MembersTableSection = memo(() => {
-    const {result, search, query} = useTeamMembers();
-
+    const {result, search: getTeamMembers, query} = useTeamMembers();
+    const orgId = useRecoilValue(orgIdParamState);
     const teamMembers = result.items;
     const pagination = result.pagination;
 
     useEffect(() => {
         // first loaded.
-        search({order: {id: 'DESC'}, itemsPerPage: 10, relations: ['membership.user']});
-    }, []);
+        getTeamMembers({
+            relations: ['membership', 'membership.user', 'organization', 'teams', 'subscriptions'],
+            order: {id: 'DESC'},
+            itemsPerPage: 0,
+        });
+    }, [orgId]);
 
-    const movePage = (page: number) => search({...query, page});
+    const movePage = (page: number) => getTeamMembers({...query, page});
 
     const onSearch = debounce((data) => {
         if (!query) return;
@@ -26,7 +32,7 @@ export const MembersTableSection = memo(() => {
             page: 1,
         };
 
-        search(serchQuery);
+        getTeamMembers(serchQuery);
     }, 500);
 
     return (

@@ -34,17 +34,8 @@ export const getStaticProps = async ({locale}: any) => ({
 });
 
 export default function Page() {
-    const router = useRouter();
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     useCurrentOrg(orgId);
-
-    const {search} = useTeamMembers();
-
-    useEffect(() => {
-        if (!router.isReady) return;
-        if (!orgId || isNaN(orgId)) return;
-        search({where: {organizationId: orgId}});
-    }, [router.isReady, orgId]);
 
     if (!orgId) return <></>;
 
