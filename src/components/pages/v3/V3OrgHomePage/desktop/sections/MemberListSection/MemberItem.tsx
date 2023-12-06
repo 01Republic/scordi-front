@@ -31,8 +31,8 @@ export const MemberItem = memo((props: MemberItemProps) => {
 
     return (
         <div
-            className={`opacity-50 card card-compact bg-white shadow p-4 flex flex-col justify-between min-w-[300px] cursor-pointer transition-all hover:shadow-lg btn-animation ${
-                approvalStatus === ApprovalStatus.PENDING
+            className={`card card-compact bg-white shadow p-4 flex flex-col justify-between min-w-[300px] cursor-pointer transition-all hover:shadow-lg btn-animation ${
+                approvalStatus === ApprovalStatus.PENDING && 'opacity-50'
             }`}
             onClick={onClick}
         >

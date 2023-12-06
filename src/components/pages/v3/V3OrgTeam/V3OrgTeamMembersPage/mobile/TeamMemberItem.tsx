@@ -23,10 +23,10 @@ export const TeamMemberItem = memo((props: TeamMemberItemProps) => {
     const {setCurrentTeamMember} = useTeamMemberShowModalSubject();
 
     const {item: teamMember} = props;
-    const {profileImgUrl} = teamMember.makeTeamMemberProfile();
+    if (!teamMember) return <></>;
 
-    const badgeOption = teamMember?.getApprovalStatusOption();
-    const isPending = badgeOption?.status === ApprovalStatus.PENDING;
+    const {profileImgUrl} = teamMember.makeTeamMemberProfile();
+    const isPending = teamMember.membership?.approvalStatus === ApprovalStatus.PENDING;
 
     const onClick = () => {
         if (isDesktop) {
