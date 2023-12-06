@@ -41,7 +41,7 @@ export const NewTeamMemberModal = memo(() => {
                 <ModalTopbar backBtnOnClick={backBtnOnClick} topbarPosition="sticky" />
 
                 <MobileSection.Padding>
-                    <div className="py-28">
+                    <div>
                         <h3 className="font-bold text-2xl py-5">
                             멤버를 <br /> 등록해보세요.
                         </h3>

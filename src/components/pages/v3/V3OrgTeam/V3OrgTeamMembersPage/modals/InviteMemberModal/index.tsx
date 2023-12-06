@@ -73,12 +73,12 @@ export const InviteOrgMemberModal = memo(() => {
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
             <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
             <MobileSection.Padding>
-                <div className="py-32 flex flex-col gap-5">
+                <div className="flex flex-col gap-5">
                     <h3 className="font-bold text-2xl">
                         초대 메일 전송을 위해 <br /> 계정 정보가 필요해요
                     </h3>
 
-                    <p>초대할 멤버의 이메일을 입력해주세요.</p>
+                    <p>초대할 멤버의 이메일을 입력해주세요</p>
                     <InviteEmailInput form={form} />
                 </div>
             </MobileSection.Padding>
