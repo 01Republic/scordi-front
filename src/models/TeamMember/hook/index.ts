@@ -74,8 +74,8 @@ export function useEditTeamMember() {
         teamMemberApi.update(member.organizationId, member.id, data).then(() => toast.success('변경되었습니다.'));
     };
 
-    const deleteFn = (orgId: number, member: TeamMemberDto | null) => {
-        if (!member) return;
+    const deleteFn = (member: TeamMemberDto) => {
+        const orgId = member.organizationId;
 
         const remainMembers = [...teamMembers.items].filter((item) => {
             return item.id !== member.id;
@@ -91,7 +91,7 @@ export function useEditTeamMember() {
         };
 
         alert.destroy({
-            title: '멤버를 삭제하시겠습니까?',
+            title: '멤버를 정말 삭제할까요?',
             confirmFn: () => deletePendingMember(),
             routerFn: () => {
                 if (isDesktop) {

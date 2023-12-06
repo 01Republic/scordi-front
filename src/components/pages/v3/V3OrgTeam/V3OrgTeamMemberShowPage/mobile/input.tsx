@@ -2,13 +2,14 @@ import {ReactNodeLike} from 'prop-types';
 import {ForwardedRef, forwardRef, InputHTMLAttributes} from 'react';
 import {atom, useRecoilState, useRecoilValue} from 'recoil';
 import {TopRightButton} from '^v3/share/modals';
+import {isTeamMemberEditModeAtom} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
 
 interface MobileTeamMemberInfoInputProps extends InputHTMLAttributes<HTMLInputElement> {
     label: ReactNodeLike;
     defaultValue?: string;
 }
 export const MobileTeamMemberInfoInput = forwardRef((props: MobileTeamMemberInfoInputProps, ref: ForwardedRef<any>) => {
-    const isEditable = useRecoilValue(isTeamMemberInfoEditableAtom);
+    const isEditable = useRecoilValue(isTeamMemberEditModeAtom);
     const border = isEditable ? 'input-bordered border-b-2' : 'input-ghost border-none';
 
     return (
@@ -33,7 +34,7 @@ interface EditableInputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const EditTriggeredInput = forwardRef((props: EditableInputProps, ref: ForwardedRef<any>) => {
-    const isEditable = useRecoilValue(isTeamMemberInfoEditableAtom);
+    const isEditable = useRecoilValue(isTeamMemberEditModeAtom);
     const border = isEditable ? 'input-bordered border-b-2' : 'input-ghost border-none';
 
     return (
@@ -43,34 +44,9 @@ export const EditTriggeredInput = forwardRef((props: EditableInputProps, ref: Fo
     );
 });
 
-export const isTeamMemberInfoEditableAtom = atom<boolean>({
-    key: 'isTeamMemberInfoEditableAtom',
-    default: false,
-});
-
 interface TriggerButtonProps {
     onClick: () => void;
 }
-
-export const EditTriggerButton = (props: TriggerButtonProps) => {
-    const {onClick} = props;
-    const [isEditable, setIsEditable] = useRecoilState(isTeamMemberInfoEditableAtom);
-    const text = isEditable ? '완료' : '수정';
-
-    return (
-        <TopRightButton
-            className=""
-            onClick={(event) => {
-                event.preventDefault();
-                // 수정 가능한 상태였다면 onClick 이벤트 실행
-                isEditable && onClick();
-                // 다시 수정 불가능한 상태로 변경
-                setIsEditable((editable) => !editable);
-            }}
-            text={text}
-        />
-    );
-};
 
 export const DeleteTriggerButton = (props: TriggerButtonProps) => {
     const {onClick} = props;
