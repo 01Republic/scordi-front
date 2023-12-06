@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {UseFormReturn} from 'react-hook-form';
-import {useCurrentTeamMember, UpdateTeamMemberDto} from '^models/TeamMember';
+import {UpdateTeamMemberDto, useTeamMember, currentTeamMemberState} from '^models/TeamMember';
 import {isTeamMemberEditModeAtom} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
 import {TeamListPanel} from './TeamListPanel';
 import {TeamMemberInfoPanel} from './TeamMemberInfoPanel';
@@ -12,7 +12,7 @@ interface TeamMemberShowBodyProps {
 }
 
 export const TeamMemberShowBody = memo((props: TeamMemberShowBodyProps) => {
-    const {isLoading} = useCurrentTeamMember();
+    const {isLoading} = useTeamMember(currentTeamMemberState);
     const isEditMode = useRecoilValue(isTeamMemberEditModeAtom);
     const {form} = props;
 

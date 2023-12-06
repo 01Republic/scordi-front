@@ -2,20 +2,23 @@ import React, {memo} from 'react';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {useForm} from 'react-hook-form';
 import {MobileSection} from '^components/pages/v3/share/sections/MobileSection';
-import {currentTeamMemberState, UpdateTeamMemberDto, useEditTeamMember} from '^models/TeamMember';
+import {currentTeamMemberState, UpdateTeamMemberDto, useTeamMember, useTeamMembers} from '^models/TeamMember';
 import {isTeamMemberEditModeAtom} from '../../atom';
 
 export const TeamMemberEditPanel = memo(function TeamMemberEditPanel() {
     const currentMember = useRecoilValue(currentTeamMemberState);
     const setIsEditMode = useSetRecoilState(isTeamMemberEditModeAtom);
-    const {updateFn} = useEditTeamMember();
+    const memberList = useTeamMembers();
+    const {updateMember} = useTeamMember(currentTeamMemberState);
     const form = useForm<UpdateTeamMemberDto>();
 
     if (!currentMember) return <></>;
 
     const submitButtonClick = (data: UpdateTeamMemberDto) => {
-        updateFn(data, currentMember);
-        setIsEditMode(false);
+        updateMember(data).then(() => {
+            setIsEditMode(false);
+            if (memberList.isExist) memberList.reload();
+        });
     };
 
     return (

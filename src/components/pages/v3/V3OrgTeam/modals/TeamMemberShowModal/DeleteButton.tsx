@@ -1,22 +1,26 @@
 import {memo} from 'react';
-import {useRecoilValue} from 'recoil';
-import {useToast} from '^hooks/useToast';
-import {currentTeamMemberState, useEditTeamMember} from '^models/TeamMember';
+import {useRecoilState} from 'recoil';
+import {currentTeamMemberState, useTeamMember} from '^models/TeamMember';
 import {TopRightButton} from '^v3/share/modals';
 import {isTeamMemberEditModeAtom} from './atom';
 
-export const DeleteButton = memo(function DeleteButton() {
-    const isEditMode = useRecoilValue(isTeamMemberEditModeAtom);
-    const currentMember = useRecoilValue(currentTeamMemberState);
-    const {deleteFn} = useEditTeamMember();
-    const {toast} = useToast();
+interface DeleteButtonProps {
+    onFinish?: () => any;
+}
+
+export const DeleteButton = memo(function DeleteButton(props: DeleteButtonProps) {
+    const [isEditMode, setIsEditMode] = useRecoilState(isTeamMemberEditModeAtom);
+    const {deleteMember} = useTeamMember(currentTeamMemberState);
+    const {onFinish} = props;
 
     if (!isEditMode) return <></>;
 
-    return (
-        <TopRightButton
-            text="삭제"
-            onClick={() => (currentMember ? deleteFn(currentMember) : toast.error('알 수 없는 멤버'))}
-        />
-    );
+    const onDelete = () => {
+        deleteMember().then(() => {
+            setIsEditMode(false);
+            onFinish && onFinish();
+        });
+    };
+
+    return <TopRightButton text="삭제" onClick={() => onDelete()} />;
 });

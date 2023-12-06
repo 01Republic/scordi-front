@@ -1,7 +1,6 @@
-import {ReactNodeLike} from 'prop-types';
 import {ForwardedRef, forwardRef, InputHTMLAttributes} from 'react';
-import {atom, useRecoilState, useRecoilValue} from 'recoil';
-import {TopRightButton} from '^v3/share/modals';
+import {useRecoilValue} from 'recoil';
+import {ReactNodeLike} from 'prop-types';
 import {isTeamMemberEditModeAtom} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
 
 interface MobileTeamMemberInfoInputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -43,21 +42,3 @@ export const EditTriggeredInput = forwardRef((props: EditableInputProps, ref: Fo
         </>
     );
 });
-
-interface TriggerButtonProps {
-    onClick: () => void;
-}
-
-export const DeleteTriggerButton = (props: TriggerButtonProps) => {
-    const {onClick} = props;
-    return (
-        <button
-            onClick={(event) => {
-                event.preventDefault();
-                onClick();
-            }}
-        >
-            삭제
-        </button>
-    );
-};
