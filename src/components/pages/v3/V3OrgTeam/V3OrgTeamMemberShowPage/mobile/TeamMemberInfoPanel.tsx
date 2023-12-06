@@ -6,10 +6,11 @@ import {MobileInfoList} from '^v3/share/MobileInfoList';
 import {EditTriggeredInput, MobileTeamMemberInfoInput} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/mobile/input';
 import {Avatar} from '^components/Avatar';
 import {useRecoilValue} from 'recoil';
-import {ApprovalStatus} from '^models/Membership/types';
+import {ApprovalStatus, c_ApprovalStatus, t_ApprovalStatus} from '^models/Membership/types';
 import {getDate} from '^components/util/date';
 
 import {currentTeamMemberState} from '^models/TeamMember/atom';
+import {t_SubscriptionStatus} from '^models/Subscription/types';
 
 interface TeamMemberInfoPanelProps {
     form: UseFormReturn<UpdateTeamMemberDto, any>;
@@ -25,11 +26,11 @@ export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
     if (!currentMember) return <></>;
 
     const profileImgUrl = currentMember?.makeTeamMemberProfile().profileImgUrl;
-    const approvalStatus = currentMember?.getApprovalStatusOption();
+    const approvalStatus = currentMember.membership?.approvalStatus;
     const {name, jobName, phone, email} = currentMember;
 
     const approvalDate =
-        approvalStatus?.status === ApprovalStatus.PENDING
+        approvalStatus === ApprovalStatus.PENDING
             ? getDate(currentMember.createdAt)
             : getDate(currentMember.membership?.updatedAt || currentMember.createdAt);
 
@@ -57,15 +58,15 @@ export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
                     {/*유저 가입 상태*/}
                     <div className="flex justify-between py-2">
                         <span className="text-base self-center">가입 상태</span>
-                        <span className={`badge p-3 font-bold ${approvalStatus?.className}`}>
-                            {approvalStatus?.label}
+                        <span className={`badge p-3 font-bold ${approvalStatus && c_ApprovalStatus(approvalStatus)}`}>
+                            {approvalStatus && t_ApprovalStatus(approvalStatus)}
                         </span>
                     </div>
 
                     {/*초대날짜 / 가입날짜*/}
                     <div className="flex justify-between py-2">
                         <span className="self-center text-base">
-                            {approvalStatus?.status === ApprovalStatus.PENDING ? '초대 날짜' : '가입 날짜'}
+                            {approvalStatus === ApprovalStatus.PENDING ? '초대 날짜' : '가입 날짜'}
                         </span>
                         <p className="text-gray-500">{approvalDate}</p>
                     </div>

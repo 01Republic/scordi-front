@@ -5,7 +5,6 @@ import {TypeCast} from '^types/utils/class-transformer';
 import {MembershipDto} from 'src/models/Membership/types';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {CreditCardDto} from '^models/CreditCard/type';
-import {approvalStatusOptions} from '^models/Membership/types/approvalStatusOptions';
 
 export class TeamMemberDto {
     id: number; // 아이디
@@ -48,12 +47,6 @@ export class TeamMemberDto {
                 this.user?.profileImgUrl ??
                 `https://placehold.co/200x200?text=${encodeURIComponent(this.name)}`,
         };
-    }
-
-    getApprovalStatusOption() {
-        return approvalStatusOptions.find((option) => {
-            return option.status === this.membership?.approvalStatus;
-        });
     }
 }
 

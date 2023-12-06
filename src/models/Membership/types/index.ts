@@ -14,16 +14,26 @@ export enum ApprovalStatus {
     REJECTED = 'REJECTED', // 반려됨.
 }
 
-export class ApprovalStatusLabel {
-    static PENDING = '대기';
-    static APPROVED = '승인';
-    static REJECTED = '반려';
+export function t_ApprovalStatus(status: ApprovalStatus) {
+    switch (status) {
+        case ApprovalStatus.APPROVED:
+            return '승인';
+        case ApprovalStatus.PENDING:
+            return '대기';
+        case ApprovalStatus.REJECTED:
+            return '반려';
+    }
 }
 
-export class ApprovalStatusClassName {
-    static PENDING = 'badge-ghost';
-    static APPROVED = 'badge-primary';
-    static REJECTED = 'badge-error';
+export function c_ApprovalStatus(status: ApprovalStatus) {
+    switch (status) {
+        case ApprovalStatus.APPROVED:
+            return 'badge-primary';
+        case ApprovalStatus.PENDING:
+            return 'badge-ghost';
+        case ApprovalStatus.REJECTED:
+            return 'badge-error';
+    }
 }
 
 export type CreateMembershipRequestDto = {
