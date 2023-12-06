@@ -18,7 +18,7 @@ export const MembersTableSection = memo(() => {
         getTeamMembers({
             relations: ['membership', 'membership.user', 'organization', 'teams', 'subscriptions'],
             order: {id: 'DESC'},
-            itemsPerPage: 0,
+            itemsPerPage: 10,
         });
     }, [orgId]);
 
@@ -42,7 +42,7 @@ export const MembersTableSection = memo(() => {
             <MembershipTable />
 
             <div className="flex justify-center">
-                <TablePaginator pagination={pagination} onPrev={movePage} onNext={movePage} />
+                <TablePaginator pagination={pagination} onPrev={movePage} onNext={movePage} movePage={movePage} />
             </div>
         </div>
     );

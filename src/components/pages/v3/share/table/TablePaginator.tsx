@@ -9,7 +9,7 @@ interface TablePaginatorProps {
 }
 
 export const TablePaginator = memo((props: TablePaginatorProps) => {
-    const {pagination, movePage} = props;
+    const {pagination, movePage, onPrev, onNext} = props;
     const {currentPage, totalPage, totalItemCount} = pagination;
 
     const twoDigitIndex = Math.ceil(currentPage / 10) * 10;
@@ -19,8 +19,8 @@ export const TablePaginator = memo((props: TablePaginatorProps) => {
 
     const prevPageNum = currentPage > 1 ? currentPage - 1 : NaN;
     const nextPageNum = currentPage < totalPage ? currentPage + 1 : NaN;
-    const getPrevPage = () => movePage && movePage(prevPageNum);
-    const getNextPage = () => movePage && movePage(nextPageNum);
+    const getPrevPage = () => onPrev && onPrev(prevPageNum);
+    const getNextPage = () => onNext && onNext(nextPageNum);
 
     return (
         <div className="btn-group">
