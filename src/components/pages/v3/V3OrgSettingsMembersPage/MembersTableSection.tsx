@@ -10,7 +10,6 @@ import {orgIdParamState} from '^atoms/common';
 export const MembersTableSection = memo(() => {
     const {result, search: getTeamMembers, query} = useTeamMembers();
     const orgId = useRecoilValue(orgIdParamState);
-    const teamMembers = result.items;
     const pagination = result.pagination;
 
     useEffect(() => {
@@ -27,17 +26,17 @@ export const MembersTableSection = memo(() => {
     const onSearch = debounce((data) => {
         if (!query) return;
 
-        const serchQuery = {
+        const searchQuery = {
             ...(data.length > 0 ? {where: {name: data}} : null),
             page: 1,
         };
 
-        getTeamMembers(serchQuery);
+        getTeamMembers(searchQuery);
     }, 500);
 
     return (
         <div className="flex flex-col gap-4">
-            <TableSearchControl totalItemCount={teamMembers.length} onSearch={onSearch} />
+            <TableSearchControl totalItemCount={pagination.totalItemCount} onSearch={onSearch} />
 
             <MembershipTable />
 

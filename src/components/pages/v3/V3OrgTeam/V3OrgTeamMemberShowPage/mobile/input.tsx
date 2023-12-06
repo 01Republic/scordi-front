@@ -37,13 +37,7 @@ export const EditTriggeredInput = forwardRef((props: EditableInputProps, ref: Fo
 
     return (
         <>
-            <input
-                className={`bg-white ${border} ${props.className}`}
-                type="text"
-                ref={ref}
-                {...props}
-                disabled={!isEditable}
-            />
+            <input className={`${border} ${props.className}`} type="text" ref={ref} {...props} disabled={!isEditable} />
         </>
     );
 });

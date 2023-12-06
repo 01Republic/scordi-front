@@ -43,9 +43,7 @@ export const TeamMemberItem = memo((props: TeamMemberItemProps) => {
 
     return (
         <div
-            className={`flex items-center gap-4 px-3 py-2.5 -mx-3 bg-base-100 text-gray-700  hover:bg-neutral cursor-pointer ${
-                isPending && 'opacity-50'
-            }`}
+            className={`flex items-center gap-4 px-3 -mx-3 bg-base-100 text-gray-700  hover:bg-neutral cursor-pointer`}
             onClick={onClick}
         >
             <Avatar src={profileImgUrl} className="w-8 h-8 outline outline-offset-1 outline-slate-100" />

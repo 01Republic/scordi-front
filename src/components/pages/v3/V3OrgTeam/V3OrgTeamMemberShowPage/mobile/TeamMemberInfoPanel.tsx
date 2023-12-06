@@ -8,9 +8,8 @@ import {Avatar} from '^components/Avatar';
 import {useRecoilValue} from 'recoil';
 import {ApprovalStatus, c_ApprovalStatus, t_ApprovalStatus} from '^models/Membership/types';
 import {getDate} from '^components/util/date';
-
 import {currentTeamMemberState} from '^models/TeamMember/atom';
-import {t_SubscriptionStatus} from '^models/Subscription/types';
+import {useToast} from '^hooks/useToast';
 
 interface TeamMemberInfoPanelProps {
     form: UseFormReturn<UpdateTeamMemberDto, any>;
@@ -21,6 +20,7 @@ interface TeamMemberInfoPanelProps {
  */
 export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
     const currentMember = useRecoilValue(currentTeamMemberState);
+    const {toast} = useToast();
     const {form} = props;
 
     if (!currentMember) return <></>;
@@ -41,13 +41,13 @@ export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
                     <div className="flex justify-between mb-2">
                         <div className="flex-1">
                             <EditTriggeredInput
-                                className="font-bold text-2xl w-full py-2"
+                                className="font-bold text-2xl w-full py-2 bg-white"
                                 required={true}
                                 defaultValue={name}
                                 {...form.register('name')}
                             />
                             <EditTriggeredInput
-                                className="font-medium text-xl w-full"
+                                className="font-medium text-xl w-full bg-white"
                                 required={true}
                                 defaultValue={jobName || ''}
                                 {...form.register('jobName')}
@@ -58,9 +58,15 @@ export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
                     {/*유저 가입 상태*/}
                     <div className="flex justify-between py-2">
                         <span className="text-base self-center">가입 상태</span>
-                        <span className={`badge p-3 font-bold ${approvalStatus && c_ApprovalStatus(approvalStatus)}`}>
-                            {approvalStatus && t_ApprovalStatus(approvalStatus)}
-                        </span>
+                        {approvalStatus ? (
+                            <button className={`${c_ApprovalStatus(approvalStatus)} btn btn-xs px-2 cursor-default`}>
+                                {t_ApprovalStatus(approvalStatus)}
+                            </button>
+                        ) : (
+                            <button onClick={() => toast.info('준비중입니다.')} className="btn btn-xs px-2">
+                                초대하기
+                            </button>
+                        )}
                     </div>
 
                     {/*초대날짜 / 가입날짜*/}

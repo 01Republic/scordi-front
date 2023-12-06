@@ -17,22 +17,22 @@ export enum ApprovalStatus {
 export function t_ApprovalStatus(status: ApprovalStatus) {
     switch (status) {
         case ApprovalStatus.APPROVED:
-            return '승인';
+            return '초대 완료';
         case ApprovalStatus.PENDING:
-            return '대기';
+            return '초대중';
         case ApprovalStatus.REJECTED:
-            return '반려';
+            return '초대 실패';
     }
 }
 
 export function c_ApprovalStatus(status: ApprovalStatus) {
     switch (status) {
         case ApprovalStatus.APPROVED:
-            return 'badge-primary';
+            return 'btn-success';
         case ApprovalStatus.PENDING:
-            return 'badge-ghost';
+            return 'btn-scordi';
         case ApprovalStatus.REJECTED:
-            return 'badge-error';
+            return 'btn-error';
     }
 }
 
