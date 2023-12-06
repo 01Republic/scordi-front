@@ -5,17 +5,16 @@ import {currentOrgAtom} from '^models/Organization/atom';
 import {useTranslation} from 'next-i18next';
 import {useOnResize2} from '^components/util/onResize2';
 import {V3MainLayoutMobile} from '^v3/layouts/V3MainLayout.mobile';
-import {TeamMembersPanel} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/mobile/TeamMembersPanel';
-import {NewTeamMemberModal} from '^components/pages/v3/V3OrgTeam/V3OrgTeamMembersPage/modals/NewTeamMemberModal';
 import {BottomTabIndex} from '^v3/share/BottomNavMobile';
-import {InviteOrgMemberModal} from './modals/InviteMemberModal';
 import {LNBIndex} from '^v3/share/LeftNavBar';
+import {TeamMembersPanel} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/mobile/TeamMembersPanel';
+import {TeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
+import {NewTeamMemberModal} from '^v3/V3OrgTeam/modals/NewTeamMemberModal';
+import {InviteOrgMemberModal} from '^v3/V3OrgTeam/modals/InviteMemberModal';
 import {MembersTableSection} from '^v3/V3OrgSettingsMembersPage/MembersTableSection';
-import {AddMemberButton, ButtonTypes} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/AddMemberButton';
-import {TeamMemberShowModal} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/desktop/modals/TeamMemberShowModal';
+import {AddMemberButton, ButtonTypes} from './AddMemberButton';
 
 export const V3OrgTeamMembersPage = memo(() => {
-    const currentOrg = useRecoilValue(currentOrgAtom);
     const {t} = useTranslation('org-home');
     const {isDesktop} = useOnResize2();
 

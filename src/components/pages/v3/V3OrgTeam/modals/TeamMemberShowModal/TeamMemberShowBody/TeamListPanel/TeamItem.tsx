@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
-import {TeamDto} from '^models/Team/type';
 import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
-import {orgIdParamState} from '^atoms/common';
 import {V3OrgTeamShowPageRoute} from '^pages/v3/orgs/[orgId]/teams/[teamId]';
+import {orgIdParamState} from '^atoms/common';
+import {TeamDto} from '^models/Team/type';
 
 interface TeamItemProps {
     item: TeamDto;

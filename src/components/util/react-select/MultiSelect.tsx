@@ -22,7 +22,7 @@ export const MultiSelect = ({value, defaultOptions, defaultValue, loadOptions, o
             defaultValue={defaultValue}
             value={value}
             loadOptions={loadOptions}
-            onChange={(newValue, actionMeta) => onChange(newValue, actionMeta)}
+            onChange={onChange}
             isClearable={true}
             backspaceRemovesValue={true}
             styles={style}

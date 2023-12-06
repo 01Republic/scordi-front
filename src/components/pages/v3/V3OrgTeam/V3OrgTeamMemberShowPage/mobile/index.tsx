@@ -1,15 +1,14 @@
 import React, {memo} from 'react';
+import {useRouter} from 'next/router';
+import {useRecoilValue} from 'recoil';
+import {useForm} from 'react-hook-form';
+import {V3OrgTeamMembersPageRoute} from '^pages/v3/orgs/[orgId]/teams/members';
+import {orgIdParamState} from '^atoms/common';
+import {UpdateTeamMemberDto, useEditTeamMember} from '^models/TeamMember';
 import {V3ModalLikeLayoutMobile} from '^v3/layouts/V3ModalLikeLayout.mobile';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {DeleteTriggerButton, EditTriggerButton} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/mobile/input';
-import {useRouter} from 'next/router';
-import {V3OrgTeamMembersPageRoute} from '^pages/v3/orgs/[orgId]/teams/members';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
-import {TeamMemberShowBody} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/TeamMemberShowBody';
-import {useForm} from 'react-hook-form';
-import {UpdateTeamMemberDto} from '^models/TeamMember/type';
-import {useEditTeamMember} from '^models/TeamMember/hook';
+import {TeamMemberShowBody} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
+import {DeleteTriggerButton, EditTriggerButton} from './input';
 
 import {currentTeamMemberState} from '^models/TeamMember/atom';
 

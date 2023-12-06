@@ -8,8 +8,8 @@ import {V3OrgTeamMemberShowPageRoute} from '^pages/v3/orgs/[orgId]/teams/members
 import {ApprovalStatus} from 'src/models/Membership/types';
 import {useOnResize2} from '^components/util/onResize2';
 import {useModal} from '^v3/share/modals/useModal';
-import {useTeamMemberShowModalSubject} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/desktop/modals/hooks';
-import {teamMemberShowModal} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/desktop/modals/atom';
+import {useTeamMemberShowModalSubject} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/hooks';
+import {teamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/atom';
 
 interface TeamMemberItemProps {
     item: TeamMemberDto;

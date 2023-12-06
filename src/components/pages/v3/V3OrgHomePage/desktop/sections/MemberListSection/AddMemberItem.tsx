@@ -1,7 +1,7 @@
 import {memo} from 'react';
 import {useSetRecoilState} from 'recoil';
 import {HiOutlinePlus} from 'react-icons/hi';
-import {isOpenNewTeamMemberModalAtom} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/modals/NewTeamMemberModal/atom';
+import {isOpenNewTeamMemberModalAtom} from '^v3/V3OrgTeam/modals/NewTeamMemberModal/atom';
 import {useModal} from '^v3/share/modals/useModal';
 
 export const AddMemberItem = memo(function AddMemberItem() {

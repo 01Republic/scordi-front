@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
-import {useModal} from '../../share/modals/useModal';
-import {isOpenNewTeamMemberModalAtom} from './modals/NewTeamMemberModal/atom';
-import {isOpeninviteOrgMemberModalAtom} from './modals/InviteMemberModal/atom/atom';
+import {useModal} from '^v3/share/modals/useModal';
+import {isOpenNewTeamMemberModalAtom} from '../modals/NewTeamMemberModal/atom';
+import {isOpenInviteOrgMemberModalAtom} from '../modals/InviteMemberModal/atom';
 import {BsPlus} from 'react-icons/bs';
 import {FaPlus} from 'react-icons/fa6';
 
@@ -25,7 +25,7 @@ export const AddMemberButton = memo((props: AddMemberButtonProps) => {
         isShowAtom: isOpenNewTeamMemberModalAtom,
     });
     const {isShow: isInviteMemberModalShow, setIsShow: setInviteOrgMemberModalShow} = useModal({
-        isShowAtom: isOpeninviteOrgMemberModalAtom,
+        isShowAtom: isOpenInviteOrgMemberModalAtom,
     });
 
     const newTeamMemberModalShow = () => setNewTeamMemberModalShow(true);

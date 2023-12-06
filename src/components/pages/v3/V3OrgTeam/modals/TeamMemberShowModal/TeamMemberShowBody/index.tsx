@@ -1,9 +1,8 @@
 import React, {memo} from 'react';
-import {useCurrentTeamMember} from '^models/TeamMember/hook';
-import {TeamMemberInfoPanel} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/mobile/TeamMemberInfoPanel';
-import {TeamListPanel} from '^v3/V3OrgTeam/V3OrgTeamsPage/mobile/TeamListPanel';
-import {UpdateTeamMemberDto} from '^models/TeamMember/type';
 import {UseFormReturn} from 'react-hook-form';
+import {useCurrentTeamMember, UpdateTeamMemberDto} from '^models/TeamMember';
+import {TeamListPanel} from './TeamListPanel';
+import {TeamMemberInfoPanel} from './TeamMemberInfoPanel';
 
 interface TeamMemberShowBodyProps {
     form: UseFormReturn<UpdateTeamMemberDto>;

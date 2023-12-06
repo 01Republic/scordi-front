@@ -10,7 +10,7 @@ import {
 } from '^models/TeamMember/atom';
 import {useState} from 'react';
 import {useRouter} from 'next/router';
-import {teamMemberShowModal} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/desktop/modals/atom';
+import {teamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/atom';
 import {useOnResize2} from '^components/util/onResize2';
 import {useModal} from '^v3/share/modals/useModal';
 import {useAlert} from '^hooks/useAlert';

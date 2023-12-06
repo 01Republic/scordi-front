@@ -6,7 +6,7 @@ import {SubscriptionDto} from '^models/Subscription/types';
 import {SubscriptionManager} from '^models/Subscription/manager';
 import {SubscriptionAvatars} from '^v3/V3OrgHomePage/desktop/sections/MemberListSection/SubscriptionAvatars';
 import {ApprovalStatus} from 'src/models/Membership/types';
-import {useTeamMemberShowModalSubject} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/desktop/modals/hooks';
+import {useTeamMemberShowModalSubject} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/hooks';
 
 interface MemberItemProps {
     member: TeamMemberDto;

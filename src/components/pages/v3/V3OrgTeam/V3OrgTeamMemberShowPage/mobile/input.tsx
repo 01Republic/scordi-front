@@ -1,6 +1,7 @@
 import {ReactNodeLike} from 'prop-types';
 import {ForwardedRef, forwardRef, InputHTMLAttributes} from 'react';
 import {atom, useRecoilState, useRecoilValue} from 'recoil';
+import {TopRightButton} from '^v3/share/modals';
 
 interface MobileTeamMemberInfoInputProps extends InputHTMLAttributes<HTMLInputElement> {
     label: ReactNodeLike;
@@ -57,7 +58,8 @@ export const EditTriggerButton = (props: TriggerButtonProps) => {
     const text = isEditable ? '완료' : '수정';
 
     return (
-        <button
+        <TopRightButton
+            className=""
             onClick={(event) => {
                 event.preventDefault();
                 // 수정 가능한 상태였다면 onClick 이벤트 실행
@@ -65,9 +67,8 @@ export const EditTriggerButton = (props: TriggerButtonProps) => {
                 // 다시 수정 불가능한 상태로 변경
                 setIsEditable((editable) => !editable);
             }}
-        >
-            {text}
-        </button>
+            text={text}
+        />
     );
 };
 

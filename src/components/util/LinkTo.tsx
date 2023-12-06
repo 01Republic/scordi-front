@@ -1,18 +1,18 @@
-import {AnchorHTMLAttributes, HTMLAttributeAnchorTarget, memo} from 'react';
+import {AnchorHTMLAttributes, HTMLAttributeAnchorTarget, memo, MouseEventHandler} from 'react';
 import Link from 'next/link';
 import {LinkProps} from 'next/dist/client/link';
 import {ReactNodeLike} from 'prop-types';
 import {WithChildren} from '^types/global.type';
 
-export interface LinkToProps extends LinkProps {
+export interface LinkToProps extends Partial<LinkProps> {
     text?: ReactNodeLike;
     className?: string;
-    onClick?: () => any;
+    onClick?: MouseEventHandler<HTMLAnchorElement>;
     target?: HTMLAttributeAnchorTarget;
 }
 
 export const LinkTo = memo((props: LinkToProps & WithChildren) => {
-    const {text = '', target, onClick, children, className = '', href, ...res} = props;
+    const {text = '', target, onClick, children, className = '', href = '#', ...res} = props;
 
     if (target === '_blank') {
         const attrs: AnchorHTMLAttributes<any> = {};

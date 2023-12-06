@@ -1,19 +1,15 @@
 import React, {memo} from 'react';
-import {useModal} from '^v3/share/modals/useModal';
-import {isOpenNewTeamMemberModalAtom} from '^components/pages/v3/V3OrgTeam/V3OrgTeamMembersPage/modals/NewTeamMemberModal/atom';
-import {CreateTeamMemberDto} from '^models/TeamMember/type';
-import {useForm} from 'react-hook-form';
-import {TextInput} from '^components/TextInput';
-import {teamMemberApi} from '^models/TeamMember/api';
 import {useRecoilValue} from 'recoil';
+import {useForm} from 'react-hook-form';
 import {useRouter} from 'next/router';
 import {orgIdParamState} from '^atoms/common';
-import {V3OrgTeamMemberShowPageRoute} from '^pages/v3/orgs/[orgId]/teams/members/[memberId]';
-import {MobileSection} from '^v3/share/sections/MobileSection';
+import {TextInput} from '^components/TextInput';
+import {teamMemberApi, useTeamMembers, CreateTeamMemberDto} from '^models/TeamMember';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
-import {V3OrgTeamMembersPageRoute} from '^pages/v3/orgs/[orgId]/teams/members';
+import {useModal} from '^v3/share/modals/useModal';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
-import {useTeamMembers} from '^models/TeamMember/hook';
+import {MobileSection} from '^v3/share/sections/MobileSection';
+import {isOpenNewTeamMemberModalAtom} from './atom';
 
 export const NewTeamMemberModal = memo(() => {
     const router = useRouter();

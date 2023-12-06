@@ -1,9 +1,9 @@
 import React, {memo, useEffect} from 'react';
+import {useRecoilValue} from 'recoil';
 import {FieldValues, UseFormReturn} from 'react-hook-form';
 import {IoClose} from 'react-icons/io5';
-import {useRecoilValue} from 'recoil';
-import {invitedEmailsAtom} from '^models/TeamMember/atom';
-import {useInviteMember} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/modals/InviteMemberModal/hook';
+import {invitedEmailsAtom} from '^models/TeamMember';
+import {useInviteMember} from './hook';
 
 interface InviteEmailInputProps {
     form: UseFormReturn<FieldValues, any>;

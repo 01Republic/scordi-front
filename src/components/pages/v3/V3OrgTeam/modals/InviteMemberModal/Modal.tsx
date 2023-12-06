@@ -1,23 +1,22 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useModal} from '^components/pages/v3/share/modals/useModal';
-import {isOpeninviteOrgMemberModalAtom} from './atom/atom';
-import {ModalTopbar} from '^components/pages/v3/share/modals/ModalTopbar';
-import {MobileSection} from '^v3/share/sections/MobileSection';
-import {ModalLikeBottomBar} from '^components/pages/v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {currentOrgAtom} from '^models/Organization/atom';
-import {invitedEmailsAtom, teamMembersSearchResultAtom} from '^models/TeamMember/atom';
-import {InviteEmailInput} from './InviteEmailInput';
 import {FieldValues, useForm} from 'react-hook-form';
-import {useMemberships} from '^models/Membership/hook';
 import {debounce} from 'lodash';
 import {useAlert} from '^hooks/useAlert';
+import {currentOrgAtom} from '^models/Organization/atom';
 import {inviteMembershipApi} from '^models/Membership/api';
-import {useInviteMember} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/modals/InviteMemberModal/hook';
-import {useTeamMembers} from '^models/TeamMember/hook';
+import {useMemberships} from '^models/Membership/hook';
+import {invitedEmailsAtom, teamMembersSearchResultAtom, useTeamMembers} from '^models/TeamMember';
+import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
+import {useModal} from '^v3/share/modals/useModal';
+import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
+import {MobileSection} from '^v3/share/sections/MobileSection';
+import {isOpenInviteOrgMemberModalAtom} from './atom';
+import {useInviteMember} from './hook';
+import {InviteEmailInput} from './InviteEmailInput';
 
 export const InviteOrgMemberModal = memo(() => {
-    const {isShow, Modal, close} = useModal({isShowAtom: isOpeninviteOrgMemberModalAtom});
+    const {isShow, Modal, close} = useModal({isShowAtom: isOpenInviteOrgMemberModalAtom});
     const [isLoading, setIsLoading] = useState(false);
     const [invitedEmails, setInvitedEmails] = useRecoilState(invitedEmailsAtom);
     const {searchMemberships} = useMemberships();
