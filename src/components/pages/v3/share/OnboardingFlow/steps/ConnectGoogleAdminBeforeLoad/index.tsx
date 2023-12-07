@@ -37,6 +37,9 @@ export const ConnectGoogleAdminBeforeLoad = memo(function ConnectGoogleAdminBefo
 
                 <Container size="sm" className="flex justify-center">
                     <GoogleLoginBtn about="admin" googleLoginOnSuccessFn={() => onNext()} />
+                </Container>
+
+                <Container size="sm" className="text-center mt-auto">
                     <GoogleComplianceDisclosureTag feature={'admin'} />
                 </Container>
             </div>
