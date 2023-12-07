@@ -21,7 +21,7 @@ export const MembershipTable = memo(() => {
     const sortedTeamMembers = sortByCreatedAtDescending(teamMembers);
 
     return (
-        <div className="w-full inline-grid">
+        <div className="card bg-white shadow">
             <div className="overflow-x-auto w-full">
                 <table className="table w-full">
                     <thead>

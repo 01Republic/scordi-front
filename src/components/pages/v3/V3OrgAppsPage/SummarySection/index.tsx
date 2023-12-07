@@ -1,18 +1,9 @@
-import {memo, useEffect} from 'react';
-import {FaRegCalendarCheck, FaRegCalendarMinus, FaRegCalendarTimes} from 'react-icons/fa';
-import {
-    TbCalendarCancel,
-    TbCalendarCheck,
-    TbCalendarExclamation,
-    TbCalendarOff,
-    TbCalendarPause,
-    TbCalendarX,
-} from 'react-icons/tb';
+import {memo} from 'react';
+import {TbCalendarCheck, TbCalendarExclamation, TbCalendarOff, TbCalendarPause, TbCalendarX} from 'react-icons/tb';
 import {SummaryCard} from '^v3/V3OrgAppsPage/SummarySection/SummaryCard';
 import {SubscriptionManager} from '^models/Subscription/manager';
-import {useSubscriptionsV2} from '^models/Subscription/hook';
 import {useRecoilValue} from 'recoil';
-import {subscriptionsForCurrentOrgState} from '^v3/V3OrgAppsPage/atom';
+import {subscriptionsState} from '^models/Subscription/atom';
 
 /**
  * 활성
@@ -22,7 +13,7 @@ import {subscriptionsForCurrentOrgState} from '^v3/V3OrgAppsPage/atom';
  * 만료됨
  */
 export const SummarySection = memo(function SummarySection() {
-    const subscriptions = useRecoilValue(subscriptionsForCurrentOrgState);
+    const subscriptions = useRecoilValue(subscriptionsState);
     const Subscription = SubscriptionManager.init(subscriptions || []);
 
     const activeCount = Subscription.success().length; // 활성

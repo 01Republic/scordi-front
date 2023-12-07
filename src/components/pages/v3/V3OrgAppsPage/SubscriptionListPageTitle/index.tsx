@@ -1,14 +1,14 @@
 import React, {memo} from 'react';
 import {FaPlus} from 'react-icons/fa6';
 import {useRecoilValue} from 'recoil';
-import {subscriptionsForCurrentOrgState} from '^v3/V3OrgAppsPage/atom';
+import {subscriptionsState} from '^models/Subscription/atom';
 import {useModal} from '^v3/share/modals/useModal';
 import {NewAppModal} from '^components/pages/v3/share/modals/NewAppModal';
 import {newAppModal} from '^components/pages/v3/share/modals/NewAppModal/atom';
 import {newInvoiceAccountModal} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/atom';
 
 export const SubscriptionListPageTitle = memo(function SubscriptionListPageTitle() {
-    const subscriptions = useRecoilValue(subscriptionsForCurrentOrgState);
+    const subscriptions = useRecoilValue(subscriptionsState);
     const {isShow, open} = useModal(newAppModal);
     const invoiceAccountModal = useModal(newInvoiceAccountModal);
 

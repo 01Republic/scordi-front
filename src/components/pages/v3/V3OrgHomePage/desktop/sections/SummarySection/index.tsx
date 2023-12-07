@@ -7,17 +7,23 @@ import {useFocusedMonth} from '^v3/V3OrgHomePage/feature/useFocusedMonth';
 import {MonthlyTotal} from '^v3/V3OrgHomePage/desktop/sections/SummarySection/MonthlyTotal';
 import {useSubscriptionsV2} from '^models/Subscription/hook';
 import {SubscriptionManager} from '^models/Subscription/manager';
-import {useSetRecoilState} from 'recoil';
-import {subscriptionsForCurrentOrgState} from '^v3/V3OrgAppsPage/atom';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {subscriptionsState} from '^models/Subscription/atom';
+import {orgIdParamState} from '^atoms/common';
 
 export const SummarySection = memo(function SummarySection() {
     const {focusedMonth} = useFocusedMonth();
     const {result, search: getSubscriptions} = useSubscriptionsV2();
     const Subscription = SubscriptionManager.init(result.items || []);
-    const setSubscriptions = useSetRecoilState(subscriptionsForCurrentOrgState);
+    const setSubscriptions = useSetRecoilState(subscriptionsState);
+    const orgId = useRecoilValue(orgIdParamState);
 
     useEffect(() => {
-        getSubscriptions({where: {isActive: true}}).then((res) => res && setSubscriptions(res.items));
+        getSubscriptions({
+            where: {organizationId: orgId},
+            relations: ['master'],
+            itemsPerPage: 0,
+        }).then((res) => res && setSubscriptions(res.items));
     }, []);
 
     return (

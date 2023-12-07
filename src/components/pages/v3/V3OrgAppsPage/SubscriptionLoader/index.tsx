@@ -1,8 +1,8 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useEffect} from 'react';
 import {subscriptionApi} from '^models/Subscription/api';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {subscriptionsForCurrentOrgState} from '^v3/V3OrgAppsPage/atom';
+import {subscriptionsState} from '^models/Subscription/atom';
 
 /**
  * 좌
@@ -19,7 +19,7 @@ import {subscriptionsForCurrentOrgState} from '^v3/V3OrgAppsPage/atom';
  */
 export const SubscriptionLoader = memo(function SubscriptionLoader() {
     const orgId = useRecoilValue(orgIdParamState);
-    const setSubscriptions = useSetRecoilState(subscriptionsForCurrentOrgState);
+    const setSubscriptions = useSetRecoilState(subscriptionsState);
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;

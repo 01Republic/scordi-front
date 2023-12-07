@@ -1,13 +1,31 @@
-import React, {memo} from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
-import {subscriptionsForCurrentOrgState} from '^v3/V3OrgAppsPage/atom';
+import React, {memo, useEffect} from 'react';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {SubscriptionListViewMode, subscriptionListViewModeState} from './atom';
 import {SubscriptionTable} from './SubscriptionTable';
 import {SubscriptionCardList} from './SubscriptionCardList';
+import {useSubscriptionsV2} from '^models/Subscription/hook';
+import {orgIdParamState} from '^atoms/common';
+import {tagOptionsState} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/PayingType/PayingTypeSelect';
+import {usePayingTypeTags} from '^models/Tag/hook';
 
 export const SubscriptionListSection = memo(function SubscriptionListSection() {
-    const subscriptions = useRecoilValue(subscriptionsForCurrentOrgState);
     const [viewMode, setViewMode] = useRecoilState(subscriptionListViewModeState);
+    const {search: getTags} = usePayingTypeTags();
+    const {search: getSubscriptions, result} = useSubscriptionsV2();
+    const setTagOptions = useSetRecoilState(tagOptionsState);
+    const orgId = useRecoilValue(orgIdParamState);
+
+    useEffect(() => {
+        if (!orgId || isNaN(orgId)) return;
+
+        getSubscriptions({
+            where: {organizationId: orgId},
+            relations: ['master'],
+            itemsPerPage: 0,
+        });
+
+        getTags({}).then((res) => setTagOptions(res.items));
+    }, [orgId]);
 
     return (
         <>
@@ -59,8 +77,8 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
             </section>
 
             <section>
-                {viewMode === SubscriptionListViewMode.Cards && <SubscriptionCardList items={subscriptions} />}
-                {viewMode === SubscriptionListViewMode.Table && <SubscriptionTable items={subscriptions} />}
+                {viewMode === SubscriptionListViewMode.Cards && <SubscriptionCardList items={result.items} />}
+                {viewMode === SubscriptionListViewMode.Table && <SubscriptionTable items={result.items} />}
             </section>
         </>
     );

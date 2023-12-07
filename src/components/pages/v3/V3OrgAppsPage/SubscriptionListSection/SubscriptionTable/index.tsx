@@ -1,6 +1,6 @@
 import {memo, useEffect} from 'react';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {subscriptionsForCurrentOrgState} from '../../atom';
+import {subscriptionsState} from '^models/Subscription/atom';
 import {SubscriptionTr} from './SubscriptionTr';
 import {usePayingTypeTags} from '^models/Tag/hook';
 import {SubscriptionDto} from '^models/Subscription/types';
@@ -11,13 +11,7 @@ interface SubscriptionTableProps {
 import {tagOptionsState} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/PayingType/PayingTypeSelect';
 
 export const SubscriptionTable = memo(function SubscriptionTable(props: SubscriptionTableProps) {
-    const {search: getTags} = usePayingTypeTags();
-    const subscriptions = useRecoilValue(subscriptionsForCurrentOrgState);
-    const setTagOptions = useSetRecoilState(tagOptionsState);
-
-    useEffect(() => {
-        getTags({}).then((res) => setTagOptions(res.items));
-    }, []);
+    const {items: subscriptions} = props;
 
     return (
         <div className="card bg-white shadow">
