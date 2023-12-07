@@ -1,25 +1,32 @@
 import React, {memo} from 'react';
-import {TeamMemberDto} from '^models/TeamMember/type';
-import {TeamMemberItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/mobile/TeamMemberItem';
-import {useToast} from '^hooks/useToast';
-import {c_ApprovalStatus, t_ApprovalStatus} from '^models/Membership/types';
+import {MembershipDto} from '^models/Membership/types';
+import {UserAvatar} from '^v3/share/UserAvatar';
 
 interface MembershipTableRowProps {
-    teamMember: TeamMemberDto;
+    member: MembershipDto;
 }
 
 export const MembershipTableRow = memo((props: MembershipTableRowProps) => {
-    const {toast} = useToast();
-    const {teamMember} = props;
-    if (!teamMember) return <></>;
+    const {member} = props;
+    const {user} = member;
 
-    const currentMember = teamMember.membership;
+    if (!member) return <></>;
 
     return (
         <tr>
             {/* 이름 */}
             <td>
-                <TeamMemberItem item={teamMember} />
+                <div className="flex gap-2.5 items-center">
+                    <UserAvatar user={user} />
+                    <div>
+                        <p className="text-sm font-semibold flex gap-2 items-center">
+                            <span>{user ? user.name : member.invitedEmail}</span>
+                        </p>
+                        <p className="block text-xs font-normal text-gray-400">
+                            {user ? user.email : member.invitedEmail}
+                        </p>
+                    </div>
+                </div>
             </td>
 
             {/* 팀 */}
@@ -27,28 +34,11 @@ export const MembershipTableRow = memo((props: MembershipTableRowProps) => {
 
             {/* 권한 */}
             <td>
-                <p className="capitalize text-sm text-gray-500">
-                    {currentMember ? currentMember.level.toLowerCase() : 'Member'}
-                </p>
+                <p className="capitalize text-sm text-gray-500">{member.level.toLowerCase()}</p>
             </td>
-
             {/* 상태 */}
             <td>
-                <p className="capitalize text-sm text-gray-500">
-                    {currentMember ? (
-                        <button
-                            className={`${c_ApprovalStatus(
-                                currentMember.approvalStatus,
-                            )} btn btn-xs px-2 cursor-default`}
-                        >
-                            {t_ApprovalStatus(currentMember.approvalStatus)}
-                        </button>
-                    ) : (
-                        <button onClick={() => toast.info('준비중입니다.')} className="btn btn-xs px-2">
-                            초대하기
-                        </button>
-                    )}
-                </p>
+                <p className="capitalize text-sm text-gray-500">{member.approvalStatus.toLowerCase()}</p>
             </td>
         </tr>
     );

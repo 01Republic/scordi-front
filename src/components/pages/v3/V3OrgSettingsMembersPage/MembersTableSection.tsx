@@ -3,36 +3,30 @@ import {debounce} from 'lodash';
 import {TablePaginator} from '^v3/share/table/TablePaginator';
 import {TableSearchControl} from '^v3/share/table/TableSearchControl';
 import {MembershipTable} from '^v3/V3OrgSettingsMembersPage/MembershipTable';
-import {useTeamMembers} from '^models/TeamMember/hook';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
+import {useMemberships} from '^models/Membership/hook';
 
 export const MembersTableSection = memo(() => {
-    const {result, search: getTeamMembers, query} = useTeamMembers();
+    const {searchMemberships, membershipSearchResult, query} = useMemberships();
     const orgId = useRecoilValue(orgIdParamState);
-    const pagination = result.pagination;
+    const pagination = membershipSearchResult.pagination;
 
     useEffect(() => {
-        // first loaded.
-        getTeamMembers({
-            relations: ['membership', 'membership.user', 'organization', 'teams', 'subscriptions'],
-            order: {id: 'DESC'},
+        if (!orgId || isNaN(orgId)) return;
+
+        searchMemberships({
             itemsPerPage: 10,
+            where: {organizationId: orgId},
         });
     }, [orgId]);
 
-    const movePage = (page: number) => getTeamMembers({...query, page});
+    const movePage = (page: number) => searchMemberships({...query, page});
 
-    const onSearch = debounce((data) => {
-        if (!query) return;
-
-        const searchQuery = {
-            ...(data.length > 0 ? {where: {name: data}} : null),
-            page: 1,
-        };
-
-        getTeamMembers(searchQuery);
-    }, 500);
+    const onSearch = debounce((keyword: string) => {
+        if (query.keyword === keyword) return;
+        searchMemberships({...query, keyword, page: 1});
+    });
 
     return (
         <div className="flex flex-col gap-4">
