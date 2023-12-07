@@ -21,7 +21,7 @@ export const ConnectInvoiceAccountBeforeLoad = memo(function ConnectInvoiceAccou
     };
     return (
         <GoogleOAuthProvider clientId={googleOAuth.gmailClient.id}>
-            <div data-step="ConnectInvoiceAccount" className="h-full flex flex-col justify-center gap-7">
+            <div data-step="ConnectInvoiceAccount" className="h-full flex flex-col justify-start gap-7">
                 <Container size="md">
                     <div className="text-center">
                         <h3 className="font-bold text-3xl mb-3">결제 정보도 연결해볼까요?</h3>

@@ -18,7 +18,7 @@ export const StepContent = memo(function StepContent() {
     const {Workspace, InvoiceAccount, Finish} = ONBOARDING_STEP;
 
     return (
-        <section data-component="StepContent" className="">
+        <section data-component="StepContent" className="grow">
             <LazyStep name={Workspace.beforeLoad} render={ConnectGoogleAdminBeforeLoadStepContent} />
             <LazyStep
                 name={Workspace.isLoading}

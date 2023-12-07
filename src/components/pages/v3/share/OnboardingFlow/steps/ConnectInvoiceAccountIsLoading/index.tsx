@@ -39,7 +39,7 @@ export const ConnectInvoiceAccountIsLoading = memo(function ConnectInvoiceAccoun
     }, [code, isLoading]);
 
     return (
-        <div data-step="ConnectInvoiceAccount" className="h-full flex flex-col justify-center gap-7">
+        <div data-step="ConnectInvoiceAccount" className="h-full flex flex-col justify-start gap-7">
             <Container size="md">
                 <div className="text-center">
                     <h3 className="font-bold text-3xl mb-3">{title}</h3>

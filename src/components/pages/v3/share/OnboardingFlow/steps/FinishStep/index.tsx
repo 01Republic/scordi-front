@@ -11,7 +11,7 @@ interface Props extends StepContentProps {
 export const FinishStep = memo(function FinishStep(props: Props) {
     const {onNext} = props;
     return (
-        <div data-step="Finish" className="h-full flex flex-col gap-7">
+        <div data-step="Finish" className="h-full flex flex-col justify-start gap-7">
             <Container size="sm" className="flex justify-center mb-4">
                 <CheckCircle className="w-[60px]" color="#5E5FEE" />
             </Container>
