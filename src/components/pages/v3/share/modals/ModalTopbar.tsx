@@ -18,7 +18,8 @@ export const ModalTopbar = memo((props: ModalTopbarProps & WithChildren) => {
     return (
         <>
             <div
-                className={`flex container items-center justify-between ${
+                data-component="ModalTopbar"
+                className={`flex container items-center justify-between no-selectable ${
                     topbarPosition === 'fixed' ? 'fixed' : 'sticky'
                 } top-0 h-[50px] min-h-[50px] bg-white z-10`}
             >
