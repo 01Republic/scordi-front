@@ -7,11 +7,11 @@ import {TeamItem} from './TeamItem';
 
 // import {isOpenNewTeamModalAtom} from '^v3/V3OrgTeam/V3OrgTeamsPage/NewTeamModal/atom';
 
-interface TeamListPanel {
+interface TeamListTabProps {
     maxLength?: number | null;
 }
 
-export const TeamListPanel = memo((props: TeamListPanel) => {
+export const TeamListTab = memo((props: TeamListTabProps) => {
     // const {isShow, setIsShow} = useModal({isShowAtom: isOpenNewTeamModalAtom});
     const {result} = useTeams();
     const teamMembers = result.items;
@@ -26,7 +26,7 @@ export const TeamListPanel = memo((props: TeamListPanel) => {
     };
 
     return (
-        <MobileSection.Item>
+        <MobileSection.Item className="border-b-0 grow">
             <MobileSection.Padding>
                 <MobileSection.Heading title="팀">
                     <div className="text-sm text-gray-500">

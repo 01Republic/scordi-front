@@ -1,6 +1,5 @@
 import React, {memo} from 'react';
-import {useForm} from 'react-hook-form';
-import {UpdateTeamMemberDto, useTeamMembers} from '^models/TeamMember';
+import {useTeamMembers} from '^models/TeamMember';
 import {useModal, ModalTopbar} from '^v3/share/modals';
 import {teamMemberShowModal} from './atom';
 import {EditButton} from './EditButton';
@@ -9,7 +8,6 @@ import {TeamMemberShowBody} from './TeamMemberShowBody';
 
 export const TeamMemberShowModal = memo(() => {
     const {Modal, close} = useModal(teamMemberShowModal);
-    const form = useForm<UpdateTeamMemberDto>();
     const memberList = useTeamMembers();
 
     const DeleteButtonWrap = () => (
@@ -24,7 +22,7 @@ export const TeamMemberShowModal = memo(() => {
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
             <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" rightButtons={[EditButton, DeleteButtonWrap]} />
-            <TeamMemberShowBody form={form} />
+            <TeamMemberShowBody />
         </Modal>
     );
 });

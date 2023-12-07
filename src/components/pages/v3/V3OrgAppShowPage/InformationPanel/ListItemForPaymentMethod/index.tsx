@@ -26,20 +26,12 @@ export const ListItemForPaymentMethod = memo((props: ListItemForPaymentMethodPro
     };
 
     return (
-        <MobileInfoListItem label="결제수단">
-            <div
-                className="flex items-center justify-between gap-2 font-light cursor-pointer hover:font-semibold"
-                onClick={onClick}
-            >
-                {value ? (
-                    <span className="col-span-2">{value}</span>
-                ) : (
-                    <span className="text-sm text-gray-500">결제 수단을 등록해보세요</span>
-                )}
-                <span>
-                    <FiChevronRight />
-                </span>
-            </div>
+        <MobileInfoListItem label="결제수단" onClick={onClick}>
+            {value ? (
+                <span className="col-span-2">{value}</span>
+            ) : (
+                <span className="text-sm text-gray-500">결제 수단을 등록해보세요</span>
+            )}
         </MobileInfoListItem>
     );
 });
