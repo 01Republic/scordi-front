@@ -9,7 +9,7 @@ export const TopLeftLabel = memo((props: TopLeftLabelProps) => {
     const {text, children} = props;
 
     return (
-        <label className="label">
+        <label className="label px-0">
             <span className="label-text font-[500]">{children || text}</span>
         </label>
     );
