@@ -44,7 +44,7 @@ export const TeamMemberEditPanel = memo(function TeamMemberEditPanel() {
 
     return (
         <form>
-            <MobileSection.Item>
+            <MobileSection.Item className="border-b-0">
                 <MobileSection.Padding>
                     <div className="w-full flex flex-col gap-4 mb-16">
                         <FormControl topLeftLabel="이름 *">

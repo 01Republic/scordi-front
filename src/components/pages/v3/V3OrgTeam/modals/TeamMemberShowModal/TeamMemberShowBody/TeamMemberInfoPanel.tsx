@@ -11,6 +11,7 @@ import {MobileInfoList} from '^v3/share/MobileInfoList';
 import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
 import {ApprovalStatus} from '^models/Membership/types';
 import {currentTeamMemberState} from '^models/TeamMember';
+import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 
 /**
  * 첫 수정 시 완료 버튼을 두 번 클릭해야 submit 되는 현상이 있습니다.
@@ -34,15 +35,7 @@ export const TeamMemberInfoPanel = memo(() => {
                         <p className="text-sm">{email}</p>
                     </div>
                     <div>
-                        <Avatar
-                            className="w-16 border-rounded"
-                            src={profileImgUrl}
-                            alt={name}
-                            draggable={false}
-                            loading="lazy"
-                        >
-                            <FaQuestion size={24} className="text-gray-300 h-full w-full p-[6px]" />
-                        </Avatar>
+                        <TeamMemberAvatar teamMember={teamMember} className="w-16 h-16 text-[32px]" />
                     </div>
                 </div>
 

@@ -1,40 +1,26 @@
 import React, {memo} from 'react';
 import {TeamMemberDto} from '^models/TeamMember/type';
-import {Avatar} from '^components/Avatar';
-import {useModal} from '^v3/share/modals/useModal';
-import {useTeamMemberShowModalSubject} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/hooks';
-import {teamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/atom';
+import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 
 interface TeamMemberItemProps {
     item: TeamMemberDto;
 }
 
 export const TeamMemberItem = memo((props: TeamMemberItemProps) => {
-    const {open} = useModal(teamMemberShowModal);
-    const {setCurrentTeamMember} = useTeamMemberShowModalSubject();
-
     const {item: teamMember} = props;
     if (!teamMember) return <></>;
 
-    const {profileImgUrl} = teamMember.makeTeamMemberProfile();
-
-    const onClick = () => {
-        open();
-        setCurrentTeamMember(teamMember);
-    };
-
     return (
-        <div
-            className={`flex items-center gap-4 px-3 -mx-3 bg-base-100 text-gray-700  hover:bg-neutral cursor-pointer`}
-            onClick={onClick}
-        >
-            <Avatar src={profileImgUrl} className="w-8 h-8 outline outline-offset-1 outline-slate-100" />
+        <div className={`flex items-center gap-4 px-3 -mx-3 text-gray-700 group-hover:text-scordi`}>
+            <TeamMemberAvatar teamMember={teamMember} className="w-10 h-10" />
 
             <div>
-                <p className={`font-semibold flex gap-2 items-center`}>
+                <p className={`font-bold flex gap-2 items-center`}>
                     <span>{teamMember.name}</span>
                 </p>
-                <p className="block text-sm font-normal text-gray-400">{teamMember.email}</p>
+                <p className="block text-sm font-normal text-gray-400 group-hover:text-scordi-300">
+                    {teamMember.email}
+                </p>
             </div>
         </div>
     );

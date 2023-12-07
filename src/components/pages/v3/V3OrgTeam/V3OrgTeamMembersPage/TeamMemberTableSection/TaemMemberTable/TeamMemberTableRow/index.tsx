@@ -1,54 +1,60 @@
 import React, {memo} from 'react';
-import {useToast} from '^hooks/useToast';
-import {c_ApprovalStatus, t_ApprovalStatus} from '^models/Membership/types';
+import {useRecoilValue} from 'recoil';
+import {currentUserAtom} from '^models/User/atom';
 import {TeamMemberDto} from '^models/TeamMember';
-import {TeamMemberItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberItem';
+import {useTeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
+import {TeamMemberItem} from './TeamMemberItem';
+import {TeamMemberStatus} from './TeamMemberStatus';
+import {TeamMemberRole} from './TeamMemberRole';
 
 interface TeamMemberTableRowPropsTableRowProps {
     teamMember: TeamMemberDto;
 }
 export const TeamMemberTableRow = memo((props: TeamMemberTableRowPropsTableRowProps) => {
-    const {toast} = useToast();
+    const currentUser = useRecoilValue(currentUserAtom);
+    const memberShowModal = useTeamMemberShowModal();
     const {teamMember} = props;
 
-    if (!teamMember) return <></>;
+    if (!teamMember || !currentUser) return <></>;
 
-    const currentMember = teamMember.membership;
+    const {membership, subscriptions} = teamMember;
+    const isMe = teamMember.email === currentUser.email;
+
+    const openShowModal = () => memberShowModal.show(teamMember);
+
+    const hoverBgColor = '';
 
     return (
-        <tr>
+        <tr onClick={openShowModal} className="cursor-pointer group">
             {/* 이름 */}
-            <td>
+            <td className={`${hoverBgColor}`}>
                 <TeamMemberItem item={teamMember} />
             </td>
 
-            {/* 팀 */}
-            <td></td>
-
-            {/* 권한 */}
-            <td>
-                <p className="capitalize text-sm text-gray-500">
-                    {currentMember ? currentMember.level.toLowerCase() : 'Member'}
+            {/* 이용 앱 수 */}
+            <td className={`${hoverBgColor} text-right`}>
+                <p className="text-sm group-hover:text-scordi transition-all">
+                    {subscriptions?.length} <small>Apps</small>
                 </p>
             </td>
 
+            {/* 팀 */}
+            <td className={`${hoverBgColor} w-[25%]`}>&nbsp;</td>
+
+            {/* 권한 */}
+            <td className={`${hoverBgColor} text-right`}>
+                <TeamMemberRole teamMember={teamMember} />
+            </td>
+
             {/* 상태 */}
-            <td>
-                <p className="capitalize text-sm text-gray-500">
-                    {currentMember ? (
-                        <button
-                            className={`${c_ApprovalStatus(
-                                currentMember.approvalStatus,
-                            )} btn btn-xs px-2 cursor-default`}
-                        >
-                            {t_ApprovalStatus(currentMember.approvalStatus)}
-                        </button>
-                    ) : (
-                        <button onClick={() => toast.info('준비중입니다.')} className="btn btn-xs px-2">
-                            초대하기
-                        </button>
-                    )}
-                </p>
+            <td className={`${hoverBgColor} text-right`}>
+                <div
+                    onClick={(e) => {
+                        e.stopPropagation();
+                    }}
+                >
+                    <TeamMemberStatus teamMember={teamMember} />
+                </div>
             </td>
         </tr>
     );

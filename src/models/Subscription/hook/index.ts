@@ -1,5 +1,5 @@
 import {FindAllSubscriptionsQuery, SubscriptionDto} from 'src/models/Subscription/types';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {RecoilState, useRecoilState, useRecoilValue} from 'recoil';
 import {
     getSubscriptionQuery,
     getSubscriptionsQuery,
@@ -10,6 +10,7 @@ import {
 import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {subscriptionApi} from '^models/Subscription/api';
+import {Paginated} from '^types/utils/paginated.dto';
 
 export const useCurrentSubscription = () => {
     const [currentSubscription, reload] = useRecoilState(getCurrentSubscriptionQuery);
@@ -30,6 +31,40 @@ export const useSubscriptionsV2 = () => {
 
         const data = await subscriptionApi.index(params).then((res) => res.data);
         setResult(data);
+        setQuery(params);
+
+        return data;
+    }
+
+    const movePage = (page: number) => search({...query, page});
+
+    return {query, result, search, movePage};
+};
+
+export const useSubscriptionsV3 = (
+    resultAtom: RecoilState<Paginated<SubscriptionDto>>,
+    queryAtom: RecoilState<FindAllSubscriptionsQuery>,
+    mergeMode = false,
+) => {
+    const orgId = useRecoilValue(orgIdParamState);
+    const [result, setResult] = useRecoilState(resultAtom);
+    const [query, setQuery] = useRecoilState(queryAtom);
+
+    async function search(params: FindAllSubscriptionsQuery) {
+        if (!orgId) return;
+
+        params.where = {organizationId: orgId, ...params.where};
+
+        const data = await subscriptionApi.index(params).then((res) => res.data);
+        if (mergeMode) {
+            setResult(({items}) => {
+                const newItems = [...items, ...data.items];
+                return {items: newItems, pagination: data.pagination};
+            });
+        } else {
+            setResult(data);
+        }
+
         setQuery(params);
 
         return data;

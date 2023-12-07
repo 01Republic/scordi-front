@@ -21,7 +21,7 @@ export const TabView = memo(function TabView() {
     const TabPane = tabs[tabIndex].Component || Fragment;
 
     return (
-        <div className="flex flex-col gap-4 bg-neutral-200" style={{minHeight: 'calc(100% - 50px - 344px)'}}>
+        <div className="flex flex-col gap-4 bg-gray-100" style={{minHeight: 'calc(100% - 50px - 344px)'}}>
             <MobileSection.Item className={`grid grid-cols-${tabs.length} sticky top-[50px] z-20`}>
                 {tabs.map((tab, i) => (
                     <TabButton key={i} label={tab.label} onClick={() => setTabIndex(i)} isActive={tabIndex === i} />

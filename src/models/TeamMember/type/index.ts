@@ -42,10 +42,10 @@ export class TeamMemberDto {
             phone: this.phone ?? this.user?.phone ?? '',
             jobName: this.jobName,
             jobDescription: this.jobDescription,
-            profileImgUrl:
-                this.profileImgUrl ??
-                this.user?.profileImgUrl ??
-                `https://placehold.co/200x200?text=${encodeURIComponent(this.name)}`,
+            profileImgUrl: this.profileImgUrl ?? this.user?.profileImgUrl,
+            profileImgPlaceholder: `https://placehold.co/200x200@3x.png?font=open-sans&text=${
+                this.email ? this.email[0].toUpperCase() : '?'
+            }`,
         };
     }
 }

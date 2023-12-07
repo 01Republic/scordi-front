@@ -1,12 +1,12 @@
-import {memo, useEffect, useState} from 'react';
-import {Avatar} from '^components/Avatar';
+import React, {memo, useEffect, useState} from 'react';
 import {FcOrgUnit} from 'react-icons/fc';
 import {TeamMemberDto} from '^models/TeamMember/type';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {SubscriptionManager} from '^models/Subscription/manager';
 import {SubscriptionAvatars} from '^v3/V3OrgHomePage/desktop/sections/MemberListSection/SubscriptionAvatars';
 import {ApprovalStatus} from 'src/models/Membership/types';
-import {useTeamMemberShowModalSubject} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/hooks';
+import {useTeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/hooks';
+import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 
 interface MemberItemProps {
     member: TeamMemberDto;
@@ -16,7 +16,7 @@ function collectSubscriptions() {}
 
 // TODO: 231117 멤버상세카드에 데이터 연결해야 함.
 export const MemberItem = memo((props: MemberItemProps) => {
-    const {setCurrentTeamMember} = useTeamMemberShowModalSubject();
+    const teamMemberShowModal = useTeamMemberShowModal();
     const [subscriptions, setSubscriptions] = useState<SubscriptionDto[]>([]);
     const {member} = props;
     const approvalStatus = member.membership?.approvalStatus;
@@ -27,7 +27,7 @@ export const MemberItem = memo((props: MemberItemProps) => {
         setSubscriptions(SubscriptionManager.init(validSubs).uniqueByProduct().all());
     }, [member]);
 
-    const onClick = () => setCurrentTeamMember(member);
+    const onClick = () => teamMemberShowModal.show(member);
 
     return (
         <div
@@ -39,11 +39,7 @@ export const MemberItem = memo((props: MemberItemProps) => {
             <div>
                 <div className="mb-4 w-full flex justify-between">
                     <div>
-                        <Avatar
-                            src={member.profileImgUrl || undefined}
-                            alt={member.name}
-                            className="w-[40px] shadow-xl"
-                        />
+                        <TeamMemberAvatar teamMember={member} className="w-[40px] h-[40px] shadow-xl" />
                     </div>
                     <div>
                         <SubscriptionAvatars subscriptions={subscriptions} max={6} />

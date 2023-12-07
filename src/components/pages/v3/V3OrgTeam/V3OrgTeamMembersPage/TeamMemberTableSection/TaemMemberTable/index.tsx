@@ -8,16 +8,22 @@ export const TeamMemberTable = memo(() => {
     const teamMemberManager = TeamMemberManager.init(teamMembers);
     const sortedTeamMembers = teamMemberManager.sortByCreatedAtDescending(teamMembers);
 
+    console.log('result', result);
     return (
         <div className="card bg-white shadow">
             <div className="overflow-x-auto w-full">
                 <table className="table w-full">
                     <thead>
                         <tr>
-                            <th className="bg-base-100">이름</th>
-                            <th className="bg-base-100">팀</th>
-                            <th className="bg-base-100">권한</th>
-                            <th className="bg-base-100">상태</th>
+                            <th className="bg-base-100">멤버</th>
+                            {/* 이용 앱 수 */}
+                            <th className="bg-base-100"></th>
+                            {/* 팀 */}
+                            <th className="bg-base-100"></th>
+                            {/* 권한 */}
+                            <th className="bg-base-100"></th>
+                            {/* 상태 */}
+                            <th className="bg-base-100"></th>
                         </tr>
                     </thead>
 

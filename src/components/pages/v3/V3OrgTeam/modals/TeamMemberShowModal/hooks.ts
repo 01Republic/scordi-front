@@ -1,18 +1,31 @@
 import {useModal} from '^v3/share/modals/useModal';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {TeamMemberDto} from '^models/TeamMember/type';
 import {currentTeamMemberState} from '^models/TeamMember/atom';
-import {teamMemberShowModal} from './atom';
+import {isTeamMemberEditModeAtom, teamMemberShowModal} from './atom';
+import {navTabIndex} from './TeamMemberShowBody/tabs/TabView';
 
-export const useTeamMemberShowModalSubject = () => {
-    const modal = useModal(teamMemberShowModal);
-    const [currentTeamMember, setCurrentTeamMember] = useRecoilState(currentTeamMemberState);
+/**
+ * 팀 멤버 상세 모달이 모달로서 동작하기위한 메소드를 모두 구현하고 책임집니다.
+ * 동시에 각 동작별로 일관되게 챙겨야 하는 상태들의 처리 등 비즈니스로직을 이 곳에서 모아 정의하고 관리합니다.
+ */
+export const useTeamMemberShowModal = () => {
+    const {open, close, ...modal} = useModal(teamMemberShowModal);
+    const setEditMode = useSetRecoilState(isTeamMemberEditModeAtom);
+    const setTabIndex = useSetRecoilState(navTabIndex);
+    const [subjectTeamMember, setSubjectTeamMember] = useRecoilState(currentTeamMemberState);
 
-    return {
-        currentTeamMember,
-        setCurrentTeamMember: (member: TeamMemberDto | null) => {
-            setCurrentTeamMember(member);
-            member ? modal.open() : modal.close();
-        },
+    const show = (teamMember: TeamMemberDto) => {
+        open();
+        setSubjectTeamMember(teamMember);
     };
+
+    const hide = () => {
+        close();
+        setEditMode(false); // reset edit mode
+        setTabIndex(0); // reset tab active index
+        // setSubjectTeamMember(null); // reset subject
+    };
+
+    return {show, hide, ...modal, subject: subjectTeamMember};
 };

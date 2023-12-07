@@ -17,7 +17,7 @@ export const TeamMemberShowBody = memo(() => {
             ) : (
                 <>
                     {isEditMode ? <TeamMemberEditPanel /> : <TeamMemberInfoPanel />}
-                    <TabView />
+                    {!isEditMode && <TabView />}
                 </>
             )}
         </>
