@@ -7,9 +7,13 @@ import {debounce} from 'lodash';
 import {TablePaginator} from '^v3/share/table/TablePaginator';
 import {AiOutlinePlus} from '@react-icons/all-files/ai/AiOutlinePlus';
 import {TableSearchControl} from '../../share/table/TableSearchControl';
+import {SettingBodyPanel} from '^v3/share/SettingBodyPanel';
+import {useModal} from '^v3/share/modals';
+import {newInvoiceAccountModal} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/atom';
 
 export const InvoiceAccountSection = memo(() => {
     const {result, search: getInvoiceAccounts, movePage, query} = useInvoiceAccounts();
+    const {open} = useModal(newInvoiceAccountModal);
     const orgId = useRecoilValue(orgIdParamState);
     const pagination = result.pagination;
 
@@ -31,17 +35,17 @@ export const InvoiceAccountSection = memo(() => {
     });
 
     return (
-        <>
-            <div className="flex justify-between mb-3">
-                <h2 className="card-title !font-bold pt-2 mb-6">결제 수신 계정</h2>
-
-                <button className="btn btn-scordi">
+        <SettingBodyPanel
+            title="인보이스 수신 계정"
+            buttons={
+                <button onClick={open} className="btn btn-scordi">
                     <span>추가하기</span>
                     <span className="ml-2">
                         <AiOutlinePlus />
                     </span>
                 </button>
-            </div>
+            }
+        >
             <TableSearchControl totalItemCount={pagination.totalItemCount} onSearch={onSearch} />
 
             <InvoiceAccountTable />
@@ -49,6 +53,6 @@ export const InvoiceAccountSection = memo(() => {
             <div className="flex justify-center">
                 <TablePaginator pagination={pagination} onPrev={movePage} onNext={movePage} movePage={movePage} />
             </div>
-        </>
+        </SettingBodyPanel>
     );
 });

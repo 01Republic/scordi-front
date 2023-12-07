@@ -4,13 +4,14 @@ import {WithChildren} from '^types/global.type';
 interface SettingsBodyPanelProps extends WithChildren {
     title?: string;
     buttons?: ReactNode | ReactNode[];
+    className?: string;
 }
 
 export const SettingBodyPanel = memo((props: SettingsBodyPanelProps) => {
-    const {title, buttons, children} = props;
+    const {title, buttons, children, className} = props;
 
     return (
-        <div className="card w-full bg-base-100 shadow-lg">
+        <div className={`${className} card w-full bg-base-100 shadow-lg`}>
             <div className="card-body">
                 <div className="flex items-start">
                     {title && (

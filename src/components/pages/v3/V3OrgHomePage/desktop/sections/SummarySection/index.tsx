@@ -19,12 +19,14 @@ export const SummarySection = memo(function SummarySection() {
     const orgId = useRecoilValue(orgIdParamState);
 
     useEffect(() => {
+        if (!orgId || isNaN(orgId)) return;
+
         getSubscriptions({
             where: {organizationId: orgId},
             relations: ['master'],
             itemsPerPage: 0,
         }).then((res) => res && setSubscriptions(res.items));
-    }, []);
+    }, [orgId]);
 
     return (
         <Section>

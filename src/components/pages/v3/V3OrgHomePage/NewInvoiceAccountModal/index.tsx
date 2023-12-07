@@ -13,15 +13,13 @@ export const NewInvoiceAccountModal = memo(() => {
 
     return (
         <>
-            {newAppModalIsShow && (
-                <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
-                    <ModalTopbar backBtnOnClick={onBack} topbarPosition="sticky" />
+            <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
+                <ModalTopbar backBtnOnClick={onBack} topbarPosition="sticky" />
 
-                    <div className="px-5 pt-20">
-                        <NewInvoiceAccountModalBody />
-                    </div>
-                </Modal>
-            )}
+                <div className="px-5 pt-20">
+                    <NewInvoiceAccountModalBody />
+                </div>
+            </Modal>
         </>
     );
 });
