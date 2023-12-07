@@ -21,7 +21,7 @@ export const MembershipTable = memo(() => {
     const sortedMembers = sortByCreatedAtDescending(members);
 
     return (
-        <div className="card bg-white shadow">
+        <div className="card bg-white">
             <div className="overflow-x-auto w-full">
                 <table className="table w-full">
                     <thead>

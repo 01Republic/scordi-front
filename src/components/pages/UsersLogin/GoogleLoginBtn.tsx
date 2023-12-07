@@ -29,10 +29,12 @@ interface GoogleLoginBtnProps {
     onCode?: (code: string) => void;
     googleLoginOnSuccessFn?: (accessToken: string) => Promise<void> | void;
     about?: keyof typeof SCOPE_MAP;
+    className?: string;
+    logoSize?: string;
 }
 
 export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
-    const {onCode, googleLoginOnSuccessFn, about} = props;
+    const {onCode, googleLoginOnSuccessFn, about, className, logoSize} = props;
     const googleLoginOnSuccess = googleLoginOnSuccessFn ? googleLoginOnSuccessFn : useGoogleLoginSuccessHandler2();
     const setAccessToken = useSetRecoilState(googleAccessTokenAtom);
     const scope = about ? SCOPE_MAP[about] : SCOPE_ALL;
@@ -61,9 +63,13 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
     return (
         <button
             onClick={() => loginButtonOnClick()}
-            className="btn btn-lg btn-outline shadow font-medium normal-case mb-3 space-x-4 bg-white border-slate-200 text-slate-700 hover:bg-white hover:border-primary hover:text-slate-700 focus:bg-blue-50 active:bg-primary-100"
+            className={`${className} btn btn-lg btn-outline shadow font-medium normal-case space-x-4 bg-white border-slate-200 text-slate-700 hover:bg-white hover:border-primary hover:text-slate-700 focus:bg-blue-50 active:bg-primary-100`}
         >
-            <img src="https://www.svgrepo.com/show/355037/google.svg" className="w-6 h-6" alt="" />
+            <img
+                src="https://www.svgrepo.com/show/355037/google.svg"
+                className={`${logoSize ? logoSize : 'w-6 h-6'}`}
+                alt=""
+            />
             <span>Continue with Google</span>
         </button>
     );
