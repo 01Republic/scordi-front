@@ -5,11 +5,7 @@ import {
     subscriptionQueryForTeamMemberShowModalState as queryAtom,
 } from './atom';
 
-interface LoadMoreButtonProps {
-    //
-}
-
-export const LoadMoreButton = memo((props: LoadMoreButtonProps) => {
+export const LoadMoreButton = memo(() => {
     const {result, movePage} = useSubscriptionsV3(resultAtom, queryAtom, true);
 
     const {totalPage, currentPage} = result.pagination;
