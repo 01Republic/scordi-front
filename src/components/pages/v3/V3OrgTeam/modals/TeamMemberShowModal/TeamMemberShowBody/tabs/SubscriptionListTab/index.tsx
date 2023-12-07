@@ -6,7 +6,6 @@ import {subscriptionApi} from '^models/Subscription/api';
 export const SubscriptionListTab = memo(function SubscriptionListTab() {
     const {teamMember} = useTeamMember(currentTeamMemberState);
 
-    console.log('teamMember', teamMember);
     useEffect(() => {
         if (!teamMember) return;
 
