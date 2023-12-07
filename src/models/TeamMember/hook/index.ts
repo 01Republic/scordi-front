@@ -1,37 +1,18 @@
-import {useRecoilState, useRecoilValue} from 'recoil';
-import {teamMemberApi} from '^models/TeamMember/api';
+import {useState} from 'react';
+import {RecoilState, useRecoilState, useRecoilValue} from 'recoil';
+import {useAlert} from '^hooks/useAlert';
+import {useToast} from '^hooks/useToast';
 import {orgIdParamState} from '^atoms/common';
-import {FindAllTeamMemberQueryDto, TeamMemberDto, UpdateTeamMemberDto} from '^models/TeamMember/type';
+import {ApprovalStatus} from '^models/Membership/types';
+import {membershipApi} from '^models/Membership/api';
+import {teamMemberApi} from '../api';
+import {FindAllTeamMemberQueryDto, TeamMemberDto, UpdateTeamMemberDto} from '../type';
 import {
-    currentTeamMemberLoadingState,
+    teamMemberLoadingState,
     currentTeamMemberState,
     getTeamMembersQueryAtom,
     teamMembersSearchResultAtom,
-} from '^models/TeamMember/atom';
-import {useState} from 'react';
-import {useRouter} from 'next/router';
-import {teamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/atom';
-import {useOnResize2} from '^components/util/onResize2';
-import {useModal} from '^v3/share/modals/useModal';
-import {useAlert} from '^hooks/useAlert';
-import {useToast} from '^hooks/useToast';
-import {ApprovalStatus} from '^models/Membership/types';
-import {membershipApi} from '^models/Membership/api';
-import {V3OrgTeamMembersPageRoute} from '^pages/v3/orgs/[orgId]/teams/members';
-
-export const useCurrentTeamMember = () => {
-    const [currentTeamMember, setCurrentTeamMember] = useRecoilState(currentTeamMemberState);
-    const [isLoading, setIsLoading] = useRecoilState(currentTeamMemberLoadingState);
-
-    const loadCurrentTeamMember = (organizationId: number, id: number) => {
-        setIsLoading(true);
-        const request = teamMemberApi.show(organizationId, id);
-        request.then((res) => setCurrentTeamMember(res.data));
-        request.finally(() => setIsLoading(false));
-    };
-
-    return {currentTeamMember, loadCurrentTeamMember, setCurrentTeamMember, isLoading};
-};
+} from '../atom';
 
 export const useTeamMembers = () => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -49,6 +30,9 @@ export const useTeamMembers = () => {
         setTimeout(() => setIsLoading(false), 1000);
     }
 
+    const reload = () => search(query);
+    const isExist = !!result.pagination.totalItemCount;
+
     const createByName = (name: string) =>
         teamMemberApi.create(orgId, {name}).then((res) => {
             return res.data;
@@ -56,59 +40,76 @@ export const useTeamMembers = () => {
 
     const movePage = (page: number) => search({...query, page});
 
-    return {query, result, search, createByName, movePage, isLoading};
+    return {query, result, search, reload, isExist, createByName, movePage, isLoading};
 };
 
 // 멤버 수정 / 삭제 기능
-export function useEditTeamMember() {
-    const [teamMembers, setTeamMembers] = useRecoilState(teamMembersSearchResultAtom);
-    const router = useRouter();
-    const {isDesktop} = useOnResize2();
-    const {close} = useModal(teamMemberShowModal);
+export function useTeamMember(atom: RecoilState<TeamMemberDto | null>) {
+    const [teamMember, setTeamMember] = useRecoilState(atom);
+    const [isLoading, setIsLoading] = useRecoilState(teamMemberLoadingState);
     const {alert} = useAlert();
     const {toast} = useToast();
 
-    const updateFn = (data: UpdateTeamMemberDto, member: TeamMemberDto | null) => {
-        if (!member) return;
-
-        teamMemberApi.update(member.organizationId, member.id, data).then(() => toast.success('변경되었습니다.'));
+    const loadTeamMember = (organizationId: number, id: number) => {
+        setIsLoading(true);
+        const request = teamMemberApi.show(organizationId, id);
+        request.then((res) => setTeamMember(res.data));
+        request.finally(() => setIsLoading(false));
     };
 
-    const deleteFn = (orgId: number, member: TeamMemberDto | null) => {
-        if (!member) return;
+    const updateMember = async (data: UpdateTeamMemberDto) => {
+        if (!teamMember) {
+            toast.error('알 수 없는 멤버');
+            return;
+        }
 
-        const remainMembers = [...teamMembers.items].filter((item) => {
-            return item.id !== member.id;
-        });
+        const {organizationId, id} = teamMember;
 
-        const deletePendingMember = () => {
-            // membership 상태가 PENDING이면 team member와 membership 모두 삭제
-            if (member.membership?.approvalStatus === ApprovalStatus.PENDING) {
-                membershipApi.destroy(member.membershipId || 0);
-            }
+        setIsLoading(true);
+        const res = teamMemberApi.update(organizationId, id, data);
+        res.then(() => toast.success('변경되었습니다.')).then(() => loadTeamMember(organizationId, id));
+        res.finally(() => setIsLoading(false));
+        return res;
+    };
 
-            return teamMemberApi.destroy(member.organizationId, member.id);
-        };
+    const deleteMember = async () => {
+        if (!teamMember) {
+            toast.error('알 수 없는 멤버');
+            return;
+        }
 
-        alert.destroy({
-            title: '멤버를 삭제하시겠습니까?',
-            confirmFn: () => deletePendingMember(),
-            routerFn: () => {
-                if (isDesktop) {
-                    setTeamMembers((prev) => ({
-                        ...prev,
-                        items: remainMembers,
-                    }));
-                    close();
-                    return;
+        const {organizationId, id} = teamMember;
+
+        return alert.destroy({
+            title: '멤버를 정말 삭제할까요?',
+            showSuccessAlertOnFinal: false,
+            onConfirm: async () => {
+                setIsLoading(true);
+                // membership 상태가 PENDING이면 team member와 membership 모두 삭제
+                if (teamMember.membership?.approvalStatus === ApprovalStatus.PENDING) {
+                    await membershipApi.destroy(teamMember.membershipId || 0);
                 }
-                if (!isDesktop) {
-                    router.push(V3OrgTeamMembersPageRoute.path(orgId));
-                    return;
-                }
+                const res = teamMemberApi.destroy(organizationId, id);
+                res.then(() => toast.success('삭제했습니다.')).then(() => setTeamMember(null));
+                res.finally(() => setIsLoading(false));
+                return res;
             },
         });
     };
 
-    return {updateFn, deleteFn};
+    return {teamMember, setTeamMember, isLoading, loadTeamMember, updateMember, deleteMember};
 }
+
+export const useCurrentTeamMember = () => {
+    const [currentTeamMember, setCurrentTeamMember] = useRecoilState(currentTeamMemberState);
+    const [isLoading, setIsLoading] = useRecoilState(teamMemberLoadingState);
+
+    const loadCurrentTeamMember = (organizationId: number, id: number) => {
+        setIsLoading(true);
+        const request = teamMemberApi.show(organizationId, id);
+        request.then((res) => setCurrentTeamMember(res.data));
+        request.finally(() => setIsLoading(false));
+    };
+
+    return {currentTeamMember, loadCurrentTeamMember, setCurrentTeamMember, isLoading};
+};

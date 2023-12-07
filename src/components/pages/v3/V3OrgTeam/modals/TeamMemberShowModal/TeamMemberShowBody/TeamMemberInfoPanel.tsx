@@ -1,103 +1,84 @@
 import React, {memo} from 'react';
-import {MobileSection} from '^v3/share/sections/MobileSection';
 import {UseFormReturn} from 'react-hook-form';
-import {UpdateTeamMemberDto} from '^models/TeamMember/type';
-import {MobileInfoList} from '^v3/share/MobileInfoList';
-import {EditTriggeredInput, MobileTeamMemberInfoInput} from '^v3/V3OrgTeam/V3OrgTeamMemberShowPage/mobile/input';
-import {Avatar} from '^components/Avatar';
 import {useRecoilValue} from 'recoil';
-import {ApprovalStatus, c_ApprovalStatus, t_ApprovalStatus} from '^models/Membership/types';
+import {FaQuestion} from 'react-icons/fa6';
+import {Avatar} from '^components/Avatar';
 import {getDate} from '^components/util/date';
-import {currentTeamMemberState} from '^models/TeamMember/atom';
+import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {useToast} from '^hooks/useToast';
-
-interface TeamMemberInfoPanelProps {
-    form: UseFormReturn<UpdateTeamMemberDto, any>;
-}
+import {MobileSection} from '^v3/share/sections/MobileSection';
+import {MobileInfoList} from '^v3/share/MobileInfoList';
+import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
+import {ApprovalStatus} from '^models/Membership/types';
+import {currentTeamMemberState} from '^models/TeamMember';
 
 /**
  * 첫 수정 시 완료 버튼을 두 번 클릭해야 submit 되는 현상이 있습니다.
  */
-export const TeamMemberInfoPanel = memo((props: TeamMemberInfoPanelProps) => {
-    const currentMember = useRecoilValue(currentTeamMemberState);
+export const TeamMemberInfoPanel = memo(() => {
+    const teamMember = useRecoilValue(currentTeamMemberState);
     const {toast} = useToast();
-    const {form} = props;
 
-    if (!currentMember) return <></>;
+    if (!teamMember) return <></>;
 
-    const profileImgUrl = currentMember?.makeTeamMemberProfile().profileImgUrl;
-    const approvalStatus = currentMember.membership?.approvalStatus;
-    const {name, jobName, phone, email} = currentMember;
-
-    const approvalDate =
-        approvalStatus === ApprovalStatus.PENDING
-            ? getDate(currentMember.createdAt)
-            : getDate(currentMember.membership?.updatedAt || currentMember.createdAt);
+    const profileImgUrl = teamMember?.makeTeamMemberProfile().profileImgUrl;
+    const approvalStatus = teamMember.membership?.approvalStatus;
+    const {name, jobName, phone, email} = teamMember;
 
     return (
-        <form>
-            <MobileSection.Item>
-                <MobileSection.Padding>
-                    <div className="flex justify-between mb-2">
-                        <div className="flex-1">
-                            <EditTriggeredInput
-                                className="font-bold text-2xl w-full py-2 bg-white"
-                                required={true}
-                                defaultValue={name}
-                                {...form.register('name')}
-                            />
-                            <EditTriggeredInput
-                                className="font-medium text-xl w-full bg-white"
-                                required={true}
-                                defaultValue={jobName || ''}
-                                {...form.register('jobName')}
-                            />
-                        </div>
-                        <Avatar src={profileImgUrl} className="w-10 h-10" />
+        <MobileSection.Item className="border-b-0">
+            <MobileSection.Padding>
+                <div className="flex justify-between mb-10">
+                    <div className="flex-1">
+                        <h3 className="text-2xl font-bold w-full py-2">{name}</h3>
+                        <p className="text-sm">{email}</p>
                     </div>
+                    <div>
+                        <Avatar
+                            className="w-16 border-rounded"
+                            src={profileImgUrl}
+                            alt={name}
+                            draggable={false}
+                            loading="lazy"
+                        >
+                            <FaQuestion size={24} className="text-gray-300 h-full w-full p-[6px]" />
+                        </Avatar>
+                    </div>
+                </div>
+
+                <MobileInfoList>
+                    <MobileInfoListItem label="휴대폰" value={phone || <i>-</i>} />
+
                     {/*유저 가입 상태*/}
-                    <div className="flex justify-between py-2">
-                        <span className="text-base self-center">가입 상태</span>
-                        {approvalStatus ? (
-                            <button className={`${c_ApprovalStatus(approvalStatus)} btn btn-xs px-2 cursor-default`}>
-                                {t_ApprovalStatus(approvalStatus)}
-                            </button>
-                        ) : (
-                            <button onClick={() => toast.info('준비중입니다.')} className="btn btn-xs px-2">
-                                초대하기
-                            </button>
-                        )}
-                    </div>
+                    <MobileInfoListItem
+                        label={
+                            approvalStatus
+                                ? approvalStatus === ApprovalStatus.PENDING
+                                    ? '초대 발송일'
+                                    : '가입일'
+                                : '등록일'
+                        }
+                        value={
+                            approvalStatus
+                                ? approvalStatus === ApprovalStatus.PENDING
+                                    ? getDate(teamMember.membership?.createdAt!)
+                                    : getDate(teamMember.createdAt)
+                                : yyyy_mm_dd_hh_mm(teamMember.createdAt)
+                        }
+                    />
+                </MobileInfoList>
 
-                    {/*초대날짜 / 가입날짜*/}
-                    <div className="flex justify-between py-2">
-                        <span className="self-center text-base">
-                            {approvalStatus === ApprovalStatus.PENDING ? '초대 날짜' : '가입 날짜'}
-                        </span>
-                        <p className="text-gray-500">{approvalDate}</p>
-                    </div>
-                </MobileSection.Padding>
-            </MobileSection.Item>
+                <br />
+                <br />
 
-            <MobileSection.Item>
-                <MobileSection.Padding>
-                    <p className="font-bold text-xl pb-3">연락처</p>
-                    <MobileInfoList>
-                        <MobileTeamMemberInfoInput
-                            label="휴대폰"
-                            required={true}
-                            defaultValue={phone || ''}
-                            {...form.register('phone')}
-                        />
-                        <MobileTeamMemberInfoInput
-                            label="이메일"
-                            required={true}
-                            defaultValue={email || ''}
-                            {...form.register('email')}
-                        />
-                    </MobileInfoList>
-                </MobileSection.Padding>
-            </MobileSection.Item>
-        </form>
+                <button
+                    type="button"
+                    className="btn btn-lg btn-block btn-scordi rounded-box"
+                    onClick={() => toast.info('준비중입니다.')}
+                >
+                    이 멤버 초대하기
+                </button>
+            </MobileSection.Padding>
+        </MobileSection.Item>
     );
 });

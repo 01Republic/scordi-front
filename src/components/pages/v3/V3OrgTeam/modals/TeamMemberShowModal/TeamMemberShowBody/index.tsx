@@ -1,16 +1,14 @@
 import React, {memo} from 'react';
-import {UseFormReturn} from 'react-hook-form';
-import {useCurrentTeamMember, UpdateTeamMemberDto} from '^models/TeamMember';
-import {TeamListPanel} from './TeamListPanel';
+import {useRecoilValue} from 'recoil';
+import {useTeamMember, currentTeamMemberState} from '^models/TeamMember';
+import {isTeamMemberEditModeAtom} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
 import {TeamMemberInfoPanel} from './TeamMemberInfoPanel';
+import {TeamMemberEditPanel} from './TeamMemberEditPanel';
+import {TabView} from './tabs/TabView';
 
-interface TeamMemberShowBodyProps {
-    form: UseFormReturn<UpdateTeamMemberDto>;
-}
-
-export const TeamMemberShowBody = memo((props: TeamMemberShowBodyProps) => {
-    const {isLoading} = useCurrentTeamMember();
-    const {form} = props;
+export const TeamMemberShowBody = memo(() => {
+    const {isLoading} = useTeamMember(currentTeamMemberState);
+    const isEditMode = useRecoilValue(isTeamMemberEditModeAtom);
 
     return (
         <>
@@ -18,9 +16,8 @@ export const TeamMemberShowBody = memo((props: TeamMemberShowBodyProps) => {
                 <p className="text-center">loading ...</p>
             ) : (
                 <>
-                    <TeamMemberInfoPanel form={form} />
-                    <TeamListPanel />
-                    {/*<TeamMemberSubscriptionListPanel />*/}
+                    {isEditMode ? <TeamMemberEditPanel /> : <TeamMemberInfoPanel />}
+                    <TabView />
                 </>
             )}
         </>

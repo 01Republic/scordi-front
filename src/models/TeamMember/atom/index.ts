@@ -7,8 +7,8 @@ export const currentTeamMemberState = atom<TeamMemberDto | null>({
     default: null,
 });
 
-export const currentTeamMemberLoadingState = atom<boolean>({
-    key: 'currentTeamMemberLoadingState',
+export const teamMemberLoadingState = atom<boolean>({
+    key: 'teamMemberLoadingState',
     default: false,
 });
 

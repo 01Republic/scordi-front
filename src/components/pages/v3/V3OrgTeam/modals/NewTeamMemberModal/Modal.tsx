@@ -3,27 +3,29 @@ import {useRecoilValue} from 'recoil';
 import {useForm} from 'react-hook-form';
 import {useRouter} from 'next/router';
 import {orgIdParamState} from '^atoms/common';
-import {TextInput} from '^components/TextInput';
 import {teamMemberApi, useTeamMembers, CreateTeamMemberDto} from '^models/TeamMember';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {useModal} from '^v3/share/modals/useModal';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {isOpenNewTeamMemberModalAtom} from './atom';
+import {FormControl} from '^components/util/form-control';
 
 export const NewTeamMemberModal = memo(() => {
     const router = useRouter();
+    const list = useTeamMembers();
     const orgId = useRecoilValue(orgIdParamState);
 
     const {close, Modal} = useModal({isShowAtom: isOpenNewTeamMemberModalAtom});
     const form = useForm<CreateTeamMemberDto>();
 
-    const {search} = useTeamMembers();
     const onSubmit = (data: CreateTeamMemberDto) => {
         teamMemberApi
             .create(orgId, data)
             .then(() => close())
-            .then(() => search({order: {id: 'DESC'}, itemsPerPage: 10, relations: ['membership.user']}));
+            .then(() => {
+                if (list.isExist) list.reload();
+            });
     };
 
     const backBtnOnClick = () => {
@@ -43,11 +45,15 @@ export const NewTeamMemberModal = memo(() => {
                         </h3>
 
                         <div className="py-5">
-                            <TextInput
-                                label={'이름'}
-                                inputclass="bg-white border-b-2"
-                                {...form.register('name', {required: true})}
-                            />
+                            <FormControl topLeftLabel="이름">
+                                <input
+                                    type="text"
+                                    required
+                                    className="input input-bordered"
+                                    {...form.register('name', {required: true})}
+                                    placeholder="ex. 김규리"
+                                />
+                            </FormControl>
                         </div>
                     </div>
                 </MobileSection.Padding>

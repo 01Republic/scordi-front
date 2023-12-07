@@ -7,3 +7,8 @@ export const teamMemberShowModal = {
     }),
     popStateSyncKey: 'teamMemberShowModal',
 };
+
+export const isTeamMemberEditModeAtom = atom<boolean>({
+    key: 'isTeamMemberEditModeAtom',
+    default: false,
+});
