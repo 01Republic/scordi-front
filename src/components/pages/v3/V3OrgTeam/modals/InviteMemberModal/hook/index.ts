@@ -74,6 +74,11 @@ export const useInviteMember = () => {
             return;
         }
 
+        if (invitedEmails.includes(invitedEmail)) {
+            toast.error('이미 추가한 멤버입니다.');
+            return;
+        }
+
         setInvitedEmails([...invitedEmails, invitedEmail]);
         form.resetField('email');
     };
