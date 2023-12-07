@@ -6,9 +6,9 @@ import {AddMemberButton, ButtonTypes} from '../AddMemberButton';
 import {isOpenInviteOrgMemberModalAtom} from '../../modals/InviteMemberModal/atom';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {useRecoilValue} from 'recoil';
-import {currentOrgAtom} from '^models/Organization/atom';
-import {ApprovalStatus} from 'src/models/Membership/types';
 import {useTeamMembers} from '^models/TeamMember/hook';
+import {orgIdParamState} from '^atoms/common';
+import {TeamMemberManager} from '^models/TeamMember';
 
 interface TeamMembersPanel {
     maxLength?: number | null;
@@ -18,22 +18,22 @@ export const TeamMembersPanel = memo((props: TeamMembersPanel) => {
     const {result, search} = useTeamMembers();
     const teamMembers = result.items;
     const length = teamMembers.length;
-    const {maxLength} = props;
     const {isShow, setIsShow} = useModal({
         isShowAtom: isOpenInviteOrgMemberModalAtom,
     });
-    const currentOrg = useRecoilValue(currentOrgAtom);
+    const orgId = useRecoilValue(orgIdParamState);
+    const {maxLength} = props;
+
+    const teamMemberManager = TeamMemberManager.init(teamMembers);
+    const sortedTeamMembers = teamMemberManager.sortByCreatedAtDescending(teamMembers);
 
     useEffect(() => {
-        if (!currentOrg) return;
+        if (!orgId) return;
+
         search({
             order: {createdAt: 'DESC'},
         });
-    }, [isShow]);
-
-    // approvalStatus Approved -> Pending 순으로 보여지도록 구현
-    const persistedTeamMembers = teamMembers.filter((m) => m.membership?.approvalStatus === ApprovalStatus.APPROVED);
-    const newTeamMembers = teamMembers.filter((m) => m.membership?.approvalStatus !== ApprovalStatus.APPROVED);
+    }, [isShow, orgId]);
 
     return (
         <MobileSection.Item>
@@ -44,10 +44,7 @@ export const TeamMembersPanel = memo((props: TeamMembersPanel) => {
 
                 {length ? (
                     <>
-                        {persistedTeamMembers.map((teamMember, i) => (
-                            <TeamMemberItem key={i} item={teamMember} />
-                        ))}
-                        {newTeamMembers.map((teamMember, i) => {
+                        {sortedTeamMembers.map((teamMember, i) => {
                             if (i > (maxLength ?? result.pagination.itemsPerPage)) return <></>;
                             return <TeamMemberItem key={i} item={teamMember} />;
                         })}

@@ -1,7 +1,5 @@
 import React, {memo} from 'react';
 import {V3MainLayout, V3MainLayoutContainer} from '^v3/layouts/V3MainLayout';
-import {useRecoilValue} from 'recoil';
-import {currentOrgAtom} from '^models/Organization/atom';
 import {useTranslation} from 'next-i18next';
 import {useOnResize2} from '^components/util/onResize2';
 import {V3MainLayoutMobile} from '^v3/layouts/V3MainLayout.mobile';
@@ -11,8 +9,8 @@ import {TeamMembersPanel} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/mobile/TeamMe
 import {TeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
 import {NewTeamMemberModal} from '^v3/V3OrgTeam/modals/NewTeamMemberModal';
 import {InviteOrgMemberModal} from '^v3/V3OrgTeam/modals/InviteMemberModal';
-import {MembersTableSection} from '^v3/V3OrgSettingsMembersPage/MembersTableSection';
 import {AddMemberButton, ButtonTypes} from './AddMemberButton';
+import {TeamMembersTableSection} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection';
 
 export const V3OrgTeamMembersPage = memo(() => {
     const {t} = useTranslation('org-home');
@@ -31,7 +29,7 @@ export const V3OrgTeamMembersPage = memo(() => {
 
                             <AddMemberButton text="멤버 등록" type={ButtonTypes.ScordiBtn} />
                         </div>
-                        <MembersTableSection />
+                        <TeamMembersTableSection />
                     </section>
                 </V3MainLayoutContainer>
             </V3MainLayout>
