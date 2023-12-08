@@ -5,6 +5,7 @@ import {FormControl} from '^components/util/form-control';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {currentTeamMemberState, UpdateTeamMemberDto, useTeamMember, useTeamMembers} from '^models/TeamMember';
 import {isTeamMemberEditModeAtom} from '../../atom';
+import {BackButtonHijacker} from './BackButtonHijacker';
 
 export const TeamMemberEditPanel = memo(function TeamMemberEditPanel() {
     const setIsEditMode = useSetRecoilState(isTeamMemberEditModeAtom);
@@ -43,6 +44,7 @@ export const TeamMemberEditPanel = memo(function TeamMemberEditPanel() {
 
     return (
         <form>
+            <BackButtonHijacker onClick={() => setIsEditMode(false)} />
             <MobileSection.Item className="border-b-0">
                 <MobileSection.Padding>
                     <div className="w-full flex flex-col gap-4 mb-16">
