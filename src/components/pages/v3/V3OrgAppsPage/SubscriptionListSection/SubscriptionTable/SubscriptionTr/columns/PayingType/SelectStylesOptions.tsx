@@ -7,6 +7,12 @@ import Select, {
     OptionProps,
     SingleValueProps,
 } from 'react-select';
+import React from 'react';
+import {HiOutlineXMark} from 'react-icons/hi2';
+import {tagApi} from '^models/Tag/api';
+import {useSetRecoilState} from 'recoil';
+import {tagOptionsState} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/PayingType/PayingTypeSelect';
+import {usePayingTypeTags} from '^models/Tag/hook';
 
 export const selectStylesOptions = {
     placeholder: () => ({
@@ -18,11 +24,7 @@ export const selectStylesOptions = {
 };
 
 export const SelectContainer = (props: ContainerProps<any>) => {
-    return (
-        <components.SelectContainer {...props} className="">
-            {props.children}
-        </components.SelectContainer>
-    );
+    return <components.SelectContainer {...props}>{props.children}</components.SelectContainer>;
 };
 
 export const Control = (props: ControlProps<any>) => {
@@ -58,11 +60,32 @@ export const SingleValue = (props: SingleValueProps<any>) => {
 };
 
 export const Option = (props: OptionProps<any>) => {
+    const {search: getTags} = usePayingTypeTags();
+    const setTagOptions = useSetRecoilState(tagOptionsState);
+
+    const onDelete = () => {
+        const tagId = props.data.id;
+
+        if (!tagId) return;
+
+        const req = tagApi.destroy(tagId);
+
+        req.then(() => getTags({}).then((res) => setTagOptions(res.items)));
+    };
+
     return (
         <components.Option {...props} className="!bg-white">
-            <span className="btn btn-xs btn-outline btn-scordi px-5 font-normal focused:bg-red-500 bg-white">
-                {props.children}
-            </span>
+            <div className="flex gap-1">
+                <div className="btn btn-xs btn-outline btn-scordi flex gap-2 justify-between w-fit px-2 font-normal bg-white">
+                    {props.children}
+                </div>
+                <button
+                    onClick={onDelete}
+                    className="relative text-gray-400 hover:text-gray-600 transition-all text-end"
+                >
+                    <HiOutlineXMark size={12} />
+                </button>
+            </div>
         </components.Option>
     );
 };
