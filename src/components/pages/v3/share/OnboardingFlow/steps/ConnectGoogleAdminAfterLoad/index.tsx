@@ -49,7 +49,7 @@ export const ConnectGoogleAdminAfterLoad = memo(function ConnectGoogleAdminAfter
                     `,
                 });
             } else {
-                alert.error('다시 시도해주세요', e.response.data.message);
+                alert.error('관리자 계정 연결이 필요해요', '회사 공식 메일로 워크스페이스를 연동해주세요');
             }
         });
     };

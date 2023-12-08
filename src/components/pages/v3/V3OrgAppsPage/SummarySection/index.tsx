@@ -16,7 +16,10 @@ export const SummarySection = memo(function SummarySection() {
     const subscriptions = useRecoilValue(subscriptionsState);
     const Subscription = SubscriptionManager.init(subscriptions || []);
 
-    const activeCount = Subscription.success().length; // 활성
+    const freeCount = Subscription.free().length;
+    const paidCount = Subscription.success().length;
+
+    const activeCount = freeCount + paidCount; // 활성 = 유료 + 무료
     const failedCount = Subscription.failed().length; // 결제 실패
     const pausedCount = Subscription.paused().length; // 일시정지
     const cancelCount = Subscription.canceled().length; // 구독취소
