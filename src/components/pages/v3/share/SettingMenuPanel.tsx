@@ -7,8 +7,7 @@ import {V3OrgSettingsMembersPageRoute} from '^pages/v3/orgs/[orgId]/settings/mem
 import {HiOutlineBuildingOffice2, HiOutlineCreditCard, HiOutlineUserGroup, HiOutlineKey} from 'react-icons/hi2';
 import {useRouter} from 'next/router';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
-
-import {VscDebugDisconnect} from 'react-icons/vsc';
+import {VscPlug} from 'react-icons/vsc';
 import {V3OrgSettingsConnectsPageRoute} from '^pages/v3/orgs/[orgId]/settings/connects';
 
 export const V3OrgSettingsMenuPanel = memo(() => {
@@ -44,7 +43,7 @@ export const V3OrgSettingsMenuPanel = memo(() => {
             </li>
             <li>
                 <ActiveLinkTo href={V3OrgSettingsConnectsPageRoute.path(orgId)} className="mb-0.5">
-                    <VscDebugDisconnect />
+                    <VscPlug size={18} />
                     <span>연동 관리</span>
                 </ActiveLinkTo>
             </li>

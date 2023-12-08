@@ -6,6 +6,7 @@ import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {useAlert} from '^hooks/useAlert';
 import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
+import {BsDashCircle} from 'react-icons/bs';
 
 interface InvoiceAccountTableRowProps {
     invoiceAccount: InvoiceAccountDto | undefined;
@@ -37,8 +38,8 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
         <tr>
             {/* 이메일 */}
             <td>
-                <div className="flex gap-2.5 items-center">
-                    <Avatar src={invoiceAccount.image || undefined} className="w-6 h-6" />
+                <div className="flex gap-3 items-center">
+                    <Avatar src={invoiceAccount.image || undefined} className="w-7 h-7" />
                     <div>
                         <p className="text-sm flex gap-2 font-semibold items-center">
                             <span>{invoiceAccount.email}</span>
@@ -49,8 +50,11 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
 
             {/*삭제 버튼*/}
             <td className="text-end">
-                <button onClick={onDelete} className="btn btn-outline btn-error btn-sm border font-normal w-fit px-3">
-                    삭제
+                <button
+                    onClick={onDelete}
+                    className="relative top-[-2px] text-red-300 hover:text-red-500 transition-all"
+                >
+                    <BsDashCircle size={22} strokeWidth={0.3} />
                 </button>
             </td>
         </tr>

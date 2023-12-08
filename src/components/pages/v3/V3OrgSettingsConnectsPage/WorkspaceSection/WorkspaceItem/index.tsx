@@ -6,20 +6,23 @@ import {BsMicrosoftTeams} from 'react-icons/bs';
 import {SiNaver} from 'react-icons/si';
 import {VscPlug} from 'react-icons/vsc';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {useCurrentOrg} from '^models/Organization/hook';
+import {useOrganization} from '^models/Organization/hook';
 import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
 import {Avatar} from '^components/Avatar';
+import {currentOrgAtom} from '^models/Organization/atom';
 
 interface WorkspaceItemProps {
     tool: ToolType;
 }
 
 export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
-    const orgId = useRecoilValue(orgIdParamState);
-    const {currentOrg} = useCurrentOrg(orgId);
+    const currentOrg = useRecoilValue(currentOrgAtom);
     const {toast} = useToast();
     const {tool} = props;
+
+    if (!currentOrg) return <></>;
+
+    const lastSyncAccount = currentOrg?.lastGoogleSyncHistory?.googleTokenData;
 
     const getLogo = (tool: ToolType) => {
         switch (tool) {
@@ -41,12 +44,14 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
             {tool === ToolType.google && currentOrg && (
                 <div className="!w-auto gap-4 flex">
                     <Avatar
-                        src={currentOrg.image}
+                        src={lastSyncAccount?.picture}
                         className="w-9 h-9 outline outline-offset-1 outline-slate-100 mt-1"
                     />
                     <div className="flex-1">
-                        <p>이진경</p>
-                        <p className="text-sm font-extralight">jinie@01Republic.io</p>
+                        <p>{lastSyncAccount?.name || <UnknownText />}</p>
+                        <p className="text-sm font-extralight">
+                            {lastSyncAccount?.email || <UnknownText text="xxx@xxx.xxx" />}
+                        </p>
                     </div>
                 </div>
             )}
@@ -64,4 +69,8 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
             )}
         </div>
     );
+});
+
+const UnknownText = memo(({text = '알 수 없음'}: {text?: string}) => {
+    return <span className="italic text-gray-400 whitespace-nowrap">{text}</span>;
 });
