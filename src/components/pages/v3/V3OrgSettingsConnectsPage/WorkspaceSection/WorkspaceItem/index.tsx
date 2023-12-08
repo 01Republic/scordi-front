@@ -1,23 +1,28 @@
-import {ToolType} from '^v3/V3OrgSettingsConnectsPage/type';
 import React, {memo} from 'react';
-import {useToast} from '^hooks/useToast';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {FcGoogle} from 'react-icons/fc';
-import {BsMicrosoftTeams} from 'react-icons/bs';
 import {SiNaver} from 'react-icons/si';
-import {VscPlug} from 'react-icons/vsc';
+import {BsMicrosoftTeams} from 'react-icons/bs';
+import {ToolType} from '^v3/V3OrgSettingsConnectsPage/type';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {useOrganization} from '^models/Organization/hook';
-import {useRecoilValue} from 'recoil';
-import {Avatar} from '^components/Avatar';
 import {currentOrgAtom} from '^models/Organization/atom';
+import {userSocialGoogleApi} from '^api/social-google.api';
+import {useAlert} from '^hooks/useAlert';
+import {orgIdParamState} from '^atoms/common';
+import {ConnectButton, GoogleProfile} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/WorkspaceItem/Buttons';
+import {gmailItemsLoadedAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
 
 interface WorkspaceItemProps {
     tool: ToolType;
 }
 
 export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
+    const setIsLoaded = useSetRecoilState(gmailItemsLoadedAtom);
     const currentOrg = useRecoilValue(currentOrgAtom);
-    const {toast} = useToast();
+    const orgId = useRecoilValue(orgIdParamState);
+    const {alert} = useAlert();
+
+    const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
     const {tool} = props;
 
     if (!currentOrg) return <></>;
@@ -35,42 +40,61 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
         }
     };
 
+    const googleLoginSuccessHandler = (accessToken: string) => {
+        setIsLoaded(true);
+
+        const req = googleUsageReportApi.draft(accessToken);
+
+        req.then((res) => {
+            const reportData = res.data;
+
+            googleUsageReportApi
+                .save2({
+                    organizationId: orgId,
+                    syncedEmail: reportData.rawMetadata.syncedEmail,
+                    workspaceName: reportData.workspaceName,
+                    items: reportData.items,
+                })
+                .then(() => alert.success({title: '연동이 완료되었습니다.'}))
+                .finally(() => setIsLoaded(false));
+        });
+
+        req.catch((e) => {
+            if ((e.response.data.code = 'Unauthorized')) {
+                alert.error('회사 대표 계정으로 시도해주세요', '', {
+                    html: `
+                    ex) official@scordi.io
+                    `,
+                });
+            } else {
+                alert.error('다시 시도해주세요', e.response.data.message);
+            }
+
+            setIsLoaded(false);
+        });
+    };
+
     return (
         <div className="flex justify-between px-5 border rounded-2xl mb-2 min-h-[74px] items-center">
             <p className="flex gap-3 self-center font-base">
                 {getLogo(tool)} {tool}
             </p>
 
-            {tool === ToolType.google && currentOrg && (
-                <div className="!w-auto gap-4 flex">
-                    <Avatar
-                        src={lastSyncAccount?.picture}
-                        className="w-9 h-9 outline outline-offset-1 outline-slate-100 mt-1"
-                    />
-                    <div className="flex-1">
-                        <p>{lastSyncAccount?.name || <UnknownText />}</p>
-                        <p className="text-sm font-extralight">
-                            {lastSyncAccount?.email || <UnknownText text="xxx@xxx.xxx" />}
-                        </p>
-                    </div>
-                </div>
+            {/*워크스페이스 연동된 상태*/}
+            {tool === ToolType.google && currentOrg && <GoogleProfile lastSyncAccount={lastSyncAccount} />}
+
+            {/*워크스페이스 연동 되지 않은 상태*/}
+            {tool === ToolType.google && !currentOrg && (
+                <GoogleLoginBtn
+                    about="admin"
+                    googleLoginOnSuccessFn={googleLoginSuccessHandler}
+                    className="!btn-md"
+                    logoSize="w-4 h-4"
+                />
             )}
 
-            {tool === ToolType.google && !currentOrg && <GoogleLoginBtn className="!btn-md" logoSize="w-4 h-4" />}
-
-            {tool !== ToolType.google && (
-                <button
-                    onClick={() => toast.info('준비중입니다.')}
-                    className="btn btn-sm border font-normal w-fit px-5"
-                >
-                    <VscPlug size={18} className="mr-1" />
-                    연동하기
-                </button>
-            )}
+            {/*구글 외 연동하기 버튼*/}
+            {tool !== ToolType.google && <ConnectButton />}
         </div>
     );
-});
-
-const UnknownText = memo(({text = '알 수 없음'}: {text?: string}) => {
-    return <span className="italic text-gray-400 whitespace-nowrap">{text}</span>;
 });
