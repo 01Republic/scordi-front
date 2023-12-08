@@ -30,19 +30,19 @@ export function t_SubscriptionStatus(status: SubscriptionStatus) {
 export function c_SubscriptionStatus(status: SubscriptionStatus) {
     switch (status) {
         case SubscriptionStatus.FREE_TRIAL_STARTED:
-            return 'bg-fuchsia-200';
+            return 'bg-cyan-300';
         case SubscriptionStatus.FREE_TRIAL_EXPIRED:
-            return 'bg-scordi-200';
+            return 'bg-pink-300';
         case SubscriptionStatus.PAYMENT_SUCCESS:
-            return 'bg-green-200';
+            return 'bg-green-300';
         case SubscriptionStatus.PAYMENT_PENDING:
-            return 'bg-sky-200';
+            return 'bg-emerald-300';
         case SubscriptionStatus.PAYMENT_FAILURE:
-            return 'bg-red-200';
+            return 'bg-red-300';
         case SubscriptionStatus.PAUSED:
-            return 'bg-teal-200';
+            return 'bg-sky-300';
         case SubscriptionStatus.CANCELED:
-            return 'bg-orange-200';
+            return 'bg-orange-300';
     }
 }
 
