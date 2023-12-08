@@ -16,7 +16,6 @@ export const TeamMemberEditPanel = memo(function TeamMemberEditPanel() {
         if (!teamMember) return;
 
         form.setValue('name', teamMember.name);
-        form.setValue('profileImgUrl', teamMember.profileImgUrl);
         form.setValue('notes', teamMember.notes);
         form.setValue('email', teamMember.email);
         form.setValue('phone', teamMember.phone);
@@ -49,10 +48,6 @@ export const TeamMemberEditPanel = memo(function TeamMemberEditPanel() {
                     <div className="w-full flex flex-col gap-4 mb-16">
                         <FormControl topLeftLabel="이름 *">
                             <input type="text" required className="input input-bordered" {...form.register('name')} />
-                        </FormControl>
-
-                        <FormControl topLeftLabel="프로필 이미지 (주소)">
-                            <input type="text" className="input input-bordered" {...form.register('profileImgUrl')} />
                         </FormControl>
 
                         <FormControl topLeftLabel="설명">
