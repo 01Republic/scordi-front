@@ -5,6 +5,7 @@ import {FormControl} from '^components/util/form-control';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {currentTeamMemberState, UpdateTeamMemberDto, useTeamMember, useTeamMembers} from '^models/TeamMember';
 import {isTeamMemberEditModeAtom} from '../../atom';
+import {BackButtonHijacker} from './BackButtonHijacker';
 
 export const TeamMemberEditPanel = memo(function TeamMemberEditPanel() {
     const setIsEditMode = useSetRecoilState(isTeamMemberEditModeAtom);
@@ -16,7 +17,6 @@ export const TeamMemberEditPanel = memo(function TeamMemberEditPanel() {
         if (!teamMember) return;
 
         form.setValue('name', teamMember.name);
-        form.setValue('profileImgUrl', teamMember.profileImgUrl);
         form.setValue('notes', teamMember.notes);
         form.setValue('email', teamMember.email);
         form.setValue('phone', teamMember.phone);
@@ -44,15 +44,12 @@ export const TeamMemberEditPanel = memo(function TeamMemberEditPanel() {
 
     return (
         <form>
+            <BackButtonHijacker onClick={() => setIsEditMode(false)} />
             <MobileSection.Item className="border-b-0">
                 <MobileSection.Padding>
                     <div className="w-full flex flex-col gap-4 mb-16">
                         <FormControl topLeftLabel="이름 *">
                             <input type="text" required className="input input-bordered" {...form.register('name')} />
-                        </FormControl>
-
-                        <FormControl topLeftLabel="프로필 이미지 (주소)">
-                            <input type="text" className="input input-bordered" {...form.register('profileImgUrl')} />
                         </FormControl>
 
                         <FormControl topLeftLabel="설명">

@@ -17,8 +17,6 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
     const {product} = subscription;
 
     const removeSubscription = () => {
-        console.log(teamMember);
-        console.log(subscription);
         teamMemberApi.subscriptions.disconnect(teamMember.id, subscription.id).then(() => {
             toast.success('삭제했습니다');
             onDelete();
@@ -39,7 +37,11 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
                     </p>
                 </div>
 
-                <div className="flex items-center" style={{alignSelf: 'stretch'}}>
+                <div
+                    className="flex items-center tooltip tooltip-top tooltip-error"
+                    data-tip="안써요"
+                    style={{alignSelf: 'stretch'}}
+                >
                     <button
                         onClick={(e) => {
                             e.stopPropagation();
