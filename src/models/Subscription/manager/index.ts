@@ -24,7 +24,7 @@ export class SubscriptionManager extends BasicManager<SubscriptionDto> {
     // 무료 구독
     free() {
         return this.filter((item) => {
-            return !item.billingHistories?.length;
+            return item.status === SubscriptionStatus.FREE_TRIAL_STARTED;
         });
     }
 
