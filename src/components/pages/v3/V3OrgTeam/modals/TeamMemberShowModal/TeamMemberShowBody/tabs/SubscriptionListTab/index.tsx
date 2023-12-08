@@ -1,5 +1,4 @@
 import React, {memo, useEffect} from 'react';
-import {useRecoilState} from 'recoil';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {currentTeamMemberState, useTeamMember} from '^models/TeamMember';
 import {
@@ -12,12 +11,12 @@ import {useSubscriptionsV3} from '^models/Subscription/hook';
 
 export const SubscriptionListTab = memo(function SubscriptionListTab() {
     const {teamMember} = useTeamMember(currentTeamMemberState);
-    const {result, search} = useSubscriptionsV3(resultAtom, queryAtom);
+    const Subscriptions = useSubscriptionsV3(resultAtom, queryAtom);
 
     useEffect(() => {
         if (!teamMember) return;
 
-        search({
+        Subscriptions.search({
             where: {
                 organizationId: teamMember.organizationId,
                 // @ts-ignore
@@ -26,7 +25,7 @@ export const SubscriptionListTab = memo(function SubscriptionListTab() {
         });
     }, [teamMember]);
 
-    const {items, pagination} = result;
+    const {items, pagination} = Subscriptions.result;
     const {totalPage, currentPage, totalItemCount} = pagination;
 
     return (
@@ -41,9 +40,17 @@ export const SubscriptionListTab = memo(function SubscriptionListTab() {
                 <hr />
 
                 <ul className="menu menu-compact lg:menu-normal bg-base-100 block no-scrollbar">
-                    {items.map((subscription, i) => (
-                        <SubscriptionItem key={i} subscription={subscription} />
-                    ))}
+                    {teamMember &&
+                        items.map((subscription, i) => (
+                            <SubscriptionItem
+                                key={i}
+                                teamMember={teamMember}
+                                subscription={subscription}
+                                onDelete={() => {
+                                    Subscriptions.except(subscription);
+                                }}
+                            />
+                        ))}
                 </ul>
 
                 {totalPage > currentPage ? (

@@ -8,7 +8,6 @@ export const TeamMemberTable = memo(() => {
     const teamMemberManager = TeamMemberManager.init(teamMembers);
     const sortedTeamMembers = teamMemberManager.sortByCreatedAtDescending(teamMembers);
 
-    console.log('result', result);
     return (
         <div className="card bg-white shadow">
             <div className="overflow-x-auto w-full">

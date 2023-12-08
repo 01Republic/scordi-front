@@ -2,14 +2,28 @@ import React, {memo} from 'react';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {Avatar} from '^components/Avatar';
 import {BsDashCircle} from 'react-icons/bs';
+import {teamMemberApi, TeamMemberDto} from '^models/TeamMember';
+import {useToast} from '^hooks/useToast';
 
 interface SubscriptionItemProps {
+    teamMember: TeamMemberDto;
     subscription: SubscriptionDto;
+    onDelete: () => any;
 }
 
 export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
-    const {subscription} = props;
+    const {toast} = useToast();
+    const {teamMember, subscription, onDelete} = props;
     const {product} = subscription;
+
+    const removeSubscription = () => {
+        console.log(teamMember);
+        console.log(subscription);
+        teamMemberApi.subscriptions.disconnect(teamMember.id, subscription.id).then(() => {
+            toast.success('삭제했습니다');
+            onDelete();
+        });
+    };
 
     return (
         <li>
@@ -30,7 +44,7 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
                         onClick={(e) => {
                             e.stopPropagation();
                             e.preventDefault();
-                            // removeMember(member);
+                            removeSubscription();
                         }}
                         className="relative top-[-2px] text-red-300 hover:text-red-500 transition-all"
                     >

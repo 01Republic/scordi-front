@@ -46,20 +46,23 @@ export const useSubscriptionsV3 = (
     queryAtom: RecoilState<FindAllSubscriptionsQuery>,
     mergeMode = false,
 ) => {
+    const defaultMergeMode = mergeMode;
     const orgId = useRecoilValue(orgIdParamState);
     const [result, setResult] = useRecoilState(resultAtom);
     const [query, setQuery] = useRecoilState(queryAtom);
 
-    async function search(params: FindAllSubscriptionsQuery) {
+    async function search(params: FindAllSubscriptionsQuery, mergeMode = defaultMergeMode) {
         if (!orgId) return;
 
         params.where = {organizationId: orgId, ...params.where};
 
         const data = await subscriptionApi.index(params).then((res) => res.data);
         if (mergeMode) {
-            setResult(({items}) => {
-                const newItems = [...items, ...data.items];
-                return {items: newItems, pagination: data.pagination};
+            setResult((oldResult) => {
+                const items = [...oldResult.items, ...data.items];
+                const pagination = data.pagination;
+                pagination.currentItemCount = items.length;
+                return {items, pagination};
             });
         } else {
             setResult(data);
@@ -72,7 +75,18 @@ export const useSubscriptionsV3 = (
 
     const movePage = (page: number) => search({...query, page});
 
-    return {query, result, search, movePage};
+    const except = (item: SubscriptionDto) => {
+        setResult((oldResult) => {
+            const items = oldResult.items.filter((it) => it.id !== item.id);
+            const pagination = {...oldResult.pagination};
+            const diff = oldResult.pagination.currentItemCount - items.length;
+            pagination.currentItemCount -= diff;
+            pagination.totalItemCount -= diff;
+            return {items, pagination};
+        });
+    };
+
+    return {query, result, search, movePage, except};
 };
 
 export const useSubscription = () => useRecoilValue(getSubscriptionQuery);

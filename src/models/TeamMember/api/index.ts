@@ -1,6 +1,11 @@
 import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
-import {TeamMemberDto, CreateTeamMemberDto, UpdateTeamMemberDto} from '^models/TeamMember/type';
+import {
+    TeamMemberDto,
+    CreateTeamMemberDto,
+    UpdateTeamMemberDto,
+    TeamMemberSubscriptionDto,
+} from '^models/TeamMember/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 
@@ -28,5 +33,17 @@ export const teamMemberApi = {
     destroy(orgId: number, id: number) {
         const url = `/organizations/${orgId}/team_members/${id}`;
         return api.delete<TeamMemberDto>(url);
+    },
+
+    subscriptions: {
+        connect(teamMemberId: number, subscriptionId: number) {
+            const url = `/team_members/${teamMemberId}/subscriptions/${subscriptionId}`;
+            return api.post<TeamMemberSubscriptionDto>(url).then(oneDtoOf(TeamMemberSubscriptionDto));
+        },
+
+        disconnect(teamMemberId: number, subscriptionId: number) {
+            const url = `/team_members/${teamMemberId}/subscriptions/${subscriptionId}`;
+            return api.delete<TeamMemberSubscriptionDto>(url).then(oneDtoOf(TeamMemberSubscriptionDto));
+        },
     },
 };

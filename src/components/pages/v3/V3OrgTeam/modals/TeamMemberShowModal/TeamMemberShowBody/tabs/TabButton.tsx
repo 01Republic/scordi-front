@@ -14,7 +14,7 @@ export const TabButton = memo((props: TabButtonProps) => {
             className={`flex items-center justify-center transition-all ${
                 isActive
                     ? 'text-black bg-white border-b-4 border-scordi'
-                    : 'text-gray-500 border-b-4 border-gray-100 hover:text-gray-800 hover:bg-gray-100 cursor-pointer'
+                    : 'text-gray-500 border-b-4 border-scordi-light-200 hover:text-gray-800 cursor-pointer'
             }`}
             onClick={onClick}
         >

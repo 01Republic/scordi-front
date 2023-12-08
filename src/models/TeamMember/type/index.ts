@@ -6,6 +6,8 @@ import {MembershipDto} from 'src/models/Membership/types';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {CreditCardDto} from '^models/CreditCard/type';
 
+export * from './TeamMemberSubscription.dto';
+
 export class TeamMemberDto {
     id: number; // 아이디
     name: string; // 이름
