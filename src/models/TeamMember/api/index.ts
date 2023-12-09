@@ -8,6 +8,7 @@ import {
 } from '^models/TeamMember/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
+import {SubscriptionDto} from '^models/Subscription/types';
 
 export const teamMemberApi = {
     index(orgId: number, params?: FindAllQueryDto<TeamMemberDto>) {
@@ -36,6 +37,11 @@ export const teamMemberApi = {
     },
 
     subscriptions: {
+        connectable(teamMemberId: number, params?: FindAllQueryDto<SubscriptionDto>) {
+            const url = `/team_members/${teamMemberId}/subscriptions/available`;
+            return api.get<Paginated<SubscriptionDto>>(url, {params}).then(paginatedDtoOf(SubscriptionDto));
+        },
+
         connect(teamMemberId: number, subscriptionId: number) {
             const url = `/team_members/${teamMemberId}/subscriptions/${subscriptionId}`;
             return api.post<TeamMemberSubscriptionDto>(url).then(oneDtoOf(TeamMemberSubscriptionDto));

@@ -74,6 +74,18 @@ export const useSubscriptionsV3 = (
     }
 
     const movePage = (page: number) => search({...query, page});
+    const resetPage = () => search({...query, page: 1}, false);
+
+    const append = (subs: SubscriptionDto[]) => {
+        setResult((oldResult) => {
+            const items = [...subs, ...oldResult.items];
+            const pagination = {...oldResult.pagination};
+            const diff = subs.length;
+            pagination.currentItemCount += diff;
+            pagination.totalItemCount += diff;
+            return {items, pagination};
+        });
+    };
 
     const except = (item: SubscriptionDto) => {
         setResult((oldResult) => {
@@ -86,7 +98,7 @@ export const useSubscriptionsV3 = (
         });
     };
 
-    return {query, result, search, movePage, except};
+    return {query, result, search, movePage, resetPage, except};
 };
 
 export const useSubscription = () => useRecoilValue(getSubscriptionQuery);

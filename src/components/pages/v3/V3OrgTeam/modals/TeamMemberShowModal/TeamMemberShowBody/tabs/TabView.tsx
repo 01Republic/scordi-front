@@ -22,7 +22,7 @@ export const TabView = memo(function TabView() {
 
     return (
         <div className="flex flex-col gap-4 bg-gray-100" style={{minHeight: 'calc(100% - 50px - 344px)'}}>
-            <MobileSection.Item className={`grid grid-cols-${tabs.length} sticky top-[50px] z-20`}>
+            <MobileSection.Item className={`grid grid-cols-${tabs.length} sticky top-[50px] z-10`}>
                 {tabs.map((tab, i) => (
                     <TabButton key={i} label={tab.label} onClick={() => setTabIndex(i)} isActive={tabIndex === i} />
                 ))}
