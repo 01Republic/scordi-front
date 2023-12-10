@@ -24,7 +24,7 @@ export const InformationPanel = memo(() => {
     const {result, isLoading: historyLoading} = useBillingHistoriesV3();
 
     if (!currentSubscription || isLoading) return <InformationPanelLoading />;
-    if (!result.items.length || historyLoading) return <InformationPanelLoading />;
+    if (historyLoading) return <InformationPanelLoading />;
 
     const billingType = getBillingType(true);
     const BillingHistory = BillingHistoryManager.init(result.items).validateToListing();

@@ -3,7 +3,7 @@ import {SubscriptionDto} from '^models/Subscription/types';
 import {Avatar} from '^components/Avatar';
 import {FaQuestion} from 'react-icons/fa6';
 import {useModal} from '^v3/share/modals/useModal';
-import {appShowPageModal} from '^v3/V3OrgAppShowPage/modals';
+import {appShowPageModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
 import {useSetRecoilState} from 'recoil';
 import {appIdState} from '^v3/V3OrgAppShowPage/atom';
 

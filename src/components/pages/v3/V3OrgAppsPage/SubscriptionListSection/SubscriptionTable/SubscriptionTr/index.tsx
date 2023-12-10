@@ -13,7 +13,7 @@ import {
     SubscriptionStatus,
 } from './columns';
 import {useModal} from '^v3/share/modals/useModal';
-import {appShowPageModal} from '^v3/V3OrgAppShowPage/modals';
+import {appShowPageModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
 import {appIdState} from '^v3/V3OrgAppShowPage/atom';
 
 interface SubscriptionTrProps {
