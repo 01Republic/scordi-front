@@ -40,7 +40,7 @@ export const SubscriptionListTab = memo(function SubscriptionListTab() {
                             <span>를 사용하고 있어요</span>
                         </p>
 
-                        <AddButton onAdd={() => Subscriptions.resetPage()} />
+                        <AddButton />
                     </div>
 
                     <hr />

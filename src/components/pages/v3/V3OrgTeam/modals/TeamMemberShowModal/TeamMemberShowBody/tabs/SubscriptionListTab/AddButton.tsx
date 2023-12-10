@@ -3,24 +3,27 @@ import {BsPlusCircle} from 'react-icons/bs';
 import {useSubscriptionSelectModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/SubscriptionSelectModal';
 import {currentTeamMemberState, teamMemberApi, useTeamMember} from '^models/TeamMember';
 
-interface AddButtonProps {
-    onAdd: () => any;
-}
+interface AddButtonProps {}
 
 export const AddButton = memo(function AddButton(props: AddButtonProps) {
     const {teamMember} = useTeamMember(currentTeamMemberState);
     const SubscriptionSelectModal = useSubscriptionSelectModal();
-    const {onAdd} = props;
+    const {} = props;
 
     const onClick = () => {
         if (!teamMember) return;
 
-        const request = teamMemberApi.subscriptions.connectable(teamMember.id, {
+        // SubscriptionSelectModal 안에서 보여줄 구독목록을 불러옵니다.
+        const getConnectable = teamMemberApi.subscriptions.connectable;
+        const request = getConnectable(teamMember.id, {
             itemsPerPage: 0,
         });
-        SubscriptionSelectModal.show();
+
+        // 목록 요청을 집어넣어놓고
         SubscriptionSelectModal.searchForm.search(request);
-        // onAdd();
+
+        // SubscriptionSelectModal 를 엽니다.
+        SubscriptionSelectModal.show();
     };
 
     return (
