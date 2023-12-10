@@ -1,8 +1,6 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo} from 'react';
 import {FcOrgUnit} from 'react-icons/fc';
 import {TeamMemberDto} from '^models/TeamMember/type';
-import {SubscriptionDto} from '^models/Subscription/types';
-import {SubscriptionManager} from '^models/Subscription/manager';
 import {SubscriptionAvatars} from '^v3/V3OrgHomePage/desktop/sections/MemberListSection/SubscriptionAvatars';
 import {ApprovalStatus} from 'src/models/Membership/types';
 import {useTeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/hooks';
@@ -12,20 +10,11 @@ interface MemberItemProps {
     member: TeamMemberDto;
 }
 
-function collectSubscriptions() {}
-
-// TODO: 231117 멤버상세카드에 데이터 연결해야 함.
 export const MemberItem = memo((props: MemberItemProps) => {
     const teamMemberShowModal = useTeamMemberShowModal();
-    const [subscriptions, setSubscriptions] = useState<SubscriptionDto[]>([]);
     const {member} = props;
+    const subscriptions = member.subscriptions || [];
     const approvalStatus = member.membership?.approvalStatus;
-
-    useEffect(() => {
-        const subs = (member.teams || []).flatMap((team) => team.subscriptions);
-        const validSubs = subs.filter((e) => e);
-        setSubscriptions(SubscriptionManager.init(validSubs).uniqueByProduct().all());
-    }, [member]);
 
     const onClick = () => teamMemberShowModal.show(member);
 

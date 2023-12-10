@@ -1,5 +1,7 @@
-import {memo} from 'react';
+import React, {memo} from 'react';
 import {SubscriptionDto} from '^models/Subscription/types';
+import {Avatar} from '^components/Avatar';
+import {FaQuestion} from 'react-icons/fa6';
 
 interface SubscriptionAvatarsProps {
     subscriptions: SubscriptionDto[];
@@ -9,11 +11,15 @@ interface SubscriptionAvatarsProps {
 export const SubscriptionAvatars = memo((props: SubscriptionAvatarsProps) => {
     const {subscriptions, max = 3} = props;
 
-    const etcSize = subscriptions.length - max;
+    const subscriptionsHaveImage = subscriptions.filter((s) => s.product.image);
+    const etcSize =
+        subscriptionsHaveImage.length >= max
+            ? subscriptions.length - max
+            : subscriptions.length - subscriptionsHaveImage.length;
 
     return (
         <div className="avatar-group -space-x-3 overflow-visible">
-            {subscriptions.slice(0, max).map((subscription, i) => (
+            {subscriptionsHaveImage.slice(0, max).map((subscription, i) => (
                 <div
                     key={i}
                     className="avatar rounded-full bg-white border-[3px] tooltip tooltip-bottom overflow-visible"
