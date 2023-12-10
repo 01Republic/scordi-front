@@ -12,7 +12,7 @@ import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
 import {PriceHeader} from './PriceHeader';
 import {ListItemForAccount} from './ListItemForAccount';
 import {ListItemForSourceAccount} from './ListItemForSourceAccount';
-import {ListItemForPaymentMethod} from '^v3/V3OrgAppShowPage/InformationPanel/ListItemForPaymentMethod';
+import {ListItemForPaymentMethod} from './ListItemForPaymentMethod';
 
 // 정기결제금액 *
 // 결제주기 *

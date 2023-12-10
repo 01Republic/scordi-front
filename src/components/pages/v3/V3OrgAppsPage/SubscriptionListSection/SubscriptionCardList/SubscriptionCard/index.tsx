@@ -2,24 +2,19 @@ import React, {memo} from 'react';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {Avatar} from '^components/Avatar';
 import {FaQuestion} from 'react-icons/fa6';
-import {useModal} from '^v3/share/modals/useModal';
-import {appShowPageModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
-import {useSetRecoilState} from 'recoil';
-import {appIdState} from '^v3/V3OrgAppShowPage/atom';
+import {useAppShowModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
 
 interface SubscriptionCardProps {
     subscription: SubscriptionDto;
 }
 
 export const SubscriptionCard = memo((props: SubscriptionCardProps) => {
+    const appShowModal = useAppShowModal();
     const {subscription} = props;
     const {product, teamMembers} = subscription;
-    const {open} = useModal(appShowPageModal);
-    const setAppId = useSetRecoilState(appIdState);
 
     const onClick = () => {
-        setAppId(subscription.id);
-        open();
+        appShowModal.show(subscription.id);
     };
 
     return (

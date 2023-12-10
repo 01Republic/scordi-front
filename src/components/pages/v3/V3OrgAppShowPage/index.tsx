@@ -5,7 +5,7 @@ import {AccountListModal} from '^v3/share/modals/AccountListModal';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {BillingHistoryDetailModal} from '^v3/share/modals/BillingHistoryDetailModal';
 import {RegisterCreditCardModal} from '^v3/share/modals/ConnectCreditCardModal';
-import {AppShowPageBody} from '^v3/V3OrgAppShowPage/AppShowPageBody';
+import {AppShowPageBody} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/AppShowPageBody';
 import {V3OrgAppsPageRoute} from '^pages/v3/orgs/[orgId]/apps';
 import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
 
