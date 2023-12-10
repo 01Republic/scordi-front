@@ -22,7 +22,7 @@ export const SubscriptionsSection = memo(function SubscriptionsSection() {
 
         const req = subscriptionApi.index({
             where: {organizationId: orgId},
-            relations: ['master'],
+            relations: ['master', 'teamMembers'],
             itemsPerPage: SUBSCRIPTION_DISPLAY_LIMIT,
         });
 
