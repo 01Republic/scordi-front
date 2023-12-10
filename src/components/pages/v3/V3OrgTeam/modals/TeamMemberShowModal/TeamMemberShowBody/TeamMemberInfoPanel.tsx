@@ -32,7 +32,9 @@ export const TeamMemberInfoPanel = memo(() => {
                 <div className="flex justify-between mb-10">
                     <div className="flex-1">
                         <h3 className="text-2xl font-bold w-full py-2">{name}</h3>
-                        <p className="text-sm">{email}</p>
+                        <p className="text-sm">
+                            {email || <span className="italic text-gray-400">이메일을 넣어주세요</span>}
+                        </p>
                     </div>
                     <div>
                         <TeamMemberAvatar teamMember={teamMember} className="w-16 h-16 text-[32px]" />
@@ -66,10 +68,11 @@ export const TeamMemberInfoPanel = memo(() => {
 
                 <button
                     type="button"
-                    className="btn btn-lg btn-block btn-scordi rounded-box"
+                    disabled={!email}
+                    className="btn btn-lg btn-block btn-scordi rounded-box !disabled:cursor-not-allowed disabled:border-indigo-100 disabled:bg-indigo-100 disabled:text-indigo-300"
                     onClick={() => toast.info('준비중입니다.')}
                 >
-                    이 멤버 초대하기
+                    {email ? '이 멤버 초대하기' : '초대하려면 이메일이 필요합니다'}
                 </button>
             </MobileSection.Padding>
         </MobileSection.Item>
