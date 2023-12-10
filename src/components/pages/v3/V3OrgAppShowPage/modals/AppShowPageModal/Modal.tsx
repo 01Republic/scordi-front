@@ -7,6 +7,7 @@ import {appIdState, useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 import {AppShowPageBody} from './AppShowPageBody';
 import {useAppShowModal} from './hook';
+import {SelectTeamMemberModal} from './SelectTeamMemberModal';
 
 export const AppShowPageModal = memo(() => {
     const {Modal, hide} = useAppShowModal();
@@ -29,15 +30,18 @@ export const AppShowPageModal = memo(() => {
     }, [orgId, appId]);
 
     return (
-        <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
-            <ModalTopbar
-                title={currentSubscription ? currentSubscription.product.name() : ''}
-                backBtnOnClick={hide}
-                topbarPosition="sticky"
-            />
-            <MobileSection.List>
-                <AppShowPageBody />
-            </MobileSection.List>
-        </Modal>
+        <>
+            <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
+                <ModalTopbar
+                    title={currentSubscription ? currentSubscription.product.name() : ''}
+                    backBtnOnClick={hide}
+                    topbarPosition="sticky"
+                />
+                <MobileSection.List>
+                    <AppShowPageBody />
+                </MobileSection.List>
+            </Modal>
+            <SelectTeamMemberModal />
+        </>
     );
 });

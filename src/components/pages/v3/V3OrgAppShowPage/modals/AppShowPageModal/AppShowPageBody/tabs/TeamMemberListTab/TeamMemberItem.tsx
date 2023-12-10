@@ -1,23 +1,23 @@
 import React, {memo} from 'react';
 import {SubscriptionDto} from '^models/Subscription/types';
-import {Avatar} from '^components/Avatar';
-import {BsDashCircle} from 'react-icons/bs';
 import {teamMemberApi, TeamMemberDto} from '^models/TeamMember';
 import {useToast} from '^hooks/useToast';
+import {Avatar} from '^components/Avatar';
+import {BsDashCircle} from 'react-icons/bs';
+import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 
-interface SubscriptionItemProps {
+interface TeamMemberItemProps {
+    subscriptionId: number;
     teamMember: TeamMemberDto;
-    subscription: SubscriptionDto;
     onDelete: () => any;
 }
 
-export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
+export const TeamMemberItem = memo((props: TeamMemberItemProps) => {
     const {toast} = useToast();
-    const {teamMember, subscription, onDelete} = props;
-    const {product} = subscription;
+    const {teamMember, subscriptionId, onDelete} = props;
 
     const removeData = () => {
-        teamMemberApi.subscriptions.disconnect(teamMember.id, subscription.id).then(() => {
+        teamMemberApi.subscriptions.disconnect(teamMember.id, subscriptionId).then(() => {
             toast.success('삭제했습니다');
             onDelete();
         });
@@ -25,15 +25,18 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
 
     return (
         <li>
-            <div className="!w-auto gap-4 px-4 py-3 -mx-4 hover:bg-neutral no-selectable rounded-box">
-                <Avatar
-                    src={product.image}
+            <div className="!w-auto flex items-center gap-4 px-4 py-3 -mx-4 hover:bg-neutral no-selectable rounded-box">
+                <TeamMemberAvatar
+                    teamMember={teamMember}
                     className="w-9 h-9 outline outline-offset-1 outline-slate-100 rounded-full"
                 />
 
                 <div className="flex-1">
-                    <p className="font-semibold text-gray-800 max-w-[20rem] overflow-x-auto no-scrollbar">
-                        {product.name()}
+                    <p className="font-semibold text-gray-800 max-w-[20rem] overflow-x-auto no-scrollbar leading-none mb-1">
+                        {teamMember.name}
+                    </p>
+                    <p className="text-xs text-gray-400">
+                        {teamMember.email || <i className="opacity-70">no email</i>}
                     </p>
                 </div>
 
@@ -57,4 +60,4 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
         </li>
     );
 });
-SubscriptionItem.displayName = 'SubscriptionItem';
+TeamMemberItem.displayName = 'TeamMemberItem';

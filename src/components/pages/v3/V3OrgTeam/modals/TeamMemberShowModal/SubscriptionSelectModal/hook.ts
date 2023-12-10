@@ -5,7 +5,6 @@ import {orgIdParamState} from '^atoms/common';
 import {noSelectableIdsAtom, pagesResultAtom, subscriptionSelectModalAtom} from './atom';
 import {AxiosResponse} from 'axios';
 import {Paginated} from '^types/utils/paginated.dto';
-import {teamMemberApi} from '^models/TeamMember';
 
 export const useSubscriptionSelectModal = () => {
     const orgId = useRecoilValue(orgIdParamState);

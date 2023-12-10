@@ -20,7 +20,7 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
 
         getSubscriptions({
             where: {organizationId: orgId},
-            relations: ['master'],
+            relations: ['master', 'teamMembers'],
             itemsPerPage: 0,
         });
 

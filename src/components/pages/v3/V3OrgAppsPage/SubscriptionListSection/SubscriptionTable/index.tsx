@@ -8,7 +8,6 @@ import {SubscriptionDto} from '^models/Subscription/types';
 interface SubscriptionTableProps {
     items: SubscriptionDto[];
 }
-import {tagOptionsState} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/PayingType/PayingTypeSelect';
 
 export const SubscriptionTable = memo(function SubscriptionTable(props: SubscriptionTableProps) {
     const {items: subscriptions} = props;
