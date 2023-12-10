@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {Avatar} from '^components/Avatar';
 import {BsCheckCircle, BsCheckCircleFill} from 'react-icons/bs';
@@ -6,12 +6,19 @@ import {BsCheckCircle, BsCheckCircleFill} from 'react-icons/bs';
 interface SubscriptionSelectItemProps {
     subscription: SubscriptionDto;
     onClick: (selected: SubscriptionDto) => any;
+    isModalShown: boolean;
 }
 
 export const SubscriptionSelectItem = memo((props: SubscriptionSelectItemProps) => {
     const [isSelected, setSelected] = useState(false);
-    const {subscription, onClick: _onClick} = props;
+    const {subscription, onClick: _onClick, isModalShown} = props;
     const {product} = subscription;
+
+    useEffect(() => {
+        if (!isModalShown) {
+            setSelected(false);
+        }
+    }, [isModalShown]);
 
     const onClick = () => {
         setSelected((v) => !v);

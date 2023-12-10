@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useSubscriptionSelectModal} from './hook';
 import {SubscriptionSelectItem} from './SubscriptionSelectItem';
 
@@ -20,6 +20,12 @@ export const SubscriptionSelectModal = memo(function SubscriptionSelectModal(pro
 
     const title = '구독서비스를 선택해주세요';
     const subtitle = '이미 갖고 있는건 뺐어요';
+
+    useEffect(() => {
+        if (!isShow) {
+            setSelectedIds([]);
+        }
+    }, [isShow]);
 
     const toggleSelect = (selectedId: number) => {
         setSelectedIds((ids) => {
@@ -57,6 +63,7 @@ export const SubscriptionSelectModal = memo(function SubscriptionSelectModal(pro
                                         onClick={(sub) => {
                                             toggleSelect(sub.id);
                                         }}
+                                        isModalShown={isShow}
                                     />
                                 </li>
                             ))}
