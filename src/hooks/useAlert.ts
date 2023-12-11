@@ -47,7 +47,7 @@ export function useAlert() {
     };
 
     const error = (title: string, text: string, props?: SweetAlertOptions) => {
-        Swal.fire({
+        return Swal.fire({
             icon: 'error',
             title: title,
             text: text,

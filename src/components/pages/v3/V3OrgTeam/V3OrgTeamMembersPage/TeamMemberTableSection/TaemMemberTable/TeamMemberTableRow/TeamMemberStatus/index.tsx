@@ -3,7 +3,6 @@ import {TeamMemberDto} from '^models/TeamMember';
 import {c_ApprovalStatus, t_ApprovalStatus} from '^models/Membership/types';
 import {useRecoilValue} from 'recoil';
 import {currentUserAtom} from '^models/User/atom';
-import {useToast} from '^hooks/useToast';
 import {LeaveButton} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatus/LeaveButton';
 import {InviteButton} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatus/InviteButton';
 
@@ -13,7 +12,6 @@ interface TeamMemberStatusProps {
 
 export const TeamMemberStatus = memo((props: TeamMemberStatusProps) => {
     const currentUser = useRecoilValue(currentUserAtom);
-    const {toast} = useToast();
     const {teamMember} = props;
 
     if (!teamMember || !currentUser) return <></>;
@@ -29,15 +27,15 @@ export const TeamMemberStatus = memo((props: TeamMemberStatusProps) => {
 
     return (
         <div className="capitalize text-sm text-gray-500">
-            {isMe ? (
-                <LeaveButton teamMember={teamMember} user={currentUser} tooltipMsg="" />
-            ) : membership ? (
+            {isMe && <LeaveButton teamMember={teamMember} user={currentUser} tooltipMsg="" />}
+
+            {!isMe && membership && (
                 <button className={`${c_ApprovalStatus(membership.approvalStatus)} btn btn-xs px-2 cursor-default`}>
                     {t_ApprovalStatus(membership.approvalStatus)}
                 </button>
-            ) : (
-                <InviteButton teamMember={teamMember} />
             )}
+
+            {!membership && <InviteButton teamMember={teamMember} />}
         </div>
     );
 });

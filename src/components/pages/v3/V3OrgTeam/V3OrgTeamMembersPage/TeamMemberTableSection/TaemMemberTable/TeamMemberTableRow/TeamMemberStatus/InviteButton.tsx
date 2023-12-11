@@ -1,6 +1,5 @@
 import React, {memo} from 'react';
-import {TeamMemberDto} from '^models/TeamMember';
-import {useToast} from '^hooks/useToast';
+import {TeamMemberDto, useSendInviteEmail} from '^models/TeamMember';
 import {FaRegEnvelope} from 'react-icons/fa';
 
 interface InviteButtonProps {
@@ -8,11 +7,17 @@ interface InviteButtonProps {
 }
 
 export const InviteButton = memo((props: InviteButtonProps) => {
-    const {toast} = useToast();
+    const {sendEmail} = useSendInviteEmail();
     const {teamMember} = props;
 
+    const onClick = () => {
+        if (!teamMember.email) return;
+
+        sendEmail(teamMember.email);
+    };
+
     return (
-        <button onClick={() => toast.info('준비중입니다.')} className="btn btn-sm normal-case gap-2 items-center">
+        <button onClick={onClick} className="btn btn-sm normal-case gap-2 items-center">
             <FaRegEnvelope /> Invite
         </button>
     );
