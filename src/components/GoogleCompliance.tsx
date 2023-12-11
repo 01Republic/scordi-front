@@ -22,7 +22,7 @@ export const GoogleComplianceDisclosureTag = (props?: GoogleComplianceDisclosure
             {t('description2')}
             <br />
             <br />
-            <b>{t(assureTextKey)}</b>
+            {/*<b>{t(assureTextKey)}</b>*/}
         </p>
     );
 };
