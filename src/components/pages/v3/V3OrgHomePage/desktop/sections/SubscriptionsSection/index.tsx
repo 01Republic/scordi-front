@@ -1,5 +1,5 @@
 import React, {memo, useEffect} from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
 import {V3OrgAppsPageRoute} from '^pages/v3/orgs/[orgId]/apps';
 import {Panel} from '^v3/V3OrgHomePage/desktop/Panel';
@@ -9,12 +9,16 @@ import {SubscriptionTable} from '^v3/V3OrgAppsPage/SubscriptionListSection/Subsc
 import {subscriptionApi} from '^models/Subscription/api';
 import {orgIdParamState} from '^atoms/common';
 import {dashboardSubscriptionSearchResultAtom} from './atom';
+import {usePayingTypeTags} from '^models/Tag/hook';
+import {tagOptionsState} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/PayingType/PayingTypeSelect';
 
 const SUBSCRIPTION_DISPLAY_LIMIT: number = 10;
 
 export const SubscriptionsSection = memo(function SubscriptionsSection() {
     const [pagedSubscriptions, setResult] = useRecoilState(dashboardSubscriptionSearchResultAtom);
     const {safePath} = useSafePathInCurrentOrg();
+    const {search: getTags} = usePayingTypeTags();
+    const setTagOptions = useSetRecoilState(tagOptionsState);
     const orgId = useRecoilValue(orgIdParamState);
 
     useEffect(() => {
@@ -29,6 +33,8 @@ export const SubscriptionsSection = memo(function SubscriptionsSection() {
         req.then((res) => {
             setResult(res.data);
         });
+
+        getTags({}).then((res) => setTagOptions(res.items));
     }, [orgId]);
 
     const {totalItemCount} = pagedSubscriptions.pagination;

@@ -63,15 +63,16 @@ export const Option = (props: OptionProps<any>) => {
     const {search: getTags} = usePayingTypeTags();
     const setTagOptions = useSetRecoilState(tagOptionsState);
 
-    const onDelete = () => {
-        const tagId = props.data.id;
-
-        if (!tagId) return;
-
-        const req = tagApi.destroy(tagId);
-
-        req.then(() => getTags({}).then((res) => setTagOptions(res.items)));
-    };
+    // 보류
+    // const onDelete = () => {
+    //     const tagId = props.data.id;
+    //
+    //     if (!tagId) return;
+    //
+    //     const req = tagApi.destroy(tagId);
+    //
+    //     req.then(() => getTags({}).then((res) => setTagOptions(res.items)));
+    // };
 
     return (
         <components.Option {...props} className="!bg-white">
@@ -79,12 +80,12 @@ export const Option = (props: OptionProps<any>) => {
                 <div className="btn btn-xs btn-outline btn-scordi flex gap-2 justify-between w-fit px-2 font-normal bg-white">
                     {props.children}
                 </div>
-                <button
-                    onClick={onDelete}
-                    className="relative text-gray-400 hover:text-gray-600 transition-all text-end"
-                >
-                    <HiOutlineXMark size={12} />
-                </button>
+                {/*<button*/}
+                {/*    onClick={onDelete}*/}
+                {/*    className="relative text-gray-400 hover:text-gray-600 transition-all text-end"*/}
+                {/*>*/}
+                {/*    <HiOutlineXMark size={12} />*/}
+                {/*</button>*/}
             </div>
         </components.Option>
     );
