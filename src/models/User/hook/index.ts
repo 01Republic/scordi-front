@@ -86,16 +86,18 @@ export function useCurrentUser(fallbackPath?: string | null, opt?: CurrentUserOp
             });
     };
 
-    const loginRedirect = (user: UserDto) => {
+    const getLoginRedirectPath = (user: UserDto) => {
         // org check
         // org ? 대시보드로 이동
         // : search페이지로 이동
         if (user.orgId) {
-            router.push(V3OrgHomePageRoute.path(user.orgId));
+            return V3OrgHomePageRoute.path(user.orgId);
         } else {
-            router.push(OrgSearchRoute.path());
+            return OrgSearchRoute.path();
         }
     };
+
+    const loginRedirect = (user: UserDto) => router.push(getLoginRedirectPath(user));
 
     const logout = () => {
         removeToken();
@@ -109,6 +111,7 @@ export function useCurrentUser(fallbackPath?: string | null, opt?: CurrentUserOp
         setCurrentUser,
         // login,
         socialLogin,
+        getLoginRedirectPath,
         loginRedirect,
         logout,
         currentUserMembership,

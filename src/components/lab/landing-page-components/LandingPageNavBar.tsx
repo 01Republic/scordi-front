@@ -9,6 +9,8 @@ import {PostListPageRoute} from '^pages/posts';
 import {ProductListPageRoute} from '^pages/products';
 import {useModal} from '^v3/share/modals/useModal';
 import {inquiryModalAtom} from '^components/pages/LandingPages/HomePage2/InquiryModal';
+import {useCurrentUser} from '^models/User/hook';
+import {LinkTo} from '^components/util/LinkTo';
 
 interface LandingPageNavBarProps extends WithChildren {
     fluid?: boolean;
@@ -21,6 +23,7 @@ interface LandingPageNavBarProps extends WithChildren {
 export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
     const {fluid = false, sticky = false, bgBlur = false, showLoginButton = true, className = '', children} = props;
     const router = useRouter();
+    const {currentUser, getLoginRedirectPath} = useCurrentUser();
     const {open} = useModal(inquiryModalAtom);
 
     const introducePath = '/#product-section';
@@ -40,11 +43,11 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
         >
             <div className={`p-4 ${fluid ? '' : 'container sm:px-0'} navbar ${className}`}>
                 <div className="navbar-start">
-                    <a
+                    <LinkTo
+                        href={MainPageRoute.path()}
                         className={`btn btn-ghost btn-hover-init normal-case text-2xl md:text-3xl ${
                             fluid ? '' : 'px-0'
                         }`}
-                        onClick={() => router.push(MainPageRoute.path())}
                     >
                         {/*<Image*/}
                         {/*    src="/logo-transparent.png"*/}
@@ -59,24 +62,25 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
                             alt="Scordi logo"
                             className="relative mr-1 w-[140px]"
                         />
-                    </a>
+                    </LinkTo>
 
                     <div className="hidden sm:flex gap-2 items-center justify-between px-4">
-                        <a
+                        <LinkTo
                             href={introducePath}
+                            text="제품소개"
                             className="hidden md:inline-flex btn btn-ghost normal-case btn-hover-init"
-                        >
-                            제품소개
-                        </a>
-                        <a href={TastingPageRoute.path()} className="btn btn-ghost normal-case btn-hover-init">
-                            SaaS 스캐너
-                        </a>
-                        <a href={saasPath} className="btn btn-ghost normal-case btn-hover-init">
-                            컬렉션
-                        </a>
-                        <a href={blogPath} className="hidden md:inline-flex btn btn-ghost normal-case btn-hover-init">
-                            블로그
-                        </a>
+                        />
+                        <LinkTo
+                            href={TastingPageRoute.path()}
+                            className="btn btn-ghost normal-case btn-hover-init"
+                            text="SaaS 스캐너"
+                        />
+                        <LinkTo href={saasPath} className="btn btn-ghost normal-case btn-hover-init" text="컬렉션" />
+                        <LinkTo
+                            href={blogPath}
+                            className="hidden md:inline-flex btn btn-ghost normal-case btn-hover-init"
+                            text="블로그"
+                        />
                     </div>
                 </div>
                 <div className="navbar-center lg:flex" />
@@ -86,13 +90,21 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
 
                     {showLoginButton && (
                         <div className="flex gap-2 items-center justify-between">
-                            <a className="btn btn-ghost" href={UserLoginPageRoute.path()}>
-                                로그인
-                            </a>
+                            {currentUser ? (
+                                <LinkTo
+                                    text="시작하기"
+                                    href={getLoginRedirectPath(currentUser)}
+                                    className="btn btn-ghost"
+                                />
+                            ) : (
+                                <LinkTo text="로그인" href={UserLoginPageRoute.path()} className="btn btn-ghost" />
+                            )}
 
-                            <a className="btn hidden sm:inline-flex btn-scordi" onClick={open}>
-                                도입 문의하기
-                            </a>
+                            <LinkTo
+                                text="도입 문의하기"
+                                onClick={open}
+                                className="btn hidden sm:inline-flex btn-scordi"
+                            />
                         </div>
                     )}
 
@@ -108,16 +120,16 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
                             className="menu dropdown-content p-2 shadow-lg bg-base-100 !fixed left-0 w-full"
                         >
                             <li>
-                                <a href={introducePath}>제품소개</a>
+                                <LinkTo href={introducePath} text="제품소개" />
                             </li>
                             <li>
-                                <a href={TastingPageRoute.path()}>SaaS 스캐너</a>
+                                <LinkTo href={TastingPageRoute.path()} text="SaaS 스캐너" />
                             </li>
                             <li>
-                                <a href={saasPath}>컬렉션</a>
+                                <LinkTo href={saasPath} text="컬렉션" />
                             </li>
                             <li>
-                                <a href={blogPath}>블로그</a>
+                                <LinkTo href={blogPath} text="블로그" />
                             </li>
                         </ul>
                     </div>
