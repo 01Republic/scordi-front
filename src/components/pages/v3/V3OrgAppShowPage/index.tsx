@@ -8,6 +8,7 @@ import {RegisterCreditCardModal} from '^v3/share/modals/ConnectCreditCardModal';
 import {AppShowPageBody} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/AppShowPageBody';
 import {V3OrgAppsPageRoute} from '^pages/v3/orgs/[orgId]/apps';
 import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
+import {SelectTeamMemberModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/SelectTeamMemberModal';
 
 export const V3OrgAppShowPage = memo(() => {
     const {currentSubscription} = useCurrentSubscription();
@@ -20,7 +21,7 @@ export const V3OrgAppShowPage = memo(() => {
     return (
         <V3ModalLikeLayoutMobile
             title={currentSubscription ? currentSubscription.product.name() : ''}
-            modals={[BillingHistoryDetailModal, AccountListModal, RegisterCreditCardModal]}
+            modals={[BillingHistoryDetailModal, SelectTeamMemberModal, AccountListModal, RegisterCreditCardModal]}
             backBtnOnClick={onClick}
         >
             <MobileSection.List className="h-full">

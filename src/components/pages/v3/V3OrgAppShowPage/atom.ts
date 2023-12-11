@@ -14,11 +14,6 @@ const currentSubscriptionLoadingState = atom<boolean>({
     default: false,
 });
 
-export const appIdState = atom<number | null>({
-    key: 'appIdState',
-    default: null,
-});
-
 export const useCurrentSubscription = () => {
     const router = useRouter();
     const [currentSubscription, setCurrentSubscription] = useRecoilState(currentSubscriptionState);
