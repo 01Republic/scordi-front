@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {useForm} from 'react-hook-form';
 import {orgIdParamState} from '^atoms/common';
-import {teamMemberApi, useTeamMembers, CreateTeamMemberDto} from '^models/TeamMember';
+import {teamMemberApi, useTeamMembers, CreateTeamMemberDto, TeamMemberDto} from '^models/TeamMember';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {useModal} from '^v3/share/modals/useModal';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
@@ -11,20 +11,25 @@ import {isOpenNewTeamMemberModalAtom} from './atom';
 import {FormControl} from '^components/util/form-control';
 import {useToast} from '^hooks/useToast';
 
-export const NewTeamMemberModal = memo(() => {
-    const list = useTeamMembers();
+interface NewTeamMemberModalProps {
+    onSubmit: (savedTeamMember: TeamMemberDto) => any;
+}
+
+export const NewTeamMemberModal = memo((props: NewTeamMemberModalProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const {toast} = useToast();
 
     const {close, Modal} = useModal({isShowAtom: isOpenNewTeamMemberModalAtom});
     const form = useForm<CreateTeamMemberDto>();
 
+    const {onSubmit: _onSubmit} = props;
+
     const onSubmit = (data: CreateTeamMemberDto) => {
-        teamMemberApi.create(orgId, data).then(() => {
+        teamMemberApi.create(orgId, data).then((res) => {
             toast.success('추가되었습니다');
             close();
             form.reset();
-            if (list.isExist) list.reload();
+            _onSubmit(res.data);
         });
     };
 

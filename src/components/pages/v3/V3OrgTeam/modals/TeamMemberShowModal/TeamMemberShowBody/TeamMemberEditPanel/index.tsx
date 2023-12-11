@@ -52,12 +52,12 @@ export const TeamMemberEditPanel = memo(function TeamMemberEditPanel() {
                             <input type="text" required className="input input-bordered" {...form.register('name')} />
                         </FormControl>
 
-                        <FormControl topLeftLabel="설명">
-                            <input type="text" className="input input-bordered" {...form.register('notes')} />
-                        </FormControl>
-
                         <FormControl topLeftLabel="이메일">
                             <input type="email" className="input input-bordered" {...form.register('email')} />
+                        </FormControl>
+
+                        <FormControl topLeftLabel="설명">
+                            <input type="text" className="input input-bordered" {...form.register('notes')} />
                         </FormControl>
 
                         <FormControl topLeftLabel="전화번호">
