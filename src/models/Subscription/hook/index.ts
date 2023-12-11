@@ -11,6 +11,7 @@ import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook'
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {subscriptionApi} from '^models/Subscription/api';
 import {Paginated} from '^types/utils/paginated.dto';
+import {cachePagedQuery, makeAppendPagedItemFn, makeExceptPagedItemFn} from '^hooks/usePagedResource';
 
 export const useCurrentSubscription = () => {
     const [currentSubscription, reload] = useRecoilState(getCurrentSubscriptionQuery);
@@ -51,54 +52,20 @@ export const useSubscriptionsV3 = (
     const [result, setResult] = useRecoilState(resultAtom);
     const [query, setQuery] = useRecoilState(queryAtom);
 
-    async function search(params: FindAllSubscriptionsQuery, mergeMode = defaultMergeMode) {
-        if (!orgId) return;
-
+    async function search(params: FindAllSubscriptionsQuery, mergeMode = defaultMergeMode, force = false) {
+        if (!orgId || isNaN(orgId)) return;
         params.where = {organizationId: orgId, ...params.where};
-
-        const data = await subscriptionApi.index(params).then((res) => res.data);
-        if (mergeMode) {
-            setResult((oldResult) => {
-                const items = [...oldResult.items, ...data.items];
-                const pagination = data.pagination;
-                pagination.currentItemCount = items.length;
-                return {items, pagination};
-            });
-        } else {
-            setResult(data);
-        }
-
-        setQuery(params);
-
-        return data;
+        const request = () => subscriptionApi.index(params);
+        cachePagedQuery(setResult, setQuery, params, request, mergeMode, force);
     }
 
-    const movePage = (page: number) => search({...query, page});
-    const resetPage = () => search({...query, page: 1}, false);
+    const reload = () => search({...query}, false, true);
+    const movePage = (page: number, append = false) => search({...query, page}, append);
+    const resetPage = () => search({...query, page: 1}, false, true);
+    const append = makeAppendPagedItemFn(setResult);
+    const except = makeExceptPagedItemFn(setResult, (it, item) => it.id !== item.id);
 
-    const append = (subs: SubscriptionDto[]) => {
-        setResult((oldResult) => {
-            const items = [...subs, ...oldResult.items];
-            const pagination = {...oldResult.pagination};
-            const diff = subs.length;
-            pagination.currentItemCount += diff;
-            pagination.totalItemCount += diff;
-            return {items, pagination};
-        });
-    };
-
-    const except = (item: SubscriptionDto) => {
-        setResult((oldResult) => {
-            const items = oldResult.items.filter((it) => it.id !== item.id);
-            const pagination = {...oldResult.pagination};
-            const diff = oldResult.pagination.currentItemCount - items.length;
-            pagination.currentItemCount -= diff;
-            pagination.totalItemCount -= diff;
-            return {items, pagination};
-        });
-    };
-
-    return {query, result, search, movePage, resetPage, except};
+    return {query, result, search, reload, movePage, resetPage, except};
 };
 
 export const useSubscription = () => useRecoilValue(getSubscriptionQuery);

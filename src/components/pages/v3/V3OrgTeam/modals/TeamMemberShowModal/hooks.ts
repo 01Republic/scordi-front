@@ -26,8 +26,11 @@ export const useTeamMemberShowModal = () => {
         close();
         setEditMode(false); // reset edit mode
         setTabIndex(0); // reset tab active index
-        // setSubjectTeamMember(null); // reset subject
-        TeamMembers.reload(); // Follow-up executed transactions inside of Modal
+
+        // 멤버 리스트 갱신
+        TeamMembers.reload().then(() => {
+            // setSubjectTeamMember(null); // reset subject
+        }); // Follow-up executed transactions inside of Modal
     };
 
     return {show, hide, ...modal, subject: subjectTeamMember};

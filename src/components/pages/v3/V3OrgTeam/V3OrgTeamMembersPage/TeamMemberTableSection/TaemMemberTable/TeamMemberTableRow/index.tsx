@@ -11,14 +11,13 @@ interface TeamMemberTableRowPropsTableRowProps {
     teamMember: TeamMemberDto;
 }
 export const TeamMemberTableRow = memo((props: TeamMemberTableRowPropsTableRowProps) => {
-    const currentUser = useRecoilValue(currentUserAtom);
+    // const currentUser = useRecoilValue(currentUserAtom);
     const memberShowModal = useTeamMemberShowModal();
     const {teamMember} = props;
 
-    if (!teamMember || !currentUser) return <></>;
+    if (!teamMember) return <></>;
 
     const {membership, subscriptions} = teamMember;
-    const isMe = teamMember.email === currentUser.email;
 
     const openShowModal = () => memberShowModal.show(teamMember);
 

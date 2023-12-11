@@ -23,14 +23,7 @@ export const SelectSubscriptionModal = memo(() => {
                 await Promise.all(reqs);
 
                 toast.success('추가했습니다.');
-
-                Subscriptions.search({
-                    where: {
-                        organizationId: teamMember.organizationId,
-                        // @ts-ignore
-                        teamMembers: {id: teamMember.id},
-                    },
-                });
+                Subscriptions.reload();
             }}
         />
     );

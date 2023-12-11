@@ -8,7 +8,7 @@ import {orgIdParamState} from '^atoms/common';
 import {TeamMemberTable} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable';
 
 export const TeamMembersTableSection = memo(() => {
-    const {result, search: getTeamMembers, query} = useTeamMembers();
+    const {result, search: getTeamMembers, movePage, query} = useTeamMembers();
     const orgId = useRecoilValue(orgIdParamState);
     const pagination = result.pagination;
 
@@ -22,12 +22,13 @@ export const TeamMembersTableSection = memo(() => {
         });
     }, [orgId]);
 
-    const movePage = (page: number) => getTeamMembers({...query, page});
+    // const movePage = (page: number) => getTeamMembers({...query, page});
 
     const onSearch = debounce((data) => {
         if (!query) return;
 
         const searchQuery = {
+            ...query,
             ...(data.length > 0 ? {where: {name: data}} : null),
             page: 1,
         };
