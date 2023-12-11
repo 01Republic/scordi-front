@@ -1,9 +1,9 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
-import {orgIdParamState, subscriptionIdParamState} from '^atoms/common';
+import {orgIdParamState} from '^atoms/common';
 import {ModalTopbar} from '^v3/share/modals';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
+import {appIdState, useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 import {AppShowPageBody} from './AppShowPageBody';
 import {useAppShowModal} from './hook';
@@ -16,7 +16,7 @@ export const AppShowPageModal = memo(() => {
 
     // const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const orgId = useRecoilValue(orgIdParamState);
-    const appId = useRecoilValue(subscriptionIdParamState);
+    const appId = useRecoilValue(appIdState);
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;

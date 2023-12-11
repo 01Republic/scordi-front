@@ -12,7 +12,7 @@ type TextInputProps<T extends FieldValues> = InputHTMLAttributes<HTMLInputElemen
 
 export const Input = forwardRef((props: TextInputProps<UnSignedAccountFormData>, ref: ForwardedRef<any>) => {
     const {label, formObj, name, required, ...res} = props;
-    const [id] = useId(1, `Input-${name}`);
+    const [id] = useId(1, `Input`);
 
     return (
         <div className="w-full">
@@ -28,6 +28,7 @@ export const Input = forwardRef((props: TextInputProps<UnSignedAccountFormData>,
                     {...formObj.register(name)}
                     {...res}
                     required={required}
+                    ref={ref}
                 />
                 <span />
             </div>
