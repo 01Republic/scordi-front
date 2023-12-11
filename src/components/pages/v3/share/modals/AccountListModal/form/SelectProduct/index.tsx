@@ -28,7 +28,7 @@ export const SelectProduct = memo((props: SelectProductProps) => {
     const {form} = props;
     const {open: openSelectProductModal} = useSelectProductModal();
     const [productId, setProductId] = useState<number>();
-    const {Product} = useProductsOfAccounts(true);
+    const {Product, loadSubscriptions} = useProductsOfAccounts(true);
     const product = useMemo(() => {
         if (!Product || !productId) return;
         return Product.findById(productId);
@@ -41,7 +41,10 @@ export const SelectProduct = memo((props: SelectProductProps) => {
     }, []);
 
     useEffect(() => {
-        if (productId) form.setValue('productId', productId);
+        if (productId) {
+            form.setValue('productId', productId);
+            loadSubscriptions();
+        }
     }, [productId]);
 
     if (!Product) return <div className="w-full min-h-[70px] bg-slate-200 opacity-40" />;

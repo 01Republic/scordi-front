@@ -49,24 +49,24 @@ export const getSubscriptionsQuery = selector({
     },
 });
 
-export const getProjectQuery = selector({
-    key: 'getProjectQuery',
-    get: async ({get}) => {
-        const orgId = get(orgIdParamState);
-        if (!orgId || isNaN(orgId)) return;
-
-        try {
-            const res = await subscriptionApi.index({
-                where: {organizationId: orgId},
-                order: {productId: 'ASC'},
-                itemsPerPage: 0,
-            });
-            return res.data;
-        } catch (e) {
-            errorNotify(e);
-        }
-    },
-});
+// export const getProjectQuery = selector({
+//     key: 'getProjectQuery',
+//     get: async ({get}) => {
+//         const orgId = get(orgIdParamState);
+//         if (!orgId || isNaN(orgId)) return;
+//
+//         try {
+//             const res = await subscriptionApi.index({
+//                 where: {organizationId: orgId},
+//                 order: {productId: 'ASC'},
+//                 itemsPerPage: 0,
+//             });
+//             return res.data;
+//         } catch (e) {
+//             errorNotify(e);
+//         }
+//     },
+// });
 
 export const getCurrentSubscriptionQueryTrigger = atom({
     key: 'getCurrentSubscriptionQueryTrigger',

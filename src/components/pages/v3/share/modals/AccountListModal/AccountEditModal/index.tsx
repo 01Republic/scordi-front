@@ -13,7 +13,6 @@ export const AccountEditModal = memo(() => {
     const form = useForm<UnSignedAccountFormData>();
     const {isShow, Modal, hide, data} = useAccountEditModal();
     const {fetchAllAccountsBy} = useAccounts();
-    const onBack = () => hide();
     const {product, account} = data;
     const {toast} = useToast();
 
@@ -41,6 +40,8 @@ export const AccountEditModal = memo(() => {
             window.removeEventListener('keyup', keyClicked);
         };
     }, []);
+
+    const onBack = () => hide();
 
     const onSubmit = (dto: UnSignedAccountFormData) => {
         if (!account) return;

@@ -1,10 +1,13 @@
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useRecoilState} from 'recoil';
+import {atom, useRecoilState, useRecoilValue} from 'recoil';
 import {getAccountsQueryAtom, accountsSearchResultAtom} from '^models/Account/atom';
-import {FindAllAccountsQueryDto} from '^models/Account/types';
+import {AccountDto, FindAllAccountsQueryDto} from '^models/Account/types';
 import {accountApi} from '^models/Account/api';
 import {LoginDto} from '^types/crawler';
 import CryptoJS from 'crypto-js';
+import {useState} from 'react';
+import {Paginated} from '^types/utils/paginated.dto';
+import {AxiosResponse} from 'axios';
 
 export const useAccounts = () => {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
@@ -14,10 +17,21 @@ export const useAccounts = () => {
     async function search(params: FindAllAccountsQueryDto, force = false) {
         if (!force && JSON.stringify(query) === JSON.stringify(params)) return;
 
-        const data = await accountApi.index(orgId, params).then((res) => res.data);
-        setResult(data);
-        setQuery(params);
+        setQuery((oldQuery) => {
+            if (!force && JSON.stringify(oldQuery) === JSON.stringify(params)) return oldQuery;
+
+            accountApi
+                .index(orgId, params)
+                .then((res) => res.data)
+                .then((data) => {
+                    setResult(data);
+                });
+
+            return params;
+        });
     }
+
+    const reload = () => search(query, true);
 
     const movePage = (page: number) => search({...query, page});
 
@@ -25,7 +39,7 @@ export const useAccounts = () => {
         return search({relations: ['product'], where, itemsPerPage: 0}, force);
     }
 
-    return {query, result, search, movePage, fetchAllAccountsBy};
+    return {query, result, search, reload, movePage, fetchAllAccountsBy};
 };
 
 export const useAccountSign = () => {

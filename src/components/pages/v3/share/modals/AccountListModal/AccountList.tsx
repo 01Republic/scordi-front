@@ -1,8 +1,6 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo} from 'react';
 import {AccountDto} from '^models/Account/types';
 import {AccountItem} from './AccountItem';
-import {useRecoilState, useRecoilValue} from 'recoil';
-import {accountListAtom, getAccountsQuery} from '^models/Account/atom';
 
 interface AccountListProps {
     accounts?: AccountDto[];
@@ -10,18 +8,12 @@ interface AccountListProps {
 }
 
 export const AccountList = memo((props: AccountListProps) => {
-    const {hideProduct = false} = props;
-    const pagedAccounts = useRecoilValue(getAccountsQuery);
-    const [accountList, setAccountList] = useRecoilState(accountListAtom);
-
-    useEffect(() => {
-        if (pagedAccounts) setAccountList(pagedAccounts.items);
-    }, [pagedAccounts]);
+    const {accounts, hideProduct = false} = props;
 
     return (
         <ul className="w-full text-left py-4">
-            {accountList.length ? (
-                accountList.map((account, i) => <AccountItem key={i} account={account} hideProduct={hideProduct} />)
+            {accounts && accounts.length ? (
+                accounts.map((account, i) => <AccountItem key={i} account={account} hideProduct={hideProduct} />)
             ) : (
                 <li className="flex items-center justify-center h-52">
                     <div className="text-center no-selectable">

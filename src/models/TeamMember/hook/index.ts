@@ -59,23 +59,27 @@ export const useTeamMembersV3 = (
 
         params.where = {organizationId: orgId, ...params.where};
 
-        if (JSON.stringify(query) === JSON.stringify(params)) return;
+        setQuery((oldQuery) => {
+            if (JSON.stringify(oldQuery) === JSON.stringify(params)) return oldQuery;
 
-        const data = await teamMemberApi.index(orgId, params).then((res) => res.data);
-        if (mergeMode) {
-            setResult((oldResult) => {
-                const items = [...oldResult.items, ...data.items];
-                const pagination = data.pagination;
-                pagination.currentItemCount = items.length;
-                return {items, pagination};
-            });
-        } else {
-            setResult(data);
-        }
+            teamMemberApi
+                .index(orgId, params)
+                .then((res) => res.data)
+                .then((data) => {
+                    if (mergeMode) {
+                        setResult((oldResult) => {
+                            const items = [...oldResult.items, ...data.items];
+                            const pagination = data.pagination;
+                            pagination.currentItemCount = items.length;
+                            return {items, pagination};
+                        });
+                    } else {
+                        setResult(data);
+                    }
+                });
 
-        setQuery(params);
-
-        return data;
+            return params;
+        });
     }
 
     const movePage = (page: number, append = false) => search({...query, page}, append);

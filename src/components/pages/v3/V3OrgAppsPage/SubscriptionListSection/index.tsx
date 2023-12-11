@@ -18,6 +18,7 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
 
+        // only for listing
         getSubscriptions({
             where: {organizationId: orgId},
             relations: ['master', 'teamMembers'],

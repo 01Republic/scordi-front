@@ -7,17 +7,14 @@ import {AccountForm} from '../form';
 import {useAccountCreateModal} from './hook';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 import {useToast} from '^hooks/useToast';
-import {useSetRecoilState} from 'recoil';
-import {getAccountsQuery} from '^models/Account/atom';
+import {useAccounts} from '^models/Account/hook';
 
 export const AccountCreateModal = memo(() => {
     const form = useForm<UnSignedAccountFormData>();
     const {isShow, Modal, hide, data} = useAccountCreateModal();
-    const onBack = () => hide();
-    const {product, organizationId} = data;
+    const {reload: refreshAccountList} = useAccounts();
     const {toast} = useToast();
-    // const setAccountList = useSetRecoilState(accountListAtom);
-    const refreshAccountList = useSetRecoilState(getAccountsQuery);
+    const {product, organizationId} = data;
 
     // 폼 기본값 채우기
     useEffect(() => {
@@ -36,6 +33,8 @@ export const AccountCreateModal = memo(() => {
             window.removeEventListener('keyup', keyClicked);
         };
     }, []);
+
+    const onBack = () => hide();
 
     const onSubmit = (dto: UnSignedAccountFormData) => {
         const {productId, email, password} = dto;
@@ -58,8 +57,7 @@ export const AccountCreateModal = memo(() => {
 
         accountApi.create(organizationId, formData).then((res) => {
             toast.success('등록되었습니다.');
-            // setAccountList((prev) => [...prev, res.data]);
-            refreshAccountList((v) => v);
+            refreshAccountList();
             hide();
             form.reset();
         });

@@ -31,39 +31,39 @@ export const accountListAtom = atom<AccountDto[]>({
     default: [],
 });
 
-const getAccountsQueryTrigger = atom<number>({
-    key: 'getAccountsQueryTrigger',
-    default: 1,
-});
+// const getAccountsQueryTrigger = atom<number>({
+//     key: 'getAccountsQueryTrigger',
+//     default: 1,
+// });
 
-export const getAccountsQuery = selector({
-    key: 'getAccountsQuery',
-    get: async ({get}) => {
-        const orgId = get(orgIdParamState);
-        if (!orgId) return;
-
-        get(getAccountsQueryTrigger);
-        const product = get(subjectProductOfAccountsInModalState);
-
-        const where: FindAllAccountsQueryDto['where'] = {};
-        if (product) {
-            where.productId = product.id;
-        }
-
-        try {
-            return accountApi
-                .index(orgId, {
-                    relations: ['product'],
-                    where,
-                    itemsPerPage: 0,
-                    order: {id: 'DESC'},
-                })
-                .then((res) => res.data);
-        } catch (e) {
-            errorNotify(e);
-        }
-    },
-    set: ({set}) => {
-        set(getAccountsQueryTrigger, (v) => v + 1);
-    },
-});
+// export const getAccountsQuery = selector({
+//     key: 'getAccountsQuery',
+//     get: async ({get}) => {
+//         const orgId = get(orgIdParamState);
+//         if (!orgId) return;
+//
+//         get(getAccountsQueryTrigger);
+//         const product = get(subjectProductOfAccountsInModalState);
+//
+//         const where: FindAllAccountsQueryDto['where'] = {};
+//         if (product) {
+//             where.productId = product.id;
+//         }
+//
+//         try {
+//             return accountApi
+//                 .index(orgId, {
+//                     relations: ['product'],
+//                     where,
+//                     itemsPerPage: 0,
+//                     order: {id: 'DESC'},
+//                 })
+//                 .then((res) => res.data);
+//         } catch (e) {
+//             errorNotify(e);
+//         }
+//     },
+//     set: ({set}) => {
+//         set(getAccountsQueryTrigger, (v) => v + 1);
+//     },
+// });

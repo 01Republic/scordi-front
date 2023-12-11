@@ -24,6 +24,7 @@ export const SubscriptionLoader = memo(function SubscriptionLoader() {
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
 
+        // only for summary
         const req = subscriptionApi.index({
             where: {organizationId: orgId},
             relations: ['master'],
