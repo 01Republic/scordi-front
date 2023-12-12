@@ -30,7 +30,11 @@ export const TeamMemberStatus = memo((props: TeamMemberStatusProps) => {
             {isMe && <LeaveButton teamMember={teamMember} user={currentUser} tooltipMsg="" />}
 
             {!isMe && membership && (
-                <button className={`${c_ApprovalStatus(membership.approvalStatus)} btn btn-xs px-2 cursor-default`}>
+                <button
+                    className={`${c_ApprovalStatus(
+                        membership.approvalStatus,
+                    )} btn btn-sm btn-outline btn-disabled text-xs normal-case`}
+                >
                     {t_ApprovalStatus(membership.approvalStatus)}
                 </button>
             )}
