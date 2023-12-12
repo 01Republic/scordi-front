@@ -8,7 +8,7 @@ export type TextInputProps = InputHTMLAttributes<HTMLInputElement> & {
     defaultValue?: string;
     helpText?: string | JSX.Element;
     helpClass?: string;
-    inputClass?: string;
+    inputclass?: string;
 };
 
 export const TextInput = forwardRef((props: TextInputProps, ref: ForwardedRef<any>) => {
@@ -29,7 +29,7 @@ export const TextInput = forwardRef((props: TextInputProps, ref: ForwardedRef<an
                 ref={ref}
                 defaultValue={props.defaultValue}
                 disabled={props.disabled}
-                className={`input input-bordered w-full bg-slate-50 border-slate-100 ${props.inputClass || ''}`}
+                className={`input input-bordered w-full bg-slate-50 border-slate-100 ${props.inputclass || ''}`}
                 {...props}
             />
             {props.helpText && (

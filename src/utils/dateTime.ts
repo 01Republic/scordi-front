@@ -25,6 +25,12 @@ export const yyyy_mm_dd_hh_mm = (date: Date): string => {
     return `${yyyy_mm_dd(date)} ${hh_mm(date)}`;
 };
 
+export const yyyy_mm = (date: Date, year = '년', month = '월'): string => {
+    const yyyy = date.getFullYear().toString() + year;
+    const mm = zeroPad(`${date.getMonth() + 1}`) + month;
+    return [yyyy, mm].join(' ');
+};
+
 export const mm_dd = (date: Date, sep = '.'): string => {
     const mm = zeroPad(`${date.getMonth() + 1}`);
     const dd = zeroPad(`${date.getDate()}`);

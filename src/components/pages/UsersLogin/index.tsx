@@ -1,15 +1,15 @@
 import React, {memo, useState} from 'react';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import {useForm} from 'react-hook-form';
-import {UserLoginRequestDto} from '^types/user.type';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {UserLoginRequestDto} from '^models/User/types';
+import {useCurrentUser} from '^models/User/hook';
 import {Modal} from '^components/Modal';
 import {GoogleLoginBtn} from './GoogleLoginBtn';
 import {TextInput} from '^components/TextInput';
 import {TesterLoginForm} from '^components/pages/UsersLogin/TesterLoginForm';
 import {LandingPageNavBar} from '^components/lab/landing-page-components';
 import {WithChildren} from '^types/global.type';
-import {appEnv} from '^config/environments';
+import {appEnv, googleOAuth} from '^config/environments';
 
 export const UsersLoginPage = memo(() => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,11 +23,11 @@ export const UsersLoginPage = memo(() => {
     //         .catch(() => setIsModalOpen(true));
     // };
 
-    const googleOauthClientId = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID!;
+    const scope = ['email', 'profile', 'openid', 'https://www.googleapis.com/auth/gmail.readonly'];
 
     return (
         <div className="bg-white">
-            <GoogleOAuthProvider clientId={googleOauthClientId}>
+            <GoogleOAuthProvider clientId={googleOAuth.gmailClient.id}>
                 <Modal
                     type={'info'}
                     isOpen={isModalOpen}
@@ -56,7 +56,7 @@ export const UsersLoginPage = memo(() => {
                         </div>
 
                         <div>
-                            <GoogleLoginBtn />
+                            <GoogleLoginBtn about="gmail" />
                         </div>
                         <div></div>
                     </div>

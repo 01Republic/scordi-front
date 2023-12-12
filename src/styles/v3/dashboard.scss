@@ -1,0 +1,6 @@
+
+.dashboard--summary-item {
+  &:not(:first-child) {
+    @apply border-l;
+  }
+}

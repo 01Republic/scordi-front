@@ -1,13 +1,13 @@
 import React, {memo, MouseEventHandler, useCallback, useEffect} from 'react';
 import {atom, useRecoilState} from 'recoil';
-import {ProductDto, ProductConnectMethod, UpdateProductRequestDto as UpdateDto} from '^types/product.type';
+import {ProductDto, ProductConnectMethod, UpdateProductRequestDto as UpdateDto} from '^models/Product/type';
 import {useForm} from 'react-hook-form';
 import {FormControlInput} from '^layouts/ContentLayout/FormControlInput';
-import {updateProduct} from '^api/product.api';
-import {useProductSearch} from '^hooks/useProducts';
+import {useProductSearch} from '^models/Product/hook';
 import {FormControlCheckbox} from '^layouts/ContentLayout/FormControlCheckbox';
 import {FormControlSelect} from '^layouts/ContentLayout/FormControlSelect';
 import {FormControlTextArea} from '^layouts/ContentLayout/FormControlTextArea';
+import {productApi} from '^models/Product/api';
 
 export const editingProtoTargetState = atom<ProductDto | null>({
     key: 'editingProtoTargetState',
@@ -37,7 +37,7 @@ export const PrototypeEditModal = memo((props: PrototypeEditModalProps) => {
     const onSubmit = useCallback(
         (data: UpdateDto) => {
             if (!protoTarget) return;
-            updateProduct(protoTarget.id, data).then((res) => {
+            productApi.update(protoTarget.id, data).then((res) => {
                 if (res.status === 200) {
                     if (searchMutationAfterSave) mutation();
                     onClose();

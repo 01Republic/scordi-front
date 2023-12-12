@@ -1,10 +1,10 @@
 import React, {memo} from 'react';
-import {BillingHistoryDto} from '^types/billing.type';
 import {useRouter} from 'next/router';
 import {dayjs} from '^utils/dayjs';
 import {WithChildren} from '^types/global.type';
 import {yyyy_mm_dd} from '^utils/dateTime';
 import {HistoryItem} from './HistoryItem';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 interface DayGroupedListProps extends WithChildren {
     date: Date;

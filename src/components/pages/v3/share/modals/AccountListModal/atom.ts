@@ -1,5 +1,5 @@
 import {atom} from 'recoil';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 
 export const accountListModal = {
     isShowAtom: atom({

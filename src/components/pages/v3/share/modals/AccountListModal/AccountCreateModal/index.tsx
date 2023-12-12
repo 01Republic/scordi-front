@@ -1,21 +1,20 @@
 import React, {memo, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
 import {plainToInstance} from 'class-transformer';
-import {UnSignedAccountFormData} from '^types/account.type';
-import {accountApi} from '^api/account.api';
-import {useAccounts} from '^hooks/useAccounts';
+import {UnSignedAccountFormData} from '^models/Account/types';
+import {accountApi} from '^models/Account/api';
 import {AccountForm} from '../form';
 import {useAccountCreateModal} from './hook';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 import {useToast} from '^hooks/useToast';
+import {useAccounts} from '^models/Account/hook';
 
 export const AccountCreateModal = memo(() => {
     const form = useForm<UnSignedAccountFormData>();
     const {isShow, Modal, hide, data} = useAccountCreateModal();
-    const {fetchAllAccountsBy} = useAccounts();
-    const onBack = () => hide();
-    const {product, organizationId} = data;
+    const {reload: refreshAccountList} = useAccounts();
     const {toast} = useToast();
+    const {product, organizationId} = data;
 
     // 폼 기본값 채우기
     useEffect(() => {
@@ -35,16 +34,32 @@ export const AccountCreateModal = memo(() => {
         };
     }, []);
 
+    const onBack = () => hide();
+
     const onSubmit = (dto: UnSignedAccountFormData) => {
-        const {productId} = dto;
+        const {productId, email, password} = dto;
         if (!productId) {
-            alert('무언가 잘못되었습니다. 스코디팅에게 문의해주세요!');
+            toast.error('서비스를 선택해주세요');
             return;
         }
+
+        if (!email) {
+            toast.error('이메일을 입력해주세요');
+            return;
+        }
+
+        if (!password) {
+            toast.error('패스워드를 입력해주세요');
+            return;
+        }
+
         const formData = plainToInstance(UnSignedAccountFormData, dto).toCreateDto();
-        accountApi.create(organizationId, formData).then(() => {
+
+        accountApi.create(organizationId, formData).then((res) => {
             toast.success('등록되었습니다.');
-            fetchAllAccountsBy({productId}).finally(() => onBack());
+            refreshAccountList();
+            hide();
+            form.reset();
         });
     };
 

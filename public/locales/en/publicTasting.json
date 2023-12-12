@@ -34,5 +34,17 @@
     }
   },
   "something_went_to_wrong": "Something wrong! :(\nplz refresh page and try again",
-  "this_is_detected_subscriptions_from_emails": "Found in your inbox!"
+  "this_is_detected_subscriptions_from_emails": "Found in your inbox!",
+  "SyncWorkspaceApp": {
+    "title": "지금 우리 회사가 쓰는 <br /> 서비스는 몇 개 일까?",
+    "subtitle1": "지금 바로, 우리 회사 구독서비스를 찾아보세요.",
+    "subtitle2": "",
+    "subtitle3": ""
+  },
+  "InvoiceTrackerApp": {
+    "title": "우리 회사 구독 서비스 <br /> 고정 지출은 얼마일까요?",
+    "subtitle1": "지금 바로, 우리 회사 구독서비스를 찾아보세요.",
+    "subtitle2": "",
+    "subtitle3": ""
+  }
 }

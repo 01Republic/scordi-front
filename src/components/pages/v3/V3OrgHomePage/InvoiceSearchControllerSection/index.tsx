@@ -4,11 +4,11 @@ import {DateRangeSelect, dateRangeSelectAtom} from '^v3/V3OrgHomePage/InvoiceSea
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {dayAfter, dayBefore, monthBefore} from '^utils/dateTime';
 import {endOfWeek, lastDayOfMonth, startOfMonth, startOfWeek} from 'date-fns';
-import {useBillingHistoriesV3} from '^hooks/useBillingHistories';
-import {currentOrgAtom} from '^atoms/organizations.atom';
-import {GetBillingHistoriesParams} from '^types/billing.type';
+import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
+import {currentOrgAtom} from '^models/Organization/atom';
 import {useTranslation} from 'next-i18next';
 import {localeDateHelper} from '^utils/locale-helper';
+import {GetBillingHistoriesParams} from '^models/BillingHistory/type';
 
 export const InvoiceSearchControllerSection = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -52,7 +52,7 @@ export const InvoiceSearchControllerSection = memo(() => {
     return (
         <section className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-2">
-                {/*<input type="text" className="input input-bordered" />*/}
+                {/*<input types="text" className="input input-bordered" />*/}
                 {/*<SearchInput placeholder="검색어를 입력해주세요." onSearch={console.log} />*/}
             </div>
 

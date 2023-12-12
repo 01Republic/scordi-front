@@ -2,8 +2,8 @@ import React, {useMemo, useState} from 'react';
 import {stageMarkUps} from '^components/ApplicationConnectStage';
 import {AppCode, ApplicationConnectApi} from '^api/applicationConnect.api';
 import {Modal} from '^components/Modal';
-import {OrganizationDto} from '^types/organization.type';
-import {ProductDto} from '^types/product.type';
+import {OrganizationDto} from '^models/Organization/type';
+import {ProductDto} from '^models/Product/type';
 
 interface ConnectAppProgressModalProps {
     isOpen: boolean;

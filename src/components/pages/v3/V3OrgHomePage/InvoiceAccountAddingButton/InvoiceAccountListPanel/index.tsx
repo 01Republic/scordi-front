@@ -1,5 +1,5 @@
 import {atom, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {InvoiceAccountDto} from '^types/invoiceAccount.type';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import React, {memo} from 'react';
 import {InvoiceAccountItem} from './InvoiceAccountItem';
 import {AddNewAccountItem} from './AddNewAccountItem';

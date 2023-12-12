@@ -3,12 +3,12 @@ import {AdminProductsPageRoute} from '^pages/admin/products';
 import {Fragment, memo, useEffect} from 'react';
 import {atom, useRecoilState, useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
-import {ProductDto} from '^types/product.type';
-import {productApi} from '^api/product.api';
+import {ProductDto} from '^models/Product/type';
+import {productApi} from '^models/Product/api';
 import {ContentTabNav} from '^layouts/ContentLayout';
 import {EditProductDetail} from './MenuContents/EditProductDetail';
 import {EditProductPost} from './MenuContents/EditProductPost';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 
 export const adminProductDetail = atom<ProductDto | null>({
     key: 'adminProductDetail',

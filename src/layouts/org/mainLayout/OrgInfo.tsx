@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {useOrganization} from '^hooks/useOrganizations';
+import {useOrganization} from '^models/Organization/hook';
 
 export const OrgInfo = memo(() => {
     const org = useOrganization();

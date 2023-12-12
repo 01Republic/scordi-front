@@ -3,8 +3,8 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {MobileInfoListItem} from '../../share/MobileInfoList/Item';
 import {MobileInfoList} from '../../share/MobileInfoList';
 import {useRecoilValue} from 'recoil';
-import {currentOrgAtom} from '^atoms/organizations.atom';
-import {ApprovalStatus, MembershipLevel} from '^types/membership.type';
+import {currentOrgAtom} from '^models/Organization/atom';
+import {ApprovalStatus, MembershipLevel} from 'src/models/Membership/types';
 import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 
 export const WorkspacePanel = memo(() => {

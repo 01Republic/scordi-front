@@ -2,9 +2,9 @@ import React, {memo, useCallback} from 'react';
 import {SearchInput} from '^components/SearchInput';
 import {MobileSection} from '^components/v2/MobileSection';
 import {useForm} from 'react-hook-form';
-import {FindAllProductQuery} from '^types/product.type';
+import {FindAllProductQuery} from '^models/Product/type';
 import {useSetRecoilState} from 'recoil';
-import {getProductsParamsState} from '^atoms/products.atom';
+import {getProductsParamsState} from '^models/Product/atom';
 
 type SearchSectionProps = {};
 

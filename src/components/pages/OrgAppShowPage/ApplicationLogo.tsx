@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 
 interface ApplicationLogoProps {
     subscription: SubscriptionDto;
@@ -10,7 +10,7 @@ export const ApplicationLogo = memo((props: ApplicationLogoProps) => {
     const {subscription} = props;
 
     const {product: product, workspace} = subscription;
-    const {profileImageUrl, displayName} = workspace;
+    const {profileImageUrl, displayName} = workspace || {};
 
     return (
         <div className="relative">

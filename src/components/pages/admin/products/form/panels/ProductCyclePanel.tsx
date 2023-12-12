@@ -1,7 +1,7 @@
 import {Fragment, memo} from 'react';
 import {ContentPanel, ContentTable} from '^layouts/ContentLayout';
-import {t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
-import {ProductDto} from '^types/product.type';
+import {t_BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
+import {ProductDto} from '^models/Product/type';
 
 interface PrototypePlanCyclePanelProps {
     product: ProductDto;

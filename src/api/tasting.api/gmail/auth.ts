@@ -4,6 +4,7 @@ import Qs from 'qs';
 import {buildUrl} from '^utils/get-query-params';
 import {buildLocalePath} from '^utils/locale-helper';
 import {GoogleCallbackPageRoute} from '^pages/callback/google';
+import {userSocialGoogleApi} from '^api/social-google.api';
 
 function getExpireAtFromSecond(expiresIn: number) {
     const date = new Date();
@@ -21,7 +22,7 @@ export function googleAuthForGmail(redirectPath?: string, locale?: string) {
     const baseUrl: string = 'https://accounts.google.com/o/oauth2/v2/auth';
     const redirectUrl = buildLocalePath(redirectPath, locale);
     const params = {
-        scope: 'email profile openid https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
+        scope: 'email profile openid https://www.googleapis.com/auth/gmail.readonly',
         access_type: 'offline',
         include_granted_scopes: true,
         response_type: 'code',

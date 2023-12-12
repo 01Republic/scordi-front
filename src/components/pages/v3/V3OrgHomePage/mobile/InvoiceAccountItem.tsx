@@ -1,10 +1,9 @@
 import React, {memo} from 'react';
-import {InvoiceAccountDto} from '^types/invoiceAccount.type';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {Avatar} from '^components/Avatar';
 import {useSetRecoilState} from 'recoil';
 import {selectedInvoiceAccountAtom} from '^v3/V3OrgHomePage/InvoiceAccountAddingButton/InvoiceAppListPanel';
 import {zeroPad} from '^utils/dateTime';
-import {syncInvoiceAccount} from '^api/invoiceAccount.api';
 import {FiRefreshCw} from 'react-icons/fi';
 import {GmailAgentProgress, gmailAgentProgressAtom} from '^hooks/useGoogleAccessToken';
 import {useModal} from '^v3/share/modals/useModal';
@@ -12,6 +11,7 @@ import {renewInvoiceAccountModal} from '^v3/V3OrgHomePage/RenewInvoiceAccountMod
 import {useRouter} from 'next/router';
 import {V3OrgInvoiceAccountShowPageRoute} from '^pages/v3/orgs/[orgId]/invoiceAccounts/[invoiceAccountId]';
 import {useToast} from '^hooks/useToast';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 
 interface InvoiceAccountItemProps {
     invoiceAccount: InvoiceAccountDto;
@@ -42,7 +42,8 @@ export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
 
     const sync = () => {
         setGmailAgentProgress(GmailAgentProgress.started);
-        syncInvoiceAccount(invoiceAccount.organizationId, invoiceAccount.id)
+        invoiceAccountApi
+            .sync(invoiceAccount.organizationId, invoiceAccount.id)
             .then((res) => {
                 setGmailAgentProgress(GmailAgentProgress.no_running);
                 window.location.reload();

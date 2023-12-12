@@ -2,10 +2,10 @@ import {useRouter} from 'next/router';
 import {memo} from 'react';
 import {useRecoilState} from 'recoil';
 import Swal from 'sweetalert2';
-import {destroySubscription} from '^api/subscription.api';
 import {subscriptionIdParamState} from '^atoms/common';
 import {ContentPanel, ContentPanelMiniTitle} from '^layouts/ContentLayout';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
+import {subscriptionApi} from '^models/Subscription/api';
 
 export const DisConnectPanel = memo(() => {
     const [appId] = useRecoilState(subscriptionIdParamState);
@@ -23,7 +23,8 @@ export const DisConnectPanel = memo(() => {
         }).then((result) => {
             console.log(result);
             if (!result.isConfirmed) return;
-            destroySubscription(id)
+            subscriptionApi
+                .destroy(id)
                 .then((res) => {
                     Swal.fire('Disconnect!', 'Please go to the site and cancel the apps.', 'success').then(() =>
                         router.push(OrgAppIndexPageRoute.path(id)),

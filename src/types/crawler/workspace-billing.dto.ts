@@ -1,4 +1,4 @@
-import {BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
+import {BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 import {CurrencyDto} from '^types/crawler/currency.dto';
 
 export class WorkspaceBillingDto {

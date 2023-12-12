@@ -2,11 +2,11 @@ import React, {useEffect} from 'react';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {V3OrgTeamMembersPage as Page} from 'src/components/pages/v3/V3OrgTeam/V3OrgTeamMembersPage';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useCurrentOrg} from '^hooks/useCurrentOrg';
+import {useCurrentOrg} from '^models/Organization/hook';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {useRouter} from 'next/router';
-import {useTeamMembers} from '^components/pages/v3/V3OrgTeam/V3OrgTeamMembersPage/atom';
+import {useTeamMembers} from '^models/TeamMember/hook';
 
 export const V3OrgTeamsPageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]/teams',

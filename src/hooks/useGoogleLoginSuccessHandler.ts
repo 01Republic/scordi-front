@@ -1,11 +1,11 @@
 import {useRouter} from 'next/router';
-import {GoogleSignedUserData} from '^atoms/currentUser.atom';
-import {UserDto} from '^types/user.type';
-import {getGoogleUserData, getUserSession, postUserSessionBySocialAccount} from '^api/session.api';
+import {GoogleSignedUserData} from '^models/User/atom';
+import {UserDto} from '^models/User/types';
+import {getGoogleUserData, userSessionApi} from '^models/User/api/session';
 import {setToken} from '^api/api';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
-import {getMembershipInviteValidate, confirmInvitedMemberships} from '^api/membership.api';
+import {inviteMembershipApi} from '^models/Membership/api';
 import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
@@ -67,9 +67,9 @@ export const useGoogleLoginSuccessHandler = () => {
         if (currentOrgId !== invitedOrgId) return false;
 
         try {
-            const response = await getMembershipInviteValidate(invitedOrgId, encodeURI(user.email));
+            const response = await inviteMembershipApi.index(invitedOrgId, encodeURI(user.email));
             if (response.status === 200) {
-                await confirmInvitedMemberships(response.data.id);
+                await inviteMembershipApi.confirm(response.data.id);
                 return true;
             }
         } catch {
@@ -100,7 +100,7 @@ export const useGoogleLoginSuccessHandler = () => {
         const {data: googleSignedUserData} = await getGoogleUserData(accessToken);
 
         // 서버에 이 회원이 가입된 계정이 있는지 확인합니다.
-        const jwtRequest = postUserSessionBySocialAccount({
+        const jwtRequest = userSessionApi.createBySocialAccount({
             provider: 'google',
             uid: googleSignedUserData.id,
         });
@@ -109,7 +109,7 @@ export const useGoogleLoginSuccessHandler = () => {
         jwtRequest.then(({data: {token}}) => {
             // 토큰으로 사용자를 조회한 뒤
             setToken(token);
-            getUserSession().then(({data: user}) => {
+            userSessionApi.index().then(({data: user}) => {
                 user.phone
                     ? moveWithLogin(user) // 전화번호가 있으면 로그인 시키고
                     : moveToSignUpPage(googleSignedUserData); // 전화번호가 없으면 추가정보 입력을 위해 가입페이지로 넘깁니다.

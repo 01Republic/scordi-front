@@ -4,13 +4,13 @@ import axios from 'axios';
 // import {gmailPath} from '^api/tasting.api/gmail/constant';
 // import {GmailContent} from '^api/tasting.api';
 //
-// export type GetGmailAttachmentParam = {
+// export types GetGmailAttachmentParam = {
 //     accessToken: string;
 //     messageId: string;
 //     attachmentId: string;
 // };
 //
-// export type GmailAttachmentContent = {
+// export types GmailAttachmentContent = {
 //     data: string;
 //     size: number;
 // };

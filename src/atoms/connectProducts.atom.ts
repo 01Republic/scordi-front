@@ -1,18 +1,18 @@
 import {atom, useRecoilState} from 'recoil';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {LoginDto, LoginWithOrgs, LoginWithVerify, WorkspaceItemDto} from '^types/crawler';
 import {useCallback, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {errorNotify} from '^utils/toast-notify';
 import {AxiosError} from 'axios';
-import {AccountDto} from '^types/account.type';
+import {AccountDto} from '^models/Account/types';
 import {crawlerApiV2} from '^api/crawler/crawler.api.v2';
 import {errorToast} from '^api/api';
 import {toast} from 'react-toastify';
 import {ConnectResultDto, ConnectResultResponseDto} from '^types/crawler/connect-result-response.dto';
-import {workspaceApi, workspaceMemberApi} from '^api/workspace.api';
-import {subscriptionApi} from '^api/subscription.api';
-import {billingHistoryApi} from '^api/billing.api';
+import {workspaceApi, workspaceMemberApi} from '^models/Workspace/api/workspace.api';
+import {subscriptionApi} from '^models/Subscription/api';
+import {billingHistoryApi} from '^models/BillingHistory/api';
 
 // 연동 모달의 활성화 여부
 export const connectProductModalState = atom({

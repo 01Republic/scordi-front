@@ -3,8 +3,9 @@ import {initializeApp} from 'firebase/app';
 import {getMessaging, getToken, onMessage} from 'firebase/messaging';
 import {getAnalytics} from 'firebase/analytics';
 import {useRouter} from 'next/router';
-import {registerUsersWebpushDevice} from '^api/session.api';
+import {registerUsersWebpushDevice} from '^models/User/api/session';
 import {isMobile} from 'react-device-detect';
+import {vapidPublicKey} from '^config/environments';
 
 const firebaseConfig = {
     //프로젝트 설정 > 일반 > 하단의 내앱에서 확인
@@ -20,7 +21,7 @@ const firebaseConfig = {
 const scordiIcon = 'https://payplo-service.s3.ap-northeast-2.amazonaws.com/email-templates/assets/logo.png';
 
 // vapidKey: '프로젝트설정 > 클라우드메시징 > 웹 구성의 웹푸시인증서 발급',
-const vapidKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!;
+const vapidKey = vapidPublicKey;
 
 export const WebPush2 = memo(() => {
     const router = useRouter();

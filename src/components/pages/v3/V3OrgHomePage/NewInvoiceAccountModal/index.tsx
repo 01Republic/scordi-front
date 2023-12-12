@@ -1,21 +1,25 @@
 import React, {memo} from 'react';
 import {useModal} from '^v3/share/modals/useModal';
-import Image from 'next/image';
-import {newInvoiceAccountModal} from './atom';
 import {NewInvoiceAccountModalBody} from './body';
+import {newInvoiceAccountModal} from './atom';
+import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
+import {newAppModal} from '^components/pages/v3/share/modals/NewAppModal/atom';
 
 export const NewInvoiceAccountModal = memo(() => {
-    const {Modal} = useModal(newInvoiceAccountModal);
+    const {isShow: newAppModalIsShow} = useModal(newAppModal);
+    const {Modal, close} = useModal(newInvoiceAccountModal);
+
+    const onBack = () => close();
 
     return (
-        <Modal className="py-12">
-            <div className="flex items-center justify-center gap-3 mb-10">
-                <Image src="/logo-transparent.png" alt="Scordi logo" width={48} height={48} />
-                <span className="text-4xl font-bold">scordi</span>
-            </div>
-            <div className="text-center">
-                <NewInvoiceAccountModalBody />
-            </div>
-        </Modal>
+        <>
+            <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
+                <ModalTopbar backBtnOnClick={onBack} topbarPosition="sticky" />
+
+                <div className="px-5 pt-20">
+                    <NewInvoiceAccountModalBody />
+                </div>
+            </Modal>
+        </>
     );
 });

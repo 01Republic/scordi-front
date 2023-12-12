@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {selectedInvoiceAccountAtom} from '^v3/V3OrgHomePage/InvoiceAccountAddingButton/InvoiceAppListPanel/index';
-import {InvoiceAccountDto} from '^types/invoiceAccount.type';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {useTranslation} from 'next-i18next';
 
 interface RemoveAccountItemProps {

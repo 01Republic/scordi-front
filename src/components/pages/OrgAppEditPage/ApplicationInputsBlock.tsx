@@ -1,12 +1,12 @@
 import React, {memo, useEffect, useState} from 'react';
-import {UpdateSubscriptionRequestDto} from '^types/subscription.type';
+import {UpdateSubscriptionRequestDto} from 'src/models/Subscription/types';
 import {TitleSection} from '^components/v2/TitleSection';
 import {UseFormReturn} from 'react-hook-form';
-import {useCurrentSubscription} from '^hooks/useSubscriptions';
+import {useCurrentSubscription} from '^models/Subscription/hook';
 import {MobileSection} from '^components/v2/MobileSection';
 import {MobileKeyValueItem} from '^components/v2/MobileKeyValueItem';
 import {Select} from '^components/Select';
-import {SubscriptionBillingCycleDto, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
+import {SubscriptionBillingCycleDto, t_BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 import {toast} from 'react-toastify';
 
 type AppNextPayInputsBlockProps = {
@@ -87,7 +87,7 @@ export const ApplicationInputsBlock = memo((props: AppNextPayInputsBlockProps) =
                 <MobileKeyValueItem label="연동서비스 내 조직이름">
                     <div className="form-control w-1/2 max-w-xs px-3">
                         {/*<input*/}
-                        {/*    type="text"*/}
+                        {/*    types="text"*/}
                         {/*    className="input input-underline text-right px-1"*/}
                         {/*    {...form.register('displayName')}*/}
                         {/*/>*/}
@@ -99,7 +99,7 @@ export const ApplicationInputsBlock = memo((props: AppNextPayInputsBlockProps) =
                 {/*    <div className="form-control w-1/2 max-w-xs">*/}
                 {/*        <label className="cursor-pointer label px-3 text-right">*/}
                 {/*            <input*/}
-                {/*                type="checkbox"*/}
+                {/*                types="checkbox"*/}
                 {/*                className="toggle toggle-primary ml-auto"*/}
                 {/*                {...form.register('isFreeTier')}*/}
                 {/*            />*/}
@@ -110,7 +110,7 @@ export const ApplicationInputsBlock = memo((props: AppNextPayInputsBlockProps) =
                 {/*<MobileKeyValueItem label="사용시작일">*/}
                 {/*    <div className="form-control w-1/2 max-w-xs px-3">*/}
                 {/*        <input*/}
-                {/*            type="date"*/}
+                {/*            types="date"*/}
                 {/*            className="input input-underline text-right px-1"*/}
                 {/*            {...form.register('registeredAt')}*/}
                 {/*        />*/}
@@ -121,7 +121,7 @@ export const ApplicationInputsBlock = memo((props: AppNextPayInputsBlockProps) =
                 {/*<MobileKeyValueItem label="사용중인 사용자 수">*/}
                 {/*    <div className="form-control w-1/2 max-w-xs px-3">*/}
                 {/*        <input*/}
-                {/*            type="number"*/}
+                {/*            types="number"*/}
                 {/*            className="input input-underline text-right px-1"*/}
                 {/*            {...form.register('usedMemberCount')}*/}
                 {/*        />*/}
@@ -132,7 +132,7 @@ export const ApplicationInputsBlock = memo((props: AppNextPayInputsBlockProps) =
                 {/*<MobileKeyValueItem label="결제되는 사용자 수">*/}
                 {/*    <div className="form-control w-1/2 max-w-xs px-3">*/}
                 {/*        <input*/}
-                {/*            type="number"*/}
+                {/*            types="number"*/}
                 {/*            className="input input-underline text-right px-1"*/}
                 {/*            {...form.register('paidMemberCount')}*/}
                 {/*        />*/}

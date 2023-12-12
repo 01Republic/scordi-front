@@ -2,7 +2,7 @@ const path = require('path');
 const {withSentryConfig} = require('@sentry/nextjs');
 const {i18n} = require('./next-i18next.config');
 
-/** @type {import('next').NextConfig} */
+/** @types {import('next').NextConfig} */
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: false,

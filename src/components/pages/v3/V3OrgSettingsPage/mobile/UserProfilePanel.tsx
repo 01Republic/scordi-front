@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {Avatar} from '^components/Avatar';
-import {currentUserAtom} from '^atoms/currentUser.atom';
+import {currentUserAtom} from '^models/User/atom';
 import {useRecoilValue} from 'recoil';
 import {BiChevronRight} from 'react-icons/bi';
 import {useToast} from '^hooks/useToast';

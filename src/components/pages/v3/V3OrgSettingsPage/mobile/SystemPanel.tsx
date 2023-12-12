@@ -4,7 +4,7 @@ import {MobileInfoListItem} from '../../share/MobileInfoList/Item';
 import {MobileInfoList} from '../../share/MobileInfoList';
 import {BiChevronRight} from 'react-icons/bi';
 import {useToast} from '^hooks/useToast';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 
 export const SystemPanel = memo(() => {
     const {toast} = useToast();

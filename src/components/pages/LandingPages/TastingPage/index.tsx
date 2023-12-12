@@ -1,70 +1,68 @@
-import React, {memo} from 'react';
+import React, {Fragment, memo, useEffect} from 'react';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {LandingPageNavBar} from '^components/lab/landing-page-components';
-import {EmailParsedTable} from './EmailParsedTable';
 import {AOSProvider, BetaServiceFooter, HeadTag} from '../components';
-import {TastingPageHeader} from './TastingPageHeader';
-import {useRecoilValue} from 'recoil';
-import {gmailItemsLoadedAtom, gmailItemsLoadingAtom} from './pageAtoms';
-import {TastingPageLoadedHeader} from './TastingPageLoadedHeader';
-import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
-import {useRouter} from 'next/router';
-import {useTranslation} from 'next-i18next';
 import {TypeAnimation} from 'react-type-animation';
 import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
-import {TastingItemDetailModal} from './TastingItemDetailModal';
-import {AttachmentModal} from './AttachmentModal';
-import {InvoiceAppsModal} from './InvoiceAppsModal';
-import {useDraftResult} from '^components/pages/LandingPages/TastingPage/hooks/useDraft';
-import {googleAuthForGmail} from '^api/tasting.api';
-import {EmptyTable} from '^components/pages/LandingPages/TastingPage/EmptyTable';
+import {navTabIndex, TastingTabs} from './tabs/atom';
+import {SyncWorkspaceApp} from './tabs/panes/SyncWorkspaceApp';
+import {InvoiceTrackerApp} from './tabs/panes/InvoiceTrackerApp';
+import {gmailItemsLoadedAtom, gmailItemsLoadingAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
+import {useOnResize2} from '^components/util/onResize2';
 
 export const TastingPage = memo(() => {
-    const isLoading = useRecoilValue(gmailItemsLoadingAtom);
-    const isLoaded = useRecoilValue(gmailItemsLoadedAtom);
-    const {billingHistories, isEmpty} = useDraftResult();
-    const router = useRouter();
-    const {t} = useTranslation('publicTasting');
+    const [tabIndex, setTabIndex] = useRecoilState(navTabIndex);
+    const isInvoiceTrackerLoading = useRecoilValue(gmailItemsLoadingAtom);
+    const isInvoiceTrackerLoaded = useRecoilValue(gmailItemsLoadedAtom);
+    const {isMobile} = useOnResize2();
+
+    useEffect(() => {
+        if (isInvoiceTrackerLoading || isInvoiceTrackerLoaded) {
+            setTabIndex(TastingTabs.InvoiceTracker);
+        }
+    }, [isInvoiceTrackerLoading, isInvoiceTrackerLoaded]);
+
+    const tabs = [
+        {label: '구독찾기', Component: SyncWorkspaceApp},
+        {label: '비용조회', Component: InvoiceTrackerApp},
+    ];
+
+    const TabContentComponent = tabs[tabIndex]?.Component || Fragment;
 
     return (
         <AOSProvider>
             <HeadTag />
-            <ChannelTalkHideStyle />
+            {isMobile && <ChannelTalkHideStyle />}
             <div id="TastingPage" className="bg-white">
                 <LandingPageNavBar showLoginButton={true} fluid={true} />
 
-                {isLoading ? (
-                    <LoadingProgressFullScreen />
-                ) : (
-                    <>
-                        {!isLoaded ? <TastingPageHeader /> : <TastingPageLoadedHeader />}
-                        {isLoaded && isEmpty ? (
-                            <EmptyTable />
-                        ) : (
-                            <section className="container mb-24 px-4">
-                                <div className="text-center">{isLoaded && <EmailParsedTable />}</div>
-
-                                {isLoaded && (
-                                    <div className="text-center mt-10 fixed sm:relative bottom-0 w-full left-0 p-4 sm:p-0 z-20 sm:z-0 bg-white">
-                                        <button
-                                            className="btn btn-scordi-500 btn-block btn-lg rounded-2xl shadow-xl"
-                                            onClick={() => {
-                                                router.push(SignPhoneAuthPageRoute.path());
-                                            }}
-                                        >
-                                            {t('try_it_free_now')}
-                                        </button>
+                <div className="pt-6 sm:pt-[100px]">
+                    <div className="container px-4">
+                        <ul className="flex gap-8 text-3xl font-semibold">
+                            {tabs.map((tab, i) => (
+                                <li
+                                    key={i}
+                                    onClick={() => setTabIndex(i)}
+                                    className={`flex items-center gap-2 ${
+                                        tabIndex === i ? 'text-gray-700' : 'text-gray-400'
+                                    } hover:text-gray-700 cursor-pointer transition-all`}
+                                >
+                                    <div className={tabIndex === i ? 'underline underline-offset-[14px]' : ''}>
+                                        {tab.label}
                                     </div>
-                                )}
-                            </section>
-                        )}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
 
-                        {isLoaded && <BetaServiceFooter />}
-                    </>
-                )}
+                <TabContentComponent />
 
-                {isLoaded && <TastingItemDetailModal />}
-                {isLoaded && <AttachmentModal />}
-                {isLoaded && <InvoiceAppsModal />}
+                <br />
+                <br />
+                <br />
+                <hr />
+                <BetaServiceFooter />
             </div>
         </AOSProvider>
     );
@@ -72,7 +70,13 @@ export const TastingPage = memo(() => {
 
 export const LoadingProgressFullScreen = memo(() => {
     return (
-        <div className="fixed top-0 bottom-0 left-0 right-0 m-auto flex items-center justify-center">
+        <div
+            className="fixed top-0 bottom-0 left-0 right-0 m-auto flex items-center justify-center"
+            style={{
+                zIndex: 1,
+                backdropFilter: 'blur(10px)',
+            }}
+        >
             <div className="flex flex-col items-center pb-[50px] sm:pb-[150px]">
                 <div className="loadingio-spinner-spinner-cb6o2gc2by">
                     <div className="ldio-pcdc4ae6leg">

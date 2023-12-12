@@ -3,7 +3,7 @@ import {
     syncHistoryAssets,
     SyncHistoryResultStatus,
     t_syncHistoryResultStatus,
-} from '^types/subscriptionSyncHistory.type';
+} from '^models/SubscriptionSyncHistory/type/subscriptionSyncHistory.type';
 
 interface StatusButtonProps {
     status: SyncHistoryResultStatus;

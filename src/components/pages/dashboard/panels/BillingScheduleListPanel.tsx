@@ -2,9 +2,9 @@ import {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {ContentPanelBody, ContentPanelMiniTitle} from '^layouts/ContentLayout';
 import {yyyy_mm_dd} from '^utils/dateTime';
-import {fetchSubscriptionQueryById} from '^atoms/subscriptions.atom';
+import {fetchSubscriptionQueryById} from '^models/Subscription/atom';
 import {AiOutlineWarning} from '^components/react-icons';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {useBillingList} from '^hooks/useBillingList';
 
 export const BillingScheduleListPanel = memo(() => {

@@ -57,3 +57,10 @@ export const monthBefore = (n: number, date = new Date()) => monthAfter(n * -1, 
 // export const lastDayOfYear = (date = new Date()): Date => {
 //     return yearAfter(1, dayBefore(1, firstDayOfYear(date)));
 // };
+
+export const getDate = (date: Date) => {
+    const stringDate = new Date(date).toLocaleDateString();
+    const newDateArr = stringDate.split('.');
+
+    return `${newDateArr[0]}년 ${newDateArr[1]}월 ${newDateArr[2]}일`;
+};

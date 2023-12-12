@@ -1,24 +1,21 @@
+import React, {useEffect, useState} from 'react';
+import {UseFormReturn} from 'react-hook-form';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {
     ProductDto,
     CreateProductRequestDto as CreateDto,
     UpdateProductRequestDto as UpdateDto,
     ProductConnectMethod,
-} from '^types/product.type';
-import {UseFormReturn} from 'react-hook-form';
-import {TextInput} from '^components/TextInput';
-import React, {useEffect} from 'react';
+} from '^models/Product/type';
 import {ContentForm, ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/ContentLayout';
-import {ProductDeletePanel} from '^components/pages/admin/products/form/panels/ProductDeletePanel';
-import {ProductCyclePanel} from '^components/pages/admin/products/form/panels/ProductCyclePanel';
-import {
-    faviconUrlAtom,
-    LogoImageFormPanel,
-    logoUrlAtom,
-} from '^components/pages/admin/products/form/panels/ProductLogoImageFormPanel';
-import {OgImageFormPanel, ogImgUrlAtom} from '^components/pages/admin/products/form/panels/ProductOgImageFormPanel';
 import {getOpenGraphData} from '^api/utils.api/open-graph.api';
-import {useSetRecoilState} from 'recoil';
-import {ProductTagMultiSelect} from '^components/pages/admin/products/form/ProductTagMultiSelect';
+import {TextInput} from '^components/TextInput';
+import {ProductDeletePanel} from './panels/ProductDeletePanel';
+import {ProductCyclePanel} from './panels/ProductCyclePanel';
+import {OgImageFormPanel, ogImgUrlAtom} from './panels/ProductOgImageFormPanel';
+import {faviconUrlAtom, LogoImageFormPanel, logoUrlAtom} from './panels/ProductLogoImageFormPanel';
+import {ProductTagMultiSelect} from './ProductTagMultiSelect';
+import {isSubmitBlockedAtom} from '^admin/products/form/atom';
 
 interface CreatePrototypeFormProps {
     form: UseFormReturn<CreateDto>;
@@ -70,7 +67,7 @@ export const ProductForm = (props: CreatePrototypeFormProps | UpdatePrototypeFor
         const url = prompt('웹사이트 주소를 넣어주세요.');
         if (url) {
             const openGraphData = await getOpenGraphData(url);
-            console.log(openGraphData);
+            // console.log(openGraphData);
             form.setValue('nameEn', openGraphData.hybridGraph.site_name);
             form.setValue('tagline', openGraphData.htmlInferred.description);
             form.setValue('homepageUrl', openGraphData.htmlInferred.url);
@@ -94,7 +91,14 @@ export const ProductForm = (props: CreatePrototypeFormProps | UpdatePrototypeFor
                 </button>
             </div>
 
-            <ContentForm onSubmit={formSubmit}>
+            <ContentForm
+                onSubmit={(e) => {
+                    console.log('event', event);
+                    console.log('e', e);
+                    // if (isSubmitBlocked) return false;
+                    return formSubmit(e);
+                }}
+            >
                 <ContentPanel title="기본정보">
                     <ContentPanelList>
                         <ContentPanelInput title="App name (ko)" required={true}>

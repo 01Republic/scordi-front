@@ -11,7 +11,7 @@ export const SummarySectionStatBalance = memo(() => {
     const {totalPrice} = useSummaryStatBalance('total-balance');
 
     return (
-        <div className="stats bg-[#fafafa] shadow-xl md:w-[20%]">
+        <div className="stats bg-[#fafafa] shadow-xl sm:min-w-[20%]">
             <div className="stat place-items-center py-7">
                 <div className="stat-title !text-black !opacity-100 font-semibold mb-3">
                     {t('summary_stat.balance.label')}

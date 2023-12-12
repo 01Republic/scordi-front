@@ -1,4 +1,6 @@
-import {memo} from 'react';
+import {memo, useEffect} from 'react';
+import {BrowserNames, useGetClientBrowser} from '^hooks/useClientBrowser';
+import AOS from 'aos';
 
 interface CollectAppSectionProps {
     //
@@ -6,10 +8,30 @@ interface CollectAppSectionProps {
 
 export const CollectAppSection = memo((props: CollectAppSectionProps) => {
     const {} = props;
+    const {browser} = useGetClientBrowser();
+
+    useEffect(() => {
+        AOS.refresh();
+    }, [browser]);
+
+    if (
+        [
+            BrowserNames.unknown,
+            BrowserNames.naverWebview,
+            BrowserNames.safari,
+            BrowserNames.firefox,
+            BrowserNames.edge,
+        ].includes(browser)
+    ) {
+        return <></>;
+    }
 
     return (
         <>
-            <section id="CollectAppSection" className="bg-white">
+            <section
+                id="CollectAppSection"
+                className="bg-white safari-hidden naverWebview-hidden firefox-hidden edge-hidden"
+            >
                 <div className="logo-container animation-layer">
                     <div id="Jira" className="logo">
                         <div
@@ -50,7 +72,7 @@ export const CollectAppSection = memo((props: CollectAppSectionProps) => {
                 <div className="bg-container animation-layer"></div>
             </section>
             <div
-                className="background logo-background-blurred !hidden sm:!flex"
+                className="background logo-background-blurred !hidden sm:!flex safari-hidden naver-hidden"
                 style={{backgroundImage: 'url(/images/landing/collect-apps/bg.png)'}}
             >
                 <div

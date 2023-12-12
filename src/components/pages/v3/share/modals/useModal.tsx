@@ -17,6 +17,7 @@ interface UseModalOption {
 interface ModalProps extends WithChildren {
     className?: string;
     wrapperClassName?: string;
+    onClose?: () => any;
 }
 
 export const useModal = (option: UseModalOption) => {
@@ -76,11 +77,11 @@ export const useModal = (option: UseModalOption) => {
         open,
         close,
         prevent,
-        Modal: memo(({children, wrapperClassName = '', className = ''}: ModalProps) => (
+        Modal: memo(({children, wrapperClassName = '', className = '', onClose}: ModalProps) => (
             <div
                 data-modal-id={popStateSyncKey}
                 className={`modal cursor-pointer ${wrapperClassName} ${isShow ? 'modal-open' : ''}`}
-                onClick={close}
+                onClick={onClose || close}
             >
                 <div className={`modal-box cursor-default ${className}`} onClick={prevent}>
                     {children}

@@ -14,7 +14,6 @@ import {getQueryParams} from '^utils/get-query-params';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {FromToQueryDto} from '^types/billing.type';
 import {focusedMonthAtom, useFocusedMonth} from '^v3/V3OrgHomePage/feature/useFocusedMonth';
-import {getBillingHistories} from '^api/billing.api';
 import {firstDayOfMonth, lastDayOfMonth, monthAfter, monthBefore} from '^utils/dateTime';
 
 export function useCalendar() {

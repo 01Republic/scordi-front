@@ -1,0 +1,26 @@
+import {useRecoilState} from 'recoil';
+import {FindAllInvoiceAccountQueryDto} from '^models/InvoiceAccount/type';
+
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {getInvoiceAccountsQueryAtom, invoiceAccountsSearchResultAtom} from '^models/InvoiceAccount/atom';
+
+export const useInvoiceAccounts = () => {
+    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const [result, setResult] = useRecoilState(invoiceAccountsSearchResultAtom);
+    const [query, setQuery] = useRecoilState(getInvoiceAccountsQueryAtom);
+
+    async function search(params: FindAllInvoiceAccountQueryDto) {
+        if (!orgId) return;
+
+        const data = await invoiceAccountApi.index(orgId, params).then((res) => res.data);
+        setResult(data);
+        setQuery(params);
+
+        return data;
+    }
+
+    const movePage = (page: number) => search({...query, page});
+
+    return {query, result, search, movePage};
+};

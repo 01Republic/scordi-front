@@ -1,5 +1,5 @@
 import {TFunction} from 'i18next';
-import {UserLocale} from '^types/user.type';
+import {UserLocale} from '^models/User/types';
 
 export const locales = [
     {code: UserLocale.Ko, text: '한국어'},

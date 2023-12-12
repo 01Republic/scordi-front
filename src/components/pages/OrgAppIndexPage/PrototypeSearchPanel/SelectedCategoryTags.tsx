@@ -1,6 +1,6 @@
 import React, {memo, useCallback, useEffect} from 'react';
 import {useRecoilState} from 'recoil';
-import {useProductSearch} from '^hooks/useProducts';
+import {useProductSearch} from '^models/Product/hook';
 import {selectedCategoriesState} from './FilterCategorySelect';
 import {AiOutlineCloseCircle} from '^components/react-icons';
 

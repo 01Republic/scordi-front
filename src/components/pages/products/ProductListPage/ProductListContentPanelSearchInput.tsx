@@ -1,10 +1,10 @@
 import {memo, useEffect} from 'react';
 import {BsSearch} from 'react-icons/bs';
 import {useForm} from 'react-hook-form';
-import {useProductSearch} from '^hooks/useProducts';
+import {useProductSearch} from '^models/Product/hook';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import {currentProductCategoryAtom} from '^components/pages/products/ProductListPage/ProductListSidePanel';
-import {FindAllProductQuery} from '^types/product.type';
+import {FindAllProductQuery} from '^models/Product/type';
 
 export const ProductListContentPanelSearchInput = memo(() => {
     const {search} = useProductSearch();

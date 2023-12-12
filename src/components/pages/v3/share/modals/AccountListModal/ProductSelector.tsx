@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {ProductAvatar} from '^v3/share/ProductAvatar';
 import {AiOutlineCaretDown} from 'react-icons/ai';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {useAccountProductChangeModal} from '^v3/share/modals/AccountListModal/ProductChangeModal';
 
 interface ProductSelectorProps {

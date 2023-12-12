@@ -1,14 +1,14 @@
 import {memo, useEffect} from 'react';
 import {BiGitCommit, BsCalendarDay, BsStopwatch, IoMdRefresh} from '^components/react-icons';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {
     restartSyncButtonIsActive,
     syncHistoryAssets,
     t_syncHistoryResultStatus,
-} from '^types/subscriptionSyncHistory.type';
+} from '^models/SubscriptionSyncHistory/type/subscriptionSyncHistory.type';
 import {Avatar} from '^components/Avatar';
 import {getDistanceOfTime, humanizeTimeDistance} from '^utils/dateTime';
-import {useCurrentSyncHistory} from '^hooks/useSubscriptionSyncHistories';
+import {useCurrentSyncHistory} from '^models/SubscriptionSyncHistory/hook';
 
 interface CurrentHistoryZoneProps {
     subscription: SubscriptionDto;

@@ -4,8 +4,8 @@ import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
 import {atom, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
 import {getCurrencyUnit} from '^api/tasting.api/gmail/agent/parse-email-price';
-import {useBillingSchedulesV3} from '^hooks/useBillingSchedules';
-import {BillingScheduleManager} from '^models/BillingSchedule';
+import {useBillingSchedulesV3} from '^models/BillingSchedule/hook';
+import {BillingScheduleManager} from '^models/BillingSchedule/manager';
 import {useModal} from '^v3/share/modals/useModal';
 import {monthlyBillingScheduleAtom, monthlyRemainAmountModal} from '^v3/V3OrgHomePage/MonthlyRemainAmountModal/atom';
 

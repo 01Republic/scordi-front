@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {UserDto} from '^types/user.type';
+import {UserDto} from '^models/User/types';
 import {Avatar} from '^components/Avatar';
 import {zeroPad} from '^utils/dateTime';
 import {useRouter} from 'next/router';

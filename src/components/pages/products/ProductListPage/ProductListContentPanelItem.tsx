@@ -1,24 +1,24 @@
 import {ProductDetailPageRoute} from '^pages/products/[id]';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {toast} from 'react-toastify';
 import {ResponsiveFigureImg} from '^components/ResponsiveFigureImg';
-import {useProductPostContent} from '^hooks/useProducts';
+import {useProductPostContent} from '^models/Product/hook';
+import {LinkTo} from '^components/util/LinkTo';
 
 export const ProductListContentPanelItem = (props: {product: ProductDto}) => {
     const {product} = props;
-
-    if (!product) return <></>;
-    const [post] = product.posts;
-
-    const aTagOption = {
-        ...(post ? {href: ProductDetailPageRoute.path(product.id)} : {onClick: () => toast.info('준비 중입니다.')}),
-    };
     const {makeContent} = useProductPostContent();
 
+    if (!product) return <></>;
+
+    const [post] = product.posts;
     const {thumbnailUrl, logoImgUrl, title, subTitle, tagNames} = makeContent(product);
 
     return (
-        <a {...aTagOption}>
+        <LinkTo
+            href={post ? ProductDetailPageRoute.path(product.id) : product.pricingPageUrl}
+            target={post ? '_self' : '_blank'}
+        >
             <div className="card cursor-pointer">
                 {/* Thumbnail */}
                 <ResponsiveFigureImg
@@ -58,6 +58,6 @@ export const ProductListContentPanelItem = (props: {product: ProductDto}) => {
                     </p>
                 </div>
             </div>
-        </a>
+        </LinkTo>
     );
 };

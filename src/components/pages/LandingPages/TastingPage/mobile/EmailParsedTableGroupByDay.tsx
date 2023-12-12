@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
 import {useRouter} from 'next/router';
 import {dayjs} from '^utils/dayjs';
-import {BillingHistoryDto} from '^types/billing.type';
 import {EmailParsedTableRowMobile} from './EmailParsedTableRowMobile';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 interface EmailParsedTableGroupByDayProps {
     date: Date;

@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {Avatar} from '^components/Avatar';
 
 interface PrototypeAvatarProps {

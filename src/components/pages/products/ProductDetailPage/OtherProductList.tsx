@@ -1,7 +1,7 @@
 import {memo, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
-import {productSearchResultsState, useProductSearch} from '^hooks/useProducts';
+import {productSearchResultsState, useProductSearch} from '^models/Product/hook';
 import {OtherProductItem as ProductItem} from '^components/pages/products/ProductDetailPage/OtherProductItem';
 
 export const OtherProductList = memo(() => {

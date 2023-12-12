@@ -4,12 +4,12 @@ import {WysiwygEditor} from '^components/WysiwygEditor';
 import {fileApi} from '^api/file.api';
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {useForm, UseFormReturn} from 'react-hook-form';
-import {CreatePostByAdminDto, PostDto, UpdatePostByAdminDto} from '^types/post.type';
+import {CreatePostByAdminDto, PostDto, UpdatePostByAdminDto} from '^models/Post/type';
 import {datetime_local, yyyy_mm_dd} from '^utils/dateTime';
 import {SelectDropdown} from '^v3/share/Select';
 import {MultiSelect, Option} from '^components/util/react-select';
-import {postAuthorManageApi, postTagManageApi} from '^api/post-manage.api';
-import {PostAuthorDto, UpdatePostAuthorByAdminDto} from '^types/post-author.type';
+import {postAuthorManageApi, postTagManageApi} from '^models/Post/api';
+import {PostAuthorDto, UpdatePostAuthorByAdminDto} from '^models/Post/type/authorType';
 import {MultiValue} from 'react-select';
 import {toast} from 'react-toastify';
 import {errorNotify} from '^utils/toast-notify';
@@ -177,7 +177,7 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
                         <div className="mb-4">
                             <TextInput
                                 label="제목"
-                                inputClass="!bg-white !border-gray-300"
+                                inputclass="!bg-white !border-gray-300"
                                 {...form.register('title', {required: true})}
                                 required={true}
                             />
@@ -237,7 +237,7 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
                         <div className="mb-4">
                             <TextInput
                                 label="SEO 제목"
-                                inputClass="!bg-white !border-gray-300"
+                                inputclass="!bg-white !border-gray-300"
                                 {...form.register('seoTitle', {required: true})}
                                 required={true}
                             />
@@ -246,7 +246,7 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
                         <div className="mb-4">
                             <TextInput
                                 label="SEO 설명"
-                                inputClass="!bg-white !border-gray-300"
+                                inputclass="!bg-white !border-gray-300"
                                 {...form.register('seoDescription', {required: true})}
                                 required={true}
                             />

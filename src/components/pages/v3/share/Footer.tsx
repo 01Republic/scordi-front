@@ -11,7 +11,7 @@ export const V3Footer = memo(() => {
     const {currentLocale} = useCurrentLocale();
 
     return (
-        <div className="bg-base-100">
+        <div className="bg-base-100 mt-auto">
             <V3MainLayoutContainer className="!py-6">
                 <footer className="footer items-center bg-base-100 text-neutral-content">
                     <div className="items-center grid-flow-col">

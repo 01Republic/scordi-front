@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {UserDto} from '^types/user.type';
+import {UserDto} from '^models/User/types';
 
 interface UserAvatarProps {
     user: UserDto;
@@ -21,7 +21,7 @@ export const UserAvatar = memo((props: UserAvatarProps) => {
     return (
         <div className="avatar placeholder">
             <div className={`bg-neutral-focus text-neutral-content ${roundClass} ${size}`}>
-                <span className={`text-xs font-bold ${textClass}`}>{user.name[0]}</span>
+                <span className={`text-xs font-bold ${textClass}`}>{user ? user.name[0] : ''}</span>
             </div>
         </div>
     );

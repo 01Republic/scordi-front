@@ -1,8 +1,8 @@
 import {OAuth2Client} from 'google-auth-library';
+import {googleOAuth} from '^config/environments';
 
-const client_id = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID as string;
-const client_secret = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_SECRET as string;
+const client_env = googleOAuth.adminClient;
 const redirect_uri = 'YOUR_REDIRECT_URI';
-const oauth2Client = new OAuth2Client(client_id, client_secret, redirect_uri);
+const oauth2Client = new OAuth2Client(client_env.id, client_env.secret, redirect_uri);
 
 export default oauth2Client;

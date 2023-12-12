@@ -34,5 +34,19 @@
     }
   },
   "something_went_to_wrong": "데이터를 가져오는 중에 무언가 잘못됐어요! :(\n새로고침 후 다시 시도해주세요",
-  "this_is_detected_subscriptions_from_emails": "구독중이거나 메일함에서 발견했어요!"
+  "this_is_detected_subscriptions_from_emails": "구독중이거나 메일함에서 발견했어요!",
+  "SyncWorkspaceApp": {
+    "title": "지금 우리 회사가 쓰는 <br /> 서비스는 몇 개 일까?",
+    "subtitle1": "지금 바로, 우리 회사의 ",
+    "subtitle1-1": "구독서비스를 찾아보세요.",
+    "subtitle2": "",
+    "subtitle3": ""
+  },
+  "InvoiceTrackerApp": {
+    "title": "우리 회사 구독 서비스 <br /> 고정 지출은 얼마일까?",
+    "subtitle1": "지금 바로, 구독 서비스의 ",
+    "subtitle1-1": "결제를 모아 보세요.",
+    "subtitle2": "",
+    "subtitle3": ""
+  }
 }

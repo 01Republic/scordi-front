@@ -1,7 +1,7 @@
 import {memo} from 'react';
 import {CardTableTR} from '^admin/share';
 import {Avatar} from '^components/Avatar';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 
 interface SubscriptionItemProps {

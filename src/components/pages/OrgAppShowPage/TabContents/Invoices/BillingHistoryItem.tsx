@@ -1,8 +1,8 @@
 import {memo} from 'react';
-import {BillingHistoryDto} from '^types/billing.type';
 import {IoClose} from 'react-icons/io5';
 import {FiDownload, IoMdCheckmark} from '^components/react-icons';
 import {yyyy_mm_dd} from '^utils/dateTime';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 interface BillingHistoryItemProps {
     billingHistory: BillingHistoryDto;

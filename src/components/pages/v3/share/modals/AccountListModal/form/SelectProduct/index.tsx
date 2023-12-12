@@ -1,17 +1,14 @@
 import React, {memo, useEffect, useMemo, useState} from 'react';
-import {WithChildren} from '^types/global.type';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {UseFormReturn} from 'react-hook-form';
-import {UnSignedAccountFormData} from '^types/account.type';
-import {ProductAvatar} from '^v3/share/ProductAvatar';
+import {UnSignedAccountFormData} from '^models/Account/types';
 import {useSelectProductModal} from '../../SelectProductModal/hook';
 import {Option} from '^components/util/react-select/Option';
 import {useProductsOfAccounts} from '^v3/share/modals/AccountListModal/ProductChangeModal/use-products-of-accounts';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import AsyncSelect from 'react-select/async';
-import {ActionMeta, FormatOptionLabelMeta, SingleValue} from 'react-select';
-import {Avatar} from '^components/Avatar';
+import {FormatOptionLabelMeta} from 'react-select';
 import {ProductOption} from '^v3/share/modals/AccountListModal/form/SelectProduct/ProductOption.type';
 import {ProductOptionMenu} from '^v3/share/modals/AccountListModal/form/SelectProduct/ProductOptionMenu';
 import {ProductSelectedValue} from '^v3/share/modals/AccountListModal/form/SelectProduct/ProductSelectedValue';
@@ -31,7 +28,7 @@ export const SelectProduct = memo((props: SelectProductProps) => {
     const {form} = props;
     const {open: openSelectProductModal} = useSelectProductModal();
     const [productId, setProductId] = useState<number>();
-    const {Product} = useProductsOfAccounts(true);
+    const {Product, loadSubscriptions} = useProductsOfAccounts(true);
     const product = useMemo(() => {
         if (!Product || !productId) return;
         return Product.findById(productId);
@@ -44,7 +41,10 @@ export const SelectProduct = memo((props: SelectProductProps) => {
     }, []);
 
     useEffect(() => {
-        if (productId) form.setValue('productId', productId);
+        if (productId) {
+            form.setValue('productId', productId);
+            loadSubscriptions();
+        }
     }, [productId]);
 
     if (!Product) return <div className="w-full min-h-[70px] bg-slate-200 opacity-40" />;

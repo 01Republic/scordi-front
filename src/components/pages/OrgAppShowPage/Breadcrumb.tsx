@@ -2,7 +2,7 @@ import {memo} from 'react';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
-import {useCurrentSubscription} from '^hooks/useSubscriptions';
+import {useCurrentSubscription} from '^models/Subscription/hook';
 
 // Application Detail Page Breadcrumb
 export const Breadcrumb = memo(() => {

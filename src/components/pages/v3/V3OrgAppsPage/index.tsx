@@ -1,17 +1,20 @@
 import React, {memo} from 'react';
-import {WithChildren} from '^types/global.type';
-import {V3MainLayout} from '^v3/layouts/V3MainLayout';
+import {LNBIndex} from '^v3/share/LeftNavBar';
+import {V3ListPageLayout} from '^v3/layouts/V3ListPageLayout';
+import {SubscriptionLoader} from './SubscriptionLoader';
+import {SummarySection} from './SummarySection';
+import {SubscriptionListPageTitle} from './SubscriptionListPageTitle';
+import {SubscriptionListSection} from './SubscriptionListSection';
+import {SubscriptionTrModalSet} from './SubscriptionListSection/SubscriptionTable/SubscriptionTr/SubscriptionTrModalSet';
 
-interface V3OrgAppsPageProps extends WithChildren {}
-
-export const V3OrgAppsPage = memo((props: V3OrgAppsPageProps) => {
-    const {children} = props;
-
+export const V3OrgAppsPage = memo(() => {
     return (
-        <V3MainLayout>
-            <div>
-                <p>V3OrgAppsPage</p>
-            </div>
-        </V3MainLayout>
+        <V3ListPageLayout activeTabIndex={LNBIndex.Subscriptions} modals={[SubscriptionTrModalSet]}>
+            <SubscriptionListPageTitle />
+            <SubscriptionLoader />
+            <SummarySection />
+            <SubscriptionListSection />
+        </V3ListPageLayout>
     );
 });
+V3OrgAppsPage.displayName = 'V3OrgAppsPage';

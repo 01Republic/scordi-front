@@ -1,5 +1,5 @@
 import {memo, useEffect} from 'react';
-import {productApi} from '^api/product.api';
+import {productApi} from '^models/Product/api';
 import {AdminNewProductPageRoute} from '^pages/admin/products/new';
 import {AdminListPageLayout} from '^admin/layouts';
 import {CardTablePanel} from '^admin/share';

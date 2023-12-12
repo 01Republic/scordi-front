@@ -1,6 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import {UseFormReturn} from 'react-hook-form';
-import {UnSignedAccountFormData} from '^types/account.type';
+import {UnSignedAccountFormData} from '^models/Account/types';
 import {Input} from './Input';
 
 interface PasswordInputProps {

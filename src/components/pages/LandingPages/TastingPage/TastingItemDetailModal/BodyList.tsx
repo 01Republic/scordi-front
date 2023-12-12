@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {EmailParsedTableGroupByDay} from '../mobile/EmailParsedTableGroupByDay';
-import {BillingHistoryDto} from '^types/billing.type';
 import {groupByDate} from '^utils/dateTime';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 interface BodyListProps {
     billingHistories: BillingHistoryDto[];

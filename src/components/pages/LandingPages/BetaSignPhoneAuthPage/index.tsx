@@ -2,26 +2,26 @@ import React, {memo, useEffect, useState} from 'react';
 import {LandingPageLayout} from '../LandingPageLayout';
 import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
-import {UserDto, UserSocialSignUpRequestDto} from '^types/user.type';
+import {UserDto, UserSocialSignUpRequestDto} from '^models/User/types';
 import {toast} from 'react-toastify';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {codeConfirmedState, isTermModalOpenedState, phoneAuthDataState} from './BetaSignPhoneAuthPage.atom';
 import {PhoneNumberInput} from './PhoneNumberInput';
 import {AuthCodeInput} from './AuthCodeInput';
 import {TermModal} from '^components/pages/LandingPages/BetaSignPhoneAuthPage/TermModal';
-import {GoogleSignedUserData} from '^atoms/currentUser.atom';
-import {createInvitedUser, findUserByEmail, postUser} from '^api/session.api';
+import {GoogleSignedUserData} from '^models/User/atom';
+import {createInvitedUser, user} from '^models/User/api/session';
 import {errorNotify} from '^utils/toast-notify';
-import {useSocialLogin} from '^hooks/useCurrentUser';
+import {useSocialLogin} from '^models/User/hook';
 import {SignWelcomePageRoute} from '^pages/sign/welcome';
 import {useTranslation} from 'next-i18next';
-import {createInvoiceAccount} from '^api/invoiceAccount.api';
 import {gmailAccessTokenDataAtom} from '^hooks/useGoogleAccessToken';
 import {GmailAgent} from '^api/tasting.api';
-import {getCreateInvoiceAccountFromTo} from '^types/invoiceAccount.type';
+import {getCreateInvoiceAccountFromTo} from '^models/InvoiceAccount/type';
 import {ApiError} from '^api/api';
 import {BetaSignSocialPageRoute} from '^pages/sign/social';
 import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 
 export const BetaSignPhoneAuthPage = memo(() => {
     const router = useRouter();
@@ -36,6 +36,7 @@ export const BetaSignPhoneAuthPage = memo(() => {
     const [pageLoaded, setPageLoaded] = useState(false);
 
     useEffect(() => {
+        if (typeof window == 'undefined') return;
         console.log('\ninvited from', invitedOrgId);
         const gmailProfileData = window.localStorage.getItem('scordi/tasting/gmailProfile');
         if (!gmailProfileData) {
@@ -67,7 +68,7 @@ export const BetaSignPhoneAuthPage = memo(() => {
             const gmailAgent = new GmailAgent(accessTokenData);
             gmailAgent.getProfile().then(async (userData) => {
                 const tokenData = gmailAgent.accessTokenData;
-                return createInvoiceAccount(organizationId, {
+                return invoiceAccountApi.create(organizationId, {
                     email: userData.email,
                     image: userData.picture,
                     tokenData: {
@@ -94,7 +95,7 @@ export const BetaSignPhoneAuthPage = memo(() => {
         }
 
         // 먼저 이메일을 통해 가입여부를 확인하고
-        findUserByEmail(data.email)
+        user.find(data.email)
             .then((res) => {
                 // 가입된 사용자라면 후처리 로직만 실행하고
                 const user = res.data;
@@ -120,7 +121,7 @@ export const BetaSignPhoneAuthPage = memo(() => {
                                 errorNotify(err);
                             });
                     } else {
-                        postUser(data)
+                        user.create(data)
                             .then((res) => {
                                 console.log('가입 then', res);
                                 findOrCreateUserCallback(res.data, data);

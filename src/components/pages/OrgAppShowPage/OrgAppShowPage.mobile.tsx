@@ -12,10 +12,10 @@ import {AppInfoSection} from '^components/pages/OrgAppInfoPage/AppInfoSection';
 import {AppBillingSummarySection} from '^components/pages/OrgAppInfoPage/AppBillingSummarySection';
 import {AppBillingHistoryListSection} from '^components/pages/OrgAppInfoPage/AppBillingHistoryListSection';
 import {NewBillingHistoryOnAppPageRoute} from '^pages/orgs/[id]/apps/[appId]/billingHistories/new';
-import {useCurrentSubscription} from '^hooks/useSubscriptions';
+import {useCurrentSubscription} from '^models/Subscription/hook';
 import {useSetRecoilState} from 'recoil';
 import {subscriptionIdParamState} from '^atoms/common';
-import {getBillingHistoriesParamsState} from '^atoms/billingHistories.atom';
+import {getBillingHistoriesParamsState} from '^models/BillingHistory/atom';
 import {OrgApplicationEditPageRoute} from '^pages/orgs/[id]/apps/[appId]/edit';
 
 export const OrgAppShowPageMobile = memo(() => {

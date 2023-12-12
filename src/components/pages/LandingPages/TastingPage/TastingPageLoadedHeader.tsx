@@ -1,22 +1,24 @@
 import React, {memo, useEffect} from 'react';
 import {WithChildren} from '^types/global.type';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {gmailItemsLoadedAtom, gmailItemsLoadingAtom, gmailProfileAtom} from './pageAtoms';
 import {SummarySection2} from './SummarySection';
 import {useRouter} from 'next/router';
 import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
 import {useTranslation} from 'next-i18next';
 import {TastingPageLoadedHeaderMobile} from './TastingPageLoadedHeaderMobile';
+import {FindByGmailButton} from '^components/pages/LandingPages/TastingPage/FindByGmailButton';
 
 export const TastingPageLoadedHeader = memo(({children}: WithChildren) => {
     const router = useRouter();
     const isLoading = useRecoilValue(gmailItemsLoadingAtom);
-    const isLoaded = useRecoilValue(gmailItemsLoadedAtom);
+    const [isLoaded, setIsLoaded] = useRecoilState(gmailItemsLoadedAtom);
     const gmailProfile = useRecoilValue(gmailProfileAtom);
     const {t} = useTranslation('publicTasting');
 
     useEffect(() => {
         if (!gmailProfile) return;
+        if (typeof window == 'undefined') return;
 
         window.localStorage.setItem('scordi/tasting/gmailProfile', JSON.stringify(gmailProfile));
     }, [gmailProfile]);
@@ -26,11 +28,11 @@ export const TastingPageLoadedHeader = memo(({children}: WithChildren) => {
     // Loaded After
     return (
         <div>
-            <div className="pt-6 sm:pt-14">
+            <div className="pt-8 sm:pt-0">
                 {/* PC */}
                 <section id="section-1" className="hero mb-3 hidden sm:block">
                     <div className="text-center w-[100vw]">
-                        <div className="mb-10">
+                        <div className="my-10">
                             <h1 className="text-2xl md:text-4xl font-bold mb-5" style={{lineHeight: 1.3}}>
                                 {t('hey_payment_list_arrived', {name: gmailProfile?.name || ''})}
                                 {/*{gmailProfile ? `${gmailProfile.name}님, ` : ''} 결제 내역이 도착했어요!*/}
@@ -43,12 +45,17 @@ export const TastingPageLoadedHeader = memo(({children}: WithChildren) => {
                                 {t('click_the_button')}
                             </p>
 
-                            <div className="py-7 mb-6">
+                            <div className="py-7 mb-6 flex items-center gap-4 justify-center">
+                                <button
+                                    className="btn btn-lg bg-white rounded-2xl shadow-xl"
+                                    onClick={() => setIsLoaded(false)}
+                                >
+                                    다른 계정으로 시도하기
+                                </button>
+
                                 <button
                                     className="btn btn-scordi-500 btn-lg rounded-2xl shadow-xl"
-                                    onClick={() => {
-                                        router.push(SignPhoneAuthPageRoute.path());
-                                    }}
+                                    onClick={() => router.push(SignPhoneAuthPageRoute.path())}
                                 >
                                     {t('try_it_free_now')}
                                 </button>

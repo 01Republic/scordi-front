@@ -1,27 +1,27 @@
 import React, {useState} from 'react';
 import {NextRouter, useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
-import {createOrganization, searchOrganizations} from '^api/organization.api';
-import {createMembership} from '^api/membership.api';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {organizationApi} from '^models/Organization/api';
 import {errorNotify} from '^utils/toast-notify';
 import {TextInputLg} from '^components/TextInput';
-import {OrganizationDto, SearchOrgQueryDto} from '^types/organization.type';
-import {MembershipLevel} from '^types/membership.type';
-import {UserDto} from '^types/user.type';
+import {OrganizationDto, SearchOrgQueryDto} from '^models/Organization/type';
+import {MembershipLevel} from 'src/models/Membership/types';
+import {UserDto} from '^models/User/types';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {pathRoute} from '^types/pageRoute.type';
 import {OrgSettingsLayout} from '^layouts/org/settingsLayout';
 import {toast} from 'react-toastify';
 import {useRecoilState} from 'recoil';
-import {currentUserAtom} from '^atoms/currentUser.atom';
+import {currentUserAtom} from '^models/User/atom';
+import {membershipApi} from '^models/Membership/api';
 
 const createMembershipRequest = (org: OrganizationDto, user: UserDto, level: MembershipLevel, router: NextRouter) => {
-    createMembership({
-        organizationId: org.id,
-        userId: user.id,
-        level: level,
-    })
+    membershipApi
+        .create({
+            organizationId: org.id,
+            userId: user.id,
+            level: level,
+        })
         .then(() => router.push(OrgHomeRoute.path(org.id)))
         .catch(errorNotify);
 };
@@ -41,7 +41,7 @@ const NewMembershipPage = () => {
     // 검색어 입력을 받아 검색을 요청하고 검색결과를 받는다.
     const search = (data: SearchOrgQueryDto) => {
         setSelectedOrg(null);
-        searchOrganizations(data).then((res) => setResults(res.data));
+        organizationApi.search(data).then((res) => setResults(res.data));
         return false;
     };
 
@@ -68,7 +68,8 @@ const NewMembershipPage = () => {
         }
 
         // 검색어를 이름 삼아 새 조직을 생성
-        createOrganization({name})
+        organizationApi
+            .create({name})
             // 이 조직에 멤버십 생성
             .then((res) => createMembershipRequest(res.data, currentUser, MembershipLevel.OWNER, router))
             .catch(errorNotify);

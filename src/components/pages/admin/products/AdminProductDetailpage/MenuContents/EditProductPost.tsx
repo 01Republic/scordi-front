@@ -3,8 +3,8 @@ import {useForm} from 'react-hook-form';
 import {toast} from 'react-toastify';
 import {useRecoilState} from 'recoil';
 import {adminProductDetail} from '^components/pages/admin/products/AdminProductDetailpage';
-import {PostDto, CreatePostByAdminDto as CreateDto, UpdatePostByAdminDto as UpdateDto} from '^types/post.type';
-import {postManageApi} from '^api/post-manage.api';
+import {PostDto, CreatePostByAdminDto as CreateDto, UpdatePostByAdminDto as UpdateDto} from '^models/Post/type';
+import {postManageApi} from '^models/Post/api';
 import {BlogForm} from '^components/pages/admin/blogs/form/BlogForm';
 
 export const EditProductPost = memo(() => {

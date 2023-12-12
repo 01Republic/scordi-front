@@ -3,7 +3,7 @@ import {useRecoilValue} from 'recoil';
 import {subjectProductOfAccountsInModalState} from '^v3/share/modals/AccountListModal/atom';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ProductSelector} from '^v3/share/modals/AccountListModal/ProductSelector';
-import {useAccounts} from '^hooks/useAccounts';
+import {useAccounts} from '^models/Account/hook';
 import {FcLock} from '^components/react-icons';
 
 export const HeaderPanel = memo(() => {

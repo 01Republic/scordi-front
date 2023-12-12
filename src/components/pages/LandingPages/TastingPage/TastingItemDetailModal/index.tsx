@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
 import {atom, useRecoilState, useRecoilValue} from 'recoil';
 import {useModal} from '^v3/share/modals/useModal';
-import {InvoiceAppDto} from '^types/invoiceApp.type';
+import {InvoiceAppDto} from '^models/InvoiceApp/type';
 import {useRouter} from 'next/router';
 import {draftAccountAtom} from '../pageAtoms';
 import {ModalTopbar} from './ModalTopbar';
@@ -10,7 +10,7 @@ import {HeadingPrice} from './HeadingPrice';
 import {HeadingContent} from './HeadingContent';
 import {BodySummary} from './BodySummary';
 import {BodyList} from './BodyList';
-import {BillingHistoryDto} from '^types/billing.type';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 const isShowTastingItemDetailModalState = atom<boolean>({
     key: 'isShowTastingItemDetailModalState',

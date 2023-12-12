@@ -1,11 +1,11 @@
 import {memo, useEffect, useState} from 'react';
 import {orgIdParamState, productIdParamsState, useRouterIdParamState} from '^atoms/common';
-import {useProduct} from '^hooks/useProducts';
+import {useProduct} from '^models/Product/hook';
 import {WithChildren} from '^types/global.type';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {getSubscriptions} from '^api/subscription.api';
 import {errorNotify} from '^utils/toast-notify';
 import {subscriptionsForThisPrototypeAtom} from './OrgProtoDetailPage.desktop';
+import {subscriptionApi} from '^models/Subscription/api';
 
 export const PrototypeHeader = memo((props: WithChildren) => {
     const {children} = props;
@@ -22,7 +22,8 @@ export const PrototypeHeader = memo((props: WithChildren) => {
         if (!proto) return;
 
         const where = {organizationId, productId: proto.id};
-        getSubscriptions({where})
+        subscriptionApi
+            .index({where})
             .then((res) => res.data.items)
             .then(setApps)
             .catch(errorNotify);

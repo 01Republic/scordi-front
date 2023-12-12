@@ -1,10 +1,10 @@
 import React, {memo} from 'react';
-import {useBillingHistories} from '^hooks/useBillingHistories';
+import {useBillingHistories} from '^models/BillingHistory/hook';
 import {MobileEntityListSection} from '^components/v2/MobileEntityListSection';
 import {PreLoader} from '^components/PreLoader';
-import {useCurrentSubscription} from '^hooks/useSubscriptions';
+import {useCurrentSubscription} from '^models/Subscription/hook';
 import {BillingHistoryItem} from '^components/pages/OrgAppInfoPage/BillingHistoryItem';
-import {BillingHistoryDto} from '^types/billing.type';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 type AppBillingHistoryListSectionProps = {
     onClickMethod?: 'push' | 'replace' | undefined; // default: "push"

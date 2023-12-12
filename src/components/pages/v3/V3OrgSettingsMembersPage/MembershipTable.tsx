@@ -1,13 +1,27 @@
 import {memo} from 'react';
-import {useMemberships} from '^hooks/useMemberships';
 import {MembershipTableRow} from '^v3/V3OrgSettingsMembersPage/MembershipTableRow';
+import {useMemberships} from '^models/Membership/hook';
+import {MembershipDto} from '^models/Membership/types';
 
 export const MembershipTable = memo(() => {
     const {membershipSearchResult} = useMemberships();
-    const {items} = membershipSearchResult;
+    const members = membershipSearchResult.items;
+
+    // 생성일 기준 역순으로 정렬하는 함수
+    const sortByCreatedAtDescending = (members: MembershipDto[]) => {
+        const newMembers = [...members];
+        return newMembers.sort((a, b) => {
+            const dateA: number = new Date(a.createdAt).valueOf();
+            const dateB: number = new Date(b.createdAt).valueOf();
+
+            return dateB - dateA;
+        });
+    };
+
+    const sortedMembers = sortByCreatedAtDescending(members);
 
     return (
-        <div className="w-full inline-grid">
+        <div className="card bg-white">
             <div className="overflow-x-auto w-full">
                 <table className="table w-full">
                     <thead>
@@ -20,8 +34,8 @@ export const MembershipTable = memo(() => {
                     </thead>
 
                     <tbody>
-                        {items.map((membership, i) => (
-                            <MembershipTableRow membership={membership} key={i} />
+                        {sortedMembers.map((member, i) => (
+                            <MembershipTableRow member={member} key={i} />
                         ))}
                     </tbody>
                 </table>

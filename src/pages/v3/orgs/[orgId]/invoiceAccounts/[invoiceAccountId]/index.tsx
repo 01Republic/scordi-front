@@ -5,7 +5,7 @@ import {v3CommonRequires} from '^types/utils/18n.type';
 import {V3OrgInvoiceAccountShowPage} from '^v3/V3OrgInvoiceAccountShowPage';
 import {useRouter} from 'next/router';
 import {invoiceAccountIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useCurrentOrg} from '^hooks/useCurrentOrg';
+import {useCurrentOrg} from '^models/Organization/hook';
 import {useCurrentInvoiceAccount} from '^v3/V3OrgInvoiceAccountShowPage/atom';
 
 export const V3OrgInvoiceAccountShowPageRoute = pathRoute({

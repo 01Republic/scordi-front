@@ -1,9 +1,9 @@
 import {Badge} from '^components/Badge';
 import {GrowthText} from '^components/GrowthText';
 import {useRouter} from 'next/router';
-import {SubscriptionDto, ConnectStatus, t_ConnectStatus} from '^types/subscription.type';
+import {SubscriptionDto, ConnectStatus, t_ConnectStatus} from 'src/models/Subscription/types';
 import {useEffect} from 'react';
-import {PaymentCycle, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
+import {PaymentCycle, t_BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 
 interface BillingTableRowProps {
     subscription: SubscriptionDto;

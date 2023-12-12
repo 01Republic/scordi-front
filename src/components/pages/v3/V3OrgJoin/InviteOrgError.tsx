@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
 import {GoogleOAuthProvider} from '@react-oauth/google';
-import {currentUserAtom} from '^atoms/currentUser.atom';
+import {currentUserAtom} from '^models/User/atom';
 import {googleOauthClientId} from '^api/tasting.api/gmail/constant';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import styles from '^styles/v3/V3MainLayout.module.scss';

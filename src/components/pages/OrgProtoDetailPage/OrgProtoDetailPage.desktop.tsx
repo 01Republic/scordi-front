@@ -11,8 +11,8 @@ import {
 } from './index';
 import {atom, useRecoilValue} from 'recoil';
 import {TabContentForSetting} from '^components/pages/OrgProtoDetailPage/TabContents/TabContentForSetting';
-import {useCurrentUser} from '^hooks/useCurrentUser';
-import {SubscriptionDto} from '^types/subscription.type';
+import {useCurrentUser} from '^models/User/hook';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 
 export const navTabIndex = atom({
     key: 'Prototypes/NavTabIndex',

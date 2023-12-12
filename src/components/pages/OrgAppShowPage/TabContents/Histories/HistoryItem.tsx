@@ -1,13 +1,15 @@
 import {memo} from 'react';
 import {IoMdClose, IoMdRefresh} from '^components/react-icons';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {HistoryStatusButton} from './HistoryStatusButton';
-import {SyncHistoryDto, SyncHistoryResultStatus} from '^types/subscriptionSyncHistory.type';
+import {
+    SyncHistoryDto,
+    SyncHistoryResultStatus,
+} from '^models/SubscriptionSyncHistory/type/subscriptionSyncHistory.type';
 import {getDistanceOfTime, humanizeTimeDistance} from '^utils/dateTime';
 import {zeroPad} from '^utils/number';
-import {updateSyncHistory} from '^api/subscriptionSyncHistories.api';
-import {toast} from 'react-toastify';
-import {useCurrentSyncHistory} from '^hooks/useSubscriptionSyncHistories';
+import {useCurrentSyncHistory} from '^models/SubscriptionSyncHistory/hook';
+import {syncHistory} from '^models/SubscriptionSyncHistory/api';
 
 interface HistoryItemProps {
     subscription: SubscriptionDto;
@@ -47,10 +49,12 @@ export const HistoryItem = memo((props: HistoryItemProps) => {
     };
 
     const onCancel = () => {
-        updateSyncHistory(subscription.id, history.id, {
-            resultStatus: SyncHistoryResultStatus.CANCELED,
-            finishedAt: new Date(),
-        }).then(() => onRefreshClick());
+        syncHistory
+            .update(subscription.id, history.id, {
+                resultStatus: SyncHistoryResultStatus.CANCELED,
+                finishedAt: new Date(),
+            })
+            .then(() => onRefreshClick());
     };
 
     return (

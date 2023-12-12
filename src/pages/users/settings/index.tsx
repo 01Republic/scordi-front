@@ -5,9 +5,9 @@ import {MobileTopNav} from '^components/MobileTopNav';
 import {removeToken} from '^api/api';
 import {UserLoginPageRoute} from '^pages/users/login';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {useRecoilState} from 'recoil';
-import {currentUserAtom} from '^atoms/currentUser.atom';
+import {currentUserAtom} from '^models/User/atom';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 import {useToast} from '^hooks/useToast';
 

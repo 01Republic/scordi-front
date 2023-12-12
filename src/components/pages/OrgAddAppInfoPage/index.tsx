@@ -2,14 +2,12 @@ import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
 import {IoArrowBack} from '@react-icons/all-files/io5/IoArrowBack';
-import {useCurrentOrg} from '^hooks/useCurrentOrg';
+import {useCurrentOrg} from '^models/Organization/hook';
 import {errorNotify} from '^utils/toast-notify';
 import {Page} from '^types/page';
-import {ProductDto} from '^types/product.type';
-import {CreateSubscriptionRequestDto} from '^types/subscription.type';
+import {ProductDto} from '^models/Product/type';
+import {CreateSubscriptionRequestDto} from 'src/models/Subscription/types';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
-import {getSubscriptions} from '^api/subscription.api';
-import {getProduct} from '^api/product.api';
 import {ContentLayout} from '^layouts/ContentLayout';
 import {ContentForm} from '^layouts/ContentLayout/ContentForm';
 import {ContentHeading, ContentHeadingSecondaryButton} from '^layouts/ContentLayout/ContentHeading';
@@ -19,6 +17,8 @@ import {ConnectProfile} from '^components/pages/OrgAddAppInfoPage/ConnectProfile
 import {ConnectPanelV1} from '^components/pages/OrgAddAppInfoPage/ConnectPanelV1';
 import {ConnectPanelV2} from '^components/pages/OrgAddAppInfoPage/ConnectPanelV2';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
+import {productApi} from '^models/Product/api';
+import {subscriptionApi} from '^models/Subscription/api';
 
 export const OrgAddAppInfoPage: Page = () => {
     const router = useRouter();
@@ -53,7 +53,8 @@ export const OrgAddAppInfoPage: Page = () => {
         if (productId) {
             // 굳이굳이 주소를 치고 이 페이지로 진입하는 경우에도, 이미 추가한 앱의 경우 튕겨내도록 합니다.
             const where = {organizationId, productId};
-            getSubscriptions({itemsPerPage: 999, where})
+            subscriptionApi
+                .index({itemsPerPage: 999, where})
                 .then(({data}) => {
                     if (data.items[0]) {
                         alert('이미 추가된 앱입니다.');
@@ -62,7 +63,8 @@ export const OrgAddAppInfoPage: Page = () => {
                 })
                 .catch(errorNotify);
 
-            getProduct(productId)
+            productApi
+                .show(productId)
                 .then(({data: proto}) => {
                     setProtoApp(proto);
                     // form.setValue('paymentPlanId', proto.paymentPlans[0].id);

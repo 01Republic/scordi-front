@@ -1,8 +1,8 @@
 import {UseFormReturn} from 'react-hook-form';
-import {UpdateOrganizationRequestDto} from '^types/organization.type';
+import {UpdateOrganizationRequestDto} from '^models/Organization/type';
 import React, {ForwardedRef, forwardRef, useEffect} from 'react';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {currentOrgAtom} from '^atoms/organizations.atom';
+import {currentOrgAtom} from '^models/Organization/atom';
 import {addressModalIsShow, addressValueAtom} from '^v3/share/modals/AddressModal';
 import {useId} from 'react-id-generator';
 

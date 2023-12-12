@@ -1,7 +1,7 @@
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {useModal} from '^v3/share/modals/useModal';
-import {AccountDto} from '^types/account.type';
+import {AccountDto} from '^models/Account/types';
 import {accountEditModalAtom, subjectAccountInModalState} from './atom';
 import {subjectProductOfAccountsInModalState} from '../atom';
 

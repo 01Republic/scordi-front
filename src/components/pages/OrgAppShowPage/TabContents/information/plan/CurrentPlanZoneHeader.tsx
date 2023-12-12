@@ -1,6 +1,6 @@
 import {HTMLAttributeAnchorTarget, memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {ButtonTo} from '^components/ButtonTo';
 
 interface CurrentPlanZoneHeaderProps {
@@ -12,9 +12,8 @@ export const CurrentPlanZoneHeader = memo((props: CurrentPlanZoneHeaderProps) =>
 
     const {product} = subscription;
 
-    const {
-        workspace: {slug},
-    } = subscription;
+    const {workspace, billingEmail} = subscription;
+    const {slug} = workspace || {};
     const planCompareUrl = eval(`\`${product.planComparePageUrlScheme}\``) as string;
     const upgradePageUrl = eval(`\`${product.upgradePlanPageUrlScheme}\``) as string;
 

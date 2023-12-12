@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {usePost} from '^hooks/usePosts';
+import {usePost} from '^models/Post/hook';
 import {Avatar} from '^components/Avatar';
 import {ShareButton} from './ShareButton';
 import {OpinionButton} from './OpinionButton';

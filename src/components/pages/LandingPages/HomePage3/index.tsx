@@ -11,9 +11,11 @@ import {StatsSection} from './StatsSection';
 import {Features} from './Features';
 import {FAQ} from './FAQ';
 import {Review} from './Review';
+import {useSetClientBrowser} from '^hooks/useClientBrowser';
 
 export const LandingHomePage3 = memo(() => {
     const {t} = useTranslation('publicMain');
+    useSetClientBrowser();
 
     return (
         <AOSProvider>

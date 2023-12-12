@@ -1,7 +1,7 @@
 import {memo} from 'react';
 import {ContentPanel, ContentPanelMiniTitle} from '^layouts/ContentLayout';
 import {WithChildren} from '^types/global.type';
-import {useProduct} from '^hooks/useProducts';
+import {useProduct} from '^models/Product/hook';
 import {OutLink} from '^components/OutLink';
 
 export const InfoPanel = memo(() => {

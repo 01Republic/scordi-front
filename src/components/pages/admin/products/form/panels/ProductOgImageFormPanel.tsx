@@ -6,11 +6,12 @@ import {
     ProductDto,
     CreateProductRequestDto as CreateDto,
     UpdateProductRequestDto as UpdateDto,
-} from '^types/product.type';
+} from '^models/Product/type';
 import {UseFormReturn} from 'react-hook-form';
 import {getOgImageUrl} from '^api/utils.api/open-graph.api';
-import {atom, useRecoilState} from 'recoil';
+import {atom, useRecoilState, useSetRecoilState} from 'recoil';
 import {fileApi} from '^api/file.api';
+import {isSubmitBlockedAtom} from '^admin/products/form/atom';
 
 export const ogImgUrlDraftAtom = atom({
     key: 'ogImgUrlDraftAtom',
@@ -31,6 +32,7 @@ export const OgImageFormPanel = memo((props: OgImageFormPanelProps) => {
     const {product, form} = props;
     const [ogImgUrlDraft, setOgImgUrlDraft] = useRecoilState(ogImgUrlDraftAtom);
     const [ogImgUrl, setOgImgUrl] = useRecoilState(ogImgUrlAtom);
+    const setSubmitBlock = useSetRecoilState(isSubmitBlockedAtom);
     const [initial, setInitial] = useState('');
 
     useEffect(() => {
@@ -58,6 +60,8 @@ export const OgImageFormPanel = memo((props: OgImageFormPanelProps) => {
                             const url = e.target.value;
                             getOgImageUrl(url).then((url) => setOgImgUrlDraft(url));
                         }}
+                        onFocus={() => setSubmitBlock(true)}
+                        onBlur={() => setSubmitBlock(false)}
                     />
                     <div className="pt-3">
                         <p className="text-sm mb-2">Result:</p>

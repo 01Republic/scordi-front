@@ -1,16 +1,16 @@
 import React, {ReactElement, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
-import {OrganizationDto} from '^types/organization.type';
-import {useCurrentOrg} from '^hooks/useCurrentOrg';
+import {OrganizationDto} from '^models/Organization/type';
+import {useCurrentOrg} from '^models/Organization/hook';
 import {isMobile} from 'react-device-detect';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 import {OrgSidebar} from './Sidebar';
 import {OrgTopbar} from './Topbar';
 import {OrgBar} from '^layouts/org/mainLayout/OrgBar';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {ApprovalStatus, MembershipLevel} from '^types/membership.type';
+import {ApprovalStatus, MembershipLevel} from 'src/models/Membership/types';
 import {PreLoader} from '^components/PreLoader';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {WebPush2} from '^components/webPush/WebPush2';
 
 interface OrgMainLayoutProps {

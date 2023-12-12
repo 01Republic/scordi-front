@@ -8,7 +8,7 @@ import {DeleteButton} from '^components/v2/ui/buttons/DeleteButton';
 import {BillingHistoryInfoSection} from '^components/pages/BillingHistoryShowPage/BillingHistoryInfoSection';
 import {AppBillingSummarySection} from '^components/pages/OrgAppInfoPage/AppBillingSummarySection';
 import {AppBillingHistoryListSection} from '^components/pages/OrgAppInfoPage/AppBillingHistoryListSection';
-import {useCurrentSubscription} from '^hooks/useSubscriptions';
+import {useCurrentSubscription} from '^models/Subscription/hook';
 import {MobileBottomNav} from '^components/v2/MobileBottomNav';
 import {NewBillingHistoryOnAppPageRoute} from '^pages/orgs/[id]/apps/[appId]/billingHistories/new';
 import {Icon} from '^components/Icon';
@@ -20,7 +20,7 @@ import {
     orgIdParamState,
     useRouterIdParamState,
 } from '^atoms/common';
-import {getBillingHistoriesParamsState} from '^atoms/billingHistories.atom';
+import {getBillingHistoriesParamsState} from '^models/BillingHistory/atom';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 
 export const BillingHistoryShowPageRoute = pathRoute({

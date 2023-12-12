@@ -1,39 +1,41 @@
 import {memo, useEffect} from 'react';
 import {debounce} from 'lodash';
-import {useRecoilValue} from 'recoil';
-import {currentOrgAtom} from '^atoms/organizations.atom';
-import {useMemberships} from '^hooks/useMemberships';
 import {TablePaginator} from '^v3/share/table/TablePaginator';
 import {TableSearchControl} from '^v3/share/table/TableSearchControl';
 import {MembershipTable} from '^v3/V3OrgSettingsMembersPage/MembershipTable';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
+import {useMemberships} from '^models/Membership/hook';
 
 export const MembersTableSection = memo(() => {
-    const currentOrg = useRecoilValue(currentOrgAtom);
-    const {query, membershipSearchResult, searchMemberships} = useMemberships();
+    const {searchMemberships, membershipSearchResult, query} = useMemberships();
+    const orgId = useRecoilValue(orgIdParamState);
+    const pagination = membershipSearchResult.pagination;
 
     useEffect(() => {
-        if (!currentOrg) return;
+        if (!orgId || isNaN(orgId)) return;
 
-        // first loaded.
-        searchMemberships({where: {organizationId: currentOrg.id}, order: {id: 'DESC'}, itemsPerPage: 10});
-    }, [currentOrg]);
+        searchMemberships({
+            itemsPerPage: 10,
+            where: {organizationId: orgId},
+        });
+    }, [orgId]);
 
-    const {pagination} = membershipSearchResult;
-    const {totalItemCount} = pagination;
     const movePage = (page: number) => searchMemberships({...query, page});
+
     const onSearch = debounce((keyword: string) => {
         if (query.keyword === keyword) return;
         searchMemberships({...query, keyword, page: 1});
-    }, 500);
+    });
 
     return (
         <div className="flex flex-col gap-4">
-            <TableSearchControl totalItemCount={totalItemCount} onSearch={onSearch} />
+            <TableSearchControl totalItemCount={pagination.totalItemCount} onSearch={onSearch} />
 
             <MembershipTable />
 
             <div className="flex justify-center">
-                <TablePaginator pagination={pagination} onPrev={movePage} onNext={movePage} />
+                <TablePaginator pagination={pagination} onPrev={movePage} onNext={movePage} movePage={movePage} />
             </div>
         </div>
     );

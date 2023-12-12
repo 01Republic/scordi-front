@@ -1,24 +1,24 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {useRouter} from 'next/router';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
-import {BillingScheduleShallowDto as ScheduleDto} from '^types/billing.type';
 import {intlDateShort, yyyy_mm_dd} from '^utils/dateTime';
 import {useDashboardSummary} from '^hooks/useDashboardSummary';
 import {useCalendar} from '^hooks/useCalendar';
-import {useSubscriptions} from '^hooks/useSubscriptions';
+import {index} from '^models/Subscription/hook';
 import {MobileSection} from '^components/v2/MobileSection';
-import {getSubscriptionsParamsState} from '^atoms/subscriptions.atom';
-import {didPayAppsState, willPayAppsState} from '^atoms/billingSchedules.atom';
-import {getBillingSchedulesParamsState} from '^atoms/billingSchedules.atom';
+import {getSubscriptionsParamsState} from '^models/Subscription/atom';
+import {didPayAppsState, willPayAppsState} from '^models/BillingSchedule/atom';
+import {getBillingSchedulesParamsState} from '^models/BillingSchedule/atom';
+import {BillingScheduleShallowDto as ScheduleDto} from '^models/BillingSchedule/type';
 
 export const BillingListMobile = memo(() => {
     const router = useRouter();
     const organizationId = Number(router.query.id);
     const {year, month} = useCalendar();
     const summaryDto = useDashboardSummary();
-    const subsQueryResult = useSubscriptions();
+    const subsQueryResult = index();
     const setAppsQueryParam = useSetRecoilState(getSubscriptionsParamsState);
     const setSchedulesQueryParam = useSetRecoilState(getBillingSchedulesParamsState);
     const willPayApps = useRecoilValue(willPayAppsState);

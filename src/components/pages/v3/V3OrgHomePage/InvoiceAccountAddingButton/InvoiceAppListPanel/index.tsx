@@ -1,13 +1,13 @@
 import React, {memo, useCallback} from 'react';
 import {atom, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {BiChevronsLeft} from '@react-icons/all-files/bi/BiChevronsLeft';
-import {InvoiceAccountDto} from '^types/invoiceAccount.type';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {InvoiceAppItem} from './InvoiceAppItem';
 import {RemoveAccountItem} from '^v3/V3OrgHomePage/InvoiceAccountAddingButton/InvoiceAppListPanel/RemoveAccountItem';
-import {deleteInvoiceAccount} from '^api/invoiceAccount.api';
-import {currentOrgAtom} from '^atoms/organizations.atom';
+import {currentOrgAtom} from '^models/Organization/atom';
 import {invoiceAccountsAtom} from '^v3/V3OrgHomePage/InvoiceAccountAddingButton/InvoiceAccountListPanel';
 import {useTranslation} from 'next-i18next';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 
 export const selectedInvoiceAccountAtom = atom<InvoiceAccountDto | null>({
     key: 'InvoiceAccountListPanel--selectedInvoiceAccountAtom',
@@ -26,7 +26,7 @@ export const InvoiceAppListPanel = memo(() => {
         (invoiceAccount: InvoiceAccountDto) => {
             if (!currentOrg) return;
 
-            deleteInvoiceAccount(currentOrg.id, invoiceAccount.id).then(() => {
+            invoiceAccountApi.destroy(currentOrg.id, invoiceAccount.id).then(() => {
                 setSelectedInvoiceAccount(null);
                 setInvoiceAccounts((accounts) => {
                     const remainAccounts = accounts.filter((account) => {

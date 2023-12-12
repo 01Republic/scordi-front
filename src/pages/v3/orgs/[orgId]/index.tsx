@@ -2,13 +2,13 @@ import React, {useEffect} from 'react';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {V3OrgHomePage as Page} from '^v3/V3OrgHomePage';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useCurrentOrg} from '^hooks/useCurrentOrg';
+import {useCurrentOrg} from '^models/Organization/hook';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {GmailAgentProgress, useGoogleAccessTokenCallback} from '^hooks/useGoogleAccessToken';
-import {createInvoiceAccount, getInvoiceAccounts, renewInvoiceAccount} from '^api/invoiceAccount.api';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {GmailAgent} from '^api/tasting.api';
-import {getCreateInvoiceAccountFromTo} from '^types/invoiceAccount.type';
+import {getCreateInvoiceAccountFromTo} from '^models/InvoiceAccount/type';
 import {useModal} from '^v3/share/modals/useModal';
 import {renewInvoiceAccountAtom, renewInvoiceAccountModal} from '^v3/V3OrgHomePage/RenewInvoiceAccountModal/atom';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
@@ -73,7 +73,8 @@ export default function V3OrgHomePage() {
 
         // 토큰이 만료되어 갱신하는 경우
         if (isRenewModalOpen && targetInvoiceAccount) {
-            renewInvoiceAccount(orgId, targetInvoiceAccount.id, {tokenData})
+            invoiceAccountApi
+                .renew(orgId, targetInvoiceAccount.id, {tokenData})
                 .then(() => {
                     complete();
                     /**
@@ -92,12 +93,13 @@ export default function V3OrgHomePage() {
         // alert(accessTokenData.access_token);
 
         gmailAgent.getProfile().then((userData) => {
-            createInvoiceAccount(orgId, {
-                email: userData.email,
-                image: userData.picture,
-                tokenData,
-                gmailQueryOptions: getCreateInvoiceAccountFromTo(),
-            })
+            invoiceAccountApi
+                .create(orgId, {
+                    email: userData.email,
+                    image: userData.picture,
+                    tokenData,
+                    gmailQueryOptions: getCreateInvoiceAccountFromTo(),
+                })
                 .then(() => {
                     window.location.reload();
                 })
@@ -105,11 +107,13 @@ export default function V3OrgHomePage() {
                     const code = err.response?.data?.code;
                     // 중복된 계정 오류 시, invoiceAccount sync API 호출
                     if (code === 'DUPLICATED_ENTITY') {
-                        getInvoiceAccounts(orgId, {where: {email: userData.email}}).then((res) => {
+                        invoiceAccountApi.index(orgId, {where: {email: userData.email}}).then((res) => {
                             const {items, pagination} = res.data;
+
                             if (pagination.totalItemCount > 0) {
                                 const [account] = items;
-                                renewInvoiceAccount(orgId, account.id, {tokenData})
+                                invoiceAccountApi
+                                    .renew(orgId, account.id, {tokenData})
                                     .then(() => complete())
                                     .catch(() => {
                                         noRunning();

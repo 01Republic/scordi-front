@@ -2,12 +2,12 @@ import React from 'react';
 import {ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/ContentLayout/ContentPanel';
 import {SwitchCheckbox} from '^components/SwitchCheckbox';
 import {RadioSetInput} from '^components/RadioSetInput';
-import {t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
+import {t_BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 import {TextInput} from '^components/TextInput';
-import {ProductDto} from '^types/product.type';
-import {CreateSubscriptionRequestDto} from '^types/subscription.type';
+import {ProductDto} from '^models/Product/type';
+import {CreateSubscriptionRequestDto} from 'src/models/Subscription/types';
 import {UseFormReturn} from 'react-hook-form';
-import {SubscriptionPaymentPlanDto} from '^types/subscriptionPaymentPlan.type';
+import {SubscriptionPaymentPlanDto} from '^models/Subscription/types/paymentPlanType';
 
 interface ConnectPanelV1Props {
     form: UseFormReturn<CreateSubscriptionRequestDto, any>;
@@ -65,7 +65,7 @@ export const ConnectPanelV1 = (props: ConnectPanelV1Props) => {
 
                 {/*<ContentPanelInput title="사용 시작일" text="서비스를 언제부터 사용하셨나요?" required={true}>*/}
                 {/*    <TextInput*/}
-                {/*        type="date"*/}
+                {/*        types="date"*/}
                 {/*        {...form.register('registeredAt', {required: true})}*/}
                 {/*        defaultValue={form.getValues('registeredAt') as string}*/}
                 {/*    />*/}

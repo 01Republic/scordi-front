@@ -1,5 +1,5 @@
 import React, {memo, useEffect} from 'react';
-import {useInvoiceAccounts} from '^hooks/useInvoiceAccounts';
+import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ContentEmpty} from './ContentEmpty';
 import {InvoiceAccountItem} from './InvoiceAccountItem';

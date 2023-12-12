@@ -1,26 +1,31 @@
 import React, {memo} from 'react';
 import {V3ModalLikeLayoutMobile} from '^v3/layouts/V3ModalLikeLayout.mobile';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {InformationPanel} from './InformationPanel';
-import {useBillingHistoriesV3} from '^hooks/useBillingHistories';
 import {AccountListModal} from '^v3/share/modals/AccountListModal';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {BillingHistoryDetailModal} from '^v3/share/modals/BillingHistoryDetailModal';
-import {BillingHistoryContentPanel} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryContentPanel';
 import {RegisterCreditCardModal} from '^v3/share/modals/ConnectCreditCardModal';
+import {V3OrgAppsPageRoute} from '^pages/v3/orgs/[orgId]/apps';
+import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
+import {AppShowPageBody} from './modals/AppShowPageModal/AppShowPageBody';
+import {SelectTeamMemberModal} from './modals/AppShowPageModal/SelectTeamMemberModal';
 
 export const V3OrgAppShowPage = memo(() => {
     const {currentSubscription} = useCurrentSubscription();
-    const {result} = useBillingHistoriesV3();
+    const {safePath} = useSafePathInCurrentOrg();
+
+    const onClick = () => {
+        safePath((org) => V3OrgAppsPageRoute.path(org.id));
+    };
 
     return (
         <V3ModalLikeLayoutMobile
             title={currentSubscription ? currentSubscription.product.name() : ''}
-            modals={[BillingHistoryDetailModal, AccountListModal, RegisterCreditCardModal]}
+            modals={[BillingHistoryDetailModal, SelectTeamMemberModal, AccountListModal, RegisterCreditCardModal]}
+            backBtnOnClick={onClick}
         >
             <MobileSection.List className="h-full">
-                <InformationPanel />
-                <BillingHistoryContentPanel billingHistories={result.items} />
+                <AppShowPageBody />
             </MobileSection.List>
         </V3ModalLikeLayoutMobile>
     );

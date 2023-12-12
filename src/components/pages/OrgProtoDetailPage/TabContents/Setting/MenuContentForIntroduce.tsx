@@ -1,8 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useProduct} from '^hooks/useProducts';
+import {useProduct} from '^models/Product/hook';
 import {useForm} from 'react-hook-form';
-import {UpdateProductRequestDto as UpdateDto} from '^types/product.type';
-import {updateProduct} from '^api/product.api';
+import {UpdateProductRequestDto as UpdateDto} from '^models/Product/type';
 import {toast} from 'react-toastify';
 import {
     ContentForm,
@@ -14,6 +13,7 @@ import {
 } from '^layouts/ContentLayout';
 import {WysiwygEditor} from '^components/WysiwygEditor';
 import {IoMdRefresh} from '^components/react-icons';
+import {productApi} from '^models/Product/api';
 
 export const MenuContentForIntroduce = memo(() => {
     const [proto, mutation] = useProduct();
@@ -31,7 +31,7 @@ export const MenuContentForIntroduce = memo(() => {
 
     const onSubmit = (data: UpdateDto) => {
         if (!proto) return;
-        updateProduct(proto.id, data).then((res) => {
+        productApi.update(proto.id, data).then((res) => {
             if (res.status === 200) {
                 mutation(undefined);
                 toast.success('Successfully Updated.');

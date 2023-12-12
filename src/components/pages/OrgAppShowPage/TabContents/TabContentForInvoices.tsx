@@ -2,7 +2,7 @@ import {memo} from 'react';
 import {BillingHistoriesPanel} from './Invoices';
 import {CreateHistoryInManualPanel} from './Invoices/CreateHistoryInManualPanel';
 import {BillingHistoryTable} from './Invoices/BillingHistoryTable';
-import {useCurrentSubscription} from '^hooks/useSubscriptions';
+import {useCurrentSubscription} from '^models/Subscription/hook';
 
 export const TabContentForInvoices = memo(() => {
     const {currentSubscription: subscription} = useCurrentSubscription();

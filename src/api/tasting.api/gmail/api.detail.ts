@@ -1,7 +1,7 @@
 // import axios from 'axios';
 // import {gmailPath} from './constant';
 //
-// export type GetGmailContentParam = {
+// export types GetGmailContentParam = {
 //     accessToken: string;
 //     id: string;
 // };

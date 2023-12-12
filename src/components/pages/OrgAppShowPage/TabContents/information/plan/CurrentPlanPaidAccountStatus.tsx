@@ -1,6 +1,6 @@
 import {memo} from 'react';
-import {SubscriptionDto} from '^types/subscription.type';
-import {Locale, t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
+import {Locale, t_BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 
 interface CurrentPlanPaidAccountStatusProps {
     subscription: SubscriptionDto;

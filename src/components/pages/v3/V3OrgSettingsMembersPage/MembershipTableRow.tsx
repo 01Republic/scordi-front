@@ -1,15 +1,16 @@
-import {memo} from 'react';
-import {WithChildren} from '^types/global.type';
-import {MembershipDto} from '^types/membership.type';
+import React, {memo} from 'react';
+import {MembershipDto} from '^models/Membership/types';
 import {UserAvatar} from '^v3/share/UserAvatar';
 
 interface MembershipTableRowProps {
-    membership: MembershipDto;
+    member: MembershipDto;
 }
 
 export const MembershipTableRow = memo((props: MembershipTableRowProps) => {
-    const {membership} = props;
-    const {user} = membership;
+    const {member} = props;
+    const {user} = member;
+
+    if (!member) return <></>;
 
     return (
         <tr>
@@ -19,10 +20,11 @@ export const MembershipTableRow = memo((props: MembershipTableRowProps) => {
                     <UserAvatar user={user} />
                     <div>
                         <p className="text-sm font-semibold flex gap-2 items-center">
-                            <span>{user.name}</span>
-                            {/*<span className="badge badge-sm badge-primary">승인</span>*/}
+                            <span>{user ? user.name : member.invitedEmail}</span>
                         </p>
-                        <p className="block text-xs font-normal text-gray-400">{user.email}</p>
+                        <p className="block text-xs font-normal text-gray-400">
+                            {user ? user.email : member.invitedEmail}
+                        </p>
                     </div>
                 </div>
             </td>
@@ -32,12 +34,11 @@ export const MembershipTableRow = memo((props: MembershipTableRowProps) => {
 
             {/* 권한 */}
             <td>
-                <p className="capitalize text-sm text-gray-500">{membership.level.toLowerCase()}</p>
+                <p className="capitalize text-sm text-gray-500">{member.level.toLowerCase()}</p>
             </td>
-
             {/* 상태 */}
             <td>
-                <p className="capitalize text-sm text-gray-500">{membership.approvalStatus.toLowerCase()}</p>
+                <p className="capitalize text-sm text-gray-500">{member.approvalStatus.toLowerCase()}</p>
             </td>
         </tr>
     );

@@ -1,6 +1,6 @@
 import {memo, useEffect} from 'react';
 import {Avatar} from '^components/Avatar';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {AccountManager} from '^models/Account/manager';

@@ -1,10 +1,10 @@
 import React, {memo} from 'react';
-import {InvoiceAppDto} from '^types/invoiceApp.type';
+import {InvoiceAppDto} from '^models/InvoiceApp/type';
 import {Avatar} from '^components/Avatar';
-import {getTotalPriceOfEmails} from '^types/billing.type';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '../pageAtoms';
 import {currencyFormat, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
+import {getTotalPriceOfEmails} from '^models/BillingHistory/hook';
 
 interface InvoiceAppItemProps {
     invoiceApp: InvoiceAppDto;

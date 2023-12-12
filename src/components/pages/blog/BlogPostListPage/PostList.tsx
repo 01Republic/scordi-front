@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {usePosts, useRecentPost} from '^hooks/usePosts';
+import {usePosts, useRecentPost} from '^models/Post/hook';
 import {PostItem} from './PostItem';
 
 export const PostList = memo(() => {

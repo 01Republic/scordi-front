@@ -3,10 +3,10 @@ import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useCurrentOrg} from '^hooks/useCurrentOrg';
+import {useCurrentOrg} from '^models/Organization/hook';
 import {useRouter} from 'next/router';
 import {V3OrgTeamMembersPage} from '^v3/V3OrgTeam/V3OrgTeamMembersPage';
-import {useTeamMembers} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/atom';
+import {useTeamMembers} from '^models/TeamMember/hook';
 
 export const V3OrgTeamMembersPageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]/teams/members',
@@ -34,17 +34,8 @@ export const getStaticProps = async ({locale}: any) => ({
 });
 
 export default function Page() {
-    const router = useRouter();
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     useCurrentOrg(orgId);
-
-    const {search} = useTeamMembers();
-
-    useEffect(() => {
-        if (!router.isReady) return;
-        if (!orgId || isNaN(orgId)) return;
-        search({where: {organizationId: orgId}});
-    }, [router.isReady, orgId]);
 
     if (!orgId) return <></>;
 

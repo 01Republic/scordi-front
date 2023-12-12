@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {usePost} from '^hooks/usePosts';
+import {usePost} from '^models/Post/hook';
 import {AiFillMail} from 'react-icons/ai';
 
 export const OpinionButton = memo(() => {

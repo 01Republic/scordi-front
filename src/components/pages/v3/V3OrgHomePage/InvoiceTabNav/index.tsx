@@ -3,8 +3,8 @@ import {InvoiceTabItem} from './InvoiceTabItem';
 import {atom, useRecoilValue} from 'recoil';
 import {ContentTabNav} from '^layouts/ContentLayout';
 import {useDashboardSummaryV3} from '^hooks/useDashboardSummary';
-import {useBillingHistoriesV3} from '^hooks/useBillingHistories';
-import {StatusQueryOptions} from '^types/billing.type';
+import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
+import {StatusQueryOptions} from '^models/BillingHistory/type';
 
 export const navTabIndex = atom({
     key: 'v3/InvoiceTabNavIndex',

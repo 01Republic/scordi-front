@@ -3,7 +3,7 @@
 import axios from 'axios';
 // import {gmailPath} from './constant';
 //
-// type GetGmailListParam = {
+// types GetGmailListParam = {
 //     accessToken: string;
 // };
 //

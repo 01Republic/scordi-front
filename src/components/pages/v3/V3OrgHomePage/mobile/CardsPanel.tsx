@@ -1,30 +1,30 @@
 import React, {memo, useEffect} from 'react';
 import {useRouter} from 'next/router';
-import {V3OrgCardShowPageRoute} from '^pages/v3/orgs/[orgId]/cards';
+import {V3OrgCardListPageRoute} from '^pages/v3/orgs/[orgId]/cards';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {orgIdParamState} from '^atoms/common';
 import {AddButton} from './AddButton';
-import {creditCardApi} from '^api/credit-cards.api';
+import {creditCardApi} from '^models/CreditCard/api';
 import {CardItem} from './CardItem';
-import {useRecoilState} from 'recoil';
-import {creditCardListAtom} from '^v3/V3OrgCardShowPage/atom';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {useModal} from '^v3/share/modals/useModal';
 import {ContentEmpty} from '^v3/V3OrgHomePage/mobile/ContentEmpty';
-import {inputCardNumberModal} from '^v3/V3OrgCardShowPage/modals/atom';
+import {inputCardNumberModal} from '../../V3OrgCardListPage/modals/CardNumberModal/atom';
+import {creditCardListAtom} from '^models/CreditCard/atom';
 
 export const CardsPanel = memo(() => {
     const router = useRouter();
-    const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const [creditCardList, setCreditCardList] = useRecoilState(creditCardListAtom);
+    const orgId = useRecoilValue(orgIdParamState);
+    const cardNumberModal = useModal(inputCardNumberModal);
     const length = creditCardList.length;
-    const {open: addCreditCardModalShow} = useModal(inputCardNumberModal);
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
         creditCardApi.index(orgId).then((res) => setCreditCardList(res.data.items));
     }, [orgId]);
 
-    const onAddButtonClick = () => addCreditCardModalShow();
+    const onAddButtonClick = () => cardNumberModal.open();
 
     return (
         <MobileSection.Item>
@@ -39,10 +39,10 @@ export const CardsPanel = memo(() => {
 
                 {length ? (
                     <>
-                        {creditCardList.map((card) => (
-                            <CardItem card={card} setCreditCardList={setCreditCardList} />
+                        {creditCardList.map((card, i) => (
+                            <CardItem key={i} card={card} />
                         ))}
-                        <AddButton title="더 보기" onClick={() => router.push(V3OrgCardShowPageRoute.path(orgId))} />
+                        <AddButton title="더 보기" onClick={() => router.push(V3OrgCardListPageRoute.path(orgId))} />
                     </>
                 ) : (
                     <ContentEmpty text="연결된 카드가 없어요" subtext="눌러서 카드 추가" onClick={onAddButtonClick} />

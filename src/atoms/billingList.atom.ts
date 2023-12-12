@@ -1,12 +1,6 @@
 import {atom} from 'recoil';
-import {
-    BillingHistoryDto,
-    BillingScheduleShallowDto as ScheduleDto,
-    GetBillingHistoriesParams,
-    GetBillingSchedulesParams,
-} from '^types/billing.type';
-import {Paginated} from '^types/utils/paginated.dto';
-import {BillingHistoryManager} from '^models/BillingHistory';
+import {BillingScheduleShallowDto as ScheduleDto, GetBillingSchedulesParams} from '^models/BillingSchedule/type';
+import {BillingHistoryDto, GetBillingHistoriesParams} from '^models/BillingHistory/type';
 
 // [전방탐색] 조회 시작일
 export const billingListStartDateAtom = atom<Date | null>({

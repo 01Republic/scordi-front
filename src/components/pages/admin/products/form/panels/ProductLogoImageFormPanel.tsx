@@ -6,9 +6,10 @@ import {
     ProductDto,
     CreateProductRequestDto as CreateDto,
     UpdateProductRequestDto as UpdateDto,
-} from '^types/product.type';
+} from '^models/Product/type';
 import {UseFormReturn} from 'react-hook-form';
-import {atom, useRecoilState} from 'recoil';
+import {atom, useRecoilState, useSetRecoilState} from 'recoil';
+import {isSubmitBlockedAtom} from '^admin/products/form/atom';
 
 export const faviconUrlAtom = atom({
     key: 'faviconUrlAtom',
@@ -29,6 +30,7 @@ export const LogoImageFormPanel = memo((props: LogoImageFormPanelProps) => {
     const {product, form} = props;
     const [faviconUrl, setFaviconUrl] = useRecoilState(faviconUrlAtom);
     const [logoUrl, setLogoUrl] = useRecoilState(logoUrlAtom);
+    const setSubmitBlock = useSetRecoilState(isSubmitBlockedAtom);
     const [initial, setInitial] = useState('');
     const base = `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=128&url=`;
 
@@ -51,6 +53,8 @@ export const LogoImageFormPanel = memo((props: LogoImageFormPanelProps) => {
                             const url = e.target.value;
                             setFaviconUrl(base + url);
                         }}
+                        onFocus={() => setSubmitBlock(true)}
+                        onBlur={() => setSubmitBlock(false)}
                     />
                     <div className="pt-3">
                         <p className="text-sm mb-2">Result:</p>

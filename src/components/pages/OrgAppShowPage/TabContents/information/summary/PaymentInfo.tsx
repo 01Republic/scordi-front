@@ -1,6 +1,6 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {OutLink} from '^components/OutLink';
 import {BsArrowRightShort, BiCreditCard, MdOutlineEmail} from '^components/react-icons';
 import {IoWarningOutline} from 'react-icons/io5';
@@ -14,10 +14,8 @@ export const PaymentInfo = memo((props: PaymentInfoProps & WithChildren) => {
 
     const {product} = subscription;
 
-    const {
-        workspace: {slug},
-        billingEmail,
-    } = subscription;
+    const {workspace, billingEmail} = subscription;
+    const {slug} = workspace || {};
     const paymentInfoUrl = eval(`\`${product.billingInfoPageUrlScheme}\``) as string;
     const updatePaymentMethodUrl = eval(`\`${product.updatePayMethodUrlScheme}\``) as string;
     const open = (url: string) => (url ? window.open(url, '_blank') : alert('This service linkage is not ready :('));

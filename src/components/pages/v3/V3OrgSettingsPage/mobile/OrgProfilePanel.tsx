@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {Avatar} from '^components/Avatar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {useRecoilValue} from 'recoil';
-import {currentOrgAtom} from '^atoms/organizations.atom';
+import {currentOrgAtom} from '^models/Organization/atom';
 import {BiChevronRight} from 'react-icons/bi';
 import {useModal} from '../../share/modals/useModal';
 import {isOpenModifyOrgNameModalAtom} from '../ModifyOrgNameModal';

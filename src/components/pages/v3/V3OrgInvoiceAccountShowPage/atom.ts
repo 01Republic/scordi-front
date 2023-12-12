@@ -1,8 +1,8 @@
 import {atom, useRecoilState} from 'recoil';
-import {InvoiceAccountDto} from '^types/invoiceAccount.type';
-import {invoiceAccountApi} from '^api/invoiceAccount.api';
-import {SubscriptionDto} from '^types/subscription.type';
-import {subscriptionApi} from '^api/subscription.api';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {SubscriptionDto} from 'src/models/Subscription/types';
+import {subscriptionApi} from '^models/Subscription/api';
 
 const currentInvoiceAccountState = atom<InvoiceAccountDto | null>({
     key: 'currentInvoiceAccountState',

@@ -3,9 +3,9 @@ import {BsCreditCard, BsCreditCard2Front, CiCreditCardOff} from '^components/rea
 import {InvoiceSummaryCard} from '^v3/V3OrgHomePage/InvoiceSummarySection/InvoiceSummaryCard';
 import {useDashboardSummaryV3} from '^hooks/useDashboardSummary';
 import {Currency} from '^types/crawler';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {changePriceCurrency} from '^api/tasting.api/gmail/agent/parse-email-price';
-import {useBillingHistoriesV3} from '^hooks/useBillingHistories';
+import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 
 export const InvoiceSummarySection = memo(() => {
     const {query} = useBillingHistoriesV3();

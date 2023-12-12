@@ -1,5 +1,5 @@
 import React, {memo, useEffect} from 'react';
-import {useSubscriptionList} from '^hooks/useSubscriptions';
+import {useSubscriptionList} from '^models/Subscription/hook';
 import {ContentPanelBody, ContentTable} from '^layouts/ContentLayout';
 import {ApplicationListItemDesktop} from '^components/pages/OrgAppIndexPage/ApplicationListItem.desktop';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';

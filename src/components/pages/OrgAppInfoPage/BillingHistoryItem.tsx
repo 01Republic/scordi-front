@@ -1,11 +1,11 @@
 import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {safeImageSrc} from '^types/product.type';
+import {safeImageSrc} from '^models/Product/type';
 import {MobileEntityListItem} from '^components/v2/MobileEntityListSection/MobileEntityListItem';
-import {SubscriptionDto} from '^types/subscription.type';
-import {BillingHistoryDto} from '^types/billing.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {useRouter} from 'next/router';
 import {BillingHistoryShowPageRoute} from '^pages/orgs/[id]/apps/[appId]/billingHistories/[billingHistoryId]';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 type BillingHistoryItemProps = {
     subscription: SubscriptionDto;

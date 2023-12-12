@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
-import {AccountDto} from '^types/account.type';
+import {AccountDto} from '^models/Account/types';
 import {AccountItem} from './AccountItem';
 
 interface AccountListProps {
-    accounts: AccountDto[];
+    accounts?: AccountDto[];
     hideProduct?: boolean;
 }
 
@@ -12,7 +12,7 @@ export const AccountList = memo((props: AccountListProps) => {
 
     return (
         <ul className="w-full text-left py-4">
-            {accounts.length ? (
+            {accounts && accounts.length ? (
                 accounts.map((account, i) => <AccountItem key={i} account={account} hideProduct={hideProduct} />)
             ) : (
                 <li className="flex items-center justify-center h-52">

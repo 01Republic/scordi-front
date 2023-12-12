@@ -1,6 +1,6 @@
 import React, {memo, ReactNode} from 'react';
 import {TitleSection} from '^components/v2/TitleSection';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 
 type SelectStatusSectionProps = {
     product: ProductDto;

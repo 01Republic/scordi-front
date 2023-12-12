@@ -1,6 +1,7 @@
 import React, {memo} from 'react';
 import {FiArrowLeft} from 'react-icons/fi';
 import {ReactComponentLike, ReactNodeLike} from 'prop-types';
+import {WithChildren} from '^types/global.type';
 
 interface ModalLikeTopbarProps {
     backBtnOnClick: () => any;
@@ -9,19 +10,9 @@ interface ModalLikeTopbarProps {
     rightButtons?: ReactComponentLike[];
 }
 
-export const ModalLikeTopbar = memo((props: ModalLikeTopbarProps) => {
-    const {title, backBtnOnClick, topbarPosition = 'fixed', rightButtons = []} = props;
-    const mappedButtons = rightButtons.length ? (
-        rightButtons.map((RightButton, i) => {
-            return (
-                <div key={i}>
-                    <RightButton /> {i === rightButtons.length - 1 ? <span /> : <span>&nbsp;/&nbsp;</span>}
-                </div>
-            );
-        })
-    ) : (
-        <br />
-    );
+export const ModalLikeTopbar = memo((props: ModalLikeTopbarProps & WithChildren) => {
+    const {title, backBtnOnClick, topbarPosition = 'fixed', rightButtons = [], children} = props;
+    const mappedButtons = rightButtons.length ? rightButtons.map((RightButton, i) => <RightButton key={i} />) : <br />;
 
     return (
         <>
@@ -40,8 +31,10 @@ export const ModalLikeTopbar = memo((props: ModalLikeTopbarProps) => {
                         <FiArrowLeft size={24} strokeWidth={2.5} />
                     </div>
                 </div>
-                <div className="h-full flex-1 flex items-center font-semibold text-16">{title}</div>
-                <div className="text-sm px-6 h-full flex items-center">{mappedButtons}</div>
+                <div className="h-full flex-1 flex items-center font-semibold text-16">{children || title}</div>
+                <div className={`text-sm ${rightButtons.length ? 'pl-6 pr-3' : 'px-6'} h-full flex items-center`}>
+                    {mappedButtons}
+                </div>
             </div>
             {topbarPosition === 'fixed' && (
                 <div data-component="ModalLikeTopbarBackdrop" className="w-full h-[50px] bg-white" />

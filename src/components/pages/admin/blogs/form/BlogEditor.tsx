@@ -1,7 +1,7 @@
 import React, {memo, useState} from 'react';
 import {WysiwygEditor} from '^components/WysiwygEditor';
 import {UseFormReturn} from 'react-hook-form';
-import {CreatePostByAdminDto} from '^types/post.type';
+import {CreatePostByAdminDto} from '^models/Post/type';
 
 interface BlogEditorProps {
     id: string;

@@ -1,4 +1,4 @@
-import {OrganizationDto} from '^types/organization.type';
+import {OrganizationDto} from '^models/Organization/type';
 import {PreLoader} from '^components/PreLoader';
 import React, {useEffect} from 'react';
 import {useRouter} from 'next/router';
@@ -8,11 +8,11 @@ import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {UserSettingsPageRoute} from '^pages/users/settings';
 import {AppSearchPageRoute} from '^pages/apps/search';
 import Image from 'next/image';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {useRecoilState} from 'recoil';
-import {currentUserAtom} from '^atoms/currentUser.atom';
-import {getUserSession} from '^api/session.api';
+import {currentUserAtom} from '^models/User/atom';
 import {UserLoginPageRoute} from '^pages/users/login';
+import {userSessionApi} from '^models/User/api/session';
 
 type OrgMobileLayoutProps = {
     org?: OrganizationDto | null;
@@ -25,7 +25,8 @@ const OrgMobileLayout = ({children}: OrgMobileLayoutProps) => {
     const [userChecked, setUserChecked] = React.useState(false);
 
     useEffect(() => {
-        getUserSession()
+        userSessionApi
+            .index()
             .then((res) => {
                 setCurrentUser(res.data);
                 setUserChecked(true);

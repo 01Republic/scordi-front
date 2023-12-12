@@ -6,7 +6,8 @@
     "page_title": "Join scordi"
   },
   "phone_auth": {
-    "page_title": "This is all I need!",
+    "page_title": "Let's get started",
+    "page_subtitle": "Take a new account first.",
     "phone_input": {
       "placeholder": "Enter your phone number.",
       "send": "Send",
@@ -17,7 +18,7 @@
       "code_has_been_expired": "The verification code has been expired.",
       "shall_i_send_new_code": "Shall I send you a new verification code?"
     },
-    "start_with_phone_number": "Start with a phone number"
+    "start_with_phone_number": "Start now"
   },
   "terms_modal": {
     "title": "Once you agree, your free trial will be confirmed!",

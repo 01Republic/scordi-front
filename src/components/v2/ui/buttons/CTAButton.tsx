@@ -8,7 +8,7 @@ import {FakeLink} from '^components/v2/ui/buttons/FackLink';
 
 type CTAButtonProps = {
     // text?: string;
-    // type?: 'button' | 'submit';
+    // types?: 'button' | 'submit';
     // color?: Colors;
     // size?: Size;
 } & DefaultButtonProps;

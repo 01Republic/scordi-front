@@ -4,8 +4,8 @@ import {useTranslation} from 'next-i18next';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '../pageAtoms';
 import {dayjs} from '^utils/dayjs';
-import {BillingHistoryDto} from '^types/billing.type';
 import {getTotalBalance} from '^components/pages/LandingPages/TastingPage/hooks/useSummaryStatBalance';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 interface BodySummaryProps {
     billingHistories: BillingHistoryDto[];

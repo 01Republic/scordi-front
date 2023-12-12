@@ -1,6 +1,6 @@
 import React, {memo, useState} from 'react';
-import {searchOrganizations, createOrganization} from '^api/organization.api';
-import {CreateOrganizationRequestDto, OrganizationDto, SearchOrgQueryDto} from '^types/organization.type';
+import {organizationApi} from '^models/Organization/api';
+import {CreateOrganizationRequestDto, OrganizationDto, SearchOrgQueryDto} from '^models/Organization/type';
 import {useForm} from 'react-hook-form';
 import {useRouter} from 'next/router';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
@@ -15,7 +15,7 @@ export const OrgSearchPage = memo(() => {
 
     const handleSubmitForm = (data: SearchOrgQueryDto) => {
         setInputValue(data.keyword);
-        searchOrganizations(data).then((res) => {
+        organizationApi.search(data).then((res) => {
             const organizations = res.data;
             // const names = organizations.map((org) => org.name);
             setSearchedOrgs(organizations);
@@ -24,7 +24,7 @@ export const OrgSearchPage = memo(() => {
 
     const createOrg = (data: CreateOrganizationRequestDto) => {
         data.name.length > 0 &&
-            createOrganization(data).then((res) => {
+            organizationApi.create(data).then((res) => {
                 const createdOrg = res.data;
                 router.push(OrgAppIndexPageRoute.path(createdOrg.id));
             });

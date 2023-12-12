@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {ProductDto, safeImageSrc} from '^types/product.type';
+import {ProductDto, safeImageSrc} from '^models/Product/type';
 import {BasicButton2} from '^components/v2/ui/buttons/BasicButton2';
 import Link from 'next/link';
 import {SelectPlanPageRoute} from '^pages/orgs/[id]/apps/new/selectPlan';

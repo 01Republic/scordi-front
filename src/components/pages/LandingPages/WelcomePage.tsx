@@ -3,7 +3,7 @@ import {LandingPageLayout} from '^components/pages/LandingPages/LandingPageLayou
 import {CheckCircle} from '^components/react-icons/check-circle';
 import {useRouter} from 'next/router';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {useTranslation} from 'next-i18next';
 
 export const WelcomePage = memo(() => {

@@ -3,7 +3,7 @@ import {atom, useRecoilValue} from 'recoil';
 import {subscriptionIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import OrgMainLayout from '^layouts/org/mainLayout';
 import {ContentLayout, ContentTabNav} from '^layouts/ContentLayout';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {ApplicationHeader} from './ApplicationHeader';
 import {
     TabContentForInformation,

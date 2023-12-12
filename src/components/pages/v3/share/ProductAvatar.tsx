@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {Avatar} from '^components/Avatar';
-import {ProductDto} from '^types/product.type';
+import {ProductDto} from '^models/Product/type';
 
 interface ProductAvatarProps {
     product: ProductDto | null;

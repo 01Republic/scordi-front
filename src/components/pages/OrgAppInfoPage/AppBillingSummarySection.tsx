@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {useCurrentSubscription} from '^hooks/useSubscriptions';
+import {useCurrentSubscription} from '^models/Subscription/hook';
 import {MobileGrid} from '^components/v2/MobileGridSection';
-import {useBillingHistories} from '^hooks/useBillingHistories';
+import {useBillingHistories} from '^models/BillingHistory/hook';
 
 const sumOf = (arr: number[]) => arr.reduce((acc, a) => acc + a, 0);
 

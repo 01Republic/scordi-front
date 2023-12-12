@@ -6,9 +6,10 @@
     "page_title": "스코디 가입하기"
   },
   "phone_auth": {
-    "page_title": "무료 체험 안내를 위해 <br /> 꼭 필요한 정보만 받을게요",
+    "page_title": "SaaS 관리를 시작해볼까요?",
+    "page_subtitle": "관리자 계정을 만들고 스코디로 관리해보세요.",
     "phone_input": {
-      "placeholder": "휴대폰 번호를 입력하세요.",
+      "placeholder": "휴대폰 번호를 입력해주세요.",
       "send": "인증",
       "code_has_been_sent": "인증 번호를 발송해드렸어요."
     },
@@ -17,7 +18,7 @@
       "code_has_been_expired": "인증 번호가 만료되었습니다.",
       "shall_i_send_new_code": "새 인증 번호를 보낼까요?"
     },
-    "start_with_phone_number": "휴대폰 번호로 시작하기"
+    "start_with_phone_number": "시작하기"
   },
   "terms_modal": {
     "title": "동의 하시면 무료 체험이 확정됩니다.",

@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {useCurrentSubscription} from '^hooks/useSubscriptions';
+import {useCurrentSubscription} from '^models/Subscription/hook';
 import {WithChildren} from '^types/global.type';
 import {useRouter} from 'next/router';
 import {OrgProtoDetailPageRoute} from 'src/pages/orgs/[id]/products/[productId]';

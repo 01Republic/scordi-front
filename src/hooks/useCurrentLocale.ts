@@ -1,6 +1,6 @@
 import {useRouter} from 'next/router';
 import {useEffect, useState} from 'react';
-import {UserLocale} from '^types/user.type';
+import {UserLocale} from '^models/User/types';
 
 export const useCurrentLocale = () => {
     const router = useRouter();

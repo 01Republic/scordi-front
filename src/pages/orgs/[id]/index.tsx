@@ -1,7 +1,7 @@
 import React from 'react';
 import {useRouter} from 'next/router';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
-import {useCurrentOrg} from '^hooks/useCurrentOrg';
+import {useCurrentOrg} from '^models/Organization/hook';
 import OrgMainLayout from '^layouts/org/mainLayout';
 import {ContentLayout} from '^layouts/ContentLayout';
 import {PreLoader} from '^components/PreLoader';
@@ -15,14 +15,14 @@ import {
     ContentPanelList,
 } from '^layouts/ContentLayout/ContentPanel';
 import {useForm} from 'react-hook-form';
-import {OrganizationDto, UpdateOrganizationRequestDto} from '^types/organization.type';
+import {OrganizationDto, UpdateOrganizationRequestDto} from '^models/Organization/type';
 import {TextInput} from '^components/TextInput';
 import {ProfileImageFileInput} from '^components/ProfileImageFileInput';
-import {destroyOrganization, updateOrganization} from '^api/organization.api';
+import {organizationApi} from '^models/Organization/api';
 import {errorNotify, successNotify} from '^utils/toast-notify';
 import {toast} from 'react-toastify';
-import {useCurrentUser} from '^hooks/useCurrentUser';
-import {MembershipLevel} from '^types/membership.type';
+import {useCurrentUser} from '^models/User/hook';
+import {MembershipLevel} from 'src/models/Membership/types';
 
 export const OrgShowRoute = pathRoute({
     pathname: '/orgs/[id]',
@@ -55,7 +55,8 @@ export default function OrgShowPage() {
     if (!org.id) return <PreLoader />;
 
     const UpdateOrgHandler = (dto: UpdateOrganizationRequestDto) => {
-        updateOrganization(org.id, dto)
+        organizationApi
+            .update(org.id, dto)
             .then((res) => {
                 setCurrentOrg(res.data);
                 successNotify('Update completed.');
@@ -64,7 +65,8 @@ export default function OrgShowPage() {
     };
 
     const DestroyOrgHandler = () => {
-        destroyOrganization(org.id)
+        organizationApi
+            .destroy(org.id)
             .then(() => toast.success('Delete completed.'))
             .catch(errorNotify);
     };

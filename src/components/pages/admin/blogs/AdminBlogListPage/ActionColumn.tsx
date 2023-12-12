@@ -1,7 +1,7 @@
 import {memo} from 'react';
 import {ColumnProps} from './ColumnProps.type';
 import {AdminEditPostPageRoute} from '^pages/admin/posts/[id]/edit';
-import {postManageApi} from '^api/post-manage.api';
+import {postManageApi} from '^models/Post/api';
 import {useRouter} from 'next/router';
 
 export const ActionColumn = memo((props: ColumnProps) => {

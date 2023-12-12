@@ -1,41 +1,75 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo} from 'react';
 import {useGoogleLogin} from '@react-oauth/google';
-import {useGoogleLoginSuccessHandler} from '^hooks/useGoogleLoginSuccessHandler';
-import {useGoogleAccessTokenCallback} from '^hooks/useGoogleAccessToken';
-import {useRecoilValue} from 'recoil';
-import {GmailAgent, GoogleAccessTokenData, googleAuthForGmail} from '^api/tasting.api';
-import {UserLoginPageRoute} from '^pages/users/login';
-import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
-import {getCreateInvoiceAccountFromTo} from '^types/invoiceAccount.type';
-import {createInvoiceAccount} from '^api/invoiceAccount.api';
+import {useSetRecoilState} from 'recoil';
+import {useGoogleLoginSuccessHandler2} from '^hooks/useGoogleLoginSuccessHandler2';
+import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
+import {userSocialGoogleApi} from '^api/social-google.api';
+import {uniq} from '^utils/array';
 
-export const GoogleLoginBtn = memo(() => {
-    const googleLoginOnSuccess = useGoogleLoginSuccessHandler();
-    const {accessTokenData} = useGoogleAccessTokenCallback(UserLoginPageRoute.url());
+const SCOPE_MAP = {
+    gmail: [
+        'email',
+        'profile',
+        'openid',
+        'https://www.googleapis.com/auth/gmail.readonly', // 인보이스
+    ],
+    admin: [
+        'email',
+        'profile',
+        'openid',
+        'https://www.googleapis.com/auth/admin.reports.audit.readonly', // 토큰 사용량
+        'https://www.googleapis.com/auth/admin.directory.user', // 워크스페이스 유저 목록
+        'https://www.googleapis.com/auth/admin.directory.user.security',
+        'https://www.googleapis.com/auth/admin.directory.orgunit', // 워크스페이스 조직 정보
+    ],
+};
+const SCOPE_ALL = uniq(Object.values(SCOPE_MAP).flatMap((arr) => arr));
 
-    useEffect(() => {
-        if (!accessTokenData) return;
+interface GoogleLoginBtnProps {
+    onCode?: (code: string) => void;
+    googleLoginOnSuccessFn?: (accessToken: string) => Promise<void> | void;
+    about?: keyof typeof SCOPE_MAP;
+    className?: string;
+    logoSize?: string;
+}
 
-        googleLoginOnSuccess(accessTokenData.access_token);
-    }, [accessTokenData]);
+export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
+    const {onCode, googleLoginOnSuccessFn, about, className, logoSize} = props;
+    const googleLoginOnSuccess = googleLoginOnSuccessFn ? googleLoginOnSuccessFn : useGoogleLoginSuccessHandler2();
+    const setAccessToken = useSetRecoilState(googleAccessTokenAtom);
+    const scope = about ? SCOPE_MAP[about] : SCOPE_ALL;
+    const getFeature = () => about;
 
-    //   const loginButtonOnClick = useGoogleLogin({
-    //     onSuccess: async (response) => {
-    //         setAccessTokenData(response)
-    //         await googleLoginOnSuccess(response.access_token);
-    //     },
-    //     scope: 'email profile openid https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
-    //     onError: (error) => {
-    //         console.log(error);
-    //     },
-    // });
+    const loginButtonOnClick = useGoogleLogin({
+        onSuccess: async (response) => {
+            const feature = getFeature();
+            const {code} = response;
+            if (onCode) return onCode(code);
+
+            const {accessToken} = await userSocialGoogleApi.token({
+                code,
+                ...(feature ? {feature} : {}),
+            });
+            setAccessToken(accessToken);
+            return googleLoginOnSuccess(accessToken);
+        },
+        scope: scope.join(' '),
+        flow: 'auth-code',
+        onError: (error) => {
+            console.log(error);
+        },
+    });
 
     return (
         <button
-            onClick={() => googleAuthForGmail()}
-            className="btn btn-lg btn-outline shadow font-medium normal-case mb-3 space-x-4 bg-white border-slate-200 text-slate-700 hover:bg-white hover:border-primary hover:text-slate-700 focus:bg-blue-50 active:bg-primary-100"
+            onClick={() => loginButtonOnClick()}
+            className={`${className} btn btn-lg btn-outline shadow font-medium normal-case space-x-4 bg-white border-slate-200 text-slate-700 hover:bg-white hover:border-primary hover:text-slate-700 focus:bg-blue-50 active:bg-primary-100`}
         >
-            <img src="https://www.svgrepo.com/show/355037/google.svg" className="w-6 h-6" alt="" />
+            <img
+                src="https://www.svgrepo.com/show/355037/google.svg"
+                className={`${logoSize ? logoSize : 'w-6 h-6'}`}
+                alt=""
+            />
             <span>Continue with Google</span>
         </button>
     );

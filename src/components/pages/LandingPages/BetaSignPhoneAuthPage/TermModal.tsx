@@ -4,7 +4,7 @@ import {isTermModalOpenedState} from './BetaSignPhoneAuthPage.atom';
 import {RiCloseLine} from '^components/react-icons';
 import {termsUrl} from '^config/environments';
 import {UseFormReturn} from 'react-hook-form';
-import {UserSocialSignUpRequestDto} from '^types/user.type';
+import {UserSocialSignUpRequestDto} from '^models/User/types';
 import {toast} from 'react-toastify';
 import {useTranslation} from 'next-i18next';
 

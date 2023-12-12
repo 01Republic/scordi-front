@@ -1,13 +1,13 @@
 import {memo, useEffect} from 'react';
 import {WithChildren} from '^types/global.type';
 import {UseFormReturn} from 'react-hook-form';
-import {UpdateSubscriptionRequestDto} from '^types/subscription.type';
+import {UpdateSubscriptionRequestDto} from 'src/models/Subscription/types';
 import {subscriptionIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
-import {updateSubscription} from '^api/subscription.api';
 import {useRouter} from 'next/router';
 import {errorNotify} from '^utils/toast-notify';
-import {useCurrentSubscription} from '^hooks/useSubscriptions';
+import {useCurrentSubscription} from '^models/Subscription/hook';
+import {subscriptionApi} from '^models/Subscription/api';
 
 type ApplicationEditFormProps = {
     form: UseFormReturn<UpdateSubscriptionRequestDto, any>;
@@ -24,7 +24,8 @@ export const ApplicationEditForm = memo((props: ApplicationEditFormProps) => {
         if (!organizationId || !productId) return;
 
         const redirectUrl = OrgAppShowPageRoute.path(organizationId, productId);
-        updateSubscription(productId, data)
+        subscriptionApi
+            .update(productId, data)
             .then(() => {
                 reload();
                 router.replace(redirectUrl);

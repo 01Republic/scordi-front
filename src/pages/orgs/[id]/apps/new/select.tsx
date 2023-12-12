@@ -4,18 +4,14 @@ import {ContentLayout} from '^layouts/ContentLayout';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {ContentHeading, ContentHeadingSecondaryButton} from '^layouts/ContentLayout/ContentHeading';
 import {ContentPanel} from '^layouts/ContentLayout/ContentPanel';
-import {ProductDto, FindAllProductQuery} from '^types/product.type';
-import {ProductTagDto} from '^types/productTag.type';
+import {ProductDto, FindAllProductQuery} from '^models/Product/type';
 import {useRouter} from 'next/router';
 import {IoArrowBack} from '@react-icons/all-files/io5/IoArrowBack';
 import {useForm} from 'react-hook-form';
 import {PreLoader} from '^components/PreLoader';
 import {SearchInput} from '^components/SearchInput';
-import {getProducts} from '^api/product.api';
 import {errorNotify} from '^utils/toast-notify';
-import {getProductTags} from '^api/productTag.api';
-import {SubscriptionDto} from '^types/subscription.type';
-import {getSubscriptions} from '^api/subscription.api';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {toast} from 'react-toastify';
 import {OrgAddAppInfoPageRoute} from '^pages/orgs/[id]/apps/new/[appId]/information';
 import {MobileTopNav} from '^components/v2/MobileTopNav';
@@ -221,7 +217,7 @@ export default function OrgApplicationSelectPage() {
 //
 //     return (
 //         <div className="bs-col-6 sm:bs-col-6 lg:bs-col-3 xl:bs-col-2-of-10 mb-4">
-//             <input id={id} type="radio" className="hidden" defaultValue={proto.id} />
+//             <input id={id} types="radio" className="hidden" defaultValue={proto.id} />
 //             <label htmlFor={id} onClick={labelClickHandler}>
 //                 <div
 //                     className={`w-full h-full rounded-xl border cursor-pointer ${

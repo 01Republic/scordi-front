@@ -1,3 +1,3 @@
-export type OrgResponseDataDto = {
-  name: string;
+export class OrgResponseDataDto {
+    name: string;
 }

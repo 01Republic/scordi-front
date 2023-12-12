@@ -1,20 +1,21 @@
 import {memo} from 'react';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {UserAvatar} from '^v3/share/UserAvatar';
 import {AiOutlineSetting} from '@react-icons/all-files/ai/AiOutlineSetting';
 import {AiOutlineQuestionCircle} from '@react-icons/all-files/ai/AiOutlineQuestionCircle';
 import {BiLogOut} from '@react-icons/all-files/bi/BiLogOut';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {userEditModalIsShow} from '^v3/share/modals/UserEditModal';
-import {MembershipLevel} from '^types/membership.type';
-import {V3OrgSettingsOrgPageRoute} from '^pages/v3/orgs/[orgId]/settings/org';
+import {MembershipLevel} from 'src/models/Membership/types';
 import {useRouter} from 'next/router';
-import {currentOrgAtom} from '^atoms/organizations.atom';
+import {currentOrgAtom} from '^models/Organization/atom';
 import {AiOutlineHome} from '@react-icons/all-files/ai/AiOutlineHome';
 import {useTranslation} from 'next-i18next';
 import {AdminUsersPageRoute} from '^pages/admin/users';
 import {PiLinkBold} from 'react-icons/pi';
 import {BsArrowRight} from 'react-icons/bs';
+import {GrFormDown} from 'react-icons/gr';
+import {useOnResize2} from '^components/util/onResize2';
 
 export const TopNavProfileButton = memo(() => {
     const router = useRouter();
@@ -25,8 +26,11 @@ export const TopNavProfileButton = memo(() => {
     const {currentUser, logout, currentUserMembership} = useCurrentUser(undefined, {
         orgIdParam: 'orgId',
     });
+    const {isMobile} = useOnResize2();
 
-    if (!currentOrg || !currentUser || !currentUserMembership) return <></>;
+    if (!currentOrg || !currentUser || !currentUserMembership) {
+        return <span className="text-gray-500 text-sm px-4">조직 정보를 불러오고 있습니다...</span>;
+    }
 
     const isOwner = currentUserMembership.level === MembershipLevel.OWNER;
 
@@ -34,8 +38,10 @@ export const TopNavProfileButton = memo(() => {
 
     return (
         <div className="dropdown dropdown-bottom dropdown-end">
-            <label tabIndex={0} className="cursor-pointer px-2">
-                <UserAvatar user={currentUser} roundClass="rounded-lg" />
+            <label tabIndex={0} className="btn btn-sm normal-case flex items-center gap-1">
+                {/*<UserAvatar user={currentUser} roundClass="rounded-lg" />*/}
+                <span>{isMobile ? currentUser.name : currentUser.email}</span>
+                <GrFormDown size={18} />
             </label>
             <ul tabIndex={0} className="dropdown-content menu p-2 shadow-xl bg-base-100 rounded-box w-52">
                 <li>
@@ -73,20 +79,6 @@ export const TopNavProfileButton = memo(() => {
                         <span>{t('dropdown.goHomePage')}</span>
                     </a>
                 </li>
-                {isOwner && (
-                    <>
-                        <li className="" />
-                        <li>
-                            <a
-                                className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi"
-                                onClick={() => router.push(V3OrgSettingsOrgPageRoute.path(currentOrg.id))}
-                            >
-                                <AiOutlineSetting />
-                                <span>{t('dropdown.orgSetting')}</span>
-                            </a>
-                        </li>
-                    </>
-                )}
                 <li className="" />
                 <li>
                     <a

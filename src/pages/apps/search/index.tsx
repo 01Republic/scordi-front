@@ -4,17 +4,17 @@ import {SearchInput} from '^components/SearchInput';
 import {useRouter} from 'next/router';
 import {AddServicePageRoute} from '^pages/apps/add/[id]';
 import {useEffect, useState} from 'react';
-import {ProductDto} from '^types/product.type';
-import {applyNewProduct, getProductRecommend, getProducts} from '^api/product.api';
-import {getSubscriptions} from '^api/subscription.api';
-import {SubscriptionDto} from '^types/subscription.type';
+import {ProductDto} from '^models/Product/type';
+import {productApi} from '^models/Product/api';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {DefaultButton} from '^components/Button';
 import {ApplyPageRoute} from '^pages/apps/apply';
 import {toast} from 'react-toastify';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {ServiceSuggestList} from '^components/ServiceSuggestList';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
+import {subscriptionApi} from '^models/Subscription/api';
 
 export const AppSearchPageRoute = {
     pathname: '/apps/search',
@@ -32,13 +32,13 @@ const AppSearchPage = () => {
     const [searchResults, setSearchResults] = useState<ProductDto[]>([]);
 
     const searchService = () => {
-        getProducts(router.query).then((res) => {
+        productApi.index(router.query).then((res) => {
             setSearchResults(res.data.items);
         });
     };
 
     const applyNewApp = () => {
-        applyNewProduct({name: router.query.name as string}).then(() => {
+        productApi.apply({name: router.query.name as string}).then(() => {
             router.push(ApplyPageRoute.pathname);
         });
     };
@@ -52,14 +52,14 @@ const AppSearchPage = () => {
     };
 
     useEffect(() => {
-        getProductRecommend().then((res) => {
+        productApi.recommend().then((res) => {
             setRecommendList(res.data.items);
         });
     }, []);
 
     useEffect(() => {
         user &&
-            getSubscriptions({where: {organizationId: user.orgId}}).then((res) => {
+            subscriptionApi.index({where: {organizationId: user.orgId}}).then((res) => {
                 console.log('apps', res.data.items);
                 setMyApps(res.data.items);
             });

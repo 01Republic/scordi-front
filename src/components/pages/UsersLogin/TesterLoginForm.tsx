@@ -1,9 +1,9 @@
 import {memo} from 'react';
-import {JwtContainer} from '^types/user.type';
+import {JwtContainer} from '^models/User/types';
 import {api, setToken} from '^api/api';
-import {getUserSession} from '^api/session.api';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {useForm} from 'react-hook-form';
+import {userSessionApi} from '^models/User/api/session';
 
 interface TesterLoginDto {
     credential: string;
@@ -19,7 +19,7 @@ export const TesterLoginForm = memo(() => {
         api.post<JwtContainer>(url, body).then((res) => {
             const {token} = res.data;
             setToken(token);
-            getUserSession().then((res) => {
+            userSessionApi.index().then((res) => {
                 const user = res.data;
                 setCurrentUser(user);
                 loginRedirect(user);

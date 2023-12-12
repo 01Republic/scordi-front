@@ -2,7 +2,7 @@ import React, {memo, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {AdminListPageLayout} from '^components/pages/admin/layouts/ListPageLayout';
 import {Paginated} from '^types/utils/paginated.dto';
-import {OrganizationDto} from '^types/organization.type';
+import {OrganizationDto} from '^models/Organization/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {bizOpsApi} from '^api/biz-ops';
 import {KBCardExcelToNotionCard, KBCardExcelToNotionModal} from './workflows/KBCardExcelToNotion';

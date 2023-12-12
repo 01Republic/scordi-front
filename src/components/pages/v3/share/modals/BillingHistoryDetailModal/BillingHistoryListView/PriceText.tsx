@@ -1,4 +1,3 @@
-import {BillingHistoryDto, BillingHistoryStatus} from '^types/billing.type';
 import React, {memo} from 'react';
 import {BsInfoCircle} from 'react-icons/bs';
 import {MoneyDto} from '^types/money.type';
@@ -6,6 +5,7 @@ import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
 import {changePriceCurrency, currencyFormat, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {BiError} from 'react-icons/bi';
+import {BillingHistoryDto, BillingHistoryStatus} from '^models/BillingHistory/type';
 
 interface PriceTextProps {
     billingHistory: BillingHistoryDto;

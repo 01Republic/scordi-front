@@ -1,12 +1,12 @@
 import {memo} from 'react';
+import {yyyy_mm_dd} from '^utils/dateTime';
+import {useTranslation} from 'next-i18next';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 import {
-    BillingHistoryDto,
     getBillingHistoryPaidPrice,
     getBillingHistoryStatus,
     getInvoiceAppBillingCycle,
-} from '^types/billing.type';
-import {yyyy_mm_dd} from '^utils/dateTime';
-import {useTranslation} from 'next-i18next';
+} from '^models/BillingHistory/hook';
 
 interface InvoiceTableRowProps {
     invoiceData: BillingHistoryDto;

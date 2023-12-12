@@ -1,7 +1,7 @@
 import React, {memo, useEffect} from 'react';
 import {AiFillCaretDown} from '^components/react-icons';
 import {atom, useRecoilState, useRecoilValue} from 'recoil';
-import {useProductTags} from '^hooks/useTags';
+import {useProductTags} from '^models/Tag/hook';
 
 type CategoryDto = {id: number; name: string};
 export const categoriesState = atom<CategoryDto[]>({

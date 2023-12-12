@@ -2,7 +2,7 @@ import {useRouter} from 'next/router';
 import {DefaultButton} from '^components/Button';
 import {AppSearchPageRoute} from '^pages/apps/search';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
 

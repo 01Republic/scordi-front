@@ -2,7 +2,7 @@ import React from 'react';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {V3OrgSettingsPage as Page} from '^v3/V3OrgSettingsPage';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useCurrentOrg} from '^hooks/useCurrentOrg';
+import {useCurrentOrg} from '^models/Organization/hook';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {v3CommonRequires} from '^types/utils/18n.type';
 

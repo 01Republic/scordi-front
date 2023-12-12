@@ -1,13 +1,13 @@
-import {draftInvoiceAccount} from '^api/invoiceAccount.api';
 import {atom, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {CreateInvoiceAccountRequestDto, InvoiceAccountDto} from '^types/invoiceAccount.type';
+import {CreateInvoiceAccountRequestDto, InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {useTranslation} from 'next-i18next';
 import {draftAccountAtom, draftBillingHistoriesAtom, gmailItemsLoadedAtom, gmailItemsLoadingAtom} from '../pageAtoms';
 import {dateSortBy, monthBefore} from '^components/util/date';
-import {InvoiceAppDto} from '^types/invoiceApp.type';
-import {BillingHistoryDto} from '^types/billing.type';
+import {InvoiceAppDto} from '^models/InvoiceApp/type';
 import {useCallback} from 'react';
 import {deepCopy} from '^utils/object';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 const draftQueryAtom = atom<CreateInvoiceAccountRequestDto | null>({
     key: 'draftQueryAtom',
@@ -48,7 +48,8 @@ export const useDraft = () => {
     }, []);
 
     const fetchDraftAccount = async (query: CreateInvoiceAccountRequestDto) => {
-        const draftAccount = await draftInvoiceAccount(query)
+        const draftAccount = await invoiceAccountApi
+            .draft(query)
             .then((res) => {
                 setDraftQuery(query);
                 return res.data;

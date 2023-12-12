@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {PostDto} from '^types/post.type';
+import {PostDto} from '^models/Post/type';
 import {PostDetailPageRoute} from '^pages/posts/[id]';
 import {dateIsBeforeThen, yyyy_mm_dd} from '^utils/dateTime';
 import {ThumbnailImg} from '^components/pages/blog/BlogPostListPage/ThumbnailImg';

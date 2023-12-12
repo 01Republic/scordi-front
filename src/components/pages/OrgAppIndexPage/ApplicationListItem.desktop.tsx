@@ -1,21 +1,23 @@
 import React, {memo} from 'react';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {useRouter} from 'next/router';
 import Link from 'next/link';
 import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
 import {ApplicationDetailPageRoute} from 'src/pages/orgs/[id]/products/[productId]/apps/[appId]';
-import {t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
-import {safeImageSrc} from '^types/product.type';
+import {t_BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
+import {safeImageSrc} from '^models/Product/type';
 import {ContentPanelItem} from '^layouts/ContentLayout';
 import {subscriptionIdParamState, orgIdParamState, productIdParamsState} from '^atoms/common';
 import {useRecoilState} from 'recoil';
 import {useRouterIdParamState} from '^atoms/common';
+import {WorkspaceDto} from '^models/Workspace/type/workspace.type';
 
 export const ApplicationListItemDesktop = memo((props: {subscription: SubscriptionDto}) => {
     const router = useRouter();
     const orgId = useRouterIdParamState('id', orgIdParamState);
     const {subscription} = props;
-    const {billingCycle, paymentPlan, product, workspace} = subscription;
+    const {billingCycle, paymentPlan, product} = subscription;
+    const workspace = (subscription.workspace || {}) as WorkspaceDto;
     const appId = subscription.id;
 
     return (

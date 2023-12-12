@@ -3,11 +3,11 @@ import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {orgIdParamState, subscriptionIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useCurrentOrg} from '^hooks/useCurrentOrg';
+import {useCurrentOrg} from '^models/Organization/hook';
 import {V3OrgAppShowPage} from '^v3/V3OrgAppShowPage';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {useRouter} from 'next/router';
-import {useBillingHistoriesV3} from '^hooks/useBillingHistories';
+import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 
 export const V3OrgAppShowPageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]/apps/[appId]',
@@ -19,8 +19,8 @@ export const V3OrgAppShowPageRoute = pathRoute({
 });
 
 export const getStaticPaths = async () => ({
-    paths: [{params: {orgId: '1', appId: '1'}}],
-    fallback: true,
+    paths: [],
+    fallback: 'blocking',
 });
 
 export const getStaticProps = async ({locale}: any) => ({

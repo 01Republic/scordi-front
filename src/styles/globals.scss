@@ -28,6 +28,7 @@ body {
     "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", sans-serif;
   background-color: #fafafa;
+  --topnav-min-height: 4rem;
 }
 body.modal-opened {
   height: 100vh;
@@ -91,17 +92,6 @@ p {
 
 .btn-hover-init:hover {
     background-color: inherit !important;
-}
-
-@each $n in (2, 3) {
-    .badge-#{$n}xs {
-        height: calc(0.75rem / #{$n}) !important;
-        width: calc(0.75rem / #{$n}) !important;
-        font-size: calc(0.75rem / #{$n}) !important;
-        line-height: calc(0.75rem / #{$n}) !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
 }
 
 .select.select-bordered {
@@ -890,4 +880,30 @@ body.hide-channel-talk {
     background-repeat: no-repeat;
     background-position: center;
   }
+}
+
+.absolute-cover {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+/**
+ * Browser specific
+ */
+body {
+  @each $browser-name in ('chrome', 'safari', 'firefox', 'kakaoWebview', 'naverWebview', 'whale', 'edge', 'ie', 'etc') {
+    &.browser--#{$browser-name} {
+      .#{$browser-name}-hidden {
+        display: none !important;
+      }
+    }
+  }
+}
+
+progress::-webkit-progress-value,
+progress::-moz-progress-bar {
+  transition: width 200ms ease;
 }

@@ -1,5 +1,5 @@
 import {atom} from 'recoil';
-import {InvoiceAccountDto} from '^types/invoiceAccount.type';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 
 export const renewInvoiceAccountModal = {
     isShowAtom: atom({

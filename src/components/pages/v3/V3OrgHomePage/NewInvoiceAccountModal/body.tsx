@@ -14,7 +14,7 @@ export const NewInvoiceAccountModalBody = memo(() => {
         <>
             <h3 className="font-bold text-2xl">{t('newInvoiceAccountModal.title')}</h3>
             <p className="py-4 text-lg" dangerouslySetInnerHTML={{__html: t('newInvoiceAccountModal.description')}} />
-            <GoogleComplianceDisclosureTag />
+            <GoogleComplianceDisclosureTag feature={'gmail'} />
             <div className="modal-action justify-center pb-4">
                 <a
                     className="btn btn-lg btn-block btn-ghost bg-base-100 border-base-200 shadow normal-case gap-4"

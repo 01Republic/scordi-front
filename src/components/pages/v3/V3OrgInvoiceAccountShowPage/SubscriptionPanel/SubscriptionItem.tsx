@@ -1,8 +1,8 @@
 import React, {ChangeEvent, memo, useState} from 'react';
-import {SubscriptionDto} from '^types/subscription.type';
+import {SubscriptionDto} from 'src/models/Subscription/types';
 import {Avatar} from '^components/Avatar';
-import {BillingHistoryManager} from '^models/BillingHistory';
-import {subscriptionApi} from '^api/subscription.api';
+import {BillingHistoryManager} from '^models/BillingHistory/manager';
+import {subscriptionApi} from '^models/Subscription/api';
 import {useCurrentSubscriptions} from '^v3/V3OrgInvoiceAccountShowPage/atom';
 import {mm_dd} from '^utils/dateTime';
 import {useToast} from '^hooks/useToast';

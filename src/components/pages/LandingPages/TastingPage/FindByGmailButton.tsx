@@ -3,13 +3,10 @@ import {googleAuthForGmail} from '^api/tasting.api';
 import {useRecoilState} from 'recoil';
 import {gmailItemsLoadedAtom} from './pageAtoms';
 import {SummarySection} from './SummarySection';
+import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
+import {GoogleOAuthProvider} from '@react-oauth/google';
 
-interface FindByGmailButtonProps {
-    // gmailAuthClient: OAuth2Client;
-}
-
-export const FindByGmailButton = memo((props: FindByGmailButtonProps) => {
-    const {} = props;
+export const FindByGmailButton = memo(() => {
     // const router = useRouter();
     // const setGmailProfile = useSetRecoilState(gmailProfileAtom);
     // const setGmailItems = useSetRecoilState(gmailItemsAtom);
@@ -40,7 +37,7 @@ export const FindByGmailButton = memo((props: FindByGmailButtonProps) => {
 
     return (
         <div id="tasting-handler" className={`${isLoaded ? 'active' : ''}`}>
-            <div id="tasting-handler--start-button">
+            <div id="tasting-handler--start-button" style={{overflow: 'visible'}}>
                 {/*<button*/}
                 {/*    onClick={googleAuthForGmail}*/}
                 {/*    className="btn btn-lg btn-outline shadow rounded-full font-medium normal-case mb-3 space-x-4 bg-white border-slate-200 text-slate-700 hover:bg-white hover:border-primary hover:text-slate-700 focus:bg-blue-50 active:bg-primary-100"*/}
@@ -49,14 +46,17 @@ export const FindByGmailButton = memo((props: FindByGmailButtonProps) => {
                 {/*    <span>Google 계정으로 시작하기</span>*/}
                 {/*</button>*/}
 
-                <button
-                    onClick={() => googleAuthForGmail()}
-                    className="btn_google_signin_light w-[266px] h-[64px]"
-                    style={{backgroundPosition: 'left'}}
-                />
+                <div
+                    className="tooltip--TastingGoogleButton tooltip tooltip-open tooltip-bottom sm:tooltip-top tooltip-secondary sm:before:left-[0%] before:left-[-8%]"
+                    data-tip="결제메일을 받고 있는 계정을 선택해주세요!"
+                >
+                    <button
+                        onClick={() => googleAuthForGmail()}
+                        className="btn_google_signin_light w-[266px] h-[64px]"
+                        style={{backgroundPosition: 'left'}}
+                    />
+                </div>
             </div>
-
-            <SummarySection />
         </div>
     );
 });

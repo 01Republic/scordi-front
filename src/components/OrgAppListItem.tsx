@@ -1,6 +1,6 @@
-import {SubscriptionDto, t_ConnectStatus} from '^types/subscription.type';
+import {SubscriptionDto, t_ConnectStatus} from 'src/models/Subscription/types';
 import {ContentPanelItem} from '^layouts/ContentLayout/ContentPanel';
-import {t_BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
+import {t_BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 import React from 'react';
 
 interface OrgAppListItemProps {
@@ -21,7 +21,7 @@ export function OrgAppListItem({subscription}: OrgAppListItemProps) {
                 </div>
                 <div className="bs-col px-0">
                     <p className="font-bold">{product.nameEn}</p>
-                    <p className="text-xs text-gray-500">{subscription.workspace.displayName}</p>
+                    <p className="text-xs text-gray-500">{''}</p>
 
                     {/*<p className="text-xs text-gray-500">*/}
                     {/*  <div className="badge badge-xs text-2xs">neutral</div>*/}

@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {useRouter} from 'next/router';
-import {invoiceAccountApi} from '^api/invoiceAccount.api';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {useCurrentInvoiceAccount} from './atom';
 import {useToast} from '^hooks/useToast';

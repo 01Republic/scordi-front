@@ -1,12 +1,15 @@
 import {memo} from 'react';
 import {ButtonTo} from '^components/ButtonTo';
-import {SubscriptionDto} from '^types/subscription.type';
-import {SyncHistoryDto, restartSyncButtonIsActive} from '^types/subscriptionSyncHistory.type';
-import {createSyncHistory} from '^api/subscriptionSyncHistories.api';
-import {useCurrentUser} from '^hooks/useCurrentUser';
-import {useCurrentSyncHistory, useSyncHistoryList} from '^hooks/useSubscriptionSyncHistories';
+import {SubscriptionDto} from 'src/models/Subscription/types';
+import {
+    SyncHistoryDto,
+    restartSyncButtonIsActive,
+} from '^models/SubscriptionSyncHistory/type/subscriptionSyncHistory.type';
+import {useCurrentUser} from '^models/User/hook';
+import {useCurrentSyncHistory, useSyncHistoryList} from '^models/SubscriptionSyncHistory/hook';
 import {toast} from 'react-toastify';
-import {useCurrentSubscription} from '^hooks/useSubscriptions';
+import {useCurrentSubscription} from '^models/Subscription/hook';
+import {syncHistory} from '^models/SubscriptionSyncHistory/api';
 
 interface SyncNowButtonProps {
     subscription: SubscriptionDto;
@@ -26,15 +29,17 @@ export const SyncNowButton = memo((props: SyncNowButtonProps) => {
 
     const onClick = () => {
         if (!subscription || !currentUser) return;
-        createSyncHistory(subscription.id, {
-            runnerId: currentUser.id,
-            content: `Synchronize manually.`,
-        }).then(() => {
-            toast.success('New Sync started!');
-            fetchSyncHistories(subscription.id, pagination.currentPage, true);
-            fetchCurrentSyncHistory(subscription.id);
-            reloadCurrentApp();
-        });
+        syncHistory
+            .create(subscription.id, {
+                runnerId: currentUser.id,
+                content: `Synchronize manually.`,
+            })
+            .then(() => {
+                toast.success('New Sync started!');
+                fetchSyncHistories(subscription.id, pagination.currentPage, true);
+                fetchCurrentSyncHistory(subscription.id);
+                reloadCurrentApp();
+            });
     };
 
     return <ButtonTo text="Sync Now" color="success" disabled={!isActive} onClick={onClick} />;

@@ -6,7 +6,7 @@ export const StatsSection = memo(function StatsSection() {
             <div className="container px-4 sm:px-0">
                 <h2 className="text-center mb-16">
                     <p
-                        className="font-bold text-3xl sm:text-4xl !leading-snug"
+                        className="font-bold text-2xl sm:text-4xl !leading-snug"
                         data-aos="fade-up"
                         data-aos-anchor-placement="bottom-bottom"
                         data-aos-duration={500}
@@ -14,7 +14,7 @@ export const StatsSection = memo(function StatsSection() {
                         몇 개 쓰는지 정확히 몰랐다면
                     </p>
                     <p
-                        className="font-bold text-3xl sm:text-4xl !leading-snug"
+                        className="font-bold text-2xl sm:text-4xl !leading-snug"
                         data-aos="fade-up"
                         data-aos-anchor-placement="bottom-bottom"
                         data-aos-duration={750}
@@ -38,7 +38,7 @@ export const StatsSection = memo(function StatsSection() {
                     <StatBox
                         title="30명대 기업 기준으로"
                         stat={'평균 0개'}
-                        num={31}
+                        num={39}
                         text="의 SaaS를 쓰고 계세요"
                         duration={750}
                     />
@@ -73,14 +73,14 @@ const StatBox = memo((props: StatBoxProps) => {
 
     return (
         <div
-            className="text-center mb-16"
+            className="text-center mb-12"
             data-aos="fade-up"
             data-aos-anchor-placement="bottom-bottom"
             data-aos-duration={duration}
         >
-            <div className="font-semibold text-gray-500 text-xl sm:text-lg mb-2">{title}</div>
-            <div className="font-semibold text-5xl md:text-5xl text-scordi mb-2">{statText}</div>
-            <div className="font-semibold text-gray-500 text-2xl sm:text-xl">{text}</div>
+            <div className="font-semibold text-gray-500 text-lg sm:text-lg mb-2">{title}</div>
+            <div className="font-semibold text-4xl md:text-5xl text-scordi mb-2">{statText}</div>
+            <div className="font-semibold text-gray-500 text-xl sm:text-xl">{text}</div>
         </div>
     );
 });

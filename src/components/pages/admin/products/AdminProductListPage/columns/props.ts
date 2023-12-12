@@ -1,4 +1,4 @@
-import {ProductDto, FindAllProductQuery} from '^types/product.type';
+import {ProductDto, FindAllProductQuery} from '^models/Product/type';
 
 export interface ColumnProps {
     product: ProductDto;

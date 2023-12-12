@@ -5,7 +5,7 @@ import {AiOutlineCloudUpload} from '@react-icons/all-files/ai/AiOutlineCloudUplo
 import {ApplicationConnectApi} from '^api/applicationConnect.api';
 import {errorNotify} from '^utils/toast-notify';
 import {InvoiceDataDto} from '^components/ApplicationConnectStage/dto/fetched.responses.dto';
-import {BillingCycleTerm} from '^types/subscriptionBillingCycle.type';
+import {BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 import {IoTrash} from '@react-icons/all-files/io5/IoTrash';
 import {IoClose} from '@react-icons/all-files/io5/IoClose';
 

@@ -1,17 +1,17 @@
 import React, {useEffect} from 'react';
 import {pathRoute} from '^types/pageRoute.type';
-import {useCurrentUser} from '^hooks/useCurrentUser';
+import {useCurrentUser} from '^models/User/hook';
 import {TextInput} from '^components/TextInput';
 import {useForm} from 'react-hook-form';
 import {getOrgMainLayout} from '^layouts/org/mainLayout';
 import {MobileTopNav, MobileViewContainer} from '^components/MobileTopNav';
 import {DefaultButton} from '^components/Button';
-import {UserDto, UserEditProfileRequestDto} from '^types/user.type';
-import {modifyUser} from '^api/session.api';
+import {UserDto, UserEditProfileRequestDto} from '^models/User/types';
 import {toast} from 'react-toastify';
 import {useRecoilState} from 'recoil';
-import {currentUserAtom} from '^atoms/currentUser.atom';
+import {currentUserAtom} from '^models/User/atom';
 import OrgMobileLayout from '^layouts/org/mobileLayout';
+import {user} from '^models/User/api/session';
 
 export const UserEditPageRoute = pathRoute({
     pathname: '/users/edit',
@@ -23,7 +23,7 @@ const UserEditPage = () => {
     const form = useForm<UserEditProfileRequestDto>();
 
     const UpdateUserHandler = () => {
-        modifyUser(form.getValues()).then((res) => {
+        user.update(form.getValues()).then((res) => {
             toast.success('프로필이 수정되었습니다.');
             setCurrentUser(res.data);
         });

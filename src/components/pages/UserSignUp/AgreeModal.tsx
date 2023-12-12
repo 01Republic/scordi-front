@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {UseFormReturn} from 'react-hook-form';
 import {Modal} from '^components/Modal';
-import {UserSocialSignUpRequestDto} from '^types/user.type';
+import {UserSocialSignUpRequestDto} from '^models/User/types';
 import {RiCloseLine} from '^components/react-icons';
 
 export interface AgreeModalProps {
