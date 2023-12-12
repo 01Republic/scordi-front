@@ -9,5 +9,5 @@ interface ContainerProps extends WithChildren {
 export const Container = memo(function Container(props: ContainerProps) {
     const {size = 'sm', className = '', children} = props;
 
-    return <section className={`container max-w-${size} ${className}`}>{children}</section>;
+    return <section className={`w-full mx-auto max-w-${size} ${className}`}>{children}</section>;
 });

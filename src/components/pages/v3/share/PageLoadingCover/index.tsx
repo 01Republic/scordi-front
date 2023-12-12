@@ -28,7 +28,7 @@ export const PageLoadingCover = memo(function PageLoadingCover() {
         <div className={`modal modal-open`}>
             <div className="modal-box h-full min-w-full max-h-full rounded-none p-0">
                 <div className="h-full w-full flex items-center">
-                    <div className="container max-w-lg">
+                    <div className="w-full mx-auto max-w-2xl">
                         <p className="text-center">Loading ...</p>
                         <progress
                             className="progress progress-primary w-full bg-gray-200"

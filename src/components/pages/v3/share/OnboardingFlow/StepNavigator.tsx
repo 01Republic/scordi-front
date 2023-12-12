@@ -3,7 +3,7 @@ import {ConnectWorkspaceTab, ConnectInvoiceAccountTab, FinishTab} from '^v3/shar
 
 export const StepNavigator = memo(function StepNavigator() {
     return (
-        <section data-component="StepNavigator" className="container max-w-2xl mt-[40px] mb-[150px]">
+        <section data-component="StepNavigator" className="w-full mx-auto max-w-2xl mt-[40px] mb-[150px]">
             <div className="tabs w-full grid grid-cols-3 gap-4">
                 <ConnectWorkspaceTab />
                 <ConnectInvoiceAccountTab />
