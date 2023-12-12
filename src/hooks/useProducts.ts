@@ -175,14 +175,15 @@ export const useCreateFlow = () => {
 };
 
 export const useProductPostContent = () => {
-    const localLocale = localStorage.getItem('locale');
-    const locale = localLocale ?? 'ko';
+    // const localLocale = window?.localStorage?.getItem('locale');
+    // const locale = localLocale ?? 'ko';
 
     const makeContent = (product: ProductDto) => {
         const [post] = product.posts;
-        const productName = locale === 'ko' ? product.nameKo : product.nameEn;
+        // const productName = locale === 'ko' ? product.nameKo : product.nameEn;
+        const productName = `${product.nameKo}(${product.nameEn})`;
 
-        const shortName = productName?.split(' ')?.[0] ?? 'untitled';
+        const shortName = product.nameEn?.split(' ')?.[0] ?? 'untitled';
 
         const thumbnailUrl = post?.thumbnailUrl ?? product?.ogImageUrl ?? 'https://placehold.co/400x200';
         const logoImgUrl = product?.image || `https://placehold.co/200x200?text=${shortName}`;

@@ -7,9 +7,10 @@ export const ProductPostContentTitle = memo((props: {product: ProductDto}) => {
     const {product} = props;
     const [post] = product.posts;
     if (!post) return <></>;
-    const {makeContent} = useProductPostContent();
 
-    const {thumbnailUrl, logoImgUrl, homePageUrl, title, subTitle, tagNames} = makeContent(product);
+    const {makeContent} = useProductPostContent();
+    const {thumbnailUrl, logoImgUrl, homePageUrl, subTitle, tagNames} = makeContent(product);
+    const title = product.nameEn;
 
     return (
         <div>

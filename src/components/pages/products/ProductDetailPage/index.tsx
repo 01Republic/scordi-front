@@ -17,12 +17,13 @@ interface ProductDetailPageProps {
 
 export const ProductDetailPage = memo((props: ProductDetailPageProps) => {
     const {product} = props;
-    const isLoaded = useRecoilValue(isProductDetailPageLoadedAtom);
-    const {makeContent} = useProductPostContent();
     const [post] = product.posts;
 
     if (!post) return <></>;
 
+    const isLoaded = useRecoilValue(isProductDetailPageLoadedAtom);
+
+    const {makeContent} = useProductPostContent();
     const {title, thumbnailUrl} = makeContent(product);
 
     return (
