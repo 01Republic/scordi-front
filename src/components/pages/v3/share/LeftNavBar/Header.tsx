@@ -7,6 +7,7 @@ import {membershipApi} from '^models/Membership/api';
 import {OrganizationDto} from '^models/Organization/type';
 import {MembershipManager} from '^models/Membership/manager';
 import {SelectOrgItem} from './SelectOrgItem';
+import {useMemberships} from '^models/Membership/hook';
 
 const DownIcon = memo(() => {
     return (
@@ -27,24 +28,22 @@ const DownIcon = memo(() => {
 export const Header = memo(function Header() {
     const currentOrg = useRecoilValue(currentOrgAtom);
     const currentUser = useRecoilValue(currentUserAtom);
-    const [myMemberships, setMemberships] = useState<MembershipDto[]>([]);
+
     const [organizations, setOrganizations] = useState<OrganizationDto[]>([]);
+    const {searchMemberships, membershipSearchResult, query} = useMemberships();
+    const myMemberships = membershipSearchResult.items;
 
     useEffect(() => {
         if (!currentOrg || !currentUser) return;
 
-        membershipApi
-            .index({
-                where: {userId: currentUser.id},
-                itemsPerPage: 0,
-            })
-            .then((res) => {
-                setMemberships(res.data.items);
-            });
+        searchMemberships({
+            where: {userId: currentUser.id},
+        });
     }, [currentOrg, currentUser]);
 
     useEffect(() => {
         if (!currentOrg) return;
+
         setOrganizations(MembershipManager.init(myMemberships).organizations());
     }, [currentOrg, myMemberships]);
 
