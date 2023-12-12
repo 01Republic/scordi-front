@@ -4,23 +4,25 @@ import {useCallback, useEffect, useState} from 'react';
 import {FindAllMembershipQuery, MembershipDto} from 'src/models/Membership/types';
 import {orgMembershipSearchResultAtom} from '^models/Membership/atom';
 import {membershipApi} from '^models/Membership/api';
+import {cachePagedQuery} from '^hooks/usePagedResource';
 
 export const useMemberships = () => {
     const [membershipSearchResult, setMembershipSearchResult] = useRecoilState(orgMembershipSearchResultAtom);
     const [query, setQuery] = useState<FindAllMembershipQuery>({});
 
-    async function searchMemberships(params: FindAllMembershipQuery) {
-        if (JSON.stringify(query) === JSON.stringify(params)) return;
+    async function searchMemberships(params: FindAllMembershipQuery, mergeMode = false, force = false) {
+        const request = () => membershipApi.index(params);
 
-        const data = await membershipApi.index(params).then((res) => res.data);
-        setMembershipSearchResult(data);
-        setQuery(params);
+        cachePagedQuery(setMembershipSearchResult, setQuery, params, request, mergeMode, force);
     }
+
+    const reload = () => searchMemberships({...query}, false, true);
 
     return {
         query,
         membershipSearchResult,
         searchMemberships,
+        reload,
     };
 };
 
