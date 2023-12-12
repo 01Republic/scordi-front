@@ -23,7 +23,7 @@ interface LandingPageNavBarProps extends WithChildren {
 export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
     const {fluid = false, sticky = false, bgBlur = false, showLoginButton = true, className = '', children} = props;
     const router = useRouter();
-    const {currentUser, getLoginRedirectPath} = useCurrentUser();
+    const {currentUser, getLoginRedirectPath} = useCurrentUser(null);
     const {open} = useModal(inquiryModalAtom);
 
     const introducePath = '/#product-section';
