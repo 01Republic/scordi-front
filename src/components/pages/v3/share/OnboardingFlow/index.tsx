@@ -1,7 +1,7 @@
 import {memo, useEffect} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
-import {onboardingModalIsShow} from './atom';
+import {isLoadedState, onboardingModalIsShow} from './atom';
 import {OnboardingSkippedStore, SkipButton} from './SkipButton';
 import {StepNavigator} from './StepNavigator';
 import {StepContent} from './StepContent';
@@ -9,6 +9,7 @@ import {StepContent} from './StepContent';
 export const OnboardingFlow = memo(function OnboardingFlow() {
     const [isShow, setIsShow] = useRecoilState(onboardingModalIsShow);
     const currentOrg = useRecoilValue(currentOrgAtom);
+    const isLoaded = useRecoilValue(isLoadedState);
 
     useEffect(() => {
         if (typeof window == 'undefined') return;
@@ -36,6 +37,7 @@ export const OnboardingFlow = memo(function OnboardingFlow() {
                         store.add(currentOrg.id);
                         setIsShow(false);
                     }}
+                    disabled={isLoaded}
                 />
                 <div className="h-full flex flex-col">
                     <StepNavigator />

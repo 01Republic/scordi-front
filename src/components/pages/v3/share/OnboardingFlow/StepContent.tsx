@@ -11,10 +11,12 @@ import {
     ConnectInvoiceAccountAfterLoad,
     FinishStep,
 } from './steps';
+import {useRouter} from 'next/router';
 
 export const StepContent = memo(function StepContent() {
     const {setStep, LazyStep} = useFunnel(onboardingFlowStepStatus);
     const setIsShow = useSetRecoilState(onboardingModalIsShow);
+    const router = useRouter();
     const {Workspace, InvoiceAccount, Finish} = ONBOARDING_STEP;
 
     return (
@@ -44,7 +46,17 @@ export const StepContent = memo(function StepContent() {
             {/*<Step name={InvoiceAccount.afterLoad}>*/}
             {/*    <ConnectInvoiceAccountAfterLoad onNext={() => setStep(Finish)} />*/}
             {/*</Step>*/}
-            <LazyStep name={Finish} render={() => <FinishStep onNext={() => setIsShow(false)} />} />
+            <LazyStep
+                name={Finish}
+                render={() => (
+                    <FinishStep
+                        onNext={() => {
+                            setIsShow(false);
+                            router.reload();
+                        }}
+                    />
+                )}
+            />
         </section>
     );
 });

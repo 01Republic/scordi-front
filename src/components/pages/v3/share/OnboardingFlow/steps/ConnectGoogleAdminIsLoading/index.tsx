@@ -2,13 +2,14 @@ import {memo, useEffect, useState} from 'react';
 import {StepContentProps} from '^components/util/funnel';
 import {Container} from '../../Container';
 import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {PiSpinnerGapThin} from 'react-icons/pi';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {reportState} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/atom';
 import {filterBlackList} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/features';
 import {useAlert} from '^hooks/useAlert';
 import {workspaceTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectGoogleAdminIsLoading/workspaceTimeoutChain';
+import {isLoadedState} from '^v3/share/OnboardingFlow/atom';
 
 interface Props extends StepContentProps {
     // onNext: () => any;
@@ -19,11 +20,13 @@ export const ConnectGoogleAdminIsLoading = memo(function ConnectGoogleAdminIsLoa
     const setReportData = useSetRecoilState(reportState);
     const [title, setTitle] = useState('인증 정보를 가져오고 있어요.');
     const [desc, setDesc] = useState('15초 정도 걸릴 수 있어요. 잠시만 기다려주세요.');
+    const [isLoaded, setIsLoaded] = useRecoilState(isLoadedState);
     const {alert} = useAlert();
     const {onNext} = props;
     const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
 
     const getReport = (token: string) => {
+        setIsLoaded(true);
         const req = googleUsageReportApi.draft(token);
 
         workspaceTimeoutChain(setTitle, setDesc);
@@ -34,6 +37,7 @@ export const ConnectGoogleAdminIsLoading = memo(function ConnectGoogleAdminIsLoa
             filteredReport.setNonameMember();
             setReportData(filteredReport);
             onNext();
+            setIsLoaded(false);
         });
 
         req.catch((e) => {
