@@ -10,7 +10,12 @@ import {ReportDto} from '^components/pages/LandingPages/TastingPage/tabs/panes/S
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {useAlert} from '^hooks/useAlert';
 import {orgIdParamState} from '^atoms/common';
-import {onboardingFlowStepStatus, onboardingReportSavedEmail, OnboardingStep} from '^v3/share/OnboardingFlow/atom';
+import {
+    isLoadedState,
+    onboardingFlowStepStatus,
+    onboardingReportSavedEmail,
+    OnboardingStep,
+} from '^v3/share/OnboardingFlow/atom';
 
 interface Props extends StepContentProps {
     // onNext: () => any;
@@ -21,7 +26,7 @@ export const ConnectGoogleAdminAfterLoad = memo(function ConnectGoogleAdminAfter
     const organizationId = useRecoilValue(orgIdParamState);
     const reportData = useRecoilValue(reportState);
     const [reportSavedEmail, setReportSavedEmail] = useRecoilState(onboardingReportSavedEmail);
-    const [isLoaded, setIsLoaded] = useState(false);
+    const [isLoaded, setIsLoaded] = useRecoilState(isLoadedState);
     const {alert} = useAlert();
     const {onNext} = props;
     const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;

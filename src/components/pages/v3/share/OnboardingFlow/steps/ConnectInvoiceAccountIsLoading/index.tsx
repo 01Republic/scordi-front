@@ -2,12 +2,13 @@ import {memo, useEffect, useState} from 'react';
 import {StepContentProps} from '^components/util/funnel';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {PiSpinnerGapThin} from 'react-icons/pi';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {invoiceAccountTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountIsLoading/invoiceAccountTimeoutChain';
 import {orgIdParamState} from '^atoms/common';
 import {connectInvoiceAccountCodeAtom} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
 import {getCreateInvoiceAccountFromTo} from '^models/InvoiceAccount/type';
+import {isLoadedState} from '^v3/share/OnboardingFlow/atom';
 
 interface Props extends StepContentProps {
     // onNext: () => any;
@@ -18,7 +19,7 @@ export const ConnectInvoiceAccountIsLoading = memo(function ConnectInvoiceAccoun
     const code = useRecoilValue(connectInvoiceAccountCodeAtom);
     const [title, setTitle] = useState('인증 정보를 가져오고 있어요.');
     const [desc, setDesc] = useState('최대 1분 정도 걸릴 수 있어요. 잠시만 기다려주세요.');
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useRecoilState(isLoadedState);
     const {onPrev, onNext} = props;
 
     const createInvoiceAccount = (code: string) => {
