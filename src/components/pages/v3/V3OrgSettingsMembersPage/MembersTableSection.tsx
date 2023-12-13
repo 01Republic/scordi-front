@@ -20,6 +20,7 @@ export const MembersTableSection = memo(() => {
             where: {organizationId: orgId},
         });
     }, [orgId]);
+    console.log(membershipSearchResult);
 
     const movePage = (page: number) => searchMemberships({...query, page});
 
