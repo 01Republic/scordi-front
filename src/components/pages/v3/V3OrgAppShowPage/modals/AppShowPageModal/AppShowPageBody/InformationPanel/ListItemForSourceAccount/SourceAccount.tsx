@@ -5,16 +5,18 @@ import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {Avatar} from '^components/Avatar';
 import {V3OrgInvoiceAccountShowPageRoute} from '^pages/v3/orgs/[orgId]/invoiceAccounts/[invoiceAccountId]';
 import {useRouter} from 'next/router';
+import {LinkTo} from '^components/util/LinkTo';
+import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
 
 export const SourceAccount = memo(function SourceAccount() {
     const router = useRouter();
     const {currentSubscription} = useCurrentSubscription();
+    const {safePath} = useSafePathInCurrentOrg();
     const [invoiceAccounts, setInvoiceAccounts] = useState<InvoiceAccountDto[]>();
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (!currentSubscription) return;
-        if (!currentSubscription.invoiceAccounts) return; // invoiceAccounts is nullable
 
         setIsLoading(true);
         invoiceAccountApi
@@ -42,17 +44,15 @@ export const SourceAccount = memo(function SourceAccount() {
     const length = invoiceAccounts.length;
 
     return (
-        <div
+        <LinkTo
+            href={safePath((org) => V3OrgInvoiceAccountShowPageRoute.path(org.id, invoiceAccount.id))}
             className="flex items-center no-selectable gap-2"
-            onClick={() => {
-                router.push(V3OrgInvoiceAccountShowPageRoute.path(invoiceAccount.organizationId, invoiceAccount.id));
-            }}
         >
             <Avatar src={invoiceAccount.image || ''} className="w-5 h-5 outline outline-offset-1 outline-slate-100" />
             <p className="text-[16px]">
                 <span>{invoiceAccount.email}</span>
-                {/*&nbsp;<span>에서 연결중</span>*/}
+                {length > 1 && <span className="ml-2">등 {length}개</span>}
             </p>
-        </div>
+        </LinkTo>
     );
 });
