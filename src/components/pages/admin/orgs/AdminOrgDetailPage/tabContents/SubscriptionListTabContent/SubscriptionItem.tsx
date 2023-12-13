@@ -12,7 +12,7 @@ interface SubscriptionItemProps {
 export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
     const {subscription, borderBottom = true} = props;
 
-    const invoiceAccount = subscription.invoiceAccount!;
+    const [invoiceAccount] = subscription.invoiceAccounts || [];
 
     return (
         <CardTableTR gridClass="grid-cols-7" borderBottom={borderBottom}>

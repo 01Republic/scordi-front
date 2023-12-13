@@ -38,7 +38,14 @@ export const useCurrentSubscriptions = () => {
 
     const loadCurrentSubscriptions = (invoiceAccountId: number) => {
         subscriptionApi
-            .index({where: {invoiceAccountId}, itemsPerPage: 0})
+            .index({
+                relations: ['invoiceAccounts'],
+                where: {
+                    // @ts-ignore
+                    invoiceAccounts: {id: invoiceAccountId},
+                },
+                itemsPerPage: 0,
+            })
             .then((res) => setSubscriptions(res.data.items));
     };
 

@@ -9,19 +9,37 @@ import {useRouter} from 'next/router';
 export const SourceAccount = memo(function SourceAccount() {
     const router = useRouter();
     const {currentSubscription} = useCurrentSubscription();
-    const [invoiceAccount, setInvoiceAccount] = useState<InvoiceAccountDto>();
+    const [invoiceAccounts, setInvoiceAccounts] = useState<InvoiceAccountDto[]>();
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (!currentSubscription) return;
-        if (!currentSubscription.invoiceAccountId) return; // invoiceAccountId is nullable
+        if (!currentSubscription.invoiceAccounts) return; // invoiceAccounts is nullable
 
-        invoiceAccountApi.show(currentSubscription.organizationId, currentSubscription.invoiceAccountId).then((res) => {
-            setInvoiceAccount(res.data);
-        });
+        setIsLoading(true);
+        invoiceAccountApi
+            .index(currentSubscription.organizationId, {
+                relations: ['subscriptions'],
+                where: {
+                    // @ts-ignore
+                    subscriptions: {id: currentSubscription.id},
+                },
+                order: {id: 'DESC'},
+                itemsPerPage: 0,
+            })
+            .then((res) => {
+                setInvoiceAccounts(res.data.items);
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
     }, [currentSubscription]);
 
-    if (!currentSubscription?.invoiceAccountId) return <></>; // rendering ignore.
-    if (!invoiceAccount) return <div>loading...</div>;
+    if (!invoiceAccounts) return <></>; // rendering ignore.
+    if (isLoading) return <div>loading...</div>;
+
+    const invoiceAccount = invoiceAccounts[0];
+    const length = invoiceAccounts.length;
 
     return (
         <div

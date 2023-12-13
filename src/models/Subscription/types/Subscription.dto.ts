@@ -25,7 +25,7 @@ export class SubscriptionDto {
     workspaceId: number | null; // 서비스 내 조직 ID
     organizationId: number; // 스코디 조직 ID
     productId: number; // 프로토타입 ID
-    invoiceAccountId: number | null;
+    // invoiceAccountId: number | null;
     creditCardId: number | null; // 결제 카드 ID
     masterId?: number; // 관리자 ID
     isFreeTier: boolean; // 프리티어 여부
@@ -50,7 +50,7 @@ export class SubscriptionDto {
     @TypeCast(() => SubscriptionPaymentPlanDto) paymentPlan?: SubscriptionPaymentPlanDto; // 결제플랜
     @TypeCast(() => SubscriptionBillingCycleDto) billingCycle?: SubscriptionBillingCycleDto; // 결제주기
     @TypeCast(() => BillingHistoryDto) billingHistories?: BillingHistoryDto[]; // 결제내역
-    @TypeCast(() => InvoiceAccountDto) invoiceAccount?: InvoiceAccountDto; // 인보이스 계정
+    @TypeCast(() => InvoiceAccountDto) invoiceAccounts?: InvoiceAccountDto[]; // 인보이스 계정
     @TypeCast(() => CreditCardDto) creditCard?: CreditCardDto; // 결제 카드
     @TypeCast(() => TeamMemberDto) master?: TeamMemberDto; // 관리자 (담당자)
     @TypeCast(() => TeamMemberDto) teamMembers?: TeamMemberDto[]; // 사용 중인 팀 멤버

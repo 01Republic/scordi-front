@@ -6,17 +6,20 @@ import {subscriptionApi} from '^models/Subscription/api';
 import {useCurrentSubscriptions} from '^v3/V3OrgInvoiceAccountShowPage/atom';
 import {mm_dd} from '^utils/dateTime';
 import {useToast} from '^hooks/useToast';
+import {useRecoilValue} from 'recoil';
+import {invoiceAccountIdParamState} from '^atoms/common';
 
 interface SubscriptionItemProps {
     subscription: SubscriptionDto;
 }
 
 export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
+    const invoiceAccountId = useRecoilValue(invoiceAccountIdParamState);
+    const {loadCurrentSubscriptions} = useCurrentSubscriptions();
+    const {toast} = useToast();
     const {subscription} = props;
     const {product} = subscription;
     const [isActive, setIsActive] = useState(subscription.isActive);
-    const {loadCurrentSubscriptions} = useCurrentSubscriptions();
-    const {toast} = useToast();
 
     const onActiveChange = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.checked;
@@ -27,7 +30,7 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
             } else {
                 toast.success('동기화를 해제했어요', `subscription-${subscription.id}`);
             }
-            loadCurrentSubscriptions(subscription.invoiceAccountId!);
+            loadCurrentSubscriptions(invoiceAccountId);
         });
     };
 
