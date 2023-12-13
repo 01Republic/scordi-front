@@ -10,9 +10,9 @@ import {newAppModal} from '^components/pages/v3/share/modals/NewAppModal/atom';
 
 export const SubscriptionsPanel = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
-    const {result: subscriptionsResult, search} = useSubscriptionsV2();
-    const subscriptions = subscriptionsResult.items;
-    const length = subscriptions.length;
+    const {result, search} = useSubscriptionsV2();
+    const {items: subscriptions, pagination} = result;
+    const {totalItemCount} = pagination;
     const {open} = useModal(newAppModal);
 
     useEffect(() => {
@@ -23,15 +23,15 @@ export const SubscriptionsPanel = memo(() => {
     return (
         <MobileSection.Item>
             <MobileSection.Padding>
-                <MobileSection.Heading title={length ? `${length}개의 구독중인 앱` : '이용중인 앱'}>
+                <MobileSection.Heading title={totalItemCount ? `${totalItemCount}개의 구독중인 앱` : '이용중인 앱'}>
                     <div className="text-sm text-gray-500">
                         <div className="cursor-pointer" onClick={open}>
-                            {length ? '앱 추가' : '앱 없음'}
+                            {totalItemCount ? '앱 추가' : '앱 없음'}
                         </div>
                     </div>
                 </MobileSection.Heading>
 
-                {length ? (
+                {totalItemCount ? (
                     <>
                         {subscriptions.map((subscription, i) => (
                             <SubscriptionItem key={i} item={subscription} />
