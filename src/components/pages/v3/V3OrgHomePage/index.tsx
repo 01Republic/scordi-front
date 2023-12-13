@@ -23,10 +23,11 @@ import {LNBIndex} from '^v3/share/LeftNavBar';
 import {SummarySection, MemberListSection, SubscriptionsSection} from './desktop/sections';
 import {HeaderSection} from '^v3/V3OrgHomePage/desktop/sections/HeaderSection';
 import {NewAppModal} from '^components/pages/v3/share/modals/NewAppModal';
-import {SubscriptionTrModalSet} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/SubscriptionTrModalSet';
 import {TeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
 import {TeamMemberCreateModal} from '^v3/V3OrgHomePage/TeamMemberCreateModal';
 import {InvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal';
+import {AppShowPageModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
+import {AccountListModal} from '^v3/share/modals/AccountListModal';
 
 export const V3OrgHomePage = memo(() => {
     const currentUser = useRecoilValue(currentUserAtom);
@@ -37,7 +38,13 @@ export const V3OrgHomePage = memo(() => {
         return (
             <V3MainLayout
                 activeTabIndex={LNBIndex.Dashboard}
-                modals={[TeamMemberShowModal, SubscriptionTrModalSet, TeamMemberCreateModal, InvoiceAccountSelectModal]}
+                modals={[
+                    TeamMemberShowModal, // 멤버상세모달
+                    AppShowPageModal, // 구독상세모달
+                    AccountListModal,
+                    TeamMemberCreateModal,
+                    InvoiceAccountSelectModal,
+                ]}
             >
                 <V3MainLayoutContainer>
                     <HeaderSection />

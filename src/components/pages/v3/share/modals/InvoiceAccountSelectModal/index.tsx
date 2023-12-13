@@ -29,7 +29,6 @@ export const InvoiceAccountSelectModal = memo((props: InvoiceAccountSelectModalP
         hide();
     };
 
-    console.log('result.items', result.items);
     const {totalItemCount} = result.pagination;
 
     return (
