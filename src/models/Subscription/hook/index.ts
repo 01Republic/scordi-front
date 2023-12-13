@@ -21,25 +21,7 @@ export const useCurrentSubscription = () => {
 export const index = () => useRecoilValue(getSubscriptionsQuery);
 
 export const useSubscriptionsV2 = () => {
-    const orgId = useRouterIdParamState('orgId', orgIdParamState);
-    const [result, setResult] = useRecoilState(subscriptionsSearchResultAtom);
-    const [query, setQuery] = useRecoilState(getSubscriptionsQueryAtom);
-
-    async function search(params: FindAllSubscriptionsQuery) {
-        if (!orgId) return;
-
-        params.where = {organizationId: orgId, ...params.where};
-
-        const data = await subscriptionApi.index(params).then((res) => res.data);
-        setResult(data);
-        setQuery(params);
-
-        return data;
-    }
-
-    const movePage = (page: number) => search({...query, page});
-
-    return {query, result, search, movePage};
+    return useSubscriptionsV3(subscriptionsSearchResultAtom, getSubscriptionsQueryAtom);
 };
 
 export const useSubscriptionsV3 = (

@@ -7,17 +7,21 @@ import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {useModal} from '^v3/share/modals/useModal';
 import {newAppModal} from '^components/pages/v3/share/modals/NewAppModal/atom';
+import {LinkTo} from '^components/util/LinkTo';
+import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
+import {V3OrgAppsPageRoute} from '^pages/v3/orgs/[orgId]/apps';
 
 export const SubscriptionsPanel = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
-    const {result, search} = useSubscriptionsV2();
+    const {result, search: getSubscriptions} = useSubscriptionsV2();
+    const {safePath} = useSafePathInCurrentOrg();
     const {items: subscriptions, pagination} = result;
-    const {totalItemCount} = pagination;
+    const {totalItemCount, totalPage, currentPage} = pagination;
     const {open} = useModal(newAppModal);
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
-        search({where: {isActive: true}});
+        getSubscriptions({where: {isActive: true}, itemsPerPage: 10});
     }, [orgId]);
 
     return (
@@ -36,6 +40,14 @@ export const SubscriptionsPanel = memo(() => {
                         {subscriptions.map((subscription, i) => (
                             <SubscriptionItem key={i} item={subscription} />
                         ))}
+                        {totalPage > currentPage && (
+                            <LinkTo
+                                href={safePath((org) => V3OrgAppsPageRoute.path(org.id))}
+                                className="block w-full border-t pt-2 text-center text-xs cursor-pointer transition-all hover:text-indigo-500 hover:underline"
+                            >
+                                더 보기 ({currentPage + 1}/{totalPage})
+                            </LinkTo>
+                        )}
                     </>
                 ) : (
                     <ContentEmpty text="등록된 앱이 없어요" subtext="눌러서 앱 추가" onClick={open} />

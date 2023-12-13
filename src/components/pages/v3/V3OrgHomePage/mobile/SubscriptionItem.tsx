@@ -9,6 +9,8 @@ import {V3OrgAppShowPageRoute} from '^pages/v3/orgs/[orgId]/apps/[appId]';
 import {orgIdParamState} from '^atoms/common';
 import {BillingHistoryManager} from '^models/BillingHistory/manager';
 import {Locale} from '^models/Subscription/types/billingCycleType';
+import {LinkTo} from '^components/util/LinkTo';
+import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
 
 interface SubscriptionItemProps {
     item: SubscriptionDto;
@@ -18,18 +20,20 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
     const {item} = props;
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
-    const locale = (router.locale as Locale) || Locale.ko;
+    const {safePath} = useSafePathInCurrentOrg();
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
+    const locale = (router.locale as Locale) || Locale.ko;
     const symbol = getCurrencySymbol(displayCurrency);
     const {product, billingHistories = []} = item;
 
     const BillingHistory = BillingHistoryManager.init(billingHistories).validateToListing();
     const totalPrice = BillingHistory.paymentOnly().latestIssue().getTotalPrice(displayCurrency);
 
-    const onClick = () => router.push(V3OrgAppShowPageRoute.path(orgId, item.id));
-
     return (
-        <div className="!w-auto gap-4 px-4 py-3 -mx-4 hover:bg-neutral btn-like no-selectable" onClick={onClick}>
+        <LinkTo
+            href={safePath((org) => V3OrgAppShowPageRoute.path(org.id, item.id))}
+            className="block !w-auto gap-4 px-4 py-3 -mx-4 hover:bg-neutral btn-like no-selectable"
+        >
             <Avatar src={product.image} className="w-9 h-9 outline outline-offset-1 outline-slate-100" />
             <div className="flex-1">
                 <p className="text-sm text-gray-500">{product.nameEn}</p>
@@ -41,6 +45,6 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
                 </p>
             </div>
             <div></div>
-        </div>
+        </LinkTo>
     );
 });

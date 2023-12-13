@@ -11,7 +11,7 @@ import {usePayingTypeTags} from '^models/Tag/hook';
 export const SubscriptionListSection = memo(function SubscriptionListSection() {
     const [viewMode, setViewMode] = useRecoilState(subscriptionListViewModeState);
     const {search: getTags} = usePayingTypeTags();
-    const {search: getSubscriptions, result} = useSubscriptionsV2();
+    const {result, search: getSubscriptions} = useSubscriptionsV2();
     const setTagOptions = useSetRecoilState(tagOptionsState);
     const orgId = useRecoilValue(orgIdParamState);
 
