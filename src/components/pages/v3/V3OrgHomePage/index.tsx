@@ -26,6 +26,7 @@ import {NewAppModal} from '^components/pages/v3/share/modals/NewAppModal';
 import {SubscriptionTrModalSet} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/SubscriptionTrModalSet';
 import {TeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
 import {TeamMemberCreateModal} from '^v3/V3OrgHomePage/TeamMemberCreateModal';
+import {InvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal';
 
 export const V3OrgHomePage = memo(() => {
     const currentUser = useRecoilValue(currentUserAtom);
@@ -36,7 +37,7 @@ export const V3OrgHomePage = memo(() => {
         return (
             <V3MainLayout
                 activeTabIndex={LNBIndex.Dashboard}
-                modals={[TeamMemberShowModal, SubscriptionTrModalSet, TeamMemberCreateModal]}
+                modals={[TeamMemberShowModal, SubscriptionTrModalSet, TeamMemberCreateModal, InvoiceAccountSelectModal]}
             >
                 <V3MainLayoutContainer>
                     <HeaderSection />
@@ -72,6 +73,7 @@ export const V3OrgHomePage = memo(() => {
                     MonthlyPaidAmountModal,
                     MonthlyRemainAmountModal,
                     CardFormModalGroup,
+                    InvoiceAccountSelectModal,
                 ]}
                 topRightButtons={currentUser?.isAdmin ? [TopNavOrgSelect, TopNavProfileButton] : []}
             >

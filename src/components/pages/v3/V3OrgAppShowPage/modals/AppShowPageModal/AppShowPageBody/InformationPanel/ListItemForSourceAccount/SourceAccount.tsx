@@ -7,9 +7,11 @@ import {V3OrgInvoiceAccountShowPageRoute} from '^pages/v3/orgs/[orgId]/invoiceAc
 import {useRouter} from 'next/router';
 import {LinkTo} from '^components/util/LinkTo';
 import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
+import {useInvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal/hook';
 
 export const SourceAccount = memo(function SourceAccount() {
     const router = useRouter();
+    const {show: openModal} = useInvoiceAccountSelectModal();
     const {currentSubscription} = useCurrentSubscription();
     const {safePath} = useSafePathInCurrentOrg();
     const [invoiceAccounts, setInvoiceAccounts] = useState<InvoiceAccountDto[]>();
@@ -39,14 +41,21 @@ export const SourceAccount = memo(function SourceAccount() {
 
     if (!invoiceAccounts) return <></>; // rendering ignore.
     if (isLoading) return <div>loading...</div>;
-
     const invoiceAccount = invoiceAccounts[0];
+    if (!invoiceAccount) return <></>;
+
     const length = invoiceAccounts.length;
+
+    const openInvoiceAccountListModal = () => {
+        if (!currentSubscription) return;
+        openModal(currentSubscription.id);
+    };
 
     return (
         <LinkTo
-            href={safePath((org) => V3OrgInvoiceAccountShowPageRoute.path(org.id, invoiceAccount.id))}
+            // href={safePath((org) => V3OrgInvoiceAccountShowPageRoute.path(org.id, invoiceAccount.id))}
             className="flex items-center no-selectable gap-2"
+            onClick={() => openInvoiceAccountListModal()}
         >
             <Avatar src={invoiceAccount.image || ''} className="w-5 h-5 outline outline-offset-1 outline-slate-100" />
             <p className="text-[16px]">
