@@ -36,7 +36,7 @@ export const V3InviteOrgError = memo(() => {
                         <div className="m-auto">
                             <p className="mb-1">스코디가 처음이라면?</p>
                             <GoogleOAuthProvider clientId={googleOauthClientId}>
-                                <GoogleLoginBtn />
+                                <GoogleLoginBtn about="admin" />
                             </GoogleOAuthProvider>
                         </div>
                     </div>

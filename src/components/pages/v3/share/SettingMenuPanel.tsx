@@ -35,12 +35,12 @@ export const V3OrgSettingsMenuPanel = memo(() => {
                     <span>결제 관리</span>
                 </ActiveLinkTo>
             </li>
-            <li>
-                <ActiveLinkTo href={V3OrgSettingsMembersPageRoute.path(orgId)} className="mb-0.5">
-                    <HiOutlineUserGroup />
-                    <span>멤버 관리</span>
-                </ActiveLinkTo>
-            </li>
+            {/*<li>*/}
+            {/*    <ActiveLinkTo href={V3OrgSettingsMembersPageRoute.path(orgId)} className="mb-0.5">*/}
+            {/*        <HiOutlineUserGroup />*/}
+            {/*        <span>멤버 관리</span>*/}
+            {/*    </ActiveLinkTo>*/}
+            {/*</li>*/}
             <li>
                 <ActiveLinkTo href={V3OrgSettingsConnectsPageRoute.path(orgId)} className="mb-0.5">
                     <VscPlug size={18} />
