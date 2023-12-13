@@ -13,6 +13,7 @@ import {
     getTeamMembersQueryAtom,
     teamMembersSearchResultAtom,
 } from '../atom';
+import {cachePagedQuery} from '^hooks/usePagedResource';
 
 export * from './useSendInviteEmail';
 export * from './useTeamMemberV3';
@@ -23,14 +24,16 @@ export const useTeamMembers = () => {
     const [result, setResult] = useRecoilState(teamMembersSearchResultAtom);
     const [query, setQuery] = useRecoilState(getTeamMembersQueryAtom);
 
-    async function search(params: FindAllTeamMemberQueryDto) {
+    async function search(params: FindAllTeamMemberQueryDto, mergeMode = false, force = false) {
         if (!orgId || isNaN(orgId)) return;
 
-        setIsLoading(true);
-        const data = await teamMemberApi.index(orgId, params).then((res) => res.data);
-        setResult(data);
-        setQuery(params);
-        setTimeout(() => setIsLoading(false), 1000);
+        const request = () => {
+            setIsLoading(true);
+            return teamMemberApi.index(orgId, params).finally(() => {
+                setTimeout(() => setIsLoading(false), 1000);
+            });
+        };
+        cachePagedQuery(setResult, setQuery, params, request, mergeMode, force);
     }
 
     const reload = () => search(query);
