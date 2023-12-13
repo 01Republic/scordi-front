@@ -39,7 +39,7 @@ export const TeamMemberStatus = memo((props: TeamMemberStatusProps) => {
                 </button>
             )}
 
-            {!membership && <InviteButton teamMember={teamMember} />}
+            {!membership && !isMe && <InviteButton teamMember={teamMember} />}
         </div>
     );
 });

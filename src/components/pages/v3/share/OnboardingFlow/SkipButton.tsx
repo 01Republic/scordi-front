@@ -2,16 +2,19 @@ import {memo} from 'react';
 
 interface SkipButtonProps {
     onClick: () => any;
+    disabled: boolean;
 }
 
 export const SkipButton = memo(function SkipButton(props: SkipButtonProps) {
-    const {onClick} = props;
+    const {onClick, disabled} = props;
 
     return (
         <div className="absolute top-0 right-0 mt-[40px] mr-[40px]">
             <button
                 onClick={onClick}
-                className="btn-link flex flex-col gap-2 items-center text-gray-400 no-underline hover:text-gray-600 hover:underline underline-offset-2"
+                className={`${
+                    disabled && 'opacity-0'
+                } btn-link flex flex-col gap-2 items-center text-gray-400 no-underline hover:text-gray-600 hover:underline underline-offset-2`}
             >
                 <span className="leading-none">나중에 할래요</span>
             </button>

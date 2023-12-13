@@ -5,13 +5,12 @@ import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {WithChildren} from '^types/global.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {googleOauthClientId} from '^api/tasting.api/gmail/constant';
 
 export const V3OrgJoin = memo(() => {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
 
     if (!orgId || isNaN(orgId)) return <></>;
-
-    const googleOauthClientId = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_ADMIN_CLIENT_ID!;
 
     return (
         <div className={styles.viewport}>
@@ -32,7 +31,7 @@ export const V3OrgJoin = memo(() => {
                         <div className="w-fit m-auto">
                             <p className="mb-1">로그인 후 스코디 이용하기</p>
                             <GoogleOAuthProvider clientId={googleOauthClientId}>
-                                <GoogleLoginBtn />
+                                <GoogleLoginBtn about="admin" />
                             </GoogleOAuthProvider>
                         </div>
                     </div>

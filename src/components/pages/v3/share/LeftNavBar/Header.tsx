@@ -2,12 +2,10 @@ import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
 import {currentUserAtom} from '^models/User/atom';
-import {MembershipDto} from 'src/models/Membership/types';
-import {membershipApi} from '^models/Membership/api';
 import {OrganizationDto} from '^models/Organization/type';
 import {MembershipManager} from '^models/Membership/manager';
 import {SelectOrgItem} from './SelectOrgItem';
-import {useMemberships} from '^models/Membership/hook';
+import {useMembershipsV2} from '^models/Membership/hook/useMembershipsV2';
 
 const DownIcon = memo(() => {
     return (
@@ -28,17 +26,14 @@ const DownIcon = memo(() => {
 export const Header = memo(function Header() {
     const currentOrg = useRecoilValue(currentOrgAtom);
     const currentUser = useRecoilValue(currentUserAtom);
-
     const [organizations, setOrganizations] = useState<OrganizationDto[]>([]);
-    const {searchMemberships, membershipSearchResult, query} = useMemberships();
-    const myMemberships = membershipSearchResult.items;
+    const {search: getMembers, result} = useMembershipsV2();
+    const myMemberships = result?.items;
 
     useEffect(() => {
         if (!currentOrg || !currentUser) return;
 
-        searchMemberships({
-            where: {userId: currentUser.id},
-        });
+        getMembers({where: {userId: currentUser.id}});
     }, [currentOrg, currentUser]);
 
     useEffect(() => {
