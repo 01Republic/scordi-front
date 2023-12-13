@@ -42,6 +42,7 @@ export const V3OrgHomePage = memo(() => {
                     TeamMemberShowModal, // 멤버상세모달
                     AppShowPageModal, // 구독상세모달
                     AccountListModal,
+                    BillingHistoryDetailModal, // 결제내역상세모달
                     TeamMemberCreateModal,
                     InvoiceAccountSelectModal,
                 ]}
@@ -73,7 +74,7 @@ export const V3OrgHomePage = memo(() => {
                 }
                 activeTabIndex={BottomTabIndex.HOME}
                 modals={[
-                    BillingHistoriesPageModal,
+                    BillingHistoriesPageModal, // 내역페이지 모달 아마?
                     BillingHistoryDetailModal,
                     NewAppModal,
                     RenewInvoiceAccountModalMobile,

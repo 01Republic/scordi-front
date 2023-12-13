@@ -23,7 +23,7 @@ export const V3OrgAppShowPage = memo(() => {
         <V3ModalLikeLayoutMobile
             title={currentSubscription ? currentSubscription.product.name() : ''}
             modals={[
-                BillingHistoryDetailModal,
+                BillingHistoryDetailModal, // 결제내역상세모달
                 SelectTeamMemberModal,
                 AccountListModal,
                 RegisterCreditCardModal,
