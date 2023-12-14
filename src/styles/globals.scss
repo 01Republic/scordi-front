@@ -907,3 +907,15 @@ progress::-webkit-progress-value,
 progress::-moz-progress-bar {
   transition: width 200ms ease;
 }
+
+
+/**
+ * dropdown
+ */
+.fixed-dropdown {
+  .dropdown-content {
+    position: fixed;
+    left: var(--pos-l);
+    top: var(--pos-t);
+  }
+}

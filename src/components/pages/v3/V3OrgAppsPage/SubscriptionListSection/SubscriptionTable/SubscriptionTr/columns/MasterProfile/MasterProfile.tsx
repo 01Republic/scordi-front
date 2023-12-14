@@ -53,7 +53,7 @@ export const MasterProfile = memo((props: MasterProfileProps) => {
 
     return (
         <>
-            <div className="dropdown">
+            <div className="dropdown fixed-dropdown">
                 <div tabIndex={0}>
                     <MasterProfileOption member={master} />
                 </div>

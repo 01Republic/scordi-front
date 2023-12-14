@@ -42,7 +42,7 @@ export const SubscriptionStatusSelect = memo((props: SubscriptionStatusSelectPro
 
     const options = subscriptionStatusOptions();
     return (
-        <div className="dropdown relative">
+        <div className="dropdown relative fixed-dropdown">
             <div tabIndex={0} className={`${subscriptionClassName} btn btn-xs border-0 cursor-pointer px-5 m-1`}>
                 <span className="font-normal">{subscriptionName}</span>
             </div>
