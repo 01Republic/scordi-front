@@ -39,8 +39,8 @@ export const V3OrgHomePage = memo(() => {
             <V3MainLayout
                 activeTabIndex={LNBIndex.Dashboard}
                 modals={[
-                    TeamMemberShowModal, // 멤버상세모달
                     AppShowPageModal, // 구독상세모달
+                    TeamMemberShowModal, // 멤버상세모달
                     AccountListModal,
                     BillingHistoryDetailModal, // 결제내역상세모달
                     TeamMemberCreateModal,

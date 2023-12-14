@@ -13,7 +13,7 @@ export const LoadMoreButton = memo(() => {
 
     return (
         <div className="w-full flex items-center justify-center sticky bottom-[1rem]">
-            <button className="btn text-16 shadow-lg" onClick={() => movePage(nextPage)}>
+            <button className="btn text-16 shadow-lg" onClick={() => movePage(nextPage, true)}>
                 더 불러오기 ({nextPage}/{totalPage})
             </button>
         </div>
