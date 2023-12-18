@@ -1,15 +1,15 @@
 import {memo, useEffect} from 'react';
 import {AdminListPageLayout} from '^admin/layouts';
 import {useListPageSearchForm} from '^admin/share/list-page/use-list-page-search-form';
-import {organizationApi} from '^models/Organization/api';
+import {organizationAdminApi} from '^models/Organization/api';
 import {OrgItem} from '^admin/orgs/AdminOrgListPage/OrgItem';
 
 export const AdminOrgListPage = memo(() => {
-    const form = useListPageSearchForm(organizationApi.index);
+    const form = useListPageSearchForm(organizationAdminApi.index);
     const {searchForm, onSearch, fetchData, SearchForm, SearchResultContainer, listPage} = form;
 
     useEffect(() => {
-        fetchData({order: {id: 'DESC'}, itemsPerPage: 0});
+        fetchData({order: {id: 'DESC'}});
     }, []);
 
     return (

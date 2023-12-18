@@ -60,3 +60,10 @@ export const organizationApi = {
         });
     },
 };
+
+export const organizationAdminApi = {
+    index(params?: FindAllQueryDto<OrganizationDto>) {
+        const url = '/admin/organizations';
+        return api.get<Paginated<OrganizationDto>>(url, {params}).then(paginatedDtoOf(OrganizationDto));
+    },
+};
