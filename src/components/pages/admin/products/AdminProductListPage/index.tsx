@@ -10,14 +10,29 @@ import {ActionColumn} from './columns/ActionColumn';
 import {OutLink} from '^components/OutLink';
 import {isValidUrl, truncate} from '^components/util/string';
 import {useListPageSearchForm} from '^admin/share/list-page/use-list-page-search-form';
+import {ProductConnectMethod, ProductDto} from '^models/Product/type';
+import {useToast} from '^hooks/useToast';
 
 export const AdminProductListPage = memo(() => {
     const form = useListPageSearchForm(productApi.index);
     const {searchForm, onSearch, fetchData, SearchForm, SearchResultContainer, listPage} = form;
+    const {toast} = useToast();
 
     useEffect(() => {
         fetchData({order: {id: 'DESC'}});
     }, []);
+
+    const togglePublishStatus = (product: ProductDto) => {
+        const shouldPublish = product.connectMethod === ProductConnectMethod.PREPARE;
+        toast.basic('처리하는 중입니다.');
+        const req = shouldPublish
+            ? productApi.update(product.id, {connectMethod: ProductConnectMethod.AUTO})
+            : productApi.update(product.id, {connectMethod: ProductConnectMethod.PREPARE});
+
+        req.then(() => form.onSearch({}))
+            .catch(() => toast.error('문제가 생겼어요. 새로고침 후 다시 시도해주세요 ㅠ'))
+            .finally(() => toast.success(shouldPublish ? '공개!' : '비공개 했어요ㅠ'));
+    };
 
     return (
         <AdminListPageLayout
@@ -78,17 +93,36 @@ export const AdminProductListPage = memo(() => {
                                 },
                                 {
                                     th: 'category',
-                                    className: 'hidden lg:block',
+                                    className: 'hidden lg:block col-span-2',
                                     render: (product) => (
                                         <DefaultColumn
                                             value={product.tags ? product.tags.map((tag) => tag.name).join(', ') : ''}
                                         />
                                     ),
                                 },
+                                // {
+                                //     th: 'summary',
+                                //     className: 'hidden lg:block col-span-2',
+                                //     render: (product) => <DefaultColumn value={product.tagline} />,
+                                // },
                                 {
-                                    th: 'summary',
-                                    className: 'hidden lg:block col-span-2',
-                                    render: (product) => <DefaultColumn value={product.tagline} />,
+                                    th: '공개상태',
+                                    className: '',
+                                    render: (product) => (
+                                        <DefaultColumn
+                                            value={
+                                                <div>
+                                                    <input
+                                                        type="checkbox"
+                                                        className="checkbox"
+                                                        readOnly={true}
+                                                        checked={product.connectMethod != ProductConnectMethod.PREPARE}
+                                                        onClick={() => togglePublishStatus(product)}
+                                                    />
+                                                </div>
+                                            }
+                                        />
+                                    ),
                                 },
                                 {
                                     th: 'homepage',
