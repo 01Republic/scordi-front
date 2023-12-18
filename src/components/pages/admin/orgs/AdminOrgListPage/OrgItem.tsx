@@ -1,18 +1,17 @@
 import {memo} from 'react';
 import {OrganizationDto} from '^models/Organization/type';
 import {Avatar} from '^components/Avatar';
-import {useRouter} from 'next/router';
 import {AdminOrgPageRoute} from '^pages/admin/orgs/[id]';
+import {LinkTo} from '^components/util/LinkTo';
 
 interface OrgItemProps {
     org: OrganizationDto;
 }
 
 export const OrgItem = memo((props: OrgItemProps) => {
-    const router = useRouter();
     const {org} = props;
 
-    const gotoDetailPage = () => router.push(AdminOrgPageRoute.path(org.id));
+    const detailPagePath = AdminOrgPageRoute.path(org.id);
 
     return (
         <div className="btn btn-lg btn-block no-animation !bg-neutral gap-2 items-center justify-between border rounded-lg normal-case">
@@ -36,13 +35,13 @@ export const OrgItem = memo((props: OrgItemProps) => {
 
                 <div>
                     <div className="hidden sm:flex gap-1.5 items-center justify-between">
-                        <button className="btn btn-sm btn-info" onClick={gotoDetailPage}>
+                        <LinkTo href={detailPagePath} className="btn btn-sm btn-info">
                             상세
-                        </button>
+                        </LinkTo>
                         <button className="btn btn-sm btn-warning">수정</button>
                         <button className="btn btn-sm btn-error">삭제</button>
                     </div>
-                    <p className="sm:hidden relative -top-[1px]" onClick={gotoDetailPage}>{`>`}</p>
+                    <p className="sm:hidden relative -top-[1px]">{`>`}</p>
                 </div>
             </div>
         </div>

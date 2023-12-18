@@ -2,6 +2,7 @@ import {WithChildren} from '^types/global.type';
 import {ReactNodeLike} from 'prop-types';
 import {memo} from 'react';
 import {useRouter} from 'next/router';
+import {LinkTo} from '^components/util/LinkTo';
 
 export type BreadCrumb = {
     text: string;
@@ -37,9 +38,7 @@ export const AdminPageHeader = memo((props: AdminPageHeaderProps) => {
                                         {breadcrumbs.map((breadcrumb, i) => (
                                             <li key={i}>
                                                 {breadcrumb.href ? (
-                                                    <a onClick={() => router.push(breadcrumb.href!)}>
-                                                        {breadcrumb.text}
-                                                    </a>
+                                                    <LinkTo text={breadcrumb.text} href={breadcrumb.href} />
                                                 ) : (
                                                     breadcrumb.text
                                                 )}
