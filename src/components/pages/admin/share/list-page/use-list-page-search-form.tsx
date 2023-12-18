@@ -6,6 +6,7 @@ import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {WithChildren} from '^types/global.type';
 import {Paginator} from '^components/Paginator';
 import {useId} from 'react-id-generator';
+import {cachePagedQuery} from '^hooks/usePagedResource';
 
 type EntityDto = {id: number};
 type SearchQueryDto<DTO extends EntityDto> = FindAllQueryDto<DTO> & {keyword?: string};
@@ -26,12 +27,17 @@ export function useListPageSearchForm<ItemDto extends EntityDto, QueryDto extend
             itemsPerPage: 0,
         },
     });
+    // @ts-ignore
+    const [query, setQuery] = useState<QueryDto>({});
 
     const fetchData2 = (params: QueryDto) => {
-        fetchData(params).then((res) => setListPage(res.data));
+        return fetchData(params).then((res) => {
+            setListPage(res.data);
+            setQuery(params);
+        });
     };
 
-    const onSearch = (data: QueryDto) => fetchData2(data);
+    const onSearch = (data: QueryDto) => fetchData2({...query, ...data});
 
     const SearchResultContainer = ({children}: SearchResultContainerProps) => {
         return (
@@ -49,7 +55,7 @@ export function useListPageSearchForm<ItemDto extends EntityDto, QueryDto extend
                                 currentPage={listPage.pagination.currentPage}
                                 totalPage={listPage.pagination.totalPage}
                                 onClick={(n) => {
-                                    fetchData2({...searchForm.getValues(), page: n});
+                                    fetchData2({...query, ...searchForm.getValues(), page: n});
                                 }}
                             />
                         </div>
