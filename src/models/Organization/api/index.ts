@@ -66,4 +66,10 @@ export const organizationAdminApi = {
         const url = '/admin/organizations';
         return api.get<Paginated<OrganizationDto>>(url, {params}).then(paginatedDtoOf(OrganizationDto));
     },
+
+    update(id: number, data: UpdateOrganizationRequestDto) {
+        const url = `/admin/organizations/${id}`;
+        const headers = {'Content-Type': 'multipart/form-data'};
+        return api.patch<OrganizationDto>(url, data, {headers}).then(oneDtoOf(OrganizationDto));
+    },
 };
