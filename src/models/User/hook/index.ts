@@ -54,7 +54,11 @@ export function useCurrentUser(fallbackPath?: string | null, opt?: CurrentUserOp
             userSessionApi
                 .index()
                 .then((res) => setCurrentUser(res.data))
-                .catch((err) => loginRequiredHandler(err, router, fallbackPath));
+                .catch((err) => {
+                    // invalid token 에러가 발생하면 localStorage token 삭제
+                    localStorage.removeItem('token');
+                    loginRequiredHandler(err, router, fallbackPath);
+                });
         }
     }, []);
 
