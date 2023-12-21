@@ -2,53 +2,55 @@ import {memo, useEffect, useState} from 'react';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {PiSpinnerGapThin} from 'react-icons/pi';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {isLoadedState} from '^v3/share/OnboardingFlow/atom';
 import {invoiceAccountTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountIsLoading/invoiceAccountTimeoutChain';
 import {getCreateInvoiceAccountFromTo} from '^models/InvoiceAccount/type';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {orgIdParamState} from '^atoms/common';
 import {
+    connectInvoiceAccountCodeAtom,
     connectInvoiceAccountStatus,
     InvoiceAccount,
-    newInvoiceAccountModal,
 } from '^v3/V3OrgHomePage/NewInvoiceAccountModal/atom';
-import {connectInvoiceAccountCodeAtom} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
-import {useModal} from '^v3/share/modals';
 import {useAlert} from '^hooks/useAlert';
 
 export const ConnectInvoiceAccountIsLoading = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
-    const code = useRecoilValue(connectInvoiceAccountCodeAtom);
+    const [code, setCode] = useRecoilState(connectInvoiceAccountCodeAtom);
     const setConnectStatus = useSetRecoilState(connectInvoiceAccountStatus);
     const [title, setTitle] = useState('인증 정보를 가져오고 있어요.');
     const [desc, setDesc] = useState('최대 1분 정도 걸릴 수 있어요. 잠시만 기다려주세요.');
-    const [isLoading, setIsLoading] = useRecoilState(isLoadedState);
-    const {close} = useModal(newInvoiceAccountModal);
+    const [isLoading, setIsLoading] = useState<boolean | Promise<boolean>>(false);
     const {alert} = useAlert();
 
     const createInvoiceAccount = (code: string) => {
-        setIsLoading(true);
-        invoiceAccountTimeoutChain(setTitle, setDesc);
+        if (isLoading) return;
 
-        const dto = {
-            code,
-            gmailQueryOptions: getCreateInvoiceAccountFromTo(),
-        };
-        const req = invoiceAccountApi.createV2(orgId, dto);
+        setIsLoading(async (v) => {
+            if (await v) return true;
 
-        req.then((res) => {
-            setConnectStatus(InvoiceAccount.afterLoad);
-        });
+            // isLoading must be false.
+            invoiceAccountTimeoutChain(setTitle, setDesc);
 
-        req.catch((err) => {
-            alert.error('다시 시도해주세요', err.response.data.message);
-            close();
+            const dto = {
+                code,
+                gmailQueryOptions: getCreateInvoiceAccountFromTo(),
+            };
+            const res = await invoiceAccountApi.createV2(orgId, dto).catch((err) => {
+                alert.error('다시 시도해주세요', err.response.data.message);
+                setConnectStatus(InvoiceAccount.beforeLoad);
+                setCode('');
+            });
+
+            if (res) {
+                setConnectStatus(InvoiceAccount.afterLoad);
+            }
+            return true;
         });
     };
 
     useEffect(() => {
-        if (code && !isLoading) createInvoiceAccount(code);
-    }, [code, isLoading]);
+        if (code) createInvoiceAccount(code);
+    }, [code]);
 
     return (
         <div data-step="ConnectGoogleAdmin" className="h-full flex flex-col gap-7 animate-pulse">
