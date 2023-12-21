@@ -14,7 +14,7 @@ export const NewAppModal = memo(() => {
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
             <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
-            <div className="h-full px-5 flex flex-col justify-start gap-20">
+            <div className="px-5 flex flex-col justify-start gap-20">
                 <div className="py-5">
                     <br />
                     <br />
