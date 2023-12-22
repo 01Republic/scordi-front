@@ -8,6 +8,8 @@ import {
 import {SubscriptionStatus} from '^models/Subscription/types';
 import {subscriptionApi} from '^models/Subscription/api';
 import {useCurrentSubscription} from '^models/Subscription/hook';
+import {usePopper} from 'react-popper';
+import {useDropdown} from '^hooks/useDropdown';
 
 interface SubscriptionStatusSelectProps {
     subscription: SubscriptionDto;
@@ -16,6 +18,7 @@ interface SubscriptionStatusSelectProps {
 export const SubscriptionStatusSelect = memo((props: SubscriptionStatusSelectProps) => {
     const [tagName, setTagName] = useState<SubscriptionStatus>();
     const [className, setClassName] = useState<SubscriptionStatus>();
+    const {setSelectEl, setReferenceEl, styles, attributes} = useDropdown();
     const {reload: reloadCurrentApp} = useCurrentSubscription();
 
     const {subscription} = props;
@@ -42,13 +45,20 @@ export const SubscriptionStatusSelect = memo((props: SubscriptionStatusSelectPro
 
     const options = subscriptionStatusOptions();
     return (
-        <div className="dropdown relative fixed-dropdown">
-            <div tabIndex={0} className={`${subscriptionClassName} btn btn-xs border-0 cursor-pointer px-5 m-1`}>
+        <div className="dropdown relative">
+            <div
+                ref={setReferenceEl}
+                tabIndex={0}
+                className={`${subscriptionClassName} btn btn-xs border-0 cursor-pointer px-5 m-1`}
+            >
                 <span className="font-normal">{subscriptionName}</span>
             </div>
             <ul
+                ref={setSelectEl}
+                style={styles.popper}
+                {...attributes.popper}
                 tabIndex={0}
-                className="dropdown-content z-[1] menu py-2 px-5 border shadow bg-base-100 rounded-box absolute top-8 -left-4"
+                className="dropdown-content !z-[1] menu py-2 px-5 border shadow bg-base-100 rounded-box"
             >
                 {options.map((option, i) => (
                     <li
