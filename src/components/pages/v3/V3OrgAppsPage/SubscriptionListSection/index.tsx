@@ -60,7 +60,21 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
                         <ViewModeHandler />
                     </div>
                 </TableSearchControl>
-                {viewMode === SubscriptionListViewMode.Cards && <SubscriptionCardList items={result.items} />}
+                {viewMode === SubscriptionListViewMode.Cards && (
+                    <>
+                        <SubscriptionCardList items={result.items} />
+                        {result.pagination.currentPage < result.pagination.totalPage && (
+                            <div className="flex justify-center">
+                                <div
+                                    onClick={() => movePage(result.pagination.currentPage + 1, true)}
+                                    className="normal-case text-sm py-3 px-4 text-gray-500 hover:text-black transition-all rounded-full cursor-pointer hover:underline underline-offset-2"
+                                >
+                                    더 보기 ({result.pagination.currentPage + 1}/{result.pagination.totalPage})
+                                </div>
+                            </div>
+                        )}
+                    </>
+                )}
                 {viewMode === SubscriptionListViewMode.Table && (
                     <>
                         <SubscriptionTable items={result.items} />
