@@ -1,8 +1,5 @@
-import {memo, useEffect} from 'react';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {subscriptionsState} from '^models/Subscription/atom';
+import {memo} from 'react';
 import {SubscriptionTr} from './SubscriptionTr';
-import {usePayingTypeTags} from '^models/Tag/hook';
 import {SubscriptionDto} from '^models/Subscription/types';
 
 interface SubscriptionTableProps {
@@ -11,39 +8,6 @@ interface SubscriptionTableProps {
 
 export const SubscriptionTable = memo(function SubscriptionTable(props: SubscriptionTableProps) {
     const {items: subscriptions} = props;
-
-    useEffect(() => {
-        const dropdowns = document.querySelectorAll('.dropdown.fixed-dropdown');
-        // const setDropdownPosition = (dropdown: Element) => () => {
-        //     const rect = dropdown.getBoundingClientRect();
-        //     const left = `--pos-l: ${rect.left}px;`;
-        //     const top = `--pos-t: ${rect.bottom}px`;
-        //     dropdown.setAttribute('style', [left, top].join(' '));
-        // };
-        //
-        // dropdowns.forEach((dropdown) => {
-        //     const listener = setDropdownPosition(dropdown);
-        //     dropdown.addEventListener('focus', () => {
-        //         window.addEventListener('scroll', listener);
-        //     });
-        //     dropdown.addEventListener('blur', () => {
-        //         window.removeEventListener('scroll', listener);
-        //     });
-        // });
-        const setDropdownPosition = () => {
-            dropdowns.forEach((dropdown) => {
-                const rect = dropdown.getBoundingClientRect();
-                const left = `--pos-l: ${rect.left}px;`;
-                const top = `--pos-t: ${rect.bottom}px`;
-                dropdown.setAttribute('style', [left, top].join(' '));
-            });
-        };
-
-        window.addEventListener('scroll', setDropdownPosition);
-        return () => {
-            window.removeEventListener('scroll', setDropdownPosition);
-        };
-    }, []);
 
     return (
         <div className="card bg-white shadow">
@@ -63,6 +27,7 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: Subscrip
                             <th className="bg-transparent"></th>
                         </tr>
                     </thead>
+
                     <tbody>
                         {subscriptions.map((subscription, i) => (
                             <SubscriptionTr subscription={subscription} key={i} />
