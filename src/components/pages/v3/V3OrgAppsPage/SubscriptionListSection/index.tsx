@@ -79,7 +79,14 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
 
             <section>
                 {viewMode === SubscriptionListViewMode.Cards && <SubscriptionCardList items={result.items} />}
-                {viewMode === SubscriptionListViewMode.Table && <SubscriptionTable items={result.items} />}
+                {viewMode === SubscriptionListViewMode.Table && (
+                    <>
+                        <SubscriptionTable items={result.items} />
+                        <div className="flex justify-center">
+                            <TablePaginator pagination={result.pagination} movePage={movePage} />
+                        </div>
+                    </>
+                )}
             </section>
         </>
     );
