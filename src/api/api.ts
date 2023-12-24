@@ -1,4 +1,4 @@
-import axios, {AxiosError} from 'axios';
+import axios, {AxiosError, AxiosRequestConfig, HeadersDefaults} from 'axios';
 import Qs from 'qs';
 import {UserLoginPageRoute} from '^pages/users/login';
 import {UserSignUpPageRoute} from '^pages/users/signup';
@@ -7,6 +7,7 @@ import {ProductListPageRoute} from '^pages/products';
 import {ProductDetailPageRoute} from '^pages/products/[id]';
 import {PostListPageRoute} from '^pages/posts';
 import {PostDetailPageRoute} from '^pages/posts/[id]';
+import {appEnv} from '^config/environments';
 
 export const SIGNED_TOKEN_STORAGE_KEY = 'token';
 export const getToken = () => typeof window !== 'undefined' && localStorage.getItem(SIGNED_TOKEN_STORAGE_KEY);
@@ -49,6 +50,32 @@ const IgnoreSignCheckPagePathList = () => [
     PostDetailPageRoute.pathname,
 ];
 
+function printRequest(config: AxiosRequestConfig<any>, singleLine = true) {
+    const headers = config.headers as unknown as HeadersDefaults;
+    // @ts-ignore
+    const jwtHeader = headers.Authorization as string | undefined;
+    const host = config.baseURL || '';
+    const method = config.method?.toUpperCase() || '';
+    const path = config.url || '';
+    const query = config.params || {};
+
+    const prefix = `(${host}) ${jwtHeader ? '🔑' : ''} | \t`;
+    const lineFor = (name: string) => `\n${prefix} ${name}: `;
+
+    const lines: any[][] = [];
+
+    // 1st line.
+    if (singleLine) {
+        lines.push([prefix, `${method} ${path}`, query]);
+        console.log(...lines.flat());
+        return;
+    } else {
+        lines.push([prefix, `${method} ${path}`]);
+        lines.push([lineFor('Query'), query]);
+        console.log(...lines.flat());
+    }
+}
+
 api.interceptors.request.use((config) => {
     // Middleware 1. Token Header Handler
     const token = getToken();
@@ -64,6 +91,10 @@ api.interceptors.request.use((config) => {
             arrayFormat: 'brackets',
             encode: false,
         });
+
+    if (['development', 'staging'].includes(appEnv)) {
+        printRequest(config, true);
+    }
 
     return config;
 });
