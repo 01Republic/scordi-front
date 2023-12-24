@@ -13,15 +13,19 @@ import {
     SubscriptionStatus,
 } from './columns';
 import {useAppShowModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
+import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
 interface SubscriptionTrProps {
     subscription: SubscriptionDto;
+    reload?: () => any;
+    // search?: (params: FindAllQueryDto<SubscriptionDto>, mergeMode?: boolean, force?: boolean) => Promise<void>;
+    // query?: FindAllQueryDto<SubscriptionDto>;
 }
 
 export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
     const appShowModal = useAppShowModal();
-    const {subscription} = props;
+    const {subscription, reload} = props;
 
     const BillingHistory = BillingHistoryManager.init(subscription.billingHistories || []);
     const latestIssue = BillingHistory.paymentOnly().latestIssue();
@@ -44,12 +48,7 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
                 <ProductProfile subscription={subscription} />
             </td>
             <td className="text-center">
-                <SubscriptionStatus
-                    subscription={subscription}
-                    lastPaidAt={lastPaidAt}
-                    nextPayDate={nextPayDate}
-                    nextPayAmount={nextPayAmount}
-                />
+                <SubscriptionStatus subscription={subscription} onChange={() => reload && reload()} />
             </td>
             <td className="">
                 <MasterProfile subscription={subscription} />

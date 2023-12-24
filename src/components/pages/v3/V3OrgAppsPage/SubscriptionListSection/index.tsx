@@ -1,20 +1,18 @@
 import React, {memo, useEffect} from 'react';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {debounce} from 'lodash';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
+import {usePayingTypeTags} from '^models/Tag/hook';
+import {useSubscriptionsV2} from '^models/Subscription/hook';
+import {TablePaginator} from '^v3/share/table/TablePaginator';
 import {SubscriptionListViewMode, subscriptionListViewModeState} from './atom';
 import {SubscriptionTable} from './SubscriptionTable';
 import {SubscriptionCardList} from './SubscriptionCardList';
-import {useSubscriptionsV2} from '^models/Subscription/hook';
-import {orgIdParamState} from '^atoms/common';
-import {tagOptionsState} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/PayingType/PayingTypeSelect';
-import {usePayingTypeTags} from '^models/Tag/hook';
-import {TablePaginator} from '^v3/share/table/TablePaginator';
-import {TableSearchControl} from '^v3/share/table/TableSearchControl';
-import {ViewModeHandler} from '^v3/V3OrgAppsPage/SubscriptionListSection/ViewModeHandler';
+import {SubscriptionSearchControl} from './SubscriptionSearchControl';
+import {tagOptionsState} from './SubscriptionTable/SubscriptionTr/columns/PayingType/PayingTypeSelect';
 
 export const SubscriptionListSection = memo(function SubscriptionListSection() {
     const orgId = useRecoilValue(orgIdParamState);
-    const {result, search: getSubscriptions, movePage, query} = useSubscriptionsV2();
+    const {result, search: getSubscriptions, movePage, query, reload} = useSubscriptionsV2();
     const setTagOptions = useSetRecoilState(tagOptionsState);
     const {search: getTags} = usePayingTypeTags();
     const viewMode = useRecoilValue(subscriptionListViewModeState);
@@ -32,22 +30,6 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
         getTags({}).then((res) => setTagOptions(res.items));
     }, [orgId]);
 
-    const onSearch = debounce((keyword: string) => {
-        if (!query) return;
-
-        const searchQuery = {
-            ...query,
-            keyword,
-            page: 1,
-        };
-        if (!keyword) {
-            // @ts-ignore
-            delete searchQuery['keyword'];
-        }
-
-        getSubscriptions(searchQuery);
-    }, 500);
-
     return (
         <>
             <section className="flex items-center mb-4">
@@ -55,11 +37,7 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
             </section>
 
             <section className="flex flex-col gap-4">
-                <TableSearchControl size="sm" totalItemCount={result.pagination.totalItemCount} onSearch={onSearch}>
-                    <div className="ml-auto mr-4">
-                        <ViewModeHandler />
-                    </div>
-                </TableSearchControl>
+                <SubscriptionSearchControl />
                 {viewMode === SubscriptionListViewMode.Cards && (
                     <>
                         <SubscriptionCardList items={result.items} />
@@ -77,7 +55,12 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
                 )}
                 {viewMode === SubscriptionListViewMode.Table && (
                     <>
-                        <SubscriptionTable items={result.items} />
+                        <SubscriptionTable
+                            items={result.items}
+                            reload={reload}
+                            search={getSubscriptions}
+                            query={query}
+                        />
                         <div className="flex justify-center">
                             <TablePaginator pagination={result.pagination} movePage={movePage} />
                         </div>

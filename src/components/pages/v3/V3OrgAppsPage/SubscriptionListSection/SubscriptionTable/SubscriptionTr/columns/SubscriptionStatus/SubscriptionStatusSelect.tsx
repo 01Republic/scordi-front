@@ -1,4 +1,4 @@
-import {memo, useEffect, useState} from 'react';
+import {memo} from 'react';
 import {
     c_SubscriptionStatus,
     SubscriptionDto,
@@ -7,51 +7,41 @@ import {
 } from '^models/Subscription/types';
 import {SubscriptionStatus} from '^models/Subscription/types';
 import {subscriptionApi} from '^models/Subscription/api';
-import {useCurrentSubscription} from '^models/Subscription/hook';
-import {usePopper} from 'react-popper';
 import {useDropdown} from '^hooks/useDropdown';
+import {useToast} from '^hooks/useToast';
 
 interface SubscriptionStatusSelectProps {
     subscription: SubscriptionDto;
+    onChange: (value: SubscriptionStatus) => any;
 }
 
 export const SubscriptionStatusSelect = memo((props: SubscriptionStatusSelectProps) => {
-    const [tagName, setTagName] = useState<SubscriptionStatus>();
-    const [className, setClassName] = useState<SubscriptionStatus>();
+    const {toast} = useToast();
     const {setSelectEl, setReferenceEl, styles, attributes} = useDropdown();
-    const {reload: reloadCurrentApp} = useCurrentSubscription();
-
-    const {subscription} = props;
+    const {subscription, onChange} = props;
 
     if (!subscription) return <></>;
 
-    const subscriptionName = tagName && t_SubscriptionStatus(tagName);
-    const subscriptionClassName = className && c_SubscriptionStatus(className);
-
-    useEffect(() => {
-        setTagName(subscription.status);
-        setClassName(subscription.status);
-    }, []);
-
-    const onChange = (status: SubscriptionStatus) => {
-        setTagName(status);
-        setClassName(status);
+    const onClick = (status: SubscriptionStatus) => {
+        if (status == subscription.status) return;
 
         // 구독 업데이트 api
-        subscriptionApi.update(subscription.id, {status: status});
-
-        reloadCurrentApp();
+        subscriptionApi
+            .update(subscription.id, {status: status})
+            .then(() => onChange(status))
+            .finally(() => toast.success('수정했습니다'));
     };
 
     const options = subscriptionStatusOptions();
+
     return (
         <div className="dropdown relative">
             <div
                 ref={setReferenceEl}
                 tabIndex={0}
-                className={`${subscriptionClassName} btn btn-xs border-0 cursor-pointer px-5 m-1`}
+                className={`${c_SubscriptionStatus(subscription.status)} btn btn-xs border-0 cursor-pointer px-5 m-1`}
             >
-                <span className="font-normal">{subscriptionName}</span>
+                <span className="font-normal">{t_SubscriptionStatus(subscription.status)}</span>
             </div>
             <ul
                 ref={setSelectEl}
@@ -62,7 +52,7 @@ export const SubscriptionStatusSelect = memo((props: SubscriptionStatusSelectPro
             >
                 {options.map((option, i) => (
                     <li
-                        onClick={() => onChange(option.status)}
+                        onClick={() => onClick(option.status)}
                         value={option.status}
                         className="border-0 cursor-pointer mb-1"
                         key={i}
