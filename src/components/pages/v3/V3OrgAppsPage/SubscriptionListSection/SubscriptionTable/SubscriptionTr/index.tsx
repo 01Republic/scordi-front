@@ -47,11 +47,9 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
             <td className="group cursor-pointer" onClick={openDetail}>
                 <ProductProfile subscription={subscription} />
             </td>
+            {/*<td></td>*/}
             <td className="text-center">
                 <SubscriptionStatus subscription={subscription} onChange={() => reload && reload()} />
-            </td>
-            <td className="">
-                <MasterProfile subscription={subscription} />
             </td>
             <td className="text-center">
                 <PayingType subscription={subscription} />
@@ -64,6 +62,9 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
             </td>
             <td className="text-right">
                 <NextPaymentDate nextPayDate={nextPayDate} />
+            </td>
+            <td className="">
+                <MasterProfile subscription={subscription} />
             </td>
             <td></td>
         </tr>
