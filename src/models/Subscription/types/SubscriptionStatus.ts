@@ -24,6 +24,8 @@ export function t_SubscriptionStatus(status: SubscriptionStatus) {
             return '일시 정지';
         case SubscriptionStatus.CANCELED:
             return '구독 취소';
+        default:
+            return status;
     }
 }
 
@@ -43,6 +45,8 @@ export function c_SubscriptionStatus(status: SubscriptionStatus) {
             return 'bg-sky-200';
         case SubscriptionStatus.CANCELED:
             return 'bg-orange-200';
+        default:
+            return 'bg-gray-100';
     }
 }
 

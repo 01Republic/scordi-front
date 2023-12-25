@@ -43,29 +43,49 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
 
     return (
         <tr>
+            {/* Checkbox */}
             {/*<td></td>*/}
+
+            {/* 서비스 명 */}
             <td className="group cursor-pointer" onClick={openDetail}>
                 <ProductProfile subscription={subscription} />
             </td>
             {/*<td></td>*/}
-            <td className="text-center">
+
+            {/* 상태 */}
+            <td className="">
                 <SubscriptionStatus subscription={subscription} onChange={() => reload && reload()} />
             </td>
-            <td className="text-center">
-                <PayingType subscription={subscription} />
+
+            {/* 결제주기 */}
+            <td></td>
+
+            {/* 과금방식: (TestBank: 연, 고정, 사용량, 크레딧, 1인당) */}
+            <td className="">
+                <PayingType subscription={subscription} onChange={() => reload && reload()} />
             </td>
+
+            {/* 사용인원 */}
             <td className="text-right">
                 <MemberCount subscription={subscription} />
             </td>
+
+            {/* 최신 결제금액 */}
             <td className="text-right">
                 <LatestPayAmount latestBillingHistory={lastPaidHistory} />
             </td>
+
+            {/* 다음 결제일 */}
             <td className="text-right">
                 <NextPaymentDate nextPayDate={nextPayDate} />
             </td>
+
+            {/* 담당자 */}
             <td className="">
                 <MasterProfile subscription={subscription} />
             </td>
+
+            {/* Actions */}
             <td></td>
         </tr>
     );

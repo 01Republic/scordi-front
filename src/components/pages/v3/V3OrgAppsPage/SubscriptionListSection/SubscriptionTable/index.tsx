@@ -34,6 +34,7 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
                 <table className="table w-full">
                     <thead className="top-[50px]">
                         <tr className="text-gray-500">
+                            {/* Checkbox */}
                             {/*<th className="bg-transparent"></th>*/}
                             <SortableTH sortKey="[product][nameKo]" onClick={sort}>
                                 서비스 명
@@ -42,8 +43,12 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
                             <SortableTH sortKey="[status]" onClick={sort}>
                                 <span className="pl-[8px]">상태</span>
                             </SortableTH>
-
-                            <SortableTH className="text-center">과금 방식</SortableTH>
+                            <SortableTH className="">
+                                <span className="pl-[8px]">결제주기</span>
+                            </SortableTH>
+                            <SortableTH className="">
+                                <span className="pl-[8px]">과금방식</span>
+                            </SortableTH>
                             {/* 태그들로 표시해 줄 것: 연, 고정, 사용량, 크레딧, 1인당 */}
                             <SortableTH onClick={sort} className="text-right">
                                 사용인원
@@ -51,6 +56,8 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
                             <SortableTH className="text-right">최신 결제금액</SortableTH>
                             <SortableTH className="text-right">다음 결제일</SortableTH>
                             <SortableTH>담당자</SortableTH>
+
+                            {/* Actions */}
                             <th className="bg-transparent"></th>
                         </tr>
                     </thead>
