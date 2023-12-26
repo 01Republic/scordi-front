@@ -62,7 +62,8 @@ export const useTags = (group: TagGroup) => {
 };
 
 export const useProductTags = () => useTags(TagGroup.Product);
-export const usePayingTypeTags = () => useTags(TagGroup.Subscription);
+export const usePayingTypeTags = () => useTags(TagGroup.RecurringType);
+export const useBillingCycleTags = () => useTags(TagGroup.BillingCycle);
 
 export const useTagMultiSelect = (params: TagMultiSelectParams) => {
     const {componentControl, hooks} = params;
