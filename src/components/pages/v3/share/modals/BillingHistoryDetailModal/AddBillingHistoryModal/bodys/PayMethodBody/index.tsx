@@ -5,19 +5,21 @@ import {
     PayMethodComponents,
     selectStylesOptions,
 } from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/PayMethodBody/selectOpions';
-import {useForm} from 'react-hook-form';
+import {UseFormReturn} from 'react-hook-form';
 import {useCreditCardsOfOrganization} from '^models/CreditCard/hook';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {useSetRecoilState} from 'recoil';
-import {AddBillingHistory, AddBillingHistoryState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
+import {AddBillingHistoryState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {FormControl} from '^components/util/form-control';
-import {useModal} from '^v3/share/modals';
-import {inputCardNumberModal} from '^v3/V3OrgCardListPage/modals/CardNumberModal/atom';
+import {CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 
-export const PayMethodBody = memo(() => {
-    const form = useForm();
+interface PayMethodBodyProps {
+    form: UseFormReturn<CreateBillingHistoryRequestDto>;
+}
+export const PayMethodBody = memo((props: PayMethodBodyProps) => {
     const {CreditCard} = useCreditCardsOfOrganization(true);
     const setAddBillingHistoryState = useSetRecoilState(AddBillingHistoryState);
+    const {form} = props;
 
     // string 또는 string[] -> option 형태로 변경시켜주는 함수
     const getOption = (options: string | string[]) => {
@@ -54,12 +56,8 @@ export const PayMethodBody = memo(() => {
             .filter(Boolean);
     };
 
-    const onNext = () => {
-        setAddBillingHistoryState(AddBillingHistory.Account);
-    };
-
     return (
-        <section className="flex flex-col gap-5">
+        <>
             {/*현재는 선택 option 카드뿐이라 주식 처리*/}
             <div className="hidden">
                 <FormControl topLeftLabel="결제 수단">
@@ -72,11 +70,13 @@ export const PayMethodBody = memo(() => {
             </div>
 
             <FormControl topLeftLabel="어떤 카드로 결제하셨나요?">
+                <input className="hidden" {...form.register('creditCardId')} />
                 <Select
                     placeholder="카드 선택하기"
                     components={CardComponents()}
                     styles={selectStylesOptions}
                     options={getCreditCard(CreditCard?.list || [])}
+                    onChange={(e) => form.setValue('creditCardId', e.id)}
                 />
             </FormControl>
 
@@ -84,14 +84,9 @@ export const PayMethodBody = memo(() => {
                 <input
                     type="datetime-local"
                     className="input input-bordered w-full text-sm font-semibold text-neutral-500"
+                    {...form.register('paidAt')}
                 />
             </FormControl>
-
-            <div className="fixed bottom-0 left-0 px-5 py-5 w-full">
-                <button onClick={onNext} className="btn-modal w-full">
-                    다음
-                </button>
-            </div>
-        </section>
+        </>
     );
 });
