@@ -130,7 +130,13 @@ export enum BillingHistoryStatus {
 export class CreateBillingHistoryRequestDto {
     paidAt!: Date; // 결제일시
     payAmount!: CreateMoneyRequestDto; // 결제금액
-    invoiceUrl?: string | null; // 인보이스(파일) 주소
+    uid?: string; // 결제 승인 번호 / 인보이스 번호 등 결제 관련 고유 번호
+    creditCardId!: number; // 결제에 사용된 카드 ID
+    invoiceUrl?: string; // 인보이스(파일) 주소
+    memo?: string; // 메모
+    isDomestic?: boolean; // 국내/해외 결제 여부
+    isVATDeductible?: boolean; // 공제/불공제 여부
+    vat?: CreateMoneyRequestDto; // 부과세
 }
 
 interface Type<T = any> extends Function {
