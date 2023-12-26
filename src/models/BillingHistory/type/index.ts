@@ -1,5 +1,5 @@
 import {TypeCast} from '^types/utils/class-transformer';
-import {CreateMoneyRequestDto, Currency, CurrencyList, MoneyDto} from '^types/money.type';
+import {CreateMoneyRequestDto, CurrencyCode, CurrencyList, MoneyDto} from '^types/money.type';
 import {OrganizationDto} from '^models/Organization/type';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {InvoiceAppDto} from '^models/InvoiceApp/type';
@@ -97,7 +97,7 @@ export class BillingHistoryDto {
         return content instanceof Array ? content : [content];
     }
 
-    getPriceIn(currencyCode = Currency.KRW) {
+    getPriceIn(currencyCode = CurrencyCode.KRW) {
         if (!this.payAmount) return 0;
         // 얻으려는 화폐와 기록된 화폐가 같으면 그대로 가격을 반환하고
         if (this.payAmount.code === currencyCode) return this.payAmount.amount;

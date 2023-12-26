@@ -1,24 +1,33 @@
 import {plainToInstance} from 'class-transformer';
 
-export enum Currency {
-    VND = 'VND',
-    USD = 'USD',
-    KRW = 'KRW',
+export enum CurrencyCode {
+    USD = 'USD', // 미국 달러
+    KRW = 'KRW', // 한국 원
+    EUR = 'EUR', // 유럽 유로
+    GBP = 'GBP', // 영국 파운드 스털링
+    CAD = 'CAD', // 캐나다 달러
+    CNY = 'CNY', // 중국 위안
+    JPY = 'JPY', // 일본 엔
+    VND = 'VND', // 베트남 동
+    ARS = 'ARS', // 아르헨티나 페소
+    INR = 'INR', // 인도 루피
+    TWD = 'TWD', // 대만 달러
 }
 
 export const CurrencyList = {
-    en: {code: Currency.USD, symbol: '$', format: '%u%n', exchangeRate: 1},
-    ko: {code: Currency.KRW, symbol: '₩', format: '%u%n', exchangeRate: 1300},
-    vn: {code: Currency.VND, symbol: '₫', format: '%u%n', exchangeRate: 1},
+    en: {code: CurrencyCode.USD, symbol: '$', format: '%u%n', exchangeRate: 1},
+    ko: {code: CurrencyCode.KRW, symbol: '₩', format: '%u%n', exchangeRate: 1300},
+    vn: {code: CurrencyCode.VND, symbol: '₫', format: '%u%n', exchangeRate: 1},
 } as const;
 
 export class MoneyDto {
     text: string; // 금액 관련 원본 텍스트
     format: string; // 원본 문자열 형식
     amount: number; // 금액
-    code: Currency; // 화폐 코드
+    code: CurrencyCode; // 화폐 코드
     symbol: string; // 화폐 기호
-    exchangeRate: number; // 달러 환율
+    exchangeRate: number; // 환율
+    exchangedCurrency: CurrencyCode; // 환율 기준 화폐 코드
 
     static dup(base: MoneyDto) {
         return plainToInstance(MoneyDto, base);
@@ -40,7 +49,7 @@ export class MoneyDto {
     }
 
     isDomestic() {
-        return this.code === Currency.KRW;
+        return this.code === CurrencyCode.KRW;
     }
 
     isNotDomestic() {
@@ -56,8 +65,9 @@ export class MoneyDto {
 export type CreateMoneyRequestDto = {
     text: string; // 금액 관련 원본 텍스트
     amount: number; // 금액
-    code: Currency; // 화폐 코드
-    exchangeRate: number; // 달러 대비 환율
+    code: CurrencyCode; // 화폐 코드
+    exchangeRate: number; // 환율
+    exchangedCurrency: CurrencyCode; // 환율 기준 화폐 코드
 };
 
 export type MoneyLike = Pick<MoneyDto, 'text' | 'format' | 'amount' | 'code' | 'symbol' | 'exchangeRate'>;
