@@ -8,6 +8,9 @@ import {getTotalBalance} from '^components/pages/LandingPages/TastingPage/hooks/
 import {useRouter} from 'next/router';
 import {BillingHistoryManager} from '^models/BillingHistory/manager';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
+import {BsPlusCircle} from 'react-icons/bs';
+import {addBillingHistoryShowModal} from '^v3/share/modals/BillingHistoryDetailModal/atom';
+import {useModal} from '^v3/share/modals';
 
 interface BillingHistorySummaryProps {
     billingHistories: BillingHistoryDto[];
@@ -18,6 +21,7 @@ export const BillingHistorySummary = memo((props: BillingHistorySummaryProps) =>
     const {billingHistories} = props;
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
     const {t} = useTranslation('org-home');
+    const {open} = useModal(addBillingHistoryShowModal);
 
     dayjs.locale(router.locale);
 
@@ -27,7 +31,15 @@ export const BillingHistorySummary = memo((props: BillingHistorySummaryProps) =>
 
     return (
         <>
-            <p className="font-semibold mb-3" dangerouslySetInnerHTML={{__html: t('result_in_since_n_ago', {since})}} />
+            <div className="flex justify-between">
+                <p
+                    className="font-semibold mb-3"
+                    dangerouslySetInnerHTML={{__html: t('result_in_since_n_ago', {since})}}
+                />
+                <button onClick={open} className="relative text-indigo-400 hover:text-indigo-600 transition-all">
+                    <BsPlusCircle className="" size={24} strokeWidth={0.3} />
+                </button>
+            </div>
 
             <div className="flex items-center justify-around pb-6">
                 <div className="text-center">

@@ -167,3 +167,25 @@ export type GetBillingHistoriesParams = FindAllQueryDto<BillingHistoryDto> &
     StartEndParams &
     StatusParams &
     IsActiveSubsParams;
+
+export type UpdateBillingHistoryDto = {
+    paidAt: string;
+    payAmount: {
+        text: string;
+        amount: 0;
+        code: string;
+        exchangeRate: 0;
+        exchangedCurrency: string;
+    };
+    invoiceUrl?: {};
+    memo?: string;
+    isDomestic: true;
+    isVATDeductible: true;
+    vat?: {
+        text: string;
+        amount: 0;
+        code: string;
+        exchangeRate: 0;
+        exchangedCurrency: string;
+    };
+};

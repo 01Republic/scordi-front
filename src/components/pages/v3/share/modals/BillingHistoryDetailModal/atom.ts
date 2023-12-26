@@ -1,6 +1,6 @@
 import {atom} from 'recoil';
 import {Paginated} from '^types/utils/paginated.dto';
-import {BillingHistoryDto} from '^models/BillingHistory/type';
+import {BillingHistoryDto, UpdateBillingHistoryDto} from '^models/BillingHistory/type';
 
 /**
  * 결제내역 상세모달 상태
@@ -36,4 +36,34 @@ export const billingHistoryPagedStateInShowModal = atom<Paginated<BillingHistory
             itemsPerPage: 30,
         },
     },
+});
+
+/**
+ * 결제내역추가 모달 상태
+ */
+export const addBillingHistoryShowModal = {
+    isShowAtom: atom({
+        key: 'v3/addBillingHistoryShowModal/IsShow',
+        default: false,
+    }),
+    popStateSyncKey: 'addBillingHistoryShowModal',
+};
+
+/**
+ * 결제내역추가 진행 상태
+ */
+export enum AddBillingHistory {
+    PayMethod,
+    Account,
+    DetailInfo,
+}
+
+export const AddBillingHistoryState = atom<AddBillingHistory>({
+    key: 'AddBillingHistoryState',
+    default: AddBillingHistory.PayMethod,
+});
+
+export const UpdateBillinghistoryState = atom<UpdateBillingHistoryDto>({
+    key: 'UpdateBillinghistoryState',
+    default: {} as UpdateBillingHistoryDto,
 });
