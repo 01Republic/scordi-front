@@ -1,6 +1,6 @@
 import {atom} from 'recoil';
 import {Paginated} from '^types/utils/paginated.dto';
-import {BillingHistoryDto, UpdateBillingHistoryDto} from '^models/BillingHistory/type';
+import {BillingHistoryDto, CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 
 /**
  * 결제내역 상세모달 상태
@@ -54,7 +54,7 @@ export const addBillingHistoryShowModal = {
  */
 export enum AddBillingHistory {
     PayMethod,
-    Account,
+    Amount,
     DetailInfo,
 }
 
@@ -63,7 +63,7 @@ export const AddBillingHistoryState = atom<AddBillingHistory>({
     default: AddBillingHistory.PayMethod,
 });
 
-export const UpdateBillinghistoryState = atom<UpdateBillingHistoryDto>({
-    key: 'UpdateBillinghistoryState',
-    default: {} as UpdateBillingHistoryDto,
+export const CreateBillingHistoryState = atom<CreateBillingHistoryRequestDto>({
+    key: 'CreateBillingHistoryState',
+    default: {} as CreateBillingHistoryRequestDto,
 });

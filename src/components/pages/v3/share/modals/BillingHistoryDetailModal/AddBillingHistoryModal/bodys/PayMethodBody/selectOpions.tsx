@@ -55,7 +55,6 @@ export const CardComponents = () => {
     const MenuList = (props: MenuListProps<any>) => {
         const {open} = useModal(inputCardNumberModal);
         const onClick = () => {
-            console.log('실행');
             open();
         };
 
