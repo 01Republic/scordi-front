@@ -67,3 +67,27 @@ export const CreateBillingHistoryState = atom<CreateBillingHistoryRequestDto>({
     key: 'CreateBillingHistoryState',
     default: {} as CreateBillingHistoryRequestDto,
 });
+
+/**
+ * 화폐 선택 모달 상태
+ */
+export const currencySelectShowModal = {
+    isShowAtom: atom({
+        key: 'v3/currencySelectShowModal/IsShow',
+        default: false,
+    }),
+    popStateSyncKey: 'currencySelectShowModal',
+};
+
+/**
+ * 화폐 선택 state
+ */
+
+type CurrencyType = {
+    label: string;
+    desc: string;
+};
+export const selectedCurrencyState = atom<CurrencyType>({
+    key: 'selectedCurrencyState',
+    default: {label: 'USD', desc: 'United States Dollar'},
+});
