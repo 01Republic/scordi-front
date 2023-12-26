@@ -25,7 +25,7 @@ export const connectInvoiceAccountStatus = atom<ConnectInvoiceAccount>({
     default: ConnectInvoiceAccount.ConnectInvoiceAccount_BeforeLoad,
 });
 
-export const connectInvoiceAccountCodeAtom = atom<string | null>({
-    key: 'connectInvoiceAccountCodeAtom',
+export const connectInvoiceAccountCodeState = atom<string | null>({
+    key: 'connectInvoiceAccountAtom',
     default: null,
 });
