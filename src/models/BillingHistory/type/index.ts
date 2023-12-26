@@ -9,6 +9,8 @@ import {BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {IsActiveSubsParams, StartEndParams} from '^types/billing.type';
 
+export * from './create-billing-history.request.dto.v2';
+
 // 쿼리가 가능한 엔티티. (dto 와 entity 의 형태 차이가 좀 있음)
 export class BillingHistoryDto {
     get sortKey() {
@@ -17,47 +19,40 @@ export class BillingHistoryDto {
 
     id: number; // ID
     uid: string | null; // UID
+    emailOriginId: string | null; // Email origin ID
     organizationId: number; // 조직 ID
     subscriptionId: number | null; // 구독정보 ID
     invoiceAppId: number | null; // 인보이스 앱 ID
-    creditCardId: number | null; // 결제에 사용된 카드 ID
-
-    @TypeCast(() => Date)
-    issuedAt: Date; // 인보이스 발행 일시
-
-    @TypeCast(() => Date)
-    lastRequestedAt: Date | null; // 최근 결제 요청 일시
-
-    @TypeCast(() => Date)
-    paidAt: Date | null; // 결제 완료 일시
-
-    @TypeCast(() => MoneyDto)
-    payAmount: MoneyDto | null; // 결제금액
-
+    creditCardId?: number | null; // 결제에 사용된 카드 ID
+    @TypeCast(() => Date) issuedAt: Date; // 인보이스 발행 일시
+    @TypeCast(() => Date) lastRequestedAt: Date | null; // 최근 결제 요청 일시
+    @TypeCast(() => Date) paidAt: Date | null; // 결제 완료 일시
+    @TypeCast(() => MoneyDto) payAmount: MoneyDto | null; // 결제금액
     paymentMethod: string; // 결제수단
+    memo: string | null; // 메모
     // isSuccess: boolean; // 결제완료여부
-    invoiceUrl?: string | null; // 인보이스(파일) 주소
 
-    @TypeCast(() => Date)
-    createdAt: Date; // 생성일시
+    /**
+     * 인보이스 트래커 관련
+     */
+    invoiceUrl: string | null; // 인보이스(파일) 주소
+    @TypeCast(() => GmailParsedItem) emailContent: GmailParsedItem | null; // email content
 
-    @TypeCast(() => Date)
-    updatedAt: Date; // 수정일시
-
-    @TypeCast(() => OrganizationDto)
-    organization?: OrganizationDto; // 조직
-
-    @TypeCast(() => SubscriptionDto)
-    subscription: SubscriptionDto; // 구독정보
-    invoiceApp?: InvoiceAppDto; // 인보이스 앱
-    @TypeCast(() => CreditCardDto)
-    creditCard: CreditCardDto;
-
-    @TypeCast(() => GmailParsedItem)
-    emailContent: GmailParsedItem | null; // email content
+    /**
+     * 카드내역 관련
+     */
+    isDomestic: boolean | null; // 국내/해외 결제 여부
+    isVATDeductible: boolean | null; // 공제/불공제 여부
+    @TypeCast(() => MoneyDto) vat: MoneyDto | null; // 부가세
+    @TypeCast(() => Date) createdAt: Date; // 생성일시
+    @TypeCast(() => Date) updatedAt: Date; // 수정일시
+    @TypeCast(() => OrganizationDto) organization?: OrganizationDto; // 조직
+    @TypeCast(() => SubscriptionDto) subscription?: SubscriptionDto; // 구독정보
+    @TypeCast(() => InvoiceAppDto) invoiceApp?: InvoiceAppDto; // 인보이스 앱
+    @TypeCast(() => CreditCardDto) creditCard?: CreditCardDto | null; // 결제 카드
 
     getServiceName() {
-        return this.subscription.product.name();
+        return this.subscription?.product.name();
     }
 
     get pageSubject() {
@@ -70,7 +65,7 @@ export class BillingHistoryDto {
         if (this.emailContent) return this.emailContent.title;
 
         const serviceName = this.getServiceName();
-        const cycleTerm = this.subscription.getCycleTerm();
+        const cycleTerm = this.subscription?.getCycleTerm() || null;
         const term =
             {
                 [BillingCycleTerm.yearly]: () => `${this.issuedAt.getFullYear()}년 결제분`,
@@ -108,12 +103,12 @@ export class BillingHistoryDto {
     }
 
     getCreditCard() {
-        return this.creditCardId === this.subscription.creditCardId ? this.subscription.creditCard : this.creditCard;
+        return this.creditCardId === this.subscription?.creditCardId ? this.subscription?.creditCard : this.creditCard;
     }
 
     getPaymentMethod() {
         const creditCard = this.getCreditCard();
-        return this.subscription.creditCard?.label ?? this.paymentMethod;
+        return this.subscription?.creditCard?.label ?? this.paymentMethod;
     }
 }
 

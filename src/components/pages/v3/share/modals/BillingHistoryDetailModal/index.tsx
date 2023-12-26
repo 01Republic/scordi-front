@@ -41,7 +41,7 @@ export const BillingHistoryDetailModal = memo(() => {
                                 )
                             ) : (
                                 <div>
-                                    <PrototypeAvatar proto={billingHistory.subscription.product} />
+                                    <PrototypeAvatar proto={billingHistory.subscription?.product} />
                                     <HeadingPrice price={billingHistory.payAmount} />
 
                                     <MobileInfoList>
