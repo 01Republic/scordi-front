@@ -16,6 +16,7 @@ interface SelectColumnProps<T> {
     onSelect: (option: T) => Promise<any>;
     onCreate?: (keyword: string) => Promise<any>;
     ValueComponent?: ValueComponent<T>;
+    EmptyComponent?: () => JSX.Element;
     valueOfOption?: (option: T) => any;
     contentMinWidth?: string;
     optionListBoxTitle?: string;
@@ -31,7 +32,15 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
 
     const [focusableIndex, setFocusableIndex] = useState<number>(0);
     const [options, setOptions] = useState<T[]>([]);
-    const {value, ValueComponent, getOptions, valueOfOption = (v) => v, onSelect, onCreate} = props;
+    const {
+        value,
+        ValueComponent = (p: {value: T | string}) => <TagUI>{`${p.value}`}</TagUI>,
+        EmptyComponent = () => <TagUI className="text-gray-300">비어있음</TagUI>,
+        getOptions,
+        valueOfOption = (v) => v,
+        onSelect,
+        onCreate,
+    } = props;
     const {inputDisplay = true, contentMinWidth = '300px', optionListBoxTitle = '옵션 선택 또는 생성'} = props;
 
     const refreshOptions = () => {
@@ -60,7 +69,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
         closeDropdown();
     };
 
-    const ValueUI = ValueComponent || ((p: {value: T | string}) => <TagUI>{`${p.value}`}</TagUI>);
+    // const ValueUI = ValueComponent || ((p: {value: T | string}) => <TagUI>{`${p.value}`}</TagUI>);
 
     return (
         <div className="dropdown relative w-full">
@@ -70,7 +79,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
                 tabIndex={0}
                 className="cursor-pointer flex py-[6px] px-[8px]"
             >
-                {value ? <ValueUI value={value} /> : <div className="h-[20px] w-full inline-block" />}
+                {value ? <ValueComponent value={value} /> : <EmptyComponent />}
             </div>
 
             <div
@@ -89,7 +98,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
                             getOptions(keyword).then(setOptions);
                         }}
                     >
-                        {value && <ValueUI value={value} />}
+                        {value && <ValueComponent value={value} />}
                     </InputContainer>
                 )}
 
@@ -118,13 +127,13 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
                                     data-focusable="true"
                                 >
                                     <div
-                                        className={`flex rounded-[4px] items-center pt-[2px] px-[10px] pb-0 min-h-[28px] ${
+                                        className={`flex rounded-[4px] bg-white text-inherit items-center pt-[2px] px-[10px] pb-0 min-h-[28px] ${
                                             !isCurrent
-                                                ? 'group-hover:bg-gray-300 group-hover:bg-opacity-30'
+                                                ? 'group-hover:bg-gray-300 group-hover:bg-opacity-30 active:bg-gray-200'
                                                 : '!bg-opacity-0'
                                         }`}
                                     >
-                                        <ValueUI key={i} value={option} />
+                                        <ValueComponent key={i} value={option} />
                                         <div className="ml-auto">{isCurrent && <FcCheckmark />}</div>
                                     </div>
                                 </li>
@@ -133,7 +142,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
 
                         {onCreate && searchKeyword && !options.find((o) => valueOfOption(o) === searchKeyword) && (
                             <CreatableItem onClick={() => createOption(searchKeyword)}>
-                                <ValueUI value={searchKeyword} />
+                                <ValueComponent value={searchKeyword} />
                             </CreatableItem>
                         )}
                     </ul>
