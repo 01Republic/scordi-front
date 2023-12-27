@@ -5,29 +5,28 @@ import {CardAppItem} from './CardAppItem';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useToast} from '^hooks/useToast';
 import {useMoveScroll} from '^hooks/useMoveScroll';
-import {allProductsSelector, productIdsAtom, selectedAppsAtom, subscriptionsAtom, sortedProductsAtom} from './atom';
-import {ProductManager} from '^models/Product/manager';
-import {SubscriptionManager} from '^models/Subscription/manager';
+import {productIdsAtom, selectedAppsAtom, sortedProductsAtom, selectAppModal} from './atom';
 import {productApi} from '^models/Product/api';
+import {orgIdParamState} from '^atoms/common';
 
 export const CardAppList = memo(() => {
     const [isLoaded, setIsLoaded] = useState(false);
-    const subscriptions = useRecoilValue(subscriptionsAtom);
     const [allProducts, setAllProducts] = useRecoilState(sortedProductsAtom);
     const [productIds, setProductIds] = useRecoilState(productIdsAtom);
     const [selectedApps, setSelectedApps] = useRecoilState(selectedAppsAtom);
     const {selectRef, onScroll} = useMoveScroll();
     const {toast} = useToast();
-    // const allProducts = useRecoilValue(allProductsSelector);
+    const orgId = useRecoilValue(orgIdParamState);
+    const isSelectAppModalShow = useRecoilValue(selectAppModal.isShowAtom);
 
     useEffect(() => {
+        // api 요청이 모달 열렸을 때만 동작하도록
+        if (!isSelectAppModalShow) return;
+
         if (isLoaded) return;
-        productApi.sortBySubscription().then((products) => {
-            console.log(products);
-            setAllProducts(products);
-        });
+        productApi.sortBySubscription(orgId).then((res) => setAllProducts(res.data.items));
         setIsLoaded(true);
-    }, [isLoaded]);
+    }, [isSelectAppModalShow, isLoaded]);
 
     const selectApp = (option: ProductOption) => {
         const selectedAppId = option.value;
@@ -50,12 +49,14 @@ export const CardAppList = memo(() => {
     return (
         <div ref={selectRef} onClick={onScroll}>
             <Select
-                options={allProducts.map((list) => {
-                    return {
-                        value: list.id,
-                        label: list.nameEn,
-                    };
-                })}
+                options={
+                    allProducts?.map((list) => {
+                        return {
+                            value: list.id,
+                            label: list.nameEn,
+                        };
+                    }) ?? []
+                }
                 onChange={(option) => option && selectApp(option)}
                 className="select-underline input-underline"
                 placeholder="전체"

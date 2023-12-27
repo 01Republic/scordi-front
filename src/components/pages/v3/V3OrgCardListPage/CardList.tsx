@@ -9,15 +9,16 @@ import {inputCardNumberModal} from './modals/CardNumberModal/atom';
 import {creditCardListAtom} from '^models/CreditCard/atom';
 
 export const CardList = memo(() => {
-    const {open} = useModal(inputCardNumberModal);
+    const {open, isShow} = useModal(inputCardNumberModal);
     const [creditCardList, setCreditCardList] = useRecoilState(creditCardListAtom);
     const orgId = useRecoilValue(orgIdParamState);
 
     useEffect(() => {
         if (!orgId && isNaN(orgId)) return;
+        if (!isShow) return;
 
         creditCardApi.index(orgId).then((res) => setCreditCardList(res.data.items));
-    }, [orgId]);
+    }, [orgId, isShow]);
 
     return (
         <ul>

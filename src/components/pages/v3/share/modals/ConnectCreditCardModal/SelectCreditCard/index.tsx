@@ -12,6 +12,7 @@ import {useCreditCardsOfOrganization} from '^models/CreditCard/hook';
 
 interface SelectCreditCardProps {
     form: UseFormReturn<UpdateSubscriptionRequestDto>;
+    isModalShow: boolean;
 }
 
 function toOption(card: CreditCardDto): CreditCardOption {
@@ -21,7 +22,9 @@ function toOption(card: CreditCardDto): CreditCardOption {
     };
 }
 export const SelectCreditCard = memo((props: SelectCreditCardProps) => {
-    const {form} = props;
+    const {form, isModalShow} = props;
+    if (!isModalShow) return <></>;
+
     const [creditCardId, setCreditCardId] = useState<number>();
     const {CreditCard} = useCreditCardsOfOrganization(true);
 

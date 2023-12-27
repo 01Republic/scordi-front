@@ -2,7 +2,6 @@ import {Paginated} from '^types/utils/paginated.dto';
 import {api} from '^api/api';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {CreateCreditCardDto, CreditCardDto, FindAllCreditCardDto, UpdateCreditCardDto} from '^models/CreditCard/type';
-
 const NAMESPACE = 'organizations';
 export const creditCardApi = {
     index(orgId: number, params?: FindAllCreditCardDto) {
