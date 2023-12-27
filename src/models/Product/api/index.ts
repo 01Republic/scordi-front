@@ -8,6 +8,7 @@ import {
 } from '^models/Product/type';
 import {Paginated} from '^types/utils/paginated.dto';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
+import {plainToInstance} from 'class-transformer';
 
 const NAMESPACE = 'products';
 
@@ -15,6 +16,11 @@ export const productApi = {
     index(params?: FindAllProductQuery) {
         const url = `/${NAMESPACE}`;
         return api.get<Paginated<ProductDto>>(url, {params}).then(paginatedDtoOf(ProductDto));
+    },
+
+    sortBySubscription(params?: FindAllProductQuery) {
+        const url = `/${NAMESPACE}/sort-by-subscription`;
+        return api.get<ProductDto[]>(url, {params}).then((res) => plainToInstance(ProductDto, res.data));
     },
 
     show(id: number) {
