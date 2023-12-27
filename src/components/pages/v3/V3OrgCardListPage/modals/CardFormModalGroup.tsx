@@ -36,3 +36,21 @@ export const CardFormModalGroup = memo(function CardFormModalGroup() {
         </>
     );
 });
+
+export const useCardModal = () => {
+    const cardNumberModal = useModal(inputCardNumberModal);
+    const cardCompanyModal = useModal(selectCardCompanyModal);
+    const cardNameModal = useModal(inputCardNameModal);
+    const holderModal = useModal(inputCardHoldingMemberModal);
+    const appsModal = useModal(selectAppModal);
+
+    const closeCardModals = () => {
+        cardNumberModal.close();
+        cardCompanyModal.close();
+        cardNameModal.close();
+        holderModal.close();
+        appsModal.close();
+    };
+
+    return {closeCardModals};
+};
