@@ -13,8 +13,8 @@ export const HistoryItem = memo((props: {entry: BillingHistoryDto; showTitle?: b
 
     const date = new Date(billingHistory.issuedAt);
     const payAmount = billingHistory.payAmount;
-    const item = billingHistory.emailContent!;
-    const serviceName = item.provider;
+    const item = billingHistory.emailContent;
+    const serviceName = (item?.provider || billingHistory.subscription?.product.name()) ?? '';
 
     const status = getBillingHistoryStatus(billingHistory);
     const showTitleByStatus = (() => {
@@ -49,7 +49,7 @@ export const HistoryItem = memo((props: {entry: BillingHistoryDto; showTitle?: b
                 {(showTitle || showTitleByStatus) && (
                     <p className="leading-none text-right font-light">
                         <small className="text-xs text-gray-500" style={{wordBreak: 'keep-all'}}>
-                            {item.title}
+                            {item?.title ?? ''}
                         </small>
                     </p>
                 )}

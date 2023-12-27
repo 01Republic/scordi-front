@@ -1,6 +1,7 @@
 import {atom} from 'recoil';
 import {Paginated} from '^types/utils/paginated.dto';
-import {BillingHistoryDto} from '^models/BillingHistory/type';
+import {BillingHistoryDto, CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
+import {CurrencyCode} from '^types/money.type';
 
 /**
  * 결제내역 상세모달 상태
@@ -36,4 +37,55 @@ export const billingHistoryPagedStateInShowModal = atom<Paginated<BillingHistory
             itemsPerPage: 30,
         },
     },
+});
+
+/**
+ * 결제내역추가 모달 상태
+ */
+export const addBillingHistoryShowModal = {
+    isShowAtom: atom({
+        key: 'v3/addBillingHistoryShowModal/IsShow',
+        default: false,
+    }),
+    popStateSyncKey: 'addBillingHistoryShowModal',
+};
+
+/**
+ * 결제내역추가 진행 상태
+ */
+export enum AddBillingHistory {
+    PayMethod,
+    Amount,
+    DetailInfo,
+    Finish,
+    Memo,
+}
+
+export const AddBillingHistoryState = atom<AddBillingHistory>({
+    key: 'AddBillingHistoryState',
+    default: AddBillingHistory.PayMethod,
+});
+
+/**
+ * 화폐 선택 모달 상태
+ */
+export const currencySelectShowModal = {
+    isShowAtom: atom({
+        key: 'v3/currencySelectShowModal/IsShow',
+        default: false,
+    }),
+    popStateSyncKey: 'currencySelectShowModal',
+};
+
+/**
+ * 화폐 선택 state
+ */
+
+type CurrencyType = {
+    label: CurrencyCode;
+    desc: string;
+};
+export const selectedCurrencyState = atom<CurrencyType>({
+    key: 'selectedCurrencyState',
+    default: {label: CurrencyCode.USD, desc: 'United States Dollar'},
 });

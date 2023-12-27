@@ -11,6 +11,7 @@ import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {OutLink} from '^components/OutLink';
 import {BillingHistoryContentPanel} from './BillingHistoryContentPanel';
 import {useBillingHistoriesInModal, useBillingHistoryInModal, useBillingHistoryModal} from './hook';
+import {AddBillingHistoryModal} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal';
 
 export const BillingHistoryDetailModal = memo(() => {
     const {close, Modal} = useBillingHistoryModal();
@@ -102,6 +103,7 @@ export const BillingHistoryDetailModal = memo(() => {
                 </MobileSection.List>
             </Modal>
             <AttachmentModal />
+            <AddBillingHistoryModal />
         </>
     );
 });

@@ -39,9 +39,10 @@ export const useBillingHistoriesV3 = (option?: UseBillingHistoriesOption) => {
         setIsLoading(false);
     }
 
+    const reload = () => search(query);
     const movePage = (page: number) => search({...query, page});
 
-    return {query, result, search, movePage, isLoading};
+    return {query, reload, result, search, movePage, isLoading};
 };
 
 // This is real !! (deprecated)
