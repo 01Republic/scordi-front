@@ -47,11 +47,11 @@ export const ConnectComplete = (props: ConnectCompleteProps) => {
 
         if (paymentPlan && billingCycle) {
             createSubscription({
-                sign: JSON.stringify(loginDto),
+                // sign: JSON.stringify(loginDto),
                 organizationId,
                 productId,
-                connectedSlug: orgItem.name,
-                displayName: orgName,
+                // connectedSlug: orgItem.name,
+                // displayName: orgName,
                 // paymentPlanId: paymentPlan.id,
                 // billingCycleId: billingCycle.id,
                 // isFreeTier,

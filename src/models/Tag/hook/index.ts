@@ -38,16 +38,12 @@ export const useTags = (group: TagGroup) => {
     const [query, setQuery] = useRecoilState(tagSearchParams);
 
     const search = async (params: FindAllTagQueryDto) => {
-        if (!params.where) params = {where: {group}};
+        params.where ||= {};
+        params.where.group ||= group;
 
         if (JSON.stringify(query) === JSON.stringify(params)) return result;
 
-        const data = await tagApi
-            .index({
-                ...params,
-                itemsPerPage: 500,
-            })
-            .then((res) => res.data);
+        const data = await tagApi.index({...params}).then((res) => res.data);
 
         setResult(data);
         setQuery(params);
@@ -55,10 +51,10 @@ export const useTags = (group: TagGroup) => {
         return data;
     };
 
-    const createByName = (name: string) =>
-        tagApi.create({name, group}).then((res) => {
+    const createByName = (name: string, organizationId?: number) =>
+        tagApi.create({name, group, organizationId}).then((res) => {
             // 새로 생긴 tag를 reload
-            tagApi.index({where: {name}, itemsPerPage: 500}).then((res) => setResult(res.data));
+            tagApi.index(query).then((res) => setResult(res.data));
             return res.data;
         });
 
@@ -66,7 +62,8 @@ export const useTags = (group: TagGroup) => {
 };
 
 export const useProductTags = () => useTags(TagGroup.Product);
-export const usePayingTypeTags = () => useTags(TagGroup.Subscription);
+export const usePayingTypeTags = () => useTags(TagGroup.RecurringType);
+export const useBillingCycleTags = () => useTags(TagGroup.BillingCycle);
 
 export const useTagMultiSelect = (params: TagMultiSelectParams) => {
     const {componentControl, hooks} = params;

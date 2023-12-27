@@ -2,12 +2,12 @@ import {useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {CountUp} from 'countup.js';
 import {changePriceCurrency, Price} from '^api/tasting.api/gmail/agent/parse-email-price';
-import {Currency} from '^types/crawler';
 import {displayCurrencyAtom} from '../pageAtoms';
 import {useDraftResult} from './useDraft';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
+import {CurrencyCode} from '^types/money.type';
 
-export const getTotalBalance = (histories: BillingHistoryDto[], displayCurrency: Currency) => {
+export const getTotalBalance = (histories: BillingHistoryDto[], displayCurrency: CurrencyCode) => {
     let amount = 0;
     histories.forEach((history) => {
         const item = history.emailContent;
@@ -24,7 +24,7 @@ export const useSummaryStatBalance = (counterElemId: string) => {
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
     const [totalPrice, setTotalPrice] = useState<Pick<Price, 'amount' | 'currency'>>({
         amount: 0,
-        currency: Currency.KRW,
+        currency: CurrencyCode.KRW,
     });
 
     useEffect(() => {
@@ -42,7 +42,7 @@ export const useSummaryStatBalance = (counterElemId: string) => {
             separator: ',',
             decimal: '.',
         };
-        if (totalPrice.currency === Currency.USD) {
+        if (totalPrice.currency === CurrencyCode.USD) {
             option.decimalPlaces = 2;
         }
         const countUp = new CountUp(counterElemId, totalPrice.amount, option);

@@ -1,7 +1,8 @@
 import {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {subjectReportProductItem} from '../../atom';
-import {CurrencyType, RecurringType} from '../../dto/report-item-form.dto';
+import {RecurringType} from '../../dto/report-item-form.dto';
+import {CurrencyCode} from '^types/money.type';
 
 export const ItemInfo = memo(function ItemInfo() {
     const subjectItem = useRecoilValue(subjectReportProductItem);
@@ -29,8 +30,8 @@ export const ItemInfo = memo(function ItemInfo() {
                     </span>
                     <span className="mr-1 text-scordi">{payAmount.toLocaleString()}</span>
                     <span className="mr-2 text-scordi">
-                        {currencyType === CurrencyType.KRW && '원'}
-                        {currencyType === CurrencyType.USD && '달러'}
+                        {currencyType === CurrencyCode.KRW && '원'}
+                        {currencyType === CurrencyCode.USD && '달러'}
                     </span>
                     <small>{isPerUser && '/명'}</small>
                 </h2>

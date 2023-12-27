@@ -6,7 +6,8 @@ export enum TagGroup {
     User = 'USER',
     Team = 'TEAM',
     Product = 'PRODUCT',
-    Subscription = 'SUBSCRIPTION',
+    RecurringType = 'RECURRING_TYPE',
+    BillingCycle = 'BILLING_CYCLE',
 }
 
 export class TagDto {
@@ -21,13 +22,17 @@ export class TagDto {
     @TypeCast(() => Date) updatedAt: Date; // 수정일시
 }
 
-export type FindAllTagQueryDto = FindAllQueryDto<TagDto> & {};
+export type FindAllTagQueryDto = FindAllQueryDto<TagDto> & {
+    organizationId?: number; // 조직 ID
+    keyword?: string; // 키워드
+};
 
 export type CreateTagByAdminDto = {
     name: string;
     group: TagGroup;
     parentTagId?: number;
     isFeatured?: boolean;
+    organizationId?: number;
 };
 
 export type UpdateTagByAdminDto = Partial<CreateTagByAdminDto> & {};

@@ -24,7 +24,7 @@ export const MasterProfile = memo((props: MasterProfileProps) => {
     const [filteredMemberOptions, setFilteredMemberOptions] = useState<TeamMemberDto[]>();
     const [master, setMaster] = useState<TeamMemberDto>();
 
-    const {setSelectEl, setReferenceEl, styles, attributes} = useDropdown('bottom-start');
+    const {contentRef, triggerRef, styles, attributes} = useDropdown('bottom-start');
 
     useEffect(() => {
         subscription.master && setMaster(subscription.master);
@@ -56,12 +56,12 @@ export const MasterProfile = memo((props: MasterProfileProps) => {
 
     return (
         <div className="dropdown">
-            <div ref={setReferenceEl} tabIndex={0}>
+            <div ref={triggerRef} tabIndex={0}>
                 <MasterProfileOption member={master} />
             </div>
             {memberOptions?.length || filteredMemberOptions?.length ? (
                 <ul
-                    ref={setSelectEl}
+                    ref={contentRef}
                     style={styles.popper}
                     {...attributes.popper}
                     className="dropdown-content !z-[1] py-2 px-3 mt-1 bg-base-100 rounded-box border"

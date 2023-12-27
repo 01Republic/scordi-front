@@ -1,7 +1,7 @@
 // 쿼리가 가능한 엔티티. (dto 와 entity 의 형태 차이가 좀 있음)
 import {TypeCast} from '^types/utils/class-transformer';
 import {BillingType} from '^models/InvoiceApp/type';
-import {Currency, CurrencyList, MoneyDto} from '^types/money.type';
+import {CurrencyCode, CurrencyList, MoneyDto} from '^types/money.type';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {IsActiveSubsParams, StartEndParams} from '^types/billing.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
@@ -86,7 +86,7 @@ export class BillingScheduleShallowDto {
         return BillingHistoryStatus.Unknown;
     }
 
-    getPriceIn(currencyCode = Currency.KRW) {
+    getPriceIn(currencyCode = CurrencyCode.KRW) {
         if (!this.payAmount) return 0;
         // 얻으려는 화폐와 기록된 화폐가 같으면 그대로 가격을 반환하고
         if (this.payAmount.code === currencyCode) return this.payAmount.amount;

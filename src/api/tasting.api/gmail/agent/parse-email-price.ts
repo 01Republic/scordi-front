@@ -2,59 +2,70 @@
 // import {ProviderNames} from '^api/tasting.api/gmail/agent/detect-provider-name';
 // import {getAttachment} from '^api/tasting.api/gmail/api.attachment';
 // import {getPdfText} from '^api/tasting.api/util/pdf';
-import {Currency} from '^types/crawler';
-import {Currency as MoneyCurrency} from '^types/money.type';
+import {CurrencyCode} from '^types/money.type';
 
-export const getCurrencySymbol = (currency: Currency | MoneyCurrency) =>
+export const getCurrencySymbol = (currency: CurrencyCode) =>
     ({
-        [Currency.USD]: '$',
-        [Currency.KRW]: '₩',
-        [MoneyCurrency.VND]: 'đ',
+        [CurrencyCode.USD]: '$',
+        [CurrencyCode.KRW]: '₩',
+        [CurrencyCode.EUR]: '€',
+        [CurrencyCode.GBP]: '£',
+        [CurrencyCode.CAD]: '$',
+        [CurrencyCode.CNY]: '¥',
+        [CurrencyCode.JPY]: '¥',
+        [CurrencyCode.VND]: 'đ',
+        [CurrencyCode.ARS]: '$',
+        [CurrencyCode.INR]: '₹',
+        [CurrencyCode.TWD]: '$',
     }[currency] || '$');
 
-export const getCurrencyUnit = (currency: Currency | MoneyCurrency) =>
+export const getCurrencyUnit = (currency: CurrencyCode) =>
     ({
-        [Currency.USD]: '달러',
-        [Currency.KRW]: '원',
-        [MoneyCurrency.VND]: '동',
+        [CurrencyCode.USD]: '달러', // 미국
+        [CurrencyCode.KRW]: '원', // 한국
+        [CurrencyCode.EUR]: '유로', // 유럽
+        [CurrencyCode.GBP]: '파운드', // 영국
+        [CurrencyCode.CAD]: '달러', // 캐나다
+        [CurrencyCode.CNY]: '위안', // 중국
+        [CurrencyCode.JPY]: '엔', // 일본
+        [CurrencyCode.VND]: '동', // 베트남
+        [CurrencyCode.ARS]: '페소', // 아르헨티나
+        [CurrencyCode.INR]: '루피', // 인도
+        [CurrencyCode.TWD]: '달러', // 대만
     }[currency] || '달러');
 
 export type Price = {
     text: string;
     amount: number;
-    currency: Currency | MoneyCurrency;
+    currency: CurrencyCode;
     hide?: boolean;
 };
 
-export function currencyFormat(amount: number, currency: Currency | MoneyCurrency) {
+export function currencyFormat(amount: number, currency: CurrencyCode) {
     switch (currency) {
-        case Currency.KRW:
+        case CurrencyCode.KRW:
             return amount.toLocaleString();
-        case Currency.USD:
+        case CurrencyCode.USD:
             return amount.toFixed(2);
-        case MoneyCurrency.VND:
+        case CurrencyCode.VND:
             return amount.toFixed(2);
         default:
             return '-';
     }
 }
 
-export function changePriceCurrency(
-    amount: number,
-    fromCurrency: Currency | MoneyCurrency,
-    toCurrency: Currency | MoneyCurrency,
-): number {
+export function changePriceCurrency(amount: number, fromCurrency: CurrencyCode, toCurrency: CurrencyCode): number {
     if (fromCurrency === toCurrency) return amount;
 
     const ratioPerDollar = {
-        [Currency.KRW]: 1300,
-        [Currency.USD]: 1,
+        [CurrencyCode.KRW]: 1300,
+        [CurrencyCode.USD]: 1,
     };
 
-    if (fromCurrency === Currency.USD && toCurrency === Currency.KRW) {
-        return amount * 1.0 * ratioPerDollar[Currency.KRW];
-    } else if (fromCurrency === Currency.KRW && toCurrency === Currency.USD) {
-        return (amount * 1.0) / ratioPerDollar[Currency.KRW];
+    if (fromCurrency === CurrencyCode.USD && toCurrency === CurrencyCode.KRW) {
+        return amount * 1.0 * ratioPerDollar[CurrencyCode.KRW];
+    } else if (fromCurrency === CurrencyCode.KRW && toCurrency === CurrencyCode.USD) {
+        return (amount * 1.0) / ratioPerDollar[CurrencyCode.KRW];
     }
     return amount;
 }

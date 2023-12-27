@@ -3,6 +3,7 @@ import {useModal} from '^v3/share/modals';
 import {FcCheckmark} from 'react-icons/fc';
 import {currencySelectShowModal, selectedCurrencyState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {useRecoilState} from 'recoil';
+import {CurrencyListV2} from '^types/money.type';
 
 export const CurrencySelectModal = memo(() => {
     const {close, isShow} = useModal(currencySelectShowModal);
@@ -101,3 +102,10 @@ const CurrencyOptions = [
     {label: 'PLN', desc: 'Polish Zloty'},
     {label: 'EGP', desc: 'Egyptian Pound'},
 ];
+
+const CurrencyOptions2 = Object.values(CurrencyListV2).map((currencyInfo) => {
+    return {
+        label: currencyInfo.code,
+        desc: currencyInfo.desc,
+    };
+});
