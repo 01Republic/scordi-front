@@ -6,14 +6,15 @@ import {CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 import {CreateMoneyRequestDto, CurrencyCode} from '^types/money.type';
 import {ButtonGroupRadio} from '^components/util/form-control/inputs/ButtonGroupRadio/ButtonGroupRadio';
 import {AddBillingHistoryModalBtn} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/share/AddBillingHistoryModalBtn';
-import {useRecoilValue} from 'recoil';
-import {addBillingHistoryShowModal, selectedCurrencyState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {
+    AddBillingHistory,
+    AddBillingHistoryState,
+    selectedCurrencyState,
+} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {appIdState} from '^v3/V3OrgAppShowPage/atom';
 import {appBillingHistoryApi} from '^models/BillingHistory/api';
 import {isDomesticState} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/atom';
-import {useModal} from '^v3/share/modals';
-import {useAlert} from '^hooks/useAlert';
-import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 
 interface DetailInfoBodyProps {
     form: UseFormReturn<CreateBillingHistoryRequestDto>;
@@ -22,11 +23,9 @@ interface DetailInfoBodyProps {
 export const DetailInfoBody = memo(function DetailInfoBody(props: DetailInfoBodyProps) {
     const selectedCurrency = useRecoilValue(selectedCurrencyState);
     const isDomestic = useRecoilValue(isDomesticState);
-    const {close} = useModal(addBillingHistoryShowModal);
-    const appId = useRecoilValue(appIdState);
-    const {alert} = useAlert();
+    const setAddBillingHistory = useSetRecoilState(AddBillingHistoryState);
 
-    const {reload: loadHistories} = useBillingHistoriesV3();
+    const appId = useRecoilValue(appIdState);
 
     const {form} = props;
 
@@ -58,12 +57,7 @@ export const DetailInfoBody = memo(function DetailInfoBody(props: DetailInfoBody
         const req = appBillingHistoryApi.createV2(appId, dto);
 
         req.then(() => {
-            alert.success({title: '결제 내역 추가가 완료되었습니다.'});
-            loadHistories();
-
-            setTimeout(() => {
-                close();
-            }, 1500);
+            setAddBillingHistory(AddBillingHistory.Finish);
         });
 
         req.catch((e) => console.log(e));
