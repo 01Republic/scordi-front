@@ -37,7 +37,7 @@ export const MemoBody = memo((props: MemoBodyProps) => {
             <textarea
                 onChange={(e) => setMemo(e.target.value)}
                 className="textarea textarea-primary w-full min-h-40"
-                placeholder="디자인팀 피그마 결제..."
+                placeholder="디자인팀 피그마 결제"
             />
 
             <AddBillingHistoryModalBtn onClick={onClick} text="완료" />

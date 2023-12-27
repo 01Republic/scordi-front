@@ -72,7 +72,6 @@ export const DetailInfoBody = memo(function DetailInfoBody(props: DetailInfoBody
     return (
         <>
             <FormControl topLeftLabel="결제 승인 번호를 입력해주세요">
-                <input className="hidden" {...form.register('uid')} />
                 <TextInput type="number" onChange={(e) => form.setValue('uid', e.target.value)} />
             </FormControl>
 

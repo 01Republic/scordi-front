@@ -50,7 +50,7 @@ export const appBillingHistoryApi = {
     },
 
     updateV2: (subscriptionId: number, billingHistoryId: number, dto: CreateBillingHistoryRequestDto) => {
-        const url = `/subscriptions/${subscriptionId}/${NAMESPACE}/${billingHistoryId}v2`;
+        const url = `/subscriptions/${subscriptionId}/${NAMESPACE}/${billingHistoryId}/v2`;
         return api.patch<BillingHistoryDto>(url, dto).then(oneDtoOf(BillingHistoryDto));
     },
 };

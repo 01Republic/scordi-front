@@ -66,11 +66,6 @@ export const AddBillingHistoryState = atom<AddBillingHistory>({
     default: AddBillingHistory.PayMethod,
 });
 
-export const CreateBillingHistoryState = atom<CreateBillingHistoryRequestDto>({
-    key: 'CreateBillingHistoryState',
-    default: {} as CreateBillingHistoryRequestDto,
-});
-
 /**
  * 화폐 선택 모달 상태
  */

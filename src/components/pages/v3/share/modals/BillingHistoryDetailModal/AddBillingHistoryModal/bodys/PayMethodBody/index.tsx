@@ -85,7 +85,6 @@ export const PayMethodBody = memo((props: PayMethodBodyProps) => {
             </div>
 
             <FormControl topLeftLabel="어떤 카드로 결제하셨나요?">
-                <input className="hidden" {...form.register('creditCardId')} />
                 <Select
                     placeholder="카드 선택하기"
                     components={CardComponents()}

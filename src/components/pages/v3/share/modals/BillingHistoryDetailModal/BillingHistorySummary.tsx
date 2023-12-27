@@ -32,7 +32,7 @@ export const BillingHistorySummary = memo((props: BillingHistorySummaryProps) =>
 
     return (
         <>
-            <div className="sticky -mx-6 px-6 bg-white z-10" style={{top: 'calc(50px + 64px)'}}>
+            <div className="bg-white z-10">
                 <div className="py-3 flex items-center justify-between">
                     <p className="text-xl font-semibold flex items-center">
                         <span dangerouslySetInnerHTML={{__html: t('result_in_since_n_ago', {since})}}></span>
@@ -48,7 +48,7 @@ export const BillingHistorySummary = memo((props: BillingHistorySummaryProps) =>
                     </div>
                 </div>
             </div>
-            <hr />
+
             <div className="flex items-center justify-around py-3">
                 <div className="text-center">
                     <p className="text-sm text-gray-500 mb-1">{t('summary_stat.counter.label')}</p>
