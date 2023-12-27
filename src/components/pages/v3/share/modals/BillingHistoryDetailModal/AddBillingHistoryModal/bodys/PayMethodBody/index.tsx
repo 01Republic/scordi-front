@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo} from 'react';
 import Select from 'react-select';
 import {
     CardComponents,
@@ -8,17 +8,21 @@ import {
 import {UseFormReturn} from 'react-hook-form';
 import {useCreditCardsOfOrganization} from '^models/CreditCard/hook';
 import {CreditCardDto} from '^models/CreditCard/type';
-import {useRecoilState, useSetRecoilState} from 'recoil';
-import {AddBillingHistoryState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {FormControl} from '^components/util/form-control';
 import {CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
-import {datetime_local} from '^utils/dateTime';
+import {AddBillingHistory, AddBillingHistoryState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
+import {useToast} from '^hooks/useToast';
+import {useSetRecoilState} from 'recoil';
+import {AddBillingHistoryModalBtn} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/share/AddBillingHistoryModalBtn';
 
 interface PayMethodBodyProps {
     form: UseFormReturn<CreateBillingHistoryRequestDto>;
 }
 export const PayMethodBody = memo((props: PayMethodBodyProps) => {
     const {CreditCard} = useCreditCardsOfOrganization(true);
+    const {toast} = useToast();
+    const setAddBillingHistory = useSetRecoilState(AddBillingHistoryState);
+
     const {form} = props;
 
     // string 또는 string[] -> option 형태로 변경시켜주는 함수
@@ -56,6 +60,17 @@ export const PayMethodBody = memo((props: PayMethodBodyProps) => {
             .filter(Boolean);
     };
 
+    const onClick = () => {
+        const cardId = form.getValues('creditCardId');
+
+        if (!cardId) {
+            toast.error('결제한 카드를 선택해주세요');
+            return;
+        }
+
+        setAddBillingHistory(AddBillingHistory.Amount);
+    };
+
     return (
         <>
             {/*현재는 선택 option 카드뿐이라 주식 처리*/}
@@ -87,6 +102,8 @@ export const PayMethodBody = memo((props: PayMethodBodyProps) => {
                     {...form.register('paidAt')}
                 />
             </FormControl>
+
+            <AddBillingHistoryModalBtn onClick={onClick} />
         </>
     );
 });

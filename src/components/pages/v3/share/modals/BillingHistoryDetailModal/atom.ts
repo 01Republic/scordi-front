@@ -1,6 +1,7 @@
 import {atom} from 'recoil';
 import {Paginated} from '^types/utils/paginated.dto';
 import {BillingHistoryDto, CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
+import {CurrencyCode} from '^types/money.type';
 
 /**
  * 결제내역 상세모달 상태
@@ -84,10 +85,10 @@ export const currencySelectShowModal = {
  */
 
 type CurrencyType = {
-    label: string;
+    label: CurrencyCode;
     desc: string;
 };
 export const selectedCurrencyState = atom<CurrencyType>({
     key: 'selectedCurrencyState',
-    default: {label: 'USD', desc: 'United States Dollar'},
+    default: {label: CurrencyCode.USD, desc: 'United States Dollar'},
 });

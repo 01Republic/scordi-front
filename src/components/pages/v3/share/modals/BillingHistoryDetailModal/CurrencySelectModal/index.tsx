@@ -3,7 +3,7 @@ import {useModal} from '^v3/share/modals';
 import {FcCheckmark} from 'react-icons/fc';
 import {currencySelectShowModal, selectedCurrencyState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {useRecoilState} from 'recoil';
-import {CurrencyListV2} from '^types/money.type';
+import {CurrencyCode, CurrencyListV2} from '^types/money.type';
 
 export const CurrencySelectModal = memo(() => {
     const {close, isShow} = useModal(currencySelectShowModal);
@@ -26,7 +26,7 @@ export const CurrencySelectModal = memo(() => {
                 <div className="px-4 pb-4 flex flex-col h-[50vh] overflow-y-auto no-scrollbar">
                     <div className="flex-1 py-4 px-2 text-sm">
                         <ul>
-                            {CurrencyOptions.map((option) => {
+                            {CurrencyOptions2.map((option) => {
                                 if (option.label === selectedCurrency.label) {
                                     return (
                                         <li
@@ -71,8 +71,8 @@ export const CurrencySelectModal = memo(() => {
 });
 
 const CurrencyOptions = [
-    {label: 'USD', desc: 'United States Dollar'},
-    {label: 'EUR', desc: 'Euro (European Union)'},
+    {label: CurrencyCode.USD, desc: 'United States Dollar'},
+    {label: CurrencyCode.EUR, desc: 'Euro (European Union)'},
     {label: 'GBP', desc: 'British Pound Sterling'},
     {label: 'JPY', desc: 'Japanese Yen'},
     {label: 'CNY', desc: 'Chinese Yuan Renminbi'},
