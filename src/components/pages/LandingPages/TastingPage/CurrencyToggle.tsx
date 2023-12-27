@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
 import {useRecoilState} from 'recoil';
 import {displayCurrencyAtom} from './pageAtoms';
-import {Currency} from '^types/crawler';
 import {ReactNodeLike} from 'prop-types';
+import {CurrencyCode} from '^types/money.type';
 
 interface CurrencyToggleProps {
     leftText?: ReactNodeLike;
@@ -18,19 +18,19 @@ export const CurrencyToggle = memo((props: CurrencyToggleProps) => {
         <div className="flex justify-center">
             <div className="form-control">
                 <label className={`cursor-pointer label gap-3 ${className}`}>
-                    {leftText ?? <span className="label-text">{Currency.USD}</span>}
+                    {leftText ?? <span className="label-text">{CurrencyCode.USD}</span>}
 
                     <input
                         type="checkbox"
                         className="toggle toggle-primary"
-                        checked={displayCurrency === Currency.KRW}
+                        checked={displayCurrency === CurrencyCode.KRW}
                         onChange={(e) => {
                             const checked = e.target.checked;
-                            setDisplayCurrency(checked ? Currency.KRW : Currency.USD);
+                            setDisplayCurrency(checked ? CurrencyCode.KRW : CurrencyCode.USD);
                         }}
                     />
 
-                    {rightText ?? <span className="label-text">{Currency.KRW}</span>}
+                    {rightText ?? <span className="label-text">{CurrencyCode.KRW}</span>}
                 </label>
             </div>
         </div>

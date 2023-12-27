@@ -1,10 +1,10 @@
 import {TypeCast} from '^types/utils/class-transformer';
 import {ProductDto} from '^models/Product/type';
 import {
-    CurrencyType,
     RecurringType,
     ReportItemFormDataDto,
 } from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/dto/report-item-form.dto';
+import {CurrencyCode} from '^types/money.type';
 
 export class ReportItemAppDto {
     appName: string;
@@ -24,7 +24,7 @@ export class ReportItemAppDto {
         recurringType: RecurringType.Monthly,
         isPerUser: false,
         payAmount: 0,
-        currencyType: CurrencyType.KRW,
+        currencyType: CurrencyCode.KRW,
     };
 
     get key() {

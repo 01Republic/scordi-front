@@ -70,11 +70,11 @@ export const AddAuto = (props: AddAutoProps) => {
 
         // 서비스 연동 정보 생성하고
         createSubscription({
-            sign: makeSignHeader(dto)['Crawler-Sign'],
+            // sign: makeSignHeader(dto)['Crawler-Sign'],
             organizationId: orgId,
             productId,
-            connectedSlug: name,
-            displayName: name,
+            // connectedSlug: name,
+            // displayName: name,
         })
             .then(({data: app}) => app)
             .then((app) => {

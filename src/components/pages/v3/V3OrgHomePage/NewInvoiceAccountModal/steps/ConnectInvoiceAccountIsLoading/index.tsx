@@ -7,7 +7,7 @@ import {getCreateInvoiceAccountFromTo} from '^models/InvoiceAccount/type';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {orgIdParamState} from '^atoms/common';
 import {
-    connectInvoiceAccountCodeAtom,
+    connectInvoiceAccountCodeState,
     connectInvoiceAccountStatus,
     InvoiceAccount,
 } from '^v3/V3OrgHomePage/NewInvoiceAccountModal/atom';
@@ -15,7 +15,7 @@ import {useAlert} from '^hooks/useAlert';
 
 export const ConnectInvoiceAccountIsLoading = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
-    const [code, setCode] = useRecoilState(connectInvoiceAccountCodeAtom);
+    const [code, setCode] = useRecoilState(connectInvoiceAccountCodeState);
     const setConnectStatus = useSetRecoilState(connectInvoiceAccountStatus);
     const [title, setTitle] = useState('인증 정보를 가져오고 있어요.');
     const [desc, setDesc] = useState('최대 1분 정도 걸릴 수 있어요. 잠시만 기다려주세요.');

@@ -8,6 +8,19 @@ const colors = [
     'bg-pink-400',
 ];
 
+export const palette = {
+    notionColors: [
+        'bg-green-200',
+        'bg-red-200',
+        'bg-orange-200',
+        'bg-sky-200',
+        'bg-emerald-200',
+        'bg-cyan-200',
+        'bg-pink-200',
+        'bg-gray-200',
+    ],
+};
+
 /**
  * 랜덤하게? 컬러를 뽑아줍니다.
  * ---

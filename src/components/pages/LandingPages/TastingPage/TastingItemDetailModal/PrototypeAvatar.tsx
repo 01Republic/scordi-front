@@ -3,7 +3,7 @@ import {ProductDto} from '^models/Product/type';
 import {Avatar} from '^components/Avatar';
 
 interface PrototypeAvatarProps {
-    proto: ProductDto;
+    proto?: ProductDto;
 }
 
 export const PrototypeAvatar = memo((props: PrototypeAvatarProps) => {
@@ -11,8 +11,8 @@ export const PrototypeAvatar = memo((props: PrototypeAvatarProps) => {
 
     return (
         <div className="flex items-center space-x-2 mb-2">
-            <Avatar src={proto.image} className="w-6 h-6" />
-            <p className="text-sm">{proto.nameEn}</p>
+            <Avatar src={proto?.image} className="w-6 h-6" />
+            <p className="text-sm">{proto?.nameEn}</p>
         </div>
     );
 });

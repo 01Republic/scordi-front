@@ -1,16 +1,23 @@
-import {useState} from 'react';
+import {useRef, useState} from 'react';
 import {usePopper} from 'react-popper';
 import {Placement} from '@popperjs/core';
 
 export function useDropdown(placement?: Placement) {
-    const [selectEl, setSelectEl] = useState<HTMLElement | null>(null);
-    const [referenceEl, setReferenceEl] = useState<HTMLElement | null>(null);
+    const [visible, setVisibility] = useState(false);
+    const triggerRef = useRef(null);
+    const contentRef = useRef(null);
 
-    const {styles, attributes} = usePopper(referenceEl, selectEl, {
+    const {styles, attributes} = usePopper(triggerRef.current, contentRef.current, {
         placement: placement ?? 'bottom',
     });
 
-    const blur = () => referenceEl?.blur();
+    const openDropdown = () => {
+        setVisibility(true);
+    };
 
-    return {setSelectEl, setReferenceEl, blur, styles, attributes};
+    const closeDropdown = () => {
+        setVisibility(false);
+    };
+
+    return {visible, triggerRef, contentRef, openDropdown, closeDropdown, styles, attributes};
 }

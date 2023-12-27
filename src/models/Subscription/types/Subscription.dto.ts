@@ -19,31 +19,38 @@ export class SubscriptionDto {
     id: number;
     connectStatus: ConnectStatus; // 연동상태
     status: SubscriptionStatus; // 구독 상태
-    recurringTypeTagId: number | null; // 과금 방식 태그 ID
+    alias: string; // 별칭
+    desc: string | null; // 메모
     isActive: boolean; // 활성화 여부
-    isSyncRunning: boolean; // 싱크 실행중 여부
-    workspaceId: number | null; // 서비스 내 조직 ID
-    organizationId: number; // 스코디 조직 ID
-    productId: number; // 프로토타입 ID
-    // invoiceAccountId: number | null;
-    creditCardId: number | null; // 결제 카드 ID
-    masterId?: number; // 관리자 ID
     isFreeTier: boolean; // 프리티어 여부
-    paymentPlanId: number | null; // 결제플랜 ID
-    billingCycleId: number | null; // 결제주기 ID
     assumedBillingType: BillingType; // 인보이스 추정 결제 주기
     @TypeCast(() => Date) registeredAt?: Date | null; // 사용 시작일
     nextBillingDate: string | null; // 다음결제일
     nextBillingAmount: number; // 결제예정금액
+    @TypeCast(() => MoneyDto) currentBillingAmount: MoneyDto | null; // 현재 결제 금액
+    isPerUser: boolean; // 인당 과금 여부
     accountCount: number; // 멤버계정수
     paidMemberCount: number; // 결제되는 사용자 수
     usedMemberCount: number; // 사용중인 사용자 수
     publicEmail: string | null; // 공개 이메일
     billingEmail: string | null; // 결제 이메일
+
+    workspaceId: number | null; // 서비스 내 조직 ID
+    organizationId: number; // 스코디 조직 ID
+    productId: number; // 프로토타입 ID
+    paymentPlanId: number | null; // 결제플랜 ID
+    billingCycleId: number | null; // 결제주기 ID
+    creditCardId: number | null; // 결제 카드 ID
+    masterId?: number; // 관리자 ID
+    recurringTypeTagId: number | null; // 과금 방식 태그 ID
+    billingCycleTagId: number | null; // 결제 주기 태그 ID
+
+    isSyncRunning: boolean; // 싱크 실행중 여부
+    // invoiceAccountId: number | null;
+
     @TypeCast(() => Date) createdAt: Date;
     @TypeCast(() => Date) updatedAt: Date;
 
-    @TypeCast(() => TagDto) recurringTypeTag?: TagDto; // 과금 방식
     @TypeCast(() => OrganizationDto) organization?: OrganizationDto; // 조직
     @TypeCast(() => WorkspaceDto) workspace?: WorkspaceDto; // 워크스페이스
     @TypeCast(() => ProductDto) product: ProductDto; // 프로토타입 (eager load)
@@ -52,8 +59,12 @@ export class SubscriptionDto {
     @TypeCast(() => BillingHistoryDto) billingHistories?: BillingHistoryDto[]; // 결제내역
     @TypeCast(() => InvoiceAccountDto) invoiceAccounts?: InvoiceAccountDto[]; // 인보이스 계정
     @TypeCast(() => CreditCardDto) creditCard?: CreditCardDto; // 결제 카드
-    @TypeCast(() => TeamMemberDto) master?: TeamMemberDto; // 관리자 (담당자)
     @TypeCast(() => TeamMemberDto) teamMembers?: TeamMemberDto[]; // 사용 중인 팀 멤버
+    @TypeCast(() => TeamMemberDto) master?: TeamMemberDto; // 관리자 (담당자)
+    // @TypeCast(() => SignedHistoryDto) signedHistories?: SignedHistoryDto[]; // 접속 기록 목록
+    @TypeCast(() => TagDto) recurringTypeTag?: TagDto; // 과금 방식 태그
+    @TypeCast(() => TagDto) billingCycleTag?: TagDto; // 결제 주기 태그
+
     accounts?: [];
 
     getCycleTerm() {

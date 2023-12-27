@@ -5,7 +5,12 @@ import {useId} from 'react-id-generator';
 import {CgArrowsExchangeAlt} from 'react-icons/cg';
 import {isEditModeState} from './atom';
 import {subjectReportProductItem, useReportInDemo} from '../../atom';
-import {CurrencyType, RecurringType, ReportItemFormDataDto} from '../../dto/report-item-form.dto';
+import {RecurringType, ReportItemFormDataDto} from '../../dto/report-item-form.dto';
+import {CurrencyCode} from '^types/money.type';
+
+const isDefined = <T,>(v: T | undefined, callback?: (v: T) => any) => {
+    return callback ? typeof v !== 'undefined' && callback(v) : typeof v !== 'undefined';
+};
 
 export const EditItemForm = memo(function EditItemForm() {
     const subjectItem = useRecoilValue(subjectReportProductItem);
@@ -16,15 +21,15 @@ export const EditItemForm = memo(function EditItemForm() {
     const [recurringType, setRecurringType] = useState(RecurringType.Monthly);
     const [isPerUser, setIsPerUser] = useState(false);
     const [payAmount, setPayAmount] = useState<number>();
-    const [currencyType, setCurrencyType] = useState(CurrencyType.KRW);
+    const [currencyType, setCurrencyType] = useState(CurrencyCode.KRW);
 
     useEffect(() => {
         if (!subjectItem) return;
-        setIsFree(subjectItem.formData.isFree);
-        setRecurringType(subjectItem.formData.recurringType);
-        setIsPerUser(subjectItem.formData.isPerUser);
-        if (subjectItem.formData.payAmount) setPayAmount(subjectItem.formData.payAmount);
-        setCurrencyType(subjectItem.formData.currencyType);
+        isDefined(subjectItem.formData.isFree, setIsFree);
+        isDefined(subjectItem.formData.recurringType, setRecurringType);
+        isDefined(subjectItem.formData.isPerUser, setIsPerUser);
+        isDefined(subjectItem.formData.payAmount, setPayAmount);
+        isDefined(subjectItem.formData.currencyType, setCurrencyType);
     }, [subjectItem]);
 
     useEffect(() => {
@@ -155,8 +160,8 @@ export const EditItemForm = memo(function EditItemForm() {
                         <div className="input-group relative focus:outline focus:outline-offset-2">
                             <input
                                 type="text"
-                                placeholder={currencyType === CurrencyType.KRW ? '57000' : '6.99'}
-                                step={currencyType === CurrencyType.KRW ? 1 : 0.1}
+                                placeholder={currencyType === CurrencyCode.KRW ? '57000' : '6.99'}
+                                step={currencyType === CurrencyCode.KRW ? 1 : 0.1}
                                 className="input input-bordered !outline-none border-gray-300 border-r-0 text-lg min-w-0 grow"
                                 value={typeof payAmount != 'undefined' ? payAmount.toLocaleString() : undefined}
                                 data-pattern="localeString"
@@ -172,23 +177,23 @@ export const EditItemForm = memo(function EditItemForm() {
                                 }}
                             />
                             <span className="bg-white border-y border-gray-300 text-lg whitespace-nowrap">
-                                {currencyType === CurrencyType.KRW && '원'}
-                                {currencyType === CurrencyType.USD && '달러'}
+                                {currencyType === CurrencyCode.KRW && '원'}
+                                {currencyType === CurrencyCode.USD && '달러'}
                             </span>
                             <button
                                 type="button"
                                 className="flex items-center px-4 cursor-pointer bg-gray-100 hover:bg-gray-200 border-y border-r border-gray-300 text-lg transition-all focus:bg-gray-300 focus:outline-gray-300 whitespace-nowrap"
                                 onClick={() =>
                                     setCurrencyType((v) => {
-                                        if (v === CurrencyType.KRW) return CurrencyType.USD;
-                                        if (v === CurrencyType.USD) return CurrencyType.KRW;
-                                        return CurrencyType.KRW;
+                                        if (v === CurrencyCode.KRW) return CurrencyCode.USD;
+                                        if (v === CurrencyCode.USD) return CurrencyCode.KRW;
+                                        return CurrencyCode.KRW;
                                     })
                                 }
                             >
                                 <CgArrowsExchangeAlt size={24} className="mr-2" />
-                                {currencyType === CurrencyType.KRW && '달러'}
-                                {currencyType === CurrencyType.USD && '원'}
+                                {currencyType === CurrencyCode.KRW && '달러'}
+                                {currencyType === CurrencyCode.USD && '원'}
                             </button>
                         </div>
                     </div>

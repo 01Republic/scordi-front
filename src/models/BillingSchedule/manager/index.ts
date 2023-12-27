@@ -1,5 +1,5 @@
 import {BasicManager} from '^models/BasicManager';
-import {Currency} from '^types/money.type';
+import {CurrencyCode} from '^types/money.type';
 import {groupBy, yyyy_mm_dd} from '^utils/dateTime';
 import {dateSortBy} from '^components/util/date';
 import {uniqWith} from 'lodash';
@@ -67,7 +67,7 @@ export class BillingScheduleManager extends BasicManager<BillingScheduleShallowD
     /**
      * Final Methods (returning non-chainable value)
      */
-    getTotalPrice(displayCurrency = Currency.KRW) {
+    getTotalPrice(displayCurrency = CurrencyCode.KRW) {
         const priceList = this.map((schedule) => schedule.getPriceIn(displayCurrency));
         return priceList.reduce((a, b) => a + b, 0);
     }

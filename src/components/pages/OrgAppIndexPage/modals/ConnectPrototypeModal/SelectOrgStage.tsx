@@ -53,11 +53,11 @@ export const SelectOrgStage = memo(() => {
 
         // 서버에 [신규구독 생성] "요청"을 수행합니다.
         createSubscription({
-            sign: makeSignHeader(authInfo)['Crawler-Sign'],
+            // sign: makeSignHeader(authInfo)['Crawler-Sign'],
             organizationId,
             productId: currentProduct.id,
-            connectedSlug,
-            displayName,
+            // connectedSlug,
+            // displayName,
         })
             // 그리고 [신규구독 생성] "요청"이 완료되면,
             // "요청 성공!" 단계로 이동시킵니다.
