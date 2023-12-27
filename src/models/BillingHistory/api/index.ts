@@ -43,6 +43,11 @@ export const appBillingHistoryApi = {
         const url = `/subscriptions/${subscriptionId}/${NAMESPACE}`;
         return api.post<BillingHistoryDto>(url, dto).then(oneDtoOf(BillingHistoryDto));
     },
+
+    createV2: (subscriptionId: number, dto: CreateBillingHistoryRequestDto) => {
+        const url = `/subscriptions/${subscriptionId}/${NAMESPACE}/v2`;
+        return api.post<BillingHistoryDto>(url, dto).then(oneDtoOf(BillingHistoryDto));
+    },
 };
 
 export const getBillingHistoriesAll = (params: GetBillingHistoriesParams) => {
