@@ -6,9 +6,8 @@ import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {InputContainer} from './InputContainer';
 import {CreatableItem} from './CreatableItem';
 import {useInput} from '^v3/share/table/columns/SelectColumn/useInput';
-
-type Component<T> = (props: {value: T | string}) => JSX.Element;
-type ValueComponent<T> = Component<T> | MemoExoticComponent<Component<T>>;
+import {OptionItem} from '^v3/share/table/columns/SelectColumn/OptionItem';
+import {ValueComponent} from './type';
 
 interface SelectColumnProps<T> {
     value: T | undefined;
@@ -16,11 +15,20 @@ interface SelectColumnProps<T> {
     onSelect: (option: T) => Promise<any>;
     onCreate?: (keyword: string) => Promise<any>;
     ValueComponent?: ValueComponent<T>;
+
+    // 옵션 중 기존의 값이 없을 때
+    // 드롭다운 Trigger 에서 보여 줄 기본 UI
+    // (기본값: "비어있음")
     EmptyComponent?: () => JSX.Element;
+
     valueOfOption?: (option: T) => any;
     contentMinWidth?: string;
     optionListBoxTitle?: string;
+
+    // 드롭다운의 기본 방향 설정
     placement?: Placement;
+
+    // 드롭다운 Content 상단에서 Input 을 노출 여부 (기본값: true)
     inputDisplay?: boolean;
 }
 
@@ -35,7 +43,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
     const {
         value,
         ValueComponent = (p: {value: T | string}) => <TagUI>{`${p.value}`}</TagUI>,
-        EmptyComponent = () => <TagUI className="text-gray-300">비어있음</TagUI>,
+        EmptyComponent = () => <TagUI className="text-gray-300 !px-0">비어있음</TagUI>,
         getOptions,
         valueOfOption = (v) => v,
         onSelect,
@@ -116,29 +124,16 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
                         </div>
                     </div>
                     <ul className="menu py-0 block max-h-[300px] overflow-y-auto no-scrollbar">
-                        {options.map((option, i) => {
-                            const val = value ? valueOfOption(value) : value;
-                            const isCurrent = valueOfOption(option) === val;
-                            return (
-                                <li
-                                    key={i}
-                                    onClick={() => clickOption(option)}
-                                    className="cursor-pointer flex px-[4px] group"
-                                    data-focusable="true"
-                                >
-                                    <div
-                                        className={`flex rounded-[4px] bg-white text-inherit items-center pt-[2px] px-[10px] pb-0 min-h-[28px] ${
-                                            !isCurrent
-                                                ? 'group-hover:bg-gray-300 group-hover:bg-opacity-30 active:bg-gray-200'
-                                                : '!bg-opacity-0'
-                                        }`}
-                                    >
-                                        <ValueComponent key={i} value={option} />
-                                        <div className="ml-auto">{isCurrent && <FcCheckmark />}</div>
-                                    </div>
-                                </li>
-                            );
-                        })}
+                        {options.map((option, i) => (
+                            <OptionItem
+                                key={i}
+                                option={option}
+                                selectedOption={value}
+                                clickOption={clickOption}
+                                ValueComponent={ValueComponent}
+                                valueOfOption={valueOfOption}
+                            />
+                        ))}
 
                         {onCreate && searchKeyword && !options.find((o) => valueOfOption(o) === searchKeyword) && (
                             <CreatableItem onClick={() => createOption(searchKeyword)}>
