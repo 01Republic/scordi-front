@@ -11,6 +11,7 @@ import {BillingHistoryDto} from '^models/BillingHistory/type';
 import {BsPlusCircle} from 'react-icons/bs';
 import {addBillingHistoryShowModal} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {useModal} from '^v3/share/modals';
+import {AddButton} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/AppShowPageBody/tabs/TeamMemberListTab/AddButton';
 
 interface BillingHistorySummaryProps {
     billingHistories: BillingHistoryDto[];
@@ -31,17 +32,24 @@ export const BillingHistorySummary = memo((props: BillingHistorySummaryProps) =>
 
     return (
         <>
-            <div className="flex justify-between">
-                <p
-                    className="font-semibold mb-3"
-                    dangerouslySetInnerHTML={{__html: t('result_in_since_n_ago', {since})}}
-                />
-                <button onClick={open} className="relative text-indigo-400 hover:text-indigo-600 transition-all">
-                    <BsPlusCircle className="" size={24} strokeWidth={0.3} />
-                </button>
-            </div>
+            <div className="sticky -mx-6 px-6 bg-white z-10" style={{top: 'calc(50px + 64px)'}}>
+                <div className="py-3 flex items-center justify-between">
+                    <p className="text-xl font-semibold flex items-center">
+                        <span dangerouslySetInnerHTML={{__html: t('result_in_since_n_ago', {since})}}></span>
+                    </p>
 
-            <div className="flex items-center justify-around pb-6">
+                    <div className="tooltip tooltip-top tooltip-primary" data-tip="추가">
+                        <button
+                            onClick={open}
+                            className="relative text-indigo-400 hover:text-indigo-600 transition-all"
+                        >
+                            <BsPlusCircle className="" size={24} strokeWidth={0.3} />
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div className="flex items-center justify-around py-3">
                 <div className="text-center">
                     <p className="text-sm text-gray-500 mb-1">{t('summary_stat.counter.label')}</p>
                     <p className="font-semibold text-18">
@@ -61,6 +69,8 @@ export const BillingHistorySummary = memo((props: BillingHistorySummaryProps) =>
                     </p>
                 </div>
             </div>
+
+            <hr className="py-3" />
         </>
     );
 });

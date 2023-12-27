@@ -7,7 +7,6 @@ import {useRecoilState} from 'recoil';
 export const CurrencySelectModal = memo(() => {
     const {close, isShow} = useModal(currencySelectShowModal);
     const [selectedCurrency, setSelectedCurrency] = useRecoilState(selectedCurrencyState);
-    console.log(selectedCurrency);
 
     const onClick = () => {
         close();
@@ -27,9 +26,7 @@ export const CurrencySelectModal = memo(() => {
                     <div className="flex-1 py-4 px-2 text-sm">
                         <ul>
                             {CurrencyOptions.map((option) => {
-                                console.log('option', option);
-                                console.log('selectedCurrency', selectedCurrency);
-                                if (option === selectedCurrency) {
+                                if (option.label === selectedCurrency.label) {
                                     return (
                                         <li
                                             className="flex justify-between items-center font-bold mb-3"
