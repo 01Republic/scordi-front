@@ -9,13 +9,13 @@ import {useBillingHistoryInModal} from '^v3/share/modals/BillingHistoryDetailMod
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {PayMethodBody} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/PayMethodBody';
 import {useRecoilState} from 'recoil';
-import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {AmountBody} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/AmountBody';
 import {DetailInfoBody} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/DetailInfoBody';
 import {useForm} from 'react-hook-form';
 import {CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 import {CurrencySelectModal} from '^v3/share/modals/BillingHistoryDetailModal/CurrencySelectModal';
-import {useToast} from '^hooks/useToast';
+import {FinishBody} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/FinishBody';
+import {MemoBody} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/MemoBody';
 
 export const AddBillingHistoryModal = memo(() => {
     const {Modal, close, isShow} = useModal(addBillingHistoryShowModal);
@@ -44,6 +44,8 @@ export const AddBillingHistoryModal = memo(() => {
         }
     };
 
+    const isShowTitle = addBillingHistory !== AddBillingHistory.Finish && addBillingHistory !== AddBillingHistory.Memo;
+
     return (
         <>
             <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
@@ -55,13 +57,17 @@ export const AddBillingHistoryModal = memo(() => {
 
                 <MobileSection.Padding>
                     <h2 className="h1 leading-tight mb-10">
-                        새로운 결제 내역을 <br />
-                        등록합니다
+                        {isShowTitle && ' 새로운 결제 내역을 \n' + ' 등록합니다'}
+                        {addBillingHistory === AddBillingHistory.Finish && ''}
+                        {addBillingHistory === AddBillingHistory.Memo && '어떤 내용의 \n' + ' 결제 내역인가요?'}
                     </h2>
+
                     <section className="flex flex-col gap-5">
                         {addBillingHistory === AddBillingHistory.PayMethod && <PayMethodBody form={form} />}
                         {addBillingHistory === AddBillingHistory.Amount && <AmountBody form={form} />}
                         {addBillingHistory === AddBillingHistory.DetailInfo && <DetailInfoBody form={form} />}
+                        {addBillingHistory === AddBillingHistory.Finish && <FinishBody />}
+                        {addBillingHistory === AddBillingHistory.Memo && <MemoBody form={form} />}
                     </section>
                 </MobileSection.Padding>
             </Modal>

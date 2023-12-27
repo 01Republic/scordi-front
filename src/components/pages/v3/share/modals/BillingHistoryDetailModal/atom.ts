@@ -57,6 +57,8 @@ export enum AddBillingHistory {
     PayMethod,
     Amount,
     DetailInfo,
+    Finish,
+    Memo,
 }
 
 export const AddBillingHistoryState = atom<AddBillingHistory>({

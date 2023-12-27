@@ -14,7 +14,10 @@ import {
 } from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {appIdState} from '^v3/V3OrgAppShowPage/atom';
 import {appBillingHistoryApi} from '^models/BillingHistory/api';
-import {isDomesticState} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/atom';
+import {
+    billingHistoryIdState,
+    isDomesticState,
+} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/atom';
 
 interface DetailInfoBodyProps {
     form: UseFormReturn<CreateBillingHistoryRequestDto>;
@@ -24,6 +27,7 @@ export const DetailInfoBody = memo(function DetailInfoBody(props: DetailInfoBody
     const selectedCurrency = useRecoilValue(selectedCurrencyState);
     const isDomestic = useRecoilValue(isDomesticState);
     const setAddBillingHistory = useSetRecoilState(AddBillingHistoryState);
+    const setBillingHistoryId = useSetRecoilState(billingHistoryIdState);
 
     const appId = useRecoilValue(appIdState);
 
@@ -56,8 +60,10 @@ export const DetailInfoBody = memo(function DetailInfoBody(props: DetailInfoBody
 
         const req = appBillingHistoryApi.createV2(appId, dto);
 
-        req.then(() => {
+        req.then((res) => {
             setAddBillingHistory(AddBillingHistory.Finish);
+
+            setBillingHistoryId(res.data.id);
         });
 
         req.catch((e) => console.log(e));

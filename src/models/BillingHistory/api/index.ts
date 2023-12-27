@@ -48,6 +48,11 @@ export const appBillingHistoryApi = {
         const url = `/subscriptions/${subscriptionId}/${NAMESPACE}/v2`;
         return api.post<BillingHistoryDto>(url, dto).then(oneDtoOf(BillingHistoryDto));
     },
+
+    updateV2: (subscriptionId: number, billingHistoryId: number, dto: CreateBillingHistoryRequestDto) => {
+        const url = `/subscriptions/${subscriptionId}/${NAMESPACE}/${billingHistoryId}v2`;
+        return api.patch<BillingHistoryDto>(url, dto).then(oneDtoOf(BillingHistoryDto));
+    },
 };
 
 export const getBillingHistoriesAll = (params: GetBillingHistoriesParams) => {
