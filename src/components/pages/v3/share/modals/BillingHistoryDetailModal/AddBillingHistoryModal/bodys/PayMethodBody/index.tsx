@@ -8,17 +8,17 @@ import {
 import {UseFormReturn} from 'react-hook-form';
 import {useCreditCardsOfOrganization} from '^models/CreditCard/hook';
 import {CreditCardDto} from '^models/CreditCard/type';
-import {useSetRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {AddBillingHistoryState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {FormControl} from '^components/util/form-control';
 import {CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
+import {datetime_local} from '^utils/dateTime';
 
 interface PayMethodBodyProps {
     form: UseFormReturn<CreateBillingHistoryRequestDto>;
 }
 export const PayMethodBody = memo((props: PayMethodBodyProps) => {
     const {CreditCard} = useCreditCardsOfOrganization(true);
-    const setAddBillingHistoryState = useSetRecoilState(AddBillingHistoryState);
     const {form} = props;
 
     // string 또는 string[] -> option 형태로 변경시켜주는 함수
@@ -48,9 +48,9 @@ export const PayMethodBody = memo((props: PayMethodBodyProps) => {
             .map((card) => {
                 const cardInfo = card.decryptSign();
 
-                if (!cardInfo.number1 || cardInfo.number2 || cardInfo.number3 || cardInfo.number4) return;
+                if (!cardInfo.number1) return;
 
-                const cardNumber = cardInfo.number1 + cardInfo.number2 + cardInfo.number3 + cardInfo.number4;
+                const cardNumber = `${cardInfo.number1} - ${cardInfo.number2} - ${cardInfo.number3} - ${cardInfo.number4}`;
                 return {id: card.id, label: cardNumber, name: cardNumber};
             })
             .filter(Boolean);

@@ -1,4 +1,4 @@
-import {memo, useEffect, useState} from 'react';
+import {ChangeEvent, memo, useEffect, useState} from 'react';
 import {UseFormReturn} from 'react-hook-form';
 import {CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 import {FormControl} from '^components/util/form-control';
@@ -6,13 +6,14 @@ import {ButtonGroupRadio} from '^components/util/form-control/inputs/ButtonGroup
 import {useModal} from '^v3/share/modals';
 import {currencySelectShowModal, selectedCurrencyState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {useRecoilState} from 'recoil';
+import {CreateMoneyRequestDto, Currency} from '^types/money.type';
 
 interface AmountBodyProps {
     form: UseFormReturn<CreateBillingHistoryRequestDto>;
 }
 
 export const AmountBody = memo((props: AmountBodyProps) => {
-    const [isDomestic, setIsDomestic] = useState<boolean>(false);
+    const [isDomestic, setIsDomestic] = useState<boolean>(true);
     const [selectedCurrency, setSelectedCurrency] = useRecoilState(selectedCurrencyState);
 
     const {open} = useModal(currencySelectShowModal);
@@ -20,15 +21,26 @@ export const AmountBody = memo((props: AmountBodyProps) => {
     const {form} = props;
 
     const isDomesticOptions = [
-        {label: '국내', value: true},
-        {label: '해외', value: false},
+        {label: '국내', value: 'true'},
+        {label: '해외', value: 'false'},
     ];
+
+    const onAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const moneyLike: CreateMoneyRequestDto = {
+            text: `${e.target.value}원`,
+            amount: Number(e.target.value),
+            code: Currency.KRW,
+            exchangeRate: 1,
+        };
+        form.setValue('payAmount', moneyLike);
+    };
 
     return (
         <>
             <FormControl topLeftLabel="얼마를 사용하셨나요?">
                 <div className="input input-bordered w-full flex items-center justify-between">
-                    <input type="number" className="w-full" {...form.register('payAmount')} />
+                    <input className="hidden" {...form.register('payAmount')}></input>
+                    <input onChange={(e) => onAmountChange(e)} type="number" className="w-full" />
                     <span>KRW</span>
                 </div>
             </FormControl>
@@ -37,12 +49,12 @@ export const AmountBody = memo((props: AmountBodyProps) => {
                 <input className="hidden" {...form.register('isDomestic')} />
                 <ButtonGroupRadio
                     onChange={(e) => {
-                        const selectedValue = e.value;
-
+                        const selectedValue = e.value === 'true';
                         form.setValue('isDomestic', selectedValue);
                         setIsDomestic(selectedValue);
                     }}
                     options={isDomesticOptions}
+                    defaultValue={isDomesticOptions[0]}
                 />
             </FormControl>
 

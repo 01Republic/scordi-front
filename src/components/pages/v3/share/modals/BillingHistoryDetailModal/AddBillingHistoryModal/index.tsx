@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {
     AddBillingHistory,
     addBillingHistoryShowModal,
@@ -15,19 +15,72 @@ import {DetailInfoBody} from '^v3/share/modals/BillingHistoryDetailModal/AddBill
 import {useForm} from 'react-hook-form';
 import {CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 import {CurrencySelectModal} from '^v3/share/modals/BillingHistoryDetailModal/CurrencySelectModal';
+import {CardFormModalGroup} from '^v3/V3OrgCardListPage/modals/CardFormModalGroup';
+import {useToast} from '^hooks/useToast';
 
 export const AddBillingHistoryModal = memo(() => {
-    const {Modal, close} = useModal(addBillingHistoryShowModal);
+    const {Modal, close, isShow} = useModal(addBillingHistoryShowModal);
     const {billingHistory} = useBillingHistoryInModal();
     const [addBillingHistory, setAddBillingHistory] = useRecoilState(AddBillingHistoryState);
     const form = useForm<CreateBillingHistoryRequestDto>();
+    const {toast} = useToast();
 
-    const onClick = () => {
-        console.log(1);
+    useEffect(() => {
+        setAddBillingHistory(AddBillingHistory.PayMethod);
+        form.reset();
+    }, [isShow]);
+
+    // step1 버튼
+    const onPayMethodBtnClick = () => {
+        const cardId = form.getValues('creditCardId');
+
+        if (!cardId) {
+            toast.error('결제한 카드를 선택해주세요');
+            return;
+        }
+
         setAddBillingHistory(AddBillingHistory.Amount);
     };
+
+    // step2 버튼
+    const onAmountBtnClick = () => {
+        const payAmount = form.getValues('payAmount');
+
+        if (!payAmount) {
+            toast.error('결제한 금액을 입력해주세요');
+            return;
+        }
+
+        setAddBillingHistory(AddBillingHistory.DetailInfo);
+    };
+
+    // step별 버튼 관리하는 함수
+    const onClick = () => {
+        console.log(form.getValues());
+
+        if (addBillingHistory === AddBillingHistory.PayMethod) {
+            return onPayMethodBtnClick();
+        }
+
+        if (addBillingHistory === AddBillingHistory.Amount) {
+            return onAmountBtnClick();
+        }
+    };
+
+    // 모달 뒤로가기 버튼
     const onBack = () => {
-        close();
+        if (addBillingHistory === AddBillingHistory.PayMethod) {
+            close();
+            return;
+        }
+        if (addBillingHistory === AddBillingHistory.Amount) {
+            setAddBillingHistory(AddBillingHistory.PayMethod);
+            return;
+        }
+        if (addBillingHistory === AddBillingHistory.DetailInfo) {
+            setAddBillingHistory(AddBillingHistory.Amount);
+            return;
+        }
     };
 
     return (
@@ -52,12 +105,12 @@ export const AddBillingHistoryModal = memo(() => {
                 </MobileSection.Padding>
 
                 <ModalLikeBottomBar>
-                    <button onClick={onClick} className="btn-modal w-full">
+                    <button onClick={() => onClick()} className="btn-modal w-full">
                         다음
                     </button>
                 </ModalLikeBottomBar>
             </Modal>
-            {/*<CardFormModalGroup />*/}
+            <CardFormModalGroup />
             <CurrencySelectModal />
         </>
     );
