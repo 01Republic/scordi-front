@@ -17,6 +17,7 @@ import {CurrencySelectModal} from '^v3/share/modals/BillingHistoryDetailModal/Cu
 import {FinishBody} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/FinishBody';
 import {MemoBody} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/MemoBody';
 import {isDomesticState, memoState} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/atom';
+import {CardFormModalGroup} from '^v3/V3OrgCardListPage/modals/CardFormModalGroup';
 
 export const AddBillingHistoryModal = memo(() => {
     const {Modal, close, isShow} = useModal(addBillingHistoryShowModal);
@@ -82,7 +83,7 @@ export const AddBillingHistoryModal = memo(() => {
                     </section>
                 </MobileSection.Padding>
             </Modal>
-            {/*<CardFormModalGroup />*/}
+            <CardFormModalGroup />
             <CurrencySelectModal />
         </>
     );
