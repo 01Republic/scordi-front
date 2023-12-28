@@ -39,7 +39,8 @@ export const FormForGeneralInfoModal = memo(function FormForGeneralInfoModal() {
             isFreeTier: form.getValues('isFreeTier'),
         }));
 
-        form.getValues('isFreeTier') ? openUsingMemberInfoModal() : openBillingInfoStep();
+        const isFree = form.getValues('isFreeTier') ?? true;
+        isFree ? openUsingMemberInfoModal() : openBillingInfoStep();
     };
 
     return (
