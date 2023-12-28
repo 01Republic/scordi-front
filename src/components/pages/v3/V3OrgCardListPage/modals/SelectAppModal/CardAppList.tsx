@@ -1,18 +1,32 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import Select from 'react-select';
 import {ProductOption} from '^components/pages/v3/share/modals/AccountListModal/form/SelectProduct/ProductOption.type';
 import {CardAppItem} from './CardAppItem';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useToast} from '^hooks/useToast';
 import {useMoveScroll} from '^hooks/useMoveScroll';
-import {allProductsSelector, productIdsAtom, selectedAppsAtom} from './atom';
+import {productIdsAtom, selectedAppsAtom, sortedProductsAtom, selectAppModal} from './atom';
+import {productApi} from '^models/Product/api';
+import {orgIdParamState} from '^atoms/common';
 
 export const CardAppList = memo(() => {
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [allProducts, setAllProducts] = useRecoilState(sortedProductsAtom);
     const [productIds, setProductIds] = useRecoilState(productIdsAtom);
     const [selectedApps, setSelectedApps] = useRecoilState(selectedAppsAtom);
     const {selectRef, onScroll} = useMoveScroll();
     const {toast} = useToast();
-    const allProducts = useRecoilValue(allProductsSelector);
+    const orgId = useRecoilValue(orgIdParamState);
+    const isSelectAppModalShow = useRecoilValue(selectAppModal.isShowAtom);
+
+    useEffect(() => {
+        // api 요청이 모달 열렸을 때만 동작하도록
+        if (!isSelectAppModalShow) return;
+
+        if (isLoaded) return;
+        productApi.sortBySubscription(orgId).then((res) => setAllProducts(res.data.items));
+        setIsLoaded(true);
+    }, [isSelectAppModalShow, isLoaded]);
 
     const selectApp = (option: ProductOption) => {
         const selectedAppId = option.value;
@@ -35,12 +49,14 @@ export const CardAppList = memo(() => {
     return (
         <div ref={selectRef} onClick={onScroll}>
             <Select
-                options={allProducts.map((list) => {
-                    return {
-                        value: list.id,
-                        label: list.nameEn,
-                    };
-                })}
+                options={
+                    allProducts?.map((list) => {
+                        return {
+                            value: list.id,
+                            label: list.nameEn,
+                        };
+                    }) ?? []
+                }
                 onChange={(option) => option && selectApp(option)}
                 className="select-underline input-underline"
                 placeholder="전체"

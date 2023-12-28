@@ -5,11 +5,13 @@ import {isLoadedState, onboardingModalIsShow} from './atom';
 import {OnboardingSkippedStore, SkipButton} from './SkipButton';
 import {StepNavigator} from './StepNavigator';
 import {StepContent} from './StepContent';
+import {useRouter} from 'next/router';
 
 export const OnboardingFlow = memo(function OnboardingFlow() {
     const [isShow, setIsShow] = useRecoilState(onboardingModalIsShow);
     const currentOrg = useRecoilValue(currentOrgAtom);
     const isLoaded = useRecoilValue(isLoadedState);
+    const router = useRouter();
 
     useEffect(() => {
         if (typeof window == 'undefined') return;
@@ -36,6 +38,8 @@ export const OnboardingFlow = memo(function OnboardingFlow() {
                         const store = new OnboardingSkippedStore();
                         store.add(currentOrg.id);
                         setIsShow(false);
+
+                        router.reload();
                     }}
                     disabled={isLoaded}
                 />

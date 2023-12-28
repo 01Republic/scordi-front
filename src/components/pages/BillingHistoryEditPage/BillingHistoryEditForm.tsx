@@ -8,7 +8,7 @@ import {billingHistoryIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useSetRecoilState} from 'recoil';
 import {getBillingHistoryQuery} from '^models/BillingHistory/atom';
 import {useBillingHistory} from '^models/BillingHistory/hook';
-import {CreateMoneyRequestDto, Currency, CurrencyList} from '^types/money.type';
+import {CurrencyCode, CurrencyList} from '^types/money.type';
 import {billingHistoryApi} from '^models/BillingHistory/api';
 import {UpdateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 
@@ -45,8 +45,9 @@ export const BillingHistoryEditForm = memo((props: BillingHistoryEditFormProps) 
         form.setValue('payAmount', {
             text: payAmount?.text || '',
             amount: payAmount?.amount || 0, // 금액
-            code: payAmount?.code || Currency.KRW, // 화폐 코드
+            code: payAmount?.code || CurrencyCode.KRW, // 화폐 코드
             exchangeRate: payAmount?.exchangeRate || CurrencyList.ko.exchangeRate, // 달러 대비 환율
+            exchangedCurrency: CurrencyCode.USD,
         });
         form.setValue('paidAt', `${billingHistory.paidAt}`.split('T')[0]);
     }, [billingHistory]);

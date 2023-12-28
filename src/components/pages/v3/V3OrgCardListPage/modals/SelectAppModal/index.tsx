@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useEffect} from 'react';
+import React, {memo, useCallback, useEffect, useRef} from 'react';
 import {useRouter} from 'next/router';
 import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {useToast} from '^hooks/useToast';
@@ -15,6 +15,8 @@ import {createCreditCardDtoAtom} from '../atom';
 import {productIdsAtom, selectAppModal, selectedAppsAtom, subscriptionsAtom} from './atom';
 import {useAlert} from '^hooks/useAlert';
 import {cardIdParamState} from '^models/CreditCard/atom';
+import {useCardModal} from '^v3/V3OrgCardListPage/modals/CardFormModalGroup';
+import {useOnResize2} from '^components/util/onResize2';
 
 export const SelectAppModal = memo(() => {
     const {Modal, close, isShow} = useModal(selectAppModal);
@@ -26,6 +28,8 @@ export const SelectAppModal = memo(() => {
     const selectedAppsReset = useResetRecoilState(selectedAppsAtom);
     const orgId = useRecoilValue(orgIdParamState);
     const cardId = useRecoilValue(cardIdParamState);
+    const {closeCardModals} = useCardModal();
+    const {isDesktop} = useOnResize2();
     const router = useRouter();
     const {toast} = useToast();
     const {alert} = useAlert();
@@ -54,9 +58,11 @@ export const SelectAppModal = memo(() => {
         if (res) {
             alert.success({title: '카드 추가가 완료되었습니다.'});
             const cardId = res.data.id;
-            setTimeout(() => {
-                router.push(V3OrgCardDetailPageRoute.path(orgId, cardId));
-            }, 1500);
+            closeCardModals();
+            !isDesktop &&
+                setTimeout(() => {
+                    router.push(V3OrgCardDetailPageRoute.path(orgId, cardId));
+                }, 1500);
         }
     }, [orgId, cardId, createCreditCardDto, productIds]);
 

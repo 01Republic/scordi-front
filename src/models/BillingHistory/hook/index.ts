@@ -12,7 +12,7 @@ import {billingHistoryApi} from '^models/BillingHistory/api';
 import {BillingHistoryDto, BillingHistoryStatus, GetBillingHistoriesParams} from '^models/BillingHistory/type';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {BillingType, InvoiceAppDto} from '^models/InvoiceApp/type';
-import {Currency} from '^types/money.type';
+import {CurrencyCode} from '^types/money.type';
 import {changePriceCurrency} from '^api/tasting.api/gmail/agent/parse-email-price';
 
 export const useBillingHistories = () => useRecoilValue(getBillingHistoriesQuery);
@@ -39,9 +39,10 @@ export const useBillingHistoriesV3 = (option?: UseBillingHistoriesOption) => {
         setIsLoading(false);
     }
 
+    const reload = () => search(query);
     const movePage = (page: number) => search({...query, page});
 
-    return {query, result, search, movePage, isLoading};
+    return {query, reload, result, search, movePage, isLoading};
 };
 
 // This is real !! (deprecated)
@@ -95,7 +96,7 @@ export function getInvoiceAppBillingCycle(subscription?: SubscriptionDto, invoic
     return '-';
 }
 
-export function getTotalPriceOfEmails(histories: BillingHistoryDto[], displayCurrency = Currency.KRW) {
+export function getTotalPriceOfEmails(histories: BillingHistoryDto[], displayCurrency = CurrencyCode.KRW) {
     // Email 로부터 생성된 결제히스토리만 걸러냅니다.
     const historyListFromEmail = histories.filter((his) => {
         const email = his.emailContent;

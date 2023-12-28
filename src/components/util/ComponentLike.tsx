@@ -1,5 +1,5 @@
 import {ReactComponentLike, ReactElementLike} from 'prop-types';
-import {Fragment} from 'react';
+import {Fragment, MemoExoticComponent} from 'react';
 
 export type ComponentLike = ReactElementLike | ReactComponentLike;
 
@@ -12,3 +12,7 @@ export function renderOne(Component: ComponentLike, i?: number) {
         return <Fragment key={i}>{Component}</Fragment>;
     }
 }
+
+export type PureComponent<Props> = (props: Props) => JSX.Element;
+export type MemoizedComponent<Props> = MemoExoticComponent<(props: Props) => JSX.Element>;
+export type ComponentType<Props> = PureComponent<Props> | MemoizedComponent<Props>;

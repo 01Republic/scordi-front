@@ -27,7 +27,11 @@ export const subscriptionApi = {
         return api.get<SubscriptionDto>(url).then(oneDtoOf(SubscriptionDto));
     },
 
-    create: (workspaceId: number, productId: number, dto: CreateSubscriptionRequestDto2) => {
+    create: (dto: CreateSubscriptionRequestDto) => {
+        return api.post<SubscriptionDto>(`/${NAMESPACE}`, dto).then(oneDtoOf(SubscriptionDto));
+    },
+
+    create2: (workspaceId: number, productId: number, dto: CreateSubscriptionRequestDto2) => {
         return api
             .post<SubscriptionDto>(`/${NAMESPACE}`, {workspaceId, productId, dto})
             .then(oneDtoOf(SubscriptionDto));

@@ -5,10 +5,11 @@ import {AiOutlineSearch} from '@react-icons/all-files/ai/AiOutlineSearch';
 interface TableSearchControlProps extends WithChildren {
     totalItemCount: number;
     onSearch: (keyword: string) => any;
+    size?: 'sm' | 'md' | 'lg';
 }
 
 export const TableSearchControl = memo((props: TableSearchControlProps) => {
-    const {totalItemCount, onSearch} = props;
+    const {totalItemCount, onSearch, size = 'md', children} = props;
 
     return (
         <div className="flex justify-between items-center">
@@ -19,13 +20,15 @@ export const TableSearchControl = memo((props: TableSearchControlProps) => {
                 </p>
             </div>
 
+            {children}
+
             <div className="relative">
                 <label className="text-gray-400 absolute top-0 bottom-0 left-1.5 h-full w-6 flex items-center justify-center">
                     <AiOutlineSearch />
                 </label>
                 <input
                     type="text"
-                    className="input input-bordered pl-8"
+                    className={`input input-${size} input-bordered pl-8`}
                     placeholder="검색"
                     onChange={(e) => onSearch(e.target.value)}
                 />

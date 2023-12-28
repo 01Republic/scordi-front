@@ -13,15 +13,19 @@ import {
     SubscriptionStatus,
 } from './columns';
 import {useAppShowModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
+import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
 interface SubscriptionTrProps {
     subscription: SubscriptionDto;
+    reload?: () => any;
+    // search?: (params: FindAllQueryDto<SubscriptionDto>, mergeMode?: boolean, force?: boolean) => Promise<void>;
+    // query?: FindAllQueryDto<SubscriptionDto>;
 }
 
 export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
     const appShowModal = useAppShowModal();
-    const {subscription} = props;
+    const {subscription, reload} = props;
 
     const BillingHistory = BillingHistoryManager.init(subscription.billingHistories || []);
     const latestIssue = BillingHistory.paymentOnly().latestIssue();
@@ -39,33 +43,49 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
 
     return (
         <tr>
+            {/* Checkbox */}
             {/*<td></td>*/}
+
+            {/* 서비스 명 */}
             <td className="group cursor-pointer" onClick={openDetail}>
                 <ProductProfile subscription={subscription} />
             </td>
-            <td className="text-center">
-                <SubscriptionStatus
-                    subscription={subscription}
-                    lastPaidAt={lastPaidAt}
-                    nextPayDate={nextPayDate}
-                    nextPayAmount={nextPayAmount}
-                />
-            </td>
+            {/*<td></td>*/}
+
+            {/* 상태 */}
             <td className="">
-                <MasterProfile subscription={subscription} />
+                <SubscriptionStatus subscription={subscription} onChange={() => reload && reload()} />
             </td>
-            <td className="text-center">
-                <PayingType subscription={subscription} />
+
+            {/* 결제주기 */}
+            <td></td>
+
+            {/* 과금방식: (TestBank: 연, 고정, 사용량, 크레딧, 1인당) */}
+            <td className="">
+                <PayingType subscription={subscription} onChange={() => reload && reload()} />
             </td>
+
+            {/* 사용인원 */}
             <td className="text-right">
                 <MemberCount subscription={subscription} />
             </td>
+
+            {/* 최신 결제금액 */}
             <td className="text-right">
                 <LatestPayAmount latestBillingHistory={lastPaidHistory} />
             </td>
+
+            {/* 다음 결제일 */}
             <td className="text-right">
                 <NextPaymentDate nextPayDate={nextPayDate} />
             </td>
+
+            {/* 담당자 */}
+            <td className="">
+                <MasterProfile subscription={subscription} />
+            </td>
+
+            {/* Actions */}
             <td></td>
         </tr>
     );

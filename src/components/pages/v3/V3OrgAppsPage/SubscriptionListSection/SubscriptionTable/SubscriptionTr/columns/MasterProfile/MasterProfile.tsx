@@ -1,10 +1,11 @@
-import React, {ChangeEvent, memo, MouseEventHandler, useEffect, useState} from 'react';
+import React, {ChangeEvent, memo, useEffect, useState} from 'react';
 import {TeamMemberDto} from '^models/TeamMember/type';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {useTeamMembers} from '^models/TeamMember/hook';
 import {useForm} from 'react-hook-form';
 import {subscriptionApi} from '^models/Subscription/api';
 import {MasterProfileOption} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/MasterProfile/MasterProfileOption';
+import {useDropdown} from '^hooks/useDropdown';
 
 interface MasterProfileProps {
     subscription: SubscriptionDto;
@@ -22,6 +23,8 @@ export const MasterProfile = memo((props: MasterProfileProps) => {
     const [memberOptions, setMemberOptions] = useState<TeamMemberDto[]>();
     const [filteredMemberOptions, setFilteredMemberOptions] = useState<TeamMemberDto[]>();
     const [master, setMaster] = useState<TeamMemberDto>();
+
+    const {contentRef, triggerRef, styles, attributes} = useDropdown('bottom-start');
 
     useEffect(() => {
         subscription.master && setMaster(subscription.master);
@@ -52,32 +55,35 @@ export const MasterProfile = memo((props: MasterProfileProps) => {
     };
 
     return (
-        <>
-            <div className="dropdown fixed-dropdown">
-                <div tabIndex={0}>
-                    <MasterProfileOption member={master} />
-                </div>
-                {memberOptions?.length || filteredMemberOptions?.length ? (
-                    <ul className="dropdown-content z-[1] py-2 px-3 mt-1 bg-base-100 rounded-box border">
-                        <li>
-                            <input
-                                {...form.register('masterName')}
-                                tabIndex={0}
-                                className="input input-bordered input-sm mb-3"
-                                onChange={onChange}
-                            />
-                        </li>
-                        {(filteredMemberOptions ?? memberOptions)?.map((member, i) => (
-                            <li className="text-sm cursor-pointer text-start mb-1.5" key={i}>
-                                <MasterProfileOption member={member} onClick={onClick} />
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    <></>
-                )}
+        <div className="dropdown">
+            <div ref={triggerRef} tabIndex={0}>
+                <MasterProfileOption member={master} />
             </div>
-        </>
+            {memberOptions?.length || filteredMemberOptions?.length ? (
+                <ul
+                    ref={contentRef}
+                    style={styles.popper}
+                    {...attributes.popper}
+                    className="dropdown-content !z-[1] py-2 px-3 mt-1 bg-base-100 rounded-box border"
+                >
+                    <li>
+                        <input
+                            {...form.register('masterName')}
+                            tabIndex={0}
+                            className="input input-bordered input-sm mb-3"
+                            onChange={onChange}
+                        />
+                    </li>
+                    {(filteredMemberOptions ?? memberOptions)?.map((member, i) => (
+                        <li className="text-sm cursor-pointer text-start mb-1.5" key={i}>
+                            <MasterProfileOption member={member} onClick={onClick} />
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <></>
+            )}
+        </div>
     );
 });
 MasterProfile.displayName = 'MasterProfile';

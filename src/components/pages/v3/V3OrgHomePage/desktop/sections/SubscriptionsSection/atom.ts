@@ -1,6 +1,6 @@
 import {atom} from 'recoil';
 import {Paginated} from '^types/utils/paginated.dto';
-import {SubscriptionDto} from '^models/Subscription/types';
+import {FindAllSubscriptionsQuery, SubscriptionDto} from '^models/Subscription/types';
 
 export const dashboardSubscriptionSearchResultAtom = atom<Paginated<SubscriptionDto>>({
     key: 'dashboard/SubscriptionSearchResultAtom',
@@ -14,4 +14,9 @@ export const dashboardSubscriptionSearchResultAtom = atom<Paginated<Subscription
             itemsPerPage: 30,
         },
     },
+});
+
+export const getDashboardSubscriptionsQueryAtom = atom<FindAllSubscriptionsQuery>({
+    key: 'getSubscriptionsQueryAtom',
+    default: {},
 });

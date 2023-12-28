@@ -3,13 +3,8 @@ import {atom, useRecoilState} from 'recoil';
 import {GroupBase, MultiValue, SingleValue as SingleValueType} from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import {
-    Control,
-    Menu,
-    MenuList,
-    Option,
-    SelectContainer,
+    Components,
     selectStylesOptions,
-    SingleValue,
 } from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/PayingType/SelectStylesOptions';
 import {subscriptionApi} from '^models/Subscription/api';
 import {SubscriptionDto} from '^models/Subscription/types';
@@ -89,7 +84,7 @@ export const PayingTypeSelect = memo((props: PayingTypeSelectProps) => {
             onChange={(e) => {
                 if (e) onChange(e as SelectOption);
             }}
-            components={{SelectContainer, Control, Menu, MenuList, SingleValue, Option}}
+            components={Components()}
         />
     );
 });

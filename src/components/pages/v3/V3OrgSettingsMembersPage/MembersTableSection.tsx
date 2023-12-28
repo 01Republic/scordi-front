@@ -35,7 +35,7 @@ export const MembersTableSection = memo(() => {
             <MembershipTable />
 
             <div className="flex justify-center">
-                <TablePaginator pagination={pagination} onPrev={movePage} onNext={movePage} movePage={movePage} />
+                <TablePaginator pagination={pagination} movePage={movePage} />
             </div>
         </div>
     );

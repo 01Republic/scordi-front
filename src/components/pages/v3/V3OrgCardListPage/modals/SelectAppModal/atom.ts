@@ -50,3 +50,8 @@ export const allProductsSelector = selector({
         return subscriptionProducts.concat(unsubscribedProducts);
     },
 });
+
+export const sortedProductsAtom = atom<ProductDto[]>({
+    key: 'sortedProductsAtom',
+    default: [],
+});

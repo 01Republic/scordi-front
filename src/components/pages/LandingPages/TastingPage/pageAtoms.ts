@@ -1,9 +1,9 @@
 import {atom} from 'recoil';
 import {GmailParsedItem, GoogleAccessTokenData} from '^api/tasting.api';
 import {GoogleSignedUserData} from '^models/User/atom';
-import {Currency} from '^types/crawler';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
+import {CurrencyCode} from '^types/money.type';
 
 export const gmailItemsLoadingAtom = atom({
     key: 'gmailItemsLoadingAtom',
@@ -35,7 +35,7 @@ export const draftBillingHistoriesAtom = atom<BillingHistoryDto[]>({
     default: [],
 });
 
-export const displayCurrencyAtom = atom<Currency>({
+export const displayCurrencyAtom = atom<CurrencyCode>({
     key: 'displayCurrencyAtom',
-    default: Currency.KRW,
+    default: CurrencyCode.KRW,
 });
