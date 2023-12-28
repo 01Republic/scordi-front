@@ -81,11 +81,13 @@ export const currencySelectShowModal = {
  * 화폐 선택 state
  */
 
-type CurrencyType = {
-    label: CurrencyCode;
-    desc: string;
-};
-export const selectedCurrencyState = atom<CurrencyType>({
+export type SelectedCurrency = {label: CurrencyCode; desc: string};
+export const selectedCurrencyState = atom<SelectedCurrency>({
     key: 'selectedCurrencyState',
+    default: {label: CurrencyCode.USD, desc: 'United States Dollar'},
+});
+
+export const selectedCurrencyForSubscriptionState = atom<SelectedCurrency>({
+    key: 'selectedCurrencyState/forSubscription',
     default: {label: CurrencyCode.USD, desc: 'United States Dollar'},
 });

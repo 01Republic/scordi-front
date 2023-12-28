@@ -5,10 +5,13 @@ import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 import {newInvoiceAccountModal} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/atom';
 import {useToast} from '^hooks/useToast';
 import {NewInvoiceAccountModal} from '^v3/V3OrgHomePage/NewInvoiceAccountModal';
+import {newFormForGeneralInfoModalAtom} from '^v3/share/modals/NewSubscriptionModalManually/atom';
+import {NewSubscriptionModalManually} from '^v3/share/modals/NewSubscriptionModalManually';
 
 export const NewAppModal = memo(() => {
     const {Modal, close} = useModal(newAppModal);
     const {open: newInvoiceAccountModalOpen, close: newInvoiceAccountModalClose} = useModal(newInvoiceAccountModal);
+    const {open: newSubscriptionManuallyModalOpen} = useModal(newFormForGeneralInfoModalAtom);
     const {toast} = useToast();
 
     return (
@@ -38,13 +41,14 @@ export const NewAppModal = memo(() => {
                         >
                             앱 로그인으로 자세한 앱 상태 조회하기
                         </button>
-                        <button onClick={() => toast.info('준비중입니다.')} className="btn btn-block btn-md btn-link ">
+                        <button onClick={newSubscriptionManuallyModalOpen} className="btn btn-block btn-md btn-link ">
                             그냥 직접 입력할래요
                         </button>
                     </div>
                 </div>
             </Modal>
             <NewInvoiceAccountModal />
+            <NewSubscriptionModalManually />
         </>
     );
 });

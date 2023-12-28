@@ -50,12 +50,7 @@ export const PayMethodBody = memo((props: PayMethodBodyProps) => {
 
         return cards
             .map((card) => {
-                const cardInfo = card.decryptSign();
-
-                if (!cardInfo.number1) return;
-
-                const cardNumber = `${cardInfo.number1} - ${cardInfo.number2} - ${cardInfo.number3} - ${cardInfo.number4}`;
-                return {id: card.id, label: cardNumber, name: cardNumber};
+                return {id: card.id, label: card.name, name: card.name};
             })
             .filter(Boolean);
     };
@@ -89,7 +84,7 @@ export const PayMethodBody = memo((props: PayMethodBodyProps) => {
                     placeholder="카드 선택하기"
                     components={CardComponents()}
                     styles={selectStylesOptions}
-                    options={getCreditCard(CreditCard?.list || [])}
+                    options={getCreditCard(CreditCard?.all() || [])}
                     onChange={(e) => form.setValue('creditCardId', e.id)}
                 />
             </FormControl>
