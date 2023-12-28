@@ -4,13 +4,13 @@ import {ProductListContentPanelSearchInput} from './ProductListContentPanelSearc
 import {ProductListContentPanelItem} from './ProductListContentPanelItem';
 import {useRecoilValue} from 'recoil';
 import {currentProductCategoryAtom} from '^components/pages/products/ProductListPage/ProductListSidePanel';
-import {productSearchResultsState, useProductSearch} from '^models/Product/hook';
+import {productSearchResultsState, useProductSearch, useProductsV2} from '^models/Product/hook';
 import {FindAllProductQuery} from '^models/Product/type';
 
 export const ProductListContentPanel = memo(() => {
     const currentCategory = useRecoilValue(currentProductCategoryAtom);
     const products = useRecoilValue(productSearchResultsState);
-    const {search: getAllProduct} = useProductSearch();
+    const {result, search: getAllProduct} = useProductsV2();
 
     const [tagName, setTagName] = useState('');
 
@@ -39,7 +39,7 @@ export const ProductListContentPanel = memo(() => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                {products.map((product, i) => (
+                {result.items.map((product, i) => (
                     <ProductListContentPanelItem key={i} product={product} />
                 ))}
             </div>

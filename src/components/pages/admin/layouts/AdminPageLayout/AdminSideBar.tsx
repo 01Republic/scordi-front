@@ -1,6 +1,5 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {useRouter} from 'next/router';
 import {AdminUsersPageRoute} from '^pages/admin/users';
 import {AdminPostsPageRoute} from '^pages/admin/posts';
 import {useCurrentUser} from '^models/User/hook';
@@ -10,12 +9,12 @@ import {AiOutlineHome} from '@react-icons/all-files/ai/AiOutlineHome';
 import {AdminProductsPageRoute} from '^pages/admin/products';
 import {BizOpsWorkflowListRoute} from '^pages/admin/biz-ops/manual/workflows';
 import {AdminOrgsPageRoute} from '^pages/admin/orgs';
+import {LinkTo} from '^components/util/LinkTo';
 
 interface AdminSideBarProps extends WithChildren {}
 
 export const AdminSideBar = memo((props: AdminSideBarProps) => {
     const {children} = props;
-    const router = useRouter();
     const {currentUser, logout} = useCurrentUser();
 
     return (
@@ -24,19 +23,19 @@ export const AdminSideBar = memo((props: AdminSideBarProps) => {
             <ul className="menu p-4">
                 {/*Sidebar content here*/}
                 <li>
-                    <a onClick={() => router.push(AdminOrgsPageRoute.path())}>조직관리</a>
+                    <LinkTo text="조직관리" href={AdminOrgsPageRoute.path()} />
                 </li>
                 <li>
-                    <a onClick={() => router.push(AdminUsersPageRoute.path())}>회원관리</a>
+                    <LinkTo text="회원관리" href={AdminUsersPageRoute.path()} />
                 </li>
                 <li>
-                    <a onClick={() => router.push(AdminPostsPageRoute.path())}>블로그 관리</a>
+                    <LinkTo text="블로그 관리" href={AdminPostsPageRoute.path()} />
                 </li>
                 <li>
-                    <a onClick={() => router.push(AdminProductsPageRoute.path())}>앱 관리</a>
+                    <LinkTo text="앱 관리" href={AdminProductsPageRoute.path()} />
                 </li>
                 <li>
-                    <a onClick={() => router.push(BizOpsWorkflowListRoute.path())}>BizOps Workflows</a>
+                    <LinkTo text="BizOps Workflows" href={BizOpsWorkflowListRoute.path()} />
                 </li>
             </ul>
 
@@ -44,13 +43,13 @@ export const AdminSideBar = memo((props: AdminSideBarProps) => {
                 {currentUser ? (
                     <>
                         <li>
-                            <a
+                            <LinkTo
+                                href={V3OrgHomePageRoute.path(currentUser.orgId)}
                                 className="btn btn-block btn-scordi-light"
-                                onClick={() => router.push(V3OrgHomePageRoute.path(currentUser.orgId))}
                             >
                                 <AiOutlineHome />
                                 <span className="">서비스로</span>
-                            </a>
+                            </LinkTo>
                         </li>
                         <li>
                             <a className="btn btn-block" onClick={logout}>

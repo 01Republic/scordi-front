@@ -19,38 +19,34 @@ export const ConnectInvoiceAccountIsLoading = memo(() => {
     const setConnectStatus = useSetRecoilState(connectInvoiceAccountStatus);
     const [title, setTitle] = useState('인증 정보를 가져오고 있어요.');
     const [desc, setDesc] = useState('최대 1분 정도 걸릴 수 있어요. 잠시만 기다려주세요.');
-    const [isLoading, setIsLoading] = useState<boolean | Promise<boolean>>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const {alert} = useAlert();
 
     const createInvoiceAccount = (code: string) => {
-        if (isLoading) return;
+        invoiceAccountTimeoutChain(setTitle, setDesc);
 
-        setIsLoading(async (v) => {
-            if (await v) return true;
+        const dto = {
+            code,
+            gmailQueryOptions: getCreateInvoiceAccountFromTo(),
+        };
+        const req = invoiceAccountApi.createV2(orgId, dto);
 
-            // isLoading must be false.
-            invoiceAccountTimeoutChain(setTitle, setDesc);
-
-            const dto = {
-                code,
-                gmailQueryOptions: getCreateInvoiceAccountFromTo(),
-            };
-            const res = await invoiceAccountApi.createV2(orgId, dto).catch((err) => {
-                alert.error('다시 시도해주세요', err.response.data.message);
-                setConnectStatus(InvoiceAccount.beforeLoad);
-                setCode('');
-            });
-
-            if (res) {
-                setConnectStatus(InvoiceAccount.afterLoad);
-            }
-            return true;
+        req.then(() => setConnectStatus(InvoiceAccount.afterLoad));
+        req.catch((err) => {
+            alert.error('다시 시도해주세요', err.response.data.message);
+            setConnectStatus(InvoiceAccount.beforeLoad);
+            setCode('');
+            setIsLoading(false);
         });
     };
 
     useEffect(() => {
-        if (code) createInvoiceAccount(code);
-    }, [code]);
+        console.log('\ncode', code);
+        if (code && !isLoading) {
+            setIsLoading(true);
+            createInvoiceAccount(code);
+        }
+    }, [code, isLoading]);
 
     return (
         <div data-step="ConnectGoogleAdmin" className="h-full flex flex-col gap-7 animate-pulse">

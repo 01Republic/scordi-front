@@ -2,6 +2,8 @@ import {memo} from 'react';
 import {Avatar} from '^components/Avatar';
 import {CardTableTR} from '^admin/share';
 import {UserDto} from '^models/User/types';
+import {LinkTo} from '^components/util/LinkTo';
+import {AdminUserPageRoute} from '^pages/admin/users/[id]';
 
 interface UserItemProps {
     user: UserDto;
@@ -13,6 +15,7 @@ export const UserItem = memo((props: UserItemProps) => {
     const {user, orgId} = props;
 
     const membership = (user.memberships || []).find((m) => m.organizationId === orgId);
+    const detailPath = AdminUserPageRoute.path(user.id);
 
     return (
         <CardTableTR gridClass="grid-cols-5">
@@ -42,7 +45,7 @@ export const UserItem = memo((props: UserItemProps) => {
 
             {/* actions */}
             <div className="flex gap-2 items-center">
-                <button className="btn btn-sm btn-primary">보기</button>
+                <LinkTo href={detailPath} text="보기" className="btn btn-sm btn-info" />
                 <button className="btn btn-sm btn-warning">수정</button>
                 <button className="btn btn-sm btn-error">삭제</button>
             </div>

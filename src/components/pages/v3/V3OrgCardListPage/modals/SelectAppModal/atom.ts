@@ -51,7 +51,7 @@ export const allProductsSelector = selector({
     },
 });
 
-export const sortedProductsAtom = atom({
+export const sortedProductsAtom = atom<ProductDto[]>({
     key: 'sortedProductsAtom',
-    default: <ProductDto[]>[],
+    default: [],
 });

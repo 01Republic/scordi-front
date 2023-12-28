@@ -1,4 +1,4 @@
-import {atom, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {atom, RecoilState, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {productIdParamsState} from '^atoms/common';
 import {
     billingCycleForCreateFlowAtom,
@@ -12,6 +12,8 @@ import {productApi} from '^models/Product/api';
 import {errorNotify} from '^utils/toast-notify';
 import {SubscriptionPaymentPlanDto} from '^models/Subscription/types/paymentPlanType';
 import {useRouter} from 'next/router';
+import {Paginated} from '^types/utils/paginated.dto';
+import {cachePagedQuery, makeAppendPagedItemFn, makeExceptPagedItemFn} from '^hooks/usePagedResource';
 
 export const useProducts = () => {
     const result = useRecoilValue(getProductsQuery);
@@ -23,10 +25,52 @@ export const productSearchResultsState = atom({
     default: [] as ProductDto[],
 });
 
+export const productsPagedResultAtom = atom<Paginated<ProductDto>>({
+    key: 'productsPagedResultAtom',
+    default: {
+        items: [],
+        pagination: {
+            totalItemCount: 0,
+            currentItemCount: 0,
+            totalPage: 1,
+            currentPage: 1,
+            itemsPerPage: 30,
+        },
+    },
+});
+
 export const searchProductsParams = atom<FindAllProductQuery>({
     key: 'products/searchParams',
     default: {},
 });
+
+export const useProductsV2 = () => {
+    return useProductsV3(productsPagedResultAtom, searchProductsParams);
+};
+
+export const useProductsV3 = (
+    resultAtom: RecoilState<Paginated<ProductDto>>,
+    queryAtom: RecoilState<FindAllProductQuery>,
+    mergeMode = false,
+) => {
+    const defaultMergeMode = mergeMode;
+    const [result, setResult] = useRecoilState(resultAtom);
+    const [query, setQuery] = useRecoilState(queryAtom);
+
+    async function search(params: FindAllProductQuery, mergeMode = defaultMergeMode, force = false) {
+        const param = {isLive: params.isLive ?? true, ...params};
+        const request = () => productApi.index(param);
+        cachePagedQuery(setResult, setQuery, param, request, mergeMode, force);
+    }
+
+    const reload = () => search({...query}, false, true);
+    const movePage = (page: number, append = false) => search({...query, page}, append);
+    const resetPage = () => search({...query, page: 1}, false, true);
+    const append = makeAppendPagedItemFn(setResult);
+    const except = makeExceptPagedItemFn(setResult, (it, item) => it.id !== item.id);
+
+    return {query, result, search, reload, movePage, resetPage, except};
+};
 
 export const useProductSearch = () => {
     const [results, setResults] = useRecoilState(productSearchResultsState);

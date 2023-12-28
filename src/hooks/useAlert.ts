@@ -55,5 +55,5 @@ export function useAlert() {
         });
     };
 
-    return {alert: {success, destroy, error}};
+    return {alert: {success, destroy, error}, Swal};
 }

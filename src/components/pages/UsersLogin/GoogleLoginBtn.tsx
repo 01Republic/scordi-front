@@ -44,7 +44,9 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
         onSuccess: async (response) => {
             const feature = getFeature();
             const {code} = response;
-            if (onCode) return onCode(code);
+            if (onCode && code) {
+                return onCode(code);
+            }
 
             const {accessToken} = await userSocialGoogleApi.token({
                 code,

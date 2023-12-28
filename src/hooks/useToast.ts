@@ -42,6 +42,6 @@ export function useToast() {
     };
 
     return {
-        toast: {info, success, error},
+        toast: {info, success, error, basic: toaster},
     };
 }

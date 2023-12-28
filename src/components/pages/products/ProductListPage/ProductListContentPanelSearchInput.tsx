@@ -1,19 +1,30 @@
 import {memo, useEffect} from 'react';
 import {BsSearch} from 'react-icons/bs';
 import {useForm} from 'react-hook-form';
-import {useProductSearch} from '^models/Product/hook';
+import {useProductSearch, useProductsV2} from '^models/Product/hook';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import {currentProductCategoryAtom} from '^components/pages/products/ProductListPage/ProductListSidePanel';
 import {FindAllProductQuery} from '^models/Product/type';
 
 export const ProductListContentPanelSearchInput = memo(() => {
-    const {search} = useProductSearch();
+    // const {search} = useProductSearch();
+    const {search} = useProductsV2();
     const form = useForm<FindAllProductQuery>();
     const [currentCategory, setCurrentCategory] = useRecoilState(currentProductCategoryAtom);
     const onSubmit = (query: FindAllProductQuery) => {
-        query.order = {id: 'DESC'};
-        search(query);
-        setCurrentCategory(`Search: ${query.name}`);
+        const name = query.name;
+        if (name) {
+            query.order = {id: 'DESC'};
+            search(query);
+            setCurrentCategory(`Search: ${query.name}`);
+        } else {
+            search({
+                isLive: true,
+                itemsPerPage: 0,
+                order: {id: 'DESC'},
+            });
+            setCurrentCategory(`☁️ All`);
+        }
     };
 
     // 사이드패널에서 카테고리 클릭시, 인풋을 클리어해줍니다.

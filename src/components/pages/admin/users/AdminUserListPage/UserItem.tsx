@@ -4,6 +4,7 @@ import {Avatar} from '^components/Avatar';
 import {zeroPad} from '^utils/dateTime';
 import {useRouter} from 'next/router';
 import {AdminUserPageRoute} from '^pages/admin/users/[id]';
+import {LinkTo} from '^components/util/LinkTo';
 
 interface UserItemProps {
     user: UserDto;
@@ -20,6 +21,7 @@ export const UserItem = memo((props: UserItemProps) => {
     const {user} = props;
     const {createdAt} = user;
 
+    const detailPath = AdminUserPageRoute.path(user.id);
     const gotoDetailPage = () => router.push(AdminUserPageRoute.path(user.id));
 
     return (
@@ -49,9 +51,7 @@ export const UserItem = memo((props: UserItemProps) => {
                 </div>
                 <div>
                     <div className="hidden sm:flex gap-1.5 items-center justify-between">
-                        <button className="btn btn-sm btn-info" onClick={gotoDetailPage}>
-                            상세
-                        </button>
+                        <LinkTo href={detailPath} text="상세" className="btn btn-sm btn-info" />
                         <button className="btn btn-sm btn-warning">수정</button>
                         <button className="btn btn-sm btn-error">삭제</button>
                     </div>

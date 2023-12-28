@@ -32,13 +32,15 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
 
             {/* 인보이스 계정 */}
             <div className="col-span-2">
-                <div className="flex gap-2 items-center">
-                    <Avatar src={invoiceAccount.image!} className="w-[32px]" />
-                    <p className="text-left flex flex-col gap-0.5 leading-none">
-                        <span className="text-xs text-gray-500">(#{invoiceAccount.id})</span>
-                        <span className="whitespace-nowrap">{invoiceAccount.email}</span>
-                    </p>
-                </div>
+                {invoiceAccount && (
+                    <div className="flex gap-2 items-center">
+                        <Avatar src={invoiceAccount.image!} className="w-[32px]" />
+                        <p className="text-left flex flex-col gap-0.5 leading-none">
+                            <span className="text-xs text-gray-500">(#{invoiceAccount.id})</span>
+                            <span className="whitespace-nowrap">{invoiceAccount.email}</span>
+                        </p>
+                    </div>
+                )}
             </div>
 
             {/* created at */}
