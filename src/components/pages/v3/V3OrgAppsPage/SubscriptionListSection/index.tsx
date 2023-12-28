@@ -20,11 +20,12 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
 
-        // only for listing
+        // initial listing
         getSubscriptions({
             where: {organizationId: orgId},
             relations: ['master', 'teamMembers'],
             itemsPerPage: 15,
+            order: {id: 'DESC'},
         });
 
         // getTags({}).then((res) => setTagOptions(res.items));

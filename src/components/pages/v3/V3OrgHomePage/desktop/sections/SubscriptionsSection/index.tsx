@@ -23,10 +23,12 @@ export const SubscriptionsSection = memo(function SubscriptionsSection() {
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
 
+        // initial listing
         getSubscriptions({
             where: {organizationId: orgId},
             relations: ['master', 'teamMembers'],
             itemsPerPage: SUBSCRIPTION_DISPLAY_LIMIT,
+            order: {id: 'DESC'},
         });
 
         getTags({}).then((res) => setTagOptions(res.items));
