@@ -37,3 +37,26 @@ export const newFormForUsingMemberInfoModalAtom = {
     }),
     popStateSyncKey: 'v3/newSubscriptionModal/FormForUsingMemberInfoModal/Manually',
 };
+
+export const newFormForFinishModalAtom = {
+    isShowAtom: atom({
+        key: 'v3/newSubscriptionModal/Manually/newFormForFinishModalAtom/isShow',
+        default: false,
+    }),
+    popStateSyncKey: 'v3/newSubscriptionModal/newFormForFinishModalAtom/Manually',
+};
+
+export const memoAtom = atom<string>({
+    key: 'memoAtom',
+    default: '',
+});
+
+export enum FinishStatus {
+    Finish,
+    Memo,
+}
+
+export const FinishStatusAtom = atom({
+    key: 'FinishStatusAtom',
+    default: FinishStatus.Finish,
+});

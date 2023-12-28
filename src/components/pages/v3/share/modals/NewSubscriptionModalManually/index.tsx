@@ -5,6 +5,7 @@ import {FormForUsingMemberInfoModal} from '^v3/share/modals/NewSubscriptionModal
 import {useRecoilState} from 'recoil';
 import {newSubscriptionManualFormData} from '^v3/share/modals/NewSubscriptionModalManually/atom';
 import {CreateSubscriptionRequestDto} from '^models/Subscription/types';
+import {FormForFinishModal} from '^v3/share/modals/NewSubscriptionModalManually/FormForFinishModal';
 
 export const NewSubscriptionModalManually = memo(function NewSubscriptionModalManually() {
     const [formData, setFormData] = useRecoilState(newSubscriptionManualFormData);
@@ -22,6 +23,7 @@ export const NewSubscriptionModalManually = memo(function NewSubscriptionModalMa
             <FormForGeneralInfoModal />
             <FormForBillingInfoModal />
             <FormForUsingMemberInfoModal />
+            <FormForFinishModal />
         </>
     );
 });
