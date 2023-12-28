@@ -14,7 +14,7 @@ import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {CreateMoneyRequestDto, CurrencyCode} from '^types/money.type';
 import {useToast} from '^hooks/useToast';
 import {AddBillingHistoryModalBtn} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/share/AddBillingHistoryModalBtn';
-import {isDomesticState} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/atom';
+import {isDomesticState} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodies/atom';
 
 interface AmountBodyProps {
     form: UseFormReturn<CreateBillingHistoryRequestDto>;

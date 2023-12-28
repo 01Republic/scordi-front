@@ -6,7 +6,7 @@ import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {
     billingHistoryIdState,
     memoState,
-} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/atom';
+} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodies/atom';
 import {AddBillingHistory, AddBillingHistoryState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {appBillingHistoryApi} from '^models/BillingHistory/api';
 import {appIdState} from '^v3/V3OrgAppShowPage/atom';
@@ -38,6 +38,7 @@ export const MemoBody = memo((props: MemoBodyProps) => {
                 onChange={(e) => setMemo(e.target.value)}
                 className="textarea textarea-primary w-full min-h-40"
                 placeholder="디자인팀 피그마 결제"
+                defaultValue={memo}
             />
 
             <AddBillingHistoryModalBtn onClick={onClick} text="완료" />

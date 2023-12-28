@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {CheckCircle} from '^components/react-icons/check-circle';
 import {AddBillingHistoryModalBtn} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/share/AddBillingHistoryModalBtn';
@@ -9,14 +9,14 @@ import {
     AddBillingHistoryState,
 } from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {memoState} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/atom';
+import {useRecoilState, useSetRecoilState} from 'recoil';
+import {memoState} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodies/atom';
 
 export const FinishBody = memo(() => {
     const {close} = useModal(addBillingHistoryShowModal);
     const {reload: loadHistories} = useBillingHistoriesV3();
     const setAddBillingHistory = useSetRecoilState(AddBillingHistoryState);
-    const memo = useRecoilValue(memoState);
+    const [memo, setMemo] = useRecoilState(memoState);
 
     const onClick = () => {
         close();
@@ -43,7 +43,7 @@ export const FinishBody = memo(() => {
                     onClick={() => setAddBillingHistory(AddBillingHistory.Memo)}
                     className="btn btn-sm text-scordi mb-3 w-fit px-3"
                 >
-                    {memo}
+                    {memo ? memo : '메모 남기기'}
                 </button>
             </Container>
 
