@@ -12,6 +12,10 @@ import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {subscriptionApi} from '^models/Subscription/api';
 import {Paginated} from '^types/utils/paginated.dto';
 import {cachePagedQuery, makeAppendPagedItemFn, makeExceptPagedItemFn} from '^hooks/usePagedResource';
+import {
+    dashboardSubscriptionSearchResultAtom,
+    getDashboardSubscriptionsQueryAtom,
+} from '^v3/V3OrgHomePage/desktop/sections/SubscriptionsSection/atom';
 
 export const useCurrentSubscription = () => {
     const [currentSubscription, reload] = useRecoilState(getCurrentSubscriptionQuery);
@@ -22,6 +26,10 @@ export const index = () => useRecoilValue(getSubscriptionsQuery);
 
 export const useSubscriptionsV2 = () => {
     return useSubscriptionsV3(subscriptionsSearchResultAtom, getSubscriptionsQueryAtom);
+};
+
+export const useDashboardSubscriptions = () => {
+    return useSubscriptionsV3(dashboardSubscriptionSearchResultAtom, getDashboardSubscriptionsQueryAtom);
 };
 
 export const useSubscriptionsV3 = (

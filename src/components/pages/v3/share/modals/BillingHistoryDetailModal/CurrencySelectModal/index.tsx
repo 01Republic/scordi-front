@@ -1,13 +1,23 @@
 import React, {memo} from 'react';
 import {useModal} from '^v3/share/modals';
 import {FcCheckmark} from 'react-icons/fc';
-import {currencySelectShowModal, selectedCurrencyState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
-import {useRecoilState} from 'recoil';
+import {
+    currencySelectShowModal,
+    SelectedCurrency,
+    selectedCurrencyState,
+} from '^v3/share/modals/BillingHistoryDetailModal/atom';
+import {RecoilState, useRecoilState} from 'recoil';
 import {CurrencyCode, CurrencyListV2} from '^types/money.type';
+import {CurrencyType} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/dto/report-item-form.dto';
 
-export const CurrencySelectModal = memo(() => {
+interface CurrencySelectModalProps {
+    selectedCurrencyAtom?: RecoilState<{label: CurrencyCode; desc: string}>;
+}
+
+export const CurrencySelectModal = memo((props: CurrencySelectModalProps) => {
+    const {selectedCurrencyAtom} = props;
     const {close, isShow} = useModal(currencySelectShowModal);
-    const [selectedCurrency, setSelectedCurrency] = useRecoilState(selectedCurrencyState);
+    const [selectedCurrency, setSelectedCurrency] = useRecoilState(selectedCurrencyAtom || selectedCurrencyState);
 
     const onClick = () => {
         close();

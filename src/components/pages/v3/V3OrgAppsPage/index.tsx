@@ -15,6 +15,7 @@ import {TeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
 import {BillingHistoryDetailModal} from '^v3/share/modals/BillingHistoryDetailModal';
 import {TeamMemberCreateModal} from '^v3/V3OrgHomePage/TeamMemberCreateModal';
 import {InvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal';
+import {NewAppModal} from '^v3/share/modals/NewAppModal';
 
 export const V3OrgAppsPage = memo(() => {
     const {isDesktop} = useOnResize2();
@@ -30,6 +31,7 @@ export const V3OrgAppsPage = memo(() => {
                     AccountListModal,
                     TeamMemberCreateModal,
                     InvoiceAccountSelectModal,
+                    NewAppModal,
                 ]}
             >
                 <SubscriptionListPageTitle />

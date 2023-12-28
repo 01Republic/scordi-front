@@ -1,21 +1,20 @@
 import React, {memo, useEffect} from 'react';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
 import {V3OrgAppsPageRoute} from '^pages/v3/orgs/[orgId]/apps';
 import {Panel} from '^v3/V3OrgHomePage/desktop/Panel';
 import {Section} from '^v3/V3OrgHomePage/desktop/Section';
 import {MoreButton} from '^v3/V3OrgHomePage/desktop/MoreButton';
 import {SubscriptionTable} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable';
-import {subscriptionApi} from '^models/Subscription/api';
 import {orgIdParamState} from '^atoms/common';
-import {dashboardSubscriptionSearchResultAtom} from './atom';
 import {usePayingTypeTags} from '^models/Tag/hook';
 import {tagOptionsState} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/PayingType/PayingTypeSelect';
+import {useDashboardSubscriptions} from '^models/Subscription/hook';
 
 const SUBSCRIPTION_DISPLAY_LIMIT: number = 10;
 
 export const SubscriptionsSection = memo(function SubscriptionsSection() {
-    const [pagedSubscriptions, setResult] = useRecoilState(dashboardSubscriptionSearchResultAtom);
+    const {result, search: getSubscriptions, query, reload} = useDashboardSubscriptions();
     const {safePath} = useSafePathInCurrentOrg();
     const {search: getTags} = usePayingTypeTags();
     const setTagOptions = useSetRecoilState(tagOptionsState);
@@ -24,20 +23,16 @@ export const SubscriptionsSection = memo(function SubscriptionsSection() {
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
 
-        const req = subscriptionApi.index({
+        getSubscriptions({
             where: {organizationId: orgId},
             relations: ['master', 'teamMembers'],
             itemsPerPage: SUBSCRIPTION_DISPLAY_LIMIT,
         });
 
-        req.then((res) => {
-            setResult(res.data);
-        });
-
         getTags({}).then((res) => setTagOptions(res.items));
     }, [orgId]);
 
-    const {totalItemCount} = pagedSubscriptions.pagination;
+    const {totalItemCount} = result.pagination;
 
     return (
         <Section
@@ -58,7 +53,11 @@ export const SubscriptionsSection = memo(function SubscriptionsSection() {
                 )
             }
         >
-            {pagedSubscriptions.items.length ? <SubscriptionTable items={pagedSubscriptions.items} /> : <Panel />}
+            {result.items.length ? (
+                <SubscriptionTable items={result.items} reload={reload} search={getSubscriptions} query={query} />
+            ) : (
+                <Panel />
+            )}
         </Section>
     );
 });

@@ -1,6 +1,5 @@
 import {memo} from 'react';
 import {SubscriptionDto} from '^models/Subscription/types';
-import {PayingTypeSelect} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/PayingType/PayingTypeSelect';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {usePayingTypeTags} from '^models/Tag/hook';
 import {useRecoilValue} from 'recoil';

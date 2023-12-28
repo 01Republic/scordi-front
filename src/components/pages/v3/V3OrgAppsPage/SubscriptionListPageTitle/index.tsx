@@ -9,11 +9,11 @@ import {newInvoiceAccountModal} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/a
 
 export const SubscriptionListPageTitle = memo(function SubscriptionListPageTitle() {
     const subscriptions = useRecoilValue(subscriptionsState);
-    const {isShow, open} = useModal(newAppModal);
+    const {open: openNewAppModal} = useModal(newAppModal);
     const invoiceAccountModal = useModal(newInvoiceAccountModal);
 
     const onClick = () => {
-        open();
+        openNewAppModal();
         invoiceAccountModal.setIsShow(false);
     };
 
@@ -33,8 +33,6 @@ export const SubscriptionListPageTitle = memo(function SubscriptionListPageTitle
                     서비스 등록 <FaPlus />
                 </button>
             </div>
-
-            {isShow && <NewAppModal />}
         </section>
     );
 });
