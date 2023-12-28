@@ -2,37 +2,11 @@
 // import {ProviderNames} from '^api/tasting.api/gmail/agent/detect-provider-name';
 // import {getAttachment} from '^api/tasting.api/gmail/api.attachment';
 // import {getPdfText} from '^api/tasting.api/util/pdf';
-import {CurrencyCode} from '^types/money.type';
+import {CurrencyCode, CurrencyListV2} from '^types/money.type';
 
-export const getCurrencySymbol = (currency: CurrencyCode) =>
-    ({
-        [CurrencyCode.USD]: '$',
-        [CurrencyCode.KRW]: '₩',
-        [CurrencyCode.EUR]: '€',
-        [CurrencyCode.GBP]: '£',
-        [CurrencyCode.CAD]: '$',
-        [CurrencyCode.CNY]: '¥',
-        [CurrencyCode.JPY]: '¥',
-        [CurrencyCode.VND]: 'đ',
-        [CurrencyCode.ARS]: '$',
-        [CurrencyCode.INR]: '₹',
-        [CurrencyCode.TWD]: '$',
-    }[currency] || '$');
+export const getCurrencySymbol = (currency: CurrencyCode) => CurrencyListV2[currency].symbol ?? '$';
 
-export const getCurrencyUnit = (currency: CurrencyCode) =>
-    ({
-        [CurrencyCode.USD]: '달러', // 미국
-        [CurrencyCode.KRW]: '원', // 한국
-        [CurrencyCode.EUR]: '유로', // 유럽
-        [CurrencyCode.GBP]: '파운드', // 영국
-        [CurrencyCode.CAD]: '달러', // 캐나다
-        [CurrencyCode.CNY]: '위안', // 중국
-        [CurrencyCode.JPY]: '엔', // 일본
-        [CurrencyCode.VND]: '동', // 베트남
-        [CurrencyCode.ARS]: '페소', // 아르헨티나
-        [CurrencyCode.INR]: '루피', // 인도
-        [CurrencyCode.TWD]: '달러', // 대만
-    }[currency] || '달러');
+export const getCurrencyUnit = (currency: CurrencyCode) => CurrencyListV2[currency].unit ?? '$';
 
 export type Price = {
     text: string;
