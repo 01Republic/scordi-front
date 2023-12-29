@@ -134,6 +134,10 @@ export class CreateBillingHistoryRequestDto {
     vat?: CreateMoneyRequestDto; // 부과세
 }
 
+export class UpdateBillingHistoryRequestDtoV2 {
+    memo?: string; // 메모
+}
+
 interface Type<T = any> extends Function {
     new (...args: any[]): T;
 }
@@ -143,7 +147,7 @@ function PartialType<T>(classRef: Type<T>): Type<Partial<T>> {
 }
 export class UpdateBillingHistoryRequestDto extends PartialType(CreateBillingHistoryRequestDto) {
     // @ts-ignore
-    paidAt: string | undefined; // datetime string
+    paidAt?: string; // datetime string
 }
 
 export class CreateBillingHistoryStandAloneRequestDto {
