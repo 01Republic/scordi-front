@@ -11,7 +11,6 @@ import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLike
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useForm} from 'react-hook-form';
 import {CreateSubscriptionRequestDto} from '^models/Subscription/types';
-import {orgIdParamState} from '^atoms/common';
 import {subscriptionApi} from '^models/Subscription/api';
 import {SelectMasterProfile} from '^v3/share/modals/NewSubscriptionModalManually/FormForUsingMemberInfoModal/SelectMasterProfile';
 

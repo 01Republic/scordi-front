@@ -1,12 +1,13 @@
 import React, {memo} from 'react';
 import {AddBillingHistoryModalBtn} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/share/AddBillingHistoryModalBtn';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+
+import {AddBillingHistory, AddBillingHistoryState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
+import {appBillingHistoryApi} from '^models/BillingHistory/api';
 import {
     billingHistoryIdState,
     memoState,
-} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodies/atom';
-import {AddBillingHistory, AddBillingHistoryState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
-import {appBillingHistoryApi} from '^models/BillingHistory/api';
+} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/atoms';
 
 export const MemoBody = memo(() => {
     const [memo, setMemo] = useRecoilState(memoState);
