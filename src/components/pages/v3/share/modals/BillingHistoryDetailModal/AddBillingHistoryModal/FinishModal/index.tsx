@@ -61,7 +61,7 @@ export const FinishModal = memo(() => {
             </MobileSection.Padding>
 
             <ModalLikeBottomBar className="left-0">
-                <AddBillingHistoryModalBtn onClick={onClick} text="완료하기" />
+                <AddBillingHistoryModalBtn onClick={onClick} text="닫기" />
             </ModalLikeBottomBar>
         </Modal>
     );
