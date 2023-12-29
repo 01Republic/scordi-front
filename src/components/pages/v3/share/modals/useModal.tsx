@@ -8,7 +8,7 @@ const openedModalsAtom = atom<{key: string}[]>({
     default: [],
 });
 
-interface UseModalOption {
+export interface UseModalOption {
     isShowAtom: RecoilState<boolean>;
     allowBodyScroll?: boolean;
     popStateSyncKey?: string;

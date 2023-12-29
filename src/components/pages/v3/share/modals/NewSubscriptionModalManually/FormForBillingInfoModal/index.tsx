@@ -19,16 +19,20 @@ import {
     currencySelectShowModal,
     selectedCurrencyForSubscriptionState,
 } from '^v3/share/modals/BillingHistoryDetailModal/atom';
-import {CurrencySelectModal} from '^v3/share/modals/BillingHistoryDetailModal/CurrencySelectModal';
+import {CurrencySelectModal} from 'src/components/pages/v3/share/modals/CurrencySelectModal';
+import {
+    CurrentBillingAmountCurrencyModal,
+    currentBillingAmountCurrencyModalAtom,
+} from '^v3/share/modals/NewSubscriptionModalManually/FormForBillingInfoModal/CurrentBillingAmountCurrencyModal';
 
 export const FormForBillingInfoModal = memo(function FormForBillingInfoModal() {
-    const orgId = useRecoilValue(orgIdParamState);
+    // const orgId = useRecoilValue(orgIdParamState);
     const {Modal, close} = useModal(newFormForBillingInfoModalAtom);
     const {open: openUsingMemberInfoModal} = useModal(newFormForUsingMemberInfoModalAtom);
     const [formData, setFormData] = useRecoilState(newSubscriptionManualFormData);
     const form = useForm<CreateSubscriptionRequestDto>();
-    const {open: openCurrencySelectModal} = useModal(currencySelectShowModal);
-    const selectedCurrency = useRecoilValue(selectedCurrencyForSubscriptionState);
+    const {open: openCurrencySelectModal} = useModal(currentBillingAmountCurrencyModalAtom);
+    const [selectedCurrency, setSelectedCurrency] = useRecoilState(selectedCurrencyForSubscriptionState);
 
     useEffect(() => {
         const amount = form.getValues('currentBillingAmount.amount');
@@ -127,7 +131,7 @@ export const FormForBillingInfoModal = memo(function FormForBillingInfoModal() {
                 </ModalLikeBottomBar>
             </Modal>
 
-            <CurrencySelectModal selectedCurrencyAtom={selectedCurrencyForSubscriptionState} />
+            <CurrentBillingAmountCurrencyModal />
         </>
     );
 });

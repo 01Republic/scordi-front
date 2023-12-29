@@ -15,9 +15,13 @@ import {useRecoilState} from 'recoil';
 import {currencySelectShowModal, selectedCurrencyState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {useToast} from '^hooks/useToast';
-import {CurrencySelectModal} from '^v3/share/modals/BillingHistoryDetailModal/CurrencySelectModal';
+import {CurrencySelectModal} from 'src/components/pages/v3/share/modals/CurrencySelectModal';
 import {CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 import {useForm} from 'react-hook-form';
+import {
+    AbroadPayAmountCurrencyModal,
+    abroadPayAmountCurrencyModalAtom,
+} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/PayAmountModal/AbroadPayAmountCurrencyModal';
 
 export const PayAmountModal = memo(() => {
     const {Modal, isShow, close} = useModal(payAmountModalState);
@@ -26,7 +30,7 @@ export const PayAmountModal = memo(() => {
     const [selectedCurrency, setSelectedCurrency] = useRecoilState(selectedCurrencyState);
     const [createBillingHistory, setCreateBillingHistory] = useRecoilState(createBillingHistoryAtom);
     const form = useForm<CreateBillingHistoryRequestDto>();
-    const {open} = useModal(currencySelectShowModal);
+    const {open} = useModal(abroadPayAmountCurrencyModalAtom);
     const {toast} = useToast();
 
     const isDomestic = createBillingHistory.isDomestic;
@@ -102,7 +106,7 @@ export const PayAmountModal = memo(() => {
                         </FormControl>
 
                         {!isDomestic && (
-                            <FormControl topLeftLabel="얼마를 사용하셨나요?">
+                            <FormControl topLeftLabel="얼마를 사용하셨나요22?">
                                 <div className="input input-bordered w-full flex items-center justify-between">
                                     <input
                                         type="number"
@@ -124,7 +128,7 @@ export const PayAmountModal = memo(() => {
                 </ModalLikeBottomBar>
             </Modal>
 
-            <CurrencySelectModal selectedCurrencyAtom={selectedCurrencyState} />
+            <AbroadPayAmountCurrencyModal />
         </>
     );
 });
