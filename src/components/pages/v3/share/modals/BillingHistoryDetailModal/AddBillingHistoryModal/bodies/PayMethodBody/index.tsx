@@ -94,6 +94,12 @@ export const PayMethodBody = memo((props: PayMethodBodyProps) => {
             return;
         }
 
+        const paidAt = form.getValues('paidAt');
+        if (!paidAt) {
+            toast.error('결제일시를 올바르게 입력해주세요');
+            return;
+        }
+
         setAddBillingHistory(AddBillingHistory.Amount);
     };
 
@@ -125,7 +131,8 @@ export const PayMethodBody = memo((props: PayMethodBodyProps) => {
                     type="datetime-local"
                     className="input input-bordered w-full text-sm font-semibold text-neutral-500"
                     {...form.register('paidAt')}
-                    max={dateTimeInputMax}
+                    max="9999-12-31T23:59"
+                    min="2000-01-01T00:00"
                 />
             </FormControl>
 
