@@ -78,7 +78,7 @@ export const DetailInfoModal = memo(() => {
             OpenFinishModal();
         });
 
-      req.catch((e) => alert.error('다시 시도해주세요', e.value).then(() => modalGroupClose()));
+        req.catch((e) => alert.error('다시 시도해주세요', e.value).then(() => modalGroupClose()));
     };
 
     return (
@@ -87,6 +87,7 @@ export const DetailInfoModal = memo(() => {
                 backBtnOnClick={close}
                 topbarPosition="sticky"
                 title={billingHistory ? billingHistory.pageSubject : '결제 내역 등록'}
+                rightButtons={[() => <SkipButton onClick={skip} />]}
             />
             <MobileSection.Padding>
                 <h2 className="h1 leading-tight mb-10 whitespace-pre-line">
