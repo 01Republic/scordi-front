@@ -21,6 +21,7 @@ import {appBillingHistoryApi} from '^models/BillingHistory/api';
 import {appIdState} from '^v3/V3OrgAppShowPage/atom';
 import {useForm} from 'react-hook-form';
 import {CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
+import {SkipButton} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/share/SkipButton';
 
 export const DetailInfoModal = memo(() => {
     const {Modal, close} = useModal(detailInfoModalState);
@@ -60,12 +61,26 @@ export const DetailInfoModal = memo(() => {
         OpenFinishModal();
     };
 
+    const skip = () => {
+        if (!appId) return;
+
+        const req = appBillingHistoryApi.createV2(appId, createBillingHistory);
+
+        req.then((res) => {
+            setBillingHistoryId(res.data.id);
+        });
+
+        req.catch((e) => console.log(e));
+        OpenFinishModal();
+    };
+
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
             <ModalTopbar
                 backBtnOnClick={close}
                 topbarPosition="sticky"
                 title={billingHistory ? billingHistory.pageSubject : '결제 내역 등록'}
+                rightButtons={[() => <SkipButton onClick={skip} />]}
             />
             <MobileSection.Padding>
                 <h2 className="h1 leading-tight mb-10 whitespace-pre-line">
