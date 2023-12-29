@@ -110,6 +110,12 @@ export class BillingHistoryDto {
         const creditCard = this.getCreditCard();
         return this.subscription?.creditCard?.label ?? this.paymentMethod;
     }
+
+    get subtype() {
+        if (this.emailOriginId) return BillingHistorySubtype.EMAIL_INVOICE;
+        if (this.creditCardId) return BillingHistorySubtype.CARD_RECEIPT;
+        return BillingHistorySubtype.MANUAL;
+    }
 }
 
 // This used on Front-end Only.
@@ -172,3 +178,9 @@ export type GetBillingHistoriesParams = FindAllQueryDto<BillingHistoryDto> &
     StartEndParams &
     StatusParams &
     IsActiveSubsParams;
+
+export enum BillingHistorySubtype {
+    EMAIL_INVOICE = 'EMAIL_INVOICE',
+    MANUAL = 'MANUAL',
+    CARD_RECEIPT = 'CARD_RECEIPT',
+}
