@@ -1,4 +1,4 @@
-import React, {ChangeEvent, memo, useEffect, useRef} from 'react';
+import React, {ChangeEvent, memo} from 'react';
 import {ModalTopbar, useModal} from '^v3/share/modals';
 import {
     billingHistoryIdState,
@@ -23,6 +23,7 @@ import {useForm} from 'react-hook-form';
 import {CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 import {useAlert} from '^hooks/useAlert';
 import {useAddBillingHistoryModal} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/AddBillingHistoryModalGroup/hook';
+import {SkipButton} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/share/SkipButton';
 
 export const DetailInfoModal = memo(() => {
     const {Modal, close} = useModal(detailInfoModalState);
@@ -67,12 +68,26 @@ export const DetailInfoModal = memo(() => {
         req.catch((e) => alert.error('다시 시도해주세요', e.value).then(() => modalGroupClose()));
     };
 
+    const skip = () => {
+        if (!appId) return;
+
+        const req = appBillingHistoryApi.createV2(appId, createBillingHistory);
+
+        req.then((res) => {
+            setBillingHistoryId(res.data.id);
+            OpenFinishModal();
+        });
+
+        req.catch((e) => alert.error('다시 시도해주세요', e.value).then(() => modalGroupClose()));
+    };
+
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
             <ModalTopbar
                 backBtnOnClick={close}
                 topbarPosition="sticky"
                 title={billingHistory ? billingHistory.pageSubject : '결제 내역 등록'}
+                rightButtons={[() => <SkipButton onClick={skip} />]}
             />
             <MobileSection.Padding>
                 <h2 className="h1 leading-tight mb-10 whitespace-pre-line">
