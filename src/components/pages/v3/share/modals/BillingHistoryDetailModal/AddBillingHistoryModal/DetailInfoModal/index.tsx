@@ -1,4 +1,4 @@
-import React, {ChangeEvent, memo} from 'react';
+import React, {ChangeEvent, memo, useEffect, useRef} from 'react';
 import {ModalTopbar, useModal} from '^v3/share/modals';
 import {
     billingHistoryIdState,
@@ -53,7 +53,11 @@ export const DetailInfoModal = memo(() => {
 
         setCreateBillingHistory((prev) => ({...prev, uid: form.getValues('uid'), vat: form.getValues('vat')}));
 
-        const req = appBillingHistoryApi.createV2(appId, createBillingHistory);
+        const req = appBillingHistoryApi.createV2(appId, {
+            ...createBillingHistory,
+            uid: form.getValues('uid'),
+            vat: form.getValues('vat'),
+        });
 
         req.then((res) => {
             setBillingHistoryId(res.data.id);
@@ -76,11 +80,7 @@ export const DetailInfoModal = memo(() => {
                 </h2>
                 <section className="flex flex-col gap-5">
                     <FormControl topLeftLabel="결제 승인 번호를 입력해주세요">
-                        <TextInput
-                            type="number"
-                            onChange={(e) => form.setValue('uid', e.target.value)}
-                            defaultValue={form.getValues('uid')}
-                        />
+                        <TextInput type="number" onChange={(e) => form.setValue('uid', e.target.value)} />
                     </FormControl>
 
                     <FormControl topLeftLabel="국내 또는 해외 결제 여부를 선택해주세요">
@@ -95,13 +95,20 @@ export const DetailInfoModal = memo(() => {
                     </FormControl>
 
                     <FormControl topLeftLabel="부가세를 입력해주세요">
-                        <TextInput type="number" onChange={onVATChange} />
+                        <TextInput
+                            type="number"
+                            onChange={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                onVATChange(e);
+                            }}
+                        />
                     </FormControl>
                 </section>
             </MobileSection.Padding>
 
             <ModalLikeBottomBar className="left-0">
-                <AddBillingHistoryModalBtn onClick={onClick} />
+                <AddBillingHistoryModalBtn onClick={onClick} text="등록하기" />
             </ModalLikeBottomBar>
         </Modal>
     );
