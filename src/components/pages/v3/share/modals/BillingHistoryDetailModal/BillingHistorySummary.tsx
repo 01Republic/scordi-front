@@ -12,6 +12,7 @@ import {BsPlusCircle} from 'react-icons/bs';
 import {addBillingHistoryShowModal} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {useModal} from '^v3/share/modals';
 import {AddButton} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/AppShowPageBody/tabs/TeamMemberListTab/AddButton';
+import {payMethodModalState} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/atoms';
 
 interface BillingHistorySummaryProps {
     billingHistories: BillingHistoryDto[];
@@ -22,7 +23,7 @@ export const BillingHistorySummary = memo((props: BillingHistorySummaryProps) =>
     const {billingHistories} = props;
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
     const {t} = useTranslation('org-home');
-    const {open} = useModal(addBillingHistoryShowModal);
+    const {open} = useModal(payMethodModalState);
 
     dayjs.locale(router.locale);
 
