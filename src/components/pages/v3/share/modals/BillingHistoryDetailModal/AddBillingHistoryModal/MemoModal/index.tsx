@@ -9,7 +9,7 @@ import {
     memoState,
 } from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/atoms';
 
-export const MemoBody = memo(() => {
+export const MemoModal = memo(() => {
     const [memo, setMemo] = useRecoilState(memoState);
     const setAddBillingHistory = useSetRecoilState(AddBillingHistoryState);
     const billingHistoryId = useRecoilValue(billingHistoryIdState);
