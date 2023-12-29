@@ -10,8 +10,15 @@ import {newSubscriptionManualFormData} from '^v3/share/modals/NewSubscriptionMod
 import {CreateSubscriptionRequestDto} from '^models/Subscription/types';
 import {UseFormReturn} from 'react-hook-form';
 
+type TeamMemberOption = {
+    label: string;
+    value: number; // teamMember.id
+    email?: string | null;
+    profileImgUrl?: string | null;
+};
+
 interface SelectMasterProfileProps {
-    form: UseFormReturn<CreateSubscriptionRequestDto, any>;
+    onChange: (selectedOption: TeamMemberOption) => any;
 }
 
 export const SelectMasterProfile = memo((props: SelectMasterProfileProps) => {
@@ -20,7 +27,7 @@ export const SelectMasterProfile = memo((props: SelectMasterProfileProps) => {
         search: getTeamMembers,
     } = useTeamMembers();
     const TeamMember = TeamMemberManager.init(members || []);
-    const {form} = props;
+    const {onChange} = props;
 
     useEffect(() => {
         getTeamMembers({
@@ -30,7 +37,7 @@ export const SelectMasterProfile = memo((props: SelectMasterProfileProps) => {
         });
     }, []);
 
-    const toOption = (member: TeamMemberDto) => {
+    const toOption = (member: TeamMemberDto): TeamMemberOption => {
         const label = member.name;
         const value = member.id;
         const email = member.email;
@@ -39,16 +46,12 @@ export const SelectMasterProfile = memo((props: SelectMasterProfileProps) => {
     };
 
     return (
-        <>
-            <input {...form.register('masterId')} className="hidden" />
-            <Select
-                options={TeamMember.all().map(toOption)}
-                placeholder="담당자를 선택해주세요"
-                styles={selectStylesOptions}
-                components={Components()}
-                onChange={(e) => form.setValue('masterId', e.value)}
-                // setFormData로 state를 변경하면 선택한 옵션값으로 값이 선택되지 않는 버그 발생
-            />
-        </>
+        <Select
+            options={TeamMember.all().map(toOption)}
+            placeholder="담당자를 선택해주세요"
+            styles={selectStylesOptions}
+            components={Components()}
+            onChange={onChange}
+        />
     );
 });
