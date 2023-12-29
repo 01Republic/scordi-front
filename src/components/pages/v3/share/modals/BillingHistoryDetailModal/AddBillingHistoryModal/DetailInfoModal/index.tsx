@@ -19,6 +19,8 @@ import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {selectedCurrencyState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {appBillingHistoryApi} from '^models/BillingHistory/api';
 import {appIdState} from '^v3/V3OrgAppShowPage/atom';
+import {useForm} from 'react-hook-form';
+import {CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 
 export const DetailInfoModal = memo(() => {
     const {Modal, close} = useModal(detailInfoModalState);
@@ -27,6 +29,7 @@ export const DetailInfoModal = memo(() => {
     const [createBillingHistory, setCreateBillingHistory] = useRecoilState(createBillingHistoryAtom);
     const selectedCurrency = useRecoilValue(selectedCurrencyState);
     const isDomestic = useRecoilValue(isDomesticState);
+    const form = useForm<CreateBillingHistoryRequestDto>();
     const appId = useRecoilValue(appIdState);
     const setBillingHistoryId = useSetRecoilState(billingHistoryIdState);
 
@@ -38,20 +41,22 @@ export const DetailInfoModal = memo(() => {
             exchangeRate: 1,
             exchangedCurrency: isDomestic ? CurrencyCode.KRW : selectedCurrency.label,
         };
-        setCreateBillingHistory((prev) => ({...prev, vat: moneyLike}));
+        form.setValue('vat', moneyLike);
     };
 
     const onClick = () => {
         if (!appId) return;
 
-        // const req = appBillingHistoryApi.createV2(appId, createBillingHistory);
-        //
-        // req.then((res) => {
-        //     setBillingHistoryId(res.data.id);
-        //
-        // });
-        //
-        // req.catch((e) => console.log(e));
+        setCreateBillingHistory((prev) => ({...prev, uid: form.getValues('uid'), vat: form.getValues('vat')}));
+
+        const req = appBillingHistoryApi.createV2(appId, createBillingHistory);
+
+        req.then((res) => {
+            setBillingHistoryId(res.data.id);
+        });
+
+        req.catch((e) => console.log(e));
+
         OpenFinishModal();
     };
 
@@ -68,10 +73,7 @@ export const DetailInfoModal = memo(() => {
                 </h2>
                 <section className="flex flex-col gap-5">
                     <FormControl topLeftLabel="결제 승인 번호를 입력해주세요">
-                        <TextInput
-                            type="number"
-                            onChange={(e) => setCreateBillingHistory((prev) => ({...prev, uid: e.target.value}))}
-                        />
+                        <TextInput type="number" onChange={(e) => form.setValue('uid', e.target.value)} />
                     </FormControl>
 
                     <FormControl topLeftLabel="국내 또는 해외 결제 여부를 선택해주세요">

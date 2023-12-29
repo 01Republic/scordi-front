@@ -16,6 +16,8 @@ import {currencySelectShowModal, selectedCurrencyState} from '^v3/share/modals/B
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {useToast} from '^hooks/useToast';
 import {CurrencySelectModal} from '^v3/share/modals/BillingHistoryDetailModal/CurrencySelectModal';
+import {CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
+import {useForm} from 'react-hook-form';
 
 export const PayAmountModal = memo(() => {
     const {Modal, isShow, close} = useModal(payAmountModalState);
@@ -23,21 +25,21 @@ export const PayAmountModal = memo(() => {
     const {billingHistory} = useBillingHistoryInModal();
     const [selectedCurrency, setSelectedCurrency] = useRecoilState(selectedCurrencyState);
     const [createBillingHistory, setCreateBillingHistory] = useRecoilState(createBillingHistoryAtom);
-    const [amount, setAmount] = useState<number>(0);
-    const [abroadAmount, setAbroadAmount] = useState<number>(0);
+    const form = useForm<CreateBillingHistoryRequestDto>();
     const {open} = useModal(currencySelectShowModal);
     const {toast} = useToast();
 
     const isDomestic = createBillingHistory.isDomestic;
 
     useEffect(() => {
+        form.reset();
         setCreateBillingHistory((prev) => ({...prev, isDomestic: true}));
-        setAmount(0);
-        setAbroadAmount(0);
         setSelectedCurrency({label: CurrencyCode.USD, desc: 'United States Dollar'});
     }, [isShow]);
 
     const onAmountChange = () => {
+        const amount = form.getValues('payAmount.amount');
+        const abroadAmount = form.getValues('vat.amount');
         const exchangeRate = isDomestic ? 1 : amount / abroadAmount;
 
         const moneyLike: CreateMoneyRequestDto = {
@@ -51,12 +53,15 @@ export const PayAmountModal = memo(() => {
         setCreateBillingHistory((prev) => ({...prev, payAmount: moneyLike}));
     };
     const onClick = () => {
+        onAmountChange();
+
+        const amount = createBillingHistory.payAmount;
+
         if (!amount) {
             toast.error('결제한 금액을 입력해주세요');
             return;
         }
 
-        onAmountChange();
         openDetailInfoModal();
     };
 
@@ -76,9 +81,10 @@ export const PayAmountModal = memo(() => {
                         <FormControl topLeftLabel="얼마를 사용하셨나요?">
                             <div className="input input-bordered w-full flex items-center justify-between">
                                 <input
-                                    onChange={(e) => setAmount(Number(e.target.value))}
+                                    onChange={(e) => form.setValue('payAmount.amount', Number(e.target.value))}
                                     type="number"
                                     className="w-full"
+                                    defaultValue={form.getValues('payAmount.amount')}
                                 />
                                 <span>{CurrencyCode.KRW}</span>
                             </div>
@@ -101,7 +107,8 @@ export const PayAmountModal = memo(() => {
                                     <input
                                         type="number"
                                         className="w-full"
-                                        onChange={(e) => setAbroadAmount(Number(e.target.value))}
+                                        onChange={(e) => form.setValue('vat.amount', Number(e.target.value))}
+                                        defaultValue={form.getValues('vat.amount')}
                                     />
                                     <span className="cursor-pointer btn btn-sm" onClick={open}>
                                         {selectedCurrency.label}

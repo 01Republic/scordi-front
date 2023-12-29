@@ -117,7 +117,6 @@ export const PayMethodModal = memo(() => {
                                 components={CardComponents()}
                                 styles={selectStylesOptions}
                                 options={CreditCard && getCreditCard(CreditCard.list)}
-                                // onChange={(e) => setCreateBillingHistory((prev) => ({...prev, creditCardId: e.value}))}
                                 onChange={(e) => form.setValue('creditCardId', e.id)}
                             />
                         </FormControl>
