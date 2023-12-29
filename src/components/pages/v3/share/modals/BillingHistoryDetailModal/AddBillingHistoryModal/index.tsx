@@ -82,7 +82,7 @@ export const AddBillingHistoryModal = memo(() => {
                         {addBillingHistory === AddBillingHistory.Amount && <AmountBody form={form} />}
                         {addBillingHistory === AddBillingHistory.DetailInfo && <DetailInfoBody form={form} />}
                         {addBillingHistory === AddBillingHistory.Finish && <FinishBody />}
-                        {addBillingHistory === AddBillingHistory.Memo && <MemoBody form={form} />}
+                        {addBillingHistory === AddBillingHistory.Memo && <MemoBody />}
                     </section>
                 </MobileSection.Padding>
             </Modal>

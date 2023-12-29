@@ -1,7 +1,5 @@
 import React, {memo} from 'react';
 import {AddBillingHistoryModalBtn} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/share/AddBillingHistoryModalBtn';
-import {UseFormReturn} from 'react-hook-form';
-import {CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {
     billingHistoryIdState,
@@ -9,24 +7,15 @@ import {
 } from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodies/atom';
 import {AddBillingHistory, AddBillingHistoryState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {appBillingHistoryApi} from '^models/BillingHistory/api';
-import {appIdState} from '^v3/V3OrgAppShowPage/atom';
 
-interface MemoBodyProps {
-    form: UseFormReturn<CreateBillingHistoryRequestDto>;
-}
-export const MemoBody = memo((props: MemoBodyProps) => {
+export const MemoBody = memo(() => {
     const [memo, setMemo] = useRecoilState(memoState);
     const setAddBillingHistory = useSetRecoilState(AddBillingHistoryState);
     const billingHistoryId = useRecoilValue(billingHistoryIdState);
-    const appId = useRecoilValue(appIdState);
-
-    const {form} = props;
     const onClick = () => {
-        if (!appId || !billingHistoryId) return;
+        if (!billingHistoryId) return;
 
-        form.setValue('memo', memo);
-
-        const req = appBillingHistoryApi.updateV2(appId, billingHistoryId, form.getValues());
+        const req = appBillingHistoryApi.updateV2(billingHistoryId, {memo});
 
         req.then(() => setAddBillingHistory(AddBillingHistory.Finish));
         req.catch((e) => console.log(e));

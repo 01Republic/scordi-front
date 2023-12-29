@@ -7,6 +7,7 @@ import {
     CreateBillingHistoryStandAloneRequestDto,
     GetBillingHistoriesParams,
     UpdateBillingHistoryRequestDto,
+    UpdateBillingHistoryRequestDtoV2,
 } from '^models/BillingHistory/type';
 
 const NAMESPACE = 'billing_histories';
@@ -49,8 +50,8 @@ export const appBillingHistoryApi = {
         return api.post<BillingHistoryDto>(url, dto).then(oneDtoOf(BillingHistoryDto));
     },
 
-    updateV2: (subscriptionId: number, billingHistoryId: number, dto: CreateBillingHistoryRequestDto) => {
-        const url = `/subscriptions/${subscriptionId}/${NAMESPACE}/${billingHistoryId}/v2`;
+    updateV2: (billingHistoryId: number, dto: UpdateBillingHistoryRequestDtoV2) => {
+        const url = `/${NAMESPACE}/v2/${billingHistoryId}`;
         return api.patch<BillingHistoryDto>(url, dto).then(oneDtoOf(BillingHistoryDto));
     },
 };
