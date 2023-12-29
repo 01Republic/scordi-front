@@ -1,5 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
-import {BottomUpModal} from '^v3/share/modals/containers/BottomUpModal';
+import {BottomUpModal} from '^v3/share/modals/_layouts/BottomUpModal';
 import {useInvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal/hook';
 import {Avatar} from '^components/Avatar';
 import {BsCheckCircle, BsCheckCircleFill} from 'react-icons/bs';

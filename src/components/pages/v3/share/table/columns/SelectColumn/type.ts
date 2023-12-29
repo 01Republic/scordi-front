@@ -1,4 +1,4 @@
 import {MemoExoticComponent} from 'react';
 
-type Component<T> = (props: {value: T | string}) => JSX.Element;
-export type ValueComponent<T> = Component<T> | MemoExoticComponent<Component<T>>;
+type Component<T, Props = any> = (props: {value: T | string} & Props) => JSX.Element;
+export type ValueComponent<T, Props = any> = Component<T, Props> | MemoExoticComponent<Component<T, Props>>;

@@ -1,9 +1,9 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 
-interface BottomUpModalProps extends WithChildren {
-    modalId?: string;
-    size?: 'lg' | 'md' | 'sm' | 'xl' | '2xl' | '3xl';
+export interface BottomUpModalProps extends WithChildren {
+    modalId: string;
+    size: 'lg' | 'md' | 'sm' | 'xl' | '2xl' | '3xl';
     isShow: boolean;
     onClose: () => any;
     wrapperClassName?: string;
@@ -20,7 +20,7 @@ export const BottomUpModal = memo((props: BottomUpModalProps) => {
             onClick={() => onClose()}
         >
             <div
-                className={`modal-box cursor-default ${size ? `max-w-${size}` : ''} ${className}`}
+                className={`modal-box cursor-default p-0 ${size ? `max-w-${size}` : ''} ${className}`}
                 onClick={(e) => {
                     e.stopPropagation();
                     e.preventDefault();

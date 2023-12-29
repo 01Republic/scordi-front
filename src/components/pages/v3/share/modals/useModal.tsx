@@ -2,6 +2,7 @@ import {atom, RecoilState, useRecoilState} from 'recoil';
 import React, {memo, useEffect} from 'react';
 import {WithChildren} from '^types/global.type';
 import {IoClose} from '@react-icons/all-files/io5/IoClose';
+import {DefaultModal} from '^v3/share/modals/_layouts/DefaultModal';
 
 const openedModalsAtom = atom<{key: string}[]>({
     key: 'openedModalsAtom',
@@ -78,15 +79,14 @@ export const useModal = (option: UseModalOption) => {
         close,
         prevent,
         Modal: memo(({children, wrapperClassName = '', className = '', onClose}: ModalProps) => (
-            <div
-                data-modal-id={popStateSyncKey}
-                className={`modal cursor-pointer ${wrapperClassName} ${isShow ? 'modal-open' : ''}`}
-                onClick={onClose || close}
-            >
-                <div className={`modal-box cursor-default ${className}`} onClick={prevent}>
-                    {children}
-                </div>
-            </div>
+            <DefaultModal
+                modalId={popStateSyncKey}
+                wrapperClassName={wrapperClassName}
+                className={className}
+                isShow={isShow}
+                onClose={onClose || close}
+                children={children}
+            />
         )),
         CloseButton: memo(({children, className = ''}: WithChildren & {className?: string}) => (
             <button

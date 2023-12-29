@@ -12,18 +12,9 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import {useForm} from 'react-hook-form';
 import {CreateSubscriptionRequestDto} from '^models/Subscription/types';
 import {ButtonGroupRadio} from '^components/util/form-control/inputs';
-import {orgIdParamState} from '^atoms/common';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
-import {CurrencyCode} from '^types/money.type';
-import {
-    currencySelectShowModal,
-    selectedCurrencyForSubscriptionState,
-} from '^v3/share/modals/BillingHistoryDetailModal/atom';
-import {CurrencySelectModal} from 'src/components/pages/v3/share/modals/CurrencySelectModal';
-import {
-    CurrentBillingAmountCurrencyModal,
-    currentBillingAmountCurrencyModalAtom,
-} from '^v3/share/modals/NewSubscriptionModalManually/FormForBillingInfoModal/CurrentBillingAmountCurrencyModal';
+import {CurrentBillingAmountCurrencyModal} from './CurrentBillingAmountCurrencyModal';
+import {CurrentBillingAmountInput} from './CurrentBillingAmountInput';
 
 export const FormForBillingInfoModal = memo(function FormForBillingInfoModal() {
     // const orgId = useRecoilValue(orgIdParamState);
@@ -31,14 +22,6 @@ export const FormForBillingInfoModal = memo(function FormForBillingInfoModal() {
     const {open: openUsingMemberInfoModal} = useModal(newFormForUsingMemberInfoModalAtom);
     const [formData, setFormData] = useRecoilState(newSubscriptionManualFormData);
     const form = useForm<CreateSubscriptionRequestDto>();
-    const {open: openCurrencySelectModal} = useModal(currentBillingAmountCurrencyModalAtom);
-    const [selectedCurrency, setSelectedCurrency] = useRecoilState(selectedCurrencyForSubscriptionState);
-
-    useEffect(() => {
-        const amount = form.getValues('currentBillingAmount.amount');
-        const currency = selectedCurrency.label ?? CurrencyCode.USD;
-        form.setValue('currentBillingAmount', {currency, amount});
-    }, [selectedCurrency]);
 
     const onNext = () => {
         // set value
@@ -74,25 +57,7 @@ export const FormForBillingInfoModal = memo(function FormForBillingInfoModal() {
                             {/*</FormControl>*/}
 
                             <FormControl topLeftLabel="결제 금액">
-                                <div className="input input-bordered w-full flex items-center justify-between">
-                                    <input
-                                        type="number"
-                                        step="0.01"
-                                        min={0}
-                                        className="w-full"
-                                        onChange={(e) => {
-                                            const amount = Number(e.target.value);
-                                            const currency = form.getValues('currentBillingAmount.currency');
-                                            form.setValue('currentBillingAmount', {currency, amount});
-                                        }}
-                                    />
-                                    <span
-                                        className="cursor-pointer btn btn-sm"
-                                        onClick={() => openCurrencySelectModal()}
-                                    >
-                                        {form.getValues('currentBillingAmount')?.currency ?? CurrencyCode.USD}
-                                    </span>
-                                </div>
+                                <CurrentBillingAmountInput form={form} />
                             </FormControl>
 
                             <FormControl topLeftLabel="결제주기">
