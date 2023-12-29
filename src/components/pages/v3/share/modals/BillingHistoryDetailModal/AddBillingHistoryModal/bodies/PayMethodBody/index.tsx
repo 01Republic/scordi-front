@@ -18,6 +18,7 @@ import {
 import {useToast} from '^hooks/useToast';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {AddBillingHistoryModalBtn} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/share/AddBillingHistoryModalBtn';
+import {dateTimeInputMax} from './dateTimeInputMax';
 
 interface PayMethodBodyProps {
     form: UseFormReturn<CreateBillingHistoryRequestDto>;
@@ -124,6 +125,7 @@ export const PayMethodBody = memo((props: PayMethodBodyProps) => {
                     type="datetime-local"
                     className="input input-bordered w-full text-sm font-semibold text-neutral-500"
                     {...form.register('paidAt')}
+                    max={dateTimeInputMax}
                 />
             </FormControl>
 
