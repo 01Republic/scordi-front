@@ -19,7 +19,6 @@ export const SelectMasterProfile = memo((props: SelectMasterProfileProps) => {
         result: {items: members},
         search: getTeamMembers,
     } = useTeamMembers();
-    const setFormData = useSetRecoilState(newSubscriptionManualFormData);
     const TeamMember = TeamMemberManager.init(members || []);
     const {form} = props;
 
