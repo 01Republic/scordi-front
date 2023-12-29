@@ -1,5 +1,5 @@
-import React, {memo} from 'react';
-import {useModal} from '^v3/share/modals';
+import React, {memo, useState} from 'react';
+import {useModal, UseModalOption} from '^v3/share/modals';
 import {FcCheckmark} from 'react-icons/fc';
 import {
     currencySelectShowModal,
@@ -9,35 +9,49 @@ import {
 import {RecoilState, useRecoilState} from 'recoil';
 import {CurrencyCode, CurrencyListV2} from '^types/money.type';
 import {CurrencyType} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/dto/report-item-form.dto';
+import {useToast} from '^hooks/useToast';
+
+type CurrencyOption = {label: CurrencyCode; desc: string};
 
 interface CurrencySelectModalProps {
-    selectedCurrencyAtom?: RecoilState<{label: CurrencyCode; desc: string}>;
+    modalAtom: UseModalOption;
+    defaultValue: CurrencyOption;
+    onChange: (selectedOption: CurrencyOption) => any;
+    // required?: boolean;
 }
 
 export const CurrencySelectModal = memo((props: CurrencySelectModalProps) => {
-    const {selectedCurrencyAtom} = props;
-    const {close, isShow} = useModal(currencySelectShowModal);
-    const [selectedCurrency, setSelectedCurrency] = useRecoilState(selectedCurrencyAtom || selectedCurrencyState);
+    const {modalAtom, onChange, defaultValue} = props;
+    const {close, isShow} = useModal(modalAtom);
+    const [selected, setSelected] = useState<CurrencyOption>(defaultValue);
+    const {toast} = useToast();
 
     const onClick = () => {
+        console.log('12345', selected);
+        if (!selected) {
+            console.log('필수 선택 사항 입니다.');
+            toast.error('필수 선택 사항 입니다.');
+            return;
+        }
+        console.log('onChange', onChange);
+        onChange(selected);
         close();
     };
 
     return (
         <div
-            data-modal="TeamMemberSelectModal-for-AppShowModal"
+            data-modal="CurrencySelectModal-for-AppShowModal"
             className={`modal modal-bottom ${isShow ? 'modal-open' : ''}`}
         >
             <div className="modal-box max-w-lg p-0">
                 <div className="p-4 bg-scordi">
                     <h3 className="font-bold text-lg text-white">결제된 화폐를 선택해주세요</h3>
-                    <p className="text-sm text-white opacity-70">ㅎㅇㅎㅇㅎㅇㅎㅇ</p>
                 </div>
                 <div className="px-4 pb-4 flex flex-col h-[50vh] overflow-y-auto no-scrollbar">
                     <div className="flex-1 py-4 px-2 text-sm">
                         <ul>
                             {CurrencyOptions2.map((option) => {
-                                if (option.label === selectedCurrency.label) {
+                                if (option.label === selected.label) {
                                     return (
                                         <li
                                             className="flex justify-between items-center font-bold mb-3"
@@ -53,7 +67,7 @@ export const CurrencySelectModal = memo((props: CurrencySelectModalProps) => {
                                 } else {
                                     return (
                                         <li
-                                            onClick={() => setSelectedCurrency(option)}
+                                            onClick={() => setSelected(option)}
                                             className="flex justify-between items-center font-bold mb-2 cursor-pointer"
                                             key={option.label}
                                         >
@@ -70,7 +84,7 @@ export const CurrencySelectModal = memo((props: CurrencySelectModalProps) => {
                     <button
                         // disabled={selectedIds.length < 1}
                         className="btn btn-lg btn-scordi btn-block rounded-box disabled:border-indigo-100 disabled:bg-indigo-100 disabled:text-indigo-300"
-                        onClick={onClick}
+                        onClick={() => onClick()}
                     >
                         선택하기
                     </button>
@@ -79,39 +93,6 @@ export const CurrencySelectModal = memo((props: CurrencySelectModalProps) => {
         </div>
     );
 });
-
-const CurrencyOptions = [
-    {label: CurrencyCode.USD, desc: 'United States Dollar'},
-    {label: CurrencyCode.EUR, desc: 'Euro (European Union)'},
-    {label: 'GBP', desc: 'British Pound Sterling'},
-    {label: 'JPY', desc: 'Japanese Yen'},
-    {label: 'CNY', desc: 'Chinese Yuan Renminbi'},
-    {label: 'KRW', desc: 'South Korean Won'},
-    {label: 'CAD', desc: 'Canadian Dollar'},
-    {label: 'AUD', desc: 'Australian Dollar'},
-    {label: 'INR', desc: 'Indian Rupee'},
-    {label: 'RUB', desc: 'Russian Ruble'},
-    {label: 'BRL', desc: 'Brazilian Real'},
-    {label: 'MXN', desc: 'Mexican Peso'},
-    {label: 'CHF', desc: 'Swiss Franc'},
-    {label: 'HKD', desc: 'Hong Kong Dollar'},
-    {label: 'SGD', desc: 'Singapore Dollar'},
-    {label: 'NZD', desc: 'New Zealand Dollar'},
-    {label: 'SEK', desc: 'Swedish Krona'},
-    {label: 'NOK', desc: 'Norwegian Krone'},
-    {label: 'DKK', desc: 'Danish Krone'},
-    {label: 'TRY', desc: 'Turkish Lira'},
-    {label: 'ZAR', desc: 'South African Rand'},
-    {label: 'AED', desc: 'United Arab Emirates Dirham'},
-    {label: 'SAR', desc: 'Saudi Riyal'},
-    {label: 'IDR', desc: 'Indonesian Rupiah'},
-    {label: 'THB', desc: 'Thai Baht'},
-    {label: 'PHP', desc: 'Philippine Peso'},
-    {label: 'MYR', desc: 'Malaysian Ringgit'},
-    {label: 'ILS', desc: 'Israeli Shekel'},
-    {label: 'PLN', desc: 'Polish Zloty'},
-    {label: 'EGP', desc: 'Egyptian Pound'},
-];
 
 const CurrencyOptions2 = Object.values(CurrencyListV2).map((currencyInfo) => {
     return {

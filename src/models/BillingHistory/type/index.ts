@@ -110,6 +110,12 @@ export class BillingHistoryDto {
         const creditCard = this.getCreditCard();
         return this.subscription?.creditCard?.label ?? this.paymentMethod;
     }
+
+    get subtype() {
+        if (this.emailOriginId) return BillingHistorySubtype.EMAIL_INVOICE;
+        if (this.creditCardId) return BillingHistorySubtype.CARD_RECEIPT;
+        return BillingHistorySubtype.MANUAL;
+    }
 }
 
 // This used on Front-end Only.
@@ -134,6 +140,10 @@ export class CreateBillingHistoryRequestDto {
     vat?: CreateMoneyRequestDto; // 부과세
 }
 
+export class UpdateBillingHistoryRequestDtoV2 {
+    memo?: string; // 메모
+}
+
 interface Type<T = any> extends Function {
     new (...args: any[]): T;
 }
@@ -143,7 +153,7 @@ function PartialType<T>(classRef: Type<T>): Type<Partial<T>> {
 }
 export class UpdateBillingHistoryRequestDto extends PartialType(CreateBillingHistoryRequestDto) {
     // @ts-ignore
-    paidAt: string | undefined; // datetime string
+    paidAt?: string; // datetime string
 }
 
 export class CreateBillingHistoryStandAloneRequestDto {
@@ -168,3 +178,9 @@ export type GetBillingHistoriesParams = FindAllQueryDto<BillingHistoryDto> &
     StartEndParams &
     StatusParams &
     IsActiveSubsParams;
+
+export enum BillingHistorySubtype {
+    EMAIL_INVOICE = 'EMAIL_INVOICE',
+    MANUAL = 'MANUAL',
+    CARD_RECEIPT = 'CARD_RECEIPT',
+}

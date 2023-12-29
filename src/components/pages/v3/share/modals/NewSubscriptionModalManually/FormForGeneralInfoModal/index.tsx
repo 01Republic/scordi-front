@@ -29,6 +29,11 @@ export const FormForGeneralInfoModal = memo(function FormForGeneralInfoModal() {
         if (productId) form.setValue('productId', productId);
     }, [productId]);
 
+    useEffect(() => {
+        form.reset();
+        setProductId(0);
+    }, [isShow]);
+
     const onNext = () => {
         // set value
         setFormData((data) => ({

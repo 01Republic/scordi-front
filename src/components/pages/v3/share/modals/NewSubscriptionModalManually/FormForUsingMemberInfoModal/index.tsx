@@ -11,7 +11,6 @@ import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLike
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useForm} from 'react-hook-form';
 import {CreateSubscriptionRequestDto} from '^models/Subscription/types';
-import {orgIdParamState} from '^atoms/common';
 import {subscriptionApi} from '^models/Subscription/api';
 import {SelectMasterProfile} from '^v3/share/modals/NewSubscriptionModalManually/FormForUsingMemberInfoModal/SelectMasterProfile';
 
@@ -22,16 +21,13 @@ export const FormForUsingMemberInfoModal = memo(function FormForUsingMemberInfoM
     const form = useForm<CreateSubscriptionRequestDto>();
 
     const onNext = () => {
-        // select onChange에서 setFormData로 state변경하면
-        // 선택한 옵션값으로 데이터 변경되지 않는 버그 발생으로
-        // 우선은 여기서 값 변경하도록 했습니다..
-
         const masterId = form.getValues('masterId');
+        console.log('masterId', masterId);
         if (!masterId) return;
-        setFormData((prev) => ({...prev, masterId: masterId}));
 
         const req = subscriptionApi.create({
             ...formData,
+            masterId,
         });
 
         // 생성 진행 중인 상태 처리
@@ -54,7 +50,10 @@ export const FormForUsingMemberInfoModal = memo(function FormForUsingMemberInfoM
 
                     <div className="w-full flex flex-col gap-4">
                         <FormControl topLeftLabel="누가 담당하고 있나요?">
-                            <SelectMasterProfile form={form} />
+                            <input {...form.register('masterId')} className="hidden" />
+                            <SelectMasterProfile
+                                onChange={(selectedOption) => form.setValue('masterId', selectedOption.value)}
+                            />
                         </FormControl>
 
                         <FormControl topLeftLabel="어떤 팀에 속해있나요?">
