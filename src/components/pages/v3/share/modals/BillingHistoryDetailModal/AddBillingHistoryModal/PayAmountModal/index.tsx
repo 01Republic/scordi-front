@@ -55,7 +55,7 @@ export const PayAmountModal = memo(() => {
     const onClick = () => {
         onAmountChange();
 
-        const amount = createBillingHistory.payAmount;
+        const amount = form.getValues('payAmount.amount');
 
         if (!amount) {
             toast.error('결제한 금액을 입력해주세요');

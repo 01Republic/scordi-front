@@ -21,6 +21,8 @@ import {appBillingHistoryApi} from '^models/BillingHistory/api';
 import {appIdState} from '^v3/V3OrgAppShowPage/atom';
 import {useForm} from 'react-hook-form';
 import {CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
+import {useAlert} from '^hooks/useAlert';
+import {useAddBillingHistoryModal} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/AddBillingHistoryModalGroup/hook';
 import {SkipButton} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/share/SkipButton';
 
 export const DetailInfoModal = memo(() => {
@@ -33,6 +35,8 @@ export const DetailInfoModal = memo(() => {
     const form = useForm<CreateBillingHistoryRequestDto>();
     const appId = useRecoilValue(appIdState);
     const setBillingHistoryId = useSetRecoilState(billingHistoryIdState);
+    const {alert} = useAlert();
+    const {modalGroupClose} = useAddBillingHistoryModal();
 
     const onVATChange = (e: ChangeEvent<HTMLInputElement>) => {
         const moneyLike: CreateMoneyRequestDto = {
@@ -50,15 +54,18 @@ export const DetailInfoModal = memo(() => {
 
         setCreateBillingHistory((prev) => ({...prev, uid: form.getValues('uid'), vat: form.getValues('vat')}));
 
-        const req = appBillingHistoryApi.createV2(appId, createBillingHistory);
+        const req = appBillingHistoryApi.createV2(appId, {
+            ...createBillingHistory,
+            uid: form.getValues('uid'),
+            vat: form.getValues('vat'),
+        });
 
         req.then((res) => {
             setBillingHistoryId(res.data.id);
+            OpenFinishModal();
         });
 
-        req.catch((e) => console.log(e));
-
-        OpenFinishModal();
+        req.catch((e) => alert.error('다시 시도해주세요', e.value).then(() => modalGroupClose()));
     };
 
     const skip = () => {
@@ -68,10 +75,10 @@ export const DetailInfoModal = memo(() => {
 
         req.then((res) => {
             setBillingHistoryId(res.data.id);
+            OpenFinishModal();
         });
 
-        req.catch((e) => console.log(e));
-        OpenFinishModal();
+      req.catch((e) => alert.error('다시 시도해주세요', e.value).then(() => modalGroupClose()));
     };
 
     return (
@@ -80,7 +87,6 @@ export const DetailInfoModal = memo(() => {
                 backBtnOnClick={close}
                 topbarPosition="sticky"
                 title={billingHistory ? billingHistory.pageSubject : '결제 내역 등록'}
-                rightButtons={[() => <SkipButton onClick={skip} />]}
             />
             <MobileSection.Padding>
                 <h2 className="h1 leading-tight mb-10 whitespace-pre-line">
@@ -103,13 +109,20 @@ export const DetailInfoModal = memo(() => {
                     </FormControl>
 
                     <FormControl topLeftLabel="부가세를 입력해주세요">
-                        <TextInput type="number" onChange={onVATChange} />
+                        <TextInput
+                            type="number"
+                            onChange={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                onVATChange(e);
+                            }}
+                        />
                     </FormControl>
                 </section>
             </MobileSection.Padding>
 
             <ModalLikeBottomBar className="left-0">
-                <AddBillingHistoryModalBtn onClick={onClick} />
+                <AddBillingHistoryModalBtn onClick={onClick} text="등록하기" />
             </ModalLikeBottomBar>
         </Modal>
     );
