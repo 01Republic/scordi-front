@@ -2,25 +2,17 @@ import React, {memo} from 'react';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {CheckCircle} from '^components/react-icons/check-circle';
 import {AddBillingHistoryModalBtn} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/share/AddBillingHistoryModalBtn';
-import {useModal} from '^v3/share/modals';
-import {
-    AddBillingHistory,
-    addBillingHistoryShowModal,
-    AddBillingHistoryState,
-} from '^v3/share/modals/BillingHistoryDetailModal/atom';
-import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
+import {useAddSubscriptionModals} from '^v3/share/modals/NewSubscriptionModalManually/hook';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {memoState} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/atom';
+import {FinishStatus, FinishStatusAtom, memoAtom} from '^v3/share/modals/NewSubscriptionModalManually/atom';
 
 export const FinishBody = memo(() => {
-    const {close} = useModal(addBillingHistoryShowModal);
-    const {reload: loadHistories} = useBillingHistoriesV3();
-    const setAddBillingHistory = useSetRecoilState(AddBillingHistoryState);
-    const memo = useRecoilValue(memoState);
+    const {closeModals} = useAddSubscriptionModals();
+    const memo = useRecoilValue(memoAtom);
+    const setFinishStatus = useSetRecoilState(FinishStatusAtom);
 
     const onClick = () => {
-        close();
-        loadHistories();
+        closeModals();
     };
 
     return (
@@ -32,22 +24,31 @@ export const FinishBody = memo(() => {
             <Container size="lg" className="mb-10">
                 <div className="text-center">
                     <h3 className="font-bold text-3xl mb-4">결제 내역 등록이 완료되었어요!</h3>
-                    <p className="text-16 text-gray-500">
-                        {/*누가 어떤 서비스를 쓰고, 언제 / 어디서 / 얼마가 사용되는지 <br /> 한 눈에 관리해요.*/}
-                    </p>
                 </div>
             </Container>
 
             <Container className="flex flex-col items-center">
                 <button
-                    onClick={() => setAddBillingHistory(AddBillingHistory.Memo)}
+                    onClick={() => setFinishStatus(FinishStatus.Memo)}
                     className="btn btn-sm text-scordi mb-3 w-fit px-3"
                 >
-                    {memo}
+                    {memo ? memo : '메모 남기기'}
                 </button>
             </Container>
 
             <AddBillingHistoryModalBtn onClick={onClick} text="닫기" />
+
+            <div
+                data-component="ModalLikeBottomBar"
+                className={`fixed bottom-0 left-0 w-full flex justify-evenly gap-3 px-5 py-5 `}
+            >
+                <button
+                    className="btn btn-lg btn-block btn-scordi font-medium font-white text-xl bg-slate-50"
+                    onClick={onClick}
+                >
+                    닫기
+                </button>
+            </div>
         </div>
     );
 });

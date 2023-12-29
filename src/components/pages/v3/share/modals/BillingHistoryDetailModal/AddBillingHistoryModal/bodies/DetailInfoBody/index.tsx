@@ -17,7 +17,7 @@ import {appBillingHistoryApi} from '^models/BillingHistory/api';
 import {
     billingHistoryIdState,
     isDomesticState,
-} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/atom';
+} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodies/atom';
 
 interface DetailInfoBodyProps {
     form: UseFormReturn<CreateBillingHistoryRequestDto>;

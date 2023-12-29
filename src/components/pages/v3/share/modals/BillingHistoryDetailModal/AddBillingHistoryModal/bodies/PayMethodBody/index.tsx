@@ -4,7 +4,7 @@ import {
     CardComponents,
     PayMethodComponents,
     selectStylesOptions,
-} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/PayMethodBody/selectOpions';
+} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodies/PayMethodBody/selectOpions';
 import {UseFormReturn} from 'react-hook-form';
 import {useCreditCardsOfOrganization} from '^models/CreditCard/hook';
 import {CreditCardDto} from '^models/CreditCard/type';

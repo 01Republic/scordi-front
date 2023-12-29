@@ -7,16 +7,19 @@ import {
 import {ModalTopbar, useModal} from '^v3/share/modals';
 import {useBillingHistoryInModal} from '^v3/share/modals/BillingHistoryDetailModal/hook';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {PayMethodBody} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/PayMethodBody';
+import {PayMethodBody} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodies/PayMethodBody';
 import {useRecoilState, useSetRecoilState} from 'recoil';
-import {AmountBody} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/AmountBody';
-import {DetailInfoBody} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/DetailInfoBody';
+import {AmountBody} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodies/AmountBody';
+import {DetailInfoBody} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodies/DetailInfoBody';
 import {useForm} from 'react-hook-form';
 import {CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 import {CurrencySelectModal} from '^v3/share/modals/BillingHistoryDetailModal/CurrencySelectModal';
-import {FinishBody} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/FinishBody';
-import {MemoBody} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/MemoBody';
-import {isDomesticState, memoState} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodys/atom';
+import {FinishBody} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodies/FinishBody';
+import {MemoBody} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodies/MemoBody';
+import {
+    isDomesticState,
+    memoState,
+} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/bodies/atom';
 import {CardFormModalGroup} from '^v3/V3OrgCardListPage/modals/CardFormModalGroup';
 
 export const AddBillingHistoryModal = memo(() => {
@@ -32,7 +35,7 @@ export const AddBillingHistoryModal = memo(() => {
         setAddBillingHistory(AddBillingHistory.PayMethod);
         form.reset();
         setIsDomestic(true);
-        setMemo('메모 남기기');
+        setMemo('');
     }, [isShow]);
 
     // 모달 뒤로가기 버튼
