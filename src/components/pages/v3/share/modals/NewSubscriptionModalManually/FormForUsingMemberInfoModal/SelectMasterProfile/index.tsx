@@ -22,18 +22,14 @@ interface SelectMasterProfileProps {
 }
 
 export const SelectMasterProfile = memo((props: SelectMasterProfileProps) => {
-    const {
-        result: {items: members},
-        search: getTeamMembers,
-    } = useTeamMembers();
-    const TeamMember = TeamMemberManager.init(members || []);
+    const {result, search: getTeamMembers} = useTeamMembers();
     const {onChange} = props;
 
     useEffect(() => {
         getTeamMembers({
             relations: ['membership', 'membership.user', 'organization', 'teams', 'subscriptions'],
             order: {id: 'DESC'},
-            itemsPerPage: 10,
+            itemsPerPage: 0,
         });
     }, []);
 
@@ -47,7 +43,7 @@ export const SelectMasterProfile = memo((props: SelectMasterProfileProps) => {
 
     return (
         <Select
-            options={TeamMember.all().map(toOption)}
+            options={result.items.map(toOption)}
             placeholder="담당자를 선택해주세요"
             styles={selectStylesOptions}
             components={Components()}
