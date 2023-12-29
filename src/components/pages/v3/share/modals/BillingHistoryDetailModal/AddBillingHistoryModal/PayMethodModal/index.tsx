@@ -83,6 +83,7 @@ export const PayMethodModal = memo(() => {
         setCreateBillingHistory((prev) => ({
             ...prev,
             creditCardId: cardId,
+            paidAt: paidAt,
         }));
 
         openPayAmountModal();

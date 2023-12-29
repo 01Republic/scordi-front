@@ -21,6 +21,8 @@ import {appBillingHistoryApi} from '^models/BillingHistory/api';
 import {appIdState} from '^v3/V3OrgAppShowPage/atom';
 import {useForm} from 'react-hook-form';
 import {CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
+import {useAlert} from '^hooks/useAlert';
+import {useAddBillingHistoryModal} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/AddBillingHistoryModalGroup/hook';
 
 export const DetailInfoModal = memo(() => {
     const {Modal, close} = useModal(detailInfoModalState);
@@ -32,6 +34,8 @@ export const DetailInfoModal = memo(() => {
     const form = useForm<CreateBillingHistoryRequestDto>();
     const appId = useRecoilValue(appIdState);
     const setBillingHistoryId = useSetRecoilState(billingHistoryIdState);
+    const {alert} = useAlert();
+    const {modalGroupClose} = useAddBillingHistoryModal();
 
     const onVATChange = (e: ChangeEvent<HTMLInputElement>) => {
         const moneyLike: CreateMoneyRequestDto = {
@@ -53,11 +57,10 @@ export const DetailInfoModal = memo(() => {
 
         req.then((res) => {
             setBillingHistoryId(res.data.id);
+            OpenFinishModal();
         });
 
-        req.catch((e) => console.log(e));
-
-        OpenFinishModal();
+        req.catch((e) => alert.error('다시 시도해주세요', e.value).then(() => modalGroupClose()));
     };
 
     return (
@@ -73,7 +76,11 @@ export const DetailInfoModal = memo(() => {
                 </h2>
                 <section className="flex flex-col gap-5">
                     <FormControl topLeftLabel="결제 승인 번호를 입력해주세요">
-                        <TextInput type="number" onChange={(e) => form.setValue('uid', e.target.value)} />
+                        <TextInput
+                            type="number"
+                            onChange={(e) => form.setValue('uid', e.target.value)}
+                            defaultValue={form.getValues('uid')}
+                        />
                     </FormControl>
 
                     <FormControl topLeftLabel="국내 또는 해외 결제 여부를 선택해주세요">

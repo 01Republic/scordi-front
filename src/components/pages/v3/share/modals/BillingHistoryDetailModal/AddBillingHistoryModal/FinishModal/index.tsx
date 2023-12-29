@@ -15,6 +15,7 @@ import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {useAddBillingHistoryModal} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/AddBillingHistoryModalGroup/hook';
 import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
+import {useRouter} from 'next/router';
 
 export const FinishModal = memo(() => {
     const {Modal, close} = useModal(finishModalState);
@@ -23,10 +24,13 @@ export const FinishModal = memo(() => {
     const {billingHistory} = useBillingHistoryInModal();
     const {modalGroupClose} = useAddBillingHistoryModal();
     const {reload: loadHistories} = useBillingHistoriesV3();
+    const router = useRouter();
 
     const onClick = () => {
         modalGroupClose();
-        loadHistories();
+        // reload 안됨
+        // loadHistories();
+        router.reload();
     };
 
     return (
@@ -57,7 +61,7 @@ export const FinishModal = memo(() => {
             </MobileSection.Padding>
 
             <ModalLikeBottomBar className="left-0">
-                <AddBillingHistoryModalBtn onClick={onClick} />
+                <AddBillingHistoryModalBtn onClick={onClick} text="완료하기" />
             </ModalLikeBottomBar>
         </Modal>
     );
