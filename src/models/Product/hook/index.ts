@@ -13,7 +13,13 @@ import {errorNotify} from '^utils/toast-notify';
 import {SubscriptionPaymentPlanDto} from '^models/Subscription/types/paymentPlanType';
 import {useRouter} from 'next/router';
 import {Paginated} from '^types/utils/paginated.dto';
-import {cachePagedQuery, makeAppendPagedItemFn, makeExceptPagedItemFn} from '^hooks/usePagedResource';
+import {
+    buildPagedResource,
+    cachePagedQuery,
+    makeAppendPagedItemFn,
+    makeExceptPagedItemFn,
+    usePagedResource,
+} from '^hooks/usePagedResource';
 
 export const useProducts = () => {
     const result = useRecoilValue(getProductsQuery);
@@ -48,29 +54,54 @@ export const useProductsV2 = () => {
     return useProductsV3(productsPagedResultAtom, searchProductsParams);
 };
 
+export const usePagedProducts_SelectProduct = buildPagedResource(productApi.index, {
+    key: 'usePagedProducts_SelectProduct',
+    buildQuery: (params) => ({...params}),
+    getId: (dto) => dto.id,
+    mergeMode: false,
+});
+
+// => 1세대
+//
+// export const useProductsV3 = (
+//     resultAtom: RecoilState<Paginated<ProductDto>>,
+//     queryAtom: RecoilState<FindAllProductQuery>,
+//     mergeMode = false,
+// ) => {
+//     const defaultMergeMode = mergeMode;
+//     const [result, setResult] = useRecoilState(resultAtom);
+//     const [query, setQuery] = useRecoilState(queryAtom);
+//
+//     async function search(params: FindAllProductQuery, mergeMode = defaultMergeMode, force = false) {
+//         const param = {isLive: params.isLive ?? true, ...params};
+//         const request = () => productApi.index(param);
+//         return cachePagedQuery(setResult, setQuery, param, request, mergeMode, force);
+//     }
+//
+//     const reload = () => search({...query}, false, true);
+//     const movePage = (page: number, append = false) => search({...query, page}, append);
+//     const resetPage = () => search({...query, page: 1}, false, true);
+//     const append = makeAppendPagedItemFn(setResult);
+//     const except = makeExceptPagedItemFn(setResult, (it, item) => it.id !== item.id);
+//
+//     return {query, result, search, reload, movePage, resetPage, except};
+// };
+
+// => 2세대
+//
 export const useProductsV3 = (
     resultAtom: RecoilState<Paginated<ProductDto>>,
     queryAtom: RecoilState<FindAllProductQuery>,
     mergeMode = false,
-) => {
-    const defaultMergeMode = mergeMode;
-    const [result, setResult] = useRecoilState(resultAtom);
-    const [query, setQuery] = useRecoilState(queryAtom);
-
-    async function search(params: FindAllProductQuery, mergeMode = defaultMergeMode, force = false) {
-        const param = {isLive: params.isLive ?? true, ...params};
-        const request = () => productApi.index(param);
-        cachePagedQuery(setResult, setQuery, param, request, mergeMode, force);
-    }
-
-    const reload = () => search({...query}, false, true);
-    const movePage = (page: number, append = false) => search({...query, page}, append);
-    const resetPage = () => search({...query, page: 1}, false, true);
-    const append = makeAppendPagedItemFn(setResult);
-    const except = makeExceptPagedItemFn(setResult, (it, item) => it.id !== item.id);
-
-    return {query, result, search, reload, movePage, resetPage, except};
-};
+) =>
+    usePagedResource({
+        resultAtom,
+        queryAtom,
+        endpoint: productApi.index,
+        buildQuery: (params) => ({isLive: params.isLive ?? true, ...params}),
+        mergeMode,
+        getId: (dto) => dto.id,
+    });
 
 export const useProductSearch = () => {
     const [results, setResults] = useRecoilState(productSearchResultsState);
