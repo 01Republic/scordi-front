@@ -54,8 +54,9 @@ export const useProductsV2 = () => {
     return useProductsV3(productsPagedResultAtom, searchProductsParams);
 };
 
-export const usePagedProducts_SelectProduct = buildPagedResource(productApi.index, {
+export const usePagedProducts_SelectProduct = buildPagedResource({
     key: 'usePagedProducts_SelectProduct',
+    endpoint: productApi.index,
     buildQuery: (params) => ({...params}),
     getId: (dto) => dto.id,
     mergeMode: false,
