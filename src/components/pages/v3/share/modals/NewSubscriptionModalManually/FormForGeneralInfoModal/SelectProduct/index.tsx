@@ -1,12 +1,12 @@
 import React, {memo, useEffect, useMemo, useState} from 'react';
-import {ProductDto} from '^models/Product/type';
-import AsyncSelect from 'react-select/async';
 import {FormatOptionLabelMeta} from 'react-select';
-import {ProductOption} from '^v3/share/modals/AccountListModal/form/SelectProduct/ProductOption.type';
-import {ProductOptionMenu} from '^v3/share/modals/AccountListModal/form/SelectProduct/ProductOptionMenu';
-import {ProductSelectedValue} from '^v3/share/modals/AccountListModal/form/SelectProduct/ProductSelectedValue';
+import AsyncSelect from 'react-select/async';
 import {ProductManager} from '^models/Product/manager';
-import {usePagedProducts_SelectProduct, useProductsV2} from '^models/Product/hook';
+import {ProductDto} from '^models/Product/type';
+import {usePagedProducts_SelectProduct} from '^models/Product/hook';
+import {ProductOption} from './ProductOption.type';
+import {ProductOptionMenu} from './ProductOptionMenu';
+import {ProductSelectedValue} from './ProductSelectedValue';
 
 interface SelectProductProps {
     // form: UseFormReturn<CreateSubscriptionRequestDto, any>;
@@ -39,8 +39,6 @@ export const SelectProduct = memo((props: SelectProductProps) => {
     useEffect(() => {
         product && onChange(product);
     }, [product]);
-
-    // if (!Product) return <div className="w-full min-h-[70px] bg-slate-200 opacity-40" />;
 
     const search = async (inputValue: string) => {
         const value = (inputValue || '').toLowerCase();
