@@ -9,11 +9,11 @@ import {
     MemberCount,
     NextPaymentDate,
     PayingType,
-    ProductProfile,
+    // ProductProfile,
     SubscriptionStatus,
 } from './columns';
 import {useAppShowModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
-import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
+import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 
 interface SubscriptionTrProps {
     subscription: SubscriptionDto;
@@ -48,7 +48,8 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
 
             {/* 서비스 명 */}
             <td className="group cursor-pointer" onClick={openDetail}>
-                <ProductProfile subscription={subscription} />
+                {/*<ProductProfile subscription={subscription} />*/}
+                <SubscriptionProfile subscription={subscription} />
             </td>
             {/*<td></td>*/}
 
