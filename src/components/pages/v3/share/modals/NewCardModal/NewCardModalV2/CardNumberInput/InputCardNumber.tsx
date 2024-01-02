@@ -6,7 +6,7 @@ import {cardIdParamState, currentCreditCardAtom} from '^models/CreditCard/atom';
 
 interface InputCardNumberProps {
     form: UseFormReturn<UnSignedCreditCardFormData>;
-    setDisabled: Dispatch<React.SetStateAction<boolean>>;
+    setDisabled?: Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const InputCardNumber = memo((props: InputCardNumberProps) => {
@@ -69,11 +69,6 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
 
     return (
         <div>
-            {/* 카드번호 input */}
-            <label className="label label-text w-fit">
-                카드번호 <span className="text-red-500 pl-1">*</span>
-            </label>
-
             <div className="flex gap-3 mb-3">
                 <input
                     {...form.register('number1')}
