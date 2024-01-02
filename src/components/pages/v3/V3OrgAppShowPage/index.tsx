@@ -9,7 +9,6 @@ import {AppShowPageBody} from './modals/AppShowPageModal/AppShowPageBody';
 import {SelectTeamMemberModal} from './modals/AppShowPageModal/SelectTeamMemberModal';
 import {InvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal';
 import {useSetRecoilState} from 'recoil';
-import {CardFormModalGroup} from '^v3/share/modals/NewCardModal/NewCardModalGroup/CardFormModalGroup';
 import {NewBillingHistoryModal} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal';
 
 export const V3OrgAppShowPage = memo(() => {
@@ -31,7 +30,7 @@ export const V3OrgAppShowPage = memo(() => {
                 RegisterCreditCardModal,
                 InvoiceAccountSelectModal,
                 NewBillingHistoryModal, // 결제내역추가모달
-                CardFormModalGroup, // 카드추가모달
+                NewCardModal, // 카드추가모달
             ]}
         >
             <MobileSection.List className="h-full">
