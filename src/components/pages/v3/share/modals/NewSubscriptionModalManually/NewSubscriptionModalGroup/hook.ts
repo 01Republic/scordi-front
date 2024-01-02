@@ -19,11 +19,11 @@ export const useNewSubscriptionModal = () => {
     const setFormData = useSetRecoilState(newSubscriptionManualFormData);
 
     const closeModalGroup = () => {
-        billingInfoModal.close();
-        usingMemberModal.close();
-        generalInfoModal.close();
-        finishModal.close();
-        memoModal.close();
+        if (generalInfoModal.isShow) generalInfoModal.setIsShow(false);
+        if (billingInfoModal.isShow) billingInfoModal.setIsShow(false);
+        if (usingMemberModal.isShow) usingMemberModal.setIsShow(false);
+        if (finishModal.isShow) finishModal.setIsShow(false);
+        if (memoModal.isShow) memoModal.setIsShow(false);
         setFormData(subscriptionManualFormDataDefaultValue);
     };
 
