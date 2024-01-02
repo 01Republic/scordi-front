@@ -1,31 +1,30 @@
 export enum SubscriptionStatus {
+    NONE = 'NONE',
     FREE_TRIAL_STARTED = 'FREE_TRIAL_STARTED',
-    FREE_TRIAL_EXPIRED = 'FREE_TRIAL_EXPIRED',
     PAYMENT_SUCCESS = 'PAYMENT_SUCCESS',
     PAYMENT_PENDING = 'PAYMENT_PENDING',
     PAYMENT_FAILURE = 'PAYMENT_FAILURE',
-    PAUSED = 'PAUSED',
     CANCELED = 'CANCELED',
+
+    // 24.01.02, should be invisible options
+    FREE_TRIAL_EXPIRED = 'FREE_TRIAL_EXPIRED',
+    PAUSED = 'PAUSED',
 }
 
 export function t_SubscriptionStatus(status: SubscriptionStatus) {
     switch (status) {
         case SubscriptionStatus.FREE_TRIAL_STARTED:
-            return '무료 구독';
-        case SubscriptionStatus.FREE_TRIAL_EXPIRED:
-            return '구독 만료';
+            return '체험 기간';
         case SubscriptionStatus.PAYMENT_SUCCESS:
             return '결제 완료';
         case SubscriptionStatus.PAYMENT_PENDING:
             return '결제 예정';
         case SubscriptionStatus.PAYMENT_FAILURE:
             return '결제 실패';
-        case SubscriptionStatus.PAUSED:
-            return '일시 정지';
         case SubscriptionStatus.CANCELED:
             return '구독 취소';
         default:
-            return status;
+            return '무관';
     }
 }
 
