@@ -39,7 +39,9 @@ export const OnboardingFlow = memo(function OnboardingFlow() {
                         store.add(currentOrg.id);
                         setIsShow(false);
 
-                        router.reload();
+                        const bodyTag = document.querySelector('body');
+
+                        bodyTag?.classList.remove('modal-opened');
                     }}
                     disabled={isLoaded}
                 />
