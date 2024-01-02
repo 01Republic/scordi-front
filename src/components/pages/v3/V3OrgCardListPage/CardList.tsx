@@ -5,7 +5,7 @@ import {ContentEmpty} from '../V3OrgHomePage/mobile/ContentEmpty';
 import {creditCardApi} from '^models/CreditCard/api';
 import {orgIdParamState} from '^atoms/common';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {inputCardNumberModal} from './modals/CardNumberModal/atom';
+import {inputCardNumberModal} from '^v3/share/modals/NewCardModal/CardNumberModal/atom';
 import {creditCardListAtom} from '^models/CreditCard/atom';
 
 export const CardList = memo(() => {

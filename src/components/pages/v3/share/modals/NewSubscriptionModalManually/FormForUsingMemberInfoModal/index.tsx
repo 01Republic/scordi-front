@@ -4,11 +4,12 @@ import {
     newFormForFinishModalAtom,
     newFormForUsingMemberInfoModalAtom,
     newSubscriptionManualFormData,
+    subscriptionIdAtom,
 } from '^v3/share/modals/NewSubscriptionModalManually/atom';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {FormControl} from '^components/util/form-control';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {useForm} from 'react-hook-form';
 import {CreateSubscriptionRequestDto} from '^models/Subscription/types';
 import {subscriptionApi} from '^models/Subscription/api';
@@ -17,12 +18,13 @@ import {SelectMasterProfile} from '^v3/share/modals/NewSubscriptionModalManually
 export const FormForUsingMemberInfoModal = memo(function FormForUsingMemberInfoModal() {
     const {Modal, close} = useModal(newFormForUsingMemberInfoModalAtom);
     const {open: finishModalOpen} = useModal(newFormForFinishModalAtom);
-    const [formData, setFormData] = useRecoilState(newSubscriptionManualFormData);
+    const formData = useRecoilValue(newSubscriptionManualFormData);
     const form = useForm<CreateSubscriptionRequestDto>();
+    const setSubscriptionId = useSetRecoilState(subscriptionIdAtom);
 
     const onNext = () => {
         const masterId = form.getValues('masterId');
-        console.log('masterId', masterId);
+
         if (!masterId) return;
 
         const req = subscriptionApi.create({
@@ -32,7 +34,10 @@ export const FormForUsingMemberInfoModal = memo(function FormForUsingMemberInfoM
 
         // 생성 진행 중인 상태 처리
         // 성공 완료 처리
-        req.then(() => finishModalOpen());
+        req.then((res) => {
+            finishModalOpen();
+            setSubscriptionId(res.data.id);
+        });
 
         // 실패시 처리
         req.catch((e) => console.log(e));

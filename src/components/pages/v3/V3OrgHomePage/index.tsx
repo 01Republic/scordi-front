@@ -18,7 +18,7 @@ import {RenewInvoiceAccountModalMobile} from './RenewInvoiceAccountModal/mobile'
 import {MonthlyPaidAmountModal} from './MonthlyPaidAmountModal';
 import {MonthlyRemainAmountModal} from './MonthlyRemainAmountModal';
 import {CardsPanel} from './mobile/CardsPanel';
-import {CardFormModalGroup} from '../V3OrgCardListPage/modals/CardFormModalGroup';
+import {CardFormModalGroup} from '^v3/share/modals/NewCardModal/NewCardModalGroup/CardFormModalGroup';
 import {LNBIndex} from '^v3/share/LeftNavBar';
 import {SummarySection, MemberListSection, SubscriptionsSection} from './desktop/sections';
 import {HeaderSection} from '^v3/V3OrgHomePage/desktop/sections/HeaderSection';
