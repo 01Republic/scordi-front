@@ -14,6 +14,7 @@ export class CreateSubscriptionRequestDto {
     desc?: string; // 구독 설명
     recurringTypeTagId?: number; // 과금 방식 태그 ID
     billingCycleTagId?: number; // 결제 주기 태그 ID
+    memo?: string; // 메모
 
     // 얘는 token report 에서도 쓰이는 Enum 값.
     // 서비스 로직에서 Enum value 를 Tag 로 바꿔서 저장함.
