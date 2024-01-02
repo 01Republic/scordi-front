@@ -2,6 +2,7 @@ import {TypeCast} from '^types/utils/class-transformer';
 import {SubscriptionStatus} from '^models/Subscription/types/SubscriptionStatus';
 import {CreateMoneyWithSubscriptionRequestDto} from '^types/money.type';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
+import {RecurringTypeOptions} from '^models/Subscription/types/RecurringTypeOptions';
 
 export class CreateSubscriptionRequestDto {
     organizationId: number; // 조직 ID
@@ -15,8 +16,7 @@ export class CreateSubscriptionRequestDto {
     recurringTypeTagId?: number; // 과금 방식 태그 ID
     billingCycleTagId?: number; // 결제 주기 태그 ID
 
-    // 얘는 token report 에서도 쓰이는 Enum 값.
-    // 서비스 로직에서 Enum value 를 Tag 로 바꿔서 저장함.
+    recurringTypeOption?: RecurringTypeOptions; // 과금 방식
     billingCycleOption?: BillingCycleOptions; // 결제 주기
 
     // 현재 결제 금액

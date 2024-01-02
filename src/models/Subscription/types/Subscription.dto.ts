@@ -14,6 +14,8 @@ import {BillingCycleTerm, Locale, SubscriptionBillingCycleDto, t_BillingCycleTer
 import {ConnectStatus} from './ConnectStatus';
 import {SubscriptionStatus} from './SubscriptionStatus';
 import {SubscriptionPaymentPlanDto} from './paymentPlanType';
+import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
+import {RecurringTypeOptions} from '^models/Subscription/types/RecurringTypeOptions';
 
 export class SubscriptionDto {
     id: number;
@@ -24,6 +26,14 @@ export class SubscriptionDto {
     isActive: boolean; // 활성화 여부
     isFreeTier: boolean; // 프리티어 여부
     assumedBillingType: BillingType; // 인보이스 추정 결제 주기
+
+    /**
+     * 아래 option 프로퍼티는
+     * user customizable 한  tag 가 아닌,  static enum 값들입니다.
+     */
+    recurringType: RecurringTypeOptions; // 과금 방식
+    billingCycleType: BillingCycleOptions; // 결제 주기
+
     @TypeCast(() => Date) registeredAt?: Date | null; // 사용 시작일
     nextBillingDate: string | null; // 다음결제일
     nextBillingAmount: number; // 결제예정금액
