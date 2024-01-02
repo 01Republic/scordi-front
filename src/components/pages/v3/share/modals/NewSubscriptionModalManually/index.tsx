@@ -1,11 +1,8 @@
 import React, {memo, useEffect} from 'react';
-import {FormForGeneralInfoModal} from './FormForGeneralInfoModal';
-import {FormForBillingInfoModal} from '^v3/share/modals/NewSubscriptionModalManually/FormForBillingInfoModal';
-import {FormForUsingMemberInfoModal} from '^v3/share/modals/NewSubscriptionModalManually/FormForUsingMemberInfoModal';
 import {useRecoilState} from 'recoil';
 import {newSubscriptionManualFormData} from '^v3/share/modals/NewSubscriptionModalManually/atom';
 import {CreateSubscriptionRequestDto} from '^models/Subscription/types';
-import {FormForFinishModal} from '^v3/share/modals/NewSubscriptionModalManually/FormForFinishModal';
+import {NewSubscriptionModalGroup} from '^v3/share/modals/NewSubscriptionModalManually/NewSubscriptionModalGroup';
 
 export const NewSubscriptionModalManually = memo(function NewSubscriptionModalManually() {
     const [formData, setFormData] = useRecoilState(newSubscriptionManualFormData);
@@ -18,12 +15,5 @@ export const NewSubscriptionModalManually = memo(function NewSubscriptionModalMa
         console.log(formData);
     }, [formData]);
 
-    return (
-        <>
-            <FormForGeneralInfoModal />
-            <FormForBillingInfoModal />
-            <FormForUsingMemberInfoModal />
-            <FormForFinishModal />
-        </>
-    );
+    return <NewSubscriptionModalGroup />;
 });
