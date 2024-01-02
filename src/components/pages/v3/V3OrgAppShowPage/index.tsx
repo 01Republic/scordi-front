@@ -30,7 +30,7 @@ export const V3OrgAppShowPage = memo(() => {
                 RegisterCreditCardModal,
                 InvoiceAccountSelectModal,
                 NewBillingHistoryModal, // 결제내역추가모달
-                NewCardModal, // 카드추가모달
+                // NewCardModal, // 카드추가모달
             ]}
         >
             <MobileSection.List className="h-full">

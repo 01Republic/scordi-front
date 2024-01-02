@@ -19,6 +19,8 @@ export const IsFreeTierColumn = memo((props: IsFreeTierColumnProps) => {
     const {subscription, onChange} = props;
 
     const onSelect = async (isFreeTier: boolean) => {
+        if (isFreeTier == subscription.isFreeTier) return;
+
         return subscriptionApi
             .update(subscription.id, {isFreeTier})
             .then(() => onChange(isFreeTier))

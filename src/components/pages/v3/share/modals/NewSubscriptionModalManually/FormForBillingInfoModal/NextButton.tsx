@@ -15,7 +15,7 @@ export const NextButton = memo(function NextButton() {
     return (
         <NextButtonUI
             isActive={
-                !!formData.billingCycleOption &&
+                !!formData.billingCycleType &&
                 typeof formData.isPerUser !== 'undefined' &&
                 !!formData.currentBillingAmount?.amount &&
                 !!formData.currentBillingAmount.currency

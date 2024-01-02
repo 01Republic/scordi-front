@@ -55,10 +55,10 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
         const cardNum4 = form.getValues('number4');
 
         if (!cardNum1 || !cardNum2 || !cardNum3 || !cardNum4) {
-            setDisabled(true);
+            if (setDisabled) setDisabled(true);
             return;
         }
-        setDisabled(false);
+        if (setDisabled) setDisabled(false);
     };
 
     const maxLength = (e: FormEvent<HTMLInputElement>) => {

@@ -45,9 +45,9 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
                             </SortableTH>
 
                             {/* [구독상태] subscription.status: SubscriptionStatus */}
-                            <SortableTH sortKey="[status]" onClick={sort}>
-                                <span className="pl-[8px]">상태</span>
-                            </SortableTH>
+                            {/*<SortableTH sortKey="[status]" onClick={sort}>*/}
+                            {/*    <span className="pl-[8px]">상태</span>*/}
+                            {/*</SortableTH>*/}
 
                             {/* [결제주기] subscription.billingCycleType: BillingCycleOptions */}
                             <SortableTH className="">

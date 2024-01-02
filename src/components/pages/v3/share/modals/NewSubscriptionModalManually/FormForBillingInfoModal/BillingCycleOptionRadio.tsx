@@ -7,8 +7,8 @@ import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOption
 export const BillingCycleOptionRadio = memo(function BillingCycleOptionRadio() {
     const [formData, setFormData] = useRecoilState(newSubscriptionManualFormData);
 
-    const onChange = (billingCycleOption: BillingCycleOptions) => {
-        setFormData((f) => ({...f, billingCycleOption}));
+    const onChange = (billingCycleType: BillingCycleOptions) => {
+        setFormData((f) => ({...f, billingCycleType}));
     };
 
     return (
@@ -19,7 +19,7 @@ export const BillingCycleOptionRadio = memo(function BillingCycleOptionRadio() {
                 {label: '매년', value: BillingCycleOptions.Yearly},
                 {label: '일회성', value: BillingCycleOptions.Onetime},
             ]}
-            defaultValue={formData.billingCycleOption}
+            defaultValue={formData.billingCycleType}
         />
     );
 });

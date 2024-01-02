@@ -9,7 +9,7 @@ export const subscriptionManualFormDataDefaultValue = {
         currency: CurrencyCode.USD,
         amount: 0,
     },
-    billingCycleOption: BillingCycleOptions.Monthly,
+    billingCycleType: BillingCycleOptions.Monthly,
     isPerUser: false,
 } as CreateSubscriptionRequestDto;
 

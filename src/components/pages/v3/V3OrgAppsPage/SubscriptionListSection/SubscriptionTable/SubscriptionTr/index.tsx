@@ -15,6 +15,7 @@ import {
 import {useAppShowModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 import {IsFreeTierColumn} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/IsFreeTierColumn';
+import {BillingCycleTypeColumn} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/BillingCycleTypeColumn';
 
 interface SubscriptionTrProps {
     subscription: SubscriptionDto;
@@ -65,12 +66,14 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
             </td>
 
             {/* 상태 */}
-            <td className="">
-                <SubscriptionStatus subscription={subscription} onChange={() => reload && reload()} />
-            </td>
+            {/*<td className="">*/}
+            {/*    <SubscriptionStatus subscription={subscription} onChange={() => reload && reload()} />*/}
+            {/*</td>*/}
 
             {/* 결제주기 */}
-            <td></td>
+            <td>
+                <BillingCycleTypeColumn subscription={subscription} onChange={() => reload && reload()} />
+            </td>
 
             {/* 과금방식: (TestBank: 연, 고정, 사용량, 크레딧, 1인당) */}
             <td className="">

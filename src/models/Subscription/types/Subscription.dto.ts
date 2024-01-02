@@ -31,8 +31,8 @@ export class SubscriptionDto {
      * 아래 option 프로퍼티는
      * user customizable 한  tag 가 아닌,  static enum 값들입니다.
      */
-    recurringType: RecurringTypeOptions; // 과금 방식
     billingCycleType: BillingCycleOptions; // 결제 주기
+    recurringType: RecurringTypeOptions; // 과금 방식
 
     @TypeCast(() => Date) registeredAt?: Date | null; // 사용 시작일
     nextBillingDate: string | null; // 다음결제일
