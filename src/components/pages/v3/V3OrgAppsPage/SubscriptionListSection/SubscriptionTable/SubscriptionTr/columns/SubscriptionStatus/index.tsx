@@ -1,15 +1,15 @@
 import {memo} from 'react';
 import {
-    c_SubscriptionStatus,
     SubscriptionDto,
     SubscriptionStatus as SubscriptionStatusType,
+    SubscriptionStatusValues,
     t_SubscriptionStatus,
+    c_SubscriptionStatus,
 } from '^models/Subscription/types';
 import {useToast} from '^hooks/useToast';
 import {subscriptionApi} from '^models/Subscription/api';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
-import {getColor, palette} from '^components/util/palette';
 
 interface SubscriptionStatusProps {
     subscription: SubscriptionDto;
@@ -39,7 +39,7 @@ export const SubscriptionStatus = memo((props: SubscriptionStatusProps) => {
     return (
         <SelectColumn
             value={subscription.status}
-            getOptions={async () => Object.values(SubscriptionStatusType)}
+            getOptions={async () => SubscriptionStatusValues}
             onSelect={onSelect}
             ValueComponent={SubscriptionStatusTag}
             contentMinWidth="240px"
