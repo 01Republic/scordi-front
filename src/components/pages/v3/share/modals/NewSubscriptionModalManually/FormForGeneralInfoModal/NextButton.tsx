@@ -31,7 +31,6 @@ export const NextButton = memo(function NextButton() {
     useEffect(() => {
         if (isShow) setFormData(subscriptionManualFormDataDefaultValue);
     }, [isShow]);
-    console.log('formData', formData);
 
     // 서비스를 선택하지 않은 상태에서는 버튼 UI 를 잠시 가려둡니다.
     if (!formData.productId) return <></>;
