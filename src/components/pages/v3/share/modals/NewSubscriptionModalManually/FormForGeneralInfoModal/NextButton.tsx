@@ -7,8 +7,9 @@ import {
     newFormForGeneralInfoModalAtom,
     newFormForUsingMemberInfoModalAtom,
     newSubscriptionManualFormData,
-} from '^v3/share/modals/NewSubscriptionModalManually/atom';
-import {CreateSubscriptionRequestDto} from '^models/Subscription/types';
+    subscriptionManualFormDataDefaultValue,
+} from '../atom';
+import {NextButtonUI} from '../NextButtonUI';
 
 export const NextButton = memo(function NextButton() {
     const organizationId = useRecoilValue(orgIdParamState);
@@ -29,7 +30,7 @@ export const NextButton = memo(function NextButton() {
     useEffect(() => {
         // if (isShow) console.log('opened');
         return () => {
-            setFormData({isFreeTier: true} as CreateSubscriptionRequestDto);
+            setFormData(subscriptionManualFormDataDefaultValue);
         };
     }, [isShow]);
 
@@ -55,19 +56,17 @@ export const NextButton = memo(function NextButton() {
         formData.isFreeTier ? openUsingMemberInfoModal() : openBillingInfoStep();
     };
 
-    const isActive =
-        // 서비스 선택은 필수
-        formData.productId &&
-        // 유/무료 선택은 필수
-        typeof formData.isFreeTier !== 'undefined';
-
     return (
-        <button
-            disabled={!isActive}
-            className="btn btn-lg btn-block btn-scordi font-medium font-white text-xl bg-slate-50 disabled:bg-gray-100 disabled:border-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+        <NextButtonUI
+            isActive={
+                // 서비스 선택은 필수
+                !!formData.productId &&
+                // 유/무료 선택은 필수
+                typeof formData.isFreeTier !== 'undefined'
+            }
             onClick={onNext}
         >
             다음
-        </button>
+        </NextButtonUI>
     );
 });
