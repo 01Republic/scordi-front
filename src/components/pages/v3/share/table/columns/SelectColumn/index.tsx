@@ -78,6 +78,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
     };
 
     // const ValueUI = ValueComponent || ((p: {value: T | string}) => <TagUI>{`${p.value}`}</TagUI>);
+    const isEmptyValue = typeof value == 'undefined' || value === null;
 
     return (
         <div className="dropdown relative w-full">
@@ -87,7 +88,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
                 tabIndex={0}
                 className="cursor-pointer flex py-[6px] px-[8px]"
             >
-                {value ? <ValueComponent value={value} /> : <EmptyComponent />}
+                {!isEmptyValue ? <ValueComponent value={value} /> : <EmptyComponent />}
             </div>
 
             <div

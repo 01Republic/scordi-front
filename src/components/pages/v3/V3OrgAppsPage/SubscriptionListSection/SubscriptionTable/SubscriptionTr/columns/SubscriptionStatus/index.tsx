@@ -19,6 +19,9 @@ interface SubscriptionStatusProps {
     // nextPayAmount: MoneyDto | null;
 }
 
+/**
+ * 구독 상태
+ */
 export const SubscriptionStatus = memo((props: SubscriptionStatusProps) => {
     const {toast} = useToast();
     const {subscription, onChange} = props;

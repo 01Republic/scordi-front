@@ -15,6 +15,10 @@ interface PayingTypeProps {
     onChange: (value: TagDto) => any;
 }
 
+/**
+ * 과금 방식
+ * subscription.recurringType: RecurringTypeOptions
+ */
 export const PayingType = memo((props: PayingTypeProps) => {
     // const {subscription} = props;
     //

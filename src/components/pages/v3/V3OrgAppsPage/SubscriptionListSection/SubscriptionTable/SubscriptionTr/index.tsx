@@ -14,6 +14,7 @@ import {
 } from './columns';
 import {useAppShowModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
+import {IsFreeTierColumn} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/IsFreeTierColumn';
 
 interface SubscriptionTrProps {
     subscription: SubscriptionDto;
@@ -51,7 +52,17 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
                 {/*<ProductProfile subscription={subscription} />*/}
                 <SubscriptionProfile subscription={subscription} />
             </td>
-            {/*<td></td>*/}
+
+            {/* 유/무료 */}
+            <td>
+                {/*<input*/}
+                {/*    type="checkbox"*/}
+                {/*    className="checkbox checkbox-sm checkbox-primary"*/}
+                {/*    disabled*/}
+                {/*    defaultChecked={subscription.isFreeTier}*/}
+                {/*/>*/}
+                <IsFreeTierColumn subscription={subscription} onChange={() => reload && reload()} />
+            </td>
 
             {/* 상태 */}
             <td className="">
@@ -66,6 +77,9 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
                 <PayingType subscription={subscription} onChange={() => reload && reload()} />
             </td>
 
+            {/* 결제수단 */}
+            <td></td>
+
             {/* 사용인원 */}
             <td className="text-right">
                 <MemberCount subscription={subscription} />
@@ -77,9 +91,9 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
             </td>
 
             {/* 다음 결제일 */}
-            <td className="text-right">
-                <NextPaymentDate nextPayDate={nextPayDate} />
-            </td>
+            {/*<td className="text-right">*/}
+            {/*    <NextPaymentDate nextPayDate={nextPayDate} />*/}
+            {/*</td>*/}
 
             {/* 담당자 */}
             <td className="">

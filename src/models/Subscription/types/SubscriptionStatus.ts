@@ -1,10 +1,11 @@
+// [SubscriptionDto] 구독 상태
 export enum SubscriptionStatus {
-    NONE = 'NONE',
-    FREE_TRIAL_STARTED = 'FREE_TRIAL_STARTED',
-    PAYMENT_SUCCESS = 'PAYMENT_SUCCESS',
-    PAYMENT_PENDING = 'PAYMENT_PENDING',
-    PAYMENT_FAILURE = 'PAYMENT_FAILURE',
-    CANCELED = 'CANCELED',
+    NONE = 'NONE', // 무관 (기본값)
+    FREE_TRIAL_STARTED = 'FREE_TRIAL_STARTED', // 체험기간
+    PAYMENT_SUCCESS = 'PAYMENT_SUCCESS', // 결제완료
+    PAYMENT_PENDING = 'PAYMENT_PENDING', // 결제예정
+    PAYMENT_FAILURE = 'PAYMENT_FAILURE', // 결제실패
+    CANCELED = 'CANCELED', // 구독취소
 
     // 24.01.02, should be invisible options
     FREE_TRIAL_EXPIRED = 'FREE_TRIAL_EXPIRED',

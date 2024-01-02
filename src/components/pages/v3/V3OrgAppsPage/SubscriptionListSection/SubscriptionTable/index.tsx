@@ -39,22 +39,36 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
                             <SortableTH sortKey="[product][nameKo]" onClick={sort}>
                                 서비스 명
                             </SortableTH>
-                            {/*<SortableTH>결제 형태</SortableTH>*/}
+
+                            <SortableTH>
+                                <span className="pl-[8px]">유/무료</span>
+                            </SortableTH>
+
+                            {/* [구독상태] subscription.status: SubscriptionStatus */}
                             <SortableTH sortKey="[status]" onClick={sort}>
                                 <span className="pl-[8px]">상태</span>
                             </SortableTH>
+
+                            {/* [결제주기] subscription.billingCycleType: BillingCycleOptions */}
                             <SortableTH className="">
                                 <span className="pl-[8px]">결제주기</span>
                             </SortableTH>
+
+                            {/* [과금방식] subscription.recurringType: RecurringTypeOptions */}
                             <SortableTH className="">
                                 <span className="pl-[8px]">과금방식</span>
                             </SortableTH>
-                            {/* 태그들로 표시해 줄 것: 연, 고정, 사용량, 크레딧, 1인당 */}
+
+                            <SortableTH className="">결제수단</SortableTH>
+
                             <SortableTH onClick={sort} className="text-right">
                                 사용인원
                             </SortableTH>
+
                             <SortableTH className="text-right">최신 결제금액</SortableTH>
-                            <SortableTH className="text-right">다음 결제일</SortableTH>
+
+                            {/*<SortableTH className="text-right">다음 결제일</SortableTH>*/}
+
                             <SortableTH>담당자</SortableTH>
 
                             {/* Actions */}
