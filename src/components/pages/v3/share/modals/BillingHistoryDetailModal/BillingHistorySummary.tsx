@@ -9,10 +9,8 @@ import {useRouter} from 'next/router';
 import {BillingHistoryManager} from '^models/BillingHistory/manager';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
 import {BsPlusCircle} from 'react-icons/bs';
-import {addBillingHistoryShowModal} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {useModal} from '^v3/share/modals';
-import {AddButton} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/AppShowPageBody/tabs/TeamMemberListTab/AddButton';
-import {payMethodModalState} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/atoms';
+import {payMethodModalState} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/atoms';
 
 interface BillingHistorySummaryProps {
     billingHistories: BillingHistoryDto[];

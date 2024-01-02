@@ -10,12 +10,12 @@ import {orgIdParamState} from '^atoms/common';
 import {SubscriptionItem} from '../V3OrgHomePage/mobile/SubscriptionItem';
 import {useRouter} from 'next/router';
 import {V3OrgCardListPageRoute} from '^pages/v3/orgs/[orgId]/cards';
-import {CardFormModalGroup} from '../V3OrgCardListPage/modals/CardFormModalGroup';
-import {inputCardNumberModal} from '../V3OrgCardListPage/modals/CardNumberModal/atom';
-import {selectCardCompanyModal} from '../V3OrgCardListPage/modals/CardCompanyModal/atom';
-import {inputCardNameModal} from '../V3OrgCardListPage/modals/CardNameModal/atom';
-import {inputCardHoldingMemberModal} from '../V3OrgCardListPage/modals/CardHoldingMemberModal/atom';
-import {selectAppModal, subscriptionsAtom} from '../V3OrgCardListPage/modals/SelectAppModal/atom';
+import {CardFormModalGroup} from '^v3/share/modals/NewCardModal/NewCardModalGroup/CardFormModalGroup';
+import {inputCardNumberModal} from '^v3/share/modals/NewCardModal/CardNumberModal/atom';
+import {selectCardCompanyModal} from '^v3/share/modals/NewCardModal/CardCompanyModal/atom';
+import {inputCardNameModal} from '^v3/share/modals/NewCardModal/CardNameModal/atom';
+import {inputCardHoldingMemberModal} from '^v3/share/modals/NewCardModal/CardHoldingMemberModal/atom';
+import {selectAppModal, subscriptionsAtom} from '^v3/share/modals/NewCardModal/SelectAppModal/atom';
 import {cardIdParamState, creditCardSignAtom, currentCreditCardAtom} from '^models/CreditCard/atom';
 import {creditCardApi} from '^models/CreditCard/api';
 

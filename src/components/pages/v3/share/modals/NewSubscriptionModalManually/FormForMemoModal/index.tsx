@@ -1,7 +1,6 @@
 import {ModalTopbar, useModal} from '^v3/share/modals';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
-import {AddBillingHistoryModalBtn} from '^v3/share/modals/BillingHistoryDetailModal/AddBillingHistoryModal/share/AddBillingHistoryModalBtn';
 import React, {memo} from 'react';
 import {
     memoAtom,
@@ -13,6 +12,7 @@ import {CreateSubscriptionRequestDto} from '^models/Subscription/types';
 import {useForm} from 'react-hook-form';
 import {subscriptionApi} from '^models/Subscription/api';
 import {useToast} from '^hooks/useToast';
+import {ModalButton} from '^v3/share/ModalButton';
 
 export const FormForMemoModal = memo(() => {
     const {Modal, close} = useModal(newFormForMemoModalAtom);
@@ -49,7 +49,7 @@ export const FormForMemoModal = memo(() => {
             </MobileSection.Padding>
 
             <ModalLikeBottomBar className="left-0">
-                <AddBillingHistoryModalBtn onClick={onClick} text="완료" />
+                <ModalButton onClick={onClick} text="완료" />
             </ModalLikeBottomBar>
         </Modal>
     );

@@ -1,32 +1,44 @@
 import React, {memo} from 'react';
-import {
-    memoAtom,
-    newFormForFinishModalAtom,
-    newFormForMemoModalAtom,
-} from '^v3/share/modals/NewSubscriptionModalManually/atom';
 import {ModalTopbar, useModal} from '^v3/share/modals';
+import {
+    finishModalState,
+    memoModalState,
+    memoState,
+} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/atoms';
+import {useBillingHistoryInModal} from '^v3/share/modals/BillingHistoryDetailModal/hook';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {useRecoilValue} from 'recoil';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {CheckCircle} from '^components/react-icons/check-circle';
+import {useRecoilValue} from 'recoil';
+import {useNewBillingHistoryModal} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/NewBillingHistoryModalGroup/hook';
+import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
-import {useNewSubscriptionModal} from '^v3/share/modals/NewSubscriptionModalManually/NewSubscriptionModalGroup/hook';
+import {useRouter} from 'next/router';
 import {ModalButton} from '^v3/share/ModalButton';
 
-export const FormForFinishModal = memo(() => {
-    const {Modal, close} = useModal(newFormForFinishModalAtom);
-    const {open: openMemoModal} = useModal(newFormForMemoModalAtom);
-    const memo = useRecoilValue(memoAtom);
-    const {closeModalGroup} = useNewSubscriptionModal();
+export const FinishModal = memo(() => {
+    const {Modal, close} = useModal(finishModalState);
+    const {open: openMemoModal} = useModal(memoModalState);
+    const memo = useRecoilValue(memoState);
+    const {billingHistory} = useBillingHistoryInModal();
+    const {modalGroupClose} = useNewBillingHistoryModal();
+    const {reload: loadHistories} = useBillingHistoriesV3();
+    const router = useRouter();
 
     const onClick = () => {
-        // 모달 그룹 닫기
-        closeModalGroup();
+        modalGroupClose();
+        // reload 안됨
+        // loadHistories();
+        router.reload();
     };
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
-            <ModalTopbar title="새로운 구독 추가" backBtnOnClick={close} topbarPosition="sticky" />
+            <ModalTopbar
+                backBtnOnClick={close}
+                topbarPosition="sticky"
+                title={billingHistory ? billingHistory.pageSubject : '결제 내역 등록'}
+            />
             <MobileSection.Padding>
                 <div className="py-28 flex flex-col">
                     <Container size="sm" className="flex justify-center mb-4">
