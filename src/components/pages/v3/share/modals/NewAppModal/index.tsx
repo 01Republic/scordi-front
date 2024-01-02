@@ -10,7 +10,7 @@ import {NewSubscriptionModalManually} from '^v3/share/modals/NewSubscriptionModa
 import {MobileSection} from '../../sections/MobileSection';
 
 export const NewAppModal = memo(() => {
-    const {Modal, close} = useModal(newAppModal);
+    const {Modal, close, setIsShow} = useModal(newAppModal);
     const {open: newInvoiceAccountModalOpen, close: newInvoiceAccountModalClose} = useModal(newInvoiceAccountModal);
     const {open: newSubscriptionManuallyModalOpen} = useModal(newFormForGeneralInfoModalAtom);
     const {toast} = useToast();
@@ -43,7 +43,10 @@ export const NewAppModal = memo(() => {
                                 </button>
 
                                 <button
-                                    onClick={newSubscriptionManuallyModalOpen}
+                                    onClick={() => {
+                                        newSubscriptionManuallyModalOpen();
+                                        setIsShow(false);
+                                    }}
                                     className="btn btn-block btn-md btn-link "
                                 >
                                     그냥 직접 입력할래요
