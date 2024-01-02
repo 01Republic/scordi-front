@@ -17,21 +17,21 @@ import {FormControl} from '^components/util/form-control';
 
 export const FormForMemoModal = memo(() => {
     const {Modal, close} = useModal(newFormForMemoModalAtom);
-    const [memo, setMemo] = useRecoilState(memoAtom);
+    const [desc, setDesc] = useRecoilState(memoAtom);
     const form = useForm<CreateSubscriptionRequestDto>();
     const subscriptionId = useRecoilValue(subscriptionIdAtom);
     const {toast} = useToast();
 
     const onClick = () => {
-        const memo = form.getValues('memo');
+        const desc = form.getValues('desc');
 
-        if (!memo) return;
+        if (!desc) return;
 
-        const req = subscriptionApi.update(subscriptionId, {memo});
+        const req = subscriptionApi.update(subscriptionId, {desc});
 
         req.then(() => {
             close();
-            setMemo(memo);
+            setDesc(desc);
         });
 
         req.catch((e) => toast.error(e.message));
@@ -49,10 +49,10 @@ export const FormForMemoModal = memo(() => {
 
                 <FormControl>
                     <input
-                        onChange={(e) => form.setValue('memo', e.target.value)}
+                        onChange={(e) => form.setValue('desc', e.target.value)}
                         className="input input-bordered w-full"
                         placeholder=""
-                        defaultValue={memo}
+                        defaultValue={desc}
                         autoFocus={true}
                     />
                 </FormControl>

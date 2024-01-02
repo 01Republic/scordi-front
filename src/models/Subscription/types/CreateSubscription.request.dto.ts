@@ -15,7 +15,6 @@ export class CreateSubscriptionRequestDto {
     desc?: string; // 구독 설명
     recurringTypeTagId?: number; // 과금 방식 태그 ID
     billingCycleTagId?: number; // 결제 주기 태그 ID
-    memo?: string; // 메모
 
     recurringType?: RecurringTypeOptions; // 과금 방식
     billingCycleType?: BillingCycleOptions; // 결제 주기
