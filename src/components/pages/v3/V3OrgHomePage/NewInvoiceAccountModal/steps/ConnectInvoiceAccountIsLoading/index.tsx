@@ -31,7 +31,11 @@ export const ConnectInvoiceAccountIsLoading = memo(() => {
         };
         const req = invoiceAccountApi.createV2(orgId, dto);
 
-        req.then(() => setConnectStatus(InvoiceAccount.afterLoad));
+        // 중복 요청이 가는 경우 res.data 가 undefined 가 오고 있습니다.
+        // 추후 API가 409 Conflict 또는 202 Accepted 를 반환하도록 바뀔 수 있습니다.
+        req.then((res) => {
+            res.data && setConnectStatus(InvoiceAccount.afterLoad);
+        });
         req.catch((err) => {
             alert.error('다시 시도해주세요', err.response.data.message);
             setConnectStatus(InvoiceAccount.beforeLoad);
