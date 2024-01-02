@@ -5,10 +5,10 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {FormControl} from '^components/util/form-control';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {CurrentBillingAmountCurrencyModal} from './CurrentBillingAmountCurrencyModal';
+import {BillingCycleOptionRadio} from './BillingCycleOptionRadio';
+import {RecurringTypeSelect} from './RecurringTypeSelect';
 import {CurrentBillingAmountInput} from './CurrentBillingAmountInput';
-import {NextButton} from '^v3/share/modals/NewSubscriptionModalManually/FormForBillingInfoModal/NextButton';
-import {BillingCycleOptionRadio} from '^v3/share/modals/NewSubscriptionModalManually/FormForBillingInfoModal/BillingCycleOptionRadio';
-import {IsPerUserCheckbox} from '^v3/share/modals/NewSubscriptionModalManually/FormForBillingInfoModal/IsPerUserCheckbox';
+import {NextButton} from './NextButton';
 
 export const FormForBillingInfoModal = memo(function FormForBillingInfoModal() {
     const {Modal, close} = useModal(newFormForBillingInfoModalAtom);
@@ -41,11 +41,11 @@ export const FormForBillingInfoModal = memo(function FormForBillingInfoModal() {
                                 <BillingCycleOptionRadio />
                             </FormControl>
 
-                            <FormControl>
-                                <IsPerUserCheckbox />
+                            <FormControl topLeftLabel="과금방식" bottomLeftHint="단위가격이 매겨지는 방식이에요">
+                                <RecurringTypeSelect />
                             </FormControl>
 
-                            <FormControl topLeftLabel="단위 금액">
+                            <FormControl topLeftLabel="결제 금액">
                                 <CurrentBillingAmountInput />
                             </FormControl>
                         </div>
