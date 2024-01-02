@@ -7,6 +7,7 @@ export const subscriptionManualFormDataDefaultValue = {
     isFreeTier: true,
     currentBillingAmount: {
         currency: CurrencyCode.USD,
+        amount: 0,
     },
     billingCycleOption: BillingCycleOptions.Monthly,
     isPerUser: false,
