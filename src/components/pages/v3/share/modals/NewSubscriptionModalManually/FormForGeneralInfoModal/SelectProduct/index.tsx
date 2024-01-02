@@ -24,17 +24,21 @@ function toOption(product: ProductDto): ProductOption {
 
 export const SelectProduct = memo((props: SelectProductProps) => {
     const {defaultValue, onChange, labelText, labelHidden = false} = props;
-    const [productId, setProductId] = useState<number | undefined>(defaultValue);
+    const [productId, setProductId] = useState<number | undefined>();
     const {result, search: getProducts} = usePagedProducts_SelectProduct();
     const Product = useMemo(() => ProductManager.init(result.items), [result.items]);
     const product = useMemo(() => {
-        if (!Product || !productId) return;
+        if (!Product || !productId) return undefined;
         return Product.findById(productId);
     }, [Product, productId]);
 
     useEffect(() => {
         getProducts({order: {id: 'DESC'}});
     }, []);
+
+    useEffect(() => {
+        setProductId(defaultValue);
+    }, [defaultValue]);
 
     useEffect(() => {
         product && onChange(product);

@@ -4,7 +4,6 @@ import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 import {useRecoilValue} from 'recoil';
 import {yyyy_mm_dd, yyyy_mm_dd_hh_mm} from '^utils/dateTime';
-import {PrototypeAvatar} from '^components/pages/LandingPages/TastingPage/TastingItemDetailModal/PrototypeAvatar';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
 import {BillingHistoryManager} from '^models/BillingHistory/manager';
 import {MobileInfoList} from '^v3/share/MobileInfoList';
@@ -13,6 +12,7 @@ import {PriceHeader} from './PriceHeader';
 import {ListItemForAccount} from './ListItemForAccount';
 import {ListItemForSourceAccount} from './ListItemForSourceAccount';
 import {ListItemForPaymentMethod} from './ListItemForPaymentMethod';
+import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 
 // 정기결제금액 *
 // 결제주기 *
@@ -43,8 +43,8 @@ export const InformationPanel = memo(() => {
             <MobileSection.Padding>
                 <div className="w-full h-[40px]" />
                 <div>
-                    <div className="flex items-center justify-between">
-                        {currentSubscription && <PrototypeAvatar proto={currentSubscription.product} />}
+                    <div className="flex items-center justify-between mb-2">
+                        {currentSubscription && <SubscriptionProfile subscription={currentSubscription} />}
                     </div>
                     <div>
                         <PriceHeader totalPrice={totalPrice} billingType={billingType} />

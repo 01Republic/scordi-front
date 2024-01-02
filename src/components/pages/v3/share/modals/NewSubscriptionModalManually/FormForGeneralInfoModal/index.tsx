@@ -1,52 +1,18 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useEffect, useRef, useState} from 'react';
 import {ModalTopbar, useModal} from '^v3/share/modals';
-import {
-    newFormForBillingInfoModalAtom,
-    newFormForGeneralInfoModalAtom,
-    newFormForUsingMemberInfoModalAtom,
-    newSubscriptionManualFormData,
-} from '^v3/share/modals/NewSubscriptionModalManually/atom';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {FormControl} from '^components/util/form-control';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
-import {useRecoilState, useRecoilValue} from 'recoil';
-import {useForm} from 'react-hook-form';
-import {CreateSubscriptionRequestDto} from '^models/Subscription/types';
-import {ButtonGroupRadio} from '^components/util/form-control/inputs';
-import {orgIdParamState} from '^atoms/common';
-import {SelectProduct} from './SelectProduct';
+import {newFormForGeneralInfoModalAtom} from '../atom';
+import {ModalTitle} from './ModalTitle';
+import {ProductSelectSection} from './ProductSelectSection';
+import {HiddenSection} from './HiddenSection';
+import {AliasInput} from './AliasInput';
+import {IsFreeTierRadio} from './IsFreeTierRadio';
+import {NextButton} from './NextButton';
 
 export const FormForGeneralInfoModal = memo(function FormForGeneralInfoModal() {
-    const orgId = useRecoilValue(orgIdParamState);
     const {Modal, close, isShow} = useModal(newFormForGeneralInfoModalAtom);
-    const {open: openBillingInfoStep} = useModal(newFormForBillingInfoModalAtom);
-    const {open: openUsingMemberInfoModal} = useModal(newFormForUsingMemberInfoModalAtom);
-    const [formData, setFormData] = useRecoilState(newSubscriptionManualFormData);
-    const form = useForm<CreateSubscriptionRequestDto>();
-    const [productId, setProductId] = useState<number>();
-
-    useEffect(() => {
-        if (productId) form.setValue('productId', productId);
-    }, [productId]);
-
-    useEffect(() => {
-        form.reset();
-        setProductId(0);
-    }, [isShow]);
-
-    const onNext = () => {
-        // set value
-        setFormData((data) => ({
-            ...data,
-            organizationId: orgId,
-            productId: form.getValues('productId'),
-            alias: form.getValues('alias'),
-            isFreeTier: form.getValues('isFreeTier'),
-        }));
-
-        const isFree = form.getValues('isFreeTier') ?? true;
-        isFree ? openUsingMemberInfoModal() : openBillingInfoStep();
-    };
+    const aliasRef = useRef<HTMLInputElement>(null);
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
@@ -54,55 +20,28 @@ export const FormForGeneralInfoModal = memo(function FormForGeneralInfoModal() {
 
             <MobileSection.Padding>
                 <div>
-                    {!form.getValues('productId') && (
-                        <h3 className="font-bold text-2xl pt-5 mb-10">어느 서비스의 구독인가요?</h3>
-                    )}
+                    <ModalTitle />
 
                     <div className="w-full flex flex-col gap-4">
-                        <SelectProduct
-                            defaultValue={productId}
-                            onChange={(product) => setProductId(product.id)}
-                            labelHidden
+                        <ProductSelectSection
+                            afterChange={() => {
+                                setTimeout(() => {
+                                    console.log('aliasRef', aliasRef);
+                                    if (aliasRef.current) aliasRef.current.focus();
+                                }, 250);
+                            }}
                         />
-                        {form.getValues('productId') && (
-                            <>
-                                <FormControl topLeftLabel="별칭">
-                                    <input
-                                        type="text"
-                                        required
-                                        className="input input-bordered"
-                                        {...form.register('alias', {required: true})}
-                                        placeholder="ex. 도메인 scordi.io"
-                                    />
-                                </FormControl>
 
-                                <FormControl topLeftLabel="유료로 쓰고 있나요?">
-                                    <ButtonGroupRadio
-                                        onChange={(o) => form.setValue('isFreeTier', o.value)}
-                                        options={[
-                                            {label: '무료', value: true},
-                                            {label: '유료', value: false},
-                                        ]}
-                                        defaultValue={
-                                            typeof formData.isFreeTier === 'undefined' ? true : formData.isFreeTier
-                                        }
-                                    />
-                                </FormControl>
-                            </>
-                        )}
+                        <HiddenSection>
+                            <AliasInput aliasRef={aliasRef} />
+                            <IsFreeTierRadio />
+                        </HiddenSection>
                     </div>
                 </div>
             </MobileSection.Padding>
 
             <ModalLikeBottomBar>
-                {form.watch('productId') && (
-                    <button
-                        className="btn btn-lg btn-block btn-scordi font-medium font-white text-xl bg-slate-50"
-                        onClick={onNext}
-                    >
-                        다음
-                    </button>
-                )}
+                <NextButton />
             </ModalLikeBottomBar>
         </Modal>
     );
