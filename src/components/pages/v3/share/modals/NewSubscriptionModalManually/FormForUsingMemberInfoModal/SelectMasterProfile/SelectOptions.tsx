@@ -8,7 +8,6 @@ export const selectStylesOptions = {
     NoOptionsMessage: () => ({display: 'none'}),
 };
 
-// 결제 수단 select 보류로 지금은 사용하지 않음
 export const Components = () => {
     const SelectContainer = (props: ContainerProps<any>) => {
         return <components.SelectContainer {...props}>{props.children}</components.SelectContainer>;

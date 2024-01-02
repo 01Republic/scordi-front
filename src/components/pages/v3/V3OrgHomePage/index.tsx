@@ -18,7 +18,6 @@ import {RenewInvoiceAccountModalMobile} from './RenewInvoiceAccountModal/mobile'
 import {MonthlyPaidAmountModal} from './MonthlyPaidAmountModal';
 import {MonthlyRemainAmountModal} from './MonthlyRemainAmountModal';
 import {CardsPanel} from './mobile/CardsPanel';
-import {CardFormModalGroup} from '^v3/share/modals/NewCardModal/NewCardModalGroup/CardFormModalGroup';
 import {LNBIndex} from '^v3/share/LeftNavBar';
 import {SummarySection, MemberListSection, SubscriptionsSection} from './desktop/sections';
 import {HeaderSection} from '^v3/V3OrgHomePage/desktop/sections/HeaderSection';
@@ -28,6 +27,7 @@ import {TeamMemberCreateModal} from '^v3/V3OrgHomePage/TeamMemberCreateModal';
 import {InvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal';
 import {AppShowPageModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
 import {AccountListModal} from '^v3/share/modals/AccountListModal';
+import {NewCardModalV2} from 'src/components/pages/v3/share/modals/NewCardModal/NewCardModalV2';
 
 export const V3OrgHomePage = memo(() => {
     const currentUser = useRecoilValue(currentUserAtom);
@@ -80,7 +80,7 @@ export const V3OrgHomePage = memo(() => {
                     RenewInvoiceAccountModalMobile,
                     MonthlyPaidAmountModal,
                     MonthlyRemainAmountModal,
-                    CardFormModalGroup,
+                    NewCardModalV2,
                     InvoiceAccountSelectModal,
                 ]}
                 topRightButtons={currentUser?.isAdmin ? [TopNavOrgSelect, TopNavProfileButton] : []}

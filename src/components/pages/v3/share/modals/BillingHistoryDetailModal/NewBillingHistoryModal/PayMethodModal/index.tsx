@@ -21,15 +21,8 @@ import {useCreditCardsOfOrganization} from '^models/CreditCard/hook';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {useSetRecoilState} from 'recoil';
 import {createBillingHistoryAtom} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/atoms/createBillingHistoryAtom';
-import {CardFormModalGroup} from '^v3/share/modals/NewCardModal/NewCardModalGroup/CardFormModalGroup';
-import {dateTimeInputMax} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/PayMethodModal/dateTimeInputMax';
 import {ModalButton} from '^v3/share/ModalButton';
-
-type Option = {
-    id: number;
-    label: string;
-    name: string;
-};
+import {NewCardModalV2} from 'src/components/pages/v3/share/modals/NewCardModal/NewCardModalV2';
 
 export const PayMethodModal = memo(() => {
     const {Modal, isShow, close} = useModal(payMethodModalState);
@@ -44,26 +37,12 @@ export const PayMethodModal = memo(() => {
         form.reset();
     }, [isShow]);
 
-    const toOption = (options: string[]) => {
-        return options.map((item) => {
-            return {
-                label: item,
-                name: item,
-            };
-        });
-    };
+    const toOption = (card: CreditCardDto) => {
+        const value = card.id;
+        const label = card.fullNumber;
+        const name = card.name;
 
-    const getCreditCard = (cards: CreditCardDto[]) => {
-        // 카드 번호만 가져오는 함수
-        return cards
-            .map((card) => {
-                const cardInfo = card.decryptSign();
-                if (!cardInfo.number1) return;
-
-                const cardNumber = `${cardInfo.number1} - ${cardInfo.number2} - ${cardInfo.number3} - ${cardInfo.number4}`;
-                return {id: card.id, label: cardNumber, name: cardNumber};
-            })
-            .filter((item): item is Option => item !== undefined);
+        return {value, label, name};
     };
 
     const onClick = () => {
@@ -108,7 +87,7 @@ export const PayMethodModal = memo(() => {
                                 <Select
                                     components={PayMethodComponents()}
                                     styles={selectStylesOptions}
-                                    options={toOption(['카드', '계좌이체', '무통장입금', '현금영수증', '크레딧'])}
+                                    // options={toOption(['카드', '계좌이체', '무통장입금', '현금영수증', '크레딧'])}
                                 />
                             </FormControl>
                         </div>
@@ -117,7 +96,7 @@ export const PayMethodModal = memo(() => {
                                 placeholder="카드 선택하기"
                                 components={CardComponents()}
                                 styles={selectStylesOptions}
-                                options={CreditCard && getCreditCard(CreditCard.list)}
+                                options={CreditCard?.list.map(toOption)}
                                 onChange={(e) => form.setValue('creditCardId', e.id)}
                             />
                         </FormControl>
@@ -138,7 +117,7 @@ export const PayMethodModal = memo(() => {
                 </ModalLikeBottomBar>
             </Modal>
 
-            <CardFormModalGroup />
+            <NewCardModalV2 />
         </>
     );
 });
