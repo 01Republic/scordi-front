@@ -26,13 +26,12 @@ export const NextButton = memo(function NextButton() {
      * 따라서, 이 CTA 버튼이 unmount 되었을 때를
      * 수동추가 모달그룹 전체가 종료된 것으로 보고,
      * 폼 데이터 초기화 로직을 이곳에 배치 합니다.
+     * => 수정) 폼 데이터 초기화는 모달을 처음 열었을때 실행합니다.
      */
     useEffect(() => {
-        // if (isShow) console.log('opened');
-        return () => {
-            setFormData(subscriptionManualFormDataDefaultValue);
-        };
+        if (isShow) setFormData(subscriptionManualFormDataDefaultValue);
     }, [isShow]);
+    console.log('formData', formData);
 
     // 서비스를 선택하지 않은 상태에서는 버튼 UI 를 잠시 가려둡니다.
     if (!formData.productId) return <></>;

@@ -1,14 +1,7 @@
-import React, {memo, useEffect} from 'react';
-import Select from 'react-select';
-import {
-    Components,
-    selectStylesOptions,
-} from '^v3/share/modals/NewSubscriptionModalManually/FormForUsingMemberInfoModal/SelectMasterProfile/SelectOptions';
-import {TeamMemberDto, TeamMemberManager, useTeamMembers} from '^models/TeamMember';
-import {useSetRecoilState} from 'recoil';
-import {newSubscriptionManualFormData} from '^v3/share/modals/NewSubscriptionModalManually/atom';
-import {CreateSubscriptionRequestDto} from '^models/Subscription/types';
-import {UseFormReturn} from 'react-hook-form';
+import React, {memo, useEffect, useState} from 'react';
+import Select, {SingleValue} from 'react-select';
+import {Components, selectStylesOptions} from './SelectOptions';
+import {TeamMemberDto, useTeamMembers} from '^models/TeamMember';
 
 type TeamMemberOption = {
     label: string;
@@ -18,11 +11,12 @@ type TeamMemberOption = {
 };
 
 interface SelectMasterProfileProps {
-    onChange: (selectedOption: TeamMemberOption) => any;
+    onChange: (selectedOption: TeamMemberOption | null) => any;
 }
 
 export const SelectMasterProfile = memo((props: SelectMasterProfileProps) => {
     const {result, search: getTeamMembers} = useTeamMembers();
+    const [selectedMember, setSelectedMember] = useState<TeamMemberOption | null>(null);
     const {onChange} = props;
 
     useEffect(() => {
@@ -47,7 +41,12 @@ export const SelectMasterProfile = memo((props: SelectMasterProfileProps) => {
             placeholder="담당자를 선택해주세요"
             styles={selectStylesOptions}
             components={Components()}
-            onChange={onChange}
+            defaultValue={selectedMember}
+            onChange={(option) => {
+                const selected = option as SingleValue<TeamMemberOption>;
+                setSelectedMember(selected);
+                onChange(selected);
+            }}
         />
     );
 });
