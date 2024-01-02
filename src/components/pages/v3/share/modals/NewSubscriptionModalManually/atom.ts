@@ -1,18 +1,12 @@
 import {atom} from 'recoil';
 import {CreateSubscriptionRequestDto} from '^models/Subscription/types';
 
-export const newSubscriptionManualFormData = atom({
+export const newSubscriptionManualFormData = atom<CreateSubscriptionRequestDto>({
     key: 'newSubscriptionManualFormData',
-    default: new CreateSubscriptionRequestDto(),
+    default: {
+        isFreeTier: true,
+    } as CreateSubscriptionRequestDto,
 });
-
-export const newSubscriptionModalManually = {
-    isShowAtom: atom({
-        key: 'v3/newSubscriptionModal/Manually/isShow',
-        default: false,
-    }),
-    popStateSyncKey: 'v3/newSubscriptionModal/Manually',
-};
 
 export const newFormForGeneralInfoModalAtom = {
     isShowAtom: atom({
