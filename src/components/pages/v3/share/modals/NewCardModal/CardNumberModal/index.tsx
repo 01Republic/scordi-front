@@ -15,6 +15,7 @@ import {inputCardNumberModal} from './atom';
 import {selectCardCompanyModal} from '../CardCompanyModal/atom';
 import {cardIdParamState, creditCardSignAtom, currentCreditCardAtom} from '^models/CreditCard/atom';
 import {UnSignedCreditCardFormData} from '^models/CreditCard/type';
+import {ModalButton} from '^v3/share/ModalButton';
 
 export const CardNumberModal = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardNumberModal);
@@ -71,15 +72,11 @@ export const CardNumberModal = memo(() => {
                     <InputCardNumber form={form} setDisabled={setDisabled} />
                 </MobileSection.Padding>
                 <ModalLikeBottomBar>
-                    {cardId ? (
-                        <button disabled={disabled} onClick={onUpdate} className="btn-modal">
-                            확인
-                        </button>
-                    ) : (
-                        <button disabled={disabled} onClick={onSubmit} className="btn-modal">
-                            다음
-                        </button>
-                    )}
+                    <ModalButton
+                        onClick={cardId ? onUpdate : onSubmit}
+                        text={cardId ? '확인' : '다음'}
+                        isLoading={disabled}
+                    />
                 </ModalLikeBottomBar>
             </div>
         </Modal>
