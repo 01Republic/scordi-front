@@ -17,6 +17,6 @@ export const dashboardSubscriptionSearchResultAtom = atom<Paginated<Subscription
 });
 
 export const getDashboardSubscriptionsQueryAtom = atom<FindAllSubscriptionsQuery>({
-    key: 'getSubscriptionsQueryAtom',
+    key: 'getDashboardSubscriptionsQueryAtom',
     default: {},
 });
