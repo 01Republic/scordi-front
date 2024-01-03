@@ -10,15 +10,24 @@ import {orgIdParamState} from '^atoms/common';
 import {usePayingTypeTags} from '^models/Tag/hook';
 import {tagOptionsState} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/PayingType/PayingTypeSelect';
 import {useDashboardSubscriptions} from '^models/Subscription/hook';
+import {useRouter} from 'next/router';
 
 const SUBSCRIPTION_DISPLAY_LIMIT: number = 10;
 
 export const SubscriptionsSection = memo(function SubscriptionsSection() {
-    const {result, search: getSubscriptions, query, reload} = useDashboardSubscriptions();
+    const orgId = useRecoilValue(orgIdParamState);
+    const router = useRouter();
+    const {result, search: getSubscriptions, query, reload, clearCache} = useDashboardSubscriptions();
     const {safePath} = useSafePathInCurrentOrg();
     const {search: getTags} = usePayingTypeTags();
     const setTagOptions = useSetRecoilState(tagOptionsState);
-    const orgId = useRecoilValue(orgIdParamState);
+
+    // [대시보드] 페이지를 떠날 때, unmount 로 쿼리캐시를 초기화함으로써, 다음 방문 때에 쿼리가 실행되게 만듭니다.
+    useEffect(() => {
+        return () => {
+            clearCache();
+        };
+    }, [router.isReady]);
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
@@ -27,8 +36,8 @@ export const SubscriptionsSection = memo(function SubscriptionsSection() {
         getSubscriptions({
             where: {organizationId: orgId},
             relations: ['master', 'teamMembers', 'billingHistories.creditCard'],
-            itemsPerPage: SUBSCRIPTION_DISPLAY_LIMIT,
             order: {id: 'DESC'},
+            itemsPerPage: SUBSCRIPTION_DISPLAY_LIMIT,
         });
 
         getTags({}).then((res) => setTagOptions(res.items));

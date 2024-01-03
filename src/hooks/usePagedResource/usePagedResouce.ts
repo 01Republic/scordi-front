@@ -46,6 +46,8 @@ export function usePagedResource<DTO, Query>(option: UsePagedResourceOption<DTO,
     const resetPage = () => search({...query, page: 1}, false, true);
     const append = makeAppendPagedItemFn(setResult);
     const except = makeExceptPagedItemFn(setResult, (it, item) => getId(it) !== getId(item));
+    // @ts-ignore
+    const clearCache = () => setQuery({});
 
-    return {query, result, search, reload, movePage, resetPage, except, isLoading};
+    return {query, result, search, reload, movePage, resetPage, except, isLoading, clearCache};
 }

@@ -9,7 +9,7 @@ import {TiArrowSortedDown, TiArrowSortedUp} from 'react-icons/ti';
 interface PagedTableProps<T> {
     items: T[];
     reload?: () => any;
-    search?: (params: FindAllQueryDto<T>, mergeMode?: boolean, force?: boolean) => Promise<void>;
+    search?: (params: FindAllQueryDto<T>, mergeMode?: boolean, force?: boolean) => Promise<any>;
     query?: FindAllQueryDto<T>;
 }
 
