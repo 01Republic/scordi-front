@@ -4,4 +4,6 @@ export enum RecurringTypeOptions {
     PER_SEAT = 'PER_SEAT',
     PER_UNIT = 'PER_UNIT',
     FIXED = 'FIXED',
+    LICENSE = 'LICENSE',
+    CREDIT = 'CREDIT',
 }
