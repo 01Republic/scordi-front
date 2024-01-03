@@ -10,6 +10,7 @@ import {FormControl} from '^components/util/form-control/FormControl';
 import {CTAButton} from '^v3/share/modals/NewCardModal/NewCardModalV2/CTAButton';
 import {NewCardModalTitle} from '^v3/share/modals/NewCardModal/NewCardModalV2/NewCardModalTitle';
 import {newCardModalState} from '^v3/share/modals/NewCardModal/NewCardModalV2/atom';
+import {CardNameInput} from '^v3/share/modals/NewCardModal/NewCardModalV2/CardNameInput';
 
 export const NewCardModalV2 = memo(() => {
     const {Modal, close, isShow} = useModal(newCardModalState);
@@ -34,15 +35,7 @@ export const NewCardModalV2 = memo(() => {
                     </FormControl>
 
                     {/*카드 별칭 input*/}
-                    <FormControl topLeftLabel="카드 별칭">
-                        <input
-                            onChange={(e) => form.setValue('name', e.target.value)}
-                            name="cardName"
-                            type="text"
-                            placeholder="광고비 카드"
-                            className="input input-bordered w-full"
-                        />
-                    </FormControl>
+                    <CardNameInput />
                 </MobileSection.Padding>
 
                 {/*CTA Button*/}

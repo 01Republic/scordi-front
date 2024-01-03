@@ -1,18 +1,29 @@
-import React, {Dispatch, FormEvent, memo, useEffect, useState} from 'react';
+import React, {ChangeEvent, Dispatch, memo, MutableRefObject, useEffect, useRef, useState} from 'react';
 import {UseFormReturn} from 'react-hook-form';
-import {useRecoilValue} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {CreditCardSecretInfo, UnSignedCreditCardFormData} from '^models/CreditCard/type';
-import {cardIdParamState, currentCreditCardAtom} from '^models/CreditCard/atom';
+import {currentCreditCardAtom} from '^models/CreditCard/atom';
+import {createCreditCardDtoAtom} from '^v3/share/modals/NewCardModal/atom';
+import {useModal} from '^v3/share/modals';
+import {newCardModalState} from '^v3/share/modals/NewCardModal/NewCardModalV2/atom';
+import {CardNumberInput} from '^v3/share/modals/NewCardModal/NewCardModalV2/CardNumberInput/CardNumberInput';
 
 interface InputCardNumberProps {
     form: UseFormReturn<UnSignedCreditCardFormData>;
     setDisabled?: Dispatch<React.SetStateAction<boolean>>;
+    // onChange: (num1: number, num2: number, num3: number, num4: number) => any;
+    onFulfilled: () => any;
 }
 
 export const InputCardNumber = memo((props: InputCardNumberProps) => {
-    const {form, setDisabled} = props;
     const [cardInfo, setCardInfo] = useState<CreditCardSecretInfo>();
-    const cardId = useRecoilValue(cardIdParamState);
+    const {isShow} = useModal(newCardModalState);
+    const setCreateCreditCardDto = useSetRecoilState(createCreditCardDtoAtom);
+
+    const number1Ref = useRef<HTMLInputElement | null>(null);
+    const number2Ref = useRef<HTMLInputElement | null>(null);
+    const number3Ref = useRef<HTMLInputElement | null>(null);
+    const number4Ref = useRef<HTMLInputElement | null>(null);
 
     // Detail page 에서 모달 띄울 시 존재함.
     const currentCreditCard = useRecoilValue(currentCreditCardAtom);
@@ -26,91 +37,50 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
     }, [currentCreditCard]);
 
     useEffect(() => {
-        const number1 = document.querySelector('input[name="number1"]') as HTMLInputElement;
-        !number1.value && number1.focus();
+        number1Ref.current?.focus();
+    }, [isShow]);
 
-        if (!cardInfo || !cardId || isNaN(cardId)) return;
-
-        form.setValue('number1', cardInfo.number1);
-        form.setValue('number2', cardInfo.number2);
-        form.setValue('number3', cardInfo.number3);
-        form.setValue('number4', cardInfo.number4);
-    }, [cardInfo, cardId]);
-
-    const moveNextInput = (currentPart: number, value: string) => {
-        if (value.length === 4 && currentPart < 4) {
-            const nextPart = currentPart + 1;
-            const nextInput = document.querySelector(`input[name="number${nextPart}"]`) as HTMLInputElement;
-            nextInput && nextInput.focus();
-        }
-
-        if (value.length === 4 && currentPart === 4) {
-            const lastInput = document.querySelector('input[name="number4"]') as HTMLInputElement;
-            lastInput && lastInput.blur();
-        }
-
-        const cardNum1 = form.getValues('number1');
-        const cardNum2 = form.getValues('number2');
-        const cardNum3 = form.getValues('number3');
-        const cardNum4 = form.getValues('number4');
-
-        if (!cardNum1 || !cardNum2 || !cardNum3 || !cardNum4) {
-            if (setDisabled) setDisabled(true);
-            return;
-        }
-        if (setDisabled) setDisabled(false);
+    // 4개의 인풋이 모두 찼을 때
+    const onFulfilled = () => {
+        const isValidValue = (val: string) => val.length === 4;
+        return (
+            isValidValue(cardInfo?.number1 || '') &&
+            isValidValue(cardInfo?.number1 || '') &&
+            isValidValue(cardInfo?.number1 || '') &&
+            isValidValue(cardInfo?.number1 || '')
+        );
     };
 
-    const maxLength = (e: FormEvent<HTMLInputElement>) => {
-        if (e.currentTarget.value.length > e.currentTarget.maxLength) {
-            e.currentTarget.value = e.currentTarget.value.slice(0, e.currentTarget.maxLength);
-        }
+    const onChange = (e: ChangeEvent<HTMLInputElement>, ref: MutableRefObject<HTMLInputElement | null>) => {
+        console.log(ref.current);
+        console.log(e.target.value);
     };
 
     return (
         <div>
             <div className="flex gap-3 mb-3">
-                <input
-                    {...form.register('number1')}
-                    name="number1"
-                    type="number"
-                    placeholder="● ● ● ●"
-                    maxLength={4}
-                    defaultValue={cardInfo?.number1 ?? ''}
-                    className="input input-bordered w-full placeholder:text-[0.5rem]"
-                    onChange={(e) => moveNextInput(1, e.target.value)}
-                    onInput={(e) => maxLength(e)}
+                <CardNumberInput
+                    defaultValue={cardInfo?.number1}
+                    inputRef={number1Ref}
+                    nextInputRef={number2Ref}
+                    onChange={(e) => {
+
+                        setCardInfo((prev)=>{...prev, number1:e.target.value})
+                    }}
                 />
-                <input
-                    {...form.register('number2')}
-                    type="number"
-                    placeholder="● ● ● ●"
-                    maxLength={4}
-                    defaultValue={cardInfo?.number2 ?? ''}
-                    className="input input-bordered w-full placeholder:text-[0.5rem]"
-                    onChange={(e) => moveNextInput(2, e.target.value)}
-                    onInput={(e) => maxLength(e)}
+                <CardNumberInput
+                    defaultValue={cardInfo?.number2}
+                    inputRef={number2Ref}
+                    nextInputRef={number3Ref}
+                    onChange={onChange}
                 />
-                <input
-                    {...form.register('number3')}
-                    type="number"
-                    placeholder="● ● ● ●"
-                    maxLength={4}
-                    defaultValue={cardInfo?.number3 ?? ''}
-                    className="input input-bordered w-full placeholder:text-[0.5rem]"
-                    onChange={(e) => moveNextInput(3, e.target.value)}
-                    onInput={(e) => maxLength(e)}
+                <CardNumberInput
+                    defaultValue={cardInfo?.number3}
+                    inputRef={number3Ref}
+                    nextInputRef={number4Ref}
+                    onChange={onChange}
                 />
-                <input
-                    {...form.register('number4')}
-                    type="number"
-                    placeholder="● ● ● ●"
-                    maxLength={4}
-                    defaultValue={cardInfo?.number4 ?? ''}
-                    className="input input-bordered w-full placeholder:text-[0.5rem]"
-                    onChange={(e) => moveNextInput(4, e.target.value)}
-                    onInput={(e) => maxLength(e)}
-                />
+                <CardNumberInput defaultValue={cardInfo?.number4} inputRef={number4Ref} onChange={onChange} />
             </div>
         </div>
     );

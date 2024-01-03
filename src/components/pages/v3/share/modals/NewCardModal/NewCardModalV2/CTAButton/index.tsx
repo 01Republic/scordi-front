@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {ModalButton} from '^v3/share/ModalButton';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {cardIdParamState, creditCardSignAtom, currentCreditCardAtom} from '^models/CreditCard/atom';
 import {plainToInstance} from 'class-transformer';
 import {UnSignedCreditCardFormData} from '^models/CreditCard/type';
@@ -15,6 +15,7 @@ import {useToast} from '^hooks/useToast';
 import {useModal} from '^v3/share/modals';
 import {newCardModalState} from '^v3/share/modals/NewCardModal/NewCardModalV2/atom';
 import {useCreditCards} from '^models/CreditCard/hook';
+import {createCreditCardDtoAtom} from '^v3/share/modals/NewCardModal/atom';
 
 interface CTAButtonProps {
     form: UseFormReturn<UnSignedCreditCardFormData>;
@@ -27,7 +28,8 @@ export const CTAButton = memo((props: CTAButtonProps) => {
     const cardId = useRecoilValue(cardIdParamState);
     const setCardSignInfo = useSetRecoilState(creditCardSignAtom);
     const setCurrentCreditCard = useSetRecoilState(currentCreditCardAtom);
-    const {result, search, reload} = useCreditCards();
+    const {reload} = useCreditCards();
+    const [createCreditCardDto, setCreateCreditCardDto] = useRecoilState(createCreditCardDtoAtom);
 
     const {alert} = useAlert();
     const {toast} = useToast();
@@ -38,6 +40,7 @@ export const CTAButton = memo((props: CTAButtonProps) => {
 
     // 카드 번호 등록 함수
     const onSubmit = () => {
+        console.log(createCreditCardDto);
         if (!orgId) return;
 
         const formData = plainToInstance(UnSignedCreditCardFormData, form.getValues());
