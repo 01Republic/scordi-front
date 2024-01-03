@@ -67,6 +67,7 @@ export type CreateTeamMemberDto = {
     notes?: string | null;
     profileImgUrl?: string | null;
     userId?: number | null;
+    teamIds?: number[];
 };
 
 export type UpdateTeamMemberDto = {
@@ -77,4 +78,5 @@ export type UpdateTeamMemberDto = {
     jobDescription?: string | null;
     notes?: string | null;
     profileImgUrl?: string | null;
+    teamIds?: number[];
 };
