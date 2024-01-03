@@ -5,6 +5,7 @@ import {TypeCast} from '^types/utils/class-transformer';
 import {MembershipDto} from 'src/models/Membership/types';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {CreditCardDto} from '^models/CreditCard/type';
+import {PartialType} from '^types/utils/partial-type';
 
 export * from './TeamMemberSubscription.dto';
 
@@ -50,6 +51,13 @@ export class TeamMemberDto {
             }`,
         };
     }
+
+    // 임시
+    get team() {
+        const teams = this.teams || [];
+        const team = teams[0];
+        return team ? team : undefined;
+    }
 }
 
 export type FindAllTeamMemberQueryDto = FindAllQueryDto<TeamMemberDto> & {
@@ -58,23 +66,18 @@ export type FindAllTeamMemberQueryDto = FindAllQueryDto<TeamMemberDto> & {
     keyword?: string | null;
 };
 
-export type CreateTeamMemberDto = {
-    name: string;
-    email?: string | null;
-    phone?: string | null;
-    jobName?: string | null;
-    jobDescription?: string | null;
-    notes?: string | null;
-    profileImgUrl?: string | null;
-    userId?: number | null;
-};
+export class CreateTeamMemberDto {
+    name: string; // 멤버 이름
+    email?: string; // 이메일
+    phone?: string; // 전화번호
+    jobName?: string; // 직무 이름
+    jobDescription?: string; // 직무 설명
+    notes?: string; // 메모, 비고
+    profileImgUrl?: string | null; // 프로필 이미지 주소
+    userId?: number | null; // 스코디 회원 아이디
+    teamIds?: number[]; // 소속팀 아이디
+}
 
-export type UpdateTeamMemberDto = {
-    name?: string;
-    email?: string | null;
-    phone?: string | null;
-    jobName?: string | null;
-    jobDescription?: string | null;
-    notes?: string | null;
-    profileImgUrl?: string | null;
-};
+export class UpdateTeamMemberDto extends PartialType(CreateTeamMemberDto) {
+    subscriptionIds?: number[]; // 이용 중인 서비스
+}

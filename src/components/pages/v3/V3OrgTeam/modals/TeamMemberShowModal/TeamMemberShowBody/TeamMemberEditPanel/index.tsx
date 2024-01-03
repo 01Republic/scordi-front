@@ -1,25 +1,30 @@
 import React, {memo, useEffect} from 'react';
-import {useSetRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {useForm} from 'react-hook-form';
 import {FormControl} from '^components/util/form-control';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {currentTeamMemberState, UpdateTeamMemberDto, useTeamMember, useTeamMembers} from '^models/TeamMember';
 import {isTeamMemberEditModeAtom} from '../../atom';
 import {BackButtonHijacker} from './BackButtonHijacker';
+import {TeamSelect} from './TeamSelect';
 
 export const TeamMemberEditPanel = memo(function TeamMemberEditPanel() {
-    const setIsEditMode = useSetRecoilState(isTeamMemberEditModeAtom);
+    const [isEditMode, setIsEditMode] = useRecoilState(isTeamMemberEditModeAtom);
     const memberList = useTeamMembers();
     const {teamMember, updateMember} = useTeamMember(currentTeamMemberState);
     const form = useForm<UpdateTeamMemberDto>();
 
     useEffect(() => {
-        if (!teamMember) return;
+        if (!teamMember || !isEditMode) return;
 
+        if (teamMember.teams) {
+            const teamIds = teamMember.teams.map((t) => t.id);
+            form.setValue('teamIds', teamIds);
+        }
         form.setValue('name', teamMember.name);
-        form.setValue('notes', teamMember.notes);
-        form.setValue('email', teamMember.email);
-        form.setValue('phone', teamMember.phone);
+        form.setValue('notes', teamMember.notes || undefined);
+        form.setValue('email', teamMember.email || undefined);
+        form.setValue('phone', teamMember.phone || undefined);
 
         if (window) {
             const bindKeys = (e: KeyboardEvent) => {
@@ -30,7 +35,7 @@ export const TeamMemberEditPanel = memo(function TeamMemberEditPanel() {
                 window.removeEventListener('keydown', bindKeys);
             };
         }
-    }, [teamMember]);
+    }, [teamMember, isEditMode]);
 
     if (!teamMember) return <></>;
 
@@ -42,12 +47,25 @@ export const TeamMemberEditPanel = memo(function TeamMemberEditPanel() {
         });
     };
 
+    // const originalTeam = teamMember.team;
+    // console.log('teamMember', teamMember);
+    // console.log('originalTeam', originalTeam);
+
     return (
         <form>
             <BackButtonHijacker onClick={() => setIsEditMode(false)} />
             <MobileSection.Item className="border-b-0">
                 <MobileSection.Padding>
                     <div className="w-full flex flex-col gap-4 mb-16">
+                        <FormControl topLeftLabel="소속 팀 *">
+                            <TeamSelect
+                                onSelect={(selectedTeam) => {
+                                    const teamIds = selectedTeam ? [selectedTeam.id] : [];
+                                    form.setValue('teamIds', teamIds);
+                                }}
+                            />
+                        </FormControl>
+
                         <FormControl topLeftLabel="이름 *">
                             <input type="text" required className="input input-bordered" {...form.register('name')} />
                         </FormControl>

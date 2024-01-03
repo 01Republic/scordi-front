@@ -1,17 +1,20 @@
 import React, {memo} from 'react';
 import {TeamMemberDto} from '^models/TeamMember';
 import {useTeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
+import {TeamMemberProfile} from '^models/TeamMember/components/TeamMemberProfile';
 import {TeamMemberStatus} from './TeamMemberStatus';
 import {TeamMemberRole} from './TeamMemberRole';
-import {TeamMemberProfile} from '^models/TeamMember/components/TeamMemberProfile';
+import {TeamSelect} from './TeamSelect';
 
 interface TeamMemberTableRowPropsTableRowProps {
     teamMember: TeamMemberDto;
+    reload?: () => any;
 }
+
 export const TeamMemberTableRow = memo((props: TeamMemberTableRowPropsTableRowProps) => {
     // const currentUser = useRecoilValue(currentUserAtom);
     const memberShowModal = useTeamMemberShowModal();
-    const {teamMember} = props;
+    const {teamMember, reload} = props;
 
     if (!teamMember) return <></>;
 
@@ -22,21 +25,23 @@ export const TeamMemberTableRow = memo((props: TeamMemberTableRowPropsTableRowPr
     const hoverBgColor = '';
 
     return (
-        <tr onClick={openShowModal} className="cursor-pointer group">
+        <tr className="">
             {/* 이름 */}
-            <td className={`${hoverBgColor}`}>
+            <td className={`cursor-pointer ${hoverBgColor}`} onClick={openShowModal}>
                 <TeamMemberProfile item={teamMember} />
             </td>
 
             {/* 이용 앱 수 */}
-            <td className={`${hoverBgColor} text-right`}>
+            <td className={`cursor-pointer ${hoverBgColor} text-right`} onClick={openShowModal}>
                 <p className="text-sm group-hover:text-scordi transition-all">
                     {subscriptions?.length} <small>Apps</small>
                 </p>
             </td>
 
             {/* 팀 */}
-            <td className={`${hoverBgColor} w-[25%]`}>&nbsp;</td>
+            <td className={`${hoverBgColor} w-[25%]`}>
+                <TeamSelect teamMember={teamMember} onChange={() => reload && reload()} />
+            </td>
 
             {/* 권한 */}
             <td className={`${hoverBgColor} text-right`}>
