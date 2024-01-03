@@ -1,11 +1,9 @@
 import {memo} from 'react';
+import {useRecoilValue} from 'recoil';
 import {SelectInput, SelectOptionNotionStyledLayout, SelectOptionProps} from '^v3/share/modals/_presenters/SelectInput';
 import {TeamDto} from '^models/Team/type';
 import {useTeamsV2} from '^models/Team/hook';
-import {TagUI} from '^v3/share/table/columns/share/TagUI';
-import {getColor, palette} from '^components/util/palette';
 import {TeamTag} from '^models/Team/components/TeamTag';
-import {useRecoilState} from 'recoil';
 import {currentTeamMemberState} from '^models/TeamMember';
 
 interface TeamSelectProps {
@@ -13,12 +11,10 @@ interface TeamSelectProps {
 }
 
 export const TeamSelect = memo((props: TeamSelectProps) => {
-    const [teamMember, setTeamMember] = useRecoilState(currentTeamMemberState);
+    const teamMember = useRecoilValue(currentTeamMemberState);
     const {result, search} = useTeamsV2();
     const {onSelect} = props;
     const defaultValue = teamMember?.team;
-    console.log('teamMember', teamMember);
-    console.log('defaultValue', defaultValue);
 
     const loadTeams = () => search({order: {id: 'DESC'}}, false, true);
 
@@ -54,7 +50,7 @@ const TeamOption = (props: SelectOptionProps<TeamOptionData>) => {
     const {data, isFocused, isSelected} = props;
 
     return (
-        <SelectOptionNotionStyledLayout isFocused={isFocused} isSelected={isSelected}>
+        <SelectOptionNotionStyledLayout {...props}>
             <TeamTag id={data.value} name={data.label} />
         </SelectOptionNotionStyledLayout>
     );

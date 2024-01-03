@@ -1,5 +1,5 @@
 import {memo, ReactNode} from 'react';
-import Select, {GroupBase, SingleValue, StylesConfig} from 'react-select';
+import Select, {GroupBase, components, SingleValue, StylesConfig} from 'react-select';
 import {SelectComponentsConfig} from 'react-select/dist/declarations/src/components';
 import {OptionProps} from 'react-select/dist/declarations/src/components/Option';
 import {WithChildren} from '^types/global.type';
@@ -39,8 +39,14 @@ export const SelectInput = <Option,>(props: SelectInputProps<Option>) => {
             borderRadius: 'inherit',
             '&:hover': {},
         }),
+        option: (base) => ({
+            ...base,
+            padding: 0,
+            background: 'inherit !important',
+            color: 'initial',
+            '&:hover': {},
+        }),
     };
-    console.log('defaultValue', defaultValue);
 
     return (
         <Select
@@ -68,22 +74,35 @@ SelectInput.displayName = 'SelectInput';
  * SelectOption 컴포넌트 프리셋
  */
 export interface SelectOptionProps<Option> extends OptionProps<Option, false> {}
+type d = Pick<SelectOptionProps<any>, 'isFocused' | 'isSelected'>;
+export const SelectOptionNotionStyledLayout = memo((props: SelectOptionProps<any> & WithChildren) => {
+    const {isFocused, isSelected, children} = props;
 
-export const SelectOptionNotionStyledLayout = memo(
-    (props: Pick<SelectOptionProps<any>, 'isFocused' | 'isSelected'> & WithChildren) => {
-        const {isFocused, isSelected, children} = props;
-
-        return (
+    return (
+        <components.Option {...props}>
             <div className="px-[8px]">
                 <div
                     className={`flex items-center py-1.5 px-2 rounded-md cursor-pointer transition-all btn-animation ${
                         isFocused ? 'bg-gray-100' : ''
-                    } hover:bg-gray-100`}
+                    } hover:bg-gray-100 active:bg-sky-100`}
                 >
                     <div className="">{children}</div>
                     <div className="ml-auto px-2">{isSelected && <FcCheckmark />}</div>
                 </div>
             </div>
-        );
-    },
-);
+        </components.Option>
+    );
+
+    // return (
+    //     <div className="px-[8px]">
+    //         <div
+    //             className={`flex items-center py-1.5 px-2 rounded-md cursor-pointer transition-all btn-animation ${
+    //                 isFocused ? 'bg-gray-100' : ''
+    //             } hover:bg-gray-100`}
+    //         >
+    //             <div className="">{children}</div>
+    //             <div className="ml-auto px-2">{isSelected && <FcCheckmark />}</div>
+    //         </div>
+    //     </div>
+    // );
+});
