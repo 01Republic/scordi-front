@@ -29,12 +29,24 @@ export const NewCardModalV2 = memo(() => {
                     <NewCardModalTitle />
 
                     {/*카드 번호 input*/}
-                    <FormControl topLeftLabel="카드 번호">
+                    <FormControl
+                        topLeftLabel={
+                            <p className="flex items-center gap-1">
+                                카드 번호 <span className="text-red-500 self-center">*</span>
+                            </p>
+                        }
+                    >
                         <InputCardNumber form={form} setDisabled={setDisabled} />
                     </FormControl>
 
                     {/*카드 별칭 input*/}
-                    <FormControl topLeftLabel="카드 별칭">
+                    <FormControl
+                        topLeftLabel={
+                            <p className="flex items-center gap-1">
+                                카드 별칭 <span className="text-red-500 self-center">*</span>
+                            </p>
+                        }
+                    >
                         <input
                             onChange={(e) => form.setValue('name', e.target.value)}
                             name="cardName"
