@@ -13,8 +13,8 @@ import {tagOptionsState} from './SubscriptionTable/SubscriptionTr/columns/Paying
 export const SubscriptionListSection = memo(function SubscriptionListSection() {
     const orgId = useRecoilValue(orgIdParamState);
     const {result, search: getSubscriptions, movePage, query, reload} = useSubscriptionsV2();
-    // const setTagOptions = useSetRecoilState(tagOptionsState);
-    // const {search: getTags} = usePayingTypeTags();
+    const setTagOptions = useSetRecoilState(tagOptionsState);
+    const {search: getTags} = usePayingTypeTags();
     const viewMode = useRecoilValue(subscriptionListViewModeState);
 
     useEffect(() => {
@@ -23,12 +23,12 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
         // initial listing
         getSubscriptions({
             where: {organizationId: orgId},
-            relations: ['master', 'teamMembers'],
+            relations: ['master', 'teamMembers', 'billingHistories.creditCard'],
             itemsPerPage: 15,
             order: {id: 'DESC'},
         });
 
-        // getTags({}).then((res) => setTagOptions(res.items));
+        getTags({}).then((res) => setTagOptions(res.items));
     }, [orgId]);
 
     return (
