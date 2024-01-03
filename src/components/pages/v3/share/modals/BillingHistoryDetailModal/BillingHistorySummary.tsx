@@ -27,14 +27,18 @@ export const BillingHistorySummary = memo((props: BillingHistorySummaryProps) =>
 
     const BillingHistory = BillingHistoryManager.init(billingHistories).validateToListing();
     const oldest = BillingHistory.oldestIssue().take();
-    const since = oldest ? dayjs(oldest.issuedAt).fromNow() : '??';
+    const since = oldest ? dayjs(oldest.issuedAt).fromNow() : '';
 
     return (
         <>
             <div className="bg-white z-10">
                 <div className="py-3 flex items-center justify-between">
                     <p className="text-xl font-semibold flex items-center">
-                        <span dangerouslySetInnerHTML={{__html: t('result_in_since_n_ago', {since})}}></span>
+                        {since ? (
+                            <span dangerouslySetInnerHTML={{__html: t('result_in_since_n_ago', {since})}}></span>
+                        ) : (
+                            <span>{t('result_of_no_histories')}</span>
+                        )}
                     </p>
 
                     <div className="tooltip tooltip-top tooltip-primary" data-tip="추가">
