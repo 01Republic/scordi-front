@@ -4,6 +4,7 @@ import {FieldValues, UseFormReturn} from 'react-hook-form';
 import {IoClose} from 'react-icons/io5';
 import {invitedEmailsAtom} from '^models/TeamMember';
 import {useInviteMember} from './hook';
+import {EMAIL_REGEXP} from '^utils/input-helper';
 
 interface InviteEmailInputProps {
     form: UseFormReturn<FieldValues, any>;
@@ -35,7 +36,13 @@ export const InviteEmailInput = memo((props: InviteEmailInputProps) => {
             </div>
             <div className="flex gap-2 justify-between">
                 <input
-                    {...form.register('email')}
+                    {...form.register('email', {
+                        required: '이메일을 입력해주세요',
+                        pattern: {
+                            value: EMAIL_REGEXP,
+                            message: '이메일 형식에 맞게 입력해주세요',
+                        },
+                    })}
                     type="email"
                     placeholder="이메일을 입력하세요."
                     onKeyUp={(e) => e.key === 'Enter' && addInvitedEmail(e, form)}

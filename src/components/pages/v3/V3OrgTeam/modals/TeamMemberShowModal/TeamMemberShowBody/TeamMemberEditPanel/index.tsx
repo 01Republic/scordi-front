@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useRef} from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {useForm} from 'react-hook-form';
 import {FormControl} from '^components/util/form-control';
@@ -7,12 +7,15 @@ import {currentTeamMemberState, UpdateTeamMemberDto, useTeamMember, useTeamMembe
 import {isTeamMemberEditModeAtom} from '../../atom';
 import {BackButtonHijacker} from './BackButtonHijacker';
 import {TeamSelect} from './TeamSelect';
+import {EMAIL_REGEXP, emailValid} from '^utils/input-helper';
+import {plainToast} from '^hooks/useToast';
 
 export const TeamMemberEditPanel = memo(function TeamMemberEditPanel() {
     const [isEditMode, setIsEditMode] = useRecoilState(isTeamMemberEditModeAtom);
     const memberList = useTeamMembers();
     const {teamMember, updateMember} = useTeamMember(currentTeamMemberState);
     const form = useForm<UpdateTeamMemberDto>();
+    const emailInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         if (!teamMember || !isEditMode) return;
@@ -40,6 +43,12 @@ export const TeamMemberEditPanel = memo(function TeamMemberEditPanel() {
     if (!teamMember) return <></>;
 
     const submitButtonClick = (data: UpdateTeamMemberDto) => {
+        if (data.email && !emailValid(data.email)) {
+            emailInputRef.current?.focus();
+            plainToast.error('이메일 형식에 맞게 입력해주세요', {duration: 4000});
+            return;
+        }
+
         updateMember(data).then(() => {
             setIsEditMode(false);
             form.reset();
@@ -71,7 +80,16 @@ export const TeamMemberEditPanel = memo(function TeamMemberEditPanel() {
                         </FormControl>
 
                         <FormControl topLeftLabel="이메일">
-                            <input type="email" className="input input-bordered" {...form.register('email')} />
+                            <input
+                                type="email"
+                                className="input input-bordered"
+                                {...form.register('email', {
+                                    pattern: {
+                                        value: EMAIL_REGEXP,
+                                        message: '이메일 형식에 맞게 입력해주세요',
+                                    },
+                                })}
+                            />
                         </FormControl>
 
                         <FormControl topLeftLabel="설명">

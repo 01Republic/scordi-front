@@ -11,6 +11,7 @@ import {isOpenNewTeamMemberModalAtom} from './atom';
 import {FormControl} from '^components/util/form-control';
 import {plainToast} from '^hooks/useToast';
 import {TeamSelect} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/TeamMemberShowBody/TeamMemberEditPanel/TeamSelect';
+import {emailValid} from '^utils/input-helper';
 
 interface NewTeamMemberModalProps {
     onSubmit: (savedTeamMember: TeamMemberDto) => any;
@@ -42,6 +43,12 @@ export const NewTeamMemberModal = memo((props: NewTeamMemberModalProps) => {
         if (!data.email) {
             emailInputRef.current?.focus();
             plainToast.error('이메일을 입력해주세요', {duration});
+            return;
+        }
+
+        if (!emailValid(data.email)) {
+            emailInputRef.current?.focus();
+            plainToast.error('이메일 형식에 맞게 입력해주세요', {duration});
             return;
         }
 
