@@ -79,7 +79,7 @@ export const PayAmountModal = memo(() => {
                 />
                 <MobileSection.Padding>
                     <h2 className="h1 leading-tight mb-10 whitespace-pre-line">
-                        새로운 결제 내역을 <br /> 등록합니다.
+                        결제된 금액을 <br /> 입력해주세요.
                     </h2>
                     <section className="flex flex-col gap-5">
                         <FormControl topLeftLabel="얼마를 사용하셨나요?">
