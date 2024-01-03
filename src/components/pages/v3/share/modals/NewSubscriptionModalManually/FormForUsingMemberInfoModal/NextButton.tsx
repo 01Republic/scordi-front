@@ -1,8 +1,8 @@
 import {memo} from 'react';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {useModal} from '^v3/share/modals';
 import {subscriptionApi} from '^models/Subscription/api';
-import {newFormForFinishModalAtom, newSubscriptionManualFormData, subscriptionIdAtom} from '../atom';
+import {memoAtom, newFormForFinishModalAtom, newSubscriptionManualFormData, subscriptionIdAtom} from '../atom';
 import {NextButtonUI} from '../NextButtonUI';
 import {useSubscriptionsV2} from '^models/Subscription/hook';
 import {orgIdParamState} from '^atoms/common';
@@ -14,6 +14,7 @@ export const NextButton = memo(function NextButton() {
     const formData = useRecoilValue(newSubscriptionManualFormData);
     const {open: finishModalOpen} = useModal(newFormForFinishModalAtom);
     const setSubscriptionId = useSetRecoilState(subscriptionIdAtom);
+    const setDesc = useSetRecoilState(memoAtom);
 
     // 구독리스트 > 요약패널 갱신용
     const organizationId = useRecoilValue(orgIdParamState);
@@ -48,9 +49,10 @@ export const NextButton = memo(function NextButton() {
         // 생성 진행 중인 상태 처리
         // 성공 완료 처리
         req.then((res) => {
+            setDesc('');
+            setSubscriptionId(res.data.id);
             refreshPageData();
             finishModalOpen();
-            setSubscriptionId(res.data.id);
         });
 
         // 실패시 처리
