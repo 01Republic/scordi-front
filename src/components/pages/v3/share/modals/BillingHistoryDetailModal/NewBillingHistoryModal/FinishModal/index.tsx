@@ -47,7 +47,7 @@ export const FinishModal = memo(() => {
 
                     <Container size="lg" className="mb-10">
                         <div className="text-center">
-                            <h3 className="font-bold text-3xl mb-4">결제 내역 등록이 완료되었어요!</h3>
+                            <h3 className="font-bold text-3xl mb-4">결제 내역이 등록되었어요!</h3>
                         </div>
                     </Container>
 
