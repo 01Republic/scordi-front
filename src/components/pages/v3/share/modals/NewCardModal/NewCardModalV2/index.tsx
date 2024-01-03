@@ -1,24 +1,24 @@
-import React, {memo, useEffect, useState} from 'react';
-import {useForm} from 'react-hook-form';
+import React, {memo, useEffect, useRef} from 'react';
 import {useModal} from '^v3/share/modals/useModal';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
-import {UnSignedCreditCardFormData} from '^models/CreditCard/type';
 import {InputCardNumber} from '^v3/share/modals/NewCardModal/NewCardModalV2/CardNumberInput/InputCardNumber';
 import {FormControl} from '^components/util/form-control/FormControl';
 import {CTAButton} from '^v3/share/modals/NewCardModal/NewCardModalV2/CTAButton';
 import {NewCardModalTitle} from '^v3/share/modals/NewCardModal/NewCardModalV2/NewCardModalTitle';
 import {newCardModalState} from '^v3/share/modals/NewCardModal/NewCardModalV2/atom';
 import {CardNameInput} from '^v3/share/modals/NewCardModal/NewCardModalV2/CardNameInput';
+import {useResetRecoilState} from 'recoil';
+import {createCreditCardDtoAtom} from '^v3/share/modals/NewCardModal/atom';
 
 export const NewCardModalV2 = memo(() => {
     const {Modal, close, isShow} = useModal(newCardModalState);
-    const form = useForm<UnSignedCreditCardFormData>();
-    const [disabled, setDisabled] = useState(true);
+    const resetCreateCreditCard = useResetRecoilState(createCreditCardDtoAtom);
+    const cardNameRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
-        if (!isShow) form.reset();
+        resetCreateCreditCard();
     }, [isShow]);
 
     return (
@@ -31,16 +31,16 @@ export const NewCardModalV2 = memo(() => {
 
                     {/*카드 번호 input*/}
                     <FormControl topLeftLabel="카드 번호">
-                        <InputCardNumber form={form} setDisabled={setDisabled} />
+                        <InputCardNumber cardNameRef={cardNameRef} />
                     </FormControl>
 
                     {/*카드 별칭 input*/}
-                    <CardNameInput />
+                    <CardNameInput cardNameRef={cardNameRef} />
                 </MobileSection.Padding>
 
                 {/*CTA Button*/}
                 <ModalLikeBottomBar>
-                    <CTAButton form={form} disabled={disabled} />
+                    <CTAButton />
                 </ModalLikeBottomBar>
             </div>
         </Modal>

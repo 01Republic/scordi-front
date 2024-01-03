@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {ModalButton} from '^v3/share/ModalButton';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {cardIdParamState, creditCardSignAtom, currentCreditCardAtom} from '^models/CreditCard/atom';
 import {plainToInstance} from 'class-transformer';
 import {UnSignedCreditCardFormData} from '^models/CreditCard/type';
@@ -10,40 +10,31 @@ import {useAlert} from '^hooks/useAlert';
 import {useRouter} from 'next/router';
 import {useOnResize2} from '^components/util/onResize2';
 import {orgIdParamState} from '^atoms/common';
-import {UseFormReturn} from 'react-hook-form';
 import {useToast} from '^hooks/useToast';
 import {useModal} from '^v3/share/modals';
 import {newCardModalState} from '^v3/share/modals/NewCardModal/NewCardModalV2/atom';
 import {useCreditCards} from '^models/CreditCard/hook';
 import {createCreditCardDtoAtom} from '^v3/share/modals/NewCardModal/atom';
 
-interface CTAButtonProps {
-    form: UseFormReturn<UnSignedCreditCardFormData>;
-    disabled?: boolean;
-}
-
-export const CTAButton = memo((props: CTAButtonProps) => {
-    const {close, isShow} = useModal(newCardModalState);
+export const CTAButton = memo(() => {
+    const {close} = useModal(newCardModalState);
     const orgId = useRecoilValue(orgIdParamState);
     const cardId = useRecoilValue(cardIdParamState);
     const setCardSignInfo = useSetRecoilState(creditCardSignAtom);
     const setCurrentCreditCard = useSetRecoilState(currentCreditCardAtom);
     const {reload} = useCreditCards();
-    const [createCreditCardDto, setCreateCreditCardDto] = useRecoilState(createCreditCardDtoAtom);
+    const createCreditCardDto = useRecoilValue(createCreditCardDtoAtom);
 
     const {alert} = useAlert();
     const {toast} = useToast();
     const router = useRouter();
     const {isDesktop} = useOnResize2();
 
-    const {form, disabled} = props;
-
     // 카드 번호 등록 함수
     const onSubmit = () => {
-        console.log(createCreditCardDto);
         if (!orgId) return;
 
-        const formData = plainToInstance(UnSignedCreditCardFormData, form.getValues());
+        const formData = plainToInstance(UnSignedCreditCardFormData, createCreditCardDto);
 
         if (!formData.number1 || !formData.number2 || !formData.number3 || !formData.number4) {
             toast.error('카드 번호를 입력해주세요');
@@ -72,7 +63,7 @@ export const CTAButton = memo((props: CTAButtonProps) => {
     const onUpdate = () => {
         if (!orgId || !cardId) return;
 
-        const formData = plainToInstance(UnSignedCreditCardFormData, form.getValues());
+        const formData = plainToInstance(UnSignedCreditCardFormData, createCreditCardDto);
 
         const req = creditCardApi.update(orgId, cardId, formData.toUpdateDto());
 
