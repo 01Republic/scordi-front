@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {ModalTopbar, useModal} from '^v3/share/modals';
 import {newFormForBillingInfoModalAtom} from '^v3/share/modals/NewSubscriptionModalManually/atom';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {FormControl} from '^components/util/form-control';
+import {FormControl, RequiredFormControl} from '^components/util/form-control';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {CurrentBillingAmountCurrencyModal} from './CurrentBillingAmountCurrencyModal';
 import {BillingCycleOptionRadio} from './BillingCycleOptionRadio';
@@ -45,9 +45,9 @@ export const FormForBillingInfoModal = memo(function FormForBillingInfoModal() {
                                 <RecurringTypeSelect />
                             </FormControl>
 
-                            <FormControl topLeftLabel="결제 금액">
+                            <RequiredFormControl topLeftLabel="결제 금액">
                                 <CurrentBillingAmountInput />
-                            </FormControl>
+                            </RequiredFormControl>
                         </div>
                     </div>
                 </MobileSection.Padding>

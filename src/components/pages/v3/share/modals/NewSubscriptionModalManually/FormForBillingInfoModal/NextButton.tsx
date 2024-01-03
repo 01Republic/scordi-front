@@ -12,16 +12,15 @@ export const NextButton = memo(function NextButton() {
         openUsingMemberInfoModal();
     };
 
+    const isActive = !!formData.currentBillingAmount?.amount;
+    // const isActive =
+    //     !!formData.billingCycleType &&
+    //     !!formData.recurringType &&
+    //     !!formData.currentBillingAmount?.amount &&
+    //     !!formData.currentBillingAmount.currency;
+
     return (
-        <NextButtonUI
-            isActive={
-                !!formData.billingCycleType &&
-                !!formData.recurringType &&
-                !!formData.currentBillingAmount?.amount &&
-                !!formData.currentBillingAmount.currency
-            }
-            onClick={onNext}
-        >
+        <NextButtonUI isActive={isActive} onClick={onNext}>
             다음
         </NextButtonUI>
     );
