@@ -1,17 +1,22 @@
 import {memo} from 'react';
-import {TeamMemberSelectModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/TeamMemberSelectModal';
+import {TeamMemberSelectModal} from './TeamMemberSelectModal';
 import {useToast} from '^hooks/useToast';
 import {teamMemberApi, useTeamMembersV3} from '^models/TeamMember';
-import {teamMemberListAtom} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/AppShowPageBody/tabs/TeamMemberListTab/atom';
-import {useAppShowModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/hook';
+import {teamMemberListAtom} from './AppShowPageBody/tabs/TeamMemberListTab/atom';
+import {useAppShowModal} from './hook';
 
-export const SelectTeamMemberModal = memo(function SelectTeamMemberModal() {
+interface SelectTeamMemberModalProps {
+    afterChange?: () => any;
+}
+
+export const SelectTeamMemberModal = memo(function SelectTeamMemberModal(props: SelectTeamMemberModalProps) {
     const {toast} = useToast();
     const {subjectId: subscriptionId} = useAppShowModal();
     const {resetPage: resetTeamMembersOnSubscription} = useTeamMembersV3(
         teamMemberListAtom.result,
         teamMemberListAtom.query,
     );
+    const {afterChange} = props;
 
     return (
         <TeamMemberSelectModal
@@ -24,6 +29,7 @@ export const SelectTeamMemberModal = memo(function SelectTeamMemberModal() {
 
                 toast.success('추가했습니다.');
                 await resetTeamMembersOnSubscription();
+                afterChange && afterChange();
             }}
         />
     );

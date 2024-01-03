@@ -1,33 +1,37 @@
 import React, {memo} from 'react';
+import {useRecoilValue} from 'recoil';
 import {V3MainLayout, V3MainLayoutContainer} from '^v3/layouts/V3MainLayout';
 import {V3MainLayoutMobile} from '^v3/layouts/V3MainLayout.mobile';
-import {useRecoilValue} from 'recoil';
 import {useOnResize2} from '^components/util/onResize2';
 import {MobileSection} from '^v3/share/sections/MobileSection';
+import {ApplyNotFoundProduct} from '^v3/share/sections/ApplyNotFoundProduct';
+import {currentUserAtom} from '^models/User/atom';
+import {BottomTabIndex} from '^v3/share/BottomNavMobile';
+import {TopNavProfileButton} from '^v3/share/TobNav/TopNavProfileButton';
+import {TopNavOrgSelect} from '^v3/share/TobNav/TopNavOrgSelect';
 import {SubscriptionsPanel} from './mobile/SubscriptionsPanel';
 import {InvoiceAccountsPanel} from './mobile/InvoiceAccountsPanel';
 import {SummaryHeaderPanel} from './mobile/SummaryHeaderPanel';
-import {ApplyNotFoundProduct} from '^v3/share/sections/ApplyNotFoundProduct';
-import {BillingHistoriesPageModal} from '^v3/V3OrgBillingHistoriesPage/modals/BillingHistoriesPageModal';
-import {BillingHistoryDetailModal} from '^v3/share/modals/BillingHistoryDetailModal';
-import {BottomTabIndex} from '^v3/share/BottomNavMobile';
-import {currentUserAtom} from '^models/User/atom';
-import {TopNavProfileButton} from '^v3/share/TobNav/TopNavProfileButton';
-import {TopNavOrgSelect} from '^v3/share/TobNav/TopNavOrgSelect';
-import {RenewInvoiceAccountModalMobile} from './RenewInvoiceAccountModal/mobile';
-import {MonthlyPaidAmountModal} from './MonthlyPaidAmountModal';
-import {MonthlyRemainAmountModal} from './MonthlyRemainAmountModal';
 import {CardsPanel} from './mobile/CardsPanel';
 import {LNBIndex} from '^v3/share/LeftNavBar';
-import {SummarySection, MemberListSection, SubscriptionsSection} from './desktop/sections';
-import {HeaderSection} from '^v3/V3OrgHomePage/desktop/sections/HeaderSection';
-import {NewAppModal} from '^components/pages/v3/share/modals/NewAppModal';
-import {TeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
-import {TeamMemberCreateModal} from '^v3/V3OrgHomePage/TeamMemberCreateModal';
+import {HeaderSection} from './desktop/sections/HeaderSection';
+
+import {BillingHistoryDetailModal} from '^v3/share/modals/BillingHistoryDetailModal';
+import {NewAppModal} from '^v3/share/modals/NewAppModal';
 import {InvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal';
-import {AppShowPageModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
 import {AccountListModal} from '^v3/share/modals/AccountListModal';
-import {NewCardModalV2} from 'src/components/pages/v3/share/modals/NewCardModal/NewCardModalV2';
+import {NewCardModalV2} from '^v3/share/modals/NewCardModal/NewCardModalV2';
+
+import {BillingHistoriesPageModal} from '^v3/V3OrgBillingHistoriesPage/modals/BillingHistoriesPageModal';
+import {TeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
+
+import {TeamMemberCreateModal} from './TeamMemberCreateModal';
+import {MonthlyPaidAmountModal} from './MonthlyPaidAmountModal';
+import {MonthlyRemainAmountModal} from './MonthlyRemainAmountModal';
+import {RenewInvoiceAccountModalMobile} from './RenewInvoiceAccountModal/mobile';
+
+import {SummarySection, MemberListSection, SubscriptionsSection} from './desktop/sections';
+import {SubscriptionDetailModal} from './_localModals';
 
 export const V3OrgHomePage = memo(() => {
     const currentUser = useRecoilValue(currentUserAtom);
@@ -39,7 +43,7 @@ export const V3OrgHomePage = memo(() => {
             <V3MainLayout
                 activeTabIndex={LNBIndex.Dashboard}
                 modals={[
-                    AppShowPageModal, // 구독상세모달
+                    SubscriptionDetailModal, // 구독상세모달
                     TeamMemberShowModal, // 멤버상세모달
                     AccountListModal,
                     BillingHistoryDetailModal, // 결제내역상세모달
@@ -75,6 +79,7 @@ export const V3OrgHomePage = memo(() => {
                 activeTabIndex={BottomTabIndex.HOME}
                 modals={[
                     BillingHistoriesPageModal, // 내역페이지 모달 아마?
+                    SubscriptionDetailModal,
                     BillingHistoryDetailModal,
                     NewAppModal,
                     RenewInvoiceAccountModalMobile,

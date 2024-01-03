@@ -9,10 +9,15 @@ import {AppShowPageBody} from './AppShowPageBody';
 import {useAppShowModal} from './hook';
 import {SelectTeamMemberModal} from './SelectTeamMemberModal';
 
-export const AppShowPageModal = memo(() => {
+interface AppShowPageModalProps {
+    onMemberChanged?: () => any;
+}
+
+export const AppShowPageModal = memo((props: AppShowPageModalProps) => {
     const {Modal, hide} = useAppShowModal();
     const {currentSubscription, loadCurrentSubscription} = useCurrentSubscription();
     const {search: loadCurrentHistories} = useBillingHistoriesV3();
+    const {onMemberChanged} = props;
 
     // const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const orgId = useRecoilValue(orgIdParamState);
@@ -29,19 +34,24 @@ export const AppShowPageModal = memo(() => {
         });
     }, [orgId, appId]);
 
+    const onClose = () => {
+        onMemberChanged && onMemberChanged();
+        hide();
+    };
+
     return (
         <>
-            <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
+            <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]" onClose={onClose}>
                 <ModalTopbar
                     title={currentSubscription ? currentSubscription.product.name() : ''}
-                    backBtnOnClick={hide}
+                    backBtnOnClick={onClose}
                     topbarPosition="sticky"
                 />
                 <MobileSection.List>
                     <AppShowPageBody />
                 </MobileSection.List>
             </Modal>
-            <SelectTeamMemberModal />
+            <SelectTeamMemberModal afterChange={onMemberChanged} />
         </>
     );
 });

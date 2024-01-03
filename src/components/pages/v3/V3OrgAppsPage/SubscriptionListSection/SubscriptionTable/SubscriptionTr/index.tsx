@@ -5,7 +5,6 @@ import {SubscriptionDto} from '^models/Subscription/types';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
 import {
     LatestPayAmount,
-    MasterProfile,
     MemberCount,
     NextPaymentDate,
     PayingType,
