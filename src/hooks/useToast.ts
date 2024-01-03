@@ -1,6 +1,8 @@
 import {useState} from 'react';
 import {toast as toaster} from 'react-hot-toast';
 
+export {toaster as plainToast};
+
 export function useToast() {
     // 이 전 실행된 토스트 알림과 같은 알림인지 확인하는 state
     const [activeIds, setActiveIds] = useState<string[]>([]);
