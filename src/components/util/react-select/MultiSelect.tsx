@@ -9,7 +9,7 @@ interface MultiSelectProps {
     defaultValue?: Option;
     loadOptions: (inputValue: string) => Promise<Option[]>;
     onChange: (options: MultiValue<Option>, action?: ActionMeta<Option>) => any;
-    style?: StylesConfig<Option>;
+    style?: StylesConfig<Option, true>;
 }
 
 export const MultiSelect = ({value, defaultOptions, defaultValue, loadOptions, onChange, style}: MultiSelectProps) => {
