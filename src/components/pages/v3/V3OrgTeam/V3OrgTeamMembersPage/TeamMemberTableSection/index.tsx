@@ -24,16 +24,14 @@ export const TeamMembersTableSection = memo(() => {
 
     // const movePage = (page: number) => getTeamMembers({...query, page});
 
-    const onSearch = debounce((data) => {
+    const onSearch = debounce((name) => {
         if (!query) return;
 
-        const searchQuery = {
+        getTeamMembers({
             ...query,
-            ...(data.length > 0 ? {where: {name: data}} : null),
+            name,
             page: 1,
-        };
-
-        getTeamMembers(searchQuery);
+        });
     }, 500);
 
     return (
