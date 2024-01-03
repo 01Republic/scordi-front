@@ -81,10 +81,16 @@ export const PayMethodModal = memo(() => {
                 />
                 <MobileSection.Padding>
                     <h2 className="h1 leading-tight mb-10 whitespace-pre-line">
-                        새로운 결제 내역을 <br /> 등록합니다.
+                        결제된 금액을 <br /> 입력해주세요.
                     </h2>
                     <section className="flex flex-col gap-5">
-                        <FormControl topLeftLabel="어떤 카드로 결제하셨나요?">
+                        <FormControl
+                            topLeftLabel={
+                                <p className="flex items-center gap-1">
+                                    어떤 카드로 결제하셨나요? <span className="text-red-500 self-center">*</span>
+                                </p>
+                            }
+                        >
                             <Select
                                 placeholder="카드 선택하기"
                                 components={CardComponents()}
@@ -93,7 +99,13 @@ export const PayMethodModal = memo(() => {
                                 onChange={(e) => form.setValue('creditCardId', e.value)}
                             />
                         </FormControl>
-                        <FormControl topLeftLabel="언제 결제하셨나요?">
+                        <FormControl
+                            topLeftLabel={
+                                <p className="flex items-center gap-1">
+                                    언제 결제하셨나요? <span className="text-red-500 self-center">*</span>
+                                </p>
+                            }
+                        >
                             <input
                                 type="datetime-local"
                                 className="input input-bordered w-full text-sm font-semibold text-neutral-500"

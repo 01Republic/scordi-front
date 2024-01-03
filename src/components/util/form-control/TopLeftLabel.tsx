@@ -15,3 +15,15 @@ export const TopLeftLabel = memo((props: TopLeftLabelProps) => {
     );
 });
 TopLeftLabel.displayName = 'TopLeftLabel';
+
+export const RequiredTopLeftLabel = memo((props: TopLeftLabelProps) => {
+    const {text} = props;
+
+    return (
+        <label className="label px-0">
+            <p className="flex items-center gap-1">
+                {text} <span className="text-red-500 self-center">*</span>
+            </p>
+        </label>
+    );
+});

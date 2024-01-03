@@ -1,4 +1,4 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {ChangeEvent, memo, useEffect, useState} from 'react';
 import {ModalTopbar, useModal} from '^v3/share/modals';
 import {
     createBillingHistoryAtom,
@@ -56,6 +56,7 @@ export const PayAmountModal = memo(() => {
 
         setCreateBillingHistory((prev) => ({...prev, payAmount: moneyLike}));
     };
+
     const onClick = () => {
         onAmountChange();
 
@@ -79,10 +80,16 @@ export const PayAmountModal = memo(() => {
                 />
                 <MobileSection.Padding>
                     <h2 className="h1 leading-tight mb-10 whitespace-pre-line">
-                        새로운 결제 내역을 <br /> 등록합니다.
+                        결제된 금액을 <br /> 입력해주세요.
                     </h2>
                     <section className="flex flex-col gap-5">
-                        <FormControl topLeftLabel="얼마를 사용하셨나요?">
+                        <FormControl
+                            topLeftLabel={
+                                <p className="flex items-center gap-1">
+                                    얼마 결제 되었나요? <span className="text-red-500 self-center">*</span>
+                                </p>
+                            }
+                        >
                             <div className="input input-bordered w-full flex items-center justify-between">
                                 <input
                                     onChange={(e) => form.setValue('payAmount.amount', Number(e.target.value))}
@@ -106,14 +113,9 @@ export const PayAmountModal = memo(() => {
                         </FormControl>
 
                         {!isDomestic && (
-                            <FormControl topLeftLabel="얼마를 사용하셨나요22?">
+                            <FormControl topLeftLabel="해외 결제 금액은 얼마였나요?">
                                 <div className="input input-bordered w-full flex items-center justify-between">
-                                    <input
-                                        type="number"
-                                        className="w-full"
-                                        onChange={(e) => form.setValue('vat.amount', Number(e.target.value))}
-                                        defaultValue={form.getValues('vat.amount')}
-                                    />
+                                    <input type="number" className="w-full" />
                                     <span className="cursor-pointer btn btn-sm" onClick={open}>
                                         {selectedCurrency.label}
                                     </span>
