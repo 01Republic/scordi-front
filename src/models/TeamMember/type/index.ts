@@ -55,6 +55,7 @@ export class TeamMemberDto {
 export type FindAllTeamMemberQueryDto = FindAllQueryDto<TeamMemberDto> & {
     teamId?: number | null; // 검색할 소속팀 ID
     name?: string | null; // 검색할 이름
+    keyword?: string | null;
 };
 
 export type CreateTeamMemberDto = {

@@ -14,6 +14,7 @@ import {UseFormReturn} from 'react-hook-form';
 import {useToast} from '^hooks/useToast';
 import {useModal} from '^v3/share/modals';
 import {newCardModalState} from '^v3/share/modals/NewCardModal/NewCardModalV2/atom';
+import {useCreditCards} from '^models/CreditCard/hook';
 
 interface CTAButtonProps {
     form: UseFormReturn<UnSignedCreditCardFormData>;
@@ -26,6 +27,7 @@ export const CTAButton = memo((props: CTAButtonProps) => {
     const cardId = useRecoilValue(cardIdParamState);
     const setCardSignInfo = useSetRecoilState(creditCardSignAtom);
     const setCurrentCreditCard = useSetRecoilState(currentCreditCardAtom);
+    const {result, search, reload} = useCreditCards();
 
     const {alert} = useAlert();
     const {toast} = useToast();
@@ -56,8 +58,8 @@ export const CTAButton = memo((props: CTAButtonProps) => {
                 const cardId = res.data.id;
                 !isDesktop && router.push(V3OrgCardDetailPageRoute.path(orgId, cardId));
             });
-
             close();
+            reload();
         });
 
         req.catch((e) => console.log(e));

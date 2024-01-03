@@ -10,14 +10,13 @@ import {FormControl} from '^components/util/form-control';
 import Select from 'react-select';
 import {
     CardComponents,
-    PayMethodComponents,
     selectStylesOptions,
 } from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/PayMethodModal/selectOpions';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {useToast} from '^hooks/useToast';
 import {CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 import {useForm} from 'react-hook-form';
-import {useCreditCardsOfOrganization} from '^models/CreditCard/hook';
+import {useCreditCards} from '^models/CreditCard/hook';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {useSetRecoilState} from 'recoil';
 import {createBillingHistoryAtom} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/atoms/createBillingHistoryAtom';
@@ -28,13 +27,17 @@ export const PayMethodModal = memo(() => {
     const {Modal, isShow, close} = useModal(payMethodModalState);
     const {open: openPayAmountModal} = useModal(payAmountModalState);
     const {billingHistory} = useBillingHistoryInModal();
-    const {CreditCard} = useCreditCardsOfOrganization(isShow);
     const setCreateBillingHistory = useSetRecoilState(createBillingHistoryAtom);
     const {toast} = useToast();
     const form = useForm<CreateBillingHistoryRequestDto>();
+    const {result, search: getCreditCards} = useCreditCards();
 
     useEffect(() => {
         form.reset();
+        getCreditCards({
+            itemsPerPage: 0,
+            relations: ['holdingMember', 'subscriptions'],
+        });
     }, [isShow]);
 
     const toOption = (card: CreditCardDto) => {
@@ -81,23 +84,13 @@ export const PayMethodModal = memo(() => {
                         새로운 결제 내역을 <br /> 등록합니다.
                     </h2>
                     <section className="flex flex-col gap-5">
-                        {/*현재는 선택 option 카드뿐이라 hidden 처리*/}
-                        <div className="hidden">
-                            <FormControl topLeftLabel="결제 수단">
-                                <Select
-                                    components={PayMethodComponents()}
-                                    styles={selectStylesOptions}
-                                    // options={toOption(['카드', '계좌이체', '무통장입금', '현금영수증', '크레딧'])}
-                                />
-                            </FormControl>
-                        </div>
                         <FormControl topLeftLabel="어떤 카드로 결제하셨나요?">
                             <Select
                                 placeholder="카드 선택하기"
                                 components={CardComponents()}
                                 styles={selectStylesOptions}
-                                options={CreditCard?.list.map(toOption)}
-                                onChange={(e) => form.setValue('creditCardId', e.id)}
+                                options={result.items.map(toOption)}
+                                onChange={(e) => form.setValue('creditCardId', e.value)}
                             />
                         </FormControl>
                         <FormControl topLeftLabel="언제 결제하셨나요?">

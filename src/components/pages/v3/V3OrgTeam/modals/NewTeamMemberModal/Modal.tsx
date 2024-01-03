@@ -1,8 +1,8 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
 import {useForm} from 'react-hook-form';
 import {orgIdParamState} from '^atoms/common';
-import {teamMemberApi, useTeamMembers, CreateTeamMemberDto, TeamMemberDto} from '^models/TeamMember';
+import {teamMemberApi, CreateTeamMemberDto, TeamMemberDto} from '^models/TeamMember';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {useModal} from '^v3/share/modals/useModal';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
@@ -19,12 +19,28 @@ export const NewTeamMemberModal = memo((props: NewTeamMemberModalProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const {toast} = useToast();
 
-    const {close, Modal} = useModal({isShowAtom: isOpenNewTeamMemberModalAtom});
+    const {close, Modal, isShow} = useModal({isShowAtom: isOpenNewTeamMemberModalAtom});
     const form = useForm<CreateTeamMemberDto>();
 
     const {onSubmit: _onSubmit} = props;
 
-    const onSubmit = (data: CreateTeamMemberDto) => {
+    useEffect(() => {
+        form.reset();
+    }, [isShow]);
+
+    const onSubmit = () => {
+        const data = form.getValues();
+
+        if (!data.name) {
+            toast.error('이름을 입력해주세요');
+            return;
+        }
+
+        if (!data.email) {
+            toast.error('이메일 입력해주세요');
+            return;
+        }
+
         teamMemberApi.create(orgId, data).then((res) => {
             toast.success('추가되었습니다');
             close();
@@ -54,8 +70,8 @@ export const NewTeamMemberModal = memo((props: NewTeamMemberModalProps) => {
                                     type="text"
                                     required
                                     className="input input-bordered"
-                                    {...form.register('name', {required: true})}
                                     placeholder="ex. 김규리"
+                                    onChange={(e) => form.setValue('name', e.target.value)}
                                 />
                             </FormControl>
 
@@ -64,8 +80,8 @@ export const NewTeamMemberModal = memo((props: NewTeamMemberModalProps) => {
                                     type="email"
                                     required
                                     className="input input-bordered"
-                                    {...form.register('email', {required: true})}
                                     placeholder="ex. diana@01republic.io"
+                                    onChange={(e) => form.setValue('email', e.target.value)}
                                 />
                             </FormControl>
                         </div>
@@ -76,7 +92,7 @@ export const NewTeamMemberModal = memo((props: NewTeamMemberModalProps) => {
                     <button
                         className="btn btn-lg btn-block btn-scordi font-medium font-white text-xl bg-slate-50"
                         type="submit"
-                        onClick={form.handleSubmit(onSubmit)}
+                        onClick={onSubmit}
                     >
                         완료
                     </button>
