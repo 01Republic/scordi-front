@@ -1,4 +1,4 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useEffect, useRef, useState} from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {useForm} from 'react-hook-form';
 import {useModal} from '^v3/share/modals/useModal';
@@ -27,6 +27,7 @@ export const CardNumberModal = memo(() => {
     const setCurrentCreditCard = useSetRecoilState(currentCreditCardAtom);
     const orgId = useRecoilValue(orgIdParamState);
     const cardId = useRecoilValue(cardIdParamState);
+    const cardNameRef = useRef<HTMLInputElement>(null);
     const {toast} = useToast();
 
     useEffect(() => {
@@ -69,7 +70,7 @@ export const CardNumberModal = memo(() => {
                         <h2 className="h1 leading-tight">카드 번호와 별칭을 입력해주세요</h2>
                     </div>
 
-                    <InputCardNumber form={form} setDisabled={setDisabled} />
+                    <InputCardNumber cardNameRef={cardNameRef} />
                 </MobileSection.Padding>
                 <ModalLikeBottomBar>
                     <ModalButton
