@@ -69,7 +69,9 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
 
                             {/*<SortableTH className="text-right">다음 결제일</SortableTH>*/}
 
-                            <SortableTH>담당자</SortableTH>
+                            <SortableTH>
+                                <span className="pl-[8px]">담당자</span>
+                            </SortableTH>
 
                             {/* Actions */}
                             <th className="bg-transparent"></th>

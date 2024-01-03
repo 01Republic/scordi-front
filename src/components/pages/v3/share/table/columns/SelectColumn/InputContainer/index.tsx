@@ -5,10 +5,11 @@ import {debounce} from 'lodash';
 interface InputContainerProps<T> extends WithChildren {
     inputRef: RefObject<HTMLInputElement>;
     onChange: (keyword?: string) => any;
+    defaultValue?: string;
 }
 
 export const InputContainer = <T,>(props: InputContainerProps<T>) => {
-    const {inputRef, onChange: _onChange, children} = props;
+    const {inputRef, onChange: _onChange, defaultValue, children} = props;
 
     const onChange = debounce((keyword?: string) => {
         _onChange(keyword);
@@ -22,6 +23,7 @@ export const InputContainer = <T,>(props: InputContainerProps<T>) => {
                 type="text"
                 data-focusable="true"
                 className="w-full flex-1 bg-transparent"
+                defaultValue={defaultValue}
                 onChange={(e) => onChange(e.target.value)}
             />
         </div>

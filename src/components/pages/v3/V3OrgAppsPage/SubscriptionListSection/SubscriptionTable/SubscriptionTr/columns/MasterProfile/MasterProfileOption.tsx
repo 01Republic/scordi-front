@@ -17,9 +17,7 @@ export const MasterProfileOption = memo((props: MasterProfileOptionProps) => {
                 <>
                     <Avatar className="w-7" src={member.profileImgUrl ?? ''}></Avatar>
                     <div className="flex-1 h-full" onClick={() => onClick && onClick(member.id)}>
-                        <p className="text-xs">
-                            {member.name} <br /> {member.email}
-                        </p>
+                        <p className="text-sm">{member.name}</p>
                     </div>
                 </>
             ) : (

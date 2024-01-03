@@ -84,7 +84,6 @@ export const PayingTypeCreatable = memo((props: PayingTypeCreatableProps) => {
     const billingType = subscription.getRecurringTypeText(true);
 
     const getOptions = async (keyword?: string) => {
-        console.log('getOptions', keyword);
         return search({organizationId, keyword, itemsPerPage: 0}).then((res) => res.items);
     };
 

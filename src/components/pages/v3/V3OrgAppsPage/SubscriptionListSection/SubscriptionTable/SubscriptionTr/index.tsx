@@ -16,6 +16,7 @@ import {useAppShowModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 import {IsFreeTierColumn} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/IsFreeTierColumn';
 import {BillingCycleTypeColumn} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/BillingCycleTypeColumn';
+import {MasterSelect} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/MasterProfile/MasterSelect';
 
 interface SubscriptionTrProps {
     subscription: SubscriptionDto;
@@ -100,7 +101,7 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
 
             {/* 담당자 */}
             <td className="">
-                <MasterProfile subscription={subscription} />
+                <MasterSelect subscription={subscription} onChange={() => reload && reload()} />
             </td>
 
             {/* Actions */}

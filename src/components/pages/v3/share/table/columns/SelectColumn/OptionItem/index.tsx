@@ -7,17 +7,18 @@ interface OptionItemProps<T> {
     clickOption: (option: T) => Promise<void>;
     ValueComponent: ValueComponent<T>;
     valueOfOption: (option: T) => any;
+    className?: string;
 }
 
 export const OptionItem = <T,>(props: OptionItemProps<T>) => {
-    const {option, selectedOption, ValueComponent, valueOfOption, clickOption} = props;
+    const {option, selectedOption, ValueComponent, valueOfOption, clickOption, className = ''} = props;
     const val = selectedOption ? valueOfOption(selectedOption) : selectedOption;
     const isCurrent = valueOfOption(option) === val;
 
     return (
-        <li onClick={() => clickOption(option)} className="cursor-pointer flex px-[4px] group" data-focusable="true">
+        <li onClick={() => clickOption(option)} className={`cursor-pointer flex px-[4px] group`} data-focusable="true">
             <div
-                className={`flex rounded-[4px] bg-white text-inherit items-center pt-[2px] px-[10px] pb-0 min-h-[28px] ${
+                className={`flex rounded-[4px] bg-white text-inherit items-center pt-[2px] px-[10px] pb-0 min-h-[28px] ${className} ${
                     !isCurrent
                         ? 'group-hover:bg-gray-300 group-hover:bg-opacity-30 active:bg-gray-200'
                         : '!bg-opacity-0'
