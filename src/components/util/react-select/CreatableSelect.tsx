@@ -14,7 +14,7 @@ interface CreatableSelectProps<Option extends BasicOption> {
         onClear?: () => void;
         selectOnCreate?: boolean;
     };
-    style?: StylesConfig<Option>;
+    style?: StylesConfig<Option, false>;
     // 적용방법 모르는 옵션들 (10.28)
     defaultValue?: Option;
 }
@@ -73,7 +73,7 @@ export const CreatableSelect = <Option extends BasicOption>(props: CreatableSele
         }
     };
 
-    const defaultStyle: StylesConfig<Option> = {
+    const defaultStyle: StylesConfig<Option, false> = {
         control: (styles) => ({
             ...styles,
             backgroundColor: 'rgb(248 250 252 / 1)',

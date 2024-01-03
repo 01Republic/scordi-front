@@ -12,14 +12,12 @@ export const CardNameInput = memo((props: CardNameInputProps) => {
     const {cardNameRef} = props;
 
     return (
-        <FormControl topLeftLabel="카드 별칭">
-            <input
-                ref={cardNameRef}
-                onChange={(e) => setCreateCreditCardDto((prev) => ({...prev, name: e.target.value}))}
-                type="text"
-                placeholder="광고비 카드"
-                className="input input-bordered w-full"
-            />
-        </FormControl>
+        <input
+            ref={cardNameRef}
+            onChange={(e) => setCreateCreditCardDto((prev) => ({...prev, name: e.target.value}))}
+            type="text"
+            placeholder="광고비 카드"
+            className="input input-bordered w-full"
+        />
     );
 });

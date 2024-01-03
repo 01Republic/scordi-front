@@ -30,12 +30,26 @@ export const NewCardModalV2 = memo(() => {
                     <NewCardModalTitle />
 
                     {/*카드 번호 input*/}
-                    <FormControl topLeftLabel="카드 번호">
+                    <FormControl
+                        topLeftLabel={
+                            <p className="flex items-center gap-1">
+                                카드 번호 <span className="text-red-500 self-center">*</span>
+                            </p>
+                        }
+                    >
                         <InputCardNumber cardNameRef={cardNameRef} />
                     </FormControl>
 
                     {/*카드 별칭 input*/}
-                    <CardNameInput cardNameRef={cardNameRef} />
+                    <FormControl
+                        topLeftLabel={
+                            <p className="flex items-center gap-1">
+                                카드 별칭 <span className="text-red-500 self-center">*</span>
+                            </p>
+                        }
+                    >
+                        <CardNameInput cardNameRef={cardNameRef} />
+                    </FormControl>
                 </MobileSection.Padding>
 
                 {/*CTA Button*/}
