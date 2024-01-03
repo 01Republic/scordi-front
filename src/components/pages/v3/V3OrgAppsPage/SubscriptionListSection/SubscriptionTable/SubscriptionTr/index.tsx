@@ -16,6 +16,7 @@ import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionP
 import {IsFreeTierColumn} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/IsFreeTierColumn';
 import {BillingCycleTypeColumn} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/BillingCycleTypeColumn';
 import {MasterSelect} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/MasterProfile/MasterSelect';
+import {PayMethod} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/PayMethod';
 
 interface SubscriptionTrProps {
     subscription: SubscriptionDto;
@@ -81,7 +82,9 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
             </td>
 
             {/* 결제수단 */}
-            <td></td>
+            <td>
+                <PayMethod lastPaidHistory={lastPaidHistory} />
+            </td>
 
             {/* 사용인원 */}
             <td className="text-right">
