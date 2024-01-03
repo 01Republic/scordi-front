@@ -82,7 +82,7 @@ export const PayAmountModal = memo(() => {
                         결제된 금액을 <br /> 입력해주세요.
                     </h2>
                     <section className="flex flex-col gap-5">
-                        <FormControl topLeftLabel="얼마를 사용하셨나요?">
+                        <FormControl topLeftLabel="얼마 결제 되었나요?">
                             <div className="input input-bordered w-full flex items-center justify-between">
                                 <input
                                     onChange={(e) => form.setValue('payAmount.amount', Number(e.target.value))}
@@ -106,7 +106,7 @@ export const PayAmountModal = memo(() => {
                         </FormControl>
 
                         {!isDomestic && (
-                            <FormControl topLeftLabel="얼마를 사용하셨나요22?">
+                            <FormControl topLeftLabel="해외 결제 금액은 얼마였나요?">
                                 <div className="input input-bordered w-full flex items-center justify-between">
                                     <input
                                         type="number"
