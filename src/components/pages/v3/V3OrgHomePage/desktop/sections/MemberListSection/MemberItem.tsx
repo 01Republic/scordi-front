@@ -41,7 +41,7 @@ export const MemberItem = memo((props: MemberItemProps) => {
 
                 <div className="w-full text-gray-500">
                     <div className="text-sm flex gap-1">
-                        {(member.teams || []).map((team, i) => (
+                        {member.validTeams.map((team, i) => (
                             <div key={i} className="badge bg-scordi-light-100 text-gray-500">
                                 {team.name}
                             </div>

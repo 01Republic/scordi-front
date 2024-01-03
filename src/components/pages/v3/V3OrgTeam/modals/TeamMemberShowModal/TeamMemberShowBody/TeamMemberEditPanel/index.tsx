@@ -18,7 +18,7 @@ export const TeamMemberEditPanel = memo(function TeamMemberEditPanel() {
         if (!teamMember || !isEditMode) return;
 
         if (teamMember.teams) {
-            const teamIds = teamMember.teams.map((t) => t.id);
+            const teamIds = teamMember.validTeams.map((t) => t.id);
             form.setValue('teamIds', teamIds);
         }
         form.setValue('name', teamMember.name);

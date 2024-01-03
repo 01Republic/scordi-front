@@ -53,8 +53,13 @@ export class TeamMemberDto {
     }
 
     // 임시
+    get validTeams() {
+        return (this.teams || []).filter((t) => t.name !== '전체');
+    }
+
+    // 임시
     get team() {
-        const teams = this.teams || [];
+        const teams = this.validTeams;
         const team = teams[0];
         return team ? team : undefined;
     }
