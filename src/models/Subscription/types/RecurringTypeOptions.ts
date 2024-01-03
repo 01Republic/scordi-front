@@ -5,8 +5,8 @@ export enum RecurringTypeOptions {
     PER_USAGE = 'PER_USAGE', // 사용량
     PER_UNIT = 'PER_UNIT', // 건별결제
     FIXED = 'FIXED', // 고정요금
-    // 라이센스
-    // 크레딧
+    LICENSE = 'LICENSE', // 라이센스
+    CREDIT = 'CREDIT', // 크레딧
 }
 
 export const SubscriptionMeasureMethodValues = [
@@ -15,8 +15,8 @@ export const SubscriptionMeasureMethodValues = [
     RecurringTypeOptions.PER_USAGE, // 사용량
     RecurringTypeOptions.PER_UNIT, // 건별결제
     RecurringTypeOptions.FIXED, // 고정요금
-    // 라이센스
-    // 크레딧
+    RecurringTypeOptions.LICENSE, // 라이센스
+    RecurringTypeOptions.CREDIT, // 크레딧
 ];
 
 export function t_SubscriptionMeasureMethod(value: RecurringTypeOptions) {
@@ -31,8 +31,10 @@ export function t_SubscriptionMeasureMethod(value: RecurringTypeOptions) {
             return '건별결제';
         case RecurringTypeOptions.FIXED:
             return '고정요금';
-        // 라이센스
-        // 크레딧
+        case RecurringTypeOptions.LICENSE:
+            return '라이센스';
+        case RecurringTypeOptions.CREDIT:
+            return '크레딧';
         default:
             return '-';
     }
@@ -50,8 +52,10 @@ export function c_SubscriptionMeasureMethod(value: RecurringTypeOptions) {
             return 'bg-emerald-200';
         case RecurringTypeOptions.FIXED: // 고정요금
             return 'bg-sky-200';
-        // 라이센스
-        // 크레딧
+        case RecurringTypeOptions.LICENSE: // 라이센스
+            return 'bg-purple-200';
+        case RecurringTypeOptions.CREDIT: // 크레딧
+            return 'bg-pink-200';
         default:
             return 'bg-gray-100';
     }

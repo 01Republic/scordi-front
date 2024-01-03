@@ -21,7 +21,7 @@ interface UseMultiSelectParams {
         onRemove?: (option: Option) => void;
         onClear?: () => void;
     };
-    style?: StylesConfig<Option>;
+    style?: StylesConfig<Option, true>;
 }
 
 export function useMultiSelect(params: UseMultiSelectParams) {
@@ -91,7 +91,7 @@ export function useMultiSelect(params: UseMultiSelectParams) {
         }
     };
 
-    const defaultStyle: StylesConfig<Option> = {
+    const defaultStyle: StylesConfig<Option, true> = {
         control: (styles) => ({
             ...styles,
             backgroundColor: 'rgb(248 250 252 / 1)',

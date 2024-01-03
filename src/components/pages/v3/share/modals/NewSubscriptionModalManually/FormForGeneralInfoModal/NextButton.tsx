@@ -1,8 +1,9 @@
 import React, {memo, useEffect} from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {useModal} from '^v3/share/modals';
 import {
+    memoAtom,
     newFormForBillingInfoModalAtom,
     newFormForGeneralInfoModalAtom,
     newFormForUsingMemberInfoModalAtom,
@@ -14,6 +15,7 @@ import {NextButtonUI} from '../NextButtonUI';
 export const NextButton = memo(function NextButton() {
     const organizationId = useRecoilValue(orgIdParamState);
     const [formData, setFormData] = useRecoilState(newSubscriptionManualFormData);
+    const setDesc = useSetRecoilState(memoAtom);
     const {isShow} = useModal(newFormForGeneralInfoModalAtom);
     const {open: openBillingInfoStep} = useModal(newFormForBillingInfoModalAtom);
     const {open: openUsingMemberInfoModal} = useModal(newFormForUsingMemberInfoModalAtom);
@@ -49,6 +51,8 @@ export const NextButton = memo(function NextButton() {
          * (본래 전통적인 html 에서는 <input type="hidden" /> 으로 처리되는 것)
          */
         setFormData((f) => ({...f, organizationId}));
+
+        setDesc('');
 
         // 조건에 맞게 다음 스텝의 모달을 엽니다.
         formData.isFreeTier ? openUsingMemberInfoModal() : openBillingInfoStep();
