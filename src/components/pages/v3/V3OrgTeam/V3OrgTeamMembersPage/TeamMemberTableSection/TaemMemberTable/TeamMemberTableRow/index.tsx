@@ -1,11 +1,9 @@
 import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
-import {currentUserAtom} from '^models/User/atom';
 import {TeamMemberDto} from '^models/TeamMember';
 import {useTeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
-import {TeamMemberItem} from './TeamMemberItem';
 import {TeamMemberStatus} from './TeamMemberStatus';
 import {TeamMemberRole} from './TeamMemberRole';
+import {TeamMemberProfile} from '^models/TeamMember/components/TeamMemberProfile';
 
 interface TeamMemberTableRowPropsTableRowProps {
     teamMember: TeamMemberDto;
@@ -27,7 +25,7 @@ export const TeamMemberTableRow = memo((props: TeamMemberTableRowPropsTableRowPr
         <tr onClick={openShowModal} className="cursor-pointer group">
             {/* 이름 */}
             <td className={`${hoverBgColor}`}>
-                <TeamMemberItem item={teamMember} />
+                <TeamMemberProfile item={teamMember} />
             </td>
 
             {/* 이용 앱 수 */}

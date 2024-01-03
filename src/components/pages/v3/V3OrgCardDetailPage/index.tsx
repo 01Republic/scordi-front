@@ -6,11 +6,9 @@ import {InformationPanel} from './InformationPanel';
 import {BsPlus} from 'react-icons/bs';
 import {useModal} from '../share/modals/useModal';
 import {ContentEmpty} from '../V3OrgHomePage/mobile/ContentEmpty';
-import {orgIdParamState} from '^atoms/common';
 import {SubscriptionItem} from '../V3OrgHomePage/mobile/SubscriptionItem';
 import {useRouter} from 'next/router';
 import {V3OrgCardListPageRoute} from '^pages/v3/orgs/[orgId]/cards';
-import {CardFormModalGroup} from '^v3/share/modals/NewCardModal/NewCardModalGroup/CardFormModalGroup';
 import {inputCardNumberModal} from '^v3/share/modals/NewCardModal/CardNumberModal/atom';
 import {selectCardCompanyModal} from '^v3/share/modals/NewCardModal/CardCompanyModal/atom';
 import {inputCardNameModal} from '^v3/share/modals/NewCardModal/CardNameModal/atom';
@@ -18,6 +16,8 @@ import {inputCardHoldingMemberModal} from '^v3/share/modals/NewCardModal/CardHol
 import {selectAppModal, subscriptionsAtom} from '^v3/share/modals/NewCardModal/SelectAppModal/atom';
 import {cardIdParamState, creditCardSignAtom, currentCreditCardAtom} from '^models/CreditCard/atom';
 import {creditCardApi} from '^models/CreditCard/api';
+import {NewCardModalV2} from 'src/components/pages/v3/share/modals/NewCardModal/NewCardModalV2';
+import {orgIdParamState} from '^atoms/common';
 
 export const V3OrgCardDetailPage = memo(() => {
     const cardNumberModal = useModal(inputCardNumberModal);
@@ -91,7 +91,7 @@ export const V3OrgCardDetailPage = memo(() => {
                     </button>
                 )}
             </MobileSection.List>
-            <CardFormModalGroup />
+            <NewCardModalV2 />
         </V3ModalLikeLayoutMobile>
     );
 });

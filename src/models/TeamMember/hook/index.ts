@@ -13,7 +13,7 @@ import {
     getTeamMembersQueryAtom,
     teamMembersSearchResultAtom,
 } from '../atom';
-import {cachePagedQuery} from '^hooks/usePagedResource';
+import {cachePagedQuery, makeAppendPagedItemFn, makeExceptPagedItemFn} from '^hooks/usePagedResource';
 
 export * from './useSendInviteEmail';
 export * from './useTeamMemberV3';
@@ -33,20 +33,21 @@ export const useTeamMembers = () => {
                 setTimeout(() => setIsLoading(false), 1000);
             });
         };
-        cachePagedQuery(setResult, setQuery, params, request, mergeMode, force);
+        return cachePagedQuery(setResult, setQuery, params, request, mergeMode, force);
     }
 
-    const reload = () => search(query);
+    const reload = () => search({...query}, false, true);
+    const movePage = (page: number, append = false) => search({...query, page}, append);
+    const resetPage = () => search({...query, page: 1}, false, true);
+    const append = makeAppendPagedItemFn(setResult);
+    const except = makeExceptPagedItemFn(setResult, (it, item) => it.id !== item.id);
+
     const isExist = !!result.pagination.totalItemCount;
+    const createByName = (name: string) => {
+        return teamMemberApi.create(orgId, {name}).then((res) => res.data);
+    };
 
-    const createByName = (name: string) =>
-        teamMemberApi.create(orgId, {name}).then((res) => {
-            return res.data;
-        });
-
-    const movePage = (page: number) => search({...query, page});
-
-    return {query, result, search, reload, isExist, createByName, movePage, isLoading};
+    return {query, result, search, reload, movePage, resetPage, except, isLoading, isExist, createByName};
 };
 
 // 멤버 수정 / 삭제 기능

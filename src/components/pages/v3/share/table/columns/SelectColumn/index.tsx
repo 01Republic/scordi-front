@@ -22,6 +22,9 @@ interface SelectColumnProps<T> {
     EmptyComponent?: () => JSX.Element;
 
     valueOfOption?: (option: T) => any;
+
+    // inputPlainText 이 true 일 때에만 사용됩니다.
+    textOfOption?: (option: T) => string;
     contentMinWidth?: string;
     optionListBoxTitle?: string;
 
@@ -30,6 +33,15 @@ interface SelectColumnProps<T> {
 
     // 드롭다운 Content 상단에서 Input 을 노출 여부 (기본값: true)
     inputDisplay?: boolean;
+
+    // 드롭다운 Content 상단 Input 에서, UI 를 입히지 않고 Plain 텍스트만 취급 (기본값: false)
+    inputPlainText?: boolean;
+
+    // 드롭다운 Content 상단 Input 에서, 검색어 입력시 매칭되는 옵션을 찾는 방법을 지정합니다.
+    keywordFilter?: (option: T, keyword: string) => boolean;
+
+    // 드롭다운 Content 내 옵션의 클래스를 지정합니다.
+    optionWrapperClass?: string;
 }
 
 export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
@@ -46,10 +58,18 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
         EmptyComponent = () => <TagUI className="text-gray-300 !px-0">비어있음</TagUI>,
         getOptions,
         valueOfOption = (v) => v,
+        textOfOption = (v) => `${v}`,
         onSelect,
         onCreate,
     } = props;
-    const {inputDisplay = true, contentMinWidth = '300px', optionListBoxTitle = '옵션 선택 또는 생성'} = props;
+    const keywordFilter = props.keywordFilter || ((o: T, keyword: string) => valueOfOption(o) === keyword);
+    const {
+        inputDisplay = true,
+        inputPlainText = false,
+        contentMinWidth = '300px',
+        optionListBoxTitle = '옵션 선택 또는 생성',
+        optionWrapperClass = '',
+    } = props;
 
     const refreshOptions = () => {
         clearInput();
@@ -78,6 +98,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
     };
 
     // const ValueUI = ValueComponent || ((p: {value: T | string}) => <TagUI>{`${p.value}`}</TagUI>);
+    const isEmptyValue = typeof value == 'undefined' || value === null;
 
     return (
         <div className="dropdown relative w-full">
@@ -87,7 +108,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
                 tabIndex={0}
                 className="cursor-pointer flex py-[6px] px-[8px]"
             >
-                {value ? <ValueComponent value={value} /> : <EmptyComponent />}
+                {!isEmptyValue ? <ValueComponent value={value} /> : <EmptyComponent />}
             </div>
 
             <div
@@ -101,12 +122,13 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
                 {inputDisplay && (
                     <InputContainer
                         inputRef={searchInputRef}
+                        defaultValue={value && inputPlainText ? textOfOption(value) : undefined}
                         onChange={(keyword) => {
                             setSearchKeyword(keyword || '');
                             getOptions(keyword).then(setOptions);
                         }}
                     >
-                        {value && <ValueComponent value={value} />}
+                        {value && !inputPlainText && <ValueComponent value={value} />}
                     </InputContainer>
                 )}
 
@@ -132,10 +154,11 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
                                 clickOption={clickOption}
                                 ValueComponent={ValueComponent}
                                 valueOfOption={valueOfOption}
+                                className={optionWrapperClass}
                             />
                         ))}
 
-                        {onCreate && searchKeyword && !options.find((o) => valueOfOption(o) === searchKeyword) && (
+                        {onCreate && searchKeyword && !options.find((o) => keywordFilter(o, searchKeyword)) && (
                             <CreatableItem onClick={() => createOption(searchKeyword)}>
                                 <ValueComponent value={searchKeyword} />
                             </CreatableItem>

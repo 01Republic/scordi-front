@@ -7,14 +7,13 @@ import {MobileSection} from '../share/sections/MobileSection';
 import {useModal} from '../share/modals/useModal';
 import {useRouter} from 'next/router';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
-import {orgIdParamState} from '^atoms/common';
-import {CardFormModalGroup} from '^v3/share/modals/NewCardModal/NewCardModalGroup/CardFormModalGroup';
 import {inputCardNumberModal} from '^v3/share/modals/NewCardModal/CardNumberModal/atom';
 import {useRecoilValue} from 'recoil';
 import {useOnResize2} from '^components/util/onResize2';
 import {V3MainLayout, V3MainLayoutContainer} from '^v3/layouts/V3MainLayout';
 import {LNBIndex} from '^v3/share/LeftNavBar';
 import {currentOrgAtom} from '^models/Organization/atom';
+import {NewCardModalV2} from 'src/components/pages/v3/share/modals/NewCardModal/NewCardModalV2';
 
 export const V3OrgCardListPage = memo(() => {
     const cardNumberModal = useModal(inputCardNumberModal);
@@ -39,7 +38,7 @@ export const V3OrgCardListPage = memo(() => {
         );
     } else {
         return (
-            <V3ModalLikeLayoutMobile title="카드" backBtnOnClick={backBtnOnclick} modals={[CardFormModalGroup]}>
+            <V3ModalLikeLayoutMobile title="카드" backBtnOnClick={backBtnOnclick} modals={[NewCardModalV2]}>
                 <MobileSection.List>
                     <HeaderPanel />
 

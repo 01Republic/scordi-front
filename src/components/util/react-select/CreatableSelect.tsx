@@ -91,7 +91,7 @@ export const CreatableSelect = <Option extends BasicOption>(props: CreatableSele
             defaultValue={props.defaultValue}
             value={value}
             loadOptions={loadOptions}
-            onChange={onChange}
+            onChange={(newVal, actionMeta) => onChange(newVal, actionMeta)}
             isClearable={true}
             backspaceRemovesValue={true}
             styles={style ?? defaultStyle}

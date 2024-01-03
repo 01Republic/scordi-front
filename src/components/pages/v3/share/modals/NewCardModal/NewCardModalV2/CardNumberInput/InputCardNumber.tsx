@@ -6,7 +6,7 @@ import {cardIdParamState, currentCreditCardAtom} from '^models/CreditCard/atom';
 
 interface InputCardNumberProps {
     form: UseFormReturn<UnSignedCreditCardFormData>;
-    setDisabled: Dispatch<React.SetStateAction<boolean>>;
+    setDisabled?: Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const InputCardNumber = memo((props: InputCardNumberProps) => {
@@ -55,10 +55,10 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
         const cardNum4 = form.getValues('number4');
 
         if (!cardNum1 || !cardNum2 || !cardNum3 || !cardNum4) {
-            setDisabled(true);
+            if (setDisabled) setDisabled(true);
             return;
         }
-        setDisabled(false);
+        if (setDisabled) setDisabled(false);
     };
 
     const maxLength = (e: FormEvent<HTMLInputElement>) => {
@@ -69,11 +69,6 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
 
     return (
         <div>
-            {/* 카드번호 input */}
-            <label className="label label-text w-fit">
-                카드번호 <span className="text-red-500 pl-1">*</span>
-            </label>
-
             <div className="flex gap-3 mb-3">
                 <input
                     {...form.register('number1')}

@@ -26,7 +26,6 @@ export const FormForGeneralInfoModal = memo(function FormForGeneralInfoModal() {
                         <ProductSelectSection
                             afterChange={() => {
                                 setTimeout(() => {
-                                    console.log('aliasRef', aliasRef);
                                     if (aliasRef.current) aliasRef.current.focus();
                                 }, 250);
                             }}

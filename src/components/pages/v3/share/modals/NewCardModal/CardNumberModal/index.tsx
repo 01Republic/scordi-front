@@ -6,7 +6,7 @@ import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {createCreditCardDtoAtom} from '../atom';
 import {useToast} from '^hooks/useToast';
-import {InputCardNumber} from './InputCardNumber';
+import {InputCardNumber} from '^v3/share/modals/NewCardModal/NewCardModalV2/CardNumberInput/InputCardNumber';
 import {orgIdParamState} from '^atoms/common';
 import {creditCardApi} from '^models/CreditCard/api';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';

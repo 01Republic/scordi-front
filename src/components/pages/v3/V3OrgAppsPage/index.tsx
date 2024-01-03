@@ -1,39 +1,42 @@
 import React, {memo} from 'react';
+import {ReactComponentLike} from 'prop-types';
 import {LNBIndex} from '^v3/share/LeftNavBar';
 import {V3ListPageLayout} from '^v3/layouts/V3ListPageLayout';
+import {useOnResize2} from '^components/util/onResize2';
+import {V3MainLayoutMobile} from '^v3/layouts/V3MainLayout.mobile';
+import {BottomTabIndex} from '^v3/share/BottomNavMobile';
+
+import {AccountListModal} from '^v3/share/modals/AccountListModal';
+import {BillingHistoryDetailModal} from '^v3/share/modals/BillingHistoryDetailModal';
+import {InvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal';
+import {NewAppModal} from '^v3/share/modals/NewAppModal';
+
+import {TeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
+import {TeamMemberCreateModal} from '^v3/V3OrgHomePage/TeamMemberCreateModal';
+
+import {SubscriptionsPanel} from './mobile/SubscriptionsPanel';
 import {SubscriptionLoader} from './SubscriptionLoader';
 import {SummarySection} from './SummarySection';
 import {SubscriptionListPageTitle} from './SubscriptionListPageTitle';
 import {SubscriptionListSection} from './SubscriptionListSection';
-import {useOnResize2} from '^components/util/onResize2';
-import {AppShowPageModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
-import {AccountListModal} from '^v3/share/modals/AccountListModal';
-import {V3MainLayoutMobile} from '^v3/layouts/V3MainLayout.mobile';
-import {BottomTabIndex} from '^v3/share/BottomNavMobile';
-import {SubscriptionsPanel} from '^v3/V3OrgAppsPage/mobile/SubscriptionsPanel';
-import {TeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
-import {BillingHistoryDetailModal} from '^v3/share/modals/BillingHistoryDetailModal';
-import {TeamMemberCreateModal} from '^v3/V3OrgHomePage/TeamMemberCreateModal';
-import {InvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal';
-import {NewAppModal} from '^v3/share/modals/NewAppModal';
+import {SubscriptionDetailModal} from './_localModals';
+
+const MODALS: ReactComponentLike[] = [
+    SubscriptionDetailModal,
+    BillingHistoryDetailModal,
+    TeamMemberShowModal,
+    AccountListModal,
+    TeamMemberCreateModal,
+    InvoiceAccountSelectModal,
+    NewAppModal,
+];
 
 export const V3OrgAppsPage = memo(() => {
     const {isDesktop} = useOnResize2();
 
     if (isDesktop) {
         return (
-            <V3ListPageLayout
-                activeTabIndex={LNBIndex.Subscriptions}
-                modals={[
-                    AppShowPageModal,
-                    BillingHistoryDetailModal,
-                    TeamMemberShowModal,
-                    AccountListModal,
-                    TeamMemberCreateModal,
-                    InvoiceAccountSelectModal,
-                    NewAppModal,
-                ]}
-            >
+            <V3ListPageLayout activeTabIndex={LNBIndex.Subscriptions} modals={MODALS}>
                 <SubscriptionListPageTitle />
                 <SubscriptionLoader />
                 <SummarySection />
@@ -42,11 +45,7 @@ export const V3OrgAppsPage = memo(() => {
         );
     } else {
         return (
-            <V3MainLayoutMobile
-                title="구독리스트"
-                activeTabIndex={BottomTabIndex.HOME}
-                modals={[AppShowPageModal, AccountListModal]}
-            >
+            <V3MainLayoutMobile title="구독리스트" activeTabIndex={BottomTabIndex.HOME} modals={MODALS}>
                 <SubscriptionsPanel />
             </V3MainLayoutMobile>
         );

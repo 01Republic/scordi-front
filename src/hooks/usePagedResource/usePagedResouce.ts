@@ -5,6 +5,7 @@ import {orgIdParamState} from '^atoms/common';
 import {cachePagedQuery} from './cachePagedQuery';
 import {makeAppendPagedItemFn} from './makeAppendPagedItemFn';
 import {makeExceptPagedItemFn} from './makeExceptPagedItemFn';
+import {useState} from 'react';
 
 export interface UsePagedResourceOption<DTO, Query> {
     resultAtom: RecoilState<Paginated<DTO>>;
@@ -26,11 +27,17 @@ export function usePagedResource<DTO, Query>(option: UsePagedResourceOption<DTO,
     const orgId = useRecoilValue(orgIdParamState);
     const [result, setResult] = useRecoilState(resultAtom);
     const [query, setQuery] = useRecoilState(queryAtom);
+    const [isLoading, setIsLoading] = useState(false);
 
     async function search(params: Query, mergeMode = defaultMergeMode, force = false) {
         // if (!orgId || isNaN(orgId)) return;
         params = buildQuery(params);
-        const request = () => endpoint(params);
+        const request = () => {
+            setIsLoading(true);
+            return endpoint(params).finally(() => {
+                setTimeout(() => setIsLoading(false), 200);
+            });
+        };
         return cachePagedQuery(setResult, setQuery, params, request, mergeMode, force);
     }
 
@@ -40,5 +47,5 @@ export function usePagedResource<DTO, Query>(option: UsePagedResourceOption<DTO,
     const append = makeAppendPagedItemFn(setResult);
     const except = makeExceptPagedItemFn(setResult, (it, item) => getId(it) !== getId(item));
 
-    return {query, result, search, reload, movePage, resetPage, except};
+    return {query, result, search, reload, movePage, resetPage, except, isLoading};
 }

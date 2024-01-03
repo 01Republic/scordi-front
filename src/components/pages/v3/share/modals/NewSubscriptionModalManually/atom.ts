@@ -1,11 +1,22 @@
 import {atom} from 'recoil';
 import {CreateSubscriptionRequestDto} from '^models/Subscription/types';
+import {CurrencyCode} from '^types/money.type';
+import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
+import {RecurringTypeOptions} from '^models/Subscription/types/RecurringTypeOptions';
+
+export const subscriptionManualFormDataDefaultValue = {
+    isFreeTier: true,
+    billingCycleType: BillingCycleOptions.None,
+    recurringType: RecurringTypeOptions.NONE,
+    currentBillingAmount: {
+        currency: CurrencyCode.USD,
+        amount: 0,
+    },
+} as CreateSubscriptionRequestDto;
 
 export const newSubscriptionManualFormData = atom<CreateSubscriptionRequestDto>({
     key: 'newSubscriptionManualFormData',
-    default: {
-        isFreeTier: true,
-    } as CreateSubscriptionRequestDto,
+    default: subscriptionManualFormDataDefaultValue,
 });
 
 export const newFormForGeneralInfoModalAtom = {

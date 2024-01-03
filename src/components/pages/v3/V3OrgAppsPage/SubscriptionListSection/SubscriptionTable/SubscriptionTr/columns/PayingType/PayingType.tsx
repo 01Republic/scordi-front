@@ -9,13 +9,62 @@ import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {getColor, palette} from '^components/util/palette';
 import {subscriptionApi} from '^models/Subscription/api';
 import {useToast} from '^hooks/useToast';
+import {
+    c_SubscriptionMeasureMethod,
+    RecurringTypeOptions,
+    SubscriptionMeasureMethodValues,
+    t_SubscriptionMeasureMethod,
+} from '^models/Subscription/types/RecurringTypeOptions';
 
 interface PayingTypeProps {
+    subscription: SubscriptionDto;
+    onChange: (value: RecurringTypeOptions) => any;
+}
+
+/**
+ * 과금 방식
+ * subscription.recurringType: RecurringTypeOptions
+ */
+export const PayingType = memo((props: PayingTypeProps) => {
+    const {toast} = useToast();
+    const {subscription, onChange} = props;
+
+    const onSelect = async (recurringType: RecurringTypeOptions) => {
+        if (recurringType === subscription.recurringType) return;
+
+        return subscriptionApi
+            .update(subscription.id, {recurringType})
+            .then(() => onChange(recurringType))
+            .finally(() => toast.success('저장했습니다'));
+    };
+
+    return (
+        <SelectColumn
+            value={subscription.recurringType}
+            getOptions={async () => SubscriptionMeasureMethodValues}
+            onSelect={onSelect}
+            ValueComponent={PayingTypeTag}
+            contentMinWidth="240px"
+            inputDisplay={false}
+        />
+    );
+});
+PayingType.displayName = 'PayingType';
+
+const PayingTypeTag = memo((props: {value: RecurringTypeOptions | string}) => {
+    const {value} = props;
+    const colorClass = c_SubscriptionMeasureMethod(value as RecurringTypeOptions);
+    const text = t_SubscriptionMeasureMethod(value as RecurringTypeOptions);
+
+    return <TagUI className={colorClass}>{text}</TagUI>;
+});
+
+interface PayingTypeCreatableProps {
     subscription: SubscriptionDto;
     onChange: (value: TagDto) => any;
 }
 
-export const PayingType = memo((props: PayingTypeProps) => {
+export const PayingTypeCreatable = memo((props: PayingTypeCreatableProps) => {
     // const {subscription} = props;
     //
     // const locale = (router.locale as Locale) || Locale.ko;
@@ -35,7 +84,6 @@ export const PayingType = memo((props: PayingTypeProps) => {
     const billingType = subscription.getRecurringTypeText(true);
 
     const getOptions = async (keyword?: string) => {
-        console.log('getOptions', keyword);
         return search({organizationId, keyword, itemsPerPage: 0}).then((res) => res.items);
     };
 
@@ -58,7 +106,7 @@ export const PayingType = memo((props: PayingTypeProps) => {
         <SelectColumn
             value={subscription.recurringTypeTag}
             getOptions={getOptions}
-            ValueComponent={PayingTypeTag}
+            ValueComponent={PayingTypeCreatableTag}
             valueOfOption={(tag) => tag.name}
             contentMinWidth="240px"
             onSelect={onSelect}
@@ -66,9 +114,9 @@ export const PayingType = memo((props: PayingTypeProps) => {
         />
     );
 });
-PayingType.displayName = 'PayingType';
+PayingTypeCreatable.displayName = 'PayingTypeCreatable';
 
-const PayingTypeTag = memo((props: {value: TagDto | string}) => {
+const PayingTypeCreatableTag = memo((props: {value: TagDto | string}) => {
     const {value} = props;
     const colorClass =
         typeof value === 'string' ? 'bg-gray-300' : getColor(value.name.length + value.id, palette.notionColors);

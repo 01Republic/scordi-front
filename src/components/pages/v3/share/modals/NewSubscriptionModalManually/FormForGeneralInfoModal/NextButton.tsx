@@ -7,8 +7,9 @@ import {
     newFormForGeneralInfoModalAtom,
     newFormForUsingMemberInfoModalAtom,
     newSubscriptionManualFormData,
-} from '^v3/share/modals/NewSubscriptionModalManually/atom';
-import {CreateSubscriptionRequestDto} from '^models/Subscription/types';
+    subscriptionManualFormDataDefaultValue,
+} from '../atom';
+import {NextButtonUI} from '../NextButtonUI';
 
 export const NextButton = memo(function NextButton() {
     const organizationId = useRecoilValue(orgIdParamState);
@@ -25,12 +26,10 @@ export const NextButton = memo(function NextButton() {
      * 따라서, 이 CTA 버튼이 unmount 되었을 때를
      * 수동추가 모달그룹 전체가 종료된 것으로 보고,
      * 폼 데이터 초기화 로직을 이곳에 배치 합니다.
+     * => 수정) 폼 데이터 초기화는 모달을 처음 열었을때 실행합니다.
      */
     useEffect(() => {
-        // if (isShow) console.log('opened');
-        return () => {
-            setFormData({isFreeTier: true} as CreateSubscriptionRequestDto);
-        };
+        if (isShow) setFormData(subscriptionManualFormDataDefaultValue);
     }, [isShow]);
 
     // 서비스를 선택하지 않은 상태에서는 버튼 UI 를 잠시 가려둡니다.
@@ -55,19 +54,17 @@ export const NextButton = memo(function NextButton() {
         formData.isFreeTier ? openUsingMemberInfoModal() : openBillingInfoStep();
     };
 
-    const isActive =
-        // 서비스 선택은 필수
-        formData.productId &&
-        // 유/무료 선택은 필수
-        typeof formData.isFreeTier !== 'undefined';
-
     return (
-        <button
-            disabled={!isActive}
-            className="btn btn-lg btn-block btn-scordi font-medium font-white text-xl bg-slate-50 disabled:bg-gray-100 disabled:border-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+        <NextButtonUI
+            isActive={
+                // 서비스 선택은 필수
+                !!formData.productId &&
+                // 유/무료 선택은 필수
+                typeof formData.isFreeTier !== 'undefined'
+            }
             onClick={onNext}
         >
             다음
-        </button>
+        </NextButtonUI>
     );
 });

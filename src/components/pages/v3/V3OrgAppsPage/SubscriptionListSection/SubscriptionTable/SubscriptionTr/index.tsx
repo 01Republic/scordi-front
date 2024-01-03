@@ -5,7 +5,6 @@ import {SubscriptionDto} from '^models/Subscription/types';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
 import {
     LatestPayAmount,
-    MasterProfile,
     MemberCount,
     NextPaymentDate,
     PayingType,
@@ -14,6 +13,9 @@ import {
 } from './columns';
 import {useAppShowModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
+import {IsFreeTierColumn} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/IsFreeTierColumn';
+import {BillingCycleTypeColumn} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/BillingCycleTypeColumn';
+import {MasterSelect} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/MasterProfile/MasterSelect';
 
 interface SubscriptionTrProps {
     subscription: SubscriptionDto;
@@ -51,20 +53,35 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
                 {/*<ProductProfile subscription={subscription} />*/}
                 <SubscriptionProfile subscription={subscription} />
             </td>
-            {/*<td></td>*/}
 
-            {/* 상태 */}
-            <td className="">
-                <SubscriptionStatus subscription={subscription} onChange={() => reload && reload()} />
+            {/* 유/무료 */}
+            <td>
+                {/*<input*/}
+                {/*    type="checkbox"*/}
+                {/*    className="checkbox checkbox-sm checkbox-primary"*/}
+                {/*    disabled*/}
+                {/*    defaultChecked={subscription.isFreeTier}*/}
+                {/*/>*/}
+                <IsFreeTierColumn subscription={subscription} onChange={() => reload && reload()} />
             </td>
 
+            {/* 상태 */}
+            {/*<td className="">*/}
+            {/*    <SubscriptionStatus subscription={subscription} onChange={() => reload && reload()} />*/}
+            {/*</td>*/}
+
             {/* 결제주기 */}
-            <td></td>
+            <td>
+                <BillingCycleTypeColumn subscription={subscription} onChange={() => reload && reload()} />
+            </td>
 
             {/* 과금방식: (TestBank: 연, 고정, 사용량, 크레딧, 1인당) */}
             <td className="">
                 <PayingType subscription={subscription} onChange={() => reload && reload()} />
             </td>
+
+            {/* 결제수단 */}
+            <td></td>
 
             {/* 사용인원 */}
             <td className="text-right">
@@ -77,13 +94,13 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
             </td>
 
             {/* 다음 결제일 */}
-            <td className="text-right">
-                <NextPaymentDate nextPayDate={nextPayDate} />
-            </td>
+            {/*<td className="text-right">*/}
+            {/*    <NextPaymentDate nextPayDate={nextPayDate} />*/}
+            {/*</td>*/}
 
             {/* 담당자 */}
             <td className="">
-                <MasterProfile subscription={subscription} />
+                <MasterSelect subscription={subscription} onChange={() => reload && reload()} />
             </td>
 
             {/* Actions */}

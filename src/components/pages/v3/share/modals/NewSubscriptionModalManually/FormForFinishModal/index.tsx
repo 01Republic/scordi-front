@@ -35,12 +35,12 @@ export const FormForFinishModal = memo(() => {
 
                     <Container size="lg" className="mb-10">
                         <div className="text-center">
-                            <h3 className="font-bold text-3xl mb-4">결제 내역 등록이 완료되었어요!</h3>
+                            <h3 className="font-bold text-3xl mb-4">구독을 추가했어요!</h3>
                         </div>
                     </Container>
 
                     <Container className="flex flex-col items-center">
-                        <button onClick={openMemoModal} className="btn btn-sm text-scordi mb-3 w-fit px-3">
+                        <button onClick={() => openMemoModal()} className="btn btn-sm text-scordi mb-3 w-fit px-3">
                             {memo ? memo : '메모 남기기'}
                         </button>
                     </Container>

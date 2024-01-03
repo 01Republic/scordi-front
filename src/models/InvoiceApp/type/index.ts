@@ -9,6 +9,7 @@ import {
 import {TypeCast} from '^types/utils/class-transformer';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
 
+// 인보이스 결제 주기
 export enum BillingType {
     // MONTHLY = 'monthly',
     // YEARLY = 'yearly',

@@ -33,7 +33,7 @@ export const SelectProduct = memo((props: SelectProductProps) => {
     }, [Product, productId]);
 
     useEffect(() => {
-        getProducts({order: {id: 'DESC'}});
+        getProducts({order: {connectMethod: 'DESC', id: 'DESC'}});
     }, []);
 
     useEffect(() => {
@@ -46,7 +46,9 @@ export const SelectProduct = memo((props: SelectProductProps) => {
 
     const search = async (inputValue: string) => {
         const value = (inputValue || '').toLowerCase();
-        const products = await getProducts({name: inputValue, order: {id: 'DESC'}}).then((res) => res.items);
+        const products = await getProducts({name: inputValue, order: {connectMethod: 'DESC', id: 'DESC'}}).then(
+            (res) => res.items,
+        );
         const filtered = products.filter((product) => {
             if (product.nameEn.toLowerCase().includes(value)) return true;
             if (product.nameKo.toLowerCase().includes(value)) return true;

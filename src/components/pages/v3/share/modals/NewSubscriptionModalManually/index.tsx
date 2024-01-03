@@ -3,6 +3,7 @@ import {FormForGeneralInfoModal} from './FormForGeneralInfoModal';
 import {FormForBillingInfoModal} from './FormForBillingInfoModal';
 import {FormForUsingMemberInfoModal} from './FormForUsingMemberInfoModal';
 import {FormForFinishModal} from './FormForFinishModal';
+import {FormForMemoModal} from './FormForMemoModal';
 
 export const NewSubscriptionModalManually = memo(function NewSubscriptionModalManually() {
     return (
@@ -11,6 +12,7 @@ export const NewSubscriptionModalManually = memo(function NewSubscriptionModalMa
             <FormForBillingInfoModal />
             <FormForUsingMemberInfoModal />
             <FormForFinishModal />
+            <FormForMemoModal />
         </>
     );
 });

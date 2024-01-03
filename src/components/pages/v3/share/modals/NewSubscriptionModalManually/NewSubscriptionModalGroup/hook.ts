@@ -5,7 +5,10 @@ import {
     newFormForGeneralInfoModalAtom,
     newFormForMemoModalAtom,
     newFormForUsingMemberInfoModalAtom,
+    newSubscriptionManualFormData,
+    subscriptionManualFormDataDefaultValue,
 } from '^v3/share/modals/NewSubscriptionModalManually/atom';
+import {useSetRecoilState} from 'recoil';
 
 export const useNewSubscriptionModal = () => {
     const billingInfoModal = useModal(newFormForBillingInfoModalAtom);
@@ -13,13 +16,15 @@ export const useNewSubscriptionModal = () => {
     const generalInfoModal = useModal(newFormForGeneralInfoModalAtom);
     const finishModal = useModal(newFormForFinishModalAtom);
     const memoModal = useModal(newFormForMemoModalAtom);
+    const setFormData = useSetRecoilState(newSubscriptionManualFormData);
 
     const closeModalGroup = () => {
-        billingInfoModal.close();
-        usingMemberModal.close();
-        generalInfoModal.close();
-        finishModal.close();
-        memoModal.close();
+        if (generalInfoModal.isShow) generalInfoModal.setIsShow(false);
+        if (billingInfoModal.isShow) billingInfoModal.setIsShow(false);
+        if (usingMemberModal.isShow) usingMemberModal.setIsShow(false);
+        if (finishModal.isShow) finishModal.setIsShow(false);
+        if (memoModal.isShow) memoModal.setIsShow(false);
+        setFormData(subscriptionManualFormDataDefaultValue);
     };
 
     return {closeModalGroup};

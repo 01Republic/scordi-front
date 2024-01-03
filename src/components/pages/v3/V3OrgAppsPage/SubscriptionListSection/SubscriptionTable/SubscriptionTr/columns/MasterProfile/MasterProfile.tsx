@@ -9,6 +9,7 @@ import {useDropdown} from '^hooks/useDropdown';
 
 interface MasterProfileProps {
     subscription: SubscriptionDto;
+    onChange: () => any;
 }
 
 // TODO
