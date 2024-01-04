@@ -15,12 +15,11 @@ export const DeleteButton = memo(function DeleteButton(props: DeleteButtonProps)
 
     if (!isEditMode) return <></>;
 
-    const onDelete = () => {
-        deleteMember().then(() => {
-            setIsEditMode(false);
-            onFinish && onFinish();
-        });
+    const onDeleteConfirm = () => {
+        onFinish && onFinish();
+        setIsEditMode(false);
     };
+    const onDelete = () => deleteMember(onDeleteConfirm);
 
     return <TopRightButton text="삭제" onClick={() => onDelete()} />;
 });
