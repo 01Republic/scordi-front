@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo} from 'react';
 import {useModal} from '^v3/share/modals/useModal';
 import {connectCreditCardModal} from '^v3/share/modals/ConnectCreditCardModal/atom';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
@@ -9,16 +9,10 @@ import {CardSelect} from '^v3/share/modals/ConnectCreditCardModal/CardSelect';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {FormControl} from '^components/util/form-control/FormControl';
 import {CTAButton} from '^v3/share/modals/ConnectCreditCardModal/CTAButton';
-import {useCreditCards} from '^models/CreditCard/hook';
 
 export const RegisterCreditCardModal = memo(() => {
     const {currentSubscription} = useCurrentSubscription();
-    const {Modal, close, isShow} = useModal(connectCreditCardModal);
-    const {search: getCreditCards} = useCreditCards();
-
-    useEffect(() => {
-        getCreditCards({});
-    }, [isShow]);
+    const {Modal, close} = useModal(connectCreditCardModal);
 
     if (!currentSubscription) return <></>;
 

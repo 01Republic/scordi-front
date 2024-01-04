@@ -83,7 +83,7 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
 
             {/* 결제수단 */}
             <td>
-                <PayMethod lastPaidHistory={lastPaidHistory} />
+                <PayMethod lastPaidHistory={lastPaidHistory} subscription={subscription} />
             </td>
 
             {/* 사용인원 */}
