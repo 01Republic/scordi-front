@@ -14,6 +14,7 @@ import {SubscriptionDto} from '^models/Subscription/types';
 import {BillingType, InvoiceAppDto} from '^models/InvoiceApp/type';
 import {CurrencyCode} from '^types/money.type';
 import {changePriceCurrency} from '^api/tasting.api/gmail/agent/parse-email-price';
+import {cachePagedQuery} from '^hooks/usePagedResource';
 
 export const useBillingHistories = () => useRecoilValue(getBillingHistoriesQuery);
 export const useBillingHistory = () => useRecoilValue(getBillingHistoryQuery);
@@ -29,17 +30,17 @@ export const useBillingHistoriesV3 = (option?: UseBillingHistoriesOption) => {
     const [query, setQuery] = useRecoilState(queryAtom || orgBillingHistoriesQueryV3Atom);
     const [isLoading, setIsLoading] = useState(false);
 
-    async function search(params: GetBillingHistoriesParams) {
-        if (JSON.stringify(query) === JSON.stringify(params)) return;
-
+    function search(params: GetBillingHistoriesParams, mergeMode = false, force = false) {
         setIsLoading(true);
-        const data = await billingHistoryApi.index(params).then((res) => res.data);
-        setResult(data);
-        setQuery(params);
+
+        const request = () => billingHistoryApi.index(params);
+
         setIsLoading(false);
+
+        cachePagedQuery(setResult, setQuery, params, request, mergeMode, force);
     }
 
-    const reload = () => search(query);
+    const reload = () => search({...query}, false, true);
     const movePage = (page: number) => search({...query, page});
 
     return {query, reload, result, search, movePage, isLoading};
