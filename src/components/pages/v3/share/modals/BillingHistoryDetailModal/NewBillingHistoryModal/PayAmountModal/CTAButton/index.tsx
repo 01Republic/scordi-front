@@ -14,6 +14,7 @@ import {appIdState} from '^v3/V3OrgAppShowPage/atom';
 import {useModal} from '^v3/share/modals';
 import {CreateMoneyRequestDto, CurrencyCode} from '^types/money.type';
 import {selectedCurrencyState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
+import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 
 export const CTAButton = memo(() => {
     const createBillingHistory = useRecoilValue(createBillingHistoryAtom);
@@ -23,10 +24,12 @@ export const CTAButton = memo(() => {
     const setBillingHistoryId = useSetRecoilState(billingHistoryIdState);
     const selectedCurrency = useRecoilValue(selectedCurrencyState);
     const {open: OpenFinishModal} = useModal(finishModalState);
+    const {reload: loadHistories} = useBillingHistoriesV3();
+
     const isDomestic = createBillingHistory.isDomestic;
 
     const onAmountChange = () => {
-        const exchangeRate = domesticAmount / (abroadAmount ?? domesticAmount);
+        const exchangeRate = isDomestic ? 1 : domesticAmount / abroadAmount;
 
         const moneyLike: CreateMoneyRequestDto = {
             text: `${domesticAmount}원`,
@@ -48,11 +51,17 @@ export const CTAButton = memo(() => {
             return;
         }
 
+        if (!isDomestic && !abroadAmount) {
+            toast.error('해외 결제 금액을 입력해주세요');
+            return;
+        }
+
         const req = appBillingHistoryApi.createV2(appId, {...createBillingHistory, payAmount: payAmount});
 
         req.then((res) => {
             setBillingHistoryId(res.data.id);
             OpenFinishModal();
+            loadHistories();
         });
     };
 

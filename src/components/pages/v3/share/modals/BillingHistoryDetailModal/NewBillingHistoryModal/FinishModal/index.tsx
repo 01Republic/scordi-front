@@ -22,14 +22,9 @@ export const FinishModal = memo(() => {
     const memo = useRecoilValue(memoState);
     const {billingHistory} = useBillingHistoryInModal();
     const {modalGroupClose} = useNewBillingHistoryModal();
-    const {reload: loadHistories} = useBillingHistoriesV3();
-    const router = useRouter();
 
     const onClick = () => {
         modalGroupClose();
-        // reload 안됨
-        // loadHistories();
-        router.reload();
     };
 
     return (
