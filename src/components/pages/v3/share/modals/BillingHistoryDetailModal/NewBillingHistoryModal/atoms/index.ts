@@ -18,3 +18,8 @@ export const billingHistoryIdState = atom<number | null>({
     key: 'billingHistoryId',
     default: null,
 });
+
+export const abroadPayAmount = atom<number>({
+    key: 'abroadPayAmount',
+    default: 0,
+});

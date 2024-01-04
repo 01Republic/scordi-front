@@ -25,6 +25,9 @@ import {useNewBillingHistoryModal} from '^v3/share/modals/BillingHistoryDetailMo
 import {SkipButton} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/share/SkipButton';
 import {ModalButton} from '^v3/share/ModalButton';
 
+/*
+사용하지 않고 있습니다.
+ */
 export const DetailInfoModal = memo(() => {
     const {Modal, close} = useModal(detailInfoModalState);
     const {open: OpenFinishModal} = useModal(finishModalState);

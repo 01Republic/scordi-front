@@ -1,4 +1,4 @@
-import {components, ContainerProps, ControlProps, MenuListProps, OptionProps} from 'react-select';
+import {components, ContainerProps, ControlProps, MenuListProps, OptionProps, SingleValueProps} from 'react-select';
 import React from 'react';
 import {useModal} from '^v3/share/modals';
 import {newCardModalState} from '^v3/share/modals/NewCardModal/NewCardModalV2/atom';
@@ -49,9 +49,23 @@ export const CardComponents = () => {
         );
     };
 
+    const SingleValue = (props: SingleValueProps<any>) => {
+        const card = props.data;
+        console.log('실행');
+        console.log(card);
+
+        return (
+            <components.SingleValue {...props}>
+                <div>
+                    <p className="text-sm text-gray-500"> {card.name}</p>
+                    <p>{card.label}</p>
+                </div>
+            </components.SingleValue>
+        );
+    };
     const NoOptionsMessage = (props: any) => {
         return <components.NoOptionsMessage {...props} className="hidden"></components.NoOptionsMessage>;
     };
 
-    return {SelectContainer, Control, MenuList, Option, NoOptionsMessage};
+    return {SelectContainer, Control, MenuList, Option, SingleValue, NoOptionsMessage};
 };
