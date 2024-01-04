@@ -4,7 +4,6 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {AccountListModal} from '^v3/share/modals/AccountListModal';
 import {appIdState, useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {BillingHistoryDetailModal} from '^v3/share/modals/BillingHistoryDetailModal';
-import {RegisterCreditCardModal} from '^v3/share/modals/ConnectCreditCardModal';
 import {AppShowPageBody} from './modals/AppShowPageModal/AppShowPageBody';
 import {SelectTeamMemberModal} from './modals/AppShowPageModal/SelectTeamMemberModal';
 import {InvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal';
@@ -27,10 +26,8 @@ export const V3OrgAppShowPage = memo(() => {
                 BillingHistoryDetailModal, // 결제내역상세모달
                 SelectTeamMemberModal,
                 AccountListModal,
-                RegisterCreditCardModal,
                 InvoiceAccountSelectModal,
                 NewBillingHistoryModal, // 결제내역추가모달
-                // NewCardModal, // 카드추가모달
             ]}
         >
             <MobileSection.List className="h-full">

@@ -1,5 +1,5 @@
 import {atom, useRecoilState} from 'recoil';
-import {SubscriptionDto} from 'src/models/Subscription/types';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from 'src/models/Subscription/types';
 import {Locale} from '^models/Subscription/types/billingCycleType';
 import {useRouter} from 'next/router';
 import {subscriptionApi} from '^models/Subscription/api';
@@ -17,6 +17,11 @@ const currentSubscriptionLoadingState = atom<boolean>({
 export const appIdState = atom<number | null>({
     key: 'appIdState',
     default: null,
+});
+
+export const updateCurrentSubscriptionState = atom<UpdateSubscriptionRequestDto>({
+    key: 'updateCurrentSubscriptionState',
+    default: {},
 });
 
 export const useCurrentSubscription = () => {

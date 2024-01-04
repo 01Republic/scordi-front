@@ -1,46 +1,40 @@
-import {memo, useEffect} from 'react';
+import React, {memo, useEffect} from 'react';
 import {useModal} from '^v3/share/modals/useModal';
 import {connectCreditCardModal} from '^v3/share/modals/ConnectCreditCardModal/atom';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
-import {DefaultButton} from '^components/Button';
-import {subscriptionApi} from '^models/Subscription/api';
-import {UpdateSubscriptionRequestDto} from 'src/models/Subscription/types';
-import {useForm} from 'react-hook-form';
-import {SelectCreditCard} from '^v3/share/modals/ConnectCreditCardModal/SelectCreditCard';
+import {MobileSection} from '^v3/share/sections/MobileSection';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
+import {ConnectCardModalTitle} from '^v3/share/modals/ConnectCreditCardModal/ConnectCardModalTitle';
+import {CardSelect} from '^v3/share/modals/ConnectCreditCardModal/CardSelect';
+import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
+import {FormControl} from '^components/util/form-control/FormControl';
+import {CTAButton} from '^v3/share/modals/ConnectCreditCardModal/CTAButton';
+import {useCreditCards} from '^models/CreditCard/hook';
 
 export const RegisterCreditCardModal = memo(() => {
-    const {currentSubscription, loadCurrentSubscription} = useCurrentSubscription();
-    const form = useForm<UpdateSubscriptionRequestDto>();
+    const {currentSubscription} = useCurrentSubscription();
     const {Modal, close, isShow} = useModal(connectCreditCardModal);
+    const {search: getCreditCards} = useCreditCards();
 
     useEffect(() => {
-        if (!currentSubscription?.creditCardId) return;
-        form.setValue('creditCardId', currentSubscription.creditCardId);
-    }, [currentSubscription]);
-
-    const onSubmit = (data: UpdateSubscriptionRequestDto) => {
-        if (!currentSubscription) return;
-        subscriptionApi.update(currentSubscription.id, data).then(() => {
-            close();
-            loadCurrentSubscription(currentSubscription.organizationId, currentSubscription.id);
-        });
-    };
+        getCreditCards({});
+    }, [isShow]);
 
     if (!currentSubscription) return <></>;
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
             <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
-            <div className="px-5 flex flex-col justify-start gap-10">
-                <div className="py-5 pt-20">
-                    <p className="mb-4">결제 수단 등록하기</p>
-                    <h2 className="h1 leading-tight">결제 카드를 선택해주세요</h2>
-                </div>
-                <SelectCreditCard form={form} isModalShow={isShow} />
+            <MobileSection.Padding>
+                <ConnectCardModalTitle />
 
-                <DefaultButton onClick={form.handleSubmit(onSubmit)} text="등록" type={'button'} />
-            </div>
+                <FormControl topLeftLabel="어떤 카드로 등록할까요?">
+                    <CardSelect />
+                </FormControl>
+            </MobileSection.Padding>
+            <ModalLikeBottomBar className="left-0">
+                <CTAButton />
+            </ModalLikeBottomBar>
         </Modal>
     );
 });

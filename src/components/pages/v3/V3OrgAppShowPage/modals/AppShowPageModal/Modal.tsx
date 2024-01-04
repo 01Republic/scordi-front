@@ -8,6 +8,7 @@ import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 import {AppShowPageBody} from './AppShowPageBody';
 import {useAppShowModal} from './hook';
 import {SelectTeamMemberModal} from './SelectTeamMemberModal';
+import {RegisterCreditCardModal} from '^v3/share/modals/ConnectCreditCardModal';
 
 interface AppShowPageModalProps {
     onMemberChanged?: () => any;
@@ -52,6 +53,7 @@ export const AppShowPageModal = memo((props: AppShowPageModalProps) => {
                 </MobileSection.List>
             </Modal>
             <SelectTeamMemberModal afterChange={onMemberChanged} />
+            <RegisterCreditCardModal />
         </>
     );
 });
