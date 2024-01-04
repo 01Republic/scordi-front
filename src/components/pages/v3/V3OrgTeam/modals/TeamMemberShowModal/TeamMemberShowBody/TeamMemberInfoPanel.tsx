@@ -10,6 +10,7 @@ import {currentTeamMemberState, useSendInviteEmail} from '^models/TeamMember';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 import {useAlert} from '^hooks/useAlert';
 import {useTeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
+import {TeamTag} from '^models/Team/components/TeamTag';
 
 /**
  * 첫 수정 시 완료 버튼을 두 번 클릭해야 submit 되는 현상이 있습니다.
@@ -53,6 +54,9 @@ export const TeamMemberInfoPanel = memo(() => {
             <MobileSection.Padding>
                 <div className="flex justify-between mb-10">
                     <div className="flex-1">
+                        <div className="flex">
+                            {teamMember.team && <TeamTag id={teamMember.team.id} name={teamMember.team.name} />}
+                        </div>
                         <h3 className="text-2xl font-bold w-full py-2">{name}</h3>
                         <p className="text-sm">
                             {email || <span className="italic text-gray-400">이메일을 넣어주세요</span>}

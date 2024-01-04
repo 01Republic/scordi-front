@@ -46,7 +46,7 @@ export const useSubscriptionsV3 = (
         if (!orgId || isNaN(orgId)) return;
         params.where = {organizationId: orgId, ...params.where};
         const request = () => subscriptionApi.index(params);
-        cachePagedQuery(setResult, setQuery, params, request, mergeMode, force);
+        return cachePagedQuery(setResult, setQuery, params, request, mergeMode, force);
     }
 
     const reload = () => search({...query}, false, true);
@@ -54,8 +54,9 @@ export const useSubscriptionsV3 = (
     const resetPage = () => search({...query, page: 1}, false, true);
     const append = makeAppendPagedItemFn(setResult);
     const except = makeExceptPagedItemFn(setResult, (it, item) => it.id !== item.id);
+    const clearCache = () => setQuery({});
 
-    return {query, result, search, reload, movePage, resetPage, except};
+    return {query, result, search, reload, movePage, resetPage, except, clearCache};
 };
 
 export const useSubscription = () => useRecoilValue(getSubscriptionQuery);

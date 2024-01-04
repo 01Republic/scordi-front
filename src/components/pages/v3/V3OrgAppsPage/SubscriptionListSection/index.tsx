@@ -9,13 +9,22 @@ import {SubscriptionTable} from './SubscriptionTable';
 import {SubscriptionCardList} from './SubscriptionCardList';
 import {SubscriptionSearchControl} from './SubscriptionSearchControl';
 import {tagOptionsState} from './SubscriptionTable/SubscriptionTr/columns/PayingType/PayingTypeSelect';
+import {useRouter} from 'next/router';
 
 export const SubscriptionListSection = memo(function SubscriptionListSection() {
     const orgId = useRecoilValue(orgIdParamState);
-    const {result, search: getSubscriptions, movePage, query, reload} = useSubscriptionsV2();
+    const router = useRouter();
+    const {result, search: getSubscriptions, movePage, query, reload, clearCache} = useSubscriptionsV2();
     const setTagOptions = useSetRecoilState(tagOptionsState);
     const {search: getTags} = usePayingTypeTags();
     const viewMode = useRecoilValue(subscriptionListViewModeState);
+
+    // [구독리스트] 페이지를 떠날 때, unmount 로 쿼리캐시를 초기화함으로써, 다음 방문 때에 쿼리가 실행되게 만듭니다.
+    useEffect(() => {
+        return () => {
+            clearCache();
+        };
+    }, [router.isReady]);
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;

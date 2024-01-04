@@ -33,6 +33,7 @@
     }
   },
   "result_in_since_n_ago": "<b>{{since}}</b> 부터 집계한 결과에요.",
+  "result_of_no_histories": "집계된 결제내역이 없어요.",
   "summary_stat": {
     "counter": {
       "label": "관련 내역",

@@ -31,4 +31,6 @@ export class UpdateTeamDto {
     name?: string | null;
 }
 
-export class FindAllTeamQueryDto extends FindAllQueryDto<TeamDto> {}
+export class FindAllTeamQueryDto extends FindAllQueryDto<TeamDto> {
+    keyword?: string; // 키워드
+}

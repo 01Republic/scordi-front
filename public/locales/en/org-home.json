@@ -17,6 +17,7 @@
     "googleLoginText": "Sign up with google"
   },
   "result_in_since_n_ago": "This is result from <b>{{since}}</b>",
+  "result_of_no_histories": "There is no history.",
   "summary_stat": {
     "counter": {
       "label": "Found",

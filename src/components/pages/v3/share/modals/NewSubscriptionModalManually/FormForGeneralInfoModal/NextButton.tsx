@@ -11,6 +11,7 @@ import {
     subscriptionManualFormDataDefaultValue,
 } from '../atom';
 import {NextButtonUI} from '../NextButtonUI';
+import {useAddSubscriptionModals} from '^v3/share/modals/NewSubscriptionModalManually/hook';
 
 export const NextButton = memo(function NextButton() {
     const organizationId = useRecoilValue(orgIdParamState);
@@ -19,6 +20,7 @@ export const NextButton = memo(function NextButton() {
     const {isShow} = useModal(newFormForGeneralInfoModalAtom);
     const {open: openBillingInfoStep} = useModal(newFormForBillingInfoModalAtom);
     const {open: openUsingMemberInfoModal} = useModal(newFormForUsingMemberInfoModalAtom);
+    const {resetForm} = useAddSubscriptionModals();
 
     /**
      * 모달의 열림과 닫힘에 따른 로직 처리하기
@@ -31,7 +33,7 @@ export const NextButton = memo(function NextButton() {
      * => 수정) 폼 데이터 초기화는 모달을 처음 열었을때 실행합니다.
      */
     useEffect(() => {
-        if (isShow) setFormData(subscriptionManualFormDataDefaultValue);
+        if (isShow) resetForm();
     }, [isShow]);
 
     // 서비스를 선택하지 않은 상태에서는 버튼 UI 를 잠시 가려둡니다.

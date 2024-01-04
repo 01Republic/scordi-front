@@ -1,8 +1,9 @@
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {teamApi} from '^models/Team/api';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {FindAllTeamQueryDto} from '^models/Team/type';
 import {currentTeamLoadingState, currentTeamState, getTeamsQueryAtom, teamsSearchResultAtom} from '^models/Team/atom';
+import {usePagedResource} from '^hooks/usePagedResource';
 
 export const useCurrentTeam = () => {
     const [currentTeam, setCurrentTeam] = useRecoilState(currentTeamState);
@@ -34,4 +35,16 @@ export const useTeams = () => {
     const movePage = (page: number) => search({...query, page});
 
     return {query, result, search, movePage};
+};
+
+export const useTeamsV2 = () => {
+    const orgId = useRecoilValue(orgIdParamState);
+    const {...methods} = usePagedResource({
+        resultAtom: teamsSearchResultAtom,
+        queryAtom: getTeamsQueryAtom,
+        endpoint: (params) => teamApi.index(orgId, params),
+        getId: (team) => team.id,
+    });
+
+    return {...methods};
 };

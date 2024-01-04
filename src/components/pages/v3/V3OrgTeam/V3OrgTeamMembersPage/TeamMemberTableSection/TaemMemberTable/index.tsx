@@ -3,7 +3,7 @@ import {TeamMemberManager, useTeamMembers} from '^models/TeamMember';
 import {TeamMemberTableRow} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow';
 
 export const TeamMemberTable = memo(() => {
-    const {result} = useTeamMembers();
+    const {result, reload} = useTeamMembers();
     const teamMembers = result.items;
     const teamMemberManager = TeamMemberManager.init(teamMembers);
     const sortedTeamMembers = teamMemberManager.sortByCreatedAtDescending(teamMembers);
@@ -28,7 +28,7 @@ export const TeamMemberTable = memo(() => {
 
                     <tbody>
                         {sortedTeamMembers.map((teamMember, i) => (
-                            <TeamMemberTableRow teamMember={teamMember} key={i} />
+                            <TeamMemberTableRow key={i} teamMember={teamMember} reload={reload} />
                         ))}
                     </tbody>
                 </table>
