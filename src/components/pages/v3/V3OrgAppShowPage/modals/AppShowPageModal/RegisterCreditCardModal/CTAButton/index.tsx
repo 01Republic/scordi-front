@@ -6,7 +6,7 @@ import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {useToast} from '^hooks/useToast';
 import {useModal} from '^v3/share/modals';
-import {connectCreditCardModal} from '^v3/share/modals/ConnectCreditCardModal/atom';
+import {connectCreditCardModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/RegisterCreditCardModal/atom';
 
 export const CTAButton = memo(() => {
     const {currentSubscription, loadCurrentSubscription} = useCurrentSubscription();

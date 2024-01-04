@@ -11,7 +11,7 @@ import {SelectTeamMemberModal} from './SelectTeamMemberModal';
 import {DeleteButton} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/DeleteButton';
 import {useDashboardSubscriptions, useSubscriptionListTableSection} from '^models/Subscription/hook';
 import {useRouter} from 'next/router';
-import {RegisterCreditCardModal} from '^v3/share/modals/ConnectCreditCardModal';
+import {RegisterCreditCardModal} from 'src/components/pages/v3/V3OrgAppShowPage/modals/AppShowPageModal/RegisterCreditCardModal';
 
 interface AppShowPageModalProps {
     onMemberChanged?: () => any;
