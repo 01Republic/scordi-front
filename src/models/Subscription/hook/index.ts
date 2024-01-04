@@ -32,6 +32,10 @@ export const useDashboardSubscriptions = () => {
     return useSubscriptionsV3(dashboardSubscriptionSearchResultAtom, getDashboardSubscriptionsQueryAtom);
 };
 
+export const useSubscriptionListTableSection = () => {
+    return useSubscriptionsV2();
+};
+
 export const useSubscriptionsV3 = (
     resultAtom: RecoilState<Paginated<SubscriptionDto>>,
     queryAtom: RecoilState<FindAllSubscriptionsQuery>,

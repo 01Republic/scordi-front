@@ -8,6 +8,9 @@ import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 import {AppShowPageBody} from './AppShowPageBody';
 import {useAppShowModal} from './hook';
 import {SelectTeamMemberModal} from './SelectTeamMemberModal';
+import {DeleteButton} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/DeleteButton';
+import {useDashboardSubscriptions, useSubscriptionListTableSection} from '^models/Subscription/hook';
+import {useRouter} from 'next/router';
 import {RegisterCreditCardModal} from '^v3/share/modals/ConnectCreditCardModal';
 
 interface AppShowPageModalProps {
@@ -15,8 +18,11 @@ interface AppShowPageModalProps {
 }
 
 export const AppShowPageModal = memo((props: AppShowPageModalProps) => {
+    const router = useRouter();
     const {Modal, hide} = useAppShowModal();
-    const {currentSubscription, loadCurrentSubscription} = useCurrentSubscription();
+    const {reload: dashboardReload} = useDashboardSubscriptions();
+    const {reload: subscriptionTableReload} = useSubscriptionListTableSection();
+    const {currentSubscription, loadCurrentSubscription, deleteCurrentSubscription} = useCurrentSubscription();
     const {search: loadCurrentHistories} = useBillingHistoriesV3();
     const {onMemberChanged} = props;
 
@@ -39,6 +45,23 @@ export const AppShowPageModal = memo((props: AppShowPageModalProps) => {
         onMemberChanged && onMemberChanged();
         hide();
     };
+    const reload = () => {
+        const url = router.pathname;
+        console.log('\nurl', url);
+        if (url.includes('apps')) {
+            subscriptionTableReload();
+        } else {
+            dashboardReload();
+        }
+    };
+
+    const onConfirm = () => {
+        hide();
+        reload();
+    };
+
+    const deleteFn = () => deleteCurrentSubscription({onConfirm});
+    const DeleteButtonWrap = () => <DeleteButton isShow={true} onClick={deleteFn} />;
 
     return (
         <>
@@ -47,6 +70,7 @@ export const AppShowPageModal = memo((props: AppShowPageModalProps) => {
                     title={currentSubscription ? currentSubscription.product.name() : ''}
                     backBtnOnClick={onClose}
                     topbarPosition="sticky"
+                    rightButtons={[DeleteButtonWrap]}
                 />
                 <MobileSection.List>
                     <AppShowPageBody />

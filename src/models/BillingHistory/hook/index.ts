@@ -37,7 +37,7 @@ export const useBillingHistoriesV3 = (option?: UseBillingHistoriesOption) => {
 
         setIsLoading(false);
 
-        cachePagedQuery(setResult, setQuery, params, request, mergeMode, force);
+        return cachePagedQuery(setResult, setQuery, params, request, mergeMode, force);
     }
 
     const reload = () => search({...query}, false, true);
