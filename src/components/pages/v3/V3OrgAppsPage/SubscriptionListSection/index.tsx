@@ -10,6 +10,7 @@ import {SubscriptionCardList} from './SubscriptionCardList';
 import {SubscriptionSearchControl} from './SubscriptionSearchControl';
 import {tagOptionsState} from './SubscriptionTable/SubscriptionTr/columns/PayingType/PayingTypeSelect';
 import {useRouter} from 'next/router';
+import {useCreditCards} from '^models/CreditCard/hook';
 
 export const SubscriptionListSection = memo(function SubscriptionListSection() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -17,6 +18,8 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
     const {result, search: getSubscriptions, movePage, query, reload, clearCache} = useSubscriptionsV2();
     const setTagOptions = useSetRecoilState(tagOptionsState);
     const {search: getTags} = usePayingTypeTags();
+    const {search: getCreditCards} = useCreditCards();
+
     const viewMode = useRecoilValue(subscriptionListViewModeState);
 
     // [구독리스트] 페이지를 떠날 때, unmount 로 쿼리캐시를 초기화함으로써, 다음 방문 때에 쿼리가 실행되게 만듭니다.
@@ -35,6 +38,11 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
             relations: ['master', 'teamMembers', 'billingHistories.creditCard'],
             itemsPerPage: 15,
             order: {id: 'DESC'},
+        });
+
+        getCreditCards({
+            itemsPerPage: 0,
+            relations: ['holdingMember', 'subscriptions'],
         });
 
         getTags({}).then((res) => setTagOptions(res.items));
