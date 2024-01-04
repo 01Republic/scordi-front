@@ -14,6 +14,7 @@ export const CTAButton = memo(() => {
     const {toast} = useToast();
 
     const onClick = () => {
+        console.log(createBillingHistory);
         if (!createBillingHistory.creditCardId) {
             toast.error('결제한 카드를 선택해주세요');
             return;

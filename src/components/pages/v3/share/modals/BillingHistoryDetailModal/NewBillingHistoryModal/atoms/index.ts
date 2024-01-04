@@ -19,6 +19,11 @@ export const billingHistoryIdState = atom<number | null>({
     default: null,
 });
 
+export const domesticPayAmount = atom<number>({
+    key: 'domesticPayAmount',
+    default: 0,
+});
+
 export const abroadPayAmount = atom<number>({
     key: 'abroadPayAmount',
     default: 0,
