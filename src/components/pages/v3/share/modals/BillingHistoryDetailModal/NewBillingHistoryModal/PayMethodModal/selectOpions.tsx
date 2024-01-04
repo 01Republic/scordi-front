@@ -51,8 +51,6 @@ export const CardComponents = () => {
 
     const SingleValue = (props: SingleValueProps<any>) => {
         const card = props.data;
-        console.log('실행');
-        console.log(card);
 
         return (
             <components.SingleValue {...props}>
