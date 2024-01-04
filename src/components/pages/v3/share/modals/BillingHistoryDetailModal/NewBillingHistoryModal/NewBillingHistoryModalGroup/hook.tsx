@@ -1,4 +1,3 @@
-import {memo} from 'react';
 import {useModal} from '^v3/share/modals';
 import {
     detailInfoModalState,
@@ -14,12 +13,13 @@ export const useNewBillingHistoryModal = () => {
     const detailInfoModal = useModal(detailInfoModalState);
     const finishModal = useModal(finishModalState);
     const memoModal = useModal(memoModalState);
+
     const modalGroupClose = () => {
-        payMethodModal.close();
-        payAmountModal.close();
-        detailInfoModal.close();
-        finishModal.close();
-        memoModal.close();
+        payMethodModal.setIsShow(false);
+        payAmountModal.setIsShow(false);
+        detailInfoModal.setIsShow(false);
+        finishModal.setIsShow(false);
+        memoModal.setIsShow(false);
     };
     return {modalGroupClose};
 };
