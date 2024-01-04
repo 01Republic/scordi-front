@@ -26,7 +26,7 @@ export const CTAButton = memo(() => {
     const isDomestic = createBillingHistory.isDomestic;
 
     const onAmountChange = () => {
-        const exchangeRate = domesticAmount / (abroadAmount ?? domesticAmount);
+        const exchangeRate = isDomestic ? 1 : domesticAmount / abroadAmount;
 
         const moneyLike: CreateMoneyRequestDto = {
             text: `${domesticAmount}원`,
@@ -45,6 +45,11 @@ export const CTAButton = memo(() => {
 
         if (!domesticAmount) {
             toast.error('결제한 금액을 입력해주세요');
+            return;
+        }
+
+        if (!isDomestic && !abroadAmount) {
+            toast.error('해외 결제 금액을 입력해주세요');
             return;
         }
 
