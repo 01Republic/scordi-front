@@ -21,7 +21,7 @@ export const RequiredTopLeftLabel = memo((props: TopLeftLabelProps) => {
 
     return (
         <label className="label px-0">
-            <p className="flex items-center gap-1">
+            <p className="flex label-text font-[500] items-center gap-1">
                 {text} <span className="text-red-500 self-center">*</span>
             </p>
         </label>

@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useRef} from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {useForm} from 'react-hook-form';
-import {FormControl} from '^components/util/form-control';
+import {FormControl, RequiredFormControl} from '^components/util/form-control';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {currentTeamMemberState, UpdateTeamMemberDto, useTeamMember, useTeamMembers} from '^models/TeamMember';
 import {isTeamMemberEditModeAtom} from '../../atom';
@@ -66,18 +66,18 @@ export const TeamMemberEditPanel = memo(function TeamMemberEditPanel() {
             <MobileSection.Item className="border-b-0">
                 <MobileSection.Padding>
                     <div className="w-full flex flex-col gap-4 mb-16">
-                        <FormControl topLeftLabel="소속 팀 *">
+                        <RequiredFormControl topLeftLabel="소속 팀">
                             <TeamSelect
                                 onSelect={(selectedTeam) => {
                                     const teamIds = selectedTeam ? [selectedTeam.id] : [];
                                     form.setValue('teamIds', teamIds);
                                 }}
                             />
-                        </FormControl>
+                        </RequiredFormControl>
 
-                        <FormControl topLeftLabel="이름 *">
+                        <RequiredFormControl topLeftLabel="이름">
                             <input type="text" required className="input input-bordered" {...form.register('name')} />
-                        </FormControl>
+                        </RequiredFormControl>
 
                         <FormControl topLeftLabel="이메일">
                             <input
