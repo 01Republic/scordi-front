@@ -10,7 +10,7 @@ interface CardReceiptBillingHistoryProps {
 }
 
 const IsNull = (value: any) => value === null;
-export const CardReceiptBillingHistory = memo(function CardReceiptBillingHistory(
+export const CardReceiptBillingHistoryInfoPanel = memo(function CardReceiptBillingHistory(
     props: CardReceiptBillingHistoryProps,
 ) {
     const {billingHistory} = props;

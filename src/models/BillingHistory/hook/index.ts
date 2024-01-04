@@ -2,6 +2,7 @@ import {useState} from 'react';
 import {RecoilState, useRecoilState, useRecoilValue} from 'recoil';
 import {Paginated} from '^types/utils/paginated.dto';
 import {
+    billingHistoryLoadingState,
     getBillingHistoriesQuery,
     getBillingHistoryQuery,
     orgBillingHistoriesQueryV3Atom,
@@ -9,12 +10,19 @@ import {
 } from '^models/BillingHistory/atom';
 import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook';
 import {billingHistoryApi} from '^models/BillingHistory/api';
-import {BillingHistoryDto, BillingHistoryStatus, GetBillingHistoriesParams} from '^models/BillingHistory/type';
+import {
+    BillingHistoryDto,
+    BillingHistoryStatus,
+    GetBillingHistoriesParams,
+    UpdateBillingHistoryRequestDtoV2,
+} from '^models/BillingHistory/type';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {BillingType, InvoiceAppDto} from '^models/InvoiceApp/type';
 import {CurrencyCode} from '^types/money.type';
 import {changePriceCurrency} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {cachePagedQuery} from '^hooks/usePagedResource';
+import {useAlert} from '^hooks/useAlert';
+import {useToast} from '^hooks/useToast';
 
 export const useBillingHistories = () => useRecoilValue(getBillingHistoriesQuery);
 export const useBillingHistory = () => useRecoilValue(getBillingHistoryQuery);
@@ -126,3 +134,59 @@ export const t_paidAt = (dto: BillingHistoryDto) => {
     if (!dto.paidAt) return null;
     return new Date(dto.paidAt).toLocaleString();
 };
+
+export function useBillingHistoryV2(atom: RecoilState<BillingHistoryDto | null>) {
+    const [billingHistory, setBillingHistory] = useRecoilState(atom);
+    const [isLoading, setIsLoading] = useRecoilState(billingHistoryLoadingState);
+    const {alert} = useAlert();
+    const {toast} = useToast();
+
+    const loadBillingHistory = (id: number) => {
+        setIsLoading(true);
+        const request = billingHistoryApi.show(id);
+        request.then((res) => setBillingHistory(res.data));
+        request.finally(() => setIsLoading(false));
+    };
+
+    const updateBillingHistory = async (data: UpdateBillingHistoryRequestDtoV2) => {
+        if (!billingHistory) {
+            toast.error('알 수 없는 결제내역');
+            return;
+        }
+
+        const {id} = billingHistory;
+
+        setIsLoading(true);
+        const res = billingHistoryApi.update(id, data);
+        res.then(() => toast.success('변경되었습니다.')).then(() => loadBillingHistory(id));
+        res.finally(() => setIsLoading(false));
+        return res;
+    };
+
+    const deleteBillingHistory = async (onConfirm?: () => void) => {
+        if (!billingHistory) {
+            toast.error('알 수 없는 결제내역');
+            return;
+        }
+
+        const {id} = billingHistory;
+
+        return alert.destroy({
+            title: '결제내역을 정말 삭제할까요?',
+            showSuccessAlertOnFinal: false,
+            onConfirm: async () => {
+                setIsLoading(true);
+                const res = billingHistoryApi.destroy(id);
+
+                res.then(() => toast.success('삭제했습니다.')).then(() => {
+                    onConfirm && onConfirm();
+                    setBillingHistory(null);
+                });
+                res.finally(() => setIsLoading(false));
+                return res;
+            },
+        });
+    };
+
+    return {billingHistory, loadBillingHistory, updateBillingHistory, deleteBillingHistory, isLoading};
+}

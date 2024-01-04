@@ -11,7 +11,7 @@ interface EmailInvoiceBillingHistoryProps {
     billingHistory: BillingHistoryDto;
 }
 
-export const EmailInvoiceBillingHistory = memo(function EmailInvoiceBillingHistory(
+export const EmailInvoiceBillingHistoryInfoPanel = memo(function EmailInvoiceBillingHistory(
     props: EmailInvoiceBillingHistoryProps,
 ) {
     const setAttachmentModal = useSetRecoilState(attachmentModalState);

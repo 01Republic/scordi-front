@@ -14,6 +14,11 @@ export const billingHistoryShowModal = {
     popStateSyncKey: 'billingHistoryShowModal',
 };
 
+export const isBillingHistoryEditModeAtom = atom<boolean>({
+    key: 'isBillingHistoryEditModeAtom',
+    default: false,
+});
+
 /**
  * [결제내역 상세모달에서] 대상 결제내역 세부 정보 상태
  */
@@ -82,9 +87,13 @@ export const currencySelectShowModal = {
  */
 
 export type SelectedCurrency = {label: CurrencyCode; desc: string};
+export const defaultSelectedCurrency: SelectedCurrency = {
+    label: CurrencyCode.USD,
+    desc: 'United States Dollar',
+};
 export const selectedCurrencyState = atom<SelectedCurrency>({
     key: 'selectedCurrencyState',
-    default: {label: CurrencyCode.USD, desc: 'United States Dollar'},
+    default: defaultSelectedCurrency,
 });
 
 export const selectedCurrencyForSubscriptionState = atom<SelectedCurrency>({

@@ -5,14 +5,12 @@ import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {PrototypeAvatar} from '^components/pages/LandingPages/TastingPage/TastingItemDetailModal/PrototypeAvatar';
 import {HeadingPrice} from '^v3/V3OrgBillingHistoryShowPage/HeadingPrice';
-import {MobileInfoList} from '^v3/share/MobileInfoList';
-import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
-import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
-import {OutLink} from '^components/OutLink';
 import {BillingHistoryContentPanel} from './BillingHistoryContentPanel';
 import {useBillingHistoriesInModal, useBillingHistoryInModal, useBillingHistoryModal} from './hook';
 import {NewBillingHistoryModal} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal';
-import {BillingHistoryInformationPanel} from '^v3/share/modals/BillingHistoryDetailModal/InformationPanel';
+import {BillingHistoryShowBody} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryShowBody';
+import {BillingHistoryDeleteButton as DeleteButton} from '^v3/share/modals/BillingHistoryDetailModal/DeleteButton';
+import {BillingHistoryEditButton as EditButton} from '^v3/share/modals/BillingHistoryDetailModal/EditButton';
 
 export const BillingHistoryDetailModal = memo(() => {
     const {close, Modal} = useBillingHistoryModal();
@@ -30,6 +28,7 @@ export const BillingHistoryDetailModal = memo(() => {
                     backBtnOnClick={onBack}
                     title={billingHistory ? billingHistory.pageSubject : '결제 세부사항'}
                     topbarPosition="sticky"
+                    rightButtons={[EditButton, DeleteButton]}
                 />
                 <MobileSection.List>
                     <MobileSection.Item>
@@ -46,7 +45,7 @@ export const BillingHistoryDetailModal = memo(() => {
                                     <PrototypeAvatar proto={billingHistory.subscription?.product} />
                                     <HeadingPrice price={billingHistory.payAmount} />
 
-                                    <BillingHistoryInformationPanel billingHistory={billingHistory} />
+                                    <BillingHistoryShowBody />
                                 </div>
                             )}
                         </MobileSection.Padding>
