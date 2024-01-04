@@ -1,31 +1,16 @@
 import React, {memo} from 'react';
-import {CreateMoneyRequestDto, CurrencyCode} from '^types/money.type';
+import {CurrencyCode} from '^types/money.type';
 import {FormControl} from '^components/util/form-control';
-import {useRecoilState, useRecoilValue} from 'recoil';
-import {
-    abroadPayAmount,
-    createBillingHistoryAtom,
-} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/atoms';
-import {selectedCurrencyState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
+import {useSetRecoilState} from 'recoil';
+import {domesticPayAmount} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/atoms';
 
 export const DomesticPayAmountInput = memo(() => {
-    const abroadAmount = useRecoilValue(abroadPayAmount);
-    const selectedCurrency = useRecoilValue(selectedCurrencyState);
-    const [createBillingHistory, setCreateBillingHistory] = useRecoilState(createBillingHistoryAtom);
-    const isDomestic = createBillingHistory.isDomestic;
+    const setDomesticPayAmount = useSetRecoilState(domesticPayAmount);
 
     const onAmountChange = (amount: number) => {
-        const exchangeRate = isDomestic ? 1 : amount / abroadAmount;
+        if (!amount) return;
 
-        const moneyLike: CreateMoneyRequestDto = {
-            text: `${amount}원`,
-            amount: amount,
-            code: CurrencyCode.KRW,
-            exchangeRate: exchangeRate,
-            exchangedCurrency: isDomestic ? CurrencyCode.KRW : selectedCurrency.label,
-        };
-
-        setCreateBillingHistory((prev) => ({...prev, payAmount: moneyLike}));
+        setDomesticPayAmount(amount);
     };
 
     return (
