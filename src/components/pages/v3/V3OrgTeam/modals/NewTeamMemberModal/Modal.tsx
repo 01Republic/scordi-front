@@ -8,7 +8,7 @@ import {useModal} from '^v3/share/modals/useModal';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {isOpenNewTeamMemberModalAtom} from './atom';
-import {FormControl} from '^components/util/form-control';
+import {FormControl, RequiredFormControl} from '^components/util/form-control';
 import {plainToast} from '^hooks/useToast';
 import {TeamSelect} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/TeamMemberShowBody/TeamMemberEditPanel/TeamSelect';
 import {emailValid} from '^utils/input-helper';
@@ -85,7 +85,7 @@ export const NewTeamMemberModal = memo((props: NewTeamMemberModalProps) => {
                                 />
                             </FormControl>
 
-                            <FormControl topLeftLabel="이름">
+                            <RequiredFormControl topLeftLabel="이름">
                                 <input
                                     ref={nameInputRef}
                                     type="text"
@@ -94,9 +94,9 @@ export const NewTeamMemberModal = memo((props: NewTeamMemberModalProps) => {
                                     placeholder="ex. 김규리"
                                     onChange={(e) => form.setValue('name', e.target.value)}
                                 />
-                            </FormControl>
+                            </RequiredFormControl>
 
-                            <FormControl topLeftLabel="이메일">
+                            <RequiredFormControl topLeftLabel="이메일">
                                 <input
                                     ref={emailInputRef}
                                     type="email"
@@ -105,7 +105,7 @@ export const NewTeamMemberModal = memo((props: NewTeamMemberModalProps) => {
                                     placeholder="ex. diana@01republic.io"
                                     onChange={(e) => form.setValue('email', e.target.value)}
                                 />
-                            </FormControl>
+                            </RequiredFormControl>
                         </div>
                     </div>
                 </MobileSection.Padding>

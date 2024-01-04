@@ -79,7 +79,7 @@ export function useTeamMember(atom: RecoilState<TeamMemberDto | null>) {
         return res;
     };
 
-    const deleteMember = async () => {
+    const deleteMember = async (onConfirm?: () => void) => {
         if (!teamMember) {
             toast.error('알 수 없는 멤버');
             return;
@@ -97,7 +97,11 @@ export function useTeamMember(atom: RecoilState<TeamMemberDto | null>) {
                     await membershipApi.destroy(teamMember.membershipId || 0);
                 }
                 const res = teamMemberApi.destroy(organizationId, id);
-                res.then(() => toast.success('삭제했습니다.')).then(() => setTeamMember(null));
+
+                res.then(() => toast.success('삭제했습니다.')).then(() => {
+                    onConfirm && onConfirm();
+                    setTeamMember(null);
+                });
                 res.finally(() => setIsLoading(false));
                 return res;
             },
