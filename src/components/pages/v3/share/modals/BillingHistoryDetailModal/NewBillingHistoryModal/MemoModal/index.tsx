@@ -13,7 +13,8 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {useBillingHistoryInModal} from '^v3/share/modals/BillingHistoryDetailModal/hook';
 import {useToast} from '^hooks/useToast';
-import {ModalButton} from '^v3/share/ModalButton';
+import {NextButtonUI} from '^v3/share/NextButtonUI';
+import {debounce} from 'lodash';
 
 export const MemoModal = memo(() => {
     const {Modal, close} = useModal(memoModalState);
@@ -23,7 +24,7 @@ export const MemoModal = memo(() => {
     const [memo, setMemo] = useRecoilState(memoState);
     const {toast} = useToast();
 
-    const onClick = () => {
+    const onClick = debounce(() => {
         const memo = form.getValues('memo');
 
         if (!billingHistoryId || !memo) return;
@@ -36,7 +37,7 @@ export const MemoModal = memo(() => {
         });
 
         req.catch((e) => toast.error(e.message));
-    };
+    }, 500);
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
@@ -59,7 +60,9 @@ export const MemoModal = memo(() => {
             </MobileSection.Padding>
 
             <ModalLikeBottomBar className="left-0">
-                <ModalButton onClick={onClick} text="완료" />
+                <NextButtonUI isActive={true} onClick={() => onClick()}>
+                    완료
+                </NextButtonUI>
             </ModalLikeBottomBar>
         </Modal>
     );

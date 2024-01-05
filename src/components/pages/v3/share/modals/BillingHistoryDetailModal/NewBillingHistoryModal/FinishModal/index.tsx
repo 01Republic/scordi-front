@@ -11,10 +11,9 @@ import {Container} from '^v3/share/OnboardingFlow/Container';
 import {CheckCircle} from '^components/react-icons/check-circle';
 import {useRecoilValue} from 'recoil';
 import {useNewBillingHistoryModal} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/NewBillingHistoryModalGroup/hook';
-import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
-import {useRouter} from 'next/router';
-import {ModalButton} from '^v3/share/ModalButton';
+import {NextButtonUI} from '^v3/share/NextButtonUI';
+import {debounce} from 'lodash';
 
 export const FinishModal = memo(() => {
     const {Modal, close} = useModal(finishModalState);
@@ -23,9 +22,9 @@ export const FinishModal = memo(() => {
     const {billingHistory} = useBillingHistoryInModal();
     const {modalGroupClose} = useNewBillingHistoryModal();
 
-    const onClick = () => {
+    const onClick = debounce(() => {
         modalGroupClose();
-    };
+    }, 500);
 
     return (
         <Modal onClose={onClick} wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
@@ -55,7 +54,9 @@ export const FinishModal = memo(() => {
             </MobileSection.Padding>
 
             <ModalLikeBottomBar className="left-0">
-                <ModalButton onClick={onClick} text="닫기" />
+                <NextButtonUI isActive={true} onClick={() => onClick()}>
+                    닫기
+                </NextButtonUI>
             </ModalLikeBottomBar>
         </Modal>
     );

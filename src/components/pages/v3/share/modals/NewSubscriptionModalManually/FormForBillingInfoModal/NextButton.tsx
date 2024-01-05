@@ -2,15 +2,16 @@ import React, {memo} from 'react';
 import {useRecoilState} from 'recoil';
 import {useModal} from '^v3/share/modals';
 import {newFormForUsingMemberInfoModalAtom, newSubscriptionManualFormData} from '../atom';
-import {NextButtonUI} from '../NextButtonUI';
+import {NextButtonUI} from '../../../NextButtonUI';
+import {debounce} from 'lodash';
 
 export const NextButton = memo(function NextButton() {
     const [formData] = useRecoilState(newSubscriptionManualFormData);
     const {open: openUsingMemberInfoModal} = useModal(newFormForUsingMemberInfoModalAtom);
 
-    const onNext = () => {
+    const onNext = debounce(() => {
         openUsingMemberInfoModal();
-    };
+    }, 500);
 
     const isActive = !!formData.currentBillingAmount?.amount;
     // const isActive =

@@ -1,7 +1,9 @@
 import React, {memo, useEffect} from 'react';
 import {ModalTopbar, useModal} from '^v3/share/modals';
 import {
+    abroadPayAmount,
     createBillingHistoryAtom,
+    domesticPayAmount,
     payAmountModalState,
 } from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/atoms';
 import {useBillingHistoryInModal} from '^v3/share/modals/BillingHistoryDetailModal/hook';
@@ -22,9 +24,13 @@ export const PayAmountModal = memo(() => {
     const {billingHistory} = useBillingHistoryInModal();
     const resetSelectedCurrency = useResetRecoilState(selectedCurrencyState);
     const setCreateBillingHistory = useSetRecoilState(createBillingHistoryAtom);
+    const resetDomesticPayAmount = useResetRecoilState(domesticPayAmount);
+    const resetAbroadPayAmount = useResetRecoilState(abroadPayAmount);
 
     useEffect(() => {
+        resetAbroadPayAmount();
         resetSelectedCurrency();
+        resetDomesticPayAmount();
         setCreateBillingHistory((prev) => ({...prev, isDomestic: true}));
     }, [isShow]);
 

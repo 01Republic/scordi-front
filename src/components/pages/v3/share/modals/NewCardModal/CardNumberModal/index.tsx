@@ -15,7 +15,8 @@ import {inputCardNumberModal} from './atom';
 import {selectCardCompanyModal} from '../CardCompanyModal/atom';
 import {cardIdParamState, creditCardSignAtom, currentCreditCardAtom} from '^models/CreditCard/atom';
 import {UnSignedCreditCardFormData} from '^models/CreditCard/type';
-import {ModalButton} from '^v3/share/ModalButton';
+import {NextButtonUI} from '^v3/share/NextButtonUI';
+import {debounce} from 'lodash';
 
 export const CardNumberModal = memo(() => {
     const {Modal, close, isShow} = useModal(inputCardNumberModal);
@@ -37,15 +38,15 @@ export const CardNumberModal = memo(() => {
     }, [isShow]);
 
     // 카드 번호 등록 함수
-    const onSubmit = () => {
+    const onSubmit = debounce(() => {
         const formData = plainToInstance(UnSignedCreditCardFormData, form.getValues());
         setCreateCreditCardDto({...createCreditCardDto, ...formData.toCreateDto()});
 
         openInputCardCompanyModal();
-    };
+    }, 500);
 
     //카드 번호 수정 함수
-    const onUpdate = async () => {
+    const onUpdate = debounce(async () => {
         if (!orgId || !cardId) return;
 
         const formData = plainToInstance(UnSignedCreditCardFormData, form.getValues());
@@ -58,7 +59,7 @@ export const CardNumberModal = memo(() => {
             close();
             toast.success('변경되었습니다.');
         }
-    };
+    }, 500);
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
@@ -73,11 +74,9 @@ export const CardNumberModal = memo(() => {
                     <InputCardNumber cardNameRef={cardNameRef} />
                 </MobileSection.Padding>
                 <ModalLikeBottomBar>
-                    <ModalButton
-                        onClick={cardId ? onUpdate : onSubmit}
-                        text={cardId ? '확인' : '다음'}
-                        isLoading={disabled}
-                    />
+                    <NextButtonUI isActive={disabled} onClick={cardId ? onUpdate : onSubmit}>
+                        {cardId ? '확인' : '다음'}
+                    </NextButtonUI>
                 </ModalLikeBottomBar>
             </div>
         </Modal>

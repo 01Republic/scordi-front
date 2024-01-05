@@ -1,5 +1,4 @@
 import React, {memo} from 'react';
-import {ModalButton} from '^v3/share/ModalButton';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {cardIdParamState, creditCardSignAtom, currentCreditCardAtom} from '^models/CreditCard/atom';
 import {plainToInstance} from 'class-transformer';
@@ -15,6 +14,8 @@ import {useModal} from '^v3/share/modals';
 import {newCardModalState} from '^v3/share/modals/NewCardModal/NewCardModalV2/atom';
 import {useCreditCards} from '^models/CreditCard/hook';
 import {createCreditCardDtoAtom} from '^v3/share/modals/NewCardModal/atom';
+import {NextButtonUI} from '^v3/share/NextButtonUI';
+import {debounce} from 'lodash';
 
 export const CTAButton = memo(() => {
     const {close} = useModal(newCardModalState);
@@ -30,11 +31,11 @@ export const CTAButton = memo(() => {
     const router = useRouter();
     const {isDesktop} = useOnResize2();
 
-    // 카드 번호 등록 함수
-    const onSubmit = () => {
-        if (!orgId) return;
+    const formData = plainToInstance(UnSignedCreditCardFormData, createCreditCardDto);
 
-        const formData = plainToInstance(UnSignedCreditCardFormData, createCreditCardDto);
+    // 카드 번호 등록 함수
+    const onSubmit = debounce(() => {
+        if (!orgId) return;
 
         if (!formData.number1 || !formData.number2 || !formData.number3 || !formData.number4) {
             toast.error('카드 번호를 입력해주세요');
@@ -57,13 +58,11 @@ export const CTAButton = memo(() => {
         });
 
         req.catch((e) => console.log(e));
-    };
+    }, 500);
 
     //카드 번호 수정 함수
-    const onUpdate = () => {
+    const onUpdate = debounce(() => {
         if (!orgId || !cardId) return;
-
-        const formData = plainToInstance(UnSignedCreditCardFormData, createCreditCardDto);
 
         const req = creditCardApi.update(orgId, cardId, formData.toUpdateDto());
 
@@ -75,7 +74,14 @@ export const CTAButton = memo(() => {
         });
 
         req.catch((e) => console.log(e));
-    };
+    }, 500);
 
-    return <ModalButton onClick={cardId ? onUpdate : onSubmit} text={cardId ? '확인' : '다음'} />;
+    const isActive =
+        !!formData.number1 && !!formData.number2 && !!formData.number3 && !!formData.number4 && !!formData.name;
+
+    return (
+        <NextButtonUI isActive={isActive} onClick={cardId ? onUpdate : onSubmit}>
+            {cardId ? '확인' : '다음'}
+        </NextButtonUI>
+    );
 });
