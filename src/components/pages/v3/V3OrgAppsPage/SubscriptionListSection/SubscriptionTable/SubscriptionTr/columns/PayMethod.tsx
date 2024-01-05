@@ -8,6 +8,9 @@ import {getColor, palette} from '^components/util/palette';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {subscriptionApi} from '^models/Subscription/api';
 import {useToast} from '^hooks/useToast';
+import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
 
 interface PayMethod {
     subscription: SubscriptionDto;
@@ -24,6 +27,9 @@ const getCurrentCard = (value: string | boolean, result: CreditCardDto[]) => {
 export const PayMethod = memo((props: PayMethod) => {
     const {result} = useCreditCards();
     const {toast} = useToast();
+    const {loadCurrentSubscription} = useCurrentSubscription();
+    const orgId = useRecoilValue(orgIdParamState);
+
     const {subscription, lastPaidHistory, onChange} = props;
 
     const creditCard = result.items.find((item) => item.id === subscription.creditCardId);
@@ -38,7 +44,10 @@ export const PayMethod = memo((props: PayMethod) => {
 
         return subscriptionApi
             .update(subscriptionId, {creditCardId})
-            .then(() => onChange(e))
+            .then(() => {
+                onChange(e);
+                loadCurrentSubscription(orgId, subscriptionId);
+            })
             .finally(() => toast.success('저장했습니다'));
     };
 
@@ -46,10 +55,26 @@ export const PayMethod = memo((props: PayMethod) => {
         return item.name;
     });
 
+    if (billingHistoryPayMethod) {
+        options.push(billingHistoryPayMethod);
+    }
+
+    const getOptions = (resultItems: CreditCardDto[], billingHistoryPayMethod: string | undefined) => {
+        const options = resultItems.map((item) => {
+            return item.name;
+        });
+
+        if (billingHistoryPayMethod) {
+            options.push(billingHistoryPayMethod);
+        }
+
+        return options;
+    };
+
     return (
         <SelectColumn
             value={payMethodText}
-            getOptions={async () => options}
+            getOptions={async () => getOptions(result.items, billingHistoryPayMethod)}
             onSelect={(e) => onSelect(e!)}
             ValueComponent={IsPayMethodTag}
             inputDisplay={true}
@@ -60,9 +85,11 @@ export const PayMethod = memo((props: PayMethod) => {
 const IsPayMethodTag = memo((props: {value: boolean | string}) => {
     const {result} = useCreditCards();
     const {value} = props;
+    const currentCard = getCurrentCard(value, result?.items)[0];
 
-    const cardId = getCurrentCard.length ? getCurrentCard(value, result.items)[0]?.id : Math.random();
-    const tagColor = getColor(value.toString().length + cardId, palette.notionColors);
+    const randomNumber = value.toString().length + currentCard?.id || 5;
+
+    const tagColor = getColor(randomNumber, palette.notionColors);
     const colorClass = value === '비어있음' ? 'text-gray-300' : `${tagColor}`;
 
     return <TagUI className={colorClass}>{value}</TagUI>;
