@@ -23,7 +23,13 @@ export const CardReceiptBillingHistoryInfoPanel = memo(function CardReceiptBilli
             <MobileInfoListItem label="승인 번호" className="!items-start">
                 <div className="font-light mb-4 keep-all">{uid ? uid : '미입력'}</div>
             </MobileInfoListItem>
-            {creditCard && <CardInfoList creditCard={creditCard} />}
+            {creditCard ? (
+                <CardInfoList creditCard={creditCard} />
+            ) : (
+                <MobileInfoListItem label="카드" className="!items-start">
+                    <div className="font-light mb-4 keep-all">미등록</div>
+                </MobileInfoListItem>
+            )}
             {paidAt && (
                 <MobileInfoListItem label="결제일시" className="!items-start" value={yyyy_mm_dd_hh_mm(paidAt)} />
             )}
