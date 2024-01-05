@@ -5,6 +5,7 @@ import {CreateMoneyWithSubscriptionRequestDto, CurrencyCode} from '^types/money.
 import {selectedCurrencyForSubscriptionState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {currentBillingAmountCurrencyModalAtom} from '^v3/share/modals/NewSubscriptionModalManually/FormForBillingInfoModal/CurrentBillingAmountCurrencyModal';
 import {newSubscriptionManualFormData} from '^v3/share/modals/NewSubscriptionModalManually/atom';
+import {inputTextToCurrencyFormat} from '^utils/input-helper';
 
 interface CurrentBillingAmountInputProps {}
 
@@ -36,13 +37,11 @@ export const CurrentBillingAmountInput = memo((props: CurrentBillingAmountInputP
         <div className="input input-bordered w-full flex items-center justify-between">
             <input
                 ref={inputRef}
-                type="number"
-                step="0.01"
-                min={0}
+                type="text"
                 className="w-full"
+                defaultValue={0}
                 onChange={(e) => {
-                    const amount = Number(e.target.value);
-                    onAmountChange(amount);
+                    onAmountChange(inputTextToCurrencyFormat(e));
                 }}
             />
             <button className="cursor-pointer btn btn-sm" onClick={() => openCurrencySelectModal()}>

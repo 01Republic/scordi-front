@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {ModalButton} from '^v3/share/ModalButton';
-import {toast} from 'react-toastify';
+import {toast} from 'react-hot-toast';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {
     abroadPayAmount,
@@ -46,12 +46,12 @@ export const CTAButton = memo(() => {
 
         if (!appId) return;
 
-        if (!domesticAmount) {
+        if (typeof domesticAmount != 'number') {
             toast.error('결제한 금액을 입력해주세요');
             return;
         }
 
-        if (!isDomestic && !abroadAmount) {
+        if (!isDomestic && typeof domesticAmount != 'number') {
             toast.error('해외 결제 금액을 입력해주세요');
             return;
         }

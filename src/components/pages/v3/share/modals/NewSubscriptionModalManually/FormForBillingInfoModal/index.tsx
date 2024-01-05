@@ -35,13 +35,13 @@ export const FormForBillingInfoModal = memo(function FormForBillingInfoModal() {
                             {/*</FormControl>*/}
 
                             <FormControl
-                                topLeftLabel="결제주기"
+                                topLeftLabel="결제 주기 *"
                                 bottomLeftHint="반복 지불이 아니면 '일회성'으로 체크해주세요"
                             >
                                 <BillingCycleOptionRadio />
                             </FormControl>
 
-                            <FormControl topLeftLabel="과금방식" bottomLeftHint="단위가격이 매겨지는 방식이에요">
+                            <FormControl topLeftLabel="과금 방식 *" bottomLeftHint="단위가격이 매겨지는 방식이에요">
                                 <RecurringTypeSelect />
                             </FormControl>
 

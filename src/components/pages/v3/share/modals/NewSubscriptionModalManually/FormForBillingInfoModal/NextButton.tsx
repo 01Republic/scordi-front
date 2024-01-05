@@ -12,7 +12,7 @@ export const NextButton = memo(function NextButton() {
         openUsingMemberInfoModal();
     };
 
-    const isActive = !!formData.currentBillingAmount?.amount;
+    const isActive = typeof formData.currentBillingAmount?.amount == 'number';
     // const isActive =
     //     !!formData.billingCycleType &&
     //     !!formData.recurringType &&
