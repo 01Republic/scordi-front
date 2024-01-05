@@ -11,6 +11,8 @@ import {SelectTeamMemberModal} from './SelectTeamMemberModal';
 import {DeleteButton} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/DeleteButton';
 import {useDashboardSubscriptions, useSubscriptionListTableSection} from '^models/Subscription/hook';
 import {useRouter} from 'next/router';
+import {RegisterCreditCardModal} from 'src/components/pages/v3/V3OrgAppShowPage/modals/AppShowPageModal/RegisterCreditCardModal';
+import {RegisterAliasModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/RegisterAliasModal';
 
 interface AppShowPageModalProps {
     onMemberChanged?: () => any;
@@ -76,6 +78,8 @@ export const AppShowPageModal = memo((props: AppShowPageModalProps) => {
                 </MobileSection.List>
             </Modal>
             <SelectTeamMemberModal afterChange={onMemberChanged} />
+            <RegisterCreditCardModal />
+            <RegisterAliasModal />
         </>
     );
 });

@@ -23,7 +23,7 @@ export class BillingHistoryDto {
     organizationId: number; // 조직 ID
     subscriptionId: number | null; // 구독정보 ID
     invoiceAppId: number | null; // 인보이스 앱 ID
-    creditCardId?: number | null; // 결제에 사용된 카드 ID
+    creditCardId: number | null; // 결제에 사용된 카드 ID
     @TypeCast(() => Date) issuedAt: Date; // 인보이스 발행 일시
     @TypeCast(() => Date) lastRequestedAt: Date | null; // 최근 결제 요청 일시
     @TypeCast(() => Date) paidAt: Date | null; // 결제 완료 일시
@@ -140,10 +140,6 @@ export class CreateBillingHistoryRequestDto {
     vat?: CreateMoneyRequestDto; // 부과세
 }
 
-export class UpdateBillingHistoryRequestDtoV2 {
-    memo?: string; // 메모
-}
-
 interface Type<T = any> extends Function {
     new (...args: any[]): T;
 }
@@ -154,6 +150,10 @@ function PartialType<T>(classRef: Type<T>): Type<Partial<T>> {
 export class UpdateBillingHistoryRequestDto extends PartialType(CreateBillingHistoryRequestDto) {
     // @ts-ignore
     paidAt?: string; // datetime string
+}
+
+export class UpdateBillingHistoryRequestDtoV2 extends UpdateBillingHistoryRequestDto {
+    memo?: string; // 메모
 }
 
 export class CreateBillingHistoryStandAloneRequestDto {

@@ -95,3 +95,13 @@ export const orgBillingHistoriesResultV3Atom = atom<Paginated<BillingHistoryDto>
         },
     },
 });
+
+export const currentBillingHistoryState = atom<BillingHistoryDto | null>({
+    key: 'currentBillingHistoryState',
+    default: null,
+});
+
+export const billingHistoryLoadingState = atom<boolean>({
+    key: 'billingHistoryLoadingState',
+    default: false,
+});

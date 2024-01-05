@@ -219,6 +219,10 @@ export class MoneyDto {
         return this.code === CurrencyCode.KRW;
     }
 
+    isExchangeable() {
+        return this.exchangedCurrency !== this.code;
+    }
+
     isNotDomestic() {
         return !this.isDomestic();
     }

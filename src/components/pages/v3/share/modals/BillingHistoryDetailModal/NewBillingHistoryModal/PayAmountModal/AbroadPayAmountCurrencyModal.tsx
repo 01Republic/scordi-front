@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {atom, useRecoilState} from 'recoil';
 import {selectedCurrencyState} from '../../atom';
 import {CurrencySelectModal} from '../../../CurrencySelectModal';

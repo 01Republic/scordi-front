@@ -52,7 +52,9 @@ export const PayAmountModal = memo(() => {
                 </ModalLikeBottomBar>
             </Modal>
 
-            <AbroadPayAmountCurrencyModal />
+            {/*더 상위인 BillingHistoryDetailModal 로 이동*/}
+            {/*EditBillingHistory 에서도 쓰이기 때문*/}
+            {/*<AbroadPayAmountCurrencyModal />*/}
         </>
     );
 });

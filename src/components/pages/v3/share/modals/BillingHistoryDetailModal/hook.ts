@@ -3,6 +3,7 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import {billingHistoryApi} from '^models/BillingHistory/api';
 import {useModal} from '^v3/share/modals/useModal';
 import {BillingHistoryManager} from '^models/BillingHistory/manager';
+import {UpdateBillingHistoryRequestDtoV3} from '^models/BillingHistory/type/update-billing-history.request.dto.v2';
 import {
     billingHistoryDetailStateInShowModal,
     billingHistoryPagedStateInShowModal,
@@ -10,6 +11,8 @@ import {
 } from './atom';
 import {orgIdParamState} from '^atoms/common';
 import {GetBillingHistoriesParams} from '^models/BillingHistory/type';
+import {useAlert} from '^hooks/useAlert';
+import {useToast} from '^hooks/useToast';
 
 /**
  * 결제내역 상세모달 호출
@@ -39,6 +42,8 @@ export const useBillingHistoryModal = () => {
 export const useBillingHistoryInModal = () => {
     const [billingHistory, setBillingHistory] = useRecoilState(billingHistoryDetailStateInShowModal);
     const [isLoading, setIsLoading] = useState(false);
+    const {alert} = useAlert();
+    const {toast} = useToast();
 
     const loadData = (id: number) => {
         setIsLoading(true);
@@ -48,7 +53,62 @@ export const useBillingHistoryInModal = () => {
             .finally(() => setIsLoading(false));
     };
 
-    return {billingHistory, setBillingHistory, isLoading, setIsLoading, loadData};
+    /**
+     * 24.01.04 Han
+     * 아래 update, delete hook 들은
+     * BillingHistory/hook/index.ts useBillingHistoryV2 코드와 동일합니다.
+     * 해당 모달에서 추상화 레이어를 이전하기에 시간이 부족하여
+     * 부득이하게 코드를 복.붙,,, 했습니다.
+     */
+    const updateBillingHistory = async (data: UpdateBillingHistoryRequestDtoV3) => {
+        if (!billingHistory) {
+            toast.error('알 수 없는 결제내역');
+            return;
+        }
+
+        const {id} = billingHistory;
+
+        setIsLoading(true);
+        const res = billingHistoryApi.updateV3(id, data);
+        res.then(() => toast.success('변경되었습니다.')).then(() => loadData(id));
+        res.finally(() => setIsLoading(false));
+        return res;
+    };
+
+    const deleteBillingHistory = async (onConfirm?: () => void) => {
+        if (!billingHistory) {
+            toast.error('알 수 없는 결제내역');
+            return;
+        }
+
+        const {id} = billingHistory;
+
+        return alert.destroy({
+            title: '결제내역을 정말 삭제할까요?',
+            showSuccessAlertOnFinal: false,
+            onConfirm: async () => {
+                setIsLoading(true);
+                const res = billingHistoryApi.destroy(id);
+
+                res.then(() => toast.success('삭제했습니다.')).then(() => {
+                    onConfirm && onConfirm();
+                    setBillingHistory(null);
+                });
+                res.finally(() => setIsLoading(false));
+                return res;
+            },
+        });
+    };
+
+    return {
+        billingHistory,
+        setBillingHistory,
+        isLoading,
+        setIsLoading,
+        loadData,
+        updateBillingHistory,
+        deleteBillingHistory,
+    };
 };
 
 /**

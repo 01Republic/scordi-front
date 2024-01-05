@@ -13,6 +13,7 @@ import {ListItemForAccount} from './ListItemForAccount';
 import {ListItemForSourceAccount} from './ListItemForSourceAccount';
 import {ListItemForPaymentMethod} from './ListItemForPaymentMethod';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
+import {ListItemForSubscription} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/AppShowPageBody/InformationPanel/ListItemForSubscription';
 
 // 정기결제금액 *
 // 결제주기 *
@@ -49,6 +50,11 @@ export const InformationPanel = memo(() => {
                     <div>
                         <PriceHeader totalPrice={totalPrice} billingType={billingType} />
                     </div>
+                    <MobileInfoList>
+                        <ListItemForSubscription subscription={currentSubscription} />
+                    </MobileInfoList>
+
+                    <hr />
 
                     <MobileInfoList>
                         <ListItemForSourceAccount />
