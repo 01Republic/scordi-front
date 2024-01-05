@@ -21,7 +21,7 @@ export const IsFreeTierRadio = memo(function IsFreeTierRadio() {
     };
 
     return (
-        <RequiredFormControl topLeftLabel="유료로 쓰고 있나요?">
+        <RequiredFormControl topLeftLabel="유/무료 여부를 선택해주세요.">
             <ButtonGroupRadio
                 defaultValue={formData.isFreeTier}
                 onChange={(o) => onChange(o.value)}
