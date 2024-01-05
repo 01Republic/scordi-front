@@ -14,7 +14,7 @@ import {BillingCycleTerm, Locale, SubscriptionBillingCycleDto, t_BillingCycleTer
 import {ConnectStatus} from './ConnectStatus';
 import {SubscriptionStatus} from './SubscriptionStatus';
 import {SubscriptionPaymentPlanDto} from './paymentPlanType';
-import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
+import {BillingCycleOptions, t_SubscriptionBillingCycleType} from '^models/Subscription/types/BillingCycleOptions';
 import {RecurringTypeOptions} from '^models/Subscription/types/RecurringTypeOptions';
 
 export class SubscriptionDto {
@@ -145,5 +145,10 @@ export class SubscriptionDto {
         nextAmount.changeAmount(this.nextBillingAmount || lastAmount.amount);
 
         return nextAmount;
+    }
+
+    // 직접 추가한 구독의 결제 주기를 텍스트로 변환합니다.
+    getBillingCycleTypeText(standalone = false, locale = Locale.ko) {
+        return t_SubscriptionBillingCycleType(this.billingCycleType);
     }
 }

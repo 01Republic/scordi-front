@@ -113,7 +113,7 @@ export class BillingHistoryDto {
 
     get subtype() {
         if (this.emailOriginId) return BillingHistorySubtype.EMAIL_INVOICE;
-        if (this.creditCardId) return BillingHistorySubtype.CARD_RECEIPT;
+        if (!this.emailOriginId) return BillingHistorySubtype.CARD_RECEIPT;
         return BillingHistorySubtype.MANUAL;
     }
 }

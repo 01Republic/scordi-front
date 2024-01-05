@@ -9,6 +9,7 @@ import {BillingHistoryManager} from '^models/BillingHistory/manager';
 import {MobileInfoList} from '^v3/share/MobileInfoList';
 import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
 import {PriceHeader} from './PriceHeader';
+import {PriceHeaderV2} from './PriceHeaderV2';
 import {ListItemForAccount} from './ListItemForAccount';
 import {ListItemForSourceAccount} from './ListItemForSourceAccount';
 import {ListItemForPaymentMethod} from './ListItemForPaymentMethod';
@@ -28,6 +29,7 @@ export const InformationPanel = memo(() => {
     if (historyLoading) return <InformationPanelLoading />;
 
     const billingType = getBillingType(true);
+    const billingCycleTypeText = currentSubscription.getBillingCycleTypeText();
     const BillingHistory = BillingHistoryManager.init(result.items).validateToListing();
 
     const latestIssue = BillingHistory.paymentOnly().latestIssue();
@@ -48,7 +50,8 @@ export const InformationPanel = memo(() => {
                         {currentSubscription && <SubscriptionProfile subscription={currentSubscription} />}
                     </div>
                     <div>
-                        <PriceHeader totalPrice={totalPrice} billingType={billingType} />
+                        {/*<PriceHeader totalPrice={totalPrice} billingType={billingType} />*/}
+                        <PriceHeaderV2 totalPrice={totalPrice} billingCycleTypeText={billingCycleTypeText} />
                     </div>
                     <MobileInfoList>
                         <ListItemForSubscription subscription={currentSubscription} />

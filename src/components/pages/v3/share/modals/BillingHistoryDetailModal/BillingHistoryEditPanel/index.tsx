@@ -130,10 +130,7 @@ export const BillingHistoryEditPanel = memo(function BillingHistoryEditPanel() {
                                 <input type="number" className="w-full" {...form.register('abroadAmount')} />
                                 <BillingHistoryEditAbroadCurrencyButton
                                     currencyCode={exchangeableCurrencyCode}
-                                    onChange={(code) => {
-                                        console.log('onCodeChange, code: ', code);
-                                        form.setValue('exchangedCurrency', code);
-                                    }}
+                                    onChange={(code) => form.setValue('exchangedCurrency', code)}
                                 />
                             </div>
                         </FormControl>
