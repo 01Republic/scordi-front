@@ -11,8 +11,9 @@ export const useInput = () => {
     };
 
     const focusInput = () => {
-        if (!searchInputRef.current) return;
-        searchInputRef.current.focus();
+        setTimeout(() => {
+            if (searchInputRef.current) searchInputRef.current.focus();
+        }, 200);
     };
 
     const blurInput = () => {
