@@ -18,7 +18,7 @@ export const TeamMemberTable = memo(() => {
                             {/* 이용 앱 수 */}
                             <th className="bg-base-100"></th>
                             {/* 팀 */}
-                            <th className="bg-base-100"></th>
+                            <th className="bg-base-100">팀</th>
                             {/* 권한 */}
                             <th className="bg-base-100"></th>
                             {/* 상태 */}
