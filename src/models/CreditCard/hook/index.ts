@@ -29,6 +29,7 @@ export const useCreditCardsOfOrganization = (isShow: boolean) => {
 
 export const useCreditCards = () => {
     const orgId = useRecoilValue(orgIdParamState);
+    const [isLoading, setIsLoading] = useState(false);
     const [result, setResult] = useRecoilState(creditCardsSearchResultAtom);
     const [query, setQuery] = useRecoilState(getCreditCardsQueryAtom);
 
@@ -36,15 +37,20 @@ export const useCreditCards = () => {
         if (!orgId || isNaN(orgId)) return;
 
         const request = () => {
-            return creditCardApi.index(orgId, {
-                itemsPerPage: 0,
-                relations: ['holdingMember', 'subscriptions'],
-            });
+            setIsLoading(true);
+            return creditCardApi
+                .index(orgId, {
+                    itemsPerPage: 0,
+                    relations: ['holdingMember', 'subscriptions'],
+                })
+                .finally(() => {
+                    setTimeout(() => setIsLoading(false), 1000);
+                });
         };
 
         return cachePagedQuery(setResult, setQuery, params, request, mergeMode, force);
     }
     const reload = () => search({...query}, false, true);
 
-    return {search, reload, result};
+    return {search, reload, result, isLoading};
 };

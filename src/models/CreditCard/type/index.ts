@@ -62,6 +62,10 @@ export class CreditCardDto {
 
         return `${number1}-${number2}-${number3}-${number4}`;
     }
+
+    get isFromInvoice(): boolean {
+        return this.fullNumber.includes('****');
+    }
 }
 
 export class CreditCardSecretInfo {
