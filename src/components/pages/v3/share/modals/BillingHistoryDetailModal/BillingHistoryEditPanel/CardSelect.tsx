@@ -1,11 +1,8 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useCreditCards} from '^models/CreditCard/hook';
-import {
-    CardComponents,
-    selectStylesOptions,
-} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/PayMethodModal/selectOpions';
-import Select, {SingleValue} from 'react-select';
+import Select from 'react-select';
 import {CreditCardDto} from '^models/CreditCard/type';
+import {CardComponents, selectStylesOptions} from '^v3/share/Select/CardSelector/selectOpions';
 
 interface CardSelectProps {
     onChange: (cardId?: number) => void;
@@ -27,7 +24,14 @@ const makeCardOption = (card: CreditCardDto): Option => {
 
 export const CardSingleSelect = memo(function CardSelect(props: CardSelectProps) {
     const {onChange} = props;
-    const {result} = useCreditCards();
+    const [isOptionLoaded, setIsOptionLoaded] = useState(false);
+    const {isLoading, reload, result} = useCreditCards();
+
+    useEffect(() => {
+        if (isOptionLoaded || isLoading) return;
+        setIsOptionLoaded(true);
+        reload();
+    }, [isLoading, isOptionLoaded]);
 
     return (
         <Select<Option>

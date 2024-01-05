@@ -15,13 +15,13 @@ export const CardReceiptBillingHistoryInfoPanel = memo(function CardReceiptBilli
 ) {
     const {billingHistory} = props;
     const {uid, creditCard, paidAt, isDomestic, isVATDeductible, vat} = billingHistory;
-    const isDomesticStr = IsNull(isDomestic) ? '' : isDomestic ? '국내' : '해외';
-    const isVATDeductibleStr = IsNull(isVATDeductible) ? '' : isVATDeductible ? '공제' : '불공제';
+    const isDomesticStr = IsNull(isDomestic) ? '미정' : isDomestic ? '국내' : '해외';
+    const isVATDeductibleStr = IsNull(isVATDeductible) ? '미정' : isVATDeductible ? '공제' : '불공제';
 
     return (
         <MobileInfoList>
             <MobileInfoListItem label="승인 번호" className="!items-start">
-                <div className="font-light mb-4 keep-all">{uid ?? '입력해주세요'}</div>
+                <div className="font-light mb-4 keep-all">{uid ? uid : '미입력'}</div>
             </MobileInfoListItem>
             {creditCard && <CardInfoList creditCard={creditCard} />}
             {paidAt && (
@@ -42,22 +42,20 @@ export const CardReceiptBillingHistoryInfoPanel = memo(function CardReceiptBilli
 
 const CardInfoList = memo(function BillingHistoryCardInfoList(props: {creditCard: CreditCardDto}) {
     const {creditCard} = props;
-    const {name, label, holdingMember} = creditCard;
+    const {name, isFromInvoice, holdingMember} = creditCard;
+
+    const cardText = `${isFromInvoice ? '❗' : ''} ${name}`;
+    const holdingMemberText = holdingMember ? holdingMember.name : '미정';
 
     return (
         <>
-            <MobileInfoListItem label="카드 별칭" className="!items-start">
-                <div className="font-light mb-4 keep-all">{name}</div>
-            </MobileInfoListItem>
-            <MobileInfoListItem label="카드 설명" className="!items-start">
-                <div className="font-light mb-4 keep-all">{label}</div>
+            <MobileInfoListItem label="카드" className="!items-start">
+                <div className="font-light mb-4 keep-all">{cardText}</div>
             </MobileInfoListItem>
 
-            {holdingMember && (
-                <MobileInfoListItem label="소유자" className="!items-start">
-                    <div className="font-light mb-4 keep-all">{holdingMember.name}</div>
-                </MobileInfoListItem>
-            )}
+            <MobileInfoListItem label="소유자" className="!items-start">
+                <div className="font-light mb-4 keep-all">{holdingMemberText}</div>
+            </MobileInfoListItem>
         </>
     );
 });

@@ -1,7 +1,5 @@
-import {CardReceiptBillingHistoryEditPanel} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryShowBody/BillingHistoryEditPanel/BillingHistoryEditPanelBySubtype/CardReceiptBillingHistoryEditPanel';
 import {memo} from 'react';
 import {useBillingHistoryInModal} from '^v3/share/modals/BillingHistoryDetailModal/hook';
-import {EmailInvoiceBillingHistoryEditPanel} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryShowBody/BillingHistoryEditPanel/BillingHistoryEditPanelBySubtype/EmailInvoiceBillingHistoryEditPanel';
 import {UpdateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type';
 import {UseFormReturn} from 'react-hook-form';
 
@@ -16,9 +14,9 @@ export const BillingHistoryEditPanelBySubtype = memo(function BillingHistoryEdit
     if (!billingHistory) return <></>;
     switch (billingHistory.subtype) {
         case 'EMAIL_INVOICE':
-            return <EmailInvoiceBillingHistoryEditPanel />;
+        // return <EmailInvoiceBillingHistoryEditPanel />;
         case 'CARD_RECEIPT':
-            return <CardReceiptBillingHistoryEditPanel />;
+        // return <CardReceiptBillingHistoryEditPanel />;
         default:
             return <></>;
     }
