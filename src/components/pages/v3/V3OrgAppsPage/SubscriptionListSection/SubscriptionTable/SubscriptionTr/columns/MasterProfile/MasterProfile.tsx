@@ -6,6 +6,7 @@ import {useForm} from 'react-hook-form';
 import {subscriptionApi} from '^models/Subscription/api';
 import {MasterProfileOption} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/MasterProfile/MasterProfileOption';
 import {useDropdown} from '^hooks/useDropdown';
+import {Portal} from '^components/util/Partal';
 
 interface MasterProfileProps {
     subscription: SubscriptionDto;
@@ -25,7 +26,7 @@ export const MasterProfile = memo((props: MasterProfileProps) => {
     const [filteredMemberOptions, setFilteredMemberOptions] = useState<TeamMemberDto[]>();
     const [master, setMaster] = useState<TeamMemberDto>();
 
-    const {contentRef, triggerRef, styles, attributes} = useDropdown('bottom-start');
+    const {setContentRef, setTriggerRef, backdropRef, styles, attributes} = useDropdown('bottom-start');
 
     useEffect(() => {
         subscription.master && setMaster(subscription.master);
@@ -57,30 +58,33 @@ export const MasterProfile = memo((props: MasterProfileProps) => {
 
     return (
         <div className="dropdown">
-            <div ref={triggerRef} tabIndex={0}>
+            <div ref={setTriggerRef} tabIndex={0}>
                 <MasterProfileOption member={master} />
             </div>
             {memberOptions?.length || filteredMemberOptions?.length ? (
-                <ul
-                    ref={contentRef}
-                    style={styles.popper}
-                    {...attributes.popper}
-                    className="dropdown-content !z-[1] py-2 px-3 mt-1 bg-base-100 rounded-box border"
-                >
-                    <li>
-                        <input
-                            {...form.register('masterName')}
-                            tabIndex={0}
-                            className="input input-bordered input-sm mb-3"
-                            onChange={onChange}
-                        />
-                    </li>
-                    {(filteredMemberOptions ?? memberOptions)?.map((member, i) => (
-                        <li className="text-sm cursor-pointer text-start mb-1.5" key={i}>
-                            <MasterProfileOption member={member} onClick={onClick} />
+                <Portal>
+                    {/*<div ref={backdropRef} className="dropdown-backdrop" onClick={() => onClose()} />*/}
+                    <ul
+                        ref={setContentRef}
+                        style={styles.popper}
+                        {...attributes.popper}
+                        className="dropdown-content !z-[1] py-2 px-3 mt-1 bg-base-100 rounded-box border"
+                    >
+                        <li>
+                            <input
+                                {...form.register('masterName')}
+                                tabIndex={0}
+                                className="input input-bordered input-sm mb-3"
+                                onChange={onChange}
+                            />
                         </li>
-                    ))}
-                </ul>
+                        {(filteredMemberOptions ?? memberOptions)?.map((member, i) => (
+                            <li className="text-sm cursor-pointer text-start mb-1.5" key={i}>
+                                <MasterProfileOption member={member} onClick={onClick} />
+                            </li>
+                        ))}
+                    </ul>
+                </Portal>
             ) : (
                 <></>
             )}
