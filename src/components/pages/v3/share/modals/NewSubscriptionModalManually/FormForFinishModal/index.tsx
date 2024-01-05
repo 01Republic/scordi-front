@@ -11,7 +11,8 @@ import {Container} from '^v3/share/OnboardingFlow/Container';
 import {CheckCircle} from '^components/react-icons/check-circle';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {useNewSubscriptionModal} from '^v3/share/modals/NewSubscriptionModalManually/NewSubscriptionModalGroup/hook';
-import {ModalButton} from '^v3/share/ModalButton';
+import {NextButtonUI} from '^v3/share/NextButtonUI';
+import {debounce} from 'lodash';
 
 export const FormForFinishModal = memo(() => {
     const {Modal, close} = useModal(newFormForFinishModalAtom);
@@ -19,10 +20,10 @@ export const FormForFinishModal = memo(() => {
     const memo = useRecoilValue(memoAtom);
     const {closeModalGroup} = useNewSubscriptionModal();
 
-    const onClick = () => {
+    const onClick = debounce(() => {
         // 모달 그룹 닫기
         closeModalGroup();
-    };
+    }, 500);
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
@@ -48,7 +49,9 @@ export const FormForFinishModal = memo(() => {
             </MobileSection.Padding>
 
             <ModalLikeBottomBar className="left-0">
-                <ModalButton onClick={onClick} text="닫기" />
+                <NextButtonUI isActive={true} onClick={() => onClick()}>
+                    닫기
+                </NextButtonUI>
             </ModalLikeBottomBar>
         </Modal>
     );

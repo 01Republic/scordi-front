@@ -23,7 +23,8 @@ import {CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 import {useAlert} from '^hooks/useAlert';
 import {useNewBillingHistoryModal} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/NewBillingHistoryModalGroup/hook';
 import {SkipButton} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/share/SkipButton';
-import {ModalButton} from '^v3/share/ModalButton';
+import {NextButtonUI} from '^v3/share/NextButtonUI';
+import {debounce} from 'lodash';
 
 /*
 사용하지 않고 있습니다.
@@ -52,7 +53,7 @@ export const DetailInfoModal = memo(() => {
         form.setValue('vat', moneyLike);
     };
 
-    const onClick = () => {
+    const onClick = debounce(() => {
         if (!appId) return;
 
         setCreateBillingHistory((prev) => ({...prev, uid: form.getValues('uid'), vat: form.getValues('vat')}));
@@ -69,7 +70,7 @@ export const DetailInfoModal = memo(() => {
         });
 
         req.catch((e) => alert.error('다시 시도해주세요', e.value).then(() => modalGroupClose()));
-    };
+    }, 500);
 
     const skip = () => {
         if (!appId) return;
@@ -126,7 +127,9 @@ export const DetailInfoModal = memo(() => {
             </MobileSection.Padding>
 
             <ModalLikeBottomBar className="left-0">
-                <ModalButton onClick={onClick} text="등록하기" />
+                <NextButtonUI isActive={true} onClick={() => onClick()}>
+                    등록하기
+                </NextButtonUI>
             </ModalLikeBottomBar>
         </Modal>
     );

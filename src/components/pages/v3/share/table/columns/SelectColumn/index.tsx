@@ -8,6 +8,7 @@ import {CreatableItem} from './CreatableItem';
 import {useInput} from '^v3/share/table/columns/SelectColumn/useInput';
 import {OptionItem} from '^v3/share/table/columns/SelectColumn/OptionItem';
 import {ValueComponent} from './type';
+import {Portal} from '^components/util/Partal';
 
 interface SelectColumnProps<T> {
     value: T | undefined;
@@ -46,9 +47,8 @@ interface SelectColumnProps<T> {
 
 export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
     const {searchKeyword, setSearchKeyword, searchInputRef, clearInput, focusInput, blurInput} = useInput();
-    const {openDropdown, closeDropdown, triggerRef, contentRef, styles, attributes} = useDropdown(
-        props.placement || 'bottom-start',
-    );
+    const {dropdownId, openDropdown, closeDropdown, setTriggerRef, setContentRef, backdropRef, styles, attributes} =
+        useDropdown(props.placement || 'bottom-start');
 
     const [focusableIndex, setFocusableIndex] = useState<number>(0);
     const [options, setOptions] = useState<T[]>([]);
@@ -77,9 +77,14 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
     };
 
     const onOpen = () => {
-        // openDropdown();
+        openDropdown();
         focusInput();
         refreshOptions();
+    };
+
+    const onClose = () => {
+        blurInput();
+        closeDropdown();
     };
 
     const clickOption = async (option: T) => {
@@ -101,71 +106,80 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
     const isEmptyValue = typeof value == 'undefined' || value === null;
 
     return (
-        <div className="dropdown relative w-full">
+        <div className="dropdown relative w-full" data-dropdown-id={dropdownId}>
             <div
-                onFocus={() => onOpen()}
-                ref={triggerRef}
+                data-dropdown-target={dropdownId}
+                onClick={() => onOpen()}
+                ref={setTriggerRef}
                 tabIndex={0}
                 className="cursor-pointer flex py-[6px] px-[8px]"
             >
                 {!isEmptyValue ? <ValueComponent value={value} /> : <EmptyComponent />}
             </div>
 
-            <div
-                ref={contentRef}
-                style={styles.popper}
-                {...attributes.popper}
-                tabIndex={0}
-                className={`dropdown-content w-full min-w-[${contentMinWidth}] !z-[1] border shadow-lg bg-base-100 rounded-[6px]`}
-            >
-                {/* Search Keyword Input Container */}
-                {inputDisplay && (
-                    <InputContainer
-                        inputRef={searchInputRef}
-                        defaultValue={value && inputPlainText ? textOfOption(value) : undefined}
-                        onChange={(keyword) => {
-                            setSearchKeyword(keyword || '');
-                            getOptions(keyword).then(setOptions);
-                        }}
-                    >
-                        {value && !inputPlainText && <ValueComponent value={value} />}
-                    </InputContainer>
-                )}
+            <Portal>
+                <div ref={backdropRef} className="dropdown-backdrop" onClick={() => onClose()} />
+                <div
+                    data-dropdown-content={dropdownId}
+                    ref={setContentRef}
+                    style={{
+                        ...styles.popper,
+                        maxWidth: contentMinWidth,
+                    }}
+                    {...attributes.popper}
+                    tabIndex={0}
+                    className={`dropdown-content w-full min-w-[${contentMinWidth}] !z-[1] border shadow-lg bg-base-100 rounded-[6px]`}
+                >
+                    {/* Search Keyword Input Container */}
+                    {inputDisplay && (
+                        <InputContainer
+                            data-dropdown-target={dropdownId}
+                            inputRef={searchInputRef}
+                            defaultValue={value && inputPlainText ? textOfOption(value) : undefined}
+                            onChange={(keyword) => {
+                                setSearchKeyword(keyword || '');
+                                getOptions(keyword).then(setOptions);
+                            }}
+                        >
+                            {value && !inputPlainText && <ValueComponent value={value} />}
+                        </InputContainer>
+                    )}
 
-                {/* Search Result Value List Container */}
-                <div className="py-[6px]">
-                    <div
-                        className="flex px-[14px] mt-[6px] mb-[8px] text-[12px] font-[500] no-selectable leading-[120%]"
-                        style={{
-                            color: 'rgba(55, 53, 47, 0.65)',
-                            fill: 'rgba(55, 53, 47, 0.45)',
-                        }}
-                    >
-                        <div className="overflow-hidden whitespace-nowrap" style={{textOverflow: 'ellipsis'}}>
-                            {optionListBoxTitle}
+                    {/* Search Result Value List Container */}
+                    <div className="py-[6px]">
+                        <div
+                            className="flex px-[14px] mt-[6px] mb-[8px] text-[12px] font-[500] no-selectable leading-[120%]"
+                            style={{
+                                color: 'rgba(55, 53, 47, 0.65)',
+                                fill: 'rgba(55, 53, 47, 0.45)',
+                            }}
+                        >
+                            <div className="overflow-hidden whitespace-nowrap" style={{textOverflow: 'ellipsis'}}>
+                                {optionListBoxTitle}
+                            </div>
                         </div>
-                    </div>
-                    <ul className="menu py-0 block max-h-[300px] overflow-y-auto no-scrollbar">
-                        {options.map((option, i) => (
-                            <OptionItem
-                                key={i}
-                                option={option}
-                                selectedOption={value}
-                                clickOption={clickOption}
-                                ValueComponent={ValueComponent}
-                                valueOfOption={valueOfOption}
-                                className={optionWrapperClass}
-                            />
-                        ))}
+                        <ul className="menu py-0 block max-h-[300px] overflow-y-auto no-scrollbar">
+                            {options.map((option, i) => (
+                                <OptionItem
+                                    key={i}
+                                    option={option}
+                                    selectedOption={value}
+                                    clickOption={clickOption}
+                                    ValueComponent={ValueComponent}
+                                    valueOfOption={valueOfOption}
+                                    className={optionWrapperClass}
+                                />
+                            ))}
 
-                        {onCreate && searchKeyword && !options.find((o) => keywordFilter(o, searchKeyword)) && (
-                            <CreatableItem onClick={() => createOption(searchKeyword)}>
-                                <ValueComponent value={searchKeyword} />
-                            </CreatableItem>
-                        )}
-                    </ul>
+                            {onCreate && searchKeyword && !options.find((o) => keywordFilter(o, searchKeyword)) && (
+                                <CreatableItem onClick={() => createOption(searchKeyword)}>
+                                    <ValueComponent value={searchKeyword} />
+                                </CreatableItem>
+                            )}
+                        </ul>
+                    </div>
                 </div>
-            </div>
+            </Portal>
         </div>
     );
 };

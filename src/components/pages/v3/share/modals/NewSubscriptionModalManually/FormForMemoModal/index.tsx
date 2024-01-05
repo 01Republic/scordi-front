@@ -12,8 +12,9 @@ import {CreateSubscriptionRequestDto} from '^models/Subscription/types';
 import {useForm} from 'react-hook-form';
 import {subscriptionApi} from '^models/Subscription/api';
 import {useToast} from '^hooks/useToast';
-import {ModalButton} from '^v3/share/ModalButton';
 import {FormControl} from '^components/util/form-control';
+import {NextButtonUI} from '^v3/share/NextButtonUI';
+import {debounce} from 'lodash';
 
 export const FormForMemoModal = memo(() => {
     const {Modal, close} = useModal(newFormForMemoModalAtom);
@@ -22,7 +23,7 @@ export const FormForMemoModal = memo(() => {
     const subscriptionId = useRecoilValue(subscriptionIdAtom);
     const {toast} = useToast();
 
-    const onClick = () => {
+    const onClick = debounce(() => {
         const desc = form.getValues('desc');
 
         if (!desc) return;
@@ -35,7 +36,7 @@ export const FormForMemoModal = memo(() => {
         });
 
         req.catch((e) => toast.error(e.message));
-    };
+    }, 500);
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
@@ -59,7 +60,9 @@ export const FormForMemoModal = memo(() => {
             </MobileSection.Padding>
 
             <ModalLikeBottomBar className="left-0">
-                <ModalButton onClick={onClick} text="완료" />
+                <NextButtonUI isActive={true} onClick={() => onClick()}>
+                    완료
+                </NextButtonUI>
             </ModalLikeBottomBar>
         </Modal>
     );

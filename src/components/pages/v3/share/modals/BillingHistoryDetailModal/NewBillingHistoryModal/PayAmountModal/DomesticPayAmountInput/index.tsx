@@ -1,15 +1,15 @@
-import React, {memo} from 'react';
+import React, {memo, useRef} from 'react';
 import {CurrencyCode} from '^types/money.type';
 import {FormControl} from '^components/util/form-control';
 import {useSetRecoilState} from 'recoil';
 import {domesticPayAmount} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/atoms';
+import {inputTextToCurrencyFormat} from '^utils/input-helper';
 
 export const DomesticPayAmountInput = memo(() => {
+    const inputRef = useRef<HTMLInputElement>(null);
     const setDomesticPayAmount = useSetRecoilState(domesticPayAmount);
 
     const onAmountChange = (amount: number) => {
-        if (!amount) return;
-
         setDomesticPayAmount(amount);
     };
 
@@ -22,7 +22,16 @@ export const DomesticPayAmountInput = memo(() => {
             }
         >
             <div className="input input-bordered w-full flex items-center justify-between">
-                <input onChange={(e) => onAmountChange(Number(e.target.value))} type="number" className="w-full" />
+                <input
+                    autoFocus
+                    ref={inputRef}
+                    type="text"
+                    className="w-full"
+                    defaultValue={0}
+                    onChange={(e) => {
+                        onAmountChange(inputTextToCurrencyFormat(e));
+                    }}
+                />
                 <span>{CurrencyCode.KRW}</span>
             </div>
         </FormControl>

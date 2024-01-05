@@ -1,64 +1,31 @@
-import React, {memo, useEffect, useRef} from 'react';
-import {useRecoilValue} from 'recoil';
-import {useForm} from 'react-hook-form';
-import {orgIdParamState} from '^atoms/common';
-import {teamMemberApi, CreateTeamMemberDto, TeamMemberDto} from '^models/TeamMember';
+import React, {memo, useEffect, useRef, useState} from 'react';
+import {useSetRecoilState} from 'recoil';
+import {CreateTeamMemberDto, TeamMemberDto} from '^models/TeamMember';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {useModal} from '^v3/share/modals/useModal';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {isOpenNewTeamMemberModalAtom} from './atom';
+import {createNewTeamMemberAtom, isOpenNewTeamMemberModalAtom} from './atom';
 import {FormControl, RequiredFormControl} from '^components/util/form-control';
-import {plainToast} from '^hooks/useToast';
 import {TeamSelect} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/TeamMemberShowBody/TeamMemberEditPanel/TeamSelect';
-import {emailValid} from '^utils/input-helper';
+import {CTAButton} from '^v3/V3OrgTeam/modals/NewTeamMemberModal/CTAButton';
 
 interface NewTeamMemberModalProps {
     onSubmit: (savedTeamMember: TeamMemberDto) => any;
 }
 
 export const NewTeamMemberModal = memo((props: NewTeamMemberModalProps) => {
-    const orgId = useRecoilValue(orgIdParamState);
     const {close, Modal, isShow} = useModal({isShowAtom: isOpenNewTeamMemberModalAtom});
-    const form = useForm<CreateTeamMemberDto>();
+
+    const setFormData = useSetRecoilState(createNewTeamMemberAtom);
     const nameInputRef = useRef<HTMLInputElement>(null);
     const emailInputRef = useRef<HTMLInputElement>(null);
 
     const {onSubmit: _onSubmit} = props;
 
     useEffect(() => {
-        form.reset();
+        setFormData({} as CreateTeamMemberDto);
     }, [isShow]);
-
-    const onSubmit = () => {
-        const data = form.getValues();
-        const duration = 4000;
-
-        if (!data.name) {
-            nameInputRef.current?.focus();
-            plainToast.error('이름을 입력해주세요', {duration});
-            return;
-        }
-
-        if (!data.email) {
-            emailInputRef.current?.focus();
-            plainToast.error('이메일을 입력해주세요', {duration});
-            return;
-        }
-
-        if (!emailValid(data.email)) {
-            emailInputRef.current?.focus();
-            plainToast.error('이메일 형식에 맞게 입력해주세요', {duration});
-            return;
-        }
-
-        teamMemberApi.create(orgId, data).then((res) => {
-            plainToast.success('추가되었습니다', {duration});
-            close();
-            form.reset();
-            _onSubmit(res.data);
-        });
-    };
 
     const backBtnOnClick = () => {
         close();
@@ -80,7 +47,7 @@ export const NewTeamMemberModal = memo((props: NewTeamMemberModalProps) => {
                                 <TeamSelect
                                     onSelect={(selectedTeam) => {
                                         const teamIds = selectedTeam ? [selectedTeam.id] : [];
-                                        form.setValue('teamIds', teamIds);
+                                        setFormData((prev) => ({...prev, teamIds: teamIds}));
                                     }}
                                 />
                             </FormControl>
@@ -92,7 +59,7 @@ export const NewTeamMemberModal = memo((props: NewTeamMemberModalProps) => {
                                     required
                                     className="input input-bordered"
                                     placeholder="ex. 김규리"
-                                    onChange={(e) => form.setValue('name', e.target.value)}
+                                    onChange={(e) => setFormData((prev) => ({...prev, name: e.target.value}))}
                                 />
                             </RequiredFormControl>
 
@@ -103,7 +70,7 @@ export const NewTeamMemberModal = memo((props: NewTeamMemberModalProps) => {
                                     required
                                     className="input input-bordered"
                                     placeholder="ex. diana@01republic.io"
-                                    onChange={(e) => form.setValue('email', e.target.value)}
+                                    onChange={(e) => setFormData((prev) => ({...prev, email: e.target.value}))}
                                 />
                             </RequiredFormControl>
                         </div>
@@ -111,13 +78,7 @@ export const NewTeamMemberModal = memo((props: NewTeamMemberModalProps) => {
                 </MobileSection.Padding>
 
                 <ModalLikeBottomBar>
-                    <button
-                        className="btn btn-lg btn-block btn-scordi font-medium font-white text-xl bg-slate-50"
-                        type="submit"
-                        onClick={() => onSubmit()}
-                    >
-                        완료
-                    </button>
+                    <CTAButton nameInputRef={nameInputRef} emailInputRef={emailInputRef} onSubmit={_onSubmit} />
                 </ModalLikeBottomBar>
             </Modal>
         </form>

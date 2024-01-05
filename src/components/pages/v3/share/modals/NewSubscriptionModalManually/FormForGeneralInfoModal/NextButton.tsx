@@ -10,8 +10,9 @@ import {
     newSubscriptionManualFormData,
     subscriptionManualFormDataDefaultValue,
 } from '../atom';
-import {NextButtonUI} from '../NextButtonUI';
+import {NextButtonUI} from '../../../NextButtonUI';
 import {useAddSubscriptionModals} from '^v3/share/modals/NewSubscriptionModalManually/hook';
+import {debounce} from 'lodash';
 
 export const NextButton = memo(function NextButton() {
     const organizationId = useRecoilValue(orgIdParamState);
@@ -39,7 +40,7 @@ export const NextButton = memo(function NextButton() {
     // 서비스를 선택하지 않은 상태에서는 버튼 UI 를 잠시 가려둡니다.
     if (!formData.productId) return <></>;
 
-    const onNext = () => {
+    const onNext = debounce(() => {
         // required check
         if (!formData.productId) {
             return;
@@ -58,7 +59,7 @@ export const NextButton = memo(function NextButton() {
 
         // 조건에 맞게 다음 스텝의 모달을 엽니다.
         formData.isFreeTier ? openUsingMemberInfoModal() : openBillingInfoStep();
-    };
+    }, 500);
 
     return (
         <NextButtonUI

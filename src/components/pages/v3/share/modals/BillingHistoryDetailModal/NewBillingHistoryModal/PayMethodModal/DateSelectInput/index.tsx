@@ -6,7 +6,7 @@ import {createBillingHistoryAtom} from '^v3/share/modals/BillingHistoryDetailMod
 export const DateSelectInput = memo(() => {
     const [createBillingHistory, setCreateBillingHistory] = useRecoilState(createBillingHistoryAtom);
 
-    const onChange = (date: any) => {
+    const onChange = (date: Date) => {
         if (!date) return;
         setCreateBillingHistory((prev) => ({...prev, paidAt: date}));
     };
@@ -20,7 +20,7 @@ export const DateSelectInput = memo(() => {
         >
             <input
                 defaultValue={createBillingHistory.paidAt?.toString()}
-                onChange={(e) => onChange(e.target.value)}
+                onChange={(e) => onChange(new Date(e.target.value))}
                 type="datetime-local"
                 className="input input-bordered w-full text-sm font-semibold text-neutral-500"
                 max="9999-12-31T23:59"

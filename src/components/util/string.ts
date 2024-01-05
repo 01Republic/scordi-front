@@ -10,3 +10,21 @@ export const isValidUrl = (urlString: string) => {
         return false;
     }
 };
+
+export const onlyNumber = (str: string): [number, string] => {
+    const [intStr, extra] = str
+        .replace(/[^\d\.]/g, '')
+        .replace(/\.(\d*)$/, '-$1')
+        .replace(/\./g, '')
+        .split('-');
+
+    const pureNumber = parseFloat([intStr, extra].join('.') || '0');
+
+    const formattedText = (() => {
+        const arr = [Number(intStr).toLocaleString()];
+        if (typeof extra != 'undefined') arr.push(extra);
+        return arr.join('.');
+    })();
+
+    return [pureNumber, formattedText];
+};

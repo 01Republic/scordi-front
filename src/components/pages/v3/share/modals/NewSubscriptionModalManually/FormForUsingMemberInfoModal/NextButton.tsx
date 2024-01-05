@@ -3,12 +3,13 @@ import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {useModal} from '^v3/share/modals';
 import {subscriptionApi} from '^models/Subscription/api';
 import {memoAtom, newFormForFinishModalAtom, newSubscriptionManualFormData, subscriptionIdAtom} from '../atom';
-import {NextButtonUI} from '../NextButtonUI';
+import {NextButtonUI} from '../../../NextButtonUI';
 import {useSubscriptionsV2} from '^models/Subscription/hook';
 import {orgIdParamState} from '^atoms/common';
 import {subscriptionsState} from '^models/Subscription/atom';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
 import {RecurringTypeOptions} from '^models/Subscription/types/RecurringTypeOptions';
+import {debounce} from 'lodash';
 
 export const NextButton = memo(function NextButton() {
     const formData = useRecoilValue(newSubscriptionManualFormData);
@@ -37,7 +38,7 @@ export const NextButton = memo(function NextButton() {
         reloadTableData();
     };
 
-    const onNext = () => {
+    const onNext = debounce(() => {
         const req = subscriptionApi.create({
             ...formData,
             // 결제주기: 무료인 구독은 강제로 "무관" 값으로 정정하여 제출
@@ -57,7 +58,7 @@ export const NextButton = memo(function NextButton() {
 
         // 실패시 처리
         req.catch((e) => console.log(e));
-    };
+    }, 500);
 
     return (
         <NextButtonUI isActive={true} onClick={onNext}>

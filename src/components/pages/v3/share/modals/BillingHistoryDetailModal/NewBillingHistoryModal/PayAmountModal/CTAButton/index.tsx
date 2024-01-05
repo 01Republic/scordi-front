@@ -1,5 +1,4 @@
 import React, {memo} from 'react';
-import {ModalButton} from '^v3/share/ModalButton';
 import {toast} from 'react-toastify';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {
@@ -15,6 +14,8 @@ import {useModal} from '^v3/share/modals';
 import {CreateMoneyRequestDto, CurrencyCode} from '^types/money.type';
 import {selectedCurrencyState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
+import {NextButtonUI} from '^v3/share/NextButtonUI';
+import {debounce} from 'lodash';
 
 export const CTAButton = memo(() => {
     const createBillingHistory = useRecoilValue(createBillingHistoryAtom);
@@ -41,17 +42,17 @@ export const CTAButton = memo(() => {
 
         return moneyLike;
     };
-    const onClick = () => {
+    const onClick = debounce(() => {
         const payAmount = onAmountChange();
 
         if (!appId) return;
 
-        if (!domesticAmount) {
+        if (typeof domesticAmount != 'number') {
             toast.error('결제한 금액을 입력해주세요');
             return;
         }
 
-        if (!isDomestic && !abroadAmount) {
+        if (!isDomestic && typeof domesticAmount != 'number') {
             toast.error('해외 결제 금액을 입력해주세요');
             return;
         }
@@ -63,7 +64,11 @@ export const CTAButton = memo(() => {
             OpenFinishModal();
             loadHistories();
         });
-    };
+    }, 500);
 
-    return <ModalButton onClick={onClick} />;
+    return (
+        <NextButtonUI isActive={!!domesticAmount} onClick={() => onClick()}>
+            다음
+        </NextButtonUI>
+    );
 });
