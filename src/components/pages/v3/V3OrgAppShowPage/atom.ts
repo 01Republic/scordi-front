@@ -47,13 +47,11 @@ export const useCurrentSubscription = () => {
         return currentSubscription.getBillingType(standalone, locale);
     };
 
-    const deleteCurrentSubscription = (options?: {onConfirm: () => void}) => {
+    const deleteCurrentSubscription = async () => {
         if (!currentSubscription) {
             toast.error('알 수 없는 구독');
             return;
         }
-
-        const {onConfirm} = options || {};
 
         return alert.destroy({
             title: '정말 구독을 삭제할까요?',
@@ -61,11 +59,11 @@ export const useCurrentSubscription = () => {
             onConfirm: async () => {
                 setIsLoading(true);
                 const res = subscriptionApi.destroy(currentSubscription.id);
-                res.then(() => toast.success('삭제했습니다.')).then(() => {
-                    onConfirm && onConfirm();
-                    setCurrentSubscription(null);
-                });
-                res.finally(() => setIsLoading(false));
+                res.then(() => toast.success('삭제했습니다.'))
+                    .then(() => {
+                        setCurrentSubscription(null);
+                    })
+                    .finally(() => setIsLoading(false));
                 return res;
             },
         });

@@ -21,13 +21,15 @@ export const BillingHistoryDetailModal = memo(() => {
     const isEditMode = useRecoilValue(isBillingHistoryEditModeAtom);
     const {pagedHistories, isLoading: isSiblingsLoading} = useBillingHistoriesInModal();
 
-    const onBack = () => close();
+    const onBack = () => {
+        close();
+    };
 
     return (
         <>
-            <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
+            <Modal onClose={() => onBack()} wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
                 <ModalTopbar
-                    backBtnOnClick={onBack}
+                    backBtnOnClick={() => onBack()}
                     title={billingHistory ? billingHistory.pageSubject : '결제 세부사항'}
                     topbarPosition="sticky"
                     rightButtons={[EditButton, DeleteButton]}

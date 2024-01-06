@@ -6,5 +6,5 @@ import {useSubscriptionsV2} from '^models/Subscription/hook';
 export const SubscriptionDetailModal = memo(function SubscriptionDetailModal() {
     const {reload} = useSubscriptionsV2();
 
-    return <AppShowPageModal onMemberChanged={() => reload()} />;
+    return <AppShowPageModal onMemberChanged={() => reload()} onClose={() => reload()} />;
 });

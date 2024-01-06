@@ -9,27 +9,21 @@ import {AppShowPageBody} from './AppShowPageBody';
 import {useAppShowModal} from './hook';
 import {SelectTeamMemberModal} from './SelectTeamMemberModal';
 import {DeleteButton} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/DeleteButton';
-import {useDashboardSubscriptions, useSubscriptionListTableSection} from '^models/Subscription/hook';
-import {useRouter} from 'next/router';
 import {RegisterCreditCardModal} from 'src/components/pages/v3/V3OrgAppShowPage/modals/AppShowPageModal/RegisterCreditCardModal';
 import {RegisterAliasModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/RegisterAliasModal';
 
 interface AppShowPageModalProps {
+    onClose?: () => any;
     onMemberChanged?: () => any;
 }
 
 export const AppShowPageModal = memo((props: AppShowPageModalProps) => {
-    const router = useRouter();
-    const {Modal, hide} = useAppShowModal();
-    const {reload: dashboardReload} = useDashboardSubscriptions();
-    const {reload: subscriptionTableReload} = useSubscriptionListTableSection();
-    const {currentSubscription, loadCurrentSubscription, deleteCurrentSubscription} = useCurrentSubscription();
-    const {search: loadCurrentHistories} = useBillingHistoriesV3();
-    const {onMemberChanged} = props;
-
-    // const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const orgId = useRecoilValue(orgIdParamState);
     const appId = useRecoilValue(appIdState);
+    const {Modal, hide} = useAppShowModal();
+    const {currentSubscription, loadCurrentSubscription, deleteCurrentSubscription} = useCurrentSubscription();
+    const {search: loadCurrentHistories} = useBillingHistoriesV3();
+    const {onMemberChanged, onClose} = props;
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
@@ -42,34 +36,20 @@ export const AppShowPageModal = memo((props: AppShowPageModalProps) => {
         });
     }, [orgId, appId]);
 
-    const onClose = () => {
-        onMemberChanged && onMemberChanged();
+    const closeModal = () => {
+        onClose && onClose();
         hide();
     };
-    const reload = () => {
-        const url = router.pathname;
-        console.log('\nurl', url);
-        if (url.includes('apps')) {
-            subscriptionTableReload();
-        } else {
-            dashboardReload();
-        }
-    };
 
-    const onConfirm = () => {
-        hide();
-        reload();
-    };
-
-    const deleteFn = () => deleteCurrentSubscription({onConfirm});
+    const deleteFn = () => deleteCurrentSubscription().then(() => closeModal());
     const DeleteButtonWrap = () => <DeleteButton isShow={true} onClick={deleteFn} />;
 
     return (
         <>
-            <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]" onClose={onClose}>
+            <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]" onClose={closeModal}>
                 <ModalTopbar
                     title={currentSubscription ? currentSubscription.product.name() : ''}
-                    backBtnOnClick={onClose}
+                    backBtnOnClick={closeModal}
                     topbarPosition="sticky"
                     rightButtons={[DeleteButtonWrap]}
                 />
