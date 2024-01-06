@@ -4,15 +4,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
+import 'animate.css';
 import React, {Fragment, Suspense} from 'react';
-import {ToastContainer, Slide} from 'react-toastify';
-import type {Props} from '^types/page';
 import {RecoilRoot} from 'recoil';
 import {appWithTranslation} from 'next-i18next';
+import {ToastContainer, Slide} from 'react-toastify';
+import {Toaster} from 'react-hot-toast';
+import type {Props} from '^types/page';
 import {SEO} from '^components/SEO';
 import {OnResizeProvider} from '^components/util/onResize2';
 import ExternalCDNScripts from '^components/ExternalCDNScripts';
-import {Toaster} from 'react-hot-toast';
 
 function MyApp(props: Props) {
     const {Component, pageProps} = props;
