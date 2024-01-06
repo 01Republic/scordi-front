@@ -1,5 +1,5 @@
 import {atom, useRecoilState} from 'recoil';
-import React, {Fragment, memo} from 'react';
+import React, {Fragment, memo, useEffect} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 
 // 팀멤버 상세 모달에서 탭버튼 컴포넌트가 최초로 만들어져서 여기서 가져오는 것.
@@ -19,8 +19,17 @@ const tabs = [
     // {label: '보관중인 계정', Component: Fragment},
 ];
 
-export const TabView = memo(function TabView() {
+interface TabViewProps {
+    onTabChange?: () => any;
+}
+
+export const TabView = memo(function TabView(props: TabViewProps) {
     const [tabIndex, setTabIndex] = useRecoilState(navTabIndex);
+    const {onTabChange} = props;
+
+    useEffect(() => {
+        onTabChange && onTabChange();
+    }, [tabIndex]);
 
     const TabPane = tabs[tabIndex].Component || Fragment;
 

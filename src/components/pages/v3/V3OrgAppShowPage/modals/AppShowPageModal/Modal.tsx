@@ -1,5 +1,5 @@
 import React, {memo, useEffect} from 'react';
-import {useRecoilValue} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {ModalTopbar} from '^v3/share/modals';
 import {MobileSection} from '^v3/share/sections/MobileSection';
@@ -11,6 +11,7 @@ import {SelectTeamMemberModal} from './SelectTeamMemberModal';
 import {DeleteButton} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/DeleteButton';
 import {RegisterCreditCardModal} from 'src/components/pages/v3/V3OrgAppShowPage/modals/AppShowPageModal/RegisterCreditCardModal';
 import {RegisterAliasModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/RegisterAliasModal';
+import {navTabIndex} from './AppShowPageBody/tabs/TabView';
 
 interface AppShowPageModalProps {
     onClose?: () => any;
@@ -20,6 +21,7 @@ interface AppShowPageModalProps {
 export const AppShowPageModal = memo((props: AppShowPageModalProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const appId = useRecoilValue(appIdState);
+    const setNavTab = useSetRecoilState(navTabIndex);
     const {Modal, hide} = useAppShowModal();
     const {currentSubscription, loadCurrentSubscription, deleteCurrentSubscription} = useCurrentSubscription();
     const {search: loadCurrentHistories} = useBillingHistoriesV3();
@@ -39,6 +41,7 @@ export const AppShowPageModal = memo((props: AppShowPageModalProps) => {
     const closeModal = () => {
         onClose && onClose();
         hide();
+        setNavTab(0);
     };
 
     const deleteFn = () => deleteCurrentSubscription().then(() => closeModal());
