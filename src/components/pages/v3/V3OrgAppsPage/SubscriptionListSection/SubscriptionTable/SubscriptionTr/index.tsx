@@ -3,20 +3,20 @@ import {useRecoilValue} from 'recoil';
 import {BillingHistoryManager} from '^models/BillingHistory/manager';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
+import {useAppShowModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
+import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 import {
     LatestPayAmount,
     MemberCount,
-    NextPaymentDate,
+    // NextPaymentDate,
     PayingType,
     // ProductProfile,
-    SubscriptionStatus,
+    // SubscriptionStatus,
+    PayMethodSelect,
+    MasterSelect,
+    IsFreeTierColumn,
+    BillingCycleTypeColumn,
 } from './columns';
-import {useAppShowModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
-import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
-import {IsFreeTierColumn} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/IsFreeTierColumn';
-import {BillingCycleTypeColumn} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/BillingCycleTypeColumn';
-import {MasterSelect} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/MasterProfile/MasterSelect';
-import {PayMethod} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/PayMethod';
 
 interface SubscriptionTrProps {
     subscription: SubscriptionDto;
@@ -51,18 +51,11 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
 
             {/* 서비스 명 */}
             <td className="group cursor-pointer" onClick={openDetail}>
-                {/*<ProductProfile subscription={subscription} />*/}
                 <SubscriptionProfile subscription={subscription} />
             </td>
 
             {/* 유/무료 */}
             <td>
-                {/*<input*/}
-                {/*    type="checkbox"*/}
-                {/*    className="checkbox checkbox-sm checkbox-primary"*/}
-                {/*    disabled*/}
-                {/*    defaultChecked={subscription.isFreeTier}*/}
-                {/*/>*/}
                 <IsFreeTierColumn subscription={subscription} onChange={() => reload && reload()} />
             </td>
 
@@ -83,7 +76,7 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
 
             {/* 결제수단 */}
             <td>
-                <PayMethod
+                <PayMethodSelect
                     lastPaidHistory={lastPaidHistory}
                     subscription={subscription}
                     onChange={() => reload && reload()}

@@ -59,7 +59,9 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
                                 <span className="pl-[8px]">과금방식</span>
                             </SortableTH>
 
-                            <SortableTH className="">결제수단</SortableTH>
+                            <SortableTH className="">
+                                <span className="pl-[8px]">결제수단</span>
+                            </SortableTH>
 
                             <SortableTH onClick={sort} className="text-right">
                                 사용인원

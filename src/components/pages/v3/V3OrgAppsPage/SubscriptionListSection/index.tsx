@@ -35,7 +35,7 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
         // initial listing
         getSubscriptions({
             where: {organizationId: orgId},
-            relations: ['master', 'teamMembers', 'billingHistories.creditCard'],
+            relations: ['master', 'teamMembers', 'creditCard'],
             itemsPerPage: 15,
             order: {id: 'DESC'},
         });

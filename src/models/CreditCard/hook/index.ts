@@ -42,14 +42,15 @@ export const useCreditCards = () => {
                 .index(orgId, {
                     itemsPerPage: 0,
                     relations: ['holdingMember', 'subscriptions'],
+                    ...params,
                 })
                 .finally(() => {
                     setTimeout(() => setIsLoading(false), 1000);
                 });
         };
-
         return cachePagedQuery(setResult, setQuery, params, request, mergeMode, force);
     }
+
     const reload = () => search({...query}, false, true);
 
     return {search, reload, result, isLoading};
