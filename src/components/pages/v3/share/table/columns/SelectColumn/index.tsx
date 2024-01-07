@@ -188,7 +188,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
 
                     {/* Search Result Value List Container */}
                     <div className="py-[6px]">
-                        {optionDetach && (
+                        {optionDetach && detachableOptions.length && (
                             <>
                                 <div
                                     className="flex px-[14px] mt-[6px] mb-[2px] text-[12px] font-[500] no-selectable leading-[120%]"
