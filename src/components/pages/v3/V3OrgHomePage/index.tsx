@@ -32,6 +32,7 @@ import {RenewInvoiceAccountModalMobile} from './RenewInvoiceAccountModal/mobile'
 
 import {SummarySection, MemberListSection, SubscriptionsSection} from './desktop/sections';
 import {SubscriptionDetailModal} from './_localModals';
+import {NewTeamMemberModal} from '^v3/share/modals/NewTeamMemberModal';
 
 export const V3OrgHomePage = memo(() => {
     const currentUser = useRecoilValue(currentUserAtom);
@@ -47,8 +48,8 @@ export const V3OrgHomePage = memo(() => {
                     TeamMemberShowModal, // 멤버상세모달
                     AccountListModal,
                     BillingHistoryDetailModal, // 결제내역상세모달
-                    TeamMemberCreateModal,
                     InvoiceAccountSelectModal,
+                    NewTeamMemberModal, // 멤버추가모달
                 ]}
             >
                 <V3MainLayoutContainer>
