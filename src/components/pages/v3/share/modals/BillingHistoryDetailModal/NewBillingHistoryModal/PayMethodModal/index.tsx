@@ -2,7 +2,6 @@ import React, {memo, useEffect} from 'react';
 import {useResetRecoilState} from 'recoil';
 import {ModalTopbar, useModal} from '^v3/share/modals';
 import {payMethodModalState} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/atoms';
-import {useBillingHistoryInModal} from '^v3/share/modals/BillingHistoryDetailModal/hook';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {useCreditCards} from '^models/CreditCard/hook';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
@@ -12,12 +11,13 @@ import {PayMethodModalTitle} from '^v3/share/modals/BillingHistoryDetailModal/Ne
 import {CardSelect} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/PayMethodModal/CardSelect';
 import {DateSelectInput} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/PayMethodModal/DateSelectInput';
 import {CTAButton} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/PayMethodModal/CTAButton';
+import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 
 export const PayMethodModal = memo(() => {
     const {Modal, isShow, close} = useModal(payMethodModalState);
-    const {billingHistory} = useBillingHistoryInModal();
     const {search: getCreditCards} = useCreditCards();
     const resetCreateBillingHistory = useResetRecoilState(createBillingHistoryAtom);
+    const {currentSubscription} = useCurrentSubscription();
 
     useEffect(() => {
         resetCreateBillingHistory();
@@ -33,7 +33,7 @@ export const PayMethodModal = memo(() => {
                 <ModalTopbar
                     backBtnOnClick={close}
                     topbarPosition="sticky"
-                    title={billingHistory ? billingHistory.pageSubject : '결제 내역 등록'}
+                    title={currentSubscription?.product.nameKo || '결제 내역 추가'}
                 />
                 <MobileSection.Padding>
                     <PayMethodModalTitle />

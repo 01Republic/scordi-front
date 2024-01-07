@@ -7,7 +7,6 @@ import {
     finishModalState,
     isDomesticState,
 } from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/atoms';
-import {useBillingHistoryInModal} from '^v3/share/modals/BillingHistoryDetailModal/hook';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {FormControl} from '^components/util/form-control';
 import {TextInput} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/share/TextInput';
@@ -17,7 +16,7 @@ import {CreateMoneyRequestDto, CurrencyCode} from '^types/money.type';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {selectedCurrencyState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {appBillingHistoryApi} from '^models/BillingHistory/api';
-import {appIdState} from '^v3/V3OrgAppShowPage/atom';
+import {appIdState, useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {useForm} from 'react-hook-form';
 import {CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 import {useAlert} from '^hooks/useAlert';
@@ -32,7 +31,6 @@ import {debounce} from 'lodash';
 export const DetailInfoModal = memo(() => {
     const {Modal, close} = useModal(detailInfoModalState);
     const {open: OpenFinishModal} = useModal(finishModalState);
-    const {billingHistory} = useBillingHistoryInModal();
     const [createBillingHistory, setCreateBillingHistory] = useRecoilState(createBillingHistoryAtom);
     const selectedCurrency = useRecoilValue(selectedCurrencyState);
     const isDomestic = useRecoilValue(isDomesticState);
@@ -41,6 +39,7 @@ export const DetailInfoModal = memo(() => {
     const setBillingHistoryId = useSetRecoilState(billingHistoryIdState);
     const {alert} = useAlert();
     const {modalGroupClose} = useNewBillingHistoryModal();
+    const {currentSubscription} = useCurrentSubscription();
 
     const onVATChange = (e: ChangeEvent<HTMLInputElement>) => {
         const moneyLike: CreateMoneyRequestDto = {
@@ -90,7 +89,7 @@ export const DetailInfoModal = memo(() => {
             <ModalTopbar
                 backBtnOnClick={close}
                 topbarPosition="sticky"
-                title={billingHistory ? billingHistory.pageSubject : '결제 내역 등록'}
+                title={currentSubscription?.product.nameKo || '결제 내역 추가'}
                 rightButtons={[() => <SkipButton onClick={skip} />]}
             />
             <MobileSection.Padding>

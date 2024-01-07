@@ -11,18 +11,18 @@ import {CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 import {ModalTopbar, useModal} from '^v3/share/modals';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
-import {useBillingHistoryInModal} from '^v3/share/modals/BillingHistoryDetailModal/hook';
 import {useToast} from '^hooks/useToast';
 import {NextButtonUI} from '^v3/share/NextButtonUI';
 import {debounce} from 'lodash';
+import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 
 export const MemoModal = memo(() => {
     const {Modal, close} = useModal(memoModalState);
-    const {billingHistory} = useBillingHistoryInModal();
     const billingHistoryId = useRecoilValue(billingHistoryIdState);
     const form = useForm<CreateBillingHistoryRequestDto>();
     const [memo, setMemo] = useRecoilState(memoState);
     const {toast} = useToast();
+    const {currentSubscription} = useCurrentSubscription();
 
     const onClick = debounce(() => {
         const memo = form.getValues('memo');
@@ -44,7 +44,7 @@ export const MemoModal = memo(() => {
             <ModalTopbar
                 backBtnOnClick={close}
                 topbarPosition="sticky"
-                title={billingHistory ? billingHistory.pageSubject : '결제 내역 등록'}
+                title={currentSubscription?.product.nameKo || '결제 내역 추가'}
             />
             <MobileSection.Padding>
                 <h2 className="h1 leading-tight mb-10 whitespace-pre-line">

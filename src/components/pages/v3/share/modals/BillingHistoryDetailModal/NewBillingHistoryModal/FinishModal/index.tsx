@@ -5,7 +5,6 @@ import {
     memoModalState,
     memoState,
 } from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/atoms';
-import {useBillingHistoryInModal} from '^v3/share/modals/BillingHistoryDetailModal/hook';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {CheckCircle} from '^components/react-icons/check-circle';
@@ -14,13 +13,14 @@ import {useNewBillingHistoryModal} from '^v3/share/modals/BillingHistoryDetailMo
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {NextButtonUI} from '^v3/share/NextButtonUI';
 import {debounce} from 'lodash';
+import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 
 export const FinishModal = memo(() => {
     const {Modal, close} = useModal(finishModalState);
     const {open: openMemoModal} = useModal(memoModalState);
     const memo = useRecoilValue(memoState);
-    const {billingHistory} = useBillingHistoryInModal();
     const {modalGroupClose} = useNewBillingHistoryModal();
+    const {currentSubscription} = useCurrentSubscription();
 
     const onClick = debounce(() => {
         modalGroupClose();
@@ -31,7 +31,7 @@ export const FinishModal = memo(() => {
             <ModalTopbar
                 backBtnOnClick={onClick}
                 topbarPosition="sticky"
-                title={billingHistory ? billingHistory.pageSubject : '결제 내역 등록'}
+                title={currentSubscription?.product.nameKo || '결제 내역 추가'}
             />
             <MobileSection.Padding>
                 <div className="py-28 flex flex-col">
