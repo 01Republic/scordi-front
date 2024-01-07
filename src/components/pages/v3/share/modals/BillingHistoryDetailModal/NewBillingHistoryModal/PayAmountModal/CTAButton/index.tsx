@@ -42,6 +42,7 @@ export const CTAButton = memo(() => {
 
         return moneyLike;
     };
+
     const onClick = debounce(() => {
         const payAmount = onAmountChange();
 
@@ -52,7 +53,7 @@ export const CTAButton = memo(() => {
             return;
         }
 
-        if (!isDomestic && typeof domesticAmount != 'number') {
+        if (!isDomestic && typeof abroadAmount != 'number') {
             toast.error('해외 결제 금액을 입력해주세요');
             return;
         }
@@ -66,8 +67,10 @@ export const CTAButton = memo(() => {
         });
     }, 500);
 
+    const isActive = typeof domesticAmount === 'number' && (isDomestic ? typeof abroadAmount === 'number' : true);
+
     return (
-        <NextButtonUI isActive={!!domesticAmount} onClick={() => onClick()}>
+        <NextButtonUI isActive={isActive} onClick={() => onClick()}>
             다음
         </NextButtonUI>
     );
