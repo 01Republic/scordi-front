@@ -7,7 +7,7 @@ import {BottomTabIndex} from '^v3/share/BottomNavMobile';
 import {LNBIndex} from '^v3/share/LeftNavBar';
 import {TeamMembersPanel} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/mobile/TeamMembersPanel';
 import {TeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
-import {InviteOrgMemberModal} from '^v3/V3OrgTeam/modals/InviteMemberModal';
+import {InviteOrgMemberModal} from 'src/components/pages/v3/share/modals/NewTeamMemberModal/InviteMemberModal';
 import {AddMemberButton, ButtonTypes} from './AddMemberButton';
 import {TeamMembersTableSection} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection';
 import {TeamMemberCreateModal} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberCreateModal';

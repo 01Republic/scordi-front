@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {useModal} from '^v3/share/modals/useModal';
-import {isOpenNewTeamMemberModalAtom} from '../modals/NewTeamMemberModal/atom';
-import {isOpenInviteOrgMemberModalAtom} from '../modals/InviteMemberModal/atom';
+import {isOpenNewTeamMemberModalAtom} from '^v3/share/modals/NewTeamMemberModal/CreateTeamMemberModal/atom';
+import {isOpenInviteOrgMemberModalAtom} from '^v3/share/modals/NewTeamMemberModal/InviteMemberModal/atom';
 import {BsPlus} from 'react-icons/bs';
 import {FaPlus} from 'react-icons/fa6';
 
