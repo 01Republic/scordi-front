@@ -24,12 +24,12 @@ export const TeamMembersTableSection = memo(() => {
 
     // const movePage = (page: number) => getTeamMembers({...query, page});
 
-    const onSearch = debounce((name) => {
+    const onSearch = debounce((keyword?: string) => {
         if (!query) return;
 
         getTeamMembers({
             ...query,
-            name,
+            keyword,
             page: 1,
         });
     }, 500);

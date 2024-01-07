@@ -19,7 +19,7 @@ export const MasterSelect = memo((props: MasterSelectProps) => {
     const getOptions = async (keyword?: string) => {
         return search(
             {
-                name: keyword,
+                keyword,
                 where: {organizationId: subscription.organizationId},
                 itemsPerPage: 0,
             },
