@@ -19,7 +19,7 @@ export const MasterSelect = memo((props: MasterSelectProps) => {
     const getOptions = async (keyword?: string) => {
         return search(
             {
-                name: keyword,
+                keyword,
                 where: {organizationId: subscription.organizationId},
                 itemsPerPage: 0,
             },
@@ -39,7 +39,7 @@ export const MasterSelect = memo((props: MasterSelectProps) => {
 
     const optionDetach = async () => {
         return subscriptionApi
-            .update(subscription.id, {masterId: undefined})
+            .update(subscription.id, {masterId: null})
             .then(() => onChange())
             .finally(() => toast.success('연결을 해제했습니다'));
     };
