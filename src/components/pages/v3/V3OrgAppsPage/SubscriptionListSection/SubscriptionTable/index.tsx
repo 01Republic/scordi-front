@@ -40,7 +40,7 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
                                 서비스 명
                             </SortableTH>
 
-                            <SortableTH>
+                            <SortableTH sortKey="[isFreeTier]" onClick={sort}>
                                 <span className="pl-[8px]">유/무료</span>
                             </SortableTH>
 
@@ -50,24 +50,26 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
                             {/*</SortableTH>*/}
 
                             {/* [결제주기] subscription.billingCycleType: BillingCycleOptions */}
-                            <SortableTH className="">
+                            <SortableTH sortKey="[billingCycleType]" onClick={sort}>
                                 <span className="pl-[8px]">결제주기</span>
                             </SortableTH>
 
                             {/* [과금방식] subscription.recurringType: RecurringTypeOptions */}
-                            <SortableTH className="">
+                            <SortableTH sortKey="[recurringType]" onClick={sort}>
                                 <span className="pl-[8px]">과금방식</span>
                             </SortableTH>
 
-                            <SortableTH className="">
+                            <SortableTH sortKey="[creditCard][name]" onClick={sort}>
                                 <span className="pl-[8px]">결제수단</span>
                             </SortableTH>
 
-                            <SortableTH onClick={sort} className="text-right">
+                            <SortableTH sortKey="[usedMemberCount]" onClick={sort} className="text-right">
                                 사용인원
                             </SortableTH>
 
-                            <SortableTH className="text-right">최신 결제금액</SortableTH>
+                            <SortableTH sortKey="[currentBillingAmount][amount]" onClick={sort} className="text-right">
+                                최신 결제금액
+                            </SortableTH>
 
                             {/*<SortableTH className="text-right">다음 결제일</SortableTH>*/}
 
