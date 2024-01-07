@@ -8,7 +8,7 @@ import {TeamMemberProfileOption} from '^models/TeamMember/components/TeamMemberP
 
 interface MasterSelectProps {
     subscription: SubscriptionDto;
-    onChange: (teamMember: TeamMemberDto) => any;
+    onChange: (teamMember?: TeamMemberDto) => any;
 }
 
 export const MasterSelect = memo((props: MasterSelectProps) => {
@@ -37,6 +37,13 @@ export const MasterSelect = memo((props: MasterSelectProps) => {
             .finally(() => toast.success('저장했습니다'));
     };
 
+    const optionDetach = async () => {
+        return subscriptionApi
+            .update(subscription.id, {masterId: undefined})
+            .then(() => onChange())
+            .finally(() => toast.success('연결을 해제했습니다'));
+    };
+
     return (
         <SelectColumn
             value={subscription.master}
@@ -49,7 +56,9 @@ export const MasterSelect = memo((props: MasterSelectProps) => {
             inputDisplay
             inputPlainText
             optionWrapperClass="!py-1.5"
-            optionListBoxTitle="담당자를 변경합니다"
+            optionListBoxTitle="담당자를 변경할까요?"
+            optionDetach={optionDetach}
+            detachableOptionBoxTitle="연결된 담당자"
         />
     );
 });
