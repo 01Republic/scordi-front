@@ -9,6 +9,7 @@ import {useInput} from '^v3/share/table/columns/SelectColumn/useInput';
 import {OptionItem} from '^v3/share/table/columns/SelectColumn/OptionItem';
 import {ValueComponent} from './type';
 import {Portal} from '^components/util/Partal';
+import {DetachableOptionItem} from '^v3/share/table/columns/SelectColumn/DetachableOptionItem';
 
 interface SelectColumnProps<T> {
     value: T | undefined;
@@ -44,8 +45,13 @@ interface SelectColumnProps<T> {
     // 드롭다운 Content 내 옵션의 클래스를 지정합니다.
     optionWrapperClass?: string;
 
+    // 옵션 연결 해제를 요청합니다. (옵션이 관계형 데이터일때)
+    optionDetach?: (option: T) => Promise<boolean>;
+
+    detachableOptionBoxTitle?: string;
+
     // 옵션 삭제를 요청합니다. (옵션이 관계형 데이터일때)
-    optionDestroyRequest?: (option: T) => false | Promise<boolean>;
+    optionDestroy?: (option: T) => false | Promise<boolean>;
 }
 
 export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
@@ -64,7 +70,8 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
         textOfOption = (v) => `${v}`,
         onSelect,
         onCreate,
-        optionDestroyRequest,
+        optionDetach,
+        optionDestroy,
     } = props;
     const keywordFilter = props.keywordFilter || ((o: T, keyword: string) => valueOfOption(o) === keyword);
     const {
@@ -73,6 +80,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
         contentMinWidth = '300px',
         optionListBoxTitle = '옵션 선택 또는 생성',
         optionWrapperClass = '',
+        detachableOptionBoxTitle = '연결된 옵션',
     } = props;
 
     const refreshOptions = () => {
@@ -124,6 +132,20 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
     // const ValueUI = ValueComponent || ((p: {value: T | string}) => <TagUI>{`${p.value}`}</TagUI>);
     const isEmptyValue = typeof value == 'undefined' || value === null;
 
+    const detachableOptions: T[] = (() => {
+        if (!optionDetach) return [];
+        return value ? [value] : [];
+    })();
+
+    const listingOptions = (() => {
+        if (!optionDetach) return options;
+
+        return options.filter((opt) => {
+            if (!value) return true;
+            return valueOfOption(opt) !== valueOfOption(value);
+        });
+    })();
+
     return (
         <div className="dropdown relative w-full" data-dropdown-id={dropdownId}>
             <div
@@ -166,6 +188,37 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
 
                     {/* Search Result Value List Container */}
                     <div className="py-[6px]">
+                        {optionDetach && (
+                            <>
+                                <div
+                                    className="flex px-[14px] mt-[6px] mb-[2px] text-[12px] font-[500] no-selectable leading-[120%]"
+                                    style={{
+                                        color: 'rgba(55, 53, 47, 0.65)',
+                                        fill: 'rgba(55, 53, 47, 0.45)',
+                                    }}
+                                >
+                                    <div
+                                        className="overflow-hidden whitespace-nowrap"
+                                        style={{textOverflow: 'ellipsis'}}
+                                    >
+                                        {detachableOptionBoxTitle}
+                                    </div>
+                                </div>
+                                <ul className="menu py-0 mb-1 block max-h-[300px] overflow-y-auto no-scrollbar">
+                                    {detachableOptions.map((option, i) => (
+                                        <DetachableOptionItem
+                                            key={i}
+                                            option={option}
+                                            ValueComponent={ValueComponent}
+                                            detachRequest={withCallback(optionDetach)!}
+                                            className={optionWrapperClass}
+                                        />
+                                    ))}
+                                </ul>
+                                <hr className="mb-3" />
+                            </>
+                        )}
+
                         <div
                             className="flex px-[14px] mt-[6px] mb-[8px] text-[12px] font-[500] no-selectable leading-[120%]"
                             style={{
@@ -178,7 +231,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
                             </div>
                         </div>
                         <ul className="menu py-0 block max-h-[300px] overflow-y-auto no-scrollbar">
-                            {options.map((option, i) => (
+                            {listingOptions.map((option, i) => (
                                 <OptionItem
                                     key={i}
                                     option={option}
@@ -187,7 +240,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
                                     ValueComponent={ValueComponent}
                                     valueOfOption={valueOfOption}
                                     className={optionWrapperClass}
-                                    destroyRequest={withCallback(optionDestroyRequest)}
+                                    destroyRequest={withCallback(optionDestroy)}
                                 />
                             ))}
 

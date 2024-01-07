@@ -13,7 +13,7 @@ import {orgIdParamState} from '^atoms/common';
 
 interface PayMethodSelectProps {
     subscription: SubscriptionDto;
-    onChange: (creditCard: CreditCardDto) => any;
+    onChange: (creditCard?: CreditCardDto) => any;
     lastPaidHistory: BillingHistoryDto | undefined;
 }
 
@@ -47,6 +47,13 @@ export const PayMethodSelect = memo((props: PayMethodSelectProps) => {
             .finally(() => toast.success('저장했습니다'));
     };
 
+    const optionDetach = async () => {
+        return subscriptionApi
+            .update(subscription.id, {creditCardId: null})
+            .then(() => onChange())
+            .finally(() => toast.success('연결을 해제했습니다'));
+    };
+
     return (
         <SelectColumn
             value={subscription.creditCard}
@@ -57,8 +64,10 @@ export const PayMethodSelect = memo((props: PayMethodSelectProps) => {
             onSelect={onSelect}
             inputDisplay
             inputPlainText
-            optionListBoxTitle="결제수단을 변경합니다"
-            optionDestroyRequest={(creditCard) => {
+            optionListBoxTitle="결제수단을 변경할까요?"
+            optionDetach={optionDetach}
+            detachableOptionBoxTitle="연결된 결제수단"
+            optionDestroy={(creditCard) => {
                 let msg = '이 결제수단을 정말로 삭제할까요?';
 
                 const arr: string[] = [];

@@ -26,14 +26,6 @@ export const FormForBillingInfoModal = memo(function FormForBillingInfoModal() {
                         <div className="w-full flex flex-col gap-4">
                             <FormControl topLeftLabel="결제수단 *">
                                 <CardSelect />
-                                {/*    <ButtonGroupRadio*/}
-                                {/*        onChange={(o) => form.setValue('billingCycleOption', o.value)}*/}
-                                {/*        options={[*/}
-                                {/*            {label: '정해진 금액이에요', value: BillingCycleOptions.Monthly},*/}
-                                {/*            {label: '사용량에 따라 달라요', value: BillingCycleOptions.Onetime},*/}
-                                {/*        ]}*/}
-                                {/*        defaultValue={formData.billingCycleOption ?? BillingCycleOptions.Monthly}*/}
-                                {/*    />*/}
                             </FormControl>
 
                             <FormControl

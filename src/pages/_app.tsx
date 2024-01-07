@@ -2,6 +2,7 @@ import '../styles/packs/app.scss';
 import '../styles/packs/admin.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
+import 'tippy.js/dist/tippy.css'; // optional
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import 'animate.css';
