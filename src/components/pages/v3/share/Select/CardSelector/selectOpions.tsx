@@ -26,12 +26,12 @@ export const CardComponents = () => {
 
         return (
             <components.MenuList {...props}>
-                <div
-                    onClick={open}
-                    className="text-sm text-center text-gray-500 py-2 cursor-pointer transition-all hover:bg-scordi-100 hover:text-scordi"
-                >
-                    새로운 카드 등록하기
+                <div onClick={open} className="px-[8px]">
+                    <div className="py-2 mb-1 px-2 flex items-center rounded-md text-sm text-gray-500 cursor-pointer transition-all hover:bg-gray-100 active:bg-sky-100">
+                        새로운 카드 등록하기
+                    </div>
                 </div>
+                <hr className="mb-2" />
                 {props.children}
             </components.MenuList>
         );

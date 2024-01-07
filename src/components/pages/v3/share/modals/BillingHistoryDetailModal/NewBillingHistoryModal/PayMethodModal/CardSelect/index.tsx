@@ -7,20 +7,7 @@ import {createBillingHistoryAtom} from '^v3/share/modals/BillingHistoryDetailMod
 import {CardSelector} from '^v3/share/Select/CardSelector';
 
 export const CardSelect = memo(() => {
-    const {result} = useCreditCards();
     const setCreateBillingHistory = useSetRecoilState(createBillingHistoryAtom);
-    const toOption = (card: CreditCardDto) => {
-        const value = card.id;
-        const label = card.fullNumber;
-        const name = card.name;
-
-        return {value, label, name};
-    };
-
-    const onChange = (cardId: number) => {
-        if (!cardId) return;
-        setCreateBillingHistory((prev) => ({...prev, creditCardId: cardId}));
-    };
 
     return (
         <FormControl
@@ -30,7 +17,12 @@ export const CardSelect = memo(() => {
                 </p>
             }
         >
-            <CardSelector options={result.items.map(toOption)} onChange={(e) => onChange(e)} />
+            <CardSelector
+                onChange={(creditCardId: number) => {
+                    if (!creditCardId) return;
+                    setCreateBillingHistory((prev) => ({...prev, creditCardId}));
+                }}
+            />
         </FormControl>
     );
 });

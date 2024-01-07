@@ -9,6 +9,7 @@ import {BillingCycleOptionRadio} from './BillingCycleOptionRadio';
 import {RecurringTypeSelect} from './RecurringTypeSelect';
 import {CurrentBillingAmountInput} from './CurrentBillingAmountInput';
 import {NextButton} from './NextButton';
+import {CardSelect} from '^v3/share/modals/NewSubscriptionModalManually/FormForBillingInfoModal/CardSelect';
 
 export const FormForBillingInfoModal = memo(function FormForBillingInfoModal() {
     const {Modal, close} = useModal(newFormForBillingInfoModalAtom);
@@ -23,16 +24,17 @@ export const FormForBillingInfoModal = memo(function FormForBillingInfoModal() {
                         <h3 className="font-bold text-2xl pt-5 mb-10">결제 정보 입력</h3>
 
                         <div className="w-full flex flex-col gap-4">
-                            {/*<FormControl topLeftLabel="과금방식">*/}
-                            {/*    <ButtonGroupRadio*/}
-                            {/*        onChange={(o) => form.setValue('billingCycleOption', o.value)}*/}
-                            {/*        options={[*/}
-                            {/*            {label: '정해진 금액이에요', value: BillingCycleOptions.Monthly},*/}
-                            {/*            {label: '사용량에 따라 달라요', value: BillingCycleOptions.Onetime},*/}
-                            {/*        ]}*/}
-                            {/*        defaultValue={formData.billingCycleOption ?? BillingCycleOptions.Monthly}*/}
-                            {/*    />*/}
-                            {/*</FormControl>*/}
+                            <FormControl topLeftLabel="결제수단 *">
+                                <CardSelect />
+                                {/*    <ButtonGroupRadio*/}
+                                {/*        onChange={(o) => form.setValue('billingCycleOption', o.value)}*/}
+                                {/*        options={[*/}
+                                {/*            {label: '정해진 금액이에요', value: BillingCycleOptions.Monthly},*/}
+                                {/*            {label: '사용량에 따라 달라요', value: BillingCycleOptions.Onetime},*/}
+                                {/*        ]}*/}
+                                {/*        defaultValue={formData.billingCycleOption ?? BillingCycleOptions.Monthly}*/}
+                                {/*    />*/}
+                            </FormControl>
 
                             <FormControl
                                 topLeftLabel="결제 주기 *"
