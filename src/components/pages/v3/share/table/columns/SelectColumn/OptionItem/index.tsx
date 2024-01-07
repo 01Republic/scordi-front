@@ -1,5 +1,7 @@
 import {FcCheckmark} from 'react-icons/fc';
 import {ValueComponent} from '../type';
+import {IoMdMore} from 'react-icons/io';
+import {MoreDropdown} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown';
 
 interface OptionItemProps<T> {
     option: T;
@@ -8,10 +10,11 @@ interface OptionItemProps<T> {
     ValueComponent: ValueComponent<T>;
     valueOfOption: (option: T) => any;
     className?: string;
+    destroyRequest?: (option: T) => false | Promise<boolean>;
 }
 
 export const OptionItem = <T,>(props: OptionItemProps<T>) => {
-    const {option, selectedOption, ValueComponent, valueOfOption, clickOption, className = ''} = props;
+    const {option, selectedOption, ValueComponent, valueOfOption, clickOption, className = '', destroyRequest} = props;
     const val = selectedOption ? valueOfOption(selectedOption) : selectedOption;
     const isCurrent = valueOfOption(option) === val;
 
@@ -25,7 +28,14 @@ export const OptionItem = <T,>(props: OptionItemProps<T>) => {
                 }`}
             >
                 <ValueComponent value={option} />
-                <div className="ml-auto">{isCurrent && <FcCheckmark />}</div>
+
+                {destroyRequest ? (
+                    <div className="ml-auto">
+                        <MoreDropdown isCurrent={isCurrent} option={option} destroyRequest={destroyRequest} />
+                    </div>
+                ) : (
+                    <div className="ml-auto">{isCurrent && <FcCheckmark />}</div>
+                )}
             </div>
         </li>
     );

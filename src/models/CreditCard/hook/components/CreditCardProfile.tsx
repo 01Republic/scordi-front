@@ -63,7 +63,9 @@ export const CreditCardProfileOption = memo((props: CreditCardProfileOptionProps
 
             <div className="flex flex-col gap-0.5">
                 <p className={`flex gap-2 items-center group-hover:text-scordi leading-none`}>
-                    <span>{creditCard.name}</span>
+                    <span className="whitespace-nowrap w-[198px] overflow-hidden" style={{textOverflow: 'ellipsis'}}>
+                        {creditCard.name}
+                    </span>
                 </p>
                 {endNumber && (
                     <p className="block text-xs font-normal text-gray-400 group-hover:text-scordi-300 leading-none">

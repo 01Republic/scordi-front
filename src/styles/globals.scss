@@ -920,7 +920,7 @@ progress::-moz-progress-bar {
     top: 0;
   }
 
-  .dropdown-content {
+  .dropdown-portal-content {
     visibility: hidden;
     position: absolute;
     z-index: 50;
@@ -936,8 +936,8 @@ progress::-moz-progress-bar {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .dropdown-content.focus,
-  .dropdown-content:has(input.focus) {
+  .dropdown-portal-content.focus,
+  .dropdown-portal-content:has(input.focus) {
     visibility: visible;
     opacity: 1;
   }

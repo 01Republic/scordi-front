@@ -43,6 +43,9 @@ interface SelectColumnProps<T> {
 
     // 드롭다운 Content 내 옵션의 클래스를 지정합니다.
     optionWrapperClass?: string;
+
+    // 옵션 삭제를 요청합니다. (옵션이 관계형 데이터일때)
+    optionDestroyRequest?: (option: T) => false | Promise<boolean>;
 }
 
 export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
@@ -61,6 +64,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
         textOfOption = (v) => `${v}`,
         onSelect,
         onCreate,
+        optionDestroyRequest,
     } = props;
     const keywordFilter = props.keywordFilter || ((o: T, keyword: string) => valueOfOption(o) === keyword);
     const {
@@ -102,6 +106,21 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
         closeDropdown();
     };
 
+    const withCallback = (actionFn?: (option: T) => false | Promise<boolean>) => {
+        // 입력받지 않은 기능함수는,
+        // 이 함수로 감싸더라도 undefined 를 그대로 반환해줍니다.
+        if (!actionFn) return undefined;
+
+        // 속성으로 입력받은 기능함수라면,
+        // 함수를 한 번 감싸서 콜백 함수까지 함께 실행되도록 기능을 보충한뒤 반환해줍니다. (mocking)
+        return (option: T) => {
+            return Promise.resolve(actionFn(option)).then((isSuccess) => {
+                if (isSuccess) refreshOptions();
+                return isSuccess;
+            });
+        };
+    };
+
     // const ValueUI = ValueComponent || ((p: {value: T | string}) => <TagUI>{`${p.value}`}</TagUI>);
     const isEmptyValue = typeof value == 'undefined' || value === null;
 
@@ -128,7 +147,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
                     }}
                     {...attributes.popper}
                     tabIndex={0}
-                    className={`dropdown-content w-full min-w-[${contentMinWidth}] !z-[1] border shadow-lg bg-base-100 rounded-[6px]`}
+                    className={`dropdown-portal-content w-full min-w-[${contentMinWidth}] !z-[1] border shadow-lg bg-base-100 rounded-[6px]`}
                 >
                     {/* Search Keyword Input Container */}
                     {inputDisplay && (
@@ -168,6 +187,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
                                     ValueComponent={ValueComponent}
                                     valueOfOption={valueOfOption}
                                     className={optionWrapperClass}
+                                    destroyRequest={withCallback(optionDestroyRequest)}
                                 />
                             ))}
 

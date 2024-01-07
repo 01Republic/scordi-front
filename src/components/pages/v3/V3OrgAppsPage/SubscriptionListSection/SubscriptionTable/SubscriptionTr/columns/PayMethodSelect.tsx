@@ -6,7 +6,10 @@ import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {subscriptionApi} from '^models/Subscription/api';
 import {useToast} from '^hooks/useToast';
-import {CreditCardProfile} from '^models/CreditCard/hook/components/CreditCardProfile';
+import {CreditCardProfileOption} from '^models/CreditCard/hook/components/CreditCardProfile';
+import {creditCardApi} from '^models/CreditCard/api';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
 
 interface PayMethodSelectProps {
     subscription: SubscriptionDto;
@@ -15,9 +18,9 @@ interface PayMethodSelectProps {
 }
 
 export const PayMethodSelect = memo((props: PayMethodSelectProps) => {
+    const ordId = useRecoilValue(orgIdParamState);
     const {toast} = useToast();
     const {search} = useCreditCards();
-    // const {loadCurrentSubscription} = useCurrentSubscription();
     const {subscription, onChange, lastPaidHistory} = props;
 
     const creditCard = subscription.creditCard;
@@ -48,23 +51,44 @@ export const PayMethodSelect = memo((props: PayMethodSelectProps) => {
         <SelectColumn
             value={subscription.creditCard}
             getOptions={getOptions}
-            ValueComponent={PayMethodTag}
+            ValueComponent={PayMethodOption}
             valueOfOption={(creditCard) => creditCard.id}
             textOfOption={(creditCard) => creditCard.name || ''}
             onSelect={onSelect}
             inputDisplay
             inputPlainText
             optionListBoxTitle="결제수단을 변경합니다"
+            optionDestroyRequest={(creditCard) => {
+                let msg = '이 결제수단을 정말로 삭제할까요?';
+
+                const arr: string[] = [];
+                if (creditCard.subscriptions?.length) {
+                    arr.push(`[${creditCard.subscriptions?.length}개]의 구독`);
+                }
+                if (creditCard.billingHistories?.length) {
+                    arr.push(`[${creditCard.billingHistories?.length}개]의 결제내역`);
+                }
+                if (arr.length) {
+                    msg += `\n${arr.join('과 ')}을 담고있어요`;
+                }
+
+                if (!confirm(msg)) return false;
+
+                return creditCardApi.destroy(ordId, creditCard.id).then(() => {
+                    toast.success('삭제되었습니다.');
+                    return true;
+                });
+            }}
         />
     );
 });
 
-const PayMethodTag = memo((props: {value: CreditCardDto | string}) => {
+const PayMethodOption = memo((props: {value: CreditCardDto | string}) => {
     const {value} = props;
 
     if (typeof value === 'string') {
         return <p>{value}</p>;
     }
 
-    return <CreditCardProfile item={value} />;
+    return <CreditCardProfileOption item={value} />;
 });
