@@ -1,6 +1,6 @@
 import {TypeCast} from '^types/utils/class-transformer';
 import {SubscriptionStatus} from '^models/Subscription/types/SubscriptionStatus';
-import {CreateMoneyWithSubscriptionRequestDto} from '^types/money.type';
+import {CreateMoneyWithSubscriptionRequestDto} from '^models/Money';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
 import {RecurringTypeOptions} from '^models/Subscription/types/RecurringTypeOptions';
 

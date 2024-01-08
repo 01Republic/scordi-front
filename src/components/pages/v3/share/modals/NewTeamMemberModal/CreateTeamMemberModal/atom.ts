@@ -1,5 +1,5 @@
 import {atom} from 'recoil';
-import {CreateTeamMemberDto} from '^models/TeamMember';
+import {CreateTeamMemberDto, TeamMemberDto} from '^models/TeamMember';
 
 export const isOpenNewTeamMemberModalAtom = atom({
     key: 'isOpenNewTeamMemberModalAtom',
@@ -9,4 +9,9 @@ export const isOpenNewTeamMemberModalAtom = atom({
 export const createNewTeamMemberAtom = atom<CreateTeamMemberDto>({
     key: 'createNewTeamMemberAtom',
     default: {} as CreateTeamMemberDto,
+});
+
+export const lastTeamMemberInfo = atom<TeamMemberDto>({
+    key: 'lastTeamMemberInfo',
+    default: {} as TeamMemberDto,
 });

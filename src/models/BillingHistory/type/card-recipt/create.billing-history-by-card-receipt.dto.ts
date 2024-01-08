@@ -1,7 +1,7 @@
 import {PartialType} from '^types/utils/partial-type';
 import {CreateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type/create-billing-history.request.dto.v2';
 import {OmitType} from '^types/utils/omit-type';
-import {CreateMoneyRequestDto, CurrencyCode} from '^types/money.type';
+import {CreateMoneyRequestDto, CurrencyCode} from '^models/Money';
 import {plainToInstance} from 'class-transformer';
 
 export class CreateBillingHistoryByCardReceiptDto extends PartialType(

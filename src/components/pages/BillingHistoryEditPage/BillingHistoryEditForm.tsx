@@ -8,7 +8,7 @@ import {billingHistoryIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useSetRecoilState} from 'recoil';
 import {getBillingHistoryQuery} from '^models/BillingHistory/atom';
 import {useBillingHistory} from '^models/BillingHistory/hook';
-import {CurrencyCode, CurrencyList} from '^types/money.type';
+import {CurrencyCode, CurrencyList} from '^models/Money';
 import {billingHistoryApi} from '^models/BillingHistory/api';
 import {UpdateBillingHistoryRequestDto} from '^models/BillingHistory/type';
 

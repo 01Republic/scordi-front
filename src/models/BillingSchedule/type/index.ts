@@ -1,7 +1,7 @@
 // 쿼리가 가능한 엔티티. (dto 와 entity 의 형태 차이가 좀 있음)
 import {TypeCast} from '^types/utils/class-transformer';
 import {BillingType} from '^models/InvoiceApp/type';
-import {CurrencyCode, CurrencyList, MoneyDto} from '^types/money.type';
+import {CurrencyCode, CurrencyList, MoneyDto} from '^models/Money';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {IsActiveSubsParams, StartEndParams} from '^types/billing.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';

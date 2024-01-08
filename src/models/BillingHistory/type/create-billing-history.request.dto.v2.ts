@@ -1,5 +1,5 @@
 import {TypeCast} from '^types/utils/class-transformer';
-import {CreateMoneyRequestDto} from '^types/money.type';
+import {CreateMoneyRequestDto} from '^models/Money';
 
 export class CreateBillingHistoryRequestDtoV2 {
     @TypeCast(() => Date) paidAt: Date; // 결제일시

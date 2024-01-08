@@ -1,8 +1,4 @@
-// import {GmailContent, GmailContentPayloadPartAttachment} from '^api/tasting.api';
-// import {ProviderNames} from '^api/tasting.api/gmail/agent/detect-provider-name';
-// import {getAttachment} from '^api/tasting.api/gmail/api.attachment';
-// import {getPdfText} from '^api/tasting.api/util/pdf';
-import {CurrencyCode, CurrencyListV2} from '^types/money.type';
+import {CurrencyCode, CurrencyListV2} from '^models/Money';
 
 export const getCurrencySymbol = (currency: CurrencyCode) => CurrencyListV2[currency].symbol ?? '$';
 

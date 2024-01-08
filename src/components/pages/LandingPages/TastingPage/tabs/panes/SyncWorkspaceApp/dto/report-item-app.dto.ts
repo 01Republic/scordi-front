@@ -4,7 +4,7 @@ import {
     RecurringType,
     ReportItemFormDataDto,
 } from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/dto/report-item-form.dto';
-import {CurrencyCode} from '^types/money.type';
+import {CurrencyCode} from '^models/Money';
 
 export class ReportItemAppDto {
     appName: string;

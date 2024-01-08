@@ -1,10 +1,12 @@
 import React, {memo, useState} from 'react';
 import {NextButtonUI} from '^v3/share/NextButtonUI';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {
     createInviteTeamMemberAtom,
     emailInputValueAtom,
+    isLoadingAtom,
     isOpenInviteOrgMemberModalAtom,
+    isOpenLoadingModalAtom,
 } from '^v3/share/modals/NewTeamMemberModal/InviteMemberModal/atom';
 import {useToast} from '^hooks/useToast';
 import {debounce} from 'lodash';
@@ -20,9 +22,10 @@ export const CTAButton = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
     const inputValue = useRecoilValue(emailInputValueAtom);
     const {close} = useModal({isShowAtom: isOpenInviteOrgMemberModalAtom});
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useRecoilState(isLoadingAtom);
     const {confirmOrgMember} = useInviteMember();
     const {isExist, reload, search: getTeamMembers} = useTeamMembers();
+    const {open, close: closeLoadingModal} = useModal({isShowAtom: isOpenLoadingModalAtom});
     const {alert} = useAlert();
     const {toast} = useToast();
     const invitedEmails = formData?.invitedEmails;
@@ -42,9 +45,16 @@ export const CTAButton = memo(() => {
         const isOrgMember = confirmOrgMember(inputValue);
         if (isOrgMember) return;
 
-        const createInvitedEmails = inputValue ? [...invitedEmails, inputValue] : invitedEmails;
+        const createInvitedEmails = inputValue
+            ? invitedEmails
+                ? [...invitedEmails, inputValue]
+                : [inputValue]
+            : invitedEmails;
 
         if (isLoading) return;
+
+        setIsLoading(true);
+        open();
         const req = inviteMembershipApi.create({
             organizationId: currentOrg.id,
             invitedEmails: createInvitedEmails,
@@ -55,10 +65,14 @@ export const CTAButton = memo(() => {
                 order: {id: 'DESC'},
                 itemsPerPage: 10,
             });
-            close();
+
             isExist && reload();
-            setIsLoading(false);
-            alert.success({title: '초대가 완료되었습니다.'});
+
+            alert.success({title: '초대가 완료되었습니다.'}).then(() => {
+                setIsLoading(false);
+                close();
+                closeLoadingModal();
+            });
         });
     }, 500);
 

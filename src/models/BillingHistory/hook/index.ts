@@ -18,7 +18,7 @@ import {
 } from '^models/BillingHistory/type';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {BillingType, InvoiceAppDto} from '^models/InvoiceApp/type';
-import {CurrencyCode} from '^types/money.type';
+import {CurrencyCode} from '^models/Money';
 import {changePriceCurrency} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {cachePagedQuery} from '^hooks/usePagedResource';
 import {useAlert} from '^hooks/useAlert';

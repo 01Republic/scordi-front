@@ -13,10 +13,23 @@ import {
     getTeamMembersQueryAtom,
     teamMembersSearchResultAtom,
 } from '../atom';
-import {cachePagedQuery, makeAppendPagedItemFn, makeExceptPagedItemFn} from '^hooks/usePagedResource';
+import {
+    buildPagedResource,
+    cachePagedQuery,
+    makeAppendPagedItemFn,
+    makeExceptPagedItemFn,
+} from '^hooks/usePagedResource';
 
 export * from './useSendInviteEmail';
 export * from './useTeamMemberV3';
+
+export const useTeamMembers_Dashboard = buildPagedResource<TeamMemberDto, FindAllTeamMemberQueryDto>({
+    key: 'useTeamMembers_Dashboard',
+    endpoint: (params, orgId) => teamMemberApi.index(orgId, params),
+    buildQuery: (params) => ({...params}),
+    getId: 'id',
+    mergeMode: false,
+});
 
 export const useTeamMembers = () => {
     const orgId = useRecoilValue(orgIdParamState);

@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {useRecoilState} from 'recoil';
 import {displayCurrencyAtom} from './pageAtoms';
 import {ReactNodeLike} from 'prop-types';
-import {CurrencyCode} from '^types/money.type';
+import {CurrencyCode} from '^models/Money';
 
 interface CurrencyToggleProps {
     leftText?: ReactNodeLike;

@@ -4,12 +4,13 @@ import {debounce} from 'lodash';
 import {plainToast} from '^hooks/useToast';
 import {emailValid} from '^utils/input-helper';
 import {teamMemberApi, TeamMemberDto} from '^models/TeamMember';
-import {useRecoilValue} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {useModal} from '^v3/share/modals';
 import {
     createNewTeamMemberAtom,
     isOpenNewTeamMemberModalAtom,
+    lastTeamMemberInfo,
 } from '^v3/share/modals/NewTeamMemberModal/CreateTeamMemberModal/atom';
 
 interface CTAButtonProps {
@@ -22,6 +23,7 @@ export const CTAButton = memo((props: CTAButtonProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const {close} = useModal({isShowAtom: isOpenNewTeamMemberModalAtom});
     const formData = useRecoilValue(createNewTeamMemberAtom);
+    const setResponse = useSetRecoilState(lastTeamMemberInfo);
     const {nameInputRef, emailInputRef, onSubmit: _onSubmit} = props;
 
     const confirmData = () => {
@@ -45,6 +47,7 @@ export const CTAButton = memo((props: CTAButtonProps) => {
             return;
         }
     };
+
     const onSubmit = debounce(() => {
         const duration = 4000;
 
@@ -54,6 +57,7 @@ export const CTAButton = memo((props: CTAButtonProps) => {
             plainToast.success('추가되었습니다', {duration});
             close();
             _onSubmit(res.data);
+            setResponse(res.data);
         });
     }, 500);
 

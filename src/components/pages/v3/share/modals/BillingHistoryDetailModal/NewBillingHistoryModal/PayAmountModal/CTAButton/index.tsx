@@ -11,7 +11,7 @@ import {
 import {appBillingHistoryApi} from '^models/BillingHistory/api';
 import {appIdState} from '^v3/V3OrgAppShowPage/atom';
 import {useModal} from '^v3/share/modals';
-import {CreateMoneyRequestDto, CurrencyCode} from '^types/money.type';
+import {CreateMoneyRequestDto, CurrencyCode} from '^models/Money';
 import {selectedCurrencyState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 import {NextButtonUI} from '^v3/share/NextButtonUI';

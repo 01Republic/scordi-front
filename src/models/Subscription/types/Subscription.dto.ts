@@ -9,7 +9,7 @@ import {BillingHistoryDto} from '^models/BillingHistory/type';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {TeamMemberDto} from '^models/TeamMember/type';
-import {MoneyDto} from '^types/money.type';
+import {MoneyDto} from '^models/Money';
 import {BillingCycleTerm, Locale, SubscriptionBillingCycleDto, t_BillingCycleTerm} from './billingCycleType';
 import {ConnectStatus} from './ConnectStatus';
 import {SubscriptionStatus} from './SubscriptionStatus';

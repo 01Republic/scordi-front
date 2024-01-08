@@ -3,7 +3,7 @@ import {atom, useRecoilState} from 'recoil';
 import {ProductDto, ProductConnectMethod, UpdateProductRequestDto as UpdateDto} from '^models/Product/type';
 import {useForm} from 'react-hook-form';
 import {FormControlInput} from '^layouts/ContentLayout/FormControlInput';
-import {useProductSearch} from '^models/Product/hook';
+import {useProductsV2} from '^models/Product/hook';
 import {FormControlCheckbox} from '^layouts/ContentLayout/FormControlCheckbox';
 import {FormControlSelect} from '^layouts/ContentLayout/FormControlSelect';
 import {FormControlTextArea} from '^layouts/ContentLayout/FormControlTextArea';
@@ -22,7 +22,7 @@ export const PrototypeEditModal = memo((props: PrototypeEditModalProps) => {
     const {searchMutationAfterSave = false} = props;
     const [protoTarget, setEditingProtoTarget] = useRecoilState(editingProtoTargetState);
     const form = useForm<UpdateDto>();
-    const {mutation} = useProductSearch();
+    const {reload: mutation} = useProductsV2();
 
     const onClose = useCallback(() => {
         setEditingProtoTarget(null);

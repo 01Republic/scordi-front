@@ -1,5 +1,5 @@
 import React, {memo, useRef} from 'react';
-import {CurrencyCode} from '^types/money.type';
+import {CurrencyCode} from '^models/Money';
 import {FormControl} from '^components/util/form-control';
 import {useSetRecoilState} from 'recoil';
 import {domesticPayAmount} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/atoms';
