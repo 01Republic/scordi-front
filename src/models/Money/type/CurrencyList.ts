@@ -82,8 +82,8 @@ export const CurrencyListV2: {[key in CurrencyCode]: CurrencyInfo} = {
     [CurrencyCode.MXN]: {code: CurrencyCode.MXN, symbol: '$', format: '%s%u', desc: 'Mexican Peso', unit: '페소'},
     [CurrencyCode.NZD]: {code: CurrencyCode.NZD, symbol: '$', format: '%s%u', desc: 'New Zealand Dollar', unit: '달러'},
     [CurrencyCode.SGD]: {code: CurrencyCode.SGD, symbol: '$', format: '%s%u', desc: 'Singapore Dollar', unit: '달러'},
-    [CurrencyCode.CHF]: {code: CurrencyCode.CHF, symbol: '₣', format: '%s%u', desc: 'Swiss Franc'},
-    [CurrencyCode.THB]: {code: CurrencyCode.THB, symbol: '฿', format: '%s%u', desc: 'Thai Baht', unit: '바트'},
+    [CurrencyCode.CHF]: {code: CurrencyCode.CHF, symbol: '₣', format: '%s%u', desc: 'Swiss Franc', unit: '프랑'},
+    [CurrencyCode.THB]: {code: CurrencyCode.THB, symbol: '฿', format: '%s%u', desc: 'Thai Baht', unit: '밧'},
     [CurrencyCode.BRL]: {code: CurrencyCode.BRL, symbol: 'R$', format: '%s%u', desc: 'Brazilian Real', unit: '레알'},
     [CurrencyCode.TRY]: {
         code: CurrencyCode.TRY,
