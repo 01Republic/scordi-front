@@ -8,7 +8,6 @@ import {
 } from '^models/Product/type';
 import {Paginated} from '^types/utils/paginated.dto';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
-import {plainToInstance} from 'class-transformer';
 
 const NAMESPACE = 'products';
 

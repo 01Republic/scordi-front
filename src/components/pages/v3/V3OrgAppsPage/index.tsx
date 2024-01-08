@@ -22,13 +22,13 @@ import {SubscriptionListSection} from './SubscriptionListSection';
 import {SubscriptionDetailModal} from './_localModals';
 
 const MODALS: ReactComponentLike[] = [
+    NewAppModal,
     SubscriptionDetailModal,
     BillingHistoryDetailModal,
     TeamMemberShowModal,
     AccountListModal,
     TeamMemberCreateModal,
     InvoiceAccountSelectModal,
-    NewAppModal,
 ];
 
 export const V3OrgAppsPage = memo(() => {
