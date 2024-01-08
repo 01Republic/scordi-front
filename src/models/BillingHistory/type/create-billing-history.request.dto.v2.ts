@@ -4,6 +4,7 @@ import {CreateMoneyRequestDto} from '^types/money.type';
 export class CreateBillingHistoryRequestDtoV2 {
     @TypeCast(() => Date) paidAt: Date; // 결제일시
     @TypeCast(() => CreateMoneyRequestDto) payAmount: CreateMoneyRequestDto; // 결제금액
+    @TypeCast(() => CreateMoneyRequestDto) abroadPayAmount?: CreateMoneyRequestDto; // 결제금액
     uid?: string; // UID
     creditCardId: number | null; // 카드
     invoiceUrl?: string | null; // 인보이스(파일) 주소

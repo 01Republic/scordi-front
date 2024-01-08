@@ -28,6 +28,7 @@ export class BillingHistoryDto {
     @TypeCast(() => Date) lastRequestedAt: Date | null; // 최근 결제 요청 일시
     @TypeCast(() => Date) paidAt: Date | null; // 결제 완료 일시
     @TypeCast(() => MoneyDto) payAmount: MoneyDto | null; // 결제금액
+    @TypeCast(() => MoneyDto) abroadPayAmount: MoneyDto | null; // 해외결제금액
     paymentMethod: string; // 결제수단
     memo: string | null; // 메모
     // isSuccess: boolean; // 결제완료여부
