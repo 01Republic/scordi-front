@@ -3,7 +3,7 @@ import {ContentTable} from '^layouts/ContentLayout';
 import {ProductDto, ProductConnectMethod} from '^models/Product/type';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {subscriptionsState} from '^models/Subscription/atom';
-import {useProductSearch} from '^models/Product/hook';
+import {useProductsV2} from '^models/Product/hook';
 import {OrgProtoDetailPageRoute} from 'src/pages/orgs/[id]/products/[productId]';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
@@ -17,11 +17,11 @@ import {OutLink} from '^components/OutLink';
 import {productApi} from '^models/Product/api';
 
 export const SearchResultTable = memo(() => {
-    const {results: products, mutation} = useProductSearch();
+    const {result, reload} = useProductsV2();
     const {isAdmin} = useRecoilValue(currentUserAtom) || {};
 
     useEffect(() => {
-        mutation();
+        reload();
     }, []);
 
     const thStyle = {width: '10%', minWidth: '100px'};
@@ -44,7 +44,7 @@ export const SearchResultTable = memo(() => {
                 </tr>
             }
         >
-            {(products || []).map((proto, i) => (
+            {(result.items || []).map((proto, i) => (
                 <PrototypeItem
                     key={i}
                     proto={proto}
@@ -55,7 +55,7 @@ export const SearchResultTable = memo(() => {
                         productApi
                             .destroy(proto.id)
                             .then(() => toast(`[${proto.nameEn}] Successfully removed`))
-                            .then(() => mutation())
+                            .then(() => reload())
                             .catch(errorNotify);
                     }}
                 />

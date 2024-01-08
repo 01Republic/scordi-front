@@ -1,12 +1,12 @@
 import React, {memo, useCallback, useEffect} from 'react';
 import {useRecoilState} from 'recoil';
-import {useProductSearch} from '^models/Product/hook';
+import {useProductsV2} from '^models/Product/hook';
 import {selectedCategoriesState} from './FilterCategorySelect';
 import {AiOutlineCloseCircle} from '^components/react-icons';
 
 export const SelectedCategoryTags = memo(() => {
     const [cateTags, setCateTags] = useRecoilState(selectedCategoriesState);
-    const {searchProducts} = useProductSearch();
+    const {search: searchProducts} = useProductsV2();
 
     useEffect(() => {
         const tagIds = cateTags.map((cateTag) => cateTag.id);

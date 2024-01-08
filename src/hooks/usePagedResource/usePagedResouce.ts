@@ -14,6 +14,7 @@ export interface UsePagedResourceOption<DTO, Query> {
     buildQuery?: (params: Query, orgId: number) => Query;
     mergeMode?: boolean;
     getId: keyof DTO | ((dto: DTO) => any);
+    useOrgId?: boolean;
 }
 
 /**
@@ -22,7 +23,15 @@ export interface UsePagedResourceOption<DTO, Query> {
  * 반복해서 구현하는 스펙을 모아서 한 번에 구현.
  */
 export function usePagedResource<DTO, Query>(option: UsePagedResourceOption<DTO, Query>) {
-    const {resultAtom, queryAtom, endpoint, buildQuery = (q) => q, mergeMode: defaultMergeMode = false, getId} = option;
+    const {
+        resultAtom,
+        queryAtom,
+        endpoint,
+        buildQuery = (q) => q,
+        mergeMode: defaultMergeMode = false,
+        getId,
+        useOrgId = true,
+    } = option;
 
     const orgId = useRecoilValue(orgIdParamState);
     const [result, setResult] = useRecoilState(resultAtom);
@@ -32,7 +41,9 @@ export function usePagedResource<DTO, Query>(option: UsePagedResourceOption<DTO,
     const keyOf = ensureKeyOfIsFunction(getId);
 
     async function search(params: Query, mergeMode = defaultMergeMode, force = false) {
-        // if (!orgId || isNaN(orgId)) return;
+        if (useOrgId) {
+            if (!orgId || isNaN(orgId)) return;
+        }
         params = buildQuery(params, orgId);
         const request = () => {
             setIsLoading(true);
