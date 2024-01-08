@@ -5,6 +5,7 @@ import {TeamDto} from '^models/Team/type';
 import {useTeamsV2} from '^models/Team/hook';
 import {TeamTag} from '^models/Team/components/TeamTag';
 import {currentTeamMemberState} from '^models/TeamMember';
+import {lastTeamMemberInfo} from '^v3/share/modals/NewTeamMemberModal/CreateTeamMemberModal';
 
 interface TeamSelectProps {
     onSelect: (selectedTeam: TeamDto | undefined) => any;
@@ -13,9 +14,9 @@ interface TeamSelectProps {
 export const TeamSelect = memo((props: TeamSelectProps) => {
     const teamMember = useRecoilValue(currentTeamMemberState);
     const {result, search} = useTeamsV2();
+    const lastTeamMember = useRecoilValue(lastTeamMemberInfo);
     const {onSelect} = props;
-    const defaultValue = teamMember?.team;
-
+    const defaultValue = teamMember?.team ?? lastTeamMember.team;
     const loadTeams = () => search({order: {id: 'DESC'}}, false, true);
 
     return (
