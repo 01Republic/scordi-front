@@ -4,7 +4,7 @@ import {groupBy, groupByDate, monthBefore, yearBefore, yyyy_mm_dd} from '^utils/
 import {BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 import {uniqWith} from 'lodash';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
-import {CurrencyCode} from '^types/money.type';
+import {CurrencyCode} from '^models/Money';
 
 export class BillingHistoryManager extends BasicManager<BillingHistoryDto> {
     /**

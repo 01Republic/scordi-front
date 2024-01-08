@@ -1,7 +1,7 @@
 import {atom} from 'recoil';
 import {Paginated} from '^types/utils/paginated.dto';
 import {BillingHistoryDto, CreateBillingHistoryRequestDto} from '^models/BillingHistory/type';
-import {CurrencyCode} from '^types/money.type';
+import {CurrencyCode} from '^models/Money';
 
 /**
  * 결제내역 상세모달 상태

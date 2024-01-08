@@ -1,59 +1,16 @@
-import {plainToInstance} from 'class-transformer';
+import {CurrencyCode} from './CurrencyCode.enum';
+import {CurrencyInfo} from './CurrencyInfo.type';
 
-export enum CurrencyCode {
-    USD = 'USD', // 미국 달러
-    KRW = 'KRW', // 한국 원
-    EUR = 'EUR', // 유럽 유로
-    GBP = 'GBP', // 영국 파운드 스털링
-    CAD = 'CAD', // 캐나다 달러
-    CNY = 'CNY', // 중국 위안
-    JPY = 'JPY', // 일본 엔
-    VND = 'VND', // 베트남 동
-    ARS = 'ARS', // 아르헨티나 페소
-    INR = 'INR', // 인도 루피
-    TWD = 'TWD', // 대만 달러
-    AUD = 'AUD', // 호주 달러
-    HKD = 'HKD', // 홍콩 달러
-    IDR = 'IDR', // 인도네시아 루피아
-    MXN = 'MXN', // 멕시코 페소
-    NZD = 'NZD', // 뉴질랜드 달러
-    SGD = 'SGD', // 싱가포르 달러
-    CHF = 'CHF', // 스위스 프랑
-    THB = 'THB', // 태국 바트
-    BRL = 'BRL', // 브라질 레알
-    TRY = 'TRY', // 터키 리라
-    RUB = 'RUB', // 러시아 루블
-    NOK = 'NOK', // 노르웨이 크로네
-    DKK = 'DKK', // 덴마크 크로네
-    SEK = 'SEK', // 스웨덴 크로나
-    ILS = 'ILS', // 이스라엘 세켈
-    ZAR = 'ZAR', // 남아프리카 공화국 랜드
-    PLN = 'PLN', // 폴란드 즐로티
-    PHP = 'PHP', // 필리핀 페소
-    CZK = 'CZK', // 체코 코루나
-    CLP = 'CLP', // 칠레 페소
-    COP = 'COP', // 콜롬비아 페소
-    EGP = 'EGP', // 이집트 파운드
-    MYR = 'MYR', // 말레이시아 링깃
-    HUF = 'HUF', // 헝가리 포린트
-    AED = 'AED', // 아랍에미리트 디르함
-    SAR = 'SAR', // 사우디아라비아 리얄
-    RON = 'RON', // 루마니아 레우
-    BGN = 'BGN', // 불가리아 레프
-}
-
-export type CurrencyInfo = {
-    code: CurrencyCode;
-    symbol: string;
-    local?: string;
-    unit?: string;
-    abbreviation?: string;
-    format: string;
-    desc: string;
-};
+// Deprecated
+export const CurrencyList = {
+    en: {code: CurrencyCode.USD, symbol: '$', format: '%u%n', exchangeRate: 1},
+    ko: {code: CurrencyCode.KRW, symbol: '₩', format: '%u%n', exchangeRate: 1300},
+    vn: {code: CurrencyCode.VND, symbol: '₫', format: '%u%n', exchangeRate: 1},
+} as const;
 
 // references
 // https://www.newbridgefx.com/currency-codes-symbols/
+
 // https://en.wikipedia.org/wiki/Mexican_peso
 export const CurrencyListV2: {[key in CurrencyCode]: CurrencyInfo} = {
     [CurrencyCode.USD]: {
@@ -77,6 +34,7 @@ export const CurrencyListV2: {[key in CurrencyCode]: CurrencyInfo} = {
         local: '원',
         format: '%s%u',
         desc: 'South Korean Won',
+        unit: '원',
     },
     [CurrencyCode.GBP]: {
         code: CurrencyCode.GBP,
@@ -180,70 +138,3 @@ export const CurrencyListV2: {[key in CurrencyCode]: CurrencyInfo} = {
     },
     [CurrencyCode.BGN]: {code: CurrencyCode.BGN, symbol: 'лв', format: '%s%u', desc: 'Bulgarian Lev', unit: '레프'},
 };
-
-export const CurrencyList = {
-    en: {code: CurrencyCode.USD, symbol: '$', format: '%u%n', exchangeRate: 1},
-    ko: {code: CurrencyCode.KRW, symbol: '₩', format: '%u%n', exchangeRate: 1300},
-    vn: {code: CurrencyCode.VND, symbol: '₫', format: '%u%n', exchangeRate: 1},
-} as const;
-
-export class MoneyDto {
-    text: string; // 금액 관련 원본 텍스트
-    format: string; // 원본 문자열 형식
-    amount: number; // 금액
-    code: CurrencyCode; // 화폐 코드
-    symbol: string; // 화폐 기호
-    exchangeRate: number; // 환율
-    exchangedCurrency: CurrencyCode; // 환율 기준 화폐 코드
-
-    static dup(base: MoneyDto) {
-        return plainToInstance(MoneyDto, base);
-    }
-
-    get dollar() {
-        return this.amount / this.exchangeRate;
-    }
-
-    changeAmount(amount: number) {
-        this.amount = amount;
-        this.updateText();
-        return this.amount;
-    }
-
-    updateText() {
-        this.text = this.to_s();
-        return this.text;
-    }
-
-    isDomestic() {
-        return this.code === CurrencyCode.KRW;
-    }
-
-    isExchangeable() {
-        return this.exchangedCurrency !== this.code;
-    }
-
-    isNotDomestic() {
-        return !this.isDomestic();
-    }
-
-    to_s() {
-        const amount = this.amount.toLocaleString();
-        return this.format.replace('%u', this.symbol).replace('%n', amount);
-    }
-}
-
-export class CreateMoneyRequestDto {
-    text: string; // 금액 관련 원본 텍스트
-    amount: number; // 금액
-    code: CurrencyCode; // 화폐 코드
-    exchangeRate: number; // 환율
-    exchangedCurrency: CurrencyCode; // 환율 기준 화폐 코드
-}
-
-export type MoneyLike = Pick<MoneyDto, 'text' | 'format' | 'amount' | 'code' | 'symbol' | 'exchangeRate'>;
-
-export class CreateMoneyWithSubscriptionRequestDto {
-    amount: number; // 금액
-    currency: CurrencyCode; // 화폐 코드
-}

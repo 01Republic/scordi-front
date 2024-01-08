@@ -1,5 +1,5 @@
 import {BasicManager} from '^models/BasicManager';
-import {CurrencyCode} from '^types/money.type';
+import {CurrencyCode} from '^models/Money';
 import {groupBy, yyyy_mm_dd} from '^utils/dateTime';
 import {dateSortBy} from '^components/util/date';
 import {uniqWith} from 'lodash';

@@ -1,6 +1,6 @@
 import {atom} from 'recoil';
 import {CreateSubscriptionRequestDto} from '^models/Subscription/types';
-import {CurrencyCode} from '^types/money.type';
+import {CurrencyCode} from '^models/Money';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
 import {RecurringTypeOptions} from '^models/Subscription/types/RecurringTypeOptions';
 

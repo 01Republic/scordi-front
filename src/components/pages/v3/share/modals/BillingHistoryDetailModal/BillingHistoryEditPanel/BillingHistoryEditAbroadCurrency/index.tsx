@@ -1,5 +1,5 @@
 import React, {memo, useEffect} from 'react';
-import {CurrencyCode, CurrencyListV2} from '^types/money.type';
+import {CurrencyCode, CurrencyListV2} from '^models/Money';
 import {useRecoilState} from 'recoil';
 import {selectedCurrencyState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {useModal} from '^v3/share/modals';
