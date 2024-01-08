@@ -31,7 +31,7 @@ export const V3OrgJoin = memo(() => {
                         <div className="w-fit m-auto">
                             <p className="mb-1">로그인 후 스코디 이용하기</p>
                             <GoogleOAuthProvider clientId={googleOauthClientId}>
-                                <GoogleLoginBtn about="admin" />
+                                <GoogleLoginBtn about="gmail" />
                             </GoogleOAuthProvider>
                         </div>
                     </div>
