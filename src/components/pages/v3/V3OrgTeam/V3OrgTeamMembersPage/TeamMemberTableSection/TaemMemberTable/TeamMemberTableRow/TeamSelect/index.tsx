@@ -22,7 +22,7 @@ export const TeamSelect = memo((props: TeamSelectProps) => {
 
     const getOptions = async (keyword?: string) => {
         return search({keyword, order: {id: 'DESC'}}, false, true).then((res) => {
-            return res.items;
+            return res?.items || [];
         });
     };
 
