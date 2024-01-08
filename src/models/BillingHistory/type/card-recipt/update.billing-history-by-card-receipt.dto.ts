@@ -1,6 +1,6 @@
 import {PartialType} from '^types/utils/partial-type';
 import {OmitType} from '^types/utils/omit-type';
-import {CreateMoneyRequestDto, CurrencyCode} from '^types/money.type';
+import {CreateMoneyRequestDto, CurrencyCode} from '^models/Money';
 import {plainToInstance} from 'class-transformer';
 import {UpdateBillingHistoryRequestDtoV3} from '^models/BillingHistory/type/update-billing-history.request.dto.v2';
 

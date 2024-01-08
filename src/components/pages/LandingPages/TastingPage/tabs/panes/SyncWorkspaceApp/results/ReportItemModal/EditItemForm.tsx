@@ -6,7 +6,7 @@ import {CgArrowsExchangeAlt} from 'react-icons/cg';
 import {isEditModeState} from './atom';
 import {subjectReportProductItem, useReportInDemo} from '../../atom';
 import {RecurringType, ReportItemFormDataDto} from '../../dto/report-item-form.dto';
-import {CurrencyCode} from '^types/money.type';
+import {CurrencyCode} from '^models/Money';
 
 const isDefined = <T,>(v: T | undefined, callback?: (v: T) => any) => {
     return callback ? typeof v !== 'undefined' && callback(v) : typeof v !== 'undefined';

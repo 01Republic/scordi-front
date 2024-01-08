@@ -2,7 +2,7 @@ import {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {subjectReportProductItem} from '../../atom';
 import {RecurringType} from '../../dto/report-item-form.dto';
-import {CurrencyCode} from '^types/money.type';
+import {CurrencyCode} from '^models/Money';
 
 export const ItemInfo = memo(function ItemInfo() {
     const subjectItem = useRecoilValue(subjectReportProductItem);

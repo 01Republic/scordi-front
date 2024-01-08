@@ -3,7 +3,7 @@ import {GmailParsedItem, GoogleAccessTokenData} from '^api/tasting.api';
 import {GoogleSignedUserData} from '^models/User/atom';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
-import {CurrencyCode} from '^types/money.type';
+import {CurrencyCode} from '^models/Money';
 
 export const gmailItemsLoadingAtom = atom({
     key: 'gmailItemsLoadingAtom',

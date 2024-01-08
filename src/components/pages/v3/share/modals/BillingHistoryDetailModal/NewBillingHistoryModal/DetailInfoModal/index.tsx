@@ -12,7 +12,7 @@ import {FormControl} from '^components/util/form-control';
 import {TextInput} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/share/TextInput';
 import {ButtonGroupRadio} from '^components/util/form-control/inputs';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
-import {CreateMoneyRequestDto, CurrencyCode} from '^types/money.type';
+import {CreateMoneyRequestDto, CurrencyCode} from '^models/Money';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {selectedCurrencyState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {appBillingHistoryApi} from '^models/BillingHistory/api';

@@ -8,7 +8,7 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {FormControl, RequiredFormControl} from '^components/util/form-control';
 import {BillingHistoryEditPanelBySubtype} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryEditPanel/BillingHistoryEditPanelBySubtype';
 import {CardSingleSelect} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryEditPanel/CardSelect';
-import {CurrencyCode} from '^types/money.type';
+import {CurrencyCode} from '^models/Money';
 import {ButtonGroupRadio} from '^components/util/form-control/inputs';
 import {TextInput} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/share/TextInput';
 import {plainToast} from '^hooks/useToast';

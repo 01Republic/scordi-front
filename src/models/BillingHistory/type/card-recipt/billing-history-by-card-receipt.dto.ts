@@ -1,6 +1,6 @@
 import {BillingHistoryDto} from '^models/BillingHistory/type';
 import {OmitType} from '^types/utils/omit-type';
-import {CurrencyCode} from '^types/money.type';
+import {CurrencyCode} from '^models/Money';
 
 export class BillingHistoryByCardReceiptDto extends OmitType(BillingHistoryDto, [
     'invoiceApp',
