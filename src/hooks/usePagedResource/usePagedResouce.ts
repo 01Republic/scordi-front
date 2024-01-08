@@ -10,10 +10,10 @@ import {useState} from 'react';
 export interface UsePagedResourceOption<DTO, Query> {
     resultAtom: RecoilState<Paginated<DTO>>;
     queryAtom: RecoilState<Query>;
-    endpoint: (params: Query) => Promise<AxiosResponse<Paginated<DTO>>>;
-    buildQuery?: (params: Query) => Query;
+    endpoint: (params: Query, orgId: number) => Promise<AxiosResponse<Paginated<DTO>>>;
+    buildQuery?: (params: Query, orgId: number) => Query;
     mergeMode?: boolean;
-    getId: (dto: DTO) => any;
+    getId: keyof DTO | ((dto: DTO) => any);
 }
 
 /**
@@ -29,12 +29,14 @@ export function usePagedResource<DTO, Query>(option: UsePagedResourceOption<DTO,
     const [query, setQuery] = useRecoilState(queryAtom);
     const [isLoading, setIsLoading] = useState(false);
 
+    const keyOf = ensureKeyOfIsFunction(getId);
+
     async function search(params: Query, mergeMode = defaultMergeMode, force = false) {
         // if (!orgId || isNaN(orgId)) return;
-        params = buildQuery(params);
+        params = buildQuery(params, orgId);
         const request = () => {
             setIsLoading(true);
-            return endpoint(params).finally(() => {
+            return endpoint(params, orgId).finally(() => {
                 setTimeout(() => setIsLoading(false), 200);
             });
         };
@@ -45,9 +47,14 @@ export function usePagedResource<DTO, Query>(option: UsePagedResourceOption<DTO,
     const movePage = (page: number, append = false) => search({...query, page}, append);
     const resetPage = () => search({...query, page: 1}, false, true);
     const append = makeAppendPagedItemFn(setResult);
-    const except = makeExceptPagedItemFn(setResult, (it, item) => getId(it) !== getId(item));
+    const except = makeExceptPagedItemFn(setResult, (it, item) => keyOf(it) !== keyOf(item));
     // @ts-ignore
     const clearCache = () => setQuery({});
 
     return {query, result, search, reload, movePage, resetPage, except, isLoading, clearCache};
+}
+
+// getId 파라미터에 콜백함수가 아닌 문자열 리터럴을 입력받는 경우, 콜백으로 변환합니다.
+function ensureKeyOfIsFunction<DTO>(finder: keyof DTO | ((dto: DTO) => any)) {
+    return typeof finder == 'function' ? finder : (dto: DTO) => dto[finder];
 }
