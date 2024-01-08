@@ -6,6 +6,11 @@ export const isOpenInviteOrgMemberModalAtom = atom({
     default: false,
 });
 
+export const isOpenLoadingModalAtom = atom({
+    key: 'isOpenLoadingModalAtom',
+    default: false,
+});
+
 export const createInviteTeamMemberAtom = atom<CreateMembershipInviteDto>({
     key: 'createInviteTeamMemberAtom',
     default: {} as CreateMembershipInviteDto,
@@ -14,4 +19,9 @@ export const createInviteTeamMemberAtom = atom<CreateMembershipInviteDto>({
 export const emailInputValueAtom = atom<string>({
     key: 'emailInputValueAtom',
     default: '',
+});
+
+export const isLoadingAtom = atom<boolean>({
+    key: 'isLoadingAtom',
+    default: false,
 });
