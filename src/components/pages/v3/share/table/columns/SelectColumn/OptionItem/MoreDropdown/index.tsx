@@ -9,7 +9,8 @@ import {DropdownContent} from '../../DropdownContent';
 interface MoreDropdownProps<T> extends WithChildren {
     isCurrent: boolean;
     option: T;
-    destroyRequest?: (option: T) => false | Promise<boolean>;
+    destroyRequest?: (option: T) => false | Promise<boolean> | void;
+    className?: string;
 }
 
 export const MoreDropdown = <T,>(props: MoreDropdownProps<T>) => {
@@ -17,12 +18,12 @@ export const MoreDropdown = <T,>(props: MoreDropdownProps<T>) => {
     const [visible, setVisible] = useState(false);
     const show = () => setVisible(true);
     const hide = () => setVisible(false);
-    const {isCurrent, option, destroyRequest, children} = props;
+    const {isCurrent, option, destroyRequest, children, className} = props;
 
     return (
         <>
             <div className={visible ? 'hidden' : `group-hover:hidden`}>{isCurrent && <FcCheckmark />}</div>
-            <div className={`${visible ? 'flex' : 'hidden group-hover:flex'}`}>
+            <div className={`${visible ? 'flex' : 'hidden group-hover:flex'} ${className}`}>
                 <div
                     className="dropdown pt-1"
                     onClick={(e) => {
@@ -58,6 +59,7 @@ export const MoreDropdown = <T,>(props: MoreDropdownProps<T>) => {
                             </div>
                         </MoreDropdownListItem>
                     )}
+                    {children}
                 </ul>
             </DropdownContent>
         </>
