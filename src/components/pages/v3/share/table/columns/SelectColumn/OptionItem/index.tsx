@@ -1,7 +1,6 @@
 import {FcCheckmark} from 'react-icons/fc';
 import {ValueComponent} from '../type';
-import {IoMdMore} from 'react-icons/io';
-import {MoreDropdown} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown';
+import {MoreDropdown} from './MoreDropdown';
 
 interface OptionItemProps<T> {
     option: T;

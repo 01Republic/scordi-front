@@ -32,19 +32,19 @@ export const TeamMemberTableRow = memo((props: TeamMemberTableRowPropsTableRowPr
             </td>
 
             {/* 이용 앱 수 */}
-            <td className={`cursor-pointer ${hoverBgColor} text-right`} onClick={openShowModal}>
+            <td className={`cursor-pointer ${hoverBgColor} `} onClick={openShowModal}>
                 <p className="text-sm group-hover:text-scordi transition-all">
                     {subscriptions?.length} <small>Apps</small>
                 </p>
             </td>
 
             {/* 팀 */}
-            <td className={`${hoverBgColor} w-[25%]`}>
+            <td className={`${hoverBgColor}`}>
                 <TeamSelect teamMember={teamMember} onChange={() => reload && reload()} />
             </td>
 
             {/* 권한 */}
-            <td className={`${hoverBgColor} text-right`}>
+            <td className={`${hoverBgColor} text-center`}>
                 <TeamMemberRole teamMember={teamMember} />
             </td>
 

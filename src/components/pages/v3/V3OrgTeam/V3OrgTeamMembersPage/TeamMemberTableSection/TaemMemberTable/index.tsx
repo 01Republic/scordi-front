@@ -1,12 +1,23 @@
 import {memo} from 'react';
-import {TeamMemberManager, useTeamMembers} from '^models/TeamMember';
+import {TeamMemberDto, useTeamMembers} from '^models/TeamMember';
 import {TeamMemberTableRow} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow';
+import Qs from 'qs';
+import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
+import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 
 export const TeamMemberTable = memo(() => {
-    const {result, reload} = useTeamMembers();
+    const {result, query, search, reload} = useTeamMembers();
     const teamMembers = result.items;
-    const teamMemberManager = TeamMemberManager.init(teamMembers);
-    const sortedTeamMembers = teamMemberManager.sortByCreatedAtDescending(teamMembers);
+
+    const onSort = (sortKey: string, value: 'ASC' | 'DESC') => {
+        if (!query || !search) return;
+
+        const newOrder = Qs.parse(`${sortKey}=${value}`);
+        const searchQuery: FindAllQueryDto<TeamMemberDto> = {...query, page: 1};
+
+        searchQuery.order = newOrder;
+        search(searchQuery);
+    };
 
     return (
         <div className="card bg-white shadow">
@@ -14,20 +25,35 @@ export const TeamMemberTable = memo(() => {
                 <table className="table w-full">
                     <thead>
                         <tr>
-                            <th className="bg-base-100">멤버</th>
+                            <SortableTH sortKey="[name]" onClick={onSort}>
+                                멤버
+                            </SortableTH>
+
                             {/* 이용 앱 수 */}
-                            <th className="bg-base-100"></th>
+                            <SortableTH sortKey="[subscriptions]" onClick={onSort}>
+                                이용 앱 수
+                            </SortableTH>
                             {/* 팀 */}
-                            <th className="bg-base-100">팀</th>
+                            <SortableTH sortKey="[teams][id]" onClick={onSort} className="pl-3">
+                                팀
+                            </SortableTH>
                             {/* 권한 */}
-                            <th className="bg-base-100"></th>
+                            <SortableTH sortKey="[membership][level]" onClick={onSort} className="justify-center">
+                                권한
+                            </SortableTH>
                             {/* 상태 */}
-                            <th className="bg-base-100"></th>
+                            <SortableTH
+                                sortKey="[membership][approvalStatus]"
+                                onClick={onSort}
+                                className="mr-12 justify-end"
+                            >
+                                상태
+                            </SortableTH>
                         </tr>
                     </thead>
 
                     <tbody>
-                        {sortedTeamMembers.map((teamMember, i) => (
+                        {teamMembers.map((teamMember, i) => (
                             <TeamMemberTableRow key={i} teamMember={teamMember} reload={reload} />
                         ))}
                     </tbody>

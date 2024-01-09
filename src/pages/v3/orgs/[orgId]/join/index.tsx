@@ -1,4 +1,4 @@
-import {V3OrgJoin} from '^components/pages/v3/V3OrgJoin';
+import {V3OrgJoin} from '^v3/V3OrgJoin';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';

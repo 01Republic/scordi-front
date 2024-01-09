@@ -1,10 +1,9 @@
-import {memo, useState} from 'react';
+import {memo} from 'react';
 import {SubscriptionTr} from './SubscriptionTr';
 import {SubscriptionDto} from '^models/Subscription/types';
-import {WithChildren} from '^types/global.type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import Qs from 'qs';
-import {TiArrowSortedDown, TiArrowSortedUp} from 'react-icons/ti';
+import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 
 interface PagedTableProps<T> {
     items: T[];
@@ -90,38 +89,5 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
                 </table>
             </div>
         </div>
-    );
-});
-
-interface SortableTHProps extends WithChildren {
-    className?: string;
-    onClick?: (sortKey: string, value: 'ASC' | 'DESC') => any;
-    sortKey?: string;
-    sortVal?: 'ASC' | 'DESC';
-}
-
-const SortableTH = memo((props: SortableTHProps) => {
-    const {className = '', sortKey, sortVal = 'ASC', onClick, children} = props;
-    const [value, setValue] = useState<boolean>();
-
-    const isSortable = !!(sortKey && onClick);
-
-    const sort = () => {
-        if (!isSortable) return;
-
-        onClick(sortKey, !value ? 'ASC' : 'DESC');
-        setValue((v) => !v);
-    };
-
-    return (
-        <th onClick={sort} className={`cursor-pointer bg-transparent ${className}`}>
-            {isSortable ? (
-                <div className={`flex items-center ${className}`}>
-                    {children} {typeof value === 'boolean' && value ? <TiArrowSortedUp /> : <TiArrowSortedDown />}
-                </div>
-            ) : (
-                children
-            )}
-        </th>
     );
 });
