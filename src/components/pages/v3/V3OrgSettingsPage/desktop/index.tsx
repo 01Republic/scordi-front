@@ -1,5 +1,5 @@
 import React, {memo, useEffect} from 'react';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {V3SettingsLayout} from '^v3/layouts/V3SettingsLayout';
 import {SettingBodyPanel} from '^v3/V3OrgSettingsPage/desktop/SettingBodyPanel/SettingBodyPanel';
 import {OrgEditFormSection} from '^v3/V3OrgSettingsPage/OrgEditFormSection';
@@ -9,11 +9,7 @@ import {OrgConfigSection} from '^v3/V3OrgSettingsPage/OrgConfigSection';
 import {SelectedSettingsItem, WorkspaceStatus} from '^v3/V3OrgSettingsPage/desktop/atom';
 
 export const V30SettingsPageDesktop = memo(() => {
-    const [selectedItem, setSelectedItem] = useRecoilState(SelectedSettingsItem);
-
-    useEffect(() => {
-        setSelectedItem(WorkspaceStatus.GeneralInfo);
-    }, []);
+    const selectedItem = useRecoilValue(SelectedSettingsItem);
 
     return (
         <V3SettingsLayout>
