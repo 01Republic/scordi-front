@@ -10,7 +10,8 @@ export const PaymentInfoSection = memo(() => {
                         <p className="font-semibold text-gray-500">청구 이메일</p>
                         <p className="font-[500] text-16">diana@01republic.io</p>
                         <div className="card-actions justify-start">
-                            <a className="link link-primary no-underline text-sm">관리</a>
+                            &nbsp;
+                            {/*<a className="link link-primary no-underline text-sm">관리</a>*/}
                         </div>
                     </div>
                 </div>

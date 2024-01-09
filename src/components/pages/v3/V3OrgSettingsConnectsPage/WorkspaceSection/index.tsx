@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {ToolType} from '^v3/V3OrgSettingsConnectsPage/type';
 import {WorkspaceItem} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/WorkspaceItem';
-import {SettingBodyPanel} from '^v3/share/SettingBodyPanel';
+import {SettingBodyPanel} from '^v3/V3OrgSettingsPage/desktop/SettingBodyPanel/SettingBodyPanel';
 
 export const WorkspaceSection = memo(() => {
     return (

@@ -5,7 +5,7 @@ import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {TablePaginator} from '^v3/share/table/TablePaginator';
 import {AiOutlinePlus} from '@react-icons/all-files/ai/AiOutlinePlus';
-import {SettingBodyPanel} from '^v3/share/SettingBodyPanel';
+import {SettingBodyPanel} from '^v3/V3OrgSettingsPage/desktop/SettingBodyPanel/SettingBodyPanel';
 import {useModal} from '^v3/share/modals';
 import {newInvoiceAccountModal} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/atom';
 

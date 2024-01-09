@@ -8,20 +8,19 @@ import {NewInvoiceAccountModal} from '^v3/V3OrgHomePage/NewInvoiceAccountModal';
 import {useRecoilValue} from 'recoil';
 import {gmailItemsLoadedAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
 import {LoadingProgressFullScreen} from '^components/pages/LandingPages/TastingPage';
+import {ConnectStatus, SelectedSettingsItem} from '^v3/V3OrgSettingsPage/desktop/atom';
 
 export const V3OrgSettingsConnectsPage = memo(() => {
     const isLoaded = useRecoilValue(gmailItemsLoadedAtom);
+    const selectedItem = useRecoilValue(SelectedSettingsItem);
 
     if (isLoaded) return <LoadingProgressFullScreen />;
 
     return (
         <V3SettingsLayout>
             <GoogleOAuthProvider clientId={googleOAuth.adminClient.id}>
-                {/*워크스페이스*/}
-                <WorkspaceSection />
-
-                {/*인보이스 수신 계정*/}
-                <InvoiceAccountSection />
+                {selectedItem === ConnectStatus.Workspace && <WorkspaceSection />}
+                {selectedItem === ConnectStatus.InvoiceEmail && <InvoiceAccountSection />}
             </GoogleOAuthProvider>
             <NewInvoiceAccountModal />
         </V3SettingsLayout>

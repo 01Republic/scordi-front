@@ -7,9 +7,9 @@ export const SubscriptionSection = memo(() => {
             <div className="card w-full card-bordered border-slate-100 mb-8">
                 <div className="card-body p-4">
                     <h3 className="text-lg">무료 체험</h3>
-                    <div className="card-actions justify-start">
-                        <a className="link link-primary no-underline text-sm">구독 변경</a>
-                    </div>
+                    {/*<div className="card-actions justify-start">*/}
+                    {/*    <a className="link link-primary no-underline text-sm">구독 변경</a>*/}
+                    {/*</div>*/}
                 </div>
             </div>
         </EditFormSection>
