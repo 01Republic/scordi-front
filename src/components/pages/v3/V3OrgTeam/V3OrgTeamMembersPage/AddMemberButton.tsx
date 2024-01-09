@@ -4,6 +4,9 @@ import {isOpenNewTeamMemberModalAtom} from '^v3/share/modals/NewTeamMemberModal/
 import {isOpenInviteOrgMemberModalAtom} from '^v3/share/modals/NewTeamMemberModal/InviteMemberModal/atom';
 import {BsPlus} from 'react-icons/bs';
 import {FaPlus} from 'react-icons/fa6';
+import {useToast} from '^hooks/useToast';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
 
 export enum ButtonTypes {
     TextBtn = 'textBtn',
@@ -19,17 +22,25 @@ interface AddMemberButtonProps {
 }
 
 export const AddMemberButton = memo((props: AddMemberButtonProps) => {
-    const {text, direction, className, type} = props;
-
     const {isShow: isNewTeamMemberModalShow, setIsShow: setNewTeamMemberModalShow} = useModal({
         isShowAtom: isOpenNewTeamMemberModalAtom,
     });
     const {isShow: isInviteMemberModalShow, setIsShow: setInviteOrgMemberModalShow} = useModal({
         isShowAtom: isOpenInviteOrgMemberModalAtom,
     });
+    const {toast} = useToast();
+    const orgId = useRecoilValue(orgIdParamState);
+    const {text, direction, className, type} = props;
+    const link = `https://scordi.io:8080/v3/orgs/${orgId}/join`;
 
     const newTeamMemberModalShow = () => setNewTeamMemberModalShow(true);
     const inviteOrgMemberModalShow = () => setInviteOrgMemberModalShow(true);
+    const onCopy = () => {
+        if (!link) return;
+
+        navigator.clipboard.writeText(link);
+        toast.success('클립보드에 복사했습니다.');
+    };
 
     return (
         <>
@@ -70,6 +81,9 @@ export const AddMemberButton = memo((props: AddMemberButtonProps) => {
                     >
                         <li onClick={inviteOrgMemberModalShow}>
                             <span>이메일로 초대하기</span>
+                        </li>
+                        <li onClick={onCopy}>
+                            <span>초대링크 복사하기</span>
                         </li>
                         <li onClick={newTeamMemberModalShow}>
                             <span>직접 등록하기</span>
