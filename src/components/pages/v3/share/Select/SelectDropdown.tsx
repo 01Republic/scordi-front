@@ -31,7 +31,7 @@ export const SelectDropdown = memo((props: SelectDropdownProps) => {
     );
 
     return (
-        <SelectContainer currentVal={currentOption?.text || placeholder} isNotSelected={!currentOption}>
+        <SelectContainer currentVal={currentOption?.text || options[0].text || placeholder} isNotSelected={false}>
             {options.map((option, i) => {
                 const selected = option.value === currentOption?.value;
                 return <SelectOption key={i} {...option} selected={selected} onSelect={onClick} />;
