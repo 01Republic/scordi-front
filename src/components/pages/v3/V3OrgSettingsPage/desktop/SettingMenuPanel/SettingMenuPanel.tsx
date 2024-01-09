@@ -11,7 +11,7 @@ export const V3OrgSettingsMenuPanel = memo(() => {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
 
     return (
-        <aside className="border-r w-[240px] bg-white h-screen py-8 flex flex-col gap-5">
+        <aside className=" w-[240px] bg-white h-screen py-8 flex flex-col gap-5 shadow-xl">
             <MenuList title="워크스페이스">
                 <MenuItem href={V3OrgSettingsOrgPageRoute.path(orgId)} status={WorkspaceStatus.GeneralInfo} />
                 <MenuItem href={V3OrgSettingsOrgPageRoute.path(orgId)} status={WorkspaceStatus.Billing} />

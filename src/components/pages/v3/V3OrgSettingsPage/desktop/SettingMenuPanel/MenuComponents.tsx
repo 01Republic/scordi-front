@@ -58,7 +58,7 @@ export const MenuItem = (props: MenuItemProps) => {
                 isSelected ? 'border-scordi border-l-4 text-black' : 'text-gray-400'
             } font-semibold px-5 py-1.5 cursor-pointer`}
         >
-            {status}
+            {isSelected ? <span className="ml-[-4px]">{status}</span> : status}
         </li>
     );
 };
