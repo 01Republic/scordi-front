@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo} from 'react';
 import {NextButtonUI} from '^v3/share/NextButtonUI';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {
@@ -16,6 +16,7 @@ import {inviteMembershipApi} from '^models/Membership/api';
 import {useTeamMembers} from '^models/TeamMember';
 import {useAlert} from '^hooks/useAlert';
 import {useModal} from '^v3/share/modals';
+import {Invitation} from '^models/Membership/types';
 
 export const CTAButton = memo(() => {
     const formData = useRecoilValue(createInviteTeamMemberAtom);
@@ -28,7 +29,9 @@ export const CTAButton = memo(() => {
     const {open, close: closeLoadingModal} = useModal({isShowAtom: isOpenLoadingModalAtom});
     const {alert} = useAlert();
     const {toast} = useToast();
-    const invitedEmails = formData?.invitedEmails;
+    const invitedEmails = formData?.invitations?.map((invitation) => {
+        return invitation.email;
+    });
     const isActive = !!invitedEmails?.length || (inputValue.includes('.') && inputValue.includes('@'));
 
     const confirmData = () => {
@@ -45,11 +48,11 @@ export const CTAButton = memo(() => {
         const isOrgMember = confirmOrgMember(inputValue);
         if (isOrgMember) return;
 
-        const createInvitedEmails = inputValue
+        const createInvitedEmails: Invitation[] = inputValue
             ? invitedEmails
-                ? [...invitedEmails, inputValue]
-                : [inputValue]
-            : invitedEmails;
+                ? [...formData.invitations, {email: inputValue}]
+                : [{email: inputValue}]
+            : formData.invitations;
 
         if (isLoading) return;
 
@@ -57,7 +60,7 @@ export const CTAButton = memo(() => {
         open();
         const req = inviteMembershipApi.create({
             organizationId: currentOrg.id,
-            invitedEmails: createInvitedEmails,
+            invitations: createInvitedEmails,
         });
 
         req.then(() => {

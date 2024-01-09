@@ -27,7 +27,7 @@ export const TeamMemberStatus = memo((props: TeamMemberStatusProps) => {
 
     return (
         <div className="capitalize text-sm text-gray-500">
-            {isMe && <LeaveButton teamMember={teamMember} user={currentUser} tooltipMsg="" />}
+            {isMe && <LeaveButton user={currentUser} tooltipMsg="" />}
 
             {!isMe && membership && (
                 <button

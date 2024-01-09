@@ -20,13 +20,13 @@ export const InputInviteEmails = memo(() => {
     return (
         <div className="border w-full min-h-44 rounded-lg py-1 px-3">
             <div className="flex flex-wrap max-h-64 overflow-y-auto">
-                {formData.invitedEmails?.map((email: string, i) => (
+                {formData.invitations?.map((invitation, i) => (
                     <span key={i} className="m-1 py-1 px-2 rounded-lg bg-scordi-light-200 flex justify-between text-sm">
-                        {email}
+                        {invitation.email}
                         <IoClose
                             size={13}
                             className="self-center ml-2 cursor-pointer"
-                            onClick={() => removeInvitedEmail(email)}
+                            onClick={() => removeInvitedEmail(invitation.email)}
                         />
                     </span>
                 ))}

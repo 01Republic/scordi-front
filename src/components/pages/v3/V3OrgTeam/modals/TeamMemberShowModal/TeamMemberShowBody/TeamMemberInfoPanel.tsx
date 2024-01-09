@@ -35,7 +35,7 @@ export const TeamMemberInfoPanel = memo(() => {
     const sendInviteEmail = () => {
         if (!teamMember.email) return;
 
-        return sendEmail(teamMember.email).then(() => hide());
+        return sendEmail(teamMember.email, teamMember.id).then(() => hide());
     };
     const onClick = () => {
         switch (inviteContext) {

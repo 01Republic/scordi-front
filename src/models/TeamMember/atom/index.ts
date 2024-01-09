@@ -34,8 +34,3 @@ export const teamMembersSearchResultAtom = atom<Paginated<TeamMemberDto>>({
         },
     },
 });
-
-export const invitedEmailsAtom = atom<string[]>({
-    key: 'invitedEmailsAtom',
-    default: <string[]>[],
-});

@@ -10,7 +10,9 @@ export const useInviteMember = () => {
     const [formData, setFormData] = useRecoilState(createInviteTeamMemberAtom);
     const membershipSearchResult = useRecoilValue(orgMembershipSearchResultAtom);
     const setInputValue = useSetRecoilState(emailInputValueAtom);
-    const invitedEmails = formData.invitedEmails;
+    const invitedEmails = formData.invitations?.map((invitation) => {
+        return invitation.email;
+    });
 
     // 이미 초대된 멤버인지 확인하는 함수
     const confirmOrgMember = (data: string) => {
@@ -40,17 +42,16 @@ export const useInviteMember = () => {
 
     // 이메일 목록에서 삭제하는 함수
     const removeInvitedEmail = (value: string) => {
-        const remainEmails = invitedEmails.filter((email) => {
-            return email !== value;
+        const remainEmails = formData.invitations.filter((invitation) => {
+            return invitation.email !== value;
         });
 
-        setFormData((prev) => ({...prev, invitedEmails: remainEmails}));
+        setFormData((prev) => ({...prev, invitations: remainEmails}));
     };
 
     // 초대 이메일 배열에 추가하는 함수
     const addInvitedEmail = (e: KeyboardEvent<HTMLInputElement>) => {
         const invitedEmail = e.target.value.trim();
-        const invitedEmails = formData.invitedEmails;
 
         if (invitedEmail.length === 0) return;
 
@@ -64,7 +65,7 @@ export const useInviteMember = () => {
         setInputValue('');
         setFormData((prev) => ({
             ...prev,
-            invitedEmails: [...(prev.invitedEmails ?? []), invitedEmail],
+            invitations: [...(prev.invitations ?? []), {email: invitedEmail}],
         }));
     };
 

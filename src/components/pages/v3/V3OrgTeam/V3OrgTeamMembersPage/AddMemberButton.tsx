@@ -7,6 +7,7 @@ import {FaPlus} from 'react-icons/fa6';
 import {useToast} from '^hooks/useToast';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
+import {HiLink, HiOutlineEnvelope, HiOutlineUser} from 'react-icons/hi2';
 
 export enum ButtonTypes {
     TextBtn = 'textBtn',
@@ -77,16 +78,24 @@ export const AddMemberButton = memo((props: AddMemberButtonProps) => {
 
                     <ul
                         tabIndex={0}
-                        className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 my-2"
+                        className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 my-2 text-sm"
                     >
                         <li onClick={inviteOrgMemberModalShow}>
-                            <span>이메일로 초대하기</span>
+                            <span>
+                                <HiOutlineEnvelope /> 이메일로 초대하기
+                            </span>
                         </li>
                         <li onClick={onCopy}>
-                            <span>초대링크 복사하기</span>
+                            <span>
+                                <HiLink />
+                                초대링크 복사하기
+                            </span>
                         </li>
                         <li onClick={newTeamMemberModalShow}>
-                            <span>직접 등록하기</span>
+                            <span>
+                                <HiOutlineUser />
+                                직접 등록하기
+                            </span>
                         </li>
                     </ul>
                 </div>
