@@ -16,6 +16,7 @@ import {SubscriptionStatus} from './SubscriptionStatus';
 import {SubscriptionPaymentPlanDto} from './paymentPlanType';
 import {BillingCycleOptions, t_SubscriptionBillingCycleType} from '^models/Subscription/types/BillingCycleOptions';
 import {RecurringTypeOptions} from '^models/Subscription/types/RecurringTypeOptions';
+import {SubscriptionConnectMethod} from '^models/Subscription/types/ConnectMethod';
 
 export class SubscriptionDto {
     id: number;
@@ -33,6 +34,7 @@ export class SubscriptionDto {
      */
     billingCycleType: BillingCycleOptions; // 결제 주기
     recurringType: RecurringTypeOptions; // 과금 방식
+    connectMethod: SubscriptionConnectMethod; // 연동 방식
 
     @TypeCast(() => Date) registeredAt?: Date | null; // 사용 시작일
     nextBillingDate: string | null; // 다음결제일

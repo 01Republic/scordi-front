@@ -26,6 +26,11 @@ interface UsePagedResourceFactoryOption<DTO, Query> {
     //
     // 이런 일이 자주 있다면 처음부터 기본값을 true 로 설정해 둘 수 있습니다.
     mergeMode?: boolean;
+
+    // organization id 파라미터를 사용한다면 true, 사용하지 않으면 false 입니다.
+    //
+    // 기본값은 true 입니다.
+    useOrgId?: boolean;
 }
 
 /**

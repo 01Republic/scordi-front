@@ -2,13 +2,13 @@ import React, {memo, useCallback, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
 import {CreateProductRequestDto as CreateDto} from '^models/Product/type';
 import {FormControlInput} from '^layouts/ContentLayout/FormControlInput';
-import {useProductSearch} from '^models/Product/hook';
+import {useProductsV2} from '^models/Product/hook';
 import {errorNotify} from '^utils/toast-notify';
 import {productApi} from '^models/Product/api';
 
 export const PrototypeCreateModal = memo(() => {
     const form = useForm<CreateDto>();
-    const {mutation} = useProductSearch();
+    const {reload: mutation} = useProductsV2();
 
     const onClose = useCallback(() => {
         document.getElementById('proto-create-modal--dismiss-button')?.click();

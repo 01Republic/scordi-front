@@ -104,44 +104,6 @@ export const useProductsV3 = (
         getId: (dto) => dto.id,
     });
 
-export const useProductSearch = () => {
-    const [results, setResults] = useRecoilState(productSearchResultsState);
-    const [query, setQuery] = useRecoilState(searchProductsParams);
-
-    const searchProducts = useCallback((params: FindAllProductQuery) => {
-        setQuery(params);
-        productApi
-            .index({
-                isLive: params.isLive ?? true,
-                itemsPerPage: 500,
-                ...params,
-            })
-            .then((res) => setResults(res.data.items))
-            .catch(errorNotify);
-    }, []);
-
-    const mutation = useCallback(() => searchProducts(query), [query]);
-
-    const search = async (params: FindAllProductQuery) => {
-        if (JSON.stringify(query) === JSON.stringify(params)) return results;
-
-        const data = await productApi
-            .index({
-                itemsPerPage: 500,
-                ...params,
-            })
-            .then((res) => res.data);
-
-        setResults(data.items);
-        setQuery(params);
-
-        return data.items;
-    };
-
-    return {results, searchProducts, query, mutation, search};
-};
-
-// export const useProduct = () => useRecoilValue(getProductQuery);
 export const useProduct = () => useRecoilState(getProductQuery);
 
 // export const useProducts2 = (deps: any[]) => {

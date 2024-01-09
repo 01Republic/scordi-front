@@ -47,7 +47,7 @@ export const SelectProduct = memo((props: SelectProductProps) => {
     const search = async (inputValue: string) => {
         const value = (inputValue || '').toLowerCase();
         const products = await getProducts({name: inputValue, order: {connectMethod: 'DESC', id: 'DESC'}}).then(
-            (res) => res.items,
+            (res) => res?.items || [],
         );
         const filtered = products.filter((product) => {
             if (product.nameEn.toLowerCase().includes(value)) return true;
