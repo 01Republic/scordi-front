@@ -1,14 +1,7 @@
 import {useEffect, useState} from 'react';
-import {useRecoilState} from 'recoil';
 import {useRouter} from 'next/router';
 import {WithChildren} from '^types/global.type';
-import {
-    BillingStatus,
-    ConnectStatus,
-    MemberStatus,
-    SelectedSettingsItem,
-    WorkspaceStatus,
-} from '^v3/V3OrgSettingsPage/desktop/atom';
+import {BillingStatus, ConnectStatus, MemberStatus, WorkspaceStatus} from '^v3/V3OrgSettingsPage/desktop/atom';
 
 interface MenuListProps extends WithChildren {
     title: string;
@@ -29,26 +22,28 @@ export const MenuList = (props: MenuListProps) => {
 };
 
 interface MenuItemProps {
-    status: WorkspaceStatus | BillingStatus | MemberStatus | ConnectStatus;
+    status?: WorkspaceStatus | BillingStatus | MemberStatus | ConnectStatus;
     href: string;
-    onClick?: () => void;
+    query?: {menu: WorkspaceStatus | BillingStatus | MemberStatus | ConnectStatus};
 }
 
 export const MenuItem = (props: MenuItemProps) => {
     const router = useRouter();
-    const [selectedItem, setSelectedItem] = useRecoilState(SelectedSettingsItem);
     const [isSelected, setIsSelected] = useState<boolean>(false);
-    const {status, href} = props;
+
+    const {status, href, query} = props;
+    const urlQuery = router.query.menu?.toString();
 
     useEffect(() => {
-        selectedItem === status && setIsSelected(true);
-        selectedItem !== status && setIsSelected(false);
-    }, [selectedItem]);
+        if (!urlQuery) return setIsSelected(status === WorkspaceStatus.GeneralInfo);
+
+        setIsSelected(urlQuery === status);
+    }, [urlQuery]);
+
     const onClick = () => {
         if (!href || !status) return;
 
-        router.push(href);
-        setSelectedItem(status);
+        router.push({pathname: href, query: query});
     };
 
     return (

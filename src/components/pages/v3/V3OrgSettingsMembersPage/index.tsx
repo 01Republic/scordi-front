@@ -3,11 +3,12 @@ import {V3SettingsLayout} from '^v3/layouts/V3SettingsLayout';
 import {SettingBodyPanel} from '^v3/V3OrgSettingsPage/desktop/SettingBodyPanel/SettingBodyPanel';
 import {MembersTableSection} from '^v3/V3OrgSettingsMembersPage/MembersTableSection';
 import {AddMemberButton, ButtonTypes} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/AddMemberButton';
-import {useRecoilValue} from 'recoil';
-import {MemberStatus, SelectedSettingsItem} from '^v3/V3OrgSettingsPage/desktop/atom';
+import {MemberStatus} from '^v3/V3OrgSettingsPage/desktop/atom';
+import {useRouter} from 'next/router';
 
 export const V3OrgSettingsMembersPage = memo(() => {
-    const selectedItem = useRecoilValue(SelectedSettingsItem);
+    const router = useRouter();
+    const query = router.query.menu?.toString();
 
     return (
         <V3SettingsLayout>
@@ -15,7 +16,7 @@ export const V3OrgSettingsMembersPage = memo(() => {
                 title="멤버 관리"
                 buttons={<AddMemberButton text="멤버 등록" type={ButtonTypes.ScordiBtn} />}
             >
-                {selectedItem === MemberStatus.Member && <MembersTableSection />}
+                {query === MemberStatus.Member && <MembersTableSection />}
             </SettingBodyPanel>
         </V3SettingsLayout>
     );
