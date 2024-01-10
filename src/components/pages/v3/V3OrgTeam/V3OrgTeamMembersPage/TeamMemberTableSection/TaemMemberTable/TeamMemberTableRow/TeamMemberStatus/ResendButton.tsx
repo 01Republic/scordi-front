@@ -13,7 +13,6 @@ export const ResendButton = memo((props: ResendButtonProps) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const {reload} = useTeamMembers();
     const {sendEmail} = useSendInviteEmail();
-    const {alert} = useAlert();
 
     const {membership} = props;
 
@@ -30,7 +29,6 @@ export const ResendButton = memo((props: ResendButtonProps) => {
         try {
             await sendEmail(email);
             await reload();
-            await alert.success({title: '초대 메일을 다시 보냈습니다.'});
         } catch (e) {
             console.error(e);
         } finally {

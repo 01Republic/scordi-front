@@ -12,6 +12,7 @@ import {useToast} from '^hooks/useToast';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {InviteButton, InviteStatus} from '^v3/share/modals/NewTeamMemberModal/InviteButton';
+import {serviceHost} from '^config/environments';
 
 export const NewTeamMemberModal = memo(() => {
     const {Modal, close} = useModal(newTeamMemberModal);
@@ -19,7 +20,7 @@ export const NewTeamMemberModal = memo(() => {
     const {open: openInviteMemberModal} = useModal({isShowAtom: isOpenInviteOrgMemberModalAtom});
     const {toast} = useToast();
     const orgId = useRecoilValue(orgIdParamState);
-    const link = `https://scordi.io:8080/v3/orgs/${orgId}/join`;
+    const link = `${serviceHost}/v3/orgs/${orgId}/join`;
 
     const onCopy = () => {
         navigator.clipboard.writeText(link).then(() => toast.success('클립보드에 복사했습니다.'));

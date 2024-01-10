@@ -8,6 +8,7 @@ import {useToast} from '^hooks/useToast';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {HiLink, HiOutlineEnvelope, HiOutlineUser} from 'react-icons/hi2';
+import {serviceHost} from '^config/environments';
 
 export enum ButtonTypes {
     TextBtn = 'textBtn',
@@ -32,7 +33,7 @@ export const AddMemberButton = memo((props: AddMemberButtonProps) => {
     const {toast} = useToast();
     const orgId = useRecoilValue(orgIdParamState);
     const {text, direction, className, type} = props;
-    const link = `https://scordi.io:8080/v3/orgs/${orgId}/join`;
+    const link = `${serviceHost}/v3/orgs/${orgId}/join`;
 
     const newTeamMemberModalShow = () => setNewTeamMemberModalShow(true);
     const inviteOrgMemberModalShow = () => setInviteOrgMemberModalShow(true);

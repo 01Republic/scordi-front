@@ -19,7 +19,7 @@ export const InviteButton = memo((props: InviteButtonProps) => {
 
         try {
             await sendEmail(teamMember.email, teamMember.id);
-            reload();
+            await reload();
         } catch (e) {
             console.error(e);
         } finally {
