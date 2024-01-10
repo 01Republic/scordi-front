@@ -20,6 +20,8 @@ interface DropdownProps extends WithChildren {
     Trigger: (props: {visible: boolean}) => JSX.Element;
     className?: string;
     placement?: Placement;
+    backdrop?: boolean; // default: true
+    allowScroll?: boolean; // default: false
     onOpen?: () => any;
     onClose?: () => any;
 }
@@ -30,6 +32,7 @@ export const Dropdown = memo((props: DropdownProps) => {
     const show = () => setVisible(true);
     const hide = () => setVisible(false);
     const {Trigger, className = '', placement = 'bottom-end', children} = props;
+    const {backdrop = true, allowScroll = false} = props;
     const {onOpen, onClose} = props;
 
     return (
@@ -48,7 +51,8 @@ export const Dropdown = memo((props: DropdownProps) => {
                 visible={visible}
                 hide={hide}
                 triggerRef={triggerRef}
-                backdrop={true}
+                backdrop={backdrop}
+                allowScroll={allowScroll}
                 placement={placement}
             >
                 {children}

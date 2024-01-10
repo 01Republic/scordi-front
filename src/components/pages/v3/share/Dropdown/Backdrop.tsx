@@ -36,21 +36,20 @@ export const DropdownBackdrop = (props: DropdownBackdropProps) => {
 
     const scrollLock = () => {
         if (allowScroll) return;
-        const backdrop2 = document.querySelector('.dropdown-backdrop2');
-        if (!backdrop2) document.body.classList.add('modal-opened');
+        document.body.classList.add('modal-opened');
     };
 
     const scrollUnlock = () => {
         if (allowScroll) return;
-        const [curr, backdrop2] = Array.from(document.querySelectorAll('.dropdown-backdrop2'));
+        const [curr, backdrop2] = Array.from(document.querySelectorAll('[data-allow-scroll="true"]'));
         if (!backdrop2) document.body.classList.remove('modal-opened');
-        curr?.closest('[data-tippy-root]')?.remove();
     };
 
     return (
         <Tippy
             visible={visible}
             reference={document.body}
+            interactive={true}
             appendTo={() => document.getElementById('dropdown-portal')!}
             placement="bottom-start"
             getReferenceClientRect={() => clientRect as ClientRect}
@@ -64,6 +63,7 @@ export const DropdownBackdrop = (props: DropdownBackdropProps) => {
                 <div {...attrs}>
                     <div
                         className="dropdown-backdrop2"
+                        data-allow-scroll={allowScroll}
                         style={{width: '100vw', height: '100vh'}}
                         onClick={(e) => {
                             e.preventDefault();

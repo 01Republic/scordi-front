@@ -10,6 +10,7 @@ import {OptionItem} from '^v3/share/table/columns/SelectColumn/OptionItem';
 import {ValueComponent} from './type';
 import {Portal} from '^components/util/Partal';
 import {DetachableOptionItem} from '^v3/share/table/columns/SelectColumn/DetachableOptionItem';
+import {Dropdown, DropdownContent} from '^v3/share/Dropdown';
 
 interface SelectColumnProps<T> {
     value: T | undefined;
@@ -55,9 +56,22 @@ interface SelectColumnProps<T> {
 }
 
 export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
+    const triggerRef = useRef<HTMLDivElement>(null);
+    const [visible, setVisible] = useState(false);
+    const openDropdown = () => setVisible(true);
+    const closeDropdown = () => setVisible(false);
+
     const {searchKeyword, setSearchKeyword, searchInputRef, clearInput, focusInput, blurInput} = useInput();
-    const {dropdownId, openDropdown, closeDropdown, setTriggerRef, setContentRef, backdropRef, styles, attributes} =
-        useDropdown(props.placement || 'bottom-start');
+    const {
+        dropdownId,
+        openDropdown: _openDropdown,
+        closeDropdown: _closeDropdown,
+        setTriggerRef,
+        setContentRef,
+        backdropRef,
+        styles,
+        attributes,
+    } = useDropdown(props.placement || 'bottom-start');
 
     const [focusableIndex, setFocusableIndex] = useState<number>(0);
     const [options, setOptions] = useState<T[]>([]);
@@ -147,34 +161,38 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
     })();
 
     return (
-        <div className="dropdown relative w-full" data-dropdown-id={dropdownId}>
+        <div
+            className="dropdown relative w-full"
+            onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            }}
+        >
             <div
-                data-dropdown-target={dropdownId}
                 onClick={() => onOpen()}
-                ref={setTriggerRef}
+                ref={triggerRef}
                 tabIndex={0}
                 className="cursor-pointer flex py-[6px] px-[8px]"
             >
                 {!isEmptyValue ? <ValueComponent value={value} /> : <EmptyComponent />}
             </div>
 
-            <Portal>
-                <div ref={backdropRef} className="dropdown-backdrop" onClick={() => onClose()} />
+            <DropdownContent
+                visible={visible}
+                hide={() => onClose()}
+                triggerRef={triggerRef}
+                backdrop={true}
+                allowScroll={true}
+                placement="bottom-start"
+            >
                 <div
-                    data-dropdown-content={dropdownId}
-                    ref={setContentRef}
-                    style={{
-                        ...styles.popper,
-                        maxWidth: contentMinWidth,
-                    }}
-                    {...attributes.popper}
+                    style={{maxWidth: contentMinWidth}}
                     tabIndex={0}
                     className={`dropdown-portal-content w-full min-w-[${contentMinWidth}] !z-[1] border shadow-lg bg-base-100 rounded-[6px]`}
                 >
                     {/* Search Keyword Input Container */}
                     {inputDisplay && (
                         <InputContainer
-                            data-dropdown-target={dropdownId}
                             inputRef={searchInputRef}
                             defaultValue={value && inputPlainText ? textOfOption(value) : undefined}
                             onChange={(keyword) => {
@@ -252,7 +270,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
                         </ul>
                     </div>
                 </div>
-            </Portal>
+            </DropdownContent>
         </div>
     );
 };

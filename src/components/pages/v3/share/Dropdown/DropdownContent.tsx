@@ -8,16 +8,26 @@ interface DropdownContentProps extends Omit<TippyProps, 'children'> {
     hide: () => any;
     triggerRef: RefObject<Element>;
     backdrop?: boolean; // default: true
+    allowScroll?: boolean; // default: false
     placement?: Placement;
     children?: ReactNode;
 }
 
 export const DropdownContent = memo((props: DropdownContentProps) => {
-    const {triggerRef, visible, hide, children, backdrop = true, placement = 'bottom-end', ...res} = props;
+    const {
+        triggerRef,
+        visible,
+        hide,
+        children,
+        backdrop = true,
+        allowScroll = false,
+        placement = 'bottom-end',
+        ...res
+    } = props;
 
     return (
         <>
-            {backdrop && <DropdownBackdrop visible={visible} />}
+            {backdrop && <DropdownBackdrop visible={visible} allowScroll={allowScroll} />}
 
             {visible && (
                 <Tippy
