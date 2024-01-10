@@ -2,6 +2,7 @@ import {components, ContainerProps, ControlProps, MenuListProps, OptionProps, Si
 import React from 'react';
 import {useModal} from '^v3/share/modals';
 import {newCardModalState} from '^v3/share/modals/NewCardModal/NewCardModalV2/atom';
+import {CreditCardDto} from '^models/CreditCard/type';
 
 export const selectStylesOptions = {
     dropdownIndicator: () => ({display: 'none'}),
