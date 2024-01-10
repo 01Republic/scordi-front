@@ -28,7 +28,8 @@ export function useToast() {
     const success = (msg: string, id?: string) => {
         id ||= msg;
         const duration = 2000;
-        activeScope(id, () => toaster.success(msg, {id, duration}), 2000);
+        // activeScope(id, () => toaster.success(msg, {id, duration}), 2000);
+        toaster.success(msg, {id, duration});
     };
 
     const error = (msg: string, id?: string) => {

@@ -8,10 +8,10 @@ import {
     InviteOrgMemberModal,
     isOpenInviteOrgMemberModalAtom,
 } from 'src/components/pages/v3/share/modals/NewTeamMemberModal/InviteMemberModal';
-import {HiLink, HiOutlineEnvelope} from 'react-icons/hi2';
 import {useToast} from '^hooks/useToast';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
+import {InviteButton, InviteStatus} from '^v3/share/modals/NewTeamMemberModal/InviteButton';
 
 export const NewTeamMemberModal = memo(() => {
     const {Modal, close} = useModal(newTeamMemberModal);
@@ -22,10 +22,7 @@ export const NewTeamMemberModal = memo(() => {
     const link = `https://scordi.io:8080/v3/orgs/${orgId}/join`;
 
     const onCopy = () => {
-        if (!link) return;
-
-        navigator.clipboard.writeText(link);
-        toast.success('클립보드에 복사했습니다.');
+        navigator.clipboard.writeText(link).then(() => toast.success('클립보드에 복사했습니다.'));
     };
 
     return (
@@ -67,38 +64,5 @@ export const NewTeamMemberModal = memo(() => {
             <TeamMemberCreateModal />
             <InviteOrgMemberModal />
         </>
-    );
-});
-
-enum InviteStatus {
-    Email,
-    Link,
-}
-
-interface InviteButtonProps {
-    onClick: () => void;
-    title: string;
-    desc: string;
-    type: InviteStatus;
-}
-
-const InviteButton = memo((props: InviteButtonProps) => {
-    const {onClick, title, desc, type} = props;
-
-    return (
-        <button
-            onClick={() => onClick()}
-            className="btn btn-lg shadow-sm border border-gray-200 gap-5 bg-white justify-start"
-        >
-            <div className="rounded-lg p-3 bg-scordi-500 text-white">
-                {type === InviteStatus.Email && <HiOutlineEnvelope size={22} />}
-                {type === InviteStatus.Link && <HiLink size={22} />}
-            </div>
-
-            <div className="text-start">
-                <p className="text-lg font-bold">{title}</p>
-                <p className="text-sm text-gray-500">{desc}</p>
-            </div>
-        </button>
     );
 });
