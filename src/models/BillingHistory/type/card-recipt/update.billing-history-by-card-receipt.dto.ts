@@ -5,7 +5,7 @@ import {plainToInstance} from 'class-transformer';
 import {UpdateBillingHistoryRequestDtoV3} from '^models/BillingHistory/type/update-billing-history.request.dto.v2';
 
 export class UpdateBillingHistoryByCardReceiptDto extends PartialType(
-    OmitType(UpdateBillingHistoryRequestDtoV3, ['payAmount', 'vat']),
+    OmitType(UpdateBillingHistoryRequestDtoV3, ['payAmount', 'vatAmount']),
 ) {
     domesticAmount: number;
     abroadAmount?: number;
@@ -28,7 +28,7 @@ export class UpdateBillingHistoryByCardReceiptDto extends PartialType(
         });
     }
 
-    get vat(): CreateMoneyRequestDto | undefined {
+    get vatAmountDto(): CreateMoneyRequestDto | undefined {
         if (!this.vatAmount) return undefined;
 
         return plainToInstance(CreateMoneyRequestDto, {
@@ -45,7 +45,7 @@ export class UpdateBillingHistoryByCardReceiptDto extends PartialType(
         return plainToInstance(UpdateBillingHistoryRequestDtoV3, {
             ...data,
             payAmount: this.payAmount,
-            vat: this.vat,
+            vatAmount: this.vatAmountDto,
         });
     }
 }

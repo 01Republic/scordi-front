@@ -8,6 +8,7 @@ export class BillingHistoryByCardReceiptDto extends OmitType(BillingHistoryDto, 
     'invoiceUrl',
     'emailOriginId',
     'emailContent',
+    'vatAmount',
 ]) {
     domesticAmount: number;
     abroadAmount?: number;
@@ -26,7 +27,7 @@ export class BillingHistoryByCardReceiptDto extends OmitType(BillingHistoryDto, 
     constructor(billingHistory: BillingHistoryDto) {
         super(billingHistory);
 
-        const {payAmount, vat} = billingHistory;
+        const {payAmount, vatAmount} = billingHistory;
         if (!payAmount) throw new Error('payAmount is null');
 
         const {code, amount, exchangeRate, exchangedCurrency} = payAmount;
@@ -36,6 +37,6 @@ export class BillingHistoryByCardReceiptDto extends OmitType(BillingHistoryDto, 
         this.domesticAmount = amount;
         this.abroadAmount = isExchangeable ? amount / exchangeRate : undefined;
         this.exchangedCurrency = this.abroadAmount ? exchangedCurrency : CurrencyCode.KRW;
-        this.vatAmount = vat?.amount;
+        this.vatAmount = vatAmount?.amount;
     }
 }
