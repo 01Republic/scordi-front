@@ -9,7 +9,7 @@ export const useSendInviteEmail = () => {
     const orgId = useRecoilValue(orgIdParamState);
     const {alert} = useAlert();
 
-    async function sendEmail(email: string, teamMemberId: number) {
+    async function sendEmail(email: string, teamMemberId?: number) {
         if (!orgId || isNaN(orgId) || !email.length) return;
         if (isLoading) return;
 

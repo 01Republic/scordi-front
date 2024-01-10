@@ -1,9 +1,7 @@
 import React, {memo, useState} from 'react';
-import {teamMemberApi, TeamMemberDto, useSendInviteEmail, useTeamMembers} from '^models/TeamMember';
+import {TeamMemberDto, useSendInviteEmail, useTeamMembers} from '^models/TeamMember';
 import {FaRegEnvelope} from 'react-icons/fa';
-import {CgSpinner} from 'react-icons/cg';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {LoadingButton} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatus/LoadingButton';
 
 interface InviteButtonProps {
     teamMember: TeamMemberDto;
@@ -29,7 +27,7 @@ export const InviteButton = memo((props: InviteButtonProps) => {
         }
     };
 
-    return <>{isLoading ? <LoadingBtn /> : <InviteBtn onClick={() => onClick()} />}</>;
+    return <>{isLoading ? <LoadingButton text="Inviting" /> : <InviteBtn onClick={() => onClick()} />}</>;
 });
 
 InviteButton.displayName = 'InviteButton';
@@ -42,15 +40,6 @@ const InviteBtn = (props: InviteBtn) => {
     return (
         <button onClick={onClick} className="btn btn-sm normal-case gap-2 items-center">
             <FaRegEnvelope /> Invite
-        </button>
-    );
-};
-
-const LoadingBtn = () => {
-    return (
-        <button className="btn-disabled opacity-40 btn btn-sm btn-scordi btn-outline normal-case gap-2">
-            <CgSpinner className="animate-spin" />
-            Inviting
         </button>
     );
 };

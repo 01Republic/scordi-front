@@ -5,6 +5,7 @@ import {useRecoilValue} from 'recoil';
 import {currentUserAtom} from '^models/User/atom';
 import {LeaveButton} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatus/LeaveButton';
 import {InviteButton} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatus/InviteButton';
+import {ResendButton} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatus/ResendButton';
 
 interface TeamMemberStatusProps {
     teamMember: TeamMemberDto;
@@ -27,18 +28,13 @@ export const TeamMemberStatus = memo((props: TeamMemberStatusProps) => {
 
     return (
         <div className="capitalize text-sm text-gray-500">
+            {/*본일일때 상태 버튼*/}
             {isMe && <LeaveButton user={currentUser} tooltipMsg="" />}
 
-            {!isMe && membership && (
-                <button
-                    className={`${c_ApprovalStatus(
-                        membership.approvalStatus,
-                    )} btn btn-sm btn-outline btn-disabled text-xs normal-case`}
-                >
-                    {t_ApprovalStatus(membership.approvalStatus)}
-                </button>
-            )}
+            {/*이메일로 초대한 멤버일때 상태 버튼*/}
+            {!isMe && membership && <ResendButton membership={membership} />}
 
+            {/*직접추가한 멤버일때 상태 버튼*/}
             {!membership && !isMe && <InviteButton teamMember={teamMember} />}
         </div>
     );
