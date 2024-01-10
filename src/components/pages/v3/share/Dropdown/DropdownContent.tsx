@@ -1,5 +1,6 @@
 import {memo, ReactNode, RefObject} from 'react';
 import Tippy, {TippyProps} from '@tippyjs/react/headless';
+import {Placement} from '@popperjs/core';
 import {DropdownBackdrop} from './Backdrop';
 
 interface DropdownContentProps extends Omit<TippyProps, 'children'> {
@@ -7,11 +8,12 @@ interface DropdownContentProps extends Omit<TippyProps, 'children'> {
     hide: () => any;
     triggerRef: RefObject<Element>;
     backdrop?: boolean; // default: true
+    placement?: Placement;
     children?: ReactNode;
 }
 
 export const DropdownContent = memo((props: DropdownContentProps) => {
-    const {triggerRef, visible, hide, children, backdrop = true, ...res} = props;
+    const {triggerRef, visible, hide, children, backdrop = true, placement = 'bottom-end', ...res} = props;
 
     return (
         <>
@@ -19,7 +21,7 @@ export const DropdownContent = memo((props: DropdownContentProps) => {
 
             {visible && (
                 <Tippy
-                    placement="bottom"
+                    placement={placement}
                     visible={visible}
                     reference={triggerRef}
                     interactive={true}

@@ -1,4 +1,4 @@
-import React, {memo, useRef, useState} from 'react';
+import React, {memo} from 'react';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {Avatar} from '^components/Avatar';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
@@ -6,12 +6,9 @@ import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {useAlert} from '^hooks/useAlert';
 import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
-import {BsDashCircle} from 'react-icons/bs';
 import {FiRefreshCw} from 'react-icons/fi';
 import {MoreDropdown} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown';
-import {DropdownContent} from '^v3/share/table/columns/SelectColumn/DropdownContent';
 import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
-import {FaRegTrashAlt} from 'react-icons/fa';
 import {GmailAgentProgress, gmailAgentProgressAtom} from '^hooks/useGoogleAccessToken';
 import {useToast} from '^hooks/useToast';
 import {useModal} from '^v3/share/modals';
