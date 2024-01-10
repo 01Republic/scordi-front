@@ -5,13 +5,13 @@ import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {BillingHistoryContentPanel} from './BillingHistoryContentPanel';
 import {useBillingHistoriesInModal, useBillingHistoryInModal, useBillingHistoryModal} from './hook';
-import {NewBillingHistoryModal} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal';
+import {NewBillingHistoryModal} from 'src/components/pages/v3/share/modals/NewBillingHistoryModal';
 import {BillingHistoryShowBody} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryShowBody';
 import {BillingHistoryDeleteButton as DeleteButton} from '^v3/share/modals/BillingHistoryDetailModal/DeleteButton';
 import {BillingHistoryEditButton as EditButton} from '^v3/share/modals/BillingHistoryDetailModal/EditButton';
 import {isBillingHistoryEditModeAtom} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {BillingHistoryEditPanel} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryEditPanel';
-import {AbroadPayAmountCurrencyModal} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/PayAmountModal/AbroadPayAmountCurrencyModal';
+import {AbroadPayAmountCurrencyModal} from '^v3/share/modals/NewBillingHistoryModal/PayAmountModal/AbroadPayAmountCurrencyModal';
 
 export const BillingHistoryDetailModal = memo(() => {
     const {close, Modal} = useBillingHistoryModal();
@@ -58,8 +58,6 @@ export const BillingHistoryDetailModal = memo(() => {
                 </MobileSection.List>
             </Modal>
             <AttachmentModal />
-            <NewBillingHistoryModal />
-            <AbroadPayAmountCurrencyModal />
         </>
     );
 });

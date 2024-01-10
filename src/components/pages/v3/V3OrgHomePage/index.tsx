@@ -25,13 +25,13 @@ import {NewCardModalV2} from '^v3/share/modals/NewCardModal/NewCardModalV2';
 import {BillingHistoriesPageModal} from '^v3/V3OrgBillingHistoriesPage/modals/BillingHistoriesPageModal';
 import {TeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
 
-import {TeamMemberCreateModal} from './TeamMemberCreateModal';
+// import {TeamMemberCreateModal} from './TeamMemberCreateModal';
 import {MonthlyPaidAmountModal} from './MonthlyPaidAmountModal';
 import {MonthlyRemainAmountModal} from './MonthlyRemainAmountModal';
 import {RenewInvoiceAccountModalMobile} from './RenewInvoiceAccountModal/mobile';
 
 import {SummarySection, MemberListSection, SubscriptionsSection} from './desktop/sections';
-import {SubscriptionDetailModal} from './_localModals';
+import {SubscriptionDetailModal, NewBillingHistoryModalInDashBoard} from './_localModals';
 import {NewTeamMemberModal} from '^v3/share/modals/NewTeamMemberModal';
 
 export const V3OrgHomePage = memo(() => {
@@ -47,6 +47,7 @@ export const V3OrgHomePage = memo(() => {
                     SubscriptionDetailModal, // 구독상세모달
                     TeamMemberShowModal, // 멤버상세모달
                     AccountListModal,
+                    NewBillingHistoryModalInDashBoard, // 결제내역추가모달
                     BillingHistoryDetailModal, // 결제내역상세모달
                     InvoiceAccountSelectModal,
                     NewTeamMemberModal, // 멤버추가모달
