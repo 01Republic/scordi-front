@@ -32,7 +32,7 @@ export const TeamMemberStatus = memo((props: TeamMemberStatusProps) => {
             {isMe && <LeaveButton user={currentUser} tooltipMsg="" />}
 
             {/*이메일로 초대한 멤버일때 상태 버튼*/}
-            {!isMe && membership && <ResendButton membership={membership} />}
+            {!isMe && membership && <ResendButton teamMember={teamMember} />}
 
             {/*직접추가한 멤버일때 상태 버튼*/}
             {!membership && !isMe && <InviteButton teamMember={teamMember} />}

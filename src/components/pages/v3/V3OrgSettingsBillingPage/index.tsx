@@ -4,18 +4,19 @@ import {SubscriptionSection} from '^v3/V3OrgSettingsBillingPage/SubscriptionSect
 import {PaymentInfoSection} from '^v3/V3OrgSettingsBillingPage/PaymentInfoSection';
 import {BillingHistorySection} from '^v3/V3OrgSettingsBillingPage/BillingHistorySection';
 import {SettingBodyPanel} from '^v3/V3OrgSettingsPage/desktop/SettingBodyPanel/SettingBodyPanel';
-import {useRecoilValue} from 'recoil';
-import {BillingStatus, SelectedSettingsItem} from '^v3/V3OrgSettingsPage/desktop/atom';
+import {BillingStatus} from '^v3/V3OrgSettingsPage/desktop/atom';
+import {useRouter} from 'next/router';
 
 export const V3OrgSettingsBillingPage = memo(() => {
-    const selectedItem = useRecoilValue(SelectedSettingsItem);
+    const router = useRouter();
+    const query = router.query.menu?.toString();
 
     return (
         <V3SettingsLayout>
             <SettingBodyPanel title="결제 관리">
-                {selectedItem === BillingStatus.Plan && <SubscriptionSection />}
-                {selectedItem === BillingStatus.Info && <PaymentInfoSection />}
-                {selectedItem === BillingStatus.History && <BillingHistorySection />}
+                {query === BillingStatus.Plan && <SubscriptionSection />}
+                {query === BillingStatus.Info && <PaymentInfoSection />}
+                {query === BillingStatus.History && <BillingHistorySection />}
             </SettingBodyPanel>
         </V3SettingsLayout>
     );

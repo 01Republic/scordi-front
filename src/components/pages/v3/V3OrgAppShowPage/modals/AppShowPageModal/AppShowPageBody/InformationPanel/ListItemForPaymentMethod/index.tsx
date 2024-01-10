@@ -9,21 +9,21 @@ import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 interface ListItemForPaymentMethodProps {
     subscription?: SubscriptionDto | null;
-    lastPaidHistory?: BillingHistoryDto | null;
 }
 export const ListItemForPaymentMethod = memo((props: ListItemForPaymentMethodProps) => {
-    const {subscription, lastPaidHistory} = props;
-    if (!subscription && !lastPaidHistory) return <></>;
-
+    const {subscription} = props;
     const {open: connectCreditCardModalOpen} = useModal(connectCreditCardModal);
-    const value = subscription?.creditCard?.label || lastPaidHistory?.paymentMethod;
+    const value = subscription?.creditCard?.label;
+
     const onClick = () => {
-        if (lastPaidHistory?.paymentMethod?.includes('계좌')) {
-            toast.info('계좌 등록 기능은 준비 중입니다.');
-            return;
-        }
+        // if (lastPaidHistory?.paymentMethod?.includes('계좌')) {
+        //     toast.info('계좌 등록 기능은 준비 중입니다.');
+        //     return;
+        // }
         connectCreditCardModalOpen();
     };
+
+    if (!subscription) return <></>;
 
     return (
         <MobileInfoListItem label="결제수단" onClick={onClick}>

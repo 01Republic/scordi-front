@@ -1,6 +1,6 @@
 import {ChangeEvent, memo} from 'react';
 import {FormControl} from '^components/util/form-control/FormControl';
-import {TextInput} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/share/TextInput';
+import {TextInput} from '^v3/share/modals/NewBillingHistoryModal/share/TextInput';
 import {updateCurrentSubscriptionState, useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {useSetRecoilState} from 'recoil';
 

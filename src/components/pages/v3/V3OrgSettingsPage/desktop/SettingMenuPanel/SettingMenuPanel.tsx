@@ -10,25 +10,45 @@ import {BillingStatus, ConnectStatus, MemberStatus, WorkspaceStatus} from '^v3/V
 export const V3OrgSettingsMenuPanel = memo(() => {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
 
+    const workspacePath = V3OrgSettingsOrgPageRoute.path(orgId);
+    const billingPath = V3OrgSettingsBillingPageRoute.path(orgId);
+    const memberPath = V3OrgSettingsMembersPageRoute.path(orgId);
+    const connectPath = V3OrgSettingsConnectsPageRoute.path(orgId);
+
     return (
         <aside className=" w-[240px] bg-white h-screen py-8 flex flex-col gap-5 shadow-xl">
             <MenuList title="워크스페이스">
-                <MenuItem href={V3OrgSettingsOrgPageRoute.path(orgId)} status={WorkspaceStatus.GeneralInfo} />
-                <MenuItem href={V3OrgSettingsOrgPageRoute.path(orgId)} status={WorkspaceStatus.Billing} />
-                {/*<MenuItem href={V3OrgSettingsOrgPageRoute.path(orgId)} status={WorkspaceStatus.Master} />*/}
-                <MenuItem href={V3OrgSettingsOrgPageRoute.path(orgId)} status={WorkspaceStatus.Setting} />
+                <MenuItem href={workspacePath} status={WorkspaceStatus.GeneralInfo} />
+                <MenuItem
+                    href={workspacePath}
+                    query={{menu: WorkspaceStatus.Billing}}
+                    status={WorkspaceStatus.Billing}
+                />
+                {/*<MenuItem href={workspacePath} status={WorkspaceStatus.Master} />*/}
+                <MenuItem
+                    href={workspacePath}
+                    query={{menu: WorkspaceStatus.Setting}}
+                    status={WorkspaceStatus.Setting}
+                />
             </MenuList>
+
             <MenuList title="결제">
-                <MenuItem href={V3OrgSettingsBillingPageRoute.path(orgId)} status={BillingStatus.Plan} />
-                <MenuItem href={V3OrgSettingsBillingPageRoute.path(orgId)} status={BillingStatus.Info} />
-                <MenuItem href={V3OrgSettingsBillingPageRoute.path(orgId)} status={BillingStatus.History} />
+                <MenuItem href={billingPath} query={{menu: BillingStatus.Plan}} status={BillingStatus.Plan} />
+                <MenuItem href={billingPath} query={{menu: BillingStatus.Info}} status={BillingStatus.Info} />
+                <MenuItem href={billingPath} query={{menu: BillingStatus.History}} status={BillingStatus.History} />
             </MenuList>
+
             <MenuList title="멤버">
-                <MenuItem href={V3OrgSettingsMembersPageRoute.path(orgId)} status={MemberStatus.Member} />
+                <MenuItem href={memberPath} query={{menu: MemberStatus.Member}} status={MemberStatus.Member} />
             </MenuList>
+
             <MenuList title="연동">
-                <MenuItem href={V3OrgSettingsConnectsPageRoute.path(orgId)} status={ConnectStatus.Workspace} />
-                <MenuItem href={V3OrgSettingsConnectsPageRoute.path(orgId)} status={ConnectStatus.InvoiceEmail} />
+                <MenuItem href={connectPath} query={{menu: ConnectStatus.Workspace}} status={ConnectStatus.Workspace} />
+                <MenuItem
+                    href={connectPath}
+                    query={{menu: ConnectStatus.InvoiceEmail}}
+                    status={ConnectStatus.InvoiceEmail}
+                />
             </MenuList>
         </aside>
     );

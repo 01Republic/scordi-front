@@ -3,7 +3,7 @@ import {CurrencyCode, CurrencyListV2} from '^models/Money';
 import {useRecoilState} from 'recoil';
 import {selectedCurrencyState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {useModal} from '^v3/share/modals';
-import {abroadPayAmountCurrencyModalAtom} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/PayAmountModal/AbroadPayAmountCurrencyModal';
+import {abroadPayAmountCurrencyModalAtom} from '^v3/share/modals/NewBillingHistoryModal/PayAmountModal/AbroadPayAmountCurrencyModal';
 
 interface BillingHistoryAbroadCurrencyProps {
     currencyCode?: CurrencyCode;

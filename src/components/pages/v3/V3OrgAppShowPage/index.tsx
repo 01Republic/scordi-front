@@ -8,7 +8,7 @@ import {AppShowPageBody} from './modals/AppShowPageModal/AppShowPageBody';
 import {SelectTeamMemberModal} from './modals/AppShowPageModal/SelectTeamMemberModal';
 import {InvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal';
 import {useSetRecoilState} from 'recoil';
-import {NewBillingHistoryModal} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal';
+import {NewBillingHistoryModal} from 'src/components/pages/v3/share/modals/NewBillingHistoryModal';
 
 export const V3OrgAppShowPage = memo(() => {
     const {currentSubscription} = useCurrentSubscription();

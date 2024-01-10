@@ -1,9 +1,10 @@
-import {memo} from 'react';
-import {useSetRecoilState} from 'recoil';
+import {memo, useEffect} from 'react';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {CardSelector} from '^v3/share/Select/CardSelector';
 import {updateCurrentSubscriptionState, useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {useCreditCards} from '^models/CreditCard/hook';
 import {CreditCardDto} from '^models/CreditCard/type';
+import {SubscriptionDto} from '^models/Subscription/types';
 
 type CardOption = {
     value: number;
@@ -12,13 +13,20 @@ type CardOption = {
 };
 
 export const CardSelect = memo(() => {
-    const setFormData = useSetRecoilState(updateCurrentSubscriptionState);
+    const [formData, setFormData] = useRecoilState(updateCurrentSubscriptionState);
     const {currentSubscription} = useCurrentSubscription();
+    console.log('formData', formData);
+
+    useEffect(() => {
+        setFormData((prev) => ({...prev, creditCardId: currentSubscription?.creditCardId}));
+    }, []);
+
+    const defaultValue = formData.creditCardId && currentSubscription ? currentSubscription.creditCard : undefined;
 
     return (
         <CardSelector
-            defaultValue={currentSubscription?.creditCard}
-            onChange={(creditCardId: number) => {
+            defaultValue={defaultValue}
+            onChange={(creditCardId: number | null) => {
                 setFormData((prev) => ({...prev, creditCardId}));
             }}
         />

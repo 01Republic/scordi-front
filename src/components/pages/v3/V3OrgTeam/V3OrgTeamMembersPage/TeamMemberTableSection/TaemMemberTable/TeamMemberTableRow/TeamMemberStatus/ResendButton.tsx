@@ -1,12 +1,11 @@
 import React, {memo, useState} from 'react';
 import {ApprovalStatus, c_ApprovalStatus, MembershipDto, t_ApprovalStatus} from '^models/Membership/types';
 import {FaRegEnvelope} from 'react-icons/fa';
-import {useSendInviteEmail, useTeamMembers} from '^models/TeamMember';
-import {useAlert} from '^hooks/useAlert';
+import {TeamMemberDto, useSendInviteEmail, useTeamMembers} from '^models/TeamMember';
 import {LoadingButton} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatus/LoadingButton';
 
 interface ResendButtonProps {
-    membership: MembershipDto;
+    teamMember: TeamMemberDto;
 }
 
 export const ResendButton = memo((props: ResendButtonProps) => {
@@ -14,13 +13,16 @@ export const ResendButton = memo((props: ResendButtonProps) => {
     const {reload} = useTeamMembers();
     const {sendEmail} = useSendInviteEmail();
 
-    const {membership} = props;
+    const {teamMember} = props;
+
+    const membership = teamMember?.membership;
+    if (!membership) return <></>;
 
     const btnStyle = c_ApprovalStatus(membership.approvalStatus);
     const text = membership.approvalStatus === ApprovalStatus.PENDING && 'Resend';
 
     const onClick = async () => {
-        const email = membership.invitedEmail;
+        const email = teamMember.email;
 
         if (!email) return;
 
