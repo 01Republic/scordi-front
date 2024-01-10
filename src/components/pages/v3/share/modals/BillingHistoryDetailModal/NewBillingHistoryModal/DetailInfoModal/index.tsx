@@ -49,18 +49,22 @@ export const DetailInfoModal = memo(() => {
             exchangeRate: 1,
             exchangedCurrency: isDomestic ? CurrencyCode.KRW : selectedCurrency.label,
         };
-        form.setValue('vat', moneyLike);
+        form.setValue('vatAmount', moneyLike);
     };
 
     const onClick = debounce(() => {
         if (!appId) return;
 
-        setCreateBillingHistory((prev) => ({...prev, uid: form.getValues('uid'), vat: form.getValues('vat')}));
+        setCreateBillingHistory((prev) => ({
+            ...prev,
+            uid: form.getValues('uid'),
+            vatAmount: form.getValues('vatAmount'),
+        }));
 
         const req = appBillingHistoryApi.createV2(appId, {
             ...createBillingHistory,
             uid: form.getValues('uid'),
-            vat: form.getValues('vat'),
+            vatAmount: form.getValues('vatAmount'),
         });
 
         req.then((res) => {

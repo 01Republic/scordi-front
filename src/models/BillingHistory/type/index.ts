@@ -44,7 +44,7 @@ export class BillingHistoryDto {
      */
     isDomestic: boolean | null; // 국내/해외 결제 여부
     isVATDeductible: boolean | null; // 공제/불공제 여부
-    @TypeCast(() => MoneyDto) vat: MoneyDto | null; // 부가세
+    @TypeCast(() => MoneyDto) vatAmount: MoneyDto | null; // 부가세
     @TypeCast(() => Date) createdAt: Date; // 생성일시
     @TypeCast(() => Date) updatedAt: Date; // 수정일시
     @TypeCast(() => OrganizationDto) organization?: OrganizationDto; // 조직
@@ -138,7 +138,7 @@ export class CreateBillingHistoryRequestDto {
     memo?: string; // 메모
     isDomestic?: boolean; // 국내/해외 결제 여부
     isVATDeductible?: boolean; // 공제/불공제 여부
-    vat?: CreateMoneyRequestDto; // 부과세
+    vatAmount?: CreateMoneyRequestDto; // 부과세
 }
 
 interface Type<T = any> extends Function {

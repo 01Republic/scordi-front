@@ -11,5 +11,5 @@ export class CreateBillingHistoryRequestDtoV2 {
     memo?: string; // 메모
     isDomestic?: boolean; // 국내/해외 결제 여부
     isVATDeductible?: boolean; // 공제/불공제 여부
-    @TypeCast(() => CreateMoneyRequestDto) vat?: CreateMoneyRequestDto; // 부가세
+    @TypeCast(() => CreateMoneyRequestDto) vatAmount?: CreateMoneyRequestDto; // 부가세
 }
