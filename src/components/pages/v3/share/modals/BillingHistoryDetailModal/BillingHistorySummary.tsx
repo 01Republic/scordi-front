@@ -10,7 +10,7 @@ import {BillingHistoryManager} from '^models/BillingHistory/manager';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
 import {BsPlusCircle} from 'react-icons/bs';
 import {useModal} from '^v3/share/modals';
-import {payMethodModalState} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/atoms';
+import {payMethodModalState} from '^v3/share/modals/NewBillingHistoryModal/atoms';
 
 interface BillingHistorySummaryProps {
     billingHistories: BillingHistoryDto[];

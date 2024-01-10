@@ -10,7 +10,7 @@ import {BillingHistoryEditPanelBySubtype} from '^v3/share/modals/BillingHistoryD
 import {CardSingleSelect} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryEditPanel/CardSelect';
 import {CurrencyCode} from '^models/Money';
 import {ButtonGroupRadio} from '^components/util/form-control/inputs';
-import {TextInput} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/share/TextInput';
+import {TextInput} from '^v3/share/modals/NewBillingHistoryModal/share/TextInput';
 import {plainToast} from '^hooks/useToast';
 import {
     BillingHistoryByCardReceiptDto,
