@@ -1,10 +1,8 @@
 import React, {memo} from 'react';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {AttachmentModal, attachmentModalState} from '^components/pages/LandingPages/TastingPage/AttachmentModal';
+import {useRecoilValue} from 'recoil';
+import {AttachmentModal} from '^components/pages/LandingPages/TastingPage/AttachmentModal';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {PrototypeAvatar} from '^components/pages/LandingPages/TastingPage/TastingItemDetailModal/PrototypeAvatar';
-import {HeadingPrice} from '^v3/V3OrgBillingHistoryShowPage/HeadingPrice';
 import {BillingHistoryContentPanel} from './BillingHistoryContentPanel';
 import {useBillingHistoriesInModal, useBillingHistoryInModal, useBillingHistoryModal} from './hook';
 import {NewBillingHistoryModal} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal';
@@ -19,7 +17,7 @@ export const BillingHistoryDetailModal = memo(() => {
     const {close, Modal} = useBillingHistoryModal();
     const {billingHistory, isLoading: isSubjectLoading} = useBillingHistoryInModal();
     const isEditMode = useRecoilValue(isBillingHistoryEditModeAtom);
-    const {pagedHistories, isLoading: isSiblingsLoading} = useBillingHistoriesInModal();
+    const {pagedHistories} = useBillingHistoriesInModal();
 
     const onBack = () => {
         close();

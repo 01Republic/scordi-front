@@ -2,14 +2,23 @@ import {memo} from 'react';
 import {useRecoilState} from 'recoil';
 import {isBillingHistoryEditModeAtom} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {DeleteButton} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/DeleteButton';
-import {useBillingHistoryInModal} from '^v3/share/modals/BillingHistoryDetailModal/hook';
+import {useBillingHistoryInModal, useBillingHistoryModal} from '^v3/share/modals/BillingHistoryDetailModal/hook';
+import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 
 export const BillingHistoryDeleteButton = memo(function BillingHistoryDeleteButton() {
     const [isEditMode, setIsEditMode] = useRecoilState(isBillingHistoryEditModeAtom);
+    const {setIsShow} = useBillingHistoryModal();
+    const {reload: loadHistories} = useBillingHistoriesV3();
+
     const {deleteBillingHistory} = useBillingHistoryInModal();
-    const onClick = () => deleteBillingHistory().then(() => setIsEditMode(false));
+    const onClick = () =>
+        deleteBillingHistory().then(() => {
+            loadHistories();
+            setIsEditMode(false);
+            setIsShow(false);
+        });
 
     if (!isEditMode) return <></>;
 
-    return <DeleteButton isShow={!isEditMode} onClick={onClick} />;
+    return <DeleteButton isShow={true} onClick={onClick} />;
 });

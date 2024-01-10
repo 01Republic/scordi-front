@@ -91,7 +91,10 @@ export const BillingHistoryEditPanel = memo(function BillingHistoryEditPanel() {
                 <MobileSection.Padding>
                     <div className="w-full flex flex-col gap-4 mb-16">
                         <RequiredFormControl topLeftLabel="결제 수단">
-                            <CardSingleSelect onChange={(cardId) => form.setValue('creditCardId', cardId)} />
+                            <CardSingleSelect
+                                billingHistory={billingHistory}
+                                onChange={(cardId) => form.setValue('creditCardId', cardId)}
+                            />
                         </RequiredFormControl>
 
                         <FormControl topLeftLabel="결제 일시">

@@ -3,9 +3,11 @@ import {useCreditCards} from '^models/CreditCard/hook';
 import Select from 'react-select';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {CardComponents, selectStylesOptions} from '^v3/share/Select/CardSelector/selectOpions';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 interface CardSelectProps {
     onChange: (cardId?: number | null) => void;
+    billingHistory: BillingHistoryDto;
 }
 
 type Option = {
@@ -23,13 +25,14 @@ const makeCardOption = (card: CreditCardDto): Option => {
 };
 
 export const CardSingleSelect = memo(function CardSelect(props: CardSelectProps) {
-    const {onChange} = props;
     const [isOptionLoaded, setIsOptionLoaded] = useState(false);
     const {isLoading, reload, result} = useCreditCards();
     const noneCardOption = {
         value: null,
         label: '없음',
     };
+
+    const {onChange, billingHistory} = props;
 
     useEffect(() => {
         if (isOptionLoaded || isLoading) return;
@@ -43,6 +46,7 @@ export const CardSingleSelect = memo(function CardSelect(props: CardSelectProps)
             placeholder="카드 선택하기"
             components={CardComponents()}
             styles={selectStylesOptions}
+            defaultValue={makeCardOption(billingHistory.creditCard ?? ({} as CreditCardDto))}
             options={[noneCardOption, ...result.items.map(makeCardOption)]}
             onChange={(newValue, actionMeta) => onChange(newValue?.value)}
         />
