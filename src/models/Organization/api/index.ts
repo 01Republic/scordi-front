@@ -8,6 +8,8 @@ import {
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {Paginated} from '^types/utils/paginated.dto';
+import {TeamMemberDto} from '^models/TeamMember';
+import {plainToInstance} from 'class-transformer';
 
 // export const postUserSession = (data: UserLoginRequestDto) => {
 //     return api.post<JwtContainer>('/users/session', data)
@@ -71,5 +73,21 @@ export const organizationAdminApi = {
         const url = `/admin/organizations/${id}`;
         const headers = {'Content-Type': 'multipart/form-data'};
         return api.patch<OrganizationDto>(url, data, {headers}).then(oneDtoOf(OrganizationDto));
+    },
+};
+
+export const organizationConnectGoogleWorkspaceApi = {
+    // bulk create 의 경우 아직 paigniated response 를 준비하지 못했습니다.
+    sync(id: number) {
+        const url = `/organizations/${id}/connect/google-workspace`;
+        return api.get<TeamMemberDto[]>(url).then((res) => {
+            res.data = plainToInstance(TeamMemberDto, res.data);
+            return res;
+        });
+    },
+
+    disconnect(id: number) {
+        const url = `/organizations/${id}/connect/google-workspace/disconnect`;
+        return api.patch<OrganizationDto>(url).then(oneDtoOf(OrganizationDto));
     },
 };
