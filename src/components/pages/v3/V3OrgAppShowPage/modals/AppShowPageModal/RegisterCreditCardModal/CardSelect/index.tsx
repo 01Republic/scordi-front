@@ -15,7 +15,6 @@ type CardOption = {
 export const CardSelect = memo(() => {
     const [formData, setFormData] = useRecoilState(updateCurrentSubscriptionState);
     const {currentSubscription} = useCurrentSubscription();
-    console.log('formData', formData);
 
     useEffect(() => {
         setFormData((prev) => ({...prev, creditCardId: currentSubscription?.creditCardId}));
