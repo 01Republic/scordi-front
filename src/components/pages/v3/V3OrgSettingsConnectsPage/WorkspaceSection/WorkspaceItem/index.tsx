@@ -2,10 +2,8 @@ import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {ToolType} from '^v3/V3OrgSettingsConnectsPage/type';
 import {currentOrgAtom} from '^models/Organization/atom';
-import {MoreDropdown} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown';
-import {FiRefreshCw} from 'react-icons/fi';
-import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
 import {useToast} from '^hooks/useToast';
+import {MoreDropdown} from '^v3/V3OrgSettingsConnectsPage/MoreDropdown';
 
 interface WorkspaceItemProps {
     tool: ToolType;
@@ -32,16 +30,13 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
             <p className="flex gap-3 self-center font-base">
                 {logo} {tool}
             </p>
-            <div className="flex gap-3">
+            <div className="flex gap-3 items-center">
                 <button>{button}</button>
-                <MoreDropdown isCurrent={false} option={0} destroyRequest={onDelete} className="!block">
-                    <MoreDropdownListItem onClick={() => onSync()}>
-                        <div className="flex items-center gap-3 w-full">
-                            <FiRefreshCw />
-                            <p>동기화</p>
-                        </div>
-                    </MoreDropdownListItem>
-                </MoreDropdown>
+
+                {/*동기화 / 삭제 기능 구현되면 보여주기*/}
+                {/*{tool === ToolType.google && (*/}
+                {/*    <MoreDropdown onSync={onSync} onDelete={onDelete} className="self-center" />*/}
+                {/*)}*/}
             </div>
         </div>
     );
