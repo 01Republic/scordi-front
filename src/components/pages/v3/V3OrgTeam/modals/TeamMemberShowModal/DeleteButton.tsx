@@ -3,6 +3,7 @@ import {useRecoilState} from 'recoil';
 import {currentTeamMemberState, useTeamMember} from '^models/TeamMember';
 import {TopRightButton} from '^v3/share/modals';
 import {isTeamMemberEditModeAtom} from './atom';
+import {useMemberships} from '^models/Membership/hook';
 
 interface DeleteButtonProps {
     onFinish?: () => any;
@@ -11,6 +12,7 @@ interface DeleteButtonProps {
 export const DeleteButton = memo(function DeleteButton(props: DeleteButtonProps) {
     const [isEditMode, setIsEditMode] = useRecoilState(isTeamMemberEditModeAtom);
     const {deleteMember} = useTeamMember(currentTeamMemberState);
+    const {reload: loadMembership} = useMemberships();
     const {onFinish} = props;
 
     if (!isEditMode) return <></>;
@@ -18,6 +20,7 @@ export const DeleteButton = memo(function DeleteButton(props: DeleteButtonProps)
     const onDeleteConfirm = () => {
         onFinish && onFinish();
         setIsEditMode(false);
+        loadMembership();
     };
     const onDelete = () => deleteMember(onDeleteConfirm);
 

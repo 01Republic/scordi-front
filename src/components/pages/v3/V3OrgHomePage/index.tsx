@@ -21,18 +21,14 @@ import {NewAppModal} from '^v3/share/modals/NewAppModal';
 import {InvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal';
 import {AccountListModal} from '^v3/share/modals/AccountListModal';
 import {NewCardModalV2} from '^v3/share/modals/NewCardModal/NewCardModalV2';
-
 import {BillingHistoriesPageModal} from '^v3/V3OrgBillingHistoriesPage/modals/BillingHistoriesPageModal';
-import {TeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
-
-// import {TeamMemberCreateModal} from './TeamMemberCreateModal';
 import {MonthlyPaidAmountModal} from './MonthlyPaidAmountModal';
 import {MonthlyRemainAmountModal} from './MonthlyRemainAmountModal';
 import {RenewInvoiceAccountModalMobile} from './RenewInvoiceAccountModal/mobile';
-
 import {SummarySection, MemberListSection, SubscriptionsSection} from './desktop/sections';
 import {SubscriptionDetailModal, NewBillingHistoryModalInDashBoard} from './_localModals';
 import {NewTeamMemberModal} from '^v3/share/modals/NewTeamMemberModal';
+import {TeamMemberDetailModal} from '^v3/V3OrgHomePage/_localModals/TeamMemberShowModal';
 
 export const V3OrgHomePage = memo(() => {
     const currentUser = useRecoilValue(currentUserAtom);
@@ -45,7 +41,7 @@ export const V3OrgHomePage = memo(() => {
                 activeTabIndex={LNBIndex.Dashboard}
                 modals={[
                     SubscriptionDetailModal, // 구독상세모달
-                    TeamMemberShowModal, // 멤버상세모달
+                    TeamMemberDetailModal, // 멤버상세모달
                     AccountListModal,
                     NewBillingHistoryModalInDashBoard, // 결제내역추가모달
                     BillingHistoryDetailModal, // 결제내역상세모달
@@ -81,8 +77,9 @@ export const V3OrgHomePage = memo(() => {
                 activeTabIndex={BottomTabIndex.HOME}
                 modals={[
                     BillingHistoriesPageModal, // 내역페이지 모달 아마?
+                    TeamMemberDetailModal, // 멤버상세모달
                     SubscriptionDetailModal,
-                    BillingHistoryDetailModal,
+                    BillingHistoryDetailModal, // 결제내역상세모달
                     NewAppModal,
                     RenewInvoiceAccountModalMobile,
                     MonthlyPaidAmountModal,

@@ -13,22 +13,26 @@ import {debounce} from 'lodash';
 import {currentOrgAtom} from '^models/Organization/atom';
 import {useInviteMember} from '^v3/share/modals/NewTeamMemberModal/InviteMemberModal/Modal/InputInviteEmails/useInviteMember';
 import {inviteMembershipApi} from '^models/Membership/api';
-import {useTeamMembers} from '^models/TeamMember';
 import {useAlert} from '^hooks/useAlert';
 import {useModal} from '^v3/share/modals';
 import {Invitation} from '^models/Membership/types';
 
-export const CTAButton = memo(() => {
+interface CTAButtonProps {
+    onClose: () => void;
+}
+export const CTAButton = memo((props: CTAButtonProps) => {
     const formData = useRecoilValue(createInviteTeamMemberAtom);
     const currentOrg = useRecoilValue(currentOrgAtom);
     const inputValue = useRecoilValue(emailInputValueAtom);
     const {close} = useModal({isShowAtom: isOpenInviteOrgMemberModalAtom});
     const [isLoading, setIsLoading] = useRecoilState(isLoadingAtom);
     const {confirmOrgMember} = useInviteMember();
-    const {isExist, reload, search: getTeamMembers} = useTeamMembers();
     const {open, close: closeLoadingModal} = useModal({isShowAtom: isOpenLoadingModalAtom});
     const {alert} = useAlert();
     const {toast} = useToast();
+
+    const {onClose} = props;
+
     const invitedEmails = formData?.invitations?.map((invitation) => {
         return invitation.email;
     });
@@ -64,12 +68,7 @@ export const CTAButton = memo(() => {
         });
 
         req.then(() => {
-            getTeamMembers({
-                order: {id: 'DESC'},
-                itemsPerPage: 10,
-            });
-
-            isExist && reload();
+            onClose();
 
             alert.success({title: '초대가 완료되었습니다.'}).then(() => {
                 setIsLoading(false);
