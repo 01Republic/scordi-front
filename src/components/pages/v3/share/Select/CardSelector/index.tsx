@@ -8,7 +8,7 @@ import {CreditCardProfileOption} from '^models/CreditCard/hook/components/Credit
 import {debounce} from 'lodash';
 
 interface CardSelectorProps {
-    onChange: (cardId: number | null) => any;
+    onChange: (cardId: number | null) => void;
     defaultValue?: CreditCardDto;
 }
 
@@ -54,7 +54,6 @@ export const CardSelector = memo((props: CardSelectorProps) => {
             }}
             onMenuOpen={() => loadCards()}
             onChange={(option, actionMeta) => {
-                console.log(actionMeta);
                 switch (actionMeta.action) {
                     case 'select-option':
                         option && onChange(option.value);
