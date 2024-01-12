@@ -1,6 +1,6 @@
 import {memo} from 'react';
 import {Dropdown} from '^v3/share/Dropdown';
-import {IoIosMore} from 'react-icons/io';
+import {IoMdMore} from 'react-icons/io';
 import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
 import {FaRegTrashAlt, FaSync} from 'react-icons/fa';
 
@@ -21,7 +21,7 @@ export const MoreDropdown = memo((props: MoreDropdownProps) => {
             Trigger={() => (
                 <div>
                     <button className={`btn btn-xs btn-ghost btn-square !border-none hover:bg-gray-200 ${className}`}>
-                        <IoIosMore size={16} />
+                        <IoMdMore size={16} />
                     </button>
                 </div>
             )}
