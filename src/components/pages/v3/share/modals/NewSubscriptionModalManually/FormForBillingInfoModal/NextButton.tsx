@@ -16,7 +16,7 @@ export const NextButton = memo(function NextButton() {
     const isActive = typeof formData.currentBillingAmount?.amount == 'number';
     // const isActive =
     //     !!formData.billingCycleType &&
-    //     !!formData.recurringType &&
+    //     !!formData.pricingModel &&
     //     !!formData.currentBillingAmount?.amount &&
     //     !!formData.currentBillingAmount.currency;
 

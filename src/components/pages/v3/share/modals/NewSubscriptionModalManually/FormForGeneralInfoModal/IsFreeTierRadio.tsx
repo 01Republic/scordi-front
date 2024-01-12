@@ -3,7 +3,7 @@ import {ButtonGroupRadio} from '^components/util/form-control/inputs';
 import {RequiredFormControl} from '^components/util/form-control';
 import {useRecoilState} from 'recoil';
 import {newSubscriptionManualFormData} from '^v3/share/modals/NewSubscriptionModalManually/atom';
-import {RecurringTypeOptions} from '^models/Subscription/types/RecurringTypeOptions';
+import {PricingModelOptions} from '^models/Subscription/types/PricingModelOptions';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
 
 export const IsFreeTierRadio = memo(function IsFreeTierRadio() {
@@ -14,7 +14,7 @@ export const IsFreeTierRadio = memo(function IsFreeTierRadio() {
             const f2 = {...f, isFreeTier};
             if (!isFreeTier) {
                 f2.billingCycleType = BillingCycleOptions.Monthly;
-                f2.recurringType = RecurringTypeOptions.PER_SEAT;
+                f2.pricingModel = PricingModelOptions.PER_SEAT;
             }
             return f2;
         });

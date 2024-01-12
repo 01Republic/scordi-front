@@ -53,8 +53,8 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
                                 <span className="pl-[8px]">결제주기</span>
                             </SortableTH>
 
-                            {/* [과금방식] subscription.recurringType: RecurringTypeOptions */}
-                            <SortableTH sortKey="[recurringType]" onClick={sort}>
+                            {/* [과금방식] subscription.pricingModel: PricingModelOptions */}
+                            <SortableTH sortKey="[pricingModel]" onClick={sort}>
                                 <span className="pl-[8px]">과금방식</span>
                             </SortableTH>
 

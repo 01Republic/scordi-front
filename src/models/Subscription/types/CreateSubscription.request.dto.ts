@@ -2,7 +2,7 @@ import {TypeCast} from '^types/utils/class-transformer';
 import {SubscriptionStatus} from '^models/Subscription/types/SubscriptionStatus';
 import {CreateMoneyWithSubscriptionRequestDto} from '^models/Money';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
-import {RecurringTypeOptions} from '^models/Subscription/types/RecurringTypeOptions';
+import {PricingModelOptions} from '^models/Subscription/types/PricingModelOptions';
 
 export class CreateSubscriptionRequestDto {
     organizationId: number; // 조직 ID
@@ -16,7 +16,7 @@ export class CreateSubscriptionRequestDto {
     recurringTypeTagId?: number; // 과금 방식 태그 ID
     billingCycleTagId?: number; // 결제 주기 태그 ID
 
-    recurringType?: RecurringTypeOptions; // 과금 방식
+    pricingModel?: PricingModelOptions; // 과금 방식
     billingCycleType?: BillingCycleOptions; // 결제 주기
 
     // 현재 결제 금액
