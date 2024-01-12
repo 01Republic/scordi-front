@@ -50,8 +50,9 @@ export const InputCardNumber = memo((props: InputCardNumberProps) => {
             ref={inputRef}
             defaultValue={currentCreditCard.fullNumber}
             onChange={onChange}
-            className="input w-full input-bordered"
+            className="input w-full input-bordered placeholder:text-xs"
             maxLength={25}
+            placeholder="●●●● - ●●●● - ●●●● - ●●●● "
         />
     );
 });

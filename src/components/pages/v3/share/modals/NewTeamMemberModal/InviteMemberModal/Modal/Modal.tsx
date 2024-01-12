@@ -11,6 +11,7 @@ import {InputInviteEmails} from './InputInviteEmails';
 import {CTAButton} from '^v3/share/modals/NewTeamMemberModal/InviteMemberModal/Modal/CTAButton';
 import {RequiredFormControl} from '^components/util/form-control/RequiredFormControl';
 import {LoadingModal} from '^v3/share/modals/NewTeamMemberModal/InviteMemberModal/LoadingModal';
+import {ModalTitle} from '^v3/share/modals/ModalTitle';
 
 interface InviteOrgMemberModalProps {
     onClose: () => void;
@@ -42,16 +43,15 @@ export const InviteOrgMemberModal = memo((props: InviteOrgMemberModalProps) => {
                 <ModalTopbar backBtnOnClick={close} topbarPosition="sticky" />
 
                 <MobileSection.Padding>
-                    <div className="flex flex-col gap-5">
-                        <h3 className="font-bold text-2xl">
-                            초대 메일 전송을 위해 <br /> 계정 정보가 필요해요
-                        </h3>
-
-                        <RequiredFormControl topLeftLabel="초대할 멤버의 이메일을 입력해주세요">
-                            <InputInviteEmails />
-                        </RequiredFormControl>
-                    </div>
+                    <ModalTitle title={'초대 메일 전송을 위해 \n 계정 정보가 필요해요'} />
                 </MobileSection.Padding>
+
+                <MobileSection.Padding>
+                    <RequiredFormControl topLeftLabel="초대할 멤버의 이메일을 입력해주세요">
+                        <InputInviteEmails />
+                    </RequiredFormControl>
+                </MobileSection.Padding>
+
                 <ModalLikeBottomBar>
                     <CTAButton onClose={() => onClose()} />
                 </ModalLikeBottomBar>
