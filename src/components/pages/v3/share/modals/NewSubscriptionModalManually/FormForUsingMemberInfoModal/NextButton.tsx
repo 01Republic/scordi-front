@@ -8,7 +8,7 @@ import {useSubscriptionsV2} from '^models/Subscription/hook';
 import {orgIdParamState} from '^atoms/common';
 import {subscriptionsState} from '^models/Subscription/atom';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
-import {RecurringTypeOptions} from '^models/Subscription/types/RecurringTypeOptions';
+import {PricingModelOptions} from '^models/Subscription/types/PricingModelOptions';
 import {debounce} from 'lodash';
 
 export const NextButton = memo(function NextButton() {
@@ -44,7 +44,7 @@ export const NextButton = memo(function NextButton() {
             // 결제주기: 무료인 구독은 강제로 "무관" 값으로 정정하여 제출
             billingCycleType: formData.isFreeTier ? BillingCycleOptions.None : formData.billingCycleType,
             // 과금방식: 무료인 구독은 강제로 "무관" 값으로 정정하여 제출
-            recurringType: formData.isFreeTier ? RecurringTypeOptions.NONE : formData.recurringType,
+            pricingModel: formData.isFreeTier ? PricingModelOptions.NONE : formData.pricingModel,
         });
 
         // 생성 진행 중인 상태 처리
