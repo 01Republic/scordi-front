@@ -38,9 +38,9 @@ export const V3OrgSettingsMenuPanel = memo(() => {
                 <MenuItem href={billingPath} query={{menu: BillingStatus.History}} status={BillingStatus.History} />
             </MenuList>
 
-            <MenuList title="멤버">
-                <MenuItem href={memberPath} query={{menu: MemberStatus.Member}} status={MemberStatus.Member} />
-            </MenuList>
+            {/*<MenuList title="멤버">*/}
+            {/*    <MenuItem href={memberPath} query={{menu: MemberStatus.Member}} status={MemberStatus.Member} />*/}
+            {/*</MenuList>*/}
 
             <MenuList title="연동">
                 <MenuItem href={connectPath} query={{menu: ConnectStatus.Workspace}} status={ConnectStatus.Workspace} />

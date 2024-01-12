@@ -1,17 +1,17 @@
 import {memo} from 'react';
-import {useTeamMembers} from '^models/TeamMember';
+import {useTeamMembers_Dashboard} from '^models/TeamMember';
 import {CreateTeamMemberModal} from '^v3/share/modals/NewTeamMemberModal/CreateTeamMemberModal/Modal';
 
 /**
- * 대시보드 화면에서의 팀 멤버 생성 모달
+ * [조직홈p] 멤버 직접추가 모달
  */
 export const TeamMemberCreateModal = memo(function TeamMemberCreateModal() {
-    const list = useTeamMembers();
+    const {reload} = useTeamMembers_Dashboard();
 
     return (
         <CreateTeamMemberModal
             onSubmit={() => {
-                if (list.isExist) list.reload();
+                reload();
             }}
         />
     );

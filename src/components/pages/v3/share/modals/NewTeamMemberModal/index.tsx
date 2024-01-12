@@ -3,16 +3,14 @@ import {newTeamMemberModal} from '^v3/share/modals/NewTeamMemberModal/atom';
 import {ModalTopbar, useModal} from '^v3/share/modals';
 import {MobileSection} from '../../sections/MobileSection';
 import {isOpenNewTeamMemberModalAtom} from 'src/components/pages/v3/share/modals/NewTeamMemberModal/CreateTeamMemberModal';
-import {TeamMemberCreateModal} from '^v3/V3OrgHomePage/TeamMemberCreateModal';
-import {
-    InviteOrgMemberModal,
-    isOpenInviteOrgMemberModalAtom,
-} from 'src/components/pages/v3/share/modals/NewTeamMemberModal/InviteMemberModal';
+import {TeamMemberCreateModal} from '^v3/V3OrgHomePage/_localModals/NewTeamMemberModal/NewTeamMemberCreateModal';
+import {isOpenInviteOrgMemberModalAtom} from 'src/components/pages/v3/share/modals/NewTeamMemberModal/InviteMemberModal';
 import {useToast} from '^hooks/useToast';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {InviteButton, InviteStatus} from '^v3/share/modals/NewTeamMemberModal/InviteButton';
 import {serviceHost} from '^config/environments';
+import {NewTeamMemberInviteModal} from '^v3/V3OrgHomePage/_localModals/NewTeamMemberModal/NewTeamMemberInviteModal';
 
 export const NewTeamMemberModal = memo(() => {
     const {Modal, close} = useModal(newTeamMemberModal);
@@ -63,7 +61,7 @@ export const NewTeamMemberModal = memo(() => {
                 </MobileSection.Padding>
             </Modal>
             <TeamMemberCreateModal />
-            <InviteOrgMemberModal />
+            <NewTeamMemberInviteModal />
         </>
     );
 });

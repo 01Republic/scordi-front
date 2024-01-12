@@ -44,7 +44,7 @@ export const SubscriptionSelectModal = memo(function SubscriptionSelectModal(pro
 
     return (
         <div
-            data-modal="SubscriptionSelectModal-for-TeamMemberShowModal"
+            data-modal="SubscriptionSelectModal-for-TeamMemberDetailModal"
             className={`modal modal-bottom ${isShow ? 'modal-open' : ''}`}
             onClick={() => hide()}
         >

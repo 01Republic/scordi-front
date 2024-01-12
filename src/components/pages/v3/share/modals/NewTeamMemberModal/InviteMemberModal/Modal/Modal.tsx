@@ -12,13 +12,18 @@ import {CTAButton} from '^v3/share/modals/NewTeamMemberModal/InviteMemberModal/M
 import {RequiredFormControl} from '^components/util/form-control/RequiredFormControl';
 import {LoadingModal} from '^v3/share/modals/NewTeamMemberModal/InviteMemberModal/LoadingModal';
 
-export const InviteOrgMemberModal = memo(() => {
+interface InviteOrgMemberModalProps {
+    onClose: () => void;
+}
+export const InviteOrgMemberModal = memo((props: InviteOrgMemberModalProps) => {
     const {isShow, Modal, close} = useModal({isShowAtom: isOpenInviteOrgMemberModalAtom});
     const {searchMemberships} = useMemberships();
     const currentOrg = useRecoilValue(currentOrgAtom);
     const resetFormData = useResetRecoilState(createInviteTeamMemberAtom);
     const resetInputValue = useResetRecoilState(emailInputValueAtom);
     const resetIsLoading = useResetRecoilState(isLoadingAtom);
+
+    const {onClose} = props;
 
     useEffect(() => {
         resetFormData();
@@ -48,7 +53,7 @@ export const InviteOrgMemberModal = memo(() => {
                     </div>
                 </MobileSection.Padding>
                 <ModalLikeBottomBar>
-                    <CTAButton />
+                    <CTAButton onClose={() => onClose()} />
                 </ModalLikeBottomBar>
             </Modal>
             <LoadingModal />

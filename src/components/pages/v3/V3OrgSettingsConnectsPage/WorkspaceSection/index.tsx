@@ -21,6 +21,7 @@ export const WorkspaceSection = memo(() => {
             <WorkspaceItem
                 logo={<FcGoogle size={28} />}
                 tool={ToolType.google}
+                lastSyncAccount={lastSyncAccount}
                 button={currentOrg ? <GoogleProfile lastSyncAccount={lastSyncAccount} /> : <GoogleLoginButton />}
             />
 

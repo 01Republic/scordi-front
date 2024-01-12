@@ -18,7 +18,7 @@ export const CardSelect = memo(() => {
             }
         >
             <CardSelector
-                onChange={(creditCardId: number) => {
+                onChange={(creditCardId: number | null) => {
                     if (!creditCardId) return;
                     setCreateBillingHistory((prev) => ({...prev, creditCardId}));
                 }}

@@ -14,9 +14,7 @@ export const TeamMemberRole = memo((props: TeamMemberRoleProps) => {
     if (!teamMember || !currentUser) return <></>;
 
     const {membership} = teamMember;
-    const isMe = teamMember.email === currentUser.email;
 
-    if (isMe) return <p className="capitalize text-sm cursor-pointer">Owner</p>;
     if (membership) return <p className="capitalize text-sm cursor-pointer">{membership.level.toLowerCase()}</p>;
 
     return (

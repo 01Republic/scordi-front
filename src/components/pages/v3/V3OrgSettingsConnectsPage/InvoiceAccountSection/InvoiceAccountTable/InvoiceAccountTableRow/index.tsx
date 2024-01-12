@@ -6,13 +6,11 @@ import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {useAlert} from '^hooks/useAlert';
 import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
-import {FiRefreshCw} from 'react-icons/fi';
-import {MoreDropdown} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown';
-import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
 import {GmailAgentProgress, gmailAgentProgressAtom} from '^hooks/useGoogleAccessToken';
 import {useToast} from '^hooks/useToast';
 import {useModal} from '^v3/share/modals';
 import {renewInvoiceAccountModal} from '^v3/V3OrgHomePage/RenewInvoiceAccountModal/atom';
+import {MoreDropdown} from '^v3/V3OrgSettingsConnectsPage/MoreDropdown';
 
 interface InvoiceAccountTableRowProps {
     invoiceAccount: InvoiceAccountDto | undefined;
@@ -71,14 +69,7 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
             </td>
 
             <td className="flex gap-3 justify-end">
-                <MoreDropdown isCurrent={false} option={0} destroyRequest={onDelete} className="!block">
-                    <MoreDropdownListItem onClick={() => onSync()}>
-                        <div className="flex items-center gap-3 w-full">
-                            <FiRefreshCw />
-                            <p>동기화</p>
-                        </div>
-                    </MoreDropdownListItem>
-                </MoreDropdown>
+                <MoreDropdown onSync={onSync} onDelete={onDelete} />
             </td>
         </tr>
     );

@@ -1,42 +1,44 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
-import {invoiceAccountApi} from '^models/InvoiceAccount/api';
-import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {Avatar} from '^components/Avatar';
-import {V3OrgInvoiceAccountShowPageRoute} from '^pages/v3/orgs/[orgId]/invoiceAccounts/[invoiceAccountId]';
 import {useRouter} from 'next/router';
 import {LinkTo} from '^components/util/LinkTo';
-import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
 import {useInvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal/hook';
+import {useInvoiceAccountsV3} from '^models/InvoiceAccount/hook';
+import {
+    getInvoiceAccountsQueryAtom,
+    invoiceAccountsSearchResultAtom,
+} from '^v3/share/modals/InvoiceAccountSelectModal/atom';
+import {useRecoilValue} from 'recoil';
 
 export const SourceAccount = memo(function SourceAccount() {
     const router = useRouter();
     const {show: openModal} = useInvoiceAccountSelectModal();
     const {currentSubscription} = useCurrentSubscription();
-    const {safePath} = useSafePathInCurrentOrg();
-    const [invoiceAccounts, setInvoiceAccounts] = useState<InvoiceAccountDto[]>();
+    const {search: loadInvoiceAccount} = useInvoiceAccountsV3(
+        invoiceAccountsSearchResultAtom,
+        getInvoiceAccountsQueryAtom,
+    );
+    const result = useRecoilValue(invoiceAccountsSearchResultAtom);
     const [isLoading, setIsLoading] = useState(false);
+    const invoiceAccounts = result.items;
 
     useEffect(() => {
         if (!currentSubscription) return;
 
         setIsLoading(true);
-        invoiceAccountApi
-            .index(currentSubscription.organizationId, {
-                relations: ['subscriptions'],
-                where: {
-                    // @ts-ignore
-                    subscriptions: {id: currentSubscription.id},
-                },
-                order: {id: 'DESC'},
-                itemsPerPage: 0,
-            })
-            .then((res) => {
-                setInvoiceAccounts(res.data.items);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
+
+        loadInvoiceAccount({
+            relations: ['subscriptions'],
+            where: {
+                // @ts-ignore
+                subscriptions: {id: currentSubscription.id},
+            },
+            order: {id: 'DESC'},
+            itemsPerPage: 0,
+        }).finally(() => {
+            setIsLoading(false);
+        });
     }, [currentSubscription]);
 
     if (!invoiceAccounts) return <></>; // rendering ignore.

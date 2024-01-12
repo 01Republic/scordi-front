@@ -1,19 +1,20 @@
 import React, {memo} from 'react';
-import {useTeamMembers} from '^models/TeamMember';
 import {ModalTopbar} from '^v3/share/modals';
 import {useTeamMemberShowModal} from './hooks';
 import {EditButton} from './EditButton';
 import {DeleteButton} from './DeleteButton';
 import {TeamMemberShowBody} from './TeamMemberShowBody';
 import {SelectSubscriptionModal} from './SelectSubscriptionModal';
-
-export const TeamMemberShowModal = memo(() => {
+interface TeamMemberShowModalProps {
+    onClose: () => any;
+}
+export const TeamMemberShowModal = memo((props: TeamMemberShowModalProps) => {
     const {Modal, hide} = useTeamMemberShowModal();
-    const memberList = useTeamMembers();
+    const {onClose: _onClose} = props;
 
     const onClose = () => {
         hide();
-        if (memberList.isExist) memberList.reload();
+        _onClose();
     };
 
     const DeleteButtonWrap = () => <DeleteButton onFinish={onClose} />;

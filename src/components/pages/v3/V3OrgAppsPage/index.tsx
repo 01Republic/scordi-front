@@ -12,7 +12,7 @@ import {InvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectMo
 import {NewAppModal} from '^v3/share/modals/NewAppModal';
 
 import {TeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
-import {TeamMemberCreateModal} from '^v3/V3OrgHomePage/TeamMemberCreateModal';
+import {TeamMemberCreateModal} from '^v3/V3OrgHomePage/_localModals/NewTeamMemberModal/NewTeamMemberCreateModal';
 
 import {SubscriptionsPanel} from './mobile/SubscriptionsPanel';
 import {SubscriptionLoader} from './SubscriptionLoader';
@@ -20,6 +20,7 @@ import {SummarySection} from './SummarySection';
 import {SubscriptionListPageTitle} from './SubscriptionListPageTitle';
 import {SubscriptionListSection} from './SubscriptionListSection';
 import {SubscriptionDetailModal} from './_localModals';
+import {NewTeamMemberInviteModal} from '^v3/V3OrgHomePage/_localModals/NewTeamMemberModal/NewTeamMemberInviteModal';
 
 const MODALS: ReactComponentLike[] = [
     NewAppModal,
@@ -28,6 +29,7 @@ const MODALS: ReactComponentLike[] = [
     TeamMemberShowModal,
     AccountListModal,
     TeamMemberCreateModal,
+    NewTeamMemberInviteModal,
     InvoiceAccountSelectModal,
 ];
 
