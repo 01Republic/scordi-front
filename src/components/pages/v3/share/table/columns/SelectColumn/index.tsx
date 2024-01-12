@@ -168,12 +168,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
                 e.stopPropagation();
             }}
         >
-            <div
-                onClick={() => onOpen()}
-                ref={triggerRef}
-                tabIndex={0}
-                className="cursor-pointer flex py-[6px] px-[8px]"
-            >
+            <div onClick={() => onOpen()} ref={triggerRef} tabIndex={0} className="cursor-pointer flex py-[6px]">
                 {!isEmptyValue ? <ValueComponent value={value} /> : <EmptyComponent />}
             </div>
 

@@ -75,7 +75,7 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
             </td>
 
             {/* 결제수단 */}
-            <td>
+            <td className="pl-3 py-0">
                 <PayMethodSelect
                     lastPaidHistory={lastPaidHistory}
                     subscription={subscription}
@@ -84,7 +84,7 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
             </td>
 
             {/* 사용인원 */}
-            <td className="text-right">
+            <td className="text-center">
                 <MemberCount subscription={subscription} />
             </td>
 
@@ -99,12 +99,12 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
             {/*</td>*/}
 
             {/* 담당자 */}
-            <td className="">
+            <td className="py-0 pl-5">
                 <MasterSelect subscription={subscription} onChange={() => reload && reload()} />
             </td>
 
             {/* Actions */}
-            <td></td>
+            {/*<td></td>*/}
         </tr>
     );
 });
