@@ -20,6 +20,7 @@ export class TeamMemberDto {
     profileImgUrl?: string | null; // 프로필 이미지 주소
     organizationId: number; // 스코디 조직 ID
     membershipId?: number | null; // 스코디 멤버십 ID
+    subscriptionCount: number; // 구독 개수
     @TypeCast(() => Date) createdAt: Date; // 생성일시
     @TypeCast(() => Date) updatedAt: Date; // 수정일시
 
