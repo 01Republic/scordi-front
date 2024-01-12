@@ -1,5 +1,5 @@
 import React, {memo, useState} from 'react';
-import {ApprovalStatus, c_ApprovalStatus, MembershipDto, t_ApprovalStatus} from '^models/Membership/types';
+import {ApprovalStatus, c_ApprovalStatus} from '^models/Membership/types';
 import {FaRegEnvelope} from 'react-icons/fa';
 import {TeamMemberDto, useSendInviteEmail, useTeamMembers} from '^models/TeamMember';
 import {LoadingButton} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatus/LoadingButton';
@@ -19,7 +19,8 @@ export const ResendButton = memo((props: ResendButtonProps) => {
     if (!membership) return <></>;
 
     const btnStyle = c_ApprovalStatus(membership.approvalStatus);
-    const text = membership.approvalStatus === ApprovalStatus.PENDING && 'Resend';
+    const isPending = membership.approvalStatus === ApprovalStatus.PENDING;
+    const text = isPending && 'Resend';
 
     const onClick = async () => {
         const email = teamMember.email;
@@ -43,7 +44,12 @@ export const ResendButton = memo((props: ResendButtonProps) => {
             {isLoading ? (
                 <LoadingButton text="Resending" />
             ) : (
-                <button onClick={onClick} className={`${btnStyle} btn btn-sm btn-outline gap-2 normal-case`}>
+                <button
+                    onClick={() => isPending && onClick()}
+                    className={`${btnStyle} ${
+                        !isPending && 'hidden'
+                    } btn btn-sm btn-outline gap-2 normal-case hover:text-white`}
+                >
                     <FaRegEnvelope />
                     {text}
                 </button>
