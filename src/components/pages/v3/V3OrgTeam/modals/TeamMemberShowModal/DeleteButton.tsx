@@ -32,7 +32,6 @@ export const DeleteButton = memo(function DeleteButton(props: DeleteButtonProps)
         if (!membershipId) return;
 
         deleteMember(onDeleteConfirm);
-        membershipApi.destroy(membershipId);
     };
 
     return <TopRightButton text="삭제" onClick={() => onDelete()} />;
