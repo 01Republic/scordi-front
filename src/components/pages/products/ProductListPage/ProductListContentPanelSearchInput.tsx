@@ -1,15 +1,16 @@
 import {memo, useEffect} from 'react';
 import {BsSearch} from 'react-icons/bs';
 import {useForm} from 'react-hook-form';
-import {useProductsV2} from '^models/Product/hook';
+import {useProductsInSaaSCollection} from '^models/Product/hook';
 import {useRecoilState} from 'recoil';
 import {currentProductCategoryAtom} from '^components/pages/products/ProductListPage/ProductListSidePanel';
 import {FindAllProductQuery} from '^models/Product/type';
 
 export const ProductListContentPanelSearchInput = memo(() => {
-    const {search} = useProductsV2();
+    const {search} = useProductsInSaaSCollection();
     const form = useForm<FindAllProductQuery>();
     const [currentCategory, setCurrentCategory] = useRecoilState(currentProductCategoryAtom);
+
     const onSubmit = (query: FindAllProductQuery) => {
         const name = query.name;
         if (name) {

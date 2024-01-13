@@ -3,49 +3,32 @@ import {useRouter} from 'next/router';
 import {atom, RecoilState, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {productIdParamsState} from '^atoms/common';
 import {
+    anotherProductsForSaaSCollection,
     billingCycleForCreateFlowAtom,
     getProductQuery,
     getProductsQuery,
     paymentPlanForCreateFlowAtom,
+    productListResultAtom,
+    productsForSaaSCollection,
 } from '^models/Product/atom';
 import {ProductDto, FindAllProductQuery} from '^models/Product/type';
 import {productApi} from '^models/Product/api';
 import {SubscriptionPaymentPlanDto} from '^models/Subscription/types/paymentPlanType';
 import {Paginated} from '^types/utils/paginated.dto';
-import {buildPagedResource, usePagedResource} from '^hooks/usePagedResource';
-
-export const useProducts = () => {
-    const result = useRecoilValue(getProductsQuery);
-    return result || {items: undefined, pagination: {}};
-};
+import {buildPagedResource, pagedResourceAtom, PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
 
 export const productSearchResultsState = atom({
     key: 'productSearchResultsState',
     default: [] as ProductDto[],
 });
 
-export const productsPagedResultAtom = atom<Paginated<ProductDto>>({
-    key: 'productsPagedResultAtom',
-    default: {
-        items: [],
-        pagination: {
-            totalItemCount: 0,
-            currentItemCount: 0,
-            totalPage: 1,
-            currentPage: 1,
-            itemsPerPage: 30,
-        },
-    },
-});
+export const useProductsV2 = () => useProductsV3(productListResultAtom);
 
-export const searchProductsParams = atom<FindAllProductQuery>({
-    key: 'products/searchParams',
-    default: {},
-});
+// SaaS 컬렉션 / 목록 페이지 리스트
+export const useProductsInSaaSCollection = () => useProductsV3(productsForSaaSCollection);
 
-export const useProductsV2 = () => {
-    return useProductsV3(productsPagedResultAtom, searchProductsParams);
-};
+// SaaS 컬렉션 / 상세 페이지 - 유사한 서비스 리스트
+export const useAnotherProductsForSaaSCollection = () => useProductsV3(anotherProductsForSaaSCollection);
 
 export const usePagedProducts_SelectProduct = buildPagedResource<ProductDto, FindAllProductQuery>({
     key: 'usePagedProducts_SelectProduct',
@@ -83,17 +66,13 @@ export const usePagedProducts_SelectProduct = buildPagedResource<ProductDto, Fin
 
 // => 2세대
 //
-export const useProductsV3 = (
-    resultAtom: RecoilState<Paginated<ProductDto>>,
-    queryAtom: RecoilState<FindAllProductQuery>,
-    mergeMode = false,
-) => {
-    const atoms = {resultAtom, queryAtom};
+export const useProductsV3 = (atoms: PagedResourceAtoms<ProductDto, FindAllProductQuery>, mergeMode = false) => {
     return usePagedResource(atoms, {
-        endpoint: productApi.index,
+        useOrgId: false,
+        endpoint: (params) => productApi.index(params),
         buildQuery: (params) => ({isLive: params.isLive ?? true, ...params}),
+        getId: 'id',
         mergeMode,
-        getId: (dto) => dto.id,
     });
 };
 

@@ -5,6 +5,21 @@ import {SubscriptionBillingCycleDto} from '^models/Subscription/types/billingCyc
 import {productApi} from '^models/Product/api';
 import {errorNotify} from '^utils/toast-notify';
 import {productIdParamsState} from '^atoms/common';
+import {pagedResourceAtom} from '^hooks/usePagedResource';
+
+export const productListResultAtom = pagedResourceAtom<ProductDto, FindAllProductQuery>({
+    key: 'productListResultAtom',
+});
+
+// SaaS 컬렉션 / 목록 페이지 리스트
+export const productsForSaaSCollection = pagedResourceAtom<ProductDto, FindAllProductQuery>({
+    key: 'productsForSaaSCollection',
+});
+
+// SaaS 컬렉션 / 상세 페이지 - 유사한 서비스 리스트
+export const anotherProductsForSaaSCollection = pagedResourceAtom<ProductDto, FindAllProductQuery>({
+    key: 'anotherProductsForSaaSCollection',
+});
 
 export const productsAtom = atom({
     key: 'products',

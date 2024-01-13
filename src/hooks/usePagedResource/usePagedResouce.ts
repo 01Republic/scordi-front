@@ -28,7 +28,7 @@ export function usePagedResource<DTO, Query>(
     const {resultAtom, queryAtom} = atoms;
     const {endpoint, buildQuery = (q) => q, mergeMode: defaultMergeMode = false, getId, useOrgId = true} = option;
 
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgId ? useRecoilValue(orgIdParamState) : NaN;
     const [result, setResult] = useRecoilState(resultAtom);
     const [query, setQuery] = useRecoilState(queryAtom);
     const [isLoading, setIsLoading] = useState(false);
