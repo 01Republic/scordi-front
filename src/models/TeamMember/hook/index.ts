@@ -19,6 +19,7 @@ import {useTeamMembersV3} from '^models/TeamMember';
 export * from './useSendInviteEmail';
 export * from './useTeamMemberV3';
 
+// 멤버관리 / 멤버 목록
 export const useTeamMembers = () => {
     const orgId = useRecoilValue(orgIdParamState);
     const methods = useTeamMembersV3(teamMemberListAtom);

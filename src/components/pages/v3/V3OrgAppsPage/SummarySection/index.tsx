@@ -2,8 +2,7 @@ import {memo} from 'react';
 import {TbCalendarCheck, TbCalendarExclamation, TbCalendarOff, TbCalendarPause, TbCalendarX} from 'react-icons/tb';
 import {SummaryCard} from '^v3/V3OrgAppsPage/SummarySection/SummaryCard';
 import {SubscriptionManager} from '^models/Subscription/manager';
-import {useRecoilValue} from 'recoil';
-import {subscriptionsState} from '^models/Subscription/atom';
+import {useSubscriptionMenuSummary} from '^models/Subscription/hook';
 
 /**
  * 활성
@@ -13,8 +12,8 @@ import {subscriptionsState} from '^models/Subscription/atom';
  * 만료됨
  */
 export const SummarySection = memo(function SummarySection() {
-    const subscriptions = useRecoilValue(subscriptionsState);
-    const Subscription = SubscriptionManager.init(subscriptions || []);
+    const {isLoading, result} = useSubscriptionMenuSummary();
+    const Subscription = SubscriptionManager.init(result.items || []);
 
     const freeCount = Subscription.free().length;
     const paidCount = Subscription.success().length;
@@ -28,30 +27,35 @@ export const SummarySection = memo(function SummarySection() {
     return (
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-10">
             <SummaryCard
+                isLoading={isLoading}
                 icon={<TbCalendarCheck size={22} />}
                 label="활성"
                 value={activeCount}
                 className="text-scordi"
             />
             <SummaryCard
+                isLoading={isLoading}
                 icon={<TbCalendarExclamation size={22} />}
                 label="결제 실패"
                 value={failedCount}
                 className={failedCount ? `text-error` : 'text-gray-500'}
             />
             <SummaryCard
+                isLoading={isLoading}
                 icon={<TbCalendarPause size={22} />}
                 label="일시정지"
                 value={pausedCount}
                 className="text-gray-500"
             />
             <SummaryCard
+                isLoading={isLoading}
                 icon={<TbCalendarX size={22} />}
                 label="구독취소"
                 value={cancelCount}
                 className="text-gray-500"
             />
             <SummaryCard
+                isLoading={isLoading}
                 icon={<TbCalendarOff size={22} />}
                 label="만료됨"
                 value={expireCount}

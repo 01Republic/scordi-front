@@ -2,7 +2,6 @@ import React, {memo, useCallback, useEffect, useState} from 'react';
 import {ContentTable} from '^layouts/ContentLayout';
 import {ProductDto, ProductConnectMethod} from '^models/Product/type';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {subscriptionsState} from '^models/Subscription/atom';
 import {useProductsV2} from '^models/Product/hook';
 import {OrgProtoDetailPageRoute} from 'src/pages/orgs/[id]/products/[productId]';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
@@ -76,10 +75,8 @@ const PrototypeItem = memo((props: PrototypeItemProps) => {
     const currentProduct = useSetRecoilState(currentProductState);
     const router = useRouter();
     const orgId = useRouterIdParamState('id', orgIdParamState);
-    const apps = useRecoilValue(subscriptionsState);
     const setEditingProtoTarget = useSetRecoilState(editingProtoTargetState);
     const [isLive, setIsLive] = useState(false);
-    const app = apps.find((app) => app.productId === proto.id);
 
     useEffect(() => {
         setIsLive(proto.connectMethod !== ProductConnectMethod.PREPARE);

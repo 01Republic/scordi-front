@@ -22,16 +22,10 @@ export const TeamMembersTableSection = memo(() => {
         });
     }, [orgId]);
 
-    // const movePage = (page: number) => getTeamMembers({...query, page});
-
     const onSearch = debounce((keyword?: string) => {
         if (!query) return;
 
-        getTeamMembers({
-            ...query,
-            keyword,
-            page: 1,
-        });
+        getTeamMembers({...query, keyword, page: 1});
     }, 500);
 
     return (

@@ -15,7 +15,15 @@ import {useCreditCards} from '^models/CreditCard/hook';
 export const SubscriptionListSection = memo(function SubscriptionListSection() {
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
-    const {result, search: getSubscriptions, movePage, query, reload, clearCache} = useSubscriptionTableListAtom();
+    const {
+        isLoading,
+        result,
+        search: getSubscriptions,
+        movePage,
+        query,
+        reload,
+        clearCache,
+    } = useSubscriptionTableListAtom();
     const setTagOptions = useSetRecoilState(tagOptionsState);
     const {search: getTags} = usePayingTypeTags();
     const {search: getCreditCards} = useCreditCards();
@@ -74,6 +82,7 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
                 {viewMode === SubscriptionListViewMode.Table && (
                     <>
                         <SubscriptionTable
+                            isLoading={isLoading}
                             items={result.items}
                             reload={reload}
                             search={getSubscriptions}

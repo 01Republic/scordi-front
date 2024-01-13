@@ -17,7 +17,7 @@ const SUBSCRIPTION_DISPLAY_LIMIT: number = 10;
 export const SubscriptionsSection = memo(function SubscriptionsSection() {
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
-    const {result, search: getSubscriptions, query, reload, clearCache} = useDashboardSubscriptions();
+    const {isLoading, result, search: getSubscriptions, query, reload, clearCache} = useDashboardSubscriptions();
     const {safePath} = useSafePathInCurrentOrg();
     const {search: getTags} = usePayingTypeTags();
     const setTagOptions = useSetRecoilState(tagOptionsState);
@@ -64,7 +64,13 @@ export const SubscriptionsSection = memo(function SubscriptionsSection() {
                 )
             }
         >
-            <SubscriptionTable items={result.items} reload={reload} search={getSubscriptions} query={query} />
+            <SubscriptionTable
+                isLoading={isLoading}
+                items={result.items}
+                reload={reload}
+                search={getSubscriptions}
+                query={query}
+            />
             {/*{result.items.length ? (*/}
             {/*    <SubscriptionTable items={result.items} reload={reload} search={getSubscriptions} query={query} />*/}
             {/*) : (*/}

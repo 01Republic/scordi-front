@@ -4,9 +4,10 @@ import {TeamMemberTableRow} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberT
 import Qs from 'qs';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
+import {Loading} from '^v3/share/Loading';
 
 export const TeamMemberTable = memo(() => {
-    const {result, query, search, reload} = useTeamMembers();
+    const {isLoading, result, query, search, reload} = useTeamMembers();
     const teamMembers = result.items;
 
     const onSort = (sortKey: string, value: 'ASC' | 'DESC') => {
@@ -53,9 +54,20 @@ export const TeamMemberTable = memo(() => {
                     </thead>
 
                     <tbody>
-                        {teamMembers.map((teamMember, i) => (
-                            <TeamMemberTableRow key={i} teamMember={teamMember} reload={reload} />
-                        ))}
+                        {isLoading && (
+                            <tr>
+                                <td colSpan={5}>
+                                    <div className="w-full flex items-center justify-center">
+                                        <Loading size="8" />
+                                    </div>
+                                </td>
+                            </tr>
+                        )}
+
+                        {!isLoading &&
+                            teamMembers.map((teamMember, i) => (
+                                <TeamMemberTableRow key={i} teamMember={teamMember} reload={reload} />
+                            ))}
                     </tbody>
                 </table>
             </div>

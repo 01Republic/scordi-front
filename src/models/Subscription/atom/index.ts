@@ -6,11 +6,6 @@ import {errorNotify} from '^utils/toast-notify';
 import {Paginated} from '^types/utils/paginated.dto';
 import {pagedResourceAtom} from '^hooks/usePagedResource';
 
-export const subscriptionsState = atom({
-    key: 'subscriptionsState',
-    default: [] as SubscriptionDto[],
-});
-
 export const subscriptionListAtom = pagedResourceAtom<SubscriptionDto, FindAllSubscriptionsQuery>({
     key: 'subscriptionListAtom',
 });
@@ -23,6 +18,11 @@ export const subscriptionsForSummaryState = pagedResourceAtom<SubscriptionDto, F
 // 대시보드 / 구독현황 테이블 - 구독목록조회
 export const dashboardSubscriptionSearchResultAtom = pagedResourceAtom<SubscriptionDto, FindAllSubscriptionsQuery>({
     key: 'dashboardSubscriptionSearchResultAtom',
+});
+
+// 구독리스트 / SummarySection 전용 조회
+export const subscriptionsForSummaryPanelAtom = pagedResourceAtom<SubscriptionDto, FindAllSubscriptionsQuery>({
+    key: 'subscriptionsForSummaryPanelAtom',
 });
 
 // 구독리스트 / 구독목록조회

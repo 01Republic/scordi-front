@@ -1,8 +1,7 @@
 import React, {memo, useEffect} from 'react';
-import {subscriptionApi} from '^models/Subscription/api';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {subscriptionsState} from '^models/Subscription/atom';
+import {useSubscriptionMenuSummary} from '^models/Subscription/hook';
 
 /**
  * 좌
@@ -19,20 +18,16 @@ import {subscriptionsState} from '^models/Subscription/atom';
  */
 export const SubscriptionLoader = memo(function SubscriptionLoader() {
     const orgId = useRecoilValue(orgIdParamState);
-    const setSubscriptions = useSetRecoilState(subscriptionsState);
+    const {search} = useSubscriptionMenuSummary();
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
 
         // only for summary
-        const req = subscriptionApi.index({
+        search({
             where: {organizationId: orgId},
             relations: ['master'],
             itemsPerPage: 0,
-        });
-
-        req.then((res) => {
-            setSubscriptions(res.data.items);
         });
     }, [orgId]);
 

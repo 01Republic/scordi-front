@@ -4,8 +4,10 @@ import {SubscriptionDto} from '^models/Subscription/types';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import Qs from 'qs';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
+import {Loading} from '^v3/share/Loading';
 
 interface PagedTableProps<T> {
+    isLoading: boolean;
     items: T[];
     reload?: () => any;
     search?: (params: FindAllQueryDto<T>, mergeMode?: boolean, force?: boolean) => Promise<any>;
@@ -13,7 +15,7 @@ interface PagedTableProps<T> {
 }
 
 export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTableProps<SubscriptionDto>) {
-    const {reload, items: subscriptions, search, query} = props;
+    const {isLoading, reload, items: subscriptions, search, query} = props;
 
     const onSort = (sortKey: string, value: 'ASC' | 'DESC') => {
         if (!query || !search) return;
@@ -82,9 +84,20 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
                     </thead>
 
                     <tbody>
-                        {subscriptions.map((subscription, i) => (
-                            <SubscriptionTr key={i} subscription={subscription} reload={reload} />
-                        ))}
+                        {isLoading && (
+                            <tr>
+                                <td colSpan={8}>
+                                    <div className="w-full flex items-center justify-center">
+                                        <Loading size="8" />
+                                    </div>
+                                </td>
+                            </tr>
+                        )}
+
+                        {!isLoading &&
+                            subscriptions.map((subscription, i) => (
+                                <SubscriptionTr key={i} subscription={subscription} reload={reload} />
+                            ))}
                     </tbody>
                 </table>
             </div>
