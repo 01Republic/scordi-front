@@ -2,17 +2,13 @@ import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {currentTeamMemberState, teamMemberApi} from '^models/TeamMember';
 import {useToast} from '^hooks/useToast';
-import {useSubscriptionsV3} from '^models/Subscription/hook';
-import {
-    pagedSubscriptionForTeamMemberShowModalState as resultAtom,
-    subscriptionQueryForTeamMemberShowModalState as queryAtom,
-} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/TeamMemberShowBody/tabs/SubscriptionListTab/atom';
 import {SubscriptionSelectModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/SubscriptionSelectModal';
+import {useSubscriptionsInTeamMemberShowModal} from '^models/Subscription/hook';
 
 export const SelectSubscriptionModal = memo(() => {
     const teamMember = useRecoilValue(currentTeamMemberState);
     const {toast} = useToast();
-    const Subscriptions = useSubscriptionsV3(resultAtom, queryAtom);
+    const {reload} = useSubscriptionsInTeamMemberShowModal();
 
     return (
         <SubscriptionSelectModal
@@ -23,7 +19,7 @@ export const SelectSubscriptionModal = memo(() => {
                 await Promise.all(reqs);
 
                 toast.success('추가했습니다.');
-                Subscriptions.reload();
+                reload();
             }}
         />
     );

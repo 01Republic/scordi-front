@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {useTeams} from '^models/Team/hook';
+import {useTeamsV2} from '^models/Team/hook';
 import {useToast} from '^hooks/useToast';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ContentEmpty} from '^v3/V3OrgHomePage/mobile/ContentEmpty';
@@ -13,7 +13,7 @@ interface TeamListTabProps {
 
 export const TeamListTab = memo((props: TeamListTabProps) => {
     // const {isShow, setIsShow} = useModal({isShowAtom: isOpenNewTeamModalAtom});
-    const {result} = useTeams();
+    const {result} = useTeamsV2();
     const teamMembers = result.items;
     const length = teamMembers.length;
     const {maxLength} = props;

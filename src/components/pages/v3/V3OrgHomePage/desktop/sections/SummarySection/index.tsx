@@ -5,17 +5,14 @@ import {SummaryItem} from './SummaryItem';
 import {MonthHandler} from '^v3/V3OrgBillingHistoriesPage/desktop/MonthHandler';
 import {useFocusedMonth} from '^v3/V3OrgHomePage/feature/useFocusedMonth';
 import {MonthlyTotal} from '^v3/V3OrgHomePage/desktop/sections/SummarySection/MonthlyTotal';
-import {useSubscriptionsV3} from '^models/Subscription/hook';
 import {SubscriptionManager} from '^models/Subscription/manager';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {subscriptionsForSummaryState} from './atom';
-
-const {searchResultAtom, queryAtom} = subscriptionsForSummaryState;
+import {useDashboardSubscriptionSummary} from '^models/Subscription/hook';
 
 export const SummarySection = memo(function SummarySection() {
     const {focusedMonth} = useFocusedMonth();
-    const {result, search: getSubscriptions} = useSubscriptionsV3(searchResultAtom, queryAtom);
+    const {result, search: getSubscriptions} = useDashboardSubscriptionSummary();
     const Subscription = SubscriptionManager.init(result.items || []);
     const orgId = useRecoilValue(orgIdParamState);
 
@@ -23,7 +20,6 @@ export const SummarySection = memo(function SummarySection() {
         if (!orgId || isNaN(orgId)) return;
 
         getSubscriptions({
-            where: {organizationId: orgId},
             relations: ['master'],
             itemsPerPage: 0,
         });

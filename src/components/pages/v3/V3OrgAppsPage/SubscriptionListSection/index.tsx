@@ -2,7 +2,7 @@ import React, {memo, useEffect} from 'react';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {usePayingTypeTags} from '^models/Tag/hook';
-import {useSubscriptionsV2} from '^models/Subscription/hook';
+import {useSubscriptionTableListAtom} from '^models/Subscription/hook';
 import {TablePaginator} from '^v3/share/table/TablePaginator';
 import {SubscriptionListViewMode, subscriptionListViewModeState} from './atom';
 import {SubscriptionTable} from './SubscriptionTable';
@@ -15,7 +15,7 @@ import {useCreditCards} from '^models/CreditCard/hook';
 export const SubscriptionListSection = memo(function SubscriptionListSection() {
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
-    const {result, search: getSubscriptions, movePage, query, reload, clearCache} = useSubscriptionsV2();
+    const {result, search: getSubscriptions, movePage, query, reload, clearCache} = useSubscriptionTableListAtom();
     const setTagOptions = useSetRecoilState(tagOptionsState);
     const {search: getTags} = usePayingTypeTags();
     const {search: getCreditCards} = useCreditCards();

@@ -2,6 +2,7 @@ import {AxiosResponse} from 'axios';
 import {Paginated} from '^types/utils/paginated.dto';
 import {atom} from 'recoil';
 import {usePagedResource} from './usePagedResouce';
+import {pagedResourceAtom} from '^hooks/usePagedResource/pagedResourceAtom';
 
 interface UsePagedResourceFactoryOption<DTO, Query> {
     // 생상할 아톰의 키가 됩니다.
@@ -43,31 +44,10 @@ interface UsePagedResourceFactoryOption<DTO, Query> {
  */
 export function buildPagedResource<DTO, Query extends object>(option: UsePagedResourceFactoryOption<DTO, Query>) {
     const {endpoint, key, buildQuery, mergeMode, getId} = option;
-
-    const resultAtom = atom<Paginated<DTO>>({
-        key: `PagedResource/resultAtom/${key}`,
-        default: {
-            items: [],
-            pagination: {
-                totalItemCount: 0,
-                currentItemCount: 0,
-                totalPage: 1,
-                currentPage: 1,
-                itemsPerPage: 30,
-            },
-        },
-    });
-
-    const queryAtom = atom<Query>({
-        key: `PagedResource/queryAtom/${key}`,
-        // @ts-ignore
-        default: {},
-    });
+    const atoms = pagedResourceAtom<DTO, Query>({key});
 
     return () => {
-        return usePagedResource({
-            resultAtom,
-            queryAtom,
+        return usePagedResource(atoms, {
             endpoint,
             buildQuery,
             mergeMode,

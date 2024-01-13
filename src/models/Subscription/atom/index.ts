@@ -4,69 +4,42 @@ import {orgIdParamState, subscriptionIdParamState} from '^atoms/common';
 import {subscriptionApi} from '^models/Subscription/api';
 import {errorNotify} from '^utils/toast-notify';
 import {Paginated} from '^types/utils/paginated.dto';
+import {pagedResourceAtom} from '^hooks/usePagedResource';
 
 export const subscriptionsState = atom({
     key: 'subscriptionsState',
     default: [] as SubscriptionDto[],
 });
 
-export const getSubscriptionsParamsState = atom<FindAllSubscriptionsQuery>({
-    key: 'getSubscriptionsParamsState',
-    default: {},
+export const subscriptionListAtom = pagedResourceAtom<SubscriptionDto, FindAllSubscriptionsQuery>({
+    key: 'subscriptionListAtom',
 });
 
-export const getSubscriptionsQueryAtom = atom<FindAllSubscriptionsQuery>({
-    key: 'getSubscriptionsQueryAtom',
-    default: {},
+// 대시보드 / SummarySection 전용 조회
+export const subscriptionsForSummaryState = pagedResourceAtom<SubscriptionDto, FindAllSubscriptionsQuery>({
+    key: 'subscriptionsForSummaryState',
 });
 
-export const subscriptionsSearchResultAtom = atom<Paginated<SubscriptionDto>>({
-    key: 'subscriptionsSearchResultAtom',
-    default: {
-        items: [],
-        pagination: {
-            totalItemCount: 0,
-            currentItemCount: 0,
-            totalPage: 1,
-            currentPage: 1,
-            itemsPerPage: 30,
-        },
-    },
+// 대시보드 / 구독현황 테이블 - 구독목록조회
+export const dashboardSubscriptionSearchResultAtom = pagedResourceAtom<SubscriptionDto, FindAllSubscriptionsQuery>({
+    key: 'dashboardSubscriptionSearchResultAtom',
 });
 
-export const getSubscriptionsQuery = selector({
-    key: 'getSubscriptionsQuery',
-    get: async ({get}) => {
-        const params = get(getSubscriptionsParamsState);
-        if (!params.where?.organizationId) return;
-
-        try {
-            const res = await subscriptionApi.index(params);
-            return res.data;
-        } catch (e) {
-            errorNotify(e);
-        }
-    },
+// 구독리스트 / 구독목록조회
+export const subscriptionTableListAtom = pagedResourceAtom<SubscriptionDto, FindAllSubscriptionsQuery>({
+    key: 'subscriptionTableListAtom',
 });
 
-// export const getProjectQuery = selector({
-//     key: 'getProjectQuery',
-//     get: async ({get}) => {
-//         const orgId = get(orgIdParamState);
-//         if (!orgId || isNaN(orgId)) return;
-//
-//         try {
-//             const res = await subscriptionApi.index({
-//                 where: {organizationId: orgId},
-//                 order: {productId: 'ASC'},
-//                 itemsPerPage: 0,
-//             });
-//             return res.data;
-//         } catch (e) {
-//             errorNotify(e);
-//         }
-//     },
-// });
+// 팀멤버 상세모달 / 이용중인 서비스 목록
+export const subscriptionsInTeamMemberShowModalAtom = pagedResourceAtom<SubscriptionDto, FindAllSubscriptionsQuery>({
+    key: 'pagedSubscriptions_TeamMemberShowModal/Atom',
+});
+
+/**
+ * 이 아래는 단일 구독에 관한 쿼리입니다.
+ * 구독 리스트에 관한 쿼리에서 selector 는 전부 제거했지만
+ * 단일 구독에 관한 쿼리는 아직 완벽하게 대체되지 않아서 남겨둡니다.
+ */
 
 export const getCurrentSubscriptionQueryTrigger = atom({
     key: 'getCurrentSubscriptionQueryTrigger',
@@ -74,7 +47,7 @@ export const getCurrentSubscriptionQueryTrigger = atom({
 });
 
 export const getCurrentSubscriptionQuery = selector({
-    key: 'getCurrentSubscriptionQuery',
+    key: 'getCurrentSubscriptionQuery1',
     get: async ({get}) => {
         get(getCurrentSubscriptionQueryTrigger);
         const id = get(subscriptionIdParamState);

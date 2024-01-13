@@ -64,11 +64,12 @@ export const SubscriptionsSection = memo(function SubscriptionsSection() {
                 )
             }
         >
-            {result.items.length ? (
-                <SubscriptionTable items={result.items} reload={reload} search={getSubscriptions} query={query} />
-            ) : (
-                <Panel />
-            )}
+            <SubscriptionTable items={result.items} reload={reload} search={getSubscriptions} query={query} />
+            {/*{result.items.length ? (*/}
+            {/*    <SubscriptionTable items={result.items} reload={reload} search={getSubscriptions} query={query} />*/}
+            {/*) : (*/}
+            {/*    <Panel />*/}
+            {/*)}*/}
         </Section>
     );
 });

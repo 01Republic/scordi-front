@@ -1,3 +1,5 @@
+import {useEffect} from 'react';
+import {useRouter} from 'next/router';
 import {atom, RecoilState, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {productIdParamsState} from '^atoms/common';
 import {
@@ -6,20 +8,11 @@ import {
     getProductsQuery,
     paymentPlanForCreateFlowAtom,
 } from '^models/Product/atom';
-import {useCallback, useEffect, useState} from 'react';
 import {ProductDto, FindAllProductQuery} from '^models/Product/type';
 import {productApi} from '^models/Product/api';
-import {errorNotify} from '^utils/toast-notify';
 import {SubscriptionPaymentPlanDto} from '^models/Subscription/types/paymentPlanType';
-import {useRouter} from 'next/router';
 import {Paginated} from '^types/utils/paginated.dto';
-import {
-    buildPagedResource,
-    cachePagedQuery,
-    makeAppendPagedItemFn,
-    makeExceptPagedItemFn,
-    usePagedResource,
-} from '^hooks/usePagedResource';
+import {buildPagedResource, usePagedResource} from '^hooks/usePagedResource';
 
 export const useProducts = () => {
     const result = useRecoilValue(getProductsQuery);
@@ -94,15 +87,15 @@ export const useProductsV3 = (
     resultAtom: RecoilState<Paginated<ProductDto>>,
     queryAtom: RecoilState<FindAllProductQuery>,
     mergeMode = false,
-) =>
-    usePagedResource({
-        resultAtom,
-        queryAtom,
+) => {
+    const atoms = {resultAtom, queryAtom};
+    return usePagedResource(atoms, {
         endpoint: productApi.index,
         buildQuery: (params) => ({isLive: params.isLive ?? true, ...params}),
         mergeMode,
         getId: (dto) => dto.id,
     });
+};
 
 export const useProduct = () => useRecoilState(getProductQuery);
 

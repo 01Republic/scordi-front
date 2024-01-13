@@ -6,10 +6,9 @@ import {cachePagedQuery} from './cachePagedQuery';
 import {makeAppendPagedItemFn} from './makeAppendPagedItemFn';
 import {makeExceptPagedItemFn} from './makeExceptPagedItemFn';
 import {useState} from 'react';
+import {PagedResourceAtoms} from '^hooks/usePagedResource/pagedResourceAtom';
 
 export interface UsePagedResourceOption<DTO, Query> {
-    resultAtom: RecoilState<Paginated<DTO>>;
-    queryAtom: RecoilState<Query>;
     endpoint: (params: Query, orgId: number) => Promise<AxiosResponse<Paginated<DTO>>>;
     buildQuery?: (params: Query, orgId: number) => Query;
     mergeMode?: boolean;
@@ -22,16 +21,12 @@ export interface UsePagedResourceOption<DTO, Query> {
  * 매번 검색하는 훅을 일일이 만드는게 귀찮아서 만듦.
  * 반복해서 구현하는 스펙을 모아서 한 번에 구현.
  */
-export function usePagedResource<DTO, Query>(option: UsePagedResourceOption<DTO, Query>) {
-    const {
-        resultAtom,
-        queryAtom,
-        endpoint,
-        buildQuery = (q) => q,
-        mergeMode: defaultMergeMode = false,
-        getId,
-        useOrgId = true,
-    } = option;
+export function usePagedResource<DTO, Query>(
+    atoms: PagedResourceAtoms<DTO, Query>,
+    option: UsePagedResourceOption<DTO, Query>,
+) {
+    const {resultAtom, queryAtom} = atoms;
+    const {endpoint, buildQuery = (q) => q, mergeMode: defaultMergeMode = false, getId, useOrgId = true} = option;
 
     const orgId = useRecoilValue(orgIdParamState);
     const [result, setResult] = useRecoilState(resultAtom);

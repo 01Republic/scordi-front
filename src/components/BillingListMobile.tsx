@@ -6,9 +6,8 @@ import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
 import {intlDateShort, yyyy_mm_dd} from '^utils/dateTime';
 import {useDashboardSummary} from '^hooks/useDashboardSummary';
 import {useCalendar} from '^hooks/useCalendar';
-import {index} from '^models/Subscription/hook';
+import {useSubscriptionsV2} from '^models/Subscription/hook';
 import {MobileSection} from '^components/v2/MobileSection';
-import {getSubscriptionsParamsState} from '^models/Subscription/atom';
 import {didPayAppsState, willPayAppsState} from '^models/BillingSchedule/atom';
 import {getBillingSchedulesParamsState} from '^models/BillingSchedule/atom';
 import {BillingScheduleShallowDto as ScheduleDto} from '^models/BillingSchedule/type';
@@ -18,8 +17,7 @@ export const BillingListMobile = memo(() => {
     const organizationId = Number(router.query.id);
     const {year, month} = useCalendar();
     const summaryDto = useDashboardSummary();
-    const subsQueryResult = index();
-    const setAppsQueryParam = useSetRecoilState(getSubscriptionsParamsState);
+    const {result: subsQueryResult, search} = useSubscriptionsV2();
     const setSchedulesQueryParam = useSetRecoilState(getBillingSchedulesParamsState);
     const willPayApps = useRecoilValue(willPayAppsState);
     const didPayApps = useRecoilValue(didPayAppsState);
@@ -33,7 +31,7 @@ export const BillingListMobile = memo(() => {
     useEffect(() => {
         if (isNaN(organizationId)) return;
         updateQueryParam();
-        setAppsQueryParam({
+        search({
             where: {organizationId},
             order: {id: 'DESC'},
             itemsPerPage: 300,
