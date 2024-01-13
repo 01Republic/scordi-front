@@ -11,5 +11,5 @@ export class GoogleTokenDataDto {
     name: string; // 이름
     picture: string; // 사진
     locale: string | null; // 언어
-    @TypeCast(() => Date) expiryDate: Date; // 만료일
+    @TypeCast(() => Date) expireAt: Date; // 만료일
 }
