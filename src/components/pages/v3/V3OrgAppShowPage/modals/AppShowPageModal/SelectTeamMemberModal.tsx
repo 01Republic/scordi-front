@@ -1,8 +1,7 @@
 import {memo} from 'react';
 import {TeamMemberSelectModal} from './TeamMemberSelectModal';
 import {useToast} from '^hooks/useToast';
-import {teamMemberApi, useTeamMembersV3} from '^models/TeamMember';
-import {teamMemberListAtom} from './AppShowPageBody/tabs/TeamMemberListTab/atom';
+import {teamMemberApi, useTeamMembersInSubscriptionShowModal} from '^models/TeamMember';
 import {useAppShowModal} from './hook';
 
 interface SelectTeamMemberModalProps {
@@ -12,10 +11,7 @@ interface SelectTeamMemberModalProps {
 export const SelectTeamMemberModal = memo(function SelectTeamMemberModal(props: SelectTeamMemberModalProps) {
     const {toast} = useToast();
     const {subjectId: subscriptionId} = useAppShowModal();
-    const {resetPage: resetTeamMembersOnSubscription} = useTeamMembersV3(
-        teamMemberListAtom.result,
-        teamMemberListAtom.query,
-    );
+    const {resetPage: resetTeamMembersOnSubscription} = useTeamMembersInSubscriptionShowModal();
     const {afterChange} = props;
 
     return (

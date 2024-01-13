@@ -1,25 +1,16 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {Avatar} from '^components/Avatar';
-import {useRouter} from 'next/router';
 import {LinkTo} from '^components/util/LinkTo';
-import {useInvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal/hook';
-import {useInvoiceAccountsV3} from '^models/InvoiceAccount/hook';
 import {
-    getInvoiceAccountsQueryAtom,
-    invoiceAccountsSearchResultAtom,
-} from '^v3/share/modals/InvoiceAccountSelectModal/atom';
-import {useRecoilValue} from 'recoil';
+    useInvoiceAccountListInSelectModal,
+    useInvoiceAccountSelectModal,
+} from '^v3/share/modals/InvoiceAccountSelectModal/hook';
 
 export const SourceAccount = memo(function SourceAccount() {
-    const router = useRouter();
     const {show: openModal} = useInvoiceAccountSelectModal();
     const {currentSubscription} = useCurrentSubscription();
-    const {search: loadInvoiceAccount} = useInvoiceAccountsV3(
-        invoiceAccountsSearchResultAtom,
-        getInvoiceAccountsQueryAtom,
-    );
-    const result = useRecoilValue(invoiceAccountsSearchResultAtom);
+    const {result, search: loadInvoiceAccount} = useInvoiceAccountListInSelectModal();
     const [isLoading, setIsLoading] = useState(false);
     const invoiceAccounts = result.items;
 

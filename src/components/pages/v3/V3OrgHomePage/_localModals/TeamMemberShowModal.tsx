@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import {useTeamMembers_Dashboard} from '^models/TeamMember';
+import {useTeamMembersInDashboard} from '^models/TeamMember';
 import {TeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
 import {useMemberships} from '^models/Membership/hook';
 
@@ -8,7 +8,7 @@ import {useMemberships} from '^models/Membership/hook';
  */
 
 export const TeamMemberDetailModal = memo(() => {
-    const {reload} = useTeamMembers_Dashboard();
+    const {reload} = useTeamMembersInDashboard();
     const {reload: loadMembership} = useMemberships();
 
     return (

@@ -11,7 +11,9 @@ export interface PagedResourceAtoms<DTO, Query> {
     queryAtom: RecoilState<Query>;
 }
 
-export function pagedResourceAtom<DTO, Query>(option: PagedResourceAtomOption<DTO, Query>) {
+export function pagedResourceAtom<DTO, Query>(
+    option: PagedResourceAtomOption<DTO, Query>,
+): PagedResourceAtoms<DTO, Query> {
     const {key} = option;
 
     const resultAtom = atom<Paginated<DTO>>({

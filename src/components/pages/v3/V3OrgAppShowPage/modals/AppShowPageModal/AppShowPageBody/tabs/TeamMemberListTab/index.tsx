@@ -5,14 +5,13 @@ import {MobileSection} from '^components/pages/v3/share/sections/MobileSection';
 import {useAppShowModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
 import {TeamMemberItem} from './TeamMemberItem';
 import {LoadMoreButton} from './LoadMoreButton';
-import {useTeamMembersV3} from '^models/TeamMember';
-import {teamMemberListAtom} from './atom';
+import {useTeamMembersInSubscriptionShowModal} from '^models/TeamMember';
 import {AddButton} from './AddButton';
 
 export const TeamMemberListTab = memo(function TeamMemberListTab() {
     const orgId = useRecoilValue(orgIdParamState);
     const {subjectId} = useAppShowModal();
-    const TeamMembers = useTeamMembersV3(teamMemberListAtom.result, teamMemberListAtom.query);
+    const TeamMembers = useTeamMembersInSubscriptionShowModal();
 
     useEffect(() => {
         if (!subjectId || isNaN(subjectId)) return;

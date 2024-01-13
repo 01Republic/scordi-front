@@ -10,58 +10,31 @@ import {FindAllTeamMemberQueryDto, TeamMemberDto, UpdateTeamMemberDto} from '../
 import {
     teamMemberLoadingState,
     currentTeamMemberState,
-    getTeamMembersQueryAtom,
-    teamMembersSearchResultAtom,
+    teamMemberListInSubscriptionShowModalAtom,
+    teamMemberListAtom,
+    teamMemberListInDashboardAtom,
 } from '../atom';
-import {
-    buildPagedResource,
-    cachePagedQuery,
-    makeAppendPagedItemFn,
-    makeExceptPagedItemFn,
-} from '^hooks/usePagedResource';
+import {useTeamMembersV3} from '^models/TeamMember';
 
 export * from './useSendInviteEmail';
 export * from './useTeamMemberV3';
 
-export const useTeamMembers_Dashboard = buildPagedResource<TeamMemberDto, FindAllTeamMemberQueryDto>({
-    key: 'useTeamMembers_Dashboard',
-    endpoint: (params, orgId) => teamMemberApi.index(orgId, params),
-    buildQuery: (params) => ({...params}),
-    getId: 'id',
-    mergeMode: false,
-});
-
 export const useTeamMembers = () => {
     const orgId = useRecoilValue(orgIdParamState);
-    const [isLoading, setIsLoading] = useState(false);
-    const [result, setResult] = useRecoilState(teamMembersSearchResultAtom);
-    const [query, setQuery] = useRecoilState(getTeamMembersQueryAtom);
-
-    async function search(params: FindAllTeamMemberQueryDto, mergeMode = false, force = false) {
-        if (!orgId || isNaN(orgId)) return;
-
-        const request = () => {
-            setIsLoading(true);
-            return teamMemberApi.index(orgId, params).finally(() => {
-                setTimeout(() => setIsLoading(false), 1000);
-            });
-        };
-        return cachePagedQuery(setResult, setQuery, params, request, mergeMode, force);
-    }
-
-    const reload = () => search({...query}, false, true);
-    const movePage = (page: number, append = false) => search({...query, page}, append);
-    const resetPage = () => search({...query, page: 1}, false, true);
-    const append = makeAppendPagedItemFn(setResult);
-    const except = makeExceptPagedItemFn(setResult, (it, item) => it.id !== item.id);
-
-    const isExist = !!result.pagination.totalItemCount;
+    const methods = useTeamMembersV3(teamMemberListAtom);
+    const isExist = !!methods.result.pagination.totalItemCount;
     const createByName = (name: string) => {
         return teamMemberApi.create(orgId, {name}).then((res) => res.data);
     };
 
-    return {query, result, search, reload, movePage, resetPage, except, isLoading, isExist, createByName};
+    return {...methods, isExist, createByName};
 };
+
+// 대시보드 / 멤버 목록
+export const useTeamMembersInDashboard = () => useTeamMembersV3(teamMemberListInDashboardAtom);
+
+// 구독상세모달 / 이용중인 멤버 목록
+export const useTeamMembersInSubscriptionShowModal = () => useTeamMembersV3(teamMemberListInSubscriptionShowModalAtom);
 
 // 멤버 수정 / 삭제 기능
 export function useTeamMember(atom: RecoilState<TeamMemberDto | null>) {

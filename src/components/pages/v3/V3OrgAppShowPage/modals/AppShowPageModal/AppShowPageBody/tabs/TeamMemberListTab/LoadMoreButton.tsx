@@ -1,9 +1,8 @@
 import React, {memo} from 'react';
-import {useTeamMembersV3} from '^models/TeamMember';
-import {teamMemberListAtom} from './atom';
+import {useTeamMembersInSubscriptionShowModal} from '^models/TeamMember';
 
 export const LoadMoreButton = memo(() => {
-    const {result, movePage} = useTeamMembersV3(teamMemberListAtom.result, teamMemberListAtom.query);
+    const {result, movePage} = useTeamMembersInSubscriptionShowModal();
 
     const {totalPage, currentPage} = result.pagination;
     const nextPage = currentPage + 1;
