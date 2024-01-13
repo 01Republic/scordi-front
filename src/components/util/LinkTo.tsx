@@ -1,8 +1,9 @@
-import {AnchorHTMLAttributes, HTMLAttributeAnchorTarget, memo, MouseEventHandler} from 'react';
+import {AnchorHTMLAttributes, HTMLAttributeAnchorTarget, memo, MouseEventHandler, useEffect, useState} from 'react';
 import Link from 'next/link';
 import {LinkProps} from 'next/dist/client/link';
 import {ReactNodeLike} from 'prop-types';
 import {WithChildren} from '^types/global.type';
+import {useRouter} from 'next/router';
 
 export interface LinkToProps extends Partial<LinkProps> {
     text?: ReactNodeLike;
@@ -12,7 +13,13 @@ export interface LinkToProps extends Partial<LinkProps> {
 }
 
 export const LinkTo = memo((props: LinkToProps & WithChildren) => {
+    const router = useRouter();
+    const [isClicked, setIsClicked] = useState(false);
     const {text = '', target, onClick, children, className = '', href = '#', ...res} = props;
+
+    useEffect(() => {
+        if (router.isReady) setIsClicked(false);
+    }, [router.isReady]);
 
     if (target === '_blank') {
         const attrs: AnchorHTMLAttributes<any> = {};
@@ -33,9 +40,17 @@ export const LinkTo = memo((props: LinkToProps & WithChildren) => {
         );
     }
 
+    if (isClicked) {
+        return (
+            <a className={`${className} link_to-clicked`} target={target}>
+                {children || text}
+            </a>
+        );
+    }
+
     return (
         <Link href={href} {...res}>
-            <a className={className} target={target}>
+            <a className={className} target={target} onClick={() => setIsClicked(true)}>
                 {children || text}
             </a>
         </Link>

@@ -6,7 +6,7 @@ import {orgIdParamState} from '^atoms/common';
 import {ApprovalStatus} from '^models/Membership/types';
 import {membershipApi} from '^models/Membership/api';
 import {teamMemberApi} from '../api';
-import {FindAllTeamMemberQueryDto, TeamMemberDto, UpdateTeamMemberDto} from '../type';
+import {TeamMemberDto, UpdateTeamMemberDto} from '../type';
 import {
     teamMemberLoadingState,
     currentTeamMemberState,
