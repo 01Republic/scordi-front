@@ -19,6 +19,7 @@ export const MoreDropdown = <T,>(props: MoreDropdownProps<T>) => {
         <Dropdown
             className={`pt-1 ${className}`}
             placement="bottom"
+            backdrop
             Trigger={({visible}) => (
                 <>
                     {/* isCurrent: 드롭다운이 열려있다면 비활성화하고, 닫혀있다면 hover 되지 않을 때 활성화 합니다. */}

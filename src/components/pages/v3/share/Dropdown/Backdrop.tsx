@@ -1,10 +1,6 @@
 import Tippy from '@tippyjs/react/headless';
 import {Modifier} from '@popperjs/core/lib/types';
-
-interface DropdownBackdropProps {
-    visible: boolean;
-    allowScroll?: boolean; // default: false
-}
+import {RefObject} from 'react';
 
 const clientRect = {
     width: 0,
@@ -31,8 +27,15 @@ const applyStyles: Partial<Modifier<any, any>> = {
     },
 };
 
+interface DropdownBackdropProps {
+    visible: boolean;
+    hide: () => any;
+    triggerRef: RefObject<Element>;
+    allowScroll?: boolean; // default: false
+}
+
 export const DropdownBackdrop = (props: DropdownBackdropProps) => {
-    const {visible, allowScroll = false} = props;
+    const {visible, hide, triggerRef, allowScroll = false} = props;
 
     const scrollLock = () => {
         if (allowScroll) return;
@@ -50,7 +53,7 @@ export const DropdownBackdrop = (props: DropdownBackdropProps) => {
             visible={visible}
             reference={document.body}
             interactive={true}
-            appendTo={() => document.getElementById('dropdown-portal')!}
+            appendTo={() => document.body}
             placement="bottom-start"
             getReferenceClientRect={() => clientRect as ClientRect}
             popperOptions={{
@@ -66,6 +69,7 @@ export const DropdownBackdrop = (props: DropdownBackdropProps) => {
                         data-allow-scroll={allowScroll}
                         style={{width: '100vw', height: '100vh'}}
                         onClick={(e) => {
+                            hide();
                             e.preventDefault();
                             e.stopPropagation();
                         }}
