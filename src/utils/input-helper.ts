@@ -1,5 +1,5 @@
 import {ChangeEvent} from 'react';
-import {onlyNumber} from '^components/util/string';
+import {cardNumberFormat, onlyNumber} from '^components/util/string';
 
 export const EMAIL_REGEXP =
     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+([^<>()\.,;:\s@\"]{2,}|[\d\.]+))$/;
@@ -10,6 +10,12 @@ export const inputTextToCurrencyFormat = (e: ChangeEvent<HTMLInputElement>) => {
     const [amount, formattedText] = onlyNumber(e.target.value);
     e.target.value = formattedText;
     return amount;
+};
+
+export const inputTextToCardNumberFormat = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = cardNumberFormat(e.target.value);
+    e.target.value = value;
+    return value;
 };
 
 export const inputTextToISODateFormat = (e: ChangeEvent<HTMLInputElement>) => {

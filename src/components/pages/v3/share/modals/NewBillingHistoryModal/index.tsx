@@ -8,9 +8,5 @@ interface Props {
 export const NewBillingHistoryModal = memo((props: Props) => {
     const {onClose} = props;
 
-    return (
-        <>
-            <NewBillingHistoryModalGroup onClose={onClose} />
-        </>
-    );
+    return <NewBillingHistoryModalGroup onClose={onClose} />;
 });

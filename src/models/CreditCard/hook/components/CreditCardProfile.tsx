@@ -56,7 +56,7 @@ export const CreditCardProfileOption = memo((props: CreditCardProfileOptionProps
     const endNumber = creditCard.secretInfo?.number4;
 
     return (
-        <div className={`flex items-center gap-2 py-1 px-3 -mx-3 text-gray-700 group-hover:text-scordi`}>
+        <div className={`flex items-center gap-2 py-1 text-gray-700 group-hover:text-scordi`}>
             {creditCard ? (
                 <>
                     <Avatar className="w-7">
@@ -65,10 +65,7 @@ export const CreditCardProfileOption = memo((props: CreditCardProfileOptionProps
 
                     <div className="flex flex-col gap-0.5">
                         <p className={`flex gap-2 items-center group-hover:text-scordi leading-none`}>
-                            <span
-                                className="whitespace-nowrap w-[198px] overflow-hidden"
-                                style={{textOverflow: 'ellipsis'}}
-                            >
+                            <span className="whitespace-nowrap overflow-hidden" style={{textOverflow: 'ellipsis'}}>
                                 {creditCard.name}
                             </span>
                         </p>

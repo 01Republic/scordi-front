@@ -6,6 +6,7 @@ import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLike
 import {newFormForUsingMemberInfoModalAtom} from '../atom';
 import {MasterSelectSection} from './MasterSelectSection';
 import {NextButton} from './NextButton';
+import {ModalTitle} from '^v3/share/modals/ModalTitle';
 
 export const FormForUsingMemberInfoModal = memo(function FormForUsingMemberInfoModal() {
     const {Modal, close} = useModal(newFormForUsingMemberInfoModalAtom);
@@ -16,9 +17,7 @@ export const FormForUsingMemberInfoModal = memo(function FormForUsingMemberInfoM
 
             <MobileSection.Padding>
                 <div>
-                    <h3 className="font-bold text-2xl pt-5 mb-10">
-                        구독을 관리하는 <br /> 담당자를 선택해주세요
-                    </h3>
+                    <ModalTitle title={`구독을 관리하는 \n 담당자를 선택해주세요`} />
 
                     <div className="w-full flex flex-col gap-4">
                         <FormControl topLeftLabel="누가 담당하고 있나요?">

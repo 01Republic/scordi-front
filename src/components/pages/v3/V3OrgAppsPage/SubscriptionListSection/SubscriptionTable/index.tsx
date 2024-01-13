@@ -59,14 +59,14 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
                             </SortableTH>
 
                             <SortableTH sortKey="[creditCard][name]" onClick={sort}>
-                                <span className="pl-[8px]">결제수단</span>
+                                <span>결제수단</span>
                             </SortableTH>
 
-                            <SortableTH sortKey="[usedMemberCount]" onClick={sort} className="text-right">
+                            <SortableTH sortKey="[usedMemberCount]" onClick={sort}>
                                 사용인원
                             </SortableTH>
 
-                            <SortableTH sortKey="[currentBillingAmount][amount]" onClick={sort} className="text-right">
+                            <SortableTH sortKey="[currentBillingAmount][amount]" onClick={sort} className="justify-end">
                                 최신 결제금액
                             </SortableTH>
 
@@ -77,7 +77,7 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
                             </SortableTH>
 
                             {/* Actions */}
-                            <th className="bg-transparent"></th>
+                            {/*<th className="bg-transparent"></th>*/}
                         </tr>
                     </thead>
 

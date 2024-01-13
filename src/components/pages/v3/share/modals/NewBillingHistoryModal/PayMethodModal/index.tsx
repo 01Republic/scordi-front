@@ -12,6 +12,7 @@ import {CardSelect} from '^v3/share/modals/NewBillingHistoryModal/PayMethodModal
 import {DateSelectInput} from '^v3/share/modals/NewBillingHistoryModal/PayMethodModal/DateSelectInput';
 import {CTAButton} from '^v3/share/modals/NewBillingHistoryModal/PayMethodModal/CTAButton';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
+import {FormControlGroup} from '^components/util/form-control/FormControlGroup';
 
 export const PayMethodModal = memo(() => {
     const {Modal, isShow, close} = useModal(payMethodModalState);
@@ -37,14 +38,16 @@ export const PayMethodModal = memo(() => {
                 />
                 <MobileSection.Padding>
                     <PayMethodModalTitle />
+                </MobileSection.Padding>
 
-                    <section className="flex flex-col gap-5">
+                <MobileSection.Padding>
+                    <FormControlGroup>
                         {/*카드 선택 select*/}
                         <CardSelect />
 
                         {/*결제 일시 input*/}
                         <DateSelectInput />
-                    </section>
+                    </FormControlGroup>
                 </MobileSection.Padding>
 
                 <ModalLikeBottomBar className="left-0">

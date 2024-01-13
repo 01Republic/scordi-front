@@ -16,7 +16,7 @@ export const CardNameInput = memo((props: CardNameInputProps) => {
             ref={cardNameRef}
             onChange={(e) => setCreateCreditCardDto((prev) => ({...prev, name: e.target.value}))}
             type="text"
-            placeholder="광고비 카드"
+            placeholder="ex. 광고비 카드"
             className="input input-bordered w-full"
         />
     );

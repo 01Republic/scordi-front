@@ -11,6 +11,7 @@ import {newCardModalState} from '^v3/share/modals/NewCardModal/NewCardModalV2/at
 import {CardNameInput} from '^v3/share/modals/NewCardModal/NewCardModalV2/CardNameInput';
 import {useResetRecoilState} from 'recoil';
 import {createCreditCardDtoAtom} from '^v3/share/modals/NewCardModal/atom';
+import {FormControlGroup, RequiredFormControl} from '^components/util/form-control';
 
 export const NewCardModalV2 = memo(() => {
     const {Modal, close, isShow} = useModal(newCardModalState);
@@ -24,39 +25,30 @@ export const NewCardModalV2 = memo(() => {
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem] z-50">
             <ModalTopbar backBtnOnClick={() => close()} topbarPosition="sticky" />
-            <div>
-                <MobileSection.Padding>
-                    {/*모달 타이틀*/}
-                    <NewCardModalTitle />
 
+            <MobileSection.Padding>
+                {/*모달 타이틀*/}
+                <NewCardModalTitle />
+            </MobileSection.Padding>
+
+            <MobileSection.Padding>
+                <FormControlGroup>
                     {/*카드 번호 input*/}
-                    <FormControl
-                        topLeftLabel={
-                            <p className="flex items-center gap-1">
-                                카드 번호 <span className="text-red-500 self-center">*</span>
-                            </p>
-                        }
-                    >
-                        <InputCardNumber cardNameRef={cardNameRef} />
-                    </FormControl>
+                    <RequiredFormControl topLeftLabel="카드 번호">
+                        <InputCardNumber nextFocusInputRef={cardNameRef} />
+                    </RequiredFormControl>
 
                     {/*카드 별칭 input*/}
-                    <FormControl
-                        topLeftLabel={
-                            <p className="flex items-center gap-1">
-                                카드 별칭 <span className="text-red-500 self-center">*</span>
-                            </p>
-                        }
-                    >
+                    <RequiredFormControl topLeftLabel="카드 별칭">
                         <CardNameInput cardNameRef={cardNameRef} />
-                    </FormControl>
-                </MobileSection.Padding>
+                    </RequiredFormControl>
+                </FormControlGroup>
+            </MobileSection.Padding>
 
-                {/*CTA Button*/}
-                <ModalLikeBottomBar>
-                    <CTAButton />
-                </ModalLikeBottomBar>
-            </div>
+            {/*CTA Button*/}
+            <ModalLikeBottomBar>
+                <CTAButton />
+            </ModalLikeBottomBar>
         </Modal>
     );
 });

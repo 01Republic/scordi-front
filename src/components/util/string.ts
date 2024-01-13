@@ -28,3 +28,11 @@ export const onlyNumber = (str: string): [number, string] => {
 
     return [pureNumber, formattedText];
 };
+
+export const cardNumberFormat = (str: string) => {
+    return str
+        .replace(/\D/g, '')
+        .trim()
+        .replace(/(.{4})/g, '$1 - ')
+        .replace(/ - $/, '');
+};

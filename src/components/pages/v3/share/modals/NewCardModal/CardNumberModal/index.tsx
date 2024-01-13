@@ -71,7 +71,7 @@ export const CardNumberModal = memo(() => {
                         <h2 className="h1 leading-tight">카드 번호와 별칭을 입력해주세요</h2>
                     </div>
 
-                    <InputCardNumber cardNameRef={cardNameRef} />
+                    <InputCardNumber nextFocusInputRef={cardNameRef} />
                 </MobileSection.Padding>
                 <ModalLikeBottomBar>
                     <NextButtonUI isActive={disabled} onClick={cardId ? onUpdate : onSubmit}>

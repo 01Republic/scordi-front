@@ -15,6 +15,7 @@ import {DomesticPayAmountInput} from '^v3/share/modals/NewBillingHistoryModal/Pa
 import {CTAButton} from '^v3/share/modals/NewBillingHistoryModal/PayAmountModal/CTAButton';
 import {AbroadPayAmountSection} from '^v3/share/modals/NewBillingHistoryModal/PayAmountModal/AbroadPayAmountSection';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
+import {FormControlGroup} from '^components/util/form-control/FormControlGroup';
 
 export const PayAmountModal = memo(() => {
     const {Modal, isShow, close} = useModal(payAmountModalState);
@@ -41,13 +42,15 @@ export const PayAmountModal = memo(() => {
                 />
                 <MobileSection.Padding>
                     <PayAmountModalTitle />
-                    <section className="flex flex-col gap-5">
+                </MobileSection.Padding>
+                <MobileSection.Padding>
+                    <FormControlGroup>
                         {/*국내 결제 금액*/}
                         <DomesticPayAmountInput />
 
                         {/*해외 결제 금액*/}
                         <AbroadPayAmountSection />
-                    </section>
+                    </FormControlGroup>
                 </MobileSection.Padding>
 
                 <ModalLikeBottomBar className="left-0">
