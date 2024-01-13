@@ -30,7 +30,7 @@ export const TeamMemberTable = memo(() => {
                             </SortableTH>
 
                             {/* 이용 앱 수 */}
-                            <SortableTH sortKey="[subscriptions]" onClick={onSort}>
+                            <SortableTH sortKey="[subscriptionCount]" onClick={onSort}>
                                 이용 앱 수
                             </SortableTH>
                             {/* 팀 */}

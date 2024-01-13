@@ -1,5 +1,6 @@
 import {plainToInstance} from 'class-transformer';
 import {CurrencyCode} from './CurrencyCode.enum';
+import {CurrencyList} from '^models/Money';
 
 export class MoneyDto {
     text: string; // 금액 관련 원본 텍스트
@@ -14,8 +15,14 @@ export class MoneyDto {
         return plainToInstance(MoneyDto, base);
     }
 
-    get dollar() {
+    get originalAmount() {
         return this.amount / this.exchangeRate;
+    }
+
+    get dollar() {
+        const currentCurrency = Object.values(CurrencyList).find((item) => item.code === this.code);
+        const dollarExchangeRate = currentCurrency?.exchangeRate || 1;
+        return this.amount / dollarExchangeRate;
     }
 
     changeAmount(amount: number) {
@@ -44,5 +51,22 @@ export class MoneyDto {
     to_s() {
         const amount = this.amount.toLocaleString();
         return this.format.replace('%u', this.symbol).replace('%n', amount);
+    }
+
+    /**
+     * 환율 계산하는 부분 리팩토링이 필요함.
+     * 현재로서는 정적인 달러 변환만 유효한 상태.
+     */
+    toDisplayPrice(currencyCode = CurrencyCode.KRW) {
+        if (!this.amount) return 0;
+        // 얻으려는 화폐와 실결제된 화폐가 같으면 그대로 가격을 반환하고
+        if (this.code === currencyCode) return this.amount;
+
+        // 얻으려는 화폐와 서비스의 화폐가 같으면, 기록해둔 환율로 계산해 반환하고
+        if (this.exchangedCurrency === currencyCode) return this.amount / this.exchangeRate;
+
+        const targetCurrency = Object.values(CurrencyList).find((item) => item.code === currencyCode);
+        const dollarExchangeRate = targetCurrency?.exchangeRate || 1;
+        return this.dollar * dollarExchangeRate;
     }
 }

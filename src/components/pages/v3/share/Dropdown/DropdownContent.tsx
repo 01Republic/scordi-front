@@ -27,7 +27,14 @@ export const DropdownContent = memo((props: DropdownContentProps) => {
 
     return (
         <>
-            {backdrop && <DropdownBackdrop visible={visible} allowScroll={allowScroll} />}
+            {backdrop && (
+                <DropdownBackdrop
+                    visible={visible}
+                    hide={() => hide()}
+                    triggerRef={triggerRef}
+                    allowScroll={allowScroll}
+                />
+            )}
 
             {visible && (
                 <Tippy
@@ -38,7 +45,11 @@ export const DropdownContent = memo((props: DropdownContentProps) => {
                     interactiveBorder={30}
                     interactiveDebounce={100}
                     appendTo={() => document.body}
-                    onClickOutside={hide}
+                    onClickOutside={(instance, event) => {
+                        // backdrop 을 사용한다면, hide() 기능은 backdrop 으로 실행을 위임합니다.
+                        if (backdrop) return;
+                        hide();
+                    }}
                     render={(attrs, content, instance) => (
                         <div
                             onClick={(e) => {

@@ -1,16 +1,13 @@
-import {MemoExoticComponent, useEffect, useRef, useState} from 'react';
-import {useDropdown} from '^hooks/useDropdown';
-import {FcCheckmark} from 'react-icons/fc';
+import {useRef, useState} from 'react';
 import {Placement} from '@popperjs/core';
+import {DropdownContent} from '^v3/share/Dropdown';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
-import {InputContainer} from './InputContainer';
-import {CreatableItem} from './CreatableItem';
-import {useInput} from '^v3/share/table/columns/SelectColumn/useInput';
-import {OptionItem} from '^v3/share/table/columns/SelectColumn/OptionItem';
 import {ValueComponent} from './type';
-import {Portal} from '^components/util/Partal';
-import {DetachableOptionItem} from '^v3/share/table/columns/SelectColumn/DetachableOptionItem';
-import {Dropdown, DropdownContent} from '^v3/share/Dropdown';
+import {useInput} from './useInput';
+import {InputContainer} from './InputContainer';
+import {OptionItem} from './OptionItem';
+import {DetachableOptionItem} from './DetachableOptionItem';
+import {CreatableItem} from './CreatableItem';
 
 interface SelectColumnProps<T> {
     value: T | undefined;
@@ -62,17 +59,6 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
     const closeDropdown = () => setVisible(false);
 
     const {searchKeyword, setSearchKeyword, searchInputRef, clearInput, focusInput, blurInput} = useInput();
-    const {
-        dropdownId,
-        openDropdown: _openDropdown,
-        closeDropdown: _closeDropdown,
-        setTriggerRef,
-        setContentRef,
-        backdropRef,
-        styles,
-        attributes,
-    } = useDropdown(props.placement || 'bottom-start');
-
     const [focusableIndex, setFocusableIndex] = useState<number>(0);
     const [options, setOptions] = useState<T[]>([]);
     const {
@@ -176,8 +162,8 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
                 visible={visible}
                 hide={() => onClose()}
                 triggerRef={triggerRef}
-                backdrop={true}
-                allowScroll={true}
+                backdrop
+                allowScroll
                 placement="bottom-start"
             >
                 <div

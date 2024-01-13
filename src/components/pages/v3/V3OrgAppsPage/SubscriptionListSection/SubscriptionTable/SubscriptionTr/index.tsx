@@ -90,7 +90,7 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
 
             {/* 최신 결제금액 */}
             <td className="text-right">
-                <LatestPayAmount latestBillingHistory={lastPaidHistory} />
+                <LatestPayAmount subscription={subscription} />
             </td>
 
             {/* 다음 결제일 */}

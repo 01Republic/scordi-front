@@ -7,14 +7,13 @@ interface MemberCountProps {
 
 export const MemberCount = memo((props: MemberCountProps) => {
     const {subscription} = props;
-    const {teamMembers} = subscription;
 
-    const paidMemberCount = subscription.paidMemberCount || 0;
+    // const paidMemberCount = subscription.paidMemberCount || 0;
     const usedMemberCount = subscription.usedMemberCount || 0;
 
     return (
         <div>
-            <p className="text-sm">{(teamMembers || []).length.toLocaleString()} 명</p>
+            <p className="text-sm">{usedMemberCount.toLocaleString()} 명</p>
         </div>
     );
 });

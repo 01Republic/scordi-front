@@ -34,7 +34,7 @@ export const TeamMemberTableRow = memo((props: TeamMemberTableRowPropsTableRowPr
             {/* 이용 앱 수 */}
             <td className={`cursor-pointer ${hoverBgColor} `} onClick={openShowModal}>
                 <p className="text-sm group-hover:text-scordi transition-all">
-                    {subscriptions?.length} <small>Apps</small>
+                    {teamMember.subscriptionCount} <small>Apps</small>
                 </p>
             </td>
 
