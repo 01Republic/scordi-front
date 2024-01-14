@@ -9,6 +9,7 @@ interface PagedResourceAtomOption<DTO, Query> {
 export interface PagedResourceAtoms<DTO, Query> {
     resultAtom: RecoilState<Paginated<DTO>>;
     queryAtom: RecoilState<Query>;
+    isLoadingAtom: RecoilState<boolean>;
 }
 
 export function pagedResourceAtom<DTO, Query>(
@@ -35,5 +36,10 @@ export function pagedResourceAtom<DTO, Query>(
         default: {} as Query,
     });
 
-    return {resultAtom, queryAtom};
+    const isLoadingAtom = atom<boolean>({
+        key: `PagedResource/isLoadingAtom/${key}`,
+        default: false,
+    });
+
+    return {resultAtom, queryAtom, isLoadingAtom};
 }
