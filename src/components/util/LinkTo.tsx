@@ -50,7 +50,14 @@ export const LinkTo = memo((props: LinkToProps & WithChildren) => {
 
     return (
         <Link href={href} {...res}>
-            <a className={className} target={target} onClick={() => setIsClicked(true)}>
+            <a
+                className={className}
+                target={target}
+                onClick={() => {
+                    if (router.asPath.startsWith(`${href}`)) return;
+                    setIsClicked(true);
+                }}
+            >
                 {children || text}
             </a>
         </Link>

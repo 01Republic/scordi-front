@@ -8,6 +8,9 @@ import {InputContainer} from './InputContainer';
 import {OptionItem} from './OptionItem';
 import {DetachableOptionItem} from './DetachableOptionItem';
 import {CreatableItem} from './CreatableItem';
+import {Loading} from '^v3/share/Loading';
+import {SelectedOptionsContainer} from '^v3/share/table/columns/SelectColumn/SelectedOptionsContainer';
+import {ListingOptionsContainer} from '^v3/share/table/columns/SelectColumn/ListingOptionsContainer';
 
 interface SelectColumnProps<T> {
     value: T | undefined;
@@ -61,6 +64,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
     const {searchKeyword, setSearchKeyword, searchInputRef, clearInput, focusInput, blurInput} = useInput();
     const [focusableIndex, setFocusableIndex] = useState<number>(0);
     const [options, setOptions] = useState<T[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
     const {
         value,
         ValueComponent = (p: {value: T | string}) => <TagUI>{`${p.value}`}</TagUI>,
@@ -83,9 +87,16 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
         detachableOptionBoxTitle = '연결된 옵션',
     } = props;
 
+    const fetchOptions = (keyword?: string) => {
+        setIsLoading(true);
+        return getOptions(keyword)
+            .then(setOptions)
+            .finally(() => setIsLoading(false));
+    };
+
     const refreshOptions = () => {
         clearInput();
-        getOptions().then(setOptions);
+        fetchOptions();
     };
 
     const onOpen = () => {
@@ -96,21 +107,6 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
 
     const onClose = () => {
         blurInput();
-        closeDropdown();
-    };
-
-    const clickOption = async (option: T) => {
-        await onSelect(option);
-        blurInput();
-        refreshOptions();
-        closeDropdown();
-    };
-
-    const createOption = async (keyword: string) => {
-        if (!onCreate) return; // check creatable
-        await onCreate(keyword);
-        blurInput();
-        refreshOptions();
         closeDropdown();
     };
 
@@ -131,11 +127,6 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
 
     // const ValueUI = ValueComponent || ((p: {value: T | string}) => <TagUI>{`${p.value}`}</TagUI>);
     const isEmptyValue = typeof value == 'undefined' || value === null;
-
-    const detachableOptions: T[] = (() => {
-        if (!optionDetach) return [];
-        return value ? [value] : [];
-    })();
 
     const listingOptions = (() => {
         if (!optionDetach) return options;
@@ -167,9 +158,9 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
                 placement="bottom-start"
             >
                 <div
-                    style={{maxWidth: contentMinWidth}}
+                    style={{maxWidth: contentMinWidth, left: '-8px'}}
                     tabIndex={0}
-                    className={`dropdown-portal-content w-full min-w-[${contentMinWidth}] !z-[1] border shadow-lg bg-base-100 rounded-[6px]`}
+                    className={`dropdown-portal-content w-full min-w-[${contentMinWidth}] !z-[1] border shadow-lg bg-base-100 rounded-[6px] relative`}
                 >
                     {/* Search Keyword Input Container */}
                     {inputDisplay && (
@@ -178,7 +169,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
                             defaultValue={value && inputPlainText ? textOfOption(value) : undefined}
                             onChange={(keyword) => {
                                 setSearchKeyword(keyword || '');
-                                getOptions(keyword).then(setOptions);
+                                fetchOptions(keyword);
                             }}
                         >
                             {value && !inputPlainText && <ValueComponent value={value} />}
@@ -187,68 +178,33 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
 
                     {/* Search Result Value List Container */}
                     <div className="py-[6px]">
-                        {optionDetach && !!detachableOptions.length && (
-                            <>
-                                <div
-                                    className="flex px-[14px] mt-[6px] mb-[2px] text-[12px] font-[500] no-selectable leading-[120%]"
-                                    style={{
-                                        color: 'rgba(55, 53, 47, 0.65)',
-                                        fill: 'rgba(55, 53, 47, 0.45)',
-                                    }}
-                                >
-                                    <div
-                                        className="overflow-hidden whitespace-nowrap"
-                                        style={{textOverflow: 'ellipsis'}}
-                                    >
-                                        {detachableOptionBoxTitle}
-                                    </div>
-                                </div>
-                                <ul className="menu py-0 mb-1 block max-h-[300px] overflow-y-auto no-scrollbar">
-                                    {detachableOptions.map((option, i) => (
-                                        <DetachableOptionItem
-                                            key={i}
-                                            option={option}
-                                            ValueComponent={ValueComponent}
-                                            detachRequest={withCallback(optionDetach)!}
-                                            className={optionWrapperClass}
-                                        />
-                                    ))}
-                                </ul>
-                                <hr className="mb-3" />
-                            </>
-                        )}
+                        <SelectedOptionsContainer
+                            selectedOptions={value ? [value] : []}
+                            ValueComponent={ValueComponent}
+                            detachOption={withCallback(optionDetach)!}
+                            boxTitle={detachableOptionBoxTitle}
+                            optionWrapperClass={optionWrapperClass}
+                        />
 
-                        <div
-                            className="flex px-[14px] mt-[6px] mb-[8px] text-[12px] font-[500] no-selectable leading-[120%]"
-                            style={{
-                                color: 'rgba(55, 53, 47, 0.65)',
-                                fill: 'rgba(55, 53, 47, 0.45)',
+                        <ListingOptionsContainer
+                            value={value}
+                            options={listingOptions}
+                            onSelect={onSelect}
+                            ValueComponent={ValueComponent}
+                            isLoading={isLoading}
+                            valueOfOption={valueOfOption}
+                            searchKeyword={searchKeyword}
+                            keywordFilter={keywordFilter}
+                            onCreate={onCreate}
+                            destroyOption={withCallback(optionDestroy)}
+                            boxTitle={optionListBoxTitle}
+                            optionWrapperClass={optionWrapperClass}
+                            dropdownHandler={{
+                                blurInput,
+                                refreshOptions,
+                                closeDropdown,
                             }}
-                        >
-                            <div className="overflow-hidden whitespace-nowrap" style={{textOverflow: 'ellipsis'}}>
-                                {optionListBoxTitle}
-                            </div>
-                        </div>
-                        <ul className="menu py-0 block max-h-[300px] overflow-y-auto no-scrollbar">
-                            {listingOptions.map((option, i) => (
-                                <OptionItem
-                                    key={i}
-                                    option={option}
-                                    selectedOption={value}
-                                    clickOption={clickOption}
-                                    ValueComponent={ValueComponent}
-                                    valueOfOption={valueOfOption}
-                                    className={optionWrapperClass}
-                                    destroyRequest={withCallback(optionDestroy)}
-                                />
-                            ))}
-
-                            {onCreate && searchKeyword && !options.find((o) => keywordFilter(o, searchKeyword)) && (
-                                <CreatableItem onClick={() => createOption(searchKeyword)}>
-                                    <ValueComponent value={searchKeyword} />
-                                </CreatableItem>
-                            )}
-                        </ul>
+                        />
                     </div>
                 </div>
             </DropdownContent>

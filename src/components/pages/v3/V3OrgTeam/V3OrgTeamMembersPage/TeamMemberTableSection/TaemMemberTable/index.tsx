@@ -5,6 +5,8 @@ import Qs from 'qs';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 import {Loading} from '^v3/share/Loading';
+import {Table} from '^v3/share/table/Table';
+import {TBody} from '^v3/share/table/TBody';
 
 export const TeamMemberTable = memo(() => {
     const {isLoading, result, query, search, reload} = useTeamMembers();
@@ -23,7 +25,7 @@ export const TeamMemberTable = memo(() => {
     return (
         <div className="card bg-white shadow">
             <div className="overflow-x-auto w-full">
-                <table className="table w-full">
+                <Table isLoading={isLoading}>
                     <thead>
                         <tr>
                             <SortableTH sortKey="[name]" onClick={onSort}>
@@ -53,23 +55,12 @@ export const TeamMemberTable = memo(() => {
                         </tr>
                     </thead>
 
-                    <tbody>
-                        {isLoading && (
-                            <tr>
-                                <td colSpan={5}>
-                                    <div className="w-full flex items-center justify-center">
-                                        <Loading size="8" />
-                                    </div>
-                                </td>
-                            </tr>
-                        )}
-
-                        {!isLoading &&
-                            teamMembers.map((teamMember, i) => (
-                                <TeamMemberTableRow key={i} teamMember={teamMember} reload={reload} />
-                            ))}
-                    </tbody>
-                </table>
+                    <TBody entries={teamMembers} cols={5} isLoading={isLoading}>
+                        {teamMembers.map((teamMember, i) => (
+                            <TeamMemberTableRow key={i} teamMember={teamMember} reload={reload} />
+                        ))}
+                    </TBody>
+                </Table>
             </div>
         </div>
     );

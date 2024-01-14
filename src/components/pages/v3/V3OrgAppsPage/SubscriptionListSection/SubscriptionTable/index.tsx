@@ -5,6 +5,8 @@ import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import Qs from 'qs';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 import {Loading} from '^v3/share/Loading';
+import {TBody} from '^v3/share/table/TBody';
+import {Table} from '^v3/share/table/Table';
 
 interface PagedTableProps<T> {
     isLoading: boolean;
@@ -32,7 +34,7 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
     return (
         <div className="card bg-white shadow">
             <div className="overflow-x-auto overflow-y-hidden w-full">
-                <table className="table w-full">
+                <Table isLoading={isLoading}>
                     <thead className="top-[50px]">
                         <tr className="text-gray-500">
                             {/* Checkbox */}
@@ -42,7 +44,7 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
                             </SortableTH>
 
                             <SortableTH sortKey="[isFreeTier]" onClick={sort}>
-                                <span className="pl-[8px]">유/무료</span>
+                                유/무료
                             </SortableTH>
 
                             {/* [구독상태] subscription.status: SubscriptionStatus */}
@@ -52,16 +54,16 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
 
                             {/* [결제주기] subscription.billingCycleType: BillingCycleOptions */}
                             <SortableTH sortKey="[billingCycleType]" onClick={sort}>
-                                <span className="pl-[8px]">결제주기</span>
+                                결제주기
                             </SortableTH>
 
                             {/* [과금방식] subscription.pricingModel: PricingModelOptions */}
                             <SortableTH sortKey="[pricingModel]" onClick={sort}>
-                                <span className="pl-[8px]">과금방식</span>
+                                과금방식
                             </SortableTH>
 
                             <SortableTH sortKey="[creditCard][name]" onClick={sort}>
-                                <span>결제수단</span>
+                                결제수단
                             </SortableTH>
 
                             <SortableTH sortKey="[usedMemberCount]" onClick={sort}>
@@ -74,8 +76,8 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
 
                             {/*<SortableTH className="text-right">다음 결제일</SortableTH>*/}
 
-                            <SortableTH>
-                                <span className="pl-[8px]">담당자</span>
+                            <SortableTH sortKey="[masterId]" onClick={sort}>
+                                담당자
                             </SortableTH>
 
                             {/* Actions */}
@@ -83,23 +85,12 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
                         </tr>
                     </thead>
 
-                    <tbody>
-                        {isLoading && (
-                            <tr>
-                                <td colSpan={8}>
-                                    <div className="w-full flex items-center justify-center">
-                                        <Loading size="8" />
-                                    </div>
-                                </td>
-                            </tr>
-                        )}
-
-                        {!isLoading &&
-                            subscriptions.map((subscription, i) => (
-                                <SubscriptionTr key={i} subscription={subscription} reload={reload} />
-                            ))}
-                    </tbody>
-                </table>
+                    <TBody entries={subscriptions} cols={8} isLoading={isLoading}>
+                        {subscriptions.map((subscription, i) => (
+                            <SubscriptionTr key={i} subscription={subscription} reload={reload} />
+                        ))}
+                    </TBody>
+                </Table>
             </div>
         </div>
     );

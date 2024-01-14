@@ -979,3 +979,8 @@ progress::-moz-progress-bar {
     border-right-color: currentColor;
   }
 }
+
+.no-click {
+  pointer-events: none;
+  cursor: default;
+}
