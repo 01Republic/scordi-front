@@ -4,6 +4,7 @@ import {LinkProps} from 'next/dist/client/link';
 import {ReactNodeLike} from 'prop-types';
 import {WithChildren} from '^types/global.type';
 import {useRouter} from 'next/router';
+import {onlyPath} from '^utils/get-query-params';
 
 export interface LinkToProps extends Partial<LinkProps> {
     text?: ReactNodeLike;
@@ -54,7 +55,7 @@ export const LinkTo = memo((props: LinkToProps & WithChildren) => {
                 className={className}
                 target={target}
                 onClick={() => {
-                    if (router.asPath.startsWith(`${href}`)) return;
+                    if (href == onlyPath(router)) return;
                     setIsClicked(true);
                 }}
             >
