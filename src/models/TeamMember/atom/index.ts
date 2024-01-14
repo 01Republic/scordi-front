@@ -26,6 +26,11 @@ export const teamMemberListInDashboardAtom = pagedResourceAtom<TeamMemberDto, Fi
     key: 'teamMemberListInDashboardAtom',
 });
 
+// 멤버관리 / 멤버 목록 테이블
+export const teamMemberListInTeamMembersTableAtom = pagedResourceAtom<TeamMemberDto, FindAllTeamMemberQueryDto>({
+    key: 'teamMemberListInTeamMembersTableAtom',
+});
+
 // 구독상세모달 / 이용중인 멤버 목록
 export const teamMemberListInSubscriptionShowModalAtom = pagedResourceAtom<TeamMemberDto, FindAllTeamMemberQueryDto>({
     key: 'teamMemberListInSubscriptionShowModalAtom',

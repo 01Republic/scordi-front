@@ -34,7 +34,7 @@ export const useSubscriptionsInTeamMemberShowModal = () =>
 const useSubscriptions = (atoms: PagedResourceAtoms<SubscriptionDto, FindAllSubscriptionsQuery>, mergeMode = false) => {
     return usePagedResource(atoms, {
         endpoint: (params) => subscriptionApi.index(params),
-        // useOrgId: true,
+        useOrgId: true,
         buildQuery: (params, orgId) => {
             params.where = {organizationId: orgId, ...params.where};
             return params;

@@ -12,7 +12,7 @@ import {useDashboardSubscriptionSummary} from '^models/Subscription/hook';
 
 export const SummarySection = memo(function SummarySection() {
     const {focusedMonth} = useFocusedMonth();
-    const {result, search: getSubscriptions} = useDashboardSubscriptionSummary();
+    const {isLoading, result, search: getSubscriptions} = useDashboardSubscriptionSummary();
     const Subscription = SubscriptionManager.init(result.items || []);
     const orgId = useRecoilValue(orgIdParamState);
 
@@ -42,15 +42,23 @@ export const SummarySection = memo(function SummarySection() {
                     <Panel padding="compact">
                         <div className="w-full grid grid-cols-6 items-center justify-items-stretch">
                             {/*<SummaryItem title={'모든 구독'} />*/}
-                            <SummaryItem title={'유료 구독'} value={Subscription.paid().length} />
-                            <SummaryItem title={'무료 구독'} value={Subscription.free().length} />
-                            <SummaryItem title={'결제 예정'} value={Subscription.pending().length} />
+                            <SummaryItem title={'유료 구독'} value={Subscription.paid().length} isLoading={isLoading} />
+                            <SummaryItem title={'무료 구독'} value={Subscription.free().length} isLoading={isLoading} />
+                            <SummaryItem
+                                title={'결제 예정'}
+                                value={Subscription.pending().length}
+                                isLoading={isLoading}
+                            />
                             {/*<SummaryItem title={'결제 완료'} />*/}
-                            <SummaryItem title={'결제 실패'} value={Subscription.failed().length} />
+                            <SummaryItem
+                                title={'결제 실패'}
+                                value={Subscription.failed().length}
+                                isLoading={isLoading}
+                            />
                             {/*(블러 처리 하고 유료플랜)*/}
-                            <SummaryItem title={'이상 결제'} value="?" covered />
+                            <SummaryItem title={'이상 결제'} value="?" isLoading={isLoading} covered />
                             {/*(블러 처리 하고 유료플랜)*/}
-                            <SummaryItem title={'무료플랜 만료'} value="?" covered />
+                            <SummaryItem title={'무료플랜 만료'} value="?" isLoading={isLoading} covered />
                         </div>
                     </Panel>
                 </div>
