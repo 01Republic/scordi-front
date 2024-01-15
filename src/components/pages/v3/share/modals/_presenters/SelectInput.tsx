@@ -4,6 +4,7 @@ import {SelectComponentsConfig} from 'react-select/dist/declarations/src/compone
 import {OptionProps} from 'react-select/dist/declarations/src/components/Option';
 import {WithChildren} from '^types/global.type';
 import {FcCheckmark} from 'react-icons/fc';
+import CreatableSelect from 'react-select/creatable';
 
 interface SelectInputProps<Option> {
     options: Option[];
@@ -49,7 +50,10 @@ export const SelectInput = <Option,>(props: SelectInputProps<Option>) => {
     };
 
     return (
-        <Select
+        // 새로운 팀 추가 위해 기존 Select 컴포넌트에서
+        // CreatableSelect 컴포넌트로 변경
+
+        <CreatableSelect
             components={components}
             options={options}
             defaultValue={defaultValue}
@@ -65,6 +69,7 @@ export const SelectInput = <Option,>(props: SelectInputProps<Option>) => {
             noOptionsMessage={noOptionsMessage}
             openMenuOnFocus={openMenuOnFocus}
             closeMenuOnSelect={closeMenuOnSelect}
+            isClearable
         />
     );
 };

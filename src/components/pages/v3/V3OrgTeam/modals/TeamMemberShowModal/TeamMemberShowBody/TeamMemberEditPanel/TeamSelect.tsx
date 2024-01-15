@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {SelectInput, SelectOptionNotionStyledLayout, SelectOptionProps} from '^v3/share/modals/_presenters/SelectInput';
 import {TeamDto} from '^models/Team/type';
@@ -6,6 +6,9 @@ import {useTeamsV2} from '^models/Team/hook';
 import {TeamTag} from '^models/Team/components/TeamTag';
 import {currentTeamMemberState} from '^models/TeamMember';
 import {lastTeamMemberInfo} from '^v3/share/modals/NewTeamMemberModal/CreateTeamMemberModal';
+import {components, MenuListProps} from 'react-select';
+import {teamApi} from '^models/Team/api';
+import {orgIdParamState} from '^atoms/common';
 
 interface TeamSelectProps {
     onSelect: (selectedTeam: TeamDto | undefined) => any;
@@ -15,6 +18,8 @@ export const TeamSelect = memo((props: TeamSelectProps) => {
     const teamMember = useRecoilValue(currentTeamMemberState);
     const {result, search} = useTeamsV2();
     const lastTeamMember = useRecoilValue(lastTeamMemberInfo);
+    const orgId = useRecoilValue(orgIdParamState);
+
     const {onSelect} = props;
     const defaultValue = teamMember?.team ?? lastTeamMember.team;
     const loadTeams = () => search({order: {id: 'DESC'}}, false, true);
@@ -27,6 +32,9 @@ export const TeamSelect = memo((props: TeamSelectProps) => {
             onMenuOpen={() => loadTeams()}
             onSelect={(selectedOption) => {
                 if (!selectedOption) return onSelect(undefined);
+
+                if (typeof selectedOption.value === 'string')
+                    return teamApi.create(orgId, {name: selectedOption.value}).then((res) => onSelect(res.data));
 
                 const selectedTeam = result.items.find((team) => team.id === selectedOption.value);
                 onSelect(selectedTeam);
