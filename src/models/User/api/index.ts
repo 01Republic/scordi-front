@@ -13,4 +13,9 @@ export const userManageApi = {
         const url = `/admin/users/${id}`;
         return api.get<UserDto>(url).then(oneDtoOf(UserDto));
     },
+
+    destroy(id: number) {
+        const url = `/admin/users/${id}`;
+        return api.delete<UserDto>(url).then(oneDtoOf(UserDto));
+    },
 };

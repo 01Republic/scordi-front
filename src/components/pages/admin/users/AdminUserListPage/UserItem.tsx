@@ -5,6 +5,10 @@ import {zeroPad} from '^utils/dateTime';
 import {useRouter} from 'next/router';
 import {AdminUserPageRoute} from '^pages/admin/users/[id]';
 import {LinkTo} from '^components/util/LinkTo';
+import {userManageApi} from '^models/User/api';
+import {useAlert} from '^hooks/useAlert';
+import {AdminUserListPage} from '^admin/users/AdminUserListPage/index';
+import {AdminUsersPageRoute} from '^pages/admin/users';
 
 interface UserItemProps {
     user: UserDto;
@@ -20,9 +24,20 @@ export const UserItem = memo((props: UserItemProps) => {
     const router = useRouter();
     const {user} = props;
     const {createdAt} = user;
+    const {alert} = useAlert();
 
     const detailPath = AdminUserPageRoute.path(user.id);
     const gotoDetailPage = () => router.push(AdminUserPageRoute.path(user.id));
+    const onDelete = () => {
+        console.log('ondelete');
+        const res = alert.destroy({
+            title: '사용자를 삭제하시겠습니까?',
+            onConfirm: () => userManageApi.destroy(user.id),
+        });
+
+        res.then(() => router.reload());
+        res.catch(() => alert.error('삭제 실패', '에러가 발생했습니다.'));
+    };
 
     return (
         <button className="btn btn-lg btn-block no-animation !bg-neutral gap-2 items-center justify-between border rounded-lg normal-case">
@@ -53,7 +68,9 @@ export const UserItem = memo((props: UserItemProps) => {
                     <div className="hidden sm:flex gap-1.5 items-center justify-between">
                         <LinkTo href={detailPath} text="상세" className="btn btn-sm btn-info" />
                         <button className="btn btn-sm btn-warning">수정</button>
-                        <button className="btn btn-sm btn-error">삭제</button>
+                        <button className="btn btn-sm btn-error" onClick={() => onDelete()}>
+                            삭제
+                        </button>
                     </div>
                     <p className="sm:hidden relative -top-[1px]" onClick={gotoDetailPage}>{`>`}</p>
                 </div>
