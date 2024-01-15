@@ -1,12 +1,13 @@
 import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {ToolType} from '^v3/V3OrgSettingsConnectsPage/type';
 import {currentOrgAtom} from '^models/Organization/atom';
 import {useToast} from '^hooks/useToast';
 import {MoreDropdown} from '^v3/V3OrgSettingsConnectsPage/MoreDropdown';
-import {organizationApi, organizationConnectGoogleWorkspaceApi} from '^models/Organization/api';
+import {organizationConnectGoogleWorkspaceApi} from '^models/Organization/api';
 import {orgIdParamState} from '^atoms/common';
 import {GoogleTokenDataDto} from '^models/GoogleTokenData/type';
+import {isDeleteLoadingAtom, isSyncLoadingAtom} from '^v3/V3OrgSettingsConnectsPage/atom';
 
 interface WorkspaceItemProps {
     tool: ToolType;
@@ -18,6 +19,9 @@ interface WorkspaceItemProps {
 export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
     const currentOrg = useRecoilValue(currentOrgAtom);
     const orgId = useRecoilValue(orgIdParamState);
+    const setSyncLoading = useSetRecoilState(isSyncLoadingAtom);
+    const setDeleteLoading = useSetRecoilState(isDeleteLoadingAtom);
+    const setCurrentOrg = useSetRecoilState(currentOrgAtom);
     const {toast} = useToast();
     const {tool, logo, button, lastSyncAccount} = props;
 
@@ -27,25 +31,24 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
         if (!orgId) return;
         if (!lastSyncAccount) return toast.error('연동된 계정이 없습니다.');
 
+        setSyncLoading(true);
         const req = organizationConnectGoogleWorkspaceApi.sync(orgId);
-
-        req.then(() => {
-            organizationApi.show(orgId);
-            toast.success('연동이 완료됐습니다.');
-        });
-
+        req.then(() => toast.success('연동이 완료됐습니다.'));
         req.catch((err) => toast.error(err.message));
+        req.finally(() => setSyncLoading(false));
     };
     const onDelete = () => {
         if (!orgId) return;
         if (!lastSyncAccount) return toast.error('연동된 계정이 없습니다.');
 
+        setDeleteLoading(true);
         const req = organizationConnectGoogleWorkspaceApi.disconnect(orgId);
-        req.then(() => {
-            organizationApi.show(orgId);
-            toast.success('연동이 완료됐습니다.');
+        req.then((res) => {
+            setCurrentOrg(res.data);
+            toast.success('삭제가 완료됐습니다.');
         });
         req.catch((err) => toast.error(err.message));
+        req.finally(() => setDeleteLoading(false));
     };
 
     return (
@@ -54,7 +57,7 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
                 {logo} {tool}
             </p>
             <div className="flex gap-3 items-center">
-                <button>{button}</button>
+                <div>{button}</div>
 
                 {tool === ToolType.google && (
                     <MoreDropdown onSync={onSync} onDelete={onDelete} className="self-center" />

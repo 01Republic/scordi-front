@@ -10,9 +10,13 @@ import {SiNaver} from 'react-icons/si';
 import {GoogleProfile} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/GoogleProfile';
 import {ConnectButton} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/ConnectButton';
 import {GoogleLoginButton} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/GoogleLoginButton';
+import {isDeleteLoadingAtom, isSyncLoadingAtom} from '^v3/V3OrgSettingsConnectsPage/atom';
+import {LoadingButton} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/LoadingButton';
 
 export const WorkspaceSection = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
+    const isSyncLoading = useRecoilValue(isSyncLoadingAtom);
+    const isDeleteLoading = useRecoilValue(isDeleteLoadingAtom);
     const lastSyncAccount = currentOrg?.lastGoogleSyncHistory?.googleTokenData;
 
     return (
@@ -22,7 +26,17 @@ export const WorkspaceSection = memo(() => {
                 logo={<FcGoogle size={28} />}
                 tool={ToolType.google}
                 lastSyncAccount={lastSyncAccount}
-                button={currentOrg ? <GoogleProfile lastSyncAccount={lastSyncAccount} /> : <GoogleLoginButton />}
+                button={
+                    currentOrg ? (
+                        isSyncLoading || isDeleteLoading ? (
+                            <LoadingButton text="동기화 중" />
+                        ) : (
+                            <GoogleProfile lastSyncAccount={lastSyncAccount} />
+                        )
+                    ) : (
+                        <GoogleLoginButton />
+                    )
+                }
             />
 
             {/*마이크로소프트 Teams*/}

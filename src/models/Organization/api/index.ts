@@ -79,7 +79,7 @@ export const organizationAdminApi = {
 export const organizationConnectGoogleWorkspaceApi = {
     // bulk create 의 경우 아직 paigniated response 를 준비하지 못했습니다.
     sync(id: number) {
-        const url = `/organizations/${id}/connect/google-workspace`;
+        const url = `/organizations/${id}/connect/google-workspace/sync`;
         return api.get<TeamMemberDto[]>(url).then((res) => {
             res.data = plainToInstance(TeamMemberDto, res.data);
             return res;

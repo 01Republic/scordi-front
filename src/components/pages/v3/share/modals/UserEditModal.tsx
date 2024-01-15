@@ -34,7 +34,7 @@ export const UserEditModal = memo(() => {
     useEffect(() => {
         if (!currentMembership) return;
 
-        form.setValue('isAgreeForMarketingTerm', !!currentMembership.user.marketingTermAgreedAt);
+        form.setValue('isAgreeForMarketingTerm', !!currentMembership.user?.marketingTermAgreedAt);
     }, [currentMembership]);
 
     if (!currentUser || !currentOrg || !currentMembership) return <></>;
