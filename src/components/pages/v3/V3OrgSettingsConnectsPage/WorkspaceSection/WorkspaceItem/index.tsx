@@ -1,13 +1,15 @@
 import React, {memo} from 'react';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {ToolType} from '^v3/V3OrgSettingsConnectsPage/type';
-import {currentOrgAtom} from '^models/Organization/atom';
-import {useToast} from '^hooks/useToast';
-import {MoreDropdown} from '^v3/V3OrgSettingsConnectsPage/MoreDropdown';
-import {organizationConnectGoogleWorkspaceApi} from '^models/Organization/api';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
+import {useToast} from '^hooks/useToast';
+import {currentOrgAtom} from '^models/Organization/atom';
+import {organizationConnectGoogleWorkspaceApi} from '^models/Organization/api';
 import {GoogleTokenDataDto} from '^models/GoogleTokenData/type';
+import {ToolType} from '^v3/V3OrgSettingsConnectsPage/type';
+import {MoreDropdown} from '^v3/V3OrgSettingsConnectsPage/MoreDropdown';
 import {isDeleteLoadingAtom, isSyncLoadingAtom} from '^v3/V3OrgSettingsConnectsPage/atom';
+import {OnboardingSkippedStore} from '^v3/share/OnboardingFlow/SkipButton';
+import {onboardingModalIsShow} from '^v3/share/OnboardingFlow/atom';
 
 interface WorkspaceItemProps {
     tool: ToolType;
@@ -17,11 +19,11 @@ interface WorkspaceItemProps {
 }
 
 export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
-    const currentOrg = useRecoilValue(currentOrgAtom);
     const orgId = useRecoilValue(orgIdParamState);
     const setSyncLoading = useSetRecoilState(isSyncLoadingAtom);
     const setDeleteLoading = useSetRecoilState(isDeleteLoadingAtom);
-    const setCurrentOrg = useSetRecoilState(currentOrgAtom);
+    const setIsShow = useSetRecoilState(onboardingModalIsShow);
+    const [currentOrg, setCurrentOrg] = useRecoilState(currentOrgAtom);
     const {toast} = useToast();
     const {tool, logo, button, lastSyncAccount} = props;
 
@@ -45,6 +47,11 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
         const req = organizationConnectGoogleWorkspaceApi.disconnect(orgId);
         req.then((res) => {
             setCurrentOrg(res.data);
+
+            const store = new OnboardingSkippedStore();
+            setIsShow(false);
+            store.add(currentOrg.id);
+
             toast.success('삭제가 완료됐습니다.');
         });
         req.catch((err) => toast.error(err.message));
