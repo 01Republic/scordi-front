@@ -1,12 +1,13 @@
 import React, {memo} from 'react';
-import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
-import {teamMemberApi, TeamMemberDto} from '^models/TeamMember';
-import {TeamDto} from '^models/Team/type';
-import {useTeamsV2} from '^models/Team/hook';
-import {TeamTag} from '^models/Team/components/TeamTag';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {useToast} from '^hooks/useToast';
+import {teamApi} from '^models/Team/api';
+import {TeamDto} from '^models/Team/type';
+import {useTeamsV2} from '^models/Team/hook';
+import {teamMemberApi, TeamMemberDto, useTeamMembersInTeamMembersTable} from '^models/TeamMember';
+import {TeamTag} from '^models/Team/components/TeamTag';
+import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 
 interface TeamSelectProps {
@@ -16,6 +17,7 @@ interface TeamSelectProps {
 
 export const TeamSelect = memo((props: TeamSelectProps) => {
     const orgId = useRecoilValue(orgIdParamState);
+    const {reload: loadTeamMembers} = useTeamMembersInTeamMembersTable();
     const {search} = useTeamsV2();
     const {toast} = useToast();
     const {teamMember, onChange} = props;
@@ -35,6 +37,22 @@ export const TeamSelect = memo((props: TeamSelectProps) => {
             .finally(() => toast.success('저장했습니다'));
     };
 
+    const onCreate = async (keyword: string) => {
+        if (!keyword) return;
+        return teamApi.create(orgId, {name: keyword}).then((res) => onSelect(res.data));
+    };
+
+    const onDelete = async (option: TeamDto) => {
+        try {
+            await teamApi.destroy(orgId, option.id);
+            loadTeamMembers();
+            toast.success('삭제되었습니다');
+            return true;
+        } catch (err) {
+            return false;
+        }
+    };
+
     return (
         <SelectColumn
             value={teamMember.team}
@@ -48,6 +66,8 @@ export const TeamSelect = memo((props: TeamSelectProps) => {
             contentMinWidth="240px"
             inputDisplay
             optionListBoxTitle="팀을 변경합니다"
+            onCreate={(keyword) => onCreate(keyword)}
+            optionDestroy={(option) => onDelete(option)}
         />
     );
 });

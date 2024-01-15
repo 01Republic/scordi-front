@@ -1,10 +1,10 @@
 import {memo, ReactNode} from 'react';
-import Select, {GroupBase, components, SingleValue, StylesConfig} from 'react-select';
+import Select, {GroupBase, components, StylesConfig} from 'react-select';
 import {SelectComponentsConfig} from 'react-select/dist/declarations/src/components';
 import {OptionProps} from 'react-select/dist/declarations/src/components/Option';
 import {WithChildren} from '^types/global.type';
-import {FcCheckmark} from 'react-icons/fc';
 import CreatableSelect from 'react-select/creatable';
+import {MoreDropdownInSelectTeam} from '^v3/share/modals/_presenters/MoreDropdownInSelectTeam';
 
 interface SelectInputProps<Option> {
     options: Option[];
@@ -61,9 +61,7 @@ export const SelectInput = <Option,>(props: SelectInputProps<Option>) => {
             styles={customStyles}
             className="input input-bordered px-0"
             onMenuOpen={onMenuOpen}
-            onChange={(option) => {
-                option ? onSelect(option) : onSelect();
-            }}
+            onChange={(option) => (option ? onSelect(option) : onSelect())}
             required={required}
             autoFocus={autoFocus}
             noOptionsMessage={noOptionsMessage}
@@ -81,7 +79,7 @@ SelectInput.displayName = 'SelectInput';
 export interface SelectOptionProps<Option> extends OptionProps<Option, false> {}
 type d = Pick<SelectOptionProps<any>, 'isFocused' | 'isSelected'>;
 export const SelectOptionNotionStyledLayout = memo((props: SelectOptionProps<any> & WithChildren) => {
-    const {isFocused, isSelected, children} = props;
+    const {isFocused, isSelected, children, data} = props;
 
     return (
         <components.Option {...props}>
@@ -89,10 +87,12 @@ export const SelectOptionNotionStyledLayout = memo((props: SelectOptionProps<any
                 <div
                     className={`flex items-center py-1.5 px-2 rounded-md cursor-pointer transition-all btn-animation ${
                         isFocused ? 'bg-gray-100' : ''
-                    } hover:bg-gray-100 active:bg-sky-100`}
+                    } hover:bg-gray-100 active:bg-sky-100 group`}
                 >
                     <div className="">{children}</div>
-                    <div className="ml-auto px-2">{isSelected && <FcCheckmark />}</div>
+                    <div className="ml-auto">
+                        <MoreDropdownInSelectTeam isCurrent={isSelected} data={data} />
+                    </div>
                 </div>
             </div>
         </components.Option>
