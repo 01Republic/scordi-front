@@ -1,5 +1,5 @@
 import {memo, useEffect, useState} from 'react';
-import {StepContentProps} from '^components/util/funnel';
+import {StepContentProps, useFunnel} from '^components/util/funnel';
 import {Container} from '../../Container';
 import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
@@ -9,7 +9,7 @@ import {reportState} from '^components/pages/LandingPages/TastingPage/tabs/panes
 import {filterBlackList} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/features';
 import {useAlert} from '^hooks/useAlert';
 import {workspaceTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectGoogleAdminIsLoading/workspaceTimeoutChain';
-import {isLoadedState} from '^v3/share/OnboardingFlow/atom';
+import {isLoadedState, ONBOARDING_STEP, onboardingFlowStepStatus} from '^v3/share/OnboardingFlow/atom';
 
 interface Props extends StepContentProps {
     // onNext: () => any;
@@ -22,6 +22,8 @@ export const ConnectGoogleAdminIsLoading = memo(function ConnectGoogleAdminIsLoa
     const [desc, setDesc] = useState('15초 정도 걸릴 수 있어요. 잠시만 기다려주세요.');
     const [isLoaded, setIsLoaded] = useRecoilState(isLoadedState);
     const {alert} = useAlert();
+    const {setStep} = useFunnel(onboardingFlowStepStatus);
+
     const {onNext} = props;
     const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
 
@@ -41,15 +43,16 @@ export const ConnectGoogleAdminIsLoading = memo(function ConnectGoogleAdminIsLoa
         });
 
         req.catch((e) => {
-            if (e.response.data.code == 'Unauthorized') {
-                alert.error('회사 대표 계정으로 시도해주세요', '', {
+            setStep(ONBOARDING_STEP.Workspace.beforeLoad);
+
+            if (e.response.data.code == 'Forbidden') {
+                return alert.error('회사 대표 계정으로 시도해주세요', '', {
                     html: `
                     ex) official@scordi.io
                     `,
                 });
-            } else {
-                alert.error('관리자 계정 연결이 필요해요', '회사 공식 메일로 워크스페이스를 연동해주세요');
             }
+            return alert.error('관리자 계정 연결이 필요해요', '회사 공식 메일로 워크스페이스를 연동해주세요');
         });
     };
 
