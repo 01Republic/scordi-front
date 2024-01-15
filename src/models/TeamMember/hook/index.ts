@@ -79,10 +79,7 @@ export function useTeamMember(atom: RecoilState<TeamMemberDto | null>) {
             showSuccessAlertOnFinal: false,
             onConfirm: async () => {
                 setIsLoading(true);
-                // membership 상태가 PENDING이면 team member와 membership 모두 삭제
-                if (teamMember.membership?.approvalStatus === ApprovalStatus.PENDING) {
-                    await membershipApi.destroy(teamMember.membershipId || 0);
-                }
+
                 const res = teamMemberApi.destroy(organizationId, id);
 
                 res.then(() => toast.success('삭제했습니다.')).then(() => {
