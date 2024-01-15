@@ -1,15 +1,14 @@
 import {memo} from 'react';
-import {TeamMemberDto, useTeamMembers} from '^models/TeamMember';
+import {TeamMemberDto, useTeamMembersInTeamMembersTable} from '^models/TeamMember';
 import {TeamMemberTableRow} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow';
 import Qs from 'qs';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
-import {Loading} from '^v3/share/Loading';
 import {Table} from '^v3/share/table/Table';
 import {TBody} from '^v3/share/table/TBody';
 
 export const TeamMemberTable = memo(() => {
-    const {isLoading, result, query, search, reload} = useTeamMembers();
+    const {isLoading, result, query, search, reload} = useTeamMembersInTeamMembersTable();
     const teamMembers = result.items;
 
     const onSort = (sortKey: string, value: 'ASC' | 'DESC') => {

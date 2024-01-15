@@ -13,13 +13,13 @@ import {
     teamMemberListInSubscriptionShowModalAtom,
     teamMemberListAtom,
     teamMemberListInDashboardAtom,
+    teamMemberListInTeamMembersTableAtom,
 } from '../atom';
 import {useTeamMembersV3} from '^models/TeamMember';
 
 export * from './useSendInviteEmail';
 export * from './useTeamMemberV3';
 
-// 멤버관리 / 멤버 목록
 export const useTeamMembers = () => {
     const orgId = useRecoilValue(orgIdParamState);
     const methods = useTeamMembersV3(teamMemberListAtom);
@@ -33,6 +33,9 @@ export const useTeamMembers = () => {
 
 // 대시보드 / 멤버 목록
 export const useTeamMembersInDashboard = () => useTeamMembersV3(teamMemberListInDashboardAtom);
+
+// 멤버관리 / 멤버 목록 테이블
+export const useTeamMembersInTeamMembersTable = () => useTeamMembersV3(teamMemberListInTeamMembersTableAtom);
 
 // 구독상세모달 / 이용중인 멤버 목록
 export const useTeamMembersInSubscriptionShowModal = () => useTeamMembersV3(teamMemberListInSubscriptionShowModalAtom);

@@ -5,7 +5,7 @@ import {orgIdParamState} from '^atoms/common';
 import {cachePagedQuery} from './cachePagedQuery';
 import {makeAppendPagedItemFn} from './makeAppendPagedItemFn';
 import {makeExceptPagedItemFn} from './makeExceptPagedItemFn';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {PagedResourceAtoms} from '^hooks/usePagedResource/pagedResourceAtom';
 
 export interface UsePagedResourceOption<DTO, Query> {
@@ -25,13 +25,21 @@ export function usePagedResource<DTO, Query>(
     atoms: PagedResourceAtoms<DTO, Query>,
     option: UsePagedResourceOption<DTO, Query>,
 ) {
-    const {resultAtom, queryAtom} = atoms;
+    const {resultAtom, queryAtom, isLoadingAtom} = atoms;
     const {endpoint, buildQuery = (q) => q, mergeMode: defaultMergeMode = false, getId, useOrgId = true} = option;
 
     const orgId = useOrgId ? useRecoilValue(orgIdParamState) : NaN;
     const [result, setResult] = useRecoilState(resultAtom);
     const [query, setQuery] = useRecoilState(queryAtom);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useRecoilState(isLoadingAtom);
+    const [__isLoading, __setIsLoading] = useState(false);
+
+    // recoil 의 정책상 set atom 스코프 내에서 다시 set atom 을 호출하는 것이 불가능합니다.
+    // 그래서 request 함수 내에서 isLoading 을 pure react hook 으로 업데이트(__setIsLoading)하고,
+    // 다시 그 값(__isLoading)의 변화를 전달 받아 간접적으로 set atom 을 실행합니다.
+    useEffect(() => {
+        setIsLoading(__isLoading);
+    }, [__isLoading]);
 
     const keyOf = ensureKeyOfIsFunction(getId);
 
@@ -41,9 +49,9 @@ export function usePagedResource<DTO, Query>(
         }
         params = buildQuery(params, orgId);
         const request = () => {
-            setIsLoading(true);
+            __setIsLoading(true);
             return endpoint(params, orgId).finally(() => {
-                setTimeout(() => setIsLoading(false), 200);
+                setTimeout(() => __setIsLoading(false), 200);
             });
         };
         return cachePagedQuery(setResult, setQuery, params, request, mergeMode, force);

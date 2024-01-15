@@ -34,9 +34,6 @@ export const PageLoadingCover = memo(function PageLoadingCover() {
                             className="progress progress-primary w-full bg-gray-200"
                             value={progressValue}
                             max="100"
-                            style={{
-                                transition: 'width 200ms ease',
-                            }}
                         />
                     </div>
                 </div>
