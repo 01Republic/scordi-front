@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
-import {currentTeamMemberState, teamMemberApi} from '^models/TeamMember';
+import {currentTeamMemberState, teamMemberApi, useTeamMembersInDashboard} from '^models/TeamMember';
 import {useToast} from '^hooks/useToast';
 import {SubscriptionSelectModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/SubscriptionSelectModal';
 import {useSubscriptionsInTeamMemberShowModal} from '^models/Subscription/hook';
@@ -9,6 +9,7 @@ export const SelectSubscriptionModal = memo(() => {
     const teamMember = useRecoilValue(currentTeamMemberState);
     const {toast} = useToast();
     const {reload} = useSubscriptionsInTeamMemberShowModal();
+    const {reload: reloadMembersInDashboard} = useTeamMembersInDashboard();
 
     return (
         <SubscriptionSelectModal
@@ -20,6 +21,7 @@ export const SelectSubscriptionModal = memo(() => {
 
                 toast.success('추가했습니다.');
                 reload();
+                reloadMembersInDashboard();
             }}
         />
     );
