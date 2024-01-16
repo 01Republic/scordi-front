@@ -5,6 +5,10 @@ import {OptionProps} from 'react-select/dist/declarations/src/components/Option'
 import {WithChildren} from '^types/global.type';
 import CreatableSelect from 'react-select/creatable';
 import {MoreDropdownInSelectTeam} from '^v3/share/modals/_presenters/MoreDropdownInSelectTeam';
+import {MoreDropdown} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown';
+import {FcCheckmark} from 'react-icons/fc';
+import {CreditCardDto} from '^models/CreditCard/type';
+import {creditCardApi} from '^models/CreditCard/api';
 
 interface SelectInputProps<Option> {
     options: Option[];
@@ -76,10 +80,12 @@ SelectInput.displayName = 'SelectInput';
 /**
  * SelectOption 컴포넌트 프리셋
  */
-export interface SelectOptionProps<Option> extends OptionProps<Option, false> {}
+export interface SelectOptionProps<Option> extends OptionProps<Option, false> {
+    onDelete?: () => void;
+}
 type d = Pick<SelectOptionProps<any>, 'isFocused' | 'isSelected'>;
 export const SelectOptionNotionStyledLayout = memo((props: SelectOptionProps<any> & WithChildren) => {
-    const {isFocused, isSelected, children, data} = props;
+    const {isFocused, isSelected, children, data, onDelete} = props;
 
     return (
         <components.Option {...props}>
@@ -91,7 +97,7 @@ export const SelectOptionNotionStyledLayout = memo((props: SelectOptionProps<any
                 >
                     <div className="">{children}</div>
                     <div className="ml-auto">
-                        <MoreDropdownInSelectTeam isCurrent={isSelected} data={data} />
+                        <MoreDropdown isCurrent={isSelected} option={data.data} destroyRequest={onDelete} />
                     </div>
                 </div>
             </div>

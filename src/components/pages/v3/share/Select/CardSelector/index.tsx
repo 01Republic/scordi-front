@@ -6,6 +6,10 @@ import {CreditCardDto} from '^models/CreditCard/type';
 import {SelectOptionNotionStyledLayout, SelectOptionProps} from '^v3/share/modals/_presenters/SelectInput';
 import {CreditCardProfileOption} from '^models/CreditCard/hook/components/CreditCardProfile';
 import {debounce} from 'lodash';
+import {creditCardApi} from '^models/CreditCard/api';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
+import {useToast} from '^hooks/useToast';
 
 interface CardSelectorProps {
     onChange: (cardId: number | null) => void;
@@ -84,10 +88,21 @@ const toOptionData = (card: CreditCardDto): CardOptionData => {
 };
 
 const CardOption = (props: SelectOptionProps<CardOptionData>) => {
+    const orgId = useRecoilValue(orgIdParamState);
+    const {reload, deleteCreditCard} = useCreditCards();
+    const {toast} = useToast();
+
     const {data, isFocused, isSelected} = props;
 
+    const onDelete = () => {
+        deleteCreditCard(data.data, orgId).then(() => {
+            toast.success('삭제했습니다.');
+            reload();
+        });
+    };
+
     return (
-        <SelectOptionNotionStyledLayout {...props}>
+        <SelectOptionNotionStyledLayout {...props} onDelete={onDelete}>
             <CreditCardProfileOption item={data.data} />
         </SelectOptionNotionStyledLayout>
     );

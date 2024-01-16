@@ -20,7 +20,9 @@ interface PayMethodSelectProps {
 export const PayMethodSelect = memo((props: PayMethodSelectProps) => {
     const ordId = useRecoilValue(orgIdParamState);
     const {toast} = useToast();
-    const {search} = useCreditCards();
+    const {search, deleteCreditCard} = useCreditCards();
+    const orgId = useRecoilValue(orgIdParamState);
+
     const {subscription, onChange, lastPaidHistory} = props;
 
     const creditCard = subscription.creditCard;
@@ -68,22 +70,7 @@ export const PayMethodSelect = memo((props: PayMethodSelectProps) => {
             optionDetach={optionDetach}
             detachableOptionBoxTitle="연결된 결제수단"
             optionDestroy={(creditCard) => {
-                let msg = '이 결제수단을 정말로 삭제할까요?';
-
-                const arr: string[] = [];
-                if (creditCard.subscriptions?.length) {
-                    arr.push(`[${creditCard.subscriptions?.length}개]의 구독`);
-                }
-                if (creditCard.billingHistories?.length) {
-                    arr.push(`[${creditCard.billingHistories?.length}개]의 결제내역`);
-                }
-                if (arr.length) {
-                    msg += `\n${arr.join('과 ')}을 담고있어요`;
-                }
-
-                if (!confirm(msg)) return false;
-
-                return creditCardApi.destroy(ordId, creditCard.id).then(() => {
+                return deleteCreditCard(creditCard, orgId).then(() => {
                     toast.success('삭제되었습니다.');
                     return true;
                 });

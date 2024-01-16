@@ -6,6 +6,7 @@ import {orgIdParamState} from '^atoms/common';
 import {creditCardListResultAtom} from '^models/CreditCard/atom';
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
 import {CreditCardDto, FindAllCreditCardDto} from '^models/CreditCard/type';
+import {useToast} from '^hooks/useToast';
 
 export const useCreditCardsOfOrganization = (isShow: boolean) => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -27,10 +28,13 @@ export const useCreditCardsOfOrganization = (isShow: boolean) => {
     return {CreditCard};
 };
 
-export const useCreditCards = () => useCreditCardsV3(creditCardListResultAtom);
+export const useCreditCards = () => {
+    const {deleteCreditCard, ...pagedResource} = useCreditCardsV3(creditCardListResultAtom);
+    return {...pagedResource, deleteCreditCard};
+};
 
 const useCreditCardsV3 = (atoms: PagedResourceAtoms<CreditCardDto, FindAllCreditCardDto>, mergeMode = false) => {
-    return usePagedResource(atoms, {
+    const pagedResource = usePagedResource(atoms, {
         useOrgId: true,
         endpoint: (params, orgId) => creditCardApi.index(orgId, params),
         buildQuery: (params) => ({
@@ -41,4 +45,25 @@ const useCreditCardsV3 = (atoms: PagedResourceAtoms<CreditCardDto, FindAllCredit
         getId: 'id',
         mergeMode,
     });
+
+    const deleteCreditCard = async (creditCard: CreditCardDto, orgId: number) => {
+        let msg = '이 결제수단을 정말로 삭제할까요?';
+
+        const arr: string[] = [];
+        if (creditCard.subscriptions?.length) {
+            arr.push(`[${creditCard.subscriptions?.length}개]의 구독`);
+        }
+        if (creditCard.billingHistories?.length) {
+            arr.push(`[${creditCard.billingHistories?.length}개]의 결제내역`);
+        }
+        if (arr.length) {
+            msg += `\n${arr.join('과 ')}을 담고있어요`;
+        }
+
+        if (!confirm(msg)) return;
+
+        return creditCardApi.destroy(orgId, creditCard.id);
+    };
+
+    return {deleteCreditCard, ...pagedResource};
 };
