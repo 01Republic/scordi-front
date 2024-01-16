@@ -53,12 +53,12 @@ export const TeamMemberInfoPanel = memo(() => {
         <MobileSection.Item className="border-b-0">
             <MobileSection.Padding>
                 <div className="flex justify-between mb-10">
-                    <div className="flex-1">
+                    <div className="flex-1 overflow-x-hidden">
                         <div className="flex">
                             {teamMember.team && <TeamTag id={teamMember.team.id} name={teamMember.team.name} />}
                         </div>
                         <h3 className="text-2xl font-bold w-full py-2">{name}</h3>
-                        <p className="text-sm">
+                        <p className="text-sm truncate">
                             {email || <span className="italic text-gray-400">이메일을 넣어주세요</span>}
                         </p>
                     </div>

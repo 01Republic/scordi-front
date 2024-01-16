@@ -47,9 +47,9 @@ export const TeamMemberTable = memo(() => {
                             <SortableTH
                                 sortKey="[membership][approvalStatus]"
                                 onClick={onSort}
-                                className="mr-12 justify-end"
+                                className="mr-10 justify-end"
                             >
-                                상태
+                                초대 상태
                             </SortableTH>
                         </tr>
                     </thead>

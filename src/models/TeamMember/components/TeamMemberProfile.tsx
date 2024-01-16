@@ -13,14 +13,14 @@ export const TeamMemberProfile = memo((props: TeamMemberProfileProps) => {
     if (!teamMember) return <></>;
 
     return (
-        <div className={`flex items-center gap-4 px-3 -mx-3 text-gray-700 group-hover:text-scordi`}>
+        <div className={`flex items-center gap-4 px-3 -mx-3 text-gray-700 group-hover:text-scordi max-w-sm`}>
             <TeamMemberAvatar teamMember={teamMember} className="w-10 h-10" />
 
-            <div>
-                <p className={`font-bold flex gap-2 items-center`}>
+            <div className="overflow-x-hidden">
+                <p className="font-bold truncate">
                     <span>{teamMember.name}</span>
                 </p>
-                <p className="block text-sm font-normal text-gray-400 group-hover:text-scordi-300">
+                <p className="block text-sm font-normal text-gray-400 group-hover:text-scordi-300 truncate">
                     {teamMember.email}
                 </p>
             </div>
