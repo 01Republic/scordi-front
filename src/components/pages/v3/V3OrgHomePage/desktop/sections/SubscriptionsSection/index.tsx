@@ -2,7 +2,6 @@ import React, {memo, useEffect} from 'react';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
 import {V3OrgAppsPageRoute} from '^pages/v3/orgs/[orgId]/apps';
-import {Panel} from '^v3/V3OrgHomePage/desktop/Panel';
 import {Section} from '^v3/V3OrgHomePage/desktop/Section';
 import {MoreButton} from '^v3/V3OrgHomePage/desktop/MoreButton';
 import {SubscriptionTable} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable';
@@ -11,8 +10,11 @@ import {usePayingTypeTags} from '^models/Tag/hook';
 import {tagOptionsState} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/PayingType/PayingTypeSelect';
 import {useDashboardSubscriptions} from '^models/Subscription/hook';
 import {useRouter} from 'next/router';
+import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 
 const SUBSCRIPTION_DISPLAY_LIMIT: number = 10;
+
+// 대시보드에서 사용되는 구독리스트 테이블
 
 export const SubscriptionsSection = memo(function SubscriptionsSection() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -21,6 +23,7 @@ export const SubscriptionsSection = memo(function SubscriptionsSection() {
     const {safePath} = useSafePathInCurrentOrg();
     const {search: getTags} = usePayingTypeTags();
     const setTagOptions = useSetRecoilState(tagOptionsState);
+    const {loadCurrentSubscription, currentSubscription} = useCurrentSubscription();
 
     // [대시보드] 페이지를 떠날 때, unmount 로 쿼리캐시를 초기화함으로써, 다음 방문 때에 쿼리가 실행되게 만듭니다.
     useEffect(() => {
@@ -42,6 +45,13 @@ export const SubscriptionsSection = memo(function SubscriptionsSection() {
 
         getTags({}).then((res) => setTagOptions(res.items));
     }, [orgId]);
+
+    const onReload = () => {
+        if (!currentSubscription) return;
+
+        reload();
+        loadCurrentSubscription(orgId, currentSubscription.id);
+    };
 
     const {totalItemCount} = result.pagination;
 
@@ -67,7 +77,7 @@ export const SubscriptionsSection = memo(function SubscriptionsSection() {
             <SubscriptionTable
                 isLoading={isLoading}
                 items={result.items}
-                reload={reload}
+                reload={onReload}
                 search={getSubscriptions}
                 query={query}
             />

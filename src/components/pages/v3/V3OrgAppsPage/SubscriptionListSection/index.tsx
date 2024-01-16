@@ -11,7 +11,9 @@ import {SubscriptionSearchControl} from './SubscriptionSearchControl';
 import {tagOptionsState} from './SubscriptionTable/SubscriptionTr/columns/PayingType/PayingTypeSelect';
 import {useRouter} from 'next/router';
 import {useCreditCards} from '^models/CreditCard/hook';
+import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 
+// 구독리스트탭에서 사용되는 구독리스트 테이블
 export const SubscriptionListSection = memo(function SubscriptionListSection() {
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
@@ -27,6 +29,7 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
     const setTagOptions = useSetRecoilState(tagOptionsState);
     const {search: getTags} = usePayingTypeTags();
     const {search: getCreditCards} = useCreditCards();
+    const {loadCurrentSubscription, currentSubscription} = useCurrentSubscription();
 
     const viewMode = useRecoilValue(subscriptionListViewModeState);
 
@@ -56,6 +59,12 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
         getTags({}).then((res) => setTagOptions(res.items));
     }, [orgId]);
 
+    const onReload = () => {
+        if (!currentSubscription) return;
+        reload();
+        loadCurrentSubscription(orgId, currentSubscription.id);
+    };
+
     return (
         <>
             <section className="flex items-center mb-4">
@@ -84,7 +93,7 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
                         <SubscriptionTable
                             isLoading={isLoading}
                             items={result.items}
-                            reload={reload}
+                            reload={onReload}
                             search={getSubscriptions}
                             query={query}
                         />
