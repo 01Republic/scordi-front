@@ -68,7 +68,7 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
                 // 가입된 사용자라면 후처리 로직만 실행하고
                 const user = res.data;
                 if (user.orgId) {
-                    toast.info('가입한 계정이 있어 기존 계정으로 진행합니다.');
+                    // toast.info('가입한 계정이 있어 기존 계정으로 진행합니다.');
                     findOrCreateUserCallback();
                 } else {
                     alert('[에러] 조직이 설정되지 않은 사용자입니다.\n관리자에게 문의해주세요.');
