@@ -13,13 +13,16 @@ export const SubscriptionListTab = memo(function SubscriptionListTab() {
     useEffect(() => {
         if (!teamMember) return;
 
-        search({
-            where: {
-                organizationId: teamMember.organizationId,
-                // @ts-ignore
-                teamMembers: {id: teamMember.id},
+        search(
+            {
+                where: {
+                    organizationId: teamMember.organizationId,
+                    // @ts-ignore
+                    teamMembers: {id: teamMember.id},
+                },
             },
-        });
+            false,
+        );
     }, [teamMember]);
 
     const {items, pagination} = result;
