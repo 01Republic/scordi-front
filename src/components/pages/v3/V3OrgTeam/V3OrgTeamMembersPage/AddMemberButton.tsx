@@ -33,13 +33,12 @@ export const AddMemberButton = memo((props: AddMemberButtonProps) => {
     const {toast} = useToast();
     const orgId = useRecoilValue(orgIdParamState);
     const {text, direction, className, type} = props;
-    const link = `${serviceHost}/v3/orgs/${orgId}/join`;
+    const link = `${serviceHost}/v3/orgs/${orgId}/join?isCopied=true`;
 
     const newTeamMemberModalShow = () => setNewTeamMemberModalShow(true);
     const inviteOrgMemberModalShow = () => setInviteOrgMemberModalShow(true);
     const onCopy = () => {
         if (!link) return;
-
         navigator.clipboard.writeText(link);
         toast.success('클립보드에 복사했습니다.');
     };
