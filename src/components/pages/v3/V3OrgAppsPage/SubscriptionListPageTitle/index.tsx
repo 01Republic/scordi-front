@@ -3,7 +3,7 @@ import {FaPlus} from 'react-icons/fa6';
 import {useModal} from '^v3/share/modals/useModal';
 import {NewAppModal} from '^components/pages/v3/share/modals/NewAppModal';
 import {newAppModal} from '^components/pages/v3/share/modals/NewAppModal/atom';
-import {newInvoiceAccountModal} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/atom';
+import {newInvoiceAccountModal} from '^v3/share/modals/NewInvoiceAccountModal/atom';
 import {useSubscriptionMenuSummary} from '^models/Subscription/hook';
 
 export const SubscriptionListPageTitle = memo(function SubscriptionListPageTitle() {

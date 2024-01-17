@@ -10,7 +10,7 @@ import {
     connectInvoiceAccountCodeState,
     connectInvoiceAccountStatus,
     InvoiceAccount,
-} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/atom';
+} from '^v3/share/modals/NewInvoiceAccountModal/atom';
 import {useAlert} from '^hooks/useAlert';
 
 export const ConnectInvoiceAccountIsLoading = memo(() => {

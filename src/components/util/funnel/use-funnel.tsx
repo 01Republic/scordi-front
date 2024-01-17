@@ -13,5 +13,5 @@ export function useFunnel<T = undefined>(recoilState: RecoilState<T>) {
         return <>{step === name ? render() : ''}</>;
     };
 
-    return {setStep, Step, LazyStep};
+    return {setStep, Step, step, LazyStep};
 }

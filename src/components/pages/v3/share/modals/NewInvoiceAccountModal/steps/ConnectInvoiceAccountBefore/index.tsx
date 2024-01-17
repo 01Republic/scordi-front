@@ -6,7 +6,7 @@ import {
     connectInvoiceAccountCodeState,
     connectInvoiceAccountStatus,
     InvoiceAccount,
-} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/atom';
+} from '^v3/share/modals/NewInvoiceAccountModal/atom';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import {googleOauthClientId} from '^api/tasting.api/gmail/constant';

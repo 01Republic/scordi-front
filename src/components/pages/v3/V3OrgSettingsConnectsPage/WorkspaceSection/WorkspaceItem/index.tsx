@@ -8,7 +8,7 @@ import {GoogleTokenDataDto} from '^models/GoogleTokenData/type';
 import {ToolType} from '^v3/V3OrgSettingsConnectsPage/type';
 import {MoreDropdown} from '^v3/V3OrgSettingsConnectsPage/MoreDropdown';
 import {isDeleteLoadingAtom, isSyncLoadingAtom} from '^v3/V3OrgSettingsConnectsPage/atom';
-import {OnboardingSkippedStore} from '^v3/share/OnboardingFlow/SkipButton';
+import {OnboardingSkippedStore, SkippedStoreStatus} from '^v3/share/OnboardingFlow/SkipButton';
 import {onboardingModalIsShow} from '^v3/share/OnboardingFlow/atom';
 
 interface WorkspaceItemProps {
@@ -48,9 +48,9 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
         req.then((res) => {
             setCurrentOrg(res.data);
 
-            const store = new OnboardingSkippedStore();
+            const store = new OnboardingSkippedStore(SkippedStoreStatus.WorkspaceSkip);
             setIsShow(false);
-            store.add(currentOrg.id);
+            store.add(currentOrg.id, SkippedStoreStatus.WorkspaceSkip);
 
             toast.success('삭제가 완료됐습니다.');
         });

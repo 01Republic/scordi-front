@@ -5,16 +5,18 @@ import {EditButton} from './EditButton';
 import {DeleteButton} from './DeleteButton';
 import {TeamMemberShowBody} from './TeamMemberShowBody';
 import {SelectSubscriptionModal} from './SelectSubscriptionModal';
+
 interface TeamMemberShowModalProps {
-    onClose: () => any;
+    onClose?: () => any;
 }
 export const TeamMemberShowModal = memo((props: TeamMemberShowModalProps) => {
     const {Modal, hide} = useTeamMemberShowModal();
+
     const {onClose: _onClose} = props;
 
     const onClose = () => {
         hide();
-        _onClose();
+        _onClose && _onClose();
     };
 
     const DeleteButtonWrap = () => <DeleteButton onFinish={onClose} />;
