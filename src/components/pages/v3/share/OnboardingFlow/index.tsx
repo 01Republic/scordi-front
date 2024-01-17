@@ -6,11 +6,16 @@ import {OnboardingSkippedStore, SkipButton, SkippedStoreStatus} from './SkipButt
 import {StepNavigator} from './StepNavigator';
 import {StepContent} from './StepContent';
 import {useFunnel} from '^components/util/funnel';
+import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 
 export const OnboardingFlow = memo(function OnboardingFlow() {
     const [isShow, setIsShow] = useRecoilState(onboardingModalIsShow);
     const currentOrg = useRecoilValue(currentOrgAtom);
     const isLoaded = useRecoilValue(isLoadedState);
+    const {result, search} = useInvoiceAccounts();
+
+    const invoiceAccounts = result.items;
+
     const {step, setStep} = useFunnel(onboardingFlowStepStatus);
 
     useEffect(() => {
@@ -18,20 +23,27 @@ export const OnboardingFlow = memo(function OnboardingFlow() {
 
         if (!currentOrg) return;
 
+        search({});
+
         const workspaceSkipStore = new OnboardingSkippedStore(SkippedStoreStatus.WorkspaceSkip);
         const invoiceSkipStore = new OnboardingSkippedStore(SkippedStoreStatus.InvoiceSkip);
 
         const workspaceSkip = workspaceSkipStore.checkSkip(currentOrg.id);
         const invoiceSkip = invoiceSkipStore.checkSkip(currentOrg.id);
 
-        if (!workspaceSkip || !invoiceSkip) {
+        if ((!currentOrg.lastGoogleSyncHistory && !workspaceSkip) || (!invoiceSkip && !!invoiceAccounts.length)) {
             setIsShow(true);
+
             setTimeout(() => {
                 window.document.body.classList.add('modal-opened');
             }, 200);
 
-            if (!workspaceSkip) return setStep(OnboardingStep.ConnectWorkspace_BeforeLoad);
-            if (!invoiceSkip) return setStep(OnboardingStep.ConnectInvoiceAccount_BeforeLoad);
+            if (!invoiceSkip && !!invoiceAccounts.length) {
+                return setStep(OnboardingStep.ConnectInvoiceAccount_BeforeLoad);
+            }
+            if (!workspaceSkip && !currentOrg.lastGoogleSyncHistory) {
+                return setStep(OnboardingStep.ConnectWorkspace_BeforeLoad);
+            }
         }
     }, [currentOrg]);
 
@@ -49,7 +61,15 @@ export const OnboardingFlow = memo(function OnboardingFlow() {
 
                         if (!currentOrg) return; // currentOrg is logically exists in this time.
 
+                        const closeModal = () => {
+                            setIsShow(false);
+                            const bodyTag = document.querySelector('body');
+                            bodyTag?.classList.remove('modal-opened');
+                        };
+
                         if (step === OnboardingStep.ConnectWorkspace_BeforeLoad) {
+                            invoiceAccounts.length && closeModal();
+
                             // 워크스페이스 연동 스킵
                             workspaceSkipStore.add(currentOrg.id, SkippedStoreStatus.WorkspaceSkip);
                             setStep(OnboardingStep.ConnectInvoiceAccount_BeforeLoad);
@@ -59,17 +79,17 @@ export const OnboardingFlow = memo(function OnboardingFlow() {
                         if (step === OnboardingStep.ConnectInvoiceAccount_BeforeLoad) {
                             // 인보이스 연동 스킵
                             invoiceSkipStore.add(currentOrg.id, SkippedStoreStatus.InvoiceSkip);
-                            setIsShow(false);
-                            const bodyTag = document.querySelector('body');
-                            bodyTag?.classList.remove('modal-opened');
+                            closeModal();
                             return;
                         }
+
+                        closeModal();
                     }}
                     disabled={isLoaded || step === OnboardingStep.ConnectInvoiceAccount_AfterLoad}
                 />
                 <div className="h-full flex flex-col">
                     <StepNavigator />
-                    {currentOrg && !currentOrg.lastGoogleSyncHistoryId && <StepContent />}
+                    <StepContent />
                 </div>
             </div>
         </div>
