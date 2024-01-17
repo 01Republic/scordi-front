@@ -2,18 +2,23 @@ import React, {memo} from 'react';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {CheckCircle} from '^components/react-icons/check-circle';
 import {FaArrowRight} from 'react-icons/fa6';
-import {newInvoiceAccountModal} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/atom';
+import {newInvoiceAccountModal} from '^v3/share/modals/NewInvoiceAccountModal/atom';
 import {useModal} from '^v3/share/modals';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {newAppModal} from '^v3/share/modals/NewAppModal/atom';
 import {useSubscriptionsV2} from '^models/Subscription/hook';
 
-export const ConnectInvoiceAccountAfter = memo(() => {
+interface ConnectInvoiceAccountAfterProps {
+    onClose?: () => any;
+}
+export const ConnectInvoiceAccountAfter = memo((props: ConnectInvoiceAccountAfterProps) => {
     const {close} = useModal(newInvoiceAccountModal);
     const {close: newAppModalClose} = useModal(newAppModal);
     const orgId = useRecoilValue(orgIdParamState);
     const {search: reloadSubscriptions} = useSubscriptionsV2();
+
+    const {onClose} = props;
 
     const onClick = () => {
         // 구독 리스트 업데이트
@@ -25,6 +30,7 @@ export const ConnectInvoiceAccountAfter = memo(() => {
 
         close();
         newAppModalClose();
+        onClose && onClose();
     };
 
     return (

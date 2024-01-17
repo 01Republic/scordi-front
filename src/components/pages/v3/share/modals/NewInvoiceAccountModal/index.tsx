@@ -3,13 +3,18 @@ import {useModal} from '^v3/share/modals/useModal';
 import {NewInvoiceAccountModalBody} from './body';
 import {connectInvoiceAccountStatus, InvoiceAccount, newInvoiceAccountModal} from './atom';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
-import {newAppModal} from '^components/pages/v3/share/modals/NewAppModal/atom';
+import {newAppModal} from '^v3/share/modals/NewAppModal/atom';
 import {useSetRecoilState} from 'recoil';
 
-export const NewInvoiceAccountModal = memo(() => {
+interface NewInvoiceAccountModalProps {
+    onClose?: () => any;
+}
+export const NewInvoiceAccountModal = memo((props: NewInvoiceAccountModalProps) => {
     const {isShow: newAppModalIsShow} = useModal(newAppModal);
     const {Modal, close, isShow} = useModal(newInvoiceAccountModal);
     const setConnectStatus = useSetRecoilState(connectInvoiceAccountStatus);
+
+    const {onClose} = props;
 
     const onBack = () => close();
 
@@ -22,7 +27,7 @@ export const NewInvoiceAccountModal = memo(() => {
             <ModalTopbar backBtnOnClick={onBack} topbarPosition="sticky" />
 
             <div className="px-5 pt-20">
-                <NewInvoiceAccountModalBody />
+                <NewInvoiceAccountModalBody onClose={onClose} />
             </div>
         </Modal>
     );
