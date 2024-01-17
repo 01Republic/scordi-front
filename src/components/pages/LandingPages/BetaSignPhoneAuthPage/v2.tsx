@@ -33,6 +33,8 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
     const [pageLoaded, setPageLoaded] = useState(false);
     const resetGoogleCode = useResetRecoilState(googleAccessTokenAtom);
 
+    const isCopied = !!router.query.copied || false;
+
     useEffect(() => {
         googleAccessToken && setPageLoaded(true);
     }, [googleAccessToken]);
@@ -81,7 +83,11 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
                     // 가입을 시킵니다.
                     // 초대된 회원의 경우 다른 API를 사용합니다.
                     if (invitedOrgId) {
-                        googleSignUpInvited(googleAccessToken, {organizationId: invitedOrgId, ...data})
+                        googleSignUpInvited(googleAccessToken, {
+                            organizationId: invitedOrgId,
+                            isFromCopiedLink: isCopied,
+                            ...data,
+                        })
                             .then(findOrCreateUserCallback)
                             .catch((err: ApiError) => {
                                 errorNotify(err);

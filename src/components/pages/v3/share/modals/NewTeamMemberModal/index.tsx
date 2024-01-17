@@ -19,7 +19,7 @@ export const NewTeamMemberModal = memo(() => {
     const {open: openInviteMemberModal} = useModal({isShowAtom: isOpenInviteOrgMemberModalAtom});
     const {toast} = useToast();
     const orgId = useRecoilValue(orgIdParamState);
-    const link = `${serviceHost}/v3/orgs/${orgId}/join`;
+    const link = `${serviceHost}/v3/orgs/${orgId}/join?isCopied=true`;
 
     const onCopy = () => {
         navigator.clipboard.writeText(link).then(() => toast.success('클립보드에 복사했습니다.'));
