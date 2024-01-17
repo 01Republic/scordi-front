@@ -39,7 +39,7 @@ export const FormForBillingInfoModal = memo(function FormForBillingInfoModal() {
                                 <RecurringTypeSelect />
                             </FormControl>
 
-                            <RequiredFormControl topLeftLabel="결제 금액">
+                            <RequiredFormControl topLeftLabel="요금">
                                 <CurrentBillingAmountInput />
                             </RequiredFormControl>
                         </div>
