@@ -48,7 +48,7 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
         req.then((res) => {
             setCurrentOrg(res.data);
 
-            const store = new OnboardingSkippedStore();
+            const store = new OnboardingSkippedStore(SkippedStoreStatus.WorkspaceSkip);
             setIsShow(false);
             store.add(currentOrg.id, SkippedStoreStatus.WorkspaceSkip);
 
