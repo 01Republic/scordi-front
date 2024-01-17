@@ -1,5 +1,5 @@
 import {memo, useEffect, useState} from 'react';
-import {StepContentProps} from '^components/util/funnel';
+import {StepContentProps, useFunnel} from '^components/util/funnel';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {PiSpinnerGapThin} from 'react-icons/pi';
 import {useRecoilState, useRecoilValue} from 'recoil';
@@ -8,7 +8,8 @@ import {invoiceAccountTimeoutChain} from '^v3/share/OnboardingFlow/steps/Connect
 import {orgIdParamState} from '^atoms/common';
 import {connectInvoiceAccountCodeAtom} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
 import {getCreateInvoiceAccountFromTo} from '^models/InvoiceAccount/type';
-import {isLoadedState} from '^v3/share/OnboardingFlow/atom';
+import {isLoadedState, onboardingFlowStepStatus, OnboardingStep} from '^v3/share/OnboardingFlow/atom';
+import {useToast} from '^hooks/useToast';
 
 interface Props extends StepContentProps {
     // onNext: () => any;
@@ -20,9 +21,14 @@ export const ConnectInvoiceAccountIsLoading = memo(function ConnectInvoiceAccoun
     const [title, setTitle] = useState('인증 정보를 가져오고 있어요.');
     const [desc, setDesc] = useState('최대 1분 정도 걸릴 수 있어요. 잠시만 기다려주세요.');
     const [isLoading, setIsLoading] = useRecoilState(isLoadedState);
+    const {toast} = useToast();
+    const {setStep} = useFunnel(onboardingFlowStepStatus);
+
     const {onPrev, onNext} = props;
 
     const createInvoiceAccount = (code: string) => {
+        if (isLoading) return;
+
         setIsLoading(true);
         invoiceAccountTimeoutChain(setTitle, setDesc);
 
@@ -30,14 +36,24 @@ export const ConnectInvoiceAccountIsLoading = memo(function ConnectInvoiceAccoun
             code,
             gmailQueryOptions: getCreateInvoiceAccountFromTo(),
         };
+
         const req = invoiceAccountApi.createV2(orgId, dto);
 
-        req.then(() => onNext());
+        req.then((res) => {
+            if (!res.data) return;
+            setIsLoading(false);
+            onNext();
+        });
+
+        req.catch((err) => {
+            toast.error(err.message);
+            setStep(OnboardingStep.ConnectInvoiceAccount_BeforeLoad);
+        });
     };
 
     useEffect(() => {
-        if (code && !isLoading) createInvoiceAccount(code);
-    }, [code, isLoading]);
+        if (code) createInvoiceAccount(code);
+    }, [code]);
 
     return (
         <div data-step="ConnectInvoiceAccount" className="h-full flex flex-col justify-start gap-7">

@@ -17,7 +17,7 @@ interface InvoiceAccountTableRowProps {
 }
 
 export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) => {
-    const {search: getInvoiceAccounts} = useInvoiceAccounts();
+    const {search: getInvoiceAccounts, reload} = useInvoiceAccounts();
     const setGmailAgentProgress = useSetRecoilState(gmailAgentProgressAtom);
     const {open: openRenewModal} = useModal(renewInvoiceAccountModal);
     const orgId = useRecoilValue(orgIdParamState);
@@ -37,7 +37,7 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
         });
 
         res.then(() => {
-            getInvoiceAccounts({itemsPerPage: 10});
+            reload();
         });
     };
 
