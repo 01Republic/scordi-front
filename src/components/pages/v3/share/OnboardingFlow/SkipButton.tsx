@@ -22,21 +22,26 @@ export const SkipButton = memo(function SkipButton(props: SkipButtonProps) {
     );
 });
 
+export enum SkippedStoreStatus {
+    WorkspaceSkip = 'workspace-skipped',
+    InvoiceSkip = 'invoice-skipped',
+}
+
 export class OnboardingSkippedStore {
-    storeKey = 'onboarding-skipped';
+    storeKey: SkippedStoreStatus;
     expireDayDuration = 1; // 온보딩 "스킵" 상태가 지속되는 시간 (일 단위)
     store: Record<number, number> = {}; // 의도한 구조 => Record<organizationId, timestamp>;
 
-    constructor() {
-        this.init();
+    constructor(storeKey: SkippedStoreStatus) {
+        this.init(storeKey);
     }
 
-    init() {
-        const storeStr = window.localStorage.getItem(this.storeKey);
+    init(storeKey: SkippedStoreStatus) {
+        const storeStr = window.localStorage.getItem(storeKey);
         if (storeStr) {
             this.store = JSON.parse(storeStr);
         } else {
-            window.localStorage.setItem(this.storeKey, JSON.stringify({}));
+            window.localStorage.setItem(storeKey, JSON.stringify({}));
         }
     }
 
@@ -53,17 +58,17 @@ export class OnboardingSkippedStore {
         return timestamp ? new Date(timestamp) : null;
     }
 
-    add(organizationId: number) {
+    add(organizationId: number, storeKey: SkippedStoreStatus) {
         this.store[organizationId] = new Date().getTime();
-        this.save();
+        this.save(storeKey);
     }
 
-    remove(organizationId: number) {
+    remove(organizationId: number, storeKey: SkippedStoreStatus) {
         delete this.store[organizationId];
-        this.save();
+        this.save(storeKey);
     }
 
-    private save() {
-        window.localStorage.setItem(this.storeKey, JSON.stringify(this.store));
+    private save(storeKey: SkippedStoreStatus) {
+        window.localStorage.setItem(storeKey, JSON.stringify(this.store));
     }
 }
