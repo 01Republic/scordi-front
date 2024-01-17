@@ -10,6 +10,7 @@ export class MoneyDto {
     symbol: string; // 화폐 기호
     exchangeRate: number; // 환율
     exchangedCurrency: CurrencyCode; // 환율 기준 화폐 코드
+    dollarPrice: number; // 달러 환산 금액
 
     static dup(base: MoneyDto) {
         return plainToInstance(MoneyDto, base);
@@ -20,9 +21,10 @@ export class MoneyDto {
     }
 
     get dollar() {
-        const currentCurrency = Object.values(CurrencyList).find((item) => item.code === this.code);
-        const dollarExchangeRate = currentCurrency?.exchangeRate || 1;
-        return this.amount / dollarExchangeRate;
+        // const currentCurrency = Object.values(CurrencyList).find((item) => item.code === this.code);
+        // const dollarExchangeRate = currentCurrency?.exchangeRate || 1;
+        // return this.amount / dollarExchangeRate;
+        return this.dollarPrice;
     }
 
     changeAmount(amount: number) {
@@ -59,8 +61,12 @@ export class MoneyDto {
      */
     toDisplayPrice(currencyCode = CurrencyCode.KRW) {
         if (!this.amount) return 0;
+
         // 얻으려는 화폐와 실결제된 화폐가 같으면 그대로 가격을 반환하고
         if (this.code === currencyCode) return this.amount;
+
+        // 얻으려는 화폐가 달러라면, 미리 입력된 달러값으로 반환하고
+        if (currencyCode === CurrencyCode.USD) return this.dollar;
 
         // 얻으려는 화폐와 서비스의 화폐가 같으면, 기록해둔 환율로 계산해 반환하고
         if (this.exchangedCurrency === currencyCode) return this.amount / this.exchangeRate;
