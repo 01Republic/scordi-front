@@ -70,7 +70,11 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
                                 사용인원
                             </SortableTH>
 
-                            <SortableTH sortKey="[currentBillingAmount][amount]" onClick={sort} className="justify-end">
+                            <SortableTH
+                                sortKey="[currentBillingAmount][dollarPrice]"
+                                onClick={sort}
+                                className="justify-end"
+                            >
                                 최신 결제금액
                             </SortableTH>
 
