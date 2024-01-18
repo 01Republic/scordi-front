@@ -28,22 +28,23 @@ export const OnboardingFlow = memo(function OnboardingFlow() {
         const workspaceSkipStore = new OnboardingSkippedStore(SkippedStoreStatus.WorkspaceSkip);
         const invoiceSkipStore = new OnboardingSkippedStore(SkippedStoreStatus.InvoiceSkip);
 
-        const workspaceSkip = workspaceSkipStore.checkSkip(currentOrg.id);
-        const invoiceSkip = invoiceSkipStore.checkSkip(currentOrg.id);
+        // 워크스페이스 스텝 노출 = 워크스페이스 스텝이 스킵되지 않았고 && 마지막 구글 싱크 이력도 없을 때
+        const workspaceSkipped = workspaceSkipStore.checkSkip(currentOrg.id);
+        const isWorkspaceStep = !workspaceSkipped && !currentOrg.lastGoogleSyncHistory;
 
-        if ((!currentOrg.lastGoogleSyncHistory && !workspaceSkip) || (!invoiceSkip && !!invoiceAccounts.length)) {
+        // 인보이스 스텝 노출 = 인보이스 스텝이 스킵되지 않았고 && 연동된 인보이스도 없을 때
+        const invoiceSkipped = invoiceSkipStore.checkSkip(currentOrg.id);
+        const isInvoiceStep = !invoiceSkipped && !invoiceAccounts.length;
+
+        if (!isWorkspaceStep || !isInvoiceStep) {
             setIsShow(true);
 
             setTimeout(() => {
-                window.document.body.classList.add('modal-opened');
+                document.body.classList.add('modal-opened');
             }, 200);
 
-            if (!invoiceSkip && !!invoiceAccounts.length) {
-                return setStep(OnboardingStep.ConnectInvoiceAccount_BeforeLoad);
-            }
-            if (!workspaceSkip && !currentOrg.lastGoogleSyncHistory) {
-                return setStep(OnboardingStep.ConnectWorkspace_BeforeLoad);
-            }
+            if (isWorkspaceStep) return setStep(OnboardingStep.ConnectWorkspace_BeforeLoad);
+            if (isInvoiceStep) return setStep(OnboardingStep.ConnectInvoiceAccount_BeforeLoad);
         }
     }, [currentOrg]);
 
@@ -63,22 +64,21 @@ export const OnboardingFlow = memo(function OnboardingFlow() {
 
                         const closeModal = () => {
                             setIsShow(false);
-                            const bodyTag = document.querySelector('body');
-                            bodyTag?.classList.remove('modal-opened');
+                            document.body.classList.remove('modal-opened');
                         };
 
                         if (step === OnboardingStep.ConnectWorkspace_BeforeLoad) {
                             invoiceAccounts.length && closeModal();
 
                             // 워크스페이스 연동 스킵
-                            workspaceSkipStore.add(currentOrg.id, SkippedStoreStatus.WorkspaceSkip);
+                            workspaceSkipStore.add(currentOrg.id);
                             setStep(OnboardingStep.ConnectInvoiceAccount_BeforeLoad);
                             return;
                         }
 
                         if (step === OnboardingStep.ConnectInvoiceAccount_BeforeLoad) {
                             // 인보이스 연동 스킵
-                            invoiceSkipStore.add(currentOrg.id, SkippedStoreStatus.InvoiceSkip);
+                            invoiceSkipStore.add(currentOrg.id);
                             closeModal();
                             return;
                         }

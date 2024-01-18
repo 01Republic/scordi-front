@@ -37,11 +37,13 @@ export class OnboardingSkippedStore {
     }
 
     init(storeKey: SkippedStoreStatus) {
+        this.storeKey = storeKey;
         const storeStr = window.localStorage.getItem(storeKey);
         if (storeStr) {
             this.store = JSON.parse(storeStr);
         } else {
             window.localStorage.setItem(storeKey, JSON.stringify({}));
+            this.store = {};
         }
     }
 
@@ -58,17 +60,17 @@ export class OnboardingSkippedStore {
         return timestamp ? new Date(timestamp) : null;
     }
 
-    add(organizationId: number, storeKey: SkippedStoreStatus) {
+    add(organizationId: number) {
         this.store[organizationId] = new Date().getTime();
-        this.save(storeKey);
+        this.save();
     }
 
-    remove(organizationId: number, storeKey: SkippedStoreStatus) {
+    remove(organizationId: number) {
         delete this.store[organizationId];
-        this.save(storeKey);
+        this.save();
     }
 
-    private save(storeKey: SkippedStoreStatus) {
-        window.localStorage.setItem(storeKey, JSON.stringify(this.store));
+    private save() {
+        window.localStorage.setItem(this.storeKey, JSON.stringify(this.store));
     }
 }
