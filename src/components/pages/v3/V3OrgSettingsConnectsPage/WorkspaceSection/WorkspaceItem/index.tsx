@@ -50,7 +50,7 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
 
             const store = new OnboardingSkippedStore(SkippedStoreStatus.WorkspaceSkip);
             setIsShow(false);
-            store.add(currentOrg.id, SkippedStoreStatus.WorkspaceSkip);
+            store.add(currentOrg.id);
 
             toast.success('삭제가 완료됐습니다.');
         });
