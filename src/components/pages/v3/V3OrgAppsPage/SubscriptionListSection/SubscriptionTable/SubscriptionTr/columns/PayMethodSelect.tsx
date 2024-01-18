@@ -10,6 +10,7 @@ import {CreditCardProfileOption} from '^models/CreditCard/hook/components/Credit
 import {creditCardApi} from '^models/CreditCard/api';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
+import {TagUI} from '^v3/share/table/columns/share/TagUI';
 
 interface PayMethodSelectProps {
     subscription: SubscriptionDto;
@@ -75,6 +76,7 @@ export const PayMethodSelect = memo((props: PayMethodSelectProps) => {
                     return true;
                 });
             }}
+            EmptyComponent={() => <TagUI className="text-gray-300 w-60 !justify-start">비어있음</TagUI>}
         />
     );
 });

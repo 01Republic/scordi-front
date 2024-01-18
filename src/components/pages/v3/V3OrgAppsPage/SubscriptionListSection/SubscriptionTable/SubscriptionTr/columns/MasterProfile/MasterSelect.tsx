@@ -5,6 +5,7 @@ import {TeamMemberDto, useTeamMembers} from '^models/TeamMember';
 import {subscriptionApi} from '^models/Subscription/api';
 import {useToast} from '^hooks/useToast';
 import {TeamMemberProfileOption} from '^models/TeamMember/components/TeamMemberProfile';
+import {TagUI} from '^v3/share/table/columns/share/TagUI';
 
 interface MasterSelectProps {
     subscription: SubscriptionDto;
@@ -59,6 +60,7 @@ export const MasterSelect = memo((props: MasterSelectProps) => {
             optionListBoxTitle="담당자를 변경할까요?"
             optionDetach={optionDetach}
             detachableOptionBoxTitle="연결된 담당자"
+            EmptyComponent={() => <TagUI className="text-gray-300 w-40 !justify-start">비어있음</TagUI>}
         />
     );
 });

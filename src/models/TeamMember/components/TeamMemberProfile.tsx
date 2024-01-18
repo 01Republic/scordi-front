@@ -37,7 +37,7 @@ export const TeamMemberProfileOption = memo((props: TeamMemberProfileOptionProps
     const {item: teamMember, placeholder} = props;
 
     return (
-        <div className={`flex items-center gap-2 px-3 -mx-3 text-gray-700 group-hover:text-scordi`}>
+        <div className={`flex items-center gap-2 px-3 -mx-3 text-gray-700 group-hover:text-scordi w-40`}>
             {teamMember ? (
                 <TeamMemberAvatar teamMember={teamMember} className="w-7 h-7" />
             ) : (
