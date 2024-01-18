@@ -33,5 +33,5 @@ export const useTeamMemberShowModal = () => {
         }); // Follow-up executed transactions inside of Modal
     };
 
-    return {show, hide, ...modal, subject: subjectTeamMember};
+    return {show, hide, ...modal, close, subject: subjectTeamMember};
 };

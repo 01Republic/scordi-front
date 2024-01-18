@@ -9,5 +9,5 @@ import {TeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
 export const TeamMemberDetailModal = memo(() => {
     const {reload} = useTeamMembersInDashboard();
 
-    return <TeamMemberShowModal onClose={() => reload()} />;
+    return <TeamMemberShowModal onSubmit={() => reload()} />;
 });

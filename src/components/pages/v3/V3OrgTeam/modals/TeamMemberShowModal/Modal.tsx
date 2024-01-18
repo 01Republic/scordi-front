@@ -8,18 +8,24 @@ import {SelectSubscriptionModal} from './SelectSubscriptionModal';
 
 interface TeamMemberShowModalProps {
     onClose?: () => any;
+    onSubmit?: () => any;
 }
 export const TeamMemberShowModal = memo((props: TeamMemberShowModalProps) => {
-    const {Modal, hide} = useTeamMemberShowModal();
+    const {Modal, close, hide} = useTeamMemberShowModal();
 
-    const {onClose: _onClose} = props;
+    const {onClose: _onClose, onSubmit} = props;
 
     const onClose = () => {
-        hide();
+        close();
         _onClose && _onClose();
     };
 
-    const DeleteButtonWrap = () => <DeleteButton onFinish={onClose} />;
+    const onFinish = () => {
+        hide();
+        onSubmit && onSubmit();
+    };
+
+    const DeleteButtonWrap = () => <DeleteButton onFinish={onFinish} />;
 
     return (
         <>
@@ -33,7 +39,7 @@ export const TeamMemberShowModal = memo((props: TeamMemberShowModalProps) => {
                     topbarPosition="sticky"
                     rightButtons={[EditButton, DeleteButtonWrap]}
                 />
-                <TeamMemberShowBody />
+                <TeamMemberShowBody onSubmit={onSubmit} />
             </Modal>
             <SelectSubscriptionModal />
         </>
