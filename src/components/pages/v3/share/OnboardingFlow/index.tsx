@@ -36,7 +36,7 @@ export const OnboardingFlow = memo(function OnboardingFlow() {
         const invoiceSkipped = invoiceSkipStore.checkSkip(currentOrg.id);
         const isInvoiceStep = !invoiceSkipped && !invoiceAccounts.length;
 
-        if (!isWorkspaceStep || !isInvoiceStep) {
+        if (isWorkspaceStep || isInvoiceStep) {
             setIsShow(true);
 
             setTimeout(() => {
