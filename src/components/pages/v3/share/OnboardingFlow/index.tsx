@@ -6,24 +6,17 @@ import {OnboardingSkippedStore, SkipButton, SkippedStoreStatus} from './SkipButt
 import {StepNavigator} from './StepNavigator';
 import {StepContent} from './StepContent';
 import {useFunnel} from '^components/util/funnel';
-import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 
 export const OnboardingFlow = memo(function OnboardingFlow() {
     const [isShow, setIsShow] = useRecoilState(onboardingModalIsShow);
     const currentOrg = useRecoilValue(currentOrgAtom);
     const isLoaded = useRecoilValue(isLoadedState);
-    const {result, search} = useInvoiceAccounts();
-
-    const invoiceAccounts = result.items;
-
     const {step, setStep} = useFunnel(onboardingFlowStepStatus);
 
+    const invoiceAccounts = currentOrg?.invoiceAccounts;
+
     useEffect(() => {
-        if (typeof window == 'undefined') return;
-
-        if (!currentOrg) return;
-
-        search({});
+        if (typeof window == 'undefined' || !currentOrg) return;
 
         const workspaceSkipStore = new OnboardingSkippedStore(SkippedStoreStatus.WorkspaceSkip);
         const invoiceSkipStore = new OnboardingSkippedStore(SkippedStoreStatus.InvoiceSkip);
@@ -34,7 +27,7 @@ export const OnboardingFlow = memo(function OnboardingFlow() {
 
         // 인보이스 스텝 노출 = 인보이스 스텝이 스킵되지 않았고 && 연동된 인보이스도 없을 때
         const invoiceSkipped = invoiceSkipStore.checkSkip(currentOrg.id);
-        const isInvoiceStep = !invoiceSkipped && !invoiceAccounts.length;
+        const isInvoiceStep = !invoiceSkipped && invoiceAccounts && !invoiceAccounts.length;
 
         if (isWorkspaceStep || isInvoiceStep) {
             setIsShow(true);
@@ -68,7 +61,7 @@ export const OnboardingFlow = memo(function OnboardingFlow() {
                         };
 
                         if (step === OnboardingStep.ConnectWorkspace_BeforeLoad) {
-                            invoiceAccounts.length && closeModal();
+                            invoiceAccounts?.length && closeModal();
 
                             // 워크스페이스 연동 스킵
                             workspaceSkipStore.add(currentOrg.id);
