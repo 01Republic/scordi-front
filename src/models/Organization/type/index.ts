@@ -45,4 +45,16 @@ export class OrganizationDto {
     get isZeroOneTeam() {
         return this.id === zero1_republic_workspace_id;
     }
+
+    isOnboardingFinished() {
+        return this.isSyncedWithGoogleWorkspace() && this.isSyncedWithInvoiceAccount();
+    }
+
+    isSyncedWithGoogleWorkspace() {
+        return !!this.lastGoogleSyncHistoryId;
+    }
+
+    isSyncedWithInvoiceAccount() {
+        return !!(this.invoiceAccounts || []).length;
+    }
 }
