@@ -10,9 +10,9 @@ import {CurrencyCode} from '^models/Money';
 export const getTotalBalance = (histories: BillingHistoryDto[], displayCurrency: CurrencyCode) => {
     let amount = 0;
     histories.forEach((history) => {
-        const item = history.emailContent;
+        // const item = history.emailContent;
         const price = history.payAmount;
-        if (!item || !price || isNaN(price.amount)) return;
+        if (!price || isNaN(price.amount)) return;
 
         amount += changePriceCurrency(price.amount, price.code, displayCurrency);
     });

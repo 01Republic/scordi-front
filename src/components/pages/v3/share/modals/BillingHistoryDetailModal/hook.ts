@@ -13,6 +13,7 @@ import {orgIdParamState} from '^atoms/common';
 import {GetBillingHistoriesParams} from '^models/BillingHistory/type';
 import {useAlert} from '^hooks/useAlert';
 import {useToast} from '^hooks/useToast';
+import {useBillingHistoryListInSiblings} from '^models/BillingHistory/hook';
 
 /**
  * 결제내역 상세모달 호출
@@ -21,7 +22,7 @@ export const useBillingHistoryModal = () => {
     const organizationId = useRecoilValue(orgIdParamState);
     const {open, ...res} = useModal(billingHistoryShowModal);
     const {loadData: loadSubjectHistory} = useBillingHistoryInModal();
-    const {loadData: loadSiblingHistories} = useBillingHistoriesInModal();
+    const {search: loadSiblingHistories} = useBillingHistoryListInSiblings();
 
     const showModal = (billingHistoryId: number, subscriptionId: number) => {
         if (!organizationId) {
@@ -30,7 +31,10 @@ export const useBillingHistoryModal = () => {
         }
         open();
         loadSubjectHistory(billingHistoryId);
-        loadSiblingHistories({where: {subscriptionId, organizationId}});
+        loadSiblingHistories({
+            where: {subscriptionId, organizationId},
+            order: {issuedAt: 'DESC'},
+        });
     };
 
     return {showModal, ...res};

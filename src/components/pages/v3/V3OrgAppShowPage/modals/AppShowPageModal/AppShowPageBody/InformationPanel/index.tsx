@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
-import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
+import {useBillingHistoriesV3, useBillingHistoryListOfSubscription} from '^models/BillingHistory/hook';
 import {useRecoilValue} from 'recoil';
 import {yyyy_mm_dd, yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
@@ -21,19 +21,13 @@ import {ListItemForSubscription} from '^v3/V3OrgAppShowPage/modals/AppShowPageMo
 // TODO: 0. 무료플랜 여부
 // TODO: 0. 카테고리
 export const InformationPanel = memo(() => {
-    const displayCurrency = useRecoilValue(displayCurrencyAtom);
     const {currentSubscription, isLoading, getBillingType} = useCurrentSubscription();
-    const {result, isLoading: historyLoading} = useBillingHistoriesV3();
+    const {result, isLoading: historyLoading} = useBillingHistoryListOfSubscription();
 
     if (!currentSubscription || isLoading) return <InformationPanelLoading />;
     if (historyLoading) return <InformationPanelLoading />;
 
-    const billingType = getBillingType(true);
-    const billingCycleTypeText = currentSubscription.getBillingCycleTypeText();
     const BillingHistory = BillingHistoryManager.init(result.items).validateToListing();
-
-    const latestIssue = BillingHistory.paymentOnly().latestIssue();
-    const totalPrice = latestIssue.getTotalPrice(displayCurrency);
     const lastPaidHistory = BillingHistory.lastPaidHistory();
 
     // TODO: paidAt 에 문제가 있음. (1) 시간이 안나옴. (2) issuedAt 과 날짜가 다름(시간잘리는과정에서 생긴문제일듯). (3) issuedAt 보다 신뢰도가 떨어짐.
@@ -51,7 +45,8 @@ export const InformationPanel = memo(() => {
                     </div>
                     <div>
                         {/*<PriceHeader totalPrice={totalPrice} billingType={billingType} />*/}
-                        <PriceHeaderV2 totalPrice={totalPrice} billingCycleTypeText={billingCycleTypeText} />
+                        {/*<PriceHeaderV2 totalPrice={totalPrice} billingCycleTypeText={billingCycleTypeText} />*/}
+                        <PriceHeaderV2 subscription={currentSubscription} />
                     </div>
                     <MobileInfoList>
                         <ListItemForSubscription subscription={currentSubscription} />

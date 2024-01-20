@@ -28,10 +28,13 @@ export class BillingHistoryByCardReceiptDto extends OmitType(BillingHistoryDto, 
         super(billingHistory);
 
         const {payAmount, vatAmount} = billingHistory;
-        if (!payAmount) throw new Error('payAmount is null');
+        // if (!payAmount) throw new Error('payAmount is null');
 
-        const {code, amount, exchangeRate, exchangedCurrency} = payAmount;
-        const isDomestic = code === CurrencyCode.KRW;
+        const code = payAmount?.code;
+        const amount = payAmount?.amount || 0;
+        const exchangeRate = payAmount?.exchangeRate || 1;
+        const exchangedCurrency = payAmount?.exchangedCurrency;
+        const isDomestic = payAmount ? code === CurrencyCode.KRW : true;
         const isExchangeable = isDomestic && exchangedCurrency !== code && exchangeRate !== 1;
 
         this.domesticAmount = amount;

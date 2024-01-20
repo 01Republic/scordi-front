@@ -4,7 +4,7 @@ import {orgIdParamState} from '^atoms/common';
 import {ModalTopbar} from '^v3/share/modals';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {appIdState, useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
-import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
+import {useBillingHistoriesV3, useBillingHistoryListOfSubscription} from '^models/BillingHistory/hook';
 import {AppShowPageBody} from './AppShowPageBody';
 import {useAppShowModal} from './hook';
 import {SelectTeamMemberModal} from './SelectTeamMemberModal';
@@ -24,7 +24,7 @@ export const AppShowPageModal = memo((props: AppShowPageModalProps) => {
     const setNavTab = useSetRecoilState(navTabIndex);
     const {Modal, hide} = useAppShowModal();
     const {currentSubscription, loadCurrentSubscription, deleteCurrentSubscription} = useCurrentSubscription();
-    const {search: loadCurrentHistories} = useBillingHistoriesV3();
+    const {search: loadCurrentHistories} = useBillingHistoryListOfSubscription();
     const {onMemberChanged, onClose} = props;
 
     useEffect(() => {

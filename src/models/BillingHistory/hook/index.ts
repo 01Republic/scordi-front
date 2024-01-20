@@ -1,57 +1,46 @@
-import {useState} from 'react';
 import {RecoilState, useRecoilState, useRecoilValue} from 'recoil';
-import {Paginated} from '^types/utils/paginated.dto';
-import {
-    billingHistoryLoadingState,
-    getBillingHistoriesQuery,
-    getBillingHistoryQuery,
-    orgBillingHistoriesQueryV3Atom,
-    orgBillingHistoriesResultV3Atom,
-} from '^models/BillingHistory/atom';
 import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook';
-import {billingHistoryApi} from '^models/BillingHistory/api';
+import {SubscriptionDto} from '^models/Subscription/types';
+import {BillingType, InvoiceAppDto} from '^models/InvoiceApp/type';
+import {CurrencyCode} from '^models/Money';
+import {changePriceCurrency} from '^api/tasting.api/gmail/agent/parse-email-price';
+import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
+import {useAlert} from '^hooks/useAlert';
+import {useToast} from '^hooks/useToast';
 import {
     BillingHistoryDto,
     BillingHistoryStatus,
     GetBillingHistoriesParams,
     UpdateBillingHistoryRequestDtoV2,
-} from '^models/BillingHistory/type';
-import {SubscriptionDto} from '^models/Subscription/types';
-import {BillingType, InvoiceAppDto} from '^models/InvoiceApp/type';
-import {CurrencyCode} from '^models/Money';
-import {changePriceCurrency} from '^api/tasting.api/gmail/agent/parse-email-price';
-import {cachePagedQuery} from '^hooks/usePagedResource';
-import {useAlert} from '^hooks/useAlert';
-import {useToast} from '^hooks/useToast';
+} from '../type';
+import {billingHistoryApi} from '../api';
+import {
+    billingHistoriesAtom,
+    billingHistoryListInSiblingsAtom,
+    billingHistoryListOfSubscriptionAtom,
+    billingHistoryLoadingState,
+    getBillingHistoryQuery,
+} from '../atom';
 
-export const useBillingHistories = () => useRecoilValue(getBillingHistoriesQuery);
+export const useBillingHistoriesV3 = () => useBillingHistories(billingHistoriesAtom);
 export const useBillingHistory = () => useRecoilValue(getBillingHistoryQuery);
 
-interface UseBillingHistoriesOption {
-    resultAtom: RecoilState<Paginated<BillingHistoryDto>>;
-    queryAtom: RecoilState<GetBillingHistoriesParams>;
-}
+// 구독 상세모달 / 결제내역
+export const useBillingHistoryListOfSubscription = () => useBillingHistories(billingHistoryListOfSubscriptionAtom);
 
-export const useBillingHistoriesV3 = (option?: UseBillingHistoriesOption) => {
-    const {resultAtom, queryAtom} = option || {};
-    const [result, setResult] = useRecoilState(resultAtom || orgBillingHistoriesResultV3Atom);
-    const [query, setQuery] = useRecoilState(queryAtom || orgBillingHistoriesQueryV3Atom);
-    const [isLoading, setIsLoading] = useState(false);
+// 결제내역 상세모달 / 결제내역
+export const useBillingHistoryListInSiblings = () => useBillingHistories(billingHistoryListInSiblingsAtom);
 
-    function search(params: GetBillingHistoriesParams, mergeMode = false, force = false) {
-        setIsLoading(true);
-
-        const request = () => billingHistoryApi.index(params);
-
-        setIsLoading(false);
-
-        return cachePagedQuery(setResult, setQuery, params, request, mergeMode, force);
-    }
-
-    const reload = () => search({...query}, false, true);
-    const movePage = (page: number) => search({...query, page});
-
-    return {query, reload, result, search, movePage, isLoading};
+const useBillingHistories = (
+    atoms: PagedResourceAtoms<BillingHistoryDto, GetBillingHistoriesParams>,
+    mergeMode = false,
+) => {
+    return usePagedResource(atoms, {
+        endpoint: (params) => billingHistoryApi.index(params),
+        useOrgId: false,
+        mergeMode,
+        getId: 'id',
+    });
 };
 
 // This is real !! (deprecated)

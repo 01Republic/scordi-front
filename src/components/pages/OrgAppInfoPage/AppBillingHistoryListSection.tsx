@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {useBillingHistories} from '^models/BillingHistory/hook';
+import {useBillingHistoryListOfSubscription} from '^models/BillingHistory/hook';
 import {MobileEntityListSection} from '^components/v2/MobileEntityListSection';
 import {PreLoader} from '^components/PreLoader';
 import {useCurrentSubscription} from '^models/Subscription/hook';
@@ -13,7 +13,7 @@ type AppBillingHistoryListSectionProps = {
 export const AppBillingHistoryListSection = memo((props: AppBillingHistoryListSectionProps) => {
     const {onClickMethod} = props;
     const {currentSubscription: subscription} = useCurrentSubscription();
-    const billingHistoriesQueryResult = useBillingHistories();
+    const {result: billingHistoriesQueryResult} = useBillingHistoryListOfSubscription();
 
     if (!subscription || !billingHistoriesQueryResult) return <PreLoader screenSize={false} />;
 

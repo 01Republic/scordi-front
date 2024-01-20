@@ -66,7 +66,7 @@ export const BillingHistorySummary = memo((props: BillingHistorySummaryProps) =>
                     <p className="font-semibold text-18">
                         <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>
                         <span className="">
-                            {getTotalBalance(BillingHistory.toArray(), displayCurrency).toLocaleString()}
+                            {getTotalBalance(BillingHistory.all(), displayCurrency).toLocaleString()}
                         </span>
                         {/*<small className={!isLoaded ? 'invisible' : ''}>&nbsp;{t('summary_stat.invoice.unit')}</small>*/}
                     </p>

@@ -3,12 +3,12 @@ import {useRecoilState} from 'recoil';
 import {isBillingHistoryEditModeAtom} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {DeleteButton} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/DeleteButton';
 import {useBillingHistoryInModal, useBillingHistoryModal} from '^v3/share/modals/BillingHistoryDetailModal/hook';
-import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
+import {useBillingHistoryListOfSubscription} from '^models/BillingHistory/hook';
 
 export const BillingHistoryDeleteButton = memo(function BillingHistoryDeleteButton() {
     const [isEditMode, setIsEditMode] = useRecoilState(isBillingHistoryEditModeAtom);
     const {setIsShow} = useBillingHistoryModal();
-    const {reload: loadHistories} = useBillingHistoriesV3();
+    const {reload: loadHistories} = useBillingHistoryListOfSubscription();
 
     const {deleteBillingHistory} = useBillingHistoryInModal();
     const onClick = () =>

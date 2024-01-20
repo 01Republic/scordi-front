@@ -18,11 +18,13 @@ import {
 } from '^models/BillingHistory/type/card-recipt';
 import {plainToInstance} from 'class-transformer';
 import {BillingHistoryEditAbroadCurrencyButton} from './BillingHistoryEditAbroadCurrency';
+import {useBillingHistoryListInSiblings} from '^models/BillingHistory/hook';
 
 export const BillingHistoryEditPanel = memo(function BillingHistoryEditPanel() {
     const {billingHistory, updateBillingHistory} = useBillingHistoryInModal();
     const [isEditMode, setIsEditMode] = useRecoilState(isBillingHistoryEditModeAtom);
     const form = useForm<UpdateBillingHistoryByCardReceiptDto>();
+    const {reload: reloadSiblingHistories} = useBillingHistoryListInSiblings();
 
     const setFormIfNotNull = (key: keyof UpdateBillingHistoryByCardReceiptDto, value: any) => {
         if (value === null) return;
@@ -31,13 +33,13 @@ export const BillingHistoryEditPanel = memo(function BillingHistoryEditPanel() {
 
     useEffect(() => {
         if (!billingHistory || !isEditMode) return;
-        const cardReceiptBillingHistory = new BillingHistoryByCardReceiptDto(billingHistory);
 
         form.setValue('creditCardId', billingHistory.creditCardId);
         setFormIfNotNull('isDomestic', billingHistory.isDomestic);
         setFormIfNotNull('uid', billingHistory.uid);
         setFormIfNotNull('isVATDeductible', billingHistory.isVATDeductible);
 
+        const cardReceiptBillingHistory = new BillingHistoryByCardReceiptDto(billingHistory);
         form.setValue('domesticAmount', cardReceiptBillingHistory.domesticAmount);
         form.setValue('abroadAmount', cardReceiptBillingHistory.abroadAmount);
         form.setValue('exchangedCurrency', cardReceiptBillingHistory.exchangedCurrency);
@@ -74,13 +76,17 @@ export const BillingHistoryEditPanel = memo(function BillingHistoryEditPanel() {
                 return;
             }
         }
+
         // form values to dto
         const dto = plainToInstance(UpdateBillingHistoryByCardReceiptDto, data);
         const requestDto = dto.toRequestDto();
+
         console.log('\nrequestDto', requestDto);
+
         updateBillingHistory(requestDto).then(() => {
             setIsEditMode(false);
             form.reset();
+            reloadSiblingHistories();
         });
     };
 

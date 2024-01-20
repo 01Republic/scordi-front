@@ -1,10 +1,9 @@
 import {atom, selector, selectorFamily} from 'recoil';
-import {SubscriptionDto, FindAllSubscriptionsQuery} from 'src/models/Subscription/types';
-import {orgIdParamState, subscriptionIdParamState} from '^atoms/common';
-import {subscriptionApi} from '^models/Subscription/api';
+import {subscriptionIdParamState} from '^atoms/common';
 import {errorNotify} from '^utils/toast-notify';
-import {Paginated} from '^types/utils/paginated.dto';
 import {pagedResourceAtom} from '^hooks/usePagedResource';
+import {SubscriptionDto, FindAllSubscriptionsQuery} from '../types';
+import {subscriptionApi} from '../api';
 
 export const subscriptionListAtom = pagedResourceAtom<SubscriptionDto, FindAllSubscriptionsQuery>({
     key: 'subscriptionListAtom',
