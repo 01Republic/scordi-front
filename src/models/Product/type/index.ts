@@ -25,6 +25,7 @@ export class ProductDto {
     companyName: string; // 운영사명
     isAutoTrackable: boolean;
     isFreeTierAvailable: boolean;
+    connectedOrgCount: number; // 연결한 조직 수
     orgPageUrlScheme: string; // 조직 메인 페이지 URL Scheme
     billingInfoPageUrlScheme: string; // 결제정보 페이지 URL Scheme
     planComparePageUrlScheme: string; // 결제플랜 비교 페이지 URL Scheme

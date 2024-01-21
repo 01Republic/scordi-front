@@ -56,7 +56,7 @@ export const AdminProductListPage = memo(() => {
                 <SearchResultContainer>
                     <div className="w-full">
                         <CardTablePanel
-                            gridClass="grid-cols-1 lg:grid-cols-8"
+                            gridClass="grid-cols-1 lg:grid-cols-9"
                             entries={listPage.items}
                             columns={[
                                 // XS
@@ -67,6 +67,11 @@ export const AdminProductListPage = memo(() => {
                                 },
 
                                 // LG
+                                {
+                                    th: 'Id',
+                                    className: 'hidden lg:block',
+                                    render: (product) => <DefaultColumn value={<p>{product.id}</p>} />,
+                                },
                                 {
                                     th: '로고(image)',
                                     className: 'hidden lg:block',
@@ -84,8 +89,10 @@ export const AdminProductListPage = memo(() => {
                                         <DefaultColumn
                                             value={
                                                 <p>
-                                                    {product.nameEn}{' '}
-                                                    <small className="text-gray-500">({product.nameKo})</small>
+                                                    <span className="block whitespace-nowrap">{product.nameEn}</span>
+                                                    <small className="block whitespace-nowrap text-gray-500">
+                                                        ({product.nameKo})
+                                                    </small>
                                                 </p>
                                             }
                                         />
@@ -101,9 +108,9 @@ export const AdminProductListPage = memo(() => {
                                     ),
                                 },
                                 // {
-                                //     th: 'summary',
-                                //     className: 'hidden lg:block col-span-2',
-                                //     render: (product) => <DefaultColumn value={product.tagline} />,
+                                //     th: '연결한 조직 수',
+                                //     className: 'hidden lg:block',
+                                //     render: (product) => <DefaultColumn value={product.connectedOrgCount} />,
                                 // },
                                 {
                                     th: '공개상태',
