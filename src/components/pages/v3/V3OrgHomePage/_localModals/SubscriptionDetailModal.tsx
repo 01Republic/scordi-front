@@ -6,5 +6,5 @@ import {useDashboardSubscriptions} from '^models/Subscription/hook';
 export const SubscriptionDetailModal = memo(function SubscriptionDetailModal() {
     const {reload} = useDashboardSubscriptions();
 
-    return <AppShowPageModal onMemberChanged={() => reload()} onClose={() => reload()} />;
+    return <AppShowPageModal onFinish={() => reload()} />;
 });
