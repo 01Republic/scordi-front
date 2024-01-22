@@ -49,11 +49,16 @@ export const TeamMemberStatusDropdown = memo((props: TeamMemberStatusDropdownPro
 
                 return (
                     <ul className="p-2 text-sm shadow menu dropdown-content z-[1] bg-base-100 rounded-box">
+                        {/* 1. 초대를 보내지 않았고 **멤버레코드만 존재**하는 상태 : 초대버튼 노출 */}
                         {!membership && <InviteListItem teamMember={teamMember} onFinish={hideAndReload} />}
+
+                        {/* 2. 초대를 보냈으나 **워크스페이스 조인을 기다리는 중**인 멤버 : 재발송 버튼 노출 */}
                         {membership && membership.approvalStatus === ApprovalStatus.PENDING && (
                             <ResendInviteItem teamMember={teamMember} onFinish={hideAndReload} />
                         )}
 
+                        {/* 3. 초대를 보내어 **워크스페이스에 조인을 완료**한 멤버 일때 */}
+                        {/* - 만약 현재 로그인한 유저가 관리자 권한을 가지고 있다면 : 레벨 수정 버튼 노출 */}
                         {/* change role */}
                         {membership &&
                             membership.approvalStatus === ApprovalStatus.APPROVED &&

@@ -2,8 +2,6 @@ import React, {memo} from 'react';
 import {TeamMemberDto} from '^models/TeamMember';
 import {useTeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
 import {TeamMemberProfile} from '^models/TeamMember/components/TeamMemberProfile';
-import {TeamMemberStatus} from './TeamMemberStatus';
-import {TeamMemberRole} from './TeamMemberRole';
 import {TeamSelect} from './TeamSelect';
 import {TeamMemberStatusDropdown} from './TeamMemberStatusDropdown';
 

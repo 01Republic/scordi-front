@@ -11,6 +11,7 @@ import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 import {useAlert} from '^hooks/useAlert';
 import {useTeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
 import {TeamTag} from '^models/Team/components/TeamTag';
+import {FaRegEnvelope} from 'react-icons/fa';
 
 /**
  * 첫 수정 시 완료 버튼을 두 번 클릭해야 submit 되는 현상이 있습니다.
@@ -23,12 +24,12 @@ export const TeamMemberInfoPanel = memo(() => {
 
     if (!teamMember) return <></>;
 
-    const approvalStatus = teamMember.membership?.approvalStatus;
+    const membership = teamMember.membership;
     const {name, jobName, phone, email} = teamMember;
 
     const inviteContext = (() => {
         if (!email) return 'CANNOT_INVITE';
-        if (teamMember.membership) return 'RESEND';
+        if (membership && membership.approvalStatus === ApprovalStatus.PENDING) return 'RESEND';
         return 'INVITE';
     })();
 
@@ -71,37 +72,42 @@ export const TeamMemberInfoPanel = memo(() => {
                     <MobileInfoListItem label="휴대폰" value={phone || <i>-</i>} />
 
                     {/*유저 가입 상태*/}
-                    <MobileInfoListItem
-                        label={
-                            approvalStatus
-                                ? approvalStatus === ApprovalStatus.PENDING
-                                    ? '초대 발송일'
-                                    : '가입일'
-                                : '등록일'
-                        }
-                        value={
-                            approvalStatus
-                                ? approvalStatus === ApprovalStatus.PENDING
-                                    ? getDate(teamMember.membership?.createdAt!)
-                                    : getDate(teamMember.createdAt)
-                                : yyyy_mm_dd_hh_mm(teamMember.createdAt)
-                        }
-                    />
+                    {!membership && (
+                        <MobileInfoListItem label={'등록일'} value={yyyy_mm_dd_hh_mm(teamMember.createdAt)} />
+                    )}
+                    {membership && membership.approvalStatus === ApprovalStatus.PENDING && (
+                        <MobileInfoListItem label={'초대 발송일'} value={getDate(membership.createdAt)} />
+                    )}
+                    {membership && membership.approvalStatus === ApprovalStatus.APPROVED && (
+                        <MobileInfoListItem label={'가입일'} value={getDate(membership.user.createdAt)} />
+                    )}
                 </MobileInfoList>
 
                 <br />
                 <br />
 
-                <button
-                    type="button"
-                    disabled={!email}
-                    className="btn btn-lg btn-block btn-scordi rounded-box !disabled:cursor-not-allowed disabled:border-indigo-100 disabled:bg-indigo-100 disabled:text-indigo-300"
-                    onClick={onClick}
-                >
-                    {inviteContext === 'CANNOT_INVITE' && '초대하려면 이메일이 필요합니다'}
-                    {inviteContext === 'INVITE' && '이 멤버 초대하기'}
-                    {inviteContext === 'RESEND' && 'resend'}
-                </button>
+                {(!membership || membership.approvalStatus === ApprovalStatus.PENDING) && (
+                    <button
+                        type="button"
+                        disabled={!email}
+                        className="btn btn-lg btn-block btn-scordi rounded-box !disabled:cursor-not-allowed disabled:border-indigo-100 disabled:bg-indigo-100 disabled:text-indigo-300"
+                        onClick={onClick}
+                    >
+                        {inviteContext === 'CANNOT_INVITE' && '초대하려면 이메일이 필요합니다'}
+                        {inviteContext === 'INVITE' && (
+                            <span className="flex gap-4 items-center">
+                                <FaRegEnvelope size={24} />
+                                <span>이 멤버 초대하기</span>
+                            </span>
+                        )}
+                        {inviteContext === 'RESEND' && (
+                            <span className="flex gap-4 items-center">
+                                <FaRegEnvelope size={24} />
+                                <span>초대 메일 재전송</span>
+                            </span>
+                        )}
+                    </button>
+                )}
             </MobileSection.Padding>
         </MobileSection.Item>
     );
