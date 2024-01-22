@@ -3,10 +3,11 @@ import {NewBillingHistoryModalGroup} from '^v3/share/modals/NewBillingHistoryMod
 
 interface Props {
     onClose?: () => any;
+    onFinish?: () => any;
 }
 
 export const NewBillingHistoryModal = memo((props: Props) => {
-    const {onClose} = props;
+    const {onClose, onFinish} = props;
 
-    return <NewBillingHistoryModalGroup onClose={onClose} />;
+    return <NewBillingHistoryModalGroup onClose={onClose} onFinish={onFinish} />;
 });

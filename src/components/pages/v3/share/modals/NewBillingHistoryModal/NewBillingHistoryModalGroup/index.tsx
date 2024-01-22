@@ -13,17 +13,18 @@ import {PayAmountModal} from '^v3/share/modals/NewBillingHistoryModal/PayAmountM
 import {DetailInfoModal} from '^v3/share/modals/NewBillingHistoryModal/DetailInfoModal';
 import {FinishModal} from '^v3/share/modals/NewBillingHistoryModal/FinishModal';
 
-interface Props {
+interface NewBillingHistoryModalGroupProps {
     onClose?: () => any;
+    onFinish?: () => any;
 }
 
-export const NewBillingHistoryModalGroup = memo((props: Props) => {
+export const NewBillingHistoryModalGroup = memo((props: NewBillingHistoryModalGroupProps) => {
     const payMethodModal = useModal(payMethodModalState);
     const payAmountModal = useModal(payAmountModalState);
     const detailInfoModal = useModal(detailInfoModalState);
     const finishModal = useModal(finishModalState);
     const memoModal = useModal(memoModalState);
-    const {onClose} = props;
+    const {onClose, onFinish} = props;
 
     useEffect(() => {
         payMethodModal.isShow && payMethodModal.setIsShow(false);
@@ -36,7 +37,7 @@ export const NewBillingHistoryModalGroup = memo((props: Props) => {
     return (
         <>
             <PayMethodModal />
-            <PayAmountModal />
+            <PayAmountModal onFinish={onFinish} />
             <DetailInfoModal />
             <FinishModal onClose={onClose} />
             <MemoModal />
