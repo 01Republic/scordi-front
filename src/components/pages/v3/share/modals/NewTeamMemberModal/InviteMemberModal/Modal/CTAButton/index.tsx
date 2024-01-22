@@ -23,10 +23,9 @@ interface CTAButtonProps {
 export const CTAButton = memo((props: CTAButtonProps) => {
     const formData = useRecoilValue(createInviteTeamMemberAtom);
     const currentOrg = useRecoilValue(currentOrgAtom);
-    const inputValue = useRecoilValue(emailInputValueAtom);
+    const email = useRecoilValue(emailInputValueAtom);
     const {close} = useModal({isShowAtom: isOpenInviteOrgMemberModalAtom});
     const [isLoading, setIsLoading] = useRecoilState(isLoadingAtom);
-    const {confirmOrgMember} = useInviteMember();
     const {open, close: closeLoadingModal} = useModal({isShowAtom: isOpenLoadingModalAtom});
     const {alert} = useAlert();
     const {toast} = useToast();
@@ -36,7 +35,7 @@ export const CTAButton = memo((props: CTAButtonProps) => {
     const invitedEmails = formData?.invitations?.map((invitation) => {
         return invitation.email;
     });
-    const isActive = !!invitedEmails?.length || (inputValue.includes('.') && inputValue.includes('@'));
+    const isActive = !!invitedEmails?.length || (email.includes('.') && email.includes('@'));
 
     const confirmData = () => {
         if (isActive) return;
@@ -45,18 +44,8 @@ export const CTAButton = memo((props: CTAButtonProps) => {
         if (!isLoading) return toast.error('이메일을 입력해주세요');
     };
 
-    const onSubmit = debounce(() => {
+    const onSubmit = debounce(async () => {
         if (!currentOrg) return;
-
-        // 이미 조직에 가입된 멤버라면 return
-        const isOrgMember = confirmOrgMember(inputValue);
-        if (isOrgMember) return;
-
-        const createInvitedEmails: Invitation[] = inputValue
-            ? invitedEmails
-                ? [...formData.invitations, {email: inputValue}]
-                : [{email: inputValue}]
-            : formData.invitations;
 
         if (isLoading) return;
 
@@ -64,7 +53,7 @@ export const CTAButton = memo((props: CTAButtonProps) => {
         open();
         const req = inviteMembershipApi.create({
             organizationId: currentOrg.id,
-            invitations: createInvitedEmails,
+            invitations: formData.invitations,
         });
 
         req.then(() => {

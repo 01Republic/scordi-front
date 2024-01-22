@@ -18,6 +18,7 @@ type Combination<BaseType, AddSetType> =
 
 interface DropdownProps extends WithChildren {
     Trigger: (props: {visible: boolean}) => JSX.Element;
+    Content?: (props: {visible: boolean; show: () => any; hide: () => any}) => JSX.Element;
     className?: string;
     placement?: Placement;
     backdrop?: boolean; // default: true
@@ -31,9 +32,19 @@ export const Dropdown = memo((props: DropdownProps) => {
     const [visible, setVisible] = useState(false);
     const show = () => setVisible(true);
     const hide = () => setVisible(false);
-    const {Trigger, className = '', placement = 'bottom-end', children} = props;
+    const {Trigger, Content, className = '', placement = 'bottom-end', children} = props;
     const {backdrop = true, allowScroll = false} = props;
     const {onOpen, onClose} = props;
+
+    const openDropdown = () => {
+        show();
+        onOpen && onOpen();
+    };
+
+    const closeDropdown = () => {
+        hide();
+        onClose && onClose();
+    };
 
     return (
         <div
@@ -43,19 +54,19 @@ export const Dropdown = memo((props: DropdownProps) => {
                 e.stopPropagation();
             }}
         >
-            <div onClick={show} ref={triggerRef}>
+            <div onClick={openDropdown} ref={triggerRef}>
                 <Trigger visible={visible} />
             </div>
 
             <DropdownContent
                 visible={visible}
-                hide={hide}
+                hide={closeDropdown}
                 triggerRef={triggerRef}
                 backdrop={backdrop}
                 allowScroll={allowScroll}
                 placement={placement}
             >
-                {children}
+                {Content ? <Content visible={visible} show={openDropdown} hide={closeDropdown} /> : children}
             </DropdownContent>
         </div>
     );
