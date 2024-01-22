@@ -38,8 +38,11 @@ interface InviteBtn {
 const InviteBtn = (props: InviteBtn) => {
     const {onClick} = props;
     return (
-        <button onClick={onClick} className="btn btn-sm normal-case gap-2 items-center">
-            <FaRegEnvelope /> Invite
+        <button
+            onClick={onClick}
+            className="btn btn-sm text-xs normal-case gap-2 items-center min-w-[105px] justify-start"
+        >
+            <FaRegEnvelope /> 초대 보내기
         </button>
     );
 };

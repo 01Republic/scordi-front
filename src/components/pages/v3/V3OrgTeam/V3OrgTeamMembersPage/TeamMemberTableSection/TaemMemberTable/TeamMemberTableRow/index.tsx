@@ -5,6 +5,7 @@ import {TeamMemberProfile} from '^models/TeamMember/components/TeamMemberProfile
 import {TeamMemberStatus} from './TeamMemberStatus';
 import {TeamMemberRole} from './TeamMemberRole';
 import {TeamSelect} from './TeamSelect';
+import {TeamMemberStatusDropdown} from './TeamMemberStatusDropdown';
 
 interface TeamMemberTableRowPropsTableRowProps {
     teamMember: TeamMemberDto;
@@ -43,20 +44,15 @@ export const TeamMemberTableRow = memo((props: TeamMemberTableRowPropsTableRowPr
                 <TeamSelect teamMember={teamMember} onChange={() => reload && reload()} />
             </td>
 
-            {/* 권한 */}
-            <td className={`${hoverBgColor} text-center`}>
-                <TeamMemberRole teamMember={teamMember} />
-            </td>
+            {/*/!* 권한 *!/*/}
+            {/*<td className={`${hoverBgColor} text-center`}>*/}
+            {/*    <TeamMemberRole teamMember={teamMember} onChange={() => reload && reload()} />*/}
+            {/*</td>*/}
 
             {/* 상태 */}
             <td className={`${hoverBgColor} text-right`}>
-                <div
-                    onClick={(e) => {
-                        e.stopPropagation();
-                    }}
-                >
-                    <TeamMemberStatus teamMember={teamMember} />
-                </div>
+                {/*<TeamMemberStatus teamMember={teamMember} />*/}
+                <TeamMemberStatusDropdown teamMember={teamMember} reload={() => reload && reload()} />
             </td>
         </tr>
     );

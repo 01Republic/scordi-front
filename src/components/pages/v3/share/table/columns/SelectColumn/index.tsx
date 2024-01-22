@@ -31,6 +31,9 @@ interface SelectColumnProps<T> {
     contentMinWidth?: string;
     optionListBoxTitle?: string;
 
+    // 트리거 버튼의 가로길이
+    fullWidth?: boolean;
+
     // 드롭다운의 기본 방향 설정
     placement?: Placement;
 
@@ -79,6 +82,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
     } = props;
     const keywordFilter = props.keywordFilter || ((o: T, keyword: string) => valueOfOption(o) === keyword);
     const {
+        fullWidth = true,
         inputDisplay = true,
         inputPlainText = false,
         contentMinWidth = '300px',
@@ -139,7 +143,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
 
     return (
         <div
-            className="dropdown relative w-full"
+            className={`dropdown relative ${fullWidth ? 'w-full' : ''}`}
             onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();

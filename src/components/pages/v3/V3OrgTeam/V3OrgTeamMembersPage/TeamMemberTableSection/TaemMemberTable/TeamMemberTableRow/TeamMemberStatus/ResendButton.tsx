@@ -3,6 +3,7 @@ import {ApprovalStatus, c_ApprovalStatus} from '^models/Membership/types';
 import {FaRegEnvelope} from 'react-icons/fa';
 import {TeamMemberDto, useSendInviteEmail, useTeamMembers} from '^models/TeamMember';
 import {LoadingButton} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatus/LoadingButton';
+import {FaRotateRight} from 'react-icons/fa6';
 
 interface ResendButtonProps {
     teamMember: TeamMemberDto;
@@ -18,9 +19,7 @@ export const ResendButton = memo((props: ResendButtonProps) => {
     const membership = teamMember?.membership;
     if (!membership) return <></>;
 
-    const btnStyle = c_ApprovalStatus(membership.approvalStatus);
     const isPending = membership.approvalStatus === ApprovalStatus.PENDING;
-    const text = isPending && 'Resend';
 
     const onClick = async () => {
         const email = teamMember.email;
@@ -46,12 +45,10 @@ export const ResendButton = memo((props: ResendButtonProps) => {
             ) : (
                 <button
                     onClick={() => isPending && onClick()}
-                    className={`${btnStyle} ${
-                        !isPending && 'hidden'
-                    } btn btn-sm btn-outline gap-2 normal-case hover:text-white`}
+                    className={`btn btn-sm text-xs normal-case gap-2 items-center min-w-[105px] justify-start`}
                 >
-                    <FaRegEnvelope />
-                    {text}
+                    <FaRotateRight />
+                    다시 보내기
                 </button>
             )}
         </>

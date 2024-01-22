@@ -1,11 +1,11 @@
 import React, {memo} from 'react';
-import {TeamMemberDto} from '^models/TeamMember';
-import {c_ApprovalStatus, t_ApprovalStatus} from '^models/Membership/types';
 import {useRecoilValue} from 'recoil';
+import {TeamMemberDto} from '^models/TeamMember';
+import {ApprovalStatus} from '^models/Membership/types';
 import {currentUserAtom} from '^models/User/atom';
-import {LeaveButton} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatus/LeaveButton';
-import {InviteButton} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatus/InviteButton';
-import {ResendButton} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatus/ResendButton';
+import {InviteButton} from './InviteButton';
+import {ResendButton} from './ResendButton';
+import {InvitedButton} from './InvitedButton';
 
 interface TeamMemberStatusProps {
     teamMember: TeamMemberDto;
@@ -17,25 +17,24 @@ export const TeamMemberStatus = memo((props: TeamMemberStatusProps) => {
 
     if (!teamMember || !currentUser) return <></>;
 
+    const memberships = currentUser.memberships || [];
     const {membership} = teamMember;
-    const isMe = teamMember.email === currentUser.email;
-    // TODO: 원래 아래와 같이 id 로 비교해야 합니다.
-    //  (지금은 백엔드 이슈로 인해 membership 이 없는 문제가 있어, 단순 이메일로 비교하는데, 이건 꼼수이고 아삽으로 없어져야 합니다.)
-    // const isMe = membership?.userId === currentUser.id;
-    // console.log('currentUser.id', currentUser.id);
-    // console.log('membership?.userId', membership?.userId);
-    // console.log('isMe', isMe);
+    const isMe = !!memberships.find((m) => m.id === membership?.id);
 
     return (
         <div className="capitalize text-sm text-gray-500">
-            {/*본일일때 상태 버튼*/}
-            {isMe && <LeaveButton user={currentUser} tooltipMsg="" />}
+            {/* 1. 초대를 보내지 않았고 **멤버레코드만 존재**하는 상태 : 초대버튼 노출 */}
+            {!membership && <InviteButton teamMember={teamMember} />}
 
-            {/*이메일로 초대한 멤버일때 상태 버튼*/}
-            {!isMe && membership && <ResendButton teamMember={teamMember} />}
+            {/* 2. 초대를 보냈으나 **워크스페이스 조인을 기다리는 중**인 멤버 : 재발송 버튼 노출 */}
+            {membership && membership.approvalStatus === ApprovalStatus.PENDING && (
+                <ResendButton teamMember={teamMember} />
+            )}
 
-            {/*직접추가한 멤버일때 상태 버튼*/}
-            {!membership && !isMe && <InviteButton teamMember={teamMember} />}
+            {/* 3. 초대를 보내어 **워크스페이스에 조인을 완료**한 멤버 일때 : 초대완료된 버튼 노출 */}
+            {membership && membership.approvalStatus === ApprovalStatus.APPROVED && (
+                <InvitedButton currentUser={currentUser} teamMember={teamMember} isMe={isMe} />
+            )}
         </div>
     );
 });
