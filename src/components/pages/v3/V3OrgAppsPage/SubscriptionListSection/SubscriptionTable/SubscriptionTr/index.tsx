@@ -99,7 +99,7 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
             {/*</td>*/}
 
             {/* 담당자 */}
-            <td className="py-0 pl-5">
+            <td className="py-0 pl-5 w-40">
                 <MasterSelect subscription={subscription} onChange={() => reload && reload()} />
             </td>
 
