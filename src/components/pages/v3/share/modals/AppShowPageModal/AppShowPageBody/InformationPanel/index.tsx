@@ -14,7 +14,7 @@ import {ListItemForAccount} from './ListItemForAccount';
 import {ListItemForSourceAccount} from './ListItemForSourceAccount';
 import {ListItemForPaymentMethod} from './ListItemForPaymentMethod';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
-import {ListItemForSubscription} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/AppShowPageBody/InformationPanel/ListItemForSubscription';
+import {ListItemForSubscription} from '^v3/share/modals/AppShowPageModal/AppShowPageBody/InformationPanel/ListItemForSubscription';
 
 // 정기결제금액 *
 // 결제주기 *

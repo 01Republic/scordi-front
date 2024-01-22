@@ -1,7 +1,7 @@
 import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
 import React, {memo} from 'react';
-import {SubscriptionDto} from 'src/models/Subscription/types';
-import {connectCreditCardModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/RegisterCreditCardModal/atom';
+import {SubscriptionDto} from '^models/Subscription/types';
+import {connectCreditCardModal} from '^v3/share/modals/AppShowPageModal/RegisterCreditCardModal/atom';
 import {useModal} from '^v3/share/modals/useModal';
 import {toast} from 'react-toastify';
 import {FiChevronRight} from '^components/react-icons';
