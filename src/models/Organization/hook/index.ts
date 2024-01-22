@@ -16,6 +16,20 @@ export function useCurrentOrg(id: number) {
     const [currentOrg, setCurrentOrg] = useRecoilState(currentOrgAtom);
     const {alert} = useAlert();
 
+    const search = () => {
+        organizationApi
+            .show(id, {
+                relations: ['lastGoogleSyncHistory', 'lastGoogleSyncHistory.googleTokenData', 'invoiceAccounts'],
+            })
+            .then((res) => setCurrentOrg(res.data))
+            .catch((e: AxiosError) => {
+                console.log(e.response?.status == 401);
+                if (e.response?.status == 401) {
+                    alert.error('조직을 찾을 수 없습니다', '올바른 접근인지 확인해주세요');
+                }
+            });
+    };
+
     useEffect(() => {
         if (!id || isNaN(id)) return;
         if (currentOrg && currentOrg.id === id) return;
@@ -32,18 +46,8 @@ export function useCurrentOrg(id: number) {
             return;
         }
 
-        organizationApi
-            .show(id, {
-                relations: ['lastGoogleSyncHistory', 'lastGoogleSyncHistory.googleTokenData', 'invoiceAccounts'],
-            })
-            .then((res) => setCurrentOrg(res.data))
-            .catch((e: AxiosError) => {
-                console.log(e.response?.status == 401);
-                if (e.response?.status == 401) {
-                    alert.error('조직을 찾을 수 없습니다', '올바른 접근인지 확인해주세요');
-                }
-            });
+        search();
     }, [id, currentOrg]);
 
-    return {currentOrg, setCurrentOrg};
+    return {currentOrg, setCurrentOrg, search};
 }
