@@ -1,7 +1,6 @@
 import {ReactComponentLike, ReactNodeLike} from 'prop-types';
 import React, {memo} from 'react';
 import {FiArrowLeft} from 'react-icons/fi';
-import {useId} from 'react-id-generator';
 import {WithChildren} from '^types/global.type';
 
 interface ModalTopbarProps {
@@ -9,10 +8,11 @@ interface ModalTopbarProps {
     title?: ReactNodeLike;
     topbarPosition?: 'fixed' | 'sticky';
     rightButtons?: ReactComponentLike[];
+    isLoading?: boolean;
 }
 
 export const ModalTopbar = memo((props: ModalTopbarProps & WithChildren) => {
-    const {title, backBtnOnClick, topbarPosition = 'fixed', rightButtons = [], children} = props;
+    const {title, backBtnOnClick, topbarPosition = 'fixed', rightButtons = [], children, isLoading} = props;
     const mappedButtons = rightButtons.length ? rightButtons.map((RightButton, i) => <RightButton key={i} />) : <br />;
 
     return (
@@ -33,7 +33,7 @@ export const ModalTopbar = memo((props: ModalTopbarProps & WithChildren) => {
                     </div>
                 </div>
                 <div className="h-full max-w-full flex-1 flex items-center font-semibold text-16 overflow-x-hidden">
-                    <span className="truncate">{children || title}</span>
+                    {!isLoading ? <span className="truncate">{children || title}</span> : <div className="skeleton" />}
                 </div>
                 <div className={`text-sm ${rightButtons.length ? 'pl-6 pr-3' : 'px-6'} h-full flex items-center`}>
                     {mappedButtons}

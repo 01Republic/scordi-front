@@ -23,7 +23,8 @@ export const AppShowPageModal = memo((props: AppShowPageModalProps) => {
     const appId = useRecoilValue(appIdState);
     const setNavTab = useSetRecoilState(navTabIndex);
     const {Modal, hide} = useAppShowModal();
-    const {currentSubscription, loadCurrentSubscription, deleteCurrentSubscription} = useCurrentSubscription();
+    const {currentSubscription, loadCurrentSubscription, deleteCurrentSubscription, isLoading} =
+        useCurrentSubscription();
     const {search: loadCurrentHistories} = useBillingHistoryListOfSubscription();
     const {onFinish, onClose} = props;
 
@@ -55,6 +56,7 @@ export const AppShowPageModal = memo((props: AppShowPageModalProps) => {
                     backBtnOnClick={closeModal}
                     topbarPosition="sticky"
                     rightButtons={[DeleteButtonWrap]}
+                    isLoading={isLoading}
                 />
                 <MobileSection.List>
                     <AppShowPageBody />

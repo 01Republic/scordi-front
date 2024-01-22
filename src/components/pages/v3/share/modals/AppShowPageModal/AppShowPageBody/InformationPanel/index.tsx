@@ -1,14 +1,11 @@
 import React, {memo} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
-import {useBillingHistoriesV3, useBillingHistoryListOfSubscription} from '^models/BillingHistory/hook';
-import {useRecoilValue} from 'recoil';
+import {useBillingHistoryListOfSubscription} from '^models/BillingHistory/hook';
 import {yyyy_mm_dd, yyyy_mm_dd_hh_mm} from '^utils/dateTime';
-import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
 import {BillingHistoryManager} from '^models/BillingHistory/manager';
 import {MobileInfoList} from '^v3/share/MobileInfoList';
 import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
-import {PriceHeader} from './PriceHeader';
 import {PriceHeaderV2} from './PriceHeaderV2';
 import {ListItemForAccount} from './ListItemForAccount';
 import {ListItemForSourceAccount} from './ListItemForSourceAccount';
