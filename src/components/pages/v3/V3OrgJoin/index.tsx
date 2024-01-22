@@ -6,11 +6,15 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {WithChildren} from '^types/global.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {googleOauthClientId} from '^api/tasting.api/gmail/constant';
+import {useRouter} from 'next/router';
 
 export const V3OrgJoin = memo(() => {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const router = useRouter();
+    const membershipId = Number(router.query.membershipId || '');
 
     if (!orgId || isNaN(orgId)) return <></>;
+    if (!membershipId || isNaN(membershipId)) return <>초대장이 만료되었습니다. 초대를 다시 요청해주세요.</>;
 
     return (
         <div className={styles.viewport}>
