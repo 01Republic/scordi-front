@@ -46,22 +46,24 @@ export const MasterSelect = memo((props: MasterSelectProps) => {
     };
 
     return (
-        <SelectColumn
-            value={subscription.master}
-            getOptions={getOptions}
-            ValueComponent={MasterProfile}
-            valueOfOption={(member) => member.id}
-            textOfOption={(member) => member.name}
-            keywordFilter={(member, keyword) => member.name.includes(keyword)}
-            onSelect={onSelect}
-            inputDisplay
-            inputPlainText
-            optionWrapperClass="!py-1.5"
-            optionListBoxTitle="담당자를 변경할까요?"
-            optionDetach={optionDetach}
-            detachableOptionBoxTitle="연결된 담당자"
-            EmptyComponent={() => <TagUI className="text-gray-300 w-40 !justify-start">비어있음</TagUI>}
-        />
+        <div className="w-40 overflow-x-hidden">
+            <SelectColumn
+                value={subscription.master}
+                getOptions={getOptions}
+                ValueComponent={MasterProfile}
+                valueOfOption={(member) => member.id}
+                textOfOption={(member) => member.name}
+                keywordFilter={(member, keyword) => member.name.includes(keyword)}
+                onSelect={onSelect}
+                inputDisplay
+                inputPlainText
+                optionWrapperClass="!py-1.5"
+                optionListBoxTitle="담당자를 변경할까요?"
+                optionDetach={optionDetach}
+                detachableOptionBoxTitle="연결된 담당자"
+                EmptyComponent={() => <TagUI className="text-gray-300 w-40 !justify-start">비어있음</TagUI>}
+            />
+        </div>
     );
 });
 MasterSelect.displayName = 'MasterSelect';

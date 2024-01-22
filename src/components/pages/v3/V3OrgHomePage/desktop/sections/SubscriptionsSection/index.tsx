@@ -47,9 +47,9 @@ export const SubscriptionsSection = memo(function SubscriptionsSection() {
     }, [orgId]);
 
     const onReload = () => {
-        if (!currentSubscription) return;
-
         reload();
+
+        if (!currentSubscription) return;
         loadCurrentSubscription(orgId, currentSubscription.id);
     };
 

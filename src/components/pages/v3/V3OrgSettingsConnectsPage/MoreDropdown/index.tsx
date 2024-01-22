@@ -2,7 +2,9 @@ import {memo} from 'react';
 import {Dropdown} from '^v3/share/Dropdown';
 import {IoMdMore} from 'react-icons/io';
 import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
-import {FaRegTrashAlt, FaSync} from 'react-icons/fa';
+import {FaRegTrashAlt, FaSync, FaTimes} from 'react-icons/fa';
+
+import {AiOutlineDisconnect} from 'react-icons/ai';
 
 // settings connect 페이지에서만 사용되는
 // more dropdown component.
@@ -35,8 +37,8 @@ export const MoreDropdown = memo((props: MoreDropdownProps) => {
                 </MoreDropdownListItem>
                 <MoreDropdownListItem onClick={onDelete}>
                     <div className="flex items-center gap-3 w-full">
-                        <FaRegTrashAlt />
-                        <p>삭제</p>
+                        <FaTimes />
+                        <p>연동 해제하기</p>
                     </div>
                 </MoreDropdownListItem>
             </ul>

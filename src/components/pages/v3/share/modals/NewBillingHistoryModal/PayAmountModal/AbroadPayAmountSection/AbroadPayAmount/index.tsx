@@ -27,6 +27,7 @@ export const AbroadPayAmount = memo(() => {
                     className="w-full"
                     defaultValue={0}
                     onChange={(e) => {
+                        if (!e.target.value) return;
                         onChange(inputTextToCurrencyFormat(e));
                     }}
                 />

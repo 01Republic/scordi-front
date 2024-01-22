@@ -3,7 +3,7 @@ import {useRecoilValue} from 'recoil';
 import {BillingHistoryManager} from '^models/BillingHistory/manager';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
-import {useAppShowModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
+import {useAppShowModal} from 'src/components/pages/v3/share/modals/AppShowPageModal';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 import {
     LatestPayAmount,
@@ -99,7 +99,7 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
             {/*</td>*/}
 
             {/* 담당자 */}
-            <td className="py-0 pl-5">
+            <td className="py-0 pl-5 w-40">
                 <MasterSelect subscription={subscription} onChange={() => reload && reload()} />
             </td>
 

@@ -37,7 +37,9 @@ export const TeamMemberProfileOption = memo((props: TeamMemberProfileOptionProps
     const {item: teamMember, placeholder} = props;
 
     return (
-        <div className={`flex items-center gap-2 px-3 -mx-3 text-gray-700 group-hover:text-scordi w-40`}>
+        <div
+            className={`flex items-center gap-2 px-3 -mx-3 text-gray-700 group-hover:text-scordi w-72 overflow-x-hidden`}
+        >
             {teamMember ? (
                 <TeamMemberAvatar teamMember={teamMember} className="w-7 h-7" />
             ) : (
@@ -47,12 +49,12 @@ export const TeamMemberProfileOption = memo((props: TeamMemberProfileOptionProps
             )}
 
             {teamMember ? (
-                <div className="flex flex-col gap-0.5">
+                <div className="flex flex-col gap-0.5 w-full overflow-x-hidden">
                     <p className={`flex gap-2 items-center group-hover:text-scordi leading-none`}>
-                        <span>{teamMember.name}</span>
+                        <span className="truncate"> {teamMember.name}</span>
                     </p>
                     <p className="block text-xs font-normal text-gray-400 group-hover:text-scordi-300 leading-none">
-                        {teamMember.email}
+                        <span className="truncate"> {teamMember.email}</span>
                     </p>
                 </div>
             ) : (

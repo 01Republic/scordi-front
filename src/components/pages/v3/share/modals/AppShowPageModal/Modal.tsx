@@ -4,18 +4,18 @@ import {orgIdParamState} from '^atoms/common';
 import {ModalTopbar} from '^v3/share/modals';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {appIdState, useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
-import {useBillingHistoriesV3, useBillingHistoryListOfSubscription} from '^models/BillingHistory/hook';
+import {useBillingHistoryListOfSubscription} from '^models/BillingHistory/hook';
 import {AppShowPageBody} from './AppShowPageBody';
 import {useAppShowModal} from './hook';
 import {SelectTeamMemberModal} from './SelectTeamMemberModal';
-import {DeleteButton} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/DeleteButton';
-import {RegisterCreditCardModal} from 'src/components/pages/v3/V3OrgAppShowPage/modals/AppShowPageModal/RegisterCreditCardModal';
-import {RegisterAliasModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/RegisterAliasModal';
+import {DeleteButton} from '^v3/share/modals/AppShowPageModal/DeleteButton';
+import {RegisterCreditCardModal} from '^v3/share/modals/AppShowPageModal/RegisterCreditCardModal';
+import {RegisterAliasModal} from '^v3/share/modals/AppShowPageModal/RegisterAliasModal';
 import {navTabIndex} from './AppShowPageBody/tabs/TabView';
 
 interface AppShowPageModalProps {
     onClose?: () => any;
-    onMemberChanged?: () => any;
+    onFinish?: () => any;
 }
 
 export const AppShowPageModal = memo((props: AppShowPageModalProps) => {
@@ -25,7 +25,7 @@ export const AppShowPageModal = memo((props: AppShowPageModalProps) => {
     const {Modal, hide} = useAppShowModal();
     const {currentSubscription, loadCurrentSubscription, deleteCurrentSubscription} = useCurrentSubscription();
     const {search: loadCurrentHistories} = useBillingHistoryListOfSubscription();
-    const {onMemberChanged, onClose} = props;
+    const {onFinish, onClose} = props;
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
@@ -60,9 +60,9 @@ export const AppShowPageModal = memo((props: AppShowPageModalProps) => {
                     <AppShowPageBody />
                 </MobileSection.List>
             </Modal>
-            <SelectTeamMemberModal afterChange={onMemberChanged} />
-            <RegisterCreditCardModal />
-            <RegisterAliasModal />
+            <SelectTeamMemberModal afterChange={onFinish} />
+            <RegisterCreditCardModal afterChange={onFinish} />
+            <RegisterAliasModal afterChange={onFinish} />
         </>
     );
 });

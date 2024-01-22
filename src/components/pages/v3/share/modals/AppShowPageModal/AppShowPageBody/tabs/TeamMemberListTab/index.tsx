@@ -1,8 +1,8 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {MobileSection} from '^components/pages/v3/share/sections/MobileSection';
-import {useAppShowModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
+import {MobileSection} from '^v3/share/sections/MobileSection';
+import {useAppShowModal} from '^v3/share/modals/AppShowPageModal';
 import {TeamMemberItem} from './TeamMemberItem';
 import {LoadMoreButton} from './LoadMoreButton';
 import {useTeamMembersInSubscriptionShowModal} from '^models/TeamMember';

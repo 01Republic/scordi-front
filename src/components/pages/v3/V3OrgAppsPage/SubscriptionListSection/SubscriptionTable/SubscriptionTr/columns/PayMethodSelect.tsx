@@ -58,26 +58,28 @@ export const PayMethodSelect = memo((props: PayMethodSelectProps) => {
     };
 
     return (
-        <SelectColumn
-            value={subscription.creditCard}
-            getOptions={getOptions}
-            ValueComponent={PayMethodOption}
-            valueOfOption={(creditCard) => creditCard.id}
-            textOfOption={(creditCard) => creditCard.name || ''}
-            onSelect={onSelect}
-            inputDisplay
-            inputPlainText
-            optionListBoxTitle="결제수단을 변경할까요?"
-            optionDetach={optionDetach}
-            detachableOptionBoxTitle="연결된 결제수단"
-            optionDestroy={(creditCard) => {
-                return deleteCreditCard(creditCard, orgId).then(() => {
-                    toast.success('삭제되었습니다.');
-                    return true;
-                });
-            }}
-            EmptyComponent={() => <TagUI className="text-gray-300 w-60 !justify-start">비어있음</TagUI>}
-        />
+        <div className="w-40 overflow-x-hidden">
+            <SelectColumn
+                value={subscription.creditCard}
+                getOptions={getOptions}
+                ValueComponent={PayMethodOption}
+                valueOfOption={(creditCard) => creditCard.id}
+                textOfOption={(creditCard) => creditCard.name || ''}
+                onSelect={onSelect}
+                inputDisplay
+                inputPlainText
+                optionListBoxTitle="결제수단을 변경할까요?"
+                optionDetach={optionDetach}
+                detachableOptionBoxTitle="연결된 결제수단"
+                optionDestroy={(creditCard) => {
+                    return deleteCreditCard(creditCard, orgId).then(() => {
+                        toast.success('삭제되었습니다.');
+                        return true;
+                    });
+                }}
+                EmptyComponent={() => <TagUI className="text-gray-300 w-60 !justify-start">비어있음</TagUI>}
+            />
+        </div>
     );
 });
 

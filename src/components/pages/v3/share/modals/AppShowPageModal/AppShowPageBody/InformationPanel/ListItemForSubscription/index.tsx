@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {useModal} from '^v3/share/modals';
-import {registerAliasModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/RegisterAliasModal/atom';
+import {registerAliasModal} from '^v3/share/modals/AppShowPageModal/RegisterAliasModal/atom';
 
 interface ListItemForSubscriptionProps {
     subscription: SubscriptionDto;
