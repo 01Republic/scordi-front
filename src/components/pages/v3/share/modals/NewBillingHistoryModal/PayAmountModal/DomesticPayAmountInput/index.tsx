@@ -29,6 +29,7 @@ export const DomesticPayAmountInput = memo(() => {
                     className="w-full"
                     defaultValue={0}
                     onChange={(e) => {
+                        if (!e.target.value) return;
                         onAmountChange(inputTextToCurrencyFormat(e));
                     }}
                 />
