@@ -1,10 +1,12 @@
 import {useModal} from '^v3/share/modals';
-import {getInvoiceAccountsQueryAtom, invoiceAccountSelectModalAtom, invoiceAccountsSearchResultAtom} from './atom';
+import {invoiceAccountSelectModalAtom, invoiceAccountsInSelectModal} from './atom';
 import {useInvoiceAccountsV3} from '^models/InvoiceAccount/hook';
+
+export const useInvoiceAccountListInSelectModal = () => useInvoiceAccountsV3(invoiceAccountsInSelectModal);
 
 export const useInvoiceAccountSelectModal = () => {
     const {open, close, ...specs} = useModal(invoiceAccountSelectModalAtom);
-    const {search, ...res} = useInvoiceAccountsV3(invoiceAccountsSearchResultAtom, getInvoiceAccountsQueryAtom);
+    const {search, ...res} = useInvoiceAccountListInSelectModal();
 
     const show = async (subscriptionId?: number) => {
         search({

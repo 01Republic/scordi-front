@@ -40,6 +40,7 @@ export type UserSocialSignUpInvitedRequestDto = UserSocialSignUpRequestDto & {
 
 export type UserGoogleSocialSignUpInvitedRequestDto = UserGoogleSocialSignUpRequestDtoV2 & {
     organizationId: number; // 초대받은 조직 ID
+    isFromCopiedLink?: boolean;
 };
 
 // 사용자 언어 설정

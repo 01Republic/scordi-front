@@ -38,3 +38,5 @@ export const cardSign = xxx(process.env.NEXT_PUBLIC_CARD_SIGN_KEY as string);
 
 export const ga_id = xxx('G-3N0EEGXZ8D');
 export const gtm_id = xxx('GTM-KHWGMDZT');
+
+export const zero1_republic_workspace_id = 10;

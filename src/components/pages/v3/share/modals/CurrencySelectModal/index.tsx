@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {useModal, UseModalOption} from '^v3/share/modals';
-import {CurrencyCode, CurrencyListV2} from '^types/money.type';
+import {CurrencyCode, CurrencyListV2} from '^models/Money';
 import {SelectOneModal} from '^v3/share/modals/_containers/SelectOneModal';
 
 type CurrencyOption = {label: CurrencyCode; desc: string};

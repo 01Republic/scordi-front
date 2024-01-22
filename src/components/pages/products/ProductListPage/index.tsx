@@ -1,9 +1,9 @@
 import React, {memo, useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {LandingPageNavBar} from '^components/lab/landing-page-components';
-import {ProductListHeader} from '^components/pages/products/ProductListPage/ProductListHeader';
-import {ProductListSidePanel} from '^components/pages/products/ProductListPage/ProductListSidePanel';
-import {ProductListContentPanel} from '^components/pages/products/ProductListPage/ProductListContentPanel';
+import {ProductListHeader} from './ProductListHeader';
+import {ProductListSidePanel} from './ProductListSidePanel';
+import {ProductListContentPanel} from './ProductListContentPanel';
 
 export const ProductListPage = memo(() => {
     const router = useRouter();

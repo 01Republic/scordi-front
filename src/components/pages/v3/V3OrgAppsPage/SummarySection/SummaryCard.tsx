@@ -2,6 +2,7 @@ import {memo} from 'react';
 import {ComponentLike, renderOne} from '^components/util/ComponentLike';
 
 interface SummaryCardProps {
+    isLoading: boolean;
     icon: ComponentLike;
     label: string;
     value: number;
@@ -9,14 +10,24 @@ interface SummaryCardProps {
 }
 
 export const SummaryCard = memo((props: SummaryCardProps) => {
-    const {icon, label, value, className = ''} = props;
+    const {isLoading, icon, label, value, className = ''} = props;
 
     return (
-        <div className={`card shadow bg-white flex flex-row items-center p-4 ${className}`}>
+        <div
+            className={`card shadow bg-white flex flex-row items-center p-4 ${className} ${
+                isLoading ? `!text-gray-500` : ''
+            }`}
+        >
             <div className="mr-3">{renderOne(icon)}</div>
             <div className="grow flex items-center">
                 <div className="grow font-semibold">{label}</div>
-                <div className="text-xl font-semibold">{value.toLocaleString()}</div>
+                {isLoading ? (
+                    <div className="text-xl font-semibold">
+                        <div className="animate-pulse rounded-full bg-slate-200 w-[60px] h-[28px]" />
+                    </div>
+                ) : (
+                    <div className="text-xl font-semibold">{value.toLocaleString()}</div>
+                )}
             </div>
         </div>
     );

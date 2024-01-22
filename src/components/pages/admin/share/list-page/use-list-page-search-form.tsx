@@ -37,7 +37,7 @@ export function useListPageSearchForm<ItemDto extends EntityDto, QueryDto extend
         });
     };
 
-    const onSearch = (data: QueryDto) => fetchData2({...query, ...data});
+    const onSearch = (data: QueryDto) => fetchData2({...query, ...data, page: 1});
 
     const SearchResultContainer = ({children}: SearchResultContainerProps) => {
         return (

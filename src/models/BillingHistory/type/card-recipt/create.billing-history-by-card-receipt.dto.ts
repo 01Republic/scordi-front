@@ -1,11 +1,11 @@
 import {PartialType} from '^types/utils/partial-type';
 import {CreateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type/create-billing-history.request.dto.v2';
 import {OmitType} from '^types/utils/omit-type';
-import {CreateMoneyRequestDto, CurrencyCode} from '^types/money.type';
+import {CreateMoneyRequestDto, CurrencyCode} from '^models/Money';
 import {plainToInstance} from 'class-transformer';
 
 export class CreateBillingHistoryByCardReceiptDto extends PartialType(
-    OmitType(CreateBillingHistoryRequestDtoV2, ['payAmount', 'vat']),
+    OmitType(CreateBillingHistoryRequestDtoV2, ['payAmount', 'vatAmount']),
 ) {
     domesticAmount: number;
     abroadAmount?: number;
@@ -22,7 +22,7 @@ export class CreateBillingHistoryByCardReceiptDto extends PartialType(
         });
     }
 
-    get vat(): CreateMoneyRequestDto | undefined {
+    get vatAmountDto(): CreateMoneyRequestDto | undefined {
         if (!this.vatAmount) return undefined;
 
         return plainToInstance(CreateMoneyRequestDto, {

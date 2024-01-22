@@ -53,26 +53,30 @@ export const CreditCardProfileOption = memo((props: CreditCardProfileOptionProps
 
     const randomNumber = (creditCard.name || '').length + creditCard.id;
     const colorClass = getColor(randomNumber, palette.notionColors);
-    const endNumber = creditCard.secretInfo.number4;
+    const endNumber = creditCard.secretInfo?.number4;
 
     return (
-        <div className={`flex items-center gap-2 py-1 px-3 -mx-3 text-gray-700 group-hover:text-scordi`}>
-            <Avatar className="w-7">
-                <FaRegCreditCard size={20} className="h-full w-full p-[6px]" />
-            </Avatar>
+        <div className={`flex items-center gap-2 py-1 text-gray-700 group-hover:text-scordi w-60 overflow-x-hidden`}>
+            {creditCard ? (
+                <>
+                    <Avatar className="w-7">
+                        <FaRegCreditCard size={20} className="h-full w-full p-[6px]" />
+                    </Avatar>
 
-            <div className="flex flex-col gap-0.5">
-                <p className={`flex gap-2 items-center group-hover:text-scordi leading-none`}>
-                    <span className="whitespace-nowrap w-[198px] overflow-hidden" style={{textOverflow: 'ellipsis'}}>
-                        {creditCard.name}
-                    </span>
-                </p>
-                {endNumber && (
-                    <p className="block text-xs font-normal text-gray-400 group-hover:text-scordi-300 leading-none">
-                        끝자리: <span>{endNumber || '알수없음'}</span>
-                    </p>
-                )}
-            </div>
+                    <div className="flex flex-col gap-0.5 overflow-x-hidden">
+                        <p className={`flex gap-2 items-center group-hover:text-scordi leading-none`}>
+                            <span className="truncate">{creditCard.name}</span>
+                        </p>
+                        {endNumber && (
+                            <p className="block text-xs font-normal text-gray-400 group-hover:text-scordi-300 leading-none">
+                                끝자리: <span>{endNumber || '알수없음'}</span>
+                            </p>
+                        )}
+                    </div>
+                </>
+            ) : (
+                <></>
+            )}
         </div>
     );
 });

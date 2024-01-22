@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {BsInfoCircle} from 'react-icons/bs';
-import {MoneyDto} from '^types/money.type';
+import {MoneyDto} from '^models/Money';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
 import {changePriceCurrency, currencyFormat, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';

@@ -1,9 +1,23 @@
 import {atom, selector} from 'recoil';
 import {errorNotify} from '^utils/toast-notify';
 import {billingHistoryIdParamState} from '^atoms/common';
-import {billingHistoryApi} from '^models/BillingHistory/api';
-import {Paginated} from '^types/utils/paginated.dto';
-import {BillingHistoryDto, GetBillingHistoriesParams} from '^models/BillingHistory/type';
+import {pagedResourceAtom} from '^hooks/usePagedResource';
+import {BillingHistoryDto, GetBillingHistoriesParams} from '../type';
+import {billingHistoryApi} from '../api';
+
+export const billingHistoriesAtom = pagedResourceAtom<BillingHistoryDto, GetBillingHistoriesParams>({
+    key: 'billingHistoriesAtom',
+});
+
+// 구독 상세모달 / 결제내역
+export const billingHistoryListOfSubscriptionAtom = pagedResourceAtom<BillingHistoryDto, GetBillingHistoriesParams>({
+    key: 'billingHistoryListOfSubscriptionAtom',
+});
+
+// 결제내역 상세모달 / 결제내역
+export const billingHistoryListInSiblingsAtom = pagedResourceAtom<BillingHistoryDto, GetBillingHistoriesParams>({
+    key: 'billingHistoryListInSiblingsAtom',
+});
 
 /**
  * Billing History
@@ -72,27 +86,6 @@ export const getBillingHistoryQuery = selector({
         // setter 가 호출되면 트리거의 값을 1만큼 증가
         // => 트리거 값 변경으로 인해 api call
         set(getBillingHistoryQueryTrigger, (v) => v + 1);
-    },
-});
-
-// useBillingHistoriesV3 에서 사용되는 Query State
-export const orgBillingHistoriesQueryV3Atom = atom<GetBillingHistoriesParams>({
-    key: 'orgBillingHistoriesQueryV3Atom',
-    default: {},
-});
-
-// useBillingHistoriesV3 에서 사용되는 Result State
-export const orgBillingHistoriesResultV3Atom = atom<Paginated<BillingHistoryDto>>({
-    key: 'orgBillingHistoriesResultV3Atom',
-    default: {
-        items: [],
-        pagination: {
-            totalItemCount: 0,
-            currentItemCount: 0,
-            totalPage: 1,
-            currentPage: 1,
-            itemsPerPage: 30,
-        },
     },
 });
 

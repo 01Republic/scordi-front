@@ -1,6 +1,6 @@
 import {BillingHistoryDto} from '^models/BillingHistory/type';
 import {OmitType} from '^types/utils/omit-type';
-import {CurrencyCode} from '^types/money.type';
+import {CurrencyCode} from '^models/Money';
 
 export class BillingHistoryByCardReceiptDto extends OmitType(BillingHistoryDto, [
     'invoiceApp',
@@ -8,6 +8,7 @@ export class BillingHistoryByCardReceiptDto extends OmitType(BillingHistoryDto, 
     'invoiceUrl',
     'emailOriginId',
     'emailContent',
+    'vatAmount',
 ]) {
     domesticAmount: number;
     abroadAmount?: number;
@@ -26,16 +27,19 @@ export class BillingHistoryByCardReceiptDto extends OmitType(BillingHistoryDto, 
     constructor(billingHistory: BillingHistoryDto) {
         super(billingHistory);
 
-        const {payAmount, vat} = billingHistory;
-        if (!payAmount) throw new Error('payAmount is null');
+        const {payAmount, vatAmount} = billingHistory;
+        // if (!payAmount) throw new Error('payAmount is null');
 
-        const {code, amount, exchangeRate, exchangedCurrency} = payAmount;
-        const isDomestic = code === CurrencyCode.KRW;
+        const code = payAmount?.code;
+        const amount = payAmount?.amount || 0;
+        const exchangeRate = payAmount?.exchangeRate || 1;
+        const exchangedCurrency = payAmount?.exchangedCurrency;
+        const isDomestic = payAmount ? code === CurrencyCode.KRW : true;
         const isExchangeable = isDomestic && exchangedCurrency !== code && exchangeRate !== 1;
 
         this.domesticAmount = amount;
         this.abroadAmount = isExchangeable ? amount / exchangeRate : undefined;
         this.exchangedCurrency = this.abroadAmount ? exchangedCurrency : CurrencyCode.KRW;
-        this.vatAmount = vat?.amount;
+        this.vatAmount = vatAmount?.amount;
     }
 }

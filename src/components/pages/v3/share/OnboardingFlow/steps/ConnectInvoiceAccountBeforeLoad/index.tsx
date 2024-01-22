@@ -1,12 +1,13 @@
-import {memo} from 'react';
+import {memo, useEffect} from 'react';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import {googleOAuth} from '^config/environments';
 import {StepContentProps} from '^components/util/funnel';
 import {FaArrowLeft, FaArrowRight} from 'react-icons/fa6';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {useSetRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {connectInvoiceAccountCodeAtom} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
+import {isLoadedState} from '^v3/share/OnboardingFlow/atom';
 
 interface Props extends StepContentProps {
     // onNext: () => any;
@@ -15,10 +16,17 @@ interface Props extends StepContentProps {
 export const ConnectInvoiceAccountBeforeLoad = memo(function ConnectInvoiceAccountBeforeLoad(props: Props) {
     const {onPrev, onNext} = props;
     const setCode = useSetRecoilState(connectInvoiceAccountCodeAtom);
+    const [isLoading, setIsLoading] = useRecoilState(isLoadedState);
+
     const onCode = (code: string) => {
         setCode(code);
         onNext();
     };
+
+    useEffect(() => {
+        isLoading && setIsLoading(false);
+    }, []);
+
     return (
         <GoogleOAuthProvider clientId={googleOAuth.gmailClient.id}>
             <div data-step="ConnectInvoiceAccount" className="h-full flex flex-col justify-start gap-7">
@@ -33,7 +41,7 @@ export const ConnectInvoiceAccountBeforeLoad = memo(function ConnectInvoiceAccou
 
                 <Container size="sm" className="">
                     <div className="w-full flex justify-center">
-                        <GoogleLoginBtn about="gmail" onCode={onCode} />
+                        <GoogleLoginBtn about="gmail" onCode={(code) => onCode(code)} />
                     </div>
 
                     {/* 뒤로가기 */}

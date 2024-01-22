@@ -1,7 +1,6 @@
 import {atom} from 'recoil';
-import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {FindAllInvoiceAccountQueryDto, InvoiceAccountDto} from '^models/InvoiceAccount/type';
-import {Paginated} from '^types/utils/paginated.dto';
+import {pagedResourceAtom} from '^hooks/usePagedResource';
 
 export const invoiceAccountSelectModalAtom = {
     isShowAtom: atom({
@@ -10,26 +9,6 @@ export const invoiceAccountSelectModalAtom = {
     }),
 };
 
-// export const invoiceAccountSubscriptionIdAtom = atom<number | null>({
-//     key: 'invoiceAccountSubscriptionIdAtom',
-//     default: null,
-// });
-
-export const getInvoiceAccountsQueryAtom = atom<FindAllInvoiceAccountQueryDto>({
-    key: 'SelectModal/getInvoiceAccountsQueryAtom',
-    default: {},
-});
-
-export const invoiceAccountsSearchResultAtom = atom<Paginated<InvoiceAccountDto>>({
-    key: 'SelectModal/invoiceAccountsSearchResultAtom',
-    default: {
-        items: [],
-        pagination: {
-            totalItemCount: 0,
-            currentItemCount: 0,
-            totalPage: 1,
-            currentPage: 1,
-            itemsPerPage: 30,
-        },
-    },
+export const invoiceAccountsInSelectModal = pagedResourceAtom<InvoiceAccountDto, FindAllInvoiceAccountQueryDto>({
+    key: 'invoiceAccountsInSelectModal',
 });

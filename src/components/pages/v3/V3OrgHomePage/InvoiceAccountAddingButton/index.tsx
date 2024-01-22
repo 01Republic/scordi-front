@@ -5,7 +5,7 @@ import {InvoiceAppListPanel, selectedInvoiceAccountAtom} from './InvoiceAppListP
 import {currentOrgAtom} from '^models/Organization/atom';
 import {useTranslation} from 'next-i18next';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
-import {newInvoiceAccountModal} from '../NewInvoiceAccountModal/atom';
+import {newInvoiceAccountModal} from '^v3/share/modals/NewInvoiceAccountModal/atom';
 import {useModal} from '^v3/share/modals/useModal';
 
 export const InvoiceAccountAddingButton = memo(() => {

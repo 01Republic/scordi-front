@@ -1,9 +1,14 @@
 import React, {memo} from 'react';
 import {useModal} from '^v3/share/modals/useModal';
-import {isOpenNewTeamMemberModalAtom} from '../modals/NewTeamMemberModal/atom';
-import {isOpenInviteOrgMemberModalAtom} from '../modals/InviteMemberModal/atom';
+import {isOpenNewTeamMemberModalAtom} from '^v3/share/modals/NewTeamMemberModal/CreateTeamMemberModal/atom';
+import {isOpenInviteOrgMemberModalAtom} from '^v3/share/modals/NewTeamMemberModal/InviteMemberModal/atom';
 import {BsPlus} from 'react-icons/bs';
 import {FaPlus} from 'react-icons/fa6';
+import {useToast} from '^hooks/useToast';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
+import {HiLink, HiOutlineEnvelope, HiOutlineUser} from 'react-icons/hi2';
+import {serviceHost} from '^config/environments';
 
 export enum ButtonTypes {
     TextBtn = 'textBtn',
@@ -19,17 +24,24 @@ interface AddMemberButtonProps {
 }
 
 export const AddMemberButton = memo((props: AddMemberButtonProps) => {
-    const {text, direction, className, type} = props;
-
     const {isShow: isNewTeamMemberModalShow, setIsShow: setNewTeamMemberModalShow} = useModal({
         isShowAtom: isOpenNewTeamMemberModalAtom,
     });
     const {isShow: isInviteMemberModalShow, setIsShow: setInviteOrgMemberModalShow} = useModal({
         isShowAtom: isOpenInviteOrgMemberModalAtom,
     });
+    const {toast} = useToast();
+    const orgId = useRecoilValue(orgIdParamState);
+    const {text, direction, className, type} = props;
+    const link = `${serviceHost}/v3/orgs/${orgId}/join?isCopied=true`;
 
     const newTeamMemberModalShow = () => setNewTeamMemberModalShow(true);
     const inviteOrgMemberModalShow = () => setInviteOrgMemberModalShow(true);
+    const onCopy = () => {
+        if (!link) return;
+        navigator.clipboard.writeText(link);
+        toast.success('클립보드에 복사했습니다.');
+    };
 
     return (
         <>
@@ -66,13 +78,24 @@ export const AddMemberButton = memo((props: AddMemberButtonProps) => {
 
                     <ul
                         tabIndex={0}
-                        className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 my-2"
+                        className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 my-2 text-sm"
                     >
                         <li onClick={inviteOrgMemberModalShow}>
-                            <span>이메일로 초대하기</span>
+                            <span>
+                                <HiOutlineEnvelope /> 이메일로 초대하기
+                            </span>
+                        </li>
+                        <li onClick={onCopy}>
+                            <span>
+                                <HiLink />
+                                초대링크 복사하기
+                            </span>
                         </li>
                         <li onClick={newTeamMemberModalShow}>
-                            <span>직접 등록하기</span>
+                            <span>
+                                <HiOutlineUser />
+                                직접 등록하기
+                            </span>
                         </li>
                     </ul>
                 </div>

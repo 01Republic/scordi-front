@@ -1,6 +1,6 @@
 import React, {memo, useEffect} from 'react';
 import {V3OrgTeamMembersPageRoute} from '^pages/v3/orgs/[orgId]/teams/members';
-import {useTeamMembers} from '^models/TeamMember/hook';
+import {useTeamMembersInDashboard} from '^models/TeamMember/hook';
 import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
 import {Section} from '../../Section';
 import {MoreButton} from '../../MoreButton';
@@ -13,7 +13,7 @@ import {orgIdParamState} from '^atoms/common';
 export const MemberListSection = memo(function MemberListSection() {
     const orgId = useRecoilValue(orgIdParamState);
     const {safePath} = useSafePathInCurrentOrg();
-    const {result: teamMembers, search: getTeamMembers, isLoading} = useTeamMembers();
+    const {result: teamMembers, search: getTeamMembers, isLoading} = useTeamMembersInDashboard();
 
     useEffect(() => {
         // first loaded.

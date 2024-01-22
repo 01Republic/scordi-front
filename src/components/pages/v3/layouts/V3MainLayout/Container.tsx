@@ -9,5 +9,6 @@ export const V3MainLayoutContainer = memo((props: V3MainLayoutContainerProps) =>
     const {className = '', children} = props;
 
     // return <div className={`py-[72px] max-w-[62.3%] mx-auto ${className}`}>{children}</div>;
-    return <main className={`container max-w-screen-xl py-10 px-12 ${className}`}>{children}</main>;
+    // return <main className={`max-w-screen-xl py-10 px-12 mx-auto ${className}`}>{children}</main>;
+    return <main className={`py-10 px-12 ${className}`}>{children}</main>;
 });

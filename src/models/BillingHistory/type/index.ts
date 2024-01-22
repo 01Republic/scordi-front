@@ -1,5 +1,5 @@
 import {TypeCast} from '^types/utils/class-transformer';
-import {CreateMoneyRequestDto, CurrencyCode, CurrencyList, MoneyDto} from '^types/money.type';
+import {CreateMoneyRequestDto, CurrencyCode, CurrencyList, MoneyDto} from '^models/Money';
 import {OrganizationDto} from '^models/Organization/type';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {InvoiceAppDto} from '^models/InvoiceApp/type';
@@ -28,6 +28,7 @@ export class BillingHistoryDto {
     @TypeCast(() => Date) lastRequestedAt: Date | null; // 최근 결제 요청 일시
     @TypeCast(() => Date) paidAt: Date | null; // 결제 완료 일시
     @TypeCast(() => MoneyDto) payAmount: MoneyDto | null; // 결제금액
+    @TypeCast(() => MoneyDto) abroadPayAmount: MoneyDto | null; // 해외결제금액
     paymentMethod: string; // 결제수단
     memo: string | null; // 메모
     // isSuccess: boolean; // 결제완료여부
@@ -43,7 +44,7 @@ export class BillingHistoryDto {
      */
     isDomestic: boolean | null; // 국내/해외 결제 여부
     isVATDeductible: boolean | null; // 공제/불공제 여부
-    @TypeCast(() => MoneyDto) vat: MoneyDto | null; // 부가세
+    @TypeCast(() => MoneyDto) vatAmount: MoneyDto | null; // 부가세
     @TypeCast(() => Date) createdAt: Date; // 생성일시
     @TypeCast(() => Date) updatedAt: Date; // 수정일시
     @TypeCast(() => OrganizationDto) organization?: OrganizationDto; // 조직
@@ -137,7 +138,7 @@ export class CreateBillingHistoryRequestDto {
     memo?: string; // 메모
     isDomestic?: boolean; // 국내/해외 결제 여부
     isVATDeductible?: boolean; // 공제/불공제 여부
-    vat?: CreateMoneyRequestDto; // 부과세
+    vatAmount?: CreateMoneyRequestDto; // 부과세
 }
 
 interface Type<T = any> extends Function {

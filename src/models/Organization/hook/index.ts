@@ -34,7 +34,7 @@ export function useCurrentOrg(id: number) {
 
         organizationApi
             .show(id, {
-                relations: ['lastGoogleSyncHistory', 'lastGoogleSyncHistory.googleTokenData'],
+                relations: ['lastGoogleSyncHistory', 'lastGoogleSyncHistory.googleTokenData', 'invoiceAccounts'],
             })
             .then((res) => setCurrentOrg(res.data))
             .catch((e: AxiosError) => {

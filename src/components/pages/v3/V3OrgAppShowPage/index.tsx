@@ -4,11 +4,11 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {AccountListModal} from '^v3/share/modals/AccountListModal';
 import {appIdState, useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {BillingHistoryDetailModal} from '^v3/share/modals/BillingHistoryDetailModal';
-import {AppShowPageBody} from './modals/AppShowPageModal/AppShowPageBody';
-import {SelectTeamMemberModal} from './modals/AppShowPageModal/SelectTeamMemberModal';
+import {AppShowPageBody} from '^v3/share/modals/AppShowPageModal/AppShowPageBody';
+import {SelectTeamMemberModal} from '^v3/share/modals/AppShowPageModal/SelectTeamMemberModal';
 import {InvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal';
 import {useSetRecoilState} from 'recoil';
-import {NewBillingHistoryModal} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal';
+import {NewBillingHistoryModal} from 'src/components/pages/v3/share/modals/NewBillingHistoryModal';
 
 export const V3OrgAppShowPage = memo(() => {
     const {currentSubscription} = useCurrentSubscription();

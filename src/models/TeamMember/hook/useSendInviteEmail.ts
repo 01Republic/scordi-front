@@ -9,13 +9,13 @@ export const useSendInviteEmail = () => {
     const orgId = useRecoilValue(orgIdParamState);
     const {alert} = useAlert();
 
-    async function sendEmail(email: string) {
+    async function sendEmail(email: string, teamMemberId?: number) {
         if (!orgId || isNaN(orgId) || !email.length) return;
         if (isLoading) return;
 
         setIsLoading(true);
 
-        const req = inviteMembershipApi.create({organizationId: orgId, invitedEmails: [email]});
+        const req = inviteMembershipApi.create({organizationId: orgId, invitations: [{email, teamMemberId}]});
 
         req.catch((e) => alert.error('초대가 실패했습니다.', e));
         req.finally(() => setIsLoading(false));

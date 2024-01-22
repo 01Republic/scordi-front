@@ -5,17 +5,14 @@ import {SummaryItem} from './SummaryItem';
 import {MonthHandler} from '^v3/V3OrgBillingHistoriesPage/desktop/MonthHandler';
 import {useFocusedMonth} from '^v3/V3OrgHomePage/feature/useFocusedMonth';
 import {MonthlyTotal} from '^v3/V3OrgHomePage/desktop/sections/SummarySection/MonthlyTotal';
-import {useSubscriptionsV3} from '^models/Subscription/hook';
 import {SubscriptionManager} from '^models/Subscription/manager';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {subscriptionsForSummaryState} from './atom';
-
-const {searchResultAtom, queryAtom} = subscriptionsForSummaryState;
+import {useDashboardSubscriptionSummary} from '^models/Subscription/hook';
 
 export const SummarySection = memo(function SummarySection() {
     const {focusedMonth} = useFocusedMonth();
-    const {result, search: getSubscriptions} = useSubscriptionsV3(searchResultAtom, queryAtom);
+    const {isLoading, result, search: getSubscriptions} = useDashboardSubscriptionSummary();
     const Subscription = SubscriptionManager.init(result.items || []);
     const orgId = useRecoilValue(orgIdParamState);
 
@@ -23,7 +20,6 @@ export const SummarySection = memo(function SummarySection() {
         if (!orgId || isNaN(orgId)) return;
 
         getSubscriptions({
-            where: {organizationId: orgId},
             relations: ['master'],
             itemsPerPage: 0,
         });
@@ -46,15 +42,23 @@ export const SummarySection = memo(function SummarySection() {
                     <Panel padding="compact">
                         <div className="w-full grid grid-cols-6 items-center justify-items-stretch">
                             {/*<SummaryItem title={'모든 구독'} />*/}
-                            <SummaryItem title={'유료 구독'} value={Subscription.paid().length} />
-                            <SummaryItem title={'무료 구독'} value={Subscription.free().length} />
-                            <SummaryItem title={'결제 예정'} value={Subscription.pending().length} />
+                            <SummaryItem title={'유료 구독'} value={Subscription.paid().length} isLoading={isLoading} />
+                            <SummaryItem title={'무료 구독'} value={Subscription.free().length} isLoading={isLoading} />
+                            <SummaryItem
+                                title={'결제 예정'}
+                                value={Subscription.pending().length}
+                                isLoading={isLoading}
+                            />
                             {/*<SummaryItem title={'결제 완료'} />*/}
-                            <SummaryItem title={'결제 실패'} value={Subscription.failed().length} />
+                            <SummaryItem
+                                title={'결제 실패'}
+                                value={Subscription.failed().length}
+                                isLoading={isLoading}
+                            />
                             {/*(블러 처리 하고 유료플랜)*/}
-                            <SummaryItem title={'이상 결제'} value="?" covered />
+                            <SummaryItem title={'이상 결제'} value="?" isLoading={isLoading} covered />
                             {/*(블러 처리 하고 유료플랜)*/}
-                            <SummaryItem title={'무료플랜 만료'} value="?" covered />
+                            <SummaryItem title={'무료플랜 만료'} value="?" isLoading={isLoading} covered />
                         </div>
                     </Panel>
                 </div>

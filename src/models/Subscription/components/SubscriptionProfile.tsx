@@ -12,12 +12,12 @@ export const SubscriptionProfile = memo((props: SubscriptionProfileProps) => {
     const {product} = subscription;
 
     return (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 w-60">
             <Avatar className="w-6 h-6" src={product.image} alt={product.name()} draggable={false} loading="lazy">
                 <FaQuestion size={24} className="text-gray-300 h-full w-full p-[6px]" />
             </Avatar>
-            <div className="h-full group-hover:text-scordi transition-all">
-                <p className="max-w-40 truncate overflow-x-hidden text-sm">
+            <div className="h-full group-hover:text-scordi transition-all w-full overflow-x-hidden">
+                <p className="truncate text-sm">
                     {product.name()} {subscription.alias ? `- ${subscription.alias}` : ''}
                 </p>
             </div>

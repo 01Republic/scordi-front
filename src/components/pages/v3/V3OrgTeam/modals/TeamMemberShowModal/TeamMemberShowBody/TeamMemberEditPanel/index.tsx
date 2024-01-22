@@ -10,12 +10,18 @@ import {TeamSelect} from './TeamSelect';
 import {EMAIL_REGEXP, emailValid} from '^utils/input-helper';
 import {plainToast} from '^hooks/useToast';
 
-export const TeamMemberEditPanel = memo(function TeamMemberEditPanel() {
+interface TeamMemberEditPanelProp {
+    onSubmit?: () => any;
+}
+
+export const TeamMemberEditPanel = memo(function TeamMemberEditPanel(props: TeamMemberEditPanelProp) {
     const [isEditMode, setIsEditMode] = useRecoilState(isTeamMemberEditModeAtom);
     const memberList = useTeamMembers();
     const {teamMember, updateMember} = useTeamMember(currentTeamMemberState);
     const form = useForm<UpdateTeamMemberDto>();
     const emailInputRef = useRef<HTMLInputElement>(null);
+
+    const {onSubmit} = props;
 
     useEffect(() => {
         if (!teamMember || !isEditMode) return;
@@ -54,6 +60,8 @@ export const TeamMemberEditPanel = memo(function TeamMemberEditPanel() {
             form.reset();
             if (memberList.isExist) memberList.reload();
         });
+
+        onSubmit && onSubmit();
     };
 
     // const originalTeam = teamMember.team;

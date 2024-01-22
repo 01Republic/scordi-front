@@ -1,88 +1,58 @@
-import React, {ChangeEvent, memo, MutableRefObject, useEffect, useRef, useState} from 'react';
+import React, {ChangeEvent, memo, MutableRefObject, useEffect, useRef} from 'react';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {CreditCardSecretInfo} from '^models/CreditCard/type';
 import {currentCreditCardAtom} from '^models/CreditCard/atom';
 import {createCreditCardDtoAtom} from '^v3/share/modals/NewCardModal/atom';
 import {useModal} from '^v3/share/modals';
 import {newCardModalState} from '^v3/share/modals/NewCardModal/NewCardModalV2/atom';
-import {CardNumberInput} from '^v3/share/modals/NewCardModal/NewCardModalV2/CardNumberInput/CardNumberInput';
+import {inputTextToCardNumberFormat} from '^utils/input-helper';
 
 interface InputCardNumberProps {
-    cardNameRef: MutableRefObject<HTMLInputElement | null>;
+    nextFocusInputRef?: MutableRefObject<HTMLInputElement | null>;
 }
 
 export const InputCardNumber = memo((props: InputCardNumberProps) => {
-    const [cardInfo, setCardInfo] = useState<CreditCardSecretInfo>();
     const {isShow} = useModal(newCardModalState);
-    const setCreateCreditCardDto = useSetRecoilState(createCreditCardDtoAtom);
-
-    const {cardNameRef} = props;
-
-    const number1Ref = useRef<HTMLInputElement | null>(null);
-    const number2Ref = useRef<HTMLInputElement | null>(null);
-    const number3Ref = useRef<HTMLInputElement | null>(null);
-    const number4Ref = useRef<HTMLInputElement | null>(null);
-
-    // Detail page 에서 모달 띄울 시 존재함.
+    const inputRef = useRef<HTMLInputElement | null>(null);
     const currentCreditCard = useRecoilValue(currentCreditCardAtom);
+    const setFormData = useSetRecoilState(createCreditCardDtoAtom);
+
+    const {nextFocusInputRef} = props;
 
     useEffect(() => {
-        number1Ref.current?.focus();
+        inputRef.current?.focus();
+    }, [isShow]);
 
-        if (!currentCreditCard?.numbers) return;
+    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = inputTextToCardNumberFormat(e);
+        const numbers = value.replace(/ - /g, '');
+        const isFulfilled = numbers.length >= 16;
 
-        const decrypted = currentCreditCard.decryptSign();
-        setCardInfo(decrypted);
-    }, [isShow, currentCreditCard]);
+        if (!isFulfilled) return;
+
+        /**
+         * 다음 포커스를 이동할 인풋이 입력되어있는 경우에
+         * 카드넘버 입력이 완성되었는지 확인하고
+         * 완성이 되었을 때 다음 인풋으로 포커스를 넘깁니다.
+         */
+        if (nextFocusInputRef?.current) nextFocusInputRef.current?.focus();
+
+        setFormData((prev) => ({
+            ...prev,
+            number1: numbers.slice(0, 4),
+            number2: numbers.slice(4, 8),
+            number3: numbers.slice(8, 12),
+            number4: numbers.slice(12, 16),
+        }));
+    };
 
     return (
-        <div>
-            <div className="flex gap-3 mb-3">
-                <CardNumberInput
-                    defaultValue={cardInfo?.number1}
-                    inputRef={number1Ref}
-                    nextInputRef={number2Ref}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                        setCreateCreditCardDto((prev) => ({
-                            ...prev,
-                            number1: e.target.value,
-                        }));
-                    }}
-                />
-                <CardNumberInput
-                    defaultValue={cardInfo?.number2}
-                    inputRef={number2Ref}
-                    nextInputRef={number3Ref}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                        setCreateCreditCardDto((prev) => ({
-                            ...prev,
-                            number2: e.target.value,
-                        }));
-                    }}
-                />
-                <CardNumberInput
-                    defaultValue={cardInfo?.number3}
-                    inputRef={number3Ref}
-                    nextInputRef={number4Ref}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                        setCreateCreditCardDto((prev) => ({
-                            ...prev,
-                            number3: e.target.value,
-                        }));
-                    }}
-                />
-                <CardNumberInput
-                    defaultValue={cardInfo?.number4}
-                    inputRef={number4Ref}
-                    nextInputRef={cardNameRef}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                        setCreateCreditCardDto((prev) => ({
-                            ...prev,
-                            number4: e.target.value,
-                        }));
-                    }}
-                />
-            </div>
-        </div>
+        <input
+            ref={inputRef}
+            defaultValue={currentCreditCard.fullNumber}
+            onChange={onChange}
+            className="input w-full input-bordered placeholder:text-xs"
+            maxLength={25}
+            placeholder="●●●● - ●●●● - ●●●● - ●●●● "
+        />
     );
 });

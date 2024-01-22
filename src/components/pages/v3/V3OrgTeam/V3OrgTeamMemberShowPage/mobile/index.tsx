@@ -9,7 +9,7 @@ import {TeamMemberShowBody} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
 import {EditButton} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/EditButton';
 import {DeleteButton} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/DeleteButton';
 import {AccountListModal} from '^v3/share/modals/AccountListModal';
-import {SelectTeamMemberModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/SelectTeamMemberModal';
+import {SelectTeamMemberModal} from '^v3/share/modals/AppShowPageModal/SelectTeamMemberModal';
 import {SelectSubscriptionModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/SelectSubscriptionModal';
 
 export const V3OrgTeamMemberShowPage = memo(() => {

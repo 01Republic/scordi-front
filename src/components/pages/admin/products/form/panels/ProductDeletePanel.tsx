@@ -10,15 +10,25 @@ import {productApi} from '^models/Product/api';
 import React from 'react';
 import {ProductDto} from '^models/Product/type';
 import {AdminProductsPageRoute} from '^pages/admin/products';
+import {useAlert} from '^hooks/useAlert';
 
 interface PrototypeDeletePanelProps {
     product: ProductDto;
 }
 export const ProductDeletePanel = (props: PrototypeDeletePanelProps) => {
     const router = useRouter();
+    const {alert} = useAlert();
     const {product} = props;
+
     const onclick = () => {
-        productApi.destroy(product.id).then(() => router.replace(AdminProductsPageRoute.path()));
+        if (confirm('데이터를 복구할 수 없게 됩니다.\n진짜 실행할까요?')) {
+            productApi
+                .destroy(product.id)
+                .then(() => router.replace(AdminProductsPageRoute.path()))
+                .catch((err) => {
+                    alert.error('삭제하지 못했어요', err.response.data.message);
+                });
+        }
     };
 
     return (

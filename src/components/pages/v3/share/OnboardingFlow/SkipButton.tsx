@@ -22,21 +22,28 @@ export const SkipButton = memo(function SkipButton(props: SkipButtonProps) {
     );
 });
 
+export enum SkippedStoreStatus {
+    WorkspaceSkip = 'workspace-skipped',
+    InvoiceSkip = 'invoice-skipped',
+}
+
 export class OnboardingSkippedStore {
-    storeKey = 'onboarding-skipped';
+    storeKey: SkippedStoreStatus;
     expireDayDuration = 1; // 온보딩 "스킵" 상태가 지속되는 시간 (일 단위)
     store: Record<number, number> = {}; // 의도한 구조 => Record<organizationId, timestamp>;
 
-    constructor() {
-        this.init();
+    constructor(storeKey: SkippedStoreStatus) {
+        this.init(storeKey);
     }
 
-    init() {
-        const storeStr = window.localStorage.getItem(this.storeKey);
+    init(storeKey: SkippedStoreStatus) {
+        this.storeKey = storeKey;
+        const storeStr = window.localStorage.getItem(storeKey);
         if (storeStr) {
             this.store = JSON.parse(storeStr);
         } else {
-            window.localStorage.setItem(this.storeKey, JSON.stringify({}));
+            window.localStorage.setItem(storeKey, JSON.stringify({}));
+            this.store = {};
         }
     }
 

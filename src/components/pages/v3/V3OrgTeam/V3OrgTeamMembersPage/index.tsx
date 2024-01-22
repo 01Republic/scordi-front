@@ -6,11 +6,11 @@ import {V3MainLayoutMobile} from '^v3/layouts/V3MainLayout.mobile';
 import {BottomTabIndex} from '^v3/share/BottomNavMobile';
 import {LNBIndex} from '^v3/share/LeftNavBar';
 import {TeamMembersPanel} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/mobile/TeamMembersPanel';
-import {TeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
-import {InviteOrgMemberModal} from '^v3/V3OrgTeam/modals/InviteMemberModal';
 import {AddMemberButton, ButtonTypes} from './AddMemberButton';
 import {TeamMembersTableSection} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection';
-import {TeamMemberCreateModal} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberCreateModal';
+import {TeamMemberCreateModal} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/_localModals/TeamMemberCreateModal';
+import {TeamMemberInviteModal} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/_localModals/TeamMemberInviteModal';
+import {TeamMemberDetailModal} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/_localModals/TeamMemberDetailModal';
 
 export const V3OrgTeamMembersPage = memo(() => {
     const {t} = useTranslation('org-home');
@@ -20,7 +20,7 @@ export const V3OrgTeamMembersPage = memo(() => {
         return (
             <V3MainLayout
                 activeTabIndex={LNBIndex.Members}
-                modals={[TeamMemberCreateModal, InviteOrgMemberModal, TeamMemberShowModal]}
+                modals={[TeamMemberCreateModal, TeamMemberInviteModal, TeamMemberDetailModal]}
             >
                 <V3MainLayoutContainer>
                     <section className="mb-6">
@@ -39,7 +39,7 @@ export const V3OrgTeamMembersPage = memo(() => {
             <V3MainLayoutMobile
                 title="멤버 목록"
                 activeTabIndex={BottomTabIndex.MEMBERS}
-                modals={[TeamMemberCreateModal, InviteOrgMemberModal]}
+                modals={[TeamMemberCreateModal, TeamMemberInviteModal]}
             >
                 <TeamMembersPanel />
             </V3MainLayoutMobile>

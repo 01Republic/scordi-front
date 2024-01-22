@@ -1,4 +1,4 @@
-import {CurrencyCode} from '^types/money.type';
+import {CurrencyCode} from '^models/Money';
 
 export enum RecurringType {
     Monthly = 'Monthly',

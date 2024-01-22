@@ -8,9 +8,9 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {FormControl, RequiredFormControl} from '^components/util/form-control';
 import {BillingHistoryEditPanelBySubtype} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryEditPanel/BillingHistoryEditPanelBySubtype';
 import {CardSingleSelect} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryEditPanel/CardSelect';
-import {CurrencyCode} from '^types/money.type';
+import {CurrencyCode} from '^models/Money';
 import {ButtonGroupRadio} from '^components/util/form-control/inputs';
-import {TextInput} from '^v3/share/modals/BillingHistoryDetailModal/NewBillingHistoryModal/share/TextInput';
+import {TextInput} from '^v3/share/modals/NewBillingHistoryModal/share/TextInput';
 import {plainToast} from '^hooks/useToast';
 import {
     BillingHistoryByCardReceiptDto,
@@ -18,11 +18,13 @@ import {
 } from '^models/BillingHistory/type/card-recipt';
 import {plainToInstance} from 'class-transformer';
 import {BillingHistoryEditAbroadCurrencyButton} from './BillingHistoryEditAbroadCurrency';
+import {useBillingHistoryListInSiblings} from '^models/BillingHistory/hook';
 
 export const BillingHistoryEditPanel = memo(function BillingHistoryEditPanel() {
     const {billingHistory, updateBillingHistory} = useBillingHistoryInModal();
     const [isEditMode, setIsEditMode] = useRecoilState(isBillingHistoryEditModeAtom);
     const form = useForm<UpdateBillingHistoryByCardReceiptDto>();
+    const {reload: reloadSiblingHistories} = useBillingHistoryListInSiblings();
 
     const setFormIfNotNull = (key: keyof UpdateBillingHistoryByCardReceiptDto, value: any) => {
         if (value === null) return;
@@ -31,13 +33,13 @@ export const BillingHistoryEditPanel = memo(function BillingHistoryEditPanel() {
 
     useEffect(() => {
         if (!billingHistory || !isEditMode) return;
-        const cardReceiptBillingHistory = new BillingHistoryByCardReceiptDto(billingHistory);
 
         form.setValue('creditCardId', billingHistory.creditCardId);
         setFormIfNotNull('isDomestic', billingHistory.isDomestic);
         setFormIfNotNull('uid', billingHistory.uid);
         setFormIfNotNull('isVATDeductible', billingHistory.isVATDeductible);
 
+        const cardReceiptBillingHistory = new BillingHistoryByCardReceiptDto(billingHistory);
         form.setValue('domesticAmount', cardReceiptBillingHistory.domesticAmount);
         form.setValue('abroadAmount', cardReceiptBillingHistory.abroadAmount);
         form.setValue('exchangedCurrency', cardReceiptBillingHistory.exchangedCurrency);
@@ -74,13 +76,17 @@ export const BillingHistoryEditPanel = memo(function BillingHistoryEditPanel() {
                 return;
             }
         }
+
         // form values to dto
         const dto = plainToInstance(UpdateBillingHistoryByCardReceiptDto, data);
         const requestDto = dto.toRequestDto();
+
         console.log('\nrequestDto', requestDto);
+
         updateBillingHistory(requestDto).then(() => {
             setIsEditMode(false);
             form.reset();
+            reloadSiblingHistories();
         });
     };
 
@@ -91,7 +97,10 @@ export const BillingHistoryEditPanel = memo(function BillingHistoryEditPanel() {
                 <MobileSection.Padding>
                     <div className="w-full flex flex-col gap-4 mb-16">
                         <RequiredFormControl topLeftLabel="결제 수단">
-                            <CardSingleSelect onChange={(cardId) => form.setValue('creditCardId', cardId)} />
+                            <CardSingleSelect
+                                billingHistory={billingHistory}
+                                onChange={(cardId) => form.setValue('creditCardId', cardId)}
+                            />
                         </RequiredFormControl>
 
                         <FormControl topLeftLabel="결제 일시">

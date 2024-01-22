@@ -32,7 +32,9 @@ export const ModalTopbar = memo((props: ModalTopbarProps & WithChildren) => {
                         <FiArrowLeft size={24} strokeWidth={2.5} />
                     </div>
                 </div>
-                <div className="h-full flex-1 flex items-center font-semibold text-16">{children || title}</div>
+                <div className="h-full max-w-full flex-1 flex items-center font-semibold text-16 overflow-x-hidden">
+                    <span className="truncate">{children || title}</span>
+                </div>
                 <div className={`text-sm ${rightButtons.length ? 'pl-6 pr-3' : 'px-6'} h-full flex items-center`}>
                     {mappedButtons}
                 </div>

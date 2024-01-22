@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {BsEnvelopePlus} from '^components/react-icons';
-import {newInvoiceAccountModal} from '../../NewInvoiceAccountModal/atom';
+import {newInvoiceAccountModal} from '^v3/share/modals/NewInvoiceAccountModal/atom';
 import {useTranslation} from 'next-i18next';
 import {useModal} from '^v3/share/modals/useModal';
 

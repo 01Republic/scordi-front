@@ -3,7 +3,7 @@ import {useRecoilValue} from 'recoil';
 import {BillingHistoryManager} from '^models/BillingHistory/manager';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
-import {useAppShowModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
+import {useAppShowModal} from 'src/components/pages/v3/share/modals/AppShowPageModal';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 import {
     LatestPayAmount,
@@ -75,7 +75,7 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
             </td>
 
             {/* 결제수단 */}
-            <td>
+            <td className="pl-3 py-0">
                 <PayMethodSelect
                     lastPaidHistory={lastPaidHistory}
                     subscription={subscription}
@@ -84,13 +84,13 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
             </td>
 
             {/* 사용인원 */}
-            <td className="text-right">
+            <td className="text-center">
                 <MemberCount subscription={subscription} />
             </td>
 
             {/* 최신 결제금액 */}
             <td className="text-right">
-                <LatestPayAmount latestBillingHistory={lastPaidHistory} />
+                <LatestPayAmount subscription={subscription} />
             </td>
 
             {/* 다음 결제일 */}
@@ -99,12 +99,12 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
             {/*</td>*/}
 
             {/* 담당자 */}
-            <td className="">
+            <td className="py-0 pl-5 w-40">
                 <MasterSelect subscription={subscription} onChange={() => reload && reload()} />
             </td>
 
             {/* Actions */}
-            <td></td>
+            {/*<td></td>*/}
         </tr>
     );
 });

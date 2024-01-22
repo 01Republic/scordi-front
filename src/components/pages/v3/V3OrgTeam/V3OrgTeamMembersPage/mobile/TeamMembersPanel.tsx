@@ -3,7 +3,7 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ContentEmpty} from '^v3/V3OrgHomePage/mobile/ContentEmpty';
 import {TeamMemberItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/mobile/TeamMemberItem';
 import {AddMemberButton, ButtonTypes} from '../AddMemberButton';
-import {isOpenInviteOrgMemberModalAtom} from '../../modals/InviteMemberModal/atom';
+import {isOpenInviteOrgMemberModalAtom} from '^v3/share/modals/NewTeamMemberModal/InviteMemberModal/atom';
 import {useModal} from '^components/pages/v3/share/modals/useModal';
 import {useRecoilValue} from 'recoil';
 import {useTeamMembers} from '^models/TeamMember/hook';

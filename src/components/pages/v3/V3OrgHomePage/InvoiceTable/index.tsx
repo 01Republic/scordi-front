@@ -4,7 +4,7 @@ import {TablePaginator} from '^v3/share/table/TablePaginator';
 import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 import {RiMailAddLine} from '^components/react-icons';
 import {useTranslation} from 'next-i18next';
-import {newInvoiceAccountModal} from '../NewInvoiceAccountModal/atom';
+import {newInvoiceAccountModal} from '^v3/share/modals/NewInvoiceAccountModal/atom';
 import {useModal} from '^v3/share/modals/useModal';
 
 export const InvoiceTable = memo(() => {

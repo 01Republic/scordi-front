@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useRef} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useModal} from '^v3/share/modals';
-import {CreateMoneyWithSubscriptionRequestDto, CurrencyCode} from '^types/money.type';
+import {CreateMoneyWithSubscriptionRequestDto, CurrencyCode} from '^models/Money';
 import {selectedCurrencyForSubscriptionState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
 import {currentBillingAmountCurrencyModalAtom} from '^v3/share/modals/NewSubscriptionModalManually/FormForBillingInfoModal/CurrentBillingAmountCurrencyModal';
 import {newSubscriptionManualFormData} from '^v3/share/modals/NewSubscriptionModalManually/atom';

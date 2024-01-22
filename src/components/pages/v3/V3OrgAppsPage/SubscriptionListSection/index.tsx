@@ -2,7 +2,7 @@ import React, {memo, useEffect} from 'react';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {usePayingTypeTags} from '^models/Tag/hook';
-import {useSubscriptionsV2} from '^models/Subscription/hook';
+import {useSubscriptionTableListAtom} from '^models/Subscription/hook';
 import {TablePaginator} from '^v3/share/table/TablePaginator';
 import {SubscriptionListViewMode, subscriptionListViewModeState} from './atom';
 import {SubscriptionTable} from './SubscriptionTable';
@@ -11,14 +11,25 @@ import {SubscriptionSearchControl} from './SubscriptionSearchControl';
 import {tagOptionsState} from './SubscriptionTable/SubscriptionTr/columns/PayingType/PayingTypeSelect';
 import {useRouter} from 'next/router';
 import {useCreditCards} from '^models/CreditCard/hook';
+import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 
+// 구독리스트탭에서 사용되는 구독리스트 테이블
 export const SubscriptionListSection = memo(function SubscriptionListSection() {
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
-    const {result, search: getSubscriptions, movePage, query, reload, clearCache} = useSubscriptionsV2();
+    const {
+        isLoading,
+        result,
+        search: getSubscriptions,
+        movePage,
+        query,
+        reload,
+        clearCache,
+    } = useSubscriptionTableListAtom();
     const setTagOptions = useSetRecoilState(tagOptionsState);
     const {search: getTags} = usePayingTypeTags();
     const {search: getCreditCards} = useCreditCards();
+    const {loadCurrentSubscription, currentSubscription} = useCurrentSubscription();
 
     const viewMode = useRecoilValue(subscriptionListViewModeState);
 
@@ -48,6 +59,13 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
         getTags({}).then((res) => setTagOptions(res.items));
     }, [orgId]);
 
+    const onReload = () => {
+        reload();
+
+        if (!currentSubscription) return;
+        loadCurrentSubscription(orgId, currentSubscription.id);
+    };
+
     return (
         <>
             <section className="flex items-center mb-4">
@@ -74,8 +92,9 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
                 {viewMode === SubscriptionListViewMode.Table && (
                     <>
                         <SubscriptionTable
+                            isLoading={isLoading}
                             items={result.items}
-                            reload={reload}
+                            reload={onReload}
                             search={getSubscriptions}
                             query={query}
                         />

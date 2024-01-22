@@ -1,32 +1,31 @@
 import React, {memo, useEffect} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {currentTeamMemberState, useTeamMember} from '^models/TeamMember';
-import {useSubscriptionsV3} from '^models/Subscription/hook';
-import {
-    pagedSubscriptionForTeamMemberShowModalState as resultAtom,
-    subscriptionQueryForTeamMemberShowModalState as queryAtom,
-} from './atom';
+import {useSubscriptionsInTeamMemberShowModal} from '^models/Subscription/hook';
 import {AddButton} from './AddButton';
 import {LoadMoreButton} from './LoadMoreButton';
 import {SubscriptionItem} from './SubscriptionItem';
 
 export const SubscriptionListTab = memo(function SubscriptionListTab() {
     const {teamMember} = useTeamMember(currentTeamMemberState);
-    const Subscriptions = useSubscriptionsV3(resultAtom, queryAtom);
+    const {result, search, except} = useSubscriptionsInTeamMemberShowModal();
 
     useEffect(() => {
         if (!teamMember) return;
 
-        Subscriptions.search({
-            where: {
-                organizationId: teamMember.organizationId,
-                // @ts-ignore
-                teamMembers: {id: teamMember.id},
+        search(
+            {
+                where: {
+                    organizationId: teamMember.organizationId,
+                    // @ts-ignore
+                    teamMembers: {id: teamMember.id},
+                },
             },
-        });
+            false,
+        );
     }, [teamMember]);
 
-    const {items, pagination} = Subscriptions.result;
+    const {items, pagination} = result;
     const {totalPage, currentPage, totalItemCount} = pagination;
 
     return (
@@ -59,7 +58,7 @@ export const SubscriptionListTab = memo(function SubscriptionListTab() {
                                 key={i}
                                 teamMember={teamMember}
                                 subscription={subscription}
-                                onDelete={() => Subscriptions.except(subscription)}
+                                onDelete={() => except(subscription)}
                             />
                         ))}
                 </ul>

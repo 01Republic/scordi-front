@@ -15,7 +15,6 @@ interface SelectCardHoldingMemberProps {
     form: UseFormReturn<UnSignedCreditCardFormData>;
 }
 export const SelectCardHoldingMember = (props: SelectCardHoldingMemberProps) => {
-    const orgId = useRecoilValue(orgIdParamState);
     const cardId = useRecoilValue(cardIdParamState);
     const cardSelector = useRecoilValue(creditCardListSelector);
     const [isShow, setIsShow] = useState(true);
@@ -30,6 +29,7 @@ export const SelectCardHoldingMember = (props: SelectCardHoldingMemberProps) => 
         const card = cardSelector.filter((card) => card.id === cardId)[0];
 
         if (card?.holdingMemberId) {
+            // @ts-ignore
             form.setValue('holdingMemberId', card.holdingMemberId);
         }
     }, [cardId, cardSelector]);

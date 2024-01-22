@@ -5,11 +5,12 @@ import {ComponentLike, renderOne} from '^components/util/ComponentLike';
 interface SummaryItemProps extends WithChildren {
     title: ComponentLike;
     value: number | string;
+    isLoading?: boolean;
     covered?: boolean;
 }
 
 export const SummaryItem = memo((props: SummaryItemProps) => {
-    const {title, value, children, covered = false} = props;
+    const {title, value, children, isLoading = false, covered = false} = props;
 
     return (
         <div className="dashboard--summary-item px-4">
@@ -33,7 +34,11 @@ export const SummaryItem = memo((props: SummaryItemProps) => {
                         </div>
                     </div>
                 ) : (
-                    <p className="text-xl font-semibold">
+                    <p
+                        className={`text-xl font-semibold ${
+                            isLoading ? 'animate-pulse !text-transparent rounded-full bg-slate-200' : ''
+                        }`}
+                    >
                         {typeof value === 'number' ? value.toLocaleString() : value}건
                     </p>
                 )}

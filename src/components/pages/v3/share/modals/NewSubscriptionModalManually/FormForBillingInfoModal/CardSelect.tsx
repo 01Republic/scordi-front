@@ -6,9 +6,9 @@ import {CardSelector} from '^v3/share/Select/CardSelector';
 export const CardSelect = memo(function CardSelect() {
     const setFormData = useSetRecoilState(newSubscriptionManualFormData);
 
-    const onChange = (creditCardId: number) => {
+    const onChange = (creditCardId: number | null) => {
         setFormData((prev) => ({...prev, creditCardId}));
     };
 
-    return <CardSelector onChange={onChange} />;
+    return <CardSelector onChange={(e) => onChange(e)} />;
 });

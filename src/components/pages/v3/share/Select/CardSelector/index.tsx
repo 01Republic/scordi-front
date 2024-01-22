@@ -1,14 +1,18 @@
 import React, {memo} from 'react';
-import Select, {GroupBase, InputActionMeta, OptionsOrGroups, StylesConfig} from 'react-select';
-import {CardComponents, selectStylesOptions} from '^v3/share/Select/CardSelector/selectOpions';
+import Select, {InputActionMeta, StylesConfig} from 'react-select';
+import {CardComponents} from '^v3/share/Select/CardSelector/selectOpions';
 import {useCreditCards} from '^models/CreditCard/hook';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {SelectOptionNotionStyledLayout, SelectOptionProps} from '^v3/share/modals/_presenters/SelectInput';
 import {CreditCardProfileOption} from '^models/CreditCard/hook/components/CreditCardProfile';
 import {debounce} from 'lodash';
+import {creditCardApi} from '^models/CreditCard/api';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
+import {useToast} from '^hooks/useToast';
 
 interface CardSelectorProps {
-    onChange: (cardId: number) => void;
+    onChange: (cardId: number | null) => void;
     defaultValue?: CreditCardDto;
 }
 
@@ -43,6 +47,7 @@ export const CardSelector = memo((props: CardSelectorProps) => {
 
     return (
         <Select
+            isClearable={true}
             options={result.items.map(toOptionData)}
             defaultValue={defaultValue ? toOptionData(defaultValue) : undefined}
             placeholder="카드 선택하기"
@@ -52,8 +57,17 @@ export const CardSelector = memo((props: CardSelectorProps) => {
                 if (action === 'input-change') loadCards(newValue);
             }}
             onMenuOpen={() => loadCards()}
-            onChange={(option) => {
-                option && onChange(option.value);
+            onChange={(option, actionMeta) => {
+                switch (actionMeta.action) {
+                    case 'select-option':
+                        option && onChange(option.value);
+                        return;
+                    case 'clear':
+                        onChange(null);
+                        return;
+                    default:
+                        option && onChange(option.value);
+                }
             }}
             noOptionsMessage={({inputValue}) => {
                 return <p>선택할 수 있는 카드가 없어요 :(</p>;
@@ -64,7 +78,7 @@ export const CardSelector = memo((props: CardSelectorProps) => {
 });
 
 type CardOptionData = {
-    value: number;
+    value: number | null;
     label: string;
     data: CreditCardDto;
 };
@@ -74,10 +88,21 @@ const toOptionData = (card: CreditCardDto): CardOptionData => {
 };
 
 const CardOption = (props: SelectOptionProps<CardOptionData>) => {
+    const orgId = useRecoilValue(orgIdParamState);
+    const {reload, deleteCreditCard} = useCreditCards();
+    const {toast} = useToast();
+
     const {data, isFocused, isSelected} = props;
 
+    const onDelete = () => {
+        deleteCreditCard(data.data, orgId).then(() => {
+            toast.success('삭제했습니다.');
+            reload();
+        });
+    };
+
     return (
-        <SelectOptionNotionStyledLayout {...props}>
+        <SelectOptionNotionStyledLayout {...props} onDelete={onDelete}>
             <CreditCardProfileOption item={data.data} />
         </SelectOptionNotionStyledLayout>
     );

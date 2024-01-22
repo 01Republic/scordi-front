@@ -2,13 +2,13 @@ import {memo, useEffect} from 'react';
 import {debounce} from 'lodash';
 import {TablePaginator} from '^v3/share/table/TablePaginator';
 import {TableSearchControl} from '^v3/share/table/TableSearchControl';
-import {useTeamMembers} from '^models/TeamMember/hook';
+import {useTeamMembersInTeamMembersTable} from '^models/TeamMember/hook';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {TeamMemberTable} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable';
 
 export const TeamMembersTableSection = memo(() => {
-    const {result, search: getTeamMembers, movePage, query} = useTeamMembers();
+    const {result, search: getTeamMembers, movePage, query} = useTeamMembersInTeamMembersTable();
     const orgId = useRecoilValue(orgIdParamState);
     const pagination = result.pagination;
 
@@ -22,16 +22,10 @@ export const TeamMembersTableSection = memo(() => {
         });
     }, [orgId]);
 
-    // const movePage = (page: number) => getTeamMembers({...query, page});
-
     const onSearch = debounce((keyword?: string) => {
         if (!query) return;
 
-        getTeamMembers({
-            ...query,
-            keyword,
-            page: 1,
-        });
+        getTeamMembers({...query, keyword, page: 1});
     }, 500);
 
     return (

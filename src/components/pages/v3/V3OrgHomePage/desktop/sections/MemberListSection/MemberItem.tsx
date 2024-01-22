@@ -20,7 +20,7 @@ export const MemberItem = memo((props: MemberItemProps) => {
 
     return (
         <div
-            className={`card card-compact bg-white shadow p-4 flex flex-col justify-between min-w-[300px] cursor-pointer transition-all hover:shadow-lg btn-animation ${
+            className={`card card-compact bg-white shadow p-4 flex flex-col justify-between min-w-[240px] cursor-pointer transition-all hover:shadow-lg btn-animation ${
                 approvalStatus === ApprovalStatus.PENDING && 'opacity-50'
             }`}
             onClick={onClick}
@@ -35,11 +35,11 @@ export const MemberItem = memo((props: MemberItemProps) => {
                     </div>
                 </div>
 
-                <p className="mb-3 text-16">
+                <p className="mb-3 text-16 overflow-hidden" style={{textOverflow: 'ellipsis'}}>
                     <b>{member.name}</b>
                 </p>
 
-                <div className="w-full text-gray-500">
+                <div className="w-full text-gray-500 flex items-center justify-between">
                     <div className="text-sm flex gap-1">
                         {member.validTeams.map((team, i) => (
                             <div key={i} className="badge bg-scordi-light-100 text-gray-500">
@@ -48,10 +48,10 @@ export const MemberItem = memo((props: MemberItemProps) => {
                         ))}
                         &nbsp;
                     </div>
-                    <div className="w-full flex gap-2 items-center">
+                    <div className="flex gap-2 items-center">
                         <FcOrgUnit size={18} />
                         {/*<FcDoughnutChart size={18} />*/}
-                        <p>{member.subscriptions?.length}개 이용 중</p>
+                        <p>{member.subscriptions?.length?.toLocaleString()}개 이용 중</p>
                     </div>
                 </div>
             </div>

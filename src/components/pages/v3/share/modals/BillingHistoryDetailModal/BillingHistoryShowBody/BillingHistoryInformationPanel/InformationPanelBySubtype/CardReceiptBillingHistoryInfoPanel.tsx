@@ -14,7 +14,7 @@ export const CardReceiptBillingHistoryInfoPanel = memo(function CardReceiptBilli
     props: CardReceiptBillingHistoryProps,
 ) {
     const {billingHistory} = props;
-    const {uid, creditCard, paidAt, isDomestic, isVATDeductible, vat} = billingHistory;
+    const {uid, creditCard, paidAt, isDomestic, isVATDeductible, vatAmount} = billingHistory;
     const isDomesticStr = IsNull(isDomestic) ? '미정' : isDomestic ? '국내' : '해외';
     const isVATDeductibleStr = IsNull(isVATDeductible) ? '미정' : isVATDeductible ? '공제' : '불공제';
 
@@ -40,7 +40,7 @@ export const CardReceiptBillingHistoryInfoPanel = memo(function CardReceiptBilli
                 <div className="font-light mb-4 keep-all">{isVATDeductibleStr}</div>
             </MobileInfoListItem>
             <MobileInfoListItem label="부가세" className="!items-start">
-                <div className="font-light mb-4 keep-all">{vat?.text ?? '0원'}</div>
+                <div className="font-light mb-4 keep-all">{vatAmount?.text ?? '0원'}</div>
             </MobileInfoListItem>
         </MobileInfoList>
     );

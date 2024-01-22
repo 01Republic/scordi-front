@@ -33,6 +33,8 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
     const [pageLoaded, setPageLoaded] = useState(false);
     const resetGoogleCode = useResetRecoilState(googleAccessTokenAtom);
 
+    const isCopied = !!router.query.copied || false;
+
     useEffect(() => {
         googleAccessToken && setPageLoaded(true);
     }, [googleAccessToken]);
@@ -68,7 +70,7 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
                 // 가입된 사용자라면 후처리 로직만 실행하고
                 const user = res.data;
                 if (user.orgId) {
-                    toast.info('가입한 계정이 있어 기존 계정으로 진행합니다.');
+                    // toast.info('가입한 계정이 있어 기존 계정으로 진행합니다.');
                     findOrCreateUserCallback();
                 } else {
                     alert('[에러] 조직이 설정되지 않은 사용자입니다.\n관리자에게 문의해주세요.');
@@ -81,7 +83,11 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
                     // 가입을 시킵니다.
                     // 초대된 회원의 경우 다른 API를 사용합니다.
                     if (invitedOrgId) {
-                        googleSignUpInvited(googleAccessToken, {organizationId: invitedOrgId, ...data})
+                        googleSignUpInvited(googleAccessToken, {
+                            organizationId: invitedOrgId,
+                            isFromCopiedLink: isCopied,
+                            ...data,
+                        })
                             .then(findOrCreateUserCallback)
                             .catch((err: ApiError) => {
                                 errorNotify(err);

@@ -1,12 +1,8 @@
 import React, {memo} from 'react';
-import {useSubscriptionsV3} from '^models/Subscription/hook';
-import {
-    pagedSubscriptionForTeamMemberShowModalState as resultAtom,
-    subscriptionQueryForTeamMemberShowModalState as queryAtom,
-} from './atom';
+import {useSubscriptionsInTeamMemberShowModal} from '^models/Subscription/hook';
 
 export const LoadMoreButton = memo(() => {
-    const {result, movePage} = useSubscriptionsV3(resultAtom, queryAtom, true);
+    const {result, movePage} = useSubscriptionsInTeamMemberShowModal();
 
     const {totalPage, currentPage} = result.pagination;
     const nextPage = currentPage + 1;

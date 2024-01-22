@@ -9,13 +9,14 @@ import {BillingHistoryDto} from '^models/BillingHistory/type';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {TeamMemberDto} from '^models/TeamMember/type';
-import {MoneyDto} from '^types/money.type';
+import {MoneyDto} from '^models/Money';
 import {BillingCycleTerm, Locale, SubscriptionBillingCycleDto, t_BillingCycleTerm} from './billingCycleType';
 import {ConnectStatus} from './ConnectStatus';
 import {SubscriptionStatus} from './SubscriptionStatus';
 import {SubscriptionPaymentPlanDto} from './paymentPlanType';
 import {BillingCycleOptions, t_SubscriptionBillingCycleType} from '^models/Subscription/types/BillingCycleOptions';
-import {RecurringTypeOptions} from '^models/Subscription/types/RecurringTypeOptions';
+import {PricingModelOptions} from '^models/Subscription/types/PricingModelOptions';
+import {SubscriptionConnectMethod} from '^models/Subscription/types/ConnectMethod';
 
 export class SubscriptionDto {
     id: number;
@@ -32,7 +33,8 @@ export class SubscriptionDto {
      * user customizable 한  tag 가 아닌,  static enum 값들입니다.
      */
     billingCycleType: BillingCycleOptions; // 결제 주기
-    recurringType: RecurringTypeOptions; // 과금 방식
+    pricingModel: PricingModelOptions; // 과금 방식
+    connectMethod: SubscriptionConnectMethod; // 연동 방식
 
     @TypeCast(() => Date) registeredAt?: Date | null; // 사용 시작일
     nextBillingDate: string | null; // 다음결제일

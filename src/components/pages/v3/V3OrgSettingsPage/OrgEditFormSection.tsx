@@ -11,7 +11,7 @@ import {organizationApi} from '^models/Organization/api';
 export const OrgEditFormSection = memo(() => {
     const [currentOrg, setCurrentOrg] = useRecoilState(currentOrgAtom);
     const form = useForm<UpdateOrganizationRequestDto>();
-    const [membershipsCount, setMembershipsCount] = useState(0);
+    // const [membershipsCount, setMembershipsCount] = useState(0);
     const [isEditMode, setIsEditMode] = useState(false);
 
     useEffect(() => {
@@ -20,10 +20,12 @@ export const OrgEditFormSection = memo(() => {
         form.setValue('name', currentOrg.name);
         if (currentOrg.address) form.setValue('address', currentOrg.address);
         if (currentOrg.addressDetail) form.setValue('addressDetail', currentOrg.addressDetail);
-        if (currentOrg.users) setMembershipsCount(currentOrg.users.length);
     }, [currentOrg]);
 
     if (!currentOrg) return <></>;
+
+    const users = currentOrg?.users || [];
+    const membershipsCount = currentOrg.isZeroOneTeam ? users.length : users.filter((user) => !user.isAdmin).length;
 
     const onSubmit = (data: UpdateOrganizationRequestDto) => {
         organizationApi.update(currentOrg.id, data).then((res) => {

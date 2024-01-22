@@ -1,3 +1,5 @@
+import {NextRouter} from 'next/router';
+
 export function getQueryParams<T>(keys: string[]): T {
     const queryParams = new URLSearchParams(location.search);
     const data = {} as {[key: string]: any};
@@ -12,4 +14,9 @@ export const buildUrl = (baseUrl: string, params: Record<string, any>) => {
         .map(([k, v]) => [k, v].join('='))
         .join('&');
     return [baseUrl, queryString].join('?');
+};
+
+export const onlyPath = (router: NextRouter) => {
+    const {query, route} = router;
+    return Object.entries(query).reduce((path, [k, v]) => path.replace(`[${k}]`, `${v}`), route);
 };

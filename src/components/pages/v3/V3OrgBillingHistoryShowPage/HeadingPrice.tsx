@@ -1,4 +1,4 @@
-import {MoneyDto} from '^types/money.type';
+import {MoneyDto} from '^models/Money';
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';

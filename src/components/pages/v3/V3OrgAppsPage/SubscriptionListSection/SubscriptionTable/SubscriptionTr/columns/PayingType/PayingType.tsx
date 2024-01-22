@@ -11,36 +11,36 @@ import {subscriptionApi} from '^models/Subscription/api';
 import {useToast} from '^hooks/useToast';
 import {
     c_SubscriptionMeasureMethod,
-    RecurringTypeOptions,
+    PricingModelOptions,
     SubscriptionMeasureMethodValues,
-    t_SubscriptionMeasureMethod,
-} from '^models/Subscription/types/RecurringTypeOptions';
+    t_SubscriptionPricingModel,
+} from '^models/Subscription/types/PricingModelOptions';
 
 interface PayingTypeProps {
     subscription: SubscriptionDto;
-    onChange: (value: RecurringTypeOptions) => any;
+    onChange: (value: PricingModelOptions) => any;
 }
 
 /**
  * 과금 방식
- * subscription.recurringType: RecurringTypeOptions
+ * subscription.pricingModel: PricingModelOptions
  */
 export const PayingType = memo((props: PayingTypeProps) => {
     const {toast} = useToast();
     const {subscription, onChange} = props;
 
-    const onSelect = async (recurringType: RecurringTypeOptions) => {
-        if (recurringType === subscription.recurringType) return;
+    const onSelect = async (pricingModel: PricingModelOptions) => {
+        if (pricingModel === subscription.pricingModel) return;
 
         return subscriptionApi
-            .update(subscription.id, {recurringType})
-            .then(() => onChange(recurringType))
+            .update(subscription.id, {pricingModel})
+            .then(() => onChange(pricingModel))
             .finally(() => toast.success('저장했습니다'));
     };
 
     return (
         <SelectColumn
-            value={subscription.recurringType}
+            value={subscription.pricingModel}
             getOptions={async () => SubscriptionMeasureMethodValues}
             onSelect={onSelect}
             ValueComponent={PayingTypeTag}
@@ -51,10 +51,10 @@ export const PayingType = memo((props: PayingTypeProps) => {
 });
 PayingType.displayName = 'PayingType';
 
-const PayingTypeTag = memo((props: {value: RecurringTypeOptions | string}) => {
+const PayingTypeTag = memo((props: {value: PricingModelOptions | string}) => {
     const {value} = props;
-    const colorClass = c_SubscriptionMeasureMethod(value as RecurringTypeOptions);
-    const text = t_SubscriptionMeasureMethod(value as RecurringTypeOptions);
+    const colorClass = c_SubscriptionMeasureMethod(value as PricingModelOptions);
+    const text = t_SubscriptionPricingModel(value as PricingModelOptions);
 
     return <TagUI className={colorClass}>{text}</TagUI>;
 });

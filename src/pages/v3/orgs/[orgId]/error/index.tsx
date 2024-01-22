@@ -1,7 +1,7 @@
-import {V3InviteOrgError} from '^components/pages/v3/V3OrgJoin/InviteOrgError';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {V3InviteOrgError} from '^v3/V3OrgJoin/InviteOrgError';
 
 export const V3OrgJoinErrorPageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]/error',

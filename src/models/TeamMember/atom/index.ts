@@ -1,6 +1,6 @@
 import {atom} from 'recoil';
 import {FindAllTeamMemberQueryDto, TeamMemberDto} from '^models/TeamMember/type';
-import {Paginated} from '^types/utils/paginated.dto';
+import {pagedResourceAtom} from '^hooks/usePagedResource';
 
 export const currentTeamMemberState = atom<TeamMemberDto | null>({
     key: 'currentTeamMember',
@@ -12,30 +12,26 @@ export const teamMemberLoadingState = atom<boolean>({
     default: false,
 });
 
-export const getTeamMembersQueryAtom = atom<FindAllTeamMemberQueryDto>({
-    key: 'getTeamMembersQueryAtom',
-    default: {},
-});
-
 export const teamMembersAtom = atom<TeamMemberDto[]>({
     key: 'teamMembersAtom',
     default: [],
 });
-export const teamMembersSearchResultAtom = atom<Paginated<TeamMemberDto>>({
-    key: 'teamMembersSearchResult',
-    default: {
-        items: [],
-        pagination: {
-            totalItemCount: 0,
-            currentItemCount: 0,
-            totalPage: 1,
-            currentPage: 1,
-            itemsPerPage: 30,
-        },
-    },
+
+export const teamMemberListAtom = pagedResourceAtom<TeamMemberDto, FindAllTeamMemberQueryDto>({
+    key: 'teamMemberListAtom',
 });
 
-export const invitedEmailsAtom = atom<string[]>({
-    key: 'invitedEmailsAtom',
-    default: <string[]>[],
+// 대시보드 / 멤버 목록
+export const teamMemberListInDashboardAtom = pagedResourceAtom<TeamMemberDto, FindAllTeamMemberQueryDto>({
+    key: 'teamMemberListInDashboardAtom',
+});
+
+// 멤버관리 / 멤버 목록 테이블
+export const teamMemberListInTeamMembersTableAtom = pagedResourceAtom<TeamMemberDto, FindAllTeamMemberQueryDto>({
+    key: 'teamMemberListInTeamMembersTableAtom',
+});
+
+// 구독상세모달 / 이용중인 멤버 목록
+export const teamMemberListInSubscriptionShowModalAtom = pagedResourceAtom<TeamMemberDto, FindAllTeamMemberQueryDto>({
+    key: 'teamMemberListInSubscriptionShowModalAtom',
 });

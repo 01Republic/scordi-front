@@ -1,5 +1,4 @@
 import React, {memo} from 'react';
-import {useTeamMembers} from '^models/TeamMember';
 import {ModalTopbar} from '^v3/share/modals';
 import {useTeamMemberShowModal} from './hooks';
 import {EditButton} from './EditButton';
@@ -7,16 +6,26 @@ import {DeleteButton} from './DeleteButton';
 import {TeamMemberShowBody} from './TeamMemberShowBody';
 import {SelectSubscriptionModal} from './SelectSubscriptionModal';
 
-export const TeamMemberShowModal = memo(() => {
-    const {Modal, hide} = useTeamMemberShowModal();
-    const memberList = useTeamMembers();
+interface TeamMemberShowModalProps {
+    onClose?: () => any;
+    onSubmit?: () => any;
+}
+export const TeamMemberShowModal = memo((props: TeamMemberShowModalProps) => {
+    const {Modal, close, hide} = useTeamMemberShowModal();
+
+    const {onClose: _onClose, onSubmit} = props;
 
     const onClose = () => {
-        hide();
-        if (memberList.isExist) memberList.reload();
+        close();
+        _onClose && _onClose();
     };
 
-    const DeleteButtonWrap = () => <DeleteButton onFinish={onClose} />;
+    const onFinish = () => {
+        hide();
+        onSubmit && onSubmit();
+    };
+
+    const DeleteButtonWrap = () => <DeleteButton onFinish={onFinish} />;
 
     return (
         <>
@@ -30,7 +39,7 @@ export const TeamMemberShowModal = memo(() => {
                     topbarPosition="sticky"
                     rightButtons={[EditButton, DeleteButtonWrap]}
                 />
-                <TeamMemberShowBody />
+                <TeamMemberShowBody onSubmit={onSubmit} />
             </Modal>
             <SelectSubscriptionModal />
         </>

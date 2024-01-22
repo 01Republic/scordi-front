@@ -5,14 +5,14 @@ import {changePriceCurrency, Price} from '^api/tasting.api/gmail/agent/parse-ema
 import {displayCurrencyAtom} from '../pageAtoms';
 import {useDraftResult} from './useDraft';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
-import {CurrencyCode} from '^types/money.type';
+import {CurrencyCode} from '^models/Money';
 
 export const getTotalBalance = (histories: BillingHistoryDto[], displayCurrency: CurrencyCode) => {
     let amount = 0;
     histories.forEach((history) => {
-        const item = history.emailContent;
+        // const item = history.emailContent;
         const price = history.payAmount;
-        if (!item || !price || isNaN(price.amount)) return;
+        if (!price || isNaN(price.amount)) return;
 
         amount += changePriceCurrency(price.amount, price.code, displayCurrency);
     });

@@ -1,12 +1,12 @@
 import React, {memo} from 'react';
 import {debounce} from 'lodash';
-import {useSubscriptionsV2} from '^models/Subscription/hook';
+import {useSubscriptionTableListAtom} from '^models/Subscription/hook';
 import {TableSearchControl} from '^v3/share/table/TableSearchControl';
 import {SortKeysHandler} from './SortKeysHandler';
 import {ViewModeHandler} from '../ViewModeHandler';
 
 export const SubscriptionSearchControl = memo(function SubscriptionSearchControl() {
-    const {result, search, movePage, query} = useSubscriptionsV2();
+    const {result, search, movePage, query} = useSubscriptionTableListAtom();
 
     const onSearch = debounce((keyword: string) => {
         if (!query) return;

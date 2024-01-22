@@ -5,7 +5,7 @@ import {useModal} from '../../share/modals/useModal';
 import {TextInput} from '^components/TextInput';
 import {DefaultButton} from '^components/Button';
 import {currentOrgAtom} from '^models/Organization/atom';
-import {UpdateOrganizationRequestDto} from '^models/Organization/type';
+import {OrganizationDto, UpdateOrganizationRequestDto} from '^models/Organization/type';
 import {errorNotify} from '^utils/toast-notify';
 import {useToast} from '^hooks/useToast';
 import {organizationApi} from '^models/Organization/api';
@@ -48,7 +48,10 @@ export const ModifyOrgNameModal = memo(() => {
         organizationApi
             .update(currentOrg.id, data)
             .then((res) => {
-                setCurrentOrg({...currentOrg, name: res.data.name});
+                setCurrentOrg((org) => {
+                    if (!org) return null;
+                    return {...org, name: res.data.name} as OrganizationDto;
+                });
                 toast.success('조직명이 변경됐습니다.');
             })
             .catch(errorNotify);

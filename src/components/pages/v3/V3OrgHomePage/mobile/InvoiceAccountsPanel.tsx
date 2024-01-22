@@ -5,7 +5,7 @@ import {ContentEmpty} from './ContentEmpty';
 import {InvoiceAccountItem} from './InvoiceAccountItem';
 import {useRouter} from 'next/router';
 import {AddButton} from '^v3/V3OrgHomePage/mobile/AddButton';
-import {newInvoiceAccountModal} from '^v3/V3OrgHomePage/NewInvoiceAccountModal/atom';
+import {newInvoiceAccountModal} from '^v3/share/modals/NewInvoiceAccountModal/atom';
 import {useModal} from '^v3/share/modals/useModal';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';

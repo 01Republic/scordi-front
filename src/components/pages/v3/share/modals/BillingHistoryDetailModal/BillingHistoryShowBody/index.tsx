@@ -12,7 +12,7 @@ export const BillingHistoryShowBody = memo(() => {
         <>
             <PrototypeAvatar proto={billingHistory.subscription?.product} />
             <HeadingPrice price={billingHistory.payAmount} />
-            <BillingHistoryInformationPanel />;
+            <BillingHistoryInformationPanel />
         </>
     );
 });
