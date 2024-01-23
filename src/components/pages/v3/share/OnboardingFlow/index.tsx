@@ -1,17 +1,19 @@
 import {memo, useEffect} from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
 import {useFunnel} from '^components/util/funnel';
 import {isLoadedState, onboardingFlowStepStatus, onboardingModalIsShow, OnboardingStep} from './atom';
 import {OnboardingSkippedStore, SkipButton, SkippedStoreStatus} from './SkipButton';
 import {StepNavigator} from './StepNavigator';
 import {StepContent} from './StepContent';
+import {reportState} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/atom';
 
 export const OnboardingFlow = memo(function OnboardingFlow() {
     const [isShow, setIsShow] = useRecoilState(onboardingModalIsShow);
     const currentOrg = useRecoilValue(currentOrgAtom);
     const isLoaded = useRecoilValue(isLoadedState);
     const {step, setStep} = useFunnel(onboardingFlowStepStatus);
+    const resetReportData = useResetRecoilState(reportState);
 
     const invoiceAccounts = currentOrg?.invoiceAccounts || [];
 
@@ -20,6 +22,9 @@ export const OnboardingFlow = memo(function OnboardingFlow() {
 
         // 이 조직이 온보딩을 끝냈다면, 패스합니다.
         if (currentOrg.isOnboardingFinished()) return;
+
+        // 이 조직이 워크스페이스 또는 인보이스 계정이 연동했다면 패스합니다.
+        if (currentOrg.lastGoogleSyncHistory || invoiceAccounts.length) return;
 
         const workspaceSkipStore = new OnboardingSkippedStore(SkippedStoreStatus.WorkspaceSkip);
         const invoiceSkipStore = new OnboardingSkippedStore(SkippedStoreStatus.InvoiceSkip);
@@ -47,11 +52,18 @@ export const OnboardingFlow = memo(function OnboardingFlow() {
                 // 완료된 경우, 온보딩 2단계를 노출합니다.
                 setStep(OnboardingStep.ConnectInvoiceAccount_BeforeLoad);
             } else {
+                if (currentOrg.lastGoogleSyncHistory) return;
+
                 // 완료되지 않은 경우, 온보딩 1단계를 노출합니다.
                 setStep(OnboardingStep.ConnectWorkspace_BeforeLoad);
             }
         }
     }, [currentOrg]);
+
+    useEffect(() => {
+        setStep(0);
+        resetReportData();
+    }, [isShow]);
 
     if (!isShow) return <></>;
 

@@ -1,1 +1,1 @@
-export * from './SubscriptionInfoSkeleton';
+export * from './ModalInfoSkeleton';

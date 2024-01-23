@@ -1,15 +1,25 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {StepContentProps} from '^components/util/funnel';
 import {CheckCircle} from '^components/react-icons/check-circle';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {FaArrowRight} from 'react-icons/fa6';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
+import {useCurrentOrg} from '^models/Organization/hook';
 
 interface Props extends StepContentProps {
     // onNext: () => any;
 }
 
 export const FinishStep = memo(function FinishStep(props: Props) {
+    const orgId = useRecoilValue(orgIdParamState);
+    const {search} = useCurrentOrg(orgId);
     const {onNext} = props;
+
+    useEffect(() => {
+        search();
+    }, []);
+
     return (
         <div data-step="Finish" className="h-full flex flex-col justify-start gap-7">
             <Container size="sm" className="flex justify-center mb-4">
