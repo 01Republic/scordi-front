@@ -8,7 +8,3 @@ export const invoiceAccountSelectModalAtom = {
         default: false,
     }),
 };
-
-export const invoiceAccountsInSelectModal = pagedResourceAtom<InvoiceAccountDto, FindAllInvoiceAccountQueryDto>({
-    key: 'invoiceAccountsInSelectModal',
-});

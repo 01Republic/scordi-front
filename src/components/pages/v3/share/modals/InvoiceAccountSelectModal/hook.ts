@@ -1,8 +1,6 @@
 import {useModal} from '^v3/share/modals';
-import {invoiceAccountSelectModalAtom, invoiceAccountsInSelectModal} from './atom';
-import {useInvoiceAccountsV3} from '^models/InvoiceAccount/hook';
-
-export const useInvoiceAccountListInSelectModal = () => useInvoiceAccountsV3(invoiceAccountsInSelectModal);
+import {invoiceAccountSelectModalAtom} from './atom';
+import {useInvoiceAccountListInSelectModal} from '^models/InvoiceAccount/hook';
 
 export const useInvoiceAccountSelectModal = () => {
     const {open, close, ...specs} = useModal(invoiceAccountSelectModalAtom);

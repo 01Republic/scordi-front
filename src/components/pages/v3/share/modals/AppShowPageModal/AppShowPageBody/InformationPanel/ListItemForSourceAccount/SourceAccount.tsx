@@ -2,41 +2,17 @@ import React, {memo, useEffect, useState} from 'react';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {Avatar} from '^components/Avatar';
 import {LinkTo} from '^components/util/LinkTo';
-import {
-    useInvoiceAccountListInSelectModal,
-    useInvoiceAccountSelectModal,
-} from '^v3/share/modals/InvoiceAccountSelectModal/hook';
+import {useInvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal/hook';
+import {useInvoiceAccountsOfSubscription} from '^models/InvoiceAccount/hook';
 
 export const SourceAccount = memo(function SourceAccount() {
     const {show: openModal} = useInvoiceAccountSelectModal();
     const {currentSubscription} = useCurrentSubscription();
-    const {result, search: loadInvoiceAccount} = useInvoiceAccountListInSelectModal();
-    const [isLoading, setIsLoading] = useState(false);
+    const {result} = useInvoiceAccountsOfSubscription();
     const invoiceAccounts = result.items;
 
-    useEffect(() => {
-        if (!currentSubscription) return;
-
-        setIsLoading(true);
-
-        loadInvoiceAccount({
-            relations: ['subscriptions'],
-            where: {
-                // @ts-ignore
-                subscriptions: {id: currentSubscription.id},
-            },
-            order: {id: 'DESC'},
-            itemsPerPage: 0,
-        }).finally(() => {
-            setIsLoading(false);
-        });
-    }, [currentSubscription]);
-
-    if (!invoiceAccounts) return <></>; // rendering ignore.
-    if (isLoading) return <div>loading...</div>;
+    // 이 컴포넌트는 반드시 invoiceAccounts 의 요소가 반드시 1개 이상 존재한다는 것을 확인한 후 랜더링 됩니다.
     const invoiceAccount = invoiceAccounts[0];
-    if (!invoiceAccount) return <></>;
-
     const length = invoiceAccounts.length;
 
     const openInvoiceAccountListModal = () => {
