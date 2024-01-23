@@ -15,20 +15,14 @@ import {TagUI} from '^v3/share/table/columns/share/TagUI';
 interface PayMethodSelectProps {
     subscription: SubscriptionDto;
     onChange: (creditCard?: CreditCardDto) => any;
-    lastPaidHistory: BillingHistoryDto | undefined;
 }
 
 export const PayMethodSelect = memo((props: PayMethodSelectProps) => {
-    const ordId = useRecoilValue(orgIdParamState);
+    const orgId = useRecoilValue(orgIdParamState);
     const {toast} = useToast();
     const {search, deleteCreditCard} = useCreditCards();
-    const orgId = useRecoilValue(orgIdParamState);
 
-    const {subscription, onChange, lastPaidHistory} = props;
-
-    const creditCard = subscription.creditCard;
-    const billingHistoryPayMethod = lastPaidHistory?.getPaymentMethod();
-    const payMethodText = creditCard?.name || billingHistoryPayMethod || '비어있음';
+    const {subscription, onChange} = props;
 
     const getOptions = async (keyword?: string) => {
         return search(

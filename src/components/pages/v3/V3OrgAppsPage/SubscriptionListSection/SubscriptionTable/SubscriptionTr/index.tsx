@@ -30,15 +30,15 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
     const appShowModal = useAppShowModal();
     const {subscription, reload} = props;
 
-    const BillingHistory = BillingHistoryManager.init(subscription.billingHistories || []);
-    const latestIssue = BillingHistory.paymentOnly().latestIssue();
-    const totalPrice = latestIssue.getTotalPrice(displayCurrency);
-    const lastPaidHistory = BillingHistory.lastPaidHistory();
+    // const BillingHistory = BillingHistoryManager.init(subscription.billingHistories || []);
+    // const latestIssue = BillingHistory.paymentOnly().latestIssue();
+    // const totalPrice = latestIssue.getTotalPrice(displayCurrency);
+    // const lastPaidHistory = BillingHistory.lastPaidHistory();
 
     // TODO: paidAt 에 문제가 있음. (1) 시간이 안나옴. (2) issuedAt 과 날짜가 다름(시간잘리는과정에서 생긴문제일듯). (3) issuedAt 보다 신뢰도가 떨어짐.
-    const lastPaidAt = lastPaidHistory ? new Date(lastPaidHistory.issuedAt) : null;
-    const nextPayDate = subscription.getNextPayDate(lastPaidAt);
-    const nextPayAmount = subscription.getNextPayAmount(lastPaidHistory);
+    // const lastPaidAt = lastPaidHistory ? new Date(lastPaidHistory.issuedAt) : null;
+    // const nextPayDate = subscription.getNextPayDate(lastPaidAt);
+    // const nextPayAmount = subscription.getNextPayAmount(lastPaidHistory);
 
     const openDetail = () => {
         appShowModal.show(subscription.id);
@@ -76,11 +76,7 @@ export const SubscriptionTr = memo((props: SubscriptionTrProps) => {
 
             {/* 결제수단 */}
             <td className="pl-3 py-0">
-                <PayMethodSelect
-                    lastPaidHistory={lastPaidHistory}
-                    subscription={subscription}
-                    onChange={() => reload && reload()}
-                />
+                <PayMethodSelect subscription={subscription} onChange={() => reload && reload()} />
             </td>
 
             {/* 사용인원 */}

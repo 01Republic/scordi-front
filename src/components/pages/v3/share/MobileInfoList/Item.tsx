@@ -17,13 +17,13 @@ export const MobileInfoListItem = memo((props: MobileInfoListItemProps) => {
         <li
             onClick={onClick}
             className={`flex justify-between items-center text-[16px] min-h-[50px] no-selectable ${className} ${
-                onClick ? 'group cursor-pointer' : ''
+                onClick ? '' : ''
             }`}
         >
             <div className="">{label}</div>
-            <div className={`max-w-[70%] text-right transition-all ${onClick ? 'group-hover:font-semibold' : ''}`}>
+            <div className={`max-w-[70%] text-right transition-all ${onClick ? '' : ''}`}>
                 {onClick ? (
-                    <div className="flex items-center justify-end gap-2">
+                    <div className="flex items-center justify-end gap-2 cursor-pointer text-gray-500 hover:text-gray-700 transition-all">
                         <div>{children || value}</div>
                         <FiChevronRight />
                     </div>

@@ -40,7 +40,7 @@ export const ConnectInvoiceAccountIsLoading = memo(function ConnectInvoiceAccoun
         const req = invoiceAccountApi.createV2(orgId, dto);
 
         req.then((res) => {
-            if (!res.data) return;
+            if (res.status !== 201) return;
             setIsLoading(false);
             onNext();
         });
