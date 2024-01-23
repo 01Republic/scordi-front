@@ -5,5 +5,5 @@ import {NewInvoiceAccountModal} from 'src/components/pages/v3/share/modals/NewIn
 export const NewInvoiceAccountModalInSettings = memo(() => {
     const {reload} = useInvoiceAccounts();
 
-    return <NewInvoiceAccountModal onClose={() => reload()} />;
+    return <NewInvoiceAccountModal onFinish={() => reload()} />;
 });
