@@ -17,13 +17,19 @@ import {AbroadPayAmountSection} from '^v3/share/modals/NewBillingHistoryModal/Pa
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {FormControlGroup} from '^components/util/form-control/FormControlGroup';
 
-export const PayAmountModal = memo(() => {
+interface PayAmountModalProps {
+    onFinish?: () => any;
+}
+
+export const PayAmountModal = memo((props: PayAmountModalProps) => {
     const {Modal, isShow, close} = useModal(payAmountModalState);
     const resetSelectedCurrency = useResetRecoilState(selectedCurrencyState);
     const setCreateBillingHistory = useSetRecoilState(createBillingHistoryAtom);
     const resetDomesticPayAmount = useResetRecoilState(domesticPayAmount);
     const resetAbroadPayAmount = useResetRecoilState(abroadPayAmount);
     const {currentSubscription} = useCurrentSubscription();
+
+    const {onFinish} = props;
 
     useEffect(() => {
         resetAbroadPayAmount();
@@ -54,7 +60,7 @@ export const PayAmountModal = memo(() => {
                 </MobileSection.Padding>
 
                 <ModalLikeBottomBar className="left-0">
-                    <CTAButton />
+                    <CTAButton onFinish={onFinish} />
                 </ModalLikeBottomBar>
             </Modal>
 

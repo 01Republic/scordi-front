@@ -1,20 +1,17 @@
 import React, {memo} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
-import {useBillingHistoriesV3, useBillingHistoryListOfSubscription} from '^models/BillingHistory/hook';
-import {useRecoilValue} from 'recoil';
+import {useBillingHistoryListOfSubscription} from '^models/BillingHistory/hook';
 import {yyyy_mm_dd, yyyy_mm_dd_hh_mm} from '^utils/dateTime';
-import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
 import {BillingHistoryManager} from '^models/BillingHistory/manager';
 import {MobileInfoList} from '^v3/share/MobileInfoList';
 import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
-import {PriceHeader} from './PriceHeader';
 import {PriceHeaderV2} from './PriceHeaderV2';
 import {ListItemForAccount} from './ListItemForAccount';
 import {ListItemForSourceAccount} from './ListItemForSourceAccount';
 import {ListItemForPaymentMethod} from './ListItemForPaymentMethod';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
-import {ListItemForSubscription} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/AppShowPageBody/InformationPanel/ListItemForSubscription';
+import {ListItemForSubscription} from '^v3/share/modals/AppShowPageModal/AppShowPageBody/InformationPanel/ListItemForSubscription';
 
 // 정기결제금액 *
 // 결제주기 *
@@ -85,14 +82,16 @@ export const InformationPanel = memo(() => {
                             label="다음 결제 예정일"
                             value={nextPayDate ? yyyy_mm_dd(nextPayDate) : '-'}
                         />
-                        <MobileInfoListItem
-                            label="결제 예정 금액"
-                            value={
-                                <span>
-                                    {nextPayAmount?.text} <span className="text-gray-500">({nextPayAmount?.code})</span>
-                                </span>
-                            }
-                        />
+
+                        {/*TODO: 결제 예정금액 표기 오류로 주석처리*/}
+                        {/*<MobileInfoListItem*/}
+                        {/*    label="결제 예정 금액"*/}
+                        {/*    value={*/}
+                        {/*        <span>*/}
+                        {/*            {nextPayAmount?.text} <span className="text-gray-500">({nextPayAmount?.code})</span>*/}
+                        {/*        </span>*/}
+                        {/*    }*/}
+                        {/*/>*/}
                     </MobileInfoList>
                 </div>
             </MobileSection.Padding>

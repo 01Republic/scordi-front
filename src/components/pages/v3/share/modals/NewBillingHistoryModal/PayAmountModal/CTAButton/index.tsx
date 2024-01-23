@@ -17,7 +17,10 @@ import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 import {NextButtonUI} from '^v3/share/NextButtonUI';
 import {debounce} from 'lodash';
 
-export const CTAButton = memo(() => {
+interface CTAButtonProps {
+    onFinish?: () => any;
+}
+export const CTAButton = memo((props: CTAButtonProps) => {
     const createBillingHistory = useRecoilValue(createBillingHistoryAtom);
     const appId = useRecoilValue(appIdState);
     const abroadAmount = useRecoilValue(abroadPayAmount);
@@ -26,6 +29,8 @@ export const CTAButton = memo(() => {
     const selectedCurrency = useRecoilValue(selectedCurrencyState);
     const {open: OpenFinishModal} = useModal(finishModalState);
     const {reload: loadHistories} = useBillingHistoriesV3();
+
+    const {onFinish} = props;
 
     const isDomestic = createBillingHistory.isDomestic;
 
@@ -48,12 +53,7 @@ export const CTAButton = memo(() => {
 
         if (!appId) return;
 
-        if (typeof domesticAmount != 'number') {
-            toast.error('결제한 금액을 입력해주세요');
-            return;
-        }
-
-        if (!isDomestic && typeof abroadAmount != 'number') {
+        if (!isDomestic && !abroadAmount) {
             toast.error('해외 결제 금액을 입력해주세요');
             return;
         }
@@ -64,6 +64,7 @@ export const CTAButton = memo(() => {
             setBillingHistoryId(res.data.id);
             OpenFinishModal();
             loadHistories();
+            onFinish && onFinish();
         });
     }, 500);
 

@@ -56,7 +56,7 @@ export const CreditCardProfileOption = memo((props: CreditCardProfileOptionProps
     const endNumber = creditCard.secretInfo?.number4;
 
     return (
-        <div className={`flex items-center gap-2 py-1 text-gray-700 group-hover:text-scordi w-60`}>
+        <div className={`flex items-center gap-2 py-1 text-gray-700 group-hover:text-scordi w-60 overflow-x-hidden`}>
             {creditCard ? (
                 <>
                     <Avatar className="w-7">

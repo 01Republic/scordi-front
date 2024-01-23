@@ -12,11 +12,13 @@ import {ConnectButton} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Butt
 import {GoogleLoginButton} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/GoogleLoginButton';
 import {isDeleteLoadingAtom, isSyncLoadingAtom} from '^v3/V3OrgSettingsConnectsPage/atom';
 import {LoadingButton} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/LoadingButton';
+import {useToast} from '^hooks/useToast';
 
 export const WorkspaceSection = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
     const isSyncLoading = useRecoilValue(isSyncLoadingAtom);
     const isDeleteLoading = useRecoilValue(isDeleteLoadingAtom);
+    const {toast} = useToast();
     const lastSyncAccount = currentOrg?.lastGoogleSyncHistory?.googleTokenData;
 
     return (
@@ -27,7 +29,7 @@ export const WorkspaceSection = memo(() => {
                 tool={ToolType.google}
                 lastSyncAccount={lastSyncAccount}
                 button={
-                    currentOrg ? (
+                    lastSyncAccount ? (
                         isSyncLoading || isDeleteLoading ? (
                             <LoadingButton text="동기화 중" />
                         ) : (
@@ -43,14 +45,14 @@ export const WorkspaceSection = memo(() => {
             <WorkspaceItem
                 tool={ToolType.microsoft}
                 logo={<BsMicrosoftTeams size={26} className="text-indigo-500" />}
-                button={<ConnectButton />}
+                button={<ConnectButton onClick={() => toast.info('준비중입니다')} />}
             />
 
             {/*네이버 Works*/}
             <WorkspaceItem
                 tool={ToolType.naver}
                 logo={<SiNaver size={22} className="text-green-500" />}
-                button={<ConnectButton />}
+                button={<ConnectButton onClick={() => toast.info('준비중입니다')} />}
             />
         </SettingBodyPanel>
     );

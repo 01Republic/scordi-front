@@ -5,11 +5,16 @@ import {userSocialGoogleApi} from '^api/social-google.api';
 import {orgIdParamState} from '^atoms/common';
 import {useAlert} from '^hooks/useAlert';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
+import {ConnectButton} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/ConnectButton';
+import {useCurrentOrg} from '^models/Organization/hook';
+import {toast} from 'react-toastify';
 
 export const GoogleLoginButton = memo(() => {
     const setIsLoaded = useSetRecoilState(gmailItemsLoadedAtom);
+
     const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
     const orgId = useRecoilValue(orgIdParamState);
+
     const {alert} = useAlert();
 
     const googleLoginSuccessHandler = (accessToken: string) => {
@@ -28,6 +33,7 @@ export const GoogleLoginButton = memo(() => {
                     items: reportData.items,
                 })
                 .then(() => alert.success({title: '연동이 완료되었습니다.'}))
+                .catch((err) => toast.error(err.message))
                 .finally(() => setIsLoaded(false));
         });
 
@@ -52,6 +58,7 @@ export const GoogleLoginButton = memo(() => {
             googleLoginOnSuccessFn={googleLoginSuccessHandler}
             className="!btn-md"
             logoSize="w-4 h-4"
+            ButtonComponent={() => <ConnectButton isDisabled={false} />}
         />
     );
 });

@@ -1,10 +1,10 @@
 import React, {memo} from 'react';
 import {BsPlusCircle} from 'react-icons/bs';
-import {useAppShowModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
+import {useAppShowModal} from '^v3/share/modals/AppShowPageModal';
 import {teamMemberApi} from '^models/TeamMember';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {useTeamMemberSelectModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal/TeamMemberSelectModal/hook';
+import {useTeamMemberSelectModal} from '^v3/share/modals/AppShowPageModal/TeamMemberSelectModal/hook';
 
 export const AddButton = memo(function AddButton() {
     const orgId = useRecoilValue(orgIdParamState);

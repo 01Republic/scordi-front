@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {Avatar} from '^components/Avatar';
 import {FaQuestion} from 'react-icons/fa6';
-import {useAppShowModal} from '^v3/V3OrgAppShowPage/modals/AppShowPageModal';
+import {useAppShowModal} from 'src/components/pages/v3/share/modals/AppShowPageModal';
 
 interface SubscriptionCardProps {
     subscription: SubscriptionDto;

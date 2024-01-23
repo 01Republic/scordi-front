@@ -39,18 +39,19 @@ export const TeamMemberTable = memo(() => {
                             <SortableTH sortKey="[teams][id]" onClick={onSort} className="pl-3">
                                 팀
                             </SortableTH>
-                            {/* 권한 */}
-                            <SortableTH sortKey="[membership][level]" onClick={onSort} className="justify-center">
-                                권한
-                            </SortableTH>
+                            {/*/!* 권한 *!/*/}
+                            {/*<SortableTH sortKey="[membership][level]" onClick={onSort} className="justify-center">*/}
+                            {/*    권한*/}
+                            {/*</SortableTH>*/}
                             {/* 상태 */}
-                            <SortableTH
-                                sortKey="[membership][approvalStatus]"
-                                onClick={onSort}
-                                className="mr-10 justify-end"
-                            >
-                                초대 상태
-                            </SortableTH>
+                            {/*<SortableTH*/}
+                            {/*    sortKey="[membership][approvalStatus]"*/}
+                            {/*    onClick={onSort}*/}
+                            {/*    className="mr-10 justify-end"*/}
+                            {/*>*/}
+                            {/*    초대 상태*/}
+                            {/*</SortableTH>*/}
+                            <th className="bg-transparent" />
                         </tr>
                     </thead>
 

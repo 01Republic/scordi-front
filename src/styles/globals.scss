@@ -1015,3 +1015,20 @@ progress::-moz-progress-bar {
 .progress::-webkit-progress-value {
   transition: width 200ms ease-in-out;
 }
+
+.skeleton {
+  width: 100%;
+  border-radius: var(--rounded-box, 1rem);
+  --tw-bg-opacity: 1;
+  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
+  height: 0.75rem/* 12px */;
+
+  @keyframes pulse {
+    50% {
+      opacity: .5;
+    }
+  }
+  .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
