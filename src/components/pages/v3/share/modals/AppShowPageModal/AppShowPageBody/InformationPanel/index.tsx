@@ -56,8 +56,6 @@ export const InformationPanel = memo(() => {
                         <ListItemForAccount />
                     </MobileInfoList>
 
-                    <hr />
-
                     <MobileInfoList>
                         {/*<MobileInfoListItem label="카테고리" />*/}
                         {/*<MobileInfoListItem label="현재 플랜" />*/}

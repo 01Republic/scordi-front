@@ -1,6 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
-import {useAccounts} from '^models/Account/hook';
+import {useAccountsOfSubscriptionAtom} from '^models/Account/hook';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {currencyFormat} from '^utils/number';
 import {FiChevronRight} from '^components/react-icons';
@@ -9,20 +9,16 @@ import {accountListModal, subjectProductOfAccountsInModalState} from '^v3/share/
 import {useSetRecoilState} from 'recoil';
 
 export const ListItemForAccount = memo(() => {
-    const {result: pagedAccounts, fetchAllAccountsBy} = useAccounts();
+    const {result, fetchAllAccountsBy, isLoading} = useAccountsOfSubscriptionAtom();
     const {currentSubscription} = useCurrentSubscription();
-    const [isLoading, setIsLoading] = useState(false);
     const {open: accountListModalOpen} = useModal(accountListModal);
     const setSubjectProduct = useSetRecoilState(subjectProductOfAccountsInModalState);
 
     useEffect(() => {
         if (!currentSubscription) return;
 
-        setIsLoading(true);
-        fetchAllAccountsBy({productId: currentSubscription.productId}).finally(() => setIsLoading(false));
+        fetchAllAccountsBy({productId: currentSubscription.productId});
     }, [currentSubscription]);
-
-    const count = pagedAccounts.pagination.totalItemCount;
 
     const onClick = () => {
         if (!currentSubscription) return;
@@ -40,8 +36,8 @@ export const ListItemForAccount = memo(() => {
                     className="flex items-center justify-between gap-2 font-light cursor-pointer hover:font-semibold"
                     onClick={onClick}
                 >
-                    {count ? (
-                        <span>{currencyFormat(count, '개', '%n %u')}</span>
+                    {result.pagination.totalItemCount ? (
+                        <span>{currencyFormat(result.pagination.totalItemCount, '개', '%n %u')}</span>
                     ) : (
                         <span className="text-sm text-gray-500">계정을 안전하게 보관해보세요</span>
                     )}

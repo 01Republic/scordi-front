@@ -1,4 +1,4 @@
-import {accountListAtom} from '^models/Account/atom';
+import {accountListAtom, accountsOfSubscriptionAtom} from '^models/Account/atom';
 import {AccountDto, FindAllAccountsQueryDto} from '^models/Account/types';
 import {accountApi} from '^models/Account/api';
 import {LoginDto} from '^types/crawler';
@@ -6,6 +6,9 @@ import CryptoJS from 'crypto-js';
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
 
 export const useAccounts = () => useAccountsV3(accountListAtom);
+
+// 구독상세모달에서, 해당 구독에 연결된 계정 리스트를 보여줄 때 사용
+export const useAccountsOfSubscriptionAtom = () => useAccountsV3(accountsOfSubscriptionAtom);
 
 export const useAccountSign = () => {
     const CRAWLER_SIGN_SECRET = process.env.NEXT_PUBLIC_CRAWLER_SIGN_SECRET as string;
