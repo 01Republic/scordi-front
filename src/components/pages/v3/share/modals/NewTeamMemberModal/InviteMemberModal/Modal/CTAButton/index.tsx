@@ -11,31 +11,37 @@ import {
 import {useToast} from '^hooks/useToast';
 import {debounce} from 'lodash';
 import {currentOrgAtom} from '^models/Organization/atom';
-import {useInviteMember} from '^v3/share/modals/NewTeamMemberModal/InviteMemberModal/Modal/InputInviteEmails/useInviteMember';
 import {inviteMembershipApi} from '^models/Membership/api';
 import {useAlert} from '^hooks/useAlert';
 import {useModal} from '^v3/share/modals';
 import {Invitation} from '^models/Membership/types';
 
 interface CTAButtonProps {
-    onClose: () => void;
+    onClose?: () => void;
 }
 export const CTAButton = memo((props: CTAButtonProps) => {
     const formData = useRecoilValue(createInviteTeamMemberAtom);
     const currentOrg = useRecoilValue(currentOrgAtom);
     const email = useRecoilValue(emailInputValueAtom);
-    const {close} = useModal({isShowAtom: isOpenInviteOrgMemberModalAtom});
+    const {close: closeInviteOrgModal} = useModal({isShowAtom: isOpenInviteOrgMemberModalAtom});
     const [isLoading, setIsLoading] = useRecoilState(isLoadingAtom);
-    const {open, close: closeLoadingModal} = useModal({isShowAtom: isOpenLoadingModalAtom});
+    const {open: openLoadingModal, close: closeLoadingModal} = useModal({isShowAtom: isOpenLoadingModalAtom});
     const {alert} = useAlert();
     const {toast} = useToast();
 
-    const {onClose} = props;
+    const {onClose: _onClose} = props;
 
     const invitedEmails = formData?.invitations?.map((invitation) => {
         return invitation.email;
     });
     const isActive = !!invitedEmails?.length || (email.includes('.') && email.includes('@'));
+
+    const onClose = () => {
+        setIsLoading(false);
+        closeInviteOrgModal();
+        closeLoadingModal();
+        _onClose && _onClose();
+    };
 
     const confirmData = () => {
         if (isActive) return;
@@ -45,25 +51,28 @@ export const CTAButton = memo((props: CTAButtonProps) => {
     };
 
     const onSubmit = debounce(async () => {
-        if (!currentOrg) return;
-
-        if (isLoading) return;
+        if (!currentOrg || isLoading) return;
 
         setIsLoading(true);
-        open();
+        openLoadingModal();
+
+        const invitations: Invitation[] = email
+            ? invitedEmails
+                ? [...formData.invitations, {email}] // invitations가 있고 email 있는 경우
+                : [{email}] // email만 있는 경우
+            : formData.invitations; // email이 없는 경우
+
         const req = inviteMembershipApi.create({
             organizationId: currentOrg.id,
-            invitations: formData.invitations,
+            invitations: invitations,
         });
 
         req.then(() => {
+            alert.success({title: '초대가 완료되었습니다.'}).then(() => onClose());
+        });
+        req.catch(() => {
+            toast.error('이메일을 다시 확인해주세요');
             onClose();
-
-            alert.success({title: '초대가 완료되었습니다.'}).then(() => {
-                setIsLoading(false);
-                close();
-                closeLoadingModal();
-            });
         });
     }, 500);
 
