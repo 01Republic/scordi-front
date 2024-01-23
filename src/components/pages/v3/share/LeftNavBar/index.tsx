@@ -110,12 +110,19 @@ export const LeftNavBar = memo(function LeftNavBar(props: LeftNavBarProps) {
                 />
                 {/*<MenuItem name="멤버 초대" href="#" Icon={() => <FcBusiness size={24} />} />*/}
                 {/*<MenuItem name="권한설정" href="#" Icon={() => <FcBusiness size={24} />} />*/}
+                {/*<MenuItem*/}
+                {/*    name="업데이트 소식"*/}
+                {/*    href="#"*/}
+                {/*    Icon={() => <FcAdvertising size={24} />}*/}
+                {/*    isActive={LNBIndex.Updates === activeIndex}*/}
+                {/*    status="soon"*/}
+                {/*/>*/}
                 <MenuItem
-                    name="업데이트 소식"
-                    href="#"
+                    name="문의하기"
+                    href="https://scordi.channel.io"
                     Icon={() => <FcAdvertising size={24} />}
                     isActive={LNBIndex.Updates === activeIndex}
-                    status="soon"
+                    target="_blank"
                 />
                 {/*<MenuItem name="관리" href="#" Icon={() => <FcBusiness size={24} />} />*/}
             </NavBottom>

@@ -1,4 +1,4 @@
-import {Component, memo} from 'react';
+import {Component, HTMLAttributeAnchorTarget, memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {IconType} from '@react-icons/all-files';
 import {ReactComponentLike} from 'prop-types';
@@ -10,10 +10,11 @@ interface MenuItemProps extends WithChildren {
     name?: string;
     Icon?: IconType | ReactComponentLike;
     status?: 'new' | 'soon' | 'running';
+    target?: HTMLAttributeAnchorTarget;
 }
 
 export const MenuItem = memo((props: MenuItemProps) => {
-    const {href, name, Icon = Component, isActive = false, status = 'running', children} = props;
+    const {href, name, target, Icon = Component, isActive = false, status = 'running', children} = props;
 
     const statusBadge = {
         running: <></>,
@@ -29,6 +30,7 @@ export const MenuItem = memo((props: MenuItemProps) => {
                     isActive ? 'text-scordi' : status === 'soon' ? '' : 'hover:text-scordi'
                 } ${status === 'soon' ? 'text-gray-500' : 'cursor-pointer'}`}
                 onClick={status === 'soon' ? () => alert('준비중인 메뉴입니다.\n열심히 만들고 있어요!') : undefined}
+                target={target}
             >
                 {children || (
                     <span className="flex items-center gap-2">
