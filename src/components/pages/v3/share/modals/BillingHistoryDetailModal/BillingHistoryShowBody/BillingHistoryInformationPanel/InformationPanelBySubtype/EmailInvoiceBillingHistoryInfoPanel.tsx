@@ -6,6 +6,7 @@ import {OutLink} from '^components/OutLink';
 import {MobileInfoList} from '^v3/share/MobileInfoList';
 import {useSetRecoilState} from 'recoil';
 import {attachmentModalState} from '^components/pages/LandingPages/TastingPage/AttachmentModal';
+import {CreditCardProfileOption} from '^models/CreditCard/hook/components/CreditCardProfile';
 
 interface EmailInvoiceBillingHistoryProps {
     billingHistory: BillingHistoryDto;
@@ -33,11 +34,13 @@ export const EmailInvoiceBillingHistoryInfoPanel = memo(function EmailInvoiceBil
                 value={yyyy_mm_dd_hh_mm(billingHistory.issuedAt)}
             />
             {billingHistory.paymentMethod && (
-                <MobileInfoListItem
-                    label="결제수단"
-                    className="!items-start"
-                    value={billingHistory.getPaymentMethod()}
-                />
+                <MobileInfoListItem label="결제수단" className="!items-start">
+                    {billingHistory.creditCard ? (
+                        <CreditCardProfileOption item={billingHistory.creditCard} />
+                    ) : (
+                        `❗${billingHistory.paymentMethod}`
+                    )}
+                </MobileInfoListItem>
             )}
             {attachments.length > 0 && (
                 <MobileInfoListItem label="인보이스" className="!items-start">
