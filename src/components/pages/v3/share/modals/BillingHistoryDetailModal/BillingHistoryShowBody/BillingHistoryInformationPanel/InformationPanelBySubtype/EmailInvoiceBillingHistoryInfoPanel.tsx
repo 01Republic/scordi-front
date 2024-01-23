@@ -23,10 +23,12 @@ export const EmailInvoiceBillingHistoryInfoPanel = memo(function EmailInvoiceBil
     return (
         <MobileInfoList>
             <MobileInfoListItem label="제목" className="!items-start">
-                <div className="font-light mb-4 keep-all">{billingHistory.title}</div>
+                <div className="font-light mb-4 keep-all overflow-hidden overflow-ellipsis">{billingHistory.title}</div>
             </MobileInfoListItem>
             <MobileInfoListItem label="발신" className="!items-start">
-                <div className="font-light mb-4 keep-all">{billingHistory.from()}</div>
+                <div className="font-light mb-4 keep-all overflow-hidden overflow-ellipsis">
+                    {billingHistory.from()}
+                </div>
             </MobileInfoListItem>
             <MobileInfoListItem
                 label="발신일시"
