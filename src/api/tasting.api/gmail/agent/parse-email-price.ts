@@ -1,4 +1,4 @@
-import {CurrencyCode, CurrencyListV2} from '^models/Money';
+import {CurrencyCode, CurrencyListV2, MoneyDto} from '^models/Money';
 
 export const getCurrencySymbol = (currency: CurrencyCode) => CurrencyListV2[currency].symbol ?? '$';
 
@@ -36,6 +36,26 @@ export function changePriceCurrency(amount: number, fromCurrency: CurrencyCode, 
         return amount * 1.0 * ratioPerDollar[CurrencyCode.KRW];
     } else if (fromCurrency === CurrencyCode.KRW && toCurrency === CurrencyCode.USD) {
         return (amount * 1.0) / ratioPerDollar[CurrencyCode.KRW];
+    }
+    return amount;
+}
+
+export function changePriceCurrencyV2(payAmount: MoneyDto, toCurrency: CurrencyCode): number {
+    const {amount, code: fromCurrency, dollarPrice} = payAmount;
+    if (fromCurrency === toCurrency) return amount;
+
+    const ratioPerDollar = {
+        [CurrencyCode.KRW]: 1300,
+        [CurrencyCode.USD]: 1,
+    };
+
+    if (fromCurrency === CurrencyCode.USD && toCurrency === CurrencyCode.KRW) {
+        return amount * 1.0 * ratioPerDollar[CurrencyCode.KRW];
+    } else if (fromCurrency === CurrencyCode.KRW && toCurrency === CurrencyCode.USD) {
+        return (amount * 1.0) / ratioPerDollar[CurrencyCode.KRW];
+    } else if (fromCurrency !== CurrencyCode.USD && fromCurrency !== CurrencyCode.KRW) {
+        if (toCurrency === CurrencyCode.USD) return dollarPrice;
+        if (toCurrency === CurrencyCode.KRW) return dollarPrice * ratioPerDollar[CurrencyCode.KRW];
     }
     return amount;
 }
