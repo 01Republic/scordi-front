@@ -4,6 +4,7 @@ import {MobileInfoList} from '^v3/share/MobileInfoList';
 import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
 import {CreditCardDto} from '^models/CreditCard/type';
+import {CreditCardProfileOption} from '^models/CreditCard/hook/components/CreditCardProfile';
 
 interface CardReceiptBillingHistoryProps {
     billingHistory: BillingHistoryDto;
@@ -20,27 +21,25 @@ export const CardReceiptBillingHistoryInfoPanel = memo(function CardReceiptBilli
 
     return (
         <MobileInfoList>
-            <MobileInfoListItem label="승인 번호" className="!items-start">
+            <MobileInfoListItem label="승인 번호" className="">
                 <div className="font-light mb-4 keep-all">{uid ? uid : '미입력'}</div>
             </MobileInfoListItem>
             {creditCard ? (
                 <CardInfoList creditCard={creditCard} />
             ) : (
-                <MobileInfoListItem label="카드" className="!items-start">
+                <MobileInfoListItem label="카드" className="">
                     <div className="font-light mb-4 keep-all">미등록</div>
                 </MobileInfoListItem>
             )}
-            {paidAt && (
-                <MobileInfoListItem label="결제일시" className="!items-start" value={yyyy_mm_dd_hh_mm(paidAt)} />
-            )}
-            <MobileInfoListItem label="국내/해외 결제" className="!items-start">
-                <div className="font-light mb-4 keep-all">{isDomesticStr}</div>
+            {paidAt && <MobileInfoListItem label="결제일시" className="" value={yyyy_mm_dd_hh_mm(paidAt)} />}
+            <MobileInfoListItem label="국내/해외 결제" className="">
+                <div className="font-light keep-all">{isDomesticStr}</div>
             </MobileInfoListItem>
-            <MobileInfoListItem label="공제/불공제" className="!items-start">
-                <div className="font-light mb-4 keep-all">{isVATDeductibleStr}</div>
+            <MobileInfoListItem label="공제/불공제" className="">
+                <div className="font-light keep-all">{isVATDeductibleStr}</div>
             </MobileInfoListItem>
-            <MobileInfoListItem label="부가세" className="!items-start">
-                <div className="font-light mb-4 keep-all">{vatAmount?.text ?? '0원'}</div>
+            <MobileInfoListItem label="부가세" className="">
+                <div className="font-light keep-all">{vatAmount?.text ?? '0원'}</div>
             </MobileInfoListItem>
         </MobileInfoList>
     );
@@ -50,17 +49,21 @@ const CardInfoList = memo(function BillingHistoryCardInfoList(props: {creditCard
     const {creditCard} = props;
     const {name, isFromInvoice, holdingMember} = creditCard;
 
-    const cardText = `${isFromInvoice ? '❗' : ''} ${name}`;
+    // const cardText = `${isFromInvoice ? '❗' : ''} ${name}`;
     const holdingMemberText = holdingMember ? holdingMember.name : '미정';
 
     return (
         <>
-            <MobileInfoListItem label="카드" className="!items-start">
-                <div className="font-light mb-4 keep-all">{cardText}</div>
+            <MobileInfoListItem label="카드" className="">
+                {/*<div className="font-light mb-4 keep-all">{cardText}</div>*/}
+                {/*<div className="font-light mb-4 keep-all">*/}
+                {/*    */}
+                {/*</div>*/}
+                <CreditCardProfileOption item={creditCard} />
             </MobileInfoListItem>
 
-            <MobileInfoListItem label="소유자" className="!items-start">
-                <div className="font-light mb-4 keep-all">{holdingMemberText}</div>
+            <MobileInfoListItem label="소유자" className="">
+                <div className="font-light keep-all">{holdingMemberText}</div>
             </MobileInfoListItem>
         </>
     );
