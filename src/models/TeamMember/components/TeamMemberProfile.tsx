@@ -38,7 +38,8 @@ export const TeamMemberProfileOption = memo((props: TeamMemberProfileOptionProps
 
     return (
         <div
-            className={`flex items-center gap-2 px-3 -mx-3 text-gray-700 group-hover:text-scordi w-72 overflow-x-hidden`}
+            data-component="TeamMemberProfileOption"
+            className={`flex items-center gap-2 px-3 -mx-3 text-gray-700 group-hover:text-scordi overflow-x-hidden`}
         >
             {teamMember ? (
                 <TeamMemberAvatar teamMember={teamMember} className="w-7 h-7" />
@@ -49,7 +50,7 @@ export const TeamMemberProfileOption = memo((props: TeamMemberProfileOptionProps
             )}
 
             {teamMember ? (
-                <div className="flex flex-col gap-0.5 w-full overflow-x-hidden">
+                <div className="flex flex-col gap-0.5 w-full overflow-hidden">
                     <p className={`flex gap-2 items-center group-hover:text-scordi leading-none`}>
                         <span className="truncate"> {teamMember.name}</span>
                     </p>
