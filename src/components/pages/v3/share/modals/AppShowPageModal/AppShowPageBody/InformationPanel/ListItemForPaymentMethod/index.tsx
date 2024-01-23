@@ -6,6 +6,7 @@ import {useModal} from '^v3/share/modals/useModal';
 import {toast} from 'react-toastify';
 import {FiChevronRight} from '^components/react-icons';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
+import {CreditCardProfileOption} from '^models/CreditCard/hook/components/CreditCardProfile';
 
 interface ListItemForPaymentMethodProps {
     subscription?: SubscriptionDto | null;
@@ -13,7 +14,7 @@ interface ListItemForPaymentMethodProps {
 export const ListItemForPaymentMethod = memo((props: ListItemForPaymentMethodProps) => {
     const {subscription} = props;
     const {open: connectCreditCardModalOpen} = useModal(connectCreditCardModal);
-    const value = subscription?.creditCard?.label;
+    const creditCard = subscription?.creditCard;
 
     const onClick = () => {
         // if (lastPaidHistory?.paymentMethod?.includes('계좌')) {
@@ -27,8 +28,10 @@ export const ListItemForPaymentMethod = memo((props: ListItemForPaymentMethodPro
 
     return (
         <MobileInfoListItem label="결제수단" onClick={onClick}>
-            {value ? (
-                <span className="col-span-2">{value}</span>
+            {creditCard ? (
+                <div>
+                    <CreditCardProfileOption item={creditCard} />
+                </div>
             ) : (
                 <span className="text-sm text-gray-500">결제 수단을 등록해보세요</span>
             )}
