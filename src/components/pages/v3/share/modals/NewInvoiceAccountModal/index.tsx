@@ -8,13 +8,14 @@ import {useSetRecoilState} from 'recoil';
 
 interface NewInvoiceAccountModalProps {
     onClose?: () => any;
+    onFinish?: () => any;
 }
 export const NewInvoiceAccountModal = memo((props: NewInvoiceAccountModalProps) => {
     const {isShow: newAppModalIsShow} = useModal(newAppModal);
     const {Modal, close, isShow} = useModal(newInvoiceAccountModal);
     const setConnectStatus = useSetRecoilState(connectInvoiceAccountStatus);
 
-    const {onClose} = props;
+    const {onClose, onFinish} = props;
 
     const onBack = () => close();
 
@@ -27,7 +28,7 @@ export const NewInvoiceAccountModal = memo((props: NewInvoiceAccountModalProps) 
             <ModalTopbar backBtnOnClick={onBack} topbarPosition="sticky" />
 
             <div className="px-5 pt-20">
-                <NewInvoiceAccountModalBody onClose={onClose} />
+                <NewInvoiceAccountModalBody onClose={onClose} onFinish={onFinish} />
             </div>
         </Modal>
     );

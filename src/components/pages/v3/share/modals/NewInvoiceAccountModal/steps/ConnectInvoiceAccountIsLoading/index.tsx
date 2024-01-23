@@ -13,7 +13,11 @@ import {
 } from '^v3/share/modals/NewInvoiceAccountModal/atom';
 import {useAlert} from '^hooks/useAlert';
 
-export const ConnectInvoiceAccountIsLoading = memo(() => {
+interface ConnectInvoiceAccountIsLoadingProps {
+    onFinish?: () => any;
+}
+
+export const ConnectInvoiceAccountIsLoading = memo((props: ConnectInvoiceAccountIsLoadingProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const [code, setCode] = useRecoilState(connectInvoiceAccountCodeState);
     const setConnectStatus = useSetRecoilState(connectInvoiceAccountStatus);
@@ -22,7 +26,11 @@ export const ConnectInvoiceAccountIsLoading = memo(() => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const {alert} = useAlert();
 
+    const {onFinish} = props;
+
     const createInvoiceAccount = (code: string) => {
+        if (!code || !orgId) return;
+
         invoiceAccountTimeoutChain(setTitle, setDesc);
 
         const dto = {
@@ -34,7 +42,9 @@ export const ConnectInvoiceAccountIsLoading = memo(() => {
         // 중복 요청이 가는 경우 res.data 가 undefined 가 오고 있습니다.
         // 추후 API가 409 Conflict 또는 202 Accepted 를 반환하도록 바뀔 수 있습니다.
         req.then((res) => {
-            res.data && setConnectStatus(InvoiceAccount.afterLoad);
+            if (res.status !== 201 || !res.data) return;
+            setConnectStatus(InvoiceAccount.afterLoad);
+            onFinish && onFinish();
         });
         req.catch((err) => {
             alert.error('다시 시도해주세요', err.response.data.message);
