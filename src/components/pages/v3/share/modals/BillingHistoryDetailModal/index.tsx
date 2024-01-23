@@ -12,6 +12,7 @@ import {isBillingHistoryEditModeAtom} from '^v3/share/modals/BillingHistoryDetai
 import {BillingHistoryEditPanel} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryEditPanel';
 import {useBillingHistoryListInSiblings, useBillingHistoryListOfSubscription} from '^models/BillingHistory/hook';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
+import {ModalInfoSkeleton} from '^v3/share/Skeletons';
 
 export const BillingHistoryDetailModal = memo(() => {
     const {close, Modal} = useBillingHistoryModal();
@@ -37,26 +38,28 @@ export const BillingHistoryDetailModal = memo(() => {
                     title={billingHistory ? `${productName}의 ${billingHistory.pageSubject}` : '결제 세부사항'}
                     topbarPosition="sticky"
                     rightButtons={[EditButton, DeleteButton]}
+                    isLoading={isSubjectLoading}
                 />
                 <MobileSection.List>
                     {isEditMode ? (
                         <BillingHistoryEditPanel />
                     ) : (
                         <>
-                            <MobileSection.Item>
-                                <MobileSection.Padding>
-                                    <div className="w-full h-[40px]" />
-                                    {!billingHistory ? (
-                                        isSubjectLoading ? (
-                                            <p>is loading ...</p>
-                                        ) : (
-                                            <p>done</p>
-                                        )
-                                    ) : (
+                            {!billingHistory ? (
+                                isSubjectLoading ? (
+                                    <ModalInfoSkeleton />
+                                ) : (
+                                    <p>done</p>
+                                )
+                            ) : (
+                                <MobileSection.Item>
+                                    <MobileSection.Padding>
+                                        <div className="w-full h-[40px]" />
+
                                         <BillingHistoryShowBody />
-                                    )}
-                                </MobileSection.Padding>
-                            </MobileSection.Item>
+                                    </MobileSection.Padding>
+                                </MobileSection.Item>
+                            )}
 
                             <BillingHistoryContentPanel billingHistories={pagedHistories.items} />
                         </>

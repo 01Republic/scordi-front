@@ -2,7 +2,9 @@ import React from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {MobileInfoList} from '^v3/share/MobileInfoList';
 
-export const SubscriptionInfoSkeleton = () => {
+// 모달 info 레이아웃 skeleton
+
+export const ModalInfoSkeleton = () => {
     return (
         <MobileSection.Item>
             <MobileSection.Padding>
