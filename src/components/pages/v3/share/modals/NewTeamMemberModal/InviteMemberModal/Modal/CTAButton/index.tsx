@@ -17,7 +17,7 @@ import {useModal} from '^v3/share/modals';
 import {Invitation} from '^models/Membership/types';
 
 interface CTAButtonProps {
-    onClose?: () => void;
+    onSubmit?: () => void;
 }
 export const CTAButton = memo((props: CTAButtonProps) => {
     const formData = useRecoilValue(createInviteTeamMemberAtom);
@@ -29,7 +29,7 @@ export const CTAButton = memo((props: CTAButtonProps) => {
     const {alert} = useAlert();
     const {toast} = useToast();
 
-    const {onClose: _onClose} = props;
+    const {onSubmit: _onSubmit} = props;
 
     const invitedEmails = formData?.invitations?.map((invitation) => {
         return invitation.email;
@@ -40,7 +40,7 @@ export const CTAButton = memo((props: CTAButtonProps) => {
         setIsLoading(false);
         closeInviteOrgModal();
         closeLoadingModal();
-        _onClose && _onClose();
+        _onSubmit && _onSubmit();
     };
 
     const confirmData = () => {

@@ -13,7 +13,7 @@ import {ModalTitle} from '^v3/share/modals/ModalTitle';
 import {FormControlGroup} from '^components/util/form-control/FormControlGroup';
 
 interface NewTeamMemberModalProps {
-    onSubmit: (savedTeamMember: TeamMemberDto) => any;
+    onSubmit?: () => any;
 }
 
 export const CreateTeamMemberModal = memo((props: NewTeamMemberModalProps) => {

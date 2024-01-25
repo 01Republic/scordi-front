@@ -16,7 +16,7 @@ import {
 interface CTAButtonProps {
     nameInputRef: RefObject<HTMLInputElement>;
     emailInputRef: RefObject<HTMLInputElement>;
-    onSubmit: (savedTeamMember: TeamMemberDto) => any;
+    onSubmit?: () => any;
 }
 
 export const CTAButton = memo((props: CTAButtonProps) => {
@@ -56,8 +56,8 @@ export const CTAButton = memo((props: CTAButtonProps) => {
         teamMemberApi.create(orgId, formData).then((res) => {
             plainToast.success('추가되었습니다', {duration});
             close();
-            _onSubmit(res.data);
             setResponse(res.data);
+            _onSubmit && _onSubmit();
         });
     }, 500);
 
