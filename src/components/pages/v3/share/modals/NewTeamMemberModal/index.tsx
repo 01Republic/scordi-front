@@ -2,23 +2,33 @@ import React, {memo} from 'react';
 import {newTeamMemberModal} from '^v3/share/modals/NewTeamMemberModal/atom';
 import {ModalTopbar, useModal} from '^v3/share/modals';
 import {MobileSection} from '../../sections/MobileSection';
-import {isOpenNewTeamMemberModalAtom} from 'src/components/pages/v3/share/modals/NewTeamMemberModal/CreateTeamMemberModal';
-import {TeamMemberCreateModal} from '^v3/V3OrgHomePage/_localModals/NewTeamMemberModal/NewTeamMemberCreateModal';
-import {isOpenInviteOrgMemberModalAtom} from 'src/components/pages/v3/share/modals/NewTeamMemberModal/InviteMemberModal';
+import {
+    CreateTeamMemberModal,
+    isOpenNewTeamMemberModalAtom,
+} from 'src/components/pages/v3/share/modals/NewTeamMemberModal/CreateTeamMemberModal';
+import {
+    InviteOrgMemberModal,
+    isOpenInviteOrgMemberModalAtom,
+} from 'src/components/pages/v3/share/modals/NewTeamMemberModal/InviteMemberModal';
 import {useToast} from '^hooks/useToast';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {InviteButton, InviteStatus} from '^v3/share/modals/NewTeamMemberModal/InviteButton';
 import {serviceHost} from '^config/environments';
-import {NewTeamMemberInviteModal} from '^v3/V3OrgHomePage/_localModals/NewTeamMemberModal/NewTeamMemberInviteModal';
 import {ModalTitle} from '^v3/share/modals/ModalTitle';
 
-export const NewTeamMemberModal = memo(() => {
+interface NewTeamMemberModalProps {
+    onSubmit?: () => any;
+}
+
+export const NewTeamMemberModal = memo((props: NewTeamMemberModalProps) => {
     const {Modal, close} = useModal(newTeamMemberModal);
     const {open: openCreateMemberModal} = useModal({isShowAtom: isOpenNewTeamMemberModalAtom});
     const {open: openInviteMemberModal} = useModal({isShowAtom: isOpenInviteOrgMemberModalAtom});
     const {toast} = useToast();
     const orgId = useRecoilValue(orgIdParamState);
+    const {onSubmit} = props;
+
     const link = `${serviceHost}/v3/orgs/${orgId}/join?isCopied=true`;
 
     const onCopy = () => {
@@ -55,8 +65,8 @@ export const NewTeamMemberModal = memo(() => {
                     </MobileSection.Padding>
                 </div>
             </Modal>
-            <TeamMemberCreateModal />
-            <NewTeamMemberInviteModal />
+            <InviteOrgMemberModal onSubmit={onSubmit} />
+            <CreateTeamMemberModal onSubmit={onSubmit} />
         </>
     );
 });

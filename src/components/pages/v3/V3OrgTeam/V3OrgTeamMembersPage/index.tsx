@@ -6,11 +6,10 @@ import {V3MainLayoutMobile} from '^v3/layouts/V3MainLayout.mobile';
 import {BottomTabIndex} from '^v3/share/BottomNavMobile';
 import {LNBIndex} from '^v3/share/LeftNavBar';
 import {TeamMembersPanel} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/mobile/TeamMembersPanel';
-import {AddMemberButton, ButtonTypes} from './AddMemberButton';
 import {TeamMembersTableSection} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection';
-import {TeamMemberCreateModal} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/_localModals/TeamMemberCreateModal';
-import {TeamMemberInviteModal} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/_localModals/TeamMemberInviteModal';
 import {TeamMemberDetailModal} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/_localModals/TeamMemberDetailModal';
+import {NewTeamMemberModalInTeamMember} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/_localModals/NewTeamMemberModal';
+import {AddMemberButton2} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/AddMemberButton2';
 
 export const V3OrgTeamMembersPage = memo(() => {
     const {t} = useTranslation('org-home');
@@ -20,14 +19,16 @@ export const V3OrgTeamMembersPage = memo(() => {
         return (
             <V3MainLayout
                 activeTabIndex={LNBIndex.Members}
-                modals={[TeamMemberCreateModal, TeamMemberInviteModal, TeamMemberDetailModal]}
+                modals={[
+                    TeamMemberDetailModal, // 멤버 상세 모달
+                    NewTeamMemberModalInTeamMember, // 멤버 추가 모달
+                ]}
             >
                 <V3MainLayoutContainer>
                     <section className="mb-6">
                         <div className="flex justify-between mb-5">
                             <h1>멤버 관리</h1>
-
-                            <AddMemberButton text="멤버 등록" type={ButtonTypes.ScordiBtn} />
+                            <AddMemberButton2 />
                         </div>
                         <TeamMembersTableSection />
                     </section>
@@ -39,7 +40,7 @@ export const V3OrgTeamMembersPage = memo(() => {
             <V3MainLayoutMobile
                 title="멤버 목록"
                 activeTabIndex={BottomTabIndex.MEMBERS}
-                modals={[TeamMemberCreateModal, TeamMemberInviteModal]}
+                modals={[NewTeamMemberModalInTeamMember]}
             >
                 <TeamMembersPanel />
             </V3MainLayoutMobile>
