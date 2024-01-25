@@ -38,7 +38,7 @@ export const WorkspaceSection = memo(() => {
                             <GoogleProfile lastSyncAccount={lastSyncAccount} />
                         )
                     ) : (
-                        <GoogleLoginButton onSuccess={onSuccess} />
+                        <GoogleLoginButton />
                     )
                 }
             />
