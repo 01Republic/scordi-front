@@ -31,7 +31,7 @@ export const WorkspaceSection = memo(() => {
                 button={
                     lastSyncAccount ? (
                         isSyncLoading || isDeleteLoading ? (
-                            <LoadingButton text="동기화 중" />
+                            <LoadingButton text={isSyncLoading ? '동기화 중' : '연동 해제 중'} />
                         ) : (
                             <GoogleProfile lastSyncAccount={lastSyncAccount} />
                         )

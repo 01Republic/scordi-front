@@ -11,11 +11,11 @@ import {toast} from 'react-toastify';
 
 export const GoogleLoginButton = memo(() => {
     const setIsLoaded = useSetRecoilState(gmailItemsLoadedAtom);
+    const orgId = useRecoilValue(orgIdParamState);
+    const {search} = useCurrentOrg(orgId);
+    const {alert} = useAlert();
 
     const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
-    const orgId = useRecoilValue(orgIdParamState);
-
-    const {alert} = useAlert();
 
     const googleLoginSuccessHandler = (accessToken: string) => {
         setIsLoaded(true);
@@ -32,7 +32,10 @@ export const GoogleLoginButton = memo(() => {
                     workspaceName: reportData.workspaceName,
                     items: reportData.items,
                 })
-                .then(() => alert.success({title: '연동이 완료되었습니다.'}))
+                .then(() => {
+                    search();
+                    alert.success({title: '연동이 완료되었습니다.'});
+                })
                 .catch((err) => toast.error(err.message))
                 .finally(() => setIsLoaded(false));
         });
