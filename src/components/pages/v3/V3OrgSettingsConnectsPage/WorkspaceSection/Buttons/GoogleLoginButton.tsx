@@ -9,13 +9,18 @@ import {ConnectButton} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Butt
 import {useCurrentOrg} from '^models/Organization/hook';
 import {toast} from 'react-toastify';
 
-export const GoogleLoginButton = memo(() => {
+interface GoogleLoginButtonProps {
+    onSuccess?: () => void;
+}
+
+export const GoogleLoginButton = memo((props: GoogleLoginButtonProps) => {
     const setIsLoaded = useSetRecoilState(gmailItemsLoadedAtom);
 
     const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
     const orgId = useRecoilValue(orgIdParamState);
 
     const {alert} = useAlert();
+    const {onSuccess} = props;
 
     const googleLoginSuccessHandler = (accessToken: string) => {
         setIsLoaded(true);
@@ -50,6 +55,8 @@ export const GoogleLoginButton = memo(() => {
 
             setIsLoaded(false);
         });
+
+        onSuccess && onSuccess();
     };
 
     return (
