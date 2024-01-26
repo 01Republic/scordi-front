@@ -40,6 +40,9 @@ export const InviteOrgErrorBody = memo(() => {
                     icon={<GoOrganization size={20} />}
                     onClick={moveToMain}
                 />
+                <button onClick={router.back} className="btn btn-link">
+                    다른 계정으로 시도하기
+                </button>
             </div>
 
             <div className="m-auto">

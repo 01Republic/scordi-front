@@ -39,19 +39,14 @@ export const useGoogleLoginSuccessHandler2 = () => {
 
     // 그냥 로그인 시키고 적절한 다음 페이지로 이동시키는 함수.
     const moveWithLogin = async (user: UserDto) => {
-        console.log(1);
         localStorage.setItem('locale', user?.locale ?? 'ko');
         setCurrentUser(user);
 
         if (!invitedOrgId) return;
-        console.log(2);
 
         const isInvitedUser = await checkInvitedEmail(user, invitedOrgId);
-        console.log('isInvitedUser', isInvitedUser);
         if (isInvitedUser) return router.push(V3OrgHomePageRoute.path(invitedOrgId));
-        console.log(3);
         if (!isInvitedUser) return router.push(V3OrgJoinErrorPageRoute.path(invitedOrgId));
-        console.log(4);
 
         loginRedirect(user);
     };
