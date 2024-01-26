@@ -4,14 +4,11 @@ import {useRecoilValue} from 'recoil';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import {GoOrganization, GoSignIn} from 'react-icons/go';
 import {useToast} from '^hooks/useToast';
-import {useAlert} from '^hooks/useAlert';
 import {currentUserAtom} from '^models/User/atom';
 import {googleOauthClientId} from '^api/tasting.api/gmail/constant';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {MainPageRoute} from '^pages/index';
-import {UserSignUpPageRoute} from '^pages/users/signup';
-import {UserLoginPageRoute} from '^pages/users/login';
 
 export const InviteOrgErrorBody = memo(() => {
     const currentUser = useRecoilValue(currentUserAtom);
@@ -29,7 +26,7 @@ export const InviteOrgErrorBody = memo(() => {
             <h1>앗! 초대 권한이 없어요</h1>
             <h3 className="mb-5">
                 초대 권한 확인이 필요해요
-                <br /> 담당자에게 문의 부탁드려요 😢
+                <br /> 조직 관리자에게 문의 부탁드려요 😢
             </h3>
 
             <div className="flex flex-col gap-5 w-fit m-auto mb-10">
