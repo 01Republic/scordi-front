@@ -4,11 +4,14 @@ import {useRecoilValue} from 'recoil';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import {GoOrganization, GoSignIn} from 'react-icons/go';
 import {useToast} from '^hooks/useToast';
+import {useAlert} from '^hooks/useAlert';
 import {currentUserAtom} from '^models/User/atom';
 import {googleOauthClientId} from '^api/tasting.api/gmail/constant';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {MainPageRoute} from '^pages/index';
+import {UserSignUpPageRoute} from '^pages/users/signup';
+import {UserLoginPageRoute} from '^pages/users/login';
 
 export const InviteOrgErrorBody = memo(() => {
     const currentUser = useRecoilValue(currentUserAtom);
@@ -16,7 +19,7 @@ export const InviteOrgErrorBody = memo(() => {
     const {toast} = useToast();
 
     const moveToMain = () => {
-        if (!currentUser) return toast.error('가입된 조직이 없어요!');
+        if (!currentUser?.orgId) return toast.error('회원가입을 먼저 진행해주세요');
 
         router.push(V3OrgHomePageRoute.path(currentUser.orgId));
     };
