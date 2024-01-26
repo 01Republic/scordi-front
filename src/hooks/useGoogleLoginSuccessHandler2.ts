@@ -1,14 +1,12 @@
+import {useEffect} from 'react';
 import {useRouter} from 'next/router';
-
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {setToken} from '^api/api';
 import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
 import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
-import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {GoogleAccessTokenData} from '^api/tasting.api';
+import {invitedOrgIdAtom, isCopiedAtom} from '^v3/V3OrgJoin/atom';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useEffect} from 'react';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {useCurrentUser} from '^models/User/hook';
 import {UserDto} from '^models/User/types';
@@ -25,14 +23,16 @@ import {userSessionApi} from '^models/User/api/session';
 export const useGoogleLoginSuccessHandler2 = () => {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     const [invitedOrgId, setInvitedOrgId] = useRecoilState(invitedOrgIdAtom);
+    const [isCopied, setIsCopied] = useRecoilState(isCopiedAtom);
+    const {setCurrentUser, loginRedirect} = useCurrentUser(null);
     const router = useRouter();
-    const {currentUser, setCurrentUser, loginRedirect, setAuthenticatedUserData} = useCurrentUser(null);
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
 
         setInvitedOrgId(orgId);
-    }, [orgId]);
+        setIsCopied(!!router.query.isCopied || false);
+    }, [orgId, router.query]);
 
     // 추가정보 입력을 위해 가입페이지로 넘기는 함수.
     const moveToSignUpPage = () => router.push(SignPhoneAuthPageRoute.path());
@@ -42,28 +42,29 @@ export const useGoogleLoginSuccessHandler2 = () => {
         localStorage.setItem('locale', user?.locale ?? 'ko');
         setCurrentUser(user);
 
-        if (invitedOrgId) {
-            const isInvited = await checkInvitedEmail(user, invitedOrgId);
-            if (isInvited) {
-                router.push(V3OrgHomePageRoute.path(invitedOrgId));
-            } else {
-                router.push(V3OrgJoinErrorPageRoute.path(invitedOrgId));
-            }
-        }
+        if (!invitedOrgId) return;
+
+        const isInvitedUser = await checkInvitedEmail(user, invitedOrgId);
+        if (isInvitedUser) return router.push(V3OrgHomePageRoute.path(invitedOrgId));
+        if (!isInvitedUser) return router.push(V3OrgJoinErrorPageRoute.path(invitedOrgId));
+
         loginRedirect(user);
     };
 
     // Org Join 페이지에서 로그인했을 경우 초대된 유저가 맞는지 확인하는 함수.
     const checkInvitedEmail = async (user: UserDto, invitedOrgId: number) => {
+        // 초대 링크 통해서 들어온 유저는 초대된 유저인지 확인 안함
+        if (isCopied) return true;
+
         const currentOrgId = Number(router.query.orgId);
         if (currentOrgId !== invitedOrgId) return false;
 
         try {
             const response = await inviteMembershipApi.index(invitedOrgId, encodeURI(user.email));
-            if (response.status === 200) {
-                await inviteMembershipApi.confirm(response.data.id);
-                return true;
-            }
+            if (response.status !== 200) return;
+
+            await inviteMembershipApi.confirm(response.data.id);
+            return true;
         } catch {
             return false;
         }

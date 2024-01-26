@@ -1,39 +1,37 @@
 import React, {memo, useEffect, useState} from 'react';
-import {LandingPageLayout} from '../LandingPageLayout';
+import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
 import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
-import {toast} from 'react-toastify';
-import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
+import {useTranslation} from 'next-i18next';
+import {ApiError} from '^api/api';
+import {LandingPageLayout} from '../LandingPageLayout';
 import {codeConfirmedState, isTermModalOpenedState, phoneAuthDataState} from './BetaSignPhoneAuthPage.atom';
 import {PhoneNumberInput} from './PhoneNumberInput';
 import {AuthCodeInput} from './AuthCodeInput';
 import {errorNotify} from '^utils/toast-notify';
 import {SignWelcomePageRoute} from '^pages/sign/welcome';
-import {useTranslation} from 'next-i18next';
-import {ApiError} from '^api/api';
-import {BetaSignSocialPageRoute} from '^pages/sign/social';
-import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
+import {invitedOrgIdAtom, isCopiedAtom} from '^v3/V3OrgJoin/atom';
 import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {TermModalV2} from '^components/pages/LandingPages/BetaSignPhoneAuthPage/TermModalV2';
-import {useSocialLogin, useSocialLoginV2} from '^models/User/hook';
+import {useSocialLoginV2} from '^models/User/hook';
 import {UserGoogleSocialSignUpRequestDtoV2} from '^models/User/types';
+import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';
 
 export const BetaSignPhoneAuthPage2 = memo(() => {
     const router = useRouter();
-    const socialLogin = useSocialLogin();
     const socialLoginV2 = useSocialLoginV2();
     const googleAccessToken = useRecoilValue(googleAccessTokenAtom);
     const phoneAuthData = useRecoilValue(phoneAuthDataState);
     const invitedOrgId = useRecoilValue(invitedOrgIdAtom);
     const form = useForm<UserGoogleSocialSignUpRequestDtoV2>();
-    const [isOpened, setIsOpened] = useRecoilState(isTermModalOpenedState);
+    const setIsOpened = useSetRecoilState(isTermModalOpenedState);
     const codeConfirmed = useRecoilValue(codeConfirmedState);
+    const isCopied = useRecoilValue(isCopiedAtom);
+
     const {t} = useTranslation('sign');
     const [pageLoaded, setPageLoaded] = useState(false);
     const resetGoogleCode = useResetRecoilState(googleAccessTokenAtom);
-
-    const isCopied = !!router.query.copied || false;
 
     useEffect(() => {
         googleAccessToken && setPageLoaded(true);
@@ -89,9 +87,7 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
                             ...data,
                         })
                             .then(findOrCreateUserCallback)
-                            .catch((err: ApiError) => {
-                                errorNotify(err);
-                            })
+                            .catch(() => router.push(V3OrgJoinErrorPageRoute.path(invitedOrgId)))
                             .finally(resetGoogleCode);
                     } else {
                         googleSignUp(googleAccessToken, data)

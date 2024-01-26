@@ -6,6 +6,6 @@ export const isSyncLoadingAtom = atom({
 });
 
 export const isDeleteLoadingAtom = atom({
-    key: 'isSyncLoadingAtom',
+    key: 'isDeleteLoadingAtom',
     default: false,
 });

@@ -1,13 +1,13 @@
-import React, {memo} from 'react';
-import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
-import {Avatar} from '^components/Avatar';
-import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import React, {memo, useState} from 'react';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {useAlert} from '^hooks/useAlert';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {GmailAgentProgress, gmailAgentProgressAtom} from '^hooks/useGoogleAccessToken';
 import {useToast} from '^hooks/useToast';
+import {useAlert} from '^hooks/useAlert';
+import {Avatar} from '^components/Avatar';
 import {useModal} from '^v3/share/modals';
 import {renewInvoiceAccountModal} from '^v3/V3OrgHomePage/RenewInvoiceAccountModal/atom';
 import {MoreDropdown} from '^v3/V3OrgSettingsConnectsPage/MoreDropdown';
@@ -17,46 +17,64 @@ interface InvoiceAccountTableRowProps {
 }
 
 export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) => {
-    const {search: getInvoiceAccounts, reload} = useInvoiceAccounts();
+    const {reload: reloadInvoiceAccounts} = useInvoiceAccounts();
     const setGmailAgentProgress = useSetRecoilState(gmailAgentProgressAtom);
     const {open: openRenewModal} = useModal(renewInvoiceAccountModal);
     const orgId = useRecoilValue(orgIdParamState);
+    const [isSyncLoading, setIsSyncLoading] = useState<boolean>(false);
+    const [isDisConnectLoading, setIsDisConnectLoading] = useState<boolean>(false);
     const {alert} = useAlert();
     const {toast} = useToast();
 
     const {invoiceAccount} = props;
     if (!invoiceAccount) return <></>;
 
-    const onDelete = () => {
-        const invoiceAccountId = invoiceAccount?.id;
+    const onDisConnect = () => {
+        if (isDisConnectLoading) return;
 
+        const invoiceAccountId = invoiceAccount?.id;
         if (!orgId || isNaN(orgId) || !invoiceAccountId || isNaN(invoiceAccountId)) return;
-        const res = alert.destroy({
-            title: '인보이스 수신 계정을 삭제하시겠습니까?',
+
+        const req = alert.destroy({
+            title: '연동을 해제하시겠습니까?',
             onConfirm: () => invoiceAccountApi.destroy(orgId, invoiceAccountId),
         });
+        setIsDisConnectLoading(true);
 
-        res.then(() => {
-            reload();
+        req.then((res) => {
+            if (!res) return;
+
+            reloadInvoiceAccounts();
+            toast.success('삭제가 완료됐습니다.');
+        });
+        req.catch((err) => toast.error(err.response.data.message));
+        req.finally(() => {
+            setIsDisConnectLoading(false);
         });
     };
 
     const onSync = () => {
+        if (isSyncLoading) return;
+
+        setIsSyncLoading(true);
         setGmailAgentProgress(GmailAgentProgress.started);
+
         invoiceAccountApi
             .sync(invoiceAccount.organizationId, invoiceAccount.id)
-            .then((res) => {
+            .then(() => {
                 setGmailAgentProgress(GmailAgentProgress.no_running);
-                window.location.reload();
+                toast.success('동기화가 완료됐습니다.');
+                reloadInvoiceAccounts();
             })
             .catch((err) => {
                 toast.error('구글 로그인이 만료되었습니다.');
                 openRenewModal();
-            });
+            })
+            .finally(() => setIsSyncLoading(false));
     };
 
     return (
-        <tr>
+        <tr className={`${(isSyncLoading || isDisConnectLoading) && 'btn-disabled animate-pulse'} `}>
             {/* 이메일 */}
             <td>
                 <div className="flex gap-3 items-center">
@@ -68,8 +86,13 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
                 </div>
             </td>
 
-            <td className="flex gap-3 justify-end">
-                <MoreDropdown onSync={onSync} onDelete={onDelete} />
+            <td className="text-end">
+                <MoreDropdown
+                    onSync={onSync}
+                    onDelete={onDisConnect}
+                    isSyncLoading={isSyncLoading}
+                    isDisConnectLoading={isDisConnectLoading}
+                />
             </td>
         </tr>
     );

@@ -39,9 +39,9 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
         const req = organizationConnectGoogleWorkspaceApi.sync(orgId);
         req.then(() => {
             loadCurrentOrg();
-            toast.success('연동이 완료됐습니다.');
+            toast.success('동기화가 완료됐습니다.');
         });
-        req.catch((err) => toast.error(err.message));
+        req.catch((err) => toast.error(err.response.data.message));
         req.finally(() => setSyncLoading(false));
     };
     const onDisConnect = () => {
@@ -64,7 +64,7 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
             loadCurrentOrg();
             toast.success('삭제가 완료됐습니다.');
         });
-        req.catch((err) => toast.error(err.message));
+        req.catch((err) => toast.error(err.response.data.message));
         req.finally(() => setDeleteLoading(false));
     };
 

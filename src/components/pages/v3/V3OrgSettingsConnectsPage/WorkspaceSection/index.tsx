@@ -21,6 +21,8 @@ export const WorkspaceSection = memo(() => {
     const {toast} = useToast();
     const lastSyncAccount = currentOrg?.lastGoogleSyncHistory?.googleTokenData;
 
+    const onSuccess = () => window.location.reload();
+
     return (
         <SettingBodyPanel title="워크스페이스" className="mb-5">
             {/*구글 워크스페이스*/}
@@ -31,7 +33,7 @@ export const WorkspaceSection = memo(() => {
                 button={
                     lastSyncAccount ? (
                         isSyncLoading || isDeleteLoading ? (
-                            <LoadingButton text="연동 해제 중" />
+                            <LoadingButton text={isSyncLoading ? '동기화 중' : '연동 해제 중'} />
                         ) : (
                             <GoogleProfile lastSyncAccount={lastSyncAccount} />
                         )

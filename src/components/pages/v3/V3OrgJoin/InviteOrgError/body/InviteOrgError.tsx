@@ -16,7 +16,7 @@ export const InviteOrgErrorBody = memo(() => {
     const {toast} = useToast();
 
     const moveToMain = () => {
-        if (!currentUser) return toast.error('가입된 조직이 없어요!');
+        if (!currentUser?.orgId) return toast.error('회원가입을 먼저 진행해주세요');
 
         router.push(V3OrgHomePageRoute.path(currentUser.orgId));
     };
@@ -26,7 +26,7 @@ export const InviteOrgErrorBody = memo(() => {
             <h1>앗! 초대 권한이 없어요</h1>
             <h3 className="mb-5">
                 초대 권한 확인이 필요해요
-                <br /> 담당자에게 문의 부탁드려요 😢
+                <br /> 조직 관리자에게 문의 부탁드려요 😢
             </h3>
 
             <div className="flex flex-col gap-5 w-fit m-auto mb-10">
@@ -40,6 +40,9 @@ export const InviteOrgErrorBody = memo(() => {
                     icon={<GoOrganization size={20} />}
                     onClick={moveToMain}
                 />
+                <button onClick={router.back} className="btn btn-link">
+                    다른 계정으로 시도하기
+                </button>
             </div>
 
             <div className="m-auto">

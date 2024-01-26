@@ -14,28 +14,6 @@ export enum ApprovalStatus {
     REJECTED = 'REJECTED', // 반려됨.
 }
 
-export function t_ApprovalStatus(status: ApprovalStatus) {
-    switch (status) {
-        case ApprovalStatus.APPROVED:
-            return '초대 완료';
-        case ApprovalStatus.PENDING:
-            return '초대중';
-        case ApprovalStatus.REJECTED:
-            return '초대 실패';
-    }
-}
-
-export function c_ApprovalStatus(status: ApprovalStatus) {
-    switch (status) {
-        case ApprovalStatus.APPROVED:
-            return 'btn-success';
-        case ApprovalStatus.PENDING:
-            return 'btn-scordi';
-        case ApprovalStatus.REJECTED:
-            return 'btn-error';
-    }
-}
-
 export type CreateMembershipRequestDto = {
     organizationId: number;
     userId: number;
