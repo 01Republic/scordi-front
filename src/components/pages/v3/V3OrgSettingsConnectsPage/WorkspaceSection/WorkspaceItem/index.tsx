@@ -41,7 +41,7 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
             loadCurrentOrg();
             toast.success('동기화가 완료됐습니다.');
         });
-        req.catch((err) => toast.error(err.message));
+        req.catch((err) => toast.error(err.response.data.message));
         req.finally(() => setSyncLoading(false));
     };
 
@@ -65,7 +65,7 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
             loadCurrentOrg();
             toast.success('삭제가 완료됐습니다.');
         });
-        req.catch((err) => toast.error(err.message));
+        req.catch((err) => toast.error(err.response.data.message));
         req.finally(() => setDeleteLoading(false));
     };
 
