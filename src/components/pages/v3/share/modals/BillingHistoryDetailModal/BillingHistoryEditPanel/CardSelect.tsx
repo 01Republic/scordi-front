@@ -2,7 +2,7 @@ import React, {memo, useEffect, useState} from 'react';
 import {useCreditCards} from '^models/CreditCard/hook';
 import Select from 'react-select';
 import {CreditCardDto} from '^models/CreditCard/type';
-import {CardComponents, selectStylesOptions} from '^v3/share/Select/CardSelector/selectOpions';
+import {CardComponents, selectStylesOptions} from '^v3/share/Select/CardSelect/selectOpions';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 interface CardSelectProps {

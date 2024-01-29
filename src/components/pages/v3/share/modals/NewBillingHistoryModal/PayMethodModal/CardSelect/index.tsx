@@ -4,7 +4,7 @@ import {useCreditCards} from '^models/CreditCard/hook';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {useSetRecoilState} from 'recoil';
 import {createBillingHistoryAtom} from '^v3/share/modals/NewBillingHistoryModal/atoms';
-import {CardSelector} from '^v3/share/Select/CardSelector';
+import {CardSelector} from 'src/components/pages/v3/share/Select/CardSelect';
 
 export const CardSelect = memo(() => {
     const setCreateBillingHistory = useSetRecoilState(createBillingHistoryAtom);

@@ -1,6 +1,6 @@
 import {memo, useEffect} from 'react';
 import {useRecoilState, useSetRecoilState} from 'recoil';
-import {CardSelector} from '^v3/share/Select/CardSelector';
+import {CardSelector} from 'src/components/pages/v3/share/Select/CardSelect';
 import {updateCurrentSubscriptionState, useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {useCreditCards} from '^models/CreditCard/hook';
 import {CreditCardDto} from '^models/CreditCard/type';
