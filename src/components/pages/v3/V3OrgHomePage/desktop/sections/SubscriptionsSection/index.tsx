@@ -39,7 +39,7 @@ export const SubscriptionsSection = memo(function SubscriptionsSection() {
         getSubscriptions({
             where: {organizationId: orgId},
             relations: ['master', 'teamMembers', 'creditCard'],
-            order: {id: 'DESC'},
+            order: {currentBillingAmount: {dollarPrice: 'DESC'}, isFreeTier: 'ASC', id: 'DESC'},
             itemsPerPage: SUBSCRIPTION_DISPLAY_LIMIT,
         });
 
