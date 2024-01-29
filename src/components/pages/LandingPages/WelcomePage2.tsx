@@ -4,16 +4,15 @@ import {CheckCircle} from '^components/react-icons/check-circle';
 import {useRouter} from 'next/router';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {useCurrentUser} from '^models/User/hook';
-import {useTranslation} from 'next-i18next';
 import {useRecoilValue} from 'recoil';
 import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
+import {LinkTo} from '^components/util/LinkTo';
 
 export const WelcomePage2 = memo(() => {
     const invitedOrgId = useRecoilValue(invitedOrgIdAtom);
     const router = useRouter();
     const {currentUser} = useCurrentUser();
     const [isAccessible, setIsAccessible] = useState(false);
-    // const {t} = useTranslation('welcome2');
 
     useEffect(() => {
         const accessible = router.query.accessible as string | undefined;
@@ -34,17 +33,11 @@ export const WelcomePage2 = memo(() => {
                         지금 바로 조회해보세요!
                     </p>
 
-                    <div>
+                    <LinkTo onClick={() => currentUser && V3OrgHomePageRoute.path(invitedOrgId || currentUser.orgId)}>
                         <div className="mb-4 btn sm:btn-lg btn-block normal-case rounded-2xl text-lg sm:!text-xl shadow-lg btn-scordi-light-200 !text-scordi-500">
-                            <a
-                                href={
-                                    currentUser ? `${V3OrgHomePageRoute.path(invitedOrgId || currentUser.orgId)}` : ''
-                                }
-                            >
-                                메인페이지로 이동하기
-                            </a>
+                            메인페이지로 이동하기
                         </div>
-                    </div>
+                    </LinkTo>
                 </div>
             </div>
 

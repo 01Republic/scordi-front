@@ -6,10 +6,11 @@ import {Input} from './Input';
 interface PasswordInputProps {
     form: UseFormReturn<UnSignedAccountFormData, any>;
     isShow: boolean;
+    defaultValue?: string;
 }
 
 export const PasswordInput = memo((props: PasswordInputProps) => {
-    const {form, isShow} = props;
+    const {form, isShow, defaultValue} = props;
     const [isPasswordOpen, setIsPasswordOpen] = useState(false);
 
     useEffect(() => {
@@ -25,6 +26,7 @@ export const PasswordInput = memo((props: PasswordInputProps) => {
                 formObj={form}
                 name="password"
                 autoComplete="off"
+                defaultValue={defaultValue}
                 required
             />
             <div
