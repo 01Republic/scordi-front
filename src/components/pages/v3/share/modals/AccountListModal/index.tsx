@@ -49,7 +49,9 @@ export const AccountListModal = memo(() => {
     // 모달을 닫으면 계정내역을 원래 조회하던 product 를 기준으로 다시 돌려둡니다.
     const onBack = () => {
         if (!originProduct) return;
-        fetchAllAccountsBy({productId: originProduct.id}, true).finally(() => close());
+
+        fetchAllAccountsBy({productId: originProduct.id}, true);
+        close();
     };
 
     return (
