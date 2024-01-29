@@ -8,7 +8,7 @@ import {creditCardApi} from '^models/CreditCard/api';
 import {CardItem} from './CardItem';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useModal} from '^v3/share/modals/useModal';
-import {ContentEmpty} from '^v3/V3OrgHomePage/mobile/ContentEmpty';
+import {ContentEmpty} from '^v3/share/ContentEmpty';
 import {inputCardNumberModal} from '^v3/share/modals/NewCardModal/CardNumberModal/atom';
 import {creditCardListAtom} from '^models/CreditCard/atom';
 

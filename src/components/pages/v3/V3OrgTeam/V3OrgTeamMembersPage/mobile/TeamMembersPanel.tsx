@@ -1,6 +1,6 @@
 import React, {memo, useEffect} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {ContentEmpty} from '^v3/V3OrgHomePage/mobile/ContentEmpty';
+import {ContentEmpty} from '^v3/share/ContentEmpty';
 import {TeamMemberItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/mobile/TeamMemberItem';
 import {AddMemberButton, ButtonTypes} from '../AddMemberButton';
 import {isOpenInviteOrgMemberModalAtom} from '^v3/share/modals/NewTeamMemberModal/InviteMemberModal/atom';

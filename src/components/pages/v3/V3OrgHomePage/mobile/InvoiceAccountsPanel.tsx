@@ -1,7 +1,7 @@
 import React, {memo, useEffect} from 'react';
 import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {ContentEmpty} from './ContentEmpty';
+import {ContentEmpty} from '../../share/ContentEmpty';
 import {InvoiceAccountItem} from './InvoiceAccountItem';
 import {useRouter} from 'next/router';
 import {AddButton} from '^v3/V3OrgHomePage/mobile/AddButton';

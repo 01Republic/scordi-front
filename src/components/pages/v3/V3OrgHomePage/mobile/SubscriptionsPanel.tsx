@@ -1,6 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {ContentEmpty} from '^v3/V3OrgHomePage/mobile/ContentEmpty';
+import {ContentEmpty} from '^v3/share/ContentEmpty';
 import {useSubscriptionsV2} from '^models/Subscription/hook';
 import {SubscriptionItem} from '^v3/V3OrgHomePage/mobile/SubscriptionItem';
 import {useRecoilValue} from 'recoil';

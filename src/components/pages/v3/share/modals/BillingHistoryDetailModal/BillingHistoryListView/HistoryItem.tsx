@@ -43,9 +43,9 @@ export const HistoryItem = memo((props: {entry: BillingHistoryDto; showTitle?: b
             </div>
 
             <div className="ml-auto flex flex-col items-end max-w-[70%]">
-                <p className="text-[16px] text-right font-bold">
+                <div className="text-[16px] text-right font-bold">
                     <PriceText billingHistory={billingHistory} status={status} />
-                </p>
+                </div>
                 {(showTitle || showTitleByStatus) && (
                     <p className="leading-none text-right font-light">
                         <small className="text-xs text-gray-500" style={{wordBreak: 'keep-all'}}>
