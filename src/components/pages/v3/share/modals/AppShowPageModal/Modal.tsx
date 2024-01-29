@@ -26,6 +26,7 @@ export const AppShowPageModal = memo((props: AppShowPageModalProps) => {
     const {currentSubscription, loadCurrentSubscription, deleteCurrentSubscription, isLoading} =
         useCurrentSubscription();
     const {search: loadCurrentHistories} = useBillingHistoryListOfSubscription();
+
     const {onFinish, onClose} = props;
 
     useEffect(() => {
@@ -45,7 +46,11 @@ export const AppShowPageModal = memo((props: AppShowPageModalProps) => {
         setNavTab(0);
     };
 
-    const deleteFn = () => deleteCurrentSubscription().then(() => closeModal());
+    const deleteFn = () =>
+        deleteCurrentSubscription().then(() => {
+            onFinish && onFinish();
+            closeModal();
+        });
     const DeleteButtonWrap = () => <DeleteButton isShow={true} onClick={deleteFn} />;
 
     return (
