@@ -64,4 +64,9 @@ export const productApi = {
         const url = `${NAMESPACE}/${prototypeId}/added-alerts`;
         return api.post<boolean>(url);
     },
+
+    block(id: number) {
+        const url = `/${NAMESPACE}/${id}/block`;
+        return api.delete<ProductDto>(url).then(oneDtoOf(ProductDto));
+    },
 };
