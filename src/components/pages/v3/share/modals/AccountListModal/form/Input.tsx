@@ -8,10 +8,11 @@ type TextInputProps<T extends FieldValues> = InputHTMLAttributes<HTMLInputElemen
     label: ReactNodeLike;
     formObj: UseFormReturn<T, any>;
     name: FieldPath<T>;
+    defaultValue?: string;
 };
 
 export const Input = forwardRef((props: TextInputProps<UnSignedAccountFormData>, ref: ForwardedRef<any>) => {
-    const {label, formObj, name, required, ...res} = props;
+    const {label, formObj, name, required, defaultValue, ...res} = props;
     const [id] = useId(1, `Input`);
 
     return (
@@ -29,6 +30,8 @@ export const Input = forwardRef((props: TextInputProps<UnSignedAccountFormData>,
                     {...res}
                     required={required}
                     ref={ref}
+                    onChange={(e) => formObj.setValue(name, e.target.value)}
+                    defaultValue={defaultValue}
                 />
                 <span />
             </div>

@@ -17,7 +17,7 @@ export const Paginator = memo((props: PaginatorProps) => {
 
     return (
         <div className={`btn-group ${className}`}>
-            <button className="btn" onClick={() => onClick(1)}>
+            <button className="btn" onClick={() => currentPage !== 1 && onClick(currentPage - 1)}>
                 «
             </button>
             {pageList.map((pageNum, i) => (
@@ -29,7 +29,7 @@ export const Paginator = memo((props: PaginatorProps) => {
                     {pageNum}
                 </button>
             ))}
-            <button className="btn" onClick={() => onClick(totalPage)}>
+            <button className="btn" onClick={() => currentPage !== totalPage && onClick(currentPage + 1)}>
                 »
             </button>
         </div>
