@@ -12,10 +12,14 @@ import {isValidUrl, truncate} from '^components/util/string';
 import {useListPageSearchForm} from '^admin/share/list-page/use-list-page-search-form';
 import {ProductConnectMethod, ProductDto} from '^models/Product/type';
 import {useToast} from '^hooks/useToast';
+import {Button} from '^components/util/form-control/inputs/ButtonGroupRadio/Button';
+import {AdminProductSimilarNamesPageRoute} from '^pages/admin/products/similar';
+import {useRouter} from 'next/router';
 
 export const AdminProductListPage = memo(() => {
     const form = useListPageSearchForm(productApi.index);
     const {searchForm, onSearch, fetchData, SearchForm, SearchResultContainer, listPage} = form;
+    const router = useRouter();
     const {toast} = useToast();
 
     useEffect(() => {
@@ -34,6 +38,8 @@ export const AdminProductListPage = memo(() => {
             .finally(() => toast.success(shouldPublish ? '공개!' : '비공개 했어요ㅠ'));
     };
 
+    const onSimilarNamesButtonClick = () => router.push(AdminProductSimilarNamesPageRoute.path());
+
     return (
         <AdminListPageLayout
             title="앱 목록"
@@ -41,7 +47,7 @@ export const AdminProductListPage = memo(() => {
             createPageRoute={AdminNewProductPageRoute.path()}
         >
             <div className="container pt-10 px-2 sm:px-8">
-                <div className="flex items-center justify-between mb-10">
+                <div className="flex items-center justify-between mb-5">
                     <div></div>
                     <div className="min-w-[25vw]">
                         <SearchForm
@@ -52,6 +58,11 @@ export const AdminProductListPage = memo(() => {
                             className="input input-bordered w-full"
                         />
                     </div>
+                </div>
+                <div className="flex justify-end mb-5 min-w-[25vw]">
+                    <Button onClick={onSimilarNamesButtonClick}>
+                        <span>차단된 서비스 목록 보기</span>
+                    </Button>
                 </div>
                 <SearchResultContainer>
                     <div className="w-full">
