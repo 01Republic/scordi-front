@@ -47,29 +47,20 @@ export const BillingHistoryDetailModal = memo((props: BillingHistoryDetailModalP
                     isLoading={isSubjectLoading}
                 />
                 <MobileSection.List>
-                    {isEditMode ? (
-                        <BillingHistoryEditPanel onFinish={onFinish} />
+                    {isEditMode && <BillingHistoryEditPanel onFinish={onFinish} />}
+                    {!isEditMode && isSubjectLoading ? (
+                        <ModalInfoSkeleton />
                     ) : (
-                        <>
-                            {!billingHistory ? (
-                                isSubjectLoading ? (
-                                    <ModalInfoSkeleton />
-                                ) : (
-                                    <p>done</p>
-                                )
-                            ) : (
-                                <MobileSection.Item>
-                                    <MobileSection.Padding>
-                                        <div className="w-full h-[40px]" />
+                        <MobileSection.Item>
+                            <MobileSection.Padding>
+                                <div className="w-full h-[40px]" />
 
-                                        <BillingHistoryShowBody />
-                                    </MobileSection.Padding>
-                                </MobileSection.Item>
-                            )}
-
-                            <BillingHistoryContentPanel billingHistories={pagedHistories.items} />
-                        </>
+                                <BillingHistoryShowBody />
+                            </MobileSection.Padding>
+                        </MobileSection.Item>
                     )}
+
+                    <BillingHistoryContentPanel billingHistories={pagedHistories.items} />
                 </MobileSection.List>
             </Modal>
             <AttachmentModal />
