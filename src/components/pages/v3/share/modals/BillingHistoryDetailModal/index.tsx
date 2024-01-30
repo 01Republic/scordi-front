@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
 import {AttachmentModal} from '^components/pages/LandingPages/TastingPage/AttachmentModal';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
@@ -12,22 +12,30 @@ import {isBillingHistoryEditModeAtom} from '^v3/share/modals/BillingHistoryDetai
 import {BillingHistoryEditPanel} from '^v3/share/modals/BillingHistoryDetailModal/BillingHistoryEditPanel';
 import {useBillingHistoryListInSiblings, useBillingHistoryListOfSubscription} from '^models/BillingHistory/hook';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
-import {ModalInfoSkeleton} from '^v3/share/Skeletons';
 
 interface BillingHistoryDetailModalProps {
     onFinish?: () => any;
 }
 
 export const BillingHistoryDetailModal = memo((props: BillingHistoryDetailModalProps) => {
-    const {close, Modal} = useBillingHistoryModal();
+    const {close, Modal, isShow} = useBillingHistoryModal();
     const isEditMode = useRecoilValue(isBillingHistoryEditModeAtom);
     const {currentSubscription, loadCurrentSubscription} = useCurrentSubscription();
-    const {billingHistory, isLoading: isSubjectLoading, loadData: reloadBillingHistory} = useBillingHistoryInModal();
+    const {
+        billingHistory,
+        isLoading: isSubjectLoading,
+        loadData: reloadBillingHistory,
+        setBillingHistory,
+    } = useBillingHistoryInModal();
     const {reload: reloadBillingHistoriesOfSubscription} = useBillingHistoryListOfSubscription();
     const {result: pagedHistories} = useBillingHistoryListInSiblings();
     const productName = billingHistory?.subscription?.product?.name();
 
     const {onFinish} = props;
+
+    useEffect(() => {
+        setBillingHistory(null);
+    }, [isShow]);
 
     const onBack = () => {
         if (currentSubscription) loadCurrentSubscription(currentSubscription.organizationId, currentSubscription.id);
@@ -48,17 +56,7 @@ export const BillingHistoryDetailModal = memo((props: BillingHistoryDetailModalP
                 />
                 <MobileSection.List>
                     {isEditMode && <BillingHistoryEditPanel onFinish={onFinish} />}
-                    {!isEditMode && isSubjectLoading ? (
-                        <ModalInfoSkeleton />
-                    ) : (
-                        <MobileSection.Item>
-                            <MobileSection.Padding>
-                                <div className="w-full h-[40px]" />
-
-                                <BillingHistoryShowBody />
-                            </MobileSection.Padding>
-                        </MobileSection.Item>
-                    )}
+                    {!isEditMode && <BillingHistoryShowBody />}
 
                     <BillingHistoryContentPanel billingHistories={pagedHistories.items} />
                 </MobileSection.List>
