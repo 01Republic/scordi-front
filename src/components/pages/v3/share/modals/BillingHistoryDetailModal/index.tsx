@@ -14,7 +14,11 @@ import {useBillingHistoryListInSiblings, useBillingHistoryListOfSubscription} fr
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {ModalInfoSkeleton} from '^v3/share/Skeletons';
 
-export const BillingHistoryDetailModal = memo(() => {
+interface BillingHistoryDetailModalProps {
+    onFinish?: () => any;
+}
+
+export const BillingHistoryDetailModal = memo((props: BillingHistoryDetailModalProps) => {
     const {close, Modal} = useBillingHistoryModal();
     const isEditMode = useRecoilValue(isBillingHistoryEditModeAtom);
     const {currentSubscription, loadCurrentSubscription} = useCurrentSubscription();
@@ -22,6 +26,8 @@ export const BillingHistoryDetailModal = memo(() => {
     const {reload: reloadBillingHistoriesOfSubscription} = useBillingHistoryListOfSubscription();
     const {result: pagedHistories} = useBillingHistoryListInSiblings();
     const productName = billingHistory?.subscription?.product?.name();
+
+    const {onFinish} = props;
 
     const onBack = () => {
         if (currentSubscription) loadCurrentSubscription(currentSubscription.organizationId, currentSubscription.id);
@@ -37,12 +43,12 @@ export const BillingHistoryDetailModal = memo(() => {
                     backBtnOnClick={() => onBack()}
                     title={billingHistory ? `${productName}의 ${billingHistory.pageSubject}` : '결제 세부사항'}
                     topbarPosition="sticky"
-                    rightButtons={[EditButton, DeleteButton]}
+                    rightButtons={[EditButton, () => <DeleteButton onFinish={onFinish} />]}
                     isLoading={isSubjectLoading}
                 />
                 <MobileSection.List>
                     {isEditMode ? (
-                        <BillingHistoryEditPanel />
+                        <BillingHistoryEditPanel onFinish={onFinish} />
                     ) : (
                         <>
                             {!billingHistory ? (

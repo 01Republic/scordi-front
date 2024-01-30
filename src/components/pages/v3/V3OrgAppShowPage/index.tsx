@@ -3,12 +3,12 @@ import {V3ModalLikeLayoutMobile} from '^v3/layouts/V3ModalLikeLayout.mobile';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {AccountListModal} from '^v3/share/modals/AccountListModal';
 import {appIdState, useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
-import {BillingHistoryDetailModal} from '^v3/share/modals/BillingHistoryDetailModal';
 import {AppShowPageBody} from '^v3/share/modals/AppShowPageModal/AppShowPageBody';
 import {SelectTeamMemberModal} from '^v3/share/modals/AppShowPageModal/SelectTeamMemberModal';
 import {InvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal';
 import {useSetRecoilState} from 'recoil';
 import {NewBillingHistoryModal} from 'src/components/pages/v3/share/modals/NewBillingHistoryModal';
+import {BillingHistoryDetailModalInAppShow} from '^v3/V3OrgAppsPage/_localModals/BillingHistoryDetailModal';
 
 export const V3OrgAppShowPage = memo(() => {
     const {currentSubscription} = useCurrentSubscription();
@@ -23,7 +23,7 @@ export const V3OrgAppShowPage = memo(() => {
         <V3ModalLikeLayoutMobile
             title={currentSubscription ? currentSubscription.product.name() : ''}
             modals={[
-                BillingHistoryDetailModal, // 결제내역상세모달
+                BillingHistoryDetailModalInAppShow, // 결제내역상세모달
                 SelectTeamMemberModal,
                 AccountListModal,
                 InvoiceAccountSelectModal,
