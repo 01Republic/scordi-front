@@ -4,6 +4,8 @@ import {dashboardSubscriptionSummaryAtom, subscriptionListSummaryAtom} from '^mo
 import {SummaryAtom} from '^hooks/useSummary';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
+import {FindAllSubscriptionsQuery} from '^models/Subscription/types';
+import {useState} from 'react';
 
 // 대시보드 / 구독 요약
 export const useDashBoardSubscriptionSummary = () => useSubscriptionSummaryIndex(dashboardSubscriptionSummaryAtom);
@@ -13,20 +15,18 @@ export const useSubscriptionMenuSummaryV2 = () => useSubscriptionSummaryIndex(su
 
 export const useSubscriptionSummaryIndex = (atoms: SummaryAtom<SubscriptionSummaryIndexDto>) => {
     const {resultAtom, isLoadingAtom} = atoms;
-
     const organizationId = useRecoilValue(orgIdParamState);
     const [result, setResult] = useRecoilState(resultAtom);
     const [isLoading, setIsLoading] = useRecoilState(isLoadingAtom);
 
     async function index() {
-        if (!organizationId || isNaN(organizationId)) return;
+        if (!organizationId || isNaN(organizationId) || isLoading) return;
 
         setIsLoading(true);
 
         return subscriptionSummaryApi
             .index({organizationId})
             .then((res) => {
-                console.log(res.data);
                 setResult(res.data);
                 return res.data;
             })

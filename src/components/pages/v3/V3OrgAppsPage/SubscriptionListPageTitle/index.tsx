@@ -1,13 +1,12 @@
 import React, {memo} from 'react';
 import {FaPlus} from 'react-icons/fa6';
 import {useModal} from '^v3/share/modals/useModal';
-import {NewAppModal} from '^components/pages/v3/share/modals/NewAppModal';
 import {newAppModal} from '^components/pages/v3/share/modals/NewAppModal/atom';
 import {newInvoiceAccountModal} from '^v3/share/modals/NewInvoiceAccountModal/atom';
-import {useSubscriptionMenuSummary} from '^models/Subscription/hook';
+import {useSubscriptionMenuSummaryV2} from '^models/SubscsriptionSummary/hook';
 
 export const SubscriptionListPageTitle = memo(function SubscriptionListPageTitle() {
-    const {isLoading, result} = useSubscriptionMenuSummary();
+    const {isLoading, result} = useSubscriptionMenuSummaryV2();
     const {open: openNewAppModal} = useModal(newAppModal);
     const invoiceAccountModal = useModal(newInvoiceAccountModal);
 
@@ -23,8 +22,7 @@ export const SubscriptionListPageTitle = memo(function SubscriptionListPageTitle
                     <span className="animate-pulse rounded-full bg-slate-200 inline-block w-[300px] h-[38px]" />
                 ) : (
                     <span className="block">
-                        <span className="text-scordi">{result.pagination.totalItemCount.toLocaleString()}개</span>의
-                        구독이 등록되어있어요
+                        <span className="text-scordi">{result.total?.toLocaleString()}개</span>의 구독이 등록되어있어요
                     </span>
                 )}
             </h1>
