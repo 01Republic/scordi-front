@@ -29,6 +29,7 @@ import {SummarySection, MemberListSection, SubscriptionsSection} from './desktop
 import {SubscriptionDetailModal, NewBillingHistoryModalInDashBoard} from './_localModals';
 import {TeamMemberDetailModal} from '^v3/V3OrgHomePage/_localModals/TeamMemberShowModal';
 import {NewTeamMemberModalInDashBoard} from '^v3/V3OrgHomePage/_localModals/NewTeamMemberModal';
+import {SummarySectionV2} from '^v3/V3OrgHomePage/desktop/sections/SummarySection/v2';
 
 export const V3OrgHomePage = memo(() => {
     const currentUser = useRecoilValue(currentUserAtom);
@@ -51,7 +52,8 @@ export const V3OrgHomePage = memo(() => {
             >
                 <V3MainLayoutContainer>
                     <HeaderSection />
-                    <SummarySection />
+                    {/*<SummarySection />*/}
+                    <SummarySectionV2 />
                     <MemberListSection />
                     {/*<div className="grid grid-cols-1 sm:grid-cols-2 gap-8">*/}
                     {/*    <CardListSection />*/}
