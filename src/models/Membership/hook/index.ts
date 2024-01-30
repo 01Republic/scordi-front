@@ -1,29 +1,35 @@
 import {useRecoilState} from 'recoil';
-import {currentUserMembershipAtom, getCurrentUserMembershipsQuery} from '^models/User/atom';
-import {useCallback, useEffect, useState} from 'react';
-import {FindAllMembershipQuery, MembershipDto} from 'src/models/Membership/types';
-import {orgMembershipSearchResultAtom} from '^models/Membership/atom';
+import {useCallback, useEffect} from 'react';
 import {membershipApi} from '^models/Membership/api';
-import {cachePagedQuery} from '^hooks/usePagedResource';
+import {currentUserMembershipAtom, getCurrentUserMembershipsQuery} from '^models/User/atom';
+import {
+    membershipInInHeaderAtom,
+    membershipInInviteModalAtom,
+    membershipInMembershipTable,
+} from '^models/Membership/atom';
+import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
+import {FindAllMembershipQuery, MembershipDto} from 'src/models/Membership/types';
 
-export const useMemberships = () => {
-    const [membershipSearchResult, setMembershipSearchResult] = useRecoilState(orgMembershipSearchResultAtom);
-    const [query, setQuery] = useState<FindAllMembershipQuery>({});
+// 팀멤버 초대모달 / 이미 가입된 유저인지 확인
+export const useMembershipInInviteModal = () => useMemberships(membershipInInviteModalAtom);
 
-    async function searchMemberships(params: FindAllMembershipQuery, mergeMode = false, force = false) {
-        const request = () => membershipApi.index(params);
+// v3 > share > LeftNavBar > Header 컴포넌트 전용 api 요청 hook
+export const useMembershipInHeader = () => useMemberships(membershipInInHeaderAtom);
 
-        cachePagedQuery(setMembershipSearchResult, setQuery, params, request, mergeMode, force);
-    }
+// membershipTable
+export const useMembershipInMembershipTable = () => useMemberships(membershipInMembershipTable);
 
-    const reload = () => searchMemberships({...query}, false, true);
-
-    return {
-        query,
-        membershipSearchResult,
-        searchMemberships,
-        reload,
-    };
+export const useMemberships = (atoms: PagedResourceAtoms<MembershipDto, FindAllMembershipQuery>, mergeMode = false) => {
+    return usePagedResource(atoms, {
+        endpoint: (params) => membershipApi.index(params),
+        useOrgId: true,
+        buildQuery: (params, orgId) => {
+            params.where = {organizationId: orgId, ...params.where};
+            return params;
+        },
+        mergeMode,
+        getId: 'id',
+    });
 };
 
 export const useCurrentUserMemberships = () => {

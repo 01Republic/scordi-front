@@ -5,7 +5,7 @@ import {currentUserAtom} from '^models/User/atom';
 import {OrganizationDto} from '^models/Organization/type';
 import {MembershipManager} from '^models/Membership/manager';
 import {SelectOrgItem} from './SelectOrgItem';
-import {useMembershipsV2} from '^models/Membership/hook/useMembershipsV2';
+import {useMembershipInHeader} from '^models/Membership/hook';
 
 const DownIcon = memo(() => {
     return (
@@ -27,7 +27,7 @@ export const Header = memo(function Header() {
     const currentOrg = useRecoilValue(currentOrgAtom);
     const currentUser = useRecoilValue(currentUserAtom);
     const [organizations, setOrganizations] = useState<OrganizationDto[]>([]);
-    const {search: getMembers, result} = useMembershipsV2();
+    const {search: getMembers, result} = useMembershipInHeader();
     const myMemberships = result?.items;
 
     useEffect(() => {

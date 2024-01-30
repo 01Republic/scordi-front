@@ -1,7 +1,7 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue, useResetRecoilState} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
-import {useMemberships} from '^models/Membership/hook';
+import {useMembershipInInviteModal, useMemberships} from '^models/Membership/hook';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {useModal} from '^v3/share/modals/useModal';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
@@ -18,7 +18,7 @@ interface InviteOrgMemberModalProps {
 }
 export const InviteOrgMemberModal = memo((props: InviteOrgMemberModalProps) => {
     const {isShow, Modal, close} = useModal({isShowAtom: isOpenInviteOrgMemberModalAtom});
-    const {searchMemberships} = useMemberships();
+    const {search: searchMemberships} = useMembershipInInviteModal();
     const currentOrg = useRecoilValue(currentOrgAtom);
     const resetFormData = useResetRecoilState(createInviteTeamMemberAtom);
     const resetInputValue = useResetRecoilState(emailInputValueAtom);
