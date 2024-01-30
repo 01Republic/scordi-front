@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import Select, {InputActionMeta, StylesConfig} from 'react-select';
-import {CardComponents} from '^v3/share/Select/CardSelector/selectOpions';
+import {CardComponents} from '^v3/share/Select/CardSelect/selectOpions';
 import {useCreditCards} from '^models/CreditCard/hook';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {SelectOptionNotionStyledLayout, SelectOptionProps} from '^v3/share/modals/_presenters/SelectInput';

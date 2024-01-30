@@ -27,6 +27,7 @@ export function useListPageSearchForm<ItemDto extends EntityDto, QueryDto extend
             itemsPerPage: 0,
         },
     });
+
     // @ts-ignore
     const [query, setQuery] = useState<QueryDto>({});
 

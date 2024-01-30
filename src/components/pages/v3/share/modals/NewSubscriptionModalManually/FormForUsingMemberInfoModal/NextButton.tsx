@@ -4,7 +4,7 @@ import {useModal} from '^v3/share/modals';
 import {subscriptionApi} from '^models/Subscription/api';
 import {memoAtom, newFormForFinishModalAtom, newSubscriptionManualFormData, subscriptionIdAtom} from '../atom';
 import {NextButtonUI} from '../../../NextButtonUI';
-import {useSubscriptionMenuSummary, useSubscriptionsV2} from '^models/Subscription/hook';
+import {useSubscriptionMenuSummary, useSubscriptionTableListAtom} from '^models/Subscription/hook';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
 import {PricingModelOptions} from '^models/Subscription/types/PricingModelOptions';
 import {debounce} from 'lodash';
@@ -15,7 +15,7 @@ export const NextButton = memo(function NextButton() {
     const setSubscriptionId = useSetRecoilState(subscriptionIdAtom);
     const setDesc = useSetRecoilState(memoAtom);
     const {reload: reloadSummary} = useSubscriptionMenuSummary(); // 구독리스트 > 요약패널 갱신용
-    const {reload: reloadTableData} = useSubscriptionsV2(); // 구독리스트 > 테이블 갱신용
+    const {reload: reloadTableData} = useSubscriptionTableListAtom(); // 구독리스트 > 테이블 갱신용
 
     const refreshPageData = () => {
         reloadSummary(); // 구독리스트 > 요약패널 갱신

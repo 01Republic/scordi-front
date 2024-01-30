@@ -12,22 +12,9 @@ import {useToast} from '^hooks/useToast';
 export const AccountEditModal = memo(() => {
     const form = useForm<UnSignedAccountFormData>();
     const {isShow, Modal, hide, data} = useAccountEditModal();
-    const {fetchAllAccountsBy} = useAccounts();
+    const {fetchAllAccountsBy, reload: refreshAccountList} = useAccounts();
     const {product, account} = data;
     const {toast} = useToast();
-
-    // 폼 기본값 채우기
-    useEffect(() => {
-        if (!account) return;
-
-        const decrypted = account.decryptSign();
-        form.setValue('productId', account.productId);
-        form.setValue('email', decrypted.email);
-        form.setValue('password', decrypted.password);
-        form.setValue('loginPageUrl', account.loginPageUrl);
-        form.setValue('loginMethod', account.loginMethod);
-        form.setValue('memo', account.memo);
-    }, [account]);
 
     // 키보드 이벤트 바인딩
     useEffect(() => {
@@ -49,20 +36,23 @@ export const AccountEditModal = memo(() => {
 
         const {productId} = dto;
         if (!productId) {
-            alert('무언가 잘못되었습니다. 스코디팅에게 문의해주세요!');
+            alert('무언가 잘못되었습니다. 스코디팀에게 문의해주세요!');
             return;
         }
         const formData = plainToInstance(UnSignedAccountFormData, dto).toUpdateDto();
-        accountApi.update(organizationId, id, formData).then(() => {
+        const req = accountApi.update(organizationId, id, formData);
+        req.then(() => {
             toast.success('저장되었습니다.');
+            refreshAccountList();
             fetchAllAccountsBy({productId}, true).finally(() => onBack());
         });
+        req.catch((err) => toast.error(err.response.data.message));
     };
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
             <ModalTopbar title="계정 정보 변경" backBtnOnClick={onBack} topbarPosition="sticky" />
-            <AccountForm form={form} isShow={isShow} product={product} onSubmit={onSubmit} />
+            <AccountForm form={form} isShow={isShow} account={account} product={product} onSubmit={onSubmit} />
         </Modal>
     );
 });

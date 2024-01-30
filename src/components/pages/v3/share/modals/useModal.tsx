@@ -1,13 +1,8 @@
-import {atom, RecoilState, useRecoilState} from 'recoil';
 import React, {memo, useEffect} from 'react';
+import {RecoilState, useRecoilState} from 'recoil';
 import {WithChildren} from '^types/global.type';
 import {IoClose} from '@react-icons/all-files/io5/IoClose';
 import {DefaultModal} from '^v3/share/modals/_layouts/DefaultModal';
-
-const openedModalsAtom = atom<{key: string}[]>({
-    key: 'openedModalsAtom',
-    default: [],
-});
 
 export interface UseModalOption {
     isShowAtom: RecoilState<boolean>;
@@ -79,14 +74,18 @@ export const useModal = (option: UseModalOption) => {
         close,
         prevent,
         Modal: memo(({children, wrapperClassName = '', className = '', onClose}: ModalProps) => (
-            <DefaultModal
-                modalId={popStateSyncKey}
-                wrapperClassName={wrapperClassName}
-                className={className}
-                isShow={isShow}
-                onClose={onClose || close}
-                children={children}
-            />
+            <>
+                {isShow && (
+                    <DefaultModal
+                        modalId={popStateSyncKey}
+                        wrapperClassName={wrapperClassName}
+                        className={className}
+                        isShow={isShow}
+                        onClose={onClose || close}
+                        children={children}
+                    />
+                )}
+            </>
         )),
         CloseButton: memo(({children, className = ''}: WithChildren & {className?: string}) => (
             <button

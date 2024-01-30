@@ -5,7 +5,7 @@ import {V3ModalLikeLayoutMobile} from '../layouts/V3ModalLikeLayout.mobile';
 import {InformationPanel} from './InformationPanel';
 import {BsPlus} from 'react-icons/bs';
 import {useModal} from '../share/modals/useModal';
-import {ContentEmpty} from '../V3OrgHomePage/mobile/ContentEmpty';
+import {ContentEmpty} from '../share/ContentEmpty';
 import {SubscriptionItem} from '../V3OrgHomePage/mobile/SubscriptionItem';
 import {useRouter} from 'next/router';
 import {V3OrgCardListPageRoute} from '^pages/v3/orgs/[orgId]/cards';

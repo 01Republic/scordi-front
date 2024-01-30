@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {useTeamsV2} from '^models/Team/hook';
 import {useToast} from '^hooks/useToast';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {ContentEmpty} from '^v3/V3OrgHomePage/mobile/ContentEmpty';
+import {ContentEmpty} from '^v3/share/ContentEmpty';
 import {TeamItem} from './TeamItem';
 
 // import {isOpenNewTeamModalAtom} from '^v3/V3OrgTeam/V3OrgTeamsPage/NewTeamModal/atom';

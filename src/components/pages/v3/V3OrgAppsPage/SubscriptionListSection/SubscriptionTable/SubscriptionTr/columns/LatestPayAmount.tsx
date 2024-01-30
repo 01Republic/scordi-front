@@ -14,11 +14,10 @@ export const LatestPayAmount = memo((props: LatestPayAmountProps) => {
     const symbol = getCurrencySymbol(displayCurrency);
     const {subscription} = props;
 
-    // const payAmount = latestBillingHistory?.getPriceIn(displayCurrency) || 0;
     const billingAmount = subscription.currentBillingAmount?.toDisplayPrice(displayCurrency) || 0;
 
     return (
-        <p className="text-sm" {...subscription.currentBillingAmount}>
+        <p className="text-sm">
             <small className="mr-1">{symbol}</small>
             <span>{currencyFormat(billingAmount, '')}</span>
         </p>

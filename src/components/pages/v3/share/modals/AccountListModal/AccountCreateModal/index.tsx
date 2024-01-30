@@ -38,29 +38,20 @@ export const AccountCreateModal = memo(() => {
 
     const onSubmit = (dto: UnSignedAccountFormData) => {
         const {productId, email, password} = dto;
-        if (!productId) {
-            toast.error('서비스를 선택해주세요');
-            return;
-        }
 
-        if (!email) {
-            toast.error('이메일을 입력해주세요');
-            return;
-        }
-
-        if (!password) {
-            toast.error('패스워드를 입력해주세요');
-            return;
-        }
+        if (!productId) return toast.error('서비스를 선택해주세요');
+        if (!email) return toast.error('이메일을 입력해주세요');
+        if (!password) return toast.error('패스워드를 입력해주세요');
 
         const formData = plainToInstance(UnSignedAccountFormData, dto).toCreateDto();
-
-        accountApi.create(organizationId, formData).then((res) => {
+        const req = accountApi.create(organizationId, formData);
+        req.then(() => {
             toast.success('등록되었습니다.');
             refreshAccountList();
             hide();
             form.reset();
         });
+        req.catch((err) => toast.error(err.response.data.message));
     };
 
     return (

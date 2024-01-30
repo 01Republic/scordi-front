@@ -83,11 +83,11 @@ export const PayMethodSelect = memo((props: PayMethodSelectProps) => {
                     EmptyComponent={() => <TagUI className="text-gray-300 w-60 !justify-start">비어있음</TagUI>}
                 />
             </div>
-            {isShow && (
-                <div className="tooltip tooltip-error" data-tip="카드가 바뀌었는지 확인해보세요.">
-                    <BsExclamation size={28} className="text-error animate-pulse" />
-                </div>
-            )}
+            {/*{isShow && (*/}
+            {/*    <div className="tooltip tooltip-error" data-tip="카드가 바뀌었는지 확인해보세요.">*/}
+            {/*        <BsExclamation size={28} className="text-error animate-pulse" />*/}
+            {/*    </div>*/}
+            {/*)}*/}
         </div>
     );
 });

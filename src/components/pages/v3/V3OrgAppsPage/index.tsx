@@ -17,6 +17,7 @@ import {SubscriptionListPageTitle} from './SubscriptionListPageTitle';
 import {SubscriptionListSection} from './SubscriptionListSection';
 import {SubscriptionDetailModal} from './_localModals';
 import {NewBillingHistoryModalInAppShow} from '^v3/V3OrgAppsPage/_localModals/NewBillingHistoryModal';
+import {SummarySectionV2} from './SummarySection/v2';
 
 const MODALS: ReactComponentLike[] = [
     NewAppModal,
@@ -36,7 +37,8 @@ export const V3OrgAppsPage = memo(() => {
             <V3ListPageLayout activeTabIndex={LNBIndex.Subscriptions} modals={MODALS}>
                 <SubscriptionListPageTitle />
                 <SubscriptionLoader />
-                <SummarySection />
+                {/*<SummarySection />*/}
+                <SummarySectionV2 />
                 <SubscriptionListSection />
             </V3ListPageLayout>
         );

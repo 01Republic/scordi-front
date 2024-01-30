@@ -1,5 +1,5 @@
 import {WithChildren} from '^types/global.type';
-import {memo, useState} from 'react';
+import {memo, useEffect, useState} from 'react';
 import {TiArrowSortedDown, TiArrowSortedUp} from 'react-icons/ti';
 
 interface SortableTHProps extends WithChildren {
@@ -10,8 +10,14 @@ interface SortableTHProps extends WithChildren {
 }
 
 export const SortableTH = memo((props: SortableTHProps) => {
-    const {className = '', sortKey, sortVal = 'ASC', onClick, children} = props;
+    const {className = '', sortKey, sortVal, onClick, children} = props;
     const [value, setValue] = useState<boolean>();
+
+    useEffect(() => {
+        if (!sortVal || sortVal === 'ASC') return;
+
+        setValue(true);
+    }, []);
 
     const isSortable = !!(sortKey && onClick);
 

@@ -1,5 +1,4 @@
 import React, {memo} from 'react';
-import {WithChildren} from '^types/global.type';
 
 interface ContentEmptyProps {
     text: string;
