@@ -3,6 +3,7 @@ import {FaRegEnvelope} from 'react-icons/fa';
 import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
 import {TeamMemberDto, useSendInviteEmail} from '^models/TeamMember';
 import {plainToast} from '^hooks/useToast';
+import {CgSpinner} from 'react-icons/cg';
 
 interface InviteListItemProps {
     teamMember: TeamMemberDto;
@@ -27,8 +28,14 @@ export const InviteListItem = memo((props: InviteListItemProps) => {
     return (
         <MoreDropdownListItem onClick={onClick}>
             <div className="flex items-center gap-3 w-full py-1">
-                <FaRegEnvelope size={12} />
-                <p>초대하기</p>
+                {isLoading ? (
+                    <CgSpinner size={20} className="animate-spin btn-disabled mx-auto" />
+                ) : (
+                    <>
+                        <FaRegEnvelope size={12} />
+                        <p>초대하기</p>
+                    </>
+                )}
             </div>
         </MoreDropdownListItem>
     );

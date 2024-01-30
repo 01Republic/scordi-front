@@ -69,7 +69,7 @@ export function useTeamMember(atom: RecoilState<TeamMemberDto | null>) {
         return res;
     };
 
-    const deleteMember = async (onConfirm?: () => void) => {
+    const deleteMember = async (onConfirm?: () => void, teamMember?: TeamMemberDto) => {
         if (!teamMember) {
             toast.error('알 수 없는 멤버');
             return;
