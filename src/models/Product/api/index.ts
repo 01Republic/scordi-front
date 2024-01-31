@@ -65,6 +65,11 @@ export const productApi = {
         return api.post<boolean>(url);
     },
 
+    merge(id: number, targetId: number) {
+        const url = `/${NAMESPACE}/${id}/merge/${targetId}`;
+        return api.delete<ProductDto>(url).then(oneDtoOf(ProductDto));
+    },
+
     block(id: number) {
         const url = `/${NAMESPACE}/${id}/block`;
         return api.delete<ProductDto>(url).then(oneDtoOf(ProductDto));

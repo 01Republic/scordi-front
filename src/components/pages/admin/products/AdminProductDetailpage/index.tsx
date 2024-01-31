@@ -9,6 +9,7 @@ import {ContentTabNav} from '^layouts/ContentLayout';
 import {EditProductDetail} from './MenuContents/EditProductDetail';
 import {EditProductPost} from './MenuContents/EditProductPost';
 import {useCurrentUser} from '^models/User/hook';
+import {MergeProductMenu} from '^admin/products/AdminProductDetailpage/MenuContents/MergeProductMenu';
 
 export const adminProductDetail = atom<ProductDto | null>({
     key: 'adminProductDetail',
@@ -38,6 +39,7 @@ export const AdminProductDetailPage = memo(() => {
         {label: '소개', Component: EditProductPost},
         {label: '구독 관리', Component: Fragment},
         {label: '크롤링 이력 조회', Component: Fragment},
+        {label: '생성 관리', Component: MergeProductMenu},
         //
     ];
     const TabContentComponent = tabs[tabIndex]?.Component || Fragment;
