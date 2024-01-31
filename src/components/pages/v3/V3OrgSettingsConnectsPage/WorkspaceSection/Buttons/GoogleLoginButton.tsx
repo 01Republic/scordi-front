@@ -8,9 +8,10 @@ import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {ConnectButton} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/ConnectButton';
 import {useCurrentOrg} from '^models/Organization/hook';
 import {toast} from 'react-toastify';
+import {isWorkspaceConnectLoadingAtom} from '^v3/V3OrgSettingsConnectsPage/atom';
 
 export const GoogleLoginButton = memo(() => {
-    const setIsLoaded = useSetRecoilState(gmailItemsLoadedAtom);
+    const setIsLoaded = useSetRecoilState(isWorkspaceConnectLoadingAtom);
     const orgId = useRecoilValue(orgIdParamState);
     const {reload: reloadCurrentOrg} = useCurrentOrg(orgId);
     const {alert} = useAlert();

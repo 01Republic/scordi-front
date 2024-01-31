@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {
-    changePriceCurrency,
+    changePriceCurrencyV2,
     currencyFormat,
     getCurrencySymbol,
     Price,
@@ -75,7 +75,7 @@ export const EmailParsedTableRow = memo((props: {billingHistory: BillingHistoryD
                             <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>
                             <span>
                                 {currencyFormat(
-                                    changePriceCurrency(payAmount.amount, payAmount.code, displayCurrency) || 0,
+                                    changePriceCurrencyV2(payAmount, displayCurrency) || 0,
                                     displayCurrency,
                                 )}
                             </span>

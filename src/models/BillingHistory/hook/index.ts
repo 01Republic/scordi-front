@@ -3,7 +3,7 @@ import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook'
 import {SubscriptionDto} from '^models/Subscription/types';
 import {BillingType, InvoiceAppDto} from '^models/InvoiceApp/type';
 import {CurrencyCode} from '^models/Money';
-import {changePriceCurrency} from '^api/tasting.api/gmail/agent/parse-email-price';
+import {changePriceCurrencyV2} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
 import {useAlert} from '^hooks/useAlert';
 import {useToast} from '^hooks/useToast';
@@ -108,7 +108,7 @@ export function getTotalPriceOfEmails(histories: BillingHistoryDto[], displayCur
         // Email 의 가격부분 추리기
         .map((his) => {
             const price = his.payAmount!;
-            return changePriceCurrency(price.amount, price.code, displayCurrency);
+            return changePriceCurrencyV2(price, displayCurrency);
         })
 
         // 합계 계산

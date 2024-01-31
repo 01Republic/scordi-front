@@ -65,11 +65,13 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
 
     return (
         <>
-            {ButtonComponent ? (
+            {ButtonComponent && (
                 <div onClick={() => loginButtonOnClick()}>
                     <ButtonComponent />
                 </div>
-            ) : (
+            )}
+
+            {!ButtonComponent && (
                 <button
                     onClick={() => loginButtonOnClick()}
                     className={`${className} btn btn-lg btn-outline shadow font-medium normal-case space-x-4 bg-white border-slate-200 text-slate-700 hover:bg-white hover:border-primary hover:text-slate-700 focus:bg-blue-50 active:bg-primary-100`}

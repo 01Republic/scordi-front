@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {changePriceCurrency, currencyFormat, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
+import {changePriceCurrencyV2, currencyFormat, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from './pageAtoms';
 import {CurrencyCode, MoneyDto} from '^models/Money';
@@ -48,8 +48,7 @@ const PriceTextSuccess = memo(({payAmount}: {payAmount?: MoneyDto}) => {
             <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>
             <span>
                 {currencyFormat(
-                    changePriceCurrency(payAmount?.amount || 0, payAmount?.code || CurrencyCode.USD, displayCurrency) ||
-                        0,
+                    changePriceCurrencyV2(payAmount || ({} as MoneyDto), displayCurrency) || 0,
                     displayCurrency,
                 )}
             </span>

@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {
-    changePriceCurrency,
+    changePriceCurrencyV2,
     currencyFormat,
     getCurrencySymbol,
     Price,
@@ -19,7 +19,7 @@ export const HeadingPrice = memo((props: ItemPriceProps) => {
 
     const isHide = !price;
     const symbol = getCurrencySymbol(displayCurrency);
-    const amount = !price ? 0 : changePriceCurrency(price.amount, price.code, displayCurrency);
+    const amount = !price ? 0 : changePriceCurrencyV2(price, displayCurrency);
 
     return (
         <p className="text-3xl font-bold mb-12">
