@@ -1,12 +1,12 @@
 import React, {memo} from 'react';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {useToast} from '^hooks/useToast';
 import {organizationConnectGoogleWorkspaceApi} from '^models/Organization/api';
 import {GoogleTokenDataDto} from '^models/GoogleTokenData/type';
 import {ToolType} from '^v3/V3OrgSettingsConnectsPage/type';
 import {MoreDropdown} from '^v3/V3OrgSettingsConnectsPage/MoreDropdown';
-import {isDeleteLoadingAtom, isSyncLoadingAtom} from '^v3/V3OrgSettingsConnectsPage/atom';
+import {isWorkspaceDisConnectLoadingAtom, isWorkspaceSyncLoadingAtom} from '^v3/V3OrgSettingsConnectsPage/atom';
 import {OnboardingSkippedStore, SkippedStoreStatus} from '^v3/share/OnboardingFlow/SkipButton';
 import {onboardingModalIsShow} from '^v3/share/OnboardingFlow/atom';
 import {useCurrentOrg} from '^models/Organization/hook';
@@ -21,8 +21,8 @@ interface WorkspaceItemProps {
 
 export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
     const orgId = useRecoilValue(orgIdParamState);
-    const setSyncLoading = useSetRecoilState(isSyncLoadingAtom);
-    const setDeleteLoading = useSetRecoilState(isDeleteLoadingAtom);
+    const [isSyncLoading, setSyncLoading] = useRecoilState(isWorkspaceSyncLoadingAtom);
+    const [isDisConnectLoading, setDisConnectLoading] = useRecoilState(isWorkspaceDisConnectLoadingAtom);
     const setIsShow = useSetRecoilState(onboardingModalIsShow);
     const {reload: reloadCurrentOrg, currentOrg} = useCurrentOrg(orgId);
     const {alert} = useAlert();
@@ -54,7 +54,7 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
             onConfirm: () => organizationConnectGoogleWorkspaceApi.disconnect(orgId),
         });
 
-        setDeleteLoading(true);
+        setDisConnectLoading(true);
         req.then((res) => {
             if (!res) return;
 
@@ -66,7 +66,7 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
             toast.success('삭제가 완료됐습니다.');
         });
         req.catch((err) => toast.error(err.response.data.message));
-        req.finally(() => setDeleteLoading(false));
+        req.finally(() => setDisConnectLoading(false));
     };
 
     return (
@@ -76,9 +76,14 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
             </p>
             <div className="flex gap-3 items-center">
                 <div>{button}</div>
-
-                {tool === ToolType.google && (
-                    <MoreDropdown onSync={onSync} onDelete={onDisConnect} className="self-center" />
+                {lastSyncAccount && (
+                    <MoreDropdown
+                        onSync={onSync}
+                        onDelete={onDisConnect}
+                        isSyncLoading={isSyncLoading}
+                        isDisConnectLoading={isDisConnectLoading}
+                        className="self-center"
+                    />
                 )}
             </div>
         </div>
