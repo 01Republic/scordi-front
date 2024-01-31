@@ -49,14 +49,22 @@ export function changePriceCurrencyV2(payAmount: MoneyDto, toCurrency: CurrencyC
         [CurrencyCode.USD]: 1,
     };
 
-    if (fromCurrency === CurrencyCode.USD && toCurrency === CurrencyCode.KRW) {
+    // USD -> KRW
+    if (fromCurrency === CurrencyCode.USD && toCurrency === CurrencyCode.KRW)
         return amount * 1.0 * ratioPerDollar[CurrencyCode.KRW];
-    } else if (fromCurrency === CurrencyCode.KRW && toCurrency === CurrencyCode.USD) {
+
+    // KRW -> USD
+    if (fromCurrency === CurrencyCode.KRW && toCurrency === CurrencyCode.USD)
         return (amount * 1.0) / ratioPerDollar[CurrencyCode.KRW];
-    } else if (fromCurrency !== CurrencyCode.USD && fromCurrency !== CurrencyCode.KRW) {
+
+    if (fromCurrency !== CurrencyCode.USD && fromCurrency !== CurrencyCode.KRW) {
         if (toCurrency === CurrencyCode.USD) return dollarPrice;
-        if (toCurrency === CurrencyCode.KRW) return dollarPrice * ratioPerDollar[CurrencyCode.KRW];
+
+        if (toCurrency === CurrencyCode.KRW) {
+            return Number((dollarPrice * ratioPerDollar[CurrencyCode.KRW]).toFixed(0));
+        }
     }
+
     return amount;
 }
 

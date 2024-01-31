@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {changePriceCurrency, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
+import {getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {useTranslation} from 'next-i18next';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '../pageAtoms';

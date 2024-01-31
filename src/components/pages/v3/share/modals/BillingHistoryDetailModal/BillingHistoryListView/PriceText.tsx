@@ -3,7 +3,7 @@ import {BsInfoCircle} from 'react-icons/bs';
 import {MoneyDto} from '^models/Money';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
-import {changePriceCurrency, currencyFormat, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
+import {changePriceCurrencyV2, currencyFormat, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {BiError} from 'react-icons/bi';
 import {BillingHistoryDto, BillingHistoryStatus} from '^models/BillingHistory/type';
 
@@ -66,10 +66,7 @@ const PriceTextInfo = memo(({payAmount}: {payAmount: MoneyDto | null}) => {
                 <div className="text-gray-300">
                     <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>
                     <span>
-                        {currencyFormat(
-                            changePriceCurrency(payAmount.amount, payAmount.code, displayCurrency) || 0,
-                            displayCurrency,
-                        )}
+                        {currencyFormat(changePriceCurrencyV2(payAmount, displayCurrency) || 0, displayCurrency)}
                     </span>
                 </div>
             )}
@@ -86,10 +83,7 @@ const PriceTextSuccess = memo(({payAmount}: {payAmount: MoneyDto}) => {
                 <>
                     <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>
                     <span>
-                        {currencyFormat(
-                            changePriceCurrency(payAmount.amount, payAmount.code, displayCurrency) || 0,
-                            displayCurrency,
-                        )}
+                        {currencyFormat(changePriceCurrencyV2(payAmount, displayCurrency) || 0, displayCurrency)}
                     </span>
                 </>
             ) : (
@@ -108,12 +102,7 @@ const PriceTextFail = memo(({payAmount}: {payAmount: MoneyDto}) => {
             </span>
             <div className="text-gray-300">
                 <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>
-                <span>
-                    {currencyFormat(
-                        changePriceCurrency(payAmount.amount, payAmount.code, displayCurrency) || 0,
-                        displayCurrency,
-                    )}
-                </span>
+                <span>{currencyFormat(changePriceCurrencyV2(payAmount, displayCurrency) || 0, displayCurrency)}</span>
             </div>
         </div>
     );
