@@ -28,20 +28,17 @@ export const TeamMemberShowModal = memo((props: TeamMemberShowModalProps) => {
     const DeleteButtonWrap = () => <DeleteButton onFinish={onFinish} />;
 
     return (
-        <>
-            <Modal
-                onClose={onClose}
-                wrapperClassName="modal-right"
-                className="p-0 max-w-none sm:max-w-[32rem] z-50 no-scrollbar"
-            >
-                <ModalTopbar
-                    backBtnOnClick={onClose}
-                    topbarPosition="sticky"
-                    rightButtons={[EditButton, DeleteButtonWrap]}
-                />
-                <TeamMemberShowBody onSubmit={onSubmit} />
-            </Modal>
-            <SelectSubscriptionModal />
-        </>
+        <Modal
+            onClose={onClose}
+            wrapperClassName="modal-right"
+            className="p-0 max-w-none sm:max-w-[32rem] z-50 no-scrollbar"
+        >
+            <ModalTopbar
+                backBtnOnClick={onClose}
+                topbarPosition="sticky"
+                rightButtons={[EditButton, DeleteButtonWrap]}
+            />
+            <TeamMemberShowBody onSubmit={onSubmit} />
+        </Modal>
     );
 });

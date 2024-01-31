@@ -27,7 +27,9 @@ export const DeleteButton = memo(function DeleteButton(props: DeleteButtonProps)
     };
 
     const onDelete = () => {
-        deleteMember(onDeleteConfirm);
+        if (!teamMember) return;
+
+        deleteMember(onDeleteConfirm, teamMember);
     };
 
     return <TopRightButton text="삭제" onClick={() => onDelete()} />;
