@@ -12,7 +12,7 @@ import {toast} from 'react-toastify';
 export const GoogleLoginButton = memo(() => {
     const setIsLoaded = useSetRecoilState(gmailItemsLoadedAtom);
     const orgId = useRecoilValue(orgIdParamState);
-    const {search} = useCurrentOrg(orgId);
+    const {reload: reloadCurrentOrg} = useCurrentOrg(orgId);
     const {alert} = useAlert();
 
     const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
@@ -33,7 +33,7 @@ export const GoogleLoginButton = memo(() => {
                     items: reportData.items,
                 })
                 .then(() => {
-                    search();
+                    reloadCurrentOrg(); // 현재 조직 reload
                     alert.success({title: '연동이 완료되었습니다.'});
                 })
                 .catch((err) => toast.error(err.message))

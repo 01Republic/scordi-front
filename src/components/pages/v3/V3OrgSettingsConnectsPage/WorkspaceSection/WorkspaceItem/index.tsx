@@ -24,7 +24,7 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
     const setSyncLoading = useSetRecoilState(isSyncLoadingAtom);
     const setDeleteLoading = useSetRecoilState(isDeleteLoadingAtom);
     const setIsShow = useSetRecoilState(onboardingModalIsShow);
-    const {search: loadCurrentOrg, currentOrg} = useCurrentOrg(orgId);
+    const {reload: reloadCurrentOrg, currentOrg} = useCurrentOrg(orgId);
     const {alert} = useAlert();
     const {toast} = useToast();
     const {tool, logo, button, lastSyncAccount} = props;
@@ -38,7 +38,7 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
         setSyncLoading(true);
         const req = organizationConnectGoogleWorkspaceApi.sync(orgId);
         req.then(() => {
-            loadCurrentOrg();
+            reloadCurrentOrg();
             toast.success('동기화가 완료됐습니다.');
         });
         req.catch((err) => toast.error(err.response.data.message));
@@ -62,7 +62,7 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
             setIsShow(false);
             store.add(currentOrg.id);
 
-            loadCurrentOrg();
+            reloadCurrentOrg();
             toast.success('삭제가 완료됐습니다.');
         });
         req.catch((err) => toast.error(err.response.data.message));
