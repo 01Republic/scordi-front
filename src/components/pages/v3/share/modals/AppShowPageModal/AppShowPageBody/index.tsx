@@ -5,7 +5,7 @@ import {TabView} from './tabs/TabView';
 import {ModalInfoSkeleton} from '^v3/share/Skeletons';
 
 interface AppShowPageBodyProps {
-    onFinish: () => any;
+    onFinish?: () => any;
 }
 export const AppShowPageBody = memo((props: AppShowPageBodyProps) => {
     const {isLoading} = useCurrentSubscription();
