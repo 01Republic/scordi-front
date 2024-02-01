@@ -1,17 +1,16 @@
 import React, {memo, useEffect, useState} from 'react';
+import {useRecoilValue} from 'recoil';
+import {useRouter} from 'next/router';
+import {useCurrentUser} from '^models/User/hook';
+import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
+import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
 import {LandingPageLayout} from '^components/pages/LandingPages/LandingPageLayout';
 import {CheckCircle} from '^components/react-icons/check-circle';
-import {useRouter} from 'next/router';
-import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
-import {useCurrentUser} from '^models/User/hook';
-import {useRecoilValue} from 'recoil';
-import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
-import {LinkTo} from '^components/util/LinkTo';
 
 export const WelcomePage2 = memo(() => {
-    const invitedOrgId = useRecoilValue(invitedOrgIdAtom);
     const router = useRouter();
     const {currentUser} = useCurrentUser();
+    const invitedOrgId = useRecoilValue(invitedOrgIdAtom);
     const [isAccessible, setIsAccessible] = useState(false);
 
     useEffect(() => {
@@ -19,6 +18,13 @@ export const WelcomePage2 = memo(() => {
         if (!accessible) return;
         setIsAccessible(accessible === 'true');
     }, [router.isReady]);
+
+    const onClick = () => {
+        if (!currentUser) return;
+
+        const id = !!invitedOrgId ? invitedOrgId : currentUser.orgId;
+        router.push(V3OrgHomePageRoute.path(id));
+    };
 
     return (
         <LandingPageLayout pageName="WelcomePage">
@@ -33,11 +39,12 @@ export const WelcomePage2 = memo(() => {
                         지금 바로 조회해보세요!
                     </p>
 
-                    <LinkTo onClick={() => currentUser && V3OrgHomePageRoute.path(invitedOrgId || currentUser.orgId)}>
-                        <div className="mb-4 btn sm:btn-lg btn-block normal-case rounded-2xl text-lg sm:!text-xl shadow-lg btn-scordi-light-200 !text-scordi-500">
-                            메인페이지로 이동하기
-                        </div>
-                    </LinkTo>
+                    <div
+                        onClick={() => onClick()}
+                        className="mb-4 btn sm:btn-lg btn-block normal-case rounded-2xl text-lg sm:!text-xl shadow-lg btn-scordi-light-200 !text-scordi-500"
+                    >
+                        메인페이지로 이동하기
+                    </div>
                 </div>
             </div>
 

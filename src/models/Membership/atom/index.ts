@@ -1,10 +1,7 @@
-import {atom, selector} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
-import {errorNotify} from '^utils/toast-notify';
-import {OrganizationDto} from '^models/Organization/type';
-import {currentUserAtom} from '^models/User/atom';
+import {atom} from 'recoil';
 import {Paginated} from '^types/utils/paginated.dto';
-import {MembershipDto} from 'src/models/Membership/types';
+import {FindAllMembershipQuery, MembershipDto} from 'src/models/Membership/types';
+import {pagedResourceAtom} from '^hooks/usePagedResource';
 
 // export const currentMembershipAtom = atom<OrganizationDto | null>({
 //     key: 'currentMembershipAtom',
@@ -51,4 +48,20 @@ export const orgMembershipSearchResultAtom = atom<Paginated<MembershipDto>>({
             itemsPerPage: 30,
         },
     },
+});
+
+// 팀멤버 초대모달 / 이미 가입된 유저인지 확인
+export const membershipInInviteModalAtom = pagedResourceAtom<MembershipDto, FindAllMembershipQuery>({
+    key: 'pagedSubscriptions_MembershipInInviteModal/Atom',
+});
+
+// v3 > share > LeftNavBar > Header 컴포넌트 전용 api 요청 hook
+// 다른곳에서 사용하지 않기
+export const membershipInInHeaderAtom = pagedResourceAtom<MembershipDto, FindAllMembershipQuery>({
+    key: 'pagedSubscriptions_MembershipInInHeader/Atom',
+});
+
+// membershipTable
+export const membershipInMembershipTable = pagedResourceAtom<MembershipDto, FindAllMembershipQuery>({
+    key: 'pagedSubscriptions_membershipInMembershipTable/Atom',
 });

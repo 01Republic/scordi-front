@@ -13,19 +13,20 @@ export const navTabIndex = atom({
     default: 0,
 });
 
-const tabs = [
-    {label: '이용중인 멤버', Component: TeamMemberListTab},
-    {label: '결제내역', Component: BillingHistoryListTab},
-    // {label: '보관중인 계정', Component: Fragment},
-];
-
 interface TabViewProps {
     onTabChange?: () => any;
+    onFinish?: () => any;
 }
 
 export const TabView = memo(function TabView(props: TabViewProps) {
     const [tabIndex, setTabIndex] = useRecoilState(navTabIndex);
-    const {onTabChange} = props;
+    const {onTabChange, onFinish} = props;
+
+    const tabs = [
+        {label: '이용중인 멤버', Component: () => <TeamMemberListTab onFinish={onFinish} />},
+        {label: '결제내역', Component: BillingHistoryListTab},
+        // {label: '보관중인 계정', Component: Fragment},
+    ];
 
     useEffect(() => {
         onTabChange && onTabChange();

@@ -8,11 +8,12 @@ import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {ConnectButton} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/ConnectButton';
 import {useCurrentOrg} from '^models/Organization/hook';
 import {toast} from 'react-toastify';
+import {isWorkspaceConnectLoadingAtom} from '^v3/V3OrgSettingsConnectsPage/atom';
 
 export const GoogleLoginButton = memo(() => {
-    const setIsLoaded = useSetRecoilState(gmailItemsLoadedAtom);
+    const setIsLoaded = useSetRecoilState(isWorkspaceConnectLoadingAtom);
     const orgId = useRecoilValue(orgIdParamState);
-    const {search} = useCurrentOrg(orgId);
+    const {reload: reloadCurrentOrg} = useCurrentOrg(orgId);
     const {alert} = useAlert();
 
     const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
@@ -33,7 +34,7 @@ export const GoogleLoginButton = memo(() => {
                     items: reportData.items,
                 })
                 .then(() => {
-                    search();
+                    reloadCurrentOrg(); // 현재 조직 reload
                     alert.success({title: '연동이 완료되었습니다.'});
                 })
                 .catch((err) => toast.error(err.message))

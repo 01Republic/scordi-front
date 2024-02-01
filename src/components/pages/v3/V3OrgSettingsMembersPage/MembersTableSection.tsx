@@ -5,10 +5,10 @@ import {TableSearchControl} from '^v3/share/table/TableSearchControl';
 import {MembershipTable} from '^v3/V3OrgSettingsMembersPage/MembershipTable';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {useMemberships} from '^models/Membership/hook';
+import {useMembershipInMembershipTable} from '^models/Membership/hook';
 
 export const MembersTableSection = memo(() => {
-    const {searchMemberships, membershipSearchResult, query} = useMemberships();
+    const {search: searchMemberships, result: membershipSearchResult, query} = useMembershipInMembershipTable();
     const orgId = useRecoilValue(orgIdParamState);
     const pagination = membershipSearchResult.pagination;
 

@@ -1,12 +1,9 @@
 import {memo, useEffect} from 'react';
 import {TbCalendarCheck, TbCalendarExclamation, TbCalendarOff, TbCalendarPause, TbCalendarX} from 'react-icons/tb';
 import {SummaryCard} from '^v3/V3OrgAppsPage/SummarySection/SummaryCard';
-import {SubscriptionManager} from '^models/Subscription/manager';
-import {useSubscriptionMenuSummary} from '^models/Subscription/hook';
-import {useDashBoardSubscriptionSummary, useSubscriptionMenuSummaryV2} from '^models/SubscsriptionSummary/hook';
+import {useSubscriptionMenuSummaryV2} from '^models/SubscsriptionSummary/hook';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {subscriptionSummaryApi} from '^models/SubscsriptionSummary/api';
 import {subscriptionListSummaryAtom} from '^models/SubscsriptionSummary/atom';
 
 /**
@@ -18,21 +15,14 @@ import {subscriptionListSummaryAtom} from '^models/SubscsriptionSummary/atom';
  */
 export const SummarySectionV2 = memo(function SummarySection() {
     const {resultAtom, isLoadingAtom} = subscriptionListSummaryAtom;
-    const [result, setResult] = useRecoilState(resultAtom);
     const [isLoading, setIsLoading] = useRecoilState(isLoadingAtom);
     const organizationId = useRecoilValue(orgIdParamState);
+    const {result} = useSubscriptionMenuSummaryV2();
 
     useEffect(() => {
         if (!organizationId || isNaN(organizationId)) return;
 
         setIsLoading(true);
-        subscriptionSummaryApi
-            .index({organizationId})
-            .then((res) => {
-                setResult(res.data);
-                console.log('res.data', res.data);
-            })
-            .finally(() => setIsLoading(false));
     }, [organizationId]);
 
     const {free, paying, active, canceled, expired, failed, paused, pending, total, none} = result;

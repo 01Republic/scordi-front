@@ -1,10 +1,10 @@
 import {memo} from 'react';
 import {MembershipTableRow} from '^v3/V3OrgSettingsMembersPage/MembershipTableRow';
-import {useMemberships} from '^models/Membership/hook';
+import {useMembershipInMembershipTable} from '^models/Membership/hook';
 import {MembershipDto} from '^models/Membership/types';
 
 export const MembershipTable = memo(() => {
-    const {membershipSearchResult} = useMemberships();
+    const {result: membershipSearchResult} = useMembershipInMembershipTable();
     const members = membershipSearchResult.items;
 
     // 생성일 기준 역순으로 정렬하는 함수

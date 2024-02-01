@@ -45,12 +45,15 @@ export const useBillingHistoryModal = () => {
  */
 export const useBillingHistoryInModal = () => {
     const [billingHistory, setBillingHistory] = useRecoilState(billingHistoryDetailStateInShowModal);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const {alert} = useAlert();
     const {toast} = useToast();
 
     const loadData = (id: number) => {
+        if (isLoading) return;
+
         setIsLoading(true);
+
         billingHistoryApi
             .show(id)
             .then((res) => setBillingHistory(res.data))

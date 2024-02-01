@@ -5,6 +5,7 @@ import {getToken} from '^api/api';
 import {errorNotify} from '^utils/toast-notify';
 import {orgIdParamState} from '^atoms/common';
 import {membershipApi} from '^models/Membership/api';
+import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
 export type GoogleSignedUserData = {
     id: string;
@@ -19,6 +20,11 @@ export type GoogleSignedUserData = {
 
 export const currentUserAtom = atom<UserDto | null>({
     key: 'currentUser',
+    default: null,
+});
+
+export const getCurrentUserQueryAtom = atom<FindAllQueryDto<UserDto> | null>({
+    key: 'getCurrentUserQueryAtom',
     default: null,
 });
 

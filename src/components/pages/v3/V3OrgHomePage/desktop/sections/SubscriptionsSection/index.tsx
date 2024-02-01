@@ -11,11 +11,11 @@ import {tagOptionsState} from '^v3/V3OrgAppsPage/SubscriptionListSection/Subscri
 import {useDashboardSubscriptions} from '^models/Subscription/hook';
 import {useRouter} from 'next/router';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
+import {useDashBoardSubscriptionSummary} from '^models/SubscsriptionSummary/hook';
 
 const SUBSCRIPTION_DISPLAY_LIMIT: number = 10;
 
 // 대시보드에서 사용되는 구독리스트 테이블
-
 export const SubscriptionsSection = memo(function SubscriptionsSection() {
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
@@ -24,6 +24,7 @@ export const SubscriptionsSection = memo(function SubscriptionsSection() {
     const {search: getTags} = usePayingTypeTags();
     const setTagOptions = useSetRecoilState(tagOptionsState);
     const {loadCurrentSubscription, currentSubscription} = useCurrentSubscription();
+    const {index: reloadSubscriptionSummary} = useDashBoardSubscriptionSummary();
 
     // [대시보드] 페이지를 떠날 때, unmount 로 쿼리캐시를 초기화함으로써, 다음 방문 때에 쿼리가 실행되게 만듭니다.
     useEffect(() => {
@@ -47,7 +48,8 @@ export const SubscriptionsSection = memo(function SubscriptionsSection() {
     }, [orgId]);
 
     const onReload = () => {
-        reload();
+        reload(); // 구독리스트 reload
+        reloadSubscriptionSummary(); // 요약패널 reload
 
         if (!currentSubscription) return;
         loadCurrentSubscription(orgId, currentSubscription.id);

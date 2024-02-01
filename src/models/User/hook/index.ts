@@ -3,7 +3,7 @@ import {useRecoilState, useSetRecoilState} from 'recoil';
 import {AxiosError} from 'axios';
 import {getToken, removeToken, setToken} from '^api/api';
 import {userSessionApi} from '^models/User/api/session';
-import {currentUserAtom, authenticatedUserDataAtom} from '^models/User/atom';
+import {currentUserAtom, authenticatedUserDataAtom, getCurrentUserQueryAtom} from '^models/User/atom';
 import {UserLoginPageRoute} from '^pages/users/login';
 import {OrgSearchRoute} from '^pages/orgs/search';
 import {NextRouter, useRouter} from 'next/router';
@@ -45,26 +45,33 @@ export function useCurrentUser(fallbackPath?: string | null, opt?: CurrentUserOp
     const router = useRouter();
     const initialized = useRef(false);
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
+    const [query, setQuery] = useRecoilState(getCurrentUserQueryAtom);
     const [authenticatedUserData, setAuthenticatedUserData] = useRecoilState(authenticatedUserDataAtom);
     const currentUserMembership = currentUser?.memberships?.[0];
 
     useEffect(() => {
-        if (currentUser) return;
+        // @ts-ignore
+        setQuery((oldQuery) => {
+            if (oldQuery && JSON.stringify(oldQuery) === JSON.stringify(opt)) return oldQuery;
+            if (currentUser) return oldQuery;
 
-        const apiToken = getToken();
-        if (!apiToken) return;
+            const apiToken = getToken();
+            if (!apiToken) return oldQuery;
 
-        if (!initialized.current) {
+            if (initialized.current) return oldQuery;
+
             initialized.current = true;
-            userSessionApi
-                .index()
-                .then((res) => setCurrentUser(res.data))
-                .catch((err) => {
-                    // invalid token 에러가 발생하면 localStorage token 삭제
-                    localStorage.removeItem('token');
-                    loginRequiredHandler(err, router, fallbackPath);
-                });
-        }
+
+            const req = userSessionApi.index();
+            req.then((res) => setCurrentUser(res.data));
+            req.catch((err) => {
+                // invalid token 에러가 발생하면 localStorage token 삭제
+                localStorage.removeItem('token');
+                loginRequiredHandler(err, router, fallbackPath);
+            });
+
+            return opt;
+        });
     }, []);
 
     const login = (data: UserLoginRequestDto, href?: string): Promise<UserDto> => {

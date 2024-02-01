@@ -5,13 +5,19 @@ import {MobileSection} from '^v3/share/sections/MobileSection';
 import {useAppShowModal} from '^v3/share/modals/AppShowPageModal';
 import {TeamMemberItem} from './TeamMemberItem';
 import {LoadMoreButton} from './LoadMoreButton';
-import {useTeamMembersInSubscriptionShowModal} from '^models/TeamMember';
+import {TeamMemberDto, useTeamMembersInSubscriptionShowModal} from '^models/TeamMember';
 import {AddButton} from './AddButton';
 
-export const TeamMemberListTab = memo(function TeamMemberListTab() {
+interface TeamMemberListTabProps {
+    onFinish?: () => any;
+}
+
+export const TeamMemberListTab = memo(function TeamMemberListTab(props: TeamMemberListTabProps) {
     const orgId = useRecoilValue(orgIdParamState);
     const {subjectId} = useAppShowModal();
     const TeamMembers = useTeamMembersInSubscriptionShowModal();
+
+    const {onFinish} = props;
 
     useEffect(() => {
         if (!subjectId || isNaN(subjectId)) return;
@@ -24,6 +30,11 @@ export const TeamMemberListTab = memo(function TeamMemberListTab() {
             },
         });
     }, [subjectId]);
+
+    const onDelete = (teamMember: TeamMemberDto) => {
+        TeamMembers.except(teamMember);
+        onFinish && onFinish();
+    };
 
     const {items, pagination} = TeamMembers.result;
     const {totalPage, currentPage, totalItemCount} = pagination;
@@ -52,7 +63,7 @@ export const TeamMemberListTab = memo(function TeamMemberListTab() {
                                 key={i}
                                 subscriptionId={subjectId}
                                 teamMember={teamMember}
-                                onDelete={() => TeamMembers.except(teamMember)}
+                                onDelete={() => onDelete(teamMember)}
                             />
                         ))}
                 </ul>

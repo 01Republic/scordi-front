@@ -20,11 +20,15 @@ import {plainToInstance} from 'class-transformer';
 import {BillingHistoryEditAbroadCurrencyButton} from './BillingHistoryEditAbroadCurrency';
 import {useBillingHistoryListInSiblings} from '^models/BillingHistory/hook';
 
-export const BillingHistoryEditPanel = memo(function BillingHistoryEditPanel() {
+interface BillingHistoryEditPanelProps {
+    onFinish?: () => any;
+}
+export const BillingHistoryEditPanel = memo(function BillingHistoryEditPanel(props: BillingHistoryEditPanelProps) {
     const {billingHistory, updateBillingHistory} = useBillingHistoryInModal();
     const [isEditMode, setIsEditMode] = useRecoilState(isBillingHistoryEditModeAtom);
     const form = useForm<UpdateBillingHistoryByCardReceiptDto>();
     const {reload: reloadSiblingHistories} = useBillingHistoryListInSiblings();
+    const {onFinish} = props;
 
     const setFormIfNotNull = (key: keyof UpdateBillingHistoryByCardReceiptDto, value: any) => {
         if (value === null) return;
@@ -87,6 +91,7 @@ export const BillingHistoryEditPanel = memo(function BillingHistoryEditPanel() {
             setIsEditMode(false);
             form.reset();
             reloadSiblingHistories();
+            onFinish && onFinish();
         });
     };
 

@@ -3,10 +3,16 @@ import {orgIdParamState} from '^atoms/common';
 import {errorNotify} from '^utils/toast-notify';
 import {OrganizationDto} from '^models/Organization/type';
 import {organizationApi} from '^models/Organization/api';
+import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
 export const currentOrgAtom = atom<OrganizationDto | null>({
     key: 'currentOrgAtom',
     default: null,
+});
+
+export const getCurrentOrgQueryAtom = atom<FindAllQueryDto<OrganizationDto>>({
+    key: 'getCurrentOrgQueryAtom',
+    default: {},
 });
 
 /**

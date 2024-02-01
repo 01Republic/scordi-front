@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {FaExchangeAlt, FaRegEnvelope, FaRegTrashAlt, FaSignOutAlt} from 'react-icons/fa';
-import {TeamMemberDto} from '^models/TeamMember';
+import {currentTeamMemberState, TeamMemberDto, useTeamMember} from '^models/TeamMember';
 import {currentUserAtom} from '^models/User/atom';
 import {Dropdown} from '^v3/share/Dropdown';
 import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
@@ -9,9 +9,10 @@ import {StatusButton} from './StatusButton';
 import {ApprovalStatus, MembershipLevel} from '^models/Membership/types';
 import {FaRotateRight} from 'react-icons/fa6';
 import {membershipApi} from '^models/Membership/api';
-import {plainToast} from '^hooks/useToast';
+import {plainToast, useToast} from '^hooks/useToast';
 import {InviteListItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/InviteListItem';
 import {ResendInviteItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/ResendInviteItem';
+import {DeleteMemberItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/DeleteMemberItem';
 
 interface TeamMemberStatusDropdownProps {
     teamMember: TeamMemberDto;
@@ -27,7 +28,8 @@ const changeLevel = (id: number, level: MembershipLevel) => {
 
 export const TeamMemberStatusDropdown = memo((props: TeamMemberStatusDropdownProps) => {
     const currentUser = useRecoilValue(currentUserAtom);
-    const {teamMember, reload} = props;
+    const {toast} = useToast();
+    const {reload, teamMember} = props;
 
     if (!teamMember || !currentUser) return <></>;
 
@@ -95,15 +97,10 @@ export const TeamMemberStatusDropdown = memo((props: TeamMemberStatusDropdownPro
                         <hr />
 
                         {(!membership || membership.approvalStatus === ApprovalStatus.PENDING) && (
-                            <MoreDropdownListItem onClick={() => alert('준비중입니다.')}>
-                                <div className="flex items-center gap-3 w-full text-red-500 py-1">
-                                    <FaRegTrashAlt size={12} />
-                                    <p>멤버 삭제하기</p>
-                                </div>
-                            </MoreDropdownListItem>
+                            <DeleteMemberItem reload={reload} teamMember={teamMember} />
                         )}
                         {membership && membership.approvalStatus === ApprovalStatus.APPROVED && (
-                            <MoreDropdownListItem onClick={() => alert('준비중입니다.')}>
+                            <MoreDropdownListItem onClick={() => toast.info('준비중입니다.')}>
                                 <div className="flex items-center gap-3 w-full text-red-500 py-1">
                                     <FaSignOutAlt size={12} />
                                     <p>워크스페이스에서 내보내기</p>

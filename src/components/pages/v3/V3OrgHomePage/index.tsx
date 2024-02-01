@@ -15,8 +15,6 @@ import {SummaryHeaderPanel} from './mobile/SummaryHeaderPanel';
 import {CardsPanel} from './mobile/CardsPanel';
 import {LNBIndex} from '^v3/share/LeftNavBar';
 import {HeaderSection} from './desktop/sections/HeaderSection';
-
-import {BillingHistoryDetailModal} from '^v3/share/modals/BillingHistoryDetailModal';
 import {NewAppModal} from '^v3/share/modals/NewAppModal';
 import {InvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal';
 import {AccountListModal} from '^v3/share/modals/AccountListModal';
@@ -30,6 +28,7 @@ import {SubscriptionDetailModal, NewBillingHistoryModalInDashBoard} from './_loc
 import {TeamMemberDetailModal} from '^v3/V3OrgHomePage/_localModals/TeamMemberShowModal';
 import {NewTeamMemberModalInDashBoard} from '^v3/V3OrgHomePage/_localModals/NewTeamMemberModal';
 import {SummarySectionV2} from '^v3/V3OrgHomePage/desktop/sections/SummarySection/v2';
+import {BillingHistoryDetailModalInDashBoard} from '^v3/V3OrgHomePage/_localModals/BillingHistoryDetailModal';
 
 export const V3OrgHomePage = memo(() => {
     const currentUser = useRecoilValue(currentUserAtom);
@@ -45,7 +44,7 @@ export const V3OrgHomePage = memo(() => {
                     TeamMemberDetailModal, // 멤버상세모달
                     AccountListModal,
                     NewBillingHistoryModalInDashBoard, // 결제내역추가모달
-                    BillingHistoryDetailModal, // 결제내역상세모달
+                    BillingHistoryDetailModalInDashBoard, // 결제내역상세모달
                     InvoiceAccountSelectModal,
                     NewTeamMemberModalInDashBoard, // 멤버추가모달
                 ]}
@@ -81,7 +80,7 @@ export const V3OrgHomePage = memo(() => {
                     BillingHistoriesPageModal, // 내역페이지 모달 아마?
                     TeamMemberDetailModal, // 멤버상세모달
                     SubscriptionDetailModal,
-                    BillingHistoryDetailModal, // 결제내역상세모달
+                    BillingHistoryDetailModalInDashBoard, // 결제내역상세모달
                     NewAppModal,
                     RenewInvoiceAccountModalMobile,
                     MonthlyPaidAmountModal,

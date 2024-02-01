@@ -1,9 +1,9 @@
 import React, {memo, useEffect, useRef} from 'react';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilState} from 'recoil';
 import {useForm} from 'react-hook-form';
 import {FormControl, RequiredFormControl} from '^components/util/form-control';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {currentTeamMemberState, UpdateTeamMemberDto, useTeamMember, useTeamMembers} from '^models/TeamMember';
+import {currentTeamMemberState, UpdateTeamMemberDto, useTeamMember} from '^models/TeamMember';
 import {isTeamMemberEditModeAtom} from '../../atom';
 import {BackButtonHijacker} from './BackButtonHijacker';
 import {TeamSelect} from './TeamSelect';
@@ -16,7 +16,6 @@ interface TeamMemberEditPanelProp {
 
 export const TeamMemberEditPanel = memo(function TeamMemberEditPanel(props: TeamMemberEditPanelProp) {
     const [isEditMode, setIsEditMode] = useRecoilState(isTeamMemberEditModeAtom);
-    const memberList = useTeamMembers();
     const {teamMember, updateMember} = useTeamMember(currentTeamMemberState);
     const form = useForm<UpdateTeamMemberDto>();
     const emailInputRef = useRef<HTMLInputElement>(null);
@@ -56,17 +55,11 @@ export const TeamMemberEditPanel = memo(function TeamMemberEditPanel(props: Team
         }
 
         updateMember(data).then(() => {
-            setIsEditMode(false);
             form.reset();
-            if (memberList.isExist) memberList.reload();
+            setIsEditMode(false);
+            onSubmit && onSubmit();
         });
-
-        onSubmit && onSubmit();
     };
-
-    // const originalTeam = teamMember.team;
-    // console.log('teamMember', teamMember);
-    // console.log('originalTeam', originalTeam);
 
     return (
         <form>

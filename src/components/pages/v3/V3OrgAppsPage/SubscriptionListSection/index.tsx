@@ -12,10 +12,13 @@ import {tagOptionsState} from './SubscriptionTable/SubscriptionTr/columns/Paying
 import {useRouter} from 'next/router';
 import {useCreditCards} from '^models/CreditCard/hook';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
+import {useSubscriptionMenuSummaryV2} from '^models/SubscsriptionSummary/hook';
 
 // 구독리스트탭에서 사용되는 구독리스트 테이블
 export const SubscriptionListSection = memo(function SubscriptionListSection() {
     const orgId = useRecoilValue(orgIdParamState);
+    const setTagOptions = useSetRecoilState(tagOptionsState);
+    const viewMode = useRecoilValue(subscriptionListViewModeState);
     const router = useRouter();
     const {
         isLoading,
@@ -26,12 +29,10 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
         reload,
         clearCache,
     } = useSubscriptionTableListAtom();
-    const setTagOptions = useSetRecoilState(tagOptionsState);
     const {search: getTags} = usePayingTypeTags();
     const {search: getCreditCards} = useCreditCards();
     const {loadCurrentSubscription, currentSubscription} = useCurrentSubscription();
-
-    const viewMode = useRecoilValue(subscriptionListViewModeState);
+    const {index: reloadSubscriptionSummary} = useSubscriptionMenuSummaryV2();
 
     // [구독리스트] 페이지를 떠날 때, unmount 로 쿼리캐시를 초기화함으로써, 다음 방문 때에 쿼리가 실행되게 만듭니다.
     useEffect(() => {
@@ -60,10 +61,11 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
     }, [orgId]);
 
     const onReload = () => {
-        reload();
+        reload(); // 구독테이블 reload
+        reloadSubscriptionSummary(); // 요약패널 reload
 
         if (!currentSubscription) return;
-        loadCurrentSubscription(orgId, currentSubscription.id);
+        loadCurrentSubscription(orgId, currentSubscription.id); // 현재 구독 reload
     };
 
     return (

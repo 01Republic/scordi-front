@@ -1,10 +1,9 @@
 import React, {memo, useState} from 'react';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
-import {GmailAgentProgress, gmailAgentProgressAtom} from '^hooks/useGoogleAccessToken';
 import {useToast} from '^hooks/useToast';
 import {useAlert} from '^hooks/useAlert';
 import {Avatar} from '^components/Avatar';
@@ -17,12 +16,11 @@ interface InvoiceAccountTableRowProps {
 }
 
 export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) => {
-    const {reload: reloadInvoiceAccounts} = useInvoiceAccounts();
-    const setGmailAgentProgress = useSetRecoilState(gmailAgentProgressAtom);
-    const {open: openRenewModal} = useModal(renewInvoiceAccountModal);
-    const orgId = useRecoilValue(orgIdParamState);
     const [isSyncLoading, setIsSyncLoading] = useState<boolean>(false);
     const [isDisConnectLoading, setIsDisConnectLoading] = useState<boolean>(false);
+    const {reload: reloadInvoiceAccounts} = useInvoiceAccounts();
+    const {open: openRenewModal} = useModal(renewInvoiceAccountModal);
+    const orgId = useRecoilValue(orgIdParamState);
     const {alert} = useAlert();
     const {toast} = useToast();
 
@@ -39,8 +37,8 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
             title: '연동을 해제하시겠습니까?',
             onConfirm: () => invoiceAccountApi.destroy(orgId, invoiceAccountId),
         });
-        setIsDisConnectLoading(true);
 
+        setIsDisConnectLoading(true);
         req.then((res) => {
             if (!res) return;
 
@@ -48,26 +46,21 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
             toast.success('삭제가 완료됐습니다.');
         });
         req.catch((err) => toast.error(err.response.data.message));
-        req.finally(() => {
-            setIsDisConnectLoading(false);
-        });
+        req.finally(() => setIsDisConnectLoading(false));
     };
 
     const onSync = () => {
         if (isSyncLoading) return;
 
         setIsSyncLoading(true);
-        setGmailAgentProgress(GmailAgentProgress.started);
-
         invoiceAccountApi
             .sync(invoiceAccount.organizationId, invoiceAccount.id)
             .then(() => {
-                setGmailAgentProgress(GmailAgentProgress.no_running);
                 toast.success('동기화가 완료됐습니다.');
                 reloadInvoiceAccounts();
             })
             .catch((err) => {
-                toast.error('구글 로그인이 만료되었습니다.');
+                toast.error(err.response.data.message);
                 openRenewModal();
             })
             .finally(() => setIsSyncLoading(false));

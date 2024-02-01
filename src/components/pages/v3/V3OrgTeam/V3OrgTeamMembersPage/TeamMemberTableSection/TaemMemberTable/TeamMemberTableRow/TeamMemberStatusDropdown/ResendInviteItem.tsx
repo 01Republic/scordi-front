@@ -3,6 +3,7 @@ import React, {memo, useState} from 'react';
 import {plainToast} from '^hooks/useToast';
 import {FaRotateRight} from 'react-icons/fa6';
 import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
+import {CgSpinner} from 'react-icons/cg';
 
 interface ResendInviteItemProps {
     teamMember: TeamMemberDto;
@@ -25,10 +26,16 @@ export const ResendInviteItem = memo((props: ResendInviteItemProps) => {
     };
 
     return (
-        <MoreDropdownListItem onClick={onClick}>
+        <MoreDropdownListItem onClick={() => !isLoading && onClick()}>
             <div className="flex items-center gap-3 w-full py-1">
-                <FaRotateRight size={12} />
-                <p>다시 보내기</p>
+                {isLoading ? (
+                    <CgSpinner size={20} className="animate-spin btn-disabled mx-auto" />
+                ) : (
+                    <>
+                        <FaRotateRight size={12} />
+                        <p>다시 보내기</p>
+                    </>
+                )}
             </div>
         </MoreDropdownListItem>
     );

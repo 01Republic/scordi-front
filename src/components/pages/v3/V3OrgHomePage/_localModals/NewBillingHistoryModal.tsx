@@ -1,20 +1,36 @@
 import React, {memo} from 'react';
-import {AbroadPayAmountCurrencyModal} from '^v3/share/modals/NewBillingHistoryModal/PayAmountModal/AbroadPayAmountCurrencyModal';
-import {NewBillingHistoryModal} from 'src/components/pages/v3/share/modals/NewBillingHistoryModal';
-import {useNewBillingHistoryModal} from '^v3/share/modals/NewBillingHistoryModal/NewBillingHistoryModalGroup/hook';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
 import {useBillingHistoryListOfSubscription} from '^models/BillingHistory/hook';
+import {useDashboardSubscriptions} from '^models/Subscription/hook';
+import {AbroadPayAmountCurrencyModal} from '^v3/share/modals/NewBillingHistoryModal/PayAmountModal/AbroadPayAmountCurrencyModal';
+import {useNewBillingHistoryModal} from '^v3/share/modals/NewBillingHistoryModal/NewBillingHistoryModalGroup/hook';
+import {appIdState, useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
+import {NewBillingHistoryModal} from 'src/components/pages/v3/share/modals/NewBillingHistoryModal';
 
 export const NewBillingHistoryModalInDashBoard = memo(() => {
     const {modalGroupClose} = useNewBillingHistoryModal();
-    const {reload} = useBillingHistoryListOfSubscription();
+    const {reload: reloadBillingHistoryList} = useBillingHistoryListOfSubscription();
+    const {reload: reloadDashboardSubscriptions} = useDashboardSubscriptions();
+    const {loadCurrentSubscription} = useCurrentSubscription();
+    const orgId = useRecoilValue(orgIdParamState);
+    const appId = useRecoilValue(appIdState);
 
     const billingHistoryCreatedCallback = () => {
         modalGroupClose();
     };
 
+    const onFinish = () => {
+        if (!appId) return;
+
+        reloadBillingHistoryList(); // 결제 내역 reload
+        reloadDashboardSubscriptions(); // 구독 테이블 reload
+        loadCurrentSubscription(orgId, appId); // 구독 상세 info reload
+    };
+
     return (
         <>
-            <NewBillingHistoryModal onClose={billingHistoryCreatedCallback} onFinish={reload} />
+            <NewBillingHistoryModal onClose={billingHistoryCreatedCallback} onFinish={onFinish} />
             <AbroadPayAmountCurrencyModal />
         </>
     );

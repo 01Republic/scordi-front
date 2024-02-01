@@ -13,11 +13,11 @@ interface Props extends StepContentProps {
 
 export const FinishStep = memo(function FinishStep(props: Props) {
     const orgId = useRecoilValue(orgIdParamState);
-    const {search} = useCurrentOrg(orgId);
+    const {reload: reloadCurrentOrg} = useCurrentOrg(orgId);
     const {onNext} = props;
 
     useEffect(() => {
-        search();
+        reloadCurrentOrg();
     }, []);
 
     return (
