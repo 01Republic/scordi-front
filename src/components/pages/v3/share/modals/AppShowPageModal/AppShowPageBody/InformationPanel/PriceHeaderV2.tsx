@@ -20,7 +20,7 @@ export const PriceHeaderV2 = memo((props: PriceHeaderV2Props) => {
     return (
         <p className="text-3xl font-bold mb-12">
             <small className="mr-1">{symbol}</small>
-            <span>{currencyFormat(billingAmount, displayCurrency)}</span>
+            <span>{currencyFormat(billingAmount || 0, displayCurrency)}</span>
 
             <span className="ml-2 text-lg font-normal text-gray-500">/ {billingCycleTypeText}</span>
         </p>
