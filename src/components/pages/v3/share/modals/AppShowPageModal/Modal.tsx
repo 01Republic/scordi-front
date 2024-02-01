@@ -64,7 +64,7 @@ export const AppShowPageModal = memo((props: AppShowPageModalProps) => {
                     isLoading={isLoading}
                 />
                 <MobileSection.List>
-                    <AppShowPageBody />
+                    <AppShowPageBody onFinish={() => onFinish && onFinish()} />
                 </MobileSection.List>
             </Modal>
             <SelectTeamMemberModal afterChange={onFinish} />
