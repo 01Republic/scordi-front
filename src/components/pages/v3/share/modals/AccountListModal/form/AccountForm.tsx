@@ -82,17 +82,19 @@ export const AccountForm = memo((props: AccountFormProps) => {
                                     name="loginPageUrl"
                                     defaultValue={account?.loginPageUrl || ''}
                                 />
+
+                                {/*아직 구체적인 기획이 없어서 주석 처리 */}
                                 {/* [optional] 로그인방법 (dynamic tag 방식) */}
-                                <div className="w-full">
-                                    <div className="col-span-1 mb-2">구분</div>
-                                    <div className="col-span-2 mb-4">
-                                        <input
-                                            type="text"
-                                            className="input input-underline w-full px-0 h-[2.5rem] font-[500] text-xl"
-                                        />
-                                        <span />
-                                    </div>
-                                </div>
+                                {/*<div className="w-full">*/}
+                                {/*    <div className="col-span-1 mb-2">구분</div>*/}
+                                {/*    <div className="col-span-2 mb-4">*/}
+                                {/*        <input*/}
+                                {/*            type="text"*/}
+                                {/*            className="input input-underline w-full px-0 h-[2.5rem] font-[500] text-xl"*/}
+                                {/*        />*/}
+                                {/*        <span />*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
                             </div>
 
                             <br />
