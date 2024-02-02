@@ -44,7 +44,6 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
         req.catch((err) => toast.error(err.response.data.message));
         req.finally(() => setSyncLoading(false));
     };
-
     const onDisConnect = () => {
         if (!orgId) return;
         if (!lastSyncAccount) return toast.error('연동된 계정이 없습니다.');
