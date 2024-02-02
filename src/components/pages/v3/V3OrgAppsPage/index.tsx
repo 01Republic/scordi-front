@@ -23,8 +23,8 @@ import {BillingHistoryDetailModalInAppShow} from '^v3/V3OrgAppsPage/_localModals
 const MODALS: ReactComponentLike[] = [
     NewAppModal,
     SubscriptionDetailModal,
-    NewBillingHistoryModalInAppShow,
     BillingHistoryDetailModalInAppShow,
+    NewBillingHistoryModalInAppShow,
     TeamMemberShowModal,
     AccountListModal,
     InvoiceAccountSelectModal,

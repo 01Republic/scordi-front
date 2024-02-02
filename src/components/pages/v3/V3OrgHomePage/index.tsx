@@ -43,8 +43,8 @@ export const V3OrgHomePage = memo(() => {
                     SubscriptionDetailModal, // 구독상세모달
                     TeamMemberDetailModal, // 멤버상세모달
                     AccountListModal,
-                    NewBillingHistoryModalInDashBoard, // 결제내역추가모달
                     BillingHistoryDetailModalInDashBoard, // 결제내역상세모달
+                    NewBillingHistoryModalInDashBoard, // 결제내역추가모달
                     InvoiceAccountSelectModal,
                     NewTeamMemberModalInDashBoard, // 멤버추가모달
                 ]}
