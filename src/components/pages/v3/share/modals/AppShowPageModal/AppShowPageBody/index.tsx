@@ -4,8 +4,12 @@ import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {TabView} from './tabs/TabView';
 import {ModalInfoSkeleton} from '^v3/share/Skeletons';
 
-export const AppShowPageBody = memo(() => {
+interface AppShowPageBodyProps {
+    onFinish?: () => any;
+}
+export const AppShowPageBody = memo((props: AppShowPageBodyProps) => {
     const {isLoading} = useCurrentSubscription();
+    const {onFinish} = props;
 
     return (
         <>
@@ -14,7 +18,7 @@ export const AppShowPageBody = memo(() => {
             ) : (
                 <>
                     <InformationPanel />
-                    <TabView />
+                    <TabView onFinish={onFinish} />
                 </>
             )}
         </>

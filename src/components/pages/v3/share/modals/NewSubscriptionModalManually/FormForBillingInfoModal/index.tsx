@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {ModalTopbar, useModal} from '^v3/share/modals';
 import {newFormForBillingInfoModalAtom} from '^v3/share/modals/NewSubscriptionModalManually/atom';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {FormControl, RequiredFormControl} from '^components/util/form-control';
+import {RequiredFormControl} from '^components/util/form-control';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {CurrentBillingAmountCurrencyModal} from './CurrentBillingAmountCurrencyModal';
 import {BillingCycleOptionRadio} from './BillingCycleOptionRadio';
@@ -24,20 +24,23 @@ export const FormForBillingInfoModal = memo(function FormForBillingInfoModal() {
                         <h3 className="font-bold text-2xl pt-5 mb-10">결제 정보 입력</h3>
 
                         <div className="w-full flex flex-col gap-4">
-                            <FormControl topLeftLabel="결제수단 *">
+                            <RequiredFormControl topLeftLabel="결제수단">
                                 <CardSelect />
-                            </FormControl>
+                            </RequiredFormControl>
 
-                            <FormControl
-                                topLeftLabel="결제 주기 *"
+                            <RequiredFormControl
+                                topLeftLabel="결제주기"
                                 bottomLeftHint="반복 지불이 아니면 '일회성'으로 체크해주세요"
                             >
                                 <BillingCycleOptionRadio />
-                            </FormControl>
+                            </RequiredFormControl>
 
-                            <FormControl topLeftLabel="과금 방식 *" bottomLeftHint="단위가격이 매겨지는 방식이에요">
+                            <RequiredFormControl
+                                topLeftLabel="과금방식"
+                                bottomLeftHint="단위가격이 매겨지는 방식이에요"
+                            >
                                 <RecurringTypeSelect />
-                            </FormControl>
+                            </RequiredFormControl>
 
                             <RequiredFormControl topLeftLabel="요금">
                                 <CurrentBillingAmountInput />

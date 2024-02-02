@@ -3,13 +3,13 @@ import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
 import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
 import {useTranslation} from 'next-i18next';
+import {CgSpinner} from 'react-icons/cg';
 import {ApiError} from '^api/api';
 import {LandingPageLayout} from '../LandingPageLayout';
 import {codeConfirmedState, isTermModalOpenedState, phoneAuthDataState} from './BetaSignPhoneAuthPage.atom';
 import {PhoneNumberInput} from './PhoneNumberInput';
 import {AuthCodeInput} from './AuthCodeInput';
 import {errorNotify} from '^utils/toast-notify';
-import {SignWelcomePageRoute} from '^pages/sign/welcome';
 import {invitedOrgIdAtom, isCopiedAtom} from '^v3/V3OrgJoin/atom';
 import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
 import {userSocialGoogleApi} from '^api/social-google.api';
@@ -17,6 +17,7 @@ import {TermModalV2} from '^components/pages/LandingPages/BetaSignPhoneAuthPage/
 import {useSocialLoginV2} from '^models/User/hook';
 import {UserGoogleSocialSignUpRequestDtoV2} from '^models/User/types';
 import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';
+import {SignWelcomePageRoute} from '^pages/sign/welcome';
 
 export const BetaSignPhoneAuthPage2 = memo(() => {
     const router = useRouter();
@@ -28,7 +29,7 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
     const setIsOpened = useSetRecoilState(isTermModalOpenedState);
     const codeConfirmed = useRecoilValue(codeConfirmedState);
     const isCopied = useRecoilValue(isCopiedAtom);
-
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const {t} = useTranslation('sign');
     const [pageLoaded, setPageLoaded] = useState(false);
     const resetGoogleCode = useResetRecoilState(googleAccessTokenAtom);
@@ -43,12 +44,14 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
 
     // 가입 후처리 콜백
     const findOrCreateUserCallback = async () => {
-        if (!googleAccessToken) return;
+        if (!googleAccessToken || isLoading) return;
 
+        setIsLoading(true);
         // 정상적인 온보딩 플로우
         await socialLoginV2(googleAccessToken)
-            .then(() => router.push(SignWelcomePageRoute.path()))
-            .catch(errorNotify);
+            .then(() => router.replace(SignWelcomePageRoute.path()))
+            .catch(errorNotify)
+            .finally(() => setIsLoading(false));
     };
 
     // 인증 완료 후 최종 가입시도
@@ -148,9 +151,13 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
                         <button
                             className="btn sm:btn-lg btn-block btn-scordi-500 normal-case disabled:!bg-slate-100 disabled:!border-slate-300"
                             disabled={!form.watch('phone') || !codeConfirmed}
-                            onClick={agreeModalOnConfirm}
+                            onClick={() => !isLoading && agreeModalOnConfirm()}
                         >
-                            {t('phone_auth.start_with_phone_number')}
+                            {isLoading ? (
+                                <CgSpinner size={28} className="animate-spin btn-disabled" />
+                            ) : (
+                                <>{t('phone_auth.start_with_phone_number')}</>
+                            )}
                         </button>
                     </div>
                 </div>

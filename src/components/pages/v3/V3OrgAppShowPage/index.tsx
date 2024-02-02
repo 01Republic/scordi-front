@@ -6,17 +6,21 @@ import {appIdState, useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {AppShowPageBody} from '^v3/share/modals/AppShowPageModal/AppShowPageBody';
 import {SelectTeamMemberModal} from '^v3/share/modals/AppShowPageModal/SelectTeamMemberModal';
 import {InvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal';
-import {useSetRecoilState} from 'recoil';
+import {useResetRecoilState, useSetRecoilState} from 'recoil';
 import {NewBillingHistoryModal} from 'src/components/pages/v3/share/modals/NewBillingHistoryModal';
 import {BillingHistoryDetailModalInAppShow} from '^v3/V3OrgAppsPage/_localModals/BillingHistoryDetailModal';
+import {navTabIndex} from '^v3/share/modals/AppShowPageModal/AppShowPageBody/tabs/TabView';
 
 export const V3OrgAppShowPage = memo(() => {
     const {currentSubscription} = useCurrentSubscription();
     const setAppId = useSetRecoilState(appIdState);
+    const resetTebIndex = useResetRecoilState(navTabIndex);
 
     useEffect(() => {
         if (!currentSubscription) return;
+
         setAppId(currentSubscription.id);
+        resetTebIndex();
     }, [currentSubscription]);
 
     return (
