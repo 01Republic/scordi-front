@@ -15,9 +15,7 @@ export const LanguageInput = memo(() => {
             const selectedLocale = locales.find((loc) => loc.code === opt.value)!;
             console.log(selectedLocale);
 
-            user.update({locale: selectedLocale.code}).then(() => {
-                // toast('저장되었습니다.');
-            });
+            user.update({locale: selectedLocale.code});
         },
         [locales],
     );
