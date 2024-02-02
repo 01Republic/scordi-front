@@ -150,11 +150,11 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
                     <div>
                         <button
                             className="btn sm:btn-lg btn-block btn-scordi-500 normal-case disabled:!bg-slate-100 disabled:!border-slate-300"
-                            disabled={!form.watch('phone') || !codeConfirmed}
+                            disabled={!form.watch('phone') || !codeConfirmed || isLoading}
                             onClick={() => !isLoading && agreeModalOnConfirm()}
                         >
                             {isLoading ? (
-                                <CgSpinner size={28} className="animate-spin btn-disabled" />
+                                <CgSpinner size={28} className="animate-spin" />
                             ) : (
                                 <>{t('phone_auth.start_with_phone_number')}</>
                             )}
