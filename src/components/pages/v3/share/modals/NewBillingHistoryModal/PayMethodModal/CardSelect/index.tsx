@@ -1,7 +1,5 @@
 import React, {memo} from 'react';
 import {FormControl} from '^components/util/form-control';
-import {useCreditCards} from '^models/CreditCard/hook';
-import {CreditCardDto} from '^models/CreditCard/type';
 import {useSetRecoilState} from 'recoil';
 import {createBillingHistoryAtom} from '^v3/share/modals/NewBillingHistoryModal/atoms';
 import {CardSelector} from 'src/components/pages/v3/share/Select/CardSelect';

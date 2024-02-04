@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import Select, {InputActionMeta, StylesConfig} from 'react-select';
 import {CardComponents} from '^v3/share/Select/CardSelect/selectOpions';
 import {useCreditCards} from '^models/CreditCard/hook';
@@ -6,7 +6,6 @@ import {CreditCardDto} from '^models/CreditCard/type';
 import {SelectOptionNotionStyledLayout, SelectOptionProps} from '^v3/share/modals/_presenters/SelectInput';
 import {CreditCardProfileOption} from '^models/CreditCard/hook/components/CreditCardProfile';
 import {debounce} from 'lodash';
-import {creditCardApi} from '^models/CreditCard/api';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {useToast} from '^hooks/useToast';
@@ -17,8 +16,12 @@ interface CardSelectorProps {
 }
 
 export const CardSelector = memo((props: CardSelectorProps) => {
-    const {result, search} = useCreditCards();
+    const {search, result} = useCreditCards();
     const {onChange, defaultValue} = props;
+
+    useEffect(() => {
+        loadCards();
+    }, []);
 
     const loadCards = debounce((keyword?: string) => {
         return search({
@@ -56,7 +59,6 @@ export const CardSelector = memo((props: CardSelectorProps) => {
             onInputChange={(newValue, {action}: InputActionMeta) => {
                 if (action === 'input-change') loadCards(newValue);
             }}
-            onMenuOpen={() => loadCards()}
             onChange={(option, actionMeta) => {
                 switch (actionMeta.action) {
                     case 'select-option':

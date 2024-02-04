@@ -77,6 +77,7 @@ export const PayMethodSelect = memo((props: PayMethodSelectProps) => {
                     optionDestroy={(creditCard) => {
                         return deleteCreditCard(creditCard, orgId).then(() => {
                             toast.success('삭제되었습니다.');
+                            onChange();
                             return true;
                         });
                     }}
