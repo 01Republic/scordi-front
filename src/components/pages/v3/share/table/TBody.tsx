@@ -9,21 +9,8 @@ interface TBodyProps extends WithChildren {
 }
 
 export const TBody = memo((props: TBodyProps) => {
-    const {entries, cols, isLoading = false, children} = props;
+    const {children} = props;
 
-    return (
-        <tbody>
-            {!entries.length && isLoading && (
-                <tr>
-                    <td colSpan={cols}>
-                        <div className="w-full flex items-center justify-center">
-                            <Loading size="8" />
-                        </div>
-                    </td>
-                </tr>
-            )}
-            {children}
-        </tbody>
-    );
+    return <tbody>{children}</tbody>;
 });
 TBody.displayName = 'TBody';

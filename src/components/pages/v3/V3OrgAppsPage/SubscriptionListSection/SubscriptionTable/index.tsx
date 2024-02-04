@@ -7,6 +7,7 @@ import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 import {Loading} from '^v3/share/Loading';
 import {TBody} from '^v3/share/table/TBody';
 import {Table} from '^v3/share/table/Table';
+import {TableRowSkeleton} from '^v3/share/Skeletons/TableRowSkeleton';
 
 interface PagedTableProps<T> {
     isLoading: boolean;
@@ -91,9 +92,11 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
                     </thead>
 
                     <TBody entries={subscriptions} cols={8} isLoading={isLoading}>
-                        {subscriptions.map((subscription, i) => (
-                            <SubscriptionTr key={i} subscription={subscription} reload={reload} />
-                        ))}
+                        {isLoading && <TableRowSkeleton />}
+                        {!isLoading &&
+                            subscriptions.map((subscription, i) => (
+                                <SubscriptionTr key={i} subscription={subscription} reload={reload} />
+                            ))}
                     </TBody>
                 </Table>
             </div>
