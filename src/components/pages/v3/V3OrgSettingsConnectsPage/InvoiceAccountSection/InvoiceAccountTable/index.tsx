@@ -18,8 +18,8 @@ export const InvoiceAccountTable = memo(() => {
                     </thead>
 
                     <tbody>
-                        {invoiceAccounts.map((invoiceAccount) => (
-                            <InvoiceAccountTableRow invoiceAccount={invoiceAccount} />
+                        {invoiceAccounts.map((invoiceAccount, i) => (
+                            <InvoiceAccountTableRow key={i} invoiceAccount={invoiceAccount} />
                         ))}
                     </tbody>
                 </table>

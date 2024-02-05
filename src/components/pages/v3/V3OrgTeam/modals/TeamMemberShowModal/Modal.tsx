@@ -7,6 +7,7 @@ import {TeamMemberShowBody} from './TeamMemberShowBody';
 import {SelectSubscriptionModal} from './SelectSubscriptionModal';
 import {useResetRecoilState} from 'recoil';
 import {isTeamMemberEditModeAtom} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/atom';
+import {navTabIndex} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/TeamMemberShowBody/tabs/TabView';
 
 interface TeamMemberShowModalProps {
     onClose?: () => any;
@@ -15,10 +16,12 @@ interface TeamMemberShowModalProps {
 export const TeamMemberShowModal = memo((props: TeamMemberShowModalProps) => {
     const {Modal, close, hide, isShow} = useTeamMemberShowModal();
     const resetIsEditMode = useResetRecoilState(isTeamMemberEditModeAtom);
+    const resetTabIndex = useResetRecoilState(navTabIndex);
     const {onClose: _onClose, onSubmit} = props;
 
     useEffect(() => {
         resetIsEditMode();
+        resetTabIndex();
     }, [isShow]);
 
     const onClose = () => {

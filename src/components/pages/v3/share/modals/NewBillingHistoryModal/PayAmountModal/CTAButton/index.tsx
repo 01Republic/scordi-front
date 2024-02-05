@@ -13,7 +13,6 @@ import {appIdState} from '^v3/V3OrgAppShowPage/atom';
 import {useModal} from '^v3/share/modals';
 import {CreateMoneyRequestDto, CurrencyCode} from '^models/Money';
 import {selectedCurrencyState} from '^v3/share/modals/BillingHistoryDetailModal/atom';
-import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 import {NextButtonUI} from '^v3/share/NextButtonUI';
 import {debounce} from 'lodash';
 
@@ -28,7 +27,6 @@ export const CTAButton = memo((props: CTAButtonProps) => {
     const setBillingHistoryId = useSetRecoilState(billingHistoryIdState);
     const selectedCurrency = useRecoilValue(selectedCurrencyState);
     const {open: OpenFinishModal} = useModal(finishModalState);
-    const {reload: loadHistories} = useBillingHistoriesV3();
 
     const {onFinish} = props;
 
@@ -62,9 +60,8 @@ export const CTAButton = memo((props: CTAButtonProps) => {
 
         req.then((res) => {
             setBillingHistoryId(res.data.id);
-            OpenFinishModal();
-            loadHistories();
             onFinish && onFinish();
+            OpenFinishModal();
         });
     }, 500);
 

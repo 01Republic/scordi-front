@@ -1,13 +1,13 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
+import {useRecoilState} from 'recoil';
+import {debounce} from 'lodash';
 import {ModalTopbar, useModal} from '^v3/share/modals';
 import {finishModalState, memoModalState, memoState} from '^v3/share/modals/NewBillingHistoryModal/atoms';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {CheckCircle} from '^components/react-icons/check-circle';
-import {useRecoilValue} from 'recoil';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {NextButtonUI} from '^v3/share/NextButtonUI';
-import {debounce} from 'lodash';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 
 interface Props {
@@ -15,11 +15,16 @@ interface Props {
 }
 
 export const FinishModal = memo((props: Props) => {
-    const {Modal} = useModal(finishModalState);
+    const {Modal, isShow} = useModal(finishModalState);
     const {open: openMemoModal} = useModal(memoModalState);
-    const memo = useRecoilValue(memoState);
+    const [memo, setMemo] = useRecoilState(memoState);
     const {currentSubscription} = useCurrentSubscription();
+
     const {onClose} = props;
+
+    useEffect(() => {
+        setMemo('');
+    }, [isShow]);
 
     const onClick = debounce(() => {
         onClose && onClose();

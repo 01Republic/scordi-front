@@ -85,7 +85,7 @@ const SingleValue = (props: SingleValueProps<any>) => {
 const MemberProfile = ({data}: {data: any}) => {
     const {label, email, profileImgUrl, value} = data;
 
-    const avatarColor = getColor(email.length + value);
+    const avatarColor = getColor(email?.length + value);
 
     return (
         <div className="flex items-center gap-4 px-4 -mx-4">
