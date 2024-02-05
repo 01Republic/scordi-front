@@ -36,7 +36,7 @@ export const getStaticProps = async ({locale}: any) => ({
 export default function V3OrgHomePage() {
     const router = useRouter();
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
-    useCurrentOrg(orgId);
+    const {currentOrg} = useCurrentOrg(orgId);
     const resetInvitedOrgId = useResetRecoilState(invitedOrgIdAtom);
     const {accessTokenData, complete, noRunning} = useGoogleAccessTokenCallback(V3OrgHomePageRoute.path(orgId), [
         orgId,
@@ -130,7 +130,7 @@ export default function V3OrgHomePage() {
         });
     }, [orgId, accessTokenData]);
 
-    if (!orgId) return <></>;
+    if (!orgId || !currentOrg) return <></>;
 
     return <Page />;
 }
