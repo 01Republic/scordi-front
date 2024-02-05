@@ -9,6 +9,7 @@ import {lastTeamMemberInfo} from '^v3/share/modals/NewTeamMemberModal/CreateTeam
 import {components, MenuListProps} from 'react-select';
 import {teamApi} from '^models/Team/api';
 import {orgIdParamState} from '^atoms/common';
+import {useToast} from '^hooks/useToast';
 
 interface TeamSelectProps {
     onSelect: (selectedTeam: TeamDto | undefined) => any;
@@ -56,10 +57,25 @@ const toOptionData = (team: TeamDto): TeamOptionData => {
 };
 
 const TeamOption = (props: SelectOptionProps<TeamOptionData>) => {
+    const orgId = useRecoilValue(orgIdParamState);
+    const {reload: reloadTeams} = useTeamsV2();
+    const {toast} = useToast();
+
     const {data, isFocused, isSelected} = props;
 
+    const onDelete = () => {
+        if (!data || !orgId) return;
+
+        const req = teamApi.destroy(orgId, data.value);
+        req.then(() => {
+            reloadTeams();
+            toast.success('삭제되었습니다');
+        });
+        req.catch((err) => toast.error(err.message));
+    };
+
     return (
-        <SelectOptionNotionStyledLayout {...props}>
+        <SelectOptionNotionStyledLayout onDelete={onDelete} {...props}>
             <TeamTag id={data.value} name={data.label} />
         </SelectOptionNotionStyledLayout>
     );

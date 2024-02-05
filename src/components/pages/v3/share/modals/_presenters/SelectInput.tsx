@@ -97,7 +97,9 @@ export const SelectOptionNotionStyledLayout = memo((props: SelectOptionProps<any
                 >
                     <div className="">{children}</div>
                     <div className="ml-auto">
-                        <MoreDropdown isCurrent={isSelected} option={data.data} destroyRequest={onDelete} />
+                        {onDelete && (
+                            <MoreDropdown isCurrent={isSelected} option={data.data} destroyRequest={onDelete} />
+                        )}
                     </div>
                 </div>
             </div>
