@@ -1,21 +1,21 @@
-export const TableRowSkeleton = () => {
+export const SubscriptionTableRowSkeleton = () => {
     const TableRow = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
     return (
         <>
-            {TableRow.map(() => (
-                <tr>
+            {TableRow.map((i) => (
+                <tr key={i}>
                     <td className="flex gap-2 items-center w-60">
                         <div className="skeleton !w-8 !h-8 rounded-full" />
                         <div className="skeleton !w-40" />
                     </td>
-                    <td className="py-5">
+                    <td className="py-5 !w-10">
                         <div className="skeleton" />
                     </td>
-                    <td className="py-5">
+                    <td className="py-5 !w-10">
                         <div className="skeleton" />
                     </td>
-                    <td className="py-5">
+                    <td className="py-5 !w-10">
                         <div className="skeleton" />
                     </td>
                     <td className="flex gap-2 items-center w-40">
@@ -26,10 +26,10 @@ export const TableRowSkeleton = () => {
                         </div>
                     </td>
                     <td className="py-5">
-                        <div className="skeleton  !w-10" />
+                        <div className="skeleton" />
                     </td>
                     <td className="py-5">
-                        <div className="skeleton  !w-28" />
+                        <div className="skeleton" />
                     </td>
                     <td className="flex gap-2 items-center w-40">
                         <div className="skeleton !w-8 !h-8 rounded-full" />

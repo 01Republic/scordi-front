@@ -1,2 +1,2 @@
 export * from './ModalInfoSkeleton';
-export * from './TableRowSkeleton';
+export * from './SubscriptionTableRowSkeleton';
