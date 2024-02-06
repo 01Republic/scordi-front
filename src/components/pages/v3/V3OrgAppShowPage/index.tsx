@@ -7,9 +7,9 @@ import {AppShowPageBody} from '^v3/share/modals/AppShowPageModal/AppShowPageBody
 import {SelectTeamMemberModal} from '^v3/share/modals/AppShowPageModal/SelectTeamMemberModal';
 import {InvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal';
 import {useResetRecoilState, useSetRecoilState} from 'recoil';
-import {NewBillingHistoryModal} from 'src/components/pages/v3/share/modals/NewBillingHistoryModal';
 import {BillingHistoryDetailModalInAppShow} from '^v3/V3OrgAppsPage/_localModals/BillingHistoryDetailModal';
 import {navTabIndex} from '^v3/share/modals/AppShowPageModal/AppShowPageBody/tabs/TabView';
+import {NewBillingHistoryModalInAppShow} from '^v3/V3OrgAppsPage/_localModals';
 
 export const V3OrgAppShowPage = memo(() => {
     const {currentSubscription} = useCurrentSubscription();
@@ -31,7 +31,7 @@ export const V3OrgAppShowPage = memo(() => {
                 SelectTeamMemberModal,
                 AccountListModal,
                 InvoiceAccountSelectModal,
-                NewBillingHistoryModal, // 결제내역추가모달
+                NewBillingHistoryModalInAppShow, // 결제내역추가모달
             ]}
         >
             <MobileSection.List className="h-full">

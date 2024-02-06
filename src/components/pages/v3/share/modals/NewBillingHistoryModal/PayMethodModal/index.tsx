@@ -3,7 +3,6 @@ import {useResetRecoilState} from 'recoil';
 import {ModalTopbar, useModal} from '^v3/share/modals';
 import {payMethodModalState} from '^v3/share/modals/NewBillingHistoryModal/atoms';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {useCreditCards} from '^models/CreditCard/hook';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {createBillingHistoryAtom} from '^v3/share/modals/NewBillingHistoryModal/atoms/createBillingHistoryAtom';
 import {NewCardModalV2} from '^v3/share/modals/NewCardModal/NewCardModalV2';
@@ -16,16 +15,11 @@ import {FormControlGroup} from '^components/util/form-control/FormControlGroup';
 
 export const PayMethodModal = memo(() => {
     const {Modal, isShow, close} = useModal(payMethodModalState);
-    const {search: getCreditCards} = useCreditCards();
     const resetCreateBillingHistory = useResetRecoilState(createBillingHistoryAtom);
     const {currentSubscription} = useCurrentSubscription();
 
     useEffect(() => {
         resetCreateBillingHistory();
-        getCreditCards({
-            itemsPerPage: 0,
-            relations: ['holdingMember', 'subscriptions'],
-        });
     }, [isShow]);
 
     return (

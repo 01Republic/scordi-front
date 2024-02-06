@@ -9,31 +9,27 @@ import {CheckCircle} from '^components/react-icons/check-circle';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {NextButtonUI} from '^v3/share/NextButtonUI';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
+import {useNewBillingHistoryModal} from '^v3/share/modals/NewBillingHistoryModal/NewBillingHistoryModalGroup/hook';
 
-interface Props {
-    onClose?: () => any;
-}
-
-export const FinishModal = memo((props: Props) => {
+export const FinishModal = memo(() => {
     const {Modal, isShow} = useModal(finishModalState);
     const {open: openMemoModal} = useModal(memoModalState);
     const [memo, setMemo] = useRecoilState(memoState);
     const {currentSubscription} = useCurrentSubscription();
-
-    const {onClose} = props;
+    const {modalGroupClose} = useNewBillingHistoryModal();
 
     useEffect(() => {
         setMemo('');
     }, [isShow]);
 
-    const onClick = debounce(() => {
-        onClose && onClose();
+    const onClose = debounce(() => {
+        modalGroupClose();
     }, 500);
 
     return (
-        <Modal onClose={onClick} wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
+        <Modal onClose={onClose} wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
             <ModalTopbar
-                backBtnOnClick={onClick}
+                backBtnOnClick={onClose}
                 topbarPosition="sticky"
                 title={currentSubscription?.product.nameKo || '결제 내역 추가'}
             />
@@ -58,7 +54,7 @@ export const FinishModal = memo((props: Props) => {
             </MobileSection.Padding>
 
             <ModalLikeBottomBar className="left-0">
-                <NextButtonUI isActive={true} onClick={() => onClick()}>
+                <NextButtonUI isActive={true} onClick={() => onClose()}>
                     닫기
                 </NextButtonUI>
             </ModalLikeBottomBar>

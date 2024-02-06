@@ -18,7 +18,7 @@ import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {FormControlGroup} from '^components/util/form-control/FormControlGroup';
 
 interface PayAmountModalProps {
-    onFinish?: () => any;
+    onSubmit?: () => any;
 }
 
 export const PayAmountModal = memo((props: PayAmountModalProps) => {
@@ -29,7 +29,7 @@ export const PayAmountModal = memo((props: PayAmountModalProps) => {
     const resetAbroadPayAmount = useResetRecoilState(abroadPayAmount);
     const {currentSubscription} = useCurrentSubscription();
 
-    const {onFinish} = props;
+    const {onSubmit} = props;
 
     useEffect(() => {
         resetAbroadPayAmount();
@@ -60,7 +60,7 @@ export const PayAmountModal = memo((props: PayAmountModalProps) => {
                 </MobileSection.Padding>
 
                 <ModalLikeBottomBar className="left-0">
-                    <CTAButton onFinish={onFinish} />
+                    <CTAButton onSubmit={onSubmit} />
                 </ModalLikeBottomBar>
             </Modal>
 

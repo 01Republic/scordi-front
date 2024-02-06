@@ -17,7 +17,7 @@ import {NextButtonUI} from '^v3/share/NextButtonUI';
 import {debounce} from 'lodash';
 
 interface CTAButtonProps {
-    onFinish?: () => any;
+    onSubmit?: () => any;
 }
 export const CTAButton = memo((props: CTAButtonProps) => {
     const createBillingHistory = useRecoilValue(createBillingHistoryAtom);
@@ -28,7 +28,7 @@ export const CTAButton = memo((props: CTAButtonProps) => {
     const selectedCurrency = useRecoilValue(selectedCurrencyState);
     const {open: OpenFinishModal} = useModal(finishModalState);
 
-    const {onFinish} = props;
+    const {onSubmit} = props;
 
     const isDomestic = createBillingHistory.isDomestic;
 
@@ -60,7 +60,7 @@ export const CTAButton = memo((props: CTAButtonProps) => {
 
         req.then((res) => {
             setBillingHistoryId(res.data.id);
-            onFinish && onFinish();
+            onSubmit && onSubmit();
             OpenFinishModal();
         });
     }, 500);

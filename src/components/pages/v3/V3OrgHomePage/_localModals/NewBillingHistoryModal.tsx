@@ -6,7 +6,7 @@ import {useDashboardSubscriptions} from '^models/Subscription/hook';
 import {AbroadPayAmountCurrencyModal} from '^v3/share/modals/NewBillingHistoryModal/PayAmountModal/AbroadPayAmountCurrencyModal';
 import {useNewBillingHistoryModal} from '^v3/share/modals/NewBillingHistoryModal/NewBillingHistoryModalGroup/hook';
 import {appIdState, useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
-import {NewBillingHistoryModal} from 'src/components/pages/v3/share/modals/NewBillingHistoryModal';
+import {NewBillingHistoryModalGroup} from '^v3/share/modals/NewBillingHistoryModal/NewBillingHistoryModalGroup';
 
 export const NewBillingHistoryModalInDashBoard = memo(() => {
     const {modalGroupClose} = useNewBillingHistoryModal();
@@ -30,7 +30,7 @@ export const NewBillingHistoryModalInDashBoard = memo(() => {
 
     return (
         <>
-            <NewBillingHistoryModal onClose={billingHistoryCreatedCallback} onFinish={onFinish} />
+            <NewBillingHistoryModalGroup onClose={billingHistoryCreatedCallback} onBillingHistoryCreated={onFinish} />
             <AbroadPayAmountCurrencyModal />
         </>
     );

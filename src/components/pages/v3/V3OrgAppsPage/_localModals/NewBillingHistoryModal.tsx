@@ -1,26 +1,20 @@
 import React, {memo} from 'react';
-import {useNewBillingHistoryModal} from '^v3/share/modals/NewBillingHistoryModal/NewBillingHistoryModalGroup/hook';
-import {NewBillingHistoryModal} from '^v3/share/modals/NewBillingHistoryModal';
-import {AbroadPayAmountCurrencyModal} from '^v3/share/modals/NewBillingHistoryModal/PayAmountModal/AbroadPayAmountCurrencyModal';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
 import {useBillingHistoryListOfSubscription} from '^models/BillingHistory/hook';
 import {useSubscriptionTableListAtom} from '^models/Subscription/hook';
 import {appIdState, useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {AbroadPayAmountCurrencyModal} from '^v3/share/modals/NewBillingHistoryModal/PayAmountModal/AbroadPayAmountCurrencyModal';
+import {NewBillingHistoryModalGroup} from '^v3/share/modals/NewBillingHistoryModal/NewBillingHistoryModalGroup';
 
 export const NewBillingHistoryModalInAppShow = memo(() => {
-    const {modalGroupClose} = useNewBillingHistoryModal();
     const {reload: reloadBillingHistory} = useBillingHistoryListOfSubscription();
     const {reload: reloadSubscriptionTableList} = useSubscriptionTableListAtom();
     const {loadCurrentSubscription} = useCurrentSubscription();
     const orgId = useRecoilValue(orgIdParamState);
     const appId = useRecoilValue(appIdState);
 
-    const billingHistoryCreatedCallback = () => {
-        modalGroupClose();
-    };
-
-    const onFinish = () => {
+    const onCreate = () => {
         if (!appId) return;
 
         reloadBillingHistory(); // 결제 내역 reload
@@ -30,7 +24,7 @@ export const NewBillingHistoryModalInAppShow = memo(() => {
 
     return (
         <>
-            <NewBillingHistoryModal onFinish={onFinish} onClose={billingHistoryCreatedCallback} />
+            <NewBillingHistoryModalGroup onBillingHistoryCreated={onCreate} />
             <AbroadPayAmountCurrencyModal />
         </>
     );
