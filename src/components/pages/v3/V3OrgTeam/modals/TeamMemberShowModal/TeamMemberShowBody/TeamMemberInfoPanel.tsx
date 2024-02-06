@@ -43,7 +43,10 @@ export const TeamMemberInfoPanel = memo(() => {
             case 'CANNOT_INVITE':
                 return;
             case 'RESEND':
-                alert.error('이미 초대한 멤버입니다', '초대 메일을 다시 보낼까요?').then(() => sendInviteEmail());
+                alert.error('이미 초대한 멤버입니다', '초대 메일을 다시 보낼까요?').then((res) => {
+                    res.isConfirmed && sendInviteEmail();
+                });
+
                 return;
             default:
                 sendInviteEmail();
