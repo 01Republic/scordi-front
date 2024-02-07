@@ -15,15 +15,15 @@ export const navTabIndex = atom({
 
 interface TabViewProps {
     onTabChange?: () => any;
-    onFinish?: () => any;
+    onDeleteMember?: () => any;
 }
 
 export const TabView = memo(function TabView(props: TabViewProps) {
     const [tabIndex, setTabIndex] = useRecoilState(navTabIndex);
-    const {onTabChange, onFinish} = props;
+    const {onTabChange, onDeleteMember} = props;
 
     const tabs = [
-        {label: '이용중인 멤버', Component: () => <TeamMemberListTab onFinish={onFinish} />},
+        {label: '이용중인 멤버', Component: () => <TeamMemberListTab onDelete={onDeleteMember} />},
         {label: '결제내역', Component: BillingHistoryListTab},
         // {label: '보관중인 계정', Component: Fragment},
     ];

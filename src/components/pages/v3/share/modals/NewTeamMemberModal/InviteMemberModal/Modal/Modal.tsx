@@ -14,7 +14,7 @@ import {LoadingModal} from '^v3/share/modals/NewTeamMemberModal/InviteMemberModa
 import {ModalTitle} from '^v3/share/modals/ModalTitle';
 
 interface InviteOrgMemberModalProps {
-    onSubmit?: () => void;
+    onClose?: () => void;
 }
 export const InviteOrgMemberModal = memo((props: InviteOrgMemberModalProps) => {
     const {isShow, Modal, close} = useModal({isShowAtom: isOpenInviteOrgMemberModalAtom});
@@ -24,7 +24,7 @@ export const InviteOrgMemberModal = memo((props: InviteOrgMemberModalProps) => {
     const resetInputValue = useResetRecoilState(emailInputValueAtom);
     const resetIsLoading = useResetRecoilState(isLoadingAtom);
 
-    const {onSubmit} = props;
+    const {onClose} = props;
 
     useEffect(() => {
         resetFormData();
@@ -53,7 +53,7 @@ export const InviteOrgMemberModal = memo((props: InviteOrgMemberModalProps) => {
                 </MobileSection.Padding>
 
                 <ModalLikeBottomBar>
-                    <CTAButton onSubmit={onSubmit} />
+                    <CTAButton onClose={onClose} />
                 </ModalLikeBottomBar>
             </Modal>
             <LoadingModal />

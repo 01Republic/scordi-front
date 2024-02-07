@@ -4,21 +4,15 @@ import {orgIdParamState} from '^atoms/common';
 import {useBillingHistoryListOfSubscription} from '^models/BillingHistory/hook';
 import {useDashboardSubscriptions} from '^models/Subscription/hook';
 import {AbroadPayAmountCurrencyModal} from '^v3/share/modals/NewBillingHistoryModal/PayAmountModal/AbroadPayAmountCurrencyModal';
-import {useNewBillingHistoryModal} from '^v3/share/modals/NewBillingHistoryModal/NewBillingHistoryModalGroup/hook';
 import {appIdState, useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {NewBillingHistoryModalGroup} from '^v3/share/modals/NewBillingHistoryModal/NewBillingHistoryModalGroup';
 
 export const NewBillingHistoryModalInDashBoard = memo(() => {
-    const {modalGroupClose} = useNewBillingHistoryModal();
     const {reload: reloadBillingHistoryList} = useBillingHistoryListOfSubscription();
     const {reload: reloadDashboardSubscriptions} = useDashboardSubscriptions();
     const {loadCurrentSubscription} = useCurrentSubscription();
     const orgId = useRecoilValue(orgIdParamState);
     const appId = useRecoilValue(appIdState);
-
-    const billingHistoryCreatedCallback = () => {
-        modalGroupClose();
-    };
 
     const onFinish = () => {
         if (!appId) return;
@@ -30,7 +24,7 @@ export const NewBillingHistoryModalInDashBoard = memo(() => {
 
     return (
         <>
-            <NewBillingHistoryModalGroup onClose={billingHistoryCreatedCallback} onBillingHistoryCreated={onFinish} />
+            <NewBillingHistoryModalGroup onBillingHistoryCreated={onFinish} />
             <AbroadPayAmountCurrencyModal />
         </>
     );

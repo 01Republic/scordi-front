@@ -1,6 +1,6 @@
-import React, {memo, useEffect, useRef, useState} from 'react';
+import React, {memo, useEffect, useRef} from 'react';
 import {useSetRecoilState} from 'recoil';
-import {CreateTeamMemberDto, TeamMemberDto} from '^models/TeamMember';
+import {CreateTeamMemberDto} from '^models/TeamMember';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {useModal} from '^v3/share/modals/useModal';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
@@ -13,7 +13,7 @@ import {ModalTitle} from '^v3/share/modals/ModalTitle';
 import {FormControlGroup} from '^components/util/form-control/FormControlGroup';
 
 interface NewTeamMemberModalProps {
-    onSubmit?: () => any;
+    onCreate?: () => any;
 }
 
 export const CreateTeamMemberModal = memo((props: NewTeamMemberModalProps) => {
@@ -23,7 +23,7 @@ export const CreateTeamMemberModal = memo((props: NewTeamMemberModalProps) => {
     const nameInputRef = useRef<HTMLInputElement>(null);
     const emailInputRef = useRef<HTMLInputElement>(null);
 
-    const {onSubmit: _onSubmit} = props;
+    const {onCreate} = props;
 
     useEffect(() => {
         setFormData({} as CreateTeamMemberDto);
@@ -77,7 +77,7 @@ export const CreateTeamMemberModal = memo((props: NewTeamMemberModalProps) => {
                 </MobileSection.Padding>
 
                 <ModalLikeBottomBar>
-                    <CTAButton nameInputRef={nameInputRef} emailInputRef={emailInputRef} onSubmit={_onSubmit} />
+                    <CTAButton nameInputRef={nameInputRef} emailInputRef={emailInputRef} onCreate={onCreate} />
                 </ModalLikeBottomBar>
             </Modal>
         </form>

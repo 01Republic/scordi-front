@@ -9,7 +9,7 @@ import {TeamMemberDto, useTeamMembersInSubscriptionShowModal} from '^models/Team
 import {AddButton} from './AddButton';
 
 interface TeamMemberListTabProps {
-    onFinish?: () => any;
+    onDelete?: () => any;
 }
 
 export const TeamMemberListTab = memo(function TeamMemberListTab(props: TeamMemberListTabProps) {
@@ -17,7 +17,7 @@ export const TeamMemberListTab = memo(function TeamMemberListTab(props: TeamMemb
     const {subjectId} = useAppShowModal();
     const TeamMembers = useTeamMembersInSubscriptionShowModal();
 
-    const {onFinish} = props;
+    const {onDelete: _onDelete} = props;
 
     useEffect(() => {
         if (!subjectId || isNaN(subjectId)) return;
@@ -33,7 +33,7 @@ export const TeamMemberListTab = memo(function TeamMemberListTab(props: TeamMemb
 
     const onDelete = (teamMember: TeamMemberDto) => {
         TeamMembers.except(teamMember);
-        onFinish && onFinish();
+        _onDelete && _onDelete();
     };
 
     const {items, pagination} = TeamMembers.result;

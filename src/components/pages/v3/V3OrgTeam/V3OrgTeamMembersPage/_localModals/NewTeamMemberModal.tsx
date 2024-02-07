@@ -5,5 +5,5 @@ import {useTeamMembersInTeamMembersTable} from '^models/TeamMember';
 export const NewTeamMemberModalInTeamMember = memo(() => {
     const {reload} = useTeamMembersInTeamMembersTable();
 
-    return <NewTeamMemberModal onSubmit={reload} />;
+    return <NewTeamMemberModal onReload={reload} />;
 });

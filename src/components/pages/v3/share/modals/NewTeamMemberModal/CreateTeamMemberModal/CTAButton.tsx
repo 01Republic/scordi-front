@@ -16,7 +16,7 @@ import {
 interface CTAButtonProps {
     nameInputRef: RefObject<HTMLInputElement>;
     emailInputRef: RefObject<HTMLInputElement>;
-    onSubmit?: () => any;
+    onCreate?: () => any;
 }
 
 export const CTAButton = memo((props: CTAButtonProps) => {
@@ -24,7 +24,7 @@ export const CTAButton = memo((props: CTAButtonProps) => {
     const {close} = useModal({isShowAtom: isOpenNewTeamMemberModalAtom});
     const formData = useRecoilValue(createNewTeamMemberAtom);
     const setResponse = useSetRecoilState(lastTeamMemberInfo);
-    const {nameInputRef, emailInputRef, onSubmit: _onSubmit} = props;
+    const {nameInputRef, emailInputRef, onCreate} = props;
 
     const confirmData = () => {
         const duration = 4000;
@@ -55,9 +55,9 @@ export const CTAButton = memo((props: CTAButtonProps) => {
 
         teamMemberApi.create(orgId, formData).then((res) => {
             plainToast.success('추가되었습니다', {duration});
-            close();
             setResponse(res.data);
-            _onSubmit && _onSubmit();
+            onCreate && onCreate();
+            close();
         });
     }, 500);
 

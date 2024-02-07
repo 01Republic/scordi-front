@@ -18,7 +18,7 @@ import {serviceHost} from '^config/environments';
 import {ModalTitle} from '^v3/share/modals/ModalTitle';
 
 interface NewTeamMemberModalProps {
-    onSubmit?: () => any;
+    onReload?: () => any;
 }
 
 export const NewTeamMemberModal = memo((props: NewTeamMemberModalProps) => {
@@ -27,7 +27,7 @@ export const NewTeamMemberModal = memo((props: NewTeamMemberModalProps) => {
     const {open: openInviteMemberModal} = useModal({isShowAtom: isOpenInviteOrgMemberModalAtom});
     const {toast} = useToast();
     const orgId = useRecoilValue(orgIdParamState);
-    const {onSubmit} = props;
+    const {onReload} = props;
 
     const link = `${serviceHost}/v3/orgs/${orgId}/join?isCopied=true`;
 
@@ -65,8 +65,8 @@ export const NewTeamMemberModal = memo((props: NewTeamMemberModalProps) => {
                     </MobileSection.Padding>
                 </div>
             </Modal>
-            <InviteOrgMemberModal onSubmit={onSubmit} />
-            <CreateTeamMemberModal onSubmit={onSubmit} />
+            <InviteOrgMemberModal onClose={onReload} />
+            <CreateTeamMemberModal onCreate={onReload} />
         </>
     );
 });

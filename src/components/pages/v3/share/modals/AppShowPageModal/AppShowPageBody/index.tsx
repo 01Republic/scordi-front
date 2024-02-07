@@ -18,7 +18,7 @@ export const AppShowPageBody = memo((props: AppShowPageBodyProps) => {
             ) : (
                 <>
                     <InformationPanel />
-                    <TabView onFinish={onFinish} />
+                    <TabView onDeleteMember={onFinish} />
                 </>
             )}
         </>

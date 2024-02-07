@@ -51,7 +51,7 @@ export const BillingHistoryDetailModal = memo((props: BillingHistoryDetailModalP
                     backBtnOnClick={() => onBack()}
                     title={billingHistory ? `${productName}의 ${billingHistory.pageSubject}` : '결제 세부사항'}
                     topbarPosition="sticky"
-                    rightButtons={[EditButton, () => <DeleteButton onFinish={onFinish} />]}
+                    rightButtons={[EditButton, () => <DeleteButton onDelete={onFinish} />]}
                     isLoading={isSubjectLoading}
                 />
                 <MobileSection.List>
