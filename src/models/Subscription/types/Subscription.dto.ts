@@ -40,6 +40,7 @@ export class SubscriptionDto {
     nextBillingDate: string | null; // 다음결제일
     nextBillingAmount: number; // 결제예정금액
     @TypeCast(() => MoneyDto) currentBillingAmount: MoneyDto | null; // 현재 결제 금액
+    @TypeCast(() => Date) lastPaidAt: Date | null; // 최신 결제일
     isPerUser: boolean; // 인당 과금 여부
     accountCount: number; // 멤버계정수
     paidMemberCount: number; // 결제되는 사용자 수
