@@ -14,10 +14,7 @@ export const BillingHistoryListView = memo((props: BillingHistoryListViewProps) 
     const {open} = useModal(payMethodModalState);
 
     const {billingHistories} = props;
-    const groupedHistories = BillingHistoryManager.init(billingHistories)
-        .validateToListing()
-        .uniqByIdentity()
-        .groupByIssuedAtYMD();
+    const groupedHistories = BillingHistoryManager.init(billingHistories).validateToListing().groupByIssuedAtYMD();
 
     const groupedHistoriesArray = Object.entries(groupedHistories);
 
