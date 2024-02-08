@@ -27,12 +27,14 @@ export const userSocialGoogleApi = {
         return api.get<JwtContainer>(url, {headers});
     },
 
+    // User 생성 (회원가입) - 구글
     signUp(token: string, data: UserGoogleSocialSignUpRequestDtoV2) {
         const url = `/users/social/google`;
         const headers = makeHeaders(token);
         return api.post<UserDto>(url, data, {headers}).then(oneDtoOf(UserDto));
     },
 
+    // User 생성 (회원가입) - 구글 & 초대
     signUpInvited(token: string, data: UserGoogleSocialSignUpInvitedRequestDto) {
         const url = `/users/social/google/invited`;
         const headers = makeHeaders(token);
