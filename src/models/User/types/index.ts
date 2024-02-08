@@ -2,6 +2,7 @@ import {UsersSocialAccountDto} from '^models/User/types/userSocialAccount';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';
 import {MembershipDto} from 'src/models/Membership/types';
+import {UserLocale} from '^models/User/types/UserLocale.enum';
 
 export type UserSignUpRequestDto = {
     name: string;
@@ -42,12 +43,6 @@ export type UserGoogleSocialSignUpInvitedRequestDto = UserGoogleSocialSignUpRequ
     organizationId: number; // 초대받은 조직 ID
     isFromCopiedLink?: boolean;
 };
-
-// 사용자 언어 설정
-export enum UserLocale {
-    Ko = 'ko',
-    En = 'en',
-}
 
 export class UserDto {
     id: number;
@@ -133,8 +128,4 @@ export type CreateUserDeviceRequestDto = {
 
 export type FindAllUserByAdminDto = FindAllQueryDto<UserDto> & {
     keyword?: string;
-};
-
-export type InvitedEmailDto = {
-    email: string;
 };
