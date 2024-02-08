@@ -72,7 +72,7 @@ export const TeamMemberInfoPanel = memo(() => {
                 </div>
 
                 <MobileInfoList>
-                    <MobileInfoListItem label="휴대폰" value={phone || <i>-</i>} />
+                    <MobileInfoListItem label="휴대폰" value={phone || membership?.user.phone || <i>-</i>} />
 
                     {/*유저 가입 상태*/}
                     {!membership && (
