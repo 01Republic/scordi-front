@@ -18,6 +18,7 @@ import {useSocialLoginV2} from '^models/User/hook';
 import {UserGoogleSocialSignUpRequestDtoV2} from '^models/User/types';
 import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';
 import {SignWelcomePageRoute} from '^pages/sign/welcome';
+import Link from 'next/link';
 
 export const BetaSignPhoneAuthPage2 = memo(() => {
     const router = useRouter();
@@ -147,19 +148,17 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
                         <AuthCodeInput />
                     </form>
 
-                    <div>
-                        <button
-                            className="btn sm:btn-lg btn-block btn-scordi-500 normal-case disabled:!bg-slate-100 disabled:!border-slate-300"
-                            disabled={!form.watch('phone') || !codeConfirmed || isLoading}
-                            onClick={() => !isLoading && agreeModalOnConfirm()}
-                        >
-                            {isLoading ? (
-                                <CgSpinner size={28} className="animate-spin" />
-                            ) : (
-                                <>{t('phone_auth.start_with_phone_number')}</>
-                            )}
-                        </button>
-                    </div>
+                    <button
+                        className="btn sm:btn-lg btn-block btn-scordi-500 normal-case disabled:!bg-slate-100 disabled:!border-slate-300"
+                        disabled={!form.watch('phone') || !codeConfirmed || isLoading}
+                        onClick={() => !isLoading && agreeModalOnConfirm()}
+                    >
+                        {isLoading ? (
+                            <CgSpinner size={28} className="animate-spin" />
+                        ) : (
+                            <>{t('phone_auth.start_with_phone_number')}</>
+                        )}
+                    </button>
                 </div>
             </div>
 
