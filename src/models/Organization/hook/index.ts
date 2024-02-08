@@ -20,7 +20,6 @@ export function useCurrentOrg(id: number) {
     const [currentOrg, setCurrentOrg] = useRecoilState(currentOrgAtom);
     const [query, setQuery] = useRecoilState(getCurrentOrgQueryAtom);
     const {currentUser} = useCurrentUser();
-
     const myMembership = currentUser?.findMyMemberShip(id);
     const {alert} = useAlert();
 
@@ -31,8 +30,14 @@ export function useCurrentOrg(id: number) {
             const req = organizationApi.show(orgId, params);
             req.then((res) => setCurrentOrg(res.data));
             req.catch((e) => {
-                if (e.response.status == 401)
-                    return alert.error('조직을 찾을 수 없습니다', '올바른 접근인지 확인해주세요');
+                if (e.response.status == 400)
+                    return alert
+                        .error('조직을 찾을 수 없습니다', '올바른 접근인지 확인해주세요')
+                        .then((res) =>
+                            res.isConfirmed && currentUser?.lastSignedOrgId
+                                ? router.replace(V3OrgHomePageRoute.path(currentUser.lastSignedOrgId))
+                                : router.replace('/'),
+                        );
             });
 
             return params;
@@ -63,13 +68,8 @@ export function useCurrentOrg(id: number) {
 
         if (!myMembership) return;
 
-        const req = myMembershipApi.update(myMembership.id, {lastSignedAt: new Date()});
-        req.then((res) => console.log(res));
-        req.catch(() =>
-            alert
-                .error('앗! 가입된 조직이 아니네요.', '내 조직의 대시보드로 이동합니다.')
-                .then(() => (currentUser ? V3OrgHomePageRoute.path(currentUser?.orgId) : UserLoginPageRoute.path())),
-        );
+        // My Membership update
+        myMembershipApi.update(myMembership.id, {lastSignedAt: new Date()});
     }, [id, currentOrg, currentUser]);
 
     return {currentOrg, setCurrentOrg, search, reload};
