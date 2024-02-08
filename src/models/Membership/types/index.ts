@@ -25,6 +25,12 @@ export type UpdateMembershipRequestDto = Partial<Omit<CreateMembershipRequestDto
     displayCurrency?: DisplayCurrency; // 조직 화폐 사용자보기
 };
 
+// My Membership UpdateDto
+export class UpdateMyMembershipRequestDto {
+    displayCurrency?: DisplayCurrency; // 조직 화폐 사용자보기
+    lastSignedAt?: Date; // 최근 로그인 시간
+}
+
 // 조직 화폐 사용자보기
 export enum DisplayCurrency {
     USD = 'USD',
@@ -41,6 +47,7 @@ export class MembershipDto {
     invitedEmail: string | null;
     @TypeCast(() => Date) createdAt: Date;
     @TypeCast(() => Date) updatedAt: Date;
+    @TypeCast(() => Date) lastSignedAt: Date;
 
     // relations
     @TypeCast(() => OrganizationDto) organization: OrganizationDto;

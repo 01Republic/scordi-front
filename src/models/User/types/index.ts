@@ -49,6 +49,7 @@ export class UserDto {
     name: string;
     phone: string;
     profileImgUrl: string;
+    lastSignedOrgId: number;
     orgId: number;
     orgName: string;
     email: string;
@@ -65,6 +66,14 @@ export class UserDto {
     // relations
     @TypeCast(() => MembershipDto) memberships?: MembershipDto[];
     @TypeCast(() => UsersSocialAccountDto) socialAccounts?: UsersSocialAccountDto[];
+
+    findMyMemberShip(id: number) {
+        if (!id || !this.memberships) return null;
+
+        return this.memberships.find((membership) => {
+            return membership.organizationId === id;
+        });
+    }
 }
 
 export type UserLoginRequestDto = {

@@ -8,6 +8,9 @@ import {currentOrgAtom, getCurrentOrgQueryAtom, getOrgQuery} from '^models/Organ
 import {organizationApi} from '^models/Organization/api';
 import {OrganizationDto} from '^models/Organization/type';
 import {UserLoginPageRoute} from '^pages/users/login';
+import {myMembershipApi} from '^models/Membership/api';
+import {useCurrentUser} from '^models/User/hook';
+import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 
 export const useOrganization = () => useRecoilValue(getOrgQuery);
 
@@ -16,13 +19,16 @@ export function useCurrentOrg(id: number) {
     const router = useRouter();
     const [currentOrg, setCurrentOrg] = useRecoilState(currentOrgAtom);
     const [query, setQuery] = useRecoilState(getCurrentOrgQueryAtom);
+    const {currentUser} = useCurrentUser();
+
+    const myMembership = currentUser?.findMyMemberShip(id);
     const {alert} = useAlert();
 
-    const search = (params: FindAllQueryDto<OrganizationDto>, force?: boolean) => {
+    const search = (orgId: number, params: FindAllQueryDto<OrganizationDto>, force?: boolean) => {
         setQuery((oldQuery) => {
             if (!force && JSON.stringify(oldQuery) === JSON.stringify(params)) return oldQuery;
 
-            const req = organizationApi.show(id, params);
+            const req = organizationApi.show(orgId, params);
             req.then((res) => setCurrentOrg(res.data));
             req.catch((e) => {
                 if (e.response.status == 401)
@@ -33,7 +39,7 @@ export function useCurrentOrg(id: number) {
         });
     };
 
-    const reload = () => search(query, true);
+    const reload = () => search(id, query, true);
 
     useEffect(() => {
         if (!id || isNaN(id)) return;
@@ -51,10 +57,20 @@ export function useCurrentOrg(id: number) {
             return;
         }
 
-        search({
+        search(id, {
             relations: ['lastGoogleSyncHistory', 'lastGoogleSyncHistory.googleTokenData', 'invoiceAccounts'],
         });
-    }, [id, currentOrg]);
+
+        if (!myMembership) return;
+
+        const req = myMembershipApi.update(myMembership.id, {lastSignedAt: new Date()});
+        req.then((res) => console.log(res));
+        req.catch(() =>
+            alert
+                .error('앗! 가입된 조직이 아니네요.', '내 조직의 대시보드로 이동합니다.')
+                .then(() => (currentUser ? V3OrgHomePageRoute.path(currentUser?.orgId) : UserLoginPageRoute.path())),
+        );
+    }, [id, currentOrg, currentUser]);
 
     return {currentOrg, setCurrentOrg, search, reload};
 }
