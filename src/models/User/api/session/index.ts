@@ -39,20 +39,25 @@ export const userSessionApi = {
     },
 };
 
-export const user = {
-    create: (data: UserSocialSignUpRequestDto) => {
-        const url = '/users';
-        return api.post<UserDto>(url, data).then(oneDtoOf(UserDto));
-    },
+export const userApi = {
+    registration: {
+        // User 생성 (회원가입)
+        create: (data: UserSocialSignUpRequestDto) => {
+            const url = '/users';
+            return api.post<UserDto>(url, data).then(oneDtoOf(UserDto));
+        },
 
-    update: (data: UserEditProfileRequestDto) => {
-        const url = `/users/my`;
-        return api.patch(url, data).then(oneDtoOf(UserDto));
-    },
+        // 내 정보 수정
+        update: (data: UserEditProfileRequestDto) => {
+            const url = `/users/my`;
+            return api.patch(url, data).then(oneDtoOf(UserDto));
+        },
 
-    find: (email: string) => {
-        const url = `/users/find-by/${email}`;
-        return api.get<UserDto>(url).then(oneDtoOf(UserDto));
+        // 이메일로 화원가입 여부 확인
+        find: (email: string) => {
+            const url = `/users/find-by/${email}`;
+            return api.get<UserDto>(url).then(oneDtoOf(UserDto));
+        },
     },
 };
 

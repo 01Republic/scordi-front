@@ -10,7 +10,7 @@ import {PhoneNumberInput} from './PhoneNumberInput';
 import {AuthCodeInput} from './AuthCodeInput';
 import {TermModal} from '^components/pages/LandingPages/BetaSignPhoneAuthPage/TermModal';
 import {GoogleSignedUserData} from '^models/User/atom';
-import {createInvitedUser, user} from '^models/User/api/session';
+import {createInvitedUser, userApi} from '^models/User/api/session';
 import {errorNotify} from '^utils/toast-notify';
 import {useSocialLogin} from '^models/User/hook';
 import {SignWelcomePageRoute} from '^pages/sign/welcome';
@@ -64,7 +64,10 @@ export const BetaSignPhoneAuthPage = memo(() => {
          * 가입한 회원의 조직에 인보이스메일계정을 기본으로 하나 생성합니다.
          */
         if (accessTokenData) {
-            const organizationId = invitedOrgId || user.orgId;
+            // 초대를 통해서 가입을 완료한 경우는 초대된 조직으로 가고
+            // 일반적인 가입의 경우에는 기본 조직으로 갑니다.
+            const organizationId = invitedOrgId || user.lastSignedOrgId;
+
             const gmailAgent = new GmailAgent(accessTokenData);
             gmailAgent.getProfile().then(async (userData) => {
                 const tokenData = gmailAgent.accessTokenData;
@@ -95,7 +98,8 @@ export const BetaSignPhoneAuthPage = memo(() => {
         }
 
         // 먼저 이메일을 통해 가입여부를 확인하고
-        user.find(data.email)
+        userApi.registration
+            .find(data.email)
             .then((res) => {
                 // 가입된 사용자라면 후처리 로직만 실행하고
                 const user = res.data;
@@ -121,7 +125,8 @@ export const BetaSignPhoneAuthPage = memo(() => {
                                 errorNotify(err);
                             });
                     } else {
-                        user.create(data)
+                        userApi.registration
+                            .create(data)
                             .then((res) => {
                                 console.log('가입 then', res);
                                 findOrCreateUserCallback(res.data, data);

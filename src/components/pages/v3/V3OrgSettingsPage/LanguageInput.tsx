@@ -3,7 +3,7 @@ import {SelectDropdown, SelectOptionProps} from '^v3/share/Select';
 import {FormControl} from '^v3/V3OrgSettingsPage/InputText';
 import {useCurrentUser} from '^models/User/hook';
 import {locales} from '^utils/locale-helper';
-import {user} from '^models/User/api/session';
+import {userApi} from '^models/User/api/session';
 
 export const LanguageInput = memo(() => {
     const {currentUser} = useCurrentUser(null, {
@@ -15,7 +15,7 @@ export const LanguageInput = memo(() => {
             const selectedLocale = locales.find((loc) => loc.code === opt.value)!;
             console.log(selectedLocale);
 
-            user.update({locale: selectedLocale.code});
+            userApi.registration.update({locale: selectedLocale.code});
         },
         [locales],
     );

@@ -11,7 +11,7 @@ import {useCurrentUser} from '^models/User/hook';
 import {patchPhoneAuthSession, postPhoneAuthSession} from '^api/authlization';
 import {Timer} from './AuthenticationCode';
 import {AgreeModal} from './AgreeModal';
-import {user} from '^models/User/api/session';
+import {userApi} from '^models/User/api/session';
 
 /**
  * 추가 정보 입력 페이지 (회원가입)
@@ -42,7 +42,8 @@ export const UserSignUpPage = memo(() => {
 
     // 회원가입 & 리디렉션
     const submit = (data: UserSocialSignUpRequestDto) => {
-        user.create(data)
+        userApi.registration
+            .create(data)
             .then(() => {
                 socialLogin({provider: data.provider, uid: data.uid})
                     .then(() => router.push(WelcomePageRoute.path()))
