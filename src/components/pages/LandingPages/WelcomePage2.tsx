@@ -28,8 +28,8 @@ export const WelcomePage2 = memo(() => {
 
                 <div className="p-4">
                     <p className="sm:text-lg mb-8">
-                        계정이 정상적으로 연동되었습니다. <br />
-                        지금 바로 조회해보세요!
+                        더이상 엑셀 시트 매번 기입할 필요 없어요. <br />
+                        지금 바로 SaaS 구독을 관리해보세요!
                     </p>
 
                     <Link href={href}>
@@ -38,7 +38,7 @@ export const WelcomePage2 = memo(() => {
                             disabled={isClicked}
                             className="btn sm:btn-lg btn-block btn-scordi-500 normal-case disabled:!bg-slate-100 disabled:!border-slate-300"
                         >
-                            {isClicked ? <CgSpinner size={28} className="animate-spin" /> : <>메인페이지로 이동하기</>}
+                            {isClicked ? <CgSpinner size={28} className="animate-spin" /> : <>확인</>}
                         </button>
                     </Link>
                 </div>
