@@ -7,7 +7,7 @@
   },
   "phone_auth": {
     "page_title": "SaaS 관리를 시작해볼까요?",
-    "page_subtitle": "관리자 계정을 만들고 스코디로 관리해보세요.",
+    "page_subtitle": "휴대폰 번호 인증만 마치면 회원가입이 완료돼요.",
     "phone_input": {
       "placeholder": "휴대폰 번호를 입력해주세요.",
       "send": "인증",

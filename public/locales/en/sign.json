@@ -7,7 +7,7 @@
   },
   "phone_auth": {
     "page_title": "Let's get started",
-    "page_subtitle": "Take a new account first.",
+    "page_subtitle": "Start with phone authentication, That's all.",
     "phone_input": {
       "placeholder": "Enter your phone number.",
       "send": "Send",
