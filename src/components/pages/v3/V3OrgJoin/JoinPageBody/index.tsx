@@ -3,25 +3,37 @@ import {GoogleOAuthProvider} from '@react-oauth/google';
 import {googleOauthClientId} from '^api/tasting.api/gmail/constant';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {WithChildren} from '^types/global.type';
+import {FaArrowRight} from 'react-icons/fa6';
 
 export const JoinPageBody = memo(() => {
     return (
-        <div className="m-auto text-center py-32 flex flex-col gap-5">
-            <h1>스코디 시작하기</h1>
-            <h3 className="mb-5">
-                반가워요, 고객님!
-                <span className="block">스코디를 이렇게 이용해보세요 🙂</span>
-            </h3>
-            <div className="w-fit m-auto">
-                <Slot>📲 회사에서 이용중인 앱이 있다면 모두 등록 해주세요</Slot>
-                <Slot>📨 구글 이메일로 1분만에 앱을 등록해서 관리 할 수 있어요</Slot>
-                <Slot>👥 팀별로 어떤 앱을 쓰고 있는지 한 눈에 확인할 수 있어요</Slot>
-            </div>
-            <div className="w-fit m-auto">
-                <p className="mb-1">로그인 후 스코디 이용하기</p>
-                <GoogleOAuthProvider clientId={googleOauthClientId}>
-                    <GoogleLoginBtn about="gmail" />
-                </GoogleOAuthProvider>
+        <div className="flex items-center justify-center" style={{height: '100vh'}}>
+            <div className="m-auto text-center min-w-[400px]">
+                <h1
+                    className="mb-1 text-gradient-color"
+                    style={{background: 'linear-gradient(to right, #5c5fee, #a5a6f5)'}}
+                >
+                    초대를 받으셨군요!
+                </h1>
+                <p className="mb-5 text-14 font-semibold text-gray-500">
+                    소프트웨어 구독관리에 더 이상 시간 쓰지 마세요
+                </p>
+                <div className="pb-20">
+                    <GoogleOAuthProvider clientId={googleOauthClientId}>
+                        <GoogleLoginBtn
+                            about="gmail"
+                            className="btn-block justify-start relative"
+                            buttonText={
+                                <span>
+                                    Google 계정으로 시작하기{' '}
+                                    <span className="absolute right-4">
+                                        <FaArrowRight />
+                                    </span>
+                                </span>
+                            }
+                        />
+                    </GoogleOAuthProvider>
+                </div>
             </div>
         </div>
     );

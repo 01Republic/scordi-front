@@ -5,6 +5,7 @@ import {useGoogleLoginSuccessHandler2} from '^hooks/useGoogleLoginSuccessHandler
 import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {uniq} from '^utils/array';
+import {ReactNodeLike} from 'prop-types';
 
 const SCOPE_MAP = {
     gmail: [
@@ -32,10 +33,19 @@ interface GoogleLoginBtnProps {
     className?: string;
     logoSize?: string;
     ButtonComponent?: () => JSX.Element;
+    buttonText?: ReactNodeLike;
 }
 
 export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
-    const {onCode, googleLoginOnSuccessFn, about, className, logoSize, ButtonComponent} = props;
+    const {
+        onCode,
+        googleLoginOnSuccessFn,
+        about,
+        className,
+        logoSize,
+        ButtonComponent,
+        buttonText = 'Continue with Google',
+    } = props;
     const googleLoginOnSuccess = googleLoginOnSuccessFn ? googleLoginOnSuccessFn : useGoogleLoginSuccessHandler2();
     const setAccessToken = useSetRecoilState(googleAccessTokenAtom);
     const scope = about ? SCOPE_MAP[about] : SCOPE_ALL;
@@ -81,7 +91,7 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
                         className={`${logoSize ? logoSize : 'w-6 h-6'}`}
                         alt=""
                     />
-                    <span>Continue with Google</span>
+                    <span>{buttonText}</span>
                 </button>
             )}
         </>
