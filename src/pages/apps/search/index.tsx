@@ -59,7 +59,7 @@ const AppSearchPage = () => {
 
     useEffect(() => {
         user &&
-            subscriptionApi.index({where: {organizationId: user.orgId}}).then((res) => {
+            subscriptionApi.index({where: {organizationId: user.lastSignedOrgId}}).then((res) => {
                 console.log('apps', res.data.items);
                 setMyApps(res.data.items);
             });

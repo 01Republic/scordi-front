@@ -106,8 +106,8 @@ export function useCurrentUser(fallbackPath?: string | null, opt?: CurrentUserOp
         // org check
         // org ? 대시보드로 이동
         // : search페이지로 이동
-        if (user.orgId) {
-            return V3OrgHomePageRoute.path(user.orgId);
+        if (user.lastSignedOrgId) {
+            return V3OrgHomePageRoute.path(user.lastSignedOrgId);
         } else {
             return OrgSearchRoute.path();
         }

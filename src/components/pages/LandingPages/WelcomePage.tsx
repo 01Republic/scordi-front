@@ -38,7 +38,7 @@ export const WelcomePage = memo(() => {
 
                         {isAccessible ? (
                             <a
-                                href={currentUser ? `${V3OrgHomePageRoute.path(currentUser.orgId)}` : ''}
+                                href={currentUser ? `${V3OrgHomePageRoute.path(currentUser.lastSignedOrgId)}` : ''}
                                 className="mb-4 btn sm:btn-lg btn-block normal-case btn-ghost rounded-2xl hover:!bg-white text-lg sm:!text-xl text-scordi-light-500 hover:text-scordi-500"
                             >
                                 사이트 내부로 이동 (관리자전용 노출)

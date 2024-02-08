@@ -26,7 +26,7 @@ const Settings = () => {
         {name: '내 정보 수정', action: () => router.push(UserEditPageRoute.pathname)},
         {
             name: '연동한 서비스',
-            action: () => router.push(OrgAppIndexPageRoute.path(currentUser.orgId)),
+            action: () => router.push(OrgAppIndexPageRoute.path(currentUser.lastSignedOrgId)),
         },
         {name: '피드백 보내기', action: () => window.open('https://oh8kq2gqq3y.typeform.com/to/ZF4C5sTK', '_blank')},
         {

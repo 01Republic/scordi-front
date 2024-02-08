@@ -22,7 +22,7 @@ export const WelcomePage2 = memo(() => {
     const onClick = () => {
         if (!currentUser) return;
 
-        const id = !!invitedOrgId ? invitedOrgId : currentUser.orgId;
+        const id = !!invitedOrgId ? invitedOrgId : currentUser.lastSignedOrgId;
         router.push(V3OrgHomePageRoute.path(id));
     };
 
