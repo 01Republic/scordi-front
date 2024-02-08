@@ -15,11 +15,12 @@ import {
 import {api} from '^api/api';
 import axios from 'axios';
 import {GoogleSignedUserData} from '^models/User/atom';
+import {oneDtoOf} from '^types/utils/response-of';
 
 export const userSessionApi = {
     index: () => {
         const url = '/users/session';
-        return api.get<UserDto>(url);
+        return api.get<UserDto>(url).then(oneDtoOf(UserDto));
     },
 
     create: (data: UserLoginRequestDto) => {
@@ -41,17 +42,17 @@ export const userSessionApi = {
 export const user = {
     create: (data: UserSocialSignUpRequestDto) => {
         const url = '/users';
-        return api.post<UserDto>(url, data);
+        return api.post<UserDto>(url, data).then(oneDtoOf(UserDto));
     },
 
     update: (data: UserEditProfileRequestDto) => {
         const url = `/users/my`;
-        return api.patch(url, data);
+        return api.patch(url, data).then(oneDtoOf(UserDto));
     },
 
     find: (email: string) => {
         const url = `/users/find-by/${email}`;
-        return api.get<UserDto>(url);
+        return api.get<UserDto>(url).then(oneDtoOf(UserDto));
     },
 };
 
