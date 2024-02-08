@@ -30,14 +30,13 @@ export function useCurrentOrg(id: number) {
             const req = organizationApi.show(orgId, params);
             req.then((res) => setCurrentOrg(res.data));
             req.catch((e) => {
-                if (e.response.status == 400)
-                    return alert
-                        .error('조직을 찾을 수 없습니다', '올바른 접근인지 확인해주세요')
-                        .then((res) =>
-                            res.isConfirmed && currentUser?.lastSignedOrgId
-                                ? router.replace(V3OrgHomePageRoute.path(currentUser.lastSignedOrgId))
-                                : router.replace('/'),
-                        );
+                return alert
+                    .error('조직을 찾을 수 없습니다', e.response.data.message)
+                    .then((res) =>
+                        res.isConfirmed && currentUser?.lastSignedOrgId
+                            ? router.replace(V3OrgHomePageRoute.path(currentUser.lastSignedOrgId))
+                            : router.replace('/'),
+                    );
             });
 
             return params;
