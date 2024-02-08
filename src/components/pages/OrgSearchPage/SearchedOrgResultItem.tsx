@@ -20,12 +20,12 @@ export const SearchedOrgResultItem = memo((props: SearchedOrgResultItemProps) =>
     const {currentUser} = useCurrentUser(null);
     const router = useRouter();
     const memberships = org.memberships || [];
-    const ownerMembership = memberships.find((membership) => membership.level === MembershipLevel.OWNER)!;
+    const ownerMembership = memberships.find((membership) => membership.level === MembershipLevel.OWNER);
 
     const goToJoinConfirm = (org: OrganizationDto) => {
         if (!currentUser) return;
 
-        if (currentUser.orgName === org.name) {
+        if (currentUser.findMemberShipByOrgId(org.id)) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',

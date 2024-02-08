@@ -50,8 +50,7 @@ export class UserDto {
     phone: string;
     profileImgUrl: string;
     lastSignedOrgId: number;
-    orgId: number;
-    orgName: string;
+    // orgId: number;
     email: string;
     isAdmin: boolean;
     locale: UserLocale | null;
@@ -67,11 +66,11 @@ export class UserDto {
     @TypeCast(() => MembershipDto) memberships?: MembershipDto[];
     @TypeCast(() => UsersSocialAccountDto) socialAccounts?: UsersSocialAccountDto[];
 
-    findMyMemberShip(id: number) {
-        if (!id || !this.memberships) return null;
+    findMemberShipByOrgId(orgId: number) {
+        if (!orgId || !this.memberships) return null;
 
         return this.memberships.find((membership) => {
-            return membership.organizationId === id;
+            return membership.organizationId === orgId;
         });
     }
 }
@@ -98,7 +97,6 @@ export type UserEditProfileRequestDto = {
     name?: string;
     phone?: string;
     email?: string;
-    orgName?: string;
     password?: string;
     passwordConfirmation?: string;
     isAgreeForMarketingTerm?: boolean; // 마케팅 수신 동의 여부
