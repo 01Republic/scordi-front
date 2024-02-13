@@ -4,6 +4,7 @@ import {
     FcAdvertising,
     FcCalendar,
     FcComboChart,
+    FcDatabase,
     FcDiploma1,
     FcDocument,
     FcKey,
@@ -24,6 +25,7 @@ import {V3OrgAccountListPageRoute} from '^pages/v3/orgs/[orgId]/accounts';
 import {V3OrgTeamMembersPageRoute} from '^pages/v3/orgs/[orgId]/teams/members';
 import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
 import {V3OrgSettingsOrgPageRoute} from '^pages/v3/orgs/[orgId]/settings/org';
+import {V30ConnectsPageRoute} from '^pages/v3/orgs/[orgId]/connects';
 
 export enum LNBIndex {
     Dashboard,
@@ -35,6 +37,7 @@ export enum LNBIndex {
     Members,
     Settings,
     Updates,
+    Connects,
 }
 
 interface LeftNavBarProps {
@@ -98,6 +101,15 @@ export const LeftNavBar = memo(function LeftNavBar(props: LeftNavBarProps) {
                     href={safePath((org) => V3OrgTeamMembersPageRoute.path(org.id))}
                     Icon={() => <FcParallelTasks size={24} />}
                     isActive={LNBIndex.Members === activeIndex}
+                />
+            </MenuList>
+
+            <MenuList title="연동">
+                <MenuItem
+                    name="데이터소스"
+                    href={safePath((org) => V30ConnectsPageRoute.path(org.id))}
+                    Icon={() => <FcDatabase size={24} />}
+                    isActive={LNBIndex.Connects === activeIndex}
                 />
             </MenuList>
 

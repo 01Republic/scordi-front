@@ -42,14 +42,14 @@ export const V3OrgSettingsMenuPanel = memo(() => {
             {/*    <MenuItem href={memberPath} query={{menu: MemberStatus.Member}} status={MemberStatus.Member} />*/}
             {/*</MenuList>*/}
 
-            <MenuList title="연동">
-                <MenuItem href={connectPath} query={{menu: ConnectStatus.Workspace}} status={ConnectStatus.Workspace} />
-                <MenuItem
-                    href={connectPath}
-                    query={{menu: ConnectStatus.InvoiceEmail}}
-                    status={ConnectStatus.InvoiceEmail}
-                />
-            </MenuList>
+            {/*<MenuList title="연동">*/}
+            {/*    <MenuItem href={connectPath} query={{menu: ConnectStatus.Workspace}} status={ConnectStatus.Workspace} />*/}
+            {/*    <MenuItem*/}
+            {/*        href={connectPath}*/}
+            {/*        query={{menu: ConnectStatus.InvoiceEmail}}*/}
+            {/*        status={ConnectStatus.InvoiceEmail}*/}
+            {/*    />*/}
+            {/*</MenuList>*/}
         </aside>
     );
 });

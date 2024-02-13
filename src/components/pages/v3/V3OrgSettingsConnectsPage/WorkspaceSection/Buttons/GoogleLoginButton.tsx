@@ -1,25 +1,29 @@
 import React, {memo} from 'react';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {gmailItemsLoadedAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
+import {HiMiniPlus} from 'react-icons/hi2';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {orgIdParamState} from '^atoms/common';
 import {useAlert} from '^hooks/useAlert';
+import {useToast} from '^hooks/useToast';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {ConnectButton} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/ConnectButton';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {toast} from 'react-toastify';
-import {isWorkspaceConnectLoadingAtom} from '^v3/V3OrgSettingsConnectsPage/atom';
+import {isWorkspaceConnectLoadingAtom} from '^v3/V30ConnectsPage/atom';
 
-export const GoogleLoginButton = memo(() => {
-    const setIsLoaded = useSetRecoilState(isWorkspaceConnectLoadingAtom);
+interface GoogleLoginButtonProps {
+    isAddWorkspace?: boolean;
+}
+export const GoogleLoginButton = memo((props: GoogleLoginButtonProps) => {
+    const setIsLoading = useSetRecoilState(isWorkspaceConnectLoadingAtom);
     const orgId = useRecoilValue(orgIdParamState);
     const {reload: reloadCurrentOrg} = useCurrentOrg(orgId);
     const {alert} = useAlert();
+    const {toast} = useToast();
 
+    const {isAddWorkspace} = props;
     const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
 
     const googleLoginSuccessHandler = (accessToken: string) => {
-        setIsLoaded(true);
+        setIsLoading(true);
 
         const req = googleUsageReportApi.draft(accessToken);
 
@@ -38,7 +42,7 @@ export const GoogleLoginButton = memo(() => {
                     alert.success({title: '연동이 완료되었습니다.'});
                 })
                 .catch((err) => toast.error(err.message))
-                .finally(() => setIsLoaded(false));
+                .finally(() => setIsLoading(false));
         });
 
         req.catch((e) => {
@@ -52,17 +56,40 @@ export const GoogleLoginButton = memo(() => {
                 alert.error('관리자 계정 연결이 필요해요', '회사 공식 메일로 워크스페이스를 연동해주세요');
             }
 
-            setIsLoaded(false);
+            setIsLoading(false);
         });
     };
 
     return (
-        <GoogleLoginBtn
-            about="admin"
-            googleLoginOnSuccessFn={googleLoginSuccessHandler}
-            className="!btn-md"
-            logoSize="w-4 h-4"
-            ButtonComponent={() => <ConnectButton isDisabled={false} />}
-        />
+        <>
+            {isAddWorkspace && (
+                <GoogleLoginBtn
+                    about="admin"
+                    googleLoginOnSuccessFn={googleLoginSuccessHandler}
+                    className="!btn-md"
+                    logoSize="w-4 h-4"
+                    ButtonComponent={() => <AddButton />}
+                />
+            )}
+
+            {!isAddWorkspace && <AddButton onClick={() => toast.info('최대 1개까지 등록 가능합니다.')} />}
+        </>
     );
 });
+
+interface AddButtonProps {
+    onClick?: () => any;
+}
+
+const AddButton = (props: AddButtonProps) => {
+    const {onClick} = props;
+
+    return (
+        <button
+            onClick={onClick}
+            className="btn bg-gray-100 w-full flex justify-start items-center gap-3 border border-gray-300 text-sm text-gray-500 font-normal mb-3"
+        >
+            <HiMiniPlus size={20} /> Add
+        </button>
+    );
+};
