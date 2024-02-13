@@ -24,10 +24,10 @@ export const ConnectDataSourcesModal = memo(() => {
 
     useEffect(() => {
         search({relations: ['subscriptions'], order: {id: 'DESC'}, itemsPerPage: 0});
-        // 워크스페이스와 인보이스 계정이 모두 없는 경우에만 보이도록 함
-        if (lastSyncAccount || invoiceAccounts.length) return;
 
-        open();
+        // 워크스페이스와 인보이스 계정이 모두 없는 경우에만 보이도록 함
+        setIsShow(false);
+        if (!lastSyncAccount && !invoiceAccounts.length) return setIsShow(true);
     }, [lastSyncAccount, invoiceAccounts]);
 
     const onClick = () => {
