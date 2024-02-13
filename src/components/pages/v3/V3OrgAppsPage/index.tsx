@@ -19,10 +19,12 @@ import {SubscriptionDetailModal} from './_localModals';
 import {NewBillingHistoryModalInAppShow} from '^v3/V3OrgAppsPage/_localModals/NewBillingHistoryModal';
 import {SummarySectionV2} from './SummarySection/v2';
 import {BillingHistoryDetailModalInAppShow} from '^v3/V3OrgAppsPage/_localModals/BillingHistoryDetailModal';
+import {NewSubscriptionModalInAppShow} from '^v3/V3OrgAppsPage/_localModals/NewSubscriptionModal';
 
 const MODALS: ReactComponentLike[] = [
     NewAppModal,
     SubscriptionDetailModal,
+    NewSubscriptionModalInAppShow,
     BillingHistoryDetailModalInAppShow,
     NewBillingHistoryModalInAppShow,
     TeamMemberShowModal,

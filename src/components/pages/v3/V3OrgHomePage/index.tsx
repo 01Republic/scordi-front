@@ -29,6 +29,7 @@ import {TeamMemberDetailModal} from '^v3/V3OrgHomePage/_localModals/TeamMemberSh
 import {NewTeamMemberModalInDashBoard} from '^v3/V3OrgHomePage/_localModals/NewTeamMemberModal';
 import {SummarySectionV2} from '^v3/V3OrgHomePage/desktop/sections/SummarySection/v2';
 import {BillingHistoryDetailModalInDashBoard} from '^v3/V3OrgHomePage/_localModals/BillingHistoryDetailModal';
+import {NewSubscriptionModalInDashBoard} from '^v3/V3OrgHomePage/_localModals/NewSubscriptionModal';
 
 export const V3OrgHomePage = memo(() => {
     const currentUser = useRecoilValue(currentUserAtom);
@@ -43,6 +44,7 @@ export const V3OrgHomePage = memo(() => {
                     SubscriptionDetailModal, // 구독상세모달
                     TeamMemberDetailModal, // 멤버상세모달
                     AccountListModal,
+                    NewSubscriptionModalInDashBoard, // 새로운구독추가모달
                     BillingHistoryDetailModalInDashBoard, // 결제내역상세모달
                     NewBillingHistoryModalInDashBoard, // 결제내역추가모달
                     InvoiceAccountSelectModal,

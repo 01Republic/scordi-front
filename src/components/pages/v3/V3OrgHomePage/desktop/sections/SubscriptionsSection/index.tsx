@@ -12,6 +12,8 @@ import {useDashboardSubscriptions} from '^models/Subscription/hook';
 import {useRouter} from 'next/router';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {useDashBoardSubscriptionSummary} from '^models/SubscsriptionSummary/hook';
+import {useModal} from '^v3/share/modals';
+import {newFormForGeneralInfoModalAtom} from '^v3/share/modals/NewSubscriptionModalManually/atom';
 
 const SUBSCRIPTION_DISPLAY_LIMIT: number = 10;
 
