@@ -57,7 +57,6 @@ export const NewAppModal = memo(() => {
                 </MobileSection.Padding>
             </Modal>
             <NewInvoiceAccountModal />
-            <NewSubscriptionModalManually />
         </>
     );
 });
