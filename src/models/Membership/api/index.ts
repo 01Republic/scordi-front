@@ -5,6 +5,7 @@ import {
     FindAllMembershipQuery,
     MembershipDto,
     UpdateMembershipRequestDto,
+    UpdateMyMembershipRequestDto,
 } from 'src/models/Membership/types';
 import {Paginated} from '^types/utils/paginated.dto';
 
@@ -39,5 +40,11 @@ export const inviteMembershipApi = {
 
     confirm(id: number) {
         return api.patch<MembershipDto>(`/${NAMESPACE}/${id}/invite/confirm`);
+    },
+};
+
+export const myMembershipApi = {
+    update(id: number, data: UpdateMyMembershipRequestDto) {
+        return api.patch<MembershipDto>(`my/${NAMESPACE}/${id}`, data);
     },
 };

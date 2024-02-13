@@ -2,6 +2,7 @@ import {UsersSocialAccountDto} from '^models/User/types/userSocialAccount';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';
 import {MembershipDto} from 'src/models/Membership/types';
+import {UserLocale} from '^models/User/types/UserLocale.enum';
 
 export type UserSignUpRequestDto = {
     name: string;
@@ -43,19 +44,13 @@ export type UserGoogleSocialSignUpInvitedRequestDto = UserGoogleSocialSignUpRequ
     isFromCopiedLink?: boolean;
 };
 
-// 사용자 언어 설정
-export enum UserLocale {
-    Ko = 'ko',
-    En = 'en',
-}
-
 export class UserDto {
     id: number;
     name: string;
     phone: string;
     profileImgUrl: string;
-    orgId: number;
-    orgName: string;
+    lastSignedOrgId: number;
+    // orgId: number;
     email: string;
     isAdmin: boolean;
     locale: UserLocale | null;
@@ -70,6 +65,14 @@ export class UserDto {
     // relations
     @TypeCast(() => MembershipDto) memberships?: MembershipDto[];
     @TypeCast(() => UsersSocialAccountDto) socialAccounts?: UsersSocialAccountDto[];
+
+    findMemberShipByOrgId(orgId: number) {
+        if (!orgId || !this.memberships) return null;
+
+        return this.memberships.find((membership) => {
+            return membership.organizationId === orgId;
+        });
+    }
 }
 
 export type UserLoginRequestDto = {
@@ -94,7 +97,6 @@ export type UserEditProfileRequestDto = {
     name?: string;
     phone?: string;
     email?: string;
-    orgName?: string;
     password?: string;
     passwordConfirmation?: string;
     isAgreeForMarketingTerm?: boolean; // 마케팅 수신 동의 여부
@@ -133,8 +135,4 @@ export type CreateUserDeviceRequestDto = {
 
 export type FindAllUserByAdminDto = FindAllQueryDto<UserDto> & {
     keyword?: string;
-};
-
-export type InvitedEmailDto = {
-    email: string;
 };

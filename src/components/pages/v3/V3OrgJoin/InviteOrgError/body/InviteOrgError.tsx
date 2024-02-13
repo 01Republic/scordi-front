@@ -16,9 +16,9 @@ export const InviteOrgErrorBody = memo(() => {
     const {toast} = useToast();
 
     const moveToMain = () => {
-        if (!currentUser?.orgId) return toast.error('회원가입을 먼저 진행해주세요');
+        if (!currentUser?.lastSignedOrgId) return toast.error('회원가입을 먼저 진행해주세요');
 
-        router.push(V3OrgHomePageRoute.path(currentUser.orgId));
+        router.push(V3OrgHomePageRoute.path(currentUser.lastSignedOrgId));
     };
 
     return (

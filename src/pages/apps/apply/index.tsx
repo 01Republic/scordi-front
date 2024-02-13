@@ -31,7 +31,7 @@ const ApplyPage = () => {
                 <DefaultButton text={'다른 서비스 연동하기'} onClick={() => router.push(AppSearchPageRoute.pathname)} />
                 <DefaultButton
                     text={'대시보드로 돌아가기'}
-                    onClick={() => router.push(OrgHomeRoute.path(currentUser.orgId))}
+                    onClick={() => router.push(OrgHomeRoute.path(currentUser?.lastSignedOrgId))}
                 />
             </div>
         </OrgMobileLayout>

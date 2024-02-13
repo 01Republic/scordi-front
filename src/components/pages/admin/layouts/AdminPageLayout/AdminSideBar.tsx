@@ -44,7 +44,7 @@ export const AdminSideBar = memo((props: AdminSideBarProps) => {
                     <>
                         <li>
                             <LinkTo
-                                href={V3OrgHomePageRoute.path(currentUser.orgId)}
+                                href={V3OrgHomePageRoute.path(currentUser.lastSignedOrgId)}
                                 className="btn btn-block btn-scordi-light"
                             >
                                 <AiOutlineHome />
