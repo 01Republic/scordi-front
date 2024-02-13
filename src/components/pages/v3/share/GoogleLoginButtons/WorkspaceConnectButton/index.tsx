@@ -1,27 +1,31 @@
 import React, {memo} from 'react';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {HiMiniPlus} from 'react-icons/hi2';
-import {userSocialGoogleApi} from '^api/social-google.api';
+import {SetterOrUpdater, useRecoilValue} from 'recoil';
+import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {orgIdParamState} from '^atoms/common';
+import {useCurrentOrg} from '^models/Organization/hook';
 import {useAlert} from '^hooks/useAlert';
 import {useToast} from '^hooks/useToast';
-import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {useCurrentOrg} from '^models/Organization/hook';
-import {isWorkspaceConnectLoadingAtom} from '^v3/V30ConnectsPage/atom';
+import {userSocialGoogleApi} from '^api/social-google.api';
+import {googleOAuth} from '^config/environments';
+import {GoogleOAuthProvider} from '@react-oauth/google';
 
-interface GoogleLoginButtonProps {
-    isAddWorkspace?: boolean;
+interface WorkspaceConnectButtonProps {
+    ButtonComponent: () => JSX.Element;
+    setIsLoading: SetterOrUpdater<boolean>;
 }
-export const GoogleLoginButton = memo((props: GoogleLoginButtonProps) => {
-    const setIsLoading = useSetRecoilState(isWorkspaceConnectLoadingAtom);
+
+// 워크스페이스 연동 (= 로그인) 버튼입니다.
+// 기존 구글 로그인 버튼이 아닌 다른 모양의 버튼을
+// props로 받아 보여지도록 했습니다.
+
+export const WorkspaceConnectButton = memo((props: WorkspaceConnectButtonProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const {reload: reloadCurrentOrg} = useCurrentOrg(orgId);
     const {alert} = useAlert();
     const {toast} = useToast();
-
-    const {isAddWorkspace} = props;
     const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
 
+    const {ButtonComponent, setIsLoading} = props;
     const googleLoginSuccessHandler = (accessToken: string) => {
         setIsLoading(true);
 
@@ -61,35 +65,14 @@ export const GoogleLoginButton = memo((props: GoogleLoginButtonProps) => {
     };
 
     return (
-        <>
-            {isAddWorkspace && (
-                <GoogleLoginBtn
-                    about="admin"
-                    googleLoginOnSuccessFn={googleLoginSuccessHandler}
-                    className="!btn-md"
-                    logoSize="w-4 h-4"
-                    ButtonComponent={() => <AddButton />}
-                />
-            )}
-
-            {!isAddWorkspace && <AddButton onClick={() => toast.info('최대 1개까지 등록 가능합니다.')} />}
-        </>
+        <GoogleOAuthProvider clientId={googleOAuth.adminClient.id}>
+            <GoogleLoginBtn
+                about="admin"
+                googleLoginOnSuccessFn={googleLoginSuccessHandler}
+                className="!btn-md"
+                logoSize="w-4 h-4"
+                ButtonComponent={() => ButtonComponent && <ButtonComponent />}
+            />
+        </GoogleOAuthProvider>
     );
 });
-
-interface AddButtonProps {
-    onClick?: () => any;
-}
-
-const AddButton = (props: AddButtonProps) => {
-    const {onClick} = props;
-
-    return (
-        <button
-            onClick={onClick}
-            className="btn bg-gray-100 w-full flex justify-start items-center gap-3 border border-gray-300 text-sm text-gray-500 font-normal mb-3"
-        >
-            <HiMiniPlus size={20} /> Add
-        </button>
-    );
-};

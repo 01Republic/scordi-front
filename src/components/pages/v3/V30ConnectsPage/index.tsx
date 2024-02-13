@@ -1,8 +1,6 @@
 import {memo} from 'react';
 import {useRecoilValue} from 'recoil';
-import {GoogleOAuthProvider} from '@react-oauth/google';
 import {ReactComponentLike} from 'prop-types';
-import {googleOAuth} from '^config/environments';
 import {useOnResize2} from '^components/util/onResize2';
 import {V3ListPageLayout} from '^v3/layouts/V3ListPageLayout';
 import {LNBIndex} from '^v3/share/LeftNavBar';
@@ -25,10 +23,8 @@ export const V3OrgConnectsPage = memo(() => {
     if (isDesktop) {
         return (
             <V3ListPageLayout activeTabIndex={LNBIndex.Connects} modals={MODALS}>
-                <GoogleOAuthProvider clientId={googleOAuth.adminClient.id}>
-                    <ConnectsPageTitle />
-                    <DatasourceListSection />
-                </GoogleOAuthProvider>
+                <ConnectsPageTitle />
+                <DatasourceListSection />
             </V3ListPageLayout>
         );
     } else {

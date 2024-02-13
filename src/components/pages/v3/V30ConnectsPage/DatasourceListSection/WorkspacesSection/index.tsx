@@ -4,7 +4,6 @@ import {ListContainer} from '^v3/V30ConnectsPage/DatasourceListSection/Layouts/L
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {GoogleProfile} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/GoogleProfile';
 import {useToast} from '^hooks/useToast';
-import {GoogleLoginButton} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/GoogleLoginButton';
 import {MoreDropdown} from '^v3/V3OrgSettingsConnectsPage/MoreDropdown';
 import {organizationConnectGoogleWorkspaceApi} from '^models/Organization/api';
 import {OnboardingSkippedStore, SkippedStoreStatus} from '^v3/share/OnboardingFlow/SkipButton';
@@ -13,6 +12,7 @@ import {isWorkspaceDisConnectLoadingAtom, isWorkspaceSyncLoadingAtom} from '^v3/
 import {useCurrentOrg} from '^models/Organization/hook';
 import {useAlert} from '^hooks/useAlert';
 import {onboardingModalIsShow} from '^v3/share/OnboardingFlow/atom';
+import {ConnectWorkspaceButtonInConnectsPage as ConnectWorkspaceButton} from '^v3/V30ConnectsPage/DatasourceListSection/WorkspacesSection/ConnectWorkspaceButton';
 
 export const WorkspacesSection = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -75,7 +75,8 @@ export const WorkspacesSection = memo(() => {
             isShowAddButton={false}
             className="border-r"
         >
-            <GoogleLoginButton isAddWorkspace={!lastSyncAccount || false} />
+            {/*워크스페이스 추가 버튼*/}
+            <ConnectWorkspaceButton />
 
             {lastSyncAccount && (
                 <li className="flex justify-between items-center border rounded-box p-3">
