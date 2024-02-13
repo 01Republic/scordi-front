@@ -4,7 +4,7 @@ import {v3CommonRequires} from '^types/utils/18n.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
 import React from 'react';
-import {V30ConnectsPage} from '^v3/V30ConnectsPage';
+import {V3OrgConnectsPage} from '^v3/V30ConnectsPage';
 
 export const V30ConnectsPageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]/connects',
@@ -36,5 +36,5 @@ export default function Page() {
     useCurrentOrg(orgId);
     if (!orgId) return <></>;
 
-    return <V30ConnectsPage />;
+    return <V3OrgConnectsPage />;
 }

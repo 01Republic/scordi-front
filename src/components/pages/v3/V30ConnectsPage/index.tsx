@@ -16,7 +16,7 @@ const MODALS: ReactComponentLike[] = [
     NewInvoiceAccountModalInConnects, // 새로운 인보이스 계정 추가 모달
 ];
 
-export const V30ConnectsPage = memo(() => {
+export const V3OrgConnectsPage = memo(() => {
     const {isDesktop} = useOnResize2();
     const isLoading = useRecoilValue(isWorkspaceConnectLoadingAtom);
 
