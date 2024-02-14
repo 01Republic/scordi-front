@@ -10,25 +10,23 @@ import {Container} from '^v3/share/OnboardingFlow/Container';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {V30ConnectsPageRoute} from '^pages/v3/orgs/[orgId]/connects';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 
 export const ConnectDataSourcesModal = memo(() => {
-    const {Modal, open, setIsShow} = useModal(connectDataSourcesModalState);
+    const {Modal, setIsShow, close} = useModal(connectDataSourcesModalState);
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
     const {currentOrg} = useCurrentOrg(orgId);
-    const {result, search} = useInvoiceAccounts();
-    const lastSyncAccount = currentOrg?.lastGoogleSyncHistory?.googleTokenData;
-    const invoiceAccounts = result.items;
+    const lastSyncHistory = currentOrg?.lastGoogleSyncHistory;
+    const invoiceAccounts = currentOrg?.invoiceAccounts || [];
 
     useEffect(() => {
-        search({relations: ['subscriptions'], order: {id: 'DESC'}, itemsPerPage: 0});
-
+        if (!currentOrg) return;
         // 워크스페이스와 인보이스 계정이 모두 없는 경우에만 보이도록 함
-        setIsShow(false);
-        if (!lastSyncAccount && !invoiceAccounts.length) return setIsShow(true);
-    }, [lastSyncAccount, invoiceAccounts]);
+        if (lastSyncHistory || invoiceAccounts.length) return;
+
+        setIsShow(true);
+    }, [lastSyncHistory, invoiceAccounts]);
 
     const onClick = () => {
         setIsLoading(true);
