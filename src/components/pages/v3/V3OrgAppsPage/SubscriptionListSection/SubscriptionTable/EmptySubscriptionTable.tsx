@@ -6,7 +6,7 @@ import {orgIdParamState} from '^atoms/common';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {useModal} from '^v3/share/modals';
 import {newFormForGeneralInfoModalAtom} from '^v3/share/modals/NewSubscriptionModalManually/atom';
-import {V30ConnectsPageRoute} from '^pages/v3/orgs/[orgId]/connects';
+import {V3OrgConnectsPageRoute} from '^pages/v3/orgs/[orgId]/connects';
 
 export const EmptySubscriptionTableInDashBoard = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -16,7 +16,7 @@ export const EmptySubscriptionTableInDashBoard = memo(() => {
 
     const onClick = () => {
         setIsLoading(true);
-        router.push(V30ConnectsPageRoute.path(orgId));
+        router.push(V3OrgConnectsPageRoute.path(orgId));
     };
 
     return (

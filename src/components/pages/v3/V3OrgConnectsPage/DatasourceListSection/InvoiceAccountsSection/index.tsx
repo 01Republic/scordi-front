@@ -4,9 +4,9 @@ import {HiOutlineEnvelope} from 'react-icons/hi2';
 import {orgIdParamState} from '^atoms/common';
 import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {useModal} from '^v3/share/modals';
-import {ListContainer} from '^v3/V30ConnectsPage/DatasourceListSection/Layouts/ListContainer';
+import {ListContainer} from '^v3/V3OrgConnectsPage/DatasourceListSection/Layouts/ListContainer';
 import {newInvoiceAccountModal} from '^v3/share/modals/NewInvoiceAccountModal/atom';
-import {InvoiceAccountItem} from '^v3/V30ConnectsPage/DatasourceListSection/InvoiceAccountsSection/InvoiceAccountItem';
+import {InvoiceAccountItem} from '^v3/V3OrgConnectsPage/DatasourceListSection/InvoiceAccountsSection/InvoiceAccountItem';
 
 export const InvoiceAccountsSection = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);

@@ -10,7 +10,7 @@ import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {useModal} from '^v3/share/modals';
 import {renewInvoiceAccountModal} from '^v3/V3OrgHomePage/RenewInvoiceAccountModal/atom';
 import {MoreDropdown} from '^v3/V3OrgSettingsConnectsPage/MoreDropdown';
-import {ListItem} from '^v3/V30ConnectsPage/DatasourceListSection/Layouts/ListItem';
+import {ListItem} from '^v3/V3OrgConnectsPage/DatasourceListSection/Layouts/ListItem';
 
 interface InvoiceAccountItemProps {
     invoiceAccount: InvoiceAccountDto;

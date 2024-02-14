@@ -4,10 +4,10 @@ import {ReactComponentLike} from 'prop-types';
 import {useOnResize2} from '^components/util/onResize2';
 import {V3ListPageLayout} from '^v3/layouts/V3ListPageLayout';
 import {LNBIndex} from '^v3/share/LeftNavBar';
-import {ConnectsPageTitle} from '^v3/V30ConnectsPage/ConnectsPageTitle';
-import {DatasourceListSection} from '^v3/V30ConnectsPage/DatasourceListSection';
-import {NewInvoiceAccountModalInConnects} from '^v3/V30ConnectsPage/_localModals/NewInvoiceAccountModal';
-import {isWorkspaceConnectLoadingAtom} from '^v3/V30ConnectsPage/atom';
+import {ConnectsPageTitle} from '^v3/V3OrgConnectsPage/ConnectsPageTitle';
+import {DatasourceListSection} from '^v3/V3OrgConnectsPage/DatasourceListSection';
+import {NewInvoiceAccountModalInConnects} from '^v3/V3OrgConnectsPage/_localModals/NewInvoiceAccountModal';
+import {isWorkspaceConnectLoadingAtom} from '^v3/V3OrgConnectsPage/atom';
 import {LoadingProgress} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/LoadingProgress';
 
 const MODALS: ReactComponentLike[] = [

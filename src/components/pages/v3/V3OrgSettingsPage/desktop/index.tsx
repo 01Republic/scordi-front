@@ -9,7 +9,7 @@ import {WorkspaceStatus} from '^v3/V3OrgSettingsPage/desktop/atom';
 
 import {useRouter} from 'next/router';
 
-export const V30SettingsPageDesktop = memo(() => {
+export const V3OrgSettingsPageDesktop = memo(() => {
     const router = useRouter();
     const query = router.query.menu?.toString();
 

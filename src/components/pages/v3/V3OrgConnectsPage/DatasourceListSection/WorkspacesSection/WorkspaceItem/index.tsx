@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {ListItem} from '^v3/V30ConnectsPage/DatasourceListSection/Layouts/ListItem';
+import {ListItem} from '^v3/V3OrgConnectsPage/DatasourceListSection/Layouts/ListItem';
 import {GoogleProfile} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/GoogleProfile';
 import {MoreDropdown} from '^v3/V3OrgSettingsConnectsPage/MoreDropdown';
 import {GoogleTokenDataDto} from '^models/GoogleTokenData/type';

@@ -1,7 +1,7 @@
 import {memo} from 'react';
-import {WorkspacesSection} from '^v3/V30ConnectsPage/DatasourceListSection/WorkspacesSection';
-import {InvoiceAccountsSection} from '^v3/V30ConnectsPage/DatasourceListSection/InvoiceAccountsSection';
-import {CardsSection} from '^v3/V30ConnectsPage/DatasourceListSection/CardsSection';
+import {WorkspacesSection} from '^v3/V3OrgConnectsPage/DatasourceListSection/WorkspacesSection';
+import {InvoiceAccountsSection} from '^v3/V3OrgConnectsPage/DatasourceListSection/InvoiceAccountsSection';
+import {CardsSection} from '^v3/V3OrgConnectsPage/DatasourceListSection/CardsSection';
 
 export const DatasourceListSection = memo(() => {
     return (

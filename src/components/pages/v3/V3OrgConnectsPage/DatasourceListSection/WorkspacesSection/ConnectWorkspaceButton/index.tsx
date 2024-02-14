@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {useSetRecoilState} from 'recoil';
 import {HiMiniPlus} from 'react-icons/hi2';
 import {WorkspaceConnectButton} from '^v3/share/GoogleLoginButtons/WorkspaceConnectButton';
-import {isWorkspaceConnectLoadingAtom} from '^v3/V30ConnectsPage/atom';
+import {isWorkspaceConnectLoadingAtom} from '^v3/V3OrgConnectsPage/atom';
 
 export const ConnectWorkspaceButtonInConnectsPage = memo(() => {
     const setIsLoading = useSetRecoilState(isWorkspaceConnectLoadingAtom);

@@ -4,12 +4,12 @@ import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {V3OrgConnectsPage} from '^v3/V30ConnectsPage';
+import {V3OrgConnectsPage} from 'src/components/pages/v3/V3OrgConnectsPage';
 
-export const V30ConnectsPageRoute = pathRoute({
+export const V3OrgConnectsPageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]/connects',
     path: (orgId: number) =>
-        pathReplace(V30ConnectsPageRoute.pathname, {
+        pathReplace(V3OrgConnectsPageRoute.pathname, {
             orgId,
         }),
 });

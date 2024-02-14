@@ -4,12 +4,12 @@ import {useRouter} from 'next/router';
 import {CgSpinner} from 'react-icons/cg';
 import {orgIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {V30ConnectsPageRoute} from '^pages/v3/orgs/[orgId]/connects';
 import {ModalTopbar, useModal} from '^v3/share/modals';
 import {connectDataSourcesModalState} from '^v3/share/modals/ConnectDataSoucresModal/atom';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
+import {V3OrgConnectsPageRoute} from '^pages/v3/orgs/[orgId]/connects';
 
 export const ConnectDataSourcesModal = memo(() => {
     const {Modal, setIsShow, close} = useModal(connectDataSourcesModalState);
@@ -27,7 +27,7 @@ export const ConnectDataSourcesModal = memo(() => {
 
     const onClick = () => {
         setIsLoading(true);
-        router.push(V30ConnectsPageRoute.path(orgId)).then(() => setIsShow(false));
+        router.push(V3OrgConnectsPageRoute.path(orgId)).then(() => setIsShow(false));
     };
 
     return (

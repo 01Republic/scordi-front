@@ -1,6 +1,6 @@
 import {memo} from 'react';
 import {HiOutlineCreditCard} from 'react-icons/hi2';
-import {ListContainer} from '^v3/V30ConnectsPage/DatasourceListSection/Layouts/ListContainer';
+import {ListContainer} from '^v3/V3OrgConnectsPage/DatasourceListSection/Layouts/ListContainer';
 import {useToast} from '^hooks/useToast';
 
 export const CardsSection = memo(() => {

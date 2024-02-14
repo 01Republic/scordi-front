@@ -4,9 +4,9 @@ import {HiOutlineInbox} from 'react-icons/hi2';
 import {useToast} from '^hooks/useToast';
 import {orgIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {ListContainer} from '^v3/V30ConnectsPage/DatasourceListSection/Layouts/ListContainer';
-import {ConnectWorkspaceButtonInConnectsPage as ConnectWorkspaceButton} from '^v3/V30ConnectsPage/DatasourceListSection/WorkspacesSection/ConnectWorkspaceButton';
-import {WorkspaceItem} from '^v3/V30ConnectsPage/DatasourceListSection/WorkspacesSection/WorkspaceItem';
+import {ListContainer} from '^v3/V3OrgConnectsPage/DatasourceListSection/Layouts/ListContainer';
+import {ConnectWorkspaceButtonInConnectsPage as ConnectWorkspaceButton} from '^v3/V3OrgConnectsPage/DatasourceListSection/WorkspacesSection/ConnectWorkspaceButton';
+import {WorkspaceItem} from '^v3/V3OrgConnectsPage/DatasourceListSection/WorkspacesSection/WorkspaceItem';
 
 export const WorkspacesSection = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
