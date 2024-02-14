@@ -10,6 +10,7 @@ import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {useModal} from '^v3/share/modals';
 import {renewInvoiceAccountModal} from '^v3/V3OrgHomePage/RenewInvoiceAccountModal/atom';
 import {MoreDropdown} from '^v3/V3OrgSettingsConnectsPage/MoreDropdown';
+import {ListItem} from '^v3/V30ConnectsPage/DatasourceListSection/Layouts/ListItem';
 
 interface InvoiceAccountItemProps {
     invoiceAccount: InvoiceAccountDto;
@@ -66,7 +67,7 @@ export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
     };
 
     return (
-        <li className="flex justify-between border rounded-box px-3 py-5 mb-3">
+        <ListItem className="py-5">
             {/* 이메일 */}
             <div className="flex gap-3 items-center">
                 <Avatar src={invoiceAccount.image || undefined} className="w-7 h-7" />
@@ -81,6 +82,6 @@ export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
                     isDisConnectLoading={isDisConnectLoading}
                 />
             </span>
-        </li>
+        </ListItem>
     );
 });
