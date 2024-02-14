@@ -8,7 +8,7 @@ export const CardsSection = memo(() => {
 
     return (
         <ListContainer
-            title="Cards"
+            title="카드"
             listCount={0}
             Icon={() => <HiOutlineCreditCard size={20} />}
             onClickAddButton={() => toast.info('준비중입니다.')}

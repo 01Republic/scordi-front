@@ -12,8 +12,8 @@ export const ConnectWorkspaceButtonInConnectsPage = memo(() => {
 
 const AddButton = () => {
     return (
-        <button className="btn bg-gray-100 w-full flex justify-start items-center gap-3 border border-gray-300 text-sm text-gray-500 font-normal mb-3">
-            <HiMiniPlus size={20} /> Add
+        <button className="btn bg-gray-100 w-full flex justify-start items-center gap-2 border border-gray-300 text-sm text-gray-500 font-normal mb-3">
+            <HiMiniPlus size={18} /> 추가
         </button>
     );
 };

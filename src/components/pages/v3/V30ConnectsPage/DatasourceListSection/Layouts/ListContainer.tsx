@@ -26,9 +26,9 @@ export const ListContainer = memo((props: ListContainerProps) => {
             {isShowAddButton && (
                 <button
                     onClick={onClickAddButton}
-                    className="btn bg-gray-100 flex justify-start items-center gap-3 border border-gray-300 text-sm text-gray-500 font-normal"
+                    className="btn bg-gray-100 flex justify-start items-center gap-2 border border-gray-300 text-sm text-gray-500 font-normal"
                 >
-                    <HiMiniPlus size={20} /> Add
+                    <HiMiniPlus size={18} /> 추가
                 </button>
             )}
 

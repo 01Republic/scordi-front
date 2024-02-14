@@ -1,6 +1,6 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
-import {HiOutlineKey} from 'react-icons/hi2';
+import {HiOutlineEnvelope} from 'react-icons/hi2';
 import {orgIdParamState} from '^atoms/common';
 import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {useModal} from '^v3/share/modals';
@@ -20,9 +20,9 @@ export const InvoiceAccountsSection = memo(() => {
 
     return (
         <ListContainer
-            title="Invoice Account"
+            title="인보이스 수신 계정"
             listCount={invoiceAccounts.length}
-            Icon={() => <HiOutlineKey size={20} />}
+            Icon={() => <HiOutlineEnvelope size={20} />}
             className="border-r"
             onClickAddButton={() => open()}
         >
