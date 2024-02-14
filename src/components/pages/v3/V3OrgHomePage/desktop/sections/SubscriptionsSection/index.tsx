@@ -1,19 +1,18 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRouter} from 'next/router';
+import {orgIdParamState} from '^atoms/common';
+import {usePayingTypeTags} from '^models/Tag/hook';
+import {useDashboardSubscriptions} from '^models/Subscription/hook';
 import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
 import {V3OrgAppsPageRoute} from '^pages/v3/orgs/[orgId]/apps';
 import {Section} from '^v3/V3OrgHomePage/desktop/Section';
 import {MoreButton} from '^v3/V3OrgHomePage/desktop/MoreButton';
 import {SubscriptionTable} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable';
-import {orgIdParamState} from '^atoms/common';
-import {usePayingTypeTags} from '^models/Tag/hook';
 import {tagOptionsState} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns/PayingType/PayingTypeSelect';
-import {useDashboardSubscriptions} from '^models/Subscription/hook';
-import {useRouter} from 'next/router';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {useDashBoardSubscriptionSummary} from '^models/SubscsriptionSummary/hook';
-import {useModal} from '^v3/share/modals';
-import {newFormForGeneralInfoModalAtom} from '^v3/share/modals/NewSubscriptionModalManually/atom';
+import {EmptySubscriptionTableInDashBoard as EmptySubscriptionTable} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/EmptySubscriptionTable';
 
 const SUBSCRIPTION_DISPLAY_LIMIT: number = 10;
 
@@ -84,6 +83,7 @@ export const SubscriptionsSection = memo(function SubscriptionsSection() {
                 reload={onReload}
                 search={getSubscriptions}
                 query={query}
+                EmptyContent={() => <EmptySubscriptionTable />}
             />
             {/*{result.items.length ? (*/}
             {/*    <SubscriptionTable items={result.items} reload={reload} search={getSubscriptions} query={query} />*/}

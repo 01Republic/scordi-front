@@ -6,7 +6,6 @@ import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 import {TBody} from '^v3/share/table/TBody';
 import {Table} from '^v3/share/table/Table';
 import {SubscriptionTableRowSkeleton} from '^v3/share/Skeletons/SubscriptionTableRowSkeleton';
-import {EmptySubscriptionTable} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/EmptySubscriptionTable';
 import {SubscriptionTr} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr';
 
 interface PagedTableProps<T> {
@@ -15,10 +14,11 @@ interface PagedTableProps<T> {
     reload?: () => any;
     search?: (params: FindAllQueryDto<T>, mergeMode?: boolean, force?: boolean) => Promise<any>;
     query?: FindAllQueryDto<T>;
+    EmptyContent: () => JSX.Element;
 }
 
 export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTableProps<SubscriptionDto>) {
-    const {isLoading, reload, items: subscriptions, search, query} = props;
+    const {isLoading, reload, items: subscriptions, search, query, EmptyContent} = props;
 
     const onSort = (sortKey: string, value: 'ASC' | 'DESC') => {
         if (!query || !search) return;
@@ -105,7 +105,7 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
                 </Table>
 
                 {/*subscriptions 데이터가 없을때*/}
-                {!subscriptions && !isLoading && <EmptySubscriptionTable />}
+                {!subscriptions && !isLoading && <EmptyContent />}
             </div>
         </div>
     );
