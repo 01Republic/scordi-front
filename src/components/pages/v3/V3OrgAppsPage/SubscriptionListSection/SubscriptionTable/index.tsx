@@ -105,7 +105,7 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
                 </Table>
 
                 {/*subscriptions 데이터가 없을때*/}
-                {!subscriptions && !isLoading && <EmptyContent />}
+                {!subscriptions.length && <EmptyContent />}
             </div>
         </div>
     );

@@ -3,13 +3,13 @@ import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
 import {CgSpinner} from 'react-icons/cg';
 import {orgIdParamState} from '^atoms/common';
+import {useCurrentOrg} from '^models/Organization/hook';
+import {V30ConnectsPageRoute} from '^pages/v3/orgs/[orgId]/connects';
 import {ModalTopbar, useModal} from '^v3/share/modals';
 import {connectDataSourcesModalState} from '^v3/share/modals/ConnectDataSoucresModal/atom';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
-import {V30ConnectsPageRoute} from '^pages/v3/orgs/[orgId]/connects';
-import {useCurrentOrg} from '^models/Organization/hook';
 
 export const ConnectDataSourcesModal = memo(() => {
     const {Modal, setIsShow, close} = useModal(connectDataSourcesModalState);
@@ -17,16 +17,13 @@ export const ConnectDataSourcesModal = memo(() => {
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
     const {currentOrg} = useCurrentOrg(orgId);
-    const lastSyncHistory = currentOrg?.lastGoogleSyncHistory;
-    const invoiceAccounts = currentOrg?.invoiceAccounts || [];
 
     useEffect(() => {
-        if (!currentOrg) return;
-        // 워크스페이스와 인보이스 계정이 모두 없는 경우에만 보이도록 함
-        if (lastSyncHistory || invoiceAccounts.length) return;
+        // 구독이 없을때만 보여주기
+        if (!currentOrg || currentOrg.subscriptionCount) return;
 
         setIsShow(true);
-    }, [lastSyncHistory, invoiceAccounts]);
+    }, [currentOrg]);
 
     const onClick = () => {
         setIsLoading(true);
@@ -34,7 +31,7 @@ export const ConnectDataSourcesModal = memo(() => {
     };
 
     return (
-        <Modal className="p-0 max-w-none sm:max-w-[32rem] sm:min-h-[28rem] ">
+        <Modal className="p-0 max-w-none sm:max-w-[32rem] sm:min-h-[28rem]">
             <ModalTopbar topbarPosition="fixed" backBtnOnClick={close} />
             <MobileSection.Padding>
                 <Container className="text-center">
