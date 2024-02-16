@@ -5,6 +5,7 @@ import {useGoogleLoginSuccessHandler2} from '^hooks/useGoogleLoginSuccessHandler
 import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {uniq} from '^utils/array';
+import {ReactNodeLike} from 'prop-types';
 
 const SCOPE_MAP = {
     gmail: [
@@ -32,10 +33,11 @@ interface GoogleLoginBtnProps {
     className?: string;
     logoSize?: string;
     ButtonComponent?: () => JSX.Element;
+    buttonText?: string | ReactNodeLike;
 }
 
 export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
-    const {onCode, googleLoginOnSuccessFn, about, className, logoSize, ButtonComponent} = props;
+    const {onCode, googleLoginOnSuccessFn, about, className, logoSize, ButtonComponent, buttonText} = props;
     const googleLoginOnSuccess = googleLoginOnSuccessFn ? googleLoginOnSuccessFn : useGoogleLoginSuccessHandler2();
     const setAccessToken = useSetRecoilState(googleAccessTokenAtom);
     const scope = about ? SCOPE_MAP[about] : SCOPE_ALL;
@@ -45,9 +47,8 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
         onSuccess: async (response) => {
             const feature = getFeature();
             const {code} = response;
-            if (onCode && code) {
-                return onCode(code);
-            }
+
+            if (onCode && code) return onCode(code);
 
             const {accessToken} = await userSocialGoogleApi.token({
                 code,
@@ -81,7 +82,7 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
                         className={`${logoSize ? logoSize : 'w-6 h-6'}`}
                         alt=""
                     />
-                    <span>Continue with Google</span>
+                    {buttonText || <span>Continue with Google</span>}
                 </button>
             )}
         </>
