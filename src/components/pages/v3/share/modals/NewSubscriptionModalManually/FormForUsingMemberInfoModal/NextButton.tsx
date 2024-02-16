@@ -10,18 +10,17 @@ import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOption
 import {PricingModelOptions} from '^models/Subscription/types/PricingModelOptions';
 import {useSubscriptionMenuSummaryV2} from '^models/SubscsriptionSummary/hook';
 
-export const NextButton = memo(function NextButton() {
+interface NextButtonProps {
+    refreshPageData: () => any;
+}
+
+export const NextButton = memo(function NextButton(props: NextButtonProps) {
     const formData = useRecoilValue(newSubscriptionManualFormData);
     const {open: finishModalOpen} = useModal(newFormForFinishModalAtom);
     const setSubscriptionId = useSetRecoilState(subscriptionIdAtom);
     const setDesc = useSetRecoilState(memoAtom);
-    const {index: reloadSummary} = useSubscriptionMenuSummaryV2(); // 구독리스트 > 요약패널 갱신용
-    const {reload: reloadTableData} = useSubscriptionTableListAtom(); // 구독리스트 > 테이블 갱신용
 
-    const refreshPageData = () => {
-        reloadSummary(); // 구독리스트 > 요약패널 갱신
-        reloadTableData(); // 구독리스트 > 테이블 갱신
-    };
+    const {refreshPageData} = props;
 
     const onNext = debounce(() => {
         const req = subscriptionApi.create({

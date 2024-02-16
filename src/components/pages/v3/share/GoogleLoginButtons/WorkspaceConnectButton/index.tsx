@@ -1,25 +1,33 @@
 import React, {memo} from 'react';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {gmailItemsLoadedAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
-import {userSocialGoogleApi} from '^api/social-google.api';
-import {orgIdParamState} from '^atoms/common';
-import {useAlert} from '^hooks/useAlert';
+import {SetterOrUpdater, useRecoilValue} from 'recoil';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {ConnectButton} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/ConnectButton';
+import {orgIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {toast} from 'react-toastify';
-import {isWorkspaceConnectLoadingAtom} from '^v3/V3OrgSettingsConnectsPage/atom';
+import {useAlert} from '^hooks/useAlert';
+import {useToast} from '^hooks/useToast';
+import {userSocialGoogleApi} from '^api/social-google.api';
+import {googleOAuth} from '^config/environments';
+import {GoogleOAuthProvider} from '@react-oauth/google';
 
-export const GoogleLoginButton = memo(() => {
-    const setIsLoaded = useSetRecoilState(isWorkspaceConnectLoadingAtom);
+interface WorkspaceConnectButtonProps {
+    ButtonComponent: () => JSX.Element;
+    setIsLoading: SetterOrUpdater<boolean>;
+}
+
+// 워크스페이스 연동 (= 로그인) 버튼입니다.
+// 기존 구글 로그인 버튼이 아닌 다른 모양의 버튼을
+// props로 받아 보여지도록 했습니다.
+
+export const WorkspaceConnectButton = memo((props: WorkspaceConnectButtonProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const {reload: reloadCurrentOrg} = useCurrentOrg(orgId);
     const {alert} = useAlert();
-
+    const {toast} = useToast();
     const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
 
+    const {ButtonComponent, setIsLoading} = props;
     const googleLoginSuccessHandler = (accessToken: string) => {
-        setIsLoaded(true);
+        setIsLoading(true);
 
         const req = googleUsageReportApi.draft(accessToken);
 
@@ -38,7 +46,7 @@ export const GoogleLoginButton = memo(() => {
                     alert.success({title: '연동이 완료되었습니다.'});
                 })
                 .catch((err) => toast.error(err.message))
-                .finally(() => setIsLoaded(false));
+                .finally(() => setIsLoading(false));
         });
 
         req.catch((e) => {
@@ -52,17 +60,19 @@ export const GoogleLoginButton = memo(() => {
                 alert.error('관리자 계정 연결이 필요해요', '회사 공식 메일로 워크스페이스를 연동해주세요');
             }
 
-            setIsLoaded(false);
+            setIsLoading(false);
         });
     };
 
     return (
-        <GoogleLoginBtn
-            about="admin"
-            googleLoginOnSuccessFn={googleLoginSuccessHandler}
-            className="!btn-md"
-            logoSize="w-4 h-4"
-            ButtonComponent={() => <ConnectButton isDisabled={false} />}
-        />
+        <GoogleOAuthProvider clientId={googleOAuth.adminClient.id}>
+            <GoogleLoginBtn
+                about="admin"
+                googleLoginOnSuccessFn={googleLoginSuccessHandler}
+                className="!btn-md"
+                logoSize="w-4 h-4"
+                ButtonComponent={() => ButtonComponent && <ButtonComponent />}
+            />
+        </GoogleOAuthProvider>
     );
 });

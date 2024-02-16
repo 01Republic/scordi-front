@@ -9,6 +9,7 @@ import {UserEditModal} from '^v3/share/modals/UserEditModal';
 import {AddressModal} from '^v3/share/modals/AddressModal';
 import {OnboardingFlow} from '^v3/share/OnboardingFlow';
 import {PageLoadingCover} from '^v3/share/PageLoadingCover';
+import {ConnectDataSourcesModal} from '^v3/share/modals/ConnectDataSoucresModal';
 
 export interface V3MainLayoutProps extends WithChildren {
     // 하단 네비게이션 중에서 활성상태로 보여줄 탭의 인덱스
@@ -21,6 +22,7 @@ export interface V3MainLayoutProps extends WithChildren {
 
 export const V3MainLayout = memo((props: V3MainLayoutProps) => {
     const {activeTabIndex, modals = [], children} = props;
+
     return (
         <>
             <style dangerouslySetInnerHTML={{__html: `html, body, #__next { min-height: 100vh }`}} />
@@ -41,6 +43,7 @@ export const V3MainLayout = memo((props: V3MainLayoutProps) => {
             <AddressModal />
             <PageLoadingCover />
             {/*<OnboardingFlow />*/}
+            <ConnectDataSourcesModal />
         </>
     );
 });

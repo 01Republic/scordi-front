@@ -10,9 +10,9 @@ import {WorkspaceItem} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Work
 import {SettingBodyPanel} from '^v3/V3OrgSettingsPage/desktop/SettingBodyPanel/SettingBodyPanel';
 import {GoogleProfile} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/GoogleProfile';
 import {ConnectButton} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/ConnectButton';
-import {GoogleLoginButton} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/GoogleLoginButton';
 import {isWorkspaceDisConnectLoadingAtom, isWorkspaceSyncLoadingAtom} from '^v3/V3OrgSettingsConnectsPage/atom';
 import {LoadingButton} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/LoadingButton';
+import {ConnectWorkspaceButtonInSettings} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/ConnectWorkspaceButton';
 
 export const WorkspaceSection = memo(() => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -36,7 +36,7 @@ export const WorkspaceSection = memo(() => {
                             <GoogleProfile lastSyncAccount={lastSyncAccount} />
                         )
                     ) : (
-                        <GoogleLoginButton />
+                        <ConnectWorkspaceButtonInSettings />
                     )
                 }
             />

@@ -10,6 +10,7 @@ import {useResetRecoilState, useSetRecoilState} from 'recoil';
 import {BillingHistoryDetailModalInAppShow} from '^v3/V3OrgAppsPage/_localModals/BillingHistoryDetailModal';
 import {navTabIndex} from '^v3/share/modals/AppShowPageModal/AppShowPageBody/tabs/TabView';
 import {NewBillingHistoryModalInAppShow} from '^v3/V3OrgAppsPage/_localModals';
+import {NewSubscriptionModalInAppShow} from '^v3/V3OrgAppsPage/_localModals/NewSubscriptionModal';
 
 export const V3OrgAppShowPage = memo(() => {
     const {currentSubscription} = useCurrentSubscription();
@@ -27,6 +28,7 @@ export const V3OrgAppShowPage = memo(() => {
         <V3ModalLikeLayoutMobile
             title={currentSubscription ? currentSubscription.product.name() : ''}
             modals={[
+                NewSubscriptionModalInAppShow, // 새로운구독추가모달
                 BillingHistoryDetailModalInAppShow, // 결제내역상세모달
                 SelectTeamMemberModal,
                 AccountListModal,

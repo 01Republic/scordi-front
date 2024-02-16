@@ -6,7 +6,6 @@ import {newInvoiceAccountModal} from '^v3/share/modals/NewInvoiceAccountModal/at
 import {useToast} from '^hooks/useToast';
 import {NewInvoiceAccountModal} from 'src/components/pages/v3/share/modals/NewInvoiceAccountModal';
 import {newFormForGeneralInfoModalAtom} from '^v3/share/modals/NewSubscriptionModalManually/atom';
-import {NewSubscriptionModalManually} from '^v3/share/modals/NewSubscriptionModalManually';
 import {MobileSection} from '../../sections/MobileSection';
 
 export const NewAppModal = memo(() => {
@@ -57,7 +56,6 @@ export const NewAppModal = memo(() => {
                 </MobileSection.Padding>
             </Modal>
             <NewInvoiceAccountModal />
-            <NewSubscriptionModalManually />
         </>
     );
 });

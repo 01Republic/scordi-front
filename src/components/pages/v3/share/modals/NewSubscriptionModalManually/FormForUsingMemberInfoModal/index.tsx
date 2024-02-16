@@ -8,8 +8,15 @@ import {MasterSelectSection} from './MasterSelectSection';
 import {NextButton} from './NextButton';
 import {ModalTitle} from '^v3/share/modals/ModalTitle';
 
-export const FormForUsingMemberInfoModal = memo(function FormForUsingMemberInfoModal() {
+interface FormForUsingMemberInfoModalProps {
+    onCreate: () => any;
+}
+
+export const FormForUsingMemberInfoModal = memo(function FormForUsingMemberInfoModal(
+    props: FormForUsingMemberInfoModalProps,
+) {
     const {Modal, close} = useModal(newFormForUsingMemberInfoModalAtom);
+    const {onCreate} = props;
 
     return (
         <Modal wrapperClassName="modal-right" className="p-0 max-w-none sm:max-w-[32rem]">
@@ -28,7 +35,7 @@ export const FormForUsingMemberInfoModal = memo(function FormForUsingMemberInfoM
             </MobileSection.Padding>
 
             <ModalLikeBottomBar>
-                <NextButton />
+                <NextButton refreshPageData={onCreate} />
             </ModalLikeBottomBar>
         </Modal>
     );

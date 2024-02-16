@@ -1036,6 +1036,7 @@ progress::-moz-progress-bar {
 
 .text-gradient-color {
   background-clip: text !important;
-  -webkit-background-clip: text;
+  -webkit-background-clip: text !important;
+  fill: transparent;
   -webkit-text-fill-color: transparent;
 }
