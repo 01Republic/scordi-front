@@ -13,6 +13,7 @@ import {useRouter} from 'next/router';
 import {useCreditCards} from '^models/CreditCard/hook';
 import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {useSubscriptionMenuSummaryV2} from '^models/SubscsriptionSummary/hook';
+import {EmptySubscriptionTableInSubscriptionPage as EmptySubscriptionTable} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/EmptySubscriptionTable';
 
 // 구독리스트탭에서 사용되는 구독리스트 테이블
 export const SubscriptionListSection = memo(function SubscriptionListSection() {
@@ -99,6 +100,7 @@ export const SubscriptionListSection = memo(function SubscriptionListSection() {
                             reload={onReload}
                             search={getSubscriptions}
                             query={query}
+                            EmptyContent={() => <EmptySubscriptionTable />}
                         />
                         <div className="flex justify-center">
                             <TablePaginator pagination={result.pagination} movePage={movePage} />

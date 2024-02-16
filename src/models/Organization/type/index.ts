@@ -29,6 +29,7 @@ export class OrganizationDto {
     address?: string | null; // 주소
     addressDetail?: string | null; // 상세 주소
     memberCount: number; // 조직내 사용자 수
+    subscriptionCount?: number; // 조직내 구독 수
     lastGoogleSyncHistoryId: number | null; // 최신 워크스페이스 동기화 내역 ID
     @TypeCast(() => Date) createdAt: Date;
     @TypeCast(() => Date) updatedAt: Date;

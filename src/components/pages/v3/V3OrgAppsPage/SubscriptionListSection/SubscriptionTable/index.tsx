@@ -1,13 +1,12 @@
 import {memo} from 'react';
-import {SubscriptionTr} from './SubscriptionTr';
+import Qs from 'qs';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
-import Qs from 'qs';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
-import {Loading} from '^v3/share/Loading';
 import {TBody} from '^v3/share/table/TBody';
 import {Table} from '^v3/share/table/Table';
 import {SubscriptionTableRowSkeleton} from '^v3/share/Skeletons/SubscriptionTableRowSkeleton';
+import {SubscriptionTr} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr';
 
 interface PagedTableProps<T> {
     isLoading: boolean;
@@ -15,10 +14,11 @@ interface PagedTableProps<T> {
     reload?: () => any;
     search?: (params: FindAllQueryDto<T>, mergeMode?: boolean, force?: boolean) => Promise<any>;
     query?: FindAllQueryDto<T>;
+    EmptyContent: () => JSX.Element;
 }
 
 export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTableProps<SubscriptionDto>) {
-    const {isLoading, reload, items: subscriptions, search, query} = props;
+    const {isLoading, reload, items: subscriptions, search, query, EmptyContent} = props;
 
     const onSort = (sortKey: string, value: 'ASC' | 'DESC') => {
         if (!query || !search) return;
@@ -92,13 +92,20 @@ export const SubscriptionTable = memo(function SubscriptionTable(props: PagedTab
                     </thead>
 
                     <TBody entries={subscriptions} cols={8} isLoading={isLoading}>
+                        {/*로딩상태일때*/}
                         {isLoading && <SubscriptionTableRowSkeleton />}
-                        {!isLoading &&
+
+                        {/*로딩상태가 아니고 subscriptions 데이터가 있을 때*/}
+                        {subscriptions &&
+                            !isLoading &&
                             subscriptions.map((subscription, i) => (
                                 <SubscriptionTr key={i} subscription={subscription} reload={reload} />
                             ))}
                     </TBody>
                 </Table>
+
+                {/*subscriptions 데이터가 없을때*/}
+                {!subscriptions.length && <EmptyContent />}
             </div>
         </div>
     );

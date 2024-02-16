@@ -1,19 +1,9 @@
 import React, {memo} from 'react';
-import {FaPlus} from 'react-icons/fa6';
-import {useModal} from '^v3/share/modals/useModal';
-import {newAppModal} from '^components/pages/v3/share/modals/NewAppModal/atom';
-import {newInvoiceAccountModal} from '^v3/share/modals/NewInvoiceAccountModal/atom';
 import {useSubscriptionMenuSummaryV2} from '^models/SubscsriptionSummary/hook';
+import {NewSubscriptionDropdown} from '^v3/V3OrgAppsPage/SubscriptionListPageTitle/NewSubscriptionDropdown';
 
 export const SubscriptionListPageTitle = memo(function SubscriptionListPageTitle() {
     const {isLoading, result} = useSubscriptionMenuSummaryV2();
-    const {open: openNewAppModal} = useModal(newAppModal);
-    const invoiceAccountModal = useModal(newInvoiceAccountModal);
-
-    const onClick = () => {
-        openNewAppModal();
-        invoiceAccountModal.setIsShow(false);
-    };
 
     return (
         <section className="mb-6 flex justify-between flex-col md:flex-row">
@@ -27,14 +17,7 @@ export const SubscriptionListPageTitle = memo(function SubscriptionListPageTitle
                 )}
             </h1>
 
-            <div>
-                <button
-                    onClick={onClick}
-                    className="btn btn-scordi m-1 gap-2 whitespace-nowrap flex-nowrap mt-8 md:mt-0 btn-lg md:btn-md w-full md:w-auto"
-                >
-                    새 구독 등록 <FaPlus />
-                </button>
-            </div>
+            <NewSubscriptionDropdown />
         </section>
     );
 });

@@ -1,10 +1,4 @@
 import React, {memo, useState} from 'react';
-import {V3SettingsLayout} from '^v3/layouts/V3SettingsLayout';
-import {OrgEditFormSection} from '^v3/V3OrgSettingsPage/OrgEditFormSection';
-import {OrgPayInfoSection} from '^v3/V3OrgSettingsPage/OrgPayInfoSection';
-import {SettingBodyPanel} from '^v3/V3OrgSettingsPage/desktop/SettingBodyPanel/SettingBodyPanel';
-import {OrgManagerSection} from '^v3/V3OrgSettingsPage/OrgManagerSection';
-import {OrgConfigSection} from '^v3/V3OrgSettingsPage/OrgConfigSection';
 import {useOnResize2} from '^components/util/onResize2';
 import {V3MainLayoutMobile} from '../layouts/V3MainLayout.mobile';
 import {BottomTabIndex} from '../share/BottomNavMobile';
@@ -18,14 +12,14 @@ import {SystemPanel} from './mobile/SystemPanel';
 import {UserProfilePanel} from './mobile/UserProfilePanel';
 import {OrgProfilePanel} from './mobile/OrgProfilePanel';
 import {ModifyOrgNameModal} from './ModifyOrgNameModal';
-import {V30SettingsPageDesktop} from '^v3/V3OrgSettingsPage/desktop';
+import {V3OrgSettingsPageDesktop} from '^v3/V3OrgSettingsPage/desktop';
 
 export const V3OrgSettingsPage = memo(() => {
     const {isDesktop} = useOnResize2();
     const [isOrganization, setIsOrganization] = useState(false);
 
     if (isDesktop) {
-        return <V30SettingsPageDesktop />;
+        return <V3OrgSettingsPageDesktop />;
     } else {
         return (
             <V3MainLayoutMobile
