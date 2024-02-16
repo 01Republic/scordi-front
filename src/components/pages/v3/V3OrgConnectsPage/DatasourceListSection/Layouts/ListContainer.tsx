@@ -1,14 +1,13 @@
-import {Container} from '^v3/share/OnboardingFlow/Container';
 import {memo} from 'react';
-import {ChildrenProp} from '^components/util/children-prop.type';
-import {IconType} from '@react-icons/all-files';
 import {ReactComponentLike} from 'prop-types';
 import {HiMiniPlus} from 'react-icons/hi2';
+import {IconType} from '@react-icons/all-files';
+import {ChildrenProp} from '^components/util/children-prop.type';
 
 interface ListContainerProps extends ChildrenProp {
     title: string;
     Icon: IconType | ReactComponentLike;
-    listCount: number;
+    listCount?: number;
     onClickAddButton: () => void;
     isShowAddButton?: boolean;
     className?: string;
@@ -21,7 +20,7 @@ export const ListContainer = memo((props: ListContainerProps) => {
         <div className={`${className} p-3`}>
             <section className="flex gap-3 items-center mb-3">
                 <Icon /> <span className="font-semibold">{title}</span>
-                <span className="text-gray-300 text-sm">{listCount}</span>
+                <span className="text-gray-300 text-sm">{listCount || ''}</span>
             </section>
             {isShowAddButton && (
                 <button

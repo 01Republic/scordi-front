@@ -22,14 +22,13 @@ export const WorkspacesSection = memo(() => {
     return (
         <ListContainer
             title="워크스페이스"
-            listCount={1}
             Icon={() => <HiOutlineInbox size={20} />}
             onClickAddButton={() => onClick()}
             isShowAddButton={false}
             className="border-r"
         >
             {/*워크스페이스 추가 버튼*/}
-            <ConnectWorkspaceButton />
+            {!lastSyncAccount && <ConnectWorkspaceButton />}
 
             {lastSyncAccount && <WorkspaceItem lastSyncAccount={lastSyncAccount} />}
         </ListContainer>
