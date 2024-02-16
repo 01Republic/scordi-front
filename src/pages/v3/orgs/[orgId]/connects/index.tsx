@@ -34,7 +34,7 @@ export const getStaticProps = async ({locale}: any) => ({
 export default function Page() {
     const orgId = useRouterIdParamState('orgId', orgIdParamState);
     useCurrentOrg(orgId);
-    if (!orgId) return <></>;
+    if (!orgId || isNaN(orgId)) return <></>;
 
     return <V3OrgConnectsPage />;
 }

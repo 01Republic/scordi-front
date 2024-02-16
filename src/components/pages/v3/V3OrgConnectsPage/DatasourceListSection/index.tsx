@@ -5,7 +5,7 @@ import {CardsSection} from '^v3/V3OrgConnectsPage/DatasourceListSection/CardsSec
 
 export const DatasourceListSection = memo(() => {
     return (
-        <section className="border w-full flex rounded-box bg-white">
+        <section className="border w-full grid grid-cols-3 rounded-box bg-white">
             <WorkspacesSection />
             <InvoiceAccountsSection />
             <CardsSection />

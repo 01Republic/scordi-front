@@ -15,24 +15,24 @@ interface ListContainerProps extends ChildrenProp {
 }
 
 export const ListContainer = memo((props: ListContainerProps) => {
-    const {title, Icon, listCount, onClickAddButton, isShowAddButton = true, className, children} = props;
+    const {title, Icon, listCount, onClickAddButton, isShowAddButton = true, className = '', children} = props;
 
     return (
-        <Container className={`${className} p-3 flex flex-col gap-3`}>
-            <section className="flex gap-3 items-center">
+        <div className={`${className} p-3`}>
+            <section className="flex gap-3 items-center mb-3">
                 <Icon /> <span className="font-semibold">{title}</span>
                 <span className="text-gray-300 text-sm">{listCount}</span>
             </section>
             {isShowAddButton && (
                 <button
                     onClick={onClickAddButton}
-                    className="btn bg-gray-100 flex justify-start items-center gap-2 border border-gray-300 text-sm text-gray-500 font-normal"
+                    className="btn btn-block bg-gray-100 flex justify-start items-center gap-2 border border-gray-300 text-sm text-gray-500 font-normal mb-3"
                 >
                     <HiMiniPlus size={18} /> 추가
                 </button>
             )}
 
             <ul>{children}</ul>
-        </Container>
+        </div>
     );
 });
