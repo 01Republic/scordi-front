@@ -88,7 +88,7 @@ export const useGoogleLoginSuccessHandler2 = () => {
      *     });
      *
      */
-    return async function googleLoginOnSuccess(accessToken: string) {
+    return async function googleLoginOnSuccess(accessToken: string, callbackFn?: (user: UserDto) => any) {
         // 토큰을 통해 구글 회원 정보를 불러온 뒤,
         // const {data: googleSignedUserData} = await getGoogleUserData(code);
 
