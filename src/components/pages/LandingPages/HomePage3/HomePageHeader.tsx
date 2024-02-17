@@ -62,7 +62,7 @@ export const HomePageHeader = memo(() => {
                                 <div className="pt-7">
                                     <div className="flex flex-col sm:flex-row items-center justify-center gap-[14px] sm:gap-4">
                                         <CTAButton className="btn btn-scordi normal-case shadow-lg w-[11em] text-[18px] sm:w-auto sm:btn-lg">
-                                            도입 문의하기
+                                            무료로 시작하기
                                         </CTAButton>
                                         <button
                                             className="btn normal-case shadow-lg w-[11em] text-[18px] sm:w-auto sm:btn-lg"

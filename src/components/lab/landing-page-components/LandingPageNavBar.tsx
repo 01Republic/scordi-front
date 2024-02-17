@@ -92,19 +92,21 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
                         <div className="flex gap-2 items-center justify-between">
                             {currentUser ? (
                                 <LinkTo
-                                    text="시작하기"
+                                    text="워크스페이스 바로가기"
                                     href={getLoginRedirectPath(currentUser)}
-                                    className="btn btn-ghost"
+                                    className="btn"
                                 />
                             ) : (
-                                <LinkTo text="로그인" href={UserLoginPageRoute.path()} className="btn btn-ghost" />
-                            )}
+                                <>
+                                    <LinkTo text="로그인" href={UserLoginPageRoute.path()} className="btn btn-ghost" />
 
-                            <LinkTo
-                                text="도입 문의하기"
-                                onClick={open}
-                                className="btn hidden sm:inline-flex btn-scordi"
-                            />
+                                    <LinkTo
+                                        text="무료로 시작하기"
+                                        href={UserLoginPageRoute.path()}
+                                        className="btn hidden sm:inline-flex btn-scordi"
+                                    />
+                                </>
+                            )}
                         </div>
                     )}
 
