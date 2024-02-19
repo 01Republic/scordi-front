@@ -26,6 +26,7 @@ import {V3OrgTeamMembersPageRoute} from '^pages/v3/orgs/[orgId]/teams/members';
 import {useSafePathInCurrentOrg} from '^hooks/useSafePath';
 import {V3OrgSettingsOrgPageRoute} from '^pages/v3/orgs/[orgId]/settings/org';
 import {V3OrgConnectsPageRoute} from '^pages/v3/orgs/[orgId]/connects';
+import {LinkTo} from '^components/util/LinkTo';
 
 export enum LNBIndex {
     Dashboard,
@@ -52,6 +53,14 @@ export const LeftNavBar = memo(function LeftNavBar(props: LeftNavBarProps) {
     return (
         <aside className={`lnb-container border-r flex flex-col z-10 gap-4 ${isHidden ? 'hide' : ''}`}>
             <Header />
+
+            <section className="border-b px-5 pb-4">
+                <LinkTo
+                    text="구독 불러오기"
+                    href={safePath((org) => V3OrgConnectsPageRoute.path(org.id))}
+                    className="btn btn-block btn-scordi"
+                />
+            </section>
 
             <MenuList title="조직">
                 <MenuItem
@@ -101,15 +110,6 @@ export const LeftNavBar = memo(function LeftNavBar(props: LeftNavBarProps) {
                     href={safePath((org) => V3OrgTeamMembersPageRoute.path(org.id))}
                     Icon={() => <FcParallelTasks size={24} />}
                     isActive={LNBIndex.Members === activeIndex}
-                />
-            </MenuList>
-
-            <MenuList title="연동">
-                <MenuItem
-                    name="데이터소스"
-                    href={safePath((org) => V3OrgConnectsPageRoute.path(org.id))}
-                    Icon={() => <FcDatabase size={24} />}
-                    isActive={LNBIndex.Connects === activeIndex}
                 />
             </MenuList>
 
