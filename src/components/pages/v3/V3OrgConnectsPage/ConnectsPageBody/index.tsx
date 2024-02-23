@@ -14,9 +14,7 @@ export const ConnectsPageBody = memo((props: ConnectsPageBodyProps) => {
     return (
         <div className="py-16 px-12">
             <ConnectWorkspaceSection />
-
             <ConnectInvoiceEmailsSection />
-
             <ConnectCardAccountsSection />
         </div>
     );

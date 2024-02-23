@@ -991,7 +991,30 @@ progress::-moz-progress-bar {
     bottom: 0;
   }
 
-  &:after {
+  &.animate-soft-bounce {
+    @keyframes soft-bounce {
+      0%, 100% {
+        transform: translateY(-10%);
+        animation-timing-function: cubic-bezier(0.8,0,1,1);
+      }
+      50% {
+        transform: none;
+        animation-timing-function: cubic-bezier(0,0,0.2,1);
+      }
+    }
+    animation: soft-bounce 1s infinite;
+  }
+  &.animate-soft-pulse {
+    @keyframes soft-pulse {
+      50% {
+        opacity: 0.25;
+      }
+    }
+    opacity: initial;
+    animation: soft-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  &:not(.no-anim):after {
     content: '';
     position: absolute;
     right: 0;

@@ -1,6 +1,6 @@
 import {memo} from 'react';
-import {ConnectMethodCard} from '^v3/V3OrgConnectsPage/ConnectsPageBody/ConnectMethodCard';
-import {MethodsSection} from '^v3/V3OrgConnectsPage/ConnectsPageBody/MethodsSection';
+import {MethodsSection} from '../MethodsSection';
+import {ConnectMethodCard} from '../ConnectMethodCard';
 
 export const ConnectInvoiceEmailsSection = memo(function ConnectInvoiceEmailsSection() {
     return (
@@ -13,6 +13,7 @@ export const ConnectInvoiceEmailsSection = memo(function ConnectInvoiceEmailsSec
                 <ConnectMethodCard
                     logo="https://static.vecteezy.com/system/resources/previews/016/716/465/original/gmail-icon-free-png.png"
                     title="Gmail"
+                    onClick={() => {}}
                 />
                 <ConnectMethodCard
                     logo="https://play-lh.googleusercontent.com/YuB811yIABwkqgTr82XnG79VtfTwJ5dPUUSIs8Oe9q5-aJv6dk-z3BirQEyo5a59Nw=w240-h480-rw"

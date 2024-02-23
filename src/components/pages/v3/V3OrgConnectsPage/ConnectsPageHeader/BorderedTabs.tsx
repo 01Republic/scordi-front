@@ -55,7 +55,7 @@ const Tab = memo((props: TabProps) => {
 
     return (
         <a
-            href={disabled ? 'javascript:void(0)' : href}
+            href={disabled ? undefined : href}
             className={`tab h-auto py-3 px-6 text-lg font-semibold ${active && 'tab-active'} ${
                 disabled && '!text-gray-300 cursor-not-allowed'
             }`}
