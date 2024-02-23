@@ -11,6 +11,7 @@ import {OnboardingSkippedStore, SkippedStoreStatus} from '^v3/share/OnboardingFl
 import {onboardingModalIsShow} from '^v3/share/OnboardingFlow/atom';
 import {useCurrentOrg} from '^models/Organization/hook';
 import {useAlert} from '^hooks/useAlert';
+import {GoogleProfile} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/GoogleProfile';
 
 interface WorkspaceItemProps {
     tool: ToolType;
