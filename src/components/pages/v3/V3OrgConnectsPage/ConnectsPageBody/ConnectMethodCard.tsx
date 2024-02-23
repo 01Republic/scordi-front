@@ -39,9 +39,9 @@ export const ConnectMethodCard = memo((props: ConnectMethodCardProps) => {
                     <img src={logo} alt="" className="avatar w-[40px] h-[40px] mb-2" />
 
                     {connected && (
-                        <code className="code flex gap-1 items-center px-2 py-0.5 bg-green-200 text-green-800 rounded-btn text-sm">
+                        <span className="flex gap-1 items-center px-2 py-0.5 bg-green-200 text-green-800 rounded-btn text-sm">
                             <IoIosLink /> 연동됨
-                        </code>
+                        </span>
                     )}
                 </div>
                 <p className="card-title text-16">{title}</p>
