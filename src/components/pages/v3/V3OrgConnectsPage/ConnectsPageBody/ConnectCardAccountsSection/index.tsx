@@ -1,47 +1,26 @@
 import {memo} from 'react';
-import {ConnectMethodCard} from '^v3/V3OrgConnectsPage/ConnectsPageBody/ConnectMethodCard';
-import {MethodsSection} from '^v3/V3OrgConnectsPage/ConnectsPageBody/MethodsSection';
+import {useRecoilValue} from 'recoil';
+import {MethodsSection} from '../MethodsSection';
+import {ConnectMethodCard} from '../ConnectMethodCard';
+import {V3OrgConnectCardCreatePageRoute} from '^pages/v3/orgs/[orgId]/connects/card-accounts/[connectMethod]/new';
+import {V3OrgConnectDetailPageRoute} from '^pages/v3/orgs/[orgId]/connects/card-accounts/[connectMethod]';
+import {orgIdParamState} from '^atoms/common';
+import {cardAccountsStaticData} from '^v3/V3OrgConnectsPage/ConnectsPageBody/ConnectCardAccountsSection/card-accounts-static-data';
 
 export const ConnectCardAccountsSection = memo(function ConnectCardAccountsSection() {
+    const orgId = useRecoilValue(orgIdParamState);
+
     return (
         <MethodsSection id="card-accounts" title="카드" description="구독의 최종 결제내역을 불러올 수 있어요.">
             <div className="grid grid-cols-5 gap-4">
-                <ConnectMethodCard
-                    logo="https://plutus-app-public-assets.s3.ap-northeast-2.amazonaws.com/HYUNDAI.png"
-                    title="현대카드"
-                />
-                <ConnectMethodCard
-                    logo="https://plutus-app-public-assets.s3.ap-northeast-2.amazonaws.com/SAMSUNG.png"
-                    title="삼성카드"
-                />
-                <ConnectMethodCard
-                    logo="https://plutus-app-public-assets.s3.ap-northeast-2.amazonaws.com/NH.png"
-                    title="NH카드"
-                />
-                <ConnectMethodCard
-                    logo="https://plutus-app-public-assets.s3.ap-northeast-2.amazonaws.com/BC.png"
-                    title="BC카드"
-                />
-                <ConnectMethodCard
-                    logo="https://plutus-app-public-assets.s3.ap-northeast-2.amazonaws.com/SHINHAN_BANK.png"
-                    title="신한카드"
-                />
-                <ConnectMethodCard
-                    logo="https://plutus-app-public-assets.s3.ap-northeast-2.amazonaws.com/WOORI_BANK.png"
-                    title="우리카드"
-                />
-                <ConnectMethodCard
-                    logo="https://plutus-app-public-assets.s3.ap-northeast-2.amazonaws.com/LOTTE.png"
-                    title="롯데카드"
-                />
-                <ConnectMethodCard
-                    logo="https://plutus-app-public-assets.s3.ap-northeast-2.amazonaws.com/HANA_BANK.png"
-                    title="하나카드"
-                />
-                <ConnectMethodCard
-                    logo="https://plutus-app-public-assets.s3.ap-northeast-2.amazonaws.com/KUKMIN_BANK.png"
-                    title="KB국민카드"
-                />
+                {cardAccountsStaticData.map((connectMethod, i) => {
+                    const detailPath = V3OrgConnectDetailPageRoute.path(orgId, connectMethod.param);
+                    const createPath = V3OrgConnectCardCreatePageRoute.path(orgId, connectMethod.param);
+
+                    return (
+                        <ConnectMethodCard key={i} logo={connectMethod.logo} title={connectMethod.connectMethodName} />
+                    );
+                })}
             </div>
         </MethodsSection>
     );
