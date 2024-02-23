@@ -4,7 +4,7 @@ import {MethodsSection} from '^v3/V3OrgConnectsPage/ConnectsPageBody/MethodsSect
 
 export const ConnectCardAccountsSection = memo(function ConnectCardAccountsSection() {
     return (
-        <MethodsSection id="card-accounts" title="카드" description="연결된 카드의 거래내역을 불러올 수 있어요.">
+        <MethodsSection id="card-accounts" title="카드" description="구독의 최종 결제내역을 불러올 수 있어요.">
             <div className="grid grid-cols-5 gap-4">
                 <ConnectMethodCard
                     logo="https://plutus-app-public-assets.s3.ap-northeast-2.amazonaws.com/HYUNDAI.png"
