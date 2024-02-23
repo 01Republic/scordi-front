@@ -43,7 +43,7 @@ export const V3MainLayout = memo((props: V3MainLayoutProps) => {
             <AddressModal />
             <PageLoadingCover />
             {/*<OnboardingFlow />*/}
-            <ConnectDataSourcesModal />
+            {/*<ConnectDataSourcesModal />*/}
         </>
     );
 });
