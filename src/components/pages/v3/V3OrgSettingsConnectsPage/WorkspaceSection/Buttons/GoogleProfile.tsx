@@ -1,24 +1,19 @@
 import React, {memo} from 'react';
 import {Avatar} from '^components/Avatar';
-import {GoogleTokenDataDto} from '^models/GoogleTokenData/type';
+import {GoogleTokenDataResponseDto} from '^models/GoogleTokenData/type';
 
 interface GoogleProfileProps {
-    lastSyncAccount: GoogleTokenDataDto | undefined;
+    tokenData?: GoogleTokenDataResponseDto;
 }
 export const GoogleProfile = (props: GoogleProfileProps) => {
-    const {lastSyncAccount} = props;
+    const {tokenData} = props;
 
     return (
         <div className="!w-auto gap-4 flex">
-            <Avatar
-                src={lastSyncAccount?.picture}
-                className="w-9 h-9 outline outline-offset-1 outline-slate-100 mt-1"
-            />
+            <Avatar src={tokenData?.picture} className="w-9 h-9 outline outline-offset-1 outline-slate-100 mt-1" />
             <div className="flex-1">
-                <p>{lastSyncAccount?.name || <UnknownText />}</p>
-                <p className="text-sm font-extralight">
-                    {lastSyncAccount?.email || <UnknownText text="xxx@xxx.xxx" />}
-                </p>
+                <p>{tokenData?.name || <UnknownText />}</p>
+                <p className="text-sm font-extralight">{tokenData?.email || <UnknownText text="xxx@xxx.xxx" />}</p>
             </div>
         </div>
     );

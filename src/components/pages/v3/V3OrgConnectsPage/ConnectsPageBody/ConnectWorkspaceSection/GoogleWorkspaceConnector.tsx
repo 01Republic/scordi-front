@@ -113,7 +113,7 @@ const GoogleWorkspaceConnectedCard = memo((props: Props) => {
                     Profile={() => (
                         <MoreDropdownListItem onClick={console.log}>
                             <div className="py-2 px-0">
-                                <GoogleProfile lastSyncAccount={lastSyncAccount} />
+                                <GoogleProfile tokenData={lastSyncAccount} />
                             </div>
                         </MoreDropdownListItem>
                     )}

@@ -13,10 +13,11 @@ export const WorkspacesSection = memo(() => {
     const {currentOrg} = useCurrentOrg(orgId);
     const {toast} = useToast();
 
-    const lastSyncAccount = currentOrg?.lastGoogleSyncHistory?.googleTokenData;
+    const tokenData = currentOrg?.lastGoogleSyncHistory?.googleTokenData;
 
     const onClick = () => {
-        if (lastSyncAccount) return toast.info('최대 1개까지 등록 가능합니다.');
+        // if already exists
+        if (tokenData) return toast.info('최대 1개까지 등록 가능합니다.');
     };
 
     return (
@@ -28,9 +29,9 @@ export const WorkspacesSection = memo(() => {
             className="border-r"
         >
             {/*워크스페이스 추가 버튼*/}
-            {!lastSyncAccount && <ConnectWorkspaceButton />}
+            {!tokenData && <ConnectWorkspaceButton />}
 
-            {lastSyncAccount && <WorkspaceItem lastSyncAccount={lastSyncAccount} />}
+            {tokenData && <WorkspaceItem tokenData={tokenData} />}
         </ListContainer>
     );
 });

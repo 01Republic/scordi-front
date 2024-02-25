@@ -19,7 +19,7 @@ export const WorkspaceSection = memo(() => {
     const isSyncLoading = useRecoilValue(isWorkspaceSyncLoadingAtom);
     const isDisConnectLoading = useRecoilValue(isWorkspaceDisConnectLoadingAtom);
     const {toast} = useToast();
-    const lastSyncAccount = currentOrg?.lastGoogleSyncHistory?.googleTokenData;
+    const tokenData = currentOrg?.lastGoogleSyncHistory?.googleTokenData;
 
     return (
         <SettingBodyPanel title="워크스페이스" className="mb-5">
@@ -27,13 +27,13 @@ export const WorkspaceSection = memo(() => {
             <WorkspaceItem
                 logo={<FcGoogle size={28} />}
                 tool={ToolType.google}
-                lastSyncAccount={lastSyncAccount}
+                tokenData={tokenData}
                 button={
-                    lastSyncAccount ? (
+                    tokenData ? (
                         isSyncLoading || isDisConnectLoading ? (
                             <LoadingButton text={isSyncLoading ? '동기화 중' : '연동 해제 중'} />
                         ) : (
-                            <GoogleProfile lastSyncAccount={lastSyncAccount} />
+                            <GoogleProfile tokenData={tokenData} />
                         )
                     ) : (
                         <ConnectWorkspaceButtonInSettings />

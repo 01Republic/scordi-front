@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {ListItem} from '^v3/V3OrgConnectsPage/DatasourceListSection/Layouts/ListItem';
 import {GoogleProfile} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/GoogleProfile';
 import {MoreDropdown} from '^v3/V3OrgSettingsConnectsPage/MoreDropdown';
-import {GoogleTokenDataDto} from '^models/GoogleTokenData/type';
+import {GoogleTokenDataResponseDto} from '^models/GoogleTokenData/type';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {isWorkspaceDisConnectLoadingAtom, isWorkspaceSyncLoadingAtom} from '^v3/V3OrgSettingsConnectsPage/atom';
 import {organizationConnectGoogleWorkspaceApi} from '^models/Organization/api';
@@ -14,7 +14,7 @@ import {useAlert} from '^hooks/useAlert';
 import {onboardingModalIsShow} from '^v3/share/OnboardingFlow/atom';
 
 interface WorkspaceItemProps {
-    lastSyncAccount: GoogleTokenDataDto;
+    tokenData: GoogleTokenDataResponseDto;
 }
 
 export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
@@ -26,11 +26,11 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
 
     const {toast} = useToast();
     const {alert} = useAlert();
-    const {lastSyncAccount} = props;
+    const {tokenData} = props;
 
     const onSync = () => {
         if (!orgId) return;
-        if (!lastSyncAccount) return toast.error('연동된 계정이 없습니다.');
+        if (!tokenData) return toast.error('연동된 계정이 없습니다.');
 
         setSyncLoading(true);
         const req = organizationConnectGoogleWorkspaceApi.sync(orgId);
@@ -44,7 +44,7 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
 
     const onDisConnect = () => {
         if (!orgId) return;
-        if (!lastSyncAccount) return toast.error('연동된 계정이 없습니다.');
+        if (!tokenData) return toast.error('연동된 계정이 없습니다.');
 
         const req = alert.destroy({
             title: '연동을 해제하시겠습니까?',
@@ -68,8 +68,8 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
 
     return (
         <ListItem>
-            <GoogleProfile lastSyncAccount={lastSyncAccount} />
-            {lastSyncAccount && (
+            <GoogleProfile tokenData={tokenData} />
+            {tokenData && (
                 <MoreDropdown
                     onSync={onSync}
                     onDelete={onDisConnect}

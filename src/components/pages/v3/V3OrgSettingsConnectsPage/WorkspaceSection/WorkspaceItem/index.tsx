@@ -3,7 +3,7 @@ import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {useToast} from '^hooks/useToast';
 import {organizationConnectGoogleWorkspaceApi} from '^models/Organization/api';
-import {GoogleTokenDataDto} from '^models/GoogleTokenData/type';
+import {GoogleTokenDataResponseDto} from '^models/GoogleTokenData/type';
 import {ToolType} from '^v3/V3OrgSettingsConnectsPage/type';
 import {MoreDropdown} from '^v3/V3OrgSettingsConnectsPage/MoreDropdown';
 import {isWorkspaceDisConnectLoadingAtom, isWorkspaceSyncLoadingAtom} from '^v3/V3OrgSettingsConnectsPage/atom';
@@ -11,13 +11,12 @@ import {OnboardingSkippedStore, SkippedStoreStatus} from '^v3/share/OnboardingFl
 import {onboardingModalIsShow} from '^v3/share/OnboardingFlow/atom';
 import {useCurrentOrg} from '^models/Organization/hook';
 import {useAlert} from '^hooks/useAlert';
-import {GoogleProfile} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/GoogleProfile';
 
 interface WorkspaceItemProps {
     tool: ToolType;
     logo: JSX.Element;
     button: JSX.Element;
-    lastSyncAccount?: GoogleTokenDataDto | undefined;
+    tokenData?: GoogleTokenDataResponseDto | undefined;
 }
 
 export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
@@ -28,13 +27,13 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
     const {reload: reloadCurrentOrg, currentOrg} = useCurrentOrg(orgId);
     const {alert} = useAlert();
     const {toast} = useToast();
-    const {tool, logo, button, lastSyncAccount} = props;
+    const {tool, logo, button, tokenData} = props;
 
     if (!currentOrg) return <></>;
 
     const onSync = () => {
         if (!orgId) return;
-        if (!lastSyncAccount) return toast.error('연동된 계정이 없습니다.');
+        if (!tokenData) return toast.error('연동된 계정이 없습니다.');
 
         setSyncLoading(true);
         const req = organizationConnectGoogleWorkspaceApi.sync(orgId);
@@ -47,7 +46,7 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
     };
     const onDisConnect = () => {
         if (!orgId) return;
-        if (!lastSyncAccount) return toast.error('연동된 계정이 없습니다.');
+        if (!tokenData) return toast.error('연동된 계정이 없습니다.');
 
         const req = alert.destroy({
             title: '연동을 해제하시겠습니까?',
@@ -76,7 +75,7 @@ export const WorkspaceItem = memo((props: WorkspaceItemProps) => {
             </p>
             <div className="flex gap-3 items-center">
                 <div>{button}</div>
-                {lastSyncAccount && (
+                {tokenData && (
                     <MoreDropdown
                         onSync={onSync}
                         onDelete={onDisConnect}
