@@ -16,6 +16,7 @@ import {PiLinkBold} from 'react-icons/pi';
 import {BsArrowRight} from 'react-icons/bs';
 import {GrFormDown} from 'react-icons/gr';
 import {useOnResize2} from '^components/util/onResize2';
+import {LinkTo} from '^components/util/LinkTo';
 
 export const TopNavProfileButton = memo(() => {
     const router = useRouter();
@@ -91,15 +92,15 @@ export const TopNavProfileButton = memo(() => {
                 </li>
                 {currentUser.isAdmin && (
                     <li>
-                        <a
+                        <LinkTo
+                            href={AdminUsersPageRoute.path()}
                             className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-400 hover:text-scordi"
-                            onClick={() => router.push(AdminUsersPageRoute.path())}
                         >
                             <PiLinkBold />
                             <span className="flex gap-2 items-center justify-between w-full">
                                 스코디 어드민 <BsArrowRight />
                             </span>
-                        </a>
+                        </LinkTo>
                     </li>
                 )}
             </ul>
