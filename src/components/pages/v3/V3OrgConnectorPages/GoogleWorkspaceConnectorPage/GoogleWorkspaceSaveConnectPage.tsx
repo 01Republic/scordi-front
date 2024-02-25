@@ -11,10 +11,12 @@ import {CheckCircle} from '^components/react-icons/check-circle';
 import {ProductItem} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/results/ProductItemList/ProductItem';
 import {useRouter} from 'next/router';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
+import {useCurrentOrg} from '^models/Organization/hook';
 
 export const GoogleWorkspaceSaveConnectPage = memo(function GoogleWorkspaceSaveConnectPage() {
     const router = useRouter();
     const organizationId = useRecoilValue(orgIdParamState);
+    const {reload: reloadCurrentOrg} = useCurrentOrg(organizationId);
     const [reportData, setReportData] = useRecoilState(reportState);
     const setAccessToken = useSetRecoilState(googleWorkspaceAccessTokenAtom);
     const [showAnim, setShowAnim] = useState(true);
@@ -46,7 +48,10 @@ export const GoogleWorkspaceSaveConnectPage = memo(function GoogleWorkspaceSaveC
             syncedEmail: report.rawMetadata.syncedEmail,
         });
 
-        req.then(() => saveRedirect());
+        req.then(() => {
+            reloadCurrentOrg();
+            saveRedirect();
+        });
 
         req.catch((e) => {
             if (e.response.data.code == 'Unauthorized') {
