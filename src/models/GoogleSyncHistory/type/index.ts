@@ -1,6 +1,6 @@
 import {OrganizationDto} from '^models/Organization/type';
 import {TypeCast} from '^types/utils/class-transformer';
-import {GoogleTokenDataDto} from '^models/GoogleTokenData/type';
+import {GoogleTokenDataResponseDto} from '^models/GoogleTokenData/type';
 
 export class GoogleSyncHistoryDto {
     id: number; // 아이디
@@ -10,5 +10,5 @@ export class GoogleSyncHistoryDto {
     @TypeCast(() => Date) updatedAt: Date;
 
     @TypeCast(() => OrganizationDto) organization?: OrganizationDto;
-    @TypeCast(() => GoogleTokenDataDto) googleTokenData: GoogleTokenDataDto;
+    @TypeCast(() => GoogleTokenDataResponseDto) googleTokenData: GoogleTokenDataResponseDto;
 }

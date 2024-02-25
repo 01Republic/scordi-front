@@ -11,7 +11,7 @@ import {AdminOrgsPageRoute} from '^pages/admin/orgs';
 import {
     AccountListTabContent,
     InformationTabContent,
-    InvoiceAccountListTabContent,
+    AdminOrgConnectionTabContent,
     MemberListTabContent,
     SubscriptionListTabContent,
     TodoListTabContent,
@@ -44,8 +44,8 @@ export const AdminOrgDetailPage = memo(() => {
     const tabs = [
         {label: '기본정보', Component: InformationTabContent},
         {label: '연동된 앱 (구독리스트)', Component: SubscriptionListTabContent},
-        {label: '인보이스계정', Component: InvoiceAccountListTabContent},
-        {label: '보관계정', Component: AccountListTabContent},
+        {label: '연동관리', Component: AdminOrgConnectionTabContent},
+        {label: '계정관리', Component: AccountListTabContent},
         {label: '멤버', Component: MemberListTabContent},
         {label: '회원', Component: UserListTabContent},
         {label: '체크리스트', Component: TodoListTabContent},

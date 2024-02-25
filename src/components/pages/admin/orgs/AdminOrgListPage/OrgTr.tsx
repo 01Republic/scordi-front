@@ -57,17 +57,17 @@ export const OrgTr = memo((props: OrgTrProps) => {
                 )}
             </div>
             {/*워크스페이스 연동*/}
-            <div className="text-right">
+            <div className="">
                 <input type="checkbox" readOnly={true} className="checkbox" checked={!!org.lastGoogleSyncHistoryId} />
             </div>
             {/*인보이스 계정 연동*/}
-            <div className="text-right"></div>
+            <div className=""></div>
             {/*/!*멤버 수*!/*/}
             {/*<div className="text-center">*/}
             {/*    <p>{org.memberCount.toLocaleString()}명</p>*/}
             {/*</div>*/}
             {/*생성일시*/}
-            <div className="text-right">
+            <div className="">
                 <p>{yyyy_mm_dd_hh_mm(org.createdAt)}</p>
             </div>
             <div className="text-right">

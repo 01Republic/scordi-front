@@ -32,7 +32,7 @@ export const InvoiceAccountListTabContent = memo(() => {
         <div className="w-full">
             <h2 className="mb-6">
                 {InvoiceAccount.length}
-                <small>개의 결제수신계정이 등록되어 있습니다.</small>
+                <small>개의 결제수신메일이 등록되어 있습니다.</small>
             </h2>
 
             <CardTablePanel
@@ -43,7 +43,7 @@ export const InvoiceAccountListTabContent = memo(() => {
                 // 조만간 계정의 토큰 만료상태를 의미하도록 바뀌어야 합니다. (ex: isTokenAlive)
                 ths={['Email', '생성일시', '남은 유효기간', '구독', '']}
                 entryComponent={(invoiceAccount, i, arr) => (
-                    <InvoiceAccountItem invoiceAccount={invoiceAccount} borderBottom={i + 1 < arr.length} />
+                    <InvoiceAccountItem key={i} invoiceAccount={invoiceAccount} borderBottom={i + 1 < arr.length} />
                 )}
             />
         </div>
