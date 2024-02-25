@@ -40,7 +40,7 @@ export const ConnectMethodCard = memo((props: ConnectMethodCardProps) => {
 
                     {connected && (
                         <span className="flex gap-1 items-center px-2 py-0.5 bg-green-200 text-green-800 rounded-btn text-sm">
-                            <IoIosLink /> 연동됨
+                            <IoIosLink /> 연결됨
                         </span>
                     )}
                 </div>
