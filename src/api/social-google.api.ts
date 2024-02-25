@@ -71,7 +71,7 @@ export const userSocialGoogleApi = {
 
 export type GoogleAccessTokenQueryDto = {
     code: string;
-    feature?: 'admin' | 'gmail';
+    feature?: 'login' | 'gmail' | 'admin';
 };
 
 const makeQueryString = (dto: GoogleAccessTokenQueryDto) => {

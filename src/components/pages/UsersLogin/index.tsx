@@ -28,7 +28,7 @@ export const UsersLoginPage = memo(() => {
 
     return (
         <div className="bg-white">
-            <GoogleOAuthProvider clientId={googleOAuth.gmailClient.id}>
+            <GoogleOAuthProvider clientId={googleOAuth.loginClient.id}>
                 <Modal
                     type={'info'}
                     isOpen={isModalOpen}
@@ -54,7 +54,7 @@ export const UsersLoginPage = memo(() => {
 
                         <div className="pb-14">
                             <GoogleLoginBtn
-                                about="gmail"
+                                about="login"
                                 className="btn-block justify-start relative"
                                 buttonText={
                                     <span>

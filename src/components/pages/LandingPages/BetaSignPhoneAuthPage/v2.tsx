@@ -1,5 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
 import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
 import {useTranslation} from 'next-i18next';
@@ -19,13 +19,15 @@ import {UserGoogleSocialSignUpRequestDtoV2} from '^models/User/types';
 import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';
 import {SignWelcomePageRoute} from '^pages/sign/welcome';
 import Link from 'next/link';
+import {useAlert} from '^hooks/useAlert';
 
 export const BetaSignPhoneAuthPage2 = memo(() => {
     const router = useRouter();
     const socialLoginV2 = useSocialLoginV2();
-    const googleAccessToken = useRecoilValue(googleAccessTokenAtom);
+    const [googleAccessToken, setGoogleAccessToken] = useRecoilState(googleAccessTokenAtom);
     const phoneAuthData = useRecoilValue(phoneAuthDataState);
     const invitedOrgId = useRecoilValue(invitedOrgIdAtom);
+    const [orgNameInputDisplay, setOrgNameInputDisplay] = useState(false);
     const form = useForm<UserGoogleSocialSignUpRequestDtoV2>();
     const setIsOpened = useSetRecoilState(isTermModalOpenedState);
     const codeConfirmed = useRecoilValue(codeConfirmedState);
@@ -36,8 +38,16 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
     const resetGoogleCode = useResetRecoilState(googleAccessTokenAtom);
 
     useEffect(() => {
-        googleAccessToken && setPageLoaded(true);
-    }, [googleAccessToken]);
+        if (!router.isReady) return;
+        if (typeof window === 'undefined') return;
+
+        const accessToken = window.localStorage.getItem('accessToken');
+        if (accessToken) {
+            setGoogleAccessToken(accessToken);
+            setPageLoaded(true);
+            window.localStorage.removeItem('accessToken');
+        }
+    }, [router.isReady]);
 
     useEffect(() => {
         form.setValue('phone', phoneAuthData.phoneNumber);
@@ -94,6 +104,12 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
                             .catch(() => router.push(V3OrgJoinErrorPageRoute.path(invitedOrgId)))
                             .finally(resetGoogleCode);
                     } else {
+                        ////////
+                        if (!data.organizationName?.trim()) {
+                            setIsOpened(false);
+                            setOrgNameInputDisplay(true);
+                            return;
+                        }
                         googleSignUp(googleAccessToken, data)
                             .then(findOrCreateUserCallback)
                             .catch((err: ApiError) => {
@@ -119,6 +135,63 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
                         className="text-2xl sm:text-4xl mb-8 font-bold"
                         dangerouslySetInnerHTML={{__html: t('auth_check.page_title')}}
                     />
+                </div>
+            </LandingPageLayout>
+        );
+    }
+
+    // 조직명 인풋이 활성화 되는 경우, 조직명을 받는 화면 모드로 전환된다. (약관모달 확인 직후)
+    if (orgNameInputDisplay) {
+        return (
+            <LandingPageLayout pageName="BetaSignPhoneAuthPage">
+                <div className="mx-auto text-center py-20 w-full max-w-lg space-y-5">
+                    <h1
+                        className="text-3xl sm:text-4xl font-bold leading-loose"
+                        onClick={() => {
+                            console.log(form.getValues());
+                        }}
+                    >
+                        <span className="block mb-2">워크스페이스의 이름은</span>
+                        <span className="block">무엇으로 할까요?</span>
+                    </h1>
+
+                    <div className="p-4">
+                        <div className="mx-auto mb-14">
+                            {/* 워크스페이스 이름 설정 */}
+                            <div className="form-control relative mb-6">
+                                <input
+                                    type="text"
+                                    className={`input sm:input-lg input-bordered flex-grow`}
+                                    {...form.register('organizationName')}
+                                    placeholder="ex. 제로원리퍼블릭"
+                                    required
+                                    onKeyUp={(e) => {
+                                        if (e.key === 'Enter') {
+                                            form.watch('organizationName') && agreeModalOnConfirm();
+                                        }
+                                    }}
+                                />
+                            </div>
+                        </div>
+
+                        {form.watch('organizationName') ? (
+                            <button
+                                type="submit"
+                                className="btn sm:btn-lg btn-block btn-scordi-500 normal-case disabled:!bg-slate-100 disabled:!border-slate-300"
+                                disabled={!form.watch('phone') || !codeConfirmed || isLoading}
+                                onClick={() => agreeModalOnConfirm()}
+                            >
+                                {form.watch('organizationName')} (으)로 시작하기
+                            </button>
+                        ) : (
+                            <button
+                                className="btn sm:btn-lg btn-block btn-scordi-500 normal-case disabled:!bg-slate-100 disabled:!border-slate-300"
+                                disabled
+                            >
+                                이름을 입력해주세요
+                            </button>
+                        )}
+                    </div>
                 </div>
             </LandingPageLayout>
         );

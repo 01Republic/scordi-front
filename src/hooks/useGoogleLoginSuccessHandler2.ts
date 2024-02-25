@@ -107,6 +107,9 @@ export const useGoogleLoginSuccessHandler2 = () => {
         });
 
         // 만약 가입된 계정이 없으면, 구글 회원 정보를 상태에 저장하고 추가정보 입력을 위해 가입페이지로 넘깁니다.
-        jwtRequest.catch(() => moveToSignUpPage());
+        jwtRequest.catch(() => {
+            localStorage.setItem('accessToken', accessToken);
+            moveToSignUpPage();
+        });
     };
 };

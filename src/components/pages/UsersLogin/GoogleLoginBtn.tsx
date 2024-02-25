@@ -8,6 +8,7 @@ import {uniq} from '^utils/array';
 import {ReactNodeLike} from 'prop-types';
 
 const SCOPE_MAP = {
+    login: ['email', 'profile', 'openid'],
     gmail: [
         'email',
         'profile',
@@ -62,10 +63,11 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
                 code,
                 ...(feature ? {feature} : {}),
             });
+            console.log('accessToken', accessToken);
             setAccessToken(accessToken);
             return googleLoginOnSuccess(accessToken);
         },
-        scope: scope.join(' '),
+        scope: about === 'login' ? undefined : scope.join(' '),
         flow: 'auth-code',
         onError: (error) => {
             console.log(error);

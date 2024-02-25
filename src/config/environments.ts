@@ -15,9 +15,9 @@ export const termsUrl = {
 };
 
 export const googleOAuth = {
-    devClient: {
-        id: xxx(process.env.NEXT_PUBLIC_GOOGLE_OAUTH_DEV_CLIENT_ID),
-        secret: xxx(process.env.NEXT_PUBLIC_GOOGLE_OAUTH_DEV_CLIENT_SECRET),
+    loginClient: {
+        id: xxx(process.env.NEXT_PUBLIC_GOOGLE_OAUTH_LOGIN_CLIENT_ID),
+        secret: xxx(process.env.NEXT_PUBLIC_GOOGLE_OAUTH_LOGIN_CLIENT_SECRET),
     },
     gmailClient: {
         id: xxx(process.env.NEXT_PUBLIC_GOOGLE_OAUTH_GMAIL_CLIENT_ID),

@@ -26,6 +26,7 @@ export type UserSocialSignUpRequestDto = {
     isAgreeForServiceUsageTerm: boolean; // 서비스 이용약관 동의 여부
     isAgreeForPrivacyPolicyTerm: boolean; // 개인정보 활용 동의 여부
     isAgreeForMarketingTerm: boolean; // 마케팅 수신 동의 여부
+    organizationName?: string; // 생성할 조직 이름 (없으면 사용자명으로 생성)
 };
 
 export type UserGoogleSocialSignUpRequestDtoV2 = {
@@ -33,6 +34,7 @@ export type UserGoogleSocialSignUpRequestDtoV2 = {
     isAgreeForServiceUsageTerm: boolean; // 서비스 이용약관 동의 여부
     isAgreeForPrivacyPolicyTerm: boolean; // 개인정보 활용 동의 여부
     isAgreeForMarketingTerm: boolean; // 마케팅 수신 동의 여부
+    organizationName?: string; // 생성할 조직 이름 (없으면 사용자명으로 생성)
 };
 
 export type UserSocialSignUpInvitedRequestDto = UserSocialSignUpRequestDto & {
