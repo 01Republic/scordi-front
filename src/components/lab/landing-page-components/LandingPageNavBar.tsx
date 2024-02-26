@@ -70,11 +70,11 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
                             text="제품소개"
                             className="hidden md:inline-flex btn btn-ghost normal-case btn-hover-init"
                         />
-                        <LinkTo
-                            href={TastingPageRoute.path()}
-                            className="btn btn-ghost normal-case btn-hover-init"
-                            text="SaaS 스캐너"
-                        />
+                        {/*<LinkTo*/}
+                        {/*    href={TastingPageRoute.path()}*/}
+                        {/*    className="btn btn-ghost normal-case btn-hover-init"*/}
+                        {/*    text="SaaS 스캐너"*/}
+                        {/*/>*/}
                         <LinkTo href={saasPath} className="btn btn-ghost normal-case btn-hover-init" text="컬렉션" />
                         <LinkTo
                             href={blogPath}
