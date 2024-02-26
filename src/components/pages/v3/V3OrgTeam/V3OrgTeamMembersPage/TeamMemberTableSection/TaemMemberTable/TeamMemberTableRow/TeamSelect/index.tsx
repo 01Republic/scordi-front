@@ -65,7 +65,7 @@ export const TeamSelect = memo((props: TeamSelectProps) => {
             onSelect={onSelect}
             contentMinWidth="240px"
             inputDisplay
-            optionListBoxTitle="팀을 변경합니다"
+            optionListBoxTitle={teamMember.team ? '팀을 변경합니다' : '팀을 추가합니다'}
             onCreate={(keyword) => onCreate(keyword)}
             optionDestroy={(option) => onDelete(option)}
         />
