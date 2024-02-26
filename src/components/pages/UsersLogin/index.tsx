@@ -11,6 +11,7 @@ import {LandingPageNavBar} from '^components/lab/landing-page-components';
 import {WithChildren} from '^types/global.type';
 import {appEnv, googleOAuth} from '^config/environments';
 import {FaArrowRight} from 'react-icons/fa6';
+import {LandingPageLayout} from '^components/pages/LandingPages/LandingPageLayout';
 
 export const UsersLoginPage = memo(() => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,17 +28,8 @@ export const UsersLoginPage = memo(() => {
     const scope = ['email', 'profile', 'openid', 'https://www.googleapis.com/auth/gmail.readonly'];
 
     return (
-        <div className="bg-white">
+        <LandingPageLayout pageName="Login" hideFooter>
             <GoogleOAuthProvider clientId={googleOAuth.loginClient.id}>
-                <Modal
-                    type={'info'}
-                    isOpen={isModalOpen}
-                    title={'Login failed'}
-                    description={'Create a Google Account'}
-                    buttons={[{text: 'Try again', onClick: () => setIsModalOpen(false)}]}
-                />
-                <LandingPageNavBar showLoginButton={true} fluid={true} className="sticky top-0 bg-white z-10" />
-
                 <div className={'flex items-center justify-center'} style={{minHeight: '80vh'}}>
                     {/*<form onSubmit={form.handleSubmit(submit)}>*/}
                     <div className="m-auto text-center w-[400px]">
@@ -69,14 +61,16 @@ export const UsersLoginPage = memo(() => {
                     </div>
                     {/*</form>*/}
                 </div>
-
-                {/*{appEnv !== 'production' && (*/}
-                {/*    <div className="mx-auto py-10 w-full max-w-md space-y-5">*/}
-                {/*        <TesterLoginForm />*/}
-                {/*    </div>*/}
-                {/*)}*/}
             </GoogleOAuthProvider>
-        </div>
+
+            <Modal
+                type={'info'}
+                isOpen={isModalOpen}
+                title={'Login failed'}
+                description={'Create a Google Account'}
+                buttons={[{text: 'Try again', onClick: () => setIsModalOpen(false)}]}
+            />
+        </LandingPageLayout>
     );
 });
 

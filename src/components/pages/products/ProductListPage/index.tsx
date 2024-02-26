@@ -4,6 +4,7 @@ import {LandingPageNavBar} from '^components/lab/landing-page-components';
 import {ProductListHeader} from './ProductListHeader';
 import {ProductListSidePanel} from './ProductListSidePanel';
 import {ProductListContentPanel} from './ProductListContentPanel';
+import {LandingPageLayout} from '^components/pages/LandingPages/LandingPageLayout';
 
 export const ProductListPage = memo(() => {
     const router = useRouter();
@@ -13,8 +14,7 @@ export const ProductListPage = memo(() => {
     }, [router.isReady]);
 
     return (
-        <div className="bg-white">
-            <LandingPageNavBar showLoginButton={true} fluid={true} className="sticky top-0 z-10 bg-white" />
+        <LandingPageLayout pageName="SaaS-Collection">
             <ProductListHeader />
 
             <div className="w-full">
@@ -30,6 +30,6 @@ export const ProductListPage = memo(() => {
                     </div>
                 </div>
             </div>
-        </div>
+        </LandingPageLayout>
     );
 });

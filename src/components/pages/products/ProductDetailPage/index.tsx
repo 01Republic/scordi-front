@@ -4,12 +4,13 @@ import {useRecoilValue} from 'recoil';
 
 import {PageSEO} from '^components/SEO';
 import {LandingPageNavBar} from '^components/lab/landing-page-components';
-import {BetaServiceFooter} from '^components/pages/LandingPages/components';
+import {AOSProvider, BetaServiceFooter} from '^components/pages/LandingPages/components';
 import {ProductPostContent} from '^components/pages/products/ProductDetailPage/ProductPostContent';
 import {OtherProductList} from '^components/pages/products/ProductDetailPage/OtherProductList';
 import {SaaSReportSection} from '^components/pages/products/ProductDetailPage/SaaSReportSection';
 import {useProductPostContent} from '^models/Product/hook';
 import {isProductDetailPageLoadedAtom, ProductDetailPageRoute} from '^pages/products/[id]';
+import {LandingPageLayout} from '^components/pages/LandingPages/LandingPageLayout';
 
 interface ProductDetailPageProps {
     product: ProductDto;
@@ -38,8 +39,8 @@ export const ProductDetailPage = memo((props: ProductDetailPageProps) => {
             />
 
             {isLoaded && (
-                <>
-                    <LandingPageNavBar showLoginButton={true} fluid={true} className="sticky top-0 z-10 bg-white" />
+                <AOSProvider>
+                    <LandingPageNavBar showLoginButton={true} sticky />
                     <div className="blog-container blog-container--default">
                         <div className="blog-container--inner">
                             <article>
@@ -68,7 +69,7 @@ export const ProductDetailPage = memo((props: ProductDetailPageProps) => {
                             </div>
                         </div>
                     </div>
-                </>
+                </AOSProvider>
             )}
         </div>
     );

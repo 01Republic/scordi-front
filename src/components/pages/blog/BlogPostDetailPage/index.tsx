@@ -2,7 +2,7 @@ import React, {memo, useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {usePost} from '^models/Post/hook';
 import {LandingPageNavBar} from '^components/lab/landing-page-components';
-import {BetaServiceFooter} from '^components/pages/LandingPages/components';
+import {AOSProvider, BetaServiceFooter} from '^components/pages/LandingPages/components';
 import {BlogPostDetailHeader} from './BlogPostDetailHeader';
 import {BlogPostDetailBody} from './BlogPostDetailBody';
 import {OtherPostList} from './OtherPostList';
@@ -37,8 +37,8 @@ export const BlogPostDetailPage = memo(({post}: {post: PostDto}) => {
             />
 
             {isLoaded && (
-                <>
-                    <LandingPageNavBar showLoginButton={true} fluid={true} className="sticky top-0 z-10 bg-white" />
+                <AOSProvider>
+                    <LandingPageNavBar showLoginButton={true} sticky />
                     <div className="blog-container blog-container--default">
                         <div className="blog-container--inner">
                             <article>
@@ -68,7 +68,7 @@ export const BlogPostDetailPage = memo(({post}: {post: PostDto}) => {
                             </div>
                         </div>
                     </div>
-                </>
+                </AOSProvider>
             )}
         </div>
     );

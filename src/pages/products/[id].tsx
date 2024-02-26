@@ -39,7 +39,7 @@ export const getServerSideProps = async function ({req, query, locale}: NextPage
     if (isNaN(id)) return;
 
     // 데이터 load api를 호출하여 post data load
-    const product = await productApi.show(id);
+    const product = await productApi.show(id).then((res) => res.data);
 
     return {
         props: {

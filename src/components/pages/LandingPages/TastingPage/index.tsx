@@ -9,6 +9,7 @@ import {SyncWorkspaceApp} from './tabs/panes/SyncWorkspaceApp';
 import {InvoiceTrackerApp} from './tabs/panes/InvoiceTrackerApp';
 import {gmailItemsLoadedAtom, gmailItemsLoadingAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
 import {useOnResize2} from '^components/util/onResize2';
+import {LandingPageLayout} from '^components/pages/LandingPages/LandingPageLayout';
 
 export const TastingPage = memo(() => {
     const [tabIndex, setTabIndex] = useRecoilState(navTabIndex);
@@ -30,41 +31,36 @@ export const TastingPage = memo(() => {
     const TabContentComponent = tabs[tabIndex]?.Component || Fragment;
 
     return (
-        <AOSProvider>
-            <HeadTag />
+        <LandingPageLayout pageName="TastingPage">
             {isMobile && <ChannelTalkHideStyle />}
-            <div id="TastingPage" className="bg-white">
-                <LandingPageNavBar showLoginButton={true} fluid={true} />
 
-                <div className="pt-6 sm:pt-[100px]">
-                    <div className="container px-4">
-                        <ul className="flex gap-8 text-3xl font-semibold">
-                            {tabs.map((tab, i) => (
-                                <li
-                                    key={i}
-                                    onClick={() => setTabIndex(i)}
-                                    className={`flex items-center gap-2 ${
-                                        tabIndex === i ? 'text-gray-700' : 'text-gray-400'
-                                    } hover:text-gray-700 cursor-pointer transition-all`}
-                                >
-                                    <div className={tabIndex === i ? 'underline underline-offset-[14px]' : ''}>
-                                        {tab.label}
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+            <div className="pt-6 sm:pt-[100px]">
+                <div className="container px-4">
+                    <ul className="flex gap-8 text-3xl font-semibold">
+                        {tabs.map((tab, i) => (
+                            <li
+                                key={i}
+                                onClick={() => setTabIndex(i)}
+                                className={`flex items-center gap-2 ${
+                                    tabIndex === i ? 'text-gray-700' : 'text-gray-400'
+                                } hover:text-gray-700 cursor-pointer transition-all`}
+                            >
+                                <div className={tabIndex === i ? 'underline underline-offset-[14px]' : ''}>
+                                    {tab.label}
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
-
-                <TabContentComponent />
-
-                <br />
-                <br />
-                <br />
-                <hr />
-                <BetaServiceFooter />
             </div>
-        </AOSProvider>
+
+            <TabContentComponent />
+
+            <br />
+            <br />
+            <br />
+            <hr />
+        </LandingPageLayout>
     );
 });
 

@@ -12,18 +12,15 @@ import {Features} from './Features';
 import {FAQ} from './FAQ';
 import {Review} from './Review';
 import {useSetClientBrowser} from '^hooks/useClientBrowser';
+import {LandingPageLayout} from '^components/pages/LandingPages/LandingPageLayout';
 
 export const LandingHomePage3 = memo(() => {
     const {t} = useTranslation('publicMain');
     useSetClientBrowser();
 
     return (
-        <AOSProvider>
-            <HeadTag />
-
-            <div className="bg-white relative z-10">
-                <LandingPageNavBar showLoginButton={true} sticky bgBlur />
-
+        <LandingPageLayout pageName="HomePage" navBgBlur>
+            <div className="relative z-[9]">
                 <HomePageHeader />
                 <CollectAppSection />
                 <StatsSection />
@@ -35,10 +32,9 @@ export const LandingHomePage3 = memo(() => {
                 <FAQ />
                 <WhatTimeWidget />
                 <Section4 />
-                <BetaServiceFooter />
             </div>
 
             <InquiryModal />
-        </AOSProvider>
+        </LandingPageLayout>
     );
 });
