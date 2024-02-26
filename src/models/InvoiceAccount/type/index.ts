@@ -5,6 +5,7 @@ import {TypeCast} from '^types/utils/class-transformer';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {OrganizationDto} from '^models/Organization/type';
 import {d_day, dayAfter, firstDayOfMonth, firstDayOfYear, monthBefore, yearBefore} from '^utils/dateTime';
+import {GoogleTokenDataDto} from '^models/GoogleTokenData/type';
 
 export type GmailAgentTokenData = {
     accessToken: string; //Gmail Access Token
@@ -17,6 +18,8 @@ export class InvoiceAccountDto {
     organizationId: number;
     image: string | null;
     email: string;
+    tokenData: GmailAgentTokenData;
+    googleTokenDataId: number | null;
     isActive: boolean; // 활성화 여부
     isSyncRunning: boolean; // 싱크 실행중 여부
     @TypeCast(() => Date) createdAt: Date;
@@ -24,6 +27,7 @@ export class InvoiceAccountDto {
 
     // relations
     @TypeCast(() => OrganizationDto) organization?: OrganizationDto[];
+    @TypeCast(() => GoogleTokenDataDto) googleTokenData?: GoogleTokenDataDto;
     @TypeCast(() => InvoiceAppDto) invoiceApps?: InvoiceAppDto[];
     @TypeCast(() => SubscriptionDto) subscriptions?: SubscriptionDto[];
 

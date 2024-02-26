@@ -196,7 +196,7 @@ export const GoogleWorkspaceBeforeConnectPage = memo(function GoogleWorkspaceBef
     );
 });
 
-const SafeBadge = () => {
+export const SafeBadge = () => {
     const onClick = () => {
         BottomUpModalSwal.fire({
             title: <h4 className="text-lg py-4">고객 데이터를 안전하게 지키기 위한 노력</h4>,

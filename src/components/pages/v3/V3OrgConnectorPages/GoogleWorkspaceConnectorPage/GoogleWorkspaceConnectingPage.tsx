@@ -61,7 +61,7 @@ export const GoogleWorkspaceConnectingPage = memo(function GoogleWorkspaceConnec
                     />
                 </div>
 
-                <div className="mb-12">
+                <div className="mb-12 animate-pulse">
                     <h1 className="text-3xl mb-4">{title}</h1>
                     <h2 className="text-xl mb-4">{desc}</h2>
 

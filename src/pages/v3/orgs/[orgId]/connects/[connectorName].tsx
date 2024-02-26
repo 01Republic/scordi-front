@@ -6,9 +6,11 @@ import {v3CommonRequires} from '^types/utils/18n.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
 import {GoogleWorkspaceConnectorPage} from '^v3/V3OrgConnectorPages/GoogleWorkspaceConnectorPage';
+import {GmailInvoiceConnectorPage} from '^v3/V3OrgConnectorPages/GmailInvoiceConnectorPage';
 
 export enum Connectors {
     googleWorkspace = 'google-workspace',
+    gmailInvoice = 'gmail-invoice',
 }
 
 export const V3OrgConnectorDetailPageRoute = pathRoute({
@@ -46,6 +48,7 @@ export default function V3OrgConnectorDetailPage() {
     if (!orgId || isNaN(orgId) || !connectorName) return <></>;
 
     if (connectorName === Connectors.googleWorkspace) return <GoogleWorkspaceConnectorPage />;
+    if (connectorName === Connectors.gmailInvoice) return <GmailInvoiceConnectorPage />;
 
     return (
         <div>

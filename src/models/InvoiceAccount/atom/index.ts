@@ -14,3 +14,8 @@ export const invoiceAccountsOfSubscription = pagedResourceAtom<InvoiceAccountDto
 export const invoiceAccountsInSelectModal = pagedResourceAtom<InvoiceAccountDto, FindAllInvoiceAccountQueryDto>({
     key: 'invoiceAccountsInSelectModal',
 });
+
+/** 구독 불러오기 (연동페이지) 에서, 연결된 지메일 인보이스 계정 리스트를 보여줄 때 사용 */
+export const invoiceAccountsInConnector = pagedResourceAtom<InvoiceAccountDto, FindAllInvoiceAccountQueryDto>({
+    key: 'invoiceAccountsInConnector',
+});
