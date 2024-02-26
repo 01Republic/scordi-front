@@ -6,10 +6,11 @@ interface TableSearchControlProps extends WithChildren {
     totalItemCount: number;
     onSearch: (keyword: string) => any;
     size?: 'sm' | 'md' | 'lg';
+    placeholder?: string;
 }
 
 export const TableSearchControl = memo((props: TableSearchControlProps) => {
-    const {totalItemCount, onSearch, size = 'md', children} = props;
+    const {totalItemCount, onSearch, size = 'md', placeholder = '검색', children} = props;
 
     return (
         <div className="flex justify-between items-center">
@@ -29,7 +30,7 @@ export const TableSearchControl = memo((props: TableSearchControlProps) => {
                 <input
                     type="text"
                     className={`input input-${size} input-bordered pl-8`}
-                    placeholder="검색"
+                    placeholder={placeholder}
                     onChange={(e) => onSearch(e.target.value)}
                 />
             </div>

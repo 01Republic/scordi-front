@@ -30,7 +30,11 @@ export const TeamMembersTableSection = memo(() => {
 
     return (
         <div className="flex flex-col gap-4">
-            <TableSearchControl totalItemCount={pagination.totalItemCount} onSearch={onSearch} />
+            <TableSearchControl
+                totalItemCount={pagination.totalItemCount}
+                onSearch={onSearch}
+                placeholder="멤버 이름을 입력해보세요"
+            />
 
             <TeamMemberTable />
 

@@ -25,7 +25,12 @@ export const SubscriptionSearchControl = memo(function SubscriptionSearchControl
     }, 500);
 
     return (
-        <TableSearchControl size="sm" totalItemCount={result.pagination.totalItemCount} onSearch={onSearch}>
+        <TableSearchControl
+            size="sm"
+            totalItemCount={result.pagination.totalItemCount}
+            onSearch={onSearch}
+            placeholder="서비스명을 입력해보세요"
+        >
             <div className="flex-1 px-4 flex gap-4 items-center justify-between">
                 <div>
                     <SortKeysHandler />
