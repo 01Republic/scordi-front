@@ -26,6 +26,7 @@ import {orgIdParamState} from '^atoms/common';
 import {useAlert} from '^hooks/useAlert';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {connectInvoiceAccountCodeAtom} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
+import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
 
 const selectedInvoiceAccountAtom = atom<InvoiceAccountDto | null>({
     key: 'selectedInvoiceAccountAtom',
@@ -208,7 +209,7 @@ const InvoiceAccountItem = memo((props: {data: InvoiceAccountDto}) => {
             onClick={() => onClick()}
         >
             <div>
-                <GoogleProfile tokenData={invoiceAccount.googleTokenData} />
+                <InvoiceAccountProfile invoiceAccount={invoiceAccount} />
             </div>
             <div className="flex items-stretch justify-between">
                 <div className="flex items-center justify-center pl-4">
