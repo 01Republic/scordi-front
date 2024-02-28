@@ -43,7 +43,7 @@ export const GmailInvoiceConnectedListPage = memo(function GmailInvoiceConnected
     const subscriptions = items.flatMap((item) => item.subscriptions);
 
     return (
-        <div className="py-10 px-12">
+        <div className="py-10 px-4 md:px-12">
             <header className="mb-12">
                 <div className="mb-12">
                     <LinkTo
@@ -63,7 +63,7 @@ export const GmailInvoiceConnectedListPage = memo(function GmailInvoiceConnected
                 {/*    <SafeBadge />*/}
                 {/*</div>*/}
 
-                <div className="mb-12 flex justify-between items-center">
+                <div className="mb-12 md:flex justify-between items-center">
                     <h1 className="text-3xl mb-8">
                         {pagination.totalItemCount}개의 청구서 수신 메일
                         <span className="text-gray-400">로부터</span> <br /> {subscriptions.length}개의 구독
@@ -90,7 +90,7 @@ export const GmailInvoiceConnectedListPage = memo(function GmailInvoiceConnected
                 </div>
             </header>
 
-            <section className="grid grid-cols-5 gap-12">
+            <section className="lg:grid grid-cols-5 gap-12">
                 <InvoiceAccountListSection />
                 <SubscriptionListSection />
             </section>
@@ -120,7 +120,7 @@ const InvoiceAccountListSection = memo(() => {
     }, [result.items]);
 
     return (
-        <div className="col-span-2">
+        <div className="col-span-2 mb-8">
             <h3 className="flex items-center gap-2 mb-6">
                 <FcAddressBook size={30} />
                 <span>청구서 수신 메일</span>
@@ -237,7 +237,7 @@ const SubscriptionListSection = memo(() => {
     const subscriptions = (invoiceAccount && invoiceAccount.subscriptions) || [];
 
     return (
-        <div className="col-span-3">
+        <div className="col-span-3 mb-8">
             <h3 className="flex items-center gap-2 mb-6">
                 <FcFinePrint size={30} />{' '}
                 <span>계정으로 조회된 구독 {subscriptions.length ? `(${subscriptions.length})` : ''}</span>
