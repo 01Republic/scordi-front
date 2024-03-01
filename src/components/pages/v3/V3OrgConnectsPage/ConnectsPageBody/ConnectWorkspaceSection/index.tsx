@@ -10,7 +10,7 @@ export const ConnectWorkspaceSection = memo(function ConnectWorkspaceSection() {
             title="구성원"
             description="이용중인 그룹웨어를 연결하고 누가 무엇을 이용중인지 한 번에 확인해요."
         >
-            <div className="grid grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                 <GoogleWorkspaceConnector />
 
                 <ConnectMethodCard

@@ -35,6 +35,7 @@ export const channelTalkEnv = {
 };
 export const crawlerSign = xxx(process.env.NEXT_PUBLIC_CRAWLER_SIGN_SECRET as string);
 export const cardSign = xxx(process.env.NEXT_PUBLIC_CARD_SIGN_KEY as string);
+export const networkSignKey = xxx(process.env.NEXT_PUBLIC_CARD_SIGN_KEY as string);
 
 export const ga_id = xxx('G-3N0EEGXZ8D');
 export const gtm_id = xxx('GTM-KHWGMDZT');

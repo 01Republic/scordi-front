@@ -14,13 +14,15 @@ export const getToken = () => typeof window !== 'undefined' && localStorage.getI
 export const setToken = (token: string) => localStorage.setItem(SIGNED_TOKEN_STORAGE_KEY, token);
 export const removeToken = () => localStorage.removeItem(SIGNED_TOKEN_STORAGE_KEY);
 
-export type ApiErrorDto = {
+export type ApiErrorDto<T = any> = {
     code: string;
     message: string;
     status: number;
+    data?: T;
 };
 
 export class ApiError<T = ApiErrorDto, D = any> extends AxiosError<T, D> {}
+export type ApiErrorResponse<T> = ApiError<ApiErrorDto<T>>;
 
 export function errorToast(e: ApiError) {
     if (e.response) {

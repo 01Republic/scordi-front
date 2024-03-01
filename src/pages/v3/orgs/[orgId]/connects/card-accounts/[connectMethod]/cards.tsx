@@ -4,7 +4,6 @@ import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {CardConnectCreatePage} from '^v3/V3OrgConnectCreatePage/CardConnectCreatePage';
 import {V3OrgConnectedCardListPage} from '^v3/V3OrgConnectedCardListPage';
 
 export const V3OrgConnectedCardListPageRoute = pathRoute({

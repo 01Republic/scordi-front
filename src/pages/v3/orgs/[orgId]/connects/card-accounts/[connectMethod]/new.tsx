@@ -4,7 +4,7 @@ import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {CardConnectCreatePage} from '^v3/V3OrgConnectCreatePage/CardConnectCreatePage';
+import {CardConnectorPage} from '^v3/V3OrgConnectorPages/CardConnectorPage';
 
 export const V3OrgConnectCardCreatePageRoute = pathRoute({
     pathname: '/v3/orgs/[orgId]/connects/card-accounts/[connectMethod]/new',
@@ -37,5 +37,5 @@ export default function V3OrgConnectCardCreatePage() {
     useCurrentOrg(orgId);
     if (!orgId || isNaN(orgId)) return <></>;
 
-    return <CardConnectCreatePage />;
+    return <CardConnectorPage />;
 }
