@@ -3,9 +3,7 @@ import {Connectors, V3OrgConnectorDetailPageRoute} from '^pages/v3/orgs/[orgId]/
 import {ConnectMethodCard} from '^v3/V3OrgConnectsPage/ConnectsPageBody/ConnectMethodCard';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {useCurrentOrg} from '^models/Organization/hook';
 import {useInvoiceAccountListInConnector} from '^models/InvoiceAccount/hook';
-import search from '^pages/apps/search';
 
 export const GmailInvoiceConnector = memo(function GmailInvoiceConnector() {
     const organizationId = useRecoilValue(orgIdParamState);

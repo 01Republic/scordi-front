@@ -1,14 +1,9 @@
 import {memo} from 'react';
 import {MethodsSection} from '../MethodsSection';
 import {ConnectMethodCard} from '../ConnectMethodCard';
-import {Connectors, V3OrgConnectorDetailPageRoute} from '^pages/v3/orgs/[orgId]/connects/[connectorName]';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
 import {GmailInvoiceConnector} from './GmailInvoiceConnector';
 
 export const ConnectInvoiceEmailsSection = memo(function ConnectInvoiceEmailsSection() {
-    const orgId = useRecoilValue(orgIdParamState);
-
     return (
         <MethodsSection
             id="invoice-emails"
