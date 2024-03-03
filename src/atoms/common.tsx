@@ -67,3 +67,8 @@ export const teamMemberIdParamState = atom({
     key: 'teamMemberIdParamState',
     default: NaN,
 });
+
+export const codefAccountIdParamState = atom({
+    key: 'codefAccountIdParamState',
+    default: NaN,
+});

@@ -7,6 +7,7 @@ import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
 import {GoogleWorkspaceConnectorPage} from '^v3/V3OrgConnectorPages/GoogleWorkspaceConnectorPage';
 import {GmailInvoiceConnectorPage} from '^v3/V3OrgConnectorPages/GmailInvoiceConnectorPage';
+import {V3OrgConnectsPageRoute} from '^pages/v3/orgs/[orgId]/connects/index';
 
 export enum Connectors {
     googleWorkspace = 'google-workspace',
@@ -50,10 +51,12 @@ export default function V3OrgConnectorDetailPage() {
     if (connectorName === Connectors.googleWorkspace) return <GoogleWorkspaceConnectorPage />;
     if (connectorName === Connectors.gmailInvoice) return <GmailInvoiceConnectorPage />;
 
+    router.replace(V3OrgConnectsPageRoute.path(orgId));
+
     return (
         <div>
             <div>
-                <p>V3OrgConnectorDetailPage</p>
+                <p>redirect to: {V3OrgConnectsPageRoute.path(orgId)}</p>
             </div>
         </div>
     );
