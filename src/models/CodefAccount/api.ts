@@ -13,6 +13,12 @@ export const codefAccountApi = {
         return api.get(url, {params}).then(paginatedDtoOf(CodefAccountDto));
     },
 
+    /** 계정 상세 */
+    show(orgId: number, codefAccountId: number) {
+        const url = `/connect/organizations/${orgId}/codef/accounts/${codefAccountId}`;
+        return api.get(url).then(oneDtoOf(CodefAccountDto));
+    },
+
     /** 계정 등록 (카드사 연동 요청) */
     create(orgId: number, dto: CreateAccountRequestDto) {
         const url = `/connect/organizations/${orgId}/codef/accounts`;

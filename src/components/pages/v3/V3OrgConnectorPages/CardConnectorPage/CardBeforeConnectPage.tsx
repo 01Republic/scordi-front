@@ -2,7 +2,6 @@ import {memo, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
-import {CardAccountsStaticData} from '^v3/V3OrgConnectsPage/ConnectsPageBody/ConnectCardAccountsSection/card-accounts-static-data';
 import {LinkTo} from '^components/util/LinkTo';
 import {V3OrgConnectsPageRoute} from '^pages/v3/orgs/[orgId]/connects';
 import {FaArrowLeft} from 'react-icons/fa6';
@@ -16,7 +15,9 @@ import {
     CreateAccountRequestDto,
     encryptCodefAccountPassword,
 } from '^models/CodefAccount/type/create-account.request.dto';
-import {currentCodefAccountAtom} from './atom';
+import {V3OrgConnectedCardListPageRoute} from '^pages/v3/orgs/[orgId]/connects/card-accounts/[connectMethod]/cards';
+import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 
 export const CardBeforeConnectPage = memo(function CardBeforeConnectPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -24,11 +25,13 @@ export const CardBeforeConnectPage = memo(function CardBeforeConnectPage() {
     const [isClicked, setIsClicked] = useState(false);
     const connectMethod = CardAccountsStaticData.findOne(router.query.connectMethod as string);
     const form = useForm<CreateAccountRequestDto>();
-    const [currentCodefAccount, setCurrentCodefAccount] = useRecoilState(currentCodefAccountAtom);
 
     if (!connectMethod) return <></>;
 
     const {logo, displayName: cardName} = connectMethod;
+    const redirectTo = (codefAccount: CodefAccountDto) => {
+        router.replace(V3OrgConnectedCardListPageRoute.path(orgId, codefAccount.id));
+    };
 
     const onSubmit = (dto: CreateAccountRequestDto) => {
         setIsClicked(true);
@@ -44,8 +47,7 @@ export const CardBeforeConnectPage = memo(function CardBeforeConnectPage() {
                 password: encryptCodefAccountPassword(dto.password, dto.id),
             })
             .then((res) => {
-                console.log('\n\n\n\n');
-                console.log(res);
+                return redirectTo(res.data.accessList[0]);
             })
             .catch((err: ApiErrorResponse<CodefResponse<AccountCreatedResponseDto>>) => {
                 const apiError = err.response?.data;
@@ -66,7 +68,7 @@ export const CardBeforeConnectPage = memo(function CardBeforeConnectPage() {
                      */
                     if (codefError.data.connectedId && codefError.data.accessList.length) {
                         // 이미 등록된 계정인 경우.
-                        setCurrentCodefAccount(codefError.data.accessList[0]);
+                        redirectTo(codefError.data.accessList[0]);
                         return;
                     }
 
