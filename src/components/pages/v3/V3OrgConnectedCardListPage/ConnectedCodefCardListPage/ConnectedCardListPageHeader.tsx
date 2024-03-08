@@ -17,19 +17,10 @@ interface Props {
 export const ConnectedCardListPageHeader = memo((props: Props) => {
     const {codefAccount, staticData} = props;
     const router = useRouter();
-    const [reloading, setReloading] = useRecoilState(reloadingDataAtom);
-    const {result, reload: connectedCodefCardsReload} = useConnectedCodefCards(codefAccount.id);
-    const {reload: newCodefCardsReload} = useNewCodefCards(codefAccount.id);
-    const {result: pagedSubs, reload: reloadSubs1} = useSubscriptionsForAccount(codefAccount.id);
+    const {result} = useConnectedCodefCards(codefAccount.id);
+    const {result: pagedSubs} = useSubscriptionsForAccount(codefAccount.id);
 
     const {logo, displayName: cardName, themeColor} = staticData;
-
-    const reloadData = () => {
-        setReloading(true);
-        Promise.all([newCodefCardsReload(), connectedCodefCardsReload(), reloadSubs1()]).then(() => {
-            setReloading(false);
-        });
-    };
 
     return (
         <header className="">
@@ -53,12 +44,12 @@ export const ConnectedCardListPageHeader = memo((props: Props) => {
                         <span className="text-gray-400">을 연결하고 있어요</span>
                     </h1>
 
-                    <button
-                        className={`btn btn-sm btn-ghost btn-circle ${reloading ? 'animate-spin' : ''}`}
-                        onClick={() => !reloading && reloadData()}
-                    >
-                        <FaArrowRotateRight />
-                    </button>
+                    {/*<button*/}
+                    {/*    className={`btn btn-sm btn-ghost btn-circle ${reloading ? 'animate-spin' : ''}`}*/}
+                    {/*    onClick={() => !reloading && reloadData()}*/}
+                    {/*>*/}
+                    {/*    <FaArrowRotateRight />*/}
+                    {/*</button>*/}
                 </div>
 
                 {/*<ul className="list-disc pl-4 text-16">*/}

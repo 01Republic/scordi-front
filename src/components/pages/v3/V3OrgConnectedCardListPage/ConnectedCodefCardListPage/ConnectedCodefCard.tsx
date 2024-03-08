@@ -12,6 +12,10 @@ import {codefCardApi} from '^models/CodefCard/api';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {codefCardConnected, selectedCodefCardAtom} from './atom';
+import {MoreDropdown} from '^v3/V3OrgSettingsConnectsPage/MoreDropdown';
+import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
+import {useAlert} from '^hooks/useAlert';
+import {plainToast as toast} from '^hooks/useToast';
 
 interface ConnectedCodefCardProps {
     codefCard: ConnectedCodefCardDto;
@@ -22,20 +26,34 @@ export const ConnectedCodefCard = memo((props: ConnectedCodefCardProps) => {
     const {codefCard, staticData} = props;
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
+    const [isSyncLoading, setIsSyncLoading] = useState(false);
     const [runningProgress, setRunningProgress] = useState(-1);
     const setCodefCardConnected = useSetRecoilState(codefCardConnected);
     const [selectedCodefCard, selectCodefCard] = useRecoilState(selectedCodefCardAtom);
     const creditCard = codefCard.creditCard;
-
-    const isRunning = runningProgress > 0;
-    const {logo, themeColor} = staticData;
     const isSelected = !!selectedCodefCard && selectedCodefCard.id === codefCard.id;
+    const {alert} = useAlert();
+
+    const {logo, themeColor} = staticData;
 
     const cardName = creditCard.name || '';
 
     const onClick = debounce(() => {
         selectCodefCard(codefCard);
     });
+
+    const onSync = ({hide}: {hide: () => any}) => {
+        if (isSyncLoading) return;
+
+        if (confirm('다소 시간이 걸리는 작업입니다. 그래도 실행할까요?')) {
+            setIsSyncLoading(true);
+            codefCardApi.histories(orgId, codefCard.accountId, {sync: true}).then(() => {
+                toast.success('동기화를 시작했어요.');
+                setIsSyncLoading(false);
+                hide();
+            });
+        }
+    };
 
     return (
         <article
@@ -63,32 +81,18 @@ export const ConnectedCodefCard = memo((props: ConnectedCodefCardProps) => {
             </div>
 
             <div className="ml-20 flex items-center gap-1.5">
-                {/*<button className="btn btn-square btn-ghost btn-sm">*/}
-                {/*    <FaPen className="text-gray-500" />*/}
-                {/*</button>*/}
-                {runningProgress >= 100 ? (
-                    <button
-                        className="btn btn-sm !border-none !bg-green-200 !text-green-800"
-                        onClick={() => setRunningProgress(-1)}
-                    >
-                        완료
-                    </button>
-                ) : !isRunning ? (
-                    <button className="btn btn-sm btn-scordi" onClick={onClick}>
-                        동기화
-                    </button>
-                ) : (
-                    <button
-                        className="btn btn-sm btn-ghost loading !bg-transparent !text-scordi"
-                        style={{pointerEvents: 'initial'}}
-                        onClick={() => {
-                            alert('setRunningProgress(100);');
-                            setRunningProgress(100);
-                        }}
-                    >
-                        {runningProgress}%
-                    </button>
-                )}
+                <div className="flex items-center justify-center pl-4">
+                    <MoreDropdown
+                        onSync={onSync}
+                        isSyncLoading={isSyncLoading}
+                        // Profile={() => (
+                        //     <div className="border-b py-2 mb-2 px-3">
+                        //         <p className="text-11">마지막 동기화</p>
+                        //         <p className="text-13">{yyyy_mm_dd_hh_mm(.updatedAt)}</p>
+                        //     </div>
+                        // )}
+                    />
+                </div>
             </div>
         </article>
     );

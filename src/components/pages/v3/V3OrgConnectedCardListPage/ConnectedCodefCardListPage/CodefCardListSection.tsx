@@ -11,11 +11,12 @@ import {plainToast as toast} from '^hooks/useToast';
 import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
 import {MoreDropdown} from '^v3/V3OrgSettingsConnectsPage/MoreDropdown';
 import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
-import {useConnectedCodefCards} from '^models/CodefCard/hook';
+import {useConnectedCodefCards, useNewCodefCards, useSubscriptionsForAccount} from '^models/CodefCard/hook';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {selectedCodefCardAtom} from '^v3/V3OrgConnectedCardListPage/ConnectedCodefCardListPage/atom';
 import {ConnectedCodefCard} from '^v3/V3OrgConnectedCardListPage/ConnectedCodefCardListPage/ConnectedCodefCard';
+import {reloadingDataAtom} from '^v3/V3OrgConnectedCardListPage/atom';
 
 interface Props {
     codefAccount: CodefAccountDto;
@@ -25,9 +26,12 @@ interface Props {
 /** 청구서 수신 메일 Section */
 export const CodefCardListSection = memo((props: Props) => {
     const {codefAccount, staticData} = props;
-    const {result, reload} = useConnectedCodefCards(codefAccount.id);
+    const {result, reload: connectedCodefCardsReload} = useConnectedCodefCards(codefAccount.id);
     const [selectedCodefCard, selectCodefCard] = useRecoilState(selectedCodefCardAtom);
-    const [refreshIsClicked, setRefreshButtonClicked] = useState(false);
+
+    const [reloading, setReloading] = useRecoilState(reloadingDataAtom);
+    const {reload: newCodefCardsReload} = useNewCodefCards(codefAccount.id);
+    const {result: pagedSubs, reload: reloadSubs1} = useSubscriptionsForAccount(codefAccount.id);
 
     useEffect(() => {
         if (!result.items.length) {
@@ -50,13 +54,15 @@ export const CodefCardListSection = memo((props: Props) => {
                 <FcAddressBook size={30} />
                 <span>연결된 카드</span>
                 <button
-                    className={`btn btn-sm btn-ghost ml-auto gap-2 ${refreshIsClicked ? 'loading' : ''}`}
+                    className={`btn btn-sm btn-ghost ml-auto gap-2 ${reloading ? 'loading' : ''}`}
                     onClick={() => {
-                        setRefreshButtonClicked(true);
-                        reload().then(() => setRefreshButtonClicked(false));
+                        setReloading(true);
+                        Promise.all([newCodefCardsReload(), connectedCodefCardsReload(), reloadSubs1()]).then(() => {
+                            setReloading(false);
+                        });
                     }}
                 >
-                    {!refreshIsClicked && (
+                    {!reloading && (
                         <>
                             <FaArrowRotateRight />
                             <span>새로고침</span>

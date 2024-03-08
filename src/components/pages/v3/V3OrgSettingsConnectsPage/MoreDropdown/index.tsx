@@ -11,8 +11,8 @@ import {Placement} from '@popperjs/core';
 // more dropdown component.
 
 interface MoreDropdownProps {
-    onSync: () => void;
-    onDelete: () => void;
+    onSync: (action: {hide: () => any}) => void;
+    onDelete?: () => void;
     isSyncLoading?: boolean;
     isDisConnectLoading?: boolean;
     className?: string;
@@ -39,12 +39,12 @@ export const MoreDropdown = memo((props: MoreDropdownProps) => {
                     </div>
                 ))
             }
-            Content={({hide}) => {
+            Content={(action) => {
                 return (
                     <ul className="p-2 text-sm shadow-xl menu dropdown-content z-[1] bg-base-100 rounded-box">
                         {Profile && <Profile />}
 
-                        <MoreDropdownListItem onClick={onSync}>
+                        <MoreDropdownListItem onClick={() => onSync(action)}>
                             <div className={`${isSyncLoading && 'btn-disabled'} flex items-center gap-3 w-full`}>
                                 {isSyncLoading ? (
                                     <CgSpinner size={20} className="animate-spin" />
@@ -55,17 +55,27 @@ export const MoreDropdown = memo((props: MoreDropdownProps) => {
                             </div>
                         </MoreDropdownListItem>
 
-                        <MoreDropdownListItem
-                            onClick={() => {
-                                hide();
-                                onDelete();
-                            }}
-                        >
-                            <div className={`${isDisConnectLoading && 'btn-disabled'} flex items-center gap-3 w-full`}>
-                                {isDisConnectLoading ? <CgSpinner size={20} className="animate-spin" /> : <FaTimes />}
-                                <p>연동 해제하기</p>
-                            </div>
-                        </MoreDropdownListItem>
+                        {onDelete && (
+                            <MoreDropdownListItem
+                                onClick={() => {
+                                    action.hide();
+                                    onDelete();
+                                }}
+                            >
+                                <div
+                                    className={`${
+                                        isDisConnectLoading && 'btn-disabled'
+                                    } flex items-center gap-3 w-full`}
+                                >
+                                    {isDisConnectLoading ? (
+                                        <CgSpinner size={20} className="animate-spin" />
+                                    ) : (
+                                        <FaTimes />
+                                    )}
+                                    <p>연동 해제하기</p>
+                                </div>
+                            </MoreDropdownListItem>
+                        )}
                     </ul>
                 );
             }}
