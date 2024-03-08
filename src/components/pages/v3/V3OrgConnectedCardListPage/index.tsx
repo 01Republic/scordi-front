@@ -12,6 +12,14 @@ import {ConnectedCodefCardListPage} from '^v3/V3OrgConnectedCardListPage/Connect
 import {CardListPageMode, cardListPageModeAtom} from '^v3/V3OrgConnectedCardListPage/atom';
 import {NewCodefCardListPage} from '^v3/V3OrgConnectedCardListPage/NewCodefCardListPage';
 import {codefCardApi} from '^models/CodefCard/api';
+import {
+    BillingHistoryDetailModalInAppShow,
+    NewBillingHistoryModalInAppShow,
+    SubscriptionDetailModal,
+} from '^v3/V3OrgAppsPage/_localModals';
+import {TeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
+import {AccountListModal} from '^v3/share/modals/AccountListModal';
+import {InvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal';
 
 export const V3OrgConnectedCardListPage = memo(function V3OrgConnectedCardListPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -26,7 +34,17 @@ export const V3OrgConnectedCardListPage = memo(function V3OrgConnectedCardListPa
     }, [orgId, codefAccountId]);
 
     return (
-        <V3MainLayout activeTabIndex={LNBIndex.Connects}>
+        <V3MainLayout
+            activeTabIndex={LNBIndex.Connects}
+            modals={[
+                SubscriptionDetailModal,
+                BillingHistoryDetailModalInAppShow,
+                NewBillingHistoryModalInAppShow,
+                TeamMemberShowModal,
+                AccountListModal,
+                InvoiceAccountSelectModal,
+            ]}
+        >
             {codefAccount && <CardListPage codefAccount={codefAccount} />}
         </V3MainLayout>
     );
