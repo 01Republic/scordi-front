@@ -1,6 +1,7 @@
 import {TypeCast} from '^types/utils/class-transformer';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {captures} from '^utils/array';
+import {CreditCardDto} from '^models/CreditCard/type';
 
 /**
  * [codef] 연동된 카드
@@ -11,6 +12,15 @@ export class CodefCardDto {
 
     // 계정 정보 FK
     accountId: number;
+
+    // 등록된 카드 FK
+    creditCardId: number | null;
+
+    // 연동된 결제내역 시작일시
+    syncedStartDate: Date | null;
+
+    // 연동된 결제내역 종료일시
+    syncedEndDate: Date | null;
 
     // 카드번호
     resCardNo: string;
@@ -71,4 +81,17 @@ export class CodefCardDto {
     // 계정 정보
     @TypeCast(() => CodefAccountDto)
     account?: CodefAccountDto;
+
+    // 등록된 카드
+    @TypeCast(() => CreditCardDto)
+    creditCard?: CreditCardDto;
+}
+
+export class ConnectedCodefCardDto extends CodefCardDto {
+    // 등록된 카드 FK
+    creditCardId: number;
+
+    // 등록된 카드
+    @TypeCast(() => CreditCardDto)
+    creditCard: CreditCardDto;
 }

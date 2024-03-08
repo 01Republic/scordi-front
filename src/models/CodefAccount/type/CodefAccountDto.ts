@@ -6,6 +6,8 @@ import {
 } from '^models/CodefAccount/type/enums';
 import {TypeCast} from '^types/utils/class-transformer';
 import {CodefConnectedIdentityDto} from '^models/CodefConnectedIdentity/type/CodefConnectedIdentityDto';
+import {CreditCardDto} from '^models/CreditCard/type';
+import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 
 /** [Codef] 계정 */
 export class CodefAccountDto {
@@ -39,4 +41,12 @@ export class CodefAccountDto {
     // 커넥티드 아이디
     @TypeCast(() => CodefConnectedIdentityDto)
     connectedIdentity?: CodefConnectedIdentityDto;
+
+    // 등록된 카드
+    @TypeCast(() => CodefCardDto)
+    codefCards?: CodefCardDto[];
+
+    // 등록된 카드
+    @TypeCast(() => CreditCardDto)
+    creditCards?: CreditCardDto[];
 }
