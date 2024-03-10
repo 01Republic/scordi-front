@@ -8,11 +8,12 @@ import {FindAllSubscriptionByCardQueryDto} from '^models/CodefCard/type/find-all
 export enum CardListPageMode {
     ConnectedCards,
     NewCards,
+    IsLoading,
 }
 
 export const cardListPageModeAtom = atom<CardListPageMode>({
     key: 'cardListPageMode',
-    default: CardListPageMode.ConnectedCards,
+    default: CardListPageMode.IsLoading,
 });
 
 export const reloadingDataAtom = atom({

@@ -11,7 +11,6 @@ import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {ConnectedCodefCardListPage} from '^v3/V3OrgConnectedCardListPage/ConnectedCodefCardListPage';
 import {CardListPageMode, cardListPageModeAtom} from '^v3/V3OrgConnectedCardListPage/atom';
 import {NewCodefCardListPage} from '^v3/V3OrgConnectedCardListPage/NewCodefCardListPage';
-import {codefCardApi} from '^models/CodefCard/api';
 import {
     BillingHistoryDetailModalInAppShow,
     NewBillingHistoryModalInAppShow,
@@ -20,6 +19,7 @@ import {
 import {TeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
 import {AccountListModal} from '^v3/share/modals/AccountListModal';
 import {InvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal';
+import {LoadingCodefCardListPage} from '^v3/V3OrgConnectedCardListPage/LoadingCodefCardListPage';
 
 export const V3OrgConnectedCardListPage = memo(function V3OrgConnectedCardListPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -58,30 +58,42 @@ const CardListPage = memo((props: Props) => {
     const connectMethod = cardAccountsStaticData.find((data) => data.param === codefAccount?.organization);
     const newCodefCards = useNewCodefCards(codefAccount.id);
     const connectedCodefCards = useConnectedCodefCards(codefAccount.id);
-    const cardListPageMode = useRecoilValue(cardListPageModeAtom);
     const subscriptionsForAccount = useSubscriptionsForAccount(codefAccount.id);
+    const [cardListPageMode, setPageMode] = useRecoilState(cardListPageModeAtom);
 
     useEffect(() => {
         if (!codefAccount) return;
+        if (cardListPageMode !== CardListPageMode.IsLoading) return;
         newCodefCards.search({
             where: {accountId: codefAccount.id},
             sync: true,
             connected: false,
         });
-        connectedCodefCards.search({
-            relations: ['creditCard'],
-            where: {accountId: codefAccount.id},
-            sync: false,
-            connected: true,
-        });
+        connectedCodefCards
+            .search(
+                {
+                    relations: ['creditCard'],
+                    where: {accountId: codefAccount.id},
+                    sync: false,
+                    connected: true,
+                },
+                false,
+                true,
+            )
+            .then((res) => {
+                const cardCount = res?.pagination.totalItemCount || 0;
+                cardCount ? setPageMode(CardListPageMode.ConnectedCards) : setPageMode(CardListPageMode.NewCards);
+            });
         subscriptionsForAccount.search({});
-    }, [codefAccount]);
+    }, [codefAccount, cardListPageMode]);
 
     if (!connectMethod) return <></>;
 
     if (cardListPageMode === CardListPageMode.NewCards) {
         return <NewCodefCardListPage codefAccount={codefAccount} staticData={connectMethod} />;
-    } else {
+    } else if (cardListPageMode === CardListPageMode.ConnectedCards) {
         return <ConnectedCodefCardListPage codefAccount={codefAccount} staticData={connectMethod} />;
+    } else {
+        return <LoadingCodefCardListPage codefAccount={codefAccount} staticData={connectMethod} />;
     }
 });

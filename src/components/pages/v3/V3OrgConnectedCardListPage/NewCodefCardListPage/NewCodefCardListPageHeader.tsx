@@ -9,6 +9,7 @@ import {useConnectedCodefCards, useNewCodefCards} from '^models/CodefCard/hook';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {newCodefCardConnected} from '^v3/V3OrgConnectedCardListPage/NewCodefCardListPage/atom';
 import {debounce} from 'lodash';
+import {useRouter} from 'next/router';
 
 interface Props {
     codefAccount: CodefAccountDto;
@@ -17,6 +18,7 @@ interface Props {
 
 export const NewCodefCardListPageHeader = memo((props: Props) => {
     const {codefAccount, staticData} = props;
+    const router = useRouter();
     const setCardListPageMode = useSetRecoilState(cardListPageModeAtom);
     const {result, reload: newCodefCardsReload} = useNewCodefCards(codefAccount.id);
     const {reload: connectedCodefCardsReload} = useConnectedCodefCards(codefAccount.id);
@@ -27,10 +29,16 @@ export const NewCodefCardListPageHeader = memo((props: Props) => {
 
     const redirectToCardsPage = debounce(() => {
         setReloading(true);
-        Promise.all([newCodefCardsReload(), connectedCodefCardsReload()]).then(() => {
-            setCardListPageMode(CardListPageMode.ConnectedCards);
+        Promise.all([connectedCodefCardsReload(), newCodefCardsReload()]).then(([connectedCards]) => {
             setNewCardConnected(false);
             setReloading(false);
+            const cardCount = connectedCards?.pagination.totalItemCount || 0;
+            if (cardCount) {
+                setCardListPageMode(CardListPageMode.ConnectedCards);
+            } else {
+                router.back();
+                setCardListPageMode(CardListPageMode.IsLoading);
+            }
         });
     });
 
@@ -38,8 +46,10 @@ export const NewCodefCardListPageHeader = memo((props: Props) => {
         <header className="">
             <div className="flex mb-12">
                 <LinkTo
-                    onClick={() => redirectToCardsPage()}
-                    className="flex items-center text-gray-500 hover:underline gap-2 cursor-pointer"
+                    onClick={() => !reloading && redirectToCardsPage()}
+                    className={`flex items-center text-gray-500 hover:underline gap-2 ${
+                        !reloading ? 'cursor-pointer' : 'cursor-wait opacity-30'
+                    }`}
                 >
                     <FaArrowLeft /> 뒤로가기
                 </LinkTo>
