@@ -20,7 +20,7 @@ export const ConnectCardAccountsSection = memo(function ConnectCardAccountsSecti
 
     return (
         <MethodsSection id="card-accounts" title="카드" description="구독의 최종 결제내역을 불러올 수 있어요.">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <div className="grid sm2:grid-cols-2 md2:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                 {cardAccountsStaticData.map((connectMethod, i) => {
                     const codefAccount = codefAccounts.find((account) => {
                         return (

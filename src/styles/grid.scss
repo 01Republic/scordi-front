@@ -85,3 +85,13 @@
         }
     }
 }
+
+@each $abbrev, $min-width in $new-breakpoints {
+    @for $i from 1 through 12 {
+        @media (min-width: $min-width) {
+            .#{$abbrev}\:grid-cols-#{$i} {
+                grid-template-columns: repeat(#{$i}, minmax(0, 1fr));
+            }
+        }
+    }
+}

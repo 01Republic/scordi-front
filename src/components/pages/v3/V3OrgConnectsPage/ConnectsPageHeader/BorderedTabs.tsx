@@ -26,7 +26,7 @@ export const BorderedTabs = memo((props: BorderedTabsProps) => {
     }, [router.isReady]);
 
     return (
-        <div className="tabs tabs-bordered px-12">
+        <div className="tabs tabs-bordered px-12 flex-nowrap overflow-scroll no-scrollbar">
             {ConnectMethodTabs.map((tab, i) => (
                 <Tab
                     key={i}
@@ -56,7 +56,7 @@ const Tab = memo((props: TabProps) => {
     return (
         <a
             href={disabled ? undefined : href}
-            className={`tab h-auto py-3 px-6 text-lg font-semibold ${active && 'tab-active'} ${
+            className={`tab whitespace-nowrap h-auto py-3 px-6 text-lg font-semibold ${active && 'tab-active'} ${
                 disabled && '!text-gray-300 cursor-not-allowed'
             }`}
             onClick={() => !disabled && onClick()}
