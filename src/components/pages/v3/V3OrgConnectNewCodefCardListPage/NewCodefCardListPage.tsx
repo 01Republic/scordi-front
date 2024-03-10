@@ -1,15 +1,9 @@
 import React, {memo} from 'react';
-import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
-import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {CodefAccountProps} from './atom';
 import {NewCodefCardListPageHeader} from './NewCodefCardListPageHeader';
 import {NewCodefCardSection} from './NewCodefCardSection';
 
-interface NewCodefCardListPageProps {
-    codefAccount: CodefAccountDto;
-    staticData: CardAccountsStaticData;
-}
-
-export const NewCodefCardListPage = memo((props: NewCodefCardListPageProps) => {
+export const NewCodefCardListPage = memo((props: CodefAccountProps) => {
     const {codefAccount, staticData} = props;
 
     return (

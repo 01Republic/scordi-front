@@ -20,7 +20,7 @@ import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {plainToast as toast} from '^hooks/useToast';
 
-export const CardBeforeConnectPage = memo(function CardBeforeConnectPage() {
+export const NewCodefCardAccountPage = memo(function CardBeforeConnectPage() {
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
     const [isClicked, setIsClicked] = useState(false);

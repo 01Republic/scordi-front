@@ -1,25 +1,20 @@
 import React, {memo} from 'react';
-import {LinkTo} from '^components/util/LinkTo';
 import {FaArrowLeft} from 'react-icons/fa6';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {codefAccountAtom} from '^models/CodefAccount/atom';
-import {CardAccountsStaticData, cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
-import {CardListPageMode, cardListPageModeAtom, reloadingDataAtom} from '^v3/V3OrgConnectedCardListPage/atom';
-import {useConnectedCodefCards, useNewCodefCards} from '^models/CodefCard/hook';
-import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
-import {newCodefCardConnected} from '^v3/V3OrgConnectedCardListPage/NewCodefCardListPage/atom';
-import {debounce} from 'lodash';
 import {useRouter} from 'next/router';
+import {debounce} from 'lodash';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {LinkTo} from '^components/util/LinkTo';
+import {V3OrgConnectedCardListPageRoute} from '^pages/v3/orgs/[orgId]/connects/card-accounts/[connectMethod]/cards';
+import {codefAccountIdParamState, orgIdParamState} from '^atoms/common';
+import {useConnectedCodefCards, useNewCodefCards} from '^models/CodefCard/hook';
+import {reloadingDataAtom} from '^v3/V3OrgConnectedCardListPage/atom';
+import {newCodefCardConnected, CodefAccountProps} from './atom';
 
-interface Props {
-    codefAccount: CodefAccountDto;
-    staticData: CardAccountsStaticData;
-}
-
-export const NewCodefCardListPageHeader = memo((props: Props) => {
+export const NewCodefCardListPageHeader = memo((props: CodefAccountProps) => {
     const {codefAccount, staticData} = props;
     const router = useRouter();
-    const setCardListPageMode = useSetRecoilState(cardListPageModeAtom);
+    const orgId = useRecoilValue(orgIdParamState);
+    const codefAccountId = useRecoilValue(codefAccountIdParamState);
     const {result, reload: newCodefCardsReload} = useNewCodefCards(codefAccount.id);
     const {reload: connectedCodefCardsReload} = useConnectedCodefCards(codefAccount.id);
     const [newCardConnected, setNewCardConnected] = useRecoilState(newCodefCardConnected);
@@ -28,25 +23,24 @@ export const NewCodefCardListPageHeader = memo((props: Props) => {
     const {logo, displayName: cardName, themeColor} = staticData;
 
     const redirectToCardsPage = debounce(() => {
-        setReloading(true);
-        Promise.all([connectedCodefCardsReload(), newCodefCardsReload()]).then(([connectedCards]) => {
-            setNewCardConnected(false);
-            setReloading(false);
-            const cardCount = connectedCards?.pagination.totalItemCount || 0;
-            if (cardCount) {
-                setCardListPageMode(CardListPageMode.ConnectedCards);
-            } else {
-                router.back();
-                setCardListPageMode(CardListPageMode.IsLoading);
-            }
-        });
+        router.push(V3OrgConnectedCardListPageRoute.path(orgId, codefAccountId));
+        // setReloading(true);
+        // Promise.all([connectedCodefCardsReload(), newCodefCardsReload()]).then(([connectedCards]) => {
+        //     setNewCardConnected(false);
+        //     setReloading(false);
+        //     const cardCount = connectedCards?.pagination.totalItemCount || 0;
+        //     if (cardCount) {
+        //     } else {
+        //         router.back();
+        //     }
+        // });
     });
 
     return (
         <header className="">
             <div className="flex mb-12">
                 <LinkTo
-                    onClick={() => !reloading && redirectToCardsPage()}
+                    onClick={() => router.back()}
                     className={`flex items-center text-gray-500 hover:underline gap-2 ${
                         !reloading ? 'cursor-pointer' : 'cursor-wait opacity-30'
                     }`}

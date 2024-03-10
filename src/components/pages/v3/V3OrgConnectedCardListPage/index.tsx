@@ -10,7 +10,6 @@ import {useConnectedCodefCards, useNewCodefCards, useSubscriptionsForAccount} fr
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {ConnectedCodefCardListPage} from '^v3/V3OrgConnectedCardListPage/ConnectedCodefCardListPage';
 import {CardListPageMode, cardListPageModeAtom} from '^v3/V3OrgConnectedCardListPage/atom';
-import {NewCodefCardListPage} from '^v3/V3OrgConnectedCardListPage/NewCodefCardListPage';
 import {
     BillingHistoryDetailModalInAppShow,
     NewBillingHistoryModalInAppShow,
@@ -20,6 +19,8 @@ import {TeamMemberShowModal} from '^v3/V3OrgTeam/modals/TeamMemberShowModal';
 import {AccountListModal} from '^v3/share/modals/AccountListModal';
 import {InvoiceAccountSelectModal} from '^v3/share/modals/InvoiceAccountSelectModal';
 import {LoadingCodefCardListPage} from '^v3/V3OrgConnectedCardListPage/LoadingCodefCardListPage';
+import {useRouter} from 'next/router';
+import {V3OrgConnectNewCardListPageRoute} from '^pages/v3/orgs/[orgId]/connects/card-accounts/[connectMethod]/cards/new';
 
 export const V3OrgConnectedCardListPage = memo(function V3OrgConnectedCardListPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -55,6 +56,9 @@ interface Props {
 }
 const CardListPage = memo((props: Props) => {
     const {codefAccount} = props;
+    const orgId = useRecoilValue(orgIdParamState);
+    const codefAccountId = useRecoilValue(codefAccountIdParamState);
+    const router = useRouter();
     const connectMethod = cardAccountsStaticData.find((data) => data.param === codefAccount?.organization);
     const newCodefCards = useNewCodefCards(codefAccount.id);
     const connectedCodefCards = useConnectedCodefCards(codefAccount.id);
@@ -82,16 +86,16 @@ const CardListPage = memo((props: Props) => {
             )
             .then((res) => {
                 const cardCount = res?.pagination.totalItemCount || 0;
-                cardCount ? setPageMode(CardListPageMode.ConnectedCards) : setPageMode(CardListPageMode.NewCards);
+                if (!cardCount) {
+                    router.replace(V3OrgConnectNewCardListPageRoute.path(orgId, codefAccountId));
+                }
             });
         subscriptionsForAccount.search({});
     }, [codefAccount, cardListPageMode]);
 
     if (!connectMethod) return <></>;
 
-    if (cardListPageMode === CardListPageMode.NewCards) {
-        return <NewCodefCardListPage codefAccount={codefAccount} staticData={connectMethod} />;
-    } else if (cardListPageMode === CardListPageMode.ConnectedCards) {
+    if (cardListPageMode === CardListPageMode.ConnectedCards) {
         return <ConnectedCodefCardListPage codefAccount={codefAccount} staticData={connectMethod} />;
     } else {
         return <LoadingCodefCardListPage codefAccount={codefAccount} staticData={connectMethod} />;

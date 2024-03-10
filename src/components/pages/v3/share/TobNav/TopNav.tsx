@@ -6,6 +6,7 @@ import {useSetRecoilState} from 'recoil';
 import {TopNavOrgSelect} from '^v3/share/TobNav/TopNavOrgSelect';
 import {TopNavMenu} from '^v3/share/TobNav/TopNavMenu';
 import {lnbHiddenAtom} from '^v3/share/LeftNavBar/atom';
+import {useResize} from '^hooks/useOnResize';
 
 export const V3TopNav = memo(() => {
     const setLNBHidden = useSetRecoilState(lnbHiddenAtom);
@@ -13,8 +14,12 @@ export const V3TopNav = memo(() => {
         setLNBHidden((prev) => !prev);
     }, []);
 
+    useResize(({innerWidth}) => {
+        setLNBHidden(() => innerWidth < 690);
+    });
+
     return (
-        <div className={`navbar hidden sm:flex bg-base-100 ${styles.gnb} fixed top-0 z-20`}>
+        <div className={`navbar flex bg-base-100 ${styles.gnb} fixed top-0 z-20`}>
             {/* 로고 */}
             <div className="navbar-start">
                 <label tabIndex={0} className="btn btn-ghost" onClick={() => toggleLNB()}>

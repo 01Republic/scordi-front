@@ -29,3 +29,21 @@ export function useOnResize() {
 
     return {isMobile};
 }
+
+type OnResizeCallback = (result: {innerWidth: number}) => any;
+interface OnResizeOption {
+    //
+}
+
+export function useResize(callback: OnResizeCallback, opt?: OnResizeOption) {
+    const handler = () => {
+        const innerWidth = window?.innerWidth || 0;
+        callback({innerWidth});
+    };
+
+    useEffect(() => {
+        window.addEventListener('resize', handler);
+        handler();
+        return () => window.removeEventListener('resize', handler);
+    }, []);
+}

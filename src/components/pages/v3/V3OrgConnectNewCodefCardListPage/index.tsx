@@ -1,0 +1,40 @@
+import React, {memo, useEffect} from 'react';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {codefAccountIdParamState, orgIdParamState} from '^atoms/common';
+import {codefAccountAtom} from '^models/CodefAccount/atom';
+import {codefAccountApi} from '^models/CodefAccount/api';
+import {cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {NewCodefCardListPage} from './NewCodefCardListPage';
+import {V3MainLayout} from '^v3/layouts/V3MainLayout';
+import {LNBIndex} from '^v3/share/LeftNavBar';
+import {useNewCodefCards} from '^models/CodefCard/hook';
+
+export const V3OrgConnectNewCodefCardListPage = memo(() => {
+    const orgId = useRecoilValue(orgIdParamState);
+    const codefAccountId = useRecoilValue(codefAccountIdParamState);
+    const [codefAccount, setCodefAccount] = useRecoilState(codefAccountAtom);
+    const staticData = cardAccountsStaticData.find((data) => data.param === codefAccount?.organization);
+    const {result, search} = useNewCodefCards(codefAccountId);
+
+    useEffect(() => {
+        if (!orgId || isNaN(orgId)) return;
+        if (!codefAccountId || isNaN(codefAccountId)) return;
+
+        codefAccountApi.show(orgId, codefAccountId).then((res) => setCodefAccount(res.data));
+
+        search({
+            where: {accountId: codefAccountId},
+            sync: true,
+            connected: false,
+        });
+    }, [orgId, codefAccountId]);
+
+    if (!staticData) return <></>;
+
+    return (
+        <V3MainLayout activeTabIndex={LNBIndex.Connects} modals={[]}>
+            {codefAccount && <NewCodefCardListPage codefAccount={codefAccount} staticData={staticData} />}
+        </V3MainLayout>
+    );
+});
+V3OrgConnectNewCodefCardListPage.displayName = 'V3OrgConnectNewCodefCardListPage';
