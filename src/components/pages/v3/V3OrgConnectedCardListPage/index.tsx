@@ -88,6 +88,8 @@ const CardListPage = memo((props: Props) => {
                 const cardCount = res?.pagination.totalItemCount || 0;
                 if (!cardCount) {
                     router.replace(V3OrgConnectNewCardListPageRoute.path(orgId, codefAccountId));
+                } else {
+                    setPageMode(CardListPageMode.ConnectedCards);
                 }
             });
         subscriptionsForAccount.search({});
