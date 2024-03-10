@@ -4,10 +4,7 @@ import {
     CodefLoginType,
     CodefRequestBusinessType,
 } from '^models/CodefAccount/type/enums';
-
-export enum CodefApiResultCode {
-    SUCCESS = 'CF-00000',
-}
+import {CodefApiResultCode} from '^models/CodefAccount/codef-common';
 
 export class CodefApiAccountItemDto {
     code: CodefApiResultCode;

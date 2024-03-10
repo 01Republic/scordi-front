@@ -1,4 +1,4 @@
-import {CodefApiResultCode} from '^models/CodefAccount/type/CodefApiAccountItemDto';
+import {CodefApiResultCode} from './CodefApiResultCode.enum';
 
 export class CodefApiResponseResultDto {
     code: CodefApiResultCode;

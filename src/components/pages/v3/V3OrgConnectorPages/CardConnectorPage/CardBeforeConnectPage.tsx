@@ -1,5 +1,5 @@
 import {memo, useState} from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
 import {LinkTo} from '^components/util/LinkTo';
@@ -7,7 +7,7 @@ import {V3OrgConnectsPageRoute} from '^pages/v3/orgs/[orgId]/connects';
 import {FaArrowLeft} from 'react-icons/fa6';
 import {codefAccountApi} from '^models/CodefAccount/api';
 import {CodefRequestBusinessType} from '^models/CodefAccount/type/enums';
-import {CodefResponse} from '^models/CodefAccount/codef-common/CodefResponse';
+import {CodefResponse, CodefApiResultCode, codefErrorCodeToMsg} from '^models/CodefAccount/codef-common';
 import {AccountCreatedResponseDto} from '^models/CodefAccount/type/create-account.response.dto';
 import {ApiErrorResponse} from '^api/api';
 import {useForm} from 'react-hook-form';
@@ -18,6 +18,7 @@ import {
 import {V3OrgConnectedCardListPageRoute} from '^pages/v3/orgs/[orgId]/connects/card-accounts/[connectMethod]/cards';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {plainToast as toast} from '^hooks/useToast';
 
 export const CardBeforeConnectPage = memo(function CardBeforeConnectPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -25,6 +26,7 @@ export const CardBeforeConnectPage = memo(function CardBeforeConnectPage() {
     const [isClicked, setIsClicked] = useState(false);
     const connectMethod = CardAccountsStaticData.findOne(router.query.connectMethod as string);
     const form = useForm<CreateAccountRequestDto>();
+    const [errorMessages, setErrorMessages] = useState<string[]>([]);
 
     if (!connectMethod) return <></>;
 
@@ -35,6 +37,7 @@ export const CardBeforeConnectPage = memo(function CardBeforeConnectPage() {
 
     const onSubmit = (dto: CreateAccountRequestDto) => {
         setIsClicked(true);
+        setErrorMessages([]);
 
         codefAccountApi
             .create(orgId, {
@@ -59,6 +62,7 @@ export const CardBeforeConnectPage = memo(function CardBeforeConnectPage() {
                  * - 비즈니스로직이 아닌 경우: 네트워크 에러 등
                  */
                 const codefError = apiError.data;
+                console.log('codefError', codefError);
                 if (!codefError) return console.error('[codef] codefError is not defined.', err);
 
                 if (!codefError.result) {
@@ -81,14 +85,17 @@ export const CardBeforeConnectPage = memo(function CardBeforeConnectPage() {
                      * 이 곳에서는 순수하게 코드에프로부터 전달받은 예외에 대해서만 다룹니다.
                      */
                     console.warn(`[codef] ${codefError.result.message}`, codefError);
+                    toast.error(codefError.result.message);
+                    setErrorMessages(() => {
+                        return (codefError.data.errorList || []).map((errorObj) => {
+                            return codefErrorCodeToMsg(errorObj.code) || errorObj.message;
+                        });
+                    });
                 }
             })
             .finally(() => {
                 setIsClicked(false);
             });
-        // setTimeout(() => {
-        //     router.replace(V3OrgConnectedCardListPageRoute.path(orgId, connectMethod.param));
-        // }, 1000);
     };
 
     return (
@@ -114,6 +121,16 @@ export const CardBeforeConnectPage = memo(function CardBeforeConnectPage() {
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 <section className="px-12">
                     <div className="mb-14 w-full max-w-md">
+                        {!!errorMessages.length && (
+                            <div className="alert bg-red-200 text-red-700 mb-8">
+                                <ul className="list-disc pl-4 text-13">
+                                    {errorMessages.map((msg, i) => (
+                                        <li key={i}>{msg}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
                         <div className="mb-8">
                             <label htmlFor="account-id" className="block mb-3 text-16">
                                 관리자 아이디
