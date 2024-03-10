@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build:staging": "./node_modules/.bin/env-cmd -f .env.staging next build",
-    "build:production": "./node_modules/.bin/env-cmd -f .env.production next build",
+    "build:production": "./node_modules/.bin/env-cmd -f .env.production next build --debug --no-lint",
     "start": "next start",
     "lint": "next lint",
     "deploy:staging": "bash tasks/deploy.staging.sh",
