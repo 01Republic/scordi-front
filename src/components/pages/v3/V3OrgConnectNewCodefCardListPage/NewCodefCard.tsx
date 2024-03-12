@@ -1,17 +1,16 @@
-import React, {memo, useState} from 'react';
-import {useRouter} from 'next/router';
-import {TeamMemberProfile, TeamMemberProfileOption} from '^models/TeamMember/components/TeamMemberProfile';
-import {TeamSelect} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamSelect';
-import {TeamTag} from '^models/Team/components/TeamTag';
+import React, {memo} from 'react';
+import {TeamMemberProfileOption} from '^models/TeamMember/components/TeamMemberProfile';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
-import {FaPen, FaPlay} from 'react-icons/fa6';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {debounce} from 'lodash';
 import {codefCardApi} from '^models/CodefCard/api';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {newCodefCardConnected} from './atom';
+import {LoadingDotSeries} from '^v3/share/LoadingDotSeries';
+import {useCodefCardConnect} from './useCodefCardConnect';
+import {plainToast as toast} from '^hooks/useToast';
 
 interface NewCodefCardProps {
     codefCard: CodefCardDto;
@@ -21,30 +20,19 @@ interface NewCodefCardProps {
 export const NewCodefCard = memo((props: NewCodefCardProps) => {
     const {codefCard, staticData} = props;
     const orgId = useRecoilValue(orgIdParamState);
-    const router = useRouter();
-    const [runningProgress, setRunningProgress] = useState(-1);
-    const setNewCardConnected = useSetRecoilState(newCodefCardConnected);
+    const {runningProgress, runningText, connectingStatus} = useCodefCardConnect(codefCard.id, newCodefCardConnected);
 
-    const isRunning = runningProgress > 0;
     const {logo, themeColor} = staticData;
 
     const cardName = codefCard.resCardName || staticData.displayName;
 
     const onClick = debounce(() => {
-        console.log('codefCard', codefCard);
-        updateProgress(1);
-        codefCardApi.histories(orgId, codefCard.id, {sync: true});
-
-        function updateProgress(percent: number, duration = 1) {
-            setRunningProgress(percent);
-            if (percent >= 100) {
-                setNewCardConnected(true);
-            } else {
-                setTimeout(() => {
-                    updateProgress(percent + 10);
-                }, 1000 * duration);
-            }
-        }
+        connectingStatus.start();
+        codefCardApi.histories(orgId, codefCard.id, {sync: true}).then(() => {
+            // 연동 완료시 행동
+            toast.success(`${codefCard.number4} 카드 연결 성공!`);
+            connectingStatus.finish();
+        });
     });
 
     return (
@@ -78,28 +66,25 @@ export const NewCodefCard = memo((props: NewCodefCardProps) => {
                 {/*<button className="btn btn-square btn-ghost btn-sm">*/}
                 {/*    <FaPen className="text-gray-500" />*/}
                 {/*</button>*/}
-                {runningProgress >= 100 ? (
-                    <button
-                        className="btn btn-sm !border-none !bg-green-200 !text-green-800"
-                        onClick={() => setRunningProgress(-1)}
-                    >
-                        완료
-                    </button>
-                ) : !isRunning ? (
-                    <button className="btn btn-sm btn-scordi" onClick={onClick}>
-                        연결
-                    </button>
-                ) : (
+                {connectingStatus.isFinished() ? (
+                    <button className="btn btn-sm !border-none !bg-green-200 !text-green-800">완료</button>
+                ) : connectingStatus.isRunning() ? (
                     <button
                         className="btn btn-sm btn-ghost loading !bg-transparent !text-scordi"
                         style={{pointerEvents: 'initial'}}
-                        onClick={() => {
-                            alert('setRunningProgress(100);');
-                            setRunningProgress(100);
-                        }}
                     >
                         {runningProgress}%
                     </button>
+                ) : (
+                    <button className="btn btn-sm btn-scordi" onClick={onClick}>
+                        연결
+                    </button>
+                )}
+                {runningText && (
+                    <p className="absolute whitespace-nowrap right-4 bottom-4 text-12 px-1 text-gray-500">
+                        <span className="mr-1">{runningText}</span>
+                        <LoadingDotSeries speed={2} widthFixed />
+                    </p>
                 )}
             </div>
         </article>

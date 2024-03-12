@@ -7,7 +7,7 @@ export interface CodefAccountProps {
     staticData: CardAccountsStaticData;
 }
 
-export const newCodefCardConnected = atom({
+export const newCodefCardConnected = atom<Record<number, boolean>>({
     key: 'newCodefCardConnected',
-    default: false,
+    default: {},
 });

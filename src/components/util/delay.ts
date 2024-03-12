@@ -67,6 +67,14 @@ export function timeoutChain(startTimeout: number, chains: ([number, () => any] 
     return promise;
 }
 
+export function timeoutChain2(startTimeout: number, chains: ([number, () => any] | [() => any])[]) {
+    chains.forEach((chain) => {
+        const sec = typeof chain[0] === 'function' ? 0 : chain[0];
+        const fn = (typeof chain[0] === 'number' ? chain[1] : chain[0])!;
+        setTimeout(() => fn(), sec * 1000);
+    });
+}
+
 export function tChainStep(duration: number, cb: () => any): [number, () => any] {
     return [duration, cb];
 }

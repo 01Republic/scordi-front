@@ -13,8 +13,8 @@ export const V3OrgConnectNewCodefCardListPage = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
     const codefAccountId = useRecoilValue(codefAccountIdParamState);
     const [codefAccount, setCodefAccount] = useRecoilState(codefAccountAtom);
-    const staticData = cardAccountsStaticData.find((data) => data.param === codefAccount?.organization);
     const {result, search} = useNewCodefCards(codefAccountId);
+    const staticData = cardAccountsStaticData.find((data) => data.param === codefAccount?.organization);
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
@@ -22,11 +22,15 @@ export const V3OrgConnectNewCodefCardListPage = memo(() => {
 
         codefAccountApi.show(orgId, codefAccountId).then((res) => setCodefAccount(res.data));
 
-        search({
-            where: {accountId: codefAccountId},
-            sync: true,
-            connected: false,
-        });
+        search(
+            {
+                where: {accountId: codefAccountId},
+                sync: false,
+                connected: false,
+            },
+            false,
+            true,
+        );
     }, [orgId, codefAccountId]);
 
     if (!staticData) return <></>;

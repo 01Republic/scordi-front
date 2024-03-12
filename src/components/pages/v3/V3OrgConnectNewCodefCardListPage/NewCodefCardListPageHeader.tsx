@@ -17,10 +17,12 @@ export const NewCodefCardListPageHeader = memo((props: CodefAccountProps) => {
     const codefAccountId = useRecoilValue(codefAccountIdParamState);
     const {result, reload: newCodefCardsReload} = useNewCodefCards(codefAccount.id);
     const {reload: connectedCodefCardsReload} = useConnectedCodefCards(codefAccount.id);
-    const [newCardConnected, setNewCardConnected] = useRecoilState(newCodefCardConnected);
+    const [connectedContainer, setNewCardConnected] = useRecoilState(newCodefCardConnected);
     const [reloading, setReloading] = useRecoilState(reloadingDataAtom);
 
     const {logo, displayName: cardName, themeColor} = staticData;
+
+    const someCardConnected = Object.values(connectedContainer).some((v) => v === true);
 
     const redirectToCardsPage = debounce(() => {
         router.push(V3OrgConnectedCardListPageRoute.path(orgId, codefAccountId));
@@ -60,9 +62,9 @@ export const NewCodefCardListPageHeader = memo((props: CodefAccountProps) => {
 
                 <div>
                     <button
-                        disabled={!newCardConnected}
+                        disabled={!someCardConnected}
                         className={`btn btn-lg btn-scordi ${
-                            newCardConnected ? '' : '!bg-scordi !text-white opacity-30'
+                            someCardConnected ? '' : '!bg-scordi !text-white opacity-30'
                         }`}
                         onClick={() => redirectToCardsPage()}
                     >

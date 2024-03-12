@@ -68,11 +68,15 @@ const CardListPage = memo((props: Props) => {
     useEffect(() => {
         if (!codefAccount) return;
         if (cardListPageMode !== CardListPageMode.IsLoading) return;
-        newCodefCards.search({
-            where: {accountId: codefAccount.id},
-            sync: true,
-            connected: false,
-        });
+        newCodefCards.search(
+            {
+                where: {accountId: codefAccount.id},
+                sync: true,
+                connected: false,
+            },
+            false,
+            true,
+        );
         connectedCodefCards
             .search(
                 {
@@ -92,7 +96,7 @@ const CardListPage = memo((props: Props) => {
                     setPageMode(CardListPageMode.ConnectedCards);
                 }
             });
-        subscriptionsForAccount.search({});
+        subscriptionsForAccount.search({}, false, true);
     }, [codefAccount, cardListPageMode]);
 
     if (!connectMethod) return <></>;

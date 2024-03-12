@@ -1,7 +1,9 @@
 import {memo} from 'react';
+import {useRecoilValue} from 'recoil';
+import {useRouter} from 'next/router';
+import {orgIdParamState} from '^atoms/common';
+import {V3OrgConnectNewCardListPageRoute} from '^pages/v3/orgs/[orgId]/connects/card-accounts/[connectMethod]/cards/new';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
-import {useSetRecoilState} from 'recoil';
-import {CardListPageMode, cardListPageModeAtom} from '^v3/V3OrgConnectedCardListPage/atom';
 import {useNewCodefCards} from '^models/CodefCard/hook';
 
 interface NewCodefCardFoundedBannerProps {
@@ -10,11 +12,12 @@ interface NewCodefCardFoundedBannerProps {
 
 export const NewCodefCardFoundedBanner = memo((props: NewCodefCardFoundedBannerProps) => {
     const {codefAccount} = props;
-    const setCardListPageMode = useSetRecoilState(cardListPageModeAtom);
+    const orgId = useRecoilValue(orgIdParamState);
     const {result} = useNewCodefCards(codefAccount.id);
+    const router = useRouter();
 
     const onClick = () => {
-        setCardListPageMode(CardListPageMode.NewCards);
+        return router.push(V3OrgConnectNewCardListPageRoute.path(orgId, codefAccount.id));
     };
 
     if (result.pagination.totalItemCount === 0) return <></>;
