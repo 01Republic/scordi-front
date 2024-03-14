@@ -59,3 +59,14 @@
   @include make-generic-class('bg', $name, 'background-color', $color);
   @include make-generic-class('border', $name, 'border-color', $color);
 }
+
+@mixin make-unscaled-generic-class($domain, $name, $attr, $value) {
+  $base_class: #{$domain}-#{$name};
+  @include set-class($base_class, $attr, $value);
+}
+
+@mixin makeUnscaledGenericClassByColorName($name, $color) {
+  @include make-unscaled-generic-class('text', $name, 'color', $color);
+  @include make-unscaled-generic-class('bg', $name, 'background-color', $color);
+  @include make-unscaled-generic-class('border', $name, 'border-color', $color);
+}

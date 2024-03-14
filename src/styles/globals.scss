@@ -27,7 +27,7 @@ body {
     system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo",
     "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", sans-serif;
-  background-color: #fafafa;
+  background-color: $color-layout-background;
   --topnav-min-height: 4rem;
 }
 body.modal-opened {
@@ -1063,3 +1063,5 @@ progress::-moz-progress-bar {
   fill: transparent;
   -webkit-text-fill-color: transparent;
 }
+
+@include makeUnscaledGenericClassByColorName('layout-background', $color-layout-background)

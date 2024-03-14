@@ -50,7 +50,7 @@ export const CodefCardListSection = memo((props: Props) => {
 
     return (
         <div className="col-span-2 mb-8">
-            <h3 className="flex items-center gap-2 mb-6">
+            <h3 className="flex items-center gap-2 py-6 sticky top-[64px] z-[1] bg-layout-background -mx-4 px-4">
                 <FcAddressBook size={30} />
                 <span>연결된 카드</span>
                 <button

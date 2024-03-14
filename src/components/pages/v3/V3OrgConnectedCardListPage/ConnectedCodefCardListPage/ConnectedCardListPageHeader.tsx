@@ -35,7 +35,7 @@ export const ConnectedCardListPageHeader = memo((props: Props) => {
 
             <img src={logo} alt={cardName} className="avatar w-[48px] h-[48px] bg-white mb-4" />
 
-            <div className="mb-12">
+            <div className="mb-6">
                 <div className="flex items-center gap-2 mb-4">
                     <h1 className="text-3xl">
                         {result.pagination.totalItemCount}개의 카드
