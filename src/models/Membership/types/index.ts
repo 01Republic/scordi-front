@@ -6,6 +6,7 @@ import {TypeCast} from '^types/utils/class-transformer';
 export enum MembershipLevel {
     MEMBER = 'MEMBER',
     OWNER = 'OWNER',
+    ADMIN = 'ADMIN',
 }
 
 export enum ApprovalStatus {

@@ -35,3 +35,8 @@ export const teamMemberListInTeamMembersTableAtom = pagedResourceAtom<TeamMember
 export const teamMemberListInSubscriptionShowModalAtom = pagedResourceAtom<TeamMemberDto, FindAllTeamMemberQueryDto>({
     key: 'teamMemberListInSubscriptionShowModalAtom',
 });
+
+// 조직설정 / 청구수신계정 멤버 조회
+export const paymentReceiveTeamMemberForOrgSettingAtom = pagedResourceAtom<TeamMemberDto, FindAllTeamMemberQueryDto>({
+    key: 'paymentReceiveTeamMemberForOrgSettingAtom',
+});

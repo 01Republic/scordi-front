@@ -14,6 +14,7 @@ import {
     teamMemberListAtom,
     teamMemberListInDashboardAtom,
     teamMemberListInTeamMembersTableAtom,
+    paymentReceiveTeamMemberForOrgSettingAtom,
 } from '../atom';
 import {useTeamMembersV3} from '^models/TeamMember';
 
@@ -39,6 +40,10 @@ export const useTeamMembersInTeamMembersTable = () => useTeamMembersV3(teamMembe
 
 // 구독상세모달 / 이용중인 멤버 목록
 export const useTeamMembersInSubscriptionShowModal = () => useTeamMembersV3(teamMemberListInSubscriptionShowModalAtom);
+
+// 조직설정 / 청구수신계정 멤버 조회
+export const usePaymentReceiveTeamMemberForOrgSetting = () =>
+    useTeamMembersV3(paymentReceiveTeamMemberForOrgSettingAtom);
 
 // 멤버 수정 / 삭제 기능
 export function useTeamMember(atom: RecoilState<TeamMemberDto | null>) {
