@@ -12,7 +12,7 @@ export class MoneyDto {
     exchangedCurrency: CurrencyCode; // 환율 기준 화폐 코드
     dollarPrice: number; // 달러 환산 금액
 
-    static dup(base: MoneyDto) {
+    static dup(base: Partial<MoneyDto>) {
         return plainToInstance(MoneyDto, base);
     }
 
@@ -20,11 +20,20 @@ export class MoneyDto {
         return this.amount / this.exchangeRate;
     }
 
+    // 화폐에 따라서 출력시 허용되는 소숫점 자릿수가 다릅니다.
+    // (예를들어 원화는 출력시 정수만 허용합니다.)
+    get roundedAmount() {
+        const onlyInteger = [CurrencyCode.KRW].includes(this.code);
+        if (onlyInteger) return Math.round(this.amount);
+
+        return this.amount;
+    }
+
     get dollar() {
         // const currentCurrency = Object.values(CurrencyList).find((item) => item.code === this.code);
         // const dollarExchangeRate = currentCurrency?.exchangeRate || 1;
         // return this.amount / dollarExchangeRate;
-        return this.dollarPrice;
+        return this.dollarPrice || 0;
     }
 
     changeAmount(amount: number) {
@@ -51,7 +60,7 @@ export class MoneyDto {
     }
 
     to_s() {
-        const amount = this.amount.toLocaleString();
+        const amount = this.roundedAmount.toLocaleString();
         return this.format.replace('%u', this.symbol).replace('%n', amount);
     }
 
@@ -63,7 +72,7 @@ export class MoneyDto {
         if (!this.amount) return 0;
 
         // 얻으려는 화폐와 실결제된 화폐가 같으면 그대로 가격을 반환하고
-        if (this.code === currencyCode) return this.amount;
+        if (this.code === currencyCode) return this.roundedAmount;
 
         // 얻으려는 화폐가 달러라면, 미리 입력된 달러값으로 반환하고
         if (currencyCode === CurrencyCode.USD) return this.dollar;

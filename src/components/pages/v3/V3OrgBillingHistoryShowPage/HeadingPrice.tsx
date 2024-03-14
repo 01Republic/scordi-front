@@ -2,7 +2,7 @@ import {MoneyDto} from '^models/Money';
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
-import {changePriceCurrencyV2, currencyFormat, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
+import {getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 
 interface ItemPriceProps {
     price: MoneyDto | null;
@@ -14,7 +14,7 @@ export const HeadingPrice = memo((props: ItemPriceProps) => {
 
     const isHide = !price;
     const symbol = getCurrencySymbol(displayCurrency);
-    const amount = !price ? 0 : changePriceCurrencyV2(price, displayCurrency);
+    const amount = !price ? 0 : price.toDisplayPrice(displayCurrency);
 
     return (
         <p className="text-3xl font-bold mb-12">
@@ -23,7 +23,7 @@ export const HeadingPrice = memo((props: ItemPriceProps) => {
             ) : (
                 <>
                     <small className="mr-1">{symbol}</small>
-                    <span>{currencyFormat(amount || 0, displayCurrency)}</span>
+                    <span>{amount.toLocaleString()}</span>
                 </>
             )}
         </p>

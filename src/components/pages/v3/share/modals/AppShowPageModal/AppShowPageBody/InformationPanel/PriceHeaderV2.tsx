@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
-import {changePriceCurrencyV2, currencyFormat, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
+import {currencyFormat, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {MoneyDto} from '^models/Money';
 
@@ -14,7 +14,8 @@ export const PriceHeaderV2 = memo((props: PriceHeaderV2Props) => {
     const symbol = getCurrencySymbol(displayCurrency);
     const {subscription} = props;
 
-    const billingAmount = changePriceCurrencyV2(subscription.currentBillingAmount || ({} as MoneyDto), displayCurrency);
+    const currentBillingAmount = subscription.currentBillingAmount || MoneyDto.dup({amount: 0});
+    const billingAmount = currentBillingAmount.toDisplayPrice(displayCurrency);
     const billingCycleTypeText = subscription.getBillingCycleTypeText();
 
     return (

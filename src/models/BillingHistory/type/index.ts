@@ -95,12 +95,7 @@ export class BillingHistoryDto {
 
     getPriceIn(currencyCode = CurrencyCode.KRW) {
         if (!this.payAmount) return 0;
-        // 얻으려는 화폐와 기록된 화폐가 같으면 그대로 가격을 반환하고
-        if (this.payAmount.code === currencyCode) return this.payAmount.amount;
-
-        // 얻으려는 화폐와 기록된 화폐가 다르면, 달러로 변환후 환율을 적용한다.
-        const currency = Object.values(CurrencyList).find((item) => item.code === currencyCode);
-        return this.payAmount.dollar * (currency?.exchangeRate || 1);
+        return this.payAmount.toDisplayPrice(currencyCode);
     }
 
     getCreditCard() {

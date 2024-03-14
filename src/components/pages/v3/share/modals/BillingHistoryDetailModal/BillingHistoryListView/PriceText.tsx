@@ -3,7 +3,7 @@ import {BsInfoCircle} from 'react-icons/bs';
 import {MoneyDto} from '^models/Money';
 import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
-import {changePriceCurrencyV2, currencyFormat, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
+import {getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {BiError} from 'react-icons/bi';
 import {BillingHistoryDto, BillingHistoryStatus} from '^models/BillingHistory/type';
 
@@ -65,9 +65,7 @@ const PriceTextInfo = memo(({payAmount}: {payAmount: MoneyDto | null}) => {
             {payAmount && (
                 <div className="text-gray-300">
                     <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>
-                    <span>
-                        {currencyFormat(changePriceCurrencyV2(payAmount, displayCurrency) || 0, displayCurrency)}
-                    </span>
+                    <span>{payAmount.toDisplayPrice(displayCurrency).toLocaleString()}</span>
                 </div>
             )}
         </div>
@@ -82,9 +80,7 @@ const PriceTextSuccess = memo(({payAmount}: {payAmount: MoneyDto}) => {
             {payAmount ? (
                 <>
                     <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>
-                    <span>
-                        {currencyFormat(changePriceCurrencyV2(payAmount, displayCurrency) || 0, displayCurrency)}
-                    </span>
+                    <span>{payAmount.toDisplayPrice(displayCurrency).toLocaleString()}</span>
                 </>
             ) : (
                 <span className="text-gray-500 text-sm">관리자에게 문의하세요</span>
@@ -102,7 +98,7 @@ const PriceTextFail = memo(({payAmount}: {payAmount: MoneyDto}) => {
             </span>
             <div className="text-gray-300">
                 <small className="mr-1">{getCurrencySymbol(displayCurrency)}</small>
-                <span>{currencyFormat(changePriceCurrencyV2(payAmount, displayCurrency) || 0, displayCurrency)}</span>
+                <span>{payAmount.toDisplayPrice(displayCurrency).toLocaleString()}</span>
             </div>
         </div>
     );

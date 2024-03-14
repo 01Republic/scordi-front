@@ -109,7 +109,8 @@ const Money = ({money}: {money?: MoneyDto}) => {
     return (
         <TagUI className="!text-14">
             <small>{money.symbol}</small>
-            {money.amount.toLocaleString()}
+            {money.roundedAmount.toLocaleString()}
+            {/*{money.text}*/}
         </TagUI>
     );
 };

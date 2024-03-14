@@ -1,22 +1,15 @@
 import {useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {CountUp} from 'countup.js';
-import {changePriceCurrencyV2, Price} from '^api/tasting.api/gmail/agent/parse-email-price';
+import {Price} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {displayCurrencyAtom} from '../pageAtoms';
 import {useDraftResult} from './useDraft';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
 import {CurrencyCode} from '^models/Money';
 
 export const getTotalBalance = (histories: BillingHistoryDto[], displayCurrency: CurrencyCode) => {
-    let amount = 0;
-    histories.forEach((history) => {
-        // const item = history.emailContent;
-        const price = history.payAmount;
-        if (!price || isNaN(price.amount)) return;
-
-        amount += changePriceCurrencyV2(price, displayCurrency);
-    });
-    return amount;
+    const priceList = histories.map((history) => history.getPriceIn(displayCurrency));
+    return priceList.reduce((a, b) => a + b, 0);
 };
 
 export const useSummaryStatBalance = (counterElemId: string) => {
