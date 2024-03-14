@@ -20,6 +20,7 @@ import {NewBillingHistoryModalInAppShow} from '^v3/V3OrgAppsPage/_localModals/Ne
 import {SummarySectionV2} from './SummarySection/v2';
 import {BillingHistoryDetailModalInAppShow} from '^v3/V3OrgAppsPage/_localModals/BillingHistoryDetailModal';
 import {NewSubscriptionModalInAppShow} from '^v3/V3OrgAppsPage/_localModals/NewSubscriptionModal';
+import {NewCardModalV2} from '^v3/share/modals/NewCardModal/NewCardModalV2';
 
 const MODALS: ReactComponentLike[] = [
     NewAppModal,
@@ -30,6 +31,7 @@ const MODALS: ReactComponentLike[] = [
     TeamMemberShowModal,
     AccountListModal,
     InvoiceAccountSelectModal,
+    NewCardModalV2,
 ];
 
 export const V3OrgAppsPage = memo(() => {
