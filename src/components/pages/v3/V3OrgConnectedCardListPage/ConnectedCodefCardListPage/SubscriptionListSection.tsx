@@ -30,6 +30,7 @@ export const SubscriptionListSection = memo((props: Props) => {
         if (!codefAccount || !selectedCodefCard) return;
         search({
             codefCardId: selectedCodefCard.id,
+            order: {lastPaidAt: 'ASC'},
         });
     }, [codefAccount, selectedCodefCard]);
 
