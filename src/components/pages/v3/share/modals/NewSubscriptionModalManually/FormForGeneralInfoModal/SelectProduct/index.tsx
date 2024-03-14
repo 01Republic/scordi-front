@@ -14,6 +14,7 @@ interface SelectProductProps {
     onChange: (product: ProductDto) => any;
     labelText?: string;
     labelHidden?: boolean;
+    placeholderText?: string;
 }
 
 function toOption(product: ProductDto): ProductOption {
@@ -23,7 +24,7 @@ function toOption(product: ProductDto): ProductOption {
 }
 
 export const SelectProduct = memo((props: SelectProductProps) => {
-    const {defaultValue, onChange, labelText, labelHidden = false} = props;
+    const {defaultValue, onChange, labelText, labelHidden = false, placeholderText = ''} = props;
     const [productId, setProductId] = useState<number | undefined>();
     const {result, search: getProducts} = usePagedProducts_SelectProduct();
     const Product = useMemo(() => ProductManager.init(result.items), [result.items]);
@@ -83,7 +84,7 @@ export const SelectProduct = memo((props: SelectProductProps) => {
                             loadOptions={search}
                             defaultOptions={Product.all().map(toOption)}
                             className="select-underline input-underline"
-                            placeholder="서비스를 선택해주세요"
+                            placeholder={placeholderText || '서비스를 선택해주세요'}
                             onChange={(newValue, actionMeta) => {
                                 switch (actionMeta.action) {
                                     case 'select-option':

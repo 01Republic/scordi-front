@@ -16,6 +16,13 @@ export const ProductSelectSection = memo((props: ProductSelectSectionProps) => {
         afterChange();
     };
 
-    return <SelectProduct defaultValue={formData.productId} onChange={(product) => onChange(product.id)} labelHidden />;
+    return (
+        <SelectProduct
+            defaultValue={formData.productId}
+            onChange={(product) => onChange(product.id)}
+            placeholderText="서비스명을 검색해보세요"
+            labelHidden
+        />
+    );
 });
 ProductSelectSection.displayName = 'ProductSelectSection';
