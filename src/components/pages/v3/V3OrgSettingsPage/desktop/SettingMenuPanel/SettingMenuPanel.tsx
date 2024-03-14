@@ -13,7 +13,7 @@ export const V3OrgSettingsMenuPanel = memo(() => {
     const workspacePath = V3OrgSettingsOrgPageRoute.path(orgId);
     const billingPath = V3OrgSettingsBillingPageRoute.path(orgId);
     const memberPath = V3OrgSettingsMembersPageRoute.path(orgId);
-    const connectPath = V3OrgSettingsConnectsPageRoute.path(orgId);
+    // const connectPath = V3OrgSettingsConnectsPageRoute.path(orgId);
 
     return (
         <aside className=" w-[240px] bg-white h-screen py-8 flex flex-col gap-5 shadow-xl">
@@ -42,14 +42,14 @@ export const V3OrgSettingsMenuPanel = memo(() => {
             {/*    <MenuItem href={memberPath} query={{menu: MemberStatus.Member}} status={MemberStatus.Member} />*/}
             {/*</MenuList>*/}
 
-            <MenuList title="연동">
-                <MenuItem href={connectPath} query={{menu: ConnectStatus.Workspace}} status={ConnectStatus.Workspace} />
-                <MenuItem
-                    href={connectPath}
-                    query={{menu: ConnectStatus.InvoiceEmail}}
-                    status={ConnectStatus.InvoiceEmail}
-                />
-            </MenuList>
+            {/*<MenuList title="연동">*/}
+            {/*    <MenuItem href={connectPath} query={{menu: ConnectStatus.Workspace}} status={ConnectStatus.Workspace} />*/}
+            {/*    <MenuItem*/}
+            {/*        href={connectPath}*/}
+            {/*        query={{menu: ConnectStatus.InvoiceEmail}}*/}
+            {/*        status={ConnectStatus.InvoiceEmail}*/}
+            {/*    />*/}
+            {/*</MenuList>*/}
         </aside>
     );
 });
