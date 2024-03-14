@@ -6,9 +6,9 @@ import {ConnectCardAccountsSection} from './ConnectCardAccountsSection';
 export const ConnectsPageBody = memo(() => {
     return (
         <div className="py-16 px-12">
-            <ConnectWorkspaceSection />
-            <ConnectInvoiceEmailsSection />
             <ConnectCardAccountsSection />
+            <ConnectInvoiceEmailsSection />
+            <ConnectWorkspaceSection />
         </div>
     );
 });
