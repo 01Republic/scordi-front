@@ -24,7 +24,7 @@ export const V3OrgConnectNewCodefCardListPage = memo(() => {
 
         search(
             {
-                where: {accountId: codefAccountId},
+                where: {accountId: codefAccountId, isSleep: false},
                 sync: false,
                 connected: false,
             },

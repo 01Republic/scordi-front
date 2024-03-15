@@ -70,7 +70,7 @@ const CardListPage = memo((props: Props) => {
         if (cardListPageMode !== CardListPageMode.IsLoading) return;
         newCodefCards.search(
             {
-                where: {accountId: codefAccount.id},
+                where: {accountId: codefAccount.id, isSleep: false},
                 sync: true,
                 connected: false,
             },
