@@ -20,10 +20,11 @@ import {plainToast as toast} from '^hooks/useToast';
 interface ConnectedCodefCardProps {
     codefCard: ConnectedCodefCardDto;
     staticData: CardAccountsStaticData;
+    afterSync?: () => any;
 }
 
 export const ConnectedCodefCard = memo((props: ConnectedCodefCardProps) => {
-    const {codefCard, staticData} = props;
+    const {codefCard, staticData, afterSync} = props;
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
     const [isSyncLoading, setIsSyncLoading] = useState(false);
@@ -47,11 +48,22 @@ export const ConnectedCodefCard = memo((props: ConnectedCodefCardProps) => {
 
         if (confirm('다소 시간이 걸리는 작업입니다. 그래도 실행할까요?')) {
             setIsSyncLoading(true);
-            codefCardApi.histories(orgId, codefCard.accountId, {sync: true}).then(() => {
-                toast.success('동기화를 시작했어요.');
-                setIsSyncLoading(false);
-                hide();
-            });
+            toast.success('동기화를 시작했어요.');
+            codefCardApi
+                .histories(orgId, codefCard.id, {sync: true})
+                .then(() => {
+                    toast.success(`${codefCard.number4} 동기화 완료!`);
+                    setIsSyncLoading(false);
+                    hide();
+                    afterSync && afterSync();
+                })
+                .catch(() => {
+                    toast.error(`문제가 발생했습니다 :(\n관리자게에 문의해주세요.`);
+                    setIsSyncLoading(false);
+                    hide();
+                });
+        } else {
+            hide();
         }
     };
 

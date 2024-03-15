@@ -48,6 +48,13 @@ export const CodefCardListSection = memo((props: Props) => {
         }
     }, [result.items]);
 
+    const refreshResource = () => {
+        setReloading(true);
+        Promise.all([newCodefCardsReload(), connectedCodefCardsReload(), reloadSubs1()]).then(() => {
+            setReloading(false);
+        });
+    };
+
     return (
         <div className="col-span-2 mb-8">
             <h3 className="flex items-center gap-2 py-6 sticky top-[64px] z-[1] bg-layout-background -mx-4 px-4">
@@ -55,12 +62,7 @@ export const CodefCardListSection = memo((props: Props) => {
                 <span>연결된 카드</span>
                 <button
                     className={`btn btn-sm btn-ghost ml-auto gap-2 ${reloading ? 'loading' : ''}`}
-                    onClick={() => {
-                        setReloading(true);
-                        Promise.all([newCodefCardsReload(), connectedCodefCardsReload(), reloadSubs1()]).then(() => {
-                            setReloading(false);
-                        });
-                    }}
+                    onClick={() => refreshResource()}
                 >
                     {!reloading && (
                         <>
@@ -73,7 +75,12 @@ export const CodefCardListSection = memo((props: Props) => {
 
             <div className="flex flex-col gap-4">
                 {result.items.map((codefCard, i) => (
-                    <ConnectedCodefCard key={i} codefCard={codefCard} staticData={staticData} />
+                    <ConnectedCodefCard
+                        key={i}
+                        codefCard={codefCard}
+                        staticData={staticData}
+                        afterSync={() => refreshResource()}
+                    />
                 ))}
             </div>
         </div>
