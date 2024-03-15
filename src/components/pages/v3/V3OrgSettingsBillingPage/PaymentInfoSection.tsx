@@ -18,7 +18,7 @@ export const PaymentInfoSection = memo(() => {
         search({where: {membership: {level: MembershipLevel.OWNER}}});
     }, [orgId]);
 
-    const paymentMember = result.items[0];
+    const paymentMember = result.items.find((_, i) => i === 0);
 
     return (
         <EditFormSection title="결제 정보" editMode={false}>
@@ -26,7 +26,7 @@ export const PaymentInfoSection = memo(() => {
                 <div className="card card-bordered border-slate-100">
                     <div className="card-body p-4">
                         <p className="font-semibold text-gray-500">청구 이메일</p>
-                        <p className="font-[500] text-16">{paymentMember.email || '-'}</p>
+                        <p className="font-[500] text-16">{paymentMember?.email || '-'}</p>
                         <div className="card-actions justify-start">
                             &nbsp;
                             {/*<a className="link link-primary no-underline text-sm">관리</a>*/}
