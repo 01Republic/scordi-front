@@ -49,7 +49,7 @@ export const HistoryItem = memo((props: {entry: BillingHistoryDto; showTitle?: b
                 {(showTitle || showTitleByStatus) && (
                     <p className="leading-none text-right font-light">
                         <small className="text-xs text-gray-500" style={{wordBreak: 'keep-all'}}>
-                            {item?.title ?? ''}
+                            {billingHistory.memo || item?.title || ''}
                         </small>
                     </p>
                 )}
