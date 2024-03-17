@@ -31,6 +31,7 @@ export const SubscriptionListSection = memo((props: Props) => {
         search({
             codefCardId: selectedCodefCard.id,
             order: {lastPaidAt: 'ASC'},
+            itemsPerPage: 0,
         });
     }, [codefAccount, selectedCodefCard]);
 
