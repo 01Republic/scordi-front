@@ -15,6 +15,7 @@ interface Props extends StepContentProps {
     // onNext: () => any;
 }
 
+/** 온보딩 프로세스의 구글워크스페이스 연동 */
 export const ConnectGoogleAdminIsLoading = memo(function ConnectGoogleAdminIsLoading(props: Props) {
     const accessToken = useRecoilValue(googleAccessTokenAtom);
     const setReportData = useSetRecoilState(reportState);

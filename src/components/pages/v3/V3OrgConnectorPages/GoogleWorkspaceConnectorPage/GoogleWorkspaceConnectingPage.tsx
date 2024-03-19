@@ -7,6 +7,9 @@ import {googleWorkspaceAccessTokenAtom, isLoadedState, reportState} from './atom
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {workspaceTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectGoogleAdminIsLoading/workspaceTimeoutChain';
 import {filterBlackList} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/features';
+import {AxiosError} from 'axios';
+import {ApiError} from '^api/api';
+import {useAlert} from '^hooks/useAlert';
 
 export const GoogleWorkspaceConnectingPage = memo(function GoogleWorkspaceConnectPage() {
     const [accessToken, setAccessToken] = useRecoilState(googleWorkspaceAccessTokenAtom);
@@ -15,6 +18,7 @@ export const GoogleWorkspaceConnectingPage = memo(function GoogleWorkspaceConnec
     const setReportData = useSetRecoilState(reportState);
     const [isLoading, setIsLoading] = useRecoilState(isLoadedState);
     const {usageReport: googleUsageReportApi} = userSocialGoogleApi.subscriptions;
+    const {alert} = useAlert();
 
     const routerBack = () => {
         setIsLoading(false);
@@ -31,6 +35,31 @@ export const GoogleWorkspaceConnectingPage = memo(function GoogleWorkspaceConnec
                     const filteredReport = filterBlackList(res.data);
                     filteredReport.setNonameMember();
                     setReportData(filteredReport);
+                });
+                req.catch((e: ApiError) => {
+                    console.log(e);
+                    const apiErrObj = e.response?.data;
+                    console.log('apiErrObj', apiErrObj);
+                    if (apiErrObj) {
+                        if (apiErrObj.code === 'Forbidden') {
+                            alert
+                                .error(
+                                    '관리자 계정 권한이 필요해요',
+                                    '구글 워크스페이스 관리콘솔에서 최고 관리자 권한이 부여된 계정으로 시도해주세요',
+                                )
+                                .then(() => routerBack());
+                        }
+                        if (apiErrObj.status === 400 && apiErrObj.code === 'Bad Request') {
+                            if (apiErrObj.message === 'Invalid Input') {
+                                alert
+                                    .error(
+                                        '입력하신 계정을 확인해주세요',
+                                        '구글 워크스페이스 관리콘솔에서 최고 관리자 권한이 부여된 계정으로 시도해주세요',
+                                    )
+                                    .then(() => routerBack());
+                            }
+                        }
+                    }
                 });
             }
             return true;

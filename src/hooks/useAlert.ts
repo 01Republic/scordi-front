@@ -51,6 +51,7 @@ export function useAlert() {
             icon: 'error',
             title: title,
             text: text,
+            confirmButtonText: '확인',
             ...props,
         });
     };

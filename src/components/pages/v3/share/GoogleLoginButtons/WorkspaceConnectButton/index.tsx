@@ -8,6 +8,7 @@ import {useToast} from '^hooks/useToast';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {googleOAuth} from '^config/environments';
 import {GoogleOAuthProvider} from '@react-oauth/google';
+import {ApiError} from '^api/api';
 
 interface WorkspaceConnectButtonProps {
     ButtonComponent: () => JSX.Element;
@@ -18,6 +19,7 @@ interface WorkspaceConnectButtonProps {
 // 기존 구글 로그인 버튼이 아닌 다른 모양의 버튼을
 // props로 받아 보여지도록 했습니다.
 
+/** (구) 구독 불러오기 페이지에서 칸반형태의 연결방법들 중 워크스페이스 연결 */
 export const WorkspaceConnectButton = memo((props: WorkspaceConnectButtonProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const {reload: reloadCurrentOrg} = useCurrentOrg(orgId);
@@ -49,8 +51,9 @@ export const WorkspaceConnectButton = memo((props: WorkspaceConnectButtonProps) 
                 .finally(() => setIsLoading(false));
         });
 
-        req.catch((e) => {
-            if ((e.response.data.code = 'Unauthorized')) {
+        req.catch((e: ApiError) => {
+            const apiErrObj = e.response?.data;
+            if (apiErrObj?.code === 'Unauthorized') {
                 alert.error('회사 대표 계정으로 시도해주세요', '', {
                     html: `
                     ex) official@scordi.io

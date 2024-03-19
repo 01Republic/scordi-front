@@ -63,7 +63,6 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
                 code,
                 ...(feature ? {feature} : {}),
             });
-            console.log('accessToken', accessToken);
             setAccessToken(accessToken);
             return googleLoginOnSuccess(accessToken);
         },

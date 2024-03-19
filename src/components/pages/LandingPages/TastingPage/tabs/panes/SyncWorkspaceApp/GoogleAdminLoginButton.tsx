@@ -8,6 +8,7 @@ import {filterBlackList} from './features';
 import {ReportLoadingStatus, reportLoadingStatus, reportState} from './atom';
 import {googleOAuth} from '^config/environments';
 
+/** 데모 페이지에서의 구글 워크스페이스 연동 */
 export const GoogleAdminLoginButton = memo(function GoogleAdminLoginButton() {
     const googleOauthClientId = googleOAuth.adminClient.id;
     const setLoadingStatus = useSetRecoilState(reportLoadingStatus);
