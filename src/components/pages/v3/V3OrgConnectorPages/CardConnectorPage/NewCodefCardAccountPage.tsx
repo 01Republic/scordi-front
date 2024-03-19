@@ -1,4 +1,4 @@
-import {memo, useState} from 'react';
+import {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
@@ -6,7 +6,7 @@ import {LinkTo} from '^components/util/LinkTo';
 import {V3OrgConnectsPageRoute} from '^pages/v3/orgs/[orgId]/connects';
 import {FaArrowLeft} from 'react-icons/fa6';
 import {codefAccountApi} from '^models/CodefAccount/api';
-import {CodefRequestBusinessType} from '^models/CodefAccount/type/enums';
+import {CodefCardCompanyCode, CodefRequestBusinessType} from '^models/CodefAccount/type/enums';
 import {CodefResponse, CodefApiResultCode, codefErrorCodeToMsg} from '^models/CodefAccount/codef-common';
 import {AccountCreatedResponseDto} from '^models/CodefAccount/type/create-account.response.dto';
 import {ApiErrorResponse} from '^api/api';
@@ -19,6 +19,7 @@ import {V3OrgConnectedCardListPageRoute} from '^pages/v3/orgs/[orgId]/connects/c
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {plainToast as toast} from '^hooks/useToast';
+import {useCodefAccountsAlreadyIs} from '^models/CodefAccount/hook';
 
 export const NewCodefCardAccountPage = memo(function CardBeforeConnectPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -27,6 +28,31 @@ export const NewCodefCardAccountPage = memo(function CardBeforeConnectPage() {
     const connectMethod = CardAccountsStaticData.findOne(router.query.connectMethod as string);
     const form = useForm<CreateAccountRequestDto>();
     const [errorMessages, setErrorMessages] = useState<string[]>([]);
+    const {search: checkCodefAccounts} = useCodefAccountsAlreadyIs();
+
+    const checkExists = (organization: CodefCardCompanyCode) => {
+        checkCodefAccounts({where: {organization}}, false, true).then((result) => {
+            if (!result) {
+                setTimeout(() => checkExists(organization), 1000);
+                return;
+            }
+            const [accountExisted] = result.items;
+            if (accountExisted) {
+                toast.error('기존에 등록된 계정으로 이동합니다', {
+                    duration: 3000,
+                });
+                setTimeout(() => {
+                    router.replace(V3OrgConnectedCardListPageRoute.path(orgId, accountExisted.id));
+                }, 3000);
+            }
+        });
+    };
+
+    useEffect(() => {
+        if (!orgId || isNaN(orgId)) return;
+        if (!connectMethod || !router.isReady) return;
+        checkExists(connectMethod.param);
+    }, [router.isReady, orgId, connectMethod]);
 
     if (!connectMethod) return <></>;
 
