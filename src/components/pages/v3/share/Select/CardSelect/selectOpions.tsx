@@ -38,6 +38,31 @@ export const CardComponents = () => {
         );
     };
 
+    const MenuListLoading = (props: MenuListProps<any>) => {
+        const {open} = useModal(newCardModalState);
+
+        return (
+            <components.MenuList {...props}>
+                <div onClick={open} className="px-[8px]">
+                    <div className="py-2 mb-1 px-2 flex items-center rounded-md text-sm text-gray-500 cursor-pointer transition-all hover:bg-gray-100 active:bg-sky-100">
+                        새로운 카드 등록하기
+                    </div>
+                </div>
+                <hr className="" />
+                <div className="pt-2 relative">
+                    {props.children}
+                    <div className="absolute w-full top-0 bottom-0 left-0 right-0 bg-white bg-opacity-80">
+                        <div className="py-8 flex items-center justify-center">
+                            <div>
+                                <button className="btn !bg-transparent !border-none loading btn-square" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </components.MenuList>
+        );
+    };
+
     const Option = (props: OptionProps<any>) => {
         const card = props.data;
         return (
@@ -66,5 +91,5 @@ export const CardComponents = () => {
         return <components.NoOptionsMessage {...props} className="hidden"></components.NoOptionsMessage>;
     };
 
-    return {SelectContainer, Control, MenuList, Option, SingleValue, NoOptionsMessage};
+    return {SelectContainer, Control, MenuList, MenuListLoading, Option, SingleValue, NoOptionsMessage};
 };

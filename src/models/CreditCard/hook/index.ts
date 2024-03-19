@@ -6,7 +6,8 @@ import {orgIdParamState} from '^atoms/common';
 import {creditCardListResultAtom} from '^models/CreditCard/atom';
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
 import {CreditCardDto, FindAllCreditCardDto} from '^models/CreditCard/type';
-import {useToast} from '^hooks/useToast';
+import {plainToast as toast} from '^hooks/useToast';
+import {ApiError} from '^api/api';
 
 export const useCreditCardsOfOrganization = (isShow: boolean) => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -62,7 +63,16 @@ const useCreditCardsV3 = (atoms: PagedResourceAtoms<CreditCardDto, FindAllCredit
 
         if (!confirm(msg)) return;
 
-        return creditCardApi.destroy(orgId, creditCard.id);
+        return creditCardApi
+            .destroy(orgId, creditCard.id)
+            .then((res) => {
+                if (res) toast.success('삭제했습니다.');
+                return res;
+            })
+            .catch((e: ApiError) => {
+                const apiErrorObj = e.response?.data;
+                if (apiErrorObj) toast.error(apiErrorObj.message);
+            });
     };
 
     return {deleteCreditCard, ...pagedResource};

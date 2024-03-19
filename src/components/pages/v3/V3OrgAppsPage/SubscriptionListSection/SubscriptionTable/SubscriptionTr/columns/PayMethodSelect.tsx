@@ -75,9 +75,8 @@ export const PayMethodSelect = memo((props: PayMethodSelectProps) => {
                     optionDetach={optionDetach}
                     detachableOptionBoxTitle="연결된 결제수단"
                     optionDestroy={(creditCard) => {
-                        return deleteCreditCard(creditCard, orgId).then(() => {
-                            toast.success('삭제되었습니다.');
-                            onChange();
+                        return deleteCreditCard(creditCard, orgId).then((res) => {
+                            if (res) onChange();
                             return true;
                         });
                     }}

@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import Select, {InputActionMeta, StylesConfig} from 'react-select';
 import {CardComponents} from '^v3/share/Select/CardSelect/selectOpions';
 import {useCreditCards} from '^models/CreditCard/hook';
@@ -16,19 +16,26 @@ interface CardSelectorProps {
 }
 
 export const CardSelector = memo((props: CardSelectorProps) => {
-    const {search, result} = useCreditCards();
+    const {search, result, reload} = useCreditCards();
+    const [isLoading, setIsLoading] = useState(false);
     const {onChange, defaultValue} = props;
 
     useEffect(() => {
         loadCards();
     }, []);
 
+    const resetCards = () => {
+        setIsLoading(true);
+        reload().finally(() => setIsLoading(false));
+    };
+
     const loadCards = debounce((keyword?: string) => {
+        setIsLoading(true);
         return search({
             keyword,
             itemsPerPage: 30,
             order: {id: 'DESC'},
-        });
+        }).finally(() => setIsLoading(false));
     }, 500);
 
     const customStyles: StylesConfig<CardOptionData, false> = {
@@ -47,6 +54,8 @@ export const CardSelector = memo((props: CardSelectorProps) => {
             '&:hover': {},
         }),
     };
+
+    const {MenuList, MenuListLoading} = CardComponents();
 
     return (
         <Select
@@ -74,7 +83,8 @@ export const CardSelector = memo((props: CardSelectorProps) => {
             noOptionsMessage={({inputValue}) => {
                 return <p>선택할 수 있는 카드가 없어요 :(</p>;
             }}
-            components={{Option: CardOption, MenuList: CardComponents().MenuList}}
+            onMenuOpen={() => resetCards()}
+            components={{Option: CardOption, MenuList: isLoading ? MenuListLoading : MenuList}}
         />
     );
 });
@@ -97,9 +107,8 @@ const CardOption = (props: SelectOptionProps<CardOptionData>) => {
     const {data, isFocused, isSelected} = props;
 
     const onDelete = () => {
-        deleteCreditCard(data.data, orgId).then(() => {
-            toast.success('삭제했습니다.');
-            reload();
+        deleteCreditCard(data.data, orgId).then((res) => {
+            if (res) reload();
         });
     };
 
