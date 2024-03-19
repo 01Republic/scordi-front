@@ -36,30 +36,44 @@ export const GoogleWorkspaceConnectingPage = memo(function GoogleWorkspaceConnec
                     filteredReport.setNonameMember();
                     setReportData(filteredReport);
                 });
-                req.catch((e: ApiError) => {
+                req.catch(async (e: ApiError) => {
                     console.log(e);
                     const apiErrObj = e.response?.data;
                     console.log('apiErrObj', apiErrObj);
+                    let catched = false;
                     if (apiErrObj) {
                         if (apiErrObj.code === 'Forbidden') {
-                            alert
-                                .error(
-                                    '관리자 계정 권한이 필요해요',
-                                    '구글 워크스페이스 관리콘솔에서 최고 관리자 권한이 부여된 계정으로 시도해주세요',
-                                )
-                                .then(() => routerBack());
+                            catched = true;
+                            await alert.error2(
+                                '관리자 계정 권한이 필요해요',
+                                '구글 워크스페이스 관리콘솔에서 최고 관리자 권한이 부여된 계정으로 시도해주세요',
+                            );
                         }
                         if (apiErrObj.status === 400 && apiErrObj.code === 'Bad Request') {
-                            if (apiErrObj.message === 'Invalid Input') {
-                                alert
-                                    .error(
-                                        '입력하신 계정을 확인해주세요',
-                                        '구글 워크스페이스 관리콘솔에서 최고 관리자 권한이 부여된 계정으로 시도해주세요',
-                                    )
-                                    .then(() => routerBack());
+                            if (apiErrObj.message.includes('Invalid Input')) {
+                                catched = true;
+                                await alert.error2(
+                                    '입력하신 계정을 확인해주세요',
+                                    '구글 워크스페이스 관리콘솔에서 최고 관리자 권한이 부여된 계정으로 시도해주세요',
+                                );
                             }
                         }
                     }
+                    if (!catched) {
+                        await alert.error2('관리자에게 문의해주세요', '', {
+                            html: (
+                                <>
+                                    <div>
+                                        <p>이 화면을 캡쳐해주시면 도움이 됩니다.</p>
+                                        <p>
+                                            [${apiErrObj?.status} ${apiErrObj?.code}] ${apiErrObj?.message}
+                                        </p>
+                                    </div>
+                                </>
+                            ),
+                        });
+                    }
+                    routerBack();
                 });
             }
             return true;

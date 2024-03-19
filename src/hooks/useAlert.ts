@@ -1,4 +1,5 @@
 import {AxiosResponse} from 'axios';
+import withReact from 'sweetalert2-react-content';
 import Swal, {SweetAlertOptions} from 'sweetalert2';
 
 interface DestroyAlertProps<T> {
@@ -56,5 +57,15 @@ export function useAlert() {
         });
     };
 
-    return {alert: {success, destroy, error}, Swal};
+    const error2 = (title: string, text: string, props?: SweetAlertOptions) => {
+        return withReact(Swal).fire({
+            icon: 'error',
+            title: title,
+            text: text,
+            confirmButtonText: '확인',
+            ...props,
+        });
+    };
+
+    return {alert: {success, destroy, error, error2}, Swal};
 }
