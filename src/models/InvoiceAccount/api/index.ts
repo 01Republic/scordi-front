@@ -52,6 +52,11 @@ export const invoiceAccountApi = {
         return api.patch<InvoiceAccountDto>(url);
     },
 
+    syncV2(orgId: number, id: number) {
+        const url = `/${NAMESPACE}/${orgId}/invoice_accounts_v2/${id}/sync`;
+        return api.patch<InvoiceAccountDto>(url);
+    },
+
     renew(orgId: number, id: number, data: SyncInvoiceAccountRequestDto) {
         const url = `/${NAMESPACE}/${orgId}/invoice_accounts/${id}/re-sync`;
         return api.patch<InvoiceAccountDto>(url, data);

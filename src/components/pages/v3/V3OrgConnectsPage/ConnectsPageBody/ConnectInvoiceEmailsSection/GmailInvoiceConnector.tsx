@@ -4,20 +4,26 @@ import {ConnectMethodCard} from '^v3/V3OrgConnectsPage/ConnectsPageBody/ConnectM
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {useInvoiceAccountListInConnector} from '^models/InvoiceAccount/hook';
+import {useRouter} from 'next/router';
 
 export const GmailInvoiceConnector = memo(function GmailInvoiceConnector() {
     const organizationId = useRecoilValue(orgIdParamState);
-    const {result, search} = useInvoiceAccountListInConnector();
+    const router = useRouter();
+    const {isLoading, result, search} = useInvoiceAccountListInConnector();
 
     useEffect(() => {
         if (!organizationId || isNaN(organizationId)) return;
 
-        search({
-            relations: ['subscriptions', 'googleTokenData'],
-            where: {organizationId},
-            order: {id: 'DESC'},
-        });
-    }, [organizationId]);
+        search(
+            {
+                relations: ['subscriptions', 'googleTokenData'],
+                where: {organizationId},
+                order: {id: 'DESC'},
+            },
+            false,
+            true,
+        );
+    }, [router.isReady, organizationId]);
 
     const isConnected = result.pagination.totalItemCount !== 0;
 
@@ -27,6 +33,7 @@ export const GmailInvoiceConnector = memo(function GmailInvoiceConnector() {
             title="Gmail"
             href={V3OrgConnectorDetailPageRoute.path(organizationId, Connectors.gmailInvoice)}
             connected={isConnected}
+            isLoading={isLoading}
         />
     );
 });

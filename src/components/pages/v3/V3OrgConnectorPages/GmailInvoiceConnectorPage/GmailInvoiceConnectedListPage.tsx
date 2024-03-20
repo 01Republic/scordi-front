@@ -1,17 +1,13 @@
 import React, {memo, useEffect, useState} from 'react';
 import {LinkTo} from '^components/util/LinkTo';
 import {FaArrowLeft, FaArrowRotateRight, FaPlus} from 'react-icons/fa6';
-import {SafeBadge} from '^v3/V3OrgConnectorPages/GoogleWorkspaceConnectorPage/GoogleWorkspaceBeforeConnectPage';
 import {FcAddressBook, FcFinePrint} from 'react-icons/fc';
 import {useRouter} from 'next/router';
 import {useInvoiceAccountListInConnector} from '^models/InvoiceAccount/hook';
-import {GoogleProfile} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/GoogleProfile';
-import {InvoiceAppDto} from '^models/InvoiceApp/type';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {
     BillingCycleTypeColumn,
     ProductProfile,
-    ProductProfile2,
 } from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
 import {atom, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {SubscriptionDto} from '^models/Subscription/types';
@@ -168,7 +164,7 @@ const InvoiceAccountItem = memo((props: {data: InvoiceAccountDto}) => {
         if (isSyncLoading) return;
 
         setIsSyncLoading(true);
-        const req = invoiceAccountApi.sync(invoiceAccount.organizationId, invoiceAccount.id);
+        const req = invoiceAccountApi.syncV2(invoiceAccount.organizationId, invoiceAccount.id);
         req.then(() => {
             toast.success('동기화가 완료됐습니다.');
             reload();

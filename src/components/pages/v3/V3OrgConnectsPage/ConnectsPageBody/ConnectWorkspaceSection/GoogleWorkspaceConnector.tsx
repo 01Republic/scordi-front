@@ -1,4 +1,4 @@
-import React, {memo, useRef, useState} from 'react';
+import React, {memo, useEffect, useRef, useState} from 'react';
 import {ConnectMethodCard} from '^v3/V3OrgConnectsPage/ConnectsPageBody/ConnectMethodCard';
 import {Connectors, V3OrgConnectorDetailPageRoute} from '^pages/v3/orgs/[orgId]/connects/[connectorName]';
 import {useRecoilValue} from 'recoil';
@@ -14,10 +14,17 @@ import {IoIosLink, IoMdMore} from 'react-icons/io';
 import {FaCaretDown, FaCaretRight} from 'react-icons/fa6';
 import {GoogleProfile} from '^v3/V3OrgSettingsConnectsPage/WorkspaceSection/Buttons/GoogleProfile';
 import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
+import {useRouter} from 'next/router';
 
 export const GoogleWorkspaceConnector = memo(function GoogleWorkspaceConnector() {
     const orgId = useRecoilValue(orgIdParamState);
-    const {currentOrg} = useCurrentOrg(orgId);
+    const router = useRouter();
+    const {currentOrg, reload} = useCurrentOrg(orgId);
+
+    useEffect(() => {
+        if (!orgId || isNaN(orgId)) return;
+        reload();
+    }, [router.isReady, orgId]);
 
     if (currentOrg?.lastGoogleSyncHistory) {
         return <GoogleWorkspaceConnectedCard lastSyncHistory={currentOrg.lastGoogleSyncHistory} />;

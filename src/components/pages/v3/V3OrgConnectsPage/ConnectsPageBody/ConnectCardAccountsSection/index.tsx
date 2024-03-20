@@ -7,14 +7,17 @@ import {V3OrgConnectedCardListPageRoute} from '^pages/v3/orgs/[orgId]/connects/c
 import {V3OrgConnectCardCreatePageRoute} from '^pages/v3/orgs/[orgId]/connects/card-accounts/[connectMethod]/new';
 import {useCodefAccountsInConnector} from '^models/CodefAccount/hook';
 import {cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {useRouter} from 'next/router';
 
 export const ConnectCardAccountsSection = memo(function ConnectCardAccountsSection() {
     const orgId = useRecoilValue(orgIdParamState);
-    const {result, search} = useCodefAccountsInConnector();
+    const router = useRouter();
+    const {isLoading, result, search} = useCodefAccountsInConnector();
 
     useEffect(() => {
-        search({itemsPerPage: 0});
-    }, [orgId]);
+        if (!orgId || isNaN(orgId)) return;
+        search({itemsPerPage: 0}, false, true);
+    }, [router.isReady, orgId]);
 
     const codefAccounts = result.items;
 
@@ -40,6 +43,7 @@ export const ConnectCardAccountsSection = memo(function ConnectCardAccountsSecti
                             title={connectMethod.displayName}
                             href={href}
                             connected={!!codefAccount}
+                            isLoading={isLoading}
                         />
                     );
                 })}

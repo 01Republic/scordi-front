@@ -12,6 +12,7 @@ interface ConnectMethodCardProps {
     connected?: boolean;
     preventAnim?: boolean;
     className?: string;
+    isLoading?: boolean;
 }
 
 export const ConnectMethodCard = memo((props: ConnectMethodCardProps) => {
@@ -25,6 +26,7 @@ export const ConnectMethodCard = memo((props: ConnectMethodCardProps) => {
         connected = false,
         preventAnim = false,
         className = '',
+        isLoading = false,
     } = props;
 
     return (
@@ -38,10 +40,18 @@ export const ConnectMethodCard = memo((props: ConnectMethodCardProps) => {
                 <div className="flex items-start justify-between">
                     <img src={logo} alt="" className="avatar w-[40px] h-[40px] mb-2" />
 
-                    {connected && (
-                        <span className="flex gap-1 items-center px-2 py-0.5 bg-green-200 text-green-800 rounded-btn text-sm">
-                            <IoIosLink /> 연결됨
+                    {isLoading ? (
+                        <span className="flex gap-1 items-center px-2 py-0.5 bg-none text-gray-400 rounded-btn text-sm">
+                            로딩중...
                         </span>
+                    ) : (
+                        <>
+                            {connected && (
+                                <span className="flex gap-1 items-center px-2 py-0.5 bg-green-200 text-green-800 rounded-btn text-sm">
+                                    <IoIosLink /> 연결됨
+                                </span>
+                            )}
+                        </>
                     )}
                 </div>
                 <p className="card-title text-16">{title}</p>
