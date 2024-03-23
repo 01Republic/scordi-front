@@ -14,26 +14,23 @@ import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {useSubscriptionsForCard} from '^models/CodefCard/hook';
 import {selectedCodefCardAtom} from '^v3/V3OrgConnectedCardListPage/ConnectedCodefCardListPage/atom';
-
-interface Props {
-    codefAccount: CodefAccountDto;
-    staticData: CardAccountsStaticData;
-}
+import {codefAccountIdParamState} from '^atoms/common';
 
 /** 계정으로 조회된 구독 Section */
-export const SubscriptionListSection = memo((props: Props) => {
-    const {codefAccount} = props;
+export const SubscriptionListSection = memo(() => {
+    const codefAccountId = useRecoilValue(codefAccountIdParamState);
     const selectedCodefCard = useRecoilValue(selectedCodefCardAtom);
-    const {result, search} = useSubscriptionsForCard(codefAccount.id);
+    const {result, search} = useSubscriptionsForCard(codefAccountIdParamState);
 
     useEffect(() => {
-        if (!codefAccount || !selectedCodefCard) return;
+        if (!codefAccountId || isNaN(codefAccountId)) return;
+        if (!selectedCodefCard) return;
         search({
             codefCardId: selectedCodefCard.id,
             order: {lastPaidAt: 'ASC'},
             itemsPerPage: 0,
         });
-    }, [codefAccount, selectedCodefCard]);
+    }, [codefAccountId, selectedCodefCard]);
 
     const {items, pagination} = result;
 

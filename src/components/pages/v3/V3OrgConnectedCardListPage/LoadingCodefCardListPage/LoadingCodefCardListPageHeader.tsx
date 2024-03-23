@@ -4,18 +4,12 @@ import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-
 import {LinkTo} from '^components/util/LinkTo';
 import {FaArrowLeft} from 'react-icons/fa6';
 import {useRouter} from 'next/router';
+import {useCodefAccountPageSubject} from '^v3/V3OrgConnectedCardListPage/atom';
 
-interface Props {
-    codefAccount: CodefAccountDto;
-    staticData: CardAccountsStaticData;
-}
-
-export const LoadingCodefCardListPageHeader = memo(function LoadingCodefCardListPageHeader(props: Props) {
-    const {codefAccount, staticData} = props;
+export const LoadingCodefCardListPageHeader = memo(function LoadingCodefCardListPageHeader() {
+    const {connectMethod} = useCodefAccountPageSubject();
     const router = useRouter();
     const [loadingCount, setLoadingCount] = useState(0);
-
-    const {logo, displayName: cardName, themeColor} = staticData;
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -26,6 +20,10 @@ export const LoadingCodefCardListPageHeader = memo(function LoadingCodefCardList
             clearInterval(intervalId);
         };
     }, [router.isReady]);
+
+    if (!connectMethod) return <></>;
+
+    const {logo, displayName: cardName, themeColor} = connectMethod;
 
     return (
         <header>

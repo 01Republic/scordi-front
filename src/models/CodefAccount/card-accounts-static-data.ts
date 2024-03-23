@@ -10,7 +10,7 @@ export class CardAccountsStaticData {
     clientType: CodefCustomerType; //
     loginType: CodefLoginType; // 공인인증서는 아직 안쓰므로, 일단 id-pw 만 씁니다.
 
-    static findOne(param: string) {
+    static findOne(param?: string) {
         return cardAccountsStaticData.find((data) => data.param === param);
     }
 }

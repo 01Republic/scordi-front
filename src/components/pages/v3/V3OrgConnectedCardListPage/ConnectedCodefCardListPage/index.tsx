@@ -8,26 +8,18 @@ import {useConnectedCodefCards} from '^models/CodefCard/hook';
 import {CodefCardListSection} from './CodefCardListSection';
 import {SubscriptionListSection} from './SubscriptionListSection';
 
-interface ConnectedCodefCardListPageProps {
-    codefAccount: CodefAccountDto;
-    staticData: CardAccountsStaticData;
-}
-
-export const ConnectedCodefCardListPage = memo((props: ConnectedCodefCardListPageProps) => {
-    const {codefAccount, staticData} = props;
-    const {result} = useConnectedCodefCards(codefAccount.id);
-
+export const ConnectedCodefCardListPage = memo(() => {
     return (
         <>
-            <NewCodefCardFoundedBanner codefAccount={codefAccount} />
+            <NewCodefCardFoundedBanner />
 
             <div className="py-10 px-12">
-                <ConnectedCardListPageHeader codefAccount={codefAccount} staticData={staticData} />
+                <ConnectedCardListPageHeader />
 
                 <div className="">
                     <section className="lg:grid grid-cols-5 gap-12">
-                        <CodefCardListSection codefAccount={codefAccount} staticData={staticData} />
-                        <SubscriptionListSection codefAccount={codefAccount} staticData={staticData} />
+                        <CodefCardListSection />
+                        <SubscriptionListSection />
                     </section>
                 </div>
             </div>

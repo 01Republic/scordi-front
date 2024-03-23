@@ -4,7 +4,7 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import {FcAddressBook} from 'react-icons/fc';
 import {FaArrowRotateRight} from 'react-icons/fa6';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
-import {orgIdParamState} from '^atoms/common';
+import {codefAccountIdParamState, orgIdParamState} from '^atoms/common';
 import {useAlert} from '^hooks/useAlert';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {plainToast as toast} from '^hooks/useToast';
@@ -16,22 +16,18 @@ import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {selectedCodefCardAtom} from '^v3/V3OrgConnectedCardListPage/ConnectedCodefCardListPage/atom';
 import {ConnectedCodefCard} from '^v3/V3OrgConnectedCardListPage/ConnectedCodefCardListPage/ConnectedCodefCard';
-import {reloadingDataAtom} from '^v3/V3OrgConnectedCardListPage/atom';
-
-interface Props {
-    codefAccount: CodefAccountDto;
-    staticData: CardAccountsStaticData;
-}
+import {
+    reloadingDataAtom,
+    useCodefAccountPageSubject,
+    useConnectedCardListPageData,
+} from '^v3/V3OrgConnectedCardListPage/atom';
 
 /** 청구서 수신 메일 Section */
-export const CodefCardListSection = memo((props: Props) => {
-    const {codefAccount, staticData} = props;
-    const {result, reload: connectedCodefCardsReload} = useConnectedCodefCards(codefAccount.id);
+export const CodefCardListSection = memo(() => {
+    const {connectMethod} = useCodefAccountPageSubject();
+    const {result} = useConnectedCodefCards(codefAccountIdParamState);
     const [selectedCodefCard, selectCodefCard] = useRecoilState(selectedCodefCardAtom);
-
-    const [reloading, setReloading] = useRecoilState(reloadingDataAtom);
-    const {reload: newCodefCardsReload} = useNewCodefCards(codefAccount.id);
-    const {result: pagedSubs, reload: reloadSubs1} = useSubscriptionsForAccount(codefAccount.id);
+    const {reloading, reload: refreshResource} = useConnectedCardListPageData();
 
     useEffect(() => {
         if (!result.items.length) {
@@ -48,12 +44,7 @@ export const CodefCardListSection = memo((props: Props) => {
         }
     }, [result.items]);
 
-    const refreshResource = () => {
-        setReloading(true);
-        Promise.all([newCodefCardsReload(), connectedCodefCardsReload(), reloadSubs1()]).then(() => {
-            setReloading(false);
-        });
-    };
+    if (!connectMethod) return <></>;
 
     return (
         <div className="col-span-2 mb-8">
@@ -78,7 +69,7 @@ export const CodefCardListSection = memo((props: Props) => {
                     <ConnectedCodefCard
                         key={i}
                         codefCard={codefCard}
-                        staticData={staticData}
+                        staticData={connectMethod}
                         afterSync={() => refreshResource()}
                     />
                 ))}

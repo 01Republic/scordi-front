@@ -7,20 +7,18 @@ import {LinkTo} from '^components/util/LinkTo';
 import {V3OrgConnectedCardListPageRoute} from '^pages/v3/orgs/[orgId]/connects/card-accounts/[connectMethod]/cards';
 import {codefAccountIdParamState, orgIdParamState} from '^atoms/common';
 import {useConnectedCodefCards, useNewCodefCards} from '^models/CodefCard/hook';
-import {reloadingDataAtom} from '^v3/V3OrgConnectedCardListPage/atom';
+import {reloadingDataAtom, useCodefAccountPageSubject} from '^v3/V3OrgConnectedCardListPage/atom';
 import {newCodefCardConnected, CodefAccountProps} from './atom';
 
-export const NewCodefCardListPageHeader = memo((props: CodefAccountProps) => {
-    const {codefAccount, staticData} = props;
+export const NewCodefCardListPageHeader = memo(() => {
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
     const codefAccountId = useRecoilValue(codefAccountIdParamState);
-    const {result, reload: newCodefCardsReload} = useNewCodefCards(codefAccount.id);
-    const {reload: connectedCodefCardsReload} = useConnectedCodefCards(codefAccount.id);
+    const {connectMethod} = useCodefAccountPageSubject();
+    const {result, reload: newCodefCardsReload} = useNewCodefCards(codefAccountIdParamState);
+    const {reload: connectedCodefCardsReload} = useConnectedCodefCards(codefAccountIdParamState);
     const [connectedContainer, setNewCardConnected] = useRecoilState(newCodefCardConnected);
     const [reloading, setReloading] = useRecoilState(reloadingDataAtom);
-
-    const {logo, displayName: cardName, themeColor} = staticData;
 
     const someCardConnected = Object.values(connectedContainer).some((v) => v === true);
 
@@ -37,6 +35,10 @@ export const NewCodefCardListPageHeader = memo((props: CodefAccountProps) => {
         //     }
         // });
     });
+
+    if (!connectMethod) return <></>;
+
+    const {logo, displayName: cardName, themeColor} = connectMethod;
 
     return (
         <header className="">

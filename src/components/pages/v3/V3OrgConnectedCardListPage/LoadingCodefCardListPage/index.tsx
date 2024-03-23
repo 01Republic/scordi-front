@@ -2,18 +2,12 @@ import {memo} from 'react';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {LoadingCodefCardListPageHeader} from './LoadingCodefCardListPageHeader';
+import {useCodefAccountPageSubject} from '^v3/V3OrgConnectedCardListPage/atom';
 
-interface LoadingCodefCardListPageProps {
-    codefAccount: CodefAccountDto;
-    staticData: CardAccountsStaticData;
-}
-
-export const LoadingCodefCardListPage = memo((props: LoadingCodefCardListPageProps) => {
-    const {codefAccount, staticData} = props;
-
+export const LoadingCodefCardListPage = memo(() => {
     return (
         <div className="py-10 px-12">
-            <LoadingCodefCardListPageHeader codefAccount={codefAccount} staticData={staticData} />
+            <LoadingCodefCardListPageHeader />
 
             <div>
                 <section className="flex items-center justify-center">

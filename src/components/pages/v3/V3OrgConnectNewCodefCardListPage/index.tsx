@@ -13,7 +13,7 @@ export const V3OrgConnectNewCodefCardListPage = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
     const codefAccountId = useRecoilValue(codefAccountIdParamState);
     const [codefAccount, setCodefAccount] = useRecoilState(codefAccountAtom);
-    const {result, search} = useNewCodefCards(codefAccountId);
+    const {search} = useNewCodefCards(codefAccountIdParamState);
     const staticData = cardAccountsStaticData.find((data) => data.param === codefAccount?.organization);
 
     useEffect(() => {

@@ -7,20 +7,18 @@ import {codefAccountAtom} from '^models/CodefAccount/atom';
 import {CardAccountsStaticData, cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {useConnectedCodefCards, useNewCodefCards, useSubscriptionsForAccount} from '^models/CodefCard/hook';
-import {CardListPageMode, reloadingDataAtom} from '^v3/V3OrgConnectedCardListPage/atom';
+import {CardListPageMode, reloadingDataAtom, useCodefAccountPageSubject} from '^v3/V3OrgConnectedCardListPage/atom';
+import {codefAccountIdParamState} from '^atoms/common';
 
-interface Props {
-    codefAccount: CodefAccountDto;
-    staticData: CardAccountsStaticData;
-}
-
-export const ConnectedCardListPageHeader = memo((props: Props) => {
-    const {codefAccount, staticData} = props;
+export const ConnectedCardListPageHeader = memo(() => {
+    const {connectMethod} = useCodefAccountPageSubject();
     const router = useRouter();
-    const {result} = useConnectedCodefCards(codefAccount.id);
-    const {result: pagedSubs} = useSubscriptionsForAccount(codefAccount.id);
+    const {result} = useConnectedCodefCards(codefAccountIdParamState);
+    const {result: pagedSubs} = useSubscriptionsForAccount(codefAccountIdParamState);
 
-    const {logo, displayName: cardName, themeColor} = staticData;
+    if (!connectMethod) return <></>;
+
+    const {logo, displayName: cardName, themeColor} = connectMethod;
 
     return (
         <header className="">

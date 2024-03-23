@@ -11,6 +11,7 @@ import {newCodefCardConnected} from './atom';
 import {LoadingDotSeries} from '^v3/share/LoadingDotSeries';
 import {useCodefCardConnect} from './useCodefCardConnect';
 import {plainToast as toast} from '^hooks/useToast';
+import {useCodefAccountPageSubject} from '^v3/V3OrgConnectedCardListPage/atom';
 
 interface NewCodefCardProps {
     codefCard: CodefCardDto;

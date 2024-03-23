@@ -1,23 +1,21 @@
 import {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
-import {orgIdParamState} from '^atoms/common';
+import {codefAccountIdParamState, orgIdParamState} from '^atoms/common';
 import {V3OrgConnectNewCardListPageRoute} from '^pages/v3/orgs/[orgId]/connects/card-accounts/[connectMethod]/cards/new';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {useNewCodefCards} from '^models/CodefCard/hook';
 
-interface NewCodefCardFoundedBannerProps {
-    codefAccount: CodefAccountDto;
-}
-
-export const NewCodefCardFoundedBanner = memo((props: NewCodefCardFoundedBannerProps) => {
-    const {codefAccount} = props;
+export const NewCodefCardFoundedBanner = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
-    const {result} = useNewCodefCards(codefAccount.id);
+    const codefAccountId = useRecoilValue(codefAccountIdParamState);
+    const {result} = useNewCodefCards(codefAccountIdParamState);
     const router = useRouter();
 
     const onClick = () => {
-        return router.push(V3OrgConnectNewCardListPageRoute.path(orgId, codefAccount.id));
+        if (!orgId || isNaN(orgId)) return;
+        if (!codefAccountId || isNaN(codefAccountId)) return;
+        return router.push(V3OrgConnectNewCardListPageRoute.path(orgId, codefAccountId));
     };
 
     if (result.pagination.totalItemCount === 0) return <></>;
