@@ -1,28 +1,18 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
 import {FcFinePrint} from 'react-icons/fc';
-import {useSubscriptionsForCard} from '^models/CodefCard/hook';
+import {useSubscriptionsForAccount, useSubscriptionsForCard} from '^models/CodefCard/hook';
 import {selectedCodefCardAtom} from './atom';
 import {codefAccountIdParamState} from '^atoms/common';
 import {SubscriptionItem} from './SubscriptionItem';
 import {CgSpinner} from 'react-icons/cg';
-import {SelectedCardTag} from './SelectedCardTag';
 
 /** 계정으로 조회된 구독 Section */
-export const SubscriptionListSection = memo(() => {
-    const codefAccountId = useRecoilValue(codefAccountIdParamState);
-    const selectedCodefCard = useRecoilValue(selectedCodefCardAtom);
-    const {isLoading, result, search} = useSubscriptionsForCard(codefAccountIdParamState);
-
-    useEffect(() => {
-        if (!codefAccountId || isNaN(codefAccountId)) return;
-        if (!selectedCodefCard) return;
-        search({
-            codefCardId: selectedCodefCard.id,
-            order: {lastPaidAt: 'ASC'},
-            itemsPerPage: 0,
-        });
-    }, [codefAccountId, selectedCodefCard]);
+export const AllSubscriptionListSection = memo(() => {
+    // const codefAccountId = useRecoilValue(codefAccountIdParamState);
+    // const selectedCodefCard = useRecoilValue(selectedCodefCardAtom);
+    // const {isLoading, result, search} = useSubscriptionsForCard(codefAccountIdParamState);
+    const {isLoading, result} = useSubscriptionsForAccount(codefAccountIdParamState);
 
     const {items, pagination} = result;
 
@@ -34,7 +24,6 @@ export const SubscriptionListSection = memo(() => {
             >
                 <FcFinePrint size={30} />{' '}
                 <span>카드로 조회된 구독 {pagination.totalItemCount ? `(${pagination.totalItemCount})` : ''}</span>
-                <SelectedCardTag />
             </h3>
 
             <div className="card card-body px-3 py-2 card-bordered bg-white gap-0">
@@ -65,10 +54,6 @@ export const SubscriptionListSection = memo(() => {
                         <div className="text-center">
                             <p className="text-14 mb-2">이 카드로는 조회된 구독이 없어요</p>
                             <p className="text-14 mb-4">(백그라운드 연동이 진행되고 있어요)</p>
-                            <div className="text-12">
-                                조회기간: <span>{`${selectedCodefCard?.syncedStartDate}`}</span> ~{' '}
-                                <span>{`${selectedCodefCard?.syncedEndDate}`}</span>
-                            </div>
                         </div>
                     </div>
                 )}

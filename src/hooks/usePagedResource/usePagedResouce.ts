@@ -7,6 +7,7 @@ import {makeAppendPagedItemFn} from './makeAppendPagedItemFn';
 import {makeExceptPagedItemFn} from './makeExceptPagedItemFn';
 import {useEffect, useState} from 'react';
 import {PagedResourceAtoms} from '^hooks/usePagedResource/pagedResourceAtom';
+import {useRecoilStates} from '^hooks/useRecoil';
 
 export interface UsePagedResourceOption<DTO, Query> {
     endpoint: (params: Query, orgId: number) => Promise<AxiosResponse<Paginated<DTO>>>;
@@ -29,8 +30,8 @@ export function usePagedResource<DTO, Query>(
     const {endpoint, buildQuery = (q) => q, mergeMode: defaultMergeMode = false, getId, useOrgId = true} = option;
 
     const orgId = useOrgId ? useRecoilValue(orgIdParamState) : NaN;
-    const [result, setResult] = useRecoilState(resultAtom);
-    const [query, setQuery] = useRecoilState(queryAtom);
+    const {value: result, setValue: setResult, resetValue: resetResult} = useRecoilStates(resultAtom);
+    const {value: query, setValue: setQuery, resetValue: resetQuery} = useRecoilStates(queryAtom);
     const [isLoading, setIsLoading] = useRecoilState(isLoadingAtom);
     const [__isLoading, __setIsLoading] = useState(false);
 
@@ -57,15 +58,19 @@ export function usePagedResource<DTO, Query>(
         return cachePagedQuery(setResult, setQuery, params, request, mergeMode, force);
     }
 
+    const reset = () => {
+        __setIsLoading(false);
+        resetQuery();
+        resetResult();
+    };
     const reload = () => search({...query}, false, true);
     const movePage = (page: number, append = false) => search({...query, page}, append);
     const resetPage = () => search({...query, page: 1}, false, true);
     const append = makeAppendPagedItemFn(setResult);
     const except = makeExceptPagedItemFn(setResult, (it, item) => keyOf(it) !== keyOf(item));
-    // @ts-ignore
-    const clearCache = () => setQuery({});
+    const clearCache = () => resetQuery();
 
-    return {query, result, search, reload, movePage, resetPage, except, isLoading, clearCache};
+    return {query, result, search, reload, reset, movePage, resetPage, except, isLoading, clearCache};
 }
 
 // getId 파라미터에 콜백함수가 아닌 문자열 리터럴을 입력받는 경우, 콜백으로 변환합니다.

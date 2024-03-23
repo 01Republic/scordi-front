@@ -1,14 +1,15 @@
 import React, {memo} from 'react';
-import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
-import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
-import {NewCodefCardFoundedBanner} from '^v3/V3OrgConnectedCardListPage/ConnectedCodefCardListPage/NewCodefCardFoundedBanner';
+import {useRecoilValue} from 'recoil';
+import {NewCodefCardFoundedBanner} from './NewCodefCardFoundedBanner';
 import {ConnectedCardListPageHeader} from './ConnectedCardListPageHeader';
-import {ConnectedCodefCard} from './ConnectedCodefCard';
-import {useConnectedCodefCards} from '^models/CodefCard/hook';
 import {CodefCardListSection} from './CodefCardListSection';
+import {AllSubscriptionListSection} from './AllSubscriptionListSection';
 import {SubscriptionListSection} from './SubscriptionListSection';
+import {selectedCodefCardAtom} from './atom';
 
 export const ConnectedCodefCardListPage = memo(() => {
+    const selectedCodefCard = useRecoilValue(selectedCodefCardAtom);
+
     return (
         <>
             <NewCodefCardFoundedBanner />
@@ -19,7 +20,7 @@ export const ConnectedCodefCardListPage = memo(() => {
                 <div className="">
                     <section className="lg:grid grid-cols-5 gap-12">
                         <CodefCardListSection />
-                        <SubscriptionListSection />
+                        {selectedCodefCard ? <SubscriptionListSection /> : <AllSubscriptionListSection />}
                     </section>
                 </div>
             </div>

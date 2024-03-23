@@ -1,10 +1,10 @@
 import React, {memo, useState} from 'react';
-import {useRouter} from 'next/router';
-import {TeamMemberProfile, TeamMemberProfileOption} from '^models/TeamMember/components/TeamMemberProfile';
-import {TeamSelect} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamSelect';
-import {TeamTag} from '^models/Team/components/TeamTag';
-import {TagUI} from '^v3/share/table/columns/share/TagUI';
-import {FaPen, FaPlay} from 'react-icons/fa6';
+// import {useRouter} from 'next/router';
+// import {TeamMemberProfile, TeamMemberProfileOption} from '^models/TeamMember/components/TeamMemberProfile';
+// import {TeamSelect} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamSelect';
+// import {TeamTag} from '^models/Team/components/TeamTag';
+// import {TagUI} from '^v3/share/table/columns/share/TagUI';
+// import {FaPen, FaPlay} from 'react-icons/fa6';
 import {ConnectedCodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {debounce} from 'lodash';
@@ -13,8 +13,8 @@ import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {codefCardConnected, selectedCodefCardAtom} from './atom';
 import {MoreDropdown} from '^v3/V3OrgSettingsConnectsPage/MoreDropdown';
-import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
-import {useAlert} from '^hooks/useAlert';
+// import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
+// import {useAlert} from '^hooks/useAlert';
 import {plainToast as toast} from '^hooks/useToast';
 
 interface ConnectedCodefCardProps {
@@ -26,21 +26,25 @@ interface ConnectedCodefCardProps {
 export const ConnectedCodefCard = memo((props: ConnectedCodefCardProps) => {
     const {codefCard, staticData, afterSync} = props;
     const orgId = useRecoilValue(orgIdParamState);
-    const router = useRouter();
+    // const router = useRouter();
     const [isSyncLoading, setIsSyncLoading] = useState(false);
-    const [runningProgress, setRunningProgress] = useState(-1);
-    const setCodefCardConnected = useSetRecoilState(codefCardConnected);
+    // const [runningProgress, setRunningProgress] = useState(-1);
+    // const setCodefCardConnected = useSetRecoilState(codefCardConnected);
     const [selectedCodefCard, selectCodefCard] = useRecoilState(selectedCodefCardAtom);
     const creditCard = codefCard.creditCard;
     const isSelected = !!selectedCodefCard && selectedCodefCard.id === codefCard.id;
-    const {alert} = useAlert();
+    // const {alert} = useAlert();
 
     const {logo, themeColor} = staticData;
 
     const cardName = creditCard.name || '';
 
     const onClick = debounce(() => {
-        selectCodefCard(codefCard);
+        selectCodefCard((selected) => {
+            if (!selected) return codefCard;
+            if (selected.id === codefCard.id) return null;
+            return codefCard;
+        });
     });
 
     const onSync = ({hide}: {hide: () => any}) => {

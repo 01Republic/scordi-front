@@ -1,6 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useInvoiceAccountListInConnector} from '^models/InvoiceAccount/hook';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {FcAddressBook} from 'react-icons/fc';
 import {FaArrowRotateRight} from 'react-icons/fa6';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
@@ -24,25 +24,16 @@ import {
 
 /** 청구서 수신 메일 Section */
 export const CodefCardListSection = memo(() => {
+    const codefAccountId = useRecoilValue(codefAccountIdParamState);
     const {connectMethod} = useCodefAccountPageSubject();
     const {result} = useConnectedCodefCards(codefAccountIdParamState);
-    const [selectedCodefCard, selectCodefCard] = useRecoilState(selectedCodefCardAtom);
+    const selectCodefCard = useSetRecoilState(selectedCodefCardAtom);
     const {reloading, reload: refreshResource} = useConnectedCardListPageData();
 
     useEffect(() => {
-        if (!result.items.length) {
-            selectCodefCard(null);
-            return;
-        }
-        if (!selectedCodefCard) {
-            selectCodefCard(result.items[0]);
-            return;
-        }
-        if (selectedCodefCard && !result.items.find((item) => item.id === selectedCodefCard.id)) {
-            selectCodefCard(result.items[0]);
-            return;
-        }
-    }, [result.items]);
+        if (!codefAccountId || isNaN(codefAccountId)) return;
+        selectCodefCard(null);
+    }, [codefAccountId]);
 
     if (!connectMethod) return <></>;
 
