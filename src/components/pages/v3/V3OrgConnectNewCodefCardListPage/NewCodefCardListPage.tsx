@@ -8,7 +8,7 @@ export const NewCodefCardListPage = memo((props: CodefAccountProps) => {
 
     return (
         <div className="py-10 px-12">
-            <NewCodefCardListPageHeader codefAccount={codefAccount} staticData={staticData} />
+            <NewCodefCardListPageHeader />
 
             <div className="">
                 <NewCodefCardSection codefAccount={codefAccount} staticData={staticData} />
