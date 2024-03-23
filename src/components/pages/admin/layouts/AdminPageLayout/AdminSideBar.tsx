@@ -10,6 +10,7 @@ import {AdminProductsPageRoute} from '^pages/admin/products';
 import {BizOpsWorkflowListRoute} from '^pages/admin/biz-ops/manual/workflows';
 import {AdminOrgsPageRoute} from '^pages/admin/orgs';
 import {LinkTo} from '^components/util/LinkTo';
+import {CodefParserListPageRoute} from '^pages/admin/factories/codef-parsers';
 
 interface AdminSideBarProps extends WithChildren {}
 
@@ -36,6 +37,9 @@ export const AdminSideBar = memo((props: AdminSideBarProps) => {
                 </li>
                 <li>
                     <LinkTo text="BizOps Workflows" href={BizOpsWorkflowListRoute.path()} />
+                </li>
+                <li>
+                    <LinkTo text="파서 공장" href={CodefParserListPageRoute.path()} />
                 </li>
             </ul>
 
