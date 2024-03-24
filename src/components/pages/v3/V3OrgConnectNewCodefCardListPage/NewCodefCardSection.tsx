@@ -6,12 +6,7 @@ import {NewCodefCard} from './NewCodefCard';
 import {codefAccountIdParamState} from '^atoms/common';
 import {useCodefAccountPageSubject} from '^v3/V3OrgConnectedCardListPage/atom';
 
-interface Props {
-    codefAccount: CodefAccountDto;
-    staticData: CardAccountsStaticData;
-}
-
-export const NewCodefCardSection = memo(function NewCodefCardSection(props: Props) {
+export const NewCodefCardSection = memo(function NewCodefCardSection() {
     const {connectMethod} = useCodefAccountPageSubject();
     const {result} = useNewCodefCards(codefAccountIdParamState);
 

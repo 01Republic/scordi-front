@@ -37,7 +37,7 @@ export const V3OrgConnectNewCodefCardListPage = memo(() => {
 
     return (
         <V3MainLayout activeTabIndex={LNBIndex.Connects} modals={[]}>
-            {codefAccount && <NewCodefCardListPage codefAccount={codefAccount} staticData={staticData} />}
+            <NewCodefCardListPage />
         </V3MainLayout>
     );
 });

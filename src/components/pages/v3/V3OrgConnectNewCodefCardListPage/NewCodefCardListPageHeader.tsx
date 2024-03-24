@@ -8,15 +8,14 @@ import {V3OrgConnectedCardListPageRoute} from '^pages/v3/orgs/[orgId]/connects/c
 import {codefAccountIdParamState, orgIdParamState} from '^atoms/common';
 import {useConnectedCodefCards, useNewCodefCards} from '^models/CodefCard/hook';
 import {reloadingDataAtom, useCodefAccountPageSubject} from '^v3/V3OrgConnectedCardListPage/atom';
-import {newCodefCardConnected, CodefAccountProps} from './atom';
+import {newCodefCardConnected} from './atom';
 
 export const NewCodefCardListPageHeader = memo(() => {
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
     const codefAccountId = useRecoilValue(codefAccountIdParamState);
     const {connectMethod} = useCodefAccountPageSubject();
-    const {result, reload: newCodefCardsReload} = useNewCodefCards(codefAccountIdParamState);
-    const {reload: connectedCodefCardsReload} = useConnectedCodefCards(codefAccountIdParamState);
+    const {result} = useNewCodefCards(codefAccountIdParamState);
     const [connectedContainer, setNewCardConnected] = useRecoilState(newCodefCardConnected);
     const [reloading, setReloading] = useRecoilState(reloadingDataAtom);
 
@@ -24,16 +23,6 @@ export const NewCodefCardListPageHeader = memo(() => {
 
     const redirectToCardsPage = debounce(() => {
         router.push(V3OrgConnectedCardListPageRoute.path(orgId, codefAccountId));
-        // setReloading(true);
-        // Promise.all([connectedCodefCardsReload(), newCodefCardsReload()]).then(([connectedCards]) => {
-        //     setNewCardConnected(false);
-        //     setReloading(false);
-        //     const cardCount = connectedCards?.pagination.totalItemCount || 0;
-        //     if (cardCount) {
-        //     } else {
-        //         router.back();
-        //     }
-        // });
     });
 
     if (!connectMethod) return <></>;
