@@ -26,6 +26,9 @@ export class CodefAccountDto {
     // 기관코드 (기관코드는 서버 참조)
     organization: CodefCardCompanyCode;
 
+    // 기관명
+    company: string;
+
     // 업무 구분 (은행/저축은행: BK, 카드: CD, 증권: ST, 보험: IS)
     businessType: CodefRequestBusinessType;
 

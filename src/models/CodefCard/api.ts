@@ -1,5 +1,5 @@
 import {api} from '^api/api';
-import {paginatedDtoOf} from '^types/utils/response-of';
+import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {FindAllCardQueryDto} from '^models/CodefCard/type/find-all.card.query.dto';
 import {FindAllCardHistoryQueryDto} from '^models/CodefCard/type/find-all.card-history.query.dto';
@@ -17,6 +17,11 @@ export const codefCardApi = {
     ) {
         const url = `/connect/organizations/${orgId}/codef/accounts/${accountId}/cards`;
         return api.get(url, {params}).then(paginatedDtoOf<Dto>(CodefCardDto as ClassConstructor<Dto>));
+    },
+
+    show<Dto = CodefCardDto>(orgId: number, id: number) {
+        const url = `/connect/organizations/${orgId}/codef/cards/${id}`;
+        return api.get(url).then(oneDtoOf<Dto>(CodefCardDto as ClassConstructor<Dto>));
     },
 
     /** 코드에프 결제내역 조회 (카드 등록 및 연동) */

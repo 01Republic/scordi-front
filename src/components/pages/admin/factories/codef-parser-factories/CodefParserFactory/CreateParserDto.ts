@@ -1,4 +1,4 @@
-class QueryUnitDto {
+export class QueryUnitDto {
     fo: boolean;
     bo: boolean;
     text: string;

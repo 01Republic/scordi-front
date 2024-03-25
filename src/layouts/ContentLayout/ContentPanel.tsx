@@ -87,12 +87,13 @@ export function ContentPanelItemText({text}: {text: string}) {
 type ContentPanelItemProps = {
     className?: string;
     style?: CSSProperties;
+    itemsAlign?: string;
 };
 export function ContentPanelItem(props: WithChildren & ContentPanelItemProps) {
-    const {children, className = '', style = {}} = props;
+    const {children, className = '', itemsAlign = 'center', style = {}} = props;
     return (
         <div className={`p-4 border-b border-b-[#dbd6e1] ${className}`} style={style}>
-            <div className="flex items-center">{children}</div>
+            <div className={`flex items-${itemsAlign}`}>{children}</div>
         </div>
     );
 }
