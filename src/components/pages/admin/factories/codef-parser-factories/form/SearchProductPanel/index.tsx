@@ -1,24 +1,22 @@
 import React, {memo, useState} from 'react';
 import {UseFormReturn} from 'react-hook-form';
 import {
-    CreateParserDto,
-    QueryUnitDto,
-} from '^admin/factories/codef-parser-factories/CodefParserFactory/CreateParserDto';
+    CreateCodefParserDto,
+    FindOperatorType,
+    FindOperatorUnitDto,
+} from '^admin/factories/codef-parser-factories/CodefParserFactory/CreateCodefParserDto';
 import {ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/ContentLayout';
-import {TextInput} from '^components/TextInput';
 import {ProductDto} from '^models/Product/type';
 import {debounce} from 'lodash';
 import {codefParserFactoryApi} from '^admin/factories/codef-parser-factories/CodefParserFactory/api';
-import {CheckBoxInput} from '^admin/factories/codef-parser-factories/form/SearchProductPanel/CheckBoxInput';
-import {ProductAvatar} from '^v3/share/ProductAvatar';
-import {FaCheckCircle, FaExclamationTriangle} from 'react-icons/fa';
 import {ValidateMessage} from './ValidateMessage';
 import {SearchedProductItem} from './SearchedProductItem';
-import {LikeConditionInputGroup} from '^admin/factories/codef-parser-factories/form/share/LikeConditionInputGroup';
+import {ConditionLikeInputGroup} from '^admin/factories/codef-parser-factories/form/share/ConditionLikeInputGroup';
 import {LoadableBox} from '^admin/factories/codef-parser-factories/form/share/LoadableBox';
+import {getLikeQueryString} from '^admin/factories/codef-parser-factories/form/share/get-like-query-string';
 
 interface SearchProductPanelProps {
-    form: UseFormReturn<CreateParserDto>;
+    form: UseFormReturn<CreateCodefParserDto>;
 }
 
 export const SearchProductPanel = memo((props: SearchProductPanelProps) => {
@@ -26,38 +24,38 @@ export const SearchProductPanel = memo((props: SearchProductPanelProps) => {
     const [products, setProducts] = useState<ProductDto[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    const search = (params: QueryUnitDto) => {
-        const {fo = false, bo = false, text = ''} = params;
-        if (!text) {
+    const search = (params: FindOperatorUnitDto) => {
+        const {ops, fo = false, bo = false, value = ''} = params;
+        if (!value) {
             setProducts([]);
             return;
         }
         setIsLoading(true);
         codefParserFactoryApi
-            .searchProducts({fo, bo, text: text.replace(/%/g, '%25')})
+            .searchProducts({ops, value: getLikeQueryString(fo, bo, value)})
             .then((res) => setProducts(res.data))
             .finally(() => setIsLoading(false));
     };
 
-    const onChangeFo = debounce((fo: boolean) => {
+    const onChangeFo = debounce((fo?: boolean) => {
         const values = form.getValues();
-        const {bo, text} = values?.searchText || {};
+        const {bo, value} = values?.searchText || {};
         form.setValue('searchText.fo', fo);
-        search({fo, bo, text});
+        search({fo, bo, value, ops: FindOperatorType.Like});
     }, 500);
 
-    const onChangeBo = debounce((bo: boolean) => {
+    const onChangeBo = debounce((bo?: boolean) => {
         const values = form.getValues();
-        const {fo, text} = values?.searchText || {};
+        const {fo, value} = values?.searchText || {};
         form.setValue('searchText.bo', bo);
-        search({fo, bo, text});
+        search({fo, bo, value, ops: FindOperatorType.Like});
     }, 500);
 
-    const onChangeInput = debounce((text: string) => {
+    const onChangeInput = debounce((value: string = '') => {
         const values = form.getValues();
         const {fo, bo} = values?.searchText || {};
-        form.setValue('searchText.text', text);
-        search({fo, bo, text});
+        form.setValue('searchText.value', value);
+        search({fo, bo, value, ops: FindOperatorType.Like});
     }, 500);
 
     return (
@@ -68,15 +66,16 @@ export const SearchProductPanel = memo((props: SearchProductPanelProps) => {
                     required={true}
                     text="한 개의 검색 결과만 선택될 수 있도록 검색어를 입력해주세요."
                 >
-                    <LikeConditionInputGroup
+                    <ConditionLikeInputGroup
+                        isLoading={isLoading}
                         fo={{value: form.getValues('searchText.fo'), onChange: onChangeFo}}
                         bo={{value: form.getValues('searchText.bo'), onChange: onChangeBo}}
-                        text={{value: form.getValues('searchText.text'), onChange: onChangeInput}}
+                        value={{value: form.getValues('searchText.value'), onChange: onChangeInput}}
                     />
 
                     <LoadableBox isLoading={isLoading}>
                         <ValidateMessage
-                            value={`${form.getValues('searchText.text')}`}
+                            value={`${form.getValues('searchText.value')}`}
                             resultLength={products.length}
                         />
 

@@ -5,6 +5,7 @@ import {AdminSideBar} from './AdminSideBar';
 import {atom, useRecoilState, useSetRecoilState} from 'recoil';
 import {useCurrentUser} from '^models/User/hook';
 import {useRouter} from 'next/router';
+import 'tippy.js/dist/tippy.css';
 
 interface AdminPageLayoutProps extends WithChildren {}
 

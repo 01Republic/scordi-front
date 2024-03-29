@@ -1,16 +1,20 @@
-import {memo} from 'react';
+import {memo, useState} from 'react';
 import {CodefBillingHistoryDto} from '^models/CodefBillingHistory/type';
 import {hh_mm, yyyy_mm_dd} from '^utils/dateTime';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CodefCardTagUI} from '^admin/factories/codef-parser-factories/form/share/CodefCardTagUI';
+import {FaCaretDown, FaCheck, FaEyeSlash} from 'react-icons/fa6';
+import Tippy from '@tippyjs/react';
 
 interface SearchedCodefBillingHistoryItemProps {
     data: CodefBillingHistoryDto;
     onCardSelect: (codefCard?: CodefCardDto) => any;
+    preventHidden?: boolean;
 }
 
 export const SearchedCodefBillingHistoryItem = memo((props: SearchedCodefBillingHistoryItemProps) => {
-    const {data: codefBillingHistory, onCardSelect} = props;
+    const {data: codefBillingHistory, onCardSelect, preventHidden = false} = props;
+    const [isHidden, setIsHidden] = useState(false);
 
     const yyyymmdd = yyyy_mm_dd(codefBillingHistory.usedAt);
     const hhmmss = hh_mm(codefBillingHistory.usedAt);
@@ -24,18 +28,41 @@ export const SearchedCodefBillingHistoryItem = memo((props: SearchedCodefBilling
     const status = codefBillingHistory.memo;
 
     return (
-        <div className="grid grid-cols-12 text-12 h-[22px]">
-            <div className="col-span-2">{yyyymmdd}</div>
-            <div className="">{hhmmss}</div>
-            <div className="">
-                <CodefCardTagUI codefCard={codefBillingHistory.codefCard} onClick={onCardSelect} />
+        <div className={isHidden ? 'hidden' : 'grid grid-cols-12 text-12 h-[22px]'}>
+            <div className="col-span-2 flex items-center gap-1">
+                <span>{yyyymmdd}</span>
             </div>
-            <div className="col-span-5">
-                <div className="w-full whitespace-nowrap overflow-scroll no-scrollbar">{memberStoreName}</div>
+            <div className="flex items-center">{hhmmss}</div>
+            <div className="flex items-center">
+                <div>
+                    <CodefCardTagUI codefCard={codefBillingHistory.codefCard} onClick={onCardSelect} />
+                </div>
             </div>
-            <div className={`col-span-3 text-right ${status && 'opacity-50 line-through'}`}>
+            <div className="col-span-5 flex items-center gap-3">
+                <div className="w-full whitespace-nowrap overflow-scroll no-scrollbar">
+                    <span>{memberStoreName}</span>
+                </div>
+                <div className="">
+                    {!preventHidden && (
+                        <FaEyeSlash
+                            onClick={() => setIsHidden(true)}
+                            className="text-gray-400 hover:text-red-500 transition-all cursor-pointer"
+                        />
+                    )}
+                </div>
+            </div>
+            <div className={`col-span-3 flex items-center justify-end ${status && 'opacity-50 line-through'}`}>
+                {codefBillingHistory.billingHistoryId && (
+                    <div data-tip="파서로 연동된 결제내역" className="tooltip tooltip-primary">
+                        <FaCheck className="text-green-400 mr-1 cursor-pointer" />
+                    </div>
+                )}
                 <span>{finalPrice}</span> <small>({currency})</small>{' '}
-                {status ? <span className="text-red-500 font-semibold">{status}</span> : <span></span>}
+                {status ? (
+                    <span className="text-red-500 font-semibold whitespace-nowrap">{status}</span>
+                ) : (
+                    <span></span>
+                )}
             </div>
         </div>
     );

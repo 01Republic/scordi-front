@@ -6,19 +6,27 @@ import {TagUI} from '^v3/share/table/columns/share/TagUI';
 interface CodefCardTagUIProps {
     codefCard?: CodefCardDto;
     onClick?: (codefCard?: CodefCardDto) => any;
+    withCompany?: boolean;
 }
 
 export const CodefCardTagUI = memo((props: CodefCardTagUIProps) => {
-    const {codefCard, onClick} = props;
+    const {codefCard, onClick, withCompany = false} = props;
 
     if (!codefCard) return <></>;
 
     const lastCardNum = codefCard.number4;
     const cardColor = getColor(codefCard.id, palette.notionColors);
+    const company = codefCard.account?.company?.replace('카드', '') || ' - ';
 
     return (
         <TagUI className={`!inline ${cardColor}`} onClick={() => onClick && onClick(codefCard)}>
-            {lastCardNum}
+            {withCompany ? (
+                <>
+                    #{codefCard.id}. {company}({lastCardNum})
+                </>
+            ) : (
+                lastCardNum
+            )}
         </TagUI>
     );
 });

@@ -1,6 +1,7 @@
 import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {CgSpinner} from 'react-icons/cg';
+import {Spinner} from '^admin/factories/codef-parser-factories/form/share/Spinner';
 
 interface LoadableBoxProps {
     isLoading: boolean;
@@ -17,11 +18,7 @@ export const LoadableBox = memo((props: LoadableBoxProps & WithChildren) => {
                 <div className={`${noPadding ? '' : `pt-4`} ${isLoading ? 'opacity-30' : ''}`}>{children}</div>
                 {isLoading && (
                     <div className="absolute top-0 left-0 right-0">
-                        <div className="flex items-center justify-center">
-                            <div className="animate-spin">
-                                <CgSpinner size={30} />
-                            </div>
-                        </div>
+                        <Spinner size={30} />
                     </div>
                 )}
             </div>

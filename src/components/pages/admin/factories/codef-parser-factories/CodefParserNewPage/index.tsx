@@ -1,14 +1,14 @@
 import {memo} from 'react';
 import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
-import {CreateParserDto} from '^admin/factories/codef-parser-factories/CodefParserFactory/CreateParserDto';
+import {CreateCodefParserDto} from '^admin/factories/codef-parser-factories/CodefParserFactory/CreateCodefParserDto';
 import {AdminDetailPageLayout} from '^admin/layouts';
 import {CodefParserListPageRoute} from '^pages/admin/factories/codef-parsers';
 import {CodefParserForm} from '^admin/factories/codef-parser-factories/form/CodefParserForm';
 
 export const CodefParserNewPage = memo(function CodefParserNewPage() {
     const router = useRouter();
-    const form = useForm<CreateParserDto>();
+    const form = useForm<CreateCodefParserDto>();
 
     return (
         <AdminDetailPageLayout

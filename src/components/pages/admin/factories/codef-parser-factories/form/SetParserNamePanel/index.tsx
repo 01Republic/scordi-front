@@ -2,7 +2,7 @@ import React, {memo, useState} from 'react';
 import {UseFormReturn} from 'react-hook-form';
 import {debounce} from 'lodash';
 import {codefParserFactoryApi} from '^admin/factories/codef-parser-factories/CodefParserFactory/api';
-import {CreateParserDto} from '^admin/factories/codef-parser-factories/CodefParserFactory/CreateParserDto';
+import {CreateCodefParserDto} from '^admin/factories/codef-parser-factories/CodefParserFactory/CreateCodefParserDto';
 import {CodefParserFile} from '^admin/factories/codef-parser-factories/CodefParserFactory/CodefParserFile';
 import {ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/ContentLayout';
 import {TextInput} from '^components/TextInput';
@@ -11,7 +11,7 @@ import {SearchedParserItem} from './SearchedParserItem';
 import {LoadableBox} from '../share/LoadableBox';
 
 interface SetParserNamePanelProps {
-    form: UseFormReturn<CreateParserDto>;
+    form: UseFormReturn<CreateCodefParserDto>;
 }
 
 export const SetParserNamePanel = memo((props: SetParserNamePanelProps) => {

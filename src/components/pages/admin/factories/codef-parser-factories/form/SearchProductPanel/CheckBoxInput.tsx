@@ -4,13 +4,14 @@ import {useId} from 'react-id-generator';
 interface CheckBoxInputProps {
     label: string;
     onChange: (value: boolean) => any;
+    defaultValue?: boolean;
 }
 
 /**
  * 파서 공장 전용이니까 여기저시거 임포트 하지 마세요
  */
 export const CheckBoxInput = memo((props: CheckBoxInputProps) => {
-    const {label, onChange} = props;
+    const {label, onChange, defaultValue} = props;
     const [id] = useId(0, 'checkbox');
 
     return (
@@ -20,6 +21,7 @@ export const CheckBoxInput = memo((props: CheckBoxInputProps) => {
                     id={id}
                     type="checkbox"
                     className="checkbox checkbox-sm checkbox-primary mr-2"
+                    defaultChecked={defaultValue}
                     onChange={(e) => onChange(e.target.checked)}
                 />
                 <span className="label-text">{label}</span>

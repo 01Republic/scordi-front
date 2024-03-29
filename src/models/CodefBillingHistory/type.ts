@@ -1,6 +1,6 @@
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {TypeCast} from '^types/utils/class-transformer';
-import {QueryUnitDto} from '^admin/factories/codef-parser-factories/CodefParserFactory/CreateParserDto';
+import {FindOperatorUnitDto} from '^admin/factories/codef-parser-factories/CodefParserFactory/CreateCodefParserDto';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
 export class CodefBillingHistoryDto {
@@ -60,14 +60,26 @@ export class CodefBillingHistoryDto {
     }
 
     get memo() {
-        const canceled = ['1', '2'].includes(this.resCancelYN);
-        const failed = ['3'].includes(this.resCancelYN);
-        if (canceled) return '결제 취소';
-        if (failed) return '승인 거절';
+        if (this.isCanceled) return '결제 취소';
+        if (this.isFailed) return '승인 거절';
         return '';
     }
+
+    get isCanceled() {
+        return ['1', '2'].includes(this.resCancelYN);
+    }
+
+    get isFailed() {
+        return ['3'].includes(this.resCancelYN);
+    }
+
+    get isSuccess() {
+        return !this.isCanceled && !this.isFailed;
+    }
+
+    drainedCodefBillingHistoryId?: number;
 }
 
 export class FindAllCodefBillingHistoryQueryDto extends FindAllQueryDto<CodefBillingHistoryDto> {
-    like?: QueryUnitDto;
+    find?: FindOperatorUnitDto;
 }
