@@ -1,10 +1,11 @@
 import {memo, useEffect} from 'react';
+import {atom, useRecoilState, useSetRecoilState} from 'recoil';
+import {useRouter} from 'next/router';
 import {WithChildren} from '^types/global.type';
 import {FiMenu} from '@react-icons/all-files/fi/FiMenu';
-import {AdminSideBar} from './AdminSideBar';
-import {atom, useRecoilState, useSetRecoilState} from 'recoil';
 import {useCurrentUser} from '^models/User/hook';
-import {useRouter} from 'next/router';
+import {Spinner} from '^components/util/loading';
+import {AdminSideBar} from './AdminSideBar';
 import 'tippy.js/dist/tippy.css';
 
 interface AdminPageLayoutProps extends WithChildren {}
@@ -36,7 +37,18 @@ export const AdminPageLayout = memo((props: AdminPageLayoutProps) => {
         if (currentUser && !signedAdminKey) login();
     }, [router.isReady, currentUser, signedAdminKey]);
 
-    if (!signedAdminKey) return <>관리자 로그인이 필요합니다.</>;
+    if (!currentUser) {
+        return (
+            <div className="fixed flex items-center justify-center" style={{width: '100vw', height: '100vh'}}>
+                <div>
+                    <div className="mb-4">
+                        <Spinner size={30} />
+                    </div>
+                    <p>로그인을 확인하고 있습니다.</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="drawer drawer-mobile">

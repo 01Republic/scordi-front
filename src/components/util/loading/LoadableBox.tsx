@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {CgSpinner} from 'react-icons/cg';
-import {Spinner} from '^admin/factories/codef-parser-factories/form/share/Spinner';
+import {Spinner} from './Spinner';
 
 interface LoadableBoxProps {
     isLoading: boolean;

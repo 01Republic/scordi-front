@@ -1,19 +1,18 @@
 import React, {memo, useRef, useState} from 'react';
+import {debounce} from 'lodash';
+import {toast} from 'react-hot-toast';
 import {useId} from 'react-id-generator';
 import {FaSearch} from 'react-icons/fa';
-import {debounce} from 'lodash';
+import {FaCheck} from 'react-icons/fa6';
+import {IoIosClose} from 'react-icons/io';
+import {ApiError} from '^api/api';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {OrganizationDto} from '^models/Organization/type';
-import {codefParserFactoryApi} from '^admin/factories/codef-parser-factories/CodefParserFactory/api';
-import {CodefCardSearchResultDto} from '^admin/factories/codef-parser-factories/CodefParserFactory/CodefCardSearchResult.dto';
-import {CgSpinner} from 'react-icons/cg';
-import {CodefCardTagUI} from '^admin/factories/codef-parser-factories/form/share/CodefCardTagUI';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {FaCheck} from 'react-icons/fa6';
-import {toast} from 'react-hot-toast';
-import {ApiError} from '^api/api';
-import {IoIosClose} from 'react-icons/io';
-import {Spinner} from '^admin/factories/codef-parser-factories/form/share/Spinner';
+import {Spinner} from '^components/util/loading';
+import {codefParserFactoryApi} from './../../CodefParserFactory/api';
+import {CodefCardSearchResultDto} from './../../CodefParserFactory/CodefCardSearchResult.dto';
+import {CodefCardTagUI} from '../../form/share/CodefCardTagUI';
 
 interface SearchCardInputProps {
     onCardSelect: (codefCard?: CodefCardDto) => any;

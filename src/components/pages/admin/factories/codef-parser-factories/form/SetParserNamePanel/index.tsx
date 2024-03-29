@@ -1,14 +1,14 @@
 import React, {memo, useState} from 'react';
 import {UseFormReturn} from 'react-hook-form';
 import {debounce} from 'lodash';
-import {codefParserFactoryApi} from '^admin/factories/codef-parser-factories/CodefParserFactory/api';
-import {CreateCodefParserDto} from '^admin/factories/codef-parser-factories/CodefParserFactory/CreateCodefParserDto';
-import {CodefParserFile} from '^admin/factories/codef-parser-factories/CodefParserFactory/CodefParserFile';
 import {ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/ContentLayout';
+import {LoadableBox} from '^components/util/loading';
 import {TextInput} from '^components/TextInput';
+import {codefParserFactoryApi} from '../../CodefParserFactory/api';
+import {CreateCodefParserDto} from '../../CodefParserFactory/CreateCodefParserDto';
+import {CodefParserFile} from '../../CodefParserFactory/CodefParserFile';
 import {ValidateMessage} from './ValidateMessage';
 import {SearchedParserItem} from './SearchedParserItem';
-import {LoadableBox} from '../share/LoadableBox';
 
 interface SetParserNamePanelProps {
     form: UseFormReturn<CreateCodefParserDto>;
