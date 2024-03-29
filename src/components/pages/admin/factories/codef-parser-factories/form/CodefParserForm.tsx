@@ -5,6 +5,7 @@ import {
     CreateCodefParserDto,
     FindOperatorType,
     GroupingMethod,
+    UpdateCodefParserDto,
 } from '^admin/factories/codef-parser-factories/CodefParserFactory/CreateCodefParserDto';
 import {SearchProductPanel} from './SearchProductPanel';
 import {SetParserNamePanel} from './SetParserNamePanel';
@@ -16,48 +17,35 @@ import {CodefParserListPageRoute} from '^pages/admin/factories/codef-parsers';
 import {useRouter} from 'next/router';
 import {plainToast as toast} from '^hooks/useToast';
 
-interface CreateCodefParserFormProps {
-    form: UseFormReturn<CreateCodefParserDto>;
+export type CodefParserFormValueDto = CreateCodefParserDto | UpdateCodefParserDto;
+export type CodefParserFormReturn = UseFormReturn<CreateCodefParserDto> | UseFormReturn<UpdateCodefParserDto>;
+
+interface CodefParserFormProps {
+    form: CodefParserFormReturn;
+    onSubmit: ((data: CreateCodefParserDto) => Promise<any>) | ((data: UpdateCodefParserDto) => Promise<any>);
 }
 
-export const CodefParserForm = (props: CreateCodefParserFormProps) => {
-    const {form} = props;
+export const CodefParserForm = (props: CodefParserFormProps) => {
+    const {form, onSubmit} = props;
     const router = useRouter();
 
-    useEffect(() => {
-        // Create form
-        form.setValue('searchText.ops', FindOperatorType.Like);
-        form.setValue('searchText.fo', true);
-        form.setValue('searchText.bo', true);
-        form.setValue('resMemberStoreName.ops', FindOperatorType.Like);
-        form.setValue('resMemberStoreName.fo', false);
-        form.setValue('resMemberStoreName.bo', true);
-        form.setValue('groupingMethod', GroupingMethod.byDate);
-        form.setValue('fixedRecurringType', undefined);
-    }, []);
-
-    const onSubmit = debounce((data: CreateCodefParserDto) => {
+    const submitHandler = debounce((data: CodefParserFormValueDto) => {
         const dto = plainToInstance(CreateCodefParserDto, data);
         const {searchText, resMemberStoreName} = dto;
 
         if (searchText.asApiValues) dto.searchText = searchText.asApiValues();
         if (resMemberStoreName.asApiValues) dto.resMemberStoreName = resMemberStoreName.asApiValues();
-        console.log('dto', dto);
 
-        codefParserFactoryApi.create(dto).then((res) => {
-            console.log(res.data);
-            toast.success('저장되었어요!', {duration: 1000});
-            setTimeout(() => {
-                if (confirm('목록으로 돌아갈까요?\n\n그대로 있길 원한다면 [취소]를 눌러주세요 :)')) {
-                    router.push(CodefParserListPageRoute.path());
-                }
-            }, 1000);
+        toast.promise(onSubmit(dto), {
+            loading: '저장하는 중',
+            success: '저장 성공!',
+            error: '문제가 생겨 저장하지 못했어요 :(',
         });
     }, 1000);
 
     return (
         <div>
-            <ContentForm onSubmit={form.handleSubmit(onSubmit)}>
+            <ContentForm onSubmit={form.handleSubmit(submitHandler)}>
                 <SetParserNamePanel form={form} />
                 <SearchProductPanel form={form} />
                 <SearchCodefBillingHistoriesPanel form={form} />

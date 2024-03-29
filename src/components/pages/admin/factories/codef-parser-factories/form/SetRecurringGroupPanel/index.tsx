@@ -10,15 +10,16 @@ import {
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
 import {Spinner, LoadableBox} from '^components/util/loading';
-import {CreateCodefParserDto, GroupingMethod} from '../../CodefParserFactory/CreateCodefParserDto';
+import {FindOperatorType, GroupingMethod} from '../../CodefParserFactory/CreateCodefParserDto';
 import {useSearchCodefBillingHistories} from '../share/useSearchCodefBillingHistories';
 import {useCodefBillingHistoriesGroup} from '../share/useCodefBillingHistoriesGroup';
 import {FetchStep3DataButton} from './FetchStep3DataButton';
 import {GroupingMethodRadioGroup} from './GroupingMethodRadioGroup';
 import {RecurringGroup} from './RecurringGroup';
+import {CodefParserFormReturn} from '../CodefParserForm';
 
 interface SetRecurringGroupPanelProps {
-    form: UseFormReturn<CreateCodefParserDto>;
+    form: CodefParserFormReturn;
     selectedCodefCard?: CodefCardDto;
 }
 
@@ -28,7 +29,8 @@ export const SetRecurringGroupPanel = memo((props: SetRecurringGroupPanelProps) 
     const {isLoading: isGrouping, data: recurringGroups, run: setRecurringGroups} = useCodefBillingHistoriesGroup();
 
     useEffect(() => {
-        setRecurringGroups(codefBillingHistories, form.getValues('groupingMethod') || GroupingMethod.byDate);
+        const values = form.getValues();
+        setRecurringGroups(codefBillingHistories, values.groupingMethod || GroupingMethod.byDate);
     }, [codefBillingHistories]);
 
     const changeGroupingMethod = (method: GroupingMethod, fixedRecurringType?: BillingCycleOptions) => {
@@ -46,7 +48,7 @@ export const SetRecurringGroupPanel = memo((props: SetRecurringGroupPanelProps) 
                     <FetchStep3DataButton
                         onClick={() => {
                             const values = form.getValues();
-                            const {ops, fo, bo, value} = values?.resMemberStoreName || {};
+                            const {ops = FindOperatorType.Like, fo, bo, value = ''} = values?.resMemberStoreName || {};
                             search({ops, fo, bo, value}, selectedCodefCard);
                         }}
                     />

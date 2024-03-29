@@ -1,5 +1,6 @@
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
 import {TypeCast} from '^types/utils/class-transformer';
+import {PartialType} from '^types/utils/partial-type';
 
 export class FindInputOperatorDto {
     operator: string;
@@ -49,4 +50,8 @@ export class CreateCodefParserDto {
 
     groupingMethod: GroupingMethod;
     fixedRecurringType?: BillingCycleOptions;
+}
+
+export class UpdateCodefParserDto extends PartialType(CreateCodefParserDto) {
+    //
 }

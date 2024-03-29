@@ -5,13 +5,13 @@ import {ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/Conten
 import {LoadableBox} from '^components/util/loading';
 import {TextInput} from '^components/TextInput';
 import {codefParserFactoryApi} from '../../CodefParserFactory/api';
-import {CreateCodefParserDto} from '../../CodefParserFactory/CreateCodefParserDto';
 import {CodefParserFile} from '../../CodefParserFactory/CodefParserFile';
+import {CodefParserFormReturn, CodefParserFormValueDto} from '../CodefParserForm';
 import {ValidateMessage} from './ValidateMessage';
 import {SearchedParserItem} from './SearchedParserItem';
 
 interface SetParserNamePanelProps {
-    form: UseFormReturn<CreateCodefParserDto>;
+    form: CodefParserFormReturn;
 }
 
 export const SetParserNamePanel = memo((props: SetParserNamePanelProps) => {
@@ -62,7 +62,9 @@ export const SetParserNamePanel = memo((props: SetParserNamePanelProps) => {
         return '';
     };
 
-    const invalidMsg = checkInvalidNameFormat(`${form.getValues('serviceName')}`);
+    const values = form.getValues();
+
+    const invalidMsg = checkInvalidNameFormat(`${values.serviceName}`);
 
     return (
         <ContentPanel title="[1단계] 파서의 제목을 입력합니다.">
@@ -80,7 +82,7 @@ export const SetParserNamePanel = memo((props: SetParserNamePanelProps) => {
 
                     <LoadableBox isLoading={isLoading}>
                         <ValidateMessage
-                            value={form.getValues('serviceName')}
+                            value={values.serviceName || ''}
                             invalidMsg={invalidMsg}
                             similarLength={similarParsers.length}
                             matchedLength={matchedParsers.length}

@@ -4,7 +4,7 @@ import {UseFormReturn} from 'react-hook-form';
 import {ContentPanel, ContentPanelItem, ContentPanelList} from '^layouts/ContentLayout';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {LoadableBox} from '^components/util/loading';
-import {CreateCodefParserDto, FindOperatorType} from '../../CodefParserFactory/CreateCodefParserDto';
+import {FindOperatorType} from '../../CodefParserFactory/CreateCodefParserDto';
 import {SetRecurringGroupPanel} from '../SetRecurringGroupPanel';
 import {ConditionLikeInputGroup} from '../share/ConditionLikeInputGroup';
 import {useSearchCodefBillingHistories} from '../share/useSearchCodefBillingHistories';
@@ -12,9 +12,10 @@ import {ConditionEqualInputGroup} from '../share/ConditionEqualInputGroup';
 import {SearchedCodefBillingHistoryItem} from './SearchedCodefBillingHistoryItem';
 import {SelectedCodefCard} from './SelectedCodefCard';
 import {SearchCardInput} from './SearchCardInput';
+import {CodefParserFormReturn} from '../CodefParserForm';
 
 interface SearchCodefBillingHistoriesPanelProps {
-    form: UseFormReturn<CreateCodefParserDto>;
+    form: CodefParserFormReturn;
 }
 
 export const SearchCodefBillingHistoriesPanel = memo((props: SearchCodefBillingHistoriesPanelProps) => {
@@ -25,16 +26,16 @@ export const SearchCodefBillingHistoriesPanel = memo((props: SearchCodefBillingH
     const onCardSelect = (codefCard?: CodefCardDto) => {
         selectCodefCard(codefCard);
         const values = form.getValues();
-        const {ops, fo, bo, value} = values?.resMemberStoreName || {};
+        const {ops = FindOperatorType.Like, fo, bo, value = ''} = values?.resMemberStoreName || {};
         search({ops, fo, bo, value}, codefCard);
     };
 
     const onChangeOps = (ops: FindOperatorType) => {
         const values = form.getValues();
-        const old = values?.resMemberStoreName || {};
-        const value = old.value;
-        let fo = old.fo;
-        let bo = old.bo;
+        const old = values?.resMemberStoreName;
+        const value = old?.value || '';
+        let fo = old?.fo;
+        let bo = old?.bo;
         switch (ops) {
             case FindOperatorType.Equal:
                 fo = false;
@@ -53,24 +54,26 @@ export const SearchCodefBillingHistoriesPanel = memo((props: SearchCodefBillingH
 
     const onChangeFo = debounce((fo?: boolean) => {
         const values = form.getValues();
-        const {ops, bo, value} = values?.resMemberStoreName || {};
+        const {ops = FindOperatorType.Like, bo, value = ''} = values?.resMemberStoreName || {};
         form.setValue('resMemberStoreName.fo', fo);
         search({ops, fo, bo, value}, selectedCodefCard);
     }, 500);
 
     const onChangeBo = debounce((bo?: boolean) => {
         const values = form.getValues();
-        const {ops, fo, value} = values?.resMemberStoreName || {};
+        const {ops = FindOperatorType.Like, fo, value = ''} = values?.resMemberStoreName || {};
         form.setValue('resMemberStoreName.bo', bo);
         search({ops, fo, bo, value}, selectedCodefCard);
     }, 500);
 
     const onChangeInput = debounce((value: string = '') => {
         const values = form.getValues();
-        const {ops, fo, bo} = values?.resMemberStoreName || {};
+        const {ops = FindOperatorType.Like, fo, bo} = values?.resMemberStoreName || {};
         form.setValue('resMemberStoreName.value', value);
         search({ops, fo, bo, value}, selectedCodefCard);
     }, 500);
+
+    const values = form.getValues();
 
     return (
         <>
@@ -105,27 +108,24 @@ export const SearchCodefBillingHistoriesPanel = memo((props: SearchCodefBillingH
                                         id="select-resMemberStoreName_condition_type"
                                         className="select select-bordered"
                                         onChange={(e) => onChangeOps(e.currentTarget.value as FindOperatorType)}
-                                        defaultValue={form.getValues('resMemberStoreName.ops')}
+                                        defaultValue={values.resMemberStoreName?.ops}
                                     >
                                         <option value={FindOperatorType.Like}>여러 케이스가 있어요.</option>
                                         <option value={FindOperatorType.Equal}>한 가지 케이스만 있어요.</option>
                                     </select>
                                 </div>
 
-                                {form.getValues('resMemberStoreName.ops') === FindOperatorType.Equal ? (
+                                {values.resMemberStoreName?.ops === FindOperatorType.Equal ? (
                                     <ConditionEqualInputGroup
-                                        value={form.getValues('resMemberStoreName.value')}
+                                        value={values.resMemberStoreName?.value}
                                         onChange={onChangeInput}
                                     />
                                 ) : (
                                     <ConditionLikeInputGroup
                                         isLoading={isLoading}
-                                        fo={{value: form.getValues('resMemberStoreName.fo'), onChange: onChangeFo}}
-                                        bo={{value: form.getValues('resMemberStoreName.bo'), onChange: onChangeBo}}
-                                        value={{
-                                            value: form.getValues('resMemberStoreName.value'),
-                                            onChange: onChangeInput,
-                                        }}
+                                        fo={{value: values.resMemberStoreName?.fo, onChange: onChangeFo}}
+                                        bo={{value: values.resMemberStoreName?.bo, onChange: onChangeBo}}
+                                        value={{value: values.resMemberStoreName?.value, onChange: onChangeInput}}
                                     />
                                 )}
                             </div>
