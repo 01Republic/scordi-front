@@ -1,12 +1,11 @@
 import React, {memo, useState} from 'react';
-import {UseFormReturn} from 'react-hook-form';
 import {debounce} from 'lodash';
 import {ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/ContentLayout';
 import {LoadableBox} from '^components/util/loading';
 import {TextInput} from '^components/TextInput';
 import {codefParserFactoryApi} from '../../CodefParserFactory/api';
 import {CodefParserFile} from '../../CodefParserFactory/CodefParserFile';
-import {CodefParserFormReturn, CodefParserFormValueDto} from '../CodefParserForm';
+import {CodefParserFormReturn} from '../CodefParserForm';
 import {ValidateMessage} from './ValidateMessage';
 import {SearchedParserItem} from './SearchedParserItem';
 

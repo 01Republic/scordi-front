@@ -32,9 +32,11 @@ export const CodefParserNewPage = memo(function CodefParserNewPage() {
 
     const onSubmit = (dto: CreateCodefParserDto) => {
         return codefParserFactoryApi.create(dto).then((res) => {
-            if (confirm('목록으로 돌아갈까요?\n\n그대로 있길 원한다면 [취소]를 눌러주세요 :)')) {
-                router.push(CodefParserListPageRoute.path());
-            }
+            return () => {
+                if (confirm('목록으로 돌아갈까요?\n\n그대로 있길 원한다면 [취소]를 눌러주세요 :)')) {
+                    router.push(CodefParserListPageRoute.path());
+                }
+            };
         });
     };
 
