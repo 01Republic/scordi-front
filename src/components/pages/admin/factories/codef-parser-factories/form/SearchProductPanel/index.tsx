@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/ContentLayout';
 import {ProductDto} from '^models/Product/type';
 import {debounce} from 'lodash';
@@ -13,12 +13,21 @@ import {SearchedProductItem} from './SearchedProductItem';
 
 interface SearchProductPanelProps {
     form: CodefParserFormReturn;
+    reloadOnReady?: boolean;
 }
 
 export const SearchProductPanel = memo((props: SearchProductPanelProps) => {
-    const {form} = props;
+    const {form, reloadOnReady = false} = props;
     const [products, setProducts] = useState<ProductDto[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        if (reloadOnReady) {
+            const values = form.getValues();
+            const {ops = FindOperatorType.Like, fo, bo, value = ''} = values.searchText || {};
+            search({ops, fo, bo, value});
+        }
+    }, [reloadOnReady]);
 
     const search = (params: FindOperatorUnitDto) => {
         const {ops, fo = false, bo = false, value = ''} = params;

@@ -21,17 +21,28 @@ import {CodefParserFormReturn} from '../CodefParserForm';
 interface SetRecurringGroupPanelProps {
     form: CodefParserFormReturn;
     selectedCodefCard?: CodefCardDto;
+    reloadOnReady?: boolean;
 }
 
 export const SetRecurringGroupPanel = memo((props: SetRecurringGroupPanelProps) => {
-    const {form, selectedCodefCard} = props;
+    const {form, selectedCodefCard, reloadOnReady = false} = props;
     const {isLoading, codefBillingHistories, search} = useSearchCodefBillingHistories();
     const {isLoading: isGrouping, data: recurringGroups, run: setRecurringGroups} = useCodefBillingHistoriesGroup();
+
+    useEffect(() => {
+        if (reloadOnReady) fetchBeforeStepData();
+    }, [reloadOnReady]);
 
     useEffect(() => {
         const values = form.getValues();
         setRecurringGroups(codefBillingHistories, values.groupingMethod || GroupingMethod.byDate);
     }, [codefBillingHistories]);
+
+    const fetchBeforeStepData = () => {
+        const values = form.getValues();
+        const {ops = FindOperatorType.Like, fo, bo, value = ''} = values?.resMemberStoreName || {};
+        search({ops, fo, bo, value}, selectedCodefCard);
+    };
 
     const changeGroupingMethod = (method: GroupingMethod, fixedRecurringType?: BillingCycleOptions) => {
         form.setValue('groupingMethod', method);
@@ -45,13 +56,7 @@ export const SetRecurringGroupPanel = memo((props: SetRecurringGroupPanelProps) 
                 <div className="ml-auto flex items-center gap-2">
                     {isLoading && <Spinner size={15} />}
 
-                    <FetchStep3DataButton
-                        onClick={() => {
-                            const values = form.getValues();
-                            const {ops = FindOperatorType.Like, fo, bo, value = ''} = values?.resMemberStoreName || {};
-                            search({ops, fo, bo, value}, selectedCodefCard);
-                        }}
-                    />
+                    <FetchStep3DataButton onClick={fetchBeforeStepData} />
                 </div>
             </ContentPanelHeading>
 

@@ -11,10 +11,11 @@ import {SearchedParserItem} from './SearchedParserItem';
 
 interface SetParserNamePanelProps {
     form: CodefParserFormReturn;
+    readOnly?: boolean;
 }
 
 export const SetParserNamePanel = memo((props: SetParserNamePanelProps) => {
-    const {form} = props;
+    const {form, readOnly = false} = props;
     const [isLoading, setIsLoading] = useState(false);
     const [similarParsers, setSimilarParsers] = useState<CodefParserFile[]>([]);
     const [matchedParsers, setMatchedParsers] = useState<CodefParserFile[]>([]);
@@ -61,9 +62,9 @@ export const SetParserNamePanel = memo((props: SetParserNamePanelProps) => {
         return '';
     };
 
-    const values = form.getValues();
+    const {serviceName = ''} = form.getValues();
 
-    const invalidMsg = checkInvalidNameFormat(`${values.serviceName}`);
+    const invalidMsg = checkInvalidNameFormat(`${serviceName}`);
 
     return (
         <ContentPanel title="[1단계] 파서의 제목을 입력합니다.">
@@ -77,11 +78,13 @@ export const SetParserNamePanel = memo((props: SetParserNamePanelProps) => {
                         required={true}
                         placeholder="ex. AmazonWebService"
                         onChange={(e) => onChange(e.target.value)}
+                        defaultValue={serviceName}
+                        readOnly={readOnly}
                     />
 
                     <LoadableBox isLoading={isLoading}>
                         <ValidateMessage
-                            value={values.serviceName || ''}
+                            value={serviceName}
                             invalidMsg={invalidMsg}
                             similarLength={similarParsers.length}
                             matchedLength={matchedParsers.length}

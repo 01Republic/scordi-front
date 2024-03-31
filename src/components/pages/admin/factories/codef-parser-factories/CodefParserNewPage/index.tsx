@@ -16,6 +16,10 @@ export const CodefParserNewPage = memo(function CodefParserNewPage() {
         // Create form
         if (!router.isReady) return;
 
+        setFormInitialValue();
+    }, [router.isReady]);
+
+    function setFormInitialValue() {
         form.setValue('serviceName', '');
         form.setValue('searchText.ops', FindOperatorType.Like);
         form.setValue('searchText.fo', true);
@@ -28,7 +32,7 @@ export const CodefParserNewPage = memo(function CodefParserNewPage() {
         form.setValue('groupingMethod', GroupingMethod.byDate);
         form.setValue('fixedRecurringType', undefined);
         console.log(form.getValues());
-    }, [router.isReady]);
+    }
 
     const onSubmit = (dto: CreateCodefParserDto) => {
         return codefParserFactoryApi.create(dto).then((res) => {

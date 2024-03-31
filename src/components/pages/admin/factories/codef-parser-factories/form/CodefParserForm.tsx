@@ -22,13 +22,14 @@ interface FormProps<T extends FieldValues> {
      * 2. 이 promise 는 실행 결과로서 콜백 함수를 리턴해야 합니다.
      */
     onSubmit: (data: T) => Promise<() => any>;
+    reloadOnReady?: boolean;
 }
 
 interface CreateFormProps extends FormProps<CreateCodefParserDto> {}
 interface UpdateFormProps extends FormProps<UpdateCodefParserDto> {}
 
 export const CodefParserForm = (props: CreateFormProps | UpdateFormProps) => {
-    const {form, onSubmit} = props;
+    const {form, onSubmit, reloadOnReady} = props;
 
     const submitHandler = debounce((data: CodefParserFormValueDto) => {
         const dto = plainToInstance(CreateCodefParserDto, data);
@@ -43,9 +44,9 @@ export const CodefParserForm = (props: CreateFormProps | UpdateFormProps) => {
     return (
         <div>
             <ContentForm onSubmit={form.handleSubmit(submitHandler)}>
-                <SetParserNamePanel form={form} />
-                <SearchProductPanel form={form} />
-                <SearchCodefBillingHistoriesPanel form={form} />
+                <SetParserNamePanel form={form} readOnly={reloadOnReady} />
+                <SearchProductPanel form={form} reloadOnReady={reloadOnReady} />
+                <SearchCodefBillingHistoriesPanel form={form} reloadOnReady={reloadOnReady} />
             </ContentForm>
         </div>
     );

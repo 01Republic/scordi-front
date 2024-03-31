@@ -37,6 +37,25 @@ export class FindOperatorUnitDto {
             [FindOperatorType.Equal]: {ops: this.ops, value: this.value},
         }[this.ops] as FindOperatorUnitDto;
     }
+
+    parseQuery?() {
+        const dto = new FindOperatorUnitDto();
+        if (this.ops === FindOperatorType.Like) {
+            dto.ops = FindOperatorType.Like;
+            dto.fo = this.value.startsWith('%');
+            dto.bo = this.value.endsWith('%');
+            dto.value = this.value.replace(/^%/, '').replace(/%$/, '');
+            return dto;
+        }
+        if (this.ops === FindOperatorType.Equal) {
+            dto.ops = FindOperatorType.Equal;
+            dto.fo = false;
+            dto.bo = false;
+            dto.value = this.value;
+            return dto;
+        }
+        return this;
+    }
 }
 
 export class CreateCodefParserDto {
@@ -52,6 +71,8 @@ export class CreateCodefParserDto {
     fixedRecurringType?: BillingCycleOptions;
 }
 
+export class CodefParserDataDto extends CreateCodefParserDto {}
+
 export class UpdateCodefParserDto extends PartialType(CreateCodefParserDto) {
-    //
+    serviceName: string;
 }

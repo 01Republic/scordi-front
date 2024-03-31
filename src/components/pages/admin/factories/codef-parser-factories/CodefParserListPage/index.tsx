@@ -4,10 +4,13 @@ import {codefParserFactoryApi} from '^admin/factories/codef-parser-factories/Cod
 import {CodefParserFile} from '^admin/factories/codef-parser-factories/CodefParserFactory/CodefParserFile';
 import {CgSpinner} from 'react-icons/cg';
 import {CodefParserNewPageRoute} from '^pages/admin/factories/codef-parsers/new';
+import {useRouter} from 'next/router';
+import {CodefParserEditPageRoute} from '^pages/admin/factories/codef-parsers/[serviceName]/edit';
 
 export const CodefParserListPage = memo(() => {
     const [isLoading, setIsLoading] = useState(false);
     const [parsers, setParsers] = useState<CodefParserFile[]>([]);
+    const router = useRouter();
 
     useEffect(() => {
         setIsLoading(true);
@@ -24,6 +27,15 @@ export const CodefParserListPage = memo(() => {
         });
         return [char, list];
     });
+
+    const onClickParser = (parser: CodefParserFile) => {
+        console.log('parser.serviceName', parser.serviceName);
+        console.log(
+            'CodefParserEditPageRoute.path(parser.serviceName)',
+            CodefParserEditPageRoute.path(parser.serviceName),
+        );
+        router.push(CodefParserEditPageRoute.path(parser.serviceName));
+    };
 
     return (
         <AdminListPageLayout
@@ -54,7 +66,10 @@ export const CodefParserListPage = memo(() => {
                                 <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                                     {parserList.map((parser, i) => (
                                         <div key={i}>
-                                            <div className="text-gray-600 transition-all cursor-pointer hover:text-scordi hover:underline">
+                                            <div
+                                                className="text-gray-600 transition-all cursor-pointer hover:text-scordi hover:underline"
+                                                onClick={() => onClickParser(parser)}
+                                            >
                                                 {parser.serviceName}
                                             </div>
                                         </div>

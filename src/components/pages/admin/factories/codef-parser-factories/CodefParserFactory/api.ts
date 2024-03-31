@@ -4,7 +4,12 @@ import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {ProductDto} from '^models/Product/type';
 import {OrganizationDto} from '^models/Organization/type';
 import {CodefBillingHistoryDto, FindAllCodefBillingHistoryQueryDto} from '^models/CodefBillingHistory/type';
-import {CreateCodefParserDto, FindOperatorUnitDto} from './CreateCodefParserDto';
+import {
+    CodefParserDataDto,
+    CreateCodefParserDto,
+    FindOperatorUnitDto,
+    UpdateCodefParserDto,
+} from './CreateCodefParserDto';
 import {CodefCardSearchResultDto} from './CodefCardSearchResult.dto';
 import {CodefParserFile} from './CodefParserFile';
 
@@ -17,8 +22,12 @@ export const codefParserFactoryApi = {
         });
     },
 
-    show() {
-        //
+    show(serviceName: string) {
+        const url = `/codef-parser-factories/r/${serviceName}`;
+        return api.get<CodefParserDataDto>(url).then((res) => {
+            res.data = plainToInstance(CodefParserDataDto, res.data);
+            return res;
+        });
     },
 
     create(data: CreateCodefParserDto) {
@@ -26,8 +35,9 @@ export const codefParserFactoryApi = {
         return api.post(url, data);
     },
 
-    update() {
-        //
+    update(serviceName: string, data: UpdateCodefParserDto) {
+        const url = `/codef-parser-factories/r/${serviceName}`;
+        return api.patch(url, data);
     },
 
     destroy() {

@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {debounce} from 'lodash';
 import {UseFormReturn} from 'react-hook-form';
 import {ContentPanel, ContentPanelItem, ContentPanelList} from '^layouts/ContentLayout';
@@ -16,12 +16,21 @@ import {CodefParserFormReturn} from '../CodefParserForm';
 
 interface SearchCodefBillingHistoriesPanelProps {
     form: CodefParserFormReturn;
+    reloadOnReady?: boolean;
 }
 
 export const SearchCodefBillingHistoriesPanel = memo((props: SearchCodefBillingHistoriesPanelProps) => {
-    const {form} = props;
+    const {form, reloadOnReady = false} = props;
     const [selectedCodefCard, selectCodefCard] = useState<CodefCardDto>();
     const {isLoading, codefBillingHistories, search} = useSearchCodefBillingHistories();
+
+    useEffect(() => {
+        if (reloadOnReady) {
+            const values = form.getValues();
+            const {ops = FindOperatorType.Like, fo, bo, value = ''} = values.resMemberStoreName || {};
+            search({ops, fo, bo, value});
+        }
+    }, [reloadOnReady]);
 
     const onCardSelect = (codefCard?: CodefCardDto) => {
         selectCodefCard(codefCard);
@@ -73,7 +82,7 @@ export const SearchCodefBillingHistoriesPanel = memo((props: SearchCodefBillingH
         search({ops, fo, bo, value}, selectedCodefCard);
     }, 500);
 
-    const values = form.getValues();
+    const values = form.watch();
 
     return (
         <>
@@ -117,6 +126,7 @@ export const SearchCodefBillingHistoriesPanel = memo((props: SearchCodefBillingH
 
                                 {values.resMemberStoreName?.ops === FindOperatorType.Equal ? (
                                     <ConditionEqualInputGroup
+                                        isLoading={isLoading}
                                         value={values.resMemberStoreName?.value}
                                         onChange={onChangeInput}
                                     />
@@ -133,7 +143,7 @@ export const SearchCodefBillingHistoriesPanel = memo((props: SearchCodefBillingH
                     </ContentPanelItem>
                 </ContentPanelList>
             </ContentPanel>
-            <SetRecurringGroupPanel form={form} selectedCodefCard={selectedCodefCard} />
+            <SetRecurringGroupPanel form={form} selectedCodefCard={selectedCodefCard} reloadOnReady={reloadOnReady} />
         </>
     );
 });

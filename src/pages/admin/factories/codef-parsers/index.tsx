@@ -8,5 +8,6 @@ export const CodefParserListPageRoute = pathRoute({
 });
 
 export default function Page() {
+    console.log('list page rendered');
     return <CodefParserListPage />;
 }
