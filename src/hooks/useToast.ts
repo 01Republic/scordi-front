@@ -61,7 +61,12 @@ export function savingToast<T>(
     const messages = {
         loading: msgs.loading || '저장하는 중',
         success: msgs.success || '저장 성공!',
-        error: msgs.error || '문제가 생겨 저장하지 못했어요 :(',
+        error:
+            msgs.error ||
+            ((err) => {
+                const msg = err?.response?.data?.message;
+                return msg || '문제가 생겨 저장하지 못했어요 :(';
+            }),
     };
     return toaster.promise(promise, messages, opts);
 }
