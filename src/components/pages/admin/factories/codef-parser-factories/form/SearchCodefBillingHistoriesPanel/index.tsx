@@ -102,6 +102,7 @@ export const SearchCodefBillingHistoriesPanel = memo((props: SearchCodefBillingH
                                 ))}
                             </LoadableBox>
                         </div>
+
                         <div className="flex-1">
                             <div className="mb-4">
                                 <SearchCardInput onCardSelect={(codefCard) => onCardSelect(codefCard)} />

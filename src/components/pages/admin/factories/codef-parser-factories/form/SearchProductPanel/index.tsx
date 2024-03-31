@@ -1,5 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
-import {ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/ContentLayout';
+import {ContentPanel, ContentPanelInput, ContentPanelItem, ContentPanelList} from '^layouts/ContentLayout';
 import {ProductDto} from '^models/Product/type';
 import {debounce} from 'lodash';
 import {LoadableBox} from '^components/util/loading';
@@ -20,6 +20,7 @@ export const SearchProductPanel = memo((props: SearchProductPanelProps) => {
     const {form, reloadOnReady = false} = props;
     const [products, setProducts] = useState<ProductDto[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [showInputs, setShowInputs] = useState(true);
 
     useEffect(() => {
         if (reloadOnReady) {
@@ -29,14 +30,14 @@ export const SearchProductPanel = memo((props: SearchProductPanelProps) => {
         }
     }, [reloadOnReady]);
 
-    const search = (params: FindOperatorUnitDto) => {
+    const search = async (params: FindOperatorUnitDto) => {
         const {ops, fo = false, bo = false, value = ''} = params;
         if (!value) {
             setProducts([]);
             return;
         }
         setIsLoading(true);
-        codefParserFactoryApi
+        return codefParserFactoryApi
             .searchProducts({ops, value: getLikeQueryString(fo, bo, value)})
             .then((res) => setProducts(res.data))
             .finally(() => setIsLoading(false));
@@ -56,11 +57,11 @@ export const SearchProductPanel = memo((props: SearchProductPanelProps) => {
         search({fo, bo, value, ops: FindOperatorType.Like});
     }, 500);
 
-    const onChangeInput = debounce((value: string = '') => {
+    const onChangeInput = debounce((value: string = '', cb = () => {}) => {
         const values = form.getValues();
         const {fo, bo} = values?.searchText || {};
         form.setValue('searchText.value', value);
-        search({fo, bo, value, ops: FindOperatorType.Like});
+        return search({fo, bo, value, ops: FindOperatorType.Like}).finally(cb);
     }, 500);
 
     const values = form.getValues();
@@ -68,26 +69,34 @@ export const SearchProductPanel = memo((props: SearchProductPanelProps) => {
     return (
         <ContentPanel title="[2단계] 파서와 연결할 SaaS Product 를 설정합니다.">
             <ContentPanelList>
-                <ContentPanelInput
-                    title="서비스 선택"
-                    required={true}
-                    text="한 개의 검색 결과만 선택될 수 있도록 검색어를 입력해주세요."
-                >
-                    <ConditionLikeInputGroup
-                        isLoading={isLoading}
-                        fo={{value: values.searchText?.fo, onChange: onChangeFo}}
-                        bo={{value: values.searchText?.bo, onChange: onChangeBo}}
-                        value={{value: values.searchText?.value, onChange: onChangeInput}}
-                    />
-
-                    <LoadableBox isLoading={isLoading}>
+                <ContentPanelItem itemsAlign="start">
+                    <div className="flex-1 pr-4 pt-2">
                         <ValidateMessage value={`${values.searchText?.value}`} resultLength={products.length} />
+                        <LoadableBox isLoading={isLoading} noPadding>
+                            {products.map((product, i) => (
+                                <SearchedProductItem
+                                    key={i}
+                                    product={product}
+                                    copyToInput={(searchText) => {
+                                        setShowInputs(false);
+                                        onChangeInput(searchText, () => setShowInputs(true));
+                                    }}
+                                />
+                            ))}
+                        </LoadableBox>
+                    </div>
 
-                        {products.map((product, i) => (
-                            <SearchedProductItem key={i} product={product} />
-                        ))}
-                    </LoadableBox>
-                </ContentPanelInput>
+                    <div className="flex-1">
+                        {showInputs && (
+                            <ConditionLikeInputGroup
+                                isLoading={isLoading}
+                                fo={{value: values.searchText?.fo, onChange: onChangeFo}}
+                                bo={{value: values.searchText?.bo, onChange: onChangeBo}}
+                                value={{value: values.searchText?.value, onChange: onChangeInput}}
+                            />
+                        )}
+                    </div>
+                </ContentPanelItem>
             </ContentPanelList>
         </ContentPanel>
     );

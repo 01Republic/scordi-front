@@ -1,6 +1,5 @@
 import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
-import {CgSpinner} from 'react-icons/cg';
 import {Spinner} from './Spinner';
 
 interface LoadableBoxProps {
@@ -12,10 +11,18 @@ interface LoadableBoxProps {
 export const LoadableBox = memo((props: LoadableBoxProps & WithChildren) => {
     const {loadingType = 1, isLoading, noPadding = false, children} = props;
 
+    const ReRenderChildren = () => <>{children}</>;
+
     if (loadingType === 2) {
         return (
             <div className="relative">
-                <div className={`${noPadding ? '' : `pt-4`} ${isLoading ? 'opacity-30' : ''}`}>{children}</div>
+                {isLoading ? (
+                    <div className={`${noPadding ? '' : `pt-4`} opacity-30`}>{children}</div>
+                ) : (
+                    <div className={`${noPadding ? '' : `pt-4`}`}>
+                        <ReRenderChildren />
+                    </div>
+                )}
                 {isLoading && (
                     <div className="absolute top-0 left-0 right-0">
                         <Spinner size={30} />
