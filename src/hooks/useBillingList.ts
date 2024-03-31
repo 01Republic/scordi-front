@@ -28,8 +28,16 @@ export const useBillingListV3 = () => {
     const organizationId = useRecoilValue(orgIdParamState);
     const [startDate, setStartDate] = useRecoilState(billingListStartDateAtom);
     const [endDate, setEndDate] = useRecoilState(billingListEndDateAtom);
-    const {result: groupedHistories, search: loadHistories} = useBillingHistoriesInCalendar();
-    const {result: groupedSchedules, search: loadSchedules} = useBillingSchedulesInCalendar();
+    const {
+        isLoading: isLoadingHistories,
+        result: groupedHistories,
+        search: loadHistories,
+    } = useBillingHistoriesInCalendar();
+    const {
+        isLoading: isLoadingSchedules,
+        result: groupedSchedules,
+        search: loadSchedules,
+    } = useBillingSchedulesInCalendar();
 
     const loadData = useCallback(
         (_startDate: Date, _endDate: Date) => {
@@ -85,6 +93,8 @@ export const useBillingListV3 = () => {
         groupedSchedules: exceptBilledSchedules(groupedHistories, groupedSchedules),
         setStartDate,
         setEndDate,
+        isLoadingHistories,
+        isLoadingSchedules,
     };
 };
 

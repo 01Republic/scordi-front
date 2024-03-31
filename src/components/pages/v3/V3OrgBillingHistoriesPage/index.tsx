@@ -10,6 +10,7 @@ import {MonthHandler} from './desktop/MonthHandler';
 import {MonthlySummary} from './desktop/MonthlySummary';
 import {CalendarOnDesktop} from './desktop/CalenderOnDesktop';
 import {LNBIndex} from '^v3/share/LeftNavBar';
+import {DailyBillingHistoriesModal} from './modals/DailyBillingHistoriesModal';
 
 export const V3OrgBillingHistoriesPage = memo(() => {
     const {isDesktop} = useOnResize2();
@@ -17,7 +18,10 @@ export const V3OrgBillingHistoriesPage = memo(() => {
     if (isDesktop) {
         // PC size screen
         return (
-            <V3MainLayout activeTabIndex={LNBIndex.Calendar} modals={[BillingHistoryDetailModal]}>
+            <V3MainLayout
+                activeTabIndex={LNBIndex.Calendar}
+                modals={[DailyBillingHistoriesModal, BillingHistoryDetailModal]}
+            >
                 <V3MainLayoutContainer>
                     <MonthHandler />
 

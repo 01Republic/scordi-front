@@ -8,7 +8,7 @@ import {ScheduleItem} from '^v3/share/modals/BillingHistoryDetailModal/BillingHi
 import {BillingScheduleShallowDto} from '^models/BillingSchedule/type';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
 
-class BillingListManager {
+export class BillingListManager {
     groupedHistories: Record<string, BillingHistoryDto[]>;
     groupedSchedules: Record<string, BillingScheduleShallowDto[]>;
 

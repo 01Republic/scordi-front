@@ -1,11 +1,12 @@
 import React, {memo, useEffect, useState} from 'react';
 import Calendar, {ViewCallbackProperties} from 'react-calendar';
-import {firstDayOfMonth, monthAfter, monthBefore, yyyy_mm_dd} from '^utils/dateTime';
+import {firstDayOfMonth, monthAfter, monthBefore} from '^utils/dateTime';
 import {useCalendar3} from '^hooks/useCalendar';
 import {useBillingListV3} from '^hooks/useBillingList';
-import {useOnResize2} from '^components/util/onResize2';
 import {MobileSection} from '^v3/share/sections/MobileSection';
-import {CalendarDateContent} from '^v3/V3OrgBillingHistoriesPage/desktop/CalendarDateContent';
+import {useModal} from '^v3/share/modals';
+import {CalendarDateContent} from './CalendarDateContent';
+import {dailyBillingHistoriesModal} from '../modals/DailyBillingHistoriesModal';
 
 const asStartDate = (date: Date) => monthBefore(1, firstDayOfMonth(date));
 const asEndDate = (date: Date) => monthAfter(2, firstDayOfMonth(date));
@@ -14,8 +15,7 @@ export const CalendarOnDesktop = memo(() => {
     const {selectedDate, selectDate, activeStartDate, setActiveStartDate, focusedMonth} = useCalendar3();
     const {updateStartDate, updateEndDate, groupedHistories, groupedSchedules, setStartDate, setEndDate} =
         useBillingListV3();
-    const [isFold, setFold] = useState(false);
-    const {isDesktop} = useOnResize2();
+    const {open} = useModal(dailyBillingHistoriesModal);
 
     // focusedMonth 는 [일정]에서는 절대 변경하지 않습니다.
     // 이러한 특성을 활용해 [일정]의 componentDidMount 를 식별할 수 있습니다.
@@ -28,21 +28,7 @@ export const CalendarOnDesktop = memo(() => {
     }, [focusedMonth]);
 
     const onDayClick = (date: Date) => {
-        const focusedColorClass = 'bg-scordi-light-50';
-
-        document.querySelectorAll('.billing_list_date_focused').forEach((old) => {
-            old.classList.remove('billing_list_date_focused');
-            old.classList.remove(focusedColorClass);
-        });
-
-        // smooth scroll to element and align it at the bottom
-        const selector = `#billing_list_date--${yyyy_mm_dd(date)}`;
-        const elem = document.querySelector(selector);
-        if (elem) {
-            elem.scrollIntoView({behavior: 'smooth', block: 'center'});
-            elem.classList.add('billing_list_date_focused');
-            elem.classList.add(focusedColorClass);
-        }
+        open();
         selectDate(date);
     };
 
