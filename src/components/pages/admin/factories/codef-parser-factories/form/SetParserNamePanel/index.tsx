@@ -85,7 +85,7 @@ export const SetParserNamePanel = memo((props: SetParserNamePanelProps) => {
                         required={true}
                         placeholder="ex. AmazonWebService"
                         defaultValue={serviceName}
-                        readOnly={readOnly}
+                        // readOnly={readOnly}
                         onChange={onInputChange}
                     />
 
