@@ -11,6 +11,8 @@ import {MonthlySummary} from './desktop/MonthlySummary';
 import {CalendarOnDesktop} from './desktop/CalenderOnDesktop';
 import {LNBIndex} from '^v3/share/LeftNavBar';
 import {DailyBillingHistoriesModal} from './modals/DailyBillingHistoriesModal';
+import {MonthlyPaidAmountModal} from '^v3/V3OrgHomePage/MonthlyPaidAmountModal';
+import {MonthlyRemainAmountModal} from '^v3/V3OrgHomePage/MonthlyRemainAmountModal';
 
 export const V3OrgBillingHistoriesPage = memo(() => {
     const {isDesktop} = useOnResize2();
@@ -20,7 +22,12 @@ export const V3OrgBillingHistoriesPage = memo(() => {
         return (
             <V3MainLayout
                 activeTabIndex={LNBIndex.Calendar}
-                modals={[DailyBillingHistoriesModal, BillingHistoryDetailModal]}
+                modals={[
+                    MonthlyPaidAmountModal,
+                    MonthlyRemainAmountModal,
+                    DailyBillingHistoriesModal,
+                    BillingHistoryDetailModal,
+                ]}
             >
                 <V3MainLayoutContainer>
                     <MonthHandler />
