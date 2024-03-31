@@ -18,7 +18,6 @@ export const CodefParserEditPage = memo(function () {
     const [serviceNameParams, setServiceNameParams] = useRecoilState(serviceNameParamsAtom);
     const [currentParser, setCurrentParser] = useRecoilState(currentCodefParserAtom);
     const [pageLoaded, setPageLoaded] = useState(false);
-    const resetCurrentParser = useResetRecoilState(currentCodefParserAtom);
     const form = useForm<UpdateCodefParserDto>();
 
     useEffect(() => {
@@ -67,7 +66,7 @@ export const CodefParserEditPage = memo(function () {
 
     return (
         <AdminDetailPageLayout
-            title="[코드에프] 파서 수정"
+            title={`[코드에프] 파서 수정 : ${serviceNameParams}`}
             breadcrumbs={[
                 {text: '파서 공장'},
                 {text: '[코드에프] 파서 목록', href: CodefParserListPageRoute.path()},
