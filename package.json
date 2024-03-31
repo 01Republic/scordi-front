@@ -53,6 +53,7 @@
     "next": "12.2.2",
     "next-i18next": "^13.2.2",
     "pdfjs-dist": "^3.5.141",
+    "pluralize": "^8.0.0",
     "qs": "^6.11.0",
     "react": "18.2.0",
     "react-calendar": "^4.0.0",
@@ -87,6 +88,7 @@
   "devDependencies": {
     "@ky-is/tailwindcss-plugin-width-height": "^1.0.0",
     "@types/node": "18.0.3",
+    "@types/pluralize": "^0.0.33",
     "@types/react": "18.0.15",
     "@types/react-calendar": "^3.5.3",
     "@types/react-copy-to-clipboard": "^5.0.4",

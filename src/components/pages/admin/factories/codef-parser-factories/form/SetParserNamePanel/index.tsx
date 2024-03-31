@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {ChangeEvent, memo, useEffect, useState} from 'react';
 import {debounce} from 'lodash';
 import {ContentPanel, ContentPanelInput, ContentPanelList} from '^layouts/ContentLayout';
 import {LoadableBox} from '^components/util/loading';
@@ -8,6 +8,7 @@ import {CodefParserFile} from '../../CodefParserFactory/CodefParserFile';
 import {CodefParserFormReturn} from '../CodefParserForm';
 import {ValidateMessage} from './ValidateMessage';
 import {SearchedParserItem} from './SearchedParserItem';
+import {classify} from '^components/util/string';
 
 interface SetParserNamePanelProps {
     form: CodefParserFormReturn;
@@ -55,6 +56,12 @@ export const SetParserNamePanel = memo((props: SetParserNamePanelProps) => {
         });
     }, 500);
 
+    const onInputChange = debounce((e: ChangeEvent<HTMLInputElement>) => {
+        const value = `${e.target.value}`.replace(/\./g, 'Dot').replace(/^\d+/, '');
+        e.target.value = value.endsWith(' ') ? value : classify(value);
+        onChange(e.target.value);
+    }, 500);
+
     const checkInvalidNameFormat = (name: string): string => {
         if (!name) return '이름을 입력해주세요.';
         if (name.includes(' ')) return '이름에 공백이 포함될 수 없습니다.';
@@ -77,9 +84,9 @@ export const SetParserNamePanel = memo((props: SetParserNamePanelProps) => {
                     <TextInput
                         required={true}
                         placeholder="ex. AmazonWebService"
-                        onChange={(e) => onChange(e.target.value)}
                         defaultValue={serviceName}
                         readOnly={readOnly}
+                        onChange={onInputChange}
                     />
 
                     <LoadableBox isLoading={isLoading}>
