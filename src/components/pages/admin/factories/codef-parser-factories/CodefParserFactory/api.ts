@@ -32,12 +32,18 @@ export const codefParserFactoryApi = {
 
     create(data: CreateCodefParserDto) {
         const url = '/codef-parser-factories';
-        return api.post(url, data);
+        return api.post<CodefParserFile>(url, data).then((res) => {
+            res.data = plainToInstance(CodefParserFile, res.data);
+            return res;
+        });
     },
 
     update(serviceName: string, data: UpdateCodefParserDto) {
         const url = `/codef-parser-factories/r/${serviceName}`;
-        return api.patch(url, data);
+        return api.patch<CodefParserFile>(url, data).then((res) => {
+            res.data = plainToInstance(CodefParserFile, res.data);
+            return res;
+        });
     },
 
     destroy() {

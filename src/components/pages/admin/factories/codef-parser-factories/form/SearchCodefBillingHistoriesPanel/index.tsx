@@ -1,14 +1,14 @@
 import React, {memo, useEffect, useState} from 'react';
 import {debounce} from 'lodash';
-import {UseFormReturn} from 'react-hook-form';
 import {ContentPanel, ContentPanelItem, ContentPanelList} from '^layouts/ContentLayout';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {LoadableBox} from '^components/util/loading';
 import {FindOperatorType} from '../../CodefParserFactory/CreateCodefParserDto';
 import {SetRecurringGroupPanel} from '../SetRecurringGroupPanel';
-import {ConditionLikeInputGroup} from '../share/ConditionLikeInputGroup';
 import {useSearchCodefBillingHistories} from '../share/useSearchCodefBillingHistories';
 import {ConditionEqualInputGroup} from '../share/ConditionEqualInputGroup';
+import {ConditionLikeInputGroup} from '../share/ConditionLikeInputGroup';
+import {ConditionRegexpInputGroup} from '../share/ConditionRegexpInputGroup';
 import {SearchedCodefBillingHistoryItem} from './SearchedCodefBillingHistoryItem';
 import {SelectedCodefCard} from './SelectedCodefCard';
 import {SearchCardInput} from './SearchCardInput';
@@ -47,6 +47,10 @@ export const SearchCodefBillingHistoriesPanel = memo((props: SearchCodefBillingH
         let bo = old?.bo;
         switch (ops) {
             case FindOperatorType.Equal:
+                fo = false;
+                bo = false;
+                break;
+            case FindOperatorType.Regexp:
                 fo = false;
                 bo = false;
                 break;
@@ -125,6 +129,7 @@ export const SearchCodefBillingHistoriesPanel = memo((props: SearchCodefBillingH
                                     >
                                         <option value={FindOperatorType.Like}>여러 케이스가 있어요.</option>
                                         <option value={FindOperatorType.Equal}>한 가지 케이스만 있어요.</option>
+                                        <option value={FindOperatorType.Regexp}>정규표현식!</option>
                                     </select>
                                 </div>
 
@@ -133,6 +138,11 @@ export const SearchCodefBillingHistoriesPanel = memo((props: SearchCodefBillingH
                                         isLoading={isLoading}
                                         value={values.resMemberStoreName?.value}
                                         onChange={onChangeInput}
+                                    />
+                                ) : values.resMemberStoreName?.ops === FindOperatorType.Regexp ? (
+                                    <ConditionRegexpInputGroup
+                                        isLoading={isLoading}
+                                        value={{value: values.resMemberStoreName?.value, onChange: onChangeInput}}
                                     />
                                 ) : (
                                     <ConditionLikeInputGroup

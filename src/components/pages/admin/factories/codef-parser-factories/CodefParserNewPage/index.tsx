@@ -2,6 +2,7 @@ import {memo, useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
 import {CodefParserListPageRoute} from '^pages/admin/factories/codef-parsers';
+import {CodefParserEditPageRoute} from '^pages/admin/factories/codef-parsers/[serviceName]/edit';
 import {AdminDetailPageLayout} from '^admin/layouts';
 import {CreateCodefParserDto, FindOperatorType, GroupingMethod} from '../CodefParserFactory/CreateCodefParserDto';
 import {CodefParserForm} from '../form/CodefParserForm';
@@ -36,11 +37,8 @@ export const CodefParserNewPage = memo(function CodefParserNewPage() {
 
     const onSubmit = (dto: CreateCodefParserDto) => {
         return codefParserFactoryApi.create(dto).then((res) => {
-            return () => {
-                if (confirm('목록으로 돌아갈까요?\n\n그대로 있길 원한다면 [취소]를 눌러주세요 :)')) {
-                    router.push(CodefParserListPageRoute.path());
-                }
-            };
+            const editPath = CodefParserEditPageRoute.path(res.data.serviceName);
+            return () => router.push(editPath);
         });
     };
 
