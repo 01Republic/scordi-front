@@ -5,6 +5,7 @@ import {CodefBillingHistoriesGroup} from '../share/useCodefBillingHistoriesGroup
 import {CodefCardTagUI} from '../share/CodefCardTagUI';
 import {SearchedCodefBillingHistoryItem} from '../SearchCodefBillingHistoriesPanel/SearchedCodefBillingHistoryItem';
 import {WithChildren} from '^types/global.type';
+import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 
 interface RecurringGroupProps {
     group: CodefBillingHistoriesGroup;
@@ -77,18 +78,24 @@ const RecurringGroupTitleByCard = memo((props: RecurringGroupProps) => {
 const RecurringGroupTitleCommon = memo((props: RecurringGroupProps & WithChildren) => {
     const {group, index, children} = props;
 
+    const {codefCard} = group.metadata;
+
     return (
         <div className="flex items-center gap-1">
             <div className="text-12 font-semibold pt-[2px] pr-1">Group {index + 1}.</div>
             <div className="flex items-center gap-1">
                 <div>
-                    <CodefCardTagUI codefCard={group.metadata.codefCard} />
+                    <CodefCardTagUI codefCard={codefCard} />
                 </div>
                 <div className="text-12 pt-[2px]"> 카드에서</div>
             </div>
 
             <div className="flex items-center pt-[2px]">
                 <div className="text-12">{children}</div>
+            </div>
+
+            <div className="ml-auto flex items-center">
+                <div className="text-12 text-gray-400">Sync at: {yyyy_mm_dd_hh_mm(codefCard.updatedAt)}</div>
             </div>
         </div>
     );

@@ -52,6 +52,9 @@ export class CodefBillingHistoryDto {
     resExchangeRate: string; // '';
     resCashBack: string; // "";
 
+    @TypeCast(() => Date) createdAt: Date;
+    @TypeCast(() => Date) updatedAt: Date;
+
     get paidAt() {
         const canceled = ['1', '2'].includes(this.resCancelYN);
         const failed = ['3'].includes(this.resCancelYN);

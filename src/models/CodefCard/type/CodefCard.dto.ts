@@ -73,10 +73,10 @@ export class CodefCardDto {
     resState: string | null;
 
     // 생성일시
-    createdAt: Date;
+    @TypeCast(() => Date) createdAt: Date;
 
     // 수정일시
-    updatedAt: Date;
+    @TypeCast(() => Date) updatedAt: Date;
 
     // 계정 정보
     @TypeCast(() => CodefAccountDto)

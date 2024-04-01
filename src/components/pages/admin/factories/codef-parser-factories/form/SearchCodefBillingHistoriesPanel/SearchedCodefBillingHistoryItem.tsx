@@ -1,6 +1,6 @@
 import {memo, useState} from 'react';
 import {CodefBillingHistoryDto} from '^models/CodefBillingHistory/type';
-import {hh_mm, yyyy_mm_dd} from '^utils/dateTime';
+import {hh_mm, yyyy_mm_dd, yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CodefCardTagUI} from '^admin/factories/codef-parser-factories/form/share/CodefCardTagUI';
 import {FaCaretDown, FaCheck, FaEyeSlash} from 'react-icons/fa6';
@@ -30,7 +30,12 @@ export const SearchedCodefBillingHistoryItem = memo((props: SearchedCodefBilling
     return (
         <div className={isHidden ? 'hidden' : 'grid grid-cols-12 text-12 h-[22px]'}>
             <div className="col-span-2 flex items-center gap-1">
-                <span>{yyyymmdd}</span>
+                <span
+                    className="tooltip tooltip-primary"
+                    data-tip={`등록일: ${yyyy_mm_dd_hh_mm(codefBillingHistory.createdAt)}`}
+                >
+                    {yyyymmdd}
+                </span>
             </div>
             <div className="flex items-center">{hhmmss}</div>
             <div className="flex items-center">
