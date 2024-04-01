@@ -86,7 +86,10 @@ export const SearchCodefBillingHistoriesPanel = memo((props: SearchCodefBillingH
 
     return (
         <>
-            <ContentPanel title="[3단계] 카드내역에서 위 서비스의 결제만 추출하는 결제메세지의 패턴을 찾습니다.">
+            <ContentPanel
+                title="[3단계] 카드내역에서 위 서비스의 결제만 추출하는 결제메세지의 패턴을 찾습니다."
+                stickyHeader
+            >
                 <ContentPanelList>
                     <ContentPanelItem itemsAlign="start">
                         <div className="flex-1 pr-4 pt-2">

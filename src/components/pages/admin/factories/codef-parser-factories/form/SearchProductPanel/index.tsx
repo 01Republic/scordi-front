@@ -67,7 +67,7 @@ export const SearchProductPanel = memo((props: SearchProductPanelProps) => {
     const values = form.getValues();
 
     return (
-        <ContentPanel title="[2단계] 파서와 연결할 SaaS Product 를 설정합니다.">
+        <ContentPanel title="[2단계] 파서와 연결할 SaaS Product 를 설정합니다." stickyHeader>
             <ContentPanelList>
                 <ContentPanelItem itemsAlign="start">
                     <div className="flex-1 pr-4 pt-2">

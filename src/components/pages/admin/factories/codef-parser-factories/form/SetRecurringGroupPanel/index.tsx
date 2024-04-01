@@ -51,8 +51,11 @@ export const SetRecurringGroupPanel = memo((props: SetRecurringGroupPanelProps) 
     };
 
     return (
-        <ContentPanel bodyWrap={false}>
-            <ContentPanelHeading title="[4단계] 감지된 결제내역을 구독단위로 그룹핑 하는 방법을 설정합니다.">
+        <ContentPanel bodyWrap={false} stickyHeader>
+            <ContentPanelHeading
+                title="[4단계] 감지된 결제내역을 구독단위로 그룹핑 하는 방법을 설정합니다."
+                stickyHeader
+            >
                 <div className="ml-auto flex items-center gap-2">
                     {isLoading && <Spinner size={15} />}
 

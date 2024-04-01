@@ -11,13 +11,16 @@ export const ContentPanel: FC<WithChildren & Partial<ContentPanelHeadingProps> &
     desc = '',
     bodyWrap = true,
     children,
+    stickyHeader,
 }) => {
     return (
         <div
             data-component="ContentPanel"
-            className="w-full border border-[#dbd6e1] bg-white rounded-xl overflow-hidden shadow mb-5"
+            className={`w-full border border-[#dbd6e1] bg-white rounded-xl ${
+                stickyHeader ? '' : 'overflow-hidden'
+            } shadow mb-5`}
         >
-            {title && <ContentPanelHeading title={title} desc={desc} />}
+            {title && <ContentPanelHeading title={title} desc={desc} stickyHeader={stickyHeader} />}
 
             {bodyWrap ? <ContentPanelBody>{children}</ContentPanelBody> : children}
         </div>
@@ -39,13 +42,18 @@ export const ContentPanelPreloader = memo((props: PreLoaderProps) => {
 interface ContentPanelHeadingProps {
     title?: string;
     desc?: string;
+    stickyHeader?: boolean;
 }
 
 export function ContentPanelHeading(props: ContentPanelHeadingProps & WithChildren) {
-    const {title, desc = '', children = ''} = props;
+    const {title, desc = '', stickyHeader = false, children = ''} = props;
 
     return (
-        <div className="flex items-center p-4 bg-neutral border-b border-b-[#dbd6e1]">
+        <div
+            className={`flex items-center p-4 bg-neutral border-b border-b-[#dbd6e1] ${
+                stickyHeader ? 'sticky top-0 z-[2]' : ''
+            }`}
+        >
             {(title || desc) && (
                 <div>
                     {title && <h2 className="m-0 text-sm text-gray-600 font-semibold">{title}</h2>}

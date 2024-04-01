@@ -74,7 +74,7 @@ export const SetParserNamePanel = memo((props: SetParserNamePanelProps) => {
     const invalidMsg = checkInvalidNameFormat(`${serviceName}`);
 
     return (
-        <ContentPanel title="[1단계] 파서의 제목을 입력합니다.">
+        <ContentPanel title="[1단계] 파서의 제목을 입력합니다." stickyHeader>
             <ContentPanelList>
                 <ContentPanelInput
                     title="서비스 영문 이름으로 입력해주세요"

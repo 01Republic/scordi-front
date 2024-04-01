@@ -42,12 +42,10 @@ export const CodefParserForm = (props: CreateFormProps | UpdateFormProps) => {
     }, 1000);
 
     return (
-        <div>
-            <ContentForm onSubmit={form.handleSubmit(submitHandler)}>
-                <SetParserNamePanel form={form} readOnly={reloadOnReady} />
-                <SearchProductPanel form={form} reloadOnReady={reloadOnReady} />
-                <SearchCodefBillingHistoriesPanel form={form} reloadOnReady={reloadOnReady} />
-            </ContentForm>
-        </div>
+        <ContentForm onSubmit={form.handleSubmit(submitHandler)}>
+            <SetParserNamePanel form={form} readOnly={reloadOnReady} />
+            <SearchProductPanel form={form} reloadOnReady={reloadOnReady} />
+            <SearchCodefBillingHistoriesPanel form={form} reloadOnReady={reloadOnReady} />
+        </ContentForm>
     );
 };

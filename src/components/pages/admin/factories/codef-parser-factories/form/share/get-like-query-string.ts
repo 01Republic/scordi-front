@@ -4,5 +4,5 @@ export function getLikeQueryString(fo: boolean, bo: boolean, value: string) {
     const _bo = emptyValue ? true : bo;
     const queryString = [fo ? '%' : '', value, _bo ? '%' : ''].join('');
 
-    return queryString.replace(/%/g, '%25');
+    return encodeURIComponent(queryString); //.replace(/%/g, '%25');
 }
