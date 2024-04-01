@@ -25,7 +25,7 @@ export const OutLink = memo((props: OutLinkProps & WithChildren) => {
                 <a
                     href={href}
                     target={target}
-                    className={`link text-gray-400 inline-flex items-center gap-1 ${className}`}
+                    className={`link text-gray-400 hover:text-gray-800 transition-all inline-flex items-center gap-1 ${className}`}
                 >
                     <span>{children || text || href}</span>
                     {icon ? icon : <BiLinkExternal size={11} />}

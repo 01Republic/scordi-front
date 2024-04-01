@@ -1,4 +1,4 @@
-import {memo, useEffect, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
@@ -20,6 +20,8 @@ import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {plainToast as toast} from '^hooks/useToast';
 import {useCodefAccountsAlreadyIs} from '^models/CodefAccount/hook';
+import {OutLink} from '^components/OutLink';
+import {BiLinkExternal} from '^components/react-icons';
 
 export const NewCodefCardAccountPage = memo(function CardBeforeConnectPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -56,7 +58,7 @@ export const NewCodefCardAccountPage = memo(function CardBeforeConnectPage() {
 
     if (!connectMethod) return <></>;
 
-    const {logo, displayName: cardName} = connectMethod;
+    const {logo, displayName: cardName, loginPageUrl} = connectMethod;
     const redirectTo = (codefAccount: CodefAccountDto) => {
         router.replace(V3OrgConnectedCardListPageRoute.path(orgId, codefAccount.id));
     };
@@ -126,8 +128,8 @@ export const NewCodefCardAccountPage = memo(function CardBeforeConnectPage() {
 
     return (
         <div className="py-10">
-            <header className="mb-12 px-12">
-                <div className="mb-12">
+            <header className="mb-8 px-12">
+                <div className="mb-12 max-w-md">
                     <LinkTo
                         href={V3OrgConnectsPageRoute.path(orgId)}
                         className="flex items-center text-gray-500 hover:underline gap-2"
@@ -136,19 +138,24 @@ export const NewCodefCardAccountPage = memo(function CardBeforeConnectPage() {
                     </LinkTo>
                 </div>
 
-                <img src={logo} alt={cardName} className="avatar w-[48px] h-[48px] bg-white mb-4" />
+                <div className="mb-4 flex items-start justify-between max-w-md">
+                    <img src={logo} alt={cardName} className="avatar w-[48px] h-[48px] bg-white" />
 
-                <h1>
-                    {cardName} <span className="text-gray-400">로 부터</span> <br />{' '}
-                    <span className="text-gray-400">구독 지출을 불러옵니다.</span>
+                    <div></div>
+                </div>
+
+                <h1 className="max-w-md">
+                    {cardName}
+                    <span className="text-gray-400">로 부터</span> <br />{' '}
+                    <span className="text-gray-400">구독 지출을 불러옵니다</span>
                 </h1>
             </header>
 
             <form onSubmit={form.handleSubmit(onSubmit)}>
-                <section className="px-12">
-                    <div className="mb-14 w-full max-w-md">
+                <section className="px-12 flex flex-col gap-10">
+                    <div className="w-full max-w-md flex flex-col gap-6">
                         {!!errorMessages.length && (
-                            <div className="alert bg-red-200 text-red-700 mb-8">
+                            <div className="alert bg-red-200 text-red-700">
                                 <ul className="list-disc pl-4 text-13">
                                     {errorMessages.map((msg, i) => (
                                         <li key={i}>{msg}</li>
@@ -157,9 +164,9 @@ export const NewCodefCardAccountPage = memo(function CardBeforeConnectPage() {
                             </div>
                         )}
 
-                        <div className="mb-8">
-                            <label htmlFor="account-id" className="block mb-3 text-16">
-                                관리자 아이디
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="account-id" className="block text-16">
+                                {cardName} 홈페이지 아이디
                             </label>
                             <input
                                 id="account-id"
@@ -172,9 +179,9 @@ export const NewCodefCardAccountPage = memo(function CardBeforeConnectPage() {
                             />
                         </div>
 
-                        <div className="mb-8">
-                            <label htmlFor="account-pw" className="block mb-3 text-16">
-                                관리자 비밀번호
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="account-pw" className="block text-16">
+                                {cardName} 홈페이지 비밀번호
                             </label>
                             <input
                                 id="account-pw"
@@ -185,6 +192,10 @@ export const NewCodefCardAccountPage = memo(function CardBeforeConnectPage() {
                                 disabled={isClicked}
                                 required
                             />
+                        </div>
+
+                        <div className="">
+                            <OutLink text="아이디/비밀번호 확인하기" href={loginPageUrl} className="text-16" />
                         </div>
                     </div>
 
