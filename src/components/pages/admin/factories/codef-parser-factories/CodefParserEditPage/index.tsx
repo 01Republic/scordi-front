@@ -45,6 +45,7 @@ export const CodefParserEditPage = memo(function () {
     }, [currentParser]);
 
     function setFormInitialValue(dto: CodefParserDataDto) {
+        setPageLoaded(false);
         const dup = plainToInstance(CodefParserDataDto, dto);
         form.setValue('serviceName', dup.serviceName);
         form.setValue('searchText', dup.searchText.parseQuery!());

@@ -8,7 +8,7 @@ import {CodefParserFile} from '../../CodefParserFactory/CodefParserFile';
 import {CodefParserFormReturn} from '../CodefParserForm';
 import {ValidateMessage} from './ValidateMessage';
 import {SearchedParserItem} from './SearchedParserItem';
-import {classify} from '^components/util/string';
+import {pascalCase, snakeCase} from '^components/util/string';
 
 interface SetParserNamePanelProps {
     form: CodefParserFormReturn;
@@ -57,9 +57,13 @@ export const SetParserNamePanel = memo((props: SetParserNamePanelProps) => {
     }, 500);
 
     const onInputChange = debounce((e: ChangeEvent<HTMLInputElement>) => {
-        const value = `${e.target.value}`.replace(/\./g, 'Dot').replace(/^\d+/, '');
-        e.target.value = value.endsWith(' ') ? value : classify(value);
-        onChange(e.target.value);
+        let value = `${e.target.value}`;
+        if (value.endsWith(' ')) return; // 입력이 스페이스로 끝나면 전처리/검색 모든 과정을 생략.
+        value = value.replace(/\./g, 'Dot'); // 마침표(.) 는 'Dot' 으로 변경.
+        value = value.replace(/^\d+/, ''); // 숫자로 시작하면 안됨. 이름 시작에 붙어있는 숫자는 삭제.
+        value = pascalCase(snakeCase(value));
+        e.target.value = value;
+        onChange(value);
     }, 500);
 
     const checkInvalidNameFormat = (name: string): string => {
