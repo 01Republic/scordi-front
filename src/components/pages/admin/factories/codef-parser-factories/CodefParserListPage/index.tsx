@@ -4,19 +4,30 @@ import {codefParserFactoryApi} from '^admin/factories/codef-parser-factories/Cod
 import {CodefParserFile} from '^admin/factories/codef-parser-factories/CodefParserFactory/CodefParserFile';
 import {CgSpinner} from 'react-icons/cg';
 import {CodefParserNewPageRoute} from '^pages/admin/factories/codef-parsers/new';
-import {useRouter} from 'next/router';
-import {CodefParserEditPageRoute} from '^pages/admin/factories/codef-parsers/[serviceName]/edit';
+import {CodefParserCard} from '^admin/factories/codef-parser-factories/CodefParserListPage/CodefParserCard';
+import {SearchInput} from '^components/util/form-control/inputs/SearchInput';
+
+const compareString = (a: string, b: string, direct: 'asc' | 'desc' = 'asc') => {
+    const g = direct === 'asc' ? 1 : -1;
+    return (a < b ? -1 : a > b ? 1 : 0) * g;
+};
 
 export const CodefParserListPage = memo(() => {
     const [isLoading, setIsLoading] = useState(false);
     const [parsers, setParsers] = useState<CodefParserFile[]>([]);
-    const router = useRouter();
+    const [searchValue, setSearchValue] = useState('');
+    const [publishValue, setPublishValue] = useState<boolean>();
 
     useEffect(() => {
         setIsLoading(true);
         codefParserFactoryApi.index().then((res) => {
             setIsLoading(false);
-            setParsers(res.data);
+            const list = res.data || [];
+
+            const ordered = list.sort((a, b) => {
+                return compareString(a.serviceName, b.serviceName, 'asc');
+            });
+            setParsers(ordered);
         });
     }, []);
 
@@ -28,14 +39,11 @@ export const CodefParserListPage = memo(() => {
         return [char, list];
     });
 
-    const onClickParser = (parser: CodefParserFile) => {
-        console.log('parser.serviceName', parser.serviceName);
-        console.log(
-            'CodefParserEditPageRoute.path(parser.serviceName)',
-            CodefParserEditPageRoute.path(parser.serviceName),
-        );
-        router.push(CodefParserEditPageRoute.path(parser.serviceName));
-    };
+    const all = parsers;
+    const publishedOnly = parsers.filter((p) => p.isPublished);
+    const notPublishedOnly = parsers.filter((p) => !p.isPublished);
+
+    const parserList = publishValue === undefined ? all : publishValue === true ? publishedOnly : notPublishedOnly;
 
     return (
         <AdminListPageLayout
@@ -44,12 +52,60 @@ export const CodefParserListPage = memo(() => {
             createPageRoute={CodefParserNewPageRoute.path()}
         >
             <div className="container pt-10 px-2 sm:px-4">
-                <div className="w-full sticky top-0 bg-layout-background mb-4">
-                    {alphabets.map((char, i) => (
-                        <a key={i} href={`#${char}`} className="btn btn-link btn-xs">
-                            {char}
-                        </a>
-                    ))}
+                <div className="sticky top-0 -mx-2 sm:-mx-4 px-2 sm:px-4 mb-4 bg-layout-background z-10">
+                    <div className="py-4 flex items-center justify-between">
+                        <div>
+                            {/*{alphabets.map((char, i) => (*/}
+                            {/*    <a key={i} href={`#${char}`} className="btn btn-link btn-xs">*/}
+                            {/*        {char}*/}
+                            {/*    </a>*/}
+                            {/*))}*/}
+                            <div className="flex items-center gap-4 font-semibold text-18 text-gray-400 transition-all">
+                                <div
+                                    className={`cursor-pointer ${
+                                        publishValue === undefined ? 'text-scordi' : 'hover:text-scordi'
+                                    }`}
+                                    onClick={() => setPublishValue(undefined)}
+                                >
+                                    전체 {all.length}개
+                                </div>
+                                <div
+                                    className={`cursor-pointer ${
+                                        publishValue === true ? 'text-scordi' : 'hover:text-scordi'
+                                    }`}
+                                    onClick={() => setPublishValue(true)}
+                                >
+                                    활성 {publishedOnly.length}개
+                                </div>
+                                <div
+                                    className={`cursor-pointer ${
+                                        publishValue === false ? 'text-scordi' : 'hover:text-scordi'
+                                    }`}
+                                    onClick={() => setPublishValue(false)}
+                                >
+                                    비활성 {notPublishedOnly.length}개 <small>(신규)</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex gap-2 items-center">
+                            <div>
+                                {/*<div className="form-control">*/}
+                                {/*    <label className="label cursor-pointer">*/}
+                                {/*        <input type="checkbox" className="checkbox checkbox-primary" />*/}
+                                {/*        <span className="label-text">Remember me</span>*/}
+                                {/*    </label>*/}
+                                {/*</div>*/}
+                            </div>
+                            <div>
+                                <SearchInput
+                                    scale="sm"
+                                    placeholder="search name"
+                                    onChange={(e) => setSearchValue(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 {isLoading ? (
@@ -60,23 +116,41 @@ export const CodefParserListPage = memo(() => {
                     </div>
                 ) : (
                     <div>
-                        {groups.map(([char, parserList], g) => (
-                            <section id={char} key={g}>
-                                <h3 className="pt-6">{char}</h3>
-                                <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                                    {parserList.map((parser, i) => (
-                                        <div key={i}>
-                                            <div
-                                                className="text-gray-600 transition-all cursor-pointer hover:text-scordi hover:underline"
-                                                onClick={() => onClickParser(parser)}
-                                            >
-                                                {parser.serviceName}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </section>
-                        ))}
+                        <div className="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-2 gap-y-2">
+                            {/*{groups.map(([char, parserList], g) => {*/}
+                            {/*    return parserList.map((parser, i) => {*/}
+                            {/*        if (!parser.serviceName.toLowerCase().includes(searchValue)) return <></>;*/}
+                            {/*        return (*/}
+                            {/*            <div key={`${char}-${i}`}>*/}
+                            {/*                <CodefParserCard parser={parser} groupKey={char} groupIndex={i} />*/}
+                            {/*            </div>*/}
+                            {/*        );*/}
+                            {/*    });*/}
+                            {/*})}*/}
+                            {parserList.map((parser, i) => {
+                                if (!parser.serviceName.toLowerCase().includes(searchValue)) return <></>;
+
+                                return <CodefParserCard parser={parser} key={i} />;
+                            })}
+                        </div>
+
+                        {/*{groups.map(([char, parserList], g) => (*/}
+                        {/*    <section id={char} key={g}>*/}
+                        {/*        <h3 className="pt-6">{char}</h3>*/}
+                        {/*        <div className="-grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">*/}
+                        {/*            {parserList.map((parser, i) => (*/}
+                        {/*                <CodefParserCard key={i} parser={parser} groupKey={char} groupIndex={g} />*/}
+                        {/*            ))}*/}
+                        {/*        </div>*/}
+                        {/*    </section>*/}
+                        {/*))}*/}
+
+                        {/*<CardTablePanel*/}
+                        {/*    gridClass="grid-cols-12"*/}
+                        {/*    entries={parsers}*/}
+                        {/*    ths={['Name', '', 'Published']}*/}
+                        {/*    entryComponent={(parser, i) => <CodefParserItem parser={parser} key={i} />}*/}
+                        {/*/>*/}
                     </div>
                 )}
             </div>

@@ -99,7 +99,9 @@ export const SearchCodefBillingHistoriesPanel = memo((props: SearchCodefBillingH
                         <div className="flex-1 pr-4 pt-2">
                             <SelectedCodefCard codefCard={selectedCodefCard} onClick={() => onCardSelect(undefined)} />
                             <LoadableBox loadingType={2} isLoading={isLoading} noPadding>
-                                <div className="grid grid-cols-7 text-12"></div>
+                                <div className="grid grid-cols-7 text-12 text-gray-500">
+                                    <div>결과: {codefBillingHistories.length}개</div>
+                                </div>
                                 {codefBillingHistories.map((codefBillingHistory, i) => (
                                     <SearchedCodefBillingHistoryItem
                                         key={i}

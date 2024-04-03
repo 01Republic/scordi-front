@@ -42,7 +42,7 @@ const RecurringGroupTitleByDate = memo((props: RecurringGroupProps) => {
     const {groupKey: dateName, billingCycleType} = metadata;
 
     const isRecurring = [BillingCycleOptions.Yearly, BillingCycleOptions.Monthly].includes(billingCycleType);
-    const recurringText = isRecurring ? '마다 반복되는' : '에 발생한';
+    const recurringText = isRecurring ? '에 반복되는' : '에 발생한';
     const recurringTypeText = {
         [BillingCycleOptions.None]: '일반',
         [BillingCycleOptions.Onetime]: '일회성',

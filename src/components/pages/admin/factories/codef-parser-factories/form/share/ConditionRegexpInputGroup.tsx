@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {TextInput} from '^components/TextInput';
 import {CheckBoxInput} from '../SearchProductPanel/CheckBoxInput';
 import {plainToast as toast} from '^hooks/useToast';
@@ -15,6 +15,7 @@ interface ConditionRegexpInputGroupProps {
 
 export const ConditionRegexpInputGroup = memo((props: ConditionRegexpInputGroupProps) => {
     const {isLoading, value} = props;
+    const [inputValue, setInputValue] = useState(value.value);
 
     const stopPropagation = (e: React.KeyboardEvent<HTMLElement>) => {
         if (e.key === 'Enter') {
@@ -27,9 +28,7 @@ export const ConditionRegexpInputGroup = memo((props: ConditionRegexpInputGroupP
             }
 
             if (!isLoading && e.target.tagName === 'INPUT') {
-                value.onChange(value.value);
-                const input = e.target as HTMLInputElement;
-                input.value = value.value || '';
+                value.onChange(inputValue);
             }
         }
         return;
@@ -43,24 +42,11 @@ export const ConditionRegexpInputGroup = memo((props: ConditionRegexpInputGroupP
                     <CheckBoxInput label="후방탐색 (가급적o)" onChange={console.log} disabled />
                 </div>
 
-                <p className="flex items-center gap-4">
-                    {/*    <span>*/}
-                    {/*        완성된 SQL:{' '}*/}
-                    {/*        <code className="rounded text-12 py-0.5 px-1 bg-pink-100 text-red-700">*/}
-                    {/*            '{fo.value ? '%' : ''}*/}
-                    {/*            {value.value}*/}
-                    {/*            {bo.value ? '%' : ''}'*/}
-                    {/*        </code>*/}
-                    {/*    </span>*/}
-                </p>
+                <p className="flex items-center gap-4"></p>
             </div>
 
             <div className="flex items-center mb-4">
-                <TextInput
-                    required={true}
-                    defaultValue={value.value}
-                    onChange={(e) => value.onChange(e.target.value)}
-                />
+                <TextInput required={true} defaultValue={inputValue} onChange={(e) => setInputValue(e.target.value)} />
             </div>
 
             <div className="mb-4">
