@@ -10,6 +10,7 @@ import {EditProductDetail} from './MenuContents/EditProductDetail';
 import {EditProductPost} from './MenuContents/EditProductPost';
 import {useCurrentUser} from '^models/User/hook';
 import {MergeProductMenu} from '^admin/products/AdminProductDetailpage/MenuContents/MergeProductMenu';
+import {AdminPageContainer} from '^admin/layouts';
 
 export const adminProductDetail = atom<ProductDto | null>({
     key: 'adminProductDetail',
@@ -58,9 +59,9 @@ export const AdminProductDetailPage = memo(() => {
             ]}
             tabNav={<ContentTabNav resetIndex={true} tabs={tabs.map((tab) => tab.label)} recoilState={navTabIndex} />}
         >
-            <div className="container pt-10 px-2 sm:px-4">
+            <AdminPageContainer>
                 <TabContentComponent />
-            </div>
+            </AdminPageContainer>
         </AdminDetailPageLayout>
     );
 });

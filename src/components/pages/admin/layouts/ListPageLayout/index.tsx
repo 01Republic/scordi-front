@@ -2,7 +2,7 @@ import {memo} from 'react';
 import {useRouter} from 'next/router';
 import {WithChildren} from '^types/global.type';
 import {AdminPageLayout} from '../AdminPageLayout';
-import {AdminPageHeader, AdminPageHeaderProps} from '../AdminPageLayout/AdminPageHeader';
+import {AdminPageHeader, AdminPageHeaderProps} from '^admin/layouts';
 import {FiPlus} from '@react-icons/all-files/fi/FiPlus';
 
 type AdminListPageLayoutProps = WithChildren &

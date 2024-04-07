@@ -5,7 +5,7 @@ import {UserDto} from '^models/User/types';
 import {userManageApi} from '^models/User/api';
 import {AdminUsersPageRoute} from '^pages/admin/users';
 import {ContentTabNav} from '^layouts/ContentLayout';
-import {AdminDetailPageLayout} from '^admin/layouts';
+import {AdminDetailPageLayout, AdminPageContainer} from '^admin/layouts';
 import {UserBasicInfoTabContent} from './UserBasicInfoTabContent';
 import {MembershipListTabContent} from './MembershipListTabContent';
 import {SocialAccountListTabContent} from './SocialAccountListTabContent';
@@ -49,9 +49,9 @@ export const AdminUserDetailPage = memo(() => {
             // onDelete={() => console.log('delete!')}
             tabNav={<ContentTabNav resetIndex={true} tabs={tabs.map((tab) => tab.label)} recoilState={navTabIndex} />}
         >
-            <div className="container pt-10 px-2 sm:px-4">
+            <AdminPageContainer>
                 <TabContentComponent />
-            </div>
+            </AdminPageContainer>
         </AdminDetailPageLayout>
     );
 });

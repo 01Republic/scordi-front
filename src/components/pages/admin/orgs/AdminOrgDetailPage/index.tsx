@@ -62,7 +62,7 @@ export const AdminOrgDetailPage = memo(() => {
             // onDelete={() => console.log('delete!')}
             tabNav={<ContentTabNav resetIndex={true} tabs={tabs.map((tab) => tab.label)} recoilState={navTabIndex} />}
         >
-            <div className="container pt-10 px-2 sm:px-4">
+            <div className="pt-10 px-2 sm:px-4">
                 <TabContentComponent />
             </div>
         </AdminDetailPageLayout>

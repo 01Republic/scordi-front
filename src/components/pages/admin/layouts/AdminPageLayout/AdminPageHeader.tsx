@@ -3,6 +3,7 @@ import {ReactNodeLike} from 'prop-types';
 import {memo} from 'react';
 import {useRouter} from 'next/router';
 import {LinkTo} from '^components/util/LinkTo';
+import {AdminPageContainer} from '^admin/layouts';
 
 export type BreadCrumb = {
     text: string;
@@ -28,7 +29,7 @@ export const AdminPageHeader = memo((props: AdminPageHeaderProps) => {
                 <div></div>
             </div>
             <div className={`w-full top-0 sm:z-10 bg-neutral ${tabNav ? '' : 'shadow'}`}>
-                <div className="hidden sm:block container pt-10 pb-5 px-2 sm:px-8">
+                <AdminPageContainer fluid className="hidden sm:block pb-5">
                     <div className="flex">
                         <div className="flex-1">
                             <h1 className="text-3xl sm:text-4xl">{title}</h1>
@@ -50,7 +51,7 @@ export const AdminPageHeader = memo((props: AdminPageHeaderProps) => {
                         </div>
                         {children}
                     </div>
-                </div>
+                </AdminPageContainer>
 
                 <div className="">{tabNav}</div>
             </div>

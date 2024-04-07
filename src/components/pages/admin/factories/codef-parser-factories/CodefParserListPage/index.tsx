@@ -51,7 +51,7 @@ export const CodefParserListPage = memo(() => {
             breadcrumbs={[{text: '파서 공장'}, {text: '[코드에프] 파서 목록'}]}
             createPageRoute={CodefParserNewPageRoute.path()}
         >
-            <div className="container pt-10 px-2 sm:px-4">
+            <div className="pt-10 px-2 sm:px-4">
                 <div className="sticky top-0 -mx-2 sm:-mx-4 px-2 sm:px-4 mb-4 bg-layout-background z-10">
                     <div className="py-4 flex items-center justify-between">
                         <div>

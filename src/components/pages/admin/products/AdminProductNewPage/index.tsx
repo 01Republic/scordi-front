@@ -11,6 +11,7 @@ import {toast} from 'react-toastify';
 import {AxiosError} from 'axios';
 import {useRecoilValue} from 'recoil';
 import {isSubmitBlockedAtom} from '^admin/products/form/atom';
+import {AdminPageContainer} from '^admin/layouts';
 
 export const AdminProductNewPage = memo(() => {
     const router = useRouter();
@@ -39,11 +40,9 @@ export const AdminProductNewPage = memo(() => {
             title="앱 추가"
             breadcrumbs={[{text: '앱 관리'}, {text: '앱 목록', href: AdminProductsPageRoute.path()}, {text: '앱 추가'}]}
         >
-            <div className="container pt-10 px-2 sm:px-8">
-                <div className="w-full">
-                    <ProductForm form={form} onSubmit={onSubmit} />
-                </div>
-            </div>
+            <AdminPageContainer>
+                <ProductForm form={form} onSubmit={onSubmit} />
+            </AdminPageContainer>
         </AdminDetailPageLayout>
     );
 });

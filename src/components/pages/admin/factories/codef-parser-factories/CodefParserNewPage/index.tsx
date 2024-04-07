@@ -3,7 +3,7 @@ import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
 import {CodefParserListPageRoute} from '^pages/admin/factories/codef-parsers';
 import {CodefParserEditPageRoute} from '^pages/admin/factories/codef-parsers/[serviceName]/edit';
-import {AdminDetailPageLayout} from '^admin/layouts';
+import {AdminDetailPageLayout, AdminPageContainer} from '^admin/layouts';
 import {CreateCodefParserDto, FindOperatorType, GroupingMethod} from '../CodefParserFactory/CreateCodefParserDto';
 import {CodefParserForm} from '../form/CodefParserForm';
 import {codefParserFactoryApi} from '^admin/factories/codef-parser-factories/CodefParserFactory/api';
@@ -51,11 +51,9 @@ export const CodefParserNewPage = memo(function CodefParserNewPage() {
                 {text: '새 파서 추가'},
             ]}
         >
-            <div className="container pt-10 px-2 sm:px-8">
-                <div className="w-full">
-                    <CodefParserForm form={form} onSubmit={onSubmit} />
-                </div>
-            </div>
+            <AdminPageContainer fluid>
+                <CodefParserForm form={form} onSubmit={onSubmit} />
+            </AdminPageContainer>
         </AdminDetailPageLayout>
     );
 });

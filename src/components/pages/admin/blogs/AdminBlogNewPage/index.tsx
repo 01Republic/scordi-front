@@ -8,6 +8,7 @@ import {useRouter} from 'next/router';
 import {BlogForm} from '../form/BlogForm';
 import {toast} from 'react-toastify';
 import {errorToast} from '^api/api';
+import {AdminPageContainer} from '^admin/layouts';
 
 export const AdminBlogNewPage = memo(() => {
     const router = useRouter();
@@ -32,11 +33,9 @@ export const AdminBlogNewPage = memo(() => {
                 {text: '새 게시글'},
             ]}
         >
-            <div className="container pt-10 px-2 sm:px-8">
-                <div className="w-full">
-                    <BlogForm form={form} onSubmit={onSubmit} />
-                </div>
-            </div>
+            <AdminPageContainer>
+                <BlogForm form={form} onSubmit={onSubmit} />
+            </AdminPageContainer>
         </AdminDetailPageLayout>
     );
 });

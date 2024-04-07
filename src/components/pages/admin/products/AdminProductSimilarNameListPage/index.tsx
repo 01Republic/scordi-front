@@ -1,5 +1,5 @@
 import {memo, useEffect} from 'react';
-import {AdminListPageLayout} from '^admin/layouts';
+import {AdminListPageLayout, AdminPageContainer} from '^admin/layouts';
 import {productSimilarNameApi} from '^models/ProductSimilarName/api';
 import {useListPageSearchForm} from '^admin/share/list-page/use-list-page-search-form';
 import {useToast} from '^hooks/useToast';
@@ -21,7 +21,7 @@ export const ProductSimilarNameListPage = memo(() => {
 
     return (
         <AdminListPageLayout title="차단된 서비스명 목록">
-            <div className="container pt-10 px-2 sm:px-8">
+            <AdminPageContainer>
                 <div className="flex items-center justify-between mb-10">
                     <div></div>
                     <div className="min-w-[25vw]">
@@ -91,7 +91,7 @@ export const ProductSimilarNameListPage = memo(() => {
                         ></CardTablePanel>
                     </div>
                 </SearchResultContainer>
-            </div>
+            </AdminPageContainer>
         </AdminListPageLayout>
     );
 });

@@ -3,6 +3,7 @@ import {userManageApi} from '^models/User/api';
 import {UserItem} from './UserItem';
 import {AdminListPageLayout} from '^components/pages/admin/layouts/ListPageLayout';
 import {useListPageSearchForm} from '^admin/share/list-page/use-list-page-search-form';
+import {AdminPageContainer} from '^admin/layouts';
 
 export const AdminUserListPage = memo(() => {
     const form = useListPageSearchForm(userManageApi.index);
@@ -18,7 +19,7 @@ export const AdminUserListPage = memo(() => {
             breadcrumbs={[{text: '회원관리'}, {text: '회원목록'}]}
             // createPageRoute={'/admin/users/new'}
         >
-            <div className="container pt-10 px-2 sm:px-4">
+            <AdminPageContainer>
                 <div className="flex items-center justify-between mb-10">
                     <div></div>
                     <div className="min-w-[25vw]">
@@ -36,7 +37,7 @@ export const AdminUserListPage = memo(() => {
                         <UserItem key={i} user={user} />
                     ))}
                 </SearchResultContainer>
-            </div>
+            </AdminPageContainer>
         </AdminListPageLayout>
     );
 });

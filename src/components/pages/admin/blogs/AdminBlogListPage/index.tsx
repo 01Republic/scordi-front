@@ -5,7 +5,7 @@ import {Paginated} from '^types/utils/paginated.dto';
 import {FindAllPostByAdminDto, PostDto} from '^models/Post/type';
 import {postManageApi} from '^models/Post/api';
 import {useRouter} from 'next/router';
-import {AdminListPageLayout} from '^admin/layouts';
+import {AdminListPageLayout, AdminPageContainer} from '^admin/layouts';
 import {CardTablePanel, DateTimeColumn} from '^admin/share';
 import {ThumbnailColumn} from './ThumbnailColumn';
 import {IsPublishedColumn} from './IsPublishedColumn';
@@ -45,58 +45,56 @@ export const AdminBlogListPage = memo(() => {
             breadcrumbs={[{text: '블로그 관리'}, {text: '게시글 목록'}]}
             createPageRoute={AdminNewPostPageRoute.path()}
         >
-            <div className="container pt-10 px-2 sm:px-8">
-                <div className="w-full">
-                    <CardTablePanel
-                        gridClass="grid-cols-1 lg:grid-cols-8"
-                        entries={listPage.items}
-                        columns={[
-                            // Xs
-                            {
-                                th: '',
-                                className: 'block lg:hidden',
-                                render: (post) => <MobileItem post={post} fetchData={fetchData} />,
-                            },
+            <AdminPageContainer>
+                <CardTablePanel
+                    gridClass="grid-cols-1 lg:grid-cols-8"
+                    entries={listPage.items}
+                    columns={[
+                        // Xs
+                        {
+                            th: '',
+                            className: 'block lg:hidden',
+                            render: (post) => <MobileItem post={post} fetchData={fetchData} />,
+                        },
 
-                            // Lg
-                            {th: '아이디', className: 'hidden lg:block', render: (post) => <IdColumn post={post} />},
-                            {
-                                th: '썸네일',
-                                className: 'hidden lg:block',
-                                render: (post) => <ThumbnailColumn post={post} />,
-                            },
-                            {th: '제목', className: 'hidden lg:block', render: (post) => <TitleColumn post={post} />},
-                            {
-                                th: '작성일',
-                                className: 'hidden lg:block',
-                                render: (post) => <DateTimeColumn value={post.createdAt} />,
-                            },
-                            {
-                                th: '공개여부',
-                                className: 'hidden lg:block',
-                                render: (post) => <IsPublishedColumn post={post} />,
-                            },
-                            {
-                                th: '발행일',
-                                className: 'hidden lg:block',
-                                render: (post) => <DateTimeColumn value={post.publishAt} />,
-                            },
-                            {
-                                th: '조회수/좋아요/싫어요',
-                                className: 'hidden lg:block',
-                                render: (post) => <StatColumn post={post} />,
-                            },
-                            {
-                                th: '',
-                                className: 'hidden lg:block',
-                                render: (post) => <ActionColumn post={post} fetchData={fetchData} />,
-                            },
-                        ]}
-                        pagination={listPage.pagination}
-                        pageMove={(page) => fetchData({order: {id: 'DESC'}, page})}
-                    />
-                </div>
-            </div>
+                        // Lg
+                        {th: '아이디', className: 'hidden lg:block', render: (post) => <IdColumn post={post} />},
+                        {
+                            th: '썸네일',
+                            className: 'hidden lg:block',
+                            render: (post) => <ThumbnailColumn post={post} />,
+                        },
+                        {th: '제목', className: 'hidden lg:block', render: (post) => <TitleColumn post={post} />},
+                        {
+                            th: '작성일',
+                            className: 'hidden lg:block',
+                            render: (post) => <DateTimeColumn value={post.createdAt} />,
+                        },
+                        {
+                            th: '공개여부',
+                            className: 'hidden lg:block',
+                            render: (post) => <IsPublishedColumn post={post} />,
+                        },
+                        {
+                            th: '발행일',
+                            className: 'hidden lg:block',
+                            render: (post) => <DateTimeColumn value={post.publishAt} />,
+                        },
+                        {
+                            th: '조회수/좋아요/싫어요',
+                            className: 'hidden lg:block',
+                            render: (post) => <StatColumn post={post} />,
+                        },
+                        {
+                            th: '',
+                            className: 'hidden lg:block',
+                            render: (post) => <ActionColumn post={post} fetchData={fetchData} />,
+                        },
+                    ]}
+                    pagination={listPage.pagination}
+                    pageMove={(page) => fetchData({order: {id: 'DESC'}, page})}
+                />
+            </AdminPageContainer>
         </AdminListPageLayout>
     );
 });

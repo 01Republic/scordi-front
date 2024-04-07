@@ -1,7 +1,7 @@
 import {memo, useEffect} from 'react';
 import {productApi} from '^models/Product/api';
 import {AdminNewProductPageRoute} from '^pages/admin/products/new';
-import {AdminListPageLayout} from '^admin/layouts';
+import {AdminListPageLayout, AdminPageContainer} from '^admin/layouts';
 import {CardTablePanel} from '^admin/share';
 import {DefaultColumn} from './columns/DefaultColumn';
 import {ImageColumn, ThumbnailColumn} from './columns/ImageColumn';
@@ -46,7 +46,7 @@ export const AdminProductListPage = memo(() => {
             breadcrumbs={[{text: '앱 관리'}, {text: '앱 목록'}]}
             createPageRoute={AdminNewProductPageRoute.path()}
         >
-            <div className="container pt-10 px-2 sm:px-8">
+            <AdminPageContainer>
                 <div className="flex items-center justify-between mb-5">
                     <div></div>
                     <div className="min-w-[25vw]">
@@ -165,7 +165,7 @@ export const AdminProductListPage = memo(() => {
                         />
                     </div>
                 </SearchResultContainer>
-            </div>
+            </AdminPageContainer>
         </AdminListPageLayout>
     );
 });

@@ -20,7 +20,7 @@ export const AdminOrgListPage = memo(() => {
             breadcrumbs={[{text: '조직관리'}, {text: '조직목록'}]}
             // createPageRoute={'/admin/orgs/new'}
         >
-            <div className="container pt-10 px-2 sm:px-4">
+            <div className="pt-10 px-2 sm:px-4">
                 <div className="flex items-center justify-between mb-10">
                     <div></div>
                     <div className="min-w-[25vw]">

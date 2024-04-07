@@ -2,7 +2,7 @@ import {memo, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {useForm} from 'react-hook-form';
 import {CodefParserListPageRoute} from '^pages/admin/factories/codef-parsers';
-import {AdminDetailPageLayout} from '^admin/layouts';
+import {AdminDetailPageLayout, AdminPageContainer} from '^admin/layouts';
 import {CodefParserDataDto, UpdateCodefParserDto} from '../CodefParserFactory/CreateCodefParserDto';
 import {CodefParserForm} from '../form/CodefParserForm';
 import {codefParserFactoryApi} from '^admin/factories/codef-parser-factories/CodefParserFactory/api';
@@ -74,12 +74,13 @@ export const CodefParserEditPage = memo(function () {
                 {text: '파서 수정'},
             ]}
         >
-            <div className="container pt-10 px-2 sm:px-8">
-                <div className="w-full">
-                    <LoadableBox isLoading={!pageLoaded} loadingType={1}>
-                        {pageLoaded && <CodefParserForm form={form} onSubmit={onSubmit} reloadOnReady={pageLoaded} />}
-                    </LoadableBox>
-                </div>
+            <AdminPageContainer fluid>
+                <LoadableBox isLoading={!pageLoaded} loadingType={1}>
+                    {pageLoaded && <CodefParserForm form={form} onSubmit={onSubmit} reloadOnReady={pageLoaded} />}
+                </LoadableBox>
+            </AdminPageContainer>
+            <div className="pt-10 px-2 sm:px-8">
+                <div className="w-full"></div>
             </div>
         </AdminDetailPageLayout>
     );

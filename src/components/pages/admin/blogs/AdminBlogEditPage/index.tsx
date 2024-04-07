@@ -8,6 +8,7 @@ import {AdminPostsPageRoute} from '^pages/admin/posts';
 import {BlogForm} from '../form/BlogForm';
 import {toast} from 'react-toastify';
 import {errorToast} from '^api/api';
+import {AdminPageContainer} from '^admin/layouts';
 
 export const AdminBlogEditPage = memo(() => {
     const router = useRouter();
@@ -42,11 +43,9 @@ export const AdminBlogEditPage = memo(() => {
                 {text: '게시글 수정'},
             ]}
         >
-            <div className="container pt-10 px-2 sm:px-8">
-                <div className="w-full">
-                    <BlogForm form={form} onSubmit={onSubmit} post={post} />
-                </div>
-            </div>
+            <AdminPageContainer>
+                <BlogForm form={form} onSubmit={onSubmit} post={post} />
+            </AdminPageContainer>
         </AdminDetailPageLayout>
     );
 });
