@@ -51,7 +51,25 @@ export function useListPageSearchForm<ItemDto extends EntityDto, QueryDto extend
                         {children}
 
                         {/* Paginator */}
-                        <div className="flex justify-center w-full">
+                        <div className="flex items-center justify-center w-full gap-4">
+                            <div>
+                                <select
+                                    className="select select-bordered"
+                                    defaultValue={query.itemsPerPage === 0 ? 0 : query.itemsPerPage || 30}
+                                    onChange={(e) => {
+                                        const itemsPerPage = Number(e.target.value);
+                                        fetchData2({...query, itemsPerPage});
+                                    }}
+                                >
+                                    {[10, 30, 50, 100].map((value, i) => (
+                                        <option key={i} value={value}>
+                                            {value} 개씩 보기
+                                        </option>
+                                    ))}
+                                    <option value={0}>전체 보기</option>
+                                </select>
+                            </div>
+
                             <Paginator
                                 currentPage={listPage.pagination.currentPage}
                                 totalPage={listPage.pagination.totalPage}

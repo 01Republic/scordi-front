@@ -2,7 +2,7 @@ import {memo, useEffect, useState} from 'react';
 import {AdminListPageLayout, AdminPageContainer} from '^admin/layouts';
 import {useListPageSearchForm} from '^admin/share/list-page/use-list-page-search-form';
 import {organizationAdminApi} from '^models/Organization/api';
-import {CardTablePanel} from '^admin/share';
+import {CardTablePanel, CardTableTH} from '^admin/share';
 import {OrgItem} from './OrgItem';
 import {OrgTr} from './OrgTr';
 import {OrgItemForConnectStatus} from './OrgItemForConnectStatus';
@@ -72,7 +72,7 @@ const MembersView = () => {
 
     useEffect(() => {
         fetchData({
-            relations: ['memberships', 'memberships.user', 'googleSyncHistories', 'invoiceAccounts'],
+            relations: ['memberships', 'memberships.user'],
             order: {id: 'DESC'},
         });
     }, []);
@@ -93,11 +93,20 @@ const MembersView = () => {
             </div>
             <SearchResultContainer>
                 <CardTablePanel
-                    gridClass="grid-cols-6"
+                    gridClass="grid-cols-8"
                     entries={listPage.items}
-                    ths={['조직명', '소유자', '워크스페이스 연동', '인보이스 계정 연동', '생성일시', '']}
                     entryComponent={(org, i) => <OrgTr org={org} key={i} />}
-                />
+                >
+                    <CardTableTH className="text-12" gridClass="grid-cols-8">
+                        <div className="col-span-2">조직명</div>
+                        <div>생성일시</div>
+                        <div className="col-span-2 text-center">
+                            멤버십 수 <small>(소유자/구성원)</small>
+                        </div>
+                        <div className="text-center">회원 수</div>
+                        <div className="col-span-2">소유자</div>
+                    </CardTableTH>
+                </CardTablePanel>
                 {/*{listPage.items.map((org, i) => (*/}
                 {/*    <OrgItem key={i} org={org} />*/}
                 {/*))}*/}
