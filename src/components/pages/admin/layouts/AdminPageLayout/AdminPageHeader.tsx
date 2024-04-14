@@ -53,7 +53,9 @@ export const AdminPageHeader = memo((props: AdminPageHeaderProps) => {
                     </div>
                 </AdminPageContainer>
 
-                <div className="">{tabNav}</div>
+                <AdminPageContainer fluid className="!pt-0">
+                    {tabNav}
+                </AdminPageContainer>
             </div>
         </>
     );
