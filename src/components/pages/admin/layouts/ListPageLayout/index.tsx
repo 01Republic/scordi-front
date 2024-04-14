@@ -11,12 +11,12 @@ type AdminListPageLayoutProps = WithChildren &
     };
 
 export const AdminListPageLayout = memo((props: AdminListPageLayoutProps) => {
-    const {title, breadcrumbs, createPageRoute, children} = props;
+    const {title, breadcrumbs, createPageRoute, children, tabNav} = props;
     const router = useRouter();
 
     return (
         <AdminPageLayout>
-            <AdminPageHeader title={title} breadcrumbs={breadcrumbs}>
+            <AdminPageHeader title={title} breadcrumbs={breadcrumbs} tabNav={tabNav}>
                 {/* Add New Button */}
                 {createPageRoute && (
                     <button className="btn btn-primary font-semibold" onClick={() => router.push(createPageRoute)}>

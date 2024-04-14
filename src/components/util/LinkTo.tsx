@@ -11,12 +11,13 @@ export interface LinkToProps extends Partial<LinkProps> {
     className?: string;
     onClick?: MouseEventHandler<HTMLAnchorElement>;
     target?: HTMLAttributeAnchorTarget;
+    displayLoading?: boolean;
 }
 
 export const LinkTo = memo((props: LinkToProps & WithChildren) => {
     const router = useRouter();
     const [isClicked, setIsClicked] = useState(false);
-    const {text = '', target, onClick, children, className = '', href = '#', ...res} = props;
+    const {text = '', target, onClick, children, className = '', href = '#', displayLoading = true, ...res} = props;
 
     useEffect(() => {
         if (router.isReady) setIsClicked(false);
@@ -42,11 +43,13 @@ export const LinkTo = memo((props: LinkToProps & WithChildren) => {
     }
 
     if (isClicked) {
-        return (
-            <a className={`${className} link_to-clicked`} target={target}>
-                {children || text}
-            </a>
-        );
+        if (displayLoading) {
+            return (
+                <a className={`${className} link_to-clicked`} target={target}>
+                    {children || text}
+                </a>
+            );
+        }
     }
 
     return (

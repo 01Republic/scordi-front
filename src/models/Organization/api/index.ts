@@ -1,6 +1,7 @@
 import {api} from '^api/api';
 import {
     CreateOrganizationRequestDto,
+    OrganizationConnectStatusDto,
     OrganizationDto,
     SearchOrgQueryDto,
     UpdateOrganizationRequestDto,
@@ -64,6 +65,14 @@ export const organizationApi = {
 };
 
 export const organizationAdminApi = {
+    /** Organization summary / connect status */
+    summary(params?: FindAllQueryDto<OrganizationConnectStatusDto>) {
+        const url = '/admin/organizations/summary/connect_status';
+        return api
+            .get<Paginated<OrganizationConnectStatusDto>>(url, {params})
+            .then(paginatedDtoOf(OrganizationConnectStatusDto));
+    },
+
     index(params?: FindAllQueryDto<OrganizationDto>) {
         const url = '/admin/organizations';
         return api.get<Paginated<OrganizationDto>>(url, {params}).then(paginatedDtoOf(OrganizationDto));

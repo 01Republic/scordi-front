@@ -59,3 +59,17 @@ export class OrganizationDto {
         return !!(this.invoiceAccounts || []).length;
     }
 }
+
+export class OrganizationConnectStatusDto {
+    id: number;
+    name: string;
+    workspaceSyncHistoriesCount: number;
+    invoiceAccountsCount: number;
+    isCodefSigned: boolean;
+    codefAccountsCount: number;
+    codefCardsCount: number;
+    creditCardsCount: number;
+    subscriptionsCount: number;
+    @TypeCast(() => Date) createdAt: Date;
+    @TypeCast(() => Date) updatedAt: Date;
+}

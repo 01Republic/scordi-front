@@ -3,6 +3,7 @@ import {CardTable} from './CardTable';
 import {CardTableTH, CardTableTR} from './CardTableTr';
 import {Paginator} from '^components/Paginator';
 import {PaginationMetaData} from '^types/utils/paginated.dto';
+import {WithChildren} from '^types/global.type';
 export * from './CardTable';
 export * from './CardTableTr';
 export * from './columns';
@@ -13,7 +14,7 @@ interface CardTableColumns<T> {
     render: (entry: T) => ReactNodeLike;
 }
 
-interface CardTablePanelProps<T> {
+interface CardTablePanelProps<T> extends WithChildren {
     gridClass: string;
     entries: T[];
     columns?: CardTableColumns<T>[];
@@ -24,7 +25,7 @@ interface CardTablePanelProps<T> {
 }
 
 export const CardTablePanel = <T,>(props: CardTablePanelProps<T>) => {
-    const {gridClass, entries, ths, entryComponent, columns = [], pagination, pageMove} = props;
+    const {gridClass, entries, ths, entryComponent, columns = [], pagination, pageMove, children} = props;
 
     return (
         <>
@@ -39,7 +40,7 @@ export const CardTablePanel = <T,>(props: CardTablePanelProps<T>) => {
                                     <div key={i}>{th}</div>
                                 ))}
                             </CardTableTH>
-                        ) : (
+                        ) : columns.length ? (
                             <CardTableTH gridClass={gridClass}>
                                 {columns.map((column, i) => (
                                     <div key={i} className={column.className}>
@@ -47,7 +48,10 @@ export const CardTablePanel = <T,>(props: CardTablePanelProps<T>) => {
                                     </div>
                                 ))}
                             </CardTableTH>
+                        ) : (
+                            <></>
                         )}
+                        {children}
 
                         {entries.map((entry, i, arr) =>
                             entryComponent ? (
