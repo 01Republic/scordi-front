@@ -1,27 +1,21 @@
 import {memo} from 'react';
-import {atom, useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {ConnectedWorkspaceListTabContent} from './ConnectedWorkspaceListTabContent';
 import {InvoiceAccountListTabContent} from './InvoiceAccountListTabContent';
+import {defineTabs, useTabs} from '^components/util/tabs';
 
-export const connectionTabIndexAtom = atom({
-    key: 'adminOrgDetailPage/connections/ConnectionTabIndex',
-    default: 0,
-});
+export const connectionTab = defineTabs('adminOrgDetailPage/connections', [
+    {label: '구성원(워크스페이스)', TabPane: ConnectedWorkspaceListTabContent},
+    {label: '결제메일', TabPane: InvoiceAccountListTabContent},
+    {label: '카드', TabPane: () => <></>},
+]);
 
 export const AdminOrgConnectionTabContent = memo(() => {
     const org = useRecoilValue(adminOrgDetail);
-    const [connectionTabIndex, setConnectionTabIndex] = useRecoilState(connectionTabIndexAtom);
+    const {currentTabIndex, setCurrentTabIndex, tabs, CurrentTabPane} = useTabs(connectionTab);
 
     if (!org) return <></>;
-
-    const tabs = [
-        {label: '구성원(워크스페이스)', Component: ConnectedWorkspaceListTabContent},
-        {label: '결제메일', Component: InvoiceAccountListTabContent},
-        {label: '카드', Component: () => <></>},
-    ];
-
-    const TabContentComponent = tabs[connectionTabIndex]?.Component || tabs[0].Component;
 
     return (
         <div>
@@ -31,9 +25,9 @@ export const AdminOrgConnectionTabContent = memo(() => {
                         <h2
                             key={i}
                             className={`text-2xl cursor-pointer transition-all ${
-                                i === connectionTabIndex ? '' : 'text-gray-400 hover:text-gray-600'
+                                i === currentTabIndex ? '' : 'text-gray-400 hover:text-gray-600'
                             }`}
-                            onClick={() => setConnectionTabIndex(i)}
+                            onClick={() => setCurrentTabIndex(i)}
                         >
                             {tab.label}
                         </h2>
@@ -41,7 +35,7 @@ export const AdminOrgConnectionTabContent = memo(() => {
                 </div>
             </div>
 
-            <TabContentComponent />
+            <CurrentTabPane />
         </div>
     );
 });

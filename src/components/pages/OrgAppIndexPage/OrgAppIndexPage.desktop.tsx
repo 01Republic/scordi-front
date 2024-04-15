@@ -1,26 +1,24 @@
 import React, {memo} from 'react';
 import OrgMainLayout from '^layouts/org/mainLayout';
-import {ContentLayout, ContentTabNav} from '^layouts/ContentLayout';
-import {atom, useRecoilValue} from 'recoil';
+import {ContentLayout} from '^layouts/ContentLayout';
 import {TabContentForSubscriptions} from '^components/pages/OrgAppIndexPage/TabContentForSubscriptions';
 import {TabContentForIntegrations} from '^components/pages/OrgAppIndexPage/TabContentForIntegrations';
 import {ConnectPrototypeModal} from './modals/ConnectPrototypeModal';
+import {defineTabs, useTabs} from '^components/util/tabs';
 
-export const navTabIndex = atom({
-    key: 'Apps/NavTabIndex',
-    default: 0,
-});
+const appsTab = defineTabs('AppsTab', [
+    {label: 'Subscriptions', TabPane: TabContentForSubscriptions},
+    {label: 'Integrations', TabPane: TabContentForIntegrations},
+]);
 
 export const OrgAppIndexPageDesktop = memo(() => {
-    const tabIndex = useRecoilValue(navTabIndex);
+    const {TabNav, CurrentTabPane} = useTabs(appsTab);
 
     return (
         <OrgMainLayout>
             <ContentLayout title="Apps">
-                <ContentTabNav resetIndex={true} recoilState={navTabIndex} tabs={['Subscriptions', 'Integrations']} />
-
-                {tabIndex === 0 && <TabContentForSubscriptions />}
-                {tabIndex === 1 && <TabContentForIntegrations />}
+                <TabNav />
+                <CurrentTabPane />
             </ContentLayout>
             <ConnectPrototypeModal />
         </OrgMainLayout>

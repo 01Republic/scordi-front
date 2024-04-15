@@ -1,10 +1,9 @@
 import {memo, useEffect} from 'react';
-import {AdminDetailPageLayout} from '^admin/layouts';
+import {AdminDetailPageLayout, AdminPageContainer} from '^admin/layouts';
 import {useRouter} from 'next/router';
 import {atom, useRecoilState, useRecoilValue} from 'recoil';
 import {OrganizationDto} from '^models/Organization/type';
 import {organizationApi} from '^models/Organization/api';
-import {ContentTabNav} from '^layouts/ContentLayout';
 import {BiLinkExternal} from '^components/react-icons';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {AdminOrgsPageRoute} from '^pages/admin/orgs';
@@ -17,22 +16,28 @@ import {
     TodoListTabContent,
     UserListTabContent,
 } from './tabContents';
+import {defineTabs, useTabs} from '^components/util/tabs';
 
 export const adminOrgDetail = atom<OrganizationDto | null>({
     key: 'adminOrgDetail',
     default: null,
 });
 
-export const navTabIndex = atom({
-    key: 'adminOrgDetailPage/NavTabIndex',
-    default: 0,
-});
+const adminOrgDetailPageTab = defineTabs('adminOrgDetailPageTab', [
+    {label: '기본정보', TabPane: InformationTabContent},
+    {label: '연동된 앱 (구독리스트)', TabPane: SubscriptionListTabContent},
+    {label: '연동관리', TabPane: AdminOrgConnectionTabContent},
+    {label: '계정관리', TabPane: AccountListTabContent},
+    {label: '멤버', TabPane: MemberListTabContent},
+    {label: '회원', TabPane: UserListTabContent},
+    {label: '체크리스트', TabPane: TodoListTabContent},
+]);
 
 export const AdminOrgDetailPage = memo(() => {
     const router = useRouter();
     const orgId = Number(router.query.id);
     const [org, setOrg] = useRecoilState(adminOrgDetail);
-    const tabIndex = useRecoilValue(navTabIndex);
+    const {TabNav, CurrentTabPane} = useTabs(adminOrgDetailPageTab);
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
@@ -41,18 +46,6 @@ export const AdminOrgDetailPage = memo(() => {
 
     if (!org) return <>Organization(#{router.query.id}) Not Found.</>;
 
-    const tabs = [
-        {label: '기본정보', Component: InformationTabContent},
-        {label: '연동된 앱 (구독리스트)', Component: SubscriptionListTabContent},
-        {label: '연동관리', Component: AdminOrgConnectionTabContent},
-        {label: '계정관리', Component: AccountListTabContent},
-        {label: '멤버', Component: MemberListTabContent},
-        {label: '회원', Component: UserListTabContent},
-        {label: '체크리스트', Component: TodoListTabContent},
-    ];
-
-    const TabContentComponent = tabs[tabIndex]?.Component || InformationTabContent;
-
     return (
         <AdminDetailPageLayout
             title={`${org.name} (#${org.id})`}
@@ -60,11 +53,11 @@ export const AdminOrgDetailPage = memo(() => {
             buttons={[ShowOnServiceButton]}
             // editPageRoute={''}
             // onDelete={() => console.log('delete!')}
-            tabNav={<ContentTabNav resetIndex={true} tabs={tabs.map((tab) => tab.label)} recoilState={navTabIndex} />}
+            tabNav={<TabNav />}
         >
-            <div className="pt-10 px-2 sm:px-4">
-                <TabContentComponent />
-            </div>
+            <AdminPageContainer>
+                <CurrentTabPane />
+            </AdminPageContainer>
         </AdminDetailPageLayout>
     );
 });

@@ -6,7 +6,7 @@ export const tabIndexState = atom({
     default: 0,
 });
 
-interface ContentTabNavProps {
+export interface ContentTabNavProps {
     tabs: (string | ReactNode)[];
     // 만약 같은 페이지에서 여러 개의 텝 네비게이션이 필요한 경우,
     // 서로 키가 다른 상태컨테이너를 밖에서 주입할 수 있습니다.

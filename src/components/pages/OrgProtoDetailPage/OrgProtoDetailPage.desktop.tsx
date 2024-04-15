@@ -1,4 +1,4 @@
-import {Fragment, memo} from 'react';
+import {Fragment, memo, useEffect} from 'react';
 import OrgMainLayout from '^layouts/org/mainLayout';
 import {ContentLayout, ContentTabNav} from '^layouts/ContentLayout';
 import {orgIdParamState, productIdParamsState, useRouterIdParamState} from '^atoms/common';
@@ -13,11 +13,13 @@ import {atom, useRecoilValue} from 'recoil';
 import {TabContentForSetting} from '^components/pages/OrgProtoDetailPage/TabContents/TabContentForSetting';
 import {useCurrentUser} from '^models/User/hook';
 import {SubscriptionDto} from 'src/models/Subscription/types';
+import {defineTabs, useTabs} from '^components/util/tabs';
 
-export const navTabIndex = atom({
-    key: 'Prototypes/NavTabIndex',
-    default: 0,
-});
+const protoDetailPageTab = defineTabs('protoDetailPageTab', [
+    {label: 'information', TabPane: TabContentForInformation},
+    {label: 'spend', TabPane: TabContentForSpend},
+    {label: 'invoices', TabPane: TabContentForInvoices},
+]);
 
 export const subscriptionsForThisPrototypeAtom = atom<SubscriptionDto[]>({
     key: 'subscriptionsForThisPrototypeAtom',
@@ -28,28 +30,21 @@ export const OrgProtoDetailPageDesktop = memo(() => {
     useRouterIdParamState('id', orgIdParamState);
     useRouterIdParamState('protoId', productIdParamsState);
     const {currentUser} = useCurrentUser();
-    const tabIndex = useRecoilValue(navTabIndex);
+    const {tabs, TabNav, CurrentTabPane, addTabs} = useTabs(protoDetailPageTab);
 
-    const tabs = [
-        {label: 'information', Component: TabContentForInformation},
-        {label: 'spend', Component: TabContentForSpend},
-        {label: 'invoices', Component: TabContentForInvoices},
-    ];
-
-    if (currentUser && currentUser.isAdmin) {
-        tabs.push({label: 'setting', Component: TabContentForSetting});
-    }
-
-    const TabContentComponent = tabs[tabIndex]?.Component || Fragment;
+    useEffect(() => {
+        if (currentUser && currentUser.isAdmin) {
+            addTabs([{label: 'setting', TabPane: TabContentForSetting}]);
+        }
+    }, [currentUser]);
 
     return (
         <OrgMainLayout>
             <ContentLayout>
                 <Breadcrumb />
                 <PrototypeHeader />
-                <ContentTabNav resetIndex={true} tabs={tabs.map((tab) => tab.label)} recoilState={navTabIndex} />
-
-                <TabContentComponent />
+                <TabNav tabs={tabs.map((tab) => tab.label)} />
+                <CurrentTabPane />
             </ContentLayout>
         </OrgMainLayout>
     );
