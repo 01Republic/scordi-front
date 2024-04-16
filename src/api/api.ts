@@ -2,7 +2,7 @@ import axios, {AxiosError, AxiosRequestConfig, HeadersDefaults} from 'axios';
 import Qs from 'qs';
 import {UserLoginPageRoute} from '^pages/users/login';
 import {UserSignUpPageRoute} from '^pages/users/signup';
-import {toast} from 'react-toastify';
+import {toast} from 'react-hot-toast';
 import {ProductListPageRoute} from '^pages/products';
 import {ProductDetailPageRoute} from '^pages/products/[id]';
 import {PostListPageRoute} from '^pages/posts';

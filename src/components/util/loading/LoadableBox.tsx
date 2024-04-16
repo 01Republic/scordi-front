@@ -6,10 +6,12 @@ interface LoadableBoxProps {
     isLoading: boolean;
     noPadding?: boolean;
     loadingType?: number;
+    spinnerSize?: number;
+    spinnerPos?: 'top' | 'center' | 'bottom';
 }
 
 export const LoadableBox = memo((props: LoadableBoxProps & WithChildren) => {
-    const {loadingType = 1, isLoading, noPadding = false, children} = props;
+    const {loadingType = 1, isLoading, noPadding = false, spinnerSize = 30, spinnerPos = 'top', children} = props;
 
     const ReRenderChildren = () => <>{children}</>;
 
@@ -24,8 +26,8 @@ export const LoadableBox = memo((props: LoadableBoxProps & WithChildren) => {
                     </div>
                 )}
                 {isLoading && (
-                    <div className="absolute top-0 left-0 right-0">
-                        <Spinner size={30} />
+                    <div className={`absolute top-0 left-0 right-0 ${spinnerPos === 'top' ? '' : 'bottom-0'}`}>
+                        <Spinner size={spinnerSize} posY={spinnerPos} />
                     </div>
                 )}
             </div>

@@ -66,11 +66,12 @@ export function usePagedResource<DTO, Query>(
     const reload = () => search({...query}, false, true);
     const movePage = (page: number, append = false) => search({...query, page}, append);
     const resetPage = () => search({...query, page: 1}, false, true);
+    const changePageSize = (itemsPerPage: number) => search({...query, page: 1, itemsPerPage}, false, true);
     const append = makeAppendPagedItemFn(setResult);
     const except = makeExceptPagedItemFn(setResult, (it, item) => keyOf(it) !== keyOf(item));
     const clearCache = () => resetQuery();
 
-    return {query, result, search, reload, reset, movePage, resetPage, except, isLoading, clearCache};
+    return {query, result, search, reload, reset, movePage, resetPage, changePageSize, except, isLoading, clearCache};
 }
 
 // getId 파라미터에 콜백함수가 아닌 문자열 리터럴을 입력받는 경우, 콜백으로 변환합니다.

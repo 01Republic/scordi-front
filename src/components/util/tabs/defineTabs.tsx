@@ -1,7 +1,8 @@
 import {atom} from 'recoil';
 import {ReactNodeLike} from 'prop-types';
-import React, {memo, MemoExoticComponent} from 'react';
+import React, {Component, memo, MemoExoticComponent, NamedExoticComponent} from 'react';
 import {ContentTabNav, ContentTabNavProps} from '^layouts/ContentLayout';
+import {ComponentLike, ComponentType} from '^components/util/ComponentLike';
 
 // export interface TabItemProps {
 //     label: ReactNodeLike;
@@ -10,7 +11,7 @@ import {ContentTabNav, ContentTabNavProps} from '^layouts/ContentLayout';
 
 export interface TabItem {
     label: ReactNodeLike;
-    TabPane: MemoExoticComponent<() => JSX.Element> | (() => JSX.Element);
+    TabPane: MemoExoticComponent<() => JSX.Element> | NamedExoticComponent<Object> | (() => JSX.Element);
 }
 
 export function defineTabs(key: string, tabs: TabItem[]) {

@@ -1,7 +1,7 @@
 import {api} from '^api/api';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {FindAllCardQueryDto} from '^models/CodefCard/type/find-all.card.query.dto';
+import {FindAllCardAdminQueryDto, FindAllCardQueryDto} from '^models/CodefCard/type/find-all.card.query.dto';
 import {FindAllCardHistoryQueryDto} from '^models/CodefCard/type/find-all.card-history.query.dto';
 import {ClassConstructor} from 'class-transformer';
 import {FindAllSubscriptionByCardQueryDto} from '^models/CodefCard/type/find-all.card-subscription.query.dto';
@@ -53,4 +53,11 @@ export const codefCardApi = {
     //     const url = `v1/kr/card/b/account/purchase-details`;
     //     return this.requestProduct(url, {});
     // },
+};
+
+export const codefCardAdminApi = {
+    index(params: FindAllCardAdminQueryDto) {
+        const url = `/admin/codef-cards`;
+        return api.get(url, {params}).then(paginatedDtoOf(CodefCardDto));
+    },
 };

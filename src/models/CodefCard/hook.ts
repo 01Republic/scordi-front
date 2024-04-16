@@ -1,8 +1,9 @@
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
 import {CodefCardDto} from './type/CodefCard.dto';
-import {FindAllCardQueryDto} from './type/find-all.card.query.dto';
-import {codefCardApi} from '^models/CodefCard/api';
+import {FindAllCardAdminQueryDto, FindAllCardQueryDto} from './type/find-all.card.query.dto';
+import {codefCardAdminApi, codefCardApi} from '^models/CodefCard/api';
 import {
+    codefCardsAdminAtom,
     connectedCodefCardsAtom,
     newCodefCardsAtom,
     subscriptionsForAccountAtom,
@@ -27,6 +28,18 @@ const useCodefCardsV3 = <DTO = CodefCardDto, QUERY = FindAllCardQueryDto>(
     return usePagedResource(atoms, {
         useOrgId: true,
         endpoint: (params, orgId) => codefCardApi.index(orgId, codefAccountId, params),
+        // @ts-ignore
+        getId: 'id',
+        mergeMode,
+    });
+};
+
+export const useAdminCodefCards = () => useCodefCardsAdmin(codefCardsAdminAtom);
+
+const useCodefCardsAdmin = (atoms: PagedResourceAtoms<CodefCardDto, FindAllCardAdminQueryDto>, mergeMode = false) => {
+    return usePagedResource(atoms, {
+        useOrgId: false,
+        endpoint: (params) => codefCardAdminApi.index(params),
         // @ts-ignore
         getId: 'id',
         mergeMode,

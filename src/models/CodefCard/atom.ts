@@ -1,6 +1,6 @@
 import {pagedResourceAtom} from '^hooks/usePagedResource';
 import {CodefCardDto, ConnectedCodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {FindAllCardQueryDto} from '^models/CodefCard/type/find-all.card.query.dto';
+import {FindAllCardAdminQueryDto, FindAllCardQueryDto} from '^models/CodefCard/type/find-all.card.query.dto';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {FindAllSubscriptionByCardQueryDto} from '^models/CodefCard/type/find-all.card-subscription.query.dto';
 
@@ -23,4 +23,8 @@ export const subscriptionsForAccountAtom = pagedResourceAtom<SubscriptionDto, Fi
 /** 구독 불러오기 (연동페이지) 에서, 연결된 카드사의 카드 리스트를 보여줄 때 사용 */
 export const subscriptionsForCardAtom = pagedResourceAtom<SubscriptionDto, FindAllSubscriptionByCardQueryDto>({
     key: 'subscriptionsForCardAtom',
+});
+
+export const codefCardsAdminAtom = pagedResourceAtom<CodefCardDto, FindAllCardAdminQueryDto>({
+    key: 'codefCardsAdminAtom',
 });
