@@ -137,4 +137,6 @@ export type CreateUserDeviceRequestDto = {
 
 export type FindAllUserByAdminDto = FindAllQueryDto<UserDto> & {
     keyword?: string;
+    orgId?: number;
+    notAdmin?: boolean;
 };

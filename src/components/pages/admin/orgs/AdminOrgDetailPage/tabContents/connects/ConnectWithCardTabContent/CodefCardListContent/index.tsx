@@ -6,6 +6,7 @@ import {useAdminCodefCards} from '^models/CodefCard/hook';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {CodefCardItem} from './CodefCardItem';
 import {useCodefCardSyncQueue} from '^models/CodefCard/hooks/useCodefCardSync';
+import {PagePerSelect} from '^components/Paginator';
 
 export const CodefCardListContent = memo(function CodefCardListContent() {
     const org = useRecoilValue(adminOrgDetail);
@@ -29,18 +30,12 @@ export const CodefCardListContent = memo(function CodefCardListContent() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <select
-                        className="select select-sm select-bordered"
-                        defaultValue={pagination.itemsPerPage === 0 ? 0 : pagination.itemsPerPage}
-                        onChange={(e) => changePageSize(Number(e.target.value))}
-                    >
-                        {[10, 30, 50, 100].map((value, i) => (
-                            <option key={i} value={value}>
-                                {value} 개씩 보기
-                            </option>
-                        ))}
-                        <option value={0}>전체 보기</option>
-                    </select>
+                    <PagePerSelect
+                        className="select-sm"
+                        defaultValue={pagination.itemsPerPage}
+                        changePageSize={changePageSize}
+                        allowAll
+                    />
                 </div>
             </div>
 

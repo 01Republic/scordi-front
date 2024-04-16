@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import React, {memo} from 'react';
 import {
     MdKeyboardArrowLeft,
     MdKeyboardArrowRight,
@@ -49,3 +49,31 @@ export const Paginator = memo((props: PaginatorProps) => {
         </div>
     );
 });
+
+interface PagePerSelectProps {
+    defaultValue: number; // pagination.itemsPerPage
+    changePageSize: (itemsPerPage: number) => any;
+    perValues?: number[];
+    allowAll?: boolean;
+    className?: string;
+}
+
+export const PagePerSelect = memo((props: PagePerSelectProps) => {
+    const {defaultValue, changePageSize, perValues = [10, 30, 50, 100], allowAll = false, className = ''} = props;
+
+    return (
+        <select
+            className={`select select-bordered ${className}`}
+            defaultValue={defaultValue === 0 ? 0 : defaultValue}
+            onChange={(e) => changePageSize(Number(e.target.value))}
+        >
+            {perValues.map((value, i) => (
+                <option key={i} value={value}>
+                    {value} 개씩 보기
+                </option>
+            ))}
+            {allowAll && <option value={0}>전체 보기</option>}
+        </select>
+    );
+});
+PagePerSelect.displayName = 'PagePerSelect';

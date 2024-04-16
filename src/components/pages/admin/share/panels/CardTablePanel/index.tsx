@@ -1,9 +1,10 @@
 import {ReactNodeLike} from 'prop-types';
 import {CardTable} from './CardTable';
 import {CardTableTH, CardTableTR} from './CardTableTr';
-import {Paginator} from '^components/Paginator';
+import {PagePerSelect, Paginator} from '^components/Paginator';
 import {PaginationMetaData} from '^types/utils/paginated.dto';
 import {WithChildren} from '^types/global.type';
+import React from 'react';
 export * from './CardTable';
 export * from './CardTableTr';
 export * from './columns';
@@ -22,10 +23,21 @@ interface CardTablePanelProps<T> extends WithChildren {
     entryComponent?: (entry: T, i: number, arr: T[]) => ReactNodeLike;
     pagination?: PaginationMetaData;
     pageMove?: (pageNum: number) => any;
+    changePageSize?: (itemsPerPage: number) => any;
 }
 
 export const CardTablePanel = <T,>(props: CardTablePanelProps<T>) => {
-    const {gridClass, entries, ths, entryComponent, columns = [], pagination, pageMove, children} = props;
+    const {
+        gridClass,
+        entries,
+        ths,
+        entryComponent,
+        columns = [],
+        pagination,
+        pageMove,
+        changePageSize,
+        children,
+    } = props;
 
     return (
         <>
@@ -68,13 +80,23 @@ export const CardTablePanel = <T,>(props: CardTablePanelProps<T>) => {
                         )}
                     </CardTable>
 
-                    {pagination && pageMove && (
-                        <div className="flex justify-center w-full mt-6">
-                            <Paginator
-                                currentPage={pagination.currentPage}
-                                totalPage={pagination.totalPage}
-                                onClick={pageMove}
-                            />
+                    {pagination && (
+                        <div className="flex justify-center w-full mt-6 gap-4">
+                            {changePageSize && (
+                                <PagePerSelect
+                                    defaultValue={pagination.itemsPerPage}
+                                    changePageSize={changePageSize}
+                                    allowAll
+                                />
+                            )}
+
+                            {pageMove && (
+                                <Paginator
+                                    currentPage={pagination.currentPage}
+                                    totalPage={pagination.totalPage}
+                                    onClick={pageMove}
+                                />
+                            )}
                         </div>
                     )}
                 </>

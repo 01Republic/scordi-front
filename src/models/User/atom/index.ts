@@ -1,11 +1,12 @@
 import {MembershipDto} from 'src/models/Membership/types';
 import {atom, selector} from 'recoil';
-import {UserDto} from '^models/User/types';
+import {FindAllUserByAdminDto, UserDto} from '^models/User/types';
 import {getToken} from '^api/api';
 import {errorNotify} from '^utils/toast-notify';
 import {orgIdParamState} from '^atoms/common';
 import {membershipApi} from '^models/Membership/api';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
+import {pagedResourceAtom} from '^hooks/usePagedResource';
 
 export type GoogleSignedUserData = {
     id: string;
@@ -116,3 +117,7 @@ export const authenticatedUserDataAtom = atom<GoogleSignedUserData | undefined>(
 //         set(getUserSessionQueryTrigger, (v) => v + 1);
 //     },
 // });
+
+export const userListResultForAdminAtom = pagedResourceAtom<UserDto, FindAllUserByAdminDto>({
+    key: 'userListResultForAdminAtom',
+});
