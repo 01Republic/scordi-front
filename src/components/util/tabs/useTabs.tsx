@@ -19,10 +19,19 @@ export const useTabs = (config: UseTabsConfig) => {
         setTabLen((len) => len + newTabs.length);
     };
 
-    console.log('tabs', tabs);
     const currentTab = tabs[currentTabIndex] || tabs[0];
 
     const CurrentTabPane = currentTab?.TabPane || React.Fragment;
 
-    return {tabs, currentTab, currentTabIndex, setCurrentTabIndex, tabIndexAtom, TabNav, CurrentTabPane, addTabs};
+    return {
+        tabs,
+        currentTab,
+        currentTabIndex,
+        setCurrentTabIndex,
+        tabIndexAtom,
+        TabNav,
+        CurrentTabPane,
+        addTabs,
+        tabLen,
+    };
 };

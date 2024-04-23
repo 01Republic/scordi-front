@@ -2,12 +2,11 @@ import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {TypeCast} from '^types/utils/class-transformer';
 import {FindOperatorUnitDto} from '^admin/factories/codef-parser-factories/CodefParserFactory/CreateCodefParserDto';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 
 export class CodefBillingHistoryDto {
     id: number;
     codefCardId: number;
-    @TypeCast(() => CodefCardDto) codefCard?: CodefCardDto;
-
     billingHistoryId: number | null;
     fromApproval: boolean; // 승인내역 데이터 사용여부
     fromPurchase: boolean; // 매입내역 데이터 사용여부
@@ -23,9 +22,7 @@ export class CodefBillingHistoryDto {
     resCardNo1: string; // "";
     resCardName: string; // "";
     resMemberStoreName: string; // '자동결제';
-    get memberStoreName() {
-        return `${this.resMemberStoreName}`.trim().toLowerCase();
-    }
+    memberStoreName: string;
     resUsedAmount: string; // '99000';
     resPaymentType: string; // '1';
     resInstallmentMonth: string; // 할부개월 | '';
@@ -54,35 +51,23 @@ export class CodefBillingHistoryDto {
 
     @TypeCast(() => Date) createdAt: Date;
     @TypeCast(() => Date) updatedAt: Date;
+    @TypeCast(() => Date) paidAt: Date | undefined;
 
-    get paidAt() {
-        const canceled = ['1', '2'].includes(this.resCancelYN);
-        const failed = ['3'].includes(this.resCancelYN);
-        if (canceled || failed) return undefined;
-        return this.usedAt;
-    }
-
-    get memo() {
-        if (this.isCanceled) return '결제 취소';
-        if (this.isFailed) return '승인 거절';
-        return '';
-    }
-
-    get isCanceled() {
-        return ['1', '2'].includes(this.resCancelYN);
-    }
-
-    get isFailed() {
-        return ['3'].includes(this.resCancelYN);
-    }
-
-    get isSuccess() {
-        return !this.isCanceled && !this.isFailed;
-    }
+    memo: string;
+    isCanceled: boolean;
+    isFailed: boolean;
+    isSuccess: boolean;
 
     drainedCodefBillingHistoryId?: number;
+
+    @TypeCast(() => CodefCardDto) codefCard?: CodefCardDto;
+    @TypeCast(() => BillingHistoryDto) billingHistory?: BillingHistoryDto;
 }
 
 export class FindAllCodefBillingHistoryQueryDto extends FindAllQueryDto<CodefBillingHistoryDto> {
     find?: FindOperatorUnitDto;
+}
+
+export class FindAllCodefBillingHistoryAdminQueryDto extends FindAllQueryDto<CodefBillingHistoryDto> {
+    organizationId?: number;
 }

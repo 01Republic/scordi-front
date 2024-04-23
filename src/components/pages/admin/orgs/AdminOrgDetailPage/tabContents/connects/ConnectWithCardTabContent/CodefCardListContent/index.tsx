@@ -5,7 +5,6 @@ import {LoadableBox} from '^components/util/loading';
 import {useAdminCodefCards} from '^models/CodefCard/hook';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {CodefCardItem} from './CodefCardItem';
-import {useCodefCardSyncQueue} from '^models/CodefCard/hooks/useCodefCardSync';
 import {PagePerSelect} from '^components/Paginator';
 
 export const CodefCardListContent = memo(function CodefCardListContent() {
