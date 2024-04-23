@@ -3,7 +3,8 @@ import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {CardTableTR} from '^admin/share';
 import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {GoDotFill} from 'react-icons/go';
-import {SubscriptionManager} from '^models/Subscription/manager';
+import {InvoiceAppDto} from '^models/InvoiceApp/type';
+import {InvoiceAppManager} from '^models/InvoiceApp/manager';
 
 interface InvoiceAccountItemProps {
     invoiceAccount: InvoiceAccountDto;
@@ -12,6 +13,7 @@ interface InvoiceAccountItemProps {
 
 export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
     const {invoiceAccount, borderBottom = true} = props;
+    const {invoiceApps = []} = invoiceAccount;
 
     return (
         <CardTableTR gridClass="grid-cols-5" borderBottom={borderBottom}>
@@ -42,7 +44,7 @@ export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
 
             {/* 구독 */}
             <div>
-                <SubscriptionAvatarGroup invoiceAccount={invoiceAccount} />
+                <InvoiceAppAvatarGroup invoiceApps={invoiceApps} />
             </div>
 
             {/* actions */}
@@ -55,34 +57,34 @@ export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
     );
 });
 
-interface SubscriptionAvatarGroupProps {
-    invoiceAccount: InvoiceAccountDto;
+interface InvoiceAppAvatarGroupProps {
+    invoiceApps: InvoiceAppDto[];
 }
 
-export const SubscriptionAvatarGroup = memo((props: SubscriptionAvatarGroupProps) => {
-    const {invoiceAccount} = props;
+export const InvoiceAppAvatarGroup = memo((props: InvoiceAppAvatarGroupProps) => {
+    const {invoiceApps} = props;
 
-    const Subscription = SubscriptionManager.init(invoiceAccount.subscriptions || []);
+    const InvoiceApp = InvoiceAppManager.init(invoiceApps || []);
 
     const avatarMaxDisplay = 4;
     const imageSize = '32px';
 
     return (
         <div className={`avatar-group -space-x-4 overflow-visible`}>
-            {Subscription.first(avatarMaxDisplay).map((subscription, i) => (
-                <div key={i} className="tooltip cursor-pointer" data-tip={subscription.product.name()}>
+            {InvoiceApp.first(avatarMaxDisplay).map((invoiceApp, i) => (
+                <div key={i} className="tooltip cursor-pointer" data-tip={invoiceApp.product.name()}>
                     <div className="avatar">
                         <div className={`w-[${imageSize}]`}>
-                            <img src={subscription.product.image} />
+                            <img src={invoiceApp.product.image} />
                         </div>
                     </div>
                 </div>
             ))}
-            {Subscription.length > avatarMaxDisplay && (
-                <div className="tooltip cursor-pointer" data-tip={`총 ${Subscription.length}개`}>
+            {InvoiceApp.length > avatarMaxDisplay && (
+                <div className="tooltip cursor-pointer" data-tip={`총 ${InvoiceApp.length}개`}>
                     <div className="avatar placeholder">
                         <div className={`w-[${imageSize}] bg-neutral-focus text-neutral-content`}>
-                            <span>+{Subscription.length - avatarMaxDisplay}</span>
+                            <span>+{InvoiceApp.length - avatarMaxDisplay}</span>
                         </div>
                     </div>
                 </div>

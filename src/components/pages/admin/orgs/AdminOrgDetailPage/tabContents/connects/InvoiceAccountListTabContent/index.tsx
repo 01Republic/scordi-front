@@ -14,7 +14,7 @@ export const InvoiceAccountListTabContent = memo(() => {
         if (!org) return;
 
         const req = invoiceAccountApi.index(org.id, {
-            relations: ['subscriptions'],
+            relations: ['invoiceApps'],
             where: {organizationId: org.id},
             order: {id: 'DESC'},
             itemsPerPage: 0,
