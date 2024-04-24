@@ -1,6 +1,7 @@
 import {api} from '^api/api';
 import {
     CreateOrganizationRequestDto,
+    FindAllOrganizationQueryDto,
     OrganizationConnectStatusDto,
     OrganizationDto,
     SearchOrgQueryDto,
@@ -73,7 +74,7 @@ export const organizationAdminApi = {
             .then(paginatedDtoOf(OrganizationConnectStatusDto));
     },
 
-    index(params?: FindAllQueryDto<OrganizationDto>) {
+    index(params?: FindAllOrganizationQueryDto) {
         const url = '/admin/organizations';
         return api.get<Paginated<OrganizationDto>>(url, {params}).then(paginatedDtoOf(OrganizationDto));
     },

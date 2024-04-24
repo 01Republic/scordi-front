@@ -53,7 +53,7 @@ const ConnectStatusView = (props: {}) => {
                     <SearchForm
                         searchForm={searchForm}
                         onSearch={onSearch}
-                        registerName="where[name]"
+                        registerName="keyword"
                         placeholder="Type here"
                         className="input input-bordered w-full"
                     />
@@ -85,7 +85,7 @@ const MembersView = () => {
                     <SearchForm
                         searchForm={searchForm}
                         onSearch={onSearch}
-                        registerName="where[name]"
+                        registerName="keyword"
                         placeholder="Type here"
                         className="input input-bordered w-full"
                     />

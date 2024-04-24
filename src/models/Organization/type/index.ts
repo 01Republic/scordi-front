@@ -5,6 +5,7 @@ import {CreditCardDto} from '^models/CreditCard/type';
 import {GoogleSyncHistoryDto} from '^models/GoogleSyncHistory/type';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {zero1_republic_workspace_id} from '^config/environments';
+import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
 export type CreateOrganizationRequestDto = {
     name: string;
@@ -72,4 +73,8 @@ export class OrganizationConnectStatusDto {
     subscriptionsCount: number;
     @TypeCast(() => Date) createdAt: Date;
     @TypeCast(() => Date) updatedAt: Date;
+}
+
+export class FindAllOrganizationQueryDto extends FindAllQueryDto<OrganizationDto> {
+    keyword?: string;
 }
