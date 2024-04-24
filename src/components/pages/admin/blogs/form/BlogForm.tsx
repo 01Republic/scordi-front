@@ -177,7 +177,7 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
                         <div className="mb-4">
                             <TextInput
                                 label="제목"
-                                inputclass="!bg-white !border-gray-300"
+                                inputClass="!bg-white !border-gray-300"
                                 {...form.register('title', {required: true})}
                                 required={true}
                             />
@@ -237,7 +237,7 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
                         <div className="mb-4">
                             <TextInput
                                 label="SEO 제목"
-                                inputclass="!bg-white !border-gray-300"
+                                inputClass="!bg-white !border-gray-300"
                                 {...form.register('seoTitle', {required: true})}
                                 required={true}
                             />
@@ -246,7 +246,7 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
                         <div className="mb-4">
                             <TextInput
                                 label="SEO 설명"
-                                inputclass="!bg-white !border-gray-300"
+                                inputClass="!bg-white !border-gray-300"
                                 {...form.register('seoDescription', {required: true})}
                                 required={true}
                             />

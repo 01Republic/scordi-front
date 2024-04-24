@@ -54,13 +54,13 @@ export const ProfileImageFileInput = forwardRef((props: ProfileImageFileInputPro
             >
                 {url ? (
                     <div className="avatar inline-flex">
-                        <div className={`min-w-24 border rounded ${className}`} style={style}>
+                        <div className={`min-w-[4rem] border rounded ${className}`} style={style}>
                             <img src={url} />
                         </div>
                     </div>
                 ) : (
                     <div className="avatar inline-flex placeholder">
-                        <div className="min-w-24 rounded bg-neutral-focus text-neutral-content">
+                        <div className="min-w-[4rem] rounded bg-neutral-focus text-neutral-content">
                             <span className="text-2xl font-bold">{fallbackLetter}</span>
                         </div>
                     </div>
