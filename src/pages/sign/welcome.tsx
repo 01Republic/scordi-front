@@ -1,10 +1,10 @@
 import React from 'react';
 import {useRouter} from 'next/router';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
-import {WelcomePage} from '^components/pages/LandingPages/WelcomePage';
+import {WelcomePage} from '^clients/public/home/LandingPages/WelcomePage';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {publicPageRequires} from '^types/utils/18n.type';
-import {WelcomePage2} from '^components/pages/LandingPages/WelcomePage2';
+import {WelcomePage2} from '^clients/public/home/LandingPages/WelcomePage2';
 
 export const SignWelcomePageRoute = pathRoute({
     pathname: '/sign/welcome',

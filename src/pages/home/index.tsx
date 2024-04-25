@@ -1,7 +1,7 @@
 import React from 'react';
 import {useRouter} from 'next/router';
 import {pathRoute} from '^types/pageRoute.type';
-import {LandingV2HomePage as Page} from '^components/pages/LandingPages/HomePage';
+import {LandingV2HomePage as Page} from '^clients/public/home/LandingPages/HomePage';
 
 export const LandingV2HomePageRoute = pathRoute({
     pathname: '/home',

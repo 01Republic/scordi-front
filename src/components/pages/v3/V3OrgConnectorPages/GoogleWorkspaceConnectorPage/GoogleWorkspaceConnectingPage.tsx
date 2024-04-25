@@ -6,7 +6,7 @@ import {LinkTo} from '^components/util/LinkTo';
 import {googleWorkspaceAccessTokenAtom, isLoadedState, reportState} from './atom';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {workspaceTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectGoogleAdminIsLoading/workspaceTimeoutChain';
-import {filterBlackList} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/features';
+import {filterBlackList} from '^tasting/tabs/panes/SyncWorkspaceApp/features';
 import {AxiosError} from 'axios';
 import {ApiError} from '^api/api';
 import {useAlert} from '^hooks/useAlert';

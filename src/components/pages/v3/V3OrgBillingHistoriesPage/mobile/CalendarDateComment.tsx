@@ -4,7 +4,7 @@ import {BillingHistoryManager} from '^models/BillingHistory/manager';
 import {BillingScheduleManager} from '^models/BillingSchedule/manager';
 import {currencyFormat} from '^utils/number';
 import {useRecoilValue} from 'recoil';
-import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
+import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {BillingScheduleShallowDto} from '^models/BillingSchedule/type';
 import {BillingHistoryDto} from '^models/BillingHistory/type';

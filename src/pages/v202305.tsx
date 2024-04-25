@@ -1,6 +1,6 @@
 import React from 'react';
 import {pathRoute} from '^types/pageRoute.type';
-import {LandingPage202305MainPage} from '^components/pages/LandingPages/202305/MainPage';
+import {LandingPage202305MainPage} from '^clients/public/home/LandingPages/202305/MainPage';
 
 export const V202305MainPageRoute = pathRoute({
     pathname: '/v202305',

@@ -1,6 +1,6 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
+import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {getCurrencyUnit} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {monthlyBillingScheduleAtom, monthlyRemainAmountModal} from '^v3/V3OrgHomePage/MonthlyRemainAmountModal/atom';
 import {useModal} from '^v3/share/modals/useModal';

@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
-import {TastingPage as Page} from '^components/pages/LandingPages/TastingPage';
+import {TastingPage as Page} from '^tasting/index';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {publicPageRequires} from '^types/utils/18n.type';
 import {useGoogleAccessTokenCallback} from '^hooks/useGoogleAccessToken';
@@ -12,10 +12,10 @@ import {
     gmailItemsLoadedAtom,
     gmailItemsLoadingAtom,
     gmailProfileAtom,
-} from '^components/pages/LandingPages/TastingPage/pageAtoms';
+} from '^tasting/pageAtoms';
 import {getDraftInvoiceAccountFromTo} from '^models/InvoiceAccount/type';
 import {useTranslation} from 'next-i18next';
-import {useDraft} from '^components/pages/LandingPages/TastingPage/hooks/useDraft';
+import {useDraft} from '^tasting/hooks/useDraft';
 
 export const TastingPageRoute = pathRoute({
     pathname: '/tasting',

@@ -1,6 +1,6 @@
 import React from 'react';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
-import {AdminBizOpsWorkflowListPage} from '^components/pages/admin/biz-ops/workflows/AdminBizOpsWorkflowListPage';
+import {AdminBizOpsWorkflowListPage} from '^admin/biz-ops/workflows/AdminBizOpsWorkflowListPage';
 
 export const BizOpsWorkflowListRoute = pathRoute({
     pathname: '/admin/biz-ops/manual/workflows',

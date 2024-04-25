@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
+import {atom, useSetRecoilState} from 'recoil';
+import {NextPageContext} from 'next';
+import {useRouter} from 'next/router';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {publicPageRequires} from '^types/utils/18n.type';
-import {BlogPostDetailPage} from '^components/pages/blog/BlogPostDetailPage';
-import {NextPageContext} from 'next';
 import {PostDto} from '^models/Post/type';
-import {useRouter} from 'next/router';
-import {atom, useSetRecoilState} from 'recoil';
 import {showStaticPost} from '^models/Post/api';
+import {BlogPostDetailPage} from '^clients/public/blog/BlogPostDetailPage';
 
 export const PostDetailPageRoute = pathRoute({
     pathname: '/posts/[id]',

@@ -1,7 +1,7 @@
 import React from 'react';
 import {useRouter} from 'next/router';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
-import {AdminBlogDetailPage} from '^components/pages/admin/blogs/AdminBlogDetailPage';
+import {AdminBlogDetailPage} from '^admin/blogs/AdminBlogDetailPage';
 
 export const AdminPostPageRoute = pathRoute({
     pathname: '/admin/posts/[id]',

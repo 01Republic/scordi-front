@@ -3,7 +3,7 @@ import {useRouter} from 'next/router';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {publicPageRequires} from '^types/utils/18n.type';
-import {BetaSignSignPage} from '^components/pages/LandingPages/BetaSignSignPage';
+import {BetaSignSignPage} from '^clients/public/home/LandingPages/BetaSignSignPage';
 
 export const BetaSignSocialPageRoute = pathRoute({
     pathname: '/sign/social',

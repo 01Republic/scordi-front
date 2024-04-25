@@ -2,7 +2,7 @@ import React, {memo, useEffect} from 'react';
 import {currencyFormat} from '^utils/number';
 import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
 import {atom, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
+import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {getCurrencyUnit} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {useBillingHistoriesV3} from '^models/BillingHistory/hook';
 import {BillingHistoryManager} from '^models/BillingHistory/manager';

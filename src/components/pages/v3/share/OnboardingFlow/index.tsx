@@ -6,7 +6,7 @@ import {isLoadedState, onboardingFlowStepStatus, onboardingModalIsShow, Onboardi
 import {OnboardingSkippedStore, SkipButton, SkippedStoreStatus} from './SkipButton';
 import {StepNavigator} from './StepNavigator';
 import {StepContent} from './StepContent';
-import {reportState} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/atom';
+import {reportState} from '^tasting/tabs/panes/SyncWorkspaceApp/atom';
 
 export const OnboardingFlow = memo(function OnboardingFlow() {
     const [isShow, setIsShow] = useRecoilState(onboardingModalIsShow);

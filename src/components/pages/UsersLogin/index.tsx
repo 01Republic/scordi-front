@@ -11,7 +11,7 @@ import {LandingPageNavBar} from '^components/lab/landing-page-components';
 import {WithChildren} from '^types/global.type';
 import {appEnv, googleOAuth} from '^config/environments';
 import {FaArrowRight} from 'react-icons/fa6';
-import {LandingPageLayout} from '^components/pages/LandingPages/LandingPageLayout';
+import {LandingPageLayout} from '^clients/public/home/LandingPages/LandingPageLayout';
 
 export const UsersLoginPage = memo(() => {
     const [isModalOpen, setIsModalOpen] = useState(false);

@@ -2,7 +2,7 @@ import {memo} from 'react';
 import {OnboardingStep} from '../atom';
 import {StepTab} from './StepTab';
 import {useRecoilValue} from 'recoil';
-import {reportState} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/atom';
+import {reportState} from '^tasting/tabs/panes/SyncWorkspaceApp/atom';
 
 export const ConnectWorkspaceTab = memo(function ConnectWorkspaceTab() {
     const reportData = useRecoilValue(reportState);

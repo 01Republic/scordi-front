@@ -23,13 +23,40 @@ import {errorNotify, successNotify} from '^utils/toast-notify';
 import {toast} from 'react-toastify';
 import {useCurrentUser} from '^models/User/hook';
 import {MembershipLevel} from 'src/models/Membership/types';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {v3CommonRequires} from '^types/utils/18n.type';
+import {OrgMainPage} from '^clients/private/orgs/OrgMainPage';
 
-export const OrgShowRoute = pathRoute({
+export const OrgMainPageRoute = pathRoute({
     pathname: '/orgs/[id]',
-    path: (orgId: number) => pathReplace(OrgShowRoute.pathname, {id: orgId}),
+    path: (orgId: number) => pathReplace(OrgMainPageRoute.pathname, {id: orgId}),
 });
 
-export default function OrgShowPage() {
+export const getStaticPaths = async () => ({
+    paths: [{params: {id: '1'}}],
+    fallback: true,
+});
+
+export const getStaticProps = async ({locale}: any) => ({
+    props: {
+        ...(await serverSideTranslations(locale, [...v3CommonRequires, 'org-home', 'google-compliance'])),
+        // Will be passed to the page component as props
+    },
+});
+
+export default function Page() {
+    const router = useRouter();
+    const orgId = useRouterIdParamState('id', orgIdParamState);
+    const {currentOrg} = useCurrentOrg(orgId);
+
+    return <OrgMainPage />;
+}
+
+/**
+ * Deprecated V2
+ */
+function OrgShowPage() {
     const router = useRouter();
     const {currentUserMembership} = useCurrentUser(null);
     const {currentOrg, setCurrentOrg} = useCurrentOrg(Number(router.query.id));
@@ -121,26 +148,6 @@ export default function OrgShowPage() {
                         </ContentPanelList>
                     </ContentPanel>
                 </ContentForm>
-
-                {/*<ContentForm onSubmit={membershipsForm.handleSubmit(UpdateOrgHandler)}>*/}
-                {/*  <ContentPanel title="memberships">*/}
-                {/*    <ContentPanelList>*/}
-                {/*      <ContentPanelInput*/}
-                {/*        title="Default Role"*/}
-                {/*        text="The default role new members will receive"*/}
-                {/*        required={true}*/}
-                {/*      >*/}
-                {/*        <TextInput*/}
-                {/*          required={true}*/}
-                {/*          {...membershipsForm.register('name', {*/}
-                {/*            required: true,*/}
-                {/*            value: org.name,*/}
-                {/*          })}*/}
-                {/*        />*/}
-                {/*      </ContentPanelInput>*/}
-                {/*    </ContentPanelList>*/}
-                {/*  </ContentPanel>*/}
-                {/*</ContentForm>*/}
 
                 {isOwner && (
                     <ContentPanel title="Remove this organization">

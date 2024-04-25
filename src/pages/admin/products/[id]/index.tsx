@@ -1,6 +1,6 @@
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {useRouter} from 'next/router';
-import {AdminProductDetailPage} from '^components/pages/admin/products/AdminProductDetailpage';
+import {AdminProductDetailPage} from '^admin/products/AdminProductDetailpage';
 
 export const AdminProductPageRoute = pathRoute({
     pathname: '/admin/products/[id]',

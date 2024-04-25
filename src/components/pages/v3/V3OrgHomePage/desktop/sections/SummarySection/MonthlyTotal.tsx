@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
-import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
+import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {monthlyPaidAmountAtom} from '^v3/V3OrgHomePage/mobile/SummaryHeader/MonthlyPaidAmount';
 import {monthlyRemainAmountAtom} from '^v3/V3OrgHomePage/mobile/SummaryHeader/MonthlyRemainAmount';

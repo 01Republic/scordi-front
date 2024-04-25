@@ -1,6 +1,6 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
-import {AttachmentModal} from '^components/pages/LandingPages/TastingPage/AttachmentModal';
+import {AttachmentModal} from '^tasting/AttachmentModal';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {BillingHistoryContentPanel} from './BillingHistoryContentPanel';

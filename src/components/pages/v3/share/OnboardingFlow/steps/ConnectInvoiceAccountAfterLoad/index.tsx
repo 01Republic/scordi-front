@@ -5,7 +5,7 @@ import {StepContentProps} from '^components/util/funnel';
 import {FaArrowLeft, FaArrowRight} from 'react-icons/fa6';
 import {Container} from '^v3/share/OnboardingFlow/Container';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {ReportDto} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/dto/report.dto';
+import {ReportDto} from '^tasting/tabs/panes/SyncWorkspaceApp/dto/report.dto';
 import {userSocialGoogleApi} from '^api/social-google.api';
 
 interface Props extends StepContentProps {

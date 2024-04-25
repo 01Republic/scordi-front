@@ -6,7 +6,7 @@ import {NextPageContext} from 'next';
 import {ProductDto} from '^models/Product/type';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {publicPageRequires} from '^types/utils/18n.type';
-import {ProductDetailPage} from 'src/components/pages/products/ProductDetailPage';
+import {ProductDetailPage} from '^clients/public/products/ProductDetailPage';
 import {productApi} from '^models/Product/api';
 
 export const ProductDetailPageRoute = pathRoute({

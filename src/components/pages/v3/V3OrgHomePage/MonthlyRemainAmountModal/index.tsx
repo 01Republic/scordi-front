@@ -4,7 +4,7 @@ import {monthlyBillingScheduleAtom, monthlyRemainAmountModal} from './atom';
 import {useRecoilValue} from 'recoil';
 import {currencyFormat} from '^utils/number';
 import {monthlyRemainAmountAtom} from '^v3/V3OrgHomePage/mobile/SummaryHeader/MonthlyRemainAmount';
-import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
+import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {getCurrencyUnit} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {ScheduleItem} from './ScheduleItem';
 

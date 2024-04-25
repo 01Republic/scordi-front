@@ -2,7 +2,7 @@ import React from 'react';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {publicPageRequires} from '^types/utils/18n.type';
-import {BlogPostListPage} from '^components/pages/blog/BlogPostListPage';
+import {BlogPostListPage} from '^clients/public/blog/BlogPostListPage';
 
 export const PostListPageRoute = pathRoute({
     pathname: '/posts',

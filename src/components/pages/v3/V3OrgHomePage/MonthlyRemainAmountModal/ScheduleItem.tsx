@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {Avatar} from '^components/Avatar';
 import {currencyFormat, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {useRecoilValue} from 'recoil';
-import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
+import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {mm_dd} from '^utils/dateTime';
 import {BillingScheduleShallowDto} from '^models/BillingSchedule/type';
 

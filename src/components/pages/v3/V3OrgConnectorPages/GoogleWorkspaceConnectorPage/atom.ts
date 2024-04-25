@@ -1,5 +1,5 @@
 import {atom} from 'recoil';
-import {ReportDto} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/dto/report.dto';
+import {ReportDto} from '^tasting/tabs/panes/SyncWorkspaceApp/dto/report.dto';
 
 export const googleWorkspaceAccessTokenAtom = atom<string | null>({
     key: 'googleAccessTokenAtom',

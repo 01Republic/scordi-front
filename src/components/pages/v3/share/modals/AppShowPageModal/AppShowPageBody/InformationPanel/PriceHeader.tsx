@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {t_BillingType} from '^models/InvoiceApp/type';
 import {t_BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 import {useRecoilValue} from 'recoil';
-import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
+import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {currencyFormat, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 
 interface PriceHeaderProps {

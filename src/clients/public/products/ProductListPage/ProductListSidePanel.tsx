@@ -1,0 +1,81 @@
+import {memo} from 'react';
+import {atom, useRecoilState} from 'recoil';
+import {PiCaretDownBold} from 'react-icons/pi';
+import {ProductListSidePanelItem} from './ProductListSidePanelItem';
+
+export const currentProductCategoryAtom = atom({
+    key: 'currentProductPostCategory',
+    default: `☁️ All`,
+});
+
+const categoryTextList = [
+    `☁️ All`,
+    `💡 Productivity`,
+    `🤖 AI`,
+    `🔄 Automations`,
+    `🤝 Collaboration`,
+    `🗣️ Communication`,
+    `🎨 Design`,
+    `🖥️ Engineering`,
+    `📢 Marketing`,
+    `💵️ Sales`,
+    `✨ Customer Experience`,
+    `💼️ Finance`,
+    `👥 HR`,
+    `🔒 Identity`,
+    `🗂️ File Management`,
+    `📋️ Forms`,
+    `📲 Product Add-ons`,
+    `📈️ Analytics`,
+];
+
+export const ProductListSidePanel = memo(() => {
+    const [currentCategory, setCurrentCategory] = useRecoilState(currentProductCategoryAtom);
+    const isActive = (category: string) => category === currentCategory;
+
+    return (
+        <>
+            <div className="sm:hidden dropdown dropdown-bottom dropdown-end w-full mb-[2rem]">
+                <label tabIndex={0} className="btn btn-block rounded-full normal-case justify-between text-[1rem]">
+                    <span className="flex gap-3">
+                        <span>{currentCategory.split(' ')[0]}</span>
+                        <span>{currentCategory.split(' ').slice(1).join(' ')}</span>
+                    </span>
+
+                    <span>
+                        <PiCaretDownBold />
+                    </span>
+                </label>
+                <ul
+                    tabIndex={0}
+                    className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-full overflow-y-auto max-h-[46vh] block"
+                >
+                    {categoryTextList.map((text, i) => (
+                        <ProductListSidePanelItem
+                            key={i}
+                            text={text}
+                            isActive={isActive}
+                            onClick={() => {
+                                setCurrentCategory(text);
+                                const elem = document.activeElement;
+                                // @ts-ignore
+                                if (elem) elem?.blur();
+                            }}
+                        />
+                    ))}
+                </ul>
+            </div>
+
+            <ul className="hidden sm:flex menu bg-base-100 py-0">
+                {categoryTextList.map((text, i) => (
+                    <ProductListSidePanelItem
+                        key={i}
+                        text={text}
+                        isActive={isActive}
+                        onClick={() => setCurrentCategory(text)}
+                    />
+                ))}
+            </ul>
+        </>
+    );
+});

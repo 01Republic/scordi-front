@@ -2,7 +2,7 @@ import React from 'react';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {publicPageRequires} from '^types/utils/18n.type';
-import {ProductListPage} from 'src/components/pages/products/ProductListPage';
+import {ProductListPage} from '^clients/public/products/ProductListPage';
 
 export const ProductListPageRoute = pathRoute({
     pathname: '/products',

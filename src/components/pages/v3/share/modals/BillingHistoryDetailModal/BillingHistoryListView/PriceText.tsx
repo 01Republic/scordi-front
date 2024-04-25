@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {BsInfoCircle} from 'react-icons/bs';
 import {MoneyDto} from '^models/Money';
 import {useRecoilValue} from 'recoil';
-import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
+import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {BiError} from 'react-icons/bi';
 import {BillingHistoryDto, BillingHistoryStatus} from '^models/BillingHistory/type';

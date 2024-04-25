@@ -5,7 +5,7 @@ import {useRecoilValue} from 'recoil';
 import {HistoryItem} from './HistoryItem';
 import {monthlyPaidAmountAtom} from '^v3/V3OrgHomePage/mobile/SummaryHeader/MonthlyPaidAmount';
 import {currencyFormat} from '^utils/number';
-import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
+import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {getCurrencyUnit} from '^api/tasting.api/gmail/agent/parse-email-price';
 
 export const MonthlyPaidAmountModal = memo(() => {

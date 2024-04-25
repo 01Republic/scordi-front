@@ -8,7 +8,7 @@ import {FiMenu} from '@react-icons/all-files/fi/FiMenu';
 import {PostListPageRoute} from '^pages/posts';
 import {ProductListPageRoute} from '^pages/products';
 import {useModal} from '^v3/share/modals/useModal';
-import {inquiryModalAtom} from '^components/pages/LandingPages/HomePage2/InquiryModal';
+import {inquiryModalAtom} from '^clients/public/home/LandingPages/HomePage2/InquiryModal';
 import {useCurrentUser} from '^models/User/hook';
 import {LinkTo} from '^components/util/LinkTo';
 

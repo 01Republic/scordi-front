@@ -5,7 +5,7 @@ import {Sidebar} from '^components/Sidebar';
 import {Icon} from '^components/Icon';
 import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {OrgMembershipIndexPageRoute} from '^pages/orgs/[id]/memberships';
-import {OrgShowRoute} from '^pages/orgs/[id]';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useRouter} from 'next/router';
 import {AiOutlineAppstoreAdd, AiOutlineDashboard, AiOutlineSetting} from '^components/react-icons';
@@ -69,8 +69,8 @@ export const OrgSidebar = memo(() => {
                 />
                 <Sidebar.Menu.Item
                     text="settings"
-                    to={OrgShowRoute.path(organizationId)}
-                    selected={pathname === OrgShowRoute.pathname}
+                    to={OrgMainPageRoute.path(organizationId)}
+                    selected={pathname === OrgMainPageRoute.pathname}
                     // icon={Icon2.Building}
                     icon={() => <AiOutlineSetting size={24} />}
                     iconTransform={false}

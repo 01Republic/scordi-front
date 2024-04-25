@@ -2,7 +2,7 @@ import {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {BillingHistoryManager} from '^models/BillingHistory/manager';
 import {SubscriptionDto} from '^models/Subscription/types';
-import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
+import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {useAppShowModal} from 'src/components/pages/v3/share/modals/AppShowPageModal';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 import {

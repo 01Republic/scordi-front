@@ -1,6 +1,6 @@
 import React from 'react';
 import {pathRoute} from '^types/pageRoute.type';
-import {LandingPage2 as Page} from '^components/pages/LandingPage2';
+import {LandingPage2 as Page} from '^clients/public/home/LandingPage2';
 
 export const LandingPage2Route = pathRoute({
     pathname: '/landing2',

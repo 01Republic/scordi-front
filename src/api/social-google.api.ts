@@ -7,10 +7,10 @@ import {
     UserGoogleSocialSignUpInvitedRequestDto,
     UserGoogleSocialSignUpRequestDtoV2,
 } from '^models/User/types';
-import {ReportDto} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/dto/report.dto';
+import {ReportDto} from '^tasting/tabs/panes/SyncWorkspaceApp/dto/report.dto';
 import {TeamMemberDto} from '^models/TeamMember/type';
 import {Paginated} from '^types/utils/paginated.dto';
-import {SaveTokenReportRequestDto} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/dto/save.report.request.dto';
+import {SaveTokenReportRequestDto} from '^tasting/tabs/panes/SyncWorkspaceApp/dto/save.report.request.dto';
 
 const makeHeaders = (accessToken: string) => ({'X-Google-Token': accessToken});
 

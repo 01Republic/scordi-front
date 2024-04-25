@@ -3,7 +3,7 @@ import {SubscriptionDto} from 'src/models/Subscription/types';
 import {Avatar} from '^components/Avatar';
 import {currencyFormat, getCurrencySymbol} from '^api/tasting.api/gmail/agent/parse-email-price';
 import {useRecoilValue} from 'recoil';
-import {displayCurrencyAtom} from '^components/pages/LandingPages/TastingPage/pageAtoms';
+import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {useRouter} from 'next/router';
 import {V3OrgAppShowPageRoute} from '^pages/v3/orgs/[orgId]/apps/[appId]';
 import {orgIdParamState} from '^atoms/common';

@@ -5,7 +5,7 @@ import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {OutLink} from '^components/OutLink';
 import {MobileInfoList} from '^v3/share/MobileInfoList';
 import {useSetRecoilState} from 'recoil';
-import {attachmentModalState} from '^components/pages/LandingPages/TastingPage/AttachmentModal';
+import {attachmentModalState} from '^tasting/AttachmentModal';
 import {CreditCardProfileOption} from '^models/CreditCard/hook/components/CreditCardProfile';
 
 interface EmailInvoiceBillingHistoryProps {

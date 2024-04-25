@@ -1,4 +1,4 @@
-import {ReportDto} from '^components/pages/LandingPages/TastingPage/tabs/panes/SyncWorkspaceApp/dto/report.dto';
+import {ReportDto} from '^tasting/tabs/panes/SyncWorkspaceApp/dto/report.dto';
 
 export function getAccessTokenFromLocalStorage() {
     if (typeof window === 'undefined') return;
