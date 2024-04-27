@@ -1,5 +1,6 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
+import {Background} from './Background';
 import {OrgTopBar} from './OrgTopBar';
 import {TobNavBar} from './TobNavBar';
 
@@ -12,10 +13,15 @@ export const MainLayout = memo((props: MainLayoutProps) => {
 
     return (
         <div>
-            <OrgTopBar />
-            <TobNavBar />
+            <Background />
 
-            {children}
+            {/* Body */}
+            <div>
+                <OrgTopBar />
+                <TobNavBar />
+
+                {children}
+            </div>
         </div>
     );
 });

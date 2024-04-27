@@ -19,7 +19,7 @@ export const TobNavBar = memo((props: TobNavBarProps) => {
     if (!currentOrg) return <></>;
 
     return (
-        <div className="container-fluid h-[52px] flex items-stretch justify-center py-0 border-b bg-white">
+        <div className="container-fluid h-[52px] flex items-stretch justify-center py-0 border-b bg-white-blurred">
             <TopNavBarItem name="홈" active={true} href={OrgMainPageRoute.path(currentOrg.id)} />
             <TopNavBarItem name="구독" active={false} href={OrgAppIndexPageRoute.path(currentOrg.id)} />
             <TopNavBarItem name="팀" active={false}>

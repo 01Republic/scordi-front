@@ -1,4 +1,11 @@
 
+$white-blurred-background-color: rgba(255, 255, 255, 0.3);
+
+.bg-white-blurred {
+  background-color: $white-blurred-background-color;
+  backdrop-filter: blur(15px);
+}
+
 .squircle {
   @apply relative flex flex-col gap-2 items-center;
   @apply cursor-pointer btn-animation transition-all;
@@ -41,5 +48,19 @@
       right: 0;
       line-height: 1.15;
     }
+  }
+}
+
+.background-image {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  &.background-image-contain {
+    background-size: contain;
+  }
+
+  &.background-image-cover {
+    background-size: cover;
   }
 }
