@@ -10,6 +10,7 @@ export const OrgMainPage = memo(function OrgMainPage() {
             <div className="container-fluid" />
 
             <section className="container px-4 pt-20">
+                <LogoImg />
             </section>
 
             <section className="container px-4">
