@@ -11,15 +11,15 @@ export const ProductListContentPanelSearchInput = memo(() => {
     const {search} = useProductsInSaaSCollection();
     const [currentCategory, setCurrentCategory] = useRecoilState(currentProductCategoryAtom);
 
-    const onChange = debounce((name?: string) => {
-        if (name) {
+    const onChange = debounce((keyword?: string) => {
+        if (keyword) {
             search({
                 isLive: true,
                 itemsPerPage: 0,
-                name,
+                keyword,
                 order: {id: 'DESC'},
             });
-            setCurrentCategory(`Search: ${name}`);
+            setCurrentCategory(`Search: ${keyword}`);
         } else {
             search({
                 isLive: true,

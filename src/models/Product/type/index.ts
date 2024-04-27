@@ -102,7 +102,7 @@ export function safeImageSrc(product: ProductDto, w: number, h: number): string 
 
 export class FindAllProductQuery extends FindAllQueryDto<ProductDto> {
     isLive?: boolean;
-    name?: string;
+    keyword?: string;
     tagIds?: number[];
     tagName?: string;
     organizationId?: number;

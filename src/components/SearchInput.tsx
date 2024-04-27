@@ -5,7 +5,7 @@ import {TextInput} from '^components/TextInput';
 
 export interface SearchInputProps<T> {
     onSubmit?: (value: string) => any | undefined;
-    register?: UseFormRegisterReturn;
+    register?: UseFormRegisterReturn<string>;
     defaultValue?: string;
     autoComplete?: boolean;
     autoFocus?: boolean;

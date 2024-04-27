@@ -11,8 +11,8 @@ export const SearchInput = memo(() => {
     const form = useForm<FindAllProductQuery>();
     const isLive = useMemo(() => !currentUser?.isAdmin, [currentUser]);
 
-    const onChange = debounce((name?: string) => {
-        search({name, isLive});
+    const onChange = debounce((keyword?: string) => {
+        search({keyword, isLive});
     });
 
     useEffect(() => {

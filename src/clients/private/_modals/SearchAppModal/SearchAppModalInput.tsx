@@ -9,16 +9,16 @@ export const SearchAppModalInput = memo(function SearchAppModalInput() {
     const organizationId = useRecoilValue(orgIdParamState);
     const {search} = useProductSearchResult();
 
-    const request = (value: string) => {
+    const request = (keyword?: string) => {
         return search({
             relations: ['subscriptions', 'subscriptions.product'],
-            name: value,
+            keyword,
             itemsPerPage: 10,
         });
     };
 
     useEffect(() => {
-        request('');
+        request();
     }, []);
 
     if (!organizationId || isNaN(organizationId)) return <></>;

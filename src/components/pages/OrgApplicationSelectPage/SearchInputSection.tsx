@@ -13,13 +13,13 @@ export const SearchInputSection = memo((props: SearchSectionProps) => {
     const form = useForm<FindAllProductQuery>();
 
     const searchHandler = useCallback((data: FindAllProductQuery) => {
-        setProductsParams({name: data.name});
+        setProductsParams({keyword: data.keyword});
     }, []);
 
     return (
         <MobileSection data-component="SearchSection" className="mb-3">
             <form onSubmit={form.handleSubmit(searchHandler)}>
-                <SearchInput autoComplete={false} autoFocus={true} register={form.register('name')} />
+                <SearchInput autoComplete={false} autoFocus={true} register={form.register('keyword')} />
             </form>
         </MobileSection>
     );
