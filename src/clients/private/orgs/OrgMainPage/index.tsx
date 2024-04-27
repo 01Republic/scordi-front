@@ -1,15 +1,20 @@
 import {memo} from 'react';
 import {MainLayout} from '^clients/private/_layouts/MainLayout';
+import {LogoImg} from './LogoImg';
+import {MainInputBox} from './MainInputBox';
 import {AppUnitList} from './AppUnitList';
 
 export const OrgMainPage = memo(function OrgMainPage() {
     return (
         <MainLayout>
-            <div className="container-fluid">OrgMainPage</div>
+            <div className="container-fluid" />
 
-            <div className="container">
+            <section className="container px-4 pt-20">
+            </section>
+
+            <section className="container px-4">
                 <AppUnitList />
-            </div>
+            </section>
         </MainLayout>
     );
 });
