@@ -11,6 +11,7 @@ export const OrgMainPage = memo(function OrgMainPage() {
 
             <section className="container px-4 pt-20">
                 <LogoImg />
+                <MainInputBox />
             </section>
 
             <section className="container px-4">
