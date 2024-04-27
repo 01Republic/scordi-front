@@ -46,9 +46,10 @@ export const getStaticProps = async ({locale}: any) => ({
 });
 
 export default function Page() {
-    const router = useRouter();
     const orgId = useRouterIdParamState('id', orgIdParamState);
-    const {currentOrg} = useCurrentOrg(orgId);
+    useCurrentOrg(orgId);
+
+    if (!orgId || isNaN(orgId)) return <></>;
 
     return <OrgMainPage />;
 }

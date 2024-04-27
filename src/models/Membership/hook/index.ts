@@ -14,12 +14,18 @@ import {FindAllMembershipQuery, MembershipDto} from 'src/models/Membership/types
 export const useMembershipInInviteModal = () => useMemberships(membershipInInviteModalAtom);
 
 // v3 > share > LeftNavBar > Header 컴포넌트 전용 api 요청 hook
-export const useMembershipInHeader = () => useMemberships(membershipInInHeaderAtom);
+export const useMembershipInHeader = (mergeMode = false) =>
+    usePagedResource(membershipInInHeaderAtom, {
+        endpoint: (params) => membershipApi.index(params),
+        useOrgId: false,
+        mergeMode,
+        getId: 'id',
+    });
 
 // membershipTable
 export const useMembershipInMembershipTable = () => useMemberships(membershipInMembershipTable);
 
-export const useMemberships = (atoms: PagedResourceAtoms<MembershipDto, FindAllMembershipQuery>, mergeMode = false) => {
+const useMemberships = (atoms: PagedResourceAtoms<MembershipDto, FindAllMembershipQuery>, mergeMode = false) => {
     return usePagedResource(atoms, {
         endpoint: (params) => membershipApi.index(params),
         useOrgId: true,

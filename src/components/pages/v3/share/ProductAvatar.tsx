@@ -25,3 +25,14 @@ export const ProductAvatar = memo((props: ProductAvatarProps) => {
         </div>
     );
 });
+
+interface Props {
+    product?: ProductDto | null;
+    className?: string;
+}
+
+export const ProductAvatarImg = memo((props: Props) => {
+    const {product, className = ''} = props;
+
+    return <Avatar src={product?.image} className={`${className}`} />;
+});

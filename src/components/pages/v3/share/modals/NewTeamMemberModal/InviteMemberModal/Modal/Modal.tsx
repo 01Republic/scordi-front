@@ -1,7 +1,7 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue, useResetRecoilState} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
-import {useMembershipInInviteModal, useMemberships} from '^models/Membership/hook';
+import {useMembershipInInviteModal} from '^models/Membership/hook';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {useModal} from '^v3/share/modals/useModal';
 import {ModalTopbar} from '^v3/share/modals/ModalTopbar';

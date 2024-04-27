@@ -57,6 +57,7 @@ export class MembershipDto {
 
 export type FindAllMembershipQuery = FindAllQueryDto<MembershipDto> & {
     keyword?: string;
+    includeAdmin?: boolean; // 결과에 어드민 멤버십을 포함할지 여부
 };
 
 export type Invitation = {

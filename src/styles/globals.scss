@@ -19,6 +19,14 @@
   }
 }
 
+.container-fluid {
+  @apply px-4;
+  @media (min-width: 967px) { // breakpoint sm, md, lg
+    @apply px-6;
+  }
+}
+
+
 html,
 body {
   padding: 0;
@@ -1062,6 +1070,10 @@ progress::-moz-progress-bar {
   -webkit-background-clip: text !important;
   fill: transparent;
   -webkit-text-fill-color: transparent;
+}
+
+.spacing {
+  letter-spacing: 0.01rem;
 }
 
 @include makeUnscaledGenericClassByColorName('layout-background', $color-layout-background)

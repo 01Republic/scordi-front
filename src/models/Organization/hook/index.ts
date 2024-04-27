@@ -61,9 +61,13 @@ export function useCurrentOrg(id: number) {
             return;
         }
 
-        search(id, {
-            relations: ['lastGoogleSyncHistory', 'lastGoogleSyncHistory.googleTokenData', 'invoiceAccounts'],
-        });
+        search(
+            id,
+            {
+                relations: ['lastGoogleSyncHistory', 'lastGoogleSyncHistory.googleTokenData', 'invoiceAccounts'],
+            },
+            true,
+        );
 
         if (!myMembership) return;
 
@@ -73,3 +77,9 @@ export function useCurrentOrg(id: number) {
 
     return {currentOrg, setCurrentOrg, search, reload};
 }
+
+export const useCurrentOrg2 = () => {
+    const currentOrg = useRecoilValue(currentOrgAtom);
+
+    return {currentOrg};
+};
