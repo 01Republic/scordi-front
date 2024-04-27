@@ -1,6 +1,5 @@
 import {memo, useEffect} from 'react';
 import {FaPlus} from 'react-icons/fa6';
-import {useCurrentOrg2} from '^models/Organization/hook';
 import {useDashboardSubscriptions} from '^models/Subscription/hook';
 import {AppUnit} from '^clients/private/orgs/OrgMainPage/AppUnit';
 import {useRecoilValue} from 'recoil';
@@ -25,7 +24,7 @@ export const AppUnitList = memo(function AppUnitList() {
     const {items, pagination} = result;
 
     return (
-        <div className="grid grid-cols-6 max-w-screen-md mx-auto">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 max-w-screen-md mx-auto">
             {items.map((subscription, i) => (
                 <AppUnit key={i} subscription={subscription} />
             ))}

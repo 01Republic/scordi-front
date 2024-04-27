@@ -15,11 +15,11 @@ export const TopNavBarItem = memo((props: TopNavBarItemProps) => {
 
     if (!children) {
         return (
-            <div className="flex items-stretch">
+            <div className="flex items-stretch text-14 sm:text-16">
                 <LinkTo
                     href={href}
                     text={name}
-                    className={`px-6 flex items-center cursor-pointer transition-all font-medium ${
+                    className={`px-4 sm:px-6 flex items-center cursor-pointer whitespace-nowrap transition-all font-medium ${
                         active ? 'text-scordi' : 'hover:text-scordi'
                     }`}
                 />
@@ -32,9 +32,9 @@ export const TopNavBarItem = memo((props: TopNavBarItemProps) => {
                 className="flex items-stretch"
                 backdrop={false}
                 Trigger={() => (
-                    <div className="flex items-stretch h-full">
+                    <div className="flex items-stretch text-14 sm:text-16 h-full">
                         <a
-                            className={`px-6 flex items-center gap-2 cursor-pointer transition-all font-medium ${
+                            className={`px-4 sm:px-6 flex items-center gap-2 cursor-pointer whitespace-nowrap transition-all font-medium ${
                                 active ? 'text-scordi' : 'hover:text-scordi'
                             }`}
                         >
