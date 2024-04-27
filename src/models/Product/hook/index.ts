@@ -6,15 +6,14 @@ import {
     anotherProductsForSaaSCollection,
     billingCycleForCreateFlowAtom,
     getProductQuery,
-    getProductsQuery,
     paymentPlanForCreateFlowAtom,
     productListResultAtom,
     productsForSaaSCollection,
+    productsOnMainPage,
 } from '^models/Product/atom';
 import {ProductDto, FindAllProductQuery} from '^models/Product/type';
 import {productApi} from '^models/Product/api';
 import {SubscriptionPaymentPlanDto} from '^models/Subscription/types/paymentPlanType';
-import {Paginated} from '^types/utils/paginated.dto';
 import {buildPagedResource, pagedResourceAtom, PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
 
 export const productSearchResultsState = atom({
@@ -29,6 +28,17 @@ export const useProductsInSaaSCollection = () => useProductsV3(productsForSaaSCo
 
 // SaaS 컬렉션 / 상세 페이지 - 유사한 서비스 리스트
 export const useAnotherProductsForSaaSCollection = () => useProductsV3(anotherProductsForSaaSCollection);
+
+// 조직 홈 - 앱 목록
+export const useProductOnMainPage = (mergeMode = false) => {
+    return usePagedResource(productsOnMainPage, {
+        useOrgId: false,
+        endpoint: (params) => productApi.privateSearch(params),
+        buildQuery: (params) => ({isLive: params.isLive ?? true, ...params}),
+        getId: 'id',
+        mergeMode,
+    });
+};
 
 export const usePagedProducts_SelectProduct = buildPagedResource<ProductDto, FindAllProductQuery>({
     key: 'usePagedProducts_SelectProduct',

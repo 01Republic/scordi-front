@@ -17,6 +17,11 @@ export const productApi = {
         return api.get<Paginated<ProductDto>>(url, {params}).then(paginatedDtoOf(ProductDto));
     },
 
+    privateSearch(params?: FindAllProductQuery) {
+        const url = `/${NAMESPACE}/search`;
+        return api.get<Paginated<ProductDto>>(url, {params}).then(paginatedDtoOf(ProductDto));
+    },
+
     sortBySubscription(organizationId: number, params?: FindAllProductQuery) {
         const url = `/${NAMESPACE}/sort-by-subscription/${organizationId}`;
         return api.get<Paginated<ProductDto>>(url, {params}).then(paginatedDtoOf(ProductDto));

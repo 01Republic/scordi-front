@@ -4,6 +4,7 @@ import {SubscriptionBillingCycleDto} from '^models/Subscription/types/billingCyc
 import {PostDto} from '^models/Post/type';
 import {TagDto} from '^models/Tag/type';
 import {TypeCast} from '^types/utils/class-transformer';
+import {SubscriptionDto} from '^models/Subscription/types';
 
 export enum ProductConnectMethod {
     AUTO = 'AUTO',
@@ -40,6 +41,9 @@ export class ProductDto {
     connectMethod: ProductConnectMethod | string;
     tags: TagDto[];
     posts: PostDto[];
+
+    @TypeCast(() => SubscriptionDto)
+    subscriptions?: SubscriptionDto[];
 
     name() {
         return this.nameKo || this.nameEn;
@@ -101,6 +105,7 @@ export type FindAllProductQuery = FindAllQueryDto<ProductDto> & {
     name?: string;
     tagIds?: number[];
     tagName?: string;
+    organizationId?: number;
 };
 
 export type ApplyToAddDto = {

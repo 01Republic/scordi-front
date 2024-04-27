@@ -21,6 +21,11 @@ export const anotherProductsForSaaSCollection = pagedResourceAtom<ProductDto, Fi
     key: 'anotherProductsForSaaSCollection',
 });
 
+// 조직 홈 - 앱 목록
+export const productsOnMainPage = pagedResourceAtom<ProductDto, FindAllProductQuery>({
+    key: 'productsOnMainPage',
+});
+
 export const productsAtom = atom({
     key: 'products',
     default: [] as ProductDto[],
