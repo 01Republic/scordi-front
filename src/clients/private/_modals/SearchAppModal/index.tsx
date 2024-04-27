@@ -2,6 +2,7 @@ import React, {memo} from 'react';
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {SearchAppModalInput} from './SearchAppModalInput';
 import {SearchResultSection} from './SearchResultSection';
+import {SelectedProductSection} from './SelectedProductSection';
 
 interface SearchAppModalProps {
     isOpened: boolean;
@@ -19,6 +20,7 @@ export const SearchAppModal = memo((props: SearchAppModalProps) => {
                 <div className="modal-box w-full scale-100 p-0">
                     <SearchAppModalInput />
                     <SearchResultSection />
+                    <SelectedProductSection />
                 </div>
             </div>
         </AnimatedModal>
