@@ -1,7 +1,10 @@
-import React, {memo} from 'react';
+import React, {memo, useState} from 'react';
 import {FaSearch} from 'react-icons/fa';
+import {SearchAppModal} from '^clients/private/_modals/SearchAppModal';
 
 export const MainInputBox = memo(function MainInputBox() {
+    const [isOpened, setIsOpened] = useState(false);
+
     return (
         <div className="max-w-md lg:max-w-sm mx-auto mb-10">
             <div className="w-full">
@@ -11,8 +14,10 @@ export const MainInputBox = memo(function MainInputBox() {
                     </div>
 
                     <input
+                        tabIndex={0}
+                        onClick={() => setIsOpened(true)}
                         type="text"
-                        className="input shadow-md hover:shadow-lg cursor-pointer input-md rounded-box pl-[50px] w-full text-16 focus:outline-0 transition-all"
+                        className="input shadow-md hover:shadow-lg cursor-pointer input-md rounded-box pl-[50px] w-full text-16 transition-all"
                         autoComplete="off"
                         spellCheck="false"
                         placeholder="우리 팀이 쓰는 앱을 찾아보세요"
@@ -20,7 +25,8 @@ export const MainInputBox = memo(function MainInputBox() {
                     />
                 </div>
             </div>
-            {/*<div className="sm:col-span-1 md:col-span-2 lg:col-span-2"></div>*/}
+
+            <SearchAppModal isOpened={isOpened} onClose={() => setIsOpened(false)} />
         </div>
     );
 });

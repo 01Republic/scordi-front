@@ -21,6 +21,9 @@ export const useDashboardSubscriptionSummary = () => useSubscriptions(subscripti
 // 대시보드 / 구독현황 테이블 - 구독목록조회
 export const useDashboardSubscriptions = () => useSubscriptions(dashboardSubscriptionSearchResultAtom);
 
+// 조직 홈 / 구독 검색 - 검색 결과
+export const useSubscriptionSearchResult = () => useSubscriptions(dashboardSubscriptionSearchResultAtom);
+
 // 구독리스트 / 구독목록조회
 export const useSubscriptionTableListAtom = () => useSubscriptions(subscriptionTableListAtom);
 

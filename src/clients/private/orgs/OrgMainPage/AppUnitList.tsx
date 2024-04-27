@@ -12,7 +12,6 @@ import {useProductOnMainPage} from '^models/Product/hook';
 export const AppUnitList = memo(function AppUnitList() {
     const organizationId = useRecoilValue(orgIdParamState);
     const {isLoading, result, search, changePageSize} = useProductOnMainPage();
-    // const {isLoading, result, search, changePageSize} = useDashboardSubscriptions();
 
     useEffect(() => {
         if (!organizationId || isNaN(organizationId)) return;

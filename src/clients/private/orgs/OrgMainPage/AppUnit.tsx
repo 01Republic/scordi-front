@@ -14,7 +14,6 @@ export const AppUnit = memo((props: AppUnitProps) => {
     const [isOpened, setIsOpened] = useState(false);
 
     const openSubscriptionSelectModal = () => {
-        console.log('Modal.show', subscriptions);
         setIsOpened(true);
     };
 

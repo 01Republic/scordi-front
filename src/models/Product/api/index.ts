@@ -17,8 +17,8 @@ export const productApi = {
         return api.get<Paginated<ProductDto>>(url, {params}).then(paginatedDtoOf(ProductDto));
     },
 
-    privateSearch(params?: FindAllProductQuery) {
-        const url = `/${NAMESPACE}/search`;
+    privateSearch(organizationId: number, params?: FindAllProductQuery) {
+        const url = `/${NAMESPACE}/search/${organizationId}`;
         return api.get<Paginated<ProductDto>>(url, {params}).then(paginatedDtoOf(ProductDto));
     },
 

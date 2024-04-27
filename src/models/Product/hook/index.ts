@@ -10,6 +10,7 @@ import {
     productListResultAtom,
     productsForSaaSCollection,
     productsOnMainPage,
+    productsSearchResult,
 } from '^models/Product/atom';
 import {ProductDto, FindAllProductQuery} from '^models/Product/type';
 import {productApi} from '^models/Product/api';
@@ -30,15 +31,10 @@ export const useProductsInSaaSCollection = () => useProductsV3(productsForSaaSCo
 export const useAnotherProductsForSaaSCollection = () => useProductsV3(anotherProductsForSaaSCollection);
 
 // 조직 홈 - 앱 목록
-export const useProductOnMainPage = (mergeMode = false) => {
-    return usePagedResource(productsOnMainPage, {
-        useOrgId: false,
-        endpoint: (params) => productApi.privateSearch(params),
-        buildQuery: (params) => ({isLive: params.isLive ?? true, ...params}),
-        getId: 'id',
-        mergeMode,
-    });
-};
+export const useProductOnMainPage = () => useProductSearch(productsOnMainPage);
+
+// 조직 홈 - 앱 검색
+export const useProductSearchResult = () => useProductSearch(productsSearchResult);
 
 export const usePagedProducts_SelectProduct = buildPagedResource<ProductDto, FindAllProductQuery>({
     key: 'usePagedProducts_SelectProduct',
@@ -80,6 +76,16 @@ export const useProductsV3 = (atoms: PagedResourceAtoms<ProductDto, FindAllProdu
     return usePagedResource(atoms, {
         useOrgId: false,
         endpoint: (params) => productApi.index(params),
+        buildQuery: (params) => ({isLive: params.isLive ?? true, ...params}),
+        getId: 'id',
+        mergeMode,
+    });
+};
+
+const useProductSearch = (atoms: PagedResourceAtoms<ProductDto, FindAllProductQuery>, mergeMode = false) => {
+    return usePagedResource(atoms, {
+        useOrgId: true,
+        endpoint: (params, orgId) => productApi.privateSearch(orgId, params),
         buildQuery: (params) => ({isLive: params.isLive ?? true, ...params}),
         getId: 'id',
         mergeMode,

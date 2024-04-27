@@ -26,6 +26,11 @@ export const productsOnMainPage = pagedResourceAtom<ProductDto, FindAllProductQu
     key: 'productsOnMainPage',
 });
 
+// 조직 홈 - 앱 검색
+export const productsSearchResult = pagedResourceAtom<ProductDto, FindAllProductQuery>({
+    key: 'productsSearchResult',
+});
+
 export const productsAtom = atom({
     key: 'products',
     default: [] as ProductDto[],
