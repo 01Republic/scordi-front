@@ -100,13 +100,13 @@ export function safeImageSrc(product: ProductDto, w: number, h: number): string 
     );
 }
 
-export type FindAllProductQuery = FindAllQueryDto<ProductDto> & {
+export class FindAllProductQuery extends FindAllQueryDto<ProductDto> {
     isLive?: boolean;
     name?: string;
     tagIds?: number[];
     tagName?: string;
     organizationId?: number;
-};
+}
 
 export type ApplyToAddDto = {
     name: string;

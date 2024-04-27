@@ -3,6 +3,7 @@ import {useForm} from 'react-hook-form';
 import {FindAllProductQuery} from '^models/Product/type';
 import {useProductsV2} from '^models/Product/hook';
 import {useCurrentUser} from '^models/User/hook';
+import {debounce} from 'lodash';
 
 export const SearchInput = memo(() => {
     const {currentUser} = useCurrentUser();
@@ -10,12 +11,9 @@ export const SearchInput = memo(() => {
     const form = useForm<FindAllProductQuery>();
     const isLive = useMemo(() => !currentUser?.isAdmin, [currentUser]);
 
-    const searchHandler = useCallback(
-        (data: FindAllProductQuery) => {
-            search({name: data.name, isLive});
-        },
-        [isLive],
-    );
+    const onChange = debounce((name?: string) => {
+        search({name, isLive});
+    });
 
     useEffect(() => {
         if (!currentUser) return;
@@ -24,14 +22,14 @@ export const SearchInput = memo(() => {
 
     return (
         <div className="py-0 z-10">
-            <form onSubmit={form.handleSubmit(searchHandler)}>
+            <form>
                 <input
                     autoComplete={'off'}
                     autoFocus={true}
                     type="text"
                     placeholder="Search Apps..."
                     className="input input-sm input-bordered w-full max-w-xs"
-                    {...form.register('name')}
+                    onChange={(e) => onChange(e.target.value)}
                 />
             </form>
         </div>
