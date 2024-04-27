@@ -38,6 +38,7 @@ export const WorkspaceDropdown = memo((props: WorkspaceDropdownProps) => {
     return (
         <Dropdown
             placement="bottom"
+            backdrop={false}
             Trigger={({visible}) => (
                 <div className="font-medium cursor-pointer flex items-center gap-0.5">
                     <span>{currentOrg?.name}</span>
