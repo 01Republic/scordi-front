@@ -12,7 +12,7 @@ export const Squircle = memo((props: SquircleProps) => {
 
     return (
         <div className="squircle group" tabIndex={0} onClick={() => onClick && onClick()}>
-            <div className="">{children}</div>
+            <div className="relative">{children}</div>
 
             <div>
                 <p>{text}</p>

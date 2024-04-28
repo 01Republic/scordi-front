@@ -26,6 +26,7 @@ export const AppUnit = memo((props: AppUnitProps) => {
             <SubscriptionSquircle
                 subscription={subscriptions[0]}
                 onClick={subscriptions.length > 1 ? openSubscriptionSelectModal : moveToSubscriptionPage}
+                etcFlag={subscriptions.length > 1 ? subscriptions.length : undefined}
             />
 
             <AnimatedModal open={isOpened} onClose={() => setIsOpened(false)} backdrop={{opacity: 0.25}}>
