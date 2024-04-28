@@ -141,7 +141,7 @@ export const SearchCardInput = memo((props: SearchCardInputProps) => {
                             {(searchResult.organizations || []).map((org, i) => (
                                 <div
                                     key={i}
-                                    className="text-blue-300 hover:text-blue-500 hover:underline transition-all cursor-pointer"
+                                    className="text-scordi-300 hover:text-scordi-500 hover:underline transition-all cursor-pointer"
                                     onClick={() => {
                                         if (searchKey === SearchKey.Name) {
                                             const input = nameInputRef.current;

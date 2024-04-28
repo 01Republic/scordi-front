@@ -68,7 +68,7 @@ export const InvoiceTableRow = memo((props: InvoiceTableRowProps) => {
                             : paidStatus === 'PayFail'
                             ? 'bg-red-200 text-red-700'
                             : paidStatus === 'Info'
-                            ? 'bg-blue-200 text-blue-700'
+                            ? 'bg-scordi-200 text-scordi-700'
                             : 'bg-amber-200 text-amber-700'
                     }`}
                 >

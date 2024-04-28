@@ -27,7 +27,7 @@ export const OrgTopBar = memo(() => {
                     </button>
                 </div>
 
-                <div className="text-gray-400 transition-all hover:text-blue-500 cursor-pointer">
+                <div className="text-gray-400 transition-all hover:text-scordi-500 cursor-pointer">
                     <FaBell size={20} className="" />
                 </div>
 

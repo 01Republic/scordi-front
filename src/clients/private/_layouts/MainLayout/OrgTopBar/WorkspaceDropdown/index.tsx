@@ -62,8 +62,8 @@ export const WorkspaceDropdown = memo((props: WorkspaceDropdownProps) => {
                                     <li key={i}>
                                         <LinkTo
                                             href={orgPath}
-                                            className={`hover:bg-blue-50 hover:text-blue-600 ${
-                                                isCurrent ? 'bg-blue-50 text-blue-600' : ''
+                                            className={`hover:bg-scordi-50 hover:text-scordi-600 ${
+                                                isCurrent ? 'bg-scordi-50 text-scordi-600' : 'cursor-pointer'
                                             }`}
                                         >
                                             {orgName}

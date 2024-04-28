@@ -30,7 +30,7 @@ export const BillingHistoryItem = memo((props: BillingHistoryItemProps) => {
                 {billingHistory.invoiceUrl && (
                     <FiDownload
                         strokeWidth={3}
-                        className="text-blue-600 hover:text-blue-900 cursor-pointer"
+                        className="text-scordi-600 hover:text-scordi-900 cursor-pointer"
                         onClick={() => window.open(billingHistory.invoiceUrl!, '_blank')}
                     />
                 )}

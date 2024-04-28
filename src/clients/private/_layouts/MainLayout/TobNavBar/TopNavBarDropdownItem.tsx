@@ -13,10 +13,10 @@ export const TopNavBarDropdownItem = memo((props: TopNavBarDropdownItemProps) =>
 
     return (
         <li className="">
-            <Link href={href}>
-                <a className="group active:bg-blue-200">
-                    <Icon className="text-gray-400 group-hover:text-gray-600 group-active:text-blue-500" />
-                    <span className="text-gray-500 group-hover:text-gray-700 group-active:text-blue-500">{name}</span>
+            <Link href={href || 'javascript:void(0)'}>
+                <a className="group active:bg-scordi-200">
+                    <Icon className="text-gray-400 group-hover:text-gray-600 group-active:text-scordi-500" />
+                    <span className="text-gray-500 group-hover:text-gray-700 group-active:text-scordi-500">{name}</span>
                 </a>
             </Link>
         </li>

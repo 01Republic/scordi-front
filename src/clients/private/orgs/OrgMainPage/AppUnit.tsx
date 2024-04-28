@@ -29,7 +29,7 @@ export const AppUnit = memo((props: AppUnitProps) => {
             />
 
             <AnimatedModal open={isOpened} onClose={() => setIsOpened(false)} backdrop={{opacity: 0.25}}>
-                <div className="relative container max-w-screen-sm">
+                <div className="relative mx-auto max-w-screen-sm w-full">
                     <div className="mb-2">
                         <h3 className="font-bold text-2xl text-center text-white" style={{textShadow: '0 0 10px #666'}}>
                             {product.name()}

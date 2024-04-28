@@ -44,7 +44,7 @@ export const MemberListItem = memo((props: MemberProps) => {
             <div className={'flex-1 text-sm'}>{memberShip.user.email}</div>
             <div className={'flex-1 text-sm'}>{memberShip.level}</div>
             {/* {memberShip.approvalStatus === 'APPROVED' ? (
-                <div className="p-5 badge font-bold bg-blue-100">using</div>
+                <div className="p-5 badge font-bold bg-scordi-100">using</div>
             ) : (
                 <div className="p-5 badge font-bold">disabled</div>
             )} */}

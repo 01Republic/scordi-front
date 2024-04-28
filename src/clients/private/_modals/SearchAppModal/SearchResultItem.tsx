@@ -33,7 +33,7 @@ export const SearchResultItem = memo((props: SearchResultItemProps) => {
 
     return (
         <div
-            className="p-1.5 -mx-1.5 cursor-pointer hover:bg-blue-50 rounded-md transition-all text-13 flex items-center justify-between btn-animation"
+            className="p-1.5 -mx-1.5 cursor-pointer hover:bg-scordi-50 rounded-md transition-all text-13 flex items-center justify-between btn-animation"
             onClick={() => selectProduct()}
         >
             <div>
