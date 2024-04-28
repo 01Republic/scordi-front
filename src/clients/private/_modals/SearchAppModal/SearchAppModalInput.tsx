@@ -1,29 +1,35 @@
 import React, {memo, useEffect} from 'react';
 import {FaSearch} from 'react-icons/fa';
 import {useProductSearchResult} from '^models/Product/hook';
-import {useRecoilValue} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {debounce} from 'lodash';
+import {searchResultModeAtom} from './SearchResultSection';
 
 export const SearchAppModalInput = memo(function SearchAppModalInput() {
     const organizationId = useRecoilValue(orgIdParamState);
+    const setSearchResultMode = useSetRecoilState(searchResultModeAtom);
     const {search} = useProductSearchResult();
 
-    const request = (keyword?: string) => {
+    const searchProduct = (keyword?: string) => {
+        // 키워드가 있으면 검색결과, 없으면 인기순
+        setSearchResultMode(keyword ? 'search' : 'popular');
+
         return search({
             relations: ['subscriptions', 'subscriptions.product'],
             keyword,
             itemsPerPage: 10,
+            order: {connectedOrgCount: 'DESC'},
         });
     };
 
     useEffect(() => {
-        request();
+        searchProduct();
     }, []);
 
     if (!organizationId || isNaN(organizationId)) return <></>;
 
-    const onChange = debounce(request, 500);
+    const onChange = debounce(searchProduct, 500);
 
     return (
         <div className="relative w-full">
@@ -36,7 +42,7 @@ export const SearchAppModalInput = memo(function SearchAppModalInput() {
                 className="input input-md pl-[50px] w-full text-16 focus:outline-0 transition-all"
                 autoComplete="off"
                 spellCheck="false"
-                placeholder="우리 팀이 쓰는 앱을 찾아보세요"
+                placeholder="앱 이름을 검색하고 구독을 등록해보세요"
                 onChange={(e) => onChange(e.target.value)}
             />
 
