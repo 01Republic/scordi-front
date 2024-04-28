@@ -5,8 +5,10 @@ import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {debounce} from 'lodash';
 import {searchResultModeAtom} from './SearchResultSection';
+import {WithChildren} from '^types/global.type';
 
-export const SearchAppModalInput = memo(function SearchAppModalInput() {
+export const SearchAppModalInput = memo(function SearchAppModalInput(props: WithChildren) {
+    const {children} = props;
     const organizationId = useRecoilValue(orgIdParamState);
     const setSearchResultMode = useSetRecoilState(searchResultModeAtom);
     const {search} = useProductSearchResult();
@@ -32,7 +34,7 @@ export const SearchAppModalInput = memo(function SearchAppModalInput() {
     const onChange = debounce(searchProduct, 500);
 
     return (
-        <div className="relative w-full">
+        <div className="sticky top-0 w-full bg-white z-[1]">
             <div className="absolute top-0 bottom-0 w-[50px] flex items-center justify-center">
                 <FaSearch size={16} className="text-gray-500 opacity-50" />
             </div>
@@ -45,6 +47,8 @@ export const SearchAppModalInput = memo(function SearchAppModalInput() {
                 placeholder="앱 이름을 검색하고 구독을 등록해보세요"
                 onChange={(e) => onChange(e.target.value)}
             />
+
+            {children}
 
             <div className="px-4">
                 <hr />
