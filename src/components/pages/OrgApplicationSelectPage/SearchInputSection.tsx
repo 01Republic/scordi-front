@@ -19,7 +19,7 @@ export const SearchInputSection = memo((props: SearchSectionProps) => {
     return (
         <MobileSection data-component="SearchSection" className="mb-3">
             <form onSubmit={form.handleSubmit(searchHandler)}>
-                <SearchInput autoComplete={false} autoFocus={true} register={form.register('keyword')} />
+                {/*<SearchInput autoComplete={false} autoFocus={true} register={form.register('keyword')} />*/}
             </form>
         </MobileSection>
     );

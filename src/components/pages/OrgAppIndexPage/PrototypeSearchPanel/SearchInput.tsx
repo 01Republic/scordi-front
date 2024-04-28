@@ -1,6 +1,4 @@
 import React, {memo, useCallback, useEffect, useMemo} from 'react';
-import {useForm} from 'react-hook-form';
-import {FindAllProductQuery} from '^models/Product/type';
 import {useProductsV2} from '^models/Product/hook';
 import {useCurrentUser} from '^models/User/hook';
 import {debounce} from 'lodash';
@@ -8,7 +6,6 @@ import {debounce} from 'lodash';
 export const SearchInput = memo(() => {
     const {currentUser} = useCurrentUser();
     const {search} = useProductsV2();
-    const form = useForm<FindAllProductQuery>();
     const isLive = useMemo(() => !currentUser?.isAdmin, [currentUser]);
 
     const onChange = debounce((keyword?: string) => {

@@ -3,7 +3,6 @@ import {useRecoilState} from 'recoil';
 import {useForm} from 'react-hook-form';
 import {BsSearch} from 'react-icons/bs';
 import {useProductsInSaaSCollection} from '^models/Product/hook';
-import {FindAllProductQuery} from '^models/Product/type';
 import {currentProductCategoryAtom} from './ProductListSidePanel';
 import {debounce} from 'lodash';
 
