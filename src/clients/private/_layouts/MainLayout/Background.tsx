@@ -8,7 +8,7 @@ export const Background = memo(function Background() {
     return (
         <div
             className="w-full h-full fixed background-image background-image-cover blur-sm scale-[1.02]"
-            style={{backgroundImage: `url(${url})`}}
+            style={{backgroundImage: `url(${url})`, display: 'none'}}
         />
     );
 });

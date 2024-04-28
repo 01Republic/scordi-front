@@ -3,6 +3,7 @@ import {WithChildren} from '^types/global.type';
 import {Background} from './Background';
 import {OrgTopBar} from './OrgTopBar';
 import {TobNavBar} from './TobNavBar';
+import {Footer} from './Footer';
 
 interface MainLayoutProps extends WithChildren {
     //
@@ -21,6 +22,8 @@ export const MainLayout = memo((props: MainLayoutProps) => {
                 <TobNavBar />
 
                 {children}
+
+                <Footer />
             </div>
         </div>
     );
