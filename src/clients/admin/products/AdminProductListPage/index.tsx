@@ -53,7 +53,7 @@ export const AdminProductListPage = memo(() => {
                         <SearchForm
                             searchForm={searchForm}
                             onSearch={onSearch}
-                            registerName="name"
+                            registerName="keyword"
                             placeholder="이름으로 검색하기"
                             className="input input-bordered w-full"
                         />
