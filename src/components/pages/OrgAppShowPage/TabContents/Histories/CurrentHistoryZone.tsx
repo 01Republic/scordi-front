@@ -28,7 +28,7 @@ export const CurrentHistoryZone = memo((props: CurrentHistoryZoneProps) => {
     const {product} = subscription;
 
     const asset = syncHistoryAssets[currentSyncHistory.resultStatus];
-    const Icon = asset.Icon;
+    const Icon = asset?.Icon;
     const label = t_syncHistoryResultStatus(currentSyncHistory.resultStatus);
     const syncButtonIsActive = restartSyncButtonIsActive(currentSyncHistory);
 
@@ -63,14 +63,12 @@ export const CurrentHistoryZone = memo((props: CurrentHistoryZoneProps) => {
             <div className="bs-row mb-3">
                 <div className="bs-col-12 px-0">
                     <div className="card w-full bg-white shadow border">
-                        <div className={`card-body border-l border-l-[1rem] border-l-${asset.normal}`}>
+                        <div className={`card-body border-l border-l-[1rem] border-l-${asset?.normal}`}>
                             <div className="flex gap-2 items-stretch">
-                                <div>
-                                    <Icon size={22} className={`text-${asset.darken}`} />
-                                </div>
+                                <div>{Icon && <Icon size={22} className={`text-${asset?.darken}`} />}</div>
                                 <div className="flex-1 flex flex-col">
                                     <div className="flex-1">
-                                        <p className={`card-title text-${asset.darken} leading-none`}>Current sync</p>
+                                        <p className={`card-title text-${asset?.darken} leading-none`}>Current sync</p>
                                         <div
                                             className="text-sm pt-4 pb-6 whitespace-pre-line"
                                             dangerouslySetInnerHTML={{__html: currentSyncHistory.content}}
@@ -87,7 +85,7 @@ export const CurrentHistoryZone = memo((props: CurrentHistoryZoneProps) => {
 
                                 {/* execute status */}
                                 <div className="flex-1">
-                                    <div className={`text-${asset.darken} flex gap-3 items-center mb-5`}>
+                                    <div className={`text-${asset?.darken} flex gap-3 items-center mb-5`}>
                                         <BiGitCommit size={14} />
                                         <p>
                                             <span className="mr-2">#{currentSyncHistory.id}</span>

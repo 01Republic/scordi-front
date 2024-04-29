@@ -34,7 +34,7 @@ const OrgMainLayout = ({children}: OrgMainLayoutProps) => {
         // 진입한 조직에 멤버십이 없으면, 되돌려보내기
         if (currentUserMembership === undefined) {
             // loaded but not found.
-            router.back();
+            // router.back();
             return;
         }
 
