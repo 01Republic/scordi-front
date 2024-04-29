@@ -5,9 +5,14 @@ import {useCurrentLocale} from '^hooks/useCurrentLocale';
 import {locales} from '^utils/locale-helper';
 import {SelectDropdown} from '^v3/share/Select';
 import {useRouter} from 'next/router';
+import {useRecoilValue} from 'recoil';
+import {currentOrgAtom} from '^models/Organization/atom';
+import {LinkTo} from '^components/util/LinkTo';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
 
 export const V3Footer = memo(() => {
     const router = useRouter();
+    const currentOrg = useRecoilValue(currentOrgAtom);
     const {currentLocale} = useCurrentLocale();
 
     return (
@@ -26,7 +31,16 @@ export const V3Footer = memo(() => {
                                 {/*<a className="link link-hover">Jobs</a>*/}
                                 {/*<a className="link link-hover">Press kit</a>*/}
                             </div>
-                            <p className="text-xs text-gray-500">Copyright © 2023 - All right reserved</p>
+                            <p className="text-xs text-gray-500">
+                                Copyright © 2023 - All right reserved
+                                {currentOrg && (
+                                    <LinkTo
+                                        text="."
+                                        href={OrgMainPageRoute.path(currentOrg.id)}
+                                        displayLoading={false}
+                                    />
+                                )}
+                            </p>
                         </div>
                     </div>
                     <div className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">

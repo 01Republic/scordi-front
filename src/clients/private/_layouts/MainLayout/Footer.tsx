@@ -1,7 +1,12 @@
 import {memo} from 'react';
 import {LinkTo} from '^components/util/LinkTo';
+import {useRecoilValue} from 'recoil';
+import {currentOrgAtom} from '^models/Organization/atom';
+import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 
 export const Footer = memo(function Footer() {
+    const currentOrg = useRecoilValue(currentOrgAtom);
+
     return (
         <footer className="container px-4 md:max-w-screen-lg flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 py-6">
             <div>
@@ -18,7 +23,10 @@ export const Footer = memo(function Footer() {
                     227-86-02683 <br />
                     통신판매업번호: 2023-서울서초-3752 <br className="sm:hidden" /> 주소: 서울시 종로구 종로 6, 5층{' '}
                     <br className="sm:hidden" /> 고객센터 유선전화: 010-7517-3247 <br />
-                    Copyright 2024 © 01Republic. All Rights Reserved.
+                    Copyright 2024 © 01Republic. All Rights Reserved
+                    {currentOrg && (
+                        <LinkTo text="." href={V3OrgHomePageRoute.path(currentOrg.id)} displayLoading={false} />
+                    )}
                 </p>
             </div>
 
