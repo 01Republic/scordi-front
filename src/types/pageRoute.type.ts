@@ -15,7 +15,7 @@ export const pathRoute = <T extends Function>(route: {pathname: string; path: T}
     return {...route, url};
 };
 
-export const pathReplace = <T extends {}>(pathname: string, params?: T): string => {
+export const pathReplace = <T extends {}, Q extends {}>(pathname: string, params?: T, query?: Q): string => {
     params ||= {} as T;
     Object.entries(params).forEach(([k, v]) => {
         pathname = pathname.replace(`[${k}]`, String(v));
