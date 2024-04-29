@@ -11,6 +11,7 @@ import {
     productsForSaaSCollection,
     productsOnMainPage,
     productsSearchResult,
+    selectedProductsAtom,
 } from '^models/Product/atom';
 import {ProductDto, FindAllProductQuery} from '^models/Product/type';
 import {productApi} from '^models/Product/api';
@@ -35,6 +36,45 @@ export const useProductOnMainPage = () => useProductSearch(productsOnMainPage);
 
 // 조직 홈 - 앱 검색
 export const useProductSearchResult = () => useProductSearch(productsSearchResult);
+
+// 선택된 앱 목록 (구독 등록을 위한 앱 선택 컨텍스트에서)
+export const useSelectProducts = () => {
+    const [selectedProducts, setSelectedProducts] = useRecoilState(selectedProductsAtom);
+
+    const select = (product: ProductDto) => {
+        setSelectedProducts((arr) => {
+            // already exist
+            if (arr.find((p) => p.id === product.id)) return arr;
+
+            // push
+            return [...arr, product];
+        });
+    };
+
+    const toggle = (product: ProductDto) => {
+        setSelectedProducts((arr) => {
+            const exists = arr.find((p) => p.id === product.id);
+
+            return exists
+                ? arr.filter((p) => p.id !== product.id) // filter
+                : [...arr, product]; // push
+        });
+    };
+
+    const unSelect = (product: ProductDto) => {
+        setSelectedProducts((arr) => arr.filter((p) => p.id !== product.id));
+    };
+
+    const clearSelects = () => setSelectedProducts([]);
+
+    return {
+        selectedProducts,
+        toggle,
+        select,
+        unSelect,
+        clearSelects,
+    };
+};
 
 export const usePagedProducts_SelectProduct = buildPagedResource<ProductDto, FindAllProductQuery>({
     key: 'usePagedProducts_SelectProduct',

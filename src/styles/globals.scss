@@ -987,6 +987,22 @@ progress::-moz-progress-bar {
   }
 }
 
+.link_to-loading {
+  @apply opacity-40 cursor-default pointer-events-none loading relative;
+
+  & > * {
+    visibility: hidden;
+  }
+
+  &:before {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
 .link_to-clicked {
   @apply opacity-40 disabled cursor-default relative;
 

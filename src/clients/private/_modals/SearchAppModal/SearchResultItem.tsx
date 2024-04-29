@@ -1,9 +1,8 @@
 import React, {memo} from 'react';
 import {ProductAvatarImg} from '^v3/share/ProductAvatar';
 import {ProductDto} from '^models/Product/type';
-import {useRecoilState, useSetRecoilState} from 'recoil';
-import {selectedProductsAtom} from '^clients/private/_modals/SearchAppModal/SelectedProductSection';
 import {AiOutlineMinus} from 'react-icons/ai';
+import {useSelectProducts} from '^models/Product/hook';
 
 interface SearchResultItemProps {
     product: ProductDto;
@@ -11,7 +10,7 @@ interface SearchResultItemProps {
 
 export const SearchResultItem = memo((props: SearchResultItemProps) => {
     const {product} = props;
-    const setSelectedProducts = useSetRecoilState(selectedProductsAtom);
+    const {select} = useSelectProducts();
 
     const name =
         product.nameKo === product.nameEn ? (
@@ -22,22 +21,12 @@ export const SearchResultItem = memo((props: SearchResultItemProps) => {
             </span>
         );
 
-    const selectProduct = () => {
-        setSelectedProducts((arr) => {
-            // already exist
-            if (arr.find((p) => p.id === product.id)) return arr;
-
-            // push
-            return [...arr, product];
-        });
-    };
-
     const subscriptionCount = product.subscriptions?.length || 0;
 
     return (
         <div
             className="p-1.5 -mx-1.5 cursor-pointer hover:bg-scordi-50 rounded-md transition-all text-13 flex items-center justify-between btn-animation"
-            onClick={() => selectProduct()}
+            onClick={() => select(product)}
         >
             {/* left */}
             <div className="flex items-center gap-1">

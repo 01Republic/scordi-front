@@ -14,8 +14,10 @@ $white-blurred-background-color: rgba(255, 255, 255, 0.3);
 
   width: 112px;
 
+  $background-active: rgba(0, 0, 0, 0.03);
+
   &:hover {
-    background: rgba(0, 0, 0, 0.03);
+    background: $background-active;
 
     & > div:last-child {
       & > p {
@@ -25,6 +27,15 @@ $white-blurred-background-color: rgba(255, 255, 255, 0.3);
         -webkit-line-clamp: 2;
       }
     }
+  }
+
+  &:active {
+    @apply bg-scordi-50;
+  }
+
+  &.selected {
+    border: 1px solid;
+    @apply border-scordi-300 bg-scordi-50;
   }
 
   & > div:first-child {

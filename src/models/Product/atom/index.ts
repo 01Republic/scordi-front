@@ -31,6 +31,12 @@ export const productsSearchResult = pagedResourceAtom<ProductDto, FindAllProduct
     key: 'productsSearchResult',
 });
 
+// 선택된 앱 목록 (구독 등록을 위한 앱 선택 컨텍스트에서)
+export const selectedProductsAtom = atom<ProductDto[]>({
+    key: 'selectedProductsAtom',
+    default: [],
+});
+
 export const productsAtom = atom({
     key: 'products',
     default: [] as ProductDto[],

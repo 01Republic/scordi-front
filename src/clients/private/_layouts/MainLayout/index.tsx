@@ -3,7 +3,7 @@ import {WithChildren} from '^types/global.type';
 import {Background} from './Background';
 import {OrgTopBar} from './OrgTopBar';
 import {TobNavBar} from './TobNavBar';
-import {Footer} from './Footer';
+import {Footer} from '../_shared/Footer';
 
 interface MainLayoutProps extends WithChildren {
     //

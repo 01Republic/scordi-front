@@ -1,19 +1,9 @@
 import {memo} from 'react';
-import {atom, useRecoilState} from 'recoil';
-import {ProductDto} from '^models/Product/type';
+import {useSelectProducts} from '^models/Product/hook';
 import {SelectedProductItem} from './SelectedProductItem';
 
-export const selectedProductsAtom = atom<ProductDto[]>({
-    key: 'selectedProductsAtom',
-    default: [],
-});
-
 export const SelectedProductSection = memo(function SelectedProductSection() {
-    const [selectedProducts, setSelectedProducts] = useRecoilState(selectedProductsAtom);
-
-    const unSelect = (product: ProductDto) => {
-        setSelectedProducts((old) => old.filter((p) => p.id !== product.id));
-    };
+    const {selectedProducts, unSelect, clearSelects} = useSelectProducts();
 
     if (selectedProducts.length === 0) return <></>;
 
@@ -25,7 +15,7 @@ export const SelectedProductSection = memo(function SelectedProductSection() {
                 <div>
                     <span
                         className="text-11 text-gray-500 hover:text-gray-800 transition-all cursor-pointer"
-                        onClick={() => setSelectedProducts([])}
+                        onClick={() => clearSelects()}
                     >
                         초기화
                     </span>

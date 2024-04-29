@@ -12,12 +12,25 @@ export interface LinkToProps extends Partial<LinkProps> {
     onClick?: MouseEventHandler<HTMLAnchorElement>;
     target?: HTMLAttributeAnchorTarget;
     displayLoading?: boolean;
+    loadingOnBtn?: boolean;
+    disabled?: boolean;
 }
 
 export const LinkTo = memo((props: LinkToProps & WithChildren) => {
     const router = useRouter();
     const [isClicked, setIsClicked] = useState(false);
-    const {text = '', target, onClick, children, className = '', href = '#', displayLoading = true, ...res} = props;
+    const {
+        text = '',
+        target,
+        onClick,
+        children,
+        className = '',
+        href = '#',
+        displayLoading = true,
+        loadingOnBtn = false,
+        disabled = false,
+        ...res
+    } = props;
 
     useEffect(() => {
         if (router.isReady) setIsClicked(false);
@@ -44,8 +57,9 @@ export const LinkTo = memo((props: LinkToProps & WithChildren) => {
 
     if (isClicked) {
         if (displayLoading) {
+            const loadingClass = loadingOnBtn ? 'link_to-loading' : 'link_to-clicked';
             return (
-                <a className={`${className} link_to-clicked`} target={target}>
+                <a className={`${className} ${loadingClass}`} target={target}>
                     {children || text}
                 </a>
             );
@@ -53,9 +67,9 @@ export const LinkTo = memo((props: LinkToProps & WithChildren) => {
     }
 
     return (
-        <Link href={href} {...res}>
+        <Link href={disabled ? '' : href} {...res}>
             <a
-                className={className}
+                className={`${className}`}
                 target={target}
                 onClick={() => {
                     if (href == onlyPath(router)) return;

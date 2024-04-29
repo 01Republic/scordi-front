@@ -2,7 +2,7 @@ import {atom} from 'recoil';
 import {ReportDto} from '^tasting/tabs/panes/SyncWorkspaceApp/dto/report.dto';
 
 export const googleWorkspaceAccessTokenAtom = atom<string | null>({
-    key: 'googleAccessTokenAtom',
+    key: 'googleWorkspaceAccessTokenAtom',
     default: null,
 });
 
@@ -17,6 +17,6 @@ export const isSavingState = atom<boolean>({
 });
 
 export const reportState = atom<ReportDto | null>({
-    key: 'reportState',
+    key: 'reportState/2',
     default: null,
 });
