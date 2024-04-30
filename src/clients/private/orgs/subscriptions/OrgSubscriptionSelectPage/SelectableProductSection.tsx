@@ -38,9 +38,9 @@ export const SelectableProductSection = memo(function SelectableProductSection()
 
     return (
         <div className="card bordered rounded-btn bg-white shadow mb-4">
-            <div ref={ref} className="card-body h-[320px] !overflow-scroll">
+            <div ref={ref} className="p-2 sm:card-body h-[320px] !overflow-scroll">
                 <LoadableBox isLoading={isLoading} loadingType={2} noPadding>
-                    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 max-w-screen-md gap-y-2 mx-auto">
+                    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 max-w-screen-md gap-x-1 sm:gap-x-0 gap-y-2 mx-auto">
                         {result.items.map((product, i) => (
                             <SelectableProductItem key={i} product={product} />
                         ))}
