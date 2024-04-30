@@ -6,6 +6,7 @@ import {productApi} from '^models/Product/api';
 import {errorNotify} from '^utils/toast-notify';
 import {productIdParamsState} from '^atoms/common';
 import {pagedResourceAtom} from '^hooks/usePagedResource';
+import {localStorageAtoms} from '^atoms/localStorage.atom';
 
 export const productListResultAtom = pagedResourceAtom<ProductDto, FindAllProductQuery>({
     key: 'productListResultAtom',
@@ -32,7 +33,7 @@ export const productsSearchResult = pagedResourceAtom<ProductDto, FindAllProduct
 });
 
 // 선택된 앱 목록 (구독 등록을 위한 앱 선택 컨텍스트에서)
-export const selectedProductsAtom = atom<ProductDto[]>({
+export const selectedProductsAtom = localStorageAtoms<ProductDto[]>({
     key: 'selectedProductsAtom',
     default: [],
 });

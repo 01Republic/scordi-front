@@ -77,12 +77,14 @@
     "react-toastify": "^9.0.8",
     "react-type-animation": "^3.0.1",
     "recoil": "^0.7.6",
+    "recoil-persist": "^5.1.0",
     "reflect-metadata": "^0.1.13",
     "sass": "^1.54.8",
     "sharp": "^0.31.2",
     "styled-components": "^5.3.5",
     "sweetalert2": "^11.7.2",
     "sweetalert2-react-content": "^5.0.7",
+    "use-local-storage": "^3.0.0",
     "web-push": "^3.5.0"
   },
   "devDependencies": {
