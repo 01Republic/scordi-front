@@ -4,6 +4,7 @@ import {Background} from './Background';
 import {OrgTopBar} from './OrgTopBar';
 import {TobNavBar} from './TobNavBar';
 import {Footer} from '../_shared/Footer';
+import {BaseLayout} from '^clients/private/_layouts/BaseLayout';
 
 interface MainLayoutProps extends WithChildren {
     //
@@ -13,7 +14,7 @@ export const MainLayout = memo((props: MainLayoutProps) => {
     const {children} = props;
 
     return (
-        <div>
+        <BaseLayout>
             <Background />
 
             {/* Body */}
@@ -25,7 +26,7 @@ export const MainLayout = memo((props: MainLayoutProps) => {
 
                 <Footer />
             </div>
-        </div>
+        </BaseLayout>
     );
 });
 MainLayout.displayName = 'MainLayout';
