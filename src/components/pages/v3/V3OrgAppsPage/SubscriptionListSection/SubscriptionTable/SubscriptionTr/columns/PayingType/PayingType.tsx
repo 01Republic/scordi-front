@@ -10,9 +10,9 @@ import {getColor, palette} from '^components/util/palette';
 import {subscriptionApi} from '^models/Subscription/api';
 import {useToast} from '^hooks/useToast';
 import {
-    c_SubscriptionMeasureMethod,
+    c_PricingModelValue,
     PricingModelOptions,
-    SubscriptionMeasureMethodValues,
+    PricingModelValues,
     t_SubscriptionPricingModel,
 } from '^models/Subscription/types/PricingModelOptions';
 
@@ -41,7 +41,7 @@ export const PayingType = memo((props: PayingTypeProps) => {
     return (
         <SelectColumn
             value={subscription.pricingModel}
-            getOptions={async () => SubscriptionMeasureMethodValues}
+            getOptions={async () => PricingModelValues}
             onSelect={onSelect}
             ValueComponent={PayingTypeTag}
             contentMinWidth="240px"
@@ -53,7 +53,7 @@ PayingType.displayName = 'PayingType';
 
 const PayingTypeTag = memo((props: {value: PricingModelOptions | string}) => {
     const {value} = props;
-    const colorClass = c_SubscriptionMeasureMethod(value as PricingModelOptions);
+    const colorClass = c_PricingModelValue(value as PricingModelOptions);
     const text = t_SubscriptionPricingModel(value as PricingModelOptions);
 
     return <TagUI className={colorClass}>{text}</TagUI>;

@@ -9,3 +9,11 @@ export type CurrencyInfo = {
     format: string;
     desc: string;
 };
+
+export class CurrencyInfoWithExchangeRate {
+    code: CurrencyCode;
+    name: string;
+    unit: string;
+    exchangeRate: number;
+    isDefault: boolean;
+}

@@ -17,7 +17,7 @@ export const ConnectSubscriptionsLayout = memo((props: ConnectSubscriptionsLayou
                 <LeftAppsStatusPanel />
 
                 {/* Content */}
-                <main className="flex-grow bg-white">{children}</main>
+                <main className="flex-grow bg-white relative">{children}</main>
             </div>
         </BaseLayout>
     );

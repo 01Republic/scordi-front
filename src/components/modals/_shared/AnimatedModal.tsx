@@ -1,17 +1,8 @@
 import React, {Fragment, memo, ReactNode} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
+import {ModalLayoutProps} from './Modal.types';
 
-interface BackdropOption {
-    opacity?: number;
-    hidden?: boolean;
-}
-
-interface AnimationLayoutProps {
-    children: ReactNode;
-    open: boolean;
-    onClose: () => void;
-    backdrop?: BackdropOption;
-}
+export interface AnimationLayoutProps extends ModalLayoutProps {}
 
 export const AnimatedModal = memo((props: AnimationLayoutProps) => {
     const {children, open, onClose, backdrop} = props;

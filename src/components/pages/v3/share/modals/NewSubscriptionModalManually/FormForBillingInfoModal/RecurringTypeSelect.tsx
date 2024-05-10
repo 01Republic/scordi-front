@@ -1,9 +1,9 @@
 import {memo} from 'react';
 import Select, {SingleValue, StylesConfig} from 'react-select';
 import {
-    c_SubscriptionMeasureMethod,
+    c_PricingModelValue,
     PricingModelOptions,
-    SubscriptionMeasureMethodValues,
+    PricingModelValues,
     t_SubscriptionPricingModel,
 } from '^models/Subscription/types/PricingModelOptions';
 import {useRecoilState} from 'recoil';
@@ -17,7 +17,7 @@ type RecurringTypeOption = {
 
 const toOption = (value: PricingModelOptions): RecurringTypeOption => {
     const label = t_SubscriptionPricingModel(value);
-    const className = c_SubscriptionMeasureMethod(value);
+    const className = c_PricingModelValue(value);
     return {label, value, className};
 };
 
@@ -40,7 +40,7 @@ export const RecurringTypeSelect = memo(function RecurringTypeSelect() {
 
     return (
         <Select
-            options={SubscriptionMeasureMethodValues.map(toOption)}
+            options={PricingModelValues.map(toOption)}
             placeholder=""
             styles={customStyles}
             defaultValue={formData.pricingModel ? toOption(formData.pricingModel) : undefined}

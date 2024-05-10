@@ -16,10 +16,10 @@ export interface ButtonGroupRadioProps<Value extends any> {
 
 export const ButtonGroupRadio = memo(<T,>(props: ButtonGroupRadioProps<T>) => {
     const {defaultValue, className, onChange, options} = props;
-    const [selectedVal, setValue] = useState<T>(defaultValue ?? (options[0] || {}).value);
+    const [selectedVal, setValue] = useState<T | undefined>(defaultValue);
 
     const values = options.flatMap((o) => o.value);
-    const isValidValue = (v: T) => values.includes(v);
+    const isValidValue = (v?: T) => (v ? values.includes(v) : false);
     const activeVal = isValidValue(selectedVal) ? selectedVal : defaultValue;
 
     return (
@@ -33,7 +33,7 @@ export const ButtonGroupRadio = memo(<T,>(props: ButtonGroupRadioProps<T>) => {
                             setValue(value);
                             onChange(option);
                         }}
-                        isActive={typeof activeVal !== 'undefined' ? activeVal === value : i == 0}
+                        isActive={typeof activeVal !== 'undefined' ? activeVal === value : false}
                     >
                         {label}
                     </Button>

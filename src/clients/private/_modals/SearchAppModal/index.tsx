@@ -4,11 +4,9 @@ import {SearchAppModalInput} from './SearchAppModalInput';
 import {SearchResultSection} from './SearchResultSection';
 import {SelectedProductSection} from './SelectedProductSection';
 import {FaTimes} from 'react-icons/fa';
+import {ModalProps} from '^components/modals/_shared/Modal.types';
 
-interface SearchAppModalProps {
-    isOpened: boolean;
-    onClose: () => void;
-}
+interface SearchAppModalProps extends ModalProps {}
 
 export const SearchAppModal = memo((props: SearchAppModalProps) => {
     const {isOpened, onClose} = props;

@@ -8,7 +8,7 @@ export enum PricingModelOptions {
     CREDIT = 'CREDIT', // 크레딧
 }
 
-export const SubscriptionMeasureMethodValues = [
+export const PricingModelValues = [
     PricingModelOptions.NONE, // 무관 (기본값)
     PricingModelOptions.PER_SEAT, // 인원당
     PricingModelOptions.PER_USAGE, // 사용량
@@ -39,7 +39,7 @@ export function t_SubscriptionPricingModel(value: PricingModelOptions) {
     }
 }
 
-export function c_SubscriptionMeasureMethod(value: PricingModelOptions) {
+export function c_PricingModelValue(value: PricingModelOptions) {
     switch (value) {
         case PricingModelOptions.NONE: // 무관
             return 'bg-gray-100';

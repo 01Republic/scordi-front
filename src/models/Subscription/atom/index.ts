@@ -2,8 +2,9 @@ import {atom, selector, selectorFamily} from 'recoil';
 import {subscriptionIdParamState} from '^atoms/common';
 import {errorNotify} from '^utils/toast-notify';
 import {pagedResourceAtom} from '^hooks/usePagedResource';
-import {SubscriptionDto, FindAllSubscriptionsQuery} from '../types';
+import {SubscriptionDto, FindAllSubscriptionsQuery, CreateSubscriptionRequestDto} from '../types';
 import {subscriptionApi} from '../api';
+import {localStorageAtoms} from '^atoms/localStorage.atom';
 
 export const subscriptionListAtom = pagedResourceAtom<SubscriptionDto, FindAllSubscriptionsQuery>({
     key: 'subscriptionListAtom',
@@ -96,4 +97,10 @@ export const fetchSubscriptionQueryById = selectorFamily({
             errorNotify(e);
         }
     },
+});
+
+// 여러 앱에 대한 구독 등록 폼 리스트
+export const createSubscriptionFormListAtom = localStorageAtoms<CreateSubscriptionRequestDto[]>({
+    key: 'createSubscriptionFormListAtom',
+    default: [],
 });
