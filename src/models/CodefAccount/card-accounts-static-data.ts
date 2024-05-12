@@ -37,7 +37,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
         loginPageUrl: 'https://corp.lottecard.co.kr/app/LCMBRAA_V100.lc',
     },
     {
-        displayName: '국민카드',
+        displayName: 'KB국민카드',
         param: CodefCardCompanyCode.KB국민카드,
         logo: '/logo/cards/KBCard.png',
         themeColor: '#60584c',

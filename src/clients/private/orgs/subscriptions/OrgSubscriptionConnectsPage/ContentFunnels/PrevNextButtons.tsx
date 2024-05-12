@@ -2,22 +2,7 @@ import {memo} from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {createSubscriptionFormData, currentStepAtom} from './atom';
-
-enum Steps {
-    Undef,
-
-    // 유/무료 선택
-    IsFreeTier,
-
-    // 결제주기 선택
-    RecurringCycle,
-
-    // 구독정보 입력
-    SubscriptionInfo,
-
-    // 결제수단 설정
-    PaymentMethod,
-}
+import {Steps} from './steps';
 
 export const PrevNextButtons = memo(function PrevNextButtons() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -28,7 +13,7 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
     const next = (i: number) => i + 1;
 
     switch (currentStep) {
-        case 1:
+        case Steps.IsFreeTier:
             // 유/무료 선택
             return (
                 <StepButtons
@@ -38,7 +23,7 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
                     isValid={typeof formData.isFreeTier === 'boolean'}
                 />
             );
-        case 2:
+        case Steps.RecurringCycle:
             // 결제주기 선택
             return (
                 <StepButtons
@@ -47,7 +32,7 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
                     isValid={typeof formData.billingCycleType !== 'undefined'}
                 />
             );
-        case 3:
+        case Steps.SubscriptionInfo:
             // 구독정보 입력
             return (
                 <StepButtons
@@ -60,7 +45,7 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
                     }
                 />
             );
-        case 4:
+        case Steps.PaymentMethod:
             // 결제수단 설정
             return (
                 <StepButtons
@@ -70,10 +55,12 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
                         })
                     }
                     onNext={() => setStep(next)}
+                    isValid={true}
                 />
             );
-        case 5:
-            return <StepButtons onPrev={() => setStep(prev)} onNext={() => setStep(Steps.IsFreeTier)} />;
+        case Steps.InvoiceAccount:
+            // 청구서 수신 메일 설정
+            return <StepButtons onPrev={() => setStep(prev)} onNext={() => setStep(Steps.IsFreeTier)} isValid={true} />;
         default:
             return <></>;
     }

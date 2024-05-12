@@ -41,9 +41,13 @@ export const PaymentMethodSelect = memo(function PaymentMethodSelect() {
                         clearable
                         getLabel={(card) => <CreditCardProfileOption2 item={card} />}
                         getValue={(card) => card.id}
-                        minHeight="min-h-[90%]"
-                        maxHeight="max-h-[90%]"
                         size="md"
+                        // minHeight="min-h-[552px]"
+                        // maxHeight="max-h-[552px]"
+                        minHeight="min-h-[var(--modal-height)]"
+                        maxHeight="max-h-[var(--modal-height)]"
+                        modalClassName="rounded-none sm:rounded-t-box [--modal-height:100vh] sm:[--modal-height:90vh]"
+                        scrollBoxHeight="calc(var(--modal-height) - 1.5rem - 28px - 1rem - 80px + 1rem)"
                         OptionComponent={({option}) => {
                             return <CreditCardProfileOption2 item={option} />;
                         }}
@@ -55,10 +59,12 @@ export const PaymentMethodSelect = memo(function PaymentMethodSelect() {
                             }));
                         }}
                     >
-                        <div className="p-4 w-full invisible">
-                            <button className="btn btn-block" unselectable="on" />
-                        </div>
-                        <div className="p-4 w-full fixed left-0 right-0 bottom-0">
+                        <div
+                            className="p-4 w-full fixed left-0 right-0 bottom-0"
+                            style={{
+                                background: 'linear-gradient(0, white 0, white 80%, transparent)',
+                            }}
+                        >
                             <button
                                 className="btn btn-block btn-scordi"
                                 onClick={() => setIsCardCreateMethodModalOpen(true)}
@@ -89,6 +95,10 @@ export const PaymentMethodSelect = memo(function PaymentMethodSelect() {
             <CardAutoCreateModal
                 isOpened={isCardAutoCreateModalOpen}
                 onClose={() => setIsCardAutoCreateModalOpen(false)}
+                onCreate={() => {
+                    setIsCardAutoCreateModalOpen(false);
+                    reload();
+                }}
             />
             <CardManualCreateModal
                 isOpened={isCardManualCreateModalOpen}

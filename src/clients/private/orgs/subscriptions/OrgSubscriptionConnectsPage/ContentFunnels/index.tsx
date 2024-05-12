@@ -1,36 +1,43 @@
 import {memo, useEffect} from 'react';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {CurrencyCode} from '^models/Money';
+import {orgIdParamState} from '^atoms/common';
 import {LoadableBox} from '^components/util/loading';
 import {StepProgress} from './_common/StepProgress';
-import {useCurrentConnectingProduct} from './useCurrentConnectingProduct';
-import {CurrencyCode} from '^models/Money';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
 import {createSubscriptionFormData, currentStepAtom} from './atom';
-import {SubscriptionInfo, PaymentMethod, IsFreeTierStep, RecurringCycleStep} from './steps';
+import {useCurrentConnectingProduct} from './useCurrentConnectingProduct';
+import {Steps, ProductNotSelected, IsFreeTierStep, RecurringCycleStep, SubscriptionInfo, PaymentMethod} from './steps';
 import {PrevNextButtons} from './PrevNextButtons';
 
 export const ContentFunnels = memo(function ContentFunnels() {
-    const orgId = useRecoilValue(orgIdParamState);
+    const organizationId = useRecoilValue(orgIdParamState);
     const {isLoading, currentConnectingProduct} = useCurrentConnectingProduct();
-    // useCreateSubscriptionFormList();
     const setFormData = useSetRecoilState(createSubscriptionFormData);
     const [currentStep, setStep] = useRecoilState(currentStepAtom);
 
     useEffect(() => {
-        if (!orgId || isNaN(orgId)) return;
+        if (!organizationId || isNaN(organizationId)) return;
         if (!currentConnectingProduct) return;
 
         setFormData((f) => {
             return {
                 ...f,
-                organizationId: orgId,
+                organizationId,
                 productId: currentConnectingProduct.id,
                 isFreeTier: false,
                 currentBillingAmount: {amount: 0, currency: CurrencyCode.KRW},
             };
         });
         setStep(1);
-    }, [orgId, currentConnectingProduct]);
+    }, [organizationId, currentConnectingProduct]);
+
+    if (!currentConnectingProduct) {
+        return (
+            <div className="container max-w-4xl mx-auto pt-[40px]">
+                <ProductNotSelected />
+            </div>
+        );
+    }
 
     return (
         <>
@@ -38,10 +45,10 @@ export const ContentFunnels = memo(function ContentFunnels() {
                 <div className="container max-w-4xl mx-auto pt-[40px]">
                     <StepProgress />
 
-                    {currentStep === 1 && <IsFreeTierStep />}
-                    {currentStep === 2 && <RecurringCycleStep />}
-                    {currentStep === 3 && <SubscriptionInfo />}
-                    {currentStep === 4 && <PaymentMethod />}
+                    {currentStep === Steps.IsFreeTier && <IsFreeTierStep />}
+                    {currentStep === Steps.RecurringCycle && <RecurringCycleStep />}
+                    {currentStep === Steps.SubscriptionInfo && <SubscriptionInfo />}
+                    {currentStep === Steps.PaymentMethod && <PaymentMethod />}
                 </div>
             </LoadableBox>
 

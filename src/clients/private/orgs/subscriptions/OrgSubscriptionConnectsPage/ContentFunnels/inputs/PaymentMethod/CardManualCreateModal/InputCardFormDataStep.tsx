@@ -1,8 +1,8 @@
-import React, {Dispatch, memo, SetStateAction} from 'react';
+import React, {memo} from 'react';
+import {useSetRecoilState} from 'recoil';
 import {FaChevronLeft} from 'react-icons/fa6';
 import {inputTextToCardNumberFormat} from '^utils/input-helper';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
-import {useSetRecoilState} from 'recoil';
 import {createCreditCardDtoAtom} from '^v3/share/modals/NewCardModal/atom';
 
 interface InputCardFormDataStepProps {

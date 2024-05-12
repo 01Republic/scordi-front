@@ -1,14 +1,17 @@
 import React, {memo} from 'react';
 import {useRecoilState} from 'recoil';
+import {OutLink} from '^components/OutLink';
 import {inputTextToCurrencyFormat} from '^utils/input-helper';
 import {CurrencyCode} from '^models/Money';
 import {createSubscriptionFormData} from '../../atom';
 import {FadeUp} from '../../_common/FadeUp';
+import {useCurrentConnectingProduct} from '../../useCurrentConnectingProduct';
 import {InputSection} from '../InputSection';
 import {PricingTypeSelect} from './PricingTypeSelect';
 import {CurrencySelect} from './CurrencySelect';
 
 export const RecurringAmount = memo(() => {
+    const {currentConnectingProduct} = useCurrentConnectingProduct();
     const [formData, setFormData] = useRecoilState(createSubscriptionFormData);
 
     return (
@@ -50,6 +53,16 @@ export const RecurringAmount = memo(() => {
                         <CurrencySelect />
                     </div>
                 </div>
+
+                {currentConnectingProduct?.pricingPageUrl && (
+                    <div>
+                        <OutLink
+                            text="사이트에서 내 플랜 확인하기"
+                            href={currentConnectingProduct.pricingPageUrl}
+                            className="text-14"
+                        />
+                    </div>
+                )}
             </InputSection>
 
             <InputSection className="max-w-lg">

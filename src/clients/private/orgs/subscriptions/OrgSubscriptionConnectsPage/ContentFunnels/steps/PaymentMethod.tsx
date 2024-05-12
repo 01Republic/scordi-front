@@ -1,6 +1,5 @@
 import {memo} from 'react';
 import {StepLayout} from '../_common/StepLayout';
-import {InputSection} from '../inputs/InputSection';
 import {PaymentMethodSelect} from '../inputs/PaymentMethod/PaymentMethodSelect';
 
 export const PaymentMethod = memo(function PaymentMethod() {

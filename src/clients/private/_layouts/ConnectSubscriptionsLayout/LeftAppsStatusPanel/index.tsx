@@ -5,7 +5,7 @@ import {Inquiry} from './Inquiry';
 
 export const LeftAppsStatusPanel = memo(function LeftAppsStatusPanel() {
     return (
-        <aside className="w-[400px] bg-gray-50 flex flex-col items-stretch relative max-h-screen">
+        <aside className="w-full max-w-[400px] min-w-[250px] bg-gray-50 flex flex-col items-stretch relative max-h-screen">
             <div className="pt-10 pb-14 px-10">
                 <LogoHeader />
             </div>

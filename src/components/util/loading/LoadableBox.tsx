@@ -36,7 +36,11 @@ export const LoadableBox = memo((props: LoadableBoxProps & WithChildren) => {
         return (
             <div>
                 {isLoading ? (
-                    <div className="pt-4">loading...</div>
+                    <div className={`relative ${noPadding ? '' : `pt-4`}`}>
+                        <div className={`absolute top-0 left-0 right-0 ${spinnerPos === 'top' ? '' : 'bottom-0'}`}>
+                            <Spinner size={spinnerSize} posY={spinnerPos} />
+                        </div>
+                    </div>
                 ) : (
                     <div className={noPadding ? '' : `pt-4`}>{children}</div>
                 )}

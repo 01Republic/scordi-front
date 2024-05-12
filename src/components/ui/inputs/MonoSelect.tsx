@@ -19,9 +19,11 @@ interface MonoSelectProps<Option, Value> {
     modalTitle?: ReactNodeLike;
     placeholder?: ReactNodeLike;
     clearable?: boolean;
+    size?: ModalLayoutProps['size'];
     minHeight?: string;
     maxHeight?: string;
-    size?: ModalLayoutProps['size'];
+    modalClassName?: string;
+    scrollBoxHeight?: string;
 }
 
 export const MonoSelect = <Option, Value>(props: MonoSelectProps<Option, Value> & WithChildren) => {
@@ -37,9 +39,11 @@ export const MonoSelect = <Option, Value>(props: MonoSelectProps<Option, Value> 
         modalTitle,
         placeholder,
         clearable = false,
+        size,
         minHeight,
         maxHeight,
-        size,
+        modalClassName = '',
+        scrollBoxHeight = '',
     } = props;
     const [modalOpened, setModalOpened] = useState(false);
     const defaultOption = options.find((o) => getValue(o) === defaultValue);
@@ -83,53 +87,62 @@ export const MonoSelect = <Option, Value>(props: MonoSelectProps<Option, Value> 
             <SlideUpModal
                 open={modalOpened}
                 onClose={() => setModalOpened(false)}
+                size={size}
                 minHeight={minHeight}
                 maxHeight={maxHeight}
-                size={size}
+                modalClassName={`${modalClassName}`}
             >
                 {modalTitle && <h3 className="font-bold text-xl">{modalTitle}</h3>}
 
                 <LoadableBox isLoading={isLoading} loadingType={2} spinnerPos="center" noPadding>
-                    <div className="py-4 max-h-full no-scrollbar">
-                        {options.map((option, i) => {
-                            const selectOption = () => {
-                                setSelectedOption(option);
-                                onChange(option);
-                                setModalOpened(false);
-                            };
+                    <div className="py-4 max-h-full">
+                        <div
+                            className="no-scrollbar overflow-auto -mx-4 px-4"
+                            style={{
+                                maxHeight: scrollBoxHeight,
+                            }}
+                        >
+                            {options.map((option, i) => {
+                                const selectOption = () => {
+                                    setSelectedOption(option);
+                                    onChange(option);
+                                    setModalOpened(false);
+                                };
 
-                            const isSelected = !!selectedOption && getValue(selectedOption) === getValue(option);
+                                const isSelected = !!selectedOption && getValue(selectedOption) === getValue(option);
 
-                            const onClick = () => {
-                                if (clearable) {
-                                    isSelected ? unselectOption() : selectOption();
-                                } else {
-                                    selectOption();
-                                }
-                            };
+                                const onClick = () => {
+                                    if (clearable) {
+                                        isSelected ? unselectOption() : selectOption();
+                                    } else {
+                                        selectOption();
+                                    }
+                                };
 
-                            return (
-                                <div
-                                    tabIndex={0}
-                                    key={i}
-                                    className="-mx-4 px-4 py-2.5 cursor-pointer group hover:bg-gray-100 flex items-center justify-between rounded-box btn-animation"
-                                    onKeyDown={enterToSpace(onClick)}
-                                    onClick={onClick}
-                                >
-                                    <div>
-                                        {OptionComponent ? (
-                                            <OptionComponent option={option} />
-                                        ) : (
-                                            <p className="font-medium text-16">{getLabel && getLabel(option)}</p>
-                                        )}
+                                return (
+                                    <div
+                                        tabIndex={0}
+                                        key={i}
+                                        className="-mx-4 px-4 py-2.5 cursor-pointer group hover:bg-gray-100 flex items-center justify-between rounded-box btn-animation"
+                                        onKeyDown={enterToSpace(onClick)}
+                                        onClick={onClick}
+                                    >
+                                        <div>
+                                            {OptionComponent ? (
+                                                <OptionComponent option={option} />
+                                            ) : (
+                                                <p className="font-medium text-16">{getLabel && getLabel(option)}</p>
+                                            )}
+                                        </div>
+
+                                        <div>{isSelected && <FaCheck className="text-scordi" />}</div>
                                     </div>
-
-                                    <div>{isSelected && <FaCheck className="text-scordi" />}</div>
-                                </div>
-                            );
-                        })}
+                                );
+                            })}
+                        </div>
                     </div>
                 </LoadableBox>
+
                 {children}
             </SlideUpModal>
         </>

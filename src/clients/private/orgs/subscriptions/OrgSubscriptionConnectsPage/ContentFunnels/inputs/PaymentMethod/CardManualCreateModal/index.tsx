@@ -1,23 +1,21 @@
-import React, {memo, useEffect, useState} from 'react';
-import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {CardAccountsStaticData, cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
-import {FaChevronLeft, FaChevronRight} from 'react-icons/fa6';
-import {FadeUp} from '../../../_common/FadeUp';
-import {ButtonGroupRadio} from '^components/util/form-control/inputs';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {createCreditCardDtoAtom} from '^v3/share/modals/NewCardModal/atom';
-import {inputTextToCardNumberFormat} from '^utils/input-helper';
+import React, {memo, useState} from 'react';
+import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {debounce} from 'lodash';
-import {orgIdParamState} from '^atoms/common';
 import {plainToInstance} from 'class-transformer';
-import {UnSignedCreditCardFormData} from '^models/CreditCard/type';
 import {toast} from 'react-hot-toast';
-import {creditCardApi} from '^models/CreditCard/api';
+import {FaChevronLeft} from 'react-icons/fa6';
 import {errorNotify} from '^utils/toast-notify';
-import {InputCardFormDataStep} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/CardManualCreateModal/InputCardFormDataStep';
-import {CardCreatingStep} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/CardManualCreateModal/CardCreatingStep';
+import {orgIdParamState} from '^atoms/common';
+import {createCreditCardDtoAtom} from '^v3/share/modals/NewCardModal/atom';
+import {CardAccountsStaticData, cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {UnSignedCreditCardFormData} from '^models/CreditCard/type';
+import {creditCardApi} from '^models/CreditCard/api';
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
-import {useAlert} from '^hooks/useAlert';
+import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
+import {FadeUp} from '../../../_common/FadeUp';
+import {CardCompanyItem} from '../_common/CardCompanyItem';
+import {InputCardFormDataStep} from './InputCardFormDataStep';
+import {CardCreatingStep} from './CardCreatingStep';
 
 interface CardManualCreateModalProps {
     isOpened: boolean;
@@ -25,6 +23,7 @@ interface CardManualCreateModalProps {
     onCreate: () => any;
 }
 
+// 카드사 연결이 없는 (직접)수동등록의 스텝
 enum Step {
     companySelect,
     setInfo,
@@ -41,6 +40,7 @@ export const CardManualCreateModal = memo((props: CardManualCreateModalProps) =>
     const [step, setStep] = useState(Step.companySelect);
     const [cardCompany, setCardCompany] = useState<CardAccountsStaticData>();
     const [createCreditCardDto, setFormData] = useRecoilState(createCreditCardDtoAtom);
+    const resetFormData = useResetRecoilState(createCreditCardDtoAtom);
 
     const setCompany = (cardCompanyData?: CardAccountsStaticData) => {
         setCardCompany(cardCompanyData);
@@ -70,8 +70,9 @@ export const CardManualCreateModal = memo((props: CardManualCreateModalProps) =>
 
         setTimeout(() => {
             req.then(() => {
-                setStep(Step.companySelect);
                 toast.success('새 카드를 추가했어요 :)');
+                setStep(Step.companySelect);
+                resetFormData();
                 onCreate();
             }).catch((e) => {
                 setStep(Step.setInfo);
@@ -86,8 +87,9 @@ export const CardManualCreateModal = memo((props: CardManualCreateModalProps) =>
                 open={isOpened}
                 onClose={onClose}
                 size="md"
-                minHeight="min-h-full"
-                modalClassName="rounded-none"
+                minHeight="min-h-screen sm:min-h-[90%]"
+                maxHeight="max-h-screen sm:max-h-[90%]"
+                modalClassName="rounded-none sm:rounded-t-box"
             >
                 {step === Step.companySelect && (
                     <div>
@@ -133,7 +135,7 @@ export const CardManualCreateModal = memo((props: CardManualCreateModalProps) =>
             {/* 이탈방지 백드롭 */}
             <AnimatedModal
                 open={isOpened && step === Step.creating}
-                onClose={() => toast('실행 도중에 중단 할 수 없어요')}
+                onClose={() => toast('지금은 뒤로 갈 수 없어요')}
                 backdrop={{opacity: 0}}
             >
                 <div></div>
@@ -142,31 +144,3 @@ export const CardManualCreateModal = memo((props: CardManualCreateModalProps) =>
     );
 });
 CardManualCreateModal.displayName = 'CardManualCreateModal';
-
-interface CardCompanyItemProps {
-    cardCompanyData: CardAccountsStaticData;
-    onClick: () => any;
-}
-
-export const CardCompanyItem = memo((props: CardCompanyItemProps) => {
-    const {cardCompanyData, onClick} = props;
-    const {logo, displayName} = cardCompanyData;
-
-    return (
-        <div
-            className="flex items-center -mx-3 px-3 py-2 rounded-btn cursor-pointer group hover:bg-scordi-50 transition-all"
-            onClick={onClick}
-        >
-            <div>
-                <img src={logo} alt="" className="avatar w-[28px] h-[28px]" />
-            </div>
-            <div className="flex-auto px-3">
-                <p className="text-14">{displayName}</p>
-            </div>
-            <div>
-                <FaChevronRight className="text-gray-400 group-hover:text-black transition-all" />
-            </div>
-        </div>
-    );
-});
-CardCompanyItem.displayName = 'CardCompanyItem';

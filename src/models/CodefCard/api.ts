@@ -24,6 +24,11 @@ export const codefCardApi = {
         return api.get(url).then(oneDtoOf<Dto>(CodefCardDto as ClassConstructor<Dto>));
     },
 
+    createCreditCard(orgId: number, id: number) {
+        const url = `/connect/organizations/${orgId}/codef/cards/${id}/creditCard`;
+        return api.post(url).then(oneDtoOf(CodefCardDto));
+    },
+
     /** 코드에프 결제내역 조회 (카드 등록 및 연동) */
     histories(orgId: number, codefCardId: number, params: FindAllCardHistoryQueryDto = {}) {
         const url = `/connect/organizations/${orgId}/codef/cards/${codefCardId}/histories`;
