@@ -1,7 +1,8 @@
-import {memo} from 'react';
+import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {LeftAppsStatusPanel} from './LeftAppsStatusPanel';
 import {BaseLayout} from '^clients/private/_layouts/BaseLayout';
+import {GoogleLogin} from './GoogleLogin';
 
 interface ConnectSubscriptionsLayoutProps extends WithChildren {
     //
@@ -12,6 +13,7 @@ export const ConnectSubscriptionsLayout = memo((props: ConnectSubscriptionsLayou
 
     return (
         <BaseLayout>
+            <GoogleLogin />
             <div className="w-full min-h-screen flex">
                 {/* Side Panel */}
                 <LeftAppsStatusPanel />

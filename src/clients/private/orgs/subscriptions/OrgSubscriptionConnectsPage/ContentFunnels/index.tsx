@@ -1,4 +1,4 @@
-import {memo, useEffect} from 'react';
+import React, {memo, useEffect} from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {CurrencyCode} from '^models/Money';
 import {orgIdParamState} from '^atoms/common';
@@ -6,8 +6,17 @@ import {LoadableBox} from '^components/util/loading';
 import {StepProgress} from './_common/StepProgress';
 import {createSubscriptionFormData, currentStepAtom} from './atom';
 import {useCurrentConnectingProduct} from './useCurrentConnectingProduct';
-import {Steps, ProductNotSelected, IsFreeTierStep, RecurringCycleStep, SubscriptionInfo, PaymentMethod} from './steps';
 import {PrevNextButtons} from './PrevNextButtons';
+import {
+    Steps,
+    ProductNotSelected,
+    IsFreeTierStep,
+    RecurringCycleStep,
+    SubscriptionInfo,
+    PaymentMethod,
+    InvoiceAccountSelectStep,
+} from './steps';
+import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 
 export const ContentFunnels = memo(function ContentFunnels() {
     const organizationId = useRecoilValue(orgIdParamState);
@@ -49,6 +58,7 @@ export const ContentFunnels = memo(function ContentFunnels() {
                     {currentStep === Steps.RecurringCycle && <RecurringCycleStep />}
                     {currentStep === Steps.SubscriptionInfo && <SubscriptionInfo />}
                     {currentStep === Steps.PaymentMethod && <PaymentMethod />}
+                    {currentStep === Steps.InvoiceAccount && <InvoiceAccountSelectStep />}
                 </div>
             </LoadableBox>
 

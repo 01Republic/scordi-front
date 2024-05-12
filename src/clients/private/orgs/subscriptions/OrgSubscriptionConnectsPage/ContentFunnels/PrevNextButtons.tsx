@@ -5,7 +5,7 @@ import {createSubscriptionFormData, currentStepAtom} from './atom';
 import {Steps} from './steps';
 
 export const PrevNextButtons = memo(function PrevNextButtons() {
-    const orgId = useRecoilValue(orgIdParamState);
+    // const orgId = useRecoilValue(orgIdParamState);
     const formData = useRecoilValue(createSubscriptionFormData);
     const [currentStep, setStep] = useRecoilState(currentStepAtom);
 
@@ -60,7 +60,7 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
             );
         case Steps.InvoiceAccount:
             // 청구서 수신 메일 설정
-            return <StepButtons onPrev={() => setStep(prev)} onNext={() => setStep(Steps.IsFreeTier)} isValid={true} />;
+            return <StepButtons onPrev={() => setStep(prev)} onNext={() => setStep(next)} isValid={true} />;
         default:
             return <></>;
     }

@@ -39,6 +39,8 @@ export class CreateSubscriptionRequestDto {
     // // registeredAt: Date | string; // 사용시작일
     // // paidMemberCount: number; // 결제되는 사용자 수
     // // usedMemberCount?: number; // 사용중인 사용자 수
+
+    invoiceAccountId?: number;
 }
 
 export class CreateSubscriptionRequestDto2 {

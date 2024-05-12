@@ -9,6 +9,7 @@ import {WithChildren} from '^types/global.type';
 import {LoadableBox} from '^components/util/loading';
 
 interface MonoSelectProps<Option, Value> {
+    id?: string;
     options?: Option[];
     isLoading?: boolean;
     defaultValue?: Value;
@@ -28,6 +29,7 @@ interface MonoSelectProps<Option, Value> {
 
 export const MonoSelect = <Option, Value>(props: MonoSelectProps<Option, Value> & WithChildren) => {
     const {
+        id,
         children,
         options = [],
         isLoading = false,
@@ -57,6 +59,7 @@ export const MonoSelect = <Option, Value>(props: MonoSelectProps<Option, Value> 
     return (
         <>
             <div
+                id={id}
                 tabIndex={0}
                 className="input border-gray-200 w-full bg-gray-100 text-16 flex items-center justify-between cursor-pointer"
                 onKeyDown={enterToSpace(() => setModalOpened(true))}

@@ -9,7 +9,6 @@ export const PaymentMethod = memo(function PaymentMethod() {
             desc="구독을 지출하는 카드 또는 출금계좌를 선택해주세요."
         >
             <PaymentMethodSelect />
-            {/*<InputSection title="청구서 수신 메일"></InputSection>*/}
         </StepLayout>
     );
 });

@@ -56,7 +56,7 @@ interface Props {
     onClick: () => any;
 }
 
-const CardCreateMethodOption = (props: Props) => {
+export const CardCreateMethodOption = (props: Props) => {
     const {Icon, title, desc, onClick} = props;
 
     return (
