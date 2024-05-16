@@ -1,4 +1,5 @@
 import {
+    CreateInvoiceAccountDto,
     CreateInvoiceAccountRequestDto,
     CreateInvoiceAccountRequestDto2,
     InvoiceAccountDto,
@@ -72,6 +73,11 @@ export const invoiceAccountApi = {
     },
 
     // v3
+
+    createV3(orgId: number, data: CreateInvoiceAccountDto) {
+        const url = `/${NAMESPACE}/${orgId}/invoice_accounts_v3`;
+        return api.post<InvoiceAccountDto>(url, data).then(oneDtoOf(InvoiceAccountDto));
+    },
 
     createByCode(orgId: number, data: CreateInvoiceAccountRequestDto2) {
         const url = `/${NAMESPACE}/${orgId}/invoice_accounts_v3/by-code`;

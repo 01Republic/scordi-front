@@ -46,8 +46,8 @@ export const InvoiceAccountSelectModal = memo((props: InvoiceAccountSelectModalP
         }
     };
 
-    const notSelectables = invoiceAccounts.filter((item) => !item.googleTokenData);
-    const selectables = invoiceAccounts.filter((item) => item.googleTokenData);
+    const notSelectables = invoiceAccounts.filter((item) => !item.googleTokenData && !item.isManuallyCreated);
+    const selectables = invoiceAccounts.filter((item) => item.isManuallyCreated || item.googleTokenData);
 
     return (
         <SlideUpModal

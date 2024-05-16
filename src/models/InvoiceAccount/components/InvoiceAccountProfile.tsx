@@ -2,6 +2,7 @@ import React, {memo} from 'react';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {Avatar} from '^components/Avatar';
 import {FaCircleExclamation} from 'react-icons/fa6';
+import {InvoiceAccountProfileInManual} from '^models/InvoiceAccount/components/InvoiceAccountProfileInManual';
 
 interface InvoiceAccountProfileProps {
     invoiceAccount: InvoiceAccountDto;
@@ -9,6 +10,10 @@ interface InvoiceAccountProfileProps {
 
 export const InvoiceAccountProfile = memo((props: InvoiceAccountProfileProps) => {
     const {invoiceAccount} = props;
+
+    if (invoiceAccount.isManuallyCreated) {
+        return <InvoiceAccountProfileInManual invoiceAccount={invoiceAccount} />;
+    }
 
     return (
         <div data-id={invoiceAccount.id} className="!w-auto gap-4 flex items-center">

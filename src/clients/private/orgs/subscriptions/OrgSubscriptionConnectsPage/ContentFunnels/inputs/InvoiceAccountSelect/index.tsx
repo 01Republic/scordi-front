@@ -1,22 +1,19 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilState} from 'recoil';
 import {debounce} from 'lodash';
-import {MonoSelect} from '^components/ui/inputs/MonoSelect';
-import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
-import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
-import {
-    InvoiceAccountCreateMethod,
-    InvoiceAccountCreateMethodModal,
-} from '../../inputs/InvoiceAccountSelect/InvoiceAccountCreateMethodModal';
-import {InputSection} from '../../inputs/InputSection';
-import {createSubscriptionFormData} from '../../atom';
-import {InvoiceAccountAutoCreateModal} from './InvoiceAccountAutoCreateModal';
-import {InvoiceAccountSelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/InvoiceAccountSelect/InvoiceAccountSelectModal';
-import {enterToSpace} from '^components/util/keyDownLikeClick';
+import {toast} from 'react-hot-toast';
 import {FaTimes} from 'react-icons/fa';
 import {FaCaretDown} from 'react-icons/fa6';
+import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
-import {toast} from 'react-hot-toast';
+import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
+import {enterToSpace} from '^components/util/keyDownLikeClick';
+import {createSubscriptionFormData} from '../../atom';
+import {InputSection} from '../../inputs/InputSection';
+import {InvoiceAccountSelectModal} from './InvoiceAccountSelectModal';
+import {InvoiceAccountCreateMethod, InvoiceAccountCreateMethodModal} from './InvoiceAccountCreateMethodModal';
+import {InvoiceAccountAutoCreateModal} from './InvoiceAccountAutoCreateModal';
+import {InvoiceAccountManualCreateModal} from './InvoiceAccountManualCreateModal';
 
 export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
     const [formData, setFormData] = useRecoilState(createSubscriptionFormData);
@@ -120,6 +117,16 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
                 }}
                 onRetry={() => {
                     setIsAutoCreateModalOpen(true);
+                }}
+            />
+
+            <InvoiceAccountManualCreateModal
+                isOpened={isManualCreateModalOpen}
+                onClose={() => setIsManualCreateModalOpen(false)}
+                onCreate={() => {
+                    toast.success('계정을 저장했어요');
+                    setIsManualCreateModalOpen(false);
+                    reload();
                 }}
             />
         </InputSection>

@@ -31,6 +31,10 @@ export class InvoiceAccountDto {
     @TypeCast(() => InvoiceAppDto) invoiceApps?: InvoiceAppDto[];
     @TypeCast(() => SubscriptionDto) subscriptions?: SubscriptionDto[];
 
+    get isManuallyCreated() {
+        return !this.googleTokenDataId && !this.image;
+    }
+
     get provider() {
         return 'Google';
     }
@@ -64,6 +68,10 @@ export type CreateInvoiceAccountRequestDto = {
     tokenData: GmailAgentTokenData; // 인증 토큰
     gmailQueryOptions: GmailQueryOptions; // 지메일 쿼리
 };
+
+export class CreateInvoiceAccountDto {
+    email: string;
+}
 
 export type CreateInvoiceAccountRequestDto2 = {
     code: string; // 구글 1회성 코드

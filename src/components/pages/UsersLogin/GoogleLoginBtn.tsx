@@ -69,7 +69,7 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
         scope: about === 'login' ? undefined : scope.join(' '),
         flow: 'auth-code',
         onError: (error) => {
-            console.log(error);
+            onCode && onCode(error.error as string);
         },
     });
 
