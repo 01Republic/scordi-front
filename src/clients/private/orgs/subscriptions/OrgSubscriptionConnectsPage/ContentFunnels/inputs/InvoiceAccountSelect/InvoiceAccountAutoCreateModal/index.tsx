@@ -5,11 +5,13 @@ import {connectInvoiceAccountCodeAtom} from '^v3/share/OnboardingFlow/steps/Conn
 import {orgIdParamState} from '^atoms/common';
 import {useInvoiceAccountListInConnector} from '^models/InvoiceAccount/hook';
 import {invoiceAccountTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountIsLoading/invoiceAccountTimeoutChain';
-import {getCreateInvoiceAccountFromTo} from '^models/InvoiceAccount/type';
+import {getCreateInvoiceAccountFromTo, InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {toast} from 'react-hot-toast';
 import {FaChevronLeft} from 'react-icons/fa6';
-import {ApiError} from '^api/api';
+import {ApiErrorResponse} from '^api/api';
+import {plainToInstance} from 'class-transformer';
+import {AxiosResponse} from 'axios';
 
 interface InvoiceAccountAutoCreateModalProps {
     isOpened: boolean;
@@ -28,28 +30,55 @@ export const InvoiceAccountAutoCreateModal = memo((props: InvoiceAccountAutoCrea
     const {reload} = useInvoiceAccountListInConnector();
     const [isLoading, setIsLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState<string>();
+    const [duplicatedAccount, setDuplicatedAccount] = useState<InvoiceAccountDto>();
 
-    const createInvoiceAccount = (code: string) => {
+    const handleRequest = (request: () => Promise<AxiosResponse<InvoiceAccountDto>>) => {
         setIsLoading(true);
-        invoiceAccountTimeoutChain(setTitle, setDesc);
+        setDuplicatedAccount(undefined);
 
-        const dto = {
-            code,
-            gmailQueryOptions: getCreateInvoiceAccountFromTo(),
-        };
+        return request()
+            .then(() =>
+                reload().then(() => {
+                    resetCode();
+                    onCreate();
+                }),
+            )
+            .catch((err: ApiErrorResponse<InvoiceAccountDto | null>) => {
+                const data = err.response?.data;
+                if (data) {
+                    setErrorMsg(data.message);
 
-        invoiceAccountApi
-            .createV2(orgId, dto)
-            .then((res) => {
-                if (res.status !== 201) return;
-                reload().then(() => resetCode());
-            })
-            .catch((err: ApiError) => {
-                console.log('err', err);
-                setErrorMsg(err.response?.data.message);
+                    if (data.code === 'DUPLICATED_ENTITY' && data.data) {
+                        const duplicated = plainToInstance(InvoiceAccountDto, data.data);
+                        setDuplicatedAccount(duplicated);
+                    }
+                }
             })
             .finally(() => setIsLoading(false));
     };
+
+    const createInvoiceAccount = (code: string) => {
+        return handleRequest(() => {
+            const gmailQueryOptions = getCreateInvoiceAccountFromTo();
+            return invoiceAccountApi.createByCode(orgId, {code, gmailQueryOptions});
+        });
+    };
+
+    const reConnectInvoiceAccount = (id: number) => {
+        return handleRequest(() => {
+            return invoiceAccountApi.reConnect(orgId, id, {code});
+        });
+    };
+
+    useEffect(() => {
+        if (!isOpened) {
+            setIsLoading(false);
+            setErrorMsg(undefined);
+            setDuplicatedAccount(undefined);
+            setTitle('인증 정보를 가져오고 있어요.');
+            setDesc('최대 1분 정도 걸릴 수 있어요. 잠시만 기다려주세요.');
+        }
+    }, [isOpened]);
 
     useEffect(() => {
         if (code) createInvoiceAccount(code);
@@ -79,6 +108,16 @@ export const InvoiceAccountAutoCreateModal = memo((props: InvoiceAccountAutoCrea
                             />
                         </div>
 
+                        {/* 로딩 전 (소셜로그인 진행중) */}
+                        {!isLoading && !errorMsg && (
+                            <div className="mb-12 animate-pulse">
+                                <h2 className="font-bold text-xl leading-tight">Gmail 에 연결합니다</h2>
+                                <h3 className="text-lg mb-4">계정 인증을 기다리고 있어요...</h3>
+                                <br />
+                            </div>
+                        )}
+
+                        {/* 로딩 중 (소셜로그인 후 연동중) */}
                         {isLoading && (
                             <div className="mb-12 animate-pulse">
                                 <h2 className="font-bold text-xl leading-tight">{title}</h2>
@@ -87,18 +126,17 @@ export const InvoiceAccountAutoCreateModal = memo((props: InvoiceAccountAutoCrea
                             </div>
                         )}
 
+                        {/* 연동 중 에러 */}
                         {!isLoading && errorMsg && (
                             <div className="mb-12">
                                 <h2 className="font-bold text-xl leading-tight text-red-500">
-                                    {errorMsg.includes('이미 존재하는 계정')
-                                        ? '이미 등록된 계정이에요!'
-                                        : '앗 조치가 필요해요'}
+                                    {duplicatedAccount ? '이미 등록된 계정이에요!' : '앗 조치가 필요해요'}
                                 </h2>
                                 <h2 className="text-lg mb-4">
-                                    {errorMsg.includes('Invalid grant')
-                                        ? '토큰 유효시간이 만료되었어요 💦'
-                                        : errorMsg.includes('이미 존재하는 계정')
+                                    {duplicatedAccount
                                         ? '기존 계정과 통합할까요?'
+                                        : errorMsg.includes('Invalid grant')
+                                        ? '토큰 유효시간이 만료되었어요 💦'
                                         : errorMsg}
                                 </h2>
                                 <br />
@@ -107,6 +145,16 @@ export const InvoiceAccountAutoCreateModal = memo((props: InvoiceAccountAutoCrea
                     </div>
                 </header>
 
+                {/* 로딩 전 (소셜로그인 진행중) */}
+                {!isLoading && !errorMsg && (
+                    <section className="py-8 flex items-center justify-center">
+                        <div>
+                            <progress className="progress bg-gray-200 progress-primary w-[160px]" />
+                        </div>
+                    </section>
+                )}
+
+                {/* 로딩 중 (소셜로그인 후 연동중) */}
                 {isLoading && (
                     <section className="py-8 flex items-center justify-center">
                         <div>
@@ -115,6 +163,7 @@ export const InvoiceAccountAutoCreateModal = memo((props: InvoiceAccountAutoCrea
                     </section>
                 )}
 
+                {/* 연동 중 에러 */}
                 {!isLoading && errorMsg && (
                     <section className="fixed p-4 bottom-0 left-0 right-0">
                         {errorMsg.includes('Invalid grant') && (
@@ -135,12 +184,21 @@ export const InvoiceAccountAutoCreateModal = memo((props: InvoiceAccountAutoCrea
                                 인증 재시도
                             </button>
                         )}
-                        {errorMsg.includes('이미 존재하는 계정') && (
+                        {duplicatedAccount && (
                             <div className="grid grid-cols-2 gap-2">
                                 <button className="btn bg-gray-200 text-gray-500" onClick={onClose}>
                                     아니요, 돌아갈게요
                                 </button>
-                                <button className="btn btn-scordi">네, 계속할게요</button>
+                                <button
+                                    className="btn btn-scordi"
+                                    onClick={() => {
+                                        reConnectInvoiceAccount(duplicatedAccount.id).then(() => {
+                                            onCreate();
+                                        });
+                                    }}
+                                >
+                                    네, 계속할게요
+                                </button>
                             </div>
                         )}
                     </section>

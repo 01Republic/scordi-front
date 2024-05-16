@@ -11,72 +11,87 @@ import {
 import {InputSection} from '../../inputs/InputSection';
 import {createSubscriptionFormData} from '../../atom';
 import {InvoiceAccountAutoCreateModal} from './InvoiceAccountAutoCreateModal';
+import {InvoiceAccountSelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/InvoiceAccountSelect/InvoiceAccountSelectModal';
+import {enterToSpace} from '^components/util/keyDownLikeClick';
+import {FaTimes} from 'react-icons/fa';
+import {FaCaretDown} from 'react-icons/fa6';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {toast} from 'react-hot-toast';
 
 export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
     const [formData, setFormData] = useRecoilState(createSubscriptionFormData);
+    const [isSelectModalOpened, setIsSelectModalOpened] = useState(false);
+
     const [isCreateMethodModalOpen, setIsCreateMethodModalOpen] = useState(false);
     const [isAutoCreateModalOpen, setIsAutoCreateModalOpen] = useState(false);
     const [isManualCreateModalOpen, setIsManualCreateModalOpen] = useState(false);
     const {search, result, reload, isLoading} = useInvoiceAccounts();
+    const selectedOption = result.items.find((o) => o.id === formData.invoiceAccountId);
 
     useEffect(() => {
-        loadCards();
+        loadAccounts();
     }, []);
 
-    const loadCards = debounce((keyword?: string) => {
+    const loadAccounts = debounce(() => {
         return search({
-            // keyword,
             relations: ['googleTokenData'],
             itemsPerPage: 0,
-            order: {id: 'DESC'},
+            order: {googleTokenDataId: 'DESC'},
         });
     }, 500);
+
+    const onChange = (invoiceAccount?: InvoiceAccountDto) => {
+        setFormData((f) => ({
+            ...f,
+            invoiceAccountId: invoiceAccount?.id,
+        }));
+    };
 
     return (
         <InputSection>
             <div className="form-control">
                 <label className="label cursor-pointer p-0">
-                    <MonoSelect
+                    <div
                         id="invoiceAccountSelect"
-                        placeholder="ex. dev@scordi.io"
-                        modalTitle="청구서 수신 계정 선택"
-                        options={result.items}
-                        isLoading={isLoading}
-                        clearable
-                        getLabel={(invoiceAccount) => <InvoiceAccountProfile invoiceAccount={invoiceAccount} />}
-                        getValue={(invoiceAccount) => invoiceAccount.id}
-                        size="md"
-                        minHeight="min-h-[var(--modal-height)]"
-                        maxHeight="max-h-[var(--modal-height)]"
-                        modalClassName="rounded-none sm:rounded-t-box [--modal-height:100vh] sm:[--modal-height:90vh]"
-                        scrollBoxHeight="calc(var(--modal-height) - 1.5rem - 28px - 1rem - 80px + 1rem)"
-                        OptionComponent={({option}) => {
-                            return <InvoiceAccountProfile invoiceAccount={option} />;
-                        }}
-                        defaultValue={formData.invoiceAccountId}
-                        onChange={(invoiceAccount) => {
-                            setFormData((f) => ({
-                                ...f,
-                                invoiceAccountId: invoiceAccount?.id,
-                            }));
-                        }}
+                        tabIndex={0}
+                        className="input border-gray-200 w-full bg-gray-100 text-16 flex items-center justify-between cursor-pointer"
+                        onKeyDown={enterToSpace(() => setIsSelectModalOpened(true))}
+                        onClick={() => setIsSelectModalOpened(true)}
                     >
-                        <div
-                            className="p-4 w-full fixed left-0 right-0 bottom-0"
-                            style={{
-                                background: 'linear-gradient(0, white 0, white 80%, transparent)',
-                            }}
-                        >
-                            <button
-                                className="btn btn-block btn-scordi"
-                                onClick={() => setIsCreateMethodModalOpen(true)}
-                            >
-                                새로운 수신 계정 추가하기
-                            </button>
+                        {!formData.invoiceAccountId ? (
+                            <div className="text-gray-400">ex. dev@scordi.io</div>
+                        ) : (
+                            <div>{selectedOption && <InvoiceAccountProfile invoiceAccount={selectedOption} />}</div>
+                        )}
+
+                        <div className="flex items-center gap-4">
+                            {selectedOption && (
+                                <FaTimes
+                                    size={16}
+                                    className="cursor-pointer text-gray-400 hover:text-gray-800 transition-all"
+                                    onClick={(e) => {
+                                        onChange();
+                                        e.stopPropagation();
+                                        e.preventDefault();
+                                    }}
+                                />
+                            )}
+                            <FaCaretDown size={14} className="text-gray-400" />
                         </div>
-                    </MonoSelect>
+                    </div>
                 </label>
             </div>
+
+            <InvoiceAccountSelectModal
+                isOpened={isSelectModalOpened}
+                onClose={() => setIsSelectModalOpened(false)}
+                isLoading={isLoading}
+                invoiceAccounts={result.items}
+                defaultValue={formData.invoiceAccountId}
+                onSelect={onChange}
+                onCtaButtonClick={() => setIsCreateMethodModalOpen(true)}
+                onReConnect={() => setIsAutoCreateModalOpen(true)}
+            />
 
             <InvoiceAccountCreateMethodModal
                 isOpened={isCreateMethodModalOpen}
@@ -99,6 +114,7 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
                 isOpened={isAutoCreateModalOpen}
                 onClose={() => setIsAutoCreateModalOpen(false)}
                 onCreate={() => {
+                    toast.success('계정을 저장했어요');
                     setIsAutoCreateModalOpen(false);
                     reload();
                 }}

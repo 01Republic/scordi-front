@@ -8,15 +8,15 @@ import {createSubscriptionFormData, currentStepAtom} from './atom';
 import {useCurrentConnectingProduct} from './useCurrentConnectingProduct';
 import {PrevNextButtons} from './PrevNextButtons';
 import {
-    Steps,
-    ProductNotSelected,
-    IsFreeTierStep,
-    RecurringCycleStep,
-    SubscriptionInfo,
-    PaymentMethod,
     InvoiceAccountSelectStep,
+    IsFreeTierStep,
+    PaymentMethod,
+    ProductNotSelected,
+    RecurringCycleStep,
+    Steps,
+    SubscriptionInfo,
 } from './steps';
-import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
+import {PricingModelOptions} from '^models/Subscription/types/PricingModelOptions';
 
 export const ContentFunnels = memo(function ContentFunnels() {
     const organizationId = useRecoilValue(orgIdParamState);
@@ -33,8 +33,11 @@ export const ContentFunnels = memo(function ContentFunnels() {
                 ...f,
                 organizationId,
                 productId: currentConnectingProduct.id,
-                isFreeTier: false,
+                isFreeTier: true,
+                pricingModel: PricingModelOptions.PER_SEAT,
                 currentBillingAmount: {amount: 0, currency: CurrencyCode.KRW},
+                creditCardId: undefined,
+                invoiceAccountId: undefined,
             };
         });
         setStep(1);

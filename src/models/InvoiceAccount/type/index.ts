@@ -74,6 +74,10 @@ export type SyncInvoiceAccountRequestDto = {
     tokenData: GmailAgentTokenData; // 인증 토큰
 };
 
+export class ReConnectInvoiceAccountRequestDto {
+    code: string; // 구글 1회성 코드
+}
+
 export const getDraftInvoiceAccountFromTo = () => ({
     from: monthBefore(2, firstDayOfMonth(new Date())), // 두 달 전 1일 부터
     to: new Date(), // 오늘까지

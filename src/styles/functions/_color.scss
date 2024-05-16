@@ -1,3 +1,4 @@
+@import "./generic";
 
 @function rgba-to-rgb($rgba, $background: #fff) {
   @return mix(rgb(red($rgba), green($rgba), blue($rgba)), $background, alpha($rgba) * 100%);
@@ -7,66 +8,26 @@
   @return if($scale <= 500, rgba-to-rgb(rgba($base_color, $scale * 2 / 1000)), rgba-to-rgb(rgba($base_color, (1000 - $scale) * 2 / 1000), #000));
 }
 
-@mixin set-important-class($name, $attr, $value) {
-  .\!#{$name} { #{$attr}: $value !important; }
-}
-
-@mixin set-class($name, $attr, $value) {
-  // ex. .text-scordi, .!text-scordi
-  .#{$name} { #{$attr}: $value; }
-  @include set-important-class($name, $attr, $value);
-
-  // ex. .hover:text-scordi, .!hover:text-scordi
-  @each $state in ('hover', 'active', 'visited', 'focus') {
-    .#{$state}\:#{$name}:#{$state} { #{$attr}: $value; }
-    @include set-important-class('#{$state}\:#{$name}:#{$state}', $attr, $value);
-  }
-
-  // group, peer
-  @each $state in ('hover', 'active', 'visited', 'focus', 'invalid', 'valid') {
-    // ex. .group-hover:text-scordi, .!group-hover:text-scordi
-    .group:#{$state} .group-#{$state}\:#{$name} {
-      #{$attr}: $value;
-    }
-    .group:#{$state} .\!group-#{$state}\:#{$name} {
-      #{$attr}: $value !important;
-    }
-
-    // ex. .peer-hover:text-scordi, .!peer-hover:text-scordi
-    .peer:#{$state} ~ .peer-#{$state}\:#{$name} {
-      #{$attr}: $value;
-    }
-    .peer:#{$state} ~ .\!peer-#{$state}\:#{$name} {
-      #{$attr}: $value !important;
-    }
-  }
-}
-
 @mixin set-scaled-class($name, $attr, $value) {
   @each $scale in (50, 100, 200, 300, 400, 500, 600, 700, 800, 900) {
     @include set-class('#{$name}-#{$scale}', $attr, get-scaled-color($value, $scale));
   }
 }
 
-@mixin make-generic-class($domain, $name, $attr, $value) {
+@mixin make-scaled-generic-class($domain, $name, $attr, $value) {
   $base_class: #{$domain}-#{$name};
   @include set-class($base_class, $attr, $value);
   @include set-scaled-class($base_class, $attr, $value);
 }
 
 @mixin makeGenericClassByColorName($name, $color) {
-  @include make-generic-class('text', $name, 'color', $color);
-  @include make-generic-class('bg', $name, 'background-color', $color);
-  @include make-generic-class('border', $name, 'border-color', $color);
-}
-
-@mixin make-unscaled-generic-class($domain, $name, $attr, $value) {
-  $base_class: #{$domain}-#{$name};
-  @include set-class($base_class, $attr, $value);
+  @include make-scaled-generic-class('text', $name, 'color', $color);
+  @include make-scaled-generic-class('bg', $name, 'background-color', $color);
+  @include make-scaled-generic-class('border', $name, 'border-color', $color);
 }
 
 @mixin makeUnscaledGenericClassByColorName($name, $color) {
-  @include make-unscaled-generic-class('text', $name, 'color', $color);
-  @include make-unscaled-generic-class('bg', $name, 'background-color', $color);
-  @include make-unscaled-generic-class('border', $name, 'border-color', $color);
+  @include make-generic-class('text', $name, 'color', $color);
+  @include make-generic-class('bg', $name, 'background-color', $color);
+  @include make-generic-class('border', $name, 'border-color', $color);
 }

@@ -1,7 +1,10 @@
 import React, {memo} from 'react';
-import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
+import {useResetRecoilState} from 'recoil';
 import {FcDataBackup, FcDataRecovery} from 'react-icons/fc';
+import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {CardCreateMethodOption} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/CardCreateMethodModal';
+import {connectInvoiceAccountCodeAtom} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
+import {useGoogleLoginForInvoiceAccountSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/InvoiceAccountSelect/useGoogleLoginForInvoiceAccountSelect';
 
 export enum InvoiceAccountCreateMethod {
     // (자동) 지메일 계정 연동
@@ -18,6 +21,7 @@ interface InvoiceAccountCreateMethodModalProps {
 
 export const InvoiceAccountCreateMethodModal = memo((props: InvoiceAccountCreateMethodModalProps) => {
     const {isOpened, onClose, onSelect} = props;
+    const {launch} = useGoogleLoginForInvoiceAccountSelect();
 
     return (
         <SlideUpModal open={isOpened} onClose={onClose} size="md">
@@ -29,12 +33,10 @@ export const InvoiceAccountCreateMethodModal = memo((props: InvoiceAccountCreate
                     title="자동으로 연동하기"
                     desc="지메일 로그인으로 간단하게 추가해요"
                     onClick={() => {
-                        const btn = document.querySelector('[data-component="GoogleLoginBtn"]') as HTMLElement | null;
-                        btn?.click();
-                        onClose();
-                        const select = document.querySelector('#invoiceAccountSelect') as HTMLElement | null;
-                        select?.click();
-                        onSelect(InvoiceAccountCreateMethod.Auto);
+                        launch(() => {
+                            onClose();
+                            onSelect(InvoiceAccountCreateMethod.Auto);
+                        });
                     }}
                 />
                 <CardCreateMethodOption
