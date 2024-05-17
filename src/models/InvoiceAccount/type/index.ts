@@ -6,6 +6,7 @@ import {SubscriptionDto} from '^models/Subscription/types';
 import {OrganizationDto} from '^models/Organization/type';
 import {d_day, dayAfter, firstDayOfMonth, firstDayOfYear, monthBefore, yearBefore} from '^utils/dateTime';
 import {GoogleTokenDataDto} from '^models/GoogleTokenData/type';
+import {PartialType} from '^types/utils/partial-type';
 
 export type GmailAgentTokenData = {
     accessToken: string; //Gmail Access Token
@@ -72,6 +73,8 @@ export type CreateInvoiceAccountRequestDto = {
 export class CreateInvoiceAccountDto {
     email: string;
 }
+
+export class UpdateInvoiceAccountDto extends PartialType(CreateInvoiceAccountDto) {}
 
 export type CreateInvoiceAccountRequestDto2 = {
     code: string; // 구글 1회성 코드

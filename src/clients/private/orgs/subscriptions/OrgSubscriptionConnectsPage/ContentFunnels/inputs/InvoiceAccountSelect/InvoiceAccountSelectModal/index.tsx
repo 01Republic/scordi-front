@@ -1,21 +1,16 @@
-import React, {memo, useState} from 'react';
-import {enterToSpace} from '^components/util/keyDownLikeClick';
-import {FaTimes} from 'react-icons/fa';
-import {FaCaretDown, FaCheck} from 'react-icons/fa6';
-import {ReactNodeLike} from 'prop-types';
-import {ModalLayoutProps} from '^components/modals/_shared/Modal.types';
+import React, {memo} from 'react';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
-import {WithChildren} from '^types/global.type';
 import {LoadableBox} from '^components/util/loading';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
-import {useGoogleLoginForInvoiceAccountSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/InvoiceAccountSelect/useGoogleLoginForInvoiceAccountSelect';
-import {TagUI} from '^v3/share/table/columns/share/TagUI';
+import {useGoogleLoginForInvoiceAccountSelect} from '../useGoogleLoginForInvoiceAccountSelect';
+import {NotSelectableInvoiceAccount} from './NotSelectableInvoiceAccount';
+import {SelectableInvoiceAccount} from './SelectableInvoiceAccount';
 
 interface InvoiceAccountSelectModalProps {
     isOpened: boolean;
     onClose: () => any;
     isLoading: boolean;
+    reload: () => Promise<any>;
     invoiceAccounts: InvoiceAccountDto[];
     defaultValue?: number;
     onSelect: (invoiceAccount?: InvoiceAccountDto) => any;
@@ -28,6 +23,7 @@ export const InvoiceAccountSelectModal = memo((props: InvoiceAccountSelectModalP
         isOpened,
         onClose,
         isLoading,
+        reload,
         invoiceAccounts,
         defaultValue,
         onSelect = console.log,
@@ -65,54 +61,33 @@ export const InvoiceAccountSelectModal = memo((props: InvoiceAccountSelectModalP
                     <div
                         className="no-scrollbar overflow-auto -mx-4 px-4"
                         style={{
-                            maxHeight: 'max-h-[var(--modal-height)]',
+                            maxHeight: 'calc(var(--modal-height) - 1.5rem - 28px - 1rem - 80px + 1rem)',
                         }}
                     >
                         {!!notSelectables.length && (
                             <div>
                                 <p className="text-12 text-scordi mb-2">연동이 만료된 계정이에요</p>
-                                {notSelectables.map((invoiceAccount, i) => {
-                                    const onClick = () => launch(onReConnect);
-
-                                    return (
-                                        <div
-                                            tabIndex={0}
-                                            key={i}
-                                            className="-mx-4 px-4 py-2.5 cursor-pointer group hover:bg-gray-100 flex items-center justify-between rounded-box btn-animation"
-                                            onKeyDown={enterToSpace(onClick)}
-                                            onClick={onClick}
-                                        >
-                                            <div>
-                                                <InvoiceAccountProfile invoiceAccount={invoiceAccount} />
-                                            </div>
-
-                                            <div>
-                                                <TagUI className="bg-orange-100 text-orange-500">재연동</TagUI>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
+                                {notSelectables.map((invoiceAccount, i) => (
+                                    <NotSelectableInvoiceAccount
+                                        key={i}
+                                        invoiceAccount={invoiceAccount}
+                                        onClick={() => launch(onReConnect)}
+                                    />
+                                ))}
                                 <p className="text-12 text-scordi mb-2 mt-4">연결된 계정 {selectables.length}개</p>
                             </div>
                         )}
                         {selectables.map((invoiceAccount, i) => {
                             const isSelected = !!selectedItem && selectedItem.id === invoiceAccount.id;
-                            const onClick = () => clickOption(isSelected ? undefined : invoiceAccount);
 
                             return (
-                                <div
-                                    tabIndex={0}
+                                <SelectableInvoiceAccount
                                     key={i}
-                                    className="-mx-4 px-4 py-2.5 cursor-pointer group hover:bg-gray-100 flex items-center justify-between rounded-box btn-animation"
-                                    onKeyDown={enterToSpace(onClick)}
-                                    onClick={onClick}
-                                >
-                                    <div>
-                                        <InvoiceAccountProfile invoiceAccount={invoiceAccount} />
-                                    </div>
-
-                                    <div>{isSelected && <FaCheck className="text-scordi" />}</div>
-                                </div>
+                                    invoiceAccount={invoiceAccount}
+                                    onClick={() => clickOption(isSelected ? undefined : invoiceAccount)}
+                                    isSelected={isSelected}
+                                    onSaved={() => reload()}
+                                />
                             );
                         })}
                     </div>

@@ -63,7 +63,7 @@ export const InvoiceAccountAutoCreateModal = memo((props: InvoiceAccountAutoCrea
     const createInvoiceAccount = (code: string) => {
         return handleRequest(() => {
             const gmailQueryOptions = getCreateInvoiceAccountFromTo();
-            return invoiceAccountApi.createByCode(orgId, {code, gmailQueryOptions});
+            return invoiceAccountApi.upsertByCode(orgId, {code, gmailQueryOptions});
         });
     };
 

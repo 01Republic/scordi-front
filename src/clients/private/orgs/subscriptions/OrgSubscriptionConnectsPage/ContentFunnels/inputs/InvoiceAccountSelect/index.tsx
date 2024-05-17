@@ -31,7 +31,7 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
 
     const loadAccounts = debounce(() => {
         return search({
-            relations: ['googleTokenData'],
+            relations: ['googleTokenData', 'subscriptions'],
             itemsPerPage: 0,
             order: {googleTokenDataId: 'DESC'},
         });
@@ -83,6 +83,7 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
                 isOpened={isSelectModalOpened}
                 onClose={() => setIsSelectModalOpened(false)}
                 isLoading={isLoading}
+                reload={reload}
                 invoiceAccounts={result.items}
                 defaultValue={formData.invoiceAccountId}
                 onSelect={onChange}

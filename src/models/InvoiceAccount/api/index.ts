@@ -5,6 +5,7 @@ import {
     InvoiceAccountDto,
     ReConnectInvoiceAccountRequestDto,
     SyncInvoiceAccountRequestDto,
+    UpdateInvoiceAccountDto,
 } from '^models/InvoiceAccount/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {api} from '^api/api';
@@ -79,8 +80,18 @@ export const invoiceAccountApi = {
         return api.post<InvoiceAccountDto>(url, data).then(oneDtoOf(InvoiceAccountDto));
     },
 
-    createByCode(orgId: number, data: CreateInvoiceAccountRequestDto2) {
+    upsertByCode(orgId: number, data: CreateInvoiceAccountRequestDto2) {
         const url = `/${NAMESPACE}/${orgId}/invoice_accounts_v3/by-code`;
         return api.post<InvoiceAccountDto>(url, data).then(oneDtoOf(InvoiceAccountDto));
+    },
+
+    updateV3(orgId: number, id: number, data: UpdateInvoiceAccountDto) {
+        const url = `/${NAMESPACE}/${orgId}/invoice_accounts_v3/${id}`;
+        return api.patch<InvoiceAccountDto>(url, data).then(oneDtoOf(InvoiceAccountDto));
+    },
+
+    destroyV3(orgId: number, id: number) {
+        const url = `/${NAMESPACE}/${orgId}/invoice_accounts_v3/${id}`;
+        return api.delete<InvoiceAccountDto>(url).then(oneDtoOf(InvoiceAccountDto));
     },
 };

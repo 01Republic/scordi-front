@@ -48,9 +48,7 @@ export const PaymentMethodSelect = memo(function PaymentMethodSelect() {
                         maxHeight="max-h-[var(--modal-height)]"
                         modalClassName="rounded-none sm:rounded-t-box [--modal-height:100vh] sm:[--modal-height:90vh]"
                         scrollBoxHeight="calc(var(--modal-height) - 1.5rem - 28px - 1rem - 80px + 1rem)"
-                        OptionComponent={({option}) => {
-                            return <CreditCardProfileOption2 item={option} />;
-                        }}
+                        OptionComponent={({option}) => <CreditCardProfileOption2 item={option} />}
                         defaultValue={formData.creditCardId}
                         onChange={(creditCard) => {
                             setFormData((f) => ({

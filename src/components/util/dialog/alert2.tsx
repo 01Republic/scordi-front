@@ -42,9 +42,9 @@ function styled(
     options.customClass ||= {};
     return alertBase.fire({
         // @ts-ignore
-        title: <h4 className="text-2xl text-left">🙏&nbsp; {title}</h4>,
+        title: title && <h4 className="text-2xl text-left">💡&nbsp; {title}</h4>,
         // @ts-ignore
-        html: <div className="text-16 text-left whitespace-pre-wrap">{html}</div>,
+        html: html && <div className="text-16 text-left whitespace-pre-wrap">{html}</div>,
         icon,
         ...options,
         customClass: {
