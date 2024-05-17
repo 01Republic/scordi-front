@@ -1,6 +1,5 @@
 import {memo, useEffect} from 'react';
 import {FaPlus} from 'react-icons/fa6';
-import {useDashboardSubscriptions} from '^models/Subscription/hook';
 import {AppUnit} from '^clients/private/orgs/OrgMainPage/AppUnit';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
@@ -8,9 +7,13 @@ import {IoIosMore} from 'react-icons/io';
 import {Squircle} from '^components/ui/Squircle';
 import {LoadableBox} from '^components/util/loading';
 import {useProductOnMainPage} from '^models/Product/hook';
+import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
+import {useRouter} from 'next/router';
+import {LinkTo} from '^components/util/LinkTo';
 
 export const AppUnitList = memo(function AppUnitList() {
     const organizationId = useRecoilValue(orgIdParamState);
+    const router = useRouter();
     const {isLoading, result, search, changePageSize} = useProductOnMainPage();
 
     useEffect(() => {
@@ -41,9 +44,11 @@ export const AppUnitList = memo(function AppUnitList() {
                 )}
 
                 <div className="flex items-center justify-center">
-                    <Squircle text="등록하기">
-                        <FaPlus className="" />
-                    </Squircle>
+                    <LinkTo href={OrgSubscriptionSelectPageRoute.path(organizationId)} displayLoading={false}>
+                        <Squircle text="등록하기">
+                            <FaPlus className="" />
+                        </Squircle>
+                    </LinkTo>
                 </div>
             </div>
         </LoadableBox>

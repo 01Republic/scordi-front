@@ -1,8 +1,13 @@
 import {memo} from 'react';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
 import {useSelectProducts} from '^models/Product/hook';
 import {SelectedProductItem} from './SelectedProductItem';
+import {LinkTo} from '^components/util/LinkTo';
+import {OrgSubscriptionConnectsPageRoute} from '^pages/orgs/[id]/subscriptions/connects';
 
 export const SelectedProductSection = memo(function SelectedProductSection() {
+    const orgId = useRecoilValue(orgIdParamState);
     const {selectedProducts, unSelect, clearSelects} = useSelectProducts();
 
     if (selectedProducts.length === 0) return <></>;
@@ -29,9 +34,13 @@ export const SelectedProductSection = memo(function SelectedProductSection() {
             </div>
 
             <div className="sticky left-0 right-0 bottom-0 py-4 sm:p-0">
-                <button className="btn btn-scordi btn-block">
+                <LinkTo
+                    href={OrgSubscriptionConnectsPageRoute.path(orgId)}
+                    className="btn btn-scordi btn-block"
+                    loadingOnBtn
+                >
                     {selectedProducts.length}개의 앱에 대한 구독 등록하기
-                </button>
+                </LinkTo>
             </div>
         </div>
     );
