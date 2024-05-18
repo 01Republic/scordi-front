@@ -82,17 +82,19 @@ interface Props {
     onPrev?: () => any;
     onNext?: () => any;
     isValid?: boolean;
+    prevButtonText?: string;
+    nextButtonText?: string;
 }
 
 const StepButtons = memo((props: Props) => {
-    const {onPrev, onNext, isValid = false} = props;
+    const {onPrev, onNext, isValid = false, prevButtonText = '이전', nextButtonText = '다음'} = props;
 
     return (
         <div className="absolute inset-x-0 bottom-0 border-t bg-white">
-            <div className="container max-w-4xl mx-auto flex items-center justify-between py-2">
+            <div className="container max-w-5xl mx-auto flex items-center justify-between py-2 px-8">
                 {onPrev ? (
                     <button className="btn w-40 text-16" onClick={onPrev}>
-                        이전
+                        {prevButtonText}
                     </button>
                 ) : (
                     <div />
@@ -104,7 +106,7 @@ const StepButtons = memo((props: Props) => {
                         }`}
                         onClick={() => isValid && onNext()}
                     >
-                        다음
+                        {nextButtonText}
                     </button>
                 )}
             </div>
