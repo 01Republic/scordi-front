@@ -56,6 +56,7 @@ export const PaymentMethodSelect = memo(function PaymentMethodSelect() {
                                 creditCardId: creditCard?.id,
                             }));
                         }}
+                        onModalShow={() => reload()}
                     >
                         <div
                             className="p-4 w-full fixed left-0 right-0 bottom-0"

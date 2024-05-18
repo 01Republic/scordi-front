@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {enterToSpace} from '^components/util/keyDownLikeClick';
 import {FaCaretDown, FaCheck} from 'react-icons/fa6';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
@@ -25,6 +25,7 @@ interface MonoSelectProps<Option, Value> {
     maxHeight?: string;
     modalClassName?: string;
     scrollBoxHeight?: string;
+    onModalShow?: () => any;
 }
 
 export const MonoSelect = <Option, Value>(props: MonoSelectProps<Option, Value> & WithChildren) => {
@@ -46,6 +47,7 @@ export const MonoSelect = <Option, Value>(props: MonoSelectProps<Option, Value> 
         maxHeight,
         modalClassName = '',
         scrollBoxHeight = '',
+        onModalShow,
     } = props;
     const [modalOpened, setModalOpened] = useState(false);
     const defaultOption = options.find((o) => getValue(o) === defaultValue);
@@ -55,6 +57,12 @@ export const MonoSelect = <Option, Value>(props: MonoSelectProps<Option, Value> 
         setSelectedOption(undefined);
         onChange();
     };
+
+    useEffect(() => {
+        if (modalOpened) {
+            onModalShow && onModalShow();
+        }
+    }, [modalOpened]);
 
     return (
         <>
