@@ -1,7 +1,8 @@
 import {memo} from 'react';
 import {useRecoilState} from 'recoil';
-import {StepProgressItem} from './StepProgressItem';
 import {currentStepAtom} from '../atom';
+import {Steps} from '../steps';
+import {StepProgressItem} from './StepProgressItem';
 
 interface StepProgressProps {
     //
@@ -10,6 +11,9 @@ interface StepProgressProps {
 export const StepProgress = memo((props: StepProgressProps) => {
     const {} = props;
     const [currentStep, setStep] = useRecoilState(currentStepAtom);
+    const totalLength = Object.values(Steps)
+        .filter((v) => typeof v === 'number')
+        .reverse()[0];
 
     return (
         <div className="w-full flex flex-col gap-2">
@@ -24,13 +28,13 @@ export const StepProgress = memo((props: StepProgressProps) => {
 
                 {/* progress counter */}
                 <div className="flex items-center justify-center text-16 text-gray-400 tracking-[0.5px]">
-                    {currentStep}/6
+                    {currentStep}/{totalLength}
                 </div>
             </div>
 
             <progress
                 className="transition-all progress progress-primary h-[4px] bg-gray-100"
-                max={6}
+                max={totalLength}
                 value={currentStep}
             />
         </div>

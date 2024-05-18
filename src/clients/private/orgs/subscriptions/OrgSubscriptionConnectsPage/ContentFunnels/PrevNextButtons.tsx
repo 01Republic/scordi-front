@@ -18,7 +18,7 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
             return (
                 <StepButtons
                     onNext={() => {
-                        setStep(formData.isFreeTier ? Steps.PaymentMethod : Steps.RecurringCycle);
+                        setStep(formData.isFreeTier ? Steps.TeamMembers : Steps.RecurringCycle);
                     }}
                     isValid={typeof formData.isFreeTier === 'boolean'}
                 />
@@ -61,6 +61,18 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
         case Steps.InvoiceAccount:
             // 청구서 수신 메일 설정
             return <StepButtons onPrev={() => setStep(prev)} onNext={() => setStep(next)} isValid={true} />;
+        case Steps.TeamMembers:
+            // 이용중인 멤버
+            return <StepButtons onPrev={() => setStep(prev)} onNext={() => setStep(next)} isValid={true} />;
+        case Steps.Master:
+            // 담당자 (Responsibility)
+            return <StepButtons onPrev={() => setStep(prev)} onNext={() => setStep(next)} isValid={true} />;
+        case Steps.PartnerCompany:
+            // 파트너사
+            return <StepButtons onPrev={() => setStep(prev)} onNext={() => setStep(next)} isValid={true} />;
+        case Steps.Memo:
+            // 메모
+            return <StepButtons onPrev={() => setStep(prev)} onNext={() => setStep(Steps.IsFreeTier)} isValid={true} />;
         default:
             return <></>;
     }

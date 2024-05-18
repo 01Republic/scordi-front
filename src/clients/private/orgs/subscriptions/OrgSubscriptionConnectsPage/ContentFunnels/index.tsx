@@ -8,13 +8,17 @@ import {createSubscriptionFormData, currentStepAtom} from './atom';
 import {useCurrentConnectingProduct} from './useCurrentConnectingProduct';
 import {PrevNextButtons} from './PrevNextButtons';
 import {
-    InvoiceAccountSelectStep,
-    IsFreeTierStep,
-    PaymentMethod,
-    ProductNotSelected,
-    RecurringCycleStep,
     Steps,
+    ProductNotSelected,
+    IsFreeTierStep,
+    RecurringCycleStep,
     SubscriptionInfo,
+    PaymentMethod,
+    InvoiceAccountSelectStep,
+    TeamMemberStep,
+    MasterStep,
+    PartnerCompanyStep,
+    MemoStep,
 } from './steps';
 import {PricingModelOptions} from '^models/Subscription/types/PricingModelOptions';
 
@@ -62,6 +66,10 @@ export const ContentFunnels = memo(function ContentFunnels() {
                     {currentStep === Steps.SubscriptionInfo && <SubscriptionInfo />}
                     {currentStep === Steps.PaymentMethod && <PaymentMethod />}
                     {currentStep === Steps.InvoiceAccount && <InvoiceAccountSelectStep />}
+                    {currentStep === Steps.TeamMembers && <TeamMemberStep />}
+                    {currentStep === Steps.Master && <MasterStep />}
+                    {currentStep === Steps.PartnerCompany && <PartnerCompanyStep />}
+                    {currentStep === Steps.Memo && <MemoStep />}
                 </div>
             </LoadableBox>
 

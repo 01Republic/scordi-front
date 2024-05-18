@@ -10,7 +10,7 @@ export const IsFreeTierStep = memo(function IsFreeTierStep() {
     const [formData, setFormData] = useRecoilState(createSubscriptionFormData);
     const setStep = useSetRecoilState(currentStepAtom);
 
-    const goNextStep = (isFreeTier: boolean) => setStep(isFreeTier ? Steps.PaymentMethod : Steps.RecurringCycle);
+    const goNextStep = (isFreeTier: boolean) => setStep(isFreeTier ? Steps.TeamMembers : Steps.RecurringCycle);
 
     return (
         <StepLayout title="앱을 유료로 구독하고 있나요?" desc="유/무료 여부를 선택해주세요.">

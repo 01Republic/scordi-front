@@ -15,4 +15,16 @@ export enum Steps {
 
     // 청구서 수신 메일 설정
     InvoiceAccount,
+
+    // 이용중인 멤버
+    TeamMembers,
+
+    // 담당자 (Responsibility)
+    Master,
+
+    // 파트너사
+    PartnerCompany,
+
+    // 메모
+    Memo,
 }
