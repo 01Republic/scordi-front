@@ -35,7 +35,7 @@ export const PartnerCompanyStep = memo(function PartnerCompanyStep() {
             )}
 
             <FadeUp show={activeForm} delay="delay-[100ms]">
-                <InputSection>파트너사 정보기입</InputSection>
+                <InputSection>[공사중] 파트너사 정보기입은 여기서 하게 될 거에요</InputSection>
             </FadeUp>
         </StepLayout>
     );
