@@ -9,7 +9,7 @@ export const LeftAppsStatusPanel = memo(function LeftAppsStatusPanel() {
             <div className="pt-10 pb-14 px-10">
                 <LogoHeader />
             </div>
-            <div className="px-10 py-2 flex-auto overflow-scroll">
+            <div className="px-10 py-2 flex-auto overflow-scroll no-scrollbar">
                 <SelectedAppsSection />
             </div>
             <div className="py-4 px-10">

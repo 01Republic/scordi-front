@@ -58,7 +58,7 @@ export const ContentFunnels = memo(function ContentFunnels() {
     return (
         <>
             <LoadableBox isLoading={isLoading} loadingType={2} noPadding spinnerPos="center">
-                <div className="container max-w-4xl mx-auto pt-[40px]">
+                <div className="container max-w-5xl mx-auto pt-[40px] px-8">
                     <StepProgress />
 
                     {currentStep === Steps.IsFreeTier && <IsFreeTierStep />}
