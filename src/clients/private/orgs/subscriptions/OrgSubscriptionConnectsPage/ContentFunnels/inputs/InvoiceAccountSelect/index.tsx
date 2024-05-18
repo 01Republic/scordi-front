@@ -44,6 +44,14 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
         }));
     };
 
+    const selectModal = {
+        show: () => {
+            setIsSelectModalOpened(true);
+            reload();
+        },
+        hide: () => setIsSelectModalOpened(false),
+    };
+
     return (
         <InputSection>
             <div className="form-control">
@@ -52,8 +60,8 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
                         id="invoiceAccountSelect"
                         tabIndex={0}
                         className="input border-gray-200 w-full bg-gray-100 text-16 flex items-center justify-between cursor-pointer"
-                        onKeyDown={enterToSpace(() => setIsSelectModalOpened(true))}
-                        onClick={() => setIsSelectModalOpened(true)}
+                        onKeyDown={enterToSpace(selectModal.show)}
+                        onClick={selectModal.show}
                     >
                         {!formData.invoiceAccountId ? (
                             <div className="text-gray-400">ex. dev@scordi.io</div>
@@ -81,7 +89,7 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
 
             <InvoiceAccountSelectModal
                 isOpened={isSelectModalOpened}
-                onClose={() => setIsSelectModalOpened(false)}
+                onClose={() => selectModal.hide()}
                 isLoading={isLoading}
                 reload={reload}
                 invoiceAccounts={result.items}
