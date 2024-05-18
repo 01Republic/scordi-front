@@ -77,19 +77,30 @@ export const InvoiceAccountSelectModal = memo((props: InvoiceAccountSelectModalP
                                 <p className="text-12 text-scordi mb-2 mt-4">연결된 계정 {selectables.length}개</p>
                             </div>
                         )}
-                        {selectables.map((invoiceAccount, i) => {
-                            const isSelected = !!selectedItem && selectedItem.id === invoiceAccount.id;
+                        {selectables.length ? (
+                            selectables.map((invoiceAccount, i) => {
+                                const isSelected = !!selectedItem && selectedItem.id === invoiceAccount.id;
 
-                            return (
-                                <SelectableInvoiceAccount
-                                    key={i}
-                                    invoiceAccount={invoiceAccount}
-                                    onClick={() => clickOption(isSelected ? undefined : invoiceAccount)}
-                                    isSelected={isSelected}
-                                    onSaved={() => reload()}
-                                />
-                            );
-                        })}
+                                return (
+                                    <SelectableInvoiceAccount
+                                        key={i}
+                                        invoiceAccount={invoiceAccount}
+                                        onClick={() => clickOption(isSelected ? undefined : invoiceAccount)}
+                                        isSelected={isSelected}
+                                        onSaved={() => reload()}
+                                    />
+                                );
+                            })
+                        ) : (
+                            <div className="flex items-center justify-center">
+                                <div className="pt-[20vh] text-center">
+                                    <p className="text-14 text-gray-400 font-medium mb-2">
+                                        등록 되어있는 청구서 메일 주소가 없어요
+                                    </p>
+                                    <p className="text-12 text-gray-400">아래 버튼을 눌러 메일 주소를 등록해보세요</p>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </LoadableBox>
