@@ -23,7 +23,7 @@ export default function ProductsPage() {
     return (
         <>
             <Head>
-                <link rel="canonical" href={ProductListPageRoute.url()} />
+                <link rel="canonical" key="canonical" href={ProductListPageRoute.url()} />
             </Head>
             <ProductListPage />
         </>

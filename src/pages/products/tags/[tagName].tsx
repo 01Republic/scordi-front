@@ -46,6 +46,7 @@ export default function ProductsOnTagPage() {
             <Head>
                 <link
                     rel="canonical"
+                    key="canonical"
                     href={tagName ? ProductsOnTagPageRoute.url(tagName) : ProductListPageRoute.url()}
                 />
             </Head>

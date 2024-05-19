@@ -81,7 +81,7 @@ export const SEO = memo((props: SEOProps) => {
             <link rel="manifest" href="/app.ko.webmanifest.json" />
             <link rel="icon" href={favicon} />
             <link rel="apple-touch-icon" href={logoCircle} />
-            <link rel="canonical" href={url} />
+            <link rel="canonical" href={url} key="canonical" />
 
             <meta name="description" content={description} />
             <meta name="author" content={company} />
