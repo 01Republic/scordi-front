@@ -34,6 +34,28 @@ const nextConfig = {
         ],
     },
     i18n,
+    async rewrites() {
+        return {
+            beforeFiles: [
+                {
+                    source: '/blog',
+                    destination: 'https://inblog.ai/01republic-scordi-saas',
+                },
+                {
+                    source: '/blog/:path*',
+                    destination: 'https://inblog.ai/01republic-scordi-saas/:path*',
+                },
+                {
+                    source: '/robots.txt',
+                    destination: 'https://inblog.ai/01republic-scordi-saas/robots.txt',
+                },
+                {
+                    source: '/_inblog/:path*',
+                    destination: 'https://inblog.ai/01republic-scordi-saas/_inblog/:path*',
+                },
+            ],
+        };
+    },
 };
 
 if (process.env.APP_ENV === 'production') {

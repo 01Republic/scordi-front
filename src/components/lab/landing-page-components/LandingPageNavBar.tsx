@@ -24,7 +24,7 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
     // const {open} = useModal(inquiryModalAtom);
 
     const saasPath = ProductListPageRoute.path();
-    const blogPath = PostListPageRoute.path();
+    const blogPath = '/blog';
 
     return (
         <div
