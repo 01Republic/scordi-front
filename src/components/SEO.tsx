@@ -15,11 +15,11 @@ export const SEO = memo((props: SEOProps) => {
     const title = props.title || '스코디 Scordi - 우리 회사 SaaS 관리, 클릭 하나로 끝내보세요';
     const description: string =
         '스코디는 흩어진 SaaS를 클릭 한 번으로 모으고 결제부터 멤버, 구독, 계정까지 한 곳에서 관리하는 올인원 SaaS 관리 솔루션입니다.';
-    const logo = `${serviceHost}/images/logo/scordi/favicon.png`;
-    const logoCircle = `${serviceHost}/images/logo/scordi/favicon2.png`;
+    const logo = `/images/logo/scordi/favicon.png`;
+    const logoCircle = `/images/logo/scordi/favicon2.png`;
     const favicon = `/images/logo/scordi/favicon-bg-transparent.png`;
     // const favicon = `/images/logo/scordi/favicon.png`;
-    const thumbnail = `${serviceHost}/images/thumbnails/scordi-og_img-231109.png`;
+    const thumbnail = `/images/thumbnails/scordi-og_img-231109.png`;
     // const thumbnail = `${serviceHost}/home/202305/tasting/thumbnail.png`;
     // const thumbnail = `${serviceHost}/images/thumbnails/scordi-og_img-230806.png`;
     const company = '01Republic, Inc.';
@@ -57,8 +57,8 @@ export const SEO = memo((props: SEOProps) => {
             'https://www.linkedin.com/company/01republic-inc',
             'https://blog.naver.com/saas_scordi',
         ],
-        image: logo,
-        logo: logo,
+        image: thumbnail,
+        logo: favicon,
         contactPoint: [
             {
                 '@type': 'ContactPoint',
@@ -79,8 +79,8 @@ export const SEO = memo((props: SEOProps) => {
             <meta name="robots" content="index,follow" />
 
             <link rel="manifest" href="/app.ko.webmanifest.json" />
-            <link rel="icon" href={favicon} />
-            <link rel="apple-touch-icon" href={logoCircle} />
+            <link rel="shortcut icon" href={favicon} />
+            <link rel="apple-touch-icon" href={favicon} />
             <link rel="canonical" href={url} key="canonical" />
 
             <meta name="description" content={description} />
