@@ -1,14 +1,10 @@
-import Image from 'next/image';
 import {UserLoginPageRoute} from '^pages/users/login';
 import {WithChildren} from '^types/global.type';
-import {useRouter} from 'next/router';
 import {MainPageRoute} from '^pages/index';
 import {TastingPageRoute} from '^pages/tasting';
 import {FiMenu} from '@react-icons/all-files/fi/FiMenu';
 import {PostListPageRoute} from '^pages/posts';
 import {ProductListPageRoute} from '^pages/products';
-import {useModal} from '^v3/share/modals/useModal';
-import {inquiryModalAtom} from '^clients/public/home/LandingPages/HomePage2/InquiryModal';
 import {useCurrentUser} from '^models/User/hook';
 import {LinkTo} from '^components/util/LinkTo';
 
@@ -22,11 +18,9 @@ interface LandingPageNavBarProps extends WithChildren {
 
 export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
     const {fluid = false, sticky = false, bgBlur = false, showLoginButton = true, className = '', children} = props;
-    const router = useRouter();
     const {currentUser, getLoginRedirectPath} = useCurrentUser(null);
-    const {open} = useModal(inquiryModalAtom);
+    // const {open} = useModal(inquiryModalAtom);
 
-    const introducePath = '/#product-section';
     const saasPath = ProductListPageRoute.path();
     const blogPath = PostListPageRoute.path();
 
@@ -65,11 +59,6 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
                     </LinkTo>
 
                     <div className="hidden sm:flex gap-2 items-center justify-between px-4">
-                        <LinkTo
-                            href={introducePath}
-                            text="제품소개"
-                            className="hidden md:inline-flex btn btn-ghost normal-case btn-hover-init"
-                        />
                         {/*<LinkTo*/}
                         {/*    href={TastingPageRoute.path()}*/}
                         {/*    className="btn btn-ghost normal-case btn-hover-init"*/}
@@ -121,9 +110,6 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
                             tabIndex={0}
                             className="menu dropdown-content p-2 shadow-lg bg-base-100 !fixed left-0 w-full"
                         >
-                            <li>
-                                <LinkTo href={introducePath} text="제품소개" />
-                            </li>
                             <li>
                                 <LinkTo href={TastingPageRoute.path()} text="SaaS 스캐너" />
                             </li>
