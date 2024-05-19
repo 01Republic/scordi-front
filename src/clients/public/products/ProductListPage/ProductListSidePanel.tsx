@@ -1,37 +1,22 @@
 import {memo} from 'react';
-import {atom, useRecoilState} from 'recoil';
 import {PiCaretDownBold} from 'react-icons/pi';
 import {ProductListSidePanelItem} from './ProductListSidePanelItem';
-
-export const currentProductCategoryAtom = atom({
-    key: 'currentProductPostCategory',
-    default: `☁️ All`,
-});
-
-const categoryTextList = [
-    `☁️ All`,
-    `💡 Productivity`,
-    `🤖 AI`,
-    `🔄 Automations`,
-    `🤝 Collaboration`,
-    `🗣️ Communication`,
-    `🎨 Design`,
-    `🖥️ Engineering`,
-    `📢 Marketing`,
-    `💵️ Sales`,
-    `✨ Customer Experience`,
-    `💼️ Finance`,
-    `👥 HR`,
-    `🔒 Identity`,
-    `🗂️ File Management`,
-    `📋️ Forms`,
-    `📲 Product Add-ons`,
-    `📈️ Analytics`,
-];
+import {ProductsOnTagPageRoute} from '^pages/products/tags/[tagName]';
+import {useProductCategoryFeature} from '^clients/public/products/ProductListPage/useProductCategoryFeature';
+import {ProductListPageRoute} from '^pages/products';
 
 export const ProductListSidePanel = memo(() => {
-    const [currentCategory, setCurrentCategory] = useRecoilState(currentProductCategoryAtom);
+    const {categoryTextList, currentCategory, setCurrentCategoryName, toParam} = useProductCategoryFeature();
     const isActive = (category: string) => category === currentCategory;
+
+    const clickCategory = (text: string) => {
+        const cateName = toParam(text);
+        const url = cateName === 'all' ? ProductListPageRoute.path() : ProductsOnTagPageRoute.path(cateName);
+        history.pushState('', '', url);
+        setCurrentCategoryName(cateName);
+        const elem = document.activeElement as HTMLElement | null;
+        if (elem) elem.blur();
+    };
 
     return (
         <>
@@ -55,12 +40,7 @@ export const ProductListSidePanel = memo(() => {
                             key={i}
                             text={text}
                             isActive={isActive}
-                            onClick={() => {
-                                setCurrentCategory(text);
-                                const elem = document.activeElement;
-                                // @ts-ignore
-                                if (elem) elem?.blur();
-                            }}
+                            onClick={() => clickCategory(text)}
                         />
                     ))}
                 </ul>
@@ -72,7 +52,7 @@ export const ProductListSidePanel = memo(() => {
                         key={i}
                         text={text}
                         isActive={isActive}
-                        onClick={() => setCurrentCategory(text)}
+                        onClick={() => clickCategory(text)}
                     />
                 ))}
             </ul>

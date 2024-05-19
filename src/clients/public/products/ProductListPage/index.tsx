@@ -1,18 +1,10 @@
-import React, {memo, useEffect} from 'react';
-import {useRouter} from 'next/router';
-import {LandingPageNavBar} from '^components/lab/landing-page-components';
+import React, {memo} from 'react';
 import {ProductListHeader} from './ProductListHeader';
 import {ProductListSidePanel} from './ProductListSidePanel';
 import {ProductListContentPanel} from './ProductListContentPanel';
 import {LandingPageLayout} from '^clients/public/home/LandingPages/LandingPageLayout';
 
 export const ProductListPage = memo(() => {
-    const router = useRouter();
-
-    useEffect(() => {
-        if (!router.isReady) return;
-    }, [router.isReady]);
-
     return (
         <LandingPageLayout pageName="SaaS-Collection">
             <ProductListHeader />

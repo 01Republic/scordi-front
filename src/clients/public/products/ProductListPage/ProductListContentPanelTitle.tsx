@@ -1,15 +1,16 @@
 import {memo} from 'react';
-import {useRecoilValue} from 'recoil';
-import {currentProductCategoryAtom} from './ProductListSidePanel';
+import {useProductCategoryFeature} from './useProductCategoryFeature';
 
 interface TitleProps {}
 
 export const ProductListContentPanelTitle = memo((props: TitleProps) => {
-    const currentCategory = useRecoilValue(currentProductCategoryAtom);
+    const {currentCategoryName, currentCategory} = useProductCategoryFeature();
 
     return (
         <div className="hidden sm:block">
-            <h2 className="text-5xl">{currentCategory}</h2>
+            <h2 className="text-5xl">
+                {currentCategoryName.startsWith('Search') ? currentCategoryName : currentCategory}
+            </h2>
         </div>
     );
 });

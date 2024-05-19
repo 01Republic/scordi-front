@@ -1,16 +1,16 @@
 import {memo, useEffect} from 'react';
-import {useRecoilState} from 'recoil';
-import {useForm} from 'react-hook-form';
 import {BsSearch} from 'react-icons/bs';
 import {useProductsInSaaSCollection} from '^models/Product/hook';
-import {currentProductCategoryAtom} from './ProductListSidePanel';
 import {debounce} from 'lodash';
+import {useProductCategoryFeature} from './useProductCategoryFeature';
+import {ProductListPageRoute} from '^pages/products';
 
 export const ProductListContentPanelSearchInput = memo(() => {
     const {search} = useProductsInSaaSCollection();
-    const [currentCategory, setCurrentCategory] = useRecoilState(currentProductCategoryAtom);
+    const {currentCategory, setCurrentCategoryName} = useProductCategoryFeature();
 
     const onChange = debounce((keyword?: string) => {
+        history.pushState('', '', ProductListPageRoute.path());
         if (keyword) {
             search({
                 isLive: true,
@@ -18,14 +18,14 @@ export const ProductListContentPanelSearchInput = memo(() => {
                 keyword,
                 order: {id: 'DESC'},
             });
-            setCurrentCategory(`Search: ${keyword}`);
+            setCurrentCategoryName(`Search: ${keyword}`);
         } else {
             search({
                 isLive: true,
                 itemsPerPage: 0,
                 order: {id: 'DESC'},
             });
-            setCurrentCategory(`☁️ All`);
+            setCurrentCategoryName(`☁️ All`);
         }
     }, 500);
 
@@ -41,7 +41,7 @@ export const ProductListContentPanelSearchInput = memo(() => {
 
     return (
         <div className="relative flex-1 sm:flex-none">
-            <form>
+            <label>
                 <input
                     type="text"
                     className="input input-bordered min-w-[300px] w-full pl-[48px]"
@@ -51,7 +51,7 @@ export const ProductListContentPanelSearchInput = memo(() => {
                 <div className="absolute top-0 bottom-0 m-auto w-[48px] h-[48px] flex items-center justify-center text-gray-400">
                     <BsSearch />
                 </div>
-            </form>
+            </label>
         </div>
     );
 });

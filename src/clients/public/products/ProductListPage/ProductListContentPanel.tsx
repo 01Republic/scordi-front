@@ -1,14 +1,13 @@
 import {memo, useEffect, useState} from 'react';
-import {useRecoilValue} from 'recoil';
 import {useProductsInSaaSCollection} from '^models/Product/hook';
 import {FindAllProductQuery} from '^models/Product/type';
 import {ProductListContentPanelTitle} from './ProductListContentPanelTitle';
 import {ProductListContentPanelSearchInput} from './ProductListContentPanelSearchInput';
 import {ProductListContentPanelItem} from './ProductListContentPanelItem';
-import {currentProductCategoryAtom} from './ProductListSidePanel';
+import {useProductCategoryFeature} from './useProductCategoryFeature';
 
 export const ProductListContentPanel = memo(() => {
-    const currentCategory = useRecoilValue(currentProductCategoryAtom);
+    const {currentCategory} = useProductCategoryFeature();
     const {result, search: getAllProduct} = useProductsInSaaSCollection();
 
     const [tagName, setTagName] = useState('');
