@@ -1,15 +1,19 @@
-import React, {HTMLAttributeAnchorTarget, memo, useEffect, useState} from 'react';
-import Image from 'next/image';
+import React, {memo} from 'react';
 import {useTranslation} from 'next-i18next';
+import Link from 'next/link';
+import {Img} from '^components/ui/Img';
 import {Channels} from '^clients/public/home/LandingPages/components/Footer/Channels';
 import {FooterBottom} from '^clients/public/home/LandingPages/components/Footer/FooterBottom';
+import CompanyLogo from '^public/images/logo/scordi/01republic/png/long-black.png';
+import MashupVenturesLogo from '^public/images/logo/external/mashup-ventures.png';
+import ScordiLogoDeprecated from '^public/logo-transparent.png';
 
 export const BetaServiceFooter2 = memo(() => {
     return (
         <footer className="footer p-10 text-neutral-content">
             <div>
-                <Image
-                    src="/logo-transparent.png"
+                <Img
+                    src={ScordiLogoDeprecated}
                     alt="Scordi logo"
                     width={50}
                     height={50}
@@ -36,17 +40,12 @@ export const BetaServiceFooter = memo(() => {
 
     return (
         <>
-            <footer className="footer py-10 text-neutral-content pb-[100px]">
+            <footer className="footer py-10 text-neutral-content pb-[100px] z-[9] relative">
                 <div className="container px-4 sm:px-0">
                     <div className="md:flex w-full">
                         <div className="mr-auto">
                             <div className="mb-4">
-                                <img
-                                    src="/images/logo/scordi/01republic/png/long-black.png"
-                                    alt="01Republic, Inc."
-                                    className="h-[1.5rem]"
-                                    loading="lazy"
-                                />
+                                <Img src={CompanyLogo} alt="01Republic, Inc." className="w-[150px]" loading="eager" />
                             </div>
 
                             <address className="mb-4" style={{fontStyle: 'normal'}}>
@@ -60,6 +59,19 @@ export const BetaServiceFooter = memo(() => {
                                     {t('address')} <br />
                                 </p>
                             </address>
+
+                            <div>
+                                <p className="text-12 mb-0.5">Backed by:</p>
+                                <Link href="https://www.mashupventures.co/">
+                                    <a target="_blank">
+                                        <Img
+                                            src={MashupVenturesLogo}
+                                            alt="Backed by Mashup-Ventures"
+                                            className="w-[150px]"
+                                        />
+                                    </a>
+                                </Link>
+                            </div>
                         </div>
 
                         {/* 푸터에 추가 열 들어가는거 형태 잡아뒀어서 코드 지우지 않고 주석처리 해둡니다. */}

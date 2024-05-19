@@ -7,6 +7,8 @@ import {PostListPageRoute} from '^pages/posts';
 import {ProductListPageRoute} from '^pages/products';
 import {useCurrentUser} from '^models/User/hook';
 import {LinkTo} from '^components/util/LinkTo';
+import {Img} from '^components/ui/Img';
+import ScordiLogo from '^public/images/logo/scordi/logo-black-transparent-2.png';
 
 interface LandingPageNavBarProps extends WithChildren {
     fluid?: boolean;
@@ -51,11 +53,7 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
                         {/*    className="relative top-1 mr-1"*/}
                         {/*/>*/}
                         {/*<span>scordi</span>*/}
-                        <img
-                            src="/images/logo/scordi/logo-black-transparent-2.png"
-                            alt="Scordi logo"
-                            className="relative mr-1 w-[140px]"
-                        />
+                        <Img src={ScordiLogo} alt="Scordi logo" className="relative mr-1 w-[140px]" loading="eager" />
                     </LinkTo>
 
                     <div className="hidden sm:flex gap-2 items-center justify-between px-4">

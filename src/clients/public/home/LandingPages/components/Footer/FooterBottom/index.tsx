@@ -12,7 +12,7 @@ export const FooterBottom = memo(function FooterBottom() {
     };
 
     return (
-        <div className="w-full text-center border-t">
+        <div className="w-full text-center border-t relative z-[9]">
             <div className="container px-4 sm:px-0 md:flex justify-between items-center">
                 <div className="py-2 text-xs text-gray-500">
                     <TermLinks />
