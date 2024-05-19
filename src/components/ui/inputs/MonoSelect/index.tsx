@@ -7,6 +7,7 @@ import {FaTimes} from 'react-icons/fa';
 import {ModalLayoutProps} from '^components/modals/_shared/Modal.types';
 import {WithChildren} from '^types/global.type';
 import {LoadableBox} from '^components/util/loading';
+import {MonoSelectInput} from './MonoSelectInput';
 
 interface MonoSelectProps<Option, Value> {
     id?: string;
@@ -66,34 +67,15 @@ export const MonoSelect = <Option, Value>(props: MonoSelectProps<Option, Value> 
 
     return (
         <>
-            <div
+            <MonoSelectInput
                 id={id}
-                tabIndex={0}
-                className="input border-gray-200 w-full bg-gray-100 text-16 flex items-center justify-between cursor-pointer"
-                onKeyDown={enterToSpace(() => setModalOpened(true))}
-                onClick={() => setModalOpened(true)}
-            >
-                {!selectedOption && placeholder ? (
-                    <div className="text-gray-400">{placeholder}</div>
-                ) : (
-                    <div>{selectedOption && getLabel(selectedOption)}</div>
-                )}
-
-                <div className="flex items-center gap-4">
-                    {selectedOption && clearable && (
-                        <FaTimes
-                            size={16}
-                            className="cursor-pointer text-gray-400 hover:text-gray-800 transition-all"
-                            onClick={(e) => {
-                                unselectOption();
-                                e.stopPropagation();
-                                e.preventDefault();
-                            }}
-                        />
-                    )}
-                    <FaCaretDown size={14} className="text-gray-400" />
-                </div>
-            </div>
+                openModal={() => setModalOpened(true)}
+                selectedOption={selectedOption}
+                clearable={clearable}
+                getLabel={getLabel}
+                placeholder={placeholder}
+                clearOption={unselectOption}
+            />
 
             <SlideUpModal
                 open={modalOpened}

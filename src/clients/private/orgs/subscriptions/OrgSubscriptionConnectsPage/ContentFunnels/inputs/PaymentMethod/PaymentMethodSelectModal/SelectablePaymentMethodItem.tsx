@@ -1,20 +1,20 @@
 import React, {memo, useState} from 'react';
-import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {CreditCardDto} from '^models/CreditCard/type';
 import {enterToSpace} from '^components/util/keyDownLikeClick';
-import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
+import {CreditCardProfileOption2} from '^models/CreditCard/hook/components/CreditCardProfile';
 import {FaCheck} from 'react-icons/fa6';
-import {MoreButtonContent} from './MoreButtonContent';
 import {MoreButtonDropdown} from '^components/ui/inputs/MonoSelect/MoreButtonDropdown';
+import {MoreButtonContent} from './MoreButtonContent';
 
-interface SelectableInvoiceAccountProps {
-    invoiceAccount: InvoiceAccountDto;
+interface SelectablePaymentMethodItemProps {
+    item: CreditCardDto;
     onClick: () => any;
     isSelected: boolean;
     onSaved: () => any;
 }
 
-export const SelectableInvoiceAccount = memo((props: SelectableInvoiceAccountProps) => {
-    const {invoiceAccount, onClick, isSelected, onSaved} = props;
+export const SelectablePaymentMethodItem = memo((props: SelectablePaymentMethodItemProps) => {
+    const {item, onClick, isSelected, onSaved} = props;
     const [isHovered, setHovered] = useState(false);
     const hoverIn = () => setHovered(true);
     const hoverOut = () => setHovered(false);
@@ -31,7 +31,7 @@ export const SelectableInvoiceAccount = memo((props: SelectableInvoiceAccountPro
             onMouseLeave={hoverOut}
         >
             <div>
-                <InvoiceAccountProfile invoiceAccount={invoiceAccount} />
+                <CreditCardProfileOption2 item={item} />
             </div>
 
             <div className="flex items-center gap-2">
@@ -39,11 +39,11 @@ export const SelectableInvoiceAccount = memo((props: SelectableInvoiceAccountPro
 
                 <div className={`${isHovered ? 'flex' : 'hidden'} items-center justify-center transition-all`}>
                     <MoreButtonDropdown>
-                        <MoreButtonContent invoiceAccount={invoiceAccount} onSaved={onSaved} />
+                        <MoreButtonContent creditCard={item} onSaved={onSaved} />
                     </MoreButtonDropdown>
                 </div>
             </div>
         </div>
     );
 });
-SelectableInvoiceAccount.displayName = 'SelectableInvoiceAccount';
+SelectablePaymentMethodItem.displayName = 'SelectablePaymentMethodItem';

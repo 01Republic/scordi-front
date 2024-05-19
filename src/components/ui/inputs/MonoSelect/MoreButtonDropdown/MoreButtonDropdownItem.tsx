@@ -1,11 +1,11 @@
 import {WithChildren} from '^types/global.type';
 import React from 'react';
 
-interface MoreButtonItemProps extends WithChildren {
+interface MoreButtonDropdownItemProps extends WithChildren {
     onClick: () => any;
 }
 
-export function MoreButtonItem(props: MoreButtonItemProps) {
+export function MoreButtonDropdownItem(props: MoreButtonDropdownItemProps) {
     const {children, onClick} = props;
 
     return (

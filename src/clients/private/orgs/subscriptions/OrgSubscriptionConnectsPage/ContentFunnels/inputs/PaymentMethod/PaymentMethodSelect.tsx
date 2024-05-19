@@ -3,19 +3,24 @@ import {useRecoilState} from 'recoil';
 import {debounce} from 'lodash';
 import {useCreditCards} from '^models/CreditCard/hook';
 import {CreditCardProfileOption2} from '^models/CreditCard/hook/components/CreditCardProfile';
-import {MonoSelect} from '^components/ui/inputs/MonoSelect';
 import {createSubscriptionFormData} from '../../atom';
 import {InputSection} from '../InputSection';
 import {CardCreateMethod, CardCreateMethodModal} from './CardCreateMethodModal';
 import {CardAutoCreateModal} from './CardAutoCreateModal';
 import {CardManualCreateModal} from './CardManualCreateModal';
+import {CreditCardDto} from '^models/CreditCard/type';
+import {MonoSelectInput} from '^components/ui/inputs/MonoSelect/MonoSelectInput';
+import {PaymentMethodSelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/PaymentMethodSelectModal';
 
 export const PaymentMethodSelect = memo(function PaymentMethodSelect() {
     const [formData, setFormData] = useRecoilState(createSubscriptionFormData);
+    const [isSelectModalOpened, setIsSelectModalOpened] = useState(false);
+
     const [isCardCreateMethodModalOpen, setIsCardCreateMethodModalOpen] = useState(false);
     const [isCardAutoCreateModalOpen, setIsCardAutoCreateModalOpen] = useState(false);
     const [isCardManualCreateModalOpen, setIsCardManualCreateModalOpen] = useState(false);
     const {search, result, reload, isLoading} = useCreditCards();
+    const selectedOption = result.items.find((o) => o.id === formData.creditCardId);
 
     useEffect(() => {
         loadCards();
@@ -29,51 +34,46 @@ export const PaymentMethodSelect = memo(function PaymentMethodSelect() {
         });
     }, 500);
 
+    const onChange = (creditCard?: CreditCardDto) => {
+        setFormData((f) => ({
+            ...f,
+            creditCardId: creditCard?.id,
+        }));
+    };
+
+    const selectModal = {
+        show: () => {
+            setIsSelectModalOpened(true);
+            reload();
+        },
+        hide: () => setIsSelectModalOpened(false),
+    };
+
     return (
         <InputSection>
             <div className="form-control">
                 <label className="label cursor-pointer p-0">
-                    <MonoSelect
-                        placeholder="카드 또는 출금계좌"
-                        modalTitle="결제 수단 설정"
-                        options={result.items}
-                        isLoading={isLoading}
+                    <MonoSelectInput
+                        openModal={selectModal.show}
                         clearable
+                        selectedOption={selectedOption}
                         getLabel={(card) => <CreditCardProfileOption2 item={card} />}
-                        getValue={(card) => card.id}
-                        size="md"
-                        // minHeight="min-h-[552px]"
-                        // maxHeight="max-h-[552px]"
-                        minHeight="min-h-[var(--modal-height)]"
-                        maxHeight="max-h-[var(--modal-height)]"
-                        modalClassName="rounded-none sm:rounded-t-box [--modal-height:100vh] sm:[--modal-height:90vh]"
-                        scrollBoxHeight="calc(var(--modal-height) - 1.5rem - 28px - 1rem - 80px + 1rem)"
-                        OptionComponent={({option}) => <CreditCardProfileOption2 item={option} />}
-                        defaultValue={formData.creditCardId}
-                        onChange={(creditCard) => {
-                            setFormData((f) => ({
-                                ...f,
-                                creditCardId: creditCard?.id,
-                            }));
-                        }}
-                        onModalShow={() => reload()}
-                    >
-                        <div
-                            className="p-4 w-full fixed left-0 right-0 bottom-0"
-                            style={{
-                                background: 'linear-gradient(0, white 0, white 80%, transparent)',
-                            }}
-                        >
-                            <button
-                                className="btn btn-block btn-scordi"
-                                onClick={() => setIsCardCreateMethodModalOpen(true)}
-                            >
-                                새로운 카드 추가하기
-                            </button>
-                        </div>
-                    </MonoSelect>
+                        placeholder="카드 또는 출금계좌"
+                        clearOption={() => onChange(undefined)}
+                    />
                 </label>
             </div>
+
+            <PaymentMethodSelectModal
+                isOpened={isSelectModalOpened}
+                onClose={() => selectModal.hide()}
+                isLoading={isLoading}
+                reload={reload}
+                entries={result.items}
+                defaultValue={formData.creditCardId}
+                onSelect={onChange}
+                onCtaButtonClick={() => setIsCardCreateMethodModalOpen(true)}
+            />
 
             <CardCreateMethodModal
                 isOpened={isCardCreateMethodModalOpen}

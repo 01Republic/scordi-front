@@ -2,12 +2,10 @@ import React, {memo, useEffect, useState} from 'react';
 import {useRecoilState} from 'recoil';
 import {debounce} from 'lodash';
 import {toast} from 'react-hot-toast';
-import {FaTimes} from 'react-icons/fa';
-import {FaCaretDown} from 'react-icons/fa6';
 import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
-import {enterToSpace} from '^components/util/keyDownLikeClick';
+import {MonoSelectInput} from '^components/ui/inputs/MonoSelect/MonoSelectInput';
 import {createSubscriptionFormData} from '../../atom';
 import {InputSection} from '../../inputs/InputSection';
 import {InvoiceAccountSelectModal} from './InvoiceAccountSelectModal';
@@ -56,34 +54,15 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
         <InputSection>
             <div className="form-control">
                 <label className="label cursor-pointer p-0">
-                    <div
+                    <MonoSelectInput
                         id="invoiceAccountSelect"
-                        tabIndex={0}
-                        className="input border-gray-200 w-full bg-gray-100 text-16 flex items-center justify-between cursor-pointer"
-                        onKeyDown={enterToSpace(selectModal.show)}
-                        onClick={selectModal.show}
-                    >
-                        {!formData.invoiceAccountId ? (
-                            <div className="text-gray-400">ex. dev@scordi.io</div>
-                        ) : (
-                            <div>{selectedOption && <InvoiceAccountProfile invoiceAccount={selectedOption} />}</div>
-                        )}
-
-                        <div className="flex items-center gap-4">
-                            {selectedOption && (
-                                <FaTimes
-                                    size={16}
-                                    className="cursor-pointer text-gray-400 hover:text-gray-800 transition-all"
-                                    onClick={(e) => {
-                                        onChange();
-                                        e.stopPropagation();
-                                        e.preventDefault();
-                                    }}
-                                />
-                            )}
-                            <FaCaretDown size={14} className="text-gray-400" />
-                        </div>
-                    </div>
+                        openModal={selectModal.show}
+                        clearable
+                        selectedOption={selectedOption}
+                        getLabel={(option) => <InvoiceAccountProfile invoiceAccount={option} />}
+                        placeholder="ex. dev@scordi.io"
+                        clearOption={() => onChange(undefined)}
+                    />
                 </label>
             </div>
 
