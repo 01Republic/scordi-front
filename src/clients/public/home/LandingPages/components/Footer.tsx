@@ -60,7 +60,7 @@ export const BetaServiceFooter = memo(() => {
                                 </p>
                             </address>
 
-                            <div>
+                            <div className="mb-8 sm:mb-0">
                                 <p className="text-12 mb-0.5">Backed by:</p>
                                 <Link href="https://www.mashupventures.co/">
                                     <a target="_blank">
