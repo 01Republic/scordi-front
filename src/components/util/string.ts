@@ -37,7 +37,7 @@ export const onlyNumber = (str: string): [number, string] => {
 
 export const cardNumberFormat = (str: string) => {
     return str
-        .replace(/\D/g, '')
+        .replace(/[^\d^\*]/g, '')
         .trim()
         .replace(/(.{4})/g, '$1 - ')
         .replace(/ - $/, '');

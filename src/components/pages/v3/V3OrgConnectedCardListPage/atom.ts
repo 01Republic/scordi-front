@@ -3,7 +3,7 @@ import {codefAccountApi} from '^models/CodefAccount/api';
 import {resourceAtoms, useResource2} from '^hooks/useResource';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
-import {useConnectedCodefCards, useNewCodefCards, useSubscriptionsForAccount} from '^models/CodefCard/hook';
+import {useConnectedCodefCards, useNewCodefCards, useSubscriptionsForCodefAccount} from '^models/CodefCard/hook';
 import {codefAccountIdParamState} from '^atoms/common';
 import {V3OrgConnectNewCardListPageRoute} from '^pages/v3/orgs/[orgId]/connects/card-accounts/[connectMethod]/cards/new';
 
@@ -40,7 +40,7 @@ export const useConnectedCardListPageData = () => {
     const {search: fetchConnectedCodefCards, reload: refreshConnectedCodefCards} =
         useConnectedCodefCards(codefAccountIdParamState);
     const {search: fetchAccountSubscriptions, reload: refreshAccountSubscriptions} =
-        useSubscriptionsForAccount(codefAccountIdParamState);
+        useSubscriptionsForCodefAccount(codefAccountIdParamState);
     const [reloading, setReloading] = useRecoilState(reloadingDataAtom);
 
     const search = (codefAccountId: number) => {

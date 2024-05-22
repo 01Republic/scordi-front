@@ -9,14 +9,10 @@ import {SubscriptionDto} from '^models/Subscription/types';
 
 /** [연동] Connect CODEF Cards API */
 export const codefCardApi = {
-    /** 코드에프 카드 조회 (보유카드 조회) */
-    index<Dto = CodefCardDto, Query = FindAllCardQueryDto>(
-        orgId: number,
-        accountId: number,
-        params: Query = {} as any,
-    ) {
-        const url = `/connect/organizations/${orgId}/codef/accounts/${accountId}/cards`;
-        return api.get(url, {params}).then(paginatedDtoOf<Dto>(CodefCardDto as ClassConstructor<Dto>));
+    /** 코드에프 카드 조회 */
+    index(orgId: number, params: FindAllCardQueryDto = {}) {
+        const url = `/connect/organizations/${orgId}/codef/cards`;
+        return api.get(url, {params}).then(paginatedDtoOf(CodefCardDto));
     },
 
     show<Dto = CodefCardDto>(orgId: number, id: number) {
@@ -34,30 +30,6 @@ export const codefCardApi = {
         const url = `/connect/organizations/${orgId}/codef/cards/${codefCardId}/histories`;
         return api.get(url, {params}); //.then(paginatedDtoOf(CodefCardDto));
     },
-
-    /** 연결된 구독 조회 */
-    subscriptions(orgId: number, accountId: number, params?: FindAllSubscriptionByCardQueryDto) {
-        const url = `/connect/organizations/${orgId}/codef/accounts/${accountId}/subscriptions`;
-        return api.get(url, {params}).then(paginatedDtoOf(SubscriptionDto));
-    },
-    //
-    // /** 승인내역 */
-    // approval() {
-    //     const url = `/v1/kr/card/b/account/approval-list`;
-    //     return this.requestProduct(url, {});
-    // },
-    //
-    // /** 청구내역 */
-    // billing() {
-    //     const url = `/v1/kr/card/b/account/billing-list`;
-    //     return this.requestProduct(url, {});
-    // },
-    //
-    // /** 매입내역 */
-    // purchase() {
-    //     const url = `v1/kr/card/b/account/purchase-details`;
-    //     return this.requestProduct(url, {});
-    // },
 };
 
 export const codefCardAdminApi = {

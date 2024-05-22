@@ -6,7 +6,7 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import {codefAccountAtom} from '^models/CodefAccount/atom';
 import {CardAccountsStaticData, cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
-import {useConnectedCodefCards, useNewCodefCards, useSubscriptionsForAccount} from '^models/CodefCard/hook';
+import {useConnectedCodefCards, useNewCodefCards, useSubscriptionsForCodefAccount} from '^models/CodefCard/hook';
 import {CardListPageMode, reloadingDataAtom, useCodefAccountPageSubject} from '^v3/V3OrgConnectedCardListPage/atom';
 import {codefAccountIdParamState} from '^atoms/common';
 
@@ -14,7 +14,7 @@ export const ConnectedCardListPageHeader = memo(() => {
     const {connectMethod} = useCodefAccountPageSubject();
     const router = useRouter();
     const {result} = useConnectedCodefCards(codefAccountIdParamState);
-    const {result: pagedSubs} = useSubscriptionsForAccount(codefAccountIdParamState);
+    const {result: pagedSubs} = useSubscriptionsForCodefAccount(codefAccountIdParamState);
 
     if (!connectMethod) return <></>;
 

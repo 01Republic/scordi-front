@@ -6,6 +6,9 @@ import {cardSign} from '^config/environments';
 import CryptoJS from 'crypto-js';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
+import {cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+
+const CardCompanies = cardAccountsStaticData;
 
 export class CreditCardDto {
     id: number; // 카드 ID
@@ -31,11 +34,15 @@ export class CreditCardDto {
         return this.decryptSign();
     }
 
-    get label(): string {
-        return `${this.name} / ${this.company} ${this.endNumber}`;
+    get company() {
+        return CardCompanies.find((data) => this.issuerCompany === data.displayName);
     }
 
-    private get company(): string | null {
+    get label(): string {
+        return `${this.name} / ${this.companyText} ${this.endNumber}`;
+    }
+
+    private get companyText(): string | null {
         return this.issuerCompany || this.networkCompany || null;
     }
 

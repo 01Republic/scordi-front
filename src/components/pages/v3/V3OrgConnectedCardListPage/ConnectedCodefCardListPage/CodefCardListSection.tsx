@@ -11,7 +11,7 @@ import {plainToast as toast} from '^hooks/useToast';
 import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
 import {MoreDropdown} from '^v3/V3OrgSettingsConnectsPage/MoreDropdown';
 import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
-import {useConnectedCodefCards, useNewCodefCards, useSubscriptionsForAccount} from '^models/CodefCard/hook';
+import {useConnectedCodefCards, useNewCodefCards} from '^models/CodefCard/hook';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {selectedCodefCardAtom} from '^v3/V3OrgConnectedCardListPage/ConnectedCodefCardListPage/atom';

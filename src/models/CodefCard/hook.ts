@@ -4,6 +4,7 @@ import {FindAllCardAdminQueryDto, FindAllCardQueryDto} from './type/find-all.car
 import {codefCardAdminApi, codefCardApi} from '^models/CodefCard/api';
 import {
     codefCardsAdminAtom,
+    codefCardsAtom,
     connectedCodefCardsAtom,
     newCodefCardsAtom,
     subscriptionsForAccountAtom,
@@ -12,27 +13,22 @@ import {
 import {SubscriptionDto} from '^models/Subscription/types';
 import {FindAllSubscriptionByCardQueryDto} from '^models/CodefCard/type/find-all.card-subscription.query.dto';
 import {RecoilState, useRecoilValue} from 'recoil';
+import {codefAccountApi} from '^models/CodefAccount/api';
 
-/** 구독 불러오기 (연동페이지) 에서, 연결된 카드사의 카드 리스트를 보여줄 때 사용 */
-export const useNewCodefCards = (codefAccountIdAtom: RecoilState<number>) =>
-    useCodefCardsV3(codefAccountIdAtom, newCodefCardsAtom);
-export const useConnectedCodefCards = (codefAccountIdAtom: RecoilState<number>) =>
-    useCodefCardsV3(codefAccountIdAtom, connectedCodefCardsAtom);
+export const useCodefCards = (mergeMode = false) => useCodefCardsV3(codefCardsAtom, mergeMode);
 
-const useCodefCardsV3 = <DTO = CodefCardDto, QUERY = FindAllCardQueryDto>(
-    codefAccountIdAtom: RecoilState<number>,
-    atoms: PagedResourceAtoms<DTO, QUERY>,
-    mergeMode = false,
-) => {
-    const codefAccountId = useRecoilValue(codefAccountIdAtom);
+const useCodefCardsV3 = (atoms: PagedResourceAtoms<CodefCardDto, FindAllCardQueryDto>, mergeMode = false) => {
     return usePagedResource(atoms, {
         useOrgId: true,
-        endpoint: (params, orgId) => codefCardApi.index(orgId, codefAccountId, params),
-        // @ts-ignore
+        endpoint: (params, orgId) => codefCardApi.index(orgId, params),
         getId: 'id',
         mergeMode,
     });
 };
+
+/***
+ * ADMIN
+ */
 
 export const useAdminCodefCards = () => useCodefCardsAdmin(codefCardsAdminAtom);
 
@@ -46,15 +42,41 @@ const useCodefCardsAdmin = (atoms: PagedResourceAtoms<CodefCardDto, FindAllCardA
     });
 };
 
-export const useSubscriptionsForAccount = (codefAccountIdAtom: RecoilState<number>) => {
-    return useCodefSubscriptionsV3(codefAccountIdAtom, subscriptionsForAccountAtom);
+/***
+ * Of Account
+ * ====================
+ */
+
+/** 구독 불러오기 (연동페이지) 에서, 연결된 카드사의 카드 리스트를 보여줄 때 사용 */
+export const useNewCodefCards = (codefAccountIdAtom: RecoilState<number>) =>
+    useCodefCardsOfAccount(codefAccountIdAtom, newCodefCardsAtom);
+export const useConnectedCodefCards = (codefAccountIdAtom: RecoilState<number>) =>
+    useCodefCardsOfAccount(codefAccountIdAtom, connectedCodefCardsAtom);
+
+const useCodefCardsOfAccount = <DTO = CodefCardDto, QUERY = FindAllCardQueryDto>(
+    codefAccountIdAtom: RecoilState<number>,
+    atoms: PagedResourceAtoms<DTO, QUERY>,
+    mergeMode = false,
+) => {
+    const codefAccountId = useRecoilValue(codefAccountIdAtom);
+    return usePagedResource(atoms, {
+        useOrgId: true,
+        endpoint: (params, orgId) => codefAccountApi.findCards(orgId, codefAccountId, params),
+        // @ts-ignore
+        getId: 'id',
+        mergeMode,
+    });
+};
+
+export const useSubscriptionsForCodefAccount = (codefAccountIdAtom: RecoilState<number>) => {
+    return useSubscriptionsOfCodefAccount(codefAccountIdAtom, subscriptionsForAccountAtom);
 };
 
 export const useSubscriptionsForCard = (codefAccountIdAtom: RecoilState<number>) => {
-    return useCodefSubscriptionsV3(codefAccountIdAtom, subscriptionsForCardAtom);
+    return useSubscriptionsOfCodefAccount(codefAccountIdAtom, subscriptionsForCardAtom);
 };
 
-const useCodefSubscriptionsV3 = (
+const useSubscriptionsOfCodefAccount = (
     codefAccountIdAtom: RecoilState<number>,
     atoms: PagedResourceAtoms<SubscriptionDto, FindAllSubscriptionByCardQueryDto>,
     mergeMode = false,
@@ -62,7 +84,7 @@ const useCodefSubscriptionsV3 = (
     const codefAccountId = useRecoilValue(codefAccountIdAtom);
     return usePagedResource(atoms, {
         useOrgId: true,
-        endpoint: (params, orgId) => codefCardApi.subscriptions(orgId, codefAccountId, params),
+        endpoint: (params, orgId) => codefAccountApi.findSubscriptions(orgId, codefAccountId, params),
         // @ts-ignore
         getId: 'id',
         mergeMode,

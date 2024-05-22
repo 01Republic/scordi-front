@@ -1,7 +1,7 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
 import {FcFinePrint} from 'react-icons/fc';
-import {useSubscriptionsForAccount, useSubscriptionsForCard} from '^models/CodefCard/hook';
+import {useSubscriptionsForCodefAccount, useSubscriptionsForCard} from '^models/CodefCard/hook';
 import {selectedCodefCardAtom} from './atom';
 import {codefAccountIdParamState} from '^atoms/common';
 import {SubscriptionItem} from './SubscriptionItem';
@@ -12,7 +12,7 @@ export const AllSubscriptionListSection = memo(() => {
     // const codefAccountId = useRecoilValue(codefAccountIdParamState);
     // const selectedCodefCard = useRecoilValue(selectedCodefCardAtom);
     // const {isLoading, result, search} = useSubscriptionsForCard(codefAccountIdParamState);
-    const {isLoading, result} = useSubscriptionsForAccount(codefAccountIdParamState);
+    const {isLoading, result} = useSubscriptionsForCodefAccount(codefAccountIdParamState);
 
     const {items, pagination} = result;
 

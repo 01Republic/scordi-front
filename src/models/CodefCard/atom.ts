@@ -4,6 +4,11 @@ import {FindAllCardAdminQueryDto, FindAllCardQueryDto} from '^models/CodefCard/t
 import {SubscriptionDto} from '^models/Subscription/types';
 import {FindAllSubscriptionByCardQueryDto} from '^models/CodefCard/type/find-all.card-subscription.query.dto';
 
+/** 코드에프 카드 리스트 */
+export const codefCardsAtom = pagedResourceAtom<CodefCardDto, FindAllCardQueryDto>({
+    key: 'codefCardsAtom',
+});
+
 /** 구독 불러오기 (연동페이지) 에서, 연결된 카드사의 카드 리스트를 보여줄 때 사용 */
 export const newCodefCardsAtom = pagedResourceAtom<CodefCardDto, FindAllCardQueryDto>({
     key: 'newCodefCardsAtom',

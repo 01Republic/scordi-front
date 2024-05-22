@@ -15,3 +15,10 @@ export const oneDtoOf =
         res.data = plainToInstance(DtoClass, res.data);
         return res;
     };
+
+export const listDtoOf =
+    <T>(DtoClass: ClassConstructor<T>) =>
+    (res: AxiosResponse<T[]>) => {
+        res.data = plainToInstance(DtoClass, res.data);
+        return res;
+    };

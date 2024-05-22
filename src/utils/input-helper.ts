@@ -18,6 +18,12 @@ export const inputTextToCardNumberFormat = (e: ChangeEvent<HTMLInputElement>) =>
     return value;
 };
 
+export const inputTextToCardNumberInShortFormat = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.trim().replace(/[^\d^\*]/g, '');
+    e.target.value = value;
+    return value;
+};
+
 export const inputTextToISODateFormat = (e: ChangeEvent<HTMLInputElement>) => {
     return new Date(e.target.value).toISOString();
 };

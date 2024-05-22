@@ -1,9 +1,10 @@
 import React, {memo} from 'react';
-import {useSetRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {FaChevronLeft} from 'react-icons/fa6';
-import {inputTextToCardNumberFormat} from '^utils/input-helper';
+import {inputTextToCardNumberFormat, inputTextToCardNumberInShortFormat} from '^utils/input-helper';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {createCreditCardDtoAtom} from '^v3/share/modals/NewCardModal/atom';
+import {NumericTextInput} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/_common/NumericTextInput';
 
 interface InputCardFormDataStepProps {
     cardCompany: CardAccountsStaticData;
@@ -13,7 +14,7 @@ interface InputCardFormDataStepProps {
 
 export const InputCardFormDataStep = memo((props: InputCardFormDataStepProps) => {
     const {cardCompany, setCompany, onSubmit} = props;
-    const setFormData = useSetRecoilState(createCreditCardDtoAtom);
+    const [formData, setFormData] = useRecoilState(createCreditCardDtoAtom);
 
     return (
         <div className="flex flex-col items-stretch">
@@ -43,7 +44,6 @@ export const InputCardFormDataStep = memo((props: InputCardFormDataStepProps) =>
                 {/*<div>*/}
                 {/*    <label>*/}
                 {/*        <p className="text-12 text-gray-500 mb-1.5">카드종류</p>*/}
-
                 {/*        <ButtonGroupRadio*/}
                 {/*            onChange={console.log}*/}
                 {/*            options={[*/}
@@ -58,26 +58,49 @@ export const InputCardFormDataStep = memo((props: InputCardFormDataStepProps) =>
                 <div>
                     <label>
                         <p className="text-12 text-gray-500 mb-1.5">카드번호</p>
-                        <input
-                            type="text"
-                            placeholder="●●●● - ●●●● - ●●●● - ●●●●"
-                            className="input border-gray-200 bg-gray-100 text-16 w-full"
-                            onChange={(e) => {
-                                const value = inputTextToCardNumberFormat(e);
-                                const numbers = value.replace(/ - /g, '');
-                                const isFulfilled = numbers.length >= 16;
 
-                                if (!isFulfilled) return;
-
-                                setFormData((prev) => ({
-                                    ...prev,
-                                    number1: numbers.slice(0, 4),
-                                    number2: numbers.slice(4, 8),
-                                    number3: numbers.slice(8, 12),
-                                    number4: numbers.slice(12, 16),
-                                }));
-                            }}
-                        />
+                        <div className="grid grid-cols-4 gap-3">
+                            <NumericTextInput
+                                minLength={4}
+                                maxLength={4}
+                                placeholder="●●●●"
+                                defaultValue={formData.number1}
+                                onChange={(e) => {
+                                    const val = inputTextToCardNumberInShortFormat(e);
+                                    setFormData((f) => ({...f, number1: val}));
+                                }}
+                            />
+                            <NumericTextInput
+                                minLength={4}
+                                maxLength={4}
+                                placeholder="●●●●"
+                                defaultValue={formData.number2}
+                                onChange={(e) => {
+                                    const val = inputTextToCardNumberInShortFormat(e);
+                                    setFormData((f) => ({...f, number2: val}));
+                                }}
+                            />
+                            <NumericTextInput
+                                minLength={4}
+                                maxLength={4}
+                                placeholder="●●●●"
+                                defaultValue={formData.number3}
+                                onChange={(e) => {
+                                    const val = inputTextToCardNumberInShortFormat(e);
+                                    setFormData((f) => ({...f, number3: val}));
+                                }}
+                            />
+                            <NumericTextInput
+                                minLength={4}
+                                maxLength={5}
+                                placeholder="●●●●"
+                                defaultValue={formData.number4}
+                                onChange={(e) => {
+                                    const val = inputTextToCardNumberInShortFormat(e);
+                                    setFormData((f) => ({...f, number4: val}));
+                                }}
+                            />
+                        </div>
                     </label>
                 </div>
             </div>
