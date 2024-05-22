@@ -15,11 +15,14 @@ export const NumericTextInput = (props: NumericTextInputProps) => {
                 defaultValue={defaultValue}
                 onChange={(e) => {
                     const input = e.target;
-                    onChange(e);
-                    if (input.value.length < minLength) {
-                        input.setCustomValidity('번호가 너무 짧아요');
-                    } else {
-                        input.setCustomValidity('');
+                    onChange && onChange(e);
+
+                    if (typeof minLength === 'number') {
+                        if (input.value.length < minLength) {
+                            input.setCustomValidity('번호가 너무 짧아요');
+                        } else {
+                            input.setCustomValidity('');
+                        }
                     }
                     input.reportValidity();
                 }}

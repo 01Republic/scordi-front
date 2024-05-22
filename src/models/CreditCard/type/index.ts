@@ -76,10 +76,10 @@ export class CreditCardDto {
 }
 
 export class CreditCardSecretInfo {
-    number1?: string | null;
-    number2?: string | null;
-    number3?: string | null;
-    number4?: string | null;
+    number1?: string;
+    number2?: string;
+    number3?: string;
+    number4?: string;
     password?: string;
     cvc?: string;
     expiry?: string;
@@ -162,6 +162,11 @@ export type CreateCreditCardDto = {
     holdingMemberId?: number | null;
     holdingMember?: TeamMemberDto;
     productIds?: number[] | null;
+    //
+    number1?: string;
+    number2?: string;
+    number3?: string;
+    number4?: string;
 };
 
 export type UpdateCreditCardDto = {
@@ -174,6 +179,11 @@ export type UpdateCreditCardDto = {
     holdingMemberId?: number | null;
     holdingMember?: TeamMemberDto;
     productIds?: number[] | null;
+    //
+    number1?: string;
+    number2?: string;
+    number3?: string;
+    number4?: string;
 };
 
 export type FindAllCreditCardDto = FindAllQueryDto<CreditCardDto> & {

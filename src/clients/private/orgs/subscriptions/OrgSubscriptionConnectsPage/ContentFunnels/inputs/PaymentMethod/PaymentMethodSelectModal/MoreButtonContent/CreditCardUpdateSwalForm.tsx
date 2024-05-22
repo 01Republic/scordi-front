@@ -24,6 +24,7 @@ export const CreditCardUpdateSwalForm = memo((props: CreditCardUpdateSwalFormPro
     const form = useForm<UpdateCreditCardDto>();
 
     useEffect(() => {
+        // @ts-ignore
         form.setValue('name', creditCard.name);
         form.setValue('issuerCompany', creditCard.issuerCompany);
         form.setValue('networkCompany', creditCard.networkCompany);
