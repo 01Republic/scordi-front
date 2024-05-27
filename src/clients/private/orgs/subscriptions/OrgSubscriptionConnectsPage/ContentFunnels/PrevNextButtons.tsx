@@ -47,23 +47,23 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
             );
         case Steps.PaymentMethod:
             // 결제수단 설정
-            return (
-                <StepButtons
-                    onPrev={() =>
-                        setStep((i) => {
-                            return formData.isFreeTier ? Steps.IsFreeTier : prev(i);
-                        })
-                    }
-                    onNext={() => setStep(next)}
-                    isValid={true}
-                />
-            );
+            return <StepButtons onPrev={() => setStep(prev)} onNext={() => setStep(next)} isValid={true} />;
         case Steps.InvoiceAccount:
             // 청구서 수신 메일 설정
             return <StepButtons onPrev={() => setStep(prev)} onNext={() => setStep(next)} isValid={true} />;
         case Steps.TeamMembers:
             // 이용중인 멤버
-            return <StepButtons onPrev={() => setStep(prev)} onNext={() => setStep(next)} isValid={true} />;
+            return (
+                <StepButtons
+                    onPrev={() => {
+                        setStep((i) => {
+                            return formData.isFreeTier ? Steps.IsFreeTier : prev(i);
+                        });
+                    }}
+                    onNext={() => setStep(next)}
+                    isValid={true}
+                />
+            );
         case Steps.Master:
             // 담당자 (Responsibility)
             return <StepButtons onPrev={() => setStep(prev)} onNext={() => setStep(next)} isValid={true} />;
