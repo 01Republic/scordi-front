@@ -7,7 +7,7 @@ import {TeamMemberSelectedSection} from './TeamMemberSelectedSection';
 import {TeamMemberSelectableSection} from './TeamMemberSelectableSection';
 import {TeamMemberCreateMethodModal} from './TeamMemberCreateMethodModal';
 import {TeamMemberCreateAutoModal} from './TeamMemberCreateAutoModal';
-import {TeamMemberCreateManualModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/TeamMemberSelect/TeamMemberCreateManualModal';
+import {TeamMemberCreateManualModal} from './TeamMemberCreateManualModal';
 
 export const TeamMemberSelect = memo(function TeamMemberSelect() {
     const {search, reload} = useTeamMemberListInCreateSubscription();
@@ -21,9 +21,6 @@ export const TeamMemberSelect = memo(function TeamMemberSelect() {
 
     return (
         <div>
-            {/*[공사중] 이용중인 멤버 선택을 만들거에요 (셀렉트인풋 - 멀티셀렉트)*/}
-            {/*/!*- CTA : 새로운 멤버 계정 추가하기*!/*/}
-
             <div className="flex flex-col gap-4">
                 <div className="grid grid-cols-2 gap-2">
                     <TeamMemberSearchInput />

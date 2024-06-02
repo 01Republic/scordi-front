@@ -45,3 +45,11 @@ export const paymentReceiveTeamMemberForOrgSettingAtom = pagedResourceAtom<TeamM
 export const teamMemberListInCreateSubscriptionAtom = pagedResourceAtom<TeamMemberDto, FindAllTeamMemberQueryDto>({
     key: 'teamMemberListInCreateSubscriptionAtom',
 });
+
+// 구독 수동 등록 / 담당자 선택용 멤버 목록
+export const teamMemberListForMasterSelectInCreateSubscriptionAtom = pagedResourceAtom<
+    TeamMemberDto,
+    FindAllTeamMemberQueryDto
+>({
+    key: 'teamMemberListForMasterSelectInCreateSubscriptionAtom',
+});

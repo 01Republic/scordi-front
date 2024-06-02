@@ -13,6 +13,7 @@ import {
     teamMemberListInTeamMembersTableAtom,
     paymentReceiveTeamMemberForOrgSettingAtom,
     teamMemberListInCreateSubscriptionAtom,
+    teamMemberListForMasterSelectInCreateSubscriptionAtom,
 } from '../atom';
 import {useTeamMembersV3} from '^models/TeamMember';
 
@@ -46,6 +47,11 @@ export const usePaymentReceiveTeamMemberForOrgSetting = () =>
 // 구독 수동 등록 / 멤버 목록
 export const useTeamMemberListInCreateSubscription = () => {
     return useTeamMembersV3(teamMemberListInCreateSubscriptionAtom);
+};
+
+// 구독 수동 등록 / 담당자 선택용 멤버 목록
+export const useTeamMemberListForMasterSelectInCreateSubscription = () => {
+    return useTeamMembersV3(teamMemberListForMasterSelectInCreateSubscriptionAtom);
 };
 
 // 멤버 수정 / 삭제 기능
