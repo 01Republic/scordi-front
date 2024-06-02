@@ -1,12 +1,14 @@
 import {memo} from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
+import {selectedTeamMembersAtom} from './inputs/TeamMemberSelect/atom';
 import {createSubscriptionFormData, currentStepAtom} from './atom';
 import {Steps} from './steps';
 
 export const PrevNextButtons = memo(function PrevNextButtons() {
     // const orgId = useRecoilValue(orgIdParamState);
     const formData = useRecoilValue(createSubscriptionFormData);
+    const teamMembers = useRecoilValue(selectedTeamMembersAtom);
     const [currentStep, setStep] = useRecoilState(currentStepAtom);
 
     const prev = (i: number) => i - 1;
@@ -62,6 +64,7 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
                     }}
                     onNext={() => setStep(next)}
                     isValid={true}
+                    nextButtonText={teamMembers.length == 0 ? '건너뛰기' : undefined}
                 />
             );
         case Steps.Master:
