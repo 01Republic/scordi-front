@@ -16,7 +16,7 @@ export const StepProgress = memo((props: StepProgressProps) => {
         .reverse()[0];
 
     return (
-        <div className="w-full flex flex-col gap-2">
+        <div className="w-full flex flex-col gap-2 sticky top-0 pt-[40px] bg-white z-[2]">
             <div className="flex items-center justify-between">
                 {/* tab */}
                 <div className="flex items-center gap-3">
