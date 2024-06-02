@@ -6,8 +6,10 @@ import {MembershipDto} from 'src/models/Membership/types';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {PartialType} from '^types/utils/partial-type';
+import {getColor} from '^components/util/palette';
 
 export * from './TeamMemberSubscription.dto';
+export * from './CreateGoogleAdminTeamMembersRequestDto';
 
 export class TeamMemberDto {
     id: number; // 아이디
@@ -51,6 +53,11 @@ export class TeamMemberDto {
                 this.email ? this.email[0].toUpperCase() : '?'
             }`,
         };
+    }
+
+    getAvatarColor() {
+        const {email} = this.makeTeamMemberProfile();
+        return getColor(email.length + this.id);
     }
 
     // 임시

@@ -5,6 +5,7 @@ import {
     CreateTeamMemberDto,
     UpdateTeamMemberDto,
     TeamMemberSubscriptionDto,
+    CreateGoogleAdminTeamMembersRequestDto,
 } from '^models/TeamMember/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
@@ -50,6 +51,15 @@ export const teamMemberApi = {
         disconnect(teamMemberId: number, subscriptionId: number) {
             const url = `/team_members/${teamMemberId}/subscriptions/${subscriptionId}`;
             return api.delete<TeamMemberSubscriptionDto>(url).then(oneDtoOf(TeamMemberSubscriptionDto));
+        },
+    },
+};
+
+export const connectGoogleAdmin = {
+    teamMembersApi: {
+        upsertByCode(orgId: number, dto: CreateGoogleAdminTeamMembersRequestDto) {
+            const url = `/connect/organizations/${orgId}/google-admin/team-members/by-code`;
+            return api.post<TeamMemberDto[]>(url, dto);
         },
     },
 };

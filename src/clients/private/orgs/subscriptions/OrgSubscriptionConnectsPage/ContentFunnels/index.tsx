@@ -57,21 +57,23 @@ export const ContentFunnels = memo(function ContentFunnels() {
 
     return (
         <>
-            <LoadableBox isLoading={isLoading} loadingType={2} noPadding spinnerPos="center">
-                <div className="container max-w-5xl mx-auto pt-[40px] px-8">
-                    <StepProgress />
+            <div className="min-h-screen -mb-[65px] pb-[65px]">
+                <LoadableBox isLoading={isLoading} loadingType={2} noPadding spinnerPos="center">
+                    <div className="container max-w-5xl mx-auto py-[40px] px-8">
+                        <StepProgress />
 
-                    {currentStep === Steps.IsFreeTier && <IsFreeTierStep />}
-                    {currentStep === Steps.RecurringCycle && <RecurringCycleStep />}
-                    {currentStep === Steps.SubscriptionInfo && <SubscriptionInfo />}
-                    {currentStep === Steps.PaymentMethod && <PaymentMethod />}
-                    {currentStep === Steps.InvoiceAccount && <InvoiceAccountSelectStep />}
-                    {currentStep === Steps.TeamMembers && <TeamMemberStep />}
-                    {currentStep === Steps.Master && <MasterStep />}
-                    {currentStep === Steps.PartnerCompany && <PartnerCompanyStep />}
-                    {currentStep === Steps.Memo && <MemoStep />}
-                </div>
-            </LoadableBox>
+                        {currentStep === Steps.IsFreeTier && <IsFreeTierStep />}
+                        {currentStep === Steps.RecurringCycle && <RecurringCycleStep />}
+                        {currentStep === Steps.SubscriptionInfo && <SubscriptionInfo />}
+                        {currentStep === Steps.PaymentMethod && <PaymentMethod />}
+                        {currentStep === Steps.InvoiceAccount && <InvoiceAccountSelectStep />}
+                        {currentStep === Steps.TeamMembers && <TeamMemberStep />}
+                        {currentStep === Steps.Master && <MasterStep />}
+                        {currentStep === Steps.PartnerCompany && <PartnerCompanyStep />}
+                        {currentStep === Steps.Memo && <MemoStep />}
+                    </div>
+                </LoadableBox>
+            </div>
 
             <PrevNextButtons />
         </>

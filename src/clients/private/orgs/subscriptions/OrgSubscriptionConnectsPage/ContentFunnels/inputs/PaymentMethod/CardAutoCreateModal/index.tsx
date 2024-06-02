@@ -1,9 +1,6 @@
 import React, {memo, useState} from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
 import {FaChevronLeft} from 'react-icons/fa6';
-import {orgIdParamState} from '^atoms/common';
-import {createCreditCardDtoAtom} from '^v3/share/modals/NewCardModal/atom';
 import {CardAccountsStaticData, cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {FadeUp} from '../../../_common/FadeUp';

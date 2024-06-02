@@ -1,10 +1,7 @@
-import {useState} from 'react';
 import {RecoilState, useRecoilState, useRecoilValue} from 'recoil';
 import {useAlert} from '^hooks/useAlert';
 import {useToast} from '^hooks/useToast';
 import {orgIdParamState} from '^atoms/common';
-import {ApprovalStatus} from '^models/Membership/types';
-import {membershipApi} from '^models/Membership/api';
 import {teamMemberApi} from '../api';
 import {TeamMemberDto, UpdateTeamMemberDto} from '../type';
 import {
@@ -15,6 +12,7 @@ import {
     teamMemberListInDashboardAtom,
     teamMemberListInTeamMembersTableAtom,
     paymentReceiveTeamMemberForOrgSettingAtom,
+    teamMemberListInCreateSubscriptionAtom,
 } from '../atom';
 import {useTeamMembersV3} from '^models/TeamMember';
 
@@ -44,6 +42,11 @@ export const useTeamMembersInSubscriptionShowModal = () => useTeamMembersV3(team
 // 조직설정 / 청구수신계정 멤버 조회
 export const usePaymentReceiveTeamMemberForOrgSetting = () =>
     useTeamMembersV3(paymentReceiveTeamMemberForOrgSettingAtom);
+
+// 구독 수동 등록 / 멤버 목록
+export const useTeamMemberListInCreateSubscription = () => {
+    return useTeamMembersV3(teamMemberListInCreateSubscriptionAtom);
+};
 
 // 멤버 수정 / 삭제 기능
 export function useTeamMember(atom: RecoilState<TeamMemberDto | null>) {
