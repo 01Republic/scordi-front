@@ -1,7 +1,6 @@
 import {memo, useEffect} from 'react';
 import {useTeamMemberListForMasterSelectInCreateSubscription} from '^models/TeamMember';
 import {MasterSearchInput} from './MasterSearchInput';
-import {FaPlus} from 'react-icons/fa6';
 import {MasterSelectableSection} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/MasterSelect/MasterSelectableSection';
 
 export const MasterSelect = memo(function MasterSelect() {

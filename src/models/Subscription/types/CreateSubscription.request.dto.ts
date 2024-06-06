@@ -41,6 +41,8 @@ export class CreateSubscriptionRequestDto {
     // // usedMemberCount?: number; // 사용중인 사용자 수
 
     invoiceAccountId?: number;
+    vendorCompanyId?: number;
+    vendorManagerId?: number;
 }
 
 export class CreateSubscriptionRequestDto2 {

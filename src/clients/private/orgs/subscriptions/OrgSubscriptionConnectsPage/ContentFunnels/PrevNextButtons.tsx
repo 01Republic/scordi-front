@@ -79,7 +79,14 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
             );
         case Steps.PartnerCompany:
             // 파트너사
-            return <StepButtons onPrev={() => setStep(prev)} onNext={() => setStep(next)} isValid={true} />;
+            return (
+                <StepButtons
+                    onPrev={() => setStep(prev)}
+                    onNext={() => setStep(next)}
+                    isValid={true}
+                    nextButtonText={!formData.vendorCompanyId ? '건너뛰기' : undefined}
+                />
+            );
         case Steps.Memo:
             // 메모
             return <StepButtons onPrev={() => setStep(prev)} onNext={() => setStep(Steps.IsFreeTier)} isValid={true} />;

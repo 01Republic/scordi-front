@@ -5,10 +5,11 @@ import {WithChildren} from '^types/global.type';
 interface SwalFormProps extends WithChildren {
     className?: string;
     onSubmit?: (e: BaseSyntheticEvent<object, any, any>) => Promise<any>;
+    confirmBtnText?: string;
 }
 
 export const SwalForm = memo((props: SwalFormProps) => {
-    const {className = '', onSubmit, children} = props;
+    const {className = '', onSubmit, confirmBtnText, children} = props;
 
     // const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     //     try {
@@ -34,7 +35,7 @@ export const SwalForm = memo((props: SwalFormProps) => {
                         취소
                     </button>
                     <button type="submit" className="btn sm:btn-sm btn-scordi rounded-btn">
-                        업데이트
+                        {confirmBtnText || '업데이트'}
                     </button>
                 </section>
             </form>

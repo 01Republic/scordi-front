@@ -17,6 +17,8 @@ import {SubscriptionPaymentPlanDto} from './paymentPlanType';
 import {BillingCycleOptions, t_SubscriptionBillingCycleType} from '^models/Subscription/types/BillingCycleOptions';
 import {PricingModelOptions} from '^models/Subscription/types/PricingModelOptions';
 import {SubscriptionConnectMethod} from '^models/Subscription/types/ConnectMethod';
+import {VendorManagerDto} from '^models/VendorManager/type';
+import {VendorCompanyDto} from '^models/VendorCompany/type';
 
 export class SubscriptionDto {
     id: number;
@@ -61,6 +63,9 @@ export class SubscriptionDto {
     isSyncRunning: boolean; // 싱크 실행중 여부
     // invoiceAccountId: number | null;
 
+    vendorCompanyId: number | null; // 파트너 벤더사 ID
+    vendorManagerId: number | null; // 파트너 벤더사 담당자 ID
+
     @TypeCast(() => Date) createdAt: Date;
     @TypeCast(() => Date) updatedAt: Date;
 
@@ -77,6 +82,8 @@ export class SubscriptionDto {
     // @TypeCast(() => SignedHistoryDto) signedHistories?: SignedHistoryDto[]; // 접속 기록 목록
     @TypeCast(() => TagDto) recurringTypeTag?: TagDto; // 과금 방식 태그
     @TypeCast(() => TagDto) billingCycleTag?: TagDto; // 결제 주기 태그
+    @TypeCast(() => VendorCompanyDto) vendorCompany?: VendorCompanyDto; // 파트너 벤더사
+    @TypeCast(() => VendorManagerDto) vendorManager?: VendorManagerDto; // 파트너 벤더사 담당자
 
     accounts?: [];
 

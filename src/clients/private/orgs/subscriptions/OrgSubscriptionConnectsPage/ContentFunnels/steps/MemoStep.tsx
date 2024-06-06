@@ -5,7 +5,7 @@ import {StepLayout} from '../_common/StepLayout';
 export const MemoStep = memo(function TeamMemberStep() {
     return (
         <StepLayout title="청구서(인보이스)를 받고 있는 이메일이 있나요?" desc="">
-            <div>[공사중] 메모는 여기서 입력할거에요</div>
+            <div>[공사중] 메모는 여기서 입력할거에요!</div>
         </StepLayout>
     );
 });
