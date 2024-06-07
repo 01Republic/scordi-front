@@ -9,6 +9,7 @@ import {VendorCompanySelectModal} from './VendorCompanySelectModal';
 import {VendorManagerSelectModal} from './VendorManagerSelectModal';
 import {useVendorCompanyListInCreateSubscription} from '^models/VendorCompany/hook';
 import {useVendorManagerListInCreateSubscription} from '^models/VendorManager/hook';
+import {VendorManagerProfile} from '^models/VendorManager/components/VendorManagerProfile';
 
 export const PartnerCompanySelect = memo(function PartnerCompanySelect() {
     const [formData, setFormData] = useRecoilState(createSubscriptionFormData);
@@ -74,7 +75,9 @@ export const PartnerCompanySelect = memo(function PartnerCompanySelect() {
                         openModal={() => setIsManagerSelectModalOpened(true)}
                         clearable
                         selectedOption={selectedManager}
-                        getLabel={(vendorManager) => vendorManager.name}
+                        getLabel={(vendorManager) => (
+                            <VendorManagerProfile item={vendorManager} avatarClass="w-8 h-8" />
+                        )}
                         placeholder="선택되지 않았아요."
                         clearOption={() => onManagerChange(undefined)}
                     />

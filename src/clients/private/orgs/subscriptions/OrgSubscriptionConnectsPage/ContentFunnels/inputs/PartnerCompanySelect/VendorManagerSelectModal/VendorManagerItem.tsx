@@ -1,6 +1,7 @@
 import React, {memo} from 'react';
 import {VendorManagerDto} from '^models/VendorManager/type';
 import {FaCheck, FaChevronRight} from 'react-icons/fa6';
+import {VendorManagerProfile} from '^models/VendorManager/components/VendorManagerProfile';
 
 interface VendorManagerItemProps {
     vendorManager: VendorManagerDto;
@@ -17,7 +18,7 @@ export const VendorManagerItem = memo((props: VendorManagerItemProps) => {
             onClick={onClick}
         >
             <div className="flex-auto">
-                <p className="text-14">{vendorManager.name}</p>
+                <VendorManagerProfile item={vendorManager} avatarClass="w-8 h-8" />
             </div>
             <div className="flex items-center gap-2">
                 <div>{selected && <FaCheck className="text-green-400" />}</div>
