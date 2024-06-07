@@ -4,10 +4,10 @@ import {MasterSearchInput} from './MasterSearchInput';
 import {MasterSelectableSection} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/MasterSelect/MasterSelectableSection';
 
 export const MasterSelect = memo(function MasterSelect() {
-    const {search, reload} = useTeamMemberListForMasterSelectInCreateSubscription();
+    const {reload} = useTeamMemberListForMasterSelectInCreateSubscription();
 
     useEffect(() => {
-        search({});
+        reload();
     }, []);
 
     return (
