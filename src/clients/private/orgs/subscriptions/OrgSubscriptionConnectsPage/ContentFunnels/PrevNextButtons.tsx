@@ -96,7 +96,7 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
                 />
             );
         case Steps.Master:
-            // 담당자 (Responsibility)
+            // 담당자
             return (
                 <StepButtons
                     onPrev={() => setStep(prev)}

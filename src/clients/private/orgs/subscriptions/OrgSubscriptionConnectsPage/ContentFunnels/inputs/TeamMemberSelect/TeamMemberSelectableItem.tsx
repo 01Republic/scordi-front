@@ -1,6 +1,7 @@
 import {memo} from 'react';
 import {TeamMemberDto} from '^models/TeamMember';
 import {TeamMemberProfile} from '^models/TeamMember/components/TeamMemberProfile';
+import {FaCheck} from 'react-icons/fa6';
 
 interface TeamMemberSelectableItemProps {
     teamMember: TeamMemberDto;
@@ -18,7 +19,10 @@ export const TeamMemberSelectableItem = memo((props: TeamMemberSelectableItemPro
             } hover:shadow`}
             onClick={onClick}
         >
-            <TeamMemberProfile item={teamMember} />
+            <div className="flex items-center justify-between">
+                <TeamMemberProfile item={teamMember} />
+                {selected && <FaCheck className="text-scordi" size={20} />}
+            </div>
         </div>
     );
 });

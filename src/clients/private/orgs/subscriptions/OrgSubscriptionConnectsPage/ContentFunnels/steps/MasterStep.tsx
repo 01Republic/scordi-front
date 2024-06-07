@@ -11,7 +11,7 @@ export const MasterStep = memo(function MasterStep() {
 
     return (
         <StepLayout
-            title={`${nounToHangulObjectFormat(serviceName, '%w%s')} 관리중인 담당자를 추가해주세요.`}
+            title={`${nounToHangulObjectFormat(serviceName, '%w%s')} 관리중인 주 담당자를 할당해주세요.`}
             desc="초대가 되지 않으니 안심하고 추가해요. 잘 모르겠다면 나중에 추가할 수 있으니 넘어가도 좋아요."
         >
             <MasterSelect />
