@@ -1,17 +1,19 @@
 import React, {memo, useState} from 'react';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {ButtonGroupRadio} from '^components/util/form-control/inputs';
-import {createSubscriptionFormData} from '../atom';
+import {createSubscriptionFormData, currentStepAtom} from '../atom';
 import {StepLayout} from '../_common/StepLayout';
 import {FadeUp} from '../_common/FadeUp';
 import {InputSection} from '../inputs/InputSection';
 import {PartnerCompanySelect} from '../inputs/PartnerCompanySelect';
+import {Steps} from '../steps/steps.enum';
 
 // [**구독 등록 플로우 (수동) /** 파트너사 유무 질문](https://www.notion.so/92a26540cd4f4b9cb1c010dc629e6cf6?pvs=21)
 // [**구독 등록 플로우 (수동) /** 파트너사 정보기입](https://www.notion.so/9182912d9f78451488d9384c3388730e?pvs=21)
 export const PartnerCompanyStep = memo(function PartnerCompanyStep() {
     const [formData, setFormData] = useRecoilState(createSubscriptionFormData);
     const [activeForm, setActiveForm] = useState(!!formData.vendorCompanyId);
+    const setCurrentStep = useSetRecoilState(currentStepAtom);
 
     return (
         <StepLayout
@@ -22,16 +24,15 @@ export const PartnerCompanyStep = memo(function PartnerCompanyStep() {
                 <InputSection>
                     <ButtonGroupRadio
                         onChange={(option) => {
-                            // setFormData((f) => ({...f, isFreeTier}));
-                            // goNextStep(isFreeTier);
+                            setActiveForm(option.value);
                             if (!option.value) {
                                 setFormData((f) => ({
                                     ...f,
                                     vendorCompanyId: undefined,
                                     vendorManagerId: undefined,
                                 }));
+                                setCurrentStep(Steps.Memo);
                             }
-                            setActiveForm(option.value);
                         }}
                         defaultValue={activeForm}
                         options={[
