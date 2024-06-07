@@ -20,7 +20,7 @@ const isLoadingAtom = atom({
 });
 
 export const useCurrentConnectingProduct = () => {
-    const {selectedProducts} = useSelectProducts();
+    const {selectedProducts, finish} = useSelectProducts();
     const [currentConnectingProduct, setCurrentConnectingProduct] = useRecoilState(currentConnectingProductAtom);
     const setRequestId = useSetRecoilState(lastRequestedIdAtom);
     const [isLoading, setIsLoading] = useRecoilState(isLoadingAtom);
@@ -52,10 +52,21 @@ export const useCurrentConnectingProduct = () => {
         });
     }
 
+    function finishProduct(productId: number) {
+        const index = selectedProducts.findIndex((p) => p.id === productId);
+        const length = selectedProducts.length;
+
+        const nextProduct =
+            length < index + 1 ? selectedProducts[0] : length > index + 1 ? selectedProducts[index + 1] : undefined;
+        finish(productId);
+        return nextProduct;
+    }
+
     return {
         isLoading,
         currentConnectingProduct,
         setCurrentConnectingProduct: setCurrentProduct,
         selectedProducts,
+        finishProduct,
     };
 };

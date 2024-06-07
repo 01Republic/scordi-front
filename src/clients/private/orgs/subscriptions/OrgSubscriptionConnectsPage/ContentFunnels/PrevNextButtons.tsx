@@ -1,18 +1,46 @@
 import {memo} from 'react';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useRouter} from 'next/router';
+import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
+import {toast} from 'react-hot-toast';
+import {subscriptionApi} from '^models/Subscription/api';
 import {selectedTeamMembersAtom} from './inputs/TeamMemberSelect/atom';
 import {createSubscriptionFormData, currentStepAtom} from './atom';
 import {Steps} from './steps';
+import {useCurrentConnectingProduct} from './useCurrentConnectingProduct';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
+import {useProductOnMainPage, useProductSearchResult} from '^models/Product/hook';
 
 export const PrevNextButtons = memo(function PrevNextButtons() {
-    // const orgId = useRecoilValue(orgIdParamState);
+    const router = useRouter();
     const formData = useRecoilValue(createSubscriptionFormData);
-    const teamMembers = useRecoilValue(selectedTeamMembersAtom);
+    const clearFormData = useResetRecoilState(createSubscriptionFormData);
+    const [teamMembers, setTeamMembers] = useRecoilState(selectedTeamMembersAtom);
     const [currentStep, setStep] = useRecoilState(currentStepAtom);
+    const {finishProduct} = useCurrentConnectingProduct();
+    const {reload: reloadProductsOnMain} = useProductOnMainPage();
+    const {reload: reloadProductSearch} = useProductSearchResult();
 
     const prev = (i: number) => i - 1;
     const next = (i: number) => i + 1;
+
+    const createSubscription = () => {
+        console.log(formData);
+        subscriptionApi.create(formData).then((res) => {
+            const subscription = res.data;
+            toast.success('구독이 등록되었어요!');
+            setTeamMembers([]);
+            clearFormData();
+            const nextProduct = finishProduct(subscription.productId);
+
+            if (nextProduct) {
+                setStep(Steps.IsFreeTier);
+            } else {
+                return router.push(OrgMainPageRoute.path(subscription.organizationId)).then(async () => {
+                    return Promise.allSettled([reloadProductsOnMain(), reloadProductSearch()]);
+                });
+            }
+        });
+    };
 
     switch (currentStep) {
         case Steps.IsFreeTier:
@@ -89,7 +117,14 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
             );
         case Steps.Memo:
             // 메모
-            return <StepButtons onPrev={() => setStep(prev)} onNext={() => setStep(Steps.IsFreeTier)} isValid={true} />;
+            return (
+                <StepButtons
+                    onPrev={() => setStep(prev)}
+                    onNext={() => createSubscription()}
+                    isValid={true}
+                    nextButtonText="등록 완료"
+                />
+            );
         default:
             return <></>;
     }

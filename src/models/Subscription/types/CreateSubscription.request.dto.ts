@@ -24,8 +24,8 @@ export class CreateSubscriptionRequestDto {
     currentBillingAmount?: CreateMoneyWithSubscriptionRequestDto;
 
     isFreeTier?: boolean; // 프리티어 여부(Default: false)
-    isPerUser?: boolean; // 유저가 기록한 인당 과금 여부
     @TypeCast(() => Date) registeredAt?: Date; // 사용시작일(Default: 현재)
+    isPerUser?: boolean; // 유저가 기록한 인당 과금 여부
 
     // sign?: string | null; // 연동계정 Sign
     // organizationId: number; // 조직 ID

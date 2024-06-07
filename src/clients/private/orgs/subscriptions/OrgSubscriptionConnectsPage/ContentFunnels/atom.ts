@@ -1,6 +1,8 @@
 import {atom} from 'recoil';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
 import {CreateSubscriptionRequestDto} from '^models/Subscription/types';
+import {localStorageAtoms} from '^atoms/localStorage.atom';
+import {ProductDto} from '^models/Product/type';
 
 export const currentStepAtom = atom({
     key: 'currentStepAtom',
@@ -23,4 +25,10 @@ export const createSubscriptionFormData = atom<CreateSubscriptionRequestDto>({
 export const billingCycleTypeAtom = atom<BillingCycleOptions>({
     key: 'billingCycleTypeAtom',
     default: undefined,
+});
+
+// 선택된 앱 목록 중에서 완료된 앱 목록 (구독 등록을 위한 앱 선택 컨텍스트에서)
+export const finishedProductMapAtom = atom<Record<number, ProductDto>>({
+    key: 'finishedProductMapAtom',
+    default: {},
 });

@@ -1,12 +1,12 @@
 import {memo} from 'react';
-import {useSelectProducts} from '^models/Product/hook';
-import {ProductStatus} from './ProductStatus';
-import {useCurrentConnectingProduct} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/useCurrentConnectingProduct';
 import {ProductDto} from '^models/Product/type';
 import {confirm2} from '^components/util/dialog';
+import {useCurrentConnectingProduct} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/useCurrentConnectingProduct';
+import {ProductStatus} from './ProductStatus';
+import {useSelectProducts} from '^models/Product/hook';
 
 export const SelectedAppsSection = memo(function SelectedAppsSection() {
-    const {selectedProducts} = useSelectProducts();
+    const {selectedProducts, selectedWithFinishedProducts} = useSelectProducts();
     const {currentConnectingProduct, setCurrentConnectingProduct} = useCurrentConnectingProduct();
 
     const onClick = (product: ProductDto) => {
@@ -23,12 +23,13 @@ export const SelectedAppsSection = memo(function SelectedAppsSection() {
 
     return (
         <div className="flex flex-col items-stretch gap-6">
-            {selectedProducts.map((product, i) => (
+            {selectedWithFinishedProducts.map((product, i) => (
                 <ProductStatus
                     key={i}
                     product={product}
                     current={currentConnectingProduct?.id === product.id}
                     onClick={onClick}
+                    finished={!selectedProducts.some((p) => p.id === product.id)}
                 />
             ))}
         </div>
