@@ -53,13 +53,20 @@ export const useCurrentConnectingProduct = () => {
     }
 
     function finishProduct(productId: number) {
+        const nextProduct = getNextProduct(productId);
+        finish(productId);
+        if (nextProduct) setCurrentProduct(nextProduct);
+        return nextProduct;
+    }
+
+    function getNextProduct(productId: number) {
         const index = selectedProducts.findIndex((p) => p.id === productId);
         const length = selectedProducts.length;
 
-        const nextProduct =
-            length < index + 1 ? selectedProducts[0] : length > index + 1 ? selectedProducts[index + 1] : undefined;
-        finish(productId);
-        return nextProduct;
+        if (length === 1 && index === 0) return undefined; // 최종 앱의 경우
+        if (length <= index + 1) return selectedProducts[0]; // 아직 앞에 미등록한 앱이 남아있는 경우
+        if (length > index + 1) return selectedProducts[index + 1]; // 다음 등록할 앱이 있는 경우
+        return undefined;
     }
 
     return {
