@@ -55,7 +55,7 @@ export const useCurrentConnectingProduct = () => {
     function finishProduct(productId: number) {
         const nextProduct = getNextProduct(productId);
         finish(productId);
-        if (nextProduct) setCurrentProduct(nextProduct);
+        nextProduct ? setCurrentProduct(nextProduct) : setCurrentConnectingProduct(null);
         return nextProduct;
     }
 

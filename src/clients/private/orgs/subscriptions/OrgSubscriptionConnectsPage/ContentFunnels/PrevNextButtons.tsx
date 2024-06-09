@@ -4,7 +4,7 @@ import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {toast} from 'react-hot-toast';
 import {subscriptionApi} from '^models/Subscription/api';
 import {selectedTeamMembersAtom} from './inputs/TeamMemberSelect/atom';
-import {createSubscriptionFormData, currentStepAtom} from './atom';
+import {createSubscriptionFormData, currentStepAtom, finishedProductMapAtom} from './atom';
 import {Steps} from './steps';
 import {useCurrentConnectingProduct} from './useCurrentConnectingProduct';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
@@ -17,6 +17,7 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
     const [teamMembers, setTeamMembers] = useRecoilState(selectedTeamMembersAtom);
     const [currentStep, setStep] = useRecoilState(currentStepAtom);
     const {finishProduct} = useCurrentConnectingProduct();
+    const resetFinishedProductMap = useResetRecoilState(finishedProductMapAtom);
     const {reload: reloadProductsOnMain} = useProductOnMainPage();
     const {reload: reloadProductSearch} = useProductSearchResult();
 
@@ -36,6 +37,7 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
                 setStep(Steps.IsFreeTier);
             } else {
                 return router.push(OrgMainPageRoute.path(subscription.organizationId)).then(async () => {
+                    resetFinishedProductMap();
                     return Promise.allSettled([reloadProductsOnMain(), reloadProductSearch()]);
                 });
             }
