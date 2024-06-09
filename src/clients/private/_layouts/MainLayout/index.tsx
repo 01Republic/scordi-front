@@ -18,7 +18,7 @@ export const MainLayout = memo((props: MainLayoutProps) => {
             <Background />
 
             {/* Body */}
-            <div>
+            <div className="relative min-h-screen">
                 <OrgTopBar />
                 <TobNavBar />
 

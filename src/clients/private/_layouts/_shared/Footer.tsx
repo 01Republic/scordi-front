@@ -8,7 +8,7 @@ export const Footer = memo(function Footer() {
     const currentOrg = useRecoilValue(currentOrgAtom);
 
     return (
-        <footer className="container px-4 md:max-w-screen-lg flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 py-6">
+        <footer className="container px-4 md:max-w-screen-lg flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 py-6 sticky top-[100%]">
             <div>
                 <img
                     src="/images/logo/scordi/01republic/png/long-black.png"
