@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
@@ -7,24 +7,62 @@ import {InvoiceAccountManualCreateSubmitButton} from './InvoiceAccountManualCrea
 import {useForm} from 'react-hook-form';
 import {debounce} from 'lodash';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
-import {CreateInvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {CreateInvoiceAccountDto, InvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {useInvoiceAccountsSearch} from '^models/InvoiceAccount/hook';
+import {SelectableInvoiceAccount} from '../InvoiceAccountSelectModal/SelectableInvoiceAccount';
+import {LoadableBox} from '^components/util/loading';
+import {HiCursorClick} from '^components/react-icons';
 
 interface InvoiceAccountManualCreateModalProps {
     isOpened: boolean;
     onClose: () => any;
     onCreate: () => any;
+    onSelect: (invoiceAccount: InvoiceAccountDto) => any;
 }
 
 export const InvoiceAccountManualCreateModal = memo((props: InvoiceAccountManualCreateModalProps) => {
-    const {isOpened, onClose, onCreate} = props;
+    const {isOpened, onClose, onCreate, onSelect} = props;
     const orgId = useRecoilValue(orgIdParamState);
+    const {isLoading, search, result, reload, reset} = useInvoiceAccountsSearch();
     const form = useForm<CreateInvoiceAccountDto>();
+    const [errorMessage, setErrorMessage] = useState<string>();
 
-    const onSubmit = debounce((dto: CreateInvoiceAccountDto) => {
-        invoiceAccountApi.createV3(orgId, dto).then(() => {
-            onCreate();
+    const clearAll = () => {
+        setErrorMessage(undefined);
+        form.reset();
+        reset();
+    };
+
+    const isValidEmail = async (email?: string) => {
+        if (!email) return true;
+        return search(
+            {
+                // relations: ['googleTokenData', 'subscriptions'],
+                where: {email},
+                itemsPerPage: 0,
+                order: {googleTokenDataId: 'DESC'},
+            },
+            false,
+            true,
+        ).then((res) => {
+            return res?.pagination.totalItemCount === 0;
         });
+    };
+
+    const onSubmit = debounce(async (dto: CreateInvoiceAccountDto) => {
+        const validEmail = await isValidEmail(dto.email);
+
+        if (validEmail) {
+            invoiceAccountApi.createV3(orgId, dto).then(() => {
+                onCreate();
+                clearAll();
+            });
+        } else {
+            setErrorMessage('이미 등록된 이메일이에요!');
+        }
     }, 500);
+
+    const emailInputPuts = form.register('email', {required: true});
 
     return (
         <SlideUpModal
@@ -44,13 +82,49 @@ export const InvoiceAccountManualCreateModal = memo((props: InvoiceAccountManual
                             <input
                                 type="email"
                                 placeholder="tech@01republic.io"
-                                className="input border-gray-200 bg-gray-100 text-16 w-full"
-                                {...form.register('email', {
-                                    required: true,
-                                })}
+                                className={`input bg-gray-100 text-16 w-full ${
+                                    errorMessage ? 'input-error' : 'border-gray-200'
+                                }`}
+                                {...emailInputPuts}
+                                onChange={(e) => {
+                                    setErrorMessage(undefined);
+                                    return emailInputPuts.onChange(e);
+                                }}
                                 required
                             />
+                            {errorMessage && <p className="text-12 text-error mt-1.5 text-right">{errorMessage}</p>}
                         </label>
+                    </div>
+
+                    <div>
+                        {!!result.items.length && (
+                            <p className="text-12 text-gray-500 mb-1 flex items-center gap-1">
+                                <span>찾으시는 계정이 있다면 선택해주세요</span> <HiCursorClick />
+                            </p>
+                        )}
+                        <LoadableBox isLoading={isLoading} loadingType={2} spinnerPos="center" noPadding>
+                            <div className="max-h-full">
+                                <div
+                                    className="no-scrollbar overflow-auto -mx-4 px-4"
+                                    style={{
+                                        maxHeight: 'calc(var(--modal-height) - 1.5rem - 28px - 1rem - 80px + 1rem)',
+                                    }}
+                                >
+                                    {result.items.map((invoiceAccount, i) => (
+                                        <SelectableInvoiceAccount
+                                            key={i}
+                                            invoiceAccount={invoiceAccount}
+                                            onClick={() => {
+                                                onSelect(invoiceAccount);
+                                                clearAll();
+                                            }}
+                                            isSelected={false}
+                                            onSaved={() => reload()}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        </LoadableBox>
                     </div>
                 </div>
                 <InvoiceAccountManualCreateSubmitButton />

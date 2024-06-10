@@ -2,7 +2,7 @@ import React, {memo, useEffect, useState} from 'react';
 import {useRecoilState} from 'recoil';
 import {debounce} from 'lodash';
 import {toast} from 'react-hot-toast';
-import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
+import {useInvoiceAccountListInSelectModal} from '^models/InvoiceAccount/hook';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
 import {MonoSelectInput} from '^components/ui/inputs/MonoSelect/MonoSelectInput';
@@ -20,7 +20,7 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
     const [isCreateMethodModalOpen, setIsCreateMethodModalOpen] = useState(false);
     const [isAutoCreateModalOpen, setIsAutoCreateModalOpen] = useState(false);
     const [isManualCreateModalOpen, setIsManualCreateModalOpen] = useState(false);
-    const {search, result, reload, isLoading} = useInvoiceAccounts();
+    const {search, result, reload, isLoading} = useInvoiceAccountListInSelectModal();
     const selectedOption = result.items.find((o) => o.id === formData.invoiceAccountId);
 
     useEffect(() => {
@@ -115,6 +115,10 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
                     toast.success('계정을 저장했어요');
                     setIsManualCreateModalOpen(false);
                     reload();
+                }}
+                onSelect={(invoiceAccount) => {
+                    onChange(invoiceAccount);
+                    setIsManualCreateModalOpen(false);
                 }}
             />
         </InputSection>
