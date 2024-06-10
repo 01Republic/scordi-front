@@ -9,6 +9,7 @@ export class CreateSubscriptionRequestDto {
     productId: number; // 프로덕트 ID
     workspaceId?: number | null; // 워크스페이스 ID
     creditCardId?: number | null; // 카드 ID
+    teamMemberIds?: number[]; // 이용중인 멤버 ID 목록
     masterId?: number; // 관리자 팀 멤버 ID
     status?: SubscriptionStatus; // 구독 상태
     alias?: string; // 구독 별칭
@@ -22,6 +23,7 @@ export class CreateSubscriptionRequestDto {
     // 현재 결제 금액
     @TypeCast(() => CreateMoneyWithSubscriptionRequestDto)
     currentBillingAmount?: CreateMoneyWithSubscriptionRequestDto;
+    isDynamicBillingAmount?: boolean; // 계속해서 변경되는 금액 여부
 
     isFreeTier?: boolean; // 프리티어 여부(Default: false)
     @TypeCast(() => Date) registeredAt?: Date; // 사용시작일(Default: 현재)

@@ -6,7 +6,7 @@ import {
     t_SubscriptionPricingModel,
 } from '^models/Subscription/types/PricingModelOptions';
 import {MonoSelect} from '^components/ui/inputs/MonoSelect';
-import {createSubscriptionFormData} from '../../atom';
+import {createSubscriptionFormData} from '../atom';
 
 const options = PricingModelValues.map((value) => ({
     label: t_SubscriptionPricingModel(value),
@@ -50,6 +50,7 @@ export const PricingTypeSelect = memo(function PricingTypeSelect() {
                     setFormData((f) => ({
                         ...f,
                         pricingModel: selected ? selected.value : PricingModelOptions.NONE,
+                        isPerUser: selected?.value === PricingModelOptions.PER_SEAT,
                     }));
                 }}
                 getLabel={(c) => c.label}

@@ -1,11 +1,18 @@
-import {memo} from 'react';
-import {useListOf} from '^hooks/useResource';
-import {selectedTeamMembersAtom} from './atom';
-import {getColor} from '^components/util/palette';
+import {memo, useEffect} from 'react';
+import {useSetRecoilState} from 'recoil';
 import {FaTimes} from 'react-icons/fa';
+import {useListOf} from '^hooks/useResource';
+import {createSubscriptionFormData} from '../../atom';
+import {selectedTeamMembersAtom} from './atom';
 
 export const TeamMemberSelectedSection = memo(function TeamMemberSelectedSection() {
     const {list, remove} = useListOf(selectedTeamMembersAtom, {getKey: 'id'});
+    const setFormData = useSetRecoilState(createSubscriptionFormData);
+    const teamMemberIds = (list || []).map((teamMember) => teamMember.id);
+
+    useEffect(() => {
+        setFormData((f) => ({...f, teamMemberIds}));
+    }, [teamMemberIds]);
 
     return (
         <div className="pb-4">

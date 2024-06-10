@@ -12,7 +12,7 @@ import {
     ProductNotSelected,
     IsFreeTierStep,
     RecurringCycleStep,
-    SubscriptionInfo,
+    SubscriptionInfoStep,
     PaymentMethod,
     InvoiceAccountSelectStep,
     TeamMemberStep,
@@ -38,10 +38,17 @@ export const ContentFunnels = memo(function ContentFunnels() {
                 organizationId,
                 productId: currentConnectingProduct.id,
                 isFreeTier: true,
+                billingCycleType: undefined,
                 pricingModel: PricingModelOptions.PER_SEAT,
+                isPerUser: true,
                 currentBillingAmount: {amount: 0, currency: CurrencyCode.KRW},
                 creditCardId: undefined,
                 invoiceAccountId: undefined,
+                teamMemberIds: [],
+                masterId: undefined,
+                vendorCompanyId: undefined,
+                vendorManagerId: undefined,
+                desc: undefined,
             };
         });
         setStep(1);
@@ -64,7 +71,7 @@ export const ContentFunnels = memo(function ContentFunnels() {
 
                         {currentStep === Steps.IsFreeTier && <IsFreeTierStep />}
                         {currentStep === Steps.RecurringCycle && <RecurringCycleStep />}
-                        {currentStep === Steps.SubscriptionInfo && <SubscriptionInfo />}
+                        {currentStep === Steps.SubscriptionInfo && <SubscriptionInfoStep />}
                         {currentStep === Steps.PaymentMethod && <PaymentMethod />}
                         {currentStep === Steps.InvoiceAccount && <InvoiceAccountSelectStep />}
                         {currentStep === Steps.TeamMembers && <TeamMemberStep />}

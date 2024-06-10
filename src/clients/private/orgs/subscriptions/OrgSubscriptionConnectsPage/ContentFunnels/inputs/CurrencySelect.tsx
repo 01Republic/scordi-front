@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
 import {useRecoilState} from 'recoil';
-import {createSubscriptionFormData} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/atom';
-import {currencyListV4} from '^clients/private/_modals/CurrencySelectModal';
 import {MonoSelect} from '^components/ui/inputs/MonoSelect';
+import {currencyListV4} from '^clients/private/_modals/CurrencySelectModal';
+import {createSubscriptionFormData} from '../atom';
 
 export const CurrencySelect = memo(() => {
     const [formData, setFormData] = useRecoilState(createSubscriptionFormData);
