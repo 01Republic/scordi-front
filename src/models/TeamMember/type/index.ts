@@ -11,6 +11,13 @@ import {getColor} from '^components/util/palette';
 export * from './TeamMemberSubscription.dto';
 export * from './CreateGoogleAdminTeamMembersRequestDto';
 
+export enum TeamMemberInviteStatus {
+    All = '',
+    BeforeInvite = 'BeforeInvite',
+    Inviting = 'Inviting',
+    Invited = 'Invited',
+}
+
 export class TeamMemberDto {
     id: number; // 아이디
     name: string; // 이름
@@ -74,10 +81,11 @@ export class TeamMemberDto {
     }
 }
 
-export type FindAllTeamMemberQueryDto = FindAllQueryDto<TeamMemberDto> & {
+export class FindAllTeamMemberQueryDto extends FindAllQueryDto<TeamMemberDto> {
     teamId?: number | null; // 검색할 소속팀 ID
     keyword?: string | null; // 검색 키워드
-};
+    inviteStatus?: TeamMemberInviteStatus; // 검색할 초대상태
+}
 
 export class CreateTeamMemberDto {
     name: string; // 멤버 이름

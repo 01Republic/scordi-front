@@ -7,6 +7,9 @@ import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {TopNavBarItem} from './TopNavBarItem';
 import {TopNavBarDropdownItem} from './TopNavBarDropdownItem';
 import {TopNavBarDropdownContent} from './TopNavBarDropdownContent';
+import {useRouter} from 'next/router';
+import {OrgTeamMemberListPageRoute} from '^pages/orgs/[id]/teamMembers';
+import {ActiveRoute} from '^types/pageRoute.type';
 
 interface TobNavBarProps {
     //
@@ -14,18 +17,35 @@ interface TobNavBarProps {
 
 export const TobNavBar = memo((props: TobNavBarProps) => {
     const {} = props;
+    const router = useRouter();
     const {currentOrg} = useCurrentOrg2();
 
     if (!currentOrg) return <></>;
 
+    const routeProps = <T extends (...args: any) => any>(
+        route: {pathname: string; path: T},
+        ...params: Parameters<T>
+    ) => {
+        return ActiveRoute.props(route, router, ...params);
+    };
+
+    const orgRouteProps = <T extends (orgId: number) => string>(route: {pathname: string; path: T}) => {
+        // @ts-ignore
+        return routeProps<T>(route, currentOrg.id);
+    };
+
     return (
         <div className="container-fluid h-[52px] flex items-stretch justify-center py-0 border-b bg-white-blurred">
-            <TopNavBarItem name="홈" active={true} href={OrgMainPageRoute.path(currentOrg.id)} />
-            <TopNavBarItem name="구독" active={false} href={OrgAppIndexPageRoute.path(currentOrg.id)} />
-            <TopNavBarItem name="팀" active={false}>
+            <TopNavBarItem name="홈" {...orgRouteProps(OrgMainPageRoute)} />
+            <TopNavBarItem name="구독" {...orgRouteProps(OrgAppIndexPageRoute)} />
+            <TopNavBarItem name="팀" active={orgRouteProps(OrgTeamMemberListPageRoute).active}>
                 <TopNavBarDropdownContent>
-                    <TopNavBarDropdownItem name="팀 목록" href="" Icon={BsPersonLinesFill} />
-                    <TopNavBarDropdownItem name="구성원" href="" Icon={BsPeopleFill} />
+                    <TopNavBarDropdownItem name="팀 목록" Icon={BsPersonLinesFill} href="" />
+                    <TopNavBarDropdownItem
+                        name="구성원"
+                        Icon={BsPeopleFill}
+                        {...orgRouteProps(OrgTeamMemberListPageRoute)}
+                    />
                 </TopNavBarDropdownContent>
             </TopNavBarItem>
             <TopNavBarItem name="자산" active={false}>

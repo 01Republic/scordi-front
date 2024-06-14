@@ -30,3 +30,5 @@ export const MainLayout = memo((props: MainLayoutProps) => {
     );
 });
 MainLayout.displayName = 'MainLayout';
+
+export * from './MainContainer';
