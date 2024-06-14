@@ -37,12 +37,7 @@ export const SearchInput = memo(function SearchInput() {
                     onSearch(e.target.value);
                 }}
             />
-            <FaSearch
-                className="absolute my-auto top-0 bottom-0 right-3"
-                onClick={() => {
-                    onSearch(val);
-                }}
-            />
+            <FaSearch className="absolute my-auto top-0 bottom-0 right-3" onClick={() => onSearch(val)} />
         </label>
     );
 });
