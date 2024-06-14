@@ -10,7 +10,7 @@ export const SearchInput = memo(function SearchInput() {
     const onSearch = debounce((keyword?: string) => {
         return search({
             ...query,
-            keyword,
+            keyword: keyword || undefined,
             page: 1,
             itemsPerPage: 30,
         });
