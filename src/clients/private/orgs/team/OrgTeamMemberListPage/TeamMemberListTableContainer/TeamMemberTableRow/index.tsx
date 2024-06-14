@@ -1,11 +1,9 @@
 import React, {memo} from 'react';
 import {TeamMemberDto} from '^models/TeamMember';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
-import {TeamMemberRole} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberRole';
 import {TeamSelect} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamSelect';
 import {TeamMemberStatusDropdown} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown';
 import {LinkTo} from '^components/util/LinkTo';
-import {AdminOrgPageRoute} from '^pages/admin/orgs/[id]';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {FaRegFolderOpen} from 'react-icons/fa';
 import {V3OrgTeamMemberShowPageRoute} from '^pages/v3/orgs/[orgId]/teams/members/[memberId]';

@@ -1,17 +1,10 @@
-import React, {memo, useEffect} from 'react';
-import {useTeamMembersInTeamMembersTable} from '^models/TeamMember';
+import React, {memo} from 'react';
 import {Paginator} from './Paginator';
 import {TeamMemberTable} from './TeamMemberTable';
 
 interface TeamMemberListTableContainerProps {}
 
 export const TeamMemberListTableContainer = memo((props: TeamMemberListTableContainerProps) => {
-    const {search, result} = useTeamMembersInTeamMembersTable();
-
-    useEffect(() => {
-        search({relations: ['teams']});
-    }, []);
-
     return (
         <div className="card card-bordered bg-white rounded-md">
             <div className="p-4">
