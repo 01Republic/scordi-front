@@ -25,14 +25,14 @@ export const StatusButton = memo((props: StatusButtonProps) => {
         return (
             <StatusButtonUI
                 className="opacity-50"
-                label="비활성"
+                label="초대 전"
                 caption="아직 워크스페이스에 초대되지 않은 사용자입니다."
             />
         );
     }
 
     if (membership.approvalStatus === ApprovalStatus.PENDING) {
-        return <StatusButtonUI label="대기중" caption="초대 이메일을 보내드렸고, 가입을 기다리고 있어요." />;
+        return <StatusButtonUI label="가입 대기중" caption="초대 이메일을 보내드렸고, 가입을 기다리고 있어요." />;
     }
 
     if (membership.level === MembershipLevel.OWNER) {
