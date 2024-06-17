@@ -17,11 +17,18 @@ export const MoreDropdown = <T,>(props: MoreDropdownProps<T>) => {
 
     return (
         <Dropdown
-            className={`pt-1 ${className}`}
+            className={`${className}`}
             placement="bottom"
             backdrop
             Trigger={({visible}) => (
-                <>
+                <div className="flex items-center gap-2">
+                    {/* 자리 마킹용 플레이스홀더 */}
+                    <div className="invisible flex">
+                        <button className="btn btn-xs btn-square">
+                            <IoIosMore size={16} />
+                        </button>
+                    </div>
+
                     {/* isCurrent: 드롭다운이 열려있다면 비활성화하고, 닫혀있다면 hover 되지 않을 때 활성화 합니다. */}
                     <div className={visible ? 'hidden' : `group-hover:hidden`}>{isCurrent && <FcCheckmark />}</div>
 
@@ -31,7 +38,7 @@ export const MoreDropdown = <T,>(props: MoreDropdownProps<T>) => {
                             <IoIosMore size={16} />
                         </button>
                     </div>
-                </>
+                </div>
             )}
         >
             <ul

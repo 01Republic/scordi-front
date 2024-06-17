@@ -39,7 +39,7 @@ body {
   --topnav-min-height: 4rem;
 }
 body.modal-opened {
-  height: 100vh;
+  min-height: 100vh;
   overflow-y: hidden;
 }
 

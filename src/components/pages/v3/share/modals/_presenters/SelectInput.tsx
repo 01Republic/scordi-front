@@ -91,12 +91,12 @@ export const SelectOptionNotionStyledLayout = memo((props: SelectOptionProps<any
         <components.Option {...props}>
             <div className="px-[8px]">
                 <div
-                    className={`flex items-center py-1.5 px-2 rounded-md cursor-pointer transition-all btn-animation ${
+                    className={`flex items-center justify-between py-1.5 px-2 rounded-md cursor-pointer transition-all btn-animation ${
                         isFocused ? 'bg-gray-100' : ''
                     } hover:bg-gray-100 active:bg-sky-100 group`}
                 >
-                    <div className="">{children}</div>
-                    <div className="ml-auto">
+                    <div className="flex">{children}</div>
+                    <div className="flex">
                         {onDelete && (
                             <MoreDropdown isCurrent={isSelected} option={data.data} destroyRequest={onDelete} />
                         )}

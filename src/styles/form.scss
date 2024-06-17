@@ -61,21 +61,62 @@
 }
 
 .select-underline {
-  div[class*="-control"] {
-    border: none;
-    box-shadow: none;
+  &:not(.select) {
+    div[class*="-control"] {
+      border: none;
+      box-shadow: none;
+      background-color: inherit;
 
-    div[class*="-ValueContainer"],
-    & > div:nth-child(1) {
-      @apply h-[2.5rem] text-xl font-[500] w-full;
-      //padding-left: 0;
-      //padding-right: 0;
-      padding: 0;
+      div[class*="-ValueContainer"],
+      & > div:nth-child(1) {
+        @apply h-[2.5rem] text-xl font-[500] w-full;
+        //padding-left: 0;
+        //padding-right: 0;
+        padding: 0;
+      }
+
+      div[class*="-IndicatorsContainer"] {
+        & > span[class*="-indicatorSeparator"] {
+          width: 0;
+        }
+      }
     }
+  }
 
-    div[class*="-IndicatorsContainer"] {
-      & > span[class*="-indicatorSeparator"] {
-        width: 0;
+  &.select {
+    @apply px-0;
+    //font-size: 0.875rem;
+    //line-height: 1.25rem;
+    //line-height: 2;
+    //height: 3rem;
+    //min-height: 3rem;
+    font-weight: inherit;
+    font-size: inherit;
+
+    div[class*="-control"] {
+      padding-left: 1rem;
+      border: none;
+      box-shadow: none;
+      background-color: inherit;
+      width: 100%;
+
+      div[class*="-ValueContainer"],
+      & > div:nth-child(1) {
+        //@apply h-[2.5rem] text-xl font-[500] w-full;
+        //padding-left: 0;
+        //padding-right: 0;
+        padding: 0;
+        height: 100%;
+      }
+
+      //div[class*="-placeholder"] {
+      //  height: 100%;
+      //}
+
+      div[class*="-IndicatorsContainer"] {
+        & > span[class*="-indicatorSeparator"] {
+          width: 0;
+        }
       }
     }
   }
