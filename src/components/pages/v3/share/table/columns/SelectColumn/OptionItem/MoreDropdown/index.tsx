@@ -8,12 +8,13 @@ import {MoreDropdownListItem} from './ListItem';
 interface MoreDropdownProps<T> extends WithChildren {
     isCurrent: boolean;
     option: T;
+    updateRequest?: (option: T) => any;
     destroyRequest?: (option: T) => false | Promise<boolean> | void;
     className?: string;
 }
 
 export const MoreDropdown = <T,>(props: MoreDropdownProps<T>) => {
-    const {isCurrent, option, destroyRequest, children, className} = props;
+    const {isCurrent, option, updateRequest, destroyRequest, children, className} = props;
 
     return (
         <Dropdown
@@ -45,6 +46,14 @@ export const MoreDropdown = <T,>(props: MoreDropdownProps<T>) => {
                 tabIndex={0}
                 className="dropdown-portal-content focus menu p-2 border shadow-lg bg-base-100 rounded-md w-40 z-10"
             >
+                {updateRequest && (
+                    <MoreDropdownListItem onClick={() => updateRequest(option)}>
+                        <div className="flex items-center gap-3 w-full">
+                            <FaRegTrashAlt />
+                            <p>수정</p>
+                        </div>
+                    </MoreDropdownListItem>
+                )}
                 {destroyRequest && (
                     <MoreDropdownListItem
                         onClick={() => {

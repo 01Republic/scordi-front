@@ -34,6 +34,7 @@ export const CreatableSelect = <T, V, O extends Option>(props: CreatableSelectPr
         onSelect,
         formatOptionLabel,
     } = props;
+    const [isMenuOpened, setIsMenuOpened] = useState(false);
 
     const search = async (inputValue?: string) => {
         return searchItems(inputValue).then((items) => items.map(toOption));
@@ -49,7 +50,13 @@ export const CreatableSelect = <T, V, O extends Option>(props: CreatableSelectPr
                 defaultValue={defaultItems.map(toOption)}
                 defaultOptions={items.map(toOption)}
                 loadOptions={search}
-                onMenuOpen={() => search()}
+                menuIsOpen={isMenuOpened}
+                onFocus={() => setIsMenuOpened(true)}
+                onBlur={() => setIsMenuOpened(false)}
+                onMenuOpen={() => {
+                    search();
+                    setIsMenuOpened(true);
+                }}
                 loadingMessage={({inputValue}) => <span>'{inputValue}'를 찾는 중</span>}
                 noOptionsMessage={({inputValue}) => <span>'{inputValue}'는 없네요</span>}
                 components={{
@@ -61,11 +68,14 @@ export const CreatableSelect = <T, V, O extends Option>(props: CreatableSelectPr
                         ),
                     MenuList,
                 }}
-                onChange={(option, actionMeta) =>
-                    option
-                        ? onSelect(option as unknown as SingleValue<O>, actionMeta as ActionMeta<O>)
-                        : onSelect(undefined, actionMeta as ActionMeta<O>)
-                }
+                onChange={(option, actionMeta) => {
+                    if (option) {
+                        onSelect(option as unknown as SingleValue<O>, actionMeta as ActionMeta<O>);
+                        setIsMenuOpened(false);
+                    } else {
+                        onSelect(undefined, actionMeta as ActionMeta<O>);
+                    }
+                }}
                 formatOptionLabel={(data, formatOptionLabelMeta) => {
                     return formatOptionLabel
                         ? formatOptionLabel(data.value, formatOptionLabelMeta as FormatOptionLabelMeta<O>)

@@ -15,11 +15,13 @@ interface TeamCreateOptionProps extends SelectOptionProps<{label: string; value:
 
 export const TeamCreateOption = memo((props: TeamCreateOptionProps) => {
     const orgId = useRecoilValue(orgIdParamState);
-    const {reload, data, isFocused, isSelected} = props;
+    const {reload, data, isFocused, isSelected, setValue} = props;
 
     const onClick = () => {
-        teamApi.create(orgId, {name: data.value}).then(() => {
+        teamApi.create(orgId, {name: data.value}).then((res) => {
             reload && reload();
+            // @ts-ignore
+            setValue({label: res.data.name, value: res.data}, 'select-option');
             toast.success('새로운 팀을 추가했어요');
         });
     };

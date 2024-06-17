@@ -81,11 +81,12 @@ SelectInput.displayName = 'SelectInput';
  * SelectOption 컴포넌트 프리셋
  */
 export interface SelectOptionProps<Option> extends OptionProps<Option, false> {
+    onUpdate?: () => void;
     onDelete?: () => void;
 }
 type d = Pick<SelectOptionProps<any>, 'isFocused' | 'isSelected'>;
 export const SelectOptionNotionStyledLayout = memo((props: SelectOptionProps<any> & WithChildren) => {
-    const {isFocused, isSelected, children, data, onDelete} = props;
+    const {isFocused, isSelected, children, data, onUpdate, onDelete} = props;
 
     return (
         <components.Option {...props}>
@@ -97,8 +98,13 @@ export const SelectOptionNotionStyledLayout = memo((props: SelectOptionProps<any
                 >
                     <div className="flex">{children}</div>
                     <div className="flex">
-                        {onDelete && (
-                            <MoreDropdown isCurrent={isSelected} option={data.data} destroyRequest={onDelete} />
+                        {(onUpdate || onDelete) && (
+                            <MoreDropdown
+                                isCurrent={isSelected}
+                                option={data.data}
+                                updateRequest={onUpdate}
+                                destroyRequest={onDelete}
+                            />
                         )}
                     </div>
                 </div>
