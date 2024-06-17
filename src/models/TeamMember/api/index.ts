@@ -37,6 +37,13 @@ export const teamMemberApi = {
         return api.delete<TeamMemberDto>(url);
     },
 
+    isExist(orgId: number, where: FindAllQueryDto<TeamMemberDto>['where']): Promise<TeamMemberDto | undefined> {
+        return this.index(orgId, {
+            where: {...where, organizationId: orgId},
+            itemsPerPage: 1,
+        }).then(({data}) => data.items[0]);
+    },
+
     subscriptions: {
         connectable(teamMemberId: number, params?: FindAllQueryDto<SubscriptionDto>) {
             const url = `/team_members/${teamMemberId}/subscriptions/available`;

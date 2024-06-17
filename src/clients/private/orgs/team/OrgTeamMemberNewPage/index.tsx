@@ -6,10 +6,11 @@ import {orgIdParamState} from '^atoms/common';
 import {OrgTeamMemberListPageRoute} from '^pages/orgs/[id]/teamMembers';
 import {FaCheck} from 'react-icons/fa6';
 import {useForm} from 'react-hook-form';
-import {CreateTeamMemberDto} from '^models/TeamMember';
+import {CreateTeamMemberDto, teamMemberApi} from '^models/TeamMember';
 import {FormControl} from './FormControl';
 import {SelectTeam} from './SelectTeam';
 import {TeamBeforeSaveModal} from '^clients/private/orgs/team/OrgTeamMemberNewPage/TeamBeforeSaveModal';
+import {toast} from 'react-hot-toast';
 
 export const OrgTeamMemberNewPage = memo(function OrgTeamMemberNewPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -17,8 +18,9 @@ export const OrgTeamMemberNewPage = memo(function OrgTeamMemberNewPage() {
     const [isModalOpened, setModalOpened] = useState(false);
 
     const onSubmit = (dto: CreateTeamMemberDto) => {
-        console.log('dto', dto);
-        setModalOpened(true);
+        teamMemberApi.isExist(orgId, {email: dto.email}).then((existTeam) => {
+            existTeam ? toast.error('이미 존재하는 멤버입니다.') : setModalOpened(true);
+        });
     };
 
     return (
