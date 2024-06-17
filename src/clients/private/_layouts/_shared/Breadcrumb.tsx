@@ -33,7 +33,13 @@ export const BreadcrumbItem = memo((props: BreadcrumbItemProps) => {
         <>
             {i !== 0 && <FaChevronRight fontSize={10} className={`text-gray-500`} />}
             <div key={i} className={`p-1 ${active ? 'text-scordi' : 'text-gray-500'}`}>
-                {typeof path === 'string' ? <span>{path}</span> : <LinkTo href={path.href}>{path.text}</LinkTo>}
+                {typeof path === 'string' ? (
+                    <span>{path}</span>
+                ) : (
+                    <LinkTo href={path.href} displayLoading={false}>
+                        {path.text}
+                    </LinkTo>
+                )}
             </div>
         </>
     );

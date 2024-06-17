@@ -18,7 +18,6 @@ export const OrgTeamMemberNewPage = memo(function OrgTeamMemberNewPage() {
     const [isModalOpened, setModalOpened] = useState(false);
 
     const onSubmit = (dto: CreateTeamMemberDto) => {
-        console.log('dto', dto);
         teamMemberApi.isExist(orgId, {email: dto.email}).then((existTeam) => {
             existTeam ? toast.error('이미 존재하는 멤버입니다.') : setModalOpened(true);
         });

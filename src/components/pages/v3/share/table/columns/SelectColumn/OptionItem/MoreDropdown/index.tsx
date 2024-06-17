@@ -1,5 +1,5 @@
 import {IoIosMore} from 'react-icons/io';
-import {FaRegTrashAlt} from 'react-icons/fa';
+import {FaRegEdit, FaRegTrashAlt} from 'react-icons/fa';
 import {FcCheckmark} from 'react-icons/fc';
 import {WithChildren} from '^types/global.type';
 import {Dropdown} from '^v3/share/Dropdown';
@@ -49,7 +49,7 @@ export const MoreDropdown = <T,>(props: MoreDropdownProps<T>) => {
                 {updateRequest && (
                     <MoreDropdownListItem onClick={() => updateRequest(option)}>
                         <div className="flex items-center gap-3 w-full">
-                            <FaRegTrashAlt />
+                            <FaRegEdit />
                             <p>수정</p>
                         </div>
                     </MoreDropdownListItem>

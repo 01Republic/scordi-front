@@ -17,7 +17,7 @@ export const OrgTeamMemberListPage = memo(function OrgTeamMemberListPage() {
         if (!orgId || isNaN(orgId)) return;
         if (!router.isReady) return;
         setTimeout(() => {
-            search({relations: ['teams']}, false, true);
+            search({relations: ['teams'], order: {id: 'DESC'}}, false, true);
         }, 1000);
     }, [orgId, router.isReady]);
 
