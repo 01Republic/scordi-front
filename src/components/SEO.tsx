@@ -97,6 +97,7 @@ export const SEO = memo((props: SEOProps) => {
             <meta property="og:image:alt" content="thumbnail image" />
             <meta property="og:site_name" content={serviceName} />
 
+            <meta name="twitter:title" content={title} />
             <meta name="twitter:description" content={description} />
             <meta name="twitter:image" content={thumbnail} />
             <meta name="twitter:card" content="summary_large_image" />
