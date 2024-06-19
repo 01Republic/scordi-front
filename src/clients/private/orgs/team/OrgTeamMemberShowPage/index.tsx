@@ -8,7 +8,7 @@ import {useCurrentTeamMember} from './atom';
 import {PageMoreDropdownMenu} from './PageMoreDropdownMenu';
 import {TeamMemberProfilePanel} from './TeamMemberProfilePanel';
 import {MainTabButton} from './MainTabButton';
-import {TeamMemberBasicInfo} from './tab-panes/TeamMemberBasicInfo';
+import {TeamMemberBasicInfo, TeamMemberSubscription} from './tab-panes';
 
 export const OrgTeamMemberShowPage = memo(function OrgTeamMemberShowPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -49,7 +49,7 @@ export const OrgTeamMemberShowPage = memo(function OrgTeamMemberShowPage() {
 
                     <div>
                         {activeTabIndex === 0 && <TeamMemberBasicInfo />}
-                        {activeTabIndex === 1 && <div>이용 구독</div>}
+                        {activeTabIndex === 1 && <TeamMemberSubscription />}
                         {activeTabIndex === 2 && <div>활동 내역</div>}
                     </div>
                 </main>

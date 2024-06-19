@@ -1,18 +1,17 @@
 import React, {memo} from 'react';
-import {HiDotsHorizontal} from 'react-icons/hi';
-import {FaExchangeAlt, FaRegTrashAlt, FaSignOutAlt} from 'react-icons/fa';
-import {useCurrentTeamMember} from '../atom';
 import {useRecoilValue} from 'recoil';
+import {toast} from 'react-hot-toast';
+import {FaExchangeAlt, FaSignOutAlt} from 'react-icons/fa';
 import {currentUserAtom} from '^models/User/atom';
-import {InviteListItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/InviteListItem';
 import {ApprovalStatus, MembershipLevel} from '^models/Membership/types';
-import {ResendInviteItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/ResendInviteItem';
-import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
-import {DeleteMemberItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/DeleteMemberItem';
 import {membershipApi} from '^models/Membership/api';
 import {plainToast} from '^hooks/useToast';
-import {toast} from 'react-hot-toast';
+import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
+import {InviteListItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/InviteListItem';
+import {ResendInviteItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/ResendInviteItem';
+import {DeleteMemberItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/DeleteMemberItem';
 import {StatusButton} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/StatusButton';
+import {useCurrentTeamMember} from '../atom';
 
 const changeLevel = (id: number, level: MembershipLevel) => {
     return membershipApi

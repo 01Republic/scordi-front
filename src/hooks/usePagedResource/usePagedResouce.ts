@@ -1,13 +1,15 @@
-import {RecoilState, useRecoilState, useRecoilValue} from 'recoil';
-import {Paginated} from '^types/utils/paginated.dto';
+import {useEffect, useState} from 'react';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {AxiosResponse} from 'axios';
+import Qs from 'qs';
+import {useRecoilStates} from '^hooks/useRecoil';
+import {PagedResourceAtoms} from '^hooks/usePagedResource/pagedResourceAtom';
+import {Paginated} from '^types/utils/paginated.dto';
 import {orgIdParamState} from '^atoms/common';
 import {cachePagedQuery} from './cachePagedQuery';
 import {makeAppendPagedItemFn} from './makeAppendPagedItemFn';
 import {makeExceptPagedItemFn} from './makeExceptPagedItemFn';
-import {useEffect, useState} from 'react';
-import {PagedResourceAtoms} from '^hooks/usePagedResource/pagedResourceAtom';
-import {useRecoilStates} from '^hooks/useRecoil';
+import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
 export interface UsePagedResourceOption<DTO, Query> {
     endpoint: (params: Query, orgId: number) => Promise<AxiosResponse<Paginated<DTO>>>;
@@ -22,7 +24,7 @@ export interface UsePagedResourceOption<DTO, Query> {
  * 매번 검색하는 훅을 일일이 만드는게 귀찮아서 만듦.
  * 반복해서 구현하는 스펙을 모아서 한 번에 구현.
  */
-export function usePagedResource<DTO, Query>(
+export function usePagedResource<DTO, Query extends FindAllQueryDto<DTO>>(
     atoms: PagedResourceAtoms<DTO, Query>,
     option: UsePagedResourceOption<DTO, Query>,
 ) {
@@ -58,6 +60,11 @@ export function usePagedResource<DTO, Query>(
         return cachePagedQuery(setResult, setQuery, params, request, mergeMode, force);
     }
 
+    async function orderBy(sortKey: string, value: 'ASC' | 'DESC') {
+        if (!query) return;
+        return search({...query, page: 1, order: Qs.parse(`${sortKey}=${value}`)});
+    }
+
     const reset = () => {
         __setIsLoading(false);
         resetQuery();
@@ -71,7 +78,20 @@ export function usePagedResource<DTO, Query>(
     const except = makeExceptPagedItemFn(setResult, (it, item) => keyOf(it) !== keyOf(item));
     const clearCache = () => resetQuery();
 
-    return {query, result, search, reload, reset, movePage, resetPage, changePageSize, except, isLoading, clearCache};
+    return {
+        query,
+        result,
+        search,
+        reload,
+        reset,
+        movePage,
+        resetPage,
+        changePageSize,
+        orderBy,
+        except,
+        isLoading,
+        clearCache,
+    };
 }
 
 // getId 파라미터에 콜백함수가 아닌 문자열 리터럴을 입력받는 경우, 콜백으로 변환합니다.

@@ -1,30 +1,28 @@
 import React, {memo} from 'react';
-import {Paginator} from './Paginator';
-import {TeamMemberTable} from './TeamMemberTable';
+import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {useTeamMembersInTeamMembersTable} from '^models/TeamMember';
+import {TeamMemberTableHeader} from './TeamMemberTableHeader';
+import {TeamMemberTableRow} from './TeamMemberTableRow';
 
 interface TeamMemberListTableContainerProps {}
 
 export const TeamMemberListTableContainer = memo((props: TeamMemberListTableContainerProps) => {
+    const {result, isLoading, reload, orderBy, movePage, changePageSize} = useTeamMembersInTeamMembersTable();
+
     return (
-        <div className="card card-bordered bg-white rounded-md">
-            <div className="p-4">
-                <div className="flex items-center justify-between mb-4">
-                    <div></div>
-
-                    <Paginator />
-                </div>
-
-                <div className="mb-4">
-                    <TeamMemberTable />
-                </div>
-
-                <div className="flex items-center justify-between">
-                    <div></div>
-
-                    <Paginator />
-                </div>
-            </div>
-        </div>
+        <ListTableContainer
+            pagination={result.pagination}
+            movePage={movePage}
+            changePageSize={changePageSize}
+            unit="명"
+        >
+            <ListTable
+                items={result.items}
+                isLoading={isLoading}
+                Header={() => <TeamMemberTableHeader orderBy={orderBy} />}
+                Row={({item}) => <TeamMemberTableRow teamMember={item} reload={reload} />}
+            />
+        </ListTableContainer>
     );
 });
 TeamMemberListTableContainer.displayName = 'TeamMemberListTableContainer';

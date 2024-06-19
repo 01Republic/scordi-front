@@ -31,6 +31,9 @@ export const useSubscriptionTableListAtom = () => useSubscriptions(subscriptionT
 export const useSubscriptionsInTeamMemberShowModal = () =>
     useSubscriptions(subscriptionsInTeamMemberShowModalAtom, true);
 
+// 팀멤버 상세페이지 / 이용중인 서비스 목록
+export const useSubscriptionsInTeamMemberShowPage = () => useSubscriptions(subscriptionsInTeamMemberShowModalAtom);
+
 const useSubscriptions = (atoms: PagedResourceAtoms<SubscriptionDto, FindAllSubscriptionsQuery>, mergeMode = false) => {
     return usePagedResource(atoms, {
         endpoint: (params) => subscriptionApi.index(params),
