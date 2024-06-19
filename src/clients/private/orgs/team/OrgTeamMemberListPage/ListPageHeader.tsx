@@ -44,11 +44,8 @@ const AddTeamMemberDropdown = () => {
                 <span className="mr-1.5">구성원 추가하기</span>
                 <FaCaretDown />
             </button>
-            <div
-                tabIndex={0}
-                className="dropdown-content menu p-0 shadow-xl bg-white rounded-btn min-w-[220px] !z-[1] text-14"
-            >
-                <div className="group">
+            <div className="dropdown-content menu p-0 shadow-xl bg-white rounded-btn min-w-[220px] !z-[1] text-14">
+                <div className="group" tabIndex={0}>
                     <LinkTo
                         href={OrgTeamMemberNewPageRoute.path(orgId)}
                         className="w-full py-2 px-4 group-hover:text-scordi transition-all flex items-center gap-2"
@@ -58,7 +55,7 @@ const AddTeamMemberDropdown = () => {
                         <span>한 명 추가하기</span>
                     </LinkTo>
                 </div>
-                <div className="group">
+                <div className="group" tabIndex={0}>
                     <a className="w-full py-2 px-4 group-hover:text-scordi transition-all flex items-center gap-2">
                         <BsFillPeopleFill />
                         <span>여러 명 추가하기</span>

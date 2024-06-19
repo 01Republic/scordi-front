@@ -6,7 +6,7 @@ import {TeamMemberStatusDropdown} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamM
 import {LinkTo} from '^components/util/LinkTo';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {FaRegFolderOpen} from 'react-icons/fa';
-import {V3OrgTeamMemberShowPageRoute} from '^pages/v3/orgs/[orgId]/teams/members/[memberId]';
+import {OrgTeamMemberShowPageRoute} from '^pages/orgs/[id]/teamMembers/[teamMemberId]';
 
 interface TeamMemberTableRowProps {
     teamMember: TeamMemberDto;
@@ -16,7 +16,7 @@ interface TeamMemberTableRowProps {
 
 export const TeamMemberTableRow = memo((props: TeamMemberTableRowProps) => {
     const {teamMember, onClick, reload} = props;
-    const showPagePath = V3OrgTeamMemberShowPageRoute.path(teamMember.organizationId, teamMember.id);
+    const showPagePath = OrgTeamMemberShowPageRoute.path(teamMember.organizationId, teamMember.id);
 
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
 

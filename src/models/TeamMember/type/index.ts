@@ -75,8 +75,7 @@ export class TeamMemberDto {
     // 임시
     get team() {
         // const teams = this.validTeams;
-        const teams = this.teams ?? [];
-        const team = teams[0];
+        const [team] = this.teams || [];
         return team ? team : undefined;
     }
 }
