@@ -37,4 +37,5 @@ export class FindAllQueryDto<T> extends PaginationDto {
     where?: {[P in keyof T]?: T[P]};
     order?: FindOptionsOrder<T>;
     // order?: {[P in keyof T]?: 'ASC' | 'DESC' | 'asc' | 'desc' | 1 | -1};
+    updateCounterCacheColumn?: keyof T;
 }

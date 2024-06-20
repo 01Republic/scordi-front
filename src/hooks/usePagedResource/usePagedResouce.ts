@@ -46,6 +46,16 @@ export function usePagedResource<DTO, Query>(
 
     const keyOf = ensureKeyOfIsFunction(getId);
 
+    async function searchAndUpdateCounter(params: Query, force = false) {
+        return search(params, false, force).then((res) => {
+            // @ts-ignore
+            const {updateCounterCacheColumn, ...params2} = params;
+            // @ts-ignore
+            if (updateCounterCacheColumn) setQuery(params2);
+            return res;
+        });
+    }
+
     async function search(params: Query, mergeMode = defaultMergeMode, force = false) {
         if (useOrgId) {
             if (!orgId || isNaN(orgId)) return;
@@ -82,6 +92,7 @@ export function usePagedResource<DTO, Query>(
         query,
         result,
         search,
+        searchAndUpdateCounter,
         reload,
         reset,
         movePage,

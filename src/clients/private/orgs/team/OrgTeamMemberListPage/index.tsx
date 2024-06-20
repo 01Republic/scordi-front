@@ -11,14 +11,16 @@ import {orgIdParamState} from '^atoms/common';
 export const OrgTeamMemberListPage = memo(function OrgTeamMemberListPage() {
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
-    const {search} = useTeamMembersInTeamMembersTable();
+    const {searchAndUpdateCounter} = useTeamMembersInTeamMembersTable();
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
         if (!router.isReady) return;
-        setTimeout(() => {
-            search({relations: ['teams'], order: {id: 'DESC'}}, false, true);
-        }, 1000);
+        searchAndUpdateCounter({
+            relations: ['teams'],
+            order: {id: 'DESC'},
+            updateCounterCacheColumn: 'subscriptionCount',
+        });
     }, [orgId, router.isReady]);
 
     return (
