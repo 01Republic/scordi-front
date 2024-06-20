@@ -1784,6 +1784,11 @@
     semver "^7.3.5"
     tar "^6.1.11"
 
+"@measured-im/browser@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@measured-im/browser/-/browser-1.3.0.tgz#cc039ce85b2a4aa2418f49f6ba28348d21cd735b"
+  integrity sha512-RHa1zIqZPNlNXtm+tNrNYG1QghJfgd5H9JEToA8SXpbiQjBchsq1+AyFy53TO3ScXTqgT2SifxDXKE+G1C/PdA==
+
 "@next/env@12.2.2":
   version "12.2.2"
   resolved "https://registry.npmjs.org/@next/env/-/env-12.2.2.tgz"

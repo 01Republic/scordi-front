@@ -4,6 +4,7 @@ import {GoogleAnalyticsCdnScript} from './google-analytics/GoogleAnalyticsCdnScr
 import {HotJarCdnScript} from './hotjar/HotJarCdnScript';
 import {FacebookPixelCdnScript} from './facebook-pixel/FacebookPixelCdnScript';
 import {ChannelTalkCDN} from './channel-talk/ChannelTalkCDN';
+import {MeasuredInstall} from './measured/MeasuredInstall';
 
 export default function ExternalCDNScripts() {
     return (
@@ -13,6 +14,7 @@ export default function ExternalCDNScripts() {
             <HotJarCdnScript />
             <TypeformCdnScript />
             {typeof window !== 'undefined' && <ChannelTalkCDN />}
+            <MeasuredInstall />
         </>
     );
 }
