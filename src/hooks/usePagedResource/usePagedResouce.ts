@@ -24,7 +24,7 @@ export interface UsePagedResourceOption<DTO, Query> {
  * 매번 검색하는 훅을 일일이 만드는게 귀찮아서 만듦.
  * 반복해서 구현하는 스펙을 모아서 한 번에 구현.
  */
-export function usePagedResource<DTO, Query extends FindAllQueryDto<DTO>>(
+export function usePagedResource<DTO, Query>(
     atoms: PagedResourceAtoms<DTO, Query>,
     option: UsePagedResourceOption<DTO, Query>,
 ) {
