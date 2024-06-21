@@ -4,7 +4,7 @@ import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {OrgTeamMemberNewPage} from '^clients/private/orgs/team/OrgTeamMemberNewPage';
+import {OrgTeamMemberNewPage} from '^clients/private/orgs/team/team-members/OrgTeamMemberNewPage';
 
 export const OrgTeamMemberNewPageRoute = pathRoute({
     pathname: '/orgs/[id]/teamMembers/new',

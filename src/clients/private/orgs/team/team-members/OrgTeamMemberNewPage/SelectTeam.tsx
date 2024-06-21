@@ -1,10 +1,10 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useState} from 'react';
 import {useTeamsForSelectOptions} from '^models/Team/hook';
 import {TeamDto} from '^models/Team/type';
-import {TeamOption} from './TeamOption';
-import {TeamCreateOption} from '^clients/private/orgs/team/OrgTeamMemberNewPage/TeamCreateOption';
-import {CreatableSelect} from '^clients/private/_components/inputs/select/CreatableSelect';
 import {TeamTag} from '^models/Team/components/TeamTag';
+import {CreatableSelect} from '^clients/private/_components/inputs/select/CreatableSelect';
+import {TeamOption} from './TeamOption';
+import {TeamCreateOption} from './TeamCreateOption';
 
 interface SelectTeamProps {
     defaultTeams?: TeamDto[];

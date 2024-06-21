@@ -4,8 +4,8 @@ import {useForm} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
 import {teamMemberApi, UpdateTeamMemberDto} from '^models/TeamMember';
 import {TeamTag} from '^models/Team/components/TeamTag';
-import {FormControl} from '^clients/private/orgs/team/OrgTeamMemberNewPage/FormControl';
-import {SelectTeam} from '^clients/private/orgs/team/OrgTeamMemberNewPage/SelectTeam';
+import {FormControl} from '^clients/private/orgs/team/team-members/OrgTeamMemberNewPage/FormControl';
+import {SelectTeam} from '^clients/private/orgs/team/team-members/OrgTeamMemberNewPage/SelectTeam';
 import {teamMemberSubjectAtom} from '../../atom';
 
 export const TeamMemberBasicInfo = memo(function TeamMemberBasicInfo() {

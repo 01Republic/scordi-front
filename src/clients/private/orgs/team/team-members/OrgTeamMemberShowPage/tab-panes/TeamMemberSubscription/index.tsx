@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
 import {useSubscriptionsInTeamMemberShowPage} from '^models/Subscription/hook';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {useCurrentTeamMember} from '^clients/private/orgs/team/OrgTeamMemberShowPage/atom';
+import {useCurrentTeamMember} from '../../atom';
+import {TeamMemberSubscriptionTableHeader} from './TeamMemberSubscriptionTableHeader';
 import {TeamMemberSubscriptionTableRow} from './TeamMemberSubscriptionTableRow';
-import {TeamMemberSubscriptionTableHeader} from '^clients/private/orgs/team/OrgTeamMemberShowPage/tab-panes/TeamMemberSubscription/TeamMemberSubscriptionTableHeader';
 
 export const TeamMemberSubscription = memo(function TeamMemberSubscription() {
     const {currentTeamMember: teamMember} = useCurrentTeamMember();

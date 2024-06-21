@@ -6,11 +6,11 @@ import {orgIdParamState} from '^atoms/common';
 import {OrgTeamMemberListPageRoute} from '^pages/orgs/[id]/teamMembers';
 import {FaCheck} from 'react-icons/fa6';
 import {useForm} from 'react-hook-form';
+import {toast} from 'react-hot-toast';
 import {CreateTeamMemberDto, teamMemberApi} from '^models/TeamMember';
 import {FormControl} from './FormControl';
 import {SelectTeam} from './SelectTeam';
-import {TeamBeforeSaveModal} from '^clients/private/orgs/team/OrgTeamMemberNewPage/TeamBeforeSaveModal';
-import {toast} from 'react-hot-toast';
+import {TeamBeforeSaveModal} from './TeamBeforeSaveModal';
 
 export const OrgTeamMemberNewPage = memo(function OrgTeamMemberNewPage() {
     const orgId = useRecoilValue(orgIdParamState);

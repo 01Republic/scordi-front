@@ -4,9 +4,9 @@ import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {orgIdParamState, teamMemberIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {OrgTeamMemberShowPage} from '^clients/private/orgs/team/OrgTeamMemberShowPage';
 import {useRecoilState} from 'recoil';
-import {teamMemberSubjectAtom} from '^clients/private/orgs/team/OrgTeamMemberShowPage/atom';
+import {OrgTeamMemberShowPage} from '^clients/private/orgs/team/team-members/OrgTeamMemberShowPage';
+import {teamMemberSubjectAtom} from '^clients/private/orgs/team/team-members/OrgTeamMemberShowPage/atom';
 import {teamMemberApi} from '^models/TeamMember';
 import {useRouter} from 'next/router';
 

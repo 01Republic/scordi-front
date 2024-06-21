@@ -5,7 +5,6 @@ import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {useConnectedCodefCards, useNewCodefCards, useSubscriptionsForCodefAccount} from '^models/CodefCard/hook';
 import {codefAccountIdParamState} from '^atoms/common';
-import {V3OrgConnectNewCardListPageRoute} from '^pages/v3/orgs/[orgId]/connects/card-accounts/[connectMethod]/cards/new';
 
 export enum CardListPageMode {
     ConnectedCards,
