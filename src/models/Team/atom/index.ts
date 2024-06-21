@@ -5,6 +5,10 @@ export const teamsListAtom = pagedResourceAtom<TeamDto, FindAllTeamQueryDto>({
     key: 'teamsListAtom',
 });
 
+export const teamsListForTeamListPageAtom = pagedResourceAtom<TeamDto, FindAllTeamQueryDto>({
+    key: 'teamsListForTeamListPageAtom',
+});
+
 export const teamListForSelectOptionsAtom = pagedResourceAtom<TeamDto, FindAllTeamQueryDto>({
     key: 'teamListForSelectOptionsAtom',
 });

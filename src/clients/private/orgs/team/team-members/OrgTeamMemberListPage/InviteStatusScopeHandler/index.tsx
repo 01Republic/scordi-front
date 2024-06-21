@@ -1,6 +1,6 @@
 import React, {memo, useState} from 'react';
-import {ScopeButton} from './ScopeButton';
 import {TeamMemberInviteStatus, useTeamMembersInTeamMembersTable} from '^models/TeamMember';
+import {ScopeButton} from './ScopeButton';
 
 export const InviteStatusScopeHandler = memo(function InviteStatusScopeHandler() {
     const {search, query} = useTeamMembersInTeamMembersTable();

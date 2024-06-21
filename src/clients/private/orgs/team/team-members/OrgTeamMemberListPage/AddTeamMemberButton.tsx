@@ -1,31 +1,12 @@
-import React, {memo} from 'react';
+import React from 'react';
 import {useRecoilValue} from 'recoil';
 import {FaCaretDown, FaPlus} from 'react-icons/fa6';
 import {BsFillPeopleFill, BsFillPersonPlusFill} from 'react-icons/bs';
 import {orgIdParamState} from '^atoms/common';
-import {LinkTo} from '^components/util/LinkTo';
-import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
 import {OrgTeamMemberNewPageRoute} from '^pages/orgs/[id]/teamMembers/new';
+import {LinkTo} from '^components/util/LinkTo';
 
-export const ListPageHeader = memo(function ListPageHeader() {
-    const orgId = useRecoilValue(orgIdParamState);
-
-    return (
-        <>
-            <Breadcrumb paths={['팀', {text: '구성원', active: true}]} />
-            <div className="flex items-center justify-between mb-8">
-                <h1 className="text-2xl">구성원</h1>
-
-                <div>
-                    <AddTeamMemberJustButton />
-                    {/*<AddTeamMemberDropdown />*/}
-                </div>
-            </div>
-        </>
-    );
-});
-
-const AddTeamMemberJustButton = () => {
+export const AddTeamMemberJustButton = () => {
     const orgId = useRecoilValue(orgIdParamState);
     return (
         <LinkTo className="btn btn-scordi gap-2 mb-1" href={OrgTeamMemberNewPageRoute.path(orgId)} loadingOnBtn>
@@ -35,7 +16,7 @@ const AddTeamMemberJustButton = () => {
     );
 };
 
-const AddTeamMemberDropdown = () => {
+export const AddTeamMemberDropdown = () => {
     const orgId = useRecoilValue(orgIdParamState);
     return (
         <div className="dropdown dropdown-bottom dropdown-end">
