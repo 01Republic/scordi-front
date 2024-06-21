@@ -1,6 +1,8 @@
 // ref: https://www.banksalad.com/chart/cards/cashback/past
 
 import {CodefCardCompanyCode, CodefCustomerType, CodefLoginType} from '^models/CodefAccount/type/enums';
+import {TagUI} from '^v3/share/table/columns/share/TagUI';
+import {getColor, palette} from '^components/util/palette';
 
 export class CardAccountsStaticData {
     displayName: string;
@@ -13,6 +15,12 @@ export class CardAccountsStaticData {
 
     static findOne(param?: string) {
         return cardAccountsStaticData.find((data) => data.param === param);
+    }
+
+    static Tag(props: {company: CardAccountsStaticData}) {
+        const {company} = props;
+        const colorClass = getColor(0, palette.notionColors);
+        return <TagUI>{company.displayName}</TagUI>;
     }
 }
 

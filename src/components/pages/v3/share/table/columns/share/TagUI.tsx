@@ -1,13 +1,14 @@
-import {memo} from 'react';
+import {CSSProperties, memo} from 'react';
 import {WithChildren} from '^types/global.type';
 
 interface TagUIProps extends WithChildren {
     className?: string;
     onClick?: () => any;
+    style?: CSSProperties;
 }
 
 export const TagUI = memo((props: TagUIProps) => {
-    const {children, className = '', onClick} = props;
+    const {children, className = '', onClick, style = {}} = props;
 
     return (
         <div className="inline-flex items-center mr-1.5">
@@ -18,6 +19,7 @@ export const TagUI = memo((props: TagUIProps) => {
                     fontSize: '12px',
                     lineHeight: '120%',
                     textOverflow: 'ellipsis',
+                    ...style,
                 }}
             >
                 {children}

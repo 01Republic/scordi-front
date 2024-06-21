@@ -5,7 +5,7 @@ import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {subscriptionApi} from '^models/Subscription/api';
 import {useToast} from '^hooks/useToast';
-import {CreditCardProfileOption} from '^models/CreditCard/hook/components/CreditCardProfile';
+import {CreditCardProfileOption2} from '^models/CreditCard/hook/components/CreditCardProfile';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
@@ -99,5 +99,5 @@ const PayMethodOption = memo((props: {value: CreditCardDto | string}) => {
         return <p>{value}</p>;
     }
 
-    return <CreditCardProfileOption item={value} />;
+    return <CreditCardProfileOption2 item={value} />;
 });

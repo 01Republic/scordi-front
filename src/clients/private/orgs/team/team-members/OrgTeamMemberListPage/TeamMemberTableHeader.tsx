@@ -1,9 +1,8 @@
 import React, {memo} from 'react';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
+import {ListTableHeaderProps} from '^clients/private/_components/table/ListTable/types';
 
-interface TeamMemberTableHeaderProps {
-    orderBy: (sortKey: string, value: 'ASC' | 'DESC') => Promise<any>;
-}
+interface TeamMemberTableHeaderProps extends ListTableHeaderProps {}
 
 export const TeamMemberTableHeader = memo((props: TeamMemberTableHeaderProps) => {
     const {orderBy} = props;

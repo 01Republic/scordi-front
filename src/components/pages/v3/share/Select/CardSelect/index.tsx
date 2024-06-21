@@ -4,7 +4,7 @@ import {CardComponents} from '^v3/share/Select/CardSelect/selectOpions';
 import {useCreditCards} from '^models/CreditCard/hook';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {SelectOptionNotionStyledLayout, SelectOptionProps} from '^v3/share/modals/_presenters/SelectInput';
-import {CreditCardProfileOption} from '^models/CreditCard/hook/components/CreditCardProfile';
+import {CreditCardProfileOption2} from '^models/CreditCard/hook/components/CreditCardProfile';
 import {debounce} from 'lodash';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
@@ -114,7 +114,7 @@ const CardOption = (props: SelectOptionProps<CardOptionData>) => {
 
     return (
         <SelectOptionNotionStyledLayout {...props} onDelete={onDelete}>
-            <CreditCardProfileOption item={data.data} />
+            <CreditCardProfileOption2 item={data.data} />
         </SelectOptionNotionStyledLayout>
     );
 };

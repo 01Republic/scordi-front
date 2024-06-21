@@ -4,11 +4,11 @@ import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {OrgTeamListPage} from '^clients/private/orgs/team/teams/OrgTeamListPage';
+import {OrgInvoiceAccountListPage} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountListPage';
 
-export const OrgTeamListPageRoute = pathRoute({
-    pathname: '/orgs/[id]/teams',
-    path: (orgId: number) => pathReplace(OrgTeamListPageRoute.pathname, {id: orgId}),
+export const OrgInvoiceAccountListPageRoute = pathRoute({
+    pathname: '/orgs/[id]/invoiceAccounts',
+    path: (orgId: number) => pathReplace(OrgInvoiceAccountListPageRoute.pathname, {id: orgId}),
 });
 
 export const getStaticPaths = async () => ({
@@ -31,5 +31,5 @@ export default function Page() {
 
     if (!orgId || isNaN(orgId)) return <></>;
 
-    return <OrgTeamListPage />;
+    return <OrgInvoiceAccountListPage />;
 }

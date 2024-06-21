@@ -2,32 +2,38 @@ import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
+import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
+import {debounce} from 'lodash';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {useSubscriptionTableListAtom} from '^models/Subscription/hook';
-import {SubscriptionTableHeader} from './SubscriptionTableHeader';
-import {SubscriptionTableRow} from './SubscriptionTableRow';
 
-export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
+export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage() {
     const orgId = useRecoilValue(orgIdParamState);
-    const {search, result, isLoading, movePage, changePageSize, orderBy, reload} = useSubscriptionTableListAtom();
+    const {search, result, isLoading, query, movePage, changePageSize} = useInvoiceAccounts();
 
     const onReady = () => {
         search({
             where: {organizationId: orgId},
-            relations: ['master', 'teamMembers', 'creditCard'],
-            order: {currentBillingAmount: {dollarPrice: 'DESC'}, isFreeTier: 'ASC', id: 'DESC'},
+            relations: ['members', 'subscriptions', 'tags'],
         });
     };
+
+    const onSearch = debounce((keyword?: string) => {
+        return search({
+            ...query,
+            page: 1,
+            itemsPerPage: 30,
+        });
+    }, 500);
 
     return (
         <ListPage
             onReady={onReady}
-            breadcrumb={['구독', {text: '구독 리스트', active: true}]}
-            titleText="구독 리스트"
+            breadcrumb={['자산', {text: '청구서 수신 메일', active: true}]}
+            titleText="청구서 수신 메일"
             Buttons={undefined}
             ScopeHandler={undefined}
             searchInputPlaceholder="검색어를 입력해주세요"
-            onSearch={console.log}
+            onSearch={onSearch}
         >
             <ListTableContainer
                 pagination={result.pagination}
@@ -38,8 +44,8 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                 <ListTable
                     items={result.items}
                     isLoading={isLoading}
-                    Header={() => <SubscriptionTableHeader orderBy={orderBy} />}
-                    Row={({item}) => <SubscriptionTableRow subscription={item} reload={reload} />}
+                    // Header={() => <TeamMemberTableHeader orderBy={orderBy} />}
+                    Row={({item}) => <tr>{item.id}</tr>}
                 />
             </ListTableContainer>
         </ListPage>

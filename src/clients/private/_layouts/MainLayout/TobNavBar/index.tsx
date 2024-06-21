@@ -12,6 +12,7 @@ import {OrgTeamMemberListPageRoute} from '^pages/orgs/[id]/teamMembers';
 import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
 import {OrgTeamListPageRoute} from '^pages/orgs/[id]/teams';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
+import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
 
 interface TobNavBarProps {
     //
@@ -57,14 +58,24 @@ export const TobNavBar = memo((props: TobNavBarProps) => {
                     />
                 </TopNavBarDropdownContent>
             </TopNavBarItem>
-            <TopNavBarItem name="자산" active={orgRouteProps(OrgCreditCardListPageRoute).active}>
+            <TopNavBarItem
+                name="자산"
+                active={
+                    orgRouteProps(OrgCreditCardListPageRoute).active ||
+                    orgRouteProps(OrgInvoiceAccountListPageRoute).active
+                }
+            >
                 <TopNavBarDropdownContent>
                     <TopNavBarDropdownItem
                         name="결제수단"
                         Icon={BsCreditCardFill}
                         {...orgRouteProps(OrgCreditCardListPageRoute)}
                     />
-                    <TopNavBarDropdownItem name="청구서수신메일" href="" Icon={FaReceipt} />
+                    <TopNavBarDropdownItem
+                        name="청구서수신메일"
+                        Icon={FaReceipt}
+                        {...orgRouteProps(OrgInvoiceAccountListPageRoute)}
+                    />
                 </TopNavBarDropdownContent>
             </TopNavBarItem>
             <TopNavBarItem name="설정" active={false} />

@@ -29,7 +29,7 @@ export const ListPage = memo((props: ListPageProps) => {
         Buttons,
         ScopeHandler,
         onSearch,
-        searchInputPlaceholder,
+        searchInputPlaceholder = '검색어를 입력해주세요',
         children,
     } = props;
     const orgId = useRecoilValue(orgIdParamState);
@@ -61,12 +61,12 @@ export const ListPage = memo((props: ListPageProps) => {
                     </div>
                 </div>
 
-                {(ScopeHandler || onSearch || searchInputPlaceholder) && (
+                {(ScopeHandler || onSearch) && (
                     <div className="flex items-center justify-between mb-8">
                         <div>{ScopeHandler && <ScopeHandler />}</div>
 
                         <div>
-                            {(onSearch || searchInputPlaceholder) && (
+                            {onSearch && (
                                 <ListPageSearchInput onSearch={onSearch} placeholder={searchInputPlaceholder} />
                             )}
                         </div>

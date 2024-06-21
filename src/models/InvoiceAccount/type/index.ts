@@ -99,4 +99,6 @@ export const getCreateInvoiceAccountFromTo = () => ({
     to: new Date(), // 오늘까지
 });
 
-export type FindAllInvoiceAccountQueryDto = FindAllQueryDto<InvoiceAccountDto>;
+export class FindAllInvoiceAccountQueryDto extends FindAllQueryDto<InvoiceAccountDto> {
+    //
+}

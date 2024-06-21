@@ -1,12 +1,12 @@
 import {memo} from 'react';
-import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 import {ListTableHeaderProps} from '^clients/private/_components/table/ListTable/types';
+import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 
-interface TeamMemberSubscriptionTableHeaderProps extends ListTableHeaderProps {
+interface SubscriptionTableHeaderProps extends ListTableHeaderProps {
     //
 }
 
-export const TeamMemberSubscriptionTableHeader = memo((props: TeamMemberSubscriptionTableHeaderProps) => {
+export const SubscriptionTableHeader = memo((props: SubscriptionTableHeaderProps) => {
     const {orderBy} = props;
 
     return (
@@ -64,4 +64,4 @@ export const TeamMemberSubscriptionTableHeader = memo((props: TeamMemberSubscrip
         </tr>
     );
 });
-TeamMemberSubscriptionTableHeader.displayName = 'TeamMemberSubscriptionTableHeader';
+SubscriptionTableHeader.displayName = 'SubscriptionTableHeader';

@@ -4,7 +4,6 @@ import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {FaQuestion, FaRegCreditCard} from 'react-icons/fa6';
 import {Avatar} from '^components/Avatar';
-import {cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 
 /**
  * 카드 프로필 : 기본
@@ -84,7 +83,6 @@ export const CreditCardProfileOption = memo((props: CreditCardProfileOptionProps
         </div>
     );
 });
-CreditCardProfileOption.displayName = 'CreditCardProfileOption';
 
 /**
  * 카드 프로필 : 썸네일형2
@@ -95,14 +93,13 @@ interface CreditCardProfileOption2Props {
     placeholder?: string;
 }
 
-const CardCompanies = cardAccountsStaticData;
 export const CreditCardProfileOption2 = memo((props: CreditCardProfileOption2Props) => {
     const {item: creditCard, placeholder} = props;
 
     const randomNumber = (creditCard.name || '').length + creditCard.id;
     const colorClass = getColor(randomNumber, palette.notionColors);
     const endNumber = creditCard.secretInfo?.number4;
-    const company = CardCompanies.find((company) => creditCard.issuerCompany === company.displayName);
+    const company = creditCard.company;
 
     return (
         <div

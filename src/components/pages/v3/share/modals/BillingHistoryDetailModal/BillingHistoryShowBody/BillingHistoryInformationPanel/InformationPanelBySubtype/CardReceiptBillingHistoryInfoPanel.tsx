@@ -4,7 +4,7 @@ import {MobileInfoList} from '^v3/share/MobileInfoList';
 import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
 import {CreditCardDto} from '^models/CreditCard/type';
-import {CreditCardProfileOption} from '^models/CreditCard/hook/components/CreditCardProfile';
+import {CreditCardProfileOption2} from '^models/CreditCard/hook/components/CreditCardProfile';
 
 interface CardReceiptBillingHistoryProps {
     billingHistory: BillingHistoryDto;
@@ -59,7 +59,7 @@ const CardInfoList = memo(function BillingHistoryCardInfoList(props: {creditCard
                 {/*<div className="font-light mb-4 keep-all">*/}
                 {/*    */}
                 {/*</div>*/}
-                <CreditCardProfileOption item={creditCard} />
+                <CreditCardProfileOption2 item={creditCard} />
             </MobileInfoListItem>
 
             <MobileInfoListItem label="소유자" className="">
