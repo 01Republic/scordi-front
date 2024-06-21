@@ -2,8 +2,8 @@ import React, {ComponentType, memo, ReactNode, useState} from 'react';
 import {ActionMeta, GroupBase, MenuListProps, OptionProps, SingleValue, FormatOptionLabelMeta} from 'react-select';
 import AsyncCreatableSelect from 'react-select/async-creatable';
 import {Option} from '^components/util/react-select';
+import {SelectMenuList} from '../SelectMenuList';
 import {customStyle} from './customStyle';
-import {SelectMenuList} from '^clients/private/orgs/team/team-members/OrgTeamMemberNewPage/SelectMenuList';
 
 interface CreatableSelectProps<T, V, O extends Option = {label: string; value: V}> {
     className?: string;
