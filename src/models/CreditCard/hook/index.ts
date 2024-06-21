@@ -3,7 +3,7 @@ import {useRecoilValue} from 'recoil';
 import {CreditCardManager} from '^models/CreditCard/manager';
 import {creditCardApi} from '^models/CreditCard/api';
 import {orgIdParamState} from '^atoms/common';
-import {creditCardListResultAtom} from '^models/CreditCard/atom';
+import {creditCardListForCreditCardListPageAtom, creditCardListResultAtom} from '^models/CreditCard/atom';
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
 import {CreditCardDto, FindAllCreditCardDto} from '^models/CreditCard/type';
 import {plainToast as toast} from '^hooks/useToast';
@@ -77,3 +77,6 @@ const useCreditCardsV3 = (atoms: PagedResourceAtoms<CreditCardDto, FindAllCredit
 
     return {deleteCreditCard, ...pagedResource};
 };
+
+// 자산 > 결제수단 > 목록 페이지 테이블
+export const useCreditCardListForListPage = () => useCreditCardsV3(creditCardListForCreditCardListPageAtom);

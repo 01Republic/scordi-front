@@ -40,3 +40,8 @@ export const creditCardListSelector = selector({
 export const creditCardListResultAtom = pagedResourceAtom<CreditCardDto, FindAllCreditCardDto>({
     key: 'creditCardListResultAtom',
 });
+
+// 자산 > 결제수단 > 목록 페이지 테이블
+export const creditCardListForCreditCardListPageAtom = pagedResourceAtom<CreditCardDto, FindAllCreditCardDto>({
+    key: 'creditCardListForCreditCardListPageAtom',
+});

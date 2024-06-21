@@ -4,16 +4,16 @@ import {debounce} from 'lodash';
 import {orgIdParamState} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {useTeamsForListPage} from '^models/Team/hook';
+import {useCreditCardListForListPage} from '^models/CreditCard/hook';
 
-export const OrgTeamListPage = memo(function OrgTeamListPage() {
+export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
     const orgId = useRecoilValue(orgIdParamState);
-    const {search, result, isLoading, query, movePage, changePageSize} = useTeamsForListPage();
+    const {search, result, isLoading, query, movePage, changePageSize} = useCreditCardListForListPage();
 
     const onReady = () => {
         search({
             where: {organizationId: orgId},
-            relations: ['members', 'subscriptions', 'tags'],
+            // relations: ['members', 'subscriptions', 'tags'],
         });
     };
 
@@ -29,8 +29,8 @@ export const OrgTeamListPage = memo(function OrgTeamListPage() {
     return (
         <ListPage
             onReady={onReady}
-            breadcrumb={['팀', {text: '팀 목록', active: true}]}
-            titleText="팀 목록"
+            breadcrumb={['자산', '결제수단', {text: '카드 목록', active: true}]}
+            titleText="카드 목록"
             Buttons={undefined}
             ScopeHandler={undefined}
             searchInputPlaceholder="검색어를 입력해주세요"
