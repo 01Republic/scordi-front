@@ -6,10 +6,12 @@ import {ListTable, ListTableContainer} from '^clients/private/_components/table/
 import {useSubscriptionTableListAtom} from '^models/Subscription/hook';
 import {SubscriptionTableHeader} from './SubscriptionTableHeader';
 import {SubscriptionTableRow} from './SubscriptionTableRow';
+import {debounce} from 'lodash';
 
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const orgId = useRecoilValue(orgIdParamState);
-    const {search, result, isLoading, movePage, changePageSize, orderBy, reload} = useSubscriptionTableListAtom();
+    const {search, result, query, isLoading, movePage, changePageSize, orderBy, reload} =
+        useSubscriptionTableListAtom();
 
     const onReady = () => {
         search({
@@ -19,6 +21,15 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
         });
     };
 
+    const onSearch = debounce((keyword?: string) => {
+        return search({
+            ...query,
+            keyword: keyword || undefined,
+            page: 1,
+            itemsPerPage: 30,
+        });
+    }, 500);
+
     return (
         <ListPage
             onReady={onReady}
@@ -26,8 +37,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
             titleText="구독 리스트"
             Buttons={undefined}
             ScopeHandler={undefined}
-            searchInputPlaceholder="검색어를 입력해주세요"
-            onSearch={console.log}
+            onSearch={onSearch}
         >
             <ListTableContainer
                 pagination={result.pagination}
