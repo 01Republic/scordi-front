@@ -27,8 +27,9 @@ export const ListPageSearchInput = memo((props: ListPageSearchInputProps) => {
                 placeholder={placeholder}
                 defaultValue={val}
                 onChange={(e) => {
-                    setVal(e.target.value);
-                    onSearch && onSearch(e.target.value);
+                    const value = e.target.value.trim();
+                    setVal(value);
+                    onSearch && onSearch(value);
                 }}
             />
             <FaSearch className="absolute my-auto top-0 bottom-0 right-3" onClick={() => onSearch && onSearch(val)} />

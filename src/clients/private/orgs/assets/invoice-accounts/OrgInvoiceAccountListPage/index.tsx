@@ -7,19 +7,21 @@ import {debounce} from 'lodash';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 
 export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage() {
-    const orgId = useRecoilValue(orgIdParamState);
+    const organizationId = useRecoilValue(orgIdParamState);
     const {search, result, isLoading, query, movePage, changePageSize} = useInvoiceAccounts();
 
     const onReady = () => {
         search({
-            where: {organizationId: orgId},
-            relations: ['members', 'subscriptions', 'tags'],
+            where: {organizationId},
+            relations: ['subscriptions', 'googleTokenData'],
+            order: {id: 'DESC'},
         });
     };
 
     const onSearch = debounce((keyword?: string) => {
         return search({
             ...query,
+            keyword: keyword || undefined,
             page: 1,
             itemsPerPage: 30,
         });
@@ -45,7 +47,7 @@ export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage
                     items={result.items}
                     isLoading={isLoading}
                     // Header={() => <TeamMemberTableHeader orderBy={orderBy} />}
-                    Row={({item}) => <tr>{item.id}</tr>}
+                    Row={({item}) => <tr>{item.email}</tr>}
                 />
             </ListTableContainer>
         </ListPage>

@@ -2,12 +2,12 @@ import {
     CreateInvoiceAccountDto,
     CreateInvoiceAccountRequestDto,
     CreateInvoiceAccountRequestDto2,
+    FindAllInvoiceAccountQueryDto,
     InvoiceAccountDto,
     ReConnectInvoiceAccountRequestDto,
     SyncInvoiceAccountRequestDto,
     UpdateInvoiceAccountDto,
 } from '^models/InvoiceAccount/type';
-import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
@@ -15,7 +15,7 @@ import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 const NAMESPACE = 'organizations';
 
 export const invoiceAccountApi = {
-    index(orgId: number, params?: FindAllQueryDto<InvoiceAccountDto>) {
+    index(orgId: number, params?: FindAllInvoiceAccountQueryDto) {
         const url = `/${NAMESPACE}/${orgId}/invoice_accounts`;
         return api.get<Paginated<InvoiceAccountDto>>(url, {params}).then(paginatedDtoOf(InvoiceAccountDto));
     },
