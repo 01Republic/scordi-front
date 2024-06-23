@@ -1,4 +1,4 @@
-export declare class PaginationMetaData {
+export class PaginationMetaData {
     totalItemCount: number;
     currentItemCount: number;
     totalPage: number;
@@ -6,7 +6,7 @@ export declare class PaginationMetaData {
     itemsPerPage: number;
 }
 
-export declare class Paginated<DTO> {
+export class Paginated<DTO> {
     items: DTO[];
     pagination: PaginationMetaData;
 }

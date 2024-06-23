@@ -1,11 +1,12 @@
 import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
 import {TeamDto, CreateTeamDto, UpdateTeamDto, FindAllTeamQueryDto} from '^models/Team/type';
+import {paginatedDtoOf} from '^types/utils/response-of';
 
 export const teamApi = {
     index(orgId: number, params?: FindAllTeamQueryDto) {
         const url = `/organizations/${orgId}/teams`;
-        return api.get<Paginated<TeamDto>>(url, {params});
+        return api.get<Paginated<TeamDto>>(url, {params}).then(paginatedDtoOf(TeamDto));
     },
 
     show(orgId: number, id: number) {
