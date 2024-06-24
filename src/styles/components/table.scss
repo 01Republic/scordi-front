@@ -1,0 +1,7 @@
+.table :where(thead, tfoot) {
+  tr[class*=bg-] {
+    :where(th, td) {
+      background-color: transparent;
+    }
+  }
+}

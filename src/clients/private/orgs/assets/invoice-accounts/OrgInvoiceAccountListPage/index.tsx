@@ -5,10 +5,12 @@ import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {debounce} from 'lodash';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {InvoiceAccountTableHeader} from './InvoiceAccountTableHeader';
+import {InvoiceAccountTableRow} from './InvoiceAccountTableRow';
 
 export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage() {
     const organizationId = useRecoilValue(orgIdParamState);
-    const {search, result, isLoading, query, movePage, changePageSize} = useInvoiceAccounts();
+    const {search, result, isLoading, query, movePage, changePageSize, orderBy} = useInvoiceAccounts();
 
     const onReady = () => {
         search({
@@ -46,8 +48,8 @@ export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage
                 <ListTable
                     items={result.items}
                     isLoading={isLoading}
-                    // Header={() => <TeamMemberTableHeader orderBy={orderBy} />}
-                    Row={({item}) => <tr>{item.email}</tr>}
+                    Header={() => <InvoiceAccountTableHeader orderBy={orderBy} />}
+                    Row={({item}) => <InvoiceAccountTableRow invoiceAccount={item} />}
                 />
             </ListTableContainer>
         </ListPage>
