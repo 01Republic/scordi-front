@@ -5,6 +5,10 @@ import {SelectedProductTagSection} from './SelectedProductTagSection';
 import {ActionButtons} from './ActionButtons';
 import {SelectedStatusSection} from './SelectedStatusSection';
 import {BaseLayout} from '^clients/private/_layouts/BaseLayout';
+import {New_SaaS_Request_Form_Url} from '^config/constants';
+import {LinkTo} from '^components/util/LinkTo';
+import {IoIosHelpCircle} from 'react-icons/io';
+import Tippy from '@tippyjs/react';
 
 export const OrgSubscriptionSelectPage = memo(function OrgSubscriptionSelectPage() {
     return (
@@ -17,7 +21,22 @@ export const OrgSubscriptionSelectPage = memo(function OrgSubscriptionSelectPage
                     </p>
                 </div>
 
-                <div className="px-4 sm:px-0">
+                <div className="px-4 sm:px-0 relative">
+                    <div className="absolute bottom-full right-0">
+                        <Tippy content="미등록 서비스 제보하기">
+                            <div>
+                                <LinkTo
+                                    className="flex items-center gap-2 cursor-pointer text-13 link link-hover text-gray-500 py-1 group"
+                                    href={New_SaaS_Request_Form_Url}
+                                    displayLoading={false}
+                                >
+                                    <IoIosHelpCircle fontSize={16} />
+                                    <span>찾으시는 앱이 없나요?</span>
+                                </LinkTo>
+                            </div>
+                        </Tippy>
+                    </div>
+
                     <SearchProductInput />
                     <SelectableProductSection />
                     <SelectedStatusSection />

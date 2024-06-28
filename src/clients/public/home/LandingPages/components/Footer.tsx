@@ -7,6 +7,8 @@ import {FooterBottom} from '^clients/public/home/LandingPages/components/Footer/
 import CompanyLogo from '^public/images/logo/scordi/01republic/png/long-black.png';
 import MashupVenturesLogo from '^public/images/logo/external/mashup-ventures.png';
 import ScordiLogoDeprecated from '^public/logo-transparent.png';
+import {TermLinkItem} from '^clients/public/home/LandingPages/components/Footer/ui/TermLinkItem';
+import {New_SaaS_Request_Form_Url} from '^config/constants';
 
 export const BetaServiceFooter2 = memo(() => {
     return (
@@ -75,21 +77,22 @@ export const BetaServiceFooter = memo(() => {
                         </div>
 
                         {/* 푸터에 추가 열 들어가는거 형태 잡아뒀어서 코드 지우지 않고 주석처리 해둡니다. */}
-                        {/*<div className="min-w-[240px]">*/}
-                        {/*    <div className="pt-[24px] sm:pt-0 pb-[30px]">*/}
-                        {/*        <p className="text-[15px] font-semibold mb-[16px]">{t('terms.heading')}</p>*/}
-                        {/*        <ul className="menu gap-2 text-[13px] text-gray-500">*/}
-                        {/*            <TermLinkItem*/}
-                        {/*                href="https://api.scordi.io/terms/serviceUsageTerm-v20221101-1.txt"*/}
-                        {/*                name={t('terms.serviceUsage')}*/}
-                        {/*            />*/}
-                        {/*            <TermLinkItem*/}
-                        {/*                href="https://api.scordi.io/terms/개인정보처리방침-v20221101-1.html"*/}
-                        {/*                name={t('terms.privacy')}*/}
-                        {/*            />*/}
-                        {/*        </ul>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
+                        <div className="min-w-[240px]">
+                            <div className="pt-[24px] sm:pt-0 pb-[30px]">
+                                <p className="text-[15px] font-semibold mb-[16px]">사이트</p>
+                                <ul className="menu gap-2 text-[13px] text-gray-500">
+                                    <TermLinkItem name="미등록 서비스 제보하기" href={New_SaaS_Request_Form_Url} />
+                                    <TermLinkItem
+                                        href="https://api.scordi.io/terms/serviceUsageTerm-v20221101-1.txt"
+                                        name={t('terms.serviceUsage')}
+                                    />
+                                    <TermLinkItem
+                                        href="https://api.scordi.io/terms/개인정보처리방침-v20221101-1.html"
+                                        name={t('terms.privacy')}
+                                    />
+                                </ul>
+                            </div>
+                        </div>
 
                         <Channels />
                     </div>

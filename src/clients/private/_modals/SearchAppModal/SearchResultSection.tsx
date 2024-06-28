@@ -3,6 +3,10 @@ import {useProductSearchResult} from '^models/Product/hook';
 import {LoadableBox} from '^components/util/loading';
 import {SearchResultItem} from './SearchResultItem';
 import {atom, useRecoilValue} from 'recoil';
+import {New_SaaS_Request_Form_Url} from '^config/constants';
+import {FaConciergeBell} from 'react-icons/fa';
+import {LinkTo} from '^components/util/LinkTo';
+import {IoIosHelpCircle} from 'react-icons/io';
 
 export const searchResultModeAtom = atom<'search' | 'popular'>({
     key: 'searchResultModeAtom',
@@ -35,7 +39,27 @@ export const SearchResultSection = memo(() => {
             </div>
 
             <LoadableBox isLoading={isLoading} loadingType={2} noPadding>
-                {pagination.totalItemCount === 0 && <div className="p-1.5 text-13">검색 결과가 없습니다 :(</div>}
+                {pagination.totalItemCount === 0 && (
+                    <div className="p-1.5 text-13 w-full">
+                        <div>검색 결과가 없습니다 :(</div>
+
+                        <div className="flex items-center justify-between gap-2 p-4 my-2 bg-slate-100 rounded-btn">
+                            <div className="flex items-center gap-2 text-scordi-400">
+                                <IoIosHelpCircle fontSize={22} />
+                                <p className="text-14">찾으시는 앱이 없나요?</p>
+                            </div>
+
+                            <LinkTo
+                                className="btn btn-xs btn-scordi gap-2"
+                                href={New_SaaS_Request_Form_Url}
+                                displayLoading={false}
+                            >
+                                <FaConciergeBell />
+                                <span>미등록 서비스 제보하기</span>
+                            </LinkTo>
+                        </div>
+                    </div>
+                )}
 
                 {items.map((product, i) => (
                     <SearchResultItem key={i} product={product} />

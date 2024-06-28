@@ -1,4 +1,5 @@
 import React, {HTMLAttributeAnchorTarget, memo} from 'react';
+import {LinkTo} from '^components/util/LinkTo';
 
 interface TermLinkItemProps {
     name: string;
@@ -10,9 +11,9 @@ export const TermLinkItem = memo((props: TermLinkItemProps) => {
     const {name, href, target = '_blank'} = props;
     return (
         <li>
-            <a href={href} className="p-0 bg-transparent link link-hover" target={target}>
+            <LinkTo href={href} target={target} displayLoading={false} className="p-0 bg-transparent link link-hover">
                 {name}
-            </a>
+            </LinkTo>
         </li>
     );
 });
