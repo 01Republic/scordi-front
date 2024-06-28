@@ -48,7 +48,7 @@ function MyApp(props: Props) {
             <Toaster
                 containerStyle={{bottom: '15vh'}}
                 toastOptions={{position: 'bottom-center', style: {background: '#333', color: '#fff'}}}
-            ></Toaster>
+            />
 
             <ExternalCDNScripts />
         </RecoilRoot>

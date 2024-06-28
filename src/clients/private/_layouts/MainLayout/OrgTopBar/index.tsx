@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo, useEffect} from 'react';
 import {FaBell, FaPlus} from 'react-icons/fa6';
 import {useCurrentUser} from '^models/User/hook';
 import {WorkspaceDropdown} from './WorkspaceDropdown';
@@ -7,10 +7,18 @@ import {LinkTo} from '^components/util/LinkTo';
 import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
+import Measured from '@measured-im/browser';
+import {padStart} from 'lodash';
 
 export const OrgTopBar = memo(() => {
     const {currentUser} = useCurrentUser();
     const currentOrg = useRecoilValue(currentOrgAtom);
+
+    useEffect(() => {
+        if (currentUser) {
+            Measured.measued('User ID', padStart(`${currentUser.id}`, 5, '0'));
+        }
+    }, [currentUser]);
 
     return (
         <header className="container-fluid h-[56px] flex items-center gap-6 border-b bg-white-blurred text-scordi sticky top-0 z-20">

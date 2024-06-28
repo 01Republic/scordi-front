@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {useTranslation} from 'next-i18next';
 import Link from 'next/link';
 import {Img} from '^components/ui/Img';
@@ -9,6 +9,10 @@ import MashupVenturesLogo from '^public/images/logo/external/mashup-ventures.png
 import ScordiLogoDeprecated from '^public/logo-transparent.png';
 import {TermLinkItem} from '^clients/public/home/LandingPages/components/Footer/ui/TermLinkItem';
 import {New_SaaS_Request_Form_Url} from '^config/constants';
+import {useRecoilValue} from 'recoil';
+import Measured from '@measured-im/browser';
+import {padStart} from 'lodash';
+import {currentUserAtom} from '^models/User/atom';
 
 export const BetaServiceFooter2 = memo(() => {
     return (
@@ -39,6 +43,13 @@ export const BetaServiceFooter2 = memo(() => {
 
 export const BetaServiceFooter = memo(() => {
     const {t} = useTranslation('publicFooter');
+    const currentUser = useRecoilValue(currentUserAtom);
+
+    useEffect(() => {
+        if (currentUser) {
+            Measured.measued('User ID', padStart(`${currentUser.id}`, 5, '0'));
+        }
+    }, [currentUser]);
 
     return (
         <>

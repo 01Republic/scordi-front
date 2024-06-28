@@ -4,7 +4,13 @@ import {measuredApiKey} from '^config/environments';
 
 export const MeasuredInstall = () => {
     useEffect(() => {
-        if (measuredApiKey) Measured.install(measuredApiKey);
+        // @ts-ignore
+        if (!window.measuredInstalled) {
+            // @ts-ignore
+            window.measuredInstalled = true;
+
+            Measured.install(measuredApiKey);
+        }
     }, []);
     return <></>;
 };

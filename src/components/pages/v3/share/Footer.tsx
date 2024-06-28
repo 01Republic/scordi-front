@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {OutLink} from '^components/OutLink';
 import {V3MainLayoutContainer} from '^v3/layouts/V3MainLayout';
 import {useCurrentLocale} from '^hooks/useCurrentLocale';
@@ -9,11 +9,21 @@ import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
 import {LinkTo} from '^components/util/LinkTo';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
+import {currentUserAtom} from '^models/User/atom';
+import Measured from '@measured-im/browser';
+import {padStart} from 'lodash';
 
 export const V3Footer = memo(() => {
     const router = useRouter();
     const currentOrg = useRecoilValue(currentOrgAtom);
+    const currentUser = useRecoilValue(currentUserAtom);
     const {currentLocale} = useCurrentLocale();
+
+    useEffect(() => {
+        if (currentUser) {
+            Measured.measued('User ID', padStart(`${currentUser.id}`, 5, '0'));
+        }
+    }, [currentUser]);
 
     return (
         <div className="bg-base-100 mt-auto">
