@@ -4,7 +4,7 @@ import {QuestionItem} from './QuestionItem';
 
 export const FAQ = memo(function FAQ() {
     return (
-        <HomePageSection sectionClass="bg-scordi-light-100 z-20">
+        <HomePageSection sectionClass="z-20">
             <h2 className="text-center text-3xl sm:text-4xl mb-6 !leading-snug">
                 스코디에 대해 <span className="block">궁금한 점이 있으신가요?</span>
             </h2>

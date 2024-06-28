@@ -28,7 +28,7 @@ export const LandingHomePage3 = memo(() => {
                 <Review />
                 {/*안심하세요 우리가 우리의 첫 고객이다최고의제품으로 보답하겠다.*/}
                 <FAQ />
-                <WhatTimeWidget />
+                {/*<WhatTimeWidget />*/}
                 <Section4 />
             </div>
 

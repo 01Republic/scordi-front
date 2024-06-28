@@ -4,7 +4,7 @@ import {ReviewItem} from './ReviewItem';
 
 export const Review = memo(function Review() {
     return (
-        <HomePageSection sectionClass="py-20">
+        <HomePageSection sectionClass="py-20" activeBgColorClass>
             <div data-aos="fade-up" data-aos-anchor-placement="bottom-bottom" data-aos-duration="500">
                 <p className="text-center text-scordi font-semibold mb-4 !leading-snug">WHAT PEOPLE SAY</p>
                 <h2 className="text-center text-3xl sm:text-4xl mb-10 !leading-snug">파트너사 후기</h2>
