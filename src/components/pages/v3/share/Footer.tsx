@@ -9,21 +9,13 @@ import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
 import {LinkTo} from '^components/util/LinkTo';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
-import {currentUserAtom} from '^models/User/atom';
-import Measured from '@measured-im/browser';
-import {padStart} from 'lodash';
+import {useMeasuredUserId} from '^components/ExternalCDNScripts/measured';
 
 export const V3Footer = memo(() => {
     const router = useRouter();
     const currentOrg = useRecoilValue(currentOrgAtom);
-    const currentUser = useRecoilValue(currentUserAtom);
     const {currentLocale} = useCurrentLocale();
-
-    useEffect(() => {
-        if (currentUser) {
-            Measured.measued('User ID', padStart(`${currentUser.id}`, 5, '0'));
-        }
-    }, [currentUser]);
+    useMeasuredUserId();
 
     return (
         <div className="bg-base-100 mt-auto">
