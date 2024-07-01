@@ -86,7 +86,7 @@ export const SelectColumn = <T,>(props: SelectColumnProps<T>) => {
         inputDisplay = true,
         inputPlainText = false,
         contentMinWidth = '300px',
-        optionListBoxTitle = '옵션 선택 또는 생성',
+        optionListBoxTitle = `옵션 선택${props.onCreate ? ' 또는 생성' : ''}`,
         optionWrapperClass = '',
         detachableOptionBoxTitle = '연결된 옵션',
     } = props;

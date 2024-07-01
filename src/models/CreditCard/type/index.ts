@@ -7,20 +7,42 @@ import CryptoJS from 'crypto-js';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
 import {cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {PartialType} from '^types/utils/partial-type';
 
 const CardCompanies = cardAccountsStaticData;
 
+export enum CreditCardUsingStatus {
+    UnDef, // undefined (default)
+    NoUse, // 미사용
+    InUse, // 사용중
+    Expired, // 만료
+}
+
+export const creditCardUsingStatus = {
+    '': CreditCardUsingStatus.UnDef,
+    미사용: CreditCardUsingStatus.UnDef,
+    사용중: CreditCardUsingStatus.InUse,
+    만료: CreditCardUsingStatus.Expired,
+};
+
 export class CreditCardDto {
     id: number; // 카드 ID
+    expireYear: number | null; // 만료 년도 (readonly)
+    expireMonth: number | null; // 만료 월 (readonly)
     sign: string; // 카드 정보(카드번호, 비밀번호, 유효기간, CVC)
     name?: string | null; // 카드 이름
     issuerCompany?: string | null; // 카드 발급사
     networkCompany?: string | null; // 카드 결제 네트워크
     memo?: string | null; // 메모
-    isPersonal: boolean; // 법인 카드 여부
+    usingStatus: CreditCardUsingStatus; // 사용상태
+    isPersonal: boolean; // 법인카드 여부
+    isCreditCard: boolean; // 신용카드 여부
     organizationId: number; // 조직 ID
-    @TypeCast(() => OrganizationDto) organization?: OrganizationDto | null; // 조직
     holdingMemberId?: number | null; // 카드 소유자 ID
+    @TypeCast(() => Date) createdAt: Date;
+    @TypeCast(() => Date) updatedAt: Date;
+
+    @TypeCast(() => OrganizationDto) organization?: OrganizationDto | null; // 조직
     @TypeCast(() => TeamMemberDto) holdingMember?: TeamMemberDto | null; // 카드 소유자
     @TypeCast(() => SubscriptionDto) subscriptions?: SubscriptionDto[] | null; // 결제한 구독 목록
     @TypeCast(() => BillingHistoryDto) billingHistories?: BillingHistoryDto[] | null; // 결제 내역
@@ -152,13 +174,15 @@ export class UnSignedCreditCardFormData extends CreditCardSecretInfo {
     }
 }
 
-export type CreateCreditCardDto = {
+export class CreateCreditCardDto {
     sign: string;
     name?: string | null;
     issuerCompany?: string | null;
     networkCompany?: string | null;
     memo?: string | null;
+    usingStatus?: CreditCardUsingStatus; // 사용상태
     isPersonal?: boolean | null;
+    isCreditCard?: boolean; // 신용카드 여부
     holdingMemberId?: number | null;
     holdingMember?: TeamMemberDto;
     productIds?: number[] | null;
@@ -167,24 +191,9 @@ export type CreateCreditCardDto = {
     number2?: string;
     number3?: string;
     number4?: string;
-};
+}
 
-export type UpdateCreditCardDto = {
-    sign?: string;
-    name?: string | null;
-    issuerCompany?: string | null;
-    networkCompany?: string | null;
-    memo?: string | null;
-    isPersonal?: boolean | null;
-    holdingMemberId?: number | null;
-    holdingMember?: TeamMemberDto;
-    productIds?: number[] | null;
-    //
-    number1?: string;
-    number2?: string;
-    number3?: string;
-    number4?: string;
-};
+export class UpdateCreditCardDto extends PartialType(CreateCreditCardDto) {}
 
 export type FindAllCreditCardDto = FindAllQueryDto<CreditCardDto> & {
     keyword?: string;

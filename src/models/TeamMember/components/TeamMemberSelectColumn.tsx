@@ -9,12 +9,14 @@ import {TeamMemberProfileOption} from './TeamMemberProfile';
 interface TeamMemberSelectColumnProps {
     defaultValue?: TeamMemberDto;
     onChange: (teamMember?: TeamMemberDto) => PromiseLike<any>;
+    optionListBoxTitle?: string;
+    detachableOptionBoxTitle?: string;
 }
 
 export const TeamMemberSelectColumn = memo((props: TeamMemberSelectColumnProps) => {
     const organizationId = useRecoilValue(orgIdParamState);
     const {search} = useTeamMembers();
-    const {defaultValue, onChange} = props;
+    const {defaultValue, onChange, optionListBoxTitle, detachableOptionBoxTitle} = props;
 
     const getOptions = async (keyword?: string) => {
         return search(
@@ -50,9 +52,9 @@ export const TeamMemberSelectColumn = memo((props: TeamMemberSelectColumnProps) 
                 inputDisplay
                 inputPlainText
                 optionWrapperClass="!py-1.5"
-                optionListBoxTitle="담당자를 변경할까요?"
+                optionListBoxTitle={optionListBoxTitle || `담당자를 변경할까요?`}
                 optionDetach={optionDetach}
-                detachableOptionBoxTitle="연결된 담당자"
+                detachableOptionBoxTitle={detachableOptionBoxTitle || `연결된 담당자`}
                 EmptyComponent={() => <TagUI className="text-gray-300 w-40 !justify-start">비어있음</TagUI>}
             />
         </div>

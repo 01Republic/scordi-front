@@ -32,16 +32,6 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
                 <InvoiceAccountProfile invoiceAccount={invoiceAccount} />
             </td>
 
-            {/*연결 구독 수*/}
-            <td>
-                <div>
-                    <p className="text-14">{subscriptions.length.toLocaleString()} apps</p>
-                </div>
-            </td>
-
-            {/*팀*/}
-            <td>팀</td>
-
             {/*담당자*/}
             <td>
                 <TeamMemberSelectColumn
@@ -52,6 +42,16 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
                     }}
                 />
             </td>
+
+            {/*연결 구독 수*/}
+            <td>
+                <div>
+                    <p className="text-14">{subscriptions.length.toLocaleString()} apps</p>
+                </div>
+            </td>
+
+            {/*/!*팀*!/*/}
+            {/*<td>팀</td>*/}
 
             {/*등록방식*/}
             <td>등록방식</td>

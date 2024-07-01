@@ -8,56 +8,58 @@ export const CreditCardTableHeader = memo((props: CreditCardTableHeaderProps) =>
     const {orderBy} = props;
 
     return (
-        <tr>
+        <tr className="bg-slate-100 rounded-">
             {/* 카드 프로필 */}
-            <th className="!bg-slate-100 rounded-tl-md">이름</th>
-
-            {/* 카드사 */}
-            <th className="bg-slate-100">카드사</th>
-
-            {/* 출금계좌 */}
-            {/*<th className="bg-slate-100">출금계좌</th>*/}
-
-            {/* 팀 */}
-            <SortableTH sortKey="[teams][id]" onClick={orderBy} className="!bg-slate-100">
-                팀
+            <SortableTH sortKey="[name]" onClick={orderBy}>
+                이름
             </SortableTH>
 
-            {/* 소지자 */}
-            <th className="bg-slate-100">소지자</th>
+            {/* 상태 (editable, sortable) */}
+            <SortableTH sortKey="[usingStatus]" onClick={orderBy}>
+                상태
+            </SortableTH>
+
+            {/* 카드사 */}
+            <th>카드사</th>
+
+            {/* 출금계좌 */}
+            {/*<th>출금계좌</th>*/}
+
+            {/* 구분(법인/개인) */}
+            <th>구분</th>
 
             {/* 종류(신용/체크) */}
-            <th className="bg-slate-100">종류(신용/체크)</th>
-
-            {/* 구분(비자/마스터) */}
-            {/*<th className="bg-slate-100">구분(비자/마스터)</th>*/}
+            <th>종류</th>
 
             {/* 카드번호 */}
-            {/*<th className="bg-slate-100">카드번호</th>*/}
+            {/*<th>카드번호</th>*/}
 
             {/* 비밀번호 */}
-            {/*<th className="bg-slate-100">비밀번호</th>*/}
+            {/*<th>비밀번호</th>*/}
 
             {/* 유효기간 */}
-            {/*<th className="bg-slate-100">유효기간</th>*/}
+            <th>유효기간</th>
 
             {/* CVC */}
-            {/*<th className="bg-slate-100">CVC</th>*/}
+            {/*<th>CVC</th>*/}
 
             {/* 인터넷뱅킹 여부 */}
-            {/*<th className="bg-slate-100">인터넷뱅킹 여부</th>*/}
+            {/*<th>인터넷뱅킹 여부</th>*/}
 
             {/* 인터넷뱅킹 비밀번호 */}
-            {/*<th className="bg-slate-100">인터넷뱅킹 비밀번호</th>*/}
+            {/*<th>인터넷뱅킹 비밀번호</th>*/}
 
             {/* 홀더이름 */}
-            {/*<th className="bg-slate-100">홀더이름</th>*/}
+            {/*<th>홀더이름</th>*/}
 
-            {/* 연결된 구독 수 (sortable) */}
-            <th className="!bg-slate-100">연결된 구독</th>
+            {/* 소지자 */}
+            <th>소지자</th>
+
+            {/* 비고 */}
+            <th>비고</th>
 
             {/* 연동 상태 */}
-            <th className="bg-slate-100 rounded-tr-md" />
+            <th />
         </tr>
     );
 });
