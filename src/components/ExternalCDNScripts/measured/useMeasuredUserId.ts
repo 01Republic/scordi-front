@@ -11,6 +11,7 @@ export const useMeasuredUserId = () => {
         if (currentUser) {
             const measuredUserId = padStart(`${currentUser.id}`, 5, '0');
             measure('User ID', measuredUserId);
+            measure('UserName', currentUser.name);
         }
     }, [currentUser]);
 };
