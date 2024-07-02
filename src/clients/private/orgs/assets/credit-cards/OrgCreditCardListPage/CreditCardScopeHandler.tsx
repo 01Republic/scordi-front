@@ -8,7 +8,6 @@ export const CreditCardScopeHandler = memo(function () {
     const [usingStatus, setUsingStatus] = useState<CreditCardUsingStatus>();
 
     const searchResource = (val?: CreditCardUsingStatus) => {
-        console.log('usingStatusValue', val);
         return search({...query, where: {usingStatus: val}}).then(() => {
             return setUsingStatus(val);
         });

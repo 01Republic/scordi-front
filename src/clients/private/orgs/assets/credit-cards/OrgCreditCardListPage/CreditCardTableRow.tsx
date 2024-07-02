@@ -1,12 +1,11 @@
 import React, {memo} from 'react';
+import {toast} from 'react-hot-toast';
 import {CreditCardDto, CreditCardUsingStatus, UpdateCreditCardDto} from '^models/CreditCard/type';
 import {creditCardApi} from '^models/CreditCard/api';
-import {toast} from 'react-hot-toast';
-import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {CreditCardProfileOption2} from '^models/CreditCard/hook/components/CreditCardProfile';
 import {IsCreditCardTag, IsPersonalTag, UsingStatusTag} from '^models/CreditCard/components';
-import {padStart} from 'lodash';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
+import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 
 interface CreditCardTableRowProps {
@@ -27,6 +26,7 @@ export const CreditCardTableRow = memo((props: CreditCardTableRowProps) => {
     };
 
     const company = creditCard.company;
+    const expiry = creditCard.decryptSign().expiry;
 
     return (
         <tr>
@@ -101,9 +101,18 @@ export const CreditCardTableRow = memo((props: CreditCardTableRowProps) => {
 
             {/* 유효기간 */}
             <td className="text-14">
-                {creditCard.expireMonth && creditCard.expireYear ? (
-                    <div>
-                        {creditCard.expireYear}-{padStart(creditCard.expireMonth.toString(), 2, '0')}
+                {/*{creditCard.expireMonth && creditCard.expireYear ? (*/}
+                {/*    <div>*/}
+                {/*        {creditCard.expireYear}-{padStart(creditCard.expireMonth.toString(), 2, '0')}*/}
+                {/*    </div>*/}
+                {/*) : (*/}
+                {/*    <div className="italic text-gray-400">-</div>*/}
+                {/*)}*/}
+                {expiry ? (
+                    <div className="flex items-center gap-0.5">
+                        <div>{expiry.slice(0, 2)}</div>
+                        <small>/</small>
+                        <div>{expiry.slice(2, 4)}</div>
                     </div>
                 ) : (
                     <div className="italic text-gray-400">-</div>

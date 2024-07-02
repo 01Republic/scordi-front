@@ -8,6 +8,7 @@ import {useCreditCardListForListPage} from '^models/CreditCard/hook';
 import {CreditCardScopeHandler} from './CreditCardScopeHandler';
 import {CreditCardTableHeader} from './CreditCardTableHeader';
 import {CreditCardTableRow} from './CreditCardTableRow';
+import {AddCreditCardDropdown} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardListPage/AddCreditCardDropdown';
 
 export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -18,6 +19,7 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
         search({
             where: {organizationId: orgId},
             // relations: ['members', 'subscriptions', 'tags'],
+            order: {id: 'DESC'},
         });
     };
 
@@ -35,7 +37,7 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
             onReady={onReady}
             breadcrumb={['자산', '결제수단', {text: '카드', active: true}]}
             titleText="카드"
-            Buttons={undefined}
+            Buttons={AddCreditCardDropdown}
             ScopeHandler={CreditCardScopeHandler}
             searchInputPlaceholder="검색어를 입력해주세요"
             onSearch={onSearch}
