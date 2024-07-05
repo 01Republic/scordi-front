@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {plainToInstance} from 'class-transformer';
 import {useForm} from 'react-hook-form';
@@ -37,6 +37,12 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
     const [isLoading, setLoading] = useState(false);
     const {search} = useCreditCardListForListPage();
 
+    useEffect(() => {
+        form.setValue('usingStatus', CreditCardUsingStatus.InUse);
+        form.setValue('isPersonal', false);
+        form.setValue('isCreditCard', true);
+    }, []);
+
     const onSubmit = async (dto: CreateCreditCardDto) => {
         const formData = plainToInstance(UnSignedCreditCardFormData, dto);
 
@@ -69,10 +75,17 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
 
         req.then(() => {
             toast.success('새 카드를 추가했어요 :)');
-            router.push(OrgCreditCardListPageRoute.path(orgId)).then(() => {
-                search({where: {organizationId: orgId}, order: {id: 'DESC'}});
-                form.reset();
-            });
+            search(
+                {
+                    where: {organizationId: orgId},
+                    order: {id: 'DESC'},
+                    page: 1,
+                    itemsPerPage: 30,
+                },
+                false,
+                true,
+            );
+            router.push(OrgCreditCardListPageRoute.path(orgId));
         })
             .catch(errorNotify)
             .finally(() => setLoading(false));
@@ -145,8 +158,11 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                 <h2 className="leading-none text-xl font-semibold">필수정보</h2>
                                 <FormControl label="카드 이름" required>
                                     <input
-                                        className="input input-underline !bg-slate-100 w-full"
+                                        className={`input input-underline !bg-slate-100 w-full ${
+                                            isLoading ? 'opacity-50 pointer-events-none' : ''
+                                        }`}
                                         onChange={(e) => form.setValue('name', e.target.value)}
+                                        readOnly={isLoading}
                                         required
                                     />
                                     <span />
@@ -157,6 +173,8 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                             <CardNumberInput
                                                 defaultValue={form.watch('number1')}
                                                 onChange={(val) => form.setValue('number1', val)}
+                                                className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
+                                                readOnly={isLoading}
                                             />
                                             <span />
                                         </div>
@@ -164,6 +182,8 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                             <CardNumberInput
                                                 defaultValue={form.watch('number2')}
                                                 onChange={(val) => form.setValue('number2', val)}
+                                                className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
+                                                readOnly={isLoading}
                                             />
                                             <span />
                                         </div>
@@ -171,6 +191,8 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                             <CardNumberInput
                                                 defaultValue={form.watch('number3')}
                                                 onChange={(val) => form.setValue('number3', val)}
+                                                className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
+                                                readOnly={isLoading}
                                             />
                                             <span />
                                         </div>
@@ -179,6 +201,8 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                                 maxLength={5}
                                                 defaultValue={form.watch('number4')}
                                                 onChange={(val) => form.setValue('number4', val)}
+                                                className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
+                                                readOnly={isLoading}
                                             />
                                             <span />
                                         </div>
@@ -190,7 +214,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                 <h2 className="leading-none text-xl font-semibold">선택정보</h2>
                                 <FormControl label="사용상태">
                                     <UnderlineDropdownSelect
-                                        defaultValue={CreditCardUsingStatus.InUse}
+                                        defaultValue={form.watch('usingStatus')}
                                         options={[
                                             CreditCardUsingStatus.UnDef,
                                             CreditCardUsingStatus.NoUse,
@@ -203,24 +227,27 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                         onChange={(usingStatus: CreditCardUsingStatus) => {
                                             form.setValue('usingStatus', usingStatus);
                                         }}
+                                        className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
                                     />
                                 </FormControl>
                                 <FormControl label="구분">
                                     <UnderlineDropdownSelect
-                                        defaultValue={false}
+                                        defaultValue={form.watch('isPersonal')}
                                         options={[true, false]}
                                         toComponent={(isPersonal: boolean) => <IsPersonalTag value={isPersonal} />}
                                         onChange={(isPersonal) => form.setValue('isPersonal', isPersonal)}
+                                        className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
                                     />
                                 </FormControl>
                                 <FormControl label="종류">
                                     <UnderlineDropdownSelect
-                                        defaultValue={true}
+                                        defaultValue={form.watch('isCreditCard')}
                                         options={[true, false]}
                                         toComponent={(isCreditCard: boolean) => (
                                             <IsCreditCardTag value={isCreditCard} />
                                         )}
                                         onChange={(isCreditCard) => form.setValue('isCreditCard', isCreditCard)}
+                                        className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
                                     />
                                 </FormControl>
                                 <FormControl label="유효기간">
@@ -237,6 +264,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                                         return newArr;
                                                     });
                                                 }}
+                                                className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
                                             />
                                         </div>
                                         <div className="px-2">/</div>
@@ -252,27 +280,34 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                                         return newArr;
                                                     });
                                                 }}
+                                                className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
                                             />
                                         </div>
                                     </div>
                                 </FormControl>
                                 <FormControl label="소지자">
-                                    <div className="input input-underline !bg-slate-100 w-full flex items-center justify-between">
+                                    <div
+                                        className={`input input-underline !bg-slate-100 w-full flex items-center justify-between ${
+                                            isLoading ? 'opacity-50 pointer-events-none' : ''
+                                        }`}
+                                    >
                                         <TeamMemberSelectColumn
                                             onChange={(member) => form.setValue('holdingMemberId', member?.id)}
                                             optionListBoxTitle="소지자를 변경할까요?"
                                             detachableOptionBoxTitle="현재 소지자"
                                             className="flex-auto"
                                         />
-
                                         <FaCaretDown fontSize={12} className="text-gray-500" />
                                     </div>
                                     <span></span>
                                 </FormControl>
                                 <FormControl label="비고">
                                     <input
-                                        className="input input-underline !bg-slate-100 w-full"
+                                        className={`input input-underline !bg-slate-100 w-full ${
+                                            isLoading ? 'opacity-50 pointer-events-none' : ''
+                                        }`}
                                         onChange={(e) => form.setValue('memo', e.target.value)}
+                                        readOnly={isLoading}
                                     />
                                     <span />
                                 </FormControl>
@@ -289,10 +324,12 @@ interface CardNumberInputProps {
     defaultValue?: string;
     maxLength?: number;
     onChange?: (val: string) => any;
+    className?: string;
+    readOnly?: boolean;
 }
 
 const CardNumberInput = (props: CardNumberInputProps) => {
-    const {defaultValue, maxLength = 4, onChange} = props;
+    const {defaultValue, maxLength = 4, onChange, className = '', readOnly = false} = props;
     return (
         <NumericTextInput
             minLength={4}
@@ -300,11 +337,12 @@ const CardNumberInput = (props: CardNumberInputProps) => {
             placeholder="●●●●"
             defaultValue={defaultValue}
             invalidMessage="번호가 너무 짧아요"
-            className="input input-underline !bg-slate-100 px-2 w-full"
+            className={`input input-underline !bg-slate-100 px-2 w-full ${className}`}
             onChange={(e) => {
                 const val = inputTextToCardNumberInShortFormat(e);
                 onChange && onChange(val);
             }}
+            readOnly={readOnly}
         />
     );
 };

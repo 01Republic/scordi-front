@@ -18,10 +18,21 @@ interface UnderlineDropdownSelectProps<T> {
     clearable?: boolean;
 
     maxHeight?: string;
+
+    className?: string;
 }
 
 export const UnderlineDropdownSelect = <T,>(props: UnderlineDropdownSelectProps<T>) => {
-    const {options = [], toComponent, onChange, EmptyComponent, clearable = false, maxHeight = '400px'} = props;
+    const {
+        options = [],
+        toComponent,
+        onChange,
+        EmptyComponent,
+        clearable = false,
+        maxHeight = '400px',
+        className = '',
+        readOnly = false,
+    } = props;
     const [selectedOption, setSelectedOption] = useState(props.defaultValue);
     const valueOfOption = props.valueOfOption || ((option: T) => option);
     const selectedValue = typeof selectedOption !== 'undefined' ? valueOfOption(selectedOption) : undefined;
@@ -36,7 +47,7 @@ export const UnderlineDropdownSelect = <T,>(props: UnderlineDropdownSelectProps<
             <div className="w-full">
                 <div
                     tabIndex={0}
-                    className="input input-underline !bg-slate-100 w-full flex items-center justify-between"
+                    className={`input input-underline !bg-slate-100 w-full flex items-center justify-between ${className}`}
                 >
                     <div className="flex-auto">
                         {typeof selectedOption !== 'undefined' &&

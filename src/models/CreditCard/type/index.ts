@@ -123,7 +123,9 @@ export class UnSignedCreditCardFormData extends CreditCardSecretInfo {
     issuerCompany?: string | null;
     networkCompany?: string | null;
     memo?: string | null;
+    usingStatus?: CreditCardUsingStatus; // 사용상태
     isPersonal?: boolean | null;
+    isCreditCard?: boolean; // 신용카드 여부
     holdingMemberId?: number | null;
     holdingMember?: TeamMemberDto;
     productIds?: number[] | null;
@@ -140,7 +142,9 @@ export class UnSignedCreditCardFormData extends CreditCardSecretInfo {
             issuerCompany: this.issuerCompany,
             networkCompany: this.networkCompany,
             memo: this.memo,
+            usingStatus: this.usingStatus,
             isPersonal: this.isPersonal,
+            isCreditCard: this.isCreditCard,
             holdingMemberId: this.holdingMemberId,
             holdingMember: this.holdingMember,
             productIds: this.productIds,
@@ -154,7 +158,9 @@ export class UnSignedCreditCardFormData extends CreditCardSecretInfo {
             issuerCompany: this.issuerCompany,
             networkCompany: this.networkCompany,
             memo: this.memo,
+            usingStatus: this.usingStatus,
             isPersonal: this.isPersonal,
+            isCreditCard: this.isCreditCard,
             holdingMemberId: this.holdingMemberId,
             holdingMember: this.holdingMember,
             productIds: this.productIds,
