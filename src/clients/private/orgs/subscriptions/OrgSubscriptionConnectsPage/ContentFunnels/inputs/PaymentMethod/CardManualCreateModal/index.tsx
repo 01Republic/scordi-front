@@ -28,8 +28,8 @@ enum Step {
     companySelect,
     setInfo,
     creating,
-    success,
-    failure,
+    // success,
+    // failure,
 }
 
 const CardCompanies = cardAccountsStaticData;

@@ -13,6 +13,10 @@ export class CardAccountsStaticData {
     loginType: CodefLoginType; // 공인인증서는 아직 안쓰므로, 일단 id-pw 만 씁니다.
     loginPageUrl: string;
 
+    static all() {
+        return cardAccountsStaticData;
+    }
+
     static findOne(param?: string) {
         return cardAccountsStaticData.find((data) => data.param === param);
     }

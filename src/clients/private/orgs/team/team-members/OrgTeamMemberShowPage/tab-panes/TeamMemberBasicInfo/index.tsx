@@ -4,7 +4,7 @@ import {useForm} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
 import {teamMemberApi, UpdateTeamMemberDto} from '^models/TeamMember';
 import {TeamTag} from '^models/Team/components/TeamTag';
-import {FormControl} from '^clients/private/orgs/team/team-members/OrgTeamMemberNewPage/FormControl';
+import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {SelectTeam} from '^clients/private/orgs/team/team-members/OrgTeamMemberNewPage/SelectTeam';
 import {teamMemberSubjectAtom} from '../../atom';
 

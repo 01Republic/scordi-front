@@ -191,6 +191,8 @@ export class CreateCreditCardDto {
     number2?: string;
     number3?: string;
     number4?: string;
+    //
+    expiry?: string;
 }
 
 export class UpdateCreditCardDto extends PartialType(CreateCreditCardDto) {}

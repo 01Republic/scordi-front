@@ -1,5 +1,4 @@
 import React, {memo, MutableRefObject} from 'react';
-import {FormControl} from '^components/util/form-control/FormControl';
 import {useSetRecoilState} from 'recoil';
 import {createCreditCardDtoAtom} from '^v3/share/modals/NewCardModal/atom';
 

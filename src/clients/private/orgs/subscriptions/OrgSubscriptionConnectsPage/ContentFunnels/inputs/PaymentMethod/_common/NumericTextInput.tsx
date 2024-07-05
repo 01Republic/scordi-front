@@ -1,4 +1,5 @@
 import {ClassAttributes, InputHTMLAttributes} from 'react';
+import {NumericTextInput as NumericInput} from '^clients/private/_components/inputs/NumericTextInput';
 
 type InputTextProps = ClassAttributes<HTMLInputElement> & InputHTMLAttributes<HTMLInputElement>;
 interface NumericTextInputProps extends InputTextProps {}
@@ -8,29 +9,15 @@ export const NumericTextInput = (props: NumericTextInputProps) => {
 
     return (
         <div>
-            <input
-                type="text"
+            <NumericInput
                 minLength={minLength}
                 maxLength={maxLength}
                 defaultValue={defaultValue}
-                onChange={(e) => {
-                    const input = e.target;
-                    onChange && onChange(e);
-
-                    if (typeof minLength === 'number') {
-                        if (input.value.length < minLength) {
-                            input.setCustomValidity('번호가 너무 짧아요');
-                        } else {
-                            input.setCustomValidity('');
-                        }
-                    }
-                    input.reportValidity();
-                }}
-                className="input border-gray-200 bg-gray-100 text-16 w-full disabled:text-gray-400 invalid:input-error"
+                invalidMessage="번호가 너무 짧아요"
+                className="border-gray-200 bg-gray-100 text-16 w-full"
                 disabled={disabled}
                 {...res}
             />
         </div>
     );
 };
-NumericTextInput.displayName = 'NumericTextInput';

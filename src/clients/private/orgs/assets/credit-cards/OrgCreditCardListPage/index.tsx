@@ -1,19 +1,22 @@
-import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
+import React, {memo, useState} from 'react';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
 import {orgIdParamState} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {CardAutoCreateModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/CardAutoCreateModal';
 import {useCreditCardListForListPage} from '^models/CreditCard/hook';
 import {CreditCardScopeHandler} from './CreditCardScopeHandler';
 import {CreditCardTableHeader} from './CreditCardTableHeader';
 import {CreditCardTableRow} from './CreditCardTableRow';
-import {AddCreditCardDropdown} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardListPage/AddCreditCardDropdown';
+import {AddCreditCardDropdown} from './AddCreditCardDropdown';
+import {isCardAutoCreateModalAtom} from './atom';
 
 export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
     const orgId = useRecoilValue(orgIdParamState);
     const {search, result, isLoading, query, movePage, changePageSize, orderBy, reload} =
         useCreditCardListForListPage();
+    const [isCardAutoCreateModalOpen, setIsCardAutoCreateModalOpen] = useRecoilState(isCardAutoCreateModalAtom);
 
     const onReady = () => {
         search({
@@ -55,6 +58,15 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
                     Row={({item}) => <CreditCardTableRow creditCard={item} reload={reload} />}
                 />
             </ListTableContainer>
+
+            <CardAutoCreateModal
+                isOpened={isCardAutoCreateModalOpen}
+                onClose={() => setIsCardAutoCreateModalOpen(false)}
+                onCreate={() => {
+                    setIsCardAutoCreateModalOpen(false);
+                    return reload();
+                }}
+            />
         </ListPage>
     );
 });

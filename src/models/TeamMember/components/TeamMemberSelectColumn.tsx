@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useState} from 'react';
 import {TeamMemberDto, useTeamMembers} from '^models/TeamMember';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
@@ -11,12 +11,15 @@ interface TeamMemberSelectColumnProps {
     onChange: (teamMember?: TeamMemberDto) => PromiseLike<any>;
     optionListBoxTitle?: string;
     detachableOptionBoxTitle?: string;
+    clearable?: boolean;
+    className?: string;
 }
 
 export const TeamMemberSelectColumn = memo((props: TeamMemberSelectColumnProps) => {
     const organizationId = useRecoilValue(orgIdParamState);
     const {search} = useTeamMembers();
-    const {defaultValue, onChange, optionListBoxTitle, detachableOptionBoxTitle} = props;
+    const {className = '', onChange, optionListBoxTitle, detachableOptionBoxTitle, clearable = false} = props;
+    const [selectedOption, setSelectedOption] = useState(props.defaultValue);
 
     const getOptions = async (keyword?: string) => {
         return search(
@@ -31,18 +34,20 @@ export const TeamMemberSelectColumn = memo((props: TeamMemberSelectColumnProps) 
     };
 
     const onSelect = async (teamMember: TeamMemberDto) => {
-        return onChange(teamMember);
+        if (onChange) await onChange(teamMember);
+        setSelectedOption(teamMember);
     };
 
     const optionDetach = async () => {
-        await onChange();
+        if (onChange) await onChange();
+        setSelectedOption();
         return true;
     };
 
     return (
-        <div className="w-40 overflow-x-hidden">
+        <div className={`min-w-40 overflow-x-hidden ${className}`}>
             <SelectColumn
-                value={defaultValue}
+                value={selectedOption}
                 getOptions={getOptions}
                 ValueComponent={TeamMemberOption}
                 valueOfOption={(member) => member.id}

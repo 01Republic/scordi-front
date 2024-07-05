@@ -4,7 +4,6 @@ import {ModalTopbar} from '^v3/share/modals/ModalTopbar';
 import {MobileSection} from '^v3/share/sections/MobileSection';
 import {ModalLikeBottomBar} from '^v3/layouts/V3ModalLikeLayout.mobile/ModalLikeBottomBar';
 import {InputCardNumber} from '^v3/share/modals/NewCardModal/NewCardModalV2/CardNumberInput/InputCardNumber';
-import {FormControl} from '^components/util/form-control/FormControl';
 import {CTAButton} from '^v3/share/modals/NewCardModal/NewCardModalV2/CTAButton';
 import {NewCardModalTitle} from '^v3/share/modals/NewCardModal/NewCardModalV2/NewCardModalTitle';
 import {newCardModalState} from '^v3/share/modals/NewCardModal/NewCardModalV2/atom';

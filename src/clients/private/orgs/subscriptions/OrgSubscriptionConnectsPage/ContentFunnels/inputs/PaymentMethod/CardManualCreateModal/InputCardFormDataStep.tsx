@@ -4,7 +4,7 @@ import {FaChevronLeft} from 'react-icons/fa6';
 import {inputTextToCardNumberFormat, inputTextToCardNumberInShortFormat} from '^utils/input-helper';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {createCreditCardDtoAtom} from '^v3/share/modals/NewCardModal/atom';
-import {NumericTextInput} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/_common/NumericTextInput';
+import {NumericTextInput} from '^clients/private/_components/inputs/NumericTextInput';
 
 interface InputCardFormDataStepProps {
     cardCompany: CardAccountsStaticData;
@@ -60,46 +60,31 @@ export const InputCardFormDataStep = memo((props: InputCardFormDataStepProps) =>
                         <p className="text-12 text-gray-500 mb-1.5">카드번호</p>
 
                         <div className="grid grid-cols-4 gap-3">
-                            <NumericTextInput
-                                minLength={4}
-                                maxLength={4}
-                                placeholder="●●●●"
-                                defaultValue={formData.number1}
-                                onChange={(e) => {
-                                    const val = inputTextToCardNumberInShortFormat(e);
-                                    setFormData((f) => ({...f, number1: val}));
-                                }}
-                            />
-                            <NumericTextInput
-                                minLength={4}
-                                maxLength={4}
-                                placeholder="●●●●"
-                                defaultValue={formData.number2}
-                                onChange={(e) => {
-                                    const val = inputTextToCardNumberInShortFormat(e);
-                                    setFormData((f) => ({...f, number2: val}));
-                                }}
-                            />
-                            <NumericTextInput
-                                minLength={4}
-                                maxLength={4}
-                                placeholder="●●●●"
-                                defaultValue={formData.number3}
-                                onChange={(e) => {
-                                    const val = inputTextToCardNumberInShortFormat(e);
-                                    setFormData((f) => ({...f, number3: val}));
-                                }}
-                            />
-                            <NumericTextInput
-                                minLength={4}
-                                maxLength={5}
-                                placeholder="●●●●"
-                                defaultValue={formData.number4}
-                                onChange={(e) => {
-                                    const val = inputTextToCardNumberInShortFormat(e);
-                                    setFormData((f) => ({...f, number4: val}));
-                                }}
-                            />
+                            <div>
+                                <CardNumberInput
+                                    defaultValue={formData.number1}
+                                    onChange={(val) => setFormData((f) => ({...f, number1: val}))}
+                                />
+                            </div>
+                            <div>
+                                <CardNumberInput
+                                    defaultValue={formData.number2}
+                                    onChange={(val) => setFormData((f) => ({...f, number2: val}))}
+                                />
+                            </div>
+                            <div>
+                                <CardNumberInput
+                                    defaultValue={formData.number3}
+                                    onChange={(val) => setFormData((f) => ({...f, number3: val}))}
+                                />
+                            </div>
+                            <div>
+                                <CardNumberInput
+                                    maxLength={5}
+                                    defaultValue={formData.number4}
+                                    onChange={(val) => setFormData((f) => ({...f, number4: val}))}
+                                />
+                            </div>
                         </div>
                     </label>
                 </div>
@@ -114,3 +99,27 @@ export const InputCardFormDataStep = memo((props: InputCardFormDataStepProps) =>
     );
 });
 InputCardFormDataStep.displayName = 'InputCardFormDataStep';
+
+interface CardNumberInputProps {
+    defaultValue?: string;
+    maxLength?: number;
+    onChange?: (val: string) => any;
+}
+
+const CardNumberInput = (props: CardNumberInputProps) => {
+    const {defaultValue, maxLength = 4, onChange} = props;
+    return (
+        <NumericTextInput
+            minLength={4}
+            maxLength={maxLength}
+            placeholder="●●●●"
+            defaultValue={defaultValue}
+            invalidMessage="번호가 너무 짧아요"
+            className="border-gray-200 bg-gray-100 text-16 w-full"
+            onChange={(e) => {
+                const val = inputTextToCardNumberInShortFormat(e);
+                onChange && onChange(val);
+            }}
+        />
+    );
+};
