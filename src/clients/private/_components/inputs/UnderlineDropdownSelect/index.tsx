@@ -22,7 +22,7 @@ interface UnderlineDropdownSelectProps<T> {
     className?: string;
 }
 
-export const UnderlineDropdownSelect = <T,>(props: UnderlineDropdownSelectProps<T>) => {
+export function UnderlineDropdownSelect<T>(props: UnderlineDropdownSelectProps<T>) {
     const {
         options = [],
         toComponent,
@@ -31,9 +31,8 @@ export const UnderlineDropdownSelect = <T,>(props: UnderlineDropdownSelectProps<
         clearable = false,
         maxHeight = '400px',
         className = '',
-        readOnly = false,
     } = props;
-    const [selectedOption, setSelectedOption] = useState(props.defaultValue);
+    const [selectedOption, setSelectedOption] = useState<T | undefined>(props.defaultValue);
     const valueOfOption = props.valueOfOption || ((option: T) => option);
     const selectedValue = typeof selectedOption !== 'undefined' ? valueOfOption(selectedOption) : undefined;
 
@@ -92,4 +91,4 @@ export const UnderlineDropdownSelect = <T,>(props: UnderlineDropdownSelectProps<
             </div>
         </div>
     );
-};
+}

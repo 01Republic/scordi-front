@@ -1,57 +1,60 @@
 import React, {memo, useEffect, useState} from 'react';
+import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
 import {plainToInstance} from 'class-transformer';
-import {useForm} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
 import {delay} from '^components/util/delay';
 import {errorNotify} from '^utils/toast-notify';
-import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 import {orgIdParamState} from '^atoms/common';
-import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
-import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {CreateCreditCardDto, CreditCardUsingStatus, UnSignedCreditCardFormData} from '^models/CreditCard/type';
 import {creditCardApi} from '^models/CreditCard/api';
-import {CardContainer, FormContainer} from '^clients/private/_components/containers';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
+import {useCreditCardListForListPage} from '^models/CreditCard/hook';
+import {useAltForm} from '^hooks/useAltForm';
+import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
+import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
+import {FadeUp} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/_common/FadeUp';
+import {FormContainer} from '^clients/private/_components/containers';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
-import {inputTextToCardNumberInShortFormat} from '^utils/input-helper';
-import {NumericTextInput} from '^clients/private/_components/inputs/NumericTextInput';
 import {UnderlineDropdownSelect} from '^clients/private/_components/inputs/UnderlineDropdownSelect';
 import {IsCreditCardTag, IsPersonalTag, UsingStatusTag} from '^models/CreditCard/components';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
-import {FaCaretDown} from 'react-icons/fa6';
 import {rangeToArr} from '^utils/range';
 import {padStart} from 'lodash';
-import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
-import {FadeUp} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/_common/FadeUp';
+import {FaCaretDown} from 'react-icons/fa6';
 import {ConnectMethodCard} from '^v3/V3OrgConnectsPage/ConnectsPageBody/ConnectMethodCard';
-import {useRouter} from 'next/router';
-import {useCreditCardListForListPage} from '^models/CreditCard/hook';
+import {CardNumberInput} from './CardNumberInput';
 
 const CardCompanies = CardAccountsStaticData.all();
 
 export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
-    const form = useForm<CreateCreditCardDto>();
-    const [expiryValues, setExpiryValues] = useState<[string, string]>([]);
+    const {formData, setFormValue, handleSubmit} = useAltForm<CreateCreditCardDto>({} as CreateCreditCardDto);
+    const [expiryValues, setExpiryValues] = useState<string[]>([]);
     const [isLoading, setLoading] = useState(false);
     const {search} = useCreditCardListForListPage();
 
     useEffect(() => {
-        form.setValue('usingStatus', CreditCardUsingStatus.InUse);
-        form.setValue('isPersonal', false);
-        form.setValue('isCreditCard', true);
-    }, []);
+        if (!router.isReady) return;
 
-    const onSubmit = async (dto: CreateCreditCardDto) => {
-        const formData = plainToInstance(UnSignedCreditCardFormData, dto);
+        setFormValue({
+            usingStatus: CreditCardUsingStatus.InUse,
+            isPersonal: false,
+            isCreditCard: true,
+        });
+    }, [router.isReady]);
 
-        if (!formData.name) {
+    const onSubmit = async () => {
+        const data = plainToInstance(UnSignedCreditCardFormData, formData);
+
+        if (!data.name) {
             toast.error('카드 별칭을 입력해주세요');
             return;
         }
 
-        if (!formData.number1 || !formData.number2 || !formData.number3 || !formData.number4) {
+        if (!data.number1 || !data.number2 || !data.number3 || !data.number4) {
             toast.error('카드 번호를 입력해주세요');
             return;
         }
@@ -66,11 +69,11 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                 return;
             }
             const [year, month] = expiryValues;
-            formData.expiry = `${month}${year.slice(2, 4)}`;
+            data.expiry = `${month}${year.slice(2, 4)}`;
         }
 
         setLoading(true);
-        const req = creditCardApi.create(orgId, formData.toCreateDto());
+        const req = creditCardApi.create(orgId, data.toCreateDto());
         await delay(2000);
 
         req.then(() => {
@@ -91,9 +94,9 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
             .finally(() => setLoading(false));
     };
 
-    const cardCompany = form.watch('issuerCompany');
-    const setCompany = (cardCompany?: CardAccountsStaticData) => {
-        form.setValue('issuerCompany', cardCompany ? cardCompany.displayName : undefined);
+    const cardCompany = formData.issuerCompany || undefined;
+    const setCompany = (company?: CardAccountsStaticData) => {
+        setFormValue({issuerCompany: company ? company.displayName : undefined});
     };
 
     return (
@@ -152,7 +155,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                         </div>
                     </div>
 
-                    <FormContainer onSubmit={form.handleSubmit(onSubmit)} isLoading={isLoading}>
+                    <FormContainer onSubmit={handleSubmit(onSubmit)} isLoading={isLoading}>
                         <div className="px-4 py-8 border-b">
                             <div className="max-w-md mx-auto flex flex-col gap-8 mb-16">
                                 <h2 className="leading-none text-xl font-semibold">필수정보</h2>
@@ -161,18 +164,19 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                         className={`input input-underline !bg-slate-100 w-full ${
                                             isLoading ? 'opacity-50 pointer-events-none' : ''
                                         }`}
-                                        onChange={(e) => form.setValue('name', e.target.value)}
+                                        onChange={(e) => setFormValue({name: e.target.value})}
                                         readOnly={isLoading}
                                         required
                                     />
                                     <span />
                                 </FormControl>
+
                                 <FormControl label="카드 번호" required>
                                     <div className="grid grid-cols-4 gap-1.5">
                                         <div>
                                             <CardNumberInput
-                                                defaultValue={form.watch('number1')}
-                                                onChange={(val) => form.setValue('number1', val)}
+                                                defaultValue={formData.number1}
+                                                onChange={(val) => setFormValue({number1: val})}
                                                 className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
                                                 readOnly={isLoading}
                                             />
@@ -180,8 +184,8 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                         </div>
                                         <div>
                                             <CardNumberInput
-                                                defaultValue={form.watch('number2')}
-                                                onChange={(val) => form.setValue('number2', val)}
+                                                defaultValue={formData.number2}
+                                                onChange={(val) => setFormValue({number2: val})}
                                                 className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
                                                 readOnly={isLoading}
                                             />
@@ -189,8 +193,8 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                         </div>
                                         <div>
                                             <CardNumberInput
-                                                defaultValue={form.watch('number3')}
-                                                onChange={(val) => form.setValue('number3', val)}
+                                                defaultValue={formData.number3}
+                                                onChange={(val) => setFormValue({number3: val})}
                                                 className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
                                                 readOnly={isLoading}
                                             />
@@ -199,8 +203,8 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                         <div>
                                             <CardNumberInput
                                                 maxLength={5}
-                                                defaultValue={form.watch('number4')}
-                                                onChange={(val) => form.setValue('number4', val)}
+                                                defaultValue={formData.number4}
+                                                onChange={(val) => setFormValue({number4: val})}
                                                 className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
                                                 readOnly={isLoading}
                                             />
@@ -214,7 +218,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                 <h2 className="leading-none text-xl font-semibold">선택정보</h2>
                                 <FormControl label="사용상태">
                                     <UnderlineDropdownSelect
-                                        defaultValue={form.watch('usingStatus')}
+                                        defaultValue={formData.usingStatus}
                                         options={[
                                             CreditCardUsingStatus.UnDef,
                                             CreditCardUsingStatus.NoUse,
@@ -224,29 +228,29 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                         toComponent={(usingStatus: CreditCardUsingStatus) => (
                                             <UsingStatusTag value={usingStatus} />
                                         )}
-                                        onChange={(usingStatus: CreditCardUsingStatus) => {
-                                            form.setValue('usingStatus', usingStatus);
+                                        onChange={(usingStatus?: CreditCardUsingStatus) => {
+                                            setFormValue({usingStatus: usingStatus || CreditCardUsingStatus.UnDef});
                                         }}
                                         className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
                                     />
                                 </FormControl>
                                 <FormControl label="구분">
                                     <UnderlineDropdownSelect
-                                        defaultValue={form.watch('isPersonal')}
+                                        defaultValue={formData.isPersonal ?? undefined}
                                         options={[true, false]}
                                         toComponent={(isPersonal: boolean) => <IsPersonalTag value={isPersonal} />}
-                                        onChange={(isPersonal) => form.setValue('isPersonal', isPersonal)}
+                                        onChange={(isPersonal) => setFormValue({isPersonal})}
                                         className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
                                     />
                                 </FormControl>
                                 <FormControl label="종류">
                                     <UnderlineDropdownSelect
-                                        defaultValue={form.watch('isCreditCard')}
+                                        defaultValue={formData.isCreditCard}
                                         options={[true, false]}
                                         toComponent={(isCreditCard: boolean) => (
                                             <IsCreditCardTag value={isCreditCard} />
                                         )}
-                                        onChange={(isCreditCard) => form.setValue('isCreditCard', isCreditCard)}
+                                        onChange={(isCreditCard) => setFormValue({isCreditCard})}
                                         className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
                                     />
                                 </FormControl>
@@ -257,8 +261,9 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                             <UnderlineDropdownSelect
                                                 maxHeight="200px"
                                                 options={rangeToArr(2024 - 10, 2024 + 10)}
-                                                onChange={(year: number) => {
-                                                    setExpiryValues((arr) => {
+                                                onChange={(year?: number) => {
+                                                    if (typeof year === 'undefined') return;
+                                                    setExpiryValues((arr: string[]) => {
                                                         const newArr = [...arr];
                                                         newArr[0] = `${year}`;
                                                         return newArr;
@@ -273,8 +278,9 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                             <UnderlineDropdownSelect
                                                 maxHeight="200px"
                                                 options={rangeToArr(1, 12)}
-                                                onChange={(month: number) => {
-                                                    setExpiryValues((arr) => {
+                                                onChange={(month?: number) => {
+                                                    if (typeof month === 'undefined') return;
+                                                    setExpiryValues((arr: string[]) => {
                                                         const newArr = [...arr];
                                                         newArr[1] = padStart(`${month}`, 2, '0');
                                                         return newArr;
@@ -292,7 +298,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                         }`}
                                     >
                                         <TeamMemberSelectColumn
-                                            onChange={(member) => form.setValue('holdingMemberId', member?.id)}
+                                            onChange={(member) => setFormValue({holdingMemberId: member?.id})}
                                             optionListBoxTitle="소지자를 변경할까요?"
                                             detachableOptionBoxTitle="현재 소지자"
                                             className="flex-auto"
@@ -306,7 +312,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                         className={`input input-underline !bg-slate-100 w-full ${
                                             isLoading ? 'opacity-50 pointer-events-none' : ''
                                         }`}
-                                        onChange={(e) => form.setValue('memo', e.target.value)}
+                                        onChange={(e) => setFormValue({memo: e.target.value})}
                                         readOnly={isLoading}
                                     />
                                     <span />
@@ -319,30 +325,3 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
         </MainLayout>
     );
 });
-
-interface CardNumberInputProps {
-    defaultValue?: string;
-    maxLength?: number;
-    onChange?: (val: string) => any;
-    className?: string;
-    readOnly?: boolean;
-}
-
-const CardNumberInput = (props: CardNumberInputProps) => {
-    const {defaultValue, maxLength = 4, onChange, className = '', readOnly = false} = props;
-    return (
-        <NumericTextInput
-            minLength={4}
-            maxLength={maxLength}
-            placeholder="●●●●"
-            defaultValue={defaultValue}
-            invalidMessage="번호가 너무 짧아요"
-            className={`input input-underline !bg-slate-100 px-2 w-full ${className}`}
-            onChange={(e) => {
-                const val = inputTextToCardNumberInShortFormat(e);
-                onChange && onChange(val);
-            }}
-            readOnly={readOnly}
-        />
-    );
-};

@@ -8,7 +8,7 @@ import {TeamMemberProfileOption} from './TeamMemberProfile';
 
 interface TeamMemberSelectColumnProps {
     defaultValue?: TeamMemberDto;
-    onChange: (teamMember?: TeamMemberDto) => PromiseLike<any>;
+    onChange: (teamMember?: TeamMemberDto) => any;
     optionListBoxTitle?: string;
     detachableOptionBoxTitle?: string;
     clearable?: boolean;
@@ -40,7 +40,7 @@ export const TeamMemberSelectColumn = memo((props: TeamMemberSelectColumnProps) 
 
     const optionDetach = async () => {
         if (onChange) await onChange();
-        setSelectedOption();
+        setSelectedOption(undefined);
         return true;
     };
 

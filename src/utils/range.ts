@@ -1,4 +1,4 @@
-function recur(arr: number[], a: number, stop: number) {
+function recur(arr: number[], a: number, stop: number): number[] {
     if (a < stop) {
         arr.push(a);
         return recur(arr, a + 1, stop);
