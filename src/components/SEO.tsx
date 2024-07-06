@@ -136,6 +136,8 @@ export const PageSEO = (props: PageSEOProps) => {
             <meta name="twitter:description" content={description} />
             <meta name="twitter:image" content={thumbnail} />
             <meta name="twitter:card" content="summary_large_image" />
+
+            <meta name="naver-site-verification" content="e6dd19e77ee0c635af64ba80bbf6ac46f7cb4c14" />
         </Head>
     );
 };
