@@ -13,17 +13,8 @@ export class CodefConnectedIdentityDto {
     // 커넥티드 아이디 값
     connectedId: string;
 
-    // 생성일시
-    createdAt: Date;
-
-    // 수정일시
-    updatedAt: Date;
-
-    // 조직
-    @TypeCast(() => OrganizationDto)
-    organization?: OrganizationDto;
-
-    // 계정 목록
-    @TypeCast(() => CodefAccountDto)
-    accounts?: CodefAccountDto[];
+    @TypeCast(() => Date) createdAt: Date; // 생성일시
+    @TypeCast(() => Date) updatedAt: Date; // 수정일시
+    @TypeCast(() => OrganizationDto) organization?: OrganizationDto; // 조직
+    @TypeCast(() => CodefAccountDto) accounts?: CodefAccountDto[]; // 계정 목록
 }

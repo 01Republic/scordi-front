@@ -24,7 +24,6 @@ import {useRouter} from 'next/router';
 import {V3OrgConnectNewCardListPageRoute} from '^pages/v3/orgs/[orgId]/connects/card-accounts/[connectMethod]/cards/new';
 
 export const V3OrgConnectedCardListPage = memo(function V3OrgConnectedCardListPage() {
-    const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
     const codefAccountId = useRecoilValue(codefAccountIdParamState);
     const {data: codefAccount, search} = useCodefAccountPageSubject();
@@ -32,12 +31,8 @@ export const V3OrgConnectedCardListPage = memo(function V3OrgConnectedCardListPa
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
         if (!codefAccountId || isNaN(codefAccountId)) return;
-
-        console.log('\t\tV3OrgConnectedCardListPage.useEffect.codefAccountId', codefAccountId);
         search(orgId, codefAccountId);
     }, [orgId, codefAccountId]);
-    console.log('\t\tV3OrgConnectedCardListPage', router.isReady);
-    console.log('\t\tV3OrgConnectedCardListPage.codefAccount', codefAccount);
 
     return (
         <V3MainLayout
@@ -51,16 +46,12 @@ export const V3OrgConnectedCardListPage = memo(function V3OrgConnectedCardListPa
                 InvoiceAccountSelectModal,
             ]}
         >
-            {codefAccount && <CardListPage codefAccount={codefAccount} />}
+            {codefAccount && <CardListPage />}
         </V3MainLayout>
     );
 });
 
-interface Props {
-    codefAccount: CodefAccountDto;
-}
-const CardListPage = memo((props: Props) => {
-    // const {codefAccount} = props;
+const CardListPage = memo(() => {
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
     const codefAccountId = useRecoilValue(codefAccountIdParamState);
@@ -68,7 +59,6 @@ const CardListPage = memo((props: Props) => {
     const {search} = useConnectedCardListPageData();
     const [cardListPageMode, setPageMode] = useRecoilState(cardListPageModeAtom);
 
-    console.log('\t\tCardListPage.codefAccount', codefAccount);
     useEffect(() => {
         const setLoading = () => setPageMode(CardListPageMode.IsLoading);
         if (!codefAccountId || isNaN(codefAccountId) || !codefAccount || codefAccountId != codefAccount.id) {
@@ -122,8 +112,10 @@ const CardListPage = memo((props: Props) => {
     if (!connectMethod) return <></>;
 
     if (cardListPageMode === CardListPageMode.ConnectedCards) {
+        // 로딩 완료
         return <ConnectedCodefCardListPage />;
     } else {
+        // 로딩 중
         return <LoadingCodefCardListPage />;
     }
 });
