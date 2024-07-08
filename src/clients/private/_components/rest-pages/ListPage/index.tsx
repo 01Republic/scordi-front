@@ -6,12 +6,12 @@ import {FaPlus} from 'react-icons/fa6';
 import {orgIdParamState} from '^atoms/common';
 import {WithChildren} from '^types/global.type';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
-import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
+import {Breadcrumb, BreadcrumbPath} from '^clients/private/_layouts/_shared/Breadcrumb';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 
 interface ListPageProps extends WithChildren {
     onReady?: () => any;
-    breadcrumb?: ({text: string; href?: string; active?: boolean} | string)[];
+    breadcrumb?: BreadcrumbPath[];
     titleText?: ReactNode;
     Title?: ReactComponentLike;
     Buttons?: ReactComponentLike;

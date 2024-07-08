@@ -68,6 +68,11 @@ export const teamMemberIdParamState = atom({
     default: NaN,
 });
 
+export const creditCardIdParamState = atom({
+    key: 'creditCardIdParamState',
+    default: NaN,
+});
+
 export const codefAccountIdParamState = atom({
     key: 'codefAccountIdParamState',
     default: NaN,
