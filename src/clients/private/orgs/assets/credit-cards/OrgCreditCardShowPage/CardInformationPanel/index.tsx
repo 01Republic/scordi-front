@@ -1,4 +1,11 @@
 import React, {memo, useEffect, useState} from 'react';
+import {useRecoilValue} from 'recoil';
+import {AxiosResponse} from 'axios';
+import {padStart} from 'lodash';
+import {toast} from 'react-hot-toast';
+import {plainToInstance} from 'class-transformer';
+import {FaCaretDown} from 'react-icons/fa6';
+import {FaPen} from '@react-icons/all-files/fa/FaPen';
 import {WithChildren} from '^types/global.type';
 import {useAltForm} from '^hooks/useAltForm';
 import {
@@ -8,23 +15,15 @@ import {
     UpdateCreditCardDto,
 } from '^models/CreditCard/type';
 import {useCurrentCreditCard} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/atom';
-import {plainToInstance} from 'class-transformer';
-import {FaPen} from '@react-icons/all-files/fa/FaPen';
 import {IsCreditCardTag, IsPersonalTag, UsingStatusTag} from '^models/CreditCard/components';
 import {UnderlineDropdownSelect} from '^clients/private/_components/inputs/UnderlineDropdownSelect';
 import {rangeToArr} from '^utils/range';
-import {padStart} from 'lodash';
-import {toast} from 'react-hot-toast';
 import {creditCardApi} from '^models/CreditCard/api';
-import {delay} from '^components/util/delay';
 import {errorNotify} from '^utils/toast-notify';
-import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CardNumberInput} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardNewPage/CardNumberInput';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
-import {FaCaretDown} from 'react-icons/fa6';
-import {AxiosResponse} from 'axios';
 
 export const CardInformationPanel = memo(function CardInformationPanel() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -42,6 +41,7 @@ export const CardInformationPanel = memo(function CardInformationPanel() {
                 isPersonal: currentCreditCard.isPersonal,
                 isCreditCard: currentCreditCard.isCreditCard,
                 usingStatus: currentCreditCard.usingStatus,
+                memo: currentCreditCard.memo,
                 number1: cardNumbers.number1,
                 number2: cardNumbers.number2,
                 number3: cardNumbers.number3,
@@ -309,7 +309,11 @@ export const CardInformationPanel = memo(function CardInformationPanel() {
                         )}
                         <span />
                     </FormControl>
+                </div>
+            </div>
 
+            <div className="p-8 border-t border-gray-200">
+                <div className="flex flex-col gap-2 5">
                     <FormControl label="사용상태">
                         {isEditMode ? (
                             <UnderlineDropdownSelect
@@ -333,6 +337,26 @@ export const CardInformationPanel = memo(function CardInformationPanel() {
                                 <UsingStatusTag value={currentCreditCard.usingStatus} />
                             </div>
                         )}
+                    </FormControl>
+
+                    <FormControl label="비고">
+                        {isEditMode ? (
+                            <input
+                                className={`input input-sm input-underline !bg-slate-100 w-full ${
+                                    isLoading ? 'opacity-50 pointer-events-none' : ''
+                                }`}
+                                defaultValue={formData.memo || undefined}
+                                onChange={(e) => setFormValue({memo: e.target.value})}
+                                readOnly={isLoading}
+                            />
+                        ) : (
+                            <div className="flex items-center min-h-[33.5px]">
+                                <span className="w-full whitespace-nowrap overflow-hidden text-ellipsis">
+                                    {currentCreditCard.memo}
+                                </span>
+                            </div>
+                        )}
+                        <span />
                     </FormControl>
                 </div>
             </div>
