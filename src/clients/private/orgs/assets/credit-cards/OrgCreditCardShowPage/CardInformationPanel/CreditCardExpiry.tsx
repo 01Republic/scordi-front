@@ -1,0 +1,71 @@
+import React, {memo} from 'react';
+import {padStart} from 'lodash';
+import {rangeToArr} from '^utils/range';
+import {UnderlineDropdownSelect} from '^clients/private/_components/inputs/UnderlineDropdownSelect';
+import {FormControl} from './FormControl';
+
+interface CreditCardExpiryProps {
+    isEditMode: boolean;
+    isLoading: boolean;
+    value?: string;
+    defaultValue: string[];
+    onYearChange: (val: string) => any;
+    onMonthChange: (val: string) => any;
+}
+
+export const CreditCardExpiry = memo((props: CreditCardExpiryProps) => {
+    const {isLoading, isEditMode} = props;
+    const {value, defaultValue, onYearChange, onMonthChange} = props;
+
+    return (
+        <FormControl label="유효기간">
+            {isEditMode ? (
+                <div className="grid grid-cols-2 items-center gap-2">
+                    <div className="flex items-center gap-1">
+                        <div>연</div>
+                        <div className="flex-auto">
+                            <UnderlineDropdownSelect
+                                defaultValue={parseInt(`${defaultValue[0] || 0}`)}
+                                options={rangeToArr(2024 - 10, 2024 + 10)}
+                                onChange={(year?: number) => {
+                                    if (typeof year === 'undefined') return;
+                                    onYearChange(`${year}`);
+                                }}
+                                className={`${isLoading ? 'opacity-50 pointer-events-none' : ''} input-sm`}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-1">
+                        <div>월</div>
+                        <div className="flex-auto">
+                            <UnderlineDropdownSelect
+                                defaultValue={parseInt(`${defaultValue[1] || 0}`)}
+                                options={rangeToArr(1, 12)}
+                                onChange={(month?: number) => {
+                                    if (typeof month === 'undefined') return;
+                                    onMonthChange(padStart(`${month}`, 2, '0'));
+                                }}
+                                className={`${isLoading ? 'opacity-50 pointer-events-none' : ''} input-sm`}
+                            />
+                        </div>
+                    </div>
+                </div>
+            ) : (
+                <div className="flex items-center h-[33.5px]">
+                    {value ? (
+                        <div className="flex items-center gap-0.5">
+                            <div>{value.slice(0, 2)}</div>
+                            <small>/</small>
+                            <div>{value.slice(2, 4)}</div>
+                        </div>
+                    ) : (
+                        <div className="italic text-gray-400">-</div>
+                    )}
+                </div>
+            )}
+            <span />
+        </FormControl>
+    );
+});
+CreditCardExpiry.displayName = 'CreditCardExpiry';
