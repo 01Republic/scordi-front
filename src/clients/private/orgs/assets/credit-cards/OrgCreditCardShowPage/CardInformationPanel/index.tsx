@@ -24,6 +24,8 @@ import {orgIdParamState} from '^atoms/common';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CardNumberInput} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardNewPage/CardNumberInput';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
+import {TeamSelect} from '^models/Team/components/TeamSelect';
+import {TeamDto} from '^models/Team/type';
 
 export const CardInformationPanel = memo(function CardInformationPanel() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -113,6 +115,24 @@ export const CardInformationPanel = memo(function CardInformationPanel() {
         const id = currentCreditCard.id;
         setLoading(true);
         handleResponse(creditCardApi.update(orgId, id, data));
+    };
+
+    const connectTeam = (team?: TeamDto) => {
+        if (!currentCreditCard) return;
+        const id = currentCreditCard.id;
+        const reloadCard = () => creditCardApi.show(orgId, id);
+        const request = (req: () => Promise<any>) => {
+            setLoading(true);
+            handleResponse(req().then(reloadCard));
+        };
+
+        if (team) {
+            request(() => creditCardApi.teamsApi.create(id, team.id));
+        } else {
+            const [attachedTeam] = currentCreditCard.teams || [];
+            if (!attachedTeam) return;
+            request(() => creditCardApi.teamsApi.destroy(id, attachedTeam.id));
+        }
     };
 
     return (
@@ -378,7 +398,16 @@ export const CardInformationPanel = memo(function CardInformationPanel() {
 
             <div className="p-8 border-t border-gray-200">
                 <div className="flex flex-col gap-2.5">
-                    {/*<FormControl label="팀"></FormControl>*/}
+                    <FormControl label="팀">
+                        <div
+                            className={`-mx-2 px-2 bg-slate-100 border-slate-300 hover:bg-slate-200 hover:border-slate-400 rounded-md transition-all cursor-pointer w-full group flex items-center justify-between ${
+                                isLoading ? 'opacity-50 pointer-events-none' : ''
+                            }`}
+                        >
+                            <TeamSelect defaultValue={(currentCreditCard?.teams || [])[0]} onChange={connectTeam} />
+                            <FaCaretDown fontSize={12} className="text-gray-400 hidden group-hover:inline-block" />
+                        </div>
+                    </FormControl>
 
                     <FormControl label="소지자">
                         <div

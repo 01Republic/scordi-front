@@ -8,6 +8,8 @@ import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
 import {cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {PartialType} from '^types/utils/partial-type';
+import {TeamCreditCardDto} from '^models/TeamCreditCard/type/TeamCreditCard.dto';
+import {TeamDto} from '^models/Team/type';
 
 const CardCompanies = cardAccountsStaticData;
 
@@ -44,6 +46,8 @@ export class CreditCardDto {
 
     @TypeCast(() => OrganizationDto) organization?: OrganizationDto | null; // 조직
     @TypeCast(() => TeamMemberDto) holdingMember?: TeamMemberDto | null; // 카드 소유자
+    // @TypeCast(() => TeamCreditCardDto) teamCreditCards?: TeamCreditCardDto[]; // 카드를 사용하고 있는 팀 목록
+    @TypeCast(() => TeamDto) teams?: TeamDto[]; // 사용하고 있는 카드 목록
     @TypeCast(() => SubscriptionDto) subscriptions?: SubscriptionDto[] | null; // 결제한 구독 목록
     @TypeCast(() => BillingHistoryDto) billingHistories?: BillingHistoryDto[] | null; // 결제 내역
 
