@@ -3,7 +3,6 @@ import {useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
 import {orgIdParamState} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
-import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {useTeamsForListPage} from '^models/Team/hook';
 import {TeamListSection} from '^clients/private/orgs/team/teams/OrgTeamListPage/TeamListSection';
 
@@ -37,20 +36,6 @@ export const OrgTeamListPage = memo(function OrgTeamListPage() {
             searchInputPlaceholder="검색어를 입력해주세요"
             onSearch={onSearch}
         >
-            {/*<ListTableContainer*/}
-            {/*    pagination={result.pagination}*/}
-            {/*    movePage={movePage}*/}
-            {/*    changePageSize={changePageSize}*/}
-            {/*    unit="개"*/}
-            {/*>*/}
-            {/*    <ListTable*/}
-            {/*        items={result.items}*/}
-            {/*        isLoading={isLoading}*/}
-            {/*        // Header={() => <TeamMemberTableHeader orderBy={orderBy} />}*/}
-            {/*        Row={({item}) => <tr>{item.id}</tr>}*/}
-            {/*    />*/}
-            {/*</ListTableContainer>*/}
-
             <TeamListSection result={result} isLoading={isLoading} movePage={movePage} />
         </ListPage>
     );

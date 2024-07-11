@@ -26,7 +26,11 @@ export const TeamListSection = memo((props: TeamListSectionProps) => {
     return (
         <div ref={ref}>
             <LoadableBox isLoading={isLoading} loadingType={2} noPadding>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mx-auto">
+                <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 mx-auto">
+                    <div className="card rounded-xl shadow border border-gray-200 p-4 cursor-pointer hover:shadow-md transition-all text-center bg-gray-200 items-center justify-center text-32 text-gray-600">
+                        +
+                    </div>
+
                     {items.map((team, i) => (
                         <TeamListItem team={team} key={i} />
                     ))}

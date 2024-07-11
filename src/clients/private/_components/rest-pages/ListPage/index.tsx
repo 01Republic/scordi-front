@@ -2,7 +2,6 @@ import React, {memo, ReactNode, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
 import {ReactComponentLike} from 'prop-types';
-import {FaPlus} from 'react-icons/fa6';
 import {orgIdParamState} from '^atoms/common';
 import {WithChildren} from '^types/global.type';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
@@ -49,29 +48,12 @@ export const ListPage = memo((props: ListPageProps) => {
                 <div className="flex items-center justify-between mb-8">
                     {Title ? <Title /> : <h1 className="text-2xl">{titleText}</h1>}
 
-                    <div>
-                        {Buttons ? (
-                            <Buttons />
-                        ) : (
-                            <button className="btn btn-scordi gap-2 mb-1">
-                                <FaPlus />
-                                <span>추가하기</span>
-                            </button>
-                        )}
+                    <div className={'flex'}>
+                        {ScopeHandler && <ScopeHandler />}
+                        {onSearch && <ListPageSearchInput onSearch={onSearch} placeholder={searchInputPlaceholder} />}
+                        {Buttons && <Buttons />}
                     </div>
                 </div>
-
-                {(ScopeHandler || onSearch) && (
-                    <div className="flex items-center justify-between mb-8">
-                        <div>{ScopeHandler && <ScopeHandler />}</div>
-
-                        <div>
-                            {onSearch && (
-                                <ListPageSearchInput onSearch={onSearch} placeholder={searchInputPlaceholder} />
-                            )}
-                        </div>
-                    </div>
-                )}
 
                 {children}
             </MainContainer>
