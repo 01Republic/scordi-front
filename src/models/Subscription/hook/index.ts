@@ -7,7 +7,7 @@ import {
     dashboardSubscriptionSearchResultAtom,
     getCurrentSubscriptionQuery,
     subscriptionListAtom,
-    subscriptionsForSummaryPanelAtom,
+    subscriptionListOfCreditCardAtom,
     subscriptionsForSummaryState,
     subscriptionsInTeamMemberShowModalAtom,
     subscriptionTableListAtom,
@@ -33,6 +33,9 @@ export const useSubscriptionsInTeamMemberShowModal = () =>
 
 // 팀멤버 상세페이지 / 이용중인 서비스 목록
 export const useSubscriptionsInTeamMemberShowPage = () => useSubscriptions(subscriptionsInTeamMemberShowModalAtom);
+
+// 카드 상세 페이지 > 구독 테이블
+export const useSubscriptionListOfCreditCard = () => useSubscriptions(subscriptionListOfCreditCardAtom);
 
 const useSubscriptions = (atoms: PagedResourceAtoms<SubscriptionDto, FindAllSubscriptionsQuery>, mergeMode = false) => {
     return usePagedResource(atoms, {

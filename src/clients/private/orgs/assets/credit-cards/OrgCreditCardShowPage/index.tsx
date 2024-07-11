@@ -6,6 +6,7 @@ import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
 import {CreditCardProfilePanel} from './CreditCardProfilePanel';
 import {CardInformationPanel} from './CardInformationPanel';
+import {SubscriptionListOfCreditCardTabContent} from './tab-panes';
 
 export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -43,8 +44,8 @@ export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
                 </div>
 
                 <div className="grid grid-cols-10">
-                    <div className="col-span-7">
-                        {activeTabIndex == 0 && <div>구독</div>}
+                    <div className="col-span-7 pr-4">
+                        {activeTabIndex == 0 && <SubscriptionListOfCreditCardTabContent />}
                         {activeTabIndex == 1 && <div>결제</div>}
                         {activeTabIndex == 2 && <div>동기화</div>}
                     </div>
