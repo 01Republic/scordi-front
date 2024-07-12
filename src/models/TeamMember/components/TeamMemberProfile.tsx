@@ -6,14 +6,17 @@ import {Avatar} from '^components/Avatar';
 
 interface TeamMemberProfileProps {
     item: TeamMemberDto;
+    className?: string;
 }
 
 export const TeamMemberProfile = memo((props: TeamMemberProfileProps) => {
-    const {item: teamMember} = props;
+    const {item: teamMember, className = ''} = props;
     if (!teamMember) return <></>;
 
     return (
-        <div className={`flex items-center gap-4 px-3 -mx-3 text-gray-700 group-hover:text-scordi max-w-sm`}>
+        <div
+            className={`flex items-center gap-4 px-3 -mx-3 text-gray-700 group-hover:text-scordi max-w-sm ${className}`}
+        >
             <TeamMemberAvatar teamMember={teamMember} className="w-10 h-10" />
 
             <div className="overflow-x-hidden">
@@ -24,6 +27,19 @@ export const TeamMemberProfile = memo((props: TeamMemberProfileProps) => {
                     {teamMember.email}
                 </p>
             </div>
+        </div>
+    );
+});
+
+export const TeamMemberProfileCompact = memo((props: TeamMemberProfileProps) => {
+    const {item: teamMember, className = ''} = props;
+    if (!teamMember) return <></>;
+
+    return (
+        <div className={`h-[20px] flex items-center max-w-sm ${className}`}>
+            <TeamMemberAvatar teamMember={teamMember} className="w-[20px] h-[20px] mr-[6px] text-12" />
+
+            <div className="text-14 whitespace-nowrap overflow-hidden text-ellipsis">{teamMember.name}</div>
         </div>
     );
 });
