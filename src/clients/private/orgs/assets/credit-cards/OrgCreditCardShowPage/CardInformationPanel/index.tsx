@@ -38,6 +38,16 @@ export const CardInformationPanel = memo(function CardInformationPanel() {
                     <EditButton isEditMode={isEditMode} setIsEditMode={setIsEditMode} onSubmit={onSubmit} />
                 </div>
 
+                <div className="">
+                    <CreditCardMemo
+                        isEditMode={isEditMode}
+                        isLoading={isLoading}
+                        value={currentCreditCard.memo || undefined}
+                        defaultValue={formData.memo || undefined}
+                        onChange={(memo) => setFormValue({memo})}
+                    />
+                </div>
+
                 <div className="flex flex-col gap-2.5">
                     <CreditCardName
                         isEditMode={isEditMode}
@@ -110,14 +120,6 @@ export const CardInformationPanel = memo(function CardInformationPanel() {
                         value={currentCreditCard.usingStatus}
                         defaultValue={formData.usingStatus}
                         onChange={(usingStatus) => setFormValue({usingStatus})}
-                    />
-
-                    <CreditCardMemo
-                        isEditMode={isEditMode}
-                        isLoading={isLoading}
-                        value={currentCreditCard.memo || undefined}
-                        defaultValue={formData.memo || undefined}
-                        onChange={(memo) => setFormValue({memo})}
                     />
                 </div>
             </div>
