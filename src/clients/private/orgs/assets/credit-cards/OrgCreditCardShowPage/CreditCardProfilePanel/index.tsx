@@ -2,6 +2,7 @@ import React, {memo} from 'react';
 import {FaRegCreditCard} from 'react-icons/fa6';
 import {Avatar} from '^components/Avatar';
 import {useCurrentCreditCard} from '../atom';
+import {UsingStatusTag} from '^models/CreditCard/components';
 
 export const CreditCardProfilePanel = memo(function CreditCardProfilePanel() {
     const {currentCreditCard} = useCurrentCreditCard();
@@ -33,6 +34,12 @@ export const CreditCardProfilePanel = memo(function CreditCardProfilePanel() {
                             끝자리: <span>{endNumber || '알수없음'}</span>
                         </p>
                     )}
+
+                    <div className="flex items-center gap-3 pt-3">
+                        <div>
+                            <UsingStatusTag value={currentCreditCard.usingStatus} />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

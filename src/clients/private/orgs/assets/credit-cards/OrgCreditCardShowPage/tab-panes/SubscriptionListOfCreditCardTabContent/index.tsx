@@ -1,18 +1,13 @@
 import {memo, useEffect} from 'react';
-import {useCurrentCreditCard} from '../../atom';
-import {useSubscriptionListOfCreditCard} from '^models/Subscription/hook';
-import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {CreditCardSubscriptionTableHeader} from './CreditCardSubscriptionTableHeader';
 import {MdRefresh} from 'react-icons/md';
 import Tippy from '@tippyjs/react';
-import {CreditCardSubscriptionTableRow} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/tab-panes/SubscriptionListOfCreditCardTabContent/CreditCardSubscriptionTableRow';
+import {useSubscriptionListOfCreditCard} from '^models/Subscription/hook';
+import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {useCurrentCreditCard} from '../../atom';
+import {CreditCardSubscriptionTableHeader} from './CreditCardSubscriptionTableHeader';
+import {CreditCardSubscriptionTableRow} from './CreditCardSubscriptionTableRow';
 
-interface SubscriptionListOfCreditCardTabContentProps {
-    //
-}
-
-export const SubscriptionListOfCreditCardTabContent = memo((props: SubscriptionListOfCreditCardTabContentProps) => {
-    const {} = props;
+export const SubscriptionListOfCreditCardTabContent = memo(() => {
     const {currentCreditCard} = useCurrentCreditCard();
     const {isLoading, search, result, reload, movePage, changePageSize, orderBy} = useSubscriptionListOfCreditCard();
 

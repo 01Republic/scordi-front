@@ -4,7 +4,6 @@ import {EditButton} from './EditButton';
 import {CreditCardName} from './CreditCardName';
 import {CreditCardIsPersonal} from './CreditCardIsPersonal';
 import {CreditCardIsCreditCard} from './CreditCardIsCreditCard';
-import {CreditCardUsingState} from './CreditCardUsingState';
 import {CreditCardMemo} from './CreditCardMemo';
 import {CreditCardCardNumber, CreditCardCardNumbers} from './CreditCardCardNumbers';
 import {CreditCardExpiry} from './CreditCardExpiry';
@@ -108,18 +107,6 @@ export const CardInformationPanel = memo(function CardInformationPanel() {
                         defaultValue={expiryValues}
                         onYearChange={(year) => setExpiryValues(0, year)}
                         onMonthChange={(month) => setExpiryValues(1, month)}
-                    />
-                </div>
-            </div>
-
-            <div className="p-8 border-t border-gray-200">
-                <div className="flex flex-col gap-2 5">
-                    <CreditCardUsingState
-                        isEditMode={isEditMode}
-                        isLoading={isLoading}
-                        value={currentCreditCard.usingStatus}
-                        defaultValue={formData.usingStatus}
-                        onChange={(usingStatus) => setFormValue({usingStatus})}
                     />
                 </div>
             </div>

@@ -32,4 +32,3 @@ export const CreditCardUsingState = memo((props: EditableColumnProps<CreditCardU
         </FormControl>
     );
 });
-CreditCardUsingState.displayName = 'CreditCardUsingState';
