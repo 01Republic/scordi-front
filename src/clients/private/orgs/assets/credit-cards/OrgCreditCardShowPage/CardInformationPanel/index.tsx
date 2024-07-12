@@ -146,6 +146,7 @@ export const CardInformationPanel = memo(function CardInformationPanel() {
                     />
 
                     <CreditCardHoldingMemberId
+                        isEditMode={isEditMode}
                         isLoading={isLoading}
                         defaultValue={currentCreditCard.holdingMember || undefined}
                         onChange={(holdingMemberId) => patch({holdingMemberId})}
