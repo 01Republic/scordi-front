@@ -129,6 +129,7 @@ export const CardInformationPanel = memo(function CardInformationPanel() {
             <div className="p-8 border-t border-gray-200">
                 <div className="flex flex-col gap-2.5">
                     <CreditCardTeam
+                        isEditMode={isEditMode}
                         isLoading={isLoading}
                         defaultValue={(currentCreditCard?.teams || [])[0]}
                         onChange={connectTeam}
