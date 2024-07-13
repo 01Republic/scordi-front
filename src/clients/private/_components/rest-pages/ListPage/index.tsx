@@ -48,12 +48,13 @@ export const ListPage = memo((props: ListPageProps) => {
                 <div className="flex items-center justify-between mb-8">
                     {Title ? <Title /> : <h1 className="text-2xl">{titleText}</h1>}
 
-                    <div className={'flex'}>
-                        {ScopeHandler && <ScopeHandler />}
+                    <div className={'flex space-x-4'}>
                         {onSearch && <ListPageSearchInput onSearch={onSearch} placeholder={searchInputPlaceholder} />}
                         {Buttons && <Buttons />}
                     </div>
                 </div>
+
+                <div className={'mb-8'}>{ScopeHandler && <ScopeHandler />}</div>
 
                 {children}
             </MainContainer>

@@ -23,11 +23,19 @@ export const TeamListSection = memo((props: TeamListSectionProps) => {
 
     const items = result?.items || [];
 
+    const addTeam = () => {
+        // TODO: Add team
+        console.log('addTeam');
+    };
+
     return (
         <div ref={ref}>
             <LoadableBox isLoading={isLoading} loadingType={2} noPadding>
                 <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 mx-auto">
-                    <div className="card rounded-xl shadow border border-gray-200 p-4 cursor-pointer hover:shadow-md transition-all text-center bg-gray-200 items-center justify-center text-32 text-gray-600">
+                    <div
+                        onClick={addTeam}
+                        className="card rounded-xl shadow border border-gray-200 p-4 cursor-pointer hover:shadow-md transition-all text-center bg-gray-200 items-center justify-center text-32 text-gray-600"
+                    >
                         +
                     </div>
 

@@ -3,6 +3,10 @@ import {TeamDto} from '^models/Team/type';
 import Tippy from '@tippyjs/react';
 import Image from 'next/image';
 import PushPin from '/src/images/pushpin.png';
+import {useRouter} from 'next/router';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
+import {TeamMembersPageRoute} from '^pages/orgs/[id]/teams/[teamId]/members';
 
 interface TeamListItemProps {
     team: TeamDto;
@@ -16,9 +20,14 @@ interface TeamListItemProps {
  */
 export const TeamListItem = memo((props: TeamListItemProps) => {
     const {team} = props;
+    const router = useRouter();
+    const orgId = Number(router.query.id);
 
     return (
-        <div className="card rounded-xl shadow border border-gray-200 bg-white p-4 cursor-pointer hover:shadow-md transition-all text-center">
+        <div
+            className="card rounded-xl shadow border border-gray-200 bg-white p-4 cursor-pointer hover:shadow-md transition-all text-center"
+            onClick={() => router.push(TeamMembersPageRoute.path(orgId, team.id))}
+        >
             <div>
                 <Image src={PushPin} width={20} height={20} alt={'p'} />
             </div>
