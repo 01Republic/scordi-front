@@ -3,6 +3,7 @@ import {padStart} from 'lodash';
 import {rangeToArr} from '^utils/range';
 import {UnderlineDropdownSelect} from '^clients/private/_components/inputs/UnderlineDropdownSelect';
 import {FormControl} from './FormControl';
+import {FormControlEmptyValue} from './FormControlEmptyValue';
 
 interface CreditCardExpiryProps {
     isEditMode: boolean;
@@ -60,7 +61,7 @@ export const CreditCardExpiry = memo((props: CreditCardExpiryProps) => {
                             <div>{value.slice(2, 4)}</div>
                         </div>
                     ) : (
-                        <div className="italic text-gray-400">-</div>
+                        <FormControlEmptyValue />
                     )}
                 </div>
             )}

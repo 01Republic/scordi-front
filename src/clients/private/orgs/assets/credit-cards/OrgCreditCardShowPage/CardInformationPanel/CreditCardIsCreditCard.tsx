@@ -1,8 +1,9 @@
 import React, {memo} from 'react';
-import {FormControl} from './FormControl';
-import {EditableColumnProps} from './EditableColumnProps.interface';
 import {UnderlineDropdownSelect} from '^clients/private/_components/inputs/UnderlineDropdownSelect';
 import {IsCreditCardTag} from '^models/CreditCard/components';
+import {EditableColumnProps} from './EditableColumnProps.interface';
+import {FormControl} from './FormControl';
+import {FormControlEmptyValue} from './FormControlEmptyValue';
 
 export const CreditCardIsCreditCard = memo((props: EditableColumnProps<boolean, true>) => {
     const {value, defaultValue, onChange} = props;
@@ -20,7 +21,7 @@ export const CreditCardIsCreditCard = memo((props: EditableColumnProps<boolean, 
                 />
             ) : (
                 <div className="flex items-center h-[33.5px]">
-                    {typeof value === 'boolean' && <IsCreditCardTag value={value} />}
+                    {typeof value === 'boolean' ? <IsCreditCardTag value={value} /> : <FormControlEmptyValue />}
                 </div>
             )}
             <span />

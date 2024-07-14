@@ -1,9 +1,10 @@
 import React, {memo} from 'react';
+import {FaCaretDown} from 'react-icons/fa6';
 import {TeamDto} from '^models/Team/type';
 import {TeamSelect} from '^models/Team/components/TeamSelect';
-import {FaCaretDown} from 'react-icons/fa6';
-import {FormControl} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/CardInformationPanel/FormControl';
 import {TeamTag} from '^models/Team/components/TeamTag';
+import {FormControl} from './FormControl';
+import {FormControlEmptyValue} from './FormControlEmptyValue';
 
 interface CreditCardTeamProps {
     isEditMode: boolean;
@@ -31,7 +32,7 @@ export const CreditCardTeam = memo((props: CreditCardTeamProps) => {
                     {defaultValue ? (
                         <TeamTag id={defaultValue.id} name={defaultValue.name} />
                     ) : (
-                        <div className="text-12 text-gray-300">비어 있음</div>
+                        <FormControlEmptyValue />
                     )}
                 </div>
             )}

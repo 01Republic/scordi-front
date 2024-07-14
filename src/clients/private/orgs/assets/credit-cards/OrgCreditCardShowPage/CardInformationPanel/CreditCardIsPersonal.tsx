@@ -1,8 +1,9 @@
 import React, {memo} from 'react';
 import {UnderlineDropdownSelect} from '^clients/private/_components/inputs/UnderlineDropdownSelect';
 import {IsPersonalTag} from '^models/CreditCard/components';
-import {FormControl} from './FormControl';
 import {EditableColumnProps} from './EditableColumnProps.interface';
+import {FormControl} from './FormControl';
+import {FormControlEmptyValue} from './FormControlEmptyValue';
 
 export const CreditCardIsPersonal = memo((props: EditableColumnProps<boolean, true>) => {
     const {value, defaultValue, onChange} = props;
@@ -20,7 +21,7 @@ export const CreditCardIsPersonal = memo((props: EditableColumnProps<boolean, tr
                 />
             ) : (
                 <div className="flex items-center h-[33.5px]">
-                    {typeof value === 'boolean' && <IsPersonalTag value={value} />}
+                    {typeof value === 'boolean' ? <IsPersonalTag value={value} /> : <FormControlEmptyValue />}
                 </div>
             )}
             <span />

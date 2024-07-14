@@ -1,9 +1,10 @@
 import React, {memo} from 'react';
+import {FaCaretDown} from 'react-icons/fa6';
 import {TeamMemberDto} from '^models/TeamMember';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
-import {FaCaretDown} from 'react-icons/fa6';
-import {FormControl} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/CardInformationPanel/FormControl';
 import {TeamMemberProfileCompact} from '^models/TeamMember/components/TeamMemberProfile';
+import {FormControl} from './FormControl';
+import {FormControlEmptyValue} from './FormControlEmptyValue';
 
 interface CreditCardHoldingMemberIdProps {
     isEditMode: boolean;
@@ -38,11 +39,7 @@ export const CreditCardHoldingMemberId = memo((props: CreditCardHoldingMemberIdP
                 </div>
             ) : (
                 <div className={`w-full flex items-center justify-between h-[32px]`}>
-                    {defaultValue ? (
-                        <TeamMemberProfileCompact item={defaultValue} />
-                    ) : (
-                        <div className="text-12 text-gray-300">비어 있음</div>
-                    )}
+                    {defaultValue ? <TeamMemberProfileCompact item={defaultValue} /> : <FormControlEmptyValue />}
                 </div>
             )}
         </FormControl>

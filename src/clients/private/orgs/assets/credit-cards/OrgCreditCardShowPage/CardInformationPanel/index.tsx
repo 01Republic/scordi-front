@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {useCurrentCreditCardEdit} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/atom';
+import {useCurrentCreditCardEdit} from '../atom';
 import {EditButton} from './EditButton';
 import {CreditCardName} from './CreditCardName';
 import {CreditCardIsPersonal} from './CreditCardIsPersonal';
@@ -9,6 +9,8 @@ import {CreditCardCardNumber, CreditCardCardNumbers} from './CreditCardCardNumbe
 import {CreditCardExpiry} from './CreditCardExpiry';
 import {CreditCardTeam} from './CreditCardTeam';
 import {CreditCardHoldingMemberId} from './CreditCardHoldingMemberId';
+import {FormControl} from './FormControl';
+import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 
 export const CardInformationPanel = memo(function CardInformationPanel() {
     const {
@@ -141,6 +143,21 @@ export const CardInformationPanel = memo(function CardInformationPanel() {
                         defaultValue={currentCreditCard.holdingMember || undefined}
                         onChange={(holdingMemberId) => patch({holdingMemberId})}
                     />
+                </div>
+            </div>
+
+            <div className="p-8 border-t border-gray-200">
+                <div className="flex flex-col gap-2.5">
+                    <FormControl label="등록일시">
+                        <div className="flex items-center justify-between h-[32px] text-gray-500">
+                            {yyyy_mm_dd_hh_mm(currentCreditCard.createdAt)}
+                        </div>
+                    </FormControl>
+                    <FormControl label="수정일시">
+                        <div className="flex items-center justify-between h-[32px] text-gray-500">
+                            {yyyy_mm_dd_hh_mm(currentCreditCard.updatedAt)}
+                        </div>
+                    </FormControl>
                 </div>
             </div>
         </div>
