@@ -7,30 +7,19 @@ import {useRouter} from 'next/router';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 import {toast} from 'react-hot-toast';
 import {confirm2} from '^components/util/dialog';
-import {useCreditCardListForListPage} from '^models/CreditCard/hook';
+import {CreditCardDto} from '^models/CreditCard/type';
 
 export const DeleteCreditCardItem = memo(function DeleteCreditCardButton() {
     const {currentCreditCard} = useCurrentCreditCard();
-    const {search} = useCreditCardListForListPage();
     const router = useRouter();
 
     const onClick = async () => {
         if (!currentCreditCard) return;
         if (!(await confirmDestroy())) return;
 
-        const card = currentCreditCard;
-        destroyCreditCard(card.organizationId, card.id).then((res) => {
+        destroyCreditCard(currentCreditCard).then((res) => {
             if (!res) return;
-            router.push(OrgCreditCardListPageRoute.path(card.organizationId)).then(() => {
-                search(
-                    {
-                        where: {organizationId: card.organizationId},
-                        order: {id: 'DESC'},
-                    },
-                    false,
-                    true,
-                );
-            });
+            router.push(OrgCreditCardListPageRoute.path(currentCreditCard.organizationId));
         });
     };
 
@@ -51,9 +40,9 @@ function confirmDestroy() {
     ).then((res) => res.isConfirmed);
 }
 
-async function destroyCreditCard(orgId: number, id: number) {
+async function destroyCreditCard(creditCard: CreditCardDto) {
     return creditCardApi
-        .destroy(orgId, id)
+        .destroy(creditCard.organizationId, creditCard.id)
         .then((res) => {
             toast.success('삭제 성공');
             return res;

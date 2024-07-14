@@ -10,7 +10,6 @@ import {CreateCreditCardDto, CreditCardUsingStatus, UnSignedCreditCardFormData} 
 import {creditCardApi} from '^models/CreditCard/api';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
-import {useCreditCardListForListPage} from '^models/CreditCard/hook';
 import {useAltForm} from '^hooks/useAltForm';
 import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
@@ -34,7 +33,6 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
     const {formData, setFormValue, handleSubmit} = useAltForm<CreateCreditCardDto>({} as CreateCreditCardDto);
     const [expiryValues, setExpiryValues] = useState<string[]>([]);
     const [isLoading, setLoading] = useState(false);
-    const {search} = useCreditCardListForListPage();
 
     useEffect(() => {
         if (!router.isReady) return;
@@ -78,16 +76,6 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
 
         req.then(() => {
             toast.success('새 카드를 추가했어요 :)');
-            search(
-                {
-                    where: {organizationId: orgId},
-                    order: {id: 'DESC'},
-                    page: 1,
-                    itemsPerPage: 30,
-                },
-                false,
-                true,
-            );
             router.push(OrgCreditCardListPageRoute.path(orgId));
         })
             .catch(errorNotify)

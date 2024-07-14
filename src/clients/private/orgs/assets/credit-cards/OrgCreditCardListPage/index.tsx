@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
 import {orgIdParamState} from '^atoms/common';
@@ -13,17 +13,13 @@ import {AddCreditCardDropdown} from './AddCreditCardDropdown';
 import {isCardAutoCreateModalAtom} from './atom';
 
 export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
-    const orgId = useRecoilValue(orgIdParamState);
-    const {search, result, isLoading, query, movePage, changePageSize, orderBy, reload} =
+    const organizationId = useRecoilValue(orgIdParamState);
+    const {search, reset, result, isLoading, query, movePage, changePageSize, orderBy, reload} =
         useCreditCardListForListPage();
     const [isCardAutoCreateModalOpen, setIsCardAutoCreateModalOpen] = useRecoilState(isCardAutoCreateModalAtom);
 
     const onReady = () => {
-        search({
-            where: {organizationId: orgId},
-            // relations: ['members', 'subscriptions', 'tags'],
-            order: {id: 'DESC'},
-        });
+        search({where: {organizationId}, order: {id: 'DESC'}});
     };
 
     const onSearch = debounce((keyword?: string) => {
@@ -38,6 +34,7 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
     return (
         <ListPage
             onReady={onReady}
+            onUnmount={() => reset()}
             breadcrumb={['자산', '결제수단', {text: '카드', active: true}]}
             titleText="카드"
             Buttons={AddCreditCardDropdown}

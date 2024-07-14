@@ -11,6 +11,7 @@ import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSea
 
 interface ListPageProps extends WithChildren {
     onReady?: () => any;
+    onUnmount?: () => any;
     breadcrumb?: BreadcrumbPath[];
     titleText?: ReactNode;
     Title?: ReactComponentLike;
@@ -23,6 +24,7 @@ interface ListPageProps extends WithChildren {
 export const ListPage = memo((props: ListPageProps) => {
     const {
         onReady,
+        onUnmount,
         breadcrumb,
         titleText = '목록페이지',
         Title,
@@ -39,6 +41,10 @@ export const ListPage = memo((props: ListPageProps) => {
         if (!orgId || isNaN(orgId)) return;
         if (!router.isReady) return;
         onReady && onReady();
+
+        return () => {
+            onUnmount && onUnmount();
+        };
     }, [orgId, router.isReady]);
 
     return (
