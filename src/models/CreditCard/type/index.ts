@@ -27,6 +27,17 @@ export const creditCardUsingStatus = {
     만료: CreditCardUsingStatus.Expired,
 };
 
+export function t_creditCardUsingStatus(value: CreditCardUsingStatus) {
+    return (
+        {
+            [CreditCardUsingStatus.UnDef]: '미정',
+            [CreditCardUsingStatus.NoUse]: '미사용',
+            [CreditCardUsingStatus.InUse]: '사용중',
+            [CreditCardUsingStatus.Expired]: '만료됨',
+        }[value] || '???'
+    );
+}
+
 export class CreditCardDto {
     id: number; // 카드 ID
     expireYear: number | null; // 만료 년도 (readonly)

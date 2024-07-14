@@ -5,6 +5,7 @@ import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
 import {CreditCardProfilePanel} from './CreditCardProfilePanel';
+import {CreditCardActionPanel} from './CreditCardActionPanel';
 import {CardInformationPanel} from './CardInformationPanel';
 import {SubscriptionListOfCreditCardTabContent} from './tab-panes';
 
@@ -25,7 +26,7 @@ export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
                     <CreditCardProfilePanel />
                 </div>
 
-                <div className="flex items-center gap-4 justify-end"></div>
+                <CreditCardActionPanel />
             </header>
 
             <main className="pt-4">
