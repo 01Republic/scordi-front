@@ -1,4 +1,5 @@
 import React, {memo} from 'react';
+import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {useCurrentCreditCardEdit} from '../atom';
 import {EditButton} from './EditButton';
 import {CreditCardName} from './CreditCardName';
@@ -10,7 +11,7 @@ import {CreditCardExpiry} from './CreditCardExpiry';
 import {CreditCardTeam} from './CreditCardTeam';
 import {CreditCardHoldingMemberId} from './CreditCardHoldingMemberId';
 import {FormControl} from './FormControl';
-import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
+import {CardCompanyNotSetAlert} from './InformationAlert';
 
 export const CardInformationPanel = memo(function CardInformationPanel() {
     const {
@@ -33,6 +34,8 @@ export const CardInformationPanel = memo(function CardInformationPanel() {
 
     return (
         <div>
+            {!currentCreditCard.company && <CardCompanyNotSetAlert />}
+
             <div className="p-8">
                 <div className="flex items-center justify-between mb-6">
                     <h3 className="text-16 font-semibold">세부정보</h3>
