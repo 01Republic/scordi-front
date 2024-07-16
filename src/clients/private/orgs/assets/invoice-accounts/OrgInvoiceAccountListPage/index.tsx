@@ -10,7 +10,7 @@ import {InvoiceAccountTableRow} from './InvoiceAccountTableRow';
 
 export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage() {
     const organizationId = useRecoilValue(orgIdParamState);
-    const {search, result, isLoading, query, movePage, changePageSize, orderBy} = useInvoiceAccounts();
+    const {search, reset, result, isLoading, query, movePage, changePageSize, orderBy} = useInvoiceAccounts();
 
     const onReady = () => {
         search({
@@ -32,6 +32,7 @@ export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage
     return (
         <ListPage
             onReady={onReady}
+            onUnmount={() => reset()}
             breadcrumb={['자산', {text: '청구서 수신 메일', active: true}]}
             titleText="청구서 수신 메일"
             Buttons={undefined}
