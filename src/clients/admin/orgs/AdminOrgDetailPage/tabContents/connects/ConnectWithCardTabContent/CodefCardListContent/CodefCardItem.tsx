@@ -1,7 +1,7 @@
 import React, {memo, useRef} from 'react';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CodefCardTagUI} from '^admin/factories/codef-parser-factories/form/share/CodefCardTagUI';
-import {FaCheck} from 'react-icons/fa6';
+import {FaCheck, FaRegCircleXmark} from 'react-icons/fa6';
 import {CardTableTR} from '^admin/share';
 import {hh_mm, yyyy_mm_dd} from '^utils/dateTime';
 import {LinkTo} from '^components/util/LinkTo';
@@ -11,6 +11,12 @@ import {useCodefCardSync, useCodefCardSyncQueue} from '^models/CodefCard/hooks/u
 import {useRecoilValue} from 'recoil';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {LoadableBox} from '^components/util/loading';
+import {MdOutlineClear} from 'react-icons/md';
+import Tippy from '@tippyjs/react';
+import Tippy2 from '@tippyjs/react/headless';
+import {IoMdMore} from 'react-icons/io';
+import {creditCardApi} from '^models/CreditCard/api';
+import {toast} from 'react-hot-toast';
 
 interface CodefCardItemProps {
     codefCard: CodefCardDto;
@@ -25,6 +31,8 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
     const account = codefCard.account!;
     const codefBillingHistories = codefCard.codefBillingHistories || [];
     const isConnected = !!codefCard.creditCardId;
+    const isSleep = !!codefCard.isSleep;
+    const sleepStyleClass: string = 'opacity-20';
 
     const syncButtonClickHandler = () => {
         if (!org) return;
@@ -37,6 +45,14 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
             run();
         } else {
         }
+    };
+
+    const disconnectCreditCard = () => {
+        if (!org || !codefCard.creditCardId) return;
+        creditCardApi
+            .destroy(org.id, codefCard.creditCardId)
+            .then(() => toast.success('Successfully disconnected'))
+            .then(() => reload());
     };
 
     return (
@@ -58,22 +74,27 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
                 {/*</div>*/}
 
                 {/* 끝자리 */}
-                <div>
+                <div className="flex items-center gap-1 justify-between">
                     <div className="tooltip tooltip-top tooltip-success" data-tip={codefCard.resCardNo}>
                         <CodefCardTagUI codefCard={codefCard} />
                     </div>
                 </div>
 
                 {/* 등록일시 */}
-                <div>
-                    <div className="tooltip tooltip-top tooltip-success" data-tip={hh_mm(codefCard.createdAt)}>
+                <div className={isSleep ? sleepStyleClass : ''}>
+                    <div
+                        className={isSleep ? '' : `tooltip tooltip-top tooltip-success`}
+                        data-tip={hh_mm(codefCard.createdAt)}
+                    >
                         {yyyy_mm_dd(codefCard.createdAt)}
                     </div>
                 </div>
 
                 {/* 불러온 카드명 */}
-                <div className="col-span-2 flex items-center">
-                    <div className="whitespace-nowrap overflow-hidden">{codefCard.resCardName}</div>
+                <div className="col-span-2 flex items-center justify-between">
+                    <div className="whitespace-nowrap overflow-hidden">
+                        <span className={isSleep ? sleepStyleClass : ''}>{codefCard.resCardName}</span>
+                    </div>
 
                     <div className="hidden group-hover:flex">
                         <LinkTo href="#" displayLoading={false}>
@@ -86,10 +107,25 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
                 </div>
 
                 {/* 발행일 */}
-                <div>{codefCard.resIssueDate}</div>
+                <div className={isSleep ? sleepStyleClass : ''}>{codefCard.resIssueDate}</div>
 
                 {/* 연동여부 */}
-                <div>{isConnected ? <FaCheck className="text-scordi" /> : <></>}</div>
+                <div className="flex items-center gap-1.5">
+                    {isSleep && (
+                        <Tippy content="휴면처리된 카드">
+                            <div>
+                                <MdOutlineClear fontSize={16} className="text-red-500" />
+                            </div>
+                        </Tippy>
+                    )}
+                    {isConnected && (
+                        <Tippy content={`카드 아이디: ${codefCard.creditCardId}`}>
+                            <div>
+                                <FaCheck className="text-scordi" />
+                            </div>
+                        </Tippy>
+                    )}
+                </div>
 
                 {/* 연동 시작일 */}
                 <div className="">{codefCard.syncedStartDate && yyyy_mm_dd(codefCard.syncedStartDate)}</div>
@@ -108,6 +144,27 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
                     >
                         최신화
                     </button>
+
+                    <Tippy2
+                        interactive
+                        placement="bottom-end"
+                        render={() => {
+                            return (
+                                <div className="card card-bordered card-compact rounded-md shadow-lg bg-white text-12 min-w-[100px]">
+                                    <div
+                                        onClick={disconnectCreditCard}
+                                        className="cursor-pointer px-2 py-1 hover:bg-slate-100 btn-animation"
+                                    >
+                                        연동된 카드 제거
+                                    </div>
+                                </div>
+                            );
+                        }}
+                    >
+                        <button className={`btn btn-xs btn-square !border-gray-400 !bg-white !text-gray-600`}>
+                            <IoMdMore fontSize={16} />
+                        </button>
+                    </Tippy2>
                 </div>
             </CardTableTR>
         </LoadableBox>
