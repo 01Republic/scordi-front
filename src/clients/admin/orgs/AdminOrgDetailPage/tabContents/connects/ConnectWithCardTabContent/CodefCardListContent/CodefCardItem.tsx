@@ -136,7 +136,7 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
                 {/* 불러온 결제내역 수 */}
                 <div className="text-right">{codefBillingHistories.length.toLocaleString()}건</div>
 
-                <div className="flex items-center justify-end gap-1">
+                <div className="flex items-center gap-1">
                     <button
                         disabled={isSyncRunning}
                         className={`btn btn-xs btn-scordi capitalize ${isSyncRunning ? 'loading' : ''}`}
@@ -145,26 +145,28 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
                         최신화
                     </button>
 
-                    <Tippy2
-                        interactive
-                        placement="bottom-end"
-                        render={() => {
-                            return (
-                                <div className="card card-bordered card-compact rounded-md shadow-lg bg-white text-12 min-w-[100px]">
-                                    <div
-                                        onClick={disconnectCreditCard}
-                                        className="cursor-pointer px-2 py-1 hover:bg-slate-100 btn-animation"
-                                    >
-                                        연동된 카드 제거
+                    {isSleep && (
+                        <Tippy2
+                            interactive
+                            placement="bottom-end"
+                            render={() => {
+                                return (
+                                    <div className="card card-bordered card-compact rounded-md shadow-lg bg-white text-12 min-w-[100px]">
+                                        <div
+                                            onClick={disconnectCreditCard}
+                                            className="cursor-pointer px-2 py-1 hover:bg-slate-100 btn-animation"
+                                        >
+                                            연동된 카드 제거
+                                        </div>
                                     </div>
-                                </div>
-                            );
-                        }}
-                    >
-                        <button className={`btn btn-xs btn-square !border-gray-400 !bg-white !text-gray-600`}>
-                            <IoMdMore fontSize={16} />
-                        </button>
-                    </Tippy2>
+                                );
+                            }}
+                        >
+                            <button className={`btn btn-xs btn-square !border-gray-400 !bg-white !text-gray-600`}>
+                                <IoMdMore fontSize={16} />
+                            </button>
+                        </Tippy2>
+                    )}
                 </div>
             </CardTableTR>
         </LoadableBox>
