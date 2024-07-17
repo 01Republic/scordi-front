@@ -7,6 +7,7 @@ import {codefAccountIdParamState} from '^atoms/common';
 import {SubscriptionItem} from './SubscriptionItem';
 import {CgSpinner} from 'react-icons/cg';
 import {SelectedCardTag} from './SelectedCardTag';
+import {yyyy_mm_dd} from '^utils/dateTime';
 
 /** 계정으로 조회된 구독 Section */
 export const SubscriptionListSection = memo(() => {
@@ -64,11 +65,20 @@ export const SubscriptionListSection = memo(() => {
                     <div className="px-3 py-2 font-semibold flex items-center justify-center">
                         <div className="text-center">
                             <p className="text-14 mb-2">이 카드로는 조회된 구독이 없어요</p>
-                            <p className="text-14 mb-4">(백그라운드 연동이 진행되고 있어요)</p>
-                            <div className="text-12">
-                                조회기간: <span>{`${selectedCodefCard?.syncedStartDate}`}</span> ~{' '}
-                                <span>{`${selectedCodefCard?.syncedEndDate}`}</span>
-                            </div>
+                            {/*<p className="text-14 mb-4">(백그라운드 연동이 진행되고 있어요)</p>*/}
+                            {selectedCodefCard && (
+                                <div className="text-12">
+                                    조회기간:{' '}
+                                    <span>{`${
+                                        selectedCodefCard.syncedStartDate &&
+                                        yyyy_mm_dd(selectedCodefCard.syncedStartDate)
+                                    }`}</span>{' '}
+                                    ~{' '}
+                                    <span>{`${
+                                        selectedCodefCard.syncedEndDate && yyyy_mm_dd(selectedCodefCard.syncedEndDate)
+                                    }`}</span>
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}
