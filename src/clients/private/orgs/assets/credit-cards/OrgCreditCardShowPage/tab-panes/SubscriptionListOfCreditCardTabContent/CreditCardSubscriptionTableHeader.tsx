@@ -5,7 +5,7 @@ export const CreditCardSubscriptionTableHeader = memo(function (props: ListTable
     const {orderBy} = props;
 
     return (
-        <tr className="bg-slate-100 [--rounded-box:0.375rem]">
+        <tr className="bg-slate-100">
             <th>서비스 명</th>
             <th>사용인원</th>
             <th>과금</th>

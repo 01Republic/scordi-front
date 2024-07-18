@@ -10,7 +10,7 @@ export const TeamMemberSubscriptionTableHeader = memo((props: TeamMemberSubscrip
     const {orderBy} = props;
 
     return (
-        <tr className="bg-slate-100 [--rounded-box:0.375rem]">
+        <tr className="bg-slate-100">
             {/* Checkbox */}
             {/*<th className="bg-transparent"></th>*/}
             <SortableTH sortKey="[product][nameKo]" onClick={orderBy}>

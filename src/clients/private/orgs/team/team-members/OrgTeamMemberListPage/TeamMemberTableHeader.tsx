@@ -8,31 +8,31 @@ export const TeamMemberTableHeader = memo((props: TeamMemberTableHeaderProps) =>
     const {orderBy} = props;
 
     return (
-        <tr>
-            <SortableTH sortKey="[name]" onClick={orderBy} className="!bg-slate-100 rounded-tl-md">
+        <tr className="bg-slate-100">
+            <SortableTH sortKey="[name]" onClick={orderBy}>
                 이름
             </SortableTH>
             {/* 팀 */}
-            <SortableTH sortKey="[teams][id]" onClick={orderBy} className="!bg-slate-100">
+            <SortableTH sortKey="[teams][id]" onClick={orderBy}>
                 팀
             </SortableTH>
 
-            <th className="bg-slate-100">이메일</th>
-            <th className="bg-slate-100">전화번호</th>
+            <th>이메일</th>
+            <th>전화번호</th>
 
             {/* 이용 앱 수 */}
-            <SortableTH sortKey="[subscriptionCount]" sortVal="DESC" onClick={orderBy} className="!bg-slate-100">
+            <SortableTH sortKey="[subscriptionCount]" sortVal="DESC" onClick={orderBy}>
                 이용 앱 수
             </SortableTH>
 
             {/*/!* 권한 *!/*/}
-            {/*<th className="bg-slate-100" />*/}
+            {/*<th />*/}
             {/*<SortableTH sortKey="[membership][level]" onClick={onSort} className="justify-center">*/}
             {/*    권한*/}
             {/*</SortableTH>*/}
 
             {/* 상태 */}
-            <th className="bg-slate-100 rounded-tr-md" />
+            <th />
             {/*<SortableTH*/}
             {/*    sortKey="[membership][approvalStatus]"*/}
             {/*    onClick={onSort}*/}
