@@ -13,12 +13,15 @@ interface TeamSelectProps {
     defaultValue?: TeamDto;
     onChange?: (team?: TeamDto) => any;
     className?: string;
+    creatable?: boolean;
+    removable?: boolean;
 }
 
 export const TeamSelect = memo((props: TeamSelectProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const {search, reload} = useTeamsForSelectOptions();
     const {onChange, className = ''} = props;
+    const {creatable = false, removable = false} = props;
     const [selectedTeam, setSelectedTeam] = useState(props.defaultValue);
 
     const getOptions = async (keyword?: string) => {
@@ -61,12 +64,16 @@ export const TeamSelect = memo((props: TeamSelectProps) => {
             // contentMinWidth="240px"
             contentMinWidth="100%"
             inputDisplay
-            optionListBoxTitle={selectedTeam ? '팀을 변경합니다' : '팀을 추가합니다'}
-            onCreate={(keyword) => createOption(keyword)}
-            optionDestroy={(option) => {
-                if (!option) return false;
-                return deleteOption(option);
-            }}
+            optionListBoxTitle={selectedTeam ? '팀을 변경합니다' : `팀 선택${creatable ? ' 또는 추가' : ''}`}
+            onCreate={creatable ? (keyword) => createOption(keyword) : undefined}
+            optionDestroy={
+                !removable
+                    ? undefined
+                    : (option) => {
+                          if (!option) return false;
+                          return deleteOption(option);
+                      }
+            }
             optionWrapperClass={className}
         />
     );

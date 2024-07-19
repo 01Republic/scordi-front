@@ -10,12 +10,12 @@ import {InvoiceAccountTableRow} from './InvoiceAccountTableRow';
 
 export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage() {
     const organizationId = useRecoilValue(orgIdParamState);
-    const {search, reset, result, isLoading, query, movePage, changePageSize, orderBy} = useInvoiceAccounts();
+    const {search, reset, reload, result, isLoading, query, movePage, changePageSize, orderBy} = useInvoiceAccounts();
 
     const onReady = () => {
         search({
             where: {organizationId},
-            relations: ['subscriptions', 'googleTokenData'],
+            relations: ['subscriptions', 'googleTokenData', 'holdingMember'],
             order: {id: 'DESC'},
         });
     };
@@ -50,7 +50,7 @@ export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage
                     items={result.items}
                     isLoading={isLoading}
                     Header={() => <InvoiceAccountTableHeader orderBy={orderBy} />}
-                    Row={({item}) => <InvoiceAccountTableRow invoiceAccount={item} />}
+                    Row={({item}) => <InvoiceAccountTableRow invoiceAccount={item} reload={reload} />}
                 />
             </ListTableContainer>
         </ListPage>

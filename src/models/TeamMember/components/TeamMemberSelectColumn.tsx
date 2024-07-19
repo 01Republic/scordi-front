@@ -4,7 +4,7 @@ import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
-import {TeamMemberProfileOption} from './TeamMemberProfile';
+import {TeamMemberProfileCompact, TeamMemberProfileOption} from './TeamMemberProfile';
 import {ReactComponentLike} from 'prop-types';
 
 interface TeamMemberSelectColumnProps {
@@ -15,12 +15,21 @@ interface TeamMemberSelectColumnProps {
     clearable?: boolean;
     className?: string;
     render?: (value: TeamMemberDto | string) => JSX.Element;
+    compactView?: boolean;
 }
 
 export const TeamMemberSelectColumn = memo((props: TeamMemberSelectColumnProps) => {
     const organizationId = useRecoilValue(orgIdParamState);
     const {search} = useTeamMembers();
-    const {className = '', onChange, optionListBoxTitle, detachableOptionBoxTitle, clearable = false, render} = props;
+    const {
+        className = '',
+        onChange,
+        optionListBoxTitle,
+        detachableOptionBoxTitle,
+        clearable = false,
+        compactView = false,
+        render,
+    } = props;
     const [selectedOption, setSelectedOption] = useState(props.defaultValue);
 
     const getOptions = async (keyword?: string) => {
@@ -52,7 +61,12 @@ export const TeamMemberSelectColumn = memo((props: TeamMemberSelectColumnProps) 
                 value={selectedOption}
                 getOptions={getOptions}
                 ValueComponent={({value}: {value: TeamMemberDto | string}) => {
-                    return render ? render(value) : <TeamMemberOption value={value} />;
+                    if (render) return render(value);
+                    if (compactView) {
+                        if (typeof value === 'string') return <>{value}</>;
+                        return <TeamMemberProfileCompact item={value} />;
+                    }
+                    return <TeamMemberOption value={value} />;
                 }}
                 valueOfOption={(member) => member.id}
                 textOfOption={(member) => member.name}

@@ -31,9 +31,7 @@ export const CreditCardHoldingMemberId = memo((props: CreditCardHoldingMemberIdP
                         optionListBoxTitle="소지자를 변경할까요?"
                         detachableOptionBoxTitle="현재 소지자"
                         className="flex-auto"
-                        render={(value) =>
-                            typeof value === 'string' ? <>{value}</> : <TeamMemberProfileCompact item={value} />
-                        }
+                        compactView
                     />
                     <FaCaretDown fontSize={12} className="text-gray-400 hidden group-hover:inline-block" />
                 </div>

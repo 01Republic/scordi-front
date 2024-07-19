@@ -7,6 +7,8 @@ import {OrganizationDto} from '^models/Organization/type';
 import {d_day, dayAfter, firstDayOfMonth, firstDayOfYear, monthBefore, yearBefore} from '^utils/dateTime';
 import {GoogleTokenDataDto} from '^models/GoogleTokenData/type';
 import {PartialType} from '^types/utils/partial-type';
+import {TeamMemberDto} from '^models/TeamMember';
+import {TeamDto} from '^models/Team/type';
 
 export type GmailAgentTokenData = {
     accessToken: string; //Gmail Access Token
@@ -19,18 +21,22 @@ export class InvoiceAccountDto {
     organizationId: number;
     image: string | null;
     email: string;
-    tokenData: GmailAgentTokenData;
-    googleTokenDataId: number | null;
     isActive: boolean; // 활성화 여부
     isSyncRunning: boolean; // 싱크 실행중 여부
+    googleTokenDataId: number | null;
+    holdingMemberId: number | null;
     @TypeCast(() => Date) createdAt: Date;
     @TypeCast(() => Date) updatedAt: Date;
+
+    tokenData: GmailAgentTokenData;
 
     // relations
     @TypeCast(() => OrganizationDto) organization?: OrganizationDto[];
     @TypeCast(() => GoogleTokenDataDto) googleTokenData?: GoogleTokenDataDto;
     @TypeCast(() => InvoiceAppDto) invoiceApps?: InvoiceAppDto[];
     @TypeCast(() => SubscriptionDto) subscriptions?: SubscriptionDto[];
+    @TypeCast(() => TeamMemberDto) holdingMember?: TeamMemberDto; // 담당자
+    @TypeCast(() => TeamDto) teams?: TeamDto[]; // 사용 중인 팀
 
     get isManuallyCreated() {
         return !this.googleTokenDataId && !this.image;
@@ -72,6 +78,7 @@ export class CreateInvoiceAccountRequestDto {
 
 export class CreateInvoiceAccountDto {
     email: string;
+    holdingMemberId?: number | null;
 }
 
 export class UpdateInvoiceAccountDto extends PartialType(CreateInvoiceAccountDto) {}

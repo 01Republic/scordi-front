@@ -11,6 +11,8 @@ import {
 import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
+import {FindAllTeamQueryDto, TeamDto} from '^models/Team/type';
+import {TeamInvoiceAccountDto} from '^models/TeamInvoiceAccount/type/TeamInvoiceAccount.dto';
 
 const NAMESPACE = 'organizations';
 
@@ -93,5 +95,25 @@ export const invoiceAccountApi = {
     destroyV3(orgId: number, id: number) {
         const url = `/${NAMESPACE}/${orgId}/invoice_accounts_v3/${id}`;
         return api.delete<InvoiceAccountDto>(url).then(oneDtoOf(InvoiceAccountDto));
+    },
+
+    teamsApi: {
+        // 연결된 팀 목록
+        index(invoiceAccountId: number, params?: FindAllTeamQueryDto) {
+            const url = `/${NAMESPACE}/${invoiceAccountId}/teams`;
+            return api.get(url, {params}).then(paginatedDtoOf(TeamDto));
+        },
+
+        // 팀 연결
+        create(invoiceAccountId: number, teamId: number) {
+            const url = `/${NAMESPACE}/${invoiceAccountId}/teams/${teamId}`;
+            return api.post(url).then(oneDtoOf(TeamInvoiceAccountDto));
+        },
+
+        // 팀 연결 해제
+        destroy(invoiceAccountId: number, teamId: number) {
+            const url = `/${NAMESPACE}/${invoiceAccountId}/teams/${teamId}`;
+            return api.delete<void>(url);
+        },
     },
 };

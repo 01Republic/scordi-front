@@ -1,16 +1,42 @@
 import React, {memo} from 'react';
-import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {InvoiceAccountDto, UpdateInvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
 import {toast} from 'react-hot-toast';
+import {TeamSelect} from '^models/Team/components/TeamSelect';
+import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {TeamDto} from '^models/Team/type';
 
 interface InvoiceAccountTableRowProps {
     invoiceAccount: InvoiceAccountDto;
+    reload?: () => any;
 }
 
 export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) => {
-    const {invoiceAccount} = props;
+    const {invoiceAccount, reload} = props;
     const {subscriptions = []} = invoiceAccount;
+
+    const update = async (dto: UpdateInvoiceAccountDto) => {
+        const {id, organizationId: orgId} = invoiceAccount;
+        return invoiceAccountApi
+            .updateV3(orgId, id, dto)
+            .then(() => toast.success('수정했습니다'))
+            .catch(() => toast.error('문제가 발생했습니다'))
+            .finally(() => reload && reload());
+    };
+
+    const connectTeam = (team?: TeamDto) => {
+        const id = invoiceAccount.id;
+
+        if (team) {
+            return invoiceAccountApi.teamsApi.create(id, team.id);
+        } else {
+            const [attachedTeam] = invoiceAccount.teams || [];
+            if (!attachedTeam) return;
+            return invoiceAccountApi.teamsApi.destroy(id, attachedTeam.id);
+        }
+    };
 
     /**
      * - 프로필 컬럼
@@ -26,32 +52,47 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
      * - 등록방식
      */
     return (
-        <tr>
+        <tr className="group">
             {/*프로필*/}
             <td>
-                <InvoiceAccountProfile invoiceAccount={invoiceAccount} />
-            </td>
-
-            {/*담당자*/}
-            <td>
-                <TeamMemberSelectColumn
-                    onChange={async (teamMember) => {
-                        console.log(teamMember);
-                        toast('준비중인 기능입니다.');
-                        // toast.success('저장했습니다');
-                    }}
-                />
+                <OpenButtonColumn>
+                    <InvoiceAccountProfile invoiceAccount={invoiceAccount} />
+                </OpenButtonColumn>
             </td>
 
             {/*연결 구독 수*/}
             <td>
                 <div>
-                    <p className="text-14">{subscriptions.length.toLocaleString()} apps</p>
+                    <p className="text-14">
+                        {subscriptions.length.toLocaleString()} <small>apps</small>
+                    </p>
                 </div>
             </td>
 
-            {/*/!*팀*!/*/}
-            {/*<td>팀</td>*/}
+            {/*팀 - editable, sortable (mono-select) / 멤버 프로필 / 검색가능 */}
+            <td>
+                <TeamSelect
+                    onChange={async (team) => {
+                        console.log(team);
+                        toast('준비중인 기능입니다.');
+                    }}
+                />
+            </td>
+
+            {/*담당자 - editable, sortable (mono-select)*/}
+            <td>
+                <TeamMemberSelectColumn
+                    defaultValue={invoiceAccount.holdingMember}
+                    onChange={async (holdingMember) => {
+                        if (invoiceAccount.holdingMemberId === holdingMember?.id) return;
+                        return update({holdingMemberId: holdingMember?.id || null});
+                    }}
+                    compactView
+                />
+            </td>
+
+            {/* 비고 */}
+            <td>비고</td>
 
             {/*등록방식*/}
             <td>등록방식</td>

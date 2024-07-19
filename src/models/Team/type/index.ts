@@ -6,6 +6,7 @@ import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';
 import {TeamCreditCardDto} from '^models/TeamCreditCard/type/TeamCreditCard.dto';
 import {CreditCardDto} from '^models/CreditCard/type';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 
 export class TeamDto {
     id: number;
@@ -16,8 +17,8 @@ export class TeamDto {
     @TypeCast(() => TeamMemberDto) members: TeamMemberDto[];
     @TypeCast(() => SubscriptionDto) subscriptions: SubscriptionDto[];
 
-    // @TypeCast(() => TeamCreditCardDto) teamCreditCards?: TeamCreditCardDto[]; // 카드를 사용하고 있는 팀 목록
-    @TypeCast(() => CreditCardDto) creditCards?: CreditCardDto[]; // 카드를 사용하고 있는 팀 목록
+    @TypeCast(() => CreditCardDto) creditCards?: CreditCardDto[];
+    @TypeCast(() => InvoiceAccountDto) invoiceAccounts?: InvoiceAccountDto[];
 
     // @TypeCast(() => TagDto)
     tags: TagDto[];
