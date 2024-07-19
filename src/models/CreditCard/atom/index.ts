@@ -2,7 +2,6 @@ import {atom, selector} from 'recoil';
 import {CreditCardDto, CreditCardSecretInfo, FindAllCreditCardDto} from '^models/CreditCard/type';
 import {creditCardApi} from '^models/CreditCard/api';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {Paginated} from '^types/utils/paginated.dto';
 import {pagedResourceAtom} from '^hooks/usePagedResource';
 
 export const cardIdParamState = atom<number | null>({

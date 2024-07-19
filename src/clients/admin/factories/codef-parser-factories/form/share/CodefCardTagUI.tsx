@@ -19,7 +19,7 @@ export const CodefCardTagUI = memo((props: CodefCardTagUIProps) => {
     const company = codefCard.account?.company?.replace('카드', '') || ' - ';
 
     return (
-        <TagUI className={`!inline ${cardColor}`} onClick={() => onClick && onClick(codefCard)}>
+        <TagUI className={`${cardColor}`} onClick={() => onClick && onClick(codefCard)}>
             {withCompany ? (
                 <>
                     #{codefCard.id}. {company}({lastCardNum})

@@ -5,6 +5,11 @@ import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {useConnectedCodefCards, useNewCodefCards, useSubscriptionsForCodefAccount} from '^models/CodefCard/hook';
 import {codefAccountIdParamState} from '^atoms/common';
+import {ApiErrorResponse} from '^api/api';
+import {CodefApiResultCode, CodefResponse} from '^models/CodefAccount/codef-common';
+import {toast} from 'react-hot-toast';
+import {useRouter} from 'next/router';
+import {router} from 'next/client';
 
 export enum CardListPageMode {
     ConnectedCards,
@@ -35,6 +40,7 @@ export const useCodefAccountPageSubject = () => {
 };
 
 export const useConnectedCardListPageData = () => {
+    const router = useRouter();
     const {search: fetchNewCodefCards, reload: refreshNewCodefCards} = useNewCodefCards(codefAccountIdParamState);
     const {search: fetchConnectedCodefCards, reload: refreshConnectedCodefCards} =
         useConnectedCodefCards(codefAccountIdParamState);
@@ -59,7 +65,41 @@ export const useConnectedCardListPageData = () => {
                 connected: false,
             },
             false,
-        );
+        )
+            .then((res) => {
+                console.log('res', res);
+                return res;
+            })
+            .catch((err: ApiErrorResponse<CodefResponse<any>>) => {
+                console.log('err', err);
+                const apiError = err.response?.data;
+                if (!apiError) return;
+
+                const codefError = apiError.data;
+                console.log('codefError', codefError);
+                if (!codefError) return console.error('[codef] codefError is not defined.', err);
+
+                if (!codefError.result) {
+                    /**
+                     * 이 곳에서는 순수하게 스코디 비즈니스로직에 의해 발생된 예외만 다룹니다.
+                     * 코드에프에서 전달받은 예외는 else 범위 내에서 분기하여 처리됩니다.
+                     */
+                    // at least, Unhandled
+                    const msg = `[codef] Scordi service exception erupted.\nIt must be handled by catch scope`;
+                    console.warn(msg, codefError);
+                    return;
+                } else {
+                    /**
+                     * 이 곳에서는 순수하게 코드에프로부터 전달받은 예외에 대해서만 다룹니다.
+                     */
+                    console.warn(`[codef] ${codefError.result.message}`, codefError);
+                    toast.error(codefError.result.message);
+                    if (codefError.result.code == CodefApiResultCode.LOGIN_PARAMETER_LOST) {
+                        router.back();
+                    }
+                }
+                console.log('err', err);
+            });
         fetchAccountSubscriptions({}, false);
 
         return req;

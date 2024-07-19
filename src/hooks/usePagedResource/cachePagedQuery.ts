@@ -15,6 +15,7 @@ export function cachePagedQuery<T, Q extends any>(
             if (!force && JSON.stringify(oldQuery) === JSON.stringify(params)) return oldQuery;
 
             const req = request().then((res) => res.data);
+            req.catch(reject);
             req.then((data) => {
                 if (mergeMode) {
                     setResult((oldResult) => {

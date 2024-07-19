@@ -1,15 +1,10 @@
 import {memo} from 'react';
 import {SubscriptionDto} from '^models/Subscription/types';
-import {
-    BillingCycleOptions,
-    c_SubscriptionBillingCycleType,
-    SubscriptionBillingCycleTypeValues,
-    t_SubscriptionBillingCycleType,
-} from '^models/Subscription/types/BillingCycleOptions';
+import {BillingCycleOptions, SubscriptionBillingCycleTypeValues} from '^models/Subscription/types/BillingCycleOptions';
 import {useToast} from '^hooks/useToast';
 import {subscriptionApi} from '^models/Subscription/api';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
-import {TagUI} from '^v3/share/table/columns/share/TagUI';
+import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
 
 interface BillingCycleTypeColumnProps {
     subscription: SubscriptionDto;
@@ -45,8 +40,5 @@ BillingCycleTypeColumn.displayName = 'BillingCycleTypeColumn';
 
 const BillingCycleTypeTag = memo((props: {value: BillingCycleOptions | string}) => {
     const {value} = props;
-    const colorClass = c_SubscriptionBillingCycleType(value as BillingCycleOptions);
-    const text = t_SubscriptionBillingCycleType(value as BillingCycleOptions);
-
-    return <TagUI className={colorClass}>{text}</TagUI>;
+    return <BillingCycleTypeTagUI value={value as BillingCycleOptions} />;
 });

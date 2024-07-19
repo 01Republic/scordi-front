@@ -1,7 +1,9 @@
 import {
     CodefCardCompanyCode,
+    CodefClientTypeLevel,
     CodefCustomerType,
     CodefLoginType,
+    CodefLoginTypeLevel,
     CodefRequestBusinessType,
 } from '^models/CodefAccount/type/enums';
 import {TypeCast} from '^types/utils/class-transformer';
@@ -35,21 +37,16 @@ export class CodefAccountDto {
     // 로그인 방식 (인증서: 0, 아이디/패스워드: 1)
     loginType: CodefLoginType;
 
-    // 생성일시
-    createdAt: Date;
+    // 로그인구분 - [신한/롯데 법인카드의 경우] “0”:USER, “1”:BRANCH, “2”:ADMIN
+    loginTypeLevel?: CodefLoginTypeLevel;
 
-    // 수정일시
-    updatedAt: Date;
+    // 의뢰인구분(회원구분) - [회원구분(신한카드만 사용)] “0”:신용카드회원, “1”:체크카드회원, “2”:연구비신용카드회원, “3”:프리플러스회원
+    clientTypeLevel?: CodefClientTypeLevel;
 
-    // 커넥티드 아이디
-    @TypeCast(() => CodefConnectedIdentityDto)
-    connectedIdentity?: CodefConnectedIdentityDto;
+    @TypeCast(() => Date) createdAt: Date; // 생성일시
+    @TypeCast(() => Date) updatedAt: Date; // 수정일시
 
-    // 등록된 카드
-    @TypeCast(() => CodefCardDto)
-    codefCards?: CodefCardDto[];
-
-    // 등록된 카드
-    @TypeCast(() => CreditCardDto)
-    creditCards?: CreditCardDto[];
+    @TypeCast(() => CodefConnectedIdentityDto) connectedIdentity?: CodefConnectedIdentityDto; // 커넥티드 아이디
+    @TypeCast(() => CodefCardDto) codefCards?: CodefCardDto[]; // 등록된 카드
+    @TypeCast(() => CreditCardDto) creditCards?: CreditCardDto[]; // 등록된 카드
 }

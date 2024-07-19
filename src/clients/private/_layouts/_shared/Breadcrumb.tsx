@@ -2,8 +2,16 @@ import {memo} from 'react';
 import {FaChevronRight} from 'react-icons/fa6';
 import {LinkTo} from '^components/util/LinkTo';
 
+export type BreadcrumbPath =
+    | string
+    | {
+          text: string;
+          href?: string;
+          active?: boolean;
+      };
+
 interface BreadcrumbProps {
-    paths: ({text: string; href?: string; active?: boolean} | string)[];
+    paths: BreadcrumbPath[];
 }
 
 export const Breadcrumb = memo((props: BreadcrumbProps) => {

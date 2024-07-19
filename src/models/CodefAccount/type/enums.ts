@@ -47,9 +47,10 @@ export enum CodefCertificateType {
 // 로그인구분 (parameter: 'loginTypeLevel')
 // - *신한/롯데 법인카드의 경우
 export enum CodefLoginTypeLevel {
-    USER = '0', // 이용자
-    BRANCH = '1', // 사업장/부서관리자
-    ADMIN = '2', // 총괄관리자 (default)
+    // case         // 계정 CRUD          | 보유카드조회(신한카드)  | 보유카드조회(롯데카드)
+    USER = '0', //     이용자              | 이용자              | 개인명의 법인카드 회원
+    BRANCH = '1', //   사업장/부서관리자     | 사업장/부서관리자      | 법인명의 법인카드 회원
+    ADMIN = '2', //    총괄관리자 (default) | 총괄관리자 (default) | 법인관리자 (default)
 }
 
 // 의뢰인구분(회원구분) (parameter: 'clientTypeLevel')

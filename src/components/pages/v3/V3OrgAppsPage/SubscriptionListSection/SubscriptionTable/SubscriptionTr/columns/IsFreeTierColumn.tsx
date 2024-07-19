@@ -5,6 +5,7 @@ import {subscriptionApi} from '^models/Subscription/api';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {getColor, palette} from '^components/util/palette';
+import {IsFreeTierTagUI} from '^models/Subscription/components/IsFreeTierTagUI';
 
 interface IsFreeTierColumnProps {
     subscription: SubscriptionDto;
@@ -43,8 +44,5 @@ IsFreeTierColumn.displayName = 'IsFreeTierColumn';
 
 const IsFreeTierTag = memo((props: {value: boolean | string}) => {
     const {value} = props;
-    const colorClass = value ? 'bg-gray-100' : 'bg-green-200';
-    const text = value ? '무료' : '유료';
-
-    return <TagUI className={colorClass}>{text}</TagUI>;
+    return <IsFreeTierTagUI value={value as boolean} />;
 });

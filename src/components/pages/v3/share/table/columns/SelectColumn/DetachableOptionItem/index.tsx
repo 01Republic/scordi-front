@@ -21,14 +21,14 @@ export const DetachableOptionItem = <T,>(props: DetachableOptionItemProps<T>) =>
                     <ValueComponent value={option} />
                 </div>
 
-                <div className="flex items-center pt-[1px]">
+                <div className="flex items-center">
                     <Tippy content="연결 해제">
                         <div
                             className="cursor-pointer hidden group-hover:inline-flex"
                             onClick={() => detachRequest(option)}
                         >
-                            <button className="btn btn-xs btn-square shadow rounded-[4px] !bg-white border-gray-300">
-                                <IoIosRemove size={20} className="text-gray-400" strokeWidth={10} />
+                            <button className="btn btn-2xs btn-square shadow rounded-[4px] !bg-white border-gray-300">
+                                <IoIosRemove fontSize={18} className="text-gray-400" strokeWidth={10} />
                             </button>
                         </div>
                     </Tippy>

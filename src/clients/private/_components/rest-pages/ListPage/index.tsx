@@ -5,12 +5,13 @@ import {ReactComponentLike} from 'prop-types';
 import {orgIdParamState} from '^atoms/common';
 import {WithChildren} from '^types/global.type';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
-import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
+import {Breadcrumb, BreadcrumbPath} from '^clients/private/_layouts/_shared/Breadcrumb';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 
 interface ListPageProps extends WithChildren {
     onReady?: () => any;
-    breadcrumb?: ({text: string; href?: string; active?: boolean} | string)[];
+    onUnmount?: () => any;
+    breadcrumb?: BreadcrumbPath[];
     titleText?: ReactNode;
     Title?: ReactComponentLike;
     Buttons?: ReactComponentLike;
@@ -22,6 +23,7 @@ interface ListPageProps extends WithChildren {
 export const ListPage = memo((props: ListPageProps) => {
     const {
         onReady,
+        onUnmount,
         breadcrumb,
         titleText = '목록페이지',
         Title,
@@ -38,6 +40,10 @@ export const ListPage = memo((props: ListPageProps) => {
         if (!orgId || isNaN(orgId)) return;
         if (!router.isReady) return;
         onReady && onReady();
+
+        return () => {
+            onUnmount && onUnmount();
+        };
     }, [orgId, router.isReady]);
 
     return (

@@ -44,6 +44,28 @@ export const datetime_local = (date: Date): string => {
 
 export const getToday = () => new Date();
 
+export const getLocalOffset = (): number => {
+    const ymd = yyyy_mm_dd(new Date());
+    const dateWithOffset = new Date(ymd);
+    const dateWithoutOffset = new Date(`${ymd} `);
+    return dateWithOffset.getHours() - dateWithoutOffset.getHours();
+};
+
+export const secondAfter = (n: number, date?: Date): Date => {
+    const d = new Date(date || getToday());
+    d.setHours(d.getHours() + n);
+    return d;
+};
+export const minuteAfter = (n: number, date?: Date): Date => {
+    const d = new Date(date || getToday());
+    d.setHours(d.getHours() + n);
+    return d;
+};
+export const hourAfter = (n: number, date?: Date): Date => {
+    const d = new Date(date || getToday());
+    d.setHours(d.getHours() + n);
+    return d;
+};
 export const dayAfter = (n: number, date?: Date): Date => {
     const d = new Date(date || getToday());
     d.setDate(d.getDate() + n);
@@ -60,9 +82,17 @@ export const yearAfter = (n: number, date = new Date()) => {
     return base;
 };
 
+export const secondBefore = (n: number, date?: Date) => secondAfter(n * -1, date);
+export const minuteBefore = (n: number, date?: Date) => minuteAfter(n * -1, date);
+export const hourBefore = (n: number, date?: Date) => hourAfter(n * -1, date);
 export const dayBefore = (n: number, date?: Date) => dayAfter(n * -1, date);
 export const monthBefore = (n: number, date?: Date) => monthAfter(n * -1, date);
 export const yearBefore = (n: number, date = new Date()) => yearAfter(n * -1, date);
+
+/**
+ * Day
+ */
+export const startOfDay = (date?: Date) => hourBefore(getLocalOffset(), date);
 
 /**
  * Month

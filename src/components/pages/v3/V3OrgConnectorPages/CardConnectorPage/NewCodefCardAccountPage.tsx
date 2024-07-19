@@ -6,8 +6,13 @@ import {LinkTo} from '^components/util/LinkTo';
 import {V3OrgConnectsPageRoute} from '^pages/v3/orgs/[orgId]/connects';
 import {FaArrowLeft} from 'react-icons/fa6';
 import {codefAccountApi} from '^models/CodefAccount/api';
-import {CodefCardCompanyCode, CodefRequestBusinessType} from '^models/CodefAccount/type/enums';
-import {CodefResponse, CodefApiResultCode, codefErrorCodeToMsg} from '^models/CodefAccount/codef-common';
+import {
+    CodefCardCompanyCode,
+    CodefClientTypeLevel,
+    CodefLoginTypeLevel,
+    CodefRequestBusinessType,
+} from '^models/CodefAccount/type/enums';
+import {codefErrorCodeToMsg, CodefResponse} from '^models/CodefAccount/codef-common';
 import {AccountCreatedResponseDto} from '^models/CodefAccount/type/create-account.response.dto';
 import {ApiErrorResponse} from '^api/api';
 import {useForm} from 'react-hook-form';
@@ -21,7 +26,6 @@ import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-
 import {plainToast as toast} from '^hooks/useToast';
 import {useCodefAccountsAlreadyIs} from '^models/CodefAccount/hook';
 import {OutLink} from '^components/OutLink';
-import {BiLinkExternal} from '^components/react-icons';
 
 export const NewCodefCardAccountPage = memo(function CardBeforeConnectPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -161,6 +165,53 @@ export const NewCodefCardAccountPage = memo(function CardBeforeConnectPage() {
                                         <li key={i}>{msg}</li>
                                     ))}
                                 </ul>
+                            </div>
+                        )}
+
+                        {connectMethod.param === CodefCardCompanyCode.신한카드 && (
+                            <div className="grid grid-cols-2 gap-2">
+                                <label>
+                                    <p className="text-16 mb-1.5">계정 종류</p>
+                                    <select
+                                        {...form.register('loginTypeLevel')}
+                                        defaultValue={CodefLoginTypeLevel.ADMIN}
+                                        autoComplete="one-time-code"
+                                        className="select select-bordered w-full text-16 font-[400]"
+                                        required
+                                    >
+                                        {[
+                                            [CodefLoginTypeLevel.USER, '이용자'],
+                                            [CodefLoginTypeLevel.BRANCH, '사업장/부서관리자'],
+                                            [CodefLoginTypeLevel.ADMIN, '총괄관리자'],
+                                        ].map(([loginTypeLevel, labelText], i) => (
+                                            <option value={loginTypeLevel} key={i}>
+                                                {labelText}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </label>
+
+                                <label>
+                                    <p className="text-16 mb-1.5">회원 구분</p>
+                                    <select
+                                        {...form.register('clientTypeLevel')}
+                                        defaultValue={CodefClientTypeLevel.CREDIT_CARD}
+                                        autoComplete="one-time-code"
+                                        className="select select-bordered w-full text-16 font-[400]"
+                                        required
+                                    >
+                                        {[
+                                            [CodefClientTypeLevel.CREDIT_CARD, '신용카드회원'],
+                                            [CodefClientTypeLevel.CHECK_CARD, '체크카드회원'],
+                                            [CodefClientTypeLevel.RnD_CREDIT_CARD, '연구비신용카드회원'],
+                                            [CodefClientTypeLevel.PRE_PLUS, '프리플러스회원'],
+                                        ].map(([clientTypeLevel, labelText], i) => (
+                                            <option value={clientTypeLevel} key={i}>
+                                                {labelText}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </label>
                             </div>
                         )}
 

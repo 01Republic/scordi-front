@@ -52,8 +52,8 @@ export const AllSubscriptionListSection = memo(() => {
                 ) : (
                     <div className="px-3 py-2 font-semibold flex items-center justify-center">
                         <div className="text-center">
-                            <p className="text-14 mb-2">이 카드로는 조회된 구독이 없어요</p>
-                            <p className="text-14 mb-4">(백그라운드 연동이 진행되고 있어요)</p>
+                            <p className="text-14 mb-2">조회된 구독이 없어요</p>
+                            {/*<p className="text-14 mb-4">(백그라운드 연동이 진행되고 있어요)</p>*/}
                         </div>
                     </div>
                 )}

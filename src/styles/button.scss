@@ -7,6 +7,19 @@
     padding-right: 0.375rem;
 }
 
+.btn-2xs {
+    height: 1.25rem;
+    min-height: 1.25rem;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    font-size: 0.75rem;
+}
+.btn-square:where(.btn-2xs) {
+    height: 1.25rem;
+    width: 1.25rem;
+    padding: 0;
+}
+
 /**
  * Buttons
  */

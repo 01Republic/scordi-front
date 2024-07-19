@@ -28,17 +28,17 @@ export const ListTableContainer = memo((props: ListTableContainerProps) => {
 
     return (
         <Layout>
-            <div className="flex items-center justify-between mb-4">
-                <div></div>
-                {!hideTopPaginator && (
+            {!hideTopPaginator && (
+                <div className="flex items-center justify-between mb-4">
+                    <div></div>
                     <ListTablePaginator
                         pagination={pagination}
                         movePage={movePage}
                         onChangePerPage={changePageSize}
                         unit={unit}
                     />
-                )}
-            </div>
+                </div>
+            )}
 
             <div className="mb-4">{children}</div>
 

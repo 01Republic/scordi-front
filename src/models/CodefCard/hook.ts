@@ -5,6 +5,7 @@ import {codefCardAdminApi, codefCardApi} from '^models/CodefCard/api';
 import {
     codefCardsAdminAtom,
     codefCardsAtom,
+    codefCardsOfCreditCardShowAtom,
     connectedCodefCardsAtom,
     newCodefCardsAtom,
     subscriptionsForAccountAtom,
@@ -16,6 +17,9 @@ import {RecoilState, useRecoilValue} from 'recoil';
 import {codefAccountApi} from '^models/CodefAccount/api';
 
 export const useCodefCards = (mergeMode = false) => useCodefCardsV3(codefCardsAtom, mergeMode);
+
+/** 카드 상세 페이지에서, 연결된 코드에프 카드를 불러올때 사용 */
+export const useCodefCardsOfCreditCardShow = () => useCodefCardsV3(codefCardsOfCreditCardShowAtom);
 
 const useCodefCardsV3 = (atoms: PagedResourceAtoms<CodefCardDto, FindAllCardQueryDto>, mergeMode = false) => {
     return usePagedResource(atoms, {

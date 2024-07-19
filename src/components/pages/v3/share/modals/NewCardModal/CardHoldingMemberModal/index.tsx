@@ -36,24 +36,24 @@ export const CardHoldingMember = memo(() => {
     }, [isShow]);
 
     const onSubmit = () => {
-        const cardHoldingMemberId = form.getValues('holdingMemberId');
-        if (!cardHoldingMemberId) return;
-
-        setCreateCreditCardData({...createCreditCardData, holdingMemberId: cardHoldingMemberId});
+        // const cardHoldingMemberId = form.getValues('holdingMemberId');
+        // if (!cardHoldingMemberId) return;
+        //
+        // setCreateCreditCardData({...createCreditCardData, holdingMemberId: cardHoldingMemberId});
     };
 
     const onUpdate = async () => {
         if (!orgId || isNaN(orgId) || !cardId || isNaN(cardId)) return;
 
-        const holdingMemberId = form.getValues('holdingMemberId');
-        if (!holdingMemberId) return;
-
-        const res = await creditCardApi.update(orgId, cardId, {holdingMemberId: holdingMemberId});
-        if (res) {
-            setCurrenCreditCard(res.data);
-            close();
-            toast.success('변경되었습니다.');
-        }
+        // const holdingMemberId = form.getValues('holdingMemberId');
+        // if (!holdingMemberId) return;
+        //
+        // const res = await creditCardApi.update(orgId, cardId, {holdingMemberId: holdingMemberId});
+        // if (res) {
+        //     setCurrenCreditCard(res.data);
+        //     close();
+        //     toast.success('변경되었습니다.');
+        // }
     };
 
     if (!orgId) return <></>;

@@ -10,17 +10,20 @@ export const InvoiceAccountTableHeader = memo((props: InvoiceAccountTableHeaderP
 
     return (
         <tr className="bg-slate-100">
-            {/*계정*/}
-            <th>계정</th>
-
-            {/*담당자*/}
-            <th>담당자</th>
+            {/*이름*/}
+            <th>이름</th>
 
             {/*연결 구독 수*/}
             <th>연결 구독 수</th>
 
-            {/*/!*팀*!/*/}
-            {/*<th>팀</th>*/}
+            {/*팀*/}
+            <th>팀</th>
+
+            {/*담당자*/}
+            <th>담당자</th>
+
+            {/* 비고 */}
+            <th>비고</th>
 
             {/*등록방식*/}
             <th>등록방식</th>

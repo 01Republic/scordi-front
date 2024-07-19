@@ -108,10 +108,7 @@ export const useResource2 = <T>(atoms: ResourceAtomsConfig<T>, request: (orgId: 
 
         return new Promise((resolve, reject) => {
             setQuery((oldQuery) => {
-                if (!force && JSON.stringify(oldQuery) === JSON.stringify(params)) {
-                    reject();
-                    return oldQuery;
-                }
+                if (!force && JSON.stringify(oldQuery) === JSON.stringify(params)) return oldQuery;
 
                 __setIsLoading(true);
                 request(orgId, id)

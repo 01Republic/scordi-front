@@ -1,21 +1,15 @@
 import React, {memo, useState} from 'react';
-// import {useRouter} from 'next/router';
-// import {TeamMemberProfile, TeamMemberProfileOption} from '^models/TeamMember/components/TeamMemberProfile';
-// import {TeamSelect} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamSelect';
-// import {TeamTag} from '^models/Team/components/TeamTag';
-// import {TagUI} from '^v3/share/table/columns/share/TagUI';
-// import {FaPen, FaPlay} from 'react-icons/fa6';
 import {ConnectedCodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
 import {codefCardApi} from '^models/CodefCard/api';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {codefCardConnected, selectedCodefCardAtom} from './atom';
+import {selectedCodefCardAtom} from './atom';
 import {MoreDropdown} from '^v3/V3OrgSettingsConnectsPage/MoreDropdown';
-// import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
-// import {useAlert} from '^hooks/useAlert';
 import {plainToast as toast} from '^hooks/useToast';
+import {IoWarning} from 'react-icons/io5';
+import {creditCardApi} from '^models/CreditCard/api';
 
 interface ConnectedCodefCardProps {
     codefCard: ConnectedCodefCardDto;
@@ -32,6 +26,7 @@ export const ConnectedCodefCard = memo((props: ConnectedCodefCardProps) => {
     // const setCodefCardConnected = useSetRecoilState(codefCardConnected);
     const [selectedCodefCard, selectCodefCard] = useRecoilState(selectedCodefCardAtom);
     const creditCard = codefCard.creditCard;
+    const isSleep = codefCard.isSleep;
     const isSelected = !!selectedCodefCard && selectedCodefCard.id === codefCard.id;
     // const {alert} = useAlert();
 
@@ -71,15 +66,25 @@ export const ConnectedCodefCard = memo((props: ConnectedCodefCardProps) => {
         }
     };
 
+    const onDisconnect = () => {
+        if (isSyncLoading) return;
+        if (confirm('카드를 정말 삭제할까요?')) {
+            creditCardApi.destroy(orgId, creditCard.id).then(() => {
+                toast.success('카드 삭제 완료');
+                afterSync && afterSync();
+            });
+        }
+    };
+
     return (
         <article
             className={`card py-[24px] px-[16px] flex-row flex items-center justify-between bg-white shadow hover:shadow-xl transition-all cursor-pointer ${
                 isSelected ? 'bg-indigo-50' : 'hover:bg-white'
-            }`}
+            } relative`}
             onClick={onClick}
         >
             <div className="flex items-center gap-1 flex-1">
-                <div className="w-[58px] h-[58px] flex items-center justify-center">
+                <div className={`w-[58px] h-[58px] flex items-center justify-center ${isSleep ? 'opacity-30' : ''}`}>
                     <div
                         className="flex items-center justify-center rounded-[8px] w-[37px] h-[58px]"
                         style={{backgroundColor: themeColor}}
@@ -88,9 +93,18 @@ export const ConnectedCodefCard = memo((props: ConnectedCodefCardProps) => {
                     </div>
                 </div>
 
-                <div className="flex-1">
-                    <p className="font-bold text-16 text-gray-800 mb-1">{cardName}</p>
-                    <div className="text-12 text-gray-500 font-[500]">끝자리: {creditCard.numbers.number4}</div>
+                <div className="flex-1 relative">
+                    {isSleep && (
+                        <div className="absolute bottom-full left-0 text-12 flex items-center gap-1 text-orange-400">
+                            <IoWarning /> <span>휴면상태의 카드입니다</span>
+                        </div>
+                    )}
+                    <p className={`font-bold text-16 text-gray-800 mb-1 ${isSleep ? 'line-through opacity-30' : ''}`}>
+                        {cardName}
+                    </p>
+                    <div className={`text-12 text-gray-500 font-[500] ${isSleep ? 'opacity-30' : ''}`}>
+                        끝자리: {creditCard.numbers.number4}
+                    </div>
                 </div>
 
                 <div className="opacity-30">{/*<TeamMemberProfileOption placeholder="담당자 미설정" />*/}</div>
@@ -101,6 +115,7 @@ export const ConnectedCodefCard = memo((props: ConnectedCodefCardProps) => {
                     <MoreDropdown
                         onSync={onSync}
                         isSyncLoading={isSyncLoading}
+                        onDelete={isSleep ? onDisconnect : undefined}
                         // Profile={() => (
                         //     <div className="border-b py-2 mb-2 px-3">
                         //         <p className="text-11">마지막 동기화</p>

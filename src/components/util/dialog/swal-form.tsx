@@ -4,7 +4,7 @@ import {WithChildren} from '^types/global.type';
 
 interface SwalFormProps extends WithChildren {
     className?: string;
-    onSubmit?: (e: BaseSyntheticEvent<object, any, any>) => Promise<any>;
+    onSubmit?: FormEventHandler<HTMLFormElement>;
     confirmBtnText?: string;
 }
 

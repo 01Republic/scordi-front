@@ -8,7 +8,7 @@ export const CreditCardTableHeader = memo((props: CreditCardTableHeaderProps) =>
     const {orderBy} = props;
 
     return (
-        <tr className="bg-slate-100 rounded-">
+        <tr className="bg-slate-100">
             {/* 카드 프로필 */}
             <SortableTH sortKey="[name]" onClick={orderBy}>
                 이름

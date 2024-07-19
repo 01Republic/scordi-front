@@ -34,7 +34,7 @@ export const ListTable = <Dto,>(props: ListTableProps<Dto>) => {
             <div className="overflow-x-auto w-full">
                 <Table isLoading={isLoading}>
                     {Header && (
-                        <thead>
+                        <thead className="[--rounded-box:0.375rem]">
                             <Header />
                         </thead>
                     )}

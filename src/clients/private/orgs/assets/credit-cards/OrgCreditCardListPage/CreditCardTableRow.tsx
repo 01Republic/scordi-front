@@ -7,6 +7,8 @@ import {IsCreditCardTag, IsPersonalTag, UsingStatusTag} from '^models/CreditCard
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
+import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
+import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
 
 interface CreditCardTableRowProps {
     creditCard: CreditCardDto;
@@ -28,11 +30,15 @@ export const CreditCardTableRow = memo((props: CreditCardTableRowProps) => {
     const company = creditCard.company;
     const expiry = creditCard.decryptSign().expiry;
 
+    const showPagePath = OrgCreditCardShowPageRoute.path(creditCard.organizationId, creditCard.id);
+
     return (
-        <tr>
+        <tr className="group">
             {/* 카드 프로필 */}
             <td>
-                <CreditCardProfileOption2 item={creditCard} />
+                <OpenButtonColumn href={showPagePath}>
+                    <CreditCardProfileOption2 item={creditCard} />
+                </OpenButtonColumn>
             </td>
 
             {/* 상태 (editable, sortable) */}
