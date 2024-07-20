@@ -5,6 +5,11 @@ import {debounce} from 'lodash';
 import {TeamDto} from '^models/Team/type';
 import {TeamListItem} from './TeamListItem';
 import {LoadMoreButton} from './LoadMoreButton';
+import {prompt2} from '^components/util/dialog';
+import {teamApi} from '^models/Team/api';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
+import {useTeamsForListPage} from '^models/Team/hook';
 
 interface TeamListSectionProps {
     result?: Paginated<TeamDto>;
@@ -15,6 +20,8 @@ interface TeamListSectionProps {
 export const TeamListSection = memo((props: TeamListSectionProps) => {
     const {isLoading = false, result, movePage} = props;
     const ref = useRef<HTMLDivElement>(null);
+    const orgId = useRecoilValue(orgIdParamState);
+    const {reload} = useTeamsForListPage();
 
     const getNextPage = debounce((pagination: PaginationMetaData) => {
         const {currentPage, totalPage} = pagination;
@@ -23,9 +30,12 @@ export const TeamListSection = memo((props: TeamListSectionProps) => {
 
     const items = result?.items || [];
 
-    const addTeam = () => {
-        // TODO: Add team
-        console.log('addTeam');
+    const addTeam = async () => {
+        const result = await prompt2(`팀 이름을 입력해주세요`);
+        if (result.isConfirmed && result.value) {
+            const req = teamApi.create(orgId, {name: result.value});
+            req.then(() => reload());
+        }
     };
 
     return (

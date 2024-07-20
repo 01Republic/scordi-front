@@ -13,7 +13,7 @@ export const OrgTeamListPage = memo(function OrgTeamListPage() {
     const onReady = () => {
         search({
             where: {organizationId: orgId},
-            relations: ['members', 'subscriptions', 'tags'],
+            relations: ['members'],
         });
     };
 
