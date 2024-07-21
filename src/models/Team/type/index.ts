@@ -1,10 +1,8 @@
 import {OrganizationDto} from '^models/Organization/type';
-import {SubscriptionDto} from 'src/models/Subscription/types';
 import {TagDto} from '^models/Tag/type';
 import {TeamMemberDto} from '^models/TeamMember/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';
-import {TeamCreditCardDto} from '^models/TeamCreditCard/type/TeamCreditCard.dto';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 
@@ -13,9 +11,10 @@ export class TeamDto {
     name: string;
     organizationId: number;
 
-    @TypeCast(() => OrganizationDto) organization: OrganizationDto;
-    @TypeCast(() => TeamMemberDto) members: TeamMemberDto[];
-    @TypeCast(() => SubscriptionDto) subscriptions: SubscriptionDto[];
+    readonly teamMemberCount: number; // 연결된 팀멤버 수
+    readonly subscriptionCount: number; // 팀멤버로부터 연결된 구독 수
+    readonly creditCardCount: number; // 연결된 카드 수
+    readonly invoiceAccountCount: number; // 연결된 인보이스 계정 수
 
     @TypeCast(() => CreditCardDto) creditCards?: CreditCardDto[];
     @TypeCast(() => InvoiceAccountDto) invoiceAccounts?: InvoiceAccountDto[];
