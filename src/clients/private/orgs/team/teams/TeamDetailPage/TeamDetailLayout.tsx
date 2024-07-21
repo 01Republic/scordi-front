@@ -10,6 +10,7 @@ import {useRouter} from 'next/router';
 import {FaEdit} from 'react-icons/fa';
 import {orgIdParamState, teamIdParamState} from '^atoms/common';
 import {useRecoilValue} from 'recoil';
+import {OrgTeamListPageRoute} from '^pages/orgs/[id]/teams';
 
 export const TeamDetailLayout = ({children}: WithChildren) => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -18,7 +19,9 @@ export const TeamDetailLayout = ({children}: WithChildren) => {
     return (
         <MainLayout>
             <MainContainer>
-                <Breadcrumb paths={['팀', {text: '팀 목록', active: true}]} />
+                <Breadcrumb
+                    paths={[{text: '팀 목록', active: true, href: OrgTeamListPageRoute.path(orgId)}, '팀명입니다']}
+                />
                 <div className={'grid grid-cols-4 gap-4 mt-4'}>
                     <div className={'col-span-1'}>
                         <div className={'card border rounded-lg bg-white p-6'}>
