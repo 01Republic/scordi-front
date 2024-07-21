@@ -16,6 +16,8 @@ export class TeamDto {
     readonly creditCardCount: number; // 연결된 카드 수
     readonly invoiceAccountCount: number; // 연결된 인보이스 계정 수
 
+    @TypeCast(() => OrganizationDto) organization?: OrganizationDto;
+    @TypeCast(() => TeamMemberDto) members?: TeamMemberDto[];
     @TypeCast(() => CreditCardDto) creditCards?: CreditCardDto[];
     @TypeCast(() => InvoiceAccountDto) invoiceAccounts?: InvoiceAccountDto[];
 

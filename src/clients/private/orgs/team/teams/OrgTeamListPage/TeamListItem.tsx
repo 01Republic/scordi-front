@@ -22,6 +22,7 @@ export const TeamListItem = memo((props: TeamListItemProps) => {
     const {team} = props;
     const router = useRouter();
     const orgId = Number(router.query.id);
+    const {members = []} = team;
 
     return (
         <div
@@ -36,7 +37,7 @@ export const TeamListItem = memo((props: TeamListItemProps) => {
                 <Tippy
                     content={
                         <ul>
-                            {team.members.map((teamMember, i) => (
+                            {members.map((teamMember, i) => (
                                 <li key={i}>
                                     <div className="text-12">
                                         {teamMember.name} ({teamMember.email})
@@ -48,7 +49,7 @@ export const TeamListItem = memo((props: TeamListItemProps) => {
                 >
                     <div className="text-14 text-gray-400 text-center group-hover:text-scordi transition-all">
                         {/* TODO: 팀에서 사용중인 앱 갯수 */}
-                        {team.members.length.toLocaleString()} Members • {team.members.length.toLocaleString()} Apps
+                        {team.teamMemberCount.toLocaleString()} Members • {team.subscriptionCount.toLocaleString()} Apps
                     </div>
                 </Tippy>
             </div>

@@ -7,13 +7,14 @@ import {useTeamsForListPage} from '^models/Team/hook';
 import {TeamListSection} from '^clients/private/orgs/team/teams/OrgTeamListPage/TeamListSection';
 
 export const OrgTeamListPage = memo(function OrgTeamListPage() {
-    const orgId = useRecoilValue(orgIdParamState);
-    const {search, result, isLoading, query, movePage, changePageSize} = useTeamsForListPage();
+    const organizationId = useRecoilValue(orgIdParamState);
+    const {search, query} = useTeamsForListPage();
 
     const onReady = () => {
         search({
-            where: {organizationId: orgId},
+            where: {organizationId},
             relations: ['members'],
+            order: {id: 'DESC'},
         });
     };
 
@@ -36,7 +37,7 @@ export const OrgTeamListPage = memo(function OrgTeamListPage() {
             searchInputPlaceholder="검색어를 입력해주세요"
             onSearch={onSearch}
         >
-            <TeamListSection result={result} isLoading={isLoading} movePage={movePage} />
+            <TeamListSection />
         </ListPage>
     );
 });

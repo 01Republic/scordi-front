@@ -24,7 +24,7 @@ export const TeamItem = memo((props: TeamItemProps) => {
             <div className="flex-1">
                 <p className="text-xl text-500">{team.name}</p>
                 <p className="text-[16px]">
-                    <small className="mr-0.5">{team.members.length}명</small>
+                    <small className="mr-0.5">{(team.members || []).length}명</small>
                 </p>
             </div>
             <div></div>

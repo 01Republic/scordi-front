@@ -12,23 +12,23 @@ import {orgIdParamState} from '^atoms/common';
 import {useTeamsForListPage} from '^models/Team/hook';
 
 interface TeamListSectionProps {
-    result?: Paginated<TeamDto>;
-    isLoading?: boolean;
-    movePage?: (page: number, append?: boolean) => Promise<any>;
+    // result?: Paginated<TeamDto>;
+    // isLoading?: boolean;
+    // movePage?: (page: number, append?: boolean) => Promise<any>;
 }
 
 export const TeamListSection = memo((props: TeamListSectionProps) => {
-    const {isLoading = false, result, movePage} = props;
+    // const {isLoading = false, result, movePage} = props;
     const ref = useRef<HTMLDivElement>(null);
     const orgId = useRecoilValue(orgIdParamState);
-    const {reload} = useTeamsForListPage();
+    const {isLoading, result, movePage, reload} = useTeamsForListPage();
 
-    const getNextPage = debounce((pagination: PaginationMetaData) => {
-        const {currentPage, totalPage} = pagination;
-        if (currentPage < totalPage) movePage && movePage(currentPage + 1, true);
-    }, 100);
+    // const getNextPage = debounce((pagination: PaginationMetaData) => {
+    //     const {currentPage, totalPage} = pagination;
+    //     if (currentPage < totalPage) movePage && movePage(currentPage + 1, true);
+    // }, 100);
 
-    const items = result?.items || [];
+    const {items, pagination} = result;
 
     const addTeam = async () => {
         const result = await prompt2(`팀 이름을 입력해주세요`);
@@ -53,10 +53,10 @@ export const TeamListSection = memo((props: TeamListSectionProps) => {
                         <TeamListItem team={team} key={i} />
                     ))}
 
-                    {result?.pagination && (
+                    {pagination.currentPage < pagination.totalPage && (
                         <LoadMoreButton
-                            pagination={result.pagination}
-                            onClick={() => result && getNextPage(result.pagination)}
+                            pagination={pagination}
+                            onClick={() => movePage(pagination.currentPage + 1, true)}
                         />
                     )}
                 </div>
