@@ -13,7 +13,7 @@ const useTeamMembership = (
     return usePagedResource(atoms, {
         useOrgId: true,
         endpoint: (params, orgId) => teamMembershipApi.index(orgId, params),
-        getId: 'teamMemberId',
+        getId: 'id',
         mergeMode,
     });
 };
