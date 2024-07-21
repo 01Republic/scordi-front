@@ -8,11 +8,12 @@ import {TeamSubscriptionsPageRoute} from '^pages/orgs/[id]/teams/[teamId]/subscr
 import {TeamMembersPageRoute} from '^pages/orgs/[id]/teams/[teamId]/members';
 import {useRouter} from 'next/router';
 import {FaEdit} from 'react-icons/fa';
+import {orgIdParamState, teamIdParamState} from '^atoms/common';
+import {useRecoilValue} from 'recoil';
 
 export const TeamDetailLayout = ({children}: WithChildren) => {
-    const router = useRouter();
-    const orgId = Number(router.query.id);
-    const teamId = Number(router.query.teamId);
+    const orgId = useRecoilValue(orgIdParamState);
+    const teamId = useRecoilValue(teamIdParamState);
 
     return (
         <MainLayout>

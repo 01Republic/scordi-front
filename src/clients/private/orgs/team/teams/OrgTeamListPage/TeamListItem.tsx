@@ -21,7 +21,7 @@ interface TeamListItemProps {
 export const TeamListItem = memo((props: TeamListItemProps) => {
     const {team} = props;
     const router = useRouter();
-    const orgId = Number(router.query.id);
+    const orgId = useRecoilValue(orgIdParamState);
     const {members = []} = team;
 
     return (
