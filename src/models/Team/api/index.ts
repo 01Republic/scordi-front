@@ -1,7 +1,7 @@
 import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
 import {TeamDto, CreateTeamDto, UpdateTeamDto, FindAllTeamQueryDto} from '^models/Team/type';
-import {paginatedDtoOf} from '^types/utils/response-of';
+import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 
 export const teamApi = {
     index(orgId: number, params?: FindAllTeamQueryDto) {
@@ -11,7 +11,7 @@ export const teamApi = {
 
     show(orgId: number, id: number) {
         const url = `/organizations/${orgId}/teams/${id}`;
-        return api.get<TeamDto>(url);
+        return api.get<TeamDto>(url).then(oneDtoOf(TeamDto));
     },
 
     create(orgId: number, data: CreateTeamDto) {

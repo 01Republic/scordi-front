@@ -2,6 +2,9 @@ import {TypeCast} from '^types/utils/class-transformer';
 import {TeamDto} from '^models/Team/type';
 import {TeamMemberDto} from '^models/TeamMember';
 
+/**
+ * "팀과 팀멤버의 연결" 을 의미합니다.
+ */
 export class TeamMembershipDto {
     // id: number; // TODO: 곧 생길 예정
     teamId: number; // 팀 ID
