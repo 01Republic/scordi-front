@@ -1,7 +1,9 @@
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {v3CommonRequires} from '^types/utils/18n.type';
-import {TeamMembersListPage} from '^clients/private/orgs/team/teams/TeamDetailPage/TeamMembersListPage';
+import {TeamMembersListPage} from '^clients/private/orgs/team/teams/TeamDetailPage/Members/TeamMembersListPage';
+import {orgIdParamState, teamIdParamState, useRouterIdParamState} from '^atoms/common';
+import React from 'react';
 
 export const TeamPaymentsPageRoute = pathRoute({
     pathname: '/orgs/[id]/teams/[teamId]/payments',
@@ -23,5 +25,11 @@ export const getStaticProps = async ({locale}: any) => ({
 });
 
 export default function Page() {
+    const orgId = useRouterIdParamState('id', orgIdParamState);
+    const teamId = useRouterIdParamState('teamId', teamIdParamState);
+
+    if (!orgId || isNaN(orgId)) return <></>;
+    if (!teamId || isNaN(teamId)) return <></>;
+
     return <TeamMembersListPage />;
 }

@@ -1,15 +1,14 @@
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {v3CommonRequires} from '^types/utils/18n.type';
-
-import {orgIdParamState, teamIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useCurrentOrg} from '^models/Organization/hook';
-import React from 'react';
 import {TeamMembersListPage} from '^clients/private/orgs/team/teams/TeamDetailPage/Members/TeamMembersListPage';
+import {orgIdParamState, teamIdParamState, useRouterIdParamState} from '^atoms/common';
+import React from 'react';
+import {TeamInvoicesListPage} from '^clients/private/orgs/team/teams/TeamDetailPage/Invoices/TeamInvoicesListPage';
 
-export const TeamMembersPageRoute = pathRoute({
-    pathname: '/orgs/[id]/teams/[teamId]/members',
-    path: (orgId: number, teamId: number) => pathReplace(TeamMembersPageRoute.pathname, {id: orgId, teamId: teamId}),
+export const TeamInvoicesPageRoute = pathRoute({
+    pathname: '/orgs/[id]/teams/[teamId]/invoices',
+    path: (orgId: number, teamId: number) => pathReplace(TeamInvoicesPageRoute.pathname, {id: orgId, teamId: teamId}),
 });
 
 export const getStaticPaths = async () => ({
@@ -29,10 +28,9 @@ export const getStaticProps = async ({locale}: any) => ({
 export default function Page() {
     const orgId = useRouterIdParamState('id', orgIdParamState);
     const teamId = useRouterIdParamState('teamId', teamIdParamState);
-    useCurrentOrg(orgId);
 
     if (!orgId || isNaN(orgId)) return <></>;
     if (!teamId || isNaN(teamId)) return <></>;
 
-    return <TeamMembersListPage />;
+    return <TeamInvoicesListPage />;
 }

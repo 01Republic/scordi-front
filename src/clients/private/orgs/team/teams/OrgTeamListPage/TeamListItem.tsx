@@ -48,7 +48,6 @@ export const TeamListItem = memo((props: TeamListItemProps) => {
                     }
                 >
                     <div className="text-14 text-gray-400 text-center group-hover:text-scordi transition-all">
-                        {/* TODO: 팀에서 사용중인 앱 갯수 */}
                         {team.teamMemberCount.toLocaleString()} Members • {team.subscriptionCount.toLocaleString()} Apps
                     </div>
                 </Tippy>
