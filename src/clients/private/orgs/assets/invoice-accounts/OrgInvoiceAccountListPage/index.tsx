@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
@@ -7,10 +7,15 @@ import {debounce} from 'lodash';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {InvoiceAccountTableHeader} from './InvoiceAccountTableHeader';
 import {InvoiceAccountTableRow} from './InvoiceAccountTableRow';
+import {AddInvoiceAccountDropdown} from './AddInvoiceAccountDropdown';
+import {InvoiceAccountAutoCreateModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/InvoiceAccountSelect/InvoiceAccountAutoCreateModal';
+import {isInvoiceAccountAutoCreateModalAtom} from './atom';
+import {toast} from 'react-hot-toast';
 
 export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage() {
     const organizationId = useRecoilValue(orgIdParamState);
     const {search, reset, reload, result, isLoading, query, movePage, changePageSize, orderBy} = useInvoiceAccounts();
+    const [isCreateModalOpened, setCreateModalOpen] = useRecoilState(isInvoiceAccountAutoCreateModalAtom);
 
     const onReady = () => {
         search({
@@ -35,7 +40,7 @@ export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage
             onUnmount={() => reset()}
             breadcrumb={['자산', {text: '청구서 수신 메일', active: true}]}
             titleText="청구서 수신 메일"
-            Buttons={undefined}
+            Buttons={AddInvoiceAccountDropdown}
             ScopeHandler={undefined}
             searchInputPlaceholder="검색어를 입력해주세요"
             onSearch={onSearch}
@@ -53,6 +58,17 @@ export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage
                     Row={({item}) => <InvoiceAccountTableRow invoiceAccount={item} reload={reload} />}
                 />
             </ListTableContainer>
+
+            <InvoiceAccountAutoCreateModal
+                isOpened={isCreateModalOpened}
+                onClose={() => setCreateModalOpen(false)}
+                onCreate={() => {
+                    toast.success('계정을 저장했어요');
+                    setCreateModalOpen(false);
+                    return reload();
+                }}
+                onRetry={() => setCreateModalOpen(true)}
+            />
         </ListPage>
     );
 });
