@@ -33,7 +33,7 @@ export const ConnectInvoiceAccountAfterLoad = memo(function ConnectInvoiceAccoun
 
                 <Container size="sm" className="">
                     <div className="w-full flex justify-center">
-                        <GoogleLoginBtn about="gmail" googleLoginOnSuccessFn={console.log} />
+                        <GoogleLoginBtn about="gmail" onToken={console.log} />
                     </div>
                     <button
                         className="btn btn-block btn-link text-gray-400 hover:text-gray-500 !no-underline items-center gap-2"

@@ -36,7 +36,7 @@ export const ConnectGoogleAdminBeforeLoad = memo(function ConnectGoogleAdminBefo
                 <Container size="sm" />
 
                 <Container size="sm" className="flex justify-center">
-                    <GoogleLoginBtn about="admin" googleLoginOnSuccessFn={() => onNext()} />
+                    <GoogleLoginBtn about="admin" onToken={() => onNext()} />
                 </Container>
 
                 <Container size="sm" className="text-center mt-auto">

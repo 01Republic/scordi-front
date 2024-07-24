@@ -78,7 +78,7 @@ const InvitedGoogleLoginButton = memo(() => {
                         </span>
                     </span>
                 }
-                googleLoginOnSuccessFn={onSuccess}
+                onToken={onSuccess}
             />
         </GoogleOAuthProvider>
     );

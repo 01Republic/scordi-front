@@ -59,7 +59,7 @@ export const GoogleWorkspaceBeforeConnectPage = memo(function GoogleWorkspaceBef
                     <GoogleOAuthProvider clientId={googleOAuth.adminClient.id}>
                         <GoogleLoginBtn
                             about="admin"
-                            googleLoginOnSuccessFn={(accessToken) => setAccessToken(accessToken)}
+                            onToken={(accessToken) => setAccessToken(accessToken)}
                             className="!btn-md"
                             logoSize="w-4 h-4"
                             ButtonComponent={() => (

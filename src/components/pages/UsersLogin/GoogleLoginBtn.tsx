@@ -6,6 +6,7 @@ import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {uniq} from '^utils/array';
 import {ReactNodeLike} from 'prop-types';
+import {WithChildren} from '^types/global.type';
 
 const SCOPE_MAP = {
     login: ['email', 'profile', 'openid'],
@@ -27,9 +28,9 @@ const SCOPE_MAP = {
 };
 const SCOPE_ALL = uniq(Object.values(SCOPE_MAP).flatMap((arr) => arr));
 
-interface GoogleLoginBtnProps {
+interface GoogleLoginBtnProps extends WithChildren {
     onCode?: (code: string) => void;
-    googleLoginOnSuccessFn?: (accessToken: string) => Promise<void> | void;
+    onToken?: (accessToken: string) => Promise<void> | void;
     about?: keyof typeof SCOPE_MAP;
     className?: string;
     logoSize?: string;
@@ -40,14 +41,15 @@ interface GoogleLoginBtnProps {
 export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
     const {
         onCode,
-        googleLoginOnSuccessFn,
+        onToken,
         about,
         className,
         logoSize,
         ButtonComponent,
         buttonText = 'Continue with Google',
+        children,
     } = props;
-    const googleLoginOnSuccess = googleLoginOnSuccessFn ? googleLoginOnSuccessFn : useGoogleLoginSuccessHandler2();
+    const onAccessToken = onToken ? onToken : useGoogleLoginSuccessHandler2();
     const setAccessToken = useSetRecoilState(googleAccessTokenAtom);
     const scope = about ? SCOPE_MAP[about] : SCOPE_ALL;
     const getFeature = () => about;
@@ -64,7 +66,7 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
                 ...(feature ? {feature} : {}),
             });
             setAccessToken(accessToken);
-            return googleLoginOnSuccess(accessToken);
+            return onAccessToken(accessToken);
         },
         scope: about === 'login' ? undefined : scope.join(' '),
         flow: 'auth-code',
@@ -75,13 +77,13 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
 
     return (
         <>
-            {ButtonComponent && (
+            {(ButtonComponent || children) && (
                 <div data-component="GoogleLoginBtn" data-about={about} onClick={() => loginButtonOnClick()}>
-                    <ButtonComponent />
+                    {ButtonComponent ? <ButtonComponent /> : children}
                 </div>
             )}
 
-            {!ButtonComponent && (
+            {!(ButtonComponent || children) && (
                 <button
                     data-component="GoogleLoginBtn"
                     data-about={about}

@@ -71,7 +71,7 @@ export const WorkspaceConnectButton = memo((props: WorkspaceConnectButtonProps) 
         <GoogleOAuthProvider clientId={googleOAuth.adminClient.id}>
             <GoogleLoginBtn
                 about="admin"
-                googleLoginOnSuccessFn={googleLoginSuccessHandler}
+                onToken={googleLoginSuccessHandler}
                 className="!btn-md"
                 logoSize="w-4 h-4"
                 ButtonComponent={() => ButtonComponent && <ButtonComponent />}

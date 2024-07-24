@@ -49,7 +49,7 @@ export const GoogleAdminLoginButton = memo(function GoogleAdminLoginButton() {
             data-tip="구글 워크스페이스 연동이 필요해요!"
         >
             <GoogleOAuthProvider clientId={googleOauthClientId}>
-                <GoogleLoginBtn about="admin" googleLoginOnSuccessFn={googleLoginSuccessHandler} />
+                <GoogleLoginBtn about="admin" onToken={googleLoginSuccessHandler} />
             </GoogleOAuthProvider>
         </div>
     );
