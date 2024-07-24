@@ -7,6 +7,9 @@ import {useSubscriptionTableListAtom} from '^models/Subscription/hook';
 import {SubscriptionTableHeader} from './SubscriptionTableHeader';
 import {SubscriptionTableRow} from './SubscriptionTableRow';
 import {debounce} from 'lodash';
+import {LinkTo} from '^components/util/LinkTo';
+import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
+import {FaPlus} from 'react-icons/fa6';
 
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -35,9 +38,15 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
             onReady={onReady}
             breadcrumb={['구독', {text: '구독 리스트', active: true}]}
             titleText="구독 리스트"
-            Buttons={undefined}
+            Buttons={() => (
+                <LinkTo href={OrgSubscriptionSelectPageRoute.path(orgId)} className="btn btn-scordi gap-2" loadingOnBtn>
+                    <FaPlus />
+                    <span>새 구독 등록</span>
+                </LinkTo>
+            )}
             ScopeHandler={undefined}
             onSearch={onSearch}
+            searchInputPosition="start-of-buttons"
         >
             <ListTableContainer
                 pagination={result.pagination}

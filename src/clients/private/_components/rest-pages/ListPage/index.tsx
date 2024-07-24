@@ -18,6 +18,7 @@ interface ListPageProps extends WithChildren {
     ScopeHandler?: ReactComponentLike;
     onSearch?: (keyword?: string) => any;
     searchInputPlaceholder?: string;
+    searchInputPosition?: 'start-of-buttons' | 'end-of-buttons' | 'right-of-scopes';
 }
 
 export const ListPage = memo((props: ListPageProps) => {
@@ -31,6 +32,7 @@ export const ListPage = memo((props: ListPageProps) => {
         ScopeHandler,
         onSearch,
         searchInputPlaceholder = '검색어를 입력해주세요',
+        searchInputPosition = 'right-of-scopes',
         children,
     } = props;
     const orgId = useRecoilValue(orgIdParamState);
@@ -55,12 +57,24 @@ export const ListPage = memo((props: ListPageProps) => {
                     {Title ? <Title /> : <h1 className="text-2xl">{titleText}</h1>}
 
                     <div className={'flex space-x-4'}>
-                        {onSearch && <ListPageSearchInput onSearch={onSearch} placeholder={searchInputPlaceholder} />}
+                        {searchInputPosition === 'start-of-buttons' && onSearch && (
+                            <ListPageSearchInput onSearch={onSearch} placeholder={searchInputPlaceholder} />
+                        )}
                         {Buttons && <Buttons />}
+                        {searchInputPosition === 'end-of-buttons' && onSearch && (
+                            <ListPageSearchInput onSearch={onSearch} placeholder={searchInputPlaceholder} />
+                        )}
                     </div>
                 </div>
 
-                <div className={'mb-8'}>{ScopeHandler && <ScopeHandler />}</div>
+                {(ScopeHandler || searchInputPosition === 'right-of-scopes') && (
+                    <div className={'flex items-center justify-between mb-8'}>
+                        {ScopeHandler ? <ScopeHandler /> : <div />}
+                        {searchInputPosition === 'right-of-scopes' && onSearch && (
+                            <ListPageSearchInput onSearch={onSearch} placeholder={searchInputPlaceholder} />
+                        )}
+                    </div>
+                )}
 
                 {children}
             </MainContainer>

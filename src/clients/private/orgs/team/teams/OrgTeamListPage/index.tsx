@@ -34,8 +34,9 @@ export const OrgTeamListPage = memo(function OrgTeamListPage() {
             titleText="팀 목록"
             Buttons={undefined}
             ScopeHandler={undefined}
-            searchInputPlaceholder="검색어를 입력해주세요"
             onSearch={onSearch}
+            searchInputPlaceholder="검색어를 입력해주세요"
+            searchInputPosition="end-of-buttons"
         >
             <TeamListSection />
         </ListPage>
