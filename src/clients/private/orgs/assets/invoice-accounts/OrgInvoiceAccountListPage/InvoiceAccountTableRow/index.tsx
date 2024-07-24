@@ -89,7 +89,7 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
 
             {/*팀 - editable, sortable (mono-select) / 멤버 프로필 / 검색가능 */}
             <td>
-                <TeamSelect defaultValue={(invoiceAccount.teams || [])[0]} onChange={setTeam} />
+                <TeamSelect defaultValue={(invoiceAccount.teams || [])[0]} onChange={setTeam} creatable />
             </td>
 
             {/*담당자 - editable, sortable (mono-select)*/}
