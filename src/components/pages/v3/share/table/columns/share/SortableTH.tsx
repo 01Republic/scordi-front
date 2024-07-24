@@ -9,34 +9,31 @@ interface SortableTHProps extends WithChildren {
     sortVal?: 'ASC' | 'DESC';
 }
 
-export const SortableTH = memo((props: SortableTHProps) => {
+export const SortableTH = (props: SortableTHProps) => {
     const {className = '', sortKey, sortVal, onClick, children} = props;
-    const [value, setValue] = useState<boolean>();
-
-    useEffect(() => {
-        if (!sortVal || sortVal === 'ASC') return;
-
-        setValue(true);
-    }, []);
+    const [direct, setDirect] = useState<'ASC' | 'DESC'>(sortVal || 'DESC');
 
     const isSortable = !!(sortKey && onClick);
 
     const sort = () => {
         if (!isSortable) return;
 
-        onClick(sortKey, !value ? 'ASC' : 'DESC');
-        setValue((v) => !v);
+        setDirect((v) => {
+            const newV = v === 'ASC' ? 'DESC' : 'ASC';
+            onClick(sortKey, newV);
+            return newV;
+        });
     };
 
     return (
         <th onClick={sort} className={`cursor-pointer bg-transparent ${className}`}>
             {isSortable ? (
                 <div className={`flex items-center ${className}`}>
-                    {children} {typeof value === 'boolean' && value ? <TiArrowSortedUp /> : <TiArrowSortedDown />}
+                    {children} {direct === 'DESC' ? <TiArrowSortedUp /> : <TiArrowSortedDown />}
                 </div>
             ) : (
                 children
             )}
         </th>
     );
-});
+};

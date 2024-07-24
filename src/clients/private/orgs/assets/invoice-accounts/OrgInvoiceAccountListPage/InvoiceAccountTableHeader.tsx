@@ -1,5 +1,6 @@
 import React, {memo} from 'react';
 import {ListTableHeaderProps} from '^clients/private/_components/table/ListTable/types';
+import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 
 interface InvoiceAccountTableHeaderProps extends ListTableHeaderProps {
     //
@@ -11,7 +12,9 @@ export const InvoiceAccountTableHeader = memo((props: InvoiceAccountTableHeaderP
     return (
         <tr className="bg-slate-100">
             {/*이름*/}
-            <th>이름</th>
+            <SortableTH sortKey="[googleTokenData][name]" onClick={orderBy}>
+                이름
+            </SortableTH>
 
             {/*연결 구독 수*/}
             <th>연결 구독 수</th>
