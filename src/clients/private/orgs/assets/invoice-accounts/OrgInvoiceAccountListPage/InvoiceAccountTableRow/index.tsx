@@ -9,6 +9,7 @@ import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {TeamDto} from '^models/Team/type';
 import {AxiosResponse} from 'axios';
 import {errorNotify} from '^utils/toast-notify';
+import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 
 interface InvoiceAccountTableRowProps {
     invoiceAccount: InvoiceAccountDto;
@@ -105,10 +106,18 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
             </td>
 
             {/* 비고 */}
-            <td>비고</td>
+            <td>
+                <AirInputText
+                    defaultValue={invoiceAccount.memo || undefined}
+                    onChange={async (memo) => {
+                        if (invoiceAccount.memo === memo) return;
+                        return update({memo});
+                    }}
+                />
+            </td>
 
-            {/*등록방식*/}
-            <td>등록방식</td>
+            {/*/!*등록방식*!/*/}
+            {/*<td>등록방식</td>*/}
         </tr>
     );
 });

@@ -28,8 +28,8 @@ export const InvoiceAccountTableHeader = memo((props: InvoiceAccountTableHeaderP
             {/* 비고 */}
             <th>비고</th>
 
-            {/*등록방식*/}
-            <th>등록방식</th>
+            {/*/!*등록방식*!/*/}
+            {/*<th>등록방식</th>*/}
         </tr>
     );
 });

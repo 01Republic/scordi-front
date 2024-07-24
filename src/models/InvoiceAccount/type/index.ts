@@ -23,6 +23,7 @@ export class InvoiceAccountDto {
     email: string;
     isActive: boolean; // 활성화 여부
     isSyncRunning: boolean; // 싱크 실행중 여부
+    memo?: string | null; // 메모
     googleTokenDataId: number | null;
     holdingMemberId: number | null;
     @TypeCast(() => Date) createdAt: Date;
@@ -79,6 +80,7 @@ export class CreateInvoiceAccountRequestDto {
 export class CreateInvoiceAccountDto {
     email: string;
     holdingMemberId?: number | null;
+    memo?: string | null; // 메모
 }
 
 export class UpdateInvoiceAccountDto extends PartialType(CreateInvoiceAccountDto) {}
