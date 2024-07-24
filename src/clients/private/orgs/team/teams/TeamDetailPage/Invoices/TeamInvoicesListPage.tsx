@@ -10,6 +10,7 @@ import search from '^pages/apps/search';
 import {ListTable} from '^clients/private/_components/table/ListTable';
 import {InvoicesTableHeader} from '^clients/private/orgs/team/teams/TeamDetailPage/Invoices/InvoicesTableHeader';
 import {InvoicesTableRow} from '^clients/private/orgs/team/teams/TeamDetailPage/Invoices/InvoicesTableRow';
+import {FaPlus} from 'react-icons/fa6';
 
 export const TeamInvoicesListPage = memo(function TeamInvoicesListPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -26,25 +27,25 @@ export const TeamInvoicesListPage = memo(function TeamInvoicesListPage() {
     }, [orgId]);
 
     return (
-        <>
-            <AddInvoiceModal isOpened={isOpened} onClose={() => setIsOpened(false)} />
-            <TeamDetailLayout>
-                <div className={'flex items-center justify-between pb-4'}>
-                    <div>전체 {result.pagination.totalItemCount}</div>
-                    <div className={'flex space-x-4'}>
-                        <ListPageSearchInput onSearch={onSearch} placeholder={'검색어를 입력해주세요'} />
-                        <button className="btn btn-scordi gap-2 mb-1" onClick={() => setIsOpened(true)}>
-                            + 청구서 계정 등록
-                        </button>
-                    </div>
+        <TeamDetailLayout>
+            <div className={'flex items-center justify-between pb-4'}>
+                <div>전체 {result.pagination.totalItemCount}</div>
+                <div className={'flex space-x-4'}>
+                    <ListPageSearchInput onSearch={onSearch} placeholder={'검색어를 입력해주세요'} />
+                    <button className="btn btn-square btn-scordi mb-1" onClick={() => setIsOpened(true)}>
+                        <FaPlus fontSize={20} />
+                    </button>
                 </div>
-                <ListTable
-                    items={result.items}
-                    isLoading={isLoading}
-                    Header={() => <InvoicesTableHeader orderBy={orderBy} />}
-                    Row={({item}) => <InvoicesTableRow item={item} reload={reload} />}
-                />
-            </TeamDetailLayout>
-        </>
+            </div>
+            <ListTable
+                items={result.items}
+                isLoading={isLoading}
+                Header={() => <InvoicesTableHeader orderBy={orderBy} />}
+                Row={({item}) => <InvoicesTableRow item={item} reload={reload} />}
+            />
+
+            {/* 연결 추가 모달 */}
+            <AddInvoiceModal isOpened={isOpened} onClose={() => setIsOpened(false)} />
+        </TeamDetailLayout>
     );
 });

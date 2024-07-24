@@ -13,6 +13,8 @@ import {orgIdParamState} from '^atoms/common';
 import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
 import {Avatar} from '^components/Avatar';
 import {FaTrash} from '@react-icons/all-files/fa/FaTrash';
+import Tippy from '@tippyjs/react';
+import {FiMinusCircle} from '^components/react-icons';
 
 interface InvoicesTableRowProps {
     item: TeamInvoiceAccountDto;
@@ -25,18 +27,20 @@ export const InvoicesTableRow = memo((props: InvoicesTableRowProps) => {
 
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
 
+    if (!item.invoiceAccount) return <tr className="group"></tr>;
+
     return (
         <tr className="group">
             {/*프로필*/}
             <td
-                className={`cursor-pointer ${hoverBgColor} flex items-center space-x-1`}
+                className={`cursor-pointer ${hoverBgColor} flex items-center gap-3`}
                 onClick={() => onClick && onClick(item)}
             >
                 <Avatar
-                    src={item.invoiceAccount?.image || ''}
+                    src={item.invoiceAccount.image || ''}
                     className="w-8 h-8 outline outline-offset-1 outline-slate-100"
                 />
-                <p className="block text-14 font-normal truncate">{item.invoiceAccount?.email}</p>
+                <p className="block text-14 font-normal truncate">{item.invoiceAccount.email}</p>
             </td>
 
             <td className={`${hoverBgColor}`}></td>
@@ -44,9 +48,17 @@ export const InvoicesTableRow = memo((props: InvoicesTableRowProps) => {
             <td className={`${hoverBgColor}`}></td>
 
             <td className={`${hoverBgColor}`}>
-                <button onClick={() => console.log('delete')}>
-                    <FaTrash className="cursor-pointer" />
-                </button>
+                <div className="flex items-center justify-end">
+                    <Tippy content="이 팀에서 제거">
+                        <div>
+                            <FiMinusCircle
+                                fontSize={24}
+                                className="text-red-500 opacity-30 group-hover:opacity-100 transition-all cursor-pointer btn-animation"
+                                onClick={() => console.log('delete')}
+                            />
+                        </div>
+                    </Tippy>
+                </div>
             </td>
         </tr>
     );

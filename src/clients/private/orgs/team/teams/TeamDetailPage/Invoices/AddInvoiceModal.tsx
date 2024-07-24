@@ -30,7 +30,7 @@ export const AddInvoiceModal = memo(function AddInvoiceModal(props: AddInvoiceMo
     }, [orgId, teamId]);
 
     return (
-        <SlideUpModal open={isOpened} onClose={onClose}>
+        <SlideUpModal open={isOpened} onClose={onClose} size="lg">
             <h3 className="font-bold text-xl">팀에 등록할 청구서 계정을 선택해 주세요</h3>
 
             <div className="py-4 space-y-1">
