@@ -10,6 +10,7 @@ import {TeamDto} from '^models/Team/type';
 import {AxiosResponse} from 'axios';
 import {errorNotify} from '^utils/toast-notify';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
+import {InvoiceAccountProviderAvatar} from '^models/InvoiceAccount/components/InvoiceAccountProviderAvatar';
 
 interface InvoiceAccountTableRowProps {
     invoiceAccount: InvoiceAccountDto;
@@ -116,8 +117,10 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
                 />
             </td>
 
-            {/*/!*등록방식*!/*/}
-            {/*<td>등록방식</td>*/}
+            {/*등록방식*/}
+            <td>
+                <InvoiceAccountProviderAvatar invoiceAccount={invoiceAccount} />
+            </td>
         </tr>
     );
 });
