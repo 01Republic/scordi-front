@@ -100,19 +100,19 @@ export const invoiceAccountApi = {
     teamsApi: {
         // 연결된 팀 목록
         index(invoiceAccountId: number, params?: FindAllTeamQueryDto) {
-            const url = `/${NAMESPACE}/${invoiceAccountId}/teams`;
+            const url = `/invoice-accounts/${invoiceAccountId}/teams`;
             return api.get(url, {params}).then(paginatedDtoOf(TeamDto));
         },
 
         // 팀 연결
         create(invoiceAccountId: number, teamId: number) {
-            const url = `/${NAMESPACE}/${invoiceAccountId}/teams/${teamId}`;
+            const url = `/invoice-accounts/${invoiceAccountId}/teams/${teamId}`;
             return api.post(url).then(oneDtoOf(TeamInvoiceAccountDto));
         },
 
         // 팀 연결 해제
         destroy(invoiceAccountId: number, teamId: number) {
-            const url = `/${NAMESPACE}/${invoiceAccountId}/teams/${teamId}`;
+            const url = `/invoice-accounts/${invoiceAccountId}/teams/${teamId}`;
             return api.delete<void>(url);
         },
     },

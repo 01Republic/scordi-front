@@ -15,7 +15,7 @@ export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage
     const onReady = () => {
         search({
             where: {organizationId},
-            relations: ['subscriptions', 'googleTokenData', 'holdingMember'],
+            relations: ['subscriptions', 'googleTokenData', 'holdingMember', 'teams'],
             order: {id: 'DESC'},
         });
     };

@@ -61,6 +61,8 @@ export const TeamSelect = memo((props: TeamSelectProps) => {
             textOfOption={(team) => team.name}
             keywordFilter={(team, keyword) => team.name.includes(keyword)}
             onSelect={selectOption}
+            optionDetach={() => selectOption()}
+            detachableOptionBoxTitle="연결된 팀"
             // contentMinWidth="240px"
             contentMinWidth="100%"
             inputDisplay

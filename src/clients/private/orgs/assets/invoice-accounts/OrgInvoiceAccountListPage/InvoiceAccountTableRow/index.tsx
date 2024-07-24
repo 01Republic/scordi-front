@@ -7,6 +7,8 @@ import {TeamSelect} from '^models/Team/components/TeamSelect';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {TeamDto} from '^models/Team/type';
+import {AxiosResponse} from 'axios';
+import {errorNotify} from '^utils/toast-notify';
 
 interface InvoiceAccountTableRowProps {
     invoiceAccount: InvoiceAccountDto;
@@ -26,15 +28,31 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
             .finally(() => reload && reload());
     };
 
-    const connectTeam = (team?: TeamDto) => {
-        const id = invoiceAccount.id;
+    const setTeam = async (team?: TeamDto) => {
+        const {id, organizationId: orgId} = invoiceAccount;
 
-        if (team) {
-            return invoiceAccountApi.teamsApi.create(id, team.id);
-        } else {
+        const handler = (req: Promise<AxiosResponse<any>>) => {
+            req.then(() => toast.success('변경되었습니다')).catch(errorNotify);
+            // .finally(() => reload && reload());
+        };
+
+        const detachTeam = () => {
             const [attachedTeam] = invoiceAccount.teams || [];
             if (!attachedTeam) return;
             return invoiceAccountApi.teamsApi.destroy(id, attachedTeam.id);
+        };
+
+        const attachTeam = (team: TeamDto) => {
+            return Promise.resolve(detachTeam()).then(() => {
+                return invoiceAccountApi.teamsApi.create(id, team.id);
+            });
+        };
+
+        if (team) {
+            return handler(attachTeam(team));
+        } else {
+            const req = detachTeam();
+            return req && handler(req);
         }
     };
 
@@ -71,12 +89,7 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
 
             {/*팀 - editable, sortable (mono-select) / 멤버 프로필 / 검색가능 */}
             <td>
-                <TeamSelect
-                    onChange={async (team) => {
-                        console.log(team);
-                        toast('준비중인 기능입니다.');
-                    }}
-                />
+                <TeamSelect defaultValue={(invoiceAccount.teams || [])[0]} onChange={setTeam} />
             </td>
 
             {/*담당자 - editable, sortable (mono-select)*/}
