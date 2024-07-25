@@ -35,6 +35,14 @@ export const WorkspaceDropdown = memo((props: WorkspaceDropdownProps) => {
 
     if (!currentOrg) return <></>;
 
+    if (result.pagination.totalItemCount === 1) {
+        return (
+            <div className="font-medium cursor-default flex items-center gap-0.5">
+                <span>{currentOrg?.name}</span>
+            </div>
+        );
+    }
+
     return (
         <Dropdown
             placement="bottom-start"
