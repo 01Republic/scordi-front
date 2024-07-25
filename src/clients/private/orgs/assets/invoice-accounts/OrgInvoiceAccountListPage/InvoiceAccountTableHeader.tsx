@@ -16,8 +16,11 @@ export const InvoiceAccountTableHeader = memo((props: InvoiceAccountTableHeaderP
                 이름
             </SortableTH>
 
-            {/*연결 구독 수*/}
-            <th>연결 구독 수</th>
+            {/*구독 수*/}
+            <th>구독 수</th>
+
+            {/*등록방식*/}
+            <th>등록방식</th>
 
             {/*팀*/}
             <th>팀</th>
@@ -27,9 +30,6 @@ export const InvoiceAccountTableHeader = memo((props: InvoiceAccountTableHeaderP
 
             {/* 비고 */}
             <th>비고</th>
-
-            {/*등록방식*/}
-            <th>등록방식</th>
         </tr>
     );
 });

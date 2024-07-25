@@ -56,7 +56,7 @@ export const TeamMemberSelectColumn = memo((props: TeamMemberSelectColumnProps) 
     };
 
     return (
-        <div className={`min-w-40 overflow-x-hidden ${className}`}>
+        <div className={`overflow-x-hidden ${className}`}>
             <SelectColumn
                 value={selectedOption}
                 getOptions={getOptions}

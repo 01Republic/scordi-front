@@ -80,13 +80,18 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
                 </OpenButtonColumn>
             </td>
 
-            {/*연결 구독 수*/}
+            {/*구독 수*/}
             <td>
                 <div>
                     <p className="text-14">
-                        {subscriptions.length.toLocaleString()} <small>apps</small>
+                        {subscriptions.length.toLocaleString()} <small className="font-light">apps</small>
                     </p>
                 </div>
+            </td>
+
+            {/*등록방식*/}
+            <td>
+                <InvoiceAccountProviderAvatar invoiceAccount={invoiceAccount} />
             </td>
 
             {/*팀 - editable, sortable (mono-select) / 멤버 프로필 / 검색가능 */}
@@ -115,11 +120,6 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
                         return update({memo});
                     }}
                 />
-            </td>
-
-            {/*등록방식*/}
-            <td>
-                <InvoiceAccountProviderAvatar invoiceAccount={invoiceAccount} />
             </td>
         </tr>
     );
