@@ -4,7 +4,7 @@ import {FcDataBackup, FcDataRecovery} from 'react-icons/fc';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {CardCreateMethodOption} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/CardCreateMethodModal';
 import {connectInvoiceAccountCodeAtom} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
-import {useGoogleLoginForInvoiceAccountSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/InvoiceAccountSelect/useGoogleLoginForInvoiceAccountSelect';
+import {useGoogleLoginForInvoiceAccountSelect} from '^models/InvoiceAccount/hook';
 
 export enum InvoiceAccountCreateMethod {
     // (자동) 지메일 계정 연동

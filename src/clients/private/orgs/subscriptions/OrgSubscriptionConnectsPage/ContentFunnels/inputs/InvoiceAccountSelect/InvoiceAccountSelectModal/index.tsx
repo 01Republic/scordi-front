@@ -2,9 +2,9 @@ import React, {memo} from 'react';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {LoadableBox} from '^components/util/loading';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {useGoogleLoginForInvoiceAccountSelect} from '../useGoogleLoginForInvoiceAccountSelect';
 import {NotSelectableInvoiceAccount} from './NotSelectableInvoiceAccount';
 import {SelectableInvoiceAccount} from './SelectableInvoiceAccount';
+import {useGoogleLoginForInvoiceAccountSelect} from '^models/InvoiceAccount/hook';
 
 interface InvoiceAccountSelectModalProps {
     isOpened: boolean;

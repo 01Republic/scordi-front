@@ -6,7 +6,7 @@ import {
     isGoogleError,
 } from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
 import {orgIdParamState} from '^atoms/common';
-import {useInvoiceAccountListInConnector} from '^models/InvoiceAccount/hook';
+import {useGoogleLoginForInvoiceAccountSelect, useInvoiceAccountListInConnector} from '^models/InvoiceAccount/hook';
 import {invoiceAccountTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountIsLoading/invoiceAccountTimeoutChain';
 import {getCreateInvoiceAccountFromTo, InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
@@ -15,7 +15,6 @@ import {FaChevronLeft} from 'react-icons/fa6';
 import {ApiErrorResponse} from '^api/api';
 import {plainToInstance} from 'class-transformer';
 import {AxiosResponse} from 'axios';
-import {useGoogleLoginForInvoiceAccountSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/InvoiceAccountSelect/useGoogleLoginForInvoiceAccountSelect';
 
 interface InvoiceAccountAutoCreateModalProps {
     isOpened: boolean;

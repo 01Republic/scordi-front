@@ -1,10 +1,10 @@
 import React from 'react';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {alert2, swalHTML} from '^components/util/dialog';
-import {InvoiceAccountUpdateSwalForm} from './InvoiceAccountUpdateSwalForm';
-import {destroyInvoiceAccountHandler} from './destroyInvoiceAccountHandler';
 import {MoreButtonDropdownContent} from '^components/ui/inputs/MonoSelect/MoreButtonDropdown/MoreButtonDropdownContent';
 import {MoreButtonDropdownItem} from '^components/ui/inputs/MonoSelect/MoreButtonDropdown/MoreButtonDropdownItem';
+import {InvoiceAccountUpdateSwalForm} from '^models/InvoiceAccount/components';
+import {destroyInvoiceAccountHandler} from '^models/InvoiceAccount/hook';
 
 interface MoreButtonContentProps {
     invoiceAccount: InvoiceAccountDto;

@@ -1,5 +1,4 @@
 import React, {memo} from 'react';
-import {useRouter} from 'next/router';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {isInvoiceAccountAutoCreateModalAtom} from './atom';
@@ -14,13 +13,15 @@ import {FcDataBackup, FcDataRecovery} from 'react-icons/fc';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import {googleOAuth} from '^config/environments';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {useGoogleLoginForInvoiceAccountSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/InvoiceAccountSelect/useGoogleLoginForInvoiceAccountSelect';
+import {useGoogleLoginForInvoiceAccountSelect, useInvoiceAccounts} from '^models/InvoiceAccount/hook';
+import {swalHTML} from '^components/util/dialog';
+import {InvoiceAccountCreateInManualSwalForm} from '^models/InvoiceAccount/components';
 
 export const AddInvoiceAccountDropdown = memo(function AddInvoiceAccountDropdown() {
-    const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
     const setIsAutoCreateModalOpen = useSetRecoilState(isInvoiceAccountAutoCreateModalAtom);
     const {setCode} = useGoogleLoginForInvoiceAccountSelect();
+    const {reload} = useInvoiceAccounts();
 
     return (
         <ListPageDropdown>
@@ -47,7 +48,9 @@ export const AddInvoiceAccountDropdown = memo(function AddInvoiceAccountDropdown
                     Icon={FcDataRecovery}
                     title="직접 입력하기"
                     desc="수신 계정을 수기로 입력해요"
-                    onClick={() => alert('[공사중] 수신 계정 직접 입력하기 페이지')}
+                    onClick={() => {
+                        swalHTML(<InvoiceAccountCreateInManualSwalForm orgId={orgId} onSave={() => reload()} />);
+                    }}
                 />
             </ListPageDropdownMenu>
         </ListPageDropdown>
