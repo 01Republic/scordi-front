@@ -4,6 +4,7 @@ import {v3CommonRequires} from '^types/utils/18n.type';
 import {TeamMembersListPage} from '^clients/private/orgs/team/teams/TeamDetailPage/Members/TeamMembersListPage';
 import {orgIdParamState, teamIdParamState, useRouterIdParamState} from '^atoms/common';
 import React from 'react';
+import {TeamSubscriptionsListPage} from '^clients/private/orgs/team/teams/TeamDetailPage/Subscriptions/TeamSubscriptionsListPage';
 
 export const TeamSubscriptionsPageRoute = pathRoute({
     pathname: '/orgs/[id]/teams/[teamId]/subscriptions',
@@ -32,5 +33,5 @@ export default function Page() {
     if (!orgId || isNaN(orgId)) return <></>;
     if (!teamId || isNaN(teamId)) return <></>;
 
-    return <TeamMembersListPage />;
+    return <TeamSubscriptionsListPage />;
 }
