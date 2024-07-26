@@ -11,6 +11,7 @@ import {AxiosResponse} from 'axios';
 import {errorNotify} from '^utils/toast-notify';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {InvoiceAccountProviderAvatar} from '^models/InvoiceAccount/components/InvoiceAccountProviderAvatar';
+import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[invoiceAccountId]';
 
 interface InvoiceAccountTableRowProps {
     invoiceAccount: InvoiceAccountDto;
@@ -19,10 +20,9 @@ interface InvoiceAccountTableRowProps {
 
 export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) => {
     const {invoiceAccount, reload} = props;
-    const {subscriptions = []} = invoiceAccount;
+    const {id, organizationId: orgId, subscriptions = []} = invoiceAccount;
 
     const update = async (dto: UpdateInvoiceAccountDto) => {
-        const {id, organizationId: orgId} = invoiceAccount;
         return invoiceAccountApi
             .updateV3(orgId, id, dto)
             .then(() => toast.success('수정했습니다'))
@@ -31,8 +31,6 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
     };
 
     const setTeam = async (team?: TeamDto) => {
-        const {id, organizationId: orgId} = invoiceAccount;
-
         const handler = (req: Promise<AxiosResponse<any>>) => {
             req.then(() => toast.success('변경되었습니다')).catch(errorNotify);
             // .finally(() => reload && reload());
@@ -58,6 +56,8 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
         }
     };
 
+    const showPagePath = OrgInvoiceAccountShowPageRoute.path(orgId, id);
+
     /**
      * - 프로필 컬럼
      *     - [ ]  로고 / 이름 + 계정
@@ -75,7 +75,7 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
         <tr className="group">
             {/*프로필*/}
             <td>
-                <OpenButtonColumn>
+                <OpenButtonColumn href={showPagePath}>
                     <InvoiceAccountProfile invoiceAccount={invoiceAccount} />
                 </OpenButtonColumn>
             </td>

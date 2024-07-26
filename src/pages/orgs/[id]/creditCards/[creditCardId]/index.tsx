@@ -1,13 +1,10 @@
-import React, {useEffect} from 'react';
-import {useRouter} from 'next/router';
+import React from 'react';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
-import {creditCardIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useCurrentOrg} from '^models/Organization/hook';
-import {useRecoilState} from 'recoil';
-import {creditCardSubjectAtom} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/atom';
+import {creditCardIdParamState} from '^atoms/common';
 import {creditCardApi} from '^models/CreditCard/api';
+import {creditCardSubjectAtom} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/atom';
 import {OrgCreditCardShowPage} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage';
 import {ShowRoutingPage} from '^clients/private/_components/rest-pages/ShowPage/ShowRoutingPage';
 

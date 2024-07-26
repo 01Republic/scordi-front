@@ -4,8 +4,8 @@ import {HiOutlineMail, HiOutlinePhone} from 'react-icons/hi';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 import {TeamTag} from '^models/Team/components/TeamTag';
 import {useCurrentTeamMember} from '../atom';
-import {KeyValue} from './KeyValue';
-import {ContactButton} from './ContactButton';
+import {KeyValue} from '^clients/private/_components/rest-pages/ShowPage/KeyValue';
+import {ContactButton} from '^clients/private/_components/rest-pages/ShowPage/ContactButton';
 
 export const TeamMemberProfilePanel = memo(function TeamMemberProfilePanel() {
     const {currentTeamMember} = useCurrentTeamMember();
