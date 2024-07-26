@@ -6,18 +6,33 @@ import {TeamMemberStatusDropdown} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamM
 import {OrgTeamMemberShowPageRoute} from '^pages/orgs/[id]/teamMembers/[teamMemberId]';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {TeamMemberRole} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberRole';
+import Tippy from '@tippyjs/react';
+import {FiMinusCircle} from '^components/react-icons';
+import {teamMembershipApi} from '^models/TeamMembership/api';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState, teamIdParamState} from '^atoms/common';
+import {TeamMemberTag} from '^clients/private/orgs/team/teams/TeamDetailPage/Members/TeamMemberTag';
 
 interface TeamMemberTableRowProps {
-    teamMember: TeamMemberDto;
+    teamMember?: TeamMemberDto;
     onClick?: (teamMember: TeamMemberDto) => any;
     reload?: () => any;
 }
 
 export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
     const {teamMember, onClick, reload} = props;
+    const orgId = useRecoilValue(orgIdParamState);
+    const teamId = useRecoilValue(teamIdParamState);
+
+    if (!teamMember) return null;
+
     const showPagePath = OrgTeamMemberShowPageRoute.path(teamMember.organizationId, teamMember.id);
 
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
+
+    const onDelete = () => {
+        teamMembershipApi.destroy(orgId, {teamId: teamId, teamMemberId: teamMember.id}).then(() => reload && reload());
+    };
 
     return (
         <tr className="group">
@@ -60,12 +75,26 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
 
             {/* 권한 */}
             <td className={`cursor-pointer ${hoverBgColor}`}>
-                <TeamMemberRole teamMember={teamMember} onChange={() => reload && reload()} />
+                <TeamMemberTag teamMember={teamMember} onChange={() => reload && reload()} />
             </td>
 
             {/* 상태 */}
-            <td className={`text-right ${hoverBgColor}`}>
-                <TeamMemberStatusDropdown teamMember={teamMember} reload={() => reload && reload()} />
+            {/*<td className={`text-right ${hoverBgColor}`}>*/}
+            {/*    <TeamMemberStatusDropdown teamMember={teamMember} reload={() => reload && reload()} />*/}
+            {/*</td>*/}
+
+            <td className={`${hoverBgColor}`}>
+                <div className="flex items-center justify-end">
+                    <Tippy content="이 팀에서 제거">
+                        <div>
+                            <FiMinusCircle
+                                fontSize={24}
+                                className="text-red-500 opacity-30 group-hover:opacity-100 transition-all cursor-pointer btn-animation"
+                                onClick={onDelete}
+                            />
+                        </div>
+                    </Tippy>
+                </div>
             </td>
         </tr>
     );
