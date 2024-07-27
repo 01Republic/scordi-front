@@ -12,6 +12,7 @@ import {TeamMembersTableHeader} from '^clients/private/orgs/team/teams/TeamDetai
 import {useTeamMembershipListInTeamDetail} from '^models/TeamMembership/hook';
 import {useTeamCreditCardListInTeamDetail} from '^models/TeamCreditCard/hook';
 import {AddMemberModal} from '^clients/private/orgs/team/teams/TeamDetailPage/Members/AddMemberModal';
+import {FaPlus} from 'react-icons/fa6';
 
 export const TeamMembersListPage = memo(function TeamMembersListPage() {
     const teamId = useRecoilValue(teamIdParamState);
@@ -20,12 +21,19 @@ export const TeamMembersListPage = memo(function TeamMembersListPage() {
     const [isOpened, setIsOpened] = useState(false);
 
     useEffect(() => {
-        !!teamId && search({where: {teamId: teamId}, relations: ['teamMember']});
-        // TODO: membership 정보까지 relation 해야하는데 어떻게 하지
+        !!teamId && search({where: {teamId: teamId}, relations: ['teamMember', 'teamMember.membership']});
     }, [teamId]);
 
     const onSearch = (keyword?: string) => {
-        // TODO: 멤버 이름으로 검색 기능
+        // search({
+        //     relations: ['teamMember', 'teamMember.membership'],
+        //     where: {
+        //         teamId: teamId,
+        //         teamMember: {
+        //             name: keyword,
+        //         },
+        //     },
+        // });
     };
 
     return (
@@ -34,8 +42,8 @@ export const TeamMembersListPage = memo(function TeamMembersListPage() {
                 <div>전체 {result.pagination.totalItemCount}</div>
                 <div className={'flex space-x-4'}>
                     <ListPageSearchInput onSearch={onSearch} placeholder={'검색어를 입력해주세요'} />
-                    <button className="btn btn-scordi gap-2 mb-1" onClick={() => setIsOpened(true)}>
-                        + 멤버 등록
+                    <button className="btn btn-square btn-scordi mb-1" onClick={() => setIsOpened(true)}>
+                        <FaPlus fontSize={20} />
                     </button>
                 </div>
             </div>
@@ -48,6 +56,7 @@ export const TeamMembersListPage = memo(function TeamMembersListPage() {
 
             {/* 연결 추가 모달 */}
             <AddMemberModal
+                preItems={result.items}
                 isOpened={isOpened}
                 onClose={() => {
                     reload();

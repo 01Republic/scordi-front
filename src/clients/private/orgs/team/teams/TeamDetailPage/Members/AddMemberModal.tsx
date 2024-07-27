@@ -10,8 +10,12 @@ import {teamInvoiceAccountApi} from '^models/TeamInvoiceAccount/api';
 import {TeamMemberDto, useTeamMember, useTeamMembersInTeamMembersTable} from '^models/TeamMember';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 import {teamMembershipApi} from '^models/TeamMembership/api';
+import {TeamMembershipDto} from '^models/TeamMembership/type';
+import {FiCheckCircle} from 'react-icons/fi';
 
-type AddMemberModalProps = ModalProps;
+interface AddMemberModalProps extends ModalProps {
+    preItems?: TeamMembershipDto[];
+}
 
 export const AddMemberModal = memo(function AddMemberModal(props: AddMemberModalProps) {
     const orgId = useRecoilValue(orgIdParamState);
@@ -25,8 +29,15 @@ export const AddMemberModal = memo(function AddMemberModal(props: AddMemberModal
             teamMembershipApi.create(orgId, {teamId: teamId, teamMemberId: member.id}),
         );
         const req = Promise.allSettled(requests);
-        req.then(() => onClose());
+        req.then(() => {
+            setSelected([]);
+            onClose();
+        });
     };
+
+    const entries = result.items.filter(
+        (item) => !props.preItems?.map((item) => item.teamMember?.id).includes(item.id),
+    );
 
     useEffect(() => {
         !!orgId && !!teamId && reload();
@@ -35,9 +46,10 @@ export const AddMemberModal = memo(function AddMemberModal(props: AddMemberModal
     return (
         <SlideUpModal open={isOpened} onClose={onClose} size="lg">
             <h3 className="font-bold text-xl">팀에 등록할 팀 멤버를 선택해 주세요</h3>
+            <p className={'text-gray-500 mb-3'}>이미 추가된 멤버는 뺐어요</p>
 
             <div className="py-4 space-y-1 max-h-96 overflow-y-scroll">
-                {result.items.map((member, i) => (
+                {entries.map((member, i) => (
                     <div
                         tabIndex={0}
                         key={i}
@@ -60,7 +72,7 @@ export const AddMemberModal = memo(function AddMemberModal(props: AddMemberModal
                                 <span className={'text-gray-400 text-sm'}>{member.email}</span>
                             </p>
                         </div>
-                        <div>{selected.includes(member) && <FaCheck className="text-scordi" />}</div>
+                        <div>{selected.includes(member) && <FiCheckCircle className="text-scordi text-xl" />}</div>
                     </div>
                 ))}
             </div>

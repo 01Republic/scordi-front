@@ -12,7 +12,7 @@ export const TeamMemberTag = memo((props: TeamMemberTagProps) => {
 
     if (!teamMember) return null;
     return (
-        <div className="flex items-center gap-2 px-2 py-1 bg-scordi-100 text-scordi rounded-full">
+        <div className="flex items-center gap-2 px-2 py-1 bg-scordi-100 text-scordi rounded-full justify-center">
             <p className="text-12">{teamMember.membership?.level}</p>
         </div>
     );

@@ -8,6 +8,7 @@ import {ListTable} from '^clients/private/_components/table/ListTable';
 import {AddPaymentModal} from '^clients/private/orgs/team/teams/TeamDetailPage/Payments/AddPaymentModal';
 import {TeamPaymentTableHeader} from '^clients/private/orgs/team/teams/TeamDetailPage/Payments/TeamPaymentTableHeader';
 import {TeamPaymentTableRow} from '^clients/private/orgs/team/teams/TeamDetailPage/Payments/TeamPaymentTableRow';
+import {FaPlus} from 'react-icons/fa6';
 
 export const TeamPaymentsListPage = memo(function TeamPaymentsListPage() {
     const teamId = useRecoilValue(teamIdParamState);
@@ -28,8 +29,8 @@ export const TeamPaymentsListPage = memo(function TeamPaymentsListPage() {
                 <div>전체 {result.pagination.totalItemCount}</div>
                 <div className={'flex space-x-4'}>
                     <ListPageSearchInput onSearch={onSearch} placeholder={'검색어를 입력해주세요'} />
-                    <button className="btn btn-scordi gap-2 mb-1" onClick={() => setIsOpened(true)}>
-                        + 결제수단 등록
+                    <button className="btn btn-square btn-scordi mb-1" onClick={() => setIsOpened(true)}>
+                        <FaPlus fontSize={20} />
                     </button>
                 </div>
             </div>

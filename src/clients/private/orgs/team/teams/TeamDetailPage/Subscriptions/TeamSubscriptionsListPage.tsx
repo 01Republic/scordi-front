@@ -18,7 +18,7 @@ export const TeamSubscriptionsListPage = memo(function TeamSubscriptionsListPage
     };
 
     useEffect(() => {
-        !!teamId && search({});
+        !!teamId && search({where: {}, relations: []});
         // TODO: 팀 ID로 검색하는 로직이 필요함
     }, [teamId]);
 
