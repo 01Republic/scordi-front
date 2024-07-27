@@ -5,10 +5,14 @@ import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {orgIdParamState, teamIdParamState} from '^atoms/common';
 import {useRecoilValue} from 'recoil';
-import {FaCheck} from 'react-icons/fa6';
-import {teamInvoiceAccountApi} from '^models/TeamInvoiceAccount/api';
+import {InvoiceAccountProfile} from '^models/InvoiceAccount/components';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {TeamInvoiceAccountDto} from '^models/TeamInvoiceAccount/type';
+import {FiCheckCircle} from 'react-icons/fi';
 
-type AddInvoiceModalProps = ModalProps;
+interface AddInvoiceModalProps extends ModalProps {
+    preItems?: TeamInvoiceAccountDto[];
+}
 
 export const AddInvoiceModal = memo(function AddInvoiceModal(props: AddInvoiceModalProps) {
     const orgId = useRecoilValue(orgIdParamState);
@@ -18,12 +22,17 @@ export const AddInvoiceModal = memo(function AddInvoiceModal(props: AddInvoiceMo
     const [selected, setSelected] = React.useState<InvoiceAccountDto[]>([]);
 
     const onSave = () => {
-        const requests = selected.map((invoice) =>
-            teamInvoiceAccountApi.create(orgId, {teamId: teamId, invoiceAccountId: invoice.id}),
-        );
+        const requests = selected.map((invoice) => invoiceAccountApi.teamsApi.create(invoice.id, teamId));
         const req = Promise.allSettled(requests);
-        req.then(() => onClose());
+        req.then(() => {
+            setSelected([]);
+            onClose();
+        });
     };
+
+    const entries = result.items.filter(
+        (item) => !props.preItems?.map((item) => item.invoiceAccount?.id).includes(item.id),
+    );
 
     useEffect(() => {
         !!orgId && !!teamId && reload();
@@ -32,9 +41,10 @@ export const AddInvoiceModal = memo(function AddInvoiceModal(props: AddInvoiceMo
     return (
         <SlideUpModal open={isOpened} onClose={onClose} size="lg">
             <h3 className="font-bold text-xl">팀에 등록할 청구서 계정을 선택해 주세요</h3>
+            <p className={'text-gray-500 mb-3'}>이미 추가된 결제수단은 뺐어요</p>
 
             <div className="py-4 space-y-1">
-                {result.items.map((invoice, i) => (
+                {entries.map((invoice, i) => (
                     <div
                         tabIndex={0}
                         key={i}
@@ -49,10 +59,8 @@ export const AddInvoiceModal = memo(function AddInvoiceModal(props: AddInvoiceMo
                             }
                         }}
                     >
-                        <div>
-                            <p className="font-medium text-16">{invoice.email}</p>
-                        </div>
-                        <div>{selected.includes(invoice) && <FaCheck className="text-scordi" />}</div>
+                        <InvoiceAccountProfile invoiceAccount={invoice} />
+                        <div>{selected.includes(invoice) && <FiCheckCircle className="text-scordi text-xl" />}</div>
                     </div>
                 ))}
             </div>

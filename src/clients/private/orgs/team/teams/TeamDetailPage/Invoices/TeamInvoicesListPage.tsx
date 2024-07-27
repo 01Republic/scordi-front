@@ -19,11 +19,19 @@ export const TeamInvoicesListPage = memo(function TeamInvoicesListPage() {
     const [isOpened, setIsOpened] = useState(false);
 
     const onSearch = (keyword?: string) => {
-        console.log('keyword', keyword);
+        // !!keyword &&
+        //     search({
+        //         where: {
+        //             invoiceAccount: {
+        //                 email: keyword,
+        //             },
+        //         },
+        //         relations: ['invoiceAccount', 'invoiceAccount.holdingMember'],
+        //     });
     };
 
     useEffect(() => {
-        !!orgId && search({relations: ['invoiceAccount']});
+        !!orgId && search({relations: ['invoiceAccount', 'invoiceAccount.holdingMember']});
     }, [orgId]);
 
     return (
@@ -45,7 +53,14 @@ export const TeamInvoicesListPage = memo(function TeamInvoicesListPage() {
             />
 
             {/* 연결 추가 모달 */}
-            <AddInvoiceModal isOpened={isOpened} onClose={() => setIsOpened(false)} />
+            <AddInvoiceModal
+                preItems={result.items}
+                isOpened={isOpened}
+                onClose={() => {
+                    setIsOpened(false);
+                    reload();
+                }}
+            />
         </TeamDetailLayout>
     );
 });

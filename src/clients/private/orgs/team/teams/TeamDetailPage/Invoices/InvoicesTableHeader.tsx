@@ -10,9 +10,8 @@ export const InvoicesTableHeader = memo((props: InvoicesTableHeaderProps) => {
     return (
         <tr className="bg-slate-100">
             <th>이름</th>
-            <th>연결 구독 수</th>
-            <th>등록방식</th>
-            <th></th>
+            <th>담당자</th>
+            <th />
         </tr>
     );
 });
