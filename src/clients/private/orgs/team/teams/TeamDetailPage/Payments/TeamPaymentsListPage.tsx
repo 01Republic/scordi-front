@@ -4,8 +4,6 @@ import React, {memo, useEffect, useState} from 'react';
 import {useTeamCreditCardListInTeamDetail} from '^models/TeamCreditCard/hook';
 import {useRecoilValue} from 'recoil';
 import {teamIdParamState} from '^atoms/common';
-import {TeamMembersTableHeader} from '^clients/private/orgs/team/teams/TeamDetailPage/Members/TeamMembersTableHeader';
-import {TeamMembersTableRow} from '^clients/private/orgs/team/teams/TeamDetailPage/Members/TeamMembersTableRow';
 import {ListTable} from '^clients/private/_components/table/ListTable';
 import {AddPaymentModal} from '^clients/private/orgs/team/teams/TeamDetailPage/Payments/AddPaymentModal';
 import {TeamPaymentTableHeader} from '^clients/private/orgs/team/teams/TeamDetailPage/Payments/TeamPaymentTableHeader';
@@ -21,7 +19,7 @@ export const TeamPaymentsListPage = memo(function TeamPaymentsListPage() {
     };
 
     useEffect(() => {
-        !!teamId && search({where: {teamId: teamId}, relations: ['creditCard']});
+        !!teamId && search({where: {teamId: teamId}, relations: ['creditCard', 'creditCard.holdingMember']});
     }, [teamId]);
 
     return (
@@ -43,6 +41,7 @@ export const TeamPaymentsListPage = memo(function TeamPaymentsListPage() {
             />
 
             <AddPaymentModal
+                preItems={result.items}
                 isOpened={isOpened}
                 onClose={() => {
                     reload();

@@ -1,32 +1,25 @@
 import React, {memo, useEffect} from 'react';
 import {ModalProps} from '^components/modals/_shared/Modal.types';
-import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {orgIdParamState, teamIdParamState} from '^atoms/common';
 import {useRecoilValue} from 'recoil';
-import {FaCheck} from 'react-icons/fa6';
-import {teamInvoiceAccountApi} from '^models/TeamInvoiceAccount/api';
-import {TeamMemberDto, useTeamMember, useTeamMembersInTeamMembersTable} from '^models/TeamMember';
-import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
-import {teamMembershipApi} from '^models/TeamMembership/api';
 import {useCreditCardListForListPage} from '^models/CreditCard/hook';
 import {CreditCardDto} from '^models/CreditCard/type';
-import {creditCardApi} from '^models/CreditCard/api';
 import {teamCreditCardApi} from '^models/TeamCreditCard/api';
-import {
-    CreditCardProfile,
-    CreditCardProfileOption,
-    CreditCardProfileOption2,
-} from '^models/CreditCard/hook/components/CreditCardProfile';
+import {CreditCardProfileOption2} from '^models/CreditCard/hook/components/CreditCardProfile';
+import {FiCheckCircle} from 'react-icons/fi';
+import {TeamCreditCardDto} from '^models/TeamCreditCard/type';
 
-type AddPaymentModalProps = ModalProps;
+interface AddPaymentModalProps extends ModalProps {
+    preItems?: TeamCreditCardDto[];
+}
 
 export const AddPaymentModal = memo(function AddPaymentModal(props: AddPaymentModalProps) {
+    const {preItems} = props;
     const orgId = useRecoilValue(orgIdParamState);
     const teamId = useRecoilValue(teamIdParamState);
     const {isOpened, onClose} = props;
-    const {result, search, reload} = useCreditCardListForListPage();
+    const {result, search} = useCreditCardListForListPage();
     const [selected, setSelected] = React.useState<CreditCardDto[]>([]);
 
     const onSave = () => {
@@ -34,19 +27,25 @@ export const AddPaymentModal = memo(function AddPaymentModal(props: AddPaymentMo
             teamCreditCardApi.create(orgId, {teamId: teamId, creditCardId: creditCard.id}),
         );
         const req = Promise.allSettled(requests);
-        req.then(() => onClose());
+        req.then(() => {
+            setSelected([]);
+            onClose();
+        });
     };
 
+    const entries = result.items.filter((item) => !preItems?.map((item) => item.creditCard?.id).includes(item.id));
+
     useEffect(() => {
-        !!orgId && !!teamId && reload();
+        !!orgId && !!teamId && search({where: {organizationId: orgId}});
     }, [orgId, teamId]);
 
     return (
         <SlideUpModal open={isOpened} onClose={onClose} size="lg">
             <h3 className="font-bold text-xl">팀에 등록할 결제수단을 선택해 주세요</h3>
+            <p className={'text-gray-500 mb-3'}>이미 추가된 결제수단은 뺐어요</p>
 
             <div className="py-4 space-y-1 max-h-96 overflow-y-scroll">
-                {result.items.map((creditCard, i) => (
+                {entries.map((creditCard, i) => (
                     <div
                         tabIndex={0}
                         key={i}
@@ -64,7 +63,7 @@ export const AddPaymentModal = memo(function AddPaymentModal(props: AddPaymentMo
                         <div className={'flex gap-3 items-center'}>
                             <CreditCardProfileOption2 item={creditCard} />
                         </div>
-                        <div>{selected.includes(creditCard) && <FaCheck className="text-scordi" />}</div>
+                        <div>{selected.includes(creditCard) && <FiCheckCircle className="text-scordi text-xl" />}</div>
                     </div>
                 ))}
             </div>
