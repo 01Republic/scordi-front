@@ -10,12 +10,14 @@ export const TeamPaymentTableHeader = memo((props: TeamPaymentTableHeaderProps) 
     return (
         <tr className="bg-slate-100">
             {/* 카드 프로필 */}
-            <SortableTH sortKey="[name]" onClick={orderBy}>
+            <SortableTH sortKey="[creditCard][name]" onClick={orderBy}>
                 이름
             </SortableTH>
 
             {/* 소지자 */}
-            <th>소지자</th>
+            <SortableTH sortKey={'[creditCard][holdingMember][name]'} onClick={orderBy}>
+                소지자
+            </SortableTH>
 
             <th />
         </tr>

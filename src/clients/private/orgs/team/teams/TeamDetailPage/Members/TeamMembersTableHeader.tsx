@@ -9,7 +9,7 @@ export const TeamMembersTableHeader = memo((props: TeamMemberTableHeaderProps) =
 
     return (
         <tr className="bg-slate-100">
-            <SortableTH sortKey="[name]" onClick={orderBy}>
+            <SortableTH sortKey="[teamMember][name]" onClick={orderBy}>
                 이름
             </SortableTH>
 
@@ -17,12 +17,12 @@ export const TeamMembersTableHeader = memo((props: TeamMemberTableHeaderProps) =
             <th>전화번호</th>
 
             {/* 이용 앱 수 */}
-            <SortableTH sortKey="[subscriptionCount]" sortVal="DESC" onClick={orderBy}>
+            <SortableTH sortKey="[teamMember][subscriptionCount]" sortVal="DESC" onClick={orderBy}>
                 이용 앱 수
             </SortableTH>
 
             {/* 권한 */}
-            <SortableTH sortKey="[membership][level]" onClick={orderBy} className="justify-center">
+            <SortableTH sortKey="[teamMember][membership][level]" onClick={orderBy} className="justify-center">
                 권한
             </SortableTH>
 
