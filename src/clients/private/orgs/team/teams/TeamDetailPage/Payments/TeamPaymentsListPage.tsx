@@ -26,7 +26,9 @@ export const TeamPaymentsListPage = memo(function TeamPaymentsListPage() {
     return (
         <TeamDetailLayout>
             <div className={'flex items-center justify-between pb-4'}>
-                <div>전체 {result.pagination.totalItemCount}</div>
+                <div>
+                    전체 <span className={'text-scordi-500'}>{result.pagination.totalItemCount}</span>
+                </div>
                 <div className={'flex space-x-4'}>
                     <ListPageSearchInput onSearch={onSearch} placeholder={'검색어를 입력해주세요'} />
                     <button className="btn btn-square btn-scordi mb-1" onClick={() => setIsOpened(true)}>
