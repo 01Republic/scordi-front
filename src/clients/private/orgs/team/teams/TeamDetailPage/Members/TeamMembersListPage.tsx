@@ -47,12 +47,18 @@ export const TeamMembersListPage = memo(function TeamMembersListPage() {
                     </button>
                 </div>
             </div>
-            <ListTable
-                items={result.items}
-                isLoading={isLoading}
-                Header={() => <TeamMembersTableHeader orderBy={orderBy} />}
-                Row={({item}) => <TeamMembersTableRow teamMember={item.teamMember} reload={reload} />}
-            />
+            {result.items.length > 0 ? (
+                <ListTable
+                    items={result.items}
+                    isLoading={isLoading}
+                    Header={() => <TeamMembersTableHeader orderBy={orderBy} />}
+                    Row={({item}) => <TeamMembersTableRow teamMember={item.teamMember} reload={reload} />}
+                />
+            ) : (
+                <div className={'text-center py-8'}>
+                    <p>팀 멤버가 없습니다. 멤버를 추가해 주세요.</p>
+                </div>
+            )}
 
             {/* 연결 추가 모달 */}
             <AddMemberModal

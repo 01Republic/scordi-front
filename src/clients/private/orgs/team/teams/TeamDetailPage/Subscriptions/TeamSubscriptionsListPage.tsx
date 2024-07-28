@@ -30,12 +30,18 @@ export const TeamSubscriptionsListPage = memo(function TeamSubscriptionsListPage
                     <ListPageSearchInput onSearch={onSearch} placeholder={'검색어를 입력해주세요'} />
                 </div>
             </div>
-            <ListTable
-                items={result.items}
-                isLoading={isLoading}
-                Header={() => <SubscriptionTableHeader orderBy={orderBy} />}
-                Row={({item}) => <SubscriptionTableRow subscription={item} reload={reload} />}
-            />
+            {result.items.length > 0 ? (
+                <ListTable
+                    items={result.items}
+                    isLoading={isLoading}
+                    Header={() => <SubscriptionTableHeader orderBy={orderBy} />}
+                    Row={({item}) => <SubscriptionTableRow subscription={item} reload={reload} />}
+                />
+            ) : (
+                <div className={'text-center py-8'}>
+                    <p>구독중인 항목이 없습니다. 먼저 팀 멤버를 추가해 주세요.</p>
+                </div>
+            )}
         </TeamDetailLayout>
     );
 });

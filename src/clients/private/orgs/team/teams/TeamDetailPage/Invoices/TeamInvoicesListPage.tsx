@@ -45,12 +45,18 @@ export const TeamInvoicesListPage = memo(function TeamInvoicesListPage() {
                     </button>
                 </div>
             </div>
-            <ListTable
-                items={result.items}
-                isLoading={isLoading}
-                Header={() => <InvoicesTableHeader orderBy={orderBy} />}
-                Row={({item}) => <InvoicesTableRow item={item} reload={reload} />}
-            />
+            {result.items.length > 0 ? (
+                <ListTable
+                    items={result.items}
+                    isLoading={isLoading}
+                    Header={() => <InvoicesTableHeader orderBy={orderBy} />}
+                    Row={({item}) => <InvoicesTableRow item={item} reload={reload} />}
+                />
+            ) : (
+                <div className={'text-center py-8'}>
+                    <p>항목이 없습니다. 청구서 수신 계정을 추가해 주세요.</p>
+                </div>
+            )}
 
             {/* 연결 추가 모달 */}
             <AddInvoiceModal

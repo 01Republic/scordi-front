@@ -34,12 +34,18 @@ export const TeamPaymentsListPage = memo(function TeamPaymentsListPage() {
                     </button>
                 </div>
             </div>
-            <ListTable
-                items={result.items}
-                isLoading={isLoading}
-                Header={() => <TeamPaymentTableHeader orderBy={orderBy} />}
-                Row={({item}) => <TeamPaymentTableRow creditCard={item.creditCard} reload={reload} />}
-            />
+            {result.items.length > 0 ? (
+                <ListTable
+                    items={result.items}
+                    isLoading={isLoading}
+                    Header={() => <TeamPaymentTableHeader orderBy={orderBy} />}
+                    Row={({item}) => <TeamPaymentTableRow creditCard={item.creditCard} reload={reload} />}
+                />
+            ) : (
+                <div className={'text-center py-8'}>
+                    <p>항목이 없습니다. 결제수단을 추가해 주세요.</p>
+                </div>
+            )}
 
             <AddPaymentModal
                 preItems={result.items}
