@@ -12,6 +12,7 @@ import {teamMembershipApi} from '^models/TeamMembership/api';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState, teamIdParamState} from '^atoms/common';
 import {TeamMemberTag} from '^clients/private/orgs/team/teams/TeamDetailPage/Members/TeamMemberTag';
+import {toast} from 'react-toastify';
 
 interface TeamMemberTableRowProps {
     teamMember?: TeamMemberDto;
@@ -31,7 +32,10 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
 
     const onDelete = () => {
-        teamMembershipApi.destroy(orgId, {teamId: teamId, teamMemberId: teamMember.id}).then(() => reload && reload());
+        teamMembershipApi.destroy(orgId, {teamId: teamId, teamMemberId: teamMember.id}).then(() => {
+            toast.success('삭제했습니다');
+            reload && reload();
+        });
     };
 
     return (
@@ -77,11 +81,6 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
             <td className={`cursor-pointer ${hoverBgColor}`}>
                 <TeamMemberTag teamMember={teamMember} onChange={() => reload && reload()} />
             </td>
-
-            {/* 상태 */}
-            {/*<td className={`text-right ${hoverBgColor}`}>*/}
-            {/*    <TeamMemberStatusDropdown teamMember={teamMember} reload={() => reload && reload()} />*/}
-            {/*</td>*/}
 
             <td className={`${hoverBgColor}`}>
                 <div className="flex items-center justify-end">
