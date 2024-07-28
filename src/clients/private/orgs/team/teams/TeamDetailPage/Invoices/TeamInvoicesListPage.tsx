@@ -7,7 +7,7 @@ import {AddInvoiceModal} from '^clients/private/orgs/team/teams/TeamDetailPage/I
 import {orgIdParamState} from '^atoms/common';
 import {useRecoilValue} from 'recoil';
 import search from '^pages/apps/search';
-import {ListTable} from '^clients/private/_components/table/ListTable';
+import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {InvoicesTableHeader} from '^clients/private/orgs/team/teams/TeamDetailPage/Invoices/InvoicesTableHeader';
 import {InvoicesTableRow} from '^clients/private/orgs/team/teams/TeamDetailPage/Invoices/InvoicesTableRow';
 import {FaPlus} from 'react-icons/fa6';
@@ -46,12 +46,20 @@ export const TeamInvoicesListPage = memo(function TeamInvoicesListPage() {
                 </div>
             </div>
             {result.items.length > 0 ? (
-                <ListTable
-                    items={result.items}
-                    isLoading={isLoading}
-                    Header={() => <InvoicesTableHeader orderBy={orderBy} />}
-                    Row={({item}) => <InvoicesTableRow item={item} reload={reload} />}
-                />
+                <ListTableContainer
+                    pagination={result.pagination}
+                    movePage={movePage}
+                    changePageSize={changePageSize}
+                    unit="개"
+                    hideTopPaginator={true}
+                >
+                    <ListTable
+                        items={result.items}
+                        isLoading={isLoading}
+                        Header={() => <InvoicesTableHeader orderBy={orderBy} />}
+                        Row={({item}) => <InvoicesTableRow item={item} reload={reload} />}
+                    />
+                </ListTableContainer>
             ) : (
                 <div className={'text-center py-8'}>
                     <p>항목이 없습니다. 청구서 수신 계정을 추가해 주세요.</p>

@@ -3,18 +3,19 @@ import {TeamDetailLayout} from '^clients/private/orgs/team/teams/TeamDetailPage/
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 import {useRecoilValue} from 'recoil';
 import {teamIdParamState} from '^atoms/common';
-import {ListTable} from '^clients/private/_components/table/ListTable';
+import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {SubscriptionTableRow} from '^clients/private/orgs/team/teams/TeamDetailPage/Subscriptions/TeamSubscriptionTableRow';
-import {SubscriptionTableHeader} from '^clients/private/orgs/subscriptions/OrgSubscriptionListPage/SubscriptionTableHeader';
-import {useSubscriptionsV2} from '^models/Subscription/hook';
+
+import {useSubscriptionsInTeamMemberShowPage, useSubscriptionsV2} from '^models/Subscription/hook';
+import {SubscriptionTableHeader} from '^clients/private/orgs/team/teams/TeamDetailPage/Subscriptions/TeamSubscriptionTableHeader';
 
 export const TeamSubscriptionsListPage = memo(function TeamSubscriptionsListPage() {
     const teamId = useRecoilValue(teamIdParamState);
-    const {search, result, isLoading, orderBy, reload} = useSubscriptionsV2();
+    const {search, result, isLoading, orderBy, reload, movePage, changePageSize} =
+        useSubscriptionsInTeamMemberShowPage();
 
-    const onSearch = () => {
-        console.log('search');
-        // TODO: 검색
+    const onSearch = (keyword?: string) => {
+        search({keyword: keyword});
     };
 
     useEffect(() => {
@@ -31,12 +32,20 @@ export const TeamSubscriptionsListPage = memo(function TeamSubscriptionsListPage
                 </div>
             </div>
             {result.items.length > 0 ? (
-                <ListTable
-                    items={result.items}
-                    isLoading={isLoading}
-                    Header={() => <SubscriptionTableHeader orderBy={orderBy} />}
-                    Row={({item}) => <SubscriptionTableRow subscription={item} reload={reload} />}
-                />
+                <ListTableContainer
+                    pagination={result.pagination}
+                    movePage={movePage}
+                    changePageSize={changePageSize}
+                    unit="개"
+                    hideTopPaginator={true}
+                >
+                    <ListTable
+                        items={result.items}
+                        isLoading={isLoading}
+                        Header={() => <SubscriptionTableHeader orderBy={orderBy} />}
+                        Row={({item}) => <SubscriptionTableRow subscription={item} reload={reload} />}
+                    />
+                </ListTableContainer>
             ) : (
                 <div className={'text-center py-8'}>
                     <p>구독중인 항목이 없습니다. 먼저 팀 멤버를 추가해 주세요.</p>

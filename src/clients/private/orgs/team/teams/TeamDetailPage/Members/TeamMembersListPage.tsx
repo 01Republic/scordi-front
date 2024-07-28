@@ -3,7 +3,7 @@ import React, {memo, useEffect, useState} from 'react';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 import {TeamMemberTableHeader} from '^clients/private/orgs/team/team-members/OrgTeamMemberListPage/TeamMemberTableHeader';
 import {TeamMemberTableRow} from '^clients/private/orgs/team/team-members/OrgTeamMemberListPage/TeamMemberTableRow';
-import {ListTable} from '^clients/private/_components/table/ListTable';
+import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {useTeamMembersInTeamMembersTable} from '^models/TeamMember';
 import {useRecoilValue} from 'recoil';
 import {teamIdParamState} from '^atoms/common';
@@ -48,12 +48,20 @@ export const TeamMembersListPage = memo(function TeamMembersListPage() {
                 </div>
             </div>
             {result.items.length > 0 ? (
-                <ListTable
-                    items={result.items}
-                    isLoading={isLoading}
-                    Header={() => <TeamMembersTableHeader orderBy={orderBy} />}
-                    Row={({item}) => <TeamMembersTableRow teamMember={item.teamMember} reload={reload} />}
-                />
+                <ListTableContainer
+                    pagination={result.pagination}
+                    movePage={movePage}
+                    changePageSize={changePageSize}
+                    unit="개"
+                    hideTopPaginator={true}
+                >
+                    <ListTable
+                        items={result.items}
+                        isLoading={isLoading}
+                        Header={() => <TeamMembersTableHeader orderBy={orderBy} />}
+                        Row={({item}) => <TeamMembersTableRow teamMember={item.teamMember} reload={reload} />}
+                    />
+                </ListTableContainer>
             ) : (
                 <div className={'text-center py-8'}>
                     <p>팀 멤버가 없습니다. 멤버를 추가해 주세요.</p>
