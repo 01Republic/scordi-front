@@ -12,6 +12,8 @@ import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 import {teamMembershipApi} from '^models/TeamMembership/api';
 import {TeamMembershipDto} from '^models/TeamMembership/type';
 import {FiCheckCircle} from 'react-icons/fi';
+import {TeamMemberSelectItem} from '^v3/share/modals/AppShowPageModal/TeamMemberSelectModal/TeamMemberSelectItem';
+import {toast} from 'react-hot-toast';
 
 interface AddMemberModalProps extends ModalProps {
     preItems?: TeamMembershipDto[];
@@ -30,6 +32,7 @@ export const AddMemberModal = memo(function AddMemberModal(props: AddMemberModal
         );
         const req = Promise.allSettled(requests);
         req.then(() => {
+            toast.success('새로운 멤버를 연결 했어요');
             setSelected([]);
             onClose();
         });
@@ -39,52 +42,63 @@ export const AddMemberModal = memo(function AddMemberModal(props: AddMemberModal
         (item) => !props.preItems?.map((item) => item.teamMember?.id).includes(item.id),
     );
 
+    const onCloseModal = () => {
+        setSelected([]);
+        onClose();
+    };
+
     useEffect(() => {
         !!orgId && !!teamId && reload();
     }, [orgId, teamId]);
 
     return (
-        <SlideUpModal open={isOpened} onClose={onClose} size="lg">
-            <h3 className="font-bold text-xl">팀에 등록할 팀 멤버를 선택해 주세요</h3>
-            <p className={'text-gray-500 mb-3'}>이미 추가된 멤버는 뺐어요</p>
-
-            <div className="py-4 space-y-1 max-h-96 overflow-y-scroll">
-                {entries.map((member, i) => (
-                    <div
-                        tabIndex={0}
-                        key={i}
-                        className={`px-4 py-2.5 cursor-pointer group hover:bg-gray-100 flex items-center justify-between rounded-box btn-animation ${
-                            selected.includes(member) && 'bg-gray-50'
-                        }`}
-                        onClick={() => {
-                            if (selected.includes(member)) {
-                                setSelected(selected.filter((item) => item !== member));
-                            } else {
-                                setSelected([...selected, member]);
-                            }
-                        }}
-                    >
-                        <div className={'flex gap-3 items-center'}>
-                            <TeamMemberAvatar teamMember={member} className="w-8 h-8" />
-                            <p className="font-medium text-16">
-                                {member.name}
-                                <br />
-                                <span className={'text-gray-400 text-sm'}>{member.email}</span>
-                            </p>
-                        </div>
-                        <div>{selected.includes(member) && <FiCheckCircle className="text-scordi text-xl" />}</div>
+        <div
+            data-modal="TeamMemberSelectModal-for-AppShowModal"
+            className={`modal modal-bottom ${isOpened ? 'modal-open' : ''}`}
+            onClick={onCloseModal}
+        >
+            <div
+                className="modal-box max-w-lg p-0"
+                onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                }}
+            >
+                <div className="p-4 bg-scordi">
+                    <h3 className="font-bold text-lg text-white">팀에 등록할 팀 멤버를 선택해 주세요</h3>
+                    <p className="text-sm text-white opacity-70">이미 추가된 멤버는 뺐어요</p>
+                </div>
+                <div className="px-4 pb-4 flex flex-col h-[50vh] overflow-y-auto no-scrollbar">
+                    <div className="flex-1 py-4 px-2 text-sm">
+                        <ul>
+                            {entries.map((teamMember, i) => (
+                                <li key={i}>
+                                    <TeamMemberSelectItem
+                                        item={teamMember}
+                                        onClick={() => {
+                                            if (selected.includes(teamMember)) {
+                                                setSelected(selected.filter((item) => item !== teamMember));
+                                            } else {
+                                                setSelected([...selected, teamMember]);
+                                            }
+                                        }}
+                                        isModalShown={isOpened}
+                                    />
+                                </li>
+                            ))}
+                        </ul>
                     </div>
-                ))}
+                </div>
+                <div className="p-4 bg-white">
+                    <button
+                        disabled={selected.length < 1}
+                        className="btn btn-lg btn-scordi btn-block rounded-box disabled:border-indigo-100 disabled:bg-indigo-100 disabled:text-indigo-300"
+                        onClick={onSave}
+                    >
+                        {selected.length < 1 ? '선택한 항목이 없습니다' : `${selected.length}개의 선택된 항목`}
+                    </button>
+                </div>
             </div>
-
-            <div className="flex justify-end gap-3">
-                <button type="button" className="btn btn-link !no-underline text-scordi-500" onClick={onClose}>
-                    취소
-                </button>
-                <button className="btn btn-scordi-500" onClick={onSave}>
-                    저장하기
-                </button>
-            </div>
-        </SlideUpModal>
+        </div>
     );
 });
