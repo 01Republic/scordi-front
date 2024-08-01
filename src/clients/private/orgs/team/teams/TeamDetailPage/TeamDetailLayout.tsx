@@ -50,7 +50,7 @@ export const TeamDetailLayout = memo(function TeamDetailLayout(props: TeamDetail
                 <Breadcrumb
                     paths={[
                         '팀',
-                        {text: '팀 목록', active: true, href: `/orgs/${orgId}/teams`},
+                        {text: '팀 목록', active: false, href: `/orgs/${orgId}/teams`},
                         {text: team.name, active: true, href: router.asPath},
                     ]}
                 />
