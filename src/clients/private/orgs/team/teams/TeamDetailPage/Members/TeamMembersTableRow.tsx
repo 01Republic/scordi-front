@@ -13,6 +13,8 @@ import {useRecoilValue} from 'recoil';
 import {orgIdParamState, teamIdParamState} from '^atoms/common';
 import {TeamMemberTag} from '^clients/private/orgs/team/teams/TeamDetailPage/Members/TeamMemberTag';
 import {toast} from 'react-toastify';
+import {confirm2} from '^components/util/dialog';
+import {creditCardApi} from '^models/CreditCard/api';
 
 interface TeamMemberTableRowProps {
     teamMember?: TeamMemberDto;
@@ -32,9 +34,13 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
 
     const onDelete = () => {
-        teamMembershipApi.destroy(orgId, {teamId: teamId, teamMemberId: teamMember.id}).then(() => {
-            toast.success('삭제했습니다');
-            reload && reload();
+        confirm2(`팀 멤버 연결 해제`, `${teamMember.name} 연결을 해제 할까요?`, 'warning').then((res) => {
+            if (res.isConfirmed) {
+                teamMembershipApi.destroy(orgId, {teamId: teamId, teamMemberId: teamMember.id}).then(() => {
+                    toast.success('삭제했습니다');
+                    reload && reload();
+                });
+            }
         });
     };
 

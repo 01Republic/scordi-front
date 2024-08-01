@@ -15,6 +15,7 @@ import {teamMembershipApi} from '^models/TeamMembership/api';
 import {teamCreditCardApi} from '^models/TeamCreditCard/api';
 import {useRecoilValue} from 'recoil';
 import {teamIdParamState} from '^atoms/common';
+import {confirm2} from '^components/util/dialog';
 
 interface TeamPaymentTableRowProps {
     creditCard?: CreditCardDto;
@@ -44,9 +45,13 @@ export const TeamPaymentTableRow = memo((props: TeamPaymentTableRowProps) => {
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
 
     const onDelete = () => {
-        creditCardApi.teamsApi.destroy(creditCard.id, teamId).then(() => {
-            toast.success('삭제했습니다');
-            reload && reload();
+        confirm2(`결제수단 연결 해제`, `${creditCard.name} 연결을 해제 할까요?`, 'warning').then((res) => {
+            if (res.isConfirmed) {
+                creditCardApi.teamsApi.destroy(creditCard.id, teamId).then(() => {
+                    toast.success('삭제했습니다');
+                    reload && reload();
+                });
+            }
         });
     };
 
