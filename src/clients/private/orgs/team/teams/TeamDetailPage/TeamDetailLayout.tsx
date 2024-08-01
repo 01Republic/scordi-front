@@ -27,6 +27,7 @@ export const TeamDetailLayout = memo(function TeamDetailLayout(props: TeamDetail
     const orgId = useRouterIdParamState('id', orgIdParamState);
     const teamId = useRouterIdParamState('teamId', teamIdParamState);
     const {team, reload} = useTeamDetail();
+    const router = useRouter();
 
     const editTeamName = async () => {
         const result = await prompt2(`변경할 팀 이름을 입력해주세요`, () => null, {
@@ -46,7 +47,13 @@ export const TeamDetailLayout = memo(function TeamDetailLayout(props: TeamDetail
     return (
         <MainLayout>
             <MainContainer>
-                <Breadcrumb paths={['팀', {text: '팀 목록', active: true, href: `/orgs/${orgId}/teams`}]} />
+                <Breadcrumb
+                    paths={[
+                        '팀',
+                        {text: '팀 목록', active: true, href: `/orgs/${orgId}/teams`},
+                        {text: team.name, active: true, href: router.asPath},
+                    ]}
+                />
                 <div className={'grid grid-cols-4 gap-4 mt-4'}>
                     <div className={'col-span-1'}>
                         <div className={'card border rounded-lg bg-white p-6'}>
