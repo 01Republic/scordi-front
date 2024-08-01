@@ -37,9 +37,6 @@ export const TeamPaymentTableRow = memo((props: TeamPaymentTableRowProps) => {
             .finally(() => reload && reload());
     };
 
-    const company = creditCard.company;
-    const expiry = creditCard.decryptSign().expiry;
-
     const showPagePath = OrgCreditCardShowPageRoute.path(creditCard.organizationId, creditCard.id);
 
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';

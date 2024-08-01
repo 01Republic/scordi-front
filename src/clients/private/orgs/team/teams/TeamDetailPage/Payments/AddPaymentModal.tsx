@@ -1,15 +1,12 @@
 import React, {memo, useEffect} from 'react';
 import {ModalProps} from '^components/modals/_shared/Modal.types';
-import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {orgIdParamState, teamIdParamState} from '^atoms/common';
 import {useRecoilValue} from 'recoil';
 import {useCreditCardListForListPage} from '^models/CreditCard/hook';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {teamCreditCardApi} from '^models/TeamCreditCard/api';
 import {CreditCardProfileOption2} from '^models/CreditCard/hook/components/CreditCardProfile';
-import {FiCheckCircle} from 'react-icons/fi';
 import {TeamCreditCardDto} from '^models/TeamCreditCard/type';
-import {InvoiceAccountProfile} from '^models/InvoiceAccount/components';
 import {BsCheckCircle, BsCheckCircleFill} from 'react-icons/bs';
 import {toast} from 'react-toastify';
 
