@@ -29,7 +29,9 @@ export const TeamDetailLayout = memo(function TeamDetailLayout(props: TeamDetail
     const {team, reload} = useTeamDetail();
 
     const editTeamName = async () => {
-        const result = await prompt2(`변경할 팀 이름을 입력해주세요`);
+        const result = await prompt2(`변경할 팀 이름을 입력해주세요`, () => null, {
+            inputValue: team?.name,
+        });
         if (result.isConfirmed && result.value) {
             const req = teamApi.update(orgId, teamId, {name: result.value});
             req.then(() => {
