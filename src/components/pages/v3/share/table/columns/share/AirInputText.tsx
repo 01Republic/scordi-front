@@ -37,9 +37,8 @@ export const AirInputText = memo((props: AirInputTextProps) => {
                         className="input px-1.5 py-1 rounded-md w-auto input-sm input-ghost h-[32px] leading-[32px] inline-flex items-center bg-slate-100 focus:outline-1 focus:outline-offset-0"
                         defaultValue={defaultValue}
                         onBlur={(e) => {
-                            return onSubmit(e.target.value).then(() => {
-                                setIsEditMode(false);
-                            });
+                            setIsEditMode(false);
+                            defaultValue !== e.target.value && onSubmit(e.target.value);
                         }}
                         onKeyUp={(e) => {
                             if (e.key === 'Enter') {

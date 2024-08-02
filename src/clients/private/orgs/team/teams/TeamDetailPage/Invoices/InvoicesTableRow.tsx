@@ -21,6 +21,8 @@ import {toast} from 'react-hot-toast';
 import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[invoiceAccountId]';
 import {creditCardApi} from '^models/CreditCard/api';
 import {teamInvoiceAccountApi} from '^models/TeamInvoiceAccount/api';
+import {confirm2} from '^components/util/dialog';
+import {teamMembershipApi} from '^models/TeamMembership/api';
 
 interface InvoicesTableRowProps {
     item: TeamInvoiceAccountDto;
@@ -43,10 +45,16 @@ export const InvoicesTableRow = memo((props: InvoicesTableRowProps) => {
     };
 
     const onDelete = () => {
-        teamInvoiceAccountApi.destroy(orgId, item.id).then(() => {
-            toast.success('삭제했습니다');
-            reload && reload();
-        });
+        confirm2(`청구서 수신 계정 연결 해제`, `${item.invoiceAccount?.email} 연결을 해제 할까요?`, 'warning').then(
+            (res) => {
+                if (res.isConfirmed) {
+                    teamInvoiceAccountApi.destroy(orgId, item.id).then(() => {
+                        toast.success('삭제했습니다');
+                        reload && reload();
+                    });
+                }
+            },
+        );
     };
 
     const showPagePath = OrgInvoiceAccountShowPageRoute.path(orgId, item.id);
