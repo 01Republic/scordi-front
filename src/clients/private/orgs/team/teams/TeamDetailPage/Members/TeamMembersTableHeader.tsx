@@ -22,9 +22,9 @@ export const TeamMembersTableHeader = memo((props: TeamMemberTableHeaderProps) =
             </SortableTH>
 
             {/* 권한 */}
-            <SortableTH sortKey="[teamMember][membership][level]" onClick={orderBy} className="justify-center">
-                권한
-            </SortableTH>
+            {/*<SortableTH sortKey="[teamMember][membership][level]" onClick={orderBy} className="justify-center">*/}
+            {/*    권한*/}
+            {/*</SortableTH>*/}
 
             <th />
         </tr>

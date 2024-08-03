@@ -79,14 +79,18 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
             {/* 이용 앱 수 */}
             <td className={`cursor-pointer ${hoverBgColor}`} onClick={() => onClick && onClick(teamMember)}>
                 <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
-                    {teamMember.subscriptionCount.toLocaleString()} <small>Apps</small>
+                    {teamMember.subscriptionCount > 0 ? (
+                        <small>{teamMember.subscriptionCount.toLocaleString()} Apps</small>
+                    ) : (
+                        <small>-</small>
+                    )}
                 </p>
             </td>
 
             {/* 권한 */}
-            <td className={`cursor-pointer ${hoverBgColor}`}>
-                <TeamMemberTag teamMember={teamMember} onChange={() => reload && reload()} />
-            </td>
+            {/*<td className={`cursor-pointer ${hoverBgColor}`}>*/}
+            {/*    <TeamMemberTag teamMember={teamMember} onChange={() => reload && reload()} />*/}
+            {/*</td>*/}
 
             <td className={`${hoverBgColor}`}>
                 <div className="flex items-center justify-end">
