@@ -59,8 +59,8 @@ export const AddPaymentModal = memo(function AddPaymentModal(props: AddPaymentMo
                 }}
             >
                 <div className="p-4 bg-scordi">
-                    <h3 className="font-bold text-xl">팀에 등록할 결제수단을 선택해 주세요</h3>
-                    <p className={'text-gray-500 mb-3'}>이미 추가된 결제수단은 뺐어요</p>
+                    <h3 className="font-bold text-lg text-white">팀에 등록할 결제수단을 선택해 주세요</h3>
+                    <p className="text-sm text-white opacity-70">이미 추가된 결제수단은 뺐어요</p>
                 </div>
                 <div className="px-4 pb-4 flex flex-col h-[50vh] overflow-y-auto no-scrollbar">
                     <div className="flex-1 py-4 px-2 text-sm">
