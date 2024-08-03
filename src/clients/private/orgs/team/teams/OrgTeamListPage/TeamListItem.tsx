@@ -33,24 +33,8 @@ export const TeamListItem = memo((props: TeamListItemProps) => {
                 <Image src={PushPin} width={20} height={20} alt={'p'} />
             </div>
             <div className="font-bold truncate">{team.name}</div>
-            <div>
-                <Tippy
-                    content={
-                        <ul>
-                            {members.map((teamMember, i) => (
-                                <li key={i}>
-                                    <div className="text-12">
-                                        {teamMember.name} ({teamMember.email})
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
-                    }
-                >
-                    <div className="text-14 text-gray-400 text-center group-hover:text-scordi transition-all">
-                        {team.teamMemberCount.toLocaleString()} Members • {team.subscriptionCount.toLocaleString()} Apps
-                    </div>
-                </Tippy>
+            <div className="text-14 text-gray-400 text-center group-hover:text-scordi transition-all">
+                {team.teamMemberCount.toLocaleString()} Members • {team.subscriptionCount.toLocaleString()} Apps
             </div>
         </div>
     );
