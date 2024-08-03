@@ -15,8 +15,8 @@ export const TeamPaymentsListPage = memo(function TeamPaymentsListPage() {
     const {search, result, reload, isLoading, orderBy, movePage, changePageSize} = useTeamCreditCardListInTeamDetail();
     const [isOpened, setIsOpened] = useState(false);
 
-    const onSearch = () => {
-        console.log('search');
+    const onSearch = (keyword?: string) => {
+        search({keyword, where: {teamId: teamId}, relations: ['creditCard', 'creditCard.holdingMember']});
     };
 
     useEffect(() => {

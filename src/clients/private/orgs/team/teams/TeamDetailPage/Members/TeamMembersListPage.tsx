@@ -25,15 +25,11 @@ export const TeamMembersListPage = memo(function TeamMembersListPage() {
     }, [teamId]);
 
     const onSearch = (keyword?: string) => {
-        // search({
-        //     relations: ['teamMember', 'teamMember.membership'],
-        //     where: {
-        //         teamId: teamId,
-        //         teamMember: {
-        //             name: keyword,
-        //         },
-        //     },
-        // });
+        search({
+            relations: ['teamMember', 'teamMember.membership'],
+            where: {teamId: teamId},
+            keyword,
+        });
     };
 
     return (

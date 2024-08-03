@@ -19,15 +19,10 @@ export const TeamInvoicesListPage = memo(function TeamInvoicesListPage() {
     const [isOpened, setIsOpened] = useState(false);
 
     const onSearch = (keyword?: string) => {
-        // !!keyword &&
-        //     search({
-        //         where: {
-        //             invoiceAccount: {
-        //                 email: keyword,
-        //             },
-        //         },
-        //         relations: ['invoiceAccount', 'invoiceAccount.holdingMember'],
-        //     });
+        search({
+            relations: ['invoiceAccount', 'invoiceAccount.holdingMember'],
+            keyword,
+        });
     };
 
     useEffect(() => {
