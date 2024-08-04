@@ -2,6 +2,7 @@ import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
 import {TeamDto, CreateTeamDto, UpdateTeamDto, FindAllTeamQueryDto} from '^models/Team/type';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
+import {FindAllTeamMemberSubscriptionQueryDto, TeamMemberSubscriptionDto} from '^models/TeamMember';
 
 export const teamApi = {
     index(orgId: number, params?: FindAllTeamQueryDto) {
@@ -27,5 +28,14 @@ export const teamApi = {
     destroy(orgId: number, id: number) {
         const url = `/organizations/${orgId}/teams/${id}`;
         return api.delete<TeamDto>(url);
+    },
+
+    subscriptions: {
+        index(orgId: number, teamId: number, params?: FindAllTeamMemberSubscriptionQueryDto) {
+            const url = `/organizations/${orgId}/teams/${teamId}/subscriptions`;
+            return api
+                .get<Paginated<TeamMemberSubscriptionDto>>(url, {params})
+                .then(paginatedDtoOf(TeamMemberSubscriptionDto));
+        },
     },
 };

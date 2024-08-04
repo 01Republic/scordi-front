@@ -8,18 +8,18 @@ import {SubscriptionTableRow} from '^clients/private/orgs/team/teams/TeamDetailP
 
 import {useSubscriptionsInTeamMemberShowPage, useSubscriptionsV2} from '^models/Subscription/hook';
 import {SubscriptionTableHeader} from '^clients/private/orgs/team/teams/TeamDetailPage/Subscriptions/TeamSubscriptionTableHeader';
+import {useTeamsSubscriptionForDetailPage} from '^models/Team/hook';
 
 export const TeamSubscriptionsListPage = memo(function TeamSubscriptionsListPage() {
     const teamId = useRecoilValue(teamIdParamState);
-    const {search, result, isLoading, orderBy, reload, movePage, changePageSize} =
-        useSubscriptionsInTeamMemberShowPage();
+    const {search, result, isLoading, orderBy, reload, movePage, changePageSize} = useTeamsSubscriptionForDetailPage();
 
     const onSearch = (keyword?: string) => {
-        search({keyword: keyword});
+        search({keyword, relations: ['teamMember', 'teamMember.teams', 'subscription']});
     };
 
     useEffect(() => {
-        !!teamId && search({where: {}, relations: []});
+        !!teamId && search({where: {}, relations: ['teamMember', 'teamMember.teams', 'subscription']});
         // TODO: 팀 ID로 검색하는 로직이 필요함
     }, [teamId]);
 
@@ -45,7 +45,7 @@ export const TeamSubscriptionsListPage = memo(function TeamSubscriptionsListPage
                         items={result.items}
                         isLoading={isLoading}
                         Header={() => <SubscriptionTableHeader orderBy={orderBy} />}
-                        Row={({item}) => <SubscriptionTableRow subscription={item} reload={reload} />}
+                        Row={({item}) => <SubscriptionTableRow subscription={item.subscription} reload={reload} />}
                     />
                 </ListTableContainer>
             ) : (

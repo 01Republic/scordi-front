@@ -1,10 +1,16 @@
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
 import {teamApi} from '^models/Team/api';
-import {teamListForSelectOptionsAtom, teamsListAtom, teamsListForTeamListPageAtom} from '^models/Team/atom';
+import {
+    teamListForSelectOptionsAtom,
+    teamMemberSubscriptionListAtom,
+    teamsListAtom,
+    teamsListForTeamListPageAtom,
+} from '^models/Team/atom';
 import {FindAllTeamQueryDto, TeamDto} from '^models/Team/type';
 import React, {useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState, teamIdParamState} from '^atoms/common';
+import {FindAllTeamMemberSubscriptionQueryDto, TeamMemberSubscriptionDto} from '^models/TeamMember';
 
 export const useTeamsV2 = () => useTeams(teamsListAtom);
 
@@ -19,6 +25,20 @@ const useTeams = (atoms: PagedResourceAtoms<TeamDto, FindAllTeamQueryDto>, merge
         useOrgId: true,
         endpoint: (params, orgId) => teamApi.index(orgId, params),
         getId: 'id',
+    });
+};
+
+// 팀 구독 목록
+export const useTeamsSubscriptionForDetailPage = () => useTeamsSubscription(teamMemberSubscriptionListAtom);
+
+const useTeamsSubscription = (
+    atoms: PagedResourceAtoms<TeamMemberSubscriptionDto, FindAllTeamMemberSubscriptionQueryDto>,
+) => {
+    const teamId = useRecoilValue(teamIdParamState);
+    return usePagedResource(atoms, {
+        useOrgId: true,
+        endpoint: (params, orgId) => teamApi.subscriptions.index(orgId, teamId, params),
+        getId: 'subscriptionId',
     });
 };
 

@@ -1,5 +1,6 @@
 import {FindAllTeamQueryDto, TeamDto} from '^models/Team/type';
 import {pagedResourceAtom} from '^hooks/usePagedResource';
+import {FindAllTeamMemberSubscriptionQueryDto, TeamMemberSubscriptionDto} from '^models/TeamMember';
 
 export const teamsListAtom = pagedResourceAtom<TeamDto, FindAllTeamQueryDto>({
     key: 'teamsListAtom',
@@ -13,4 +14,11 @@ export const teamsListForTeamListPageAtom = pagedResourceAtom<TeamDto, FindAllTe
 // 팀 Select Input (mono-select) 에서 사용
 export const teamListForSelectOptionsAtom = pagedResourceAtom<TeamDto, FindAllTeamQueryDto>({
     key: 'teamListForSelectOptionsAtom',
+});
+
+export const teamMemberSubscriptionListAtom = pagedResourceAtom<
+    TeamMemberSubscriptionDto,
+    FindAllTeamMemberSubscriptionQueryDto
+>({
+    key: 'teamMemberSubscriptionListAtom',
 });
