@@ -23,6 +23,7 @@ module.exports = {
         '@typescript-eslint/ban-types': 'warn',
         'no-empty-function': 'off',
         '@typescript-eslint/no-empty-function': 'warn',
+        '@typescript-eslint/no-unnecessary-type-constraint': 'warn',
         'prettier/prettier': ['error', {endOfLine: 'auto'}],
     },
 };
