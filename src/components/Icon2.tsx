@@ -6,10 +6,10 @@ import Folder from '../../public/home/icons/icon-folder.svg';
 import Plus from '../../public/home/icons/icon-plus.svg';
 
 export const Icon2 = {
-  Check,
-  Building,
-  People,
-  Settings,
-  Folder,
-  Plus,
+    Check,
+    Building,
+    People,
+    Settings,
+    Folder,
+    Plus,
 };

@@ -26,11 +26,11 @@ class ChannelService {
                     return;
                 }
                 w.ChannelIOInitialized = true;
-                var s = document.createElement('script');
+                const s = document.createElement('script');
                 s.type = 'text/javascript';
                 s.async = true;
                 s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
-                var x = document.getElementsByTagName('script')[0];
+                const x = document.getElementsByTagName('script')[0];
                 if (x.parentNode) {
                     x.parentNode.insertBefore(s, x);
                 }

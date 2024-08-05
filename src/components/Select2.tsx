@@ -1,11 +1,11 @@
-import { forwardRef, SelectHTMLAttributes } from "react";
-import { useId } from "react-id-generator";
-import { Label } from "./Label";
-import Select, { StylesConfig, Options } from 'react-select';
+import {forwardRef, SelectHTMLAttributes} from 'react';
+import {useId} from 'react-id-generator';
+import {Label} from './Label';
+import Select, {StylesConfig, Options} from 'react-select';
 
 export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
-  label?: string;
-  helper?: string;
+    label?: string;
+    helper?: string;
 }
 
 /**
@@ -18,39 +18,40 @@ export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
  * </Select>
  */
 interface Select2Props {
-  options: Options<{ label: string; value: any; }>;
-  control?: any;
+    options: Options<{label: string; value: any}>;
+    control?: any;
 }
 
 export const Select2 = forwardRef<HTMLSelectElement, SelectProps & Select2Props>(
-  ({ options, className = "", label, helper, ...props }, ref) => {
-    const [id] = useId(1, "select");
-    const customStyles: StylesConfig = {
-      // @ts-ignore
-      control: (base, state) => ({
-        ...base,
-        width: '100%',
-        height: '3rem',
-        borderRadius: 'var(--rounded-btn, 0.5rem)',
-        "&:hover": {}
-      })
-    };
+    ({options, className = '', label, helper, ...props}, ref) => {
+        const [id] = useId(1, 'select');
+        const customStyles: StylesConfig = {
+            // @ts-ignore
+            control: (base, state) => ({
+                ...base,
+                width: '100%',
+                height: '3rem',
+                borderRadius: 'var(--rounded-btn, 0.5rem)',
+                '&:hover': {},
+            }),
+        };
 
-    return (
-      <div className="label-col">
-        {label && <Label htmlFor={id} text={label} />}
-        {/* @ts-ignore */}
-        <Select ref={ref}
-                id={id}
-                // name={name}
-                // control={control}
-                className={`${helper ? "border-error" : ""} ${className}`}
-                styles={customStyles}
-                options={options}
-                {...props}
-        />
-        {helper && <p className="text-error text-sm">{helper}</p>}
-      </div>
-    );
-  }
+        return (
+            <div className="label-col">
+                {label && <Label htmlFor={id} text={label} />}
+                {/* @ts-ignore */}
+                <Select
+                    ref={ref}
+                    id={id}
+                    // name={name}
+                    // control={control}
+                    className={`${helper ? 'border-error' : ''} ${className}`}
+                    styles={customStyles}
+                    options={options}
+                    {...props}
+                />
+                {helper && <p className="text-error text-sm">{helper}</p>}
+            </div>
+        );
+    },
 );

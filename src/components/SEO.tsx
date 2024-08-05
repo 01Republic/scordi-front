@@ -13,7 +13,7 @@ export const SEO = memo((props: SEOProps) => {
     const {children} = props;
 
     const title = props.title || '스코디 Scordi - 우리 회사 SaaS 관리, 클릭 하나로 끝내보세요';
-    const description: string =
+    const description =
         '스코디는 흩어진 SaaS를 클릭 한 번으로 모으고 결제부터 멤버, 구독, 계정까지 한 곳에서 관리하는 올인원 SaaS 관리 솔루션입니다.';
     const url = props.url || serviceHost;
     const logo = `${url}/images/logo/scordi/favicon.png`;
