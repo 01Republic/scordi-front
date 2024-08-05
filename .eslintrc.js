@@ -21,6 +21,8 @@ module.exports = {
         '@typescript-eslint/no-empty-interface': 'off',
         '@typescript-eslint/ban-ts-comment': 'warn',
         '@typescript-eslint/ban-types': 'warn',
+        'no-empty-function': 'off',
+        '@typescript-eslint/no-empty-function': 'warn',
         'prettier/prettier': ['error', {endOfLine: 'auto'}],
     },
 };
