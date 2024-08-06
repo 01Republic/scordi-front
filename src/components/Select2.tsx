@@ -1,4 +1,4 @@
-import {forwardRef, SelectHTMLAttributes} from 'react';
+import React, {forwardRef, SelectHTMLAttributes} from 'react';
 import {useId} from 'react-id-generator';
 import {Label} from './Label';
 import Select, {StylesConfig, Options} from 'react-select';
@@ -22,6 +22,7 @@ interface Select2Props {
     control?: any;
 }
 
+// 잠재적인 에러가 무시되어있는 컴포넌트 입니다. 가능한 사용하지 말아주세요.
 export const Select2 = forwardRef<HTMLSelectElement, SelectProps & Select2Props>(
     ({options, className = '', label, helper, ...props}, ref) => {
         const [id] = useId(1, 'select');
@@ -41,7 +42,6 @@ export const Select2 = forwardRef<HTMLSelectElement, SelectProps & Select2Props>
                 {label && <Label htmlFor={id} text={label} />}
                 {/* @ts-ignore */}
                 <Select
-                    ref={ref}
                     id={id}
                     // name={name}
                     // control={control}
