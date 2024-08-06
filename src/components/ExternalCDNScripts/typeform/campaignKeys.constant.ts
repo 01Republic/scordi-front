@@ -1,3 +1,3 @@
 export enum CampaignKeys {
-  landingV1 = 'qqGnBdkS',
+    landingV1 = 'qqGnBdkS',
 }

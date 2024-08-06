@@ -1,15 +1,8 @@
-import {
-  Children,
-  cloneElement,
-  forwardRef,
-  InputHTMLAttributes,
-  isValidElement,
-} from "react";
-import { useId } from "react-id-generator";
-import { Radio } from "./Radio";
+import {Children, cloneElement, forwardRef, InputHTMLAttributes, isValidElement} from 'react';
+import {useId} from 'react-id-generator';
+import {Radio} from './Radio';
 
-export interface RadioGroupProps
-  extends InputHTMLAttributes<HTMLInputElement> {}
+export interface RadioGroupProps extends InputHTMLAttributes<HTMLInputElement> {}
 
 /**
  * @example
@@ -19,18 +12,14 @@ export interface RadioGroupProps
  *   <Radio label="Radio 3" value="3" />
  * </RadioGroup>
  */
-export const RadioGroup = forwardRef<HTMLInputElement, RadioGroupProps>(
-  ({ className = '', children, ...props }, ref) => {
-    const [name] = useId(1, "radiogroup");
+export const RadioGroup = forwardRef<HTMLInputElement, RadioGroupProps>(({className = '', children, ...props}, ref) => {
+    const [name] = useId(1, 'radiogroup');
 
     return (
-      <div className={className}>
-        {Children.map(children, (child) =>
-          isValidElement(child) && child.type === Radio
-            ? cloneElement(child, { name, ...props })
-            : child
-        )}
-      </div>
+        <div className={className}>
+            {Children.map(children, (child) =>
+                isValidElement(child) && child.type === Radio ? cloneElement(child, {name, ...props}) : child,
+            )}
+        </div>
     );
-  }
-);
+});

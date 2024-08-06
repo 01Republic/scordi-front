@@ -1,7 +1,7 @@
 type SummaryListItemProps = {
     title: string;
     value: string;
-}
+};
 
 export const SummaryListItem = (props: SummaryListItemProps) => {
     return (
@@ -9,5 +9,5 @@ export const SummaryListItem = (props: SummaryListItemProps) => {
             <p className={'text-[15px]'}>{props.title}</p>
             <p className={'text-[15px] font-bold'}>{props.value}</p>
         </div>
-    )
-}
+    );
+};

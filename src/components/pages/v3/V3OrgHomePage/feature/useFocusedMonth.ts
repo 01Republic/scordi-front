@@ -38,7 +38,7 @@ export const useFocusedMonth = (props?: UseFocusedMonth) => {
     const prevMonth = () => prevAvailable(-1, false) && moveMonth(-1);
     const nextMonth = () => nextAvailable(1, false) && moveMonth(1);
 
-    const prevAvailable = (n: number = -1, silent: boolean = true) => {
+    const prevAvailable = (n = -1, silent = true) => {
         const oldDate = focusedMonth || new Date();
         const newDate = monthAfter(n, oldDate);
         const fine = minDate ? minDate <= newDate : true;
@@ -46,7 +46,7 @@ export const useFocusedMonth = (props?: UseFocusedMonth) => {
         !silent && minUnavailableMsg && alert(minUnavailableMsg);
         return false;
     };
-    const nextAvailable = (n: number = 1, silent: boolean = true) => {
+    const nextAvailable = (n = 1, silent = true) => {
         const oldDate = focusedMonth || new Date();
         const newDate = monthAfter(n, oldDate);
         const fine = maxDate ? newDate <= maxDate : true;

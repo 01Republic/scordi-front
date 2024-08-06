@@ -14,7 +14,7 @@ import {useCurrentSubscription} from '^v3/V3OrgAppShowPage/atom';
 import {useDashBoardSubscriptionSummary} from '^models/SubscsriptionSummary/hook';
 import {EmptySubscriptionTableInDashBoard as EmptySubscriptionTable} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/EmptySubscriptionTable';
 
-const SUBSCRIPTION_DISPLAY_LIMIT: number = 10;
+const SUBSCRIPTION_DISPLAY_LIMIT = 10;
 
 // 대시보드에서 사용되는 구독리스트 테이블
 export const SubscriptionsSection = memo(function SubscriptionsSection() {

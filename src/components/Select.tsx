@@ -1,10 +1,10 @@
-import { forwardRef, SelectHTMLAttributes } from "react";
-import { useId } from "react-id-generator";
-import { Label } from "./Label";
+import {forwardRef, SelectHTMLAttributes} from 'react';
+import {useId} from 'react-id-generator';
+import {Label} from './Label';
 
 export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
-  label?: string;
-  helper?: string;
+    label?: string;
+    helper?: string;
 }
 
 /**
@@ -17,22 +17,17 @@ export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
  * </Select>
  */
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  ({ children, className = "", label, helper, ...props }, ref) => {
-    const [id] = useId(1, "select");
+    ({children, className = '', label, helper, ...props}, ref) => {
+        const [id] = useId(1, 'select');
 
-    return (
-      <div className="label-col">
-        {label && <Label htmlFor={id} text={label} />}
-        <select
-          ref={ref}
-          id={id}
-          className={`select ${helper ? "border-error" : ""} ${className}`}
-          {...props}
-        >
-          {children}
-        </select>
-        {helper && <p className="text-error text-sm">{helper}</p>}
-      </div>
-    );
-  }
+        return (
+            <div className="label-col">
+                {label && <Label htmlFor={id} text={label} />}
+                <select ref={ref} id={id} className={`select ${helper ? 'border-error' : ''} ${className}`} {...props}>
+                    {children}
+                </select>
+                {helper && <p className="text-error text-sm">{helper}</p>}
+            </div>
+        );
+    },
 );
