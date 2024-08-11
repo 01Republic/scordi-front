@@ -11,6 +11,7 @@ import {ListTable, ListTableContainer} from '^clients/private/_components/table/
 import {InvoicesTableHeader} from '^clients/private/orgs/team/teams/TeamDetailPage/Invoices/InvoicesTableHeader';
 import {InvoicesTableRow} from '^clients/private/orgs/team/teams/TeamDetailPage/Invoices/InvoicesTableRow';
 import {FaPlus} from 'react-icons/fa6';
+import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 
 export const TeamInvoicesListPage = memo(function TeamInvoicesListPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -58,9 +59,12 @@ export const TeamInvoicesListPage = memo(function TeamInvoicesListPage() {
                     />
                 </ListTableContainer>
             ) : (
-                <div className={'text-center py-8'}>
-                    <p>항목이 없습니다. 청구서 수신 계정을 추가해 주세요.</p>
-                </div>
+                <EmptyTable
+                    icon={'📃'}
+                    message="등록된 청구서수신계정이 없어요."
+                    buttonText={'청구서수신계정 등록'}
+                    buttonAction={() => setIsOpened(true)}
+                />
             )}
 
             {/* 연결 추가 모달 */}

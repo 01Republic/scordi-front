@@ -9,6 +9,7 @@ import {SubscriptionTableRow} from '^clients/private/orgs/team/teams/TeamDetailP
 import {useSubscriptionsInTeamMemberShowPage, useSubscriptionsV2} from '^models/Subscription/hook';
 import {SubscriptionTableHeader} from '^clients/private/orgs/team/teams/TeamDetailPage/Subscriptions/TeamSubscriptionTableHeader';
 import {useTeamsSubscriptionForDetailPage} from '^models/Team/hook';
+import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 
 export const TeamSubscriptionsListPage = memo(function TeamSubscriptionsListPage() {
     const teamId = useRecoilValue(teamIdParamState);
@@ -48,9 +49,7 @@ export const TeamSubscriptionsListPage = memo(function TeamSubscriptionsListPage
                     />
                 </ListTableContainer>
             ) : (
-                <div className={'text-center py-8'}>
-                    <p>구독중인 항목이 없습니다. 먼저 팀 멤버를 추가해 주세요.</p>
-                </div>
+                <EmptyTable icon={'🔍'} message="등록된 구독이 없어요." />
             )}
         </TeamDetailLayout>
     );

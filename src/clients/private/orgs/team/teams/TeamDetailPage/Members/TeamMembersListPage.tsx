@@ -13,6 +13,7 @@ import {useTeamMembershipListInTeamDetail} from '^models/TeamMembership/hook';
 import {useTeamCreditCardListInTeamDetail} from '^models/TeamCreditCard/hook';
 import {AddMemberModal} from '^clients/private/orgs/team/teams/TeamDetailPage/Members/AddMemberModal';
 import {FaPlus} from 'react-icons/fa6';
+import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 
 export const TeamMembersListPage = memo(function TeamMembersListPage() {
     const teamId = useRecoilValue(teamIdParamState);
@@ -61,9 +62,12 @@ export const TeamMembersListPage = memo(function TeamMembersListPage() {
                     />
                 </ListTableContainer>
             ) : (
-                <div className={'text-center py-8'}>
-                    <p>팀 멤버가 없습니다. 멤버를 추가해 주세요.</p>
-                </div>
+                <EmptyTable
+                    icon={'👤'}
+                    message="등록된 구성원이 없어요."
+                    buttonText={'구성원 등록'}
+                    buttonAction={() => setIsOpened(true)}
+                />
             )}
 
             {/* 연결 추가 모달 */}

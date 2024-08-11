@@ -9,6 +9,7 @@ import {AddPaymentModal} from '^clients/private/orgs/team/teams/TeamDetailPage/P
 import {TeamPaymentTableHeader} from '^clients/private/orgs/team/teams/TeamDetailPage/Payments/TeamPaymentTableHeader';
 import {TeamPaymentTableRow} from '^clients/private/orgs/team/teams/TeamDetailPage/Payments/TeamPaymentTableRow';
 import {FaPlus} from 'react-icons/fa6';
+import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 
 export const TeamPaymentsListPage = memo(function TeamPaymentsListPage() {
     const teamId = useRecoilValue(teamIdParamState);
@@ -52,9 +53,12 @@ export const TeamPaymentsListPage = memo(function TeamPaymentsListPage() {
                     />
                 </ListTableContainer>
             ) : (
-                <div className={'text-center py-8'}>
-                    <p>항목이 없습니다. 결제수단을 추가해 주세요.</p>
-                </div>
+                <EmptyTable
+                    icon={'💳'}
+                    message="등록된 결제수단이 없어요."
+                    buttonText={'결제수단 등록'}
+                    buttonAction={() => setIsOpened(true)}
+                />
             )}
 
             <AddPaymentModal
