@@ -9,7 +9,7 @@ import {
 import {FindAllTeamQueryDto, TeamDto} from '^models/Team/type';
 import React, {useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
-import {orgIdParamState, teamIdParamState} from '^atoms/common';
+import {orgIdParamState, teamIdParamState, useRouterIdParamState} from '^atoms/common';
 import {FindAllTeamMemberSubscriptionQueryDto, TeamMemberSubscriptionDto} from '^models/TeamMember';
 
 export const useTeamsV2 = () => useTeams(teamsListAtom);
@@ -43,11 +43,12 @@ const useTeamsSubscription = (
 };
 
 export const useTeamDetail = () => {
-    const orgId = useRecoilValue(orgIdParamState);
-    const teamId = useRecoilValue(teamIdParamState);
+    const orgId = useRouterIdParamState('id', orgIdParamState);
+    const teamId = useRouterIdParamState('teamId', teamIdParamState);
     const [team, setTeam] = React.useState<TeamDto | undefined>(undefined);
 
     const getTeamInfo = () => {
+        setTeam(undefined);
         teamApi.show(orgId, teamId).then((res) => {
             setTeam(res.data);
         });
