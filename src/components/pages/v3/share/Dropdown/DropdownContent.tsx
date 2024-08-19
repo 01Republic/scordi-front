@@ -5,7 +5,7 @@ import {DropdownBackdrop} from './Backdrop';
 
 interface DropdownContentProps extends Omit<TippyProps, 'children'> {
     visible: boolean;
-    hide: () => any;
+    hide: () => void;
     triggerRef: RefObject<Element>;
     backdrop?: boolean; // default: true
     allowScroll?: boolean; // default: false
