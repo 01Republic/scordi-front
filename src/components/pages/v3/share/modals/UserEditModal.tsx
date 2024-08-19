@@ -7,6 +7,7 @@ import {MembershipDto} from 'src/models/Membership/types';
 import {useModal} from '^v3/share/modals/useModal';
 import {useForm} from 'react-hook-form';
 import {UserEditProfileRequestDto, UserNotificationsStateDto} from '^models/User/types';
+import {userNotificationsStateAtom} from '^models/User/atom';
 
 export const userEditModalIsShow = atom({
     key: 'v3/userEditModalIsShow',
@@ -23,15 +24,6 @@ export const userEditModalIsShow = atom({
  - [ ] 각 알림 토글 on 시, 호출할 API가 필요
  - [ ] 나중에 react-hook-form으로 변경하기 (리팩토링)
  */
-
-const userNotificationsStateAtom = atom<UserNotificationsStateDto>({
-    key: 'userNotificationsStateAtom',
-    default: {
-        isEmailNoticeAllowed: false,
-        isSMSNoticeAllowed: false,
-        isAgreeForMarketingTerm: false,
-    },
-});
 
 export const UserEditModal = memo(() => {
     const {Modal, CloseButton} = useModal({isShowAtom: userEditModalIsShow});
