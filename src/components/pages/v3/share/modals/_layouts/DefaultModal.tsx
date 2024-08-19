@@ -21,7 +21,7 @@ export const DefaultModal = memo((props: DefaultModalProps) => {
                 data-modal-id={modalId}
                 className={`
                     modal 
-                    
+                    bg-transparent
                     cursor-pointer 
                     ${wrapperClassName} ${isShow ? 'modal-open' : ''}
                     `}
