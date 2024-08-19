@@ -164,37 +164,24 @@ interface SwitchBoxProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 // 스위치 토글 버튼 UI
-const SwitchBox = memo(
-    forwardRef((props: SwitchBoxProps, ref: ForwardedRef<any>) => {
-        const {id, title, desc, checked, onToggle} = props;
+const SwitchBox = (props: SwitchBoxProps) => {
+    const {id, title, desc, checked, onToggle} = props;
 
-        return (
-            <div className="card card-bordered">
-                <div className="card-body p-4">
-                    <p className="card-title text-sm justify-between">
-                        <span>{title}</span>
-                        <input
-                            readOnly
-                            type="checkbox"
-                            className="toggle toggle-primary toggle-sm"
-                            checked={checked}
-                            onClick={() => onToggle(id)}
-                            // checked={isChecked}
-                            // onChange={(e) => {
-                            //     console.log(title, 'checked', e.target.checked);
-                            //     onChange && onChange(e);
-                            // }}
-
-                            // onClick={(e) => {
-                            //     const input = e.target as HTMLInputElement;
-                            //     console.log(input.checked);
-                            //     setIsChecked(input.checked);
-                            // }}
-                        />
-                    </p>
-                    <p className="card-text text-xs text-gray-400">{desc}</p>
-                </div>
+    return (
+        <div className="card card-bordered">
+            <div className="card-body p-4">
+                <p className="card-title text-sm justify-between">
+                    <span>{title}</span>
+                    <input
+                        readOnly
+                        type="checkbox"
+                        className="toggle toggle-primary toggle-sm"
+                        checked={checked}
+                        onClick={() => onToggle(id)}
+                    />
+                </p>
+                <p className="card-text text-xs text-gray-400">{desc}</p>
             </div>
-        );
-    }),
-);
+        </div>
+    );
+};
