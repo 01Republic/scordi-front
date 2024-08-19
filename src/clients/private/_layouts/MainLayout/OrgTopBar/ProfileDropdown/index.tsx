@@ -17,12 +17,7 @@ import {useRouter} from 'next/router';
 
 export const ProfileDropdown = memo(function ProfileDropdown() {
     const router = useRouter();
-    // const {currentUser} = useCurrentUser();
     const {t} = useTranslation('profile');
-    /**
-     * userEditModalIsShow의 상태를 업데이트할 수 있는 setter 함수를 반환
-     * atom을 넣는 이유는 atom의 상태를 변경하기 위한 setter 함수를 얻기 위함
-     */
     const setUserEditModalIsShow = useSetRecoilState(userEditModalIsShow);
     const {currentUser, logout, currentUserMembership} = useCurrentUser(undefined, {
         orgIdParam: 'orgId',
@@ -47,7 +42,6 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                         <ul tabIndex={0} className="dropdown-content menu p-2 shadow-xl bg-base-100 rounded-box w-52">
                             <li>
                                 <div className="flex gap-2 bg-base-100 cursor-default p-2">
-                                    {/*<UserAvatar user={currentUser} roundClass="rounded-lg" />*/}
                                     <UserAvatar
                                         src={currentUser.profileImgUrl}
                                         alt={currentUser.name}
