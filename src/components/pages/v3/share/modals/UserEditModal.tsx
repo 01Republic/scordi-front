@@ -1,4 +1,4 @@
-import {ForwardedRef, forwardRef, InputHTMLAttributes, memo, useCallback, useEffect, useState} from 'react';
+import {InputHTMLAttributes, memo, useCallback, useEffect, useState} from 'react';
 import {atom, useRecoilValue} from 'recoil';
 import {UserAvatar} from '^v3/share/UserAvatar';
 import {useCurrentUser} from '^models/User/hook';
@@ -46,6 +46,8 @@ export const UserEditModal = memo(() => {
 
     console.log('UserEditModal 렌더링'); // 주석 삭제 예정
 
+    const form = useForm<UserEditProfileRequestDto>();
+    const [currentMembership, setCurrentMembership] = useState<null | MembershipDto>(null);
     const [notifications, setNotifications] = useState<UserNotificationInfoType>(DEFAULT_NOTIFICATIONS_VALUE);
 
     const handleChangeToggle = useCallback(
@@ -59,9 +61,6 @@ export const UserEditModal = memo(() => {
         },
         [notifications],
     );
-
-    const form = useForm<UserEditProfileRequestDto>();
-    const [currentMembership, setCurrentMembership] = useState<null | MembershipDto>(null);
 
     useEffect(() => {
         if (!currentUser || !currentOrg) return;
