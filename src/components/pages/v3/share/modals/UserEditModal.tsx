@@ -1,5 +1,5 @@
 import {InputHTMLAttributes, memo, useCallback, useEffect, useState} from 'react';
-import {atom, useRecoilValue} from 'recoil';
+import {atom, useRecoilState, useRecoilValue} from 'recoil';
 import {UserAvatar} from '^v3/share/UserAvatar';
 import {useCurrentUser} from '^models/User/hook';
 import {currentOrgAtom} from '^models/Organization/atom';
@@ -17,6 +17,7 @@ export const userEditModalIsShow = atom({
  TODO
  - [x] 토글 기능 구현 (UI)
  - [ ] 토글 상태 변경시, UserEditModal 재렌더링 방지하기
+ - [x] 알림 상태 state 유지를 위해 전역 상태로 관리
  - [ ] 반응형 스타일 수정
  - [ ] 프로필 조회에서 아직 알림에 대한 정보 조회
  - [ ] 각 알림 토글 on 시, 호출할 API가 필요
@@ -24,7 +25,7 @@ export const userEditModalIsShow = atom({
  */
 
 // TODO 타입 올바른 장소로 옮기기 -> UserEditProfileRequestDto ??
-type UserNotificationInfoType = {
+type UserNotificationsStateType = {
     [key: string]: boolean;
     email: boolean;
     sms: boolean;
@@ -37,6 +38,11 @@ const DEFAULT_NOTIFICATIONS_VALUE = {
     marketing: false,
 };
 
+const userNotificationsStateAtom = atom<UserNotificationsStateType>({
+    key: 'userNotificationStateAtom',
+    default: DEFAULT_NOTIFICATIONS_VALUE,
+});
+
 export const UserEditModal = memo(() => {
     const {Modal, CloseButton} = useModal({isShowAtom: userEditModalIsShow});
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -48,7 +54,9 @@ export const UserEditModal = memo(() => {
 
     const form = useForm<UserEditProfileRequestDto>();
     const [currentMembership, setCurrentMembership] = useState<null | MembershipDto>(null);
-    const [notifications, setNotifications] = useState<UserNotificationInfoType>(DEFAULT_NOTIFICATIONS_VALUE);
+    const [notifications, setNotifications] = useRecoilState<UserNotificationsStateType>(userNotificationsStateAtom);
+
+    console.log(notifications); // 주석 삭제 예정
 
     const handleChangeToggle = useCallback(
         (notification: string) => {
