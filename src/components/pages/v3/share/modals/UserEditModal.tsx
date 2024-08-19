@@ -15,7 +15,7 @@ export const userEditModalIsShow = atom({
 
 /**
  TODO
- - [ ]토글 기능 구현 (UI)
+ - [x] 토글 기능 구현 (UI)
  - [ ] 토글 상태 변경시, UserEditModal 재렌더링 방지하기
  - [ ] 반응형 스타일 수정
  - [ ] 프로필 조회에서 아직 알림에 대한 정보 조회
@@ -117,18 +117,18 @@ export const UserEditModal = memo(() => {
                     <div className="flex flex-col gap-4 mb-7">
                         <p className="text-sm font-semibold">알림</p>
 
-                        <SwitchBox
+                        <SwitchNotificationCard
                             id="email"
                             title="Email"
-                            desc={`${currentUser.email}으로 scordi 관련 알림 메일이 발송됩니다.`}
+                            description={`${currentUser.email}으로 scordi 관련 알림 메일이 발송됩니다.`}
                             onToggle={handleChangeToggle}
                             checked={notifications.email}
                         />
 
-                        <SwitchBox
+                        <SwitchNotificationCard
                             id="sms"
                             title="SMS"
-                            desc={`${currentUser.phone}으로 scordi 관련 알림 SMS가 발송됩니다.`}
+                            description={`${currentUser.phone}으로 scordi 관련 알림 SMS가 발송됩니다.`}
                             onToggle={handleChangeToggle}
                             checked={notifications.sms}
                         />
@@ -137,10 +137,10 @@ export const UserEditModal = memo(() => {
                     <div className="flex flex-col gap-4 mb-7">
                         <p className="text-sm font-semibold">혜택 및 이벤트 알림</p>
 
-                        <SwitchBox
+                        <SwitchNotificationCard
                             id="marketing"
                             title="마케팅 정보 수신 동의"
-                            desc="scordi의 혜택·정보를 받아 볼 수 있습니다."
+                            description="scordi의 혜택·정보를 받아 볼 수 있습니다."
                             onToggle={handleChangeToggle}
                             checked={notifications.marketing}
                         />
@@ -155,18 +155,15 @@ export const UserEditModal = memo(() => {
     );
 });
 
-interface SwitchBoxProps extends InputHTMLAttributes<HTMLInputElement> {
+interface SwitchNotificationCardProps extends InputHTMLAttributes<HTMLInputElement> {
     id: string;
     title: string;
-    desc: string;
+    description: string;
     onToggle: (notification: string) => void;
     checked: boolean;
 }
 
-// 스위치 토글 버튼 UI
-const SwitchBox = (props: SwitchBoxProps) => {
-    const {id, title, desc, checked, onToggle} = props;
-
+const SwitchNotificationCard = ({id, title, description, checked, onToggle}: SwitchNotificationCardProps) => {
     return (
         <div className="card card-bordered">
             <div className="card-body p-4">
@@ -180,7 +177,7 @@ const SwitchBox = (props: SwitchBoxProps) => {
                         onClick={() => onToggle(id)}
                     />
                 </p>
-                <p className="card-text text-xs text-gray-400">{desc}</p>
+                <p className="card-text text-xs text-gray-400">{description}</p>
             </div>
         </div>
     );
