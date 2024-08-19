@@ -1,13 +1,15 @@
 import {InputHTMLAttributes, memo, useCallback, useEffect, useState} from 'react';
 import {atom, useRecoilState, useRecoilValue} from 'recoil';
+import {useForm} from 'react-hook-form';
+
 import {UserAvatar} from '^v3/share/UserAvatar';
+import {useModal} from '^v3/share/modals/useModal';
+
 import {useCurrentUser} from '^models/User/hook';
 import {currentOrgAtom} from '^models/Organization/atom';
-import {MembershipDto} from 'src/models/Membership/types';
-import {useModal} from '^v3/share/modals/useModal';
-import {useForm} from 'react-hook-form';
-import {UserEditProfileRequestDto, UserNotificationsStateDto} from '^models/User/types';
 import {userNotificationsStateAtom} from '^models/User/atom';
+import {UserEditProfileRequestDto, UserNotificationsStateDto} from '^models/User/types';
+import {MembershipDto} from 'src/models/Membership/types';
 
 export const userEditModalIsShow = atom({
     key: 'v3/userEditModalIsShow',
@@ -16,10 +18,7 @@ export const userEditModalIsShow = atom({
 
 /**
  TODO
- - [x] 토글 기능 구현 (UI)
- - [ ] 토글 상태 변경시, UserEditModal 재렌더링 방지하기
- - [x] 알림 상태 state 유지를 위해 전역 상태로 관리
- - [ ] 반응형 스타일 수정
+ - [ ] 토글 상태 변경시, UserEditModal 재렌더링 방지하기 (리팩토링)
  - [ ] 프로필 조회에서 아직 알림에 대한 정보 조회
  - [ ] 각 알림 토글 on 시, 호출할 API가 필요
  - [ ] 나중에 react-hook-form으로 변경하기 (리팩토링)
@@ -32,13 +31,9 @@ export const UserEditModal = memo(() => {
         orgIdParam: 'orgId',
     });
 
-    console.log('UserEditModal 렌더링'); // 주석 삭제 예정
-
     const form = useForm<UserEditProfileRequestDto>();
     const [currentMembership, setCurrentMembership] = useState<null | MembershipDto>(null);
     const [notifications, setNotifications] = useRecoilState<UserNotificationsStateDto>(userNotificationsStateAtom);
-
-    console.log(notifications); // 주석 삭제 예정
 
     const handleChangeToggle = useCallback(
         (notification: string) => {
