@@ -6,7 +6,7 @@ import {currentOrgAtom} from '^models/Organization/atom';
 import {MembershipDto} from 'src/models/Membership/types';
 import {useModal} from '^v3/share/modals/useModal';
 import {useForm} from 'react-hook-form';
-import {UserEditProfileRequestDto} from '^models/User/types';
+import {UserEditProfileRequestDto, UserNotificationsStateDto} from '^models/User/types';
 
 export const userEditModalIsShow = atom({
     key: 'v3/userEditModalIsShow',
@@ -24,23 +24,13 @@ export const userEditModalIsShow = atom({
  - [ ] 나중에 react-hook-form으로 변경하기 (리팩토링)
  */
 
-// TODO 타입 올바른 장소로 옮기기 -> UserEditProfileRequestDto ??
-type UserNotificationsStateType = {
-    [key: string]: boolean;
-    email: boolean;
-    sms: boolean;
-    marketing: boolean;
-};
-
-const DEFAULT_NOTIFICATIONS_VALUE = {
-    email: false,
-    sms: false,
-    marketing: false,
-};
-
-const userNotificationsStateAtom = atom<UserNotificationsStateType>({
-    key: 'userNotificationStateAtom',
-    default: DEFAULT_NOTIFICATIONS_VALUE,
+const userNotificationsStateAtom = atom<UserNotificationsStateDto>({
+    key: 'userNotificationsStateAtom',
+    default: {
+        isEmailNoticeAllowed: false,
+        isSMSNoticeAllowed: false,
+        isAgreeForMarketingTerm: false,
+    },
 });
 
 export const UserEditModal = memo(() => {
@@ -54,7 +44,7 @@ export const UserEditModal = memo(() => {
 
     const form = useForm<UserEditProfileRequestDto>();
     const [currentMembership, setCurrentMembership] = useState<null | MembershipDto>(null);
-    const [notifications, setNotifications] = useRecoilState<UserNotificationsStateType>(userNotificationsStateAtom);
+    const [notifications, setNotifications] = useRecoilState<UserNotificationsStateDto>(userNotificationsStateAtom);
 
     console.log(notifications); // 주석 삭제 예정
 

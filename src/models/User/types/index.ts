@@ -105,6 +105,14 @@ export type UserEditProfileRequestDto = {
     locale?: UserLocale | null; // 사용자 언어 설정
 };
 
+// TODO 추후 API 완료되면 UserEditProfileRequestDto 재정의에 따라 수정될 수 있음 (참고)
+export type UserNotificationsStateDto = {
+    [key: string]: boolean;
+    isEmailNoticeAllowed: boolean;
+    isSMSNoticeAllowed: boolean;
+    isAgreeForMarketingTerm: boolean;
+};
+
 export class SendPhoneAuthMessageDto {
     phoneNumber: string;
     code?: string;
