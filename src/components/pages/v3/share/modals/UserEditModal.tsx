@@ -81,15 +81,15 @@ export const UserEditModal = memo(() => {
     if (!currentUser || !currentOrg || !currentMembership) return <></>;
 
     return (
-        <Modal className="px-12 pt-0 pb-10 md:max-w-md lg:max-w-3xl">
-            <div className="flex justify-between items-center mb-10 pt-10 sticky top-0 bg-base-100 z-10">
+        <Modal className="px-6 py-4 sm:px-12 sm:py-10 max-w-3xl">
+            <div className="flex justify-between items-center mb-6 md:mb-10 bg-base-100">
                 <h3 className="font-bold text-lg flex-1">내 계정</h3>
                 <CloseButton />
             </div>
 
-            <div className="grid grid-cols-3">
+            <div className="grid sm:grid-cols-3 gap-4 sm:gap-6">
                 <div className="col-span-1">
-                    <UserAvatar user={currentUser} size="w-32" textClass="!text-2xl" />
+                    <UserAvatar user={currentUser} size="w-24 sm:w-32" textClass="!text-2xl" />
                 </div>
 
                 <div className="col-span-2">
