@@ -13,6 +13,11 @@ interface DropdownContentProps extends Omit<TippyProps, 'children'> {
     children?: ReactNode;
 }
 
+/**
+ * DropdownContent - children을 받아서, 드롭다운 메뉴로 보여주는 컴포넌트
+ * DropdownBackdrop - 드롭다운을 닫히게 하는 컴포넌트
+ * Tippy - 드롭다운 메뉴를 구성하는 컴포넌트
+ */
 export const DropdownContent = memo((props: DropdownContentProps) => {
     const {
         triggerRef,
@@ -50,11 +55,13 @@ export const DropdownContent = memo((props: DropdownContentProps) => {
                         if (backdrop) return;
                         hide();
                     }}
+                    // render 프로퍼티 - 자신만의 tippy를 render하고 싶을 때 사용
                     render={(attrs, content, instance) => (
                         <div
                             onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
+                                hide();
                             }}
                             {...attrs}
                         >
