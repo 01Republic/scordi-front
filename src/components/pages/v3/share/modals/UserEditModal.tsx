@@ -1,4 +1,4 @@
-import {ForwardedRef, forwardRef, InputHTMLAttributes, memo, useEffect, useState} from 'react';
+import {ForwardedRef, forwardRef, InputHTMLAttributes, memo, useCallback, useEffect, useState} from 'react';
 import {atom, useRecoilValue} from 'recoil';
 import {UserAvatar} from '^v3/share/UserAvatar';
 import {useCurrentUser} from '^models/User/hook';
@@ -13,12 +13,53 @@ export const userEditModalIsShow = atom({
     default: false,
 });
 
+/**
+ TODO
+ - [ ]토글 기능 구현 (UI)
+ - [ ] 토글 상태 변경시, UserEditModal 재렌더링 방지하기
+ - [ ] 반응형 스타일 수정
+ - [ ] 프로필 조회에서 아직 알림에 대한 정보 조회
+ - [ ] 각 알림 토글 on 시, 호출할 API가 필요
+ - [ ] 나중에 react-hook-form으로 변경하기 (리팩토링)
+ */
+
+// TODO 타입 올바른 장소로 옮기기 -> UserEditProfileRequestDto ??
+type UserNotificationInfoType = {
+    [key: string]: boolean;
+    email: boolean;
+    sms: boolean;
+    marketing: boolean;
+};
+
+const DEFAULT_NOTIFICATIONS_VALUE = {
+    email: false,
+    sms: false,
+    marketing: false,
+};
+
 export const UserEditModal = memo(() => {
     const {Modal, CloseButton} = useModal({isShowAtom: userEditModalIsShow});
     const currentOrg = useRecoilValue(currentOrgAtom);
     const {currentUser} = useCurrentUser(undefined, {
         orgIdParam: 'orgId',
     });
+
+    console.log('UserEditModal 렌더링'); // 주석 삭제 예정
+
+    const [notifications, setNotifications] = useState<UserNotificationInfoType>(DEFAULT_NOTIFICATIONS_VALUE);
+
+    const handleChangeToggle = useCallback(
+        (notification: string) => {
+            setNotifications((prev) => ({
+                ...prev,
+                [notification]: !prev[notification],
+            }));
+
+            // TODO API 호출 로직 작성 예정
+        },
+        [notifications],
+    );
+
     const form = useForm<UserEditProfileRequestDto>();
     const [currentMembership, setCurrentMembership] = useState<null | MembershipDto>(null);
 
@@ -77,23 +118,32 @@ export const UserEditModal = memo(() => {
                         <p className="text-sm font-semibold">알림</p>
 
                         <SwitchBox
+                            id="email"
                             title="Email"
                             desc={`${currentUser.email}으로 scordi 관련 알림 메일이 발송됩니다.`}
-                            // checked={true}
-                            // onChange={console.log}
+                            onToggle={handleChangeToggle}
+                            checked={notifications.email}
                         />
+
                         <SwitchBox
+                            id="sms"
                             title="SMS"
                             desc={`${currentUser.phone}으로 scordi 관련 알림 SMS가 발송됩니다.`}
-                            // checked={true}
-                            // onChange={console.log}
+                            onToggle={handleChangeToggle}
+                            checked={notifications.sms}
                         />
                     </div>
 
                     <div className="flex flex-col gap-4 mb-7">
                         <p className="text-sm font-semibold">혜택 및 이벤트 알림</p>
 
-                        <SwitchBox title="마케팅 정보 수신 동의" desc="scordi의 혜택·정보를 받아 볼 수 있습니다." />
+                        <SwitchBox
+                            id="marketing"
+                            title="마케팅 정보 수신 동의"
+                            desc="scordi의 혜택·정보를 받아 볼 수 있습니다."
+                            onToggle={handleChangeToggle}
+                            checked={notifications.marketing}
+                        />
                         {/*{...form.register('isAgreeForMarketingTerm')}*/}
                         {/*onChange={(e) => {*/}
                         {/*    form.setValue('isAgreeForMarketingTerm', e.target.checked);*/}
@@ -106,43 +156,45 @@ export const UserEditModal = memo(() => {
 });
 
 interface SwitchBoxProps extends InputHTMLAttributes<HTMLInputElement> {
+    id: string;
     title: string;
     desc: string;
-    checked?: boolean;
+    onToggle: (notification: string) => void;
+    checked: boolean;
 }
 
-const SwitchBox = forwardRef((props: SwitchBoxProps, ref: ForwardedRef<any>) => {
-    const {title, desc, checked, onChange} = props;
-    const [isChecked, setIsChecked] = useState(false);
+// 스위치 토글 버튼 UI
+const SwitchBox = memo(
+    forwardRef((props: SwitchBoxProps, ref: ForwardedRef<any>) => {
+        const {id, title, desc, checked, onToggle} = props;
 
-    // useEffect(() => {
-    //     //
-    // }, [checked]);
+        return (
+            <div className="card card-bordered">
+                <div className="card-body p-4">
+                    <p className="card-title text-sm justify-between">
+                        <span>{title}</span>
+                        <input
+                            readOnly
+                            type="checkbox"
+                            className="toggle toggle-primary toggle-sm"
+                            checked={checked}
+                            onClick={() => onToggle(id)}
+                            // checked={isChecked}
+                            // onChange={(e) => {
+                            //     console.log(title, 'checked', e.target.checked);
+                            //     onChange && onChange(e);
+                            // }}
 
-    return (
-        <div className="card card-bordered">
-            <div className="card-body p-4">
-                <p className="card-title text-sm justify-between">
-                    <span>{title}</span>
-                    <input
-                        ref={ref}
-                        type="checkbox"
-                        className="toggle toggle-primary toggle-sm"
-                        defaultChecked={isChecked}
-                        // checked={isChecked}
-                        // onChange={(e) => {
-                        //     console.log(title, 'checked', e.target.checked);
-                        //     onChange && onChange(e);
-                        // }}
-                        onClick={(e) => {
-                            const input = e.target as HTMLInputElement;
-                            console.log(input.checked);
-                            setIsChecked(input.checked);
-                        }}
-                    />
-                </p>
-                <p className="card-text text-xs text-gray-400">{desc}</p>
+                            // onClick={(e) => {
+                            //     const input = e.target as HTMLInputElement;
+                            //     console.log(input.checked);
+                            //     setIsChecked(input.checked);
+                            // }}
+                        />
+                    </p>
+                    <p className="card-text text-xs text-gray-400">{desc}</p>
+                </div>
             </div>
-        </div>
-    );
-});
+        );
+    }),
+);
