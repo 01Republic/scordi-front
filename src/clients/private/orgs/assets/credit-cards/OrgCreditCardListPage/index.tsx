@@ -4,14 +4,14 @@ import {debounce} from 'lodash';
 import {orgIdParamState} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {CardAutoCreateModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/CardAutoCreateModal';
 import {useCreditCardListForListPage} from '^models/CreditCard/hook';
+import {CardAutoCreateModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/CardAutoCreateModal';
+import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {CreditCardScopeHandler} from './CreditCardScopeHandler';
 import {CreditCardTableHeader} from './CreditCardTableHeader';
 import {CreditCardTableRow} from './CreditCardTableRow';
 import {AddCreditCardDropdown} from './AddCreditCardDropdown';
 import {isCardAutoCreateModalAtom} from './atom';
-import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 
 export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
     const organizationId = useRecoilValue(orgIdParamState);
@@ -43,7 +43,7 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
             searchInputPlaceholder="검색어를 입력해주세요"
             onSearch={onSearch}
         >
-            {result.items.length > 0 ? (
+            {result.pagination.totalItemCount > 0 ? (
                 <ListTableContainer
                     pagination={result.pagination}
                     movePage={movePage}
