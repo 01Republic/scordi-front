@@ -6,6 +6,7 @@ import {currentOrgAtom} from '^models/Organization/atom';
 import {UserDto} from '^models/User/types';
 
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
+import {UserAvatar} from '^models/User/components/UserAvatar';
 
 interface EditUserProfileModalProps {
     currentUser: UserDto;
@@ -13,11 +14,6 @@ interface EditUserProfileModalProps {
     isOpened: boolean;
     onClose: () => void;
 }
-
-/**
- TODO
- - modal-box 대신 tailwind로 스타일링
- */
 
 export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
     const {currentUser, membershipLevel, isOpened, onClose} = props;
@@ -31,16 +27,16 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
 
     return (
         <AnimatedModal open={isOpened} onClose={onClose}>
-            <div className="w-[48rem] bg-white px-6 py-4 sm:px-12 sm:py-10 rounded-2xl flex flex-col gap-5 sm:gap-10">
+            <div className="w-[48rem] bg-white px-6 py-4 sm:px-12 sm:py-10 rounded-2xl flex flex-col gap-5 sm:gap-8">
                 <div className="w-full flex justify-between items-center">
                     <h3 className="font-bold text-18">내 계정</h3>
-                    <button>
+                    <button className="p-1 rounded-full hover:bg-stroke-gray text-gray-500 hover:text-gray-900 transition-colors duration-200">
                         <IoClose size={26} />
                     </button>
                 </div>
 
-                <article className="w-full flex flex-col sm:flex-row">
-                    <div className="w-[128px] h-[128px]">아바타</div>
+                <div className="w-full flex flex-col sm:flex-row gap-6 sm:gap-8">
+                    <UserAvatar src={profileImgUrl} className="w-20 h-20 sm:w-24 sm:h-24" alt="프로필 이미지" />
                     <div className="grow">
                         <div>
                             <h4 className="font-bold text-18 mb-1">{name}</h4>
@@ -66,7 +62,7 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
 
                         <div className="flex flex-col gap-4">
                             <div className="w-full">
-                                <h4 className="font-semibold">알림</h4>
+                                <h4 className="font-semibold text-16 mb-2">알림</h4>
                                 <div className="flex flex-col gap-3">
                                     <div className="rounded-2xl border border-stroke-gary p-4 flex flex-col gap-2">
                                         <div className="flex justify-between items-center">
@@ -74,7 +70,7 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                                             <button>스위치</button>
                                         </div>
                                         <p className="text-12 text-gray-400">
-                                            mia@01republic.io으로 scordi 관련 알림 메일이 발송됩니다.
+                                            {email}로 scordi 관련 알림 메일이 발송됩니다.
                                         </p>
                                     </div>
                                     <div className="rounded-2xl border border-stroke-gary p-4 flex flex-col gap-2">
@@ -83,14 +79,14 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                                             <button>스위치</button>
                                         </div>
                                         <p className="text-12 text-gray-400">
-                                            010-8770-1941으로 scordi 관련 알림 SMS가 발송됩니다.
+                                            {phone}(으)로 scordi 관련 알림 SMS가 발송됩니다.
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="w-full">
-                                <h4 className="font-semibold">혜택 및 이벤트 알림</h4>
+                                <h4 className="font-semibold text-16 mb-2">혜택 및 이벤트 알림</h4>
                                 <div className="rounded-2xl border border-stroke-gary p-4 flex flex-col gap-2">
                                     <div className="flex justify-between items-center">
                                         <span className="text-14 font-medium">마케팅 정보 수신 동의</span>
@@ -101,7 +97,7 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                             </div>
                         </div>
                     </div>
-                </article>
+                </div>
             </div>
         </AnimatedModal>
     );
