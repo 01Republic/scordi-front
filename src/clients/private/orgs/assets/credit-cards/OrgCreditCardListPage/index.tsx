@@ -15,7 +15,7 @@ import {isCardAutoCreateModalAtom} from './atom';
 
 export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
     const organizationId = useRecoilValue(orgIdParamState);
-    const {search, reset, result, isLoading, query, movePage, changePageSize, orderBy, reload} =
+    const {search, reset, result, isEmptyResult, isLoading, query, movePage, changePageSize, orderBy, reload} =
         useCreditCardListForListPage();
     const [isCardAutoCreateModalOpen, setIsCardAutoCreateModalOpen] = useRecoilState(isCardAutoCreateModalAtom);
 
@@ -43,23 +43,23 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
             searchInputPlaceholder="검색어를 입력해주세요"
             onSearch={onSearch}
         >
-            {result.pagination.totalItemCount > 0 ? (
-                <ListTableContainer
-                    pagination={result.pagination}
-                    movePage={movePage}
-                    changePageSize={changePageSize}
-                    unit="개"
-                >
+            <ListTableContainer
+                pagination={result.pagination}
+                movePage={movePage}
+                changePageSize={changePageSize}
+                unit="개"
+            >
+                {!isEmptyResult ? (
                     <ListTable
                         items={result.items}
                         isLoading={isLoading}
                         Header={() => <CreditCardTableHeader orderBy={orderBy} />}
                         Row={({item}) => <CreditCardTableRow creditCard={item} reload={reload} />}
                     />
-                </ListTableContainer>
-            ) : (
-                <EmptyTable icon={'💳'} message="등록된 결제수단이 없어요." Buttons={AddCreditCardDropdown} />
-            )}
+                ) : (
+                    <EmptyTable icon={'💳'} message="등록된 결제수단이 없어요." Buttons={AddCreditCardDropdown} />
+                )}
+            </ListTableContainer>
 
             <CardAutoCreateModal
                 isOpened={isCardAutoCreateModalOpen}
