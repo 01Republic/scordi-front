@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo, useState} from 'react';
 import {useCurrentUser} from '^models/User/hook';
 import {UserAvatar} from '^models/User/components/UserAvatar';
 import {Dropdown} from '^v3/share/Dropdown';
@@ -12,8 +12,9 @@ import {PiLinkBold} from 'react-icons/pi';
 import {BsArrowRight} from 'react-icons/bs';
 import {useTranslation} from 'next-i18next';
 import {useSetRecoilState} from 'recoil';
-import {UserEditModal, userEditModalIsShow} from '^v3/share/modals/UserEditModal';
+import {userEditModalIsShow} from '^v3/share/modals/UserEditModal';
 import {useRouter} from 'next/router';
+import {EditUserProfileModal} from '^clients/private/_modals/EditUserProfileModal';
 
 export const ProfileDropdown = memo(function ProfileDropdown() {
     const router = useRouter();
@@ -22,12 +23,19 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
     const {currentUser, logout, currentUserMembership} = useCurrentUser(undefined, {
         orgIdParam: 'orgId',
     });
+    const [isProfileEditModalOpened, setIsProfileEditModalOpened] = useState(false);
+
+    console.log(currentUser); // 삭제 예정
 
     if (!currentUser) return <></>;
 
     return (
         <>
-            <UserEditModal />
+            {/* <UserEditModal /> */}
+            <EditUserProfileModal
+                isOpened={isProfileEditModalOpened}
+                onClose={() => setIsProfileEditModalOpened(false)}
+            />
             <Dropdown
                 placement="bottom-end"
                 Trigger={() => (
@@ -56,7 +64,7 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                             <li>
                                 <a
                                     className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi"
-                                    onClick={() => setUserEditModalIsShow(true)}
+                                    onClick={() => setIsProfileEditModalOpened(true)}
                                 >
                                     <AiOutlineSetting />
                                     <span>{t('dropdown.setting')}</span>
