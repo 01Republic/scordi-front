@@ -1,31 +1,28 @@
+import {useRouter} from 'next/router';
 import {memo, useState} from 'react';
-import {useCurrentUser} from '^models/User/hook';
-import {UserAvatar} from '^models/User/components/UserAvatar';
-import {Dropdown} from '^v3/share/Dropdown';
+import {useTranslation} from 'next-i18next';
+
 import {AiOutlineSetting} from '@react-icons/all-files/ai/AiOutlineSetting';
 import {AiOutlineQuestionCircle} from '@react-icons/all-files/ai/AiOutlineQuestionCircle';
 import {AiOutlineHome} from '@react-icons/all-files/ai/AiOutlineHome';
 import {BiLogOut} from '@react-icons/all-files/bi/BiLogOut';
-import {LinkTo} from '^components/util/LinkTo';
-import {AdminUsersPageRoute} from '^pages/admin/users';
 import {PiLinkBold} from 'react-icons/pi';
 import {BsArrowRight} from 'react-icons/bs';
-import {useTranslation} from 'next-i18next';
-import {useSetRecoilState} from 'recoil';
-import {userEditModalIsShow} from '^v3/share/modals/UserEditModal';
-import {useRouter} from 'next/router';
+
+import {useCurrentUser} from '^models/User/hook';
+import {AdminUsersPageRoute} from '^pages/admin/users';
+import {UserAvatar} from '^models/User/components/UserAvatar';
+import {LinkTo} from '^components/util/LinkTo';
+import {Dropdown} from '^v3/share/Dropdown';
 import {EditUserProfileModal} from '^clients/private/_modals/EditUserProfileModal';
 
 export const ProfileDropdown = memo(function ProfileDropdown() {
     const router = useRouter();
     const {t} = useTranslation('profile');
-    const setUserEditModalIsShow = useSetRecoilState(userEditModalIsShow);
     const {currentUser, logout, currentUserMembership} = useCurrentUser(undefined, {
         orgIdParam: 'orgId',
     });
     const [isProfileEditModalOpened, setIsProfileEditModalOpened] = useState(false);
-
-    console.log(currentUser); // 삭제 예정
 
     if (!currentUser) return <></>;
 
