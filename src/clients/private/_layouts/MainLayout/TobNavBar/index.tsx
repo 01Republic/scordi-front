@@ -13,6 +13,7 @@ import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
 import {OrgTeamListPageRoute} from '^pages/orgs/[id]/teams';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
+import {OrgSettingsInformationPageRoute} from '^pages/orgs/[id]/settings';
 
 interface TobNavBarProps {
     //
@@ -78,7 +79,7 @@ export const TobNavBar = memo((props: TobNavBarProps) => {
                     />
                 </TopNavBarDropdownContent>
             </TopNavBarItem>
-            <TopNavBarItem name="설정" active={false} />
+            <TopNavBarItem name="설정" {...orgRouteProps(OrgSettingsInformationPageRoute)} />
         </div>
     );
 });
