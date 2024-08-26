@@ -24,12 +24,14 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
     });
     const [isProfileEditModalOpened, setIsProfileEditModalOpened] = useState(false);
 
-    if (!currentUser) return <></>;
+    if (!currentUser || !currentUserMembership) return <></>;
 
     return (
         <>
             {/* <UserEditModal /> */}
             <EditUserProfileModal
+                currentUser={currentUser}
+                membershipLevel={currentUserMembership?.level}
                 isOpened={isProfileEditModalOpened}
                 onClose={() => setIsProfileEditModalOpened(false)}
             />
