@@ -15,6 +15,14 @@ interface EditUserProfileModalProps {
     onClose: () => void;
 }
 
+/**
+TODO
+- [ ] 스위치 기능 만들기
+- [ ] 반응형 UI 수정
+- [ ] 컴포넌트 리팩토링
+- [ ] API 연동하기
+ */
+
 export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
     const {currentUser, membershipLevel, isOpened, onClose} = props;
     const {profileImgUrl, name, email, phone} = currentUser;
@@ -70,7 +78,7 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                                     <div className="rounded-2xl border border-stroke-gary p-4 flex flex-col gap-2">
                                         <div className="flex justify-between items-center">
                                             <span className="text-14 font-medium">Email</span>
-                                            <button>스위치</button>
+                                            <input type="checkbox" className="toggle" />
                                         </div>
                                         <p className="text-12 text-gray-400">
                                             {email}로 scordi 관련 알림 메일이 발송됩니다.
@@ -79,7 +87,7 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                                     <div className="rounded-2xl border border-stroke-gary p-4 flex flex-col gap-2">
                                         <div className="flex justify-between items-center">
                                             <span className="text-14 font-medium">SMS</span>
-                                            <button>스위치</button>
+                                            <input type="checkbox" className="toggle" />
                                         </div>
                                         <p className="text-12 text-gray-400">
                                             {phone}(으)로 scordi 관련 알림 SMS가 발송됩니다.
@@ -93,7 +101,7 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                                 <div className="rounded-2xl border border-stroke-gary p-4 flex flex-col gap-2">
                                     <div className="flex justify-between items-center">
                                         <span className="text-14 font-medium">마케팅 정보 수신 동의</span>
-                                        <button>스위치</button>
+                                        <input type="checkbox" className="toggle" />
                                     </div>
                                     <p className="text-12 text-gray-400">scordi의 혜택·정보를 받아 볼 수 있습니다.</p>
                                 </div>
