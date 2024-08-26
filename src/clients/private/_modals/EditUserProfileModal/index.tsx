@@ -30,7 +30,10 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
             <div className="w-[48rem] bg-white px-6 py-4 sm:px-12 sm:py-10 rounded-2xl flex flex-col gap-5 sm:gap-8">
                 <div className="w-full flex justify-between items-center">
                     <h3 className="font-bold text-18">내 계정</h3>
-                    <button className="p-1 rounded-full hover:bg-stroke-gray text-gray-500 hover:text-gray-900 transition-colors duration-200">
+                    <button
+                        onClick={onClose}
+                        className="p-1 rounded-full hover:bg-stroke-gray text-gray-500 hover:text-gray-900 transition-colors duration-200"
+                    >
                         <IoClose size={26} />
                     </button>
                 </div>
