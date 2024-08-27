@@ -1,12 +1,14 @@
+import {useCallback} from 'react';
 import {IoClose} from '@react-icons/all-files/io5/IoClose';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 
 import {MembershipLevel} from '^models/Membership/types';
 import {currentOrgAtom} from '^models/Organization/atom';
-import {UserDto} from '^models/User/types';
+import {UserDto, UserNotificationsStateDto} from '^models/User/types';
 
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {UserAvatar} from '^models/User/components/UserAvatar';
+import {userNotificationsStateAtom} from '^models/User/atom';
 
 interface EditUserProfileModalProps {
     currentUser: UserDto;
@@ -29,13 +31,19 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
     const {isEmailNoticeAllowed, isSMSNoticeAllowed, marketingTermAgreedAt} = currentUser;
 
     const currentOrg = useRecoilValue(currentOrgAtom);
+    const [notifications, setNotifications] = useRecoilState<UserNotificationsStateDto>(userNotificationsStateAtom); // TODO 초기값은 API에서 받은 데이터가 보여져야 함
 
     /* 알림에 대한 동의 여부 스위치 기능 */
-    const handleChangeSwitch = (id: string) => () => {
-        console.log(id); // 삭제 예정
-
-        // TODO API 호출 로직 작성 예정
-    };
+    const handleChangeSwitch = useCallback(
+        (notification: string) => () => {
+            setNotifications((prev) => ({
+                ...prev,
+                [notification]: !prev[notification],
+            }));
+            // TODO API 호출 로직 작성 예정
+        },
+        [notifications],
+    );
 
     console.log(isEmailNoticeAllowed, isSMSNoticeAllowed, marketingTermAgreedAt); // 삭제 예정 false false null
     console.log(profileImgUrl, name, email, phone, membershipLevel); // 삭제 예정
@@ -91,7 +99,8 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                                                 type="checkbox"
                                                 className="toggle"
                                                 defaultChecked={isEmailNoticeAllowed}
-                                                onChange={handleChangeSwitch('email')}
+                                                onChange={handleChangeSwitch('isEmailNoticeAllowed')}
+                                                checked={notifications.isEmailNoticeAllowed}
                                             />
                                         </div>
                                         <p className="text-12 text-gray-400">
@@ -105,7 +114,8 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                                                 type="checkbox"
                                                 className="toggle"
                                                 defaultChecked={isSMSNoticeAllowed}
-                                                onChange={handleChangeSwitch('sms')}
+                                                onChange={handleChangeSwitch('isSMSNoticeAllowed')}
+                                                // checked={notifications.isSMSNoticeAllowed}
                                             />
                                         </div>
                                         <p className="text-12 text-gray-400">
@@ -124,7 +134,8 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                                             type="checkbox"
                                             className="toggle"
                                             defaultChecked={!!marketingTermAgreedAt}
-                                            onChange={handleChangeSwitch('marketing')}
+                                            onChange={handleChangeSwitch('marketingTermAgreedAt')}
+                                            // checked={notifications.isAgreeForMarketingTerm}
                                         />
                                     </div>
                                     <p className="text-12 text-gray-400">scordi의 혜택·정보를 받아 볼 수 있습니다.</p>
