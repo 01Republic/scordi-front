@@ -17,7 +17,7 @@ interface EditUserProfileModalProps {
 
 /**
 TODO
-- [ ] 스위치 기능 만들기
+- [x] 스위치 기능 만들기
 - [ ] 반응형 UI 수정
 - [ ] 컴포넌트 리팩토링
 - [ ] API 연동하기
@@ -29,6 +29,13 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
     const {isEmailNoticeAllowed, isSMSNoticeAllowed, marketingTermAgreedAt} = currentUser;
 
     const currentOrg = useRecoilValue(currentOrgAtom);
+
+    /* 알림에 대한 동의 여부 스위치 기능 */
+    const handleChangeSwitch = (id: string) => () => {
+        console.log(id); // 삭제 예정
+
+        // TODO API 호출 로직 작성 예정
+    };
 
     console.log(isEmailNoticeAllowed, isSMSNoticeAllowed, marketingTermAgreedAt); // 삭제 예정 false false null
     console.log(profileImgUrl, name, email, phone, membershipLevel); // 삭제 예정
@@ -84,6 +91,7 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                                                 type="checkbox"
                                                 className="toggle"
                                                 defaultChecked={isEmailNoticeAllowed}
+                                                onChange={handleChangeSwitch('email')}
                                             />
                                         </div>
                                         <p className="text-12 text-gray-400">
@@ -97,6 +105,7 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                                                 type="checkbox"
                                                 className="toggle"
                                                 defaultChecked={isSMSNoticeAllowed}
+                                                onChange={handleChangeSwitch('sms')}
                                             />
                                         </div>
                                         <p className="text-12 text-gray-400">
@@ -115,6 +124,7 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                                             type="checkbox"
                                             className="toggle"
                                             defaultChecked={!!marketingTermAgreedAt}
+                                            onChange={handleChangeSwitch('marketing')}
                                         />
                                     </div>
                                     <p className="text-12 text-gray-400">scordi의 혜택·정보를 받아 볼 수 있습니다.</p>
