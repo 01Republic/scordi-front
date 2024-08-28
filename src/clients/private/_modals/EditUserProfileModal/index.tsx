@@ -19,7 +19,6 @@ interface EditUserProfileModalProps {
 
 /**
 TODO
-- [x] 스위치 기능 만들기
 - [ ] 반응형 UI 수정
 - [ ] 컴포넌트 리팩토링
 - [ ] API 연동하기
@@ -45,7 +44,6 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
         [setNotifications],
     );
 
-    // TODO 초기값은 API에서 받은 데이터가 보여져야 함
     useEffect(() => {
         setNotifications({
             isEmailNoticeAllowed,
@@ -53,9 +51,6 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
             isAgreeForMarketingTerm: !!marketingTermAgreedAt,
         });
     }, [setNotifications]);
-
-    console.log(isEmailNoticeAllowed, isSMSNoticeAllowed, marketingTermAgreedAt); // 삭제 예정 false false null
-    console.log(profileImgUrl, name, email, phone, membershipLevel); // 삭제 예정
 
     if (!currentOrg) return <></>;
 
@@ -107,7 +102,6 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                                             <input
                                                 type="checkbox"
                                                 className="toggle"
-                                                // defaultChecked={isEmailNoticeAllowed}
                                                 onChange={handleChangeSwitch('isEmailNoticeAllowed')}
                                                 checked={notifications.isEmailNoticeAllowed}
                                             />
@@ -122,7 +116,6 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                                             <input
                                                 type="checkbox"
                                                 className="toggle"
-                                                // defaultChecked={isSMSNoticeAllowed}
                                                 onChange={handleChangeSwitch('isSMSNoticeAllowed')}
                                                 checked={notifications.isSMSNoticeAllowed}
                                             />
@@ -142,7 +135,6 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                                         <input
                                             type="checkbox"
                                             className="toggle"
-                                            // defaultChecked={!!marketingTermAgreedAt}
                                             onChange={handleChangeSwitch('marketingTermAgreedAt')}
                                             checked={notifications.isAgreeForMarketingTerm}
                                         />
