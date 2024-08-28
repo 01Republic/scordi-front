@@ -1,4 +1,4 @@
-import {useCallback} from 'react';
+import {useCallback, useEffect} from 'react';
 import {IoClose} from '@react-icons/all-files/io5/IoClose';
 import {useRecoilState, useRecoilValue} from 'recoil';
 
@@ -31,7 +31,7 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
     const {isEmailNoticeAllowed, isSMSNoticeAllowed, marketingTermAgreedAt} = currentUser;
 
     const currentOrg = useRecoilValue(currentOrgAtom);
-    const [notifications, setNotifications] = useRecoilState<UserNotificationsStateDto>(userNotificationsStateAtom); // TODO 초기값은 API에서 받은 데이터가 보여져야 함
+    const [notifications, setNotifications] = useRecoilState<UserNotificationsStateDto>(userNotificationsStateAtom);
 
     /* 알림에 대한 동의 여부 스위치 기능 */
     const handleChangeSwitch = useCallback(
@@ -40,10 +40,19 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                 ...prev,
                 [notification]: !prev[notification],
             }));
-            // TODO API 호출 로직 작성 예정
+            // TODO 프로필 수정 API 호출 후, recoil 변경
         },
-        [notifications],
+        [setNotifications],
     );
+
+    // TODO 초기값은 API에서 받은 데이터가 보여져야 함
+    useEffect(() => {
+        setNotifications({
+            isEmailNoticeAllowed,
+            isSMSNoticeAllowed,
+            isAgreeForMarketingTerm: !!marketingTermAgreedAt,
+        });
+    }, [setNotifications]);
 
     console.log(isEmailNoticeAllowed, isSMSNoticeAllowed, marketingTermAgreedAt); // 삭제 예정 false false null
     console.log(profileImgUrl, name, email, phone, membershipLevel); // 삭제 예정
@@ -98,7 +107,7 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                                             <input
                                                 type="checkbox"
                                                 className="toggle"
-                                                defaultChecked={isEmailNoticeAllowed}
+                                                // defaultChecked={isEmailNoticeAllowed}
                                                 onChange={handleChangeSwitch('isEmailNoticeAllowed')}
                                                 checked={notifications.isEmailNoticeAllowed}
                                             />
@@ -113,9 +122,9 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                                             <input
                                                 type="checkbox"
                                                 className="toggle"
-                                                defaultChecked={isSMSNoticeAllowed}
+                                                // defaultChecked={isSMSNoticeAllowed}
                                                 onChange={handleChangeSwitch('isSMSNoticeAllowed')}
-                                                // checked={notifications.isSMSNoticeAllowed}
+                                                checked={notifications.isSMSNoticeAllowed}
                                             />
                                         </div>
                                         <p className="text-12 text-gray-400">
@@ -133,9 +142,9 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                                         <input
                                             type="checkbox"
                                             className="toggle"
-                                            defaultChecked={!!marketingTermAgreedAt}
+                                            // defaultChecked={!!marketingTermAgreedAt}
                                             onChange={handleChangeSwitch('marketingTermAgreedAt')}
-                                            // checked={notifications.isAgreeForMarketingTerm}
+                                            checked={notifications.isAgreeForMarketingTerm}
                                         />
                                     </div>
                                     <p className="text-12 text-gray-400">scordi의 혜택·정보를 받아 볼 수 있습니다.</p>
