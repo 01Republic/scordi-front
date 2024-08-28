@@ -124,7 +124,7 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                                     label="마케팅 정보 수신 동의"
                                     content="scordi의 혜택·정보를 받아 볼 수 있습니다."
                                     checked={notifications.isAgreeForMarketingTerm}
-                                    onSwitch={handleNotificationState('marketingTermAgreedAt')}
+                                    onSwitch={handleNotificationState('isAgreeForMarketingTerm')}
                                 />
                             </div>
                         </div>
