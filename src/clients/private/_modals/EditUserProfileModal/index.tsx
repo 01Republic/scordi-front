@@ -9,6 +9,7 @@ import {UserDto, UserNotificationsStateDto} from '^models/User/types';
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {UserAvatar} from '^models/User/components/UserAvatar';
 import {userNotificationsStateAtom} from '^models/User/atom';
+import SwitchNotificationCard from './SwitchNotificationCard';
 
 interface EditUserProfileModalProps {
     currentUser: UserDto;
@@ -24,6 +25,13 @@ TODO
 - [ ] API 연동하기
  */
 
+// 알림 항목 구성
+// const notificationItems = [
+//     {label: 'Email', content: email, key: 'isEmailNoticeAllowed'},
+//     {label: 'SMS', content: phone, key: 'isSMSNoticeAllowed'},
+//     {label: 'Phone', content: phone, key: 'isPhoneNoticeAllowed'},
+// ];
+
 export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
     const {currentUser, membershipLevel, isOpened, onClose} = props;
     const {profileImgUrl, name, email, phone} = currentUser;
@@ -33,7 +41,7 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
     const [notifications, setNotifications] = useRecoilState<UserNotificationsStateDto>(userNotificationsStateAtom);
 
     /* 알림에 대한 동의 여부 스위치 기능 */
-    const handleChangeSwitch = useCallback(
+    const handleNotificationState = useCallback(
         (notification: string) => () => {
             setNotifications((prev) => ({
                 ...prev,
@@ -96,51 +104,28 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                             <div>
                                 <h4 className="font-semibold text-16 mb-2">알림</h4>
                                 <div className="flex flex-col gap-3">
-                                    <div className="rounded-2xl border border-stroke-gary p-4 flex flex-col gap-2">
-                                        <div className="flex justify-between items-center">
-                                            <span className="text-14 font-medium">Email</span>
-                                            <input
-                                                type="checkbox"
-                                                className="toggle"
-                                                onChange={handleChangeSwitch('isEmailNoticeAllowed')}
-                                                checked={notifications.isEmailNoticeAllowed}
-                                            />
-                                        </div>
-                                        <p className="text-12 text-gray-400">
-                                            {email}로 scordi 관련 알림 메일이 발송됩니다.
-                                        </p>
-                                    </div>
-                                    <div className="rounded-2xl border border-stroke-gary p-4 flex flex-col gap-2">
-                                        <div className="flex justify-between items-center">
-                                            <span className="text-14 font-medium">SMS</span>
-                                            <input
-                                                type="checkbox"
-                                                className="toggle"
-                                                onChange={handleChangeSwitch('isSMSNoticeAllowed')}
-                                                checked={notifications.isSMSNoticeAllowed}
-                                            />
-                                        </div>
-                                        <p className="text-12 text-gray-400">
-                                            {phone}(으)로 scordi 관련 알림 SMS가 발송됩니다.
-                                        </p>
-                                    </div>
+                                    <SwitchNotificationCard
+                                        label="Email"
+                                        content={`${email}로 scordi 관련 알림 메일이 발송됩니다.`}
+                                        checked={notifications.isEmailNoticeAllowed}
+                                        onSwitch={handleNotificationState('isEmailNoticeAllowed')}
+                                    />
+                                    <SwitchNotificationCard
+                                        label="SMS"
+                                        content={`${phone}(으)로 scordi 관련 알림 SMS가 발송됩니다.`}
+                                        checked={notifications.isSMSNoticeAllowed}
+                                        onSwitch={handleNotificationState('isSMSNoticeAllowed')}
+                                    />
                                 </div>
                             </div>
-
                             <div>
                                 <h4 className="font-semibold text-16 mb-2">혜택 및 이벤트 알림</h4>
-                                <div className="rounded-2xl border border-stroke-gary p-4 flex flex-col gap-2">
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-14 font-medium">마케팅 정보 수신 동의</span>
-                                        <input
-                                            type="checkbox"
-                                            className="toggle"
-                                            onChange={handleChangeSwitch('marketingTermAgreedAt')}
-                                            checked={notifications.isAgreeForMarketingTerm}
-                                        />
-                                    </div>
-                                    <p className="text-12 text-gray-400">scordi의 혜택·정보를 받아 볼 수 있습니다.</p>
-                                </div>
+                                <SwitchNotificationCard
+                                    label="마케팅 정보 수신 동의"
+                                    content="scordi의 혜택·정보를 받아 볼 수 있습니다."
+                                    checked={notifications.isAgreeForMarketingTerm}
+                                    onSwitch={handleNotificationState('marketingTermAgreedAt')}
+                                />
                             </div>
                         </div>
                     </div>
