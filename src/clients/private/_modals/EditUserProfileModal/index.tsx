@@ -21,16 +21,9 @@ interface EditUserProfileModalProps {
 /**
 TODO
 - [ ] 반응형 UI 수정
-- [ ] 컴포넌트 리팩토링
+- [x] 컴포넌트 리팩토링
 - [ ] API 연동하기
  */
-
-// 알림 항목 구성
-// const notificationItems = [
-//     {label: 'Email', content: email, key: 'isEmailNoticeAllowed'},
-//     {label: 'SMS', content: phone, key: 'isSMSNoticeAllowed'},
-//     {label: 'Phone', content: phone, key: 'isPhoneNoticeAllowed'},
-// ];
 
 export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
     const {currentUser, membershipLevel, isOpened, onClose} = props;
