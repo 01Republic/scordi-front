@@ -33,6 +33,8 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
     const currentOrg = useRecoilValue(currentOrgAtom);
     const [notifications, setNotifications] = useRecoilState<UserNotificationsStateDto>(userNotificationsStateAtom);
 
+    console.log(currentUser); // 삭제 예정
+
     /* 알림에 대한 동의 여부 스위치 기능 */
     const handleNotificationState = useCallback(
         (notification: string) => () => {
@@ -100,13 +102,13 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                                     <SwitchNotificationCard
                                         label="Email"
                                         content={`${email}로 scordi 관련 알림 메일이 발송됩니다.`}
-                                        checked={notifications.isEmailNoticeAllowed}
+                                        checked={currentUser.isEmailNoticeAllowed}
                                         onSwitch={handleNotificationState('isEmailNoticeAllowed')}
                                     />
                                     <SwitchNotificationCard
                                         label="SMS"
                                         content={`${phone}(으)로 scordi 관련 알림 SMS가 발송됩니다.`}
-                                        checked={notifications.isSMSNoticeAllowed}
+                                        checked={currentUser.isSMSNoticeAllowed}
                                         onSwitch={handleNotificationState('isSMSNoticeAllowed')}
                                     />
                                 </div>
@@ -116,7 +118,7 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                                 <SwitchNotificationCard
                                     label="마케팅 정보 수신 동의"
                                     content="scordi의 혜택·정보를 받아 볼 수 있습니다."
-                                    checked={notifications.isAgreeForMarketingTerm}
+                                    checked={currentUser.isAgreeForMarketingTerm}
                                     onSwitch={handleNotificationState('isAgreeForMarketingTerm')}
                                 />
                             </div>
