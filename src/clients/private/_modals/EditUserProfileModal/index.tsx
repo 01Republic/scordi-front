@@ -57,7 +57,7 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
 
     return (
         <AnimatedModal open={isOpened} onClose={onClose}>
-            <div className="w-full min-w-[300px] max-w-3xl m-4 sm:m-6 bg-white px-6 py-4 sm:px-12 sm:py-10 rounded-2xl flex flex-col gap-5 sm:gap-8">
+            <div className="w-full min-w-[350px] max-w-3xl m-4 sm:m-6 bg-white px-6 py-4 sm:px-12 sm:py-10 rounded-2xl flex flex-col gap-5 sm:gap-8">
                 <div className="w-full flex justify-between items-center">
                     <h3 className="font-bold text-18">내 계정</h3>
                     <button
