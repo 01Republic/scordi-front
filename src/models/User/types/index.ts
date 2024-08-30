@@ -119,8 +119,8 @@ export type UserEditProfileRequestDto = {
     password?: string;
     passwordConfirmation?: string;
     isAgreeForMarketingTerm?: boolean; // 마케팅 수신 동의 여부
-    isEmailNoticeAllowed: boolean; // 이메일 알림 동의 여부
-    isSMSNoticeAllowed: boolean; // sms 알림 동의 여부
+    isEmailNoticeAllowed?: boolean; // 이메일 알림 동의 여부
+    isSMSNoticeAllowed?: boolean; // sms 알림 동의 여부
     locale?: UserLocale | null; // 사용자 언어 설정
 };
 
