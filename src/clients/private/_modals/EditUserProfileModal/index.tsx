@@ -1,21 +1,22 @@
-import {useEffect} from 'react';
+import {memo, useEffect} from 'react';
 import {IoClose} from '@react-icons/all-files/io5/IoClose';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import toast from 'react-hot-toast';
 
-import {MembershipLevel} from '^models/Membership/types';
 import {currentOrgAtom} from '^models/Organization/atom';
-import {UserDto, UserNotificationsStateDto} from '^models/User/types';
+import {UserNotificationsStateDto} from '^models/User/types';
 
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {UserAvatar} from '^models/User/components/UserAvatar';
-import {userNotificationsStateAtom} from '^models/User/atom';
+import {currentUserAtom, userNotificationsStateAtom} from '^models/User/atom';
 import SwitchNotificationCard from './SwitchNotificationCard';
-import {userApi} from '^models/User/api/session';
+import {userApi, userSessionApi} from '^models/User/api/session';
+// import {useCurrentUser, useSocialLogin} from '^models/User/hook';
 
 interface EditUserProfileModalProps {
-    currentUser: UserDto;
-    membershipLevel: MembershipLevel;
+    // currentUser: UserDto;
+    // setCurrentUser: SetterOrUpdater<UserDto | null>;
+    // membershipLevel: MembershipLevel;
     isOpened: boolean;
     onClose: () => void;
 }
@@ -24,42 +25,44 @@ interface EditUserProfileModalProps {
 TODO
 - [x] 반응형 UI 수정
 - [x] 컴포넌트 리팩토링
-- [ ] API 연동하기
+- [x] API 연동하기
 * setCurrentUser 시, 상위 컴포넌트가 렌더링되어 모달이 닫히고, 변화가 안되는 문제
  */
 
-export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
-    const {currentUser, membershipLevel, isOpened, onClose} = props;
-    const {profileImgUrl, name, email, phone} = currentUser;
-    const {isEmailNoticeAllowed, isSMSNoticeAllowed, isAgreeForMarketingTerm} = currentUser;
+export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
+    const {isOpened, onClose} = props;
 
+    const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
     const currentOrg = useRecoilValue(currentOrgAtom);
     const [notifications, setNotifications] = useRecoilState<UserNotificationsStateDto>(userNotificationsStateAtom);
 
-    // const {currentUser, currentUserMembership, setCurrentUser} = useCurrentUser(undefined, {
-    //     orgIdParam: 'orgId',
-    // });
+    // const {socialLogin} = useCurrentUser();
 
-    // if (!currentUser) return <></>;
+    if (!currentUser) return <></>;
+
+    const {profileImgUrl, name, email, phone, memberships} = currentUser;
+    const {isEmailNoticeAllowed, isSMSNoticeAllowed, isAgreeForMarketingTerm} = currentUser;
 
     const handleNotificationState = (notification: string) => async () => {
         const updateValue = !notifications[notification];
 
-        console.log(`updateValue: ${updateValue}`); // 삭제 예정
-
         try {
-            const result = await userApi.registration.update({
+            await userApi.registration.update({
                 [notification]: updateValue,
             });
 
-            console.log(result); // 삭제 예정
             setNotifications((prev) => ({
                 ...prev,
                 [notification]: updateValue,
             }));
 
-            // TODO currentUser 변경
-            // setCurrentUser(result.data);
+            // result에서 멤버쉽 정보를 내려주고 있지 않음!! -> 그렇기 때문에 변경하자마자 모달이 닫히게 되는 문제
+            // 해결방법 1 - 백엔드에 API에 멤버십 정보 내려달라고 요청하기
+            // 해결방법 2 - ✅ 로그인 다시 한번 호출하기
+
+            // 로그인 api 한번 더 호출하기
+            const req = await userSessionApi.index();
+            setCurrentUser(req.data);
 
             toast.success('변경사항이 저장되었습니다.');
         } catch (error) {
@@ -96,7 +99,7 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                         <div>
                             <h4 className="font-bold text-18 mb-1">{name}</h4>
                             <p className="text-gray-700 capitalize mb-6">
-                                {membershipLevel.toLowerCase()} @{currentOrg?.name}
+                                {memberships ? memberships[0].level.toLowerCase() : ''} @{currentOrg?.name}
                             </p>
                             <div className="mb-6 flex flex-col gap-2 text-14 text-gray-900">
                                 <p className="flex items-center gap-4">
@@ -151,4 +154,4 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
             </div>
         </AnimatedModal>
     );
-};
+});
