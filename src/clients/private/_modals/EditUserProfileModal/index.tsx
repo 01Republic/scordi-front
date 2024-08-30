@@ -1,4 +1,4 @@
-import {useCallback, useEffect} from 'react';
+import {useEffect} from 'react';
 import {IoClose} from '@react-icons/all-files/io5/IoClose';
 import {useRecoilState, useRecoilValue} from 'recoil';
 
@@ -10,6 +10,7 @@ import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {UserAvatar} from '^models/User/components/UserAvatar';
 import {userNotificationsStateAtom} from '^models/User/atom';
 import SwitchNotificationCard from './SwitchNotificationCard';
+import {userApi} from '^models/User/api/session';
 
 interface EditUserProfileModalProps {
     currentUser: UserDto;
@@ -23,39 +24,53 @@ TODO
 - [x] 반응형 UI 수정
 - [x] 컴포넌트 리팩토링
 - [ ] API 연동하기
+* setCurrentUser 시, 상위 컴포넌트가 렌더링되어 모달이 닫히고, 변화가 안되는 문제
  */
 
 export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
     const {currentUser, membershipLevel, isOpened, onClose} = props;
     const {profileImgUrl, name, email, phone} = currentUser;
-    const {isEmailNoticeAllowed, isSMSNoticeAllowed, marketingTermAgreedAt} = currentUser;
+    const {isEmailNoticeAllowed, isSMSNoticeAllowed, isAgreeForMarketingTerm} = currentUser;
 
     const currentOrg = useRecoilValue(currentOrgAtom);
     const [notifications, setNotifications] = useRecoilState<UserNotificationsStateDto>(userNotificationsStateAtom);
 
-    console.log(currentUser); // 삭제 예정
+    // const {currentUser, currentUserMembership, setCurrentUser} = useCurrentUser(undefined, {
+    //     orgIdParam: 'orgId',
+    // });
 
-    /* 알림에 대한 동의 여부 스위치 기능 */
-    const handleNotificationState = useCallback(
-        (notification: string) => () => {
+    // if (!currentUser) return <></>;
+
+    const handleNotificationState = (notification: string) => async () => {
+        const updateValue = !notifications[notification];
+
+        console.log(`updateValue: ${updateValue}`);
+
+        try {
+            const result = await userApi.registration.update({
+                [notification]: updateValue,
+            });
+
+            console.log(result);
             setNotifications((prev) => ({
                 ...prev,
-                [notification]: !prev[notification],
+                [notification]: updateValue,
             }));
-            // TODO 프로필 수정 API 호출 후, recoil 변경
-        },
-        [setNotifications],
-    );
+            // TODO currentUser 변경
+            // setCurrentUser(result.data);
+            // toast.success('프로필이 수정되었습니다.');
+        } catch (error) {}
+    };
 
     useEffect(() => {
         setNotifications({
             isEmailNoticeAllowed,
             isSMSNoticeAllowed,
-            isAgreeForMarketingTerm: !!marketingTermAgreedAt,
+            isAgreeForMarketingTerm,
         });
     }, [setNotifications]);
 
-    if (!currentOrg) return <></>;
+    if (!currentOrg || !currentUser) return <></>;
 
     return (
         <AnimatedModal open={isOpened} onClose={onClose}>
@@ -102,13 +117,15 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                                     <SwitchNotificationCard
                                         label="Email"
                                         content={`${email}로 scordi 관련 알림 메일이 발송됩니다.`}
-                                        checked={currentUser.isEmailNoticeAllowed}
+                                        // checked={isEmailNoticeAllowed}
+                                        checked={notifications.isEmailNoticeAllowed}
                                         onSwitch={handleNotificationState('isEmailNoticeAllowed')}
                                     />
                                     <SwitchNotificationCard
                                         label="SMS"
                                         content={`${phone}(으)로 scordi 관련 알림 SMS가 발송됩니다.`}
-                                        checked={currentUser.isSMSNoticeAllowed}
+                                        // checked={isSMSNoticeAllowed}
+                                        checked={notifications.isSMSNoticeAllowed}
                                         onSwitch={handleNotificationState('isSMSNoticeAllowed')}
                                     />
                                 </div>
@@ -118,7 +135,8 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
                                 <SwitchNotificationCard
                                     label="마케팅 정보 수신 동의"
                                     content="scordi의 혜택·정보를 받아 볼 수 있습니다."
-                                    checked={currentUser.isAgreeForMarketingTerm}
+                                    // checked={isAgreeForMarketingTerm}
+                                    checked={notifications.isAgreeForMarketingTerm}
                                     onSwitch={handleNotificationState('isAgreeForMarketingTerm')}
                                 />
                             </div>
