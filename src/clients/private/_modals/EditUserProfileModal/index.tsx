@@ -59,7 +59,7 @@ export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
         });
     }, [setNotifications]);
 
-    if (!currentOrg || !memberships || memberships?.length === 0) return <></>;
+    if (!currentOrg || !memberships) return <></>;
 
     return (
         <AnimatedModal open={isOpened} onClose={onClose}>
