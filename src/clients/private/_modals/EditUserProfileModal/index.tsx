@@ -11,23 +11,11 @@ import {UserAvatar} from '^models/User/components/UserAvatar';
 import {currentUserAtom, userNotificationsStateAtom} from '^models/User/atom';
 import SwitchNotificationCard from './SwitchNotificationCard';
 import {userApi, userSessionApi} from '^models/User/api/session';
-// import {useCurrentUser, useSocialLogin} from '^models/User/hook';
 
 interface EditUserProfileModalProps {
-    // currentUser: UserDto;
-    // setCurrentUser: SetterOrUpdater<UserDto | null>;
-    // membershipLevel: MembershipLevel;
     isOpened: boolean;
     onClose: () => void;
 }
-
-/**
-TODO
-- [x] 반응형 UI 수정
-- [x] 컴포넌트 리팩토링
-- [x] API 연동하기
-* setCurrentUser 시, 상위 컴포넌트가 렌더링되어 모달이 닫히고, 변화가 안되는 문제
- */
 
 export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
     const {isOpened, onClose} = props;
@@ -35,8 +23,6 @@ export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
     const currentOrg = useRecoilValue(currentOrgAtom);
     const [notifications, setNotifications] = useRecoilState<UserNotificationsStateDto>(userNotificationsStateAtom);
-
-    // const {socialLogin} = useCurrentUser();
 
     if (!currentUser) return <></>;
 
@@ -56,11 +42,6 @@ export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
                 [notification]: updateValue,
             }));
 
-            // result에서 멤버쉽 정보를 내려주고 있지 않음!! -> 그렇기 때문에 변경하자마자 모달이 닫히게 되는 문제
-            // 해결방법 1 - 백엔드에 API에 멤버십 정보 내려달라고 요청하기
-            // 해결방법 2 - ✅ 로그인 다시 한번 호출하기
-
-            // 로그인 api 한번 더 호출하기
             const req = await userSessionApi.index();
             setCurrentUser(req.data);
 
@@ -78,7 +59,7 @@ export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
         });
     }, [setNotifications]);
 
-    if (!currentOrg || !currentUser) return <></>;
+    if (!currentOrg || !memberships || memberships?.length === 0) return <></>;
 
     return (
         <AnimatedModal open={isOpened} onClose={onClose}>
@@ -99,7 +80,7 @@ export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
                         <div>
                             <h4 className="font-bold text-18 mb-1">{name}</h4>
                             <p className="text-gray-700 capitalize mb-6">
-                                {memberships ? memberships[0].level.toLowerCase() : ''} @{currentOrg?.name}
+                                {memberships[0].level.toLowerCase()} @{currentOrg?.name}
                             </p>
                             <div className="mb-6 flex flex-col gap-2 text-14 text-gray-900">
                                 <p className="flex items-center gap-4">
@@ -125,14 +106,12 @@ export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
                                     <SwitchNotificationCard
                                         label="Email"
                                         content={`${email}로 scordi 관련 알림 메일이 발송됩니다.`}
-                                        // checked={isEmailNoticeAllowed}
                                         checked={notifications.isEmailNoticeAllowed}
                                         onSwitch={handleNotificationState('isEmailNoticeAllowed')}
                                     />
                                     <SwitchNotificationCard
                                         label="SMS"
                                         content={`${phone}(으)로 scordi 관련 알림 SMS가 발송됩니다.`}
-                                        // checked={isSMSNoticeAllowed}
                                         checked={notifications.isSMSNoticeAllowed}
                                         onSwitch={handleNotificationState('isSMSNoticeAllowed')}
                                     />
@@ -143,7 +122,6 @@ export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
                                 <SwitchNotificationCard
                                     label="마케팅 정보 수신 동의"
                                     content="scordi의 혜택·정보를 받아 볼 수 있습니다."
-                                    // checked={isAgreeForMarketingTerm}
                                     checked={notifications.isAgreeForMarketingTerm}
                                     onSwitch={handleNotificationState('isAgreeForMarketingTerm')}
                                 />

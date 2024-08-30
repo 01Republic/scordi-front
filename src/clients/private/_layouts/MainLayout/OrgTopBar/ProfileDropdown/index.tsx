@@ -19,18 +19,16 @@ import {EditUserProfileModal} from '^clients/private/_modals/EditUserProfileModa
 export const ProfileDropdown = memo(function ProfileDropdown() {
     const router = useRouter();
     const {t} = useTranslation('profile');
-    const {currentUser, logout, currentUserMembership} = useCurrentUser(undefined, {
+    const {currentUser, logout} = useCurrentUser(undefined, {
         orgIdParam: 'orgId',
     });
     const [isProfileEditModalOpened, setIsProfileEditModalOpened] = useState(false);
 
-    if (!currentUser || !currentUserMembership) return <></>;
+    if (!currentUser) return <></>;
 
     return (
         <>
             <EditUserProfileModal
-                currentUser={currentUser}
-                membershipLevel={currentUserMembership?.level}
                 isOpened={isProfileEditModalOpened}
                 onClose={() => setIsProfileEditModalOpened(false)}
             />
