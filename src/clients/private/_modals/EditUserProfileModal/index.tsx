@@ -1,6 +1,7 @@
 import {useEffect} from 'react';
 import {IoClose} from '@react-icons/all-files/io5/IoClose';
 import {useRecoilState, useRecoilValue} from 'recoil';
+import toast from 'react-hot-toast';
 
 import {MembershipLevel} from '^models/Membership/types';
 import {currentOrgAtom} from '^models/Organization/atom';
@@ -44,22 +45,26 @@ export const EditUserProfileModal = (props: EditUserProfileModalProps) => {
     const handleNotificationState = (notification: string) => async () => {
         const updateValue = !notifications[notification];
 
-        console.log(`updateValue: ${updateValue}`);
+        console.log(`updateValue: ${updateValue}`); // 삭제 예정
 
         try {
             const result = await userApi.registration.update({
                 [notification]: updateValue,
             });
 
-            console.log(result);
+            console.log(result); // 삭제 예정
             setNotifications((prev) => ({
                 ...prev,
                 [notification]: updateValue,
             }));
+
             // TODO currentUser 변경
             // setCurrentUser(result.data);
-            // toast.success('프로필이 수정되었습니다.');
-        } catch (error) {}
+
+            toast.success('변경사항이 저장되었습니다.');
+        } catch (error) {
+            toast.error('프로필 수정을 다시 시도해주세요.');
+        }
     };
 
     useEffect(() => {
