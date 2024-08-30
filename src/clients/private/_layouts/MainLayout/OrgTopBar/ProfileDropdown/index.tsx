@@ -28,7 +28,6 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
 
     return (
         <>
-            {/* <UserEditModal /> */}
             <EditUserProfileModal
                 currentUser={currentUser}
                 membershipLevel={currentUserMembership?.level}

@@ -1,28 +1,17 @@
-import {InputHTMLAttributes, memo, useCallback, useEffect, useState} from 'react';
-import {atom, useRecoilState, useRecoilValue} from 'recoil';
-import {useForm} from 'react-hook-form';
-
+import {ForwardedRef, forwardRef, InputHTMLAttributes, memo, useEffect, useState} from 'react';
+import {atom, useRecoilValue} from 'recoil';
 import {UserAvatar} from '^v3/share/UserAvatar';
-import {useModal} from '^v3/share/modals/useModal';
-
 import {useCurrentUser} from '^models/User/hook';
 import {currentOrgAtom} from '^models/Organization/atom';
-import {userNotificationsStateAtom} from '^models/User/atom';
-import {UserEditProfileRequestDto, UserNotificationsStateDto} from '^models/User/types';
 import {MembershipDto} from 'src/models/Membership/types';
+import {useModal} from '^v3/share/modals/useModal';
+import {useForm} from 'react-hook-form';
+import {UserEditProfileRequestDto} from '^models/User/types';
 
 export const userEditModalIsShow = atom({
     key: 'v3/userEditModalIsShow',
     default: false,
 });
-
-/**
- TODO
- - [ ] 토글 상태 변경시, UserEditModal 재렌더링 방지하기 (리팩토링)
- - [ ] 프로필 조회에서 아직 알림에 대한 정보 조회
- - [ ] 각 알림 토글 on 시, 호출할 API가 필요
- - [ ] 나중에 react-hook-form으로 변경하기 (리팩토링)
- */
 
 export const UserEditModal = memo(() => {
     const {Modal, CloseButton} = useModal({isShowAtom: userEditModalIsShow});
@@ -30,22 +19,8 @@ export const UserEditModal = memo(() => {
     const {currentUser} = useCurrentUser(undefined, {
         orgIdParam: 'orgId',
     });
-
     const form = useForm<UserEditProfileRequestDto>();
     const [currentMembership, setCurrentMembership] = useState<null | MembershipDto>(null);
-    const [notifications, setNotifications] = useRecoilState<UserNotificationsStateDto>(userNotificationsStateAtom);
-
-    const handleChangeToggle = useCallback(
-        (notification: string) => {
-            setNotifications((prev) => ({
-                ...prev,
-                [notification]: !prev[notification],
-            }));
-
-            // TODO API 호출 로직 작성 예정
-        },
-        [notifications],
-    );
 
     useEffect(() => {
         if (!currentUser || !currentOrg) return;
@@ -65,15 +40,15 @@ export const UserEditModal = memo(() => {
     if (!currentUser || !currentOrg || !currentMembership) return <></>;
 
     return (
-        <Modal className="px-6 py-4 sm:px-12 sm:py-10 max-w-3xl">
-            <div className="flex justify-between items-center mb-6 md:mb-10 bg-base-100">
+        <Modal className="px-12 pt-0 pb-10 md:max-w-md lg:max-w-3xl">
+            <div className="flex justify-between items-center mb-10 pt-10 sticky top-0 bg-base-100 z-10">
                 <h3 className="font-bold text-lg flex-1">내 계정</h3>
                 <CloseButton />
             </div>
 
-            <div className="grid sm:grid-cols-3 gap-4 sm:gap-6">
+            <div className="grid grid-cols-3">
                 <div className="col-span-1">
-                    <UserAvatar user={currentUser} size="w-24 sm:w-32" textClass="!text-2xl" />
+                    <UserAvatar user={currentUser} size="w-32" textClass="!text-2xl" />
                 </div>
 
                 <div className="col-span-2">
@@ -101,33 +76,24 @@ export const UserEditModal = memo(() => {
                     <div className="flex flex-col gap-4 mb-7">
                         <p className="text-sm font-semibold">알림</p>
 
-                        <SwitchNotificationCard
-                            id="email"
+                        <SwitchBox
                             title="Email"
-                            description={`${currentUser.email}으로 scordi 관련 알림 메일이 발송됩니다.`}
-                            onToggle={handleChangeToggle}
-                            checked={notifications.email}
+                            desc={`${currentUser.email}으로 scordi 관련 알림 메일이 발송됩니다.`}
+                            // checked={true}
+                            // onChange={console.log}
                         />
-
-                        <SwitchNotificationCard
-                            id="sms"
+                        <SwitchBox
                             title="SMS"
-                            description={`${currentUser.phone}으로 scordi 관련 알림 SMS가 발송됩니다.`}
-                            onToggle={handleChangeToggle}
-                            checked={notifications.sms}
+                            desc={`${currentUser.phone}으로 scordi 관련 알림 SMS가 발송됩니다.`}
+                            // checked={true}
+                            // onChange={console.log}
                         />
                     </div>
 
                     <div className="flex flex-col gap-4 mb-7">
                         <p className="text-sm font-semibold">혜택 및 이벤트 알림</p>
 
-                        <SwitchNotificationCard
-                            id="marketing"
-                            title="마케팅 정보 수신 동의"
-                            description="scordi의 혜택·정보를 받아 볼 수 있습니다."
-                            onToggle={handleChangeToggle}
-                            checked={notifications.marketing}
-                        />
+                        <SwitchBox title="마케팅 정보 수신 동의" desc="scordi의 혜택·정보를 받아 볼 수 있습니다." />
                         {/*{...form.register('isAgreeForMarketingTerm')}*/}
                         {/*onChange={(e) => {*/}
                         {/*    form.setValue('isAgreeForMarketingTerm', e.target.checked);*/}
@@ -139,30 +105,44 @@ export const UserEditModal = memo(() => {
     );
 });
 
-interface SwitchNotificationCardProps extends InputHTMLAttributes<HTMLInputElement> {
-    id: string;
+interface SwitchBoxProps extends InputHTMLAttributes<HTMLInputElement> {
     title: string;
-    description: string;
-    onToggle: (notification: string) => void;
-    checked: boolean;
+    desc: string;
+    checked?: boolean;
 }
 
-const SwitchNotificationCard = ({id, title, description, checked, onToggle}: SwitchNotificationCardProps) => {
+const SwitchBox = forwardRef((props: SwitchBoxProps, ref: ForwardedRef<any>) => {
+    const {title, desc, checked, onChange} = props;
+    const [isChecked, setIsChecked] = useState(false);
+
+    // useEffect(() => {
+    //     //
+    // }, [checked]);
+
     return (
         <div className="card card-bordered">
             <div className="card-body p-4">
                 <p className="card-title text-sm justify-between">
                     <span>{title}</span>
                     <input
-                        readOnly
+                        ref={ref}
                         type="checkbox"
                         className="toggle toggle-primary toggle-sm"
-                        checked={checked}
-                        onClick={() => onToggle(id)}
+                        defaultChecked={isChecked}
+                        // checked={isChecked}
+                        // onChange={(e) => {
+                        //     console.log(title, 'checked', e.target.checked);
+                        //     onChange && onChange(e);
+                        // }}
+                        onClick={(e) => {
+                            const input = e.target as HTMLInputElement;
+                            console.log(input.checked);
+                            setIsChecked(input.checked);
+                        }}
                     />
                 </p>
-                <p className="card-text text-xs text-gray-400">{description}</p>
+                <p className="card-text text-xs text-gray-400">{desc}</p>
             </div>
         </div>
     );
-};
+});

@@ -16,11 +16,6 @@ interface ModalProps extends WithChildren {
     onClose?: () => any;
 }
 
-/**
- * Modal 열림/닫힘 초기 상태 atom을 받아서, 관리하는 커스텀 훅
- * @param option RecoilState
- * @returns Modal, CloseButton 컴포넌트
- */
 export const useModal = (option: UseModalOption) => {
     const {isShowAtom, allowBodyScroll = false, popStateSyncKey = ''} = option;
     const [isShow, setIsShow] = useRecoilState(isShowAtom);
