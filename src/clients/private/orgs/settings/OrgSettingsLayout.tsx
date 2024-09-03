@@ -1,7 +1,7 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
-import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
+import {Breadcrumb, BreadcrumbPath} from '^clients/private/_layouts/_shared/Breadcrumb';
 import {WithChildren} from '^types/global.type';
 import {BsBuildingFill, BsCreditCard, BsPeopleFill} from 'react-icons/bs';
 import Link from 'next/link';
@@ -11,21 +11,26 @@ import {OrgSettingsInformationPageRoute} from '^pages/orgs/[id]/settings';
 import {IconType} from '@react-icons/all-files';
 import {OrgSettingsPaymentPageRoute} from '^pages/orgs/[id]/settings/payments';
 import {OrgSettingsMemberPageRoute} from '^pages/orgs/[id]/settings/members';
+import {organizationApi} from '^models/Organization/api';
+import {useCurrentOrg} from '^models/Organization/hook';
 
-type OrgSettingsLayoutProps = WithChildren;
+type OrgSettingsLayoutProps = {
+    breadcrumbPath: BreadcrumbPath;
+} & WithChildren;
 
 export const OrgSettingsLayout = memo(function OrgSettingsLayout(props: OrgSettingsLayoutProps) {
     const {children} = props;
     const orgId = useRouterIdParamState('id', orgIdParamState);
+    const {currentOrg} = useCurrentOrg(orgId);
 
     return (
         <MainLayout>
             <MainContainer>
-                <Breadcrumb paths={['설정', {text: '팀 목록', active: false, href: `/orgs/${orgId}/teams`}]} />
+                <Breadcrumb paths={['설정', props.breadcrumbPath]} />
                 <div className={'grid grid-cols-4 gap-4 mt-4'}>
                     <div className={'col-span-1'}>
                         <div className={'card border rounded-lg bg-white p-6'}>
-                            <div className={'text-lg mt-4 font-bold mb-6'}>규리의 워크스페이스</div>
+                            <div className={'text-lg mt-4 font-bold mb-6'}>{currentOrg?.name}</div>
                             <div className={'text-sm'}>
                                 <OrgSettingLeftListItem
                                     Icon={BsBuildingFill}
