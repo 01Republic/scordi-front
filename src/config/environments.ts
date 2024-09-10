@@ -42,3 +42,8 @@ export const gtm_id = xxx('GTM-5RWDTWQF');
 export const measuredApiKey = xxx(process.env.NEXT_PUBLIC_MEASURED_API_KEY as string);
 
 export const zero1_republic_workspace_id = 10;
+
+export const tossPaymentsKey = {
+    clientKey: xxx(process.env.NEXT_PUBLIC_TOSS_PAYMENTS_CLIENT_KEY),
+    customerKey: xxx(process.env.NEXT_PUBLIC_TOSS_PAYMENTS_CUSTOMER_KEY),
+};
