@@ -18,17 +18,18 @@ export const OrgSettingsPaymentPage = memo(function () {
     const cardStyle = `border rounded-lg p-4 mb-6`;
 
     const startBilling = async () => {
+        if (!currentUser) return;
         const clientKey = tossPaymentsKey.clientKey;
         const tossPayments = await loadTossPayments(clientKey);
-        const customerKey = tossPaymentsKey.customerKey;
+        const customerKey = currentUser.id.toString();
         const payment = tossPayments.payment({customerKey});
 
         payment.requestBillingAuth({
             method: 'CARD',
             successUrl: window.location.origin + window.location.pathname + '?pms=1',
             failUrl: window.location.origin + window.location.pathname + '?pms=0',
-            customerEmail: currentUser?.email,
-            customerName: currentUser?.name,
+            customerEmail: currentUser.email,
+            customerName: currentUser.name,
         });
     };
 
