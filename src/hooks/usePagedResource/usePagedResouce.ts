@@ -79,6 +79,7 @@ export function usePagedResource<DTO, Query>(
 
     const reset = () => {
         __setIsLoading(false);
+        setIsNotLoaded(true);
         resetQuery();
         resetResult();
     };
