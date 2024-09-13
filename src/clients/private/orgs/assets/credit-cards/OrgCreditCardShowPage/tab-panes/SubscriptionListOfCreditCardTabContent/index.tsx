@@ -49,7 +49,7 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
                 movePage={movePage}
                 changePageSize={changePageSize}
                 hideTopPaginator
-                hideBottomPaginator={result.items.length === 0}
+                hideBottomPaginator={totalItemCount === 0}
             >
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
@@ -67,7 +67,7 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
                         </Tippy>
                     </div>
                 </div>
-                {result.items.length > 0 ? (
+                {totalItemCount > 0 ? (
                     <ListTable
                         onReady={onReady}
                         items={result.items}

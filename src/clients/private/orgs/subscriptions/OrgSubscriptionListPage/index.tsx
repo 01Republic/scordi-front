@@ -51,7 +51,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
             onSearch={onSearch}
             searchInputPosition="start-of-buttons"
         >
-            {result.items.length > 0 ? (
+            {result.pagination.totalItemCount > 0 ? (
                 <ListTableContainer
                     pagination={result.pagination}
                     movePage={movePage}
