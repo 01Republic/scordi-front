@@ -28,13 +28,14 @@ export function usePagedResource<DTO, Query>(
     atoms: PagedResourceAtoms<DTO, Query>,
     option: UsePagedResourceOption<DTO, Query>,
 ) {
-    const {resultAtom, queryAtom, isLoadingAtom} = atoms;
+    const {resultAtom, queryAtom, isLoadingAtom, isNotLoadedAtom} = atoms;
     const {endpoint, buildQuery = (q) => q, mergeMode: defaultMergeMode = false, getId, useOrgId = true} = option;
 
     const orgId = useOrgId ? useRecoilValue(orgIdParamState) : NaN;
     const {value: result, setValue: setResult, resetValue: resetResult} = useRecoilStates(resultAtom);
     const {value: query, setValue: setQuery, resetValue: resetQuery} = useRecoilStates(queryAtom);
     const [isLoading, setIsLoading] = useRecoilState(isLoadingAtom);
+    const [isNotLoaded, setIsNotLoaded] = useRecoilState(isNotLoadedAtom);
     const [__isLoading, __setIsLoading] = useState(false);
 
     // recoil 의 정책상 set atom 스코프 내에서 다시 set atom 을 호출하는 것이 불가능합니다.
@@ -64,6 +65,7 @@ export function usePagedResource<DTO, Query>(
         const request = () => {
             __setIsLoading(true);
             return endpoint(params, orgId).finally(() => {
+                setIsNotLoaded(false);
                 setTimeout(() => __setIsLoading(false), 200);
             });
         };
@@ -77,6 +79,7 @@ export function usePagedResource<DTO, Query>(
 
     const reset = () => {
         __setIsLoading(false);
+        setIsNotLoaded(true);
         resetQuery();
         resetResult();
     };
@@ -100,8 +103,10 @@ export function usePagedResource<DTO, Query>(
         changePageSize,
         orderBy,
         except,
+        isNotLoaded,
         isLoading,
         clearCache,
+        isEmptyResult: !isNotLoaded && result.pagination.totalItemCount === 0,
     };
 }
 

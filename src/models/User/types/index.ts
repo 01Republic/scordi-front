@@ -58,9 +58,25 @@ export class UserDto {
     locale: UserLocale | null;
     @TypeCast(() => Date) serviceUsageTermAgreedAt: Date;
     @TypeCast(() => Date) privacyPolicyTermAgreedAt: Date;
+
+    // 마케팅 수신 허용 여부
+    get isAgreeForMarketingTerm() {
+        return !!this.marketingTermAgreedAt;
+    }
     @TypeCast(() => Date) marketingTermAgreedAt: Date | null; // 마케팅 수신 동의 여부
-    isEmailNoticeAllowed: boolean; // 이메일 알림 수신 허용 여부
-    isSMSNoticeAllowed: boolean; // SMS 알림 수신 허용 여부
+
+    // 이메일 알림 수신 허용 여부
+    get isEmailNoticeAllowed() {
+        return !!this.emailNoticeAllowedAt;
+    }
+    @TypeCast(() => Date) emailNoticeAllowedAt: Date | null; // 이메일 알림 수신 허용 시각
+
+    // SMS 알림 수신 허용 여부
+    get isSMSNoticeAllowed() {
+        return !!this.smsNoticeAllowedAt;
+    }
+    @TypeCast(() => Date) smsNoticeAllowedAt: Date | null; // SMS 알림 수신 허용 시각
+
     @TypeCast(() => Date) createdAt: Date;
     @TypeCast(() => Date) updatedAt: Date;
 
@@ -95,6 +111,7 @@ export type GoogleAccessTokenContainer = {
     accessToken: string;
 };
 
+// 사용자 정보 수정
 export type UserEditProfileRequestDto = {
     name?: string;
     phone?: string;
@@ -102,6 +119,8 @@ export type UserEditProfileRequestDto = {
     password?: string;
     passwordConfirmation?: string;
     isAgreeForMarketingTerm?: boolean; // 마케팅 수신 동의 여부
+    isEmailNoticeAllowed?: boolean; // 이메일 알림 동의 여부
+    isSMSNoticeAllowed?: boolean; // sms 알림 동의 여부
     locale?: UserLocale | null; // 사용자 언어 설정
 };
 

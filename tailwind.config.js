@@ -31,6 +31,7 @@ module.exports = {
         extend: {
             colors: {
                 'brand-1': '#0066FF',
+                'stroke-gray': '#e5e7eb',
             },
             fontSize: {
                 10: ['0.625rem', {lineHeight: '1rem'}],

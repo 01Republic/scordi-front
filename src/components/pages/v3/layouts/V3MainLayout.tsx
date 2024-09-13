@@ -5,7 +5,6 @@ import {ReactComponentLike} from 'prop-types';
 import {V3TopNav} from '^v3/share/TobNav/TopNav';
 import {LeftNavBar, LNBIndex} from '^v3/share/LeftNavBar';
 import {V3Footer} from '^v3/share/Footer';
-import {UserEditModal} from '^v3/share/modals/UserEditModal';
 import {AddressModal} from '^v3/share/modals/AddressModal';
 import {OnboardingFlow} from '^v3/share/OnboardingFlow';
 import {PageLoadingCover} from '^v3/share/PageLoadingCover';
@@ -39,7 +38,6 @@ export const V3MainLayout = memo((props: V3MainLayoutProps) => {
             {modals.map((ModalComponent, i) => (
                 <ModalComponent key={i} />
             ))}
-            <UserEditModal />
             <AddressModal />
             <PageLoadingCover />
             {/*<OnboardingFlow />*/}
