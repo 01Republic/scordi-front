@@ -1,11 +1,10 @@
-import {memo} from 'react';
+import {memo, useState} from 'react';
 import {useCurrentUser} from '^models/User/hook';
 import {UserAvatar} from '^v3/share/UserAvatar';
 import {AiOutlineSetting} from '@react-icons/all-files/ai/AiOutlineSetting';
 import {AiOutlineQuestionCircle} from '@react-icons/all-files/ai/AiOutlineQuestionCircle';
 import {BiLogOut} from '@react-icons/all-files/bi/BiLogOut';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {userEditModalIsShow} from '^v3/share/modals/UserEditModal';
+import {useRecoilValue} from 'recoil';
 import {MembershipLevel} from 'src/models/Membership/types';
 import {useRouter} from 'next/router';
 import {currentOrgAtom} from '^models/Organization/atom';
@@ -17,13 +16,14 @@ import {BsArrowRight} from 'react-icons/bs';
 import {GrFormDown} from 'react-icons/gr';
 import {useOnResize2} from '^components/util/onResize2';
 import {LinkTo} from '^components/util/LinkTo';
+import {EditUserProfileModal} from '^clients/private/_modals/EditUserProfileModal';
 
 export const TopNavProfileButton = memo(() => {
     const router = useRouter();
     const commonLocale = useTranslation('common');
     const profileLocale = useTranslation('profile');
     const currentOrg = useRecoilValue(currentOrgAtom);
-    const setUserEditModalIsShow = useSetRecoilState(userEditModalIsShow);
+    const [isProfileEditModalOpened, setIsProfileEditModalOpened] = useState(false);
     const {currentUser, logout, currentUserMembership} = useCurrentUser(undefined, {
         orgIdParam: 'orgId',
     });
@@ -54,7 +54,7 @@ export const TopNavProfileButton = memo(() => {
                 <li>
                     <a
                         className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi"
-                        onClick={() => setUserEditModalIsShow(true)}
+                        onClick={() => setIsProfileEditModalOpened(true)}
                     >
                         <AiOutlineSetting />
                         <span>{t('dropdown.setting')}</span>
@@ -104,6 +104,10 @@ export const TopNavProfileButton = memo(() => {
                     </li>
                 )}
             </ul>
+            <EditUserProfileModal
+                isOpened={isProfileEditModalOpened}
+                onClose={() => setIsProfileEditModalOpened(false)}
+            />
         </div>
     );
 });

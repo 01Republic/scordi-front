@@ -1,7 +1,6 @@
 import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import styles from '^styles/v3/V3MainLayout.module.scss';
-import {UserEditModal} from '^v3/share/modals/UserEditModal';
 import {AddressModal} from '^v3/share/modals/AddressModal';
 import {BottomNavMobile, BottomTabIndex} from '^v3/share/BottomNavMobile';
 import {TopNavMobileDefault} from '^v3/share/TobNav/TopNavMobile';
@@ -42,7 +41,6 @@ export const V3MainLayoutMobile = memo((props: V3MainLayoutMobileProps) => {
             {modals.map((ModalComponent, i) => (
                 <ModalComponent key={i} />
             ))}
-            <UserEditModal />
             <AddressModal />
         </div>
     );
