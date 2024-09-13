@@ -35,7 +35,7 @@ export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
                         borderless
                         activeTabIndex={activeTabIndex}
                         setActiveTabIndex={setActiveTabIndex}
-                        tabs={['구독', '결제', '동기화']}
+                        tabs={['구독', '결제']}
                     />
 
                     {/* right side */}
@@ -48,7 +48,7 @@ export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
                     <div className="col-span-7 pr-4">
                         {activeTabIndex == 0 && <SubscriptionListOfCreditCardTabContent />}
                         {activeTabIndex == 1 && <div>결제</div>}
-                        {activeTabIndex == 2 && <div>동기화</div>}
+                        {/*{activeTabIndex == 2 && <div>동기화</div>}*/}
                     </div>
 
                     <div className="col-span-3 border-l border-gray-300 text-14">
