@@ -55,6 +55,7 @@ export const DropdownContent = memo((props: DropdownContentProps) => {
                             onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
+                                hide();
                             }}
                             {...attrs}
                         >
