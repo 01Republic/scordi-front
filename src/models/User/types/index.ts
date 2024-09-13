@@ -124,13 +124,6 @@ export type UserEditProfileRequestDto = {
     locale?: UserLocale | null; // 사용자 언어 설정
 };
 
-export type UserNotificationsStateDto = {
-    [key: string]: boolean;
-    isEmailNoticeAllowed: boolean;
-    isSMSNoticeAllowed: boolean;
-    isAgreeForMarketingTerm: boolean;
-};
-
 export class SendPhoneAuthMessageDto {
     phoneNumber: string;
     code?: string;

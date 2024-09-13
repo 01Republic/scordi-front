@@ -1,6 +1,6 @@
 import {MembershipDto} from 'src/models/Membership/types';
 import {atom, selector} from 'recoil';
-import {FindAllUserByAdminDto, UserDto, UserNotificationsStateDto} from '^models/User/types';
+import {FindAllUserByAdminDto, UserDto} from '^models/User/types';
 import {getToken} from '^api/api';
 import {errorNotify} from '^utils/toast-notify';
 import {orgIdParamState} from '^atoms/common';
@@ -120,13 +120,4 @@ export const authenticatedUserDataAtom = atom<GoogleSignedUserData | undefined>(
 
 export const userListResultForAdminAtom = pagedResourceAtom<UserDto, FindAllUserByAdminDto>({
     key: 'userListResultForAdminAtom',
-});
-
-export const userNotificationsStateAtom = atom<UserNotificationsStateDto>({
-    key: 'userNotificationsStateAtom',
-    default: {
-        isEmailNoticeAllowed: false,
-        isSMSNoticeAllowed: false,
-        isAgreeForMarketingTerm: false,
-    },
 });
