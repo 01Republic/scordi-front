@@ -1,6 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
-import {orgIdParamState, teamIdParamState, useRouterIdParamState} from '^atoms/common';
+import {orgIdParamState} from '^atoms/common';
 import {FaPlus} from 'react-icons/fa6';
 import {OrgSettingsMemberPageRoute} from '^pages/orgs/[id]/settings/members';
 import {OrgSettingsLayout} from '^clients/private/_layouts/OrgSettingsLayout';
@@ -13,7 +13,7 @@ import {OrgMembersTableRow} from './members/OrgMembersTableRow';
 
 export const OrgSettingsMemberPage = memo(function () {
     const orgId = useRecoilValue(orgIdParamState);
-    const teamId = useRouterIdParamState('teamId', teamIdParamState);
+    // const teamId = useRouterIdParamState('teamId', teamIdParamState);
 
     const {search, result, isLoading, query, searchAndUpdateCounter, movePage, changePageSize, reload, orderBy} =
         useMembershipInMembershipTable();
