@@ -1,15 +1,16 @@
-import React, {memo} from 'react';
-import {OrgSettingsLayout} from '^clients/private/orgs/settings/OrgSettingsLayout';
+import React, {memo, useState} from 'react';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
+import {OrgSettingsInformationPageRoute} from '^pages/orgs/[id]/settings';
+import {OrgSettingsLayout} from '^clients/private/_layouts/OrgSettingsLayout';
 import {SelectDropdown} from '^v3/share/Select';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {ChangeOrgInformationModal} from '^clients/private/orgs/settings/ChangeOrgInformationModal';
-import {OrgSettingsInformationPageRoute} from '^pages/orgs/[id]/settings';
+import {ChangeOrgInformationModal} from './ChangeOrgInformationModal';
 
 export const OrgSettingsInformationPage = memo(function OrgSettingsInformationPage() {
-    const orgId = useRouterIdParamState('id', orgIdParamState);
+    const orgId = useRecoilValue(orgIdParamState);
     const {currentOrg} = useCurrentOrg(orgId);
-    const [isChangeOrgInformationModalOpened, setIsChangeOrgInformationModalOpened] = React.useState(false);
+    const [isChangeOrgInformationModalOpened, setIsChangeOrgInformationModalOpened] = useState(false);
 
     return (
         <OrgSettingsLayout

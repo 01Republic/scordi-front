@@ -1,20 +1,18 @@
 import React, {memo, useEffect, useState} from 'react';
-import {OrgSettingsLayout} from '^clients/private/orgs/settings/OrgSettingsLayout';
-import {orgIdParamState, teamIdParamState, useRouterIdParamState} from '^atoms/common';
-import {OrgSettingsMemberPageRoute} from '^pages/orgs/[id]/settings/members';
-import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
-import {useTeamMembershipListInTeamDetail} from '^models/TeamMembership/hook';
-import {FaPlus} from 'react-icons/fa6';
 import {useRecoilValue} from 'recoil';
+import {orgIdParamState, teamIdParamState, useRouterIdParamState} from '^atoms/common';
+import {FaPlus} from 'react-icons/fa6';
+import {OrgSettingsMemberPageRoute} from '^pages/orgs/[id]/settings/members';
+import {OrgSettingsLayout} from '^clients/private/_layouts/OrgSettingsLayout';
+import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
-import {OrgMembersTableHeader} from '^clients/private/orgs/settings/members/OrgMembersTableHeader';
-import {OrgMembersTableRow} from '^clients/private/orgs/settings/members/OrgMembersTableRow';
-import {useCurrentOrg} from '^models/Organization/hook';
 import {useMembershipInMembershipTable} from '^models/Membership/hook';
+import {OrgMembersTableHeader} from './members/OrgMembersTableHeader';
+import {OrgMembersTableRow} from './members/OrgMembersTableRow';
 
 export const OrgSettingsMemberPage = memo(function () {
-    const orgId = useRouterIdParamState('id', orgIdParamState);
+    const orgId = useRecoilValue(orgIdParamState);
     const teamId = useRouterIdParamState('teamId', teamIdParamState);
 
     const {search, result, isLoading, query, searchAndUpdateCounter, movePage, changePageSize, reload, orderBy} =

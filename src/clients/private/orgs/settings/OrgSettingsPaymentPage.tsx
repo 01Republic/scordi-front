@@ -1,16 +1,17 @@
 import React, {memo, useEffect} from 'react';
-import {OrgSettingsLayout} from '^clients/private/orgs/settings/OrgSettingsLayout';
+import {useRouter} from 'next/router';
+import {useRecoilValue} from 'recoil';
+import {toast} from 'react-toastify';
+import {OrgSettingsLayout} from '^clients/private/_layouts/OrgSettingsLayout';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {orgIdParamState} from '^atoms/common';
 import {OrgSettingsPaymentPageRoute} from '^pages/orgs/[id]/settings/payments';
 import {loadTossPayments} from '@tosspayments/tosspayments-sdk';
 import {tossPaymentsKey} from '^config/environments';
 import {useCurrentUser} from '^models/User/hook';
-import {toast} from 'react-toastify';
-import {useRouter} from 'next/router';
 
 export const OrgSettingsPaymentPage = memo(function () {
-    const orgId = useRouterIdParamState('id', orgIdParamState);
+    const orgId = useRecoilValue(orgIdParamState);
     const {currentUser} = useCurrentUser();
     const {query} = useRouter();
     const {pms, message} = query;

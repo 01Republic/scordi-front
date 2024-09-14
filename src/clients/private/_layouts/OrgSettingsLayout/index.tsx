@@ -1,19 +1,15 @@
-import React, {memo, useEffect} from 'react';
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
-import {Breadcrumb, BreadcrumbPath} from '^clients/private/_layouts/_shared/Breadcrumb';
+import React, {memo} from 'react';
+import {useRecoilValue} from 'recoil';
 import {WithChildren} from '^types/global.type';
+import {orgIdParamState} from '^atoms/common';
 import {BsBuildingFill, BsCreditCard, BsPeopleFill} from 'react-icons/bs';
-import Link from 'next/link';
-import {Icon} from '^components/Icon';
-import {useRouter} from 'next/router';
 import {OrgSettingsInformationPageRoute} from '^pages/orgs/[id]/settings';
-import {IconType} from '@react-icons/all-files';
 import {OrgSettingsPaymentPageRoute} from '^pages/orgs/[id]/settings/payments';
 import {OrgSettingsMemberPageRoute} from '^pages/orgs/[id]/settings/members';
-import {organizationApi} from '^models/Organization/api';
+import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
+import {Breadcrumb, BreadcrumbPath} from '^clients/private/_layouts/_shared/Breadcrumb';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {LinkTo} from '^components/util/LinkTo';
+import {OrgSettingLeftListItem} from './OrgSettingsLeftListItem';
 
 type OrgSettingsLayoutProps = {
     breadcrumbPath: BreadcrumbPath;
@@ -21,7 +17,7 @@ type OrgSettingsLayoutProps = {
 
 export const OrgSettingsLayout = memo(function OrgSettingsLayout(props: OrgSettingsLayoutProps) {
     const {children} = props;
-    const orgId = useRouterIdParamState('id', orgIdParamState);
+    const orgId = useRecoilValue(orgIdParamState);
     const {currentOrg} = useCurrentOrg(orgId);
 
     return (
@@ -57,30 +53,5 @@ export const OrgSettingsLayout = memo(function OrgSettingsLayout(props: OrgSetti
                 </div>
             </MainContainer>
         </MainLayout>
-    );
-});
-
-interface OrgSettingLeftListItemProps {
-    Icon: IconType;
-    name: string;
-    href: string;
-}
-
-const OrgSettingLeftListItem = memo(function (props: OrgSettingLeftListItemProps) {
-    const {Icon, name, href} = props;
-    const router = useRouter();
-
-    const isActive = href === router.asPath;
-
-    return (
-        <LinkTo
-            href={href}
-            className={`flex items-center px-4 py-3 mb-1 rounded-2xl hover:bg-gray-50 cursor-pointer ${
-                isActive ? `bg-gray-50` : ``
-            }`}
-        >
-            <Icon className={`mr-3 ${isActive ? `text-scordi` : ``}`} />
-            <span className={`${isActive ? `text-scordi` : ``}`}>{name}</span>
-        </LinkTo>
     );
 });
