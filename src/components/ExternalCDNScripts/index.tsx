@@ -5,16 +5,19 @@ import {HotJarCdnScript} from './hotjar/HotJarCdnScript';
 import {FacebookPixelCdnScript} from './facebook-pixel/FacebookPixelCdnScript';
 import {ChannelTalkCDN} from './channel-talk/ChannelTalkCDN';
 import {MeasuredInstall} from './measured';
+import {appEnv} from '^config/environments';
 
 export default function ExternalCDNScripts() {
+    const allowEnv = (...envs: (typeof appEnv)[]) => envs.includes(appEnv);
+
     return (
         <>
-            <FacebookPixelCdnScript />
-            <GoogleAnalyticsCdnScript />
-            <HotJarCdnScript />
+            {allowEnv('production') && <FacebookPixelCdnScript />}
+            {allowEnv('production') && <GoogleAnalyticsCdnScript />}
+            {allowEnv('production') && <HotJarCdnScript />}
             <TypeformCdnScript />
             {typeof window !== 'undefined' && <ChannelTalkCDN />}
-            <MeasuredInstall />
+            {allowEnv('production') && <MeasuredInstall />}
         </>
     );
 }

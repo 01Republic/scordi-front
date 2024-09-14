@@ -13,6 +13,7 @@ import {OrgSettingsPaymentPageRoute} from '^pages/orgs/[id]/settings/payments';
 import {OrgSettingsMemberPageRoute} from '^pages/orgs/[id]/settings/members';
 import {organizationApi} from '^models/Organization/api';
 import {useCurrentOrg} from '^models/Organization/hook';
+import {LinkTo} from '^components/util/LinkTo';
 
 type OrgSettingsLayoutProps = {
     breadcrumbPath: BreadcrumbPath;
@@ -72,15 +73,14 @@ const OrgSettingLeftListItem = memo(function (props: OrgSettingLeftListItemProps
     const isActive = href === router.asPath;
 
     return (
-        <Link href={href}>
-            <div
-                className={`flex items-center px-4 py-3 mb-1 rounded-2xl hover:bg-gray-50 cursor-pointer ${
-                    isActive ? `bg-gray-50` : ``
-                }`}
-            >
-                <Icon className={`mr-3 ${isActive ? `text-scordi` : ``}`} />
-                <span className={`${isActive ? `text-scordi` : ``}`}>{name}</span>
-            </div>
-        </Link>
+        <LinkTo
+            href={href}
+            className={`flex items-center px-4 py-3 mb-1 rounded-2xl hover:bg-gray-50 cursor-pointer ${
+                isActive ? `bg-gray-50` : ``
+            }`}
+        >
+            <Icon className={`mr-3 ${isActive ? `text-scordi` : ``}`} />
+            <span className={`${isActive ? `text-scordi` : ``}`}>{name}</span>
+        </LinkTo>
     );
 });
