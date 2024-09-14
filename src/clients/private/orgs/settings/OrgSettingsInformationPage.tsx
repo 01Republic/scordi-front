@@ -1,5 +1,6 @@
 import React, {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
+import {ReactNodeLike} from 'prop-types';
 import {orgIdParamState} from '^atoms/common';
 import {OrgSettingsInformationPageRoute} from '^pages/orgs/[id]/settings';
 import {OrgSettingsLayout} from '^clients/private/_layouts/OrgSettingsLayout';
@@ -32,7 +33,7 @@ export const OrgSettingsInformationPage = memo(function OrgSettingsInformationPa
                     {
                         title: '주소',
                         desc: currentOrg?.address ? (
-                            `${currentOrg?.address} ${currentOrg.addressDetail}`
+                            `${currentOrg?.address} ${currentOrg?.addressDetail}`
                         ) : (
                             <span className={'text-gray-400'}>주소를 등록해주세요</span>
                         ),
@@ -69,20 +70,21 @@ export const OrgSettingsInformationPage = memo(function OrgSettingsInformationPa
 interface OrgSettingsListItemProps {
     title: string;
     buttonAction: () => void;
-    listItems: {title: string; desc: string | any}[];
+    listItems: {title: string; desc: ReactNodeLike}[];
 }
 
 const OrgSettingsListItem = memo(function (props: OrgSettingsListItemProps) {
+    const {title, buttonAction, listItems} = props;
     return (
         <div className={'pt-4 pb-12'}>
             <div className={'flex justify-between items-center'}>
-                <div className={'font-bold'}>{props.title}</div>
-                <div className={'text-blue-500 cursor-pointer'} onClick={props.buttonAction}>
+                <div className={'font-bold'}>{title}</div>
+                <div className={'text-blue-500 cursor-pointer'} onClick={buttonAction}>
                     변경
                 </div>
             </div>
-            {props.listItems.map((item) => (
-                <div className={'flex justify-start items-center my-4'}>
+            {listItems.map((item, i) => (
+                <div key={i} className={'flex justify-start items-center my-4'}>
                     <div className={'font-bold text-gray-500 w-40'}>{item.title}</div>
                     <div>{item.desc}</div>
                 </div>
