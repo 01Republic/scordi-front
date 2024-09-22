@@ -14,7 +14,7 @@ export default function ExternalCDNScripts() {
             <HotJarCdnScript />
             <TypeformCdnScript />
             {typeof window !== 'undefined' && <ChannelTalkCDN />}
-            <MeasuredInstall />
+            {/*<MeasuredInstall />*/}
         </>
     );
 }
