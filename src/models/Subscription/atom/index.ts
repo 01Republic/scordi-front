@@ -40,6 +40,11 @@ export const subscriptionListOfCreditCardAtom = pagedResourceAtom<SubscriptionDt
     key: 'subscriptionListOfCreditCardAtom',
 });
 
+// 카드 상세 페이지 > 구독 연결 모달
+export const addableSubscriptionsOfCreditCardAtom = pagedResourceAtom<SubscriptionDto, FindAllSubscriptionsQuery>({
+    key: 'addableSubscriptionsOfCreditCardAtom',
+});
+
 /**
  * 이 아래는 단일 구독에 관한 쿼리입니다.
  * 구독 리스트에 관한 쿼리에서 selector 는 전부 제거했지만

@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {MdRefresh} from 'react-icons/md';
 import Tippy from '@tippyjs/react';
 import {useSubscriptionListOfCreditCard} from '^models/Subscription/hook';
@@ -12,11 +12,14 @@ import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/sel
 import {FaPlus} from 'react-icons/fa6';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
+import {CreditCardAddSubscriptionModal} from './CreditCardAddSubscriptionModal';
 
 export const SubscriptionListOfCreditCardTabContent = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
     const {currentCreditCard} = useCurrentCreditCard();
-    const {isLoading, search, result, reload, movePage, changePageSize, orderBy} = useSubscriptionListOfCreditCard();
+    const [isAddSubscriptionModalOpened, setAddSubscriptionModalOpened] = useState(false);
+    const {isLoading, isEmptyResult, search, result, reload, movePage, changePageSize, orderBy} =
+        useSubscriptionListOfCreditCard();
 
     const onReady = () => {
         if (!currentCreditCard) return;
@@ -66,8 +69,19 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
                             </button>
                         </Tippy>
                     </div>
+
+                    <div className="flex items-center gap-2">
+                        <button
+                            className="btn btn-sm btn-scordi gap-2"
+                            onClick={() => setAddSubscriptionModalOpened(true)}
+                        >
+                            <FaPlus />
+                            <span>구독 등록하기</span>
+                        </button>
+                    </div>
                 </div>
-                {totalItemCount > 0 ? (
+
+                {!isEmptyResult ? (
                     <ListTable
                         onReady={onReady}
                         items={result.items}
@@ -79,6 +93,16 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
                     <EmptyTable icon={'🔍'} message="등록된 구독이 없어요." Buttons={() => <AddSubscriptionButton />} />
                 )}
             </ListTableContainer>
+
+            <CreditCardAddSubscriptionModal
+                isOpened={isAddSubscriptionModalOpened}
+                onClose={() => setAddSubscriptionModalOpened(false)}
+                onCreate={() => {
+                    setAddSubscriptionModalOpened(false);
+                    reload();
+                }}
+                creditCardId={currentCreditCard.id}
+            />
         </section>
     );
 });

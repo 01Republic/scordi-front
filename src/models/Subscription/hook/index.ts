@@ -4,6 +4,7 @@ import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook'
 import {subscriptionApi} from '^models/Subscription/api';
 import {usePagedResource, PagedResourceAtoms} from '^hooks/usePagedResource';
 import {
+    addableSubscriptionsOfCreditCardAtom,
     dashboardSubscriptionSearchResultAtom,
     getCurrentSubscriptionQuery,
     subscriptionListAtom,
@@ -36,6 +37,9 @@ export const useSubscriptionsInTeamMemberShowPage = () => useSubscriptions(subsc
 
 // 카드 상세 페이지 > 구독 테이블
 export const useSubscriptionListOfCreditCard = () => useSubscriptions(subscriptionListOfCreditCardAtom);
+
+// 카드 상세 페이지 > 구독 연결 모달
+export const useAddableSubscriptionsOfCreditCard = () => useSubscriptions(addableSubscriptionsOfCreditCardAtom);
 
 const useSubscriptions = (atoms: PagedResourceAtoms<SubscriptionDto, FindAllSubscriptionsQuery>, mergeMode = false) => {
     return usePagedResource(atoms, {
