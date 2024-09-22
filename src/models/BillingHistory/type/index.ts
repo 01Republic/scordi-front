@@ -1,5 +1,5 @@
 import {TypeCast} from '^types/utils/class-transformer';
-import {CreateMoneyRequestDto, CurrencyCode, CurrencyList, MoneyDto} from '^models/Money';
+import {CreateMoneyRequestDto, CurrencyCode, MoneyDto} from '^models/Money';
 import {OrganizationDto} from '^models/Organization/type';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {InvoiceAppDto} from '^models/InvoiceApp/type';
@@ -8,6 +8,7 @@ import {GmailParsedItem} from '^api/tasting.api';
 import {BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {IsActiveSubsParams, StartEndParams} from '^types/billing.type';
+import {PartialType} from '^types/utils/partial-type';
 
 export * from './create-billing-history.request.dto.v2';
 
@@ -136,13 +137,6 @@ export class CreateBillingHistoryRequestDto {
     vatAmount?: CreateMoneyRequestDto; // 부과세
 }
 
-interface Type<T = any> extends Function {
-    new (...args: any[]): T;
-}
-// const PartialType = <T>(classRef: Type<T>): Partial<T> => classRef;
-function PartialType<T>(classRef: Type<T>): Type<Partial<T>> {
-    return classRef;
-}
 export class UpdateBillingHistoryRequestDto extends PartialType(CreateBillingHistoryRequestDto) {
     // @ts-ignore
     paidAt?: string; // datetime string
@@ -160,9 +154,9 @@ export class CreateBillingHistoryStandAloneRequestDto {
     // invoiceUrl?: string | null; // 인보이스(파일) 주소
 }
 
-export type StatusParams = {
+export class StatusParams {
     status?: StatusQueryOptions;
-};
+}
 
 export enum StatusQueryOptions {
     Success = 'success',
@@ -174,6 +168,14 @@ export type GetBillingHistoriesParams = FindAllQueryDto<BillingHistoryDto> &
     StartEndParams &
     StatusParams &
     IsActiveSubsParams;
+
+export class BillingHistoryStatusMetaDto {
+    @TypeCast(() => Date) firstIssuedAt: Date;
+    @TypeCast(() => Date) lastIssuedAt: Date;
+}
+// export class FindAllBillingHistoriesQueryDto extends MixinType(FindAllQueryDto<BillingHistoryDto>, StartEndParams) {
+//     //
+// }
 
 export enum BillingHistorySubtype {
     EMAIL_INVOICE = 'EMAIL_INVOICE',

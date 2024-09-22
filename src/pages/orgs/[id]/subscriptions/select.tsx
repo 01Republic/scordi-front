@@ -1,5 +1,4 @@
 import React from 'react';
-import {useRouter} from 'next/router';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
