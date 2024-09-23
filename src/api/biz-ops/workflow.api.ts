@@ -8,7 +8,7 @@ export default {
 
     run<T>(name: string, data: T, multipart = false) {
         const url = `${this.memberPath(name)}/run`;
-        const headers: AxiosRequestHeaders = {};
+        const headers = {} as AxiosRequestHeaders;
         if (multipart) {
             headers['Content-Type'] = 'multipart/form-data';
         }
