@@ -17,6 +17,7 @@ import {billingHistoryApi} from '../api';
 import {
     billingHistoriesAtom,
     billingHistoryListInSiblingsAtom,
+    billingHistoryListOfCreditCardAtom,
     billingHistoryListOfSubscriptionAtom,
     billingHistoryLoadingState,
     getBillingHistoryQuery,
@@ -30,6 +31,9 @@ export const useBillingHistoryListOfSubscription = () => useBillingHistories(bil
 
 // 결제내역 상세모달 / 결제내역
 export const useBillingHistoryListInSiblings = () => useBillingHistories(billingHistoryListInSiblingsAtom);
+
+// 결제수단 상세페이지 / 결제내역
+export const useBillingHistoryListOfCreditCard = () => useBillingHistories(billingHistoryListOfCreditCardAtom);
 
 const useBillingHistories = (
     atoms: PagedResourceAtoms<BillingHistoryDto, GetBillingHistoriesParams>,
