@@ -6,6 +6,11 @@ import {MoneySimpleRounded} from '^models/Money/components/money.simple-rounded'
 import {IsFreeTierTagUI} from '^models/Subscription/components/IsFreeTierTagUI';
 import {TeamMemberProfileOption} from '^models/TeamMember/components/TeamMemberProfile';
 import {MemberCount} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
+import Tippy from '@tippyjs/react';
+import {BsDashCircle} from 'react-icons/bs';
+import {subscriptionApi} from '^models/Subscription/api';
+import {confirm2} from '^components/util/dialog';
+import {toast} from 'react-hot-toast';
 
 interface CreditCardSubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -14,6 +19,18 @@ interface CreditCardSubscriptionTableRowProps {
 
 export const CreditCardSubscriptionTableRow = memo((props: CreditCardSubscriptionTableRowProps) => {
     const {subscription, reload} = props;
+
+    const disconnect = async () => {
+        const isConfirmed = await confirm2(
+            '이 카드와 연결을 해제할까요?',
+            '구독이 삭제되는건 아니니 안심하세요',
+            'warning',
+        ).then((res) => res.isConfirmed);
+        if (!isConfirmed) return;
+        await subscriptionApi.update(subscription.id, {creditCardId: null});
+        toast.success('연결을 해제했어요');
+        reload();
+    };
 
     return (
         <tr>
@@ -58,6 +75,24 @@ export const CreditCardSubscriptionTableRow = memo((props: CreditCardSubscriptio
                         </div>
                     </div>
                 )}
+            </td>
+
+            {/* Action */}
+            <td>
+                <div className="flex items-center justify-center">
+                    <Tippy className="!text-12" content="안써요">
+                        <button
+                            className="relative text-red-300 hover:text-red-500 transition-all"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                e.preventDefault();
+                                disconnect();
+                            }}
+                        >
+                            <BsDashCircle className="" size={24} strokeWidth={0.3} />
+                        </button>
+                    </Tippy>
+                </div>
             </td>
         </tr>
     );

@@ -44,7 +44,6 @@ export const CreditCardAddSubscriptionModal = memo((props: CreditCardAddSubscrip
     };
 
     const onSubmit = async () => {
-        console.log(selectedIds);
         const req = selectedIds.map((id) => subscriptionApi.update(id, {creditCardId}));
         await Promise.allSettled(req);
         toast.success('추가했습니다.');
