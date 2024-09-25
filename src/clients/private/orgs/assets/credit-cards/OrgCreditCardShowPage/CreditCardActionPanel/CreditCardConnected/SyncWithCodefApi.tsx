@@ -14,15 +14,7 @@ export const SyncWithCodefApi = memo((props: SyncWithCodefApiProps) => {
     const codefCard: CodefCardDto | undefined = result.items[0];
 
     if (codefCard) {
-        return (
-            <MakeSyncWithCodefAPI
-                codefCard={codefCard}
-                onStart={() => 1}
-                onFinish={() => {
-                    reload();
-                }}
-            />
-        );
+        return <MakeSyncWithCodefAPI codefCard={codefCard} onFinish={() => reload()} />;
     } else {
         return (
             <NewSyncWithCodefApi

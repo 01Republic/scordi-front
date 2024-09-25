@@ -173,9 +173,12 @@ export class BillingHistoryStatusMetaDto {
     @TypeCast(() => Date) firstIssuedAt: Date;
     @TypeCast(() => Date) lastIssuedAt: Date;
 }
-// export class FindAllBillingHistoriesQueryDto extends MixinType(FindAllQueryDto<BillingHistoryDto>, StartEndParams) {
-//     //
-// }
+export class FindAllBillingHistoriesQueryDto extends FindAllQueryDto<BillingHistoryDto> {
+    startDate?: string; // 결제내역 조회범위 시작날짜
+    endDate?: string; // 결제내역 조회범위 종료날짜
+    isActiveSubscription?: boolean; // 동기화된 구독만
+    status?: StatusQueryOptions; // 결제 상태
+}
 
 export enum BillingHistorySubtype {
     EMAIL_INVOICE = 'EMAIL_INVOICE',

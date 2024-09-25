@@ -10,6 +10,7 @@ import {useToast} from '^hooks/useToast';
 import {
     BillingHistoryDto,
     BillingHistoryStatus,
+    FindAllBillingHistoriesQueryDto,
     GetBillingHistoriesParams,
     UpdateBillingHistoryRequestDtoV2,
 } from '../type';
@@ -33,8 +34,9 @@ export const useBillingHistoryListOfSubscription = () => useBillingHistories(bil
 export const useBillingHistoryListInSiblings = () => useBillingHistories(billingHistoryListInSiblingsAtom);
 
 // 결제수단 상세페이지 / 결제내역
-export const useBillingHistoryListOfCreditCard = () => useBillingHistories(billingHistoryListOfCreditCardAtom);
+export const useBillingHistoryListOfCreditCard = () => useBillingHistoriesOfOrg(billingHistoryListOfCreditCardAtom);
 
+// [deprecated] useBillingHistoriesOfOrg 로 대체될 예정
 const useBillingHistories = (
     atoms: PagedResourceAtoms<BillingHistoryDto, GetBillingHistoriesParams>,
     mergeMode = false,
@@ -42,6 +44,18 @@ const useBillingHistories = (
     return usePagedResource(atoms, {
         endpoint: (params) => billingHistoryApi.index(params),
         useOrgId: false,
+        mergeMode,
+        getId: 'id',
+    });
+};
+
+const useBillingHistoriesOfOrg = (
+    atoms: PagedResourceAtoms<BillingHistoryDto, FindAllBillingHistoriesQueryDto>,
+    mergeMode = false,
+) => {
+    return usePagedResource(atoms, {
+        endpoint: (params, orgId) => billingHistoryApi.indexOfOrg(orgId, params),
+        useOrgId: true,
         mergeMode,
         getId: 'id',
     });

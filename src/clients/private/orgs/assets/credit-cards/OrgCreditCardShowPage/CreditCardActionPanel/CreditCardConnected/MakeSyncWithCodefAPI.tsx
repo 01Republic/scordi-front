@@ -4,27 +4,39 @@ import Tippy from '@tippyjs/react';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {dateIsEqual, startOfDay, yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {FaCheck} from 'react-icons/fa6';
+import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
+import {confirm2} from '^components/util/dialog';
 
 interface MakeSyncWithCodefAPIProps {
     codefCard: CodefCardDto;
-    onStart: () => any;
-    onFinish: () => any;
+    onStart?: () => any;
+    onFinish?: () => any;
 }
 
 export const MakeSyncWithCodefAPI = memo((props: MakeSyncWithCodefAPIProps) => {
+    const orgId = useRecoilValue(orgIdParamState);
     const {codefCard, onStart, onFinish} = props;
     const [isHover, setIsHover] = useState(false);
     const [isRunning, setIsRunning] = useState(false);
+    const {syncCard} = useCodefCardSync();
 
     const startSync = () => {
         setIsRunning(true);
         setIsHover(false);
-        onStart();
+        confirm2('카드 동기화를 시작합니다', '약 3~4분 정도가 예상되는 작업이에요.\n지금 실행할까요?')
+            .then((r) => {
+                r.isConfirmed && onStart && onStart();
+                return r;
+            })
+            .then(async (r) => r.isConfirmed && syncCard(orgId, codefCard))
+            .then(() => finishSync());
     };
 
     const finishSync = () => {
         setIsRunning(false);
-        onFinish();
+        onFinish && onFinish();
     };
 
     // (최신 상태인지 체크) 만약 이 카드의 싱크 범위가 어제 날짜에 도달했다면
@@ -57,7 +69,7 @@ export const MakeSyncWithCodefAPI = memo((props: MakeSyncWithCodefAPIProps) => {
     } else {
         // 실행중인 경우
         return (
-            <div className="btn btn-square border-gray-300" onClick={() => finishSync()}>
+            <div className="btn btn-square border-gray-300">
                 <IoMdRefresh fontSize={20} className="animate-spin" />
             </div>
         );

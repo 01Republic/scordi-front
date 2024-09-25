@@ -21,7 +21,7 @@ export function useCodefCardSync() {
         return codefCardApi
             .histories(orgId, codefCard.id, {sync: true})
             .then((res) => {
-                toast.success(`${codefCard.number4} 카드 싱크 완료`);
+                toast.success(`${codefCard.number4} 동기화 완료!`);
                 return res;
             })
             .catch(catchError)

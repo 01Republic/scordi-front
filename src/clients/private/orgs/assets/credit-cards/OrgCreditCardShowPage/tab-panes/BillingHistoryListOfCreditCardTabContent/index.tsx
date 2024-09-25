@@ -4,11 +4,13 @@ import Tippy from '@tippyjs/react';
 import {orgIdParamState} from '^atoms/common';
 import {LinkTo} from '^components/util/LinkTo';
 import {useBillingHistoryListOfCreditCard} from '^models/BillingHistory/hook';
-import {ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {FaPlus} from 'react-icons/fa6';
 import {MdRefresh} from 'react-icons/md';
 import {useCurrentCreditCard} from '../../atom';
 import {BillingHistoryScopeHandler} from './BillingHistoryScopeHandler';
+import {BillingHistoryTableHeaderOfCreditCard} from './BillingHistoryTableHeaderOfCreditCard';
+import {BillingHistoryRowOfCreditCard} from './BillingHistoryRowOfCreditCard';
 
 export const BillingHistoryListOfCreditCardTabContent = memo(function BillingHistoryListOfCreditCardTabContent() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -20,7 +22,10 @@ export const BillingHistoryListOfCreditCardTabContent = memo(function BillingHis
         if (!currentCreditCard) return;
         search({
             relations: ['subscription'],
-            where: {creditCardId: currentCreditCard.id},
+            where: {
+                creditCardId: currentCreditCard.id,
+                organizationId: orgId,
+            },
             order: {issuedAt: 'DESC'},
         });
     };
@@ -57,6 +62,13 @@ export const BillingHistoryListOfCreditCardTabContent = memo(function BillingHis
                         </div>
                     </div>
                 </div>
+
+                <ListTable
+                    items={result.items}
+                    isLoading={isLoading}
+                    Header={() => <BillingHistoryTableHeaderOfCreditCard orderBy={orderBy} />}
+                    Row={({item}) => <BillingHistoryRowOfCreditCard item={item} onSaved={() => reload()} />}
+                />
             </ListTableContainer>
         </section>
     );

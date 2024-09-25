@@ -2,7 +2,7 @@ import React, {memo, useEffect, useState} from 'react';
 import {ListPageScopeButton} from '^clients/private/_layouts/_shared/ListPageScopeButton';
 import {useCurrentCreditCard} from '../../atom';
 import {useBillingHistoryListOfCreditCard} from '^models/BillingHistory/hook';
-import {GetBillingHistoriesParams} from '^models/BillingHistory/type';
+import {FindAllBillingHistoriesQueryDto} from '^models/BillingHistory/type';
 
 interface BillingHistoryScopeHandlerProps {
     //
@@ -14,13 +14,14 @@ export const BillingHistoryScopeHandler = memo((props: BillingHistoryScopeHandle
     const {search, query} = useBillingHistoryListOfCreditCard();
     const [selected, setSelected] = useState(0);
 
-    const getBillingHistories = async (where: GetBillingHistoriesParams['where']) => {
+    const getBillingHistories = async (where: FindAllBillingHistoriesQueryDto['where']) => {
         if (!currentCreditCard) return;
 
         search({
             relations: ['subscription'],
             where: {
                 creditCardId: currentCreditCard.id,
+                organizationId: currentCreditCard.organizationId,
                 ...where,
             },
             order: {issuedAt: 'DESC'},
@@ -49,14 +50,14 @@ export const BillingHistoryScopeHandler = memo((props: BillingHistoryScopeHandle
                     });
                 }}
             />
-            <ListPageScopeButton
-                text="예정"
-                active={selected === 2}
-                onClick={() => {
-                    setSelected(2);
-                    getBillingHistories({paidAt: 'NULL'});
-                }}
-            />
+            {/*<ListPageScopeButton*/}
+            {/*    text="예정"*/}
+            {/*    active={selected === 2}*/}
+            {/*    onClick={() => {*/}
+            {/*        setSelected(2);*/}
+            {/*        getBillingHistories({paidAt: 'NULL'});*/}
+            {/*    }}*/}
+            {/*/>*/}
             <ListPageScopeButton
                 text="실패"
                 active={selected === 3}

@@ -5,6 +5,7 @@ import {
     BillingHistoryDto,
     CreateBillingHistoryRequestDto,
     CreateBillingHistoryStandAloneRequestDto,
+    FindAllBillingHistoriesQueryDto,
     GetBillingHistoriesParams,
     UpdateBillingHistoryRequestDto,
     UpdateBillingHistoryRequestDtoV2,
@@ -16,6 +17,12 @@ const NAMESPACE = 'billing_histories';
 export const billingHistoryApi = {
     index: (params: GetBillingHistoriesParams) => {
         const url = `/${NAMESPACE}`;
+        return api.get<Paginated<BillingHistoryDto>>(url, {params}).then(paginatedDtoOf(BillingHistoryDto));
+    },
+
+    // 조직 내의 결제내역 조회 (상기 index 메소드를 대체하려고 만듦)
+    indexOfOrg: (orgId: number, params: FindAllBillingHistoriesQueryDto) => {
+        const url = `/organizations/${orgId}/billing_histories`;
         return api.get<Paginated<BillingHistoryDto>>(url, {params}).then(paginatedDtoOf(BillingHistoryDto));
     },
 
