@@ -20,26 +20,11 @@ export const MakeSyncWithCodefAPI = memo((props: MakeSyncWithCodefAPIProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const {codefCard, onStart, onFinish} = props;
     const [isHover, setIsHover] = useState(false);
-    const [isRunning, setIsRunning] = useState(false);
-    const {syncCard} = useCodefCardSync();
+    const {syncCardWithConfirm, isSyncRunning} = useCodefCardSync();
 
     const startSync = () => {
-        setIsRunning(true);
         setIsHover(false);
-        confirm2('카드 동기화를 시작합니다', '약 3~4분 정도가 예상되는 작업이에요.\n지금 실행할까요?')
-            .then((r) => {
-                if (!r.isConfirmed) throw new Error('카드 동기화를 취소했습니다');
-            })
-            .then(() => onStart && onStart())
-            .then(() => syncCard(orgId, codefCard))
-            .then(() => finishSync())
-            .catch((e) => console.log(e.message))
-            .finally(() => setIsRunning(false));
-    };
-
-    const finishSync = () => {
-        setIsRunning(false);
-        onFinish && onFinish();
+        syncCardWithConfirm(orgId, codefCard, {onStart}).then(onFinish);
     };
 
     // (최신 상태인지 체크) 만약 이 카드의 싱크 범위가 어제 날짜에 도달했다면
@@ -59,7 +44,7 @@ export const MakeSyncWithCodefAPI = memo((props: MakeSyncWithCodefAPIProps) => {
     // 그게 아니면 : 최신 상태가 아니라면
 
     // 실행중이 아닌경우
-    if (!isRunning) {
+    if (!isSyncRunning) {
         return (
             <Tippy visible={isHover} content="Sync now">
                 <div onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
@@ -72,7 +57,7 @@ export const MakeSyncWithCodefAPI = memo((props: MakeSyncWithCodefAPIProps) => {
     } else {
         // 실행중인 경우
         return (
-            <div className="btn btn-square border-gray-300">
+            <div className="btn btn-square border-gray-300 pointer-events-none">
                 <IoMdRefresh fontSize={20} className="animate-spin" />
             </div>
         );

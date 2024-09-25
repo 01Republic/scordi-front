@@ -19,7 +19,7 @@ export const SyncWithCodefApi = memo((props: SyncWithCodefApiProps) => {
 
     const codefCard: CodefCardDto | undefined = result.items[0];
 
-    const reload = () => {
+    const onFinish = () => {
         return Promise.allSettled([
             reloadCodefCards(),
             !subscriptionIsNotLoaded && reloadSubscriptions(),
@@ -28,16 +28,9 @@ export const SyncWithCodefApi = memo((props: SyncWithCodefApiProps) => {
     };
 
     if (codefCard) {
-        return <MakeSyncWithCodefAPI codefCard={codefCard} onFinish={() => reload()} />;
+        return <MakeSyncWithCodefAPI codefCard={codefCard} onFinish={onFinish} />;
     } else {
-        return (
-            <NewSyncWithCodefApi
-                onStart={() => 1}
-                onFinish={() => {
-                    reload();
-                }}
-            />
-        );
+        return <NewSyncWithCodefApi onStart={() => 1} onFinish={onFinish} />;
     }
 });
 SyncWithCodefApi.displayName = 'SyncWithCodefApi';
