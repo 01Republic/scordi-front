@@ -125,26 +125,29 @@ export enum BillingHistoryStatus {
     PayFail = 'PayFail', // 결제 실패
 }
 
+// DEPRECATED => CreateBillingHistoryRequestDtoV2
 export class CreateBillingHistoryRequestDto {
-    paidAt!: Date; // 결제일시
-    payAmount!: CreateMoneyRequestDto; // 결제금액
+    paidAt: Date | string; // 결제일시
+    payAmount: CreateMoneyRequestDto; // 결제금액
+    abroadPayAmount?: CreateMoneyRequestDto; // 해외 결제 금액
     uid?: string; // 결제 승인 번호 / 인보이스 번호 등 결제 관련 고유 번호
-    creditCardId!: number; // 결제에 사용된 카드 ID
+    creditCardId: number; // 결제에 사용된 카드 ID
     invoiceUrl?: string; // 인보이스(파일) 주소
     memo?: string; // 메모
     isDomestic?: boolean; // 국내/해외 결제 여부
     isVATDeductible?: boolean; // 공제/불공제 여부
-    vatAmount?: CreateMoneyRequestDto; // 부과세
+    vatAmount?: CreateMoneyRequestDto; // 부가세
 }
 
+export * from './create-billing-history.request.dto.v2';
+
+// DEPRECATED => UpdateBillingHistoryRequestDtoV2
 export class UpdateBillingHistoryRequestDto extends PartialType(CreateBillingHistoryRequestDto) {
-    // @ts-ignore
-    paidAt?: string; // datetime string
+    // // @ts-ignore
+    // paidAt?: string; // datetime string
 }
 
-export class UpdateBillingHistoryRequestDtoV2 extends UpdateBillingHistoryRequestDto {
-    memo?: string; // 메모
-}
+export * from './update-billing-history.request.dto.v2';
 
 export class CreateBillingHistoryStandAloneRequestDto {
     billingCycleId!: number; // 결제주기 ID

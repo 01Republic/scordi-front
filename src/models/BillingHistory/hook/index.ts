@@ -12,7 +12,7 @@ import {
     BillingHistoryStatus,
     FindAllBillingHistoriesQueryDto,
     GetBillingHistoriesParams,
-    UpdateBillingHistoryRequestDtoV2,
+    UpdateBillingHistoryRequestDto,
 } from '../type';
 import {billingHistoryApi} from '../api';
 import {
@@ -155,7 +155,7 @@ export function useBillingHistoryV2(atom: RecoilState<BillingHistoryDto | null>)
         request.finally(() => setIsLoading(false));
     };
 
-    const updateBillingHistory = async (data: UpdateBillingHistoryRequestDtoV2) => {
+    const updateBillingHistory = async (data: UpdateBillingHistoryRequestDto) => {
         if (!billingHistory) {
             toast.error('알 수 없는 결제내역');
             return;

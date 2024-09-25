@@ -8,9 +8,8 @@ import {
     FindAllBillingHistoriesQueryDto,
     GetBillingHistoriesParams,
     UpdateBillingHistoryRequestDto,
-    UpdateBillingHistoryRequestDtoV2,
 } from '^models/BillingHistory/type';
-import {UpdateBillingHistoryRequestDtoV3} from '^models/BillingHistory/type/update-billing-history.request.dto.v2';
+import {UpdateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type/update-billing-history.request.dto.v2';
 
 const NAMESPACE = 'billing_histories';
 
@@ -35,12 +34,13 @@ export const billingHistoryApi = {
         return api.post<BillingHistoryDto>(`/${NAMESPACE}`, dto).then(oneDtoOf(BillingHistoryDto));
     },
 
+    // DEPRECATED => updateV2
     update: (id: number, dto: UpdateBillingHistoryRequestDto) => {
         const url = `/${NAMESPACE}/${id}`;
         return api.patch<BillingHistoryDto>(url, dto).then(oneDtoOf(BillingHistoryDto));
     },
-    //updateDtoV2에서 paidAt이 string인 것 때문에 생성
-    updateV3: (id: number, dto: UpdateBillingHistoryRequestDtoV3) => {
+
+    updateV2: (id: number, dto: UpdateBillingHistoryRequestDtoV2) => {
         const url = `/${NAMESPACE}/v2/${id}`;
         return api.patch<BillingHistoryDto>(url, dto).then(oneDtoOf(BillingHistoryDto));
     },

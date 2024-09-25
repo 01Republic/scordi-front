@@ -70,7 +70,7 @@ export const CreditCardAddSubscriptionModal = memo((props: CreditCardAddSubscrip
             </div>
             <div className="px-6 bg-white flex items-center justify-between">
                 <div className="">
-                    <p className="text-12 text-scordi">새로운 구독 등록하기</p>
+                    <p className="text-12 text-scordi">새로운 구독 연결하기</p>
                     <h3 className="text-18">어느 구독을 연결할까요?</h3>
                 </div>
 

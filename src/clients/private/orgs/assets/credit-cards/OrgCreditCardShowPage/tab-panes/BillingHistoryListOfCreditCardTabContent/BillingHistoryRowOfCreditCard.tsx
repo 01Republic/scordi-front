@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {BillingHistoryDto, UpdateBillingHistoryRequestDto} from '^models/BillingHistory/type';
+import {BillingHistoryDto, UpdateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type';
 import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {BillingHistoryStatusTagUI} from '^models/BillingHistory/components/BillingHistoryStatusTagUI';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
@@ -15,10 +15,10 @@ interface BillingHistoryRowOfCreditCardProps {
 export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCreditCardProps) => {
     const {item: billingHistory, onSaved} = props;
 
-    const update = async (dto: UpdateBillingHistoryRequestDto) => {
+    const update = async (dto: UpdateBillingHistoryRequestDtoV2) => {
         const {id, organizationId: orgId} = billingHistory;
         return billingHistoryApi
-            .update(id, dto)
+            .updateV2(id, dto)
             .then(() => toast.success('수정했습니다'))
             .catch(() => toast.success('문제가 발생했습니다'))
             .finally(() => onSaved && onSaved());

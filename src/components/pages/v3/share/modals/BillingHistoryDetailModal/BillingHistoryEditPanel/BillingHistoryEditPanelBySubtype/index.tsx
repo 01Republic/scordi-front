@@ -1,6 +1,6 @@
 import {memo} from 'react';
 import {useBillingHistoryInModal} from '^v3/share/modals/BillingHistoryDetailModal/hook';
-import {UpdateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type';
+import {UpdateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type/update-billing-history.request.dto.v2';
 import {UseFormReturn} from 'react-hook-form';
 
 interface BillingHistoryEditPanelBySubtypeProps {

@@ -3,7 +3,7 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import {billingHistoryApi} from '^models/BillingHistory/api';
 import {useModal} from '^v3/share/modals/useModal';
 import {BillingHistoryManager} from '^models/BillingHistory/manager';
-import {UpdateBillingHistoryRequestDtoV3} from '^models/BillingHistory/type/update-billing-history.request.dto.v2';
+import {UpdateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type/update-billing-history.request.dto.v2';
 import {
     billingHistoryDetailStateInShowModal,
     billingHistoryPagedStateInShowModal,
@@ -67,7 +67,7 @@ export const useBillingHistoryInModal = () => {
      * 해당 모달에서 추상화 레이어를 이전하기에 시간이 부족하여
      * 부득이하게 코드를 복.붙,,, 했습니다.
      */
-    const updateBillingHistory = async (data: UpdateBillingHistoryRequestDtoV3) => {
+    const updateBillingHistory = async (data: UpdateBillingHistoryRequestDtoV2) => {
         if (!billingHistory) {
             toast.error('알 수 없는 결제내역');
             return;
@@ -76,7 +76,7 @@ export const useBillingHistoryInModal = () => {
         const {id} = billingHistory;
 
         setIsLoading(true);
-        const res = billingHistoryApi.updateV3(id, data);
+        const res = billingHistoryApi.updateV2(id, data);
         res.then(() => toast.success('변경되었습니다.')).then(() => loadData(id));
         res.finally(() => setIsLoading(false));
         return res;
