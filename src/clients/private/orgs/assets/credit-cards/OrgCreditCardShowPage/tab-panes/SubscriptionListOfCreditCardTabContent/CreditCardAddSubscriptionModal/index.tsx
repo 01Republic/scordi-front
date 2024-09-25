@@ -8,6 +8,7 @@ import {LoadableBox} from '^components/util/loading';
 import {SubscriptionSelectItem} from '^models/Subscription/components/SubscriptionSelectItem';
 import {subscriptionApi} from '^models/Subscription/api';
 import {toast} from 'react-hot-toast';
+import {FaChevronLeft} from 'react-icons/fa6';
 
 interface CreditCardAddSubscriptionModalProps {
     creditCardId: number;
@@ -62,10 +63,15 @@ export const CreditCardAddSubscriptionModal = memo((props: CreditCardAddSubscrip
 
     return (
         <SlideUpModal open={isOpened} onClose={onClose} size="md" modalClassName="rounded-none sm:rounded-t-box p-0">
-            <div className="px-6 py-4 bg-scordi flex items-center justify-between">
-                <div className="text-white">
-                    <h3 className="text-18">어떤 구독을 연결할까요?</h3>
-                    <p className="text-14 text-slate-100">이미 연결되어있는 구독은 뺐어요</p>
+            <div className="flex items-center">
+                <div className="p-6 text-gray-400 hover:text-black transition-all cursor-pointer" onClick={onClose}>
+                    <FaChevronLeft fontSize={16} />
+                </div>
+            </div>
+            <div className="px-6 bg-white flex items-center justify-between">
+                <div className="">
+                    <p className="text-12 text-scordi">새로운 구독 등록하기</p>
+                    <h3 className="text-18">어느 구독을 연결할까요?</h3>
                 </div>
 
                 <div></div>
