@@ -8,6 +8,7 @@ import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {confirm2} from '^components/util/dialog';
+import {toast} from 'react-hot-toast';
 
 interface MakeSyncWithCodefAPIProps {
     codefCard: CodefCardDto;
@@ -27,11 +28,13 @@ export const MakeSyncWithCodefAPI = memo((props: MakeSyncWithCodefAPIProps) => {
         setIsHover(false);
         confirm2('카드 동기화를 시작합니다', '약 3~4분 정도가 예상되는 작업이에요.\n지금 실행할까요?')
             .then((r) => {
-                r.isConfirmed && onStart && onStart();
-                return r;
+                if (!r.isConfirmed) throw new Error('카드 동기화를 취소했습니다');
             })
-            .then(async (r) => r.isConfirmed && syncCard(orgId, codefCard))
-            .then(() => finishSync());
+            .then(() => onStart && onStart())
+            .then(() => syncCard(orgId, codefCard))
+            .then(() => finishSync())
+            .catch((e) => console.log(e.message))
+            .finally(() => setIsRunning(false));
     };
 
     const finishSync = () => {

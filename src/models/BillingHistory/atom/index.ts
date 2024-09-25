@@ -2,7 +2,7 @@ import {atom, selector} from 'recoil';
 import {errorNotify} from '^utils/toast-notify';
 import {billingHistoryIdParamState} from '^atoms/common';
 import {pagedResourceAtom} from '^hooks/usePagedResource';
-import {BillingHistoryDto, GetBillingHistoriesParams} from '../type';
+import {BillingHistoryDto, FindAllBillingHistoriesQueryDto, GetBillingHistoriesParams} from '../type';
 import {billingHistoryApi} from '../api';
 
 export const billingHistoriesAtom = pagedResourceAtom<BillingHistoryDto, GetBillingHistoriesParams>({
@@ -20,9 +20,9 @@ export const billingHistoryListInSiblingsAtom = pagedResourceAtom<BillingHistory
 });
 
 // 결제수단 상세페이지 / 결제내역
-export const billingHistoryListOfCreditCardAtom = pagedResourceAtom<BillingHistoryDto, GetBillingHistoriesParams>({
-    key: 'billingHistoryListOfCreditCardAtom',
-});
+export const billingHistoryListOfCreditCardAtom = pagedResourceAtom<BillingHistoryDto, FindAllBillingHistoriesQueryDto>(
+    {key: 'billingHistoryListOfCreditCardAtom'},
+);
 
 /**
  * Billing History
