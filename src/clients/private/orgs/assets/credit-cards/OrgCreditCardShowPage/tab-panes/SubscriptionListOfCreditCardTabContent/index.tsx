@@ -26,7 +26,7 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
         search({
             relations: ['master'],
             where: {creditCardId: currentCreditCard.id},
-            order: {id: 'DESC'},
+            order: {nextComputedBillingDate: 'DESC', id: 'DESC'},
         });
     };
 
@@ -72,11 +72,11 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
 
                     <div className="flex items-center gap-2">
                         <button
-                            className="btn btn-sm btn-scordi gap-2"
+                            className="btn btn-sm bg-white border-gray-300 hover:bg-white hover:border-gray-500 gap-2"
                             onClick={() => setAddSubscriptionModalOpened(true)}
                         >
                             <FaPlus />
-                            <span>구독 등록하기</span>
+                            <span>구독 연결하기</span>
                         </button>
                     </div>
                 </div>

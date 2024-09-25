@@ -7,10 +7,11 @@ export const CreditCardSubscriptionTableHeader = memo(function (props: ListTable
     return (
         <tr className="bg-slate-100">
             <th>서비스 명</th>
-            <th>사용인원</th>
-            <th>과금</th>
-            <th>최신 결제금액</th>
-            <th>담당자</th>
+            {/*<th>구독상태</th>*/}
+            <th>결제주기</th>
+            <th>최신 청구액</th>
+            <th>갱신일</th>
+            <th>소지자</th>
             <th />
         </tr>
     );

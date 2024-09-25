@@ -12,7 +12,7 @@ export const SubscriptionProfile = memo((props: SubscriptionProfileProps) => {
     const {product} = subscription;
 
     return (
-        <div className="flex items-center gap-2 w-60">
+        <div className="flex items-center gap-2">
             <Avatar className="w-6 h-6" src={product.image} alt={product.name()} draggable={false} loading="lazy">
                 <FaQuestion size={24} className="text-gray-300 h-full w-full p-[6px]" />
             </Avatar>

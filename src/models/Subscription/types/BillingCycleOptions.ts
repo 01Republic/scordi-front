@@ -13,16 +13,16 @@ export const SubscriptionBillingCycleTypeValues = [
     BillingCycleOptions.Onetime, // 일회성
 ];
 
-export function t_SubscriptionBillingCycleType(value: BillingCycleOptions) {
+export function t_SubscriptionBillingCycleType(value: BillingCycleOptions, short = false) {
     switch (value) {
         case BillingCycleOptions.None:
             return '무관';
         case BillingCycleOptions.Monthly:
-            return '월결제';
+            return short ? '매월' : '월결제';
         case BillingCycleOptions.Yearly:
-            return '연결제';
+            return short ? '매년' : '연결제';
         case BillingCycleOptions.Onetime:
-            return '일회성';
+            return short ? '단건' : '일회성';
         default:
             return '-';
     }
