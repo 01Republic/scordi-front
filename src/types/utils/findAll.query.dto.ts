@@ -49,6 +49,10 @@ export class FindAllQueryDto<T> extends PaginationDto {
     updateCounterCacheColumn?: keyof T;
 }
 
+export class FindAllQueryDtoWithKeyword<T> extends FindAllQueryDto<T> {
+    keyword?: string;
+}
+
 export function getPureTypeFromWhereValue<T>(value: FindOptionsWhereValue<T>): T {
     // @ts-ignore
     if (value === 'NULL') return null;
