@@ -163,7 +163,7 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
                                     type="text"
                                     className={`input sm:input-lg input-bordered flex-grow`}
                                     {...form.register('organizationName')}
-                                    placeholder="ex. 제로원리퍼블릭"
+                                    placeholder="회사명을 입력해주세요."
                                     required
                                     onKeyUp={(e) => {
                                         if (e.key === 'Enter') {

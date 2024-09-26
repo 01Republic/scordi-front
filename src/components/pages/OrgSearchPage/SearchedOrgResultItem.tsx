@@ -59,10 +59,12 @@ export const SearchedOrgResultItem = memo((props: SearchedOrgResultItemProps) =>
     };
 
     return (
-        <div className="flex justify-between items-center">
-            <p className="text-lg">{org.name}</p>
-            <p className="text-md">{ownerMembership?.user?.email}</p>
-            <button className="btn" onClick={() => goToJoinConfirm(org)}>
+        <div className="flex justify-between items-center gap-8 mb-2 group hover:bg-slate-100 border-gray-200 rounded-btn cursor-pointer px-3 py-1.5">
+            <div className="flex items-center justify-between flex-1">
+                <p className="text-lg">{org.name}</p>
+                <p className="text-md">{ownerMembership?.user?.email}</p>
+            </div>
+            <button className="btn btn-sm group-hover:bg-indigo-200" onClick={() => goToJoinConfirm(org)}>
                 join
             </button>
         </div>
