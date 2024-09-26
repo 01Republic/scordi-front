@@ -24,12 +24,12 @@ export const InvoiceAccountProfilePanel = memo(function InvoiceAccountProfilePan
 
                 <div>
                     {currentInvoiceAccount.isManuallyCreated ? (
-                        <h1 className="text-2xl font-semibold my-2">{currentInvoiceAccount.email}</h1>
+                        <h1 className="text-18 font-semibold my-2">{currentInvoiceAccount.email}</h1>
                     ) : (
                         <div className="">
-                            <h1 className="text-2xl font-semibold">{currentInvoiceAccount.googleTokenData?.name}</h1>
+                            <h1 className="text-18 font-semibold">{currentInvoiceAccount.googleTokenData?.name}</h1>
                             <div className="flex items-center gap-2">
-                                <p className="text-16">{currentInvoiceAccount.googleTokenData?.email}</p>
+                                <p className="text-14">{currentInvoiceAccount.googleTokenData?.email}</p>
                                 <InvoiceAccountProviderAvatar invoiceAccount={currentInvoiceAccount} />
                             </div>
                         </div>

@@ -5,6 +5,7 @@ import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {InvoiceAccountProfilePanel} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage/InvoiceAccountProfilePanel';
 import {useCurrentInvoiceAccount} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage/atom';
 import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
+import {InvoiceAccountActionPanel} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage/InvoiceAccountActionPanel';
 
 export const OrgInvoiceAccountShowPage = memo(function OrgInvoiceAccountShowPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -25,6 +26,8 @@ export const OrgInvoiceAccountShowPage = memo(function OrgInvoiceAccountShowPage
                 <div className="flex-auto">
                     <InvoiceAccountProfilePanel />
                 </div>
+
+                <InvoiceAccountActionPanel />
             </header>
 
             <main className="pt-4">
