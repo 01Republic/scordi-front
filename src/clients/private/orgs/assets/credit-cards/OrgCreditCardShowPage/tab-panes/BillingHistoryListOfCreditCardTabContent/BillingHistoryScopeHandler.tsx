@@ -46,6 +46,7 @@ export const BillingHistoryScopeHandler = memo((props: BillingHistoryScopeHandle
                 onClick={() => {
                     setSelected(1);
                     getBillingHistories({
+                        // issuedAt: {op: 'not', val: 'NULL'},
                         paidAt: {op: 'not', val: 'NULL'},
                     });
                 }}
@@ -64,8 +65,8 @@ export const BillingHistoryScopeHandler = memo((props: BillingHistoryScopeHandle
                 onClick={() => {
                     setSelected(3);
                     getBillingHistories({
+                        // issuedAt: {op: 'not', val: 'NULL'},
                         paidAt: 'NULL',
-                        issuedAt: {op: 'not', val: 'NULL'},
                     });
                 }}
             />

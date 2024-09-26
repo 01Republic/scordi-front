@@ -32,7 +32,7 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
         const {exchangedCurrency, dollarPrice, exchangeRate} = payAmount;
 
         return (
-            <div className="flex items-center gap-1 justify-end">
+            <div className={`flex items-center gap-1 justify-end ${billingHistory.paidAt ? '' : 'text-red-400'}`}>
                 <span>{symbol}</span>
                 <span>{Math.round(amount).toLocaleString()}</span>
             </div>
@@ -42,7 +42,13 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
     return (
         <tr className="group text-14" data-id={billingHistory.id}>
             {/*결제일시*/}
-            <td>{billingHistory.paidAt ? yyyy_mm_dd_hh_mm(billingHistory.paidAt) : <span>-</span>}</td>
+            <td>
+                {billingHistory.paidAt ? (
+                    yyyy_mm_dd_hh_mm(billingHistory.paidAt)
+                ) : (
+                    <span className="text-red-400">{yyyy_mm_dd_hh_mm(billingHistory.issuedAt)}</span>
+                )}
+            </td>
 
             {/*내용*/}
             <td>{billingHistory.paymentMethod}</td>

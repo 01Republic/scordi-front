@@ -11,7 +11,8 @@ export const BillingHistoryStatusTagUI = memo((props: BillingHistoryStatusTagUIP
     const {billingHistory} = props;
 
     if (billingHistory.paidAt) return <TagUI className={`bg-green-200`}>결제됨</TagUI>;
+    return <TagUI className={`bg-red-400 text-white`}>실패</TagUI>;
     // return <TagUI className={`bg-red-200`}>실패</TagUI>;
-    return <TagUI className={`bg-gray-200`}>예정</TagUI>;
+    // return <TagUI className={`bg-gray-200`}>예정</TagUI>;
 });
 BillingHistoryStatusTagUI.displayName = 'BillingHistoryStatusTagUI';
