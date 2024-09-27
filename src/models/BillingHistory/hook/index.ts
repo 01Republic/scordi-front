@@ -19,6 +19,7 @@ import {
     billingHistoriesAtom,
     billingHistoryListInSiblingsAtom,
     billingHistoryListOfCreditCardAtom,
+    billingHistoryListOfInvoiceAccountAtom,
     billingHistoryListOfSubscriptionAtom,
     billingHistoryLoadingState,
     getBillingHistoryQuery,
@@ -35,6 +36,10 @@ export const useBillingHistoryListInSiblings = () => useBillingHistories(billing
 
 // 결제수단 상세페이지 / 결제내역
 export const useBillingHistoryListOfCreditCard = () => useBillingHistoriesOfOrg(billingHistoryListOfCreditCardAtom);
+
+// 청구서수신계정 상세페이지 / 결제내역
+export const useBillingHistoryListOfInvoiceAccount = () =>
+    useBillingHistoriesOfOrg(billingHistoryListOfInvoiceAccountAtom);
 
 // [deprecated] useBillingHistoriesOfOrg 로 대체될 예정
 const useBillingHistories = (

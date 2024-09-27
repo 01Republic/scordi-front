@@ -13,6 +13,7 @@ import {Paginated} from '^types/utils/paginated.dto';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {FindAllTeamQueryDto, TeamDto} from '^models/Team/type';
 import {TeamInvoiceAccountDto} from '^models/TeamInvoiceAccount/type/TeamInvoiceAccount.dto';
+import {FindAllSubscriptionsQuery, SubscriptionDto} from '^models/Subscription/types';
 
 const NAMESPACE = 'organizations';
 
@@ -113,6 +114,27 @@ export const invoiceAccountApi = {
         // 팀 연결 해제
         destroy(invoiceAccountId: number, teamId: number) {
             const url = `/invoice-accounts/${invoiceAccountId}/teams/${teamId}`;
+            return api.delete<void>(url);
+        },
+    },
+
+    // [인보이스] 인보이스 계정 > 구독연결 API
+    subscriptionsApi: {
+        // 연결된 구독 목록
+        index(invoiceAccountId: number, params?: FindAllSubscriptionsQuery) {
+            const url = `/invoice_accounts/${invoiceAccountId}/subscriptions`;
+            return api.get(url, {params}).then(paginatedDtoOf(SubscriptionDto));
+        },
+
+        // 구독 연결
+        create(invoiceAccountId: number, subscriptionId: number) {
+            const url = `/invoice_accounts/${invoiceAccountId}/subscriptions/${subscriptionId}`;
+            return api.post(url).then(oneDtoOf(SubscriptionDto));
+        },
+
+        // 구독 연결 해제
+        destroy(invoiceAccountId: number, subscriptionId: number) {
+            const url = `/invoice_accounts/${invoiceAccountId}/subscriptions/${subscriptionId}`;
             return api.delete<void>(url);
         },
     },

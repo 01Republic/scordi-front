@@ -12,6 +12,7 @@ import {appWithTranslation} from 'next-i18next';
 import {ToastContainer, Slide} from 'react-toastify';
 import {Toaster} from 'react-hot-toast';
 import type {Props} from '^types/page';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {SEO} from '^components/SEO';
 import {OnResizeProvider} from '^components/util/onResize2';
 import ExternalCDNScripts from '^components/ExternalCDNScripts';
@@ -22,36 +23,39 @@ function MyApp(props: Props) {
     const getLayout = Component.getLayout ?? ((page) => page);
     const Layout = Component.layout ?? Fragment;
     // accessLog2(props);
+    const queryClient = new QueryClient();
 
     return (
-        <RecoilRoot>
-            <SEO />
-            <OnResizeProvider />
-            <Suspense fallback={<></>}>
-                <Layout>{getLayout(<Component {...pageProps} />)}</Layout>
-            </Suspense>
-            <ToastContainer
-                position="bottom-center"
-                autoClose={3000}
-                limit={1}
-                hideProgressBar
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="dark"
-                transition={Slide}
-            />
-            <div id="dropdown-portal" />
-            <Toaster
-                containerStyle={{bottom: '15vh'}}
-                toastOptions={{position: 'bottom-center', style: {background: '#333', color: '#fff'}}}
-            />
+        <QueryClientProvider client={queryClient}>
+            <RecoilRoot>
+                <SEO />
+                <OnResizeProvider />
+                <Suspense fallback={<></>}>
+                    <Layout>{getLayout(<Component {...pageProps} />)}</Layout>
+                </Suspense>
+                <ToastContainer
+                    position="bottom-center"
+                    autoClose={3000}
+                    limit={1}
+                    hideProgressBar
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="dark"
+                    transition={Slide}
+                />
+                <div id="dropdown-portal" />
+                <Toaster
+                    containerStyle={{bottom: '15vh'}}
+                    toastOptions={{position: 'bottom-center', style: {background: '#333', color: '#fff'}}}
+                />
 
-            <ExternalCDNScripts />
-        </RecoilRoot>
+                <ExternalCDNScripts />
+            </RecoilRoot>
+        </QueryClientProvider>
     );
 }
 

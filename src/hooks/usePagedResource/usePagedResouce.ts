@@ -11,8 +11,10 @@ import {makeAppendPagedItemFn} from './makeAppendPagedItemFn';
 import {makeExceptPagedItemFn} from './makeExceptPagedItemFn';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
-export interface UsePagedResourceOption<DTO, Query> {
-    endpoint: (params: Query, orgId: number) => Promise<AxiosResponse<Paginated<DTO>>>;
+type ApiEndpoint<DTO, Query> = (params: Query, orgId: number) => Promise<AxiosResponse<Paginated<DTO>>>;
+
+export interface UsePagedResourceOption<DTO, Query, ApiRequest = ApiEndpoint<DTO, Query>> {
+    endpoint: ApiRequest;
     buildQuery?: (params: Query, orgId: number) => Query;
     mergeMode?: boolean;
     getId: keyof DTO | ((dto: DTO) => any);
@@ -24,9 +26,9 @@ export interface UsePagedResourceOption<DTO, Query> {
  * 매번 검색하는 훅을 일일이 만드는게 귀찮아서 만듦.
  * 반복해서 구현하는 스펙을 모아서 한 번에 구현.
  */
-export function usePagedResource<DTO, Query>(
+export function usePagedResource<DTO, Query, ApiRequest extends (...args: any) => any = ApiEndpoint<DTO, Query>>(
     atoms: PagedResourceAtoms<DTO, Query>,
-    option: UsePagedResourceOption<DTO, Query>,
+    option: UsePagedResourceOption<DTO, Query, ApiRequest>,
 ) {
     const {resultAtom, queryAtom, isLoadingAtom, isNotLoadedAtom} = atoms;
     const {endpoint, buildQuery = (q) => q, mergeMode: defaultMergeMode = false, getId, useOrgId = true} = option;

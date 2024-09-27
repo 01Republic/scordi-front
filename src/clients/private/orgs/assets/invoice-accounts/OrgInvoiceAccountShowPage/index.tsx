@@ -1,4 +1,4 @@
-import {memo, useState} from 'react';
+import React, {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
@@ -6,6 +6,12 @@ import {InvoiceAccountProfilePanel} from '^clients/private/orgs/assets/invoice-a
 import {useCurrentInvoiceAccount} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage/atom';
 import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
 import {InvoiceAccountActionPanel} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage/InvoiceAccountActionPanel';
+import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
+import {InvoiceAccountInformationPanel} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage/InvoiceAccountInformationPanel';
+import {
+    BillingHistoryListOfInvoiceAccountTabContent,
+    SubscriptionListOfInvoiceAccountTabContent,
+} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage/tab-panes';
 
 export const OrgInvoiceAccountShowPage = memo(function OrgInvoiceAccountShowPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -31,7 +37,30 @@ export const OrgInvoiceAccountShowPage = memo(function OrgInvoiceAccountShowPage
             </header>
 
             <main className="pt-4">
-                <div className="flex items-center justify-between border-b border-gray-300"></div>
+                <div className="flex items-center justify-between border-b border-gray-300">
+                    <MainTabButtons
+                        borderless
+                        activeTabIndex={activeTabIndex}
+                        setActiveTabIndex={setActiveTabIndex}
+                        tabs={['구독', '청구서']}
+                    />
+
+                    {/* right side */}
+                    <div>
+                        <div></div>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-10">
+                    <div className="col-span-7 pr-4">
+                        {activeTabIndex === 0 && <SubscriptionListOfInvoiceAccountTabContent />}
+                        {activeTabIndex === 1 && <BillingHistoryListOfInvoiceAccountTabContent />}
+                    </div>
+
+                    <div className="col-span-3 border-l border-gray-300 text-14">
+                        <InvoiceAccountInformationPanel />
+                    </div>
+                </div>
             </main>
         </ShowPage>
     );

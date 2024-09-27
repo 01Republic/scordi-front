@@ -1,6 +1,8 @@
-import {atom, useRecoilState} from 'recoil';
+import {atom, useRecoilState, useRecoilValue} from 'recoil';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {orgIdParamState} from '^atoms/common';
+import {useEffect, useState} from 'react';
 
 export const invoiceAccountSubjectAtom = atom<InvoiceAccountDto | null>({
     key: 'OrgInvoiceAccountShowPage/invoiceAccountSubjectAtom',
@@ -23,4 +25,31 @@ export const useCurrentInvoiceAccount = () => {
     };
 
     return {currentInvoiceAccount, setCurrentInvoiceAccount, findOne, reload};
+};
+
+export const useCurrentInvoiceAccountEdit = () => {
+    const orgId = useRecoilValue(orgIdParamState);
+    const {currentInvoiceAccount, setCurrentInvoiceAccount} = useCurrentInvoiceAccount();
+    //
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [isLoading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (currentInvoiceAccount && !isEditMode) {
+            // initialize form values
+        }
+    }, [isEditMode]);
+
+    const onSubmit = async () => {
+        if (!currentInvoiceAccount) return;
+    };
+
+    return {
+        currentInvoiceAccount,
+        onSubmit,
+        //
+        isEditMode,
+        setIsEditMode,
+        isLoading,
+    };
 };

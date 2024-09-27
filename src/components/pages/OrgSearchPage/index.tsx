@@ -3,10 +3,10 @@ import {organizationApi} from '^models/Organization/api';
 import {CreateOrganizationRequestDto, OrganizationDto, SearchOrgQueryDto} from '^models/Organization/type';
 import {useForm} from 'react-hook-form';
 import {useRouter} from 'next/router';
-import {OrgAppIndexPageRoute} from '^pages/orgs/[id]/apps';
 import {SearchedOrgResultItem} from './SearchedOrgResultItem';
 import {debounce} from 'lodash';
 import {LoadableBox} from '^components/util/loading';
+import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 
 export const OrgSearchPage = memo(() => {
     // const {currentUser} = useCurrentUser();
@@ -28,11 +28,11 @@ export const OrgSearchPage = memo(() => {
     }, 500);
 
     const createOrg = (data: CreateOrganizationRequestDto) => {
-        data.name.length > 0 &&
-            organizationApi.create(data).then((res) => {
-                const createdOrg = res.data;
-                router.push(OrgAppIndexPageRoute.path(createdOrg.id));
-            });
+        if (data.name.length <= 0) return;
+        organizationApi.create(data).then((res) => {
+            const createdOrg = res.data;
+            router.push(V3OrgHomePageRoute.path(createdOrg.id));
+        });
     };
 
     return (

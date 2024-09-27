@@ -1,30 +1,34 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
+import {useCurrentInvoiceAccount} from '../../atom';
+import {useSubscriptionListOfInvoiceAccount} from '^models/Subscription/hook';
+import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import Tippy from '@tippyjs/react';
 import {MdRefresh} from 'react-icons/md';
 import {FaPlus} from 'react-icons/fa6';
-import Tippy from '@tippyjs/react';
-import {orgIdParamState} from '^atoms/common';
 import {LinkTo} from '^components/util/LinkTo';
-import {useSubscriptionListOfCreditCard} from '^models/Subscription/hook';
-import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
-import {useCurrentCreditCard} from '../../atom';
-import {CreditCardSubscriptionTableHeader} from './CreditCardSubscriptionTableHeader';
-import {CreditCardSubscriptionTableRow} from './CreditCardSubscriptionTableRow';
-import {CreditCardAddSubscriptionModal} from './CreditCardAddSubscriptionModal';
+import {InvoiceAccountSubscriptionTableHeader} from './InvoiceAccountSubscriptionTableHeader';
+import {InvoiceAccountSubscriptionTableRow} from './InvoiceAccountSubscriptionTableRow';
 
-export const SubscriptionListOfCreditCardTabContent = memo(() => {
+export const SubscriptionListOfInvoiceAccountTabContent = memo(function SubscriptionListOfInvoiceAccountTabContent() {
     const orgId = useRecoilValue(orgIdParamState);
-    const {currentCreditCard} = useCurrentCreditCard();
+    const {currentInvoiceAccount} = useCurrentInvoiceAccount();
     const [isAddSubscriptionModalOpened, setAddSubscriptionModalOpened] = useState(false);
     const {isLoading, isEmptyResult, search, result, reload, movePage, changePageSize, orderBy} =
-        useSubscriptionListOfCreditCard();
+        useSubscriptionListOfInvoiceAccount();
 
     const onReady = () => {
-        if (!currentCreditCard) return;
-        search({
-            relations: ['master'],
-            where: {creditCardId: currentCreditCard.id},
+        if (!currentInvoiceAccount) return;
+
+        // search2(currentInvoiceAccount.id, {});
+        search(currentInvoiceAccount.id, {
+            relations: ['master', 'invoiceAccounts'],
+            where: {
+                // @ts-ignore
+                invoiceAccounts: {id: currentInvoiceAccount.id},
+            },
             order: {nextComputedBillingDate: 'DESC', id: 'DESC'},
         });
     };
@@ -38,9 +42,9 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
 
     useEffect(() => {
         onReady();
-    }, [currentCreditCard]);
+    }, [currentInvoiceAccount]);
 
-    if (!currentCreditCard) return <></>;
+    if (!currentInvoiceAccount) return <></>;
 
     const {totalItemCount} = result.pagination;
 
@@ -84,24 +88,13 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
                     <ListTable
                         items={result.items}
                         isLoading={isLoading}
-                        Header={() => <CreditCardSubscriptionTableHeader orderBy={orderBy} />}
-                        Row={({item}) => <CreditCardSubscriptionTableRow subscription={item} reload={reload} />}
+                        Header={() => <InvoiceAccountSubscriptionTableHeader orderBy={orderBy} />}
+                        Row={({item}) => <InvoiceAccountSubscriptionTableRow subscription={item} reload={reload} />}
                     />
                 ) : (
                     <EmptyTable icon={'🔍'} message="연결된 구독이 없어요." Buttons={() => <AddSubscriptionButton />} />
                 )}
             </ListTableContainer>
-
-            <CreditCardAddSubscriptionModal
-                isOpened={isAddSubscriptionModalOpened}
-                onClose={() => setAddSubscriptionModalOpened(false)}
-                onCreate={() => {
-                    setAddSubscriptionModalOpened(false);
-                    reload();
-                }}
-                creditCardId={currentCreditCard.id}
-            />
         </section>
     );
 });
-SubscriptionListOfCreditCardTabContent.displayName = 'SubscriptionListOfCreditCardTabContent';
