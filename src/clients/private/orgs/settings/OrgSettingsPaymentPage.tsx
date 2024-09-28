@@ -25,13 +25,15 @@ export const OrgSettingsPaymentPage = memo(function () {
         const customerKey = currentUser.id.toString();
         const payment = tossPayments.payment({customerKey});
 
-        payment.requestBillingAuth({
-            method: 'CARD',
-            successUrl: window.location.origin + window.location.pathname + '?pms=1',
-            failUrl: window.location.origin + window.location.pathname + '?pms=0',
-            customerEmail: currentUser.email,
-            customerName: currentUser.name,
-        });
+        payment
+            .requestBillingAuth({
+                method: 'CARD',
+                successUrl: window.location.origin + window.location.pathname + '?pms=1',
+                failUrl: window.location.origin + window.location.pathname + '?pms=0',
+                customerEmail: currentUser.email,
+                customerName: currentUser.name,
+            })
+            .catch((e) => toast.error(e.message));
     };
 
     useEffect(() => {
