@@ -7,11 +7,14 @@ import {OrgSettingsLayout} from '^clients/private/_layouts/OrgSettingsLayout';
 import {SelectDropdown} from '^v3/share/Select';
 import {useCurrentOrg} from '^models/Organization/hook';
 import {ChangeOrgInformationModal} from './ChangeOrgInformationModal';
+import {useRouter} from 'next/router';
+import {OrgSettingsPaymentPageRoute} from '^pages/orgs/[id]/settings/payments';
 
 export const OrgSettingsInformationPage = memo(function OrgSettingsInformationPage() {
     const orgId = useRecoilValue(orgIdParamState);
     const {currentOrg} = useCurrentOrg(orgId);
     const [isChangeOrgInformationModalOpened, setIsChangeOrgInformationModalOpened] = useState(false);
+    const router = useRouter();
 
     return (
         <OrgSettingsLayout
@@ -41,10 +44,9 @@ export const OrgSettingsInformationPage = memo(function OrgSettingsInformationPa
                     {title: '멤버', desc: `${currentOrg?.memberCount}명`},
                 ]}
             />
-            {/* TODO: 플랜 정보 추가 */}
             <OrgSettingsListItem
                 title={'결제'}
-                buttonAction={() => null}
+                buttonAction={() => router.push(OrgSettingsPaymentPageRoute.path(orgId))}
                 listItems={[
                     {title: '구독중인 플랜', desc: 'scordi 무료 체험'},
                     {title: '다음 결제일', desc: '-'},
