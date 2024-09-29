@@ -2,23 +2,18 @@ import React, {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
-import {InvoiceAccountProfilePanel} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage/InvoiceAccountProfilePanel';
-import {useCurrentInvoiceAccount} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage/atom';
-import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
-import {InvoiceAccountActionPanel} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage/InvoiceAccountActionPanel';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
-import {InvoiceAccountInformationPanel} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage/InvoiceAccountInformationPanel';
-import {
-    BillingHistoryListOfInvoiceAccountTabContent,
-    SubscriptionListOfInvoiceAccountTabContent,
-} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage/tab-panes';
+import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
+import {useCurrentInvoiceAccount} from './atom';
+import {InvoiceAccountProfilePanel} from './InvoiceAccountProfilePanel';
+import {InvoiceAccountActionPanel} from './InvoiceAccountActionPanel';
+import {InvoiceAccountInformationPanel} from './InvoiceAccountInformationPanel';
+import {BillingHistoryListOfInvoiceAccountTabContent, SubscriptionListOfInvoiceAccountTabContent} from './tab-panes';
 
 export const OrgInvoiceAccountShowPage = memo(function OrgInvoiceAccountShowPage() {
     const orgId = useRecoilValue(orgIdParamState);
     const [activeTabIndex, setActiveTabIndex] = useState(0);
     const {currentInvoiceAccount} = useCurrentInvoiceAccount();
-
-    console.log('currentInvoiceAccount', currentInvoiceAccount);
 
     return (
         <ShowPage

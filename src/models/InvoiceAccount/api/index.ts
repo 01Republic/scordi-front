@@ -126,6 +126,12 @@ export const invoiceAccountApi = {
             return api.get(url, {params}).then(paginatedDtoOf(SubscriptionDto));
         },
 
+        // 연결 가능한 구독 목록
+        addable(invoiceAccountId: number, params?: FindAllSubscriptionsQuery) {
+            const url = `/invoice_accounts/${invoiceAccountId}/subscriptions/addable`;
+            return api.get(url, {params}).then(paginatedDtoOf(SubscriptionDto));
+        },
+
         // 구독 연결
         create(invoiceAccountId: number, subscriptionId: number) {
             const url = `/invoice_accounts/${invoiceAccountId}/subscriptions/${subscriptionId}`;

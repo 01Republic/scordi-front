@@ -11,10 +11,11 @@ import {LinkTo} from '^components/util/LinkTo';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {InvoiceAccountSubscriptionTableHeader} from './InvoiceAccountSubscriptionTableHeader';
 import {InvoiceAccountSubscriptionTableRow} from './InvoiceAccountSubscriptionTableRow';
+import {InvoiceAccountAddSubscriptionModal} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage/tab-panes/SubscriptionListOfInvoiceAccountTabContent/InvoiceAccountAddSubscriptionModal';
 
 export const SubscriptionListOfInvoiceAccountTabContent = memo(function SubscriptionListOfInvoiceAccountTabContent() {
     const orgId = useRecoilValue(orgIdParamState);
-    const {currentInvoiceAccount} = useCurrentInvoiceAccount();
+    const {currentInvoiceAccount, reload: reloadCurrentInvoiceAccount} = useCurrentInvoiceAccount();
     const [isAddSubscriptionModalOpened, setAddSubscriptionModalOpened] = useState(false);
     const {isLoading, isEmptyResult, search, result, reload, movePage, changePageSize, orderBy} =
         useSubscriptionListOfInvoiceAccount();
@@ -22,8 +23,7 @@ export const SubscriptionListOfInvoiceAccountTabContent = memo(function Subscrip
     const onReady = () => {
         if (!currentInvoiceAccount) return;
 
-        // search2(currentInvoiceAccount.id, {});
-        search(currentInvoiceAccount.id, {
+        search({
             relations: ['master', 'invoiceAccounts'],
             where: {
                 // @ts-ignore
@@ -46,6 +46,7 @@ export const SubscriptionListOfInvoiceAccountTabContent = memo(function Subscrip
 
     if (!currentInvoiceAccount) return <></>;
 
+    const refresh = () => Promise.allSettled([reload(), reloadCurrentInvoiceAccount()]);
     const {totalItemCount} = result.pagination;
 
     return (
@@ -89,12 +90,22 @@ export const SubscriptionListOfInvoiceAccountTabContent = memo(function Subscrip
                         items={result.items}
                         isLoading={isLoading}
                         Header={() => <InvoiceAccountSubscriptionTableHeader orderBy={orderBy} />}
-                        Row={({item}) => <InvoiceAccountSubscriptionTableRow subscription={item} reload={reload} />}
+                        Row={({item}) => <InvoiceAccountSubscriptionTableRow subscription={item} reload={refresh} />}
                     />
                 ) : (
                     <EmptyTable icon={'🔍'} message="연결된 구독이 없어요." Buttons={() => <AddSubscriptionButton />} />
                 )}
             </ListTableContainer>
+
+            <InvoiceAccountAddSubscriptionModal
+                isOpened={isAddSubscriptionModalOpened}
+                onClose={() => setAddSubscriptionModalOpened(false)}
+                onCreate={async () => {
+                    setAddSubscriptionModalOpened(false);
+                    await refresh();
+                }}
+                invoiceAccountId={currentInvoiceAccount.id}
+            />
         </section>
     );
 });

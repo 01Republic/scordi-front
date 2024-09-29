@@ -1,16 +1,17 @@
 import React, {memo} from 'react';
+import {toast} from 'react-hot-toast';
+import Tippy from '@tippyjs/react';
+import {BsDashCircle} from 'react-icons/bs';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 import {IsFreeTierTagUI} from '^models/Subscription/components/IsFreeTierTagUI';
 import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
 import {MoneySimpleRounded} from '^models/Money/components/money.simple-rounded';
-import {yyyy_mm_dd} from '^utils/dateTime';
 import {TeamMemberProfileCompact, TeamMemberProfileOption} from '^models/TeamMember/components/TeamMemberProfile';
-import Tippy from '@tippyjs/react';
-import {BsDashCircle} from 'react-icons/bs';
+import {yyyy_mm_dd} from '^utils/dateTime';
 import {confirm2} from '^components/util/dialog';
-import {subscriptionApi} from '^models/Subscription/api';
-import {toast} from 'react-hot-toast';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {useCurrentInvoiceAccount} from '../../atom';
 
 interface InvoiceAccountSubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -19,15 +20,20 @@ interface InvoiceAccountSubscriptionTableRowProps {
 
 export const InvoiceAccountSubscriptionTableRow = memo((props: InvoiceAccountSubscriptionTableRowProps) => {
     const {subscription, reload} = props;
+    const {currentInvoiceAccount} = useCurrentInvoiceAccount();
 
     const disconnect = async () => {
+        if (!currentInvoiceAccount) return;
+        const invoiceAccountId = currentInvoiceAccount.id;
+
         const isConfirmed = await confirm2(
             '이 계정과 연결을 해제할까요?',
             '구독이 삭제되는건 아니니 안심하세요',
             'warning',
         ).then((res) => res.isConfirmed);
         if (!isConfirmed) return;
-        // await subscriptionApi.update(subscription.id, {creditCardId: null});
+
+        await invoiceAccountApi.subscriptionsApi.destroy(invoiceAccountId, subscription.id);
         toast.success('연결을 해제했어요');
         reload();
     };
@@ -93,7 +99,7 @@ export const InvoiceAccountSubscriptionTableRow = memo((props: InvoiceAccountSub
                             onClick={(e) => {
                                 e.stopPropagation();
                                 e.preventDefault();
-                                disconnect();
+                                return disconnect();
                             }}
                         >
                             <BsDashCircle className="" size={24} strokeWidth={0.3} />
