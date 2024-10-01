@@ -8,6 +8,7 @@ import {
 } from '^models/Subscription/types/billingCycleType';
 import {TypeCast} from '^types/utils/class-transformer';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 
 // 인보이스 결제 주기
 export enum BillingType {
@@ -35,8 +36,9 @@ export class InvoiceAppDto {
     @TypeCast(() => Date) updatedAt: Date; // 수정일시
 
     // relations
-    @TypeCast(() => ProductDto) product: ProductDto;
-    @TypeCast(() => BillingHistoryDto) billingHistories: BillingHistoryDto[];
+    @TypeCast(() => InvoiceAccountDto) invoiceAccount?: InvoiceAccountDto;
+    @TypeCast(() => ProductDto) product?: ProductDto;
+    @TypeCast(() => BillingHistoryDto) billingHistories?: BillingHistoryDto[];
 }
 
 // 인보이스 앱에서 결제주기 텍스트 추출

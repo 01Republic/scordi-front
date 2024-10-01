@@ -27,14 +27,14 @@ export const InvoiceAppItem = memo((props: InvoiceAppItemProps) => {
         currentOrg &&
         invoiceAppApi.update(currentOrg.id, invoiceApp.id, form.getValues()).then((res) => window.location.reload());
 
-    const proto = invoiceApp.product;
+    const product = invoiceApp.product;
 
     return (
         <li>
             <div className="flex items-center gap-4 px-6 cursor-default bg-base-100 text-gray-700 border-1 border-b border-b-gray-200">
-                <Avatar src={proto.image} className="w-7" />
+                <Avatar src={product?.image} className="w-7" />
                 <div className="flex-1">
-                    <p className="text-sm">{proto.nameEn}</p>
+                    <p className="text-sm">{product?.nameEn}</p>
                 </div>
                 <div className="flex items-center">
                     <SwitchCheckbox

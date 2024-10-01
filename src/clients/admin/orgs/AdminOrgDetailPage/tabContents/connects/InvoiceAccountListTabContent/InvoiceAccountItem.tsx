@@ -72,10 +72,10 @@ export const InvoiceAppAvatarGroup = memo((props: InvoiceAppAvatarGroupProps) =>
     return (
         <div className={`avatar-group -space-x-4 overflow-visible`}>
             {InvoiceApp.first(avatarMaxDisplay).map((invoiceApp, i) => (
-                <div key={i} className="tooltip cursor-pointer" data-tip={invoiceApp.product.name()}>
+                <div key={i} className="tooltip cursor-pointer" data-tip={invoiceApp.product?.name()}>
                     <div className="avatar">
                         <div className={`w-[${imageSize}]`}>
-                            <img src={invoiceApp.product.image} />
+                            <img src={invoiceApp.product?.image} />
                         </div>
                     </div>
                 </div>

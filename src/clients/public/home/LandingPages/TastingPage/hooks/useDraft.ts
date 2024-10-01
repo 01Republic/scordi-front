@@ -57,7 +57,7 @@ export const useDraft = () => {
             .catch(() => alert(t('something_went_to_wrong')));
 
         if (draftAccount) {
-            const billingHistories = (draftAccount.invoiceApps || []).map((app) => app.billingHistories).flat();
+            const billingHistories = (draftAccount.invoiceApps || []).map((app) => app.billingHistories || []).flat();
 
             appendDraftAccount(draftAccount);
             appendBillingHistories(billingHistories);
@@ -122,12 +122,12 @@ function mergeInvoiceApps(oldApps: InvoiceAppDto[], newApps: InvoiceAppDto[]): I
     const oldMergedApps = oldFoundApps.map((oldApp) => {
         const newApp = newApps.find((newApp) => newApp.productId === oldApp.productId);
         if (!newApp) return {...oldApp};
-        const billingHistories = mergeBillingHistories(oldApp.billingHistories, newApp.billingHistories);
+        const billingHistories = mergeBillingHistories(oldApp.billingHistories || [], newApp.billingHistories || []);
         return {...oldApp, billingHistories};
     });
 
     const newMergedApps = newFoundApps.map((newApp) => {
-        const billingHistories = mergeBillingHistories([], newApp.billingHistories);
+        const billingHistories = mergeBillingHistories([], newApp.billingHistories || []);
         return {...newApp, billingHistories};
     });
 

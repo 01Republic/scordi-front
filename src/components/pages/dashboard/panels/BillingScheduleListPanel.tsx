@@ -21,7 +21,7 @@ export const BillingScheduleListPanel = memo(() => {
                     billingHistories.map((history, i) => (
                         <BillingScheduleItem
                             key={i}
-                            product={history.subscription ? history.subscription.product : history.invoiceApp!.product}
+                            product={history.subscription ? history.subscription.product : history.invoiceApp!.product!}
                             date={new Date(history.paidAt!)}
                             payAmount={history.payAmount?.amount || 0}
                             isPaid={!!history.paidAt}
