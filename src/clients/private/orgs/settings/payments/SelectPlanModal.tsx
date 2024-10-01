@@ -1,17 +1,31 @@
 import React, {memo, ReactElement} from 'react';
 import {IoClose} from '@react-icons/all-files/io5/IoClose';
+import {confirm2} from '^components/util/dialog';
+import {creditCardApi} from '^models/CreditCard/api';
+import {toast} from 'react-hot-toast';
 
 interface SelectPlanModalProps {
     isOpened: boolean;
     onClose: () => void;
+    currentPlan: string;
 }
 
 export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanModalProps) {
-    const {isOpened, onClose} = props;
+    const {isOpened, onClose, currentPlan = 'basic'} = props;
 
     const planCardStyle = 'flex-1 border rounded-xl p-4 space-y-4 w-72';
     const planTopStyle = 'h-28 flex flex-col justify-between border-b pb-4';
     const planBottomStyle = 'h-72 flex flex-col justify-between';
+
+    const changePlan = (plan: string) => {
+        if (plan === currentPlan) return;
+        confirm2(`플랜 변경`, `구독중인 플랜을 변경할까요?`, 'warning').then((res) => {
+            if (res.isConfirmed) {
+                console.log('change plan to', plan);
+                toast.success('플랜 변경이 완료되었습니다');
+            }
+        });
+    };
 
     return (
         <div
@@ -44,7 +58,9 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
                                 ))}
                             </div>
                             <div>
-                                <button className="btn btn-gray-200 w-full">현재플랜</button>
+                                <button className="btn btn-gray-200 w-full" disabled={true}>
+                                    현재플랜
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -70,7 +86,9 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
                                 ))}
                             </div>
                             <div>
-                                <button className="btn btn-scordi-500 w-full">구독하기</button>
+                                <button className="btn btn-scordi-500 w-full" onClick={() => changePlan('supporter')}>
+                                    구독하기
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -89,7 +107,12 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
                                 ))}
                             </div>
                             <div>
-                                <button className="btn btn-gray-600 w-full">상담받기</button>
+                                <button
+                                    className="btn btn-gray-600 w-full"
+                                    onClick={() => window.open('https://scordi.channel.io/home')}
+                                >
+                                    상담받기
+                                </button>
                             </div>
                         </div>
                     </div>
