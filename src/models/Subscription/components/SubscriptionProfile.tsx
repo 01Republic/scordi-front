@@ -2,13 +2,14 @@ import React, {memo} from 'react';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {Avatar} from '^components/Avatar';
 import {FaQuestion} from 'react-icons/fa6';
+import {WithChildren} from '^types/global.type';
 
-interface SubscriptionProfileProps {
+interface SubscriptionProfileProps extends WithChildren {
     subscription: SubscriptionDto;
 }
 
 export const SubscriptionProfile = memo((props: SubscriptionProfileProps) => {
-    const {subscription} = props;
+    const {subscription, children} = props;
     const {product} = subscription;
 
     return (
@@ -17,9 +18,13 @@ export const SubscriptionProfile = memo((props: SubscriptionProfileProps) => {
                 <FaQuestion size={24} className="text-gray-300 h-full w-full p-[6px]" />
             </Avatar>
             <div className="h-full group-hover:text-scordi transition-all w-full overflow-x-hidden">
-                <p className="truncate text-sm">
-                    {product.name()} {subscription.alias ? `- ${subscription.alias}` : ''}
-                </p>
+                {children ? (
+                    children
+                ) : (
+                    <p className="truncate text-sm">
+                        {product.name()} {subscription.alias ? `- ${subscription.alias}` : ''}
+                    </p>
+                )}
             </div>
         </div>
     );

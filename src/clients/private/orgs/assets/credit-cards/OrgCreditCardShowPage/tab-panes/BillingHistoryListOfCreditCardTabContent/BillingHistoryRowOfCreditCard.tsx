@@ -16,9 +16,8 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
     const {item: billingHistory, onSaved} = props;
 
     const update = async (dto: UpdateBillingHistoryRequestDtoV2) => {
-        const {id, organizationId: orgId} = billingHistory;
         return billingHistoryApi
-            .updateV2(id, dto)
+            .updateV2(billingHistory.id, dto)
             .then(() => toast.success('수정했습니다'))
             .catch(() => toast.success('문제가 발생했습니다'))
             .finally(() => onSaved && onSaved());

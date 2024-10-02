@@ -46,16 +46,18 @@ export const OrgInvoiceAccountShowPage = memo(function OrgInvoiceAccountShowPage
                     </div>
                 </div>
 
-                <div className="grid grid-cols-10">
-                    <div className="col-span-7 pr-4">
-                        {activeTabIndex === 0 && <SubscriptionListOfInvoiceAccountTabContent />}
-                        {activeTabIndex === 1 && <BillingHistoryListOfInvoiceAccountTabContent />}
-                    </div>
+                {activeTabIndex === 0 && (
+                    <div className="grid grid-cols-10">
+                        <div className="col-span-7 pr-4">
+                            <SubscriptionListOfInvoiceAccountTabContent />
+                        </div>
 
-                    <div className="col-span-3 border-l border-gray-300 text-14">
-                        <InvoiceAccountInformationPanel />
+                        <div className="col-span-3 border-l border-gray-300 text-14">
+                            <InvoiceAccountInformationPanel />
+                        </div>
                     </div>
-                </div>
+                )}
+                {activeTabIndex === 1 && <BillingHistoryListOfInvoiceAccountTabContent />}
             </main>
         </ShowPage>
     );
