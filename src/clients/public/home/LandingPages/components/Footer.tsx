@@ -28,7 +28,7 @@ export const BetaServiceFooter2 = memo(() => {
             <div>
                 <p className="footer-title">
                     상호: (주) 제로원리퍼블릭 <br />
-                    대표자: 김용현 <br />
+                    대표자: 김용현, 김규리 <br />
                     주소: 서울특별시 강남구 영동대로85길 34, 9층 907호 <br />
                     전화번호: 010-2482-4541 <br />
                     사업자등록번호: 227-86-02683 <br />
