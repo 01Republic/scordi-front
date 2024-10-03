@@ -1,28 +1,18 @@
 import React, {memo} from 'react';
-import {TeamMemberDto} from '^models/TeamMember';
-import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
-import {TeamSelect} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamSelect';
-import {TeamMemberStatusDropdown} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown';
-import {OrgTeamMemberShowPageRoute} from '^pages/orgs/[id]/teamMembers/[teamMemberId]';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
-import {TeamMemberRole} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberRole';
-import {InvoiceAccountDto, UpdateInvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {UpdateInvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {TeamInvoiceAccountDto} from '^models/TeamInvoiceAccount/type';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
-import {Avatar} from '^components/Avatar';
-import {FaTrash} from '@react-icons/all-files/fa/FaTrash';
 import Tippy from '@tippyjs/react';
 import {FiMinusCircle} from '^components/react-icons';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {toast} from 'react-hot-toast';
 import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[invoiceAccountId]';
-import {creditCardApi} from '^models/CreditCard/api';
 import {teamInvoiceAccountApi} from '^models/TeamInvoiceAccount/api';
 import {confirm2} from '^components/util/dialog';
-import {teamMembershipApi} from '^models/TeamMembership/api';
 
 interface InvoicesTableRowProps {
     item: TeamInvoiceAccountDto;
@@ -38,9 +28,9 @@ export const InvoicesTableRow = memo((props: InvoicesTableRowProps) => {
 
     const update = async (dto: UpdateInvoiceAccountDto) => {
         return invoiceAccountApi
-            .updateV3(orgId, item.id, dto)
+            .updateV3(orgId, item.invoiceAccountId, dto)
             .then(() => toast.success('수정했습니다'))
-            .catch(() => toast.error('문제가 발생했습니다'))
+            .catch((e) => toast.error(e.response.data.message))
             .finally(() => reload && reload());
     };
 
