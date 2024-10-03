@@ -1,12 +1,10 @@
 import {memo} from 'react';
 import {TeamDto} from '^models/Team/type';
-import Tippy from '@tippyjs/react';
 import Image from 'next/image';
 import PushPin from '/src/images/pushpin.png';
 import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {TeamMembersPageRoute} from '^pages/orgs/[id]/teams/[teamId]/members';
 import {TeamDetailPageRoute} from '^pages/orgs/[id]/teams/[teamId]';
 
 interface TeamListItemProps {
