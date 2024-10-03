@@ -25,7 +25,7 @@ export const TeamPaymentsListPage = memo(function TeamPaymentsListPage() {
     }, [teamId]);
 
     return (
-        <TeamDetailLayout>
+        <>
             <div className={'flex items-center justify-between pb-4'}>
                 <div>
                     전체 <span className={'text-scordi-500'}>{result.pagination.totalItemCount}</span>
@@ -69,6 +69,6 @@ export const TeamPaymentsListPage = memo(function TeamPaymentsListPage() {
                     setIsOpened(false);
                 }}
             />
-        </TeamDetailLayout>
+        </>
     );
 });
