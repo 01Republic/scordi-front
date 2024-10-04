@@ -1,21 +1,18 @@
+import {memo} from 'react';
+import {WithChildren} from '^types/global.type';
 import {LandingPageNavBar} from '^components/lab/landing-page-components';
-import React, {memo} from 'react';
-import {ErrorFooter} from './ErrorFooter';
-import {useOrganization} from '^models/Organization/hook';
-import {ErrorTopbar} from './ErrorTopbar';
+import {BetaServiceFooter} from '^clients/public/home/LandingPages/components';
 
-interface ErrorlayoutProps {
-    children: React.ReactNode;
-}
+interface ErrorlayoutProps extends WithChildren {}
 
-export const Errorlayout = memo(({children}: ErrorlayoutProps) => {
-    const org = useOrganization();
+export const ErrorLayout = memo((props: ErrorlayoutProps) => {
+    const {children} = props;
+
     return (
         <div className="relative min-h-screen flex flex-col">
             <LandingPageNavBar />
-
-            <div className="flex-grow flex items-center justify-center">{children}</div>
-            <ErrorFooter />
+            <div className="flex-grow flex items-center justify-center py-12">{children}</div>
+            <BetaServiceFooter />
         </div>
     );
 });
