@@ -1,16 +1,11 @@
-import {TeamDetailLayout} from '^clients/private/orgs/team/teams/TeamDetailPage/TeamDetailLayout';
 import React, {memo, useEffect, useState} from 'react';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
-import {TeamMemberTableHeader} from '^clients/private/orgs/team/team-members/OrgTeamMemberListPage/TeamMemberTableHeader';
-import {TeamMemberTableRow} from '^clients/private/orgs/team/team-members/OrgTeamMemberListPage/TeamMemberTableRow';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {useTeamMembersInTeamMembersTable} from '^models/TeamMember';
 import {useRecoilValue} from 'recoil';
 import {teamIdParamState} from '^atoms/common';
 import {TeamMembersTableRow} from '^clients/private/orgs/team/teams/TeamDetailPage/Members/TeamMembersTableRow';
 import {TeamMembersTableHeader} from '^clients/private/orgs/team/teams/TeamDetailPage/Members/TeamMembersTableHeader';
 import {useTeamMembershipListInTeamDetail} from '^models/TeamMembership/hook';
-import {useTeamCreditCardListInTeamDetail} from '^models/TeamCreditCard/hook';
 import {AddMemberModal} from '^clients/private/orgs/team/teams/TeamDetailPage/Members/AddMemberModal';
 import {FaPlus} from 'react-icons/fa6';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
@@ -34,7 +29,7 @@ export const TeamMembersListPage = memo(function TeamMembersListPage() {
     };
 
     return (
-        <TeamDetailLayout>
+        <>
             <div className={'flex items-center justify-between pb-4'}>
                 <div>
                     전체 <span className={'text-scordi-500'}>{result.pagination.totalItemCount}</span>
@@ -79,6 +74,6 @@ export const TeamMembersListPage = memo(function TeamMembersListPage() {
                     setIsOpened(false);
                 }}
             />
-        </TeamDetailLayout>
+        </>
     );
 });

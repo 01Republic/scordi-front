@@ -1,15 +1,15 @@
 // billing schedule / billing history에서 모두 사용되는 types
 
-export type StartEndParams = {
+export class StartEndParams {
     startDate?: string;
     endDate?: string;
-};
+}
 
-export type FromToQueryDto = {
+export class FromToQueryDto {
     from: Date; // 기간 시작일
     to: Date; // 기간 종료일
-};
+}
 
-export type IsActiveSubsParams = {
+export class IsActiveSubsParams {
     isActiveSubscription?: boolean; // 동기화된 구독만
-};
+}

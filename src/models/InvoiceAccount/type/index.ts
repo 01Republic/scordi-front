@@ -39,6 +39,13 @@ export class InvoiceAccountDto {
     @TypeCast(() => TeamMemberDto) holdingMember?: TeamMemberDto; // 담당자
     @TypeCast(() => TeamDto) teams?: TeamDto[]; // 사용 중인 팀
 
+    get title() {
+        const auth = this.googleTokenData;
+        if (auth) return `${auth.email} (${auth.name})`;
+
+        return this.email;
+    }
+
     get isManuallyCreated() {
         return !this.googleTokenDataId && !this.image;
     }

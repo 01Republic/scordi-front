@@ -1,10 +1,10 @@
 import {useRouter} from 'next/router';
 import React, {memo, useEffect, useState} from 'react';
-import {toast} from 'react-toastify';
 import {useCurrentUser} from '^models/User/hook';
 import {ApprovalStatus, MembershipDto, MembershipLevel, UpdateMembershipRequestDto} from 'src/models/Membership/types';
 import {errorNotify} from '^utils/toast-notify';
 import {membershipApi} from '^models/Membership/api';
+import {toast} from 'react-hot-toast';
 
 interface MemberProps {
     memberShip: MembershipDto;

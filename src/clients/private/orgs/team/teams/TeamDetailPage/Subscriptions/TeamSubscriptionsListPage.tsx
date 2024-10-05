@@ -1,12 +1,9 @@
 import React, {memo, useEffect} from 'react';
-import {TeamDetailLayout} from '^clients/private/orgs/team/teams/TeamDetailPage/TeamDetailLayout';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 import {useRecoilValue} from 'recoil';
 import {teamIdParamState} from '^atoms/common';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {SubscriptionTableRow} from '^clients/private/orgs/team/teams/TeamDetailPage/Subscriptions/TeamSubscriptionTableRow';
-
-import {useSubscriptionsInTeamMemberShowPage, useSubscriptionsV2} from '^models/Subscription/hook';
 import {SubscriptionTableHeader} from '^clients/private/orgs/team/teams/TeamDetailPage/Subscriptions/TeamSubscriptionTableHeader';
 import {useTeamsSubscriptionForDetailPage} from '^models/Team/hook';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
@@ -24,7 +21,7 @@ export const TeamSubscriptionsListPage = memo(function TeamSubscriptionsListPage
     }, [teamId]);
 
     return (
-        <TeamDetailLayout>
+        <>
             <div className={'flex items-center justify-between pb-4'}>
                 <div>
                     전체 <span className={'text-scordi-500'}>{result.pagination.totalItemCount}</span>
@@ -51,6 +48,6 @@ export const TeamSubscriptionsListPage = memo(function TeamSubscriptionsListPage
             ) : (
                 <EmptyTable icon={'🔍'} message="등록된 구독이 없어요." />
             )}
-        </TeamDetailLayout>
+        </>
     );
 });

@@ -8,7 +8,7 @@ import {teamCreditCardApi} from '^models/TeamCreditCard/api';
 import {CreditCardProfileOption2} from '^models/CreditCard/hook/components/CreditCardProfile';
 import {TeamCreditCardDto} from '^models/TeamCreditCard/type';
 import {BsCheckCircle, BsCheckCircleFill} from 'react-icons/bs';
-import {toast} from 'react-toastify';
+import {toast} from 'react-hot-toast';
 
 interface AddPaymentModalProps extends ModalProps {
     preItems?: TeamCreditCardDto[];

@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {AxiosResponse} from 'axios';
 import Qs from 'qs';
@@ -11,12 +11,24 @@ import {makeAppendPagedItemFn} from './makeAppendPagedItemFn';
 import {makeExceptPagedItemFn} from './makeExceptPagedItemFn';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
-export interface UsePagedResourceOption<DTO, Query> {
-    endpoint: (params: Query, orgId: number) => Promise<AxiosResponse<Paginated<DTO>>>;
+type ApiEndpoint<DTO, Query> = (params: Query, orgId: number) => Promise<AxiosResponse<Paginated<DTO>>>;
+
+// export interface UsePagedResourceOption<DTO, Query, ApiRequest = ApiEndpoint<DTO, Query>> {
+//     endpoint: ApiRequest;
+//     buildQuery?: (params: Query, orgId: number) => Query;
+//     mergeMode?: boolean;
+//     getId: keyof DTO | ((dto: DTO) => any);
+//     useOrgId?: boolean;
+//     dependencies?: any[];
+// }
+
+export interface UsePagedResourceOption<DTO, Query, Dep extends any[]> {
+    endpoint: (params: Query, orgId: number, dep: Dep) => Promise<AxiosResponse<Paginated<DTO>>>;
     buildQuery?: (params: Query, orgId: number) => Query;
     mergeMode?: boolean;
     getId: keyof DTO | ((dto: DTO) => any);
     useOrgId?: boolean;
+    dependencies?: Dep;
 }
 
 /**
@@ -24,12 +36,19 @@ export interface UsePagedResourceOption<DTO, Query> {
  * 매번 검색하는 훅을 일일이 만드는게 귀찮아서 만듦.
  * 반복해서 구현하는 스펙을 모아서 한 번에 구현.
  */
-export function usePagedResource<DTO, Query>(
+export function usePagedResource<DTO, Query, Dep extends any[] = []>(
     atoms: PagedResourceAtoms<DTO, Query>,
-    option: UsePagedResourceOption<DTO, Query>,
+    option: UsePagedResourceOption<DTO, Query, Dep>,
 ) {
     const {resultAtom, queryAtom, isLoadingAtom, isNotLoadedAtom} = atoms;
-    const {endpoint, buildQuery = (q) => q, mergeMode: defaultMergeMode = false, getId, useOrgId = true} = option;
+    const {
+        endpoint,
+        buildQuery = (q) => q,
+        mergeMode: defaultMergeMode = false,
+        getId,
+        useOrgId = true,
+        dependencies = [] as unknown as Dep,
+    } = option;
 
     const orgId = useOrgId ? useRecoilValue(orgIdParamState) : NaN;
     const {value: result, setValue: setResult, resetValue: resetResult} = useRecoilStates(resultAtom);
@@ -57,20 +76,23 @@ export function usePagedResource<DTO, Query>(
         });
     }
 
-    async function search(params: Query, mergeMode = defaultMergeMode, force = false) {
-        if (useOrgId) {
-            if (!orgId || isNaN(orgId)) return;
-        }
-        params = buildQuery(params, orgId);
-        const request = () => {
-            __setIsLoading(true);
-            return endpoint(params, orgId).finally(() => {
-                setIsNotLoaded(false);
-                setTimeout(() => __setIsLoading(false), 200);
-            });
-        };
-        return cachePagedQuery(setResult, setQuery, params, request, mergeMode, force);
-    }
+    const search = useCallback(
+        async (params: Query, mergeMode = defaultMergeMode, force = false) => {
+            if (useOrgId) {
+                if (!orgId || isNaN(orgId)) return;
+            }
+            params = buildQuery(params, orgId);
+            const request = () => {
+                __setIsLoading(true);
+                return endpoint(params, orgId, dependencies).finally(() => {
+                    setIsNotLoaded(false);
+                    setTimeout(() => __setIsLoading(false), 200);
+                });
+            };
+            return cachePagedQuery(setResult, setQuery, params, request, mergeMode, force);
+        },
+        [orgId, ...dependencies],
+    );
 
     async function orderBy(sortKey: string, value: 'ASC' | 'DESC') {
         if (!query) return;

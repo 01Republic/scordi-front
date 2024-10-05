@@ -1,17 +1,26 @@
-import {useRecoilState} from 'recoil';
+import {RecoilState, useRecoilState, useRecoilValue} from 'recoil';
 import {FindAllSubscriptionsQuery, SubscriptionDto} from 'src/models/Subscription/types';
 import {makePaginatedListHookWithAtoms} from '^hooks/util/makePaginatedListHook';
 import {subscriptionApi} from '^models/Subscription/api';
-import {usePagedResource, PagedResourceAtoms} from '^hooks/usePagedResource';
+import {usePagedResource, PagedResourceAtoms, cachePagedQuery, UsePagedResourceOption} from '^hooks/usePagedResource';
 import {
+    addableSubscriptionsOfCreditCardAtom,
+    addableSubscriptionsOfInvoiceAccountAtom,
     dashboardSubscriptionSearchResultAtom,
     getCurrentSubscriptionQuery,
     subscriptionListAtom,
     subscriptionListOfCreditCardAtom,
+    subscriptionListOfInvoiceAccountAtom,
     subscriptionsForSummaryState,
     subscriptionsInTeamMemberShowModalAtom,
     subscriptionTableListAtom,
 } from '^models/Subscription/atom';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {useQuery} from '@tanstack/react-query';
+import {useState} from 'react';
+import {invoiceAccountIdParamState} from '^atoms/common';
+import {Paginated} from '^types/utils/paginated.dto';
+import {AxiosResponse} from 'axios';
 
 export const useSubscriptionsV2 = () => useSubscriptions(subscriptionListAtom);
 
@@ -37,6 +46,27 @@ export const useSubscriptionsInTeamMemberShowPage = () => useSubscriptions(subsc
 // 카드 상세 페이지 > 구독 테이블
 export const useSubscriptionListOfCreditCard = () => useSubscriptions(subscriptionListOfCreditCardAtom);
 
+// 카드 상세 페이지 > 구독 연결 모달
+export const useAddableSubscriptionsOfCreditCard = () => useSubscriptions(addableSubscriptionsOfCreditCardAtom);
+
+// 청구서수신계정 상세 페이지 > 구독 테이블
+export const useSubscriptionListOfInvoiceAccount = () => {
+    return useInvoiceAccountSubscriptions(
+        invoiceAccountIdParamState,
+        subscriptionListOfInvoiceAccountAtom,
+        invoiceAccountApi.subscriptionsApi.index,
+    );
+};
+
+// 청구서수신계정 상세 페이지 > 구독 연결 모달
+export const useAddableSubscriptionsOfInvoiceAccount = () => {
+    return useInvoiceAccountSubscriptions(
+        invoiceAccountIdParamState,
+        addableSubscriptionsOfInvoiceAccountAtom,
+        invoiceAccountApi.subscriptionsApi.addable,
+    );
+};
+
 const useSubscriptions = (atoms: PagedResourceAtoms<SubscriptionDto, FindAllSubscriptionsQuery>, mergeMode = false) => {
     return usePagedResource(atoms, {
         endpoint: (params) => subscriptionApi.index(params),
@@ -49,6 +79,37 @@ const useSubscriptions = (atoms: PagedResourceAtoms<SubscriptionDto, FindAllSubs
         getId: 'id',
     });
 };
+
+const useInvoiceAccountSubscriptions = (
+    invoiceAccountIdAtom: RecoilState<number>,
+    atoms: PagedResourceAtoms<SubscriptionDto, FindAllSubscriptionsQuery>,
+    endpoint: (
+        invoiceAccountId: number,
+        params: FindAllSubscriptionsQuery,
+    ) => Promise<AxiosResponse<Paginated<SubscriptionDto>>>,
+    mergeMode = false,
+) => {
+    const invoiceAccountId = useRecoilValue(invoiceAccountIdAtom);
+
+    return usePagedResource(atoms, {
+        endpoint: (params) => endpoint(invoiceAccountId, params),
+        useOrgId: true,
+        buildQuery: (params, orgId) => {
+            params.where = {organizationId: orgId, ...params.where};
+            return params;
+        },
+        mergeMode,
+        getId: 'id',
+        dependencies: [invoiceAccountId],
+    });
+};
+
+// const useInvoiceAccountSubscriptions = () => {
+//     return useQuery({
+//         queryKey: ['useInvoiceAccountSubscriptions'],
+//         queryFn: () => invoiceAccountApi.subscriptionsApi.index(),
+//     });
+// };
 
 // export const useSubscription = () => {
 //     const router = useRouter();

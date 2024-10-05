@@ -6,10 +6,10 @@ export const MoneySimpleRounded = ({money}: {money?: MoneyDto}) => {
     if (!money) return <></>;
 
     return (
-        <TagUI className="!text-14">
+        <div className="text-14 flex justify-end gap-1">
             <small>{money.symbol}</small>
             {money.roundedAmount.toLocaleString()}
             {/*{money.text}*/}
-        </TagUI>
+        </div>
     );
 };

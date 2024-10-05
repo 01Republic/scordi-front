@@ -41,6 +41,7 @@ export class SubscriptionDto {
     @TypeCast(() => Date) registeredAt?: Date | null; // 사용 시작일
     nextBillingDate: string | null; // 다음결제일
     nextBillingAmount: number; // 결제예정금액
+    nextComputedBillingDate: string | null; // 다음결제일 (최종 계산결과)
     @TypeCast(() => MoneyDto) currentBillingAmount: MoneyDto | null; // 현재 결제 금액
     @TypeCast(() => Date) lastPaidAt: Date | null; // 최신 결제일
     isPerUser: boolean; // 인당 과금 여부
@@ -111,6 +112,7 @@ export class SubscriptionDto {
         return t_BillingCycleTerm(cycleTerm, standalone, locale) || '';
     }
 
+    // nextComputedBillingDate 속성과 다른 점은, 임의의 특정 결제일을 입력으로 받아 상대적인 차기 결제일을 반환합니다.
     getNextPayDate(lastPaidAt?: Date | null) {
         // 프리티어인지 확인하고, 프리티어라면 무료플랜으로 응답한다.
         if (this.isFreeTier) return null;

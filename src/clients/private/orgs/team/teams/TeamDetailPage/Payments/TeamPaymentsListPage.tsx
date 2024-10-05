@@ -1,4 +1,3 @@
-import {TeamDetailLayout} from '^clients/private/orgs/team/teams/TeamDetailPage/TeamDetailLayout';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 import React, {memo, useEffect, useState} from 'react';
 import {useTeamCreditCardListInTeamDetail} from '^models/TeamCreditCard/hook';
@@ -25,7 +24,7 @@ export const TeamPaymentsListPage = memo(function TeamPaymentsListPage() {
     }, [teamId]);
 
     return (
-        <TeamDetailLayout>
+        <>
             <div className={'flex items-center justify-between pb-4'}>
                 <div>
                     전체 <span className={'text-scordi-500'}>{result.pagination.totalItemCount}</span>
@@ -69,6 +68,6 @@ export const TeamPaymentsListPage = memo(function TeamPaymentsListPage() {
                     setIsOpened(false);
                 }}
             />
-        </TeamDetailLayout>
+        </>
     );
 });

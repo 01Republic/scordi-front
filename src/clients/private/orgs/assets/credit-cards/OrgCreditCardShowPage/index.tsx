@@ -7,7 +7,7 @@ import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
 import {CreditCardProfilePanel} from './CreditCardProfilePanel';
 import {CreditCardActionPanel} from './CreditCardActionPanel';
 import {CardInformationPanel} from './CardInformationPanel';
-import {SubscriptionListOfCreditCardTabContent} from './tab-panes';
+import {SubscriptionListOfCreditCardTabContent, BillingHistoryListOfCreditCardTabContent} from './tab-panes';
 
 export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -44,17 +44,19 @@ export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-10">
-                    <div className="col-span-7 pr-4">
-                        {activeTabIndex == 0 && <SubscriptionListOfCreditCardTabContent />}
-                        {activeTabIndex == 1 && <div>결제</div>}
-                        {/*{activeTabIndex == 2 && <div>동기화</div>}*/}
-                    </div>
+                {activeTabIndex == 0 && (
+                    <div className="grid grid-cols-10">
+                        <div className="col-span-7 pr-4">
+                            <SubscriptionListOfCreditCardTabContent />
+                        </div>
 
-                    <div className="col-span-3 border-l border-gray-300 text-14">
-                        <CardInformationPanel />
+                        <div className="col-span-3 border-l border-gray-300 text-14">
+                            <CardInformationPanel />
+                        </div>
                     </div>
-                </div>
+                )}
+                {activeTabIndex == 1 && <BillingHistoryListOfCreditCardTabContent />}
+                {/*{activeTabIndex == 2 && <div>동기화</div>}*/}
             </main>
         </ShowPage>
     );

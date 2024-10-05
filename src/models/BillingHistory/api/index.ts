@@ -5,17 +5,23 @@ import {
     BillingHistoryDto,
     CreateBillingHistoryRequestDto,
     CreateBillingHistoryStandAloneRequestDto,
+    FindAllBillingHistoriesQueryDto,
     GetBillingHistoriesParams,
     UpdateBillingHistoryRequestDto,
-    UpdateBillingHistoryRequestDtoV2,
 } from '^models/BillingHistory/type';
-import {UpdateBillingHistoryRequestDtoV3} from '^models/BillingHistory/type/update-billing-history.request.dto.v2';
+import {UpdateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type/update-billing-history.request.dto.v2';
 
 const NAMESPACE = 'billing_histories';
 
 export const billingHistoryApi = {
     index: (params: GetBillingHistoriesParams) => {
         const url = `/${NAMESPACE}`;
+        return api.get<Paginated<BillingHistoryDto>>(url, {params}).then(paginatedDtoOf(BillingHistoryDto));
+    },
+
+    // 조직 내의 결제내역 조회 (상기 index 메소드를 대체하려고 만듦)
+    indexOfOrg: (orgId: number, params: FindAllBillingHistoriesQueryDto) => {
+        const url = `/organizations/${orgId}/billing_histories`;
         return api.get<Paginated<BillingHistoryDto>>(url, {params}).then(paginatedDtoOf(BillingHistoryDto));
     },
 
@@ -28,12 +34,13 @@ export const billingHistoryApi = {
         return api.post<BillingHistoryDto>(`/${NAMESPACE}`, dto).then(oneDtoOf(BillingHistoryDto));
     },
 
+    // DEPRECATED => updateV2
     update: (id: number, dto: UpdateBillingHistoryRequestDto) => {
         const url = `/${NAMESPACE}/${id}`;
         return api.patch<BillingHistoryDto>(url, dto).then(oneDtoOf(BillingHistoryDto));
     },
-    //updateDtoV2에서 paidAt이 string인 것 때문에 생성
-    updateV3: (id: number, dto: UpdateBillingHistoryRequestDtoV3) => {
+
+    updateV2: (id: number, dto: UpdateBillingHistoryRequestDtoV2) => {
         const url = `/${NAMESPACE}/v2/${id}`;
         return api.patch<BillingHistoryDto>(url, dto).then(oneDtoOf(BillingHistoryDto));
     },

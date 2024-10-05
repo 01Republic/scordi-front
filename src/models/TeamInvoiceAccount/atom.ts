@@ -8,3 +8,11 @@ export const teamInvoiceAccountListInTeamDetailAtom = pagedResourceAtom<
 >({
     key: 'teamInvoiceAccountListInTeamDetailAtom',
 });
+
+// 인보이스 계정 상세 페이지 / 연결된 팀 태그 리스트
+export const teamTagListInInvoiceAccountDetailAtom = pagedResourceAtom<
+    TeamInvoiceAccountDto,
+    FindAllTeamInvoiceAccountQueryDto
+>({
+    key: 'teamTagListInInvoiceAccountDetailAtom',
+});

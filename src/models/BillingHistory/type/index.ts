@@ -1,5 +1,5 @@
 import {TypeCast} from '^types/utils/class-transformer';
-import {CreateMoneyRequestDto, CurrencyCode, CurrencyList, MoneyDto} from '^models/Money';
+import {CreateMoneyRequestDto, CurrencyCode, MoneyDto} from '^models/Money';
 import {OrganizationDto} from '^models/Organization/type';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {InvoiceAppDto} from '^models/InvoiceApp/type';
@@ -8,6 +8,7 @@ import {GmailParsedItem} from '^api/tasting.api';
 import {BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {IsActiveSubsParams, StartEndParams} from '^types/billing.type';
+import {PartialType} from '^types/utils/partial-type';
 
 export * from './create-billing-history.request.dto.v2';
 
@@ -124,33 +125,29 @@ export enum BillingHistoryStatus {
     PayFail = 'PayFail', // 결제 실패
 }
 
+// DEPRECATED => CreateBillingHistoryRequestDtoV2
 export class CreateBillingHistoryRequestDto {
-    paidAt!: Date; // 결제일시
-    payAmount!: CreateMoneyRequestDto; // 결제금액
+    paidAt: Date | string; // 결제일시
+    payAmount: CreateMoneyRequestDto; // 결제금액
+    abroadPayAmount?: CreateMoneyRequestDto; // 해외 결제 금액
     uid?: string; // 결제 승인 번호 / 인보이스 번호 등 결제 관련 고유 번호
-    creditCardId!: number; // 결제에 사용된 카드 ID
+    creditCardId: number; // 결제에 사용된 카드 ID
     invoiceUrl?: string; // 인보이스(파일) 주소
     memo?: string; // 메모
     isDomestic?: boolean; // 국내/해외 결제 여부
     isVATDeductible?: boolean; // 공제/불공제 여부
-    vatAmount?: CreateMoneyRequestDto; // 부과세
+    vatAmount?: CreateMoneyRequestDto; // 부가세
 }
 
-interface Type<T = any> extends Function {
-    new (...args: any[]): T;
-}
-// const PartialType = <T>(classRef: Type<T>): Partial<T> => classRef;
-function PartialType<T>(classRef: Type<T>): Type<Partial<T>> {
-    return classRef;
-}
+export * from './create-billing-history.request.dto.v2';
+
+// DEPRECATED => UpdateBillingHistoryRequestDtoV2
 export class UpdateBillingHistoryRequestDto extends PartialType(CreateBillingHistoryRequestDto) {
-    // @ts-ignore
-    paidAt?: string; // datetime string
+    // // @ts-ignore
+    // paidAt?: string; // datetime string
 }
 
-export class UpdateBillingHistoryRequestDtoV2 extends UpdateBillingHistoryRequestDto {
-    memo?: string; // 메모
-}
+export * from './update-billing-history.request.dto.v2';
 
 export class CreateBillingHistoryStandAloneRequestDto {
     billingCycleId!: number; // 결제주기 ID
@@ -160,9 +157,9 @@ export class CreateBillingHistoryStandAloneRequestDto {
     // invoiceUrl?: string | null; // 인보이스(파일) 주소
 }
 
-export type StatusParams = {
+export class StatusParams {
     status?: StatusQueryOptions;
-};
+}
 
 export enum StatusQueryOptions {
     Success = 'success',
@@ -174,6 +171,17 @@ export type GetBillingHistoriesParams = FindAllQueryDto<BillingHistoryDto> &
     StartEndParams &
     StatusParams &
     IsActiveSubsParams;
+
+export class BillingHistoryStatusMetaDto {
+    @TypeCast(() => Date) firstIssuedAt: Date;
+    @TypeCast(() => Date) lastIssuedAt: Date;
+}
+export class FindAllBillingHistoriesQueryDto extends FindAllQueryDto<BillingHistoryDto> {
+    startDate?: string; // 결제내역 조회범위 시작날짜
+    endDate?: string; // 결제내역 조회범위 종료날짜
+    isActiveSubscription?: boolean; // 동기화된 구독만
+    status?: StatusQueryOptions; // 결제 상태
+}
 
 export enum BillingHistorySubtype {
     EMAIL_INVOICE = 'EMAIL_INVOICE',

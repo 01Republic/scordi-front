@@ -72,7 +72,7 @@ export const ConnectedBadgeType3 = memo(() => {
                     <div className="text-12 flex items-center justify-end gap-1 font-[400] text-gray-400">
                         <LuTimer />
                         <span>최근 동기화:</span>
-                        <span>{yyyy_mm_dd(codefCard.createdAt)}</span>
+                        <span>{codefCard.syncedEndDate ? yyyy_mm_dd(codefCard.syncedEndDate) : '-'}</span>
                     </div>
                 </div>
             ) : (

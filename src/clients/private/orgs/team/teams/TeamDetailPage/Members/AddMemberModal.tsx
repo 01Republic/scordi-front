@@ -1,17 +1,10 @@
 import React, {memo, useEffect} from 'react';
 import {ModalProps} from '^components/modals/_shared/Modal.types';
-import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
-import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {orgIdParamState, teamIdParamState} from '^atoms/common';
 import {useRecoilValue} from 'recoil';
-import {FaCheck} from 'react-icons/fa6';
-import {teamInvoiceAccountApi} from '^models/TeamInvoiceAccount/api';
-import {TeamMemberDto, useTeamMember, useTeamMembersInTeamMembersTable} from '^models/TeamMember';
-import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
+import {TeamMemberDto, useTeamMembersInTeamMembersTable} from '^models/TeamMember';
 import {teamMembershipApi} from '^models/TeamMembership/api';
 import {TeamMembershipDto} from '^models/TeamMembership/type';
-import {FiCheckCircle} from 'react-icons/fi';
 import {TeamMemberSelectItem} from '^v3/share/modals/AppShowPageModal/TeamMemberSelectModal/TeamMemberSelectItem';
 import {toast} from 'react-hot-toast';
 

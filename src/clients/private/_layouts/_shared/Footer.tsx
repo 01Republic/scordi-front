@@ -19,8 +19,8 @@ export const Footer = memo(function Footer() {
 
             <div className="flex-auto text-gray-500">
                 <p>
-                    (주) 제로원리퍼블릭 (01Republic, Inc.) 대표: 김용현 <br className="sm:hidden" /> 사업자등록번호:
-                    227-86-02683 <br />
+                    (주) 제로원리퍼블릭 (01Republic, Inc.) 대표: 김용현, 김규리 <br className="sm:hidden" />{' '}
+                    사업자등록번호: 227-86-02683 <br />
                     통신판매업번호: 2023-서울서초-3752 <br className="sm:hidden" /> 주소: 서울시 종로구 종로 6, 5층{' '}
                     <br className="sm:hidden" /> 고객센터 유선전화: 010-7517-3247 <br />
                     Copyright 2024 © 01Republic. All Rights Reserved

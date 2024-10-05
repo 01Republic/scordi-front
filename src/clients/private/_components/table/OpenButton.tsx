@@ -26,12 +26,22 @@ export const OpenButtonColumn = memo((props: OpenButtonColumn & WithChildren) =>
     const {children, ...res} = props;
 
     return (
-        <div className="relative cursor-pointer">
+        <div className="flex items-center justify-between cursor-pointer group gap-2">
             {children}
 
-            <div className="absolute right-0 top-0 bottom-0 items-center hidden group-hover:flex">
+            <div className="flex items-center invisible pointer-events-none group-hover:visible group-hover:pointer-events-auto">
                 <OpenButton {...res} />
             </div>
         </div>
     );
+
+    // return (
+    //     <div className="relative cursor-pointer">
+    //         {children}
+    //
+    //         <div className="absolute right-0 top-0 bottom-0 items-center hidden group-hover:flex">
+    //             <OpenButton {...res} />
+    //         </div>
+    //     </div>
+    // );
 });

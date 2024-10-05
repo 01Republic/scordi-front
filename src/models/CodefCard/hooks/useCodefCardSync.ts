@@ -10,9 +10,15 @@ import {
     isSyncRunningAtom,
     useQueue,
 } from '^models/CodefCard/hooks/useCodefCardSyncQueue';
+import {confirm2} from '^components/util/dialog';
+
+// export const isCodefCardSyncRunningAtom = atom({
+//     key: 'isCodefCardSyncRunningAtom',
+//     default: false,
+// });
 
 export function useCodefCardSync() {
-    const [isSyncRunning, setIsSyncRunning] = useState(false);
+    const [isSyncRunning, setIsSyncRunning] = useRecoilState(isSyncRunningAtom);
 
     const syncCard = async (orgId: number, codefCard: CodefCardDto) => {
         if (!orgId || isNaN(orgId)) return;
@@ -21,14 +27,33 @@ export function useCodefCardSync() {
         return codefCardApi
             .histories(orgId, codefCard.id, {sync: true})
             .then((res) => {
-                toast.success(`${codefCard.number4} 카드 싱크 완료`);
+                toast.success(`${codefCard.number4} 동기화 완료!`);
                 return res;
             })
             .catch(catchError)
             .finally(() => setIsSyncRunning(false));
     };
 
-    return {syncCard, isSyncRunning};
+    const syncCardWithConfirm = (
+        orgId: number,
+        codefCard: CodefCardDto,
+        option?: {
+            onStart?: () => any;
+            onError?: (e: Error) => any;
+        },
+    ) => {
+        const {onStart, onError} = option || {};
+
+        return confirm2('카드 동기화를 시작합니다', '약 3~4분 정도가 예상되는 작업이에요.\n지금 실행할까요?')
+            .then((r) => {
+                if (!r.isConfirmed) throw new Error('카드 동기화를 취소했습니다');
+            })
+            .then(() => onStart && onStart())
+            .then(() => syncCard(orgId, codefCard))
+            .catch(onError ? onError : (e) => console.log(e.message));
+    };
+
+    return {syncCard, syncCardWithConfirm, isSyncRunning};
 }
 
 export function useCodefCardSyncQueue() {

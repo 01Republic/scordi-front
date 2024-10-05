@@ -4,8 +4,14 @@ import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionP
 import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
 import {MoneySimpleRounded} from '^models/Money/components/money.simple-rounded';
 import {IsFreeTierTagUI} from '^models/Subscription/components/IsFreeTierTagUI';
-import {TeamMemberProfileOption} from '^models/TeamMember/components/TeamMemberProfile';
+import {TeamMemberProfileCompact, TeamMemberProfileOption} from '^models/TeamMember/components/TeamMemberProfile';
 import {MemberCount} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
+import Tippy from '@tippyjs/react';
+import {BsDashCircle} from 'react-icons/bs';
+import {subscriptionApi} from '^models/Subscription/api';
+import {confirm2} from '^components/util/dialog';
+import {toast} from 'react-hot-toast';
+import {yyyy_mm_dd} from '^utils/dateTime';
 
 interface CreditCardSubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -15,6 +21,20 @@ interface CreditCardSubscriptionTableRowProps {
 export const CreditCardSubscriptionTableRow = memo((props: CreditCardSubscriptionTableRowProps) => {
     const {subscription, reload} = props;
 
+    const disconnect = async () => {
+        const isConfirmed = await confirm2(
+            '이 카드와 연결을 해제할까요?',
+            '구독이 삭제되는건 아니니 안심하세요',
+            'warning',
+        ).then((res) => res.isConfirmed);
+        if (!isConfirmed) return;
+        await subscriptionApi.update(subscription.id, {creditCardId: null});
+        toast.success('연결을 해제했어요');
+        reload();
+    };
+
+    const {nextComputedBillingDate} = subscription;
+
     return (
         <tr>
             {/* 서비스 명 */}
@@ -22,12 +42,12 @@ export const CreditCardSubscriptionTableRow = memo((props: CreditCardSubscriptio
                 <SubscriptionProfile subscription={subscription} />
             </td>
 
-            {/* 사용인원 */}
-            <td>
-                <MemberCount subscription={subscription} />
-            </td>
+            {/* 구독상태 */}
+            {/*<td>*/}
+            {/*    <MemberCount subscription={subscription} />*/}
+            {/*</td>*/}
 
-            {/*과금*/}
+            {/* 결제주기 */}
             <td>
                 {/* 유/무료 확인해서 */}
                 {subscription.isFreeTier ? (
@@ -35,19 +55,24 @@ export const CreditCardSubscriptionTableRow = memo((props: CreditCardSubscriptio
                     <IsFreeTierTagUI value={subscription.isFreeTier} />
                 ) : (
                     // 유료라면 결제주기 태그를 출력
-                    <BillingCycleTypeTagUI value={subscription.billingCycleType} />
+                    <BillingCycleTypeTagUI value={subscription.billingCycleType} short />
                 )}
             </td>
 
-            {/*최신 결제금액*/}
+            {/*최신 청구액*/}
             <td>
                 <MoneySimpleRounded money={subscription.currentBillingAmount || undefined} />
+            </td>
+
+            {/* 갱신일 */}
+            <td className="text-14">
+                {nextComputedBillingDate && yyyy_mm_dd(new Date(`${nextComputedBillingDate} `))}
             </td>
 
             {/*담당자*/}
             <td>
                 {subscription.master ? (
-                    <TeamMemberProfileOption item={subscription.master} />
+                    <TeamMemberProfileCompact item={subscription.master} />
                 ) : (
                     <div className="relative">
                         <div className="invisible">
@@ -58,6 +83,24 @@ export const CreditCardSubscriptionTableRow = memo((props: CreditCardSubscriptio
                         </div>
                     </div>
                 )}
+            </td>
+
+            {/* Action */}
+            <td>
+                <div className="flex items-center justify-center">
+                    <Tippy className="!text-12" content="안써요">
+                        <button
+                            className="relative text-red-300 hover:text-red-500 transition-all"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                e.preventDefault();
+                                disconnect();
+                            }}
+                        >
+                            <BsDashCircle className="" size={24} strokeWidth={0.3} />
+                        </button>
+                    </Tippy>
+                </div>
             </td>
         </tr>
     );

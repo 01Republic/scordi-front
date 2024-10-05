@@ -3,6 +3,8 @@ import Measured from '@measured-im/browser';
 import {measuredApiKey} from '^config/environments';
 
 export const MeasuredInstall = () => {
+    if (!measuredApiKey) return <></>;
+
     useEffect(() => {
         // @ts-ignore
         if (!window.measuredInstalled) {

@@ -10,13 +10,16 @@ import {useToast} from '^hooks/useToast';
 import {
     BillingHistoryDto,
     BillingHistoryStatus,
+    FindAllBillingHistoriesQueryDto,
     GetBillingHistoriesParams,
-    UpdateBillingHistoryRequestDtoV2,
+    UpdateBillingHistoryRequestDto,
 } from '../type';
 import {billingHistoryApi} from '../api';
 import {
     billingHistoriesAtom,
     billingHistoryListInSiblingsAtom,
+    billingHistoryListOfCreditCardAtom,
+    billingHistoryListOfInvoiceAccountAtom,
     billingHistoryListOfSubscriptionAtom,
     billingHistoryLoadingState,
     getBillingHistoryQuery,
@@ -31,6 +34,14 @@ export const useBillingHistoryListOfSubscription = () => useBillingHistories(bil
 // 결제내역 상세모달 / 결제내역
 export const useBillingHistoryListInSiblings = () => useBillingHistories(billingHistoryListInSiblingsAtom);
 
+// 결제수단 상세페이지 / 결제내역
+export const useBillingHistoryListOfCreditCard = () => useBillingHistoriesOfOrg(billingHistoryListOfCreditCardAtom);
+
+// 청구서수신계정 상세페이지 / 결제내역
+export const useBillingHistoryListOfInvoiceAccount = () =>
+    useBillingHistoriesOfOrg(billingHistoryListOfInvoiceAccountAtom);
+
+// [deprecated] useBillingHistoriesOfOrg 로 대체될 예정
 const useBillingHistories = (
     atoms: PagedResourceAtoms<BillingHistoryDto, GetBillingHistoriesParams>,
     mergeMode = false,
@@ -38,6 +49,18 @@ const useBillingHistories = (
     return usePagedResource(atoms, {
         endpoint: (params) => billingHistoryApi.index(params),
         useOrgId: false,
+        mergeMode,
+        getId: 'id',
+    });
+};
+
+const useBillingHistoriesOfOrg = (
+    atoms: PagedResourceAtoms<BillingHistoryDto, FindAllBillingHistoriesQueryDto>,
+    mergeMode = false,
+) => {
+    return usePagedResource(atoms, {
+        endpoint: (params, orgId) => billingHistoryApi.indexOfOrg(orgId, params),
+        useOrgId: true,
         mergeMode,
         getId: 'id',
     });
@@ -137,7 +160,7 @@ export function useBillingHistoryV2(atom: RecoilState<BillingHistoryDto | null>)
         request.finally(() => setIsLoading(false));
     };
 
-    const updateBillingHistory = async (data: UpdateBillingHistoryRequestDtoV2) => {
+    const updateBillingHistory = async (data: UpdateBillingHistoryRequestDto) => {
         if (!billingHistory) {
             toast.error('알 수 없는 결제내역');
             return;

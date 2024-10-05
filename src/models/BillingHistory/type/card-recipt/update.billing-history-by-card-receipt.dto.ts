@@ -2,10 +2,10 @@ import {PartialType} from '^types/utils/partial-type';
 import {OmitType} from '^types/utils/omit-type';
 import {CreateMoneyRequestDto, CurrencyCode} from '^models/Money';
 import {plainToInstance} from 'class-transformer';
-import {UpdateBillingHistoryRequestDtoV3} from '^models/BillingHistory/type/update-billing-history.request.dto.v2';
+import {UpdateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type/update-billing-history.request.dto.v2';
 
 export class UpdateBillingHistoryByCardReceiptDto extends PartialType(
-    OmitType(UpdateBillingHistoryRequestDtoV3, ['payAmount', 'vatAmount']),
+    OmitType(UpdateBillingHistoryRequestDtoV2, ['payAmount', 'vatAmount']),
 ) {
     domesticAmount: number;
     abroadAmount?: number;
@@ -40,9 +40,9 @@ export class UpdateBillingHistoryByCardReceiptDto extends PartialType(
         });
     }
 
-    toRequestDto(): UpdateBillingHistoryRequestDtoV3 {
+    toRequestDto(): UpdateBillingHistoryRequestDtoV2 {
         const {domesticAmount, abroadAmount, exchangedCurrency, vatAmount, ...data} = this;
-        return plainToInstance(UpdateBillingHistoryRequestDtoV3, {
+        return plainToInstance(UpdateBillingHistoryRequestDtoV2, {
             ...data,
             payAmount: this.payAmount,
             vatAmount: this.vatAmountDto,

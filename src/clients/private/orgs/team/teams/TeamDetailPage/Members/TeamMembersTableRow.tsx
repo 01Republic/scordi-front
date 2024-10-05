@@ -1,20 +1,15 @@
 import React, {memo} from 'react';
 import {TeamMemberDto} from '^models/TeamMember';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
-import {TeamSelect} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamSelect';
-import {TeamMemberStatusDropdown} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown';
 import {OrgTeamMemberShowPageRoute} from '^pages/orgs/[id]/teamMembers/[teamMemberId]';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
-import {TeamMemberRole} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberRole';
 import Tippy from '@tippyjs/react';
 import {FiMinusCircle} from '^components/react-icons';
 import {teamMembershipApi} from '^models/TeamMembership/api';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState, teamIdParamState} from '^atoms/common';
-import {TeamMemberTag} from '^clients/private/orgs/team/teams/TeamDetailPage/Members/TeamMemberTag';
-import {toast} from 'react-toastify';
 import {confirm2} from '^components/util/dialog';
-import {creditCardApi} from '^models/CreditCard/api';
+import {toast} from 'react-hot-toast';
 
 interface TeamMemberTableRowProps {
     teamMember?: TeamMemberDto;

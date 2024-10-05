@@ -196,7 +196,7 @@ const LandingPage1: NextPage = () => {
                             </p>
                             <div className="text-sm md:text-xl text-black opacity-60">
                                 <p className="">
-                                    <span>대표자</span> : <span>김용현</span> | <span>사업자번호</span> :{' '}
+                                    <span>대표자</span> : <span>김용현, 김규리</span> | <span>사업자번호</span> :{' '}
                                     <span>227-86-02683</span>
                                 </p>
                                 <p className="mb-2">

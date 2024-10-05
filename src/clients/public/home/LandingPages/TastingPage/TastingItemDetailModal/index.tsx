@@ -50,7 +50,7 @@ export const TastingItemDetailModal = memo(() => {
         if (!billingHistory || !draftAccount) return;
 
         const invoiceApp = (draftAccount.invoiceApps || []).find((app) => {
-            return app.billingHistories.find((history) => {
+            return (app.billingHistories || []).find((history) => {
                 return history.emailContent?.id === billingHistory.emailContent?.id;
             });
         });
@@ -85,7 +85,7 @@ interface TastingItemDetailModalBodyProps {
 
 export const TastingItemDetailModalBody = memo((props: TastingItemDetailModalBodyProps) => {
     const {billingHistory, invoiceApp} = props;
-    const {product: proto, billingHistories} = invoiceApp;
+    const {product: proto, billingHistories = []} = invoiceApp;
 
     const item = billingHistory.emailContent!;
 

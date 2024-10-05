@@ -6,6 +6,7 @@ import {getQueryParams} from '^utils/get-query-params';
 import {dashboardSummaryState, dashboardSummaryV3State, getDashboardSummaryQuery} from '^atoms/calendarData.atom';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {GetBillingHistoriesParams} from '^models/BillingHistory/type';
+import {getPureTypeFromWhereValue} from '^types/utils/findAll.query.dto';
 
 export const useDashboardSummary = () => useRecoilValue(getDashboardSummaryQuery);
 
@@ -39,7 +40,7 @@ export function useDashboardSummary2() {
 export const useDashboardSummaryV3 = () => {
     const [summary, setSummary] = useRecoilState(dashboardSummaryV3State);
     async function getSummary(params: GetBillingHistoriesParams) {
-        const orgId = params.where?.organizationId;
+        const orgId = getPureTypeFromWhereValue(params.where?.organizationId);
         if (!orgId) return;
         const data = await getDashboardSummaryV3(orgId, params).then((res) => res.data);
         setSummary(data);
