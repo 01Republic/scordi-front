@@ -5,8 +5,6 @@ import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
-import {TeamSelect} from '^models/Team/components/TeamSelect';
-import {TeamMemberStatusDropdown} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown';
 import {FiMinusCircle} from '^components/react-icons';
 import Tippy from '@tippyjs/react';
 import {teamMembershipApi} from '^models/TeamMembership/api';

@@ -1,4 +1,3 @@
-import {TeamDetailLayout} from '^clients/private/orgs/team/teams/TeamDetailPage/TeamDetailLayout';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 import React, {memo, useEffect, useState} from 'react';
 import {useTeamCreditCardListInTeamDetail} from '^models/TeamCreditCard/hook';
