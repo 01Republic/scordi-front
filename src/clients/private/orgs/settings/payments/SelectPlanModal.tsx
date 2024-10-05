@@ -2,15 +2,17 @@ import React, {memo} from 'react';
 import {IoClose} from '@react-icons/all-files/io5/IoClose';
 import {confirm2} from '^components/util/dialog';
 import {toast} from 'react-hot-toast';
+import {useTossPayments} from '^hooks/useTossPayments';
 
 interface SelectPlanModalProps {
     isOpened: boolean;
     onClose: () => void;
-    currentPlan: string;
+    currentPlan?: string;
 }
 
 export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanModalProps) {
     const {isOpened, onClose, currentPlan = 'basic'} = props;
+    const {startBilling} = useTossPayments();
 
     const planCardStyle = 'flex-1 border rounded-xl p-4 space-y-4 w-72';
     const planTopStyle = 'h-28 flex flex-col justify-between border-b pb-4';
@@ -18,12 +20,13 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
 
     const changePlan = (plan: string) => {
         if (plan === currentPlan) return;
-        confirm2(`플랜 변경`, `구독중인 플랜을 변경할까요?`, 'warning').then((res) => {
-            if (res.isConfirmed) {
-                console.log('change plan to', plan);
-                toast.success('플랜 변경이 완료되었습니다');
-            }
-        });
+        startBilling();
+        // confirm2(`플랜 변경`, `구독중인 플랜을 변경할까요?`, 'warning').then((res) => {
+        //     if (res.isConfirmed) {
+        //         console.log('change plan to', plan);
+        //         toast.success('플랜 변경이 완료되었습니다');
+        //     }
+        // });
     };
 
     return (
