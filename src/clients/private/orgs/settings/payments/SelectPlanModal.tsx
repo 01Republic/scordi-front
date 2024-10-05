@@ -1,7 +1,6 @@
-import React, {memo, ReactElement} from 'react';
+import React, {memo} from 'react';
 import {IoClose} from '@react-icons/all-files/io5/IoClose';
 import {confirm2} from '^components/util/dialog';
-import {creditCardApi} from '^models/CreditCard/api';
 import {toast} from 'react-hot-toast';
 
 interface SelectPlanModalProps {
@@ -28,11 +27,7 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
     };
 
     return (
-        <div
-            data-modal="TeamMemberSelectModal-for-AppShowModal"
-            className={`modal ${isOpened ? 'modal-open' : ''}`}
-            onClick={onClose}
-        >
+        <div data-modal="TeamMemberSelectModal-for-AppShowModal" className={`modal ${isOpened ? 'modal-open' : ''}`}>
             <div className={'bg-white rounded-3xl p-12'}>
                 <div className={'flex justify-between items-center mb-6'}>
                     <h3>플랜 선택</h3>
