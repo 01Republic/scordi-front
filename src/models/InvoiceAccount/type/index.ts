@@ -23,6 +23,8 @@ export class InvoiceAccountDto {
     email: string;
     isActive: boolean; // 활성화 여부
     isSyncRunning: boolean; // 싱크 실행중 여부
+    @TypeCast(() => Date) syncedStartDate: Date | null; // 연동된 이메일내역 시작일시
+    @TypeCast(() => Date) syncedEndDate: Date | null; // 연동된 이메일내역 종료일시
     memo?: string | null; // 메모
     googleTokenDataId: number | null;
     holdingMemberId: number | null;

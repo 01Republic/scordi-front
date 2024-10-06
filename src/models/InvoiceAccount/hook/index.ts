@@ -39,3 +39,4 @@ const useInvoiceAccountsV3 = (
 export * from './useInvoiceAccountCreate';
 export * from './destroyInvoiceAccountHandler';
 export * from './useGoogleLoginForInvoiceAccountSelect';
+export * from './useInvoiceAccountSync';

@@ -3,20 +3,20 @@ import {ListPageScopeButton} from '^clients/private/_layouts/_shared/ListPageSco
 import {useCurrentInvoiceAccount} from '../../atom';
 import {useBillingHistoryListOfInvoiceAccount} from '^models/BillingHistory/hook';
 import {FindAllBillingHistoriesQueryDto} from '^models/BillingHistory/type';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 
 interface BillingHistoryScopeHandlerProps {
-    //
+    invoiceAccount?: InvoiceAccountDto;
 }
 
 export const BillingHistoryScopeHandler = memo((props: BillingHistoryScopeHandlerProps) => {
-    const {} = props;
-    const {currentInvoiceAccount} = useCurrentInvoiceAccount();
+    const {invoiceAccount} = props;
     const {search} = useBillingHistoryListOfInvoiceAccount();
     const [selected, setSelected] = useState(0);
 
     const getBillingHistories = async (where: FindAllBillingHistoriesQueryDto['where']) => {
-        if (!currentInvoiceAccount) return;
-        const {id: invoiceAccountId, organizationId} = currentInvoiceAccount;
+        if (!invoiceAccount) return;
+        const {id: invoiceAccountId, organizationId} = invoiceAccount;
 
         search({
             relations: ['subscription', 'invoiceApp.invoiceAccount'],
@@ -29,7 +29,7 @@ export const BillingHistoryScopeHandler = memo((props: BillingHistoryScopeHandle
         });
     };
 
-    if (!currentInvoiceAccount) return <></>;
+    if (!invoiceAccount) return <></>;
 
     return (
         <div className="flex items-center gap-2">

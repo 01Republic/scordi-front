@@ -15,7 +15,7 @@ export const InvoiceAccountTeamList = memo(function InvoiceAccountTeamList() {
             where: {invoiceAccountId: currentInvoiceAccount.id},
             itemsPerPage: 0,
         });
-    }, [currentInvoiceAccount]);
+    }, [currentInvoiceAccount?.id]);
 
     const {items} = result;
 

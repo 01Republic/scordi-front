@@ -94,16 +94,18 @@ export const InvoiceAccountSubscriptionTableRow = memo((props: InvoiceAccountSub
             <td>
                 <div className="flex items-center justify-center">
                     <Tippy className="!text-12" content="안써요">
-                        <button
-                            className="relative text-red-300 hover:text-red-500 transition-all"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                e.preventDefault();
-                                return disconnect();
-                            }}
-                        >
-                            <BsDashCircle className="" size={24} strokeWidth={0.3} />
-                        </button>
+                        <div>
+                            <button
+                                className="relative text-red-300 hover:text-red-500 transition-all"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                    return disconnect();
+                                }}
+                            >
+                                <BsDashCircle className="" size={24} strokeWidth={0.3} />
+                            </button>
+                        </div>
                     </Tippy>
                 </div>
             </td>

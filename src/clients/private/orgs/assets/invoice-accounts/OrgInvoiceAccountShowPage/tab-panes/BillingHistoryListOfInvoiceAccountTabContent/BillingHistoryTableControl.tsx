@@ -1,69 +1,45 @@
 import React, {memo} from 'react';
-import {useCodefCardsOfCreditCardShow} from '^models/CodefCard/hook';
-import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {BillingHistoryScopeHandler} from './BillingHistoryScopeHandler';
 import {MdRefresh} from 'react-icons/md';
-import {useSubscriptionListOfCreditCard, useSubscriptionListOfInvoiceAccount} from '^models/Subscription/hook';
-import {useBillingHistoryListOfCreditCard, useBillingHistoryListOfInvoiceAccount} from '^models/BillingHistory/hook';
-import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
-import {toast} from 'react-hot-toast';
-import {InvoiceAppDto} from '^models/InvoiceApp/type';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {useCurrentInvoiceAccount, useCurrentInvoiceAccountSync} from '../../atom';
+import {startSyncWithCheckValidToken} from '../../InvoiceAccountActionPanel/ReconnectModal';
+import {BillingHistoryTableTitle} from './BillingHistoryTableTitle';
+import {BillingHistoryScopeHandler} from './BillingHistoryScopeHandler';
 
-interface BillingHistoryTableControlProps {
-    //
-}
-
-export const BillingHistoryTableControl = memo((props: BillingHistoryTableControlProps) => {
-    const {} = props;
-    // const {result} = useBillingHistoryListOfInvoiceAccount();
-    // const invoiceApp: InvoiceAppDto | undefined = result.items[0];
-
+export const BillingHistoryTableControl = memo(() => {
+    const {currentInvoiceAccount} = useCurrentInvoiceAccount();
     return (
-        <div className="flex items-center justify-between mb-4">
-            <BillingHistoryScopeHandler />
+        <div className="">
+            {currentInvoiceAccount && <BillingHistoryTableTitle invoiceAccount={currentInvoiceAccount} />}
+            <div className="flex items-center justify-between mb-4">
+                <BillingHistoryScopeHandler invoiceAccount={currentInvoiceAccount || undefined} />
 
-            <div>
-                <div className="flex items-center gap-2">
-                    <SyncRecentBillingHistoryButton />
+                <div>
+                    <div className="flex items-center gap-2">
+                        {currentInvoiceAccount && (
+                            <SyncRecentBillingHistoryButton invoiceAccount={currentInvoiceAccount} />
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
     );
 });
-BillingHistoryTableControl.displayName = 'BillingHistoryTableControl';
 
-interface SyncRecentBillingHistoryButtonProps {
-    // invoiceApp?: InvoiceAppDto;
+interface ButtonProps {
+    invoiceAccount: InvoiceAccountDto;
 }
 
-export const SyncRecentBillingHistoryButton = memo((props: SyncRecentBillingHistoryButtonProps) => {
-    const orgId = useRecoilValue(orgIdParamState);
-    // const {reload: reloadCodefCards} = useCodefCardsOfCreditCardShow();
-    const {reload: reloadSubscriptions, isNotLoaded: subscriptionIsNotLoaded} = useSubscriptionListOfInvoiceAccount();
-    const {reload: reloadBillingHistories, isNotLoaded: billingHistoryIsNotLoaded} =
-        useBillingHistoryListOfInvoiceAccount();
-    const {syncCardWithConfirm, isSyncRunning} = useCodefCardSync();
+export const SyncRecentBillingHistoryButton = memo((props: ButtonProps) => {
+    const {invoiceAccount} = props;
+    const {startSync, isSyncRunning} = useCurrentInvoiceAccountSync();
 
-    const onFinish = () => {
-        return Promise.allSettled([
-            // reloadCodefCards(),
-            !subscriptionIsNotLoaded && reloadSubscriptions(),
-            !billingHistoryIsNotLoaded && reloadBillingHistories(),
-        ]);
-    };
-
-    const startSync = () => {
-        // if (invoiceApp) {
-        //     // syncCardWithConfirm(orgId, invoiceApp).then(onFinish);
-        // } else {
-        //     toast('먼저 카드사를 연결해주세요');
-        // }
+    const onClick = () => {
+        startSyncWithCheckValidToken(invoiceAccount, () => startSync());
     };
 
     return (
-        <button className={`btn btn-sm btn-white gap-2 ${isSyncRunning ? 'btn-disabled' : ''}`} onClick={startSync}>
+        <button className={`btn btn-sm btn-white gap-2 ${isSyncRunning ? 'btn-disabled' : ''}`} onClick={onClick}>
             <MdRefresh fontSize={14} className={isSyncRunning ? 'animate-spin' : ''} />
             <span>최신내역 불러오기</span>
         </button>
