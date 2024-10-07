@@ -1,6 +1,7 @@
 import {memo} from 'react';
 import {MembershipDto} from 'src/models/Membership/types';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {serviceHost} from '^config/environments';
 import {Avatar} from '^components/Avatar';
 import {CardTableTR} from '../../../share/panels/CardTablePanel';
@@ -14,7 +15,7 @@ export const MembershipItem = memo((props: MembershipItemProps) => {
     const {membership, borderBottom = true} = props;
 
     const org = membership.organization;
-    const orgLink = `${serviceHost}${V3OrgHomePageRoute.path(org.id)}`;
+    const orgLink = `${serviceHost}${OrgMainPageRoute.path(org.id)}`;
 
     const copyLink = (link: string) => {
         window.navigator.clipboard.writeText(link).then(() => alert('복사되었습니다.'));

@@ -12,6 +12,7 @@ import {useCurrentUser} from '^models/User/hook';
 import {UserDto} from '^models/User/types';
 import {inviteMembershipApi} from '^models/Membership/api';
 import {userSessionApi} from '^models/User/api/session';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
 
 // v2 -> v3 로 넘어가면서 구글 사용자 인증 직후 가입정보가 없으면 리디렉션 되는 위치가 바뀌었습니다.
 // import {UserSignUpPageRoute} from '^pages/users/signup'; // Deprecated.
@@ -45,7 +46,7 @@ export const useGoogleLoginSuccessHandler2 = () => {
         if (!invitedOrgId) return;
 
         const isInvitedUser = await checkInvitedEmail(user, invitedOrgId);
-        if (isInvitedUser) return router.push(V3OrgHomePageRoute.path(invitedOrgId));
+        if (isInvitedUser) return router.push(OrgMainPageRoute.path(invitedOrgId));
         if (!isInvitedUser) return router.push(V3OrgJoinErrorPageRoute.path(invitedOrgId));
 
         loginRedirect(user);

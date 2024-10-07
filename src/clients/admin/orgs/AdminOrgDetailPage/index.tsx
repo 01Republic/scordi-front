@@ -6,6 +6,7 @@ import {OrganizationDto} from '^models/Organization/type';
 import {organizationApi} from '^models/Organization/api';
 import {BiLinkExternal} from '^components/react-icons';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {AdminOrgsPageRoute} from '^pages/admin/orgs';
 import {
     AccountListTabContent,
@@ -67,7 +68,7 @@ const ShowOnServiceButton = memo(() => {
 
     if (!org) return <></>;
 
-    const onClick = () => window.open(V3OrgHomePageRoute.path(org.id), '_blank');
+    const onClick = () => window.open(OrgMainPageRoute.path(org.id), '_blank');
 
     return (
         <button className="btn btn-gray btn-square" onClick={onClick}>

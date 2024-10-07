@@ -11,6 +11,7 @@ import {UserDto, UserLoginRequestDto, UserSocialLoginRequestDto} from '^models/U
 import {errorNotify} from '^utils/toast-notify';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {useAlert} from '^hooks/useAlert';
 
@@ -107,7 +108,7 @@ export function useCurrentUser(fallbackPath?: string | null, opt?: CurrentUserOp
         // org ? 대시보드로 이동
         // : search페이지로 이동
         if (user.lastSignedOrgId) {
-            return V3OrgHomePageRoute.path(user.lastSignedOrgId);
+            return OrgMainPageRoute.path(user.lastSignedOrgId);
         } else {
             return OrgSearchRoute.path();
         }

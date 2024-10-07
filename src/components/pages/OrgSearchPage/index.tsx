@@ -7,6 +7,7 @@ import {SearchedOrgResultItem} from './SearchedOrgResultItem';
 import {debounce} from 'lodash';
 import {LoadableBox} from '^components/util/loading';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
 
 export const OrgSearchPage = memo(() => {
     // const {currentUser} = useCurrentUser();
@@ -31,7 +32,7 @@ export const OrgSearchPage = memo(() => {
         if (data.name.length <= 0) return;
         organizationApi.create(data).then((res) => {
             const createdOrg = res.data;
-            router.push(V3OrgHomePageRoute.path(createdOrg.id));
+            router.push(OrgMainPageRoute.path(createdOrg.id));
         });
     };
 

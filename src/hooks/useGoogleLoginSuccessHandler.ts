@@ -8,6 +8,7 @@ import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
 import {inviteMembershipApi} from '^models/Membership/api';
 import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {GoogleAccessTokenData} from '^api/tasting.api';
@@ -53,7 +54,7 @@ export const useGoogleLoginSuccessHandler = () => {
         if (invitedOrgId) {
             const isInvited = await checkInvitedEmail(user, invitedOrgId);
             if (isInvited) {
-                router.push(V3OrgHomePageRoute.path(invitedOrgId));
+                router.push(OrgMainPageRoute.path(invitedOrgId));
             } else {
                 router.push(V3OrgJoinErrorPageRoute.path(invitedOrgId));
             }
