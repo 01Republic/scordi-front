@@ -3,6 +3,7 @@ import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {useBillingHistoryListOfInvoiceAccount} from '^models/BillingHistory/hook';
 import Tippy from '@tippyjs/react';
 import {MdRefresh} from 'react-icons/md';
+import {intlDateRangeShort, intlDateShort, yyyy_mm} from '^utils/dateTime';
 
 interface BillingHistoryTableTitleProps {
     invoiceAccount: InvoiceAccountDto;
@@ -15,12 +16,15 @@ export const BillingHistoryTableTitle = memo((props: BillingHistoryTableTitlePro
     const lastBillingHistory = result.items[0];
 
     const latestDateStr = () => {
-        const {syncedEndDate} = invoiceAccount;
-        if (syncedEndDate) {
-            const year = syncedEndDate.getFullYear();
-            return `${year.toString().slice(2, 4)}년 ${
-                syncedEndDate.getMonth() + 1
-            }월 ${syncedEndDate.getDate()}일 까지 불러온 청구내역`;
+        const {syncedStartDate, syncedEndDate} = invoiceAccount;
+        if (!syncedStartDate && syncedEndDate) {
+            const endDateStr = intlDateShort(syncedEndDate, {year: '2-digit'});
+            return `${endDateStr} 까지 불러온 청구내역`;
+        }
+
+        if (syncedStartDate && syncedEndDate) {
+            const dateRangeStr = intlDateRangeShort(syncedStartDate, syncedEndDate, {year: '2-digit'});
+            return `${dateRangeStr} 까지 불러온 청구내역`;
         }
 
         if (!lastBillingHistory) return `아직 청구내역이 없어요`;
