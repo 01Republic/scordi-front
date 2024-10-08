@@ -9,6 +9,7 @@ import {BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {IsActiveSubsParams, StartEndParams} from '^types/billing.type';
 import {PartialType} from '^types/utils/partial-type';
+import {rangeToArr} from '^utils/range';
 
 export * from './create-billing-history.request.dto.v2';
 
@@ -173,9 +174,16 @@ export type GetBillingHistoriesParams = FindAllQueryDto<BillingHistoryDto> &
     IsActiveSubsParams;
 
 export class BillingHistoryStatusMetaDto {
-    @TypeCast(() => Date) firstIssuedAt: Date;
-    @TypeCast(() => Date) lastIssuedAt: Date;
+    @TypeCast(() => Date) firstIssuedAt: Date | null;
+    @TypeCast(() => Date) lastIssuedAt: Date | null;
+
+    get years() {
+        const firstIssuedYear = (this.firstIssuedAt || new Date()).getFullYear();
+        const lastIssuedYear = (this.lastIssuedAt || new Date()).getFullYear();
+        return rangeToArr(firstIssuedYear, lastIssuedYear);
+    }
 }
+
 export class FindAllBillingHistoriesQueryDto extends FindAllQueryDto<BillingHistoryDto> {
     startDate?: string; // 결제내역 조회범위 시작날짜
     endDate?: string; // 결제내역 조회범위 종료날짜

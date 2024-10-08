@@ -3,6 +3,7 @@ import {Paginated} from '^types/utils/paginated.dto';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {
     BillingHistoryDto,
+    BillingHistoryStatusMetaDto,
     CreateBillingHistoryRequestDto,
     CreateBillingHistoryStandAloneRequestDto,
     FindAllBillingHistoriesQueryDto,
@@ -14,6 +15,15 @@ import {UpdateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type/upda
 const NAMESPACE = 'billing_histories';
 
 export const billingHistoryApi = {
+    // 결제현황의 메타정보 조회
+    statusMeta: (orgId: number, params?: GetBillingHistoriesParams) => {
+        params ||= {};
+        params.where ||= {};
+        params.where.organizationId = orgId;
+        const url = `/billing_histories/status-meta`;
+        return api.get(url, {params}).then(oneDtoOf(BillingHistoryStatusMetaDto));
+    },
+
     index: (params: GetBillingHistoriesParams) => {
         const url = `/${NAMESPACE}`;
         return api.get<Paginated<BillingHistoryDto>>(url, {params}).then(paginatedDtoOf(BillingHistoryDto));
