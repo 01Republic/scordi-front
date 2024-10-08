@@ -4,6 +4,7 @@ import {publicPageRequires} from '^types/utils/18n.type';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {LandingHomePage3} from '^clients/public/home/LandingPages/HomePage3';
 import {useRouter} from 'next/router';
+import {useEffect} from 'react';
 
 export const MainPageRoute = pathRoute({
     pathname: '/',
@@ -19,7 +20,9 @@ export const getStaticProps = async ({locale}: any) => ({
 
 export default function MainPage() {
     const router = useRouter();
-    router.replace('https://www.scordi.io');
+    useEffect(() => {
+        router.replace('https://www.scordi.io');
+    }, []);
     return null;
 }
 
