@@ -1,5 +1,5 @@
-import React, {memo} from 'react';
 import {SubscriptionDto} from '^models/Subscription/types';
+import React, {memo} from 'react';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 import {
     BillingCycleTypeColumn,

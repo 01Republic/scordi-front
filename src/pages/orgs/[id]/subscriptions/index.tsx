@@ -4,7 +4,7 @@ import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {OrgSubscriptionListPage} from '^clients/private/orgs/subscriptions/OrgSubscriptionListPage';
+import {OrgSubscriptionListPage} from '^clients/private/orgs/subscriptions/subscriptions/OrgSubscriptionListPage';
 
 export const OrgSubscriptionListPageRoute = pathRoute({
     pathname: '/orgs/[id]/subscriptions',
