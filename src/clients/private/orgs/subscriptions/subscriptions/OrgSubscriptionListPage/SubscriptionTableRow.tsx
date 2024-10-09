@@ -10,6 +10,8 @@ import {
     PayingType,
     PayMethodSelect,
 } from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
+import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
+import {OrgSubscriptionShowPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
 
 interface SubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -18,12 +20,17 @@ interface SubscriptionTableRowProps {
 
 export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
     const {subscription, reload} = props;
+    const {organizationId, id} = subscription;
+
+    const showPagePath = OrgSubscriptionShowPageRoute.path(organizationId, id);
 
     return (
         <tr>
             {/* 서비스 명 */}
             <td>
-                <SubscriptionProfile subscription={subscription} />
+                <OpenButtonColumn href={showPagePath}>
+                    <SubscriptionProfile subscription={subscription} />
+                </OpenButtonColumn>
             </td>
 
             {/* 유/무료 */}
