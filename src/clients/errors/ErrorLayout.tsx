@@ -3,9 +3,9 @@ import {WithChildren} from '^types/global.type';
 import {LandingPageNavBar} from '^components/lab/landing-page-components';
 import {BetaServiceFooter} from '^clients/public/home/LandingPages/components';
 
-interface ErrorlayoutProps extends WithChildren {}
+interface ErrorLayoutProps extends WithChildren {}
 
-export const ErrorLayout = memo((props: ErrorlayoutProps) => {
+export const ErrorLayout = memo((props: ErrorLayoutProps) => {
     const {children} = props;
 
     return (
