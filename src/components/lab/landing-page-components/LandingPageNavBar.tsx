@@ -23,8 +23,9 @@ export const LandingPageNavBar = (props: LandingPageNavBarProps) => {
     const {currentUser, getLoginRedirectPath} = useCurrentUser(null);
     // const {open} = useModal(inquiryModalAtom);
 
-    const saasPath = ProductListPageRoute.path();
-    const blogPath = '/blog';
+    // const saasPath = ProductListPageRoute.path();
+    const saasPath = 'https://www.scordi.io/saas-collection';
+    const blogPath = 'https://blog.scordi.io/';
 
     return (
         <div

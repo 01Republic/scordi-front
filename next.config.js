@@ -56,6 +56,15 @@ const nextConfig = {
             ],
         };
     },
+    async redirects() {
+        return [
+            {
+                source: '/',
+                destination: 'https://www.scordi.io/',
+                permanent: true,
+            },
+        ];
+    },
 };
 
 if (process.env.APP_ENV === 'production') {
