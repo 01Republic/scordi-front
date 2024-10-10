@@ -1,4 +1,5 @@
 import React, {memo} from 'react';
+
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
 import {WithChildren} from '^types/global.type';
@@ -15,6 +16,8 @@ import {TeamSubscriptionsListPage} from '^clients/private/orgs/team/teams/TeamDe
 import {TeamMembersListPage} from '^clients/private/orgs/team/teams/TeamDetailPage/Members/TeamMembersListPage';
 import {TeamPaymentsListPage} from '^clients/private/orgs/team/teams/TeamDetailPage/Payments/TeamPaymentsListPage';
 import {toast} from 'react-hot-toast';
+import {TeamStatCard} from './TeamStatCard';
+import {TeamStatCardList} from './TeamStatCardList';
 
 type TeamDetailLayoutProps = WithChildren;
 
@@ -67,10 +70,9 @@ export const TeamDetailLayout = memo(function TeamDetailLayout(props: TeamDetail
                 />
                 <div className={'grid grid-cols-4 gap-4 mt-4'}>
                     <div className={'col-span-1'}>
-                        <div className={'card border rounded-lg bg-white p-6'}>
+                        <div className="flex flex-row items-center card p-6 gap-2">
                             <TeamAvatar name={team.name} />
-                            <div className={'text-xs mt-4'}>팀 이름</div>
-                            <label className="block relative mb-4">
+                            <label className="block relative">
                                 <input
                                     type="text"
                                     className="input input-bordered w-full pr-[40px] bg-white disabled:bg-white"
@@ -81,13 +83,8 @@ export const TeamDetailLayout = memo(function TeamDetailLayout(props: TeamDetail
                                     <FaEdit className="absolute my-auto top-0 bottom-0 right-3" />
                                 </button>
                             </label>
-                            <div className={'text-sm'}>
-                                {team.teamMemberCount.toLocaleString()}명의 멤버 <br />
-                                {team.subscriptionCount.toLocaleString()}개의 서비스 구독중 <br />
-                                {team.creditCardCount.toLocaleString()}개의 결제수단 <br />
-                                {team.invoiceAccountCount.toLocaleString()}개의 청구서
-                            </div>
                         </div>
+                        <TeamStatCardList team={team} />
                     </div>
                     <div className={'col-span-3 card border rounded-lg bg-white p-6'}>
                         <div className={'space-x-4 mb-8'}>
