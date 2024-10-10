@@ -15,7 +15,7 @@ export const Error404Page = memo(() => {
     };
 
     return (
-        <ErrorLayout>
+        <ErrorLayout hideNav hideFooter>
             <div className="flex items-center justify-center">
                 <div className="flex flex-col items-center">
                     <p className="flex items-center justify-center text-[160px] font-extrabold">
