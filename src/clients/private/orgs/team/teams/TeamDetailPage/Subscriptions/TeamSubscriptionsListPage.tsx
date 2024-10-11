@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 import {useRecoilValue} from 'recoil';
 import {teamIdParamState} from '^atoms/common';
@@ -11,6 +11,7 @@ import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 export const TeamSubscriptionsListPage = memo(function TeamSubscriptionsListPage() {
     const teamId = useRecoilValue(teamIdParamState);
     const {search, result, isLoading, orderBy, reload, movePage, changePageSize} = useTeamsSubscriptionForDetailPage();
+    const [isOpened, setIsOpened] = useState(false);
 
     const onSearch = (keyword?: string) => {
         search({keyword, relations: ['teamMember', 'teamMember.teams', 'subscription']});
@@ -46,7 +47,12 @@ export const TeamSubscriptionsListPage = memo(function TeamSubscriptionsListPage
                     />
                 </ListTableContainer>
             ) : (
-                <EmptyTable icon={'🔍'} message="등록된 구독이 없어요." />
+                <EmptyTable
+                    icon={'🔍'}
+                    message="등록된 구독이 없어요."
+                    buttonText={'새 구독 등록'}
+                    buttonAction={() => setIsOpened(true)}
+                />
             )}
         </>
     );
