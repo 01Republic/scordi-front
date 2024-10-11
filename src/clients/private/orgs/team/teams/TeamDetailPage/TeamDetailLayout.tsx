@@ -1,25 +1,22 @@
 import React, {memo} from 'react';
-
-import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
-import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
-import {WithChildren} from '^types/global.type';
-import {TeamAvatar} from '^clients/private/orgs/team/teams/TeamDetailPage/TeamAvatar';
 import {useRouter} from 'next/router';
 import {FaEdit} from 'react-icons/fa';
+import {toast} from 'react-hot-toast';
 import {orgIdParamState, teamIdParamState, useRouterIdParamState} from '^atoms/common';
+import {WithChildren} from '^types/global.type';
 import {teamApi} from '^models/Team/api';
 import {useTeamDetail} from '^models/Team/hook';
+import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
+import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
 import {prompt2} from '^components/util/dialog';
-
-import {TeamInvoicesListPage} from '^clients/private/orgs/team/teams/TeamDetailPage/Invoices/TeamInvoicesListPage';
-import {TeamSubscriptionsListPage} from '^clients/private/orgs/team/teams/TeamDetailPage/Subscriptions/TeamSubscriptionsListPage';
-import {TeamMembersListPage} from '^clients/private/orgs/team/teams/TeamDetailPage/Members/TeamMembersListPage';
-import {TeamPaymentsListPage} from '^clients/private/orgs/team/teams/TeamDetailPage/Payments/TeamPaymentsListPage';
-import {toast} from 'react-hot-toast';
-import {TeamStatCard} from './TeamStatCard';
+import {TeamAvatar} from './TeamAvatar';
+import {TeamInvoicesListPage} from './Invoices/TeamInvoicesListPage';
+import {TeamSubscriptionsListPage} from './Subscriptions/TeamSubscriptionsListPage';
+import {TeamMembersListPage} from './Members/TeamMembersListPage';
+import {TeamPaymentsListPage} from './Payments/TeamPaymentsListPage';
 import {TeamStatCardList} from './TeamStatCardList';
 
-type TeamDetailLayoutProps = WithChildren;
+interface TeamDetailLayoutProps extends WithChildren {}
 
 export const TeamDetailLayout = memo(function TeamDetailLayout(props: TeamDetailLayoutProps) {
     const orgId = useRouterIdParamState('id', orgIdParamState);

@@ -12,7 +12,8 @@ import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 
 export const TeamPaymentsListPage = memo(function TeamPaymentsListPage() {
     const teamId = useRecoilValue(teamIdParamState);
-    const {search, result, reload, isLoading, orderBy, movePage, changePageSize} = useTeamCreditCardListInTeamDetail();
+    const {search, result, reload, isLoading, isNotLoaded, isEmptyResult, orderBy, movePage, changePageSize} =
+        useTeamCreditCardListInTeamDetail();
     const [isOpened, setIsOpened] = useState(false);
 
     const onSearch = (keyword?: string) => {
@@ -36,29 +37,27 @@ export const TeamPaymentsListPage = memo(function TeamPaymentsListPage() {
                     </button>
                 </div>
             </div>
-            {result.items.length > 0 ? (
-                <ListTableContainer
-                    pagination={result.pagination}
-                    movePage={movePage}
-                    changePageSize={changePageSize}
-                    unit="개"
-                    hideTopPaginator={true}
-                >
-                    <ListTable
-                        items={result.items}
-                        isLoading={isLoading}
-                        Header={() => <TeamPaymentTableHeader orderBy={orderBy} />}
-                        Row={({item}) => <TeamPaymentTableRow creditCard={item.creditCard} reload={reload} />}
-                    />
-                </ListTableContainer>
-            ) : (
-                <EmptyTable
-                    icon={'💳'}
-                    message="등록된 결제수단이 없어요."
-                    buttonText={'결제수단 등록'}
-                    buttonAction={() => setIsOpened(true)}
+            <ListTableContainer
+                pagination={result.pagination}
+                movePage={movePage}
+                changePageSize={changePageSize}
+                unit="개"
+                hideTopPaginator={true}
+                // Empty State Props
+                isNotLoaded={isNotLoaded}
+                isLoading={isLoading}
+                isEmptyResult={isEmptyResult}
+                emptyMessage="연결된 결제수단이 없어요."
+                emptyButtonText="결제수단 연결"
+                emptyButtonOnClick={() => setIsOpened(true)}
+            >
+                <ListTable
+                    items={result.items}
+                    isLoading={isLoading}
+                    Header={() => <TeamPaymentTableHeader orderBy={orderBy} />}
+                    Row={({item}) => <TeamPaymentTableRow creditCard={item.creditCard} reload={reload} />}
                 />
-            )}
+            </ListTableContainer>
 
             <AddPaymentModal
                 preItems={result.items}
