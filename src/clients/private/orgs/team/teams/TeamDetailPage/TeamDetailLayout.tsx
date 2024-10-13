@@ -49,8 +49,9 @@ export const TeamDetailLayout = memo(function TeamDetailLayout() {
 
                         <TeamStatCardList changeCurrentTab={(tabName) => setTab(tabName)} />
                     </div>
-                    <div className={'col-span-3 card border rounded-lg bg-white p-6'}>
-                        <div className={'space-x-4 mb-8'}>
+
+                    <div className={'col-span-3'}>
+                        <div className={'flex items-center mb-8'}>
                             <TeamNavItem text={'멤버'} onClick={() => setTab('members')} isActive={tab === 'members'} />
                             <TeamNavItem
                                 text={'구독'}
@@ -84,13 +85,15 @@ interface TeamNavItemProps {
 
 const TeamNavItem = memo((props: TeamNavItemProps) => {
     return (
-        <div className={`${props.isActive && 'border-b-4 border-scordi-500'} pb-2 inline`}>
-            <button
-                onClick={props.onClick}
-                className={`font-medium text-lg text-gray-800 h-4 hover:text-scordi-500 pb-4`}
-            >
+        <div className={`relative pb-2 px-2`}>
+            <button onClick={props.onClick} className={`font-medium text-15 text-gray-800 hover:text-scordi-500`}>
                 {props.text}
             </button>
+            <span
+                className={`absolute top-full left-0 right-0 ${
+                    props.isActive ? 'h-[2px]' : 'h-0'
+                } bg-scordi-500 transition`}
+            />
         </div>
     );
 });
