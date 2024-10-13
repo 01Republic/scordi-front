@@ -9,6 +9,7 @@ import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
 import {prompt2} from '^components/util/dialog';
 import {TeamAvatar} from './TeamAvatar';
+import {OrgTeamListPageRoute} from '^pages/orgs/[id]/teams';
 import {TeamInvoicesListPage} from './Invoices/TeamInvoicesListPage';
 import {TeamSubscriptionsListPage} from './Subscriptions/TeamSubscriptionsListPage';
 import {TeamMembersListPage} from './Members/TeamMembersListPage';
@@ -58,8 +59,8 @@ export const TeamDetailLayout = memo(function TeamDetailLayout() {
                 <Breadcrumb
                     paths={[
                         '팀',
-                        {text: '팀 목록', active: false, href: `/orgs/${orgId}/teams`},
-                        {text: team.name, active: true, href: router.asPath},
+                        {text: '팀 목록', active: false, href: OrgTeamListPageRoute.path(orgId)},
+                        {text: team.name, active: true},
                     ]}
                 />
                 <div className={'grid grid-cols-4 gap-4 mt-4'}>
