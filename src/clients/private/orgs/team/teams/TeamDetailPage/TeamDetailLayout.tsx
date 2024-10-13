@@ -18,22 +18,7 @@ import {TeamStatCardList} from './TeamStatCardList';
 
 export const TeamDetailLayout = memo(function TeamDetailLayout() {
     const orgId = useRouterIdParamState('id', orgIdParamState);
-    const teamId = useRouterIdParamState('teamId', teamIdParamState);
-    const {team, reload} = useTeamDetail();
-    const router = useRouter();
-
-    const editTeamName = async () => {
-        const result = await prompt2(`변경할 팀 이름을 입력해주세요`, () => null, {
-            inputValue: team?.name,
-        });
-        if (result.isConfirmed && result.value) {
-            const req = teamApi.update(orgId, teamId, {name: result.value});
-            req.then(() => {
-                toast.success('변경사항이 저장되었습니다.');
-                reload();
-            });
-        }
-    };
+    const {team} = useCurrentTeam();
     const [tab, setTab] = useState('members');
 
     const PageShow = () => {
@@ -65,21 +50,8 @@ export const TeamDetailLayout = memo(function TeamDetailLayout() {
                 />
                 <div className={'grid grid-cols-4 gap-4 mt-4'}>
                     <div className={'col-span-1'}>
-                        <div className="flex flex-row items-center card p-6 gap-2">
-                            <TeamAvatar name={team.name} />
-                            <label className="block relative">
-                                <input
-                                    type="text"
-                                    className="input input-bordered w-full pr-[40px] bg-white disabled:bg-white"
-                                    value={team.name}
-                                    disabled={true}
-                                />
-                                <button onClick={editTeamName}>
-                                    <FaEdit className="absolute my-auto top-0 bottom-0 right-3" />
-                                </button>
-                            </label>
-                        </div>
-                        <TeamStatCardList team={team} />
+
+                        <TeamStatCardList changeCurrentTab={(tabName) => setTab(tabName)} />
                     </div>
                     <div className={'col-span-3 card border rounded-lg bg-white p-6'}>
                         <div className={'space-x-4 mb-8'}>

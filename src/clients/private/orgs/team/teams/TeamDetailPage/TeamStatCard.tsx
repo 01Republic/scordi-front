@@ -3,22 +3,30 @@ import {memo} from 'react';
 
 interface TeamStatCardProps extends WithChildren {
     Icon: () => JSX.Element;
-    count: string;
     title: string;
+    count: number;
+    className?: string;
+    onClick?: () => any;
 }
 
 export const TeamStatCard = memo((props: TeamStatCardProps) => {
-    const {count, title, Icon} = props;
+    const {count, title, Icon, className = '', onClick} = props;
 
     return (
-        <div className="flex items-center justify-between border rounded-lg text-sm bg-white h-15 py-2 px-3">
-            <div className="flex flex-col gap-[2px]">
-                <div className="w-5 h-5">
-                    <Icon />
-                </div>
-                <p>{title}</p>
+        <div
+            className={`rounded-lg text-sm bg-white py-2 px-3 cursor-pointer transition shadow-lg ${className}`}
+            onClick={onClick}
+        >
+            <div className="flex items-center gap-1.5 mb-2">
+                <Icon />
+                <p className="text-12">{title}</p>
             </div>
-            <div className="text-24 font-bold">{count}</div>
+
+            <div className="flex items-end">
+                <span className="text-32 font-medium text-black leading-none">
+                    {count ? count.toLocaleString() : <span className="font-thin">-</span>}
+                </span>
+            </div>
         </div>
     );
 });
