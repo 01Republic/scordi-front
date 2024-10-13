@@ -1,15 +1,16 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
 import {orgIdParamState} from '^atoms/common';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
-import {BillingHistoryStatusMetaDto} from '^models/BillingHistory/type';
+import {BillingHistoryDto, BillingHistoryStatusMetaDto} from '^models/BillingHistory/type';
 import {billingHistoryApi} from '^models/BillingHistory/api';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
-import {ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {MonthYearSwitch} from './MonthYearSwitch';
 import {YearlyScopeHandler} from './YearlyScopeHandler';
-import {rangeToArr} from '^utils/range';
+import {BillingHistoryMonthly} from '^clients/private/orgs/subscriptions/OrgBillingHistoryStatusPage/BillingHistoryMonthly';
+import {BillingHistoryYearly} from '^clients/private/orgs/subscriptions/OrgBillingHistoryStatusPage/BillingHistoryYearly';
+import {Paginated} from '^types/utils/paginated.dto';
 
 export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatusPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -17,6 +18,7 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
     const [viewUnit, setViewUnit] = useState(BillingCycleOptions.Monthly);
     const [years, setYears] = useState<number[]>([]);
     const [focusYear, setFocusYear] = useState<number>();
+    const [billingItems, setBillingItems] = useState<Paginated<BillingHistoryDto>>();
 
     const getMetaData = debounce(() => {
         billingHistoryApi.statusMeta(orgId).then((res) => {
@@ -32,12 +34,23 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
     };
 
     const onSearch = (keyword?: string) => {
-        // const query = plainToInstance(FindAllBillingHistoriesQueryDto, {
-        //     startDate: 'hi',
-        // });
-        // console.log(query);
-        // const q2 = new FindAllBillingHistoriesQueryDto();
+        getBillingItems(keyword);
     };
+
+    const getBillingItems = (keyword?: string) => {
+        billingHistoryApi
+            .indexOfOrg(orgId, {startDate: `${focusYear}-01-01`, endDate: `${focusYear}-12-31`})
+            .then((res) => {
+                const filterdItems = res.data.items.filter((item) =>
+                    item.subscription?.product.name().includes(keyword || ''),
+                );
+                setBillingItems({items: filterdItems, pagination: res.data.pagination});
+            });
+    };
+
+    useEffect(() => {
+        !!focusYear && getBillingItems();
+    }, [focusYear]);
 
     return (
         <ListPage
@@ -68,16 +81,10 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
             }}
             onSearch={onSearch}
         >
-            <ListTableContainer
-                hideTopPaginator
-                pagination={{
-                    totalItemCount: 163,
-                    currentItemCount: 10,
-                    totalPage: 17,
-                    currentPage: 1,
-                    itemsPerPage: 10,
-                }}
-            ></ListTableContainer>
+            {!!billingItems && viewUnit === BillingCycleOptions.Monthly && (
+                <BillingHistoryMonthly items={billingItems} />
+            )}
+            {!!billingItems && viewUnit === BillingCycleOptions.Yearly && <BillingHistoryYearly />}
         </ListPage>
     );
 });
