@@ -23,7 +23,7 @@ export const TeamStatCard = memo((props: TeamStatCardProps) => {
             </div>
 
             <div className="flex items-end">
-                <span className="text-32 font-medium text-black leading-none">
+                <span className="text-28 font-medium text-black leading-none">
                     {count ? count.toLocaleString() : <span className="font-thin">-</span>}
                 </span>
             </div>
