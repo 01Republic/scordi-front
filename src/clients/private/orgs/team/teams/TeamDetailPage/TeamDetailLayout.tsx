@@ -1,11 +1,10 @@
-import React, {memo} from 'react';
 import {useRouter} from 'next/router';
 import {FaEdit} from 'react-icons/fa';
 import {toast} from 'react-hot-toast';
 import {orgIdParamState, teamIdParamState, useRouterIdParamState} from '^atoms/common';
-import {WithChildren} from '^types/global.type';
 import {teamApi} from '^models/Team/api';
 import {useTeamDetail} from '^models/Team/hook';
+import React, {memo, useState} from 'react';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
 import {prompt2} from '^components/util/dialog';
@@ -16,14 +15,11 @@ import {TeamMembersListPage} from './Members/TeamMembersListPage';
 import {TeamPaymentsListPage} from './Payments/TeamPaymentsListPage';
 import {TeamStatCardList} from './TeamStatCardList';
 
-interface TeamDetailLayoutProps extends WithChildren {}
-
-export const TeamDetailLayout = memo(function TeamDetailLayout(props: TeamDetailLayoutProps) {
+export const TeamDetailLayout = memo(function TeamDetailLayout() {
     const orgId = useRouterIdParamState('id', orgIdParamState);
     const teamId = useRouterIdParamState('teamId', teamIdParamState);
     const {team, reload} = useTeamDetail();
     const router = useRouter();
-    const [tab, setTab] = React.useState('members');
 
     const editTeamName = async () => {
         const result = await prompt2(`변경할 팀 이름을 입력해주세요`, () => null, {
@@ -37,6 +33,7 @@ export const TeamDetailLayout = memo(function TeamDetailLayout(props: TeamDetail
             });
         }
     };
+    const [tab, setTab] = useState('members');
 
     const PageShow = () => {
         switch (tab) {
@@ -116,7 +113,7 @@ interface TeamNavItemProps {
     isActive?: boolean;
 }
 
-const TeamNavItem = (props: TeamNavItemProps) => {
+const TeamNavItem = memo((props: TeamNavItemProps) => {
     return (
         <div className={`${props.isActive && 'border-b-4 border-scordi-500'} pb-2 inline`}>
             <button
@@ -127,4 +124,4 @@ const TeamNavItem = (props: TeamNavItemProps) => {
             </button>
         </div>
     );
-};
+});
