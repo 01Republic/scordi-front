@@ -4,7 +4,7 @@ import {debounce} from 'lodash';
 import {orgIdParamState} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {useTeamsForListPage} from '^models/Team/hook';
-import {TeamListSection} from '^clients/private/orgs/team/teams/OrgTeamListPage/TeamListSection';
+import {TeamListSection} from './TeamListSection';
 
 export const OrgTeamListPage = memo(function OrgTeamListPage() {
     const organizationId = useRecoilValue(orgIdParamState);
