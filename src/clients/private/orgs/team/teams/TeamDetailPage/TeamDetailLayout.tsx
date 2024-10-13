@@ -1,19 +1,14 @@
-import {useRouter} from 'next/router';
-import {FaEdit} from 'react-icons/fa';
-import {toast} from 'react-hot-toast';
-import {orgIdParamState, teamIdParamState, useRouterIdParamState} from '^atoms/common';
-import {teamApi} from '^models/Team/api';
-import {useTeamDetail} from '^models/Team/hook';
 import React, {memo, useState} from 'react';
+import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {useCurrentTeam} from '^models/Team/hook';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
-import {prompt2} from '^components/util/dialog';
-import {TeamAvatar} from './TeamAvatar';
 import {OrgTeamListPageRoute} from '^pages/orgs/[id]/teams';
 import {TeamInvoicesListPage} from './Invoices/TeamInvoicesListPage';
 import {TeamSubscriptionsListPage} from './Subscriptions/TeamSubscriptionsListPage';
 import {TeamMembersListPage} from './Members/TeamMembersListPage';
 import {TeamPaymentsListPage} from './Payments/TeamPaymentsListPage';
+import {TeamProfileSection} from './TeamProfileSection';
 import {TeamStatCardList} from './TeamStatCardList';
 
 export const TeamDetailLayout = memo(function TeamDetailLayout() {
@@ -50,6 +45,7 @@ export const TeamDetailLayout = memo(function TeamDetailLayout() {
                 />
                 <div className={'grid grid-cols-4 gap-4 mt-4'}>
                     <div className={'col-span-1'}>
+                        <TeamProfileSection />
 
                         <TeamStatCardList changeCurrentTab={(tabName) => setTab(tabName)} />
                     </div>
