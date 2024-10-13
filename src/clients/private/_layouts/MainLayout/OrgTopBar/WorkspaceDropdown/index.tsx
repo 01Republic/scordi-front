@@ -2,14 +2,11 @@ import {memo, useEffect} from 'react';
 import {FaChevronDown} from 'react-icons/fa6';
 import {LinkTo} from '^components/util/LinkTo';
 import {Dropdown} from '^v3/share/Dropdown';
-import {useCurrentOrg, useCurrentOrg2} from '^models/Organization/hook';
+import {useCurrentOrg2} from '^models/Organization/hook';
 import {useCurrentUser} from '^models/User/hook';
 import {useMembershipInHeader} from '^models/Membership/hook';
 import {LoadableBox} from '^components/util/loading';
-import {useRecoilValue} from 'recoil';
-import {currentOrgAtom} from '^models/Organization/atom';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
-import {orgIdParamState} from '^atoms/common';
 
 interface WorkspaceDropdownProps {
     //
