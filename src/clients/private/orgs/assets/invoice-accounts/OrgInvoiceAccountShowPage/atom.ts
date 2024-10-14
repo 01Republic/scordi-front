@@ -8,6 +8,9 @@ import {plainToInstance} from 'class-transformer';
 import {AxiosResponse} from 'axios';
 import {toast} from 'react-hot-toast';
 import {errorNotify} from '^utils/toast-notify';
+import {useSubscriptionListOfInvoiceAccount} from '^models/Subscription/hook';
+import {useBillingHistoryListOfInvoiceAccount} from '^models/BillingHistory/hook';
+import {useInvoiceAccountSync} from '^models/InvoiceAccount/hook';
 
 export const invoiceAccountSubjectAtom = atom<InvoiceAccountDto | null>({
     key: 'OrgInvoiceAccountShowPage/invoiceAccountSubjectAtom',
@@ -84,4 +87,46 @@ export const useCurrentInvoiceAccountEdit = () => {
         setIsEditMode,
         isLoading,
     };
+};
+
+export const invoiceAccountIsValidTokenAtom = atom({
+    key: 'OrgInvoiceAccountShowPage/invoiceAccountIsValidTokenAtom',
+    default: true,
+});
+
+export const useCurrentInvoiceAccountCheckValidToken = () => {
+    const checkIsValidToken = (invoiceAccount: InvoiceAccountDto) => {
+        const {organizationId, id} = invoiceAccount;
+        return invoiceAccountApi.isValidToken(organizationId, id).then((res) => res.data);
+    };
+    return {checkIsValidToken};
+};
+
+export const useCurrentInvoiceAccountSync = () => {
+    const {currentInvoiceAccount, reload: reloadCurrentInvoiceAccount} = useCurrentInvoiceAccount();
+    const {reload: reloadSubscriptions, isNotLoaded: subscriptionIsNotLoaded} = useSubscriptionListOfInvoiceAccount();
+    const {reload: reloadBillingHistories, isNotLoaded: billingHistoryIsNotLoaded} =
+        useBillingHistoryListOfInvoiceAccount();
+    const {syncAccountWithConfirm, isSyncRunning} = useInvoiceAccountSync();
+
+    const onFinish = () => {
+        return Promise.allSettled([
+            reloadCurrentInvoiceAccount(),
+            !subscriptionIsNotLoaded && reloadSubscriptions(),
+            !billingHistoryIsNotLoaded && reloadBillingHistories(),
+        ]);
+    };
+
+    const startSync = async () => {
+        if (!currentInvoiceAccount) return;
+        const {organizationId} = currentInvoiceAccount;
+        syncAccountWithConfirm(organizationId, currentInvoiceAccount).then(onFinish);
+    };
+
+    const renewSync = async () => {
+        if (!currentInvoiceAccount) return;
+        const {organizationId} = currentInvoiceAccount;
+    };
+
+    return {startSync, isSyncRunning, onFinish};
 };

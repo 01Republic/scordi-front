@@ -1,19 +1,40 @@
-import React, {memo, useState} from 'react';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import React, {memo, useEffect, useState} from 'react';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {invoiceAccountIdParamState, orgIdParamState} from '^atoms/common';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
 import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
-import {useCurrentInvoiceAccount} from './atom';
+import {invoiceAccountSubjectAtom, useCurrentInvoiceAccount} from './atom';
 import {InvoiceAccountProfilePanel} from './InvoiceAccountProfilePanel';
 import {InvoiceAccountActionPanel} from './InvoiceAccountActionPanel';
 import {InvoiceAccountInformationPanel} from './InvoiceAccountInformationPanel';
 import {BillingHistoryListOfInvoiceAccountTabContent, SubscriptionListOfInvoiceAccountTabContent} from './tab-panes';
+import {googleOAuth} from '^config/environments';
+import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
+import {GoogleOAuthProvider} from '@react-oauth/google';
+import {useInvoiceAccountSync} from '^models/InvoiceAccount/hook';
 
-export const OrgInvoiceAccountShowPage = memo(function OrgInvoiceAccountShowPage() {
+export const OrgInvoiceAccountShowPage = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
+    const [id, setId] = useRecoilState(invoiceAccountIdParamState);
+    const {currentInvoiceAccount, findOne, setCurrentInvoiceAccount} = useCurrentInvoiceAccount();
     const [activeTabIndex, setActiveTabIndex] = useState(0);
-    const {currentInvoiceAccount} = useCurrentInvoiceAccount();
+    const {renewAccountWithConfirm} = useInvoiceAccountSync();
+    // const currentInvoiceAccount = useRecoilValue(invoiceAccountSubjectAtom);
+
+    useEffect(() => {
+        if (!orgId || isNaN(orgId)) return;
+        if (!id || isNaN(id)) return;
+        console.log('OrgInvoiceAccountShowPage.id', id);
+        findOne(orgId, id);
+    }, [orgId, id]);
+
+    useEffect(() => {
+        return () => {
+            setId(NaN);
+            setCurrentInvoiceAccount(null);
+        };
+    }, []);
 
     return (
         <ShowPage
@@ -28,7 +49,7 @@ export const OrgInvoiceAccountShowPage = memo(function OrgInvoiceAccountShowPage
                     <InvoiceAccountProfilePanel />
                 </div>
 
-                <InvoiceAccountActionPanel />
+                {currentInvoiceAccount && <InvoiceAccountActionPanel invoiceAccount={currentInvoiceAccount} />}
             </header>
 
             <main className="pt-4">
@@ -59,6 +80,20 @@ export const OrgInvoiceAccountShowPage = memo(function OrgInvoiceAccountShowPage
                 )}
                 {activeTabIndex === 1 && <BillingHistoryListOfInvoiceAccountTabContent />}
             </main>
+
+            <div className="hidden">
+                <GoogleOAuthProvider clientId={googleOAuth.gmailClient.id}>
+                    <GoogleLoginBtn
+                        about="gmail"
+                        onCode={(code) => {
+                            if (!currentInvoiceAccount) return;
+                            renewAccountWithConfirm(orgId, currentInvoiceAccount, {code});
+                        }}
+                    >
+                        <button id="invoice-email-token-refresh-button">지메일 계정 연동 로그인 트리거</button>
+                    </GoogleLoginBtn>
+                </GoogleOAuthProvider>
+            </div>
         </ShowPage>
     );
 });

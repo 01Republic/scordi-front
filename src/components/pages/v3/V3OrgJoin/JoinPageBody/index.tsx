@@ -10,6 +10,7 @@ import {UserDto} from '^models/User/types';
 import {useRouter} from 'next/router';
 import {inviteMembershipApi} from '^models/Membership/api';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
 
 export const JoinPageBody = memo(() => {
     return (
@@ -61,7 +62,7 @@ const InvitedGoogleLoginButton = memo(() => {
             }
 
             // 최종적으로 이동시킵니다.
-            router.push(V3OrgHomePageRoute.path(invitedOrgId));
+            router.push(OrgMainPageRoute.path(invitedOrgId));
         });
     };
 

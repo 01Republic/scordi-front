@@ -57,7 +57,11 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
                         Row={({item}) => <CreditCardTableRow creditCard={item} reload={reload} />}
                     />
                 ) : (
-                    <EmptyTable icon={'💳'} message="등록된 결제수단이 없어요." Buttons={AddCreditCardDropdown} />
+                    <EmptyTable
+                        Icon={() => <>💳</>}
+                        message="등록된 결제수단이 없어요."
+                        Buttons={AddCreditCardDropdown}
+                    />
                 )}
             </ListTableContainer>
 

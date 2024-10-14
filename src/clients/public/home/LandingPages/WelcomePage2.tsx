@@ -3,6 +3,7 @@ import {useRecoilValue} from 'recoil';
 import Link from 'next/link';
 import {useCurrentUser} from '^models/User/hook';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
 import {LandingPageLayout} from '^clients/public/home/LandingPages/LandingPageLayout';
 import {CheckCircle} from '^components/react-icons/check-circle';
@@ -16,7 +17,7 @@ export const WelcomePage2 = memo(() => {
     const href = (() => {
         if (!currentUser) return '#';
         const id = !!invitedOrgId ? invitedOrgId : currentUser.lastSignedOrgId;
-        return V3OrgHomePageRoute.path(id);
+        return OrgMainPageRoute.path(id);
     })();
 
     return (

@@ -4,8 +4,18 @@ export const intlDateLong = (dateString: string | Date) => {
     return Intl.DateTimeFormat('ko', {dateStyle: 'long'}).format(new Date(dateString));
 };
 
-export const intlDateShort = (dateString: string | Date) => {
-    return Intl.DateTimeFormat('ko', {month: 'long', day: '2-digit'}).format(new Date(dateString));
+export const intlDateShort = (dateString: string | Date, options: Intl.DateTimeFormatOptions = {}) => {
+    return Intl.DateTimeFormat('ko', {month: 'long', day: '2-digit', ...options}).format(new Date(dateString));
+};
+
+export const intlDateRangeShort = (
+    startDateString: string | Date,
+    endDateString: string | Date,
+    options: Intl.DateTimeFormatOptions = {},
+) => {
+    const from = new Date(startDateString);
+    const to = new Date(endDateString);
+    return Intl.DateTimeFormat('ko', {month: 'long', day: '2-digit', ...options}).formatRange(from, to);
 };
 
 export const yyyy_mm_dd = (date: Date, sep = '-'): string => {

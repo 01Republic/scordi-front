@@ -11,6 +11,7 @@ import {UserLoginPageRoute} from '^pages/users/login';
 import {myMembershipApi} from '^models/Membership/api';
 import {useCurrentUser} from '^models/User/hook';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
 
 export const useOrganization = () => useRecoilValue(getOrgQuery);
 
@@ -20,7 +21,7 @@ export function useCurrentOrg(id: number) {
     const [currentOrg, setCurrentOrg] = useRecoilState(currentOrgAtom);
     const [query, setQuery] = useRecoilState(getCurrentOrgQueryAtom);
     const {currentUser} = useCurrentUser();
-    const myMembership = currentUser?.findMemberShipByOrgId(id);
+    const myMembership = currentUser?.findMembershipByOrgId(id);
     const {alert} = useAlert();
 
     const search = (orgId: number, params: FindAllQueryDto<OrganizationDto>, force?: boolean) => {
@@ -34,7 +35,7 @@ export function useCurrentOrg(id: number) {
                     .error('조직을 찾을 수 없습니다', e.response.data.message)
                     .then((res) =>
                         res.isConfirmed && currentUser?.lastSignedOrgId
-                            ? router.replace(V3OrgHomePageRoute.path(currentUser.lastSignedOrgId))
+                            ? router.replace(OrgMainPageRoute.path(currentUser.lastSignedOrgId))
                             : router.replace('/'),
                     );
             });

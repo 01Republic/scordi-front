@@ -9,26 +9,23 @@ import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {confirm2} from '^components/util/dialog';
 import {toast} from 'react-hot-toast';
+import {useCurrentCreditCardSync} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/atom';
 
-interface MakeSyncWithCodefAPIProps {
-    codefCard: CodefCardDto;
-    onStart?: () => any;
-    onFinish?: () => any;
-}
-
-export const MakeSyncWithCodefAPI = memo((props: MakeSyncWithCodefAPIProps) => {
-    const orgId = useRecoilValue(orgIdParamState);
-    const {codefCard, onStart, onFinish} = props;
+export const MakeSyncWithCodefAPI = memo(() => {
     const [isHover, setIsHover] = useState(false);
-    const {syncCardWithConfirm, isSyncRunning} = useCodefCardSync();
+    const {startSync, isSyncRunning, currentCodefCard} = useCurrentCreditCardSync();
 
-    const startSync = () => {
+    if (!currentCodefCard) return <></>;
+
+    const {syncedEndDate} = currentCodefCard;
+
+    const onClick = () => {
         setIsHover(false);
-        syncCardWithConfirm(orgId, codefCard, {onStart}).then(onFinish);
+        startSync();
     };
 
     // (최신 상태인지 체크) 만약 이 카드의 싱크 범위가 어제 날짜에 도달했다면
-    if (codefCard.syncedEndDate && dateIsEqual(startOfDay(codefCard.syncedEndDate), startOfDay())) {
+    if (syncedEndDate && dateIsEqual(startOfDay(syncedEndDate), startOfDay())) {
         // 성공테마의 / 체크 아이콘으로 / 반투명하며 / 선택불가능한 / 정사각 버튼으로 표현
         return (
             <Tippy visible={isHover} content="Up to date">
@@ -48,7 +45,7 @@ export const MakeSyncWithCodefAPI = memo((props: MakeSyncWithCodefAPIProps) => {
         return (
             <Tippy visible={isHover} content="Sync now">
                 <div onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
-                    <div className="btn btn-square border-gray-300" onClick={() => startSync()}>
+                    <div className="btn btn-square border-gray-300" onClick={onClick}>
                         <IoMdRefresh fontSize={20} />
                     </div>
                 </div>

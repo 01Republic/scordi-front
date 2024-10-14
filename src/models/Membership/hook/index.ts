@@ -1,7 +1,7 @@
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {useCallback, useEffect} from 'react';
 import {membershipApi} from '^models/Membership/api';
-import {currentUserMembershipAtom, getCurrentUserMembershipsQuery} from '^models/User/atom';
+import {currentUserAtom, currentUserMembershipAtom, getCurrentUserMembershipsQuery} from '^models/User/atom';
 import {
     membershipInInHeaderAtom,
     membershipInInviteModalAtom,
@@ -9,6 +9,7 @@ import {
 } from '^models/Membership/atom';
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
 import {FindAllMembershipQuery, MembershipDto} from 'src/models/Membership/types';
+import {orgIdParamState} from '^atoms/common';
 
 // 팀멤버 초대모달 / 이미 가입된 유저인지 확인
 export const useMembershipInInviteModal = () => useMemberships(membershipInInviteModalAtom);
@@ -70,7 +71,7 @@ export interface UseCurrentUserMembershipOption {
  * 현재 접속한 조직에 대한 로그인된 사용자의 멤버십 정보를 가져옵니다.
  * OrgMainLayout, useCurrentUser 에서 사용되고 있습니다.
  */
-export const useCurrentUserMembership = (option: UseCurrentUserMembershipOption) => {
+const _useCurrentUserMembership = (option: UseCurrentUserMembershipOption) => {
     const {organizationId, userId, lazy = false} = option;
     const [currentUserMembership, setCurrentUserMembership] = useRecoilState(currentUserMembershipAtom);
 
@@ -111,4 +112,25 @@ export const useCurrentUserMembership = (option: UseCurrentUserMembershipOption)
         setCurrentUserMembership,
         mutation: getMembership,
     };
+};
+
+export const useCurrentUserMembership = () => {
+    const orgId = useRecoilValue(orgIdParamState);
+    const currentUser = useRecoilValue(currentUserAtom);
+
+    const findMembershipByOrgId = (id: number) => {
+        if (!currentUser || !currentUser.memberships || !currentUser.memberships.length) return;
+        return currentUser.findMembershipByOrgId(id);
+    };
+
+    const currentUserMembership = (() => {
+        if (!currentUser || !currentUser.memberships || !currentUser.memberships.length) return;
+        if (!orgId || isNaN(orgId)) return;
+
+        const membershipForCurrentOrg = findMembershipByOrgId(orgId);
+        const membershipForLastJoinedOrg = currentUser.memberships[0];
+        return membershipForCurrentOrg || membershipForLastJoinedOrg;
+    })();
+
+    return {currentUserMembership, findMembershipByOrgId};
 };

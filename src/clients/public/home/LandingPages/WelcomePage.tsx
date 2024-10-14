@@ -3,6 +3,7 @@ import {LandingPageLayout} from '^clients/public/home/LandingPages/LandingPageLa
 import {CheckCircle} from '^components/react-icons/check-circle';
 import {useRouter} from 'next/router';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {useCurrentUser} from '^models/User/hook';
 import {useTranslation} from 'next-i18next';
 
@@ -38,7 +39,7 @@ export const WelcomePage = memo(() => {
 
                         {isAccessible ? (
                             <a
-                                href={currentUser ? `${V3OrgHomePageRoute.path(currentUser.lastSignedOrgId)}` : ''}
+                                href={currentUser ? `${OrgMainPageRoute.path(currentUser.lastSignedOrgId)}` : ''}
                                 className="mb-4 btn sm:btn-lg btn-block normal-case btn-ghost rounded-2xl hover:!bg-white text-lg sm:!text-xl text-scordi-light-500 hover:text-scordi-500"
                             >
                                 사이트 내부로 이동 (관리자전용 노출)

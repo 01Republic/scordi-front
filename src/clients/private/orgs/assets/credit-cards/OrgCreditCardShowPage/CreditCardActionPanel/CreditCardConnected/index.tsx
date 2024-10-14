@@ -7,7 +7,7 @@ import {SyncWithCodefApi} from './SyncWithCodefApi';
 
 export const CreditCardConnected = memo(function CreditCardConnected() {
     const {currentCreditCard} = useCurrentCreditCard();
-    const {search, reset, result} = useCodefCardsOfCreditCardShow();
+    const {search, reset} = useCodefCardsOfCreditCardShow();
 
     useEffect(() => {
         if (!currentCreditCard) return;
@@ -20,8 +20,6 @@ export const CreditCardConnected = memo(function CreditCardConnected() {
     useEffect(() => () => reset(), []);
 
     if (!currentCreditCard) return <></>;
-
-    // const codefCard: CodefCardDto | undefined = result.items[0];
 
     return (
         <div className="flex items-center gap-2">

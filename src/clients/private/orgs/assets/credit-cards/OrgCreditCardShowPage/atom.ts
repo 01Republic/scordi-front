@@ -10,6 +10,11 @@ import {useAltForm} from '^hooks/useAltForm';
 import {errorNotify} from '^utils/toast-notify';
 import {TeamDto} from '^models/Team/type';
 import {orgIdParamState} from '^atoms/common';
+import {useCodefCardsOfCreditCardShow} from '^models/CodefCard/hook';
+import {useSubscriptionListOfCreditCard} from '^models/Subscription/hook';
+import {useBillingHistoryListOfCreditCard} from '^models/BillingHistory/hook';
+import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
+import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 
 export const creditCardSubjectAtom = atom<CreditCardDto | null>({
     key: 'OrgCreditCardShowPage/creditCardSubjectAtom',
@@ -157,4 +162,36 @@ export const useCurrentCreditCardEdit = () => {
         setIsEditMode,
         isLoading,
     };
+};
+
+export const useCurrentCreditCardSync = () => {
+    const {currentCreditCard, reload: reloadCurrentCreditCard} = useCurrentCreditCard();
+    const {result, reload: reloadCodefCards} = useCodefCardsOfCreditCardShow();
+    const {reload: reloadSubscriptions, isNotLoaded: subscriptionIsNotLoaded} = useSubscriptionListOfCreditCard();
+    const {reload: reloadBillingHistories, isNotLoaded: billingHistoryIsNotLoaded} =
+        useBillingHistoryListOfCreditCard();
+    const {syncCardWithConfirm, isSyncRunning} = useCodefCardSync();
+    const currentCodefCard: CodefCardDto | undefined = result.items[0];
+
+    const onFinish = () => {
+        return Promise.allSettled([
+            reloadCurrentCreditCard(),
+            reloadCodefCards(),
+            !subscriptionIsNotLoaded && reloadSubscriptions(),
+            !billingHistoryIsNotLoaded && reloadBillingHistories(),
+        ]);
+    };
+
+    const startSync = () => {
+        if (!currentCreditCard) return;
+        const {organizationId} = currentCreditCard;
+
+        if (currentCodefCard) {
+            syncCardWithConfirm(organizationId, currentCodefCard).then(onFinish);
+        } else {
+            toast('먼저 카드사를 연결해주세요');
+        }
+    };
+
+    return {startSync, isSyncRunning, onFinish, currentCodefCard};
 };

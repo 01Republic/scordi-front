@@ -4,6 +4,7 @@ import {AdminUsersPageRoute} from '^pages/admin/users';
 import {AdminPostsPageRoute} from '^pages/admin/posts';
 import {useCurrentUser} from '^models/User/hook';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {PiSignOut} from 'react-icons/pi';
 import {AiOutlineHome} from '@react-icons/all-files/ai/AiOutlineHome';
 import {AdminProductsPageRoute} from '^pages/admin/products';
@@ -48,7 +49,7 @@ export const AdminSideBar = memo((props: AdminSideBarProps) => {
                     <>
                         <li>
                             <LinkTo
-                                href={V3OrgHomePageRoute.path(currentUser.lastSignedOrgId)}
+                                href={OrgMainPageRoute.path(currentUser.lastSignedOrgId)}
                                 className="btn btn-block btn-scordi-light"
                             >
                                 <AiOutlineHome />

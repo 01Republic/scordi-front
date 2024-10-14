@@ -43,14 +43,20 @@ export const invoiceAccountApi = {
         return api.post<InvoiceAccountDto>(url, data).then(oneDtoOf(InvoiceAccountDto));
     },
 
+    // InvoiceAccount 토큰 만료여부 체크
+    isValidToken(orgId: number, id: number) {
+        const url = `/${NAMESPACE}/${orgId}/invoice_accounts/${id}/isValidToken`;
+        return api.get<boolean>(url);
+    },
+
     sync(orgId: number, id: number) {
         const url = `/${NAMESPACE}/${orgId}/invoice_accounts/${id}/sync`;
-        return api.patch<InvoiceAccountDto>(url);
+        return api.patch<InvoiceAccountDto>(url).then(oneDtoOf(InvoiceAccountDto));
     },
 
     renew(orgId: number, id: number, data: SyncInvoiceAccountRequestDto) {
         const url = `/${NAMESPACE}/${orgId}/invoice_accounts/${id}/re-sync`;
-        return api.patch<InvoiceAccountDto>(url, data);
+        return api.patch<InvoiceAccountDto>(url, data).then(oneDtoOf(InvoiceAccountDto));
     },
 
     // V2
@@ -67,7 +73,7 @@ export const invoiceAccountApi = {
 
     syncV2(orgId: number, id: number) {
         const url = `/${NAMESPACE}/${orgId}/invoice_accounts_v2/${id}/sync`;
-        return api.patch<InvoiceAccountDto>(url);
+        return api.patch<InvoiceAccountDto>(url).then(oneDtoOf(InvoiceAccountDto));
     },
 
     // InvoiceAccount Sync - TokenData를 다시 받아옵니다.
