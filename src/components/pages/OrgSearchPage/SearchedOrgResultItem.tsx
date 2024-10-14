@@ -25,7 +25,7 @@ export const SearchedOrgResultItem = memo((props: SearchedOrgResultItemProps) =>
     const goToJoinConfirm = (org: OrganizationDto) => {
         if (!currentUser) return;
 
-        if (currentUser.findMemberShipByOrgId(org.id)) {
+        if (currentUser.findMembershipByOrgId(org.id)) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',

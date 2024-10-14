@@ -1,7 +1,10 @@
+import {GetServerSideProps} from 'next';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {publicPageRequires} from '^types/utils/18n.type';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {LandingHomePage3} from '^clients/public/home/LandingPages/HomePage3';
+import {useRouter} from 'next/router';
+import {useEffect} from 'react';
 
 export const MainPageRoute = pathRoute({
     pathname: '/',
@@ -16,15 +19,19 @@ export const getStaticProps = async ({locale}: any) => ({
 });
 
 export default function MainPage() {
-    return <LandingHomePage3 />;
+    const router = useRouter();
+    useEffect(() => {
+        router.replace('https://www.scordi.io');
+    }, []);
+    return null;
 }
 
 /**
  * 다음 주소에서 확인
- * - 개발환경: http://localhost:3000/landing2
- * - 스테이징: https://scordi.io:8080/landing2
- * - 실서비스: https://scordi.io/landing2
+ * - 개발환경: http://localhost:3000/home
+ * - 스테이징: https://scordi.io:8080/home
+ * - 실서비스: https://scordi.io/home
  */
 // export default function MainPage() {
-//     return <LandingPage2 />;
+//     return <LandingHomePage3 />;
 // }

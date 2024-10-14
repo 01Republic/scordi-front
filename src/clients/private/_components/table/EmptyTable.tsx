@@ -2,7 +2,7 @@ import React, {memo, ReactNode} from 'react';
 import {ReactComponentLike} from 'prop-types';
 
 interface EmptyTableProps {
-    icon?: ReactNode;
+    Icon?: () => JSX.Element;
     message: string;
     buttonText?: string;
     buttonAction?: () => void;
@@ -10,12 +10,12 @@ interface EmptyTableProps {
 }
 
 export const EmptyTable = memo((props: EmptyTableProps) => {
-    const {icon, message, buttonText, buttonAction, Buttons} = props;
+    const {Icon, message, buttonText, buttonAction, Buttons} = props;
 
     return (
-        <div className={'text-center py-16'}>
-            <p className={'text-2xl'}>{icon}</p>
-            <p>{message}</p>
+        <div className={'flex flex-col items-center justify-center py-16'}>
+            <p className={'text-2xl text-slate-200 mb-4'}>{Icon && <Icon />}</p>
+            <p className="text-16 font-semibold text-gray-400 mb-1.5">{message}</p>
 
             {Buttons && (
                 <div className={'py-4'}>
@@ -24,7 +24,7 @@ export const EmptyTable = memo((props: EmptyTableProps) => {
             )}
 
             {buttonText && buttonAction && (
-                <button className={'mt-4 px-4 py-2 bg-scordi-500 text-white rounded-md'} onClick={buttonAction}>
+                <button className={'btn btn-scordi mt-4 !text-16'} onClick={buttonAction}>
                     {buttonText}
                 </button>
             )}

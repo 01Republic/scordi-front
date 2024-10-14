@@ -2,6 +2,7 @@ import {UserDto} from '^models/User/types';
 import {OrganizationDto} from '^models/Organization/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';
+import {UserLocale} from '^models/User/types/UserLocale.enum';
 
 export enum MembershipLevel {
     MEMBER = 'MEMBER',
@@ -69,3 +70,27 @@ export type CreateMembershipInviteDto = {
     organizationId: number;
     invitations: Invitation[];
 };
+
+interface MembershipLevelTranslateOption {
+    inWord?: boolean;
+    locale?: UserLocale;
+}
+
+export function t_membershipLevel(level: MembershipLevel, opt?: MembershipLevelTranslateOption) {
+    const {inWord = true, locale = UserLocale.Ko} = opt || {};
+
+    const dic = {
+        [UserLocale.Ko]: {
+            [MembershipLevel.MEMBER]: inWord ? '멤버' : '이 워크스페이스의 멤버',
+            [MembershipLevel.OWNER]: inWord ? '소유자' : '이 워크스페이스의 소유자',
+            [MembershipLevel.ADMIN]: inWord ? '최고 관리자' : '최고 관리자',
+        },
+        [UserLocale.En]: {
+            [MembershipLevel.MEMBER]: inWord ? 'member' : 'workspace member',
+            [MembershipLevel.OWNER]: inWord ? 'owner' : 'workspace owner',
+            [MembershipLevel.ADMIN]: inWord ? 'admin' : 'administration',
+        },
+    };
+
+    return dic[locale][level];
+}

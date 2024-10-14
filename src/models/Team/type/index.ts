@@ -5,6 +5,7 @@ import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {PartialType} from '^types/utils/partial-type';
 
 export class TeamDto {
     id: number;
@@ -29,8 +30,8 @@ export class CreateTeamDto {
     name: string;
 }
 
-export class UpdateTeamDto {
-    name?: string | null;
+export class UpdateTeamDto extends PartialType(CreateTeamDto) {
+    // name?: string | null;
 }
 
 export class FindAllTeamQueryDto extends FindAllQueryDto<TeamDto> {

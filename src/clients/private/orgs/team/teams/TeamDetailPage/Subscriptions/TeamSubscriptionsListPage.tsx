@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 import {useRecoilValue} from 'recoil';
 import {teamIdParamState} from '^atoms/common';
@@ -10,7 +10,9 @@ import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 
 export const TeamSubscriptionsListPage = memo(function TeamSubscriptionsListPage() {
     const teamId = useRecoilValue(teamIdParamState);
-    const {search, result, isLoading, orderBy, reload, movePage, changePageSize} = useTeamsSubscriptionForDetailPage();
+    const {search, result, isLoading, isNotLoaded, isEmptyResult, orderBy, reload, movePage, changePageSize} =
+        useTeamsSubscriptionForDetailPage();
+    const [isOpened, setIsOpened] = useState(false);
 
     const onSearch = (keyword?: string) => {
         search({keyword, relations: ['teamMember', 'teamMember.teams', 'subscription']});
@@ -30,24 +32,27 @@ export const TeamSubscriptionsListPage = memo(function TeamSubscriptionsListPage
                     <ListPageSearchInput onSearch={onSearch} placeholder={'검색어를 입력해주세요'} />
                 </div>
             </div>
-            {result.items.length > 0 ? (
-                <ListTableContainer
-                    pagination={result.pagination}
-                    movePage={movePage}
-                    changePageSize={changePageSize}
-                    unit="개"
-                    hideTopPaginator={true}
-                >
-                    <ListTable
-                        items={result.items}
-                        isLoading={isLoading}
-                        Header={() => <SubscriptionTableHeader orderBy={orderBy} />}
-                        Row={({item}) => <SubscriptionTableRow subscription={item.subscription} reload={reload} />}
-                    />
-                </ListTableContainer>
-            ) : (
-                <EmptyTable icon={'🔍'} message="등록된 구독이 없어요." />
-            )}
+            <ListTableContainer
+                pagination={result.pagination}
+                movePage={movePage}
+                changePageSize={changePageSize}
+                unit="개"
+                hideTopPaginator={true}
+                // Empty State Props
+                isNotLoaded={isNotLoaded}
+                isLoading={isLoading}
+                isEmptyResult={isEmptyResult}
+                emptyMessage="연결되어있는 구독이 없어요."
+                emptyButtonText="새 구독 연결"
+                emptyButtonOnClick={() => setIsOpened(true)}
+            >
+                <ListTable
+                    items={result.items}
+                    isLoading={isLoading}
+                    Header={() => <SubscriptionTableHeader orderBy={orderBy} />}
+                    Row={({item}) => <SubscriptionTableRow subscription={item.subscription} reload={reload} />}
+                />
+            </ListTableContainer>
         </>
     );
 });
