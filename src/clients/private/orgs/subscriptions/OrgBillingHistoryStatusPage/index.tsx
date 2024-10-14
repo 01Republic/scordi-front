@@ -11,23 +11,15 @@ import {YearlyScopeHandler} from './YearlyScopeHandler';
 import {BillingHistoryMonthly} from '^clients/private/orgs/subscriptions/OrgBillingHistoryStatusPage/BillingHistoryMonthly';
 import {BillingHistoryYearly} from '^clients/private/orgs/subscriptions/OrgBillingHistoryStatusPage/BillingHistoryYearly';
 import {Paginated} from '^types/utils/paginated.dto';
+import {useBillingHistoryStatus} from '^clients/private/orgs/subscriptions/OrgBillingHistoryStatusPage/useBillingHistoryStatus';
 
 export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatusPage() {
     const orgId = useRecoilValue(orgIdParamState);
-    const [metaData, setMetaData] = useState<BillingHistoryStatusMetaDto>();
-    const [viewUnit, setViewUnit] = useState(BillingCycleOptions.Monthly);
-    const [years, setYears] = useState<number[]>([]);
-    const [focusYear, setFocusYear] = useState<number>();
-    const [billingItems, setBillingItems] = useState<Paginated<BillingHistoryDto>>();
+    const {metaData, years, focusYear, setFocusYear, getMetaData} = useBillingHistoryStatus();
 
-    const getMetaData = debounce(() => {
-        billingHistoryApi.statusMeta(orgId).then((res) => {
-            setMetaData(res.data);
-            const years = res.data.years.reverse();
-            setYears(years);
-            setFocusYear(years[0]);
-        });
-    }, 500);
+    const [viewUnit, setViewUnit] = useState(BillingCycleOptions.Monthly);
+
+    const [billingItems, setBillingItems] = useState<Paginated<BillingHistoryDto>>();
 
     const onReady = () => {
         getMetaData();
@@ -39,7 +31,12 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
 
     const getBillingItems = (keyword?: string) => {
         billingHistoryApi
-            .indexOfOrg(orgId, {startDate: `${focusYear}-01-01`, endDate: `${focusYear}-12-31`})
+            .indexOfOrg(orgId, {
+                startDate: `${focusYear || years[years.length - 1]}-01-01`,
+                endDate: `${focusYear || years[0]}-12-31`,
+                // TODO: 이렇게 해도 되는가... 백엔드에서 계산해서 줘야 할듯 싶은데
+                itemsPerPage: 999,
+            })
             .then((res) => {
                 const filterdItems = res.data.items.filter((item) =>
                     item.subscription?.product.name().includes(keyword || ''),
@@ -49,8 +46,15 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
     };
 
     useEffect(() => {
-        !!focusYear && getBillingItems();
+        console.log(years);
+        getBillingItems();
     }, [focusYear]);
+
+    useEffect(() => {
+        if (viewUnit === BillingCycleOptions.Yearly) {
+            setFocusYear(undefined);
+        }
+    }, [viewUnit]);
 
     return (
         <ListPage
@@ -82,9 +86,11 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
             onSearch={onSearch}
         >
             {!!billingItems && viewUnit === BillingCycleOptions.Monthly && (
-                <BillingHistoryMonthly items={billingItems} />
+                <BillingHistoryMonthly billingHistory={billingItems} />
             )}
-            {!!billingItems && viewUnit === BillingCycleOptions.Yearly && <BillingHistoryYearly />}
+            {!!billingItems && viewUnit === BillingCycleOptions.Yearly && (
+                <BillingHistoryYearly billingHistory={billingItems} />
+            )}
         </ListPage>
     );
 });

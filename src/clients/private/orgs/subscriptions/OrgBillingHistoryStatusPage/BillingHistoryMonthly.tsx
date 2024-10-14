@@ -9,11 +9,11 @@ import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOption
 import {Table} from '^v3/share/table/Table';
 
 interface BillingHistoryMonthlyProps {
-    items: Paginated<BillingHistoryDto>;
+    billingHistory: Paginated<BillingHistoryDto>;
 }
 
 export const BillingHistoryMonthly = memo((props: BillingHistoryMonthlyProps) => {
-    const {items, pagination} = props.items;
+    const {items, pagination} = props.billingHistory;
 
     const grouped = items.reduce((acc, item) => {
         const key = item.subscription!.product.id;
@@ -115,6 +115,7 @@ export const BillingHistoryMonthly = memo((props: BillingHistoryMonthlyProps) =>
 
                                             return (
                                                 <td
+                                                    key={index}
                                                     className={`text-right font-light ${
                                                         isHigher
                                                             ? 'text-red-500 bg-red-50'
