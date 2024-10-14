@@ -1,5 +1,6 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
+import {TableSkeleton} from './TableSkeleton';
 
 interface TableProps extends WithChildren {
     isLoading?: boolean;
@@ -8,6 +9,10 @@ interface TableProps extends WithChildren {
 export const Table = memo((props: TableProps) => {
     const {isLoading = false, children} = props;
 
-    return <table className={`table w-full ${isLoading ? 'no-click opacity-50' : ''}`}>{children}</table>;
+    if (isLoading) {
+        return <TableSkeleton />;
+    }
+
+    return <table className="table w-full">{children}</table>;
 });
 Table.displayName = 'Table';
