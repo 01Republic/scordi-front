@@ -6,7 +6,10 @@ import {LandingPageLayout} from '^clients/public/home/LandingPages/LandingPageLa
 
 export const ProductListPage = memo(() => {
     return (
-        <LandingPageLayout pageName="SaaS-Collection" hideNav>
+        <LandingPageLayout pageName="SaaS-Collection" hideNav hideFooter>
+            <br />
+            <br />
+            <br />
             <ProductListHeader />
 
             <div className="w-full">

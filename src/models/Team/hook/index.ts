@@ -6,11 +6,12 @@ import {
     teamsListAtom,
     teamsListForTeamListPageAtom,
 } from '^models/Team/atom';
-import {FindAllTeamQueryDto, TeamDto} from '^models/Team/type';
+import {FindAllTeamQueryDto, TeamDto, UpdateTeamDto} from '^models/Team/type';
 import React, {useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState, teamIdParamState, useRouterIdParamState} from '^atoms/common';
 import {FindAllTeamMemberSubscriptionQueryDto, TeamMemberSubscriptionDto} from '^models/TeamMember';
+import {toast} from 'react-hot-toast';
 
 export const useTeamsV2 = () => useTeams(teamsListAtom);
 
@@ -42,7 +43,7 @@ const useTeamsSubscription = (
     });
 };
 
-export const useTeamDetail = () => {
+export const useCurrentTeam = () => {
     const orgId = useRouterIdParamState('id', orgIdParamState);
     const teamId = useRouterIdParamState('teamId', teamIdParamState);
     const [team, setTeam] = React.useState<TeamDto | undefined>(undefined);
@@ -58,6 +59,18 @@ export const useTeamDetail = () => {
         getTeamInfo();
     };
 
+    const update = (
+        data: UpdateTeamDto,
+        option?: {
+            silent?: boolean;
+        },
+    ) => {
+        return teamApi.update(orgId, teamId, data).then(() => {
+            if (!option?.silent) toast.success('변경사항이 저장되었습니다.');
+            reload();
+        });
+    };
+
     useEffect(() => {
         !!teamId && getTeamInfo();
     }, [teamId]);
@@ -65,5 +78,6 @@ export const useTeamDetail = () => {
     return {
         team,
         reload,
+        update,
     };
 };

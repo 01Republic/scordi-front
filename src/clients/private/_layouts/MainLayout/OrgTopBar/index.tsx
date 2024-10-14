@@ -8,10 +8,12 @@ import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/sel
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
 import {useMeasuredUserId} from '^components/ExternalCDNScripts/measured';
+import {t_membershipLevel} from '^models/Membership/types';
 
 export const OrgTopBar = memo(() => {
     const {currentUser} = useCurrentUser();
     const currentOrg = useRecoilValue(currentOrgAtom);
+    const currentMembership = currentOrg && currentUser && currentUser.findMembershipByOrgId(currentOrg.id);
     useMeasuredUserId();
 
     return (
@@ -23,7 +25,10 @@ export const OrgTopBar = memo(() => {
             <WorkspaceDropdown />
 
             <div className="hidden lg:block">
-                <div className="text-14 tracking-[0.01rem]">{currentUser?.name}님은 최고 관리자입니다.</div>
+                <div className="text-14 tracking-[0.01rem]">
+                    {currentUser?.name}님은{' '}
+                    {currentMembership ? `${t_membershipLevel(currentMembership?.level, {inWord: false})}입니다.` : ''}
+                </div>
             </div>
 
             <div className="ml-auto flex items-center gap-8">

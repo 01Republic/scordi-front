@@ -3,13 +3,13 @@ import {WithChildren} from '^types/global.type';
 import {AOSProvider, BetaServiceFooter, HeadTag} from '^clients/public/home/LandingPages/components';
 import {LandingPageNavBar} from '^components/lab/landing-page-components';
 
-type LandingPageLayoutProps = {
+interface LandingPageLayoutProps extends WithChildren {
     pageName: string;
     navBgBlur?: boolean;
     hideNav?: boolean;
     hideFooter?: boolean;
     className?: string;
-} & WithChildren;
+}
 
 export const LandingPageLayout = memo((props: LandingPageLayoutProps) => {
     const {pageName, navBgBlur = false, hideNav = false, hideFooter = false, className = '', children} = props;

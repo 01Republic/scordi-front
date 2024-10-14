@@ -1,10 +1,12 @@
 import React, {memo} from 'react';
+import Tippy from '@tippyjs/react';
+import {toast} from 'react-hot-toast';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 import {MemberCount} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {subscriptionApi} from '^models/Subscription/api';
-import {toast} from 'react-hot-toast';
+import {FiMinusCircle} from '^components/react-icons';
 
 interface SubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -37,6 +39,21 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
             {/* 비고 */}
             <td>
                 <AirInputText defaultValue={subscription.desc || undefined} onChange={updateMemo} />
+            </td>
+
+            {/* Actions */}
+            <td>
+                {/*<TeamMemberStatusDropdown teamMember={teamMember} reload={() => reload && reload()} />*/}
+                <div className="flex items-center justify-end">
+                    <Tippy content="이 팀에서 제거">
+                        <div>
+                            <FiMinusCircle
+                                fontSize={24}
+                                className="text-red-500 opacity-30 group-hover:opacity-100 transition-all cursor-pointer btn-animation"
+                            />
+                        </div>
+                    </Tippy>
+                </div>
             </td>
         </tr>
     );

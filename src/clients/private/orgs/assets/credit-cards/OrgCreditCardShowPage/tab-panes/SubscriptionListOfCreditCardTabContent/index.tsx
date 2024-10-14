@@ -88,7 +88,11 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
                         Row={({item}) => <CreditCardSubscriptionTableRow subscription={item} reload={reload} />}
                     />
                 ) : (
-                    <EmptyTable icon={'🔍'} message="연결된 구독이 없어요." Buttons={() => <AddSubscriptionButton />} />
+                    <EmptyTable
+                        Icon={() => <>🔍</>}
+                        message="연결된 구독이 없어요."
+                        Buttons={() => <AddSubscriptionButton />}
+                    />
                 )}
             </ListTableContainer>
 

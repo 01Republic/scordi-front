@@ -66,7 +66,11 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                     />
                 </ListTableContainer>
             ) : (
-                <EmptyTable icon={'🔍'} message="등록된 구독이 없어요." Buttons={() => <AddSubscriptionButton />} />
+                <EmptyTable
+                    Icon={() => <>🔍</>}
+                    message="등록된 구독이 없어요."
+                    Buttons={() => <AddSubscriptionButton />}
+                />
             )}
         </ListPage>
     );

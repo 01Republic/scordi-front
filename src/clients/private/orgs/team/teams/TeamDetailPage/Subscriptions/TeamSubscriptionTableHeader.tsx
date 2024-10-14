@@ -20,6 +20,7 @@ export const SubscriptionTableHeader = memo((props: SubscriptionTableHeaderProps
             </SortableTH>
 
             <th>비고</th>
+            <th></th>
         </tr>
     );
 });

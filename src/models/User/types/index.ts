@@ -84,8 +84,9 @@ export class UserDto {
     @TypeCast(() => MembershipDto) memberships?: MembershipDto[];
     @TypeCast(() => UsersSocialAccountDto) socialAccounts?: UsersSocialAccountDto[];
 
-    findMemberShipByOrgId(orgId: number) {
-        if (!orgId || !this.memberships) return null;
+    findMembershipByOrgId(orgId: number) {
+        if (!orgId || isNaN(orgId)) return;
+        if (!this.memberships) return;
 
         return this.memberships.find((membership) => {
             return membership.organizationId === orgId;

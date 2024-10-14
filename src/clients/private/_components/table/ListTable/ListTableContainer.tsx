@@ -5,12 +5,18 @@ import {PaginationMetaData} from '^types/utils/paginated.dto';
 import {ListTablePaginator} from './ListTablePaginator';
 import {CardContainerTableLayout} from './layouts/CardContainerTableLayout';
 import {FcVlc} from 'react-icons/fc';
+import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
+import {GiSadCrab} from 'react-icons/gi';
+import {HiMiniInbox} from 'react-icons/hi2';
 
 interface ListTableContainerProps extends WithChildren {
     // data
     pagination: PaginationMetaData;
     movePage?: (page: number, append?: boolean) => any;
     changePageSize?: (itemsPerPage: number) => any;
+    isLoading?: boolean;
+    isNotLoaded?: boolean;
+    isEmptyResult?: boolean;
 
     // UI Options
     unit?: string;
@@ -19,13 +25,59 @@ interface ListTableContainerProps extends WithChildren {
 
     // components
     Layout?: ReactComponentLike;
+
+    /**
+     * Empty State
+     */
+    EmptyIcon?: () => JSX.Element;
+    emptyMessage?: string;
+    emptyButtonText?: string;
+    emptyButtonOnClick?: () => void;
+    EmptyButtons?: ReactComponentLike;
 }
 
 export const ListTableContainer = memo((props: ListTableContainerProps) => {
     const {pagination, movePage, changePageSize} = props;
     const {Layout = CardContainerTableLayout} = props;
     const {unit = '개', hideTopPaginator = false, hideBottomPaginator = false} = props;
+    const {isLoading = false, isNotLoaded = false, isEmptyResult = false} = props;
     const {children} = props;
+
+    // Empty State Props
+    const {
+        EmptyIcon,
+        emptyMessage = '조회된 결과가 없어요.',
+        emptyButtonText,
+        emptyButtonOnClick,
+        EmptyButtons,
+    } = props;
+
+    if (isNotLoaded && !isLoading) return <></>;
+
+    if (isEmptyResult) {
+        return (
+            <EmptyTable
+                Icon={
+                    EmptyIcon ||
+                    (() => (
+                        <div className="relative">
+                            <HiMiniInbox className="text-slate-200" fontSize={48} />
+                            <div className="absolute top-[12px] left-[14px]">
+                                <GiSadCrab
+                                    className="text-slate-100 hover:text-red-200 hover:animate-bounce"
+                                    fontSize={20}
+                                />
+                            </div>
+                        </div>
+                    ))
+                }
+                message={emptyMessage}
+                buttonText={emptyButtonText}
+                buttonAction={emptyButtonOnClick}
+                Buttons={EmptyButtons}
+            />
+        );
+    }
 
     return (
         <Layout>

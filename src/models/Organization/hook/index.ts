@@ -21,7 +21,7 @@ export function useCurrentOrg(id: number) {
     const [currentOrg, setCurrentOrg] = useRecoilState(currentOrgAtom);
     const [query, setQuery] = useRecoilState(getCurrentOrgQueryAtom);
     const {currentUser} = useCurrentUser();
-    const myMembership = currentUser?.findMemberShipByOrgId(id);
+    const myMembership = currentUser?.findMembershipByOrgId(id);
     const {alert} = useAlert();
 
     const search = (orgId: number, params: FindAllQueryDto<OrganizationDto>, force?: boolean) => {

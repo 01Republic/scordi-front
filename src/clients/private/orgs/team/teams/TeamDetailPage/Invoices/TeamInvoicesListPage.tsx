@@ -12,8 +12,19 @@ import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 
 export const TeamInvoicesListPage = memo(function TeamInvoicesListPage() {
     const orgId = useRecoilValue(orgIdParamState);
-    const {search, result, isLoading, query, searchAndUpdateCounter, movePage, changePageSize, reload, orderBy} =
-        useTeamInvoiceAccountListInTeamDetail();
+    const {
+        search,
+        result,
+        isLoading,
+        isNotLoaded,
+        isEmptyResult,
+        query,
+        searchAndUpdateCounter,
+        movePage,
+        changePageSize,
+        reload,
+        orderBy,
+    } = useTeamInvoiceAccountListInTeamDetail();
     const [isOpened, setIsOpened] = useState(false);
 
     const onSearch = (keyword?: string) => {
@@ -40,29 +51,27 @@ export const TeamInvoicesListPage = memo(function TeamInvoicesListPage() {
                     </button>
                 </div>
             </div>
-            {result.items.length > 0 ? (
-                <ListTableContainer
-                    pagination={result.pagination}
-                    movePage={movePage}
-                    changePageSize={changePageSize}
-                    unit="개"
-                    hideTopPaginator={true}
-                >
-                    <ListTable
-                        items={result.items}
-                        isLoading={isLoading}
-                        Header={() => <InvoicesTableHeader orderBy={orderBy} />}
-                        Row={({item}) => <InvoicesTableRow item={item} reload={reload} />}
-                    />
-                </ListTableContainer>
-            ) : (
-                <EmptyTable
-                    icon={'📃'}
-                    message="등록된 청구서수신계정이 없어요."
-                    buttonText={'청구서수신계정 등록'}
-                    buttonAction={() => setIsOpened(true)}
+            <ListTableContainer
+                pagination={result.pagination}
+                movePage={movePage}
+                changePageSize={changePageSize}
+                unit="개"
+                hideTopPaginator={true}
+                // Empty State Props
+                isNotLoaded={isNotLoaded}
+                isLoading={isLoading}
+                isEmptyResult={isEmptyResult}
+                emptyMessage="연결된 청구서수신계정이 없어요."
+                emptyButtonText="청구서수신계정 연결"
+                emptyButtonOnClick={() => setIsOpened(true)}
+            >
+                <ListTable
+                    items={result.items}
+                    isLoading={isLoading}
+                    Header={() => <InvoicesTableHeader orderBy={orderBy} />}
+                    Row={({item}) => <InvoicesTableRow item={item} reload={reload} />}
                 />
-            )}
+            </ListTableContainer>
 
             {/* 연결 추가 모달 */}
             <AddInvoiceModal

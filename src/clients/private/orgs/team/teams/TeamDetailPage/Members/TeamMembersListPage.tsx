@@ -8,12 +8,22 @@ import {TeamMembersTableHeader} from '^clients/private/orgs/team/teams/TeamDetai
 import {useTeamMembershipListInTeamDetail} from '^models/TeamMembership/hook';
 import {AddMemberModal} from '^clients/private/orgs/team/teams/TeamDetailPage/Members/AddMemberModal';
 import {FaPlus} from 'react-icons/fa6';
-import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 
 export const TeamMembersListPage = memo(function TeamMembersListPage() {
     const teamId = useRecoilValue(teamIdParamState);
-    const {search, result, isLoading, query, searchAndUpdateCounter, movePage, changePageSize, reload, orderBy} =
-        useTeamMembershipListInTeamDetail();
+    const {
+        search,
+        result,
+        isNotLoaded,
+        isEmptyResult,
+        isLoading,
+        query,
+        searchAndUpdateCounter,
+        movePage,
+        changePageSize,
+        reload,
+        orderBy,
+    } = useTeamMembershipListInTeamDetail();
     const [isOpened, setIsOpened] = useState(false);
 
     useEffect(() => {
@@ -41,29 +51,27 @@ export const TeamMembersListPage = memo(function TeamMembersListPage() {
                     </button>
                 </div>
             </div>
-            {result.items.length > 0 ? (
-                <ListTableContainer
-                    pagination={result.pagination}
-                    movePage={movePage}
-                    changePageSize={changePageSize}
-                    unit="개"
-                    hideTopPaginator={true}
-                >
-                    <ListTable
-                        items={result.items}
-                        isLoading={isLoading}
-                        Header={() => <TeamMembersTableHeader orderBy={orderBy} />}
-                        Row={({item}) => <TeamMembersTableRow teamMember={item.teamMember} reload={reload} />}
-                    />
-                </ListTableContainer>
-            ) : (
-                <EmptyTable
-                    icon={'👤'}
-                    message="등록된 구성원이 없어요."
-                    buttonText={'구성원 등록'}
-                    buttonAction={() => setIsOpened(true)}
+            <ListTableContainer
+                pagination={result.pagination}
+                movePage={movePage}
+                changePageSize={changePageSize}
+                unit="개"
+                hideTopPaginator={true}
+                // Empty State Props
+                isNotLoaded={isNotLoaded}
+                isLoading={isLoading}
+                isEmptyResult={isEmptyResult}
+                emptyMessage="조회된 구성원이 없어요."
+                emptyButtonText="구성원 등록"
+                emptyButtonOnClick={() => setIsOpened(true)}
+            >
+                <ListTable
+                    items={result.items}
+                    isLoading={isLoading}
+                    Header={() => <TeamMembersTableHeader orderBy={orderBy} />}
+                    Row={({item}) => <TeamMembersTableRow teamMember={item.teamMember} reload={reload} />}
                 />
-            )}
+            </ListTableContainer>
 
             {/* 연결 추가 모달 */}
             <AddMemberModal
