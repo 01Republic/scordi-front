@@ -54,13 +54,13 @@ export const OrgSettingsPaymentPage = memo(function () {
                             카드 변경
                         </button>
                     </div>
-                    <EmptyTable icon={'💳'} message="등록된 카드 정보가 없어요." />
+                    <EmptyTable message="등록된 카드 정보가 없어요." />
                 </div>
                 <div className={cardStyle}>
                     <div className={'flex justify-between items-center mb-4'}>
                         <div className={'font-bold'}>결제 환불 내역</div>
                     </div>
-                    <EmptyTable icon={'📃'} message="결제/환불 내역이 없어요." />
+                    <EmptyTable message="결제/환불 내역이 없어요." />
                 </div>
             </OrgSettingsLayout>
 

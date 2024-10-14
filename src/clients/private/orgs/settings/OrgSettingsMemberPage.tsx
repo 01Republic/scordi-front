@@ -68,9 +68,8 @@ export const OrgSettingsMemberPage = memo(function () {
                 </ListTableContainer>
             ) : (
                 <EmptyTable
-                    icon={'👤'}
                     message="등록된 구성원이 없어요."
-                    buttonText={'구성원 등록'}
+                    buttonText="구성원 등록"
                     buttonAction={() => setIsOpened(true)}
                 />
             )}
