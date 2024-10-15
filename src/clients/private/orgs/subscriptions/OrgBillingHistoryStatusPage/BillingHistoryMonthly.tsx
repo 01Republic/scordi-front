@@ -1,12 +1,11 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo} from 'react';
 import {ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
 import {Paginated} from '^types/utils/paginated.dto';
-import {object} from 'prop-types';
 import {IsFreeTierTagUI} from '^models/Subscription/components/IsFreeTierTagUI';
 import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
-import {Table} from '^v3/share/table/Table';
+import {useBillingHistoryStatus} from '^hooks/useBillingHistoryStatus';
 
 interface BillingHistoryMonthlyProps {
     billingHistory: Paginated<BillingHistoryDto>;
@@ -14,6 +13,7 @@ interface BillingHistoryMonthlyProps {
 
 export const BillingHistoryMonthly = memo((props: BillingHistoryMonthlyProps) => {
     const {items, pagination} = props.billingHistory;
+    const {subscription, costSymbol, monthlyCosts, totalCost, averageCost} = useBillingHistoryStatus();
 
     const grouped = items.reduce((acc, item) => {
         const key = item.subscription!.product.id;
@@ -24,44 +24,19 @@ export const BillingHistoryMonthly = memo((props: BillingHistoryMonthlyProps) =>
         return acc;
     }, {} as Record<string, BillingHistoryDto[]>);
 
-    const subscription = (items: BillingHistoryDto[]) => items[0].subscription;
-
-    const costSymbol = (items: BillingHistoryDto[]) => {
-        return subscription(items)?.currentBillingAmount?.symbol;
-    };
-
-    const totalCost = (items: BillingHistoryDto[]) => {
-        return items.reduce((acc, value) => acc + (value.subscription?.currentBillingAmount?.amount || 0), 0);
-    };
-
-    const averageCost = (items: number[], symbol?: string) => {
-        const filteredItems = items.filter((value) => value !== 0);
-        const average = filteredItems.reduce((acc, value) => acc + value, 0) / filteredItems.length;
-        if (symbol === '₩') {
-            return Math.round(average);
-        } else {
-            return parseFloat(average.toFixed(2));
-        }
-    };
-
-    const monthlyCosts = (items: BillingHistoryDto[]) => {
-        const list: number[] = Array(12).fill(0);
-        items.map((item) => {
-            const month = item.issuedAt.getMonth(); // 해당 월 (0 = 1월, 11 = 12월)
-            const amount = item.subscription?.currentBillingAmount?.amount || 0;
-            list[month] += amount; // 해당 월에 금액을 더함
-        });
-        return list;
-    };
-
     return (
-        <ListTableContainer hideTopPaginator pagination={pagination} movePage={() => {}}>
+        <ListTableContainer
+            hideTopPaginator={true}
+            hideBottomPaginator={true}
+            pagination={pagination}
+            movePage={() => {}}
+        >
             <div className="card bg-white border overflow-hidden">
                 <div className="overflow-x-auto w-full">
                     <table className="table w-full text-sm">
                         <thead>
                             <tr className="bg-slate-100">
-                                <th className={'!relative'}>서비스명</th>
+                                <th className={'sticky left-0 !bg-slate-100 z-10'}>서비스명</th>
                                 <th className={'text-right'}>구독상태</th>
                                 <th className={'text-right'}>총 지출액</th>
                                 <th className={'text-right'}>평균지출액</th>
@@ -76,9 +51,10 @@ export const BillingHistoryMonthly = memo((props: BillingHistoryMonthlyProps) =>
                             {Object.entries(grouped).map(([key, items]) => {
                                 return (
                                     <tr key={key} className={'group'}>
-                                        <td className={'flex space-x-2 font-medium'}>
+                                        <td className={'sticky left-0 bg-white z-10 flex space-x-2 font-medium'}>
                                             {!!subscription(items)?.product.image ? (
                                                 <img
+                                                    className={'rounded'}
                                                     src={subscription(items)?.product.image}
                                                     alt={subscription(items)?.product.name()}
                                                     width={24}

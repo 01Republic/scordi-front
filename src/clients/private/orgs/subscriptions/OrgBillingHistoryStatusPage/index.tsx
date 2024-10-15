@@ -1,9 +1,8 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
-import {debounce} from 'lodash';
 import {orgIdParamState} from '^atoms/common';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
-import {BillingHistoryDto, BillingHistoryStatusMetaDto} from '^models/BillingHistory/type';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
 import {billingHistoryApi} from '^models/BillingHistory/api';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {MonthYearSwitch} from './MonthYearSwitch';
@@ -11,7 +10,7 @@ import {YearlyScopeHandler} from './YearlyScopeHandler';
 import {BillingHistoryMonthly} from '^clients/private/orgs/subscriptions/OrgBillingHistoryStatusPage/BillingHistoryMonthly';
 import {BillingHistoryYearly} from '^clients/private/orgs/subscriptions/OrgBillingHistoryStatusPage/BillingHistoryYearly';
 import {Paginated} from '^types/utils/paginated.dto';
-import {useBillingHistoryStatus} from '^clients/private/orgs/subscriptions/OrgBillingHistoryStatusPage/useBillingHistoryStatus';
+import {useBillingHistoryStatus} from '^hooks/useBillingHistoryStatus';
 
 export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatusPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -46,7 +45,6 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
     };
 
     useEffect(() => {
-        console.log(years);
         getBillingItems();
     }, [focusYear]);
 
@@ -79,9 +77,7 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
                 if (viewUnit === BillingCycleOptions.Yearly) return <div />;
                 if (!focusYear) return <div />;
 
-                return (
-                    <YearlyScopeHandler years={metaData.years.reverse()} value={focusYear} onChange={setFocusYear} />
-                );
+                return <YearlyScopeHandler years={years} value={focusYear} onChange={setFocusYear} />;
             }}
             onSearch={onSearch}
         >
