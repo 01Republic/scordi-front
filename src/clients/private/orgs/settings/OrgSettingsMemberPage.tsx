@@ -6,7 +6,6 @@ import {OrgSettingsMemberPageRoute} from '^pages/orgs/[id]/settings/members';
 import {OrgSettingsLayout} from '^clients/private/_layouts/OrgSettingsLayout';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {useMembershipInMembershipTable} from '^models/Membership/hook';
 import {OrgMembersTableHeader} from './members/OrgMembersTableHeader';
 import {OrgMembersTableRow} from './members/OrgMembersTableRow';
@@ -15,7 +14,7 @@ export const OrgSettingsMemberPage = memo(function () {
     const orgId = useRecoilValue(orgIdParamState);
     // const teamId = useRouterIdParamState('teamId', teamIdParamState);
 
-    const {search, result, isLoading, query, searchAndUpdateCounter, movePage, changePageSize, reload, orderBy} =
+    const {search, result, isLoading, isNotLoaded, isEmptyResult, movePage, changePageSize, reload, orderBy} =
         useMembershipInMembershipTable();
     const [isOpened, setIsOpened] = useState(false);
 
@@ -51,28 +50,27 @@ export const OrgSettingsMemberPage = memo(function () {
                     </button>
                 </div>
             </div>
-            {result.items && result.pagination.totalItemCount > 0 ? (
-                <ListTableContainer
-                    pagination={result.pagination}
-                    movePage={movePage}
-                    changePageSize={changePageSize}
-                    unit="개"
-                    hideTopPaginator={true}
-                >
-                    <ListTable
-                        items={result.items}
-                        isLoading={isLoading}
-                        Header={() => <OrgMembersTableHeader orderBy={orderBy} />}
-                        Row={({item}) => <OrgMembersTableRow teamMember={item.user} reload={reload} />}
-                    />
-                </ListTableContainer>
-            ) : (
-                <EmptyTable
-                    message="등록된 구성원이 없어요."
-                    buttonText="구성원 등록"
-                    buttonAction={() => setIsOpened(true)}
+
+            <ListTableContainer
+                pagination={result.pagination}
+                movePage={movePage}
+                changePageSize={changePageSize}
+                unit="개"
+                hideTopPaginator={true}
+                isLoading={isLoading}
+                isNotLoaded={isNotLoaded}
+                isEmptyResult={isEmptyResult}
+                emptyMessage="등록된 구성원이 없어요."
+                emptyButtonText="구성원 등록"
+                emptyButtonOnClick={() => setIsOpened(true)}
+            >
+                <ListTable
+                    items={result.items}
+                    isLoading={isLoading}
+                    Header={() => <OrgMembersTableHeader orderBy={orderBy} />}
+                    Row={({item}) => <OrgMembersTableRow teamMember={item.user} reload={reload} />}
                 />
-            )}
+            </ListTableContainer>
         </OrgSettingsLayout>
     );
 });
