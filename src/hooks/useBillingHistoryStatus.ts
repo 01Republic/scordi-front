@@ -46,9 +46,9 @@ export const useBillingHistoryStatus = () => {
     const monthlyCosts = (items: BillingHistoryDto[]) => {
         const list: number[] = Array(12).fill(0);
         items.map((item) => {
-            const month = item.issuedAt.getMonth(); // 해당 월 (0 = 1월, 11 = 12월)
+            const month = item.issuedAt.getMonth();
             const amount = item.subscription?.currentBillingAmount?.amount || 0;
-            list[month] += amount; // 해당 월에 금액을 더함
+            list[month] += amount;
         });
         return list;
     };

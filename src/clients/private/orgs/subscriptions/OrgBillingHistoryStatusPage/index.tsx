@@ -33,8 +33,7 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
             .indexOfOrg(orgId, {
                 startDate: `${focusYear || years[years.length - 1]}-01-01`,
                 endDate: `${focusYear || years[0]}-12-31`,
-                // TODO: 이렇게 해도 되는가... 백엔드에서 계산해서 줘야 할듯 싶은데
-                itemsPerPage: 999,
+                itemsPerPage: 0,
             })
             .then((res) => {
                 const filterdItems = res.data.items.filter((item) =>
