@@ -9,7 +9,7 @@ export const useRouterIdParamState = (idParamNameOrValue: string | number, atom:
     const setId = useSetRecoilState(atom);
 
     useEffect(() => {
-        setId(id);
+        if (id && !isNaN(id)) setId(id);
     }, [id]);
 
     return id;
