@@ -86,8 +86,8 @@ export const BillingHistoryMonthly = memo((props: BillingHistoryMonthlyProps) =>
                                         </td>
                                         {monthlyCosts(items).map((item, index) => {
                                             const previousItem = index > 0 ? monthlyCosts(items)[index - 1] : item; // 이전 항목과 현재 항목 비교
-                                            const isHigher = item !== 0 && item > previousItem;
-                                            const isLower = item !== 0 && item < previousItem;
+                                            const isHigher = item > previousItem;
+                                            const isLower = item < previousItem;
 
                                             return (
                                                 <td

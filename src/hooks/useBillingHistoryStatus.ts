@@ -32,9 +32,7 @@ export const useBillingHistoryStatus = () => {
     };
 
     const averageCost = (items: number[], symbol?: string) => {
-        const filteredItems = items.filter((value) => value !== 0);
-        const average =
-            filteredItems.length > 0 ? filteredItems.reduce((acc, value) => acc + value, 0) / filteredItems.length : 0;
+        const average = items.length > 0 ? items.reduce((acc, value) => acc + value, 0) / items.length : 0;
 
         if (symbol === '₩') {
             return Math.round(average);
