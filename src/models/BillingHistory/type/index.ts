@@ -173,17 +173,6 @@ export type GetBillingHistoriesParams = FindAllQueryDto<BillingHistoryDto> &
     StatusParams &
     IsActiveSubsParams;
 
-export class BillingHistoryStatusDateRangeDto {
-    @TypeCast(() => Date) firstIssuedAt: Date | null;
-    @TypeCast(() => Date) lastIssuedAt: Date | null;
-
-    get years() {
-        const firstIssuedYear = (this.firstIssuedAt || new Date()).getFullYear();
-        const lastIssuedYear = (this.lastIssuedAt || new Date()).getFullYear();
-        return rangeToArr(firstIssuedYear, lastIssuedYear);
-    }
-}
-
 export class FindAllBillingHistoriesQueryDto extends FindAllQueryDto<BillingHistoryDto> {
     startDate?: string; // 결제내역 조회범위 시작날짜
     endDate?: string; // 결제내역 조회범위 종료날짜
@@ -196,3 +185,8 @@ export enum BillingHistorySubtype {
     MANUAL = 'MANUAL',
     CARD_RECEIPT = 'CARD_RECEIPT',
 }
+
+/**
+ * BillingHistoryStatus API DTO
+ */
+export * from './billing-history-status.controller.dto';
