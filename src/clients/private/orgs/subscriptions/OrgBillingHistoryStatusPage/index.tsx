@@ -29,6 +29,7 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
     };
 
     const getBillingItems = (keyword?: string) => {
+        if (!orgId || isNaN(orgId)) return;
         billingHistoryApi
             .indexOfOrg(orgId, {
                 startDate: `${focusYear || years[years.length - 1]}-01-01`,
