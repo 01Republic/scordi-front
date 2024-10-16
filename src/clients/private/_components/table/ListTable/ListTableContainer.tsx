@@ -44,33 +44,14 @@ export const ListTableContainer = memo((props: ListTableContainerProps) => {
     const {children} = props;
 
     // Empty State Props
-    const {
-        EmptyIcon,
-        emptyMessage = '조회된 결과가 없어요.',
-        emptyButtonText,
-        emptyButtonOnClick,
-        EmptyButtons,
-    } = props;
+    const {EmptyIcon, emptyMessage, emptyButtonText, emptyButtonOnClick, EmptyButtons} = props;
 
     if (isNotLoaded && !isLoading) return <></>;
 
     if (isEmptyResult) {
         return (
             <EmptyTable
-                Icon={
-                    EmptyIcon ||
-                    (() => (
-                        <div className="relative">
-                            <HiMiniInbox className="text-slate-200" fontSize={48} />
-                            <div className="absolute top-[12px] left-[14px]">
-                                <GiSadCrab
-                                    className="text-slate-100 hover:text-red-200 hover:animate-bounce"
-                                    fontSize={20}
-                                />
-                            </div>
-                        </div>
-                    ))
-                }
+                Icon={EmptyIcon}
                 message={emptyMessage}
                 buttonText={emptyButtonText}
                 buttonAction={emptyButtonOnClick}
