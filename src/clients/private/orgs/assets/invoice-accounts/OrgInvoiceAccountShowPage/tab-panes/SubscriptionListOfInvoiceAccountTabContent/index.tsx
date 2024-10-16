@@ -84,18 +84,14 @@ export const SubscriptionListOfInvoiceAccountTabContent = memo(function Subscrip
                     </div>
                 </div>
 
-                {!isEmptyResult ? (
+                {isEmptyResult ? (
+                    <EmptyTable message="연결된 구독이 없어요." Buttons={AddSubscriptionButton} />
+                ) : (
                     <ListTable
                         items={result.items}
                         isLoading={isLoading}
                         Header={() => <InvoiceAccountSubscriptionTableHeader orderBy={orderBy} />}
                         Row={({item}) => <InvoiceAccountSubscriptionTableRow subscription={item} reload={refresh} />}
-                    />
-                ) : (
-                    <EmptyTable
-                        Icon={() => <>🔍</>}
-                        message="연결된 구독이 없어요."
-                        Buttons={() => <AddSubscriptionButton />}
                     />
                 )}
             </ListTableContainer>

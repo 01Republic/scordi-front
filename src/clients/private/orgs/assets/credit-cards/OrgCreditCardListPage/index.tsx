@@ -6,7 +6,6 @@ import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {useCreditCardListForListPage} from '^models/CreditCard/hook';
 import {CardAutoCreateModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/CardAutoCreateModal';
-import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {CreditCardScopeHandler} from './CreditCardScopeHandler';
 import {CreditCardTableHeader} from './CreditCardTableHeader';
 import {CreditCardTableRow} from './CreditCardTableRow';
@@ -15,8 +14,19 @@ import {isCardAutoCreateModalAtom} from './atom';
 
 export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
     const organizationId = useRecoilValue(orgIdParamState);
-    const {search, reset, result, isEmptyResult, isLoading, query, movePage, changePageSize, orderBy, reload} =
-        useCreditCardListForListPage();
+    const {
+        search,
+        reset,
+        result,
+        isEmptyResult,
+        isNotLoaded,
+        isLoading,
+        query,
+        movePage,
+        changePageSize,
+        orderBy,
+        reload,
+    } = useCreditCardListForListPage();
     const [isCardAutoCreateModalOpen, setIsCardAutoCreateModalOpen] = useRecoilState(isCardAutoCreateModalAtom);
 
     const onReady = () => {
@@ -48,21 +58,18 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
                 movePage={movePage}
                 changePageSize={changePageSize}
                 unit="개"
+                isLoading={isLoading}
+                isNotLoaded={isNotLoaded}
+                isEmptyResult={isEmptyResult}
+                emptyMessage="등록된 결제수단이 없어요."
+                EmptyButtons={AddCreditCardDropdown}
             >
-                {!isEmptyResult ? (
-                    <ListTable
-                        items={result.items}
-                        isLoading={isLoading}
-                        Header={() => <CreditCardTableHeader orderBy={orderBy} />}
-                        Row={({item}) => <CreditCardTableRow creditCard={item} reload={reload} />}
-                    />
-                ) : (
-                    <EmptyTable
-                        Icon={() => <>💳</>}
-                        message="등록된 결제수단이 없어요."
-                        Buttons={AddCreditCardDropdown}
-                    />
-                )}
+                <ListTable
+                    items={result.items}
+                    isLoading={isLoading}
+                    Header={() => <CreditCardTableHeader orderBy={orderBy} />}
+                    Row={({item}) => <CreditCardTableRow creditCard={item} reload={reload} />}
+                />
             </ListTableContainer>
 
             <CardAutoCreateModal

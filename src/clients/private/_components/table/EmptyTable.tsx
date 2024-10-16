@@ -1,16 +1,18 @@
 import React, {memo, ReactNode} from 'react';
 import {ReactComponentLike} from 'prop-types';
+import {HiMiniInbox} from 'react-icons/hi2';
+import {GiSadCrab} from 'react-icons/gi';
 
 interface EmptyTableProps {
     Icon?: () => JSX.Element;
-    message: string;
+    message?: string;
     buttonText?: string;
     buttonAction?: () => void;
     Buttons?: ReactComponentLike;
 }
 
 export const EmptyTable = memo((props: EmptyTableProps) => {
-    const {Icon, message, buttonText, buttonAction, Buttons} = props;
+    const {Icon = DefaultEmptyIcon, message = '조회된 결과가 없어요.', buttonText, buttonAction, Buttons} = props;
 
     return (
         <div className={'flex flex-col items-center justify-center py-16'}>
@@ -31,3 +33,12 @@ export const EmptyTable = memo((props: EmptyTableProps) => {
         </div>
     );
 });
+
+const DefaultEmptyIcon = () => (
+    <div className="relative">
+        <HiMiniInbox className="text-slate-200" fontSize={48} />
+        <div className="absolute top-[12px] left-[14px]">
+            <GiSadCrab className="text-slate-100 hover:text-red-200 hover:animate-bounce" fontSize={20} />
+        </div>
+    </div>
+);

@@ -14,7 +14,7 @@ import {SubscriptionTableRow} from './SubscriptionTableRow';
 
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const orgId = useRecoilValue(orgIdParamState);
-    const {search, result, query, isLoading, movePage, changePageSize, orderBy, reload} =
+    const {search, result, query, isLoading, isNotLoaded, isEmptyResult, movePage, changePageSize, orderBy, reload} =
         useSubscriptionTableListAtom();
 
     const onReady = () => {
@@ -51,27 +51,24 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
             onSearch={onSearch}
             searchInputPosition="start-of-buttons"
         >
-            {result.pagination.totalItemCount > 0 ? (
-                <ListTableContainer
-                    pagination={result.pagination}
-                    movePage={movePage}
-                    changePageSize={changePageSize}
-                    unit="개"
-                >
-                    <ListTable
-                        items={result.items}
-                        isLoading={isLoading}
-                        Header={() => <SubscriptionTableHeader orderBy={orderBy} />}
-                        Row={({item}) => <SubscriptionTableRow subscription={item} reload={reload} />}
-                    />
-                </ListTableContainer>
-            ) : (
-                <EmptyTable
-                    Icon={() => <>🔍</>}
-                    message="등록된 구독이 없어요."
-                    Buttons={() => <AddSubscriptionButton />}
+            <ListTableContainer
+                pagination={result.pagination}
+                movePage={movePage}
+                changePageSize={changePageSize}
+                unit="개"
+                isLoading={isLoading}
+                isNotLoaded={isNotLoaded}
+                isEmptyResult={isEmptyResult}
+                emptyMessage="등록된 구독이 없어요."
+                EmptyButtons={AddSubscriptionButton}
+            >
+                <ListTable
+                    items={result.items}
+                    isLoading={isLoading}
+                    Header={() => <SubscriptionTableHeader orderBy={orderBy} />}
+                    Row={({item}) => <SubscriptionTableRow subscription={item} reload={reload} />}
                 />
-            )}
+            </ListTableContainer>
         </ListPage>
     );
 });

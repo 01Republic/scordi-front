@@ -1,9 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useRecoilValue} from 'recoil';
 import {MdRefresh} from 'react-icons/md';
 import {FaPlus} from 'react-icons/fa6';
 import Tippy from '@tippyjs/react';
-import {orgIdParamState} from '^atoms/common';
 import {LinkTo} from '^components/util/LinkTo';
 import {useSubscriptionListOfCreditCard} from '^models/Subscription/hook';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
@@ -14,10 +12,9 @@ import {CreditCardSubscriptionTableRow} from './CreditCardSubscriptionTableRow';
 import {CreditCardAddSubscriptionModal} from './CreditCardAddSubscriptionModal';
 
 export const SubscriptionListOfCreditCardTabContent = memo(() => {
-    const orgId = useRecoilValue(orgIdParamState);
     const {currentCreditCard} = useCurrentCreditCard();
     const [isAddSubscriptionModalOpened, setAddSubscriptionModalOpened] = useState(false);
-    const {isLoading, isEmptyResult, search, result, reload, movePage, changePageSize, orderBy} =
+    const {isLoading, isNotLoaded, isEmptyResult, search, result, reload, movePage, changePageSize, orderBy} =
         useSubscriptionListOfCreditCard();
 
     const onReady = () => {
@@ -80,18 +77,14 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
                     </div>
                 </div>
 
-                {!isEmptyResult ? (
+                {isEmptyResult ? (
+                    <EmptyTable message="연결된 구독이 없어요." Buttons={AddSubscriptionButton} />
+                ) : (
                     <ListTable
                         items={result.items}
                         isLoading={isLoading}
                         Header={() => <CreditCardSubscriptionTableHeader orderBy={orderBy} />}
                         Row={({item}) => <CreditCardSubscriptionTableRow subscription={item} reload={reload} />}
-                    />
-                ) : (
-                    <EmptyTable
-                        Icon={() => <>🔍</>}
-                        message="연결된 구독이 없어요."
-                        Buttons={() => <AddSubscriptionButton />}
                     />
                 )}
             </ListTableContainer>
