@@ -3,7 +3,7 @@ import {Paginated} from '^types/utils/paginated.dto';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {
     BillingHistoryDto,
-    BillingHistoryStatusMetaDto,
+    BillingHistoryStatusDateRangeDto,
     CreateBillingHistoryRequestDto,
     CreateBillingHistoryStandAloneRequestDto,
     FindAllBillingHistoriesQueryDto,
@@ -15,15 +15,6 @@ import {UpdateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type/upda
 const NAMESPACE = 'billing_histories';
 
 export const billingHistoryApi = {
-    // 결제현황의 메타정보 조회
-    statusMeta: (orgId: number, params?: GetBillingHistoriesParams) => {
-        params ||= {};
-        params.where ||= {};
-        params.where.organizationId = orgId;
-        const url = `/billing_histories/status-meta`;
-        return api.get(url, {params}).then(oneDtoOf(BillingHistoryStatusMetaDto));
-    },
-
     index: (params: GetBillingHistoriesParams) => {
         const url = `/${NAMESPACE}`;
         return api.get<Paginated<BillingHistoryDto>>(url, {params}).then(paginatedDtoOf(BillingHistoryDto));
@@ -58,6 +49,17 @@ export const billingHistoryApi = {
     destroy: (id: number) => {
         const url = `/${NAMESPACE}/${id}`;
         return api.delete<BillingHistoryDto>(url).then(oneDtoOf(BillingHistoryDto));
+    },
+
+    statusApi: {
+        // 결제현황의 날짜범위 조회
+        dateRange: (orgId: number, params?: GetBillingHistoriesParams) => {
+            params ||= {};
+            params.where ||= {};
+            params.where.organizationId = orgId;
+            const url = `/billing_histories/status/date-range`;
+            return api.get(url, {params}).then(oneDtoOf(BillingHistoryStatusDateRangeDto));
+        },
     },
 };
 

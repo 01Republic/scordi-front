@@ -173,7 +173,7 @@ export type GetBillingHistoriesParams = FindAllQueryDto<BillingHistoryDto> &
     StatusParams &
     IsActiveSubsParams;
 
-export class BillingHistoryStatusMetaDto {
+export class BillingHistoryStatusDateRangeDto {
     @TypeCast(() => Date) firstIssuedAt: Date | null;
     @TypeCast(() => Date) lastIssuedAt: Date | null;
 

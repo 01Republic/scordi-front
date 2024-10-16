@@ -1,8 +1,5 @@
 import React, {memo} from 'react';
 import {ListPageScopeButton} from '^clients/private/_layouts/_shared/ListPageScopeButton';
-import {BillingHistoryStatusMetaDto} from '^models/BillingHistory/type';
-import {rangeToArr} from '^utils/range';
-import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
 
 interface YearlyScopeHandlerProps {
     years: number[];

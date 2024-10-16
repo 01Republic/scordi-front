@@ -3,18 +3,18 @@ import {debounce} from 'lodash';
 import {billingHistoryApi} from '^models/BillingHistory/api';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {BillingHistoryDto, BillingHistoryStatusMetaDto} from '^models/BillingHistory/type';
+import {BillingHistoryDto, BillingHistoryStatusDateRangeDto} from '^models/BillingHistory/type';
 
 export const useBillingHistoryStatus = () => {
     const orgId = useRecoilValue(orgIdParamState);
-    const [metaData, setMetaData] = useState<BillingHistoryStatusMetaDto>();
+    const [dateRange, setDateRange] = useState<BillingHistoryStatusDateRangeDto>();
     const [years, setYears] = useState<number[]>([]);
     const [focusYear, setFocusYear] = useState<number>();
 
     const getMetaData = debounce(() => {
         !!orgId &&
-            billingHistoryApi.statusMeta(orgId).then((res) => {
-                setMetaData(res.data);
+            billingHistoryApi.statusApi.dateRange(orgId).then((res) => {
+                setDateRange(res.data);
                 const years = res.data.years.reverse();
                 setYears(years);
                 setFocusYear(years[0]);
@@ -71,7 +71,7 @@ export const useBillingHistoryStatus = () => {
     }, []);
 
     return {
-        metaData,
+        dateRange,
         years,
         focusYear,
         setFocusYear,

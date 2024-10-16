@@ -7,14 +7,14 @@ import {billingHistoryApi} from '^models/BillingHistory/api';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {MonthYearSwitch} from './MonthYearSwitch';
 import {YearlyScopeHandler} from './YearlyScopeHandler';
-import {BillingHistoryMonthly} from '^clients/private/orgs/subscriptions/OrgBillingHistoryStatusPage/BillingHistoryMonthly';
-import {BillingHistoryYearly} from '^clients/private/orgs/subscriptions/OrgBillingHistoryStatusPage/BillingHistoryYearly';
+import {BillingHistoryMonthly} from './BillingHistoryMonthly';
+import {BillingHistoryYearly} from './BillingHistoryYearly';
 import {Paginated} from '^types/utils/paginated.dto';
 import {useBillingHistoryStatus} from '^hooks/useBillingHistoryStatus';
 
 export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatusPage() {
     const orgId = useRecoilValue(orgIdParamState);
-    const {metaData, years, focusYear, setFocusYear, getMetaData} = useBillingHistoryStatus();
+    const {dateRange, years, focusYear, setFocusYear, getMetaData} = useBillingHistoryStatus();
 
     const [viewUnit, setViewUnit] = useState(BillingCycleOptions.Monthly);
 
@@ -72,7 +72,7 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
             searchInputPosition="right-of-scopes"
             searchInputPlaceholder="서비스명 검색"
             ScopeHandler={() => {
-                if (!metaData) return <div />;
+                if (!dateRange) return <div />;
 
                 if (viewUnit === BillingCycleOptions.Yearly) return <div />;
                 if (!focusYear) return <div />;
