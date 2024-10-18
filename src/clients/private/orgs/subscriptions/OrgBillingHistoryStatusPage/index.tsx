@@ -23,30 +23,26 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
         [],
     );
 
-    useEffect(() => {
-        if (viewUnit === BillingCycleOptions.Yearly) setFocusYear(undefined);
-    }, [viewUnit]);
+    const fetchBillingData = async () => {
+        if (focusYear) {
+            const startDate = `${focusYear}-01-01`;
+            const endDate = `${focusYear}-12-31`;
 
-    useEffect(() => {
-        if (!orgId || isNaN(orgId)) return;
-
-        const startDate = `${focusYear || years[years.length - 1]}-01-01`;
-        const endDate = `${focusYear || years[0]}-12-31`;
-
-        const fetchBillingData = async () => {
-            const [monthlyResponse, yearlyResponse] = await Promise.all([
-                billingHistoryApi.indexOfOrg(orgId, {startDate, endDate, itemsPerPage: 0}),
-                billingHistoryApi.statusApi.yearlySum(orgId),
-            ]);
+            const monthlyResponse = await billingHistoryApi.indexOfOrg(orgId, {
+                startDate,
+                endDate,
+                itemsPerPage: 0,
+            });
 
             setBillingItems(monthlyResponse.data.items);
             setFilteredItems(monthlyResponse.data.items);
+        } else {
+            const yearlyResponse = await billingHistoryApi.statusApi.yearlySum(orgId);
+
             setYearlyHistory(yearlyResponse.data);
             setFilteredYearlyHistory(yearlyResponse.data);
-        };
-
-        fetchBillingData();
-    }, [focusYear, orgId, years]);
+        }
+    };
 
     const handleSearch = (keyword = '') => {
         const filterByName = (item: BillingHistoryDto | BillingHistoriesYearlySumBySubscriptionDto) =>
@@ -55,6 +51,15 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
         setFilteredItems(billingItems.filter(filterByName));
         setFilteredYearlyHistory(yearlyHistory.filter(filterByName));
     };
+
+    useEffect(() => {
+        if (viewUnit === BillingCycleOptions.Yearly) setFocusYear(undefined);
+    }, [viewUnit]);
+
+    useEffect(() => {
+        if (!orgId || isNaN(orgId)) return;
+        fetchBillingData();
+    }, [focusYear, orgId, years]);
 
     return (
         <ListPage
