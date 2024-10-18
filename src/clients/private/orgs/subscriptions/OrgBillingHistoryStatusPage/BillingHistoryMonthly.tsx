@@ -1,26 +1,46 @@
 import React, {memo} from 'react';
-import {BillingHistoryDto} from '^models/BillingHistory/type';
+import {BillingHistoriesMonthlySumBySubscriptionDto} from '^models/BillingHistory/type';
 import {IsFreeTierTagUI} from '^models/Subscription/components/IsFreeTierTagUI';
-import {useBillingHistoryStatus} from '^hooks/useBillingHistoryStatus';
 import {FaQuestion} from 'react-icons/fa6';
 import {Avatar} from '^components/Avatar';
 
 interface BillingHistoryMonthlyProps {
-    billingHistory: BillingHistoryDto[];
+    history: BillingHistoriesMonthlySumBySubscriptionDto[];
 }
 
 export const BillingHistoryMonthly = memo((props: BillingHistoryMonthlyProps) => {
-    const {billingHistory} = props;
-    const {subscription, costSymbol, monthlyCosts, totalCost, averageCost} = useBillingHistoryStatus();
+    const {history} = props;
 
-    const grouped = billingHistory.reduce((acc, item) => {
-        const key = item.subscription!.product.id;
-        if (!acc[key]) {
-            acc[key] = [];
-        }
-        acc[key].push(item);
-        return acc;
-    }, {} as Record<string, BillingHistoryDto[]>);
+    const getAverageCost = (monthly: BillingHistoriesMonthlySumBySubscriptionDto) => {
+        return getMonthlyCosts(monthly) / monthly.items.length;
+    };
+
+    const getMonthlyCosts = (monthly: BillingHistoriesMonthlySumBySubscriptionDto) => {
+        const total = monthly.items.reduce((sum, item) => sum + item.amount, 0);
+        return total;
+    };
+
+    const renderMonthlyColumns = (items: BillingHistoriesMonthlySumBySubscriptionDto['items']) => {
+        return Array.from({length: 12}, (_, i) => i).map((idx) => {
+            const item = items[idx] ?? {amount: 0, symbol: items[0].symbol};
+            const previousItem = idx > 0 ? items[idx - 1] : item;
+            const amount = item?.amount ?? 0;
+            const previousAmount = previousItem?.amount ?? 0;
+            const isHigher = amount > previousAmount;
+            const isLower = amount < previousAmount;
+
+            return (
+                <td
+                    key={idx}
+                    className={`text-right font-light ${
+                        isHigher ? 'text-red-500 bg-red-50' : isLower ? 'text-blue-500 bg-blue-50' : ''
+                    }`}
+                >
+                    {item.symbol} {amount.toLocaleString()}
+                </td>
+            );
+        });
+    };
 
     return (
         <div className="bg-white border border-gray-300 overflow-hidden shadow rounded-2xl">
@@ -40,58 +60,40 @@ export const BillingHistoryMonthly = memo((props: BillingHistoryMonthlyProps) =>
                         </tr>
                     </thead>
                     <tbody>
-                        {Object.entries(grouped).length === 0 ? (
+                        {history.length === 0 ? (
                             <tr>
                                 <td colSpan={16} className="text-center py-8">
                                     데이터가 없습니다.
                                 </td>
                             </tr>
                         ) : (
-                            Object.entries(grouped).map(([key, items]) => {
+                            history.map((monthly, idx) => {
                                 return (
-                                    <tr key={key} className={'group'}>
+                                    <tr key={idx} className={'group'}>
                                         <td className={'sticky left-0 bg-white z-10 flex space-x-2 font-medium w-52'}>
                                             <Avatar
                                                 className="w-6 h-6"
-                                                src={subscription(items)?.product.image}
-                                                alt={subscription(items)?.product.name()}
+                                                src={monthly.subscription.product.image}
+                                                alt={monthly.subscription.product.name()}
                                                 draggable={false}
                                                 loading="lazy"
                                             >
                                                 <FaQuestion size={24} className="text-gray-300 h-full w-full p-[6px]" />
                                             </Avatar>
-                                            <span>{subscription(items)?.product.name()}</span>
+                                            <span>{monthly.subscription.product.name()}</span>
                                         </td>
                                         <td>
-                                            <IsFreeTierTagUI value={subscription(items)?.isFreeTier || false} />
+                                            <IsFreeTierTagUI value={monthly.subscription.isFreeTier || false} />
                                         </td>
                                         <td className={'text-right font-medium'}>
-                                            {costSymbol(items)} {totalCost(items).toLocaleString()}
+                                            {monthly.subscription.currentBillingAmount?.symbol}{' '}
+                                            {getMonthlyCosts(monthly).toLocaleString()}
                                         </td>
                                         <td className={'text-right font-medium'}>
-                                            {costSymbol(items)}{' '}
-                                            {averageCost(monthlyCosts(items), costSymbol(items)).toLocaleString()}
+                                            {monthly.subscription.currentBillingAmount?.symbol}{' '}
+                                            {getAverageCost(monthly).toLocaleString()}
                                         </td>
-                                        {monthlyCosts(items).map((item, index) => {
-                                            const previousItem = index > 0 ? monthlyCosts(items)[index - 1] : item;
-                                            const isHigher = item > previousItem;
-                                            const isLower = item < previousItem;
-
-                                            return (
-                                                <td
-                                                    key={index}
-                                                    className={`text-right font-light ${
-                                                        isHigher
-                                                            ? 'text-red-500 bg-red-50'
-                                                            : isLower
-                                                            ? 'text-blue-500 bg-blue-50'
-                                                            : ''
-                                                    }`}
-                                                >
-                                                    {costSymbol(items)} {item.toLocaleString()}
-                                                </td>
-                                            );
-                                        })}
+                                        {renderMonthlyColumns(monthly.items)}
                                     </tr>
                                 );
                             })

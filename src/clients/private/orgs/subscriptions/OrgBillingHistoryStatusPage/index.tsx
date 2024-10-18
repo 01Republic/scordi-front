@@ -2,7 +2,11 @@ import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
-import {BillingHistoriesYearlySumBySubscriptionDto, BillingHistoryDto} from '^models/BillingHistory/type';
+import {
+    BillingHistoriesMonthlySumBySubscriptionDto,
+    BillingHistoriesYearlySumBySubscriptionDto,
+    BillingHistoryDto,
+} from '^models/BillingHistory/type';
 import {billingHistoryApi} from '^models/BillingHistory/api';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {MonthYearSwitch} from './MonthYearSwitch';
@@ -16,8 +20,10 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
     const {years, focusYear, setFocusYear, getMetaData} = useBillingHistoryStatus();
 
     const [viewUnit, setViewUnit] = useState(BillingCycleOptions.Monthly);
-    const [billingItems, setBillingItems] = useState<BillingHistoryDto[]>([]);
-    const [filteredItems, setFilteredItems] = useState<BillingHistoryDto[]>([]);
+    const [monthlyHistory, setMonthlyHistory] = useState<BillingHistoriesMonthlySumBySubscriptionDto[]>([]);
+    const [filteredMonthlyHistory, setFilteredMonthlyHistory] = useState<BillingHistoriesMonthlySumBySubscriptionDto[]>(
+        [],
+    );
     const [yearlyHistory, setYearlyHistory] = useState<BillingHistoriesYearlySumBySubscriptionDto[]>([]);
     const [filteredYearlyHistory, setFilteredYearlyHistory] = useState<BillingHistoriesYearlySumBySubscriptionDto[]>(
         [],
@@ -25,17 +31,10 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
 
     const fetchBillingData = async () => {
         if (focusYear) {
-            const startDate = `${focusYear}-01-01`;
-            const endDate = `${focusYear}-12-31`;
+            const monthlyResponse = await billingHistoryApi.statusApi.monthlySum(orgId, focusYear);
 
-            const monthlyResponse = await billingHistoryApi.indexOfOrg(orgId, {
-                startDate,
-                endDate,
-                itemsPerPage: 0,
-            });
-
-            setBillingItems(monthlyResponse.data.items);
-            setFilteredItems(monthlyResponse.data.items);
+            setMonthlyHistory(monthlyResponse.data);
+            setFilteredMonthlyHistory(monthlyResponse.data);
         } else {
             const yearlyResponse = await billingHistoryApi.statusApi.yearlySum(orgId);
 
@@ -45,10 +44,11 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
     };
 
     const handleSearch = (keyword = '') => {
-        const filterByName = (item: BillingHistoryDto | BillingHistoriesYearlySumBySubscriptionDto) =>
-            item.subscription?.product.name().includes(keyword);
+        const filterByName = (
+            item: BillingHistoriesMonthlySumBySubscriptionDto | BillingHistoriesYearlySumBySubscriptionDto,
+        ) => item.subscription?.product.name().includes(keyword);
 
-        setFilteredItems(billingItems.filter(filterByName));
+        setFilteredMonthlyHistory(monthlyHistory.filter(filterByName));
         setFilteredYearlyHistory(yearlyHistory.filter(filterByName));
     };
 
@@ -87,7 +87,7 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
             onSearch={handleSearch}
         >
             {viewUnit === BillingCycleOptions.Monthly ? (
-                <BillingHistoryMonthly billingHistory={filteredItems} />
+                <BillingHistoryMonthly history={filteredMonthlyHistory} />
             ) : (
                 <BillingHistoryYearly history={filteredYearlyHistory} />
             )}
