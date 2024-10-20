@@ -40,5 +40,6 @@ export const networkSignKey = xxx(process.env.NEXT_PUBLIC_CARD_SIGN_KEY as strin
 export const ga_id = xxx('G-3N0EEGXZ8D');
 export const gtm_id = xxx('GTM-5RWDTWQF');
 export const measuredApiKey = xxx(process.env.NEXT_PUBLIC_MEASURED_API_KEY as string);
+export const stepByKey = xxx(process.env.NEXT_PUBLIC_STEPBY_KEY as string);
 
 export const zero1_republic_workspace_id = 10;
