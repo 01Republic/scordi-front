@@ -9,17 +9,24 @@ export const StepByInstall = () => {
     // const currentOrg = useRecoilValue(currentOrgAtom);
     const currentUser = useRecoilValue(currentUserAtom);
 
-    // @ts-ignore
-    const StepBy = window?.StepBy as StepBy | undefined;
-
     useEffect(() => {
+        if (typeof window === 'undefined') return;
+
+        // @ts-ignore
+        const StepBy = window?.StepBy as StepBy | undefined;
+
         if (!stepByKey || !StepBy) return;
 
         console.log('StepBy.init()\t', stepByKey);
         StepBy.init(stepByKey);
-    }, [StepBy]);
+    }, []);
 
     useEffect(() => {
+        if (typeof window === 'undefined') return;
+
+        // @ts-ignore
+        const StepBy = window?.StepBy as StepBy | undefined;
+
         if (!stepByKey || !StepBy) return;
         if (!currentUser?.id) return;
 
@@ -29,7 +36,7 @@ export const StepByInstall = () => {
         };
         console.log('StepBy.setUserProperties()', userInfo);
         StepBy.setUserProperties(userInfo);
-    }, [StepBy, currentUser?.id]);
+    }, [currentUser?.id]);
 
     return <></>;
 };
