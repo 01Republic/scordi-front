@@ -18,7 +18,7 @@ export const OrgSettingLeftListItem = memo(function (props: OrgSettingLeftListIt
     return (
         <LinkTo
             href={href}
-            className={`flex items-center px-4 py-3 mb-1 rounded-2xl hover:bg-gray-50 cursor-pointer ${
+            className={`flex items-center px-4 py-3 mb-1 rounded-lg hover:bg-gray-50 cursor-pointer ${
                 isActive ? `bg-gray-50` : ``
             }`}
         >
