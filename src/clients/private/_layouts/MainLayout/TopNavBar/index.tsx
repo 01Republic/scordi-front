@@ -22,7 +22,7 @@ import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
 import {OrgSettingsInformationPageRoute} from '^pages/orgs/[id]/settings';
 import {OrgBillingHistoryStatusPageRoute} from '^pages/orgs/[id]/billingHistories/status';
 
-interface TobNavBarProps {
+interface TopNavBarProps {
     //
 }
 
@@ -52,7 +52,7 @@ const getTopNavStructure = () => [
     {name: '설정', routeProps: OrgSettingsInformationPageRoute},
 ];
 
-export const TobNavBar = memo((props: TobNavBarProps) => {
+export const TopNavBar = memo((props: TopNavBarProps) => {
     const {} = props;
     const router = useRouter();
     const {currentOrg} = useCurrentOrg2();
@@ -107,4 +107,4 @@ export const TobNavBar = memo((props: TobNavBarProps) => {
         </div>
     );
 });
-TobNavBar.displayName = 'TobNavBar';
+TopNavBar.displayName = 'TopNavBar';

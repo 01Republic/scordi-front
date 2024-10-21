@@ -2,7 +2,7 @@ import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {Background} from './Background';
 import {OrgTopBar} from './OrgTopBar';
-import {TobNavBar} from './TobNavBar';
+import {TopNavBar} from './TopNavBar';
 import {Footer} from '../_shared/Footer';
 import {BaseLayout} from '^clients/private/_layouts/BaseLayout';
 
@@ -20,7 +20,7 @@ export const MainLayout = memo((props: MainLayoutProps) => {
             {/* Body */}
             <div className="relative min-h-screen">
                 <OrgTopBar />
-                <TobNavBar />
+                <TopNavBar />
 
                 {children}
 
