@@ -23,3 +23,13 @@ export const floorNumber = (num: number, pos = 0): number => {
 
 // Zero padding
 export const zeroPad = (num: string): string => (num.length == 1 ? `0${num}` : num);
+
+/**
+ * To Percentage : 0.15679 -> 15.68 (pos = 2)
+ * - !NOTE: toFixed(pos) 가 필요하면 밖에서 따로 할 것.
+ * @param num
+ * @param pos
+ */
+export const floatToPercent = (num: number, pos = 2): number => {
+    return roundNumber(num * 100, pos);
+};

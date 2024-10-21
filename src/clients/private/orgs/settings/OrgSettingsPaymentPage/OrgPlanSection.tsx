@@ -3,6 +3,7 @@ import {SettingsPaymentSection} from './SettingsPaymentSection';
 import {SelectPlanModal} from './SelectPlanModal';
 import {useCurrentScordiSubscription} from '^models/_scordi/ScordiSubscription/hook';
 import {yyyy_mm_dd} from '^utils/dateTime';
+import {MdRefresh} from 'react-icons/md';
 
 interface OrgPlanSectionProps {
     orgId: number;
@@ -10,7 +11,7 @@ interface OrgPlanSectionProps {
 
 export const OrgPlanSection = memo((props: OrgPlanSectionProps) => {
     const {orgId} = props;
-    const {isLoading, currentSubscription, fetch} = useCurrentScordiSubscription();
+    const {isLoading, currentSubscription, fetch, reload} = useCurrentScordiSubscription();
     const [isSelectPlanModalOpened, setIsSelectPlanModalOpened] = useState(false);
 
     useEffect(() => {
@@ -20,7 +21,18 @@ export const OrgPlanSection = memo((props: OrgPlanSectionProps) => {
     return (
         <>
             <SettingsPaymentSection
-                title="현재 플랜 정보"
+                title={
+                    <div className="flex items-center gap-2">
+                        <div>현재 플랜 정보</div>
+                        <div>
+                            <MdRefresh
+                                fontSize={14}
+                                className={`cursor-pointer ${isLoading ? 'animate-spin' : ''}`}
+                                onClick={() => reload()}
+                            />
+                        </div>
+                    </div>
+                }
                 buttonText="플랜 변경"
                 buttonOnClick={() => setIsSelectPlanModalOpened(true)}
                 isLoading={isLoading}

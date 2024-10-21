@@ -1,9 +1,10 @@
 import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {LoadableBox} from '^components/util/loading';
+import {ReactNodeLike} from 'prop-types';
 
 interface SettingsPaymentSectionProps extends WithChildren {
-    title: string;
+    title: ReactNodeLike;
     buttonText?: string;
     buttonOnClick?: () => any;
     isLoading?: boolean;

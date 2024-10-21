@@ -1,10 +1,10 @@
 import {api} from '^api/api';
 import {listDtoOf} from '^types/utils/response-of';
-import {ScordiPlanDto} from './type';
+import {ScordiPlanDto, FindAllScordiPlanQueryDto} from './type';
 
 export const scordiPlanApi = {
-    index() {
+    index(params?: FindAllScordiPlanQueryDto) {
         const url = `/scordi-plans`;
-        return api.get(url).then(listDtoOf(ScordiPlanDto));
+        return api.get(url, {params}).then(listDtoOf(ScordiPlanDto));
     },
 };
