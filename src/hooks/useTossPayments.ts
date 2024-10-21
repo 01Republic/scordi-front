@@ -1,14 +1,14 @@
 import {useCurrentUser} from '^models/User/hook';
 import {tossPaymentsKey} from '^config/environments';
 import {loadTossPayments} from '@tosspayments/tosspayments-sdk';
-import {toast} from 'react-toastify';
+import {toast} from 'react-hot-toast';
 import {useRouter} from 'next/router';
 import {useEffect} from 'react';
 
 export function useTossPayments() {
     const {currentUser} = useCurrentUser();
     const {query} = useRouter();
-    const {pms, message} = query;
+    const {pms, message = ''} = query;
 
     const startBilling = async () => {
         if (!currentUser) return;
@@ -32,7 +32,7 @@ export function useTossPayments() {
         if (pms === '1') {
             toast.success('카드 정보가 등록되었습니다 :)');
         } else if (pms === '0') {
-            toast.error(message);
+            toast.error(message as string);
         }
     }, [pms]);
 
