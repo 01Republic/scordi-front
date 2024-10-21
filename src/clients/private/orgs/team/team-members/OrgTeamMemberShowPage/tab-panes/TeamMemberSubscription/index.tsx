@@ -4,6 +4,7 @@ import {ListTable, ListTableContainer} from '^clients/private/_components/table/
 import {useCurrentTeamMember} from '../../atom';
 import {TeamMemberSubscriptionTableHeader} from './TeamMemberSubscriptionTableHeader';
 import {TeamMemberSubscriptionTableRow} from './TeamMemberSubscriptionTableRow';
+import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 
 export const TeamMemberSubscription = memo(function TeamMemberSubscription() {
     const {currentTeamMember: teamMember} = useCurrentTeamMember();
@@ -31,21 +32,24 @@ export const TeamMemberSubscription = memo(function TeamMemberSubscription() {
                 changePageSize={changePageSize}
                 // hideTopPaginator
                 // Empty State Props
-                isNotLoaded={isNotLoaded}
-                isLoading={isLoading}
-                isEmptyResult={isEmptyResult}
-                emptyMessage="연결된 구독이 없어요."
-                emptyButtonText="새 구독 연결"
             >
-                <ListTable
-                    onReady={onReady}
-                    items={result.items}
-                    isLoading={isLoading}
-                    Header={() => <TeamMemberSubscriptionTableHeader orderBy={orderBy} />}
-                    Row={({item}) => (
-                        <TeamMemberSubscriptionTableRow teamMember={teamMember} subscription={item} reload={reload} />
-                    )}
-                />
+                {isEmptyResult ? (
+                    <EmptyTable message="연결된 구독이 없어요." />
+                ) : (
+                    <ListTable
+                        onReady={onReady}
+                        items={result.items}
+                        isLoading={isLoading}
+                        Header={() => <TeamMemberSubscriptionTableHeader orderBy={orderBy} />}
+                        Row={({item}) => (
+                            <TeamMemberSubscriptionTableRow
+                                teamMember={teamMember}
+                                subscription={item}
+                                reload={reload}
+                            />
+                        )}
+                    />
+                )}
             </ListTableContainer>
         </section>
     );
