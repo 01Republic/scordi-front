@@ -18,30 +18,32 @@ export const OrgPlanSection = memo((props: OrgPlanSectionProps) => {
     }, [orgId]);
 
     return (
-        <SettingsPaymentSection
-            title="현재 플랜 정보"
-            buttonText="플랜 변경"
-            buttonOnClick={() => setIsSelectPlanModalOpened(true)}
-            isLoading={isLoading}
-        >
-            {currentSubscription && (
-                <div className={'p-4 bg-gray-50 flex justify-between items-center'}>
-                    <div>{currentSubscription.scordiPlan.name}</div>
-                    <div>
-                        이용기간:{' '}
-                        {currentSubscription.startAt && currentSubscription.finishAt ? (
-                            <span>
-                                {yyyy_mm_dd(currentSubscription.startAt)} ~ {yyyy_mm_dd(currentSubscription.finishAt)}
-                            </span>
-                        ) : (
-                            ''
-                        )}
+        <>
+            <SettingsPaymentSection
+                title="현재 플랜 정보"
+                buttonText="플랜 변경"
+                buttonOnClick={() => setIsSelectPlanModalOpened(true)}
+                isLoading={isLoading}
+            >
+                {currentSubscription && (
+                    <div className={'p-4 bg-gray-50 flex justify-between items-center'}>
+                        <div>{currentSubscription.scordiPlan.name}</div>
+                        <div>
+                            이용기간:{' '}
+                            {currentSubscription.startAt && currentSubscription.finishAt ? (
+                                <span>
+                                    {yyyy_mm_dd(currentSubscription.startAt)} ~{' '}
+                                    {yyyy_mm_dd(currentSubscription.finishAt)}
+                                </span>
+                            ) : (
+                                ''
+                            )}
+                        </div>
                     </div>
-                </div>
-            )}
-
+                )}
+            </SettingsPaymentSection>
             <SelectPlanModal isOpened={isSelectPlanModalOpened} onClose={() => setIsSelectPlanModalOpened(false)} />
-        </SettingsPaymentSection>
+        </>
     );
 });
 OrgPlanSection.displayName = 'OrgPlanSection';

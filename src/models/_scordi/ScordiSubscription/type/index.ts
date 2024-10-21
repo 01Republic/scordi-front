@@ -18,4 +18,9 @@ export class ScordiSubscriptionDto {
     @TypeCast(() => OrganizationDto) organization?: OrganizationDto; // 조직
     @TypeCast(() => ScordiPlanDto) scordiPlan: ScordiPlanDto; // 결제플랜
     @TypeCast(() => ScordiPaymentDto) scordiPayments?: ScordiPaymentDto[]; // 스코디 결제내역
+
+    getNextDate() {
+        if (this.finishAt) return this.finishAt;
+        return this.startAt ? this.scordiPlan.getNextDate(this.startAt) : null;
+    }
 }
