@@ -1,6 +1,7 @@
 import React, {memo} from 'react';
 import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
 import {useCurrentScordiSubscription} from '^models/_scordi/ScordiSubscription/hook';
+import {yyyy_mm_dd} from '^utils/dateTime';
 
 interface ScordiPlanCardButtonProps {
     plan: ScordiPlanDto;
@@ -9,11 +10,24 @@ interface ScordiPlanCardButtonProps {
 
 export const ScordiPlanCardButton = memo((props: ScordiPlanCardButtonProps) => {
     const {plan, onClick} = props;
-    const {currentSubscription} = useCurrentScordiSubscription();
+    const {currentSubscription, scheduledSubscriptions} = useCurrentScordiSubscription();
+    const scheduledItem = scheduledSubscriptions.find((s) => {
+        return s.scordiPlanId === plan.id || (s.scordiPlan.priority == 1 && plan.priority == 1);
+    });
+
+    if (scheduledItem) {
+        const startAt = yyyy_mm_dd(scheduledItem.startAt!, '. ');
+        return (
+            <button className="btn bg-scordi-50 text-scordi w-full flex flex-col gap-1 no-click opacity-50">
+                <span className="text-12">{startAt}</span>
+                <span>적용 예정</span>
+            </button>
+        );
+    }
 
     if (
         currentSubscription?.scordiPlanId === plan.id ||
-        (currentSubscription?.scordiPlan.priority == 1 && plan.priority === 1)
+        (currentSubscription?.scordiPlan.priority == 1 && plan.priority == 1)
     ) {
         return <button className="btn bg-scordi-50 text-scordi w-full no-click">현재플랜</button>;
     }

@@ -1,11 +1,18 @@
 import {useRecoilState} from 'recoil';
-import {currentScordiSubscriptionAtom, currentScordiSubscriptionIsLoadingAtom} from './atom';
-import {scordiSubscriptionApi} from '^models/_scordi/ScordiSubscription/api';
-import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
+import {toast} from 'react-hot-toast';
+import {yyyy_mm_dd} from '^utils/dateTime';
+import {scordiSubscriptionApi} from './api';
+import {ScordiSubscriptionDto} from './type';
+import {
+    currentScordiSubscriptionAtom,
+    currentScordiSubscriptionIsLoadingAtom,
+    scordiSubscriptionScheduledListAtom,
+} from './atom';
 
 export const useCurrentScordiSubscription = () => {
     const [isLoading, setIsLoading] = useRecoilState(currentScordiSubscriptionIsLoadingAtom);
     const [currentSubscription, setCurrentSubscription] = useRecoilState(currentScordiSubscriptionAtom);
+    const [scheduledList, setScheduledList] = useRecoilState(scordiSubscriptionScheduledListAtom);
 
     /**
      * 조직의 현재 구독정보 불러오기
@@ -20,8 +27,9 @@ export const useCurrentScordiSubscription = () => {
         setIsLoading(true);
         return scordiSubscriptionApi
             .show(orgId)
-            .then((res) => {
+            .then(async (res) => {
                 setCurrentSubscription(res.data);
+                await fetchScheduledItems(orgId);
                 return res.data;
             })
             .finally(() => setIsLoading(false));
@@ -39,7 +47,25 @@ export const useCurrentScordiSubscription = () => {
      * 조직의 스코디 구독 등록 (신규 & 수정)
      */
     const update = async (orgId: number, planId: number) => {
-        return scordiSubscriptionApi.create(orgId, planId).then(() => fetch(orgId, true));
+        if (!orgId || isNaN(orgId)) return;
+        return scordiSubscriptionApi
+            .create(orgId, planId)
+            .then((res) => {
+                const newSub = res.data;
+                fetchScheduledItems(orgId);
+                if (newSub.isActive) {
+                    toast.success('플랜을 변경했어요');
+                } else {
+                    const startAt = yyyy_mm_dd(newSub.startAt!, '. ');
+                    toast.success(`변경을 예약 했어요.\n다음 구독 주기부터 적용됩니다.\n적용예정: ${startAt}`);
+                }
+                return res;
+            })
+            .then(() => fetch(orgId, true));
+    };
+
+    const fetchScheduledItems = (orgId: number) => {
+        return scordiSubscriptionApi.scheduledItems(orgId).then((res) => setScheduledList(res.data));
     };
 
     return {
@@ -48,5 +74,7 @@ export const useCurrentScordiSubscription = () => {
         fetch,
         reload,
         update,
+        scheduledSubscriptions: scheduledList,
+        fetchScheduledSubscriptions: fetchScheduledItems,
     };
 };

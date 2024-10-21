@@ -9,10 +9,10 @@ interface OrgPaymentMethodSectionProps {
 
 export const OrgPaymentMethodSection = memo((props: OrgPaymentMethodSectionProps) => {
     const {orgId} = props;
-    const {startBilling} = useTossPayments();
+    const {requestBillingAuth} = useTossPayments();
 
     return (
-        <SettingsPaymentSection title="카드 정보" buttonText="카드 변경" buttonOnClick={() => startBilling()}>
+        <SettingsPaymentSection title="카드 정보" buttonText="카드 변경" buttonOnClick={() => requestBillingAuth()}>
             <EmptyTable message="등록된 카드 정보가 없어요." />
         </SettingsPaymentSection>
     );

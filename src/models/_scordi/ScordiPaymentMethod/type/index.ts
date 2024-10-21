@@ -27,3 +27,6 @@ export class ScordiPaymentMethodDto {
     @TypeCast(() => TossPaymentsBillingDto) response: TossPaymentsBillingDto; // 빌링키 등록 결과 객체
     @TypeCast(() => OrganizationDto) organization?: OrganizationDto; // 조직
 }
+
+export * from './FindAllScordiPaymentMethod.query.dto';
+export * from './CreateScordiPaymentMethod.request.dto';

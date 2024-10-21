@@ -10,3 +10,8 @@ export const currentScordiSubscriptionIsLoadingAtom = atom({
     key: 'currentScordiSubscriptionIsLoadingAtom',
     default: false,
 });
+
+export const scordiSubscriptionScheduledListAtom = atom<ScordiSubscriptionDto[]>({
+    key: 'scordiSubscriptionScheduledListAtom',
+    default: [],
+});
