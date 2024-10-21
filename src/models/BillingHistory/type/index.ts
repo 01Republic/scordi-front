@@ -9,6 +9,7 @@ import {BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {IsActiveSubsParams, StartEndParams} from '^types/billing.type';
 import {PartialType} from '^types/utils/partial-type';
+import {rangeToArr} from '^utils/range';
 
 export * from './create-billing-history.request.dto.v2';
 
@@ -172,10 +173,6 @@ export type GetBillingHistoriesParams = FindAllQueryDto<BillingHistoryDto> &
     StatusParams &
     IsActiveSubsParams;
 
-export class BillingHistoryStatusMetaDto {
-    @TypeCast(() => Date) firstIssuedAt: Date;
-    @TypeCast(() => Date) lastIssuedAt: Date;
-}
 export class FindAllBillingHistoriesQueryDto extends FindAllQueryDto<BillingHistoryDto> {
     startDate?: string; // 결제내역 조회범위 시작날짜
     endDate?: string; // 결제내역 조회범위 종료날짜
@@ -188,3 +185,8 @@ export enum BillingHistorySubtype {
     MANUAL = 'MANUAL',
     CARD_RECEIPT = 'CARD_RECEIPT',
 }
+
+/**
+ * BillingHistoryStatus API DTO
+ */
+export * from './billing-history-status.controller.dto';

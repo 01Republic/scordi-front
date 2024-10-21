@@ -1,8 +1,11 @@
 import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
-import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
+import {listDtoOf, oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {
+    BillingHistoriesMonthlySumBySubscriptionDto,
+    BillingHistoriesYearlySumBySubscriptionDto,
     BillingHistoryDto,
+    BillingHistoryStatusDateRangeDto,
     CreateBillingHistoryRequestDto,
     CreateBillingHistoryStandAloneRequestDto,
     FindAllBillingHistoriesQueryDto,
@@ -48,6 +51,31 @@ export const billingHistoryApi = {
     destroy: (id: number) => {
         const url = `/${NAMESPACE}/${id}`;
         return api.delete<BillingHistoryDto>(url).then(oneDtoOf(BillingHistoryDto));
+    },
+
+    statusApi: {
+        // 결제현황의 날짜범위 조회
+        dateRange: (orgId: number, params?: GetBillingHistoriesParams) => {
+            params ||= {};
+            params.where ||= {};
+            params.where.organizationId = orgId;
+            const url = `/billing_histories/status/date-range`;
+            return api.get(url, {params}).then(oneDtoOf(BillingHistoryStatusDateRangeDto));
+        },
+
+        // 구독의 연간 합계 금액 조회
+        yearlySum: (orgId: number) => {
+            const params = {organizationId: orgId};
+            const url = `/billing_histories/status/yearly-sum`;
+            return api.get(url, {params}).then(listDtoOf(BillingHistoriesYearlySumBySubscriptionDto));
+        },
+
+        // 구독의 월간 합계 금액 조회
+        monthlySum: (orgId: number, year: number) => {
+            const params = {organizationId: orgId, year};
+            const url = `/billing_histories/status/monthly-sum`;
+            return api.get(url, {params}).then(listDtoOf(BillingHistoriesMonthlySumBySubscriptionDto));
+        },
     },
 };
 

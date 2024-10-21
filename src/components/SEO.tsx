@@ -102,9 +102,11 @@ export const SEO = memo((props: SEOProps) => {
             <meta name="twitter:image" content={thumbnail} />
             <meta name="twitter:card" content="summary_large_image" />
             <script type="application/ld+json" dangerouslySetInnerHTML={{__html: `${JSON.stringify(ld, null, 2)}`}} />
-            <script src="../components/webPush/index"></script>
+            {/*<script src="../components/webPush/index"></script>*/}
 
             <meta name="naver-site-verification" content="e6dd19e77ee0c635af64ba80bbf6ac46f7cb4c14" />
+
+            <script src="https://package.stepby.co/sdk/index.min.js" type="text/javascript" />
         </Head>
     );
 });
