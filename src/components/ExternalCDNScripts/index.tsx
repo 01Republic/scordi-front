@@ -5,6 +5,8 @@ import {HotJarCdnScript} from './hotjar/HotJarCdnScript';
 import {FacebookPixelCdnScript} from './facebook-pixel/FacebookPixelCdnScript';
 import {ChannelTalkCDN} from './channel-talk/ChannelTalkCDN';
 import {MeasuredInstall} from './measured';
+import {StepByInstall} from './step-by';
+import {stepByKey} from '^config/environments';
 
 export default function ExternalCDNScripts() {
     return (
@@ -15,6 +17,7 @@ export default function ExternalCDNScripts() {
             <TypeformCdnScript />
             {typeof window !== 'undefined' && <ChannelTalkCDN />}
             <MeasuredInstall />
+            {stepByKey && <StepByInstall />}
         </>
     );
 }
