@@ -24,7 +24,7 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
     const {
         currentSubscription,
         fetch: fetchCurrentSubscription,
-        update,
+        update: createSubscription,
         fetchScheduledSubscriptions,
     } = useCurrentScordiSubscription();
     const {result, search: fetchPaymentMethods} = useScordiPaymentMethodsInSettingPage();
@@ -47,20 +47,19 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
         fetchScheduledSubscriptions(orgId);
     }, [orgId]);
 
-    const createSubscription = (planId: number) => update(orgId, planId);
-
     const changePlan = (plan: ScordiPlanDto) => {
         const paymentMethod = result.items[0];
 
+        if (!orgId || isNaN(orgId)) return;
         if (plan.id === currentSubscription?.scordiPlanId) return;
 
         confirm2(`플랜 변경`, `구독중인 플랜을 변경할까요?`, 'warning').then((res) => {
             if (res.isConfirmed) {
                 // 일단 선택한 플랜이 무료면 구독변경만.
-                if (plan.price === 0) return createSubscription(plan.id);
+                if (plan.price === 0) return createSubscription(orgId, plan.id);
 
                 // 유료일 때, 결제수단 있으면 생략 & 구독변경.
-                if (paymentMethod) return createSubscription(plan.id);
+                if (paymentMethod) return createSubscription(orgId, plan.id);
 
                 // 없으면 결제수단 등록.
                 requestBillingAuth(plan.id);

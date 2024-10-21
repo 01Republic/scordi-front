@@ -10,7 +10,7 @@ import {useRecoilState} from 'recoil';
 import {createPaymentMethodQueryAtom} from '^models/_scordi/toss-payment/atom';
 import {useCurrentScordiSubscription} from '^models/_scordi/ScordiSubscription/hook';
 import {delay} from '^components/util/delay';
-import {scordiSubscriptionApi} from '^models/_scordi/ScordiSubscription/api';
+import {useScordiPaymentMethodsInSettingPage} from '^models/_scordi/ScordiPaymentMethod/hook';
 
 const parseQueryValue = (value: string | string[] | undefined): string => {
     return [value].flat().join(',') || '';
@@ -62,6 +62,8 @@ export const useTossPaymentAuthCallback = (orgId: number) => {
     const authKey = parseQueryValue(query['authKey']);
     const selectedPlanId = Number(parseQueryValue(query['planId']));
     const [reqBody, setReqBody] = useRecoilState(createPaymentMethodQueryAtom);
+    const {update: createSubscription} = useCurrentScordiSubscription();
+    const {reload: reloadPaymentMethods} = useScordiPaymentMethodsInSettingPage();
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
@@ -76,15 +78,12 @@ export const useTossPaymentAuthCallback = (orgId: number) => {
                 // 결제수단 변경 시퀀스 분기 처리
                 if (!selectedPlanId || isNaN(selectedPlanId)) {
                     toast.success('카드를 등록했어요');
-                    return replace(urlWithQuery()).then(() => reload()); // 흐름차단
+                    return replace(urlWithQuery()).then(() => reloadPaymentMethods()); // 흐름차단
                 }
 
                 // 구독 등록 시퀀스 시작
-                await delay(500);
                 return createSubscription(orgId, selectedPlanId).then(async () => {
-                    toast.success('저장 완료!');
-                    await delay(500);
-                    return replace(urlWithQuery()).then(() => reload()); // 흐름차단
+                    return replace(urlWithQuery()).then(() => reloadPaymentMethods()); // 흐름차단
                 });
             });
         }
@@ -97,11 +96,6 @@ export const useTossPaymentAuthCallback = (orgId: number) => {
             .create(orgId, data)
             .then((res) => res.data)
             .finally(() => setReqBody(data));
-    };
-
-    const createSubscription = async (orgId: number, planId: number) => {
-        if (!orgId || isNaN(orgId)) return;
-        return scordiSubscriptionApi.create(orgId, planId).then((res) => res.data);
     };
 
     return {
