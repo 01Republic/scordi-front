@@ -1,12 +1,10 @@
-import {InvoiceAccountProfile} from '^models/InvoiceAccount/components';
-import {BsCheckCircle, BsCheckCircleFill} from 'react-icons/bs';
 import React, {memo} from 'react';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
 import {useForm} from 'react-hook-form';
 import {UpdateOrganizationRequestDto} from '^models/Organization/type';
 import {organizationApi} from '^models/Organization/api';
-import {toast} from 'react-toastify';
+import {toast} from 'react-hot-toast';
 
 interface ChangeOrgInformationModalProps {
     isOpened: boolean;
