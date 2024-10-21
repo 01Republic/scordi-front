@@ -38,7 +38,7 @@ export const OrgPlanSection = memo((props: OrgPlanSectionProps) => {
                 isLoading={isLoading}
             >
                 {currentSubscription && (
-                    <div className={'p-4 bg-gray-50 flex justify-between items-center'}>
+                    <div className={'p-4 bg-slate-50 flex items-center justify-between rounded-lg text-14'}>
                         <div>{currentSubscription.scordiPlan.name}</div>
                         <div>
                             이용기간:{' '}

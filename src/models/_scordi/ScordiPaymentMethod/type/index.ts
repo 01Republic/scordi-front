@@ -26,6 +26,22 @@ export class ScordiPaymentMethodDto {
     @TypeCast(() => Date) updatedAt: Date; // 수정일시
     @TypeCast(() => TossPaymentsBillingDto) response: TossPaymentsBillingDto; // 빌링키 등록 결과 객체
     @TypeCast(() => OrganizationDto) organization?: OrganizationDto; // 조직
+
+    asCardCompany() {
+        return this.response.asCardCompany();
+    }
+
+    cardNumbers() {
+        const n1 = this.cardNumber.slice(0, 4);
+        const n2 = this.cardNumber.slice(4, 8);
+        const n3 = this.cardNumber.slice(8, 12);
+        const n4 = this.cardNumber.slice(-4);
+        return [n1, n2, n3, n4];
+    }
+
+    get fullCardNumber() {
+        return this.cardNumbers().join('-');
+    }
 }
 
 export * from './FindAllScordiPaymentMethod.query.dto';
