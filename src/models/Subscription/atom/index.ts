@@ -35,6 +35,11 @@ export const subscriptionsInTeamMemberShowModalAtom = pagedResourceAtom<Subscrip
     key: 'pagedSubscriptions_TeamMemberShowModal/Atom',
 });
 
+// 팀 상세 페이지 / 이용중인 서비스 목록
+export const subscriptionsInTeamShowPageAtom = pagedResourceAtom<SubscriptionDto, FindAllSubscriptionsQuery>({
+    key: 'subscriptionsInTeamShowPage/Atom',
+});
+
 // 카드 상세 페이지 > 구독 테이블
 export const subscriptionListOfCreditCardAtom = pagedResourceAtom<SubscriptionDto, FindAllSubscriptionsQuery>({
     key: 'subscriptionListOfCreditCardAtom',

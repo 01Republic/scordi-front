@@ -52,6 +52,9 @@ $breakpoint-mobile: 639px;
   overflow: hidden;
   //max-height: 3.6em;
   //line-height: 1.8em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--line-clamp-size);
 }
 
 .blog-post-item-text-wrap {

@@ -13,23 +13,6 @@ export class TeamMemberSubscriptionDto {
     @TypeCast(() => SubscriptionDto) subscription: SubscriptionDto; // 구독
 }
 
-export class TeamMemberSubscriptionOriginData {
-    items: TeamMemberSubscriptionDto[];
-    pagination: {
-        currentItemCount: number;
-        currentPage: number;
-        itemsPerPage: number;
-        totalItemCount: number;
-        totalPage: number;
-    };
-}
-
-export class TeamMemberSubscriptionArrayDto {
-    subscriptionId: number;
-    teamMembers: TeamMemberDto[];
-    subscription: SubscriptionDto;
-}
-
 export class FindAllTeamMemberSubscriptionQueryDto extends FindAllQueryDto<TeamMemberSubscriptionDto> {
     keyword?: string; // 키워드
 }

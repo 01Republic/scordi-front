@@ -7,7 +7,6 @@ import {SubscriptionSelectItem} from '^models/Subscription/components/Subscripti
 import {SlideUpSelectModal} from '^clients/private/_modals/SlideUpSelectModal';
 import {subscriptionApi} from '^models/Subscription/api';
 import {useCurrentTeamMember} from '^clients/private/orgs/team/team-members/OrgTeamMemberShowPage/atom';
-import {useTeamsSubscriptionForDetailPage} from '^models/Team/hook';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {Paginated} from '^types/utils/paginated.dto';
 
