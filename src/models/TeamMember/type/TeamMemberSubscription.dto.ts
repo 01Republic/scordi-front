@@ -24,6 +24,12 @@ export class TeamMemberSubscriptionOriginData {
     };
 }
 
+export class TeamMemberSubscriptionArrayDto {
+    subscriptionId: number;
+    teamMembers: TeamMemberDto[];
+    subscription: SubscriptionDto;
+}
+
 export class FindAllTeamMemberSubscriptionQueryDto extends FindAllQueryDto<TeamMemberSubscriptionDto> {
     keyword?: string; // 키워드
 }
