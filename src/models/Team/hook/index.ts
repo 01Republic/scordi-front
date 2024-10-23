@@ -1,10 +1,11 @@
-import React, {useEffect} from 'react';
+import {useEffect, useState} from 'react';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {toast} from 'react-hot-toast';
-import {orgIdParamState, teamIdParamState, useRouterIdParamState} from '^atoms/common';
+import {orgIdParamState, teamIdParamState} from '^atoms/common';
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
 import {teamApi} from '../api';
 import {FindAllTeamQueryDto, TeamDto, UpdateTeamDto} from '../type';
-import {teamListForSelectOptionsAtom, teamsListAtom, teamsListForTeamListPageAtom} from '../atom';
+import {currentTeamAtom, teamListForSelectOptionsAtom, teamsListAtom, teamsListForTeamListPageAtom} from '../atom';
 
 export const useTeamsV2 = () => useTeams(teamsListAtom);
 
@@ -23,20 +24,19 @@ const useTeams = (atoms: PagedResourceAtoms<TeamDto, FindAllTeamQueryDto>, merge
 };
 
 export const useCurrentTeam = () => {
-    const orgId = useRouterIdParamState('id', orgIdParamState);
-    const teamId = useRouterIdParamState('teamId', teamIdParamState);
-    const [team, setTeam] = React.useState<TeamDto | undefined>(undefined);
+    const orgId = useRecoilValue(orgIdParamState);
+    const teamId = useRecoilValue(teamIdParamState);
+    const [team, setTeam] = useRecoilState(currentTeamAtom);
 
-    const getTeamInfo = () => {
-        // setTeam(undefined);
+    const fetchData = (force = false) => {
+        if (!force && team && team.id === teamId) return;
+
         teamApi.show(orgId, teamId).then((res) => {
             setTeam(res.data);
         });
     };
 
-    const reload = () => {
-        getTeamInfo();
-    };
+    const reload = () => fetchData(true);
 
     const update = (
         data: UpdateTeamDto,
@@ -51,7 +51,7 @@ export const useCurrentTeam = () => {
     };
 
     useEffect(() => {
-        !!teamId && getTeamInfo();
+        !!teamId && fetchData();
     }, [teamId]);
 
     return {

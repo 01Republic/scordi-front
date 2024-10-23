@@ -1,9 +1,10 @@
 import React, {memo, useState} from 'react';
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
+import {OrgTeamListPageRoute} from '^pages/orgs/[id]/teams';
 import {useCurrentTeam} from '^models/Team/hook';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
-import {OrgTeamListPageRoute} from '^pages/orgs/[id]/teams';
 import {TeamInvoicesListPage} from './Invoices/TeamInvoicesListPage';
 import {TeamSubscriptionsListPage} from './Subscriptions/TeamSubscriptionsListPage';
 import {TeamMembersListPage} from './Members/TeamMembersListPage';
@@ -31,7 +32,7 @@ const PageShow = memo(({tab}: {tab: TabName}) => {
 });
 
 export const OrgTeamDetailPage = memo(function TeamDetailLayout() {
-    const orgId = useRouterIdParamState('id', orgIdParamState);
+    const orgId = useRecoilValue(orgIdParamState);
     const {team} = useCurrentTeam();
     const [tab, setTab] = useState<TabName>(TabName.members);
 

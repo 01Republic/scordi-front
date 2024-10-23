@@ -1,3 +1,4 @@
+import {atom} from 'recoil';
 import {FindAllTeamQueryDto, TeamDto} from '^models/Team/type';
 import {pagedResourceAtom} from '^hooks/usePagedResource';
 import {FindAllTeamMemberSubscriptionQueryDto, TeamMemberSubscriptionDto} from '^models/TeamMember';
@@ -21,4 +22,9 @@ export const teamMemberSubscriptionListAtom = pagedResourceAtom<
     FindAllTeamMemberSubscriptionQueryDto
 >({
     key: 'teamMemberSubscriptionListAtom',
+});
+
+export const currentTeamAtom = atom<TeamDto | undefined>({
+    key: 'currentTeamAtom',
+    default: undefined,
 });
