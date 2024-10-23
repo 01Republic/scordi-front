@@ -1,11 +1,11 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo} from 'react';
+import {useCurrentTeam} from '^models/Team/hook';
 import {BsCreditCardFill, BsPeopleFill, BsUiChecksGrid} from 'react-icons/bs';
 import {MdRefresh} from 'react-icons/md';
-import {TeamStatCard} from './TeamStatCard';
-import {useCurrentTeam} from '^models/Team/hook';
 import {FaReceipt} from 'react-icons/fa6';
-import {useRouter} from 'next/router';
-import {TabName} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/index';
+import {TabName} from './OrgTeamDetailPageTabContent';
+import {TeamStatCard} from './TeamStatCard';
+import {useUnmount} from '^hooks/useUnmount';
 
 interface TeamStatCardListProps {
     changeCurrentTab?: (tabName: TabName) => any;
@@ -13,18 +13,11 @@ interface TeamStatCardListProps {
 
 export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
     const {changeCurrentTab} = props;
-    const router = useRouter();
-    const {team, reload, update} = useCurrentTeam();
-    const [isLoading, setIsLoading] = useState(false);
+    const {team, reloadWithUpdateCounters, isLoading} = useCurrentTeam();
 
-    const refreshCounters = () => {
-        setIsLoading(true);
-        update({}, {silent: true}).finally(() => setIsLoading(false));
-    };
-
-    useEffect(() => {
-        return () => refreshCounters();
-    }, [router.isReady]);
+    useUnmount(() => {
+        reloadWithUpdateCounters();
+    }, []);
 
     return (
         <div className="bg-slate-100 rounded-lg p-2 shadow-lg">
@@ -35,7 +28,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
                     className={`text-12 text-gray-400 hover:text-black transition cursor-pointer ${
                         isLoading ? 'animate-spin' : ''
                     }`}
-                    onClick={refreshCounters}
+                    onClick={reloadWithUpdateCounters}
                 />
             </div>
 

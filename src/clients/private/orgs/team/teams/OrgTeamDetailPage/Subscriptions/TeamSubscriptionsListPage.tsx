@@ -1,18 +1,17 @@
-import React, {memo, useEffect, useState} from 'react';
-import {FaPlus} from 'react-icons/fa6';
+import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
 import {teamIdParamState} from '^atoms/common';
+import {useUnmount} from '^hooks/useUnmount';
 import {useCurrentTeam} from '^models/Team/hook';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 import {useSubscriptionsInTeamShowPage} from '^models/Subscription/hook';
 import {TeamSubscriptionCard} from './TeamSubscriptionCard';
 import {LoadableBox} from '^components/util/loading';
 import {debounce} from 'lodash';
-import {useRouter} from 'next/router';
 import {FindAllSubscriptionsQuery} from '^models/Subscription/types';
+import {OrgTeamDetailPageTabContentCommonProps} from '../OrgTeamDetailPageTabContent';
 
-export const TeamSubscriptionsListPage = memo(function TeamSubscriptionsListPage() {
-    const router = useRouter();
+export const TeamSubscriptionsListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
     const teamId = useRecoilValue(teamIdParamState);
     const {team, reload} = useCurrentTeam();
     const {search, result, isLoading, clearCache} = useSubscriptionsInTeamShowPage();
@@ -38,9 +37,9 @@ export const TeamSubscriptionsListPage = memo(function TeamSubscriptionsListPage
         loadData();
     }, [teamId]);
 
-    useEffect(() => {
-        return () => clearCache();
-    }, [router.isReady]);
+    useUnmount(() => {
+        clearCache();
+    }, []);
 
     return (
         <>

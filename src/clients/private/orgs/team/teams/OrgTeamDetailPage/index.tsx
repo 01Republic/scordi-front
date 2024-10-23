@@ -5,36 +5,14 @@ import {OrgTeamListPageRoute} from '^pages/orgs/[id]/teams';
 import {useCurrentTeam} from '^models/Team/hook';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
-import {TeamInvoicesListPage} from './Invoices/TeamInvoicesListPage';
-import {TeamSubscriptionsListPage} from './Subscriptions/TeamSubscriptionsListPage';
-import {TeamMembersListPage} from './Members/TeamMembersListPage';
-import {TeamPaymentsListPage} from './Payments/TeamPaymentsListPage';
 import {TeamProfileSection} from './TeamProfileSection';
 import {TeamStatCardList} from './TeamStatCardList';
-
-export enum TabName {
-    members = 'members',
-    subscriptions = 'subscriptions',
-    payments = 'payments',
-    invoices = 'invoices',
-}
-
-const PageShow = memo(({tab}: {tab: TabName}) => {
-    const TabContentComponent =
-        {
-            [TabName.members]: () => <TeamMembersListPage />,
-            [TabName.subscriptions]: () => <TeamSubscriptionsListPage />,
-            [TabName.payments]: () => <TeamPaymentsListPage />,
-            [TabName.invoices]: () => <TeamInvoicesListPage />,
-        }[tab] || (() => <TeamMembersListPage />);
-
-    return <TabContentComponent />;
-});
+import {OrgTeamDetailPageTabContent, TabName} from './OrgTeamDetailPageTabContent';
 
 export const OrgTeamDetailPage = memo(function TeamDetailLayout() {
     const orgId = useRecoilValue(orgIdParamState);
-    const {team} = useCurrentTeam();
-    const [tab, setTab] = useState<TabName>(TabName.members);
+    const {team, reloadWithUpdateCounters} = useCurrentTeam();
+    const [tab, setTab] = useState(TabName.members);
 
     if (!team) return <></>;
 
@@ -78,7 +56,12 @@ export const OrgTeamDetailPage = memo(function TeamDetailLayout() {
                                 isActive={tab === TabName.invoices}
                             />
                         </div>
-                        <PageShow tab={tab} />
+                        <OrgTeamDetailPageTabContent
+                            tab={tab}
+                            reload={() => {
+                                reloadWithUpdateCounters();
+                            }}
+                        />
                     </div>
                 </div>
             </MainContainer>

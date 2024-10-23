@@ -1,17 +1,18 @@
 import React, {memo, useEffect, useState} from 'react';
+import {useRecoilValue} from 'recoil';
+import {FaPlus} from 'react-icons/fa6';
+import {useUnmount} from '^hooks/useUnmount';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {useRecoilValue} from 'recoil';
 import {teamIdParamState} from '^atoms/common';
 import {TeamMembersTableRow} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/TeamMembersTableRow';
 import {TeamMembersTableHeader} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/TeamMembersTableHeader';
 import {useTeamMembershipListInTeamDetail} from '^models/TeamMembership/hook';
 import {AddMemberModal} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/AddMemberModal';
-import {FaPlus} from 'react-icons/fa6';
-import {useRouter} from 'next/router';
+import {OrgTeamDetailPageTabContentCommonProps} from '../OrgTeamDetailPageTabContent';
 
-export const TeamMembersListPage = memo(function TeamMembersListPage() {
-    const router = useRouter();
+export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
+    const {reload: reloadParent} = props;
     const teamId = useRecoilValue(teamIdParamState);
     const {
         search,
@@ -39,9 +40,9 @@ export const TeamMembersListPage = memo(function TeamMembersListPage() {
         });
     };
 
-    useEffect(() => {
-        return () => clearCache();
-    }, [router.isReady]);
+    useUnmount(() => {
+        clearCache();
+    }, []);
 
     return (
         <>
@@ -74,7 +75,15 @@ export const TeamMembersListPage = memo(function TeamMembersListPage() {
                     items={result.items}
                     isLoading={isLoading}
                     Header={() => <TeamMembersTableHeader orderBy={orderBy} />}
-                    Row={({item}) => <TeamMembersTableRow teamMember={item.teamMember} reload={reload} />}
+                    Row={({item}) => (
+                        <TeamMembersTableRow
+                            teamMember={item.teamMember}
+                            reload={() => {
+                                reload();
+                                reloadParent();
+                            }}
+                        />
+                    )}
                 />
             </ListTableContainer>
 
@@ -84,6 +93,7 @@ export const TeamMembersListPage = memo(function TeamMembersListPage() {
                 isOpened={isOpened}
                 onClose={() => {
                     reload();
+                    reloadParent();
                     setIsOpened(false);
                 }}
             />

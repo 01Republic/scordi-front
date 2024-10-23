@@ -10,8 +10,9 @@ import {InvoicesTableRow} from '^clients/private/orgs/team/teams/OrgTeamDetailPa
 import {FaPlus} from 'react-icons/fa6';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {useRouter} from 'next/router';
+import {OrgTeamDetailPageTabContentCommonProps} from '../OrgTeamDetailPageTabContent';
 
-export const TeamInvoicesListPage = memo(function TeamInvoicesListPage() {
+export const TeamInvoicesListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
     const {
