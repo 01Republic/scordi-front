@@ -57,17 +57,19 @@ const nextConfig = {
         };
     },
     async redirects() {
-        return [
-            {
+        const records = [];
+        if (process.env.NODE_ENV === 'production') {
+            records.push({
                 source: '/',
                 destination: 'https://www.scordi.io/',
                 permanent: true,
-            },
-        ];
+            });
+        }
+        return [...records];
     },
 };
 
-if (process.env.APP_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
     // Injected content via Sentry wizard below
     module.exports = withSentryConfig(
         nextConfig,
