@@ -1,16 +1,14 @@
 import React, {memo, useEffect, useState} from 'react';
-import {VscOrganization} from 'react-icons/vsc';
 import {BsCreditCardFill, BsPeopleFill, BsUiChecksGrid} from 'react-icons/bs';
-import {MdPayment, MdRefresh} from 'react-icons/md';
-import {MdOutlineReceiptLong} from 'react-icons/md';
+import {MdRefresh} from 'react-icons/md';
 import {TeamStatCard} from './TeamStatCard';
-import {TeamDto} from '^models/Team/type';
 import {useCurrentTeam} from '^models/Team/hook';
 import {FaReceipt} from 'react-icons/fa6';
 import {useRouter} from 'next/router';
+import {TabName} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/index';
 
 interface TeamStatCardListProps {
-    changeCurrentTab?: (tabName: string) => any;
+    changeCurrentTab?: (tabName: TabName) => any;
 }
 
 export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
@@ -47,7 +45,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
                     title="멤버"
                     count={team ? team.teamMemberCount : 0}
                     className={`text-gray-500 ${isLoading ? 'animate-pulse' : ''}`}
-                    onClick={() => changeCurrentTab && changeCurrentTab('members')}
+                    onClick={() => changeCurrentTab && changeCurrentTab(TabName.members)}
                     isLoading={isLoading}
                 />
                 <TeamStatCard
@@ -55,7 +53,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
                     title="구독"
                     count={team ? team.subscriptionCount : 0}
                     className={`text-gray-500 ${isLoading ? 'animate-pulse' : ''}`}
-                    onClick={() => changeCurrentTab && changeCurrentTab('subscriptions')}
+                    onClick={() => changeCurrentTab && changeCurrentTab(TabName.subscriptions)}
                     isLoading={isLoading}
                 />
                 <TeamStatCard
@@ -63,7 +61,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
                     title="결제수단"
                     count={team ? team.creditCardCount : 0}
                     className={`text-gray-500 ${isLoading ? 'animate-pulse' : ''}`}
-                    onClick={() => changeCurrentTab && changeCurrentTab('payments')}
+                    onClick={() => changeCurrentTab && changeCurrentTab(TabName.payments)}
                     isLoading={isLoading}
                 />
                 <TeamStatCard
@@ -71,7 +69,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
                     title="청구서"
                     count={team ? team.invoiceAccountCount : 0}
                     className={`text-gray-500 ${isLoading ? 'animate-pulse' : ''}`}
-                    onClick={() => changeCurrentTab && changeCurrentTab('invoices')}
+                    onClick={() => changeCurrentTab && changeCurrentTab(TabName.invoices)}
                     isLoading={isLoading}
                 />
             </div>

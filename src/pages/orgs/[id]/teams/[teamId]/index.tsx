@@ -1,11 +1,10 @@
-import {pathReplace, pathRoute} from '^types/pageRoute.type';
+import React from 'react';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
-
 import {orgIdParamState, teamIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
-import React from 'react';
-import {TeamDetailLayout} from '^clients/private/orgs/team/teams/TeamDetailPage/TeamDetailLayout';
+import {OrgTeamDetailPage} from '^clients/private/orgs/team/teams/OrgTeamDetailPage';
 
 export const OrgTeamDetailPageRoute = pathRoute({
     pathname: '/orgs/[id]/teams/[teamId]',
@@ -34,5 +33,5 @@ export default function Page() {
     if (!orgId || isNaN(orgId)) return <></>;
     if (!teamId || isNaN(teamId)) return <></>;
 
-    return <TeamDetailLayout />;
+    return <OrgTeamDetailPage />;
 }
