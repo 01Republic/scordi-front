@@ -28,7 +28,7 @@ export const useCurrentTeam = () => {
     const [team, setTeam] = React.useState<TeamDto | undefined>(undefined);
 
     const getTeamInfo = () => {
-        setTeam(undefined);
+        // setTeam(undefined);
         teamApi.show(orgId, teamId).then((res) => {
             setTeam(res.data);
         });

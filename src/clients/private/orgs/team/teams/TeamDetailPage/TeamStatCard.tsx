@@ -7,10 +7,11 @@ interface TeamStatCardProps extends WithChildren {
     count: number;
     className?: string;
     onClick?: () => any;
+    isLoading?: boolean;
 }
 
 export const TeamStatCard = memo((props: TeamStatCardProps) => {
-    const {count, title, Icon, className = '', onClick} = props;
+    const {count, title, Icon, className = '', onClick, isLoading = false} = props;
 
     return (
         <div
@@ -24,7 +25,13 @@ export const TeamStatCard = memo((props: TeamStatCardProps) => {
 
             <div className="flex items-end">
                 <span className="text-28 font-medium text-black leading-none">
-                    {count ? count.toLocaleString() : <span className="font-thin">-</span>}
+                    {count ? (
+                        count.toLocaleString()
+                    ) : isLoading ? (
+                        <span className="invisible">-</span>
+                    ) : (
+                        <span className="font-thin">-</span>
+                    )}
                 </span>
             </div>
         </div>

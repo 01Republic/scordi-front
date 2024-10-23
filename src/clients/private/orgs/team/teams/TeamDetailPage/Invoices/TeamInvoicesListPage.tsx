@@ -9,8 +9,10 @@ import {InvoicesTableHeader} from '^clients/private/orgs/team/teams/TeamDetailPa
 import {InvoicesTableRow} from '^clients/private/orgs/team/teams/TeamDetailPage/Invoices/InvoicesTableRow';
 import {FaPlus} from 'react-icons/fa6';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
+import {useRouter} from 'next/router';
 
 export const TeamInvoicesListPage = memo(function TeamInvoicesListPage() {
+    const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
     const {
         search,
@@ -24,6 +26,7 @@ export const TeamInvoicesListPage = memo(function TeamInvoicesListPage() {
         changePageSize,
         reload,
         orderBy,
+        clearCache,
     } = useTeamInvoiceAccountListInTeamDetail();
     const [isOpened, setIsOpened] = useState(false);
 
@@ -37,6 +40,10 @@ export const TeamInvoicesListPage = memo(function TeamInvoicesListPage() {
     useEffect(() => {
         !!orgId && search({relations: ['invoiceAccount', 'invoiceAccount.holdingMember']});
     }, [orgId]);
+
+    useEffect(() => {
+        return () => clearCache();
+    }, [router.isReady]);
 
     return (
         <>

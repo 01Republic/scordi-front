@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {VscOrganization} from 'react-icons/vsc';
 import {BsCreditCardFill, BsPeopleFill, BsUiChecksGrid} from 'react-icons/bs';
 import {MdPayment, MdRefresh} from 'react-icons/md';
@@ -7,6 +7,7 @@ import {TeamStatCard} from './TeamStatCard';
 import {TeamDto} from '^models/Team/type';
 import {useCurrentTeam} from '^models/Team/hook';
 import {FaReceipt} from 'react-icons/fa6';
+import {useRouter} from 'next/router';
 
 interface TeamStatCardListProps {
     changeCurrentTab?: (tabName: string) => any;
@@ -14,6 +15,7 @@ interface TeamStatCardListProps {
 
 export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
     const {changeCurrentTab} = props;
+    const router = useRouter();
     const {team, reload, update} = useCurrentTeam();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -21,6 +23,10 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
         setIsLoading(true);
         update({}, {silent: true}).finally(() => setIsLoading(false));
     };
+
+    useEffect(() => {
+        return () => refreshCounters();
+    }, [router.isReady]);
 
     return (
         <div className="bg-slate-100 rounded-lg p-2 shadow-lg">
@@ -42,6 +48,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
                     count={team ? team.teamMemberCount : 0}
                     className={`text-gray-500 ${isLoading ? 'animate-pulse' : ''}`}
                     onClick={() => changeCurrentTab && changeCurrentTab('members')}
+                    isLoading={isLoading}
                 />
                 <TeamStatCard
                     Icon={() => <BsUiChecksGrid fontSize={13} className="text-scordi-500" />}
@@ -49,6 +56,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
                     count={team ? team.subscriptionCount : 0}
                     className={`text-gray-500 ${isLoading ? 'animate-pulse' : ''}`}
                     onClick={() => changeCurrentTab && changeCurrentTab('subscriptions')}
+                    isLoading={isLoading}
                 />
                 <TeamStatCard
                     Icon={() => <BsCreditCardFill fontSize={14} className="text-green-600" />}
@@ -56,6 +64,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
                     count={team ? team.creditCardCount : 0}
                     className={`text-gray-500 ${isLoading ? 'animate-pulse' : ''}`}
                     onClick={() => changeCurrentTab && changeCurrentTab('payments')}
+                    isLoading={isLoading}
                 />
                 <TeamStatCard
                     Icon={() => <FaReceipt fontSize={14} className="text-blue-600" />}
@@ -63,6 +72,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
                     count={team ? team.invoiceAccountCount : 0}
                     className={`text-gray-500 ${isLoading ? 'animate-pulse' : ''}`}
                     onClick={() => changeCurrentTab && changeCurrentTab('invoices')}
+                    isLoading={isLoading}
                 />
             </div>
         </div>

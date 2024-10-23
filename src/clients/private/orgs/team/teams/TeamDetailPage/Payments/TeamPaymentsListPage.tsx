@@ -9,11 +9,23 @@ import {TeamPaymentTableHeader} from '^clients/private/orgs/team/teams/TeamDetai
 import {TeamPaymentTableRow} from '^clients/private/orgs/team/teams/TeamDetailPage/Payments/TeamPaymentTableRow';
 import {FaPlus} from 'react-icons/fa6';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
+import {useRouter} from 'next/router';
 
 export const TeamPaymentsListPage = memo(function TeamPaymentsListPage() {
+    const router = useRouter();
     const teamId = useRecoilValue(teamIdParamState);
-    const {search, result, reload, isLoading, isNotLoaded, isEmptyResult, orderBy, movePage, changePageSize} =
-        useTeamCreditCardListInTeamDetail();
+    const {
+        search,
+        result,
+        reload,
+        isLoading,
+        isNotLoaded,
+        isEmptyResult,
+        orderBy,
+        movePage,
+        changePageSize,
+        clearCache,
+    } = useTeamCreditCardListInTeamDetail();
     const [isOpened, setIsOpened] = useState(false);
 
     const onSearch = (keyword?: string) => {
@@ -23,6 +35,10 @@ export const TeamPaymentsListPage = memo(function TeamPaymentsListPage() {
     useEffect(() => {
         !!teamId && search({where: {teamId: teamId}, relations: ['creditCard', 'creditCard.holdingMember']});
     }, [teamId]);
+
+    useEffect(() => {
+        return () => clearCache();
+    }, [router.isReady]);
 
     return (
         <>

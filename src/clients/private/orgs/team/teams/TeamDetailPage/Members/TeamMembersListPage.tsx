@@ -8,8 +8,10 @@ import {TeamMembersTableHeader} from '^clients/private/orgs/team/teams/TeamDetai
 import {useTeamMembershipListInTeamDetail} from '^models/TeamMembership/hook';
 import {AddMemberModal} from '^clients/private/orgs/team/teams/TeamDetailPage/Members/AddMemberModal';
 import {FaPlus} from 'react-icons/fa6';
+import {useRouter} from 'next/router';
 
 export const TeamMembersListPage = memo(function TeamMembersListPage() {
+    const router = useRouter();
     const teamId = useRecoilValue(teamIdParamState);
     const {
         search,
@@ -17,12 +19,11 @@ export const TeamMembersListPage = memo(function TeamMembersListPage() {
         isNotLoaded,
         isEmptyResult,
         isLoading,
-        query,
-        searchAndUpdateCounter,
         movePage,
         changePageSize,
         reload,
         orderBy,
+        clearCache,
     } = useTeamMembershipListInTeamDetail();
     const [isOpened, setIsOpened] = useState(false);
 
@@ -37,6 +38,10 @@ export const TeamMembersListPage = memo(function TeamMembersListPage() {
             keyword,
         });
     };
+
+    useEffect(() => {
+        return () => clearCache();
+    }, [router.isReady]);
 
     return (
         <>

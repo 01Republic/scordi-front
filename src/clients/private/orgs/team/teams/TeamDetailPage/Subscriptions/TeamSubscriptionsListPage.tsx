@@ -8,28 +8,39 @@ import {useSubscriptionsInTeamShowPage} from '^models/Subscription/hook';
 import {TeamSubscriptionCard} from './TeamSubscriptionCard';
 import {LoadableBox} from '^components/util/loading';
 import {debounce} from 'lodash';
+import {useRouter} from 'next/router';
+import {FindAllSubscriptionsQuery} from '^models/Subscription/types';
 
 export const TeamSubscriptionsListPage = memo(function TeamSubscriptionsListPage() {
+    const router = useRouter();
     const teamId = useRecoilValue(teamIdParamState);
     const {team, reload} = useCurrentTeam();
-    const {search, result, isLoading} = useSubscriptionsInTeamShowPage();
+    const {search, result, isLoading, clearCache} = useSubscriptionsInTeamShowPage();
 
-    const onSearch = debounce((keyword?: string) => {
+    const loadData = (params: FindAllSubscriptionsQuery = {}) => {
         return search({
-            keyword,
             relations: ['product', 'teamMembers'],
             where: {
                 // @ts-ignore
                 teamMemberSubscriptions: {teamMember: {teamMemberships: {teamId}}},
             },
             itemsPerPage: 0,
+            ...params,
         });
+    };
+
+    const onSearch = debounce((keyword?: string) => {
+        return loadData({keyword});
     }, 500);
 
     useEffect(() => {
         if (!teamId || isNaN(teamId)) return;
-        onSearch();
+        loadData();
     }, [teamId]);
+
+    useEffect(() => {
+        return () => clearCache();
+    }, [router.isReady]);
 
     return (
         <>
@@ -42,7 +53,7 @@ export const TeamSubscriptionsListPage = memo(function TeamSubscriptionsListPage
                 </div>
             </div>
 
-            <LoadableBox isLoading={isLoading} loadingType={2} noPadding>
+            <LoadableBox isLoading={isLoading} loadingType={2} noPadding spinnerPos="center">
                 <div className="w-full">
                     <ul className="grid grid-cols-3 gap-x-2 gap-y-3">
                         {result.items.map((item) => (
