@@ -7,9 +7,9 @@ import {useCurrentOrg} from '^models/Organization/hook';
 import React from 'react';
 import {TeamDetailLayout} from '^clients/private/orgs/team/teams/TeamDetailPage/TeamDetailLayout';
 
-export const TeamDetailPageRoute = pathRoute({
+export const OrgTeamDetailPageRoute = pathRoute({
     pathname: '/orgs/[id]/teams/[teamId]',
-    path: (orgId: number, teamId: number) => pathReplace(TeamDetailPageRoute.pathname, {id: orgId, teamId: teamId}),
+    path: (orgId: number, teamId: number) => pathReplace(OrgTeamDetailPageRoute.pathname, {id: orgId, teamId: teamId}),
 });
 
 export const getStaticPaths = async () => ({
