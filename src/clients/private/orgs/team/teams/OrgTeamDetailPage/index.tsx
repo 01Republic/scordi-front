@@ -11,25 +11,29 @@ import {TeamPaymentsListPage} from './Payments/TeamPaymentsListPage';
 import {TeamProfileSection} from './TeamProfileSection';
 import {TeamStatCardList} from './TeamStatCardList';
 
-export const TeamDetailLayout = memo(function TeamDetailLayout() {
+export enum TabName {
+    members = 'members',
+    subscriptions = 'subscriptions',
+    payments = 'payments',
+    invoices = 'invoices',
+}
+
+const PageShow = memo(({tab}: {tab: TabName}) => {
+    const TabContentComponent =
+        {
+            [TabName.members]: () => <TeamMembersListPage />,
+            [TabName.subscriptions]: () => <TeamSubscriptionsListPage />,
+            [TabName.payments]: () => <TeamPaymentsListPage />,
+            [TabName.invoices]: () => <TeamInvoicesListPage />,
+        }[tab] || (() => <TeamMembersListPage />);
+
+    return <TabContentComponent />;
+});
+
+export const OrgTeamDetailPage = memo(function TeamDetailLayout() {
     const orgId = useRouterIdParamState('id', orgIdParamState);
     const {team} = useCurrentTeam();
-    const [tab, setTab] = useState('members');
-
-    const PageShow = () => {
-        switch (tab) {
-            case 'members':
-                return <TeamMembersListPage />;
-            case 'subscriptions':
-                return <TeamSubscriptionsListPage />;
-            case 'payments':
-                return <TeamPaymentsListPage />;
-            case 'invoices':
-                return <TeamInvoicesListPage />;
-            default:
-                return <TeamMembersListPage />;
-        }
-    };
+    const [tab, setTab] = useState<TabName>(TabName.members);
 
     if (!team) return <></>;
 
@@ -52,24 +56,28 @@ export const TeamDetailLayout = memo(function TeamDetailLayout() {
 
                     <div className={'col-span-3'}>
                         <div className={'flex items-center mb-8'}>
-                            <TeamNavItem text={'멤버'} onClick={() => setTab('members')} isActive={tab === 'members'} />
+                            <TeamNavItem
+                                text={'멤버'}
+                                onClick={() => setTab(TabName.members)}
+                                isActive={tab === TabName.members}
+                            />
                             <TeamNavItem
                                 text={'구독'}
-                                onClick={() => setTab('subscriptions')}
-                                isActive={tab === 'subscriptions'}
+                                onClick={() => setTab(TabName.subscriptions)}
+                                isActive={tab === TabName.subscriptions}
                             />
                             <TeamNavItem
                                 text={'결제수단'}
-                                onClick={() => setTab('payments')}
-                                isActive={tab === 'payments'}
+                                onClick={() => setTab(TabName.payments)}
+                                isActive={tab === TabName.payments}
                             />
                             <TeamNavItem
                                 text={'청구서'}
-                                onClick={() => setTab('invoices')}
-                                isActive={tab === 'invoices'}
+                                onClick={() => setTab(TabName.invoices)}
+                                isActive={tab === TabName.invoices}
                             />
                         </div>
-                        <PageShow />
+                        <PageShow tab={tab} />
                     </div>
                 </div>
             </MainContainer>

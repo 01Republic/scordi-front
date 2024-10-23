@@ -1,43 +1,45 @@
 import React, {memo, useEffect, useState} from 'react';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
-import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {useTeamInvoiceAccountListInTeamDetail} from '^models/TeamInvoiceAccount/hook';
+import {AddInvoiceModal} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Invoices/AddInvoiceModal';
+import {orgIdParamState} from '^atoms/common';
 import {useRecoilValue} from 'recoil';
-import {teamIdParamState} from '^atoms/common';
-import {TeamMembersTableRow} from '^clients/private/orgs/team/teams/TeamDetailPage/Members/TeamMembersTableRow';
-import {TeamMembersTableHeader} from '^clients/private/orgs/team/teams/TeamDetailPage/Members/TeamMembersTableHeader';
-import {useTeamMembershipListInTeamDetail} from '^models/TeamMembership/hook';
-import {AddMemberModal} from '^clients/private/orgs/team/teams/TeamDetailPage/Members/AddMemberModal';
+import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {InvoicesTableHeader} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Invoices/InvoicesTableHeader';
+import {InvoicesTableRow} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Invoices/InvoicesTableRow';
 import {FaPlus} from 'react-icons/fa6';
+import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {useRouter} from 'next/router';
 
-export const TeamMembersListPage = memo(function TeamMembersListPage() {
+export const TeamInvoicesListPage = memo(function TeamInvoicesListPage() {
     const router = useRouter();
-    const teamId = useRecoilValue(teamIdParamState);
+    const orgId = useRecoilValue(orgIdParamState);
     const {
         search,
         result,
+        isLoading,
         isNotLoaded,
         isEmptyResult,
-        isLoading,
+        query,
+        searchAndUpdateCounter,
         movePage,
         changePageSize,
         reload,
         orderBy,
         clearCache,
-    } = useTeamMembershipListInTeamDetail();
+    } = useTeamInvoiceAccountListInTeamDetail();
     const [isOpened, setIsOpened] = useState(false);
-
-    useEffect(() => {
-        !!teamId && search({where: {teamId: teamId}, relations: ['teamMember', 'teamMember.membership']});
-    }, [teamId]);
 
     const onSearch = (keyword?: string) => {
         search({
-            relations: ['teamMember', 'teamMember.membership'],
-            where: {teamId: teamId},
+            relations: ['invoiceAccount', 'invoiceAccount.holdingMember'],
             keyword,
         });
     };
+
+    useEffect(() => {
+        !!orgId && search({relations: ['invoiceAccount', 'invoiceAccount.holdingMember']});
+    }, [orgId]);
 
     useEffect(() => {
         return () => clearCache();
@@ -66,25 +68,25 @@ export const TeamMembersListPage = memo(function TeamMembersListPage() {
                 isNotLoaded={isNotLoaded}
                 isLoading={isLoading}
                 isEmptyResult={isEmptyResult}
-                emptyMessage="조회된 구성원이 없어요."
-                emptyButtonText="구성원 등록"
+                emptyMessage="연결된 청구서수신계정이 없어요."
+                emptyButtonText="청구서수신계정 연결"
                 emptyButtonOnClick={() => setIsOpened(true)}
             >
                 <ListTable
                     items={result.items}
                     isLoading={isLoading}
-                    Header={() => <TeamMembersTableHeader orderBy={orderBy} />}
-                    Row={({item}) => <TeamMembersTableRow teamMember={item.teamMember} reload={reload} />}
+                    Header={() => <InvoicesTableHeader orderBy={orderBy} />}
+                    Row={({item}) => <InvoicesTableRow item={item} reload={reload} />}
                 />
             </ListTableContainer>
 
             {/* 연결 추가 모달 */}
-            <AddMemberModal
+            <AddInvoiceModal
                 preItems={result.items}
                 isOpened={isOpened}
                 onClose={() => {
-                    reload();
                     setIsOpened(false);
+                    reload();
                 }}
             />
         </>
