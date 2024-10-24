@@ -8,10 +8,12 @@ const xxx = (envVariable?: string): string => `${envVariable}`.split('#')[0].tri
 
 export const termsUrl = {
     // 서비스 이용약관
-    serviceUsage: `${xxx(process.env.NEXT_PUBLIC_BASE_API)}/terms/serviceUsageTerm-v20221101-1.txt`,
+    // serviceUsage: `${xxx(process.env.NEXT_PUBLIC_BASE_API)}/terms/serviceUsageTerm-v20221101-1.txt`,
+    serviceUsage: `https://01republic.oopy.io/service-usage-term`,
 
     // 개인정보처리방침
-    privacy: `${xxx(process.env.NEXT_PUBLIC_BASE_API)}/terms/개인정보처리방침-v20221101-1.html`,
+    // privacy: `${xxx(process.env.NEXT_PUBLIC_BASE_API)}/terms/개인정보처리방침-v20221101-1.html`,
+    privacy: `https://01republic.oopy.io/privacy-policy`,
 };
 
 export const googleOAuth = {
