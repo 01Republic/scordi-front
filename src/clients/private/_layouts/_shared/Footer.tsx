@@ -3,6 +3,7 @@ import {LinkTo} from '^components/util/LinkTo';
 import {useRecoilValue} from 'recoil';
 import {currentOrgAtom} from '^models/Organization/atom';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
+import {termsUrl} from '^config/environments';
 
 export const Footer = memo(function Footer() {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -31,18 +32,8 @@ export const Footer = memo(function Footer() {
             </div>
 
             <div className="flex flex-wrap items-center gap-3 font-semibold text-14">
-                <LinkTo
-                    target="_blank"
-                    href="https://01republic.oopy.io/privacy-policy"
-                    text="개인정보처리방침"
-                    displayLoading={false}
-                />
-                <LinkTo
-                    target="_blank"
-                    href="https://01republic.oopy.io/service-usage-term"
-                    text="이용약관"
-                    displayLoading={false}
-                />
+                <LinkTo target="_blank" href={termsUrl.serviceUsage} text="개인정보처리방침" displayLoading={false} />
+                <LinkTo target="_blank" href={termsUrl.privacy} text="이용약관" displayLoading={false} />
             </div>
         </footer>
     );
