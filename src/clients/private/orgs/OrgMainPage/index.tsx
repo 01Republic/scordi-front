@@ -19,7 +19,7 @@ export const OrgMainPage = memo(function OrgMainPage() {
             <section className="container px-4">
                 <AppUnitList />
             </section>
-            <section className="w-full mt-10">
+            <section className="w-full mt-10 mb-[111px]">
                 <div className="flex items-center justify-center gap-[47px]">
                     <BannerFeedback />
                     <BannerRecommend />
