@@ -28,7 +28,7 @@ export const UsersLoginPage = memo(() => {
     const scope = ['email', 'profile', 'openid', 'https://www.googleapis.com/auth/gmail.readonly'];
 
     return (
-        <LandingPageLayout pageName="Login" hideFooter>
+        <LandingPageLayout pageName="Login" hideNav hideFooter>
             <GoogleOAuthProvider clientId={googleOAuth.loginClient.id}>
                 <div className={'flex items-center justify-center'} style={{minHeight: '80vh'}}>
                     {/*<form onSubmit={form.handleSubmit(submit)}>*/}
