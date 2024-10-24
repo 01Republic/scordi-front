@@ -1,7 +1,7 @@
 import {atom, useRecoilCallback} from 'recoil';
 import {SendPhoneAuthMessageDto} from '^models/User/types';
 import {patchPhoneAuthSession, postPhoneAuthSession} from '^api/authlization';
-import {toast} from 'react-toastify';
+import {toast} from 'react-hot-toast';
 import {useTranslation} from 'next-i18next';
 
 export const phoneAuthDataState = atom<SendPhoneAuthMessageDto>({
@@ -44,7 +44,7 @@ export const useSendCode = () => {
         } else {
             postPhoneAuthSession(data).then((res) => {
                 set(codeSentState, true);
-                toast.info(t('phone_auth.phone_input.code_has_been_sent'));
+                toast.success(t('phone_auth.phone_input.code_has_been_sent'));
             });
         }
     });
@@ -64,7 +64,7 @@ export const useConfirmCode = () => {
                 }
             })
             .catch((error) => {
-                toast.info('인증번호를 확인해주세요');
+                toast.error('인증번호를 확인해주세요');
             });
     });
 };
