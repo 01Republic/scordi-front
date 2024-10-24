@@ -6,7 +6,7 @@ import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {teamMembershipApi} from '^models/TeamMembership/api';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState, teamIdParamState, useRouterIdParamState} from '^atoms/common';
-import {TeamMemberTag} from '^clients/private/orgs/team/teams/TeamDetailPage/Members/TeamMemberTag';
+import {TeamMemberTag} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/TeamMemberTag';
 import {toast} from 'react-toastify';
 import {confirm2} from '^components/util/dialog';
 import {UserDto} from '^models/User/types';
