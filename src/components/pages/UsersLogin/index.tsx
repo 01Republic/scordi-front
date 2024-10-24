@@ -28,9 +28,9 @@ export const UsersLoginPage = memo(() => {
     const scope = ['email', 'profile', 'openid', 'https://www.googleapis.com/auth/gmail.readonly'];
 
     return (
-        <LandingPageLayout pageName="Login" hideFooter>
+        <LandingPageLayout pageName="Login" hideNav hideFooter>
             <GoogleOAuthProvider clientId={googleOAuth.loginClient.id}>
-                <div className={'flex items-center justify-center'} style={{minHeight: '80vh'}}>
+                <div className={'flex items-center justify-center'} style={{minHeight: '100vh'}}>
                     {/*<form onSubmit={form.handleSubmit(submit)}>*/}
                     <div className="m-auto text-center w-[400px]">
                         {/*<img src="/logo-sign_in_page.png" alt="" />*/}
@@ -44,7 +44,7 @@ export const UsersLoginPage = memo(() => {
                             팀 생산성을 높이는 소프트웨어 구독 비용 관리
                         </p>
 
-                        <div className="pb-14">
+                        <div className="">
                             <GoogleLoginBtn
                                 about="login"
                                 className="btn-block justify-start relative"
@@ -58,6 +58,11 @@ export const UsersLoginPage = memo(() => {
                                 }
                             />
                         </div>
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
                     </div>
                     {/*</form>*/}
                 </div>
