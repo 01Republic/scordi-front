@@ -40,6 +40,6 @@ export const onboardingReportSavedEmail = atom<string | null>({
 });
 
 export const isLoadedState = atom<boolean>({
-    key: 'isLoadedState',
+    key: 'onboarding/isLoadedState',
     default: false,
 });

@@ -7,7 +7,7 @@ export const googleWorkspaceAccessTokenAtom = atom<string | null>({
 });
 
 export const isLoadedState = atom<boolean>({
-    key: 'isLoadedState',
+    key: 'googleWorkspace/isLoadedState',
     default: false,
 });
 
