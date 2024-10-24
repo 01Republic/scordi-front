@@ -31,8 +31,18 @@ export const Footer = memo(function Footer() {
             </div>
 
             <div className="flex flex-wrap items-center gap-3 font-semibold text-14">
-                <LinkTo href="#" text="개인정보처리방침" displayLoading={false} />
-                <LinkTo href="#" text="이용약관" displayLoading={false} />
+                <LinkTo
+                    target="_blank"
+                    href="https://01republic.oopy.io/privacy-policy"
+                    text="개인정보처리방침"
+                    displayLoading={false}
+                />
+                <LinkTo
+                    target="_blank"
+                    href="https://01republic.oopy.io/service-usage-term"
+                    text="이용약관"
+                    displayLoading={false}
+                />
             </div>
         </footer>
     );
