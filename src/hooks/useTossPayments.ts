@@ -29,7 +29,7 @@ export function useTossPayments() {
         if (!currentUser) return;
         const tossPayments = await loadTossPayments(tossPaymentsKey.clientKey);
         const payment = tossPayments.payment({
-            customerKey: currentUser.id.toString(),
+            customerKey: `User-${currentUser.id}`,
         });
 
         const callbackUrl = (pmsValue: number) => {
