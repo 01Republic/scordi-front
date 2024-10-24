@@ -19,9 +19,10 @@ import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
 import {OrgTeamListPageRoute} from '^pages/orgs/[id]/teams';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
+import {OrgSettingsInformationPageRoute} from '^pages/orgs/[id]/settings';
 import {OrgBillingHistoryStatusPageRoute} from '^pages/orgs/[id]/billingHistories/status';
 
-interface TobNavBarProps {
+interface TopNavBarProps {
     //
 }
 
@@ -48,10 +49,10 @@ const getTopNavStructure = () => [
             {name: '청구서수신메일', Icon: FaReceipt, routeProps: OrgInvoiceAccountListPageRoute},
         ],
     },
-    {name: '설정'},
+    {name: '설정', routeProps: OrgSettingsInformationPageRoute},
 ];
 
-export const TobNavBar = memo((props: TobNavBarProps) => {
+export const TopNavBar = memo((props: TopNavBarProps) => {
     const {} = props;
     const router = useRouter();
     const {currentOrg} = useCurrentOrg2();
@@ -106,4 +107,4 @@ export const TobNavBar = memo((props: TobNavBarProps) => {
         </div>
     );
 });
-TobNavBar.displayName = 'TobNavBar';
+TopNavBar.displayName = 'TopNavBar';

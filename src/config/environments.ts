@@ -46,3 +46,7 @@ export const measuredApiKey = xxx(process.env.NEXT_PUBLIC_MEASURED_API_KEY as st
 export const stepByKey = xxx(process.env.NEXT_PUBLIC_STEPBY_KEY as string);
 
 export const zero1_republic_workspace_id = 10;
+
+export const tossPaymentsKey = {
+    clientKey: xxx(process.env.NEXT_PUBLIC_TOSS_PAYMENTS_CLIENT_KEY),
+};
