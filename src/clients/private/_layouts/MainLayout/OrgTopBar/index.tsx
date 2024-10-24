@@ -21,7 +21,7 @@ export const OrgTopBar = memo(() => {
     return (
         <header className="container-fluid h-[56px] flex items-center gap-6 border-b bg-white-blurred text-scordi sticky top-0 z-20">
             <div className="hidden sm:block">
-                <img src="/images/logo/scordi/favicon-bg-transparent.png" alt="Scordi Logo" className="h-7 mr-2" />
+                <img src="/images/renewallogo/scordi-symbol-logo.png" alt="Scordi Logo" className="h-5 mr-2" />
             </div>
 
             <WorkspaceDropdown />
