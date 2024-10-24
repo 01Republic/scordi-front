@@ -9,10 +9,12 @@ import {New_SaaS_Request_Form_Url} from '^config/constants';
 import {LinkTo} from '^components/util/LinkTo';
 import {IoIosHelpCircle} from 'react-icons/io';
 import Tippy from '@tippyjs/react';
+import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
 
 export const OrgSubscriptionSelectPage = memo(function OrgSubscriptionSelectPage() {
     return (
         <BaseLayout>
+            <ChannelTalkHideStyle />
             <main className="w-full min-h-screen container max-w-4xl sm:pt-[80px] pb-8">
                 <div className="px-4 pt-10 sm:px-0 sm:pt-0 sm:text-center">
                     <h1 className="text-xl sm:text-2xl mb-3 sm:mb-4">어떤 앱을 이용하고 있나요?</h1>

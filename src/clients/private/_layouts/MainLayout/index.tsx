@@ -5,6 +5,7 @@ import {OrgTopBar} from './OrgTopBar';
 import {TobNavBar} from './TobNavBar';
 import {Footer} from '../_shared/Footer';
 import {BaseLayout} from '^clients/private/_layouts/BaseLayout';
+import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
 
 interface MainLayoutProps extends WithChildren {
     //
@@ -16,6 +17,7 @@ export const MainLayout = memo((props: MainLayoutProps) => {
     return (
         <BaseLayout>
             <Background />
+            <ChannelTalkHideStyle />
 
             {/* Body */}
             <div className="relative min-h-screen">

@@ -16,7 +16,7 @@ export function ChannelTalkCDN(props: ChannelTalkCDNOption) {
         if (!router.isReady) return;
 
         // not allowed in private tenant territory
-        if (!router.pathname.startsWith('/v3/orgs')) {
+        if (!ChannelService.isBooted) {
             ChannelService.loadScript();
             ChannelService.boot({
                 pluginKey: channelTalkEnv.pluginKey,
