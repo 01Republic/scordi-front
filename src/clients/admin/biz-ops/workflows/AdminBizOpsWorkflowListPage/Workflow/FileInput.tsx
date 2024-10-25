@@ -1,9 +1,8 @@
-import React, {ForwardedRef, forwardRef, InputHTMLAttributes, memo, useState} from 'react';
+import React, {ForwardedRef, forwardRef, InputHTMLAttributes, memo, ReactNode, useState} from 'react';
 import {useId} from 'react-id-generator';
-import {ReactNodeLike} from 'prop-types';
 
 export const FileInput = forwardRef(
-    (props: {label: ReactNodeLike} & InputHTMLAttributes<HTMLInputElement>, ref: ForwardedRef<any>) => {
+    (props: {label: ReactNode} & InputHTMLAttributes<HTMLInputElement>, ref: ForwardedRef<any>) => {
         const [id] = useId(1, 'excel-file-input');
         const [errorMessage, setErrorMessage] = useState('');
         const {label, ...inputProps} = props;

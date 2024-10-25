@@ -1,26 +1,25 @@
-import {ReactNodeLike} from 'prop-types';
 import {CardTable} from './CardTable';
 import {CardTableTH, CardTableTR} from './CardTableTr';
 import {PagePerSelect, Paginator} from '^components/Paginator';
 import {PaginationMetaData} from '^types/utils/paginated.dto';
-import {WithChildren} from '^types/global.type';
+import {ReactNodeElement, WithChildren} from '^types/global.type';
 import React from 'react';
 export * from './CardTable';
 export * from './CardTableTr';
 export * from './columns';
 
 interface CardTableColumns<T> {
-    th: ReactNodeLike;
+    th: ReactNodeElement;
     className?: string;
-    render: (entry: T) => ReactNodeLike;
+    render: (entry: T) => ReactNodeElement;
 }
 
 interface CardTablePanelProps<T> extends WithChildren {
     gridClass: string;
     entries: T[];
     columns?: CardTableColumns<T>[];
-    ths?: ReactNodeLike[];
-    entryComponent?: (entry: T, i: number, arr: T[]) => ReactNodeLike;
+    ths?: ReactNodeElement[];
+    entryComponent?: (entry: T, i: number, arr: T[]) => ReactNodeElement;
     pagination?: PaginationMetaData;
     pageMove?: (pageNum: number) => any;
     changePageSize?: (itemsPerPage: number) => any;

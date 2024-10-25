@@ -1,6 +1,6 @@
 import {memo} from 'react';
 import {HomePageSection} from './HomePageSection';
-import {ReactElementLike} from 'prop-types';
+import {ReactNodeElement} from '^types/global.type';
 
 export const Section2 = memo(() => {
     return (
@@ -58,7 +58,7 @@ export const Section2 = memo(() => {
     );
 });
 
-export const Section2_Card = memo((props: {label: string; src: string; desc: ReactElementLike}) => {
+export const Section2_Card = memo((props: {label: string; src: string; desc: ReactNodeElement}) => {
     const {label, src, desc} = props;
 
     return (

@@ -1,9 +1,10 @@
 import React, {memo} from 'react';
 import {TopNavMobileContainer} from './Container';
-import {ReactComponentLike, ReactNodeLike} from 'prop-types';
+import {ReactComponentLike} from 'prop-types';
+import {ReactNodeElement} from '^types/global.type';
 
 interface TopNavMobileProps {
-    title?: ReactNodeLike;
+    title?: ReactNodeElement;
     rightButtons?: ReactComponentLike[];
 }
 

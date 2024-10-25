@@ -1,9 +1,9 @@
-import {ReactNodeLike} from 'prop-types';
+import {ReactNodeElement} from '^types/global.type';
 import {memo} from 'react';
 
 export interface AdminInfoListItemProps {
-    label: ReactNodeLike;
-    value: ReactNodeLike;
+    label: ReactNodeElement;
+    value: ReactNodeElement;
     borderBottom?: boolean;
 }
 

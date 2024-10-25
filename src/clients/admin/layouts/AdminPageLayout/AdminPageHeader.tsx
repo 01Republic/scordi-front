@@ -1,5 +1,4 @@
-import {WithChildren} from '^types/global.type';
-import {ReactNodeLike} from 'prop-types';
+import {ReactNodeElement, WithChildren} from '^types/global.type';
 import {memo} from 'react';
 import {useRouter} from 'next/router';
 import {LinkTo} from '^components/util/LinkTo';
@@ -11,10 +10,10 @@ export type BreadCrumb = {
 };
 
 export type AdminPageHeaderProps = WithChildren & {
-    title?: ReactNodeLike;
+    title?: ReactNodeElement;
     breadcrumbs?: BreadCrumb[];
     backButton?: boolean;
-    tabNav?: ReactNodeLike;
+    tabNav?: ReactNodeElement;
 };
 
 export const AdminPageHeader = memo((props: AdminPageHeaderProps) => {

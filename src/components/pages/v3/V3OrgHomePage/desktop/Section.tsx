@@ -1,10 +1,9 @@
 import {memo} from 'react';
-import {ReactNodeLike} from 'prop-types';
-import {WithChildren} from '^types/global.type';
+import {ReactNodeElement, WithChildren} from '^types/global.type';
 import {ComponentLike, renderAll, renderOne} from '^components/util/ComponentLike';
 
 interface SectionProps extends WithChildren {
-    title?: ReactNodeLike;
+    title?: ReactNodeElement;
     titleButtons?: ComponentLike[];
     rightTopCaption?: ComponentLike;
     rightButtons?: ComponentLike[];
