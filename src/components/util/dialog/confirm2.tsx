@@ -11,7 +11,7 @@ const confirmBase = withReact(Swal).mixin({
     reverseButtons: false,
     customClass: {
         actions: '!mx-0 !px-5 !grid grid-cols-2 gap-2',
-        confirmButton: 'btn !btn-scordi !rounded-btn !m-0',
+        confirmButton: 'btn btn-scordi !rounded-btn !m-0',
         cancelButton: 'btn !bg-gray-200 !text-gray-500 !rounded-btn !m-0',
     },
 });
@@ -55,7 +55,7 @@ function styled(
         customClass: {
             actions: '!mx-0 !px-5 !grid grid-cols-2 gap-2 direction-rtl',
             htmlContainer: '!m-0 !px-5',
-            confirmButton: 'btn !btn-scordi !rounded-btn !m-0',
+            confirmButton: 'btn btn-scordi !rounded-btn !m-0',
             cancelButton: 'btn !bg-gray-200 !text-gray-500 !rounded-btn !m-0',
             icon: '!absolute !right-0 !top-0 !m-0 !transform !scale-50',
             ...(options.customClass as object),
@@ -76,7 +76,7 @@ function notionStyled(title?: ReactSweetAlertOptions['title'], icon?: SweetAlert
             actions: '!mx-0 !px-0 !flex !justify-end !gap-1.5',
             htmlContainer: '!m-0',
             title: '!p-0',
-            confirmButton: 'btn sm:!btn-sm !btn-scordi !rounded-btn !m-0',
+            confirmButton: 'btn sm:!btn-sm btn-scordi !rounded-btn !m-0',
             cancelButton: 'btn sm:!btn-sm !bg-gray-200 !text-gray-500 !rounded-btn !m-0',
             icon: '!absolute !right-0 !top-0 !m-0 !transform !scale-50',
             ...(options.customClass as object),
