@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
 import {useGoogleLogin} from '@react-oauth/google';
-import {useSetRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {useGoogleLoginSuccessHandler2} from '^hooks/useGoogleLoginSuccessHandler2';
-import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
+import {googleAccessTokenAtom, googleButtonIsLoading} from '^components/pages/UsersLogin/atom';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {uniq} from '^utils/array';
 import {ReactNodeElement, WithChildren} from '^types/global.type';
@@ -50,6 +50,7 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
     } = props;
     const onAccessToken = onToken ? onToken : useGoogleLoginSuccessHandler2();
     const setAccessToken = useSetRecoilState(googleAccessTokenAtom);
+    const [isLoading, setIsLoading] = useRecoilState(googleButtonIsLoading);
     const scope = about ? SCOPE_MAP[about] : SCOPE_ALL;
     const getFeature = () => about;
 
@@ -58,26 +59,36 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
             const feature = getFeature();
             const {code} = response;
 
-            if (onCode && code) return onCode(code);
+            if (onCode && code) {
+                setIsLoading(false);
+                return onCode(code);
+            }
 
             const {accessToken} = await userSocialGoogleApi.token({
                 code,
                 ...(feature ? {feature} : {}),
             });
             setAccessToken(accessToken);
+            setIsLoading(false);
             return onAccessToken(accessToken);
         },
         scope: about === 'login' ? undefined : scope.join(' '),
         flow: 'auth-code',
         onError: (error) => {
+            setIsLoading(false);
             onCode && onCode(error.error as string);
         },
     });
 
+    const onClick = () => {
+        setIsLoading(true);
+        loginButtonOnClick();
+    };
+
     return (
         <>
             {(ButtonComponent || children) && (
-                <div data-component="GoogleLoginBtn" data-about={about} onClick={() => loginButtonOnClick()}>
+                <div data-component="GoogleLoginBtn" data-about={about} onClick={onClick}>
                     {ButtonComponent ? <ButtonComponent /> : children}
                 </div>
             )}
@@ -86,8 +97,10 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
                 <button
                     data-component="GoogleLoginBtn"
                     data-about={about}
-                    onClick={() => loginButtonOnClick()}
-                    className={`${className} btn btn-lg btn-outline shadow font-medium normal-case space-x-4 bg-white border-slate-200 text-slate-700 hover:bg-white hover:border-primary hover:text-slate-700 focus:bg-scordi-50 active:bg-primary-100`}
+                    onClick={onClick}
+                    className={`${className} ${
+                        isLoading ? 'link_to-loading' : ''
+                    } btn btn-lg btn-outline shadow font-medium normal-case space-x-4 bg-white border-slate-200 text-slate-700 hover:bg-white hover:border-primary hover:text-slate-700 focus:bg-scordi-50 active:bg-primary-100`}
                 >
                     <img
                         src="https://www.svgrepo.com/show/355037/google.svg"
@@ -100,3 +113,14 @@ export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {
         </>
     );
 });
+
+export const useGoogleLoginButton = () => {
+    const accessToken = useRecoilValue(googleAccessTokenAtom);
+    const [isLoading, setIsLoading] = useRecoilState(googleButtonIsLoading);
+
+    return {
+        accessToken,
+        isLoading,
+        setIsLoading,
+    };
+};

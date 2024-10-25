@@ -960,6 +960,15 @@ progress::-moz-progress-bar {
   animation: loading_pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+@keyframes loading_pulse-25 {
+  50% {
+    opacity: .25;
+  }
+}
+.animate-pulse-25 {
+  animation: loading_pulse-25 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
 @keyframes loading {
   0% {
     background-position: 100% 50%;
@@ -993,6 +1002,22 @@ progress::-moz-progress-bar {
   & > * {
     visibility: hidden;
   }
+
+  &:before {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+.link_to-loading-pulse {
+  @apply opacity-40 cursor-default pointer-events-none relative animate-pulse-25;
+
+  //& > * {
+  //  visibility: hidden;
+  //}
 
   &:before {
     position: absolute;
