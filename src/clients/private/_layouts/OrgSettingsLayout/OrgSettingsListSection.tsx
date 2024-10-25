@@ -1,13 +1,13 @@
-import {ReactNodeLike} from 'prop-types';
 import React, {memo} from 'react';
 import {LinkTo} from '^components/util/LinkTo';
 import {LoadableBox} from '^components/util/loading';
+import {ReactNodeElement} from '^types/global.type';
 
 interface OrgSettingsListSectionProps {
     title: string;
     buttonHref?: string;
     buttonOnClick?: () => any;
-    items?: {title: ReactNodeLike; desc: ReactNodeLike}[];
+    items?: {title: ReactNodeElement; desc: ReactNodeElement}[];
     isLoading?: boolean;
 }
 
