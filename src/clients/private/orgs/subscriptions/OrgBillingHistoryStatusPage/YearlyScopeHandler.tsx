@@ -11,7 +11,7 @@ export const YearlyScopeHandler = memo((props: YearlyScopeHandlerProps) => {
     const {years, value, onChange} = props;
 
     return (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap pr-16">
             {years.map((year, i) => (
                 <ListPageScopeButton
                     key={year}

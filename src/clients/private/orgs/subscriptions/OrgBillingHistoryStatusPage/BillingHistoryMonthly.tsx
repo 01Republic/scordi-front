@@ -3,6 +3,7 @@ import {BillingHistoriesMonthlySumBySubscriptionDto} from '^models/BillingHistor
 import {IsFreeTierTagUI} from '^models/Subscription/components/IsFreeTierTagUI';
 import {FaQuestion} from 'react-icons/fa6';
 import {Avatar} from '^components/Avatar';
+import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 
 interface BillingHistoryMonthlyProps {
     history: BillingHistoriesMonthlySumBySubscriptionDto[];
@@ -63,7 +64,7 @@ export const BillingHistoryMonthly = memo((props: BillingHistoryMonthlyProps) =>
                         {history.length === 0 ? (
                             <tr>
                                 <td colSpan={16} className="text-center py-8">
-                                    데이터가 없습니다.
+                                    <EmptyTable message="데이터가 없습니다." />
                                 </td>
                             </tr>
                         ) : (

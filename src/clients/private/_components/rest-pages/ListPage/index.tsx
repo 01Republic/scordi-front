@@ -19,6 +19,7 @@ interface ListPageProps extends WithChildren {
     onSearch?: (keyword?: string) => any;
     searchInputPlaceholder?: string;
     searchInputPosition?: 'start-of-buttons' | 'end-of-buttons' | 'right-of-scopes';
+    scopeWrapperClass?: string;
 }
 
 export const ListPage = memo((props: ListPageProps) => {
@@ -33,6 +34,7 @@ export const ListPage = memo((props: ListPageProps) => {
         onSearch,
         searchInputPlaceholder = '검색어를 입력해주세요',
         searchInputPosition = 'right-of-scopes',
+        scopeWrapperClass = '',
         children,
     } = props;
     const orgId = useRecoilValue(orgIdParamState);
@@ -68,7 +70,7 @@ export const ListPage = memo((props: ListPageProps) => {
                 </div>
 
                 {(ScopeHandler || searchInputPosition === 'right-of-scopes') && (
-                    <div className={'flex items-center justify-between mb-8'}>
+                    <div className={`flex items-center justify-between mb-8 ${scopeWrapperClass}`}>
                         {ScopeHandler ? <ScopeHandler /> : <div />}
                         {searchInputPosition === 'right-of-scopes' && onSearch && (
                             <ListPageSearchInput onSearch={onSearch} placeholder={searchInputPlaceholder} />
