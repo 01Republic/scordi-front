@@ -21,7 +21,7 @@
     "start_with_phone_number": "Start now"
   },
   "terms_modal": {
-    "title": "Once you agree, your free trial will be confirmed!",
+    "title": "Check terms to complete the signup.",
     "agree_all": "Agree all",
     "agree_to": "[{{prefix}}] Agree to the {{termName}}",
     "required": "Required",
