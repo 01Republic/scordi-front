@@ -1,15 +1,10 @@
 import React, {memo, useState} from 'react';
 import {GoogleOAuthProvider} from '@react-oauth/google';
-import {useForm} from 'react-hook-form';
-import {UserLoginRequestDto} from '^models/User/types';
 import {useCurrentUser} from '^models/User/hook';
 import {Modal} from '^components/Modal';
 import {GoogleLoginBtn} from './GoogleLoginBtn';
-import {TextInput} from '^components/TextInput';
-import {TesterLoginForm} from '^components/pages/UsersLogin/TesterLoginForm';
-import {LandingPageNavBar} from '^components/lab/landing-page-components';
 import {WithChildren} from '^types/global.type';
-import {appEnv, googleOAuth} from '^config/environments';
+import {googleOAuth} from '^config/environments';
 import {FaArrowRight} from 'react-icons/fa6';
 import {LandingPageLayout} from '^clients/public/home/LandingPages/LandingPageLayout';
 
