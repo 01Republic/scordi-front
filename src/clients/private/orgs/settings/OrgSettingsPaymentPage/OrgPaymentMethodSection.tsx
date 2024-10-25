@@ -1,12 +1,13 @@
 import React, {memo} from 'react';
-import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
-import {SettingsPaymentSection} from './SettingsPaymentSection';
+import {FaRegCreditCard} from 'react-icons/fa6';
+import Tippy from '@tippyjs/react';
 import {useTossPayments} from '^hooks/useTossPayments';
 import {useScordiPaymentMethodsInSettingPage} from '^models/_scordi/ScordiPaymentMethod/hook';
-import {FaRegCreditCard} from 'react-icons/fa6';
-import {Avatar} from '^components/Avatar';
 import {yyyy_mm_dd} from '^utils/dateTime';
-import Tippy from '@tippyjs/react';
+import {Avatar} from '^components/Avatar';
+import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
+import {SettingsPaymentSection} from './SettingsPaymentSection';
+import {NewPaymentMethodButton} from './NewPaymentMethodButton';
 
 interface OrgPaymentMethodSectionProps {
     orgId: number;
@@ -21,11 +22,14 @@ export const OrgPaymentMethodSection = memo((props: OrgPaymentMethodSectionProps
         <SettingsPaymentSection
             title="카드 정보"
             buttonText="카드 변경"
-            buttonOnClick={() => requestBillingAuth()}
+            buttonOnClick={isEmptyResult ? undefined : () => requestBillingAuth()}
             isLoading={isLoading}
         >
             {isEmptyResult ? (
-                <EmptyTable message="등록된 카드 정보가 없어요." />
+                <EmptyTable
+                    message="등록된 카드 정보가 없어요."
+                    Buttons={() => <NewPaymentMethodButton onClick={() => requestBillingAuth()} />}
+                />
             ) : (
                 <div className="">
                     {result.items.map((paymentMethod, i) => {
