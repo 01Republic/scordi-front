@@ -18,10 +18,7 @@ export const SettingsPaymentSection = memo((props: SettingsPaymentSectionProps) 
                 <div className={'font-bold'}>{title}</div>
 
                 {buttonOnClick && (
-                    <button
-                        className="px-4 py-2 text-gray-400 border rounded-md hover:bg-gray-50"
-                        onClick={buttonOnClick}
-                    >
+                    <button className="btn3" onClick={buttonOnClick}>
                         {buttonText}
                     </button>
                 )}
