@@ -14,7 +14,7 @@ const promptHTMLBase = withReact(Swal).mixin({
         popup: '!p-0 !rounded-xl',
         actions: '!mx-0 !px-8 !justify-end gap-2',
         htmlContainer: '!m-0 !px-0',
-        confirmButton: 'btn sm:!btn-sm !btn-scordi !rounded-btn !m-0',
+        confirmButton: 'btn sm:!btn-sm btn-scordi !rounded-btn !m-0',
         cancelButton: 'btn sm:!btn-sm !bg-gray-200 !text-gray-500 !rounded-btn !m-0',
         icon: '!absolute !right-0 !top-0 !m-0 !transform !scale-50',
     },
