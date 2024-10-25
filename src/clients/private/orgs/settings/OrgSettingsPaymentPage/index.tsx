@@ -22,8 +22,13 @@ export const OrgSettingsPaymentPage = memo(function () {
         >
             <div className={'text-xl font-bold my-4'}>구독 및 결제</div>
 
+            {/*현재 플랜 정보*/}
             <OrgPlanSection orgId={orgId} />
+
+            {/*카드 정보*/}
             <OrgPaymentMethodSection orgId={orgId} />
+
+            {/*결제 환불 내역*/}
             <OrgPaymentsSection orgId={orgId} />
         </OrgSettingsLayout>
     );
