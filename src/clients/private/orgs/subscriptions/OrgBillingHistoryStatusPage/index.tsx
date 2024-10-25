@@ -14,6 +14,7 @@ import {YearlyScopeHandler} from './YearlyScopeHandler';
 import {BillingHistoryMonthly} from './BillingHistoryMonthly';
 import {BillingHistoryYearly} from './BillingHistoryYearly';
 import {useBillingHistoryStatus} from '^hooks/useBillingHistoryStatus';
+import {LoadableBox} from '^components/util/loading';
 
 export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatusPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -28,18 +29,24 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
     const [filteredYearlyHistory, setFilteredYearlyHistory] = useState<BillingHistoriesYearlySumBySubscriptionDto[]>(
         [],
     );
+    const [isLoading, setIsLoading] = useState(false);
 
     const fetchBillingData = async () => {
-        if (focusYear) {
-            const monthlyResponse = await billingHistoryApi.statusApi.monthlySum(orgId, focusYear);
+        setIsLoading(true);
+        try {
+            if (focusYear) {
+                const monthlyResponse = await billingHistoryApi.statusApi.monthlySum(orgId, focusYear);
 
-            setMonthlyHistory(monthlyResponse.data);
-            setFilteredMonthlyHistory(monthlyResponse.data);
-        } else {
-            const yearlyResponse = await billingHistoryApi.statusApi.yearlySum(orgId);
+                setMonthlyHistory(monthlyResponse.data);
+                setFilteredMonthlyHistory(monthlyResponse.data);
+            } else {
+                const yearlyResponse = await billingHistoryApi.statusApi.yearlySum(orgId);
 
-            setYearlyHistory(yearlyResponse.data);
-            setFilteredYearlyHistory(yearlyResponse.data);
+                setYearlyHistory(yearlyResponse.data);
+                setFilteredYearlyHistory(yearlyResponse.data);
+            }
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -76,6 +83,7 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
                 />
             )}
             searchInputPosition="right-of-scopes"
+            scopeWrapperClass="!items-start"
             searchInputPlaceholder="서비스명 검색"
             ScopeHandler={() =>
                 viewUnit === BillingCycleOptions.Monthly ? (
@@ -86,11 +94,13 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
             }
             onSearch={handleSearch}
         >
-            {viewUnit === BillingCycleOptions.Monthly ? (
-                <BillingHistoryMonthly history={filteredMonthlyHistory} />
-            ) : (
-                <BillingHistoryYearly history={filteredYearlyHistory} />
-            )}
+            <LoadableBox isLoading={isLoading} loadingType={2} spinnerPos="center" noPadding loadingClass="">
+                {viewUnit === BillingCycleOptions.Monthly ? (
+                    <BillingHistoryMonthly history={filteredMonthlyHistory} />
+                ) : (
+                    <BillingHistoryYearly history={filteredYearlyHistory} />
+                )}
+            </LoadableBox>
         </ListPage>
     );
 });
