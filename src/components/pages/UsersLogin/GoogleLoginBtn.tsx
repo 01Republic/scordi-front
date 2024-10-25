@@ -5,8 +5,7 @@ import {useGoogleLoginSuccessHandler2} from '^hooks/useGoogleLoginSuccessHandler
 import {googleAccessTokenAtom} from '^components/pages/UsersLogin/atom';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {uniq} from '^utils/array';
-import {ReactNodeLike} from 'prop-types';
-import {WithChildren} from '^types/global.type';
+import {ReactNodeElement, WithChildren} from '^types/global.type';
 
 const SCOPE_MAP = {
     login: ['email', 'profile', 'openid'],
@@ -35,7 +34,7 @@ interface GoogleLoginBtnProps extends WithChildren {
     className?: string;
     logoSize?: string;
     ButtonComponent?: () => JSX.Element;
-    buttonText?: ReactNodeLike;
+    buttonText?: ReactNodeElement;
 }
 
 export const GoogleLoginBtn = memo((props: GoogleLoginBtnProps) => {

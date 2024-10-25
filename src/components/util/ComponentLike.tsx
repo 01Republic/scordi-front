@@ -1,7 +1,8 @@
 import {ReactComponentLike, ReactElementLike} from 'prop-types';
 import {Fragment, MemoExoticComponent, NamedExoticComponent} from 'react';
+import {ReactNodeElement} from '^types/global.type';
 
-export type ComponentLike = ReactElementLike | ReactComponentLike;
+export type ComponentLike = ReactElementLike | ReactComponentLike | ReactNodeElement;
 
 export const renderAll = (list: ComponentLike[]) => list.map(renderOne);
 

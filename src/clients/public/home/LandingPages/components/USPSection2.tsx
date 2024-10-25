@@ -1,6 +1,6 @@
-import {CSSProperties, memo, ReactElement} from 'react';
+import {CSSProperties, memo} from 'react';
 import {BetaUserApplyCTAButton} from './CTAButton';
-import {ReactNodeLike} from 'prop-types';
+import {ReactNodeElement} from '^types/global.type';
 
 interface USPSectionProps {
     label: string;
@@ -8,13 +8,13 @@ interface USPSectionProps {
     imgWidth?: string;
     imgStyle?: CSSProperties;
     imgClass?: string;
-    title: ReactNodeLike;
-    desc1?: ReactNodeLike;
-    desc2?: ReactNodeLike;
+    title: ReactNodeElement;
+    desc1?: ReactNodeElement;
+    desc2?: ReactNodeElement;
     direct: 'left' | 'right';
     bgGray?: boolean;
     showCTA?: boolean;
-    CTAButton?: ReactElement;
+    CTAButton?: ReactNodeElement;
 }
 
 export const USPSection2 = memo((props: USPSectionProps) => {

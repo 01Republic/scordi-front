@@ -1,11 +1,11 @@
 import {memo} from 'react';
-import {ReactNodeLike} from 'prop-types';
 import {useId} from 'react-id-generator';
 import {AiOutlinePlus} from '@react-icons/all-files/ai/AiOutlinePlus';
+import {ReactNodeElement} from '^types/global.type';
 
 interface QuestionItemProps {
-    question: ReactNodeLike;
-    answer: ReactNodeLike;
+    question: ReactNodeElement;
+    answer: ReactNodeElement;
 }
 
 export const QuestionItem = memo(function QuestionItem(props: QuestionItemProps) {

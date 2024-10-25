@@ -1,6 +1,5 @@
 import {RecoilState, useRecoilState} from 'recoil';
-import {WithChildren} from '^types/global.type';
-import {ReactComponentLike, ReactElementLike} from 'prop-types';
+import {ReactNodeElement, WithChildren} from '^types/global.type';
 
 export function useFunnel<T = undefined>(recoilState: RecoilState<T>) {
     const [step, setStep] = useRecoilState(recoilState);
@@ -9,7 +8,7 @@ export function useFunnel<T = undefined>(recoilState: RecoilState<T>) {
         return <>{step === name ? children : ''}</>;
     };
 
-    const LazyStep = ({name, render}: {name: T; render: () => ReactElementLike}) => {
+    const LazyStep = ({name, render}: {name: T; render: () => ReactNodeElement}) => {
         return <>{step === name ? render() : ''}</>;
     };
 

@@ -3,14 +3,15 @@ import {enterToSpace} from '^components/util/keyDownLikeClick';
 import {FaTimes} from 'react-icons/fa';
 import {FaCaretDown} from 'react-icons/fa6';
 import {ReactNodeLike} from 'prop-types';
+import {ReactNodeElement} from '^types/global.type';
 
 interface MonoSelectInputProps<Option> {
     id?: string;
     openModal?: () => any;
     selectedOption?: Option;
     clearable?: boolean;
-    getLabel?: (option: Option) => ReactNodeLike;
-    placeholder?: ReactNodeLike;
+    getLabel?: (option: Option) => ReactNodeElement;
+    placeholder?: ReactNodeElement;
     clearOption?: () => any;
 }
 

@@ -1,17 +1,17 @@
 import React, {memo} from 'react';
-import {WithChildren} from '^types/global.type';
+import {ReactNodeElement, WithChildren} from '^types/global.type';
 import styles from '^styles/v3/V3MainLayout.module.scss';
 import {AddressModal} from '^v3/share/modals/AddressModal';
 import {BottomNavMobile, BottomTabIndex} from '^v3/share/BottomNavMobile';
 import {TopNavMobileDefault} from '^v3/share/TobNav/TopNavMobile';
-import {ReactComponentLike, ReactNodeLike} from 'prop-types';
+import {ReactComponentLike} from 'prop-types';
 import {MobileSection} from '../share/sections/MobileSection';
 import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
 import Head from 'next/head';
 
 interface V3MainLayoutMobileProps extends WithChildren {
     // 페이지 상단의 제목
-    title: ReactNodeLike;
+    title: ReactNodeElement;
     // 하단 네비게이션 중에서 활성상태로 보여줄 탭의 인덱스
     activeTabIndex: BottomTabIndex;
     // 페이지 상단 우측 버튼들
