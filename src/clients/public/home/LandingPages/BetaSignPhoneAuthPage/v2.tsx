@@ -129,7 +129,7 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
 
     if (!pageLoaded) {
         return (
-            <LandingPageLayout pageName="BetaSignPhoneAuthPage">
+            <LandingPageLayout pageName="BetaSignPhoneAuthPage" hideNav hideFooter>
                 <div className="mx-auto text-center py-20 w-full max-w-lg space-y-5">
                     <h1
                         className="text-2xl sm:text-4xl mb-8 font-bold"
@@ -143,7 +143,7 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
     // 조직명 인풋이 활성화 되는 경우, 조직명을 받는 화면 모드로 전환된다. (약관모달 확인 직후)
     if (orgNameInputDisplay) {
         return (
-            <LandingPageLayout pageName="BetaSignPhoneAuthPage">
+            <LandingPageLayout pageName="BetaSignPhoneAuthPage" hideNav hideFooter>
                 <div className="mx-auto text-center py-20 w-full max-w-lg space-y-5">
                     <h1
                         className="text-3xl sm:text-4xl font-bold leading-loose"
@@ -198,7 +198,7 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
     }
 
     return (
-        <LandingPageLayout pageName="BetaSignPhoneAuthPage">
+        <LandingPageLayout pageName="BetaSignPhoneAuthPage" hideNav hideFooter>
             <div className="mx-auto text-center py-20 w-full max-w-lg space-y-5">
                 <h1
                     className="text-3xl sm:text-4xl font-bold"
