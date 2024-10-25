@@ -188,7 +188,7 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
                                 className="btn sm:btn-lg btn-block btn-scordi-500 normal-case disabled:!bg-slate-100 disabled:!border-slate-300"
                                 disabled
                             >
-                                이름을 입력해주세요
+                                시작하기
                             </button>
                         )}
                     </div>
