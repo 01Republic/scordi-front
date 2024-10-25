@@ -20,7 +20,7 @@ export const SEO = memo((props: SEOProps) => {
     const logoCircle = `${url}/images/logo/scordi/favicon2.png`;
     const favicon = `${url}/images/logo/scordi/favicon-renewal.png`;
     // const favicon = `/images/logo/scordi/favicon.png`;
-    const thumbnail = `${url}/images/thumbnails/scordi-renewal-og_img-231109.png`;
+    const thumbnail = `${url}/images/thumbnails/scordi-renewal-og_img.png`;
     // const thumbnail = `${serviceHost}/home/202305/tasting/thumbnail.png`;
     // const thumbnail = `${serviceHost}/images/thumbnails/scordi-og_img-230806.png`;
     const company = '01Republic, Inc.';
