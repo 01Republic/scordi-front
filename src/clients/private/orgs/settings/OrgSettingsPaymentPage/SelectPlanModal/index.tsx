@@ -27,7 +27,7 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
         update: createSubscription,
         fetchScheduledSubscriptions,
     } = useCurrentScordiSubscription();
-    const {result, search: fetchPaymentMethods} = useScordiPaymentMethodsInSettingPage();
+    const {result, fetchAll: fetchPaymentMethods} = useScordiPaymentMethodsInSettingPage();
     const {requestBillingAuth} = useTossPayments();
 
     useEffect(() => {

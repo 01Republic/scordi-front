@@ -1,12 +1,13 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {FaRegCreditCard} from 'react-icons/fa6';
 import Tippy from '@tippyjs/react';
+import {useUnmount} from '^hooks/useUnmount';
 import {useTossPayments} from '^hooks/useTossPayments';
 import {useScordiPaymentMethodsInSettingPage} from '^models/_scordi/ScordiPaymentMethod/hook';
 import {yyyy_mm_dd} from '^utils/dateTime';
 import {Avatar} from '^components/Avatar';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
-import {SettingsPaymentSection} from './SettingsPaymentSection';
+import {SettingsPaymentSection} from '../SettingsPaymentSection';
 import {NewPaymentMethodButton} from './NewPaymentMethodButton';
 
 interface OrgPaymentMethodSectionProps {
@@ -16,12 +17,21 @@ interface OrgPaymentMethodSectionProps {
 export const OrgPaymentMethodSection = memo((props: OrgPaymentMethodSectionProps) => {
     const {orgId} = props;
     const {requestBillingAuth} = useTossPayments();
-    const {isLoading, search, result, isEmptyResult} = useScordiPaymentMethodsInSettingPage();
+    const {isLoading, fetchAll, result, isEmptyResult, clearCache} = useScordiPaymentMethodsInSettingPage();
+
+    useEffect(() => {
+        if (!orgId || isNaN(orgId)) return;
+        fetchAll();
+    }, [orgId]);
+
+    useUnmount(() => {
+        clearCache();
+    }, [orgId]);
 
     return (
         <SettingsPaymentSection
             title="카드 정보"
-            buttonText="카드 변경"
+            buttonText="카드 등록"
             buttonOnClick={isEmptyResult ? undefined : () => requestBillingAuth()}
             isLoading={isLoading}
         >
@@ -31,7 +41,7 @@ export const OrgPaymentMethodSection = memo((props: OrgPaymentMethodSectionProps
                     Buttons={() => <NewPaymentMethodButton onClick={() => requestBillingAuth()} />}
                 />
             ) : (
-                <div className="">
+                <div className="grid grid-cols-1 gap-2">
                     {result.items.map((paymentMethod, i) => {
                         const company = paymentMethod.asCardCompany();
                         const card = paymentMethod.response.card;
@@ -40,7 +50,7 @@ export const OrgPaymentMethodSection = memo((props: OrgPaymentMethodSectionProps
                             <div
                                 key={i}
                                 className={`p-4 bg-slate-50 flex items-center justify-between rounded-lg text-14 ${
-                                    isLast ? '' : 'mb-4'
+                                    isLast ? '' : ''
                                 }`}
                             >
                                 <div className="flex items-center gap-4">
