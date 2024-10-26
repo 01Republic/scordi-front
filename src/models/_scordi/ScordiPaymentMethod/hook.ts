@@ -28,7 +28,7 @@ const useScordiPaymentMethods = (
     const fetchAll = () => {
         return search2({
             where: {},
-            order: {isActive: 'ASC', id: 'DESC'},
+            order: {isActive: 'DESC', id: 'DESC'},
             itemsPerPage: 0,
         });
     };
