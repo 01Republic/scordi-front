@@ -1,5 +1,10 @@
 import {api} from '^api/api';
-import {CreateScordiPaymentMethodRequestDto, FindAllScordiPaymentMethodQueryDto, ScordiPaymentMethodDto} from './type';
+import {
+    ScordiPaymentMethodDto,
+    FindAllScordiPaymentMethodQueryDto,
+    CreateScordiPaymentMethodRequestDto,
+    UpdateScordiPaymentMethodRequestDto,
+} from './type';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 
 /**
@@ -16,5 +21,17 @@ export const scordiPaymentMethodApi = {
     create(orgId: number, data: CreateScordiPaymentMethodRequestDto) {
         const url = `/orgs/${orgId}/billing/payment_methods`;
         return api.post(url, data).then(oneDtoOf(ScordiPaymentMethodDto));
+    },
+
+    // 스코디 결제수단 수정 *
+    update(orgId: number, id: number, data: UpdateScordiPaymentMethodRequestDto) {
+        const url = `/orgs/${orgId}/billing/payment_methods/${id}`;
+        return api.patch(url, data).then(oneDtoOf(ScordiPaymentMethodDto));
+    },
+
+    // 스코디 결제수단 삭제 *
+    destroy(orgId: number, id: number) {
+        const url = `/orgs/${orgId}/billing/payment_methods/${id}`;
+        return api.delete(url).then(oneDtoOf(ScordiPaymentMethodDto));
     },
 };
