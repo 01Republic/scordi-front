@@ -12,6 +12,16 @@ export const currentScordiSubscriptionIsLoadingAtom = atom({
 });
 
 export const scordiSubscriptionScheduledListAtom = atom<ScordiSubscriptionDto[]>({
-    key: 'scordiSubscriptionScheduledListAtom',
+    key: 'scordiSubscriptionScheduledList/ResultAtom',
     default: [],
+});
+
+export const scordiSubscriptionIsScheduledListLoadingAtom = atom({
+    key: 'scordiSubscriptionScheduledList/IsLoadingAtom',
+    default: false,
+});
+
+export const scordiSubscriptionIsScheduledListQueryAtom = atom({
+    key: 'scordiSubscriptionScheduledList/QueryAtom',
+    default: NaN,
 });

@@ -1,6 +1,4 @@
 import React, {memo, useEffect} from 'react';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
 import {IoClose} from '@react-icons/all-files/io5/IoClose';
 import {useTossPayments} from '^hooks/useTossPayments';
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
@@ -13,35 +11,34 @@ import {ScordiPlanCard} from './ScordiPlanCard';
 import {confirm2} from '^components/util/dialog';
 
 interface SelectPlanModalProps {
+    orgId: number;
     isOpened: boolean;
     onClose: () => void;
 }
 
 export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanModalProps) {
-    const {isOpened, onClose} = props;
-    const orgId = useRecoilValue(orgIdParamState);
+    const {orgId, isOpened, onClose} = props;
     const {scordiPlanList, fetch: fetchPlans} = useScordiPlanList();
-    const {
-        currentSubscription,
-        fetch: fetchCurrentSubscription,
-        update: createSubscription,
-        fetchScheduledSubscriptions,
-    } = useCurrentScordiSubscription();
-    const {result, fetchAll: fetchPaymentMethods} = useScordiPaymentMethodsInSettingPage();
+    const {currentSubscription, update} = useCurrentScordiSubscription();
+    // const {reload} = useScheduledScordiSubscriptions();
+    const {result} = useScordiPaymentMethodsInSettingPage();
     const {requestBillingAuth} = useTossPayments();
+
+    const stepType = currentSubscription?.scordiPlan.stepType || ScordiPlanStepType.Month;
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
-        fetchCurrentSubscription(orgId).then((subscription) => {
-            const stepType = subscription ? subscription.scordiPlan.stepType : ScordiPlanStepType.Month;
-            fetchPlans({
-                where: {isPublic: true, stepType},
-                order: {priority: 'ASC'},
-            });
+        if (!isOpened) return;
+
+        fetchPlans({
+            where: {isPublic: true, stepType},
+            order: {priority: 'ASC'},
         });
-        fetchPaymentMethods();
-        fetchScheduledSubscriptions(orgId);
-    }, [orgId]);
+    }, [orgId, isOpened, stepType]);
+
+    const createSubscription = (orgId: number, planId: number) => {
+        return update(orgId, planId); //.then(() => reload(orgId));
+    };
 
     const changePlan = (plan: ScordiPlanDto) => {
         const paymentMethod = result.items.find((item) => item.isActive);

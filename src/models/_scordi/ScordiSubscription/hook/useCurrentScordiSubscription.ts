@@ -1,18 +1,13 @@
 import {useRecoilState} from 'recoil';
 import {toast} from 'react-hot-toast';
 import {yyyy_mm_dd} from '^utils/dateTime';
-import {scordiSubscriptionApi} from './api';
-import {ScordiSubscriptionDto} from './type';
-import {
-    currentScordiSubscriptionAtom,
-    currentScordiSubscriptionIsLoadingAtom,
-    scordiSubscriptionScheduledListAtom,
-} from './atom';
+import {ScordiSubscriptionDto} from '../type';
+import {scordiSubscriptionApi} from '../api';
+import {currentScordiSubscriptionAtom, currentScordiSubscriptionIsLoadingAtom} from '../atom';
 
 export const useCurrentScordiSubscription = () => {
     const [isLoading, setIsLoading] = useRecoilState(currentScordiSubscriptionIsLoadingAtom);
     const [currentSubscription, setCurrentSubscription] = useRecoilState(currentScordiSubscriptionAtom);
-    const [scheduledList, setScheduledList] = useRecoilState(scordiSubscriptionScheduledListAtom);
 
     /**
      * 조직의 현재 구독정보 불러오기
@@ -29,7 +24,6 @@ export const useCurrentScordiSubscription = () => {
             .show(orgId)
             .then(async (res) => {
                 setCurrentSubscription(res.data);
-                await fetchScheduledItems(orgId);
                 return res.data;
             })
             .finally(() => setIsLoading(false));
@@ -48,11 +42,12 @@ export const useCurrentScordiSubscription = () => {
      */
     const update = async (orgId: number, planId: number) => {
         if (!orgId || isNaN(orgId)) return;
+
+        setIsLoading(true);
         return scordiSubscriptionApi
             .create(orgId, planId)
             .then((res) => {
                 const newSub = res.data;
-                fetchScheduledItems(orgId);
                 if (newSub.isActive) {
                     toast.success('플랜을 변경했어요');
                 } else {
@@ -64,17 +59,11 @@ export const useCurrentScordiSubscription = () => {
             .then(() => fetch(orgId, true));
     };
 
-    const fetchScheduledItems = (orgId: number) => {
-        return scordiSubscriptionApi.scheduledItems(orgId).then((res) => setScheduledList(res.data));
-    };
-
     return {
         isLoading,
         currentSubscription,
         fetch,
         reload,
         update,
-        scheduledSubscriptions: scheduledList,
-        fetchScheduledSubscriptions: fetchScheduledItems,
     };
 };

@@ -1,6 +1,8 @@
 import React, {memo} from 'react';
+import {useRecoilValue} from 'recoil';
 import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
 import {useCurrentScordiSubscription} from '^models/_scordi/ScordiSubscription/hook';
+import {scordiSubscriptionScheduledListAtom as scheduledListAtom} from '^models/_scordi/ScordiSubscription/atom';
 import {yyyy_mm_dd} from '^utils/dateTime';
 
 interface ScordiPlanCardButtonProps {
@@ -10,7 +12,8 @@ interface ScordiPlanCardButtonProps {
 
 export const ScordiPlanCardButton = memo((props: ScordiPlanCardButtonProps) => {
     const {plan, onClick} = props;
-    const {currentSubscription, scheduledSubscriptions} = useCurrentScordiSubscription();
+    const {currentSubscription} = useCurrentScordiSubscription();
+    const scheduledSubscriptions = useRecoilValue(scheduledListAtom);
     const scheduledItem = scheduledSubscriptions.find((s) => {
         return s.scordiPlanId === plan.id || (s.scordiPlan.priority == 1 && plan.priority == 1);
     });
