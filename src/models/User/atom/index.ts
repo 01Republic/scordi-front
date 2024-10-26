@@ -24,7 +24,7 @@ export const currentUserAtom = atom<UserDto | null>({
     default: null,
 });
 
-export const getCurrentUserQueryAtom = atom<FindAllQueryDto<UserDto> | null>({
+export const getCurrentUserQueryAtom = atom<string | null>({
     key: 'getCurrentUserQueryAtom',
     default: null,
 });

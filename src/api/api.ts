@@ -10,7 +10,10 @@ import {PostDetailPageRoute} from '^pages/posts/[id]';
 import {appEnv} from '^config/environments';
 
 export const SIGNED_TOKEN_STORAGE_KEY = 'token';
-export const getToken = () => typeof window !== 'undefined' && localStorage.getItem(SIGNED_TOKEN_STORAGE_KEY);
+export const getToken = (): string | null => {
+    if (typeof window == 'undefined') return null;
+    return localStorage.getItem(SIGNED_TOKEN_STORAGE_KEY);
+};
 export const setToken = (token: string) => localStorage.setItem(SIGNED_TOKEN_STORAGE_KEY, token);
 export const removeToken = () => localStorage.removeItem(SIGNED_TOKEN_STORAGE_KEY);
 

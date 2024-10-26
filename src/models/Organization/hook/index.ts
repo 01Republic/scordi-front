@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
 import {useAlert} from '^hooks/useAlert';
@@ -10,8 +10,8 @@ import {OrganizationDto} from '^models/Organization/type';
 import {UserLoginPageRoute} from '^pages/users/login';
 import {myMembershipApi} from '^models/Membership/api';
 import {useCurrentUser} from '^models/User/hook';
-import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
+import {signSavedMembershipIdAtom} from '^models/Membership/atom';
 
 export const useOrganization = () => useRecoilValue(getOrgQuery);
 
@@ -22,59 +22,67 @@ export function useCurrentOrg(id: number) {
     const [query, setQuery] = useRecoilState(getCurrentOrgQueryAtom);
     const {currentUser} = useCurrentUser();
     const myMembership = currentUser?.findMembershipByOrgId(id);
+    const [savedMembershipId, setSavedMembershipId] = useRecoilState(signSavedMembershipIdAtom);
     const {alert} = useAlert();
 
     const search = (orgId: number, params: FindAllQueryDto<OrganizationDto>, force?: boolean) => {
         setQuery((oldQuery) => {
-            if (!force && JSON.stringify(oldQuery) === JSON.stringify(params)) return oldQuery;
+            const newQuery = {...params, id: orgId};
+            if (!force && JSON.stringify(oldQuery) === JSON.stringify(newQuery)) return oldQuery;
 
-            const req = organizationApi.show(orgId, params);
-            req.then((res) => setCurrentOrg(res.data));
-            req.catch((e) => {
-                return alert
-                    .error('조직을 찾을 수 없습니다', e.response.data.message)
-                    .then((res) =>
-                        res.isConfirmed && currentUser?.lastSignedOrgId
-                            ? router.replace(OrgMainPageRoute.path(currentUser.lastSignedOrgId))
-                            : router.replace('/'),
-                    );
-            });
+            organizationApi
+                .show(orgId, params)
+                .then((res) => setCurrentOrg(res.data))
+                .catch((e) => {
+                    return alert
+                        .error('조직을 찾을 수 없습니다', e.response.data.message)
+                        .then((res) =>
+                            res.isConfirmed && currentUser?.lastSignedOrgId
+                                ? router.replace(OrgMainPageRoute.path(currentUser.lastSignedOrgId))
+                                : router.replace('/'),
+                        );
+                });
 
-            return params;
+            return newQuery;
+        });
+    };
+
+    const updateLastSign = (membershipId: number) => {
+        setSavedMembershipId((oldMembershipId) => {
+            if (oldMembershipId === membershipId) return oldMembershipId;
+            myMembershipApi.update(membershipId, {lastSignedAt: new Date()});
+            return membershipId;
         });
     };
 
     const reload = () => search(id, query, true);
 
-    useEffect(() => {
-        if (!id || isNaN(id)) return;
-        if (currentOrg && currentOrg.id === id) return;
-
+    const checkLogin = () => {
         const loginToken = getToken();
         if (!loginToken) {
             alert.error('로그인이 필요합니다!', '로그인 페이지로 이동할까요?').then((result) => {
-                if (result.isConfirmed) {
-                    router.push(UserLoginPageRoute.path());
-                } else {
-                    router.back();
-                }
+                result.isConfirmed ? router.push(UserLoginPageRoute.path()) : router.back();
             });
-            return;
+            return false;
         }
+        return !!loginToken;
+    };
 
-        search(
-            id,
-            {
-                relations: ['lastGoogleSyncHistory', 'lastGoogleSyncHistory.googleTokenData', 'invoiceAccounts'],
-            },
-            true,
-        );
+    useEffect(() => {
+        if (!id || isNaN(id)) return;
 
+        const signedIn = checkLogin();
+        if (!signedIn) return;
+
+        search(id, {
+            relations: ['lastGoogleSyncHistory', 'lastGoogleSyncHistory.googleTokenData', 'invoiceAccounts'],
+        });
+    }, [id]);
+
+    useEffect(() => {
         if (!myMembership) return;
-
-        // My Membership update
-        myMembershipApi.update(myMembership.id, {lastSignedAt: new Date()});
-    }, [id, currentOrg, currentUser]);
+        updateLastSign(myMembership.id);
+    }, [myMembership]);
 
     return {currentOrg, setCurrentOrg, search, reload};
 }
