@@ -1,10 +1,11 @@
 import React, {memo} from 'react';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useCurrentOrg} from '^models/Organization/hook';
+import {useCurrentOrg, useCurrentOrg2} from '^models/Organization/hook';
 import {useForm} from 'react-hook-form';
 import {UpdateOrganizationRequestDto} from '^models/Organization/type';
 import {organizationApi} from '^models/Organization/api';
 import {toast} from 'react-hot-toast';
+import {useRecoilValue} from 'recoil';
 
 interface ChangeOrgInformationModalProps {
     isOpened: boolean;
@@ -13,8 +14,8 @@ interface ChangeOrgInformationModalProps {
 
 export const ChangeOrgInformationModal = memo(function (props: ChangeOrgInformationModalProps) {
     const {isOpened, onClose} = props;
-    const orgId = useRouterIdParamState('id', orgIdParamState);
-    const {currentOrg} = useCurrentOrg(orgId);
+    const orgId = useRecoilValue(orgIdParamState);
+    const {currentOrg} = useCurrentOrg2();
     const form = useForm<UpdateOrganizationRequestDto>();
 
     const onSave = () => {
