@@ -39,16 +39,12 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
                 order: {priority: 'ASC'},
             });
         });
-        fetchPaymentMethods({
-            where: {isActive: true},
-            order: {id: 'DESC'},
-            itemsPerPage: 0,
-        });
+        fetchPaymentMethods();
         fetchScheduledSubscriptions(orgId);
     }, [orgId]);
 
     const changePlan = (plan: ScordiPlanDto) => {
-        const paymentMethod = result.items[0];
+        const paymentMethod = result.items.find((item) => item.isActive);
 
         if (!orgId || isNaN(orgId)) return;
         if (plan.id === currentSubscription?.scordiPlanId) return;

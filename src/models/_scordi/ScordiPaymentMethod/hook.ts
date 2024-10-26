@@ -25,5 +25,13 @@ const useScordiPaymentMethods = (
         });
     };
 
-    return {...methods, search: search2};
+    const fetchAll = () => {
+        return search2({
+            where: {},
+            order: {isActive: 'ASC', id: 'DESC'},
+            itemsPerPage: 0,
+        });
+    };
+
+    return {...methods, search: search2, fetchAll};
 };
