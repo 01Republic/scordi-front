@@ -22,8 +22,10 @@ export class ScordiPaymentMethodDto {
     @TypeCast(() => Date) authenticatedAt: Date; // 인증완료시각
     cardCompany: string; // 카드 발급사
     cardNumber: string; // 카드 번호 (마스킹됨)
+    @TypeCast(() => Date) expiredAt: Date | null; // 만료일시 (만료된 카드의 경우)
     @TypeCast(() => Date) createdAt: Date; // 생성일시
     @TypeCast(() => Date) updatedAt: Date; // 수정일시
+    @TypeCast(() => Date) deletedAt: Date | null; // 삭제 일시 (soft-delete)
     @TypeCast(() => TossPaymentsBillingDto) response: TossPaymentsBillingDto; // 빌링키 등록 결과 객체
     @TypeCast(() => OrganizationDto) organization?: OrganizationDto; // 조직
 
