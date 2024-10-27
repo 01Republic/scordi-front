@@ -20,7 +20,6 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
     const {orgId, isOpened, onClose} = props;
     const {scordiPlanList, fetch: fetchPlans} = useScordiPlanList();
     const {currentSubscription, update} = useCurrentScordiSubscription();
-    // const {reload} = useScheduledScordiSubscriptions();
     const {result} = useScordiPaymentMethodsInSettingPage();
     const {requestBillingAuth} = useTossPayments();
 

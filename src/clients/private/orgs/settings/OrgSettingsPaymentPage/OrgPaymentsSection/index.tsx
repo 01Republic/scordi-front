@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
-import {SettingsPaymentSection} from './SettingsPaymentSection';
+import {SettingsPaymentSection} from '../SettingsPaymentSection';
 
 interface OrgPaymentsSectionProps {
     orgId: number;

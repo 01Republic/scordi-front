@@ -1,10 +1,10 @@
 import React, {memo, useEffect, useState} from 'react';
 import {MdRefresh} from 'react-icons/md';
 import {useCurrentScordiSubscription} from '^models/_scordi/ScordiSubscription/hook';
-import {SettingsPaymentSection} from './SettingsPaymentSection';
+import {SettingsPaymentSection} from '../SettingsPaymentSection';
 import {SelectPlanModal} from './SelectPlanModal';
-import {OrgScordiSubscriptionItem} from './OrgPlanSection/OrgScordiSubscriptionItem';
-import {OrgScheduledSubscriptionList} from './OrgPlanSection/OrgScheduledSubscriptionList';
+import {OrgScordiSubscriptionItem} from './OrgScordiSubscriptionItem';
+import {OrgScheduledSubscriptionList} from './OrgScheduledSubscriptionList';
 
 interface OrgPlanSectionProps {
     orgId: number;
