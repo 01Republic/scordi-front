@@ -10,7 +10,7 @@ export const ScordiPaymentItemNotionType = memo((props: ScordiPaymentItemProps) 
     const {scordiPayment} = props;
 
     const onClick = () => {
-        console.log(scordiPayment);
+        // console.log(scordiPayment);
     };
 
     const currencyExchange = scordiPayment.currencyInfo?.code || CurrencyCode.KRW;

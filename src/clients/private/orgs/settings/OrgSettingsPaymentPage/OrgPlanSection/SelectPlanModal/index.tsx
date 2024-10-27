@@ -9,6 +9,7 @@ import {useScordiPaymentMethodsInSettingPage} from '^models/_scordi/ScordiPaymen
 import {ScordiPlayTypeSwitch} from './ScordiPlayTypeSwitch';
 import {ScordiPlanCard} from './ScordiPlanCard';
 import {confirm2} from '^components/util/dialog';
+import {useScordiPaymentsInSettingPage} from '^models/_scordi/ScordiPayment/hook';
 
 interface SelectPlanModalProps {
     orgId: number;
@@ -20,10 +21,16 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
     const {orgId, isOpened, onClose} = props;
     const {scordiPlanList, fetch: fetchPlans} = useScordiPlanList();
     const {currentSubscription, update} = useCurrentScordiSubscription();
-    const {result} = useScordiPaymentMethodsInSettingPage();
+    const {result, reload: reloadPaymentMethods} = useScordiPaymentMethodsInSettingPage();
+    const {reload: reloadPaymentHistories} = useScordiPaymentsInSettingPage();
     const {requestBillingAuth} = useTossPayments();
 
     const stepType = currentSubscription?.scordiPlan.stepType || ScordiPlanStepType.Month;
+
+    const reloadResources = async () => {
+        reloadPaymentMethods();
+        reloadPaymentHistories();
+    };
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
@@ -36,7 +43,7 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
     }, [orgId, isOpened, stepType]);
 
     const createSubscription = (orgId: number, planId: number) => {
-        return update(orgId, planId); //.then(() => reload(orgId));
+        return update(orgId, planId).then(() => reloadResources()); //.then(() => reload(orgId));
     };
 
     const changePlan = (plan: ScordiPlanDto) => {

@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {useScordiPaymentsInSettingPage} from '^models/_scordi/ScordiPayment/hook';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
@@ -14,6 +14,7 @@ export const OrgPaymentsSection = memo((props: OrgPaymentsSectionProps) => {
     const {orgId} = props;
     const router = useRouter();
     const {isLoading, result, search, isEmptyResult} = useScordiPaymentsInSettingPage();
+    const [uiVersion, setUiVersion] = useState<ScordiPaymentItemUIType>('default');
 
     useEffect(() => {
         if (!router.isReady) return;
@@ -25,10 +26,19 @@ export const OrgPaymentsSection = memo((props: OrgPaymentsSectionProps) => {
         });
     }, [orgId, router.isReady]);
 
-    const uiVersion: ScordiPaymentItemUIType = 'default';
+    const switchUIMode = () => {
+        setUiVersion((_v) => (_v === 'default' ? 'notion' : 'default'));
+    };
 
     return (
-        <SettingsPaymentSection title="결제 환불 내역" isLoading={isLoading}>
+        <SettingsPaymentSection
+            title={
+                <span>
+                    결제 환불 <span onClick={switchUIMode}>내</span>역
+                </span>
+            }
+            isLoading={isLoading}
+        >
             {isEmptyResult ? (
                 <EmptyTable message="아직 결제/환불 내역이 없어요." />
             ) : (

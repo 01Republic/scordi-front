@@ -11,6 +11,7 @@ import {createPaymentMethodQueryAtom} from '^models/_scordi/toss-payment/atom';
 import {useCurrentScordiSubscription} from '^models/_scordi/ScordiSubscription/hook';
 import {delay} from '^components/util/delay';
 import {useScordiPaymentMethodsInSettingPage} from '^models/_scordi/ScordiPaymentMethod/hook';
+import {useScordiPaymentsInSettingPage} from '^models/_scordi/ScordiPayment/hook';
 
 const parseQueryValue = (value: string | string[] | undefined): string => {
     return [value].flat().join(',') || '';
@@ -64,6 +65,12 @@ export const useTossPaymentAuthCallback = (orgId: number) => {
     const [reqBody, setReqBody] = useRecoilState(createPaymentMethodQueryAtom);
     const {update: createSubscription} = useCurrentScordiSubscription();
     const {reload: reloadPaymentMethods} = useScordiPaymentMethodsInSettingPage();
+    const {reload: reloadPaymentHistories} = useScordiPaymentsInSettingPage();
+
+    const reloadResources = async () => {
+        reloadPaymentMethods();
+        reloadPaymentHistories();
+    };
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
@@ -78,12 +85,12 @@ export const useTossPaymentAuthCallback = (orgId: number) => {
                 // 결제수단 변경 시퀀스 분기 처리
                 if (!selectedPlanId || isNaN(selectedPlanId)) {
                     toast.success('카드를 등록했어요');
-                    return replace(urlWithQuery()).then(() => reloadPaymentMethods()); // 흐름차단
+                    return replace(urlWithQuery()).then(() => reloadResources()); // 흐름차단
                 }
 
                 // 구독 등록 시퀀스 시작
                 return createSubscription(orgId, selectedPlanId).then(async () => {
-                    return replace(urlWithQuery()).then(() => reloadPaymentMethods()); // 흐름차단
+                    return replace(urlWithQuery()).then(() => reloadResources()); // 흐름차단
                 });
             });
         }

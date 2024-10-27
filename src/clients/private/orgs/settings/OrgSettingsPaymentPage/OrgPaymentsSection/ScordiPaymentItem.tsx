@@ -15,7 +15,7 @@ export const ScordiPaymentItem = memo((props: ScordiPaymentItemProps) => {
     const {scordiPayment, isLast = false, version = 'default'} = props;
 
     const onClick = () => {
-        console.log(scordiPayment);
+        // console.log(scordiPayment);
     };
 
     if (version === 'notion') return <ScordiPaymentItemNotionType scordiPayment={scordiPayment} isLast={isLast} />;
@@ -38,7 +38,10 @@ export const ScordiPaymentItem = memo((props: ScordiPaymentItemProps) => {
             <div>{t_scordiPaymentStatus(scordiPayment.status)}</div>
 
             {/*결제 금액*/}
-            <div>{scordiPayment.price.toLocaleString()}원</div>
+            <div>
+                {scordiPayment.price.toLocaleString()}
+                <span onClick={() => console.log(scordiPayment)}>원</span>
+            </div>
         </div>
     );
 });
