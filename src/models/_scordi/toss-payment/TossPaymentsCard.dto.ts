@@ -1,5 +1,5 @@
-import {cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
-import {CodefCardCompanyCode} from '^models/CodefAccount/type/enums';
+import {cardAccountsStaticData, getCardCompanyAlt} from '^models/CodefAccount/card-accounts-static-data';
+import {CodefCardCompanyCode, CodefCustomerType, CodefLoginType} from '^models/CodefAccount/type/enums';
 
 const CardCompanies = cardAccountsStaticData;
 
@@ -26,23 +26,37 @@ export class TossPaymentsCardDto {
     ownerType: TossPaymentsCardOwnerType; // 카드의 소유자 타입입니다. 개인, 법인 중 하나입니다.
 
     asCardCompany(cardCompanyCode: string) {
-        const dic: Record<string, CodefCardCompanyCode> = {
-            '41': CodefCardCompanyCode.신한카드,
-            '71': CodefCardCompanyCode.롯데카드,
-            '11': CodefCardCompanyCode.KB국민카드,
-            '31': CodefCardCompanyCode.BC카드,
-            '3K': CodefCardCompanyCode.BC카드,
-            '21': CodefCardCompanyCode.하나카드,
-            '51': CodefCardCompanyCode.삼성카드,
-            '33': CodefCardCompanyCode.우리카드,
-            W1: CodefCardCompanyCode.우리카드,
-            '61': CodefCardCompanyCode.현대카드,
-            '91': CodefCardCompanyCode.NH카드,
-        };
+        return getCardCompanyByCompanyCode(cardCompanyCode);
+    }
 
-        const param = dic[cardCompanyCode.toUpperCase()];
-        if (param) {
-            return CardCompanies.find((c) => c.param === param);
-        }
+    get issuerCompany() {
+        return getCardCompanyByCompanyCode(this.issuerCode);
+    }
+
+    get acquirerCompany() {
+        return getCardCompanyByCompanyCode(this.acquirerCode);
+    }
+}
+
+export function getCardCompanyByCompanyCode(cardCompanyCode: string) {
+    const dic: Record<string, CodefCardCompanyCode> = {
+        '41': CodefCardCompanyCode.신한카드,
+        '71': CodefCardCompanyCode.롯데카드,
+        '11': CodefCardCompanyCode.KB국민카드,
+        '31': CodefCardCompanyCode.BC카드,
+        '3K': CodefCardCompanyCode.BC카드,
+        '21': CodefCardCompanyCode.하나카드,
+        '51': CodefCardCompanyCode.삼성카드,
+        '33': CodefCardCompanyCode.우리카드,
+        W1: CodefCardCompanyCode.우리카드,
+        '61': CodefCardCompanyCode.현대카드,
+        '91': CodefCardCompanyCode.NH카드,
+    };
+
+    const param = dic[cardCompanyCode.toUpperCase()];
+    if (param) {
+        return CardCompanies.find((c) => c.param === param);
+    } else {
+        return getCardCompanyAlt(cardCompanyCode.toUpperCase());
     }
 }
