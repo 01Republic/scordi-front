@@ -15,7 +15,7 @@ export const DPaySecretCodePageRoute = pathRoute({
 });
 
 export const getStaticPaths = async () => ({
-    paths: [{params: {secretCode: ''}}],
+    paths: [{params: {secretCode: 'secretCode'}}],
     fallback: true,
 });
 
