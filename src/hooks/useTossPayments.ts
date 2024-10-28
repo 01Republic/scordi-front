@@ -9,19 +9,9 @@ import {scordiPaymentMethodApi} from '^models/_scordi/ScordiPaymentMethod/api';
 import {useRecoilState} from 'recoil';
 import {createPaymentMethodQueryAtom} from '^models/_scordi/toss-payment/atom';
 import {useCurrentScordiSubscription} from '^models/_scordi/ScordiSubscription/hook';
-import {delay} from '^components/util/delay';
 import {useScordiPaymentMethodsInSettingPage} from '^models/_scordi/ScordiPaymentMethod/hook';
 import {useScordiPaymentsInSettingPage} from '^models/_scordi/ScordiPayment/hook';
-
-const parseQueryValue = (value: string | string[] | undefined): string => {
-    return [value].flat().join(',') || '';
-};
-
-const urlWithQuery = (args: string[] = []) => {
-    const base = window.location.origin + window.location.pathname;
-    const query = args.join('&');
-    return [base, query].filter((e) => e).join('?');
-};
+import {parseQueryValue, urlWithQuery} from '^utils/get-query-params';
 
 export function useTossPayments() {
     const {currentUser} = useCurrentUser();

@@ -28,9 +28,9 @@ export function t_scordiPaymentStatus(status: ScordiPaymentStatus) {
  */
 export class ScordiPaymentDto {
     id: number; // 아이디
-    organizationId: number; // 조직 ID
-    scordiSubscriptionId: number; // 구독 ID
-    scordiPlanId: number; // 결제플랜 ID
+    organizationId: number | null; // 조직 ID
+    scordiSubscriptionId: number | null; // 구독 ID
+    scordiPlanId: number | null; // 결제플랜 ID
     planName: string; // 결제플랜명
     price: number; // 결제금액
     status: ScordiPaymentStatus; // 진행상태

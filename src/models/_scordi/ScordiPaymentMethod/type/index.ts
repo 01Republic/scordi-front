@@ -12,7 +12,7 @@ export enum PaymentProvider {
  */
 export class ScordiPaymentMethodDto {
     id: number; // 아이디
-    organizationId: number; // 조직 ID
+    organizationId: number | null; // 조직 ID
     provider: PaymentProvider; // PG
     // private mId: string; // 상점 ID
     isActive: boolean; // 활성 여부

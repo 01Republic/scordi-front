@@ -7,6 +7,8 @@ import {toast} from 'react-hot-toast';
 import {confirm2} from '^components/util/dialog';
 import {useScordiPaymentMethodsInSettingPage} from '^models/_scordi/ScordiPaymentMethod/hook';
 import {errorToast} from '^api/api';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
 
 interface ChangeIsActiveButtonProps {
     paymentMethod: ScordiPaymentMethodDto;
@@ -14,7 +16,8 @@ interface ChangeIsActiveButtonProps {
 
 export const ChangeIsActiveButton = memo((props: ChangeIsActiveButtonProps) => {
     const {paymentMethod} = props;
-    const {organizationId: orgId, id} = paymentMethod;
+    const orgId = useRecoilValue(orgIdParamState);
+    const {id} = paymentMethod;
     const {reload} = useScordiPaymentMethodsInSettingPage();
 
     const onClick = (isActive: boolean) => {
