@@ -74,18 +74,23 @@ export const SubscriptionListOfInvoiceAccountTabContent = memo(function Subscrip
                     </div>
 
                     <div className="flex items-center gap-2">
-                        <button
-                            className="btn btn-sm bg-white border-gray-300 hover:bg-white hover:border-gray-500 gap-2"
-                            onClick={() => setAddSubscriptionModalOpened(true)}
-                        >
-                            <FaPlus />
-                            <span>구독 연결하기</span>
-                        </button>
+                        {currentInvoiceAccount.isManuallyCreated && (
+                            <button
+                                className="btn btn-sm bg-white border-gray-300 hover:bg-white hover:border-gray-500 gap-2"
+                                onClick={() => setAddSubscriptionModalOpened(true)}
+                            >
+                                <FaPlus />
+                                <span>구독 연결하기</span>
+                            </button>
+                        )}
                     </div>
                 </div>
 
                 {isEmptyResult ? (
-                    <EmptyTable message="연결된 구독이 없어요." Buttons={AddSubscriptionButton} />
+                    <EmptyTable
+                        message="연결된 구독이 없어요."
+                        Buttons={currentInvoiceAccount.isManuallyCreated ? AddSubscriptionButton : undefined}
+                    />
                 ) : (
                     <ListTable
                         items={result.items}
