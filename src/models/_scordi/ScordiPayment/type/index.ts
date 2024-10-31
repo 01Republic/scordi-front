@@ -70,4 +70,5 @@ export class ScordiPaymentDto {
 }
 
 export * from './find-all.scordi-payment.query.dto';
+export * from './d-pay.find-all.scordi-payment.query.dto';
 export * from './CreateScordiPaymentWithCustomerKey.request.dto';

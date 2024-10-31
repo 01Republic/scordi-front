@@ -1,4 +1,8 @@
-import {FindAllScordiPaymentQueryDto, ScordiPaymentDto} from '^models/_scordi/ScordiPayment/type';
+import {
+    DPayFindAllScordiPaymentQueryDto,
+    FindAllScordiPaymentQueryDto,
+    ScordiPaymentDto,
+} from '^models/_scordi/ScordiPayment/type';
 import {api} from '^api/api';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 
@@ -28,5 +32,16 @@ export const scordiPaymentsApi = {
     destroy(orgId: number, id: number) {
         const url = `/orgs/${orgId}/billing/payments/${id}`;
         return api.delete(url).then(oneDtoOf(ScordiPaymentDto));
+    },
+};
+
+/**
+ * [D-Pay] 비회원 결제 API
+ */
+export const dPayScordiPaymentsApi = {
+    // 비회원 결제 조회
+    index(params?: DPayFindAllScordiPaymentQueryDto) {
+        const url = `/d-pay/payments`;
+        return api.get(url, {params}).then(paginatedDtoOf(ScordiPaymentDto));
     },
 };
