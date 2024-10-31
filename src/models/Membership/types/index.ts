@@ -3,6 +3,7 @@ import {OrganizationDto} from '^models/Organization/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';
 import {UserLocale} from '^models/User/types/UserLocale.enum';
+import {TeamMemberDto} from '^models/TeamMember';
 
 export enum MembershipLevel {
     MEMBER = 'MEMBER',
@@ -54,12 +55,13 @@ export class MembershipDto {
     // relations
     @TypeCast(() => OrganizationDto) organization: OrganizationDto;
     @TypeCast(() => UserDto) user: UserDto;
+    @TypeCast(() => TeamMemberDto) teamMember?: TeamMemberDto;
 }
 
-export type FindAllMembershipQuery = FindAllQueryDto<MembershipDto> & {
+export class FindAllMembershipQuery extends FindAllQueryDto<MembershipDto> {
     keyword?: string;
     includeAdmin?: boolean; // 결과에 어드민 멤버십을 포함할지 여부
-};
+}
 
 export type Invitation = {
     email: string;

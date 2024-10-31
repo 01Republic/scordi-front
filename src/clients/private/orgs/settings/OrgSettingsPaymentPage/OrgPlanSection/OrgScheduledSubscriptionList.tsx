@@ -47,7 +47,7 @@ export const OrgScheduledSubscriptionList = memo((props: OrgScheduledSubscriptio
 
     return (
         <div className={`pt-4 ${isLoading ? 'no-click opacity-30' : ''}`}>
-            <p className="text-12 font-semibold mb-1.5">다음으로 변경 예정</p>
+            <p className="text-12 font-semibold mb-1.5">다음 플랜</p>
             <div className="grid grid-cols-1 gap-2">
                 {result.map((item, i) => (
                     <OrgScheduledSubscriptionItem key={i} scordiSubscription={item} />

@@ -29,6 +29,7 @@ export const OrgSubscriptionSelectPage = memo(function OrgSubscriptionSelectPage
                                     className="flex items-center gap-2 cursor-pointer text-13 link link-hover text-gray-500 py-1 group"
                                     href={New_SaaS_Request_Form_Url}
                                     displayLoading={false}
+                                    target="_blank"
                                 >
                                     <IoIosHelpCircle fontSize={16} />
                                     <span>찾으시는 앱이 없나요?</span>

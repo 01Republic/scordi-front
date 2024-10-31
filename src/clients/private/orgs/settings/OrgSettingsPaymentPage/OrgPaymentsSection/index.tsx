@@ -14,7 +14,7 @@ export const OrgPaymentsSection = memo((props: OrgPaymentsSectionProps) => {
     const {orgId} = props;
     const router = useRouter();
     const {isLoading, result, search, isEmptyResult} = useScordiPaymentsInSettingPage();
-    const [uiVersion, setUiVersion] = useState<ScordiPaymentItemUIType>('default');
+    const [uiVersion, setUiVersion] = useState<ScordiPaymentItemUIType>('notion');
 
     useEffect(() => {
         if (!router.isReady) return;
@@ -40,7 +40,7 @@ export const OrgPaymentsSection = memo((props: OrgPaymentsSectionProps) => {
             isLoading={isLoading}
         >
             {isEmptyResult ? (
-                <EmptyTable message="아직 결제/환불 내역이 없어요." />
+                <EmptyTable message="결제/환불 내역이 없어요." />
             ) : (
                 <div className="grid grid-cols-1">
                     <ScordiPaymentHeader version={uiVersion} />

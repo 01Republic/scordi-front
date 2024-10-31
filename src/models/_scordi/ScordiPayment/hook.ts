@@ -1,13 +1,12 @@
-import {scordiPaymentsInSettingPageAtoms} from '^models/_scordi/ScordiPayment/atom';
+import {dPayPaymentsInPaymentListPageAtoms, scordiPaymentsInSettingPageAtoms} from '^models/_scordi/ScordiPayment/atom';
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
 import {
     CreateScordiPaymentWithCustomerKeyRequestDto,
     FindAllScordiPaymentQueryDto,
     ScordiPaymentDto,
 } from '^models/_scordi/ScordiPayment/type';
-import {postDirectPayApi, scordiPaymentsApi} from '^models/_scordi/ScordiPayment/api';
+import {dPayScordiPaymentsApi, postDirectPayApi, scordiPaymentsApi} from '^models/_scordi/ScordiPayment/api';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
-import {toast} from 'react-hot-toast';
 
 // 설정 - 결제관리 페이지 / 결제내역 섹션에서 사용
 export const useScordiPaymentsInSettingPage = () => useScordiPayments(scordiPaymentsInSettingPageAtoms);
@@ -36,5 +35,21 @@ export const usePostDirectPay = () => {
         //     toast.error();
         // },
     });
+
     return postDirectPayMutate;
+};
+
+// d-pay / 결제내역 페이지에서 사용
+export const useDPayPaymentsInPaymentListPage = () => useDPayScordiPayments(dPayPaymentsInPaymentListPageAtoms);
+
+const useDPayScordiPayments = (
+    atoms: PagedResourceAtoms<ScordiPaymentDto, FindAllScordiPaymentQueryDto>,
+    mergeMode = false,
+) => {
+    return usePagedResource(atoms, {
+        useOrgId: false,
+        endpoint: dPayScordiPaymentsApi.index,
+        getId: 'id',
+        mergeMode,
+    });
 };

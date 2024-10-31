@@ -61,7 +61,7 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
                 isLoading={isLoading}
                 isNotLoaded={isNotLoaded}
                 isEmptyResult={isEmptyResult}
-                emptyMessage="등록된 결제수단이 없어요."
+                emptyMessage="조회된 결제수단이 없어요."
                 EmptyButtons={AddCreditCardDropdown}
             >
                 <ListTable

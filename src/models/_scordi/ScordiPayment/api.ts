@@ -1,5 +1,6 @@
 import {
     CreateScordiPaymentWithCustomerKeyRequestDto,
+    DPayFindAllScordiPaymentQueryDto,
     FindAllScordiPaymentQueryDto,
     ScordiPaymentDto,
 } from '^models/_scordi/ScordiPayment/type';
@@ -55,4 +56,15 @@ export const postDirectPayApi = async (data: CreateScordiPaymentWithCustomerKeyR
     } catch (error: any) {
         throw error;
     }
+};
+
+/**
+ * [D-Pay] 비회원 결제 API
+ */
+export const dPayScordiPaymentsApi = {
+    // 비회원 결제 조회
+    index(params?: DPayFindAllScordiPaymentQueryDto) {
+        const url = `/d-pay/payments`;
+        return api.get(url, {params}).then(paginatedDtoOf(ScordiPaymentDto));
+    },
 };

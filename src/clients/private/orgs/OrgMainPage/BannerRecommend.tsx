@@ -9,7 +9,9 @@ export const BannerRecommend = memo(() => {
                     <br /> 추천해주세요.
                 </span>
                 <button className="w-48 h-10 bg-black flex items-center justify-center mt-2.5 rounded-[10px] hover:bg-white group">
-                    <span className="font-semibold text-sm text-white group-hover:text-black">소개하고 할인 받기</span>
+                    <span className="font-semibold text-sm text-white group-hover:text-black">
+                        다른 회사에 알려주기
+                    </span>
                 </button>
             </div>
         </div>
