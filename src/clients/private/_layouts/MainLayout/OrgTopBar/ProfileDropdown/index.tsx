@@ -24,6 +24,10 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
     });
     const [isProfileEditModalOpened, setIsProfileEditModalOpened] = useState(false);
 
+    const openChannelIO = () => {
+        window.open('https://scordi.channel.io/lounge', '_blank');
+    };
+
     if (!currentUser) return <></>;
 
     return (
@@ -69,8 +73,7 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                             <li>
                                 <a
                                     className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi"
-                                    href="https://scordi.channel.io/lounge"
-                                    target="_blank"
+                                    onClick={openChannelIO}
                                     rel="noopener noreferrer"
                                 >
                                     <AiOutlineQuestionCircle />
