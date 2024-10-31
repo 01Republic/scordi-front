@@ -1,5 +1,5 @@
-import React, {memo, useRef} from 'react';
-import {FieldErrors, useFormContext, UseFormRegister, UseFormSetFocus, UseFormWatch} from 'react-hook-form';
+import React, {memo} from 'react';
+import {UseFormRegister, UseFormSetFocus, FieldPath} from 'react-hook-form';
 import {WithChildren} from '^types/global.type';
 import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';
 
@@ -11,7 +11,10 @@ interface FormCardNumberProps extends WithChildren {
 export const FormCardNumber = memo((props: FormCardNumberProps) => {
     const {register, setFocus} = props;
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, nextField: string) => {
+    const handleInputChange = (
+        e: React.ChangeEvent<HTMLInputElement>,
+        nextField: FieldPath<CreateScordiPaymentWithCustomerKeyRequestDto>,
+    ) => {
         const value = e.target.value;
 
         if (value.length >= 4) {
@@ -38,7 +41,7 @@ export const FormCardNumber = memo((props: FormCardNumberProps) => {
                                     handleInputChange(e, 'cardNumberSecond');
                                 },
                             })}
-                            className="border w-full h-10 lg:h-11 rounded-lg pl-2"
+                            className="border w-full h-10 lg:h-11 rounded-lg pl-2 focus:border-[#6454FF]"
                             onInput={(e) => {
                                 const input = e.target as HTMLInputElement;
                                 input.value = input.value.replace(/[^0-9]/g, '');
@@ -59,7 +62,7 @@ export const FormCardNumber = memo((props: FormCardNumberProps) => {
                                     handleInputChange(e, 'cardNumberThird');
                                 },
                             })}
-                            className="border w-full h-10 lg:h-11 rounded-lg pl-2"
+                            className="border w-full h-10 lg:h-11 rounded-lg pl-2 focus:border-[#6454FF]"
                             onInput={(e) => {
                                 const input = e.target as HTMLInputElement;
                                 input.value = input.value.replace(/[^0-9]/g, '');
@@ -68,7 +71,7 @@ export const FormCardNumber = memo((props: FormCardNumberProps) => {
                     </label>
                     <label>
                         <input
-                            type="number"
+                            type="text"
                             {...register('cardNumberThird', {
                                 required: '카드번호를 다시 확인해주세요.',
                                 minLength: {
@@ -79,7 +82,7 @@ export const FormCardNumber = memo((props: FormCardNumberProps) => {
                                     handleInputChange(e, 'cardNumberFourth');
                                 },
                             })}
-                            className="border w-full h-10 lg:h-11 rounded-lg pl-2"
+                            className="border w-full h-10 lg:h-11 rounded-lg pl-2 focus:border-[#6454FF]"
                             onInput={(e) => {
                                 const input = e.target as HTMLInputElement;
                                 input.value = input.value.replace(/[^0-9]/g, '');
@@ -99,7 +102,7 @@ export const FormCardNumber = memo((props: FormCardNumberProps) => {
                                     handleInputChange(e, 'cardExpirationMonth');
                                 },
                             })}
-                            className="border w-full h-10 lg:h-11 rounded-lg pl-2"
+                            className="border w-full h-10 lg:h-11 rounded-lg pl-2 focus:border-[#6454FF]"
                             onInput={(e) => {
                                 const input = e.target as HTMLInputElement;
                                 input.value = input.value.replace(/[^0-9]/g, '');

@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {FieldErrors, useFormContext, UseFormRegister, UseFormWatch} from 'react-hook-form';
+import {FieldErrors, UseFormRegister, UseFormWatch} from 'react-hook-form';
 import cn from 'classnames';
 import {WithChildren} from '^types/global.type';
 import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';

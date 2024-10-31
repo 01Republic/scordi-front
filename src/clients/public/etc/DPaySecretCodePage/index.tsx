@@ -1,31 +1,25 @@
-import React, {memo, useCallback, useEffect, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
+import {useForm} from 'react-hook-form';
+import {usePostDirectPay} from '^models/_scordi/ScordiPayment/hook';
+import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';
 import {secretCodeParamsAtom} from './atom';
 import {useDPayPlanList} from './hook';
 import {DPayPageLayout} from './DPayPageLayout';
-import {FormCardNumber} from '^pages/direct-pay/[secretCode]/FormCardNumber';
-import {FormProvider, SubmitHandler, useForm} from 'react-hook-form';
-import {FormExpiryDate} from '^pages/direct-pay/[secretCode]/FormExpiryDate';
+import {Title} from './Title';
+import {PlanList} from './PlanList';
 import {CardInfoSection} from '^pages/direct-pay/[secretCode]/CardInfoSection';
 import {UserInfoSection} from '^pages/direct-pay/[secretCode]/CustomerInfoSection';
-import {usePostDirectPay} from '^models/_scordi/ScordiPayment/hook';
-import {CreateScordiPaymentWithCustomerKeyRequestDto, ScordiPaymentDto} from '^models/_scordi/ScordiPayment/type';
 
 export const DPaySecretCodePage = memo(function DPaySecretCodePage() {
     const secretCode = useRecoilValue(secretCodeParamsAtom);
     const postDirectPayMutate = usePostDirectPay();
     const {isLoading, plans, fetch} = useDPayPlanList();
-    const [currentStep, setCurrentStep] = useState<number>(1);
-
-    const {
-        register,
-        handleSubmit,
-        watch,
-        setFocus,
-        formState: {errors, isValid},
-    } = useForm<CreateScordiPaymentWithCustomerKeyRequestDto>();
+    const [currentStep, setCurrentStep] = useState(1);
+    const form = useForm<CreateScordiPaymentWithCustomerKeyRequestDto>();
 
     useEffect(() => {
+        if (!secretCode) return;
         fetch({
             where: {secretCode, isActive: true},
             itemsPerPage: 0,
@@ -34,10 +28,6 @@ export const DPaySecretCodePage = memo(function DPaySecretCodePage() {
 
     const onSubmit = (data: CreateScordiPaymentWithCustomerKeyRequestDto) => {
         data.cardNumber = data.cardNumberFirst + data.cardNumberSecond + data.cardNumberThird + data.cardNumberFourth;
-        if (!plans[0]) return;
-
-        console.log('보여줘', plans[0].id);
-        data.planId = plans[0].id;
         postDirectPayMutate(data);
     };
 
@@ -45,26 +35,21 @@ export const DPaySecretCodePage = memo(function DPaySecretCodePage() {
     const prevStep = () => setCurrentStep((prev) => prev - 1);
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            {currentStep === 1 && (
-                <UserInfoSection
-                    nextStep={nextStep}
-                    register={register}
-                    isValid={isValid}
-                    watch={watch}
-                    errors={errors}
-                />
-            )}
-            {currentStep === 2 && (
-                <CardInfoSection
-                    prevStep={prevStep}
-                    register={register}
-                    isValid={isValid}
-                    watch={watch}
-                    setFocus={setFocus}
-                    errors={errors}
-                />
-            )}
-        </form>
+        <DPayPageLayout>
+            <form className="w-full h-full" onSubmit={form.handleSubmit(onSubmit)}>
+                {currentStep === 1 && (
+                    <UserInfoSection form={form} nextStep={nextStep}>
+                        <Title line1="사용자 정보를" />
+                        <PlanList plans={plans} form={form} />
+                    </UserInfoSection>
+                )}
+                {currentStep === 2 && (
+                    <CardInfoSection form={form} prevStep={prevStep}>
+                        <Title line1="카드 정보를" />
+                        <PlanList plans={plans} form={form} />
+                    </CardInfoSection>
+                )}
+            </form>
+        </DPayPageLayout>
     );
 });

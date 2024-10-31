@@ -1,8 +1,7 @@
 import React, {memo} from 'react';
-import {FieldErrors, FormProvider, useForm, UseFormRegister, UseFormWatch} from 'react-hook-form';
+import {UseFormReturn} from 'react-hook-form';
 import cn from 'classnames';
 import {WithChildren} from '^types/global.type';
-import {DPayPageLayout} from '^clients/public/etc/DPaySecretCodePage/DPayPageLayout';
 import {FormCustomerPhone} from '^pages/direct-pay/[secretCode]/FormCustomerPhone';
 import {FormCustomerName} from '^pages/direct-pay/[secretCode]/FormCustomerName';
 import {FormCustomerEmail} from '^pages/direct-pay/[secretCode]/FormCustomerEmail';
@@ -10,14 +9,13 @@ import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/Scor
 
 interface CustomerInfoSection extends WithChildren {
     nextStep: () => void;
-    register: UseFormRegister<CreateScordiPaymentWithCustomerKeyRequestDto>;
-    isValid: boolean;
-    watch: UseFormWatch<CreateScordiPaymentWithCustomerKeyRequestDto>;
-    errors: FieldErrors<CreateScordiPaymentWithCustomerKeyRequestDto>;
+    form: UseFormReturn<CreateScordiPaymentWithCustomerKeyRequestDto, any>;
 }
 
 export const UserInfoSection = memo((props: CustomerInfoSection) => {
-    const {nextStep, register, isValid, watch, errors} = props;
+    const {nextStep, form, children} = props;
+    const {register, watch, formState} = form;
+    const {errors, isValid} = formState;
 
     const customerName = watch('customerName');
     const customerEmail = watch('customerEmail');
@@ -32,8 +30,10 @@ export const UserInfoSection = memo((props: CustomerInfoSection) => {
         !errors.customerPhone;
 
     return (
-        <DPayPageLayout title="사용자 정보를">
-            <>
+        <article className="p-8 flex flex-col lg:flex-row gap-8 lg:gap-16 h-full">
+            <section className="w-full lg:w-1/3">{children}</section>
+
+            <section className="w-full lg:w-2/3 h-full">
                 <div className="w-full h-full flex flex-col justify-between text-sm">
                     <article className="flex flex-col gap-5">
                         <FormCustomerName register={register} watch={watch} errors={errors} />
@@ -52,7 +52,7 @@ export const UserInfoSection = memo((props: CustomerInfoSection) => {
                         다음
                     </button>
                 </div>
-            </>
-        </DPayPageLayout>
+            </section>
+        </article>
     );
 });

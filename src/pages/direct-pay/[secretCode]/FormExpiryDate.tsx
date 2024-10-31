@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {useFormContext, UseFormRegister, UseFormSetFocus} from 'react-hook-form';
+import {UseFormRegister, UseFormSetFocus, FieldPath} from 'react-hook-form';
 import {WithChildren} from '^types/global.type';
 import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';
 
@@ -11,7 +11,10 @@ interface FormExpiryDateProps extends WithChildren {
 export const FormExpiryDate = memo((props: FormExpiryDateProps) => {
     const {register, setFocus} = props;
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, nextField: string) => {
+    const handleInputChange = (
+        e: React.ChangeEvent<HTMLInputElement>,
+        nextField: FieldPath<CreateScordiPaymentWithCustomerKeyRequestDto>,
+    ) => {
         const value = e.target.value;
 
         if (value.length >= 2) {
@@ -23,7 +26,10 @@ export const FormExpiryDate = memo((props: FormExpiryDateProps) => {
     return (
         <div className="w-full">
             <div className="flex flex-col">
-                <span>유효기간 </span>
+                <p>
+                    <span>유효기간</span>
+                    <small className="ml-2">예) 02/27</small>
+                </p>
                 <section className="flex gap-2 mt-2">
                     <label htmlFor="cardExpirationMonth">
                         <input
@@ -39,7 +45,7 @@ export const FormExpiryDate = memo((props: FormExpiryDateProps) => {
                                     handleInputChange(e, 'cardExpirationYear');
                                 },
                             })}
-                            className="border w-20 h-10 lg:h-11 rounded-lg pl-4"
+                            className="border w-20 h-10 lg:h-11 rounded-lg pl-4 focus:border-[#6454FF]"
                             onInput={(e) => {
                                 const input = e.target as HTMLInputElement;
                                 input.value = input.value.replace(/[^0-9]/g, '');
@@ -60,7 +66,7 @@ export const FormExpiryDate = memo((props: FormExpiryDateProps) => {
                                     handleInputChange(e, 'cardPassword');
                                 },
                             })}
-                            className="border w-20 h-10 lg:h-11 rounded-lg pl-4"
+                            className="border w-20 h-10 lg:h-11 rounded-lg pl-4 focus:border-[#6454FF]"
                             onInput={(e) => {
                                 const input = e.target as HTMLInputElement;
                                 input.value = input.value.replace(/[^0-9]/g, '');
