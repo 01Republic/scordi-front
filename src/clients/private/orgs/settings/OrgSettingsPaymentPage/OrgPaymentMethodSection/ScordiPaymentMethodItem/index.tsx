@@ -11,10 +11,11 @@ import {ScordiPaymentMethodRemoveButton} from './ScordiPaymentMethodRemoveButton
 
 interface ScordiPaymentMethodItemProps {
     data: ScordiPaymentMethodDto;
+    changeIsActiveButtonShow?: boolean;
 }
 
 export const ScordiPaymentMethodItem = memo((props: ScordiPaymentMethodItemProps) => {
-    const {data: paymentMethod} = props;
+    const {data: paymentMethod, changeIsActiveButtonShow = false} = props;
 
     const company = paymentMethod.asCardCompany();
     const card = paymentMethod.response.card;
@@ -57,9 +58,11 @@ export const ScordiPaymentMethodItem = memo((props: ScordiPaymentMethodItemProps
                         )}
                         Content={() => (
                             <ul className="dropdown-content menu px-0 py-1 shadow-xl text-13 bg-base-100 border rounded-md min-w-32">
-                                <li>
-                                    <ChangeIsActiveButton paymentMethod={paymentMethod} />
-                                </li>
+                                {changeIsActiveButtonShow && (
+                                    <li>
+                                        <ChangeIsActiveButton paymentMethod={paymentMethod} />
+                                    </li>
+                                )}
                                 <li>
                                     <ScordiPaymentMethodRemoveButton paymentMethod={paymentMethod} />
                                 </li>

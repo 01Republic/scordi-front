@@ -43,10 +43,14 @@ export const OrgPaymentMethodSection = memo((props: OrgPaymentMethodSectionProps
             ) : (
                 <div className="flex flex-col gap-4">
                     <div>
-                        {result.items.length > 1 && <p className="text-12 font-semibold mb-1.5">주 결제 수단</p>}
+                        {result.items.length > 1 && <p className="text-12 font-semibold mb-1.5">메인 카드</p>}
                         <div className="grid grid-cols-1 gap-2">
                             {activeItems.map((item, i) => (
-                                <ScordiPaymentMethodItem data={item} key={i} />
+                                <ScordiPaymentMethodItem
+                                    key={i}
+                                    data={item}
+                                    changeIsActiveButtonShow={activeItems.length > 0 || inactiveItems.length > 0}
+                                />
                             ))}
                         </div>
                     </div>
@@ -54,11 +58,11 @@ export const OrgPaymentMethodSection = memo((props: OrgPaymentMethodSectionProps
                     {!!inactiveItems.length && (
                         <div>
                             <p className="text-12 font-semibold mb-1.5">
-                                보조 결제 수단 ({inactiveItems.length.toLocaleString()})
+                                서브 카드 ({inactiveItems.length.toLocaleString()})
                             </p>
                             <div className="grid grid-cols-1 gap-2">
                                 {inactiveItems.map((item, i) => (
-                                    <ScordiPaymentMethodItem key={i} data={item} />
+                                    <ScordiPaymentMethodItem key={i} data={item} changeIsActiveButtonShow />
                                 ))}
                             </div>
                         </div>

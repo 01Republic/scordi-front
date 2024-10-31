@@ -20,12 +20,12 @@ export const SubscriptionInfoSection = memo((props: SubscriptionInfoSectionProps
 
     return (
         <OrgSettingsListSection
-            title="결제"
+            title="구독"
             buttonHref={OrgSettingsPaymentPageRoute.path(orgId)}
             isLoading={isLoading}
             items={[
-                {title: '구독중인 플랜', desc: currentSubscription?.scordiPlan.name || 'scordi 무료 체험'},
-                {title: '다음 결제일', desc: nextDate ? yyyy_mm_dd(nextDate) : '-'},
+                {title: '플랜', desc: currentSubscription?.scordiPlan.name || 'scordi 무료 체험'},
+                {title: '갱신일', desc: nextDate ? yyyy_mm_dd(nextDate) : '-'},
             ]}
         />
     );

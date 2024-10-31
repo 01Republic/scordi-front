@@ -33,8 +33,8 @@ export const OrgScheduledSubscriptionItem = memo((props: OrgScheduledSubscriptio
 
                 {scordiSubscription.startAt && scordiSubscription.finishAt ? (
                     <div className="flex items-center gap-1.5">
-                        <span className="text-gray-500">적용예정 :</span>
-                        <span>{yyyy_mm_dd(scordiSubscription.startAt, '. ')} ~ </span>
+                        <span className="text-gray-500">변경 예정일 :</span>
+                        <span>{yyyy_mm_dd(scordiSubscription.startAt, '. ')}</span>
                     </div>
                 ) : (
                     ''

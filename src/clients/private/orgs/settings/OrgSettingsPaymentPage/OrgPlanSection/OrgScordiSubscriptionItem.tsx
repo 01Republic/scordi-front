@@ -18,30 +18,33 @@ export const OrgScordiSubscriptionItem = memo((props: OrgScordiSubscriptionItemP
                     {scordiSubscription.scordiPlan.price === 0 ? (
                         <span>(무료{scordiSubscription.scordiPlan.regularPrice > 0 ? ' (할인됨)' : ''})</span>
                     ) : (
-                        <span>({t_planStepType(scordiSubscription.scordiPlan.stepType)} 정기구독)</span>
+                        <span>
+                            ({t_planStepType(scordiSubscription.scordiPlan.stepType)} 정기구독 /{' '}
+                            {scordiSubscription.scordiPlan.price.toLocaleString()}원)
+                        </span>
                     )}
                 </div>
             </div>
 
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5">
-                    <span className="text-gray-500">다음 결제일 :</span>
+                    <span className="text-gray-500">다음 갱신일 :</span>
                     <span>
                         {scordiSubscription.getNextDate() ? yyyy_mm_dd(scordiSubscription.getNextDate()!, '. ') : '-'}
                     </span>
                 </div>
 
-                {scordiSubscription.startAt && scordiSubscription.finishAt ? (
-                    <div className="flex items-center gap-1.5">
-                        <span className="text-gray-500">이용기간 :</span>
-                        <span>
-                            {yyyy_mm_dd(scordiSubscription.startAt, '. ')} ~{' '}
-                            {yyyy_mm_dd(scordiSubscription.finishAt, '. ')}
-                        </span>
-                    </div>
-                ) : (
-                    ''
-                )}
+                {/*{scordiSubscription.startAt && scordiSubscription.finishAt ? (*/}
+                {/*    <div className="flex items-center gap-1.5">*/}
+                {/*        <span className="text-gray-500">이용기간 :</span>*/}
+                {/*        <span>*/}
+                {/*            {yyyy_mm_dd(scordiSubscription.startAt, '. ')} ~{' '}*/}
+                {/*            {yyyy_mm_dd(scordiSubscription.finishAt, '. ')}*/}
+                {/*        </span>*/}
+                {/*    </div>*/}
+                {/*) : (*/}
+                {/*    ''*/}
+                {/*)}*/}
             </div>
         </div>
     );
