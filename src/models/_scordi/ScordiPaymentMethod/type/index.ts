@@ -49,3 +49,4 @@ export class ScordiPaymentMethodDto {
 export * from './FindAllScordiPaymentMethod.query.dto';
 export * from './CreateScordiPaymentMethod.request.dto';
 export * from './UpdateScordiPaymentMethod.request.dto';
+export * from './CreateScordiPaymentMethodByCustomerKey.request.dto';

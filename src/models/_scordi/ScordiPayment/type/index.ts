@@ -34,6 +34,11 @@ export class ScordiPaymentDto {
     planName: string; // 결제플랜명
     price: number; // 결제금액
     status: ScordiPaymentStatus; // 진행상태
+    customerName: string; // 결제자 이름 또는 조직명
+    customerPhone: string; // 결제자 연락처
+    customerEmail: string; // 청구서 수신 메일
+    customerIdentityNumber: string | null; // 사용자가 입력한 생년월일(YYMMDD) 또는 사업자번호 10자리
+    cardNumber: string | null; // 사용자가 입력한 결제 카드 번호
     @TypeCast(() => TossPaymentsPaymentDto) response: TossPaymentsPaymentDto | null; // 응답메세지
     @TypeCast(() => Date) createdAt: Date; // 생성일시
     @TypeCast(() => Date) updatedAt: Date; // 수정일시
@@ -65,3 +70,4 @@ export class ScordiPaymentDto {
 }
 
 export * from './find-all.scordi-payment.query.dto';
+export * from './CreateScordiPaymentWithCustomerKey.request.dto';
