@@ -9,25 +9,32 @@ import {ListTable, ListTableContainer} from '^clients/private/_components/table/
 import {useMembershipInMembershipTable} from '^models/Membership/hook';
 import {OrgMembersTableHeader} from './members/OrgMembersTableHeader';
 import {OrgMembersTableRow} from './members/OrgMembersTableRow';
+import {FindAllMembershipQuery, MembershipLevel} from '^models/Membership/types';
 
 export const OrgSettingsMemberPage = memo(function () {
     const orgId = useRecoilValue(orgIdParamState);
-    // const teamId = useRouterIdParamState('teamId', teamIdParamState);
-
     const {search, result, isLoading, isNotLoaded, isEmptyResult, movePage, changePageSize, reload, orderBy} =
         useMembershipInMembershipTable();
     const [isOpened, setIsOpened] = useState(false);
 
-    const onSearch = (keyword?: string) => {
-        search({
-            relations: ['teamMember', 'teamMember.membership'],
-            where: {organizationId: orgId},
-            keyword,
+    const fetchAll = (params: FindAllMembershipQuery) => {
+        return search({
+            relations: ['user', 'teamMember'],
+            ...params,
+            where: {
+                organizationId: orgId,
+                level: {op: 'not', val: MembershipLevel.ADMIN},
+                userId: {op: 'not', val: 'NULL'},
+                ...params.where,
+            },
+            includeAdmin: true,
         });
     };
 
+    const onSearch = (keyword?: string) => fetchAll({keyword});
+
     useEffect(() => {
-        !!orgId && search({where: {organizationId: orgId}, relations: ['teamMember', 'teamMember.membership']});
+        !!orgId && fetchAll({});
     }, [orgId]);
 
     return (
@@ -41,7 +48,7 @@ export const OrgSettingsMemberPage = memo(function () {
             <div className={'text-xl font-bold my-4'}>멤버 관리</div>
             <div className={'flex items-center justify-between pb-4'}>
                 <div>
-                    전체 <span className={'text-scordi-500'}>{result.pagination.totalItemCount}</span>
+                    전체 <span className={'text-scordi-500'}>{result.pagination.totalItemCount.toLocaleString()}</span>
                 </div>
                 <div className={'flex space-x-4'}>
                     <ListPageSearchInput onSearch={onSearch} placeholder={'검색어를 입력해주세요'} />
@@ -68,7 +75,7 @@ export const OrgSettingsMemberPage = memo(function () {
                     items={result.items}
                     isLoading={isLoading}
                     Header={() => <OrgMembersTableHeader orderBy={orderBy} />}
-                    Row={({item}) => <OrgMembersTableRow teamMember={item.user} reload={reload} />}
+                    Row={({item}) => <OrgMembersTableRow membership={item} reload={reload} />}
                 />
             </ListTableContainer>
         </OrgSettingsLayout>
