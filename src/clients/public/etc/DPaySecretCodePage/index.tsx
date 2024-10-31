@@ -1,12 +1,29 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {secretCodeParamsAtom} from './atom';
 import {useDPayPlanList} from './hook';
 import {DPayPageLayout} from './DPayPageLayout';
+import {FormCardNumber} from '^pages/direct-pay/[secretCode]/FormCardNumber';
+import {FormProvider, SubmitHandler, useForm} from 'react-hook-form';
+import {FormExpiryDate} from '^pages/direct-pay/[secretCode]/FormExpiryDate';
+import {CardInfoSection} from '^pages/direct-pay/[secretCode]/CardInfoSection';
+import {UserInfoSection} from '^pages/direct-pay/[secretCode]/CustomerInfoSection';
+import {usePostDirectPay} from '^models/_scordi/ScordiPayment/hook';
+import {CreateScordiPaymentWithCustomerKeyRequestDto, ScordiPaymentDto} from '^models/_scordi/ScordiPayment/type';
 
 export const DPaySecretCodePage = memo(function DPaySecretCodePage() {
     const secretCode = useRecoilValue(secretCodeParamsAtom);
+    const postDirectPayMutate = usePostDirectPay();
     const {isLoading, plans, fetch} = useDPayPlanList();
+    const [currentStep, setCurrentStep] = useState<number>(1);
+
+    const {
+        register,
+        handleSubmit,
+        watch,
+        setFocus,
+        formState: {errors, isValid},
+    } = useForm<CreateScordiPaymentWithCustomerKeyRequestDto>();
 
     useEffect(() => {
         fetch({
@@ -15,37 +32,39 @@ export const DPaySecretCodePage = memo(function DPaySecretCodePage() {
         });
     }, [secretCode]);
 
-    return (
-        <DPayPageLayout>
-            <div className="flex flex-col h-full gap-4 bg-gray-100">
-                <div className="px-8 py-8 bg-white shadow">
-                    <br />
-                    <br />
-                    <br />
-                    <h2 className="text-2xl">
-                        어느 것을
-                        <br />
-                        결제할까요?
-                    </h2>
-                    <br />
-                </div>
+    const onSubmit = (data: CreateScordiPaymentWithCustomerKeyRequestDto) => {
+        data.cardNumber = data.cardNumberFirst + data.cardNumberSecond + data.cardNumberThird + data.cardNumberFourth;
+        if (!plans[0]) return;
 
-                <div className="px-8 py-8 bg-white flex-grow flex flex-col gap-1">
-                    {plans.map((plan, i) => {
-                        return (
-                            <label
-                                key={i}
-                                className="rounded-lg p-4 -mx-4 hover:bg-slate-50 transition cursor-pointer group checked:bg-slate-100"
-                            >
-                                <div className="flex items-center gap-4">
-                                    <input type="radio" name="planId" className="radio radio-primary" value={plan.id} />
-                                    <p className="text-14 font-semibold">{plan.name}</p>
-                                </div>
-                            </label>
-                        );
-                    })}
-                </div>
-            </div>
-        </DPayPageLayout>
+        console.log('보여줘', plans[0].id);
+        data.planId = plans[0].id;
+        postDirectPayMutate(data);
+    };
+
+    const nextStep = () => setCurrentStep((prev) => prev + 1);
+    const prevStep = () => setCurrentStep((prev) => prev - 1);
+
+    return (
+        <form onSubmit={handleSubmit(onSubmit)}>
+            {currentStep === 1 && (
+                <UserInfoSection
+                    nextStep={nextStep}
+                    register={register}
+                    isValid={isValid}
+                    watch={watch}
+                    errors={errors}
+                />
+            )}
+            {currentStep === 2 && (
+                <CardInfoSection
+                    prevStep={prevStep}
+                    register={register}
+                    isValid={isValid}
+                    watch={watch}
+                    setFocus={setFocus}
+                    errors={errors}
+                />
+            )}
+        </form>
     );
 });
