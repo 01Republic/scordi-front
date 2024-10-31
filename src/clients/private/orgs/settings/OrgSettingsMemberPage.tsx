@@ -67,7 +67,7 @@ export const OrgSettingsMemberPage = memo(function () {
                 isLoading={isLoading}
                 isNotLoaded={isNotLoaded}
                 isEmptyResult={isEmptyResult}
-                emptyMessage="조회된 구성원이 없어요."
+                emptyMessage="구성원이 없어요."
                 emptyButtonText="구성원 등록"
                 emptyButtonOnClick={() => setIsOpened(true)}
             >

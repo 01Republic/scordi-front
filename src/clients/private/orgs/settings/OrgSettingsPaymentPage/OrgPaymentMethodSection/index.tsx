@@ -37,7 +37,7 @@ export const OrgPaymentMethodSection = memo((props: OrgPaymentMethodSectionProps
         >
             {isEmptyResult ? (
                 <EmptyTable
-                    message="조회된 카드 정보가 없어요."
+                    message="카드 정보가 없어요."
                     Buttons={() => <NewPaymentMethodButton onClick={() => requestBillingAuth()} />}
                 />
             ) : (

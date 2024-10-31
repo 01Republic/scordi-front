@@ -33,7 +33,7 @@ export const ScordiPlanCardButton = memo((props: ScordiPlanCardButtonProps) => {
                         confirm2('예정된 플랜을 취소할까요?').then((res) => {
                             if (res.isConfirmed) {
                                 // scordiSubscriptionApi
-                                toast.success('취소했어요');
+                                toast.success('예정된 플랜을 취소 했어요');
                             }
                         })
                     }

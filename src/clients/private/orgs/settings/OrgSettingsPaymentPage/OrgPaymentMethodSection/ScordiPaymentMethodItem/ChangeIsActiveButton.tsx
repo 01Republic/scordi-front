@@ -31,7 +31,7 @@ export const ChangeIsActiveButton = memo((props: ChangeIsActiveButtonProps) => {
             scordiPaymentMethodApi
                 .update(orgId, id, {isActive})
                 .then((res) => {
-                    toast.success('수정했어요');
+                    toast.success('수정이 완료됐어요');
                     reload();
                 })
                 .catch(errorToast);
