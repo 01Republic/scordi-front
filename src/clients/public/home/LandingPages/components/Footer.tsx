@@ -83,7 +83,11 @@ export const BetaServiceFooter = memo(() => {
                             <div className="pt-[24px] sm:pt-0 pb-[30px]">
                                 <p className="text-[15px] font-semibold mb-[16px]">사이트</p>
                                 <ul className="menu gap-2 text-[13px] text-gray-500">
-                                    <TermLinkItem name="미등록 서비스 제보하기" href={New_SaaS_Request_Form_Url} />
+                                    <TermLinkItem
+                                        name="미등록 서비스 제보하기"
+                                        href={New_SaaS_Request_Form_Url}
+                                        target="_blank"
+                                    />
                                     <TermLinkItem
                                         href="https://api.scordi.io/terms/serviceUsageTerm-v20221101-1.txt"
                                         name={t('terms.serviceUsage')}
