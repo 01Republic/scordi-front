@@ -14,7 +14,7 @@ export const OrgPaymentsSection = memo((props: OrgPaymentsSectionProps) => {
     const {orgId} = props;
     const router = useRouter();
     const {isLoading, result, search, isEmptyResult} = useScordiPaymentsInSettingPage();
-    const [uiVersion, setUiVersion] = useState<ScordiPaymentItemUIType>('default');
+    const [uiVersion, setUiVersion] = useState<ScordiPaymentItemUIType>('notion');
 
     useEffect(() => {
         if (!router.isReady) return;
