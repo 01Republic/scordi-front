@@ -14,8 +14,13 @@ export const PlanList = memo((props: PlanListProps) => {
     const [selectedPlanId, setSelectedPlanId] = useState(NaN);
 
     useEffect(() => {
-        if (plans && plans.length) setSelectedPlanId(plans[0].id);
+        if (plans && plans.length) {
+            form.setValue('planId', plans[0].id);
+            setSelectedPlanId(plans[0].id);
+        }
     }, [plans]);
+
+    useEffect(() => {}, []);
 
     const onClick = (plan: ScordiPlanDto) => {
         form.setValue('planId', plan.id);

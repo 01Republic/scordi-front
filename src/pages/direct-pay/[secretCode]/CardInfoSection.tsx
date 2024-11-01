@@ -18,15 +18,29 @@ interface CardInfoSectionProps extends WithChildren {
 export const CardInfoSection = memo((props: CardInfoSectionProps) => {
     const {form, prevStep, children} = props;
     const {register, watch, setFocus, formState} = form;
-    const {errors, isValid} = formState;
-    const [cardType, setCardType] = useState('개인카드');
+    const {errors} = formState;
+    const [isPersonal, setIsPersonal] = useState(true);
     const {isPending} = usePostDirectPay();
 
-    const selectCardType = (cardType: string) => {
-        setCardType(cardType);
+    const checkValid = (data: CreateScordiPaymentWithCustomerKeyRequestDto) => {
+        return (
+            data.planId &&
+            data.customerName &&
+            data.customerEmail &&
+            data.customerPhone &&
+            data.cardNumberFirst &&
+            data.cardNumberSecond &&
+            data.cardNumberThird &&
+            data.cardNumberFourth &&
+            data.cardExpirationMonth &&
+            data.cardExpirationYear &&
+            data.cardPassword &&
+            data.agree &&
+            data.customerIdentityNumber
+        );
     };
 
-    const customerName = watch('cardNumberFirst');
+    const isValid = checkValid(watch());
 
     return (
         <article className="p-8 flex flex-col lg:flex-row gap-8 lg:gap-16 h-full">
@@ -37,50 +51,50 @@ export const CardInfoSection = memo((props: CardInfoSectionProps) => {
                     <section className="flex flex-col gap-5">
                         <article className="flex flex-col">
                             <div className="flex items-center gap-8 lg:gap-8">
-                                <label key="개인카드" className="flex gap-1.5">
+                                <label key="개인카드" className="flex gap-1.5" onClick={() => setIsPersonal(true)}>
                                     <input
                                         type="radio"
                                         key="개인카드"
                                         className="mr-2 hidden"
-                                        {...register('personalCard', {required: true})}
-                                        onClick={() => selectCardType('개인카드')}
+                                        defaultChecked={isPersonal}
+                                        name="isPersonal"
                                     />
                                     <div className="flex items-center justify-center w-6 h-6">
                                         <div
                                             className={cn('w-5 h-5 rounded-full flex items-center justify-center', {
-                                                'bg-blue-600': cardType === '개인카드',
-                                                'bg-white border-2 border-gray-200 ': cardType !== '개인카드',
+                                                'bg-blue-600': isPersonal,
+                                                'bg-white border-2 border-gray-200 ': !isPersonal,
                                             })}
                                         >
                                             <div
                                                 className={cn('w-[10px] h-[10px]  rounded-full', {
-                                                    'bg-white': cardType === '개인카드',
-                                                    'bg-gray-200': cardType !== '개인카드',
+                                                    'bg-white': isPersonal,
+                                                    'bg-gray-200': !isPersonal,
                                                 })}
                                             />
                                         </div>
                                     </div>
                                     <p className="whitespace-normal w-full">개인카드</p>
                                 </label>
-                                <label key="법인카드" className="flex gap-1.5">
+                                <label key="법인카드" className="flex gap-1.5" onClick={() => setIsPersonal(false)}>
                                     <input
                                         type="radio"
                                         key="법인카드"
                                         className="mr-2 hidden"
-                                        {...register('businessCard', {required: true})}
-                                        onClick={() => selectCardType('법인카드')}
+                                        defaultChecked={!isPersonal}
+                                        name="isPersonal"
                                     />
                                     <div className="flex items-center justify-center w-6 h-6">
                                         <div
                                             className={cn('w-5 h-5 rounded-full flex items-center justify-center', {
-                                                'bg-blue-600 ': cardType === '법인카드',
-                                                'bg-white border-2 border-gray-200 ': cardType !== '법인카드',
+                                                'bg-blue-600 ': !isPersonal,
+                                                'bg-white border-2 border-gray-200 ': isPersonal,
                                             })}
                                         >
                                             <div
                                                 className={cn('w-[10px] h-[10px]  rounded-full', {
-                                                    'bg-white': cardType === '법인카드',
-                                                    'bg-gray-200': cardType !== '법인카드',
+                                                    'bg-white': !isPersonal,
+                                                    'bg-gray-200': isPersonal,
                                                 })}
                                             />
                                         </div>
@@ -89,7 +103,7 @@ export const CardInfoSection = memo((props: CardInfoSectionProps) => {
                                 </label>
                             </div>
                             <div className="lg:mt-1 h-2 mb-4">
-                                {cardType === '법인카드' && (
+                                {!isPersonal && (
                                     <p className="text-gray-400 ">
                                         개인 명의의 법인 카드일 경우 개인 카드로 등록해주세요
                                     </p>
@@ -99,26 +113,22 @@ export const CardInfoSection = memo((props: CardInfoSectionProps) => {
                         <FormCardNumber setFocus={setFocus} register={register} />
                         <FormExpiryDate setFocus={setFocus} register={register} />
                         <FormCardPassword register={register} />
-                        {cardType === '개인카드' ? (
-                            <FormBirthDay register={register} />
-                        ) : (
-                            <FormBusinessNumber register={register} />
-                        )}
+                        {isPersonal ? <FormBirthDay register={register} /> : <FormBusinessNumber register={register} />}
                     </section>
-                    <div>
-                        <label>
+                    <div className="mt-10">
+                        <label className="mb-6">
                             <input type="checkbox" {...register('agree', {required: true})} />
                             <span className="ml-2">[필수] 서비스 이용 약관, 개인정보 처리 동의</span>
                         </label>
 
                         {isPending ? (
-                            <section className="mt-2">
+                            <section className="mt-6">
                                 <button disabled className="w-full bg-gray-300 rounded-md h-10 text-white">
                                     결제 요청 중 ...
                                 </button>
                             </section>
                         ) : (
-                            <section className="flex gap-2 mt-2">
+                            <section className="flex gap-2 mt-6">
                                 <button
                                     type="button"
                                     className="w-full bg-[#6454FF] rounded-md h-10 text-white"
