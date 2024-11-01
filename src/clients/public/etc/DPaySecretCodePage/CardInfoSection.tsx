@@ -25,18 +25,18 @@ export const CardInfoSection = memo((props: CardInfoSectionProps) => {
 
     const checkValid = (data: CreateScordiPaymentWithCustomerKeyRequestDto) => {
         if (!data.planId) return false;
-        if (data.customerName.length < 2) return false;
-        if (!emailValid(data.customerEmail)) return false;
-        if (data.customerPhone.length < 10 || data.customerPhone.length > 11) return false;
-        if (data.cardNumberFirst.length !== 4) return false;
-        if (data.cardNumberSecond.length !== 4) return false;
-        if (data.cardNumberThird.length !== 4) return false;
-        if (![4, 5].includes(data.cardNumberFourth.length)) return false;
-        if (data.cardExpirationMonth.length !== 2) return false;
-        if (data.cardExpirationYear.length !== 2) return false;
-        if (data.cardPassword.length !== 2) return false;
+        if ((data.customerName || '').length < 2) return false;
+        if (!emailValid(data.customerEmail || '')) return false;
+        if ((data.customerPhone || '').length < 10 || (data.customerPhone || '').length > 11) return false;
+        if ((data.cardNumberFirst || '').length !== 4) return false;
+        if ((data.cardNumberSecond || '').length !== 4) return false;
+        if ((data.cardNumberThird || '').length !== 4) return false;
+        if (![4, 5].includes((data.cardNumberFourth || '').length)) return false;
+        if ((data.cardExpirationMonth || '').length !== 2) return false;
+        if ((data.cardExpirationYear || '').length !== 2) return false;
+        if ((data.cardPassword || '').length !== 2) return false;
         if (!data.agree) return false;
-        if (![6, 10].includes(data.customerIdentityNumber.length)) return false;
+        if (![6, 10].includes((data.customerIdentityNumber || '').length)) return false;
 
         return true;
     };
