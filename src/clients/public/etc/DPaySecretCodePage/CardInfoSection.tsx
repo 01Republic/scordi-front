@@ -1,14 +1,14 @@
 import React, {memo, useState} from 'react';
 import {UseFormReturn} from 'react-hook-form';
 import cn from 'classnames';
-import {FormCardNumber} from '^pages/direct-pay/[secretCode]/FormCardNumber';
-import {FormExpiryDate} from '^pages/direct-pay/[secretCode]/FormExpiryDate';
 import {WithChildren} from '^types/global.type';
-import {FormBirthDay} from '^pages/direct-pay/[secretCode]/FormBirthDay';
-import {FormBusinessNumber} from '^pages/direct-pay/[secretCode]/FormBusinessNumber';
-import {FormCardPassword} from '^pages/direct-pay/[secretCode]/FormCardPassword';
 import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';
 import {usePostDirectPay} from '^models/_scordi/ScordiPayment/hook';
+import {FormCardNumber} from './FormCardNumber';
+import {FormExpiryDate} from './FormExpiryDate';
+import {FormBirthDay} from './FormBirthDay';
+import {FormBusinessNumber} from './FormBusinessNumber';
+import {FormCardPassword} from './FormCardPassword';
 
 interface CardInfoSectionProps extends WithChildren {
     prevStep: () => void;

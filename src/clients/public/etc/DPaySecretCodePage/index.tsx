@@ -1,20 +1,20 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {useForm} from 'react-hook-form';
+import {toast} from 'react-hot-toast';
 import {usePostDirectPay} from '^models/_scordi/ScordiPayment/hook';
 import {CreateScordiPaymentWithCustomerKeyRequestDto, ScordiPaymentDto} from '^models/_scordi/ScordiPayment/type';
-import {CardInfoSection} from '^pages/direct-pay/[secretCode]/CardInfoSection';
-import {UserInfoSection} from '^pages/direct-pay/[secretCode]/CustomerInfoSection';
+import {ApiError} from '^api/api';
 import {Spinner} from '^components/util/loading';
+import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {secretCodeParamsAtom} from './atom';
 import {useDPayPlanList} from './hook';
 import {DPayPageLayout} from './DPayPageLayout';
 import {Title} from './Title';
 import {PlanList} from './PlanList';
+import {CardInfoSection} from './CardInfoSection';
+import {UserInfoSection} from './CustomerInfoSection';
 import {PaymentComplete} from './PaymentComplete';
-import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
-import {ApiError, errorToast} from '^api/api';
-import {toast} from 'react-hot-toast';
 
 export const DPaySecretCodePage = memo(function DPaySecretCodePage() {
     const secretCode = useRecoilValue(secretCodeParamsAtom);

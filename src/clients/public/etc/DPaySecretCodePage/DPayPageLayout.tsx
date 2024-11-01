@@ -1,9 +1,6 @@
 import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
-import {FormProvider} from 'react-hook-form';
-import {FormCardNumber} from '^pages/direct-pay/[secretCode]/FormCardNumber';
-import {FormExpiryDate} from '^pages/direct-pay/[secretCode]/FormExpiryDate';
 
 interface DPayPageLayoutProps extends WithChildren {
     channelTalk?: boolean;

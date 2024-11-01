@@ -2,10 +2,10 @@ import React, {memo} from 'react';
 import {UseFormReturn} from 'react-hook-form';
 import cn from 'classnames';
 import {WithChildren} from '^types/global.type';
-import {FormCustomerPhone} from '^pages/direct-pay/[secretCode]/FormCustomerPhone';
-import {FormCustomerName} from '^pages/direct-pay/[secretCode]/FormCustomerName';
-import {FormCustomerEmail} from '^pages/direct-pay/[secretCode]/FormCustomerEmail';
 import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';
+import {FormCustomerPhone} from './FormCustomerPhone';
+import {FormCustomerName} from './FormCustomerName';
+import {FormCustomerEmail} from './FormCustomerEmail';
 
 interface CustomerInfoSection extends WithChildren {
     nextStep: () => void;
