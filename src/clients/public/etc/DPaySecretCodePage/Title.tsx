@@ -1,17 +1,18 @@
 import React, {memo} from 'react';
+import {ReactNodeElement} from '^types/global.type';
 
 interface TitleProps {
-    line1: string;
-    line2?: string;
+    text: ReactNodeElement;
+    desc: ReactNodeElement;
 }
 
 export const Title = memo((props: TitleProps) => {
-    const {line1 = '', line2 = '입력해주세요'} = props;
+    const {text = '', desc = ''} = props;
 
     return (
-        <div className="flex flex-row lg:flex-col items-center lg:items-start">
-            {line1 && <p className="font-semibold text-2xl">{line1}</p>}
-            <p className="font-semibold text-2xl ml-1.5 lg:ml-0">{line2}</p>
+        <div className="flex flex-col items-start gap-4">
+            <p className="font-semibold text-2xl keep-all">{text}</p>
+            <p className="text-gray-500 text-14 keep-all">{desc}</p>
         </div>
     );
 });

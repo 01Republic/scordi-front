@@ -51,13 +51,13 @@ export const DPaySecretCodePage = memo(function DPaySecretCodePage() {
                 <form className="w-full h-full" onSubmit={form.handleSubmit(onSubmit)}>
                     {currentStep === 1 && (
                         <UserInfoSection form={form} nextStep={nextStep}>
-                            <Title line1="사용자 정보를" />
+                            <Title text="결제자 정보 입력" desc="모임 전, 참가비 3만원을 결제해주세요." />
                             <PlanList plans={plans} form={form} />
                         </UserInfoSection>
                     )}
                     {currentStep === 2 && (
                         <CardInfoSection form={form} prevStep={prevStep}>
-                            <Title line1="카드 정보를" />
+                            <Title text="카드 정보를 입력해주세요" desc="" />
                             <PlanList plans={plans} form={form} />
                         </CardInfoSection>
                     )}

@@ -30,14 +30,14 @@ export const UserInfoSection = memo((props: CustomerInfoSection) => {
         !errors.customerPhone;
 
     return (
-        <article className="p-8 flex flex-col lg:flex-row gap-8 lg:gap-16 h-full">
-            <section className="w-full lg:w-1/3">{children}</section>
+        <article className="p-8 flex flex-col sm:flex-row gap-8 sm:gap-16 h-full">
+            <section className="w-full sm:w-1/3">{children}</section>
 
-            <section className="w-full lg:w-2/3 h-full">
+            <section className="w-full sm:w-2/3 h-full">
                 <div className="w-full h-full flex flex-col justify-between text-sm">
                     <article className="flex flex-col gap-5">
                         <FormCustomerName register={register} watch={watch} errors={errors} />
-                        <FormCustomerEmail register={register} watch={watch} errors={errors} />
+                        <FormCustomerEmail form={form} />
                         <FormCustomerPhone register={register} watch={watch} errors={errors} />
                     </article>
                     <button
