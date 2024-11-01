@@ -37,6 +37,7 @@ export const ListTablePaginator = memo((props: ListTablePaginatorProps) => {
                     <div>최대 표시</div>
                     <select
                         className="select select-sm select-bordered"
+                        key={pagination.itemsPerPage}
                         defaultValue={pagination.itemsPerPage}
                         onChange={(e) => {
                             return onChangePerPage(parseInt(e.target.value));

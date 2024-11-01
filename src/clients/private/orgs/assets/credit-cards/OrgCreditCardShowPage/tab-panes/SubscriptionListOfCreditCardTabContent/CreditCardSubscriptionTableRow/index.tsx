@@ -1,17 +1,17 @@
 import React, {memo} from 'react';
+import {toast} from 'react-hot-toast';
+import Tippy from '@tippyjs/react';
+import {BsDashCircle} from 'react-icons/bs';
+import {yyyy_mm_dd} from '^utils/dateTime';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
 import {MoneySimpleRounded} from '^models/Money/components/money.simple-rounded';
 import {IsFreeTierTagUI} from '^models/Subscription/components/IsFreeTierTagUI';
 import {TeamMemberProfileCompact, TeamMemberProfileOption} from '^models/TeamMember/components/TeamMemberProfile';
-import {MemberCount} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
-import Tippy from '@tippyjs/react';
-import {BsDashCircle} from 'react-icons/bs';
 import {subscriptionApi} from '^models/Subscription/api';
 import {confirm2} from '^components/util/dialog';
-import {toast} from 'react-hot-toast';
-import {yyyy_mm_dd} from '^utils/dateTime';
+import {useCurrentCodefCard} from '../../../atom';
 
 interface CreditCardSubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -20,6 +20,7 @@ interface CreditCardSubscriptionTableRowProps {
 
 export const CreditCardSubscriptionTableRow = memo((props: CreditCardSubscriptionTableRowProps) => {
     const {subscription, reload} = props;
+    const {isManuallyCreated} = useCurrentCodefCard();
 
     const disconnect = async () => {
         const isConfirmed = await confirm2(
@@ -88,18 +89,20 @@ export const CreditCardSubscriptionTableRow = memo((props: CreditCardSubscriptio
             {/* Action */}
             <td>
                 <div className="flex items-center justify-center">
-                    <Tippy className="!text-12" content="안써요">
-                        <button
-                            className="relative text-red-300 hover:text-red-500 transition-all"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                e.preventDefault();
-                                disconnect();
-                            }}
-                        >
-                            <BsDashCircle className="" size={24} strokeWidth={0.3} />
-                        </button>
-                    </Tippy>
+                    {isManuallyCreated && (
+                        <Tippy className="!text-12" content="안써요">
+                            <button
+                                className="relative text-red-300 hover:text-red-500 transition-all"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                    disconnect();
+                                }}
+                            >
+                                <BsDashCircle className="" size={24} strokeWidth={0.3} />
+                            </button>
+                        </Tippy>
+                    )}
                 </div>
             </td>
         </tr>

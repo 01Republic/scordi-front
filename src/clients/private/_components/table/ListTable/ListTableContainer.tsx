@@ -6,8 +6,6 @@ import {ListTablePaginator} from './ListTablePaginator';
 import {CardContainerTableLayout} from './layouts/CardContainerTableLayout';
 import {FcVlc} from 'react-icons/fc';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
-import {GiSadCrab} from 'react-icons/gi';
-import {HiMiniInbox} from 'react-icons/hi2';
 
 interface ListTableContainerProps extends WithChildren {
     // data

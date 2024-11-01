@@ -15,6 +15,7 @@ import {useSubscriptionListOfCreditCard} from '^models/Subscription/hook';
 import {useBillingHistoryListOfCreditCard} from '^models/BillingHistory/hook';
 import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
+import {pick} from '^types/utils/one-of-list.type';
 
 export const creditCardSubjectAtom = atom<CreditCardDto | null>({
     key: 'OrgCreditCardShowPage/creditCardSubjectAtom',
@@ -37,6 +38,29 @@ export const useCurrentCreditCard = () => {
     };
 
     return {currentCreditCard, setCurrentCreditCard, findOne, reload};
+};
+
+export const useCurrentCodefCard = () => {
+    const {search, result, reload, isLoading, isNotLoaded, isEmptyResult, clearCache, reset} =
+        useCodefCardsOfCreditCardShow();
+    const currentCodefCard = pick(result.items[0]);
+
+    const isApiConnected = !isNotLoaded && !!currentCodefCard;
+    const isManuallyCreated = !isApiConnected;
+
+    return {
+        currentCodefCard,
+        isApiConnected,
+        isManuallyCreated,
+        search,
+        reload,
+        result,
+        isLoading,
+        isNotLoaded,
+        isEmptyResult,
+        clearCache,
+        reset,
+    };
 };
 
 export const useCurrentCreditCardEdit = () => {
