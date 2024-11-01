@@ -28,6 +28,7 @@ export const usePostDirectPay = () => {
 
     const {mutate: postDirectPayMutate} = useMutation<void, Error, CreateScordiPaymentWithCustomerKeyRequestDto>({
         mutationFn: (data: CreateScordiPaymentWithCustomerKeyRequestDto) => postDirectPayApi(data),
+    const {mutate: postDirectPayMutate, isPending} = useMutation({
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ['postDirectPay']});
         },
@@ -36,7 +37,7 @@ export const usePostDirectPay = () => {
         // },
     });
 
-    return postDirectPayMutate;
+    return {postDirectPayMutate, isPending};
 };
 
 // d-pay / 결제내역 페이지에서 사용

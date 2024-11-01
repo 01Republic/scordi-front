@@ -10,10 +10,11 @@ import {Title} from './Title';
 import {PlanList} from './PlanList';
 import {CardInfoSection} from '^pages/direct-pay/[secretCode]/CardInfoSection';
 import {UserInfoSection} from '^pages/direct-pay/[secretCode]/CustomerInfoSection';
+import {LoadableBox} from '^components/util/loading';
 
 export const DPaySecretCodePage = memo(function DPaySecretCodePage() {
     const secretCode = useRecoilValue(secretCodeParamsAtom);
-    const postDirectPayMutate = usePostDirectPay();
+    const {postDirectPayMutate, isPending} = usePostDirectPay();
     const {isLoading, plans, fetch} = useDPayPlanList();
     const [currentStep, setCurrentStep] = useState(1);
     const form = useForm<CreateScordiPaymentWithCustomerKeyRequestDto>();
@@ -35,21 +36,23 @@ export const DPaySecretCodePage = memo(function DPaySecretCodePage() {
     const prevStep = () => setCurrentStep((prev) => prev - 1);
 
     return (
-        <DPayPageLayout>
-            <form className="w-full h-full" onSubmit={form.handleSubmit(onSubmit)}>
-                {currentStep === 1 && (
-                    <UserInfoSection form={form} nextStep={nextStep}>
-                        <Title line1="사용자 정보를" />
-                        <PlanList plans={plans} form={form} />
-                    </UserInfoSection>
-                )}
-                {currentStep === 2 && (
-                    <CardInfoSection form={form} prevStep={prevStep}>
-                        <Title line1="카드 정보를" />
-                        <PlanList plans={plans} form={form} />
-                    </CardInfoSection>
-                )}
-            </form>
-        </DPayPageLayout>
+        <LoadableBox isLoading={isPending} loadingType={2} spinnerPos="center" noPadding>
+            <DPayPageLayout>
+                <form className="w-full h-full" onSubmit={form.handleSubmit(onSubmit)}>
+                    {currentStep === 1 && (
+                        <UserInfoSection form={form} nextStep={nextStep}>
+                            <Title line1="사용자 정보를" />
+                            <PlanList plans={plans} form={form} />
+                        </UserInfoSection>
+                    )}
+                    {currentStep === 2 && (
+                        <CardInfoSection form={form} prevStep={prevStep}>
+                            <Title line1="카드 정보를" />
+                            <PlanList plans={plans} form={form} />
+                        </CardInfoSection>
+                    )}
+                </form>
+            </DPayPageLayout>
+        </LoadableBox>
     );
 });

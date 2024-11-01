@@ -8,6 +8,7 @@ import {FormBirthDay} from '^pages/direct-pay/[secretCode]/FormBirthDay';
 import {FormBusinessNumber} from '^pages/direct-pay/[secretCode]/FormBusinessNumber';
 import {FormCardPassword} from '^pages/direct-pay/[secretCode]/FormCardPassword';
 import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';
+import {usePostDirectPay} from '^models/_scordi/ScordiPayment/hook';
 
 interface CardInfoSectionProps extends WithChildren {
     prevStep: () => void;
@@ -19,6 +20,7 @@ export const CardInfoSection = memo((props: CardInfoSectionProps) => {
     const {register, watch, setFocus, formState} = form;
     const {errors, isValid} = formState;
     const [cardType, setCardType] = useState('개인카드');
+    const {isPending} = usePostDirectPay();
 
     const selectCardType = (cardType: string) => {
         setCardType(cardType);
@@ -109,25 +111,33 @@ export const CardInfoSection = memo((props: CardInfoSectionProps) => {
                             <span className="ml-2">[필수] 서비스 이용 약관, 개인정보 처리 동의</span>
                         </label>
 
-                        <section className="flex gap-2 mt-2">
-                            <button
-                                type="button"
-                                className="w-full bg-[#6454FF] rounded-md h-10 text-white"
-                                onClick={prevStep}
-                            >
-                                이전
-                            </button>
-                            <button
-                                type="submit"
-                                className={cn('w-full rounded-md h-10 text-white', {
-                                    'bg-gray-300': !isValid,
-                                    'bg-[#6454FF]': isValid,
-                                })}
-                                disabled={!isValid}
-                            >
-                                결제하기
-                            </button>
-                        </section>
+                        {!isPending ? (
+                            <section className="mt-2">
+                                <button disabled className="w-full bg-gray-300 rounded-md h-10 text-white">
+                                    결제 요청 중 ...
+                                </button>
+                            </section>
+                        ) : (
+                            <section className="flex gap-2 mt-2">
+                                <button
+                                    type="button"
+                                    className="w-full bg-[#6454FF] rounded-md h-10 text-white"
+                                    onClick={prevStep}
+                                >
+                                    이전
+                                </button>
+                                <button
+                                    type="submit"
+                                    className={cn('w-full rounded-md h-10 text-white', {
+                                        'bg-gray-300': !isValid,
+                                        'bg-[#6454FF]': isValid,
+                                    })}
+                                    disabled={!isValid}
+                                >
+                                    결제하기
+                                </button>
+                            </section>
+                        )}
                     </div>
                 </div>
             </section>
