@@ -27,7 +27,7 @@ export const SlideUpModal = memo((props: SlideUpModalProps & WithChildren) => {
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" className="fixed inset-0 z-50 overflow-y-hidden" onClose={onClose}>
-                <div className="tablet:px-4 block min-h-screen items-end justify-center">
+                <div className="tablet:px-4 flex min-h-screen items-end justify-center">
                     {!backdropOption.hidden && (
                         <Transition.Child
                             as={Fragment}
