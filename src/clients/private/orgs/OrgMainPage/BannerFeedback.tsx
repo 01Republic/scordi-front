@@ -11,6 +11,8 @@ export const BannerFeedback = memo(() => {
                 </span>
                 <LinkTo
                     href={feedbackLink}
+                    target="_blank"
+                    displayLoading={false}
                     className="w-48 h-10 bg-black flex items-center justify-center mt-2.5 rounded-[10px] hover:bg-white group"
                 >
                     <span className="font-semibold text-sm text-white group-hover:text-black">개선사항 투표하기</span>
