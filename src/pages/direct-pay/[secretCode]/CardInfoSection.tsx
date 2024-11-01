@@ -111,7 +111,7 @@ export const CardInfoSection = memo((props: CardInfoSectionProps) => {
                             <span className="ml-2">[필수] 서비스 이용 약관, 개인정보 처리 동의</span>
                         </label>
 
-                        {!isPending ? (
+                        {isPending ? (
                             <section className="mt-2">
                                 <button disabled className="w-full bg-gray-300 rounded-md h-10 text-white">
                                     결제 요청 중 ...

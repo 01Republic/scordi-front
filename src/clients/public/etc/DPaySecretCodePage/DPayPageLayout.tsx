@@ -16,7 +16,7 @@ export const DPayPageLayout = memo((props: DPayPageLayoutProps) => {
         <div className="min-h-screen w-screen">
             {!channelTalk && <ChannelTalkHideStyle />}
             <div className="w-full mx-auto max-w-2xl h-screen flex items-stretch justify-stretch sm:py-10">
-                <div className="w-full h-[700px] shadow-lg rounded-3xl bg-white">{children}</div>
+                <div className="w-full h-full md:h-[700px] md:shadow-lg md:rounded-3xl bg-white">{children}</div>
             </div>
         </div>
     );

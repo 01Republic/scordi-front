@@ -37,11 +37,13 @@ export const scordiPaymentsApi = {
     },
 };
 
-export const postDirectPayApi = async (data: CreateScordiPaymentWithCustomerKeyRequestDto) => {
+export const postDirectPayApi = async (
+    data: CreateScordiPaymentWithCustomerKeyRequestDto,
+): Promise<ScordiPaymentDto> => {
     const url = `/d-pay/payments/with-customer-key`;
 
     try {
-        const response = await api.post(url, {
+        const response = await api.post<ScordiPaymentDto>(url, {
             cardNumber: data.cardNumber,
             cardExpirationYear: data.cardExpirationYear,
             cardExpirationMonth: data.cardExpirationMonth,

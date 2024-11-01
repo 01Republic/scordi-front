@@ -1,10 +1,6 @@
 import {dPayPaymentsInPaymentListPageAtoms, scordiPaymentsInSettingPageAtoms} from '^models/_scordi/ScordiPayment/atom';
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
-import {
-    CreateScordiPaymentWithCustomerKeyRequestDto,
-    FindAllScordiPaymentQueryDto,
-    ScordiPaymentDto,
-} from '^models/_scordi/ScordiPayment/type';
+import {FindAllScordiPaymentQueryDto, ScordiPaymentDto} from '^models/_scordi/ScordiPayment/type';
 import {dPayScordiPaymentsApi, postDirectPayApi, scordiPaymentsApi} from '^models/_scordi/ScordiPayment/api';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 
@@ -26,9 +22,8 @@ const useScordiPayments = (
 export const usePostDirectPay = () => {
     const queryClient = useQueryClient();
 
-    const {mutate: postDirectPayMutate} = useMutation<void, Error, CreateScordiPaymentWithCustomerKeyRequestDto>({
-        mutationFn: (data: CreateScordiPaymentWithCustomerKeyRequestDto) => postDirectPayApi(data),
-    const {mutate: postDirectPayMutate, isPending} = useMutation({
+    const {mutateAsync: postDirectPayMutate, isPending} = useMutation({
+        mutationFn: postDirectPayApi,
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ['postDirectPay']});
         },

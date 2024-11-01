@@ -2,21 +2,23 @@ import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {useForm} from 'react-hook-form';
 import {usePostDirectPay} from '^models/_scordi/ScordiPayment/hook';
-import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';
+import {CreateScordiPaymentWithCustomerKeyRequestDto, ScordiPaymentDto} from '^models/_scordi/ScordiPayment/type';
+import {CardInfoSection} from '^pages/direct-pay/[secretCode]/CardInfoSection';
+import {UserInfoSection} from '^pages/direct-pay/[secretCode]/CustomerInfoSection';
+import {LoadableBox} from '^components/util/loading';
 import {secretCodeParamsAtom} from './atom';
 import {useDPayPlanList} from './hook';
 import {DPayPageLayout} from './DPayPageLayout';
 import {Title} from './Title';
 import {PlanList} from './PlanList';
-import {CardInfoSection} from '^pages/direct-pay/[secretCode]/CardInfoSection';
-import {UserInfoSection} from '^pages/direct-pay/[secretCode]/CustomerInfoSection';
-import {LoadableBox} from '^components/util/loading';
+import {PaymentComplete} from './PaymentComplete';
 
 export const DPaySecretCodePage = memo(function DPaySecretCodePage() {
     const secretCode = useRecoilValue(secretCodeParamsAtom);
     const {postDirectPayMutate, isPending} = usePostDirectPay();
     const {isLoading, plans, fetch} = useDPayPlanList();
     const [currentStep, setCurrentStep] = useState(1);
+    const [resultPayment, setResultPayment] = useState<ScordiPaymentDto>();
     const form = useForm<CreateScordiPaymentWithCustomerKeyRequestDto>();
 
     useEffect(() => {
@@ -29,7 +31,7 @@ export const DPaySecretCodePage = memo(function DPaySecretCodePage() {
 
     const onSubmit = (data: CreateScordiPaymentWithCustomerKeyRequestDto) => {
         data.cardNumber = data.cardNumberFirst + data.cardNumberSecond + data.cardNumberThird + data.cardNumberFourth;
-        postDirectPayMutate(data);
+        postDirectPayMutate(data).then(setResultPayment);
     };
 
     const nextStep = () => setCurrentStep((prev) => prev + 1);
@@ -38,20 +40,24 @@ export const DPaySecretCodePage = memo(function DPaySecretCodePage() {
     return (
         <LoadableBox isLoading={isPending} loadingType={2} spinnerPos="center" noPadding>
             <DPayPageLayout>
-                <form className="w-full h-full" onSubmit={form.handleSubmit(onSubmit)}>
-                    {currentStep === 1 && (
-                        <UserInfoSection form={form} nextStep={nextStep}>
-                            <Title line1="사용자 정보를" />
-                            <PlanList plans={plans} form={form} />
-                        </UserInfoSection>
-                    )}
-                    {currentStep === 2 && (
-                        <CardInfoSection form={form} prevStep={prevStep}>
-                            <Title line1="카드 정보를" />
-                            <PlanList plans={plans} form={form} />
-                        </CardInfoSection>
-                    )}
-                </form>
+                {!resultPayment ? (
+                    <form className="w-full h-full" onSubmit={form.handleSubmit(onSubmit)}>
+                        {currentStep === 1 && (
+                            <UserInfoSection form={form} nextStep={nextStep}>
+                                <Title line1="사용자 정보를" />
+                                <PlanList plans={plans} form={form} />
+                            </UserInfoSection>
+                        )}
+                        {currentStep === 2 && (
+                            <CardInfoSection form={form} prevStep={prevStep}>
+                                <Title line1="카드 정보를" />
+                                <PlanList plans={plans} form={form} />
+                            </CardInfoSection>
+                        )}
+                    </form>
+                ) : (
+                    <PaymentComplete payment={resultPayment} />
+                )}
             </DPayPageLayout>
         </LoadableBox>
     );
