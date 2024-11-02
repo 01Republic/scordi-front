@@ -12,6 +12,7 @@ import {errorNotify} from '^utils/toast-notify';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {InvoiceAccountProviderAvatar} from '^models/InvoiceAccount/components/InvoiceAccountProviderAvatar';
 import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[invoiceAccountId]';
+import Tippy from '@tippyjs/react';
 
 interface InvoiceAccountTableRowProps {
     invoiceAccount: InvoiceAccountDto;
@@ -91,7 +92,11 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
 
             {/*등록방식*/}
             <td>
-                <InvoiceAccountProviderAvatar invoiceAccount={invoiceAccount} />
+                <Tippy content="연동된 메일은 구글 로고가 표시됩니다">
+                    <div className={'text-center'}>
+                        <InvoiceAccountProviderAvatar invoiceAccount={invoiceAccount} />
+                    </div>
+                </Tippy>
             </td>
 
             {/*팀 - editable, sortable (mono-select) / 멤버 프로필 / 검색가능 */}
