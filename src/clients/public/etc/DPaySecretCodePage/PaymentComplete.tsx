@@ -4,14 +4,16 @@ import {CheckCircle} from '^components/react-icons/check-circle';
 import {LinkTo} from '^components/util/LinkTo';
 
 interface PaymentCompleteProps {
-    payment: ScordiPaymentDto;
+    payment?: ScordiPaymentDto;
 }
 
 export const PaymentComplete = memo((props: PaymentCompleteProps) => {
     const {payment} = props;
 
+    const receiptUrl = payment?.response?.receipt?.url;
+
     return (
-        <div className="w-full h-full flex flex-col py-20">
+        <div className="w-full h-full flex flex-col pt-20 pb-8 sm:pb-20">
             <div className="w-full max-w-sm mx-auto flex-auto flex flex-col">
                 <CheckCircle className="w-[100px] mb-10" color="#5E5FEE" />
 
@@ -25,15 +27,24 @@ export const PaymentComplete = memo((props: PaymentCompleteProps) => {
 
             <div className="w-full max-w-sm mx-auto flex items-center gap-2 px-10 md:px-0">
                 <div className="flex-1">
-                    <button className="btn btn-gray btn-block rounded-lg">혹시 버튼</button>
+                    <LinkTo
+                        href={receiptUrl}
+                        text="영수증 확인"
+                        className={`btn btn-lg sm:btn-md btn-gray btn-block rounded-lg ${
+                            receiptUrl ? '' : 'opacity-30 cursor-not-allowed no-click'
+                        }`}
+                        target="_blank"
+                        displayLoading={false}
+                    />
                 </div>
                 <div className="flex-1">
                     <LinkTo
-                        className="btn btn-scordi btn-block rounded-lg"
-                        href={'javascript:alert("우모 페이지 링크 빨리 주셈")'}
+                        className="btn btn-lg sm:btn-md btn-scordi btn-block rounded-lg"
+                        onClick={() => alert('우모 페이지 링크 언제줄거야')}
+                        target="_blank"
                         displayLoading={false}
                     >
-                        우모로 이동하기
+                        우모로 이동
                     </LinkTo>
                 </div>
             </div>

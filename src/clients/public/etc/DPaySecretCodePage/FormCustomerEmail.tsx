@@ -1,41 +1,36 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {FieldErrors, useFormContext, UseFormRegister, UseFormReturn, UseFormWatch} from 'react-hook-form';
 import cn from 'classnames';
 import {WithChildren} from '^types/global.type';
 import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';
 import {emailValid} from '^utils/input-helper';
+import {TextInput} from './TextInput';
 
 interface FormCustomerEmailProps extends WithChildren {
     form: UseFormReturn<CreateScordiPaymentWithCustomerKeyRequestDto, any>;
+    errorMessage?: string;
 }
 
 export const FormCustomerEmail = memo((props: FormCustomerEmailProps) => {
-    const {form} = props;
-
-    const customerEmailValue = form.watch('customerEmail');
+    const {form, errorMessage} = props;
 
     return (
         <div className="w-full">
             <label htmlFor="customerEmail" className="flex flex-col gap-2">
                 <span>이메일 주소</span>
-                <input
+                <TextInput
                     type="email"
-                    onChange={(e) => {
-                        const input = e.target;
-                        form.setValue('customerEmail', input.value);
-                    }}
-                    onBlur={(e) => {
-                        const input = e.target;
-                        const isValid = emailValid(input.value);
-                        input.setCustomValidity(isValid ? '' : '잘못된 이메일 주소입니다.');
-                        input.reportValidity();
-                    }}
-                    required
-                    className={cn('border border-gray-300 hover:border-[#6454FF] w-full h-10 lg:h-11 rounded-lg pl-4', {
-                        'border-[#6454FF]': customerEmailValue,
-                        'border-red-500': form.formState.errors.customerEmail,
+                    {...form.register('customerEmail', {
+                        required: '잘못된 이메일 주소입니다.',
+                        pattern: {
+                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                            message: '잘못된 이메일 주소입니다.',
+                        },
                     })}
+                    isInvalid={!!errorMessage}
+                    onBlur={() => form.trigger('customerEmail')}
                 />
+                {errorMessage && <p className="text-red-600 text-right text-12">{errorMessage}</p>}
             </label>
         </div>
     );

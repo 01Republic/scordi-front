@@ -1,38 +1,34 @@
 import React, {memo} from 'react';
-import {FieldErrors, useFormContext, UseFormRegister, UseFormSetFocus, UseFormWatch} from 'react-hook-form';
-import cn from 'classnames';
+import {UseFormReturn} from 'react-hook-form';
 import {WithChildren} from '^types/global.type';
 import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';
+import {TextInput} from './TextInput';
 
 interface FormCustomerNameProps extends WithChildren {
-    register: UseFormRegister<CreateScordiPaymentWithCustomerKeyRequestDto>;
-    watch: UseFormWatch<CreateScordiPaymentWithCustomerKeyRequestDto>;
-    errors: FieldErrors<CreateScordiPaymentWithCustomerKeyRequestDto>;
+    form: UseFormReturn<CreateScordiPaymentWithCustomerKeyRequestDto, any>;
+    errorMessage?: string;
 }
 
 export const FormCustomerName = memo((props: FormCustomerNameProps) => {
-    const {register, watch, errors} = props;
-
-    const customerNameValue = watch('customerName');
+    const {form, errorMessage} = props;
 
     return (
         <div className="w-full">
             <label htmlFor="customerName" className="flex flex-col gap-2">
                 <span>이름</span>
-                <input
+                <TextInput
                     type="text"
-                    {...register('customerName', {
+                    {...form.register('customerName', {
                         required: '이름을 입력해주세요',
                     })}
-                    className={cn('border border-gray-300 hover:border-[#6454FF] w-full h-11 rounded-lg pl-4 ', {
-                        'border-[#6454FF]': customerNameValue,
-                        'border-red-500': errors.customerName,
-                    })}
+                    isInvalid={!!errorMessage}
+                    onBlur={() => form.trigger('customerName')}
                     onInput={(e) => {
                         const input = e.target as HTMLInputElement;
                         input.value = input.value.replace(/[0-9]/g, '');
                     }}
                 />
+                {errorMessage && <p className="text-red-600 text-right text-12">{errorMessage}</p>}
             </label>
         </div>
     );

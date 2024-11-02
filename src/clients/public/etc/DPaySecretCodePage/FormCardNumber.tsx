@@ -1,26 +1,23 @@
-import React, {memo} from 'react';
-import {UseFormRegister, UseFormSetFocus, FieldPath} from 'react-hook-form';
+import React, {InputHTMLAttributes, memo} from 'react';
+import {FieldPath, UseFormReturn} from 'react-hook-form';
 import {WithChildren} from '^types/global.type';
 import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';
+import {NumberTextInput} from './TextInput';
 
 interface FormCardNumberProps extends WithChildren {
-    register: UseFormRegister<CreateScordiPaymentWithCustomerKeyRequestDto>;
-    setFocus: UseFormSetFocus<CreateScordiPaymentWithCustomerKeyRequestDto>;
+    form: UseFormReturn<CreateScordiPaymentWithCustomerKeyRequestDto, any>;
 }
 
 export const FormCardNumber = memo((props: FormCardNumberProps) => {
-    const {register, setFocus} = props;
+    const {form} = props;
 
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement>,
         nextField: FieldPath<CreateScordiPaymentWithCustomerKeyRequestDto>,
     ) => {
         const value = e.target.value;
-
-        if (value.length >= 4) {
-            e.target.value = value.slice(0, 4);
-            setFocus(nextField);
-        }
+        e.target.value = value.slice(0, 4);
+        if (value.length >= 4) form.setFocus(nextField);
     };
 
     return (
@@ -28,89 +25,67 @@ export const FormCardNumber = memo((props: FormCardNumberProps) => {
             <div className="flex flex-col">
                 <span>카드번호</span>
                 <div className="mt-2 flex gap-2">
-                    <label>
-                        <input
-                            type="text"
-                            {...register('cardNumberFirst', {
-                                required: '카드번호를 다시 확인해주세요.',
-                                minLength: {
-                                    value: 4,
-                                    message: '카드번호를 다시 확인해주세요',
-                                },
-                                onChange: (e) => {
-                                    handleInputChange(e, 'cardNumberSecond');
-                                },
-                            })}
-                            className="border w-full h-10 lg:h-11 rounded-lg pl-2 focus:border-[#6454FF]"
-                            onInput={(e) => {
-                                const input = e.target as HTMLInputElement;
-                                input.value = input.value.replace(/[^0-9]/g, '');
-                            }}
-                        />
-                    </label>
+                    <CardNumberInput
+                        form={form}
+                        name="cardNumberFirst"
+                        onChange={(e) => {
+                            handleInputChange(e, 'cardNumberSecond');
+                        }}
+                    />
 
-                    <label>
-                        <input
-                            type="text"
-                            {...register('cardNumberSecond', {
-                                required: '카드번호를 다시 확인해주세요.',
-                                minLength: {
-                                    value: 4,
-                                    message: '카드번호를 다시 확인해주세요',
-                                },
-                                onChange: (e) => {
-                                    handleInputChange(e, 'cardNumberThird');
-                                },
-                            })}
-                            className="border w-full h-10 lg:h-11 rounded-lg pl-2 focus:border-[#6454FF]"
-                            onInput={(e) => {
-                                const input = e.target as HTMLInputElement;
-                                input.value = input.value.replace(/[^0-9]/g, '');
-                            }}
-                        />
-                    </label>
-                    <label>
-                        <input
-                            type="text"
-                            {...register('cardNumberThird', {
-                                required: '카드번호를 다시 확인해주세요.',
-                                minLength: {
-                                    value: 4,
-                                    message: '카드번호를 다시 확인해주세요',
-                                },
-                                onChange: (e) => {
-                                    handleInputChange(e, 'cardNumberFourth');
-                                },
-                            })}
-                            className="border w-full h-10 lg:h-11 rounded-lg pl-2 focus:border-[#6454FF]"
-                            onInput={(e) => {
-                                const input = e.target as HTMLInputElement;
-                                input.value = input.value.replace(/[^0-9]/g, '');
-                            }}
-                        />
-                    </label>
-                    <label>
-                        <input
-                            type="password"
-                            {...register('cardNumberFourth', {
-                                required: '카드번호를 다시 확인해주세요.',
-                                minLength: {
-                                    value: 4,
-                                    message: '카드번호를 다시 확인해주세요',
-                                },
-                                onChange: (e) => {
-                                    handleInputChange(e, 'cardExpirationMonth');
-                                },
-                            })}
-                            className="border w-full h-10 lg:h-11 rounded-lg pl-2 focus:border-[#6454FF]"
-                            onInput={(e) => {
-                                const input = e.target as HTMLInputElement;
-                                input.value = input.value.replace(/[^0-9]/g, '');
-                            }}
-                        />
-                    </label>
+                    <CardNumberInput
+                        form={form}
+                        name="cardNumberSecond"
+                        onChange={(e) => {
+                            handleInputChange(e, 'cardNumberThird');
+                        }}
+                    />
+
+                    <CardNumberInput
+                        form={form}
+                        name="cardNumberThird"
+                        onChange={(e) => {
+                            handleInputChange(e, 'cardNumberFourth');
+                        }}
+                    />
+
+                    <CardNumberInput
+                        type="password"
+                        form={form}
+                        name="cardNumberFourth"
+                        onChange={(e) => {
+                            handleInputChange(e, 'cardExpirationMonth');
+                        }}
+                    />
                 </div>
             </div>
         </div>
     );
 });
+
+interface CardNumberInputProps {
+    type?: InputHTMLAttributes<HTMLInputElement>['type'];
+    form: UseFormReturn<CreateScordiPaymentWithCustomerKeyRequestDto>;
+    name: FieldPath<CreateScordiPaymentWithCustomerKeyRequestDto>;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => any;
+}
+
+const CardNumberInput = (props: CardNumberInputProps) => {
+    const {type, form, name, onChange} = props;
+
+    return (
+        <label>
+            <NumberTextInput
+                type={type || 'text'}
+                {...form.register(name, {
+                    required: '카드번호를 다시 확인해주세요.',
+                    minLength: {
+                        value: 4,
+                        message: '카드번호를 다시 확인해주세요',
+                    },
+                    onChange,
+                })}
+            />
+        </label>
+    );
+};

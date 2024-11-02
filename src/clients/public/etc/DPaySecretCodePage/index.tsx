@@ -15,6 +15,7 @@ import {PlanList} from './PlanList';
 import {CardInfoSection} from './CardInfoSection';
 import {UserInfoSection} from './CustomerInfoSection';
 import {PaymentComplete} from './PaymentComplete';
+import {debounce} from 'lodash';
 
 export const DPaySecretCodePage = memo(function DPaySecretCodePage() {
     const secretCode = useRecoilValue(secretCodeParamsAtom);
@@ -32,7 +33,7 @@ export const DPaySecretCodePage = memo(function DPaySecretCodePage() {
         });
     }, [secretCode]);
 
-    const onSubmit = (data: CreateScordiPaymentWithCustomerKeyRequestDto) => {
+    const onSubmit = debounce((data: CreateScordiPaymentWithCustomerKeyRequestDto) => {
         data.cardNumber = data.cardNumberFirst + data.cardNumberSecond + data.cardNumberThird + data.cardNumberFourth;
         postDirectPayMutate(data)
             .then(setResultPayment)
@@ -40,7 +41,7 @@ export const DPaySecretCodePage = memo(function DPaySecretCodePage() {
                 const msg = e.response?.data?.message;
                 if (msg) toast.error(msg.replace('[토스페이먼츠] ', ''));
             });
-    };
+    }, 500);
 
     const nextStep = () => setCurrentStep((prev) => prev + 1);
     const prevStep = () => setCurrentStep((prev) => prev - 1);
@@ -65,7 +66,7 @@ export const DPaySecretCodePage = memo(function DPaySecretCodePage() {
             ) : (
                 <PaymentComplete payment={resultPayment} />
             )}
-            <AnimatedModal open={isPending} onClose={console.log} backdrop={{opacity: 0.1}}>
+            <AnimatedModal open={isPending} onClose={console.log} backdrop={{opacity: 0.25}}>
                 <div>
                     <Spinner size={30} posY="center" />
                 </div>

@@ -10,6 +10,7 @@ import {FormBirthDay} from './FormBirthDay';
 import {FormBusinessNumber} from './FormBusinessNumber';
 import {FormCardPassword} from './FormCardPassword';
 import {emailValid} from '^utils/input-helper';
+import {CTAButton} from './CTAButton';
 
 interface CardInfoSectionProps extends WithChildren {
     prevStep: () => void;
@@ -18,8 +19,8 @@ interface CardInfoSectionProps extends WithChildren {
 
 export const CardInfoSection = memo((props: CardInfoSectionProps) => {
     const {form, prevStep, children} = props;
-    const {register, watch, setFocus, formState} = form;
-    const {errors} = formState;
+    const {register, watch} = form;
+    const {errors} = form.formState;
     const [isPersonal, setIsPersonal] = useState(true);
     const {isPending} = usePostDirectPay();
 
@@ -44,14 +45,14 @@ export const CardInfoSection = memo((props: CardInfoSectionProps) => {
     const isValid = checkValid(watch());
 
     return (
-        <article className="p-8 flex flex-col lg:flex-row gap-8 lg:gap-16 h-full">
-            <section className="w-full lg:w-1/3">{children}</section>
+        <article className="p-8 flex flex-col sm:flex-row gap-8 sm:gap-16 h-full">
+            <section className="w-full sm:w-1/3">{children}</section>
 
-            <section className="w-full lg:w-2/3 h-full">
+            <section className="w-full sm:w-2/3 h-full">
                 <div className="flex flex-col h-full justify-between text-sm">
                     <section className="flex flex-col gap-5">
                         <article className="flex flex-col">
-                            <div className="flex items-center gap-8 lg:gap-8">
+                            <div className="flex items-center gap-8 sm:gap-8">
                                 <label key="개인카드" className="flex gap-1.5" onClick={() => setIsPersonal(true)}>
                                     <input
                                         type="radio"
@@ -103,17 +104,17 @@ export const CardInfoSection = memo((props: CardInfoSectionProps) => {
                                     <p className="whitespace-normal w-full">법인카드</p>
                                 </label>
                             </div>
-                            <div className="lg:mt-1 h-2 mb-4">
+                            <div className="h-2 mb-4 sm:mt-1">
                                 {!isPersonal && (
-                                    <p className="text-gray-400 ">
+                                    <p className="text-gray-400">
                                         개인 명의의 법인 카드일 경우 개인 카드로 등록해주세요
                                     </p>
                                 )}
                             </div>
                         </article>
-                        <FormCardNumber setFocus={setFocus} register={register} />
-                        <FormExpiryDate setFocus={setFocus} register={register} />
-                        <FormCardPassword register={register} />
+                        <FormCardNumber form={form} />
+                        <FormExpiryDate form={form} />
+                        <FormCardPassword form={form} />
                         {isPersonal ? <FormBirthDay register={register} /> : <FormBusinessNumber register={register} />}
                     </section>
                     <div className="mt-10">
@@ -124,29 +125,12 @@ export const CardInfoSection = memo((props: CardInfoSectionProps) => {
 
                         {isPending ? (
                             <section className="mt-6">
-                                <button disabled className="w-full bg-gray-300 rounded-md h-10 text-white">
-                                    결제 요청 중 ...
-                                </button>
+                                <CTAButton text="결제 요청 중 ..." disabled />
                             </section>
                         ) : (
                             <section className="flex gap-2 mt-6">
-                                <button
-                                    type="button"
-                                    className="w-full bg-[#6454FF] rounded-md h-10 text-white"
-                                    onClick={prevStep}
-                                >
-                                    이전
-                                </button>
-                                <button
-                                    type="submit"
-                                    className={cn('w-full rounded-md h-10 text-white', {
-                                        'bg-gray-300': !isValid,
-                                        'bg-[#6454FF]': isValid,
-                                    })}
-                                    disabled={!isValid}
-                                >
-                                    결제하기
-                                </button>
+                                <CTAButton text="이전" onClick={prevStep} />
+                                <CTAButton text="결제하기" type="submit" disabled={!isValid} />
                             </section>
                         )}
                     </div>

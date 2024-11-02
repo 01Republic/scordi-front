@@ -1,33 +1,29 @@
 import React, {memo} from 'react';
 import {UseFormReturn} from 'react-hook-form';
-import cn from 'classnames';
 import {WithChildren} from '^types/global.type';
 import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';
-import {FormCustomerPhone} from './FormCustomerPhone';
-import {FormCustomerName} from './FormCustomerName';
-import {FormCustomerEmail} from './FormCustomerEmail';
+import {CTAButton} from './CTAButton';
+import {FormControlInput} from './FormControlInput';
 
 interface CustomerInfoSection extends WithChildren {
     nextStep: () => void;
-    form: UseFormReturn<CreateScordiPaymentWithCustomerKeyRequestDto, any>;
+    form: UseFormReturn<CreateScordiPaymentWithCustomerKeyRequestDto>;
 }
 
 export const UserInfoSection = memo((props: CustomerInfoSection) => {
     const {nextStep, form, children} = props;
-    const {register, watch, formState} = form;
-    const {errors, isValid} = formState;
+    const {errors} = form.formState;
 
-    const customerName = watch('customerName');
-    const customerEmail = watch('customerEmail');
-    const customerPhone = watch('customerPhone');
+    const checkValid = () => {
+        if (errors.planId) return false;
+        if (errors.customerName) return false;
+        if (errors.customerEmail) return false;
+        if (errors.customerPhone) return false;
 
-    const isStepValid =
-        customerName &&
-        customerEmail &&
-        customerPhone &&
-        !errors.customerName &&
-        !errors.customerEmail &&
-        !errors.customerPhone;
+        return true;
+    };
+
+    const isValid = checkValid();
 
     return (
         <article className="p-8 flex flex-col sm:flex-row gap-8 sm:gap-16 h-full">
@@ -36,21 +32,54 @@ export const UserInfoSection = memo((props: CustomerInfoSection) => {
             <section className="w-full sm:w-2/3 h-full">
                 <div className="w-full h-full flex flex-col justify-between text-sm">
                     <article className="flex flex-col gap-5">
-                        <FormCustomerName register={register} watch={watch} errors={errors} />
-                        <FormCustomerEmail form={form} />
-                        <FormCustomerPhone register={register} watch={watch} errors={errors} />
+                        <FormControlInput
+                            f={form}
+                            label="이름"
+                            field="customerName"
+                            register={form.register('customerName', {
+                                required: '이름을 입력해주세요',
+                            })}
+                            errorMessage={errors.customerName?.message}
+                        />
+                        <FormControlInput
+                            f={form}
+                            type="email"
+                            label="이메일 주소"
+                            field="customerEmail"
+                            register={form.register('customerEmail', {
+                                required: '잘못된 이메일 주소입니다.',
+                                pattern: {
+                                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                    message: '잘못된 이메일 주소입니다.',
+                                },
+                            })}
+                            errorMessage={errors.customerEmail?.message}
+                        />
+                        <FormControlInput
+                            f={form}
+                            type="tel"
+                            label="전화번호"
+                            field="customerPhone"
+                            register={form.register('customerPhone', {
+                                required: '전화번호를 입력해주세요.',
+                                minLength: {
+                                    value: 11,
+                                    message: '전화번호를 다시 확인해주세요',
+                                },
+                                pattern: {
+                                    value: /^[0-9]+$/,
+                                    message: '11자리의 숫자로 입력해주세요',
+                                },
+                                onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+                                    const value = e.target.value.replace(/[^0-9]/g, '');
+                                    e.target.value = value.slice(0, 11);
+                                },
+                            })}
+                            errorMessage={errors.customerPhone?.message}
+                        />
                     </article>
-                    <button
-                        type="button"
-                        className={cn('w-full rounded-md h-10 text-white', {
-                            'bg-gray-300': !isStepValid,
-                            'bg-[#6454FF]': isStepValid,
-                        })}
-                        onClick={nextStep}
-                        disabled={!isStepValid}
-                    >
-                        다음
-                    </button>
+
+                    <CTAButton text="다음" onClick={() => isValid && nextStep()} disabled={!isValid} />
                 </div>
             </section>
         </article>

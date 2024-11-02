@@ -1,45 +1,40 @@
 import React, {memo} from 'react';
-import {useFormContext, UseFormRegister, UseFormSetFocus} from 'react-hook-form';
+import {UseFormReturn} from 'react-hook-form';
 import {WithChildren} from '^types/global.type';
 import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';
+import {NumberTextInput} from './TextInput';
 
 interface FormCardPasswordProps extends WithChildren {
-    register: UseFormRegister<CreateScordiPaymentWithCustomerKeyRequestDto>;
+    form: UseFormReturn<CreateScordiPaymentWithCustomerKeyRequestDto, any>;
 }
 
 export const FormCardPassword = memo((props: FormCardPasswordProps) => {
-    const {register} = props;
+    const {
+        form: {register, setFocus},
+    } = props;
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-
-        if (value.length >= 2) {
-            e.target.value = value.slice(0, 2);
-        }
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.target.value = e.target.value.slice(0, 2);
+        if (e.target.value.length >= 2) setFocus('customerIdentityNumber');
     };
 
     return (
         <div className="w-full">
             <label htmlFor="cardPassword" className="flex flex-col gap-2">
                 <span>카드 비밀번호 (앞 2자리) </span>
-                <input
-                    type="password"
-                    {...register('cardPassword', {
-                        required: '비밀번호를 확인해주세요',
-                        minLength: {
-                            value: 2,
-                            message: '비밀번호를 확인해주세요',
-                        },
-                        onChange: (e) => {
-                            handleInputChange(e);
-                        },
-                    })}
-                    className="border w-20 h-10 lg:h-11 rounded-lg pl-4"
-                    onInput={(e) => {
-                        const input = e.target as HTMLInputElement;
-                        input.value = input.value.replace(/[^0-9]/g, '');
-                    }}
-                />
+                <div className="grid grid-cols-5">
+                    <NumberTextInput
+                        type="password"
+                        {...register('cardPassword', {
+                            required: '비밀번호를 확인해주세요',
+                            minLength: {
+                                value: 2,
+                                message: '비밀번호를 확인해주세요',
+                            },
+                            onChange,
+                        })}
+                    />
+                </div>
             </label>
         </div>
     );

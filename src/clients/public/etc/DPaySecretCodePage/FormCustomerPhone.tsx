@@ -36,6 +36,10 @@ export const FormCustomerPhone = memo((props: FormCustomerPhoneProps) => {
                             value: 11,
                             message: '전화번호를 다시 확인해주세요',
                         },
+                        pattern: {
+                            value: /^[0-9]+$/,
+                            message: '11자리의 숫자로 입력해주세요',
+                        },
                         onChange: (e) => {
                             handleInputChange(e);
                         },

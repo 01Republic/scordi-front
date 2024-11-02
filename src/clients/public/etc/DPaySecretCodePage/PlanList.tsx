@@ -2,7 +2,7 @@ import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
 import {UseFormReturn} from 'react-hook-form';
 import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';
 import React, {memo, useEffect, useState} from 'react';
-import {PlanItem} from '^clients/public/etc/DPaySecretCodePage/PlanItem';
+import {PlanItem} from './PlanItem';
 
 interface PlanListProps {
     plans: ScordiPlanDto[];
