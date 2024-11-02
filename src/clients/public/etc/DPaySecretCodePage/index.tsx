@@ -17,24 +17,25 @@ import {UserInfoSection} from './CustomerInfoSection';
 import {PaymentComplete} from './PaymentComplete';
 import {debounce} from 'lodash';
 import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
-import {PageSEO} from '^components/SEO';
+import {PageSEO, SEO} from '^components/SEO';
 import {DPaySecretCodePageRoute} from '^pages/direct-pay/[secretCode]';
+import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
 
-export const DPaySecretCodePage = memo(function DPaySecretCodePage() {
+export const DPaySecretCodePage = memo(({plans}: {plans: ScordiPlanDto[]}) => {
     const secretCode = useRecoilValue(secretCodeParamsAtom);
     const {postDirectPayMutate, isPending} = usePostDirectPay();
-    const {plans, fetch} = useDPayPlanList();
+    // const {plans, fetch} = useDPayPlanList();
     const [currentStep, setCurrentStep] = useState(1);
     const [resultPayment, setResultPayment] = useState<ScordiPaymentDto>();
     const form = useForm<CreateScordiPaymentWithCustomerKeyRequestDto>();
 
-    useEffect(() => {
-        if (!secretCode) return;
-        fetch({
-            where: {secretCode, isActive: true},
-            itemsPerPage: 0,
-        });
-    }, [secretCode]);
+    // useEffect(() => {
+    //     if (!secretCode) return;
+    //     fetch({
+    //         where: {secretCode, isActive: true},
+    //         itemsPerPage: 0,
+    //     });
+    // }, [secretCode]);
 
     const onSubmit = debounce((data: CreateScordiPaymentWithCustomerKeyRequestDto) => {
         data.cardNumber = data.cardNumberFirst + data.cardNumberSecond + data.cardNumberThird + data.cardNumberFourth;
@@ -51,10 +52,15 @@ export const DPaySecretCodePage = memo(function DPaySecretCodePage() {
 
     return (
         <DPayPageLayout>
-            <PageSEO
+            <SEO
                 url={DPaySecretCodePageRoute.url(secretCode)}
                 title={`참가비 결제를 요청합니다 | D-Pay`}
                 description={`${plans.map((plan) => `${plan.name} - ${plan.price.toLocaleString()}원`).join(' / ')}`}
+                keywords={`D-Pay, 디페이, 간편결제, 스코디, 제로원리퍼블릭, ${plans
+                    .map((plan) => plan.name)
+                    .join(', ')}`}
+                thumbnail={'-'}
+                siteName="D-Pay"
             />
             <ChannelTalkHideStyle />
             {!resultPayment ? (
