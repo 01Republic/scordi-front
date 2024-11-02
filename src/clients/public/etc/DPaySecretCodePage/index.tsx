@@ -26,17 +26,9 @@ export const DPaySecretCodePage = memo(({plans}: {plans: ScordiPlanDto[]}) => {
     const secretCode = useRecoilValue(secretCodeParamsAtom);
     const {postDirectPayMutate, isPending} = usePostDirectPay();
     // const {plans, fetch} = useDPayPlanList();
-    const [currentStep, setCurrentStep] = useState(1);
+    const [currentStep, setCurrentStep] = useState(0);
     const [resultPayment, setResultPayment] = useState<ScordiPaymentDto>();
     const form = useForm<CreateScordiPaymentWithCustomerKeyRequestDto>();
-
-    // useEffect(() => {
-    //     if (!secretCode) return;
-    //     fetch({
-    //         where: {secretCode, isActive: true},
-    //         itemsPerPage: 0,
-    //     });
-    // }, [secretCode]);
 
     const onSubmit = debounce((data: CreateScordiPaymentWithCustomerKeyRequestDto) => {
         data.cardNumber = data.cardNumberFirst + data.cardNumberSecond + data.cardNumberThird + data.cardNumberFourth;
@@ -52,19 +44,49 @@ export const DPaySecretCodePage = memo(({plans}: {plans: ScordiPlanDto[]}) => {
     const prevStep = () => setCurrentStep((prev) => prev - 1);
     const planNames = plans.map((plan) => plan.name).join(', ');
 
+    if (currentStep === 0) {
+        return (
+            <div className="bg-gray-300">
+                <SEO
+                    url={DPaySecretCodePageRoute.url(secretCode)}
+                    title={`참가비 결제를 요청합니다 | D-Pay`}
+                    description={`${plans
+                        .map((plan) => `${plan.name} - ${plan.price.toLocaleString()}원`)
+                        .join(' / ')}`}
+                    keywords={`D-Pay, 디페이, 간편결제, 스코디, 제로원리퍼블릭, ${planNames}`}
+                    // thumbnail={serviceHost + '/images/thumbnails/01R-og_img-alt-241011.png'}
+                    // thumbnail={`https://smartseotools.org/placeholder/800x420/6453ff/ffffff/---_/webp`}
+                    // thumbnail={`https://smartseotools.org/placeholder/800x420/6453ff/ffffff/~$/webp`}
+                    thumbnail={`https://smartseotools.org/placeholder/800x420/6453ff/ffffff/d-pay''/webp`}
+                    siteName="D-Pay"
+                />
+                <ChannelTalkHideStyle />
+                <img
+                    src="https://scontent-gmp1-1.xx.fbcdn.net/v/t39.30808-6/464592335_531482172993693_3122415523032101838_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=wyqLBJm5N6cQ7kNvgHWL6Ke&_nc_zt=23&_nc_ht=scontent-gmp1-1.xx&_nc_gid=AFUqoLHRQ-F0kBT7mNAtmtO&oh=00_AYBgeQjqRdCzQXCoKvBTsPJtFJrVpxaF_dJk38UmWZX2zA&oe=672C02FD"
+                    alt="event cover page"
+                    style={{
+                        width: '100%',
+                    }}
+                />
+                <div className="sticky bottom-0 w-full">
+                    <div className="w-full max-w-3xl mx-auto p-8">
+                        <button
+                            className="btn btn-block btn-lg bg-white text-black hover:bg-gray-100"
+                            style={{
+                                boxShadow: '0 12px 60px #555',
+                            }}
+                            onClick={nextStep}
+                        >
+                            참여비 결제 시작하기
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <DPayPageLayout>
-            <SEO
-                url={DPaySecretCodePageRoute.url(secretCode)}
-                title={`참가비 결제를 요청합니다 | D-Pay`}
-                description={`${plans.map((plan) => `${plan.name} - ${plan.price.toLocaleString()}원`).join(' / ')}`}
-                keywords={`D-Pay, 디페이, 간편결제, 스코디, 제로원리퍼블릭, ${planNames}`}
-                // thumbnail={serviceHost + '/images/thumbnails/01R-og_img-alt-241011.png'}
-                // thumbnail={`https://smartseotools.org/placeholder/800x420/6453ff/ffffff/---_/webp`}
-                // thumbnail={`https://smartseotools.org/placeholder/800x420/6453ff/ffffff/~$/webp`}
-                thumbnail={`https://smartseotools.org/placeholder/800x420/6453ff/ffffff/d-pay''/webp`}
-                siteName="D-Pay"
-            />
             <ChannelTalkHideStyle />
             {!resultPayment ? (
                 <form className="w-full h-full" onSubmit={form.handleSubmit(onSubmit)}>
