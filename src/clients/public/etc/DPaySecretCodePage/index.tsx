@@ -20,6 +20,7 @@ import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/
 import {PageSEO, SEO} from '^components/SEO';
 import {DPaySecretCodePageRoute} from '^pages/direct-pay/[secretCode]';
 import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
+import {serviceHost} from '^config/environments';
 
 export const DPaySecretCodePage = memo(({plans}: {plans: ScordiPlanDto[]}) => {
     const secretCode = useRecoilValue(secretCodeParamsAtom);
@@ -49,6 +50,7 @@ export const DPaySecretCodePage = memo(({plans}: {plans: ScordiPlanDto[]}) => {
 
     const nextStep = () => setCurrentStep((prev) => prev + 1);
     const prevStep = () => setCurrentStep((prev) => prev - 1);
+    const planNames = plans.map((plan) => plan.name).join(', ');
 
     return (
         <DPayPageLayout>
@@ -56,10 +58,11 @@ export const DPaySecretCodePage = memo(({plans}: {plans: ScordiPlanDto[]}) => {
                 url={DPaySecretCodePageRoute.url(secretCode)}
                 title={`참가비 결제를 요청합니다 | D-Pay`}
                 description={`${plans.map((plan) => `${plan.name} - ${plan.price.toLocaleString()}원`).join(' / ')}`}
-                keywords={`D-Pay, 디페이, 간편결제, 스코디, 제로원리퍼블릭, ${plans
-                    .map((plan) => plan.name)
-                    .join(', ')}`}
-                thumbnail={'-'}
+                keywords={`D-Pay, 디페이, 간편결제, 스코디, 제로원리퍼블릭, ${planNames}`}
+                // thumbnail={serviceHost + '/images/thumbnails/01R-og_img-alt-241011.png'}
+                // thumbnail={`https://smartseotools.org/placeholder/800x420/6453ff/ffffff/---_/webp`}
+                // thumbnail={`https://smartseotools.org/placeholder/800x420/6453ff/ffffff/~$/webp`}
+                thumbnail={`https://smartseotools.org/placeholder/800x420/6453ff/ffffff/d-pay''/webp`}
                 siteName="D-Pay"
             />
             <ChannelTalkHideStyle />

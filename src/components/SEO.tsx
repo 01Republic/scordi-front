@@ -22,13 +22,13 @@ export const SEO = memo((props: SEOProps) => {
         props.description ||
         '스코디는 흩어진 SaaS를 클릭 한 번으로 모으고 결제부터 멤버, 구독, 계정까지 한 곳에서 관리하는 올인원 SaaS 관리 솔루션입니다.';
     const url = props.url || serviceHost;
-    const logo = `${url}/images/logo/scordi/favicon.png`;
-    const logoCircle = `${url}/images/logo/scordi/favicon2.png`;
-    const favicon = `${url}/images/logo/scordi/favicon-renewal.png`;
+    // const logo = `${url}/images/logo/scordi/favicon.png`;
+    // const logoCircle = `${url}/images/logo/scordi/favicon2.png`;
     // const favicon = `/images/logo/scordi/favicon.png`;
-    const thumbnail = props.thumbnail || `${url}/images/thumbnails/scordi-renewal-og_img.png`;
+    const favicon = `${serviceHost}/images/logo/scordi/favicon-renewal.png`;
     // const thumbnail = `${serviceHost}/home/202305/tasting/thumbnail.png`;
     // const thumbnail = `${serviceHost}/images/thumbnails/scordi-og_img-230806.png`;
+    const thumbnail = props.thumbnail || `${url}/images/thumbnails/scordi-renewal-og_img.png`;
     const company = props.author || '01Republic, Inc.';
     const serviceName = props.siteName || 'Scordi';
     const keywords =
@@ -65,13 +65,14 @@ export const SEO = memo((props: SEOProps) => {
             'https://instagram.com/saas.scordi?igshid=NTc4MTIwNjQ2YQ==',
             'https://www.linkedin.com/company/01republic-inc',
             'https://blog.naver.com/saas_scordi',
+            'https://blog.scordi.io/',
         ],
         image: thumbnail,
         logo: favicon,
         contactPoint: [
             {
                 '@type': 'ContactPoint',
-                telephone: '+82-10-2482-4541',
+                telephone: '+82-2-2088-6337',
                 contactOption: 'TollFree',
                 areaServed: 'KR',
             },
