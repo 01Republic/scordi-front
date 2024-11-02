@@ -45,11 +45,11 @@ export const BillingHistoryMonthly = memo((props: BillingHistoryMonthlyProps) =>
 
     return (
         <div className="bg-white border border-gray-300 overflow-hidden shadow rounded-2xl">
-            <div className="overflow-x-auto w-full">
+            <div className="overflow-x-auto w-full hide-scrollbar">
                 <table className="table w-full text-sm">
                     <thead>
                         <tr className="bg-slate-100">
-                            <th className={'sticky left-0 !bg-slate-100 z-10'}>서비스명</th>
+                            <th className={'sticky left-0 !bg-slate-100 flex z-10 border-r-2'}>서비스명</th>
                             <th className={'text-right'}>유/무료</th>
                             <th className={'text-right'}>총 지출액</th>
                             <th className={'text-right'}>평균지출액</th>
@@ -71,7 +71,11 @@ export const BillingHistoryMonthly = memo((props: BillingHistoryMonthlyProps) =>
                             history.map((monthly, idx) => {
                                 return (
                                     <tr key={idx} className={'group'}>
-                                        <td className={'sticky left-0 bg-white z-10 flex space-x-2 font-medium w-52'}>
+                                        <td
+                                            className={
+                                                'sticky left-0 bg-white z-10 flex space-x-2 font-medium w-52 border-r-2 shadow-lg'
+                                            }
+                                        >
                                             <Avatar
                                                 className="w-6 h-6"
                                                 src={monthly.subscription.product.image}
