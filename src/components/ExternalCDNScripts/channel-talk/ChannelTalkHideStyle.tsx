@@ -19,18 +19,18 @@ export const ChannelTalkHideStyle = memo((props: ChannelTalkHideStyleProps) => {
         }
     }, [router.isReady]);
 
-    return <></>;
-    // return (
-    //     <style
-    //         dangerouslySetInnerHTML={{
-    //             __html: `
-    //         @media (max-width: ${maxWidth}) {
-    //             body > #ch-plugin {
-    //                 display:none !important;
-    //             }
-    //         }
-    //         `,
-    //         }}
-    //     />
-    // );
+    // return <></>;
+    return (
+        <style
+            dangerouslySetInnerHTML={{
+                __html: `
+            @media (max-width: ${maxWidth}) {
+                body > #ch-plugin {
+                    display:none !important;
+                }
+            }
+            `,
+            }}
+        />
+    );
 });

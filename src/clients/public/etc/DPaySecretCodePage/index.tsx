@@ -16,6 +16,7 @@ import {CardInfoSection} from './CardInfoSection';
 import {UserInfoSection} from './CustomerInfoSection';
 import {PaymentComplete} from './PaymentComplete';
 import {debounce} from 'lodash';
+import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
 
 export const DPaySecretCodePage = memo(function DPaySecretCodePage() {
     const secretCode = useRecoilValue(secretCodeParamsAtom);
@@ -48,6 +49,7 @@ export const DPaySecretCodePage = memo(function DPaySecretCodePage() {
 
     return (
         <DPayPageLayout>
+            <ChannelTalkHideStyle />
             {!resultPayment ? (
                 <form className="w-full h-full" onSubmit={form.handleSubmit(onSubmit)}>
                     {currentStep === 1 && (
