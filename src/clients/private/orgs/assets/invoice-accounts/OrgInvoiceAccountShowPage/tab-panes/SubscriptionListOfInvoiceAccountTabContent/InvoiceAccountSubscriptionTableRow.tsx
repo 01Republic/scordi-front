@@ -38,6 +38,8 @@ export const InvoiceAccountSubscriptionTableRow = memo((props: InvoiceAccountSub
         reload();
     };
 
+    if (!currentInvoiceAccount) return <></>;
+
     const {nextComputedBillingDate} = subscription;
 
     return (
@@ -93,20 +95,22 @@ export const InvoiceAccountSubscriptionTableRow = memo((props: InvoiceAccountSub
             {/* Action */}
             <td>
                 <div className="flex items-center justify-center">
-                    <Tippy className="!text-12" content="안써요">
-                        <div>
-                            <button
-                                className="relative text-red-300 hover:text-red-500 transition-all"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    e.preventDefault();
-                                    return disconnect();
-                                }}
-                            >
-                                <BsDashCircle className="" size={24} strokeWidth={0.3} />
-                            </button>
-                        </div>
-                    </Tippy>
+                    {currentInvoiceAccount.isManuallyCreated && (
+                        <Tippy className="!text-12" content="안써요">
+                            <div>
+                                <button
+                                    className="relative text-red-300 hover:text-red-500 transition-all"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        e.preventDefault();
+                                        return disconnect();
+                                    }}
+                                >
+                                    <BsDashCircle className="" size={24} strokeWidth={0.3} />
+                                </button>
+                            </div>
+                        </Tippy>
+                    )}
                 </div>
             </td>
         </tr>

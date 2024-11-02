@@ -6,13 +6,14 @@ import {LinkTo} from '^components/util/LinkTo';
 import {useSubscriptionListOfCreditCard} from '^models/Subscription/hook';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
-import {useCurrentCreditCard} from '../../atom';
+import {useCurrentCodefCard, useCurrentCreditCard} from '../../atom';
 import {CreditCardSubscriptionTableHeader} from './CreditCardSubscriptionTableHeader';
 import {CreditCardSubscriptionTableRow} from './CreditCardSubscriptionTableRow';
 import {CreditCardAddSubscriptionModal} from './CreditCardAddSubscriptionModal';
 
 export const SubscriptionListOfCreditCardTabContent = memo(() => {
     const {currentCreditCard} = useCurrentCreditCard();
+    const {isManuallyCreated} = useCurrentCodefCard();
     const [isAddSubscriptionModalOpened, setAddSubscriptionModalOpened] = useState(false);
     const {isLoading, isNotLoaded, isEmptyResult, search, result, reload, movePage, changePageSize, orderBy} =
         useSubscriptionListOfCreditCard();
@@ -67,18 +68,23 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
                     </div>
 
                     <div className="flex items-center gap-2">
-                        <button
-                            className="btn btn-sm bg-white border-gray-300 hover:bg-white hover:border-gray-500 gap-2"
-                            onClick={() => setAddSubscriptionModalOpened(true)}
-                        >
-                            <FaPlus />
-                            <span>구독 연결하기</span>
-                        </button>
+                        {isManuallyCreated && (
+                            <button
+                                className="btn btn-sm bg-white border-gray-300 hover:bg-white hover:border-gray-500 gap-2"
+                                onClick={() => setAddSubscriptionModalOpened(true)}
+                            >
+                                <FaPlus />
+                                <span>구독 연결하기</span>
+                            </button>
+                        )}
                     </div>
                 </div>
 
                 {isEmptyResult ? (
-                    <EmptyTable message="연결된 구독이 없어요." Buttons={AddSubscriptionButton} />
+                    <EmptyTable
+                        message="연결된 구독이 없어요."
+                        Buttons={isManuallyCreated ? AddSubscriptionButton : undefined}
+                    />
                 ) : (
                     <ListTable
                         items={result.items}

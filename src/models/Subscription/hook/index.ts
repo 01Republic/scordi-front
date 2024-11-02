@@ -13,6 +13,7 @@ import {
     subscriptionListOfInvoiceAccountAtom,
     subscriptionsForSummaryState,
     subscriptionsInTeamMemberShowModalAtom,
+    subscriptionsInTeamShowPageAtom,
     subscriptionTableListAtom,
 } from '^models/Subscription/atom';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
@@ -35,6 +36,9 @@ export const useSubscriptionSearchResult = () => useSubscriptions(dashboardSubsc
 
 // 구독리스트 / 구독목록조회
 export const useSubscriptionTableListAtom = () => useSubscriptions(subscriptionTableListAtom);
+
+// 팀 상세 페이지 / 이용중인 서비스 목록
+export const useSubscriptionsInTeamShowPage = () => useSubscriptions(subscriptionsInTeamShowPageAtom);
 
 // 팀멤버 상세모달 / 이용중인 서비스 목록
 export const useSubscriptionsInTeamMemberShowModal = () =>

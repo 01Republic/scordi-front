@@ -18,10 +18,10 @@ export const ProductListHeader = memo(() => {
 
                 <div>
                     <LinkTo
-                        target="_blank"
                         className="btn btn-sm btn-scordi gap-2"
                         href={New_SaaS_Request_Form_Url}
                         displayLoading={false}
+                        target="_blank"
                     >
                         <FaConciergeBell />
                         <span>미등록 서비스 제보하기</span>

@@ -28,7 +28,7 @@ export const BetaSignSignPage = memo(() => {
     }, [accessTokenData]);
 
     return (
-        <LandingPageLayout pageName="BetaSignPhoneAuthPage">
+        <LandingPageLayout pageName="BetaSignPhoneAuthPage" hideNav hideFooter>
             <div className="mx-auto text-center py-20 w-full max-w-lg space-y-5">
                 <h1
                     className="text-2xl sm:text-4xl mb-8 font-bold"

@@ -20,3 +20,13 @@ export const onlyPath = (router: NextRouter) => {
     const {query, route} = router;
     return Object.entries(query).reduce((path, [k, v]) => path.replace(`[${k}]`, `${v}`), route);
 };
+
+export const parseQueryValue = (value: string | string[] | undefined): string => {
+    return [value].flat().join(',') || '';
+};
+
+export const urlWithQuery = (args: string[] = []) => {
+    const base = window.location.origin + window.location.pathname;
+    const query = args.join('&');
+    return [base, query].filter((e) => e).join('?');
+};

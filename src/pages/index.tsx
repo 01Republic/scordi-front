@@ -1,10 +1,10 @@
-import {GetServerSideProps} from 'next';
+import {useEffect} from 'react';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {useRouter} from 'next/router';
+import {deployEnv} from '^config/environments';
 import {publicPageRequires} from '^types/utils/18n.type';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {LandingHomePage3} from '^clients/public/home/LandingPages/HomePage3';
-import {useRouter} from 'next/router';
-import {useEffect} from 'react';
 
 export const MainPageRoute = pathRoute({
     pathname: '/',
@@ -21,9 +21,9 @@ export const getStaticProps = async ({locale}: any) => ({
 export default function MainPage() {
     const router = useRouter();
     useEffect(() => {
-        router.replace('https://www.scordi.io');
+        if (deployEnv === 'production') router.replace('https://www.scordi.io');
     }, []);
-    return null;
+    return <LandingHomePage3 />;
 }
 
 /**

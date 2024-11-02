@@ -55,11 +55,7 @@ export const ContentFunnels = memo(function ContentFunnels() {
     }, [organizationId, currentConnectingProduct]);
 
     if (!currentConnectingProduct) {
-        return (
-            <div className="container max-w-4xl mx-auto pt-[40px]">
-                <ProductNotSelected />
-            </div>
-        );
+        return <div className="container max-w-4xl mx-auto pt-[40px]">{/*<ProductNotSelected />*/}</div>;
     }
 
     return (

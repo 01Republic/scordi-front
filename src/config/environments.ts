@@ -1,4 +1,5 @@
 export const appEnv = process.env.NODE_ENV! as 'development' | 'production' | 'test' | 'staging';
+export const deployEnv = process.env.NEXT_PUBLIC_APP_ENV! as 'development' | 'production' | 'test' | 'staging';
 export const serviceHost = process.env.NEXT_PUBLIC_SERVICE_HOST!;
 
 // 인라인 주석이 제거되지 않는 별 개 희한한 이슈가 있어서
@@ -45,3 +46,7 @@ export const measuredApiKey = xxx(process.env.NEXT_PUBLIC_MEASURED_API_KEY as st
 export const stepByKey = xxx(process.env.NEXT_PUBLIC_STEPBY_KEY as string);
 
 export const zero1_republic_workspace_id = 10;
+
+export const tossPaymentsKey = {
+    clientKey: xxx(process.env.NEXT_PUBLIC_TOSS_PAYMENTS_CLIENT_KEY),
+};

@@ -21,7 +21,7 @@
     "start_with_phone_number": "시작하기"
   },
   "terms_modal": {
-    "title": "동의 하시면 무료 체험이 확정됩니다.",
+    "title": "동의 하시면 회원가입이 완료됩니다.",
     "agree_all": "전체 동의",
     "agree_to": "[{{prefix}}] {{termName}} 동의",
     "required": "필수",

@@ -59,7 +59,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                 isLoading={isLoading}
                 isNotLoaded={isNotLoaded}
                 isEmptyResult={isEmptyResult}
-                emptyMessage="등록된 구독이 없어요."
+                emptyMessage="조회된 구독이 없어요."
                 EmptyButtons={AddSubscriptionButton}
             >
                 <ListTable

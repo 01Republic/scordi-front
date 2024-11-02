@@ -6,13 +6,21 @@ import {TeamTag} from '^models/Team/components/TeamTag';
 import {useCurrentTeamMember} from '../atom';
 import {KeyValue} from '^clients/private/_components/rest-pages/ShowPage/KeyValue';
 import {ContactButton} from '^clients/private/_components/rest-pages/ShowPage/ContactButton';
+import {useRouter} from 'next/router';
+import {OrgTeamDetailPageRoute} from '^pages/orgs/[id]/teams/[teamId]';
+import {TeamDto} from '^models/Team/type';
 
 export const TeamMemberProfilePanel = memo(function TeamMemberProfilePanel() {
     const {currentTeamMember} = useCurrentTeamMember();
+    const router = useRouter();
 
     if (!currentTeamMember) return <></>;
 
     const teams = currentTeamMember.teams || [];
+    const goToTeamDetailPage = (team: TeamDto) => {
+        const teamDetailPageUrl = OrgTeamDetailPageRoute.path(team.organizationId, team.id);
+        return router.push(teamDetailPageUrl);
+    };
 
     return (
         <div className="flex gap-8">
@@ -31,7 +39,11 @@ export const TeamMemberProfilePanel = memo(function TeamMemberProfilePanel() {
                         value={
                             <div className="flex items-center gap-1">
                                 {teams.length > 0 ? (
-                                    teams.map((team, i) => <TeamTag id={team.id} name={team.name} key={i} />)
+                                    teams.map((team, i) => (
+                                        <div key={i} onClick={() => goToTeamDetailPage(team)}>
+                                            <TeamTag id={team.id} name={team.name} />
+                                        </div>
+                                    ))
                                 ) : (
                                     <i className="text-gray-400">미설정</i>
                                 )}

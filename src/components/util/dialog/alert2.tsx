@@ -49,7 +49,7 @@ function styled(
         ...options,
         customClass: {
             actions: '!mx-0 !px-5 gap-2',
-            confirmButton: 'btn !btn-scordi !btn-block !rounded-btn !m-0',
+            confirmButton: 'btn btn-scordi !btn-block !rounded-btn !m-0',
             icon: '!absolute !right-0 !top-0 !m-0 !transform !scale-50',
             ...(options.customClass as object),
         },

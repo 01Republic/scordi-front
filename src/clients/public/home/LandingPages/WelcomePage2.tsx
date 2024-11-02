@@ -21,7 +21,7 @@ export const WelcomePage2 = memo(() => {
     })();
 
     return (
-        <LandingPageLayout pageName="WelcomePage">
+        <LandingPageLayout pageName="WelcomePage" hideNav hideFooter>
             <div className="mx-auto text-center py-20 w-full max-w-lg space-y-5">
                 <CheckCircle className="w-[60px] mb-10" color="#5E5FEE" />
 

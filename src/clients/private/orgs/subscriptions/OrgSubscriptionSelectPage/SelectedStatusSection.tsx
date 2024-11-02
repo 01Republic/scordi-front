@@ -35,6 +35,7 @@ export const SelectedStatusSection = memo(function SelectedStatusSection() {
                         className="btn btn-xs btn-ghost gap-2"
                         href={New_SaaS_Request_Form_Url}
                         displayLoading={false}
+                        target="_blank"
                     >
                         <FaConciergeBell />
                         <span>미등록 서비스 제보하기</span>

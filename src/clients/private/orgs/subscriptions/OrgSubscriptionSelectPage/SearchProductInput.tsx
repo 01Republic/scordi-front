@@ -35,7 +35,7 @@ export const SearchProductInput = memo(function SearchProductInput() {
                 className="input input-md input-bordered shadow w-full pl-[50px]"
                 autoComplete="off"
                 spellCheck="false"
-                placeholder="Search 3,000+ apps"
+                placeholder="3,000 가지 이상의 앱을 검색해보세요."
                 onChange={(e) => searchProduct(e.target.value)}
             />
         </div>

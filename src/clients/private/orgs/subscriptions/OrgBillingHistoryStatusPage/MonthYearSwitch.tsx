@@ -21,7 +21,7 @@ export const MonthYearSwitch = memo((props: MonthYearSwitchProps) => {
                     key={i}
                     type="button"
                     onClick={() => onChange && onChange(option.value)}
-                    className={`btn btn-sm rounded-[0.5rem] border-0 ${
+                    className={`btn btn-sm rounded-[0.5rem] border-0 no-animation ${
                         option.value === defaultValue
                             ? 'bg-white hover:bg-white shadow-lg'
                             : 'bg-transparent hover:bg-transparent text-gray-400 hover:text-gray-600'

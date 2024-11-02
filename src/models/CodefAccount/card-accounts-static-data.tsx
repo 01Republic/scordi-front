@@ -112,3 +112,168 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
         loginPageUrl: 'https://nhbizcard.nonghyup.com/iccn0000i.act',
     },
 ];
+
+export const cardsStaticDataAlt = [
+    {
+        displayName: '기업 BC',
+        param: '3K',
+        ko: '기업비씨',
+        en: 'IBK_BC',
+    },
+    {
+        displayName: '광주은행',
+        param: '46',
+        ko: '광주',
+        en: 'GWANGJUBANK',
+    },
+    {
+        displayName: '롯데카드',
+        param: '71',
+        ko: '롯데',
+        en: 'LOTTE',
+    },
+    {
+        displayName: 'KDB산업은행',
+        param: '30',
+        ko: '산업',
+        en: 'KDBBANK',
+    },
+    {
+        displayName: 'BC카드',
+        param: '31',
+        ko: 'BC',
+        en: 'BC',
+    },
+    {
+        displayName: '삼성카드',
+        param: '51',
+        ko: '삼성',
+        en: 'SAMSUNG',
+    },
+    {
+        displayName: '새마을금고',
+        param: '38',
+        ko: '새마을',
+        en: 'SAEMAUL',
+    },
+    {
+        displayName: '신한카드',
+        param: '41',
+        ko: '신한',
+        en: 'SHINHAN',
+    },
+    {
+        displayName: '신협',
+        param: '62',
+        ko: '신협',
+        en: 'SHINHYEOP',
+    },
+    {
+        displayName: '씨티카드',
+        param: '36',
+        ko: '씨티',
+        en: 'CITI',
+    },
+    {
+        displayName: '우리BC카드(BC 매입)',
+        param: '33',
+        ko: '우리',
+        en: 'WOORI',
+    },
+    {
+        displayName: '우리카드(우리 매입)',
+        param: 'W1',
+        ko: '우리',
+        en: 'WOORI',
+    },
+    {
+        displayName: '우체국예금보험',
+        param: '37',
+        ko: '우체국',
+        en: 'POST',
+    },
+    {
+        displayName: '저축은행중앙회',
+        param: '39',
+        ko: '저축',
+        en: 'SAVINGBANK',
+    },
+    {
+        displayName: '전북은행',
+        param: '35',
+        ko: '전북',
+        en: 'JEONBUKBANK',
+    },
+    {
+        displayName: '제주은행',
+        param: '42',
+        ko: '제주',
+        en: 'JEJUBANK',
+    },
+    {
+        displayName: '카카오뱅크',
+        param: '15',
+        ko: '카카오뱅크',
+        en: 'KAKAOBANK',
+        logo: '/logo/cards/samsungcard.png',
+        themeColor: '#034ea2',
+    },
+    {
+        displayName: '케이뱅크',
+        param: '3A',
+        ko: '케이뱅크',
+        en: 'KBANK',
+    },
+    {
+        displayName: '토스뱅크',
+        param: '24',
+        ko: '토스뱅크',
+        en: 'TOSSBANK',
+    },
+    {
+        displayName: '하나카드',
+        param: '21',
+        ko: '하나',
+        en: 'HANA',
+    },
+    {
+        displayName: '현대카드',
+        param: '61',
+        ko: '현대',
+        en: 'HYUNDAI',
+    },
+    {
+        displayName: 'KB국민카드',
+        param: '11',
+        ko: '국민',
+        en: 'KOOKMIN',
+    },
+    {
+        displayName: 'NH농협카드',
+        param: '91',
+        ko: '농협',
+        en: 'NONGHYEOP',
+    },
+    {
+        displayName: 'Sh수협은행',
+        param: '34',
+        ko: '수협',
+        en: 'SUHYEOP',
+    },
+    {
+        displayName: '페이코',
+        param: 'PCP',
+        ko: 'PCP',
+        en: 'PCP',
+    },
+    {
+        displayName: 'KB증권',
+        param: 'KBS',
+        ko: 'KBS',
+        en: 'KBS',
+    },
+];
+
+export function getCardCompanyAlt(param: string) {
+    return cardsStaticDataAlt.find((d) => d.param === param);
+}

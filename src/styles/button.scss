@@ -263,3 +263,69 @@ $color-scale-list: (50, 100, 200, 300, 400, 500, 600, 700, 800, 900);
 .btn-modal {
     @apply btn btn-lg btn-block btn-scordi font-medium text-white text-xl bg-slate-50;
 }
+
+/**
+ * Setting Page Button Style
+ */
+
+.btn3 {
+    @apply btn; // extends .btn
+    @apply rounded-md border-gray-300 bg-white shadow;
+    @apply text-gray-400 font-normal;
+
+    &:hover {
+        @apply bg-slate-50 border-gray-300;
+        @apply text-gray-800;
+    }
+
+    @apply px-4 text-16;
+    min-height: initial;
+    height: 42px;
+
+    &.btn-xs {
+        $height: 1.5rem;
+        @apply px-2 text-12;
+        min-height: $height;
+        height: $height;
+    }
+
+    &.btn-sm {
+        $height: 2rem;
+        @apply px-3 text-14;
+        min-height: $height;
+        height: $height;
+    }
+
+    &.btn-md {
+        $height: 42px;
+        @apply px-4 text-16;
+        min-height: $height;
+        height: $height;
+    }
+
+    &.btn-lg {
+        $height: 3.6rem;
+        @apply px-8 text-18;
+        min-height: $height;
+        height: $height;
+    }
+
+    &.btn-xl {
+        $height: 3.8rem;
+        @apply px-10 text-20;
+        min-height: $height;
+        height: $height;
+    }
+
+    &.btn-2xl {
+        $height: 4rem;
+        @apply px-12 text-24;
+        min-height: $height;
+        height: $height;
+    }
+
+
+    &.btn-square {
+        @apply px-0;
+    }
+}

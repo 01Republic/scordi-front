@@ -44,52 +44,55 @@ interface CurrentUserOption {
 
 export function useCurrentUser(fallbackPath?: string | null, opt?: CurrentUserOption) {
     const router = useRouter();
-    const initialized = useRef(false);
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
-    const [query, setQuery] = useRecoilState(getCurrentUserQueryAtom);
+    const setQuery = useSetRecoilState(getCurrentUserQueryAtom);
     const [authenticatedUserData, setAuthenticatedUserData] = useRecoilState(authenticatedUserDataAtom);
     const currentUserMembership = currentUser?.memberships?.[0];
 
-    useEffect(() => {
-        // @ts-ignore
+    const getSession = (force = false) => {
+        const apiToken = getToken();
         setQuery((oldQuery) => {
-            if (oldQuery && JSON.stringify(oldQuery) === JSON.stringify(opt)) return oldQuery;
-            if (currentUser) return oldQuery;
+            if (!force && oldQuery === apiToken) return oldQuery;
 
-            const apiToken = getToken();
-            if (!apiToken) return oldQuery;
-
-            if (initialized.current) return oldQuery;
-
-            initialized.current = true;
-
-            const req = userSessionApi.index();
-            req.then((res) => setCurrentUser(res.data));
-            req.catch((err) => {
-                // invalid token 에러가 발생하면 localStorage token 삭제
-                localStorage.removeItem('token');
-                loginRequiredHandler(err, router, fallbackPath);
+            new Promise((resolve, reject) => {
+                userSessionApi
+                    .index()
+                    .then((res) => {
+                        setCurrentUser(res.data);
+                        resolve(res.data);
+                    })
+                    .catch((err) => {
+                        // invalid token 에러가 발생하면 localStorage token 삭제
+                        localStorage.removeItem('token');
+                        loginRequiredHandler(err, router, fallbackPath);
+                        reject();
+                    });
             });
 
-            return opt;
+            return apiToken;
         });
-    }, []);
-
-    const login = (data: UserLoginRequestDto, href?: string): Promise<UserDto> => {
-        return (
-            userSessionApi
-                .create(data)
-                // catch 는 login 함수를 사용하는 곳에서 개별처리 합니다.
-                .then((res) => {
-                    setToken(res.data.token);
-                    return userSessionApi.index().then(({data}) => {
-                        setCurrentUser(data);
-                        if (href) router.push(href);
-                        return data;
-                    });
-                })
-        );
     };
+
+    useEffect(() => {
+        if (!router.isReady) return;
+        getSession();
+    }, [router.isReady]);
+
+    // const login = (data: UserLoginRequestDto, href?: string): Promise<UserDto> => {
+    //     return (
+    //         userSessionApi
+    //             .create(data)
+    //             // catch 는 login 함수를 사용하는 곳에서 개별처리 합니다.
+    //             .then((res) => {
+    //                 setToken(res.data.token);
+    //                 return userSessionApi.index().then(({data}) => {
+    //                     setCurrentUser(data);
+    //                     if (href) router.push(href);
+    //                     return data;
+    //                 });
+    //             })
+    //     );
+    // };
 
     const socialLogin = (data: UserSocialLoginRequestDto, href?: string): Promise<UserDto> => {
         return userSessionApi
