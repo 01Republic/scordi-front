@@ -114,30 +114,31 @@ export const SEO = memo((props: SEOProps) => {
 interface PageSEOProps {
     url: string;
     title: string;
-    description: string;
-    thumbnail: string;
+    description?: string;
+    thumbnail?: string;
     author?: string;
     keywords?: string;
+    siteName?: string;
 }
 
 export const PageSEO = (props: PageSEOProps) => {
-    const {url, title, description, thumbnail, author = 'Team scordi', keywords = ''} = props;
+    const {url, title, description, thumbnail, author, siteName, keywords = ''} = props;
 
     return (
         <Head>
             <title>{title}</title>
-            <meta name="description" content={description} />
-            <meta name="author" content={author} />
-            <meta name="keywords" content={keywords} />
+            <meta name="description" content={description || ''} />
+            <meta name="author" content={author || 'Team scordi'} />
+            {keywords && <meta name="keywords" content={keywords} />}
 
             <meta property="og:url" content={url} />
             <meta property="og:type" content="website" />
             <meta property="og:title" content={title} />
-            <meta property="og:description" content={description} />
-            <meta property="og:image" content={thumbnail} />
-            <meta property="og:site_name" content="Scordi" />
+            <meta property="og:description" content={description || ''} />
+            <meta property="og:image" content={thumbnail || ''} />
+            <meta property="og:site_name" content={siteName || 'Scordi'} />
 
-            <meta name="twitter:description" content={description} />
+            <meta name="twitter:description" content={description || ''} />
             <meta name="twitter:image" content={thumbnail} />
             <meta name="twitter:card" content="summary_large_image" />
         </Head>

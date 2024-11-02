@@ -16,11 +16,14 @@ import {CardInfoSection} from './CardInfoSection';
 import {UserInfoSection} from './CustomerInfoSection';
 import {PaymentComplete} from './PaymentComplete';
 import {debounce} from 'lodash';
+import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
+import {PageSEO} from '^components/SEO';
+import {DPaySecretCodePageRoute} from '^pages/direct-pay/[secretCode]';
 
 export const DPaySecretCodePage = memo(function DPaySecretCodePage() {
     const secretCode = useRecoilValue(secretCodeParamsAtom);
     const {postDirectPayMutate, isPending} = usePostDirectPay();
-    const {isLoading, plans, fetch} = useDPayPlanList();
+    const {plans, fetch} = useDPayPlanList();
     const [currentStep, setCurrentStep] = useState(1);
     const [resultPayment, setResultPayment] = useState<ScordiPaymentDto>();
     const form = useForm<CreateScordiPaymentWithCustomerKeyRequestDto>();
@@ -48,6 +51,12 @@ export const DPaySecretCodePage = memo(function DPaySecretCodePage() {
 
     return (
         <DPayPageLayout>
+            <PageSEO
+                url={DPaySecretCodePageRoute.url(secretCode)}
+                title={`참가비 결제를 요청합니다 | D-Pay`}
+                description={`${plans.map((plan) => `${plan.name} - ${plan.price.toLocaleString()}원`).join(' / ')}`}
+            />
+            <ChannelTalkHideStyle />
             {!resultPayment ? (
                 <form className="w-full h-full" onSubmit={form.handleSubmit(onSubmit)}>
                     {currentStep === 1 && (
