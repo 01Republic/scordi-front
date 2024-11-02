@@ -1,8 +1,7 @@
 import React, {memo, useState} from 'react';
-import {useRecoilValue} from 'recoil';
-import {currentOrgAtom} from '^models/Organization/atom';
 import {OrgSettingsListSection} from '^clients/private/_layouts/OrgSettingsLayout';
 import {ChangeOrgInformationModal} from './ChangeOrgInformationModal';
+import {useCurrentOrg} from '^models/Organization/hook';
 
 interface OrgBasicInfoSectionProps {
     orgId: number;
@@ -10,8 +9,13 @@ interface OrgBasicInfoSectionProps {
 
 export const OrgBasicInfoSection = memo((props: OrgBasicInfoSectionProps) => {
     const {orgId} = props;
-    const currentOrg = useRecoilValue(currentOrgAtom);
+    const {currentOrg, reload} = useCurrentOrg(orgId);
     const [isChangeOrgInformationModalOpened, setIsChangeOrgInformationModalOpened] = useState(false);
+
+    const onCloseModal = () => {
+        setIsChangeOrgInformationModalOpened(false);
+        reload();
+    };
 
     return (
         <>
@@ -31,10 +35,7 @@ export const OrgBasicInfoSection = memo((props: OrgBasicInfoSectionProps) => {
                     {title: '멤버', desc: `${currentOrg?.memberCount}명`},
                 ]}
             />
-            <ChangeOrgInformationModal
-                isOpened={isChangeOrgInformationModalOpened}
-                onClose={() => setIsChangeOrgInformationModalOpened(false)}
-            />
+            <ChangeOrgInformationModal isOpened={isChangeOrgInformationModalOpened} onClose={onCloseModal} />
         </>
     );
 });
