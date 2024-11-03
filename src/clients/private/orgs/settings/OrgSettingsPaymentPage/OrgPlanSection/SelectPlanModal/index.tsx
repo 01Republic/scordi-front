@@ -2,14 +2,16 @@ import React, {memo, useEffect} from 'react';
 import {IoClose} from '@react-icons/all-files/io5/IoClose';
 import {useTossPayments} from '^hooks/useTossPayments';
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
+import {confirm2} from '^components/util/dialog';
 import {useScordiPlanList} from '^models/_scordi/ScordiPlan/hook';
 import {ScordiPlanDto, ScordiPlanStepType} from '^models/_scordi/ScordiPlan/type';
 import {useCurrentScordiSubscription} from '^models/_scordi/ScordiSubscription/hook';
 import {useScordiPaymentMethodsInSettingPage} from '^models/_scordi/ScordiPaymentMethod/hook';
-import {ScordiPlayTypeSwitch} from './ScordiPlayTypeSwitch';
-import {ScordiPlanCard} from './ScordiPlanCard';
-import {confirm2} from '^components/util/dialog';
 import {useScordiPaymentsInSettingPage} from '^models/_scordi/ScordiPayment/hook';
+import {ScordiPlanTypeSwitch} from './ScordiPlanTypeSwitch';
+import {ScordiSecretCodeInput} from './ScordiSecretCodeInput';
+import {ScordiPlanCard} from './ScordiPlanCard';
+import {LoadableBox} from '^components/util/loading';
 
 interface SelectPlanModalProps {
     orgId: number;
@@ -19,12 +21,13 @@ interface SelectPlanModalProps {
 
 export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanModalProps) {
     const {orgId, isOpened, onClose} = props;
-    const {scordiPlanList, fetch: fetchPlans} = useScordiPlanList();
+    const {isLoading, scordiPlanList, fetch: fetchPlans} = useScordiPlanList();
     const {currentSubscription, update} = useCurrentScordiSubscription();
     const {result, reload: reloadPaymentMethods} = useScordiPaymentMethodsInSettingPage();
     const {reload: reloadPaymentHistories} = useScordiPaymentsInSettingPage();
     const {requestBillingAuth} = useTossPayments();
 
+    // 현재 구독중인 플랜의 결제주기 또는 기본값
     const stepType = currentSubscription?.scordiPlan.stepType || ScordiPlanStepType.Month;
 
     const reloadResources = async () => {
@@ -66,6 +69,8 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
         });
     };
 
+    const groupedPlans = ScordiPlanDto.groupByPriority(scordiPlanList);
+
     return (
         <AnimatedModal open={isOpened} onClose={onClose}>
             <div className="relative mx-auto max-w-screen-lg w-full">
@@ -80,15 +85,18 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
                         </button>
                     </div>
 
-                    <div className="flex items-center justify-start mb-6">
-                        <ScordiPlayTypeSwitch />
+                    <div className="flex items-center justify-between mb-6">
+                        <ScordiPlanTypeSwitch />
+                        <ScordiSecretCodeInput />
                     </div>
 
-                    <div className={'flex items-stretch gap-8'}>
-                        {scordiPlanList.map((plan, i) => (
-                            <ScordiPlanCard key={i} plan={plan} onClick={() => changePlan(plan)} />
-                        ))}
-                    </div>
+                    <LoadableBox isLoading={isLoading} loadingType={2} spinnerPos="center" noPadding>
+                        <div className={'flex items-stretch gap-8'}>
+                            {Object.entries(groupedPlans).map(([_priority, [plan]]) => (
+                                <ScordiPlanCard key={plan.id} plan={plan} onClick={() => changePlan(plan)} />
+                            ))}
+                        </div>
+                    </LoadableBox>
                 </div>
             </div>
         </AnimatedModal>

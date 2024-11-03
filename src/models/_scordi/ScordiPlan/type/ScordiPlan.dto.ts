@@ -56,6 +56,14 @@ export class ScordiPlanDto {
 
         return format.replaceAll('%n', num).replaceAll('%u', unit);
     }
+
+    static groupByPriority(plans: ScordiPlanDto[]) {
+        return plans.reduce<Record<number, ScordiPlanDto[]>>((group, plan) => {
+            group[plan.priority] ||= [];
+            group[plan.priority].push(plan);
+            return group;
+        }, {});
+    }
 }
 
 interface StepTextOption {

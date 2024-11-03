@@ -9,7 +9,7 @@ export const ScordiPlanCardHeaderPrice = memo((props: ScordiPlanCardHeaderPriceP
     const {plan} = props;
 
     if (plan.isCustomInquired) return <>도입 문의</>;
-    if (plan.price === 0) return <>무료</>;
+    if (plan.regularPrice === 0 && plan.price === 0) return <>무료</>;
 
     return (
         <div>
@@ -17,8 +17,14 @@ export const ScordiPlanCardHeaderPrice = memo((props: ScordiPlanCardHeaderPriceP
                 {plan.regularPrice.toLocaleString()}
             </span>
             <br />
-            {plan.price.toLocaleString()}
-            <span className={'text-sm text-gray-500 font-medium'}>/{plan.getStepText()}</span>
+            {plan.price === 0 ? (
+                <>무료</>
+            ) : (
+                <span>
+                    {plan.price.toLocaleString()}
+                    <span className={'text-sm text-gray-500 font-medium'}>/{plan.getStepText()}</span>
+                </span>
+            )}
         </div>
     );
 });

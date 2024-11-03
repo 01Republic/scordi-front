@@ -3,7 +3,7 @@ import {ButtonGroupRadio} from '^components/util/form-control/inputs';
 import {useScordiPlanList} from '^models/_scordi/ScordiPlan/hook';
 import {ScordiPlanStepType} from '^models/_scordi/ScordiPlan/type';
 
-export const ScordiPlayTypeSwitch = memo(() => {
+export const ScordiPlanTypeSwitch = memo(() => {
     const {currentStepType, switchStepType} = useScordiPlanList();
 
     return (
@@ -23,4 +23,4 @@ export const ScordiPlayTypeSwitch = memo(() => {
         </div>
     );
 });
-ScordiPlayTypeSwitch.displayName = 'ScordiPlayTypeSwitch';
+ScordiPlanTypeSwitch.displayName = 'ScordiPlanTypeSwitch';
