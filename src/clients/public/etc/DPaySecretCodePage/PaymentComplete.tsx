@@ -40,7 +40,7 @@ export const PaymentComplete = memo((props: PaymentCompleteProps) => {
                 <div className="flex-1">
                     <LinkTo
                         className="btn btn-lg sm:btn-md btn-scordi btn-block rounded-lg"
-                        onClick={() => alert('우모 페이지 링크 언제줄거야')}
+                        href="https://umoh.io/ko/startup_party"
                         target="_blank"
                         displayLoading={false}
                     >
