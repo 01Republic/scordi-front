@@ -14,8 +14,8 @@ export const useScordiPlanList = () => {
     const [query, setQuery] = useRecoilState(scordiPlanListQueryAtom);
     const [currentStepType, setStepType] = useRecoilState(scordiPlanCurrentStepTypeAtom);
 
-    const fetch = (params: FindAllScordiPlanQueryDto = {}, force = false) => {
-        if (!force && JSON.stringify(params) === JSON.stringify(query)) return;
+    const fetch = async (params: FindAllScordiPlanQueryDto = {}, force = false) => {
+        if (!force && JSON.stringify(params) === JSON.stringify(query)) return scordiPlanList;
 
         setStepType((oldType) => {
             const newType = params?.where?.stepType as ScordiPlanStepType | undefined;
@@ -23,10 +23,16 @@ export const useScordiPlanList = () => {
         });
 
         setIsLoading(true);
-        scordiPlanApi
+        return scordiPlanApi
             .index(params)
-            .then((res) => setScordiPlanList(res.data))
-            .then(() => setQuery(params))
+            .then((res) => {
+                setScordiPlanList(res.data);
+                return res.data;
+            })
+            .then((result) => {
+                setQuery(params);
+                return result;
+            })
             .finally(() => setIsLoading(false));
     };
 

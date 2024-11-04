@@ -2,6 +2,7 @@ import {memo, useRef} from 'react';
 import {useScordiPlanList} from '^models/_scordi/ScordiPlan/hook';
 import {HiMiniInformationCircle} from 'react-icons/hi2';
 import {debounce} from 'lodash';
+import {toast} from 'react-hot-toast';
 
 interface ScordiSecretCodeInputProps {
     //
@@ -16,19 +17,21 @@ export const ScordiSecretCodeInput = memo((props: ScordiSecretCodeInputProps) =>
             where: {isPublic: true, stepType},
             secretCode,
             order: {priority: 'ASC', isPublic: 'ASC'},
+        }).then((plans = []) => {
+            if (secretCode) {
+                plans.find((plan) => plan.secretCode)
+                    ? toast.success('할인 코드가 적용 되었습니다!')
+                    : toast.error('할인 코드를 다시 확인해주세요 :(');
+            }
         });
     }, 500);
 
     return (
         <div className="flex items-center gap-4">
-            <div className="flex items-center gap-0.5">
-                {/*<div>*/}
-                {/*    <HiMiniInformationCircle fontSize={16} className="relative top-[-0.5px] text-gray-400" />*/}
-                {/*</div>*/}
-                <div className="text-14 text-gray-500">쿠폰코드 :</div>
-            </div>
+            <div className="flex items-center gap-0.5" />
             <div>
                 <form
+                    className="relative"
                     onSubmit={(e) => {
                         e.stopPropagation();
                         e.preventDefault();
@@ -38,11 +41,10 @@ export const ScordiSecretCodeInput = memo((props: ScordiSecretCodeInputProps) =>
                 >
                     <input
                         ref={inputRef}
-                        className="input input-bordered input-sm"
-                        onChange={(e) => {
-                            onSubmit(e.target.value);
-                        }}
+                        className="input input-bordered input-sm pr-14"
+                        placeholder="쿠폰코드를 입력해주세요."
                     />
+                    <button className="btn btn-xs btn-scordi absolute top-0 bottom-0 my-auto right-1.5">적용</button>
                 </form>
             </div>
         </div>

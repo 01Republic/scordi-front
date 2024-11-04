@@ -10,7 +10,7 @@ import {toast} from 'react-hot-toast';
 
 interface ScordiPlanCardButtonProps {
     plan: ScordiPlanDto;
-    onClick: () => any;
+    onClick?: () => any;
 }
 
 export const ScordiPlanCardButton = memo((props: ScordiPlanCardButtonProps) => {

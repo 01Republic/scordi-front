@@ -16,7 +16,10 @@ export const ScordiPlanCard = memo((props: ScordiPlanCardProps) => {
     const descriptions = scordiPlanDescriptionList[plan.priority - 1];
 
     return (
-        <div className="flex-1 border rounded-xl p-4 space-y-4 flex flex-col">
+        <div
+            className="flex-1 border rounded-xl p-4 space-y-4 flex flex-col hover:border-scordi transition cursor-pointer"
+            onClick={onClick}
+        >
             <div className="min-h-[7rem] flex flex-col justify-between border-b pb-4">
                 <div className="flex justify-between items-start">
                     <div>{plan.name}</div>
@@ -42,7 +45,7 @@ export const ScordiPlanCard = memo((props: ScordiPlanCardProps) => {
                 </div>
 
                 <div>
-                    <ScordiPlanCardButton plan={plan} onClick={onClick} />
+                    <ScordiPlanCardButton plan={plan} />
                 </div>
             </div>
         </div>

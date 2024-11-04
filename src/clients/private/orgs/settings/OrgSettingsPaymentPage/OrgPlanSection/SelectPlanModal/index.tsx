@@ -86,7 +86,8 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
                     </div>
 
                     <div className="flex items-center justify-between mb-6">
-                        <ScordiPlanTypeSwitch />
+                        {/*<ScordiPlanTypeSwitch />*/}
+                        <div />
                         <ScordiSecretCodeInput />
                     </div>
 
