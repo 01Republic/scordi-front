@@ -11,6 +11,10 @@ import {LinkTo} from '^components/util/LinkTo';
 import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
 import {FaPlus} from 'react-icons/fa6';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
+import {confirm2} from '^components/util/dialog';
+import {subscriptionApi} from '^models/Subscription/api';
+import {toast} from 'react-hot-toast';
+import {SubscriptionDto} from '^models/Subscription/types';
 
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -41,6 +45,23 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
         </LinkTo>
     );
 
+    const onDelete = async (subscription: SubscriptionDto) => {
+        const isConfirmed = await confirm2(
+            '이 구독을 삭제할까요?',
+            <div className="text-16">
+                이 작업은 취소할 수 없습니다.
+                <br />
+                <b>워크스페이스 전체</b>에서 삭제됩니다. <br />
+                그래도 삭제하시겠어요?
+            </div>,
+            'warning',
+        ).then((res) => res.isConfirmed);
+        if (!isConfirmed) return;
+        await subscriptionApi.destroy(subscription.id);
+        toast.success('구독을 삭제했어요');
+        reload();
+    };
+
     return (
         <ListPage
             onReady={onReady}
@@ -66,7 +87,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                     items={result.items}
                     isLoading={isLoading}
                     Header={() => <SubscriptionTableHeader orderBy={orderBy} />}
-                    Row={({item}) => <SubscriptionTableRow subscription={item} reload={reload} />}
+                    Row={({item}) => <SubscriptionTableRow subscription={item} reload={reload} onDelete={onDelete} />}
                 />
             </ListTableContainer>
         </ListPage>
