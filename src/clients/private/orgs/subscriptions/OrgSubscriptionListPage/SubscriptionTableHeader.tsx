@@ -60,7 +60,7 @@ export const SubscriptionTableHeader = memo((props: SubscriptionTableHeaderProps
             </SortableTH>
 
             {/* Actions */}
-            {/*<th className="bg-transparent"></th>*/}
+            <th className="bg-transparent" />
         </tr>
     );
 });
