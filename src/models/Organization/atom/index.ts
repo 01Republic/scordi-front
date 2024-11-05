@@ -15,6 +15,11 @@ export const getCurrentOrgQueryAtom = atom<FindAllQueryDto<OrganizationDto>>({
     default: {},
 });
 
+export const currentOrgIsLoadingAtom = atom({
+    key: 'currentOrgIsLoadingAtom',
+    default: false,
+});
+
 /**
  * [Show]
  */
