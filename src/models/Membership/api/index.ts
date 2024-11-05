@@ -8,6 +8,7 @@ import {
     UpdateMyMembershipRequestDto,
 } from 'src/models/Membership/types';
 import {Paginated} from '^types/utils/paginated.dto';
+import {oneDtoOf} from '^types/utils/response-of';
 
 const NAMESPACE = 'memberships';
 
@@ -30,8 +31,9 @@ export const membershipApi = {
 };
 
 export const inviteMembershipApi = {
-    index(orgId: number, email: string) {
-        return api.get<MembershipDto>(`/${NAMESPACE}/invite/validate?orgId=${orgId}&email=${email}`);
+    validate(orgId: number, email: string) {
+        const params = {orgId, email};
+        return api.get<MembershipDto>(`/${NAMESPACE}/invite/validate`, {params}).then(oneDtoOf(MembershipDto));
     },
 
     create(data: CreateMembershipInviteDto) {

@@ -22,7 +22,7 @@ import {OrgMainPageRoute} from '^pages/orgs/[id]';
  * 어디서 이 함수를 쓰는지에 대한 관리가 필요합니다.
  */
 export const useGoogleLoginSuccessHandler2 = () => {
-    const orgId = useRouterIdParamState('orgId', orgIdParamState);
+    const orgId = useRecoilValue(orgIdParamState);
     const [invitedOrgId, setInvitedOrgId] = useRecoilState(invitedOrgIdAtom);
     const [isCopied, setIsCopied] = useRecoilState(isCopiedAtom);
     const {setCurrentUser, loginRedirect} = useCurrentUser(null);
@@ -45,9 +45,9 @@ export const useGoogleLoginSuccessHandler2 = () => {
 
         if (!invitedOrgId) return;
 
-        const isInvitedUser = await checkInvitedEmail(user, invitedOrgId);
-        if (isInvitedUser) return router.push(OrgMainPageRoute.path(invitedOrgId));
-        if (!isInvitedUser) return router.push(V3OrgJoinErrorPageRoute.path(invitedOrgId));
+        const isInvited = await checkInvitedEmail(user, invitedOrgId);
+        if (isInvited) return router.push(OrgMainPageRoute.path(invitedOrgId));
+        if (!isInvited) return router.push(V3OrgJoinErrorPageRoute.path(invitedOrgId));
 
         loginRedirect(user);
     };
@@ -57,18 +57,12 @@ export const useGoogleLoginSuccessHandler2 = () => {
         // 초대 링크 통해서 들어온 유저는 초대된 유저인지 확인 안함
         if (isCopied) return true;
 
-        const currentOrgId = Number(router.query.orgId);
-        if (currentOrgId !== invitedOrgId) return false;
+        if (orgId !== invitedOrgId) return false;
 
-        try {
-            const response = await inviteMembershipApi.index(invitedOrgId, encodeURI(user.email));
-            if (response.status !== 200) return;
-
-            await inviteMembershipApi.confirm(response.data.id);
-            return true;
-        } catch {
-            return false;
-        }
+        return inviteMembershipApi
+            .validate(invitedOrgId, user.email)
+            .then(() => true)
+            .catch(() => false);
     };
 
     /**
@@ -89,7 +83,7 @@ export const useGoogleLoginSuccessHandler2 = () => {
      *     });
      *
      */
-    return async function googleLoginOnSuccess(accessToken: string, callbackFn?: (user: UserDto) => any) {
+    return async function googleLoginOnSuccess(accessToken: string, callbackFn?: (user?: UserDto) => any) {
         // 토큰을 통해 구글 회원 정보를 불러온 뒤,
         // const {data: googleSignedUserData} = await getGoogleUserData(code);
 
@@ -101,16 +95,25 @@ export const useGoogleLoginSuccessHandler2 = () => {
             // 토큰으로 사용자를 조회한 뒤
             setToken(token);
             userSessionApi.index().then(({data: user}) => {
-                user.phone
-                    ? moveWithLogin(user) // 전화번호가 있으면 로그인 시키고
-                    : moveToSignUpPage(); // 전화번호가 없으면 추가정보 입력을 위해 가입페이지로 넘깁니다.
+                localStorage.setItem('locale', user?.locale ?? 'ko');
+                if (callbackFn) {
+                    callbackFn(user);
+                } else {
+                    user.phone
+                        ? moveWithLogin(user) // 전화번호가 있으면 로그인 시키고
+                        : moveToSignUpPage(); // 전화번호가 없으면 추가정보 입력을 위해 가입페이지로 넘깁니다.
+                }
             });
         });
 
         // 만약 가입된 계정이 없으면, 구글 회원 정보를 상태에 저장하고 추가정보 입력을 위해 가입페이지로 넘깁니다.
         jwtRequest.catch(() => {
             localStorage.setItem('accessToken', accessToken);
-            moveToSignUpPage();
+            if (callbackFn) {
+                callbackFn();
+            } else {
+                moveToSignUpPage();
+            }
         });
     };
 };
