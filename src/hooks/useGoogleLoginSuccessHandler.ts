@@ -68,7 +68,7 @@ export const useGoogleLoginSuccessHandler = () => {
         if (currentOrgId !== invitedOrgId) return false;
 
         try {
-            const response = await inviteMembershipApi.index(invitedOrgId, encodeURI(user.email));
+            const response = await inviteMembershipApi.validate(invitedOrgId, user.email);
             if (response.status === 200) {
                 await inviteMembershipApi.confirm(response.data.id);
                 return true;

@@ -71,10 +71,13 @@ const InvitedGoogleLoginButton = memo(() => {
 
     const onSuccess = async (accessToken: string) => {
         // 로그인 처리 후
+        console.log('로그인 처리 후');
         googleLoginOnSuccess(accessToken, async (user?: UserDto) => {
             // 가입된 회원인 경우.
             if (user) {
+                console.log('// 가입된 회원인 경우.');
                 setCurrentUser(user);
+
                 const invited = await checkInvitedEmail(user, invitedOrgId);
                 if (!invited) return router.push(V3OrgJoinErrorPageRoute.path(invitedOrgId));
 
@@ -82,6 +85,7 @@ const InvitedGoogleLoginButton = memo(() => {
                 return router.push(OrgMainPageRoute.path(invitedOrgId));
             } else {
                 // 가입된 회원이 아닌 경우. 전화번호 인증 페이지로 이동
+                console.log('// 가입된 회원이 아닌 경우. 전화번호 인증 페이지로 이동');
                 router.push(SignPhoneAuthPageRoute.path());
             }
             // // 초대된 멤버와 멤버십 데이터를 초대 롼료 상태로 올바르게 업데이트 합니다.
