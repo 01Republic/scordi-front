@@ -4,6 +4,7 @@ import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {publicPageRequires} from '^types/utils/18n.type';
 import {ProductListPage} from '^clients/public/products/ProductListPage';
+import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
 
 export const ProductListPageRoute = pathRoute({
     pathname: '/products',
@@ -25,6 +26,7 @@ export default function ProductsPage() {
             <Head>
                 <link rel="canonical" key="canonical" href={ProductListPageRoute.url()} />
             </Head>
+            <ChannelTalkHideStyle />
             <ProductListPage />
         </>
     );
