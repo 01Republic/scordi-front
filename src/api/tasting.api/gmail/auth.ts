@@ -1,10 +1,10 @@
-import {googleOauthClientId, googleOauthClientSecret} from './constant';
 import axios from 'axios';
 import Qs from 'qs';
 import {buildUrl} from '^utils/get-query-params';
 import {buildLocalePath} from '^utils/locale-helper';
 import {GoogleCallbackPageRoute} from '^pages/callback/google';
 import {userSocialGoogleApi} from '^api/social-google.api';
+import {googleOAuth} from '^config/environments';
 
 function getExpireAtFromSecond(expiresIn: number) {
     const date = new Date();
@@ -34,7 +34,7 @@ export function googleAuthForGmail(redirectPath?: string, locale?: string) {
         prompt: 'consent',
         state: redirectUrl || window.location.pathname,
         redirect_uri: GoogleCallbackPageRoute.url(),
-        client_id: googleOauthClientId,
+        client_id: googleOAuth.gmailClient.id,
     };
     const url = buildUrl(baseUrl, params);
     window.open(url, '_self');
@@ -63,8 +63,8 @@ export async function getGoogleAccessTokenByCode(code: string, redirectPath?: st
     };
     const body = Qs.stringify({
         code,
-        client_id: googleOauthClientId,
-        client_secret: googleOauthClientSecret,
+        client_id: googleOAuth.gmailClient.id,
+        client_secret: googleOAuth.gmailClient.secret,
         state: redirectPath,
         redirect_uri: GoogleCallbackPageRoute.url(),
         grant_type: 'authorization_code',
@@ -96,8 +96,8 @@ export async function getGoogleAccessTokenByRefreshToken(refreshToken: string) {
         Accept: 'application/json',
     };
     const body = Qs.stringify({
-        client_id: googleOauthClientId,
-        client_secret: googleOauthClientSecret,
+        client_id: googleOAuth.gmailClient.id,
+        client_secret: googleOAuth.gmailClient.secret,
         refresh_token: refreshToken,
         grant_type: 'refresh_token',
     });

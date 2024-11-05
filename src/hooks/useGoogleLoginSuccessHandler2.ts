@@ -22,18 +22,11 @@ import {OrgMainPageRoute} from '^pages/orgs/[id]';
  * 어디서 이 함수를 쓰는지에 대한 관리가 필요합니다.
  */
 export const useGoogleLoginSuccessHandler2 = () => {
-    const orgId = useRecoilValue(orgIdParamState);
+    // const orgId = useRecoilValue(orgIdParamState);
     const [invitedOrgId, setInvitedOrgId] = useRecoilState(invitedOrgIdAtom);
     const [isCopied, setIsCopied] = useRecoilState(isCopiedAtom);
     const {setCurrentUser, loginRedirect} = useCurrentUser(null);
     const router = useRouter();
-
-    useEffect(() => {
-        if (!orgId || isNaN(orgId)) return;
-
-        setInvitedOrgId(orgId);
-        setIsCopied(!!router.query.isCopied || false);
-    }, [orgId, router.query]);
 
     // 추가정보 입력을 위해 가입페이지로 넘기는 함수.
     const moveToSignUpPage = () => router.push(SignPhoneAuthPageRoute.path());
@@ -57,7 +50,7 @@ export const useGoogleLoginSuccessHandler2 = () => {
         // 초대 링크 통해서 들어온 유저는 초대된 유저인지 확인 안함
         if (isCopied) return true;
 
-        if (orgId !== invitedOrgId) return false;
+        // if (orgId !== invitedOrgId) return false;
 
         return inviteMembershipApi
             .validate(invitedOrgId, user.email)

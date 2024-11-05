@@ -5,7 +5,7 @@ import {GoogleOAuthProvider} from '@react-oauth/google';
 import {GoOrganization, GoSignIn} from 'react-icons/go';
 import {useToast} from '^hooks/useToast';
 import {currentUserAtom} from '^models/User/atom';
-import {googleOauthClientId} from '^api/tasting.api/gmail/constant';
+import {googleOAuth} from '^config/environments';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {MainPageRoute} from '^pages/index';
@@ -47,7 +47,7 @@ export const InviteOrgErrorBody = memo(() => {
 
             <div className="m-auto">
                 <p className="mb-1">스코디가 처음이라면?</p>
-                <GoogleOAuthProvider clientId={googleOauthClientId}>
+                <GoogleOAuthProvider clientId={googleOAuth.adminClient.id}>
                     <GoogleLoginBtn about="admin" />
                 </GoogleOAuthProvider>
             </div>

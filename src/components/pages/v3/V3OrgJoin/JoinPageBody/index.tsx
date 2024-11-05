@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {GoogleOAuthProvider} from '@react-oauth/google';
-import {googleOauthClientId} from '^api/tasting.api/gmail/constant';
+import {googleOAuth} from '^config/environments';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {FaArrowRight} from 'react-icons/fa6';
 import {useRecoilState, useRecoilValue} from 'recoil';
@@ -9,7 +9,6 @@ import {useGoogleLoginSuccessHandler2} from '^hooks/useGoogleLoginSuccessHandler
 import {UserDto} from '^models/User/types';
 import {useRouter} from 'next/router';
 import {inviteMembershipApi} from '^models/Membership/api';
-import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {orgIdParamState} from '^atoms/common';
 import {useCurrentUser} from '^models/User/hook';
@@ -100,7 +99,7 @@ const InvitedGoogleLoginButton = memo(() => {
     };
 
     return (
-        <GoogleOAuthProvider clientId={googleOauthClientId}>
+        <GoogleOAuthProvider clientId={googleOAuth.loginClient.id}>
             <GoogleLoginBtn
                 about="login"
                 className="btn-block justify-start relative"

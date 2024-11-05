@@ -9,7 +9,7 @@ import {
 } from '^v3/share/modals/NewInvoiceAccountModal/atom';
 import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {GoogleOAuthProvider} from '@react-oauth/google';
-import {googleOauthClientId} from '^api/tasting.api/gmail/constant';
+import {googleOAuth} from '^config/environments';
 
 export const ConnectInvoiceAccountBefore = memo(() => {
     const setCode = useSetRecoilState(connectInvoiceAccountCodeState);
@@ -27,7 +27,7 @@ export const ConnectInvoiceAccountBefore = memo(() => {
             <p className="py-4 text-lg" dangerouslySetInnerHTML={{__html: t('newInvoiceAccountModal.description')}} />
             <GoogleComplianceDisclosureTag feature={'gmail'} />
 
-            <GoogleOAuthProvider clientId={googleOauthClientId}>
+            <GoogleOAuthProvider clientId={googleOAuth.gmailClient.id}>
                 <GoogleLoginBtn about="gmail" onCode={onCode} />
             </GoogleOAuthProvider>
         </>
