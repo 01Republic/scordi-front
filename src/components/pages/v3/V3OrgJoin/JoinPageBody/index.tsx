@@ -14,6 +14,7 @@ import {orgIdParamState} from '^atoms/common';
 import {useCurrentUser} from '^models/User/hook';
 import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';
 import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
+import {errorToast} from '^api/api';
 
 export const JoinPageBody = memo(() => {
     return (
@@ -65,7 +66,8 @@ const InvitedGoogleLoginButton = memo(() => {
         return inviteMembershipApi
             .validate(invitedOrgId, user.email)
             .then((res) => inviteMembershipApi.confirm(res.data.id))
-            .then(() => setInvitedOrgId(() => 0));
+            .then(() => setInvitedOrgId(() => 0))
+            .catch(errorToast);
     };
 
     const onSuccess = async (accessToken: string) => {
