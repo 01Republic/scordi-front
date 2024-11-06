@@ -2,16 +2,16 @@ import React, {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {FaPlus} from 'react-icons/fa6';
+import {useMembershipInMembershipTable} from '^models/Membership/hook';
+import {FindAllMembershipQuery, MembershipLevel} from '^models/Membership/types';
 import {OrgSettingsMemberPageRoute} from '^pages/orgs/[id]/settings/members';
 import {OrgSettingsLayout} from '^clients/private/_layouts/OrgSettingsLayout';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {useMembershipInMembershipTable} from '^models/Membership/hook';
-import {OrgMembersTableHeader} from './members/OrgMembersTableHeader';
-import {OrgMembersTableRow} from './members/OrgMembersTableRow';
-import {FindAllMembershipQuery, MembershipLevel} from '^models/Membership/types';
+import {OrgMembersTableHeader} from './OrgMembersTableHeader';
+import {OrgMembersTableRow} from './OrgMembersTableRow';
 
-export const OrgSettingsMemberPage = memo(function () {
+export const OrgSettingsMembersPage = memo(function () {
     const orgId = useRecoilValue(orgIdParamState);
     const {search, result, isLoading, isNotLoaded, isEmptyResult, movePage, changePageSize, reload, orderBy} =
         useMembershipInMembershipTable();

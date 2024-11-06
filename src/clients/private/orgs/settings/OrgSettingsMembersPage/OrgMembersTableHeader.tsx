@@ -2,7 +2,9 @@ import React, {memo} from 'react';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 import {ListTableHeaderProps} from '^clients/private/_components/table/ListTable/types';
 
-type TeamMemberTableHeaderProps = ListTableHeaderProps;
+interface TeamMemberTableHeaderProps extends ListTableHeaderProps {
+    //
+}
 
 export const OrgMembersTableHeader = memo((props: TeamMemberTableHeaderProps) => {
     const {orderBy} = props;
