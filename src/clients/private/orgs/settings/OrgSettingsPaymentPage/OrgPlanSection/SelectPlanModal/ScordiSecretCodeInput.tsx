@@ -1,8 +1,7 @@
 import {memo, useRef} from 'react';
-import {useScordiPlanList} from '^models/_scordi/ScordiPlan/hook';
-import {HiMiniInformationCircle} from 'react-icons/hi2';
 import {debounce} from 'lodash';
 import {toast} from 'react-hot-toast';
+import {useScordiPlanList} from '^models/_scordi/ScordiPlan/hook';
 
 interface ScordiSecretCodeInputProps {
     //
@@ -20,8 +19,8 @@ export const ScordiSecretCodeInput = memo((props: ScordiSecretCodeInputProps) =>
         }).then((plans = []) => {
             if (secretCode) {
                 plans.find((plan) => plan.secretCode)
-                    ? toast.success('할인 코드가 적용 되었습니다!')
-                    : toast.error('할인 코드를 다시 확인해주세요 :(');
+                    ? toast.success('쿠폰코드가 적용 되었습니다!')
+                    : toast.error('쿠폰코드를 다시 확인해주세요 :(');
             }
         });
     }, 500);
@@ -44,7 +43,7 @@ export const ScordiSecretCodeInput = memo((props: ScordiSecretCodeInputProps) =>
                         className="input input-bordered input-sm pr-14"
                         placeholder="쿠폰코드를 입력해주세요."
                     />
-                    <button className="btn btn-xs btn-scordi absolute top-0 bottom-0 my-auto right-1.5">적용</button>
+                    <button className="btn btn-xs btn-scordi absolute top-0 bottom-0 my-auto right-1.5">확인</button>
                 </form>
             </div>
         </div>
