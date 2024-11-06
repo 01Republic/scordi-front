@@ -31,8 +31,8 @@ const getTopNavStructure = () => [
     {
         name: '구독',
         items: [
-            {name: '결제현황', Icon: TbChartInfographic, routeProps: OrgBillingHistoryStatusPageRoute},
             {name: '구독리스트', Icon: MdSpaceDashboard, routeProps: OrgSubscriptionListPageRoute},
+            {name: '결제현황', Icon: TbChartInfographic, routeProps: OrgBillingHistoryStatusPageRoute},
         ],
     },
     {
