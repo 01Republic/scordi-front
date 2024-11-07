@@ -2,6 +2,7 @@ import React, {memo, useState} from 'react';
 import {OrgSettingsListSection} from '^clients/private/_layouts/OrgSettingsLayout';
 import {ChangeOrgInformationModal} from './ChangeOrgInformationModal';
 import {useCurrentOrg} from '^models/Organization/hook';
+import {LoadableBox} from '^components/util/loading';
 
 interface OrgBasicInfoSectionProps {
     orgId: number;
@@ -9,7 +10,7 @@ interface OrgBasicInfoSectionProps {
 
 export const OrgBasicInfoSection = memo((props: OrgBasicInfoSectionProps) => {
     const {orgId} = props;
-    const {currentOrg, reload} = useCurrentOrg(orgId);
+    const {currentOrg, reload, isLoading} = useCurrentOrg(orgId);
     const [isChangeOrgInformationModalOpened, setIsChangeOrgInformationModalOpened] = useState(false);
 
     const onCloseModal = () => {
@@ -22,6 +23,7 @@ export const OrgBasicInfoSection = memo((props: OrgBasicInfoSectionProps) => {
             <OrgSettingsListSection
                 title={'기본'}
                 buttonOnClick={() => setIsChangeOrgInformationModalOpened(true)}
+                isLoading={isLoading}
                 items={[
                     {title: '워크스페이스명', desc: currentOrg?.name},
                     {
