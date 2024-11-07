@@ -12,7 +12,6 @@ export type CreateOrganizationRequestDto = {
 };
 
 export type UpdateOrganizationRequestDto = Partial<CreateOrganizationRequestDto> & {
-    name?: string;
     slug?: string;
     image?: File | string;
     address?: string;
