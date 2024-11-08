@@ -1,4 +1,4 @@
-import React, {memo, ReactNode, useCallback} from 'react';
+import React, {memo, ReactNode} from 'react';
 import {ModalProps} from '^components/modals/_shared/Modal.types';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {IconType} from '@react-icons/all-files';
@@ -82,13 +82,6 @@ interface Props {
 
 const MethodOption = memo((props: Props) => {
     const {Icon, title, desc, onClick} = props;
-
-    // const debouncedOnClick = useCallback(
-    //     debounce(() => {
-    //         onClick();
-    //     }, 500),
-    //     [onClick],
-    // );
 
     return (
         <div
