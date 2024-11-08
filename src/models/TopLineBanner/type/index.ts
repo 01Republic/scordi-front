@@ -5,7 +5,7 @@ export class TopLineBannerDto {
     text: string;
     url?: string;
     animation?: boolean;
-    individual: boolean;
+    fixed: boolean;
     duration: number | null;
     theme: LineBannerTheme;
 }

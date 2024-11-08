@@ -6,7 +6,7 @@ import {TopNavBar} from './TopNavBar';
 import {Footer} from '../_shared/Footer';
 import {BaseLayout} from '^clients/private/_layouts/BaseLayout';
 import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
-import {TopLineBannerContainer} from '^clients/private/orgs/OrgMainPage/TopLineBanner';
+import {TopLineBannerContainer} from '^models/TopLineBanner/components';
 
 interface MainLayoutProps extends WithChildren {
     //

@@ -7,8 +7,8 @@ export const MainContainer = memo((props: MainContainerProps) => {
     const {children} = props;
 
     return (
-        <main className="w-full container pb-[2rem]">
-            <div className="mx-auto max-w-6xl px-4 pb-2">{children}</div>
+        <main className="w-full container py-[2rem]">
+            <div className="mx-auto max-w-6xl px-4 py-2">{children}</div>
         </main>
     );
 });
