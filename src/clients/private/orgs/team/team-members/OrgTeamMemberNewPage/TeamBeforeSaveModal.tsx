@@ -1,4 +1,4 @@
-import React, {memo, ReactNode} from 'react';
+import React, {memo, ReactNode, useCallback} from 'react';
 import {ModalProps} from '^components/modals/_shared/Modal.types';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {IconType} from '@react-icons/all-files';
@@ -11,6 +11,7 @@ import {toast} from 'react-hot-toast';
 import {useRouter} from 'next/router';
 import {OrgTeamMemberListPageRoute} from '^pages/orgs/[id]/teamMembers';
 import {inviteMembershipApi} from '^models/Membership/api';
+import {debounce} from 'lodash';
 
 interface BeforeSaveModalProps extends ModalProps {
     dto: CreateTeamMemberDto;
@@ -21,6 +22,7 @@ export const TeamBeforeSaveModal = memo((props: BeforeSaveModalProps) => {
     const router = useRouter();
     const {isOpened, onClose, dto} = props;
 
+    // const createMember = debounce(() => teamMemberApi.create(orgId, dto).then((res) => res.data), 500);
     const createMember = () => teamMemberApi.create(orgId, dto).then((res) => res.data);
     const inviteMember = (teamMember: TeamMemberDto) =>
         inviteMembershipApi.create({
@@ -44,6 +46,7 @@ export const TeamBeforeSaveModal = memo((props: BeforeSaveModalProps) => {
                     title="초대 메일 보내기"
                     desc="구성원을 등록하고 입력된 이메일로 초대장을 전송해요"
                     onClick={() => {
+                        onClose();
                         createMember()
                             .then(inviteMember)
                             .then(() => {
@@ -57,6 +60,7 @@ export const TeamBeforeSaveModal = memo((props: BeforeSaveModalProps) => {
                     title="초대하지 않고 등록하기"
                     desc="구성원 초대 현황에서 나중에 초대 할 수 있어요"
                     onClick={() => {
+                        onClose();
                         createMember().then(() => {
                             toast.success('구성원을 등록했어요!');
                             redirect();
@@ -79,10 +83,17 @@ interface Props {
 const MethodOption = memo((props: Props) => {
     const {Icon, title, desc, onClick} = props;
 
+    // const debouncedOnClick = useCallback(
+    //     debounce(() => {
+    //         onClick();
+    //     }, 500),
+    //     [onClick],
+    // );
+
     return (
         <div
             className="flex items-center -mx-3 px-3 py-3 rounded-box cursor-pointer group hover:bg-scordi-50 transition-all"
-            onClick={onClick}
+            onClick={debounce(() => onClick(), 500)}
         >
             <div className="">
                 <Icon size={24} />
