@@ -11,6 +11,7 @@ import {FormContainer} from '^clients/private/_components/containers';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {SelectTeam} from './SelectTeam';
 import {TeamBeforeSaveModal} from './TeamBeforeSaveModal';
+import {debounce} from 'lodash';
 
 export const OrgTeamMemberNewPage = memo(function OrgTeamMemberNewPage() {
     const orgId = useRecoilValue(orgIdParamState);

@@ -1,9 +1,10 @@
-import InputMask, {Props as InputMaskProps} from 'react-input-mask';
-import React, {memo} from 'react';
+import InputMask from '@mona-health/react-input-mask';
+import React, {InputHTMLAttributes, memo} from 'react';
 
-interface MaskedInputProps extends InputMaskProps {
+interface MaskedInputProps extends InputHTMLAttributes<HTMLInputElement> {
     mask: string;
     callback: (mask: string, value: string) => any;
+    maskPlaceholder?: string | null | undefined;
 }
 
 export const MaskedInput = memo((props: MaskedInputProps) => {
