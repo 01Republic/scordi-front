@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {IoClose} from '@react-icons/all-files/io5/IoClose';
 import {useTossPayments} from '^hooks/useTossPayments';
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';

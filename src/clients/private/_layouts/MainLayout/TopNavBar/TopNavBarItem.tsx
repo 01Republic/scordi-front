@@ -15,15 +15,17 @@ export const TopNavBarItem = memo((props: TopNavBarItemProps) => {
 
     if (!children) {
         return (
-            <div className="flex items-stretch text-14 sm:text-16">
-                <LinkTo
-                    href={href}
-                    text={name}
-                    className={`px-4 sm:px-6 flex items-center cursor-pointer whitespace-nowrap transition-all font-medium ${
-                        active ? 'text-scordi' : 'hover:text-scordi'
-                    }`}
-                />
-            </div>
+            <>
+                <div className="flex items-stretch text-14 sm:text-16">
+                    <LinkTo
+                        href={href}
+                        text={name}
+                        className={`px-4 sm:px-6 flex items-center cursor-pointer whitespace-nowrap transition-all font-medium ${
+                            active ? 'text-scordi' : 'hover:text-scordi'
+                        }`}
+                    />
+                </div>
+            </>
         );
     } else {
         return (

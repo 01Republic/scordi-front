@@ -52,6 +52,7 @@ export const useCurrentScordiSubscription = () => {
                     toast.success('플랜을 변경했어요');
                 } else {
                     const startAt = yyyy_mm_dd(newSub.startAt!, '. ');
+
                     toast.success(`변경을 예약 했어요.\n다음 구독 주기부터 적용됩니다.\n적용예정: ${startAt}`);
                 }
                 return res;

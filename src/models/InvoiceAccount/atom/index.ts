@@ -1,5 +1,6 @@
 import {FindAllInvoiceAccountQueryDto, InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {pagedResourceAtom} from '^hooks/usePagedResource';
+import {atom} from 'recoil';
 
 export const invoiceAccountListAtom = pagedResourceAtom<InvoiceAccountDto, FindAllInvoiceAccountQueryDto>({
     key: 'invoiceAccountListAtom',
