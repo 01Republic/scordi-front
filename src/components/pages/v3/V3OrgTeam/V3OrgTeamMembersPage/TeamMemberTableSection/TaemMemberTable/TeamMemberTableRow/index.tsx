@@ -50,7 +50,11 @@ export const TeamMemberTableRow = memo((props: TeamMemberTableRowPropsTableRowPr
             {/* 상태 */}
             <td className={`${hoverBgColor} text-right`}>
                 {/*<TeamMemberStatus teamMember={teamMember} />*/}
-                <TeamMemberStatusDropdown teamMember={teamMember} reload={() => reload && reload()} />
+                <TeamMemberStatusDropdown
+                    teamMember={teamMember}
+                    reload={() => reload && reload()}
+                    setIsLoading={() => 1}
+                />
             </td>
         </tr>
     );
