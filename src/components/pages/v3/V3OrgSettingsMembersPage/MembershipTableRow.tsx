@@ -17,7 +17,7 @@ export const MembershipTableRow = memo((props: MembershipTableRowProps) => {
             {/* 이름 */}
             <td>
                 <div className="flex gap-2.5 items-center">
-                    <UserAvatar user={user} />
+                    {user && <UserAvatar user={user} />}
                     <div>
                         <p className="text-sm font-semibold flex gap-2 items-center">
                             <span>{user ? user.name : member.invitedEmail}</span>

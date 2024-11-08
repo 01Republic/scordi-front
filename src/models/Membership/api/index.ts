@@ -8,21 +8,21 @@ import {
     UpdateMyMembershipRequestDto,
 } from 'src/models/Membership/types';
 import {Paginated} from '^types/utils/paginated.dto';
-import {oneDtoOf} from '^types/utils/response-of';
+import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 
 const NAMESPACE = 'memberships';
 
 export const membershipApi = {
     index(params: FindAllMembershipQuery) {
-        return api.get<Paginated<MembershipDto>>(`/${NAMESPACE}`, {params});
+        return api.get<Paginated<MembershipDto>>(`/${NAMESPACE}`, {params}).then(paginatedDtoOf(MembershipDto));
     },
 
     create(data: CreateMembershipRequestDto) {
-        return api.post<MembershipDto>(`/${NAMESPACE}`, data);
+        return api.post<MembershipDto>(`/${NAMESPACE}`, data).then(oneDtoOf(MembershipDto));
     },
 
     update(id: number, data: UpdateMembershipRequestDto) {
-        return api.patch<MembershipDto>(`/${NAMESPACE}/${id}`, data);
+        return api.patch<MembershipDto>(`/${NAMESPACE}/${id}`, data).then(oneDtoOf(MembershipDto));
     },
 
     destroy(id: number) {

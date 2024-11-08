@@ -43,18 +43,20 @@ export enum DisplayCurrency {
 export class MembershipDto {
     id: number;
     organizationId: number;
-    userId: number;
+    userId: number | null;
     level: MembershipLevel;
     approvalStatus: ApprovalStatus; // 멤버십 승인 요청 상태 (가입 승인 요청 상태)
     displayCurrency: DisplayCurrency; // 조직 화폐 사용자보기
-    invitedEmail: string | null;
+    invitedEmail: string | null; // 초대 받은 이메일 주소
+    @TypeCast(() => Date) inviteSentAt: Date | null; // 초대된 일시
+    @TypeCast(() => Date) inviteConfirmedAt: Date | null; // 초대 수락된 일시
+    @TypeCast(() => Date) lastSignedAt: Date; // 최근 로그인 일시
     @TypeCast(() => Date) createdAt: Date;
     @TypeCast(() => Date) updatedAt: Date;
-    @TypeCast(() => Date) lastSignedAt: Date;
 
     // relations
     @TypeCast(() => OrganizationDto) organization: OrganizationDto;
-    @TypeCast(() => UserDto) user: UserDto;
+    @TypeCast(() => UserDto) user?: UserDto;
     @TypeCast(() => TeamMemberDto) teamMember?: TeamMemberDto;
 }
 
@@ -62,16 +64,6 @@ export class FindAllMembershipQuery extends FindAllQueryDto<MembershipDto> {
     keyword?: string;
     includeAdmin?: boolean; // 결과에 어드민 멤버십을 포함할지 여부
 }
-
-export type Invitation = {
-    email: string;
-    teamMemberId?: number;
-};
-
-export type CreateMembershipInviteDto = {
-    organizationId: number;
-    invitations: Invitation[];
-};
 
 interface MembershipLevelTranslateOption {
     inWord?: boolean;
@@ -96,3 +88,5 @@ export function t_membershipLevel(level: MembershipLevel, opt?: MembershipLevelT
 
     return dic[locale][level];
 }
+
+export * from './CreateMembershipInvite.dto';

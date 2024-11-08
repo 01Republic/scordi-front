@@ -11,6 +11,13 @@ import {toast} from 'react-toastify';
 import {confirm2} from '^components/util/dialog';
 import {UserDto} from '^models/User/types';
 import {MembershipDto, t_membershipLevel} from '^models/Membership/types';
+import {UserAvatar} from '^models/User/components/UserAvatar';
+import {UserProfile} from '^models/User/components/UserProfile';
+import {WithChildren} from '^types/global.type';
+import {MembershipLevelDropdown} from './MembershipLevelDropdown';
+import {MembershipMoreDropdown} from './MembershipMoreDropdown';
+import {yyyy_mm_dd} from '^utils/dateTime';
+import {Avatar} from '^components/Avatar';
 
 interface TeamMemberTableRowProps {
     membership?: MembershipDto;
@@ -23,49 +30,65 @@ export const OrgMembersTableRow = memo((props: TeamMemberTableRowProps) => {
 
     if (!membership) return null;
 
+    const {user} = membership;
     const showPagePath = membership.teamMember
         ? OrgTeamMemberShowPageRoute.path(membership.organizationId, membership.teamMember.id)
         : '#';
 
-    const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all rounded-md';
-
     return (
         <tr className="group">
             {/* 이름 */}
-            <td className={hoverBgColor} onClick={() => onClick && onClick(membership)}>
+            <TD onClick={() => onClick && onClick(membership)}>
                 <OpenButtonColumn href={showPagePath}>
-                    <div
-                        className={`flex items-center gap-2 px-3 -mx-3 text-gray-700 group-hover:text-scordi max-w-sm`}
-                    >
-                        {/*<TeamMemberAvatar teamMember={teamMember} className="w-8 h-8" />*/}
-                        <div className="overflow-x-hidden">
-                            <p className="truncate text-14">
-                                <span>{membership.user.name}</span>
-                            </p>
+                    {user ? (
+                        <UserProfile
+                            user={user}
+                            Avatar={() => <UserAvatar src={user.profileImgUrl} alt={user.name} className="w-9 h-9" />}
+                        />
+                    ) : (
+                        <div className="flex items-center gap-2">
+                            <UserAvatar
+                                alt={membership.invitedEmail || ''}
+                                fallbackLetter={(membership.invitedEmail || '')[0]}
+                                className="w-9 h-9"
+                            />
+                            <div>
+                                <p className="text-sm font-semibold text-gray-400 relative top-[-1px]">
+                                    {membership.invitedEmail}
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </OpenButtonColumn>
-            </td>
-
-            {/* 이메일 */}
-            <td className={`cursor-pointer ${hoverBgColor}`} onClick={() => onClick && onClick(membership)}>
-                <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
-                    {membership.user.email}
-                </p>
-            </td>
-
-            {/* 전화번호 */}
-            <td className={`cursor-pointer ${hoverBgColor}`} onClick={() => onClick && onClick(membership)}>
-                <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
-                    {membership.user.phone}
-                </p>
-            </td>
+            </TD>
 
             {/* 권한 */}
-            <td className={`cursor-pointer ${hoverBgColor}`}>
-                <TeamMemberTag level={t_membershipLevel(membership.level)} onChange={() => reload && reload()} />
-            </td>
+            <TD onClick={() => onClick && onClick(membership)}>
+                <MembershipLevelDropdown membership={membership} reload={reload} />
+            </TD>
+
+            <TD className="">
+                <div className="flex items-center justify-end gap-4">
+                    <div className="text-13 text-gray-500">{!membership.userId ? '초대 수락 대기중...' : ''}</div>
+                    <MembershipMoreDropdown membership={membership} reload={reload} />
+                </div>
+            </TD>
         </tr>
     );
 });
 OrgMembersTableRow.displayName = 'TeamMembersTableRow';
+
+interface TDProps extends WithChildren {
+    className?: string;
+    onClick?: () => any;
+}
+
+const TD = memo((props: TDProps) => {
+    const {className = '', onClick, children} = props;
+
+    return (
+        <td className={`px-2 cursor-pointer group-hover:bg-gray-100/50 transition-all ${className}`} onClick={onClick}>
+            {children}
+        </td>
+    );
+});
