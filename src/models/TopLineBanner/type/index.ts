@@ -1,3 +1,5 @@
+import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
+
 export type LineBannerTheme = 'cardInfo' | 'emailInfo' | 'waring' | 'danger' | 'basicInfo' | 'thanksTo';
 
 export class TopLineBannerDto {
@@ -6,6 +8,10 @@ export class TopLineBannerDto {
     url?: string;
     animation?: boolean;
     fixed: boolean;
-    duration: number | null;
+    timeout: number | null;
     theme: LineBannerTheme;
+}
+
+export class FindAllTopLineBannersQueryDto extends FindAllQueryDto<TopLineBannerDto> {
+    //
 }

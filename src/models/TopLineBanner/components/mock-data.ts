@@ -15,7 +15,7 @@ export const topLineBanners: TopLineBannerDto[] = [
         theme: 'waring',
         animation: true,
         fixed: false,
-        duration: null,
+        timeout: null,
     },
     {
         id: 2,
@@ -24,7 +24,7 @@ export const topLineBanners: TopLineBannerDto[] = [
         theme: 'thanksTo',
         animation: true,
         fixed: false,
-        duration: null,
+        timeout: null,
     },
     {
         id: 3,
@@ -33,7 +33,7 @@ export const topLineBanners: TopLineBannerDto[] = [
         theme: 'cardInfo',
         animation: true,
         fixed: true,
-        duration: 3000,
+        timeout: 3000,
         // fixed: false,
         // duration: null,
     },

@@ -11,14 +11,14 @@ interface TopLineBannerContentProps extends WithChildren {
 export const TopLineBannerContent = memo((props: TopLineBannerContentProps) => {
     const [isOpen, setIsOpen] = useState(true);
     const {topLineBanner} = props;
-    const {id, text, url, duration, theme, fixed, animation} = topLineBanner;
+    const {id, text, url, timeout, theme, fixed, animation} = topLineBanner;
 
     useEffect(() => {
-        if (!duration) return;
+        if (!timeout) return;
 
-        const timer = setTimeout(() => setIsOpen(false), duration);
+        const timer = setTimeout(() => setIsOpen(false), timeout);
         return () => clearTimeout(timer);
-    }, [duration]);
+    }, [timeout]);
 
     return (
         <div
@@ -41,7 +41,7 @@ export const TopLineBannerContent = memo((props: TopLineBannerContentProps) => {
                         <span>{text}</span>
                     </div>
                 )}
-                {duration ? (
+                {timeout ? (
                     ''
                 ) : (
                     <IoCloseOutline

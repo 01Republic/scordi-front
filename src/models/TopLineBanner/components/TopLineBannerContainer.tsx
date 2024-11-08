@@ -1,16 +1,15 @@
-import {memo, useEffect, useState} from 'react';
-import {topLineBanners} from './mock-data';
+import {memo, useEffect} from 'react';
 import {TopLineBannerContent} from './TopLineBannerContent';
-import {TopLineBannerDto} from '^models/TopLineBanner/type';
+import {useTopLineBanners} from '^models/TopLineBanner/hook';
 
 export const TopLineBannerContainer = memo(() => {
-    const [banners, setBanners] = useState<TopLineBannerDto[]>([]);
+    const {result, search} = useTopLineBanners();
 
     useEffect(() => {
-        setBanners(topLineBanners);
+        search({itemsPerPage: 0});
     }, []);
 
-    const reversedBanners = banners.slice().reverse();
+    const reversedBanners = result.items.slice().reverse();
 
     return (
         <div className={`relative overflow-hidden flex flex-col-reverse`}>
