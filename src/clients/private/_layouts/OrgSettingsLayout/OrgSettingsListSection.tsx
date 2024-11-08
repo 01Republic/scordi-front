@@ -28,7 +28,7 @@ export const OrgSettingsListSection = memo(function (props: OrgSettingsListSecti
                 )}
             </div>
 
-            <LoadableBox isLoading={isLoading} loadingType={2} noPadding>
+            <LoadableBox isLoading={isLoading} loadingType={2} noPadding spinnerPos="center">
                 {items.map((item, i) => (
                     <div key={i} className={'grid grid-cols-5 items-center my-4 text-14'}>
                         <div className={'font-semibold text-gray-500'}>{item.title}</div>

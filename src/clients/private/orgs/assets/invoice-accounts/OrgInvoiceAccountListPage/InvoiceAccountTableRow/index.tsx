@@ -92,11 +92,9 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
 
             {/*등록방식*/}
             <td>
-                <Tippy content="연동된 메일은 구글 로고가 표시됩니다">
-                    <div className={'text-center'}>
-                        <InvoiceAccountProviderAvatar invoiceAccount={invoiceAccount} />
-                    </div>
-                </Tippy>
+                <div className={'text-center'}>
+                    <InvoiceAccountProviderAvatar invoiceAccount={invoiceAccount} />
+                </div>
             </td>
 
             {/*팀 - editable, sortable (mono-select) / 멤버 프로필 / 검색가능 */}

@@ -2,7 +2,7 @@ import React, {memo, useState} from 'react';
 import {orgIdParamState} from '^atoms/common';
 import {useCurrentOrg2} from '^models/Organization/hook';
 import {useForm} from 'react-hook-form';
-import {UpdateOrganizationRequestDto} from '^models/Organization/type';
+import {OrganizationDto, UpdateOrganizationRequestDto} from '^models/Organization/type';
 import {organizationApi} from '^models/Organization/api';
 import {toast} from 'react-hot-toast';
 import {useRecoilValue} from 'recoil';
@@ -19,6 +19,8 @@ export const ChangeOrgInformationModal = memo(function (props: ChangeOrgInformat
     const {currentOrg} = useCurrentOrg2();
     const form = useForm<UpdateOrganizationRequestDto>();
     const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
+
+    console.log(currentOrg?.address);
 
     const onSave = () => {
         form.handleSubmit(async (data) => {
@@ -68,8 +70,8 @@ export const ChangeOrgInformationModal = memo(function (props: ChangeOrgInformat
                                     type="text"
                                     autoComplete="one-time-code"
                                     className="input w-full input-bordered"
-                                    disabled={true}
-                                    value={currentOrg?.name}
+                                    {...form.register('name')}
+                                    defaultValue={currentOrg?.name}
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
@@ -82,7 +84,9 @@ export const ChangeOrgInformationModal = memo(function (props: ChangeOrgInformat
                                     autoComplete="one-time-code"
                                     className="input w-full input-bordered"
                                     placeholder={'주소를 입력해주세요'}
-                                    defaultValue={form.getValues('address')}
+                                    defaultValue={
+                                        currentOrg && currentOrg.address !== null ? currentOrg.address : undefined
+                                    }
                                     {...form.register('address')}
                                     onClick={() => setIsPostcodeOpen(true)}
                                     readOnly={true}
@@ -93,7 +97,11 @@ export const ChangeOrgInformationModal = memo(function (props: ChangeOrgInformat
                                     autoComplete="one-time-code"
                                     className="input w-full input-bordered"
                                     placeholder={'상세 주소를 입력해주세요'}
-                                    defaultValue={form.getValues('addressDetail')}
+                                    defaultValue={
+                                        currentOrg && currentOrg.addressDetail !== null
+                                            ? currentOrg.addressDetail
+                                            : undefined
+                                    }
                                     {...form.register('addressDetail')}
                                 />
                             </div>
