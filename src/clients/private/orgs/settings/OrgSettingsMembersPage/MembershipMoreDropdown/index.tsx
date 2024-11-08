@@ -9,10 +9,11 @@ import {ResendInvitationButton} from './ResendInvitationButton';
 interface MembershipMoreDropdownProps {
     membership: MembershipDto;
     reload?: () => any;
+    setIsLoading: (value: boolean) => any;
 }
 
 export const MembershipMoreDropdown = memo((props: MembershipMoreDropdownProps) => {
-    const {membership, reload} = props;
+    const {membership, reload, setIsLoading} = props;
 
     return (
         <Dropdown
@@ -24,14 +25,23 @@ export const MembershipMoreDropdown = memo((props: MembershipMoreDropdownProps) 
                     </button>
                 );
             }}
-            Content={() => {
+            Content={({hide}) => {
                 return (
                     <div
                         className="dropdown-content p-0 menu shadow-lg bg-base-100 rounded-btn border border-gray-200 min-w-[8rem]"
                         onClick={eventCut}
                     >
                         {/* 초대 재전송 버튼 */}
-                        {!membership.userId && <ResendInvitationButton membership={membership} reload={reload} />}
+                        {!membership.userId && (
+                            <ResendInvitationButton
+                                membership={membership}
+                                reload={reload}
+                                setIsLoading={(value) => {
+                                    if (value) hide();
+                                    setIsLoading(value);
+                                }}
+                            />
+                        )}
 
                         <RemoveMembershipButton membership={membership} reload={reload} />
                     </div>

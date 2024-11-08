@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useState} from 'react';
 import {TeamMemberDto} from '^models/TeamMember';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 import {OrgTeamMemberShowPageRoute} from '^pages/orgs/[id]/teamMembers/[teamMemberId]';
@@ -27,6 +27,7 @@ interface TeamMemberTableRowProps {
 
 export const OrgMembersTableRow = memo((props: TeamMemberTableRowProps) => {
     const {membership, onClick, reload} = props;
+    const [isLoading, setIsLoading] = useState(false);
 
     if (!membership) return null;
 
@@ -69,8 +70,14 @@ export const OrgMembersTableRow = memo((props: TeamMemberTableRowProps) => {
 
             <TD className="">
                 <div className="flex items-center justify-end gap-4">
-                    <div className="text-13 text-gray-500">{!membership.userId ? '초대 수락 대기중...' : ''}</div>
-                    <MembershipMoreDropdown membership={membership} reload={reload} />
+                    {isLoading ? (
+                        <div className="btn btn-sm !bg-white !border-none loading text-13 !text-gray-500">
+                            <span className="font-[400]">이메일 전송중...</span>
+                        </div>
+                    ) : (
+                        <div className="text-13 text-gray-500">{!membership.userId ? '초대 수락 대기중...' : ''}</div>
+                    )}
+                    <MembershipMoreDropdown membership={membership} reload={reload} setIsLoading={setIsLoading} />
                 </div>
             </TD>
         </tr>
