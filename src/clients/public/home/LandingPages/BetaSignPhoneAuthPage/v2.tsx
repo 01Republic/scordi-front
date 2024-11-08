@@ -130,7 +130,7 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
     if (!pageLoaded) {
         return (
             <LandingPageLayout pageName="BetaSignPhoneAuthPage" hideNav hideFooter>
-                <div className="mx-auto text-center py-20 w-full max-w-lg space-y-5 h-screen">
+                <div className="mx-auto text-center pt-[30vh] w-full max-w-lg space-y-5 h-screen">
                     <h1
                         className="text-2xl sm:text-4xl mb-8 font-bold"
                         dangerouslySetInnerHTML={{__html: t('auth_check.page_title')}}
@@ -144,7 +144,7 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
     if (orgNameInputDisplay) {
         return (
             <LandingPageLayout pageName="BetaSignPhoneAuthPage" hideNav hideFooter>
-                <div className="mx-auto text-center py-20 w-full max-w-lg space-y-5 h-screen">
+                <div className="mx-auto text-center pt-[30vh] w-full max-w-lg space-y-5 h-screen">
                     <h1
                         className="text-3xl sm:text-4xl font-bold leading-loose"
                         onClick={() => {
@@ -199,7 +199,7 @@ export const BetaSignPhoneAuthPage2 = memo(() => {
 
     return (
         <LandingPageLayout pageName="BetaSignPhoneAuthPage" hideNav hideFooter>
-            <div className="mx-auto text-center py-20 w-full max-w-lg space-y-5 h-screen">
+            <div className="mx-auto text-center pt-[30vh] w-full max-w-lg space-y-5 h-screen">
                 <h1
                     className="text-3xl sm:text-4xl font-bold"
                     onClick={() => {

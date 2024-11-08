@@ -29,7 +29,7 @@ export const BetaSignSignPage = memo(() => {
 
     return (
         <LandingPageLayout pageName="BetaSignPhoneAuthPage" hideNav hideFooter>
-            <div className="mx-auto text-center py-20 w-full max-w-lg space-y-5 h-screen">
+            <div className="mx-auto text-center pt-[30vh] w-full max-w-lg space-y-5 h-screen">
                 <h1
                     className="text-2xl sm:text-4xl mb-8 font-bold"
                     onClick={() => {
