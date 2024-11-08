@@ -10,6 +10,7 @@ import {currentUserAtom} from '^models/User/atom';
 import {userApi, userSessionApi} from '^models/User/api/session';
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import SwitchNotificationCard from './SwitchNotificationCard';
+import {t_membershipLevel} from '^models/Membership/types';
 
 interface EditUserProfileModalProps {
     isOpened: boolean;
@@ -36,6 +37,8 @@ export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
 
     if (!currentOrg || !memberships) return <></>;
 
+    const membership = memberships.find((m) => m.organizationId === currentOrg.id) || memberships[0];
+
     return (
         <AnimatedModal open={isOpened} onClose={onClose}>
             <div className="w-full min-w-[350px] max-w-3xl m-4 sm:m-6 bg-white px-6 py-4 sm:px-12 sm:py-10 rounded-2xl flex flex-col gap-5 sm:gap-8 z-10">
@@ -55,7 +58,7 @@ export const EditUserProfileModal = memo((props: EditUserProfileModalProps) => {
                         <div>
                             <h4 className="font-bold text-18 mb-1">{name}</h4>
                             <p className="text-gray-700 capitalize mb-6">
-                                {memberships[0].level.toLowerCase()} @{currentOrg?.name}
+                                {t_membershipLevel(membership.level)} @{currentOrg.name}
                             </p>
                             <div className="mb-6 flex flex-col gap-2 text-14 text-gray-900">
                                 <p className="flex items-center gap-4">

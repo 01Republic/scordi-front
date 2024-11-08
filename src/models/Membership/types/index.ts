@@ -75,7 +75,7 @@ export function t_membershipLevel(level: MembershipLevel, opt?: MembershipLevelT
 
     const dic = {
         [UserLocale.Ko]: {
-            [MembershipLevel.MEMBER]: inWord ? '멤버' : '이 워크스페이스의 멤버',
+            [MembershipLevel.MEMBER]: inWord ? '구성원' : '이 워크스페이스의 구성원',
             [MembershipLevel.OWNER]: inWord ? '소유자' : '이 워크스페이스의 소유자',
             [MembershipLevel.ADMIN]: inWord ? '최고 관리자' : '최고 관리자',
         },

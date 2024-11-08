@@ -3,7 +3,7 @@ import {FaCaretDown} from 'react-icons/fa6';
 import {useRecoilValue} from 'recoil';
 import {TeamMemberDto} from '^models/TeamMember';
 import {currentUserAtom} from '^models/User/atom';
-import {ApprovalStatus, MembershipLevel} from '^models/Membership/types';
+import {ApprovalStatus, MembershipLevel, t_membershipLevel} from '^models/Membership/types';
 import Tippy from '@tippyjs/react';
 
 interface StatusButtonProps {
@@ -36,11 +36,15 @@ export const StatusButton = memo((props: StatusButtonProps) => {
     }
 
     if (membership.level === MembershipLevel.OWNER) {
-        return <StatusButtonUI className="!text-gray-700" label="워크스페이스 관리자" />;
+        return (
+            <StatusButtonUI className="!text-gray-700" label={`워크스페이스 ${t_membershipLevel(membership.level)}`} />
+        );
     }
 
     if (membership.level === MembershipLevel.MEMBER) {
-        return <StatusButtonUI className="!text-gray-700" label="워크스페이스 구성원" />;
+        return (
+            <StatusButtonUI className="!text-gray-700" label={`워크스페이스 ${t_membershipLevel(membership.level)}`} />
+        );
     }
 
     return <></>;

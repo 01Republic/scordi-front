@@ -3,7 +3,7 @@ import {useRecoilValue} from 'recoil';
 import {toast} from 'react-hot-toast';
 import {FaExchangeAlt, FaSignOutAlt} from 'react-icons/fa';
 import {currentUserAtom} from '^models/User/atom';
-import {ApprovalStatus, MembershipLevel} from '^models/Membership/types';
+import {ApprovalStatus, MembershipLevel, t_membershipLevel} from '^models/Membership/types';
 import {membershipApi} from '^models/Membership/api';
 import {plainToast} from '^hooks/useToast';
 import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
@@ -95,7 +95,7 @@ export const PageMoreDropdownMenu = memo(() => {
                                         >
                                             <div className="flex items-center gap-3 w-full py-1">
                                                 <FaExchangeAlt size={12} />
-                                                <p>구성원 역할로 변경하기</p>
+                                                <p>{t_membershipLevel(MembershipLevel.MEMBER)} 역할로 변경하기</p>
                                             </div>
                                         </MoreDropdownListItem>
                                     )}
@@ -108,7 +108,7 @@ export const PageMoreDropdownMenu = memo(() => {
                                         >
                                             <div className="flex items-center gap-3 w-full py-1">
                                                 <FaExchangeAlt size={12} />
-                                                <p>관리자 역할로 변경하기</p>
+                                                <p>{t_membershipLevel(MembershipLevel.OWNER)} 역할로 변경하기</p>
                                             </div>
                                         </MoreDropdownListItem>
                                     )}

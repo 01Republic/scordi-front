@@ -1,15 +1,14 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
-import {FaExchangeAlt, FaRegEnvelope, FaRegTrashAlt, FaSignOutAlt} from 'react-icons/fa';
-import {currentTeamMemberState, TeamMemberDto, useSendInviteEmail, useTeamMember} from '^models/TeamMember';
+import {FaExchangeAlt, FaSignOutAlt} from 'react-icons/fa';
+import {TeamMemberDto, useSendInviteEmail} from '^models/TeamMember';
 import {currentUserAtom} from '^models/User/atom';
 import {Dropdown} from '^v3/share/Dropdown';
 import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
 import {StatusButton} from './StatusButton';
-import {ApprovalStatus, MembershipLevel} from '^models/Membership/types';
-import {FaRotateRight} from 'react-icons/fa6';
+import {ApprovalStatus, MembershipLevel, t_membershipLevel} from '^models/Membership/types';
 import {membershipApi} from '^models/Membership/api';
-import {plainToast, useToast} from '^hooks/useToast';
+import {plainToast} from '^hooks/useToast';
 import {InviteListItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/InviteListItem';
 import {ResendInviteItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/ResendInviteItem';
 import {DeleteMemberItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/DeleteMemberItem';
@@ -91,7 +90,7 @@ export const TeamMemberStatusDropdown = memo((props: TeamMemberStatusDropdownPro
                                         >
                                             <div className="flex items-center gap-3 w-full py-1">
                                                 <FaExchangeAlt size={12} />
-                                                <p>구성원 역할로 변경하기</p>
+                                                <p>{t_membershipLevel(MembershipLevel.MEMBER)} 역할로 변경하기</p>
                                             </div>
                                         </MoreDropdownListItem>
                                     )}
@@ -104,7 +103,7 @@ export const TeamMemberStatusDropdown = memo((props: TeamMemberStatusDropdownPro
                                         >
                                             <div className="flex items-center gap-3 w-full py-1">
                                                 <FaExchangeAlt size={12} />
-                                                <p>관리자 역할로 변경하기</p>
+                                                <p>{t_membershipLevel(MembershipLevel.OWNER)} 역할로 변경하기</p>
                                             </div>
                                         </MoreDropdownListItem>
                                     )}
