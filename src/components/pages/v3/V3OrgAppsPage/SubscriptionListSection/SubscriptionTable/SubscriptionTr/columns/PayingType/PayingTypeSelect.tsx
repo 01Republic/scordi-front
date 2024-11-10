@@ -81,7 +81,7 @@ export const PayingTypeSelect = memo((props: PayingTypeSelectProps) => {
             styles={selectStylesOptions}
             options={getOptions(tagOptions)}
             isMulti={false}
-            onChange={(e) => {
+            onChange={(e: SingleValueType<{label: string | undefined; name: string | undefined}>) => {
                 if (e) onChange(e as SelectOption);
             }}
             components={Components()}
