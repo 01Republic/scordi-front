@@ -3,7 +3,7 @@ import {debounce} from 'lodash';
 import {useTeamMembersInTeamMembersTable} from '^models/TeamMember';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {AddTeamMemberJustButton} from './AddTeamMemberButton';
+import {AddTeamMemberDropdown} from './AddTeamMemberDropdown';
 import {InviteStatusScopeHandler} from './InviteStatusScopeHandler';
 import {TeamMemberTableHeader} from './TeamMemberTableHeader';
 import {TeamMemberTableRow} from './TeamMemberTableRow';
@@ -45,7 +45,7 @@ export const OrgTeamMemberListPage = memo(function OrgTeamMemberListPage() {
             onReady={onReady}
             breadcrumb={['팀', {text: '구성원', active: true}]}
             titleText="구성원"
-            Buttons={AddTeamMemberJustButton}
+            Buttons={() => <AddTeamMemberDropdown reload={reload} />}
             ScopeHandler={InviteStatusScopeHandler}
             searchInputPlaceholder="이름, 팀, 연락처 검색"
             onSearch={onSearch}
@@ -60,7 +60,7 @@ export const OrgTeamMemberListPage = memo(function OrgTeamMemberListPage() {
                 isEmptyResult={isEmptyResult}
                 emptyMessage="조회된 구성원이 없어요."
                 emptyButtonText="구성원 등록"
-                EmptyButtons={AddTeamMemberJustButton}
+                EmptyButtons={() => <AddTeamMemberDropdown reload={reload} />}
             >
                 <ListTable
                     items={result.items}

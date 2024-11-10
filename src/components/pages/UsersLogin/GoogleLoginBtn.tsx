@@ -1,11 +1,13 @@
-import React, {memo} from 'react';
-import {useGoogleLogin} from '@react-oauth/google';
+import React, {Fragment, memo} from 'react';
+import {GoogleOAuthProvider, useGoogleLogin} from '@react-oauth/google';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import {useGoogleLoginSuccessHandler2} from '^hooks/useGoogleLoginSuccessHandler2';
 import {googleAccessTokenAtom, googleButtonIsLoading} from '^components/pages/UsersLogin/atom';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {uniq} from '^utils/array';
 import {ReactNodeElement, WithChildren} from '^types/global.type';
+import {useGoogleLoginForWorkspaceConnect} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/TeamMemberSelect/useGoogleLoginForWorkspaceConnect';
+import {googleOAuth} from '^config/environments';
 
 const SCOPE_MAP = {
     login: ['email', 'profile', 'openid'],
@@ -124,3 +126,20 @@ export const useGoogleLoginButton = () => {
         setIsLoading,
     };
 };
+
+interface GoogleAdminOAuthButtonProps extends WithChildren {
+    onCode: (code: string) => void;
+}
+
+export const GoogleAdminOAuthButton = memo((props: GoogleAdminOAuthButtonProps) => {
+    const {onCode, children} = props;
+
+    return (
+        <GoogleOAuthProvider clientId={googleOAuth.adminClient.id}>
+            <GoogleLoginBtn about="admin" onCode={onCode}>
+                {children}
+            </GoogleLoginBtn>
+        </GoogleOAuthProvider>
+    );
+});
+GoogleAdminOAuthButton.displayName = 'GoogleAdminOAuthButton';
