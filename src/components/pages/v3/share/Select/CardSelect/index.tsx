@@ -1,5 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
-import Select, {InputActionMeta, StylesConfig} from 'react-select';
+import Select, {ActionMeta, InputActionMeta, SingleValue, StylesConfig} from 'react-select';
 import {CardComponents} from '^v3/share/Select/CardSelect/selectOpions';
 import {useCreditCards} from '^models/CreditCard/hook';
 import {CreditCardDto} from '^models/CreditCard/type';
@@ -68,7 +68,7 @@ export const CardSelector = memo((props: CardSelectorProps) => {
             onInputChange={(newValue: string, {action}: InputActionMeta) => {
                 if (action === 'input-change') loadCards(newValue);
             }}
-            onChange={(option, actionMeta) => {
+            onChange={(option: SingleValue<CardOptionData>, actionMeta: ActionMeta<CardOptionData>) => {
                 switch (actionMeta.action) {
                     case 'select-option':
                         option && onChange(option.value);

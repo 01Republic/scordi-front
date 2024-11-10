@@ -1,5 +1,5 @@
 import {memo, ReactNode} from 'react';
-import Select, {GroupBase, components, StylesConfig} from 'react-select';
+import Select, {GroupBase, components, StylesConfig, SingleValue} from 'react-select';
 import {SelectComponentsConfig} from 'react-select/dist/declarations/src/components';
 import {OptionProps} from 'react-select/dist/declarations/src/components/Option';
 import {WithChildren} from '^types/global.type';
@@ -65,7 +65,7 @@ export const SelectInput = <Option,>(props: SelectInputProps<Option>) => {
             styles={customStyles}
             className="input input-bordered px-0"
             onMenuOpen={onMenuOpen}
-            onChange={(option) => (option ? onSelect(option) : onSelect())}
+            onChange={(option: SingleValue<Option>) => (option ? onSelect(option) : onSelect())}
             required={required}
             autoFocus={autoFocus}
             noOptionsMessage={noOptionsMessage}
