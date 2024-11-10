@@ -80,7 +80,7 @@ export const CardSelector = memo((props: CardSelectorProps) => {
                         option && onChange(option.value);
                 }
             }}
-            noOptionsMessage={({inputValue}) => {
+            noOptionsMessage={({inputValue}: {inputValue: string}) => {
                 return <p>선택할 수 있는 카드가 없어요 :(</p>;
             }}
             onMenuOpen={() => resetCards()}
