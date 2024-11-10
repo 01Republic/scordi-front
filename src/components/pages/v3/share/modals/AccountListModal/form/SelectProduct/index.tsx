@@ -8,7 +8,7 @@ import {useProductsOfAccounts} from '^v3/share/modals/AccountListModal/ProductCh
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import AsyncSelect from 'react-select/async';
-import {FormatOptionLabelMeta} from 'react-select';
+import {ActionMeta, FormatOptionLabelMeta, SingleValue} from 'react-select';
 import {ProductOption} from '^v3/share/modals/AccountListModal/form/SelectProduct/ProductOption.type';
 import {ProductOptionMenu} from '^v3/share/modals/AccountListModal/form/SelectProduct/ProductOptionMenu';
 import {ProductSelectedValue} from '^v3/share/modals/AccountListModal/form/SelectProduct/ProductSelectedValue';
@@ -88,7 +88,7 @@ export const SelectProduct = memo((props: SelectProductProps) => {
                             defaultOptions={Product.all().map(toOption)}
                             className="select-underline input-underline"
                             placeholder="서비스를 선택해주세요"
-                            onChange={(newValue, actionMeta) => {
+                            onChange={(newValue: SingleValue<ProductOption>, actionMeta: ActionMeta<ProductOption>) => {
                                 switch (actionMeta.action) {
                                     case 'select-option':
                                         return newValue ? setProductId(newValue.value) : null;

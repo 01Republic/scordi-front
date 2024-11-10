@@ -1,6 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import Select from 'react-select';
+import Select, {SingleValue} from 'react-select';
 import {useToast} from '^hooks/useToast';
 import {useModal} from '../../useModal';
 import {ModalTopbar} from '../../ModalTopbar';
@@ -82,7 +82,7 @@ export const CardCompanyModal = memo(() => {
                         value={OPTIONS.find((option) => option.value === issuerCompany)}
                         options={OPTIONS}
                         defaultValue={defaultValue}
-                        onChange={(e) => e && setIssuerCompany(e?.value)}
+                        onChange={(e: SingleValue<{value: string; label: string}>) => e && setIssuerCompany(e?.value)}
                         className="select-underline input-underline"
                         placeholder="전체"
                     />
