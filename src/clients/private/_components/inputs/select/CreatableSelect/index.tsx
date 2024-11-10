@@ -56,8 +56,8 @@ export const CreatableSelect = <T, V, O extends Option>(props: CreatableSelectPr
                     search();
                     setIsMenuOpened(true);
                 }}
-                loadingMessage={(props) => <span>'{props.inputValue}'를 찾는 중</span>}
-                noOptionsMessage={(props) => <span>'{props.inputValue}'는 없네요</span>}
+                loadingMessage={(props: {inputValue: string}) => <span>'{props.inputValue}'를 찾는 중</span>}
+                noOptionsMessage={(props: {inputValue: string}) => <span>'{props.inputValue}'는 없네요</span>}
                 components={{
                     Option: (props) =>
                         props.data['__isNew__'] ? (
