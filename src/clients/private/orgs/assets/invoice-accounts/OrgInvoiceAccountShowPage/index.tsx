@@ -1,17 +1,15 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {invoiceAccountIdParamState, orgIdParamState} from '^atoms/common';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
 import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
-import {invoiceAccountSubjectAtom, useCurrentInvoiceAccount} from './atom';
+import {useCurrentInvoiceAccount} from './atom';
 import {InvoiceAccountProfilePanel} from './InvoiceAccountProfilePanel';
 import {InvoiceAccountActionPanel} from './InvoiceAccountActionPanel';
 import {InvoiceAccountInformationPanel} from './InvoiceAccountInformationPanel';
 import {BillingHistoryListOfInvoiceAccountTabContent, SubscriptionListOfInvoiceAccountTabContent} from './tab-panes';
-import {googleOAuth} from '^config/environments';
-import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {GoogleOAuthProvider} from '@react-oauth/google';
+import {GoogleGmailOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {useInvoiceAccountSync} from '^models/InvoiceAccount/hook';
 
 export const OrgInvoiceAccountShowPage = memo(() => {
@@ -82,17 +80,14 @@ export const OrgInvoiceAccountShowPage = memo(() => {
             </main>
 
             <div className="hidden">
-                <GoogleOAuthProvider clientId={googleOAuth.gmailClient.id}>
-                    <GoogleLoginBtn
-                        about="gmail"
-                        onCode={(code) => {
-                            if (!currentInvoiceAccount) return;
-                            renewAccountWithConfirm(orgId, currentInvoiceAccount, {code});
-                        }}
-                    >
-                        <button id="invoice-email-token-refresh-button">지메일 계정 연동 로그인 트리거</button>
-                    </GoogleLoginBtn>
-                </GoogleOAuthProvider>
+                <GoogleGmailOAuthButton
+                    onCode={(code) => {
+                        if (!currentInvoiceAccount) return;
+                        renewAccountWithConfirm(orgId, currentInvoiceAccount, {code});
+                    }}
+                >
+                    <button id="invoice-email-token-refresh-button">지메일 계정 연동 로그인 트리거</button>
+                </GoogleGmailOAuthButton>
             </div>
         </ShowPage>
     );

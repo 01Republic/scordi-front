@@ -143,3 +143,20 @@ export const GoogleAdminOAuthButton = memo((props: GoogleAdminOAuthButtonProps) 
     );
 });
 GoogleAdminOAuthButton.displayName = 'GoogleAdminOAuthButton';
+
+interface GoogleGmailOAuthButtonProps extends WithChildren {
+    onCode: (code: string) => void;
+}
+
+export const GoogleGmailOAuthButton = memo((props: GoogleGmailOAuthButtonProps) => {
+    const {onCode, children} = props;
+
+    return (
+        <GoogleOAuthProvider clientId={googleOAuth.gmailClient.id}>
+            <GoogleLoginBtn about="gmail" onCode={onCode}>
+                {children}
+            </GoogleLoginBtn>
+        </GoogleOAuthProvider>
+    );
+});
+GoogleGmailOAuthButton.displayName = 'GoogleGmailOAuthButton';
