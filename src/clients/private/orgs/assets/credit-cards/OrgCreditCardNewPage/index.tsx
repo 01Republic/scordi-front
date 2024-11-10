@@ -24,6 +24,8 @@ import {padStart} from 'lodash';
 import {FaCaretDown} from 'react-icons/fa6';
 import {ConnectMethodCard} from '^v3/V3OrgConnectsPage/ConnectsPageBody/ConnectMethodCard';
 import {CardNumberInput} from './CardNumberInput';
+import {useForm} from 'react-hook-form';
+import {InputCardName} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardNewPage/InputCardName';
 
 const CardCompanies = CardAccountsStaticData.all();
 
@@ -152,7 +154,8 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                         className={`input input-underline !bg-slate-100 w-full ${
                                             isLoading ? 'opacity-50 pointer-events-none' : ''
                                         }`}
-                                        onChange={(e) => setFormValue({name: e.target.value})}
+                                        defaultValue={formData.name || ''}
+                                        onBlur={(e) => setFormValue({name: e.target.value})}
                                         readOnly={isLoading}
                                         required
                                     />
@@ -164,7 +167,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                         <div>
                                             <CardNumberInput
                                                 defaultValue={formData.number1}
-                                                onChange={(val) => setFormValue({number1: val})}
+                                                onBlur={(val) => setFormValue({number1: val})}
                                                 className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
                                                 readOnly={isLoading}
                                             />
@@ -173,7 +176,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                         <div>
                                             <CardNumberInput
                                                 defaultValue={formData.number2}
-                                                onChange={(val) => setFormValue({number2: val})}
+                                                onBlur={(val) => setFormValue({number2: val})}
                                                 className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
                                                 readOnly={isLoading}
                                             />
@@ -182,7 +185,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                         <div>
                                             <CardNumberInput
                                                 defaultValue={formData.number3}
-                                                onChange={(val) => setFormValue({number3: val})}
+                                                onBlur={(val) => setFormValue({number3: val})}
                                                 className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
                                                 readOnly={isLoading}
                                             />
@@ -192,7 +195,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                             <CardNumberInput
                                                 maxLength={5}
                                                 defaultValue={formData.number4}
-                                                onChange={(val) => setFormValue({number4: val})}
+                                                onBlur={(val) => setFormValue({number4: val})}
                                                 className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
                                                 readOnly={isLoading}
                                             />
@@ -286,10 +289,16 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                         }`}
                                     >
                                         <TeamMemberSelectColumn
-                                            onChange={(member) => setFormValue({holdingMemberId: member?.id})}
+                                            onChange={(member) =>
+                                                setFormValue({
+                                                    holdingMemberId: member?.id,
+                                                    holdingMember: member,
+                                                })
+                                            }
                                             optionListBoxTitle="소지자를 변경할까요?"
                                             detachableOptionBoxTitle="현재 소지자"
                                             className="flex-auto"
+                                            defaultValue={formData.holdingMember}
                                         />
                                         <FaCaretDown fontSize={12} className="text-gray-500" />
                                     </div>
@@ -297,10 +306,11 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                 </FormControl>
                                 <FormControl label="비고">
                                     <input
+                                        defaultValue={formData.memo || ''}
                                         className={`input input-underline !bg-slate-100 w-full ${
                                             isLoading ? 'opacity-50 pointer-events-none' : ''
                                         }`}
-                                        onChange={(e) => setFormValue({memo: e.target.value})}
+                                        onBlur={(e) => setFormValue({memo: e.target.value})}
                                         readOnly={isLoading}
                                     />
                                     <span />

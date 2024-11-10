@@ -195,7 +195,7 @@ export const useCurrentCreditCardSync = () => {
     const {reload: reloadBillingHistories, isNotLoaded: billingHistoryIsNotLoaded} =
         useBillingHistoryListOfCreditCard();
     const {syncCardWithConfirm, isSyncRunning} = useCodefCardSync();
-    const currentCodefCard: CodefCardDto | undefined = result.items[0];
+    const currentCodefCard = pick(result.items[0]);
 
     const onFinish = () => {
         return Promise.allSettled([

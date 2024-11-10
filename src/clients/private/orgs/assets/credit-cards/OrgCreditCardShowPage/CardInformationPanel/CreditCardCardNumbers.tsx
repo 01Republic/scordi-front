@@ -43,7 +43,7 @@ export const CreditCardCardNumber = (props: CreditCardCardNumberProps) => {
             <CardNumberInput
                 maxLength={maxLength}
                 defaultValue={defaultValue}
-                onChange={onChange}
+                onBlur={onChange}
                 className={`${isLoading ? 'opacity-50 pointer-events-none' : ''} input-sm px-1`}
                 readOnly={isLoading}
             />

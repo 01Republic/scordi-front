@@ -25,6 +25,12 @@ export const codefCardApi = {
         return api.post(url).then(oneDtoOf(CodefCardDto));
     },
 
+    // 스코디 카드 연결
+    connectCreditCard(orgId: number, id: number, creditCardId: number) {
+        const url = `/connect/organizations/${orgId}/codef/cards/${id}/creditCard/${creditCardId}`;
+        return api.patch(url).then(oneDtoOf(CodefCardDto));
+    },
+
     /** 코드에프 결제내역 조회 (카드 등록 및 연동) */
     histories(orgId: number, codefCardId: number, params: FindAllCardHistoryQueryDto = {}) {
         const url = `/connect/organizations/${orgId}/codef/cards/${codefCardId}/histories`;

@@ -7,21 +7,11 @@ import {toast} from 'react-hot-toast';
 
 interface CreateCreditCardButtonProps {
     checkedCards: CodefCardDto[];
-    onSubmit: () => any;
+    onSubmit: (checkedCards: CodefCardDto[]) => any;
 }
 
 export const CreateCreditCardButton = memo((props: CreateCreditCardButtonProps) => {
     const {checkedCards, onSubmit} = props;
-    const orgId = useRecoilValue(orgIdParamState);
-
-    const createCards = async () => {
-        if (!orgId || isNaN(orgId)) return;
-        if (!checkedCards.length) return;
-
-        await Promise.allSettled(checkedCards.map((codefCard) => codefCardApi.createCreditCard(orgId, codefCard.id)));
-        toast.success('새 카드를 추가했어요 :)');
-        onSubmit();
-    };
 
     return (
         <button
@@ -29,7 +19,7 @@ export const CreateCreditCardButton = memo((props: CreateCreditCardButtonProps) 
             className={`btn btn-block transition-all ${
                 checkedCards.length ? 'btn-scordi' : 'btn-disabled !bg-gray-200 !text-gray-500'
             }`}
-            onClick={createCards}
+            onClick={() => onSubmit(checkedCards)}
         >
             등록하기
         </button>
