@@ -50,7 +50,7 @@ export const MemberSelect = memo((props: MemberSelectProps) => {
                 options={result.items.map(toOption)}
                 styles={styles}
                 components={{...components, Option, SingleValue}}
-                onInputChange={(newValue, {action}: InputActionMeta) => {
+                onInputChange={(newValue: string, {action}: InputActionMeta) => {
                     if (action === 'input-change') loadTeamMembers(newValue);
                 }}
                 onChange={onChange}

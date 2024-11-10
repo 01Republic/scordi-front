@@ -65,7 +65,7 @@ export const CardSelector = memo((props: CardSelectorProps) => {
             placeholder="카드 선택하기"
             styles={customStyles}
             className="input input-bordered px-0"
-            onInputChange={(newValue, {action}: InputActionMeta) => {
+            onInputChange={(newValue: string, {action}: InputActionMeta) => {
                 if (action === 'input-change') loadCards(newValue);
             }}
             onChange={(option, actionMeta) => {
