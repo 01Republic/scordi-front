@@ -6,6 +6,7 @@ import {GoogleSyncHistoryDto} from '^models/GoogleSyncHistory/type';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {zero1_republic_workspace_id} from '^config/environments';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
+import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 
 export type CreateOrganizationRequestDto = {
     name: string;
@@ -43,6 +44,9 @@ export class OrganizationDto {
     @TypeCast(() => CreditCardDto) creditCards?: CreditCardDto[]; // 카드
     @TypeCast(() => GoogleSyncHistoryDto) googleSyncHistories?: GoogleSyncHistoryDto[]; // 구글 동기화 내역
     @TypeCast(() => GoogleSyncHistoryDto) lastGoogleSyncHistory: GoogleSyncHistoryDto | null; // 최신 워크스페이스 동기화 내역
+
+    @TypeCast(() => ScordiSubscriptionDto) scordiSubscriptions?: ScordiSubscriptionDto[]; // 스코디 구독 목록
+    @TypeCast(() => ScordiSubscriptionDto) currentScordiSubscription: ScordiSubscriptionDto | null; // 현재 적용중인 스코디 구독
 
     get isZeroOneTeam() {
         return this.id === zero1_republic_workspace_id;
