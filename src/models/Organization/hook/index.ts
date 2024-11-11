@@ -31,7 +31,10 @@ export function useCurrentOrg(id: number) {
             setIsLoading(true);
             setQuery((oldQuery) => {
                 const newQuery = {...params, id: orgId};
-                if (!force && JSON.stringify(oldQuery) === JSON.stringify(newQuery)) return oldQuery;
+                if (!force && JSON.stringify(oldQuery) === JSON.stringify(newQuery)) {
+                    resolve(undefined);
+                    return oldQuery;
+                }
 
                 organizationApi
                     .show(orgId, params)
