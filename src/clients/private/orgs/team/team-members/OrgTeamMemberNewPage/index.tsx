@@ -11,11 +11,13 @@ import {FormContainer} from '^clients/private/_components/containers';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {SelectTeam} from './SelectTeam';
 import {TeamBeforeSaveModal} from './TeamBeforeSaveModal';
+import {debounce} from 'lodash';
 
 export const OrgTeamMemberNewPage = memo(function OrgTeamMemberNewPage() {
     const orgId = useRecoilValue(orgIdParamState);
     const form = useForm<CreateTeamMemberDto>();
     const [isModalOpened, setModalOpened] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const onSubmit = (dto: CreateTeamMemberDto) => {
         teamMemberApi.isExist(orgId, {email: dto.email}).then((existTeam) => {
@@ -43,7 +45,7 @@ export const OrgTeamMemberNewPage = memo(function OrgTeamMemberNewPage() {
                     </div>
                 </div>
 
-                <FormContainer onSubmit={form.handleSubmit(onSubmit)}>
+                <FormContainer onSubmit={form.handleSubmit(onSubmit)} isLoading={isLoading}>
                     <div className="px-4 py-8 border-b">
                         <div className="max-w-md mx-auto flex flex-col gap-8 mb-16">
                             <h2 className="leading-none text-xl font-semibold">필수정보</h2>
@@ -93,6 +95,7 @@ export const OrgTeamMemberNewPage = memo(function OrgTeamMemberNewPage() {
                     isOpened={isModalOpened}
                     onClose={() => setModalOpened(false)}
                     dto={form.watch()}
+                    setIsLoading={setIsLoading}
                 />
             </MainContainer>
         </MainLayout>

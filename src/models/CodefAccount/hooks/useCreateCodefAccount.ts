@@ -10,6 +10,7 @@ import {ApiErrorResponse} from '^api/api';
 import {codefErrorCodeToMsg, CodefResponse} from '^models/CodefAccount/codef-common';
 import {AccountCreatedResponseDto} from '^models/CodefAccount/type/create-account.response.dto';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {debounce} from 'lodash';
 
 interface CreateCodefAccountOption {
     redirectTo?: (codefAccount: CodefAccountDto) => any;
@@ -22,21 +23,24 @@ export function useCreateCodefAccount(option?: CreateCodefAccountOption) {
     const [errorMessages, setErrorMessages] = useState<string[]>([]);
     const {search: checkCodefAccounts} = useCodefAccountsAlreadyIs();
 
-    const checkExists = (organization: CodefCardCompanyCode, callbackFn?: (codefAccount?: CodefAccountDto) => any) => {
-        checkCodefAccounts({where: {organization}}, false, true).then((result) => {
-            if (!result) {
-                setTimeout(() => checkExists(organization), 1000);
-                return;
-            }
-            const [accountExisted] = result.items;
-            callbackFn ? callbackFn(accountExisted) : redirectTo(accountExisted);
-            // if (accountExisted) {
-            //     // toast.error('기존에 등록된 계정으로 이동합니다', {duration: 3000});
-            //     // setTimeout(() => {
-            //     // }, 3000);
-            // }
-        });
-    };
+    const checkExists = debounce(
+        (organization: CodefCardCompanyCode, callbackFn?: (codefAccount?: CodefAccountDto) => any) => {
+            return checkCodefAccounts({where: {organization}}, false, true).then((result) => {
+                if (!result) {
+                    setTimeout(() => checkExists(organization), 1000);
+                    return;
+                }
+                const [accountExisted] = result.items;
+                callbackFn ? callbackFn(accountExisted) : redirectTo(accountExisted);
+                // if (accountExisted) {
+                //     // toast.error('기존에 등록된 계정으로 이동합니다', {duration: 3000});
+                //     // setTimeout(() => {
+                //     // }, 3000);
+                // }
+            });
+        },
+        500,
+    );
 
     const createAccount = (
         orgId: number,

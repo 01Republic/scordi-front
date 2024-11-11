@@ -1,6 +1,7 @@
 import React, {FormEventHandler, memo} from 'react';
 import {CardContainer, CardContainerProps} from './CardContainer';
 import {FaCheck} from 'react-icons/fa6';
+import {LoadableBox} from '^components/util/loading';
 
 interface FormContainerProps extends CardContainerProps {
     onSubmit?: FormEventHandler<HTMLFormElement>;
@@ -13,7 +14,11 @@ export const FormContainer = memo((props: FormContainerProps) => {
     return (
         <CardContainer {...res}>
             <form onSubmit={onSubmit}>
-                {children}
+                <div className={`${isLoading ? 'pointer-events-none' : ''}`}>
+                    <LoadableBox isLoading={isLoading} loadingType={2} spinnerPos="center" noPadding>
+                        {children}
+                    </LoadableBox>
+                </div>
 
                 <div className="p-4">
                     <div className="max-w-md mx-auto">

@@ -23,6 +23,8 @@ interface DropdownProps extends WithChildren {
     placement?: Placement;
     backdrop?: boolean; // default: true
     allowScroll?: boolean; // default: false
+    interactiveBorder?: number; // default: 30
+    offset?: [number, number]; // default: undefined
     onOpen?: () => any;
     onClose?: () => any;
 }
@@ -33,7 +35,7 @@ export const Dropdown = memo((props: DropdownProps) => {
     const show = () => setVisible(true);
     const hide = () => setVisible(false);
     const {Trigger, Content, className = '', placement = 'bottom-end', children} = props;
-    const {backdrop = true, allowScroll = false} = props;
+    const {backdrop = true, allowScroll = false, interactiveBorder = 30, offset} = props;
     const {onOpen, onClose} = props;
 
     const openDropdown = () => {
@@ -65,6 +67,8 @@ export const Dropdown = memo((props: DropdownProps) => {
                 backdrop={backdrop}
                 allowScroll={allowScroll}
                 placement={placement}
+                interactiveBorder={interactiveBorder}
+                offset={offset}
             >
                 {Content ? <Content visible={visible} show={openDropdown} hide={closeDropdown} /> : children}
             </DropdownContent>

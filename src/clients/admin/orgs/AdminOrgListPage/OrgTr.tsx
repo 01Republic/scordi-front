@@ -103,7 +103,7 @@ export const OrgTr = memo((props: OrgTrProps) => {
                         className="tooltip tooltip-left tooltip-warning cursor-pointer"
                         data-tip={otherOwners
                             .map((ownership) => {
-                                return `${ownership.user.name} (${ownership.user.email})`;
+                                return `${ownership.user?.name} (${ownership.user?.email})`;
                             })
                             .join(' / ')}
                     >

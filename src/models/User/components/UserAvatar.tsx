@@ -3,14 +3,14 @@ import {getColor} from '^components/util/palette';
 import {Avatar} from '^components/Avatar';
 
 interface UserAvatarProps {
-    src: string;
+    src?: string;
     alt: string;
     fallbackLetter?: string;
     className?: string;
 }
 
 export const UserAvatar = memo((props: UserAvatarProps) => {
-    const {src, alt, fallbackLetter, className = 'w-10 h-10'} = props;
+    const {src = '', alt, fallbackLetter, className = 'w-10 h-10'} = props;
 
     // const {profileImgUrl, name, email} = teamMember.makeTeamMemberProfile();
     const avatarColor = getColor(alt.length * src.length);

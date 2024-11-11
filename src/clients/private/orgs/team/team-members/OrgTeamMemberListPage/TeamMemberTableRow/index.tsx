@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useState} from 'react';
 import {TeamMemberDto} from '^models/TeamMember';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 import {TeamSelect} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamSelect';
@@ -13,15 +13,17 @@ interface TeamMemberTableRowProps {
 }
 
 export const TeamMemberTableRow = memo((props: TeamMemberTableRowProps) => {
+    const [isLoading, setIsLoading] = useState(false);
     const {teamMember, onClick, reload} = props;
     const showPagePath = OrgTeamMemberShowPageRoute.path(teamMember.organizationId, teamMember.id);
 
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
+    const loadingStyle = isLoading ? 'opacity-50 pointer-events-none' : '';
 
     return (
         <tr className="group">
             {/* 이름 */}
-            <td className={hoverBgColor} onClick={() => onClick && onClick(teamMember)}>
+            <td className={`${hoverBgColor} ${loadingStyle}`} onClick={() => onClick && onClick(teamMember)}>
                 <OpenButtonColumn href={showPagePath}>
                     <div
                         className={`flex items-center gap-2 px-3 -mx-3 text-gray-700 group-hover:text-scordi max-w-sm`}
@@ -37,26 +39,35 @@ export const TeamMemberTableRow = memo((props: TeamMemberTableRowProps) => {
             </td>
 
             {/* 팀 */}
-            <td className={`cursor-pointer ${hoverBgColor}`}>
+            <td className={`cursor-pointer ${hoverBgColor} ${loadingStyle}`}>
                 <TeamSelect teamMember={teamMember} onChange={() => reload && reload()} />
             </td>
 
             {/* 이메일 */}
-            <td className={`cursor-pointer ${hoverBgColor}`} onClick={() => onClick && onClick(teamMember)}>
+            <td
+                className={`cursor-pointer ${hoverBgColor} ${loadingStyle}`}
+                onClick={() => onClick && onClick(teamMember)}
+            >
                 <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
                     {teamMember.email}
                 </p>
             </td>
 
             {/* 전화번호 */}
-            <td className={`cursor-pointer ${hoverBgColor}`} onClick={() => onClick && onClick(teamMember)}>
+            <td
+                className={`cursor-pointer ${hoverBgColor} ${loadingStyle}`}
+                onClick={() => onClick && onClick(teamMember)}
+            >
                 <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
                     {teamMember.phone}
                 </p>
             </td>
 
             {/* 이용 앱 수 */}
-            <td className={`cursor-pointer ${hoverBgColor}`} onClick={() => onClick && onClick(teamMember)}>
+            <td
+                className={`cursor-pointer ${hoverBgColor} ${loadingStyle}`}
+                onClick={() => onClick && onClick(teamMember)}
+            >
                 <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
                     {teamMember.subscriptionCount.toLocaleString()} <small>Apps</small>
                 </p>
@@ -69,7 +80,13 @@ export const TeamMemberTableRow = memo((props: TeamMemberTableRowProps) => {
 
             {/* 상태 */}
             <td className={`text-right ${hoverBgColor}`}>
-                <TeamMemberStatusDropdown teamMember={teamMember} reload={() => reload && reload()} />
+                <div className={`${isLoading ? 'btn btn-block btn-sm !bg-white link_to-loading' : ''}`}>
+                    <TeamMemberStatusDropdown
+                        teamMember={teamMember}
+                        reload={() => reload && reload()}
+                        setIsLoading={setIsLoading}
+                    />
+                </div>
             </td>
         </tr>
     );

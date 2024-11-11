@@ -10,9 +10,7 @@ import {
 } from '^clients/private/_layouts/_shared/ListPageMainDropdown';
 import {IconType} from '@react-icons/all-files';
 import {FcDataBackup, FcDataRecovery} from 'react-icons/fc';
-import {GoogleOAuthProvider} from '@react-oauth/google';
-import {googleOAuth} from '^config/environments';
-import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
+import {GoogleGmailOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {useGoogleLoginForInvoiceAccountSelect, useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {swalHTML} from '^components/util/dialog';
 import {InvoiceAccountCreateInManualSwalForm} from '^models/InvoiceAccount/components';
@@ -28,21 +26,18 @@ export const AddInvoiceAccountDropdown = memo(function AddInvoiceAccountDropdown
             <ListPageDropdownButton text="메일계정 추가" />
 
             <ListPageDropdownMenu>
-                <GoogleOAuthProvider clientId={googleOAuth.gmailClient.id}>
-                    <GoogleLoginBtn
-                        about="gmail"
-                        onCode={(code) => {
-                            setCode(code);
-                            setIsAutoCreateModalOpen(true);
-                        }}
-                    >
-                        <CreateMethodOption
-                            Icon={FcDataBackup}
-                            title="자동으로 연동하기"
-                            desc="지메일 로그인으로 간단하게 추가해요"
-                        />
-                    </GoogleLoginBtn>
-                </GoogleOAuthProvider>
+                <GoogleGmailOAuthButton
+                    onCode={(code) => {
+                        setCode(code);
+                        setIsAutoCreateModalOpen(true);
+                    }}
+                >
+                    <CreateMethodOption
+                        Icon={FcDataBackup}
+                        title="자동으로 연동하기"
+                        desc="지메일 로그인으로 간단하게 추가해요"
+                    />
+                </GoogleGmailOAuthButton>
 
                 <CreateMethodOption
                     Icon={FcDataRecovery}

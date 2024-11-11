@@ -56,10 +56,10 @@ export const CreatableSelect = <T, V, O extends Option>(props: CreatableSelectPr
                     search();
                     setIsMenuOpened(true);
                 }}
-                loadingMessage={({inputValue}) => <span>'{inputValue}'를 찾는 중</span>}
-                noOptionsMessage={({inputValue}) => <span>'{inputValue}'는 없네요</span>}
+                loadingMessage={(props: {inputValue: string}) => <span>'{props.inputValue}'를 찾는 중</span>}
+                noOptionsMessage={(props: {inputValue: string}) => <span>'{props.inputValue}'는 없네요</span>}
                 components={{
-                    Option: (props) =>
+                    Option: (props: OptionProps<Option, false, GroupBase<Option>>) =>
                         props.data['__isNew__'] ? (
                             <CreateOption {...(props as unknown as OptionProps<Option, false, GroupBase<Option>>)} />
                         ) : (
@@ -67,7 +67,7 @@ export const CreatableSelect = <T, V, O extends Option>(props: CreatableSelectPr
                         ),
                     MenuList,
                 }}
-                onChange={(option, actionMeta) => {
+                onChange={(option: SingleValue<Option>, actionMeta: ActionMeta<Option>) => {
                     if (option) {
                         onSelect(option as unknown as SingleValue<O>, actionMeta as ActionMeta<O>);
                         setIsMenuOpened(false);
@@ -75,7 +75,7 @@ export const CreatableSelect = <T, V, O extends Option>(props: CreatableSelectPr
                         onSelect(undefined, actionMeta as ActionMeta<O>);
                     }
                 }}
-                formatOptionLabel={(data, formatOptionLabelMeta) => {
+                formatOptionLabel={(data: Option, formatOptionLabelMeta: FormatOptionLabelMeta<Option>) => {
                     return formatOptionLabel
                         ? formatOptionLabel(data.value, formatOptionLabelMeta as FormatOptionLabelMeta<O>)
                         : data.label;

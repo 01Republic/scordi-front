@@ -1,6 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useCreditCards} from '^models/CreditCard/hook';
-import Select from 'react-select';
+import Select, {ActionMeta, SingleValue} from 'react-select';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {CardComponents, selectStylesOptions} from '^v3/share/Select/CardSelect/selectOpions';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
@@ -48,7 +48,7 @@ export const CardSingleSelect = memo(function CardSelect(props: CardSelectProps)
             styles={selectStylesOptions}
             defaultValue={makeCardOption(billingHistory.creditCard ?? ({} as CreditCardDto))}
             options={[noneCardOption, ...result.items.map(makeCardOption)]}
-            onChange={(newValue, actionMeta) => onChange(newValue?.value)}
+            onChange={(newValue: SingleValue<Option>, actionMeta: ActionMeta<Option>) => onChange(newValue?.value)}
         />
     );
 });

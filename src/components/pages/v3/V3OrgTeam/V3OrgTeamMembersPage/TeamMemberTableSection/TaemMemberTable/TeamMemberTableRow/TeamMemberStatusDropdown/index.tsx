@@ -1,22 +1,25 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
-import {FaExchangeAlt, FaRegEnvelope, FaRegTrashAlt, FaSignOutAlt} from 'react-icons/fa';
-import {currentTeamMemberState, TeamMemberDto, useTeamMember} from '^models/TeamMember';
+import {FaExchangeAlt, FaSignOutAlt} from 'react-icons/fa';
+import {TeamMemberDto, useSendInviteEmail} from '^models/TeamMember';
 import {currentUserAtom} from '^models/User/atom';
 import {Dropdown} from '^v3/share/Dropdown';
 import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
 import {StatusButton} from './StatusButton';
-import {ApprovalStatus, MembershipLevel} from '^models/Membership/types';
-import {FaRotateRight} from 'react-icons/fa6';
+import {ApprovalStatus, MembershipLevel, t_membershipLevel} from '^models/Membership/types';
 import {membershipApi} from '^models/Membership/api';
-import {plainToast, useToast} from '^hooks/useToast';
+import {plainToast} from '^hooks/useToast';
 import {InviteListItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/InviteListItem';
 import {ResendInviteItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/ResendInviteItem';
 import {DeleteMemberItem} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamMemberStatusDropdown/DeleteMemberItem';
+import {errorToast} from '^api/api';
+import {toast} from 'react-hot-toast';
+import {debounce} from 'lodash';
 
 interface TeamMemberStatusDropdownProps {
     teamMember: TeamMemberDto;
     reload: () => any;
+    setIsLoading: (value: boolean) => any;
 }
 
 const changeLevel = (id: number, level: MembershipLevel) => {
@@ -28,8 +31,8 @@ const changeLevel = (id: number, level: MembershipLevel) => {
 
 export const TeamMemberStatusDropdown = memo((props: TeamMemberStatusDropdownProps) => {
     const currentUser = useRecoilValue(currentUserAtom);
-    const {toast} = useToast();
-    const {reload, teamMember} = props;
+    const {sendEmail} = useSendInviteEmail();
+    const {reload, teamMember, setIsLoading} = props;
 
     if (!teamMember || !currentUser) return <></>;
 
@@ -39,6 +42,16 @@ export const TeamMemberStatusDropdown = memo((props: TeamMemberStatusDropdownPro
     const currentUserMembership = currentUser.memberships?.find((m) => m.organizationId === teamMember.organizationId);
     if (!currentUserMembership) return <>!</>;
 
+    const sendInvitation = debounce((callback: () => any) => {
+        if (!teamMember.email) return;
+
+        setIsLoading(true);
+        return sendEmail(teamMember.email, teamMember.id)
+            .then(callback)
+            .catch(errorToast)
+            .finally(() => setIsLoading(false));
+    }, 500);
+
     return (
         <Dropdown
             placement="bottom-end"
@@ -46,17 +59,19 @@ export const TeamMemberStatusDropdown = memo((props: TeamMemberStatusDropdownPro
             Content={({hide}) => {
                 const hideAndReload = async () => {
                     hide();
-                    await reload();
+                    return reload();
                 };
 
                 return (
                     <ul className="p-2 text-sm shadow menu dropdown-content z-[1] bg-base-100 rounded-box">
                         {/* 1. 초대를 보내지 않았고 **멤버레코드만 존재**하는 상태 : 초대버튼 노출 */}
-                        {!membership && <InviteListItem teamMember={teamMember} onFinish={hideAndReload} />}
+                        {!membership && (
+                            <InviteListItem teamMember={teamMember} onClick={() => sendInvitation(hideAndReload)} />
+                        )}
 
                         {/* 2. 초대를 보냈으나 **워크스페이스 조인을 기다리는 중**인 멤버 : 재발송 버튼 노출 */}
                         {membership && membership.approvalStatus === ApprovalStatus.PENDING && (
-                            <ResendInviteItem teamMember={teamMember} onFinish={hideAndReload} />
+                            <ResendInviteItem teamMember={teamMember} onClick={() => sendInvitation(hideAndReload)} />
                         )}
 
                         {/* 3. 초대를 보내어 **워크스페이스에 조인을 완료**한 멤버 일때 */}
@@ -70,12 +85,12 @@ export const TeamMemberStatusDropdown = memo((props: TeamMemberStatusDropdownPro
                                         <MoreDropdownListItem
                                             onClick={() =>
                                                 membership &&
-                                                changeLevel(membership.id, MembershipLevel.MEMBER).then(hideAndReload)
+                                                changeLevel(membership.id, MembershipLevel.MEMBER).then(() => {})
                                             }
                                         >
                                             <div className="flex items-center gap-3 w-full py-1">
                                                 <FaExchangeAlt size={12} />
-                                                <p>구성원 역할로 변경하기</p>
+                                                <p>{t_membershipLevel(MembershipLevel.MEMBER)} 역할로 변경하기</p>
                                             </div>
                                         </MoreDropdownListItem>
                                     )}
@@ -88,7 +103,7 @@ export const TeamMemberStatusDropdown = memo((props: TeamMemberStatusDropdownPro
                                         >
                                             <div className="flex items-center gap-3 w-full py-1">
                                                 <FaExchangeAlt size={12} />
-                                                <p>관리자 역할로 변경하기</p>
+                                                <p>{t_membershipLevel(MembershipLevel.OWNER)} 역할로 변경하기</p>
                                             </div>
                                         </MoreDropdownListItem>
                                     )}
@@ -100,7 +115,7 @@ export const TeamMemberStatusDropdown = memo((props: TeamMemberStatusDropdownPro
                             <DeleteMemberItem reload={reload} teamMember={teamMember} />
                         )}
                         {membership && membership.approvalStatus === ApprovalStatus.APPROVED && (
-                            <MoreDropdownListItem onClick={() => toast.info('준비중입니다.')}>
+                            <MoreDropdownListItem onClick={() => toast('준비중입니다.')}>
                                 <div className="flex items-center gap-3 w-full text-red-500 py-1">
                                     <FaSignOutAlt size={12} />
                                     <p>워크스페이스에서 내보내기</p>

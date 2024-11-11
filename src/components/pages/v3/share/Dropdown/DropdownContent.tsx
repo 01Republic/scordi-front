@@ -9,6 +9,8 @@ interface DropdownContentProps extends Omit<TippyProps, 'children'> {
     triggerRef: RefObject<Element>;
     backdrop?: boolean; // default: true
     allowScroll?: boolean; // default: false
+    interactiveBorder?: number; // default: 30
+    offset?: [number, number]; // default: undefined
     placement?: Placement;
     children?: ReactNode;
 }
@@ -22,6 +24,8 @@ export const DropdownContent = memo((props: DropdownContentProps) => {
         backdrop = true,
         allowScroll = false,
         placement = 'bottom-end',
+        interactiveBorder = 30,
+        offset,
         ...res
     } = props;
 
@@ -42,8 +46,9 @@ export const DropdownContent = memo((props: DropdownContentProps) => {
                     visible={visible}
                     reference={triggerRef}
                     interactive={true}
-                    interactiveBorder={30}
+                    interactiveBorder={interactiveBorder}
                     interactiveDebounce={100}
+                    offset={offset}
                     appendTo={() => document.body}
                     onClickOutside={(instance, event) => {
                         // backdrop 을 사용한다면, hide() 기능은 backdrop 으로 실행을 위임합니다.

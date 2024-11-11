@@ -11,28 +11,36 @@ import {toast} from 'react-hot-toast';
 import {useRouter} from 'next/router';
 import {OrgTeamMemberListPageRoute} from '^pages/orgs/[id]/teamMembers';
 import {inviteMembershipApi} from '^models/Membership/api';
+import {debounce} from 'lodash';
+import {errorToast} from '^api/api';
 
 interface BeforeSaveModalProps extends ModalProps {
     dto: CreateTeamMemberDto;
+    setIsLoading: (value: boolean) => any;
 }
 
 export const TeamBeforeSaveModal = memo((props: BeforeSaveModalProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
-    const {isOpened, onClose, dto} = props;
+    const {isOpened, onClose, dto, setIsLoading} = props;
 
-    const createMember = () => teamMemberApi.create(orgId, dto).then((res) => res.data);
-    const inviteMember = (teamMember: TeamMemberDto) =>
-        inviteMembershipApi.create({
-            organizationId: orgId,
-            invitations: [
-                {
-                    email: teamMember.email!,
-                    teamMemberId: teamMember.id,
-                },
-            ],
-        });
     const redirect = () => router.push(OrgTeamMemberListPageRoute.path(orgId));
+    const createMember = () => teamMemberApi.create(orgId, dto).then((res) => res.data);
+    const inviteMember = (teamMember: TeamMemberDto) => {
+        return inviteMembershipApi.create({
+            organizationId: orgId,
+            invitations: [{email: teamMember.email!, teamMemberId: teamMember.id}],
+        });
+    };
+
+    const handleRequest = (request: () => Promise<any>) => {
+        setIsLoading(true);
+        onClose();
+        request()
+            .catch(errorToast)
+            .finally(() => setIsLoading(false))
+            .then(() => redirect());
+    };
 
     return (
         <SlideUpModal open={isOpened} onClose={onClose} size="md">
@@ -44,12 +52,11 @@ export const TeamBeforeSaveModal = memo((props: BeforeSaveModalProps) => {
                     title="초대 메일 보내기"
                     desc="구성원을 등록하고 입력된 이메일로 초대장을 전송해요"
                     onClick={() => {
-                        createMember()
-                            .then(inviteMember)
-                            .then(() => {
-                                toast.success('구성원을 등록하고 초대장을 보냈어요!');
-                                redirect();
-                            });
+                        handleRequest(() => {
+                            return createMember()
+                                .then(inviteMember)
+                                .then(() => toast.success('구성원을 등록하고 초대장을 보냈어요!'));
+                        });
                     }}
                 />
                 <MethodOption
@@ -57,9 +64,8 @@ export const TeamBeforeSaveModal = memo((props: BeforeSaveModalProps) => {
                     title="초대하지 않고 등록하기"
                     desc="구성원 초대 현황에서 나중에 초대 할 수 있어요"
                     onClick={() => {
-                        createMember().then(() => {
-                            toast.success('구성원을 등록했어요!');
-                            redirect();
+                        handleRequest(() => {
+                            return createMember().then(() => toast.success('구성원을 등록했어요!'));
                         });
                     }}
                 />
@@ -82,7 +88,7 @@ const MethodOption = memo((props: Props) => {
     return (
         <div
             className="flex items-center -mx-3 px-3 py-3 rounded-box cursor-pointer group hover:bg-scordi-50 transition-all"
-            onClick={onClick}
+            onClick={debounce(() => onClick(), 500)}
         >
             <div className="">
                 <Icon size={24} />

@@ -317,7 +317,7 @@ export const BlogForm = (props: CreateBlogFormProps | UpdateBlogFormProps) => {
                                         value: name,
                                     }))}
                                     loadOptions={searchTags}
-                                    onChange={(options) => {
+                                    onChange={(options: MultiValue<Option>) => {
                                         const names = options.map(({value}) => value);
                                         setTagNames(names);
                                         form.setValue('tagNames', names);

@@ -9,6 +9,7 @@ interface FadeUpProps extends WithChildren {
     enderDuration?: string;
     leaveDuration?: string;
     leaveNoEffect?: boolean;
+    className?: string;
 }
 
 export const FadeUp = memo(
@@ -19,12 +20,13 @@ export const FadeUp = memo(
         enderDuration = '',
         leaveDuration = '',
         leaveNoEffect = false,
+        className = '',
         children,
     }: FadeUpProps) => (
         <Transition
             show={show}
             appear={appear}
-            className="space-y-4"
+            className={`space-y-4 ${className}`}
             enter={`transition-all ease-in-out ${enderDuration || 'duration-500'} ${delay}`}
             enterFrom="opacity-0 translate-y-6"
             enterTo="opacity-100 translate-y-0"

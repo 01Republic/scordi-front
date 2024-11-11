@@ -14,7 +14,7 @@ export const WorkspacePanel = memo(() => {
     const findUserById = (id: number) => users.find((u) => u.id === id)!;
     const memberships = users.flatMap((u) => (u?.memberships || []).find((m) => m.organizationId === currentOrg?.id));
     const masterMembership = memberships.find((m) => m && m.level === MembershipLevel.OWNER);
-    const master = masterMembership ? findUserById(masterMembership.userId) : null;
+    const master = masterMembership && masterMembership.userId ? findUserById(masterMembership.userId) : null;
     const invitees = memberships.filter((m) => m && m.approvalStatus === ApprovalStatus.PENDING);
 
     return (

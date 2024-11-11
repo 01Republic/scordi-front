@@ -37,11 +37,11 @@ export const MemberListItem = memo((props: MemberProps) => {
         <div className="flex gap-4 items-center justify-center p-4 border-b border-b-[#dbd6e1]">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar placeholder inline-flex">
                 <div className="bg-neutral-focus text-neutral-content rounded-full w-10 h-10">
-                    <span className="text-xs">{memberShip.user.name[0]}</span>
+                    <span className="text-xs">{memberShip.user?.name[0]}</span>
                 </div>
             </label>
-            <div className={'flex-1 text-gray-800'}>{memberShip.user.name}</div>
-            <div className={'flex-1 text-sm'}>{memberShip.user.email}</div>
+            <div className={'flex-1 text-gray-800'}>{memberShip.user?.name}</div>
+            <div className={'flex-1 text-sm'}>{memberShip.user?.email}</div>
             <div className={'flex-1 text-sm'}>{memberShip.level}</div>
             {/* {memberShip.approvalStatus === 'APPROVED' ? (
                 <div className="p-5 badge font-bold bg-scordi-100">using</div>

@@ -44,7 +44,7 @@ export const RecurringTypeSelect = memo(function RecurringTypeSelect() {
             placeholder=""
             styles={customStyles}
             defaultValue={formData.pricingModel ? toOption(formData.pricingModel) : undefined}
-            onChange={(option) => {
+            onChange={(option: SingleValue<RecurringTypeOption>) => {
                 option ? onChange(option.value) : onChange(PricingModelOptions.NONE);
             }}
             className="input input-bordered px-0"

@@ -12,13 +12,13 @@ import {CreateCreditCardButton} from '^clients/private/orgs/subscriptions/OrgSub
 
 interface ConnectableCardListStepProps {
     cardCompany: CardAccountsStaticData;
-    setCompany: (cardCompanyData?: CardAccountsStaticData) => any;
     codefAccount: CodefAccountDto;
-    onSubmit: () => any;
+    onBack: () => any;
+    onSubmit: (checkedCards: CodefCardDto[]) => any;
 }
 
 export const ConnectableCardListStep = memo((props: ConnectableCardListStepProps) => {
-    const {cardCompany, setCompany, codefAccount, onSubmit} = props;
+    const {cardCompany, codefAccount, onBack, onSubmit} = props;
     const {search, result, isLoading} = useNewCodefCards(codefAccountIdParamState);
     const [checkedCards, setCheckedCards] = useState<CodefCardDto[]>([]);
 
@@ -32,7 +32,7 @@ export const ConnectableCardListStep = memo((props: ConnectableCardListStepProps
             false,
             true,
         );
-    }, []);
+    }, [codefAccount]);
 
     const notConnectedCards = result.items.filter((card) => !card.creditCardId);
     const connectedCards = result.items.filter((card) => card.creditCardId);
@@ -41,7 +41,7 @@ export const ConnectableCardListStep = memo((props: ConnectableCardListStepProps
         <div className="flex flex-col items-stretch">
             <div className="mb-4">
                 <div className="mb-4">
-                    <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={() => setCompany(undefined)} />
+                    <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onBack} />
                 </div>
                 <p className="font-medium text-12 text-scordi mb-1">{cardCompany.displayName}에서 등록하기</p>
                 <h3 className="font-bold text-xl leading-tight">
@@ -77,11 +77,7 @@ export const ConnectableCardListStep = memo((props: ConnectableCardListStepProps
                     {notConnectedCards.length ? (
                         <CreateCreditCardButton checkedCards={checkedCards} onSubmit={onSubmit} />
                     ) : (
-                        <button
-                            type="button"
-                            className={`btn btn-block btn-scordi`}
-                            onClick={() => setCompany(undefined)}
-                        >
+                        <button type="button" className={`btn btn-block btn-scordi`} onClick={onBack}>
                             돌아가기
                         </button>
                     )}
@@ -91,3 +87,69 @@ export const ConnectableCardListStep = memo((props: ConnectableCardListStepProps
     );
 });
 ConnectableCardListStep.displayName = 'ConnectableCardListStep';
+
+interface ConnectableCardSelectProps {
+    cardCompany: CardAccountsStaticData;
+    codefAccount: CodefAccountDto;
+    onBack: () => any;
+    onSubmit: (checkedCard: CodefCardDto) => any;
+}
+
+export const ConnectableCardSelect = memo((props: ConnectableCardSelectProps) => {
+    const {cardCompany, codefAccount, onBack, onSubmit} = props;
+    const {search, result, isLoading} = useNewCodefCards(codefAccountIdParamState);
+    const [checkedCard, setCheckedCard] = useState<CodefCardDto>();
+
+    useEffect(() => {
+        search(
+            {
+                where: {accountId: codefAccount.id, isSleep: false},
+                sync: true,
+                itemsPerPage: 0,
+            },
+            false,
+            true,
+        );
+    }, [codefAccount]);
+
+    return (
+        <div className="flex flex-col items-stretch">
+            <div className="mb-4">
+                <div className="mb-4">
+                    <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onBack} />
+                </div>
+                <p className="font-medium text-12 text-scordi mb-1">{cardCompany.displayName}에서 등록하기</p>
+                <h3 className="font-bold text-xl leading-tight">
+                    새로 등록할 카드를 <br /> 선택해주세요.
+                </h3>
+            </div>
+
+            <div className="mb-8">
+                <LoadableBox isLoading={isLoading} noPadding>
+                    {result.items.map((codefCard, i) => (
+                        <ConnectableCardItem
+                            key={i}
+                            cardCompany={cardCompany}
+                            codefCard={codefCard}
+                            onClick={setCheckedCard}
+                            checked={codefCard.id === checkedCard?.id}
+                        />
+                    ))}
+                </LoadableBox>
+            </div>
+
+            {!isLoading && (
+                <div className="py-4">
+                    {checkedCard ? (
+                        <CreateCreditCardButton checkedCards={[checkedCard]} onSubmit={([card]) => onSubmit(card)} />
+                    ) : (
+                        <button type="button" className={`btn btn-block btn-scordi`} onClick={onBack}>
+                            돌아가기
+                        </button>
+                    )}
+                </div>
+            )}
+        </div>
+    );
+});
+ConnectableCardSelect.displayName = 'ConnectableCardSelect';

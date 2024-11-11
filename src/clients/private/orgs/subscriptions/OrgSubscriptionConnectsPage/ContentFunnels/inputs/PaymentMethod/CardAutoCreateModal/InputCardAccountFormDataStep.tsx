@@ -7,15 +7,15 @@ import {CreateAccountRequestDto} from '^models/CodefAccount/type/create-account.
 
 interface InputCardAccountFormDataStepProps {
     cardCompany: CardAccountsStaticData;
-    setCompany: (cardCompanyData?: CardAccountsStaticData) => any;
     form: UseFormReturn<CreateAccountRequestDto>;
+    onBack: () => any;
     onSubmit: (dto: CreateAccountRequestDto) => any;
     isLoading: boolean;
     errorMessages: string[];
 }
 
 export const InputCardAccountFormDataStep = memo((props: InputCardAccountFormDataStepProps) => {
-    const {cardCompany, setCompany} = props;
+    const {cardCompany, onBack} = props;
     const {form, onSubmit, isLoading, errorMessages} = props;
 
     // Ref: NewCodefCardAccountPage.tsx
@@ -24,7 +24,7 @@ export const InputCardAccountFormDataStep = memo((props: InputCardAccountFormDat
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col items-stretch">
             <div className="mb-4">
                 <div className="mb-4">
-                    <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={() => setCompany(undefined)} />
+                    <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onBack} />
                 </div>
                 <p className="font-medium text-12 text-scordi mb-1">{cardCompany.displayName}에서 등록하기</p>
                 <h3 className="font-bold text-xl leading-tight">

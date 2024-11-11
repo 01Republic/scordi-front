@@ -1,5 +1,5 @@
 import React, {memo, useEffect, useMemo, useState} from 'react';
-import {FormatOptionLabelMeta} from 'react-select';
+import {ActionMeta, FormatOptionLabelMeta, SingleValue} from 'react-select';
 import AsyncSelect from 'react-select/async';
 import {ProductManager} from '^models/Product/manager';
 import {ProductDto} from '^models/Product/type';
@@ -85,7 +85,7 @@ export const SelectProduct = memo((props: SelectProductProps) => {
                             defaultOptions={Product.all().map(toOption)}
                             className="select-underline input-underline"
                             placeholder={placeholderText || '서비스를 선택해주세요'}
-                            onChange={(newValue, actionMeta) => {
+                            onChange={(newValue: SingleValue<ProductOption>, actionMeta: ActionMeta<ProductOption>) => {
                                 switch (actionMeta.action) {
                                     case 'select-option':
                                         return newValue ? setProductId(newValue.value) : null;

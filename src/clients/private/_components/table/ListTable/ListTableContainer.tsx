@@ -3,7 +3,7 @@ import {ReactComponentLike} from 'prop-types';
 import {WithChildren} from '^types/global.type';
 import {PaginationMetaData} from '^types/utils/paginated.dto';
 import {ListTablePaginator} from './ListTablePaginator';
-import {CardContainerTableLayout} from './layouts/CardContainerTableLayout';
+import {CardContainerTableLayout} from './layouts';
 import {FcVlc} from 'react-icons/fc';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 

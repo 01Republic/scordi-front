@@ -4,7 +4,7 @@ import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {OrgSettingsMemberPage} from '^clients/private/orgs/settings/OrgSettingsMemberPage';
+import {OrgSettingsMembersPage} from '^clients/private/orgs/settings/OrgSettingsMembersPage';
 
 export const OrgSettingsMemberPageRoute = pathRoute({
     pathname: '/orgs/[id]/settings/members',
@@ -31,5 +31,5 @@ export default function Page() {
 
     if (!orgId || isNaN(orgId)) return <></>;
 
-    return <OrgSettingsMemberPage />;
+    return <OrgSettingsMembersPage />;
 }

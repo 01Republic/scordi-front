@@ -1,15 +1,19 @@
-import {FormEvent, useState} from 'react';
+import {FormEvent, useCallback, useState} from 'react';
 import {DeepPartial} from 'react-hook-form';
 
 export function useAltForm<T>(initialState: T | (() => T)) {
     const [formData, setFormData] = useState<T>(initialState);
 
-    return {
-        formData,
-
-        setFormValue(values: DeepPartial<T>) {
+    const setFormValue = useCallback(
+        (values: DeepPartial<T>) => {
             setFormData((f) => ({...f, ...values}));
         },
+        [setFormData],
+    );
+
+    return {
+        formData,
+        setFormValue,
 
         handleSubmit(submitHandler: (values: T) => any) {
             return (e: FormEvent<HTMLFormElement>) => {

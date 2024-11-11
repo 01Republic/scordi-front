@@ -22,7 +22,7 @@ export const WelcomePage2 = memo(() => {
 
     return (
         <LandingPageLayout pageName="WelcomePage" hideNav hideFooter>
-            <div className="mx-auto text-center py-20 w-full max-w-lg space-y-5">
+            <div className="mx-auto text-center pt-[30vh] w-full max-w-lg space-y-5 h-screen">
                 <CheckCircle className="w-[60px] mb-10" color="#5E5FEE" />
 
                 <h1 className="text-2xl sm:text-4xl mb-8 font-bold">가입을 환영합니다!</h1>

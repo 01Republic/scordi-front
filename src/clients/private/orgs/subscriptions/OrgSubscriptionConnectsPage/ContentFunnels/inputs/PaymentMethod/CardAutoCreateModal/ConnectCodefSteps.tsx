@@ -9,6 +9,8 @@ import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {InputCardAccountFormDataStep} from './InputCardAccountFormDataStep';
 import {FadeUp} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/_common/FadeUp';
 import {ConnectableCardListStep} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/CardAutoCreateModal/ConnectableCardListStep';
+import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
+import {codefCardApi} from '^models/CodefCard/api';
 
 interface ConnectCodefStepsProps {
     cardCompany: CardAccountsStaticData;
@@ -42,6 +44,15 @@ export const ConnectCodefSteps = memo((props: ConnectCodefStepsProps) => {
         });
     }, [router.isReady, orgId]);
 
+    const createCards = async (checkedCards: CodefCardDto[]) => {
+        if (!orgId || isNaN(orgId)) return;
+        if (!checkedCards.length) return;
+
+        await Promise.allSettled(checkedCards.map((codefCard) => codefCardApi.createCreditCard(orgId, codefCard.id)));
+        toast.success('새 카드를 추가했어요 :)');
+        onSubmit();
+    };
+
     if (!isPreChecked) return <></>;
 
     return (
@@ -49,8 +60,8 @@ export const ConnectCodefSteps = memo((props: ConnectCodefStepsProps) => {
             {!codefAccount && (
                 <InputCardAccountFormDataStep
                     cardCompany={cardCompany}
-                    setCompany={setCompany}
                     form={form}
+                    onBack={() => setCompany(undefined)}
                     onSubmit={(dto) => {
                         createAccount(orgId, cardCompany, dto, (createdAccount) => {
                             toast.success(`${createdAccount.company}에 안전하게 연결되었어요 :)`);
@@ -66,9 +77,9 @@ export const ConnectCodefSteps = memo((props: ConnectCodefStepsProps) => {
                 {codefAccount && (
                     <ConnectableCardListStep
                         cardCompany={cardCompany}
-                        setCompany={setCompany}
                         codefAccount={codefAccount}
-                        onSubmit={onSubmit}
+                        onBack={() => setCompany(undefined)}
+                        onSubmit={createCards}
                     />
                 )}
             </FadeUp>

@@ -1,41 +1,21 @@
-import {TeamMemberDto, useSendInviteEmail} from '^models/TeamMember';
-import React, {memo, useState} from 'react';
-import {plainToast} from '^hooks/useToast';
+import React, {memo} from 'react';
 import {FaRotateRight} from 'react-icons/fa6';
 import {MoreDropdownListItem} from '^v3/share/table/columns/SelectColumn/OptionItem/MoreDropdown/ListItem';
-import {CgSpinner} from 'react-icons/cg';
+import {TeamMemberDto} from '^models/TeamMember';
 
 interface ResendInviteItemProps {
     teamMember: TeamMemberDto;
-    onFinish: () => any;
+    onClick: () => any;
 }
 
 export const ResendInviteItem = memo((props: ResendInviteItemProps) => {
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const {sendEmail} = useSendInviteEmail();
-    const {teamMember, onFinish} = props;
-
-    const onClick = async () => {
-        if (!teamMember.email || isLoading) return;
-
-        setIsLoading(true);
-        sendEmail(teamMember.email, teamMember.id)
-            .then(() => onFinish())
-            .catch((err) => plainToast.error(err.response.data.message))
-            .finally(() => setIsLoading(false));
-    };
+    const {onClick} = props;
 
     return (
-        <MoreDropdownListItem onClick={() => !isLoading && onClick()}>
+        <MoreDropdownListItem onClick={onClick}>
             <div className="flex items-center gap-3 w-full py-1">
-                {isLoading ? (
-                    <CgSpinner size={20} className="animate-spin btn-disabled mx-auto" />
-                ) : (
-                    <>
-                        <FaRotateRight size={12} />
-                        <p>다시 보내기</p>
-                    </>
-                )}
+                <FaRotateRight size={12} />
+                <p>다시 보내기</p>
             </div>
         </MoreDropdownListItem>
     );

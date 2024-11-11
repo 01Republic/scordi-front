@@ -81,7 +81,7 @@ export const TeamMemberInfoPanel = memo(() => {
                     {membership && membership.approvalStatus === ApprovalStatus.PENDING && (
                         <MobileInfoListItem label={'초대 발송일'} value={getDate(membership.createdAt)} />
                     )}
-                    {membership && membership.approvalStatus === ApprovalStatus.APPROVED && (
+                    {membership && membership.user && membership.approvalStatus === ApprovalStatus.APPROVED && (
                         <MobileInfoListItem label={'가입일'} value={getDate(membership.user.createdAt)} />
                     )}
                 </MobileInfoList>
