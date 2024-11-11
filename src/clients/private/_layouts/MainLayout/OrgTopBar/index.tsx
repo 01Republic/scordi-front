@@ -10,6 +10,7 @@ import {currentOrgAtom} from '^models/Organization/atom';
 import {useMeasuredUserId} from '^components/ExternalCDNScripts/measured';
 import {t_membershipLevel} from '^models/Membership/types';
 import {GiSadCrab} from 'react-icons/gi';
+import {ExpiredPlanBlockModal} from '^clients/private/_layouts/MainLayout/ExpiredPlanBlockModal';
 
 export const OrgTopBar = memo(() => {
     const {currentUser} = useCurrentUser();
@@ -71,6 +72,7 @@ export const OrgTopBar = memo(() => {
                     <ProfileDropdown />
                 </div>
             </div>
+            {currentOrg && <ExpiredPlanBlockModal currentOrg={currentOrg} />}
         </header>
     );
 });
