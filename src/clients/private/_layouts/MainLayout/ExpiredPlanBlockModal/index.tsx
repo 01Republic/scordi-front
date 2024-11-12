@@ -18,19 +18,21 @@ export const ExpiredPlanBlockModal = memo((props: ExpiredPlanBlockModalProps) =>
 
     // 이 조직의 현재 구독이 만료된 상태인지를 판단하고, 만약 만료된 상태라면 블락 모달을 활성화 시킵니다.
     const checkExpired = () => {
-        const today = yyyy_mm_dd(new Date());
-        const expirationDate = currentOrg.scordiSubscriptions?.[0]?.finishAt
-            ? yyyy_mm_dd(new Date(currentOrg.scordiSubscriptions[0].finishAt))
-            : null;
-        const isScordiPlan = currentOrg.scordiSubscriptions?.[0]?.scordiPlan === null;
-        // if ((expirationDate && expirationDate > today) || isScordiPlan) return;
+        const {currentScordiSubscription} = currentOrg;
+        if (!currentScordiSubscription) return true;
 
-        setIsOpened(true);
+        const {finishAt} = currentScordiSubscription;
+        if (!finishAt) return true;
+
+        const today = yyyy_mm_dd(new Date());
+        const expirationDate = yyyy_mm_dd(finishAt);
+
+        return expirationDate <= today;
     };
 
     useEffect(() => {
         if (!router.isReady) return;
-        checkExpired();
+        setIsOpened(checkExpired());
     }, [router.isReady]);
 
     const reloadResources = async () => {
