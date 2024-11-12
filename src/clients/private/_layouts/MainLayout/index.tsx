@@ -22,9 +22,10 @@ export const MainLayout = memo((props: MainLayoutProps) => {
 
             {/* Body */}
             <div className="relative min-h-screen">
+                <TopLineBannerContainer />
                 <OrgTopBar />
                 <TopNavBar />
-                <TopLineBannerContainer />
+
                 {children}
                 <Footer />
             </div>

@@ -3,15 +3,22 @@ import {IoCloseOutline} from 'react-icons/io5';
 import {WithChildren} from '^types/global.type';
 import {LinkTo} from '^components/util/LinkTo';
 import {LineBannerTheme, TopLineBannerDto} from '../type';
+import {useCurrentOrg} from '^models/Organization/hook';
+import {useRouter} from 'next/router';
+import {useRecoilValue} from 'recoil';
+import {currentOrgAtom} from '^models/Organization/atom';
 
 interface TopLineBannerContentProps extends WithChildren {
     topLineBanner: TopLineBannerDto;
 }
 
 export const TopLineBannerContent = memo((props: TopLineBannerContentProps) => {
+    const currentOrg = useRecoilValue(currentOrgAtom);
+
+    console.log(currentOrg?.id);
     const [isOpen, setIsOpen] = useState(true);
     const {topLineBanner} = props;
-    const {id, text, url, timeout, theme, fixed, animation} = topLineBanner;
+    const {id, text, url, timeout, theme, fixed, closeButton, animation} = topLineBanner;
 
     useEffect(() => {
         if (!timeout) return;
@@ -19,6 +26,8 @@ export const TopLineBannerContent = memo((props: TopLineBannerContentProps) => {
         const timer = setTimeout(() => setIsOpen(false), timeout);
         return () => clearTimeout(timer);
     }, [timeout]);
+
+    const temporaryUrl = url ? makeUrl(url, {orgId: currentOrg?.id}) : '';
 
     return (
         <div
@@ -32,16 +41,20 @@ export const TopLineBannerContent = memo((props: TopLineBannerContentProps) => {
                     theme,
                 )} `}
             >
-                {url ? (
-                    <LinkTo href={url} target="_blank" className="w-full flex items-center justify-center">
-                        <span>{text}</span>
+                {temporaryUrl ? (
+                    <LinkTo
+                        href={temporaryUrl}
+                        target={temporaryUrl.startsWith('http') ? '_blank' : undefined}
+                        className="w-full flex items-center justify-center"
+                    >
+                        <p dangerouslySetInnerHTML={{__html: text}} />
                     </LinkTo>
                 ) : (
                     <div className="w-full flex items-center justify-center">
-                        <span>{text}</span>
+                        <p dangerouslySetInnerHTML={{__html: text}} />
                     </div>
                 )}
-                {timeout ? (
+                {timeout || !closeButton ? (
                     ''
                 ) : (
                     <IoCloseOutline
@@ -58,11 +71,18 @@ TopLineBannerContent.displayName = 'TopLineBannerContent';
 
 function topLineBannerThemeClass(theme: LineBannerTheme) {
     return {
-        cardInfo: 'bg-[#9D9FF5]',
-        emailInfo: 'bg-[#5C5FEE]',
+        notice: 'bg-[#A3E635] !text-black',
         waring: 'bg-red-400',
         danger: '',
         basicInfo: '',
         thanksTo: 'bg-[#FBCFE8] !text-[#E22186]',
     }[theme];
+}
+
+function makeUrl(baseUrl: string, data: Record<string, any>) {
+    let url = baseUrl;
+    Object.entries(data).forEach(([key, value]) => {
+        url = url.replaceAll(`:${key}`, value);
+    });
+    return url;
 }

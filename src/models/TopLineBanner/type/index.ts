@@ -1,6 +1,6 @@
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
-export type LineBannerTheme = 'cardInfo' | 'emailInfo' | 'waring' | 'danger' | 'basicInfo' | 'thanksTo';
+export type LineBannerTheme = 'notice' | 'waring' | 'danger' | 'basicInfo' | 'thanksTo';
 
 export class TopLineBannerDto {
     id: number;
@@ -8,6 +8,7 @@ export class TopLineBannerDto {
     url?: string;
     animation?: boolean;
     fixed: boolean;
+    closeButton: boolean;
     timeout: number | null;
     theme: LineBannerTheme;
 }
