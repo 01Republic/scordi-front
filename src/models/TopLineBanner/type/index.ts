@@ -8,7 +8,7 @@ export class TopLineBannerDto {
     url?: string;
     animation?: boolean;
     fixed: boolean;
-    closeButton: boolean;
+    closeButton?: boolean;
     timeout: number | null;
     theme: LineBannerTheme;
 }

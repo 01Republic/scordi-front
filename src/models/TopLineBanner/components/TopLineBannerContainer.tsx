@@ -10,7 +10,6 @@ const freePlanBanner: TopLineBannerDto[] = [
         animation: false,
         fixed: false,
         timeout: null,
-        closeButton: false,
         theme: 'notice',
         url: '/orgs/:orgId/settings/payments',
     },

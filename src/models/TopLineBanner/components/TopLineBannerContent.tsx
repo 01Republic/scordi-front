@@ -18,7 +18,7 @@ export const TopLineBannerContent = memo((props: TopLineBannerContentProps) => {
     console.log(currentOrg?.id);
     const [isOpen, setIsOpen] = useState(true);
     const {topLineBanner} = props;
-    const {id, text, url, timeout, theme, fixed, closeButton, animation} = topLineBanner;
+    const {id, text, url, timeout, theme, fixed, closeButton = false, animation} = topLineBanner;
 
     useEffect(() => {
         if (!timeout) return;

@@ -30,7 +30,7 @@ export const topLineBanners: TopLineBannerDto[] = [
         id: 3,
         text: '스코디를카드 결제내역을 불러오고 있어요. 잠시만 기다려주시면 곧 완료 됩니다!',
         url: '',
-        theme: 'cardInfo',
+        theme: 'basicInfo',
         animation: true,
         fixed: true,
         timeout: 3000,
