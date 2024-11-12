@@ -10,7 +10,6 @@ import {OrgPaymentsSection} from './OrgPaymentsSection';
 
 export const OrgSettingsPaymentPage = memo(function () {
     const orgId = useRecoilValue(orgIdParamState);
-    useTossPaymentAuthCallback(orgId);
 
     return (
         <OrgSettingsLayout
