@@ -1,8 +1,8 @@
 import React, {memo, useEffect, useState} from 'react';
 import {MdRefresh} from 'react-icons/md';
 import {useCurrentScordiSubscription} from '^models/_scordi/ScordiSubscription/hook';
+import {SelectPlanModal} from '^clients/private/_modals/SelectPlanModal';
 import {SettingsPaymentSection} from '../SettingsPaymentSection';
-import {SelectPlanModal} from './SelectPlanModal';
 import {OrgScordiSubscriptionItem} from './OrgScordiSubscriptionItem';
 import {OrgScheduledSubscriptionList} from './OrgScheduledSubscriptionList';
 import {useScordiPaymentMethodsInSettingPage} from '^models/_scordi/ScordiPaymentMethod/hook';

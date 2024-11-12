@@ -1,18 +1,16 @@
 import React, {memo, useEffect} from 'react';
 import {IoClose} from '@react-icons/all-files/io5/IoClose';
 import {useTossPayments} from '^hooks/useTossPayments';
-import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
-import {confirm2} from '^components/util/dialog';
 import {useScordiPlanList} from '^models/_scordi/ScordiPlan/hook';
 import {ScordiPlanDto, ScordiPlanStepType} from '^models/_scordi/ScordiPlan/type';
 import {useCurrentScordiSubscription} from '^models/_scordi/ScordiSubscription/hook';
 import {useScordiPaymentMethodsInSettingPage} from '^models/_scordi/ScordiPaymentMethod/hook';
-import {useScordiPaymentsInSettingPage} from '^models/_scordi/ScordiPayment/hook';
-import {ScordiPlanTypeSwitch} from './ScordiPlanTypeSwitch';
+import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
+import {confirm2} from '^components/util/dialog';
+import {LoadableBox} from '^components/util/loading';
 import {ScordiSecretCodeInput} from './ScordiSecretCodeInput';
 import {ScordiPlanCard} from './ScordiPlanCard';
-import {LoadableBox} from '^components/util/loading';
-import {TossPaymentAuthCallbackProvider} from '^clients/private/orgs/settings/OrgSettingsPaymentPage/OrgPlanSection/SelectPlanModal/TossPaymentAuthCallbackProvider';
+import {TossPaymentAuthCallbackProvider} from './TossPaymentAuthCallbackProvider';
 
 interface SelectPlanModalProps {
     orgId: number;
@@ -102,3 +100,5 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
         </>
     );
 });
+
+export * from './TossPaymentAuthCallbackProvider';
