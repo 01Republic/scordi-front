@@ -47,7 +47,8 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
     }, [router.isReady]);
 
     const onSubmit = async () => {
-        const data = plainToInstance(UnSignedCreditCardFormData, formData);
+        const {holdingMember, ...form} = formData;
+        const data = plainToInstance(UnSignedCreditCardFormData, form);
 
         if (!data.name) {
             toast.error('카드 별칭을 입력해주세요');
@@ -250,6 +251,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                         <div>년도</div>
                                         <div className="flex-1">
                                             <UnderlineDropdownSelect
+                                                defaultValue={expiryValues[0] ? parseInt(expiryValues[0]) : undefined}
                                                 maxHeight="200px"
                                                 options={rangeToArr(2024 - 10, 2024 + 10)}
                                                 onChange={(year?: number) => {
@@ -267,6 +269,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                         <div>월</div>
                                         <div className="flex-1">
                                             <UnderlineDropdownSelect
+                                                defaultValue={expiryValues[1] ? parseInt(expiryValues[1]) : undefined}
                                                 maxHeight="200px"
                                                 options={rangeToArr(1, 12)}
                                                 onChange={(month?: number) => {
