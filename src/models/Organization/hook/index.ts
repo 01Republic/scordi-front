@@ -87,7 +87,12 @@ export function useCurrentOrg(id: number) {
         if (!signedIn) return;
 
         search(id, {
-            relations: ['lastGoogleSyncHistory', 'lastGoogleSyncHistory.googleTokenData', 'invoiceAccounts'],
+            relations: [
+                'lastGoogleSyncHistory',
+                'lastGoogleSyncHistory.googleTokenData',
+                'invoiceAccounts',
+                'scordiSubscriptions',
+            ],
         });
     }, [id]);
 
