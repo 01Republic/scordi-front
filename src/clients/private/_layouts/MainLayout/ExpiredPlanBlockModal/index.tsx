@@ -54,19 +54,12 @@ export const ExpiredPlanBlockModal = memo((props: ExpiredPlanBlockModalProps) =>
                         <p className="mb-5 text-14 font-semibold text-gray-500">
                             똑똑한 팀이 선택한 소프트웨어 구독 관리 서비스 스코디의 무료 체험 기간이 끝났어요.
                         </p>
-
                         <br />
-
-                        {/*@ts-ignore*/}
-                        <marquee>
-                            <img
-                                src="https://media.licdn.com/dms/image/v2/D5603AQEfOVCFoRezDg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1691737382709?e=2147483647&v=beta&t=re5k63F5ELpowfzdt_4-8Ub0jq8-3RrtU3_Rohef8vw"
-                                alt="orange"
-                                className="w-[100px] h-[100px] rounded-lg"
-                            />
-                            <span className="text-[14px]">일해라 절해라</span>
-                            {/*@ts-ignore*/}
-                        </marquee>
+                        <img
+                            src="/images/service/expired-plan-block-modal-rounded-image.png"
+                            alt="orange"
+                            className="w-full "
+                        />
                     </div>
                     <div className="flex flex-col gap-4 w-full justify-center mt-10">
                         <button
