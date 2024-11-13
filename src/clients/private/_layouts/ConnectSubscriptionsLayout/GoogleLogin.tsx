@@ -12,10 +12,18 @@ export const GoogleLogin = memo(function GoogleLogin() {
     return (
         <>
             <GoogleOAuthProvider clientId={googleOAuth.gmailClient.id}>
-                <GoogleLoginBtn about="gmail" className="fixed -top-full" onCode={(code) => setGmailAuthCode(code)} />
+                <GoogleLoginBtn
+                    about="gmail"
+                    className="fixed -top-full hidden"
+                    onCode={(code) => setGmailAuthCode(code)}
+                />
             </GoogleOAuthProvider>
             <GoogleOAuthProvider clientId={googleOAuth.adminClient.id}>
-                <GoogleLoginBtn about="admin" className="fixed -top-full" onCode={(code) => setGsuiteAuthCode(code)} />
+                <GoogleLoginBtn
+                    about="admin"
+                    className="fixed -top-full hidden"
+                    onCode={(code) => setGsuiteAuthCode(code)}
+                />
             </GoogleOAuthProvider>
         </>
     );
