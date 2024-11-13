@@ -58,8 +58,6 @@ export const TopNavBar = memo((props: TopNavBarProps) => {
     const {currentOrg} = useCurrentOrg2();
     const TopNavStructure = getTopNavStructure();
 
-    if (!currentOrg) return <></>;
-
     const routeProps = <T extends (...args: any) => any>(
         route: {pathname: string; path: T},
         ...params: Parameters<T>
@@ -69,7 +67,7 @@ export const TopNavBar = memo((props: TopNavBarProps) => {
 
     const orgRouteProps = <T extends (orgId: number) => string>(route: {pathname: string; path: T}) => {
         // @ts-ignore
-        return routeProps<T>(route, currentOrg.id);
+        return routeProps<T>(route, currentOrg?.id);
     };
 
     return (
