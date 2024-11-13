@@ -4,6 +4,7 @@ import {inputTextToCardNumberInShortFormat} from '^utils/input-helper';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 
 interface CardNumberInputProps {
+    name: string;
     defaultValue?: string;
     maxLength?: number;
     // onChange?: (val: string) => any;
@@ -13,9 +14,10 @@ interface CardNumberInputProps {
 }
 
 export const CardNumberInput = (props: CardNumberInputProps) => {
-    const {defaultValue, maxLength = 4, onBlur, className = '', readOnly = false} = props;
+    const {name, defaultValue, maxLength = 4, onBlur, className = '', readOnly = false} = props;
     return (
         <NumericTextInput
+            name={name}
             minLength={4}
             maxLength={maxLength}
             placeholder="●●●●"

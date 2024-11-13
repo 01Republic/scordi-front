@@ -2,7 +2,6 @@ import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {OrgSettingsPaymentPageRoute} from '^pages/orgs/[id]/settings/payments';
-import {useTossPaymentAuthCallback} from '^hooks/useTossPayments';
 import {OrgSettingsLayout} from '^clients/private/_layouts/OrgSettingsLayout';
 import {OrgPlanSection} from './OrgPlanSection';
 import {OrgPaymentMethodSection} from './OrgPaymentMethodSection';

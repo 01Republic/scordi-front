@@ -3,6 +3,7 @@ import {FaCaretDown, FaCheck} from 'react-icons/fa6';
 import {FaTimes} from 'react-icons/fa';
 
 interface UnderlineDropdownSelectProps<T> {
+    name?: string;
     defaultValue?: T;
     options?: T[];
     toComponent?: (option: T) => JSX.Element;
@@ -22,8 +23,9 @@ interface UnderlineDropdownSelectProps<T> {
     className?: string;
 }
 
-export function UnderlineDropdownSelect<T>(props: UnderlineDropdownSelectProps<T>) {
+export const UnderlineDropdownSelect = <T,>(props: UnderlineDropdownSelectProps<T>) => {
     const {
+        name,
         options = [],
         toComponent,
         onChange,
@@ -43,6 +45,7 @@ export function UnderlineDropdownSelect<T>(props: UnderlineDropdownSelectProps<T
 
     return (
         <div className="dropdown dropdown-bottom dropdown-enter w-full">
+            {name && <input type="hidden" name={name} value={selectedValue} />}
             <div className="w-full">
                 <div
                     tabIndex={0}
@@ -91,4 +94,4 @@ export function UnderlineDropdownSelect<T>(props: UnderlineDropdownSelectProps<T
             </div>
         </div>
     );
-}
+};

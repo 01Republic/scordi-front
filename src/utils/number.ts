@@ -22,7 +22,14 @@ export const floorNumber = (num: number, pos = 0): number => {
 };
 
 // Zero padding
-export const zeroPad = (num: string): string => (num.length == 1 ? `0${num}` : num);
+// export const zeroPad = (num: string): string => (num.length == 1 ? `0${num}` : num);
+export const zeroPad = (num: string, len = 2): string => {
+    let pad = '';
+    for (let i = 0; i < len - num.length; i++) {
+        pad += '0';
+    }
+    return pad + num;
+};
 
 /**
  * To Percentage : 0.15679 -> 15.68 (pos = 2)
