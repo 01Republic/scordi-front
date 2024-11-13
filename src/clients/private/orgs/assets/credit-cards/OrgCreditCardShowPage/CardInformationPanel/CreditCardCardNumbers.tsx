@@ -44,7 +44,7 @@ export const CreditCardCardNumber = (props: CreditCardCardNumberProps) => {
                 maxLength={maxLength}
                 defaultValue={defaultValue}
                 onBlur={onChange}
-                className={`${isLoading ? 'opacity-50 pointer-events-none' : ''} input-sm px-1`}
+                className={`${isLoading ? 'opacity-50 pointer-events-none' : ''} input-sm !px-1`}
                 readOnly={isLoading}
             />
             <span />
