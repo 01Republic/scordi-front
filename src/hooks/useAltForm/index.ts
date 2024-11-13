@@ -2,8 +2,13 @@ import {FormEvent, useCallback, useState} from 'react';
 import {DeepPartial} from 'react-hook-form';
 import {collectInputs} from '^utils/form';
 
-export function useAltForm<T>(initialState: T | (() => T)) {
+interface UseAltFormOption<T> {
+    plainTransform?: (data: T) => T;
+}
+
+export function useAltForm<T>(initialState: T | (() => T), option: UseAltFormOption<T> = {}) {
     const [formData, setFormData] = useState<T>(initialState);
+    const {plainTransform = (d) => d} = option;
 
     const setFormValue = useCallback(
         (values: DeepPartial<T>) => {
@@ -37,7 +42,7 @@ export function useAltForm<T>(initialState: T | (() => T)) {
                     if (key) data[key] = val;
                 });
 
-                return submitHandler(data as T);
+                return submitHandler(plainTransform(data as T));
             };
         },
     };

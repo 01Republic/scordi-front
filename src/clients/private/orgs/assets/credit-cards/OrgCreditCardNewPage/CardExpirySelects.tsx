@@ -6,7 +6,7 @@ import {UnderlineDropdownSelect} from '^clients/private/_components/inputs/Under
 import {CardAttrSelectPropsType} from './CardAttrSelectProps.type';
 
 export const CardExpirySelects = memo((props: CardAttrSelectPropsType<string>) => {
-    const {isLoading = false} = props;
+    const {defaultValue = '', isLoading = false} = props;
 
     return (
         <FormControl label="유효기간">
@@ -18,6 +18,7 @@ export const CardExpirySelects = memo((props: CardAttrSelectPropsType<string>) =
                         maxHeight="200px"
                         options={rangeToArr(2024 - 10, 2024 + 10).map((n) => zeroPad(`${n}`, 4))}
                         className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
+                        defaultValue={`20${defaultValue.slice(2, 4)}`}
                     />
                 </div>
                 <div className="px-2">/</div>
@@ -28,6 +29,7 @@ export const CardExpirySelects = memo((props: CardAttrSelectPropsType<string>) =
                         maxHeight="200px"
                         options={rangeToArr(1, 12).map((n) => zeroPad(`${n}`, 2))}
                         className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
+                        defaultValue={defaultValue.slice(0, 2)}
                     />
                 </div>
             </div>

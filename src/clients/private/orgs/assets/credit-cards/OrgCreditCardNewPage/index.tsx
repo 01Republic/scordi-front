@@ -29,7 +29,17 @@ const CardCompanies = CardAccountsStaticData.all();
 export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
-    const {formData, setFormValue, handleSubmitPlain} = useAltForm<CreateCreditCardDto>({} as CreateCreditCardDto);
+    const {formData, setFormValue, handleSubmitPlain} = useAltForm<CreateCreditCardDto>({} as CreateCreditCardDto, {
+        plainTransform(plainData) {
+            const {isCreditCard, isPersonal, holdingMemberId, ...permittedValues} = plainData as any;
+            return {
+                ...permittedValues,
+                isCreditCard: typeof isCreditCard === 'undefined' ? undefined : isCreditCard === 'true',
+                isPersonal: typeof isPersonal === 'undefined' ? undefined : isPersonal === 'true',
+                holdingMemberId: typeof holdingMemberId === 'undefined' ? undefined : Number(holdingMemberId),
+            };
+        },
+    });
     const [isLoading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -64,16 +74,16 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
             toast.error('유효기간 입력이 올바르지 않습니다');
             return;
         }
-        data.expiry = `${month}${year.slice(2, 4)}`;
+        const expiry = `${month}${year.slice(2, 4)}`;
+
+        data.expiry = expiry;
+        setFormValue({...permittedValues, expiry});
 
         setLoading(true);
-        const req = creditCardApi.create(orgId, data.toCreateDto());
-        await delay(2000);
-
-        req.then(() => {
-            toast.success('새 카드를 추가했어요 :)');
-            router.push(OrgCreditCardListPageRoute.path(orgId));
-        })
+        creditCardApi
+            .create(orgId, data.toCreateDto())
+            .then(() => toast.success('새 카드를 추가했어요 :)'))
+            .then(() => router.push(OrgCreditCardListPageRoute.path(orgId)))
             .catch(errorNotify)
             .finally(() => setLoading(false));
     };
@@ -151,6 +161,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                             isLoading ? 'opacity-50 pointer-events-none' : ''
                                         }`}
                                         readOnly={isLoading}
+                                        defaultValue={formData.name || ''}
                                         required
                                     />
                                     <span />
@@ -163,6 +174,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                                 name="number1"
                                                 className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
                                                 readOnly={isLoading}
+                                                defaultValue={formData.number1}
                                             />
                                             <span />
                                         </div>
@@ -171,6 +183,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                                 name="number2"
                                                 className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
                                                 readOnly={isLoading}
+                                                defaultValue={formData.number2}
                                             />
                                             <span />
                                         </div>
@@ -179,6 +192,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                                 name="number3"
                                                 className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
                                                 readOnly={isLoading}
+                                                defaultValue={formData.number3}
                                             />
                                             <span />
                                         </div>
@@ -188,6 +202,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                                 name="number4"
                                                 className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
                                                 readOnly={isLoading}
+                                                defaultValue={formData.number4}
                                             />
                                             <span />
                                         </div>
@@ -218,6 +233,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                                             isLoading ? 'opacity-50 pointer-events-none' : ''
                                         }`}
                                         readOnly={isLoading}
+                                        defaultValue={formData.memo || ''}
                                     />
                                     <span />
                                 </FormControl>

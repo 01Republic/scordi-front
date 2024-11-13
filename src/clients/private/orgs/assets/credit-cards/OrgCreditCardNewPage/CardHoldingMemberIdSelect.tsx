@@ -1,13 +1,16 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {FaCaretDown} from 'react-icons/fa6';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
-import {TeamMemberDto} from '^models/TeamMember';
+import {TeamMemberDto, useTeamMembers} from '^models/TeamMember';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
 import {CardAttrSelectPropsType} from './CardAttrSelectProps.type';
 
 export const CardHoldingMemberIdSelect = memo((props: CardAttrSelectPropsType<number>) => {
     const {defaultValue, isLoading = false} = props;
-    const [holdingMember, setHoldingMember] = useState<TeamMemberDto>();
+    const {result} = useTeamMembers();
+    const [holdingMember, setHoldingMember] = useState<TeamMemberDto | undefined>(() => {
+        return defaultValue ? result.items.find((member) => member.id === defaultValue) : undefined;
+    });
 
     return (
         <FormControl label="소지자">
