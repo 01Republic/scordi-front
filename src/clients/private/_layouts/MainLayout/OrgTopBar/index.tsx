@@ -11,6 +11,7 @@ import {useMeasuredUserId} from '^components/ExternalCDNScripts/measured';
 import {t_membershipLevel} from '^models/Membership/types';
 import {GiSadCrab} from 'react-icons/gi';
 import {ExpiredPlanBlockModal} from '^clients/private/_layouts/MainLayout/ExpiredPlanBlockModal';
+import {OrgMainPageRoute} from '^pages/orgs/[id]';
 
 export const OrgTopBar = memo(() => {
     const {currentUser} = useCurrentUser();
@@ -22,7 +23,9 @@ export const OrgTopBar = memo(() => {
     return (
         <header className="container-fluid h-[56px] flex items-center gap-6 border-b bg-white-blurred text-scordi sticky top-0 z-20">
             <div className="hidden sm:block">
-                <img src="/images/renewallogo/scordi-symbol-logo.png" alt="Scordi Logo" className="h-5 mr-2" />
+                <LinkTo href={currentOrg ? OrgMainPageRoute.path(currentOrg.id) : '#'} displayLoading={false}>
+                    <img src="/images/renewallogo/scordi-symbol-logo.png" alt="Scordi Logo" className="h-5 mr-2" />
+                </LinkTo>
             </div>
 
             <WorkspaceDropdown />
