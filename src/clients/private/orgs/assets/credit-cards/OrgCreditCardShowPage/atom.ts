@@ -92,7 +92,7 @@ export const useCurrentCreditCardEdit = () => {
                 return [`${year}`, padStart(`${month}`, 2, '0')];
             });
         }
-    }, [isEditMode]);
+    }, [currentCreditCard, isEditMode]);
 
     const handleResponse = (req: Promise<AxiosResponse<CreditCardDto, any>>) => {
         req.then((res) => {
