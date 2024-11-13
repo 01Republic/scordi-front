@@ -43,9 +43,9 @@ export const ExpiredPlanBlockModal = memo((props: ExpiredPlanBlockModalProps) =>
     };
 
     return (
-        <AnimatedModal backdrop={{opacity: 0.5}} open={isOpened} onClose={() => 1}>
+        <AnimatedModal backdrop={{opacity: 0.5, className: 'backdrop-blur-sm'}} open={isOpened} onClose={() => 1}>
             <div className="relative mx-auto max-w-screen-sm w-full">
-                <div className={'bg-white rounded-3xl p-12'}>
+                <div className={'bg-white rounded-3xl p-12 shadow-xl'}>
                     <div className="flex flex-col items-center justify-center mb-4">
                         <h1
                             className="mb-1 text-gradient-color"

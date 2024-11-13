@@ -9,6 +9,7 @@ export const AnimatedModal = memo((props: AnimationLayoutProps) => {
     const backdropOption = backdrop || {};
     backdropOption.opacity ??= 0.25;
     backdropOption.hidden ??= false;
+    backdropOption.className ||= '';
 
     return (
         <Transition.Root show={open} as={Fragment}>
@@ -25,7 +26,7 @@ export const AnimatedModal = memo((props: AnimationLayoutProps) => {
                             leaveTo="opacity-0"
                         >
                             <Dialog.Overlay
-                                className={`fixed inset-0 transition-opacity`}
+                                className={`fixed inset-0 transition-opacity ${backdropOption.className}`}
                                 style={{backgroundColor: `rgb(0 0 0 / ${backdropOption.opacity})`}}
                             />
                         </Transition.Child>

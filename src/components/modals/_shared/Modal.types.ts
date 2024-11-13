@@ -3,6 +3,7 @@ import {WithChildren} from '^types/global.type';
 export interface BackdropOption {
     opacity?: number;
     hidden?: boolean;
+    className?: string;
 }
 
 export interface ModalLayoutProps extends WithChildren {
