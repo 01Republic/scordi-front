@@ -5,6 +5,8 @@ import {yyyy_mm_dd} from '^utils/dateTime';
 import {OrganizationDto} from '^models/Organization/type';
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {SelectPlanModal} from '^clients/private/_modals/SelectPlanModal';
+import {LinkTo} from '^components/util/LinkTo';
+import {channelTalkEnv} from '^config/environments';
 
 interface ExpiredPlanBlockModalProps {
     currentOrg: OrganizationDto;
@@ -68,9 +70,14 @@ export const ExpiredPlanBlockModal = memo((props: ExpiredPlanBlockModalProps) =>
                         >
                             구독하기
                         </button>
-                        <button className="btn-lg btn-block btn" onClick={() => setIsSelectPlanModalOpened(true)}>
+                        <LinkTo
+                            href={channelTalkEnv.url}
+                            target="_blank"
+                            className="btn btn-block btn-lg"
+                            displayLoading={false}
+                        >
                             문의하기
-                        </button>
+                        </LinkTo>
                     </div>
                     <SelectPlanModal
                         orgId={currentOrg.id}

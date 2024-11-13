@@ -1,4 +1,3 @@
-import {useRouter} from 'next/router';
 import {memo, useState} from 'react';
 import {useTranslation} from 'next-i18next';
 
@@ -15,18 +14,14 @@ import {UserAvatar} from '^models/User/components/UserAvatar';
 import {LinkTo} from '^components/util/LinkTo';
 import {Dropdown} from '^v3/share/Dropdown';
 import {EditUserProfileModal} from '^clients/private/_modals/EditUserProfileModal';
+import {channelTalkEnv} from '^config/environments';
 
 export const ProfileDropdown = memo(function ProfileDropdown() {
-    const router = useRouter();
     const {t} = useTranslation('profile');
     const {currentUser, logout} = useCurrentUser(undefined, {
         orgIdParam: 'orgId',
     });
     const [isProfileEditModalOpened, setIsProfileEditModalOpened] = useState(false);
-
-    const openChannelIO = () => {
-        window.open('https://scordi.channel.io/lounge', '_blank');
-    };
 
     if (!currentUser) return <></>;
 
@@ -71,23 +66,25 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                                 </a>
                             </li>
                             <li>
-                                <a
+                                <LinkTo
+                                    href={channelTalkEnv.url}
+                                    target="_blank"
                                     className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi"
-                                    onClick={openChannelIO}
                                     rel="noopener noreferrer"
                                 >
                                     <AiOutlineQuestionCircle />
                                     <span>{t('dropdown.help')}</span>
-                                </a>
+                                </LinkTo>
                             </li>
                             <li>
-                                <a
+                                <LinkTo
+                                    href="/"
                                     className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi"
-                                    onClick={() => router.push('/')}
+                                    displayLoading={false}
                                 >
                                     <AiOutlineHome />
                                     <span>{t('dropdown.goHomePage')}</span>
-                                </a>
+                                </LinkTo>
                             </li>
                             <li className="" />
                             <li>

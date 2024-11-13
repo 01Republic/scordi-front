@@ -14,6 +14,8 @@ export interface LinkToProps extends Partial<LinkProps> {
     displayLoading?: boolean;
     loadingOnBtn?: boolean;
     disabled?: boolean;
+    rel?: string;
+    noFollow?: boolean;
 }
 
 export const LinkTo = memo((props: LinkToProps & WithChildren) => {
@@ -29,6 +31,8 @@ export const LinkTo = memo((props: LinkToProps & WithChildren) => {
         displayLoading = true,
         loadingOnBtn = false,
         disabled = false,
+        rel = '',
+        noFollow = false,
         ...res
     } = props;
 
@@ -49,7 +53,7 @@ export const LinkTo = memo((props: LinkToProps & WithChildren) => {
 
     if (onClick) {
         return (
-            <a className={className} onClick={onClick} target={target}>
+            <a className={className} onClick={onClick} target={target} rel={rel}>
                 {children || text}
             </a>
         );
@@ -59,7 +63,7 @@ export const LinkTo = memo((props: LinkToProps & WithChildren) => {
         if (displayLoading) {
             const loadingClass = loadingOnBtn ? 'link_to-loading' : 'link_to-clicked';
             return (
-                <a className={`${className} ${loadingClass}`} target={target}>
+                <a className={`${className} ${loadingClass}`} target={target} rel={rel}>
                     {children || text}
                 </a>
             );
@@ -67,7 +71,7 @@ export const LinkTo = memo((props: LinkToProps & WithChildren) => {
     }
 
     return (
-        <Link href={disabled ? '' : href} {...res}>
+        <Link href={disabled ? '' : href} rel={rel} {...res}>
             <a
                 className={`${className}`}
                 target={target}
