@@ -25,16 +25,16 @@ export const OrgBasicInfoSection = memo((props: OrgBasicInfoSectionProps) => {
                 buttonOnClick={() => setIsChangeOrgInformationModalOpened(true)}
                 isLoading={isLoading}
                 items={[
-                    {title: '워크스페이스명', desc: currentOrg?.name},
+                    {title: '워크스페이스명', desc: currentOrg?.name || ''},
                     {
                         title: '주소',
                         desc: currentOrg?.address ? (
-                            `${currentOrg?.address} ${currentOrg?.addressDetail}`
+                            `${currentOrg?.address || ''} ${currentOrg?.addressDetail || ''}`
                         ) : (
                             <span className={'text-gray-400'}>주소를 등록해주세요</span>
                         ),
                     },
-                    {title: '멤버', desc: `${currentOrg?.memberCount}명`},
+                    {title: '멤버', desc: `${currentOrg?.memberCount.toLocaleString() || ''}명`},
                 ]}
             />
             <ChangeOrgInformationModal isOpened={isChangeOrgInformationModalOpened} onClose={onCloseModal} />
