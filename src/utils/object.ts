@@ -15,3 +15,11 @@ export function deepCopy<T extends any>(obj: T): T {
 
     return clone;
 }
+
+export const isEmptyObject = (obj: object) => {
+    const values = Object.values(obj);
+    if (!values.length) return true;
+    if (!values.filter((e) => e).length) return true;
+
+    return false;
+};

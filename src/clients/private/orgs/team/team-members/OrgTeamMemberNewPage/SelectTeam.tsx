@@ -48,3 +48,47 @@ export const SelectTeam = memo((props: SelectTeamProps) => {
     );
 });
 SelectTeam.displayName = 'SelectTeam';
+
+interface SelectTeamIdProps {
+    defaultTeamIds?: number[];
+    onChange?: (teams: TeamDto[]) => any;
+}
+
+export const SelectTeamId = memo((props: SelectTeamIdProps) => {
+    const {defaultTeamIds = [], onChange} = props;
+    const {search, result, reload} = useTeamsForSelectOptions();
+    const [selectedIds, setSelectedIds] = useState(defaultTeamIds);
+    const selectedItems = result.items.filter((team) => selectedIds.includes(team.id));
+
+    const isSelected = (team: TeamDto) => {
+        return selectedIds.includes(team.id);
+    };
+
+    const updateValues = (teams: TeamDto[]) => {
+        setSelectedIds(teams.map((t) => t.id));
+        onChange && onChange(teams);
+    };
+
+    return (
+        <CreatableSelect
+            placeholder="팀을 선택해주세요"
+            defaultItems={selectedItems}
+            items={result.items}
+            toOption={(team: TeamDto) => ({label: team.name, value: team})}
+            searchItems={(inputValue) =>
+                search({keyword: inputValue || undefined, order: {id: 'DESC'}}, false, true).then(
+                    (res) => res?.items || [],
+                )
+            }
+            Option={(props) => <TeamOption {...props} reload={reload} isSelected={isSelected(props.data.value)} />}
+            CreateOption={(props) => <TeamCreateOption {...props} reload={reload} />}
+            onSelect={(selectedOption) => {
+                updateValues(selectedOption ? [selectedOption.value] : []);
+            }}
+            formatOptionLabel={(item, formatOptionLabelMeta) => {
+                return <TeamTag id={item.id} name={item.name} />;
+            }}
+        />
+    );
+});
+SelectTeamId.displayName = 'SelectTeamId';
