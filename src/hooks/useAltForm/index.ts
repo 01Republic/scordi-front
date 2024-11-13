@@ -34,7 +34,7 @@ export function useAltForm<T>(initialState: T | (() => T)) {
                 inputs.map((input) => {
                     const key = input.name; // ""
                     const val = input.value; //
-                    data[key] = val;
+                    if (key) data[key] = val;
                 });
 
                 return submitHandler(data as T);
