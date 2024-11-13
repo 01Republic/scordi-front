@@ -33,6 +33,7 @@ export const CreditCardExpiry = memo((props: CreditCardExpiryProps) => {
                                     onYearChange(`${year}`);
                                 }}
                                 className={`${isLoading ? 'opacity-50 pointer-events-none' : ''} input-sm`}
+                                maxHeight="200px"
                             />
                         </div>
                     </div>
@@ -48,6 +49,7 @@ export const CreditCardExpiry = memo((props: CreditCardExpiryProps) => {
                                     onMonthChange(padStart(`${month}`, 2, '0'));
                                 }}
                                 className={`${isLoading ? 'opacity-50 pointer-events-none' : ''} input-sm`}
+                                maxHeight="200px"
                             />
                         </div>
                     </div>
