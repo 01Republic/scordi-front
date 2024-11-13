@@ -57,7 +57,8 @@ export const useCurrentScordiSubscription = () => {
                 }
                 return res;
             })
-            .then(() => fetch(orgId, true));
+            .then(() => fetch(orgId, true))
+            .finally(() => setIsLoading(false));
     };
 
     return {

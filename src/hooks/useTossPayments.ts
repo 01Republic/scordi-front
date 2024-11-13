@@ -12,6 +12,7 @@ import {useCurrentScordiSubscription} from '^models/_scordi/ScordiSubscription/h
 import {useScordiPaymentMethodsInSettingPage} from '^models/_scordi/ScordiPaymentMethod/hook';
 import {useScordiPaymentsInSettingPage} from '^models/_scordi/ScordiPayment/hook';
 import {parseQueryValue, urlWithQuery} from '^utils/get-query-params';
+import {ApiError, errorToast} from '^api/api';
 
 export function useTossPayments() {
     const {currentUser} = useCurrentUser();
@@ -43,7 +44,14 @@ export function useTossPayments() {
     return {requestBillingAuth};
 }
 
-export const useTossPaymentAuthCallback = (orgId: number) => {
+interface UseTossPaymentAuthCallbackOption {
+    onSuccess: () => any;
+    onFailure?: (e: ApiError) => any;
+    onFinally?: () => any;
+}
+
+export const useTossPaymentAuthCallback = (orgId: number, option: UseTossPaymentAuthCallbackOption) => {
+    const {onSuccess, onFailure, onFinally} = option;
     const {query, reload, replace} = useRouter();
     const pms = parseQueryValue(query['pms']);
     const isLoaded = ['1', '0'].includes(pms);
@@ -54,13 +62,13 @@ export const useTossPaymentAuthCallback = (orgId: number) => {
     const selectedPlanId = Number(parseQueryValue(query['planId']));
     const [reqBody, setReqBody] = useRecoilState(createPaymentMethodQueryAtom);
     const {update: createSubscription} = useCurrentScordiSubscription();
-    const {reload: reloadPaymentMethods} = useScordiPaymentMethodsInSettingPage();
-    const {reload: reloadPaymentHistories} = useScordiPaymentsInSettingPage();
+    // const {reload: reloadPaymentMethods} = useScordiPaymentMethodsInSettingPage();
+    // const {reload: reloadPaymentHistories} = useScordiPaymentsInSettingPage();
 
-    const reloadResources = async () => {
-        reloadPaymentMethods();
-        reloadPaymentHistories();
-    };
+    // const reloadResources = async () => {
+    //     reloadPaymentMethods();
+    //     reloadPaymentHistories();
+    // };
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
@@ -71,18 +79,21 @@ export const useTossPaymentAuthCallback = (orgId: number) => {
         }
 
         if (authKey && customerKey) {
-            createPaymentMethod(orgId, {authKey, customerKey}).then(async () => {
-                // 결제수단 변경 시퀀스 분기 처리
-                if (!selectedPlanId || isNaN(selectedPlanId)) {
-                    toast.success('카드를 등록했어요');
-                    return replace(urlWithQuery()).then(() => reloadResources()); // 흐름차단
-                }
+            createPaymentMethod(orgId, {authKey, customerKey})
+                .then(async () => {
+                    // 결제수단 변경 시퀀스 분기 처리
+                    if (!selectedPlanId || isNaN(selectedPlanId)) return toast.success('카드를 등록했어요'); // 흐름차단
 
-                // 구독 등록 시퀀스 시작
-                return createSubscription(orgId, selectedPlanId).then(async () => {
-                    return replace(urlWithQuery()).then(() => reloadResources()); // 흐름차단
-                });
-            });
+                    // 구독 등록 시퀀스 시작
+                    return createSubscription(orgId, selectedPlanId);
+                })
+                .finally(() => replace(urlWithQuery()))
+                .then(onSuccess)
+                .catch((e: ApiError) => {
+                    errorToast(e);
+                    onFailure && onFailure(e);
+                })
+                .finally(onFinally);
         }
     }, [orgId, isLoaded]);
 

@@ -11,16 +11,19 @@ import {LoadableBox} from '^components/util/loading';
 import {ScordiSecretCodeInput} from './ScordiSecretCodeInput';
 import {ScordiPlanCard} from './ScordiPlanCard';
 import {TossPaymentAuthCallbackProvider} from './TossPaymentAuthCallbackProvider';
+import {ApiError, errorToast} from '^api/api';
 
 interface SelectPlanModalProps {
     orgId: number;
     isOpened: boolean;
-    onClose: () => void;
-    onSuccess: () => void;
+    onClose: () => any;
+    onSuccess: () => any;
+    onFailure?: (e: ApiError) => any;
+    onFinally?: () => any;
 }
 
 export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanModalProps) {
-    const {orgId, isOpened, onClose, onSuccess} = props;
+    const {orgId, isOpened, onClose, onSuccess, onFailure, onFinally} = props;
     const {isLoading, scordiPlanList, fetch: fetchPlans} = useScordiPlanList();
     const {currentSubscription, update} = useCurrentScordiSubscription();
     const {result} = useScordiPaymentMethodsInSettingPage();
@@ -40,7 +43,13 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
     }, [orgId, isOpened, stepType]);
 
     const createSubscription = (orgId: number, planId: number) => {
-        return update(orgId, planId).then(onSuccess); //.then(() => reload(orgId));
+        return update(orgId, planId)
+            .then(onSuccess)
+            .catch((e: ApiError) => {
+                errorToast(e);
+                onFailure && onFailure(e);
+            })
+            .finally(onFinally);
     };
 
     const changePlan = (plan: ScordiPlanDto) => {
@@ -67,7 +76,12 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
 
     return (
         <>
-            <TossPaymentAuthCallbackProvider orgId={orgId} />
+            <TossPaymentAuthCallbackProvider
+                orgId={orgId}
+                onSuccess={onSuccess}
+                onFailure={onFailure}
+                onFinally={onFinally}
+            />
             <AnimatedModal open={isOpened} onClose={onClose}>
                 <div className="relative mx-auto max-w-screen-lg w-full">
                     <div className={'bg-white rounded-3xl p-12'}>
