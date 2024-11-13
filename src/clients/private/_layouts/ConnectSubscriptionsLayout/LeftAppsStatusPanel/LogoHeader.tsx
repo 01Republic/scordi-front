@@ -2,9 +2,9 @@ import {memo} from 'react';
 
 export const LogoHeader = memo(function LogoHeader() {
     return (
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 mt-8">
             <img
-                src="/images/logo/scordi/png/symbol/circle/symbol-black-circle.png"
+                src="/images/renewallogo/scordi-symbol-logo.png"
                 alt="scordi symbol logo"
                 draggable={false}
                 loading="lazy"
@@ -12,7 +12,7 @@ export const LogoHeader = memo(function LogoHeader() {
             />
 
             <img
-                src="/images/logo/scordi/png/text/text-black.png"
+                src="/images/renewallogo/scordi-text-loco.png"
                 alt="scordi text logo"
                 draggable={false}
                 loading="lazy"
