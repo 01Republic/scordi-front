@@ -4,7 +4,7 @@ import {inputTextToCardNumberInShortFormat} from '^utils/input-helper';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 
 interface CardNumberInputProps {
-    name: string;
+    name?: string;
     defaultValue?: string;
     maxLength?: number;
     // onChange?: (val: string) => any;
