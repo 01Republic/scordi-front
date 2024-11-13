@@ -14,8 +14,6 @@ interface TopLineBannerContentProps extends WithChildren {
 
 export const TopLineBannerContent = memo((props: TopLineBannerContentProps) => {
     const currentOrg = useRecoilValue(currentOrgAtom);
-
-    console.log(currentOrg?.id);
     const [isOpen, setIsOpen] = useState(true);
     const {topLineBanner} = props;
     const {id, text, url, timeout, theme, fixed, closeButton = false, animation} = topLineBanner;
