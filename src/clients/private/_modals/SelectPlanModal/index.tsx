@@ -3,7 +3,7 @@ import {IoClose} from '@react-icons/all-files/io5/IoClose';
 import {useTossPayments} from '^hooks/useTossPayments';
 import {useScordiPlanList} from '^models/_scordi/ScordiPlan/hook';
 import {ScordiPlanDto, ScordiPlanStepType} from '^models/_scordi/ScordiPlan/type';
-import {useCurrentScordiSubscription} from '^models/_scordi/ScordiSubscription/hook';
+import {useCurrentScordiSubscription, useScheduledScordiSubscriptions} from '^models/_scordi/ScordiSubscription/hook';
 import {useScordiPaymentMethodsInSettingPage} from '^models/_scordi/ScordiPaymentMethod/hook';
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {confirm2} from '^components/util/dialog';
@@ -12,6 +12,8 @@ import {ScordiSecretCodeInput} from './ScordiSecretCodeInput';
 import {ScordiPlanCard} from './ScordiPlanCard';
 import {TossPaymentAuthCallbackProvider} from './TossPaymentAuthCallbackProvider';
 import {ApiError, errorToast} from '^api/api';
+import {useRecoilState} from 'recoil';
+import {scordiSubscriptionScheduledListAtom as scheduledListAtom} from '^models/_scordi/ScordiSubscription/atom';
 
 interface SelectPlanModalProps {
     orgId: number;
@@ -26,6 +28,8 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
     const {orgId, isOpened, onClose, onSuccess, onFailure, onFinally} = props;
     const {isLoading, scordiPlanList, fetch: fetchPlans} = useScordiPlanList();
     const {currentSubscription, update} = useCurrentScordiSubscription();
+    // const {scheduledSubscriptions, fetch: fetchScheduled} = useScheduledScordiSubscriptions();
+    const [scheduledSubscriptions] = useRecoilState(scheduledListAtom);
     const {result} = useScordiPaymentMethodsInSettingPage();
     const {requestBillingAuth} = useTossPayments();
 
@@ -40,6 +44,7 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
             where: {isPublic: true, stepType},
             order: {priority: 'ASC'},
         });
+        // fetchScheduled(orgId);
     }, [orgId, isOpened, stepType]);
 
     const createSubscription = (orgId: number, planId: number) => {
@@ -104,7 +109,13 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
                         <LoadableBox isLoading={isLoading} loadingType={2} spinnerPos="center" noPadding>
                             <div className={'flex items-stretch gap-8'}>
                                 {Object.entries(groupedPlans).map(([_priority, [plan]]) => (
-                                    <ScordiPlanCard key={plan.id} plan={plan} onClick={() => changePlan(plan)} />
+                                    <ScordiPlanCard
+                                        key={plan.id}
+                                        scordiPlan={plan}
+                                        onClick={() => changePlan(plan)}
+                                        currentSubscription={currentSubscription}
+                                        scheduledSubscriptions={scheduledSubscriptions}
+                                    />
                                 ))}
                             </div>
                         </LoadableBox>

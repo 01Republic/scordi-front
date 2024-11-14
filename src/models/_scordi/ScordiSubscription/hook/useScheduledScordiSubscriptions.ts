@@ -11,38 +11,42 @@ export const useScheduledScordiSubscriptions = () => {
     const [query, setQuery] = useRecoilState(scheduledQueryAtom);
     const [result, setResult] = useRecoilState(scheduledListAtom);
 
-    // const fetch = async (orgId: number, force = false) => {
-    //     if (!force && query === orgId) return;
-    //
-    //     setIsLoading((_isLoading) => {
-    //         if (_isLoading) return true;
-    //
-    //         scordiSubscriptionApi
-    //             .scheduledItems(orgId)
-    //             .then((res) => {
-    //                 setQuery(orgId);
-    //                 setResult(res.data);
-    //             })
-    //             .finally(() => setIsLoading(false));
-    //
-    //         return true;
-    //     });
-    // };
+    const fetch = async (orgId: number, force = false) => {
+        if (!force && query === orgId) return;
 
-    const fetch2 = async (orgId: number, force = false) => {
-        // setQuery(orgId);
-        // return scordiSubscriptionApi.scheduledItems(orgId).then((res) => {
-        //     setResult(res.data);
-        //     return res.data;
-        // });
+        setIsLoading(true);
+        setQuery((_query) => {
+            if (!force && orgId === _query) return _query;
+
+            new Promise((resolve, reject) => {
+                scordiSubscriptionApi
+                    .scheduledItems(orgId)
+                    .then((res) => {
+                        setResult(res.data);
+                        resolve(res.data);
+                    })
+                    .catch(reject)
+                    .finally(() => setIsLoading(false));
+            });
+
+            return orgId;
+        });
     };
 
-    const reload = (orgId?: number) => fetch2(orgId || query, true);
+    // const fetch2 = async (orgId: number, force = false) => {
+    //     // setQuery(orgId);
+    //     // return scordiSubscriptionApi.scheduledItems(orgId).then((res) => {
+    //     //     setResult(res.data);
+    //     //     return res.data;
+    //     // });
+    // };
+
+    const reload = (orgId?: number) => fetch(orgId || query, true);
 
     return {
         isLoading,
-        result,
-        fetch: fetch2,
+        scheduledSubscriptions: result,
+        fetch,
         reload,
     };
 };

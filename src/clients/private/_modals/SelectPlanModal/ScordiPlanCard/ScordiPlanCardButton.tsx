@@ -61,12 +61,22 @@ export const ScordiPlanCardButton = memo((props: ScordiPlanCardButtonProps) => {
         );
     }
 
-    if (currentSubscription && plan.priority < currentSubscription.scordiPlan.priority) {
-        return (
-            <button className="btn btn-gray w-full" onClick={onClick}>
-                변경하기
-            </button>
-        );
+    if (currentSubscription) {
+        if (plan.priority < currentSubscription.scordiPlan.priority) {
+            return (
+                <button className="btn btn-gray w-full" onClick={onClick}>
+                    변경하기
+                </button>
+            );
+        }
+
+        if (plan.priority == currentSubscription.scordiPlan.priority) {
+            return (
+                <button className="btn btn-scordi w-full" onClick={onClick}>
+                    변경하기
+                </button>
+            );
+        }
     }
 
     return (

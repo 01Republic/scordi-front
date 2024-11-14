@@ -2,16 +2,21 @@ import React, {memo} from 'react';
 import {floatToPercent} from '^utils/number';
 import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
 import {scordiPlanDescriptionList} from '^models/_scordi/ScordiPlan/components/descriptionList';
+import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 import {ScordiPlanCardHeaderPrice} from './ScordiPlanCardHeaderPrice';
 import {ScordiPlanCardButton} from './ScordiPlanCardButton';
+import {selectDisplayPlanAtTier} from './selectDisplayPlanAtTier';
 
 interface ScordiPlanCardProps {
-    plan: ScordiPlanDto;
+    scordiPlan: ScordiPlanDto;
     onClick: () => any;
+    currentSubscription: ScordiSubscriptionDto | null;
+    scheduledSubscriptions: ScordiSubscriptionDto[];
 }
 
 export const ScordiPlanCard = memo((props: ScordiPlanCardProps) => {
-    const {plan, onClick} = props;
+    const {scordiPlan, onClick, currentSubscription, scheduledSubscriptions} = props;
+    const {plan, isCurrent} = selectDisplayPlanAtTier(scordiPlan, currentSubscription);
 
     const descriptions = scordiPlanDescriptionList[plan.priority - 1];
 

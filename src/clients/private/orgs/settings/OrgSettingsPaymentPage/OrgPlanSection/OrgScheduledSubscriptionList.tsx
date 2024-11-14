@@ -7,6 +7,7 @@ import {
 } from '^models/_scordi/ScordiSubscription/atom';
 import {scordiSubscriptionApi} from '^models/_scordi/ScordiSubscription/api';
 import {OrgScheduledSubscriptionItem} from './OrgScheduledSubscriptionItem';
+import {useScheduledScordiSubscriptions} from '^models/_scordi/ScordiSubscription/hook';
 
 interface OrgScheduledSubscriptionListProps {
     orgId: number;
@@ -14,19 +15,18 @@ interface OrgScheduledSubscriptionListProps {
 
 export const OrgScheduledSubscriptionList = memo((props: OrgScheduledSubscriptionListProps) => {
     const {orgId} = props;
+    // const {isLoading, scheduledSubscriptions, fetch} = useScheduledScordiSubscriptions();
     const [isLoading, setIsLoading] = useRecoilState(scheduledIsLoadingAtom);
     // const [query, setQuery] = useRecoilState(scheduledQueryAtom);
-    const [result, setResult] = useRecoilState(scheduledListAtom);
+    const [scheduledSubscriptions, setResult] = useRecoilState(scheduledListAtom);
 
-    const fetch = () => {
-        if (!orgId || isNaN(orgId)) return;
-
+    const fetch = (organizationId: number) => {
         setIsLoading((_isLoading) => {
             if (_isLoading) return true;
 
             new Promise((resolve, reject) => {
                 scordiSubscriptionApi
-                    .scheduledItems(orgId)
+                    .scheduledItems(organizationId)
                     .then((res) => {
                         setResult(res.data);
                         resolve(res.data);
@@ -40,17 +40,17 @@ export const OrgScheduledSubscriptionList = memo((props: OrgScheduledSubscriptio
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
-        fetch();
+        fetch(orgId);
     }, [orgId]);
 
-    if (!result.length) return <></>;
+    if (!scheduledSubscriptions.length) return <></>;
 
     return (
         <div className={`pt-4 ${isLoading ? 'no-click opacity-30' : ''}`}>
             <p className="text-12 font-semibold mb-1.5">다음 플랜</p>
             <div className="grid grid-cols-1 gap-2">
-                {result.map((item, i) => (
-                    <OrgScheduledSubscriptionItem key={i} scordiSubscription={item} />
+                {scheduledSubscriptions.map((scheduledSubscription, i) => (
+                    <OrgScheduledSubscriptionItem key={i} scordiSubscription={scheduledSubscription} />
                 ))}
             </div>
         </div>
