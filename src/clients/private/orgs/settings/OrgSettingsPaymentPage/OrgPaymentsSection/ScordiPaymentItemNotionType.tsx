@@ -19,7 +19,7 @@ export const ScordiPaymentItemNotionType = memo((props: ScordiPaymentItemProps) 
     const invoiceUrl = scordiPayment.invoiceUrl;
 
     return (
-        <div data-id={scordiPayment.id} className="flex items-center" onClick={onClick}>
+        <div data-id={scordiPayment.id} className="flex items-center mb-3" onClick={onClick}>
             <div className="mr-auto flex items-center">
                 <div className="pt-[2px]">
                     <div className="flex items-center text-14 gap-2">
