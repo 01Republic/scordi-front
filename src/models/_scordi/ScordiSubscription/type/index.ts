@@ -2,6 +2,7 @@ import {TypeCast} from '^types/utils/class-transformer';
 import {OrganizationDto} from '^models/Organization/type';
 import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
 import {ScordiPaymentDto} from '^models/_scordi/ScordiPayment/type';
+import {yyyy_mm_dd} from '^utils/dateTime';
 
 /**
  * 스코디 구독
@@ -22,5 +23,16 @@ export class ScordiSubscriptionDto {
     getNextDate() {
         if (this.finishAt) return this.finishAt;
         return this.startAt ? this.scordiPlan.getNextDate(this.startAt) : null;
+    }
+
+    get isFinished() {
+        const finishAt = this.finishAt;
+
+        if (!finishAt) return false;
+
+        const today = yyyy_mm_dd(new Date());
+        const limit = yyyy_mm_dd(finishAt);
+
+        return limit <= today;
     }
 }

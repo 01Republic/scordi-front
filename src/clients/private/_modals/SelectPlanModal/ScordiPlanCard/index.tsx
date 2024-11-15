@@ -2,20 +2,25 @@ import React, {memo} from 'react';
 import {floatToPercent} from '^utils/number';
 import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
 import {scordiPlanDescriptionList} from '^models/_scordi/ScordiPlan/components/descriptionList';
-import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 import {ScordiPlanCardHeaderPrice} from './ScordiPlanCardHeaderPrice';
 import {ScordiPlanCardButton} from './ScordiPlanCardButton';
 import {selectDisplayPlanAtTier} from './selectDisplayPlanAtTier';
+import {useCurrentScordiSubscription} from '^models/_scordi/ScordiSubscription/hook';
+import {useRecoilValue} from 'recoil';
+import {scordiSubscriptionScheduledListAtom as scheduledListAtom} from '^models/_scordi/ScordiSubscription/atom';
 
 interface ScordiPlanCardProps {
     scordiPlan: ScordiPlanDto;
     onClick: () => any;
-    currentSubscription: ScordiSubscriptionDto | null;
-    scheduledSubscriptions: ScordiSubscriptionDto[];
 }
 
 export const ScordiPlanCard = memo((props: ScordiPlanCardProps) => {
-    const {scordiPlan, onClick, currentSubscription, scheduledSubscriptions} = props;
+    const {scordiPlan, onClick} = props;
+    const {currentSubscription} = useCurrentScordiSubscription();
+    const scheduledSubscriptions = useRecoilValue(scheduledListAtom);
+    const scheduledItem = scheduledSubscriptions.find((s) => {
+        return s.scordiPlanId === plan.id; // || (s.scordiPlan.priority == 1 && plan.priority == 1);
+    });
     const {plan, isCurrent} = selectDisplayPlanAtTier(scordiPlan, currentSubscription);
 
     const descriptions = scordiPlanDescriptionList[plan.priority - 1];

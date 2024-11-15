@@ -23,13 +23,7 @@ export const ExpiredPlanBlockModal = memo((props: ExpiredPlanBlockModalProps) =>
         const {currentScordiSubscription} = currentOrg;
         if (!currentScordiSubscription) return true;
 
-        const {finishAt} = currentScordiSubscription;
-        if (!finishAt) return true;
-
-        const today = yyyy_mm_dd(new Date());
-        const expirationDate = yyyy_mm_dd(finishAt);
-
-        return expirationDate <= today;
+        return currentScordiSubscription.isFinished;
     };
 
     useEffect(() => {
