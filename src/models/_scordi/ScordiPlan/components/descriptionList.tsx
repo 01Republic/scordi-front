@@ -1,6 +1,7 @@
 import React from 'react';
 
 const basicPlanDescription = [
+    '신규 회원 전용 플랜',
     ' ✓  팀별 이용중인 SaaS 구독 관리',
     ' ✓  결제 관리용 카드 연동 무제한',
     ' ✓  청구서 수신 이메일 연동 무제한',

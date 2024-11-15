@@ -18,7 +18,7 @@ export const ScordiPlanCardButton = memo((props: ScordiPlanCardButtonProps) => {
     const {currentSubscription} = useCurrentScordiSubscription();
     const scheduledSubscriptions = useRecoilValue(scheduledListAtom);
     const scheduledItem = scheduledSubscriptions.find((s) => {
-        return s.scordiPlanId === plan.id || (s.scordiPlan.priority == 1 && plan.priority == 1);
+        return s.scordiPlanId === plan.id; // || (s.scordiPlan.priority == 1 && plan.priority == 1);
     });
 
     if (scheduledItem) {
