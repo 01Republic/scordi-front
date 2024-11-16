@@ -6,9 +6,8 @@ import {SettingsPaymentSection} from '../SettingsPaymentSection';
 import {ScordiPaymentHeader} from './ScordiPaymentHeader';
 import {ScordiPaymentItem, ScordiPaymentItemUIType} from './ScordiPaymentItem';
 import {LinkTo} from '^components/util/LinkTo';
-import {New_SaaS_Request_Form_Url} from '^config/constants';
+import {ChannelTalk_Url} from '^config/constants';
 import {IoIosHelpCircle} from 'react-icons/io';
-import {channelTalkEnv} from '^config/environments';
 
 interface OrgPaymentsSectionProps {
     orgId: number;
@@ -45,7 +44,7 @@ export const OrgPaymentsSection = memo((props: OrgPaymentsSectionProps) => {
                 <div>
                     <LinkTo
                         className="flex items-center gap-2 cursor-pointer text-14 link link-hover text-gray-400 hover:text-gray-500 transition py-1 group"
-                        href={channelTalkEnv.url}
+                        href={ChannelTalk_Url}
                         target="_blank"
                         displayLoading={false}
                     >

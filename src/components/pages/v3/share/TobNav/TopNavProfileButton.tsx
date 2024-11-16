@@ -17,7 +17,7 @@ import {GrFormDown} from 'react-icons/gr';
 import {useOnResize2} from '^components/util/onResize2';
 import {LinkTo} from '^components/util/LinkTo';
 import {EditUserProfileModal} from '^clients/private/_modals/EditUserProfileModal';
-import {channelTalkEnv} from '^config/environments';
+import {ChannelTalk_Url} from '^config/constants';
 
 export const TopNavProfileButton = memo(() => {
     const router = useRouter();
@@ -64,7 +64,7 @@ export const TopNavProfileButton = memo(() => {
                 <li>
                     <a
                         className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi"
-                        href={channelTalkEnv.url}
+                        href={ChannelTalk_Url}
                         target="_blank"
                         rel="noopener noreferrer"
                     >

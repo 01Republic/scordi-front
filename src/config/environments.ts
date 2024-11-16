@@ -35,7 +35,6 @@ export const vapidPublicKey = xxx(process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY);
 export const channelTalkEnv = {
     pluginKey: xxx(process.env.NEXT_PUBLIC_CHANNEL_TALK_PLUGIN_KEY),
     accessSecret: xxx(process.env.NEXT_PUBLIC_CHANNEL_TALK_ACCESS_SECRET),
-    url: 'https://scordi.channel.io/lounge',
 };
 export const crawlerSign = xxx(process.env.NEXT_PUBLIC_CRAWLER_SIGN_SECRET as string);
 export const cardSign = xxx(process.env.NEXT_PUBLIC_CARD_SIGN_KEY as string);

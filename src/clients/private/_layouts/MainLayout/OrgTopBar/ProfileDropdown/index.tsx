@@ -14,7 +14,7 @@ import {UserAvatar} from '^models/User/components/UserAvatar';
 import {LinkTo} from '^components/util/LinkTo';
 import {Dropdown} from '^v3/share/Dropdown';
 import {EditUserProfileModal} from '^clients/private/_modals/EditUserProfileModal';
-import {channelTalkEnv} from '^config/environments';
+import {ChannelTalk_Url} from '^config/constants';
 
 export const ProfileDropdown = memo(function ProfileDropdown() {
     const {t} = useTranslation('profile');
@@ -67,7 +67,7 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                             </li>
                             <li>
                                 <LinkTo
-                                    href={channelTalkEnv.url}
+                                    href={ChannelTalk_Url}
                                     target="_blank"
                                     className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi"
                                     rel="noopener noreferrer"
