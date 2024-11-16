@@ -5,15 +5,17 @@ import {ModalLayoutProps} from './Modal.types';
 export interface AnimationLayoutProps extends ModalLayoutProps {}
 
 export const AnimatedModal = memo((props: AnimationLayoutProps) => {
-    const {children, open, onClose, backdrop} = props;
+    const {name, children, open, onClose, backdrop} = props;
     const backdropOption = backdrop || {};
     backdropOption.opacity ??= 0.25;
     backdropOption.hidden ??= false;
     backdropOption.className ||= '';
 
+    const modalName = `AnimatedModal/${name}`;
+
     return (
         <Transition.Root show={open} as={Fragment}>
-            <Dialog as="div" className="fixed inset-0 z-50 overflow-y-auto" onClose={onClose}>
+            <Dialog as="div" data-modal={modalName} className="fixed inset-0 z-50 overflow-y-auto" onClose={onClose}>
                 <div className="tablet:px-4 flex min-h-screen items-center justify-center">
                     {!backdropOption.hidden && (
                         <Transition.Child

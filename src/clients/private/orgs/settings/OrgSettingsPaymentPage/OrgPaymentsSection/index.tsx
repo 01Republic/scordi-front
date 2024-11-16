@@ -24,6 +24,7 @@ export const OrgPaymentsSection = memo((props: OrgPaymentsSectionProps) => {
         if (!orgId || isNaN(orgId)) return;
 
         search({
+            where: {organizationId: orgId},
             order: {id: 'DESC'},
             itemsPerPage: 0,
         });

@@ -12,6 +12,7 @@ export interface ModalLayoutProps extends WithChildren {
     backdrop?: BackdropOption;
     size?: 'sm' | 'md' | 'lg' | 'screen-sm' | 'screen-md' | 'screen-lg';
     modalClassName?: string;
+    name?: string;
 }
 
 export interface ModalProps {

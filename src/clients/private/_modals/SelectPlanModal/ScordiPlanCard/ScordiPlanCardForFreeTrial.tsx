@@ -36,7 +36,7 @@ export const ScordiPlanCardForFreeTrial = memo((props: ScordiPlanCardForFreeTria
             className={`flex-1 border rounded-xl p-4 space-y-4 flex flex-col hover:border-scordi transition cursor-pointer ${
                 isExpiredPlan ? 'text-[#b3b3b3] pointer-events-none' : ''
             } ${isCurrentPlan ? 'border-scordi' : ''}`}
-            onClick={onClick}
+            onClick={isCurrentPlan ? undefined : onClick}
         >
             <div className="min-h-[7rem] flex flex-col justify-between border-b pb-4">
                 <div className="flex justify-between items-start">
@@ -57,15 +57,15 @@ export const ScordiPlanCardForFreeTrial = memo((props: ScordiPlanCardForFreeTria
                 <div>
                     {!currentSubscription ? (
                         // 현재구독 자체가 조회되지 않으면 => 체험판 시작하기
-                        <button className="btn bg-scordi-50 text-scordi w-full hover:bg-red-200 hover:text-red-600 border-none group">
+                        <button className="btn bg-scordi-50 text-scordi w-full no-animation hover:bg-red-200 hover:text-red-600 border-none group">
                             시작하기
                         </button>
                     ) : isCurrentPlan && !isExpiredPlan ? (
                         // 현재 체험판 플랜 구독중이고 만료도 안됐다면 => 체험판 진행중
-                        <button className="btn bg-scordi-50 text-scordi w-full no-click">현재플랜</button>
+                        <button className="btn bg-scordi-50 text-scordi w-full no-animation no-click">현재플랜</button>
                     ) : (
                         // 그 외 => 체험판 만료
-                        <button className="btn btn-block btn-gray !bg-[#e3e3e3] !text-white !border-transparent">
+                        <button className="btn btn-block btn-gray no-animation !bg-[#e3e3e3] !text-white !border-transparent">
                             무료 체험기간이 만료되었어요
                         </button>
                     )}

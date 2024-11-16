@@ -19,7 +19,7 @@ export const ScordiPlanCard = memo((props: ScordiPlanCardProps) => {
     const {currentSubscription} = useCurrentScordiSubscription();
     const scheduledSubscriptions = useRecoilValue(scheduledListAtom);
     const scheduledItem = scheduledSubscriptions.find((s) => {
-        return s.scordiPlanId === plan.id; // || (s.scordiPlan.priority == 1 && plan.priority == 1);
+        return s.scordiPlanId === scordiPlan.id; // || (s.scordiPlan.priority == 1 && plan.priority == 1);
     });
     const {plan, isCurrent} = selectDisplayPlanAtTier(scordiPlan, currentSubscription);
 
@@ -27,8 +27,10 @@ export const ScordiPlanCard = memo((props: ScordiPlanCardProps) => {
 
     return (
         <div
-            className="flex-1 border rounded-xl p-4 space-y-4 flex flex-col hover:border-scordi transition cursor-pointer"
-            onClick={onClick}
+            className={`flex-1 border rounded-xl p-4 space-y-4 flex flex-col hover:border-scordi transition cursor-pointer ${
+                isCurrent ? 'border-scordi' : ''
+            }`}
+            onClick={isCurrent ? undefined : onClick}
         >
             <div className="min-h-[7rem] flex flex-col justify-between border-b pb-4">
                 <div className="flex justify-between items-start">
