@@ -52,6 +52,11 @@ export const OrgPlanSection = memo((props: OrgPlanSectionProps) => {
                 buttonOnClick={() => setIsSelectPlanModalOpened(true)}
                 isLoading={isLoading}
             >
+                {!currentSubscription && isLoading && (
+                    <div className="p-4 text-14 invisible">
+                        <div>Loading</div>
+                    </div>
+                )}
                 {currentSubscription && <OrgScordiSubscriptionItem scordiSubscription={currentSubscription} />}
                 {currentSubscription && <OrgScheduledSubscriptionList orgId={orgId} />}
             </SettingsPaymentSection>

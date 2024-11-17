@@ -14,7 +14,8 @@ interface OrgPaymentMethodSectionProps {
 export const OrgPaymentMethodSection = memo((props: OrgPaymentMethodSectionProps) => {
     const {orgId} = props;
     const {requestBillingAuth} = useTossPayments();
-    const {isLoading, fetchAll, result, isEmptyResult, clearCache} = useScordiPaymentMethodsInSettingPage();
+    const {isLoading, fetchAll, result, isNotLoaded, isEmptyResult, clearCache} =
+        useScordiPaymentMethodsInSettingPage();
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
@@ -35,6 +36,14 @@ export const OrgPaymentMethodSection = memo((props: OrgPaymentMethodSectionProps
             buttonOnClick={isEmptyResult ? undefined : () => requestBillingAuth()}
             isLoading={isLoading}
         >
+            {isNotLoaded && (
+                <div className="invisible">
+                    <EmptyTable
+                        message="카드 정보가 없어요."
+                        Buttons={() => <NewPaymentMethodButton onClick={() => requestBillingAuth()} />}
+                    />
+                </div>
+            )}
             {isEmptyResult ? (
                 <EmptyTable
                     message="카드 정보가 없어요."

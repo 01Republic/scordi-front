@@ -27,7 +27,7 @@ export const SettingsPaymentSection = memo((props: SettingsPaymentSectionProps) 
                       )}
             </div>
 
-            <LoadableBox isLoading={isLoading} loadingType={2} noPadding>
+            <LoadableBox isLoading={isLoading} loadingType={2} noPadding spinnerPos="center">
                 {children}
             </LoadableBox>
         </div>

@@ -16,7 +16,7 @@ interface OrgPaymentsSectionProps {
 export const OrgPaymentsSection = memo((props: OrgPaymentsSectionProps) => {
     const {orgId} = props;
     const router = useRouter();
-    const {isLoading, result, search, isEmptyResult} = useScordiPaymentsInSettingPage();
+    const {isLoading, result, search, isNotLoaded, isEmptyResult} = useScordiPaymentsInSettingPage();
     const [uiVersion, setUiVersion] = useState<ScordiPaymentItemUIType>('notion');
 
     useEffect(() => {
@@ -43,19 +43,26 @@ export const OrgPaymentsSection = memo((props: OrgPaymentsSectionProps) => {
             }
             right={
                 <div>
-                    <LinkTo
-                        className="flex items-center gap-2 cursor-pointer text-14 link link-hover text-gray-400 hover:text-gray-500 transition py-1 group"
-                        href={ChannelTalk_Url}
-                        target="_blank"
-                        displayLoading={false}
-                    >
-                        <IoIosHelpCircle fontSize={18} className="relative top-[0px]" />
-                        <span>취소/환불을 원하시나요?</span>
-                    </LinkTo>
+                    {!isNotLoaded && !isEmptyResult && (
+                        <LinkTo
+                            className="flex items-center gap-2 cursor-pointer text-14 link link-hover text-gray-400 hover:text-gray-500 transition py-1 group"
+                            href={ChannelTalk_Url}
+                            target="_blank"
+                            displayLoading={false}
+                        >
+                            <IoIosHelpCircle fontSize={18} className="relative top-[0px]" />
+                            <span>취소/환불을 원하시나요?</span>
+                        </LinkTo>
+                    )}
                 </div>
             }
             isLoading={isLoading}
         >
+            {isNotLoaded && (
+                <div className="invisible">
+                    <EmptyTable message="결제/환불 내역이 없어요." />
+                </div>
+            )}
             {isEmptyResult ? (
                 <EmptyTable message="결제/환불 내역이 없어요." />
             ) : (
