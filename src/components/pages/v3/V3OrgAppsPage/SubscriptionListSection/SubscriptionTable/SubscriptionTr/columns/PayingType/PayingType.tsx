@@ -51,7 +51,7 @@ export const PayingType = memo((props: PayingTypeProps) => {
 });
 PayingType.displayName = 'PayingType';
 
-const PayingTypeTag = memo((props: {value: PricingModelOptions | string}) => {
+export const PayingTypeTag = memo((props: {value: PricingModelOptions | string}) => {
     const {value} = props;
     const colorClass = c_PricingModelValue(value as PricingModelOptions);
     const text = t_SubscriptionPricingModel(value as PricingModelOptions);
