@@ -5,7 +5,7 @@ import {ScordiPaymentMethodDto} from '^models/_scordi/ScordiPaymentMethod/type';
 import {KeyValue} from './KeyValue';
 import {PaymentPreviewActiveRange} from './PaymentPreviewActiveRange';
 import {PaymentMethodCard} from './PaymentMethodCard';
-import {PriceTextWithStepSize} from '^clients/private/_modals/SelectPlanModal/PaymentPreviewModal/PriceTextWithStepSize';
+import {PriceTextWithStepSize} from './PriceTextWithStepSize';
 
 interface PaymentPreviewModalSubmitButtonProps {
     plan: ScordiPlanDto;

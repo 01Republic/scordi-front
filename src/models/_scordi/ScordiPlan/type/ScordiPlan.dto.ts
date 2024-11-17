@@ -50,7 +50,7 @@ export class ScordiPlanDto {
 
     // 최종 결제금액
     get finalPrice() {
-        return this.price + this.vat;
+        return Math.floor(this.price + this.vat);
     }
 
     getStepText(option: StepTextOption = {}) {

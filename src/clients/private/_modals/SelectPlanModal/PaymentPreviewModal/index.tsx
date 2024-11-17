@@ -5,7 +5,6 @@ import {useScordiPaymentMethodsInSettingPage} from '^models/_scordi/ScordiPaymen
 import {useCurrentScordiSubscription} from '^models/_scordi/ScordiSubscription/hook';
 import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
-import {confirm2} from '^components/util/dialog';
 import {PaymentPreviewModalHeader} from './PaymentPreviewModalHeader';
 import {PaymentPreviewModalContent} from './PaymentPreviewModalContent';
 
@@ -69,7 +68,7 @@ export const PaymentPreviewModal = memo((props: PaymentPreviewModalProps) => {
 
                         <div className="mt-auto">
                             <button type="button" className="btn btn-block btn-scordi text-16" onClick={onClick}>
-                                결제
+                                구독 결제
                             </button>
                         </div>
                     </div>
