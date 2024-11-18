@@ -1,7 +1,11 @@
 import {dPayPaymentsInPaymentListPageAtoms, scordiPaymentsInSettingPageAtoms} from '^models/_scordi/ScordiPayment/atom';
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
-import {FindAllScordiPaymentQueryDto, ScordiPaymentDto} from '^models/_scordi/ScordiPayment/type';
-import {dPayScordiPaymentsApi, postDirectPayApi, scordiPaymentsApi} from '^models/_scordi/ScordiPayment/api';
+import {
+    CreateScordiPaymentWithCustomerKeyRequestDto,
+    FindAllScordiPaymentQueryDto,
+    ScordiPaymentDto,
+} from '^models/_scordi/ScordiPayment/type';
+import {dPayScordiPaymentsApi, scordiPaymentsApi} from '^models/_scordi/ScordiPayment/api';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 
 // 설정 - 결제관리 페이지 / 결제내역 섹션에서 사용
@@ -23,7 +27,9 @@ export const usePostDirectPay = () => {
     const queryClient = useQueryClient();
 
     const {mutateAsync: postDirectPayMutate, isPending} = useMutation({
-        mutationFn: postDirectPayApi,
+        mutationFn: (data: CreateScordiPaymentWithCustomerKeyRequestDto) => {
+            return dPayScordiPaymentsApi.createWithCustomerKey(data).then((res) => res.data);
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ['postDirectPay']});
         },
