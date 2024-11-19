@@ -10,21 +10,15 @@ export const ProductListContentPanelSearchInput = memo(() => {
     const {currentCategory, setCurrentCategoryName} = useProductCategoryFeature();
 
     const onChange = debounce((keyword?: string) => {
-        history.pushState('', '', ProductListPageRoute.path());
+        // history.pushState('', '', ProductListPageRoute.path());
         if (keyword) {
             search({
-                isLive: true,
-                itemsPerPage: 0,
                 keyword,
-                order: {id: 'DESC'},
+                itemsPerPage: 0,
             });
             setCurrentCategoryName(`Search: ${keyword}`);
         } else {
-            search({
-                isLive: true,
-                itemsPerPage: 0,
-                order: {id: 'DESC'},
-            });
+            search();
             setCurrentCategoryName(`☁️ All`);
         }
     }, 500);
@@ -46,7 +40,7 @@ export const ProductListContentPanelSearchInput = memo(() => {
                     type="text"
                     className="input input-bordered min-w-[300px] w-full pl-[48px]"
                     placeholder="Search ..."
-                    onChange={(e) => onChange(e.target.value)}
+                    onChange={(e) => onChange(e.target.value.trim())}
                 />
                 <div className="absolute top-0 bottom-0 m-auto w-[48px] h-[48px] flex items-center justify-center text-gray-400">
                     <BsSearch />

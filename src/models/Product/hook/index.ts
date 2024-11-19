@@ -25,7 +25,20 @@ export const productSearchResultsState = atom({
 export const useProductsV2 = () => useProductsV3(productListResultAtom);
 
 // SaaS 컬렉션 / 목록 페이지 리스트
-export const useProductsInSaaSCollection = () => useProductsV3(productsForSaaSCollection);
+export const useProductsInSaaSCollection = () => {
+    const {search: _search, ...methods} = useProductsV3(productsForSaaSCollection);
+
+    const search = (query: FindAllProductQuery = {}) => {
+        return _search({
+            isLive: true,
+            itemsPerPage: 15,
+            order: {id: 'DESC'},
+            ...query,
+        });
+    };
+
+    return {...methods, search};
+};
 
 // SaaS 컬렉션 / 상세 페이지 - 유사한 서비스 리스트
 export const useAnotherProductsForSaaSCollection = () => useProductsV3(anotherProductsForSaaSCollection);
