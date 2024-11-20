@@ -8,18 +8,15 @@ import {Paginated} from '^types/utils/paginated.dto';
 import {LoadableBox} from '^components/util/loading';
 import {paginatedDtoOf} from '^types/utils/response-of';
 import {ProductAvatarImg} from '^v3/share/ProductAvatar';
-import {subscriptionApi} from '^models/Subscription/api';
-import {SubscriptionDto} from '^models/Subscription/types';
-import Swal from 'sweetalert2';
-import {toast} from 'react-hot-toast';
+import {ReactNodeElement} from '^types/global.type';
 
 interface ProductSearchModalProps {
-    subscription: SubscriptionDto;
-    onFinish: () => any;
+    title: ReactNodeElement;
+    onSelect: (product: ProductDto) => any;
 }
 
 export const ProductSearchModal = memo((props: ProductSearchModalProps) => {
-    const {subscription, onFinish} = props;
+    const {title, onSelect} = props;
     const form = useForm<Pick<FindAllProductQuery, 'keyword'>>();
     const [isLoading, setIsLoading] = useState(false);
     const [result, setResult] = useState<Paginated<ProductDto>>({
@@ -48,24 +45,10 @@ export const ProductSearchModal = memo((props: ProductSearchModalProps) => {
             .finally(() => setIsLoading(false));
     };
 
-    const select = (product: ProductDto) => {
-        const name = `${product.name()} (ID: ${product.id})`;
-        if (confirm(`${name} 으로 이 구독을 옮길까요?`)) {
-            subscriptionApi
-                .update(subscription.id, {productId: product.id})
-                .then(() => toast.success(`${name} 으로 이동 완료!`))
-                .then(() => Swal.close())
-                .then(() => onFinish())
-                .catch(errorToast);
-        }
-    };
-
     return (
         <SwalForm onSubmit={form.handleSubmit(search)} confirmBtnText="확인" className="px-2">
             <section>
-                <h4 className="text-xl sm:text-lg text-left">
-                    <span className="text-scordi">어느 앱으로 이동시킬까요?</span>
-                </h4>
+                <h4 className="text-xl sm:text-lg text-left text-scordi">{title}</h4>
             </section>
 
             <section className="mb-4 flex flex-col gap-3">
@@ -94,7 +77,7 @@ export const ProductSearchModal = memo((props: ProductSearchModalProps) => {
                                     <div
                                         key={i}
                                         className="btn btn-block bg-white hover:bg-slate-100 flex items-center justify-between group"
-                                        onClick={() => select(product)}
+                                        onClick={() => onSelect(product)}
                                     >
                                         <div className="flex-1 flex items-center gap-2">
                                             <ProductAvatarImg product={product} className="w-6 h-6" />
