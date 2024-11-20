@@ -1,6 +1,10 @@
 import {UseFormReturn} from 'react-hook-form';
 import {TextInput} from '^components/TextInput';
-import {CreateProductRequestDto as CreateDto, UpdateProductRequestDto as UpdateDto} from '^models/Product/type';
+import {
+    ProductDto,
+    CreateProductRequestDto as CreateDto,
+    UpdateProductRequestDto as UpdateDto,
+} from '^models/Product/type';
 import {useSearchDuplicatedProducts} from './atom';
 import {Avatar} from '^components/Avatar';
 import {LinkTo} from '^components/util/LinkTo';
@@ -10,10 +14,11 @@ import Tippy from '@tippyjs/react';
 
 interface InputNameEnProps {
     form: UseFormReturn<CreateDto> | UseFormReturn<UpdateDto>;
+    product: ProductDto | null;
 }
 
 export const InputNameEn = (props: InputNameEnProps) => {
-    const {form} = props;
+    const {form, product: original} = props;
     const {value, search, isLoading, products} = useSearchDuplicatedProducts();
     const [product] = products;
 
@@ -38,7 +43,7 @@ export const InputNameEn = (props: InputNameEnProps) => {
             <div className="text-12 pt-3">
                 {value ? (
                     <LoadableBox isLoading={isLoading} loadingType={2} noPadding spinnerSize={14} spinnerPos="center">
-                        {product ? (
+                        {product && product.id !== original?.id ? (
                             <div className="text-red-500 flex items-center gap-8">
                                 <p className="text-12">중복된 앱이 존재합니다 :</p>
 

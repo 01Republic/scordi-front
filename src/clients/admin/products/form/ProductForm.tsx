@@ -103,11 +103,11 @@ export const ProductForm = (props: CreatePrototypeFormProps | UpdatePrototypeFor
                 <ContentPanel title="기본정보">
                     <ContentPanelList>
                         <ContentPanelInput title="App name (ko)" required={true}>
-                            <InputNameKo form={form} />
+                            <InputNameKo form={form} product={product} />
                         </ContentPanelInput>
 
                         <ContentPanelInput title="App name (en)" required={true}>
-                            <InputNameEn form={form} />
+                            <InputNameEn form={form} product={product} />
                         </ContentPanelInput>
 
                         <ProductTagMultiSelect tags={product?.tags ?? []} form={form} />
