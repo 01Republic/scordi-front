@@ -117,8 +117,9 @@
   },
   "volta": {
     "node": "16.16.0",
-    "yarn": "1.22.19"
+    "yarn": "1.22.22"
   },
+  "packageManager": "yarn@1.22.22",
   "resolutions": {
     "styled-components": "^5",
     "@types/react": "18.0.15"
