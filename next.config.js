@@ -32,6 +32,16 @@ const nextConfig = {
             'upload.wikimedia.org',
             'via.placeholder.com',
         ],
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: '**',
+            },
+            {
+                protocol: 'http',
+                hostname: '**',
+            },
+        ],
     },
     i18n,
     async rewrites() {
