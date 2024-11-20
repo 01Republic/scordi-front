@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import {ProductDetailPageRoute} from '^pages/products/[id]';
 import {ProductDto} from '^models/Product/type';
 import {toast} from 'react-toastify';
@@ -32,10 +33,17 @@ export const ProductListContentPanelItem = (props: {product: ProductDto}) => {
                     {/* Logo */}
                     <div className="avatar absolute right-6" style={{top: 'calc((3.5rem - 24px) / -2)'}}>
                         <div
-                            className="rounded-full ring-1 ring-gray-300 ring-offset-base-100 ring-offset-2 bg-white"
+                            className="rounded-full ring-1 ring-gray-300 ring-offset-base-100 ring-offset-2 bg-white relative"
                             style={{width: 'calc(3.5rem - 24px)'}}
                         >
-                            <img src={logoImgUrl} alt={`logo image of ${title}`} loading="lazy" draggable={false} />
+                            <Image
+                                className="absolute"
+                                src={logoImgUrl}
+                                alt={`logo image of ${title}`}
+                                loading="lazy"
+                                draggable={false}
+                                layout="fill"
+                            />
                         </div>
                     </div>
 
