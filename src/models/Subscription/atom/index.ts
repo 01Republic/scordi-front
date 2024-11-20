@@ -129,3 +129,11 @@ export const createSubscriptionFormListAtom = localStorageAtoms<CreateSubscripti
     key: 'createSubscriptionFormListAtom',
     default: [],
 });
+
+// 어드민 > 앱 상세 > 구독 리스트
+export const subscriptionListOfProductDetailForAdminAtom = pagedResourceAtom<
+    SubscriptionDto,
+    FindAllSubscriptionsQuery
+>({
+    key: 'Admin/ProductDetail/SubscriptionListAtom',
+});
