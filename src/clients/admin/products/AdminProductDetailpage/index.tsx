@@ -41,7 +41,7 @@ export const AdminProductDetailPage = memo(() => {
         // {label: '소개', Component: EditProductPost},
         {label: '구독 관리', Component: ProductSubscriptionList},
         {label: '크롤링 이력 조회', Component: Fragment},
-        {label: '생성 관리', Component: MergeProductMenu},
+        // {label: '생성 관리', Component: MergeProductMenu},
         //
     ];
     const TabContentComponent = tabs[tabIndex]?.Component || Fragment;

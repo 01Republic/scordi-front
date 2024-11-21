@@ -76,7 +76,7 @@ export const ProductSearchModal = memo((props: ProductSearchModalProps) => {
                                 {result.items.map((product, i) => (
                                     <div
                                         key={i}
-                                        className="btn btn-block bg-white hover:bg-slate-100 flex items-center justify-between group"
+                                        className="btn btn-block bg-white hover:bg-slate-100 flex items-center justify-between group relative"
                                         onClick={() => onSelect(product)}
                                     >
                                         <div className="flex-1 flex items-center gap-2">
@@ -87,7 +87,7 @@ export const ProductSearchModal = memo((props: ProductSearchModalProps) => {
                                             </div>
                                         </div>
                                         <div>
-                                            <div className="btn btn-xs hidden group-hover:inline-flex items-center justify-center btn-white rounded-md shadow border-gray-300">
+                                            <div className="btn btn-xs hidden group-hover:absolute top-0 bottom-0 my-auto right-4 group-hover:inline-flex items-center justify-center btn-white rounded-md shadow border-gray-300">
                                                 선택
                                             </div>
                                         </div>
