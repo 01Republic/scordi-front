@@ -37,7 +37,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
                     <div className="px-8 py-8 border-b">
                         <div className="max-w-md flex flex-col gap-4">
-                            <h2 className="leading-none text-xl font-semibold pb-4">거래처 정보</h2>
+                            <h2 className="leading-none text-xl font-semibold pb-4">결제 정보</h2>
 
                             <FormControl label="유무료여부">
                                 {isEditMode ? (
