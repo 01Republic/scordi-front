@@ -23,7 +23,7 @@ export const ListPageSearchInput = memo((props: ListPageSearchInputProps) => {
         >
             <input
                 type="text"
-                className="input input-bordered input-sm w-full pr-[40px]"
+                className="input input-bordered w-full pr-[40px]"
                 placeholder={placeholder}
                 defaultValue={val}
                 onChange={(e) => {
