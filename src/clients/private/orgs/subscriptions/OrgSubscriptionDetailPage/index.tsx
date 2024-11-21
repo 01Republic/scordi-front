@@ -20,24 +20,7 @@ import {SubscriptionPaymentTab} from '^clients/private/orgs/subscriptions/OrgSub
 import {SubscriptionMemberTab} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/tabs/SubscriptionMemberTab';
 
 export const OrgSubscriptionDetailPage = memo(() => {
-    const orgId = useRouterIdParamState('id', orgIdParamState);
-    const subscriptionId = useRouterIdParamState('subscriptionId', subscriptionIdParamState);
     const [activeTabIndex, setActiveTabIndex] = useState(0);
-
-    const {
-        search,
-        reset,
-        result,
-        isEmptyResult,
-        isNotLoaded,
-        isLoading,
-        query,
-        movePage,
-        changePageSize,
-        orderBy,
-        reload,
-    } = useCreditCardListForListPage();
-    const [isCardAutoCreateModalOpen, setIsCardAutoCreateModalOpen] = useRecoilState(isCardAutoCreateModalAtom);
 
     return (
         <ShowPage breadcrumb={['구독', '구독 리스트', {text: 'Notion', active: true}]}>

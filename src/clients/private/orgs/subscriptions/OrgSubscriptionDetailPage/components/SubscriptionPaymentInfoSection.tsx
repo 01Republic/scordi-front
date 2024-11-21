@@ -5,10 +5,7 @@ import {useForm} from 'react-hook-form';
 import Datepicker from 'react-tailwindcss-datepicker';
 import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
-import {
-    PayingType,
-    PayingTypeTag,
-} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
+import {PayingTypeTag} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
 import {PricingModelOptions} from '^models/Subscription/types/PricingModelOptions';
 
 type updateSubscriptionBasicInfo = {

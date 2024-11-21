@@ -1,4 +1,3 @@
-import {FaRegCreditCard} from 'react-icons/fa6';
 import React, {memo} from 'react';
 
 type StatusCardProps = {

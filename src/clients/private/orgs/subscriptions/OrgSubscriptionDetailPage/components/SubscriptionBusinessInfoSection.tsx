@@ -1,5 +1,4 @@
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
-import {SelectTeam} from '^clients/private/orgs/team/team-members/OrgTeamMemberNewPage/SelectTeam';
 import React, {memo, useState} from 'react';
 import {useForm} from 'react-hook-form';
 
