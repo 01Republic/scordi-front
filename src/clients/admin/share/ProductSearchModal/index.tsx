@@ -34,7 +34,6 @@ export const ProductSearchModal = memo((props: ProductSearchModalProps) => {
         setIsLoading(true);
         productApi
             .index({
-                isLive: true,
                 itemsPerPage: 0,
                 order: {id: 'DESC'},
                 keyword,
