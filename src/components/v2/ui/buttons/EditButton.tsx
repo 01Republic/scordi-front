@@ -1,10 +1,10 @@
-import {DefaultButtonProps} from '^components/v2/ui/buttons/types';
-import Link from 'next/link';
 import React, {Fragment} from 'react';
+import Link from 'next/link';
 import {Icon} from '^components/Icon';
 import {IoPencil} from '@react-icons/all-files/io5/IoPencil';
 import {FaPen} from '@react-icons/all-files/fa/FaPen';
 import {FakeLink} from '^components/v2/ui/buttons/FackLink';
+import {DefaultButtonProps} from '^components/v2/ui/buttons/types';
 
 export const EditButton = (props: Omit<DefaultButtonProps, 'color' | 'outline'>) => {
     const {href, target, onClick, className = '', active = false, disabled = false, size} = props;

@@ -1,11 +1,11 @@
 import React, {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
-import Link from 'next/link';
 import {useCurrentUser} from '^models/User/hook';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {invitedOrgIdAtom} from '^v3/V3OrgJoin/atom';
 import {LandingPageLayout} from '^clients/public/home/LandingPages/LandingPageLayout';
+import {LinkTo} from '^components/util/LinkTo';
 import {CheckCircle} from '^components/react-icons/check-circle';
 import {CgSpinner} from 'react-icons/cg';
 
@@ -33,7 +33,7 @@ export const WelcomePage2 = memo(() => {
                         지금 바로 SaaS 구독을 관리해보세요!
                     </p>
 
-                    <Link href={href}>
+                    <LinkTo href={href}>
                         <button
                             onClick={() => setIsClicked(true)}
                             disabled={isClicked}
@@ -41,7 +41,7 @@ export const WelcomePage2 = memo(() => {
                         >
                             {isClicked ? <CgSpinner size={28} className="animate-spin" /> : <>확인</>}
                         </button>
-                    </Link>
+                    </LinkTo>
                 </div>
             </div>
 

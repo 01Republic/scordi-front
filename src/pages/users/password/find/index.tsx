@@ -1,6 +1,6 @@
-import Link from 'next/link';
 import React from 'react';
 import {TextInput} from '^components/TextInput';
+import {LinkTo} from '^components/util/LinkTo';
 import {UserLoginPageRoute} from '^pages/users/login';
 
 const FindPassword = () => {
@@ -15,14 +15,14 @@ const FindPassword = () => {
                     </p>
                 </div>
 
-                <Link href={'/users/password/find/success'}>
+                <LinkTo href="/users/password/find/success">
                     <button className="btn btn-primary btn-block">이메일 발송</button>
-                </Link>
-                <Link href={UserLoginPageRoute.path()}>
+                </LinkTo>
+                <LinkTo href={UserLoginPageRoute.path()}>
                     <button className="text-sm" type="button">
                         돌아가기
                     </button>
-                </Link>
+                </LinkTo>
             </form>
         </div>
     );

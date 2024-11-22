@@ -2,7 +2,6 @@ import {OrganizationDto} from '^models/Organization/type';
 import {PreLoader} from '^components/PreLoader';
 import React, {useEffect} from 'react';
 import {useRouter} from 'next/router';
-import Link from 'next/link';
 import {Icon} from '^components/Icon';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {UserSettingsPageRoute} from '^pages/users/settings';

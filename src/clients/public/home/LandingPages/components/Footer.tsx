@@ -1,6 +1,5 @@
 import React, {memo, useEffect} from 'react';
 import {useTranslation} from 'next-i18next';
-import Link from 'next/link';
 import {Img} from '^components/ui/Img';
 import {Channels} from '^clients/public/home/LandingPages/components/Footer/Channels';
 import {FooterBottom} from '^clients/public/home/LandingPages/components/Footer/FooterBottom';
@@ -10,6 +9,7 @@ import ScordiLogoDeprecated from '^public/logo-transparent.png';
 import {TermLinkItem} from '^clients/public/home/LandingPages/components/Footer/ui/TermLinkItem';
 import {New_SaaS_Request_Form_Url} from '^config/constants';
 import {useMeasuredUserId} from '^components/ExternalCDNScripts/measured';
+import {LinkTo} from '^components/util/LinkTo';
 
 export const BetaServiceFooter2 = memo(() => {
     return (
@@ -66,15 +66,13 @@ export const BetaServiceFooter = memo(() => {
 
                             <div className="mb-8 sm:mb-0">
                                 <p className="text-12 mb-0.5">Backed by:</p>
-                                <Link href="https://www.mashupventures.co/">
-                                    <a target="_blank">
                                         <Img
                                             src={MashupVenturesLogo}
                                             alt="Backed by Mashup-Ventures"
                                             className="w-[150px]"
                                         />
-                                    </a>
-                                </Link>
+                                <LinkTo href="https://www.mashupventures.co/" target="_blank">
+                                </LinkTo>
                             </div>
                         </div>
 

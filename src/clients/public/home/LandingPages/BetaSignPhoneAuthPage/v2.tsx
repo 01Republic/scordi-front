@@ -18,8 +18,6 @@ import {useSocialLoginV2} from '^models/User/hook';
 import {UserGoogleSocialSignUpRequestDtoV2} from '^models/User/types';
 import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';
 import {SignWelcomePageRoute} from '^pages/sign/welcome';
-import Link from 'next/link';
-import {useAlert} from '^hooks/useAlert';
 
 export const BetaSignPhoneAuthPage2 = memo(() => {
     const router = useRouter();

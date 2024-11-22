@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import React from 'react';
+import {LinkTo} from '^components/util/LinkTo';
 import {TextInput} from '^components/TextInput';
 
 const ResetPassword = () => {
@@ -11,9 +11,9 @@ const ResetPassword = () => {
 
                 <TextInput label="새 비밀번호 확인" placeholder="새 비밀번호를 재입력해주세요." required />
                 <div className="pt-5">
-                    <Link href={'/users/password/reset/success'}>
+                    <LinkTo href={'/users/password/reset/success'}>
                         <button className="btn btn-primary btn-block">비밀번호 재설장하기</button>
-                    </Link>
+                    </LinkTo>
                 </div>
             </form>
         </div>
