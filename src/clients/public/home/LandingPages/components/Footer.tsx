@@ -1,6 +1,5 @@
 import React, {memo, useEffect} from 'react';
 import {useTranslation} from 'next-i18next';
-import {Img} from '^components/ui/Img';
 import {Channels} from '^clients/public/home/LandingPages/components/Footer/Channels';
 import {FooterBottom} from '^clients/public/home/LandingPages/components/Footer/FooterBottom';
 import CompanyLogo from '^public/images/logo/scordi/01republic/png/long-black.png';
@@ -9,13 +8,14 @@ import ScordiLogoDeprecated from '^public/logo-transparent.png';
 import {TermLinkItem} from '^clients/public/home/LandingPages/components/Footer/ui/TermLinkItem';
 import {New_SaaS_Request_Form_Url} from '^config/constants';
 import {useMeasuredUserId} from '^components/ExternalCDNScripts/measured';
+import {NextImage} from '^components/NextImage';
 import {LinkTo} from '^components/util/LinkTo';
 
 export const BetaServiceFooter2 = memo(() => {
     return (
         <footer className="footer p-10 text-neutral-content">
             <div>
-                <Img
+                <NextImage
                     src={ScordiLogoDeprecated}
                     alt="Scordi logo"
                     width={50}
@@ -49,7 +49,12 @@ export const BetaServiceFooter = memo(() => {
                     <div className="md:flex w-full">
                         <div className="mr-auto">
                             <div className="mb-4">
-                                <Img src={CompanyLogo} alt="01Republic, Inc." className="w-[150px]" loading="eager" />
+                                <NextImage
+                                    src={CompanyLogo}
+                                    alt="01Republic, Inc."
+                                    className="w-[150px]"
+                                    loading="eager"
+                                />
                             </div>
 
                             <address className="mb-4" style={{fontStyle: 'normal'}}>
@@ -66,12 +71,12 @@ export const BetaServiceFooter = memo(() => {
 
                             <div className="mb-8 sm:mb-0">
                                 <p className="text-12 mb-0.5">Backed by:</p>
-                                        <Img
-                                            src={MashupVenturesLogo}
-                                            alt="Backed by Mashup-Ventures"
-                                            className="w-[150px]"
-                                        />
                                 <LinkTo href="https://www.mashupventures.co/" target="_blank">
+                                    <NextImage
+                                        src={MashupVenturesLogo}
+                                        alt="Backed by Mashup-Ventures"
+                                        className="w-[150px]"
+                                    />
                                 </LinkTo>
                             </div>
                         </div>

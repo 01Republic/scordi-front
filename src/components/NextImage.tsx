@@ -1,24 +1,30 @@
-import {memo} from 'react';
-import Image from 'next/image';
-import {ImageProps} from 'next/dist/client/image';
-import {className} from 'postcss-selector-parser';
+import Image, {ImageProps} from 'next/image';
 
 interface NextImageProps extends ImageProps {
     className: string;
+    fill?: ImageProps['fill'];
+    sizes?: ImageProps['sizes'];
 }
 
 export const NextImage = (props: NextImageProps) => {
-    const {src, alt, layout = 'fill', className, ...res} = props;
+    const {src, alt, className, sizes, style = {}, ...res} = props;
+    const fill = props.fill ?? true;
+
+    if (fill) {
+        style.objectFit ??= 'cover';
+    }
 
     return (
         <Image
             src={src}
             alt={alt}
-            layout={layout}
             loading="lazy"
             draggable={false}
             {...res}
+            fill={fill}
+            sizes={fill ? sizes || '100%' : sizes}
             className={`${className}`}
+            style={style}
         />
     );
 };

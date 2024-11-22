@@ -6,7 +6,7 @@ import {Icon} from '^components/Icon';
 import {OrgHomeRoute} from '^pages/orgs/[id]/home';
 import {UserSettingsPageRoute} from '^pages/users/settings';
 import {AppSearchPageRoute} from '^pages/apps/search';
-import Image from 'next/image';
+import {NextImage} from '^components/NextImage';
 import {useCurrentUser} from '^models/User/hook';
 import {useRecoilState} from 'recoil';
 import {currentUserAtom} from '^models/User/atom';
@@ -64,7 +64,7 @@ const MobileTopBar = (props: MobileTopBarProps) => {
             <div className={'flex'}>
                 <a href={OrgHomeRoute.path(props.org.id)} className={'flex'}>
                     {/*<Icon.Star />*/}
-                    <Image
+                    <NextImage
                         src="/logo-transparent.png"
                         alt="Scordi logo"
                         width={24}

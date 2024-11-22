@@ -5,6 +5,7 @@ import {toast} from 'react-toastify';
 import {ResponsiveFigureImg} from '^components/ResponsiveFigureImg';
 import {useProductPostContent} from '^models/Product/hook';
 import {LinkTo} from '^components/util/LinkTo';
+import {NextImage} from '^components/NextImage';
 
 export const ProductListContentPanelItem = (props: {product: ProductDto}) => {
     const {product} = props;
@@ -36,14 +37,7 @@ export const ProductListContentPanelItem = (props: {product: ProductDto}) => {
                             className="rounded-full ring-1 ring-gray-300 ring-offset-base-100 ring-offset-2 bg-white relative"
                             style={{width: 'calc(3.5rem - 24px)'}}
                         >
-                            <Image
-                                className="absolute"
-                                src={logoImgUrl}
-                                alt={`logo image of ${title}`}
-                                loading="lazy"
-                                draggable={false}
-                                layout="fill"
-                            />
+                            <NextImage className="absolute" src={logoImgUrl} alt={`logo image of ${title}`} fill />
                         </div>
                     </div>
 
