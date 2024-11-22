@@ -18,9 +18,19 @@ export const UserWelcomePage = memo(() => {
                     가입해 주셔서 감사합니다. <br />
                     스코디와 함께 똑똑한 비용관리를 시작해보세요!
                 </p>
-                <Image src={'/images/welcome/solar system gloss.png'} width={184} height={184} />
+                <Image
+                    src={'/images/welcome/solar system gloss.png'}
+                    alt="first image of welcome"
+                    width={184}
+                    height={184}
+                />
                 <div className={'flex justify-end mb-4'}>
-                    <Image src={'/images/welcome/Astronaut3 gloss.png'} width={229} height={241} />
+                    <Image
+                        src={'/images/welcome/Astronaut3 gloss.png'}
+                        alt="second image of welcome"
+                        width={229}
+                        height={241}
+                    />
                 </div>
                 <DefaultButton text={'비용관리 시작하기'} onClick={() => router.push(OrgSearchRoute.path())} />
             </div>
