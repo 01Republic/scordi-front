@@ -23,15 +23,6 @@ const nextConfig = {
         ignoreDuringBuilds: true,
     },
     images: {
-        domains: [
-            'localhost',
-            'picsum.photos',
-            'assets.stickpng.com',
-            'w7.pngwing.com',
-            'toppng.com',
-            'upload.wikimedia.org',
-            'via.placeholder.com',
-        ],
         remotePatterns: [
             {
                 protocol: 'https',

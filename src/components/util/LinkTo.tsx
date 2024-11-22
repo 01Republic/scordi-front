@@ -1,9 +1,9 @@
 import {AnchorHTMLAttributes, HTMLAttributeAnchorTarget, memo, MouseEventHandler, useEffect, useState} from 'react';
 import Link from 'next/link';
 import {LinkProps} from 'next/dist/client/link';
+import {useRouter} from 'next/router';
 import {ReactNodeLike} from 'prop-types';
 import {WithChildren} from '^types/global.type';
-import {useRouter} from 'next/router';
 import {onlyPath} from '^utils/get-query-params';
 
 export interface LinkToProps extends Partial<LinkProps> {
@@ -71,17 +71,18 @@ export const LinkTo = memo((props: LinkToProps & WithChildren) => {
     }
 
     return (
-        <Link href={disabled ? '' : href} rel={rel} {...res}>
-            <a
-                className={`${className}`}
-                target={target}
-                onClick={() => {
-                    if (href == onlyPath(router)) return;
-                    setIsClicked(true);
-                }}
-            >
-                {children || text}
-            </a>
+        <Link
+            href={disabled ? '' : href}
+            target={target}
+            className={`${className}`}
+            rel={rel}
+            {...res}
+            onClick={() => {
+                if (href == onlyPath(router)) return;
+                setIsClicked(true);
+            }}
+        >
+            {children || text}
         </Link>
     );
 });

@@ -1,6 +1,6 @@
-import Link from 'next/link';
 import React from 'react';
 import {UserLoginPageRoute} from '^pages/users/login';
+import {LinkTo} from '^components/util/LinkTo';
 
 const EmailSentPage = () => {
     return (
@@ -21,9 +21,9 @@ const EmailSentPage = () => {
                 >
                     다시 보내기
                 </button>
-                <Link href={UserLoginPageRoute.path()}>
+                <LinkTo href={UserLoginPageRoute.path()}>
                     <button className="text-sm">홈으로 가기</button>
-                </Link>
+                </LinkTo>
             </div>
         </div>
     );

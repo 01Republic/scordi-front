@@ -1,6 +1,6 @@
-import Link from 'next/link';
 import React from 'react';
 import {UserLoginPageRoute} from '^pages/users/login';
+import {LinkTo} from '^components/util/LinkTo';
 
 const ResetPasswordSuccess = () => {
     return (
@@ -10,9 +10,9 @@ const ResetPasswordSuccess = () => {
                 비밀번호가 재설정되었습니다. 변경된 비밀번호로 다시 로그인 해주세요.
             </p>
             <div className="pt-5">
-                <Link href={UserLoginPageRoute.path()}>
+                <LinkTo href={UserLoginPageRoute.path()}>
                     <button className="btn btn-primary btn-block">로그인하기</button>
-                </Link>
+                </LinkTo>
             </div>
         </div>
     );

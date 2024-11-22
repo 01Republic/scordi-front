@@ -1,6 +1,5 @@
 import {memo} from 'react';
-import Image from 'next/image';
-import {ImageProps} from 'next/dist/client/image';
+import Image, {ImageProps} from 'next/image';
 
 interface ImgProps extends ImageProps {
     // 이미지가 원격지 주소를 사용하는 경우 등,

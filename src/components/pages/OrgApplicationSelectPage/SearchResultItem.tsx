@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
-import {ProductDto, safeImageSrc} from '^models/Product/type';
-import {BasicButton2} from '^components/v2/ui/buttons/BasicButton2';
-import Link from 'next/link';
-import {SelectPlanPageRoute} from '^pages/orgs/[id]/apps/new/selectPlan';
 import {useRouter} from 'next/router';
+import {ProductDto, safeImageSrc} from '^models/Product/type';
+import {SelectPlanPageRoute} from '^pages/orgs/[id]/apps/new/selectPlan';
+import {LinkTo} from '^components/util/LinkTo';
+import {BasicButton2} from '^components/v2/ui/buttons/BasicButton2';
 
 interface SearchResultItemProps {
     data: ProductDto;
@@ -16,7 +16,7 @@ export const SearchResultItem = memo((props: SearchResultItemProps) => {
 
     return (
         <div className="bs-col-12">
-            <Link href={SelectPlanPageRoute.path(organizationId, proto.id)}>
+            <LinkTo href={SelectPlanPageRoute.path(organizationId, proto.id)}>
                 <div className="btn btn-block btn-lg flex justify-items-stretch px-3 py-3 mb-3 bg-[#F9FAFB] shadow-sm rounded-xl cursor-pointer">
                     <div className="flex items-center px-2">
                         <img
@@ -36,7 +36,7 @@ export const SearchResultItem = memo((props: SearchResultItemProps) => {
                         </div>
                     </div>
                 </div>
-            </Link>
+            </LinkTo>
         </div>
     );
 });
