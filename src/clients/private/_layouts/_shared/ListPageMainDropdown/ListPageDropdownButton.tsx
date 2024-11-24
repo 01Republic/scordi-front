@@ -9,7 +9,7 @@ export const ListPageDropdownButton = memo((props: ListPageDropdownButtonProps) 
     const {text = '추가하기'} = props;
 
     return (
-        <button tabIndex={0} className="btn btn-scordi gap-2 mb-1">
+        <button tabIndex={0} className="btn btn-scordi gap-2 mb-1 no-animation btn-animation">
             <FaPlus />
             <span className="mr-1.5">{text}</span>
             <FaCaretDown />
