@@ -19,9 +19,7 @@ export const ActionColumn = memo((props: ColumnProps) => {
             productApi
                 .destroy(product.id)
                 .then(() => reload())
-                .catch((err) => {
-                    alert.error('삭제하지 못했어요', err.response.data.message);
-                });
+                .catch((err) => alert.error('삭제하지 못했어요', err.response.data.message));
         }
     };
 
@@ -44,9 +42,9 @@ export const ActionColumn = memo((props: ColumnProps) => {
                 삭제
             </button>
 
-            <button className="btn btn-error btn-sm" onClick={onBlockButtonClick}>
-                차단
-            </button>
+            {/*<button className="btn btn-error btn-sm" onClick={onBlockButtonClick}>*/}
+            {/*    차단*/}
+            {/*</button>*/}
         </div>
     );
 });
