@@ -60,6 +60,16 @@ export const addableSubscriptionsOfInvoiceAccountAtom = pagedResourceAtom<Subscr
     key: 'addableSubscriptionsOfInvoiceAccountAtom',
 });
 
+export const currentSubscriptionIsLoadingAtom = atom({
+    key: 'currentSubscription/IsLoading/Atom',
+    default: false,
+});
+
+export const currentSubscriptionAtom = atom<SubscriptionDto | null>({
+    key: 'currentSubscription/Resource/Atom',
+    default: null,
+});
+
 /**
  * 이 아래는 단일 구독에 관한 쿼리입니다.
  * 구독 리스트에 관한 쿼리에서 selector 는 전부 제거했지만
