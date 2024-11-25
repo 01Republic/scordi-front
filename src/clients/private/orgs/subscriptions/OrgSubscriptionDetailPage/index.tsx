@@ -1,23 +1,13 @@
 import React, {memo, useState} from 'react';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
-import {orgIdParamState, subscriptionIdParamState, useRouterIdParamState} from '^atoms/common';
 import {Avatar} from '^components/Avatar';
 import {FaRegCreditCard} from 'react-icons/fa6';
 import {TeamTag} from '^models/Team/components/TeamTag';
-import {StatusCard} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/StatusCard';
-import {SubscriptionActionPanel} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/SubscriptionActionPanel';
-import {CreditCardScopeHandler} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardListPage/CreditCardScopeHandler';
-import {AddCreditCardDropdown} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardListPage/AddCreditCardDropdown';
-import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {CreditCardTableHeader} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardListPage/CreditCardTableHeader';
-import {CreditCardTableRow} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardListPage/CreditCardTableRow';
-import {useCreditCardListForListPage} from '^models/CreditCard/hook';
-import {useRecoilState} from 'recoil';
-import {isCardAutoCreateModalAtom} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardListPage/atom';
-import {SubscriptionInfoTab} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/tabs/SubscriptionInfoTab';
-import {SubscriptionPaymentTab} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/tabs/SubscriptionPaymentTab';
-import {SubscriptionMemberTab} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/tabs/SubscriptionMemberTab';
+import {SubscriptionActionPanel} from './components/SubscriptionActionPanel';
+import {SubscriptionInfoTab} from './tabs/SubscriptionInfoTab';
+import {SubscriptionPaymentTab} from './tabs/SubscriptionPaymentTab';
+import {SubscriptionMemberTab} from './tabs/SubscriptionMemberTab';
 
 export const OrgSubscriptionDetailPage = memo(() => {
     const [activeTabIndex, setActiveTabIndex] = useState(0);
