@@ -4,13 +4,15 @@ import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {orgIdParamState, subscriptionIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {OrgSubscriptionListPage} from '^clients/private/orgs/subscriptions/OrgSubscriptionListPage';
 import {OrgSubscriptionDetailPage} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage';
+import {SubscriptionDto} from '^models/Subscription/types';
 
 export const OrgSubscriptionDetailPageRoute = pathRoute({
     pathname: '/orgs/[id]/subscriptions/[subscriptionId]',
     path: (orgId: number, subscriptionId: number) =>
         pathReplace(OrgSubscriptionDetailPageRoute.pathname, {id: orgId, subscriptionId: subscriptionId}),
+    resourcePath: (resource: SubscriptionDto) =>
+        OrgSubscriptionDetailPageRoute.path(resource.organizationId, resource.id),
 });
 
 export const getStaticPaths = async () => ({

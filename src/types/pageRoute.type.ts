@@ -9,7 +9,7 @@
 import {serviceHost} from '^config/environments';
 import {NextRouter} from 'next/router';
 
-export const pathRoute = <T extends Function>(route: {pathname: string; path: T}) => {
+export const pathRoute = <T extends Function, ETC>(route: {pathname: string; path: T} & ETC) => {
     const origin = serviceHost;
 
     const url = ((...args: any[]) => `${origin}${route.path(...args)}`) as unknown as T;

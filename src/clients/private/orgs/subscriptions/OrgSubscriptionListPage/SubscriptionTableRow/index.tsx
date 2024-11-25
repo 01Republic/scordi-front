@@ -24,7 +24,7 @@ interface SubscriptionTableRowProps {
 export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
     const {subscription, onDelete, reload} = props;
 
-    const showPagePath = OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id);
+    const showPagePath = OrgSubscriptionDetailPageRoute.resourcePath(subscription);
 
     return (
         <tr>
