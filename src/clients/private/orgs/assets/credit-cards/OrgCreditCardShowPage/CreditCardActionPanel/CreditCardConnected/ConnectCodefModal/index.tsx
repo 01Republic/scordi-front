@@ -26,7 +26,7 @@ export const ConnectCodefModal = memo((props: ConnectCodefModalProps) => {
     const [isSelectCompanyModalOpened, setIsSelectCompanyModalOpened] = useState(false);
     const [isSelectCardModalOpened, setIsSelectCardModalOpened] = useState(false);
 
-    const closeModals = () => {
+    const close = () => {
         onClose();
     };
 
@@ -49,7 +49,7 @@ export const ConnectCodefModal = memo((props: ConnectCodefModalProps) => {
         <>
             <CardCompanySelectModal
                 isOpened={isSelectCompanyModalOpened}
-                onClose={closeModals}
+                onClose={close}
                 title={
                     <>
                         어느 카드사의 <br /> 카드로 설정할까요?
@@ -66,7 +66,7 @@ export const ConnectCodefModal = memo((props: ConnectCodefModalProps) => {
             {cardCompany && (
                 <ConnectCodefAccountModal
                     isOpened={isSelectCardModalOpened}
-                    onClose={closeModals}
+                    onClose={close}
                     cardCompany={cardCompany}
                     onSubmit={onSubmit}
                 />

@@ -11,6 +11,7 @@ import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {CodefCardCompanySelectStep} from './CodefCardCompanySelectStep';
 import {CodefAccountConnectStep} from './CodefAccountConnectStep';
 import {ConnectableCardListStep} from './ConnectableCardListStep';
+import {FadeUp} from '^components/FadeUp';
 
 interface CardAutoCreateModalProps {
     isOpened: boolean;
@@ -31,6 +32,12 @@ export const CardAutoCreateModal = memo((props: CardAutoCreateModalProps) => {
     const [step, setStep] = useState(Step.companySelect);
     const [cardCompany, setCardCompany] = useState<CardAccountsStaticData>();
     const [codefAccount, setCodefAccount] = useState<CodefAccountDto>();
+
+    const close = () => {
+        setCompany(undefined);
+        setCodefAccount(undefined);
+        onClose();
+    };
 
     const setCompany = (cardCompanyData?: CardAccountsStaticData) => {
         setCardCompany(cardCompanyData);
@@ -57,7 +64,7 @@ export const CardAutoCreateModal = memo((props: CardAutoCreateModalProps) => {
     return (
         <SlideUpModal
             open={isOpened}
-            onClose={onClose}
+            onClose={close}
             size="md"
             minHeight="min-h-screen sm:min-h-[90%]"
             maxHeight="max-h-screen sm:max-h-[90%]"
@@ -65,22 +72,31 @@ export const CardAutoCreateModal = memo((props: CardAutoCreateModalProps) => {
         >
             <div className="absolute inset-0 p-6">
                 {step === Step.companySelect && <CodefCardCompanySelectStep onBack={onClose} setCompany={setCompany} />}
-                {step === Step.accountConnect && cardCompany && (
-                    <CodefAccountConnectStep
-                        onBack={() => setCompany(undefined)}
-                        cardCompany={cardCompany}
-                        setAccount={setAccount}
-                    />
-                )}
 
-                {step === Step.cardSelect && cardCompany && codefAccount && (
-                    <ConnectableCardListStep
-                        onBack={() => setCompany(undefined)}
-                        cardCompany={cardCompany}
-                        codefAccount={codefAccount}
-                        onSubmit={onSubmit}
-                    />
-                )}
+                <FadeUp show={cardCompany && step === Step.accountConnect} delay="deloy-[50ms]" className="h-full">
+                    {cardCompany && (
+                        <CodefAccountConnectStep
+                            onBack={() => setCompany(undefined)}
+                            cardCompany={cardCompany}
+                            setAccount={setAccount}
+                        />
+                    )}
+                </FadeUp>
+
+                <FadeUp
+                    show={cardCompany && codefAccount && step === Step.cardSelect}
+                    delay="deloy-[50ms]"
+                    className="h-full"
+                >
+                    {cardCompany && codefAccount && (
+                        <ConnectableCardListStep
+                            onBack={() => setCompany(undefined)}
+                            cardCompany={cardCompany}
+                            codefAccount={codefAccount}
+                            onSubmit={onSubmit}
+                        />
+                    )}
+                </FadeUp>
             </div>
         </SlideUpModal>
     );

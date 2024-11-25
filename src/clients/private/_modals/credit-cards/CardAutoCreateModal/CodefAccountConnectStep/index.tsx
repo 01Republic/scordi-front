@@ -48,23 +48,21 @@ export const CodefAccountConnectStep = memo((props: CodefAccountConnectStepProps
             {step === AccountConnectStep.checkLogin && (
                 <CardAccountCheckLoginStep cardCompany={cardCompany} onBack={onBack} />
             )}
-            {step === AccountConnectStep.accountForm && (
-                <FadeUp show delay="deloy-[50ms]" className="h-full">
-                    <InputCardAccountFormDataStep
-                        cardCompany={cardCompany}
-                        form={form}
-                        onBack={onBack}
-                        onSubmit={(dto) => {
-                            createAccount(orgId, cardCompany, dto, (createdAccount) => {
-                                toast.success(`${createdAccount.company}에 안전하게 연결되었어요 :)`);
-                                setAccount(createdAccount);
-                            });
-                        }}
-                        isLoading={isLoading}
-                        errorMessages={errorMessages}
-                    />
-                </FadeUp>
-            )}
+            <FadeUp show={step === AccountConnectStep.accountForm} delay="deloy-[50ms]" className="h-full">
+                <InputCardAccountFormDataStep
+                    cardCompany={cardCompany}
+                    form={form}
+                    onBack={onBack}
+                    onSubmit={(dto) => {
+                        createAccount(orgId, cardCompany, dto, (createdAccount) => {
+                            toast.success(`${createdAccount.company}에 안전하게 연결되었어요 :)`);
+                            setAccount(createdAccount);
+                        });
+                    }}
+                    isLoading={isLoading}
+                    errorMessages={errorMessages}
+                />
+            </FadeUp>
         </>
     );
 });

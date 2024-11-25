@@ -25,6 +25,11 @@ export const ConnectCodefAccountModal = memo((props: ConnectCodefAccountModalPro
     const setCodefAccountId = useSetRecoilState(codefAccountIdParamState);
     const {checkExists, form, createAccount, isLoading, errorMessages} = useCreateCodefAccount();
 
+    const close = () => {
+        setCodefAccount(undefined);
+        onClose();
+    };
+
     const setAccount = (codefAccount?: CodefAccountDto) => {
         setCodefAccount(codefAccount);
         codefAccount && setCodefAccountId(codefAccount.id);
@@ -45,7 +50,7 @@ export const ConnectCodefAccountModal = memo((props: ConnectCodefAccountModalPro
     return (
         <SlideUpModal
             open={isOpened}
-            onClose={onClose}
+            onClose={close}
             size="md"
             minHeight="min-h-screen sm:min-h-[90%]"
             maxHeight="max-h-screen sm:max-h-[90%]"
