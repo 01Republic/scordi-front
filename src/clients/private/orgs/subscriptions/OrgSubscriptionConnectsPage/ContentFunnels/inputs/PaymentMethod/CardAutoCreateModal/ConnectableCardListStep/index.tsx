@@ -9,6 +9,7 @@ import {LoadableBox} from '^components/util/loading';
 import {ConnectableCardItem} from './ConnectableCardItem';
 import {ConnectableCardListSection} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/CardAutoCreateModal/ConnectableCardListStep/ConnectableCardListSection';
 import {CreateCreditCardButton} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/CardAutoCreateModal/ConnectableCardListStep/CreateCreditCardButton';
+import {debounce} from 'lodash';
 
 interface ConnectableCardListStepProps {
     cardCompany: CardAccountsStaticData;
@@ -22,16 +23,20 @@ export const ConnectableCardListStep = memo((props: ConnectableCardListStepProps
     const {search, result, isLoading} = useNewCodefCards(codefAccountIdParamState);
     const [checkedCards, setCheckedCards] = useState<CodefCardDto[]>([]);
 
-    useEffect(() => {
+    const getCards = (accountId: number, force = false) => {
         search(
             {
-                where: {accountId: codefAccount.id, isSleep: false},
+                where: {accountId, isSleep: false},
                 sync: true,
                 itemsPerPage: 0,
             },
             false,
-            true,
+            force,
         );
+    };
+
+    useEffect(() => {
+        getCards(codefAccount.id);
     }, [codefAccount]);
 
     const notConnectedCards = result.items.filter((card) => !card.creditCardId);
