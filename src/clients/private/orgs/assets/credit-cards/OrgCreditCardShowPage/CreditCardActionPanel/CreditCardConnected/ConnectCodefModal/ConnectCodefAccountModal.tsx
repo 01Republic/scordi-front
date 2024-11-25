@@ -3,14 +3,14 @@ import {ModalProps} from '^components/modals/_shared/Modal.types';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {useCreateCodefAccount} from '^models/CodefAccount/hooks/useCreateCodefAccount';
-import {InputCardAccountFormDataStep} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/CardAutoCreateModal/InputCardAccountFormDataStep';
 import {toast} from 'react-hot-toast';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {codefAccountIdParamState, orgIdParamState} from '^atoms/common';
-import {ConnectableCardSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/CardAutoCreateModal/ConnectableCardListStep';
-import {FadeUp} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/_common/FadeUp';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
+import {FadeUp} from '^components/FadeUp';
+import {ConnectableCardSelect} from '^clients/private/_modals/credit-cards/CardAutoCreateModal/ConnectableCardListStep';
+import {InputCardAccountFormDataStep} from '^clients/private/_modals/credit-cards/CardAutoCreateModal/CodefAccountConnectStep/InputCardAccountFormDataStep';
 
 interface ConnectCodefAccountModalProps extends ModalProps {
     cardCompany: CardAccountsStaticData;

@@ -8,12 +8,12 @@ import {errorNotify} from '^utils/toast-notify';
 import {orgIdParamState} from '^atoms/common';
 import {createCreditCardDtoAtom} from '^v3/share/modals/NewCardModal/atom';
 import {CardAccountsStaticData, cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {CardCompanyItem} from '^models/CodefAccount/components';
 import {UnSignedCreditCardFormData} from '^models/CreditCard/type';
 import {creditCardApi} from '^models/CreditCard/api';
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {FadeUp} from '../../../_common/FadeUp';
-import {CardCompanyItem} from '../_common/CardCompanyItem';
+import {FadeUp} from '^components/FadeUp';
 import {InputCardFormDataStep} from './InputCardFormDataStep';
 import {CardCreatingStep} from './CardCreatingStep';
 

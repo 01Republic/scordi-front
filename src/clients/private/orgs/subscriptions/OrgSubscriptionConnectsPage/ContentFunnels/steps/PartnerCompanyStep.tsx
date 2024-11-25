@@ -1,9 +1,9 @@
 import React, {memo, useState} from 'react';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import {ButtonGroupRadio} from '^components/util/form-control/inputs';
+import {FadeUp} from '^components/FadeUp';
 import {createSubscriptionFormData, currentStepAtom} from '../atom';
 import {StepLayout} from '../_common/StepLayout';
-import {FadeUp} from '../_common/FadeUp';
 import {InputSection} from '../inputs/InputSection';
 import {PartnerCompanySelect} from '../inputs/PartnerCompanySelect';
 import {Steps} from '../steps/steps.enum';

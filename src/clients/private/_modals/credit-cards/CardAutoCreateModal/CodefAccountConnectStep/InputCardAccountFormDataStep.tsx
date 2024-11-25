@@ -21,7 +21,7 @@ export const InputCardAccountFormDataStep = memo((props: InputCardAccountFormDat
     // Ref: NewCodefCardAccountPage.tsx
 
     return (
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col items-stretch">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col items-stretch h-full">
             <div className="mb-4">
                 <div className="mb-4">
                     <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onBack} />
@@ -74,12 +74,12 @@ export const InputCardAccountFormDataStep = memo((props: InputCardAccountFormDat
                 </div>
             </div>
 
-            <div className="py-4">
+            <div className="py-4 mt-auto -mb-4">
                 <button
                     type="submit"
                     className={`btn btn-block btn-scordi ${
                         isLoading ? 'btn-disabled !bg-scordi !text-white opacity-30' : ''
-                    }`}
+                    } no-animation btn-animation`}
                 >
                     불러오기
                 </button>
