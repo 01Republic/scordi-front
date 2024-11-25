@@ -43,6 +43,16 @@ export class ScordiPlanDto {
         return diff / this.regularPrice;
     }
 
+    // 부가세
+    get vat() {
+        return this.price * 0.1;
+    }
+
+    // 최종 결제금액
+    get finalPrice() {
+        return Math.floor(this.price + this.vat);
+    }
+
     getStepText(option: StepTextOption = {}) {
         const {noStepText = '무관', format = '%n%u'} = option;
 

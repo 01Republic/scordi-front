@@ -69,4 +69,10 @@ export const dPayScordiPaymentsApi = {
         const url = `/d-pay/payments`;
         return api.get(url, {params}).then(paginatedDtoOf(ScordiPaymentDto));
     },
+
+    // 비회원 결제 (빌링키 발급 포함)
+    createWithCustomerKey(data: CreateScordiPaymentWithCustomerKeyRequestDto) {
+        const url = `/d-pay/payments/with-customer-key`;
+        return api.post(url, data).then(oneDtoOf(ScordiPaymentDto));
+    },
 };

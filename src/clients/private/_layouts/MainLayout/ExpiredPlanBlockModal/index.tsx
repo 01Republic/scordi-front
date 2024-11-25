@@ -1,17 +1,17 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {toast} from 'react-hot-toast';
-import {yyyy_mm_dd} from '^utils/dateTime';
 import {OrganizationDto} from '^models/Organization/type';
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {SelectPlanModal} from '^clients/private/_modals/SelectPlanModal';
 import {LinkTo} from '^components/util/LinkTo';
-import {channelTalkEnv} from '^config/environments';
+import {ChannelTalk_Url} from '^config/constants';
 
 interface ExpiredPlanBlockModalProps {
     currentOrg: OrganizationDto;
 }
 
+// 현재 플랜 만료 모달
 export const ExpiredPlanBlockModal = memo((props: ExpiredPlanBlockModalProps) => {
     const {currentOrg} = props;
     const router = useRouter();
@@ -65,7 +65,7 @@ export const ExpiredPlanBlockModal = memo((props: ExpiredPlanBlockModalProps) =>
                             구독하기
                         </button>
                         <LinkTo
-                            href={channelTalkEnv.url}
+                            href={ChannelTalk_Url}
                             target="_blank"
                             className="btn btn-block btn-lg"
                             displayLoading={false}

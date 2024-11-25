@@ -1,10 +1,10 @@
 import React, {memo} from 'react';
 import {SubscriptionDto} from 'src/models/Subscription/types';
-import Link from 'next/link';
 import {OrgAppShowPageRoute} from '^pages/orgs/[id]/apps/[appId]';
 import {t_BillingCycleTerm} from '^models/Subscription/types/billingCycleType';
 import {safeImageSrc} from '^models/Product/type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {LinkTo} from '^components/util/LinkTo';
 
 export const ApplicationListItemMobile = memo((props: {subscription: SubscriptionDto}) => {
     const {subscription} = props;
@@ -13,7 +13,7 @@ export const ApplicationListItemMobile = memo((props: {subscription: Subscriptio
 
     return (
         <div className="bs-col-12">
-            <Link href={OrgAppShowPageRoute.path(organizationId, subscription.id)}>
+            <LinkTo href={OrgAppShowPageRoute.path(organizationId, subscription.id)}>
                 <div
                     id={`ApplicationListItem-${subscription.id}`}
                     className="flex justify-items-stretch px-3 py-3 mb-3 bg-[#F9FAFB] shadow-sm rounded-xl cursor-pointer"
@@ -48,7 +48,7 @@ export const ApplicationListItemMobile = memo((props: {subscription: Subscriptio
                         </div>
                     </div>
                 </div>
-            </Link>
+            </LinkTo>
         </div>
     );
 });

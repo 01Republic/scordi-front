@@ -54,7 +54,10 @@ export const TeamInvoicesListPage = memo(function (props: OrgTeamDetailPageTabCo
                 </div>
                 <div className={'flex space-x-4'}>
                     <ListPageSearchInput onSearch={onSearch} placeholder={'검색어를 입력해주세요'} />
-                    <button className="btn btn-square btn-scordi mb-1" onClick={() => setIsOpened(true)}>
+                    <button
+                        className="btn btn-square btn-scordi animate-none btn-animation"
+                        onClick={() => setIsOpened(true)}
+                    >
                         <FaPlus fontSize={20} />
                     </button>
                 </div>

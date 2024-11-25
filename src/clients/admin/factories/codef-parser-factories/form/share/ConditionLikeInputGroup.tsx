@@ -61,7 +61,10 @@ export const ConditionLikeInputGroup = memo((props: ConditionLikeInputGroupProps
                 <TextInput
                     required={true}
                     defaultValue={value.value}
-                    onChange={(e) => value.onChange(e.target.value)}
+                    onChange={(e) => {
+                        const inputVal = e.target.value.trim().replaceAll('\b', '');
+                        value.onChange(inputVal);
+                    }}
                 />
             </div>
 

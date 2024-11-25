@@ -6,11 +6,12 @@ import {useRouter} from 'next/router';
 import {ProductDto} from '^models/Product/type';
 import {productApi} from '^models/Product/api';
 import {ContentTabNav} from '^layouts/ContentLayout';
+import {useCurrentUser} from '^models/User/hook';
+import {AdminPageContainer} from '^admin/layouts';
 import {EditProductDetail} from './MenuContents/EditProductDetail';
 import {EditProductPost} from './MenuContents/EditProductPost';
-import {useCurrentUser} from '^models/User/hook';
-import {MergeProductMenu} from '^admin/products/AdminProductDetailpage/MenuContents/MergeProductMenu';
-import {AdminPageContainer} from '^admin/layouts';
+import {ProductSubscriptionList} from './MenuContents/ProductSubscriptionList';
+import {MergeProductMenu} from './MenuContents/MergeProductMenu';
 
 export const adminProductDetail = atom<ProductDto | null>({
     key: 'adminProductDetail',
@@ -37,10 +38,10 @@ export const AdminProductDetailPage = memo(() => {
     const tabIndex = useRecoilValue(navTabIndex);
     const tabs = [
         {label: '정보', Component: EditProductDetail},
-        {label: '소개', Component: EditProductPost},
-        {label: '구독 관리', Component: Fragment},
+        // {label: '소개', Component: EditProductPost},
+        {label: '구독 관리', Component: ProductSubscriptionList},
         {label: '크롤링 이력 조회', Component: Fragment},
-        {label: '생성 관리', Component: MergeProductMenu},
+        // {label: '생성 관리', Component: MergeProductMenu},
         //
     ];
     const TabContentComponent = tabs[tabIndex]?.Component || Fragment;

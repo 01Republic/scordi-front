@@ -30,9 +30,9 @@ export const AdminSideBar = memo((props: AdminSideBarProps) => {
                 <li>
                     <LinkTo text="회원관리" href={AdminUsersPageRoute.path()} />
                 </li>
-                <li>
-                    <LinkTo text="블로그 관리" href={AdminPostsPageRoute.path()} />
-                </li>
+                {/*<li>*/}
+                {/*    <LinkTo text="블로그 관리" href={AdminPostsPageRoute.path()} />*/}
+                {/*</li>*/}
                 <li>
                     <LinkTo text="앱 관리" href={AdminProductsPageRoute.path()} />
                 </li>

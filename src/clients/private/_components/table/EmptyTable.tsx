@@ -1,7 +1,6 @@
-import React, {memo, ReactNode} from 'react';
-import {ReactComponentLike} from 'prop-types';
+import React, {memo} from 'react';
 import {HiMiniInbox} from 'react-icons/hi2';
-import {GiSadCrab} from 'react-icons/gi';
+import {ReactComponentLike} from 'prop-types';
 
 interface EmptyTableProps {
     Icon?: () => JSX.Element;
@@ -35,7 +34,7 @@ export const EmptyTable = memo((props: EmptyTableProps) => {
 });
 
 const DefaultEmptyIcon = () => (
-    <div className="relative">
+    <span className="relative">
         <HiMiniInbox className="text-slate-200" fontSize={48} />
-    </div>
+    </span>
 );

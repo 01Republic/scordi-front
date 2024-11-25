@@ -7,6 +7,8 @@ import {yyyy_mm_dd} from '^utils/dateTime';
 import {confirm2} from '^components/util/dialog';
 import {scordiSubscriptionApi} from '^models/_scordi/ScordiSubscription/api';
 import {toast} from 'react-hot-toast';
+import {LinkTo} from '^components/util/LinkTo';
+import {ChannelTalk_Url} from '^config/constants';
 
 interface ScordiPlanCardButtonProps {
     plan: ScordiPlanDto;
@@ -37,7 +39,7 @@ export const ScordiPlanCardButton = memo((props: ScordiPlanCardButtonProps) => {
                             }
                         })
                     }
-                    className="btn bg-scordi-50 text-scordi w-full hover:bg-red-200 hover:text-red-600 border-none group"
+                    className="btn bg-scordi-50 text-scordi w-full no-animation btn-animation hover:bg-red-200 hover:text-red-600 border-none group"
                 >
                     <span className="block group-hover:hidden">다음플랜</span>
                     <span className="hidden group-hover:block">취소</span>
@@ -50,21 +52,29 @@ export const ScordiPlanCardButton = memo((props: ScordiPlanCardButtonProps) => {
         currentSubscription?.scordiPlanId === plan.id ||
         (currentSubscription?.scordiPlan.priority == 1 && plan.priority == 1)
     ) {
-        return <button className="btn bg-scordi-50 text-scordi w-full no-click">현재플랜</button>;
+        return (
+            <button className="btn bg-scordi-50 text-scordi w-full no-animation btn-animation no-click">
+                현재플랜
+            </button>
+        );
     }
 
     if (plan.isCustomInquired) {
         return (
-            <button className="btn btn-gray-600 w-full" onClick={() => window.open('https://scordi.channel.io/home')}>
+            <LinkTo
+                href={ChannelTalk_Url}
+                className="btn btn-gray-600 w-full no-animation btn-animation"
+                target="_blank"
+            >
                 상담받기
-            </button>
+            </LinkTo>
         );
     }
 
     if (currentSubscription) {
         if (plan.priority < currentSubscription.scordiPlan.priority) {
             return (
-                <button className="btn btn-gray w-full" onClick={onClick}>
+                <button className="btn btn-gray w-full no-animation btn-animation" onClick={onClick}>
                     변경하기
                 </button>
             );
@@ -72,7 +82,7 @@ export const ScordiPlanCardButton = memo((props: ScordiPlanCardButtonProps) => {
 
         if (plan.priority == currentSubscription.scordiPlan.priority) {
             return (
-                <button className="btn btn-scordi w-full" onClick={onClick}>
+                <button className="btn btn-scordi w-full no-animation btn-animation" onClick={onClick}>
                     변경하기
                 </button>
             );
@@ -80,7 +90,7 @@ export const ScordiPlanCardButton = memo((props: ScordiPlanCardButtonProps) => {
     }
 
     return (
-        <button className="btn btn-scordi-500 w-full" onClick={onClick}>
+        <button className="btn btn-scordi-500 w-full no-animation btn-animation" onClick={onClick}>
             구독하기
         </button>
     );

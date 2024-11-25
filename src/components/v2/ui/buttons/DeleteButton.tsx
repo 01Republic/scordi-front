@@ -1,9 +1,5 @@
 import {DefaultButtonProps} from '^components/v2/ui/buttons/types';
-import Link from 'next/link';
-import React, {Fragment} from 'react';
-import {Icon} from '^components/Icon';
-import {IoPencil} from '@react-icons/all-files/io5/IoPencil';
-import {FaPen} from '@react-icons/all-files/fa/FaPen';
+import React from 'react';
 import {FaTrash} from '@react-icons/all-files/fa/FaTrash';
 
 export const DeleteButton = (props: Omit<DefaultButtonProps, 'color' | 'outline'>) => {

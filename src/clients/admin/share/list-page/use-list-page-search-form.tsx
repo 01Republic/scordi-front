@@ -14,7 +14,7 @@ type SearchQueryDto<DTO extends EntityDto> = FindAllQueryDto<DTO> & {keyword?: s
 interface SearchResultContainerProps extends WithChildren {}
 
 export function useListPageSearchForm<ItemDto extends EntityDto, QueryDto extends FieldValues>(
-    fetchData: (params: QueryDto) => Promise<AxiosResponse<Paginated<ItemDto>>>,
+    request: (params: QueryDto) => Promise<AxiosResponse<Paginated<ItemDto>>>,
 ) {
     const searchForm = useForm<QueryDto>();
     const [listPage, setListPage] = useState<Paginated<ItemDto>>({
@@ -31,14 +31,14 @@ export function useListPageSearchForm<ItemDto extends EntityDto, QueryDto extend
     // @ts-ignore
     const [query, setQuery] = useState<QueryDto>({});
 
-    const fetchData2 = (params: QueryDto) => {
-        return fetchData(params).then((res) => {
+    const fetchData = (params: QueryDto) => {
+        return request(params).then((res) => {
             setListPage(res.data);
             setQuery(params);
         });
     };
 
-    const onSearch = (data: QueryDto) => fetchData2({...query, ...data, page: 1});
+    const onSearch = (data: QueryDto) => fetchData({...query, ...data, page: 1});
 
     const SearchResultContainer = ({children}: SearchResultContainerProps) => {
         return (
@@ -58,7 +58,7 @@ export function useListPageSearchForm<ItemDto extends EntityDto, QueryDto extend
                                     defaultValue={query.itemsPerPage === 0 ? 0 : query.itemsPerPage || 30}
                                     onChange={(e) => {
                                         const itemsPerPage = Number(e.target.value);
-                                        fetchData2({...query, itemsPerPage});
+                                        fetchData({...query, itemsPerPage});
                                     }}
                                 >
                                     {[10, 30, 50, 100].map((value, i) => (
@@ -74,7 +74,7 @@ export function useListPageSearchForm<ItemDto extends EntityDto, QueryDto extend
                                 currentPage={listPage.pagination.currentPage}
                                 totalPage={listPage.pagination.totalPage}
                                 onClick={(n) => {
-                                    fetchData2({...query, ...searchForm.getValues(), page: n});
+                                    fetchData({...query, ...searchForm.getValues(), page: n});
                                 }}
                             />
                         </div>
@@ -85,7 +85,7 @@ export function useListPageSearchForm<ItemDto extends EntityDto, QueryDto extend
     };
 
     return {
-        fetchData: fetchData2,
+        fetchData,
         searchForm,
         onSearch,
         listPage,

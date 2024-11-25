@@ -1,18 +1,16 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {IoClose} from '@react-icons/all-files/io5/IoClose';
-import {useTossPayments} from '^hooks/useTossPayments';
 import {useScordiPlanList} from '^models/_scordi/ScordiPlan/hook';
 import {ScordiPlanDto, ScordiPlanStepType} from '^models/_scordi/ScordiPlan/type';
 import {useCurrentScordiSubscription} from '^models/_scordi/ScordiSubscription/hook';
-import {useScordiPaymentMethodsInSettingPage} from '^models/_scordi/ScordiPaymentMethod/hook';
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
-import {confirm2} from '^components/util/dialog';
 import {LoadableBox} from '^components/util/loading';
-import {ApiError, errorToast} from '^api/api';
+import {ApiError} from '^api/api';
 import {TossPaymentAuthCallbackProvider} from './TossPaymentAuthCallbackProvider';
 import {ScordiSecretCodeInput} from './ScordiSecretCodeInput';
 import {ScordiPlanCard} from './ScordiPlanCard';
 import {ScordiPlanCardForFreeTrial} from './ScordiPlanCard/ScordiPlanCardForFreeTrial';
+import {PaymentPreviewModal} from '^clients/private/_modals/SelectPlanModal/PaymentPreviewModal';
 
 interface SelectPlanModalProps {
     orgId: number;
@@ -24,11 +22,10 @@ interface SelectPlanModalProps {
 }
 
 export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanModalProps) {
-    const {orgId, isOpened, onClose, onSuccess, onFailure, onFinally} = props;
+    const {orgId, isOpened, onClose, onSuccess: _onSuccess, onFailure, onFinally} = props;
     const {isLoading, scordiPlanList, fetch: fetchPlans} = useScordiPlanList();
     const {currentSubscription, update} = useCurrentScordiSubscription();
-    const {result} = useScordiPaymentMethodsInSettingPage();
-    const {requestBillingAuth} = useTossPayments();
+    const [selectedPlan, setSelectedPlan] = useState<ScordiPlanDto>();
 
     // 현재 구독중인 플랜의 결제주기 또는 기본값
     const stepType = currentSubscription?.scordiPlan.stepType || ScordiPlanStepType.Month;
@@ -44,37 +41,43 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
         // fetchScheduled(orgId);
     }, [orgId, isOpened, stepType]);
 
-    const createSubscription = (orgId: number, planId: number) => {
-        return update(orgId, planId)
-            .then(onSuccess)
-            .catch((e: ApiError) => {
-                errorToast(e);
-                onFailure && onFailure(e);
-            })
-            .finally(onFinally);
-    };
-
-    const changePlan = (plan: ScordiPlanDto) => {
-        const paymentMethod = result.items.find((item) => item.isActive);
-
-        if (!orgId || isNaN(orgId)) return;
-        if (plan.id === currentSubscription?.scordiPlanId) return;
-
-        confirm2(`플랜 변경`, `구독중인 플랜을 변경할까요?`, 'warning').then((res) => {
-            if (res.isConfirmed) {
-                // 일단 선택한 플랜이 무료면 구독변경만.
-                if (plan.price === 0) return createSubscription(orgId, plan.id);
-
-                // 유료일 때, 결제수단 있으면 생략 & 구독변경.
-                if (paymentMethod) return createSubscription(orgId, plan.id);
-
-                // 없으면 결제수단 등록.
-                requestBillingAuth(plan.id);
-            }
-        });
-    };
+    // const createSubscription = (orgId: number, planId: number) => {
+    //     return update(orgId, planId)
+    //         .then(onSuccess)
+    //         .catch((e: ApiError) => {
+    //             errorToast(e);
+    //             onFailure && onFailure(e);
+    //         })
+    //         .finally(onFinally);
+    // };
+    //
+    // const changePlan = (plan: ScordiPlanDto) => {
+    //     const paymentMethod = result.items.find((item) => item.isActive);
+    //
+    //     if (!orgId || isNaN(orgId)) return;
+    //     if (plan.id === currentSubscription?.scordiPlanId) return;
+    //
+    //     confirm2(`플랜 변경`, `구독중인 플랜을 변경할까요?`, 'warning').then((res) => {
+    //         if (res.isConfirmed) {
+    //             // 일단 선택한 플랜이 무료면 구독변경만.
+    //             if (plan.price === 0) return createSubscription(orgId, plan.id);
+    //
+    //             // 유료일 때, 결제수단 있으면 생략 & 구독변경.
+    //             if (paymentMethod) return createSubscription(orgId, plan.id);
+    //
+    //             // 없으면 결제수단 등록.
+    //             requestBillingAuth(plan.id);
+    //         }
+    //     });
+    // };
 
     const groupedPlans = ScordiPlanDto.groupByPriority(scordiPlanList);
+
+    const onSuccess = () => {
+        setSelectedPlan(undefined);
+        onClose();
+        _onSuccess();
+    };
 
     return (
         <>
@@ -84,8 +87,16 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
                 onFailure={onFailure}
                 onFinally={onFinally}
             />
-            <AnimatedModal open={isOpened} onClose={onClose}>
+            <AnimatedModal name="SelectPlanModal" open={isOpened} onClose={onClose}>
                 <div className="relative mx-auto max-w-screen-lg w-full">
+                    <PaymentPreviewModal
+                        orgId={orgId}
+                        selectedPlan={selectedPlan}
+                        onClose={() => setSelectedPlan(undefined)}
+                        onSuccess={onSuccess}
+                        onFailure={onFailure}
+                        onFinally={onFinally}
+                    />
                     <div className={'bg-white rounded-3xl p-12'}>
                         <div className={'flex justify-between items-center mb-6'}>
                             <h3>플랜 선택</h3>
@@ -106,17 +117,19 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
                         <LoadableBox isLoading={isLoading} loadingType={2} spinnerPos="center" noPadding>
                             <div className={'flex items-stretch gap-8'}>
                                 {Object.entries(groupedPlans).map(([_priority, [plan]]) => {
+                                    if (!plan) return <></>;
+
                                     return plan.priority === 1 ? (
                                         <ScordiPlanCardForFreeTrial
                                             key={plan.id}
                                             scordiPlan={plan}
-                                            onClick={() => changePlan(plan)}
+                                            onClick={() => setSelectedPlan(plan)}
                                         />
                                     ) : (
                                         <ScordiPlanCard
                                             key={plan.id}
                                             scordiPlan={plan}
-                                            onClick={() => changePlan(plan)}
+                                            onClick={() => setSelectedPlan(plan)}
                                         />
                                     );
                                 })}

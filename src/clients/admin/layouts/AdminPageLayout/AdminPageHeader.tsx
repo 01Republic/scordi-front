@@ -35,14 +35,8 @@ export const AdminPageHeader = memo((props: AdminPageHeaderProps) => {
                             {breadcrumbs && (
                                 <div className="text-sm breadcrumbs">
                                     <ul>
-                                        {breadcrumbs.map((breadcrumb, i) => (
-                                            <li key={i}>
-                                                {breadcrumb.href ? (
-                                                    <LinkTo text={breadcrumb.text} href={breadcrumb.href} />
-                                                ) : (
-                                                    breadcrumb.text
-                                                )}
-                                            </li>
+                                        {breadcrumbs.map(({href, text}, i) => (
+                                            <li key={i}>{href ? <LinkTo text={text} href={href} /> : text}</li>
                                         ))}
                                     </ul>
                                 </div>

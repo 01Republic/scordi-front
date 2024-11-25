@@ -15,7 +15,8 @@ import {ProductCyclePanel} from './panels/ProductCyclePanel';
 import {OgImageFormPanel, ogImgUrlAtom} from './panels/ProductOgImageFormPanel';
 import {faviconUrlAtom, LogoImageFormPanel, logoUrlAtom} from './panels/ProductLogoImageFormPanel';
 import {ProductTagMultiSelect} from './ProductTagMultiSelect';
-import {isSubmitBlockedAtom} from '^admin/products/form/atom';
+import {InputNameKo} from './InputNameKo';
+import {InputNameEn} from './InputNameEn';
 
 interface CreatePrototypeFormProps {
     form: UseFormReturn<CreateDto>;
@@ -102,19 +103,11 @@ export const ProductForm = (props: CreatePrototypeFormProps | UpdatePrototypeFor
                 <ContentPanel title="기본정보">
                     <ContentPanelList>
                         <ContentPanelInput title="App name (ko)" required={true}>
-                            <TextInput
-                                required={true}
-                                placeholder="ex. 깃허브"
-                                {...form.register('nameKo', {required: true})}
-                            />
+                            <InputNameKo form={form} product={product} />
                         </ContentPanelInput>
 
                         <ContentPanelInput title="App name (en)" required={true}>
-                            <TextInput
-                                required={true}
-                                placeholder="ex. Github"
-                                {...form.register('nameEn', {required: true})}
-                            />
+                            <InputNameEn form={form} product={product} />
                         </ContentPanelInput>
 
                         <ProductTagMultiSelect tags={product?.tags ?? []} form={form} />

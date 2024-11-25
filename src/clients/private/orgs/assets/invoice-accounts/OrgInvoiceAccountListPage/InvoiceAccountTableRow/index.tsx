@@ -12,7 +12,6 @@ import {errorNotify} from '^utils/toast-notify';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {InvoiceAccountProviderAvatar} from '^models/InvoiceAccount/components/InvoiceAccountProviderAvatar';
 import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[invoiceAccountId]';
-import Tippy from '@tippyjs/react';
 
 interface InvoiceAccountTableRowProps {
     invoiceAccount: InvoiceAccountDto;

@@ -1,7 +1,7 @@
 import {memo} from 'react';
 import {BsQuestionCircle} from 'react-icons/bs';
 import {LinkTo} from '^components/util/LinkTo';
-import {channelTalkEnv} from '^config/environments';
+import {ChannelTalk_Url} from '^config/constants';
 
 export const Inquiry = memo(function Inquiry() {
     return (
@@ -14,7 +14,7 @@ export const Inquiry = memo(function Inquiry() {
             </p>
 
             <LinkTo
-                href={channelTalkEnv.url}
+                href={ChannelTalk_Url}
                 target="_blank"
                 displayLoading={false}
                 className="btn btn-sm normal-case !bg-white !border-gray-300 !text-gray-500 !rounded-md shadow hover:shadow-lg"
