@@ -33,21 +33,21 @@ export const OrgPaymentsSection = memo((props: OrgPaymentsSectionProps) => {
     return (
         <SettingsPaymentSection
             title="결제 내역"
-            right={
-                <div>
-                    {!isNotLoaded && !isEmptyResult && (
-                        <LinkTo
-                            className="flex items-center gap-2 cursor-pointer text-14 link link-hover text-gray-400 hover:text-gray-500 transition py-1 group"
-                            href={ChannelTalk_Url}
-                            target="_blank"
-                            displayLoading={false}
-                        >
-                            <IoIosHelpCircle fontSize={18} className="relative top-[0px]" />
-                            <span>취소/환불을 원하시나요?</span>
-                        </LinkTo>
-                    )}
-                </div>
-            }
+            // right={
+            //     <div>
+            //         {!isNotLoaded && !isEmptyResult && (
+            //             <LinkTo
+            //                 className="flex items-center gap-2 cursor-pointer text-14 link link-hover text-gray-400 hover:text-gray-500 transition py-1 group"
+            //                 href={ChannelTalk_Url}
+            //                 target="_blank"
+            //                 displayLoading={false}
+            //             >
+            //                 <IoIosHelpCircle fontSize={18} className="relative top-[0px]" />
+            //                 <span>취소/환불을 원하시나요?</span>
+            //             </LinkTo>
+            //         )}
+            //     </div>
+            // }
             isLoading={isLoading}
         >
             {isNotLoaded && (
