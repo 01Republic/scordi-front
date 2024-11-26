@@ -21,6 +21,7 @@ import {PageSEO, SEO} from '^components/SEO';
 import {DPaySecretCodePageRoute} from '^pages/direct-pay/[secretCode]';
 import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
 import {serviceHost} from '^config/environments';
+import {plainToInstance} from 'class-transformer';
 
 export const DPaySecretCodePage = memo(({plans}: {plans: ScordiPlanDto[]}) => {
     const secretCode = useRecoilValue(secretCodeParamsAtom);
@@ -31,7 +32,9 @@ export const DPaySecretCodePage = memo(({plans}: {plans: ScordiPlanDto[]}) => {
     const form = useForm<DPayRequestFormDto>();
 
     const onSubmit = debounce((data: DPayRequestFormDto) => {
-        postDirectPayMutate(data.toRequestDto())
+        const formData = plainToInstance(DPayRequestFormDto, data);
+        const body = formData.toRequestDto();
+        postDirectPayMutate(body)
             .then(setResultPayment)
             .catch((e: ApiError) => {
                 const msg = e.response?.data?.message;
