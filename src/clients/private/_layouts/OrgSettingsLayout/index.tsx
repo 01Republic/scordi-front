@@ -11,9 +11,9 @@ import {Breadcrumb, BreadcrumbPath} from '^clients/private/_layouts/_shared/Brea
 import {useCurrentOrg} from '^models/Organization/hook';
 import {OrgSettingLeftListItem} from './OrgSettingsLeftListItem';
 
-type OrgSettingsLayoutProps = {
+interface OrgSettingsLayoutProps extends WithChildren {
     breadcrumbPath: BreadcrumbPath;
-} & WithChildren;
+}
 
 export const OrgSettingsLayout = memo(function OrgSettingsLayout(props: OrgSettingsLayoutProps) {
     const {children} = props;
@@ -36,7 +36,7 @@ export const OrgSettingsLayout = memo(function OrgSettingsLayout(props: OrgSetti
                                 />
                                 <OrgSettingLeftListItem
                                     Icon={BsCreditCard}
-                                    name={'결제 관리'}
+                                    name={'구독 및 결제'}
                                     href={OrgSettingsPaymentPageRoute.path(orgId)}
                                 />
                                 <OrgSettingLeftListItem
