@@ -2,12 +2,12 @@ import React, {memo} from 'react';
 import {FieldErrors, UseFormRegister, UseFormWatch} from 'react-hook-form';
 import cn from 'classnames';
 import {WithChildren} from '^types/global.type';
-import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';
+import {DPayRequestFormDto} from '^models/_scordi/ScordiPayment/type';
 
 interface FormCustomerPhoneProps extends WithChildren {
-    register: UseFormRegister<CreateScordiPaymentWithCustomerKeyRequestDto>;
-    watch: UseFormWatch<CreateScordiPaymentWithCustomerKeyRequestDto>;
-    errors: FieldErrors<CreateScordiPaymentWithCustomerKeyRequestDto>;
+    register: UseFormRegister<DPayRequestFormDto>;
+    watch: UseFormWatch<DPayRequestFormDto>;
+    errors: FieldErrors<DPayRequestFormDto>;
 }
 
 export const FormCustomerPhone = memo((props: FormCustomerPhoneProps) => {

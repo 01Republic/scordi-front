@@ -2,7 +2,7 @@ import React, {memo, useState} from 'react';
 import {UseFormReturn} from 'react-hook-form';
 import cn from 'classnames';
 import {WithChildren} from '^types/global.type';
-import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';
+import {DPayRequestFormDto} from '^models/_scordi/ScordiPayment/type';
 import {usePostDirectPay} from '^models/_scordi/ScordiPayment/hook';
 import {FormCardNumber} from './FormCardNumber';
 import {FormExpiryDate} from './FormExpiryDate';
@@ -14,7 +14,7 @@ import {CTAButton} from './CTAButton';
 
 interface CardInfoSectionProps extends WithChildren {
     prevStep: () => void;
-    form: UseFormReturn<CreateScordiPaymentWithCustomerKeyRequestDto, any>;
+    form: UseFormReturn<DPayRequestFormDto, any>;
 }
 
 export const CardInfoSection = memo((props: CardInfoSectionProps) => {
@@ -24,7 +24,7 @@ export const CardInfoSection = memo((props: CardInfoSectionProps) => {
     const [isPersonal, setIsPersonal] = useState(true);
     const {isPending} = usePostDirectPay();
 
-    const checkValid = (data: CreateScordiPaymentWithCustomerKeyRequestDto) => {
+    const checkValid = (data: DPayRequestFormDto) => {
         if (!data.planId) return false;
         if ((data.customerName || '').length < 2) return false;
         if (!emailValid(data.customerEmail || '')) return false;

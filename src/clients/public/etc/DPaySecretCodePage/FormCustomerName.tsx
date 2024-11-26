@@ -1,11 +1,11 @@
 import React, {memo} from 'react';
 import {UseFormReturn} from 'react-hook-form';
 import {WithChildren} from '^types/global.type';
-import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';
+import {DPayRequestFormDto} from '^models/_scordi/ScordiPayment/type';
 import {TextInput} from './TextInput';
 
 interface FormCustomerNameProps extends WithChildren {
-    form: UseFormReturn<CreateScordiPaymentWithCustomerKeyRequestDto, any>;
+    form: UseFormReturn<DPayRequestFormDto, any>;
     errorMessage?: string;
 }
 
