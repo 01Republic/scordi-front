@@ -6,6 +6,7 @@ import {KeyValue} from './KeyValue';
 import {PaymentPreviewActiveRange} from './PaymentPreviewActiveRange';
 import {PaymentMethodCard} from './PaymentMethodCard';
 import {PriceTextWithStepSize} from './PriceTextWithStepSize';
+import {yyyy_mm_dd} from '^utils/dateTime';
 
 interface PaymentPreviewModalSubmitButtonProps {
     plan: ScordiPlanDto;
@@ -15,6 +16,18 @@ interface PaymentPreviewModalSubmitButtonProps {
 
 export const PaymentPreviewModalContent = memo((props: PaymentPreviewModalSubmitButtonProps) => {
     const {plan, currentSubscription, paymentMethod} = props;
+
+    const startDate = getStartDate(plan, currentSubscription);
+
+    const nextDate = plan.getNextDate(startDate);
+
+    if (!nextDate) return <></>;
+
+    const finshDate = () => {
+        const updateDate = new Date(nextDate);
+        updateDate.setDate(nextDate.getDate() - 1);
+        return updateDate || '';
+    };
 
     return (
         <section className="bg-[#f9f9f9] rounded-lg p-5">
@@ -49,8 +62,14 @@ export const PaymentPreviewModalContent = memo((props: PaymentPreviewModalSubmit
                 <hr />
 
                 <KeyValue label="적용 기간">
-                    <PaymentPreviewActiveRange plan={plan} currentSubscription={currentSubscription} />
+                    <PaymentPreviewActiveRange startDate={yyyy_mm_dd(startDate)} nextDate={yyyy_mm_dd(finshDate())} />
                 </KeyValue>
+
+                {nextDate && (
+                    <KeyValue label="다음 결제일">
+                        <div>{yyyy_mm_dd(nextDate)}</div>
+                    </KeyValue>
+                )}
 
                 {paymentMethod && (
                     <KeyValue label="결제 수단">
@@ -72,3 +91,15 @@ export const PaymentPreviewModalContent = memo((props: PaymentPreviewModalSubmit
     );
 });
 PaymentPreviewModalContent.displayName = 'PaymentPreviewModalSubmitButton';
+
+function getStartDate(plan: ScordiPlanDto, currentSubscription: ScordiSubscriptionDto | null) {
+    const now = new Date();
+
+    if (!currentSubscription) return now;
+
+    if (currentSubscription.scordiPlan.priority > plan.priority || currentSubscription.scordiPlan.price > plan.price) {
+        return currentSubscription.getNextDate() || now;
+    }
+
+    return now;
+}

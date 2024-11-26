@@ -13,7 +13,7 @@ export const PaymentPreviewModalHeader = memo((props: PaymentPreviewModalHeaderP
         <header className={`flex justify-between items-start ${className}`}>
             <div>
                 <h3 className="text-2xl mb-1.5">플랜 결제 정보</h3>
-                <p className="text-[#999] font-medium text-16">플랜 결제 정보를 확인해보세요.</p>
+                <p className="text-[#999] font-medium text-16">아래의 내용으로 지금 결제할까요?</p>
             </div>
 
             <div>
