@@ -14,6 +14,7 @@ import {Dropdown} from '^v3/share/Dropdown';
 import {IoIosMore} from 'react-icons/io';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
+import {useRouter} from 'next/router';
 
 interface SubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -23,13 +24,14 @@ interface SubscriptionTableRowProps {
 
 export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
     const {subscription, onDelete, reload} = props;
+    const router = useRouter();
 
     const showPagePath = OrgSubscriptionDetailPageRoute.resourcePath(subscription);
 
     return (
         <tr>
             {/* 서비스 명 */}
-            <td>
+            <td className="group cursor-pointer">
                 <OpenButtonColumn href={showPagePath}>
                     <SubscriptionProfile subscription={subscription} />
                 </OpenButtonColumn>

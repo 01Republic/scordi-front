@@ -8,18 +8,31 @@ import {SubscriptionActionPanel} from './components/SubscriptionActionPanel';
 import {SubscriptionInfoTab} from './tabs/SubscriptionInfoTab';
 import {SubscriptionPaymentTab} from './tabs/SubscriptionPaymentTab';
 import {SubscriptionMemberTab} from './tabs/SubscriptionMemberTab';
+import {usePathname} from 'next/navigation';
+import {useRecoilValue} from 'recoil';
+import {fetchSubscriptionQueryById} from '^models/Subscription/atom';
 
 export const OrgSubscriptionDetailPage = memo(() => {
     const [activeTabIndex, setActiveTabIndex] = useState(0);
 
+    const pathName = usePathname();
+    const urlParts = pathName?.split('/');
+    const subscriptionId = Number(urlParts[4]);
+
+    const subscriptionInfo = subscriptionId ? useRecoilValue(fetchSubscriptionQueryById(subscriptionId)) : undefined;
+
     return (
-        <ShowPage breadcrumb={['구독', '구독 리스트', {text: 'Notion', active: true}]}>
+        <ShowPage breadcrumb={['구독', '구독 리스트', {text: subscriptionInfo?.product.name() || '', active: true}]}>
             <header className="flex items-center justify-between pt-8 pb-4">
                 <div className="flex-auto">
                     {/*<CreditCardProfilePanel />*/}
                     <div>
                         <div className="flex items-start gap-6">
-                            <Avatar className="w-14">
+                            <Avatar
+                                className="w-14"
+                                src={subscriptionInfo?.product.image}
+                                alt={subscriptionInfo?.product.name()}
+                            >
                                 <FaRegCreditCard size={20} className="h-full w-full p-[6px]" />
                             </Avatar>
 
@@ -27,10 +40,10 @@ export const OrgSubscriptionDetailPage = memo(() => {
                                 <p
                                     className={`flex gap-2 text-18 font-semibold items-center group-hover:text-scordi leading-none py-1`}
                                 >
-                                    <span className="truncate">Notion</span>
+                                    <span className="truncate">{subscriptionInfo?.product.name()}</span>
                                 </p>
                                 <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 leading-none">
-                                    제로원리퍼블릭의 노션
+                                    {subscriptionInfo?.alias || '별칭이 없습니다'}
                                 </p>
 
                                 <div className="flex items-center gap-3 pt-3">

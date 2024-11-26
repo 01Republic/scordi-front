@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
+import {selectorFamily, useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
@@ -15,6 +15,7 @@ import {confirm2} from '^components/util/dialog';
 import {subscriptionApi} from '^models/Subscription/api';
 import {toast} from 'react-hot-toast';
 import {SubscriptionDto} from '^models/Subscription/types';
+import {errorNotify} from '^utils/toast-notify';
 
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -93,3 +94,15 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
         </ListPage>
     );
 });
+
+// export const fetchSubscriptionQueryById = selectorFamily({
+//     key: 'fetchSubscriptionQueryById',
+//     get: (id: number) => async () => {
+//         try {
+//             const res = await subscriptionApi.show(id);
+//             return res.data;
+//         } catch (e) {
+//             errorNotify(e);
+//         }
+//     },
+// });
