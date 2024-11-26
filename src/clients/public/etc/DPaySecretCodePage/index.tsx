@@ -3,7 +3,7 @@ import {useRecoilValue} from 'recoil';
 import {useForm} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
 import {usePostDirectPay} from '^models/_scordi/ScordiPayment/hook';
-import {CreateScordiPaymentWithCustomerKeyRequestDto, ScordiPaymentDto} from '^models/_scordi/ScordiPayment/type';
+import {DPayRequestFormDto, ScordiPaymentDto} from '^models/_scordi/ScordiPayment/type';
 import {ApiError} from '^api/api';
 import {Spinner} from '^components/util/loading';
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
@@ -28,11 +28,10 @@ export const DPaySecretCodePage = memo(({plans}: {plans: ScordiPlanDto[]}) => {
     // const {plans, fetch} = useDPayPlanList();
     const [currentStep, setCurrentStep] = useState(0);
     const [resultPayment, setResultPayment] = useState<ScordiPaymentDto>();
-    const form = useForm<CreateScordiPaymentWithCustomerKeyRequestDto>();
+    const form = useForm<DPayRequestFormDto>();
 
-    const onSubmit = debounce((data: CreateScordiPaymentWithCustomerKeyRequestDto) => {
-        data.cardNumber = data.cardNumberFirst + data.cardNumberSecond + data.cardNumberThird + data.cardNumberFourth;
-        postDirectPayMutate(data)
+    const onSubmit = debounce((data: DPayRequestFormDto) => {
+        postDirectPayMutate(data.toRequestDto())
             .then(setResultPayment)
             .catch((e: ApiError) => {
                 const msg = e.response?.data?.message;

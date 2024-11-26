@@ -1,6 +1,4 @@
-import React, {ForwardedRef, forwardRef, InputHTMLAttributes, memo} from 'react';
-import {ReactNodeElement} from '^types/global.type';
-import cn from 'classnames';
+import React, {ForwardedRef, forwardRef, InputHTMLAttributes} from 'react';
 
 interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => any;

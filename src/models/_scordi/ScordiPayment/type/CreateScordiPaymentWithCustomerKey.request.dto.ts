@@ -1,4 +1,5 @@
 import {CreateScordiPaymentMethodByCustomerKeyRequestDto} from '^models/_scordi/ScordiPaymentMethod/type';
+import {plainToInstance} from 'class-transformer';
 
 /**
  * d-pay 결제요청 Request Body
@@ -16,4 +17,20 @@ import {CreateScordiPaymentMethodByCustomerKeyRequestDto} from '^models/_scordi/
 export class CreateScordiPaymentWithCustomerKeyRequestDto extends CreateScordiPaymentMethodByCustomerKeyRequestDto {
     planId: number; // 구매할 플랜 ID
     customerPhone: string; // 고객 연락처
+}
+
+export class DPayRequestFormDto extends CreateScordiPaymentWithCustomerKeyRequestDto {
+    //카드번호
+    cardNumberFirst: string;
+    cardNumberSecond: string;
+    cardNumberThird: string;
+    cardNumberFourth: string;
+    //
+    agree: boolean;
+
+    toRequestDto() {
+        const data = this;
+        data.cardNumber = data.cardNumberFirst + data.cardNumberSecond + data.cardNumberThird + data.cardNumberFourth;
+        return plainToInstance(CreateScordiPaymentWithCustomerKeyRequestDto, data);
+    }
 }
