@@ -26,7 +26,7 @@ export const OrgSettingsPaymentPage = memo(function () {
             {/*카드 정보*/}
             <OrgPaymentMethodSection orgId={orgId} />
 
-            {/*결제 환불 내역*/}
+            {/*결제 내역*/}
             <OrgPaymentsSection orgId={orgId} />
         </OrgSettingsLayout>
     );
