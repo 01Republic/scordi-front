@@ -1,12 +1,12 @@
 import React, {memo} from 'react';
-import {ScordiPlanDto, t_planStepType} from '^models/_scordi/ScordiPlan/type';
+import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
 import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 import {ScordiPaymentMethodDto} from '^models/_scordi/ScordiPaymentMethod/type';
+import {dayBefore, yyyy_mm_dd} from '^utils/dateTime';
 import {KeyValue} from './KeyValue';
 import {PaymentPreviewActiveRange} from './PaymentPreviewActiveRange';
 import {PaymentMethodCard} from './PaymentMethodCard';
 import {PriceTextWithStepSize} from './PriceTextWithStepSize';
-import {yyyy_mm_dd} from '^utils/dateTime';
 
 interface PaymentPreviewModalSubmitButtonProps {
     plan: ScordiPlanDto;
@@ -17,17 +17,14 @@ interface PaymentPreviewModalSubmitButtonProps {
 export const PaymentPreviewModalContent = memo((props: PaymentPreviewModalSubmitButtonProps) => {
     const {plan, currentSubscription, paymentMethod} = props;
 
+    // 구독 시작일
     const startDate = getStartDate(plan, currentSubscription);
 
+    // 다음 결제일 : 플랜의 스펙을 구성하기에 따라 만료되지 않는 경우가 존재 할 수 있고, 이 경우 null 값을 반환합니다.
     const nextDate = plan.getNextDate(startDate);
 
-    if (!nextDate) return <></>;
-
-    const finshDate = () => {
-        const updateDate = new Date(nextDate);
-        updateDate.setDate(nextDate.getDate() - 1);
-        return updateDate || '';
-    };
+    // 구독 종료일 : '다음 결제일' 이 null 값인 경우, 구독 종료일 역시 의미가 없기에 마찬가지로 null 을 반환합니다.
+    const finishDate = nextDate ? dayBefore(1, nextDate) : null;
 
     return (
         <section className="bg-[#f9f9f9] rounded-lg p-5">
@@ -62,7 +59,7 @@ export const PaymentPreviewModalContent = memo((props: PaymentPreviewModalSubmit
                 <hr />
 
                 <KeyValue label="적용 기간">
-                    <PaymentPreviewActiveRange startDate={yyyy_mm_dd(startDate)} nextDate={yyyy_mm_dd(finshDate())} />
+                    <PaymentPreviewActiveRange startDate={startDate} finishDate={finishDate} />
                 </KeyValue>
 
                 {nextDate && (

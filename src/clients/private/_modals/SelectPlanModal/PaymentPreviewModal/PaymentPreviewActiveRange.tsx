@@ -4,21 +4,21 @@ import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
 import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 
 interface PaymentPreviewActiveRangeProps {
-    startDate: string;
-    nextDate: string;
+    startDate: Date;
+    finishDate: Date | null;
 }
 
 export const PaymentPreviewActiveRange = memo((props: PaymentPreviewActiveRangeProps) => {
-    const {startDate, nextDate} = props;
+    const {startDate, finishDate} = props;
 
     return (
         <div className="text-right">
             <div className="flex items-center gap-2">
-                <span className="font-medium">{startDate}</span>
+                <span className="font-medium">{yyyy_mm_dd(startDate)}</span>
                 <span>~</span>
-                {nextDate && <span>{nextDate}</span>}
+                {finishDate && <span>{yyyy_mm_dd(finishDate)}</span>}
             </div>
-            {startDate !== yyyy_mm_dd(new Date()) && (
+            {yyyy_mm_dd(startDate) !== yyyy_mm_dd(new Date()) && (
                 <div className="text-gray-400 text-12">다음 주기부터 적용 예정</div>
             )}
         </div>
