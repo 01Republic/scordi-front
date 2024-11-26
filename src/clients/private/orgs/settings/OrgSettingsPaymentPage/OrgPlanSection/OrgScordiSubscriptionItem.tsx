@@ -2,6 +2,7 @@ import React, {memo} from 'react';
 import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 import {t_planStepType} from '^models/_scordi/ScordiPlan/type';
 import {yyyy_mm_dd} from '^utils/dateTime';
+import {OrgScordiSubscriptionItemDropdown} from './OrgScordiSubscriptionItemDropdown';
 
 interface OrgScordiSubscriptionItemProps {
     scordiSubscription: ScordiSubscriptionDto;
@@ -10,10 +11,14 @@ interface OrgScordiSubscriptionItemProps {
 export const OrgScordiSubscriptionItem = memo((props: OrgScordiSubscriptionItemProps) => {
     const {scordiSubscription} = props;
 
+    const nextDate = scordiSubscription.getNextDate();
+
     return (
         <div className={'p-4 bg-slate-50 flex items-center justify-between rounded-lg text-14'}>
             <div className="flex items-center gap-2">
-                <div className="font-semibold">{scordiSubscription.scordiPlan.name}</div>
+                <div className="font-semibold" onClick={() => console.log(scordiSubscription)}>
+                    {scordiSubscription.scordiPlan.name}
+                </div>
                 <div className="font-semibold text-gray-500">
                     {scordiSubscription.scordiPlan.price === 0 ? (
                         <span>(무료{scordiSubscription.scordiPlan.regularPrice > 0 ? ' (할인됨)' : ''})</span>
@@ -29,9 +34,11 @@ export const OrgScordiSubscriptionItem = memo((props: OrgScordiSubscriptionItemP
             <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5">
                     <span className="text-gray-500">다음 갱신일 :</span>
-                    <span>
-                        {scordiSubscription.getNextDate() ? yyyy_mm_dd(scordiSubscription.getNextDate()!, '. ') : '-'}
-                    </span>
+                    <span>{nextDate ? yyyy_mm_dd(nextDate, '. ') : '-'}</span>
+                </div>
+
+                <div>
+                    <OrgScordiSubscriptionItemDropdown scordiSubscription={scordiSubscription} />
                 </div>
 
                 {/*{scordiSubscription.startAt && scordiSubscription.finishAt ? (*/}

@@ -29,6 +29,12 @@ export const scordiSubscriptionApi = {
         return api.post(url, data).then(oneDtoOf(ScordiSubscriptionDto));
     },
 
+    // 스코디 구독 해지 *
+    unsubscribe(orgId: number, scordiSubscriptionId: number) {
+        const url = `/orgs/${orgId}/billing/subscription/${scordiSubscriptionId}/unsubscribe`;
+        return api.post(url).then(oneDtoOf(ScordiSubscriptionDto));
+    },
+
     // // 스코디 구독 수정 *
     // update(orgId: number) {
     //     const url = `/orgs/${orgId}/billing/subscription`;
