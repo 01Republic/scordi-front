@@ -16,7 +16,8 @@ type Combination<BaseType, AddSetType> =
 // };
 // type DropdownProps = Combination<DropdownBasicProps, DropdownControlProps> & WithChildren;
 
-interface DropdownProps extends WithChildren {
+export interface DropdownProps
+    extends WithChildren<(props: {visible: boolean; show: () => any; hide: () => any}) => JSX.Element> {
     Trigger: (props: {visible: boolean}) => JSX.Element;
     Content?: (props: {visible: boolean; show: () => any; hide: () => any}) => JSX.Element;
     className?: string;
@@ -70,7 +71,13 @@ export const Dropdown = memo((props: DropdownProps) => {
                 interactiveBorder={interactiveBorder}
                 offset={offset}
             >
-                {Content ? <Content visible={visible} show={openDropdown} hide={closeDropdown} /> : children}
+                {Content ? (
+                    <Content visible={visible} show={openDropdown} hide={closeDropdown} />
+                ) : typeof children === 'function' ? (
+                    children({visible, show: openDropdown, hide: closeDropdown})
+                ) : (
+                    children
+                )}
             </DropdownContent>
         </div>
     );
