@@ -75,7 +75,7 @@ export const OrgTopBar = memo(() => {
                     <ProfileDropdown />
                 </div>
             </div>
-            {currentOrg && <ExpiredPlanBlockModal currentOrg={currentOrg} />}
+            {currentOrg && !currentUser?.isAdmin && <ExpiredPlanBlockModal currentOrg={currentOrg} />}
         </header>
     );
 });
