@@ -24,9 +24,10 @@ export const TeamListItem = memo((props: TeamListItemProps) => {
 
     return (
         <LinkTo
-            className="card rounded-xl shadow border border-gray-200 bg-white p-4 cursor-pointer hover:shadow-md transition-all text-center"
+            className="card rounded-xl shadow border border-gray-200 bg-white p-4 cursor-pointer hover:shadow-md transition-all text-center after:left-0"
             href={OrgTeamDetailPageRoute.path(orgId, team.id)}
-            displayLoading={false}
+            // loadingOnBtn
+            loadingClassName="opacity-30 link_to-clicked after:inset-0 after:m-auto outline outline-1 outline-[#b3b3b3]"
         >
             <div className="flex items-center justify-center mb-[4px]">
                 <NextImage src={PushPin} width={20} height={20} alt={'p'} />

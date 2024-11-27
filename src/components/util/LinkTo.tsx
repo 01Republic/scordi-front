@@ -13,6 +13,7 @@ export interface LinkToProps extends Partial<LinkProps> {
     target?: HTMLAttributeAnchorTarget;
     displayLoading?: boolean;
     loadingOnBtn?: boolean;
+    loadingClassName?: string;
     disabled?: boolean;
     rel?: string;
     noFollow?: boolean;
@@ -30,6 +31,7 @@ export const LinkTo = memo((props: LinkToProps & WithChildren) => {
         href = '#',
         displayLoading = true,
         loadingOnBtn = false,
+        loadingClassName = '',
         disabled = false,
         rel = '',
         noFollow = false,
@@ -61,7 +63,7 @@ export const LinkTo = memo((props: LinkToProps & WithChildren) => {
 
     if (isClicked) {
         if (displayLoading) {
-            const loadingClass = loadingOnBtn ? 'link_to-loading' : 'link_to-clicked';
+            const loadingClass = loadingClassName || (loadingOnBtn ? 'link_to-loading' : 'link_to-clicked');
             return (
                 <a className={`${className} ${loadingClass}`} target={target} rel={rel}>
                     {children || text}
