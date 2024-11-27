@@ -31,7 +31,7 @@ export const LeftAppsStatusPanel = memo(function LeftAppsStatusPanel() {
             >
                 <SelectedAppsSection />
             </div>
-            <div className="py-4 px-10 sticky bottom-0">
+            <div className="py-4 px-10 sticky bottom-0 bg-gray-50">
                 <Inquiry />
             </div>
         </aside>
