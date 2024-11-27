@@ -63,14 +63,14 @@ export const useCurrentTeam = () => {
         });
     };
 
-    useEffect(() => {
-        !!teamId && fetchData();
-    }, [teamId]);
+    const clear = () => setTeam(undefined);
 
     return {
         team,
+        fetchData,
         reload,
         update,
+        clear,
         isLoading,
         reloadWithUpdateCounters,
     };
