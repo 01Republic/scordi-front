@@ -12,11 +12,12 @@ import {t_membershipLevel} from '^models/Membership/types';
 import {GiSadCrab} from 'react-icons/gi';
 import {ExpiredPlanBlockModal} from '^clients/private/_layouts/MainLayout/ExpiredPlanBlockModal';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
+import {useCurrentMembership} from '^models/Membership/hook';
 
 export const OrgTopBar = memo(() => {
     const {currentUser} = useCurrentUser();
     const currentOrg = useRecoilValue(currentOrgAtom);
-    const currentMembership = currentOrg && currentUser && currentUser.findMembershipByOrgId(currentOrg.id);
+    const {currentMembership} = useCurrentMembership();
     useMeasuredUserId();
     const [isHovered, setIsHovered] = useState(false);
 
@@ -35,7 +36,7 @@ export const OrgTopBar = memo(() => {
                     {currentUser?.name}님은{' '}
                     {currentMembership ? (
                         <span>
-                            {t_membershipLevel(currentMembership?.level, {inWord: false})}입니다
+                            {t_membershipLevel(currentMembership.level, {inWord: false})}입니다
                             <span onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
                                 .
                             </span>

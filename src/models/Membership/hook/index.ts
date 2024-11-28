@@ -3,6 +3,7 @@ import {useCallback, useEffect} from 'react';
 import {membershipApi, myMembershipApi} from '^models/Membership/api';
 import {currentUserAtom, currentUserMembershipAtom, getCurrentUserMembershipsQuery} from '^models/User/atom';
 import {
+    currentMembershipAtom,
     membershipInInHeaderAtom,
     membershipInInviteModalAtom,
     membershipInMembershipTable,
@@ -39,6 +40,17 @@ const useMemberships = (atoms: PagedResourceAtoms<MembershipDto, FindAllMembersh
     });
 };
 
+// BaseLayout > AccessibleUserProvider 에서 currentUser 로부터 정의됨.
+// 지금 로그인한 계정이, 현재 접속중인 워크스페이스에 가지고 있는 멤버십을 의미함.
+export const useCurrentMembership = () => {
+    const [currentMembership, setCurrentMembership] = useRecoilState(currentMembershipAtom);
+    return {
+        currentMembership,
+        setCurrentMembership,
+    };
+};
+
+// Deprecated DO NOT USE
 export const useCurrentUserMemberships = () => {
     const [currentUserMemberships, refreshCurrentUserMemberships] = useRecoilState(getCurrentUserMembershipsQuery);
 
