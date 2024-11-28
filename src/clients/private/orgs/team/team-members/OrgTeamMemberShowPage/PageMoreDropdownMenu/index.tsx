@@ -33,10 +33,10 @@ export const PageMoreDropdownMenu = memo(() => {
     if (!teamMember || !currentUser) return <></>;
 
     const memberships = currentUser.memberships || [];
-    const {membership} = teamMember;
-    const isMe = !!memberships.find((m) => m.id === membership?.id);
-    const currentUserMembership = currentUser.memberships?.find((m) => m.organizationId === teamMember.organizationId);
+    const currentUserMembership = memberships.find((m) => m.organizationId === teamMember.organizationId);
     if (!currentUserMembership) return <>!</>;
+
+    const {membership} = teamMember;
 
     const sendInvitation = debounce((callback: () => any) => {
         if (!teamMember.email) return;
