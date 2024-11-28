@@ -11,6 +11,10 @@ import {ScordiSecretCodeInput} from './ScordiSecretCodeInput';
 import {ScordiPlanCard} from './ScordiPlanCard';
 import {ScordiPlanCardForFreeTrial} from './ScordiPlanCard/ScordiPlanCardForFreeTrial';
 import {PaymentPreviewModal} from '^clients/private/_modals/SelectPlanModal/PaymentPreviewModal';
+import {organizationApi} from '^models/Organization/api';
+import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
+import {oneDtoOf} from '^types/utils/response-of';
+import {OrganizationDto} from '^models/Organization/type';
 
 interface SelectPlanModalProps {
     orgId: number;
@@ -26,6 +30,7 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
     const {isLoading, scordiPlanList, fetch: fetchPlans} = useScordiPlanList();
     const {currentSubscription, update} = useCurrentScordiSubscription();
     const [selectedPlan, setSelectedPlan] = useState<ScordiPlanDto>();
+    const [scordiSubscriptions, setScordiSubscriptions] = useState<ScordiSubscriptionDto[]>([]);
 
     // 현재 구독중인 플랜의 결제주기 또는 기본값
     const stepType = currentSubscription?.scordiPlan.stepType || ScordiPlanStepType.Month;
@@ -38,7 +43,14 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
             where: {isPublic: true, stepType},
             order: {priority: 'ASC'},
         });
-        // fetchScheduled(orgId);
+
+        if (!scordiSubscriptions.length) {
+            organizationApi
+                .show(orgId, {relations: ['scordiSubscriptions']})
+                .then(oneDtoOf(OrganizationDto))
+                .then((res) => res.data.scordiSubscriptions || [])
+                .then(setScordiSubscriptions);
+        }
     }, [orgId, isOpened, stepType]);
 
     // const createSubscription = (orgId: number, planId: number) => {
@@ -123,6 +135,7 @@ export const SelectPlanModal = memo(function SelectPlanModal(props: SelectPlanMo
                                         <ScordiPlanCardForFreeTrial
                                             key={plan.id}
                                             scordiPlan={plan}
+                                            scordiSubscriptions={scordiSubscriptions}
                                             onClick={() => setSelectedPlan(plan)}
                                         />
                                     ) : (
