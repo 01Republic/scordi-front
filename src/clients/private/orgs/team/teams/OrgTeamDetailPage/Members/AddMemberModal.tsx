@@ -4,13 +4,11 @@ import {orgIdParamState, teamIdParamState} from '^atoms/common';
 import {useRecoilValue} from 'recoil';
 import {TeamMemberDto, useAddableTeamMemberListInAddTeamMemberModal} from '^models/TeamMember';
 import {teamMembershipApi} from '^models/TeamMembership/api';
-import {TeamMembershipDto} from '^models/TeamMembership/type';
 import {TeamMemberSelectItem} from '^v3/share/modals/AppShowPageModal/TeamMemberSelectModal/TeamMemberSelectItem';
 import {toast} from 'react-hot-toast';
-import {debounce} from 'lodash';
 
 interface AddMemberModalProps extends ModalProps {
-    preItems?: TeamMembershipDto[];
+    //
 }
 
 export const AddMemberModal = memo(function AddMemberModal(props: AddMemberModalProps) {

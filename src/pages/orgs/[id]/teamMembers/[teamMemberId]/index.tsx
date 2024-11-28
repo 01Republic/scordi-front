@@ -34,25 +34,12 @@ export const getStaticProps = async ({locale}: any) => ({
 });
 
 export default function Page() {
-    const router = useRouter();
     const orgId = useRouterIdParamState('id', orgIdParamState);
     const teamMemberId = useRouterIdParamState('teamMemberId', teamMemberIdParamState);
     useCurrentOrg(orgId);
-    const [teamMember, setTeamMember] = useRecoilState(teamMemberSubjectAtom);
-
-    useEffect(() => {
-        if (!router.isReady) return;
-        if (!orgId || isNaN(orgId)) return;
-        if (!teamMemberId || isNaN(teamMemberId)) return;
-
-        teamMemberApi.show(orgId, teamMemberId).then((res) => {
-            setTeamMember(res.data);
-        });
-    }, [router.isReady, orgId, teamMemberId]);
 
     if (!orgId || isNaN(orgId)) return <></>;
     if (!teamMemberId || isNaN(teamMemberId)) return <></>;
-    if (!teamMember) return <></>;
 
     return <OrgTeamMemberShowPage />;
 }

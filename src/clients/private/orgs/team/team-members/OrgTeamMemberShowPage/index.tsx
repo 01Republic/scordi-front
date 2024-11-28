@@ -1,6 +1,6 @@
-import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import React, {memo, useEffect} from 'react';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {orgIdParamState, teamMemberIdParamState} from '^atoms/common';
 import {OrgTeamMemberListPageRoute} from '^pages/orgs/[id]/teamMembers';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabGroup} from '^clients/private/_layouts/_shared/MainTabButton';
@@ -8,10 +8,23 @@ import {useCurrentTeamMember} from './atom';
 import {PageMoreDropdownMenu} from './PageMoreDropdownMenu';
 import {TeamMemberProfilePanel} from './TeamMemberProfilePanel';
 import {TeamMemberBasicInfo, TeamMemberSubscription} from './tab-panes';
+import {useUnmount} from '^hooks/useUnmount';
 
 export const OrgTeamMemberShowPage = memo(function OrgTeamMemberShowPage() {
     const orgId = useRecoilValue(orgIdParamState);
-    const {currentTeamMember} = useCurrentTeamMember();
+    const [teamMemberId, setTeamMemberId] = useRecoilState(teamMemberIdParamState);
+    const {currentTeamMember, findTeamMember, clear} = useCurrentTeamMember();
+
+    useEffect(() => {
+        if (!orgId || isNaN(orgId)) return;
+        if (!teamMemberId || isNaN(teamMemberId)) return;
+        findTeamMember(orgId, teamMemberId);
+    }, [orgId, teamMemberId]);
+
+    useUnmount(() => {
+        clear();
+        setTeamMemberId(NaN);
+    });
 
     return (
         <ShowPage

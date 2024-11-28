@@ -11,41 +11,37 @@ import {FaPlus} from 'react-icons/fa6';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {useRouter} from 'next/router';
 import {OrgTeamDetailPageTabContentCommonProps} from '../OrgTeamDetailPageTabContent';
+import {useUnmount} from '^hooks/useUnmount';
 
 export const TeamPaymentsListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
-    const router = useRouter();
+    const {reload: reloadParent} = props;
     const teamId = useRecoilValue(teamIdParamState);
-    const {
-        search,
-        result,
-        reload,
-        isLoading,
-        isNotLoaded,
-        isEmptyResult,
-        orderBy,
-        movePage,
-        changePageSize,
-        clearCache,
-    } = useTeamCreditCardListInTeamDetail();
+    const {search, result, reload, isLoading, isNotLoaded, isEmptyResult, orderBy, movePage, changePageSize, reset} =
+        useTeamCreditCardListInTeamDetail();
     const [isOpened, setIsOpened] = useState(false);
 
     const onSearch = (keyword?: string) => {
-        search({keyword, where: {teamId: teamId}, relations: ['creditCard', 'creditCard.holdingMember']});
+        search({
+            relations: ['creditCard', 'creditCard.holdingMember'],
+            where: {teamId},
+            keyword,
+        });
     };
 
     useEffect(() => {
-        !!teamId && search({where: {teamId: teamId}, relations: ['creditCard', 'creditCard.holdingMember']});
+        if (!teamId || isNaN(teamId)) return;
+        onSearch();
     }, [teamId]);
 
-    useEffect(() => {
-        return () => clearCache();
-    }, [router.isReady]);
+    useUnmount(() => reset());
+
+    const {totalItemCount} = result.pagination;
 
     return (
         <>
             <div className={'flex items-center justify-between pb-4'}>
                 <div>
-                    전체 <span className={'text-scordi-500'}>{result.pagination.totalItemCount}</span>
+                    전체 <span className={'text-scordi-500'}>{totalItemCount.toLocaleString()}</span>
                 </div>
                 <div className={'flex space-x-4'}>
                     <ListPageSearchInput onSearch={onSearch} placeholder={'검색어를 입력해주세요'} />
@@ -84,6 +80,7 @@ export const TeamPaymentsListPage = memo(function (props: OrgTeamDetailPageTabCo
                 isOpened={isOpened}
                 onClose={() => {
                     reload();
+                    reloadParent();
                     setIsOpened(false);
                 }}
             />
