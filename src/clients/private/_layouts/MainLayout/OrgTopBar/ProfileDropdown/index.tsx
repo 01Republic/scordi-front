@@ -66,15 +66,13 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                                 </a>
                             </li>
                             <li>
-                                <LinkTo
-                                    href={ChannelTalk_Url}
-                                    target="_blank"
+                                <a
                                     className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi"
-                                    rel="noopener noreferrer"
+                                    onClick={() => window.open(ChannelTalk_Url, '_blank')}
                                 >
                                     <AiOutlineQuestionCircle />
                                     <span>{t('dropdown.help')}</span>
-                                </LinkTo>
+                                </a>
                             </li>
                             <li>
                                 <LinkTo
