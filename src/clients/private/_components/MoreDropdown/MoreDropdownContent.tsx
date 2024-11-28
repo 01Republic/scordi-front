@@ -1,5 +1,4 @@
 import {DetailedHTMLProps, HTMLAttributes, memo} from 'react';
-import {WithChildren} from '^types/global.type';
 import {eventCut} from '^utils/event';
 
 interface MoreDropdownContentProps extends DetailedHTMLProps<HTMLAttributes<HTMLUListElement>, HTMLUListElement> {

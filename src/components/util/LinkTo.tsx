@@ -43,13 +43,10 @@ export const LinkTo = memo((props: LinkToProps & WithChildren) => {
     }, [router.isReady]);
 
     if (target === '_blank') {
-        const attrs: AnchorHTMLAttributes<any> = {};
-        if (href) attrs.href = `${href}`;
-        if (onClick) attrs.onClick = onClick;
         return (
-            <a className={className} {...attrs} target={target} rel="noopener noreferrer">
+            <Link className={className} href={href} onClick={onClick} target={target}>
                 {children || text}
-            </a>
+            </Link>
         );
     }
 
