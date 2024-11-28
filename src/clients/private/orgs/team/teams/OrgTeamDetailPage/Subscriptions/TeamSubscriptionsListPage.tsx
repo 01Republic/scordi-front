@@ -12,11 +12,10 @@ import {FindAllSubscriptionsQuery} from '^models/Subscription/types';
 import {OrgTeamDetailPageTabContentCommonProps} from '../OrgTeamDetailPageTabContent';
 
 export const TeamSubscriptionsListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
-    const teamId = useRecoilValue(teamIdParamState);
-    const {team, reload} = useCurrentTeam();
-    const {search, result, isLoading, clearCache} = useSubscriptionsInTeamShowPage();
+    const {team} = useCurrentTeam();
+    const {search, result, isLoading, reset} = useSubscriptionsInTeamShowPage();
 
-    const loadData = (params: FindAllSubscriptionsQuery = {}) => {
+    const loadData = (teamId: number, params: FindAllSubscriptionsQuery = {}) => {
         return search({
             relations: ['product', 'teamMembers'],
             where: {
@@ -29,17 +28,14 @@ export const TeamSubscriptionsListPage = memo(function (props: OrgTeamDetailPage
     };
 
     const onSearch = debounce((keyword?: string) => {
-        return loadData({keyword});
+        return team && loadData(team.id, {keyword});
     }, 500);
 
     useEffect(() => {
-        if (!teamId || isNaN(teamId)) return;
-        loadData();
-    }, [teamId]);
+        team && loadData(team.id);
+    }, [team]);
 
-    useUnmount(() => {
-        clearCache();
-    }, []);
+    useUnmount(() => reset());
 
     return (
         <>

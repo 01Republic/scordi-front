@@ -1,5 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {orgIdParamState, teamIdParamState} from '^atoms/common';
 import {OrgTeamListPageRoute} from '^pages/orgs/[id]/teams';
 import {useCurrentTeam} from '^models/Team/hook';
@@ -10,18 +10,21 @@ import {TeamStatCardList} from './TeamStatCardList';
 import {OrgTeamDetailPageTabContent, TabName} from './OrgTeamDetailPageTabContent';
 import {useUnmount} from '^hooks/useUnmount';
 
-export const OrgTeamDetailPage = memo(function TeamDetailLayout() {
+export const OrgTeamDetailPage = memo(function OrgTeamDetailPage() {
     const orgId = useRecoilValue(orgIdParamState);
-    const teamId = useRecoilValue(teamIdParamState);
+    const [teamId, setTeamId] = useRecoilState(teamIdParamState);
     const {team, fetchData, clear, reloadWithUpdateCounters} = useCurrentTeam();
     const [tab, setTab] = useState(TabName.members);
 
     useEffect(() => {
         if (!teamId || isNaN(teamId)) return;
-        fetchData();
+        fetchData(teamId);
     }, [teamId]);
 
-    useUnmount(() => clear());
+    useUnmount(() => {
+        clear();
+        setTeamId(NaN);
+    });
 
     return (
         <MainLayout>
