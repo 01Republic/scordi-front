@@ -36,6 +36,10 @@ export class ScordiPlanDto {
         return null;
     }
 
+    get isFreeTrial() {
+        return this.regularPrice === 0;
+    }
+
     // 할인율 (0 ~ 1)
     get discountRatio() {
         if (this.regularPrice <= this.price) return 0;
