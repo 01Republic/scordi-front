@@ -3,6 +3,7 @@ import {useCallback, useEffect} from 'react';
 import {membershipApi, myMembershipApi} from '^models/Membership/api';
 import {currentUserAtom, currentUserMembershipAtom, getCurrentUserMembershipsQuery} from '^models/User/atom';
 import {
+    adminUserDetailMembershipListAtom,
     currentMembershipAtom,
     membershipInInHeaderAtom,
     membershipInInviteModalAtom,
@@ -48,6 +49,18 @@ export const useCurrentMembership = () => {
         currentMembership,
         setCurrentMembership,
     };
+};
+
+// Admin / UserDetail / MembershipList
+export const useMembershipListInAdminUserDetail = () => useMembershipsInAdmin(adminUserDetailMembershipListAtom);
+
+const useMembershipsInAdmin = (atoms: PagedResourceAtoms<MembershipDto, FindAllMembershipQuery>, mergeMode = false) => {
+    return usePagedResource(atoms, {
+        endpoint: (params) => membershipApi.index(params),
+        useOrgId: false,
+        mergeMode,
+        getId: 'id',
+    });
 };
 
 // Deprecated DO NOT USE

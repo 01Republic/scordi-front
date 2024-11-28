@@ -7,10 +7,11 @@ import {errorToast} from '^api/api';
 import {debounce} from 'lodash';
 
 interface UserIsAdminHandlerProps {
-    //
+    reload?: () => any;
 }
 
 export const UserIsAdminHandler = memo((props: UserIsAdminHandlerProps) => {
+    const {reload} = props;
     const [user, setUser] = useRecoilState(adminUserDetail);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -23,9 +24,10 @@ export const UserIsAdminHandler = memo((props: UserIsAdminHandlerProps) => {
         setIsLoading(true);
         userManageApi
             .update(user.id, {isAdmin})
-            .then(() => toast.success('변경 완료!'))
             .then(() => userManageApi.show(user.id))
             .then((res) => setUser(res.data))
+            .then(() => toast.success('변경 완료!'))
+            .then(reload)
             .catch(errorToast)
             .finally(() => setIsLoading(false));
     }, 500);

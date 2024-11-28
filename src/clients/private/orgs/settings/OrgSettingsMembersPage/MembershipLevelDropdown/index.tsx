@@ -11,10 +11,11 @@ import {MembershipLevelItem} from './MembershipLevelItem';
 interface MembershipLevelDropdownProps {
     membership: MembershipDto;
     reload?: () => any;
+    levelOptions?: MembershipLevel[];
 }
 
 export const MembershipLevelDropdown = memo((props: MembershipLevelDropdownProps) => {
-    const {membership, reload} = props;
+    const {membership, reload, levelOptions = [MembershipLevel.MEMBER, MembershipLevel.OWNER]} = props;
 
     const onChange = (level: MembershipLevel) => {
         return membershipApi
@@ -46,16 +47,14 @@ export const MembershipLevelDropdown = memo((props: MembershipLevelDropdownProps
                             className="dropdown-content p-0 menu shadow-lg bg-base-100 rounded-btn border border-gray-200 min-w-[5rem]"
                             onClick={eventCut}
                         >
-                            <MembershipLevelItem
-                                level={MembershipLevel.OWNER}
-                                onClick={() => onChange(MembershipLevel.OWNER)}
-                                isCurrent={membership.level === MembershipLevel.OWNER}
-                            />
-                            <MembershipLevelItem
-                                level={MembershipLevel.MEMBER}
-                                onClick={() => onChange(MembershipLevel.MEMBER)}
-                                isCurrent={membership.level === MembershipLevel.MEMBER}
-                            />
+                            {levelOptions.map((level, i) => (
+                                <MembershipLevelItem
+                                    key={i}
+                                    level={level}
+                                    onClick={() => onChange(level)}
+                                    isCurrent={membership.level === level}
+                                />
+                            ))}
                         </div>
                     );
                 }}
