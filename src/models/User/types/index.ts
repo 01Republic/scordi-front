@@ -150,13 +150,17 @@ export type UserDeviceDto = {
     user?: UserDto; // 회원
 };
 
-export type CreateUserDeviceRequestDto = {
+export class CreateUserDeviceRequestDto {
     isMobile: boolean; // 모바일여부
     fcmToken: string; // FCM 토큰
-};
+}
 
-export type FindAllUserByAdminDto = FindAllQueryDto<UserDto> & {
+export class FindAllUserByAdminDto extends FindAllQueryDto<UserDto> {
     keyword?: string;
     orgId?: number;
     notAdmin?: boolean;
-};
+}
+
+export class UpdateUserByAdminDto {
+    isAdmin?: boolean; // 관리자 여부
+}

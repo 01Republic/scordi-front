@@ -22,11 +22,11 @@ export const MembershipItem = memo((props: MembershipItemProps) => {
     };
 
     return (
-        <CardTableTR gridClass="grid-cols-7" borderBottom={borderBottom}>
-            <div>
+        <CardTableTR gridClass="grid-cols-6" borderBottom={borderBottom}>
+            <div className="">
                 <div className="flex gap-2 items-center">
                     <Avatar src={org.image} className="w-[32px]" />
-                    <p className="text-left whitespace-nowrap">
+                    <p className="text-left whitespace-nowrap overflow-hidden hover:overflow-visible hover:bg-neutral hover:pr-3 z-[1]">
                         <span className="text-xs text-gray-500 mr-1">(#{org.id})</span>
                         <span className="">{org.name}</span>
                     </p>
@@ -42,6 +42,7 @@ export const MembershipItem = memo((props: MembershipItemProps) => {
             <div>
                 <span className="whitespace-nowrap">{new Date(membership.createdAt).toLocaleString()}</span>
             </div>
+            <div></div>
         </CardTableTR>
     );
 });
