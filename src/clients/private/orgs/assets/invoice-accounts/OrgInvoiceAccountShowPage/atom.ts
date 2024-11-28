@@ -32,7 +32,9 @@ export const useCurrentInvoiceAccount = () => {
         return findOne(currentInvoiceAccount.organizationId, currentInvoiceAccount.id);
     };
 
-    return {currentInvoiceAccount, setCurrentInvoiceAccount, findOne, reload};
+    const clear = () => setCurrentInvoiceAccount(null);
+
+    return {currentInvoiceAccount, setCurrentInvoiceAccount, findOne, reload, clear};
 };
 
 export const useCurrentInvoiceAccountEdit = () => {

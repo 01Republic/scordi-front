@@ -35,7 +35,10 @@ export const NewSyncWithCodefApi = memo(() => {
 
     return (
         <>
-            <button className={`btn btn-scordi gap-2 ${isSyncRunning ? 'link_to-loading' : ''}`} onClick={onClick}>
+            <button
+                className={`btn btn-scordi no-animation btn-animation gap-2 ${isSyncRunning ? 'link_to-loading' : ''}`}
+                onClick={onClick}
+            >
                 <BsStars />
                 <span>연결</span>
             </button>
