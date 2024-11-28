@@ -1,6 +1,6 @@
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {useCallback, useEffect} from 'react';
-import {membershipApi} from '^models/Membership/api';
+import {membershipApi, myMembershipApi} from '^models/Membership/api';
 import {currentUserAtom, currentUserMembershipAtom, getCurrentUserMembershipsQuery} from '^models/User/atom';
 import {
     membershipInInHeaderAtom,
@@ -17,7 +17,7 @@ export const useMembershipInInviteModal = () => useMemberships(membershipInInvit
 // v3 > share > LeftNavBar > Header 컴포넌트 전용 api 요청 hook
 export const useMembershipInHeader = (mergeMode = false) =>
     usePagedResource(membershipInInHeaderAtom, {
-        endpoint: (params) => membershipApi.index(params),
+        endpoint: (params) => myMembershipApi.index(params),
         useOrgId: false,
         mergeMode,
         getId: 'id',

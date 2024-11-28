@@ -45,8 +45,37 @@ export const inviteMembershipApi = {
     },
 };
 
+/**
+ * [회원] My API
+ */
 export const myMembershipApi = {
+    // 내 멤버십 조회
+    index(params: FindAllMembershipQuery) {
+        const url = `my/memberships`;
+        return api.get(url, {params}).then(paginatedDtoOf(MembershipDto));
+    },
+
+    // 내 멤버십 상세
+    show(id: number) {
+        const url = `my/memberships/${id}`;
+        return api.get(url).then(oneDtoOf(MembershipDto));
+    },
+
+    // 내 멤버십 생성
+    create() {
+        const url = `my/memberships`;
+        // return api.get(url, dto)
+    },
+
+    // 내 멤버십 수정
     update(id: number, data: UpdateMyMembershipRequestDto) {
-        return api.patch<MembershipDto>(`my/${NAMESPACE}/${id}`, data);
+        const url = `my/memberships/${id}`;
+        return api.patch(url, data).then(oneDtoOf(MembershipDto));
+    },
+
+    // 내 멤버십 삭제
+    destroy(id: number) {
+        const url = `my/memberships/${id}`;
+        return api.delete(url).then(oneDtoOf(MembershipDto));
     },
 };
