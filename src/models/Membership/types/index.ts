@@ -4,7 +4,6 @@ import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {TypeCast} from '^types/utils/class-transformer';
 import {UserLocale} from '^models/User/types/UserLocale.enum';
 import {TeamMemberDto} from '^models/TeamMember';
-import {OmitType} from '^types/utils/omit-type';
 import {PartialType} from '^types/utils/partial-type';
 
 export enum MembershipLevel {
@@ -25,9 +24,7 @@ export class CreateMembershipRequestDto {
     level?: MembershipLevel;
 }
 
-export class UpdateMembershipRequestDto extends PartialType(
-    OmitType(CreateMembershipRequestDto, ['organizationId', 'userId']),
-) {
+export class UpdateMembershipRequestDto extends PartialType(CreateMembershipRequestDto) {
     approvalStatus?: ApprovalStatus; // 멤버십 승인 요청 상태 (가입 승인 요청 상태)
     displayCurrency?: DisplayCurrency; // 조직 화폐 사용자보기
 }
