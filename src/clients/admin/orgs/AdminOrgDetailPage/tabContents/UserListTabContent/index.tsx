@@ -5,15 +5,17 @@ import {CardTablePanel} from '^admin/share';
 import {UserItem} from './UserItem';
 import {UserManager} from '^models/User/manager';
 import {useOrgUsersInAdmin} from '^models/User/hook/admin';
+import {useUnmount} from '^hooks/useUnmount';
 
 export const UserListTabContent = memo(() => {
     const org = useRecoilValue(adminOrgDetail);
-    const {result, search, movePage, changePageSize} = useOrgUsersInAdmin();
+    const {result, search, movePage, changePageSize, reset} = useOrgUsersInAdmin();
 
     useEffect(() => {
-        if (!org) return;
-        search({orgId: org.id, notAdmin: true});
+        org && search({orgId: org.id, notAdmin: true});
     }, [org]);
+
+    useUnmount(() => reset());
 
     if (!org) return <></>;
 
