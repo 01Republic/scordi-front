@@ -6,6 +6,9 @@ import {AdminUserPageRoute} from '^pages/admin/users/[id]';
 import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
 import {hh_mm, yyyy_mm_dd} from '^utils/dateTime';
 import {MembershipLevelDropdown} from '^models/Membership/components';
+import {membershipApi} from '^models/Membership/api';
+import {errorToast} from '^api/api';
+import {toast} from 'react-hot-toast';
 
 interface UserItemProps {
     membership: MembershipDto;
@@ -19,6 +22,15 @@ export const UserItem = memo((props: UserItemProps) => {
 
     const user = membership.user;
     const detailPath = membership.userId ? AdminUserPageRoute.path(membership.userId) : '';
+
+    const remove = () => {
+        if (!confirm('정말 삭제할까요?\n관리자 권한으로 삭제하므로 이 작업은 복구가 불가능합니다.')) return;
+        membershipApi
+            .destroy(membership.id)
+            .then(() => toast.success('삭제했습니다.'))
+            .then(() => reload && reload())
+            .catch(errorToast);
+    };
 
     return (
         <CardTableTR gridClass="grid-cols-6">
@@ -79,33 +91,36 @@ export const UserItem = memo((props: UserItemProps) => {
                 <MoreDropdown
                     Trigger={() => <button className="btn btn-sm btn-scordi no-animation btn-animation">더보기</button>}
                 >
-                    {({hide}) => {
-                        return (
-                            <MoreDropdown.Content>
-                                <li>
-                                    <MoreDropdown.ItemButton href={detailPath} className="hover:bg-scordi-50">
-                                        보기
-                                    </MoreDropdown.ItemButton>
-                                </li>
-                                <li>
-                                    <MoreDropdown.ItemButton>수정</MoreDropdown.ItemButton>
-                                </li>
-                                <li>
-                                    <MoreDropdown.ItemButton>삭제</MoreDropdown.ItemButton>
-                                </li>
-                                <li>
-                                    <MoreDropdown.ItemButton
-                                        onClick={() => {
-                                            hide();
-                                            openChangeOrgModal();
-                                        }}
-                                    >
-                                        조직 변경
-                                    </MoreDropdown.ItemButton>
-                                </li>
-                            </MoreDropdown.Content>
-                        );
-                    }}
+                    {({hide}) => (
+                        <MoreDropdown.Content className="!py-0">
+                            <li>
+                                <MoreDropdown.ItemButton href={detailPath} className="hover:bg-scordi-50">
+                                    보기
+                                </MoreDropdown.ItemButton>
+                            </li>
+                            <li>
+                                <MoreDropdown.ItemButton>수정</MoreDropdown.ItemButton>
+                            </li>
+                            <li>
+                                <MoreDropdown.ItemButton
+                                    onClick={() => {
+                                        hide();
+                                        openChangeOrgModal();
+                                    }}
+                                >
+                                    조직 변경
+                                </MoreDropdown.ItemButton>
+                            </li>
+                            <li className="divider m-0" />
+                            <li>
+                                <MoreDropdown.ItemButton
+                                    text="삭제"
+                                    onClick={remove}
+                                    className="text-red-500 hover:bg-red-50"
+                                />
+                            </li>
+                        </MoreDropdown.Content>
+                    )}
                 </MoreDropdown>
             </div>
         </CardTableTR>
