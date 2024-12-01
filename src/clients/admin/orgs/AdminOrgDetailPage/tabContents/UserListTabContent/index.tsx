@@ -28,6 +28,7 @@ export const UserListTabContent = memo(() => {
         search({
             relations: ['user'],
             where: {organizationId: org.id, ...where},
+            includeAdmin: true,
             order: {id: 'DESC'},
         });
     };

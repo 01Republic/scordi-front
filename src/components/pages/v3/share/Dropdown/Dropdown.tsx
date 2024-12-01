@@ -28,6 +28,7 @@ export interface DropdownProps
     offset?: [number, number]; // default: undefined
     onOpen?: () => any;
     onClose?: () => any;
+    disabled?: boolean;
 }
 
 export const Dropdown = memo((props: DropdownProps) => {
@@ -36,10 +37,11 @@ export const Dropdown = memo((props: DropdownProps) => {
     const show = () => setVisible(true);
     const hide = () => setVisible(false);
     const {Trigger, Content, className = '', placement = 'bottom-end', children} = props;
-    const {backdrop = true, allowScroll = false, interactiveBorder = 30, offset} = props;
+    const {disabled = false, backdrop = true, allowScroll = false, interactiveBorder = 30, offset} = props;
     const {onOpen, onClose} = props;
 
     const openDropdown = () => {
+        if (disabled) return;
         show();
         onOpen && onOpen();
     };

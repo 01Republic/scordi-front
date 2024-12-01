@@ -1,11 +1,11 @@
 import {memo} from 'react';
 import {toast} from 'react-hot-toast';
-import {FaChevronDown} from 'react-icons/fa6';
 import {errorToast} from '^api/api';
 import {Dropdown} from '^v3/share/Dropdown';
 import {eventCut} from '^utils/event';
 import {membershipApi} from '../../api';
-import {MembershipDto, MembershipLevel, t_membershipLevel} from '../../types';
+import {MembershipDto, MembershipLevel} from '../../types';
+import {MembershipLevelButton} from './MembershipLevelButton';
 import {MembershipLevelItem} from './MembershipLevelItem';
 
 interface MembershipLevelDropdownProps {
@@ -28,19 +28,9 @@ export const MembershipLevelDropdown = memo((props: MembershipLevelDropdownProps
     return (
         <div onClick={eventCut}>
             <Dropdown
+                disabled={!membership.userId}
                 offset={[0, 3]}
-                Trigger={() => {
-                    return (
-                        <div
-                            className={`input input-sm input-bordered min-w-[5rem] flex items-center justify-between text-gray-500 shadow ${
-                                membership.userId ? '' : 'input-disabled'
-                            }`}
-                        >
-                            <div className="text-13 font-medium">{t_membershipLevel(membership.level)}</div>
-                            {membership.userId && <FaChevronDown fontSize={10} className="relative top-[-1px]" />}
-                        </div>
-                    );
-                }}
+                Trigger={() => <MembershipLevelButton membership={membership} />}
                 Content={() => {
                     return (
                         <div

@@ -30,15 +30,21 @@ export const UserItem = memo((props: UserItemProps) => {
                 {user ? (
                     <div className="flex gap-2 items-center">
                         <Avatar src={user.profileImgUrl} className="w-6 h-6" />
-                        <p className="text-left whitespace-nowrap">
-                            <span className="text-xs text-gray-500 mr-1">(#{user.id})</span>
-                            <span className="">{user.name}</span>
-                        </p>
+                        <div className="leading-none">
+                            <p className="text-left whitespace-nowrap leading-none">
+                                <span className="text-xs text-gray-500 mr-1">(#{user.id})</span>
+                                <span className="">{user.name}</span>
+                            </p>
+                            <p className="leading-none text-12 text-gray-400">{user.email}</p>
+                        </div>
                     </div>
                 ) : (
                     <div className="text-14 text-gray-400">
                         {membership.invitedEmail ? (
-                            <div>초대 수락 대기중</div>
+                            <div className="leading-none">
+                                <div className="text-10">초대 수락 대기중</div>
+                                <div className="text-12">{membership.invitedEmail}</div>
+                            </div>
                         ) : (
                             <div className="text-red-500" onClick={() => console.log(membership)}>
                                 알 수 없음
