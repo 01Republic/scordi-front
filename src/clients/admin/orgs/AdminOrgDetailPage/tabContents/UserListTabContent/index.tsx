@@ -1,13 +1,14 @@
-import {memo, useEffect} from 'react';
+import {memo, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {CardTablePanel} from '^admin/share';
 import {useUnmount} from '^hooks/useUnmount';
 import {useMembershipListInAdminOrgDetail} from '^models/Membership/hook';
 import {MembershipDto, MembershipLevel} from '^models/Membership/types';
-import {UserItem} from './UserItem';
 import {FindOptionsWhere} from '^types/utils/find-options';
 import {LoadableBox} from '^components/util/loading';
+import {UserItem} from './UserItem';
+import {ChangeOrgModal} from './ChangeOrgModal';
 
 enum LevelViewMode {
     UserOnly = 'UserOnly',
@@ -18,6 +19,8 @@ enum LevelViewMode {
 export const UserListTabContent = memo(() => {
     const org = useRecoilValue(adminOrgDetail);
     const {isLoading, result, search, movePage, changePageSize, reset, reload} = useMembershipListInAdminOrgDetail();
+    const [changeOrgModalSubject, setChangeOrgModalSubject] = useState<MembershipDto>();
+    const isChangeOrgModalOpened = !!changeOrgModalSubject;
 
     const fetchList = (where: FindOptionsWhere<MembershipDto> = {}) => {
         if (!org) return;
@@ -76,12 +79,28 @@ export const UserListTabContent = memo(() => {
                     gridClass="grid-cols-6"
                     entries={items}
                     ths={['멤버십 id', '회원', '권한', '가입 승인상태', '워크스페이스 가입일시', '']}
-                    entryComponent={(membership, i) => <UserItem key={i} membership={membership} reload={reload} />}
+                    entryComponent={(membership) => (
+                        <UserItem
+                            key={membership.id}
+                            membership={membership}
+                            reload={reload}
+                            openChangeOrgModal={() => setChangeOrgModalSubject(membership)}
+                        />
+                    )}
                     pagination={pagination}
                     pageMove={movePage}
                     changePageSize={changePageSize}
                 />
             </LoadableBox>
+
+            <ChangeOrgModal
+                membership={changeOrgModalSubject}
+                isOpened={isChangeOrgModalOpened}
+                onClose={() => {
+                    setChangeOrgModalSubject(undefined);
+                    reload && reload();
+                }}
+            />
         </div>
     );
 });

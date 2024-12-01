@@ -16,7 +16,7 @@ import {ApprovalStatus, CreateMembershipRequestDto, MembershipDto} from '^models
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 
 interface ChangeOrgModalProps extends ModalProps {
-    membership: MembershipDto;
+    membership?: MembershipDto;
 }
 
 export const ChangeOrgModal = memo(function AddMemberModal(props: ChangeOrgModalProps) {
@@ -25,13 +25,16 @@ export const ChangeOrgModal = memo(function AddMemberModal(props: ChangeOrgModal
     const {searchForm, onSearch, fetchData, SearchForm, listPage} = form;
 
     useEffect(() => {
+        if (!isOpened) return;
+
         fetchData({
             relations: ['memberships', 'memberships.user'],
             order: {id: 'DESC'},
         });
-    }, []);
+    }, [isOpened]);
 
     const selectOrg = (org: OrganizationDto) => {
+        if (!membership) return;
         if (!confirm(`정말 변경할까요?\n선택한 조직: [${org.id}] ${org.name}`)) return;
 
         // 멤버십 수정
@@ -68,14 +71,15 @@ export const ChangeOrgModal = memo(function AddMemberModal(props: ChangeOrgModal
                 </div>
                 <div className="flex-1 py-4 px-2 text-sm">
                     <ul>
-                        {listPage.items.map((item: OrganizationDto) => (
-                            <OrgSelectItem
-                                key={item.id}
-                                item={item}
-                                disabled={membership.organizationId === item.id}
-                                onClick={selectOrg}
-                            />
-                        ))}
+                        {membership &&
+                            listPage.items.map((item: OrganizationDto) => (
+                                <OrgSelectItem
+                                    key={item.id}
+                                    item={item}
+                                    disabled={membership.organizationId === item.id}
+                                    onClick={selectOrg}
+                                />
+                            ))}
                     </ul>
                 </div>
             </div>
