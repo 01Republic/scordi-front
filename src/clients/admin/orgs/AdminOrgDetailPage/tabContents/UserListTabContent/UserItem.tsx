@@ -2,17 +2,9 @@ import {memo, useState} from 'react';
 import {Avatar} from '^components/Avatar';
 import {CardTableTR} from '^admin/share';
 import {UserDto} from '^models/User/types';
-import {LinkTo} from '^components/util/LinkTo';
 import {AdminUserPageRoute} from '^pages/admin/users/[id]';
-import {OrganizationDto} from '^models/Organization/type';
-import {MembershipLevel} from '^models/Membership/types';
-import {NextRouter} from 'next/router';
-import {membershipApi} from '^models/Membership/api';
-import {OrgHomeRoute} from '^pages/orgs/[id]/home';
-import {errorNotify} from '^utils/toast-notify';
-import {ChangeOrgModal} from '^admin/orgs/AdminOrgDetailPage/tabContents/UserListTabContent/ChangeOrgModal';
-import {useListPageSearchForm} from '^admin/share/list-page/use-list-page-search-form';
-import {organizationAdminApi} from '^models/Organization/api';
+import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
+import {ChangeOrgModal} from './ChangeOrgModal';
 
 interface UserItemProps {
     user: UserDto;
@@ -56,17 +48,40 @@ export const UserItem = memo((props: UserItemProps) => {
 
                 {/* actions */}
                 <div className="flex gap-2 items-center">
-                    <LinkTo href={detailPath} text="보기" className="btn btn-sm btn-info" />
-                    <button className="btn btn-sm btn-warning">수정</button>
-                    <button className="btn btn-sm btn-error">삭제</button>
-                    <button onClick={() => setIsOpened(true)} className="btn btn-sm ">
-                        조직 변경
-                    </button>
+                    <MoreDropdown Trigger={() => <button className="btn btn-sm btn-scordi">더보기</button>}>
+                        {({hide}) => {
+                            return (
+                                <MoreDropdown.Content>
+                                    <li>
+                                        <MoreDropdown.ItemButton href={detailPath} className="hover:bg-scordi-50">
+                                            보기
+                                        </MoreDropdown.ItemButton>
+                                    </li>
+                                    <li>
+                                        <MoreDropdown.ItemButton>수정</MoreDropdown.ItemButton>
+                                    </li>
+                                    <li>
+                                        <MoreDropdown.ItemButton>삭제</MoreDropdown.ItemButton>
+                                    </li>
+                                    <li>
+                                        <MoreDropdown.ItemButton
+                                            onClick={() => {
+                                                hide();
+                                                setIsOpened(true);
+                                            }}
+                                        >
+                                            조직 변경
+                                        </MoreDropdown.ItemButton>
+                                    </li>
+                                </MoreDropdown.Content>
+                            );
+                        }}
+                    </MoreDropdown>
                 </div>
             </CardTableTR>
             {membership && (
                 <ChangeOrgModal
-                    memberShipId={membership?.id}
+                    membership={membership}
                     isOpened={isOpened}
                     onClose={() => {
                         setIsOpened(false);

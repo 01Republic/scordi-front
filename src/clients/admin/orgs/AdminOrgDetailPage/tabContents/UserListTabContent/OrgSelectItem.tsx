@@ -6,26 +6,27 @@ import {OrganizationDto} from '^models/Organization/type';
 
 interface OrgSelectItemProps {
     item: OrganizationDto;
-    selectedOrg: {id: number; name: string} | null;
-    setSelectedOrg: (selected: {id: number; name: string}) => void;
+    disabled?: boolean;
+    onClick: (organization: OrganizationDto) => any;
 }
 
 export const OrgSelectItem = memo((props: OrgSelectItemProps) => {
-    const {item, selectedOrg, setSelectedOrg} = props;
-
-    const isSelected = selectedOrg?.id === item.id;
+    const {item: organization, disabled = false, onClick} = props;
 
     return (
         <div
-            onClick={() => setSelectedOrg({id: item.id, name: item.name})}
+            onClick={() => !disabled && onClick(organization)}
             className="flex items-center gap-4 px-4 py-3 -mx-4 no-selectable hover:bg-neutral rounded-box cursor-pointer group"
         >
             <div className="flex w-full itmes-center justify-between">
-                <span>{item.name}</span>
+                <div className="flex items-center gap-1">
+                    <span className="text-gray-400">(#{organization.id})</span>
+                    <span>{organization.name}</span>
+                </div>
 
                 <div className="flex items-center">
                     <button className="relative">
-                        {isSelected ? (
+                        {disabled ? (
                             <BsCheckCircleFill size={24} strokeWidth={0.3} className="text-indigo-500" />
                         ) : (
                             <BsCheckCircle

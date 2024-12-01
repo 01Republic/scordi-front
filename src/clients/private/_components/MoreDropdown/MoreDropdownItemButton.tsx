@@ -1,21 +1,18 @@
 import {memo} from 'react';
-import {WithChildren} from '^types/global.type';
+import {LinkTo, LinkToProps} from '^components/util/LinkTo';
 
-interface MoreDropdownItemButtonProps extends WithChildren {
-    className?: string;
-    onClick?: () => any;
+interface MoreDropdownItemButtonProps extends LinkToProps {
+    //
 }
 
 export const MoreDropdownItemButton = memo((props: MoreDropdownItemButtonProps) => {
-    const {className = '', onClick, children} = props;
+    const {className = '', ...res} = props;
 
     return (
-        <a
+        <LinkTo
             className={`text-12 flex items-center gap-2 py-2 bg-base-100 font-[500] text-gray-700 ${className}`}
-            onClick={onClick}
-        >
-            {children}
-        </a>
+            {...res}
+        />
     );
 });
 MoreDropdownItemButton.displayName = 'MoreDropdownItemButton';

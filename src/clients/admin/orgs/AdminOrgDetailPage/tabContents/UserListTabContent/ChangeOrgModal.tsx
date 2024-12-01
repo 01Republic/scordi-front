@@ -12,19 +12,17 @@ import {organizationAdminApi} from '^models/Organization/api';
 import {OrgSelectItem} from '^admin/orgs/AdminOrgDetailPage/tabContents/UserListTabContent/OrgSelectItem';
 import {FindAllOrganizationQueryDto, OrganizationDto} from '^models/Organization/type';
 import {membershipApi} from '^models/Membership/api';
-import {ApprovalStatus, CreateMembershipRequestDto} from '^models/Membership/types';
+import {ApprovalStatus, CreateMembershipRequestDto, MembershipDto} from '^models/Membership/types';
+import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 
 interface ChangeOrgModalProps extends ModalProps {
-    memberShipId: number;
+    membership: MembershipDto;
 }
 
 export const ChangeOrgModal = memo(function AddMemberModal(props: ChangeOrgModalProps) {
-    const {isOpened, onClose, memberShipId} = props;
+    const {isOpened, onClose, membership} = props;
     const form = useListPageSearchForm(organizationAdminApi.index);
     const {searchForm, onSearch, fetchData, SearchForm, listPage} = form;
-    const [selectedOrg, setSelectedOrg] = useState<{id: number; name: string} | null>(null);
-
-    console.log('멤버십아이디', memberShipId);
 
     useEffect(() => {
         fetchData({
@@ -33,81 +31,52 @@ export const ChangeOrgModal = memo(function AddMemberModal(props: ChangeOrgModal
         });
     }, []);
 
-    const onSave = () => {
-        if (selectedOrg) {
-            //membershipApi.destroy(userId);
-
-            // 멤버십 수정
-            membershipApi
-                .update(memberShipId, {
-                    organizationId: selectedOrg.id,
-                })
-                .then(() => {
-                    toast.success(`${selectedOrg.name}로 조직이 변경되었습니다.`);
-                    setSelectedOrg(null);
-                    onClose();
-                })
-                .catch(() => {
-                    toast.error('조직 변경에 실패했습니다.');
-                });
-        }
+    const selectOrg = (org: OrganizationDto) => {
+        // 멤버십 수정
+        membershipApi
+            .update(membership.id, {organizationId: org.id})
+            .then(() => {
+                toast.success(`조직이 변경되었습니다.`);
+                onClose();
+            })
+            .catch(() => {
+                toast.error('조직 변경에 실패했습니다.');
+            });
     };
 
     const onCloseModal = () => {
-        setSelectedOrg(null);
         onClose();
     };
 
     return (
-        <div
-            data-modal="TeamMemberSelectModal-for-AppShowModal"
-            className={`modal modal-bottom ${isOpened ? 'modal-open' : ''}`}
-            onClick={onCloseModal}
-        >
-            <div
-                className="modal-box max-w-lg p-0"
-                onClick={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                }}
-            >
-                <div className="p-4 bg-scordi">
-                    <h3 className="font-bold text-lg text-white">변경할 조직을 선택해주세요.</h3>
-                    <p className="text-sm text-white opacity-70">검색을 이용해 조직을 찾을 수 있어요</p>
+        <SlideUpModal open={isOpened} onClose={onCloseModal} size="lg" modalClassName="p-0">
+            <div className="p-4 bg-scordi">
+                <h3 className="font-bold text-lg text-white">변경할 조직을 선택해주세요.</h3>
+                <p className="text-sm text-white opacity-70">검색을 이용해 조직을 찾을 수 있어요</p>
+            </div>
+            <div className="px-4 pb-4 flex flex-col h-[50vh] overflow-y-auto no-scrollbar">
+                <div className="min-w-[25vw] mt-3">
+                    <SearchForm
+                        searchForm={searchForm}
+                        onSearch={onSearch}
+                        registerName="keyword"
+                        placeholder="Type here"
+                        className="input input-bordered w-full"
+                    />
                 </div>
-                <div className="px-4 pb-4 flex flex-col h-[50vh] overflow-y-auto no-scrollbar">
-                    <div className="min-w-[25vw] mt-3">
-                        <SearchForm
-                            searchForm={searchForm}
-                            onSearch={onSearch}
-                            registerName="keyword"
-                            placeholder="Type here"
-                            className="input input-bordered w-full"
-                        />
-                    </div>
-                    <div className="flex-1 py-4 px-2 text-sm">
-                        <ul>
-                            {listPage.items.map((item: OrganizationDto) => (
-                                <OrgSelectItem
-                                    key={item.id}
-                                    item={item}
-                                    setSelectedOrg={setSelectedOrg}
-                                    selectedOrg={selectedOrg}
-                                />
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-                <div className="p-4 bg-white">
-                    <button
-                        disabled={!selectedOrg}
-                        className="btn btn-lg btn-scordi btn-block rounded-box disabled:border-indigo-100 disabled:bg-indigo-100 disabled:text-indigo-300"
-                        onClick={onSave}
-                    >
-                        {!selectedOrg ? '선택한 항목이 없습니다' : `${selectedOrg.name}로 이동하시겠습니까?`}
-                    </button>
+                <div className="flex-1 py-4 px-2 text-sm">
+                    <ul>
+                        {listPage.items.map((item: OrganizationDto) => (
+                            <OrgSelectItem
+                                key={item.id}
+                                item={item}
+                                disabled={membership.organizationId === item.id}
+                                onClick={selectOrg}
+                            />
+                        ))}
+                    </ul>
                 </div>
             </div>
-        </div>
+        </SlideUpModal>
     );
 });

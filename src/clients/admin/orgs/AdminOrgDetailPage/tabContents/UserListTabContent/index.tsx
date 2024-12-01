@@ -33,7 +33,7 @@ export const UserListTabContent = memo(() => {
                 gridClass="grid-cols-5"
                 entries={users.all()}
                 ths={['프로필', '레벨', '가입일시', '수정일시', '']}
-                entryComponent={(user, i, arr) => <UserItem key={i} user={user} orgId={org.id} />}
+                entryComponent={(user, i) => <UserItem key={i} user={user} orgId={org.id} />}
                 pagination={pagination}
                 pageMove={movePage}
                 changePageSize={changePageSize}

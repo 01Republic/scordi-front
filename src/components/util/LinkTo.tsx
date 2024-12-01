@@ -6,7 +6,7 @@ import {ReactNodeLike} from 'prop-types';
 import {WithChildren} from '^types/global.type';
 import {onlyPath} from '^utils/get-query-params';
 
-export interface LinkToProps extends Partial<LinkProps> {
+export interface LinkToProps extends Partial<LinkProps & WithChildren> {
     text?: ReactNodeLike;
     className?: string;
     onClick?: MouseEventHandler<HTMLAnchorElement>;
@@ -19,7 +19,7 @@ export interface LinkToProps extends Partial<LinkProps> {
     noFollow?: boolean;
 }
 
-export const LinkTo = memo((props: LinkToProps & WithChildren) => {
+export const LinkTo = memo((props: LinkToProps) => {
     const router = useRouter();
     const [isClicked, setIsClicked] = useState(false);
     const {
