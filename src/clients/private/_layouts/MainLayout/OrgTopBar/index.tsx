@@ -57,7 +57,7 @@ export const OrgTopBar = memo(() => {
                 <div className="hidden sm:block">
                     <LinkTo
                         href={currentOrg ? OrgSubscriptionSelectPageRoute.path(currentOrg.id) : '#'}
-                        className={`btn btn-sm btn-scordi gap-2 ${
+                        className={`btn btn-sm btn-scordi gap-2 no-animation btn-animation ${
                             !currentOrg ? 'btn-disabled !bg-scordi !text-white opacity-30' : ''
                         }`}
                         disabled={!currentOrg}
