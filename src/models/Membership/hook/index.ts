@@ -3,6 +3,7 @@ import {useCallback, useEffect} from 'react';
 import {membershipApi, myMembershipApi} from '^models/Membership/api';
 import {currentUserAtom, currentUserMembershipAtom, getCurrentUserMembershipsQuery} from '^models/User/atom';
 import {
+    adminOrgDetailMembershipListAtom,
     adminUserDetailMembershipListAtom,
     currentMembershipAtom,
     membershipInInHeaderAtom,
@@ -50,6 +51,9 @@ export const useCurrentMembership = () => {
         setCurrentMembership,
     };
 };
+
+// Admin / OrgDetail / MembershipList
+export const useMembershipListInAdminOrgDetail = () => useMembershipsInAdmin(adminOrgDetailMembershipListAtom);
 
 // Admin / UserDetail / MembershipList
 export const useMembershipListInAdminUserDetail = () => useMembershipsInAdmin(adminUserDetailMembershipListAtom);

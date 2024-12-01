@@ -9,8 +9,6 @@ import {OrgSearchRoute} from '^pages/orgs/search';
 import {NextRouter, useRouter} from 'next/router';
 import {UserDto, UserLoginRequestDto, UserSocialLoginRequestDto} from '^models/User/types';
 import {errorNotify} from '^utils/toast-notify';
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {useAlert} from '^hooks/useAlert';

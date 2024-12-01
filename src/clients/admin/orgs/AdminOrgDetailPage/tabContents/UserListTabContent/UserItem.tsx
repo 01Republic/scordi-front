@@ -1,54 +1,75 @@
 import {memo, useState} from 'react';
 import {Avatar} from '^components/Avatar';
 import {CardTableTR} from '^admin/share';
-import {UserDto} from '^models/User/types';
+import {MembershipDto} from '^models/Membership/types';
 import {AdminUserPageRoute} from '^pages/admin/users/[id]';
 import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
 import {ChangeOrgModal} from './ChangeOrgModal';
+import {hh_mm, yyyy_mm_dd} from '^utils/dateTime';
 
 interface UserItemProps {
-    user: UserDto;
-    orgId: number;
+    membership: MembershipDto;
     borderBottom?: boolean;
+    reload?: () => any;
 }
 
 export const UserItem = memo((props: UserItemProps) => {
-    const {user, orgId} = props;
+    const {membership, reload} = props;
 
-    const membership = (user.memberships || []).find((m) => m.organizationId === orgId);
-    const detailPath = AdminUserPageRoute.path(user.id);
+    const user = membership.user;
+    const detailPath = membership.userId ? AdminUserPageRoute.path(membership.userId) : '';
     const [isOpened, setIsOpened] = useState(false);
 
     return (
         <>
-            <CardTableTR gridClass="grid-cols-5">
-                {/* image, profile */}
+            <CardTableTR gridClass="grid-cols-6">
+                {/* 멤버십 id */}
+                <div>{membership.id}</div>
+
+                {/* 회원 */}
                 <div>
-                    <div className="flex gap-2 items-center">
-                        <Avatar src={user.profileImgUrl} className="w-[32px]" />
-                        <p className="text-left whitespace-nowrap">
-                            <span className="text-xs text-gray-500 mr-1">(#{user.id})</span>
-                            <span className="">{user.name}</span>
-                        </p>
-                    </div>
+                    {user ? (
+                        <div className="flex gap-2 items-center">
+                            <Avatar src={user.profileImgUrl} className="w-6 h-6" />
+                            <p className="text-left whitespace-nowrap">
+                                <span className="text-xs text-gray-500 mr-1">(#{user.id})</span>
+                                <span className="">{user.name}</span>
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="text-14 text-gray-400">
+                            {membership.invitedEmail ? (
+                                <div>초대 수락 대기중</div>
+                            ) : (
+                                <div className="text-red-500" onClick={() => console.log(membership)}>
+                                    알 수 없음
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
 
-                {/* membership level */}
-                <div>{membership?.level}</div>
+                {/* 권한 */}
+                <div>{membership.level}</div>
+
+                {/* 조직 가입 승인상태 */}
+                <div>{membership.approvalStatus}</div>
 
                 {/* 가입일시 */}
                 <div>
-                    <span className="whitespace-nowrap">{user.createdAt.toLocaleString()}</span>
-                </div>
-
-                {/* 수정일시 */}
-                <div>
-                    <span className="whitespace-nowrap">{user.updatedAt.toLocaleString()}</span>
+                    <div className="text-12 flex items-center gap-1.5">
+                        <span>{yyyy_mm_dd(membership.createdAt, '. ')}</span>
+                        <span>{hh_mm(membership.createdAt)}</span>
+                    </div>
                 </div>
 
                 {/* actions */}
                 <div className="flex gap-2 items-center">
-                    <MoreDropdown Trigger={() => <button className="btn btn-sm btn-scordi">더보기</button>}>
+                    <MoreDropdown
+                        Trigger={() => (
+                            <button className="btn btn-sm btn-scordi no-animation btn-animation">더보기</button>
+                        )}
+                    >
                         {({hide}) => {
                             return (
                                 <MoreDropdown.Content>
@@ -85,6 +106,7 @@ export const UserItem = memo((props: UserItemProps) => {
                     isOpened={isOpened}
                     onClose={() => {
                         setIsOpened(false);
+                        reload && reload();
                     }}
                 />
             )}

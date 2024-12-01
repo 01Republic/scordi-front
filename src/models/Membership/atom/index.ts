@@ -77,7 +77,12 @@ export const currentMembershipAtom = atom<MembershipDto | null>({
     default: null,
 });
 
+// Admin / OrgDetail / MembershipList
+export const adminOrgDetailMembershipListAtom = pagedResourceAtom<MembershipDto, FindAllMembershipQuery>({
+    key: 'admin/OrgDetail/MembershipList/Atom',
+});
+
 // Admin / UserDetail / MembershipList
 export const adminUserDetailMembershipListAtom = pagedResourceAtom<MembershipDto, FindAllMembershipQuery>({
-    key: 'adminUserDetailMembershipListAtom/Atom',
+    key: 'admin/UserDetail/MembershipList/Atom',
 });

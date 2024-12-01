@@ -32,6 +32,8 @@ export const ChangeOrgModal = memo(function AddMemberModal(props: ChangeOrgModal
     }, []);
 
     const selectOrg = (org: OrganizationDto) => {
+        if (!confirm(`정말 변경할까요?\n선택한 조직: [${org.id}] ${org.name}`)) return;
+
         // 멤버십 수정
         membershipApi
             .update(membership.id, {organizationId: org.id})

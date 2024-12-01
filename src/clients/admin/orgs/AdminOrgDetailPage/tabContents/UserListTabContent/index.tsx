@@ -2,17 +2,22 @@ import {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {CardTablePanel} from '^admin/share';
-import {UserItem} from './UserItem';
-import {UserManager} from '^models/User/manager';
-import {useOrgUsersInAdmin} from '^models/User/hook/admin';
 import {useUnmount} from '^hooks/useUnmount';
+import {useMembershipListInAdminOrgDetail} from '^models/Membership/hook';
+import {MembershipLevel} from '^models/Membership/types';
+import {UserItem} from './UserItem';
 
 export const UserListTabContent = memo(() => {
     const org = useRecoilValue(adminOrgDetail);
-    const {result, search, movePage, changePageSize, reset} = useOrgUsersInAdmin();
+    const {result, search, movePage, changePageSize, reset, reload} = useMembershipListInAdminOrgDetail();
 
     useEffect(() => {
-        org && search({orgId: org.id, notAdmin: true});
+        org &&
+            search({
+                relations: ['user'],
+                where: {organizationId: org.id, level: {op: 'not', val: MembershipLevel.ADMIN}},
+                order: {id: 'DESC'},
+            });
     }, [org]);
 
     useUnmount(() => reset());
@@ -20,7 +25,6 @@ export const UserListTabContent = memo(() => {
     if (!org) return <></>;
 
     const {items, pagination} = result;
-    const users = UserManager.init(items).exceptAdmin();
 
     return (
         <div className="w-full">
@@ -30,10 +34,10 @@ export const UserListTabContent = memo(() => {
             </h2>
 
             <CardTablePanel
-                gridClass="grid-cols-5"
-                entries={users.all()}
-                ths={['프로필', '레벨', '가입일시', '수정일시', '']}
-                entryComponent={(user, i) => <UserItem key={i} user={user} orgId={org.id} />}
+                gridClass="grid-cols-6"
+                entries={items}
+                ths={['멤버십 id', '회원', '권한', '가입 승인상태', '워크스페이스 가입일시', '']}
+                entryComponent={(membership, i) => <UserItem key={i} membership={membership} reload={reload} />}
                 pagination={pagination}
                 pageMove={movePage}
                 changePageSize={changePageSize}
