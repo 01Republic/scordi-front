@@ -1,23 +1,12 @@
 import React, {memo, useState} from 'react';
-import {TeamMemberDto} from '^models/TeamMember';
-import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 import {OrgTeamMemberShowPageRoute} from '^pages/orgs/[id]/teamMembers/[teamMemberId]';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
-import {teamMembershipApi} from '^models/TeamMembership/api';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState, teamIdParamState, useRouterIdParamState} from '^atoms/common';
-import {TeamMemberTag} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/TeamMemberTag';
-import {toast} from 'react-toastify';
-import {confirm2} from '^components/util/dialog';
-import {UserDto} from '^models/User/types';
-import {MembershipDto, t_membershipLevel} from '^models/Membership/types';
+import {MembershipDto} from '^models/Membership/types';
+import {MembershipLevelDropdown} from '^models/Membership/components';
 import {UserAvatar} from '^models/User/components/UserAvatar';
 import {UserProfile} from '^models/User/components/UserProfile';
 import {WithChildren} from '^types/global.type';
-import {MembershipLevelDropdown} from './MembershipLevelDropdown';
 import {MembershipMoreDropdown} from './MembershipMoreDropdown';
-import {yyyy_mm_dd} from '^utils/dateTime';
-import {Avatar} from '^components/Avatar';
 
 interface TeamMemberTableRowProps {
     membership?: MembershipDto;

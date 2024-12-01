@@ -1,11 +1,11 @@
 import {memo} from 'react';
 import {toast} from 'react-hot-toast';
 import {FaChevronDown} from 'react-icons/fa6';
-import {membershipApi} from '^models/Membership/api';
-import {MembershipDto, MembershipLevel, t_membershipLevel} from '^models/Membership/types';
 import {errorToast} from '^api/api';
 import {Dropdown} from '^v3/share/Dropdown';
 import {eventCut} from '^utils/event';
+import {membershipApi} from '../../api';
+import {MembershipDto, MembershipLevel, t_membershipLevel} from '../../types';
 import {MembershipLevelItem} from './MembershipLevelItem';
 
 interface MembershipLevelDropdownProps {

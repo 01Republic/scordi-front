@@ -1,11 +1,12 @@
 import {memo, useState} from 'react';
 import {Avatar} from '^components/Avatar';
 import {CardTableTR} from '^admin/share';
-import {MembershipDto} from '^models/Membership/types';
+import {MembershipDto, MembershipLevel} from '^models/Membership/types';
 import {AdminUserPageRoute} from '^pages/admin/users/[id]';
 import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
 import {ChangeOrgModal} from './ChangeOrgModal';
 import {hh_mm, yyyy_mm_dd} from '^utils/dateTime';
+import {MembershipLevelDropdown} from '^models/Membership/components';
 
 interface UserItemProps {
     membership: MembershipDto;
@@ -50,7 +51,13 @@ export const UserItem = memo((props: UserItemProps) => {
                 </div>
 
                 {/* 권한 */}
-                <div>{membership.level}</div>
+                <div>
+                    <MembershipLevelDropdown
+                        membership={membership}
+                        reload={reload}
+                        levelOptions={[MembershipLevel.MEMBER, MembershipLevel.OWNER, MembershipLevel.ADMIN]}
+                    />
+                </div>
 
                 {/* 조직 가입 승인상태 */}
                 <div>{membership.approvalStatus}</div>

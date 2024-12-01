@@ -1,5 +1,6 @@
 import {memo} from 'react';
-import {MembershipDto, MembershipLevel} from 'src/models/Membership/types';
+import {MembershipDto, MembershipLevel} from '^models/Membership/types';
+import {MembershipLevelDropdown} from '^models/Membership/components';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {serviceHost} from '^config/environments';
 import {Avatar} from '^components/Avatar';
@@ -7,7 +8,6 @@ import {CardTableTR} from '^admin/share';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {AdminOrgPageRoute} from '^pages/admin/orgs/[id]';
 import {hh_mm, yyyy_mm_dd} from '^utils/dateTime';
-import {MembershipLevelDropdown} from '^clients/private/orgs/settings/OrgSettingsMembersPage/MembershipLevelDropdown';
 
 interface MembershipItemProps {
     membership: MembershipDto;
@@ -41,7 +41,6 @@ export const MembershipItem = memo((props: MembershipItemProps) => {
             <div>
                 <MembershipLevelDropdown
                     membership={membership}
-                    // reload={() => window.location.reload()}
                     reload={reload}
                     levelOptions={[MembershipLevel.MEMBER, MembershipLevel.OWNER, MembershipLevel.ADMIN]}
                 />
