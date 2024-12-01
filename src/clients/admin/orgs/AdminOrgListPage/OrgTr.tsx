@@ -16,12 +16,10 @@ interface OrgTrProps {
 export const OrgTr = memo((props: OrgTrProps) => {
     const {org} = props;
 
-    const detailPagePath = AdminOrgPageRoute.path(org.id);
-
     const allMemberships = org.memberships || [];
-    const exceptAdminMemberships = allMemberships.filter((membership) => membership.level !== MembershipLevel.ADMIN);
-    const ownerships = exceptAdminMemberships.filter((membership) => membership.level === MembershipLevel.OWNER);
-    const memberships = exceptAdminMemberships.filter((membership) => membership.level === MembershipLevel.MEMBER);
+    const exceptAdminMemberships = allMemberships.filter(({level}) => level !== MembershipLevel.ADMIN);
+    const ownerships = exceptAdminMemberships.filter(({level}) => level === MembershipLevel.OWNER);
+    const memberships = exceptAdminMemberships.filter(({level}) => level === MembershipLevel.MEMBER);
     const [ownership, ...otherOwners] = ownerships;
     const owner = ownership?.user;
     const users = exceptAdminMemberships.map((membership) => membership.user);
