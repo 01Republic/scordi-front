@@ -56,6 +56,7 @@ export const ConnectCodefModal = memo((props: ConnectCodefModalProps) => {
                     </>
                 }
                 desc="혹시 지금 설정하기 어렵다면 다음에 해도 괜찮아요"
+                isPersonal={creditCard.isPersonal}
                 onSelect={(company) => {
                     setCardCompany(company);
                     setIsSelectCompanyModalOpened(false);
