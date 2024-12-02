@@ -39,7 +39,11 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     }, 500);
 
     const AddSubscriptionButton = () => (
-        <LinkTo href={OrgSubscriptionSelectPageRoute.path(orgId)} className="btn btn-scordi gap-2" loadingOnBtn>
+        <LinkTo
+            href={OrgSubscriptionSelectPageRoute.path(orgId)}
+            className="btn btn-scordi gap-2 no-animation btn-animation"
+            loadingOnBtn
+        >
             <FaPlus />
             <span>새 구독 등록</span>
         </LinkTo>
@@ -70,7 +74,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
             Buttons={() => <AddSubscriptionButton />}
             ScopeHandler={undefined}
             onSearch={onSearch}
-            searchInputPosition="start-of-buttons"
+            // searchInputPosition="start-of-buttons"
         >
             <ListTableContainer
                 pagination={result.pagination}
