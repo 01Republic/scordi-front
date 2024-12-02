@@ -14,6 +14,7 @@ import {FindAllOrganizationQueryDto, OrganizationDto} from '^models/Organization
 import {membershipApi} from '^models/Membership/api';
 import {ApprovalStatus, CreateMembershipRequestDto, MembershipDto} from '^models/Membership/types';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
+import {errorToast} from '^api/api';
 
 interface ChangeOrgModalProps extends ModalProps {
     membership?: MembershipDto;
@@ -44,9 +45,7 @@ export const ChangeOrgModal = memo(function AddMemberModal(props: ChangeOrgModal
                 toast.success(`조직이 변경되었습니다.`);
                 onClose();
             })
-            .catch(() => {
-                toast.error('조직 변경에 실패했습니다.');
-            });
+            .catch(errorToast);
     };
 
     const onCloseModal = () => {
