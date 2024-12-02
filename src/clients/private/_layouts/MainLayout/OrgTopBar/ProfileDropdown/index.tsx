@@ -15,6 +15,7 @@ import {LinkTo} from '^components/util/LinkTo';
 import {Dropdown} from '^v3/share/Dropdown';
 import {EditUserProfileModal} from '^clients/private/_modals/EditUserProfileModal';
 import {ChannelTalk_Url} from '^config/constants';
+import {serviceHost} from '^config/environments';
 
 export const ProfileDropdown = memo(function ProfileDropdown() {
     const {t} = useTranslation('profile');
@@ -76,7 +77,7 @@ export const ProfileDropdown = memo(function ProfileDropdown() {
                             </li>
                             <li>
                                 <LinkTo
-                                    href="/"
+                                    href={serviceHost}
                                     className="text-sm flex gap-2 py-2 bg-base-100 font-[500] text-gray-700 hover:text-scordi"
                                     displayLoading={false}
                                 >
