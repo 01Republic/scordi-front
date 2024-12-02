@@ -6,7 +6,7 @@ import {useMembershipInMembershipTable} from '^models/Membership/hook';
 import {FindAllMembershipQuery, MembershipLevel} from '^models/Membership/types';
 import {OrgSettingsMemberPageRoute} from '^pages/orgs/[id]/settings/members';
 import {OrgSettingsLayout} from '^clients/private/_layouts/OrgSettingsLayout';
-import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
+import {ListPageSearchInputStandAlone} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 import {ListTable2, ListTableContainer, NoStyleTableLayout} from '^clients/private/_components/table/ListTable';
 import {OrgMembersTableHeader} from './OrgMembersTableHeader';
 import {OrgMembersTableRow} from './OrgMembersTableRow';
@@ -51,7 +51,11 @@ export const OrgSettingsMembersPage = memo(function () {
             <div className={'flex items-center justify-between pb-4'}>
                 <div>
                     {/*전체 <span className={'text-scordi-500'}>{result.pagination.totalItemCount.toLocaleString()}</span>*/}
-                    <ListPageSearchInput onSearch={onSearch} placeholder={'검색어를 입력해주세요'} />
+                    <ListPageSearchInputStandAlone
+                        className="input-sm"
+                        onSearch={onSearch}
+                        placeholder={'검색어를 입력해주세요'}
+                    />
                 </div>
                 <div className={'flex space-x-4'}>
                     {/*<ListPageSearchInput onSearch={onSearch} placeholder={'검색어를 입력해주세요'} />*/}
