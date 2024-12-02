@@ -9,6 +9,7 @@ import {MembershipLevelDropdown} from '^models/Membership/components';
 import {membershipApi} from '^models/Membership/api';
 import {errorToast} from '^api/api';
 import {toast} from 'react-hot-toast';
+import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 
 interface UserItemProps {
     membership: MembershipDto;
@@ -40,16 +41,18 @@ export const UserItem = memo((props: UserItemProps) => {
             {/* 회원 */}
             <div>
                 {user ? (
-                    <div className="flex gap-2 items-center">
-                        <Avatar src={user.profileImgUrl} className="w-6 h-6" />
-                        <div className="leading-none">
-                            <p className="text-left whitespace-nowrap leading-none">
-                                <span className="text-xs text-gray-500 mr-1">(#{user.id})</span>
-                                <span className="">{user.name}</span>
-                            </p>
-                            <p className="leading-none text-12 text-gray-400">{user.email}</p>
+                    <OpenButtonColumn href={detailPath}>
+                        <div className={`flex gap-2 items-center`}>
+                            <Avatar src={user.profileImgUrl} className="w-6 h-6" />
+                            <div className="leading-none">
+                                <p className="text-left whitespace-nowrap leading-none">
+                                    <span className="text-xs text-gray-500 mr-1">(#{user.id})</span>
+                                    <span className="">{user.name}</span>
+                                </p>
+                                <p className="leading-none text-12 text-gray-400">{user.email}</p>
+                            </div>
                         </div>
-                    </div>
+                    </OpenButtonColumn>
                 ) : (
                     <div className="text-14 text-gray-400">
                         {membership.invitedEmail ? (
