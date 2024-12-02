@@ -7,13 +7,13 @@ import {FaChevronLeft} from 'react-icons/fa6';
 import {errorNotify} from '^utils/toast-notify';
 import {orgIdParamState} from '^atoms/common';
 import {createCreditCardDtoAtom} from '^v3/share/modals/NewCardModal/atom';
-import {CardAccountsStaticData, cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {CardCompanyItem} from '^models/CodefAccount/components';
 import {UnSignedCreditCardFormData} from '^models/CreditCard/type';
 import {creditCardApi} from '^models/CreditCard/api';
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {FadeUp} from '../../../_common/FadeUp';
-import {CardCompanyItem} from '../_common/CardCompanyItem';
+import {FadeUp} from '^components/FadeUp';
 import {InputCardFormDataStep} from './InputCardFormDataStep';
 import {CardCreatingStep} from './CardCreatingStep';
 
@@ -31,8 +31,6 @@ enum Step {
     // success,
     // failure,
 }
-
-const CardCompanies = cardAccountsStaticData;
 
 export const CardManualCreateModal = memo((props: CardManualCreateModalProps) => {
     const {isOpened, onClose, onCreate} = props;
@@ -102,15 +100,13 @@ export const CardManualCreateModal = memo((props: CardManualCreateModalProps) =>
                         </div>
 
                         <div className="py-4 flex flex-col">
-                            {CardCompanies.map((cardCompanyData, i) => {
-                                return (
-                                    <CardCompanyItem
-                                        key={i}
-                                        cardCompanyData={cardCompanyData}
-                                        onClick={() => setCompany(cardCompanyData)}
-                                    />
-                                );
-                            })}
+                            {CardAccountsStaticData.all().map((cardCompanyData, i) => (
+                                <CardCompanyItem
+                                    key={i}
+                                    cardCompanyData={cardCompanyData}
+                                    onClick={() => setCompany(cardCompanyData)}
+                                />
+                            ))}
                         </div>
                     </div>
                 )}

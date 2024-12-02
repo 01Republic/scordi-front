@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
 import {useRecoilState} from 'recoil';
 import {OutLink} from '^components/OutLink';
+import {FadeUp} from '^components/FadeUp';
 import {createSubscriptionFormData} from '../atom';
 import {StepLayout} from '../_common/StepLayout';
-import {FadeUp} from '../_common/FadeUp';
 import {InputSection, PricingTypeSelect, CurrencySelect, RecurringAmount} from '../inputs';
 import {useCurrentConnectingProduct} from '../useCurrentConnectingProduct';
 

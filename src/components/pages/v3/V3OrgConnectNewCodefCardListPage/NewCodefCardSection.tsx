@@ -1,7 +1,5 @@
 import React, {memo, useEffect} from 'react';
 import {useNewCodefCards} from '^models/CodefCard/hook';
-import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
-import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {NewCodefCard} from './NewCodefCard';
 import {codefAccountIdParamState} from '^atoms/common';
 import {useCodefAccountPageSubject} from '^v3/V3OrgConnectedCardListPage/atom';

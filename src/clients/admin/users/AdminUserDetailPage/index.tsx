@@ -9,6 +9,7 @@ import {AdminDetailPageLayout, AdminPageContainer} from '^admin/layouts';
 import {UserBasicInfoTabContent} from './UserBasicInfoTabContent';
 import {MembershipListTabContent} from './MembershipListTabContent';
 import {SocialAccountListTabContent} from './SocialAccountListTabContent';
+import {TagUI} from '^v3/share/table/columns/share/TagUI';
 
 export const adminUserDetail = atom<UserDto | null>({
     key: 'adminUserDetail',
@@ -43,7 +44,14 @@ export const AdminUserDetailPage = memo(() => {
 
     return (
         <AdminDetailPageLayout
-            title={`${user.name} (#${user.id})`}
+            title={
+                <span className="inline-flex gap-4 items-center">
+                    <span>
+                        {user.name} (#{user.id})
+                    </span>
+                    {user.isAdmin && <button className="btn btn-sm !bg-red-200">ADMIN</button>}
+                </span>
+            }
             breadcrumbs={[{text: '회원관리'}, {text: '회원목록', href: AdminUsersPageRoute.path()}, {text: '회원상세'}]}
             // editPageRoute={''}
             // onDelete={() => console.log('delete!')}

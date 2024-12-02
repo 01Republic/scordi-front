@@ -6,12 +6,10 @@ import {TeamMemberDto} from '^models/TeamMember';
 import {TeamDto} from '^models/Team/type';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
-import {cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CreditCardUsingStatus} from './CreditCardUsingStatus.enum';
 import {CreditCardSecretInfo} from './CreditCardSecretInfo';
 import {CreditCardNumber} from './CreditCardNumber.type';
-
-const CardCompanies = cardAccountsStaticData;
 
 export class CreditCardDto {
     id: number; // 카드 ID
@@ -47,7 +45,9 @@ export class CreditCardDto {
     }
 
     get company() {
-        return CardCompanies.find((data) => this.issuerCompany === data.displayName);
+        return CardAccountsStaticData.findByPersonal(this.isPersonal).find(
+            (data) => this.issuerCompany === data.displayName,
+        );
     }
 
     get label(): string {

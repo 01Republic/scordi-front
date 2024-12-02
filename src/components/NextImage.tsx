@@ -1,14 +1,14 @@
 import Image, {ImageProps} from 'next/image';
 
 interface NextImageProps extends ImageProps {
-    className: string;
+    className?: string;
     fill?: ImageProps['fill'];
     sizes?: ImageProps['sizes'];
 }
 
 export const NextImage = (props: NextImageProps) => {
-    const {src, alt, className, sizes, style = {}, ...res} = props;
-    const fill = props.fill ?? true;
+    const {src, alt, className = '', sizes, style = {}, ...res} = props;
+    const fill = props.width ? false : props.fill ?? true;
 
     if (fill) {
         style.objectFit ??= 'cover';

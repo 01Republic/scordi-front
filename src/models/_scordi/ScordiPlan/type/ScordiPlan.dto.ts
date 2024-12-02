@@ -25,6 +25,7 @@ export class ScordiPlanDto {
     @TypeCast(() => Date) createdAt: Date; // 생성일시
     @TypeCast(() => Date) updatedAt: Date; // 수정일시
 
+    // 다음 결제일 계산 : 플랜의 스펙을 구성하기에 따라 만료되지 않는 경우가 존재 할 수 있고, 이 경우 null 값을 반환합니다.
     getNextDate(startDate: Date) {
         if (this.stepType === ScordiPlanStepType.Month) {
             return monthAfter(this.stepSize, startDate);
@@ -33,6 +34,10 @@ export class ScordiPlanDto {
             return yearAfter(this.stepSize, startDate);
         }
         return null;
+    }
+
+    get isFreeTrial() {
+        return this.regularPrice === 0;
     }
 
     // 할인율 (0 ~ 1)

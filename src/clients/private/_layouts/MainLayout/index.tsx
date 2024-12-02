@@ -7,6 +7,7 @@ import {Footer} from '../_shared/Footer';
 import {BaseLayout} from '^clients/private/_layouts/BaseLayout';
 import {ChannelTalkHideStyle} from '^components/ExternalCDNScripts/channel-talk/ChannelTalkHideStyle';
 import {TopLineBannerContainer} from '^models/TopLineBanner/components';
+import {useSelectProducts} from '^models/Product/hook';
 
 interface MainLayoutProps extends WithChildren {
     //
@@ -14,6 +15,11 @@ interface MainLayoutProps extends WithChildren {
 
 export const MainLayout = memo((props: MainLayoutProps) => {
     const {children} = props;
+    const {selectedProducts, clearSelects} = useSelectProducts();
+
+    useEffect(() => {
+        if (selectedProducts.length) clearSelects();
+    }, []);
 
     return (
         <BaseLayout>

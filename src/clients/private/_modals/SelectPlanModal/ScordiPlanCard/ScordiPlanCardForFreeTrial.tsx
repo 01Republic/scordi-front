@@ -1,34 +1,32 @@
 import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
 import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
-import {useCurrentScordiSubscription} from '^models/_scordi/ScordiSubscription/hook';
-import {scordiSubscriptionScheduledListAtom as scheduledListAtom} from '^models/_scordi/ScordiSubscription/atom';
 import {scordiPlanDescriptionList} from '^models/_scordi/ScordiPlan/components/descriptionList';
+import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 
 interface ScordiPlanCardForFreeTrialProps {
+    scordiSubscriptions: ScordiSubscriptionDto[];
     scordiPlan: ScordiPlanDto;
     onClick: () => any;
 }
 
 export const ScordiPlanCardForFreeTrial = memo((props: ScordiPlanCardForFreeTrialProps) => {
-    const {scordiPlan, onClick} = props;
-    const {currentSubscription} = useCurrentScordiSubscription();
-    const scheduledSubscriptions = useRecoilValue(scheduledListAtom);
-    const scheduledItem = scheduledSubscriptions.find((s) => {
-        return s.scordiPlanId === scordiPlan.id; // || (s.scordiPlan.priority == 1 && plan.priority == 1);
-    });
+    const {scordiPlan, scordiSubscriptions, onClick} = props;
     const descriptions = scordiPlanDescriptionList[0];
 
-    // 현재 플랜이 체험판인 상태
-    const isCurrentPlan = scordiPlan.id === currentSubscription?.scordiPlanId;
+    // 조직의 구독이력 중 무료체험판 구독이 포함되어 있다면, 찾아서 반환
+    const freeTrialScordiSubscription = scordiSubscriptions.find((s) => s.scordiPlan.isFreeTrial);
 
-    // 체험판 기간이 끝나서 만료된 상태
+    const isCurrentPlan = scordiPlan.id === freeTrialScordiSubscription?.scordiPlanId;
+
+    // 체험판 기간이 끝나서 만료된 상태 (이 값이 참이면 무료 체험판 플랜 선택 불가)
     const isExpiredPlan = (() => {
-        if (!currentSubscription) return false; // 현재구독 자체가 조회되지 않으면 일단 활성 허용.
-        if (!isCurrentPlan) return true; // 현재구독이 있는데, 체험판 플랜이 아닌 경우, 체험판은 만료된 상태로 본다.
+        // 조직의 구독이력 자체가 조회되지 않으면 일단 만료 안된걸로 간주합니다.
+        if (!scordiSubscriptions) return false;
 
-        // 이제 현재구독이 존재하면서 동시에 체험판 플랜인 상태. (isCurrentPlan && currentSubscription)
-        return currentSubscription.isFinished; // 만료체크
+        // 조직의 구독 이력 중 무료체험판 구독이 없거나, 정상적인 무료 체험판 플랜 레코드가 아니라면 만료 된걸로 간주합니다.
+        if (!freeTrialScordiSubscription || !isCurrentPlan) return true;
+
+        return freeTrialScordiSubscription.isFinished;
     })();
 
     return (
@@ -55,16 +53,16 @@ export const ScordiPlanCardForFreeTrial = memo((props: ScordiPlanCardForFreeTria
                 </div>
 
                 <div>
-                    {!currentSubscription ? (
-                        // 현재구독 자체가 조회되지 않으면 => 체험판 시작하기
+                    {!scordiSubscriptions ? (
+                        // 조직의 구독이력 자체가 조회되지 않으면 => 무료체험판 시작하기
                         <button className="btn bg-scordi-50 text-scordi w-full no-animation hover:bg-red-200 hover:text-red-600 border-none group">
                             시작하기
                         </button>
                     ) : isCurrentPlan && !isExpiredPlan ? (
-                        // 현재 체험판 플랜 구독중이고 만료도 안됐다면 => 체험판 진행중
+                        // 현재 무료체험판 플랜 구독중이고 만료도 안됐다면 => 무료체험판 진행중
                         <button className="btn bg-scordi-50 text-scordi w-full no-animation no-click">현재플랜</button>
                     ) : (
-                        // 그 외 => 체험판 만료
+                        // 그 외 => 무료체험판 만료
                         <button className="btn btn-block btn-gray no-animation !bg-[#e3e3e3] !text-white !border-transparent">
                             무료 체험기간이 만료되었어요
                         </button>

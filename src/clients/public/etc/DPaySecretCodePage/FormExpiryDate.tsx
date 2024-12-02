@@ -1,11 +1,11 @@
 import React, {memo} from 'react';
 import {FieldPath, UseFormReturn} from 'react-hook-form';
 import {WithChildren} from '^types/global.type';
-import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';
+import {DPayRequestFormDto} from '^models/_scordi/ScordiPayment/type';
 import {NumberTextInput} from './TextInput';
 
 interface FormExpiryDateProps extends WithChildren {
-    form: UseFormReturn<CreateScordiPaymentWithCustomerKeyRequestDto>;
+    form: UseFormReturn<DPayRequestFormDto>;
 }
 
 export const FormExpiryDate = memo((props: FormExpiryDateProps) => {
@@ -13,10 +13,7 @@ export const FormExpiryDate = memo((props: FormExpiryDateProps) => {
         form: {register, setFocus},
     } = props;
 
-    const handleInputChange = (
-        e: React.ChangeEvent<HTMLInputElement>,
-        nextField: FieldPath<CreateScordiPaymentWithCustomerKeyRequestDto>,
-    ) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, nextField: FieldPath<DPayRequestFormDto>) => {
         const value = e.target.value;
         e.target.value = value.slice(0, 2);
         if (value.length >= 2) setFocus(nextField);

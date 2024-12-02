@@ -17,8 +17,20 @@ export class CardAccountsStaticData {
         return cardAccountsStaticData;
     }
 
+    static clientTypeOf(clientType: CodefCustomerType) {
+        return this.all().filter((data) => data.clientType === clientType);
+    }
+
+    static findByPersonal(isPersonal: boolean) {
+        return this.all().filter((data) => {
+            return isPersonal
+                ? data.clientType === CodefCustomerType.Personal
+                : data.clientType != CodefCustomerType.Personal;
+        });
+    }
+
     static findOne(param?: string) {
-        return cardAccountsStaticData.find((data) => data.param === param);
+        return this.all().find((data) => data.param === param);
     }
 
     static Tag(props: {company: CardAccountsStaticData}) {
@@ -40,11 +52,29 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
         loginPageUrl: 'https://www.shinhancard.com/cconts/html/main.html',
     },
     {
+        displayName: '신한카드',
+        param: CodefCardCompanyCode.신한카드,
+        logo: '/logo/cards/ShinHan.png',
+        themeColor: '#2b64ff',
+        clientType: CodefCustomerType.Personal,
+        loginType: CodefLoginType.IdAccount,
+        loginPageUrl: 'https://www.shinhancard.com/cconts/html/main.html',
+    },
+    {
         displayName: '롯데카드',
         param: CodefCardCompanyCode.롯데카드,
         logo: '/logo/cards/lotte.png',
         themeColor: '#e30614',
         clientType: CodefCustomerType.Business,
+        loginType: CodefLoginType.IdAccount,
+        loginPageUrl: 'https://corp.lottecard.co.kr/app/LCMBRAA_V100.lc',
+    },
+    {
+        displayName: '롯데카드',
+        param: CodefCardCompanyCode.롯데카드,
+        logo: '/logo/cards/lotte.png',
+        themeColor: '#e30614',
+        clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.IdAccount,
         loginPageUrl: 'https://corp.lottecard.co.kr/app/LCMBRAA_V100.lc',
     },
@@ -58,11 +88,29 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
         loginPageUrl: 'https://biz.kbcard.com/CXORMPIC0001.cms',
     },
     {
+        displayName: 'KB국민카드',
+        param: CodefCardCompanyCode.KB국민카드,
+        logo: '/logo/cards/KBCard.png',
+        themeColor: '#60584c',
+        clientType: CodefCustomerType.Personal,
+        loginType: CodefLoginType.IdAccount,
+        loginPageUrl: 'https://biz.kbcard.com/CXORMPIC0001.cms',
+    },
+    {
         displayName: 'BC카드',
         param: CodefCardCompanyCode.BC카드,
         logo: '/logo/cards/BC.png',
         themeColor: '#f14755',
         clientType: CodefCustomerType.Business,
+        loginType: CodefLoginType.IdAccount,
+        loginPageUrl: 'https://wisebiz.bccard.com/app/corp/ComLoginActn.corp',
+    },
+    {
+        displayName: 'BC카드',
+        param: CodefCardCompanyCode.BC카드,
+        logo: '/logo/cards/BC.png',
+        themeColor: '#f14755',
+        clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.IdAccount,
         loginPageUrl: 'https://wisebiz.bccard.com/app/corp/ComLoginActn.corp',
     },
@@ -76,11 +124,29 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
         loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
     },
     {
+        displayName: '하나카드',
+        param: CodefCardCompanyCode.하나카드,
+        logo: '/logo/cards/keb.png',
+        themeColor: '#008485',
+        clientType: CodefCustomerType.Personal,
+        loginType: CodefLoginType.IdAccount,
+        loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
+    },
+    {
         displayName: '삼성카드',
         param: CodefCardCompanyCode.삼성카드,
         logo: '/logo/cards/samsungcard.png',
         themeColor: '#034ea2',
         clientType: CodefCustomerType.Business,
+        loginType: CodefLoginType.IdAccount,
+        loginPageUrl: 'https://www.samsungcard.com/corporation/find-member/UHPCCO0115M0.jsp',
+    },
+    {
+        displayName: '삼성카드',
+        param: CodefCardCompanyCode.삼성카드,
+        logo: '/logo/cards/samsungcard.png',
+        themeColor: '#034ea2',
+        clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.IdAccount,
         loginPageUrl: 'https://www.samsungcard.com/corporation/find-member/UHPCCO0115M0.jsp',
     },
@@ -94,6 +160,15 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
         loginPageUrl: 'https://pc.wooricard.com/dcpc/yh2/main.do',
     },
     {
+        displayName: '우리카드',
+        param: CodefCardCompanyCode.우리카드,
+        logo: '/logo/cards/woori.png',
+        themeColor: '#a7d8f6',
+        clientType: CodefCustomerType.Personal,
+        loginType: CodefLoginType.IdAccount,
+        loginPageUrl: 'https://pc.wooricard.com/dcpc/yh2/main.do',
+    },
+    {
         displayName: '현대카드',
         param: CodefCardCompanyCode.현대카드,
         logo: '/logo/cards/hyundaicard.png',
@@ -103,11 +178,29 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
         loginPageUrl: 'https://mycompany.hyundaicard.com/cm/mn/CMMN1001.do?_method=m',
     },
     {
+        displayName: '현대카드',
+        param: CodefCardCompanyCode.현대카드,
+        logo: '/logo/cards/hyundaicard.png',
+        themeColor: '#333c45',
+        clientType: CodefCustomerType.Personal,
+        loginType: CodefLoginType.IdAccount,
+        loginPageUrl: 'https://mycompany.hyundaicard.com/cm/mn/CMMN1001.do?_method=m',
+    },
+    {
         displayName: 'NH카드',
         param: CodefCardCompanyCode.NH카드,
         logo: '/logo/cards/nh.png',
         themeColor: '#0da842',
         clientType: CodefCustomerType.Business,
+        loginType: CodefLoginType.IdAccount,
+        loginPageUrl: 'https://nhbizcard.nonghyup.com/iccn0000i.act',
+    },
+    {
+        displayName: 'NH카드',
+        param: CodefCardCompanyCode.NH카드,
+        logo: '/logo/cards/nh.png',
+        themeColor: '#0da842',
+        clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.IdAccount,
         loginPageUrl: 'https://nhbizcard.nonghyup.com/iccn0000i.act',
     },

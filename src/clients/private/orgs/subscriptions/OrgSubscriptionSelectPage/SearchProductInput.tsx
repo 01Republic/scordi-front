@@ -4,10 +4,11 @@ import {orgIdParamState} from '^atoms/common';
 import {useProductSearchResult} from '^models/Product/hook';
 import {debounce} from 'lodash';
 import {FaSearch} from 'react-icons/fa';
+import {useUnmount} from '^hooks/useUnmount';
 
 export const SearchProductInput = memo(function SearchProductInput() {
     const organizationId = useRecoilValue(orgIdParamState);
-    const {search} = useProductSearchResult();
+    const {search, reset} = useProductSearchResult();
 
     const searchProduct = debounce((keyword?: string) => {
         return search({
@@ -21,6 +22,8 @@ export const SearchProductInput = memo(function SearchProductInput() {
         if (!organizationId || isNaN(organizationId)) return;
         searchProduct();
     }, [organizationId]);
+
+    useUnmount(() => reset());
 
     if (!organizationId || isNaN(organizationId)) return <></>;
 

@@ -1,7 +1,7 @@
 import {memo} from 'react';
 import {useRecoilValue} from 'recoil';
+import {FadeUp} from '^components/FadeUp';
 import {recurringIsFreeAtom} from '../../atom';
-import {FadeUp} from '../../_common/FadeUp';
 import {InputSection} from '../InputSection';
 
 interface RecurringDateProps {}

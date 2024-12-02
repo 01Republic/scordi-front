@@ -5,7 +5,6 @@ import {atom, useRecoilState, useRecoilValue} from 'recoil';
 import {OrganizationDto} from '^models/Organization/type';
 import {organizationApi} from '^models/Organization/api';
 import {BiLinkExternal} from '^components/react-icons';
-import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
 import {AdminOrgsPageRoute} from '^pages/admin/orgs';
 import {

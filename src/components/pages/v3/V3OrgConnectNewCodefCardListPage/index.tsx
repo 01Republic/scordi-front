@@ -3,7 +3,7 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import {codefAccountIdParamState, orgIdParamState} from '^atoms/common';
 import {codefAccountAtom} from '^models/CodefAccount/atom';
 import {codefAccountApi} from '^models/CodefAccount/api';
-import {cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {NewCodefCardListPage} from './NewCodefCardListPage';
 import {V3MainLayout} from '^v3/layouts/V3MainLayout';
 import {LNBIndex} from '^v3/share/LeftNavBar';
@@ -14,7 +14,7 @@ export const V3OrgConnectNewCodefCardListPage = memo(() => {
     const codefAccountId = useRecoilValue(codefAccountIdParamState);
     const [codefAccount, setCodefAccount] = useRecoilState(codefAccountAtom);
     const {search} = useNewCodefCards(codefAccountIdParamState);
-    const staticData = cardAccountsStaticData.find((data) => data.param === codefAccount?.organization);
+    const staticData = CardAccountsStaticData.findOne(codefAccount?.organization);
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;

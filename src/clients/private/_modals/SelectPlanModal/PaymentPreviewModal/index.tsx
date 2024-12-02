@@ -7,6 +7,8 @@ import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {PaymentPreviewModalHeader} from './PaymentPreviewModalHeader';
 import {PaymentPreviewModalContent} from './PaymentPreviewModalContent';
+import {OutLink} from '^components/OutLink';
+import {termsUrl} from '^config/environments';
 
 interface PaymentPreviewModalProps {
     orgId: number;
@@ -67,6 +69,11 @@ export const PaymentPreviewModal = memo((props: PaymentPreviewModalProps) => {
                         </main>
 
                         <div className="mt-auto">
+                            <div className="text-13 text-gray-400 mb-2">
+                                <OutLink href={termsUrl.serviceUsage} text="서비스 이용 약관" className="mr-2" />에
+                                동의하시면 구독 결제 버튼을 눌러주세요.
+                            </div>
+
                             <button type="button" className="btn btn-block btn-scordi text-16" onClick={onClick}>
                                 구독 결제
                             </button>

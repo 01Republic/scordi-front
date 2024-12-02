@@ -1,20 +1,17 @@
 import React, {InputHTMLAttributes, memo} from 'react';
 import {FieldPath, UseFormReturn} from 'react-hook-form';
 import {WithChildren} from '^types/global.type';
-import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';
+import {DPayRequestFormDto} from '^models/_scordi/ScordiPayment/type';
 import {NumberTextInput} from './TextInput';
 
 interface FormCardNumberProps extends WithChildren {
-    form: UseFormReturn<CreateScordiPaymentWithCustomerKeyRequestDto, any>;
+    form: UseFormReturn<DPayRequestFormDto, any>;
 }
 
 export const FormCardNumber = memo((props: FormCardNumberProps) => {
     const {form} = props;
 
-    const handleInputChange = (
-        e: React.ChangeEvent<HTMLInputElement>,
-        nextField: FieldPath<CreateScordiPaymentWithCustomerKeyRequestDto>,
-    ) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, nextField: FieldPath<DPayRequestFormDto>) => {
         const value = e.target.value;
         e.target.value = value.slice(0, 4);
         if (value.length >= 4) form.setFocus(nextField);
@@ -65,8 +62,8 @@ export const FormCardNumber = memo((props: FormCardNumberProps) => {
 
 interface CardNumberInputProps {
     type?: InputHTMLAttributes<HTMLInputElement>['type'];
-    form: UseFormReturn<CreateScordiPaymentWithCustomerKeyRequestDto>;
-    name: FieldPath<CreateScordiPaymentWithCustomerKeyRequestDto>;
+    form: UseFormReturn<DPayRequestFormDto>;
+    name: FieldPath<DPayRequestFormDto>;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => any;
 }
 

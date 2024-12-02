@@ -21,5 +21,7 @@ export const useCurrentTeamMember = () => {
         return findTeamMember(currentTeamMember.organizationId, currentTeamMember.id);
     };
 
-    return {currentTeamMember, setCurrentTeamMember, findTeamMember, reload};
+    const clear = () => setCurrentTeamMember(null);
+
+    return {currentTeamMember, setCurrentTeamMember, findTeamMember, reload, clear};
 };

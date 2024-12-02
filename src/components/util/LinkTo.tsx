@@ -6,19 +6,20 @@ import {ReactNodeLike} from 'prop-types';
 import {WithChildren} from '^types/global.type';
 import {onlyPath} from '^utils/get-query-params';
 
-export interface LinkToProps extends Partial<LinkProps> {
+export interface LinkToProps extends Partial<LinkProps & WithChildren> {
     text?: ReactNodeLike;
     className?: string;
     onClick?: MouseEventHandler<HTMLAnchorElement>;
     target?: HTMLAttributeAnchorTarget;
     displayLoading?: boolean;
     loadingOnBtn?: boolean;
+    loadingClassName?: string;
     disabled?: boolean;
     rel?: string;
     noFollow?: boolean;
 }
 
-export const LinkTo = memo((props: LinkToProps & WithChildren) => {
+export const LinkTo = memo((props: LinkToProps) => {
     const router = useRouter();
     const [isClicked, setIsClicked] = useState(false);
     const {
@@ -30,6 +31,7 @@ export const LinkTo = memo((props: LinkToProps & WithChildren) => {
         href = '#',
         displayLoading = true,
         loadingOnBtn = false,
+        loadingClassName = '',
         disabled = false,
         rel = '',
         noFollow = false,
@@ -41,13 +43,10 @@ export const LinkTo = memo((props: LinkToProps & WithChildren) => {
     }, [router.isReady]);
 
     if (target === '_blank') {
-        const attrs: AnchorHTMLAttributes<any> = {};
-        if (href) attrs.href = `${href}`;
-        if (onClick) attrs.onClick = onClick;
         return (
-            <a className={className} {...attrs} target={target} rel="noopener noreferrer">
+            <Link className={className} href={href} onClick={onClick} target={target}>
                 {children || text}
-            </a>
+            </Link>
         );
     }
 
@@ -61,7 +60,7 @@ export const LinkTo = memo((props: LinkToProps & WithChildren) => {
 
     if (isClicked) {
         if (displayLoading) {
-            const loadingClass = loadingOnBtn ? 'link_to-loading' : 'link_to-clicked';
+            const loadingClass = loadingClassName || (loadingOnBtn ? 'link_to-loading' : 'link_to-clicked');
             return (
                 <a className={`${className} ${loadingClass}`} target={target} rel={rel}>
                     {children || text}

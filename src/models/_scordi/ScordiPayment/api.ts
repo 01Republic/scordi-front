@@ -6,7 +6,6 @@ import {
 } from '^models/_scordi/ScordiPayment/type';
 import {api} from '^api/api';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
-import axios from 'axios';
 
 /**
  * [Billing] 스코디 결제 API
@@ -35,29 +34,6 @@ export const scordiPaymentsApi = {
         const url = `/orgs/${orgId}/billing/payments/${id}`;
         return api.delete(url).then(oneDtoOf(ScordiPaymentDto));
     },
-};
-
-export const postDirectPayApi = async (
-    data: CreateScordiPaymentWithCustomerKeyRequestDto,
-): Promise<ScordiPaymentDto> => {
-    const url = `/d-pay/payments/with-customer-key`;
-
-    try {
-        const response = await api.post<ScordiPaymentDto>(url, {
-            cardNumber: data.cardNumber,
-            cardExpirationYear: data.cardExpirationYear,
-            cardExpirationMonth: data.cardExpirationMonth,
-            customerIdentityNumber: data.customerIdentityNumber,
-            cardPassword: data.cardPassword,
-            customerName: data.customerName,
-            customerEmail: data.customerEmail,
-            planId: data.planId,
-            customerPhone: data.customerPhone,
-        });
-        return response.data;
-    } catch (error: any) {
-        throw error;
-    }
 };
 
 /**

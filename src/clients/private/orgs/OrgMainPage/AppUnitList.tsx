@@ -10,11 +10,11 @@ import {useProductOnMainPage} from '^models/Product/hook';
 import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
 import {useRouter} from 'next/router';
 import {LinkTo} from '^components/util/LinkTo';
+import {useUnmount} from '^hooks/useUnmount';
 
 export const AppUnitList = memo(function AppUnitList() {
     const organizationId = useRecoilValue(orgIdParamState);
-    const router = useRouter();
-    const {isLoading, result, search, changePageSize} = useProductOnMainPage();
+    const {isLoading, result, search, reset, changePageSize} = useProductOnMainPage();
 
     useEffect(() => {
         if (!organizationId || isNaN(organizationId)) return;
@@ -23,6 +23,8 @@ export const AppUnitList = memo(function AppUnitList() {
             organizationId,
         });
     }, [organizationId]);
+
+    useUnmount(() => reset());
 
     if (!organizationId || isNaN(organizationId)) return <></>;
 

@@ -43,9 +43,8 @@ export class InvoiceAccountDto {
 
     get title() {
         const auth = this.googleTokenData;
-        if (auth) return `${auth.email} (${auth.name})`;
-
-        return this.email;
+        const email = auth?.email || this.email || '';
+        return `${email} ${auth?.name && `(${auth.name})`}`;
     }
 
     get isManuallyCreated() {

@@ -8,7 +8,6 @@ import {createSubscriptionFormData, currentStepAtom, finishedProductMapAtom} fro
 import {Steps} from './steps';
 import {useCurrentConnectingProduct} from './useCurrentConnectingProduct';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
-import {useProductOnMainPage, useProductSearchResult} from '^models/Product/hook';
 
 export const PrevNextButtons = memo(function PrevNextButtons() {
     const router = useRouter();
@@ -18,8 +17,6 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
     const [currentStep, setStep] = useRecoilState(currentStepAtom);
     const {finishProduct} = useCurrentConnectingProduct();
     const resetFinishedProductMap = useResetRecoilState(finishedProductMapAtom);
-    const {reload: reloadProductsOnMain} = useProductOnMainPage();
-    const {reload: reloadProductSearch} = useProductSearchResult();
 
     const prev = (i: number) => i - 1;
     const next = (i: number) => i + 1;
@@ -36,9 +33,8 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
             if (nextProduct) {
                 setStep(Steps.IsFreeTier);
             } else {
-                return router.push(OrgMainPageRoute.path(subscription.organizationId)).then(async () => {
+                return router.push(OrgMainPageRoute.path(subscription.organizationId)).then(() => {
                     resetFinishedProductMap();
-                    return Promise.allSettled([reloadProductsOnMain(), reloadProductSearch()]);
                 });
             }
         });
@@ -79,10 +75,24 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
             );
         case Steps.PaymentMethod:
             // 결제수단 설정
-            return <StepButtons onPrev={() => setStep(prev)} onNext={() => setStep(next)} isValid={true} />;
+            return (
+                <StepButtons
+                    onPrev={() => setStep(prev)}
+                    onNext={() => setStep(next)}
+                    isValid={true}
+                    nextButtonText={formData.creditCardId ? undefined : '건너뛰기'}
+                />
+            );
         case Steps.InvoiceAccount:
             // 청구서 수신 메일 설정
-            return <StepButtons onPrev={() => setStep(prev)} onNext={() => setStep(next)} isValid={true} />;
+            return (
+                <StepButtons
+                    onPrev={() => setStep(prev)}
+                    onNext={() => setStep(next)}
+                    isValid={true}
+                    nextButtonText={formData.invoiceAccountId ? undefined : '건너뛰기'}
+                />
+            );
         case Steps.TeamMembers:
             // 이용중인 멤버
             return (

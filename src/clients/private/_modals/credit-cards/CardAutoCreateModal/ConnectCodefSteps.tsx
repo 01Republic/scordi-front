@@ -6,11 +6,11 @@ import {codefAccountIdParamState, orgIdParamState} from '^atoms/common';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {useCreateCodefAccount} from '^models/CodefAccount/hooks/useCreateCodefAccount';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
-import {InputCardAccountFormDataStep} from './InputCardAccountFormDataStep';
-import {FadeUp} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/_common/FadeUp';
-import {ConnectableCardListStep} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/CardAutoCreateModal/ConnectableCardListStep';
+import {InputCardAccountFormDataStep} from './CodefAccountConnectStep/InputCardAccountFormDataStep';
+import {FadeUp} from '^components/FadeUp';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {codefCardApi} from '^models/CodefCard/api';
+import {ConnectableCardListStep} from './ConnectableCardListStep';
 
 interface ConnectCodefStepsProps {
     cardCompany: CardAccountsStaticData;
@@ -35,7 +35,7 @@ export const ConnectCodefSteps = memo((props: ConnectCodefStepsProps) => {
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
         if (!router.isReady) return;
-        checkExists(cardCompany.param, (existedAccount) => {
+        checkExists(cardCompany.param, cardCompany.clientType, (existedAccount) => {
             setIsPreChecked(true);
             if (existedAccount) {
                 toast.success(`${existedAccount.company}에 로그인했어요`);
@@ -53,7 +53,7 @@ export const ConnectCodefSteps = memo((props: ConnectCodefStepsProps) => {
         onSubmit();
     };
 
-    if (!isPreChecked) return <></>;
+    // if (!isPreChecked) return <></>;
 
     return (
         <>
@@ -68,7 +68,7 @@ export const ConnectCodefSteps = memo((props: ConnectCodefStepsProps) => {
                             setAccount(createdAccount);
                         });
                     }}
-                    isLoading={isLoading}
+                    isLoading={!isPreChecked || isLoading}
                     errorMessages={errorMessages}
                 />
             )}
@@ -86,4 +86,3 @@ export const ConnectCodefSteps = memo((props: ConnectCodefStepsProps) => {
         </>
     );
 });
-ConnectCodefSteps.displayName = 'ConnectCodefSteps';

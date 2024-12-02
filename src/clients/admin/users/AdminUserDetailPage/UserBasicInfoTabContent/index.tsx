@@ -1,7 +1,7 @@
 import {memo} from 'react';
-import {Avatar} from '^components/Avatar';
-import {AdminInfoPanel} from '../../../share/panels/AdminInfoPanel';
 import {useRecoilValue} from 'recoil';
+import {AdminInfoPanel} from '^admin/share';
+import {Avatar} from '^components/Avatar';
 import {adminUserDetail} from '../index';
 
 export const UserBasicInfoTabContent = memo(() => {

@@ -9,9 +9,10 @@ export const TeamProfileSection = memo(() => {
     const {team, update} = useCurrentTeam();
 
     const editTeamName = async () => {
+        if (!team) return;
         const result = await prompt2(`변경할 팀 이름을 입력해주세요`, () => null, {
-            inputValue: team?.name,
-            inputPlaceholder: team?.name,
+            inputValue: team.name,
+            inputPlaceholder: team.name,
         });
 
         if (!result.isConfirmed) return;

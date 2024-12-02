@@ -1,7 +1,5 @@
-import {cardAccountsStaticData, getCardCompanyAlt} from '^models/CodefAccount/card-accounts-static-data';
+import {CardAccountsStaticData, getCardCompanyAlt} from '^models/CodefAccount/card-accounts-static-data';
 import {CodefCardCompanyCode, CodefCustomerType, CodefLoginType} from '^models/CodefAccount/type/enums';
-
-const CardCompanies = cardAccountsStaticData;
 
 enum TossPaymentsCardType {
     CREDIT = '신용',
@@ -55,7 +53,7 @@ export function getCardCompanyByCompanyCode(cardCompanyCode: string) {
 
     const param = dic[cardCompanyCode.toUpperCase()];
     if (param) {
-        return CardCompanies.find((c) => c.param === param);
+        return CardAccountsStaticData.all().find((c) => c.param === param);
     } else {
         return getCardCompanyAlt(cardCompanyCode.toUpperCase());
     }

@@ -7,8 +7,11 @@ import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {FaChevronLeft} from 'react-icons/fa6';
 import {LoadableBox} from '^components/util/loading';
 import {ConnectableCardItem} from './ConnectableCardItem';
-import {ConnectableCardListSection} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/CardAutoCreateModal/ConnectableCardListStep/ConnectableCardListSection';
-import {CreateCreditCardButton} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/CardAutoCreateModal/ConnectableCardListStep/CreateCreditCardButton';
+import {CreateCreditCardButton} from './CreateCreditCardButton';
+import {ConnectableCardListSection} from './ConnectableCardListSection';
+import {useUnmount} from '^hooks/useUnmount';
+import {errorToast} from '^api/api';
+import {debounce} from 'lodash';
 
 interface ConnectableCardListStepProps {
     cardCompany: CardAccountsStaticData;
@@ -19,26 +22,28 @@ interface ConnectableCardListStepProps {
 
 export const ConnectableCardListStep = memo((props: ConnectableCardListStepProps) => {
     const {cardCompany, codefAccount, onBack, onSubmit} = props;
-    const {search, result, isLoading} = useNewCodefCards(codefAccountIdParamState);
+    const {search, result, isLoading, reset} = useNewCodefCards(codefAccountIdParamState);
     const [checkedCards, setCheckedCards] = useState<CodefCardDto[]>([]);
 
+    const getCards = debounce((accountId: number) => {
+        search({
+            where: {accountId, isSleep: false},
+            sync: true,
+            itemsPerPage: 0,
+        }).catch(errorToast);
+    }, 500);
+
     useEffect(() => {
-        search(
-            {
-                where: {accountId: codefAccount.id, isSleep: false},
-                sync: true,
-                itemsPerPage: 0,
-            },
-            false,
-            true,
-        );
+        getCards(codefAccount.id);
     }, [codefAccount]);
+
+    useUnmount(() => reset());
 
     const notConnectedCards = result.items.filter((card) => !card.creditCardId);
     const connectedCards = result.items.filter((card) => card.creditCardId);
 
     return (
-        <div className="flex flex-col items-stretch">
+        <div className="flex flex-col items-stretch h-full">
             <div className="mb-4">
                 <div className="mb-4">
                     <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onBack} />
@@ -73,7 +78,7 @@ export const ConnectableCardListStep = memo((props: ConnectableCardListStepProps
             </div>
 
             {!isLoading && (
-                <div className="py-4">
+                <div className="py-4 mt-auto -mb-4">
                     {notConnectedCards.length ? (
                         <CreateCreditCardButton checkedCards={checkedCards} onSubmit={onSubmit} />
                     ) : (
