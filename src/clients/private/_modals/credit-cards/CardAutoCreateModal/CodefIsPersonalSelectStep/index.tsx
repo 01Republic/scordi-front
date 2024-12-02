@@ -13,7 +13,7 @@ export const CodefIsPersonalSelectStep = memo((props: CodefIsPersonalSelectStepP
     const {onBack, defaultValue, onChange} = props;
 
     return (
-        <div className="h-full">
+        <div className="h-full flex flex-col items-stretch">
             <div>
                 <div className="mb-4">
                     <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onBack} />
@@ -41,6 +41,15 @@ export const CodefIsPersonalSelectStep = memo((props: CodefIsPersonalSelectStepP
                 {/*        onClick={() => setCompany(cardCompanyData)}*/}
                 {/*    />*/}
                 {/*))}*/}
+            </div>
+
+            <div className="py-4 mt-auto -mb-4">
+                <button
+                    className="btn btn-block btn-scordi no-animation btn-animation"
+                    onClick={() => onChange(defaultValue)}
+                >
+                    다음
+                </button>
             </div>
         </div>
     );
