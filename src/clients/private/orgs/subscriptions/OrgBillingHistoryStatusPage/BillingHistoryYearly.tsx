@@ -4,6 +4,7 @@ import {IsFreeTierTagUI} from '^models/Subscription/components/IsFreeTierTagUI';
 import {useBillingHistoryStatus} from '^hooks/useBillingHistoryStatus';
 import {FaQuestion} from 'react-icons/fa6';
 import {Avatar} from '^components/Avatar';
+import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 
 interface BillingHistoryYearlyProps {
     history: BillingHistoriesYearlySumBySubscriptionDto[];
@@ -62,7 +63,7 @@ export const BillingHistoryYearly = memo((props: BillingHistoryYearlyProps) => {
                         {history.length === 0 ? (
                             <tr>
                                 <td colSpan={reversedYears.length + 3} className="text-center py-8">
-                                    데이터가 없습니다.
+                                    <EmptyTable message="데이터가 없습니다." />
                                 </td>
                             </tr>
                         ) : (
