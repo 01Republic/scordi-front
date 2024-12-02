@@ -38,7 +38,7 @@ export const ConnectCodefAccountModal = memo((props: ConnectCodefAccountModalPro
     useEffect(() => {
         if (!isOpened) return;
         if (!cardCompany?.param) return;
-        checkExists(cardCompany.param, (existedAccount) => {
+        checkExists(cardCompany.param, cardCompany.clientType, (existedAccount) => {
             if (existedAccount) {
                 toast.success(`${existedAccount.company}에 로그인했어요`);
             }

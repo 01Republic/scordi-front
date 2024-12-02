@@ -6,7 +6,7 @@ import {orgIdParamState} from '^atoms/common';
 import {V3OrgConnectedCardListPageRoute} from '^pages/v3/orgs/[orgId]/connects/card-accounts/[connectMethod]/cards';
 import {V3OrgConnectCardCreatePageRoute} from '^pages/v3/orgs/[orgId]/connects/card-accounts/[connectMethod]/new';
 import {useCodefAccountsInConnector} from '^models/CodefAccount/hook';
-import {cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {useRouter} from 'next/router';
 
 export const ConnectCardAccountsSection = memo(function ConnectCardAccountsSection() {
@@ -24,7 +24,7 @@ export const ConnectCardAccountsSection = memo(function ConnectCardAccountsSecti
     return (
         <MethodsSection id="card-accounts" title="카드" description="구독의 최종 결제내역을 불러올 수 있어요.">
             <div className="grid grid-cols-2 md2:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                {cardAccountsStaticData.map((connectMethod, i) => {
+                {CardAccountsStaticData.all().map((connectMethod, i) => {
                     const codefAccount = codefAccounts.find((account) => {
                         return (
                             account.clientType === connectMethod.clientType &&

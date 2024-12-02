@@ -3,7 +3,7 @@ import {useForm} from 'react-hook-form';
 import {plainToast as toast} from '^hooks/useToast';
 import {CodefAccountDto} from '../type/CodefAccountDto';
 import {CreateAccountRequestDto, encryptCodefAccountPassword} from '../type/create-account.request.dto';
-import {CodefCardCompanyCode, CodefRequestBusinessType} from '../type/enums';
+import {CodefCardCompanyCode, CodefCustomerType, CodefRequestBusinessType} from '../type/enums';
 import {useCodefAccountsAlreadyIs} from '../hook';
 import {codefAccountApi} from '^models/CodefAccount/api';
 import {ApiErrorResponse} from '^api/api';
@@ -24,10 +24,14 @@ export function useCreateCodefAccount(option?: CreateCodefAccountOption) {
     const {search: checkCodefAccounts} = useCodefAccountsAlreadyIs();
 
     const checkExists = debounce(
-        (organization: CodefCardCompanyCode, callbackFn?: (codefAccount?: CodefAccountDto) => any) => {
-            return checkCodefAccounts({where: {organization}}, false, true).then((result) => {
+        (
+            organization: CodefCardCompanyCode,
+            clientType: CodefCustomerType,
+            callbackFn?: (codefAccount?: CodefAccountDto) => any,
+        ) => {
+            return checkCodefAccounts({where: {organization, clientType}}, false, true).then((result) => {
                 if (!result) {
-                    setTimeout(() => checkExists(organization), 1000);
+                    setTimeout(() => checkExists(organization, clientType, callbackFn), 1000);
                     return;
                 }
                 const [accountExisted] = result.items;

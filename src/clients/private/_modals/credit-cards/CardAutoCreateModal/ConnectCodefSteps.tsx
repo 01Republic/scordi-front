@@ -35,7 +35,7 @@ export const ConnectCodefSteps = memo((props: ConnectCodefStepsProps) => {
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
         if (!router.isReady) return;
-        checkExists(cardCompany.param, (existedAccount) => {
+        checkExists(cardCompany.param, cardCompany.clientType, (existedAccount) => {
             setIsPreChecked(true);
             if (existedAccount) {
                 toast.success(`${existedAccount.company}에 로그인했어요`);

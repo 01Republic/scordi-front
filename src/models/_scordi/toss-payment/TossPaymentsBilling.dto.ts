@@ -1,9 +1,7 @@
 import {TypeCast} from '^types/utils/class-transformer';
 import {TossPaymentsCardDto} from './TossPaymentsCard.dto';
 import {CodefCardCompanyCode} from '^models/CodefAccount/type/enums';
-import {cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
-
-const CardCompanies = cardAccountsStaticData;
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 
 /**
  * 빌링키 등록 결과
@@ -34,7 +32,7 @@ export class TossPaymentsBillingDto {
 
         const param = dic[this.cardCompany.toUpperCase()];
         if (param) {
-            return CardCompanies.find((c) => c.param === param);
+            return CardAccountsStaticData.all().find((c) => c.param === param);
         }
     }
 }

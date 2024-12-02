@@ -12,6 +12,8 @@ import {CodefCardCompanySelectStep} from './CodefCardCompanySelectStep';
 import {CodefAccountConnectStep} from './CodefAccountConnectStep';
 import {ConnectableCardListStep} from './ConnectableCardListStep';
 import {FadeUp} from '^components/FadeUp';
+import {CodefIsPersonalSelectStep} from '^clients/private/_modals/credit-cards/CardAutoCreateModal/CodefIsPersonalSelectStep';
+import {CodefCustomerType} from '^models/CodefAccount/type/enums';
 
 interface CardAutoCreateModalProps {
     isOpened: boolean;
@@ -21,6 +23,7 @@ interface CardAutoCreateModalProps {
 
 // 카드사 연결을 통한 자동등록의 스텝
 enum Step {
+    isPersonalSelect,
     companySelect,
     accountConnect,
     cardSelect,
@@ -29,20 +32,26 @@ enum Step {
 export const CardAutoCreateModal = memo((props: CardAutoCreateModalProps) => {
     const {isOpened, onClose, onCreate} = props;
     const orgId = useRecoilValue(orgIdParamState);
-    const [step, setStep] = useState(Step.companySelect);
+    const [step, setStep] = useState(Step.isPersonalSelect);
+    const [codefClientType, setCodefClientType] = useState(CodefCustomerType.Personal);
     const [cardCompany, setCardCompany] = useState<CardAccountsStaticData>();
     const [codefAccount, setCodefAccount] = useState<CodefAccountDto>();
 
     const close = () => {
+        setCodefClientType(CodefCustomerType.Personal);
         setCompany(undefined);
         setCodefAccount(undefined);
         onClose();
     };
 
+    const setClientType = (codefClientType?: CodefCustomerType) => {
+        setCodefClientType(codefClientType || CodefCustomerType.Personal);
+        setStep(codefClientType ? Step.companySelect : Step.isPersonalSelect);
+    };
+
     const setCompany = (cardCompanyData?: CardAccountsStaticData) => {
         setCardCompany(cardCompanyData);
-        // setStep(cardCompanyData ? Step.setAccountForm : Step.companySelect);
-        setStep(cardCompanyData ? Step.accountConnect : Step.companySelect);
+        cardCompanyData ? setStep(Step.accountConnect) : setClientType(undefined);
     };
 
     const setAccount = (codefAccount?: CodefAccountDto) => {
@@ -71,7 +80,23 @@ export const CardAutoCreateModal = memo((props: CardAutoCreateModalProps) => {
             modalClassName="rounded-none sm:rounded-t-box"
         >
             <div className="absolute inset-0 p-6">
-                {step === Step.companySelect && <CodefCardCompanySelectStep onBack={onClose} setCompany={setCompany} />}
+                {step === Step.isPersonalSelect && (
+                    <CodefIsPersonalSelectStep
+                        onBack={onClose}
+                        defaultValue={codefClientType}
+                        onChange={setClientType}
+                    />
+                )}
+
+                <FadeUp show={step === Step.companySelect} delay="deloy-[50ms]" className="h-full">
+                    {codefClientType && (
+                        <CodefCardCompanySelectStep
+                            codefClientType={codefClientType}
+                            onBack={() => setCompany(undefined)}
+                            setCompany={setCompany}
+                        />
+                    )}
+                </FadeUp>
 
                 <FadeUp show={cardCompany && step === Step.accountConnect} delay="deloy-[50ms]" className="h-full">
                     {cardCompany && (

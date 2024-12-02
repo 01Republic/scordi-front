@@ -1,17 +1,19 @@
 import React, {memo} from 'react';
 import {FaChevronLeft} from 'react-icons/fa6';
-import {CardAccountsStaticData, cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CardCompanyItem} from '^models/CodefAccount/components';
+import {CodefCustomerType} from '^models/CodefAccount/type/enums';
 
 interface CodefCardCompanySelectStepProps {
+    codefClientType: CodefCustomerType;
     onBack: () => any;
     setCompany: (cardCompanyData: CardAccountsStaticData) => any;
 }
 
-const CardCompanies = cardAccountsStaticData;
-
 export const CodefCardCompanySelectStep = memo((props: CodefCardCompanySelectStepProps) => {
-    const {onBack, setCompany} = props;
+    const {codefClientType, onBack, setCompany} = props;
+
+    const CardCompanies = CardAccountsStaticData.clientTypeOf(codefClientType);
 
     return (
         <div className="h-full">

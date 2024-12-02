@@ -9,6 +9,9 @@ import {LoadableBox} from '^components/util/loading';
 import {ConnectableCardItem} from './ConnectableCardItem';
 import {CreateCreditCardButton} from './CreateCreditCardButton';
 import {ConnectableCardListSection} from './ConnectableCardListSection';
+import {useUnmount} from '^hooks/useUnmount';
+import {errorToast} from '^api/api';
+import {debounce} from 'lodash';
 
 interface ConnectableCardListStepProps {
     cardCompany: CardAccountsStaticData;
@@ -19,24 +22,22 @@ interface ConnectableCardListStepProps {
 
 export const ConnectableCardListStep = memo((props: ConnectableCardListStepProps) => {
     const {cardCompany, codefAccount, onBack, onSubmit} = props;
-    const {search, result, isLoading} = useNewCodefCards(codefAccountIdParamState);
+    const {search, result, isLoading, reset} = useNewCodefCards(codefAccountIdParamState);
     const [checkedCards, setCheckedCards] = useState<CodefCardDto[]>([]);
 
-    const getCards = (accountId: number, force = false) => {
-        search(
-            {
-                where: {accountId, isSleep: false},
-                sync: true,
-                itemsPerPage: 0,
-            },
-            false,
-            force,
-        );
-    };
+    const getCards = debounce((accountId: number) => {
+        search({
+            where: {accountId, isSleep: false},
+            sync: true,
+            itemsPerPage: 0,
+        }).catch(errorToast);
+    }, 500);
 
     useEffect(() => {
         getCards(codefAccount.id);
     }, [codefAccount]);
+
+    useUnmount(() => reset());
 
     const notConnectedCards = result.items.filter((card) => !card.creditCardId);
     const connectedCards = result.items.filter((card) => card.creditCardId);
