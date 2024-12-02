@@ -62,7 +62,7 @@ export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabCon
                 isLoading={isLoading}
                 isEmptyResult={isEmptyResult}
                 emptyMessage="조회된 구성원이 없어요."
-                emptyButtonText="구성원 등록"
+                emptyButtonText="구성원 연결"
                 emptyButtonOnClick={() => setIsOpened(true)}
             >
                 <ListTable
