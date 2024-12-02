@@ -8,13 +8,12 @@ import {
     isOpenInviteOrgMemberModalAtom,
     isOpenLoadingModalAtom,
 } from '^v3/share/modals/NewTeamMemberModal/InviteMemberModal/atom';
-import {useToast} from '^hooks/useToast';
 import {debounce} from 'lodash';
 import {currentOrgAtom} from '^models/Organization/atom';
 import {inviteMembershipApi} from '^models/Membership/api';
-import {useAlert} from '^hooks/useAlert';
 import {useModal} from '^v3/share/modals';
 import {Invitation} from '^models/Membership/types';
+import {toast} from 'react-hot-toast';
 
 interface CTAButtonProps {
     onClose?: () => void;
@@ -26,8 +25,6 @@ export const CTAButton = memo((props: CTAButtonProps) => {
     const {close: closeInviteOrgModal} = useModal({isShowAtom: isOpenInviteOrgMemberModalAtom});
     const [isLoading, setIsLoading] = useRecoilState(isLoadingAtom);
     const {open: openLoadingModal, close: closeLoadingModal} = useModal({isShowAtom: isOpenLoadingModalAtom});
-    const {alert} = useAlert();
-    const {toast} = useToast();
 
     const {onClose: _onClose} = props;
 
@@ -68,7 +65,8 @@ export const CTAButton = memo((props: CTAButtonProps) => {
         });
 
         req.then(() => {
-            alert.success({title: '초대가 완료되었습니다.'}).then(() => onClose());
+            toast.success('구성원에게 초대장을 보냈어요!');
+            onClose();
         });
         req.catch(() => {
             toast.error('이메일을 다시 확인해주세요');
