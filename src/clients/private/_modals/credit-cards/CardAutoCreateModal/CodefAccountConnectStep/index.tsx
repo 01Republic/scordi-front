@@ -1,5 +1,4 @@
 import {memo, useEffect, useState} from 'react';
-import {useRouter} from 'next/router';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {toast} from 'react-hot-toast';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
@@ -9,6 +8,7 @@ import {codefAccountIdParamState, orgIdParamState} from '^atoms/common';
 import {FadeUp} from '^components/FadeUp';
 import {CardAccountCheckLoginStep} from './CardAccountCheckLoginStep';
 import {InputCardAccountFormDataStep} from './InputCardAccountFormDataStep';
+import {debounce} from 'lodash';
 
 interface CodefAccountConnectStepProps {
     onBack: () => any;
@@ -23,25 +23,28 @@ enum AccountConnectStep {
 
 export const CodefAccountConnectStep = memo((props: CodefAccountConnectStepProps) => {
     const {onBack, cardCompany, setAccount} = props;
-    const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
     const setCodefAccountId = useSetRecoilState(codefAccountIdParamState);
     const {checkExists, form, createAccount, isLoading, errorMessages} = useCreateCodefAccount();
     const [step, setStep] = useState(AccountConnectStep.checkLogin);
 
-    useEffect(() => {
-        if (!orgId || isNaN(orgId)) return;
-        if (!router.isReady) return;
+    const loginIfAccountExist = debounce(() => {
         checkExists(cardCompany.param, cardCompany.clientType, (existedAccount) => {
             if (existedAccount) {
                 toast.success(`${existedAccount.company}에 로그인했어요`);
                 setCodefAccountId(existedAccount.id);
                 setAccount(existedAccount);
             } else {
+                setCodefAccountId(NaN);
                 setStep(AccountConnectStep.accountForm);
             }
         });
-    }, [router.isReady, orgId]);
+    }, 500);
+
+    useEffect(() => {
+        if (!orgId || isNaN(orgId)) return;
+        loginIfAccountExist();
+    }, [orgId]);
 
     return (
         <>
@@ -56,6 +59,7 @@ export const CodefAccountConnectStep = memo((props: CodefAccountConnectStepProps
                     onSubmit={(dto) => {
                         createAccount(orgId, cardCompany, dto, (createdAccount) => {
                             toast.success(`${createdAccount.company}에 안전하게 연결되었어요 :)`);
+                            setCodefAccountId(createdAccount.id);
                             setAccount(createdAccount);
                         });
                     }}
