@@ -21,6 +21,8 @@ export const OrgSubscriptionDetailPage = memo(() => {
 
     const subscriptionInfo = subscriptionId ? useRecoilValue(fetchSubscriptionQueryById(subscriptionId)) : undefined;
 
+    console.log(subscriptionInfo);
+
     return (
         <ShowPage breadcrumb={['구독', '구독 리스트', {text: subscriptionInfo?.product.name() || '', active: true}]}>
             <header className="flex items-center justify-between pt-8 pb-4">
@@ -69,10 +71,13 @@ export const OrgSubscriptionDetailPage = memo(() => {
                         tabs={['정보', '결제', '멤버']}
                     />
                 </div>
-
-                {activeTabIndex == 0 && <SubscriptionInfoTab />}
-                {activeTabIndex == 1 && <SubscriptionPaymentTab />}
-                {activeTabIndex == 2 && <SubscriptionMemberTab />}
+                {subscriptionInfo && (
+                    <>
+                        {activeTabIndex == 0 && <SubscriptionInfoTab subscriptionInfo={subscriptionInfo} />}
+                        {activeTabIndex == 1 && <SubscriptionPaymentTab />}
+                        {activeTabIndex == 2 && <SubscriptionMemberTab />}
+                    </>
+                )}
             </main>
         </ShowPage>
     );
