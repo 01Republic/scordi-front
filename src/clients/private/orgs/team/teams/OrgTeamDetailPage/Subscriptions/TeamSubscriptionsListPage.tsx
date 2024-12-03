@@ -42,8 +42,7 @@ export const TeamSubscriptionsListPage = memo(function (props: OrgTeamDetailPage
         <>
             <div className={'flex items-center justify-between pb-4'}>
                 <div>
-                    이용중인 구독 수{' '}
-                    <span className={'text-scordi-500'}>{team?.subscriptionCount.toLocaleString()}</span>
+                    전체 <span className={'text-scordi-500'}>{team?.subscriptionCount.toLocaleString()}</span>
                 </div>
                 <div className={'flex space-x-4'}>
                     <ListPageSearchInput onSearch={onSearch} placeholder={'검색어를 입력해주세요'} />
