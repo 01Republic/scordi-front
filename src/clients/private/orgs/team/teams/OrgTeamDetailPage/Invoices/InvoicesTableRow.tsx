@@ -36,16 +36,23 @@ export const InvoicesTableRow = memo((props: InvoicesTableRowProps) => {
     };
 
     const onDelete = () => {
-        confirm2(`청구서 수신 계정 연결 해제`, `${invoiceAccount?.email} 연결을 해제 할까요?`, 'warning').then(
-            (res) => {
-                if (res.isConfirmed) {
-                    teamInvoiceAccountApi.destroy(orgId, teamInvoiceAccount.id).then(() => {
-                        toast.success('삭제했습니다');
-                        reload && reload();
-                    });
-                }
-            },
-        );
+        confirm2(
+            `청구서 메일 연결을 해제할까요?`,
+            <span>
+                이 작업은 취소할 수 없습니다.
+                <br />
+                <b>팀에서 제외</b>됩니다. <br />
+                그래도 연결을 해제 하시겠어요?
+            </span>,
+            'warning',
+        ).then((res) => {
+            if (res.isConfirmed) {
+                teamInvoiceAccountApi.destroy(orgId, teamInvoiceAccount.id).then(() => {
+                    toast.success('삭제했습니다');
+                    reload && reload();
+                });
+            }
+        });
     };
 
     const showPagePath = OrgInvoiceAccountShowPageRoute.path(orgId, invoiceAccountId);
@@ -77,7 +84,7 @@ export const InvoicesTableRow = memo((props: InvoicesTableRowProps) => {
 
             <td className={`${hoverBgColor}`}>
                 <div className="flex items-center justify-end">
-                    <Tippy content="이 팀에서 제거">
+                    <Tippy content="팀에서 제외">
                         <div>
                             <FiMinusCircle
                                 fontSize={24}

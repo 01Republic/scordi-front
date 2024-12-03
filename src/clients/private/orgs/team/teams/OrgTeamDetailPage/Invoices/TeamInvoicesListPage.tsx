@@ -63,8 +63,8 @@ export const TeamInvoicesListPage = memo(function (props: OrgTeamDetailPageTabCo
                 isNotLoaded={isNotLoaded}
                 isLoading={isLoading}
                 isEmptyResult={isEmptyResult}
-                emptyMessage="연결된 청구서수신계정이 없어요."
-                emptyButtonText="청구서수신계정 연결"
+                emptyMessage="연결된 청구서 메일이 없어요."
+                emptyButtonText="청구서 메일 연결"
                 emptyButtonOnClick={() => setIsOpened(true)}
             >
                 <ListTable
