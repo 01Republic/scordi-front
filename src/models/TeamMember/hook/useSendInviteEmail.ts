@@ -15,9 +15,9 @@ export const useSendInviteEmail = () => {
         setIsLoading(true);
         return inviteMembershipApi
             .create({organizationId: orgId, invitations: [{email, teamMemberId}]})
-            .then(() => toast.success('구성원에게 초대장을 보냈어요!'))
+            .then(() => toast.success('구성원에게 초대 메일을 보냈어요.'))
             .catch((e) => {
-                toast.error('초대를 하지 못했어요 :(');
+                toast.error('구성원에게 초대 메일을 발송하지 못했어요.');
                 console.warn(e);
             })
             .finally(() => setIsLoading(false));
