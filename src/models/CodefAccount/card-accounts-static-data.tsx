@@ -58,7 +58,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
         themeColor: '#2b64ff',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.IdAccount,
-        loginPageUrl: 'https://www.shinhancard.com/cconts/html/main.html',
+        loginPageUrl: 'https://www.shinhancard.com/pconts/html/main.html',
     },
     {
         displayName: '롯데카드',
@@ -76,7 +76,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
         themeColor: '#e30614',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.IdAccount,
-        loginPageUrl: 'https://corp.lottecard.co.kr/app/LCMBRAA_V100.lc',
+        loginPageUrl: 'https://www.lottecard.co.kr/app/LPMAIAA_V100.lc?LPTKN=',
     },
     {
         displayName: 'KB국민카드',
@@ -94,7 +94,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
         themeColor: '#60584c',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.IdAccount,
-        loginPageUrl: 'https://biz.kbcard.com/CXORMPIC0001.cms',
+        loginPageUrl: 'https://card.kbcard.com/CMN/DVIEW/HOAMCXPRIZZC0002',
     },
     {
         displayName: 'BC카드',
@@ -112,7 +112,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
         themeColor: '#f14755',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.IdAccount,
-        loginPageUrl: 'https://wisebiz.bccard.com/app/corp/ComLoginActn.corp',
+        loginPageUrl: 'https://www.bccard.com/app/card/MainActn.do',
     },
     {
         displayName: '하나카드',
@@ -130,7 +130,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
         themeColor: '#008485',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.IdAccount,
-        loginPageUrl: 'https://www.hanacard.co.kr/OCM05000000C.web?schID=ccd&mID=OCM05000000C',
+        loginPageUrl: 'https://www.hanacard.co.kr/',
     },
     {
         displayName: '삼성카드',
@@ -148,7 +148,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
         themeColor: '#034ea2',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.IdAccount,
-        loginPageUrl: 'https://www.samsungcard.com/corporation/find-member/UHPCCO0115M0.jsp',
+        loginPageUrl: 'https://www.samsungcard.com/sme/main/USMECO0101M0.jsp?click=main_header_sme',
     },
     {
         displayName: '우리카드',
@@ -166,7 +166,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
         themeColor: '#a7d8f6',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.IdAccount,
-        loginPageUrl: 'https://pc.wooricard.com/dcpc/yh2/main.do',
+        loginPageUrl: 'https://pc.wooricard.com/dcpc/main.do',
     },
     {
         displayName: '현대카드',
@@ -184,7 +184,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
         themeColor: '#333c45',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.IdAccount,
-        loginPageUrl: 'https://mycompany.hyundaicard.com/cm/mn/CMMN1001.do?_method=m',
+        loginPageUrl: 'https://img.hyundaicard.com/cpa/ma/CPAMA0101_01.hc',
     },
     {
         displayName: 'NH카드',
@@ -202,7 +202,7 @@ export const cardAccountsStaticData: CardAccountsStaticData[] = [
         themeColor: '#0da842',
         clientType: CodefCustomerType.Personal,
         loginType: CodefLoginType.IdAccount,
-        loginPageUrl: 'https://nhbizcard.nonghyup.com/iccn0000i.act',
+        loginPageUrl: 'https://card.nonghyup.com/IpCc0001M.act',
     },
 ];
 
