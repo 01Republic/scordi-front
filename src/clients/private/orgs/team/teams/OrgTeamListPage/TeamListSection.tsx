@@ -34,12 +34,12 @@ export const TeamListSection = memo((props: TeamListSectionProps) => {
     const {items, pagination} = result;
 
     const addTeam = async () => {
-        const result = await prompt2(`팀 이름을 입력해주세요`);
+        const result = await prompt2(`팀 이름을 입력해주세요.`);
         if (result.isConfirmed && result.value) {
             setIsAdding(true);
             teamApi
                 .create(orgId, {name: result.value})
-                .then(() => toast.success('팀이 등록되었어요!'))
+                .then(() => toast.success(`'${result.value}' 팀을 추가했어요.`))
                 .then(() => reload())
                 .catch(errorToast)
                 .finally(() => setIsAdding(false));
