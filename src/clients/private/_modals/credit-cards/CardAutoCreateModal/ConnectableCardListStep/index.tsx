@@ -102,20 +102,22 @@ interface ConnectableCardSelectProps {
 
 export const ConnectableCardSelect = memo((props: ConnectableCardSelectProps) => {
     const {cardCompany, codefAccount, onBack, onSubmit} = props;
-    const {search, result, isLoading} = useNewCodefCards(codefAccountIdParamState);
+    const {search, result, isLoading, reset} = useNewCodefCards(codefAccountIdParamState);
     const [checkedCard, setCheckedCard] = useState<CodefCardDto>();
 
+    const fetchCards = debounce(() => {
+        search({
+            where: {accountId: codefAccount.id, isSleep: false},
+            sync: true,
+            itemsPerPage: 0,
+        });
+    }, 500);
+
     useEffect(() => {
-        search(
-            {
-                where: {accountId: codefAccount.id, isSleep: false},
-                sync: true,
-                itemsPerPage: 0,
-            },
-            false,
-            true,
-        );
+        if (codefAccount) fetchCards();
     }, [codefAccount]);
+
+    useUnmount(() => reset());
 
     return (
         <div className="flex flex-col items-stretch">
