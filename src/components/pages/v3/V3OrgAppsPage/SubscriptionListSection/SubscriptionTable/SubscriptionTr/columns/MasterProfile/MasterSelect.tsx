@@ -35,14 +35,14 @@ export const MasterSelect = memo((props: MasterSelectProps) => {
         return subscriptionApi
             .update(subscription.id, {masterId: teamMember.id})
             .then(() => onChange(teamMember))
-            .finally(() => toast.success('저장했습니다'));
+            .finally(() => toast.success('변경사항을 저장했어요.'));
     };
 
     const optionDetach = async () => {
         return subscriptionApi
             .update(subscription.id, {masterId: null})
             .then(() => onChange())
-            .finally(() => toast.success('연결을 해제했습니다'));
+            .finally(() => toast.success('연결을 해제했어요.'));
     };
 
     return (
