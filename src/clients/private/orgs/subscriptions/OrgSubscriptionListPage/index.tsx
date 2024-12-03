@@ -45,13 +45,13 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
             loadingOnBtn
         >
             <FaPlus />
-            <span>새 구독 등록</span>
+            <span>구독 추가</span>
         </LinkTo>
     );
 
     const onDelete = async (subscription: SubscriptionDto) => {
         const isConfirmed = await confirm2(
-            '이 구독을 삭제할까요?',
+            '구독을 삭제할까요?',
             <div className="text-16">
                 이 작업은 취소할 수 없습니다.
                 <br />
@@ -62,7 +62,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
         ).then((res) => res.isConfirmed);
         if (!isConfirmed) return;
         await subscriptionApi.destroy(subscription.id);
-        toast.success('구독을 삭제했어요');
+        toast.success('구독을 삭제했어요.');
         reload();
     };
 
