@@ -49,7 +49,7 @@ export const PayMethodSelect = memo((props: PayMethodSelectProps) => {
         return subscriptionApi
             .update(subscription.id, {creditCardId: creditCard.id})
             .then(() => onChange(creditCard))
-            .finally(() => toast.success('저장했습니다'));
+            .finally(() => toast.success('변경사항을 저장했어요.'));
     };
 
     const optionDetach = async () => {
