@@ -25,8 +25,7 @@ export const FormContainer = memo((props: FormContainerProps) => {
                         <button
                             className={`btn btn-lg btn-block btn-scordi gap-2 ${isLoading ? 'link_to-loading' : ''}`}
                         >
-                            <FaCheck />
-                            <span>저장하기</span>
+                            <span>추가하기</span>
                         </button>
                     </div>
                 </div>
