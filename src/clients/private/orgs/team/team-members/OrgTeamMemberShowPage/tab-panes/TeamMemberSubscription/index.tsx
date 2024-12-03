@@ -21,8 +21,7 @@ export const TeamMemberSubscription = memo(function TeamMemberSubscription() {
 
     const ConnectSubscriptionButton = () => (
         <LinkTo onClick={() => setConnectSubscriptionModalOpened(true)} className="btn btn-scordi gap-2" loadingOnBtn>
-            <FaPlus />
-            <span>구독 연결하기</span>
+            <span>구독 연결</span>
         </LinkTo>
     );
 
