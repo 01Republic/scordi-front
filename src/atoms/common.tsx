@@ -1,6 +1,6 @@
+import {useEffect, useSyncExternalStore} from 'react';
 import {atom, RecoilState, useSetRecoilState} from 'recoil';
 import {NextRouter, useRouter} from 'next/router';
-import {useEffect} from 'react';
 
 // Ex: const billingHistoryId = useRouterIdParamState('billingHistoryId', billingHistoryIdParamState);
 export const useRouterIdParamState = (idParamNameOrValue: string | number, atom: RecoilState<number>) => {
@@ -11,6 +11,26 @@ export const useRouterIdParamState = (idParamNameOrValue: string | number, atom:
     useEffect(() => {
         if (id && !isNaN(id)) setId(id);
     }, [id]);
+
+    return id;
+};
+
+export const useRouterIdParamState2 = (idParamNameOrValue: string | number, atom: RecoilState<number>) => {
+    const router = useRouter();
+    const setId = useSetRecoilState(atom);
+    const subscribe = () => {
+        if (id && !isNaN(id)) setId(id);
+
+        return () => {
+            //
+        };
+    };
+
+    const getSnapshot = () => {
+        return typeof idParamNameOrValue === 'number' ? idParamNameOrValue : Number(router.query[idParamNameOrValue]);
+    };
+
+    const id = useSyncExternalStore(subscribe, getSnapshot, () => 1);
 
     return id;
 };

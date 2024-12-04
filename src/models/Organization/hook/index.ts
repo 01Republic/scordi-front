@@ -8,10 +8,6 @@ import {currentOrgAtom, currentOrgIsLoadingAtom, getCurrentOrgQueryAtom, getOrgQ
 import {organizationApi} from '^models/Organization/api';
 import {OrganizationDto} from '^models/Organization/type';
 import {UserLoginPageRoute} from '^pages/users/login';
-import {myMembershipApi} from '^models/Membership/api';
-import {useCurrentUser} from '^models/User/hook';
-import {OrgMainPageRoute} from '^pages/orgs/[id]';
-import {signSavedMembershipIdAtom} from '^models/Membership/atom';
 
 export const useOrganization = () => useRecoilValue(getOrgQuery);
 
@@ -21,9 +17,6 @@ export function useCurrentOrg(id: number) {
     const [currentOrg, setCurrentOrg] = useRecoilState(currentOrgAtom);
     const [isLoading, setIsLoading] = useRecoilState(currentOrgIsLoadingAtom);
     const [query, setQuery] = useRecoilState(getCurrentOrgQueryAtom);
-    const {currentUser} = useCurrentUser();
-    const myMembership = currentUser?.findMembershipByOrgId(id);
-    const [savedMembershipId, setSavedMembershipId] = useRecoilState(signSavedMembershipIdAtom);
     const {alert} = useAlert();
 
     const search = (orgId: number, params: FindAllQueryDto<OrganizationDto>, force?: boolean) => {
@@ -41,30 +34,17 @@ export function useCurrentOrg(id: number) {
                     .then((res) => {
                         setCurrentOrg(res.data);
                         resolve(res);
-                        return res.data;
                     })
                     .catch((e) => {
-                        return alert
-                            .error('조직을 찾을 수 없습니다', e.response.data.message)
-                            .then((res) =>
-                                res.isConfirmed && currentUser?.lastSignedOrgId
-                                    ? router.replace(OrgMainPageRoute.path(currentUser.lastSignedOrgId))
-                                    : router.replace('/'),
-                            )
-                            .then(() => reject(e));
+                        router.replace('/404').then(() => {
+                            console.warn(e.response.data.message);
+                            console.warn(e);
+                        });
                     });
 
                 return newQuery;
             });
         }).finally(() => setIsLoading(false));
-    };
-
-    const updateLastSign = (membershipId: number) => {
-        setSavedMembershipId((oldMembershipId) => {
-            if (oldMembershipId === membershipId) return oldMembershipId;
-            myMembershipApi.update(membershipId, {lastSignedAt: new Date()});
-            return membershipId;
-        });
     };
 
     const reload = () => search(id, query, true);
@@ -95,11 +75,6 @@ export function useCurrentOrg(id: number) {
             ],
         });
     }, [id]);
-
-    useEffect(() => {
-        if (!myMembership) return;
-        updateLastSign(myMembership.id);
-    }, [myMembership]);
 
     return {currentOrg, setCurrentOrg, search, reload, isLoading};
 }
