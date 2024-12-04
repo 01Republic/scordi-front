@@ -8,19 +8,19 @@ import {NumericTextInput} from '^clients/private/_components/inputs/NumericTextI
 
 interface InputCardFormDataStepProps {
     cardCompany: CardAccountsStaticData;
-    setCompany: (cardCompanyData?: CardAccountsStaticData) => any;
+    onBack: () => any;
     onSubmit: () => any;
 }
 
 export const InputCardFormDataStep = memo((props: InputCardFormDataStepProps) => {
-    const {cardCompany, setCompany, onSubmit} = props;
+    const {cardCompany, onBack, onSubmit} = props;
     const [formData, setFormData] = useRecoilState(createCreditCardDtoAtom);
 
     return (
         <div className="flex flex-col items-stretch">
             <div className="mb-4">
                 <div className="mb-4">
-                    <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={() => setCompany(undefined)} />
+                    <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={() => onBack()} />
                 </div>
                 <p className="font-medium text-12 text-scordi mb-1">카드 직접 추가하기</p>
                 <h3 className="font-bold text-xl leading-tight">

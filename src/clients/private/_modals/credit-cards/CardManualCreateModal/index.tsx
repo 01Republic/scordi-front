@@ -3,19 +3,21 @@ import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {debounce} from 'lodash';
 import {plainToInstance} from 'class-transformer';
 import {toast} from 'react-hot-toast';
-import {FaChevronLeft} from 'react-icons/fa6';
-import {errorNotify} from '^utils/toast-notify';
 import {orgIdParamState} from '^atoms/common';
-import {createCreditCardDtoAtom} from '^v3/share/modals/NewCardModal/atom';
+import {errorToast} from '^api/api';
+import {FadeUp} from '^components/FadeUp';
+import {delay} from '^components/util/delay';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
-import {CardCompanyItem} from '^models/CodefAccount/components';
-import {UnSignedCreditCardFormData} from '^models/CreditCard/type';
+import {CodefCustomerType} from '^models/CodefAccount/type/enums';
+import {CreateCreditCardDto, UnSignedCreditCardFormData} from '^models/CreditCard/type';
 import {creditCardApi} from '^models/CreditCard/api';
+import {createCreditCardDtoAtom} from '^v3/share/modals/NewCardModal/atom';
 import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {FadeUp} from '^components/FadeUp';
+import {CodefIsPersonalSelectStep} from '../CardAutoCreateModal/CodefIsPersonalSelectStep';
 import {InputCardFormDataStep} from './InputCardFormDataStep';
 import {CardCreatingStep} from './CardCreatingStep';
+import {CardCompanySelectStep} from './CardCompanySelectStep';
 
 interface CardManualCreateModalProps {
     isOpened: boolean;
@@ -25,6 +27,7 @@ interface CardManualCreateModalProps {
 
 // 카드사 연결이 없는 (직접)수동등록의 스텝
 enum Step {
+    isPersonalSelect,
     companySelect,
     setInfo,
     creating,
@@ -35,18 +38,34 @@ enum Step {
 export const CardManualCreateModal = memo((props: CardManualCreateModalProps) => {
     const {isOpened, onClose, onCreate} = props;
     const orgId = useRecoilValue(orgIdParamState);
-    const [step, setStep] = useState(Step.companySelect);
+    const [step, setStep] = useState(Step.isPersonalSelect);
+    const [codefClientType, setCodefClientType] = useState(CodefCustomerType.Personal);
     const [cardCompany, setCardCompany] = useState<CardAccountsStaticData>();
-    const [createCreditCardDto, setFormData] = useRecoilState(createCreditCardDtoAtom);
+    const [createCreditCardDto, setCreateRequestFormData] = useRecoilState(createCreditCardDtoAtom);
     const resetFormData = useResetRecoilState(createCreditCardDtoAtom);
+
+    const setFormData = (data: Partial<CreateCreditCardDto>) => {
+        setCreateRequestFormData((f) => ({...f, ...data}));
+    };
+
+    const close = () => {
+        setCodefClientType(CodefCustomerType.Personal);
+        setCompany(undefined);
+        resetFormData();
+        onClose();
+    };
+
+    const setClientType = (codefClientType?: CodefCustomerType) => {
+        const clientType = codefClientType || CodefCustomerType.Personal;
+        setCodefClientType(clientType);
+        setFormData({isPersonal: clientType === CodefCustomerType.Personal});
+        setStep(codefClientType ? Step.companySelect : Step.isPersonalSelect);
+    };
 
     const setCompany = (cardCompanyData?: CardAccountsStaticData) => {
         setCardCompany(cardCompanyData);
-        setFormData((f) => ({
-            ...f,
-            issuerCompany: cardCompanyData?.displayName,
-        }));
-        setStep(cardCompanyData ? Step.setInfo : Step.companySelect);
+        setFormData({issuerCompany: cardCompanyData?.displayName});
+        cardCompanyData ? setStep(Step.setInfo) : setClientType(undefined);
     };
 
     const onSubmit = debounce(() => {
@@ -64,68 +83,76 @@ export const CardManualCreateModal = memo((props: CardManualCreateModalProps) =>
         }
 
         setStep(Step.creating);
-        const req = creditCardApi.create(orgId, formData.toCreateDto());
-
-        setTimeout(() => {
-            req.then(() => {
-                toast.success('새 카드를 추가했어요 :)');
-                setStep(Step.companySelect);
+        creditCardApi
+            .create(orgId, formData.toCreateDto())
+            .then(() => delay(2000))
+            .then(() => toast.success('새 카드를 추가했어요 :)'))
+            .then(() => {
+                setStep(Step.isPersonalSelect);
                 resetFormData();
                 onCreate();
-            }).catch((e) => {
+            })
+            .catch((e) => {
                 setStep(Step.setInfo);
-                errorNotify(e);
+                errorToast(e);
             });
-        }, 2000);
     }, 500);
 
     return (
         <>
             <SlideUpModal
                 open={isOpened}
-                onClose={onClose}
+                onClose={close}
                 size="md"
                 minHeight="min-h-screen sm:min-h-[90%]"
                 maxHeight="max-h-screen sm:max-h-[90%]"
                 modalClassName="rounded-none sm:rounded-t-box"
             >
-                {step === Step.companySelect && (
-                    <div>
-                        <div>
-                            <div className="mb-4">
-                                <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onClose} />
-                            </div>
-                            <p className="font-medium text-12 text-scordi">카드 직접 추가하기</p>
-                            <h3 className="font-bold text-xl">어떤 카드를 추가할까요?</h3>
-                        </div>
+                <div className="absolute inset-0 p-6">
+                    {/* 개인/법인 */}
+                    {step === Step.isPersonalSelect && (
+                        <CodefIsPersonalSelectStep
+                            onBack={close}
+                            defaultValue={codefClientType}
+                            onChange={setClientType}
+                        />
+                    )}
 
-                        <div className="py-4 flex flex-col">
-                            {CardAccountsStaticData.all().map((cardCompanyData, i) => (
-                                <CardCompanyItem
-                                    key={i}
-                                    cardCompanyData={cardCompanyData}
-                                    onClick={() => setCompany(cardCompanyData)}
-                                />
-                            ))}
-                        </div>
-                    </div>
-                )}
+                    {/* 카드사 선택 */}
+                    <FadeUp
+                        show={codefClientType && step === Step.companySelect}
+                        delay="deloy-[50ms]"
+                        className="h-full"
+                    >
+                        {codefClientType && (
+                            <CardCompanySelectStep
+                                codefClientType={codefClientType}
+                                onBack={() => setCompany(undefined)}
+                                setCompany={setCompany}
+                            />
+                        )}
+                    </FadeUp>
 
-                {step !== Step.creating && (
-                    <FadeUp show={step === Step.setInfo} delay="delay-[50ms]">
+                    {/* 폼 작성 */}
+                    <FadeUp show={cardCompany && step === Step.setInfo} delay="delay-[50ms]">
                         {cardCompany && (
                             <InputCardFormDataStep
                                 cardCompany={cardCompany}
-                                setCompany={setCompany}
+                                onBack={() => {
+                                    setCardCompany(undefined);
+                                    setFormData({issuerCompany: undefined});
+                                    setStep(Step.companySelect);
+                                }}
                                 onSubmit={onSubmit}
                             />
                         )}
                     </FadeUp>
-                )}
 
-                <FadeUp show={step === Step.creating} delay="delay-[50ms]">
-                    <CardCreatingStep />
-                </FadeUp>
+                    {/* 저장중 */}
+                    <FadeUp show={step === Step.creating} delay="delay-[50ms]">
+                        <CardCreatingStep />
+                    </FadeUp>
+                </div>
             </SlideUpModal>
 
             {/* 이탈방지 백드롭 */}
