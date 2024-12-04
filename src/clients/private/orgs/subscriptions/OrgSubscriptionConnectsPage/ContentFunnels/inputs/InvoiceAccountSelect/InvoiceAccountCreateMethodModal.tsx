@@ -1,10 +1,8 @@
 import React, {memo} from 'react';
-import {useResetRecoilState} from 'recoil';
 import {FcDataBackup, FcDataRecovery} from 'react-icons/fc';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {CardCreateMethodOption} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/CardCreateMethodModal';
-import {connectInvoiceAccountCodeAtom} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
 import {useGoogleLoginForInvoiceAccountSelect} from '^models/InvoiceAccount/hook';
+import {CardCreateMethodOption} from '^clients/private/_modals/credit-cards';
 
 export enum InvoiceAccountCreateMethod {
     // (자동) 지메일 계정 연동

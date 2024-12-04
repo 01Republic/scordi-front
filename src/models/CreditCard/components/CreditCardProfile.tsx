@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
+import {FaRegCreditCard} from 'react-icons/fa6';
 import {getColor, palette} from '^components/util/palette';
+import {Avatar} from '^components/Avatar';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {CreditCardDto} from '^models/CreditCard/type';
-import {FaQuestion, FaRegCreditCard} from 'react-icons/fa6';
-import {Avatar} from '^components/Avatar';
 
 /**
  * 카드 프로필 : 기본

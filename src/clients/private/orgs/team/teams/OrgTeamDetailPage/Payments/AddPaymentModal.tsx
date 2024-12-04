@@ -5,7 +5,7 @@ import {useRecoilValue} from 'recoil';
 import {useCreditCardListForListPage} from '^models/CreditCard/hook';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {teamCreditCardApi} from '^models/TeamCreditCard/api';
-import {CreditCardProfileOption2} from '^models/CreditCard/hook/components/CreditCardProfile';
+import {CreditCardProfileOption2} from '^models/CreditCard/components';
 import {TeamCreditCardDto} from '^models/TeamCreditCard/type';
 import {BsCheckCircle, BsCheckCircleFill} from 'react-icons/bs';
 import {toast} from 'react-hot-toast';

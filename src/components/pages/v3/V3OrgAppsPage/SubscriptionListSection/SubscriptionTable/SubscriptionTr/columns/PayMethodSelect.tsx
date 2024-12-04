@@ -5,11 +5,10 @@ import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {subscriptionApi} from '^models/Subscription/api';
 import {useToast} from '^hooks/useToast';
-import {CreditCardProfileOption2} from '^models/CreditCard/hook/components/CreditCardProfile';
+import {CreditCardProfileOption2} from '^models/CreditCard/components';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
-import {BsExclamation} from 'react-icons/bs';
 import {BillingHistoryManager} from '^models/BillingHistory/manager';
 
 interface PayMethodSelectProps {

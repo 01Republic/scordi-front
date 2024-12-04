@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {toast} from 'react-hot-toast';
 import {CreditCardDto, UpdateCreditCardDto} from '^models/CreditCard/type';
 import {creditCardApi} from '^models/CreditCard/api';
-import {CreditCardProfileOption2} from '^models/CreditCard/hook/components/CreditCardProfile';
+import {CreditCardProfileOption2} from '^models/CreditCard/components';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';

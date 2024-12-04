@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {toast} from 'react-hot-toast';
 import {CreditCardDto, CreditCardUsingStatus, UpdateCreditCardDto} from '^models/CreditCard/type';
 import {creditCardApi} from '^models/CreditCard/api';
-import {CreditCardProfileOption2} from '^models/CreditCard/hook/components/CreditCardProfile';
+import {CreditCardProfileOption2} from '^models/CreditCard/components';
 import {IsCreditCardTag, IsPersonalTag, UsingStatusTag} from '^models/CreditCard/components';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';

@@ -6,7 +6,7 @@ import {useModal} from '^v3/share/modals/useModal';
 import {toast} from 'react-toastify';
 import {FiChevronRight} from '^components/react-icons';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
-import {CreditCardProfileOption2} from '^models/CreditCard/hook/components/CreditCardProfile';
+import {CreditCardProfileOption2} from '^models/CreditCard/components';
 
 interface ListItemForPaymentMethodProps {
     subscription?: SubscriptionDto | null;

@@ -4,7 +4,7 @@ import {MobileInfoList} from '^v3/share/MobileInfoList';
 import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
 import {CreditCardDto} from '^models/CreditCard/type';
-import {CreditCardProfileOption2} from '^models/CreditCard/hook/components/CreditCardProfile';
+import {CreditCardProfileOption2} from '^models/CreditCard/components';
 
 interface CardReceiptBillingHistoryProps {
     billingHistory: BillingHistoryDto;

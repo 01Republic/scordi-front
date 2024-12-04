@@ -1,16 +1,19 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilState} from 'recoil';
 import {debounce} from 'lodash';
+import {CreditCardDto} from '^models/CreditCard/type';
 import {useCreditCards} from '^models/CreditCard/hook';
-import {CreditCardProfileOption2} from '^models/CreditCard/hook/components/CreditCardProfile';
-import {CardAutoCreateModal} from '^clients/private/_modals/credit-cards';
+import {CreditCardProfileOption2} from '^models/CreditCard/components';
+import {
+    CardCreateMethod,
+    CardCreateMethodModal,
+    CardAutoCreateModal,
+    CardManualCreateModal,
+} from '^clients/private/_modals/credit-cards';
 import {createSubscriptionFormData} from '../../atom';
 import {InputSection} from '../InputSection';
-import {CardCreateMethod, CardCreateMethodModal} from './CardCreateMethodModal';
-import {CardManualCreateModal} from './CardManualCreateModal';
-import {CreditCardDto} from '^models/CreditCard/type';
 import {MonoSelectInput} from '^components/ui/inputs/MonoSelect/MonoSelectInput';
-import {PaymentMethodSelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/PaymentMethodSelectModal';
+import {PaymentMethodSelectModal} from './PaymentMethodSelectModal';
 
 export const PaymentMethodSelect = memo(function PaymentMethodSelect() {
     const [formData, setFormData] = useRecoilState(createSubscriptionFormData);
