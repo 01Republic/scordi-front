@@ -40,5 +40,5 @@ BillingCycleTypeColumn.displayName = 'BillingCycleTypeColumn';
 
 const BillingCycleTypeTag = memo((props: {value: BillingCycleOptions | string}) => {
     const {value} = props;
-    return <BillingCycleTypeTagUI value={value as BillingCycleOptions} />;
+    return <BillingCycleTypeTagUI value={value as BillingCycleOptions} short={true} />;
 });
