@@ -16,6 +16,7 @@ import {confirm2} from '^components/util/dialog';
 import {subscriptionApi} from '^models/Subscription/api';
 import {toast} from 'react-hot-toast';
 import {SubscriptionDto} from '^models/Subscription/types';
+import {SubscriptionScopeHandler} from '^clients/private/orgs/subscriptions/OrgSubscriptionListPage/SubscriptionTableRow/SubscriptionScopeHandler';
 
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -86,7 +87,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                     <AddSubscriptionButton />
                 </div>
             )}
-            ScopeHandler={undefined}
+            ScopeHandler={SubscriptionScopeHandler}
             onSearch={onSearch}
             // searchInputPosition="start-of-buttons"
         >
