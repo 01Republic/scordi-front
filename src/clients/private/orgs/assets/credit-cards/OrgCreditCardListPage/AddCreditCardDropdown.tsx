@@ -19,7 +19,7 @@ export const AddCreditCardDropdown = memo(function AddCreditCardDropdown() {
 
     return (
         <ListPageDropdown>
-            <ListPageDropdownButton text="카드 추가하기" />
+            <ListPageDropdownButton text="카드 추가" />
 
             <ListPageDropdownMenu>
                 <MethodOption
