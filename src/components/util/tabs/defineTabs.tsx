@@ -5,7 +5,7 @@ import {ContentTabNav, ContentTabNavProps} from '^layouts/ContentLayout';
 import {ComponentLike, ComponentType} from '^components/util/ComponentLike';
 
 // export interface TabItemProps {
-//     label: ReactNodeLike;
+//     label: ReactNodeElement;
 //     Component?: MemoExoticComponent<() => JSX.Element> | (() => JSX.Element);
 // }
 

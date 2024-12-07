@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {useRouter} from 'next/router';
-import {ReactComponentLike, ReactNodeLike} from 'prop-types';
-import {WithChildren} from '^types/global.type';
+import {ReactComponentLike} from 'prop-types';
+import {ReactNodeElement, WithChildren} from '^types/global.type';
 import styles from '^styles/v3/V3MainLayout.module.scss';
 import {ModalLikeTopbar} from './V3ModalLikeLayout.mobile/ModalLikeTopbar';
 import {ModalLikeBottomBar} from './V3ModalLikeLayout.mobile/ModalLikeBottomBar';
@@ -10,7 +10,7 @@ import Head from 'next/head';
 
 interface V3ModalLikeLayoutMobileProps extends WithChildren {
     // 페이지 상단의 제목
-    title?: ReactNodeLike;
+    title?: ReactNodeElement;
     // 페이지 상단 우측 버튼들
     topRightButtons?: ReactComponentLike[];
     // 페이지 하단 고정 버튼들

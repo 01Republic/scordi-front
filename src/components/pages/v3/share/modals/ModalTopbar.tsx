@@ -1,11 +1,11 @@
-import {ReactComponentLike, ReactNodeLike} from 'prop-types';
+import {ReactComponentLike} from 'prop-types';
 import React, {memo} from 'react';
 import {FiArrowLeft} from 'react-icons/fi';
-import {WithChildren} from '^types/global.type';
+import {ReactNodeElement, WithChildren} from '^types/global.type';
 
 interface ModalTopbarProps {
     backBtnOnClick: () => any;
-    title?: ReactNodeLike;
+    title?: ReactNodeElement;
     topbarPosition?: 'fixed' | 'sticky';
     rightButtons?: ReactComponentLike[];
     isLoading?: boolean;
