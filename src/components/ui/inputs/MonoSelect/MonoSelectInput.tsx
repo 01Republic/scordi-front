@@ -2,7 +2,6 @@ import React, {memo} from 'react';
 import {enterToSpace} from '^components/util/keyDownLikeClick';
 import {FaTimes} from 'react-icons/fa';
 import {FaCaretDown} from 'react-icons/fa6';
-import {ReactNodeLike} from 'prop-types';
 import {ReactNodeElement} from '^types/global.type';
 
 interface MonoSelectInputProps<Option> {

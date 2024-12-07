@@ -2,10 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {enterToSpace} from '^components/util/keyDownLikeClick';
 import {FaCaretDown, FaCheck} from 'react-icons/fa6';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {ReactNodeLike} from 'prop-types';
 import {FaTimes} from 'react-icons/fa';
 import {ModalLayoutProps} from '^components/modals/_shared/Modal.types';
-import {WithChildren} from '^types/global.type';
+import {ReactNodeElement, WithChildren} from '^types/global.type';
 import {LoadableBox} from '^components/util/loading';
 import {MonoSelectInput} from './MonoSelectInput';
 
@@ -15,11 +14,11 @@ interface MonoSelectProps<Option, Value> {
     isLoading?: boolean;
     defaultValue?: Value;
     onChange?: (selectedOption?: Option) => any;
-    getLabel?: (option: Option) => ReactNodeLike;
+    getLabel?: (option: Option) => ReactNodeElement;
     getValue?: (option: Option) => Value;
     OptionComponent?: (props: {option: Option}) => JSX.Element;
-    modalTitle?: ReactNodeLike;
-    placeholder?: ReactNodeLike;
+    modalTitle?: ReactNodeElement;
+    placeholder?: ReactNodeElement;
     clearable?: boolean;
     size?: ModalLayoutProps['size'];
     minHeight?: string;

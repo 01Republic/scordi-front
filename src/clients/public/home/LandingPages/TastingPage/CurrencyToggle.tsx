@@ -1,12 +1,12 @@
 import React, {memo} from 'react';
 import {useRecoilState} from 'recoil';
 import {displayCurrencyAtom} from './pageAtoms';
-import {ReactNodeLike} from 'prop-types';
 import {CurrencyCode} from '^models/Money';
+import {ReactNodeElement} from '^types/global.type';
 
 interface CurrencyToggleProps {
-    leftText?: ReactNodeLike;
-    rightText?: ReactNodeLike;
+    leftText?: ReactNodeElement;
+    rightText?: ReactNodeElement;
     className?: string;
 }
 
