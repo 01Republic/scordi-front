@@ -58,8 +58,16 @@ export const BillingHistoryMonthly = memo(
             return Array.from({length: 12}, (_, i) => i).map((idx) => {
                 const item = items[idx] ?? {amount: 0, symbol: items[0].symbol};
                 const previousItem = idx > 0 ? items[idx - 1] : item;
-                const amount = item?.amount ?? 0;
-                const previousAmount = previousItem?.amount ?? 0;
+                const amount = item?.amount
+                    ? displayCurrency === 'KRW' && item.code !== 'KRW'
+                        ? item.amount * exchangeRate
+                        : item.amount
+                    : 0;
+                const previousAmount = previousItem?.amount
+                    ? displayCurrency === 'KRW' && previousItem.code !== 'KRW'
+                        ? previousItem.amount * exchangeRate
+                        : previousItem.amount
+                    : 0;
                 const isHigher = amount > previousAmount;
                 const isLower = amount < previousAmount;
 
@@ -70,13 +78,21 @@ export const BillingHistoryMonthly = memo(
                             isHigher ? 'text-red-500 bg-red-50' : isLower ? 'text-blue-500 bg-blue-50' : ''
                         }`}
                     >
-                        {currencySymbol(item.symbol)} {amount.toLocaleString()}
+                        {currencySymbol(item.symbol)} {displayCost(amount)}
                     </td>
                 );
             });
         };
 
         const currencySymbol = (symbol?: string) => (displayCurrency === 'KRW' ? '₩' : symbol);
+
+        const displayCost = (amount: number, code?: string) => {
+            if (displayCurrency === 'KRW' || code === 'KRW') {
+                return Number(amount.toFixed(0)).toLocaleString();
+            } else {
+                return Number(amount.toFixed(2)).toLocaleString();
+            }
+        };
 
         const handleDownloadExcel = () => {
             const formattedData = history.map((monthly) => {
@@ -110,7 +126,7 @@ export const BillingHistoryMonthly = memo(
                 <div className={'flex justify-start pb-2'}>
                     <CurrencyToggle leftText={''} rightText={'원화로 보기'} className={'font-medium'} />
                 </div>
-                <div className="bg-white border border-gray-300 overflow-hidden shadow rounded-2xl">
+                <div className="bg-white border border-gray-300 overflow-hidden shadow rounded-lg">
                     <div className="overflow-x-auto w-full hide-scrollbar">
                         <table className="table w-full text-sm">
                             <thead>
@@ -161,17 +177,18 @@ export const BillingHistoryMonthly = memo(
                                                     <IsFreeTierTagUI value={monthly.subscription.isFreeTier || false} />
                                                 </td>
                                                 <td className={'text-right font-medium'}>
-                                                    {getSpendingPercentage(
-                                                        getMonthlyCostsToKRW(monthly),
-                                                    ).toLocaleString()}
+                                                    {getSpendingPercentage(getMonthlyCostsToKRW(monthly))}
                                                 </td>
                                                 <td className={'text-right font-medium'}>
                                                     {currencySymbol(monthly.subscription.currentBillingAmount?.symbol)}{' '}
-                                                    {getMonthlyCosts(monthly).toLocaleString()}
+                                                    {displayCost(getMonthlyCosts(monthly))}
                                                 </td>
                                                 <td className={'text-right font-medium'}>
                                                     {currencySymbol(monthly.subscription.currentBillingAmount?.symbol)}{' '}
-                                                    {getAverageCost(monthly).toLocaleString()}
+                                                    {displayCost(
+                                                        getAverageCost(monthly),
+                                                        monthly.subscription.currentBillingAmount?.code,
+                                                    )}
                                                 </td>
                                                 {renderMonthlyColumns(monthly.items)}
                                             </tr>
