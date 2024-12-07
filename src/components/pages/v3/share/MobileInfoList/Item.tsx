@@ -1,10 +1,9 @@
 import React, {memo} from 'react';
-import {ReactNodeLike} from 'prop-types';
 import {ReactNodeElement, WithChildren} from '^types/global.type';
 import {FiChevronRight} from '^components/react-icons';
 
 interface MobileInfoListItemProps extends WithChildren {
-    label: ReactNodeLike;
+    label: ReactNodeElement;
     value?: ReactNodeElement;
     className?: string;
     onClick?: () => void;
