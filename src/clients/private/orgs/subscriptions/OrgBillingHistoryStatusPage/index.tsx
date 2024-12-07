@@ -1,4 +1,4 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useEffect, useRef, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
@@ -15,8 +15,10 @@ import {BillingHistoryMonthly} from './BillingHistoryMonthly';
 import {BillingHistoryYearly} from './BillingHistoryYearly';
 import {useBillingHistoryStatus} from '^hooks/useBillingHistoryStatus';
 import {LoadableBox} from '^components/util/loading';
+import * as XLSX from 'xlsx';
 
 export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatusPage() {
+    const monthlyRef = useRef(null);
     const orgId = useRecoilValue(orgIdParamState);
     const {years, focusYear, setFocusYear, getMetaData} = useBillingHistoryStatus();
 
@@ -59,6 +61,13 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
         setFilteredYearlyHistory(yearlyHistory.filter(filterByName));
     };
 
+    const onDownload = () => {
+        if (monthlyRef.current) {
+            // @ts-ignore
+            monthlyRef.current.downloadExcel();
+        }
+    };
+
     useEffect(() => {
         if (viewUnit === BillingCycleOptions.Yearly) setFocusYear(undefined);
     }, [viewUnit]);
@@ -93,10 +102,11 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
                 )
             }
             onSearch={handleSearch}
+            onDownload={viewUnit === BillingCycleOptions.Monthly ? onDownload : undefined}
         >
             <LoadableBox isLoading={isLoading} loadingType={2} spinnerPos="center" noPadding loadingClass="">
                 {viewUnit === BillingCycleOptions.Monthly ? (
-                    <BillingHistoryMonthly history={filteredMonthlyHistory} />
+                    <BillingHistoryMonthly ref={monthlyRef} history={filteredMonthlyHistory} />
                 ) : (
                     <BillingHistoryYearly history={filteredYearlyHistory} />
                 )}
