@@ -48,6 +48,14 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
             {/* 과금방식: (TestBank: 연, 고정, 사용량, 크레딧, 1인당) */}
             <td className="">
                 <PayingType subscription={subscription} onChange={reload} />
+
+            {/* 갱신일 */}
+            <td className="text-right">
+                {subscription.nextComputedBillingDate ? (
+                    <p className="text-sm">{subscription.nextComputedBillingDate}</p>
+                ) : (
+                    <p className="text-sm text-gray-400">-</p>
+                )}
             </td>
 
             {/* 결제수단 */}
@@ -71,12 +79,6 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
             <td className="text-right">
                 <LatestPayAmount subscription={subscription} />
             </td>
-
-            {/* 다음 결제일 */}
-            {/*<td className="text-right">*/}
-            {/*    <NextPaymentDate nextPayDate={nextPayDate} />*/}
-            {/*</td>*/}
-
             {/* 담당자 */}
             <td className="py-0 pl-5 w-40">
                 <MasterSelect subscription={subscription} onChange={reload} />
