@@ -12,11 +12,11 @@ import {
     PayingType,
     // ProductProfile,
     // SubscriptionStatus,
-    PayMethodSelect,
     MasterSelect,
     IsFreeTierColumn,
     BillingCycleTypeColumn,
 } from './columns';
+import {PayMethodSelect} from '^models/Subscription/components';
 
 interface SubscriptionTrProps {
     subscription: SubscriptionDto;

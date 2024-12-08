@@ -6,6 +6,5 @@ export * from './PayingType/PayingType';
 export * from './MemberCount';
 export * from './LatestPayAmount';
 export * from './NextPaymentDate';
-export * from './PayMethodSelect';
 export * from './BillingCycleTypeColumn';
 export * from './IsFreeTierColumn';

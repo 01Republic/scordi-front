@@ -14,6 +14,7 @@ import {BillingHistoryManager} from '^models/BillingHistory/manager';
 interface PayMethodSelectProps {
     subscription: SubscriptionDto;
     onChange: (creditCard?: CreditCardDto) => any;
+    ValueComponent?: (props: {value: CreditCardDto | string}) => JSX.Element;
 }
 
 export const PayMethodSelect = memo((props: PayMethodSelectProps) => {
@@ -21,7 +22,7 @@ export const PayMethodSelect = memo((props: PayMethodSelectProps) => {
     const {toast} = useToast();
     const {search, deleteCreditCard} = useCreditCards();
 
-    const {subscription, onChange} = props;
+    const {subscription, onChange, ValueComponent = DefaultValueComponent} = props;
 
     const BillingHistory = BillingHistoryManager.init(subscription.billingHistories);
     const lastPaidHistory = BillingHistory.lastPaidHistory();
@@ -59,12 +60,13 @@ export const PayMethodSelect = memo((props: PayMethodSelectProps) => {
     };
 
     return (
-        <div className="flex gap-1 items-center">
-            <div className="w-40 overflow-x-hidden">
+        <div className="">
+            <div className="overflow-x-hidden">
                 <SelectColumn
+                    fullWidth={false}
                     value={subscription.creditCard}
                     getOptions={getOptions}
-                    ValueComponent={PayMethodOption}
+                    ValueComponent={ValueComponent}
                     valueOfOption={(creditCard) => creditCard.id}
                     textOfOption={(creditCard) => creditCard.name || ''}
                     onSelect={onSelect}
@@ -91,7 +93,7 @@ export const PayMethodSelect = memo((props: PayMethodSelectProps) => {
     );
 });
 
-const PayMethodOption = memo((props: {value: CreditCardDto | string}) => {
+const DefaultValueComponent = memo((props: {value: CreditCardDto | string}) => {
     const {value} = props;
 
     if (typeof value === 'string') {

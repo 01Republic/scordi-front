@@ -2,6 +2,7 @@ import React, {memo} from 'react';
 import {FaRegCreditCard} from 'react-icons/fa6';
 import {getColor, palette} from '^components/util/palette';
 import {Avatar} from '^components/Avatar';
+import {NextImage} from '^components/NextImage';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {CreditCardDto} from '^models/CreditCard/type';
 
@@ -134,3 +135,39 @@ export const CreditCardProfileOption2 = memo((props: CreditCardProfileOption2Pro
     );
 });
 CreditCardProfileOption2.displayName = 'CreditCardProfileOption2';
+
+interface CreditCardProfileCompactProps {
+    item?: CreditCardDto;
+    className?: string;
+}
+
+export const CreditCardProfileCompact = memo((props: CreditCardProfileCompactProps) => {
+    const {item: creditCard, className = ''} = props;
+    if (!creditCard) return <div className="text-13 text-gray-300">비어있음</div>;
+
+    const cardName = creditCard.profileName;
+    const endNumber = creditCard.secretInfo.number4;
+    const company = creditCard.company;
+
+    return (
+        <div
+            data-component="CreditCardProfileCompact"
+            className={`h-[20px] flex gap-1.5 items-center max-w-sm ${className}`}
+        >
+            <Avatar className="w-[20px] h-[20px] text-12 relative">
+                {company ? (
+                    <NextImage src={company.logo} alt={company.displayName} fill />
+                ) : (
+                    <FaRegCreditCard size={12} className="h-full w-full p-1 text-gray-400" />
+                )}
+            </Avatar>
+
+            <div className="overflow-hidden text-left">
+                <p className="text-14 leading-none overflow-x-hidden max-w-full whitespace-nowrap">
+                    <span className="truncate">{cardName}</span>
+                    {endNumber && <span className="">({endNumber})</span>}
+                </p>
+            </div>
+        </div>
+    );
+});

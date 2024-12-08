@@ -8,10 +8,11 @@ import {
     MasterSelect,
     MemberCount,
     PayingType,
-    PayMethodSelect,
 } from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
 import {Dropdown} from '^v3/share/Dropdown';
 import {IoIosMore} from 'react-icons/io';
+import {CreditCardProfileCompact} from '^models/CreditCard/components';
+import {PayMethodSelect} from '^models/Subscription/components';
 
 interface SubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -51,7 +52,14 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
 
             {/* 결제수단 */}
             <td className="pl-3 py-0">
-                <PayMethodSelect subscription={subscription} onChange={reload} />
+                <PayMethodSelect
+                    subscription={subscription}
+                    onChange={reload}
+                    ValueComponent={(props) => {
+                        const {value} = props;
+                        return typeof value === 'string' ? <p>{value}</p> : <CreditCardProfileCompact item={value} />;
+                    }}
+                />
             </td>
 
             {/* 사용인원 */}

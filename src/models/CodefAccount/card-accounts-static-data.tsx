@@ -3,6 +3,7 @@
 import {CodefCardCompanyCode, CodefCustomerType, CodefLoginType} from '^models/CodefAccount/type/enums';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {getColor, palette} from '^components/util/palette';
+import {plainToInstance} from 'class-transformer';
 
 export class CardAccountsStaticData {
     displayName: string;
@@ -14,7 +15,7 @@ export class CardAccountsStaticData {
     loginPageUrl: string;
 
     static all() {
-        return cardAccountsStaticData;
+        return plainToInstance(CardAccountsStaticData, cardAccountsStaticData);
     }
 
     static clientTypeOf(clientType: CodefCustomerType) {
