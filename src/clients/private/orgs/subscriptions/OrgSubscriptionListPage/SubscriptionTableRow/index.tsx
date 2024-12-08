@@ -80,9 +80,10 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
                 <LatestPayAmount subscription={subscription} />
             </td>
             {/* 담당자 */}
-            <td className="py-0 pl-5 w-40">
-                <MasterSelect subscription={subscription} onChange={reload} />
-            </td>
+            {/*<td className="py-0 pl-5 w-40">*/}
+            {/*    <MasterSelect subscription={subscription} onChange={reload} />*/}
+            {/*</td>*/}
+            <td></td>
 
             {/* Actions */}
 
