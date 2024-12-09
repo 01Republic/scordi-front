@@ -15,12 +15,20 @@ export const DeleteInvoiceAccountButton = memo(function DeleteInvoiceAccountButt
         if (!currentInvoiceAccount) return;
         const {organizationId, id} = currentInvoiceAccount;
 
-        confirm2('이 계정을 정말 삭제할까요?', '이 작업은 취소가 불가능한 작업이에요.\n그래도 계속할까요?')
+        confirm2(
+            '청구서 메일을 삭제할까요?',
+            <p>
+                이 작업은 취소할 수 없습니다.
+                <br />
+                <b>워크스페이스 전체</b>에서 삭제됩니다. <br />
+                그래도 연결을 해제 하시겠어요?
+            </p>,
+        )
             .then((r) => {
-                if (!r.isConfirmed) throw new Error('삭제를 취소했어요');
+                if (!r.isConfirmed) throw new Error('삭제를 취소했어요.');
             })
             .then(() => invoiceAccountApi.destroy(organizationId, id))
-            .then(() => toast.success(`${currentInvoiceAccount.title} 계정을 삭제했어요`))
+            .then(() => toast.success(`${currentInvoiceAccount.title} 청구서 메일을 삭제했어요.`))
             .then(() => router.replace(OrgInvoiceAccountListPageRoute.path(organizationId)))
             .catch((e) => console.log(e.message));
     };

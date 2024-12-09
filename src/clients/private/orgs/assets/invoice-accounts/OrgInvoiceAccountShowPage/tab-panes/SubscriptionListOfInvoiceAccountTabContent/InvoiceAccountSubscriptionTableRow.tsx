@@ -31,7 +31,7 @@ export const InvoiceAccountSubscriptionTableRow = memo((props: InvoiceAccountSub
             <p>
                 이 작업은 취소할 수 없습니다.
                 <br />
-                <b>결제수단에서 제외</b>됩니다. <br />
+                <b>청구서 메일에서 제외</b>됩니다. <br />
                 그래도 연결을 해제 하시겠어요?
             </p>,
             'warning',
