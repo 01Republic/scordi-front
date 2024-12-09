@@ -46,7 +46,7 @@ export const CreditCardUpdateSwalForm = memo((props: CreditCardUpdateSwalFormPro
         await creditCardApi
             .update(orgId, id, data.toUpdateDto())
             .then((res) => {
-                toast.success('변경되었습니다.');
+                toast.success('변경사항을 저장했어요.');
                 onSave(res.data);
                 Swal.close();
             })
@@ -54,9 +54,9 @@ export const CreditCardUpdateSwalForm = memo((props: CreditCardUpdateSwalFormPro
     }, 500);
 
     return (
-        <SwalForm onSubmit={handleSubmit(onSubmit)}>
+        <SwalForm onSubmit={handleSubmit(onSubmit)} confirmBtnText="확인">
             <section className="">
-                <h4 className="text-xl sm:text-lg text-left">결제 수단 수정</h4>
+                <h4 className="text-xl sm:text-lg text-left">결제수단 정보를 수정할게요.</h4>
             </section>
 
             <section className="flex flex-col gap-4 items-stretch pt-2 pb-6">
