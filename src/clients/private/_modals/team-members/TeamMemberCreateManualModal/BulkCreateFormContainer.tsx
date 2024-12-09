@@ -84,7 +84,7 @@ export const BulkCreateFormContainer = memo((props: BulkCreateFormContainerProps
                     onClick={onSubmit}
                     disabled={formDataList.length == 0}
                 >
-                    {!isCreating && '저장하기'}
+                    {!isCreating && '추가하기'}
                 </button>
             </section>
         </div>
