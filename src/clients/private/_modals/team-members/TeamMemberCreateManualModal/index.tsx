@@ -1,12 +1,12 @@
 import React, {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
 import {useForm} from 'react-hook-form';
-import {CreateTeamMemberDto, teamMemberApi} from '^models/TeamMember';
-import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {FaChevronLeft} from 'react-icons/fa6';
 import {debounce} from 'lodash';
-import {BulkCreateFormContainer} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/TeamMemberSelect/TeamMemberCreateManualModal/BulkCreateFormContainer';
+import {orgIdParamState} from '^atoms/common';
+import {CreateTeamMemberDto, teamMemberApi} from '^models/TeamMember';
+import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
+import {BulkCreateFormContainer} from './BulkCreateFormContainer';
 
 interface TeamMemberCreateManualModalProps {
     isOpened: boolean;

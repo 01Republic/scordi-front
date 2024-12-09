@@ -2,12 +2,11 @@ import {memo, useEffect, useState} from 'react';
 import {FaPlus} from 'react-icons/fa6';
 import {toast} from 'react-hot-toast';
 import {useTeamMemberListInCreateSubscription} from '^models/TeamMember';
+import {TeamMemberCreateAutoModal, TeamMemberCreateManualModal} from '^clients/private/_modals/team-members';
 import {TeamMemberSearchInput} from './TeamMemberSearchInput';
 import {TeamMemberSelectedSection} from './TeamMemberSelectedSection';
 import {TeamMemberSelectableSection} from './TeamMemberSelectableSection';
 import {TeamMemberCreateMethodModal} from './TeamMemberCreateMethodModal';
-import {TeamMemberCreateAutoModal} from './TeamMemberCreateAutoModal';
-import {TeamMemberCreateManualModal} from './TeamMemberCreateManualModal';
 
 export const TeamMemberSelect = memo(function TeamMemberSelect() {
     const {search, reload} = useTeamMemberListInCreateSubscription();
