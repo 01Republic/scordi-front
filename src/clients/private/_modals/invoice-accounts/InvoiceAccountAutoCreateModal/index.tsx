@@ -6,15 +6,14 @@ import {
     isGoogleError,
 } from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
 import {orgIdParamState} from '^atoms/common';
-import {useGoogleLoginForInvoiceAccountSelect, useInvoiceAccountListInConnector} from '^models/InvoiceAccount/hook';
-import {invoiceAccountTimeoutChain} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountIsLoading/invoiceAccountTimeoutChain';
-import {getCreateInvoiceAccountFromTo, InvoiceAccountDto} from '^models/InvoiceAccount/type';
-import {invoiceAccountApi} from '^models/InvoiceAccount/api';
-import {toast} from 'react-hot-toast';
-import {FaChevronLeft} from 'react-icons/fa6';
-import {ApiErrorResponse} from '^api/api';
 import {plainToInstance} from 'class-transformer';
 import {AxiosResponse} from 'axios';
+import {debounce} from 'lodash';
+import {FaChevronLeft} from 'react-icons/fa6';
+import {ApiErrorResponse} from '^api/api';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {useGoogleLoginForInvoiceAccountSelect} from '^models/InvoiceAccount/hook';
+import {getCreateInvoiceAccountFromTo, InvoiceAccountDto} from '^models/InvoiceAccount/type';
 
 interface InvoiceAccountAutoCreateModalProps {
     isOpened: boolean;
@@ -29,7 +28,6 @@ export const InvoiceAccountAutoCreateModal = memo((props: InvoiceAccountAutoCrea
     const {launch, code, resetCode} = useGoogleLoginForInvoiceAccountSelect();
     const [title, setTitle] = useState('인증 정보를 가져오고 있어요.');
     const [desc, setDesc] = useState('최대 1분 정도 걸릴 수 있어요. 잠시만 기다려주세요.');
-    const {reload} = useInvoiceAccountListInConnector();
     const [isLoading, setIsLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState<string>();
     const [duplicatedAccount, setDuplicatedAccount] = useState<InvoiceAccountDto>();
@@ -39,12 +37,10 @@ export const InvoiceAccountAutoCreateModal = memo((props: InvoiceAccountAutoCrea
         setDuplicatedAccount(undefined);
 
         return request()
-            .then(() =>
-                reload().then(() => {
-                    resetCode();
-                    onCreate();
-                }),
-            )
+            .then(() => {
+                resetCode();
+                onCreate();
+            })
             .catch((err: ApiErrorResponse<InvoiceAccountDto | null>) => {
                 const data = err.response?.data;
                 if (data) {
@@ -59,12 +55,12 @@ export const InvoiceAccountAutoCreateModal = memo((props: InvoiceAccountAutoCrea
             .finally(() => setIsLoading(false));
     };
 
-    const createInvoiceAccount = (code: string) => {
+    const createInvoiceAccount = debounce((code: string) => {
         return handleRequest(() => {
             const gmailQueryOptions = getCreateInvoiceAccountFromTo();
             return invoiceAccountApi.upsertByCode(orgId, {code, gmailQueryOptions});
         });
-    };
+    }, 500);
 
     const reConnectInvoiceAccount = (id: number) => {
         return handleRequest(() => {
@@ -87,10 +83,10 @@ export const InvoiceAccountAutoCreateModal = memo((props: InvoiceAccountAutoCrea
             if (isGoogleError(code)) {
                 setErrorMsg('인증이 취소되었어요 💦');
             } else {
-                createInvoiceAccount(code);
+                if (isOpened) createInvoiceAccount(code);
             }
         }
-    }, [code]);
+    }, [isOpened, code]);
 
     return (
         <SlideUpModal

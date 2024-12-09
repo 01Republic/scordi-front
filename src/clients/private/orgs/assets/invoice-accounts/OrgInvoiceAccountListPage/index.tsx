@@ -1,16 +1,14 @@
 import React, {memo} from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
-import {toast} from 'react-hot-toast';
 import {orgIdParamState} from '^atoms/common';
 import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {AddInvoiceAccountDropdown} from './AddInvoiceAccountDropdown';
+import {AddInvoiceAccountModal} from './AddInvoiceAccountModal';
 import {InvoiceAccountTableHeader} from './InvoiceAccountTableHeader';
 import {InvoiceAccountTableRow} from './InvoiceAccountTableRow';
-import {AddInvoiceAccountDropdown} from './AddInvoiceAccountDropdown';
-import {InvoiceAccountAutoCreateModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/InvoiceAccountSelect/InvoiceAccountAutoCreateModal';
-import {isInvoiceAccountAutoCreateModalAtom} from './atom';
 
 export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage() {
     const organizationId = useRecoilValue(orgIdParamState);
@@ -24,10 +22,10 @@ export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage
         isEmptyResult,
         query,
         movePage,
+        resetPage,
         changePageSize,
         orderBy,
     } = useInvoiceAccounts();
-    const [isCreateModalOpened, setCreateModalOpen] = useRecoilState(isInvoiceAccountAutoCreateModalAtom);
 
     const onReady = () => {
         search({
@@ -46,13 +44,17 @@ export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage
         });
     }, 500);
 
+    const refresh = () => {
+        search({...query, keyword: undefined, page: 1, itemsPerPage: 30}, false, true);
+    };
+
     return (
         <ListPage
             onReady={onReady}
             onUnmount={() => reset()}
             breadcrumb={['자산', {text: '청구서 수신 메일', active: true}]}
             titleText="청구서 수신 메일"
-            Buttons={AddInvoiceAccountDropdown}
+            Buttons={() => <AddInvoiceAccountDropdown reload={refresh} />}
             ScopeHandler={undefined}
             searchInputPlaceholder="검색어를 입력해주세요"
             onSearch={onSearch}
@@ -67,7 +69,7 @@ export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage
                 isLoading={isLoading}
                 isEmptyResult={isEmptyResult}
                 emptyMessage="조회된 청구서 수신 메일이 없어요."
-                EmptyButtons={AddInvoiceAccountDropdown}
+                EmptyButtons={() => <AddInvoiceAccountModal reload={refresh} />}
             >
                 <ListTable
                     items={result.items}
@@ -76,17 +78,6 @@ export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage
                     Row={({item}) => <InvoiceAccountTableRow invoiceAccount={item} reload={reload} />}
                 />
             </ListTableContainer>
-
-            <InvoiceAccountAutoCreateModal
-                isOpened={isCreateModalOpened}
-                onClose={() => setCreateModalOpen(false)}
-                onCreate={() => {
-                    toast.success('계정을 저장했어요');
-                    setCreateModalOpen(false);
-                    return reload();
-                }}
-                onRetry={() => setCreateModalOpen(true)}
-            />
         </ListPage>
     );
 });

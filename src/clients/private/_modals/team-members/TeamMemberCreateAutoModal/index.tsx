@@ -4,10 +4,11 @@ import {AxiosResponse} from 'axios';
 import {FaChevronLeft} from 'react-icons/fa6';
 import {orgIdParamState} from '^atoms/common';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {useGoogleLoginForWorkspaceConnect} from '../useGoogleLoginForWorkspaceConnect';
 import {isGoogleError} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
 import {connectGoogleAdmin} from '^models/TeamMember';
 import {ApiErrorResponse} from '^api/api';
+import {debounce} from 'lodash';
+import {useGoogleLoginForWorkspaceConnect} from '../useGoogleLoginForWorkspaceConnect';
 
 interface TeamMemberCreateAutoModalProps {
     isOpened: boolean;
@@ -46,11 +47,11 @@ export const TeamMemberCreateAutoModal = memo((props: TeamMemberCreateAutoModalP
             .finally(() => setIsLoading(false));
     };
 
-    const createTeamMembersByGoogleAdmin = (code: string) => {
+    const createTeamMembersByGoogleAdmin = debounce((code: string) => {
         return handleRequest(() => {
             return connectGoogleAdmin.teamMembersApi.upsertByCode(orgId, {code});
         });
-    };
+    }, 500);
 
     const reConnectTeamMembersByGoogleAdmin = (id: number) => {
         //
@@ -70,10 +71,10 @@ export const TeamMemberCreateAutoModal = memo((props: TeamMemberCreateAutoModalP
             if (isGoogleError(code)) {
                 setErrorMsg('인증이 취소되었어요 💦');
             } else {
-                createTeamMembersByGoogleAdmin(code);
+                if (isOpened) createTeamMembersByGoogleAdmin(code);
             }
         }
-    }, [code]);
+    }, [isOpened, code]);
 
     return (
         <SlideUpModal

@@ -1,9 +1,8 @@
 import {memo} from 'react';
-import {WithChildren} from '^types/global.type';
-import {ReactNodeLike} from 'prop-types';
+import {ReactNodeElement, WithChildren} from '^types/global.type';
 
 interface Props extends WithChildren {
-    title?: ReactNodeLike;
+    title?: ReactNodeElement;
 }
 
 export default memo((props: Props) => {

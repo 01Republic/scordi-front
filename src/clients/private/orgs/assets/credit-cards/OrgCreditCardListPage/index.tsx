@@ -4,13 +4,12 @@ import {debounce} from 'lodash';
 import {orgIdParamState} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {CardAutoCreateModal} from '^clients/private/_modals/credit-cards';
 import {useCreditCardListForListPage} from '^models/CreditCard/hook';
 import {CreditCardScopeHandler} from './CreditCardScopeHandler';
 import {CreditCardTableHeader} from './CreditCardTableHeader';
 import {CreditCardTableRow} from './CreditCardTableRow';
 import {AddCreditCardDropdown} from './AddCreditCardDropdown';
-import {isCardAutoCreateModalAtom} from './atom';
+import {AddCreditCardModal} from './AddCreditCardModal';
 
 export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
     const organizationId = useRecoilValue(orgIdParamState);
@@ -27,7 +26,6 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
         orderBy,
         reload,
     } = useCreditCardListForListPage();
-    const [isCardAutoCreateModalOpen, setIsCardAutoCreateModalOpen] = useRecoilState(isCardAutoCreateModalAtom);
 
     const onReady = () => {
         search({where: {organizationId}, order: {id: 'DESC'}});
@@ -41,6 +39,10 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
             itemsPerPage: 30,
         });
     }, 500);
+
+    const refresh = () => {
+        search({...query, keyword: undefined, page: 1, itemsPerPage: 30}, false, true);
+    };
 
     return (
         <ListPage
@@ -62,7 +64,7 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
                 isNotLoaded={isNotLoaded}
                 isEmptyResult={isEmptyResult}
                 emptyMessage="조회된 결제수단이 없어요."
-                EmptyButtons={AddCreditCardDropdown}
+                EmptyButtons={() => <AddCreditCardModal reload={refresh} />}
             >
                 <ListTable
                     items={result.items}
@@ -71,15 +73,6 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
                     Row={({item}) => <CreditCardTableRow creditCard={item} reload={reload} />}
                 />
             </ListTableContainer>
-
-            <CardAutoCreateModal
-                isOpened={isCardAutoCreateModalOpen}
-                onClose={() => setIsCardAutoCreateModalOpen(false)}
-                onCreate={() => {
-                    setIsCardAutoCreateModalOpen(false);
-                    return reload();
-                }}
-            />
         </ListPage>
     );
 });
