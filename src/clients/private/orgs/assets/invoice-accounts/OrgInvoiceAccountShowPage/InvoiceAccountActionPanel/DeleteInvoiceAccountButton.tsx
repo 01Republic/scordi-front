@@ -21,7 +21,7 @@ export const DeleteInvoiceAccountButton = memo(function DeleteInvoiceAccountButt
                 이 작업은 취소할 수 없습니다.
                 <br />
                 <b>워크스페이스 전체</b>에서 삭제됩니다. <br />
-                그래도 연결을 해제 하시겠어요?
+                그래도 삭제하시겠어요?
             </p>,
         )
             .then((r) => {
