@@ -10,6 +10,7 @@ import {CreditCardScopeHandler} from './CreditCardScopeHandler';
 import {CreditCardTableHeader} from './CreditCardTableHeader';
 import {CreditCardTableRow} from './CreditCardTableRow';
 import {AddCreditCardDropdown} from './AddCreditCardDropdown';
+import {AddCreditCardModal} from './AddCreditCardModal';
 import {isCardAutoCreateModalAtom} from './atom';
 
 export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
@@ -62,7 +63,7 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
                 isNotLoaded={isNotLoaded}
                 isEmptyResult={isEmptyResult}
                 emptyMessage="조회된 결제수단이 없어요."
-                EmptyButtons={AddCreditCardDropdown}
+                EmptyButtons={() => <AddCreditCardModal reload={reload} />}
             >
                 <ListTable
                     items={result.items}
