@@ -1,13 +1,13 @@
 import {memo} from 'react';
-import {ReactNodeLike} from 'prop-types';
+import {ReactNodeElement} from '^types/global.type';
 
 interface ReviewItemProps {
     company: string;
     reviewer: string;
     role: string;
     logo: string;
-    title: ReactNodeLike;
-    content: ReactNodeLike;
+    title: ReactNodeElement;
+    content: ReactNodeElement;
     duration: number;
 }
 

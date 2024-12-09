@@ -12,8 +12,7 @@ import {
     MethodOption,
 } from '^clients/private/_layouts/_shared/ListPageMainDropdown';
 import {GoogleAdminOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {useGoogleLoginForWorkspaceConnect} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/TeamMemberSelect/useGoogleLoginForWorkspaceConnect';
-import {TeamMemberCreateAutoModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/TeamMemberSelect/TeamMemberCreateAutoModal';
+import {useGoogleLoginForWorkspaceConnect, TeamMemberCreateAutoModal} from '^clients/private/_modals/team-members';
 
 interface AddTeamMemberDropdownProps {
     reload: () => any;

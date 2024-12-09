@@ -1,59 +1,67 @@
 import React, {memo} from 'react';
-import {FaChevronRight} from 'react-icons/fa6';
 import {FcDataBackup, FcDataRecovery} from 'react-icons/fc';
+import {FaChevronRight} from 'react-icons/fa6';
 import {IconType} from '@react-icons/all-files';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {useGoogleLoginForWorkspaceConnect} from '^clients/private/_modals/team-members';
+import {useGoogleLoginForInvoiceAccountSelect} from '^models/InvoiceAccount/hook';
+import {GoogleGmailOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
 
-interface TeamMemberCreateMethodModalProps {
-    isOpened: boolean;
-    onClose: () => any;
-    onSelect: (method: 'auto' | 'manual') => any;
+export enum InvoiceAccountCreateMethod {
+    // (자동) 지메일 계정 연동
+    Auto = 'AUTO',
+    // (수동) 직접 입력
+    Manual = 'MANUAL',
 }
 
-export const TeamMemberCreateMethodModal = memo((props: TeamMemberCreateMethodModalProps) => {
+interface InvoiceAccountCreateMethodModalProps {
+    isOpened: boolean;
+    onClose: () => any;
+    onSelect: (createMethod: InvoiceAccountCreateMethod) => any;
+}
+
+export const InvoiceAccountCreateMethodModal = memo((props: InvoiceAccountCreateMethodModalProps) => {
     const {isOpened, onClose, onSelect} = props;
-    const {launch} = useGoogleLoginForWorkspaceConnect();
+    const {setCode: setGmailAuthCode, resetCode: resetGmailAuthCode} = useGoogleLoginForInvoiceAccountSelect();
 
     return (
         <SlideUpModal open={isOpened} onClose={onClose} size="md">
             <h3 className="font-bold text-xl">어떤 방법으로 추가할까요?</h3>
 
             <div className="py-4 flex flex-col gap-3">
-                <MethodOption
-                    Icon={FcDataBackup}
-                    title="자동으로 연동하기"
-                    desc="구글 어드민에 연결하고 한 번에 불러와요"
-                    onClick={() => {
-                        launch(() => {
-                            onClose();
-                            onSelect('auto');
-                        });
+                <GoogleGmailOAuthButton
+                    onCode={(code) => {
+                        setGmailAuthCode(code);
+                        onSelect(InvoiceAccountCreateMethod.Auto);
                     }}
-                />
-                <MethodOption
+                >
+                    <CreateMethodOption
+                        Icon={FcDataBackup}
+                        title="자동으로 연동하기"
+                        desc="지메일 로그인으로 간단하게 추가해요"
+                    />
+                </GoogleGmailOAuthButton>
+                <CreateMethodOption
                     Icon={FcDataRecovery}
                     title="직접 입력하기"
-                    desc="멤버를 수기로 입력해요"
+                    desc="수신 계정을 수기로 입력해요"
                     onClick={() => {
                         onClose();
-                        onSelect('manual');
+                        onSelect(InvoiceAccountCreateMethod.Manual);
                     }}
                 />
             </div>
         </SlideUpModal>
     );
 });
-TeamMemberCreateMethodModal.displayName = 'TeamMemberCreateMethodModal';
 
 interface Props {
     Icon: IconType;
     title: string;
     desc: string;
-    onClick: () => any;
+    onClick?: () => any;
 }
 
-const MethodOption = memo((props: Props) => {
+export const CreateMethodOption = (props: Props) => {
     const {Icon, title, desc, onClick} = props;
 
     return (
@@ -75,4 +83,4 @@ const MethodOption = memo((props: Props) => {
             </div>
         </div>
     );
-});
+};

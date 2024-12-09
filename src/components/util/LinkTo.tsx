@@ -2,12 +2,11 @@ import {AnchorHTMLAttributes, HTMLAttributeAnchorTarget, memo, MouseEventHandler
 import Link from 'next/link';
 import {LinkProps} from 'next/dist/client/link';
 import {useRouter} from 'next/router';
-import {ReactNodeLike} from 'prop-types';
-import {WithChildren} from '^types/global.type';
+import {ReactNodeElement, WithChildren} from '^types/global.type';
 import {onlyPath} from '^utils/get-query-params';
 
 export interface LinkToProps extends Partial<LinkProps & WithChildren> {
-    text?: ReactNodeLike;
+    text?: ReactNodeElement;
     className?: string;
     onClick?: MouseEventHandler<HTMLAnchorElement>;
     target?: HTMLAttributeAnchorTarget;

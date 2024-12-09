@@ -1,25 +1,30 @@
-import React, {memo} from 'react';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
+import React, {memo, useState} from 'react';
+import {useRecoilValue} from 'recoil';
+import {IconType} from '@react-icons/all-files';
+import {FcDataBackup, FcDataRecovery} from 'react-icons/fc';
+import {toast} from 'react-hot-toast';
 import {orgIdParamState} from '^atoms/common';
-import {isInvoiceAccountAutoCreateModalAtom} from './atom';
 import {
     ListPageDropdown,
     ListPageDropdownButton,
     ListPageDropdownMenu,
     ListPageDropdownMenuItem,
 } from '^clients/private/_layouts/_shared/ListPageMainDropdown';
-import {IconType} from '@react-icons/all-files';
-import {FcDataBackup, FcDataRecovery} from 'react-icons/fc';
-import {GoogleGmailOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {useGoogleLoginForInvoiceAccountSelect, useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {swalHTML} from '^components/util/dialog';
+import {GoogleGmailOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
+import {useGoogleLoginForInvoiceAccountSelect} from '^models/InvoiceAccount/hook';
 import {InvoiceAccountCreateInManualSwalForm} from '^models/InvoiceAccount/components';
+import {InvoiceAccountAutoCreateModal} from '^clients/private/_modals/invoice-accounts';
 
-export const AddInvoiceAccountDropdown = memo(function AddInvoiceAccountDropdown() {
+interface AddInvoiceAccountDropdownProps {
+    reload: () => any;
+}
+
+export const AddInvoiceAccountDropdown = memo((props: AddInvoiceAccountDropdownProps) => {
     const orgId = useRecoilValue(orgIdParamState);
-    const setIsAutoCreateModalOpen = useSetRecoilState(isInvoiceAccountAutoCreateModalAtom);
+    const [isCreateAutoModalOpened, setCreateAutoModalOpened] = useState(false);
     const {setCode} = useGoogleLoginForInvoiceAccountSelect();
-    const {reload} = useInvoiceAccounts();
+    const {reload} = props;
 
     return (
         <ListPageDropdown>
@@ -29,7 +34,7 @@ export const AddInvoiceAccountDropdown = memo(function AddInvoiceAccountDropdown
                 <GoogleGmailOAuthButton
                     onCode={(code) => {
                         setCode(code);
-                        setIsAutoCreateModalOpen(true);
+                        setCreateAutoModalOpened(true);
                     }}
                 >
                     <CreateMethodOption
@@ -48,6 +53,17 @@ export const AddInvoiceAccountDropdown = memo(function AddInvoiceAccountDropdown
                     }}
                 />
             </ListPageDropdownMenu>
+
+            <InvoiceAccountAutoCreateModal
+                isOpened={isCreateAutoModalOpened}
+                onClose={() => setCreateAutoModalOpened(false)}
+                onCreate={() => {
+                    toast.success('계정을 저장했어요');
+                    setCreateAutoModalOpened(false);
+                    return reload();
+                }}
+                onRetry={() => setCreateAutoModalOpened(true)}
+            />
         </ListPageDropdown>
     );
 });
