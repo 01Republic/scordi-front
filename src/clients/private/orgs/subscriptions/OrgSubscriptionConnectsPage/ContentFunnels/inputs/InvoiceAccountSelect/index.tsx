@@ -59,7 +59,7 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
                         clearable
                         selectedOption={selectedOption}
                         getLabel={(option) => <InvoiceAccountProfile invoiceAccount={option} />}
-                        placeholder="ex. dev@scordi.io"
+                        placeholder="이메일 주소 선택"
                         clearOption={() => onChange(undefined)}
                     />
                 </label>

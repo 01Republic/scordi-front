@@ -92,7 +92,7 @@ export const InputCardFormDataStep = memo((props: InputCardFormDataStepProps) =>
 
             <div className="py-4">
                 <button className="btn btn-scordi btn-block" onClick={onSubmit}>
-                    등록하기
+                    추가하기
                 </button>
             </div>
         </div>
