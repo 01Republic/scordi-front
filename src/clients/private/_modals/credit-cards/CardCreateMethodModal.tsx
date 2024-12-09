@@ -22,13 +22,13 @@ export const CardCreateMethodModal = memo((props: CardCreateMethodModalProps) =>
 
     return (
         <SlideUpModal open={isOpened} onClose={onClose} size="md">
-            <h3 className="font-bold text-xl">카드를 어떻게 추가할까요?</h3>
+            <h3 className="font-bold text-xl">어떤 방식으로 카드를 추가할까요?</h3>
 
             <div className="py-4 flex flex-col gap-3">
                 <CardCreateMethodOption
                     Icon={FcDataBackup}
                     title="결제내역 불러오기"
-                    desc="카드사 로그인으로 한 번에 불러와요"
+                    desc="카드사 로그인으로 한 번에 불러와요."
                     onClick={() => {
                         onClose();
                         onSelect(CardCreateMethod.Auto);
@@ -37,7 +37,7 @@ export const CardCreateMethodModal = memo((props: CardCreateMethodModalProps) =>
                 <CardCreateMethodOption
                     Icon={FcDataRecovery}
                     title="직접 추가하기"
-                    desc="카드 정보를 입력한 뒤 추가해요"
+                    desc="카드 정보를 입력한 뒤 추가해요."
                     onClick={() => {
                         onClose();
                         onSelect(CardCreateMethod.Manual);
