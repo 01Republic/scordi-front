@@ -7,7 +7,6 @@ import {
     LatestPayAmount,
     MasterSelect,
     MemberCount,
-    PayingType,
 } from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
 import {Dropdown} from '^v3/share/Dropdown';
 import {IoIosMore} from 'react-icons/io';
@@ -46,8 +45,14 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
             </td>
 
             {/* 과금방식: (TestBank: 연, 고정, 사용량, 크레딧, 1인당) */}
-            <td className="">
-                <PayingType subscription={subscription} onChange={reload} />
+            {/*<td className="">*/}
+            {/*    <PayingType subscription={subscription} onChange={reload} />*/}
+            {/*</td>*/}
+
+            {/* 최신 결제금액 */}
+            <td className="text-right">
+                <LatestPayAmount subscription={subscription} />
+            </td>
 
             {/* 갱신일 */}
             <td className="text-right">
@@ -75,10 +80,6 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
                 <MemberCount subscription={subscription} />
             </td>
 
-            {/* 최신 결제금액 */}
-            <td className="text-right">
-                <LatestPayAmount subscription={subscription} />
-            </td>
             {/* 담당자 */}
             {/*<td className="py-0 pl-5 w-40">*/}
             {/*    <MasterSelect subscription={subscription} onChange={reload} />*/}

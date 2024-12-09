@@ -32,32 +32,32 @@ export const SubscriptionTableHeader = memo((props: SubscriptionTableHeaderProps
             </SortableTH>
 
             {/* [과금방식] subscription.pricingModel: PricingModelOptions */}
-            <SortableTH sortKey="[pricingModel]" onClick={orderBy}>
-                과금방식
+            {/*<SortableTH sortKey="[pricingModel]" onClick={orderBy}>*/}
+            {/*    과금방식*/}
+            {/*</SortableTH>*/}
+
+            <SortableTH
+                sortKey="[currentBillingAmount][dollarPrice]"
+                sortVal="DESC"
+                // onClick={orderBy}
+                className="flex items-center justify-end"
+            >
+                결제금액
             </SortableTH>
+
+            <SortableTH className="text-right">갱신일</SortableTH>
 
             <SortableTH sortKey="[creditCard][name]" sortVal="DESC" onClick={orderBy}>
                 결제수단
             </SortableTH>
 
-            <SortableTH sortKey="[usedMemberCount]" sortVal="DESC" onClick={orderBy}>
-                사용인원
-            </SortableTH>
+            <SortableTH>사용인원</SortableTH>
 
-            <SortableTH
-                sortKey="[currentBillingAmount][dollarPrice]"
-                sortVal="DESC"
-                onClick={orderBy}
-                className="justify-end"
-            >
-                최신 결제금액
-            </SortableTH>
+            {/*<SortableTH sortKey="[masterId]" sortVal="DESC" onClick={orderBy}>*/}
+            {/*    담당자*/}
+            {/*</SortableTH>*/}
 
-            {/*<SortableTH className="text-right">다음 결제일</SortableTH>*/}
-
-            <SortableTH sortKey="[masterId]" sortVal="DESC" onClick={orderBy}>
-                담당자
-            </SortableTH>
+            <SortableTH>비고</SortableTH>
 
             {/* Actions */}
             <th className="bg-transparent" />
