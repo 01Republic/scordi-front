@@ -16,7 +16,6 @@ export const AddCreditCardModal = memo((props: AddCreditCardModalProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const [isCardCreateMethodModalOpen, setIsCardCreateMethodModalOpen] = useState(false);
     const [isCardAutoCreateModalOpen, setIsCardAutoCreateModalOpen] = useState(false);
-    const [isCardManualCreateModalOpen, setIsCardManualCreateModalOpen] = useState(false);
 
     return (
         <>
@@ -36,7 +35,6 @@ export const AddCreditCardModal = memo((props: AddCreditCardModalProps) => {
                 onSelect={(createMethod) => {
                     switch (createMethod) {
                         case CardCreateMethod.Auto:
-                            setIsCardManualCreateModalOpen(false);
                             return setIsCardAutoCreateModalOpen(true);
                         case CardCreateMethod.Manual:
                         default:
