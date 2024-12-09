@@ -79,7 +79,12 @@ export const PaymentMethodSelectModal = memo((props: PaymentMethodSelectModalPro
                     </div>
                 </LoadableBox>
             ) : (
-                <div className="fixed w-full left-0 right-0 top-1/10 h-full flex flex-col items-center justify-center">
+                <div
+                    className="fixed w-full left-0 right-0  gap-4 h-full flex flex-col items-center justify-center"
+                    style={{
+                        maxHeight: 'calc(var(--modal-height) - 28px - 1.5rem - 80px)',
+                    }}
+                >
                     <HiMiniInbox className="text-slate-200" fontSize={48} />
                     <span className="text-16 font-semibold text-gray-400">등록된 결제수단이 없어요.</span>
                 </div>
