@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {SubscriptionDto} from '^models/Subscription/types';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 import {
     BillingCycleTypeColumn,
@@ -11,6 +11,11 @@ import {Dropdown} from '^v3/share/Dropdown';
 import {IoIosMore} from 'react-icons/io';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
 import {PayMethodSelect, MemberCount} from '^models/Subscription/components';
+import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
+import {subscriptionApi} from '^models/Subscription/api';
+import {toast} from 'react-hot-toast';
+import {errorToast} from '^api/api';
+import {debounce} from 'lodash';
 
 interface SubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -20,6 +25,15 @@ interface SubscriptionTableRowProps {
 
 export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
     const {subscription, onDelete, reload} = props;
+
+    const update = debounce((dto: UpdateSubscriptionRequestDto) => {
+        const {id, organizationId: orgId} = subscription;
+        return subscriptionApi
+            .update(id, dto)
+            .then(() => toast.success('수정했습니다'))
+            .catch(errorToast)
+            .finally(() => reload());
+    }, 250);
 
     return (
         <tr>
@@ -79,11 +93,21 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
                 />
             </td>
 
+            {/* 비고 */}
+            <td>
+                <AirInputText
+                    defaultValue={subscription.desc || undefined}
+                    onChange={async (desc) => {
+                        if (subscription.desc === desc) return;
+                        return update({desc});
+                    }}
+                />
+            </td>
+
             {/* 담당자 */}
             {/*<td className="py-0 pl-5 w-40">*/}
             {/*    <MasterSelect subscription={subscription} onChange={reload} />*/}
             {/*</td>*/}
-            <td></td>
 
             {/* Actions */}
 
