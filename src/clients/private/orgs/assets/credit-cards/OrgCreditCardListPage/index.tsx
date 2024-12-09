@@ -50,7 +50,7 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
             onUnmount={() => reset()}
             breadcrumb={['자산', '결제수단', {text: '카드', active: true}]}
             titleText="카드"
-            Buttons={AddCreditCardDropdown}
+            Buttons={() => <AddCreditCardDropdown reload={refresh} />}
             ScopeHandler={CreditCardScopeHandler}
             searchInputPlaceholder="검색어를 입력해주세요"
             onSearch={onSearch}
