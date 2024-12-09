@@ -40,7 +40,7 @@ export const TeamMemberCreateManualModal = memo((props: TeamMemberCreateManualMo
                     <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onClose} />
                 </div>
                 <p className="font-medium text-12 text-scordi">직접 추가하기</p>
-                <h3 className="font-bold text-xl">새로운 멤버를 등록합니다.</h3>
+                <h3 className="font-bold text-xl">추가할 구성원 정보를 입력해주세요.</h3>
             </header>
 
             {/*<ButtonGroupRadio*/}
@@ -90,7 +90,7 @@ export const TeamMemberCreateManualModal = memo((props: TeamMemberCreateManualMo
 
                     <section className="fixed p-4 bottom-0 left-0 right-0">
                         <button type="submit" className="btn btn-lg sm:btn-md btn-scordi btn-block">
-                            저장하기
+                            확인
                         </button>
                     </section>
                 </form>
