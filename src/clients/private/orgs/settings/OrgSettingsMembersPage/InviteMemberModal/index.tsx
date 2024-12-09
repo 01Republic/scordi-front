@@ -32,14 +32,17 @@ export const InviteMemberModal = memo((props: InviteMemberModalProps) => {
             return;
         }
 
-        const isConfirmed = await confirm2('초대를 전송할까요?').then((res) => res.isConfirmed);
+        const isConfirmed = await confirm2(
+            '초대 메일을 전송할까요?',
+            '구성원 권한으로 모두 초대됩니다. \n 추후 소유자 권한으로 변경 가능합니다. \n 멤버가 초대를 받지 못한다면, 다시 초대장을 보낼 수 있습니다.',
+        ).then((res) => res.isConfirmed);
         if (!isConfirmed) return;
 
         setIsLoading(true);
         inviteMemberships(emails)
             .then(() => {
                 reload && reload();
-                toast.success('입력하신 이메일로 초대를 보냈습니다.');
+                toast.success('초대 메일을 보냈어요.');
                 onClose();
                 resetInputs();
             })
@@ -57,7 +60,7 @@ export const InviteMemberModal = memo((props: InviteMemberModalProps) => {
                         <div className="flex items-center justify-between relative">
                             <div>
                                 <p className="font-medium text-12 text-scordi">멤버 초대하기</p>
-                                <h3 className="font-bold text-xl">초대할 사용자의 이메일을 입력해주세요</h3>
+                                <h3 className="font-bold text-xl">구성원 회사메일을 입력하고 초대장을 전송해요.</h3>
                             </div>
                             <div>
                                 <button
@@ -104,7 +107,7 @@ export const InviteMemberModal = memo((props: InviteMemberModalProps) => {
                             onClick={() => onSubmit(inputs)}
                             className={`btn btn-scordi ${isLoading ? 'link_to-loading' : ''}`}
                         >
-                            <span>보내기</span>
+                            <span>초대 메일 보내기</span>
                         </button>
                     </div>
                 </div>

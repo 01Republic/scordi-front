@@ -15,8 +15,13 @@ export const RemoveMembershipButton = memo((props: RemoveMembershipButtonProps) 
 
     const onClick = async () => {
         const isConfirmed = await confirm2(
-            `정말로 ${!membership.userId ? '초대를 취소' : '멤버를 삭제'}하시겠어요?`,
-            '이 작업은 복구할 수 없는 작업입니다. 그래도 실행할까요?',
+            `멤버를 삭제할까요?`,
+            <p>
+                이 작업은 취소할 수 없습니다.
+                <br />
+                <b>워크스페이스 전체</b>에서 삭제됩니다. <br />
+                그래도 삭제하시겠어요?
+            </p>,
         ).then((res) => res.isConfirmed);
 
         if (!isConfirmed) return;

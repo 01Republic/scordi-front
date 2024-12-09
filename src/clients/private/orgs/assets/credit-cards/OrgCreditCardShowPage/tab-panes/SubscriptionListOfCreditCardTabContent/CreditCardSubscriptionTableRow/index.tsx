@@ -24,13 +24,18 @@ export const CreditCardSubscriptionTableRow = memo((props: CreditCardSubscriptio
 
     const disconnect = async () => {
         const isConfirmed = await confirm2(
-            '이 카드와 연결을 해제할까요?',
-            '구독이 삭제되는건 아니니 안심하세요',
+            '구독 연결을 해제할까요?',
+            <p>
+                이 작업은 취소할 수 없습니다.
+                <br />
+                <b>결제수단에서 제외</b>됩니다. <br />
+                그래도 연결을 해제 하시겠어요?
+            </p>,
             'warning',
         ).then((res) => res.isConfirmed);
         if (!isConfirmed) return;
         await subscriptionApi.update(subscription.id, {creditCardId: null});
-        toast.success('연결을 해제했어요');
+        toast.success('연결을 해제했어요.');
         reload();
     };
 
@@ -90,7 +95,7 @@ export const CreditCardSubscriptionTableRow = memo((props: CreditCardSubscriptio
             <td>
                 <div className="flex items-center justify-center">
                     {isManuallyCreated && (
-                        <Tippy className="!text-12" content="안써요">
+                        <Tippy className="!text-12" content="구독 제외">
                             <button
                                 className="relative text-red-300 hover:text-red-500 transition-all"
                                 onClick={(e) => {

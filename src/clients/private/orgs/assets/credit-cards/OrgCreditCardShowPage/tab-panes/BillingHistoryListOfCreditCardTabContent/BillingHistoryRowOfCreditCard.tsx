@@ -18,8 +18,8 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
     const update = async (dto: UpdateBillingHistoryRequestDtoV2) => {
         return billingHistoryApi
             .updateV2(billingHistory.id, dto)
-            .then(() => toast.success('수정했습니다'))
-            .catch(() => toast.success('문제가 발생했습니다'))
+            .then(() => toast.success('변경사항을 저장했어요.'))
+            .catch(() => toast.success('문제가 발생했어요.'))
             .finally(() => onSaved && onSaved());
     };
 

@@ -63,7 +63,7 @@ export const PaymentMethodSelect = memo(function PaymentMethodSelect() {
                         clearable
                         selectedOption={selectedOption}
                         getLabel={(card) => <CreditCardProfileOption2 item={card} />}
-                        placeholder="카드 또는 출금계좌"
+                        placeholder="카드 또는 계좌"
                         clearOption={() => onChange(undefined)}
                     />
                 </label>
