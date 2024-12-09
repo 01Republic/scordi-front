@@ -6,12 +6,11 @@ import {
     IsFreeTierColumn,
     LatestPayAmount,
     MasterSelect,
-    MemberCount,
 } from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
 import {Dropdown} from '^v3/share/Dropdown';
 import {IoIosMore} from 'react-icons/io';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
-import {PayMethodSelect} from '^models/Subscription/components';
+import {PayMethodSelect, MemberCount} from '^models/Subscription/components';
 
 interface SubscriptionTableRowProps {
     subscription: SubscriptionDto;

@@ -3,7 +3,6 @@ export * from './SubscriptionStatus';
 export * from './MasterProfile/MasterProfile';
 export * from './MasterProfile/MasterSelect';
 export * from './PayingType/PayingType';
-export * from './MemberCount';
 export * from './LatestPayAmount';
 export * from './NextPaymentDate';
 export * from './BillingCycleTypeColumn';

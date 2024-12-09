@@ -46,8 +46,8 @@ export class SubscriptionDto {
     @TypeCast(() => Date) lastPaidAt: Date | null; // 최신 결제일
     isPerUser: boolean; // 인당 과금 여부
     accountCount: number; // 멤버계정수
-    paidMemberCount: number; // 결제되는 사용자 수
-    usedMemberCount: number; // 사용중인 사용자 수
+    paidMemberCount: number; // 결제되는 사용자 수 (라이선스에 따른 총 시트 수)
+    usedMemberCount: number; // 사용중인 사용자 수 (라이선스에서 사용중인 시트 수)
     publicEmail: string | null; // 공개 이메일
     billingEmail: string | null; // 결제 이메일
 
