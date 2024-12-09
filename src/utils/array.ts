@@ -15,3 +15,7 @@ export const captures = (str: string, regex: RegExp) => {
     const [_, ...matches] = str.match(regex) || [];
     return matches;
 };
+
+export const reverseArr = <T>(arr: T[]) => arr.slice().reverse();
+export const firstOf = <T>(arr: T[], n = 1) => arr.slice(0, n);
+export const lastOf = <T>(arr: T[], n = 1) => firstOf(reverseArr(arr), n).reverse();

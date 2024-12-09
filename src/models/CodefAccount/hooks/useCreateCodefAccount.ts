@@ -11,6 +11,7 @@ import {codefErrorCodeToMsg, CodefResponse} from '^models/CodefAccount/codef-com
 import {AccountCreatedResponseDto} from '^models/CodefAccount/type/create-account.response.dto';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {debounce} from 'lodash';
+import {lastOf} from '^utils/array';
 
 interface CreateCodefAccountOption {
     redirectTo?: (codefAccount: CodefAccountDto) => any;
@@ -66,7 +67,7 @@ export function useCreateCodefAccount(option?: CreateCodefAccountOption) {
                 password: encryptCodefAccountPassword(dto.password, dto.id),
             })
             .then((res) => {
-                const account = res.data.accessList[0];
+                const [account] = lastOf(res.data.accessList, 1);
                 return callbackFn ? callbackFn(account) : redirectTo(account);
             })
             .catch((err: ApiErrorResponse<CodefResponse<AccountCreatedResponseDto>>) => {
