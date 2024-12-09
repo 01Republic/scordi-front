@@ -13,10 +13,6 @@ export const TeamMemberSelectableSection = memo(function TeamMemberSelectableSec
         <LoadableBox isLoading={isLoading} loadingType={2} noPadding>
             {result.pagination.totalItemCount > 0 ? (
                 <div>
-                    <div className="mb-4">
-                        <p className="text-12 text-scordi mb-1">등록된 멤버</p>
-                        <p className="text-xl font-semibold">멤버를 클릭해서 추가해주세요</p>
-                    </div>
                     <div className="grid grid-cols-2 gap-2">
                         {result.items.map((teamMember, i) => {
                             const selected = list.some((m) => m.id === teamMember.id);

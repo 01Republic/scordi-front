@@ -1,10 +1,9 @@
 import React, {memo} from 'react';
-import {WithChildren} from '^types/global.type';
-import {ReactNodeLike} from 'prop-types';
+import {ReactNodeElement, WithChildren} from '^types/global.type';
 
 interface SummarySectionItemProps extends WithChildren {
-    label: ReactNodeLike;
-    value?: ReactNodeLike;
+    label: ReactNodeElement;
+    value?: ReactNodeElement;
     onClick?: () => any;
 }
 

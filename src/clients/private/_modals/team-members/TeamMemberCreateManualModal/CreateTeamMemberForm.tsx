@@ -98,7 +98,7 @@ export const CreateTeamMemberForm = memo((props: CreateTeamMemberFormProps) => {
                             className="btn btn-xs normal-case !bg-white !border-gray-300 !text-gray-500 !rounded-md shadow hover:shadow-lg"
                             onClick={() => formRef.current?.requestSubmit()}
                         >
-                            추가
+                            확인
                         </button>
                     </div>
                 )}

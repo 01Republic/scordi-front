@@ -6,7 +6,6 @@ import {googleAccessTokenAtom, googleButtonIsLoading} from '^components/pages/Us
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {uniq} from '^utils/array';
 import {ReactNodeElement, WithChildren} from '^types/global.type';
-import {useGoogleLoginForWorkspaceConnect} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/TeamMemberSelect/useGoogleLoginForWorkspaceConnect';
 import {googleOAuth} from '^config/environments';
 
 const SCOPE_MAP = {

@@ -11,7 +11,7 @@ export const TeamMemberStep = memo(function TeamMemberStep() {
 
     return (
         <StepLayout
-            title={`${nounToHangulObjectFormat(serviceName, '%w%s')} 이용중인 멤버들을 추가해주세요.`}
+            title={`${nounToHangulObjectFormat(serviceName, '%w%s')} 이용중인 회사 구성원을 모두 선택해주세요.`}
             desc="초대가 되지 않으니 안심하고 추가해요. 잘 모르겠다면 나중에 추가할 수 있으니 넘어가도 좋아요."
         >
             <TeamMemberSelect />

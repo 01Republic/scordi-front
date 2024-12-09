@@ -61,7 +61,7 @@ export const VendorManagerSelectModal = memo((props: VendorManagerSelectModalPro
                 <p className="font-medium text-12 text-scordi mb-1">파트너사 담당자 설정</p>
                 <h3 className="font-bold text-xl leading-tight">
                     <span className="text-scordi">{selectedCompany?.name}</span>의 담당자를 <br /> 새로 추가하거나
-                    선택해주세요
+                    선택해주세요.
                 </h3>
             </div>
 

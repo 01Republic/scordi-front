@@ -1,9 +1,9 @@
 import React, {memo, useState} from 'react';
-import {CreateTeamMemberForm} from './CreateTeamMemberForm';
-import {CreateTeamMemberDto, teamMemberApi} from '^models/TeamMember';
-import {debounce} from 'lodash';
 import {useRecoilValue} from 'recoil';
+import {debounce} from 'lodash';
 import {orgIdParamState} from '^atoms/common';
+import {CreateTeamMemberDto, teamMemberApi} from '^models/TeamMember';
+import {CreateTeamMemberForm} from './CreateTeamMemberForm';
 
 interface BulkCreateFormContainerProps {
     onCreate: () => any;
@@ -84,7 +84,7 @@ export const BulkCreateFormContainer = memo((props: BulkCreateFormContainerProps
                     onClick={onSubmit}
                     disabled={formDataList.length == 0}
                 >
-                    {!isCreating && '저장하기'}
+                    {!isCreating && '추가하기'}
                 </button>
             </section>
         </div>

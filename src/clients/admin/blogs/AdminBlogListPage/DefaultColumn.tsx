@@ -1,8 +1,8 @@
 import {memo} from 'react';
-import {ReactNodeLike} from 'prop-types';
+import {ReactNodeElement} from '^types/global.type';
 
 interface DefaultColumnProps {
-    value: ReactNodeLike;
+    value: ReactNodeElement;
 }
 
 export const DefaultColumn = memo((props: DefaultColumnProps) => {
