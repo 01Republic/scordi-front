@@ -17,8 +17,9 @@ export const SubscriptionTableHeader = memo((props: SubscriptionTableHeaderProps
                 서비스 명
             </SortableTH>
 
+            {/* [상태] : 유료, 무료, 해지, 미정 */}
             <SortableTH sortKey="[isFreeTier]" onClick={orderBy}>
-                유/무료
+                상태
             </SortableTH>
 
             {/* [구독상태] subscription.status: SubscriptionStatus */}
