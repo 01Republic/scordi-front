@@ -13,7 +13,10 @@ export const RecurringCycleStep = memo(function RecurringCycleStep() {
     const goNextStep = () => setStep(3);
 
     return (
-        <StepLayout title="결제주기는 어떻게 되나요?" desc="구독이 정기결제되는 주기를 선택해주세요.">
+        <StepLayout
+            title="구독이 갱신되는 주기는 어떻게 되나요?"
+            desc="연간 구독을 하고 월 단위로 과금되는 구조라면 연간을 선택해주세요."
+        >
             <InputSection>
                 <ButtonGroupRadio
                     onChange={(option) => {

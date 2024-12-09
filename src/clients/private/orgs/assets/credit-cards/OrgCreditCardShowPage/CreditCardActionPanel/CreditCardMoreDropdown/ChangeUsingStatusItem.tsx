@@ -38,7 +38,7 @@ export const ChangeUsingStatusItem = memo(function ChangeUsingStatusItem() {
                                     const req = creditCardApi.update(orgId, id, {usingStatus: option});
 
                                     setIsLoading(true);
-                                    req.then(() => toast.success('변경 성공'))
+                                    req.then(() => toast.success('변경사항을 저장했어요.'))
                                         .then(() => reload())
                                         .catch(errorToast)
                                         .finally(() => setIsLoading(false));

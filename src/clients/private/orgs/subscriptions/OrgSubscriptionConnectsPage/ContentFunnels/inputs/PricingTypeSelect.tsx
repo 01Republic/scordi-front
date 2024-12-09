@@ -56,7 +56,7 @@ export const PricingTypeSelect = memo(function PricingTypeSelect() {
                 getLabel={(c) => c.label}
                 getValue={(c) => c.value}
                 defaultValue={formData.pricingModel}
-                modalTitle="과금방식을 선택해주세요"
+                modalTitle="과금방식을 선택해주세요."
                 size="md"
                 OptionComponent={({option}) => {
                     return (

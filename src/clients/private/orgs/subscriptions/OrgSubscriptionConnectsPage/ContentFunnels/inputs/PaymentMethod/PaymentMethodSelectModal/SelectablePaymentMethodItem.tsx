@@ -5,6 +5,7 @@ import {CreditCardProfileOption2} from '^models/CreditCard/components';
 import {enterToSpace} from '^components/util/keyDownLikeClick';
 import {MoreButtonDropdown} from '^components/ui/inputs/MonoSelect/MoreButtonDropdown';
 import {MoreButtonContent} from './MoreButtonContent';
+import {HiMiniInbox} from 'react-icons/hi2';
 
 interface SelectablePaymentMethodItemProps {
     item: CreditCardDto;

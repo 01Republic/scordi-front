@@ -22,8 +22,8 @@ export const CreditCardTableRow = memo((props: CreditCardTableRowProps) => {
         const {id, organizationId: orgId} = creditCard;
         return creditCardApi
             .update(orgId, id, dto)
-            .then(() => toast.success('수정했습니다'))
-            .catch(() => toast.error('문제가 발생했습니다'))
+            .then(() => toast.success('변경사항을 저장했어요.'))
+            .catch(() => toast.error('문제가 발생했어요.'))
             .finally(() => reload && reload());
     };
 
