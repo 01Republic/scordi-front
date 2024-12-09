@@ -23,7 +23,7 @@ export const AddInvoiceAccountDropdown = memo(function AddInvoiceAccountDropdown
 
     return (
         <ListPageDropdown>
-            <ListPageDropdownButton text="메일계정 추가" />
+            <ListPageDropdownButton text="청구서 메일 추가" />
 
             <ListPageDropdownMenu>
                 <GoogleGmailOAuthButton
@@ -34,15 +34,15 @@ export const AddInvoiceAccountDropdown = memo(function AddInvoiceAccountDropdown
                 >
                     <CreateMethodOption
                         Icon={FcDataBackup}
-                        title="자동으로 연동하기"
-                        desc="지메일 로그인으로 간단하게 추가해요"
+                        title="청구서 메일 불러오기"
+                        desc="구글 로그인으로 한 번에 불러와요"
                     />
                 </GoogleGmailOAuthButton>
 
                 <CreateMethodOption
                     Icon={FcDataRecovery}
-                    title="직접 입력하기"
-                    desc="수신 계정을 수기로 입력해요"
+                    title="직접 추가하기"
+                    desc="이메일 주소를 입력한 뒤 추가해요"
                     onClick={() => {
                         swalHTML(<InvoiceAccountCreateInManualSwalForm orgId={orgId} onSave={() => reload()} />);
                     }}
