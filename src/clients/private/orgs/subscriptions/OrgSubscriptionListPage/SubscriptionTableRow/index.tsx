@@ -62,6 +62,11 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
                 )}
             </td>
 
+            {/* 사용인원 */}
+            <td className="text-center">
+                <MemberCount subscription={subscription} />
+            </td>
+
             {/* 결제수단 */}
             <td className="pl-3 py-0">
                 <PayMethodSelect
@@ -72,11 +77,6 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
                         return typeof value === 'string' ? <p>{value}</p> : <CreditCardProfileCompact item={value} />;
                     }}
                 />
-            </td>
-
-            {/* 사용인원 */}
-            <td className="text-center">
-                <MemberCount subscription={subscription} />
             </td>
 
             {/* 담당자 */}

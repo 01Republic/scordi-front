@@ -46,12 +46,11 @@ export const SubscriptionTableHeader = memo((props: SubscriptionTableHeaderProps
             </SortableTH>
 
             <SortableTH className="text-right">갱신일</SortableTH>
+            <SortableTH>사용인원</SortableTH>
 
             <SortableTH sortKey="[creditCard][name]" sortVal="DESC" onClick={orderBy}>
                 결제수단
             </SortableTH>
-
-            <SortableTH>사용인원</SortableTH>
 
             {/*<SortableTH sortKey="[masterId]" sortVal="DESC" onClick={orderBy}>*/}
             {/*    담당자*/}
