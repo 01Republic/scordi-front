@@ -36,14 +36,14 @@ export const InvoiceAccountCreateMethodModal = memo((props: InvoiceAccountCreate
                 >
                     <CreateMethodOption
                         Icon={FcDataBackup}
-                        title="자동으로 연동하기"
-                        desc="지메일 로그인으로 간단하게 추가해요"
+                        title="구성원 불러오기"
+                        desc="구글워크스페이스 로그인으로 한 번에 불러와요."
                     />
                 </GoogleGmailOAuthButton>
                 <CreateMethodOption
                     Icon={FcDataRecovery}
-                    title="직접 입력하기"
-                    desc="수신 계정을 수기로 입력해요"
+                    title="직접 추가하기"
+                    desc="구성원 정보를 입력한 뒤 추가해요."
                     onClick={() => {
                         onClose();
                         onSelect(InvoiceAccountCreateMethod.Manual);
