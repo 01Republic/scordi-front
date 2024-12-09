@@ -27,7 +27,7 @@ export const TeamMemberSelect = memo(function TeamMemberSelect() {
                     <div className="flex items-center justify-start">
                         <button className="btn btn-scordi gap-2" onClick={() => setCreateMethodModalOpened(true)}>
                             <FaPlus />
-                            <span>새로운 멤버 계정 추가하기</span>
+                            <span>구성원 추가</span>
                         </button>
                     </div>
                 </div>
