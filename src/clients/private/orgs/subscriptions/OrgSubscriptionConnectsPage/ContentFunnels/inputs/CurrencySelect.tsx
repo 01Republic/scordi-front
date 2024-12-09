@@ -26,7 +26,7 @@ export const CurrencySelect = memo(() => {
                 getLabel={(c) => c.unit}
                 getValue={(c) => c.code}
                 defaultValue={currency.code}
-                modalTitle="화폐 단위를 선택해주세요"
+                modalTitle="화폐 단위를 선택해주세요."
                 size="md"
                 OptionComponent={({option}) => {
                     return (
