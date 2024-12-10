@@ -55,7 +55,7 @@ export const TeamMemberSelect = memo(function TeamMemberSelect() {
                 isOpened={isCreateAutoModalOpened}
                 onClose={() => setCreateAutoModalOpened(false)}
                 onCreate={() => {
-                    toast.success('조회된 구성원들을 불러왔어요');
+                    toast.success('구성원을 모두 불러왔어요.');
                     setCreateAutoModalOpened(false);
                     return reload();
                 }}
@@ -66,7 +66,7 @@ export const TeamMemberSelect = memo(function TeamMemberSelect() {
                 isOpened={isCreateManualModalOpened}
                 onClose={() => setCreateManualModalOpened(false)}
                 onCreate={() => {
-                    toast.success('구성원을 추가했습니다');
+                    toast.success('구성원을 추가했어요.');
                     setCreateManualModalOpened(false);
                     return reload();
                 }}
