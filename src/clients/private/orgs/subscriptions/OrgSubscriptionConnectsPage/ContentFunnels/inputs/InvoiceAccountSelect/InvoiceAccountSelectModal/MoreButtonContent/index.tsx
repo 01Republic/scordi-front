@@ -10,11 +10,12 @@ import {toast} from 'react-hot-toast';
 
 interface MoreButtonContentProps {
     invoiceAccount: InvoiceAccountDto;
+    onClick?: () => any;
     onSaved: () => any;
 }
 
 export function MoreButtonContent(props: MoreButtonContentProps) {
-    const {invoiceAccount, onSaved} = props;
+    const {invoiceAccount, onClick, onSaved} = props;
     const {organizationId: orgId, id, subscriptions} = invoiceAccount;
 
     const onDestroyInvoiceAccountHandler = async () => {
@@ -63,6 +64,7 @@ export function MoreButtonContent(props: MoreButtonContentProps) {
         <MoreButtonDropdownContent>
             <MoreButtonDropdownItem
                 onClick={() => {
+                    onClick && onClick();
                     invoiceAccount.isManuallyCreated
                         ? swalHTML(<InvoiceAccountUpdateSwalForm invoiceAccount={invoiceAccount} onSave={onSaved} />)
                         : alert2(
@@ -73,7 +75,15 @@ export function MoreButtonContent(props: MoreButtonContentProps) {
             >
                 수정하기
             </MoreButtonDropdownItem>
-            <MoreButtonDropdownItem onClick={onDestroyInvoiceAccountHandler}>삭제하기</MoreButtonDropdownItem>
+
+            <MoreButtonDropdownItem
+                onClick={() => {
+                    onDestroyInvoiceAccountHandler();
+                    onClick && onClick();
+                }}
+            >
+                삭제하기
+            </MoreButtonDropdownItem>
         </MoreButtonDropdownContent>
     );
 }
