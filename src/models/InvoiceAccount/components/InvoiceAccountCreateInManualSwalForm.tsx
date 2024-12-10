@@ -18,7 +18,7 @@ export const InvoiceAccountCreateInManualSwalForm = memo((props: InvoiceAccountC
 
     const onSubmit = debounce(async (dto: CreateInvoiceAccountDto) => {
         await invoiceAccountApi.createV3(orgId, dto).then((res) => {
-            toast.success('저장했습니다.');
+            toast.success('청구서 메일을 추가했어요.');
             onSave(res.data);
             Swal.close();
         });
