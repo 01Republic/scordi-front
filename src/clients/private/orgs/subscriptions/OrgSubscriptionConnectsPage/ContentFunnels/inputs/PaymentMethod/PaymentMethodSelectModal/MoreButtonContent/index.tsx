@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {MouseEvent, useState} from 'react';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {MoreButtonDropdownItem} from '^components/ui/inputs/MonoSelect/MoreButtonDropdown/MoreButtonDropdownItem';
 import {MoreButtonDropdownContent} from '^components/ui/inputs/MonoSelect/MoreButtonDropdown/MoreButtonDropdownContent';
@@ -12,11 +12,12 @@ import {creditCardApi} from '^models/CreditCard/api';
 
 interface MoreButtonContentProps {
     creditCard: CreditCardDto;
+    onClick?: () => any;
     onSaved: () => any;
 }
 
 export function MoreButtonContent(props: MoreButtonContentProps) {
-    const {creditCard, onSaved} = props;
+    const {creditCard, onClick, onSaved} = props;
     const {id, organizationId: orgId} = creditCard;
 
     const onDelete = async () => {
@@ -44,6 +45,7 @@ export function MoreButtonContent(props: MoreButtonContentProps) {
         <MoreButtonDropdownContent>
             <MoreButtonDropdownItem
                 onClick={async () => {
+                    onClick && onClick();
                     const isCodefConnected = await checkIsConnectedWithCodefCard(orgId, id);
                     swalHTML(
                         <CreditCardUpdateSwalForm
@@ -56,7 +58,14 @@ export function MoreButtonContent(props: MoreButtonContentProps) {
             >
                 수정하기
             </MoreButtonDropdownItem>
-            <MoreButtonDropdownItem onClick={onDelete}>삭제하기</MoreButtonDropdownItem>
+            <MoreButtonDropdownItem
+                onClick={() => {
+                    onClick && onClick();
+                    onDelete();
+                }}
+            >
+                삭제하기
+            </MoreButtonDropdownItem>
         </MoreButtonDropdownContent>
     );
 }
