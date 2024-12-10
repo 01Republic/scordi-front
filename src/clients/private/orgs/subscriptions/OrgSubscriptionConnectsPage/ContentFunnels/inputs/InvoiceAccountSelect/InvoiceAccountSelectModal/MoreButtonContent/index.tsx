@@ -8,16 +8,18 @@ import {destroyInvoiceAccountHandler} from '^models/InvoiceAccount/hook';
 
 interface MoreButtonContentProps {
     invoiceAccount: InvoiceAccountDto;
+    onClick?: () => any;
     onSaved: () => any;
 }
 
 export function MoreButtonContent(props: MoreButtonContentProps) {
-    const {invoiceAccount, onSaved} = props;
+    const {invoiceAccount, onClick, onSaved} = props;
 
     return (
         <MoreButtonDropdownContent>
             <MoreButtonDropdownItem
                 onClick={() => {
+                    onClick && onClick();
                     invoiceAccount.isManuallyCreated
                         ? swalHTML(<InvoiceAccountUpdateSwalForm invoiceAccount={invoiceAccount} onSave={onSaved} />)
                         : alert2(
@@ -28,7 +30,12 @@ export function MoreButtonContent(props: MoreButtonContentProps) {
             >
                 수정하기
             </MoreButtonDropdownItem>
-            <MoreButtonDropdownItem onClick={() => destroyInvoiceAccountHandler(invoiceAccount, onSaved)}>
+            <MoreButtonDropdownItem
+                onClick={() => {
+                    onClick && onClick();
+                    destroyInvoiceAccountHandler(invoiceAccount, onSaved);
+                }}
+            >
                 삭제하기
             </MoreButtonDropdownItem>
         </MoreButtonDropdownContent>
