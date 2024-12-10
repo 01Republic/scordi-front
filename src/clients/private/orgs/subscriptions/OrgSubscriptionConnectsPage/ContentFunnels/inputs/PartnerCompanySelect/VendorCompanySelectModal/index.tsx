@@ -10,6 +10,7 @@ import {vendorCompanyApi} from '^models/VendorCompany/api';
 import {useVendorCompanyListInCreateSubscription} from '^models/VendorCompany/hook';
 import {SearchVendorCompanyInput} from './SearchVendorCompanyInput';
 import {VendorCompanyItem} from './VendorCompanyItem';
+import {toast} from 'react-hot-toast';
 
 interface VendorCompanySelectModalProps {
     isOpened: boolean;
@@ -47,6 +48,7 @@ export const VendorCompanySelectModal = memo((props: VendorCompanySelectModalPro
 
     const createVendorCompany = debounce((name: string) => {
         vendorCompanyApi.upsert(orgId, {name}).then((res) => {
+            toast.success('파트너사 기업 정보를 추가했어요.');
             clickCompany(res.data);
         });
     }, 500);
