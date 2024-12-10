@@ -54,6 +54,12 @@ export const BillingHistoryMonthly = memo(
             return `${percentage.toFixed(1)}%`;
         };
 
+        const sortedHistory = [...history].sort((a, b) => {
+            const percentageA = getSpendingPercentage(getMonthlyCostsToKRW(a)).replace('%', '');
+            const percentageB = getSpendingPercentage(getMonthlyCostsToKRW(b)).replace('%', '');
+            return parseFloat(percentageB) - parseFloat(percentageA);
+        });
+
         const renderMonthlyColumns = (items: BillingHistoriesMonthlySumBySubscriptionDto['items']) => {
             return Array.from({length: 12}, (_, i) => i).map((idx) => {
                 const item = items[idx] ?? {amount: 0, symbol: items[0].symbol};
@@ -95,25 +101,38 @@ export const BillingHistoryMonthly = memo(
         };
 
         const handleDownloadExcel = () => {
-            const formattedData = history.map((monthly) => {
-                const row = {
-                    서비스명: monthly.subscription.product.name(),
-                    유무료: monthly.subscription.isFreeTier ? '무료' : '유료',
-                    지출비중: getSpendingPercentage(getMonthlyCostsToKRW(monthly)),
-                    총지출액: getMonthlyCostsToKRW(monthly).toLocaleString(),
-                    평균지출액: getAverageCost(monthly).toLocaleString(),
-                };
-                monthly.items.forEach((item, index) => {
-                    // @ts-ignore
-                    row[`${index + 1}월`] = item.amount.toLocaleString();
+            const createFormattedData = (currencyMode: 'KRW' | 'Original') => {
+                return sortedHistory.map((monthly) => {
+                    const row = {
+                        서비스명: monthly.subscription.product.name(),
+                        유무료: monthly.subscription.isFreeTier ? '무료' : '유료',
+                        지출비중: getSpendingPercentage(getMonthlyCostsToKRW(monthly)),
+                        통화: currencyMode === 'KRW' ? 'KRW' : monthly.subscription.currentBillingAmount?.code || 'KRW',
+                        총지출액:
+                            currencyMode === 'KRW'
+                                ? getMonthlyCostsToKRW(monthly).toLocaleString()
+                                : getMonthlyCosts(monthly).toLocaleString(),
+                        평균지출액:
+                            currencyMode === 'KRW'
+                                ? getAverageCost(monthly).toLocaleString()
+                                : getAverageCost(monthly).toLocaleString(),
+                    };
+                    monthly.items.forEach((item, index) => {
+                        const amount =
+                            currencyMode === 'KRW' && item.code !== 'KRW' ? item.amount * exchangeRate : item.amount;
+                        // @ts-ignore
+                        row[`${index + 1}월`] = amount.toLocaleString();
+                    });
+                    return row;
                 });
-                return row;
-            });
+            };
 
-            const worksheet = XLSX.utils.json_to_sheet(formattedData);
+            const worksheetKRW = XLSX.utils.json_to_sheet(createFormattedData('KRW'));
+            const worksheetOriginalCurrency = XLSX.utils.json_to_sheet(createFormattedData('Original'));
             const workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, 'Billing History');
-            XLSX.writeFile(workbook, `결제현황_${displayCurrency}.xlsx`);
+            XLSX.utils.book_append_sheet(workbook, worksheetKRW, '원화 기준');
+            XLSX.utils.book_append_sheet(workbook, worksheetOriginalCurrency, '결제 통화 기준');
+            XLSX.writeFile(workbook, `결제현황_다운로드.xlsx`);
         };
 
         // useImperativeHandle로 상위 컴포넌트에 함수를 노출
@@ -151,7 +170,7 @@ export const BillingHistoryMonthly = memo(
                                         </td>
                                     </tr>
                                 ) : (
-                                    history.map((monthly, idx) => {
+                                    sortedHistory.map((monthly, idx) => {
                                         return (
                                             <tr key={idx} className={'group'}>
                                                 <td
