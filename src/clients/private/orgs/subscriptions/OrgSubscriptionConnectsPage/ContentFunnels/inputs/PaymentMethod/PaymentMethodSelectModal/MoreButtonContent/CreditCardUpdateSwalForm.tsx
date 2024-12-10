@@ -56,7 +56,7 @@ export const CreditCardUpdateSwalForm = memo((props: CreditCardUpdateSwalFormPro
     return (
         <SwalForm onSubmit={handleSubmit(onSubmit)} confirmBtnText="확인">
             <section className="">
-                <h4 className="text-xl sm:text-lg text-left">결제수단 정보를 수정할게요.</h4>
+                <h4 className="text-xl sm:text-lg text-left">수정할 결제수단 정보를 입력해주세요.</h4>
             </section>
 
             <section className="flex flex-col gap-4 items-stretch pt-2 pb-6">
