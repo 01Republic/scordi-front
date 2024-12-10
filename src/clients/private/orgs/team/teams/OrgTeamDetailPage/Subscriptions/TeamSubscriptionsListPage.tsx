@@ -19,10 +19,6 @@ export const TeamSubscriptionsListPage = memo(function (props: OrgTeamDetailPage
     const loadData = (teamId: number, params: FindAllSubscriptionsQuery = {}) => {
         return search({
             relations: ['product', 'teamMembers'],
-            where: {
-                // @ts-ignore
-                teamMemberSubscriptions: {teamMember: {teamMemberships: {teamId}}},
-            },
             itemsPerPage: 0,
             ...params,
         });
