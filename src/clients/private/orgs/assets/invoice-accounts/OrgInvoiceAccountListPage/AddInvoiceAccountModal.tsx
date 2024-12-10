@@ -29,7 +29,7 @@ export const AddInvoiceAccountModal = memo((props: AddInvoiceAccountModalProps) 
                 onClick={() => setCreateMethodModalOpened(true)}
             >
                 <FaPlus />
-                <span className="mr-1.5">메일계정 추가</span>
+                <span className="mr-1.5">청구서 메일 추가</span>
             </button>
 
             <InvoiceAccountCreateMethodModal
@@ -52,7 +52,7 @@ export const AddInvoiceAccountModal = memo((props: AddInvoiceAccountModalProps) 
                 isOpened={isCreateAutoModalOpened}
                 onClose={() => setCreateAutoModalOpened(false)}
                 onCreate={() => {
-                    toast.success('계정을 저장했어요');
+                    toast.success('불러온 청구서 메일을 추가했어요.');
                     setCreateAutoModalOpened(false);
                     return reload();
                 }}
