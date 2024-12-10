@@ -25,7 +25,7 @@ export const InvoiceAccountCreateInManualSwalForm = memo((props: InvoiceAccountC
     }, 500);
 
     return (
-        <SwalForm onSubmit={form.handleSubmit(onSubmit)} confirmBtnText="저장">
+        <SwalForm onSubmit={form.handleSubmit(onSubmit)} confirmBtnText="확인">
             <section className="text-left pt-2">
                 <p className="font-medium text-12 text-scordi">직접 추가하기</p>
                 <h3 className="font-bold text-xl sm:text-lg">청구서를 어디서 받고 계세요?</h3>
