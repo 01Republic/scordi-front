@@ -64,7 +64,7 @@ export const CardAutoCreateModal = memo((props: CardAutoCreateModalProps) => {
         if (!checkedCards.length) return;
 
         await Promise.allSettled(checkedCards.map((codefCard) => codefCardApi.createCreditCard(orgId, codefCard.id)));
-        toast.success('새 카드를 추가했어요 :)');
+        toast.success('불러온 카드를 추가했어요.');
 
         setCompany(undefined);
         onCreate();
