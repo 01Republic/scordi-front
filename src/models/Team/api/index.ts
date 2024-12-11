@@ -2,7 +2,7 @@ import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
 import {TeamDto, CreateTeamDto, UpdateTeamDto, FindAllTeamQueryDto} from '^models/Team/type';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
-import {FindAllTeamMemberSubscriptionQueryDto, TeamMemberSubscriptionDto} from '^models/TeamMember';
+import {FindAllSubscriptionsQuery, SubscriptionDto} from '^models/Subscription/types';
 
 export const teamApi = {
     index(orgId: number, params?: FindAllTeamQueryDto) {
@@ -31,11 +31,10 @@ export const teamApi = {
     },
 
     subscriptions: {
-        index(orgId: number, teamId: number, params?: FindAllTeamMemberSubscriptionQueryDto) {
+        // 팀의 구성원들이 연결되어있는 구독 목록 조회
+        index(orgId: number, teamId: number, params?: FindAllSubscriptionsQuery) {
             const url = `/organizations/${orgId}/teams/${teamId}/subscriptions`;
-            return api
-                .get<Paginated<TeamMemberSubscriptionDto>>(url, {params})
-                .then(paginatedDtoOf(TeamMemberSubscriptionDto));
+            return api.get<Paginated<SubscriptionDto>>(url, {params}).then(paginatedDtoOf(SubscriptionDto));
         },
     },
 };
