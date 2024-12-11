@@ -22,12 +22,20 @@ export const ResendInvitationButton = memo((props: ResendInvitationButtonProps) 
     };
 
     const onClick = async () => {
-        const isConfirmed = await confirm2('초대를 전송할까요?').then((res) => res.isConfirmed);
+        const isConfirmed = await confirm2(
+            '초대 메일을 다시 전송할까요?',
+            <p>
+                구성원 권한으로 초대됩니다.
+                <br />
+                추후 소유자 권한으로 변경 가능합니다. <br />
+                멤버가 초대를 받지 못한다면, 다시 초대장을 보낼 수 있습니다.
+            </p>,
+        ).then((res) => res.isConfirmed);
         if (!isConfirmed) return;
 
         setIsLoading(true);
         inviteMembership()
-            .then(() => toast.success('다시 보냈습니다.'))
+            .then(() => toast.success('초대 메일을 다시 보냈어요.'))
             .catch(errorToast)
             .finally(() => setIsLoading(false))
             .then(() => reload && reload());
