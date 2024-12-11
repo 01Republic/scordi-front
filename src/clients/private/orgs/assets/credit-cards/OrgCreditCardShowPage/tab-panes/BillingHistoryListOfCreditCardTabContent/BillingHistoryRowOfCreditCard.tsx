@@ -40,7 +40,7 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
 
     return (
         <tr className="group text-14" data-id={billingHistory.id}>
-            {/*결제일시*/}
+            {/*일시*/}
             <td>
                 {billingHistory.paidAt ? (
                     yyyy_mm_dd_hh_mm(billingHistory.paidAt)
@@ -49,13 +49,14 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
                 )}
             </td>
 
-            {/*내용*/}
-            <td>{billingHistory.paymentMethod}</td>
-
-            {/*구분*/}
+            {/*상태*/}
             <td>
                 <BillingHistoryStatusTagUI billingHistory={billingHistory} />
             </td>
+
+            {/*내용*/}
+            <td>{billingHistory.paymentMethod}</td>
+
             {/*<td>{billingHistory.pageSubject}</td>*/}
 
             {/*결제금액*/}
