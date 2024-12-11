@@ -15,8 +15,10 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
     const clearFormData = useResetRecoilState(createSubscriptionFormData);
     const [teamMembers, setTeamMembers] = useRecoilState(selectedTeamMembersAtom);
     const [currentStep, setStep] = useRecoilState(currentStepAtom);
-    const {selectedProducts, finishProduct} = useCurrentConnectingProduct();
+    const {currentConnectingProduct, finishProduct} = useCurrentConnectingProduct();
     const resetFinishedProductMap = useResetRecoilState(finishedProductMapAtom);
+
+    //currentConnectingProduct?.id === product.id
 
     const prev = (i: number) => i - 1;
     const next = (i: number) => i + 1;
@@ -24,7 +26,7 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
     const createSubscription = () => {
         subscriptionApi.create(formData).then((res) => {
             const subscription = res.data;
-            toast.success('구독을 등록했어요.');
+            toast.success(`${currentConnectingProduct?.desc} 구독을 등록했어요.`);
             setTeamMembers([]);
             clearFormData();
             const nextProduct = finishProduct(subscription.productId);
