@@ -12,6 +12,12 @@ export const TeamMemberTableHeader = memo((props: TeamMemberTableHeaderProps) =>
             <SortableTH sortKey="[name]" onClick={orderBy}>
                 이름
             </SortableTH>
+
+            {/* 구독 수 */}
+            <SortableTH sortKey="[subscriptionCount]" sortVal="DESC" onClick={orderBy}>
+                구독 수
+            </SortableTH>
+
             {/* 팀 */}
             <SortableTH sortKey="[teams][id]" onClick={orderBy}>
                 팀
@@ -19,11 +25,6 @@ export const TeamMemberTableHeader = memo((props: TeamMemberTableHeaderProps) =>
 
             <th>이메일</th>
             <th>전화번호</th>
-
-            {/* 이용 앱 수 */}
-            <SortableTH sortKey="[subscriptionCount]" sortVal="DESC" onClick={orderBy}>
-                이용 앱 수
-            </SortableTH>
 
             {/*/!* 권한 *!/*/}
             {/*<th />*/}
