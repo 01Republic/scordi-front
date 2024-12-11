@@ -3,7 +3,11 @@ import {debounce} from 'lodash';
 import {billingHistoryApi} from '^models/BillingHistory/api';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {BillingHistoryDto, BillingHistoryStatusDateRangeDto} from '^models/BillingHistory/type';
+import {
+    BillingHistoriesMonthlySumBySubscriptionDto,
+    BillingHistoryDto,
+    BillingHistoryStatusDateRangeDto,
+} from '^models/BillingHistory/type';
 
 export const useBillingHistoryStatus = () => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -80,5 +84,17 @@ export const useBillingHistoryStatus = () => {
         averageCost,
         monthlyCosts,
         yearlyCost,
+    };
+};
+
+export const useBillingHistoryStatusDataList = <T>() => {
+    const [histories, setHistories] = useState<T[]>([]);
+    const [filteredHistories, setFilteredHistories] = useState<T[]>([]);
+
+    return {
+        histories,
+        filteredHistories,
+        setHistories,
+        setFilteredHistories,
     };
 };

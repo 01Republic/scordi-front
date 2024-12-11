@@ -6,14 +6,15 @@ import {WithChildren} from '^types/global.type';
 
 interface SubscriptionProfileProps extends WithChildren {
     subscription: SubscriptionDto;
+    className?: string;
 }
 
 export const SubscriptionProfile = memo((props: SubscriptionProfileProps) => {
-    const {subscription, children} = props;
+    const {subscription, className = '', children} = props;
     const {product} = subscription;
 
     return (
-        <div className="flex items-center gap-2">
+        <div className={`flex items-center gap-2 ${className}`}>
             <Avatar className="w-6 h-6" src={product.image} alt={product.name()} draggable={false} loading="lazy">
                 <FaQuestion size={24} className="text-gray-300 h-full w-full p-[6px]" />
             </Avatar>

@@ -5,7 +5,6 @@ import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOption
 import {
     BillingHistoriesMonthlySumBySubscriptionDto,
     BillingHistoriesYearlySumBySubscriptionDto,
-    BillingHistoryDto,
 } from '^models/BillingHistory/type';
 import {billingHistoryApi} from '^models/BillingHistory/api';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
@@ -14,25 +13,27 @@ import {YearlyScopeHandler} from './YearlyScopeHandler';
 import {BillingHistoryMonthly} from './BillingHistoryMonthly';
 import {BillingHistoryYearly} from './BillingHistoryYearly';
 import {useBillingHistoryStatus} from '^hooks/useBillingHistoryStatus';
-import {LoadableBox} from '^components/util/loading';
-import * as XLSX from 'xlsx';
 
 export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatusPage() {
-    const monthlyRef = useRef(null);
-    const yearlyRef = useRef(null);
+    const monthlyRef = useRef<{downloadExcel: () => any}>(null);
+    const yearlyRef = useRef<{downloadExcel: () => any}>(null);
     const orgId = useRecoilValue(orgIdParamState);
     const {years, focusYear, setFocusYear, getMetaData} = useBillingHistoryStatus();
 
     const [viewUnit, setViewUnit] = useState(BillingCycleOptions.Monthly);
-    const [monthlyHistory, setMonthlyHistory] = useState<BillingHistoriesMonthlySumBySubscriptionDto[]>([]);
-    const [filteredMonthlyHistory, setFilteredMonthlyHistory] = useState<BillingHistoriesMonthlySumBySubscriptionDto[]>(
-        [],
-    );
-    const [yearlyHistory, setYearlyHistory] = useState<BillingHistoriesYearlySumBySubscriptionDto[]>([]);
-    const [filteredYearlyHistory, setFilteredYearlyHistory] = useState<BillingHistoriesYearlySumBySubscriptionDto[]>(
-        [],
-    );
     const [isLoading, setIsLoading] = useState(false);
+
+    // Monthly States
+    const [monthlyHistories, setMonthlyHistories] = useState<BillingHistoriesMonthlySumBySubscriptionDto[]>([]);
+    const [filteredMonthlyHistories, setFilteredMonthlyHistories] = useState<
+        BillingHistoriesMonthlySumBySubscriptionDto[]
+    >([]);
+
+    // Yearly States
+    // const [yearlyHistories, setYearlyHistories] = useState<BillingHistoriesYearlySumBySubscriptionDto[]>([]);
+    // const [filteredYearlyHistories, setFilteredYearlyHistories] = useState<
+    //     BillingHistoriesYearlySumBySubscriptionDto[]
+    // >([]);
 
     const fetchBillingData = async () => {
         setIsLoading(true);
@@ -40,13 +41,13 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
             if (focusYear) {
                 const monthlyResponse = await billingHistoryApi.statusApi.monthlySum(orgId, focusYear);
 
-                setMonthlyHistory(monthlyResponse.data);
-                setFilteredMonthlyHistory(monthlyResponse.data);
+                setMonthlyHistories(monthlyResponse.data);
+                setFilteredMonthlyHistories(monthlyResponse.data);
             } else {
-                const yearlyResponse = await billingHistoryApi.statusApi.yearlySum(orgId);
-
-                setYearlyHistory(yearlyResponse.data);
-                setFilteredYearlyHistory(yearlyResponse.data);
+                // const yearlyResponse = await billingHistoryApi.statusApi.yearlySum(orgId);
+                //
+                // setYearlyHistories(yearlyResponse.data);
+                // setFilteredYearlyHistories(yearlyResponse.data);
             }
         } finally {
             setIsLoading(false);
@@ -58,22 +59,8 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
             item: BillingHistoriesMonthlySumBySubscriptionDto | BillingHistoriesYearlySumBySubscriptionDto,
         ) => item.subscription?.product.name().includes(keyword);
 
-        setFilteredMonthlyHistory(monthlyHistory.filter(filterByName));
-        setFilteredYearlyHistory(yearlyHistory.filter(filterByName));
-    };
-
-    const onDownloadMonthly = () => {
-        if (monthlyRef.current) {
-            // @ts-ignore
-            monthlyRef.current.downloadExcel();
-        }
-    };
-
-    const onDownloadYearly = () => {
-        if (yearlyRef.current) {
-            // @ts-ignore
-            yearlyRef.current.downloadExcel();
-        }
+        setFilteredMonthlyHistories(monthlyHistories.filter(filterByName));
+        // setFilteredYearlyHistories(yearlyHistories.filter(filterByName));
     };
 
     useEffect(() => {
@@ -110,15 +97,17 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
                 )
             }
             onSearch={handleSearch}
-            onDownload={viewUnit === BillingCycleOptions.Monthly ? onDownloadMonthly : onDownloadYearly}
+            onDownload={() => {
+                const ref = viewUnit === BillingCycleOptions.Monthly ? monthlyRef : yearlyRef;
+                ref.current?.downloadExcel();
+            }}
         >
-            <LoadableBox isLoading={isLoading} loadingType={2} spinnerPos="center" noPadding loadingClass="">
-                {viewUnit === BillingCycleOptions.Monthly ? (
-                    <BillingHistoryMonthly ref={monthlyRef} history={filteredMonthlyHistory} />
-                ) : (
-                    <BillingHistoryYearly ref={yearlyRef} history={filteredYearlyHistory} />
-                )}
-            </LoadableBox>
+            {viewUnit === BillingCycleOptions.Monthly ? (
+                <BillingHistoryMonthly ref={monthlyRef} history={filteredMonthlyHistories} />
+            ) : (
+                <BillingHistoryYearly ref={yearlyRef} />
+                // <div>sibal</div>
+            )}
         </ListPage>
     );
 });

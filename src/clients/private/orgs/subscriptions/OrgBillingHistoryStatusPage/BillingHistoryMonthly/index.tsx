@@ -1,4 +1,4 @@
-import React, {forwardRef, memo, useImperativeHandle} from 'react';
+import React, {forwardRef, memo, useImperativeHandle, useState} from 'react';
 import {BillingHistoriesMonthlySumBySubscriptionDto} from '^models/BillingHistory/type';
 import {IsFreeTierTagUI} from '^models/Subscription/components/IsFreeTierTagUI';
 import {FaQuestion} from 'react-icons/fa6';
@@ -18,6 +18,7 @@ export const BillingHistoryMonthly = memo(
     forwardRef((props: BillingHistoryMonthlyProps, ref) => {
         const {history} = props;
         const [displayCurrency] = useRecoilState(displayCurrencyAtom);
+        const [isLoading, setIsLoading] = useState(false);
 
         const exchangeRate = 1350; // TODO: 나중에 환율 API로 변경
 
@@ -141,7 +142,7 @@ export const BillingHistoryMonthly = memo(
         }));
 
         return (
-            <CardContainerTableLayout>
+            <CardContainerTableLayout isLoading={isLoading}>
                 <div className={'flex justify-start pb-2'}>
                     <CurrencyToggle leftText={''} rightText={'원화로 보기'} className={'font-medium'} />
                 </div>
