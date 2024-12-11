@@ -86,7 +86,7 @@ export const CardManualCreateModal = memo((props: CardManualCreateModalProps) =>
         creditCardApi
             .create(orgId, formData.toCreateDto())
             .then(() => delay(2000))
-            .then(() => toast.success('새 카드를 추가했어요 :)'))
+            .then(() => toast.success('카드를 추가했어요.'))
             .then(() => {
                 setStep(Step.isPersonalSelect);
                 resetFormData();

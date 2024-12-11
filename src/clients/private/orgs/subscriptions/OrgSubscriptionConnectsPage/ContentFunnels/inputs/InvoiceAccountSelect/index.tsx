@@ -98,7 +98,7 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
                 isOpened={isAutoCreateModalOpen}
                 onClose={() => setIsAutoCreateModalOpen(false)}
                 onCreate={() => {
-                    toast.success('계정을 저장했어요');
+                    toast.success('불러온 청구서 메일을 추가했어요.');
                     setIsAutoCreateModalOpen(false);
                     reload();
                 }}
@@ -111,7 +111,7 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
                 isOpened={isManualCreateModalOpen}
                 onClose={() => setIsManualCreateModalOpen(false)}
                 onCreate={() => {
-                    toast.success('계정을 저장했어요');
+                    toast.success('청구서 메일을 추가했어요.');
                     setIsManualCreateModalOpen(false);
                     reload();
                 }}

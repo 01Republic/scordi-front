@@ -21,7 +21,7 @@ export const CreateCreditCardButton = memo((props: CreateCreditCardButtonProps) 
             }`}
             onClick={() => onSubmit(checkedCards)}
         >
-            등록하기
+            추가하기
         </button>
     );
 });

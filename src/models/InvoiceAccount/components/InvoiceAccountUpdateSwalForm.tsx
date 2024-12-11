@@ -24,16 +24,16 @@ export const InvoiceAccountUpdateSwalForm = memo((props: InvoiceAccountUpdateFor
 
     const onSubmit = debounce(async (dto: UpdateInvoiceAccountDto) => {
         await invoiceAccountApi.updateV3(orgId, id, dto).then((res) => {
-            toast.success('저장했습니다.');
+            toast.success('변경사항을 저장했어요.');
             onSave(res.data);
             Swal.close();
         });
     }, 500);
 
     return (
-        <SwalForm onSubmit={form.handleSubmit(onSubmit)}>
+        <SwalForm confirmBtnText="확인" onSubmit={form.handleSubmit(onSubmit)}>
             <section className="">
-                <h4 className="text-xl sm:text-lg text-left">청구 이메일 변경</h4>
+                <h4 className="text-xl sm:text-lg text-left">수정할 청구서 메일을 입력해주세요.</h4>
             </section>
 
             <section className="mb-1">

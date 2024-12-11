@@ -25,7 +25,7 @@ export const AddCreditCardModal = memo((props: AddCreditCardModalProps) => {
                 onClick={() => setIsCardCreateMethodModalOpen(true)}
             >
                 <FaPlus />
-                <span className="mr-1.5">카드 추가하기</span>
+                <span className="mr-1.5">카드 추가</span>
             </button>
 
             {/* 결제수단 등록 > 등록 방법 선택 */}

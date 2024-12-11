@@ -3,7 +3,7 @@ import {toast} from 'react-hot-toast';
 import Tippy from '@tippyjs/react';
 import {BsDashCircle} from 'react-icons/bs';
 import {yyyy_mm_dd} from '^utils/dateTime';
-import {SubscriptionDto} from '^models/Subscription/types';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
 import {MoneySimpleRounded} from '^models/Money/components/money.simple-rounded';
@@ -12,6 +12,11 @@ import {TeamMemberProfileCompact, TeamMemberProfileOption} from '^models/TeamMem
 import {subscriptionApi} from '^models/Subscription/api';
 import {confirm2} from '^components/util/dialog';
 import {useCurrentCodefCard} from '../../../atom';
+import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
+import {UpdateInvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {creditCardApi} from '^models/CreditCard/api';
+import {CreditCardDto, UpdateCreditCardDto} from '^models/CreditCard/type';
 
 interface CreditCardSubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -21,6 +26,14 @@ interface CreditCardSubscriptionTableRowProps {
 export const CreditCardSubscriptionTableRow = memo((props: CreditCardSubscriptionTableRowProps) => {
     const {subscription, reload} = props;
     const {isManuallyCreated} = useCurrentCodefCard();
+
+    const update = async (dto: UpdateSubscriptionRequestDto) => {
+        return subscriptionApi
+            .update(subscription.id, dto)
+            .then(() => toast.success('변경사항을 저장했어요.'))
+            .catch(() => toast.error('문제가 발생했어요.'))
+            .finally(() => reload && reload());
+    };
 
     const disconnect = async () => {
         const isConfirmed = await confirm2(
@@ -42,7 +55,7 @@ export const CreditCardSubscriptionTableRow = memo((props: CreditCardSubscriptio
     const {nextComputedBillingDate} = subscription;
 
     return (
-        <tr>
+        <tr className="table-fixed">
             {/* 서비스 명 */}
             <td>
                 <SubscriptionProfile subscription={subscription} />
@@ -89,6 +102,17 @@ export const CreditCardSubscriptionTableRow = memo((props: CreditCardSubscriptio
                         </div>
                     </div>
                 )}
+            </td>
+
+            {/* 비고 */}
+            <td>
+                <AirInputText
+                    defaultValue={subscription.desc || undefined}
+                    onChange={async (desc) => {
+                        if (subscription.desc === desc) return;
+                        return update({desc});
+                    }}
+                />
             </td>
 
             {/* Action */}

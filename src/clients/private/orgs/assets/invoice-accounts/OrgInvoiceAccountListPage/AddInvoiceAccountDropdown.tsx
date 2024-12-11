@@ -58,7 +58,7 @@ export const AddInvoiceAccountDropdown = memo((props: AddInvoiceAccountDropdownP
                 isOpened={isCreateAutoModalOpened}
                 onClose={() => setCreateAutoModalOpened(false)}
                 onCreate={() => {
-                    toast.success('계정을 저장했어요');
+                    toast.success('불러온 청구서 메일을 추가했어요.');
                     setCreateAutoModalOpened(false);
                     return reload();
                 }}

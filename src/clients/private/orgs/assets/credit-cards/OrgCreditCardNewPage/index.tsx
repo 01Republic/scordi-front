@@ -79,7 +79,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
         setLoading(true);
         creditCardApi
             .create(orgId, data.toCreateDto())
-            .then(() => toast.success('새 카드를 추가했어요 :)'))
+            .then(() => toast.success('카드를 추가했어요.'))
             .then(() => router.push(OrgCreditCardListPageRoute.path(orgId)))
             .catch(errorNotify)
             .finally(() => setLoading(false));

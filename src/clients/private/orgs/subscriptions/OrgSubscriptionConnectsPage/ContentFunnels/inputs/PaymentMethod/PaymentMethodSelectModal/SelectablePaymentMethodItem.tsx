@@ -40,7 +40,9 @@ export const SelectablePaymentMethodItem = memo((props: SelectablePaymentMethodI
 
                 <div className={`${isHovered ? 'flex' : 'hidden'} items-center justify-center transition-all`}>
                     <MoreButtonDropdown>
-                        <MoreButtonContent creditCard={item} onSaved={onSaved} />
+                        {({hide}) => (
+                            <MoreButtonContent creditCard={item} onClick={() => hide && hide()} onSaved={onSaved} />
+                        )}
                     </MoreButtonDropdown>
                 </div>
             </div>

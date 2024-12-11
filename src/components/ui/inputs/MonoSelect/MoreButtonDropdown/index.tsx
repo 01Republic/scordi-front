@@ -4,13 +4,16 @@ import {Placement} from 'tippy.js';
 import {IoMdMore} from '^components/react-icons';
 import {WithChildren} from '^types/global.type';
 
-interface MoreButtonProps extends WithChildren {
+interface MoreButtonProps extends WithChildren<(props: {show?: () => any; hide?: () => void}) => JSX.Element> {
     placement?: Placement;
 }
 
 export const MoreButtonDropdown = (props: MoreButtonProps) => {
     const {placement, children} = props;
     const ref = useRef<any>();
+    // const [visible, setVisible] = useState(false);
+    // const show = () => setVisible(true);
+    // const hide = () => setVisible(false);
 
     return (
         <>
@@ -23,6 +26,7 @@ export const MoreButtonDropdown = (props: MoreButtonProps) => {
                     e.preventDefault();
                     return;
                 }}
+                // onMouseEnter={show}
             >
                 <IoMdMore size={16} />
             </button>
@@ -41,7 +45,9 @@ export const MoreButtonDropdown = (props: MoreButtonProps) => {
                             return;
                         }}
                     >
-                        {children}
+                        {typeof children === 'function'
+                            ? children({show: instance?.show, hide: instance?.hide})
+                            : children}
                     </div>
                 )}
             />
