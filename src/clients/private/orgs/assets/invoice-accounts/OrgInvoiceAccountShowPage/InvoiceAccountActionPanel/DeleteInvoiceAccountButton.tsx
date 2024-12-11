@@ -14,7 +14,6 @@ export const DeleteInvoiceAccountButton = memo(function DeleteInvoiceAccountButt
     const onClick = () => {
         if (!currentInvoiceAccount) return;
         const {organizationId, id} = currentInvoiceAccount;
-        console.log(currentInvoiceAccount);
 
         confirm2(
             '청구서 메일을 삭제할까요?',
