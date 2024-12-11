@@ -14,7 +14,7 @@ export const InvoiceAccountManualCreateModalHeader = memo((props: InvoiceAccount
                 <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onClose} />
             </div>
             <p className="font-medium text-12 text-scordi">직접 추가하기</p>
-            <h3 className="font-bold text-xl">청구서를 어디서 받고 계세요?</h3>
+            <h3 className="font-bold text-xl">청구서 받고 있는 이메일 주소를 입력해주세요.</h3>
         </header>
     );
 });

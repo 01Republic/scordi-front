@@ -17,7 +17,7 @@ export const PartnerCompanyStep = memo(function PartnerCompanyStep() {
 
     return (
         <StepLayout
-            title={!activeForm ? `파트너사를 통해 계약된 구독인가요?` : '어떤 파트너사를 쓰고 있나요?'}
+            title={!activeForm ? `파트너사(MSP)를 통해 계약된 서비스인가요?` : '어떤 파트너사를 쓰고 있나요?'}
             desc={!activeForm ? `` : '구독 계약을 체결한 기업 및 담당자 정보를 입력해주세요.'}
         >
             {!activeForm && (

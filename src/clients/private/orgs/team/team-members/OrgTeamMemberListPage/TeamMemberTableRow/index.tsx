@@ -38,6 +38,16 @@ export const TeamMemberTableRow = memo((props: TeamMemberTableRowProps) => {
                 </OpenButtonColumn>
             </td>
 
+            {/* 구독 수 */}
+            <td
+                className={`cursor-pointer ${hoverBgColor} ${loadingStyle}`}
+                onClick={() => onClick && onClick(teamMember)}
+            >
+                <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
+                    {teamMember.subscriptionCount.toLocaleString()} <small>Apps</small>
+                </p>
+            </td>
+
             {/* 팀 */}
             <td className={`cursor-pointer ${hoverBgColor} ${loadingStyle}`}>
                 <TeamSelect teamMember={teamMember} onChange={() => reload && reload()} />
@@ -60,16 +70,6 @@ export const TeamMemberTableRow = memo((props: TeamMemberTableRowProps) => {
             >
                 <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
                     {teamMember.phone}
-                </p>
-            </td>
-
-            {/* 이용 앱 수 */}
-            <td
-                className={`cursor-pointer ${hoverBgColor} ${loadingStyle}`}
-                onClick={() => onClick && onClick(teamMember)}
-            >
-                <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
-                    {teamMember.subscriptionCount.toLocaleString()} <small>Apps</small>
                 </p>
             </td>
 

@@ -2,12 +2,11 @@ import {memo, useEffect, useState} from 'react';
 import {FaPlus} from 'react-icons/fa6';
 import {toast} from 'react-hot-toast';
 import {useTeamMemberListInCreateSubscription} from '^models/TeamMember';
+import {TeamMemberCreateAutoModal, TeamMemberCreateManualModal} from '^clients/private/_modals/team-members';
 import {TeamMemberSearchInput} from './TeamMemberSearchInput';
 import {TeamMemberSelectedSection} from './TeamMemberSelectedSection';
 import {TeamMemberSelectableSection} from './TeamMemberSelectableSection';
 import {TeamMemberCreateMethodModal} from './TeamMemberCreateMethodModal';
-import {TeamMemberCreateAutoModal} from './TeamMemberCreateAutoModal';
-import {TeamMemberCreateManualModal} from './TeamMemberCreateManualModal';
 
 export const TeamMemberSelect = memo(function TeamMemberSelect() {
     const {search, reload} = useTeamMemberListInCreateSubscription();
@@ -28,7 +27,7 @@ export const TeamMemberSelect = memo(function TeamMemberSelect() {
                     <div className="flex items-center justify-start">
                         <button className="btn btn-scordi gap-2" onClick={() => setCreateMethodModalOpened(true)}>
                             <FaPlus />
-                            <span>새로운 멤버 계정 추가하기</span>
+                            <span>구성원 추가</span>
                         </button>
                     </div>
                 </div>
@@ -56,7 +55,7 @@ export const TeamMemberSelect = memo(function TeamMemberSelect() {
                 isOpened={isCreateAutoModalOpened}
                 onClose={() => setCreateAutoModalOpened(false)}
                 onCreate={() => {
-                    toast.success('조회된 구성원들을 불러왔어요');
+                    toast.success('구성원을 모두 불러왔어요.');
                     setCreateAutoModalOpened(false);
                     return reload();
                 }}
@@ -67,7 +66,7 @@ export const TeamMemberSelect = memo(function TeamMemberSelect() {
                 isOpened={isCreateManualModalOpened}
                 onClose={() => setCreateManualModalOpened(false)}
                 onCreate={() => {
-                    toast.success('구성원을 추가했습니다');
+                    toast.success('구성원을 추가했어요.');
                     setCreateManualModalOpened(false);
                     return reload();
                 }}

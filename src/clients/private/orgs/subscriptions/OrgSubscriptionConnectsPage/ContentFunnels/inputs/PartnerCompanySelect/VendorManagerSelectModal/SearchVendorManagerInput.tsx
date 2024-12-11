@@ -17,7 +17,7 @@ export const SearchVendorManagerInput = memo(function SearchVendorManagerInput(p
                 <input
                     className="input input-underline w-full pl-8"
                     onChange={(e) => onSearch(e.target.value)}
-                    placeholder="이름으로 찾거나 추가하기"
+                    placeholder="담당자 이름을 입력해주세요."
                 />
                 <span />
             </label>

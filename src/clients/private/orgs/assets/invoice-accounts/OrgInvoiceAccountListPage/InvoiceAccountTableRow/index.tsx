@@ -25,14 +25,14 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
     const update = async (dto: UpdateInvoiceAccountDto) => {
         return invoiceAccountApi
             .updateV3(orgId, id, dto)
-            .then(() => toast.success('수정했습니다'))
-            .catch(() => toast.error('문제가 발생했습니다'))
+            .then(() => toast.success('변경사항을 저장했어요.'))
+            .catch(() => toast.error('문제가 발생했어요.'))
             .finally(() => reload && reload());
     };
 
     const setTeam = async (team?: TeamDto) => {
         const handler = (req: Promise<AxiosResponse<any>>) => {
-            req.then(() => toast.success('변경되었습니다')).catch(errorNotify);
+            req.then(() => toast.success('변경사항을 저장했어요.')).catch(errorNotify);
             // .finally(() => reload && reload());
         };
 

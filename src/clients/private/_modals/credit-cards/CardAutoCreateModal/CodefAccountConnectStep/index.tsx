@@ -31,7 +31,7 @@ export const CodefAccountConnectStep = memo((props: CodefAccountConnectStepProps
     const loginIfAccountExist = debounce(() => {
         checkExists(cardCompany.param, cardCompany.clientType, (existedAccount) => {
             if (existedAccount) {
-                toast.success(`${existedAccount.company}에 로그인했어요`);
+                toast.success(`${existedAccount.company}에 다시 로그인했어요.`);
                 setCodefAccountId(existedAccount.id);
                 setAccount(existedAccount);
             } else {
@@ -58,7 +58,7 @@ export const CodefAccountConnectStep = memo((props: CodefAccountConnectStepProps
                     onBack={onBack}
                     onSubmit={(dto) => {
                         createAccount(orgId, cardCompany, dto, (createdAccount) => {
-                            toast.success(`${createdAccount.company}에 안전하게 연결되었어요 :)`);
+                            toast.success(`${createdAccount.company}에 안전하게 로그인했어요.`);
                             setCodefAccountId(createdAccount.id);
                             setAccount(createdAccount);
                         });

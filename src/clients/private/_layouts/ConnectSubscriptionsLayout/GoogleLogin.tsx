@@ -4,7 +4,7 @@ import {GoogleLoginBtn} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import {useSetRecoilState} from 'recoil';
 import {connectInvoiceAccountCodeAtom} from '^v3/share/OnboardingFlow/steps/ConnectInvoiceAccountBeforeLoad/atom';
-import {connectGoogleWorkspaceCodeAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/TeamMemberSelect/atom';
+import {connectGoogleWorkspaceCodeAtom} from '^clients/private/_modals/team-members/atom';
 
 export const GoogleLogin = memo(function GoogleLogin() {
     const setGmailAuthCode = useSetRecoilState(connectInvoiceAccountCodeAtom);

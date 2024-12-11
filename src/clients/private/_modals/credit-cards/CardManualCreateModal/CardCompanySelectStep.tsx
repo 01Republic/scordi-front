@@ -22,7 +22,10 @@ export const CardCompanySelectStep = memo((props: CardCompanySelectStepProps) =>
                     <FaChevronLeft className="text-gray-400 cursor-pointer" onClick={onBack} />
                 </div>
                 <p className="font-medium text-12 text-scordi">카드 직접 추가하기</p>
-                <h3 className="font-bold text-xl">어떤 카드를 추가할까요?</h3>
+                <h3 className="font-bold text-xl">
+                    어느 카드사의 <br />
+                    카드를 등록할까요?
+                </h3>
             </div>
 
             <div className="py-4 flex flex-col">

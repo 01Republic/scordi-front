@@ -50,7 +50,7 @@ export const ConnectableCardListStep = memo((props: ConnectableCardListStepProps
                 </div>
                 <p className="font-medium text-12 text-scordi mb-1">{cardCompany.displayName}에서 등록하기</p>
                 <h3 className="font-bold text-xl leading-tight">
-                    새로 등록할 카드를 <br /> 선택해주세요.
+                    새로 등록할 카드를 <br /> 모두 선택해주세요.
                 </h3>
             </div>
 
@@ -127,7 +127,7 @@ export const ConnectableCardSelect = memo((props: ConnectableCardSelectProps) =>
                 </div>
                 <p className="font-medium text-12 text-scordi mb-1">{cardCompany.displayName}에서 등록하기</p>
                 <h3 className="font-bold text-xl leading-tight">
-                    새로 등록할 카드를 <br /> 선택해주세요.
+                    새로 등록할 카드를 <br /> 모두 선택해주세요.
                 </h3>
             </div>
 

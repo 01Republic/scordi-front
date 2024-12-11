@@ -19,9 +19,10 @@ import {
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {useQuery} from '@tanstack/react-query';
 import {useState} from 'react';
-import {invoiceAccountIdParamState} from '^atoms/common';
+import {invoiceAccountIdParamState, teamIdParamState} from '^atoms/common';
 import {Paginated} from '^types/utils/paginated.dto';
 import {AxiosResponse} from 'axios';
+import {teamApi} from '^models/Team/api';
 
 export const useSubscriptionsV2 = () => useSubscriptions(subscriptionListAtom);
 
@@ -38,7 +39,8 @@ export const useSubscriptionSearchResult = () => useSubscriptions(dashboardSubsc
 export const useSubscriptionTableListAtom = () => useSubscriptions(subscriptionTableListAtom);
 
 // 팀 상세 페이지 / 이용중인 서비스 목록
-export const useSubscriptionsInTeamShowPage = () => useSubscriptions(subscriptionsInTeamShowPageAtom);
+export const useSubscriptionsInTeamShowPage = () =>
+    useTeamSubscriptions(teamIdParamState, subscriptionsInTeamShowPageAtom);
 
 // 팀멤버 상세모달 / 이용중인 서비스 목록
 export const useSubscriptionsInTeamMemberShowModal = () =>
@@ -82,6 +84,27 @@ const useSubscriptions = (atoms: PagedResourceAtoms<SubscriptionDto, FindAllSubs
         mergeMode,
         getId: 'id',
     });
+};
+
+const useTeamSubscriptions = (
+    teamIdAtom: RecoilState<number>,
+    atoms: PagedResourceAtoms<SubscriptionDto, FindAllSubscriptionsQuery>,
+    mergeMode = false,
+) => {
+    const teamId = useRecoilValue(teamIdAtom);
+
+    const {...methods} = usePagedResource(atoms, {
+        endpoint: (params, orgId) => teamApi.subscriptions.index(orgId, teamId, params),
+        useOrgId: true,
+        buildQuery: (params, orgId) => {
+            params.where = {organizationId: orgId, ...params.where};
+            return params;
+        },
+        mergeMode,
+        getId: 'id',
+    });
+
+    return {teamId, ...methods};
 };
 
 const useInvoiceAccountSubscriptions = (

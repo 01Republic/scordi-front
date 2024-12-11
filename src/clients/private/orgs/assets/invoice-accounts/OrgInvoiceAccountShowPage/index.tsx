@@ -35,7 +35,7 @@ export const OrgInvoiceAccountShowPage = memo(() => {
         <ShowPage
             breadcrumb={[
                 '자산',
-                {text: '청구서 수신 메일', href: OrgInvoiceAccountListPageRoute.path(orgId)},
+                {text: '청구서 메일', href: OrgInvoiceAccountListPageRoute.path(orgId)},
                 {text: `${currentInvoiceAccount?.title}`, active: true},
             ]}
         >

@@ -19,8 +19,8 @@ export const ScordiSecretCodeInput = memo((props: ScordiSecretCodeInputProps) =>
         }).then((plans = []) => {
             if (secretCode) {
                 plans.find((plan) => plan.secretCode)
-                    ? toast.success('쿠폰코드가 적용 되었습니다!')
-                    : toast.error('쿠폰코드를 다시 확인해주세요 :(');
+                    ? toast.success('쿠폰코드가 적용됐어요.')
+                    : toast.error('쿠폰코드를 다시 확인해주세요.');
             }
         });
     }, 500);

@@ -34,7 +34,7 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
             loadingOnBtn
         >
             <FaPlus />
-            <span>첫 번째 구독 연결하기</span>
+            <span>구독 연결</span>
         </LinkTo>
     );
 

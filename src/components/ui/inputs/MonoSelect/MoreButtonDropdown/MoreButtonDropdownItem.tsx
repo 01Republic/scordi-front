@@ -1,8 +1,8 @@
 import {WithChildren} from '^types/global.type';
-import React from 'react';
+import React, {MouseEvent} from 'react';
 
 interface MoreButtonDropdownItemProps extends WithChildren {
-    onClick: () => any;
+    onClick: (e: MouseEvent) => any;
 }
 
 export function MoreButtonDropdownItem(props: MoreButtonDropdownItemProps) {

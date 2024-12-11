@@ -26,7 +26,7 @@ export const VendorManagerUpsertSwalForm = memo((props: VendorManagerUpsertSwalF
 
     const onSubmit = debounce(async (dto: UpsertVendorManagerRequestDto) => {
         vendorManagerApi.upsert(orgId, dto).then((res) => {
-            toast.success('저장했습니다.');
+            toast.success('파트너사 담당자 정보를 추가했어요.');
             onSave(res.data);
             Swal.close();
         });
