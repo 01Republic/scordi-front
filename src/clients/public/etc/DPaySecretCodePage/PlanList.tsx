@@ -1,12 +1,12 @@
-import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
-import {UseFormReturn} from 'react-hook-form';
-import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';
 import React, {memo, useEffect, useState} from 'react';
+import {UseFormReturn} from 'react-hook-form';
+import {ScordiPlanDto} from '^models/_scordi/ScordiPlan/type';
+import {DPayRequestFormDto} from '^models/_scordi/ScordiPayment/type';
 import {PlanItem} from './PlanItem';
 
 interface PlanListProps {
     plans: ScordiPlanDto[];
-    form: UseFormReturn<CreateScordiPaymentWithCustomerKeyRequestDto, any>;
+    form: UseFormReturn<DPayRequestFormDto, any>;
 }
 
 export const PlanList = memo((props: PlanListProps) => {

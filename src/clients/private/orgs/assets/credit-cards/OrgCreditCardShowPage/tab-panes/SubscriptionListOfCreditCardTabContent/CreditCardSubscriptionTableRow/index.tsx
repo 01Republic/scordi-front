@@ -3,7 +3,7 @@ import {toast} from 'react-hot-toast';
 import Tippy from '@tippyjs/react';
 import {BsDashCircle} from 'react-icons/bs';
 import {yyyy_mm_dd} from '^utils/dateTime';
-import {SubscriptionDto} from '^models/Subscription/types';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
 import {MoneySimpleRounded} from '^models/Money/components/money.simple-rounded';
@@ -12,6 +12,11 @@ import {TeamMemberProfileCompact, TeamMemberProfileOption} from '^models/TeamMem
 import {subscriptionApi} from '^models/Subscription/api';
 import {confirm2} from '^components/util/dialog';
 import {useCurrentCodefCard} from '../../../atom';
+import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
+import {UpdateInvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {creditCardApi} from '^models/CreditCard/api';
+import {CreditCardDto, UpdateCreditCardDto} from '^models/CreditCard/type';
 
 interface CreditCardSubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -22,22 +27,35 @@ export const CreditCardSubscriptionTableRow = memo((props: CreditCardSubscriptio
     const {subscription, reload} = props;
     const {isManuallyCreated} = useCurrentCodefCard();
 
+    const update = async (dto: UpdateSubscriptionRequestDto) => {
+        return subscriptionApi
+            .update(subscription.id, dto)
+            .then(() => toast.success('변경사항을 저장했어요.'))
+            .catch(() => toast.error('문제가 발생했어요.'))
+            .finally(() => reload && reload());
+    };
+
     const disconnect = async () => {
         const isConfirmed = await confirm2(
-            '이 카드와 연결을 해제할까요?',
-            '구독이 삭제되는건 아니니 안심하세요',
+            '구독 연결을 해제할까요?',
+            <p>
+                이 작업은 취소할 수 없습니다.
+                <br />
+                <b>결제수단에서 제외</b>됩니다. <br />
+                그래도 연결을 해제 하시겠어요?
+            </p>,
             'warning',
         ).then((res) => res.isConfirmed);
         if (!isConfirmed) return;
         await subscriptionApi.update(subscription.id, {creditCardId: null});
-        toast.success('연결을 해제했어요');
+        toast.success('연결을 해제했어요.');
         reload();
     };
 
     const {nextComputedBillingDate} = subscription;
 
     return (
-        <tr>
+        <tr className="table-fixed">
             {/* 서비스 명 */}
             <td>
                 <SubscriptionProfile subscription={subscription} />
@@ -86,11 +104,22 @@ export const CreditCardSubscriptionTableRow = memo((props: CreditCardSubscriptio
                 )}
             </td>
 
+            {/* 비고 */}
+            <td>
+                <AirInputText
+                    defaultValue={subscription.desc || undefined}
+                    onChange={async (desc) => {
+                        if (subscription.desc === desc) return;
+                        return update({desc});
+                    }}
+                />
+            </td>
+
             {/* Action */}
             <td>
                 <div className="flex items-center justify-center">
                     {isManuallyCreated && (
-                        <Tippy className="!text-12" content="안써요">
+                        <Tippy className="!text-12" content="구독 제외">
                             <button
                                 className="relative text-red-300 hover:text-red-500 transition-all"
                                 onClick={(e) => {

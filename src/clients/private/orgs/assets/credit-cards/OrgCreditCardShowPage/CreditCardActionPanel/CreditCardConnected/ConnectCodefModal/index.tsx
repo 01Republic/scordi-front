@@ -1,10 +1,8 @@
 import React, {memo, useEffect, useState} from 'react';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {ModalProps} from '^components/modals/_shared/Modal.types';
-import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CardCompanySelectModal} from '../../../CardCompanySelectModal';
-import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
-import {ConnectCodefAccountModal} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/CreditCardActionPanel/CreditCardConnected/ConnectCodefModal/ConnectCodefAccountModal';
+import {ConnectCodefAccountModal} from './ConnectCodefAccountModal';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 
 // 카드사 연결을 통한 자동등록의 스텝
@@ -28,7 +26,7 @@ export const ConnectCodefModal = memo((props: ConnectCodefModalProps) => {
     const [isSelectCompanyModalOpened, setIsSelectCompanyModalOpened] = useState(false);
     const [isSelectCardModalOpened, setIsSelectCardModalOpened] = useState(false);
 
-    const closeModals = () => {
+    const close = () => {
         onClose();
     };
 
@@ -51,13 +49,10 @@ export const ConnectCodefModal = memo((props: ConnectCodefModalProps) => {
         <>
             <CardCompanySelectModal
                 isOpened={isSelectCompanyModalOpened}
-                onClose={closeModals}
-                title={
-                    <>
-                        어느 카드사의 <br /> 카드로 설정할까요?
-                    </>
-                }
-                desc="혹시 지금 설정하기 어렵다면 다음에 해도 괜찮아요"
+                onClose={close}
+                title={<>카드사를 선택해주세요.</>}
+                desc=""
+                isPersonal={creditCard.isPersonal}
                 onSelect={(company) => {
                     setCardCompany(company);
                     setIsSelectCompanyModalOpened(false);
@@ -68,7 +63,7 @@ export const ConnectCodefModal = memo((props: ConnectCodefModalProps) => {
             {cardCompany && (
                 <ConnectCodefAccountModal
                     isOpened={isSelectCardModalOpened}
-                    onClose={closeModals}
+                    onClose={close}
                     cardCompany={cardCompany}
                     onSubmit={onSubmit}
                 />

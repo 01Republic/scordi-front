@@ -96,7 +96,7 @@ export const useCurrentCreditCardEdit = () => {
 
     const handleResponse = (req: Promise<AxiosResponse<CreditCardDto, any>>) => {
         req.then((res) => {
-            toast.success('저장완료');
+            toast.success('변경사항을 저장했어요.');
             setCurrentCreditCard(res.data);
             setIsEditMode(false);
         })

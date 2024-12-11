@@ -1,6 +1,7 @@
 import React, {HTMLAttributeAnchorTarget, memo, ReactNode} from 'react';
 import {BiLinkExternal} from '^components/react-icons';
 import {WithChildren} from '^types/global.type';
+import {LinkTo} from '^components/util/LinkTo';
 
 interface OutLinkProps {
     href: string;
@@ -22,14 +23,14 @@ export const OutLink = memo((props: OutLinkProps & WithChildren) => {
     return (
         <>
             {isLinkString(href) ? (
-                <a
+                <LinkTo
                     href={href}
                     target={target}
                     className={`link text-gray-400 hover:text-gray-800 transition-all inline-flex items-center gap-1 ${className}`}
                 >
                     <span>{children || text || href}</span>
                     {icon ? icon : <BiLinkExternal size={11} />}
-                </a>
+                </LinkTo>
             ) : (
                 <a className="inline-flex items-center">{children || text || href}</a>
             )}

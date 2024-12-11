@@ -1,6 +1,4 @@
 import React, {memo, useEffect, useState} from 'react';
-import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
-import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {LinkTo} from '^components/util/LinkTo';
 import {FaArrowLeft} from 'react-icons/fa6';
 import {useRouter} from 'next/router';

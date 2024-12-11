@@ -1,11 +1,11 @@
 import React, {memo} from 'react';
 import {UseFormRegister} from 'react-hook-form';
 import {WithChildren} from '^types/global.type';
-import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';
+import {DPayRequestFormDto} from '^models/_scordi/ScordiPayment/type';
 import {NumberTextInput} from './TextInput';
 
 interface FormBirthDayProps extends WithChildren {
-    register: UseFormRegister<CreateScordiPaymentWithCustomerKeyRequestDto>;
+    register: UseFormRegister<DPayRequestFormDto>;
 }
 
 export const FormBirthDay = memo((props: FormBirthDayProps) => {

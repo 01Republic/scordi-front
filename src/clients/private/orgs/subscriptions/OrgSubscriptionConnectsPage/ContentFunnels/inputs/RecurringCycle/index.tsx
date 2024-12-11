@@ -2,8 +2,8 @@ import {memo, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
 import {ButtonGroupRadio} from '^components/util/form-control/inputs';
+import {FadeUp} from '^components/FadeUp';
 import {createSubscriptionFormData} from '../../atom';
-import {FadeUp} from '../../_common/FadeUp';
 import {InputSection} from '../InputSection';
 
 interface RecurringCycleProps {}

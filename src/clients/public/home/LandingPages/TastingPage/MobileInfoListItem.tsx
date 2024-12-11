@@ -1,9 +1,8 @@
 import React, {memo} from 'react';
-import {ReactNodeLike} from 'prop-types';
-import {WithChildren} from '^types/global.type';
+import {ReactNodeElement, WithChildren} from '^types/global.type';
 
 export const MobileInfoListItem = memo(
-    (props: {label: ReactNodeLike; value?: ReactNodeLike; className?: string} & WithChildren) => {
+    (props: {label: ReactNodeElement; value?: ReactNodeElement; className?: string} & WithChildren) => {
         const {label, value, children, className = ''} = props;
 
         return (

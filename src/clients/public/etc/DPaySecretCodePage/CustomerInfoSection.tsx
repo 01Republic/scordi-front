@@ -1,13 +1,13 @@
 import React, {memo} from 'react';
 import {UseFormReturn} from 'react-hook-form';
 import {WithChildren} from '^types/global.type';
-import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';
+import {DPayRequestFormDto} from '^models/_scordi/ScordiPayment/type';
 import {CTAButton} from './CTAButton';
 import {FormControlInput} from './FormControlInput';
 
 interface CustomerInfoSection extends WithChildren {
     nextStep: () => void;
-    form: UseFormReturn<CreateScordiPaymentWithCustomerKeyRequestDto>;
+    form: UseFormReturn<DPayRequestFormDto>;
 }
 
 export const UserInfoSection = memo((props: CustomerInfoSection) => {

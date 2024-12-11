@@ -18,14 +18,14 @@ export const InvoiceAccountCreateInManualSwalForm = memo((props: InvoiceAccountC
 
     const onSubmit = debounce(async (dto: CreateInvoiceAccountDto) => {
         await invoiceAccountApi.createV3(orgId, dto).then((res) => {
-            toast.success('저장했습니다.');
+            toast.success('청구서 메일을 추가했어요.');
             onSave(res.data);
             Swal.close();
         });
     }, 500);
 
     return (
-        <SwalForm onSubmit={form.handleSubmit(onSubmit)} confirmBtnText="저장">
+        <SwalForm onSubmit={form.handleSubmit(onSubmit)} confirmBtnText="확인">
             <section className="text-left pt-2">
                 <p className="font-medium text-12 text-scordi">직접 추가하기</p>
                 <h3 className="font-bold text-xl sm:text-lg">청구서를 어디서 받고 계세요?</h3>

@@ -3,10 +3,10 @@ import {Paginated} from '^types/utils/paginated.dto';
 import {FindAllMembershipQuery, MembershipDto} from 'src/models/Membership/types';
 import {pagedResourceAtom} from '^hooks/usePagedResource';
 
-export const signSavedMembershipIdAtom = atom<number | undefined>({
-    key: 'signSavedMembershipIdAtom',
-    default: undefined,
-});
+// export const signSavedMembershipIdAtom = atom<number | undefined>({
+//     key: 'signSavedMembershipIdAtom',
+//     default: undefined,
+// });
 // export const currentMembershipAtom = atom<OrganizationDto | null>({
 //     key: 'currentMembershipAtom',
 //     default: null,
@@ -68,4 +68,21 @@ export const membershipInInHeaderAtom = pagedResourceAtom<MembershipDto, FindAll
 // membershipTable
 export const membershipInMembershipTable = pagedResourceAtom<MembershipDto, FindAllMembershipQuery>({
     key: 'pagedSubscriptions_membershipInMembershipTable/Atom',
+});
+
+// BaseLayout > AccessibleUserProvider 에서 currentUser 로부터 정의됨.
+// 지금 로그인한 계정이, 현재 접속중인 워크스페이스에 가지고 있는 멤버십을 의미함.
+export const currentMembershipAtom = atom<MembershipDto | null>({
+    key: 'currentMembershipAtom',
+    default: null,
+});
+
+// Admin / OrgDetail / MembershipList
+export const adminOrgDetailMembershipListAtom = pagedResourceAtom<MembershipDto, FindAllMembershipQuery>({
+    key: 'admin/OrgDetail/MembershipList/Atom',
+});
+
+// Admin / UserDetail / MembershipList
+export const adminUserDetailMembershipListAtom = pagedResourceAtom<MembershipDto, FindAllMembershipQuery>({
+    key: 'admin/UserDetail/MembershipList/Atom',
 });

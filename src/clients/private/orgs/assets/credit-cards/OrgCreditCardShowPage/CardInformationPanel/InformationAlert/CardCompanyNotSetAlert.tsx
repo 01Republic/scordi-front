@@ -7,6 +7,7 @@ import {confirm2} from '^components/util/dialog';
 import {useCurrentCreditCard} from '../../atom';
 import {CardCompanySelectModal} from '../../CardCompanySelectModal';
 import {InformationAlert} from './InformationAlert';
+import {CodefCustomerType} from '^models/CodefAccount/type/enums';
 
 export const CardCompanyNotSetAlert = memo(() => {
     const [isOpened, setIsOpened] = useState(false);
@@ -19,8 +20,8 @@ export const CardCompanyNotSetAlert = memo(() => {
     const setCompany = async (cardCompanyData: CardAccountsStaticData) => {
         if (!currentCreditCard) return;
 
-        const title = `"${cardCompanyData.displayName}"로 설정할까요?`;
-        const desc = '설정하고 나면 변경이 어려울 수 있으니\n다시 한 번 확인해주세요';
+        const title = `'${cardCompanyData.displayName}'로 설정할까요?`;
+        const desc = '설정하고 나면 변경이 어려울 수 있으니\n다시 한 번 확인해주세요.';
         const isConfirmed = await confirm2(title, desc).then((res) => res.isConfirmed);
         if (!isConfirmed) return;
 
@@ -51,17 +52,16 @@ export const CardCompanyNotSetAlert = memo(() => {
             </div>
 
             {/* Select CardCompanyModal */}
-            <CardCompanySelectModal
-                isOpened={isOpened}
-                onClose={onClose}
-                title={
-                    <>
-                        어느 카드사의 <br /> 카드로 설정할까요?
-                    </>
-                }
-                desc="혹시 지금 설정하기 어렵다면 다음에 해도 괜찮아요"
-                onSelect={setCompany}
-            />
+            {currentCreditCard && (
+                <CardCompanySelectModal
+                    isOpened={isOpened}
+                    onClose={onClose}
+                    title={<>카드사를 선택해주세요.</>}
+                    desc=""
+                    isPersonal={currentCreditCard.isPersonal}
+                    onSelect={setCompany}
+                />
+            )}
         </InformationAlert>
     );
 });

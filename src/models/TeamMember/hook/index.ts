@@ -14,6 +14,7 @@ import {
     paymentReceiveTeamMemberForOrgSettingAtom,
     teamMemberListInCreateSubscriptionAtom,
     teamMemberListForMasterSelectInCreateSubscriptionAtom,
+    addableTeamMemberListInAddTeamMemberModal,
 } from '../atom';
 import {useTeamMembersV3} from '^models/TeamMember';
 
@@ -52,6 +53,11 @@ export const useTeamMemberListInCreateSubscription = () => {
 // 구독 수동 등록 / 담당자 선택용 멤버 목록
 export const useTeamMemberListForMasterSelectInCreateSubscription = () => {
     return useTeamMembersV3(teamMemberListForMasterSelectInCreateSubscriptionAtom);
+};
+
+// 팀 상세 / 멤버추가모달 / 추가할 수 있는 멤버목록
+export const useAddableTeamMemberListInAddTeamMemberModal = () => {
+    return useTeamMembersV3(addableTeamMemberListInAddTeamMemberModal);
 };
 
 // 멤버 수정 / 삭제 기능

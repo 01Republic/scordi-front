@@ -21,10 +21,14 @@ export const AppUnit = memo((props: AppUnitProps) => {
         console.log('subscription', subscription);
     };
 
+    const subscription = subscriptions[0] as SubscriptionDto | undefined;
+
+    if (!subscription) return <></>;
+
     return (
         <div className="flex items-center justify-center">
             <SubscriptionSquircle
-                subscription={subscriptions[0]}
+                subscription={subscription}
                 onClick={subscriptions.length > 1 ? openSubscriptionSelectModal : moveToSubscriptionPage}
                 etcFlag={subscriptions.length > 1 ? subscriptions.length : undefined}
             />

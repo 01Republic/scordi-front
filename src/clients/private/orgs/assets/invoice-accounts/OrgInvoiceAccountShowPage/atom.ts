@@ -32,7 +32,9 @@ export const useCurrentInvoiceAccount = () => {
         return findOne(currentInvoiceAccount.organizationId, currentInvoiceAccount.id);
     };
 
-    return {currentInvoiceAccount, setCurrentInvoiceAccount, findOne, reload};
+    const clear = () => setCurrentInvoiceAccount(null);
+
+    return {currentInvoiceAccount, setCurrentInvoiceAccount, findOne, reload, clear};
 };
 
 export const useCurrentInvoiceAccountEdit = () => {
@@ -54,7 +56,7 @@ export const useCurrentInvoiceAccountEdit = () => {
 
     const handleResponse = (req: Promise<AxiosResponse<InvoiceAccountDto>>) => {
         req.then((res) => {
-            toast.success('저장완료');
+            toast.success('변경사항을 저장했어요.');
             setCurrentInvoiceAccount(res.data);
             setIsEditMode(false);
         })

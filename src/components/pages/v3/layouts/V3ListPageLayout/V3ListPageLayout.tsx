@@ -3,7 +3,7 @@ import {V3MainLayout, V3MainLayoutContainer, V3MainLayoutProps} from '../V3MainL
 
 interface V3ListPageLayoutProps extends V3MainLayoutProps {
     // // 페이지 상단의 제목
-    // title?: ReactNodeLike;
+    // title?: ReactNodeElement;
 }
 
 export const V3ListPageLayout = memo((props: V3ListPageLayoutProps) => {

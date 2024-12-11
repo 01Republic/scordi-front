@@ -1,18 +1,18 @@
 import React, {InputHTMLAttributes} from 'react';
 import {FieldPath, UseFormReturn, UseFormRegisterReturn} from 'react-hook-form';
-import {CreateScordiPaymentWithCustomerKeyRequestDto} from '^models/_scordi/ScordiPayment/type';
+import {DPayRequestFormDto} from '^models/_scordi/ScordiPayment/type';
 import {TextInput} from './TextInput';
 
-interface FormControlInputProps<FieldName extends FieldPath<CreateScordiPaymentWithCustomerKeyRequestDto>>
+interface FormControlInputProps<FieldName extends FieldPath<DPayRequestFormDto>>
     extends InputHTMLAttributes<HTMLInputElement> {
-    f: UseFormReturn<CreateScordiPaymentWithCustomerKeyRequestDto>;
+    f: UseFormReturn<DPayRequestFormDto>;
     field: FieldName;
     register: UseFormRegisterReturn<FieldName>;
     errorMessage?: string;
     label?: string;
 }
 
-export const FormControlInput = <FieldName extends FieldPath<CreateScordiPaymentWithCustomerKeyRequestDto>>(
+export const FormControlInput = <FieldName extends FieldPath<DPayRequestFormDto>>(
     props: FormControlInputProps<FieldName>,
 ) => {
     const {f, field, errorMessage, register, type = 'text', label, ...res} = props;

@@ -28,9 +28,13 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
     };
 
     const AddSubscriptionButton = () => (
-        <LinkTo onClick={() => setAddSubscriptionModalOpened(true)} className="btn btn-scordi gap-2" loadingOnBtn>
+        <LinkTo
+            onClick={() => setAddSubscriptionModalOpened(true)}
+            className="btn btn-scordi gap-2 no-animation btn-animation"
+            loadingOnBtn
+        >
             <FaPlus />
-            <span>첫 번째 구독 연결하기</span>
+            <span>구독 연결</span>
         </LinkTo>
     );
 
@@ -70,7 +74,7 @@ export const SubscriptionListOfCreditCardTabContent = memo(() => {
                     <div className="flex items-center gap-2">
                         {isManuallyCreated && (
                             <button
-                                className="btn btn-sm bg-white border-gray-300 hover:bg-white hover:border-gray-500 gap-2"
+                                className="btn btn-sm bg-white border-gray-300 hover:bg-white hover:border-gray-500 gap-2 no-animation btn-animation"
                                 onClick={() => setAddSubscriptionModalOpened(true)}
                             >
                                 <FaPlus />

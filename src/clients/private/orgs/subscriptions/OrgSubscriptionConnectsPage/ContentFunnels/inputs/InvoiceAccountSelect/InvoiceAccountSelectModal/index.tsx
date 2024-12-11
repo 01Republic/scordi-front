@@ -5,6 +5,7 @@ import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {NotSelectableInvoiceAccount} from './NotSelectableInvoiceAccount';
 import {SelectableInvoiceAccount} from './SelectableInvoiceAccount';
 import {useGoogleLoginForInvoiceAccountSelect} from '^models/InvoiceAccount/hook';
+import {HiMiniInbox} from 'react-icons/hi2';
 
 interface InvoiceAccountSelectModalProps {
     isOpened: boolean;
@@ -54,7 +55,7 @@ export const InvoiceAccountSelectModal = memo((props: InvoiceAccountSelectModalP
             maxHeight="max-h-[var(--modal-height)]"
             modalClassName="rounded-none sm:rounded-t-box [--modal-height:100vh] sm:[--modal-height:90vh]"
         >
-            <h3 className="font-bold text-xl">청구서 수신 계정 선택</h3>
+            <h3 className="font-bold text-xl">청구서 메일을 선택해주세요.</h3>
 
             <LoadableBox isLoading={isLoading} loadingType={2} spinnerPos="center" noPadding>
                 <div className="py-4 max-h-full">
@@ -92,13 +93,16 @@ export const InvoiceAccountSelectModal = memo((props: InvoiceAccountSelectModalP
                                 );
                             })
                         ) : (
-                            <div className="flex items-center justify-center">
-                                <div className="pt-[20vh] text-center">
-                                    <p className="text-14 text-gray-400 font-medium mb-2">
-                                        등록 되어있는 청구서 메일 주소가 없어요
-                                    </p>
-                                    <p className="text-12 text-gray-400">아래 버튼을 눌러 메일 주소를 등록해보세요</p>
-                                </div>
+                            <div
+                                className="fixed w-full left-0 right-0  gap-4 h-full flex flex-col items-center justify-center"
+                                style={{
+                                    maxHeight: 'calc(var(--modal-height) - 28px - 1.5rem - 80px)',
+                                }}
+                            >
+                                <HiMiniInbox className="text-slate-200" fontSize={48} />
+                                <span className="text-16 font-semibold text-gray-400">
+                                    등록된 청구서 메일이 없어요.
+                                </span>
                             </div>
                         )}
                     </div>
@@ -112,7 +116,7 @@ export const InvoiceAccountSelectModal = memo((props: InvoiceAccountSelectModalP
                 }}
             >
                 <button className="btn btn-block btn-scordi" onClick={onCtaButtonClick}>
-                    새로운 수신 계정 추가하기
+                    청구서 메일 추가
                 </button>
             </div>
         </SlideUpModal>

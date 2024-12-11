@@ -29,9 +29,11 @@ export const ReconnectModal = memo((props: ReconnectModalProps) => {
                     <p className="text-14 text-scordi font-semibold">
                         {yyyy_mm_dd(invoiceAccount.syncedEndDate || googleTokenData.expireAt)} 이후의 데이터가 없어요
                     </p>
-                    <p className="text-2xl font-semibold mb-2">동기화가 오래된 것 같아요</p>
+                    <p className="text-2xl font-semibold mb-2">재로그인이 필요한 청구서 메일이에요.</p>
                     {/*<p className="text-xl font-semibold">동기화가 오래된 것 같아요</p>*/}
-                    <p className="text-16 font-semibold">계정을 재확인해주세요</p>
+                    <p className="text-16 font-semibold">
+                        아래 버튼을 클릭해 같은 청구서 메일 계정으로 로그인해주세요.
+                    </p>
                 </>
             ) : (
                 <>

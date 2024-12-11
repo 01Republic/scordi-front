@@ -46,7 +46,7 @@ const getTopNavStructure = () => [
         name: '자산',
         items: [
             {name: '결제수단', Icon: BsCreditCardFill, routeProps: OrgCreditCardListPageRoute},
-            {name: '청구서수신메일', Icon: FaReceipt, routeProps: OrgInvoiceAccountListPageRoute},
+            {name: '청구서 메일', Icon: FaReceipt, routeProps: OrgInvoiceAccountListPageRoute},
         ],
     },
     {name: '설정', routeProps: OrgSettingsInformationPageRoute},

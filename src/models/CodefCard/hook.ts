@@ -52,10 +52,13 @@ const useCodefCardsAdmin = (atoms: PagedResourceAtoms<CodefCardDto, FindAllCardA
  */
 
 /** 구독 불러오기 (연동페이지) 에서, 연결된 카드사의 카드 리스트를 보여줄 때 사용 */
-export const useNewCodefCards = (codefAccountIdAtom: RecoilState<number>) =>
-    useCodefCardsOfAccount(codefAccountIdAtom, newCodefCardsAtom);
-export const useConnectedCodefCards = (codefAccountIdAtom: RecoilState<number>) =>
-    useCodefCardsOfAccount(codefAccountIdAtom, connectedCodefCardsAtom);
+export const useNewCodefCards = (codefAccountIdAtom: RecoilState<number>) => {
+    return useCodefCardsOfAccount(codefAccountIdAtom, newCodefCardsAtom);
+};
+
+export const useConnectedCodefCards = (codefAccountIdAtom: RecoilState<number>) => {
+    return useCodefCardsOfAccount(codefAccountIdAtom, connectedCodefCardsAtom);
+};
 
 const useCodefCardsOfAccount = <DTO = CodefCardDto, QUERY = FindAllCardQueryDto>(
     codefAccountIdAtom: RecoilState<number>,

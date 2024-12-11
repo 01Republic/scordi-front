@@ -1,8 +1,8 @@
 import {FC, ReactElement, ReactNode} from 'react';
 import {ReactElementLike, ReactNodeLike} from 'prop-types';
 
-export interface WithChildren {
-    children?: ReactNode;
+export interface WithChildren<Children = ReactNode> {
+    children?: ReactNode | Children;
 }
 
 export type FCWithChildren = FC<WithChildren>;

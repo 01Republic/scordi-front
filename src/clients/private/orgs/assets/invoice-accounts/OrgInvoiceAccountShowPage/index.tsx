@@ -11,34 +11,31 @@ import {InvoiceAccountInformationPanel} from './InvoiceAccountInformationPanel';
 import {BillingHistoryListOfInvoiceAccountTabContent, SubscriptionListOfInvoiceAccountTabContent} from './tab-panes';
 import {GoogleGmailOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {useInvoiceAccountSync} from '^models/InvoiceAccount/hook';
+import {useUnmount} from '^hooks/useUnmount';
 
 export const OrgInvoiceAccountShowPage = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
     const [id, setId] = useRecoilState(invoiceAccountIdParamState);
-    const {currentInvoiceAccount, findOne, setCurrentInvoiceAccount} = useCurrentInvoiceAccount();
+    const {currentInvoiceAccount, findOne, clear} = useCurrentInvoiceAccount();
     const [activeTabIndex, setActiveTabIndex] = useState(0);
     const {renewAccountWithConfirm} = useInvoiceAccountSync();
-    // const currentInvoiceAccount = useRecoilValue(invoiceAccountSubjectAtom);
 
     useEffect(() => {
         if (!orgId || isNaN(orgId)) return;
         if (!id || isNaN(id)) return;
-        console.log('OrgInvoiceAccountShowPage.id', id);
         findOne(orgId, id);
     }, [orgId, id]);
 
-    useEffect(() => {
-        return () => {
-            setId(NaN);
-            setCurrentInvoiceAccount(null);
-        };
-    }, []);
+    useUnmount(() => {
+        clear();
+        setId(NaN);
+    });
 
     return (
         <ShowPage
             breadcrumb={[
                 '자산',
-                {text: '청구서 수신 메일', href: OrgInvoiceAccountListPageRoute.path(orgId)},
+                {text: '청구서 메일', href: OrgInvoiceAccountListPageRoute.path(orgId)},
                 {text: `${currentInvoiceAccount?.title}`, active: true},
             ]}
         >

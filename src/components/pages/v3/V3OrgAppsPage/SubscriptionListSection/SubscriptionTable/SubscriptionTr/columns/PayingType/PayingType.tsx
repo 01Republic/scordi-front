@@ -35,7 +35,7 @@ export const PayingType = memo((props: PayingTypeProps) => {
         return subscriptionApi
             .update(subscription.id, {pricingModel})
             .then(() => onChange(pricingModel))
-            .finally(() => toast.success('저장했습니다'));
+            .finally(() => toast.success('변경사항을 저장했어요.'));
     };
 
     return (

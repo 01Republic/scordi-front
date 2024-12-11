@@ -35,7 +35,7 @@ export const TeamMemberBasicInfo = memo(function TeamMemberBasicInfo() {
         if (!currentTeamMember) return;
 
         teamMemberApi.update(currentTeamMember.organizationId, currentTeamMember.id, dto).then((res) => {
-            toast.success('저장했어요');
+            toast.success('변경사항을 저장했어요.');
             setIsEditMode(false);
             setCurrentTeamMember(res.data);
         });

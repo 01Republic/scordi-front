@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {useCurrentTeam} from '^models/Team/hook';
 import {BsCreditCardFill, BsPeopleFill, BsUiChecksGrid} from 'react-icons/bs';
 import {MdRefresh} from 'react-icons/md';
@@ -6,6 +6,7 @@ import {FaReceipt} from 'react-icons/fa6';
 import {TabName} from './OrgTeamDetailPageTabContent';
 import {TeamStatCard} from './TeamStatCard';
 import {useUnmount} from '^hooks/useUnmount';
+import {debounce} from 'lodash';
 
 interface TeamStatCardListProps {
     changeCurrentTab?: (tabName: TabName) => any;
@@ -15,9 +16,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
     const {changeCurrentTab} = props;
     const {team, reloadWithUpdateCounters, isLoading} = useCurrentTeam();
 
-    useUnmount(() => {
-        reloadWithUpdateCounters();
-    }, []);
+    const updateCounter = () => team && reloadWithUpdateCounters();
 
     return (
         <div className="bg-slate-100 rounded-lg p-2 shadow-lg">
@@ -28,14 +27,14 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
                     className={`text-12 text-gray-400 hover:text-black transition cursor-pointer ${
                         isLoading ? 'animate-spin' : ''
                     }`}
-                    onClick={reloadWithUpdateCounters}
+                    onClick={updateCounter}
                 />
             </div>
 
             <div className="grid grid-cols-2 gap-1">
                 <TeamStatCard
                     Icon={() => <BsPeopleFill fontSize={15} className="text-yellow-600" />}
-                    title="멤버"
+                    title="구성원"
                     count={team ? team.teamMemberCount : 0}
                     className={`text-gray-500 ${isLoading ? 'animate-pulse' : ''}`}
                     onClick={() => changeCurrentTab && changeCurrentTab(TabName.members)}

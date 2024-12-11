@@ -5,13 +5,14 @@ import {useForm} from 'react-hook-form';
 import {debounce} from 'lodash';
 import {inputTextToCardNumberInShortFormat} from '^utils/input-helper';
 import {plainToInstance} from 'class-transformer';
-import {cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {NumericTextInput} from '../../_common/NumericTextInput';
 import {creditCardApi} from '^models/CreditCard/api';
-import {errorNotify} from '^utils/toast-notify';
+import {errorToast} from '^api/api';
 import {toast} from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import {useAltForm} from '^hooks/useAltForm';
+import {ButtonGroupRadio} from '^components/util/form-control/inputs';
 
 interface CreditCardUpdateSwalFormProps {
     creditCard: CreditCardDto;
@@ -45,17 +46,17 @@ export const CreditCardUpdateSwalForm = memo((props: CreditCardUpdateSwalFormPro
         await creditCardApi
             .update(orgId, id, data.toUpdateDto())
             .then((res) => {
-                toast.success('변경되었습니다.');
+                toast.success('변경사항을 저장했어요.');
                 onSave(res.data);
                 Swal.close();
             })
-            .catch(errorNotify);
+            .catch(errorToast);
     }, 500);
 
     return (
-        <SwalForm onSubmit={handleSubmit(onSubmit)}>
+        <SwalForm onSubmit={handleSubmit(onSubmit)} confirmBtnText="확인">
             <section className="">
-                <h4 className="text-xl sm:text-lg text-left">결제 수단 수정</h4>
+                <h4 className="text-xl sm:text-lg text-left">수정할 결제수단 정보를 입력해주세요.</h4>
             </section>
 
             <section className="flex flex-col gap-4 items-stretch pt-2 pb-6">
@@ -75,6 +76,27 @@ export const CreditCardUpdateSwalForm = memo((props: CreditCardUpdateSwalFormPro
 
                 <div>
                     <label>
+                        <p className="text-12 text-gray-500 mb-1.5">카드종류</p>
+
+                        <ButtonGroupRadio
+                            defaultValue={formData.isPersonal}
+                            onChange={(option) => {
+                                if (typeof option.value !== 'boolean') {
+                                    setFormValue({isPersonal: true});
+                                } else {
+                                    setFormValue({isPersonal: option.value});
+                                }
+                            }}
+                            options={[
+                                {label: '개인', value: true},
+                                {label: '법인', value: false},
+                            ]}
+                        />
+                    </label>
+                </div>
+
+                <div>
+                    <label>
                         <p className="text-12 text-gray-500 mb-1.5">카드사</p>
 
                         <select
@@ -84,11 +106,13 @@ export const CreditCardUpdateSwalForm = memo((props: CreditCardUpdateSwalFormPro
                             required={!isCodefConnected}
                             disabled={isCodefConnected}
                         >
-                            {cardAccountsStaticData.map((cardCompany, i) => (
-                                <option key={i} value={cardCompany.displayName}>
-                                    {cardCompany.displayName}
-                                </option>
-                            ))}
+                            {CardAccountsStaticData.findByPersonal(formData.isPersonal ?? true).map(
+                                (cardCompany, i) => (
+                                    <option key={i} value={cardCompany.displayName}>
+                                        {cardCompany.displayName}
+                                    </option>
+                                ),
+                            )}
                         </select>
                     </label>
                 </div>

@@ -32,21 +32,24 @@ const useTeams = (atoms: PagedResourceAtoms<TeamDto, FindAllTeamQueryDto>, merge
 
 export const useCurrentTeam = () => {
     const orgId = useRecoilValue(orgIdParamState);
-    const teamId = useRecoilValue(teamIdParamState);
     const [team, setTeam] = useRecoilState(currentTeamAtom);
     const {isLoading, loadingScope} = useIsLoading(isCurrentTeamLoadingAtom);
 
-    const fetchData = (force = false) => {
+    const fetchData = (teamId: number, force = false) => {
         if (!force && team && team.id === teamId) return;
 
         return loadingScope(() => {
             return teamApi.show(orgId, teamId).then((res) => {
-                setTeam(res.data);
+                const newTeam = res.data;
+                setTeam((oldTeam) => {
+                    if (oldTeam && JSON.stringify(oldTeam) === JSON.stringify(newTeam)) return oldTeam;
+                    return newTeam;
+                });
             });
         });
     };
 
-    const reload = () => fetchData(true);
+    const reload = () => team && fetchData(team.id, true);
     const reloadWithUpdateCounters = () => update({}, {silent: true});
 
     const update = (
@@ -55,22 +58,23 @@ export const useCurrentTeam = () => {
             silent?: boolean;
         },
     ) => {
+        if (!team) return;
         return loadingScope(() => {
-            return teamApi.update(orgId, teamId, data).then(() => {
+            return teamApi.update(orgId, team.id, data).then(() => {
                 if (!option?.silent) toast.success('변경사항이 저장되었습니다.');
                 reload();
             });
         });
     };
 
-    useEffect(() => {
-        !!teamId && fetchData();
-    }, [teamId]);
+    const clear = () => setTeam(undefined);
 
     return {
         team,
+        fetchData,
         reload,
         update,
+        clear,
         isLoading,
         reloadWithUpdateCounters,
     };

@@ -6,17 +6,16 @@ import {useInvoiceAccountListInSelectModal} from '^models/InvoiceAccount/hook';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
 import {MonoSelectInput} from '^components/ui/inputs/MonoSelect/MonoSelectInput';
+import {InvoiceAccountAutoCreateModal, InvoiceAccountCreateMethod} from '^clients/private/_modals/invoice-accounts';
 import {createSubscriptionFormData} from '../../atom';
 import {InputSection} from '../../inputs/InputSection';
 import {InvoiceAccountSelectModal} from './InvoiceAccountSelectModal';
-import {InvoiceAccountCreateMethod, InvoiceAccountCreateMethodModal} from './InvoiceAccountCreateMethodModal';
-import {InvoiceAccountAutoCreateModal} from './InvoiceAccountAutoCreateModal';
+import {InvoiceAccountCreateMethodModal} from './InvoiceAccountCreateMethodModal';
 import {InvoiceAccountManualCreateModal} from './InvoiceAccountManualCreateModal';
 
 export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
     const [formData, setFormData] = useRecoilState(createSubscriptionFormData);
     const [isSelectModalOpened, setIsSelectModalOpened] = useState(false);
-
     const [isCreateMethodModalOpen, setIsCreateMethodModalOpen] = useState(false);
     const [isAutoCreateModalOpen, setIsAutoCreateModalOpen] = useState(false);
     const [isManualCreateModalOpen, setIsManualCreateModalOpen] = useState(false);
@@ -60,7 +59,7 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
                         clearable
                         selectedOption={selectedOption}
                         getLabel={(option) => <InvoiceAccountProfile invoiceAccount={option} />}
-                        placeholder="ex. dev@scordi.io"
+                        placeholder="이메일 주소 선택"
                         clearOption={() => onChange(undefined)}
                     />
                 </label>
@@ -81,7 +80,7 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
             <InvoiceAccountCreateMethodModal
                 isOpened={isCreateMethodModalOpen}
                 onClose={() => setIsCreateMethodModalOpen(false)}
-                onSelect={(createMethod) => {
+                onSelect={(createMethod: InvoiceAccountCreateMethod) => {
                     switch (createMethod) {
                         case InvoiceAccountCreateMethod.Auto:
                             setIsManualCreateModalOpen(false);
@@ -99,7 +98,7 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
                 isOpened={isAutoCreateModalOpen}
                 onClose={() => setIsAutoCreateModalOpen(false)}
                 onCreate={() => {
-                    toast.success('계정을 저장했어요');
+                    toast.success('불러온 청구서 메일을 추가했어요.');
                     setIsAutoCreateModalOpen(false);
                     reload();
                 }}
@@ -112,7 +111,7 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
                 isOpened={isManualCreateModalOpen}
                 onClose={() => setIsManualCreateModalOpen(false)}
                 onCreate={() => {
-                    toast.success('계정을 저장했어요');
+                    toast.success('청구서 메일을 추가했어요.');
                     setIsManualCreateModalOpen(false);
                     reload();
                 }}

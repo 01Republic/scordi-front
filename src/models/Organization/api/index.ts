@@ -65,6 +65,9 @@ export const organizationApi = {
     },
 };
 
+/**
+ * ADMIN / [회원] Organization API
+ */
 export const organizationAdminApi = {
     /** Organization summary / connect status */
     summary(params?: FindAllQueryDto<OrganizationConnectStatusDto>) {
@@ -83,6 +86,12 @@ export const organizationAdminApi = {
         const url = `/admin/organizations/${id}`;
         const headers = {'Content-Type': 'multipart/form-data'};
         return api.patch<OrganizationDto>(url, data, {headers}).then(oneDtoOf(OrganizationDto));
+    },
+
+    // Organization Update CounterCache
+    updateCounter(id?: number) {
+        const url = `/admin/organizations/update/counters`;
+        return api.patch<void>(url, {}, {params: {id}});
     },
 };
 

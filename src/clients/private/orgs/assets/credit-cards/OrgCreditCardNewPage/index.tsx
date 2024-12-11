@@ -3,7 +3,6 @@ import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
 import {plainToInstance} from 'class-transformer';
 import {toast} from 'react-hot-toast';
-import {delay} from '^components/util/delay';
 import {errorNotify} from '^utils/toast-notify';
 import {orgIdParamState} from '^atoms/common';
 import {CreateCreditCardDto, CreditCardUsingStatus, UnSignedCreditCardFormData} from '^models/CreditCard/type';
@@ -13,7 +12,7 @@ import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 import {useAltForm} from '^hooks/useAltForm';
 import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
-import {FadeUp} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/_common/FadeUp';
+import {FadeUp} from '^components/FadeUp';
 import {FormContainer} from '^clients/private/_components/containers';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {ConnectMethodCard} from '^v3/V3OrgConnectsPage/ConnectsPageBody/ConnectMethodCard';
@@ -23,8 +22,6 @@ import {CardIsPersonalSelect} from './CardIsPersonalSelect';
 import {CardIsCreditCardSelect} from './CardIsCreditCardSelect';
 import {CardExpirySelects} from './CardExpirySelects';
 import {CardHoldingMemberIdSelect} from './CardHoldingMemberIdSelect';
-
-const CardCompanies = CardAccountsStaticData.all();
 
 export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
     const router = useRouter();
@@ -82,7 +79,7 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
         setLoading(true);
         creditCardApi
             .create(orgId, data.toCreateDto())
-            .then(() => toast.success('새 카드를 추가했어요 :)'))
+            .then(() => toast.success('카드를 추가했어요.'))
             .then(() => router.push(OrgCreditCardListPageRoute.path(orgId)))
             .catch(errorNotify)
             .finally(() => setLoading(false));
@@ -100,44 +97,94 @@ export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
                     paths={[
                         '자산',
                         {text: '결제수단 (카드)', active: false, href: OrgCreditCardListPageRoute.path(orgId)},
-                        {text: '카드 등록', active: true},
+                        {text: '결제수단 추가', active: true},
                     ]}
                 />
 
-                <div className="flex items-center justify-between mb-8">
+                <br />
+
+                <div className="flex items-center justify-between mb-12">
                     <div>
                         <h1 className="text-2xl mb-1">결제수단 추가</h1>
-                        <p className="text-14 text-gray-500">
-                            결제수단을 스코디에 추가하기 위한 필수/선택 정보를 입력해주세요.
-                        </p>
+                        {/*<p className="text-14 text-gray-500">*/}
+                        {/*    결제수단을 스코디에 추가하기 위한 필수/선택 정보를 입력해주세요.*/}
+                        {/*</p>*/}
                     </div>
                 </div>
 
                 {/* 카드사 선택 단계 */}
                 {!cardCompany && (
-                    <section className="relative mb-20">
-                        <div className="mb-10">
-                            <h2 className="leading-none text-xl font-semibold">먼저 카드사를 선택해주세요</h2>
-                            <p className="text-16 text-gray-500"></p>
-                        </div>
+                    <div>
+                        <section className="relative mb-12">
+                            <div className="mb-4">
+                                <h2 className="leading-none text-xl font-semibold mb-2">
+                                    Step1. 어떤 사업자 형태이신가요?
+                                </h2>
+                                <p className="text-16 text-gray-500">
+                                    개인사업자의 경우 금융사마다 정의가 달라요. 두 항목 모두 시도해보세요.
+                                </p>
+                            </div>
 
-                        <div className="grid grid-cols-2 md2:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                            {CardCompanies.map((company, i) => (
-                                <ConnectMethodCard
-                                    key={i}
-                                    logo={company.logo}
-                                    title={company.displayName}
-                                    onClick={() => setCompany(company)}
-                                />
-                            ))}
-                        </div>
-                    </section>
+                            <div className="grid grid-cols-4 gap-2">
+                                {[
+                                    {label: '기업고객 (법인)', value: false},
+                                    {label: '개인고객 (개인)', value: true},
+                                ].map((option, i) => {
+                                    const active = formData.isPersonal === option.value;
+                                    return (
+                                        <div key={i}>
+                                            <button
+                                                onClick={() => setFormValue({isPersonal: option.value})}
+                                                className={`btn no-animation btn-animation gap-4 btn-block rounded-md justify-start font-normal ${
+                                                    active
+                                                        ? '!bg-indigo-50 !border-scordi'
+                                                        : '!bg-white border-gray-200 hover:border-scordi'
+                                                }`}
+                                            >
+                                                <span
+                                                    className={`w-[10px] h-[10px] rounded-full outline outline-1 outline-offset-2 ${
+                                                        active
+                                                            ? 'bg-indigo-400 outline-indigo-500'
+                                                            : 'bg-slate-300  outline-slate-300'
+                                                    }`}
+                                                ></span>
+                                                <span>{option.label}</span>
+                                            </button>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </section>
+
+                        <section className="relative mb-20">
+                            <div className="mb-10">
+                                <h2 className="leading-none text-xl font-semibold mb-4">
+                                    Step2. 카드사를 선택해주세요.
+                                </h2>
+                                <p className="text-16 text-gray-500"></p>
+                            </div>
+
+                            <div className="grid grid-cols-2 md2:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                                {CardAccountsStaticData.findByPersonal(formData.isPersonal || false).map(
+                                    (company, i) => (
+                                        <div key={i}>
+                                            <ConnectMethodCard
+                                                logo={company.logo}
+                                                title={company.displayName}
+                                                onClick={() => setCompany(company)}
+                                            />
+                                        </div>
+                                    ),
+                                )}
+                            </div>
+                        </section>
+                    </div>
                 )}
 
                 {/* 정보입력 단계 */}
                 <FadeUp show={!!cardCompany} delay="delay-[50ms]" leaveDuration="duration-0" leaveNoEffect>
                     <div className="mb-10 flex items-center justify-between">
-                        <h2 className="leading-none text-xl font-semibold">세부 정보를 입력해주세요</h2>
+                        <h2 className="leading-none text-xl font-semibold">Step3. 세부 정보를 입력해주세요.</h2>
 
                         <div className="flex items-center gap-4">
                             <p className="text-16 text-gray-500">

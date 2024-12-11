@@ -18,8 +18,8 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
     const update = async (dto: UpdateBillingHistoryRequestDtoV2) => {
         return billingHistoryApi
             .updateV2(billingHistory.id, dto)
-            .then(() => toast.success('수정했습니다'))
-            .catch(() => toast.success('문제가 발생했습니다'))
+            .then(() => toast.success('변경사항을 저장했어요.'))
+            .catch(() => toast.success('문제가 발생했어요.'))
             .finally(() => onSaved && onSaved());
     };
 
@@ -40,7 +40,7 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
 
     return (
         <tr className="group text-14" data-id={billingHistory.id}>
-            {/*결제일시*/}
+            {/*일시*/}
             <td>
                 {billingHistory.paidAt ? (
                     yyyy_mm_dd_hh_mm(billingHistory.paidAt)
@@ -49,13 +49,14 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
                 )}
             </td>
 
-            {/*내용*/}
-            <td>{billingHistory.paymentMethod}</td>
-
-            {/*구분*/}
+            {/*상태*/}
             <td>
                 <BillingHistoryStatusTagUI billingHistory={billingHistory} />
             </td>
+
+            {/*내용*/}
+            <td>{billingHistory.paymentMethod}</td>
+
             {/*<td>{billingHistory.pageSubject}</td>*/}
 
             {/*결제금액*/}

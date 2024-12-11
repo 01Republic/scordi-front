@@ -37,8 +37,8 @@ export const CreditCardAddSubscriptionModal = memo((props: CreditCardAddSubscrip
             )}
             onSubmit={onSubmit}
             titleCaption="새로운 구독 연결하기"
-            title="어느 구독을 연결할까요?"
-            ctaInactiveText="구독을 선택해주세요"
+            title="연결할 구독을 모두 선택해주세요."
+            ctaInactiveText="구독 선택"
             ctaActiveText="%n개의 선택된 구독 연결하기"
         />
     );

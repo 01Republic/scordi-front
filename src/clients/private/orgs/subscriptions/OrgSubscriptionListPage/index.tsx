@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {selectorFamily, useRecoilValue} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
@@ -10,12 +10,14 @@ import {debounce} from 'lodash';
 import {LinkTo} from '^components/util/LinkTo';
 import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
 import {FaPlus} from 'react-icons/fa6';
+import {FiDownload} from 'react-icons/fi';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {confirm2} from '^components/util/dialog';
 import {subscriptionApi} from '^models/Subscription/api';
 import {toast} from 'react-hot-toast';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {errorNotify} from '^utils/toast-notify';
+import {SubscriptionScopeHandler} from './SubscriptionTableRow/SubscriptionScopeHandler';
 
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -39,16 +41,28 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
         });
     }, 500);
 
+    const DownLoadFileButton = () => (
+        <div className="btn bg-white border border-[#CBD5E1]">
+            <FiDownload fontSize={20} />
+        </div>
+    );
+
     const AddSubscriptionButton = () => (
-        <LinkTo href={OrgSubscriptionSelectPageRoute.path(orgId)} className="btn btn-scordi gap-2" loadingOnBtn>
-            <FaPlus />
-            <span>새 구독 등록</span>
-        </LinkTo>
+        <div>
+            <LinkTo
+                href={OrgSubscriptionSelectPageRoute.path(orgId)}
+                className="btn btn-scordi gap-2 no-animation btn-animation"
+                loadingOnBtn
+            >
+                <FaPlus />
+                <span>구독 추가</span>
+            </LinkTo>
+        </div>
     );
 
     const onDelete = async (subscription: SubscriptionDto) => {
         const isConfirmed = await confirm2(
-            '이 구독을 삭제할까요?',
+            '구독을 삭제할까요?',
             <div className="text-16">
                 이 작업은 취소할 수 없습니다.
                 <br />
@@ -59,7 +73,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
         ).then((res) => res.isConfirmed);
         if (!isConfirmed) return;
         await subscriptionApi.destroy(subscription.id);
-        toast.success('구독을 삭제했어요');
+        toast.success('구독을 삭제했어요.');
         reload();
     };
 
@@ -68,10 +82,15 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
             onReady={onReady}
             breadcrumb={['구독', {text: '구독 리스트', active: true}]}
             titleText="구독 리스트"
-            Buttons={() => <AddSubscriptionButton />}
-            ScopeHandler={undefined}
+            Buttons={() => (
+                <div className="flex gap-4">
+                    <DownLoadFileButton />
+                    <AddSubscriptionButton />
+                </div>
+            )}
+            ScopeHandler={SubscriptionScopeHandler}
             onSearch={onSearch}
-            searchInputPosition="start-of-buttons"
+            // searchInputPosition="start-of-buttons"
         >
             <ListTableContainer
                 pagination={result.pagination}

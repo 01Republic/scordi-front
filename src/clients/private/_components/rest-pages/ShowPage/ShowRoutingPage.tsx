@@ -1,10 +1,11 @@
 import {useRouter} from 'next/router';
 import {WithChildren} from '^types/global.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
-import {RecoilState, useRecoilState} from 'recoil';
+import {RecoilState, useRecoilState, useSetRecoilState} from 'recoil';
 import {useCurrentOrg} from '^models/Organization/hook';
 import React, {useEffect} from 'react';
 import {AxiosResponse} from 'axios';
+import {useUnmount} from '^hooks/useUnmount';
 
 interface ShowRoutingPageProps<T> extends WithChildren {
     subjectIdParamKey: string;
@@ -16,25 +17,26 @@ interface ShowRoutingPageProps<T> extends WithChildren {
 
 export function ShowRoutingPage<T>(props: ShowRoutingPageProps<T>) {
     const {subjectIdParamKey, subjectIdParamAtom, subjectAtom, endpoint, children} = props;
-    const router = useRouter();
     const orgId = useRouterIdParamState('id', orgIdParamState);
     const subjectId = useRouterIdParamState(subjectIdParamKey, subjectIdParamAtom);
+    const setSubjectId = useSetRecoilState(subjectIdParamAtom);
+    const setSubject = useSetRecoilState(subjectAtom);
     useCurrentOrg(orgId);
-    const [subject, setSubject] = useRecoilState(subjectAtom);
 
     useEffect(() => {
-        if (!router.isReady) return;
         if (!orgId || isNaN(orgId)) return;
         if (!subjectId || isNaN(subjectId)) return;
 
-        endpoint(subjectId, orgId).then((res) => {
-            setSubject(res.data);
-        });
-    }, [router.isReady, orgId, subjectId]);
+        endpoint(subjectId, orgId).then((res) => setSubject(res.data));
+    }, [orgId, subjectId]);
+
+    useUnmount(() => {
+        setSubject(null);
+        setSubjectId(NaN);
+    });
 
     if (!orgId || isNaN(orgId)) return <></>;
     if (!subjectId || isNaN(subjectId)) return <></>;
-    if (!subject) return <></>;
 
     return <>{children}</>;
 }

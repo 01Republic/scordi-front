@@ -15,19 +15,19 @@ export const ActionButtons = memo(function ActionButtons() {
 
     return (
         <div className="flex items-center justify-between">
-            <button className="btn gap-1 items-center" onClick={() => router.back()}>
+            <button className="btn gap-3 items-center px-7" onClick={() => router.back()}>
                 <FaChevronLeft />
-                <span>돌아가기</span>
+                <span>이전</span>
             </button>
 
             <LinkTo
                 href={OrgSubscriptionConnectsPageRoute.path(orgId)}
-                className={`btn btn-scordi gap-1 items-center ${
+                className={`btn btn-scordi gap-3 items-center px-7 ${
                     size === 0 ? 'btn-disabled !bg-scordi !text-white opacity-40' : ''
                 }`}
                 loadingOnBtn
             >
-                <span>등록하기</span>
+                <span>다음</span>
                 <FaChevronRight />
             </LinkTo>
         </div>

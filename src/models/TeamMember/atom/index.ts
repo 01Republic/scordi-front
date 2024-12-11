@@ -53,3 +53,8 @@ export const teamMemberListForMasterSelectInCreateSubscriptionAtom = pagedResour
 >({
     key: 'teamMemberListForMasterSelectInCreateSubscriptionAtom',
 });
+
+// 팀 상세 / 멤버추가모달 / 추가할 수 있는 멤버목록
+export const addableTeamMemberListInAddTeamMemberModal = pagedResourceAtom<TeamMemberDto, FindAllTeamMemberQueryDto>({
+    key: 'addableTeamMemberListInAddTeamMemberModal',
+});

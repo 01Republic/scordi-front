@@ -44,28 +44,28 @@ export const TeamBeforeSaveModal = memo((props: BeforeSaveModalProps) => {
 
     return (
         <SlideUpModal open={isOpened} onClose={onClose} size="md">
-            <h3 className="font-bold text-xl">초대장을 함께 보낼까요?</h3>
+            <h3 className="font-bold text-xl">구성원을 워크스페이스에 초대할까요?</h3>
 
             <div className="py-4 flex flex-col gap-3">
                 <MethodOption
                     Icon={FcInvite}
-                    title="초대 메일 보내기"
-                    desc="구성원을 등록하고 입력된 이메일로 초대장을 전송해요"
+                    title="초대하기"
+                    desc="구성원 회사메일로 초대장을 전송해요."
                     onClick={() => {
                         handleRequest(() => {
                             return createMember()
                                 .then(inviteMember)
-                                .then(() => toast.success('구성원을 등록하고 초대장을 보냈어요!'));
+                                .then(() => toast.success('구성원을 추가한 뒤 초대 메일을 보냈어요.'));
                         });
                     }}
                 />
                 <MethodOption
                     Icon={FcDataRecovery}
-                    title="초대하지 않고 등록하기"
-                    desc="구성원 초대 현황에서 나중에 초대 할 수 있어요"
+                    title="초대 없이 추가하기"
+                    desc="[설정 > 멤버관리] 에서 나중에 초대할 수 있어요."
                     onClick={() => {
                         handleRequest(() => {
-                            return createMember().then(() => toast.success('구성원을 등록했어요!'));
+                            return createMember().then(() => toast.success('구성원을 추가했어요.'));
                         });
                     }}
                 />

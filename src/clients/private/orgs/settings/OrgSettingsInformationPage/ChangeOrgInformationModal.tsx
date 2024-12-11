@@ -27,7 +27,7 @@ export const ChangeOrgInformationModal = memo(function (props: ChangeOrgInformat
             organizationApi
                 .update(orgId, data)
                 .then(() => {
-                    toast.success('워크스페이스 정보가 수정되었습니다.');
+                    toast.success('변경사항을 저장했어요.');
                     onClose();
                 })
                 .catch((err) => {

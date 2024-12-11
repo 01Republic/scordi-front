@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
 import {useRecoilState} from 'recoil';
 import {OutLink} from '^components/OutLink';
+import {FadeUp} from '^components/FadeUp';
 import {createSubscriptionFormData} from '../atom';
 import {StepLayout} from '../_common/StepLayout';
-import {FadeUp} from '../_common/FadeUp';
 import {InputSection, PricingTypeSelect, CurrencySelect, RecurringAmount} from '../inputs';
 import {useCurrentConnectingProduct} from '../useCurrentConnectingProduct';
 
@@ -12,7 +12,7 @@ export const SubscriptionInfoStep = memo(() => {
     const [formData, setFormData] = useRecoilState(createSubscriptionFormData);
 
     return (
-        <StepLayout title="얼마에 구독하고 있나요? ✍️" desc="구독 요금제를 기반으로 아래 항목을 입력해주세요.">
+        <StepLayout title="얼마에 구독하고 있나요?" desc="구독 요금제를 기반으로 아래 항목을 입력해주세요.">
             <InputSection className="max-w-lg">
                 <div className="grid grid-cols-8 gap-2 mb-6">
                     <div className="col-span-3">

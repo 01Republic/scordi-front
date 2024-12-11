@@ -4,7 +4,6 @@ import {FaArrowLeft, FaArrowRotateRight} from 'react-icons/fa6';
 import {useRouter} from 'next/router';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {codefAccountAtom} from '^models/CodefAccount/atom';
-import {CardAccountsStaticData, cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {useConnectedCodefCards, useNewCodefCards, useSubscriptionsForCodefAccount} from '^models/CodefCard/hook';
 import {CardListPageMode, reloadingDataAtom, useCodefAccountPageSubject} from '^v3/V3OrgConnectedCardListPage/atom';

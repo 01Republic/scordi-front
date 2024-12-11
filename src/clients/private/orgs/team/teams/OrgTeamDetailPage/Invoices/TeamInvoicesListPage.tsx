@@ -2,7 +2,7 @@ import React, {memo, useEffect, useState} from 'react';
 import {ListPageSearchInput} from '^clients/private/_layouts/_shared/ListPageSearchInput';
 import {useTeamInvoiceAccountListInTeamDetail} from '^models/TeamInvoiceAccount/hook';
 import {AddInvoiceModal} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Invoices/AddInvoiceModal';
-import {orgIdParamState} from '^atoms/common';
+import {orgIdParamState, teamIdParamState} from '^atoms/common';
 import {useRecoilValue} from 'recoil';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {InvoicesTableHeader} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Invoices/InvoicesTableHeader';
@@ -11,46 +11,37 @@ import {FaPlus} from 'react-icons/fa6';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {useRouter} from 'next/router';
 import {OrgTeamDetailPageTabContentCommonProps} from '../OrgTeamDetailPageTabContent';
+import {useUnmount} from '^hooks/useUnmount';
 
 export const TeamInvoicesListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
-    const router = useRouter();
-    const orgId = useRecoilValue(orgIdParamState);
-    const {
-        search,
-        result,
-        isLoading,
-        isNotLoaded,
-        isEmptyResult,
-        query,
-        searchAndUpdateCounter,
-        movePage,
-        changePageSize,
-        reload,
-        orderBy,
-        clearCache,
-    } = useTeamInvoiceAccountListInTeamDetail();
+    const {reload: reloadParent} = props;
+    const teamId = useRecoilValue(teamIdParamState);
+    const {search, result, isLoading, isNotLoaded, isEmptyResult, movePage, changePageSize, reload, orderBy, reset} =
+        useTeamInvoiceAccountListInTeamDetail();
     const [isOpened, setIsOpened] = useState(false);
 
     const onSearch = (keyword?: string) => {
         search({
             relations: ['invoiceAccount', 'invoiceAccount.holdingMember'],
+            where: {teamId},
             keyword,
         });
     };
 
     useEffect(() => {
-        !!orgId && search({relations: ['invoiceAccount', 'invoiceAccount.holdingMember']});
-    }, [orgId]);
+        if (!teamId || isNaN(teamId)) return;
+        onSearch();
+    }, [teamId]);
 
-    useEffect(() => {
-        return () => clearCache();
-    }, [router.isReady]);
+    useUnmount(() => reset());
+
+    const {totalItemCount} = result.pagination;
 
     return (
         <>
             <div className={'flex items-center justify-between pb-4'}>
                 <div>
-                    전체 <span className={'text-scordi-500'}>{result.pagination.totalItemCount}</span>
+                    전체 <span className={'text-scordi-500'}>{totalItemCount.toLocaleString()}</span>
                 </div>
                 <div className={'flex space-x-4'}>
                     <ListPageSearchInput onSearch={onSearch} placeholder={'검색어를 입력해주세요'} />
@@ -72,15 +63,15 @@ export const TeamInvoicesListPage = memo(function (props: OrgTeamDetailPageTabCo
                 isNotLoaded={isNotLoaded}
                 isLoading={isLoading}
                 isEmptyResult={isEmptyResult}
-                emptyMessage="연결된 청구서수신계정이 없어요."
-                emptyButtonText="청구서수신계정 연결"
+                emptyMessage="연결된 청구서 메일이 없어요."
+                emptyButtonText="청구서 메일 연결"
                 emptyButtonOnClick={() => setIsOpened(true)}
             >
                 <ListTable
                     items={result.items}
                     isLoading={isLoading}
                     Header={() => <InvoicesTableHeader orderBy={orderBy} />}
-                    Row={({item}) => <InvoicesTableRow item={item} reload={reload} />}
+                    Row={({item}) => <InvoicesTableRow teamInvoiceAccount={item} reload={reload} />}
                 />
             </ListTableContainer>
 
@@ -89,8 +80,9 @@ export const TeamInvoicesListPage = memo(function (props: OrgTeamDetailPageTabCo
                 preItems={result.items}
                 isOpened={isOpened}
                 onClose={() => {
-                    setIsOpened(false);
                     reload();
+                    reloadParent();
+                    setIsOpened(false);
                 }}
             />
         </>

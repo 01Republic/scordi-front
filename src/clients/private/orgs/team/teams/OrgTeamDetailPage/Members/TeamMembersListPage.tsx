@@ -14,41 +14,32 @@ import {OrgTeamDetailPageTabContentCommonProps} from '../OrgTeamDetailPageTabCon
 export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabContentCommonProps) {
     const {reload: reloadParent} = props;
     const teamId = useRecoilValue(teamIdParamState);
-    const {
-        search,
-        result,
-        isNotLoaded,
-        isEmptyResult,
-        isLoading,
-        movePage,
-        changePageSize,
-        reload,
-        orderBy,
-        clearCache,
-    } = useTeamMembershipListInTeamDetail();
+    const {search, result, isNotLoaded, isEmptyResult, isLoading, movePage, changePageSize, reload, orderBy, reset} =
+        useTeamMembershipListInTeamDetail();
     const [isOpened, setIsOpened] = useState(false);
-
-    useEffect(() => {
-        !!teamId && search({where: {teamId: teamId}, relations: ['teamMember', 'teamMember.membership']});
-    }, [teamId]);
 
     const onSearch = (keyword?: string) => {
         search({
             relations: ['teamMember', 'teamMember.membership'],
-            where: {teamId: teamId},
+            where: {teamId},
             keyword,
         });
     };
 
-    useUnmount(() => {
-        clearCache();
-    }, []);
+    useEffect(() => {
+        if (!teamId || isNaN(teamId)) return;
+        onSearch();
+    }, [teamId]);
+
+    useUnmount(() => reset());
+
+    const {totalItemCount} = result.pagination;
 
     return (
         <>
             <div className={'flex items-center justify-between pb-4'}>
                 <div>
-                    전체 <span className={'text-scordi-500'}>{result.pagination.totalItemCount}</span>
+                    전체 <span className={'text-scordi-500'}>{totalItemCount.toLocaleString()}</span>
                 </div>
                 <div className={'flex space-x-4'}>
                     <ListPageSearchInput onSearch={onSearch} placeholder={'검색어를 입력해주세요'} />
@@ -70,8 +61,8 @@ export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabCon
                 isNotLoaded={isNotLoaded}
                 isLoading={isLoading}
                 isEmptyResult={isEmptyResult}
-                emptyMessage="조회된 구성원이 없어요."
-                emptyButtonText="구성원 등록"
+                emptyMessage="연결된 구성원이 없어요."
+                emptyButtonText="구성원 연결"
                 emptyButtonOnClick={() => setIsOpened(true)}
             >
                 <ListTable
@@ -92,7 +83,6 @@ export const TeamMembersListPage = memo(function (props: OrgTeamDetailPageTabCon
 
             {/* 연결 추가 모달 */}
             <AddMemberModal
-                preItems={result.items}
                 isOpened={isOpened}
                 onClose={() => {
                     reload();

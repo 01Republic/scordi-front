@@ -1,20 +1,22 @@
 import React, {memo} from 'react';
-import {SubscriptionDto} from '^models/Subscription/types';
-import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {
     BillingCycleTypeColumn,
     IsFreeTierColumn,
     LatestPayAmount,
-    MasterSelect,
-    MemberCount,
-    PayingType,
-    PayMethodSelect,
 } from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
 import {Dropdown} from '^v3/share/Dropdown';
 import {IoIosMore} from 'react-icons/io';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
 import {useRouter} from 'next/router';
+import {CreditCardProfileCompact} from '^models/CreditCard/components';
+import {SubscriptionProfile, PayMethodSelect, MemberCount} from '^models/Subscription/components';
+import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
+import {subscriptionApi} from '^models/Subscription/api';
+import {toast} from 'react-hot-toast';
+import {errorToast} from '^api/api';
+import {debounce} from 'lodash';
 
 interface SubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -27,6 +29,15 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
     const router = useRouter();
 
     const showPagePath = OrgSubscriptionDetailPageRoute.resourcePath(subscription);
+
+    const update = debounce((dto: UpdateSubscriptionRequestDto) => {
+        const {id, organizationId: orgId} = subscription;
+        return subscriptionApi
+            .update(id, dto)
+            .then(() => toast.success('수정했습니다'))
+            .catch(errorToast)
+            .finally(() => reload());
+    }, 250);
 
     return (
         <tr>
@@ -53,13 +64,22 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
             </td>
 
             {/* 과금방식: (TestBank: 연, 고정, 사용량, 크레딧, 1인당) */}
-            <td className="">
-                <PayingType subscription={subscription} onChange={reload} />
+            {/*<td className="">*/}
+            {/*    <PayingType subscription={subscription} onChange={reload} />*/}
+            {/*</td>*/}
+
+            {/* 최신 결제금액 */}
+            <td className="text-right">
+                <LatestPayAmount subscription={subscription} />
             </td>
 
-            {/* 결제수단 */}
-            <td className="pl-3 py-0">
-                <PayMethodSelect subscription={subscription} onChange={reload} />
+            {/* 갱신일 */}
+            <td className="text-right">
+                {subscription.nextComputedBillingDate ? (
+                    <p className="text-sm">{subscription.nextComputedBillingDate}</p>
+                ) : (
+                    <p className="text-sm text-gray-400">-</p>
+                )}
             </td>
 
             {/* 사용인원 */}
@@ -67,20 +87,33 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
                 <MemberCount subscription={subscription} />
             </td>
 
-            {/* 최신 결제금액 */}
-            <td className="text-right">
-                <LatestPayAmount subscription={subscription} />
+            {/* 결제수단 */}
+            <td className="pl-3 py-0">
+                <PayMethodSelect
+                    subscription={subscription}
+                    onChange={reload}
+                    ValueComponent={(props) => {
+                        const {value} = props;
+                        return typeof value === 'string' ? <p>{value}</p> : <CreditCardProfileCompact item={value} />;
+                    }}
+                />
             </td>
 
-            {/* 다음 결제일 */}
-            {/*<td className="text-right">*/}
-            {/*    <NextPaymentDate nextPayDate={nextPayDate} />*/}
-            {/*</td>*/}
+            {/* 비고 */}
+            <td>
+                <AirInputText
+                    defaultValue={subscription.desc || undefined}
+                    onChange={async (desc) => {
+                        if (subscription.desc === desc) return;
+                        return update({desc});
+                    }}
+                />
+            </td>
 
             {/* 담당자 */}
-            <td className="py-0 pl-5 w-40">
-                <MasterSelect subscription={subscription} onChange={reload} />
-            </td>
+            {/*<td className="py-0 pl-5 w-40">*/}
+            {/*    <MasterSelect subscription={subscription} onChange={reload} />*/}
+            {/*</td>*/}
 
             {/* Actions */}
 

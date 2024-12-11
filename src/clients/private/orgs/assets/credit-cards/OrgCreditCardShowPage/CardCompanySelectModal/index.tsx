@@ -1,19 +1,23 @@
 import React, {memo, useState} from 'react';
 import {FaChevronLeft} from 'react-icons/fa6';
-import {CardAccountsStaticData, cardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
-import {CardCompanyItem} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/_common/CardCompanyItem';
+import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
+import {CardCompanyItem} from '^models/CodefAccount/components';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {ModalProps} from '^components/modals/_shared/Modal.types';
 import {ReactNodeElement} from '^types/global.type';
+import {CreditCardDto} from '^models/CreditCard/type';
 
 interface CardCompanySelectModalProps extends ModalProps {
     title?: ReactNodeElement;
     desc?: ReactNodeElement;
+    isPersonal?: boolean;
     onSelect: (cardCompanyData: CardAccountsStaticData) => any;
 }
 
 export const CardCompanySelectModal = memo((props: CardCompanySelectModalProps) => {
-    const {title, desc, isOpened, onClose, onSelect} = props;
+    const {title, desc, isPersonal = false, isOpened, onClose, onSelect} = props;
+
+    const CardCompanies = CardAccountsStaticData.findByPersonal(isPersonal);
 
     return (
         <SlideUpModal
@@ -41,7 +45,7 @@ export const CardCompanySelectModal = memo((props: CardCompanySelectModalProps) 
                 </div>
 
                 <div className="py-4 flex flex-col">
-                    {cardAccountsStaticData.map((cardCompanyData, i) => (
+                    {CardCompanies.map((cardCompanyData, i) => (
                         <CardCompanyItem
                             key={i}
                             cardCompanyData={cardCompanyData}

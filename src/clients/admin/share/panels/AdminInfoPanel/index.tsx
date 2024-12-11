@@ -15,7 +15,12 @@ export const AdminInfoPanel = memo((props: AdminInfoPanelProps) => {
         <CardPanel className="mb-10" title={title}>
             <ul className={title ? `border-t` : ''}>
                 {items.map((item, i) => (
-                    <AdminInfoListItem label={item.label} value={item.value} borderBottom={i + 1 < items.length} />
+                    <AdminInfoListItem
+                        key={i}
+                        label={item.label}
+                        value={item.value}
+                        borderBottom={i + 1 < items.length}
+                    />
                 ))}
             </ul>
         </CardPanel>

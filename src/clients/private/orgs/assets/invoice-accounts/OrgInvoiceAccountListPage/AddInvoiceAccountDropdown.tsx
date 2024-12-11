@@ -1,53 +1,69 @@
-import React, {memo} from 'react';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
+import React, {memo, useState} from 'react';
+import {useRecoilValue} from 'recoil';
+import {IconType} from '@react-icons/all-files';
+import {FcDataBackup, FcDataRecovery} from 'react-icons/fc';
+import {toast} from 'react-hot-toast';
 import {orgIdParamState} from '^atoms/common';
-import {isInvoiceAccountAutoCreateModalAtom} from './atom';
 import {
     ListPageDropdown,
     ListPageDropdownButton,
     ListPageDropdownMenu,
     ListPageDropdownMenuItem,
 } from '^clients/private/_layouts/_shared/ListPageMainDropdown';
-import {IconType} from '@react-icons/all-files';
-import {FcDataBackup, FcDataRecovery} from 'react-icons/fc';
-import {GoogleGmailOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {useGoogleLoginForInvoiceAccountSelect, useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {swalHTML} from '^components/util/dialog';
+import {GoogleGmailOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
+import {useGoogleLoginForInvoiceAccountSelect} from '^models/InvoiceAccount/hook';
 import {InvoiceAccountCreateInManualSwalForm} from '^models/InvoiceAccount/components';
+import {InvoiceAccountAutoCreateModal} from '^clients/private/_modals/invoice-accounts';
 
-export const AddInvoiceAccountDropdown = memo(function AddInvoiceAccountDropdown() {
+interface AddInvoiceAccountDropdownProps {
+    reload: () => any;
+}
+
+export const AddInvoiceAccountDropdown = memo((props: AddInvoiceAccountDropdownProps) => {
     const orgId = useRecoilValue(orgIdParamState);
-    const setIsAutoCreateModalOpen = useSetRecoilState(isInvoiceAccountAutoCreateModalAtom);
+    const [isCreateAutoModalOpened, setCreateAutoModalOpened] = useState(false);
     const {setCode} = useGoogleLoginForInvoiceAccountSelect();
-    const {reload} = useInvoiceAccounts();
+    const {reload} = props;
 
     return (
         <ListPageDropdown>
-            <ListPageDropdownButton text="메일계정 추가" />
+            <ListPageDropdownButton text="청구서 메일 추가" />
 
             <ListPageDropdownMenu>
                 <GoogleGmailOAuthButton
                     onCode={(code) => {
                         setCode(code);
-                        setIsAutoCreateModalOpen(true);
+                        setCreateAutoModalOpened(true);
                     }}
                 >
                     <CreateMethodOption
                         Icon={FcDataBackup}
-                        title="자동으로 연동하기"
-                        desc="지메일 로그인으로 간단하게 추가해요"
+                        title="청구서 메일 불러오기"
+                        desc="구글 로그인으로 한 번에 불러와요"
                     />
                 </GoogleGmailOAuthButton>
 
                 <CreateMethodOption
                     Icon={FcDataRecovery}
-                    title="직접 입력하기"
-                    desc="수신 계정을 수기로 입력해요"
+                    title="직접 추가하기"
+                    desc="이메일 주소를 입력한 뒤 추가해요"
                     onClick={() => {
                         swalHTML(<InvoiceAccountCreateInManualSwalForm orgId={orgId} onSave={() => reload()} />);
                     }}
                 />
             </ListPageDropdownMenu>
+
+            <InvoiceAccountAutoCreateModal
+                isOpened={isCreateAutoModalOpened}
+                onClose={() => setCreateAutoModalOpened(false)}
+                onCreate={() => {
+                    toast.success('불러온 청구서 메일을 추가했어요.');
+                    setCreateAutoModalOpened(false);
+                    return reload();
+                }}
+                onRetry={() => setCreateAutoModalOpened(true)}
+            />
         </ListPageDropdown>
     );
 });

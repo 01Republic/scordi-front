@@ -50,7 +50,11 @@ function MyApp(props: Props) {
                 <div id="dropdown-portal" />
                 <Toaster
                     containerStyle={{bottom: '15vh'}}
-                    toastOptions={{position: 'bottom-center', style: {background: '#333', color: '#fff'}}}
+                    toastOptions={{
+                        position: 'bottom-center',
+                        style: {background: '#333', color: '#fff'},
+                        duration: 1000 * 5,
+                    }}
                 />
 
                 <ExternalCDNScripts />

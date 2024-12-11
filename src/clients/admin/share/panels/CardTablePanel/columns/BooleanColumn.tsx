@@ -1,11 +1,11 @@
 import {memo} from 'react';
-import {ReactNodeLike} from 'prop-types';
 import {FiCheck} from '@react-icons/all-files/fi/FiCheck';
+import {ReactNodeElement} from '^types/global.type';
 
 interface BooleanColumnProps {
     value: boolean;
-    trueVal?: ReactNodeLike;
-    falseVal?: ReactNodeLike;
+    trueVal?: ReactNodeElement;
+    falseVal?: ReactNodeElement;
 }
 
 export const BooleanColumn = memo((props: BooleanColumnProps) => {

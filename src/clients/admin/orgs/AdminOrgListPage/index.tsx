@@ -6,16 +6,10 @@ import {CardTablePanel, CardTableTH} from '^admin/share';
 import {OrgItem} from './OrgItem';
 import {OrgTr} from './OrgTr';
 import {OrgItemForConnectStatus} from './OrgItemForConnectStatus';
-import {OrgTablePanelForConnectStatus} from '^admin/orgs/AdminOrgListPage/OrgTablePanelForConnectStatus';
 import {ContentTabNav} from '^layouts/ContentLayout';
-import {atom, useRecoilValue} from 'recoil';
-
-enum ViewAbout {
-    members,
-    connects,
-}
-
-const viewAboutAtom = atom({key: 'ViewAboutAtom', default: ViewAbout.members});
+import {useRecoilValue} from 'recoil';
+import {ViewAbout, viewAboutAtom} from './atom';
+import {OrgTablePanelForConnectStatus} from './OrgTablePanelForConnectStatus';
 
 export const AdminOrgListPage = memo(() => {
     const viewAbout = useRecoilValue(viewAboutAtom);
@@ -28,14 +22,14 @@ export const AdminOrgListPage = memo(() => {
             tabNav={<ContentTabNav resetIndex={false} tabs={['가입현황', '연동현황']} recoilState={viewAboutAtom} />}
         >
             <AdminPageContainer>
-                {viewAbout === ViewAbout.connects && <ConnectStatusView />}
                 {viewAbout === ViewAbout.members && <MembersView />}
+                {viewAbout === ViewAbout.connects && <ConnectStatusView />}
             </AdminPageContainer>
         </AdminListPageLayout>
     );
 });
 
-const ConnectStatusView = (props: {}) => {
+const ConnectStatusView = () => {
     const form = useListPageSearchForm(organizationAdminApi.summary);
     const {searchForm, onSearch, fetchData, SearchForm, SearchResultContainer, listPage} = form;
 

@@ -7,15 +7,14 @@ import {
     IsFreeTierColumn,
     LatestPayAmount,
     MasterSelect,
-    MemberCount,
     PayingType,
-    PayMethodSelect,
 } from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
 import Tippy from '@tippyjs/react';
 import {BsDashCircle} from 'react-icons/bs';
 import {confirm2} from '^components/util/dialog';
 import {subscriptionApi} from '^models/Subscription/api';
 import {toast} from 'react-hot-toast';
+import {PayMethodSelect, MemberCount} from '^models/Subscription/components';
 
 interface TeamMemberSubscriptionTableRowProps {
     teamMember: TeamMemberDto;
@@ -28,13 +27,17 @@ export const TeamMemberSubscriptionTableRow = memo((props: TeamMemberSubscriptio
 
     const disconnect = async () => {
         const isConfirmed = await confirm2(
-            '이 멤버와 연결을 해제할까요?',
-            '구독이 삭제되는건 아니니 안심하세요',
+            '구독 연결을 해제할까요?',
+            <span>
+                이 작업은 취소할 수 없습니다. <br />
+                <b>이용 구독에서 제외</b>됩니다. <br />
+                그래도 연결을 해제 하시겠어요?
+            </span>,
             'warning',
         ).then((res) => res.isConfirmed);
         if (!isConfirmed) return;
         await teamMemberApi.subscriptions.disconnect(teamMember.id, subscription.id);
-        toast.success('연결을 해제했어요');
+        toast.success('연결을 해제했어요.');
         reload();
     };
 
@@ -93,7 +96,7 @@ export const TeamMemberSubscriptionTableRow = memo((props: TeamMemberSubscriptio
             {/* Actions */}
             <td>
                 <div className="flex items-center justify-center">
-                    <Tippy className="!text-12" content="안써요">
+                    <Tippy className="!text-12" content="구독 제외하기">
                         <button
                             className="relative text-red-300 hover:text-red-500 transition-all"
                             onClick={(e) => {

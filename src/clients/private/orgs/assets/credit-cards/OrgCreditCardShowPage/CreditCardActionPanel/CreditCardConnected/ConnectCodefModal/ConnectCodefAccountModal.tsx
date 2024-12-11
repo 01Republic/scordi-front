@@ -3,14 +3,15 @@ import {ModalProps} from '^components/modals/_shared/Modal.types';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {useCreateCodefAccount} from '^models/CodefAccount/hooks/useCreateCodefAccount';
-import {InputCardAccountFormDataStep} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/CardAutoCreateModal/InputCardAccountFormDataStep';
 import {toast} from 'react-hot-toast';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {codefAccountIdParamState, orgIdParamState} from '^atoms/common';
-import {ConnectableCardSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PaymentMethod/CardAutoCreateModal/ConnectableCardListStep';
-import {FadeUp} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/_common/FadeUp';
 import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
+import {FadeUp} from '^components/FadeUp';
+import {ConnectableCardSelect} from '^clients/private/_modals/credit-cards/CardAutoCreateModal/ConnectableCardListStep';
+import {InputCardAccountFormDataStep} from '^clients/private/_modals/credit-cards/CardAutoCreateModal/CodefAccountConnectStep/InputCardAccountFormDataStep';
+import {debounce} from 'lodash';
 
 interface ConnectCodefAccountModalProps extends ModalProps {
     cardCompany: CardAccountsStaticData;
@@ -25,27 +26,36 @@ export const ConnectCodefAccountModal = memo((props: ConnectCodefAccountModalPro
     const setCodefAccountId = useSetRecoilState(codefAccountIdParamState);
     const {checkExists, form, createAccount, isLoading, errorMessages} = useCreateCodefAccount();
 
+    const close = () => {
+        setCodefAccount(undefined);
+        onClose();
+    };
+
     const setAccount = (codefAccount?: CodefAccountDto) => {
         setCodefAccount(codefAccount);
         codefAccount && setCodefAccountId(codefAccount.id);
     };
 
-    useEffect(() => {
-        if (!isOpened) return;
-        if (!cardCompany?.param) return;
-        checkExists(cardCompany.param, (existedAccount) => {
+    const loginIfAccountExist = debounce(() => {
+        checkExists(cardCompany.param, cardCompany.clientType, (existedAccount) => {
             if (existedAccount) {
                 toast.success(`${existedAccount.company}에 로그인했어요`);
             }
             setAccount(existedAccount);
             setIsPreChecked(true);
         });
+    }, 500);
+
+    useEffect(() => {
+        if (!isOpened) return;
+        if (!cardCompany?.param) return;
+        loginIfAccountExist();
     }, [isOpened, cardCompany.param]);
 
     return (
         <SlideUpModal
             open={isOpened}
-            onClose={onClose}
+            onClose={close}
             size="md"
             minHeight="min-h-screen sm:min-h-[90%]"
             maxHeight="max-h-screen sm:max-h-[90%]"

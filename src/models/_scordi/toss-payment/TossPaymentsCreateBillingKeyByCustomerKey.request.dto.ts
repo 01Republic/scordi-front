@@ -7,12 +7,4 @@ export class TossPaymentsCreateBillingKeyByCustomerKeyRequestDto {
     cardPassword: string; // 카드 비밀번호 앞 두 자리
     customerName: string; // 구매자명
     customerEmail: string; // 구매자의 이메일 주소: 결제 상태가 바뀌면 이메일 주소로 결제내역이 전송됩니다. 최대 길이는 100자입니다.
-
-    //카드번호
-    cardNumberFirst: string;
-    cardNumberSecond: string;
-    cardNumberThird: string;
-    cardNumberFourth: string;
-    //
-    agree: boolean;
 }
