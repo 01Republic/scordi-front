@@ -16,7 +16,7 @@ export const InvoiceAccountProfilePanel = memo(function InvoiceAccountProfilePan
                 <div>
                     <Avatar
                         src={currentInvoiceAccount.image || ''}
-                        className={`w-14 outline outline-offset-2 outline-2 ${
+                        className={`w-14 h-14 outline outline-offset-2 outline-2 ${
                             currentInvoiceAccount.isManuallyCreated ? 'outline-slate-200' : 'outline-blue-400'
                         }`}
                     />
