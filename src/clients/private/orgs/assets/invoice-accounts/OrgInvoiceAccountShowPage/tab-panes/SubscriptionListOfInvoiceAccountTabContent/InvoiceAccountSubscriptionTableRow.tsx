@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {toast} from 'react-hot-toast';
 import Tippy from '@tippyjs/react';
 import {BsDashCircle} from 'react-icons/bs';
-import {SubscriptionDto} from '^models/Subscription/types';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 import {IsFreeTierTagUI} from '^models/Subscription/components/IsFreeTierTagUI';
 import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
@@ -12,6 +12,10 @@ import {yyyy_mm_dd} from '^utils/dateTime';
 import {confirm2} from '^components/util/dialog';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {useCurrentInvoiceAccount} from '../../atom';
+import {subscriptionApi} from '^models/Subscription/api';
+import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
+import {PayMethodSelect} from '^models/Subscription/components';
+import {CreditCardProfileCompact} from '^models/CreditCard/components';
 
 interface InvoiceAccountSubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -21,6 +25,14 @@ interface InvoiceAccountSubscriptionTableRowProps {
 export const InvoiceAccountSubscriptionTableRow = memo((props: InvoiceAccountSubscriptionTableRowProps) => {
     const {subscription, reload} = props;
     const {currentInvoiceAccount} = useCurrentInvoiceAccount();
+
+    const update = async (dto: UpdateSubscriptionRequestDto) => {
+        return subscriptionApi
+            .update(subscription.id, dto)
+            .then(() => toast.success('변경사항을 저장했어요.'))
+            .catch(() => toast.error('문제가 발생했어요.'))
+            .finally(() => reload && reload());
+    };
 
     const disconnect = async () => {
         if (!currentInvoiceAccount) return;
@@ -71,7 +83,7 @@ export const InvoiceAccountSubscriptionTableRow = memo((props: InvoiceAccountSub
                 )}
             </td>
 
-            {/*최신 청구액*/}
+            {/*결제금액*/}
             <td>
                 <MoneySimpleRounded money={subscription.currentBillingAmount || undefined} />
             </td>
@@ -81,20 +93,58 @@ export const InvoiceAccountSubscriptionTableRow = memo((props: InvoiceAccountSub
                 {nextComputedBillingDate && yyyy_mm_dd(new Date(`${nextComputedBillingDate} `))}
             </td>
 
-            {/*담당자*/}
+            {/*소지자*/}
+            {/*<td>*/}
+            {/*    {subscription.master ? (*/}
+            {/*        <TeamMemberProfileCompact item={subscription.master} />*/}
+            {/*    ) : (*/}
+            {/*        <div className="relative">*/}
+            {/*            <div className="invisible">*/}
+            {/*                <TeamMemberProfileOption item={subscription.master} />*/}
+            {/*            </div>*/}
+            {/*            <div className="absolute inset-0 flex items-center text-12 text-gray-300">*/}
+            {/*                <span>비어있음</span>*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*    )}*/}
+            {/*</td>*/}
+
+            {/* 결제수단 */}
+            <td className="pl-3 py-0">
+                <PayMethodSelect
+                    subscription={subscription}
+                    onChange={reload}
+                    ValueComponent={(props) => {
+                        const {value} = props;
+                        return typeof value === 'string' ? <p>{value}</p> : <CreditCardProfileCompact item={value} />;
+                    }}
+                />
+            </td>
+
+            {/* 비고 */}
+            {/*<td>*/}
+            {/*    {subscription.master ? (*/}
+            {/*        <TeamMemberProfileCompact item={subscription.master} />*/}
+            {/*    ) : (*/}
+            {/*        <div className="relative">*/}
+            {/*            <div className="invisible">*/}
+            {/*                <TeamMemberProfileOption item={subscription.master} />*/}
+            {/*            </div>*/}
+            {/*            <div className="absolute inset-0 flex items-center text-12 text-gray-300">*/}
+            {/*                <span>비어있음</span>*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*    )}*/}
+            {/*</td>*/}
+
             <td>
-                {subscription.master ? (
-                    <TeamMemberProfileCompact item={subscription.master} />
-                ) : (
-                    <div className="relative">
-                        <div className="invisible">
-                            <TeamMemberProfileOption item={subscription.master} />
-                        </div>
-                        <div className="absolute inset-0 flex items-center text-12 text-gray-300">
-                            <span>비어있음</span>
-                        </div>
-                    </div>
-                )}
+                <AirInputText
+                    defaultValue={subscription.desc || undefined}
+                    onChange={async (desc) => {
+                        if (subscription.desc === desc) return;
+                        return update({desc});
+                    }}
+                />
             </td>
 
             {/* Action */}

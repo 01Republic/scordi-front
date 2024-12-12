@@ -35,18 +35,18 @@ export const InvoiceAccountProfilePanel = memo(function InvoiceAccountProfilePan
                         </div>
                     )}
 
-                    <div className="mt-2 mb-4">
-                        <KeyValue label="팀" value={<InvoiceAccountTeamList />} />
-                        <KeyValue
-                            label="구독"
-                            value={
-                                <p className="text-14">
-                                    <span>{currentInvoiceAccount.subscriptions?.length.toLocaleString()}</span>
-                                    <small className="text-gray-400 ml-1">apps</small>
-                                </p>
-                            }
-                        />
-                    </div>
+                    {/*<div className="mt-2 mb-4">*/}
+                    {/*    <KeyValue label="팀" value={<InvoiceAccountTeamList />} />*/}
+                    {/*    <KeyValue*/}
+                    {/*        label="구독"*/}
+                    {/*        value={*/}
+                    {/*            <p className="text-14">*/}
+                    {/*                <span>{currentInvoiceAccount.subscriptions?.length.toLocaleString()}</span>*/}
+                    {/*                <small className="text-gray-400 ml-1">apps</small>*/}
+                    {/*            </p>*/}
+                    {/*        }*/}
+                    {/*    />*/}
+                    {/*</div>*/}
                 </div>
             </div>
         </div>

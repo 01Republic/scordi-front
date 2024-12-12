@@ -23,7 +23,7 @@ export const SubscriptionListOfInvoiceAccountTabContent = memo(function Subscrip
         if (!currentInvoiceAccount) return;
 
         search({
-            relations: ['master', 'invoiceAccounts'],
+            relations: ['master', 'invoiceAccounts', 'creditCard'],
             where: {
                 // @ts-ignore
                 invoiceAccounts: {id: currentInvoiceAccount.id},
