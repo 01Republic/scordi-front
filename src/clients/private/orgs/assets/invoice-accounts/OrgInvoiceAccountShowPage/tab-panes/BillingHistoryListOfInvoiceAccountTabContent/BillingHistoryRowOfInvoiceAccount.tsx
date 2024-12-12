@@ -44,27 +44,32 @@ export const BillingHistoryRowOfInvoiceAccount = memo((props: BillingHistoryRowO
 
     return (
         <tr className="group text-14" data-id={billingHistory.id}>
-            {/*서비스명*/}
-            <td>
-                {subscription && (
-                    <SubscriptionProfile subscription={subscription}>
-                        <p className="truncate text-sm">
-                            {subscription.product.name()} {subscription.alias ? `- ${subscription.alias}` : ''}
-                        </p>
-                        <p className="text-12 text-gray-400">
-                            {issuedAt.getFullYear()}년 {issuedAt.getMonth() + 1}월 청구
-                        </p>
-                    </SubscriptionProfile>
-                )}
-            </td>
-
-            {/*발행일*/}
+            {/*일시*/}
             <td>
                 {billingHistory.paidAt ? (
                     yyyy_mm_dd(billingHistory.paidAt)
                 ) : (
                     <span className="text-red-400">{yyyy_mm_dd(billingHistory.issuedAt)}</span>
                 )}
+            </td>
+
+            {/*연결된 구독*/}
+            <td>
+                {subscription && (
+                    <SubscriptionProfile subscription={subscription}>
+                        <p className="truncate text-sm">
+                            {subscription.product.name()} {subscription.alias ? `- ${subscription.alias}` : ''}
+                        </p>
+                        {/*<p className="text-12 text-gray-400">*/}
+                        {/*    {issuedAt.getFullYear()}년 {issuedAt.getMonth() + 1}월 청구*/}
+                        {/*</p>*/}
+                    </SubscriptionProfile>
+                )}
+            </td>
+
+            {/*내용*/}
+            <td className="text-12 max-w-sm whitespace-pre-wrap">
+                <p className="text-12">{billingHistory.title}</p>
             </td>
 
             {/*구분*/}
@@ -76,11 +81,6 @@ export const BillingHistoryRowOfInvoiceAccount = memo((props: BillingHistoryRowO
             {/*결제금액*/}
             <td>
                 <PaidAmount />
-            </td>
-
-            {/*내용*/}
-            <td className="text-12 max-w-sm whitespace-pre-wrap">
-                <p className="text-12">{billingHistory.title}</p>
             </td>
 
             {/* 다운로드 */}
