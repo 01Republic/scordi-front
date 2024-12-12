@@ -35,7 +35,7 @@ export const InvoiceAccountTableHeader = memo((props: InvoiceAccountTableHeaderP
             <th>팀</th>
 
             {/*담당자*/}
-            <th>담당자</th>
+            {/*<th>담당자</th>*/}
 
             {/* 비고 */}
             <th>비고</th>

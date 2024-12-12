@@ -102,16 +102,16 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
             </td>
 
             {/*담당자 - editable, sortable (mono-select)*/}
-            <td>
-                <TeamMemberSelectColumn
-                    defaultValue={invoiceAccount.holdingMember}
-                    onChange={async (holdingMember) => {
-                        if (invoiceAccount.holdingMemberId === holdingMember?.id) return;
-                        return update({holdingMemberId: holdingMember?.id || null});
-                    }}
-                    compactView
-                />
-            </td>
+            {/*<td>*/}
+            {/*    <TeamMemberSelectColumn*/}
+            {/*        defaultValue={invoiceAccount.holdingMember}*/}
+            {/*        onChange={async (holdingMember) => {*/}
+            {/*            if (invoiceAccount.holdingMemberId === holdingMember?.id) return;*/}
+            {/*            return update({holdingMemberId: holdingMember?.id || null});*/}
+            {/*        }}*/}
+            {/*        compactView*/}
+            {/*    />*/}
+            {/*</td>*/}
 
             {/* 비고 */}
             <td>
