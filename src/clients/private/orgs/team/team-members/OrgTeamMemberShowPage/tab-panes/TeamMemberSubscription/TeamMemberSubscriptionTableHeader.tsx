@@ -17,8 +17,17 @@ export const TeamMemberSubscriptionTableHeader = memo((props: TeamMemberSubscrip
                 서비스 명
             </SortableTH>
 
-            <SortableTH sortKey="[isFreeTier]" onClick={orderBy}>
-                유/무료
+            {/*<SortableTH sortKey="[isFreeTier]" onClick={orderBy}>*/}
+            {/*    상태*/}
+            {/*</SortableTH>*/}
+
+            <SortableTH
+                sortKey="[currentBillingAmount][dollarPrice]"
+                sortVal="DESC"
+                onClick={orderBy}
+                className="justify-end"
+            >
+                결제금액
             </SortableTH>
 
             {/* [구독상태] subscription.status: SubscriptionStatus */}
@@ -27,37 +36,29 @@ export const TeamMemberSubscriptionTableHeader = memo((props: TeamMemberSubscrip
             {/*</SortableTH>*/}
 
             {/* [결제주기] subscription.billingCycleType: BillingCycleOptions */}
-            <SortableTH sortKey="[billingCycleType]" onClick={orderBy}>
-                결제주기
-            </SortableTH>
+            {/*<SortableTH sortKey="[billingCycleType]" onClick={orderBy}>*/}
+            {/*    결제주기*/}
+            {/*</SortableTH>*/}
 
             {/* [과금방식] subscription.pricingModel: PricingModelOptions */}
-            <SortableTH sortKey="[pricingModel]" onClick={orderBy}>
-                과금방식
-            </SortableTH>
+            {/*<SortableTH sortKey="[pricingModel]" onClick={orderBy}>*/}
+            {/*    과금방식*/}
+            {/*</SortableTH>*/}
 
             <SortableTH sortKey="[creditCard][name]" sortVal="DESC" onClick={orderBy}>
-                결제수단
+                연결된 결제수단
             </SortableTH>
+            <th>비고</th>
 
-            <SortableTH sortKey="[usedMemberCount]" sortVal="DESC" onClick={orderBy}>
-                사용인원
-            </SortableTH>
-
-            <SortableTH
-                sortKey="[currentBillingAmount][dollarPrice]"
-                sortVal="DESC"
-                onClick={orderBy}
-                className="justify-end"
-            >
-                최신 결제금액
-            </SortableTH>
+            {/*<SortableTH sortKey="[usedMemberCount]" sortVal="DESC" onClick={orderBy}>*/}
+            {/*    사용인원*/}
+            {/*</SortableTH>*/}
 
             {/*<SortableTH className="text-right">다음 결제일</SortableTH>*/}
 
-            <SortableTH sortKey="[masterId]" sortVal="DESC" onClick={orderBy}>
-                담당자
-            </SortableTH>
+            {/*<SortableTH sortKey="[masterId]" sortVal="DESC" onClick={orderBy}>*/}
+            {/*    담당자*/}
+            {/*</SortableTH>*/}
 
             {/* Actions */}
             <th className="" />
