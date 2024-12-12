@@ -22,7 +22,7 @@ interface ViewModeRef {
 export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatusPage() {
     const monthlyRef = useRef<ViewModeRef>(null);
     const yearlyRef = useRef<ViewModeRef>(null);
-    const {years, focusYear, setFocusYear} = useBillingHistoryStatus();
+    const {years, focusYear, setFocusYear, getMetaData} = useBillingHistoryStatus();
     const [viewUnit, setViewUnit] = useState(BillingCycleOptions.Monthly);
 
     useEffect(() => {
@@ -31,7 +31,7 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
 
     return (
         <ListPage
-            // onReady={getMetaData}
+            onReady={getMetaData}
             breadcrumb={['구독', {text: '결제현황', active: true}]}
             titleText="결제현황"
             Buttons={() => (
@@ -48,7 +48,7 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
             searchInputPlaceholder="서비스명 검색"
             ScopeHandler={() =>
                 viewUnit === BillingCycleOptions.Monthly ? (
-                    focusYear && <YearlyScopeHandler years={years} value={focusYear} onChange={setFocusYear} />
+                    <YearlyScopeHandler years={years} value={focusYear} onChange={setFocusYear} />
                 ) : (
                     <div />
                 )
@@ -62,8 +62,12 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
                 ref.current?.downloadExcel();
             }}
         >
-            {viewUnit === BillingCycleOptions.Monthly && focusYear ? (
-                <BillingHistoryMonthly ref={monthlyRef} focusYear={focusYear} />
+            {viewUnit === BillingCycleOptions.Monthly ? (
+                focusYear ? (
+                    <BillingHistoryMonthly ref={monthlyRef} focusYear={focusYear} />
+                ) : (
+                    <div></div>
+                )
             ) : (
                 <BillingHistoryYearly ref={yearlyRef} years={years} />
             )}

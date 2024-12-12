@@ -68,10 +68,6 @@ export const useBillingHistoryStatus = () => {
         return yearCostMap;
     };
 
-    useEffect(() => {
-        getMetaData();
-    }, []);
-
     return {
         dateRange,
         years,
