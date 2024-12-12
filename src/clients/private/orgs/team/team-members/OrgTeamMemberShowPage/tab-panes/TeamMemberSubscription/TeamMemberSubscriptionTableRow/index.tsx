@@ -51,7 +51,6 @@ export const TeamMemberSubscriptionTableRow = memo((props: TeamMemberSubscriptio
         reload();
     };
 
-    console.log('결제수단 있나', subscription);
     return (
         <tr>
             {/* 서비스 명 */}
