@@ -3,6 +3,7 @@ import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {BillingHistoriesYearlySumBySubscriptionDto} from '^models/BillingHistory/type';
 import {CurrencyCode} from '^models/Money';
+import {toFixedAmount} from '^models/Money/components/toFixedAmount';
 
 type YearlySumItemDto = BillingHistoriesYearlySumBySubscriptionDto['items'][0];
 
@@ -30,14 +31,7 @@ export const BillingHistoryYearColumn = memo((props: BillingHistoryYearColumnPro
     })();
 
     const symbol = displayCurrency === CurrencyCode.KRW ? '₩' : currentData.symbol;
-
-    const fixedAmount = (() => {
-        if (displayCurrency === CurrencyCode.KRW || currentData.code === CurrencyCode.KRW) {
-            return Number(currentAmount.toFixed(0));
-        }
-
-        return Number(currentAmount.toFixed(2));
-    })();
+    const fixedAmount = toFixedAmount(currentAmount, currentData.code, displayCurrency);
 
     return (
         <td className={`text-right ${colorClass}`}>

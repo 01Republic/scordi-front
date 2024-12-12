@@ -1,5 +1,5 @@
 import React, {forwardRef, memo, useEffect, useImperativeHandle, useState} from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
 import {orgIdParamState} from '^atoms/common';
 import {CurrencyToggle} from '^tasting/CurrencyToggle';
@@ -15,35 +15,45 @@ import {BillingHistoryYearlyRow} from './BillingHistoryYearlyRow';
 import {BillingHistoryYearColumn} from './BillingHistoryYearColumn';
 import {makeYearlyExcelDownloader} from './makeYearlyExcelDownloader';
 
-interface BillingHistoryYearlyProps {}
+interface BillingHistoryYearlyProps {
+    years: number[];
+}
 
 export const BillingHistoryYearly = memo(
-    forwardRef((props: BillingHistoryYearlyProps, ref) => {
+    forwardRef(({years}: BillingHistoryYearlyProps, ref) => {
         const orgId = useRecoilValue(orgIdParamState);
-        const [histories, setHistories] = useState<BillingHistoriesYearlySumBySubscriptionDto[]>([]);
-        const {years} = useBillingHistoryStatus();
-        const reversedYears = reverseArr(years);
-        const [displayCurrency] = useRecoilState(displayCurrencyAtom);
+        const displayCurrency = useRecoilValue(displayCurrencyAtom);
         const [isLoading, setIsLoading] = useState(false);
+        const [histories, setHistories] = useState<BillingHistoriesYearlySumBySubscriptionDto[]>([]);
+        const [filteredHistories, setFilteredHistories] = useState<BillingHistoriesYearlySumBySubscriptionDto[]>([]);
 
+        const reversedYears = reverseArr(years);
         const exchangeRate = 1350; // TODO: 나중에 환율 API로 변경
 
-        const sortedHistories = [...histories].sort((a, b) => {
+        const sortedHistories = [...filteredHistories].sort((a, b) => {
             const avgCostA = a.getAverageCostToKRW(exchangeRate);
             const avgCostB = b.getAverageCostToKRW(exchangeRate);
             return avgCostB - avgCostA;
         });
 
-        // useImperativeHandle 로 상위 컴포넌트에 함수를 노출
-        useImperativeHandle(ref, () => ({
-            downloadExcel: makeYearlyExcelDownloader(sortedHistories, exchangeRate, displayCurrency),
-        }));
+        const search = (keyword?: string) => {
+            if (!keyword) {
+                setFilteredHistories(histories);
+                return;
+            }
+
+            const result = histories.filter((his) => {
+                return his.subscription.product.name().includes(keyword);
+            });
+            setFilteredHistories(result);
+        };
 
         const onReady = debounce(async () => {
             setIsLoading(true);
             billingHistoryApi.statusApi
                 .yearlySum(orgId)
                 .then((res) => {
+                    setFilteredHistories(res.data);
                     setHistories(res.data);
                 })
                 .finally(() => setIsLoading(false));
@@ -52,6 +62,12 @@ export const BillingHistoryYearly = memo(
         useEffect(() => {
             if (orgId && !isNaN(orgId)) onReady();
         }, [orgId]);
+
+        // useImperativeHandle 로 상위 컴포넌트에 함수를 노출
+        useImperativeHandle(ref, () => ({
+            downloadExcel: makeYearlyExcelDownloader(sortedHistories, exchangeRate, displayCurrency),
+            search,
+        }));
 
         return (
             <CardContainerTableLayout isLoading={isLoading}>

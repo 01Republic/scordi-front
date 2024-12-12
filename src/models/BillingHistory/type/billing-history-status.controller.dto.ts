@@ -45,24 +45,33 @@ export class BillingHistoriesYearlySumBySubscriptionDto {
     @TypeCast(() => BillingHistoriesYearlySumItemDto)
     items: BillingHistoriesYearlySumItemDto[];
 
-    getAverageCost(exchangeRate: number, displayCurrency = CurrencyCode.KRW) {
-        const total = this.items.reduce((sum, item) => {
-            const adjustedAmount =
-                displayCurrency === CurrencyCode.KRW && item.code !== CurrencyCode.KRW
-                    ? item.amount * exchangeRate
-                    : item.amount;
-            return sum + adjustedAmount;
+    getCostSum(exchangeRate: number, displayCurrency = CurrencyCode.KRW) {
+        return this.items.reduce((sum, item) => {
+            if (displayCurrency === CurrencyCode.KRW && item.code !== CurrencyCode.KRW) {
+                return sum + item.amount * exchangeRate;
+            } else {
+                return sum + item.amount;
+            }
         }, 0);
+    }
 
+    getCostSumToKRW(exchangeRate: number) {
+        return this.items.reduce((sum, item) => {
+            if (item.code === CurrencyCode.KRW) {
+                return sum + item.amount;
+            } else {
+                return sum + item.amount * exchangeRate;
+            }
+        }, 0);
+    }
+
+    getAverageCost(exchangeRate: number, displayCurrency = CurrencyCode.KRW) {
+        const total = this.getCostSum(exchangeRate, displayCurrency);
         return total / this.items.length;
     }
 
     getAverageCostToKRW(exchangeRate: number) {
-        const total = this.items.reduce((sum, item) => {
-            const amount = item.code === CurrencyCode.KRW ? item.amount : item.amount * exchangeRate;
-            return sum + amount;
-        }, 0);
-
+        const total = this.getCostSumToKRW(exchangeRate);
         return total / this.items.length;
     }
 }
@@ -79,6 +88,15 @@ class BillingHistoriesMonthlySumItemDto {
     amount: number;
     symbol: MoneyDto['symbol'];
     code: MoneyDto['code'];
+
+    getCurrentAmount(exchangeRate: number, displayCurrency = CurrencyCode.KRW) {
+        const currentAmount =
+            displayCurrency === CurrencyCode.KRW && this.code !== CurrencyCode.KRW
+                ? this.amount * exchangeRate
+                : this.amount;
+
+        return currentAmount || 0;
+    }
 }
 
 // 구독의 월간 합계 금액 내역
@@ -88,4 +106,34 @@ export class BillingHistoriesMonthlySumBySubscriptionDto {
 
     @TypeCast(() => BillingHistoriesMonthlySumItemDto)
     items: BillingHistoriesMonthlySumItemDto[];
+
+    getCostSum(exchangeRate: number, displayCurrency = CurrencyCode.KRW) {
+        return this.items.reduce((sum, item) => {
+            if (displayCurrency === CurrencyCode.KRW && item.code !== CurrencyCode.KRW) {
+                return sum + item.amount * exchangeRate;
+            } else {
+                return sum + item.amount;
+            }
+        }, 0);
+    }
+
+    getCostSumToKRW(exchangeRate: number) {
+        return this.items.reduce((sum, item) => {
+            if (item.code === CurrencyCode.KRW) {
+                return sum + item.amount;
+            } else {
+                return sum + item.amount * exchangeRate;
+            }
+        }, 0);
+    }
+
+    getAverageCost(exchangeRate: number, displayCurrency = CurrencyCode.KRW) {
+        const total = this.getCostSum(exchangeRate, displayCurrency);
+        return total / this.items.length;
+    }
+
+    getAverageCostToKRW(exchangeRate: number) {
+        const total = this.getCostSumToKRW(exchangeRate);
+        return total / this.items.length;
+    }
 }

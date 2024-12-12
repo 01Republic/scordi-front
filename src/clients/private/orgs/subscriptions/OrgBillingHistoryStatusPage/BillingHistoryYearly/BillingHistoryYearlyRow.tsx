@@ -1,11 +1,10 @@
 import React, {memo} from 'react';
-import {useRecoilState} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {IsFreeTierTagUI} from '^models/Subscription/components/IsFreeTierTagUI';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 import {BillingHistoriesYearlySumBySubscriptionDto} from '^models/BillingHistory/type';
 import {CurrencyCode} from '^models/Money';
-import {Currency} from '^types/crawler';
 
 interface BillingHistoryYearlyRowProps {
     data: BillingHistoriesYearlySumBySubscriptionDto;
@@ -14,7 +13,7 @@ interface BillingHistoryYearlyRowProps {
 }
 
 export const BillingHistoryYearlyRow = memo((props: BillingHistoryYearlyRowProps) => {
-    const [displayCurrency] = useRecoilState(displayCurrencyAtom);
+    const displayCurrency = useRecoilValue(displayCurrencyAtom);
     const {data, renderColumns, exchangeRate} = props;
     const {subscription, items} = data;
 
