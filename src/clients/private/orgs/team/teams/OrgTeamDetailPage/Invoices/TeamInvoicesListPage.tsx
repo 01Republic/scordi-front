@@ -22,7 +22,7 @@ export const TeamInvoicesListPage = memo(function (props: OrgTeamDetailPageTabCo
 
     const onSearch = (keyword?: string) => {
         search({
-            relations: ['invoiceAccount', 'invoiceAccount.holdingMember'],
+            relations: ['invoiceAccount', 'invoiceAccount.holdingMember', 'invoiceAccount.subscriptions'],
             where: {teamId},
             keyword,
         });

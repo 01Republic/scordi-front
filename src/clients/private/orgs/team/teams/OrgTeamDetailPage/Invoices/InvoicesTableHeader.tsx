@@ -12,9 +12,11 @@ export const InvoicesTableHeader = memo((props: InvoicesTableHeaderProps) => {
             <SortableTH sortKey={'[invoiceAccount][email]'} onClick={orderBy}>
                 이름
             </SortableTH>
-            <SortableTH sortKey={'[invoiceAccount][holdingMember][name]'} onClick={orderBy}>
-                담당자
-            </SortableTH>
+            <th>구독 수</th>
+            {/*<SortableTH sortKey={'[invoiceAccount][holdingMember][name]'} onClick={orderBy}>*/}
+            {/*    담당자*/}
+            {/*</SortableTH>*/}
+            <th>비고</th>
             <th />
         </tr>
     );
