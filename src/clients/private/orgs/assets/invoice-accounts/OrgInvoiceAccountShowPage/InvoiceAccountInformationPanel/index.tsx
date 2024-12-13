@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {useCurrentInvoiceAccountEdit} from '../atom';
 import {EditButton} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/CardInformationPanel/EditButton';
 import {FormControl} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/CardInformationPanel/FormControl';
@@ -6,10 +6,26 @@ import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {InvoiceAccountMemo} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage/InvoiceAccountInformationPanel/InvoiceAccountMemo';
 import {InvoiceAccountEmail} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage/InvoiceAccountInformationPanel/InvoiceAccountEmail';
 import {InvoiceAccountHoldingMemberId} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage/InvoiceAccountInformationPanel/InvoiceAccountHoldingMemberId';
+import {InvoiceAccountTeamList} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage/InvoiceAccountInformationPanel/InvoiceAccountTeamList';
+import {useTeamTagListInInvoiceAccountDetail} from '^models/TeamInvoiceAccount/hook';
 
 export const InvoiceAccountInformationPanel = memo(function InvoiceAccountInformationPanel() {
     const {currentInvoiceAccount, formData, setFormValue, onSubmit, patch, isEditMode, setIsEditMode, isLoading} =
         useCurrentInvoiceAccountEdit();
+
+    const {search, result} = useTeamTagListInInvoiceAccountDetail();
+
+    useEffect(() => {
+        if (!currentInvoiceAccount) return;
+
+        search({
+            relations: ['team'],
+            where: {invoiceAccountId: currentInvoiceAccount.id},
+            itemsPerPage: 0,
+        });
+    }, [currentInvoiceAccount?.id]);
+
+    const {items} = result;
 
     if (!currentInvoiceAccount) return <></>;
 
@@ -40,6 +56,8 @@ export const InvoiceAccountInformationPanel = memo(function InvoiceAccountInform
                         defaultValue={formData.email || undefined}
                         onChange={(email) => setFormValue({email})}
                     />
+
+                    <InvoiceAccountTeamList defaultValue={items} />
 
                     <InvoiceAccountHoldingMemberId
                         isEditMode={isEditMode}
