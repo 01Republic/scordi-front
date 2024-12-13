@@ -12,11 +12,12 @@ import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {InvoiceAccountSubscriptionTableHeader} from './InvoiceAccountSubscriptionTableHeader';
 import {InvoiceAccountSubscriptionTableRow} from './InvoiceAccountSubscriptionTableRow';
 import {InvoiceAccountAddSubscriptionModal} from './InvoiceAccountAddSubscriptionModal';
+import {useUnmount} from '^hooks/useUnmount';
 
 export const SubscriptionListOfInvoiceAccountTabContent = memo(function SubscriptionListOfInvoiceAccountTabContent() {
     const {currentInvoiceAccount, reload: reloadCurrentInvoiceAccount} = useCurrentInvoiceAccount();
     const [isAddSubscriptionModalOpened, setAddSubscriptionModalOpened] = useState(false);
-    const {isLoading, isEmptyResult, search, result, reload, movePage, changePageSize, orderBy} =
+    const {isLoading, isEmptyResult, search, result, reload, movePage, changePageSize, orderBy, reset} =
         useSubscriptionListOfInvoiceAccount();
 
     const onReady = () => {
@@ -43,6 +44,7 @@ export const SubscriptionListOfInvoiceAccountTabContent = memo(function Subscrip
         onReady();
     }, [currentInvoiceAccount]);
 
+    useUnmount(() => reset());
     if (!currentInvoiceAccount) return <></>;
 
     const refresh = () => Promise.allSettled([reload(), reloadCurrentInvoiceAccount()]);
