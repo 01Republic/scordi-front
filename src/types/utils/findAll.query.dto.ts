@@ -1,7 +1,8 @@
 import {PaginationDto} from './pagination.dto';
-import {FindOptionsOrder, FindOptionsWhere, FindOptionsWhereValue} from './find-options';
+import {FindOptionsOrder, FindOptionsRelations, FindOptionsWhere, FindOptionsWhereValue} from './find-options';
 
 export class FindAllQueryDto<T> extends PaginationDto {
+    // relations?: FindOptionsRelations<T>;
     relations?: string[];
     // where?: {[P in keyof T]?: T[P] | 'NULL' | {op: 'not'; val: T[P] | 'NULL'}};
     where?: FindOptionsWhere<T>;
