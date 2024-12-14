@@ -5,7 +5,7 @@ import {VendorManagerDto} from '^models/VendorManager/type';
 // 파트너 벤더사
 export class VendorCompanyDto {
     id: number; // ID
-    organizationId: number | null; // 조직 ID
+    organizationId: number; // 조직 ID
     name: string; // 이름
     profileImgUrl: string | null; // 프로필이미지주소
     @TypeCast(() => Date) createdAt: Date; // 생성일시
