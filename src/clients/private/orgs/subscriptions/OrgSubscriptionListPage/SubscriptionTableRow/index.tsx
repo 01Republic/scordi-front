@@ -13,6 +13,7 @@ import {subscriptionApi} from '^models/Subscription/api';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {debounce} from 'lodash';
+import {eventCut} from '^utils/event';
 
 interface SubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -107,32 +108,27 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
             {/*</td>*/}
 
             {/* Actions */}
-
             <td className="cursor-pointer">
-                <Dropdown
-                    placement="bottom-end"
-                    Trigger={() => <IoIosMore fontSize={20} />}
-                    Content={() => {
-                        return (
-                            <ul
-                                className="dropdown-content menu p-0 shadow-lg bg-base-100 rounded-btn border border-gray-200 min-w-[8rem]"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    e.preventDefault();
-                                }}
-                            >
-                                <li>
-                                    <a
-                                        className="p-2 text-red-500 bg-red-50 hover:text-red-700 hover:bg-red-100 focus:bg-red-100 active:bg-red-100"
-                                        onClick={() => onDelete(subscription)}
-                                    >
-                                        삭제하기
-                                    </a>
-                                </li>
-                            </ul>
-                        );
-                    }}
-                />
+                <Dropdown placement="bottom-end" Trigger={() => <IoIosMore fontSize={20} />}>
+                    {({hide}) => (
+                        <ul
+                            className="dropdown-content menu p-0 shadow-lg bg-base-100 rounded-btn border border-gray-200 min-w-[8rem]"
+                            onClick={eventCut}
+                        >
+                            <li>
+                                <a
+                                    className="p-2 text-red-500 bg-red-50 hover:text-red-700 hover:bg-red-100 focus:bg-red-100 active:bg-red-100"
+                                    onClick={() => {
+                                        hide();
+                                        onDelete(subscription);
+                                    }}
+                                >
+                                    삭제하기
+                                </a>
+                            </li>
+                        </ul>
+                    )}
+                </Dropdown>
             </td>
         </tr>
     );
