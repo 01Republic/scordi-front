@@ -2,7 +2,6 @@ import React, {memo} from 'react';
 import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {
     BillingCycleTypeColumn,
-    IsFreeTierColumn,
     LatestPayAmount,
 } from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
 import {Dropdown} from '^v3/share/Dropdown';
@@ -41,9 +40,9 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
             </td>
 
             {/* 유/무료 */}
-            <td>
-                <IsFreeTierColumn subscription={subscription} onChange={reload} />
-            </td>
+            {/*<td>*/}
+            {/*    <IsFreeTierColumn subscription={subscription} onChange={reload} />*/}
+            {/*</td>*/}
 
             {/* 상태 */}
             {/*<td className="">*/}
