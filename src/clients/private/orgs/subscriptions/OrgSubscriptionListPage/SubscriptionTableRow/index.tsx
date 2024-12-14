@@ -1,19 +1,24 @@
 import React, {memo} from 'react';
-import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {toast} from 'react-hot-toast';
+import {debounce} from 'lodash';
+import {errorToast} from '^api/api';
+import {eventCut} from '^utils/event';
+import {IoIosMore} from 'react-icons/io';
 import {
     BillingCycleTypeColumn,
     LatestPayAmount,
 } from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
 import {Dropdown} from '^v3/share/Dropdown';
-import {IoIosMore} from 'react-icons/io';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
-import {SubscriptionProfile, PayMethodSelect, MemberCount} from '^models/Subscription/components';
+import {
+    SubscriptionProfile,
+    PayMethodSelect,
+    MemberCount,
+    SubscriptionUsingStatusTag,
+} from '^models/Subscription/components';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {subscriptionApi} from '^models/Subscription/api';
-import {toast} from 'react-hot-toast';
-import {errorToast} from '^api/api';
-import {debounce} from 'lodash';
-import {eventCut} from '^utils/event';
 
 interface SubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -46,9 +51,9 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
             {/*</td>*/}
 
             {/* 상태 */}
-            {/*<td className="">*/}
-            {/*    <SubscriptionStatus subscription={subscription} reload} />*/}
-            {/*</td>*/}
+            <td className="">
+                <SubscriptionUsingStatusTag value={subscription.usingStatus} />
+            </td>
 
             {/* 결제주기 */}
             <td>
