@@ -40,7 +40,9 @@ export class SubscriptionDto {
     pricingModel: PricingModelOptions; // 과금 방식
     connectMethod: SubscriptionConnectMethod; // 연동 방식
 
-    @TypeCast(() => Date) registeredAt?: Date | null; // 사용 시작일
+    @TypeCast(() => Date) registeredAt?: Date | null; // 스코디 연동 시작일
+    @TypeCast(() => Date) startAt?: Date | null; // 구독시작일
+    @TypeCast(() => Date) finishAt?: Date | null; // 구독종료일
     nextBillingDate: string | null; // 다음결제일
     nextBillingAmount: number; // 결제예정금액
     nextComputedBillingDate: string | null; // 다음결제일 (최종 계산결과)
