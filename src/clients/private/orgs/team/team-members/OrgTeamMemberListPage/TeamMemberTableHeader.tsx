@@ -25,7 +25,7 @@ export const TeamMemberTableHeader = memo((props: TeamMemberTableHeaderProps) =>
 
             <th>이메일</th>
             <th>전화번호</th>
-
+            <th>비고</th>
             {/*/!* 권한 *!/*/}
             {/*<th />*/}
             {/*<SortableTH sortKey="[membership][level]" onClick={onSort} className="justify-center">*/}

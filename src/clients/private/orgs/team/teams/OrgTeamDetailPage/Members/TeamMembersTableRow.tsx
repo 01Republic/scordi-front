@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {TeamMemberDto} from '^models/TeamMember';
+import {teamMemberApi, TeamMemberDto, UpdateTeamMemberDto} from '^models/TeamMember';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 import {OrgTeamMemberShowPageRoute} from '^pages/orgs/[id]/teamMembers/[teamMemberId]';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
@@ -10,6 +10,9 @@ import {useRecoilValue} from 'recoil';
 import {orgIdParamState, teamIdParamState} from '^atoms/common';
 import {confirm2} from '^components/util/dialog';
 import {toast} from 'react-hot-toast';
+import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
+import {errorToast} from '^api/api';
+import {debounce} from 'lodash';
 
 interface TeamMemberTableRowProps {
     teamMember?: TeamMemberDto;
@@ -27,6 +30,14 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
     const showPagePath = OrgTeamMemberShowPageRoute.path(teamMember.organizationId, teamMember.id);
 
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
+
+    const update = debounce((dto: UpdateTeamMemberDto) => {
+        return teamMemberApi
+            .update(orgId, teamMember.id, {notes: dto.notes})
+            .then(() => toast.success('변경사항을 저장했어요.'))
+            .catch(errorToast)
+            .finally(() => reload && reload());
+    }, 250);
 
     const onDelete = () => {
         confirm2(
@@ -66,6 +77,17 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
                 </OpenButtonColumn>
             </td>
 
+            {/* 구독 수 */}
+            <td className={`cursor-pointer ${hoverBgColor}`} onClick={() => onClick && onClick(teamMember)}>
+                <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
+                    {teamMember.subscriptionCount > 0 ? (
+                        <small>{teamMember.subscriptionCount.toLocaleString()} Apps</small>
+                    ) : (
+                        <small>-</small>
+                    )}
+                </p>
+            </td>
+
             {/* 이메일 */}
             <td className={`cursor-pointer ${hoverBgColor}`} onClick={() => onClick && onClick(teamMember)}>
                 <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
@@ -80,21 +102,21 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
                 </p>
             </td>
 
-            {/* 이용 앱 수 */}
-            <td className={`cursor-pointer ${hoverBgColor}`} onClick={() => onClick && onClick(teamMember)}>
-                <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
-                    {teamMember.subscriptionCount > 0 ? (
-                        <small>{teamMember.subscriptionCount.toLocaleString()} Apps</small>
-                    ) : (
-                        <small>-</small>
-                    )}
-                </p>
-            </td>
-
             {/* 권한 */}
             {/*<td className={`cursor-pointer ${hoverBgColor}`}>*/}
             {/*    <TeamMemberTag teamMember={teamMember} onChange={() => reload && reload()} />*/}
             {/*</td>*/}
+
+            {/* 비고 */}
+            <td className={`cursor-pointer ${hoverBgColor} `} onClick={() => onClick && onClick(teamMember)}>
+                <AirInputText
+                    defaultValue={teamMember.notes || undefined}
+                    onChange={async (notes) => {
+                        if (teamMember.notes === notes) return;
+                        return update({notes});
+                    }}
+                />
+            </td>
 
             <td className={`${hoverBgColor}`}>
                 <div className="flex items-center justify-end">

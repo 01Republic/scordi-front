@@ -28,7 +28,7 @@ export const DeleteInvoiceAccountButton = memo(function DeleteInvoiceAccountButt
                 if (!r.isConfirmed) throw new Error('삭제를 취소했어요.');
             })
             .then(() => invoiceAccountApi.destroy(organizationId, id))
-            .then(() => toast.success(`${currentInvoiceAccount.email} 청구서 메일을 삭제했어요.`))
+            .then(() => toast.success(`${currentInvoiceAccount.email} \n청구서 메일을 삭제했어요.`))
             .then(() => router.replace(OrgInvoiceAccountListPageRoute.path(organizationId)))
             .catch((e) => console.log(e.message));
     };

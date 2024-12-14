@@ -11,6 +11,7 @@ import {FiMinusCircle} from '^components/react-icons';
 import {useRecoilValue} from 'recoil';
 import {teamIdParamState} from '^atoms/common';
 import {confirm2} from '^components/util/dialog';
+import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 
 interface TeamPaymentTableRowProps {
     creditCard?: CreditCardDto;
@@ -75,6 +76,17 @@ export const TeamPaymentTableRow = memo((props: TeamPaymentTableRowProps) => {
                     }}
                     optionListBoxTitle="소지자를 변경할까요?"
                     detachableOptionBoxTitle="현재 소지자"
+                />
+            </td>
+
+            {/* 비고 */}
+            <td className={`${hoverBgColor}`}>
+                <AirInputText
+                    defaultValue={creditCard.memo || undefined}
+                    onChange={async (memo) => {
+                        if (creditCard.memo === memo) return;
+                        return update({memo});
+                    }}
                 />
             </td>
 

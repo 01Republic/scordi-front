@@ -34,6 +34,7 @@ export const TeamMemberSubscription = memo(function TeamMemberSubscription() {
 
     const onReady = () => {
         search({
+            relations: ['creditCard'],
             where: {
                 organizationId: teamMember.organizationId,
                 // @ts-ignore

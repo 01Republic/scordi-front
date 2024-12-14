@@ -1,13 +1,13 @@
 import React, {memo} from 'react';
-import {TeamDto} from '^models/Team/type';
 import {TeamTag} from '^models/Team/components/TeamTag';
-import {FormControlEmptyValue} from './FormControlEmptyValue';
+import {FormControlEmptyValue} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/CardInformationPanel/FormControlEmptyValue';
+import {TeamInvoiceAccountDto} from '^models/TeamInvoiceAccount/type';
 
-interface CreditCardTeamProps {
-    defaultValue?: TeamDto[];
+interface InvoiceAccountTeamProps {
+    defaultValue?: TeamInvoiceAccountDto[];
 }
 
-export const CreditCardTeam = memo((props: CreditCardTeamProps) => {
+export const InvoiceAccountTeamList = memo((props: InvoiceAccountTeamProps) => {
     const {defaultValue} = props;
 
     return (
@@ -17,8 +17,8 @@ export const CreditCardTeam = memo((props: CreditCardTeamProps) => {
             <div className="col-span-3">
                 <div className={`w-full flex items-center h-[32px] gap-1`}>
                     {defaultValue?.length ? (
-                        defaultValue.map((creditCardTeam, i) => (
-                            <TeamTag key={i} id={creditCardTeam.id} name={creditCardTeam.name} />
+                        defaultValue.map((teamInvoiceAccount, i) => (
+                            <TeamTag key={i} id={teamInvoiceAccount.teamId} name={teamInvoiceAccount.team?.name} />
                         ))
                     ) : (
                         <FormControlEmptyValue />
@@ -28,4 +28,4 @@ export const CreditCardTeam = memo((props: CreditCardTeamProps) => {
         </label>
     );
 });
-CreditCardTeam.displayName = 'CreditCardTeam';
+InvoiceAccountTeamList.displayName = 'CreditCardTeam';

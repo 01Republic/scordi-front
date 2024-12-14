@@ -16,7 +16,7 @@ export const InvoiceAccountProfilePanel = memo(function InvoiceAccountProfilePan
                 <div>
                     <Avatar
                         src={currentInvoiceAccount.image || ''}
-                        className={`w-14 outline outline-offset-2 outline-2 ${
+                        className={`w-14 h-14 outline outline-offset-2 outline-2 ${
                             currentInvoiceAccount.isManuallyCreated ? 'outline-slate-200' : 'outline-blue-400'
                         }`}
                     />
@@ -35,18 +35,18 @@ export const InvoiceAccountProfilePanel = memo(function InvoiceAccountProfilePan
                         </div>
                     )}
 
-                    <div className="mt-2 mb-4">
-                        <KeyValue label="팀" value={<InvoiceAccountTeamList />} />
-                        <KeyValue
-                            label="구독"
-                            value={
-                                <p className="text-14">
-                                    <span>{currentInvoiceAccount.subscriptions?.length.toLocaleString()}</span>
-                                    <small className="text-gray-400 ml-1">apps</small>
-                                </p>
-                            }
-                        />
-                    </div>
+                    {/*<div className="mt-2 mb-4">*/}
+                    {/*    <KeyValue label="팀" value={<InvoiceAccountTeamList />} />*/}
+                    {/*    <KeyValue*/}
+                    {/*        label="구독"*/}
+                    {/*        value={*/}
+                    {/*            <p className="text-14">*/}
+                    {/*                <span>{currentInvoiceAccount.subscriptions?.length.toLocaleString()}</span>*/}
+                    {/*                <small className="text-gray-400 ml-1">apps</small>*/}
+                    {/*            </p>*/}
+                    {/*        }*/}
+                    {/*    />*/}
+                    {/*</div>*/}
                 </div>
             </div>
         </div>

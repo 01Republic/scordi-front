@@ -18,6 +18,7 @@ export const TeamPaymentTableHeader = memo((props: TeamPaymentTableHeaderProps) 
             <SortableTH sortKey={'[creditCard][holdingMember][name]'} onClick={orderBy}>
                 소지자
             </SortableTH>
+            <th>비고</th>
 
             <th />
         </tr>

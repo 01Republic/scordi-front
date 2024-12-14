@@ -9,9 +9,11 @@ export const InvoiceAccountSubscriptionTableHeader = memo((props: ListTableHeade
             <th>서비스 명</th>
             {/*<th>구독상태</th>*/}
             <th>결제주기</th>
-            <th className="text-center">최신 청구액</th>
+            <th className="text-center">결제금액</th>
             <th>갱신일</th>
-            <th>소지자</th>
+            {/*<th>소지자</th>*/}
+            <th>연결된 결제수단</th>
+            <th>비고</th>
             <th />
         </tr>
     );

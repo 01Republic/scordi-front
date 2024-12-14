@@ -13,6 +13,7 @@ import {MoneyDto} from '^models/Money';
 import {BillingCycleTerm, Locale, SubscriptionBillingCycleDto, t_BillingCycleTerm} from './billingCycleType';
 import {ConnectStatus} from './ConnectStatus';
 import {SubscriptionStatus} from './SubscriptionStatus';
+import {SubscriptionUsingStatus} from './SubscriptionUsingStatus.enum';
 import {SubscriptionPaymentPlanDto} from './paymentPlanType';
 import {BillingCycleOptions, t_SubscriptionBillingCycleType} from '^models/Subscription/types/BillingCycleOptions';
 import {PricingModelOptions} from '^models/Subscription/types/PricingModelOptions';
@@ -23,7 +24,8 @@ import {VendorCompanyDto} from '^models/VendorCompany/type';
 export class SubscriptionDto {
     id: number;
     connectStatus: ConnectStatus; // 연동상태
-    status: SubscriptionStatus; // 구독 상태
+    status: SubscriptionStatus; // 구독 상태 (구, deprecated)
+    readonly usingStatus: SubscriptionUsingStatus; // 구독 상태 (신) - 미정, 무료, 유료, 해지
     alias: string; // 별칭
     desc: string | null; // 메모
     isActive: boolean; // 활성화 여부
@@ -38,7 +40,9 @@ export class SubscriptionDto {
     pricingModel: PricingModelOptions; // 과금 방식
     connectMethod: SubscriptionConnectMethod; // 연동 방식
 
-    @TypeCast(() => Date) registeredAt?: Date | null; // 사용 시작일
+    @TypeCast(() => Date) registeredAt?: Date | null; // 스코디 연동 시작일
+    @TypeCast(() => Date) startAt?: Date | null; // 구독시작일
+    @TypeCast(() => Date) finishAt?: Date | null; // 구독종료일
     nextBillingDate: string | null; // 다음결제일
     nextBillingAmount: number; // 결제예정금액
     nextComputedBillingDate: string | null; // 다음결제일 (최종 계산결과)

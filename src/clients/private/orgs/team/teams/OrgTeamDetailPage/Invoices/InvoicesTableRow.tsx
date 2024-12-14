@@ -13,6 +13,7 @@ import {toast} from 'react-hot-toast';
 import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[invoiceAccountId]';
 import {teamInvoiceAccountApi} from '^models/TeamInvoiceAccount/api';
 import {confirm2} from '^components/util/dialog';
+import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 
 interface InvoicesTableRowProps {
     teamInvoiceAccount: TeamInvoiceAccountDto;
@@ -25,6 +26,7 @@ export const InvoicesTableRow = memo((props: InvoicesTableRowProps) => {
     const orgId = useRecoilValue(orgIdParamState);
 
     const {invoiceAccountId, invoiceAccount} = teamInvoiceAccount;
+
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
 
     const update = async (dto: UpdateInvoiceAccountDto) => {
@@ -34,7 +36,6 @@ export const InvoicesTableRow = memo((props: InvoicesTableRowProps) => {
             .catch((e) => toast.error(e.response.data.message))
             .finally(() => reload && reload());
     };
-
     const onDelete = () => {
         confirm2(
             `청구서 메일 연결을 해제할까요?`,
@@ -71,16 +72,37 @@ export const InvoicesTableRow = memo((props: InvoicesTableRowProps) => {
                 </OpenButtonColumn>
             </td>
 
+            {/*구독 수*/}
+            <td>
+                <div>
+                    <p className="text-14">
+                        {invoiceAccount.subscriptions?.length.toLocaleString()}{' '}
+                        <small className="font-light">apps</small>
+                    </p>
+                </div>
+            </td>
+
+            {/* 비고 */}
             <td className={`${hoverBgColor}`}>
-                <TeamMemberSelectColumn
-                    defaultValue={invoiceAccount.holdingMember}
-                    onChange={(holdingMember) => {
-                        if (invoiceAccount?.holdingMemberId === holdingMember?.id) return;
-                        return update({holdingMemberId: holdingMember?.id || null});
+                <AirInputText
+                    defaultValue={invoiceAccount.memo || undefined}
+                    onChange={async (memo) => {
+                        if (invoiceAccount.memo === memo) return;
+                        return update({memo});
                     }}
-                    compactView
                 />
             </td>
+
+            {/*<td className={`${hoverBgColor}`}>*/}
+            {/*    <TeamMemberSelectColumn*/}
+            {/*        defaultValue={invoiceAccount.holdingMember}*/}
+            {/*        onChange={(holdingMember) => {*/}
+            {/*            if (invoiceAccount?.holdingMemberId === holdingMember?.id) return;*/}
+            {/*            return update({holdingMemberId: holdingMember?.id || null});*/}
+            {/*        }}*/}
+            {/*        compactView*/}
+            {/*    />*/}
+            {/*</td>*/}
 
             <td className={`${hoverBgColor}`}>
                 <div className="flex items-center justify-end">

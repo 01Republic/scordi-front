@@ -3,6 +3,7 @@ import {
     CreateSubscriptionByInvoicesRequestDto,
     CreateSubscriptionRequestDto,
     FindAllSubscriptionsQuery,
+    FindOneSubscriptionQueryDto,
     UpdateSubscriptionRequestDto,
     CreateSubscriptionRequestDto2,
 } from 'src/models/Subscription/types';
@@ -22,9 +23,9 @@ export const subscriptionApi = {
         return api.get<Paginated<SubscriptionDto>>(url, {params}).then(paginatedDtoOf(SubscriptionDto));
     },
 
-    show: (id: number) => {
+    show: (id: number, params?: FindOneSubscriptionQueryDto) => {
         const url = `/${NAMESPACE}/${id}`;
-        return api.get<SubscriptionDto>(url).then(oneDtoOf(SubscriptionDto));
+        return api.get<SubscriptionDto>(url, {params}).then(oneDtoOf(SubscriptionDto));
     },
 
     create: (dto: CreateSubscriptionRequestDto) => {

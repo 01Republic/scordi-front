@@ -26,7 +26,7 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
     const createSubscription = () => {
         subscriptionApi.create(formData).then((res) => {
             const subscription = res.data;
-            toast.success(`${currentConnectingProduct?.desc} 구독을 등록했어요.`);
+            toast.success(`${currentConnectingProduct?.nameKo} 구독을 등록했어요.`);
             setTeamMembers([]);
             clearFormData();
             const nextProduct = finishProduct(subscription.productId);
