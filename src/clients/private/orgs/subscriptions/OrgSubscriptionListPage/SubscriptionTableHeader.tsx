@@ -26,9 +26,7 @@ export const SubscriptionTableHeader = memo((props: SubscriptionTableHeaderProps
             {/*</SortableTH>*/}
 
             {/* [결제주기] subscription.billingCycleType: BillingCycleOptions */}
-            <SortableTH sortKey="[billingCycleType]" onClick={orderBy}>
-                결제주기
-            </SortableTH>
+            <SortableTH>결제주기</SortableTH>
 
             {/* [과금방식] subscription.pricingModel: PricingModelOptions */}
             {/*<SortableTH sortKey="[pricingModel]" onClick={orderBy}>*/}
