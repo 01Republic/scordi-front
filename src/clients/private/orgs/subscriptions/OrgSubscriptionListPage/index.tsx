@@ -7,7 +7,7 @@ import {FiDownload} from 'react-icons/fi';
 import {orgIdParamState} from '^atoms/common';
 import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
-import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {ListTable, ListTableContainer, ListTablePaginator} from '^clients/private/_components/table/ListTable';
 import {LinkTo} from '^components/util/LinkTo';
 import {confirm2} from '^components/util/dialog';
 import {useSubscriptionTableListAtom} from '^models/Subscription/hook';
@@ -16,6 +16,7 @@ import {SubscriptionDto} from '^models/Subscription/types';
 import {SubscriptionScopeHandler} from './SubscriptionScopeHandler';
 import {SubscriptionTableHeader} from './SubscriptionTableHeader';
 import {SubscriptionTableRow} from './SubscriptionTableRow';
+import {CurrencyToggle} from '^tasting/CurrencyToggle';
 
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -100,7 +101,20 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
                 isEmptyResult={isEmptyResult}
                 emptyMessage="조회된 구독이 없어요."
                 EmptyButtons={AddSubscriptionButton}
+                hideTopPaginator
             >
+                <div className="flex items-center justify-between mb-4">
+                    <div>
+                        <CurrencyToggle leftText={''} rightText={'원화로 보기'} className={'font-medium'} />
+                    </div>
+                    <ListTablePaginator
+                        pagination={result.pagination}
+                        movePage={movePage}
+                        onChangePerPage={changePageSize}
+                        unit="개"
+                    />
+                </div>
+
                 <ListTable
                     items={result.items}
                     isLoading={isLoading}
