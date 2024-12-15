@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {VendorManagerDto} from '^models/VendorManager/type';
+import {VendorManagerDto} from '^models/vendor/VendorManager/type';
 import {Avatar} from '^components/Avatar';
 import {getColor} from '^components/util/palette';
 

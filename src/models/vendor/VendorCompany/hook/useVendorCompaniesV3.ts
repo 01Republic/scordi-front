@@ -1,6 +1,6 @@
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
-import {FindAllVendorCompaniesQueryDto, VendorCompanyDto} from '^models/VendorCompany/type';
-import {vendorCompanyApi} from '^models/VendorCompany/api';
+import {FindAllVendorCompaniesQueryDto, VendorCompanyDto} from '^models/vendor/VendorCompany/type';
+import {vendorCompanyApi} from '^models/vendor/VendorCompany/api';
 
 export const useVendorCompaniesV3 = (
     atoms: PagedResourceAtoms<VendorCompanyDto, FindAllVendorCompaniesQueryDto>,

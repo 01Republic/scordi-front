@@ -18,8 +18,8 @@ import {SubscriptionPaymentPlanDto} from './paymentPlanType';
 import {BillingCycleOptions, t_SubscriptionBillingCycleType} from '^models/Subscription/types/BillingCycleOptions';
 import {PricingModelOptions} from '^models/Subscription/types/PricingModelOptions';
 import {SubscriptionConnectMethod} from '^models/Subscription/types/ConnectMethod';
-import {VendorManagerDto} from '^models/VendorManager/type';
-import {VendorCompanyDto} from '^models/VendorCompany/type';
+import {VendorManagerDto} from '^models/vendor/VendorManager/type';
+import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
 
 export class SubscriptionDto {
     id: number;

@@ -1,10 +1,10 @@
 import React, {memo, useEffect} from 'react';
-import {UpsertVendorManagerRequestDto, VendorManagerDto} from '^models/VendorManager/type';
+import {UpsertVendorManagerRequestDto, VendorManagerDto} from '^models/vendor/VendorManager/type';
 import {SwalForm} from '^components/util/dialog/swal-form';
 import {useForm} from 'react-hook-form';
 import {debounce} from 'lodash';
-import {VendorCompanyDto} from '^models/VendorCompany/type';
-import {vendorManagerApi} from '^models/VendorManager/api';
+import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
+import {vendorManagerApi} from '^models/vendor/VendorManager/api';
 import {toast} from 'react-hot-toast';
 import Swal from 'sweetalert2';
 

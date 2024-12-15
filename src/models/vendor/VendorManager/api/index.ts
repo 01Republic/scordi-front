@@ -4,7 +4,7 @@ import {
     CreateVendorManagerRequestDto,
     UpsertVendorManagerRequestDto,
     VendorManagerDto,
-} from '^models/VendorManager/type';
+} from '^models/vendor/VendorManager/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 
 export const vendorManagerApi = {

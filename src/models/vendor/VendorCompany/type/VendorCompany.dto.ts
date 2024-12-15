@@ -1,6 +1,6 @@
 import {TypeCast} from '^types/utils/class-transformer';
 import {OrganizationDto} from '^models/Organization/type';
-import {VendorManagerDto} from '^models/VendorManager/type';
+import {VendorManagerDto} from '^models/vendor/VendorManager/type';
 
 // 파트너 벤더사
 export class VendorCompanyDto {

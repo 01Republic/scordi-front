@@ -1,15 +1,15 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilState} from 'recoil';
 import {MonoSelectInput} from '^components/ui/inputs/MonoSelect/MonoSelectInput';
-import {VendorCompanyDto} from '^models/VendorCompany/type';
-import {VendorManagerDto} from '^models/VendorManager/type';
+import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
+import {VendorManagerDto} from '^models/vendor/VendorManager/type';
 import {createSubscriptionFormData} from '../../atom';
 import {InputSection} from '../InputSection';
 import {VendorCompanySelectModal} from './VendorCompanySelectModal';
 import {VendorManagerSelectModal} from './VendorManagerSelectModal';
-import {useVendorCompanyListInCreateSubscription} from '^models/VendorCompany/hook';
-import {useVendorManagerListInCreateSubscription} from '^models/VendorManager/hook';
-import {VendorManagerProfile} from '^models/VendorManager/components/VendorManagerProfile';
+import {useVendorCompanyListInCreateSubscription} from '^models/vendor/VendorCompany/hook';
+import {useVendorManagerListInCreateSubscription} from '^models/vendor/VendorManager/hook';
+import {VendorManagerProfile} from '^models/vendor/VendorManager/components/VendorManagerProfile';
 
 export const PartnerCompanySelect = memo(function PartnerCompanySelect() {
     const [formData, setFormData] = useRecoilState(createSubscriptionFormData);
