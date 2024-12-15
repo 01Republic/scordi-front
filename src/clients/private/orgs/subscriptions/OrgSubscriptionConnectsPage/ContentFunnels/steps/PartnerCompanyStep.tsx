@@ -12,7 +12,7 @@ import {Steps} from '../steps/steps.enum';
 // [**구독 등록 플로우 (수동) /** 파트너사 정보기입](https://www.notion.so/9182912d9f78451488d9384c3388730e?pvs=21)
 export const PartnerCompanyStep = memo(function PartnerCompanyStep() {
     const [formData, setFormData] = useRecoilState(createSubscriptionFormData);
-    const [activeForm, setActiveForm] = useState(!!formData.vendorCompanyId);
+    const [activeForm, setActiveForm] = useState(!!formData.vendorContract?.vendorCompanyId);
     const setCurrentStep = useSetRecoilState(currentStepAtom);
 
     return (
@@ -26,11 +26,8 @@ export const PartnerCompanyStep = memo(function PartnerCompanyStep() {
                         onChange={(option) => {
                             setActiveForm(option.value);
                             if (!option.value) {
-                                setFormData((f) => ({
-                                    ...f,
-                                    vendorCompanyId: undefined,
-                                    vendorManagerId: undefined,
-                                }));
+                                // option.value 가 사라지면, 값을 초기화 합니다.
+                                setFormData((f) => ({...f, vendorContract: undefined}));
                                 setCurrentStep(Steps.Memo);
                             }
                         }}
