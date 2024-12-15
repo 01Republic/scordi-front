@@ -49,8 +49,11 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
             {/*</td>*/}
 
             {/* 상태 */}
-            <td className="">
-                <SubscriptionUsingStatusTag value={subscription.usingStatus} />
+            <td>
+                <SubscriptionUsingStatusTag
+                    value={subscription.usingStatus}
+                    className="no-selectable !cursor-default"
+                />
             </td>
 
             {/* 결제주기 */}
