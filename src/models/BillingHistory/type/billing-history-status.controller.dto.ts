@@ -96,11 +96,21 @@ export class BillingHistoriesYearlySumBySubscriptionDto extends BillingHistories
 
 // 구독의 '단위 월' 합계 금액
 class BillingHistoriesMonthlySumItemDto extends BillingHistoriesSumItemDto {
-    issuedYearMonth: number;
+    issuedYearMonth: string;
 }
 
 // 구독의 월별 합계 금액 내역
 export class BillingHistoriesMonthlySumBySubscriptionDto extends BillingHistoriesSumBySubscriptionDto {
     @TypeCast(() => BillingHistoriesMonthlySumItemDto)
     items: BillingHistoriesMonthlySumItemDto[];
+
+    findOfMonth(year: number, month: number) {
+        if (month < 1) return undefined;
+
+        const targetMonth = new Date(year, month - 1);
+        return this.items.find((item) => {
+            const issuedMonth = new Date(`${item.issuedYearMonth} `);
+            return issuedMonth.getTime() === targetMonth.getTime();
+        });
+    }
 }
