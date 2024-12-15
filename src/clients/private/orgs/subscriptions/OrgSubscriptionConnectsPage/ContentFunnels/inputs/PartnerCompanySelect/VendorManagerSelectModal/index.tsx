@@ -4,13 +4,13 @@ import {debounce} from 'lodash';
 import {FaChevronLeft} from 'react-icons/fa6';
 import {LoadableBox} from '^components/util/loading';
 import {orgIdParamState} from '^atoms/common';
-import {VendorManagerDto} from '^models/VendorManager/type';
-import {useVendorManagerListInCreateSubscription} from '^models/VendorManager/hook';
+import {VendorManagerDto} from '^models/vendor/VendorManager/type';
+import {useVendorManagerListInCreateSubscription} from '^models/vendor/VendorManager/hook';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {swalHTML} from '^components/util/dialog';
 import {SearchVendorManagerInput} from './SearchVendorManagerInput';
 import {VendorManagerItem} from './VendorManagerItem';
-import {VendorCompanyDto} from '^models/VendorCompany/type';
+import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
 import {VendorManagerUpsertSwalForm} from './VendorManagerUpsertSwalForm';
 
 interface VendorManagerSelectModalProps {

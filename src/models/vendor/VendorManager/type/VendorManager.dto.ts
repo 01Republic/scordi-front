@@ -1,4 +1,4 @@
-import {VendorCompanyDto} from '^models/VendorCompany/type';
+import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
 import {TypeCast} from '^types/utils/class-transformer';
 
 // 파트너 벤더사 담당자

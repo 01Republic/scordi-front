@@ -125,7 +125,7 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
                     onPrev={() => setStep(prev)}
                     onNext={() => setStep(next)}
                     isValid={true}
-                    nextButtonText={!formData.vendorCompanyId ? '건너뛰기' : undefined}
+                    nextButtonText={!formData.vendorContract?.vendorCompanyId ? '건너뛰기' : undefined}
                 />
             );
         case Steps.Memo:

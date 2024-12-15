@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
-import {VendorManagerDto} from '^models/VendorManager/type';
+import {VendorManagerDto} from '^models/vendor/VendorManager/type';
 import {FaCheck, FaChevronRight} from 'react-icons/fa6';
-import {VendorManagerProfile} from '^models/VendorManager/components/VendorManagerProfile';
+import {VendorManagerProfile} from '^models/vendor/VendorManager/components/VendorManagerProfile';
 
 interface VendorManagerItemProps {
     vendorManager: VendorManagerDto;

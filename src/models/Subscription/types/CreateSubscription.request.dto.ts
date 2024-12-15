@@ -3,6 +3,7 @@ import {SubscriptionStatus} from '^models/Subscription/types/SubscriptionStatus'
 import {CreateMoneyWithSubscriptionRequestDto} from '^models/Money';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
 import {PricingModelOptions} from '^models/Subscription/types/PricingModelOptions';
+import {UpsertVendorContractWithSubscriptionDto} from '^models/vendor/VendorContract/types/UpsertVenderContract.request.dto';
 
 export class CreateSubscriptionRequestDto {
     organizationId: number; // 조직 ID
@@ -45,8 +46,7 @@ export class CreateSubscriptionRequestDto {
     // // usedMemberCount?: number; // 사용중인 사용자 수
 
     invoiceAccountId?: number;
-    vendorCompanyId?: number;
-    vendorManagerId?: number;
+    vendorContract?: UpsertVendorContractWithSubscriptionDto; // 연결하고자 하는 벤더사 데이터
 }
 
 export class CreateSubscriptionRequestDto2 {
