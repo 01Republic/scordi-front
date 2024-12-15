@@ -1,6 +1,15 @@
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import React, {memo, useState} from 'react';
 import {useForm} from 'react-hook-form';
+import {useRecoilValue} from 'recoil';
+import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {VendorCompanySelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PartnerCompanySelect/VendorCompanySelectModal';
+import {VendorManagerSelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PartnerCompanySelect/VendorManagerSelectModal';
+import {useVendorCompanyListInCreateSubscription} from '^models/VendorCompany/hook';
+import {useVendorManagerListInCreateSubscription} from '^models/VendorManager/hook';
+import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
+import {VendorManagerDto} from '^models/vendor/VendorManager/type';
 
 type updateSubscriptionBasicInfo = {
     name: string;
@@ -10,23 +19,61 @@ type updateSubscriptionBasicInfo = {
 };
 
 export const SubscriptionBusinessInfoSection = memo(() => {
-    const form = useForm<updateSubscriptionBasicInfo>();
+    const [formData, setFormData] = useState<UpdateSubscriptionRequestDto>({});
     const [isEditMode, setIsEditMode] = useState(false);
+    const verdorCompanyForm = useForm<VendorCompanyDto>({});
+    const vendorManagerForm = useForm<VendorManagerDto>({});
+    const subscription = useRecoilValue(subscriptionSubjectAtom);
+    const [isCompanySelectModalOpened, setIsCompanySelectModalOpened] = useState(false);
+    const [isManagerSelectModalOpened, setIsManagerSelectModalOpened] = useState(false);
+    const {result: searchedCompany} = useVendorCompanyListInCreateSubscription();
+    const {result: searchedManager} = useVendorManagerListInCreateSubscription();
+    const [selectedCompany, setSelectedCompany] = useState<VendorCompanyDto>();
+    const [selectedManager, setSelectedManager] = useState<VendorManagerDto>();
 
-    const onSubmit = (dto: updateSubscriptionBasicInfo) => {
-        console.log(dto);
+    const onCompanyChange = (vendorCompany?: VendorCompanyDto) => {
+        setSelectedCompany(vendorCompany);
+        setFormData((f) => ({
+            ...f,
+            vendorCompanyId: vendorCompany?.id,
+            vendorManagerId: vendorCompany && vendorCompany.id === f.vendorCompanyId ? f.vendorManagerId : undefined,
+        }));
+        if (vendorCompany) {
+            const isChanged = vendorCompany.id !== selectedCompany?.id;
+            if (isChanged) setSelectedManager(undefined);
+            setIsManagerSelectModalOpened(true);
+        } else {
+            setSelectedManager(undefined);
+        }
+    };
+
+    const onManagerChange = (vendorManager?: VendorManagerDto) => {
+        setSelectedManager(vendorManager);
+        setFormData((f) => ({
+            ...f,
+            vendorManagerId: vendorManager?.id,
+        }));
+    };
+
+    const onSubmit = () => {
+        console.log(VendorCompanyDto);
+        console.log(VendorManagerDto);
     };
 
     return (
         <section>
             <div className="card card-bordered bg-white rounded-md relative">
-                <form onSubmit={form.handleSubmit(onSubmit)}>
+                <form>
                     <div className="absolute right-0 top-0 px-8 py-8 flex items-center gap-4">
                         <a className="link text-14" onClick={() => setIsEditMode((v) => !v)}>
                             {isEditMode ? '취소' : '수정'}
                         </a>
 
-                        {isEditMode && <button className="btn btn-sm btn-scordi">저장</button>}
+                        {isEditMode && (
+                            <button className="btn btn-sm btn-scordi" onClick={onSubmit}>
+                                저장
+                            </button>
+                        )}
                     </div>
 
                     <div className="px-8 py-8 border-b">
@@ -35,14 +82,18 @@ export const SubscriptionBusinessInfoSection = memo(() => {
 
                             <FormControl label="거래처" required={isEditMode}>
                                 {isEditMode ? (
-                                    <input
-                                        className="input input-underline !bg-slate-100 w-full"
-                                        {...form.register('name')}
-                                        required
-                                    />
+                                    <a
+                                        className={'input-underline'}
+                                        onClick={() => setIsCompanySelectModalOpened(true)}
+                                    >
+                                        <input
+                                            className="input input-underline !bg-slate-100 w-full"
+                                            value={subscription?.vendorCompany?.name || undefined}
+                                        />
+                                    </a>
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        베스핀글로벌
+                                        {subscription?.vendorCompany?.name}
                                     </div>
                                 )}
                                 <span />
@@ -50,14 +101,19 @@ export const SubscriptionBusinessInfoSection = memo(() => {
 
                             <FormControl label="담당자" required={isEditMode}>
                                 {isEditMode ? (
-                                    <input
-                                        className="input input-underline !bg-slate-100 w-full"
-                                        {...form.register('name')}
-                                        required
-                                    />
+                                    <a
+                                        className={'input-underline'}
+                                        onClick={() => setIsManagerSelectModalOpened(true)}
+                                    >
+                                        <input
+                                            className="input input-underline !bg-slate-100 w-full"
+                                            value={subscription?.vendorManager?.name || undefined}
+                                            required
+                                        />
+                                    </a>
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        심혜림
+                                        {subscription?.vendorManager?.name || '-'}
                                     </div>
                                 )}
                                 <span />
@@ -67,12 +123,12 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                 {isEditMode ? (
                                     <input
                                         className="input input-underline !bg-slate-100 w-full"
-                                        {...form.register('name')}
+                                        value={subscription?.vendorManager?.email || undefined}
                                         required
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        hrim@baespin.io
+                                        {subscription?.vendorManager?.email || '-'}
                                     </div>
                                 )}
                                 <span />
@@ -82,12 +138,11 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                 {isEditMode ? (
                                     <input
                                         className="input input-underline !bg-slate-100 w-full"
-                                        {...form.register('name')}
-                                        required
+                                        value={subscription?.vendorManager?.phone || undefined}
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        010-2482-4541
+                                        {subscription?.vendorManager?.phone || '-'}
                                     </div>
                                 )}
                                 <span />
@@ -97,12 +152,13 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                 {isEditMode ? (
                                     <input
                                         className="input input-underline !bg-slate-100 w-full"
-                                        {...form.register('name')}
+                                        value={subscription?.vendorManager?.jobName || undefined}
                                         required
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        다음 달 매니저님 퇴사 예정중
+                                        {/* TODO 메모 없음 */}
+                                        {subscription?.vendorManager?.jobName || undefined}
                                     </div>
                                 )}
                                 <span />
@@ -111,6 +167,21 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                     </div>
                 </form>
             </div>
+
+            <VendorCompanySelectModal
+                isOpened={isCompanySelectModalOpened}
+                onClose={() => setIsCompanySelectModalOpened(false)}
+                vendorCompanyId={formData.vendorCompanyId}
+                onSelect={onCompanyChange}
+            />
+
+            <VendorManagerSelectModal
+                isOpened={isManagerSelectModalOpened}
+                onClose={() => setIsManagerSelectModalOpened(false)}
+                selectedCompany={selectedCompany}
+                vendorManagerId={formData.vendorManagerId}
+                onSelect={onManagerChange}
+            />
         </section>
     );
 });

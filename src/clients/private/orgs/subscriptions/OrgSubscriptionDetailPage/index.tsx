@@ -10,20 +10,20 @@ import {SubscriptionPaymentTab} from './tabs/SubscriptionPaymentTab';
 import {SubscriptionMemberTab} from './tabs/SubscriptionMemberTab';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
 
 export const OrgSubscriptionDetailPage = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
-    const {currentSubscription} = useCurrentSubscription();
     const [activeTabIndex, setActiveTabIndex] = useState(0);
+    const subscription = useRecoilValue(subscriptionSubjectAtom);
 
     return (
         <ShowPage
             breadcrumb={[
                 '구독',
                 {text: '구독 리스트', active: false, href: OrgSubscriptionListPageRoute.path(orgId)},
-                {text: currentSubscription?.product.name() || '', active: true},
+                {text: subscription?.product.name() || '', active: true},
             ]}
         >
             <header className="flex items-center justify-between pt-8 pb-4">
@@ -33,8 +33,8 @@ export const OrgSubscriptionDetailPage = memo(() => {
                         <div className="flex items-start gap-6">
                             <Avatar
                                 className="w-14 h-14"
-                                src={currentSubscription?.product.image}
-                                alt={currentSubscription?.product.name()}
+                                src={subscription?.product.image}
+                                alt={subscription?.product.name()}
                             >
                                 <FaRegCreditCard size={20} className="h-full w-full p-[6px]" />
                             </Avatar>
@@ -43,16 +43,17 @@ export const OrgSubscriptionDetailPage = memo(() => {
                                 <p
                                     className={`flex gap-2 text-18 font-semibold items-center group-hover:text-scordi leading-none py-1`}
                                 >
-                                    <span className="truncate">{currentSubscription?.product.name()}</span>
+                                    <span className="truncate">{subscription?.product.name()}</span>
                                 </p>
                                 <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 leading-none">
-                                    {currentSubscription?.alias || '별칭이 없습니다'}
+                                    {subscription?.alias || '별칭이 없습니다'}
                                 </p>
 
                                 <div className="flex items-center gap-3 pt-3">
                                     <div>
-                                        <TeamTag id={1} name={'개발팀'} />
-                                        <TeamTag id={1} name={'디자인팀'} />
+                                        {/* TODO: 팀 관련 데이터 없음 */}
+                                        {/*<TeamTag id={1} name={'개발팀'} />*/}
+                                        {/*<TeamTag id={1} name={'디자인팀'} />*/}
                                     </div>
                                 </div>
                             </div>

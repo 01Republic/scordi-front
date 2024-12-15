@@ -37,7 +37,11 @@ export default function Page() {
             subjectIdParamKey="subscriptionId"
             subjectIdParamAtom={subscriptionIdParamState}
             subjectAtom={subscriptionSubjectAtom}
-            endpoint={(subjectId) => subscriptionApi.show(subjectId)}
+            endpoint={(subjectId) =>
+                subscriptionApi.show(subjectId, {
+                    relations: ['organization', 'vendorContracts', 'teamMembers'],
+                })
+            }
         >
             <OrgSubscriptionDetailPage />
         </ShowRoutingPage>

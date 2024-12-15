@@ -55,7 +55,7 @@ export class CreditCardDto {
         if (this.issuerCompany) return this.issuerCompany;
 
         const company = this.company;
-        if (company) return company.displayName.replace('카드', '');
+        if (company) return company.displayName.replace('카드', '').replace('card', '');
     }
 
     get label(): string {
