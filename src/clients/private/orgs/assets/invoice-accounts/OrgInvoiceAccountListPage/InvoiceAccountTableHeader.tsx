@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
+import Tippy from '@tippyjs/react';
+import {BsFillInfoCircleFill} from 'react-icons/bs';
 import {ListTableHeaderProps} from '^clients/private/_components/table/ListTable/types';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
-import {BsFillInfoCircleFill} from 'react-icons/bs';
-import Tippy from '@tippyjs/react';
 
 interface InvoiceAccountTableHeaderProps extends ListTableHeaderProps {
     //
@@ -18,11 +18,14 @@ export const InvoiceAccountTableHeader = memo((props: InvoiceAccountTableHeaderP
                 이름
             </SortableTH>
 
+            {/* 상태 (editable, sortable) */}
+            <th>상태</th>
+
             {/*구독 수*/}
             <th>구독 수</th>
 
             {/*등록방식*/}
-            <th className="flex gap-2">
+            <th className="flex gap-2 items-center justify-center">
                 등록방식
                 <Tippy content="연동된 메일은 구글 로고가 표시됩니다">
                     <div>

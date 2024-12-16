@@ -1,17 +1,17 @@
 import React, {memo} from 'react';
-import {InvoiceAccountDto, UpdateInvoiceAccountDto} from '^models/InvoiceAccount/type';
-import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
-import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
+import {AxiosResponse} from 'axios';
 import {toast} from 'react-hot-toast';
+import {errorToast} from '^api/api';
+import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
+import {TeamDto} from '^models/Team/type';
 import {TeamSelect} from '^models/Team/components/TeamSelect';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
-import {TeamDto} from '^models/Team/type';
-import {AxiosResponse} from 'axios';
-import {errorNotify} from '^utils/toast-notify';
-import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
-import {InvoiceAccountProviderAvatar} from '^models/InvoiceAccount/components/InvoiceAccountProviderAvatar';
+import {InvoiceAccountDto, InvoiceAccountUsingStatus, UpdateInvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {InvoiceAccountProfile, InvoiceAccountProviderAvatar, UsingStatusTag} from '^models/InvoiceAccount/components';
 import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[invoiceAccountId]';
+import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
+import {debounce} from 'lodash';
 
 interface InvoiceAccountTableRowProps {
     invoiceAccount: InvoiceAccountDto;
@@ -22,17 +22,17 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
     const {invoiceAccount, reload} = props;
     const {id, organizationId: orgId, subscriptions = []} = invoiceAccount;
 
-    const update = async (dto: UpdateInvoiceAccountDto) => {
+    const update = debounce((dto: UpdateInvoiceAccountDto) => {
         return invoiceAccountApi
             .updateV3(orgId, id, dto)
             .then(() => toast.success('변경사항을 저장했어요.'))
             .catch(() => toast.error('문제가 발생했어요.'))
             .finally(() => reload && reload());
-    };
+    }, 250);
 
     const setTeam = async (team?: TeamDto) => {
         const handler = (req: Promise<AxiosResponse<any>>) => {
-            req.then(() => toast.success('변경사항을 저장했어요.')).catch(errorNotify);
+            req.then(() => toast.success('변경사항을 저장했어요.')).catch(errorToast);
             // .finally(() => reload && reload());
         };
 
@@ -80,6 +80,27 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
                 </OpenButtonColumn>
             </td>
 
+            {/* 상태 (editable, sortable) */}
+            <td>
+                <SelectColumn
+                    value={invoiceAccount.usingStatus}
+                    getOptions={async () => [
+                        InvoiceAccountUsingStatus.UnDef,
+                        InvoiceAccountUsingStatus.NoUse,
+                        InvoiceAccountUsingStatus.InUse,
+                        InvoiceAccountUsingStatus.Expired,
+                    ]}
+                    onSelect={async (usingStatus: InvoiceAccountUsingStatus) => {
+                        if (usingStatus === invoiceAccount.usingStatus) return;
+                        return update({usingStatus});
+                    }}
+                    ValueComponent={UsingStatusTag}
+                    contentMinWidth="240px"
+                    optionListBoxTitle="사용 상태를 변경합니다"
+                    inputDisplay={false}
+                />
+            </td>
+
             {/*구독 수*/}
             <td>
                 <div>
@@ -90,10 +111,8 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
             </td>
 
             {/*등록방식*/}
-            <td>
-                <div className={'text-center'}>
-                    <InvoiceAccountProviderAvatar invoiceAccount={invoiceAccount} />
-                </div>
+            <td className="text-center">
+                <InvoiceAccountProviderAvatar invoiceAccount={invoiceAccount} />
             </td>
 
             {/*팀 - editable, sortable (mono-select) / 멤버 프로필 / 검색가능 */}

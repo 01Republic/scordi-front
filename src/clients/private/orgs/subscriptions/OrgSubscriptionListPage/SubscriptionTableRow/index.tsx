@@ -4,10 +4,6 @@ import {debounce} from 'lodash';
 import {errorToast} from '^api/api';
 import {eventCut} from '^utils/event';
 import {IoIosMore} from 'react-icons/io';
-import {
-    BillingCycleTypeColumn,
-    LatestPayAmount,
-} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
 import {Dropdown} from '^v3/share/Dropdown';
 import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
@@ -16,9 +12,12 @@ import {
     PayMethodSelect,
     MemberCount,
     SubscriptionUsingStatusTag,
+    LatestPayAmount,
+    NextComputedBillingDateText,
 } from '^models/Subscription/components';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {subscriptionApi} from '^models/Subscription/api';
+import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
 
 interface SubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -51,13 +50,20 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
             {/*</td>*/}
 
             {/* 상태 */}
-            <td className="">
-                <SubscriptionUsingStatusTag value={subscription.usingStatus} />
+            <td>
+                <SubscriptionUsingStatusTag
+                    value={subscription.usingStatus}
+                    className="no-selectable !cursor-default"
+                />
             </td>
 
             {/* 결제주기 */}
             <td>
-                <BillingCycleTypeColumn subscription={subscription} onChange={reload} />
+                <BillingCycleTypeTagUI
+                    value={subscription.billingCycleType}
+                    className="no-selectable !cursor-default"
+                    short
+                />
             </td>
 
             {/* 과금방식: (TestBank: 연, 고정, 사용량, 크레딧, 1인당) */}
@@ -65,18 +71,14 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
             {/*    <PayingType subscription={subscription} onChange={reload} />*/}
             {/*</td>*/}
 
-            {/* 최신 결제금액 */}
+            {/* 결제금액 */}
             <td className="text-right">
-                <LatestPayAmount subscription={subscription} />
+                <LatestPayAmount subscription={subscription} currencyChangeable />
             </td>
 
             {/* 갱신일 */}
             <td className="text-right">
-                {subscription.nextComputedBillingDate ? (
-                    <p className="text-sm">{subscription.nextComputedBillingDate}</p>
-                ) : (
-                    <p className="text-sm text-gray-400">-</p>
-                )}
+                <NextComputedBillingDateText subscription={subscription} />
             </td>
 
             {/* 사용인원 */}

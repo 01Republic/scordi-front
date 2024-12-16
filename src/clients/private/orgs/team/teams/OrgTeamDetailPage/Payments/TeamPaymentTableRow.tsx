@@ -1,17 +1,18 @@
 import React, {memo} from 'react';
+import {useRecoilValue} from 'recoil';
 import {toast} from 'react-hot-toast';
-import {CreditCardDto, UpdateCreditCardDto} from '^models/CreditCard/type';
+import Tippy from '@tippyjs/react';
 import {creditCardApi} from '^models/CreditCard/api';
-import {CreditCardProfileOption2} from '^models/CreditCard/components';
+import {CreditCardDto, CreditCardUsingStatus, UpdateCreditCardDto} from '^models/CreditCard/type';
+import {CreditCardProfileOption2, UsingStatusTag} from '^models/CreditCard/components';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
-import Tippy from '@tippyjs/react';
 import {FiMinusCircle} from '^components/react-icons';
-import {useRecoilValue} from 'recoil';
 import {teamIdParamState} from '^atoms/common';
 import {confirm2} from '^components/util/dialog';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
+import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 
 interface TeamPaymentTableRowProps {
     creditCard?: CreditCardDto;
@@ -66,9 +67,31 @@ export const TeamPaymentTableRow = memo((props: TeamPaymentTableRowProps) => {
                 </OpenButtonColumn>
             </td>
 
+            {/* 상태 (editable, sortable) */}
+            <td>
+                <SelectColumn
+                    value={creditCard.usingStatus}
+                    getOptions={async () => [
+                        CreditCardUsingStatus.UnDef,
+                        CreditCardUsingStatus.NoUse,
+                        CreditCardUsingStatus.InUse,
+                        CreditCardUsingStatus.Expired,
+                    ]}
+                    onSelect={async (usingStatus: CreditCardUsingStatus) => {
+                        if (usingStatus === creditCard.usingStatus) return;
+                        return update({usingStatus});
+                    }}
+                    ValueComponent={UsingStatusTag}
+                    contentMinWidth="240px"
+                    optionListBoxTitle="사용 상태를 변경합니다"
+                    inputDisplay={false}
+                />
+            </td>
+
             {/* 소지자 */}
             <td className={`${hoverBgColor}`}>
                 <TeamMemberSelectColumn
+                    compactView
                     defaultValue={creditCard.holdingMember || undefined}
                     onChange={async (holdingMember) => {
                         if (creditCard.holdingMemberId === holdingMember?.id) return;

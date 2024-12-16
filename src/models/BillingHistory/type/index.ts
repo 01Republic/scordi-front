@@ -44,6 +44,7 @@ export class BillingHistoryDto {
     /**
      * 카드내역 관련
      */
+    cardApproveNo: string | null; // 카드 결제 승인 번호
     isDomestic: boolean | null; // 국내/해외 결제 여부
     isVATDeductible: boolean | null; // 공제/불공제 여부
     @TypeCast(() => MoneyDto) vatAmount: MoneyDto | null; // 부가세
@@ -53,6 +54,14 @@ export class BillingHistoryDto {
     @TypeCast(() => SubscriptionDto) subscription?: SubscriptionDto; // 구독정보
     @TypeCast(() => InvoiceAppDto) invoiceApp?: InvoiceAppDto; // 인보이스 앱
     @TypeCast(() => CreditCardDto) creditCard?: CreditCardDto | null; // 결제 카드
+
+    get isFromCard(): boolean {
+        return !!this.cardApproveNo;
+    }
+
+    get isFromEmail(): boolean {
+        return !this.isFromCard;
+    }
 
     getServiceName() {
         return this.subscription?.product.name();
@@ -66,6 +75,7 @@ export class BillingHistoryDto {
 
     get title() {
         if (this.emailContent) return this.emailContent.title;
+        if (this.isFromCard) return this.paymentMethod;
 
         const serviceName = this.getServiceName();
         const cycleTerm = this.subscription?.getCycleTerm() || null;

@@ -14,26 +14,23 @@ export const TeamMemberSubscriptionTableHeader = memo((props: TeamMemberSubscrip
             {/* Checkbox */}
             {/*<th className="bg-transparent"></th>*/}
             <SortableTH sortKey="[product][nameKo]" onClick={orderBy}>
-                서비스 명
+                서비스명
             </SortableTH>
 
             {/*<SortableTH sortKey="[isFreeTier]" onClick={orderBy}>*/}
             {/*    상태*/}
             {/*</SortableTH>*/}
 
+            {/* [구독상태] subscription.usingStatus: SubscriptionUsingStatus */}
+            <SortableTH>상태</SortableTH>
+
             <SortableTH
-                sortKey="[currentBillingAmount][dollarPrice]"
+                // sortKey="[currentBillingAmount][dollarPrice]"
                 sortVal="DESC"
-                onClick={orderBy}
-                className="justify-end"
+                className="flex items-center justify-end"
             >
                 결제금액
             </SortableTH>
-
-            {/* [구독상태] subscription.status: SubscriptionStatus */}
-            {/*<SortableTH sortKey="[status]" onClick={orderBy}>*/}
-            {/*    <span className="pl-[8px]">상태</span>*/}
-            {/*</SortableTH>*/}
 
             {/* [결제주기] subscription.billingCycleType: BillingCycleOptions */}
             {/*<SortableTH sortKey="[billingCycleType]" onClick={orderBy}>*/}
@@ -45,10 +42,11 @@ export const TeamMemberSubscriptionTableHeader = memo((props: TeamMemberSubscrip
             {/*    과금방식*/}
             {/*</SortableTH>*/}
 
-            <SortableTH sortKey="[creditCard][name]" sortVal="DESC" onClick={orderBy}>
-                연결된 결제수단
-            </SortableTH>
-            <th>비고</th>
+            <SortableTH>연결된 결제수단</SortableTH>
+
+            <SortableTH>연결된 청구서 수신 메일</SortableTH>
+
+            <SortableTH>비고</SortableTH>
 
             {/*<SortableTH sortKey="[usedMemberCount]" sortVal="DESC" onClick={orderBy}>*/}
             {/*    사용인원*/}

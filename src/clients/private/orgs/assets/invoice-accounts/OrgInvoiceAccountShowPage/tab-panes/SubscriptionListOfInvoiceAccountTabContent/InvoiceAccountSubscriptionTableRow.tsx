@@ -1,21 +1,22 @@
-import React, {memo, useEffect} from 'react';
-import {toast} from 'react-hot-toast';
+import React, {memo} from 'react';
 import Tippy from '@tippyjs/react';
+import {toast} from 'react-hot-toast';
 import {BsDashCircle} from 'react-icons/bs';
-import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
-import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
-import {IsFreeTierTagUI} from '^models/Subscription/components/IsFreeTierTagUI';
-import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
-import {MoneySimpleRounded} from '^models/Money/components/money.simple-rounded';
-import {TeamMemberProfileCompact, TeamMemberProfileOption} from '^models/TeamMember/components/TeamMemberProfile';
 import {yyyy_mm_dd} from '^utils/dateTime';
+import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {confirm2} from '^components/util/dialog';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
-import {useCurrentInvoiceAccount} from '../../atom';
 import {subscriptionApi} from '^models/Subscription/api';
-import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
-import {PayMethodSelect} from '^models/Subscription/components';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {
+    SubscriptionProfile,
+    IsFreeTierTagUI,
+    BillingCycleTypeTagUI,
+    PayMethodSelect,
+    LatestPayAmount,
+} from '^models/Subscription/components';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
+import {useCurrentInvoiceAccount} from '../../atom';
 
 interface InvoiceAccountSubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -61,7 +62,7 @@ export const InvoiceAccountSubscriptionTableRow = memo((props: InvoiceAccountSub
 
     return (
         <tr>
-            {/* 서비스 명 */}
+            {/* 서비스명 */}
             <td>
                 <SubscriptionProfile subscription={subscription} />
             </td>
@@ -84,8 +85,8 @@ export const InvoiceAccountSubscriptionTableRow = memo((props: InvoiceAccountSub
             </td>
 
             {/*결제금액*/}
-            <td>
-                <MoneySimpleRounded money={subscription.currentBillingAmount || undefined} />
+            <td className="text-right">
+                <LatestPayAmount subscription={subscription} />
             </td>
 
             {/* 갱신일 */}

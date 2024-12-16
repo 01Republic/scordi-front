@@ -1,20 +1,19 @@
 import React, {memo} from 'react';
 import {teamMemberApi, TeamMemberDto} from '^models/TeamMember';
 import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
-import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
-import {
-    BillingCycleTypeColumn,
-    IsFreeTierColumn,
-    LatestPayAmount,
-    MasterSelect,
-    PayingType,
-} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
 import Tippy from '@tippyjs/react';
 import {BsDashCircle} from 'react-icons/bs';
 import {confirm2} from '^components/util/dialog';
 import {subscriptionApi} from '^models/Subscription/api';
 import {toast} from 'react-hot-toast';
-import {PayMethodSelect, MemberCount} from '^models/Subscription/components';
+import {
+    SubscriptionProfile,
+    PayMethodSelect,
+    LatestPayAmount,
+    MemberCount,
+    SubscriptionUsingStatusTag,
+    SubscriptionInvoiceAccounts,
+} from '^models/Subscription/components';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 
@@ -52,7 +51,7 @@ export const TeamMemberSubscriptionTableRow = memo((props: TeamMemberSubscriptio
     };
 
     return (
-        <tr>
+        <tr onClick={() => console.log(subscription)}>
             {/* 서비스 명 */}
             <td>
                 <SubscriptionProfile subscription={subscription} />
@@ -63,15 +62,18 @@ export const TeamMemberSubscriptionTableRow = memo((props: TeamMemberSubscriptio
             {/*    <IsFreeTierColumn subscription={subscription} onChange={reload} />*/}
             {/*</td>*/}
 
+            {/* 상태 */}
+            <td>
+                <SubscriptionUsingStatusTag
+                    value={subscription.usingStatus}
+                    className="no-selectable !cursor-default"
+                />
+            </td>
+
             {/* 결제금액 */}
             <td className="text-right">
                 <LatestPayAmount subscription={subscription} />
             </td>
-
-            {/* 상태 */}
-            {/*<td className="">*/}
-            {/*    <SubscriptionStatus subscription={subscription} reload} />*/}
-            {/*</td>*/}
 
             {/* 결제주기 */}
             {/*<td>*/}
@@ -83,7 +85,7 @@ export const TeamMemberSubscriptionTableRow = memo((props: TeamMemberSubscriptio
             {/*    <PayingType subscription={subscription} onChange={reload} />*/}
             {/*</td>*/}
 
-            {/* 결제수단 */}
+            {/* 연결된 결제수단 */}
             <td className="pl-3 py-0">
                 <PayMethodSelect
                     subscription={subscription}
@@ -93,6 +95,11 @@ export const TeamMemberSubscriptionTableRow = memo((props: TeamMemberSubscriptio
                         return typeof value === 'string' ? <p>{value}</p> : <CreditCardProfileCompact item={value} />;
                     }}
                 />
+            </td>
+
+            {/* 연결된 청구서 수신 메일 */}
+            <td>
+                <SubscriptionInvoiceAccounts subscription={subscription} />
             </td>
 
             {/* 사용인원 */}

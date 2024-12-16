@@ -14,6 +14,7 @@ import {makeMonthlyExcelDownloader} from './makeMonthlyExcelDownloader';
 import {orgIdParamState} from '^atoms/common';
 import {debounce} from 'lodash';
 import {billingHistoryApi} from '^models/BillingHistory/api';
+import {zeroPad} from '^utils/number';
 
 interface BillingHistoryMonthlyProps {
     focusYear: number;
@@ -28,7 +29,6 @@ export const BillingHistoryMonthly = memo(
         const [filteredHistories, setFilteredHistories] = useState<BillingHistoriesMonthlySumBySubscriptionDto[]>([]);
 
         const months = rangeToArr(1, 12);
-        const totalAmount = histories.reduce((sum, monthly) => sum + monthly.getCostSumToKRW(exchangeRate), 0);
         const exchangeRate = 1350; // TODO: 나중에 환율 API로 변경
 
         const sortedHistories = [...filteredHistories].sort((a, b) => {
@@ -36,6 +36,9 @@ export const BillingHistoryMonthly = memo(
             const amtB = b.getCostSumToKRW(exchangeRate);
             return amtB - amtA;
         });
+
+        const totals = sortedHistories.map((history) => history.getCostSum(exchangeRate));
+        const totalAmount = totals.reduce((a, b) => a + b, 0);
 
         const search = (keyword = '') => {
             if (!keyword) {
@@ -97,19 +100,14 @@ export const BillingHistoryMonthly = memo(
                                             renderColumns={(
                                                 items: BillingHistoriesMonthlySumBySubscriptionDto['items'],
                                             ) => {
-                                                return months.map((_, i) => {
-                                                    const defaultData = {amount: 0, symbol: items[0]?.symbol};
-                                                    const currentData = items[i] || defaultData;
-                                                    const previousData = i > 0 ? items[i - 1] : currentData;
-                                                    return (
-                                                        <BillingHistoryMonthlyColumn
-                                                            key={i}
-                                                            currentData={currentData}
-                                                            previousData={previousData}
-                                                            exchangeRate={exchangeRate}
-                                                        />
-                                                    );
-                                                });
+                                                return months.map((month, i) => (
+                                                    <BillingHistoryMonthlyColumn
+                                                        key={i}
+                                                        currentData={history.findOfMonth(focusYear, month)}
+                                                        previousData={history.findOfMonth(focusYear, month - 1)}
+                                                        exchangeRate={exchangeRate}
+                                                    />
+                                                ));
                                             }}
                                         />
                                     ))
