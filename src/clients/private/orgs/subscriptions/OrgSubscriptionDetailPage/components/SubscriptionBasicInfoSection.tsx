@@ -19,7 +19,7 @@ export const SubscriptionBasicInfoSection = memo(() => {
     const onSubmit = (dto: UpdateSubscriptionRequestDto) => {
         subscriptionApi.update(subscription.id, dto).then((res) => {
             setSubscription(res.data);
-            toast.success('저장되었습니다.');
+            toast.success('변경사항을 저장했어요.');
             setIsEditMode(false);
         });
     };

@@ -39,7 +39,15 @@ export default function Page() {
             subjectAtom={subscriptionSubjectAtom}
             endpoint={(subjectId) =>
                 subscriptionApi.show(subjectId, {
-                    relations: ['organization', 'vendorContracts', 'teamMembers'],
+                    relations: [
+                        'organization',
+                        'teamMembers',
+                        'vendorContracts',
+                        'vendorContracts.vendorCompany',
+                        'vendorContracts.vendorManager',
+                        'invoiceAccounts',
+                        'billingHistories',
+                    ],
                 })
             }
         >

@@ -7,6 +7,7 @@ import {IoMdCalendar} from 'react-icons/io';
 import {BsCash, BsFolderFill} from 'react-icons/bs';
 import {useRecoilValue} from 'recoil';
 import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {SubscriptionBusinessInfoSection} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/SubscriptionBusinessInfoSection';
 
 export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
     const subscription = useRecoilValue(subscriptionSubjectAtom);
@@ -51,7 +52,7 @@ export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
             </div>
             <SubscriptionBasicInfoSection />
             <SubscriptionPaymentInfoSection />
-            {/*<SubscriptionBusinessInfoSection />*/}
+            <SubscriptionBusinessInfoSection />
         </div>
     );
 });

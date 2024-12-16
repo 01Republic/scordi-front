@@ -1,29 +1,34 @@
 'use client';
 
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
-import {SelectTeam} from '^clients/private/orgs/team/team-members/OrgTeamMemberNewPage/SelectTeam';
 import React, {memo, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import Datepicker from 'react-tailwindcss-datepicker';
 import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
+import {BillingCycleOptions, SubscriptionBillingCycleTypeValues} from '^models/Subscription/types/BillingCycleOptions';
 import {
-    BillingCycleOptions,
-    SubscriptionBillingCycleTypeValues,
-    t_SubscriptionBillingCycleType,
-} from '^models/Subscription/types/BillingCycleOptions';
-import {
-    PayingType,
+    IsFreeTierColumn,
     PayingTypeSelect,
     PayingTypeTag,
 } from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
-import {PricingModelOptions, t_SubscriptionPricingModel} from '^models/Subscription/types/PricingModelOptions';
 import {intlDateLong} from '^utils/dateTime';
 import {subscriptionApi} from '^models/Subscription/api';
 import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {useRecoilState} from 'recoil';
 import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
-import {PayMethodSelect} from '^models/Subscription/components';
+import {IsFreeTierTagUI, PayMethodSelect} from '^models/Subscription/components';
+import {toast} from 'react-hot-toast';
+import {
+    CurrencySelect,
+    InputSection,
+    PricingTypeSelect,
+    RecurringAmount,
+} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs';
+import {OutLink} from '^components/OutLink';
+import {CreditCardProfileCompact} from '^models/CreditCard/components';
+import {InvoiceAccountProfile} from '^models/InvoiceAccount/components';
+import {InvoiceAccountSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/InvoiceAccountSelect';
 
 export const SubscriptionPaymentInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
@@ -32,22 +37,13 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
     if (!subscription) return null;
 
-    console.log(form.watch());
-
     const onSubmit = (dto: UpdateSubscriptionRequestDto) => {
         subscriptionApi.update(subscription?.id, dto).then((res) => {
             setSubscription(res.data);
-            console.log('변경사항을 저장했어요.');
+            toast.success('변경사항을 저장했어요.');
             setIsEditMode(false);
         });
     };
-
-    const creditCardName = subscription?.creditCard?.issuerCompany
-        ?.replace('카드', '')
-        .replace('card', '')
-        .toUpperCase();
-
-    const endNumber = subscription?.creditCard?.secretInfo?.number4;
 
     return (
         <section>
@@ -67,19 +63,13 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
                             <FormControl label="유무료여부">
                                 {isEditMode ? (
-                                    <select
-                                        className="select select-underline input-underline !bg-slate-100 w-full"
-                                        onChange={(e) => {
-                                            form.setValue('isFreeTier', e.target.value === '무료');
-                                        }}
-                                        defaultValue={subscription?.isFreeTier ? '무료' : '유료'}
-                                    >
-                                        <option value={'무료'}>무료</option>
-                                        <option value={'유료'}>유료</option>
-                                    </select>
+                                    <IsFreeTierColumn
+                                        subscription={subscription}
+                                        onChange={(value) => form.setValue('isFreeTier', value)}
+                                    />
                                 ) : (
                                     <div className="flex items-center gap-1" style={{height: '49.5px'}}>
-                                        {subscription?.isFreeTier ? '무료' : '유료'}
+                                        <IsFreeTierTagUI value={subscription?.isFreeTier} />
                                     </div>
                                 )}
                             </FormControl>
@@ -127,7 +117,30 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
                             <FormControl label="요금제">
                                 {isEditMode ? (
-                                    <input className="input input-underline !bg-slate-100 w-full" />
+                                    <InputSection className="max-w-lg">
+                                        {/* TODO 여기 컴포넌트들 수정해도 되는지 확인 필요 */}
+                                        <div className="grid grid-cols-8 gap-2">
+                                            <div className="col-span-3">
+                                                <PricingTypeSelect />
+                                            </div>
+                                            <div className="col-span-3">
+                                                <RecurringAmount />
+                                            </div>
+                                            <div className="col-span-2">
+                                                <CurrencySelect />
+                                            </div>
+                                        </div>
+
+                                        {/*{subscription.product.pricingPageUrl && (*/}
+                                        {/*    <div>*/}
+                                        {/*        <OutLink*/}
+                                        {/*            text="사이트에서 내 플랜 확인하기"*/}
+                                        {/*            href={subscription.product.pricingPageUrl}*/}
+                                        {/*            className="text-14"*/}
+                                        {/*        />*/}
+                                        {/*    </div>*/}
+                                        {/*)}*/}
+                                    </InputSection>
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
                                         {subscription?.currentBillingAmount?.symbol}
@@ -151,7 +164,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {t_SubscriptionBillingCycleType(subscription?.billingCycleType, true)}
+                                        <BillingCycleTypeTagUI value={subscription.billingCycleType} />
                                     </div>
                                 )}
                                 <span />
@@ -166,7 +179,23 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {t_SubscriptionPricingModel(subscription?.pricingModel)}
+                                        <PayingTypeTag value={subscription.pricingModel} />
+                                    </div>
+                                )}
+                                <span />
+                            </FormControl>
+
+                            <FormControl label="구매수량">
+                                {isEditMode ? (
+                                    // TODO 이거 어떻게 구현하지?
+                                    <input
+                                        className="input input-underline !bg-slate-100 w-full"
+                                        defaultValue={subscription?.usedMemberCount}
+                                        // onChange={(e) => form.setValue('usedMemberCount', e.target.value)}
+                                    />
+                                ) : (
+                                    <div className="flex items-center" style={{height: '49.5px'}}>
+                                        {subscription.usedMemberCount}
                                     </div>
                                 )}
                                 <span />
@@ -176,11 +205,19 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                 {isEditMode ? (
                                     <PayMethodSelect
                                         subscription={subscription}
-                                        onChange={() => console.log(subscription)}
+                                        onChange={(creditCard) => form.setValue('creditCardId', creditCard?.id)}
+                                        ValueComponent={(props) => {
+                                            const {value} = props;
+                                            return typeof value === 'string' ? (
+                                                <p>{value}</p>
+                                            ) : (
+                                                <CreditCardProfileCompact item={value} />
+                                            );
+                                        }}
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {creditCardName}({endNumber})
+                                        <CreditCardProfileCompact item={subscription.creditCard} />
                                     </div>
                                 )}
                                 <span />
@@ -188,11 +225,13 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
                             <FormControl label="청구이메일">
                                 {isEditMode ? (
-                                    <input className="input input-underline !bg-slate-100 w-full" />
+                                    // TODO 이메일 업데이트
+                                    <InvoiceAccountSelect />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {/* TODO 청구이메일 정보 없음 */}
-                                        {subscription?.master?.email || '-'}
+                                        {subscription.invoiceAccounts?.map((invoiceAccount, index) => (
+                                            <InvoiceAccountProfile key={index} invoiceAccount={invoiceAccount} />
+                                        ))}
                                     </div>
                                 )}
                                 <span />
