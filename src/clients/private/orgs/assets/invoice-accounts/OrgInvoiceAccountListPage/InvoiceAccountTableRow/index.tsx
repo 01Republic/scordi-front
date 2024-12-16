@@ -7,9 +7,11 @@ import {TeamDto} from '^models/Team/type';
 import {TeamSelect} from '^models/Team/components/TeamSelect';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
-import {InvoiceAccountDto, UpdateInvoiceAccountDto} from '^models/InvoiceAccount/type';
-import {InvoiceAccountProfile, InvoiceAccountProviderAvatar} from '^models/InvoiceAccount/components';
+import {InvoiceAccountDto, InvoiceAccountUsingStatus, UpdateInvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {InvoiceAccountProfile, InvoiceAccountProviderAvatar, UsingStatusTag} from '^models/InvoiceAccount/components';
 import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[invoiceAccountId]';
+import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
+import {debounce} from 'lodash';
 
 interface InvoiceAccountTableRowProps {
     invoiceAccount: InvoiceAccountDto;
@@ -20,13 +22,13 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
     const {invoiceAccount, reload} = props;
     const {id, organizationId: orgId, subscriptions = []} = invoiceAccount;
 
-    const update = async (dto: UpdateInvoiceAccountDto) => {
+    const update = debounce((dto: UpdateInvoiceAccountDto) => {
         return invoiceAccountApi
             .updateV3(orgId, id, dto)
             .then(() => toast.success('변경사항을 저장했어요.'))
             .catch(() => toast.error('문제가 발생했어요.'))
             .finally(() => reload && reload());
-    };
+    }, 250);
 
     const setTeam = async (team?: TeamDto) => {
         const handler = (req: Promise<AxiosResponse<any>>) => {
@@ -76,6 +78,27 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
                 <OpenButtonColumn href={showPagePath}>
                     <InvoiceAccountProfile invoiceAccount={invoiceAccount} />
                 </OpenButtonColumn>
+            </td>
+
+            {/* 상태 (editable, sortable) */}
+            <td>
+                <SelectColumn
+                    value={invoiceAccount.usingStatus}
+                    getOptions={async () => [
+                        InvoiceAccountUsingStatus.UnDef,
+                        InvoiceAccountUsingStatus.NoUse,
+                        InvoiceAccountUsingStatus.InUse,
+                        InvoiceAccountUsingStatus.Expired,
+                    ]}
+                    onSelect={async (usingStatus: InvoiceAccountUsingStatus) => {
+                        if (usingStatus === invoiceAccount.usingStatus) return;
+                        return update({usingStatus});
+                    }}
+                    ValueComponent={UsingStatusTag}
+                    contentMinWidth="240px"
+                    optionListBoxTitle="사용 상태를 변경합니다"
+                    inputDisplay={false}
+                />
             </td>
 
             {/*구독 수*/}

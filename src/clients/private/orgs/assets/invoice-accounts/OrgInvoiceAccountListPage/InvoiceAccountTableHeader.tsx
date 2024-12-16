@@ -18,6 +18,9 @@ export const InvoiceAccountTableHeader = memo((props: InvoiceAccountTableHeaderP
                 이름
             </SortableTH>
 
+            {/* 상태 (editable, sortable) */}
+            <th>상태</th>
+
             {/*구독 수*/}
             <th>구독 수</th>
 
