@@ -70,7 +70,7 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
             {/*    <PayingType subscription={subscription} onChange={reload} />*/}
             {/*</td>*/}
 
-            {/* 최신 결제금액 */}
+            {/* 결제금액 */}
             <td className="text-right">
                 <LatestPayAmount subscription={subscription} />
             </td>

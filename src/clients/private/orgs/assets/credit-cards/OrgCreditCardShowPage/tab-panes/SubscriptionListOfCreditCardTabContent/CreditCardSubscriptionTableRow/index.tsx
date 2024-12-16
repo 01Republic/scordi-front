@@ -3,12 +3,15 @@ import {toast} from 'react-hot-toast';
 import Tippy from '@tippyjs/react';
 import {BsDashCircle} from 'react-icons/bs';
 import {yyyy_mm_dd} from '^utils/dateTime';
-import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
-import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
-import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
 import {MoneySimpleRounded} from '^models/Money/components/money.simple-rounded';
-import {IsFreeTierTagUI} from '^models/Subscription/components/IsFreeTierTagUI';
 import {TeamMemberProfileCompact, TeamMemberProfileOption} from '^models/TeamMember/components/TeamMemberProfile';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {
+    IsFreeTierTagUI,
+    SubscriptionProfile,
+    LatestPayAmount,
+    BillingCycleTypeTagUI,
+} from '^models/Subscription/components';
 import {subscriptionApi} from '^models/Subscription/api';
 import {confirm2} from '^components/util/dialog';
 import {useCurrentCodefCard} from '../../../atom';
@@ -74,9 +77,9 @@ export const CreditCardSubscriptionTableRow = memo((props: CreditCardSubscriptio
                 )}
             </td>
 
-            {/*최신 청구액*/}
-            <td>
-                <MoneySimpleRounded money={subscription.currentBillingAmount || undefined} />
+            {/*결제금액*/}
+            <td className="text-right">
+                <LatestPayAmount subscription={subscription} />
             </td>
 
             {/* 갱신일 */}
