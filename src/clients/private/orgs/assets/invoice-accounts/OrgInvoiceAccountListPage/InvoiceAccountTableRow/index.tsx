@@ -1,16 +1,14 @@
 import React, {memo} from 'react';
-import {InvoiceAccountDto, UpdateInvoiceAccountDto} from '^models/InvoiceAccount/type';
-import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
-import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
+import {AxiosResponse} from 'axios';
 import {toast} from 'react-hot-toast';
+import {errorToast} from '^api/api';
+import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
+import {TeamDto} from '^models/Team/type';
 import {TeamSelect} from '^models/Team/components/TeamSelect';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
-import {TeamDto} from '^models/Team/type';
-import {AxiosResponse} from 'axios';
-import {errorNotify} from '^utils/toast-notify';
-import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
-import {InvoiceAccountProviderAvatar} from '^models/InvoiceAccount/components/InvoiceAccountProviderAvatar';
+import {InvoiceAccountDto, UpdateInvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {InvoiceAccountProfile, InvoiceAccountProviderAvatar} from '^models/InvoiceAccount/components';
 import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[invoiceAccountId]';
 
 interface InvoiceAccountTableRowProps {
@@ -32,7 +30,7 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
 
     const setTeam = async (team?: TeamDto) => {
         const handler = (req: Promise<AxiosResponse<any>>) => {
-            req.then(() => toast.success('변경사항을 저장했어요.')).catch(errorNotify);
+            req.then(() => toast.success('변경사항을 저장했어요.')).catch(errorToast);
             // .finally(() => reload && reload());
         };
 
@@ -90,10 +88,8 @@ export const InvoiceAccountTableRow = memo((props: InvoiceAccountTableRowProps) 
             </td>
 
             {/*등록방식*/}
-            <td>
-                <div className={'text-center'}>
-                    <InvoiceAccountProviderAvatar invoiceAccount={invoiceAccount} />
-                </div>
+            <td className="text-center">
+                <InvoiceAccountProviderAvatar invoiceAccount={invoiceAccount} />
             </td>
 
             {/*팀 - editable, sortable (mono-select) / 멤버 프로필 / 검색가능 */}
