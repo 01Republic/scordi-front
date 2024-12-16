@@ -7,7 +7,7 @@ export const InvoiceAccountSubscriptionTableHeader = memo((props: ListTableHeade
 
     return (
         <tr className="bg-slate-100">
-            <th>서비스 명</th>
+            <th>서비스명</th>
             {/*<th>구독상태</th>*/}
             <th>결제주기</th>
 

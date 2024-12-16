@@ -62,7 +62,7 @@ export const InvoiceAccountSubscriptionTableRow = memo((props: InvoiceAccountSub
 
     return (
         <tr>
-            {/* 서비스 명 */}
+            {/* 서비스명 */}
             <td>
                 <SubscriptionProfile subscription={subscription} />
             </td>
