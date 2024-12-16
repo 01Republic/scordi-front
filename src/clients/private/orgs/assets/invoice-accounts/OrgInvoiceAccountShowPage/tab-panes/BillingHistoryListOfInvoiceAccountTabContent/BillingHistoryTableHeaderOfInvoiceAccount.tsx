@@ -24,8 +24,8 @@ export const BillingHistoryTableHeaderOfInvoiceAccount = memo((props: Props) => 
                 결제금액
             </SortableTH>
 
+            <th>비고</th>
             <th />
-            {/*<th>비고</th>*/}
         </tr>
     );
 });

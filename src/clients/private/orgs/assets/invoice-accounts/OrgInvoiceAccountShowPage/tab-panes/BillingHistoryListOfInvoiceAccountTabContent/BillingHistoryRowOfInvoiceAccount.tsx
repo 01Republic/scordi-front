@@ -61,21 +61,21 @@ export const BillingHistoryRowOfInvoiceAccount = memo((props: BillingHistoryRowO
                 <PayAmount billingHistory={billingHistory} />
             </td>
 
+            {/* 비고 */}
+            <td>
+                <AirInputText
+                    defaultValue={billingHistory.memo || undefined}
+                    onChange={async (memo) => {
+                        if (billingHistory.memo === memo) return;
+                        return update({memo});
+                    }}
+                />
+            </td>
+
             {/* 다운로드 */}
             <td>
                 <BillingHistoryAttachmentShowButton billingHistory={billingHistory} />
             </td>
-
-            {/*/!*비고*!/*/}
-            {/*<td>*/}
-            {/*    <AirInputText*/}
-            {/*        defaultValue={billingHistory.memo || undefined}*/}
-            {/*        onChange={async (memo) => {*/}
-            {/*            if (billingHistory.memo === memo) return;*/}
-            {/*            return update({memo});*/}
-            {/*        }}*/}
-            {/*    />*/}
-            {/*</td>*/}
             {/*<td>{billingHistory.issuedAt}</td>*/}
             {/*<td>{billingHistory.invoiceUrl}</td>*/}
         </tr>
