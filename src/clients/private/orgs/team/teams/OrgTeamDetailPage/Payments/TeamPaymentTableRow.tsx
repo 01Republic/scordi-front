@@ -91,6 +91,7 @@ export const TeamPaymentTableRow = memo((props: TeamPaymentTableRowProps) => {
             {/* 소지자 */}
             <td className={`${hoverBgColor}`}>
                 <TeamMemberSelectColumn
+                    compactView
                     defaultValue={creditCard.holdingMember || undefined}
                     onChange={async (holdingMember) => {
                         if (creditCard.holdingMemberId === holdingMember?.id) return;

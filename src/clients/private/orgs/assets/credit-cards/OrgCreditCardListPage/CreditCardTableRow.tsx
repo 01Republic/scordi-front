@@ -128,6 +128,7 @@ export const CreditCardTableRow = memo((props: CreditCardTableRowProps) => {
             {/* 소지자 */}
             <td>
                 <TeamMemberSelectColumn
+                    compactView
                     defaultValue={creditCard.holdingMember || undefined}
                     onChange={async (holdingMember) => {
                         if (creditCard.holdingMemberId === holdingMember?.id) return;
