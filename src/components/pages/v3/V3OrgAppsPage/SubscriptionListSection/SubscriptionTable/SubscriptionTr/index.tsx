@@ -4,9 +4,7 @@ import {BillingHistoryManager} from '^models/BillingHistory/manager';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {useAppShowModal} from 'src/components/pages/v3/share/modals/AppShowPageModal';
-import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 import {
-    LatestPayAmount,
     // NextPaymentDate,
     PayingType,
     // ProductProfile,
@@ -15,7 +13,7 @@ import {
     IsFreeTierColumn,
     BillingCycleTypeColumn,
 } from './columns';
-import {PayMethodSelect, MemberCount} from '^models/Subscription/components';
+import {SubscriptionProfile, PayMethodSelect, LatestPayAmount, MemberCount} from '^models/Subscription/components';
 
 interface SubscriptionTrProps {
     subscription: SubscriptionDto;

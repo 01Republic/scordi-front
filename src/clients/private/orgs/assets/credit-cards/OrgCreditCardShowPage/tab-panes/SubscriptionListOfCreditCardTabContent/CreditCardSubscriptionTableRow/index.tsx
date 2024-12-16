@@ -13,10 +13,6 @@ import {subscriptionApi} from '^models/Subscription/api';
 import {confirm2} from '^components/util/dialog';
 import {useCurrentCodefCard} from '../../../atom';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
-import {UpdateInvoiceAccountDto} from '^models/InvoiceAccount/type';
-import {invoiceAccountApi} from '^models/InvoiceAccount/api';
-import {creditCardApi} from '^models/CreditCard/api';
-import {CreditCardDto, UpdateCreditCardDto} from '^models/CreditCard/type';
 
 interface CreditCardSubscriptionTableRowProps {
     subscription: SubscriptionDto;

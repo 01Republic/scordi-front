@@ -4,7 +4,6 @@ import {debounce} from 'lodash';
 import {errorToast} from '^api/api';
 import {eventCut} from '^utils/event';
 import {IoIosMore} from 'react-icons/io';
-import {LatestPayAmount} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
 import {Dropdown} from '^v3/share/Dropdown';
 import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
@@ -13,6 +12,7 @@ import {
     PayMethodSelect,
     MemberCount,
     SubscriptionUsingStatusTag,
+    LatestPayAmount,
 } from '^models/Subscription/components';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {subscriptionApi} from '^models/Subscription/api';

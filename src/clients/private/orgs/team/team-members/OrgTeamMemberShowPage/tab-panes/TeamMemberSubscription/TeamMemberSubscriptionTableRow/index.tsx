@@ -1,20 +1,12 @@
 import React, {memo} from 'react';
 import {teamMemberApi, TeamMemberDto} from '^models/TeamMember';
 import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
-import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
-import {
-    BillingCycleTypeColumn,
-    IsFreeTierColumn,
-    LatestPayAmount,
-    MasterSelect,
-    PayingType,
-} from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
 import Tippy from '@tippyjs/react';
 import {BsDashCircle} from 'react-icons/bs';
 import {confirm2} from '^components/util/dialog';
 import {subscriptionApi} from '^models/Subscription/api';
 import {toast} from 'react-hot-toast';
-import {PayMethodSelect, MemberCount} from '^models/Subscription/components';
+import {SubscriptionProfile, PayMethodSelect, LatestPayAmount, MemberCount} from '^models/Subscription/components';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 
