@@ -13,6 +13,7 @@ import {
     MemberCount,
     SubscriptionUsingStatusTag,
     LatestPayAmount,
+    NextComputedBillingDateText,
 } from '^models/Subscription/components';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {subscriptionApi} from '^models/Subscription/api';
@@ -77,11 +78,7 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
 
             {/* 갱신일 */}
             <td className="text-right">
-                {subscription.nextComputedBillingDate ? (
-                    <p className="text-sm">{subscription.nextComputedBillingDate}</p>
-                ) : (
-                    <p className="text-sm text-gray-400">-</p>
-                )}
+                <NextComputedBillingDateText subscription={subscription} />
             </td>
 
             {/* 사용인원 */}
