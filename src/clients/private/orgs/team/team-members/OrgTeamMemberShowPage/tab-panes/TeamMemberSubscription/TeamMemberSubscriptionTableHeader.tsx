@@ -21,6 +21,9 @@ export const TeamMemberSubscriptionTableHeader = memo((props: TeamMemberSubscrip
             {/*    상태*/}
             {/*</SortableTH>*/}
 
+            {/* [구독상태] subscription.usingStatus: SubscriptionUsingStatus */}
+            <SortableTH>상태</SortableTH>
+
             <SortableTH
                 sortKey="[currentBillingAmount][dollarPrice]"
                 sortVal="DESC"
@@ -29,11 +32,6 @@ export const TeamMemberSubscriptionTableHeader = memo((props: TeamMemberSubscrip
             >
                 결제금액
             </SortableTH>
-
-            {/* [구독상태] subscription.status: SubscriptionStatus */}
-            {/*<SortableTH sortKey="[status]" onClick={orderBy}>*/}
-            {/*    <span className="pl-[8px]">상태</span>*/}
-            {/*</SortableTH>*/}
 
             {/* [결제주기] subscription.billingCycleType: BillingCycleOptions */}
             {/*<SortableTH sortKey="[billingCycleType]" onClick={orderBy}>*/}

@@ -6,7 +6,13 @@ import {BsDashCircle} from 'react-icons/bs';
 import {confirm2} from '^components/util/dialog';
 import {subscriptionApi} from '^models/Subscription/api';
 import {toast} from 'react-hot-toast';
-import {SubscriptionProfile, PayMethodSelect, LatestPayAmount, MemberCount} from '^models/Subscription/components';
+import {
+    SubscriptionProfile,
+    PayMethodSelect,
+    LatestPayAmount,
+    MemberCount,
+    SubscriptionUsingStatusTag,
+} from '^models/Subscription/components';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 
@@ -55,15 +61,18 @@ export const TeamMemberSubscriptionTableRow = memo((props: TeamMemberSubscriptio
             {/*    <IsFreeTierColumn subscription={subscription} onChange={reload} />*/}
             {/*</td>*/}
 
+            {/* 상태 */}
+            <td>
+                <SubscriptionUsingStatusTag
+                    value={subscription.usingStatus}
+                    className="no-selectable !cursor-default"
+                />
+            </td>
+
             {/* 결제금액 */}
             <td className="text-right">
                 <LatestPayAmount subscription={subscription} />
             </td>
-
-            {/* 상태 */}
-            {/*<td className="">*/}
-            {/*    <SubscriptionStatus subscription={subscription} reload} />*/}
-            {/*</td>*/}
 
             {/* 결제주기 */}
             {/*<td>*/}
