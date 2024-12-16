@@ -16,6 +16,14 @@ export type GmailAgentTokenData = {
     expireAt: Date; // When Gmail Token expire at
 };
 
+// 사용상태
+export enum InvoiceAccountUsingStatus {
+    UnDef, // undefined (default)
+    NoUse, // 미사용
+    InUse, // 사용중
+    Expired, // 만료
+}
+
 export class InvoiceAccountDto {
     id: number;
     organizationId: number;
@@ -26,6 +34,7 @@ export class InvoiceAccountDto {
     @TypeCast(() => Date) syncedStartDate: Date | null; // 연동된 이메일내역 시작일시
     @TypeCast(() => Date) syncedEndDate: Date | null; // 연동된 이메일내역 종료일시
     memo?: string | null; // 메모
+    usingStatus: InvoiceAccountUsingStatus; // 사용상태
     googleTokenDataId: number | null;
     holdingMemberId: number | null;
     @TypeCast(() => Date) createdAt: Date;
@@ -89,6 +98,7 @@ export class CreateInvoiceAccountDto {
     email: string;
     holdingMemberId?: number | null;
     memo?: string | null; // 메모
+    usingStatus?: InvoiceAccountUsingStatus; // 사용상태
 }
 
 export class UpdateInvoiceAccountDto extends PartialType(CreateInvoiceAccountDto) {}
