@@ -12,6 +12,7 @@ import {
     LatestPayAmount,
     MemberCount,
     SubscriptionUsingStatusTag,
+    SubscriptionInvoiceAccounts,
 } from '^models/Subscription/components';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
@@ -50,7 +51,7 @@ export const TeamMemberSubscriptionTableRow = memo((props: TeamMemberSubscriptio
     };
 
     return (
-        <tr>
+        <tr onClick={() => console.log(subscription)}>
             {/* 서비스 명 */}
             <td>
                 <SubscriptionProfile subscription={subscription} />
@@ -84,7 +85,7 @@ export const TeamMemberSubscriptionTableRow = memo((props: TeamMemberSubscriptio
             {/*    <PayingType subscription={subscription} onChange={reload} />*/}
             {/*</td>*/}
 
-            {/* 결제수단 */}
+            {/* 연결된 결제수단 */}
             <td className="pl-3 py-0">
                 <PayMethodSelect
                     subscription={subscription}
@@ -94,6 +95,11 @@ export const TeamMemberSubscriptionTableRow = memo((props: TeamMemberSubscriptio
                         return typeof value === 'string' ? <p>{value}</p> : <CreditCardProfileCompact item={value} />;
                     }}
                 />
+            </td>
+
+            {/* 연결된 청구서 수신 메일 */}
+            <td>
+                <SubscriptionInvoiceAccounts subscription={subscription} />
             </td>
 
             {/* 사용인원 */}
