@@ -1,5 +1,6 @@
 import React, {memo} from 'react';
 import {toast} from 'react-hot-toast';
+import {debounce} from 'lodash';
 import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {SubscriptionProfile} from '^models/Subscription/components';
@@ -15,13 +16,13 @@ interface BillingHistoryRowOfCreditCardProps {
 export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCreditCardProps) => {
     const {item: billingHistory, onSaved} = props;
 
-    const update = async (dto: UpdateBillingHistoryRequestDtoV2) => {
+    const update = debounce((dto: UpdateBillingHistoryRequestDtoV2) => {
         return billingHistoryApi
             .updateV2(billingHistory.id, dto)
             .then(() => toast.success('변경사항을 저장했어요.'))
             .catch(() => toast.success('문제가 발생했어요.'))
             .finally(() => onSaved && onSaved());
-    };
+    }, 250);
 
     return (
         <tr className="group text-14" data-id={billingHistory.id} onClick={() => console.log(billingHistory)}>
