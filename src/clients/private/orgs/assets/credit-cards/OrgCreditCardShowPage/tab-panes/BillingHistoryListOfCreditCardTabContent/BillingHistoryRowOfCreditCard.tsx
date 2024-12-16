@@ -39,7 +39,7 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
     };
 
     return (
-        <tr className="group text-14" data-id={billingHistory.id}>
+        <tr className="group text-14" data-id={billingHistory.id} onClick={() => console.log(billingHistory)}>
             {/*일시*/}
             <td>
                 {billingHistory.paidAt ? (
@@ -55,7 +55,7 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
             </td>
 
             {/*내용*/}
-            <td>{billingHistory.paymentMethod}</td>
+            <td>{billingHistory.title}</td>
 
             {/*<td>{billingHistory.pageSubject}</td>*/}
 
