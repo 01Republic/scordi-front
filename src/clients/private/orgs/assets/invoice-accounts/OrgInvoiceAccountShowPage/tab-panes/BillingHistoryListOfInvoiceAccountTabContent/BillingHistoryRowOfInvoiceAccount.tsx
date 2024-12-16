@@ -1,11 +1,10 @@
 import React, {memo} from 'react';
 import {toast} from 'react-hot-toast';
-import {yyyy_mm_dd, yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {SubscriptionProfile} from '^models/Subscription/components';
 import {billingHistoryApi} from '^models/BillingHistory/api';
 import {BillingHistoryDto, UpdateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type';
-import {BillingHistoryStatusTagUI, PayAmount} from '^models/BillingHistory/components';
+import {BillingHistoryStatusTagUI, PayAmount, BillingHistoryTimestamp} from '^models/BillingHistory/components';
 import {BillingHistoryAttachmentShowButton} from './BillingHistoryAttachmentShowButton';
 
 interface BillingHistoryRowOfInvoiceAccountProps {
@@ -25,18 +24,23 @@ export const BillingHistoryRowOfInvoiceAccount = memo((props: BillingHistoryRowO
             .finally(() => onSaved && onSaved());
     };
 
-    const {issuedAt, subscription} = billingHistory;
+    const {subscription} = billingHistory;
 
     return (
-        <tr className="group text-14" data-id={billingHistory.id}>
+        <tr className="group text-14" data-id={billingHistory.id} onClick={() => console.log(billingHistory)}>
             {/*일시*/}
             <td>
-                {billingHistory.paidAt ? (
-                    yyyy_mm_dd(billingHistory.paidAt)
-                ) : (
-                    <span className="text-red-400">{yyyy_mm_dd(billingHistory.issuedAt)}</span>
-                )}
+                <BillingHistoryTimestamp billingHistory={billingHistory} />
             </td>
+
+            {/*상태*/}
+            <td>
+                <BillingHistoryStatusTagUI billingHistory={billingHistory} />
+            </td>
+            {/*<td>{billingHistory.pageSubject}</td>*/}
+
+            {/*내용*/}
+            <td className="text-12 max-w-sm whitespace-pre-wrap">{billingHistory.title}</td>
 
             {/*연결된 구독*/}
             <td>
@@ -51,17 +55,6 @@ export const BillingHistoryRowOfInvoiceAccount = memo((props: BillingHistoryRowO
                     </SubscriptionProfile>
                 )}
             </td>
-
-            {/*내용*/}
-            <td className="text-12 max-w-sm whitespace-pre-wrap">
-                <p className="text-12">{billingHistory.title}</p>
-            </td>
-
-            {/*구분*/}
-            <td>
-                <BillingHistoryStatusTagUI billingHistory={billingHistory} />
-            </td>
-            {/*<td>{billingHistory.pageSubject}</td>*/}
 
             {/*결제금액*/}
             <td>

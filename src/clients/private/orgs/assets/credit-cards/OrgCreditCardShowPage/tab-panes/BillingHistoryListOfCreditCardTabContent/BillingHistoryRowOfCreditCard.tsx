@@ -1,12 +1,11 @@
 import React, {memo} from 'react';
 import {toast} from 'react-hot-toast';
 import {debounce} from 'lodash';
-import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {SubscriptionProfile} from '^models/Subscription/components';
 import {billingHistoryApi} from '^models/BillingHistory/api';
 import {BillingHistoryDto, UpdateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type';
-import {BillingHistoryStatusTagUI, PayAmount} from '^models/BillingHistory/components';
+import {BillingHistoryStatusTagUI, PayAmount, BillingHistoryTimestamp} from '^models/BillingHistory/components';
 
 interface BillingHistoryRowOfCreditCardProps {
     item: BillingHistoryDto;
@@ -28,11 +27,7 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
         <tr className="group text-14" data-id={billingHistory.id} onClick={() => console.log(billingHistory)}>
             {/*일시*/}
             <td>
-                {billingHistory.paidAt ? (
-                    yyyy_mm_dd_hh_mm(billingHistory.paidAt)
-                ) : (
-                    <span className="text-red-400">{yyyy_mm_dd_hh_mm(billingHistory.issuedAt)}</span>
-                )}
+                <BillingHistoryTimestamp billingHistory={billingHistory} />
             </td>
 
             {/*상태*/}
@@ -41,7 +36,7 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
             </td>
 
             {/*내용*/}
-            <td>{billingHistory.title}</td>
+            <td className="text-12 max-w-sm whitespace-pre-wrap">{billingHistory.title}</td>
 
             {/*<td>{billingHistory.pageSubject}</td>*/}
 

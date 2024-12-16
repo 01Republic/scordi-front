@@ -12,9 +12,9 @@ export const BillingHistoryTableHeaderOfInvoiceAccount = memo((props: Props) => 
     return (
         <tr className="bg-slate-100">
             <th>일시</th>
-            <th>연결된 구독</th>
+            <th>상태</th>
             <th>내용</th>
-            <th>구분</th>
+            <th>연결된 구독</th>
 
             <SortableTH
                 // sortKey="[currentBillingAmount][dollarPrice]"
