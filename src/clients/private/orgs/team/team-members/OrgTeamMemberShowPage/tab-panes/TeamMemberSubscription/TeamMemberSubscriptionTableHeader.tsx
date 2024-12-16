@@ -14,7 +14,7 @@ export const TeamMemberSubscriptionTableHeader = memo((props: TeamMemberSubscrip
             {/* Checkbox */}
             {/*<th className="bg-transparent"></th>*/}
             <SortableTH sortKey="[product][nameKo]" onClick={orderBy}>
-                서비스 명
+                서비스명
             </SortableTH>
 
             {/*<SortableTH sortKey="[isFreeTier]" onClick={orderBy}>*/}
