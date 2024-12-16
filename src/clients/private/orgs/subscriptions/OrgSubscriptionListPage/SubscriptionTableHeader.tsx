@@ -34,9 +34,8 @@ export const SubscriptionTableHeader = memo((props: SubscriptionTableHeaderProps
             {/*</SortableTH>*/}
 
             <SortableTH
-                sortKey="[currentBillingAmount][dollarPrice]"
+                // sortKey="[currentBillingAmount][dollarPrice]"
                 sortVal="DESC"
-                // onClick={orderBy}
                 className="flex items-center justify-end"
             >
                 결제금액

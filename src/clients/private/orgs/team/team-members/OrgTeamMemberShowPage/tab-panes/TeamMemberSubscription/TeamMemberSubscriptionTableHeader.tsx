@@ -25,10 +25,9 @@ export const TeamMemberSubscriptionTableHeader = memo((props: TeamMemberSubscrip
             <SortableTH>상태</SortableTH>
 
             <SortableTH
-                sortKey="[currentBillingAmount][dollarPrice]"
+                // sortKey="[currentBillingAmount][dollarPrice]"
                 sortVal="DESC"
-                onClick={orderBy}
-                className="justify-end"
+                className="flex items-center justify-end"
             >
                 결제금액
             </SortableTH>

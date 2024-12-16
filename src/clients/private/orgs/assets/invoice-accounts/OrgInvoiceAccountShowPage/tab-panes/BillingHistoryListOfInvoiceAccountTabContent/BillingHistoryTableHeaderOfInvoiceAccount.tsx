@@ -1,5 +1,6 @@
 import {memo} from 'react';
 import {ListTableHeaderProps} from '^clients/private/_components/table/ListTable/types';
+import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
 
 interface Props extends ListTableHeaderProps {
     mode?: 1;
@@ -14,7 +15,14 @@ export const BillingHistoryTableHeaderOfInvoiceAccount = memo((props: Props) => 
             <th>연결된 구독</th>
             <th>내용</th>
             <th>구분</th>
-            <th className="text-center">결제금액</th>
+
+            <SortableTH
+                // sortKey="[currentBillingAmount][dollarPrice]"
+                sortVal="DESC"
+                className="flex items-center justify-end"
+            >
+                결제금액
+            </SortableTH>
 
             <th />
             {/*<th>비고</th>*/}
