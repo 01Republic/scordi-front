@@ -2,8 +2,6 @@ import React, {memo} from 'react';
 import {toast} from 'react-hot-toast';
 import Tippy from '@tippyjs/react';
 import {BsDashCircle} from 'react-icons/bs';
-import {MoneySimpleRounded} from '^models/Money/components/money.simple-rounded';
-import {TeamMemberProfileCompact, TeamMemberProfileOption} from '^models/TeamMember/components/TeamMemberProfile';
 import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {
     IsFreeTierTagUI,
@@ -11,6 +9,7 @@ import {
     LatestPayAmount,
     BillingCycleTypeTagUI,
     NextComputedBillingDateText,
+    MemberCount,
 } from '^models/Subscription/components';
 import {subscriptionApi} from '^models/Subscription/api';
 import {confirm2} from '^components/util/dialog';
@@ -87,20 +86,9 @@ export const CreditCardSubscriptionTableRow = memo((props: CreditCardSubscriptio
                 <NextComputedBillingDateText subscription={subscription} />
             </td>
 
-            {/*담당자*/}
-            <td>
-                {subscription.master ? (
-                    <TeamMemberProfileCompact item={subscription.master} />
-                ) : (
-                    <div className="relative">
-                        <div className="invisible">
-                            <TeamMemberProfileOption item={subscription.master} />
-                        </div>
-                        <div className="absolute inset-0 flex items-center text-12 text-gray-300">
-                            <span>비어있음</span>
-                        </div>
-                    </div>
-                )}
+            {/* 사용인원 */}
+            <td className="text-center">
+                <MemberCount subscription={subscription} />
             </td>
 
             {/* 비고 */}
