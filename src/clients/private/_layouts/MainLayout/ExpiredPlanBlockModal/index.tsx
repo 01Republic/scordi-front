@@ -6,6 +6,7 @@ import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {SelectPlanModal} from '^clients/private/_modals/SelectPlanModal';
 import {LinkTo} from '^components/util/LinkTo';
 import {ChannelTalk_Url} from '^config/constants';
+import {BlockModalTopButtons} from './BlockModalTopButtons';
 
 interface ExpiredPlanBlockModalProps {
     currentOrg: OrganizationDto;
@@ -40,6 +41,7 @@ export const ExpiredPlanBlockModal = memo((props: ExpiredPlanBlockModalProps) =>
         <AnimatedModal backdrop={{opacity: 0.5, className: 'backdrop-blur-sm'}} open={isOpened} onClose={() => 1}>
             <div className="relative mx-auto max-w-screen-sm w-full">
                 <div className={'bg-white rounded-3xl p-12 shadow-xl'}>
+                    <BlockModalTopButtons />
                     <div className="flex flex-col items-center justify-center mb-4">
                         <h1
                             className="mb-1 text-gradient-color"
@@ -58,20 +60,24 @@ export const ExpiredPlanBlockModal = memo((props: ExpiredPlanBlockModalProps) =>
                         />
                     </div>
                     <div className="flex flex-col gap-4 w-full justify-center mt-10">
-                        <button
-                            className="btn btn-lg btn-block btn-scordi "
-                            onClick={() => setIsSelectPlanModalOpened(true)}
-                        >
-                            구독하기
-                        </button>
-                        <LinkTo
-                            href={ChannelTalk_Url}
-                            target="_blank"
-                            className="btn btn-block btn-lg"
-                            displayLoading={false}
-                        >
-                            문의하기
-                        </LinkTo>
+                        <div className="flex items-center gap-2">
+                            <div className="flex-1 grid grid-cols-2 items-center gap-2">
+                                <button
+                                    className="btn btn-lg btn-block btn-scordi "
+                                    onClick={() => setIsSelectPlanModalOpened(true)}
+                                >
+                                    구독하기
+                                </button>
+                                <LinkTo
+                                    href={ChannelTalk_Url}
+                                    target="_blank"
+                                    className="btn btn-block btn-lg"
+                                    displayLoading={false}
+                                >
+                                    문의하기
+                                </LinkTo>
+                            </div>
+                        </div>
                     </div>
                     <SelectPlanModal
                         orgId={currentOrg.id}
