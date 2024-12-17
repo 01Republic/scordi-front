@@ -1,14 +1,12 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
-import {invoiceAccountIdParamState, orgIdParamState, useRouterIdParamState} from '^atoms/common';
+import {invoiceAccountIdParamState} from '^atoms/common';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
-import {OrgInvoiceAccountShowPage} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage';
 import {invoiceAccountSubjectAtom} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage/atom';
-import {useRouter} from 'next/router';
-import {useRecoilState} from 'recoil';
-import {useCurrentOrg} from '^models/Organization/hook';
+import {OrgInvoiceAccountShowPage} from '^clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage';
+import {ShowRoutingPage} from '^clients/private/_components/rest-pages/ShowPage/ShowRoutingPage';
 
 export const OrgInvoiceAccountShowPageRoute = pathRoute({
     pathname: '/orgs/[id]/invoiceAccounts/[invoiceAccountId]',
@@ -34,12 +32,14 @@ export const getStaticProps = async ({locale}: any) => ({
 });
 
 export default function Page() {
-    const orgId = useRouterIdParamState('id', orgIdParamState);
-    const subjectId = useRouterIdParamState('invoiceAccountId', invoiceAccountIdParamState);
-    useCurrentOrg(orgId);
-
-    if (!orgId || isNaN(orgId)) return <></>;
-    if (!subjectId || isNaN(subjectId)) return <></>;
-
-    return <OrgInvoiceAccountShowPage />;
+    return (
+        <ShowRoutingPage
+            subjectIdParamKey="invoiceAccountId"
+            subjectIdParamAtom={invoiceAccountIdParamState}
+            subjectAtom={invoiceAccountSubjectAtom}
+            endpoint={(subjectId, orgId) => invoiceAccountApi.show(orgId, subjectId)}
+        >
+            <OrgInvoiceAccountShowPage />
+        </ShowRoutingPage>
+    );
 }

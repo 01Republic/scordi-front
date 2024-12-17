@@ -1,35 +1,22 @@
-import React, {memo, useEffect, useState} from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
-import {invoiceAccountIdParamState, orgIdParamState} from '^atoms/common';
+import React, {memo, useState} from 'react';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
+import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
+import {useInvoiceAccountSync} from '^models/InvoiceAccount/hook';
+import {GoogleGmailOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
-import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
-import {useCurrentInvoiceAccount} from './atom';
 import {InvoiceAccountProfilePanel} from './InvoiceAccountProfilePanel';
 import {InvoiceAccountActionPanel} from './InvoiceAccountActionPanel';
 import {InvoiceAccountInformationPanel} from './InvoiceAccountInformationPanel';
 import {BillingHistoryListOfInvoiceAccountTabContent, SubscriptionListOfInvoiceAccountTabContent} from './tab-panes';
-import {GoogleGmailOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {useInvoiceAccountSync} from '^models/InvoiceAccount/hook';
-import {useUnmount} from '^hooks/useUnmount';
+import {useCurrentInvoiceAccount} from './atom';
 
 export const OrgInvoiceAccountShowPage = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
-    const [id, setId] = useRecoilState(invoiceAccountIdParamState);
-    const {currentInvoiceAccount, findOne, clear} = useCurrentInvoiceAccount();
     const [activeTabIndex, setActiveTabIndex] = useState(0);
+    const {currentInvoiceAccount} = useCurrentInvoiceAccount();
     const {renewAccountWithConfirm} = useInvoiceAccountSync();
-
-    useEffect(() => {
-        if (!orgId || isNaN(orgId)) return;
-        if (!id || isNaN(id)) return;
-        findOne(orgId, id);
-    }, [orgId, id]);
-
-    useUnmount(() => {
-        clear();
-        setId(NaN);
-    });
 
     return (
         <ShowPage

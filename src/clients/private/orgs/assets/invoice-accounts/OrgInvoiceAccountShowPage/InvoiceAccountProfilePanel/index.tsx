@@ -12,27 +12,27 @@ export const InvoiceAccountProfilePanel = memo(function InvoiceAccountProfilePan
 
     return (
         <div>
-            <div className="flex gap-8">
-                <div>
-                    <Avatar
-                        src={currentInvoiceAccount.image || ''}
-                        className={`w-14 h-14 outline outline-offset-2 outline-2 ${
-                            currentInvoiceAccount.isManuallyCreated ? 'outline-slate-200' : 'outline-blue-400'
-                        }`}
-                    />
-                </div>
+            <div className="flex items-start gap-6">
+                <Avatar
+                    src={currentInvoiceAccount.image || ''}
+                    className={`w-14 h-14 outline outline-offset-2 outline-2 ${
+                        currentInvoiceAccount.isManuallyCreated ? 'outline-slate-200' : 'outline-blue-400'
+                    }`}
+                />
 
-                <div>
+                <div className="flex flex-col gap-0.5 text-left">
                     {currentInvoiceAccount.isManuallyCreated ? (
-                        <h1 className="text-18 font-semibold my-2">{currentInvoiceAccount.email}</h1>
+                        <h1 className="text-18 font-semibold leading-none py-1">{currentInvoiceAccount.email}</h1>
                     ) : (
-                        <div className="">
-                            <h1 className="text-18 font-semibold">{currentInvoiceAccount.googleTokenData?.name}</h1>
+                        <>
+                            <h1 className="text-18 font-semibold leading-none py-1">
+                                {currentInvoiceAccount.googleTokenData?.name}
+                            </h1>
                             <div className="flex items-center gap-2">
                                 <p className="text-14">{currentInvoiceAccount.googleTokenData?.email}</p>
                                 <InvoiceAccountProviderAvatar invoiceAccount={currentInvoiceAccount} />
                             </div>
-                        </div>
+                        </>
                     )}
 
                     {/*<div className="mt-2 mb-4">*/}
