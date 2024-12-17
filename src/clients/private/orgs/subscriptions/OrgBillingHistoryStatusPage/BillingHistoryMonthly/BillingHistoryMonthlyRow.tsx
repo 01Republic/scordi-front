@@ -6,13 +6,6 @@ import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {CurrencyCode} from '^models/Money';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 
-interface BillingHistoryMonthlyRowProps {
-    data: BillingHistoriesMonthlySumBySubscriptionDto;
-    ratio: number;
-    renderColumns: (items: BillingHistoriesMonthlySumBySubscriptionDto['items']) => JSX.Element[];
-    exchangeRate: number;
-}
-
 export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowProps) => {
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
     const {data, ratio, renderColumns, exchangeRate} = props;
@@ -29,9 +22,11 @@ export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowPro
         }
     };
 
+    console.log(subscription.currentBillingAmount);
+
     return (
         <tr className={'group'}>
-            <td className={'sticky left-0 bg-white z-10 w-52 border-r-2 shadow-lg'}>
+            <td className="sticky left-0 bg-white min-w-40 z-10 border-r-2 shadow-lg">
                 <SubscriptionProfile subscription={subscription} className="font-medium" />
             </td>
             <td>
@@ -48,4 +43,12 @@ export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowPro
         </tr>
     );
 });
+
+interface BillingHistoryMonthlyRowProps {
+    data: BillingHistoriesMonthlySumBySubscriptionDto;
+    ratio: number;
+    renderColumns: (items: BillingHistoriesMonthlySumBySubscriptionDto['items']) => JSX.Element[];
+    exchangeRate: number;
+}
+
 BillingHistoryMonthlyRow.displayName = 'BillingHistoryMonthlyRow';
