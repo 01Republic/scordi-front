@@ -6,6 +6,13 @@ import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {CurrencyCode} from '^models/Money';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
 
+interface BillingHistoryMonthlyRowProps {
+    data: BillingHistoriesMonthlySumBySubscriptionDto;
+    ratio: number;
+    renderColumns: (items: BillingHistoriesMonthlySumBySubscriptionDto['items']) => JSX.Element[];
+    exchangeRate: number;
+}
+
 export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowProps) => {
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
     const {data, ratio, renderColumns, exchangeRate} = props;
@@ -41,12 +48,5 @@ export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowPro
         </tr>
     );
 });
-
-interface BillingHistoryMonthlyRowProps {
-    data: BillingHistoriesMonthlySumBySubscriptionDto;
-    ratio: number;
-    renderColumns: (items: BillingHistoriesMonthlySumBySubscriptionDto['items']) => JSX.Element[];
-    exchangeRate: number;
-}
 
 BillingHistoryMonthlyRow.displayName = 'BillingHistoryMonthlyRow';
