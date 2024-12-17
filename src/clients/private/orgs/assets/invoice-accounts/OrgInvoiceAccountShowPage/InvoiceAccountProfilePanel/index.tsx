@@ -1,9 +1,7 @@
 import React, {memo} from 'react';
 import {useCurrentInvoiceAccount} from '../atom';
 import {Avatar} from '^components/Avatar';
-import {KeyValue} from '^clients/private/_components/rest-pages/ShowPage/KeyValue';
-import {InvoiceAccountProviderAvatar} from '^models/InvoiceAccount/components';
-import {InvoiceAccountTeamList} from './InvoiceAccountTeamList';
+import {InvoiceAccountProviderAvatar, UsingStatusTag} from '^models/InvoiceAccount/components';
 
 export const InvoiceAccountProfilePanel = memo(function InvoiceAccountProfilePanel() {
     const {currentInvoiceAccount} = useCurrentInvoiceAccount();
@@ -35,6 +33,11 @@ export const InvoiceAccountProfilePanel = memo(function InvoiceAccountProfilePan
                         </>
                     )}
 
+                    <div className="flex items-center gap-3 pt-3">
+                        <div>
+                            <UsingStatusTag value={currentInvoiceAccount.usingStatus} />
+                        </div>
+                    </div>
                     {/*<div className="mt-2 mb-4">*/}
                     {/*    <KeyValue label="팀" value={<InvoiceAccountTeamList />} />*/}
                     {/*    <KeyValue*/}
