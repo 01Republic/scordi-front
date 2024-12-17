@@ -24,7 +24,7 @@ export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowPro
 
     return (
         <tr className="group">
-            <td className="sticky left-0 bg-white min-w-40 z-10 border-r-2">
+            <td className="sticky left-0 bg-white min-w-40 flex z-10 border-r-2">
                 <SubscriptionProfile subscription={subscription} className="font-medium" />
             </td>
             <td>
