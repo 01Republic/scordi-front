@@ -68,7 +68,7 @@ export const TeamPaymentTableRow = memo((props: TeamPaymentTableRowProps) => {
             </td>
 
             {/* 상태 (editable, sortable) */}
-            <td>
+            <td className={`${hoverBgColor}`}>
                 <SelectColumn
                     value={creditCard.usingStatus}
                     getOptions={async () => [

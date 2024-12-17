@@ -39,7 +39,7 @@ export const ListTable = <Dto,>(props: ListTableProps<Dto>) => {
                         </thead>
                     )}
 
-                    <tbody>
+                    <tbody className="[--rounded-box:0.375rem]">
                         {items.map((item, i) => (
                             <Row key={i} item={item} />
                         ))}
