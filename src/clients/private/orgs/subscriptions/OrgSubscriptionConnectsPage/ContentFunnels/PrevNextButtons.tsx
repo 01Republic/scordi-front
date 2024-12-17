@@ -15,17 +15,18 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
     const clearFormData = useResetRecoilState(createSubscriptionFormData);
     const [teamMembers, setTeamMembers] = useRecoilState(selectedTeamMembersAtom);
     const [currentStep, setStep] = useRecoilState(currentStepAtom);
-    const {finishProduct} = useCurrentConnectingProduct();
+    const {currentConnectingProduct, finishProduct} = useCurrentConnectingProduct();
     const resetFinishedProductMap = useResetRecoilState(finishedProductMapAtom);
+
+    //currentConnectingProduct?.id === product.id
 
     const prev = (i: number) => i - 1;
     const next = (i: number) => i + 1;
 
     const createSubscription = () => {
-        console.log(formData);
         subscriptionApi.create(formData).then((res) => {
             const subscription = res.data;
-            toast.success('구독이 등록되었어요!');
+            toast.success(`${currentConnectingProduct?.nameKo} 구독을 등록했어요.`);
             setTeamMembers([]);
             clearFormData();
             const nextProduct = finishProduct(subscription.productId);
@@ -124,7 +125,7 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
                     onPrev={() => setStep(prev)}
                     onNext={() => setStep(next)}
                     isValid={true}
-                    nextButtonText={!formData.vendorCompanyId ? '건너뛰기' : undefined}
+                    nextButtonText={!formData.vendorContract?.vendorCompanyId ? '건너뛰기' : undefined}
                 />
             );
         case Steps.Memo:

@@ -1,4 +1,4 @@
-import React, {Dispatch, memo, ReactNode, SetStateAction, useState} from 'react';
+import React, {Dispatch, Fragment, memo, ReactNode, SetStateAction, useState} from 'react';
 import {WithChildren} from '^types/global.type';
 import {ReactComponentLike} from 'prop-types';
 
@@ -63,21 +63,13 @@ export const MainTabGroup = memo((props: MainTabGroupProps) => {
     const [activeTabIndex, setActiveTabIndex] = useState(0);
     const {tabs = [], tabPanes = [], children} = props;
 
+    const TabPane = tabPanes.find((_, i) => i === activeTabIndex) || Fragment;
+
     return (
         <>
             <MainTabButtons activeTabIndex={activeTabIndex} setActiveTabIndex={setActiveTabIndex} tabs={tabs} />
 
-            <div>
-                {children
-                    ? typeof children === 'function'
-                        ? children(activeTabIndex)
-                        : children
-                    : tabPanes.map((TabPane, i) => {
-                          if (i !== activeTabIndex) return <></>;
-
-                          return <TabPane key={i} />;
-                      })}
-            </div>
+            <div>{children ? typeof children === 'function' ? children(activeTabIndex) : children : <TabPane />}</div>
         </>
     );
 });

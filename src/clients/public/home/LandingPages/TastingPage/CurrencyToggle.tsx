@@ -1,12 +1,12 @@
 import React, {memo} from 'react';
 import {useRecoilState} from 'recoil';
 import {displayCurrencyAtom} from './pageAtoms';
-import {ReactNodeLike} from 'prop-types';
 import {CurrencyCode} from '^models/Money';
+import {ReactNodeElement} from '^types/global.type';
 
 interface CurrencyToggleProps {
-    leftText?: ReactNodeLike;
-    rightText?: ReactNodeLike;
+    leftText?: ReactNodeElement;
+    rightText?: ReactNodeElement;
     className?: string;
 }
 
@@ -22,7 +22,7 @@ export const CurrencyToggle = memo((props: CurrencyToggleProps) => {
 
                     <input
                         type="checkbox"
-                        className="toggle toggle-primary"
+                        className={`toggle ${displayCurrency === CurrencyCode.KRW ? 'bg-scordi' : 'bg-gray-300'}`}
                         checked={displayCurrency === CurrencyCode.KRW}
                         onChange={(e) => {
                             const checked = e.target.checked;

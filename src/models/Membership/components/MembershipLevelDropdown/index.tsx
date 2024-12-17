@@ -20,7 +20,7 @@ export const MembershipLevelDropdown = memo((props: MembershipLevelDropdownProps
     const onChange = (level: MembershipLevel) => {
         return membershipApi
             .update(membership.id, {level})
-            .then(() => toast.success('권한을 변경했어요'))
+            .then(() => toast.success('권한을 변경했어요.'))
             .then(() => reload && reload())
             .catch(errorToast);
     };

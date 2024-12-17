@@ -8,6 +8,11 @@ import {CardTableTR} from '^admin/share';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {AdminOrgPageRoute} from '^pages/admin/orgs/[id]';
 import {hh_mm, yyyy_mm_dd} from '^utils/dateTime';
+import {membershipApi} from '^models/Membership/api';
+import {toast} from 'react-hot-toast';
+import {errorToast} from '^api/api';
+import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
+import {copyText} from '^components/util/copy';
 
 interface MembershipItemProps {
     membership: MembershipDto;
@@ -20,15 +25,23 @@ export const MembershipItem = memo((props: MembershipItemProps) => {
 
     const org = membership.organization;
     const orgLink = `${serviceHost}${OrgMainPageRoute.path(org.id)}`;
+    const detailPath = AdminOrgPageRoute.path(membership.organizationId);
 
-    const copyLink = (link: string) => {
-        window.navigator.clipboard.writeText(link).then(() => alert('복사되었습니다.'));
+    const copyLink = (link: string) => copyText(link).then(() => alert('복사되었습니다.'));
+
+    const remove = () => {
+        if (!confirm('정말 삭제할까요?\n관리자 권한으로 삭제하므로 이 작업은 복구가 불가능합니다.')) return;
+        membershipApi
+            .destroy(membership.id)
+            .then(() => toast.success('삭제했습니다.'))
+            .then(() => reload && reload())
+            .catch(errorToast);
     };
 
     return (
         <CardTableTR gridClass="grid-cols-7" borderBottom={borderBottom}>
             <div className="col-span-2">
-                <OpenButtonColumn href={AdminOrgPageRoute.path(membership.organizationId)}>
+                <OpenButtonColumn href={detailPath}>
                     <div className="flex gap-2 items-center">
                         <Avatar src={org.image} className="w-6" />
                         <p className="text-left whitespace-nowrap overflow-hidden hover:overflow-visible hover:bg-neutral hover:pr-3 z-[1]">
@@ -57,7 +70,30 @@ export const MembershipItem = memo((props: MembershipItemProps) => {
                     <span>{hh_mm(membership.createdAt)}</span>
                 </div>
             </div>
-            <div></div>
+
+            <div>
+                <MoreDropdown
+                    Trigger={() => <button className="btn btn-sm btn-scordi no-animation btn-animation">더보기</button>}
+                >
+                    {({hide}) => (
+                        <MoreDropdown.Content className="!py-0">
+                            <li>
+                                <MoreDropdown.ItemButton href={detailPath} className="hover:bg-scordi-50">
+                                    보기
+                                </MoreDropdown.ItemButton>
+                            </li>
+                            <li className="divider m-0" />
+                            <li>
+                                <MoreDropdown.ItemButton
+                                    text="삭제"
+                                    onClick={remove}
+                                    className="text-red-500 hover:bg-red-50"
+                                />
+                            </li>
+                        </MoreDropdown.Content>
+                    )}
+                </MoreDropdown>
+            </div>
         </CardTableTR>
     );
 });

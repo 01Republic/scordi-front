@@ -2,20 +2,26 @@ import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {SelectTeam} from '^clients/private/orgs/team/team-members/OrgTeamMemberNewPage/SelectTeam';
 import React, {memo, useState} from 'react';
 import {useForm} from 'react-hook-form';
-
-type updateSubscriptionBasicInfo = {
-    name: string;
-    team: string;
-    man: string;
-    text: string;
-};
+import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
+import {useRecoilState} from 'recoil';
+import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {subscriptionApi} from '^models/Subscription/api';
+import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {toast} from 'react-hot-toast';
 
 export const SubscriptionBasicInfoSection = memo(() => {
-    const form = useForm<updateSubscriptionBasicInfo>();
+    const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
+    const [subscription, setSubscription] = useRecoilState(subscriptionSubjectAtom);
 
-    const onSubmit = (dto: updateSubscriptionBasicInfo) => {
-        console.log(dto);
+    if (!subscription) return null;
+
+    const onSubmit = (dto: UpdateSubscriptionRequestDto) => {
+        subscriptionApi.update(subscription.id, dto).then((res) => {
+            setSubscription(res.data);
+            toast.success('변경사항을 저장했어요.');
+            setIsEditMode(false);
+        });
     };
 
     return (
@@ -34,16 +40,16 @@ export const SubscriptionBasicInfoSection = memo(() => {
                         <div className="max-w-md flex flex-col gap-4">
                             <h2 className="leading-none text-xl font-semibold pb-4">기본 정보</h2>
 
-                            <FormControl label="워크스페이스명" required={isEditMode}>
+                            <FormControl label="워크스페이스명">
                                 {isEditMode ? (
                                     <input
                                         className="input input-underline !bg-slate-100 w-full"
-                                        {...form.register('name')}
-                                        required
+                                        defaultValue={subscription?.alias}
+                                        {...form.register('alias')}
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        Notion
+                                        {subscription?.alias || '-'}
                                     </div>
                                 )}
                                 <span />
@@ -55,10 +61,10 @@ export const SubscriptionBasicInfoSection = memo(() => {
                                         defaultTeams={[]}
                                         onChange={(teams) => {
                                             const teamIds = teams.map((t) => t.id);
-                                            form.setValue('team', '');
                                         }}
                                     />
                                 ) : (
+                                    //  TODO: 팀 관련 데이터 없음
                                     <div className="flex items-center gap-1" style={{height: '49.5px'}}>
                                         <i className="text-gray-400">미설정</i>
                                         {/*{teams.length > 0 ? (*/}
@@ -70,34 +76,34 @@ export const SubscriptionBasicInfoSection = memo(() => {
                                 )}
                             </FormControl>
 
-                            <FormControl label="담당자" required={isEditMode}>
+                            <FormControl label="담당자">
                                 {isEditMode ? (
-                                    <SelectTeam
-                                        defaultTeams={[]}
-                                        onChange={(teams) => {
-                                            const teamIds = teams.map((t) => t.id);
-                                            form.setValue('team', '');
+                                    <TeamMemberSelectColumn
+                                        className={'input input-underline !bg-slate-100 w-full'}
+                                        defaultValue={subscription?.master}
+                                        onChange={(teamMember) => {
+                                            form.setValue('masterId', teamMember?.id);
                                         }}
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        김규리
+                                        {subscription?.master?.name}
                                     </div>
                                 )}
                                 <span />
                             </FormControl>
 
-                            <FormControl label="비고" required={isEditMode}>
+                            <FormControl label="비고">
                                 {isEditMode ? (
                                     <input
                                         type="tel"
                                         className="input input-underline !bg-slate-100 w-full"
-                                        {...form.register('text')}
-                                        required
+                                        defaultValue={subscription?.desc || undefined}
+                                        {...form.register('desc')}
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        비고비고
+                                        {subscription?.desc || '-'}
                                     </div>
                                 )}
                                 <span />

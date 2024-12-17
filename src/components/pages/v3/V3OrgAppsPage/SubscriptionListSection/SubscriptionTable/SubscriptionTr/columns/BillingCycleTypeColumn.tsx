@@ -21,7 +21,7 @@ export const BillingCycleTypeColumn = memo((props: BillingCycleTypeColumnProps) 
         return subscriptionApi
             .update(subscription.id, {billingCycleType})
             .then(() => onChange(billingCycleType))
-            .finally(() => toast.success('수정했습니다'));
+            .finally(() => toast.success('변경사항을 저장했어요.'));
     };
 
     return (

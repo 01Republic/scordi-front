@@ -1,11 +1,10 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useEffect, useRef, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
 import {
     BillingHistoriesMonthlySumBySubscriptionDto,
     BillingHistoriesYearlySumBySubscriptionDto,
-    BillingHistoryDto,
 } from '^models/BillingHistory/type';
 import {billingHistoryApi} from '^models/BillingHistory/api';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
@@ -14,59 +13,21 @@ import {YearlyScopeHandler} from './YearlyScopeHandler';
 import {BillingHistoryMonthly} from './BillingHistoryMonthly';
 import {BillingHistoryYearly} from './BillingHistoryYearly';
 import {useBillingHistoryStatus} from '^hooks/useBillingHistoryStatus';
-import {LoadableBox} from '^components/util/loading';
+
+interface ViewModeRef {
+    downloadExcel: () => any;
+    search: (keyword?: string) => void;
+}
 
 export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatusPage() {
-    const orgId = useRecoilValue(orgIdParamState);
+    const monthlyRef = useRef<ViewModeRef>(null);
+    const yearlyRef = useRef<ViewModeRef>(null);
     const {years, focusYear, setFocusYear, getMetaData} = useBillingHistoryStatus();
-
     const [viewUnit, setViewUnit] = useState(BillingCycleOptions.Monthly);
-    const [monthlyHistory, setMonthlyHistory] = useState<BillingHistoriesMonthlySumBySubscriptionDto[]>([]);
-    const [filteredMonthlyHistory, setFilteredMonthlyHistory] = useState<BillingHistoriesMonthlySumBySubscriptionDto[]>(
-        [],
-    );
-    const [yearlyHistory, setYearlyHistory] = useState<BillingHistoriesYearlySumBySubscriptionDto[]>([]);
-    const [filteredYearlyHistory, setFilteredYearlyHistory] = useState<BillingHistoriesYearlySumBySubscriptionDto[]>(
-        [],
-    );
-    const [isLoading, setIsLoading] = useState(false);
-
-    const fetchBillingData = async () => {
-        setIsLoading(true);
-        try {
-            if (focusYear) {
-                const monthlyResponse = await billingHistoryApi.statusApi.monthlySum(orgId, focusYear);
-
-                setMonthlyHistory(monthlyResponse.data);
-                setFilteredMonthlyHistory(monthlyResponse.data);
-            } else {
-                const yearlyResponse = await billingHistoryApi.statusApi.yearlySum(orgId);
-
-                setYearlyHistory(yearlyResponse.data);
-                setFilteredYearlyHistory(yearlyResponse.data);
-            }
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const handleSearch = (keyword = '') => {
-        const filterByName = (
-            item: BillingHistoriesMonthlySumBySubscriptionDto | BillingHistoriesYearlySumBySubscriptionDto,
-        ) => item.subscription?.product.name().includes(keyword);
-
-        setFilteredMonthlyHistory(monthlyHistory.filter(filterByName));
-        setFilteredYearlyHistory(yearlyHistory.filter(filterByName));
-    };
 
     useEffect(() => {
         if (viewUnit === BillingCycleOptions.Yearly) setFocusYear(undefined);
     }, [viewUnit]);
-
-    useEffect(() => {
-        if (!orgId || isNaN(orgId)) return;
-        fetchBillingData();
-    }, [focusYear, orgId, years]);
 
     return (
         <ListPage
@@ -87,20 +48,29 @@ export const OrgBillingHistoryStatusPage = memo(function OrgBillingHistoryStatus
             searchInputPlaceholder="서비스명 검색"
             ScopeHandler={() =>
                 viewUnit === BillingCycleOptions.Monthly ? (
-                    focusYear && <YearlyScopeHandler years={years} value={focusYear} onChange={setFocusYear} />
+                    <YearlyScopeHandler years={years} value={focusYear} onChange={setFocusYear} />
                 ) : (
                     <div />
                 )
             }
-            onSearch={handleSearch}
+            onSearch={(keyword) => {
+                const ref = viewUnit === BillingCycleOptions.Monthly ? monthlyRef : yearlyRef;
+                ref.current?.search(keyword);
+            }}
+            onDownload={() => {
+                const ref = viewUnit === BillingCycleOptions.Monthly ? monthlyRef : yearlyRef;
+                ref.current?.downloadExcel();
+            }}
         >
-            <LoadableBox isLoading={isLoading} loadingType={2} spinnerPos="center" noPadding loadingClass="">
-                {viewUnit === BillingCycleOptions.Monthly ? (
-                    <BillingHistoryMonthly history={filteredMonthlyHistory} />
+            {viewUnit === BillingCycleOptions.Monthly ? (
+                focusYear ? (
+                    <BillingHistoryMonthly ref={monthlyRef} focusYear={focusYear} />
                 ) : (
-                    <BillingHistoryYearly history={filteredYearlyHistory} />
-                )}
-            </LoadableBox>
+                    <div></div>
+                )
+            ) : (
+                <BillingHistoryYearly ref={yearlyRef} years={years} />
+            )}
         </ListPage>
     );
 });

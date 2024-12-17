@@ -3,13 +3,14 @@ import {useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
 import {FaChevronLeft} from 'react-icons/fa6';
 import {orgIdParamState} from '^atoms/common';
-import {VendorCompanyDto} from '^models/VendorCompany/type';
+import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {LoadableBox} from '^components/util/loading';
-import {vendorCompanyApi} from '^models/VendorCompany/api';
-import {useVendorCompanyListInCreateSubscription} from '^models/VendorCompany/hook';
+import {vendorCompanyApi} from '^models/vendor/VendorCompany/api';
+import {useVendorCompanyListInCreateSubscription} from '^models/vendor/VendorCompany/hook';
 import {SearchVendorCompanyInput} from './SearchVendorCompanyInput';
 import {VendorCompanyItem} from './VendorCompanyItem';
+import {toast} from 'react-hot-toast';
 
 interface VendorCompanySelectModalProps {
     isOpened: boolean;
@@ -47,6 +48,7 @@ export const VendorCompanySelectModal = memo((props: VendorCompanySelectModalPro
 
     const createVendorCompany = debounce((name: string) => {
         vendorCompanyApi.upsert(orgId, {name}).then((res) => {
+            toast.success('파트너사 기업 정보를 추가했어요.');
             clickCompany(res.data);
         });
     }, 500);
@@ -66,7 +68,7 @@ export const VendorCompanySelectModal = memo((props: VendorCompanySelectModalPro
                 </div>
                 <p className="font-medium text-12 text-scordi mb-1">파트너사 설정</p>
                 <h3 className="font-bold text-xl leading-tight">
-                    파트너사를 새로 추가하거나 <br /> 선택해주세요
+                    파트너사를 새로 추가하거나 <br /> 선택해주세요.
                 </h3>
             </div>
 

@@ -46,7 +46,7 @@ export const OrgTeamDetailPage = memo(function OrgTeamDetailPage() {
                     <div className={'col-span-3'}>
                         <div className={'flex items-center mb-8'}>
                             <TeamNavItem
-                                text={'멤버'}
+                                text={'구성원'}
                                 onClick={() => setTab(TabName.members)}
                                 isActive={tab === TabName.members}
                             />

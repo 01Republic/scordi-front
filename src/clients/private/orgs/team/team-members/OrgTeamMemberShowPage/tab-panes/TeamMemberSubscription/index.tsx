@@ -11,18 +11,22 @@ import {AddButton} from '^v3/V3OrgTeam/modals/TeamMemberShowModal/TeamMemberShow
 import {TeamMemberConnectModal} from '^clients/private/orgs/team/team-members/OrgTeamMemberShowPage/tab-panes/TeamMemberSubscription/TeamMemberConnectModal';
 import Tippy from '@tippyjs/react';
 import {MdRefresh} from 'react-icons/md';
+import {useUnmount} from '^hooks/useUnmount';
 
 export const TeamMemberSubscription = memo(function TeamMemberSubscription() {
     const {currentTeamMember: teamMember} = useCurrentTeamMember();
-    const {search, result, isLoading, movePage, changePageSize, reload, orderBy, isNotLoaded, isEmptyResult} =
+    const {search, result, isLoading, reset, movePage, changePageSize, reload, orderBy, isNotLoaded, isEmptyResult} =
         useSubscriptionsInTeamMemberShowPage();
 
     const [isConnectSubscription, setConnectSubscriptionModalOpened] = useState(false);
 
     const ConnectSubscriptionButton = () => (
-        <LinkTo onClick={() => setConnectSubscriptionModalOpened(true)} className="btn btn-scordi gap-2" loadingOnBtn>
-            <FaPlus />
-            <span>구독 연결하기</span>
+        <LinkTo
+            onClick={() => setConnectSubscriptionModalOpened(true)}
+            className="btn btn-scordi gap-2 no-animation btn-animation"
+            loadingOnBtn
+        >
+            <span>구독 연결</span>
         </LinkTo>
     );
 
@@ -30,6 +34,7 @@ export const TeamMemberSubscription = memo(function TeamMemberSubscription() {
 
     const onReady = () => {
         search({
+            relations: ['creditCard', 'invoiceAccounts'],
             where: {
                 organizationId: teamMember.organizationId,
                 // @ts-ignore
@@ -38,6 +43,8 @@ export const TeamMemberSubscription = memo(function TeamMemberSubscription() {
             order: {id: 'DESC'},
         });
     };
+
+    useUnmount(() => reset());
 
     const {totalItemCount} = result.pagination;
 

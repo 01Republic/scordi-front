@@ -104,6 +104,7 @@ export const getSubscriptionQueryTrigger = atom({
     default: 0,
 });
 
+// [DEPRECATED] [용도 종료됨] 쓰지마세요!!
 export const getSubscriptionQuery = selector({
     key: 'getSubscriptionQuery',
     get: async ({get}) => {
@@ -122,6 +123,7 @@ export const getSubscriptionQuery = selector({
     },
 });
 
+// [DEPRECATED] [용도 종료됨] 쓰지마세요!!
 export const fetchSubscriptionQueryById = selectorFamily({
     key: 'fetchSubscriptionQueryById',
     get: (id: number) => async () => {

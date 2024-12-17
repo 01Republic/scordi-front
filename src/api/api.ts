@@ -36,6 +36,7 @@ export function errorToast(e: ApiError) {
             toast.error(message);
         }
     }
+    return null;
 }
 
 export const api = axios.create({

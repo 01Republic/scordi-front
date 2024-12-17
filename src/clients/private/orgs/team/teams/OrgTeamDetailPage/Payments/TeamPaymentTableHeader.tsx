@@ -14,10 +14,17 @@ export const TeamPaymentTableHeader = memo((props: TeamPaymentTableHeaderProps) 
                 이름
             </SortableTH>
 
+            {/* 상태 (editable, sortable) */}
+            <SortableTH sortKey="[usingStatus]" onClick={orderBy}>
+                상태
+            </SortableTH>
+
             {/* 소지자 */}
             <SortableTH sortKey={'[creditCard][holdingMember][name]'} onClick={orderBy}>
                 소지자
             </SortableTH>
+
+            <th>비고</th>
 
             <th />
         </tr>

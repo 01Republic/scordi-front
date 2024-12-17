@@ -34,7 +34,7 @@ export const TeamSelect = memo((props: TeamSelectProps) => {
         return teamMemberApi
             .update(orgId, teamMember.id, {teamIds: [team.id]})
             .then(() => onChange(team))
-            .finally(() => toast.success('저장했습니다'));
+            .finally(() => toast.success('변경사항을 저장했어요.'));
     };
 
     const onCreate = async (keyword: string) => {

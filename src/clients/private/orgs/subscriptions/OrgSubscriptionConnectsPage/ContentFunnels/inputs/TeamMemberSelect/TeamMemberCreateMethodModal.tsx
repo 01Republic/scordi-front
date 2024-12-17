@@ -3,7 +3,7 @@ import {FaChevronRight} from 'react-icons/fa6';
 import {FcDataBackup, FcDataRecovery} from 'react-icons/fc';
 import {IconType} from '@react-icons/all-files';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {useGoogleLoginForWorkspaceConnect} from './useGoogleLoginForWorkspaceConnect';
+import {useGoogleLoginForWorkspaceConnect} from '^clients/private/_modals/team-members';
 
 interface TeamMemberCreateMethodModalProps {
     isOpened: boolean;
@@ -22,8 +22,8 @@ export const TeamMemberCreateMethodModal = memo((props: TeamMemberCreateMethodMo
             <div className="py-4 flex flex-col gap-3">
                 <MethodOption
                     Icon={FcDataBackup}
-                    title="자동으로 연동하기"
-                    desc="구글 어드민에 연결하고 한 번에 불러와요"
+                    title="구성원 불러오기"
+                    desc="구성원 정보를 입력한 뒤 추가해요."
                     onClick={() => {
                         launch(() => {
                             onClose();
@@ -33,8 +33,8 @@ export const TeamMemberCreateMethodModal = memo((props: TeamMemberCreateMethodMo
                 />
                 <MethodOption
                     Icon={FcDataRecovery}
-                    title="직접 입력하기"
-                    desc="멤버를 수기로 입력해요"
+                    title="직접 추가하기"
+                    desc="구성원 정보를 입력한 뒤 추가해요."
                     onClick={() => {
                         onClose();
                         onSelect('manual');

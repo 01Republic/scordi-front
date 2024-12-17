@@ -53,7 +53,7 @@ export const SlideUpSelectModal = <T,>(props: SlideUpSelectModalProps<T>) => {
 
     const onSubmit = async () => {
         await (_onSubmit && _onSubmit(selectedIds));
-        toast.success('추가했습니다.');
+        toast.success('구독을 연결했어요.');
         onCreate && onCreate();
     };
 

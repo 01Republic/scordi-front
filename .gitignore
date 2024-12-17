@@ -42,7 +42,6 @@ jspm_packages
 .yarnrc.yml
 
 # Lock file
-yarn.lock
 package-lock.json
 
 # Optional REPL history

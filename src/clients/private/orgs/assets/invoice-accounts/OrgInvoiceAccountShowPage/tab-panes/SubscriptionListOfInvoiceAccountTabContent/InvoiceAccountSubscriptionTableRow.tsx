@@ -1,16 +1,21 @@
 import React, {memo} from 'react';
-import {toast} from 'react-hot-toast';
 import Tippy from '@tippyjs/react';
+import {toast} from 'react-hot-toast';
 import {BsDashCircle} from 'react-icons/bs';
-import {SubscriptionDto} from '^models/Subscription/types';
-import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
-import {IsFreeTierTagUI} from '^models/Subscription/components/IsFreeTierTagUI';
-import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
-import {MoneySimpleRounded} from '^models/Money/components/money.simple-rounded';
-import {TeamMemberProfileCompact, TeamMemberProfileOption} from '^models/TeamMember/components/TeamMemberProfile';
 import {yyyy_mm_dd} from '^utils/dateTime';
+import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {confirm2} from '^components/util/dialog';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {subscriptionApi} from '^models/Subscription/api';
+import {SubscriptionDto, UpdateSubscriptionRequestDto} from '^models/Subscription/types';
+import {
+    SubscriptionProfile,
+    IsFreeTierTagUI,
+    BillingCycleTypeTagUI,
+    PayMethodSelect,
+    LatestPayAmount,
+} from '^models/Subscription/components';
+import {CreditCardProfileCompact} from '^models/CreditCard/components';
 import {useCurrentInvoiceAccount} from '../../atom';
 
 interface InvoiceAccountSubscriptionTableRowProps {
@@ -22,19 +27,32 @@ export const InvoiceAccountSubscriptionTableRow = memo((props: InvoiceAccountSub
     const {subscription, reload} = props;
     const {currentInvoiceAccount} = useCurrentInvoiceAccount();
 
+    const update = async (dto: UpdateSubscriptionRequestDto) => {
+        return subscriptionApi
+            .update(subscription.id, dto)
+            .then(() => toast.success('변경사항을 저장했어요.'))
+            .catch(() => toast.error('문제가 발생했어요.'))
+            .finally(() => reload && reload());
+    };
+
     const disconnect = async () => {
         if (!currentInvoiceAccount) return;
         const invoiceAccountId = currentInvoiceAccount.id;
 
         const isConfirmed = await confirm2(
-            '이 계정과 연결을 해제할까요?',
-            '구독이 삭제되는건 아니니 안심하세요',
+            '구독 연결을 해제할까요?',
+            <p>
+                이 작업은 취소할 수 없습니다.
+                <br />
+                <b>청구서 메일에서 제외</b>됩니다. <br />
+                그래도 연결을 해제 하시겠어요?
+            </p>,
             'warning',
         ).then((res) => res.isConfirmed);
         if (!isConfirmed) return;
 
         await invoiceAccountApi.subscriptionsApi.destroy(invoiceAccountId, subscription.id);
-        toast.success('연결을 해제했어요');
+        toast.success('연결을 해제했어요.');
         reload();
     };
 
@@ -44,7 +62,7 @@ export const InvoiceAccountSubscriptionTableRow = memo((props: InvoiceAccountSub
 
     return (
         <tr>
-            {/* 서비스 명 */}
+            {/* 서비스명 */}
             <td>
                 <SubscriptionProfile subscription={subscription} />
             </td>
@@ -66,9 +84,9 @@ export const InvoiceAccountSubscriptionTableRow = memo((props: InvoiceAccountSub
                 )}
             </td>
 
-            {/*최신 청구액*/}
-            <td>
-                <MoneySimpleRounded money={subscription.currentBillingAmount || undefined} />
+            {/*결제금액*/}
+            <td className="text-right">
+                <LatestPayAmount subscription={subscription} />
             </td>
 
             {/* 갱신일 */}
@@ -76,27 +94,65 @@ export const InvoiceAccountSubscriptionTableRow = memo((props: InvoiceAccountSub
                 {nextComputedBillingDate && yyyy_mm_dd(new Date(`${nextComputedBillingDate} `))}
             </td>
 
-            {/*담당자*/}
+            {/*소지자*/}
+            {/*<td>*/}
+            {/*    {subscription.master ? (*/}
+            {/*        <TeamMemberProfileCompact item={subscription.master} />*/}
+            {/*    ) : (*/}
+            {/*        <div className="relative">*/}
+            {/*            <div className="invisible">*/}
+            {/*                <TeamMemberProfileOption item={subscription.master} />*/}
+            {/*            </div>*/}
+            {/*            <div className="absolute inset-0 flex items-center text-12 text-gray-300">*/}
+            {/*                <span>비어있음</span>*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*    )}*/}
+            {/*</td>*/}
+
+            {/* 결제수단 */}
+            <td className="pl-3 py-0">
+                <PayMethodSelect
+                    subscription={subscription}
+                    onChange={reload}
+                    ValueComponent={(props) => {
+                        const {value} = props;
+                        return typeof value === 'string' ? <p>{value}</p> : <CreditCardProfileCompact item={value} />;
+                    }}
+                />
+            </td>
+
+            {/* 비고 */}
+            {/*<td>*/}
+            {/*    {subscription.master ? (*/}
+            {/*        <TeamMemberProfileCompact item={subscription.master} />*/}
+            {/*    ) : (*/}
+            {/*        <div className="relative">*/}
+            {/*            <div className="invisible">*/}
+            {/*                <TeamMemberProfileOption item={subscription.master} />*/}
+            {/*            </div>*/}
+            {/*            <div className="absolute inset-0 flex items-center text-12 text-gray-300">*/}
+            {/*                <span>비어있음</span>*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*    )}*/}
+            {/*</td>*/}
+
             <td>
-                {subscription.master ? (
-                    <TeamMemberProfileCompact item={subscription.master} />
-                ) : (
-                    <div className="relative">
-                        <div className="invisible">
-                            <TeamMemberProfileOption item={subscription.master} />
-                        </div>
-                        <div className="absolute inset-0 flex items-center text-12 text-gray-300">
-                            <span>비어있음</span>
-                        </div>
-                    </div>
-                )}
+                <AirInputText
+                    defaultValue={subscription.desc || undefined}
+                    onChange={async (desc) => {
+                        if (subscription.desc === desc) return;
+                        return update({desc});
+                    }}
+                />
             </td>
 
             {/* Action */}
             <td>
                 <div className="flex items-center justify-center">
                     {currentInvoiceAccount.isManuallyCreated && (
-                        <Tippy className="!text-12" content="안써요">
+                        <Tippy className="!text-12" content="구독 제외">
                             <div>
                                 <button
                                     className="relative text-red-300 hover:text-red-500 transition-all"

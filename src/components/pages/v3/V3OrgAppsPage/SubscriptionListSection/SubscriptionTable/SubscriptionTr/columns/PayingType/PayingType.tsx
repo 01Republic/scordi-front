@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo, useEffect, useState} from 'react';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {usePayingTypeTags} from '^models/Tag/hook';
@@ -35,7 +35,7 @@ export const PayingType = memo((props: PayingTypeProps) => {
         return subscriptionApi
             .update(subscription.id, {pricingModel})
             .then(() => onChange(pricingModel))
-            .finally(() => toast.success('저장했습니다'));
+            .finally(() => toast.success('변경사항을 저장했어요.'));
     };
 
     return (
@@ -123,3 +123,36 @@ const PayingTypeCreatableTag = memo((props: {value: TagDto | string}) => {
 
     return <TagUI className={colorClass}>{typeof value === 'string' ? value : value.name}</TagUI>;
 });
+
+interface PayingTypeSelectProps {
+    subscription: SubscriptionDto;
+    onChange: (value: PricingModelOptions) => any;
+    className?: string;
+    defaultValue?: PricingModelOptions;
+}
+
+export const PayingTypeSelect = memo((props: PayingTypeSelectProps) => {
+    const {defaultValue, subscription, onChange} = props;
+    const [value, setValue] = useState<PricingModelOptions | undefined>(defaultValue);
+
+    const handleSelect = async (value: PricingModelOptions) => {
+        setValue(value);
+        onChange(value);
+    };
+
+    useEffect(() => {
+        setValue(defaultValue);
+    }, [defaultValue]);
+
+    return (
+        <SelectColumn
+            value={value}
+            getOptions={async () => PricingModelValues}
+            onSelect={(option) => handleSelect(option)}
+            ValueComponent={PayingTypeTag}
+            contentMinWidth="240px"
+            inputDisplay={false}
+        />
+    );
+});
+PayingType.displayName = 'PayingType';

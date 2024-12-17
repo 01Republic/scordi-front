@@ -13,7 +13,7 @@ export const IsFreeTierStep = memo(function IsFreeTierStep() {
     const goNextStep = (isFreeTier: boolean) => setStep(isFreeTier ? Steps.TeamMembers : Steps.RecurringCycle);
 
     return (
-        <StepLayout title="앱을 유료로 구독하고 있나요?" desc="유/무료 여부를 선택해주세요.">
+        <StepLayout title="유료로 구독하는 서비스인가요?" desc="유/무료 여부를 선택해주세요.">
             <InputSection>
                 <ButtonGroupRadio
                     onChange={(option) => {

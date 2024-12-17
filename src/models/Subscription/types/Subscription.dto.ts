@@ -13,17 +13,20 @@ import {MoneyDto} from '^models/Money';
 import {BillingCycleTerm, Locale, SubscriptionBillingCycleDto, t_BillingCycleTerm} from './billingCycleType';
 import {ConnectStatus} from './ConnectStatus';
 import {SubscriptionStatus} from './SubscriptionStatus';
+import {SubscriptionUsingStatus} from './SubscriptionUsingStatus.enum';
 import {SubscriptionPaymentPlanDto} from './paymentPlanType';
 import {BillingCycleOptions, t_SubscriptionBillingCycleType} from '^models/Subscription/types/BillingCycleOptions';
 import {PricingModelOptions} from '^models/Subscription/types/PricingModelOptions';
 import {SubscriptionConnectMethod} from '^models/Subscription/types/ConnectMethod';
-import {VendorManagerDto} from '^models/VendorManager/type';
-import {VendorCompanyDto} from '^models/VendorCompany/type';
+import {VendorManagerDto} from '^models/vendor/VendorManager/type';
+import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
+import {VendorContractDto} from '^models/vendor/VendorContract/types';
 
 export class SubscriptionDto {
     id: number;
     connectStatus: ConnectStatus; // 연동상태
-    status: SubscriptionStatus; // 구독 상태
+    status: SubscriptionStatus; // 구독 상태 (구, deprecated)
+    readonly usingStatus: SubscriptionUsingStatus; // 구독 상태 (신) - 미정, 무료, 유료, 해지
     alias: string; // 별칭
     desc: string | null; // 메모
     isActive: boolean; // 활성화 여부
@@ -38,7 +41,9 @@ export class SubscriptionDto {
     pricingModel: PricingModelOptions; // 과금 방식
     connectMethod: SubscriptionConnectMethod; // 연동 방식
 
-    @TypeCast(() => Date) registeredAt?: Date | null; // 사용 시작일
+    @TypeCast(() => Date) registeredAt?: Date | null; // 스코디 연동 시작일
+    @TypeCast(() => Date) startAt?: Date | null; // 구독시작일
+    @TypeCast(() => Date) finishAt?: Date | null; // 구독종료일
     nextBillingDate: string | null; // 다음결제일
     nextBillingAmount: number; // 결제예정금액
     nextComputedBillingDate: string | null; // 다음결제일 (최종 계산결과)
@@ -46,8 +51,8 @@ export class SubscriptionDto {
     @TypeCast(() => Date) lastPaidAt: Date | null; // 최신 결제일
     isPerUser: boolean; // 인당 과금 여부
     accountCount: number; // 멤버계정수
-    paidMemberCount: number; // 결제되는 사용자 수
-    usedMemberCount: number; // 사용중인 사용자 수
+    paidMemberCount: number; // 결제되는 사용자 수 (라이선스에 따른 총 시트 수)
+    usedMemberCount: number; // 사용중인 사용자 수 (라이선스에서 사용중인 시트 수)
     publicEmail: string | null; // 공개 이메일
     billingEmail: string | null; // 결제 이메일
 
@@ -86,8 +91,14 @@ export class SubscriptionDto {
     // @TypeCast(() => SignedHistoryDto) signedHistories?: SignedHistoryDto[]; // 접속 기록 목록
     @TypeCast(() => TagDto) recurringTypeTag?: TagDto; // 과금 방식 태그
     @TypeCast(() => TagDto) billingCycleTag?: TagDto; // 결제 주기 태그
-    @TypeCast(() => VendorCompanyDto) vendorCompany?: VendorCompanyDto; // 파트너 벤더사
-    @TypeCast(() => VendorManagerDto) vendorManager?: VendorManagerDto; // 파트너 벤더사 담당자
+    @TypeCast(() => VendorContractDto) vendorContracts?: VendorContractDto[]; // 파트너 벤더사와 구독의 연결
+
+    // 파트너 벤더사 현재 연결
+    get vendorContract(): VendorContractDto | undefined {
+        // 이 getter 는 vendorContracts 를 relations 소스로 삼고있음을 주목 할 것.
+        const vendorContracts = this.vendorContracts || [];
+        return vendorContracts[0];
+    }
 
     accounts?: [];
 

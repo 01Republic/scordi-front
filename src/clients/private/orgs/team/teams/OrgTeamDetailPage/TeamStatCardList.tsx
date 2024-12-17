@@ -34,7 +34,7 @@ export const TeamStatCardList = memo((props: TeamStatCardListProps) => {
             <div className="grid grid-cols-2 gap-1">
                 <TeamStatCard
                     Icon={() => <BsPeopleFill fontSize={15} className="text-yellow-600" />}
-                    title="멤버"
+                    title="구성원"
                     count={team ? team.teamMemberCount : 0}
                     className={`text-gray-500 ${isLoading ? 'animate-pulse' : ''}`}
                     onClick={() => changeCurrentTab && changeCurrentTab(TabName.members)}

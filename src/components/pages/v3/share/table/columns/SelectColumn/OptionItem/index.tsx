@@ -20,7 +20,7 @@ export const OptionItem = <T,>(props: OptionItemProps<T>) => {
     return (
         <li onClick={() => clickOption(option)} className={`cursor-pointer flex px-[4px] group`} data-focusable="true">
             <div
-                className={`flex rounded-[4px] bg-white text-inherit items-center pt-[2px] px-[10px] pb-0 min-h-[28px] ${className} ${
+                className={`flex rounded-[4px] bg-white text-inherit items-center pt-[1px] px-[10px] pb-[1px] min-h-[28px] ${className} ${
                     !isCurrent
                         ? 'group-hover:bg-gray-300 group-hover:bg-opacity-30 active:bg-gray-200'
                         : '!bg-opacity-0'
@@ -30,7 +30,12 @@ export const OptionItem = <T,>(props: OptionItemProps<T>) => {
 
                 {destroyRequest ? (
                     <div className="ml-auto">
-                        <MoreDropdown isCurrent={isCurrent} option={option} destroyRequest={destroyRequest} />
+                        <MoreDropdown
+                            className="flex"
+                            isCurrent={isCurrent}
+                            option={option}
+                            destroyRequest={destroyRequest}
+                        />
                     </div>
                 ) : (
                     <div className="ml-auto">{isCurrent && <FcCheckmark />}</div>

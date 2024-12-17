@@ -3,6 +3,7 @@ import {SubscriptionStatus} from '^models/Subscription/types/SubscriptionStatus'
 import {CreateMoneyWithSubscriptionRequestDto} from '^models/Money';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
 import {PricingModelOptions} from '^models/Subscription/types/PricingModelOptions';
+import {UpsertVendorContractWithSubscriptionDto} from '^models/vendor/VendorContract/types/UpsertVenderContract.request.dto';
 
 export class CreateSubscriptionRequestDto {
     organizationId: number; // 조직 ID
@@ -26,7 +27,9 @@ export class CreateSubscriptionRequestDto {
     isDynamicBillingAmount?: boolean; // 계속해서 변경되는 금액 여부
 
     isFreeTier?: boolean; // 프리티어 여부(Default: false)
-    @TypeCast(() => Date) registeredAt?: Date; // 사용시작일(Default: 현재)
+    @TypeCast(() => Date) registeredAt?: Date; // 스코디 연동 시작일(Default: 현재)
+    @TypeCast(() => Date) startAt?: Date | null; // 구독시작일
+    @TypeCast(() => Date) finishAt?: Date | null; // 구독종료일
     isPerUser?: boolean; // 유저가 기록한 인당 과금 여부
 
     // sign?: string | null; // 연동계정 Sign
@@ -43,8 +46,7 @@ export class CreateSubscriptionRequestDto {
     // // usedMemberCount?: number; // 사용중인 사용자 수
 
     invoiceAccountId?: number;
-    vendorCompanyId?: number;
-    vendorManagerId?: number;
+    vendorContract?: UpsertVendorContractWithSubscriptionDto; // 연결하고자 하는 벤더사 데이터
 }
 
 export class CreateSubscriptionRequestDto2 {

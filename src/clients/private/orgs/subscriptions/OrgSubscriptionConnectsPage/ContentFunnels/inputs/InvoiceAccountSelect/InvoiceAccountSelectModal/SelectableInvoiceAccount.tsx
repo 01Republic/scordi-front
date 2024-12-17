@@ -39,7 +39,13 @@ export const SelectableInvoiceAccount = memo((props: SelectableInvoiceAccountPro
 
                 <div className={`${isHovered ? 'flex' : 'hidden'} items-center justify-center transition-all`}>
                     <MoreButtonDropdown>
-                        <MoreButtonContent invoiceAccount={invoiceAccount} onSaved={onSaved} />
+                        {({hide}) => (
+                            <MoreButtonContent
+                                invoiceAccount={invoiceAccount}
+                                onClick={() => hide && hide()}
+                                onSaved={onSaved}
+                            />
+                        )}
                     </MoreButtonDropdown>
                 </div>
             </div>

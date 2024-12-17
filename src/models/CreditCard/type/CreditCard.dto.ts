@@ -50,6 +50,14 @@ export class CreditCardDto {
         );
     }
 
+    get profileName() {
+        if (this.name) return this.name;
+        if (this.issuerCompany) return this.issuerCompany;
+
+        const company = this.company;
+        if (company) return company.displayName.replace('카드', '').replace('card', '');
+    }
+
     get label(): string {
         return `${this.name} / ${this.companyText} ${this.endNumber}`;
     }

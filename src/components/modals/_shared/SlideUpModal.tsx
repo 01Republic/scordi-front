@@ -2,6 +2,7 @@ import React, {Fragment, memo} from 'react';
 import {ModalLayoutProps} from '^components/modals/_shared/Modal.types';
 import {WithChildren} from '^types/global.type';
 import {Dialog, Transition} from '@headlessui/react';
+import {eventCut} from '^utils/event';
 
 interface SlideUpModalProps extends ModalLayoutProps {
     minHeight?: string;
@@ -39,7 +40,8 @@ export const SlideUpModal = memo((props: SlideUpModalProps & WithChildren) => {
                             leaveTo="opacity-0"
                         >
                             <Dialog.Overlay
-                                className={`fixed inset-0 transition-opacity`}
+                                data-component="SlideUpModal/Backdrop"
+                                className={`fixed inset-0 transition-opacity z-50`}
                                 style={{backgroundColor: `rgb(0 0 0 / ${backdropOption.opacity})`}}
                             />
                         </Transition.Child>
@@ -55,7 +57,8 @@ export const SlideUpModal = memo((props: SlideUpModalProps & WithChildren) => {
                         leaveTo="bottom-[-100%]"
                     >
                         <div
-                            className={`fixed left-0 right-0 modal-box max-w-${size} mx-auto w-full max-h-full overflow-y-hidden scale-100 rounded-b-none ${minHeight} ${maxHeight} ${modalClassName}`}
+                            data-component="SlideUpModal/ModalBox"
+                            className={`fixed left-0 right-0 modal-box z-50 max-w-${size} mx-auto w-full max-h-full overflow-y-hidden scale-100 rounded-b-none ${minHeight} ${maxHeight} ${modalClassName}`}
                         >
                             {children}
                         </div>

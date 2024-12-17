@@ -1,11 +1,11 @@
 import React, {memo} from 'react';
-import {BillingHistoryDto, UpdateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type';
-import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
-import {BillingHistoryStatusTagUI} from '^models/BillingHistory/components/BillingHistoryStatusTagUI';
-import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
-import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
-import {billingHistoryApi} from '^models/BillingHistory/api';
 import {toast} from 'react-hot-toast';
+import {debounce} from 'lodash';
+import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
+import {SubscriptionProfile} from '^models/Subscription/components';
+import {billingHistoryApi} from '^models/BillingHistory/api';
+import {BillingHistoryDto, UpdateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type';
+import {BillingHistoryStatusTagUI, PayAmount, BillingHistoryTimestamp} from '^models/BillingHistory/components';
 
 interface BillingHistoryRowOfCreditCardProps {
     item: BillingHistoryDto;
@@ -15,52 +15,34 @@ interface BillingHistoryRowOfCreditCardProps {
 export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCreditCardProps) => {
     const {item: billingHistory, onSaved} = props;
 
-    const update = async (dto: UpdateBillingHistoryRequestDtoV2) => {
+    const update = debounce((dto: UpdateBillingHistoryRequestDtoV2) => {
         return billingHistoryApi
             .updateV2(billingHistory.id, dto)
-            .then(() => toast.success('수정했습니다'))
-            .catch(() => toast.success('문제가 발생했습니다'))
+            .then(() => toast.success('변경사항을 저장했어요.'))
+            .catch(() => toast.success('문제가 발생했어요.'))
             .finally(() => onSaved && onSaved());
-    };
-
-    const PaidAmount = () => {
-        if (!billingHistory.payAmount) return <></>;
-
-        const {payAmount} = billingHistory;
-        const {code, amount, symbol, format} = payAmount;
-        const {exchangedCurrency, dollarPrice, exchangeRate} = payAmount;
-
-        return (
-            <div className={`flex items-center gap-1 justify-end ${billingHistory.paidAt ? '' : 'text-red-400'}`}>
-                <span>{symbol}</span>
-                <span>{Math.round(amount).toLocaleString()}</span>
-            </div>
-        );
-    };
+    }, 250);
 
     return (
-        <tr className="group text-14" data-id={billingHistory.id}>
-            {/*결제일시*/}
+        <tr className="group text-14" data-id={billingHistory.id} onClick={() => console.log(billingHistory)}>
+            {/*일시*/}
             <td>
-                {billingHistory.paidAt ? (
-                    yyyy_mm_dd_hh_mm(billingHistory.paidAt)
-                ) : (
-                    <span className="text-red-400">{yyyy_mm_dd_hh_mm(billingHistory.issuedAt)}</span>
-                )}
+                <BillingHistoryTimestamp billingHistory={billingHistory} />
             </td>
 
-            {/*내용*/}
-            <td>{billingHistory.paymentMethod}</td>
-
-            {/*구분*/}
+            {/*상태*/}
             <td>
                 <BillingHistoryStatusTagUI billingHistory={billingHistory} />
             </td>
+
+            {/*내용*/}
+            <td className="text-12 max-w-sm whitespace-pre-wrap">{billingHistory.title}</td>
+
             {/*<td>{billingHistory.pageSubject}</td>*/}
 
             {/*결제금액*/}
             <td>
-                <PaidAmount />
+                <PayAmount billingHistory={billingHistory} />
             </td>
 
             {/*연결된 구독*/}

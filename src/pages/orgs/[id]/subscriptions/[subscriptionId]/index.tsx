@@ -2,15 +2,17 @@ import React from 'react';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
-import {orgIdParamState, subscriptionIdParamState, useRouterIdParamState} from '^atoms/common';
-import {useCurrentOrg} from '^models/Organization/hook';
+import {subscriptionIdParamState} from '^atoms/common';
+import {subscriptionApi} from '^models/Subscription/api';
+import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {OrgSubscriptionDetailPage} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage';
+import {ShowRoutingPage} from '^clients/private/_components/rest-pages/ShowPage/ShowRoutingPage';
 import {SubscriptionDto} from '^models/Subscription/types';
 
 export const OrgSubscriptionDetailPageRoute = pathRoute({
     pathname: '/orgs/[id]/subscriptions/[subscriptionId]',
-    path: (orgId: number, subscriptionId: number) =>
-        pathReplace(OrgSubscriptionDetailPageRoute.pathname, {id: orgId, subscriptionId: subscriptionId}),
+    path: (orgId: number, id: number) =>
+        pathReplace(OrgSubscriptionDetailPageRoute.pathname, {id: orgId, subscriptionId: id}),
     resourcePath: (resource: SubscriptionDto) =>
         OrgSubscriptionDetailPageRoute.path(resource.organizationId, resource.id),
 });
@@ -30,11 +32,26 @@ export const OrgSubscriptionDetailPageRoute = pathRoute({
 // });
 
 export default function Page() {
-    const orgId = useRouterIdParamState('id', orgIdParamState);
-    const subscriptionId = useRouterIdParamState('subscriptionId', subscriptionIdParamState);
-    useCurrentOrg(orgId);
-
-    if (!orgId || isNaN(orgId) || isNaN(subscriptionId)) return <></>;
-
-    return <OrgSubscriptionDetailPage />;
+    return (
+        <ShowRoutingPage
+            subjectIdParamKey="subscriptionId"
+            subjectIdParamAtom={subscriptionIdParamState}
+            subjectAtom={subscriptionSubjectAtom}
+            endpoint={(subjectId) =>
+                subscriptionApi.show(subjectId, {
+                    relations: [
+                        'organization',
+                        'teamMembers',
+                        'vendorContracts',
+                        'vendorContracts.vendorCompany',
+                        'vendorContracts.vendorManager',
+                        'invoiceAccounts',
+                        'billingHistories',
+                    ],
+                })
+            }
+        >
+            <OrgSubscriptionDetailPage />
+        </ShowRoutingPage>
+    );
 }

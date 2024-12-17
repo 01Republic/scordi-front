@@ -1,12 +1,12 @@
-import {BillingHistoryDto} from '^models/BillingHistory/type';
 import React, {memo} from 'react';
-import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
-import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
-import {OutLink} from '^components/OutLink';
-import {MobileInfoList} from '^v3/share/MobileInfoList';
 import {useSetRecoilState} from 'recoil';
+import {BillingHistoryDto} from '^models/BillingHistory/type';
+import {CreditCardProfileOption2} from '^models/CreditCard/components';
+import {OutLink} from '^components/OutLink';
+import {MobileInfoListItem} from '^v3/share/MobileInfoList/Item';
+import {MobileInfoList} from '^v3/share/MobileInfoList';
+import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {attachmentModalState} from '^tasting/AttachmentModal';
-import {CreditCardProfileOption2} from '^models/CreditCard/hook/components/CreditCardProfile';
 
 interface EmailInvoiceBillingHistoryProps {
     billingHistory: BillingHistoryDto;

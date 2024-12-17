@@ -11,6 +11,7 @@ import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {FadeUp} from '^components/FadeUp';
 import {ConnectableCardSelect} from '^clients/private/_modals/credit-cards/CardAutoCreateModal/ConnectableCardListStep';
 import {InputCardAccountFormDataStep} from '^clients/private/_modals/credit-cards/CardAutoCreateModal/CodefAccountConnectStep/InputCardAccountFormDataStep';
+import {debounce} from 'lodash';
 
 interface ConnectCodefAccountModalProps extends ModalProps {
     cardCompany: CardAccountsStaticData;
@@ -35,9 +36,7 @@ export const ConnectCodefAccountModal = memo((props: ConnectCodefAccountModalPro
         codefAccount && setCodefAccountId(codefAccount.id);
     };
 
-    useEffect(() => {
-        if (!isOpened) return;
-        if (!cardCompany?.param) return;
+    const loginIfAccountExist = debounce(() => {
         checkExists(cardCompany.param, cardCompany.clientType, (existedAccount) => {
             if (existedAccount) {
                 toast.success(`${existedAccount.company}에 로그인했어요`);
@@ -45,6 +44,12 @@ export const ConnectCodefAccountModal = memo((props: ConnectCodefAccountModalPro
             setAccount(existedAccount);
             setIsPreChecked(true);
         });
+    }, 500);
+
+    useEffect(() => {
+        if (!isOpened) return;
+        if (!cardCompany?.param) return;
+        loginIfAccountExist();
     }, [isOpened, cardCompany.param]);
 
     return (

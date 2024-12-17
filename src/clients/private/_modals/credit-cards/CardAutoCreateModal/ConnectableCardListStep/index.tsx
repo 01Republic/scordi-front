@@ -50,7 +50,7 @@ export const ConnectableCardListStep = memo((props: ConnectableCardListStepProps
                 </div>
                 <p className="font-medium text-12 text-scordi mb-1">{cardCompany.displayName}에서 등록하기</p>
                 <h3 className="font-bold text-xl leading-tight">
-                    새로 등록할 카드를 <br /> 선택해주세요.
+                    새로 등록할 카드를 <br /> 모두 선택해주세요.
                 </h3>
             </div>
 
@@ -102,20 +102,22 @@ interface ConnectableCardSelectProps {
 
 export const ConnectableCardSelect = memo((props: ConnectableCardSelectProps) => {
     const {cardCompany, codefAccount, onBack, onSubmit} = props;
-    const {search, result, isLoading} = useNewCodefCards(codefAccountIdParamState);
+    const {search, result, isLoading, reset} = useNewCodefCards(codefAccountIdParamState);
     const [checkedCard, setCheckedCard] = useState<CodefCardDto>();
 
+    const fetchCards = debounce(() => {
+        search({
+            where: {accountId: codefAccount.id, isSleep: false},
+            sync: true,
+            itemsPerPage: 0,
+        });
+    }, 500);
+
     useEffect(() => {
-        search(
-            {
-                where: {accountId: codefAccount.id, isSleep: false},
-                sync: true,
-                itemsPerPage: 0,
-            },
-            false,
-            true,
-        );
+        if (codefAccount) fetchCards();
     }, [codefAccount]);
+
+    useUnmount(() => reset());
 
     return (
         <div className="flex flex-col items-stretch">
@@ -125,7 +127,7 @@ export const ConnectableCardSelect = memo((props: ConnectableCardSelectProps) =>
                 </div>
                 <p className="font-medium text-12 text-scordi mb-1">{cardCompany.displayName}에서 등록하기</p>
                 <h3 className="font-bold text-xl leading-tight">
-                    새로 등록할 카드를 <br /> 선택해주세요.
+                    새로 등록할 카드를 <br /> 모두 선택해주세요.
                 </h3>
             </div>
 

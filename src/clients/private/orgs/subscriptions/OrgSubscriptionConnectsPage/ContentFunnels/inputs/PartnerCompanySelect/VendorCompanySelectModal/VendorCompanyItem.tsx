@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {VendorCompanyDto} from '^models/VendorCompany/type';
+import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
 import {FaCheck, FaChevronRight} from 'react-icons/fa6';
 
 interface VendorCompanyItemProps {

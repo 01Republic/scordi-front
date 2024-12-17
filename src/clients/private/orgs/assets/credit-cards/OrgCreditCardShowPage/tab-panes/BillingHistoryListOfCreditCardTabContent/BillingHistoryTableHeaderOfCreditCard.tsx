@@ -8,9 +8,9 @@ export const BillingHistoryTableHeaderOfCreditCard = memo((props: BillingHistory
 
     return (
         <tr className="bg-slate-100">
-            <th>결제일시</th>
+            <th>일시</th>
+            <th>상태</th>
             <th>내용</th>
-            <th>구분</th>
             <th className="text-center">결제금액</th>
             <th>연결된 구독</th>
             <th>비고</th>

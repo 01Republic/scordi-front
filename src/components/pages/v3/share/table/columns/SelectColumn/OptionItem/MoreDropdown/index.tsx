@@ -14,7 +14,7 @@ interface MoreDropdownProps<T> extends WithChildren {
 }
 
 export const MoreDropdown = <T,>(props: MoreDropdownProps<T>) => {
-    const {isCurrent, option, updateRequest, destroyRequest, children, className} = props;
+    const {isCurrent, option, updateRequest, destroyRequest, children, className = ''} = props;
 
     return (
         <Dropdown
@@ -24,17 +24,17 @@ export const MoreDropdown = <T,>(props: MoreDropdownProps<T>) => {
             Trigger={({visible}) => (
                 <div className="flex items-center gap-2">
                     {/* 자리 마킹용 플레이스홀더 */}
-                    <div className="invisible flex">
-                        <button className="btn btn-xs btn-square">
-                            <IoIosMore size={16} />
-                        </button>
-                    </div>
+                    {/*<div className="invisible flex">*/}
+                    {/*    <button className="btn btn-xs btn-square">*/}
+                    {/*        <IoIosMore size={16} />*/}
+                    {/*    </button>*/}
+                    {/*</div>*/}
 
                     {/* isCurrent: 드롭다운이 열려있다면 비활성화하고, 닫혀있다면 hover 되지 않을 때 활성화 합니다. */}
                     <div className={visible ? 'hidden' : `group-hover:hidden`}>{isCurrent && <FcCheckmark />}</div>
 
                     {/* hover 되었을 때 활성화하고, 드롭다운이 열려있다면 활성화된 상태로 고정합니다. */}
-                    <div className={visible ? 'flex' : 'hidden group-hover:flex'}>
+                    <div className={`flex ${visible ? '' : 'invisible group-hover:visible'}`}>
                         <button className="btn btn-xs btn-square !border-none hover:bg-gray-200">
                             <IoIosMore size={16} />
                         </button>

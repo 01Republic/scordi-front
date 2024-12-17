@@ -3,10 +3,10 @@ import {Paginated} from '^types/utils/paginated.dto';
 import {FindAllMembershipQuery, MembershipDto} from 'src/models/Membership/types';
 import {pagedResourceAtom} from '^hooks/usePagedResource';
 
-export const signSavedMembershipIdAtom = atom<number | undefined>({
-    key: 'signSavedMembershipIdAtom',
-    default: undefined,
-});
+// export const signSavedMembershipIdAtom = atom<number | undefined>({
+//     key: 'signSavedMembershipIdAtom',
+//     default: undefined,
+// });
 // export const currentMembershipAtom = atom<OrganizationDto | null>({
 //     key: 'currentMembershipAtom',
 //     default: null,

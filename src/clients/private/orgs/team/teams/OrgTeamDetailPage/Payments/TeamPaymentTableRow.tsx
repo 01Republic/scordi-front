@@ -1,16 +1,18 @@
 import React, {memo} from 'react';
+import {useRecoilValue} from 'recoil';
 import {toast} from 'react-hot-toast';
-import {CreditCardDto, UpdateCreditCardDto} from '^models/CreditCard/type';
+import Tippy from '@tippyjs/react';
 import {creditCardApi} from '^models/CreditCard/api';
-import {CreditCardProfileOption2} from '^models/CreditCard/hook/components/CreditCardProfile';
+import {CreditCardDto, CreditCardUsingStatus, UpdateCreditCardDto} from '^models/CreditCard/type';
+import {CreditCardProfileOption2, UsingStatusTag} from '^models/CreditCard/components';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
-import Tippy from '@tippyjs/react';
 import {FiMinusCircle} from '^components/react-icons';
-import {useRecoilValue} from 'recoil';
 import {teamIdParamState} from '^atoms/common';
 import {confirm2} from '^components/util/dialog';
+import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
+import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 
 interface TeamPaymentTableRowProps {
     creditCard?: CreditCardDto;
@@ -37,7 +39,16 @@ export const TeamPaymentTableRow = memo((props: TeamPaymentTableRowProps) => {
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
 
     const onDelete = () => {
-        confirm2(`결제수단 연결 해제`, `${creditCard.name} 연결을 해제 할까요?`, 'warning').then((res) => {
+        confirm2(
+            `결제수단 연결을 해제할까요?`,
+            <span>
+                이 작업은 취소할 수 없습니다.
+                <br />
+                <b>팀에서 제외</b>됩니다. <br />
+                그래도 연결을 해제 하시겠어요?
+            </span>,
+            'warning',
+        ).then((res) => {
             if (res.isConfirmed) {
                 creditCardApi.teamsApi.destroy(creditCard.id, teamId).then(() => {
                     toast.success('삭제했습니다');
@@ -56,9 +67,31 @@ export const TeamPaymentTableRow = memo((props: TeamPaymentTableRowProps) => {
                 </OpenButtonColumn>
             </td>
 
+            {/* 상태 (editable, sortable) */}
+            <td>
+                <SelectColumn
+                    value={creditCard.usingStatus}
+                    getOptions={async () => [
+                        CreditCardUsingStatus.UnDef,
+                        CreditCardUsingStatus.NoUse,
+                        CreditCardUsingStatus.InUse,
+                        CreditCardUsingStatus.Expired,
+                    ]}
+                    onSelect={async (usingStatus: CreditCardUsingStatus) => {
+                        if (usingStatus === creditCard.usingStatus) return;
+                        return update({usingStatus});
+                    }}
+                    ValueComponent={UsingStatusTag}
+                    contentMinWidth="240px"
+                    optionListBoxTitle="사용 상태를 변경합니다"
+                    inputDisplay={false}
+                />
+            </td>
+
             {/* 소지자 */}
             <td className={`${hoverBgColor}`}>
                 <TeamMemberSelectColumn
+                    compactView
                     defaultValue={creditCard.holdingMember || undefined}
                     onChange={async (holdingMember) => {
                         if (creditCard.holdingMemberId === holdingMember?.id) return;
@@ -69,9 +102,20 @@ export const TeamPaymentTableRow = memo((props: TeamPaymentTableRowProps) => {
                 />
             </td>
 
+            {/* 비고 */}
+            <td className={`${hoverBgColor}`}>
+                <AirInputText
+                    defaultValue={creditCard.memo || undefined}
+                    onChange={async (memo) => {
+                        if (creditCard.memo === memo) return;
+                        return update({memo});
+                    }}
+                />
+            </td>
+
             <td className={`${hoverBgColor}`}>
                 <div className="flex items-center justify-end">
-                    <Tippy content="이 팀에서 제거">
+                    <Tippy content="팀에서 제외">
                         <div>
                             <FiMinusCircle
                                 fontSize={24}

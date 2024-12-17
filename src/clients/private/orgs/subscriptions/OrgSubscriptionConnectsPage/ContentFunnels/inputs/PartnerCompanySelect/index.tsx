@@ -1,15 +1,15 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRecoilState} from 'recoil';
 import {MonoSelectInput} from '^components/ui/inputs/MonoSelect/MonoSelectInput';
-import {VendorCompanyDto} from '^models/VendorCompany/type';
-import {VendorManagerDto} from '^models/VendorManager/type';
+import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
+import {VendorManagerDto} from '^models/vendor/VendorManager/type';
 import {createSubscriptionFormData} from '../../atom';
 import {InputSection} from '../InputSection';
 import {VendorCompanySelectModal} from './VendorCompanySelectModal';
 import {VendorManagerSelectModal} from './VendorManagerSelectModal';
-import {useVendorCompanyListInCreateSubscription} from '^models/VendorCompany/hook';
-import {useVendorManagerListInCreateSubscription} from '^models/VendorManager/hook';
-import {VendorManagerProfile} from '^models/VendorManager/components/VendorManagerProfile';
+import {useVendorCompanyListInCreateSubscription} from '^models/vendor/VendorCompany/hook';
+import {useVendorManagerListInCreateSubscription} from '^models/vendor/VendorManager/hook';
+import {VendorManagerProfile} from '^models/vendor/VendorManager/components/VendorManagerProfile';
 
 export const PartnerCompanySelect = memo(function PartnerCompanySelect() {
     const [formData, setFormData] = useRecoilState(createSubscriptionFormData);
@@ -21,20 +21,24 @@ export const PartnerCompanySelect = memo(function PartnerCompanySelect() {
     const [selectedManager, setSelectedManager] = useState<VendorManagerDto>();
 
     useEffect(() => {
-        const defaultCompany = searchedCompany.items.find((o) => o.id === formData.vendorCompanyId);
+        const defaultCompany = searchedCompany.items.find((o) => o.id === formData.vendorContract?.vendorCompanyId);
         setSelectedCompany(defaultCompany);
 
-        const defaultManager = searchedManager.items.find((o) => o.id === formData.vendorManagerId);
+        const defaultManager = searchedManager.items.find((o) => o.id === formData.vendorContract?.vendorManagerId);
         setSelectedManager(defaultManager);
     }, []);
 
     const onCompanyChange = (vendorCompany?: VendorCompanyDto) => {
         setSelectedCompany(vendorCompany);
-        setFormData((f) => ({
-            ...f,
-            vendorCompanyId: vendorCompany?.id,
-            vendorManagerId: vendorCompany && vendorCompany.id === f.vendorCompanyId ? f.vendorManagerId : undefined,
-        }));
+        setFormData((f) => {
+            const vendorCompanyId = vendorCompany?.id;
+            const vendorManagerId =
+                vendorCompany && vendorCompany.id === f.vendorContract?.vendorCompanyId
+                    ? f.vendorContract?.vendorManagerId
+                    : undefined;
+
+            return {...f, vendorContract: {vendorCompanyId, vendorManagerId}};
+        });
         if (vendorCompany) {
             const isChanged = vendorCompany.id !== selectedCompany?.id;
             if (isChanged) setSelectedManager(undefined);
@@ -46,10 +50,11 @@ export const PartnerCompanySelect = memo(function PartnerCompanySelect() {
 
     const onManagerChange = (vendorManager?: VendorManagerDto) => {
         setSelectedManager(vendorManager);
-        setFormData((f) => ({
-            ...f,
-            vendorManagerId: vendorManager?.id,
-        }));
+        setFormData((f) => {
+            const vendorCompanyId = vendorManager?.vendorCompanyId || f.vendorContract?.vendorCompanyId;
+            const vendorManagerId = vendorManager?.id;
+            return {...f, vendorContract: {vendorCompanyId, vendorManagerId}};
+        });
     };
 
     return (
@@ -87,7 +92,7 @@ export const PartnerCompanySelect = memo(function PartnerCompanySelect() {
             <VendorCompanySelectModal
                 isOpened={isCompanySelectModalOpened}
                 onClose={() => setIsCompanySelectModalOpened(false)}
-                vendorCompanyId={formData.vendorCompanyId}
+                vendorCompanyId={formData.vendorContract?.vendorCompanyId}
                 onSelect={onCompanyChange}
             />
 
@@ -95,7 +100,7 @@ export const PartnerCompanySelect = memo(function PartnerCompanySelect() {
                 isOpened={isManagerSelectModalOpened}
                 onClose={() => setIsManagerSelectModalOpened(false)}
                 selectedCompany={selectedCompany}
-                vendorManagerId={formData.vendorManagerId}
+                vendorManagerId={formData.vendorContract?.vendorManagerId}
                 onSelect={onManagerChange}
             />
         </InputSection>

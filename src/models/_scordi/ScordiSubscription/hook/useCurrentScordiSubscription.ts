@@ -49,7 +49,7 @@ export const useCurrentScordiSubscription = () => {
             .then((res) => {
                 const newSub = res.data;
                 if (newSub.isActive) {
-                    toast.success('플랜을 변경했어요');
+                    toast.success('플랜이 결제됐어요.');
                 } else {
                     const startAt = yyyy_mm_dd(newSub.startAt!, '. ');
 

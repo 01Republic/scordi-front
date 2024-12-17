@@ -5,7 +5,6 @@ import {orgIdParamState} from '^atoms/common';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {TeamMemberProfileCompact, TeamMemberProfileOption} from './TeamMemberProfile';
-import {ReactComponentLike} from 'prop-types';
 
 interface TeamMemberSelectColumnProps {
     defaultValue?: TeamMemberDto;

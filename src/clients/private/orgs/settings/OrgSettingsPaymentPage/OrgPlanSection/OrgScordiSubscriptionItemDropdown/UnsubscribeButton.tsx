@@ -53,11 +53,12 @@ export const UnsubscribeButton = memo((props: UnsubscribeButtonProps) => {
 
     const onClickPreRelease = async () => {
         const {isConfirmed} = await confirm2(
-            '문의 채널로 연결합니다',
-            <div className="">
-                <div>잠시 공사중인 기능이에요 🚧</div>
-                <div>문의 채널에서 진행을 도와드리고 있어요</div>
-            </div>,
+            '구독을 해지할까요?',
+            <p>
+                문의 채널에서 구독 해지를 도와드리고 있어요.
+                <br />
+                아래 연결하기 버튼을 클릭해 요청 해주세요.
+            </p>,
             undefined,
             {confirmButtonText: '연결하기', cancelButtonText: '돌아가기'},
         );
