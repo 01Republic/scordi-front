@@ -1,6 +1,6 @@
 import React, {memo, useState} from 'react';
 import {TeamMemberInviteStatus, useTeamMembersInTeamMembersTable} from '^models/TeamMember';
-import {ScopeButton} from './ScopeButton';
+import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 
 export const InviteStatusScopeHandler = memo(function InviteStatusScopeHandler() {
     const {search, query} = useTeamMembersInTeamMembersTable();
@@ -18,30 +18,30 @@ export const InviteStatusScopeHandler = memo(function InviteStatusScopeHandler()
 
     return (
         <div className="flex items-center gap-2">
-            <ScopeButton
+            <ListPage.ScopeButton
                 active={memberStatus == TeamMemberInviteStatus.All}
                 onClick={() => searchMembers(TeamMemberInviteStatus.All)}
             >
                 전체
-            </ScopeButton>
-            <ScopeButton
+            </ListPage.ScopeButton>
+            <ListPage.ScopeButton
                 active={memberStatus == TeamMemberInviteStatus.BeforeInvite}
                 onClick={() => searchMembers(TeamMemberInviteStatus.BeforeInvite)}
             >
                 초대 전
-            </ScopeButton>
-            <ScopeButton
+            </ListPage.ScopeButton>
+            <ListPage.ScopeButton
                 active={memberStatus == TeamMemberInviteStatus.Inviting}
                 onClick={() => searchMembers(TeamMemberInviteStatus.Inviting)}
             >
                 가입 대기중
-            </ScopeButton>
-            <ScopeButton
+            </ListPage.ScopeButton>
+            <ListPage.ScopeButton
                 active={memberStatus == TeamMemberInviteStatus.Invited}
                 onClick={() => searchMembers(TeamMemberInviteStatus.Invited)}
             >
                 초대 완료
-            </ScopeButton>
+            </ListPage.ScopeButton>
         </div>
     );
 });
