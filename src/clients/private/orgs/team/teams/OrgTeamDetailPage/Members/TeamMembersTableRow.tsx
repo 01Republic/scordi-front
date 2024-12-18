@@ -8,7 +8,7 @@ import {FiMinusCircle} from '^components/react-icons';
 import {teamMembershipApi} from '^models/TeamMembership/api';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState, teamIdParamState} from '^atoms/common';
-import {confirm2} from '^components/util/dialog';
+import {confirm2, throwIfSwalCancelled} from '^components/util/dialog';
 import {toast} from 'react-hot-toast';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {errorToast} from '^api/api';
@@ -35,28 +35,30 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
         return teamMemberApi
             .update(orgId, teamMember.id, {notes: dto.notes})
             .then(() => toast.success('변경사항을 저장했어요.'))
-            .catch(errorToast)
-            .finally(() => reload && reload());
+            .then(() => reload && reload())
+            .catch(errorToast);
     }, 250);
 
     const onDelete = () => {
-        confirm2(
-            `구성원 연결을 해제할까요?`,
-            <span>
-                이 작업은 취소할 수 없습니다.
-                <br />
-                <b>팀에서 제외</b>됩니다. <br />
-                그래도 연결을 해제 하시겠어요?
-            </span>,
-            'warning',
-        ).then((res) => {
-            if (res.isConfirmed) {
-                teamMembershipApi.destroy(orgId, {teamId: teamId, teamMemberId: teamMember.id}).then(() => {
-                    toast.success('삭제했습니다');
-                    reload && reload();
-                });
-            }
-        });
+        const deleteConfirm = () => {
+            return confirm2(
+                `구성원 연결을 해제할까요?`,
+                <span>
+                    이 작업은 취소할 수 없습니다.
+                    <br />
+                    <b>팀에서 제외</b>됩니다. <br />
+                    그래도 연결을 해제 하시겠어요?
+                </span>,
+                'warning',
+            );
+        };
+
+        deleteConfirm()
+            .then(throwIfSwalCancelled(''))
+            .then(() => teamMembershipApi.destroy(orgId, {teamId: teamId, teamMemberId: teamMember.id}))
+            .then(() => toast.success('삭제했습니다'))
+            .then(() => reload && reload())
+            .catch(errorToast);
     };
 
     return (
@@ -68,8 +70,8 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
                         className={`flex items-center gap-2 px-3 -mx-3 text-gray-700 group-hover:text-scordi max-w-sm`}
                     >
                         <TeamMemberAvatar teamMember={teamMember} className="w-8 h-8" />
-                        <div className="overflow-x-hidden">
-                            <p className="truncate text-14">
+                        <div className="">
+                            <p className="text-14">
                                 <span>{teamMember.name}</span>
                             </p>
                         </div>
