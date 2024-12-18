@@ -1,7 +1,6 @@
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
-import React, {memo, useState} from 'react';
-import {useRecoilState} from 'recoil';
-import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import React, {memo, useEffect, useState} from 'react';
+import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
 import {VendorManagerDto} from '^models/vendor/VendorManager/type';
@@ -10,15 +9,18 @@ import {VendorManagerSelectModal} from '^clients/private/orgs/subscriptions/OrgS
 import {subscriptionApi} from '^models/Subscription/api';
 import {toast} from 'react-hot-toast';
 import {useForm} from 'react-hook-form';
+import {vendorManagerApi} from '^models/vendor/VendorManager/api';
 
 export const SubscriptionBusinessInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
-    const [subscription, setSubscription] = useRecoilState(subscriptionSubjectAtom);
+    const {reload, currentSubscription: subscription} = useCurrentSubscription();
     const [isCompanySelectModalOpened, setIsCompanySelectModalOpened] = useState(false);
     const [isManagerSelectModalOpened, setIsManagerSelectModalOpened] = useState(false);
     const [selectedCompany, setSelectedCompany] = useState<VendorCompanyDto>();
     const [selectedManager, setSelectedManager] = useState<VendorManagerDto>();
+    // TODO: 매니저 정보 업데이트 로직 추가
+    const updateManagerForm = useForm();
 
     if (!subscription) return null;
 
@@ -45,11 +47,11 @@ export const SubscriptionBusinessInfoSection = memo(() => {
     };
 
     const onSubmit = (data: UpdateSubscriptionRequestDto) => {
-        subscriptionApi.update(subscription?.id, data).then((res) => {
+        !!selectedManager && vendorManagerApi.update(subscription.organizationId, selectedManager?.id);
+        subscriptionApi.update(subscription?.id, data).then(() => {
             toast.success('변경사항을 저장했어요.');
             setIsEditMode(false);
-            // TODO 리턴값에 벤더 관련 내용이 없음
-            setSubscription(res.data);
+            reload();
         });
     };
 
@@ -58,7 +60,10 @@ export const SubscriptionBusinessInfoSection = memo(() => {
             ? subscription?.vendorContracts[0]
             : undefined;
 
-    console.log('vendorContract', vendorContract);
+    useEffect(() => {
+        setSelectedCompany(vendorContract?.vendorCompany);
+        setSelectedManager(vendorContract?.vendorManager);
+    }, [vendorContract]);
 
     return (
         <section>
@@ -88,7 +93,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                         }
                                         onClick={() => setIsCompanySelectModalOpened(true)}
                                     >
-                                        {vendorContract?.vendorCompany?.name || undefined}
+                                        {selectedCompany?.name || undefined}
                                     </a>
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
@@ -106,7 +111,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                         }
                                         onClick={() => setIsManagerSelectModalOpened(true)}
                                     >
-                                        {vendorContract?.vendorManager?.name || undefined}
+                                        {selectedManager?.name || undefined}
                                     </a>
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
@@ -120,14 +125,15 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                 {isEditMode ? (
                                     <input
                                         className="input input-underline !bg-slate-100 w-full"
-                                        defaultValue={vendorContract?.vendorManager?.email || undefined}
+                                        defaultValue={selectedManager?.email || undefined}
                                         onChange={(e) => {
+                                            // TODO: 업데이트 로직 추가
                                             console.log(e.target.value);
                                         }}
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {vendorContract?.vendorManager?.email || '-'}
+                                        {selectedManager?.email || '-'}
                                     </div>
                                 )}
                                 <span />
@@ -137,14 +143,15 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                 {isEditMode ? (
                                     <input
                                         className="input input-underline !bg-slate-100 w-full"
-                                        defaultValue={vendorContract?.vendorManager?.phone || undefined}
+                                        defaultValue={selectedManager?.phone || undefined}
                                         onChange={(e) => {
+                                            // TODO: 업데이트 로직 추가
                                             console.log(e.target.value);
                                         }}
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {vendorContract?.vendorManager?.phone || '-'}
+                                        {selectedManager?.phone || '-'}
                                     </div>
                                 )}
                                 <span />

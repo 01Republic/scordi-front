@@ -15,8 +15,7 @@ import {intlDateLong} from '^utils/dateTime';
 import {subscriptionApi} from '^models/Subscription/api';
 import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
-import {useRecoilState} from 'recoil';
-import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {IsFreeTierTagUI, PayMethodSelect} from '^models/Subscription/components';
 import {toast} from 'react-hot-toast';
 import {
@@ -33,15 +32,15 @@ import {InvoiceAccountSelect} from '^clients/private/orgs/subscriptions/OrgSubsc
 export const SubscriptionPaymentInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
-    const [subscription, setSubscription] = useRecoilState(subscriptionSubjectAtom);
+    const {reload, currentSubscription: subscription} = useCurrentSubscription();
 
     if (!subscription) return null;
 
     const onSubmit = (dto: UpdateSubscriptionRequestDto) => {
         subscriptionApi.update(subscription?.id, dto).then((res) => {
-            setSubscription(res.data);
             toast.success('변경사항을 저장했어요.');
             setIsEditMode(false);
+            reload();
         });
     };
 

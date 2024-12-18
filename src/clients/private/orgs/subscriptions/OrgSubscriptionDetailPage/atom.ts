@@ -13,10 +13,23 @@ export const useCurrentSubscription = () => {
     const [currentSubscription, setCurrentSubscription] = useRecoilState(subscriptionSubjectAtom);
 
     const findOne = async (id: number) => {
-        return subscriptionApi.show(id).then((res) => {
-            setCurrentSubscription(res.data);
-            return res.data;
-        });
+        return subscriptionApi
+            .show(id, {
+                relations: [
+                    'organization',
+                    'teamMembers',
+                    'vendorContracts',
+                    'vendorContracts.vendorCompany',
+                    'vendorContracts.vendorManager',
+                    'invoiceAccounts',
+                    'billingHistories',
+                    'teamMemberSubscriptions',
+                ],
+            })
+            .then((res) => {
+                setCurrentSubscription(res.data);
+                return res.data;
+            });
     };
 
     const reload = async () => {

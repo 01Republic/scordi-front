@@ -3,8 +3,7 @@ import {SelectTeam} from '^clients/private/orgs/team/team-members/OrgTeamMemberN
 import React, {memo, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
-import {useRecoilState} from 'recoil';
-import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {subscriptionApi} from '^models/Subscription/api';
 import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {toast} from 'react-hot-toast';
@@ -12,15 +11,15 @@ import {toast} from 'react-hot-toast';
 export const SubscriptionBasicInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
-    const [subscription, setSubscription] = useRecoilState(subscriptionSubjectAtom);
+    const {reload, currentSubscription: subscription} = useCurrentSubscription();
 
     if (!subscription) return null;
 
     const onSubmit = (dto: UpdateSubscriptionRequestDto) => {
         subscriptionApi.update(subscription.id, dto).then((res) => {
-            setSubscription(res.data);
             toast.success('변경사항을 저장했어요.');
             setIsEditMode(false);
+            reload();
         });
     };
 
