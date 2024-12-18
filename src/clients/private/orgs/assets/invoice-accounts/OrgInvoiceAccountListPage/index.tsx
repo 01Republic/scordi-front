@@ -2,13 +2,14 @@ import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
 import {orgIdParamState} from '^atoms/common';
-import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {AddInvoiceAccountDropdown} from './AddInvoiceAccountDropdown';
-import {AddInvoiceAccountModal} from './AddInvoiceAccountModal';
+import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
+import {InvoiceAccountScopeHandler} from './InvoiceAccountScopeHandler';
 import {InvoiceAccountTableHeader} from './InvoiceAccountTableHeader';
 import {InvoiceAccountTableRow} from './InvoiceAccountTableRow';
+import {AddInvoiceAccountDropdown} from './AddInvoiceAccountDropdown';
+import {AddInvoiceAccountModal} from './AddInvoiceAccountModal';
 
 export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage() {
     const organizationId = useRecoilValue(orgIdParamState);
@@ -55,7 +56,7 @@ export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage
             breadcrumb={['자산', {text: '청구서 메일', active: true}]}
             titleText="청구서 메일"
             Buttons={() => <AddInvoiceAccountDropdown reload={refresh} />}
-            ScopeHandler={undefined}
+            ScopeHandler={InvoiceAccountScopeHandler}
             searchInputPlaceholder="검색어를 입력해주세요"
             onSearch={onSearch}
         >
