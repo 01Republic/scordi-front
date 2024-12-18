@@ -3,7 +3,6 @@ import {useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
 import {toast} from 'react-hot-toast';
 import {FaPlus} from 'react-icons/fa6';
-import {FiDownload} from 'react-icons/fi';
 import {orgIdParamState} from '^atoms/common';
 import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
@@ -16,6 +15,7 @@ import {SubscriptionDto} from '^models/Subscription/types';
 import {SubscriptionScopeHandler} from './SubscriptionScopeHandler';
 import {SubscriptionTableHeader} from './SubscriptionTableHeader';
 import {SubscriptionTableRow} from './SubscriptionTableRow';
+import {ExcelDownLoadButton} from './ExcelDownLoadButton';
 import {CurrencyToggle} from '^tasting/CurrencyToggle';
 import {errorToast} from '^api/api';
 
@@ -40,12 +40,6 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
             itemsPerPage: 30,
         });
     }, 500);
-
-    const DownLoadFileButton = () => (
-        <div className="btn bg-white border border-[#CBD5E1]">
-            <FiDownload fontSize={20} />
-        </div>
-    );
 
     const AddSubscriptionButton = () => (
         <div>
@@ -89,7 +83,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
             titleText="구독 리스트"
             Buttons={() => (
                 <div className="flex gap-4">
-                    <DownLoadFileButton />
+                    <ExcelDownLoadButton />
                     <AddSubscriptionButton />
                 </div>
             )}
