@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {ListPageScopeButton} from '^clients/private/_layouts/_shared/ListPageScopeButton';
+import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 
 interface YearlyScopeHandlerProps {
     years: number[];
@@ -13,13 +13,13 @@ export const YearlyScopeHandler = memo((props: YearlyScopeHandlerProps) => {
     return (
         <div className="flex items-center gap-2 flex-wrap pr-16">
             {years.map((year, i) => (
-                <ListPageScopeButton
+                <ListPage.ScopeButton
                     key={year}
                     active={value ? year === value : i === 0}
                     onClick={() => onChange && onChange(year)}
                 >
                     {year}
-                </ListPageScopeButton>
+                </ListPage.ScopeButton>
             ))}
         </div>
     );
