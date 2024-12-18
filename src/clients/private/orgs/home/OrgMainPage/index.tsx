@@ -3,8 +3,8 @@ import {MainLayout} from '^clients/private/_layouts/MainLayout';
 import {LogoImg} from './LogoImg';
 import {MainInputBox} from './MainInputBox';
 import {AppUnitList} from './AppUnitList';
-import {BannerFeedback} from '^clients/private/orgs/OrgMainPage/BannerFeedback';
-import {BannerRecommend} from '^clients/private/orgs/OrgMainPage/BannerRecommend';
+import {BannerFeedback} from './BannerFeedback';
+import {BannerRecommend} from './BannerRecommend';
 
 export const OrgMainPage = memo(function OrgMainPage() {
     return (
