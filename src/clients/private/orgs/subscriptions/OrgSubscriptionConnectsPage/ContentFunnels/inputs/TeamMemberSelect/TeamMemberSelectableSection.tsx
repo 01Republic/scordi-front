@@ -5,7 +5,14 @@ import {selectedTeamMembersAtom} from './atom';
 import {TeamMemberSelectableItem} from './TeamMemberSelectableItem';
 import {useListOf} from '^hooks/useResource';
 
-export const TeamMemberSelectableSection = memo(function TeamMemberSelectableSection() {
+interface TeamMemberSelectableSectionProps {
+    gridCols?: number;
+}
+
+export const TeamMemberSelectableSection = memo(function TeamMemberSelectableSection(
+    props: TeamMemberSelectableSectionProps,
+) {
+    const {gridCols = 2} = props;
     const {isLoading, result} = useTeamMemberListInCreateSubscription();
     const {list, add, remove} = useListOf(selectedTeamMembersAtom, {getKey: 'id'});
 
@@ -13,7 +20,7 @@ export const TeamMemberSelectableSection = memo(function TeamMemberSelectableSec
         <LoadableBox isLoading={isLoading} loadingType={2} noPadding>
             {result.pagination.totalItemCount > 0 ? (
                 <div>
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className={`grid grid-cols-${gridCols} gap-2`}>
                         {result.items.map((teamMember, i) => {
                             const selected = list.some((m) => m.id === teamMember.id);
 
