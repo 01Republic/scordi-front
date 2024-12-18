@@ -9,7 +9,7 @@ import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/sel
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer, ListTablePaginator} from '^clients/private/_components/table/ListTable';
 import {LinkTo} from '^components/util/LinkTo';
-import {confirm2} from '^components/util/dialog';
+import {confirm2, throwIfSwalCancelled} from '^components/util/dialog';
 import {useSubscriptionTableListAtom} from '^models/Subscription/hook';
 import {subscriptionApi} from '^models/Subscription/api';
 import {SubscriptionDto} from '^models/Subscription/types';
@@ -17,6 +17,7 @@ import {SubscriptionScopeHandler} from './SubscriptionScopeHandler';
 import {SubscriptionTableHeader} from './SubscriptionTableHeader';
 import {SubscriptionTableRow} from './SubscriptionTableRow';
 import {CurrencyToggle} from '^tasting/CurrencyToggle';
+import {errorToast} from '^api/api';
 
 export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -59,21 +60,26 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
         </div>
     );
 
-    const onDelete = async (subscription: SubscriptionDto) => {
-        const isConfirmed = await confirm2(
-            '구독을 삭제할까요?',
-            <div className="text-16">
-                이 작업은 취소할 수 없습니다.
-                <br />
-                <b>워크스페이스 전체</b>에서 삭제됩니다. <br />
-                그래도 삭제하시겠어요?
-            </div>,
-            'warning',
-        ).then((res) => res.isConfirmed);
-        if (!isConfirmed) return;
-        await subscriptionApi.destroy(subscription.id);
-        toast.success('구독을 삭제했어요.');
-        reload();
+    const onDelete = (subscription: SubscriptionDto) => {
+        const deleteConfirm = () => {
+            return confirm2(
+                '구독을 삭제할까요?',
+                <div className="text-16">
+                    이 작업은 취소할 수 없습니다.
+                    <br />
+                    <b>워크스페이스 전체</b>에서 삭제됩니다. <br />
+                    그래도 삭제하시겠어요?
+                </div>,
+                'warning',
+            );
+        };
+
+        deleteConfirm()
+            .then(throwIfSwalCancelled('삭제 취소'))
+            .then(() => subscriptionApi.destroy(subscription.id))
+            .then(() => toast.success('구독을 삭제했어요.'))
+            .then(() => reload())
+            .catch(errorToast);
     };
 
     return (

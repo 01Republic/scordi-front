@@ -95,3 +95,7 @@ confirm2.notionStyled = notionStyled;
 confirm2.type2 = type2;
 
 export const runIfSwalConfirmed = (cb: () => any) => (res: SweetAlertResult<any>) => res.isConfirmed && cb();
+export const runIfSwalCancelled = (cb: () => any) => (res: SweetAlertResult<any>) => !res.isConfirmed && cb();
+export const throwIfSwalCancelled = (errMsg: string) => (res: SweetAlertResult<any>) => {
+    if (!res.isConfirmed) throw new Error(errMsg);
+};
