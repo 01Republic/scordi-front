@@ -48,9 +48,9 @@ export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
                 unit="개"
                 isLoading={isLoading}
                 // isNotLoaded={isNotLoaded}
-                // isEmptyResult={isEmptyResult}
+                isEmptyResult={billingHistory.items.length === 0}
                 emptyMessage="조회된 결제수단이 없어요."
-                EmptyButtons={AddCreditCardDropdown}
+                // EmptyButtons={AddCreditCardDropdown}
             >
                 <ListTable
                     items={billingHistory.items}

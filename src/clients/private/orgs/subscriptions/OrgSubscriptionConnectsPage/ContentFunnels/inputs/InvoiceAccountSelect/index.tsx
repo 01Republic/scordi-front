@@ -13,7 +13,12 @@ import {InvoiceAccountSelectModal} from './InvoiceAccountSelectModal';
 import {InvoiceAccountCreateMethodModal} from './InvoiceAccountCreateMethodModal';
 import {InvoiceAccountManualCreateModal} from './InvoiceAccountManualCreateModal';
 
-export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
+interface InvoiceAccountSelectProps {
+    defaultValue?: InvoiceAccountDto;
+    onSelect?: (invoiceAccount?: InvoiceAccountDto) => void;
+}
+
+export const InvoiceAccountSelect = memo(function InvoiceAccountSelect(props: InvoiceAccountSelectProps) {
     const [formData, setFormData] = useRecoilState(createSubscriptionFormData);
     const [isSelectModalOpened, setIsSelectModalOpened] = useState(false);
     const [isCreateMethodModalOpen, setIsCreateMethodModalOpen] = useState(false);
@@ -35,6 +40,7 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
     }, 500);
 
     const onChange = (invoiceAccount?: InvoiceAccountDto) => {
+        props.onSelect?.(invoiceAccount);
         setFormData((f) => ({
             ...f,
             invoiceAccountId: invoiceAccount?.id,
@@ -57,7 +63,7 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect() {
                         id="invoiceAccountSelect"
                         openModal={selectModal.show}
                         clearable
-                        selectedOption={selectedOption}
+                        selectedOption={selectedOption || props.defaultValue}
                         getLabel={(option) => <InvoiceAccountProfile invoiceAccount={option} />}
                         placeholder="이메일 주소 선택"
                         clearOption={() => onChange(undefined)}

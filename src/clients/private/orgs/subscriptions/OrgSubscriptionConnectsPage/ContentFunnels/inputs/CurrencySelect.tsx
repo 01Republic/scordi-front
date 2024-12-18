@@ -3,8 +3,14 @@ import {useRecoilState} from 'recoil';
 import {MonoSelect} from '^components/ui/inputs/MonoSelect';
 import {currencyListV4} from '^clients/private/_modals/CurrencySelectModal';
 import {createSubscriptionFormData} from '../atom';
+import {CurrencyCode} from '^models/Money';
 
-export const CurrencySelect = memo(() => {
+interface CurrencySelectProps {
+    defaultValue?: CurrencyCode;
+    onChange?: (currency: string) => void;
+}
+
+export const CurrencySelect = memo((props: CurrencySelectProps) => {
     const [formData, setFormData] = useRecoilState(createSubscriptionFormData);
     const currencyCode = formData.currentBillingAmount?.currency;
     const currency = currencyListV4.find((c) => c.code === currencyCode) || currencyListV4[0];
@@ -15,6 +21,7 @@ export const CurrencySelect = memo(() => {
             <MonoSelect
                 options={currencyListV4}
                 onChange={(selected) => {
+                    props.onChange?.(selected ? selected.code : currency.code);
                     setFormData((f) => ({
                         ...f,
                         currentBillingAmount: {
@@ -25,7 +32,7 @@ export const CurrencySelect = memo(() => {
                 }}
                 getLabel={(c) => c.unit}
                 getValue={(c) => c.code}
-                defaultValue={currency.code}
+                defaultValue={props.defaultValue || currency.code}
                 modalTitle="화폐 단위를 선택해주세요."
                 size="md"
                 OptionComponent={({option}) => {

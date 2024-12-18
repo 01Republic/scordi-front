@@ -1,11 +1,14 @@
 'use client';
 
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import Datepicker from 'react-tailwindcss-datepicker';
 import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
-import {BillingCycleOptions, SubscriptionBillingCycleTypeValues} from '^models/Subscription/types/BillingCycleOptions';
+import {
+    SubscriptionBillingCycleTypeValues,
+    t_SubscriptionBillingCycleTiny,
+} from '^models/Subscription/types/BillingCycleOptions';
 import {
     IsFreeTierColumn,
     PayingTypeSelect,
@@ -21,13 +24,12 @@ import {toast} from 'react-hot-toast';
 import {
     CurrencySelect,
     InputSection,
-    PricingTypeSelect,
     RecurringAmount,
 } from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs';
-import {OutLink} from '^components/OutLink';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
 import {InvoiceAccountProfile} from '^models/InvoiceAccount/components';
 import {InvoiceAccountSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/InvoiceAccountSelect';
+import {CurrencyCode} from '^models/Money';
 
 export const SubscriptionPaymentInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
@@ -43,6 +45,11 @@ export const SubscriptionPaymentInfoSection = memo(() => {
             reload();
         });
     };
+
+    useEffect(() => {
+        form.setValue('currentBillingAmount.amount', subscription?.currentBillingAmount?.amount || 0);
+        form.setValue('currentBillingAmount.currency', subscription?.currentBillingAmount?.code || CurrencyCode.KRW);
+    }, [subscription]);
 
     return (
         <section>
@@ -79,13 +86,12 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                         inputClassName="input input-underline !bg-slate-100 w-full"
                                         asSingle={true}
                                         value={{
-                                            startDate: form.getValues('startAt') || null,
-                                            endDate: form.getValues('startAt') || null,
+                                            startDate: form.getValues('startAt') || subscription.startAt || null,
+                                            endDate: form.getValues('startAt') || subscription.startAt || null,
                                         }}
-                                        onChange={
-                                            (newValue) => form.setValue('startAt', newValue?.startDate)
-                                            // form.setValue('registeredAt', newValue.startDate.toDateString())
-                                        }
+                                        onChange={(newValue) => {
+                                            form.setValue('startAt', newValue?.startDate);
+                                        }}
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
@@ -101,8 +107,8 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                         inputClassName="input input-underline !bg-slate-100 w-full"
                                         asSingle={true}
                                         value={{
-                                            startDate: form.getValues('finishAt') || null,
-                                            endDate: form.getValues('finishAt') || null,
+                                            startDate: form.getValues('finishAt') || subscription.finishAt || null,
+                                            endDate: form.getValues('finishAt') || subscription.finishAt || null,
                                         }}
                                         onChange={(newValue) => form.setValue('finishAt', newValue?.startDate)}
                                     />
@@ -116,35 +122,39 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
                             <FormControl label="요금제">
                                 {isEditMode ? (
-                                    <InputSection className="max-w-lg">
-                                        {/* TODO 여기 컴포넌트들 수정해도 되는지 확인 필요 */}
-                                        <div className="grid grid-cols-8 gap-2">
-                                            <div className="col-span-3">
-                                                <PricingTypeSelect />
+                                    <div className={'mb-[-40px]'}>
+                                        <InputSection className="max-w-lg">
+                                            {/* TODO 여기 컴포넌트들 수정해도 되는지 확인 필요 */}
+                                            <div className="grid grid-cols-8 gap-2">
+                                                <div className="col-span-4">
+                                                    <RecurringAmount
+                                                        defaultValue={subscription.currentBillingAmount?.amount}
+                                                        onChange={(amount) =>
+                                                            form.setValue('currentBillingAmount.amount', amount)
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="col-span-4">
+                                                    <CurrencySelect
+                                                        defaultValue={subscription.currentBillingAmount?.code}
+                                                        onChange={
+                                                            (currency) =>
+                                                                form.setValue(
+                                                                    'currentBillingAmount.currency',
+                                                                    currency as CurrencyCode,
+                                                                )
+                                                            // TODO: USD 아닌 통화로 바꾸면 500 에러남
+                                                        }
+                                                    />
+                                                </div>
                                             </div>
-                                            <div className="col-span-3">
-                                                <RecurringAmount />
-                                            </div>
-                                            <div className="col-span-2">
-                                                <CurrencySelect />
-                                            </div>
-                                        </div>
-
-                                        {/*{subscription.product.pricingPageUrl && (*/}
-                                        {/*    <div>*/}
-                                        {/*        <OutLink*/}
-                                        {/*            text="사이트에서 내 플랜 확인하기"*/}
-                                        {/*            href={subscription.product.pricingPageUrl}*/}
-                                        {/*            className="text-14"*/}
-                                        {/*        />*/}
-                                        {/*    </div>*/}
-                                        {/*)}*/}
-                                    </InputSection>
+                                        </InputSection>
+                                    </div>
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
                                         {subscription?.currentBillingAmount?.symbol}
                                         {subscription?.currentBillingAmount?.amount.toLocaleString()} /{' '}
-                                        {subscription?.billingCycleType === BillingCycleOptions.Monthly ? '월' : '년'}
+                                        {t_SubscriptionBillingCycleTiny(subscription.billingCycleType)}
                                     </div>
                                 )}
                                 <span />
@@ -186,15 +196,15 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
                             <FormControl label="구매수량">
                                 {isEditMode ? (
-                                    // TODO 이거 어떻게 구현하지?
                                     <input
                                         className="input input-underline !bg-slate-100 w-full"
-                                        defaultValue={subscription?.usedMemberCount}
-                                        // onChange={(e) => form.setValue('usedMemberCount', e.target.value)}
+                                        defaultValue={subscription?.paidMemberCount}
+                                        // TODO 용현님 작업 필요
+                                        // onChange={(e) => form.setValue('paidMemberCount', e.target.value)}
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {subscription.usedMemberCount}
+                                        {subscription.paidMemberCount}
                                     </div>
                                 )}
                                 <span />
@@ -224,8 +234,16 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
                             <FormControl label="청구이메일">
                                 {isEditMode ? (
-                                    // TODO 이메일 업데이트
-                                    <InvoiceAccountSelect />
+                                    <div className={'mb-[-40px]'}>
+                                        <InvoiceAccountSelect
+                                            defaultValue={subscription.invoiceAccounts?.[0]}
+                                            onSelect={
+                                                (invoiceAccount) =>
+                                                    form.setValue('invoiceAccountId', invoiceAccount?.id)
+                                                // TODO: 업데이트치면 500 에러남
+                                            }
+                                        />
+                                    </div>
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
                                         {subscription.invoiceAccounts?.map((invoiceAccount, index) => (

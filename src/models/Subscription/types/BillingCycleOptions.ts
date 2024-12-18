@@ -28,6 +28,21 @@ export function t_SubscriptionBillingCycleType(value: BillingCycleOptions, short
     }
 }
 
+export function t_SubscriptionBillingCycleTiny(value: BillingCycleOptions) {
+    switch (value) {
+        case BillingCycleOptions.None:
+            return '무관';
+        case BillingCycleOptions.Monthly:
+            return '월';
+        case BillingCycleOptions.Yearly:
+            return '년';
+        case BillingCycleOptions.Onetime:
+            return '한번';
+        default:
+            return '-';
+    }
+}
+
 export function c_SubscriptionBillingCycleType(value: BillingCycleOptions) {
     switch (value) {
         case BillingCycleOptions.None: // 무관

@@ -61,31 +61,25 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
             </td>
 
             {/* 팀 */}
-            <td className={`cursor-pointer ${hoverBgColor} ${loadingStyle}`}>
+            <td className={`${hoverBgColor} ${loadingStyle}`}>
                 <TeamSelect teamMember={teamMember} onChange={() => reload && reload()} />
             </td>
 
             {/* 상태 */}
-            <td className="">
+            <td className={`${hoverBgColor} ${loadingStyle}`}>
                 {/* TODO 각 멤버의 구독 상태 어떻게 알지? */}
                 <SubscriptionUsingStatusTag value={subscription.usingStatus} />
             </td>
 
             {/* 이메일 */}
-            <td
-                className={`cursor-pointer ${hoverBgColor} ${loadingStyle}`}
-                onClick={() => onClick && onClick(teamMember)}
-            >
+            <td className={`${hoverBgColor} ${loadingStyle}`} onClick={() => onClick && onClick(teamMember)}>
                 <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
                     {teamMember.email}
                 </p>
             </td>
 
             {/* 계정부여일 */}
-            <td
-                className={`cursor-pointer ${hoverBgColor} ${loadingStyle}`}
-                onClick={() => onClick && onClick(teamMember)}
-            >
+            <td className={` ${hoverBgColor} ${loadingStyle}`} onClick={() => onClick && onClick(teamMember)}>
                 <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
                     {/* TODO 각 멤버의 구독 상태 어떻게 알지? */}
                     {yyyy_mm_dd(new Date())}
@@ -93,10 +87,7 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
             </td>
 
             {/* 계정회수일 */}
-            <td
-                className={`cursor-pointer ${hoverBgColor} ${loadingStyle}`}
-                onClick={() => onClick && onClick(teamMember)}
-            >
+            <td className={` ${hoverBgColor} ${loadingStyle}`} onClick={() => onClick && onClick(teamMember)}>
                 <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
                     {/* TODO 각 멤버의 구독 상태 어떻게 알지? */}
                     {yyyy_mm_dd(new Date())}
