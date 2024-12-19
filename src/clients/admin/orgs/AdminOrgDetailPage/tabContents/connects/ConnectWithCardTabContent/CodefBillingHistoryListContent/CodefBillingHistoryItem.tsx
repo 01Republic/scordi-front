@@ -26,14 +26,14 @@ export const CodefBillingHistoryItem = memo((props: CodefBillingHistoryItemProps
     const status = codefBillingHistory.memo;
 
     return (
-        <CardTableTR gridClass="grid-cols-12" className={`text-12 cursor-pointer group`}>
+        <CardTableTR gridClass="grid-cols-14" className={`!text-12 cursor-pointer group`}>
             {/* ID */}
             <div>
                 <span className="badge badge-xs">#{codefBillingHistory.id}</span>
             </div>
 
             {/* 카드 */}
-            <div className="flex items-center gap-1">
+            <div className="col-span-2 flex items-center gap-1">
                 <span
                     className="tooltip tooltip-primary"
                     data-tip={`등록일: ${yyyy_mm_dd_hh_mm(codefBillingHistory.createdAt)}`}
@@ -66,7 +66,7 @@ export const CodefBillingHistoryItem = memo((props: CodefBillingHistoryItemProps
             </div>
 
             {/* 금액 */}
-            <div className="flex items-center justify-end">
+            <div className="col-span-2 flex items-center justify-end">
                 <span>{finalPrice}</span> <small>({currency})</small>
             </div>
 
