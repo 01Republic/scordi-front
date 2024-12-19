@@ -23,7 +23,7 @@ export const ExcelDownLoadButton = memo(() => {
         setIsLoading(true);
         subscriptionApi
             .download(query, filename)
-            .then(() => toast.success('다운로드 완료'))
+            .then(() => toast.success('구독리스트 엑셀 다운로드가 완료되었어요.'))
             .catch(errorToast)
             .finally(() => setIsLoading(false));
     }, 250);
