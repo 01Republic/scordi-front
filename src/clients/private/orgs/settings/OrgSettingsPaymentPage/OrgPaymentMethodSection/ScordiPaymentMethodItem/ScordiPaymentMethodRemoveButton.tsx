@@ -21,7 +21,15 @@ export const ScordiPaymentMethodRemoveButton = memo((props: ScordiPaymentMethodR
     const {reload} = useScordiPaymentMethodsInSettingPage();
 
     const onClick = () => {
-        confirm2('정말 삭제할까요?').then((res) => {
+        confirm2(
+            '결제카드를 삭제할까요?',
+            <span>
+                이 작업은 취소할 수 없습니다.
+                <br />
+                <b>워크스페이스 전체</b>에서 삭제됩니다. <br />
+                그래도 삭제하시겠어요?
+            </span>,
+        ).then((res) => {
             if (!res.isConfirmed) return;
 
             scordiPaymentMethodApi
