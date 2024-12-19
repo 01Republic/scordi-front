@@ -8,7 +8,7 @@ import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/sel
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer, ListTablePaginator} from '^clients/private/_components/table/ListTable';
 import {LinkTo} from '^components/util/LinkTo';
-import {confirm2, throwIfSwalCancelled} from '^components/util/dialog';
+import {confirm2, confirmed} from '^components/util/dialog';
 import {useSubscriptionTableListAtom} from '^models/Subscription/hook';
 import {subscriptionApi} from '^models/Subscription/api';
 import {SubscriptionDto} from '^models/Subscription/types';
@@ -68,8 +68,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
             );
         };
 
-        deleteConfirm()
-            .then(throwIfSwalCancelled('삭제 취소'))
+        confirmed(deleteConfirm(), '삭제 취소')
             .then(() => subscriptionApi.destroy(subscription.id))
             .then(() => toast.success('구독을 삭제했어요.'))
             .then(() => reload())

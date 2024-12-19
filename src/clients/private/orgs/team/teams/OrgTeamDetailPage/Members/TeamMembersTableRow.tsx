@@ -8,7 +8,7 @@ import {FiMinusCircle} from '^components/react-icons';
 import {teamMembershipApi} from '^models/TeamMembership/api';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState, teamIdParamState} from '^atoms/common';
-import {confirm2, throwIfSwalCancelled} from '^components/util/dialog';
+import {confirm2, confirmed} from '^components/util/dialog';
 import {toast} from 'react-hot-toast';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {errorToast} from '^api/api';
@@ -53,8 +53,7 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
             );
         };
 
-        deleteConfirm()
-            .then(throwIfSwalCancelled(''))
+        confirmed(deleteConfirm())
             .then(() => teamMembershipApi.destroy(orgId, {teamId: teamId, teamMemberId: teamMember.id}))
             .then(() => toast.success('삭제했습니다'))
             .then(() => reload && reload())
