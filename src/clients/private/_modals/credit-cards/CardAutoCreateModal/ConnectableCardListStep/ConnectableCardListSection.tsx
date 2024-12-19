@@ -25,20 +25,8 @@ export const ConnectableCardListSection = memo((props: ConnectableCardListSectio
         });
     };
 
-    const allChecked = checkedCards.length === codefCards.length;
-
-    const toggleAll = () => {
-        allChecked ? setCheckedCards([]) : setCheckedCards(codefCards);
-    };
-
     return (
         <div>
-            <div className="flex items-center justify-end mb-3">
-                <span className="text-scordi cursor-pointer text-12 hover:underline" onClick={toggleAll}>
-                    {allChecked ? '선택해제' : '전체선택'}
-                </span>
-            </div>
-
             {codefCards.map((codefCard, i) => (
                 <ConnectableCardItem
                     key={i}
