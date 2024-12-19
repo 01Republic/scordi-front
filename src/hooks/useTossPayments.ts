@@ -82,7 +82,8 @@ export const useTossPaymentAuthCallback = (orgId: number, option: UseTossPayment
             createPaymentMethod(orgId, {authKey, customerKey})
                 .then(async () => {
                     // 결제수단 변경 시퀀스 분기 처리
-                    if (!selectedPlanId || isNaN(selectedPlanId)) return toast.success('카드를 등록했어요'); // 흐름차단
+                    if (!selectedPlanId || isNaN(selectedPlanId))
+                        return toast.success('구독 결제할 카드를 등록했어요.'); // 흐름차단
 
                     // 구독 등록 시퀀스 시작
                     return createSubscription(orgId, selectedPlanId);
