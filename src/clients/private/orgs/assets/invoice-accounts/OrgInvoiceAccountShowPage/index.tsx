@@ -23,7 +23,7 @@ export const OrgInvoiceAccountShowPage = memo(() => {
             breadcrumb={[
                 '자산',
                 {text: '청구서 메일', href: OrgInvoiceAccountListPageRoute.path(orgId)},
-                {text: `${currentInvoiceAccount?.title}`, active: true},
+                {text: `${currentInvoiceAccount?.email}`, active: true},
             ]}
         >
             <header className="flex items-center justify-between pt-8 pb-4">
