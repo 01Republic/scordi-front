@@ -1,5 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
-import {ListPageScopeButton} from '^clients/private/_layouts/_shared/ListPageScopeButton';
+import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {useCurrentCreditCard} from '../../atom';
 import {useBillingHistoryListOfCreditCard} from '^models/BillingHistory/hook';
 import {FindAllBillingHistoriesQueryDto} from '^models/BillingHistory/type';
@@ -32,7 +32,7 @@ export const BillingHistoryScopeHandler = memo((props: BillingHistoryScopeHandle
 
     return (
         <div className="flex items-center gap-2">
-            <ListPageScopeButton
+            <ListPage.ScopeButton
                 text="전체"
                 active={selected === 0}
                 onClick={() => {
@@ -40,7 +40,7 @@ export const BillingHistoryScopeHandler = memo((props: BillingHistoryScopeHandle
                     getBillingHistories({});
                 }}
             />
-            <ListPageScopeButton
+            <ListPage.ScopeButton
                 text="결제됨"
                 active={selected === 1}
                 onClick={() => {
@@ -51,7 +51,7 @@ export const BillingHistoryScopeHandler = memo((props: BillingHistoryScopeHandle
                     });
                 }}
             />
-            {/*<ListPageScopeButton*/}
+            {/*<ListPage.ScopeButton*/}
             {/*    text="예정"*/}
             {/*    active={selected === 2}*/}
             {/*    onClick={() => {*/}
@@ -59,7 +59,7 @@ export const BillingHistoryScopeHandler = memo((props: BillingHistoryScopeHandle
             {/*        getBillingHistories({paidAt: 'NULL'});*/}
             {/*    }}*/}
             {/*/>*/}
-            <ListPageScopeButton
+            <ListPage.ScopeButton
                 text="실패"
                 active={selected === 3}
                 onClick={() => {

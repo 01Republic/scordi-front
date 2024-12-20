@@ -85,12 +85,12 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
                     pagination={pagination}
                     pageMove={movePage}
                 >
-                    <CardTableTH gridClass="grid-cols-12" className="text-12 items-center">
+                    <CardTableTH gridClass="grid-cols-14" className="text-12 items-center">
                         <div>ID</div>
-                        <div className="col-span-2">결제일시</div>
+                        <div className="col-span-3">결제일시</div>
                         <div>카드</div>
                         <div className="col-span-3">제목</div>
-                        <div className="text-right">금액</div>
+                        <div className="col-span-2 text-right">금액</div>
                         <div>결제상태</div>
                         {/*<div>해외결제여부</div>*/}
                         <div>스코디 연동</div>

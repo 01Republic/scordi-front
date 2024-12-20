@@ -77,9 +77,9 @@ export const CardAutoCreateModal = memo((props: CardAutoCreateModalProps) => {
             size="md"
             minHeight="min-h-screen sm:min-h-[90%]"
             maxHeight="max-h-screen sm:max-h-[90%]"
-            modalClassName="rounded-none sm:rounded-t-box"
+            modalClassName="rounded-none sm:rounded-t-box !pb-0"
         >
-            <div className="absolute inset-0 p-6">
+            <div className="absolute inset-0 px-6 pt-6">
                 {step === Step.isPersonalSelect && (
                     <CodefIsPersonalSelectStep
                         onBack={onClose}

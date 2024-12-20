@@ -3,14 +3,16 @@ import {CardTableTR} from '^admin/share';
 import {Avatar} from '^components/Avatar';
 import {SubscriptionDto} from 'src/models/Subscription/types';
 import {yyyy_mm_dd_hh_mm} from '^utils/dateTime';
+import {SubscriptionItemMoreDropdown} from './SubscriptionItemMoreDropdown';
 
 interface SubscriptionItemProps {
     subscription: SubscriptionDto;
     borderBottom?: boolean;
+    reload: () => any;
 }
 
 export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
-    const {subscription, borderBottom = true} = props;
+    const {subscription, borderBottom = true, reload} = props;
 
     const [invoiceAccount] = subscription.invoiceAccounts || [];
 
@@ -53,10 +55,11 @@ export const SubscriptionItem = memo((props: SubscriptionItemProps) => {
             </div>
 
             {/* actions */}
-            <div className="flex gap-2 items-center">
-                <button className="btn btn-sm btn-primary">보기</button>
-                <button className="btn btn-sm btn-warning">수정</button>
-                <button className="btn btn-sm btn-error">삭제</button>
+            <div className="flex gap-2 items-center justify-end">
+                <SubscriptionItemMoreDropdown subscription={subscription} reload={reload} />
+                {/*<button className="btn btn-sm btn-primary">보기</button>*/}
+                {/*<button className="btn btn-sm btn-warning">수정</button>*/}
+                {/*<button className="btn btn-sm btn-error">삭제</button>*/}
             </div>
         </CardTableTR>
     );

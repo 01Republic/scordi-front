@@ -162,11 +162,9 @@ export const CreditCardProfileCompact = memo((props: CreditCardProfileCompactPro
                 )}
             </Avatar>
 
-            <div className="overflow-hidden text-left">
-                <p className="text-14 leading-none overflow-x-hidden max-w-full whitespace-nowrap">
-                    <span className="truncate">{cardName}</span>
-                    {endNumber && <span className="">({endNumber})</span>}
-                </p>
+            <div className="flex items-center text-14 leading-none whitespace-nowrap overflow-hidden">
+                <span className="truncate">{cardName}</span>
+                {endNumber && <span className="">({endNumber})</span>}
             </div>
         </div>
     );

@@ -18,7 +18,7 @@ import {getCreateInvoiceAccountFromTo, InvoiceAccountDto} from '^models/InvoiceA
 interface InvoiceAccountAutoCreateModalProps {
     isOpened: boolean;
     onClose: () => any;
-    onCreate: () => any;
+    onCreate: (invoiceAccountDto: InvoiceAccountDto) => any;
     onRetry: () => any;
 }
 
@@ -37,9 +37,9 @@ export const InvoiceAccountAutoCreateModal = memo((props: InvoiceAccountAutoCrea
         setDuplicatedAccount(undefined);
 
         return request()
-            .then(() => {
+            .then((res) => {
                 resetCode();
-                onCreate();
+                onCreate(res.data);
             })
             .catch((err: ApiErrorResponse<InvoiceAccountDto | null>) => {
                 const data = err.response?.data;
@@ -190,11 +190,7 @@ export const InvoiceAccountAutoCreateModal = memo((props: InvoiceAccountAutoCrea
                             </button>
                             <button
                                 className="btn btn-scordi"
-                                onClick={() => {
-                                    reConnectInvoiceAccount(duplicatedAccount.id).then(() => {
-                                        onCreate();
-                                    });
-                                }}
+                                onClick={() => reConnectInvoiceAccount(duplicatedAccount.id)}
                             >
                                 네, 계속할게요
                             </button>

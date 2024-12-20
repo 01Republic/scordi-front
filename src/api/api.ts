@@ -35,6 +35,8 @@ export function errorToast(e: ApiError) {
         } else {
             toast.error(message);
         }
+    } else {
+        if (e.message) toast.error(e.message);
     }
 }
 

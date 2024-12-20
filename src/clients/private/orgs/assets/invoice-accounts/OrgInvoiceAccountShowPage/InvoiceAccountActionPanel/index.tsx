@@ -1,11 +1,8 @@
 import {memo} from 'react';
-import {useCurrentInvoiceAccount} from '../atom';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {InvoiceAccountSyncCreateButton} from './InvoiceAccountSyncCreateButton';
 import {InvoiceAccountSyncUpdateButton} from './InvoiceAccountSyncUpdateButton';
-import {DeleteInvoiceAccountButton} from './DeleteInvoiceAccountButton';
-import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
-import {googleOAuth} from '^config/environments';
-import {GoogleOAuthProvider} from '@react-oauth/google';
+import {InvoiceAccountMoreDropdown} from './InvoiceAccountMoreDropdown';
 
 interface Props {
     invoiceAccount: InvoiceAccountDto;
@@ -22,7 +19,7 @@ export const InvoiceAccountActionPanel = memo((props: Props) => {
                 <InvoiceAccountSyncUpdateButton invoiceAccount={invoiceAccount} />
             )}
 
-            <DeleteInvoiceAccountButton />
+            <InvoiceAccountMoreDropdown />
         </div>
     );
 });

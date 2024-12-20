@@ -15,9 +15,9 @@ export const CreditCardProfilePanel = memo(function CreditCardProfilePanel() {
     return (
         <div>
             <div className="flex items-start gap-6">
-                <Avatar className="w-14">
+                <Avatar className="w-14 h-14">
                     {company ? (
-                        <img src={company.logo} alt="" />
+                        <img src={company.logo} alt={company.displayName} />
                     ) : (
                         <FaRegCreditCard size={20} className="h-full w-full p-[6px]" />
                     )}

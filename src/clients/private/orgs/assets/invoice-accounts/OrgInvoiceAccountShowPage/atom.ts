@@ -130,5 +130,5 @@ export const useCurrentInvoiceAccountSync = () => {
         const {organizationId} = currentInvoiceAccount;
     };
 
-    return {startSync, isSyncRunning, onFinish};
+    return {currentInvoiceAccount, startSync, isSyncRunning, onFinish};
 };
