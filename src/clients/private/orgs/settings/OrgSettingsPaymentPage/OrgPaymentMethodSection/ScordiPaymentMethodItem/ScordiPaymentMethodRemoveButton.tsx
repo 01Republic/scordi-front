@@ -35,7 +35,7 @@ export const ScordiPaymentMethodRemoveButton = memo((props: ScordiPaymentMethodR
 
         confirmed(removeConfirm())
             .then(() => scordiPaymentMethodApi.destroy(orgId, id))
-            .then(() => toast.success('삭제 됐어요'))
+            .then(() => toast.success('삭제 됐어요.'))
             .then(() => reload())
             .catch(errorToast);
     };
