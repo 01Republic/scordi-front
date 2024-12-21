@@ -11,9 +11,7 @@ import {TeamMemberInSubscriptionTableRow} from '^clients/private/orgs/subscripti
 import {TeamMemberInSubscriptionTableHeader} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/TeamMemberInSubscriptionTableHeader';
 import {MemberStatusScopeHandler} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/MemberStatusScopeHandler';
 import {FaPlus} from 'react-icons/fa6';
-import {TeamMemberSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/TeamMemberSelect';
-import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {SubscriptionTeamMemberSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/selects/SubscriptionTeamMemberSelect';
+import {SubscriptionTeamMemberSelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/selects/SubscriptionTeamMemberSelect';
 
 export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -89,7 +87,8 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                 <MemberStatusScopeHandler onSearch={(status) => console.log(status)} />
 
                 <button className={'btn btn-outline btn-sm text-14 bg-white'} onClick={() => setIsOpened(true)}>
-                    <FaPlus /> 멤버 연결하기
+                    <FaPlus />
+                    &nbsp;멤버 연결하기
                 </button>
             </div>
 
@@ -113,12 +112,7 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                 />
             </ListTableContainer>
 
-            <SlideUpModal open={isOpened} onClose={onClose} size="md">
-                <p
-                    className={'text-lg bold mb-4'}
-                >{`${subscription?.product.nameKo}을 이용중인 구성원을 연결하세요.`}</p>
-                <SubscriptionTeamMemberSelect onSelected={() => setIsOpened(false)} />
-            </SlideUpModal>
+            <SubscriptionTeamMemberSelectModal isOpened={isOpened} onClose={onClose} />
         </div>
     );
 });
