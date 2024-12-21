@@ -95,3 +95,43 @@ confirm2.notionStyled = notionStyled;
 confirm2.type2 = type2;
 
 export const runIfSwalConfirmed = (cb: () => any) => (res: SweetAlertResult<any>) => res.isConfirmed && cb();
+export const runIfSwalCancelled = (cb: () => any) => (res: SweetAlertResult<any>) => !res.isConfirmed && cb();
+export const throwIfSwalCancelled = (errMsg?: string) => (res: SweetAlertResult<any>) => {
+    if (!res.isConfirmed) throw new Error(errMsg);
+};
+
+/**
+ * ## confirmed(swalResult: Promise<SweetAlertResult>, canceledToastMsg?: string)
+ *
+ * @description isConfirmed 를 체크하는 반복성 보일러플레이트 코드를 제거합니다.
+ * - 두 번째 인자로 토스트 메세지를 넘길 수 있고, 비워두면 토스트 동작은 생략됩니다.
+ *
+ * @example
+ *
+ * 이렇게 써야 하는 걸:
+ *
+ *         confirm2(
+ *             '결제카드를 삭제할까요?',
+ *             <>
+ *                 ...
+ *             </>,
+ *         ).then((res) => {
+ *             if (!res.isConfirmed) return throw new Error('취소했어요');
+ *          })
+ *
+ * 이렇게 바꿔줍니다:
+ *
+ *         const someConfirmDialog = () => { // 컨펌창만 함수로 한 번 감싸주고,
+ *             return confirm2(
+ *                 '결제카드를 삭제할까요?',
+ *                  <>
+ *                      ...
+ *                  </>,
+ *              )
+ *         };
+ *
+ *         confirmed(someConfirmDialog(), '취소했어요'); // 이렇게 축약합니다.
+ */
+export function confirmed(swalResult: Promise<SweetAlertResult>, canceledToastMsg?: string) {
+    return swalResult.then(throwIfSwalCancelled(canceledToastMsg));
+}

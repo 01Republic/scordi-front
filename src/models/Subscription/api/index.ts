@@ -10,6 +10,7 @@ import {
 import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
+import {downloadBlobFromAxios} from '^utils/Blob';
 
 const NAMESPACE = 'subscriptions';
 
@@ -21,6 +22,14 @@ export const subscriptionApi = {
     index: (params?: FindAllSubscriptionsQuery) => {
         const url = `/${NAMESPACE}`;
         return api.get<Paginated<SubscriptionDto>>(url, {params}).then(paginatedDtoOf(SubscriptionDto));
+    },
+
+    // 구독 조회 - 결과 다운로드
+    download: (params?: FindAllSubscriptionsQuery, filename?: string) => {
+        const url = `/${NAMESPACE}/download/xlsx`;
+        return api
+            .get(url, {params, responseType: 'blob'})
+            .then(downloadBlobFromAxios(`${filename || '구독 조회 - 결과 다운로드'}.xls`));
     },
 
     show: (id: number, params?: FindOneSubscriptionQueryDto) => {

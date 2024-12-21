@@ -30,8 +30,8 @@ export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowPro
     };
 
     return (
-        <tr className={'group'}>
-            <td className={'sticky left-0 bg-white z-10 w-52 border-r-2 shadow-lg'}>
+        <tr className="group">
+            <td className="sticky left-0 bg-white min-w-40 flex z-10 border-r-2">
                 <SubscriptionProfile subscription={subscription} className="font-medium" />
             </td>
             <td>
@@ -48,4 +48,5 @@ export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowPro
         </tr>
     );
 });
+
 BillingHistoryMonthlyRow.displayName = 'BillingHistoryMonthlyRow';

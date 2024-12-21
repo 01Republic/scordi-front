@@ -1,4 +1,5 @@
 import {memo, useEffect} from 'react';
+import {ps} from '^utils/Promise';
 import {WithChildren} from '^types/global.type';
 import {Error404Page} from '^clients/errors/Error404';
 import {useCurrentOrg2} from '^models/Organization/hook';
@@ -21,10 +22,9 @@ export const AccessibleUserProvider = memo((props: AccessibleUserProviderProps) 
 
             setCurrentMembership((membership) => {
                 if (!signedMembership) return null;
-                if (!membership) return signedMembership;
-                if (membership.id === signedMembership.id) return membership;
+                if (membership && membership.id === signedMembership.id) return membership;
 
-                myMembershipApi.update(signedMembership.id, {lastSignedAt: new Date()});
+                ps(myMembershipApi.update(signedMembership.id, {lastSignedAt: new Date()}));
 
                 return signedMembership;
             });

@@ -82,7 +82,9 @@ export const BillingHistoryMonthly = memo(
                 <div className="bg-white border border-gray-300 overflow-hidden shadow rounded-lg">
                     <div className="overflow-x-auto w-full hide-scrollbar">
                         <table className="table w-full text-sm">
-                            <BillingHistoryMonthlyHeader months={months} />
+                            <thead className="[--rounded-box:0.375rem]">
+                                <BillingHistoryMonthlyHeader months={months} />
+                            </thead>
                             <tbody>
                                 {histories.length === 0 ? (
                                     <tr>

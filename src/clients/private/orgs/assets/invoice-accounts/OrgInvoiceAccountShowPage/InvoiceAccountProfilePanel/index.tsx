@@ -1,9 +1,7 @@
 import React, {memo} from 'react';
 import {useCurrentInvoiceAccount} from '../atom';
 import {Avatar} from '^components/Avatar';
-import {KeyValue} from '^clients/private/_components/rest-pages/ShowPage/KeyValue';
-import {InvoiceAccountProviderAvatar} from '^models/InvoiceAccount/components';
-import {InvoiceAccountTeamList} from './InvoiceAccountTeamList';
+import {InvoiceAccountProviderAvatar, UsingStatusTag} from '^models/InvoiceAccount/components';
 
 export const InvoiceAccountProfilePanel = memo(function InvoiceAccountProfilePanel() {
     const {currentInvoiceAccount} = useCurrentInvoiceAccount();
@@ -12,29 +10,34 @@ export const InvoiceAccountProfilePanel = memo(function InvoiceAccountProfilePan
 
     return (
         <div>
-            <div className="flex gap-8">
-                <div>
-                    <Avatar
-                        src={currentInvoiceAccount.image || ''}
-                        className={`w-14 h-14 outline outline-offset-2 outline-2 ${
-                            currentInvoiceAccount.isManuallyCreated ? 'outline-slate-200' : 'outline-blue-400'
-                        }`}
-                    />
-                </div>
+            <div className="flex items-start gap-6">
+                <Avatar
+                    src={currentInvoiceAccount.image || ''}
+                    className={`w-14 h-14 outline outline-offset-2 outline-2 ${
+                        currentInvoiceAccount.isManuallyCreated ? 'outline-slate-200' : 'outline-blue-400'
+                    }`}
+                />
 
-                <div>
+                <div className="flex flex-col gap-0.5 text-left">
                     {currentInvoiceAccount.isManuallyCreated ? (
-                        <h1 className="text-18 font-semibold my-2">{currentInvoiceAccount.email}</h1>
+                        <h1 className="text-18 font-semibold leading-none py-1">{currentInvoiceAccount.email}</h1>
                     ) : (
-                        <div className="">
-                            <h1 className="text-18 font-semibold">{currentInvoiceAccount.googleTokenData?.name}</h1>
+                        <>
+                            <h1 className="text-18 font-semibold leading-none py-1">
+                                {currentInvoiceAccount.googleTokenData?.name}
+                            </h1>
                             <div className="flex items-center gap-2">
                                 <p className="text-14">{currentInvoiceAccount.googleTokenData?.email}</p>
                                 <InvoiceAccountProviderAvatar invoiceAccount={currentInvoiceAccount} />
                             </div>
-                        </div>
+                        </>
                     )}
 
+                    <div className="flex items-center gap-3 pt-3">
+                        <div>
+                            <UsingStatusTag value={currentInvoiceAccount.usingStatus} />
+                        </div>
+                    </div>
                     {/*<div className="mt-2 mb-4">*/}
                     {/*    <KeyValue label="팀" value={<InvoiceAccountTeamList />} />*/}
                     {/*    <KeyValue*/}

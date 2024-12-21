@@ -22,7 +22,28 @@ export const ChangeIsActiveButton = memo((props: ChangeIsActiveButtonProps) => {
 
     const onClick = (isActive: boolean) => {
         const dialog = () => {
-            return isActive ? confirm2('이 카드를 메인으로 사용할까요?') : confirm2('서브 카드로 변경할까요?');
+            return isActive
+                ? confirm2(
+                      '메인 카드로 변경할까요?',
+                      <span>
+                          현재 설정되는 메인 카드를 기준으로,
+                          <br />
+                          스코디 요금제를 지불하게 됩니다.
+                          <br />
+                          이 카드로 결제수단을 변경하시겠어요?
+                          <br />
+                      </span>,
+                  )
+                : confirm2(
+                      '서브 카드로 변경할까요?',
+                      <span>
+                          메인 카드가 1개 이상 설정되지 않았다면,
+                          <br />
+                          서브 카드로 바꿀 수 없습니다.
+                          <br />
+                          언제든 서브 카드를 메인 카드로 바꿀 수 있습니다.
+                      </span>,
+                  );
         };
 
         dialog().then((res) => {

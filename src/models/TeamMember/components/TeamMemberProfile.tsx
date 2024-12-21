@@ -3,14 +3,16 @@ import React, {memo} from 'react';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 import {FaQuestion} from 'react-icons/fa6';
 import {Avatar} from '^components/Avatar';
+import {WithChildren} from '^types/global.type';
 
-interface TeamMemberProfileProps {
+interface TeamMemberProfileProps extends WithChildren {
     item: TeamMemberDto;
     className?: string;
+    hideEmail?: boolean;
 }
 
 export const TeamMemberProfile = memo((props: TeamMemberProfileProps) => {
-    const {item: teamMember, className = ''} = props;
+    const {item: teamMember, className = '', hideEmail = false, children} = props;
     if (!teamMember) return <></>;
 
     return (
@@ -19,14 +21,18 @@ export const TeamMemberProfile = memo((props: TeamMemberProfileProps) => {
         >
             <TeamMemberAvatar teamMember={teamMember} className="w-10 h-10" />
 
-            <div className="overflow-x-hidden">
-                <p className="font-bold truncate">
-                    <span>{teamMember.name}</span>
-                </p>
-                <p className="block text-sm font-normal text-gray-400 group-hover:text-scordi-300 truncate">
-                    {teamMember.email}
-                </p>
-            </div>
+            {children || (
+                <div className="overflow-x-hidden">
+                    <p className="font-bold truncate">
+                        <span>{teamMember.name}</span>
+                    </p>
+                    {!hideEmail && (
+                        <p className="block text-sm font-normal text-gray-400 group-hover:text-scordi-300 truncate">
+                            {teamMember.email}
+                        </p>
+                    )}
+                </div>
+            )}
         </div>
     );
 });

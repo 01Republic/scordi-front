@@ -15,11 +15,19 @@ export const codefCardApi = {
         return api.get(url, {params}).then(paginatedDtoOf(CodefCardDto));
     },
 
+    // 코드에프 카드 상세 조회
     show<Dto = CodefCardDto>(orgId: number, id: number) {
         const url = `/connect/organizations/${orgId}/codef/cards/${id}`;
         return api.get(url).then(oneDtoOf<Dto>(CodefCardDto as ClassConstructor<Dto>));
     },
 
+    // 코드에프 카드 삭제
+    destroy(orgId: number, id: number) {
+        const url = `/connect/organizations/${orgId}/codef/cards/${id}`;
+        return api.delete(url).then(oneDtoOf(CodefCardDto));
+    },
+
+    // 스코디 카드 생성
     createCreditCard(orgId: number, id: number) {
         const url = `/connect/organizations/${orgId}/codef/cards/${id}/creditCard`;
         return api.post(url).then(oneDtoOf(CodefCardDto));

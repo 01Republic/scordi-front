@@ -1,21 +1,21 @@
 import React, {memo, useState} from 'react';
-import Tippy from '@tippyjs/react/headless';
+import Tippy from '@tippyjs/react';
 import {toast} from 'react-hot-toast';
 import {FaCheck, FaChevronDown} from 'react-icons/fa6';
 import {errorToast} from '^api/api';
 import {MoreDropdownMenuItem} from '^clients/private/_components/rest-pages/ShowPage/MoreDropdown';
-import {CreditCardUsingStatus} from '^models/CreditCard/type';
-import {creditCardApi} from '^models/CreditCard/api';
-import {UsingStatusTag} from '^models/CreditCard/components';
-import {useCurrentCreditCard} from '../../atom';
+import {InvoiceAccountUsingStatus} from '^models/InvoiceAccount/type';
+import {invoiceAccountApi} from '^models/InvoiceAccount/api';
+import {UsingStatusTag} from '^models/InvoiceAccount/components';
+import {useCurrentInvoiceAccount} from '../../atom';
 
 export const ChangeUsingStatusItem = memo(function ChangeUsingStatusItem() {
-    const {currentCreditCard, reload} = useCurrentCreditCard();
+    const {currentInvoiceAccount, reload} = useCurrentInvoiceAccount();
     const [isLoading, setIsLoading] = useState(false);
 
-    if (!currentCreditCard) return <></>;
+    if (!currentInvoiceAccount) return <></>;
 
-    const {usingStatus} = currentCreditCard;
+    const {usingStatus} = currentInvoiceAccount;
 
     return (
         <MoreDropdownMenuItem onClick={console.log} theme="none" size="default">
@@ -32,13 +32,14 @@ export const ChangeUsingStatusItem = memo(function ChangeUsingStatusItem() {
                         render={() => (
                             <UsingStatusSelect
                                 selectedValue={usingStatus}
-                                selectOption={(option: CreditCardUsingStatus) => {
-                                    if (!currentCreditCard) return;
-                                    const {organizationId: orgId, id} = currentCreditCard;
-                                    const req = creditCardApi.update(orgId, id, {usingStatus: option});
+                                selectOption={(option: InvoiceAccountUsingStatus) => {
+                                    if (!currentInvoiceAccount) return;
+                                    const {organizationId: orgId, id} = currentInvoiceAccount;
 
                                     setIsLoading(true);
-                                    req.then(() => toast.success('변경사항을 저장했어요.'))
+                                    invoiceAccountApi
+                                        .updateV3(orgId, id, {usingStatus: option})
+                                        .then(() => toast.success('변경사항을 저장했어요.'))
                                         .then(() => reload())
                                         .catch(errorToast)
                                         .finally(() => setIsLoading(false));
@@ -63,8 +64,8 @@ export const ChangeUsingStatusItem = memo(function ChangeUsingStatusItem() {
 });
 
 const UsingStatusSelect = (props: {
-    selectedValue: CreditCardUsingStatus;
-    selectOption: (option: CreditCardUsingStatus) => any;
+    selectedValue: InvoiceAccountUsingStatus;
+    selectOption: (option: InvoiceAccountUsingStatus) => any;
 }) => {
     const {selectedValue, selectOption} = props;
     return (
@@ -75,10 +76,10 @@ const UsingStatusSelect = (props: {
             </div>
 
             {[
-                CreditCardUsingStatus.UnDef,
-                CreditCardUsingStatus.NoUse,
-                CreditCardUsingStatus.InUse,
-                CreditCardUsingStatus.Expired,
+                InvoiceAccountUsingStatus.UnDef,
+                InvoiceAccountUsingStatus.NoUse,
+                InvoiceAccountUsingStatus.InUse,
+                InvoiceAccountUsingStatus.Expired,
             ].map((option, i) => {
                 const isSelected = selectedValue === option;
                 return (
