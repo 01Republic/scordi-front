@@ -1,16 +1,23 @@
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {SelectTeam} from '^clients/private/orgs/team/team-members/OrgTeamMemberNewPage/SelectTeam';
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
-import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {
+    subscriptionSubjectAtom,
+    useCurrentSubscription,
+} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {subscriptionApi} from '^models/Subscription/api';
 import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {toast} from 'react-hot-toast';
 import {TeamMemberTag} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/TeamMemberTag';
 import {TeamMemberProfileCompact} from '^models/TeamMember/components/TeamMemberProfile';
-import {TeamMemberDto} from '^models/TeamMember';
+import {TeamMemberDto, useTeamMembersInSubscriptionShowModal} from '^models/TeamMember';
 import {TeamTag} from '^models/Team/components/TeamTag';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
+import {TeamDto} from '^models/Team/type';
+import SubscriptionTeamList from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/SubscriptionTeamList';
 
 export const SubscriptionBasicInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
@@ -20,7 +27,7 @@ export const SubscriptionBasicInfoSection = memo(() => {
     if (!subscription) return null;
 
     const onSubmit = (dto: UpdateSubscriptionRequestDto) => {
-        subscriptionApi.update(subscription.id, dto).then((res) => {
+        subscriptionApi.update(subscription.id, dto).then(() => {
             toast.success('변경사항을 저장했어요.');
             setIsEditMode(false);
             reload();
@@ -59,19 +66,9 @@ export const SubscriptionBasicInfoSection = memo(() => {
                             </FormControl>
 
                             <FormControl label="소속(팀)">
-                                {isEditMode ? (
-                                    <SelectTeam
-                                        defaultTeams={[]}
-                                        onChange={(teams) => {
-                                            const teamIds = teams.map((t) => t.id);
-                                        }}
-                                    />
-                                ) : (
-                                    // TODO: 팀 관련 데이터 없음 -> 팀 선택 안되고 그냥 뷰어로 보여줌 -> 근데 subscription.teamMembers에 팀 정보가 없다..
-                                    <div className="flex items-center gap-1" style={{height: '49.5px'}}>
-                                        <i className="text-gray-400">미설정</i>
-                                    </div>
-                                )}
+                                <div className="flex items-center gap-1" style={{height: '49.5px'}}>
+                                    <SubscriptionTeamList />
+                                </div>
                             </FormControl>
 
                             <FormControl label="담당자">
