@@ -1,19 +1,16 @@
-import {CreditCardScopeHandler} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardListPage/CreditCardScopeHandler';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {AddCreditCardDropdown} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardListPage/AddCreditCardDropdown';
-import {CreditCardTableHeader} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardListPage/CreditCardTableHeader';
-import {CreditCardTableRow} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardListPage/CreditCardTableRow';
 import React, {memo, useEffect, useState} from 'react';
-import {useCreditCardListForListPage} from '^models/CreditCard/hook';
 import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {useRecoilValue} from 'recoil';
 import {SubscriptionBillingHistoriesTableHeader} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/SubscriptionBillingHistoriesTableHeader';
 import {SubscriptionBillingHistoriesTableRow} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/SubscriptionBillingHistoriesTableRow';
-import {useBillingHistoriesInModal} from '^v3/share/modals/BillingHistoryDetailModal/hook';
 import {appBillingHistoryApi} from '^models/BillingHistory/api';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
-import {Paginated, PaginationMetaData} from '^types/utils/paginated.dto';
+import {Paginated} from '^types/utils/paginated.dto';
 import {toast} from 'react-hot-toast';
+import {PaymentScopeHandler} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/PaymentScopeHandler';
+import {MdOutlineRefresh} from 'react-icons/md';
+import {AddPaymentHistoryDropdown} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/AddPaymentHistoryDropdown';
 
 export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
     const subscription = useRecoilValue(subscriptionSubjectAtom);
@@ -40,7 +37,12 @@ export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
 
     return (
         <div className={'py-4 space-y-4'}>
-            <CreditCardScopeHandler />
+            <div className={'flex justify-between'}>
+                <PaymentScopeHandler onSearch={() => {}} />
+
+                <AddPaymentHistoryDropdown reload={getBillingHistories} />
+            </div>
+
             <ListTableContainer
                 pagination={billingHistory.pagination}
                 // movePage={movePage}
