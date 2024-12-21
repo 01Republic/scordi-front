@@ -63,7 +63,7 @@ export const SubscriptionActionPanel = memo(function SubscriptionActionPanel() {
             onClick: handleGoToPricingPage,
         },
         {
-            icon: <CgTrash fontSize={20} />,
+            icon: <CgTrash fontSize={20} color={'red'} />,
             onClick: handleRemove,
         },
     ];

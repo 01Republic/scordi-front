@@ -30,8 +30,8 @@ import {CreditCardProfileCompact} from '^models/CreditCard/components';
 import {InvoiceAccountProfile} from '^models/InvoiceAccount/components';
 import {InvoiceAccountSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/InvoiceAccountSelect';
 import {CurrencyCode} from '^models/Money';
-import {FreeTierSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/FreeTireSelect';
-import {BillingCycleSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/BillingCycleTypeSelect';
+import {FreeTierSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/selects/FreeTireSelect';
+import {BillingCycleSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/selects/BillingCycleTypeSelect';
 
 export const SubscriptionPaymentInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();

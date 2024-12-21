@@ -7,6 +7,10 @@ import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSub
 import {subscriptionApi} from '^models/Subscription/api';
 import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {toast} from 'react-hot-toast';
+import {TeamMemberTag} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/TeamMemberTag';
+import {TeamMemberProfileCompact} from '^models/TeamMember/components/TeamMemberProfile';
+import {TeamMemberDto} from '^models/TeamMember';
+import {TeamTag} from '^models/Team/components/TeamTag';
 
 export const SubscriptionBasicInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
@@ -63,14 +67,9 @@ export const SubscriptionBasicInfoSection = memo(() => {
                                         }}
                                     />
                                 ) : (
-                                    //  TODO: 팀 관련 데이터 없음
+                                    // TODO: 팀 관련 데이터 없음 -> 팀 선택 안되고 그냥 뷰어로 보여줌 -> 근데 subscription.teamMembers에 팀 정보가 없다..
                                     <div className="flex items-center gap-1" style={{height: '49.5px'}}>
                                         <i className="text-gray-400">미설정</i>
-                                        {/*{teams.length > 0 ? (*/}
-                                        {/*    teams.map((team, i) => <TeamTag id={team.id} name={team.name} key={i} />)*/}
-                                        {/*) : (*/}
-                                        {/*    <i className="text-gray-400">미설정</i>*/}
-                                        {/*)}*/}
                                     </div>
                                 )}
                             </FormControl>
@@ -78,7 +77,7 @@ export const SubscriptionBasicInfoSection = memo(() => {
                             <FormControl label="담당자">
                                 {isEditMode ? (
                                     <TeamMemberSelectColumn
-                                        className={'input input-underline !bg-slate-100 w-full'}
+                                        className={'input input-underline !bg-slate-100 w-full pt-1'}
                                         defaultValue={subscription?.master}
                                         onChange={(teamMember) => {
                                             form.setValue('masterId', teamMember?.id);
@@ -86,7 +85,11 @@ export const SubscriptionBasicInfoSection = memo(() => {
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {subscription?.master?.name}
+                                        {subscription?.master ? (
+                                            <TeamMemberProfileCompact item={subscription?.master} />
+                                        ) : (
+                                            '-'
+                                        )}
                                     </div>
                                 )}
                                 <span />

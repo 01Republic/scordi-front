@@ -13,7 +13,7 @@ import {MemberStatusScopeHandler} from '^clients/private/orgs/subscriptions/OrgS
 import {FaPlus} from 'react-icons/fa6';
 import {TeamMemberSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/TeamMemberSelect';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {SubscriptionTeamMemberSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/SubscriptionTeamMemberSelect';
+import {SubscriptionTeamMemberSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/selects/SubscriptionTeamMemberSelect';
 
 export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -63,11 +63,8 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                     iconColor={'bg-purple-400'}
                 />
                 <StatusCard
-                    title={'잔여 계정'}
-                    titleValue={(subscription?.paidMemberCount
-                        ? (subscription?.paidMemberCount || 0) - (subscription?.usedMemberCount || 0)
-                        : 0
-                    ).toString()}
+                    title={'구매한 계정'}
+                    titleValue={(subscription?.paidMemberCount || 0).toString()}
                     icon={<RiUserFollowFill size={20} className="h-full w-full p-[6px] text-white" />}
                     iconColor={'bg-orange-400'}
                 />

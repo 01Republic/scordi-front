@@ -127,7 +127,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                         className="input input-underline !bg-slate-100 w-full"
                                         defaultValue={selectedManager?.email || undefined}
                                         onChange={(e) => {
-                                            // TODO: 업데이트 로직 추가
+                                            // TODO: 업데이트 로직 추가 필요
                                             console.log(e.target.value);
                                         }}
                                     />
@@ -145,7 +145,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                         className="input input-underline !bg-slate-100 w-full"
                                         defaultValue={selectedManager?.phone || undefined}
                                         onChange={(e) => {
-                                            // TODO: 업데이트 로직 추가
+                                            // TODO: 업데이트 로직 추가 필요
                                             console.log(e.target.value);
                                         }}
                                     />
