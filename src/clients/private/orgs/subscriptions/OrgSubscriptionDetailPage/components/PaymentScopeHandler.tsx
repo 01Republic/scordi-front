@@ -1,6 +1,6 @@
 import React, {memo, useState} from 'react';
-import {ScopeButton} from '^clients/private/orgs/team/team-members/OrgTeamMemberListPage/InviteStatusScopeHandler/ScopeButton';
 import {SubscriptionUsingStatus} from '^models/Subscription/types';
+import {ScopeButton} from '^clients/private/_components/rest-pages/ListPage/ScopeButton';
 
 interface PaymentScopeHandlerProps {
     onSearch: (status: SubscriptionUsingStatus | null) => any;
