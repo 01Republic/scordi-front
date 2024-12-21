@@ -30,6 +30,8 @@ import {CreditCardProfileCompact} from '^models/CreditCard/components';
 import {InvoiceAccountProfile} from '^models/InvoiceAccount/components';
 import {InvoiceAccountSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/InvoiceAccountSelect';
 import {CurrencyCode} from '^models/Money';
+import {FreeTierSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/FreeTireSelect';
+import {BillingCycleSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/BillingCycleTypeSelect';
 
 export const SubscriptionPaymentInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
@@ -51,6 +53,8 @@ export const SubscriptionPaymentInfoSection = memo(() => {
         form.setValue('currentBillingAmount.currency', subscription?.currentBillingAmount?.code || CurrencyCode.KRW);
     }, [subscription]);
 
+    form.watch();
+
     return (
         <section>
             <div className="card card-bordered bg-white rounded-md relative">
@@ -69,10 +73,13 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
                             <FormControl label="유무료여부">
                                 {isEditMode ? (
-                                    <IsFreeTierColumn
-                                        subscription={subscription}
-                                        onChange={(value) => form.setValue('isFreeTier', value)}
-                                    />
+                                    <div className={'input input-underline !bg-slate-100 w-full pt-2'}>
+                                        <FreeTierSelect
+                                            isFreeTier={form.watch('isFreeTier') ?? subscription.isFreeTier}
+                                            onChange={(value) => form.setValue('isFreeTier', value)}
+                                        />
+                                        {form.watch('isFreeTier')}
+                                    </div>
                                 ) : (
                                     <div className="flex items-center gap-1" style={{height: '49.5px'}}>
                                         <IsFreeTierTagUI value={subscription?.isFreeTier} />
@@ -86,8 +93,8 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                         inputClassName="input input-underline !bg-slate-100 w-full"
                                         asSingle={true}
                                         value={{
-                                            startDate: form.getValues('startAt') || subscription.startAt || null,
-                                            endDate: form.getValues('startAt') || subscription.startAt || null,
+                                            startDate: form.watch('startAt') || subscription.startAt || null,
+                                            endDate: form.watch('startAt') || subscription.startAt || null,
                                         }}
                                         onChange={(newValue) => {
                                             form.setValue('startAt', newValue?.startDate);
@@ -107,8 +114,8 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                         inputClassName="input input-underline !bg-slate-100 w-full"
                                         asSingle={true}
                                         value={{
-                                            startDate: form.getValues('finishAt') || subscription.finishAt || null,
-                                            endDate: form.getValues('finishAt') || subscription.finishAt || null,
+                                            startDate: form.watch('finishAt') || subscription.finishAt || null,
+                                            endDate: form.watch('finishAt') || subscription.finishAt || null,
                                         }}
                                         onChange={(newValue) => form.setValue('finishAt', newValue?.startDate)}
                                     />
@@ -162,15 +169,14 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
                             <FormControl label="결제주기">
                                 {isEditMode ? (
-                                    <SelectColumn
-                                        value={subscription.billingCycleType}
-                                        getOptions={async () => SubscriptionBillingCycleTypeValues}
-                                        onSelect={(option) => Promise.resolve()}
-                                        ValueComponent={BillingCycleTypeTagUI}
-                                        contentMinWidth="240px"
-                                        optionListBoxTitle="결제주기를 수정합니다"
-                                        inputDisplay={false}
-                                    />
+                                    <div className={'input input-underline !bg-slate-100 w-full pt-2'}>
+                                        <BillingCycleSelect
+                                            billingCycle={
+                                                form.watch('billingCycleType') || subscription.billingCycleType
+                                            }
+                                            onChange={(value) => form.setValue('billingCycleType', value)}
+                                        />
+                                    </div>
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
                                         <BillingCycleTypeTagUI value={subscription.billingCycleType} />
@@ -181,11 +187,13 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
                             <FormControl label="과금방식">
                                 {isEditMode ? (
-                                    <PayingTypeSelect
-                                        defaultValue={subscription.pricingModel}
-                                        subscription={subscription}
-                                        onChange={(value) => form.setValue('pricingModel', value)}
-                                    />
+                                    <div className={'input input-underline !bg-slate-100 w-full pt-2'}>
+                                        <PayingTypeSelect
+                                            defaultValue={subscription.pricingModel}
+                                            subscription={subscription}
+                                            onChange={(value) => form.setValue('pricingModel', value)}
+                                        />
+                                    </div>
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
                                         <PayingTypeTag value={subscription.pricingModel} />
@@ -212,20 +220,25 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
                             <FormControl label="결제수단">
                                 {isEditMode ? (
-                                    <PayMethodSelect
-                                        subscription={subscription}
-                                        onChange={(creditCard) => form.setValue('creditCardId', creditCard?.id)}
-                                        ValueComponent={(props) => {
-                                            const {value} = props;
-                                            return typeof value === 'string' ? (
-                                                <p>{value}</p>
-                                            ) : (
-                                                <CreditCardProfileCompact item={value} />
-                                            );
-                                        }}
-                                    />
+                                    <div className={'input input-underline !bg-slate-100 w-full pt-2'}>
+                                        <PayMethodSelect
+                                            subscription={subscription}
+                                            onChange={(creditCard) => form.setValue('creditCardId', creditCard?.id)}
+                                            ValueComponent={(props) => {
+                                                const {value} = props;
+                                                return typeof value === 'string' ? (
+                                                    <p>{value}</p>
+                                                ) : (
+                                                    <CreditCardProfileCompact item={value} />
+                                                );
+                                            }}
+                                        />
+                                    </div>
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
+                                        {/*{subscription.creditCard?.length === 0 && (*/}
+                                        {/*    <i className="text-gray-400">미설정</i>*/}
+                                        {/*)}*/}
                                         <CreditCardProfileCompact item={subscription.creditCard} />
                                     </div>
                                 )}
@@ -246,6 +259,9 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                     </div>
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
+                                        {subscription.invoiceAccounts?.length === 0 && (
+                                            <i className="text-gray-400">미설정</i>
+                                        )}
                                         {subscription.invoiceAccounts?.map((invoiceAccount, index) => (
                                             <InvoiceAccountProfile key={index} invoiceAccount={invoiceAccount} />
                                         ))}
