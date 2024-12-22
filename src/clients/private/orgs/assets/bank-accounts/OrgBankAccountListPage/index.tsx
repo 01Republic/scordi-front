@@ -5,14 +5,14 @@ import {orgIdParamState} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {useCreditCardListForListPage} from '^models/CreditCard/hook';
-import {CreditCardScopeHandler} from './CreditCardScopeHandler';
-import {CreditCardTableHeader} from './CreditCardTableHeader';
-import {CreditCardTableRow} from './CreditCardTableRow';
-import {AddCreditCardDropdown} from './AddCreditCardDropdown';
-import {AddCreditCardModal} from './AddCreditCardModal';
+import {AddCreditCardModal} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardListPage/AddCreditCardModal';
+import {CreditCardTableHeader} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardListPage/CreditCardTableHeader';
+import {CreditCardTableRow} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardListPage/CreditCardTableRow';
 import TitleScopeHandler from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/TitleScopeHandler';
+import {AddBankAccountDropdown} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/AddBankAccountDropdown';
+import {BankAccountScopeHandler} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/BankAccountScopeHandler';
 
-export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
+export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
     const organizationId = useRecoilValue(orgIdParamState);
     const {
         search,
@@ -49,13 +49,14 @@ export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
         <ListPage
             onReady={onReady}
             onUnmount={() => reset()}
-            breadcrumb={['자산', '결제수단', {text: '카드', active: true}]}
+            breadcrumb={['자산', '결제수단', {text: '계좌', active: true}]}
             Title={() => <TitleScopeHandler />}
-            Buttons={() => <AddCreditCardDropdown reload={refresh} />}
-            ScopeHandler={CreditCardScopeHandler}
+            Buttons={() => <AddBankAccountDropdown reload={refresh} />}
+            ScopeHandler={BankAccountScopeHandler}
             searchInputPlaceholder="검색어를 입력해주세요"
             onSearch={onSearch}
         >
+            {/* TODO: 계좌 테이블 새로 만들어야 함 */}
             <ListTableContainer
                 pagination={result.pagination}
                 movePage={movePage}
