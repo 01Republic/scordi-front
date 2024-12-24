@@ -4,9 +4,9 @@ import {
     TeamMemberDto,
     CreateTeamMemberDto,
     UpdateTeamMemberDto,
-    TeamMemberSubscriptionDto,
     CreateGoogleAdminTeamMembersRequestDto,
 } from '^models/TeamMember/type';
+import {SubscriptionSeatDto} from '^models/SubscriptionSeat/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {SubscriptionDto} from '^models/Subscription/types';
@@ -52,12 +52,12 @@ export const teamMemberApi = {
 
         connect(teamMemberId: number, subscriptionId: number) {
             const url = `/team_members/${teamMemberId}/subscriptions/${subscriptionId}`;
-            return api.post<TeamMemberSubscriptionDto>(url).then(oneDtoOf(TeamMemberSubscriptionDto));
+            return api.post<SubscriptionSeatDto>(url).then(oneDtoOf(SubscriptionSeatDto));
         },
 
         disconnect(teamMemberId: number, subscriptionId: number) {
             const url = `/team_members/${teamMemberId}/subscriptions/${subscriptionId}`;
-            return api.delete<TeamMemberSubscriptionDto>(url).then(oneDtoOf(TeamMemberSubscriptionDto));
+            return api.delete<SubscriptionSeatDto>(url).then(oneDtoOf(SubscriptionSeatDto));
         },
     },
 };

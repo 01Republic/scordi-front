@@ -8,7 +8,7 @@ import {monthAfter, yearAfter} from '^utils/dateTime';
 import {BillingHistoryDto} from '^models/BillingHistory/type';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {CreditCardDto} from '^models/CreditCard/type';
-import {TeamMemberDto, TeamMemberSubscriptionDto} from '^models/TeamMember/type';
+import {TeamMemberDto} from '^models/TeamMember/type';
 import {MoneyDto} from '^models/Money';
 import {BillingCycleTerm, Locale, SubscriptionBillingCycleDto, t_BillingCycleTerm} from './billingCycleType';
 import {ConnectStatus} from './ConnectStatus';
@@ -21,6 +21,7 @@ import {SubscriptionConnectMethod} from '^models/Subscription/types/ConnectMetho
 import {VendorManagerDto} from '^models/vendor/VendorManager/type';
 import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
 import {VendorContractDto} from '^models/vendor/VendorContract/types';
+import {SubscriptionSeatDto} from '^models/SubscriptionSeat/type';
 
 export class SubscriptionDto {
     id: number;
@@ -83,8 +84,8 @@ export class SubscriptionDto {
     @TypeCast(() => BillingHistoryDto) billingHistories?: BillingHistoryDto[]; // 결제내역
     @TypeCast(() => InvoiceAccountDto) invoiceAccounts?: InvoiceAccountDto[]; // 인보이스 계정
     @TypeCast(() => CreditCardDto) creditCard?: CreditCardDto; // 결제 카드
+    @TypeCast(() => SubscriptionSeatDto) subscriptionSeats?: SubscriptionSeatDto[]; // 연결된 시트
 
-    @TypeCast(() => TeamMemberSubscriptionDto) teamMemberSubscriptions?: TeamMemberSubscriptionDto[]; // 사용 중인 팀 멤버 (연결)
     @TypeCast(() => TeamMemberDto) teamMembers?: TeamMemberDto[]; // 사용 중인 팀 멤버
 
     @TypeCast(() => TeamMemberDto) master?: TeamMemberDto; // 관리자 (담당자)
