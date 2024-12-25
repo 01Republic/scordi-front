@@ -7,7 +7,7 @@ import {useCurrentOrg} from '^models/Organization/hook';
 import {OrgBankAccountNewPage} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountNewPage';
 
 export const OrgBankAccountNewPageRoute = pathRoute({
-    pathname: '/orgs/[id]/bankAccount/new',
+    pathname: '/orgs/[id]/bankAccounts/new',
     path: (orgId: number) => pathReplace(OrgBankAccountNewPageRoute.pathname, {id: orgId}),
 });
 

@@ -22,6 +22,7 @@ import {CardNumberInput} from '^clients/private/orgs/assets/credit-cards/OrgCred
 import {CardUsingStatusSelect} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardNewPage/CardUsingStatusSelect';
 import {CardIsPersonalSelect} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardNewPage/CardIsPersonalSelect';
 import {CardIsCreditCardSelect} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardNewPage/CardIsCreditCardSelect';
+import {OrgBankAccountListPageRoute} from '^pages/orgs/[id]/bankAccounts';
 
 export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
     const router = useRouter();
@@ -96,7 +97,7 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                 <Breadcrumb
                     paths={[
                         '자산',
-                        {text: '결제수단 (카드)', active: false, href: OrgCreditCardListPageRoute.path(orgId)},
+                        {text: '결제수단 (계좌)', active: false, href: OrgBankAccountListPageRoute.path(orgId)},
                         {text: '결제수단 추가', active: true},
                     ]}
                 />
@@ -112,7 +113,7 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                     </div>
                 </div>
 
-                {/* 카드사 선택 단계 */}
+                {/* 은행사 선택 단계 */}
                 {!cardCompany && (
                     <div>
                         <section className="relative mb-12">
@@ -188,7 +189,7 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
 
                         <div className="flex items-center gap-4">
                             <p className="text-16 text-gray-500">
-                                선택된 카드사: <b>{cardCompany}</b>
+                                선택된 은행사: <b>{cardCompany}</b>
                             </p>
                             <button className="btn btn-xs btn-scordi gap-2" onClick={() => setCompany(undefined)}>
                                 변경하기
@@ -201,7 +202,7 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                         <div className="px-4 py-8 border-b">
                             <div className="max-w-md mx-auto flex flex-col gap-8 mb-16">
                                 <h2 className="leading-none text-xl font-semibold">필수정보</h2>
-                                <FormControl label="카드 이름" required>
+                                <FormControl label="계좌 이름" required>
                                     <input
                                         name="name"
                                         className={`input input-underline !bg-slate-100 w-full ${
@@ -214,46 +215,16 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                                     <span />
                                 </FormControl>
 
-                                <FormControl label="카드 번호" required>
-                                    <div className="grid grid-cols-4 gap-1.5">
-                                        <div>
-                                            <CardNumberInput
-                                                name="number1"
-                                                className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
-                                                readOnly={isLoading}
-                                                defaultValue={formData.number1}
-                                            />
-                                            <span />
-                                        </div>
-                                        <div>
-                                            <CardNumberInput
-                                                name="number2"
-                                                className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
-                                                readOnly={isLoading}
-                                                defaultValue={formData.number2}
-                                            />
-                                            <span />
-                                        </div>
-                                        <div>
-                                            <CardNumberInput
-                                                name="number3"
-                                                className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
-                                                readOnly={isLoading}
-                                                defaultValue={formData.number3}
-                                            />
-                                            <span />
-                                        </div>
-                                        <div>
-                                            <CardNumberInput
-                                                maxLength={5}
-                                                name="number4"
-                                                className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
-                                                readOnly={isLoading}
-                                                defaultValue={formData.number4}
-                                            />
-                                            <span />
-                                        </div>
-                                    </div>
+                                <FormControl label="계좌 번호" required>
+                                    <input
+                                        name="name"
+                                        className={`input input-underline !bg-slate-100 w-full ${
+                                            isLoading ? 'opacity-50 pointer-events-none' : ''
+                                        }`}
+                                        readOnly={isLoading}
+                                        defaultValue={formData.number1 || ''}
+                                        required
+                                    />
                                 </FormControl>
                             </div>
 
@@ -267,8 +238,11 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                                     isLoading={isLoading}
                                     defaultValue={formData.isPersonal ?? undefined}
                                 />
-                                <CardIsCreditCardSelect isLoading={isLoading} defaultValue={formData.isCreditCard} />
-                                <CardExpirySelects isLoading={isLoading} defaultValue={formData.expiry} />
+                                {/* TODO: 연결된 카드 선택 */}
+                                <CardHoldingMemberIdSelect
+                                    isLoading={isLoading}
+                                    defaultValue={formData.holdingMemberId || undefined}
+                                />
                                 <CardHoldingMemberIdSelect
                                     isLoading={isLoading}
                                     defaultValue={formData.holdingMemberId || undefined}
