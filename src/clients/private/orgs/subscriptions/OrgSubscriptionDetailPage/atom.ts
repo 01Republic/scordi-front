@@ -23,7 +23,7 @@ export const useCurrentSubscription = () => {
                     'vendorContracts.vendorManager',
                     'invoiceAccounts',
                     'billingHistories',
-                    'teamMemberSubscriptions',
+                    'subscriptionSeats',
                 ],
             })
             .then((res) => {

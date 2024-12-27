@@ -32,25 +32,88 @@ import {InvoiceAccountSelect} from '^clients/private/orgs/subscriptions/OrgSubsc
 import {CurrencyCode} from '^models/Money';
 import {FreeTierSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/selects/FreeTireSelect';
 import {BillingCycleSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/selects/BillingCycleTypeSelect';
+import {SubscriptionSeatDto, UpdateSubscriptionSeatRequestDto} from '^models/SubscriptionSeat/type';
 
 export const SubscriptionPaymentInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
     const {reload, currentSubscription: subscription} = useCurrentSubscription();
+    const [prevSeats, setPrevSeats] = useState<UpdateSubscriptionSeatRequestDto[]>([]);
+    const [updateSeatCount, setUpdateSeatCount] = useState<number>(0);
 
     if (!subscription) return null;
 
-    const onSubmit = (dto: UpdateSubscriptionRequestDto) => {
-        subscriptionApi.update(subscription?.id, dto).then((res) => {
+    const prevSeatCount = subscription.subscriptionSeats?.length || 0;
+    const seatWithTeamMemberCount = prevSeats.filter((seat) => seat.teamMemberId).length;
+
+    const onSubmit = async (dto: UpdateSubscriptionRequestDto) => {
+        try {
+            await onUpdateSeats();
+            await subscriptionApi.update(subscription?.id, dto);
             toast.success('변경사항을 저장했어요.');
             setIsEditMode(false);
             reload();
-        });
+        } catch (error) {
+            console.error('Error during submission:', error);
+            toast.error('변경사항 저장 중 오류가 발생했어요.');
+        }
+    };
+
+    const onUpdateSeats = async () => {
+        try {
+            if (updateSeatCount < 0) {
+                await destroySeats(updateSeatCount);
+            }
+            if (updateSeatCount > 0) {
+                await createSeats(updateSeatCount);
+            }
+        } catch (error) {
+            console.error('Error updating seats:', error);
+        }
+    };
+
+    const destroySeats = async (count: number) => {
+        // TODO: 멤버가 지정되지 않은 시트만 골라 삭제하는 로직 추가
+        const seatsToRemove = (subscription.subscriptionSeats || [])
+            .filter((seat) => !seat.teamMemberId)
+            .slice(0, Math.abs(count));
+        await Promise.all(
+            seatsToRemove.map((seat) =>
+                subscriptionApi.seatsApi.destroy(subscription.organizationId, subscription.id, seat.id),
+            ),
+        );
+    };
+
+    const createSeats = async (count: number) => {
+        await Promise.all(
+            Array.from({length: count}).map(() =>
+                subscriptionApi.seatsApi.create(subscription.organizationId, subscription.id, {
+                    subscriptionId: subscription.id,
+                }),
+            ),
+        );
+    };
+
+    const handleSeats = (value: number) => {
+        if (value < seatWithTeamMemberCount) {
+            toast.error('구매수량이 멤버 수보다 적을 수 없어요.');
+            setUpdateSeatCount(0);
+        } else {
+            setUpdateSeatCount(value - seatWithTeamMemberCount);
+        }
     };
 
     useEffect(() => {
         form.setValue('currentBillingAmount.amount', subscription?.currentBillingAmount?.amount || 0);
         form.setValue('currentBillingAmount.currency', subscription?.currentBillingAmount?.code || CurrencyCode.KRW);
+
+        const seats: UpdateSubscriptionSeatRequestDto[] =
+            subscription.subscriptionSeats?.map((seat) => ({
+                subscriptionId: subscription.id,
+                teamMemberId: seat.teamMemberId || undefined,
+            })) || [];
+
+        setPrevSeats(seats);
     }, [subscription]);
 
     form.watch();
@@ -206,13 +269,12 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                 {isEditMode ? (
                                     <input
                                         className="input input-underline !bg-slate-100 w-full"
-                                        defaultValue={subscription?.paidMemberCount}
-                                        // TODO 용현님 작업 필요
-                                        // onChange={(e) => form.setValue('paidMemberCount', e.target.value)}
+                                        defaultValue={prevSeatCount}
+                                        onChange={(e) => handleSeats(Number(e.target.value))}
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {subscription.paidMemberCount}
+                                        {prevSeatCount}
                                     </div>
                                 )}
                                 <span />
