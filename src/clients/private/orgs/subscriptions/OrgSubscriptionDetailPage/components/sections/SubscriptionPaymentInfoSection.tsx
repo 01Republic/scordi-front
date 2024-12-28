@@ -270,6 +270,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                     <input
                                         className="input input-underline !bg-slate-100 w-full"
                                         defaultValue={prevSeatCount}
+                                        min={prevSeatCount}
                                         onChange={(e) => handleSeats(Number(e.target.value))}
                                     />
                                 ) : (

@@ -4,7 +4,7 @@ import React, {memo, useEffect, useState} from 'react';
 import {RiUser3Fill, RiUserFollowFill, RiUserForbidFill, RiUserUnfollowFill} from 'react-icons/ri';
 import {AddTeamMemberDropdown} from '^clients/private/orgs/team/team-members/OrgTeamMemberListPage/AddTeamMemberDropdown';
 import {useTeamMembersInSubscriptionShowModal} from '^models/TeamMember';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {orgIdParamState} from '^atoms/common';
 import {TeamMemberInSubscriptionTableRow} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/TeamMemberInSubscriptionTableRow';
@@ -12,10 +12,11 @@ import {TeamMemberInSubscriptionTableHeader} from '^clients/private/orgs/subscri
 import {MemberStatusScopeHandler} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/MemberStatusScopeHandler';
 import {FaPlus} from 'react-icons/fa6';
 import {SubscriptionTeamMemberSelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/selects/SubscriptionTeamMemberSelect';
+import {SubscriptionSeatDto} from '^models/SubscriptionSeat/type';
 
 export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     const orgId = useRecoilValue(orgIdParamState);
-    const [subscription, setSubscription] = useRecoilState(subscriptionSubjectAtom);
+    const subscription = useRecoilValue(subscriptionSubjectAtom);
     const {
         search,
         result,
@@ -32,6 +33,8 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     } = useTeamMembersInSubscriptionShowModal();
     const [isOpened, setIsOpened] = useState(false);
 
+    if (!orgId || !subscription) return null;
+
     const onReady = () => {
         search({
             where: {
@@ -45,6 +48,22 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
 
     const onClose = () => {
         setIsOpened(false);
+    };
+
+    const willRemoveSeatCount = () => {
+        const willRemoveSeats = (subscription.subscriptionSeats || []).filter(
+            // TODO: 이번달 삭제 예정인 시트 찾기
+            (seat: SubscriptionSeatDto) => seat.updatedAt.getMonth() === new Date().getMonth(),
+        );
+        return willRemoveSeats.length;
+    };
+
+    const removedSeatCount = () => {
+        const willRemoveSeats = (subscription.subscriptionSeats || []).filter(
+            // TODO: 삭제된 정보가 있는 시트 찾기
+            (seat: SubscriptionSeatDto) => seat.updatedAt.getMonth() === new Date().getMonth(),
+        );
+        return willRemoveSeats.length;
     };
 
     useEffect(() => {
@@ -62,21 +81,21 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                 />
                 <StatusCard
                     title={'구매한 계정'}
-                    titleValue={(subscription?.paidMemberCount || 0).toString()}
+                    titleValue={(subscription?.subscriptionSeats?.length || 0).toString()}
                     icon={<RiUserFollowFill size={20} className="h-full w-full p-[6px] text-white" />}
                     iconColor={'bg-orange-400'}
                 />
                 {/* TODO 이 정보들 어케 알아 */}
                 <StatusCard
                     title={'이번달 회수(예정) 계정'}
-                    titleValue={(subscription?.paidMemberCount || 0).toString()}
+                    titleValue={willRemoveSeatCount().toString()}
                     icon={<RiUserUnfollowFill size={20} className="h-full w-full p-[6px] text-white" />}
                     iconColor={'bg-pink-400'}
                 />
                 {/* TODO 이 정보들 어케 알아 */}
                 <StatusCard
                     title={'해지 완료된 계정'}
-                    titleValue={(subscription?.paidMemberCount || 0).toString()}
+                    titleValue={removedSeatCount().toString()}
                     icon={<RiUserForbidFill size={20} className="h-full w-full p-[6px] text-white" />}
                     iconColor={'bg-blue-400'}
                 />
