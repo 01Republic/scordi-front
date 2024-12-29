@@ -12,20 +12,23 @@ interface BillingHistoryAttachmentShowButtonProps {
 export const BillingHistoryAttachmentShowButton = memo((props: BillingHistoryAttachmentShowButtonProps) => {
     const {billingHistory} = props;
 
+    const [emailFile] = billingHistory.getEmailContents();
     const attachments = billingHistory.getAttachments();
 
-    if (attachments.length === 0) return <BillingHistoryAttachmentEmptyButton />;
+    if (!emailFile && attachments.length === 0) return <BillingHistoryAttachmentEmptyButton />;
 
-    if (attachments.length === 1) {
-        const [attachment] = attachments;
-        const {url, fileName} = attachment;
-        return <LinkTo href={url} target="_blank" className="btn btn-sm btn-white" text="청구서 보기" />;
+    if (emailFile && attachments.length === 0) {
+        // const [attachment] = attachments;
+        // const {url, fileName} = attachment;
+        return <LinkTo href={emailFile.url} target="_blank" className="btn btn-sm btn-white" text="청구서 보기" />;
     }
+
+    const files = [emailFile, ...attachments];
 
     return (
         <Dropdown
             placement="bottom-end"
-            Trigger={() => <a className={`btn btn-sm btn-white`}>청구서 보기</a>}
+            Trigger={() => <a className={`btn btn-sm btn-white no-animation btn-animation`}>청구서 보기</a>}
             Content={() => {
                 return (
                     <div
@@ -36,15 +39,17 @@ export const BillingHistoryAttachmentShowButton = memo((props: BillingHistoryAtt
                         }}
                     >
                         <p className="text-12 mb-1.5 px-1 font-semibold">
-                            첨부파일이 {attachments.length.toLocaleString()}개 있어요
+                            첨부파일이 {files.length.toLocaleString()}개 있어요
                         </p>
-                        {attachments.map((attachment, i) => (
+                        {files.map((file, i) => (
                             <LinkTo
                                 key={i}
                                 className="cursor-pointer flex items-center justify-between group text-12 rounded-sm hover:bg-slate-100 px-1 py-0.5 gap-2.5 text-gray-500"
-                                onClick={() => window.open(attachment.url)}
+                                onClick={() => window.open(file.url)}
                             >
-                                <span className="group-hover:text-scordi transition">{attachment.fileName}</span>
+                                <span className="group-hover:text-scordi transition">
+                                    {'fileName' in file ? file.fileName : '이메일 본문'}
+                                </span>
                                 <span className="text-10 group-hover:text-black transition">보기</span>
                             </LinkTo>
                         ))}
