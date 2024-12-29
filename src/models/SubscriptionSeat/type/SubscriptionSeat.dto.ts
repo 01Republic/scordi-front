@@ -12,9 +12,13 @@ export class SubscriptionSeatDto {
     id: number; // ID
     teamMemberId: number | null; // 팀 멤버 ID
     subscriptionId: number | null; // 구독 ID
+    @TypeCast(() => Date) startAt?: Date | null; // 계정부여일
+    @TypeCast(() => Date) finishAt?: Date | null; // 계정회수(예정)일
+    memo: string | null; // 메모
 
     @TypeCast(() => Date) createdAt: Date; // 생성일시
     @TypeCast(() => Date) updatedAt: Date; // 수정일시
+    @TypeCast(() => Date) deletedAt?: Date; // 계정회수(완료)일 (soft-delete)
 
     @TypeCast(() => TeamMemberDto) teamMember?: TeamMemberDto; // 팀 멤버
     @TypeCast(() => SubscriptionDto) subscription?: SubscriptionDto; // 구독
