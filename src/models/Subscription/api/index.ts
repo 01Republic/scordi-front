@@ -76,6 +76,13 @@ export const subscriptionApi = {
             return api.get(url, {params}).then(paginatedDtoOf(SubscriptionSeatDto));
         },
 
+        // 조건에 따른 시트 수량 조회
+        count(orgId: number, subscriptionId: number, params?: FindAllSubscriptionSeatQueryDto) {
+            const controllerPath = `/organization/${orgId}/subscriptions/${subscriptionId}`;
+            const url = `${controllerPath}/seats/i/count`;
+            return api.get<number>(url, {params});
+        },
+
         show(orgId: number, subscriptionId: number, id: number, params?: FindAllSubscriptionSeatQueryDto) {
             const controllerPath = `/organization/${orgId}/subscriptions/${subscriptionId}`;
             const url = `${controllerPath}/seats/${id}`;
