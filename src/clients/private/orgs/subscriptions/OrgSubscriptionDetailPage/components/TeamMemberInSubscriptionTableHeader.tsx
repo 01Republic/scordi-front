@@ -26,6 +26,8 @@ export const TeamMemberInSubscriptionTableHeader = memo((props: TeamMemberInSubs
             <th>계정회수(예정)일</th>
 
             <th>비고</th>
+
+            <th />
         </tr>
     );
 });

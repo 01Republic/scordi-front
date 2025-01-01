@@ -3,7 +3,6 @@ import {ListTable, ListTableContainer} from '^clients/private/_components/table/
 import React, {memo, useEffect, useState} from 'react';
 import {RiUser3Fill, RiUserFollowFill, RiUserForbidFill, RiUserUnfollowFill} from 'react-icons/ri';
 import {AddTeamMemberDropdown} from '^clients/private/orgs/team/team-members/OrgTeamMemberListPage/AddTeamMemberDropdown';
-import {useTeamMembersInSubscriptionShowModal} from '^models/TeamMember';
 import {useRecoilValue} from 'recoil';
 import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {orgIdParamState} from '^atoms/common';
@@ -13,55 +12,39 @@ import {MemberStatusScopeHandler} from '^clients/private/orgs/subscriptions/OrgS
 import {FaPlus} from 'react-icons/fa6';
 import {SubscriptionTeamMemberSelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/selects/SubscriptionTeamMemberSelect';
 import {SubscriptionSeatDto} from '^models/SubscriptionSeat/type';
+import {useSubscriptionSeatsInMemberTab} from '^models/SubscriptionSeat/hook/useSubscriptionSeats';
 
 export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     const orgId = useRecoilValue(orgIdParamState);
     const subscription = useRecoilValue(subscriptionSubjectAtom);
-    const {
-        search,
-        result,
-        isLoading,
-        isEmptyResult,
-        isNotLoaded,
-        query,
-        searchAndUpdateCounter,
-        movePage,
-        changePageSize,
-        reload,
-        resetPage,
-        orderBy,
-    } = useTeamMembersInSubscriptionShowModal();
+    const {search, result, isLoading, isEmptyResult, isNotLoaded, movePage, changePageSize, reload, orderBy} =
+        useSubscriptionSeatsInMemberTab();
     const [isOpened, setIsOpened] = useState(false);
 
     if (!orgId || !subscription) return null;
 
     const onReady = () => {
         search({
-            where: {
-                // @ts-ignore
-                subscriptions: {id: subscription.id},
-            },
-            relations: ['teams', 'subscriptions'],
+            relations: ['teamMember', 'teamMember.teams'],
             order: {id: 'DESC'},
         });
     };
 
     const onClose = () => {
         setIsOpened(false);
+        reload();
     };
 
     const willRemoveSeatCount = () => {
         const willRemoveSeats = (subscription.subscriptionSeats || []).filter(
-            // TODO: 이번달 삭제 예정인 시트 찾기
-            (seat: SubscriptionSeatDto) => seat.updatedAt.getMonth() === new Date().getMonth(),
+            (seat) => !!seat.finishAt && seat.finishAt.getMonth() === new Date().getMonth(),
         );
         return willRemoveSeats.length;
     };
 
     const removedSeatCount = () => {
         const willRemoveSeats = (subscription.subscriptionSeats || []).filter(
-            // TODO: 삭제된 정보가 있는 시트 찾기
-            (seat: SubscriptionSeatDto) => seat.updatedAt.getMonth() === new Date().getMonth(),
+            (seat) => !!seat.finishAt && seat.finishAt < new Date(),
         );
         return willRemoveSeats.length;
     };
@@ -85,14 +68,12 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                     icon={<RiUserFollowFill size={20} className="h-full w-full p-[6px] text-white" />}
                     iconColor={'bg-orange-400'}
                 />
-                {/* TODO 이 정보들 어케 알아 */}
                 <StatusCard
                     title={'이번달 회수(예정) 계정'}
                     titleValue={willRemoveSeatCount().toString()}
                     icon={<RiUserUnfollowFill size={20} className="h-full w-full p-[6px] text-white" />}
                     iconColor={'bg-pink-400'}
                 />
-                {/* TODO 이 정보들 어케 알아 */}
                 <StatusCard
                     title={'해지 완료된 계정'}
                     titleValue={removedSeatCount().toString()}
@@ -127,7 +108,7 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                     items={result.items}
                     isLoading={false}
                     Header={() => <TeamMemberInSubscriptionTableHeader orderBy={orderBy} />}
-                    Row={({item}) => <TeamMemberInSubscriptionTableRow teamMember={item} reload={reload} />}
+                    Row={({item}) => <TeamMemberInSubscriptionTableRow seat={item} reload={reload} />}
                 />
             </ListTableContainer>
 
