@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo, useEffect} from 'react';
 import {useTeamMemberListInCreateSubscription} from '^models/TeamMember';
 import {LoadableBox} from '^components/util/loading';
 import {selectedTeamMembersAtom} from './atom';
@@ -7,14 +7,19 @@ import {useListOf} from '^hooks/useResource';
 
 interface TeamMemberSelectableSectionProps {
     gridCols?: number;
+    filter?: (teamMember: any) => boolean;
 }
 
 export const TeamMemberSelectableSection = memo(function TeamMemberSelectableSection(
     props: TeamMemberSelectableSectionProps,
 ) {
-    const {gridCols = 2} = props;
-    const {isLoading, result} = useTeamMemberListInCreateSubscription();
+    const {gridCols = 2, filter} = props;
+    const {isLoading, result, search} = useTeamMemberListInCreateSubscription();
     const {list, add, remove} = useListOf(selectedTeamMembersAtom, {getKey: 'id'});
+
+    useEffect(() => {
+        search({});
+    }, []);
 
     return (
         <LoadableBox isLoading={isLoading} loadingType={2} noPadding>
@@ -22,6 +27,10 @@ export const TeamMemberSelectableSection = memo(function TeamMemberSelectableSec
                 <div>
                     <div className={`grid grid-cols-${gridCols} gap-2`}>
                         {result.items.map((teamMember, i) => {
+                            if (filter && filter(teamMember)) {
+                                return null;
+                            }
+
                             const selected = list.some((m) => m.id === teamMember.id);
 
                             return (

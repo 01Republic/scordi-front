@@ -1,6 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
 import {toast} from 'react-hot-toast';
-import {useTeamMemberListInCreateSubscription} from '^models/TeamMember';
 import {
     TeamMemberCreateAutoModal,
     TeamMemberCreateManualModal,
@@ -17,7 +16,8 @@ import {Button} from '^components/util/form-control/inputs/ButtonGroupRadio/Butt
 import {subscriptionApi} from '^models/Subscription/api';
 import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {prompt2} from '^components/util/dialog';
+import {orgIdParamState} from '^atoms/common';
+import {useSubscriptionSeatsInMemberTab} from '^models/SubscriptionSeat/hook/useSubscriptionSeats';
 
 interface SubscriptionTeamMemberSelectModalProps {
     isOpened: boolean;
@@ -27,43 +27,35 @@ interface SubscriptionTeamMemberSelectModalProps {
 export const SubscriptionTeamMemberSelectModal = memo(function TeamMemberSelect(
     props: SubscriptionTeamMemberSelectModalProps,
 ) {
-    const {search, reload} = useTeamMemberListInCreateSubscription();
+    // const {search, reload} = useTeamMemberListInCreateSubscription();
     const [isCreateMethodModalOpened, setCreateMethodModalOpened] = useState(false);
     const [isCreateAutoModalOpened, setCreateAutoModalOpened] = useState(false);
     const [isCreateManualModalOpened, setCreateManualModalOpened] = useState(false);
     const {list, remove} = useListOf(selectedTeamMembersAtom, {getKey: 'id'});
     const setFormData = useSetRecoilState(updateCurrentSubscriptionState);
     const teamMemberIds = (list || []).map((teamMember) => teamMember.id);
+    const orgId = useRecoilValue(orgIdParamState);
     const subscription = useRecoilValue(subscriptionSubjectAtom);
+    const {search, reload, result} = useSubscriptionSeatsInMemberTab();
 
-    if (!subscription) return null;
+    if (!orgId || !subscription) return null;
 
     const handleUpdate = () => {
-        // TODO: 업데이트 반영이 안됨
-        subscriptionApi.update(subscription?.id, {teamMemberIds}).then(() => {
-            toast.success('구성원을 추가했어요.');
-            props.onClose();
+        const promises = list.map((teamMember) => {
+            subscriptionApi.seatsApi.create(orgId, subscription.id, {teamMemberId: teamMember.id});
+            remove(teamMember);
         });
-    };
 
-    const updatePaidCount = async () => {
-        const result = await prompt2(`구매한 계정 수를 입력해 주세요.`);
-        if (result.isConfirmed && result.value) {
-            // TODO: 구매 수 업데이트
-            // const req = subscriptionApi.update(subscription.id, {paidMemberCount: result.value});
-            // req.then((res) => {
-            //     const updatedTeam = res.data;
-            //     reload && reload();
-            //     const currentSelected = getValue().find(({value}) => value.id === team.id);
-            //     if (currentSelected) {
-            //         // @ts-ignore
-            //         setValue({label: updatedTeam.name, value: updatedTeam, isUpdated: true}, 'select-option');
-            //     }
-            //     toast.success('변경되었습니다');
-            // });
-            // req.catch((err) => toast.error(err.message));
-            toast.success('계정 수가 변경되었어요.');
-        }
+        Promise.all(promises)
+            .then(() => {
+                toast.success('구성원을 추가했어요.');
+                props.onClose();
+                reload();
+            })
+            .catch((err) => {
+                console.error(err);
+                toast.error('구성원 추가 중 오류가 발생했어요.');
+            });
     };
 
     useEffect(() => {
@@ -77,12 +69,6 @@ export const SubscriptionTeamMemberSelectModal = memo(function TeamMemberSelect(
     return (
         <SlideUpModal open={props.isOpened} onClose={props.onClose} size="md">
             <p className={'text-lg bold mb-4'}>{`${subscription?.product.nameKo}을 이용중인 구성원을 연결하세요.`}</p>
-            <div className={'flex justify-end items-center gap-2'}>
-                <p className={'text-sm'}>현재 구매한 계정 수: {subscription.paidMemberCount}개</p>
-                <button className={'btn btn-outline btn-sm text-14 bg-white'} onClick={updatePaidCount}>
-                    수정하기
-                </button>
-            </div>
             <div>
                 <div className="flex flex-col gap-4">
                     <TeamMemberSearchInput />
@@ -103,7 +89,12 @@ export const SubscriptionTeamMemberSelectModal = memo(function TeamMemberSelect(
                     </div>
 
                     <div className={'max-h-96 overflow-scroll'}>
-                        <TeamMemberSelectableSection gridCols={1} />
+                        <TeamMemberSelectableSection
+                            gridCols={1}
+                            filter={(teamMember) =>
+                                !!result.items.find((seat) => seat.teamMember?.id === teamMember.id)
+                            }
+                        />
                     </div>
 
                     <Button className={'btn-scordi'} onClick={handleUpdate}>

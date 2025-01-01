@@ -2,7 +2,6 @@ import {StatusCard} from '^clients/private/orgs/subscriptions/OrgSubscriptionDet
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import React, {memo, useEffect, useState} from 'react';
 import {RiUser3Fill, RiUserFollowFill, RiUserForbidFill, RiUserUnfollowFill} from 'react-icons/ri';
-import {AddTeamMemberDropdown} from '^clients/private/orgs/team/team-members/OrgTeamMemberListPage/AddTeamMemberDropdown';
 import {useRecoilValue} from 'recoil';
 import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {orgIdParamState} from '^atoms/common';
@@ -11,7 +10,6 @@ import {TeamMemberInSubscriptionTableHeader} from '^clients/private/orgs/subscri
 import {MemberStatusScopeHandler} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/MemberStatusScopeHandler';
 import {FaPlus} from 'react-icons/fa6';
 import {SubscriptionTeamMemberSelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/selects/SubscriptionTeamMemberSelect';
-import {SubscriptionSeatDto} from '^models/SubscriptionSeat/type';
 import {useSubscriptionSeatsInMemberTab} from '^models/SubscriptionSeat/hook/useSubscriptionSeats';
 
 export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
@@ -102,7 +100,12 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                 isEmptyResult={isEmptyResult}
                 emptyMessage="조회된 구성원이 없어요."
                 emptyButtonText="구성원 등록"
-                EmptyButtons={() => <AddTeamMemberDropdown reload={reload} />}
+                EmptyButtons={() => (
+                    <button className={'btn btn-outline btn-sm text-14 bg-white'} onClick={() => setIsOpened(true)}>
+                        <FaPlus />
+                        &nbsp;멤버 연결하기
+                    </button>
+                )}
             >
                 <ListTable
                     items={result.items}
