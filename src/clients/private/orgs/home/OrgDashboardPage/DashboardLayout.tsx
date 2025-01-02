@@ -1,15 +1,17 @@
 import {memo} from 'react';
 import {WithChildren} from '^types/global.type';
+import {LoadableBox} from '^components/util/loading';
 
 interface DashboardLayoutProps extends WithChildren {
     title: string;
     className?: string;
     subTitle?: string;
+    isLoading?: boolean;
     Buttons?: () => JSX.Element;
 }
 
 export const DashboardLayout = memo((props: DashboardLayoutProps) => {
-    const {title, className, subTitle, Buttons, children} = props;
+    const {title, className, subTitle, Buttons, isLoading = false, children} = props;
 
     return (
         <article className={`w-full flex flex-col justify-start gap-5 border rounded-3xl bg-white p-7 ${className}`}>
@@ -18,7 +20,9 @@ export const DashboardLayout = memo((props: DashboardLayoutProps) => {
                 {subTitle && <p className="font-semibold text-[22px]">{subTitle}</p>}
                 {Buttons && <Buttons />}
             </div>
-            <div>{children}</div>
+            <LoadableBox isLoading={isLoading} loadingType={2} noPadding spinnerPos="center">
+                <div>{children}</div>
+            </LoadableBox>
         </article>
     );
 });
