@@ -7,13 +7,11 @@ import {currentOrgAtom} from '^models/Organization/atom';
 import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
 import {MainLayout} from '^clients/private/_layouts/MainLayout';
 import {QuickButton} from '^clients/private/orgs/home/OrgDashboardPage/QuickButton';
-import {MonthlyTotalExpenseSection} from 'src/clients/private/orgs/home/OrgDashboardPage/MonthlyTotalExpenseSection';
-import {useTeamsForListPage} from '^models/Team/hook';
-import {orgIdParamState} from '^atoms/common';
-import {SubscriptionListSection} from '^clients/private/orgs/home/OrgDashboardPage/SubscriptionListSection';
-import {YearlySubscriptionsLogSection} from '^clients/private/orgs/home/OrgDashboardPage/YearlySubscriptionsLogSection';
-import {PaymentMethodsSection} from '^clients/private/orgs/home/OrgDashboardPage/PaymentMethodsSection';
-import {InvoiceAccountsSection} from '^clients/private/orgs/home/OrgDashboardPage/InvoiceAccountsSection';
+import {MonthlyTotalExpenseSection} from './MonthlyTotalExpenseSection';
+import {PaymentMethodsSection} from './PaymentMethodsSection';
+import {InvoiceAccountsSection} from './InvoiceAccountsSection';
+import {SubscriptionListSection} from './SubscriptionListSection';
+import {YearlySubscriptionsLogSection} from './YearlySubscriptionsLogSection';
 
 export const OrgDashboardPage = () => {
     const currentOrg = useRecoilValue(currentOrgAtom);
