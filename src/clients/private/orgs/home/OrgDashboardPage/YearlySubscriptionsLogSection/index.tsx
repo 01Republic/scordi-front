@@ -1,8 +1,27 @@
 import {DashboardLayout} from '^clients/private/orgs/home/OrgDashboardPage/DashboardLayout';
+import {useYearlySubscriptionLogInDashboard} from '^models/BillingSchedule/hook';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
+import {BarGraph} from '^clients/private/orgs/home/OrgDashboardPage/YearlySubscriptionsLogSection/BarGraph';
+import {useEffect} from 'react';
 
 interface YearlySubscriptionsLogSectionProps {}
 
 export const YearlySubscriptionsLogSection = (props: YearlySubscriptionsLogSectionProps) => {
+    const orgId = useRecoilValue(orgIdParamState);
+    const {data: monthlySubscriptionList} = useYearlySubscriptionLogInDashboard(orgId);
+
+    const getThisYear = new Date().getFullYear();
+    const monthsInYear = Array.from({length: 12}, (_, i) => `${getThisYear}-${String(i + 1).padStart(2, '0')}`);
+
+    const paidExpense = monthlySubscriptionList?.map((subscription) => subscription.items);
+    const paidExpenseSubscriptions = monthlySubscriptionList?.map((subscription) => subscription.subscription);
+
+    const monthsData = monthsInYear.map((month) => {
+        const itemList = paidExpense?.flat().filter((item) => item.issuedYearMonth.startsWith(month));
+        return {month, items: itemList};
+    });
+
     return (
         <DashboardLayout title="올해의 구독 현황" className="!w-2/3">
             <section className="w-full flex flex-col gap-10">
@@ -22,6 +41,7 @@ export const YearlySubscriptionsLogSection = (props: YearlySubscriptionsLogSecti
                         <p className="font-bold text-28">10,000,000원</p>
                     </section>
                 </div>
+                <BarGraph monthsData={monthsData} />
             </section>
         </DashboardLayout>
     );
