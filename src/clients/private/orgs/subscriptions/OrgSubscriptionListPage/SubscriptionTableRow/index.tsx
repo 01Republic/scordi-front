@@ -38,7 +38,7 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
     }, 250);
 
     return (
-        <tr>
+        <tr onClick={() => console.log(subscription)}>
             {/* 서비스 명 */}
             <td>
                 <SubscriptionProfile subscription={subscription} />
@@ -73,7 +73,7 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
 
             {/* 결제금액 */}
             <td className="text-right">
-                <LatestPayAmount subscription={subscription} currencyChangeable />
+                <LatestPayAmount subscription={subscription} />
             </td>
 
             {/* 갱신일 */}

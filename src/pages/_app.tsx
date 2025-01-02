@@ -53,7 +53,7 @@ function MyApp(props: Props) {
                     toastOptions={{
                         position: 'bottom-center',
                         style: {background: '#333', color: '#fff'},
-                        duration: 1000 * 5,
+                        // duration: 1000 * 5,
                     }}
                 />
 

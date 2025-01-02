@@ -9,7 +9,6 @@ import {PartialType} from '^types/utils/partial-type';
 import {getColor} from '^components/util/palette';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 
-export * from './TeamMemberSubscription.dto';
 export * from './CreateGoogleAdminTeamMembersRequestDto';
 
 export enum TeamMemberInviteStatus {
