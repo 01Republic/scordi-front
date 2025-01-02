@@ -1,10 +1,16 @@
 import {DashboardLayout} from '^clients/private/orgs/home/OrgDashboardPage/DashboardLayout';
 import {Avatar} from '^components/Avatar';
 import React from 'react';
+import {OrganizationDto} from '^models/Organization/type';
+import {useRouter} from 'next/router';
 
-interface InvoiceAccountsSectionProps {}
+interface InvoiceAccountsSectionProps {
+    currentOrg: OrganizationDto | null;
+}
 
 export const InvoiceAccountsSection = (props: InvoiceAccountsSectionProps) => {
+    const {currentOrg} = props;
+    const router = useRouter();
     return (
         <DashboardLayout title="청구서 메일" subTitle="총 14건">
             <section className="w-full flex flex-col gap-10">
@@ -46,7 +52,10 @@ export const InvoiceAccountsSection = (props: InvoiceAccountsSectionProps) => {
                         </div>
                     </li>
                 </ul>
-                <button className="w-full flex items-center justify-center font-semibold text-14 text-gray-400">
+                <button
+                    onClick={() => router.push(`${currentOrg?.id}/invoiceAccounts`)}
+                    className="w-full flex items-center justify-center font-semibold text-14 text-gray-400"
+                >
                     전체보기
                 </button>
             </section>
