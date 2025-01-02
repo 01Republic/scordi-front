@@ -80,7 +80,7 @@ export const BarGraph = (props: BarGraphProps) => {
                         dataKey="monthlyTotalAmount"
                         barSize={8}
                         fill="#5C5FEE"
-                        shape={(props) => {
+                        shape={(props: any) => {
                             const {x, y, width, height, index} = props;
                             const fill = hoveredIndex === null || hoveredIndex ? '#5C5FEE' : '#EFEFFD';
                             return <rect x={x} y={y} width={width} height={height} fill={fill} rx={2} />;
