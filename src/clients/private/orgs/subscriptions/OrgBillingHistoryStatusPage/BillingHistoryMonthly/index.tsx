@@ -1,6 +1,5 @@
 import React, {forwardRef, memo, useEffect, useImperativeHandle, useState} from 'react';
-import {useRecoilValue} from 'recoil';
-import {CurrencyToggle} from '^tasting/CurrencyToggle';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {rangeToArr} from '^utils/range';
 import {ratioOf} from '^models/Money/components/toFixedAmount';
@@ -14,7 +13,8 @@ import {makeMonthlyExcelDownloader} from './makeMonthlyExcelDownloader';
 import {orgIdParamState} from '^atoms/common';
 import {debounce} from 'lodash';
 import {billingHistoryApi} from '^models/BillingHistory/api';
-import {zeroPad} from '^utils/number';
+import {CurrencyCode} from '^models/Money';
+import {useCurrentOrg2} from '^models/Organization/hook';
 
 interface BillingHistoryMonthlyProps {
     focusYear: number;
@@ -23,10 +23,14 @@ interface BillingHistoryMonthlyProps {
 export const BillingHistoryMonthly = memo(
     forwardRef(({focusYear}: BillingHistoryMonthlyProps, ref) => {
         const orgId = useRecoilValue(orgIdParamState);
-        const displayCurrency = useRecoilValue(displayCurrencyAtom);
+        const [displayCurrency, setDisplayCurrency] = useRecoilState(displayCurrencyAtom);
         const [isLoading, setIsLoading] = useState(false);
         const [histories, setHistories] = useState<BillingHistoriesMonthlySumBySubscriptionDto[]>([]);
         const [filteredHistories, setFilteredHistories] = useState<BillingHistoriesMonthlySumBySubscriptionDto[]>([]);
+
+        const {currentOrg} = useCurrentOrg2();
+        const orgName = currentOrg?.name.trim().replace(/\s/g, '_');
+        const filename = `${orgName}_결제현황_월별_다운로드`;
 
         const months = rangeToArr(1, 12);
         const exchangeRate = 1350; // TODO: 나중에 환율 API로 변경
@@ -67,17 +71,22 @@ export const BillingHistoryMonthly = memo(
             if (orgId && !isNaN(orgId)) onReady();
         }, [orgId, focusYear]);
 
+        useEffect(() => {
+            // 임시 작업. 처음 로드시 원래 통화로 보이도록
+            setDisplayCurrency(CurrencyCode.USD);
+        }, []);
+
         // useImperativeHandle 로 상위 컴포넌트에 함수를 노출
         useImperativeHandle(ref, () => ({
-            downloadExcel: makeMonthlyExcelDownloader(sortedHistories, exchangeRate, displayCurrency),
+            downloadExcel: makeMonthlyExcelDownloader(sortedHistories, exchangeRate, displayCurrency, filename),
             search,
         }));
 
         return (
             <CardContainerTableLayout isLoading={isLoading}>
-                <div className={'flex justify-start pb-2'}>
-                    <CurrencyToggle leftText={''} rightText={'원화로 보기'} className={'font-medium'} />
-                </div>
+                {/*<div className={'flex justify-start pb-2'}>*/}
+                {/*    <CurrencyToggle leftText={''} rightText={'원화로 보기'} className={'font-medium'} />*/}
+                {/*</div>*/}
 
                 <div className="bg-white border border-gray-300 overflow-hidden shadow rounded-lg">
                     <div className="overflow-x-auto w-full hide-scrollbar">
