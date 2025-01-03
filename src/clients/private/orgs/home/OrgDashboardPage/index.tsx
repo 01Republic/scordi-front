@@ -34,7 +34,7 @@ export const OrgDashboardPage = () => {
                 </div>
                 <MonthlyTotalExpenseSection currentOrg={currentOrg} />
                 <div className="flex gap-5">
-                    <PaymentMethodsSection currentOrg={currentOrg} />
+                    <PaymentMethodsSection />
                     <InvoiceAccountsSection currentOrg={currentOrg} />
                 </div>
                 <div className="flex gap-5">

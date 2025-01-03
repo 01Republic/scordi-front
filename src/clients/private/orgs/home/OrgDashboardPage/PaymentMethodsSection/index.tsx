@@ -1,21 +1,15 @@
-import {DashboardLayout} from '^clients/private/orgs/home/OrgDashboardPage/DashboardLayout';
-import {GoCreditCard, GoMail} from 'react-icons/go';
-import {Avatar} from '^components/Avatar';
-import React from 'react';
+import React, {memo} from 'react';
 import {useRouter} from 'next/router';
+import {GoCreditCard} from 'react-icons/go';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {currencyFormat} from '^utils/number';
 import {usePaymentMethodListInDashboard} from '^models/_dashboard/hook';
-import {OrganizationDto} from '^models/Organization/type';
+import {DashboardLayout} from '^clients/private/orgs/home/OrgDashboardPage/DashboardLayout';
 import {DashboardItemListLayout} from '^clients/private/orgs/home/OrgDashboardPage/DashboardItemListLayout';
 import {EmptyTableLayout} from '^clients/private/orgs/home/OrgDashboardPage/EmptyTableLayout';
 
-interface PaymentMethodsSectionSectionProps {
-    currentOrg: OrganizationDto | null;
-}
-
-export const PaymentMethodsSection = (props: PaymentMethodsSectionSectionProps) => {
+export const PaymentMethodsSection = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
     const {data: paymentMethods, isLoading} = usePaymentMethodListInDashboard(orgId);
@@ -35,6 +29,7 @@ export const PaymentMethodsSection = (props: PaymentMethodsSectionSectionProps) 
                     ? `-${currencyFormat(paymentMethods.total.payAmountSum)}`
                     : currencyFormat(paymentMethods.total.payAmountSum)
             }
+            isLoading={isLoading}
         >
             <section className="w-full flex flex-col gap-10">
                 <ul>
@@ -45,7 +40,7 @@ export const PaymentMethodsSection = (props: PaymentMethodsSectionSectionProps) 
                             src={item.creditCard?.company?.logo || ''}
                             avatarClassName="w-7 h-7"
                             Icon={() => <GoCreditCard />}
-                            title={`[${item.creditCard?.profileName}] ${showCardNumber(
+                            title={`[${item.creditCard?.profileName || '알수없음'}] ${showCardNumber(
                                 item.creditCard?.secretInfo?.number1 || '****',
                                 item.creditCard?.secretInfo.number2 || '****',
                             )}`}
@@ -67,4 +62,4 @@ export const PaymentMethodsSection = (props: PaymentMethodsSectionSectionProps) 
             </section>
         </DashboardLayout>
     );
-};
+});
