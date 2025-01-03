@@ -17,6 +17,7 @@ export const AddTeamMemberModal = memo((props: AddTeamMemberModalProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const [isCreateMethodModalOpened, setCreateMethodModalOpened] = useState(false);
     const [isCreateAutoModalOpened, setCreateAutoModalOpened] = useState(false);
+    const [isCreateByExcelModalOpened, setCreateByExcelModalOpened] = useState(false);
 
     return (
         <>
@@ -33,11 +34,16 @@ export const AddTeamMemberModal = memo((props: AddTeamMemberModalProps) => {
                 isOpened={isCreateMethodModalOpened}
                 onClose={() => setCreateMethodModalOpened(false)}
                 onSelect={(method) => {
-                    if (method === 'auto') {
-                        setCreateAutoModalOpened(true);
-                    } else {
-                        setCreateAutoModalOpened(false);
-                        router.push(OrgTeamMemberNewPageRoute.path(orgId));
+                    switch (method) {
+                        case 'auto':
+                            return setCreateAutoModalOpened(true);
+                        case 'manual':
+                            setCreateAutoModalOpened(false);
+                            return router.push(OrgTeamMemberNewPageRoute.path(orgId));
+                        case 'by-excel':
+                            return setCreateByExcelModalOpened(true);
+                        default:
+                            return;
                     }
                 }}
             />

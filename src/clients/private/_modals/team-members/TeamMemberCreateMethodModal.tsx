@@ -5,11 +5,12 @@ import {FaChevronRight} from 'react-icons/fa6';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {GoogleAdminOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {useGoogleLoginForWorkspaceConnect} from './useGoogleLoginForWorkspaceConnect';
+import {ExcelIcon} from '^components/react-icons';
 
 interface TeamMemberCreateMethodModalProps {
     isOpened: boolean;
     onClose: () => any;
-    onSelect: (method: 'auto' | 'manual', code?: string) => any;
+    onSelect: (method: 'auto' | 'manual' | 'by-excel', code?: string) => any;
 }
 
 export const TeamMemberCreateMethodModal = memo((props: TeamMemberCreateMethodModalProps) => {
@@ -43,6 +44,15 @@ export const TeamMemberCreateMethodModal = memo((props: TeamMemberCreateMethodMo
                         onSelect('manual');
                     }}
                 />
+                <MethodOption
+                    Icon={ExcelIcon}
+                    title="엑셀로 대량 등록하기"
+                    desc="템플릿에 구성원 정보를 일괄 작성한 뒤 등록해요."
+                    onClick={() => {
+                        onClose();
+                        onSelect('by-excel');
+                    }}
+                />
             </div>
         </SlideUpModal>
     );
@@ -65,7 +75,7 @@ const MethodOption = memo((props: Props) => {
             onClick={onClick}
         >
             <div className="">
-                <Icon size={24} />
+                <Icon fontSize={24} />
             </div>
 
             <div className="flex-auto px-3">

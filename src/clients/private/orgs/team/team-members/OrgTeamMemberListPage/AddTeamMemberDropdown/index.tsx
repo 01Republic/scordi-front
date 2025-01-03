@@ -13,6 +13,7 @@ import {
 } from '^clients/private/_layouts/_shared/ListPageMainDropdown';
 import {GoogleAdminOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
 import {useGoogleLoginForWorkspaceConnect, TeamMemberCreateAutoModal} from '^clients/private/_modals/team-members';
+import {ExcelIcon} from '^components/react-icons';
 
 interface AddTeamMemberDropdownProps {
     reload: () => any;
@@ -22,6 +23,7 @@ export const AddTeamMemberDropdown = memo((props: AddTeamMemberDropdownProps) =>
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
     const [isCreateAutoModalOpened, setCreateAutoModalOpened] = useState(false);
+    const [isCreateByExcelModalOpened, setCreateByExcelModalOpened] = useState(false);
     const {setCode: setGsuiteAuthCode, resetCode: resetGsuiteAuthCode} = useGoogleLoginForWorkspaceConnect();
     const {reload} = props;
 
@@ -48,6 +50,12 @@ export const AddTeamMemberDropdown = memo((props: AddTeamMemberDropdownProps) =>
                     title="직접 추가하기"
                     desc="구성원 정보를 입력한 뒤 추가해요."
                     onClick={() => router.push(OrgTeamMemberNewPageRoute.path(orgId))}
+                />
+                <MethodOption
+                    Icon={ExcelIcon}
+                    title="엑셀로 대량 등록하기"
+                    desc="템플릿에 구성원 정보를 일괄 작성한 뒤 등록해요."
+                    onClick={() => setCreateByExcelModalOpened(true)}
                 />
             </ListPageDropdownMenu>
 
