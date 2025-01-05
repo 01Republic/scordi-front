@@ -55,7 +55,7 @@ export const ExcelUploader = memo((props: ExcelUploaderProps) => {
             'application/vnd.ms-excel': [],
             'application/vnd.ms-excel.addin.macroEnabled.12': [],
             'application/vnd.ms-excel.sheet.binary.macroEnabled.12': [],
-            'application/vnd.google-apps.spreadsheet': [],
+            // 'application/vnd.google-apps.spreadsheet': [],
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': [],
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml': [],
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheetMetadata+xml': [],
