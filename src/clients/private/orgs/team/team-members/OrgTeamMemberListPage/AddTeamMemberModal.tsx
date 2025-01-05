@@ -4,7 +4,11 @@ import {useRouter} from 'next/router';
 import {FaPlus} from 'react-icons/fa6';
 import {toast} from 'react-hot-toast';
 import {orgIdParamState} from '^atoms/common';
-import {TeamMemberCreateMethodModal, TeamMemberCreateAutoModal} from '^clients/private/_modals/team-members';
+import {
+    TeamMemberCreateMethodModal,
+    TeamMemberCreateAutoModal,
+    TeamMemberCreateByExcelModal,
+} from '^clients/private/_modals/team-members';
 import {OrgTeamMemberNewPageRoute} from '^pages/orgs/[id]/teamMembers/new';
 
 interface AddTeamMemberModalProps {
@@ -57,6 +61,15 @@ export const AddTeamMemberModal = memo((props: AddTeamMemberModalProps) => {
                     return reload();
                 }}
                 onRetry={() => setCreateAutoModalOpened(true)}
+            />
+
+            <TeamMemberCreateByExcelModal
+                isOpened={isCreateByExcelModalOpened}
+                onClose={() => setCreateByExcelModalOpened(false)}
+                onCreate={() => {
+                    setCreateByExcelModalOpened(false);
+                    return reload();
+                }}
             />
         </>
     );

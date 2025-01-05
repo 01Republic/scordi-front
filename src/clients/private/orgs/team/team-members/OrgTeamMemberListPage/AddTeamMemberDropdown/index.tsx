@@ -12,7 +12,11 @@ import {
     MethodOption,
 } from '^clients/private/_layouts/_shared/ListPageMainDropdown';
 import {GoogleAdminOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
-import {useGoogleLoginForWorkspaceConnect, TeamMemberCreateAutoModal} from '^clients/private/_modals/team-members';
+import {
+    useGoogleLoginForWorkspaceConnect,
+    TeamMemberCreateAutoModal,
+    TeamMemberCreateByExcelModal,
+} from '^clients/private/_modals/team-members';
 import {ExcelIcon} from '^components/react-icons';
 
 interface AddTeamMemberDropdownProps {
@@ -68,6 +72,15 @@ export const AddTeamMemberDropdown = memo((props: AddTeamMemberDropdownProps) =>
                     return reload();
                 }}
                 onRetry={() => setCreateAutoModalOpened(true)}
+            />
+
+            <TeamMemberCreateByExcelModal
+                isOpened={isCreateByExcelModalOpened}
+                onClose={() => setCreateByExcelModalOpened(false)}
+                onCreate={() => {
+                    setCreateByExcelModalOpened(false);
+                    return reload();
+                }}
             />
         </ListPageDropdown>
     );
