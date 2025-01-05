@@ -4,11 +4,9 @@ import {orgIdParamState} from '^atoms/common';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {FaChevronLeft} from 'react-icons/fa6';
 import {ExcelUploader} from './ExcelUploader';
-import {DropZoneFileInput} from '^clients/private/_components/inputs/file/DropZoneFileInput';
-import {useAltForm} from '^hooks/useAltForm';
 import {teamMemberApi} from '^models/TeamMember';
 import {toast} from 'react-hot-toast';
-import {errorToast} from '^api/api';
+import {ApiError, errorToast} from '^api/api';
 
 interface TeamMemberCreateByExcelModalProps {
     isOpened: boolean;
@@ -20,21 +18,31 @@ export const TeamMemberCreateByExcelModal = memo((props: TeamMemberCreateByExcel
     const {isOpened, onClose, onCreate} = props;
     const orgId = useRecoilValue(orgIdParamState);
     const [file, setFile] = useState<File>();
+    const [errorMsg, setErrorMsg] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const onSubmit = () => {
         console.log('file', file);
         if (!file) return;
-        const upload = () =>
-            teamMemberApi.createByExcel(orgId, {file}, (progressEvent) => {
+        const upload = () => {
+            return teamMemberApi.createByExcel(orgId, {file}, (progressEvent) => {
                 console.log('progressEvent', progressEvent);
             });
+        };
 
         setIsLoading(true);
         upload()
             .then(() => toast.success(`엑셀 양식에 작성된 구성원을 모두 추가했어요.`))
+            .then(() => setErrorMsg(''))
             .then(() => onCreate())
-            .catch(errorToast)
+            .catch((e: ApiError) => {
+                const msg = e.response?.data.message;
+                if (msg) {
+                    setErrorMsg(msg);
+                } else {
+                    errorToast(e);
+                }
+            })
             .finally(() => setIsLoading(false));
     };
 
@@ -81,7 +89,12 @@ export const TeamMemberCreateByExcelModal = memo((props: TeamMemberCreateByExcel
                             </div>
 
                             <div>
-                                <ExcelUploader onChange={setFile} />
+                                <ExcelUploader
+                                    onChange={setFile}
+                                    onReset={() => setErrorMsg('')}
+                                    isLoading={isLoading}
+                                    errorMsg={errorMsg}
+                                />
                             </div>
                         </section>
                     </div>
@@ -91,7 +104,9 @@ export const TeamMemberCreateByExcelModal = memo((props: TeamMemberCreateByExcel
                             type="button"
                             onClick={onSubmit}
                             className={`btn btn-block ${
-                                file ? 'btn-scordi' : 'btn-gray !text-gray-500 pointer-events-none !opacity-50'
+                                !file || isLoading
+                                    ? 'btn-gray !text-gray-500 pointer-events-none !opacity-50'
+                                    : 'btn-scordi'
                             } no-animation btn-animation`}
                         >
                             추가하기

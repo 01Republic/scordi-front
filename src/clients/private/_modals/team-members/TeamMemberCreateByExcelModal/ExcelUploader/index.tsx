@@ -5,10 +5,13 @@ import {FileItem} from './FileItem';
 
 interface ExcelUploaderProps {
     onChange?: (file?: File) => any;
+    onReset?: () => any;
+    isLoading?: boolean;
+    errorMsg?: string;
 }
 
 export const ExcelUploader = memo((props: ExcelUploaderProps) => {
-    const {onChange} = props;
+    const {onChange, onReset, isLoading = false, errorMsg} = props;
     const [file, setFile] = useState<File>();
 
     const fileAdd = (file: File) => {
@@ -19,6 +22,7 @@ export const ExcelUploader = memo((props: ExcelUploaderProps) => {
     const fileRemove = () => {
         setFile(undefined);
         onChange && onChange(undefined);
+        onReset && onReset();
     };
 
     const onDrop = useCallback(
@@ -92,7 +96,7 @@ export const ExcelUploader = memo((props: ExcelUploaderProps) => {
                 </div>
             )}
 
-            {file && <FileItem file={file} remove={() => fileRemove()} />}
+            {file && <FileItem file={file} remove={() => fileRemove()} isLoading={isLoading} errorMsg={errorMsg} />}
         </div>
     );
 });
