@@ -61,7 +61,16 @@ export const TeamMemberCreateByExcelModal = memo((props: TeamMemberCreateByExcel
                         <section>
                             <div className="flex items-center gap-2">
                                 <div>Step 1.</div>
-                                <div>엑셀 양식을 다운로드 해주세요.</div>
+                                <div>
+                                    <a
+                                        className="link link-primary underline-offset-2"
+                                        href="/templates/스코디_대량등록_양식.xlsx"
+                                        download
+                                    >
+                                        엑셀 양식을 다운로드
+                                    </a>{' '}
+                                    해주세요.
+                                </div>
                             </div>
                         </section>
 
