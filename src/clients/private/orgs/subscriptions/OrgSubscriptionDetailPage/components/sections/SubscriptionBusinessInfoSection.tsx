@@ -3,7 +3,7 @@ import React, {memo, useEffect, useState} from 'react';
 import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
-import {VendorManagerDto} from '^models/vendor/VendorManager/type';
+import {UpsertVendorManagerRequestDto, VendorManagerDto} from '^models/vendor/VendorManager/type';
 import {VendorCompanySelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PartnerCompanySelect/VendorCompanySelectModal';
 import {VendorManagerSelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PartnerCompanySelect/VendorManagerSelectModal';
 import {subscriptionApi} from '^models/Subscription/api';
@@ -19,8 +19,10 @@ export const SubscriptionBusinessInfoSection = memo(() => {
     const [isManagerSelectModalOpened, setIsManagerSelectModalOpened] = useState(false);
     const [selectedCompany, setSelectedCompany] = useState<VendorCompanyDto>();
     const [selectedManager, setSelectedManager] = useState<VendorManagerDto>();
-    // TODO: 매니저 정보 업데이트 로직 추가
-    const updateManagerForm = useForm();
+
+    // 매니저 정보 업데이트를 위한 정보값
+    const [email, setEmail] = useState<string>('');
+    const [phone, setPhone] = useState<string>('');
 
     if (!subscription) return null;
 
@@ -44,11 +46,27 @@ export const SubscriptionBusinessInfoSection = memo(() => {
     const onManagerChange = (vendorManager?: VendorManagerDto) => {
         setSelectedManager(vendorManager);
         form.setValue('vendorContract.vendorManagerId', vendorManager?.id);
+        setEmail(selectedManager?.email || '');
+        setPhone(selectedManager?.phone || '');
     };
 
     const onSubmit = (data: UpdateSubscriptionRequestDto) => {
-        !!selectedManager && vendorManagerApi.update(subscription.organizationId, selectedManager?.id);
-        subscriptionApi.update(subscription?.id, data).then(() => {
+        // 연결된 매니저 변경 시
+        const updateManagerPromise = selectedManager
+            ? vendorManagerApi.update(subscription.organizationId, selectedManager.id)
+            : Promise.resolve();
+
+        // 매니저 이메일, 전화번호 업데이트
+        const upsertManagerPromise = vendorManagerApi.upsert(subscription.organizationId, {
+            vendorCompanyName: selectedCompany?.name || '',
+            name: selectedManager?.name || '',
+            email,
+            phone,
+        });
+
+        const updateSubscriptionPromise = subscriptionApi.update(subscription.id, data);
+
+        Promise.all([updateManagerPromise, upsertManagerPromise, updateSubscriptionPromise]).then(() => {
             toast.success('변경사항을 저장했어요.');
             setIsEditMode(false);
             reload();
@@ -64,6 +82,11 @@ export const SubscriptionBusinessInfoSection = memo(() => {
         setSelectedCompany(vendorContract?.vendorCompany);
         setSelectedManager(vendorContract?.vendorManager);
     }, [vendorContract]);
+
+    useEffect(() => {
+        setEmail(selectedManager?.email || '');
+        setPhone(selectedManager?.phone || '');
+    }, [selectedManager]);
 
     return (
         <section>
@@ -125,10 +148,10 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                 {isEditMode ? (
                                     <input
                                         className="input input-underline !bg-slate-100 w-full"
-                                        defaultValue={selectedManager?.email || undefined}
+                                        value={email}
                                         onChange={(e) => {
-                                            // TODO: 업데이트 로직 추가 필요
-                                            console.log(e.target.value);
+                                            const newEmail = e.target.value;
+                                            setEmail(newEmail);
                                         }}
                                     />
                                 ) : (
@@ -143,10 +166,10 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                 {isEditMode ? (
                                     <input
                                         className="input input-underline !bg-slate-100 w-full"
-                                        defaultValue={selectedManager?.phone || undefined}
+                                        value={phone}
                                         onChange={(e) => {
-                                            // TODO: 업데이트 로직 추가 필요
-                                            console.log(e.target.value);
+                                            const newPhone = e.target.value;
+                                            setPhone(newPhone);
                                         }}
                                     />
                                 ) : (
