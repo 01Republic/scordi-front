@@ -64,6 +64,6 @@ export const makeMonthlyExcelDownloader = (
         // XLSX.utils.book_append_sheet(workbook, worksheetOriginal, '결제 통화 기준');
         XLSX.utils.book_append_sheet(workbook, worksheetOriginal, `${timestamp} 조회결과`);
         XLSX.writeFile(workbook, `${filename}.xlsx`);
-        toast.success('월별 결제현황 엑셀 다운로드가 완료되었어요.');
+        toast.success('월별 결제현황 엑셀을 다운로드 했어요.');
     };
 };
