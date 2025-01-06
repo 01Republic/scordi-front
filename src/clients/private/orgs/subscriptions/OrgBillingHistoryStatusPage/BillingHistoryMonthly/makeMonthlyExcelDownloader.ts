@@ -3,6 +3,7 @@ import {CurrencyCode} from '^models/Money';
 import {ratioOf} from '^models/Money/components/toFixedAmount';
 import {BillingHistoriesMonthlySumBySubscriptionDto} from '^models/BillingHistory/type';
 import {yyyy_mm_dd} from '^utils/dateTime';
+import {toast} from 'react-hot-toast';
 
 export const makeMonthlyExcelDownloader = (
     histories: BillingHistoriesMonthlySumBySubscriptionDto[],
@@ -63,5 +64,6 @@ export const makeMonthlyExcelDownloader = (
         // XLSX.utils.book_append_sheet(workbook, worksheetOriginal, '결제 통화 기준');
         XLSX.utils.book_append_sheet(workbook, worksheetOriginal, `${timestamp} 조회결과`);
         XLSX.writeFile(workbook, `${filename}.xlsx`);
+        toast.success('월별 결제현황 엑셀 다운로드가 완료되었어요.');
     };
 };
