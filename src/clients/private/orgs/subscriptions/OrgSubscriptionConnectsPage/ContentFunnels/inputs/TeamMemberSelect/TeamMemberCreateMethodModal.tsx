@@ -1,14 +1,16 @@
 import React, {memo} from 'react';
-import {FaChevronRight} from 'react-icons/fa6';
-import {FcDataBackup, FcDataRecovery} from 'react-icons/fc';
 import {IconType} from '@react-icons/all-files';
+import {FcDataBackup} from '@react-icons/all-files/fc/FcDataBackup';
+import {FcDataRecovery} from '@react-icons/all-files/fc/FcDataRecovery';
+import {FaChevronRight} from 'react-icons/fa6';
+import {ExcelIcon} from '^components/react-icons';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {useGoogleLoginForWorkspaceConnect} from '^clients/private/_modals/team-members';
 
 interface TeamMemberCreateMethodModalProps {
     isOpened: boolean;
     onClose: () => any;
-    onSelect: (method: 'auto' | 'manual') => any;
+    onSelect: (method: 'auto' | 'manual' | 'by-excel') => any;
 }
 
 export const TeamMemberCreateMethodModal = memo((props: TeamMemberCreateMethodModalProps) => {
@@ -38,6 +40,15 @@ export const TeamMemberCreateMethodModal = memo((props: TeamMemberCreateMethodMo
                     onClick={() => {
                         onClose();
                         onSelect('manual');
+                    }}
+                />
+                <MethodOption
+                    Icon={ExcelIcon}
+                    title="엑셀로 대량 등록하기"
+                    desc="템플릿에 구성원 정보를 일괄 작성한 뒤 등록해요."
+                    onClick={() => {
+                        onClose();
+                        onSelect('by-excel');
                     }}
                 />
             </div>
