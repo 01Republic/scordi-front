@@ -1,12 +1,10 @@
 import React, {forwardRef, memo, useEffect, useImperativeHandle, useState} from 'react';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
 import {orgIdParamState} from '^atoms/common';
-import {CurrencyToggle} from '^tasting/CurrencyToggle';
 import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {billingHistoryApi} from '^models/BillingHistory/api';
 import {BillingHistoriesYearlySumBySubscriptionDto} from '^models/BillingHistory/type';
-import {useBillingHistoryStatus} from '^hooks/useBillingHistoryStatus';
 import {reverseArr} from '^utils/array';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {CardContainerTableLayout} from '^clients/private/_components/table/ListTable';
@@ -14,6 +12,8 @@ import {BillingHistoryYearlyHeader} from './BillingHistoryYearlyHeader';
 import {BillingHistoryYearlyRow} from './BillingHistoryYearlyRow';
 import {BillingHistoryYearColumn} from './BillingHistoryYearColumn';
 import {makeYearlyExcelDownloader} from './makeYearlyExcelDownloader';
+import {CurrencyCode} from '^models/Money';
+import {useCurrentOrg2} from '^models/Organization/hook';
 
 interface BillingHistoryYearlyProps {
     years: number[];
@@ -22,10 +22,14 @@ interface BillingHistoryYearlyProps {
 export const BillingHistoryYearly = memo(
     forwardRef(({years}: BillingHistoryYearlyProps, ref) => {
         const orgId = useRecoilValue(orgIdParamState);
-        const displayCurrency = useRecoilValue(displayCurrencyAtom);
+        const [displayCurrency, setDisplayCurrency] = useRecoilState(displayCurrencyAtom);
         const [isLoading, setIsLoading] = useState(false);
         const [histories, setHistories] = useState<BillingHistoriesYearlySumBySubscriptionDto[]>([]);
         const [filteredHistories, setFilteredHistories] = useState<BillingHistoriesYearlySumBySubscriptionDto[]>([]);
+
+        const {currentOrg} = useCurrentOrg2();
+        const orgName = currentOrg?.name.trim().replace(/\s/g, '_');
+        const filename = `${orgName}_결제현황_연도별_다운로드`;
 
         const reversedYears = reverseArr(years);
         const exchangeRate = 1350; // TODO: 나중에 환율 API로 변경
@@ -63,17 +67,22 @@ export const BillingHistoryYearly = memo(
             if (orgId && !isNaN(orgId)) onReady();
         }, [orgId]);
 
+        useEffect(() => {
+            // 임시 작업. 처음 로드시 원래 통화로 보이도록
+            setDisplayCurrency(CurrencyCode.USD);
+        }, []);
+
         // useImperativeHandle 로 상위 컴포넌트에 함수를 노출
         useImperativeHandle(ref, () => ({
-            downloadExcel: makeYearlyExcelDownloader(sortedHistories, exchangeRate, displayCurrency),
+            downloadExcel: makeYearlyExcelDownloader(sortedHistories, exchangeRate, displayCurrency, filename),
             search,
         }));
 
         return (
             <CardContainerTableLayout isLoading={isLoading}>
-                <div className={'flex justify-start pb-2'}>
-                    <CurrencyToggle leftText={''} rightText={'원화로 보기'} className={'font-medium'} />
-                </div>
+                {/*<div className={'flex justify-start pb-2'}>*/}
+                {/*    <CurrencyToggle leftText={''} rightText={'원화로 보기'} className={'font-medium'} />*/}
+                {/*</div>*/}
 
                 <div className="bg-white border border-gray-300 overflow-hidden shadow rounded-lg">
                     <div className="overflow-x-auto w-full">

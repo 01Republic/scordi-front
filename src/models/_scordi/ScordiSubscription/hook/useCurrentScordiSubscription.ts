@@ -32,9 +32,9 @@ export const useCurrentScordiSubscription = () => {
     /**
      * 조직의 현재 구독정보 새로고침
      */
-    const reload = async () => {
-        if (!currentSubscription) return null; // 로딩된 적 없으면, 새로고침 불가
-        return fetch(currentSubscription.organizationId, true);
+    const reload = async (orgId: number) => {
+        if (!orgId || isNaN(orgId)) return null;
+        return fetch(orgId, true);
     };
 
     /**

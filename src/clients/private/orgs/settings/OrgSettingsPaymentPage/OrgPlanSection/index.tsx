@@ -43,7 +43,7 @@ export const OrgPlanSection = memo((props: OrgPlanSectionProps) => {
                             <MdRefresh
                                 fontSize={14}
                                 className={`cursor-pointer ${isLoading ? 'animate-spin' : ''}`}
-                                onClick={() => reload()}
+                                onClick={() => reload(orgId)}
                             />
                         </div>
                     </div>
