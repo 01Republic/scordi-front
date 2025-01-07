@@ -3,13 +3,11 @@ import {Avatar} from '^components/Avatar';
 import React from 'react';
 import {OrganizationDto} from '^models/Organization/type';
 import {useRouter} from 'next/router';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
 
-interface InvoiceAccountsSectionProps {
-    currentOrg: OrganizationDto | null;
-}
-
-export const InvoiceAccountsSection = (props: InvoiceAccountsSectionProps) => {
-    const {currentOrg} = props;
+export const InvoiceAccountsSection = () => {
+    const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
     return (
         <DashboardLayout title="청구서 메일" subTitle="총 14건">
@@ -53,7 +51,7 @@ export const InvoiceAccountsSection = (props: InvoiceAccountsSectionProps) => {
                     </li>
                 </ul>
                 <button
-                    onClick={() => router.push(`${currentOrg?.id}/invoiceAccounts`)}
+                    onClick={() => router.push(`${orgId}/invoiceAccounts`)}
                     className="w-full flex items-center justify-center font-semibold text-14 text-gray-400"
                 >
                     전체보기

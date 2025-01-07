@@ -18,11 +18,7 @@ import {ExpenseStatus} from './ExpenseStatus';
 
 export type ExpenseStatusType = '예정' | '완료' | '실패';
 
-interface MonthlyTotalExpenseProps {
-    currentOrg: OrganizationDto | null;
-}
-
-export const MonthlyTotalExpenseSection = (props: MonthlyTotalExpenseProps) => {
+export const MonthlyTotalExpenseSection = () => {
     const orgId = useRecoilValue(orgIdParamState);
     const displayCurrency = useRecoilValue(displayCurrencyAtom);
     const [teamId, setTeamId] = useState(0);
