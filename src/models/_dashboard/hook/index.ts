@@ -4,6 +4,7 @@ import {useQuery} from '@tanstack/react-query';
 import {dashboardApi} from '^models/_dashboard/api';
 import {getToday} from '^utils/dateTime';
 
+//대시보드 - 결제수단 섹션
 export const usePaymentMethodListInDashboard = (orgId: number, params?: FromToQueryDto) => {
     const defaultFrom = new Date(getToday().getFullYear(), getToday().getMonth(), 1, 12);
 
