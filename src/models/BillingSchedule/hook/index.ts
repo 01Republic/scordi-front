@@ -42,7 +42,8 @@ export const useBillingSchedulesV3 = (option?: UseBillingSchedulesOption) => {
 
 // 대시보드 - 올해의 구독 현황 섹션 월 별 구독 리스트 불러오기
 export const useYearlySubscriptionLogInDashboard = (orgId: number) => {
-    const getThisYear = new Date().getFullYear();
+    // const getThisYear = new Date().getFullYear();
+    const getThisYear = 2024;
     return useQuery({
         queryKey: ['monthlySubscriptionList', orgId],
         queryFn: () => billingHistoryApi.statusApi.monthlySum(orgId, getThisYear).then((res) => res.data),
