@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useRecoilValue} from 'recoil';
 import {HiOutlineSquaresPlus} from 'react-icons/hi2';
 import {GoCreditCard, GoMail} from 'react-icons/go';
@@ -10,8 +10,7 @@ import {QuickButton} from '^clients/private/orgs/home/OrgDashboardPage/QuickButt
 import {MonthlyTotalExpenseSection} from './MonthlyTotalExpenseSection';
 import {PaymentMethodsSection} from './PaymentMethodsSection';
 import {InvoiceAccountsSection} from './InvoiceAccountsSection';
-import {SubscriptionListSection} from './SubscriptionListSection';
-import {YearlySubscriptionsLogSection} from './YearlySubscriptionsLogSection';
+import {YearlySection} from '^clients/private/orgs/home/OrgDashboardPage/YearlySection';
 
 export const OrgDashboardPage = () => {
     const currentOrg = useRecoilValue(currentOrgAtom);
@@ -37,10 +36,7 @@ export const OrgDashboardPage = () => {
                     <PaymentMethodsSection />
                     <InvoiceAccountsSection currentOrg={currentOrg} />
                 </div>
-                <div className="flex gap-5">
-                    <YearlySubscriptionsLogSection />
-                    <SubscriptionListSection />
-                </div>
+                <YearlySection />
             </section>
         </MainLayout>
     );
