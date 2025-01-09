@@ -6,15 +6,15 @@ import {useSetRecoilState} from 'recoil';
 import {selectedMonthAtom} from '^models/_dashboard/atom';
 
 interface BarGraphProps {
-    monthsPayLog: {month: string; items: BillingHistoriesMonthlySumItemDto[] | undefined}[];
+    monthsHistoriesLog: {month: string; items: BillingHistoriesMonthlySumItemDto[] | undefined}[];
 }
 
 export const BarGraph = memo((props: BarGraphProps) => {
-    const {monthsPayLog} = props;
+    const {monthsHistoriesLog} = props;
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     const setSelectedMonth = useSetRecoilState(selectedMonthAtom);
 
-    const formattedPaidExpenseData = monthsPayLog.map((entry, index) => {
+    const formattedPaidExpenseData = monthsHistoriesLog.map((entry, index) => {
         const monthlyTotalAmount = entry.items ? entry.items.reduce((sum, item) => sum + item.amount, 0) : 0;
         const roundUpMonthlyTotalToTenThousand = Math.ceil(monthlyTotalAmount / 10000) * 10000;
         const floorMonthlyTotalAmount = Math.floor(monthlyTotalAmount);

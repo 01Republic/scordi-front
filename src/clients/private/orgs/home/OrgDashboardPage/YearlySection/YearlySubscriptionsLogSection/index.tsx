@@ -4,11 +4,11 @@ import {BillingHistoriesMonthlySumItemDto} from '^models/BillingHistory/type';
 import {memo} from 'react';
 
 interface YearlySubscriptionsLogSectionProps {
-    monthsPayLog: {month: string; items: BillingHistoriesMonthlySumItemDto[] | undefined}[];
+    monthsHistoriesLog: {month: string; items: BillingHistoriesMonthlySumItemDto[] | undefined}[];
 }
 
 export const YearlySubscriptionsLogSection = memo((props: YearlySubscriptionsLogSectionProps) => {
-    const {monthsPayLog} = props;
+    const {monthsHistoriesLog} = props;
 
     return (
         <DashboardLayout title="올해의 구독 현황" className="!w-2/3">
@@ -29,7 +29,7 @@ export const YearlySubscriptionsLogSection = memo((props: YearlySubscriptionsLog
                         <p className="font-bold text-28">10,000,000원</p>
                     </section>
                 </div>
-                <BarGraph monthsPayLog={monthsPayLog} />
+                <BarGraph monthsHistoriesLog={monthsHistoriesLog} />
             </section>
         </DashboardLayout>
     );
