@@ -1,15 +1,19 @@
 import React, {memo} from 'react';
 import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
+import {HiOutlineSquaresPlus} from 'react-icons/hi2';
 import {currencyFormat} from '^utils/number';
+import {orgIdParamState} from '^atoms/common';
 import {CurrencyCode} from '^models/Money';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {MonthsType} from '^models/_dashboard/type/Months.type';
 import {selectedMonthAtom} from '^models/_dashboard/atom';
 import {DashboardLayout} from '^clients/private/orgs/home/OrgDashboardPage/DashboardLayout';
+import {EmptyTableLayout} from '^clients/private/orgs/home/OrgDashboardPage/EmptyTableLayout';
 import {SubscriptionListLayout} from './SubcriptionListLayout';
+import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
 
-interface MonthSubscriptionItem {
+interface MonthSubscriptionItemType {
     subscription: SubscriptionDto;
     issuedYearMonth: string;
     subscriptionId: number;
@@ -19,12 +23,13 @@ interface MonthSubscriptionItem {
 }
 
 interface YearlySubscriptionListSectionProps {
-    monthsSubscriptionList: {month: string; items: MonthSubscriptionItem[]}[];
-    orgId: number;
+    monthsSubscriptionList: {month: string; items: MonthSubscriptionItemType[]}[];
+    isLoadingLog: boolean;
 }
 
 export const YearlySubscriptionListSection = memo((props: YearlySubscriptionListSectionProps) => {
-    const {monthsSubscriptionList, orgId} = props;
+    const {monthsSubscriptionList, isLoadingLog} = props;
+    const orgId = useRecoilValue(orgIdParamState);
     const selectedMonth: MonthsType = useRecoilValue(selectedMonthAtom);
     const router = useRouter();
 
@@ -45,8 +50,23 @@ export const YearlySubscriptionListSection = memo((props: YearlySubscriptionList
         );
     };
 
+    if (matchedSubscriptionList.length === 0)
+        return (
+            <EmptyTableLayout
+                title="구독"
+                Icon={() => <HiOutlineSquaresPlus />}
+                className="!w-1/3"
+                url={orgId ? OrgSubscriptionSelectPageRoute.path(orgId) : '#'}
+            />
+        );
+
     return (
-        <DashboardLayout title="구독 리스트" className="!w-1/3" Buttons={AllSubscriptionListShowButton}>
+        <DashboardLayout
+            title="구독 리스트"
+            className="!w-1/3"
+            Buttons={AllSubscriptionListShowButton}
+            isLoading={isLoadingLog}
+        >
             <ul className="w-full flex flex-col">
                 {matchedSubscriptionList.map((item) => (
                     <SubscriptionListLayout
