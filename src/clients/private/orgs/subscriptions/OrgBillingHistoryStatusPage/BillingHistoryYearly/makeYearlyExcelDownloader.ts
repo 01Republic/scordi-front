@@ -1,13 +1,18 @@
 import * as XLSX from 'xlsx';
 import {CurrencyCode} from '^models/Money';
 import {BillingHistoriesYearlySumBySubscriptionDto} from '^models/BillingHistory/type';
+import {yyyy_mm_dd} from '^utils/dateTime';
+import {toast} from 'react-hot-toast';
 
 export const makeYearlyExcelDownloader = (
     histories: BillingHistoriesYearlySumBySubscriptionDto[],
     exchangeRate: number,
     displayCurrency: CurrencyCode,
+    filename: string,
 ) => {
     return function downloadExcel() {
+        const timestamp = yyyy_mm_dd(new Date());
+
         const createFormattedData = (currencyMode: 'KRW' | 'Original') => {
             return histories.map((history) => {
                 const {subscription} = history;
@@ -41,8 +46,10 @@ export const makeYearlyExcelDownloader = (
         const worksheetKRW = XLSX.utils.json_to_sheet(createFormattedData('KRW'));
         const worksheetOriginal = XLSX.utils.json_to_sheet(createFormattedData('Original'));
         const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheetKRW, '원화 기준');
-        XLSX.utils.book_append_sheet(workbook, worksheetOriginal, '결제 통화 기준');
-        XLSX.writeFile(workbook, `결제현황_다운로드.xlsx`);
+        // XLSX.utils.book_append_sheet(workbook, worksheetKRW, '원화 기준');
+        // XLSX.utils.book_append_sheet(workbook, worksheetOriginal, '결제 통화 기준');
+        XLSX.utils.book_append_sheet(workbook, worksheetOriginal, `${timestamp} 조회결과`);
+        XLSX.writeFile(workbook, `${filename}.xlsx`);
+        toast.success('연도별 결제현황 엑셀을 다운로드 했어요.');
     };
 };

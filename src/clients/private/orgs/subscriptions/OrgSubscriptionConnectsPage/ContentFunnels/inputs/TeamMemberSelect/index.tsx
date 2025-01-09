@@ -1,8 +1,12 @@
-import {memo, useEffect, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {FaPlus} from 'react-icons/fa6';
 import {toast} from 'react-hot-toast';
 import {useTeamMemberListInCreateSubscription} from '^models/TeamMember';
-import {TeamMemberCreateAutoModal, TeamMemberCreateManualModal} from '^clients/private/_modals/team-members';
+import {
+    TeamMemberCreateAutoModal,
+    TeamMemberCreateManualModal,
+    TeamMemberCreateByExcelModal,
+} from '^clients/private/_modals/team-members';
 import {TeamMemberSearchInput} from './TeamMemberSearchInput';
 import {TeamMemberSelectedSection} from './TeamMemberSelectedSection';
 import {TeamMemberSelectableSection} from './TeamMemberSelectableSection';
@@ -13,6 +17,7 @@ export const TeamMemberSelect = memo(function TeamMemberSelect() {
     const [isCreateMethodModalOpened, setCreateMethodModalOpened] = useState(false);
     const [isCreateAutoModalOpened, setCreateAutoModalOpened] = useState(false);
     const [isCreateManualModalOpened, setCreateManualModalOpened] = useState(false);
+    const [isCreateByExcelModalOpened, setCreateByExcelModalOpened] = useState(false);
 
     useEffect(() => {
         search({});
@@ -41,12 +46,21 @@ export const TeamMemberSelect = memo(function TeamMemberSelect() {
                 isOpened={isCreateMethodModalOpened}
                 onClose={() => setCreateMethodModalOpened(false)}
                 onSelect={(method) => {
-                    if (method === 'auto') {
-                        setCreateManualModalOpened(false);
-                        setCreateAutoModalOpened(true);
-                    } else {
-                        setCreateAutoModalOpened(false);
-                        setCreateManualModalOpened(true);
+                    switch (method) {
+                        case 'auto':
+                            setCreateManualModalOpened(false);
+                            setCreateByExcelModalOpened(false);
+                            return setCreateAutoModalOpened(true);
+                        case 'manual':
+                            setCreateAutoModalOpened(false);
+                            setCreateByExcelModalOpened(false);
+                            return setCreateManualModalOpened(true);
+                        case 'by-excel':
+                            setCreateAutoModalOpened(false);
+                            setCreateManualModalOpened(false);
+                            return setCreateByExcelModalOpened(true);
+                        default:
+                            return;
                     }
                 }}
             />
@@ -68,6 +82,15 @@ export const TeamMemberSelect = memo(function TeamMemberSelect() {
                 onCreate={() => {
                     toast.success('구성원을 추가했어요.');
                     setCreateManualModalOpened(false);
+                    return reload();
+                }}
+            />
+
+            <TeamMemberCreateByExcelModal
+                isOpened={isCreateByExcelModalOpened}
+                onClose={() => setCreateByExcelModalOpened(false)}
+                onCreate={() => {
+                    setCreateByExcelModalOpened(false);
                     return reload();
                 }}
             />

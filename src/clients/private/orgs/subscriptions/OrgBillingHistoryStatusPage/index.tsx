@@ -1,18 +1,11 @@
 import React, {memo, useEffect, useRef, useState} from 'react';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
 import {BillingCycleOptions} from '^models/Subscription/types/BillingCycleOptions';
-import {
-    BillingHistoriesMonthlySumBySubscriptionDto,
-    BillingHistoriesYearlySumBySubscriptionDto,
-} from '^models/BillingHistory/type';
-import {billingHistoryApi} from '^models/BillingHistory/api';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
+import {useBillingHistoryStatus} from '^hooks/useBillingHistoryStatus';
 import {MonthYearSwitch} from './MonthYearSwitch';
 import {YearlyScopeHandler} from './YearlyScopeHandler';
 import {BillingHistoryMonthly} from './BillingHistoryMonthly';
 import {BillingHistoryYearly} from './BillingHistoryYearly';
-import {useBillingHistoryStatus} from '^hooks/useBillingHistoryStatus';
 
 interface ViewModeRef {
     downloadExcel: () => any;
