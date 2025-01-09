@@ -8,9 +8,12 @@ import {debounce} from 'lodash';
 import {LoadableBox} from '^components/util/loading';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
+import {useCurrentUser} from '^models/User/hook';
+import {LinkTo} from '^components/util/LinkTo';
+import {MainPageRoute} from '^pages/index';
 
 export const OrgSearchPage = memo(() => {
-    // const {currentUser} = useCurrentUser();
+    const {currentUser, logout} = useCurrentUser();
     const router = useRouter();
     const [inputValue, setInputValue] = useState<string>('');
     const [isLoading, setIsLoading] = useState(false);
@@ -38,6 +41,21 @@ export const OrgSearchPage = memo(() => {
 
     return (
         <div className="flex w-full items-center justify-center py-[15vh]" style={{minHeight: '100vh'}}>
+            <div className="fixed w-full top-0 flex items-center py-4 px-4 sm:px-12">
+                <div className="flex items-center gap-4">
+                    <LinkTo href={MainPageRoute.path()} displayLoading={false} className="flex items-center gap-2">
+                        <img src="/images/renewallogo/scordi-symbol-logo.png" alt="Scordi Logo" className="h-5" />
+                        <span className="text-sm font-medium">홈으로 이동하기</span>
+                    </LinkTo>
+                </div>
+                <div className="flex items-center gap-4 ml-auto">
+                    {currentUser && (
+                        <button className="btn btn-sm btn-ghost no-animation btn-animation" onClick={() => logout()}>
+                            로그아웃
+                        </button>
+                    )}
+                </div>
+            </div>
             <div className="flex flex-col w-[100%] sm:w-[60%] md:w-[50%] lg:w-[40%] gap-y-10">
                 <div className="hero-content text-center">
                     <div className="">
@@ -72,7 +90,10 @@ export const OrgSearchPage = memo(() => {
                     </div>
                 )}
 
-                <button className="btn btn-lg btn-block btn-scordi" onClick={() => createOrg({name: inputValue})}>
+                <button
+                    className="btn btn-lg btn-block btn-scordi no-animation btn-animation"
+                    onClick={() => createOrg({name: inputValue})}
+                >
                     {inputValue.length === 0 ? `워크스페이스 찾기` : `"${inputValue}"로 워크스페이스 생성하기`}
                 </button>
             </div>

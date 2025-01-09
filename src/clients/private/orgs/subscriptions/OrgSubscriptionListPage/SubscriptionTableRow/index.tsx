@@ -18,6 +18,8 @@ import {
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {subscriptionApi} from '^models/Subscription/api';
 import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
+import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
+import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
 
 interface SubscriptionTableRowProps {
     subscription: SubscriptionDto;
@@ -37,11 +39,15 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
             .finally(() => reload());
     }, 250);
 
+    const showPagePath = OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id);
+
     return (
-        <tr>
+        <tr onClick={() => console.log(subscription)}>
             {/* 서비스 명 */}
             <td>
-                <SubscriptionProfile subscription={subscription} />
+                <OpenButtonColumn href={showPagePath}>
+                    <SubscriptionProfile subscription={subscription} />
+                </OpenButtonColumn>
             </td>
 
             {/* 유/무료 */}
@@ -73,7 +79,7 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
 
             {/* 결제금액 */}
             <td className="text-right">
-                <LatestPayAmount subscription={subscription} currencyChangeable />
+                <LatestPayAmount subscription={subscription} />
             </td>
 
             {/* 갱신일 */}

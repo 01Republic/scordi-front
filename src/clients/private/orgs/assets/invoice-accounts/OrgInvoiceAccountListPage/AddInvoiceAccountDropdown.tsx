@@ -15,6 +15,7 @@ import {GoogleGmailOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBt
 import {useGoogleLoginForInvoiceAccountSelect} from '^models/InvoiceAccount/hook';
 import {InvoiceAccountCreateInManualSwalForm} from '^models/InvoiceAccount/components';
 import {InvoiceAccountAutoCreateModal} from '^clients/private/_modals/invoice-accounts';
+import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
 
 interface AddInvoiceAccountDropdownProps {
     reload: () => any;
@@ -23,6 +24,7 @@ interface AddInvoiceAccountDropdownProps {
 export const AddInvoiceAccountDropdown = memo((props: AddInvoiceAccountDropdownProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const [isCreateAutoModalOpened, setCreateAutoModalOpened] = useState(false);
+
     const {setCode} = useGoogleLoginForInvoiceAccountSelect();
     const {reload} = props;
 
@@ -57,8 +59,8 @@ export const AddInvoiceAccountDropdown = memo((props: AddInvoiceAccountDropdownP
             <InvoiceAccountAutoCreateModal
                 isOpened={isCreateAutoModalOpened}
                 onClose={() => setCreateAutoModalOpened(false)}
-                onCreate={() => {
-                    toast.success('불러온 청구서 메일을 추가했어요.');
+                onCreate={(data: InvoiceAccountDto) => {
+                    toast.success(`${data.email} \n메일로 청구서를 불러왔어요.`);
                     setCreateAutoModalOpened(false);
                     return reload();
                 }}

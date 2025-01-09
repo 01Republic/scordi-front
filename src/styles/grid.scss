@@ -95,3 +95,13 @@
         }
     }
 }
+
+
+/**
+ * grid-cols-* (기본정의된 12 스케일 이상의 값에 대한 생성)
+ */
+@for $i from 13 through 24 {
+    .grid-cols-#{$i} {
+        grid-template-columns: repeat(#{$i}, minmax(0, 1fr));
+    }
+}

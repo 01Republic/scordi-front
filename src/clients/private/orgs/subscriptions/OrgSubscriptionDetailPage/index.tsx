@@ -3,7 +3,7 @@ import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
 import {Avatar} from '^components/Avatar';
 import {FaRegCreditCard} from 'react-icons/fa6';
-import {SubscriptionActionPanel} from './components/SubscriptionActionPanel';
+import {SubscriptionActionPanel} from './components/sections/SubscriptionActionPanel';
 import {SubscriptionInfoTab} from './tabs/SubscriptionInfoTab';
 import {SubscriptionPaymentTab} from './tabs/SubscriptionPaymentTab';
 import {SubscriptionMemberTab} from './tabs/SubscriptionMemberTab';

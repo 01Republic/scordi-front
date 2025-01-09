@@ -10,6 +10,13 @@ import {
 import {api} from '^api/api';
 import {Paginated} from '^types/utils/paginated.dto';
 import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
+import {downloadBlobFromAxios} from '^utils/Blob';
+import {
+    CreateSubscriptionSeatRequestDto,
+    FindAllSubscriptionSeatQueryDto,
+    SubscriptionSeatDto,
+    UpdateSubscriptionSeatRequestDto,
+} from '^models/SubscriptionSeat/type';
 
 const NAMESPACE = 'subscriptions';
 
@@ -21,6 +28,14 @@ export const subscriptionApi = {
     index: (params?: FindAllSubscriptionsQuery) => {
         const url = `/${NAMESPACE}`;
         return api.get<Paginated<SubscriptionDto>>(url, {params}).then(paginatedDtoOf(SubscriptionDto));
+    },
+
+    // 구독 조회 - 결과 다운로드
+    download: (params?: FindAllSubscriptionsQuery, filename?: string) => {
+        const url = `/${NAMESPACE}/download/xlsx`;
+        return api
+            .get(url, {params, responseType: 'blob'})
+            .then(downloadBlobFromAxios(`${filename || '구독 조회 - 결과 다운로드'}.xls`));
     },
 
     show: (id: number, params?: FindOneSubscriptionQueryDto) => {
@@ -51,5 +66,45 @@ export const subscriptionApi = {
     createByInvoice: (data: CreateSubscriptionByInvoicesRequestDto) => {
         const url = `/${NAMESPACE}/byInvoices`;
         return api.post<SubscriptionDto>(url, data).then(oneDtoOf(SubscriptionDto));
+    },
+
+    // [구독서비스] 구독별 운영중인 시트 API
+    seatsApi: {
+        index(orgId: number, subscriptionId: number, params?: FindAllSubscriptionSeatQueryDto) {
+            const controllerPath = `/organization/${orgId}/subscriptions/${subscriptionId}`;
+            const url = `${controllerPath}/seats`;
+            return api.get(url, {params}).then(paginatedDtoOf(SubscriptionSeatDto));
+        },
+
+        // 조건에 따른 시트 수량 조회
+        count(orgId: number, subscriptionId: number, params?: FindAllSubscriptionSeatQueryDto) {
+            const controllerPath = `/organization/${orgId}/subscriptions/${subscriptionId}`;
+            const url = `${controllerPath}/seats/i/count`;
+            return api.get<number>(url, {params});
+        },
+
+        show(orgId: number, subscriptionId: number, id: number, params?: FindAllSubscriptionSeatQueryDto) {
+            const controllerPath = `/organization/${orgId}/subscriptions/${subscriptionId}`;
+            const url = `${controllerPath}/seats/${id}`;
+            return api.get(url, {params}).then(oneDtoOf(SubscriptionSeatDto));
+        },
+
+        create(orgId: number, subscriptionId: number, dto: CreateSubscriptionSeatRequestDto) {
+            const controllerPath = `/organization/${orgId}/subscriptions/${subscriptionId}`;
+            const url = `${controllerPath}/seats`;
+            return api.post(url, dto).then(oneDtoOf(SubscriptionSeatDto));
+        },
+
+        update(orgId: number, subscriptionId: number, id: number, dto: UpdateSubscriptionSeatRequestDto) {
+            const controllerPath = `/organization/${orgId}/subscriptions/${subscriptionId}`;
+            const url = `${controllerPath}/seats/${id}`;
+            return api.patch(url, dto).then(oneDtoOf(SubscriptionSeatDto));
+        },
+
+        destroy(orgId: number, subscriptionId: number, id: number) {
+            const controllerPath = `/organization/${orgId}/subscriptions/${subscriptionId}`;
+            const url = `${controllerPath}/seats/${id}`;
+            return api.delete(url).then(oneDtoOf(SubscriptionSeatDto));
+        },
     },
 };

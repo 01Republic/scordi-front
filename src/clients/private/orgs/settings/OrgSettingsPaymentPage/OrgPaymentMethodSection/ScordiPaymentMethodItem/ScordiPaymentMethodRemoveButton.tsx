@@ -4,7 +4,7 @@ import {ScordiPaymentMoreDropdownButton} from './ScordiPaymentMoreDropdownButton
 import {ScordiPaymentMethodDto} from '^models/_scordi/ScordiPaymentMethod/type';
 import {scordiPaymentMethodApi} from '^models/_scordi/ScordiPaymentMethod/api';
 import {toast} from 'react-hot-toast';
-import {confirm2} from '^components/util/dialog';
+import {confirm2, confirmed} from '^components/util/dialog';
 import {useScordiPaymentMethodsInSettingPage} from '^models/_scordi/ScordiPaymentMethod/hook';
 import {errorToast} from '^api/api';
 import {useRecoilValue} from 'recoil';
@@ -21,17 +21,23 @@ export const ScordiPaymentMethodRemoveButton = memo((props: ScordiPaymentMethodR
     const {reload} = useScordiPaymentMethodsInSettingPage();
 
     const onClick = () => {
-        confirm2('정말 삭제할까요?').then((res) => {
-            if (!res.isConfirmed) return;
+        const removeConfirm = () => {
+            return confirm2(
+                '결제카드를 삭제할까요?',
+                <span>
+                    이 작업은 취소할 수 없습니다.
+                    <br />
+                    <b>워크스페이스 전체</b>에서 삭제됩니다. <br />
+                    그래도 삭제하시겠어요?
+                </span>,
+            );
+        };
 
-            scordiPaymentMethodApi
-                .destroy(orgId, id)
-                .then((res) => {
-                    toast.success('삭제 됐어요');
-                    reload();
-                })
-                .catch(errorToast);
-        });
+        confirmed(removeConfirm())
+            .then(() => scordiPaymentMethodApi.destroy(orgId, id))
+            .then(() => toast.success('삭제 됐어요.'))
+            .then(() => reload())
+            .catch(errorToast);
     };
 
     return (

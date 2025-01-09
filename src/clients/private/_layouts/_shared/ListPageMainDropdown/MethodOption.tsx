@@ -5,7 +5,7 @@ import {ListPageDropdownMenuItem} from './ListPageDropdownMenuItem';
 interface Props {
     Icon: IconType;
     title: string;
-    desc: string;
+    desc?: string;
     onClick: () => any;
 }
 
@@ -24,7 +24,9 @@ export const MethodOption = memo((props: Props) => {
 
                 <div className="flex-auto">
                     <p className="text-13">{title}</p>
-                    <p className="text-11 text-gray-400 group-hover:text-scordi-400 whitespace-nowrap">{desc}</p>
+                    {desc && (
+                        <p className="text-11 text-gray-400 group-hover:text-scordi-400 whitespace-nowrap">{desc}</p>
+                    )}
                 </div>
             </div>
         </ListPageDropdownMenuItem>

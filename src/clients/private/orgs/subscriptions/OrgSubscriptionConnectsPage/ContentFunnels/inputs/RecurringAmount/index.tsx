@@ -4,7 +4,12 @@ import {inputTextToCurrencyFormat} from '^utils/input-helper';
 import {CurrencyCode} from '^models/Money';
 import {createSubscriptionFormData} from '../../atom';
 
-export const RecurringAmount = memo(() => {
+interface RecurringAmountProps {
+    defaultValue?: number;
+    onChange?: (amount: number) => void;
+}
+
+export const RecurringAmount = memo((props: RecurringAmountProps) => {
     const [formData, setFormData] = useRecoilState(createSubscriptionFormData);
 
     return (
@@ -15,13 +20,12 @@ export const RecurringAmount = memo(() => {
                 className="input border-gray-200 bg-gray-100 text-16 w-full"
                 placeholder="결제 금액"
                 defaultValue={
-                    formData.currentBillingAmount?.amount
-                        ? formData.currentBillingAmount?.amount.toLocaleString()
-                        : undefined
+                    props.defaultValue?.toLocaleString() ?? formData.currentBillingAmount?.amount?.toLocaleString()
                 }
                 tabIndex={0}
                 onChange={(e) => {
                     const amount = inputTextToCurrencyFormat(e);
+                    props.onChange?.(amount);
                     setFormData((f) => ({
                         ...f,
                         currentBillingAmount: {

@@ -1,5 +1,4 @@
 import {memo} from 'react';
-import {useCurrentCreditCard} from '../atom';
 import {CreditCardConnected} from './CreditCardConnected';
 import {CreditCardMoreDropdown} from './CreditCardMoreDropdown';
 

@@ -47,6 +47,7 @@ export default function Page() {
                         'vendorContracts.vendorManager',
                         'invoiceAccounts',
                         'billingHistories',
+                        'subscriptionSeats',
                     ],
                 })
             }

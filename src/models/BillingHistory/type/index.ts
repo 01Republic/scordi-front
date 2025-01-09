@@ -19,6 +19,18 @@ export class BillingHistoryDto {
         return this.issuedAt;
     }
 
+    // 종류 (상태)
+    get about(): BillingHistoryStatus {
+        const {issuedAt, lastRequestedAt, paidAt} = this;
+
+        if (paidAt) return BillingHistoryStatus.PaySuccess;
+        if (lastRequestedAt && !paidAt) return BillingHistoryStatus.PayFail;
+        if (issuedAt && !lastRequestedAt) return BillingHistoryStatus.Info;
+
+        // 위에서 분류되지 못한 케이스는 Unknown 으로 처리.
+        return BillingHistoryStatus.Unknown;
+    }
+
     id: number; // ID
     uid: string | null; // UID
     emailOriginId: string | null; // Email origin ID

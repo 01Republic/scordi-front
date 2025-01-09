@@ -1,13 +1,13 @@
 import React, {memo, useState} from 'react';
-import {useCurrentCreditCard} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/atom';
-import {MoreDropdownMenuItem} from '^clients/private/_components/rest-pages/ShowPage/MoreDropdown';
-import {UsingStatusTag} from '^models/CreditCard/components';
-import {CreditCardUsingStatus} from '^models/CreditCard/type';
-import {FaCheck, FaChevronDown} from 'react-icons/fa6';
 import Tippy from '@tippyjs/react/headless';
-import {creditCardApi} from '^models/CreditCard/api';
 import {toast} from 'react-hot-toast';
+import {FaCheck, FaChevronDown} from 'react-icons/fa6';
 import {errorToast} from '^api/api';
+import {MoreDropdownMenuItem} from '^clients/private/_components/rest-pages/ShowPage/MoreDropdown';
+import {CreditCardUsingStatus} from '^models/CreditCard/type';
+import {creditCardApi} from '^models/CreditCard/api';
+import {UsingStatusTag} from '^models/CreditCard/components';
+import {useCurrentCreditCard} from '../../atom';
 
 export const ChangeUsingStatusItem = memo(function ChangeUsingStatusItem() {
     const {currentCreditCard, reload} = useCurrentCreditCard();

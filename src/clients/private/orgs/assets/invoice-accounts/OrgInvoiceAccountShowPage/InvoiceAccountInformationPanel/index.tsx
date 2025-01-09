@@ -33,7 +33,7 @@ export const InvoiceAccountInformationPanel = memo(function InvoiceAccountInform
         <div>
             <div className="p-8">
                 <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-16 font-semibold">기본 정보</h3>
+                    <h3 className="text-16 font-semibold">세부정보</h3>
                     <EditButton isEditMode={isEditMode} setIsEditMode={setIsEditMode} onSubmit={onSubmit} />
                 </div>
 

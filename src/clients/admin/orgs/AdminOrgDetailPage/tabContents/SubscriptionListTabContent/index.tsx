@@ -59,7 +59,11 @@ export const SubscriptionListTabContent = memo(() => {
                     entries={listPage.items}
                     ths={['name', 'billing', '인보이스 계정', '', 'created at', 'updated at', '']}
                     entryComponent={(subscription, i, arr) => (
-                        <SubscriptionItem subscription={subscription} borderBottom={i + 1 < arr.length} />
+                        <SubscriptionItem
+                            subscription={subscription}
+                            borderBottom={i + 1 < arr.length}
+                            reload={() => onSearch({})}
+                        />
                     )}
                 />
             </SearchResultContainer>

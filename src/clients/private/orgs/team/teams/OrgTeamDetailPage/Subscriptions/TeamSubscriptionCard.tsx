@@ -16,8 +16,8 @@ export const TeamSubscriptionCard = memo((props: TeamSubscriptionCardProps) => {
     const memberMaxLength = 3;
 
     return (
-        <li className="w-full border bg-white rounded-lg">
-            <div className="flex items-center justify-between p-4">
+        <li className="w-full border bg-white rounded-lg flex items-center">
+            <div className="w-full flex items-center justify-between p-4">
                 <div className="flex items-center gap-2">
                     <Avatar
                         className="w-7 h-7"
