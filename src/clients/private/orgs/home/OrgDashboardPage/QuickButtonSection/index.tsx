@@ -1,25 +1,28 @@
 import React, {useState} from 'react';
+import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
 import {HiOutlineSquaresPlus} from 'react-icons/hi2';
 import {GoCreditCard, GoMail} from 'react-icons/go';
 import {AiOutlineUserAdd} from 'react-icons/ai';
-import {currentOrgAtom} from '^models/Organization/atom';
+import {toast} from 'react-hot-toast';
+import {orgIdParamState} from '^atoms/common';
+import {swalHTML} from '^components/util/dialog';
+import {InvoiceAccountCreateInManualSwalForm} from '^models/InvoiceAccount/components';
 import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
-import {QuickButton} from '^clients/private/orgs/home/OrgDashboardPage/QuickButtonSection/QuickButton';
-import {useModal} from '^v3/share/modals';
-import {inputCardNumberModal} from '^v3/share/modals/NewCardModal/CardNumberModal/atom';
-import {CardAutoCreateModal, CardCreateMethod, CardCreateMethodModal} from '^clients/private/_modals/credit-cards';
 import {OrgCreditCardNewPageRoute} from '^pages/orgs/[id]/creditCards/new';
-import {useRouter} from 'next/router';
+import {OrgTeamMemberNewPageRoute} from '^pages/orgs/[id]/teamMembers/new';
+import {CardAutoCreateModal, CardCreateMethod, CardCreateMethodModal} from '^clients/private/_modals/credit-cards';
 import {
     InvoiceAccountAutoCreateModal,
     InvoiceAccountCreateMethod,
     InvoiceAccountCreateMethodModal,
 } from '^clients/private/_modals/invoice-accounts';
-import {swalHTML} from '^components/util/dialog';
-import {InvoiceAccountCreateInManualSwalForm} from '^models/InvoiceAccount/components';
-import {toast} from 'react-hot-toast';
-import {orgIdParamState} from '^atoms/common';
+import {
+    TeamMemberCreateAutoModal,
+    TeamMemberCreateByExcelModal,
+    TeamMemberCreateMethodModal,
+} from '^clients/private/_modals/team-members';
+import {QuickButton} from './QuickButton';
 
 export const QuickButtonSection = () => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -28,6 +31,9 @@ export const QuickButtonSection = () => {
     const [isCardAutoCreateModalOpen, setIsCardAutoCreateModalOpen] = useState(false);
     const [isInvoiceCreateModalOpened, setIsInvoiceCreateModalOpened] = useState(false);
     const [isInvoiceCreateAutoModalOpened, setIsInvoiceCreateAutoModalOpened] = useState(false);
+    const [isTeamMemberCreateModalOpened, setIsTeamMemberCreateModalOpened] = useState(false);
+    const [isCreateAutoModalOpened, setCreateAutoModalOpened] = useState(false);
+    const [isCreateByExcelModalOpened, setCreateByExcelModalOpened] = useState(false);
 
     return (
         <>
@@ -47,7 +53,11 @@ export const QuickButtonSection = () => {
                     Icon={() => <GoMail />}
                     onClick={() => setIsInvoiceCreateModalOpened(true)}
                 />
-                <QuickButton text="구성원 추가" Icon={() => <AiOutlineUserAdd />} />
+                <QuickButton
+                    text="구성원 추가"
+                    Icon={() => <AiOutlineUserAdd />}
+                    onClick={() => setIsTeamMemberCreateModalOpened(true)}
+                />
             </div>
 
             {/* 결제수단 등록 > 등록 방법 선택 */}
@@ -77,6 +87,7 @@ export const QuickButtonSection = () => {
                 }}
             />
 
+            {/*청구서 수신 메일 계정 추가*/}
             <InvoiceAccountCreateMethodModal
                 isOpened={isInvoiceCreateModalOpened}
                 onClose={() => setIsInvoiceCreateModalOpened(false)}
@@ -101,6 +112,43 @@ export const QuickButtonSection = () => {
                     setIsInvoiceCreateAutoModalOpened(false);
                 }}
                 onRetry={() => setIsInvoiceCreateAutoModalOpened(true)}
+            />
+
+            {/*구성원 추가*/}
+            <TeamMemberCreateMethodModal
+                isOpened={isTeamMemberCreateModalOpened}
+                onClose={() => setIsTeamMemberCreateModalOpened(false)}
+                onSelect={(method) => {
+                    switch (method) {
+                        case 'auto':
+                            return setCreateAutoModalOpened(true);
+                        case 'manual':
+                            setCreateAutoModalOpened(false);
+                            return router.push(OrgTeamMemberNewPageRoute.path(orgId));
+                        case 'by-excel':
+                            return setCreateByExcelModalOpened(true);
+                        default:
+                            return;
+                    }
+                }}
+            />
+
+            <TeamMemberCreateAutoModal
+                isOpened={isCreateAutoModalOpened}
+                onClose={() => setCreateAutoModalOpened(false)}
+                onCreate={() => {
+                    toast.success('구성원을 모두 불러왔어요.');
+                    setCreateAutoModalOpened(false);
+                }}
+                onRetry={() => setCreateAutoModalOpened(true)}
+            />
+
+            <TeamMemberCreateByExcelModal
+                isOpened={isCreateByExcelModalOpened}
+                onClose={() => setCreateByExcelModalOpened(false)}
+                onCreate={() => {
+                    setCreateByExcelModalOpened(false);
+                }}
             />
         </>
     );
