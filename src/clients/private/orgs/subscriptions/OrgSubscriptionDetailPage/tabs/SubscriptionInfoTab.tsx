@@ -14,6 +14,10 @@ export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
 
     const endNumber = subscription?.creditCard?.secretInfo?.number4;
 
+    const paymentMethodText = subscription?.creditCard?.issuerCompany
+        ? `${subscription?.creditCard?.issuerCompany.replace('카드', '').replace('card', '')}(${endNumber})`
+        : '-';
+
     return (
         <div className={'py-4 space-y-4'}>
             <div className={'bg-gray-200 grid grid-cols-4 p-4 space-x-4 rounded'}>
@@ -41,11 +45,7 @@ export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
                 />
                 <StatusCard
                     title={'결제수단'}
-                    titleValue={
-                        `${(subscription?.creditCard?.issuerCompany || '')
-                            .replace('카드', '')
-                            .replace('card', '')}(${endNumber})` || '-'
-                    }
+                    titleValue={paymentMethodText}
                     icon={<FaRegCreditCard size={20} className="h-full w-full p-[6px] text-white" />}
                     iconColor={'bg-blue-400'}
                 />
