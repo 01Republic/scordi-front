@@ -8,7 +8,7 @@ interface QuickButtonProps extends WithChildren {
     text: string;
     url?: string;
     Icon: () => JSX.Element;
-    onClick?: () => any;
+    onClick?: () => void;
 }
 
 export const QuickButton = (props: QuickButtonProps) => {
