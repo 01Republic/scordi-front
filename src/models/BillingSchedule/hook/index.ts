@@ -40,13 +40,19 @@ export const useBillingSchedulesV3 = (option?: UseBillingSchedulesOption) => {
     return {query, result, search, movePage, isLoading};
 };
 
-// 대시보드 - 올해의 구독 현황 섹션 월 별 구독 리스트 불러오기
-export const useYearlySubscriptionLogInDashboard = (orgId: number) => {
-    // const getThisYear = new Date().getFullYear();
-    const getThisYear = 2024;
+// 대시보드 - 올해의 구독 현황 섹션 월 별 구독 예상 금액 리스트 불러오기
+export const useYearlySubscriptionScheduleLogInDashboard = (orgId: number) => {
+    const getThisYear = new Date().getFullYear();
+    // const getThisYear = 2024;
+
+    const query: GetBillingSchedulesParams = {
+        where: {organizationId: orgId},
+        startDate: `${String(getThisYear)}`,
+        endDate: `${String(getThisYear)}`,
+    };
     return useQuery({
         queryKey: ['monthlySubscriptionList', orgId],
-        queryFn: () => billingHistoryApi.statusApi.monthlySum(orgId, getThisYear).then((res) => res.data),
+        queryFn: () => getBillingSchedules({...query, order: {billingDate: 'ASC'}}).then((res) => res.data),
         enabled: !!orgId || !isNaN(orgId),
     });
 };
