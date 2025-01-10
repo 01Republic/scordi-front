@@ -2,6 +2,7 @@ import {Exclude, Expose} from 'class-transformer';
 import {TypeCast} from '^types/utils/class-transformer';
 import {FromToQueryDto} from '^types/billing.type';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
+import {ProductDto} from '^models/Product/type';
 
 /**
  * 대시보드 / 청구서계정 섹션 > 총계
@@ -20,10 +21,12 @@ export class DashboardInvoiceAccountsSectionOverViewDto {
 export class DashboardInvoiceAccountsSectionItemDto {
     @Expose() @TypeCast(() => Number) id: number; // 청구서계정 ID
     @Expose() @TypeCast(() => Number) organizationId: number; // 조직 ID
+    @Expose() @TypeCast(() => Number) productId: number | null; // 대표 서비스 ID
     @Expose() @TypeCast(() => Number) billingHistoryCount: number; // 결제 건수
 
     // relation
     @Expose() @TypeCast(() => InvoiceAccountDto) invoiceAccount?: InvoiceAccountDto; // 청구서계정
+    @Expose() @TypeCast(() => ProductDto) product?: ProductDto; // 대표 서비스
 }
 
 /**
