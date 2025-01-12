@@ -26,3 +26,4 @@ export * from 'react-icons/tfi';
 export * from 'react-icons/ti';
 export * from 'react-icons/vsc';
 export * from 'react-icons/wi';
+export * from './excel-icon';

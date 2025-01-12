@@ -20,13 +20,12 @@ export const BillingHistoryTableControl = memo(() => {
 export const SyncRecentBillingHistoryButton = memo(() => {
     const {startSync, isSyncRunning} = useCurrentCreditCardSync();
 
+    const onClick = () => {
+        startSync();
+    };
+
     return (
-        <button
-            className={`btn btn-sm bg-white border-gray-300 hover:bg-white hover:border-gray-300 gap-2 ${
-                isSyncRunning ? 'btn-disabled' : ''
-            }`}
-            onClick={startSync}
-        >
+        <button className={`btn btn-sm btn-white gap-2 ${isSyncRunning ? 'btn-disabled' : ''}`} onClick={onClick}>
             <MdRefresh fontSize={14} className={isSyncRunning ? 'animate-spin' : ''} />
             <span>최신내역 불러오기</span>
         </button>
