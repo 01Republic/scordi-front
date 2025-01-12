@@ -17,6 +17,7 @@ export const PaymentScopeHandler = memo(function InviteStatusScopeHandler(props:
 
     return (
         // TODO: 이 정보들 없는 것 같은데? 어케알지?
+        //  여기서 검색하는 것 처럼 쿼리하시면 됩니다! [by @fred] (참조: src/clients/private/orgs/assets/invoice-accounts/OrgInvoiceAccountShowPage/tab-panes/BillingHistoryListOfInvoiceAccountTabContent/BillingHistoryScopeHandler.tsx)
         <div className="flex items-center gap-2">
             <ScopeButton active={memberStatus == null} onClick={() => handleClick(null)}>
                 전체

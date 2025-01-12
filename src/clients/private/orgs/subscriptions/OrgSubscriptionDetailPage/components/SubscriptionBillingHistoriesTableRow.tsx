@@ -35,7 +35,7 @@ export const SubscriptionBillingHistoriesTableRow = memo((props: SubscriptionBil
     return (
         <tr className="group">
             {/* 카드 프로필 */}
-            <td className={'text-14'}>{yyyy_mm_dd(billingHistory.paidAt!)}</td>
+            <td className={'text-14'}>{billingHistory.paidAt ? yyyy_mm_dd(billingHistory.paidAt) : ''}</td>
 
             {/* 상태 */}
             <td>
