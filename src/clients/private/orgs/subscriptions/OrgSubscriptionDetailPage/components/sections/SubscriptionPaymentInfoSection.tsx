@@ -41,7 +41,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
     const [prevSeats, setPrevSeats] = useState<UpdateSubscriptionSeatRequestDto[]>([]);
     const [updateSeatCount, setUpdateSeatCount] = useState<number>(0);
 
-    if (!subscription) return null;
+    if (!subscription) return <></>;
 
     const prevSeatCount = subscription.subscriptionSeats?.length || 0;
     const seatWithTeamMemberCount = prevSeats.filter((seat) => seat.teamMemberId).length;
