@@ -18,6 +18,7 @@ import {SubscriptionUsingStatus} from '^models/Subscription/types';
 import Tippy from '@tippyjs/react';
 import {FiMinusCircle} from '^components/react-icons';
 import {confirm2} from '^components/util/dialog';
+import {yyyy_mm_dd} from '^utils/dateTime';
 
 interface TeamMemberInSubscriptionTableRowProps {
     seat: SubscriptionSeatDto;
@@ -27,20 +28,18 @@ interface TeamMemberInSubscriptionTableRowProps {
 
 export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscriptionTableRowProps) => {
     const orgId = useRecoilValue(orgIdParamState);
+    const subscription = useRecoilValue(subscriptionSubjectAtom);
     const [isLoading, setIsLoading] = useState(false);
     const {seat, onClick, reload} = props;
+
+    if (!seat.teamMember || !subscription) return null;
 
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
     const loadingStyle = isLoading ? 'opacity-50 pointer-events-none' : '';
 
-    if (!seat.teamMember) return null;
-
     const teamMember = seat.teamMember as TeamMemberDto;
 
     const showPagePath = OrgTeamMemberShowPageRoute.path(orgId, teamMember.id);
-    const subscription = useRecoilValue(subscriptionSubjectAtom);
-
-    if (!subscription) return null;
 
     const update = async (dto: UpdateSubscriptionSeatRequestDto) => {
         setIsLoading(true);
@@ -81,7 +80,7 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
     return (
         <tr className="group">
             {/* 이름 */}
-            <td className={`${hoverBgColor} ${loadingStyle}`} onClick={() => onClick && onClick(seat)}>
+            <td className={`${hoverBgColor} ${loadingStyle}`}>
                 <OpenButtonColumn href={showPagePath}>
                     <div
                         className={`flex items-center gap-2 px-3 -mx-3 text-gray-700 group-hover:text-scordi max-w-sm`}
@@ -107,18 +106,21 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
             </td>
 
             {/* 이메일 */}
-            <td className={`${hoverBgColor} ${loadingStyle}`} onClick={() => onClick && onClick(seat)}>
+            <td className={`${hoverBgColor} ${loadingStyle}`}>
                 <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 truncate">
                     {teamMember.email}
                 </p>
             </td>
 
             {/* 계정부여일 */}
-            <td className={` ${hoverBgColor} ${loadingStyle}`} onClick={() => onClick && onClick(seat)}>
+            <td className={` ${hoverBgColor} ${loadingStyle}`}>
                 <Datepicker
-                    inputClassName="input px-1.5 py-1 rounded-md w-auto input-sm input-ghost h-[32px] leading-[32px] inline-flex items-center focus:bg-slate-100 focus:outline-1 focus:outline-offset-0"
+                    inputClassName="input px-1.5 py-1 rounded-md w-auto input-sm input-ghost h-[32px] leading-[32px] inline-flex items-center focus:bg-slate-100 focus:outline-1 focus:outline-offset-0 text-gray-400"
+                    toggleClassName={`${seat.finishAt ? '' : 'hidden'}`}
+                    toggleIcon={() => <FiMinusCircle />}
                     asSingle={true}
                     useRange={false}
+                    placeholder={seat.startAt ? yyyy_mm_dd(seat.startAt) : '-'}
                     value={{
                         startDate: seat.startAt || null,
                         endDate: seat.startAt || null,
@@ -131,11 +133,14 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
             </td>
 
             {/* 계정회수일 */}
-            <td className={` ${hoverBgColor} ${loadingStyle}`} onClick={() => onClick && onClick(seat)}>
+            <td className={` ${hoverBgColor} ${loadingStyle}`}>
                 <Datepicker
-                    inputClassName="input px-1.5 py-1 rounded-md w-auto input-sm input-ghost h-[32px] leading-[32px] inline-flex items-center focus:bg-slate-100 focus:outline-1 focus:outline-offset-0"
+                    inputClassName="input px-1.5 py-1 rounded-md w-auto input-sm input-ghost h-[32px] leading-[32px] inline-flex items-center focus:bg-slate-100 focus:outline-1 focus:outline-offset-0 text-gray-400"
+                    toggleClassName={`${seat.finishAt ? '' : 'hidden'}`}
+                    toggleIcon={() => <FiMinusCircle />}
                     asSingle={true}
                     useRange={false}
+                    placeholder={seat.finishAt ? yyyy_mm_dd(seat.finishAt) : '-'}
                     value={{
                         startDate: seat.finishAt || null,
                         endDate: seat.finishAt || null,

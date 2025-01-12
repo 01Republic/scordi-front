@@ -13,7 +13,11 @@ export const useSubscriptionSeats = (
 ) => {
     return usePagedResource2(atoms, {
         useOrgId: true,
-        endpoint: (params, orgId, subscriptionId) => subscriptionApi.seatsApi.index(orgId, subscriptionId, params),
+        endpoint: (params, orgId, subscriptionId) =>
+            subscriptionApi.seatsApi.index(orgId, subscriptionId, {
+                ...params,
+                relations: ['teamMember', 'teamMember.teams'],
+            }),
         buildQuery: (params, orgId, subscriptionId) => {
             params.where = {...params.where};
             return params;

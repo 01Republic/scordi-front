@@ -25,13 +25,6 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
 
     if (!orgId || !subscription) return null;
 
-    const onReady = () => {
-        search({
-            relations: ['teamMember', 'teamMember.teams'],
-            order: {id: 'DESC'},
-        }).then((res) => setOriginSeats(res));
-    };
-
     const onClose = () => {
         setIsOpened(false);
         onPageReload();
@@ -71,7 +64,6 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
         if (status === SubscriptionUsingStatus.NONE) query = {finishAt: 'NULL'};
         if (status === SubscriptionUsingStatus.QUIT) query = {finishAt: {op: 'not', val: 'NULL'}};
         search({
-            relations: ['teamMember', 'teamMember.teams'],
             order: {id: 'DESC'},
             where: query,
         });
@@ -85,7 +77,7 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     );
 
     useEffect(() => {
-        orgId && onReady();
+        orgId && onPageReload();
     }, [orgId]);
 
     return (
