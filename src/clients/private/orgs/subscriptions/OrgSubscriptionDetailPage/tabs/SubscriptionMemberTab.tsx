@@ -69,13 +69,6 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
         });
     };
 
-    const LinkMemberButton = () => (
-        <button className={'btn btn-outline btn-sm text-14 bg-white'} onClick={() => setIsOpened(true)}>
-            <FaPlus />
-            &nbsp;멤버 연결하기
-        </button>
-    );
-
     useEffect(() => {
         orgId && onPageReload();
     }, [orgId]);
@@ -111,7 +104,10 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
 
             <div className={'flex justify-between'}>
                 <MemberStatusScopeHandler onSearch={onChangeScopeHandler} />
-                <LinkMemberButton />
+                <button className={'btn btn-outline btn-sm text-14 bg-white'} onClick={() => setIsOpened(true)}>
+                    <FaPlus />
+                    &nbsp;멤버 연결하기
+                </button>
             </div>
 
             <ListTableContainer
@@ -124,7 +120,12 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                 isEmptyResult={isEmptyResult}
                 emptyMessage="조회된 구성원이 없어요."
                 emptyButtonText="구성원 등록"
-                EmptyButtons={LinkMemberButton}
+                EmptyButtons={() => (
+                    <button className={'btn btn-outline btn-sm text-14 bg-white'} onClick={() => setIsOpened(true)}>
+                        <FaPlus />
+                        &nbsp;멤버 연결하기
+                    </button>
+                )}
             >
                 <ListTable
                     items={result.items}
