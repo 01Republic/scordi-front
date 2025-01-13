@@ -4,25 +4,38 @@ import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSu
 import {useRecoilValue} from 'recoil';
 import {SubscriptionBillingHistoriesTableHeader} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/SubscriptionBillingHistoriesTableHeader';
 import {SubscriptionBillingHistoriesTableRow} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/SubscriptionBillingHistoriesTableRow';
-import {PaymentScopeHandler} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/PaymentScopeHandler';
+import {
+    PaymentScopeHandler,
+    SubscriptionPaymentStatus,
+} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/PaymentScopeHandler';
 import {AddPaymentHistoryDropdown} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/AddPaymentHistoryDropdown';
 import {useAppBillingHistoriesInSubscriptionDetail} from '^models/BillingHistory/hook';
+import {BillingHistoryStatus} from '^models/BillingHistory/type';
 
 export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
     const subscription = useRecoilValue(subscriptionSubjectAtom);
-    const {result, reload, isLoading, movePage, changePageSize, isNotLoaded} =
+    const {result, reload, isLoading, movePage, changePageSize, isNotLoaded, search} =
         useAppBillingHistoriesInSubscriptionDetail();
 
     if (!subscription) return null;
 
+    const onReady = () => {
+        search({
+            where: {
+                subscriptionId: subscription.id,
+            },
+            order: {paidAt: 'DESC'},
+        });
+    };
+
     useEffect(() => {
-        reload();
+        onReady();
     }, []);
 
     return (
         <div className={'py-4 space-y-4'}>
             <div className={'flex justify-between'}>
-                <PaymentScopeHandler onSearch={() => {}} />
+                <PaymentScopeHandler />
 
                 <AddPaymentHistoryDropdown reload={reload} />
             </div>
