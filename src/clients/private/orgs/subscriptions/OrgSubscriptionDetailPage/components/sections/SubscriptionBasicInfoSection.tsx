@@ -53,7 +53,7 @@ export const SubscriptionBasicInfoSection = memo(() => {
                             <FormControl label="워크스페이스명">
                                 {isEditMode ? (
                                     <input
-                                        className="input input-underline !bg-slate-100 w-full"
+                                        className="input border-gray-200 bg-gray-100 w-full"
                                         defaultValue={subscription?.alias}
                                         {...form.register('alias')}
                                     />
@@ -74,7 +74,9 @@ export const SubscriptionBasicInfoSection = memo(() => {
                             <FormControl label="담당자">
                                 {isEditMode ? (
                                     <TeamMemberSelectColumn
-                                        className={'input input-underline !bg-slate-100 w-full pt-1'}
+                                        className={
+                                            'input border-gray-200 bg-gray-100 w-full flex flex-col justify-center'
+                                        }
                                         defaultValue={subscription?.master}
                                         onChange={(teamMember) => {
                                             form.setValue('masterId', teamMember?.id);
@@ -96,7 +98,7 @@ export const SubscriptionBasicInfoSection = memo(() => {
                                 {isEditMode ? (
                                     <input
                                         type="tel"
-                                        className="input input-underline !bg-slate-100 w-full"
+                                        className="input border-gray-200 bg-gray-100 w-full"
                                         defaultValue={subscription?.desc || undefined}
                                         {...form.register('desc')}
                                     />

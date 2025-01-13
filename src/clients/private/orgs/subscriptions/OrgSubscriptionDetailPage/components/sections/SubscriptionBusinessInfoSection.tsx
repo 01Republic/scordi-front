@@ -112,7 +112,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                 {isEditMode ? (
                                     <a
                                         className={
-                                            'block py-3 input input-underline !bg-slate-100 w-full cursor-pointer'
+                                            'input border-gray-200 bg-gray-100 w-full flex flex-col justify-center'
                                         }
                                         onClick={() => setIsCompanySelectModalOpened(true)}
                                     >
@@ -130,7 +130,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                 {isEditMode ? (
                                     <a
                                         className={
-                                            'block py-3 input input-underline !bg-slate-100 w-full cursor-pointer'
+                                            'input border-gray-200 bg-gray-100 w-full flex flex-col justify-center'
                                         }
                                         onClick={() => setIsManagerSelectModalOpened(true)}
                                     >
@@ -147,7 +147,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                             <FormControl label="이메일">
                                 {isEditMode ? (
                                     <input
-                                        className="input input-underline !bg-slate-100 w-full"
+                                        className="input border-gray-200 bg-gray-100 w-full flex flex-col justify-center"
                                         value={email}
                                         onChange={(e) => {
                                             const newEmail = e.target.value;
@@ -165,7 +165,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                             <FormControl label="전화번호">
                                 {isEditMode ? (
                                     <input
-                                        className="input input-underline !bg-slate-100 w-full"
+                                        className="input border-gray-200 bg-gray-100 w-full flex flex-col justify-center"
                                         value={phone}
                                         onChange={(e) => {
                                             const newPhone = e.target.value;
@@ -183,7 +183,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                             <FormControl label="비고">
                                 {isEditMode ? (
                                     <input
-                                        className="input input-underline !bg-slate-100 w-full"
+                                        className="input border-gray-200 bg-gray-100 w-full flex flex-col justify-center"
                                         defaultValue={vendorContract?.memo || undefined}
                                         onChange={(e) => {
                                             form.setValue('vendorContract.memo', e.target.value);

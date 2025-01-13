@@ -136,7 +136,11 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
                             <FormControl label="유무료여부">
                                 {isEditMode ? (
-                                    <div className={'input input-underline !bg-slate-100 w-full pt-2'}>
+                                    <div
+                                        className={
+                                            'input border-gray-200 bg-gray-100 w-full flex flex-col justify-center'
+                                        }
+                                    >
                                         <FreeTierSelect
                                             isFreeTier={form.watch('isFreeTier') ?? subscription.isFreeTier}
                                             onChange={(value) => form.setValue('isFreeTier', value)}
@@ -153,7 +157,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                             <FormControl label="구독시작일">
                                 {isEditMode ? (
                                     <Datepicker
-                                        inputClassName="input input-underline !bg-slate-100 w-full"
+                                        inputClassName="input border-gray-200 bg-gray-100 w-full"
                                         asSingle={true}
                                         value={{
                                             startDate: form.watch('startAt') || subscription.startAt || null,
@@ -174,7 +178,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                             <FormControl label="구독종료일">
                                 {isEditMode ? (
                                     <Datepicker
-                                        inputClassName="input input-underline !bg-slate-100 w-full"
+                                        inputClassName="input border-gray-200 bg-gray-100 w-full"
                                         asSingle={true}
                                         value={{
                                             startDate: form.watch('finishAt') || subscription.finishAt || null,
@@ -232,7 +236,11 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
                             <FormControl label="결제주기">
                                 {isEditMode ? (
-                                    <div className={'input input-underline !bg-slate-100 w-full pt-2'}>
+                                    <div
+                                        className={
+                                            'input border-gray-200 bg-gray-100 w-full flex flex-col justify-center'
+                                        }
+                                    >
                                         <BillingCycleSelect
                                             billingCycle={
                                                 form.watch('billingCycleType') || subscription.billingCycleType
@@ -250,7 +258,11 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
                             <FormControl label="과금방식">
                                 {isEditMode ? (
-                                    <div className={'input input-underline !bg-slate-100 w-full pt-2'}>
+                                    <div
+                                        className={
+                                            'input border-gray-200 bg-gray-100 w-full flex flex-col justify-center'
+                                        }
+                                    >
                                         <PayingTypeSelect
                                             defaultValue={subscription.pricingModel}
                                             subscription={subscription}
@@ -268,7 +280,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                             <FormControl label="구매수량">
                                 {isEditMode ? (
                                     <input
-                                        className="input input-underline !bg-slate-100 w-full"
+                                        className="input border-gray-200 bg-gray-100 w-full flex flex-col justify-center"
                                         defaultValue={prevSeatCount}
                                         min={prevSeatCount}
                                         onChange={(e) => handleSeats(Number(e.target.value))}
@@ -283,7 +295,11 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
                             <FormControl label="결제수단">
                                 {isEditMode ? (
-                                    <div className={'input input-underline !bg-slate-100 w-full pt-2'}>
+                                    <div
+                                        className={
+                                            'input border-gray-200 bg-gray-100 w-full flex flex-col justify-center'
+                                        }
+                                    >
                                         <PayMethodSelect
                                             subscription={subscription}
                                             onChange={(creditCard) => form.setValue('creditCardId', creditCard?.id)}
