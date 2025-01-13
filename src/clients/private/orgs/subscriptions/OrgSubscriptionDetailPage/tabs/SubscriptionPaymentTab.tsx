@@ -4,13 +4,9 @@ import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSu
 import {useRecoilValue} from 'recoil';
 import {SubscriptionBillingHistoriesTableHeader} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/SubscriptionBillingHistoriesTableHeader';
 import {SubscriptionBillingHistoriesTableRow} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/SubscriptionBillingHistoriesTableRow';
-import {
-    PaymentScopeHandler,
-    SubscriptionPaymentStatus,
-} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/PaymentScopeHandler';
+import {PaymentScopeHandler} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/PaymentScopeHandler';
 import {AddPaymentHistoryDropdown} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/AddPaymentHistoryDropdown';
 import {useAppBillingHistoriesInSubscriptionDetail} from '^models/BillingHistory/hook';
-import {BillingHistoryStatus} from '^models/BillingHistory/type';
 
 export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
     const subscription = useRecoilValue(subscriptionSubjectAtom);
