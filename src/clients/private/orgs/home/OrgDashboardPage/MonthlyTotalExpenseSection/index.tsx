@@ -15,6 +15,7 @@ import {DashboardLayout} from '^clients/private/orgs/home/OrgDashboardPage/Dashb
 import {ExpenseSubscription} from './ExpenseSubscription';
 import {TeamScopeButton} from './TeamScopeButton';
 import {ExpenseStatus} from './ExpenseStatus';
+import {CurrencyCode} from '^models/Money';
 
 export type ExpenseStatusType = '예정' | '완료' | '실패';
 
@@ -36,8 +37,12 @@ export const MonthlyTotalExpenseSection = () => {
     const teamSubscriptions = teamSubscriptionList?.items ? teamSubscriptionList.items : [];
 
     const subscriptionAllList = teamId === 0 ? workSpaceSubscriptions : teamSubscriptions;
+    const pendingAndSuccessList = [
+        ...SubscriptionManager.init(subscriptionAllList).pending().list,
+        ...SubscriptionManager.init(subscriptionAllList).success().list,
+    ];
 
-    const totalPrice = subscriptionAllList.reduce(
+    const totalPrice = pendingAndSuccessList.reduce(
         (total, current) => total + (current.currentBillingAmount?.toDisplayPrice(displayCurrency) || 0),
         0,
     );
@@ -48,37 +53,35 @@ export const MonthlyTotalExpenseSection = () => {
             : expenseStatus === '완료'
             ? [
                   ...SubscriptionManager.init(subscriptionAllList).success().list,
-                  ...SubscriptionManager.init(subscriptionAllList).free().list,
-                  ...SubscriptionManager.init(subscriptionAllList).none().list,
+                  // ...SubscriptionManager.init(subscriptionAllList).free().list,
+                  // ...SubscriptionManager.init(subscriptionAllList).none().list,
               ]
             : SubscriptionManager.init(subscriptionAllList).failed().list;
 
     return (
-        <DashboardLayout title="이달의 지출 총액">
-            <LoadableBox isLoading={isLoading}>
-                <section className="w-full flex flex-col gap-10">
-                    <div className="flex gap-2">
-                        <TeamScopeButton text="전체" onClick={() => setTeamId(0)} active={teamId === 0} />
-                        {teams?.items?.map((item) => (
-                            <TeamScopeButton
-                                key={item.id}
-                                text={item.name}
-                                onClick={() => setTeamId(item.id)}
-                                active={teamId === item.id}
-                            />
-                        ))}
-                    </div>
-                    <p className="font-bold text-28">
-                        {`${currencyFormat(totalPrice)} · ${subscriptionAllList.length}건`}
-                    </p>
-                    <ExpenseStatus
-                        subscriptions={subscriptionAllList}
-                        expenseStatus={expenseStatus}
-                        setExpenseStatus={setExpenseStatus}
-                    />
-                    <ExpenseSubscription subscriptions={subscriptionExpenseStatusList} expenseStatus={expenseStatus} />
-                </section>
-            </LoadableBox>
+        <DashboardLayout title="이달의 지출 총액" isLoading={isLoading}>
+            <section className="w-full flex flex-col gap-10">
+                <div className="flex gap-2">
+                    <TeamScopeButton text="전체" onClick={() => setTeamId(0)} active={teamId === 0} />
+                    {teams?.items?.map((item) => (
+                        <TeamScopeButton
+                            key={item.id}
+                            text={item.name}
+                            onClick={() => setTeamId(item.id)}
+                            active={teamId === item.id}
+                        />
+                    ))}
+                </div>
+                <p className="font-bold text-28">{`${currencyFormat(totalPrice)} · ${
+                    pendingAndSuccessList.length
+                }건`}</p>
+                <ExpenseStatus
+                    subscriptions={subscriptionAllList}
+                    expenseStatus={expenseStatus}
+                    setExpenseStatus={setExpenseStatus}
+                />
+                <ExpenseSubscription subscriptions={subscriptionExpenseStatusList} expenseStatus={expenseStatus} />
+            </section>
         </DashboardLayout>
     );
 };
