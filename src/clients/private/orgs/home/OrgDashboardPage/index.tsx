@@ -15,6 +15,8 @@ export const OrgDashboardPage = () => {
                         <h5 className="font-bold text-24">대시보드</h5>
                         <QuickButtonSection />
                     </div>
+
+                    {/* 이달의 지출 총액 */}
                     <MonthlyTotalExpenseSection />
                     <div className="flex gap-5">
                         <PaymentMethodsSection />

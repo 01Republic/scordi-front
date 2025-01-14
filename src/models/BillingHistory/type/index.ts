@@ -148,6 +148,19 @@ export enum BillingHistoryStatus {
     PayFail = 'PayFail', // 결제 실패
 }
 
+export function t_billingHistoryStatusForDashboard(status: BillingHistoryStatus): string {
+    switch (status) {
+        case BillingHistoryStatus.PayWait:
+            return '예정';
+        case BillingHistoryStatus.PaySuccess:
+            return '완료';
+        case BillingHistoryStatus.PayFail:
+            return '실패';
+        default:
+            return '';
+    }
+}
+
 // DEPRECATED => CreateBillingHistoryRequestDtoV2
 export class CreateBillingHistoryRequestDto {
     paidAt: Date | string; // 결제일시
