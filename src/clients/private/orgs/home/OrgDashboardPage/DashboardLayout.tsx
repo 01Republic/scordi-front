@@ -14,7 +14,9 @@ export const DashboardLayout = memo((props: DashboardLayoutProps) => {
     const {title, className, subTitle, Buttons, isLoading = false, children} = props;
 
     return (
-        <article className={`w-full flex flex-col justify-start gap-5 border rounded-3xl bg-white p-7 ${className}`}>
+        <article
+            className={`w-full flex flex-col justify-start gap-5 border rounded-3xl bg-white p-10 max-h-[850px] overflow-hidden ${className}`}
+        >
             <div className="flex items-center justify-between">
                 <h6 className="font-semibold text-20">{title}</h6>
                 {subTitle && <p className="font-semibold text-[22px]">{subTitle}</p>}

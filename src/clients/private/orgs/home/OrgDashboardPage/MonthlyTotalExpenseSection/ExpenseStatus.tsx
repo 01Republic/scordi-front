@@ -25,8 +25,8 @@ export const ExpenseStatus = (props: ExpenseStatusProps) => {
 
     const getCompletedList = [
         ...SubscriptionManager.init(subscriptions).success().list,
-        ...SubscriptionManager.init(subscriptions).free().list,
-        ...SubscriptionManager.init(subscriptions).none().list,
+        // ...SubscriptionManager.init(subscriptions).free().list,
+        // ...SubscriptionManager.init(subscriptions).none().list,
     ];
     const getCompletedListTotalPrice = getCompletedList.reduce(
         (total, current) => total + (current.currentBillingAmount?.toDisplayPrice(displayCurrency) || 0),
