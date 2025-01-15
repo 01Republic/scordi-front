@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import Link from 'next/link';
 import cn from 'classnames';
 import {Avatar} from '^components/Avatar';
-import {DashboardLayout} from '^clients/private/orgs/home/OrgDashboardPage/DashboardLayout';
+import {DashboardSectionLayout} from '^clients/private/orgs/home/OrgDashboardPage/DashboardSectionLayout';
 import {LoadableBox} from '^components/util/loading';
 
 interface ListItemLayoutProps {

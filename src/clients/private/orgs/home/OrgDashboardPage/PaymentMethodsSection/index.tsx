@@ -5,7 +5,7 @@ import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {currencyFormat} from '^utils/number';
 import {usePaymentMethodListInDashboard} from '^models/_dashboard/hook';
-import {DashboardLayout} from '^clients/private/orgs/home/OrgDashboardPage/DashboardLayout';
+import {DashboardSectionLayout} from '^clients/private/orgs/home/OrgDashboardPage/DashboardSectionLayout';
 import {DashboardItemListLayout} from '^clients/private/orgs/home/OrgDashboardPage/DashboardItemListLayout';
 import {EmptyTableLayout} from '^clients/private/orgs/home/OrgDashboardPage/EmptyTableLayout';
 import {CardAutoCreateModal, CardCreateMethod, CardCreateMethodModal} from '^clients/private/_modals/credit-cards';
@@ -63,7 +63,7 @@ export const PaymentMethodsSection = memo(() => {
             </>
         );
     return (
-        <DashboardLayout
+        <DashboardSectionLayout
             title="결제수단"
             subTitle={currencyFormat((paymentMethods && paymentMethods.total.payAmountSum) || 0)}
             isLoading={isLoading}
@@ -97,6 +97,6 @@ export const PaymentMethodsSection = memo(() => {
                     전체보기
                 </button>
             </section>
-        </DashboardLayout>
+        </DashboardSectionLayout>
     );
 });

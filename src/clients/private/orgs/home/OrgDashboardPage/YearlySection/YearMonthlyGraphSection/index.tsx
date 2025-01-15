@@ -3,7 +3,7 @@ import {FaChevronLeft} from 'react-icons/fa';
 import {FaChevronRight} from 'react-icons/fa';
 import {DashboardSummaryYearMonthlyItemDto, DashboardSummaryYearMonthlyResultDto} from '^models/_dashboard/type';
 import {currencyFormat, roundNumber} from '^utils/number';
-import {DashboardLayout} from '../../DashboardLayout';
+import {DashboardSectionLayout} from '../../DashboardSectionLayout';
 import {BarGraph} from './BarGraph';
 
 interface YearMonthlyGraphSectionProps {
@@ -42,7 +42,7 @@ export const YearMonthlyGraphSection = memo((props: YearMonthlyGraphSectionProps
     };
 
     return (
-        <DashboardLayout title={`${yearName}의 구독 현황`} Buttons={PrevNextButton} isLoading={isLoading}>
+        <DashboardSectionLayout title={`${yearName}의 구독 현황`} Buttons={PrevNextButton} isLoading={isLoading}>
             <section className="w-full flex flex-col gap-10">
                 <div className="flex gap-5">
                     <section className="w-full flex flex-col gap-3 border rounded-xl p-5">
@@ -62,6 +62,6 @@ export const YearMonthlyGraphSection = memo((props: YearMonthlyGraphSectionProps
                 </div>
                 <BarGraph result={result} changeMonthlyItem={changeMonthlyItem} />
             </section>
-        </DashboardLayout>
+        </DashboardSectionLayout>
     );
 });

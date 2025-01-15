@@ -15,7 +15,7 @@ import {
 } from '^clients/private/_modals/invoice-accounts';
 import {swalHTML} from '^components/util/dialog';
 import {DashboardItemListLayout} from '../DashboardItemListLayout';
-import {DashboardLayout} from '../DashboardLayout';
+import {DashboardSectionLayout} from '../DashboardSectionLayout';
 import {EmptyTableLayout} from '../EmptyTableLayout';
 
 export const InvoiceAccountsSection = () => {
@@ -63,7 +63,7 @@ export const InvoiceAccountsSection = () => {
         );
 
     return (
-        <DashboardLayout
+        <DashboardSectionLayout
             title="청구서 메일"
             subTitle={`총 ${dashboardInvoiceAccountsSectionResult?.total.billingHistoryCount}건`}
             isLoading={isLoading}
@@ -89,6 +89,6 @@ export const InvoiceAccountsSection = () => {
                     전체보기
                 </button>
             </section>
-        </DashboardLayout>
+        </DashboardSectionLayout>
     );
 };

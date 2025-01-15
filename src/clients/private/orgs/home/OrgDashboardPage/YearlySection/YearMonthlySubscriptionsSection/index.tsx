@@ -4,7 +4,7 @@ import {orgIdParamState} from '^atoms/common';
 import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
 import {DashboardSummaryYearMonthlyItemDto, DashboardSummaryYearMonthlyResultDto} from '^models/_dashboard/type';
 import {LinkTo} from '^components/util/LinkTo';
-import {DashboardLayout} from '../../DashboardLayout';
+import {DashboardSectionLayout} from '../../DashboardSectionLayout';
 import {SubscriptionSpendsForMonth} from './SubscriptionSpendsForMonth';
 import {SubscriptionSpendsForYear} from './SubscriptionSpendsForYear';
 import {EmptyTableLayout} from '^clients/private/orgs/home/OrgDashboardPage/EmptyTableLayout';
@@ -39,7 +39,7 @@ export const YearMonthlySubscriptionsSection = memo((props: YearMonthlySubscript
     );
 
     return (
-        <DashboardLayout
+        <DashboardSectionLayout
             title="구독 리스트"
             Buttons={AllSubscriptionListShowButton}
             isLoading={isLoading}
@@ -50,6 +50,6 @@ export const YearMonthlySubscriptionsSection = memo((props: YearMonthlySubscript
             ) : (
                 <SubscriptionSpendsForYear result={result} />
             )}
-        </DashboardLayout>
+        </DashboardSectionLayout>
     );
 });

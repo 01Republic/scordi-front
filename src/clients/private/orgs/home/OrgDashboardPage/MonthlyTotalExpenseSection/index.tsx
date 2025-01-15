@@ -1,5 +1,5 @@
 import {useExpenseSection} from './useExpenseSection';
-import {DashboardLayout} from '../DashboardLayout';
+import {DashboardSectionLayout} from '../DashboardSectionLayout';
 import {ExpenseStatusTabContent} from './ExpenseStatusTabContent';
 import {TeamScopeButton} from './TeamScopeButton';
 import {ExpenseStatusTabs} from './ExpenseStatusTabs';
@@ -10,7 +10,7 @@ export const MonthlyTotalExpenseSection = () => {
         useExpenseSection();
 
     return (
-        <DashboardLayout title="이달의 지출 총액" isLoading={isLoading}>
+        <DashboardSectionLayout title="이달의 지출 총액" isLoading={isLoading}>
             <section className="w-full flex flex-col gap-10">
                 <div className="flex gap-2">
                     <TeamScopeButton text="전체" onClick={() => setTeamId(0)} active={teamId === 0} />
@@ -34,6 +34,6 @@ export const MonthlyTotalExpenseSection = () => {
 
                 <ExpenseStatusTabContent currentStatusTab={currentStatusTab} subscriptions={currentTabSubscriptions} />
             </section>
-        </DashboardLayout>
+        </DashboardSectionLayout>
     );
 };
