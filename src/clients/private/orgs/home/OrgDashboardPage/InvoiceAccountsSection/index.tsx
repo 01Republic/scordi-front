@@ -1,54 +1,81 @@
 import {DashboardLayout} from '^clients/private/orgs/home/OrgDashboardPage/DashboardLayout';
 import {Avatar} from '^components/Avatar';
-import React from 'react';
-import {OrganizationDto} from '^models/Organization/type';
+import React, {useState} from 'react';
 import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
+import {useInvoiceAccountListInDashboard} from '^models/_dashboard/hook';
+import {DashboardItemListLayout} from '^clients/private/orgs/home/OrgDashboardPage/DashboardItemListLayout';
+import {EmptyTableLayout} from '^clients/private/orgs/home/OrgDashboardPage/EmptyTableLayout';
+import {GoMail} from 'react-icons/go';
+import {
+    InvoiceAccountAutoCreateModal,
+    InvoiceAccountCreateMethod,
+    InvoiceAccountCreateMethodModal,
+} from '^clients/private/_modals/invoice-accounts';
+import {swalHTML} from '^components/util/dialog';
+import {InvoiceAccountCreateInManualSwalForm} from '^models/InvoiceAccount/components';
+import {toast} from 'react-hot-toast';
 
 export const InvoiceAccountsSection = () => {
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
+    const {data: invoiceAccountList, isLoading} = useInvoiceAccountListInDashboard(orgId);
+    const [isInvoiceCreateModalOpened, setIsInvoiceCreateModalOpened] = useState(false);
+    const [isInvoiceCreateAutoModalOpened, setIsInvoiceCreateAutoModalOpened] = useState(false);
+
+    if (invoiceAccountList?.items.length === 0)
+        return (
+            <>
+                <EmptyTableLayout title="청구서 메일" Icon={() => <GoMail />} />
+                {/*청구서 수신 메일 계정 추가*/}
+                <InvoiceAccountCreateMethodModal
+                    isOpened={isInvoiceCreateModalOpened}
+                    onClose={() => setIsInvoiceCreateModalOpened(false)}
+                    onSelect={(createMethod: InvoiceAccountCreateMethod) => {
+                        switch (createMethod) {
+                            case InvoiceAccountCreateMethod.Auto:
+                                setIsInvoiceCreateModalOpened(false);
+                                return setIsInvoiceCreateAutoModalOpened(true);
+                            case InvoiceAccountCreateMethod.Manual:
+                            default:
+                                swalHTML(<InvoiceAccountCreateInManualSwalForm orgId={orgId} onSave={() => null} />);
+                                return;
+                        }
+                    }}
+                />
+
+                <InvoiceAccountAutoCreateModal
+                    isOpened={isInvoiceCreateAutoModalOpened}
+                    onClose={() => setIsInvoiceCreateAutoModalOpened(false)}
+                    onCreate={() => {
+                        toast.success('불러온 청구서 메일을 추가했어요.');
+                        setIsInvoiceCreateAutoModalOpened(false);
+                    }}
+                    onRetry={() => setIsInvoiceCreateAutoModalOpened(true)}
+                />
+            </>
+        );
+
     return (
-        <DashboardLayout title="청구서 메일" subTitle="총 14건">
+        <DashboardLayout
+            title="청구서 메일"
+            subTitle={`총 ${invoiceAccountList?.total.totalItemCount}건`}
+            isLoading={isLoading}
+        >
             <section className="w-full flex flex-col gap-10">
                 <ul>
-                    <li className="first:border-t-0 last:border-b-0 border-t-[0.5px] border-b-[0.5px] p-4">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                                <Avatar className="w-7 h-7" draggable={false} loading="lazy" />
-                                <div>
-                                    <p className="font-normal text-14 text-gray-800">김규리</p>
-                                    <p className="font-normal text-12 text-gray-400">hunter@01republic.io</p>
-                                </div>
-                            </div>
-                            <p className="font-medium text-16 text-gray-900">요정 외 3건</p>
-                        </div>
-                    </li>
-                    <li className="first:border-t-0 last:border-b-0 border-t-[0.5px] border-b-[0.5px] p-4">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                                <Avatar className="w-7 h-7" draggable={false} loading="lazy" />
-                                <div>
-                                    <p className="font-normal text-14 text-gray-800">김용드래곤</p>
-                                    <p className="font-normal text-12 text-gray-400">dragon@01republic.io</p>
-                                </div>
-                            </div>
-                            <p className="font-medium text-16 text-gray-900">불 뿜기</p>
-                        </div>
-                    </li>
-                    <li className="first:border-t-0 last:border-b-0 border-t-[0.5px] border-b-[0.5px] p-4">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                                <Avatar className="w-7 h-7" draggable={false} loading="lazy" />
-                                <div>
-                                    <p className="font-normal text-14 text-gray-800">윤미주</p>
-                                    <p className="font-normal text-12 text-gray-400">힐러</p>
-                                </div>
-                            </div>
-                            <p className="font-medium text-16 text-gray-900">마나 채우기 외 20스킬</p>
-                        </div>
-                    </li>
+                    {invoiceAccountList?.items.map((item) => (
+                        <DashboardItemListLayout
+                            key={item.id}
+                            url={`${orgId}/invoiceAccounts/${item.invoiceAccount?.id}`}
+                            src={item.invoiceAccount?.image || ''}
+                            title={item.invoiceAccount?.email || ''}
+                            subTitle={item.invoiceAccount?.googleTokenData?.name || ''}
+                            message={`${String(item.billingHistoryCount)}건` || '0건'}
+                            avatarClassName="w-7 h-7"
+                        />
+                    ))}
                 </ul>
                 <button
                     onClick={() => router.push(`${orgId}/invoiceAccounts`)}
