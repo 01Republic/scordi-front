@@ -17,6 +17,7 @@ import {swalHTML} from '^components/util/dialog';
 import {InvoiceAccountCreateInManualSwalForm} from '^models/InvoiceAccount/components';
 import {toast} from 'react-hot-toast';
 import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[invoiceAccountId]';
+import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
 
 export const InvoiceAccountsSection = () => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -83,7 +84,7 @@ export const InvoiceAccountsSection = () => {
                     ))}
                 </ul>
                 <button
-                    onClick={() => router.push(`${orgId}/invoiceAccounts`)}
+                    onClick={() => router.push(OrgInvoiceAccountListPageRoute.path(orgId))}
                     className="w-full flex items-center justify-center font-semibold text-14 text-gray-400"
                 >
                     전체보기
