@@ -6,7 +6,7 @@ import {Avatar} from '^components/Avatar';
 interface ListItemLayoutProps {
     url: string;
     src: string;
-    Icon: React.ElementType;
+    Icon?: React.ElementType;
     avatarClassName?: string;
     title: string;
     subTitle: string;
@@ -22,12 +22,18 @@ export const DashboardItemListLayout = memo((props: ListItemLayoutProps) => {
             <Link href={url}>
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        {src ? (
-                            <Avatar src={src} className={avatarClassName} draggable={false} loading="lazy" />
-                        ) : (
+                        {Icon ? (
                             <div className="w-7 h-7 rounded-full text-scordi flex items-center justify-center border border-scordi-light">
                                 <Icon />
                             </div>
+                        ) : (
+                            <>
+                                {src ? (
+                                    <Avatar src={src} className={avatarClassName} draggable={false} loading="lazy" />
+                                ) : (
+                                    <Avatar className={avatarClassName} draggable={false} loading="lazy" />
+                                )}
+                            </>
                         )}
 
                         <div
