@@ -13,9 +13,6 @@ export const YearlySection = memo(() => {
     // const getThisYear = new Date().getFullYear();
     const getThisYear = 2024;
 
-    console.log(monthlyBillingSchedule);
-    console.log('monthlyBillingHistories', monthlyBillingHistories);
-
     const monthsInYear = Array.from({length: 12}, (_, i) => `${getThisYear}-${String(i + 1).padStart(2, '0')}`);
 
     const monthsHistoriesLog = monthsInYear.map((month) => {
@@ -41,7 +38,10 @@ export const YearlySection = memo(() => {
 
     return (
         <div className="flex gap-5">
-            <YearlySubscriptionsLogSection monthsHistoriesLog={monthsHistoriesLog} />
+            <YearlySubscriptionsLogSection
+                monthsHistoriesLog={monthsHistoriesLog}
+                monthlyBillingSchedule={monthlyBillingSchedule}
+            />
             <YearlySubscriptionListSection
                 monthsSubscriptionList={monthsSubscriptionList}
                 isLoadingLog={isLoadingLog}
