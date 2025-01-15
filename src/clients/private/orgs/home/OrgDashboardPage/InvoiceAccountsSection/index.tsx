@@ -1,32 +1,31 @@
-import {DashboardLayout} from '^clients/private/orgs/home/OrgDashboardPage/DashboardLayout';
-import {Avatar} from '^components/Avatar';
 import React, {useState} from 'react';
 import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
-import {useInvoiceAccountListInDashboard} from '^models/_dashboard/hook';
-import {DashboardItemListLayout} from '^clients/private/orgs/home/OrgDashboardPage/DashboardItemListLayout';
-import {EmptyTableLayout} from '^clients/private/orgs/home/OrgDashboardPage/EmptyTableLayout';
 import {GoMail} from 'react-icons/go';
+import {toast} from 'react-hot-toast';
+import {orgIdParamState} from '^atoms/common';
+import {useDashboardInvoiceAccountsSectionResult} from '^models/_dashboard/hook';
+import {InvoiceAccountCreateInManualSwalForm} from '^models/InvoiceAccount/components';
+import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[invoiceAccountId]';
+import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
 import {
     InvoiceAccountAutoCreateModal,
     InvoiceAccountCreateMethod,
     InvoiceAccountCreateMethodModal,
 } from '^clients/private/_modals/invoice-accounts';
 import {swalHTML} from '^components/util/dialog';
-import {InvoiceAccountCreateInManualSwalForm} from '^models/InvoiceAccount/components';
-import {toast} from 'react-hot-toast';
-import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[invoiceAccountId]';
-import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
+import {DashboardItemListLayout} from '../DashboardItemListLayout';
+import {DashboardLayout} from '../DashboardLayout';
+import {EmptyTableLayout} from '../EmptyTableLayout';
 
 export const InvoiceAccountsSection = () => {
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
-    const {data: invoiceAccountList, isLoading} = useInvoiceAccountListInDashboard(orgId);
+    const {data: dashboardInvoiceAccountsSectionResult, isLoading} = useDashboardInvoiceAccountsSectionResult(orgId);
     const [isInvoiceCreateModalOpened, setIsInvoiceCreateModalOpened] = useState(false);
     const [isInvoiceCreateAutoModalOpened, setIsInvoiceCreateAutoModalOpened] = useState(false);
 
-    if (invoiceAccountList?.items.length === 0)
+    if (dashboardInvoiceAccountsSectionResult?.items.length === 0)
         return (
             <>
                 <EmptyTableLayout
@@ -66,12 +65,12 @@ export const InvoiceAccountsSection = () => {
     return (
         <DashboardLayout
             title="청구서 메일"
-            subTitle={`총 ${invoiceAccountList?.total.billingHistoryCount}건`}
+            subTitle={`총 ${dashboardInvoiceAccountsSectionResult?.total.billingHistoryCount}건`}
             isLoading={isLoading}
         >
             <section className="w-full flex flex-col gap-10">
                 <ul>
-                    {invoiceAccountList?.items.map((item) => (
+                    {dashboardInvoiceAccountsSectionResult?.items.map((item) => (
                         <DashboardItemListLayout
                             key={item.id}
                             url={OrgInvoiceAccountShowPageRoute.path(orgId, item.invoiceAccount?.id || 0)}

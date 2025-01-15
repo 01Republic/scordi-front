@@ -21,7 +21,7 @@ export const usePaymentMethodListInDashboard = (orgId: number, params?: FromToQu
 };
 
 //대시보드 - 청구서 계정 섹션
-export const useInvoiceAccountListInDashboard = (orgId: number, params?: FromToQueryDto) => {
+export const useDashboardInvoiceAccountsSectionResult = (orgId: number, params?: FromToQueryDto) => {
     const defaultFrom = new Date(getToday().getFullYear(), getToday().getMonth(), 1, 12);
 
     const finalParams: FromToQueryDto = {
@@ -30,7 +30,7 @@ export const useInvoiceAccountListInDashboard = (orgId: number, params?: FromToQ
     };
 
     return useQuery({
-        queryKey: ['invoiceAccounts', orgId],
+        queryKey: ['invoiceAccountsResult', orgId],
         queryFn: () => dashboardApi.invoiceAccountsSection(orgId, finalParams).then((res) => res.data),
         enabled: !!orgId || !isNaN(orgId),
     });
@@ -39,7 +39,7 @@ export const useInvoiceAccountListInDashboard = (orgId: number, params?: FromToQ
 // 대시보드 - 올해의 구독 현황 섹션 월 별 구독 예상 금액 리스트 불러오기
 export const useDashboardSummaryYearMonthlyResult = (orgId: number, year: number) => {
     return useQuery({
-        queryKey: ['summaryYearMonthlyData', orgId, year],
+        queryKey: ['summaryYearMonthlyResult', orgId, year],
         queryFn: () => dashboardApi.summaryYearMonthly(orgId, year).then((res) => res.data),
         enabled: !!orgId || !isNaN(orgId),
     });
