@@ -16,6 +16,7 @@ import {
 import {swalHTML} from '^components/util/dialog';
 import {InvoiceAccountCreateInManualSwalForm} from '^models/InvoiceAccount/components';
 import {toast} from 'react-hot-toast';
+import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[invoiceAccountId]';
 
 export const InvoiceAccountsSection = () => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -72,7 +73,7 @@ export const InvoiceAccountsSection = () => {
                     {invoiceAccountList?.items.map((item) => (
                         <DashboardItemListLayout
                             key={item.id}
-                            url={`${orgId}/invoiceAccounts/${item.invoiceAccount?.id}`}
+                            url={OrgInvoiceAccountShowPageRoute.path(orgId, item.invoiceAccount?.id || 0)}
                             src={item.invoiceAccount?.image || ''}
                             title={item.invoiceAccount?.email || ''}
                             subTitle={item.invoiceAccount?.googleTokenData?.name || ''}
