@@ -205,7 +205,7 @@ export function useBillingHistoryV2(atom: RecoilState<BillingHistoryDto | null>)
 }
 
 // 대시보드 - 올해의 구독 현황 섹션 월 별 구독 리스트 불러오기
-export const useYearlySubscriptionHistoryLogInDashboard = (orgId: number) => {
+export const useBillingHistoriesMonthlySumBySubscriptionListInDashboard = (orgId: number) => {
     // const getThisYear = new Date().getFullYear();
     const getThisYear = 2024;
     return useQuery({

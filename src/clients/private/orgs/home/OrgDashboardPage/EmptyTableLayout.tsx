@@ -14,7 +14,7 @@ interface ListItemLayoutProps {
 }
 
 export const EmptyTableLayout = memo((props: ListItemLayoutProps) => {
-    const {title, Icon, className, onClick, url} = props;
+    const {title, Icon, className = '', onClick, url} = props;
 
     return (
         <article className={`w-full flex flex-col justify-start border rounded-3xl bg-white p-7 ${className}`}>

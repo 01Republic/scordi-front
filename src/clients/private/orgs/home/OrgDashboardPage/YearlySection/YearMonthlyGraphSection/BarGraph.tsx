@@ -1,50 +1,44 @@
-import React, {Dispatch, memo, SetStateAction, useState} from 'react';
+import React, {memo, useState} from 'react';
 import {Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
-import {BillingHistoriesMonthlySumItemDto} from '^models/BillingHistory/type';
-import {currencyFormat, roundNumber} from '^utils/number';
 import {useSetRecoilState} from 'recoil';
 import {selectedMonthAtom} from '^models/_dashboard/atom';
-import {DashboardSummaryYearMonthlyResultDto} from '^models/_dashboard/type';
-import {CustomTooltip} from '^clients/private/orgs/home/OrgDashboardPage/YearlySection/YearlySubscriptionsLogSection/CustomTooltip';
-import item from '^v3/share/sections/MobileSection/Item';
-import {CustomBar} from '^clients/private/orgs/home/OrgDashboardPage/YearlySection/YearlySubscriptionsLogSection/CustomBar';
+import {DashboardSummaryYearMonthlyItemDto, DashboardSummaryYearMonthlyResultDto} from '^models/_dashboard/type';
+import {CustomTooltip} from './CustomTooltip';
+import {roundNumber} from '^utils/number';
+import {rangeToArr} from '^utils/range';
 
 interface BarGraphProps {
-    monthsHistoriesLog: {month: string; items: BillingHistoriesMonthlySumItemDto[] | undefined}[];
-    monthlyBillingSchedule: DashboardSummaryYearMonthlyResultDto | undefined;
+    result?: DashboardSummaryYearMonthlyResultDto;
+    changeMonthlyItem?: (monthlyItem?: DashboardSummaryYearMonthlyItemDto) => any;
 }
 
 export const BarGraph = memo((props: BarGraphProps) => {
-    const {monthlyBillingSchedule} = props;
+    const {result, changeMonthlyItem} = props;
+    const items = result?.items || [];
+
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     const setSelectedMonth = useSetRecoilState(selectedMonthAtom);
 
-    const formattedData = monthlyBillingSchedule?.items.map((item) => {
+    const formattedData = items.map((item) => {
         const monthLabel = `${item.month}월`;
         const monthlyTotalAmount = item.amount;
-        const roundUpMonthlyTotalToTenThousand = Math.ceil(item.amount / 10000) * 10000;
-        const getPaidAmount = item.paidData?.amount;
-        const getExpectedAmount = item.notPaidData.amount;
-        const getPaidLength = item.paidData?.serviceCount;
-        const getExpectedLength = item.notPaidData?.serviceCount;
+        const paidAmount = item.paidData?.amount;
+        const notPaidAmount = item.notPaidData?.amount;
+        const paidDataServiceCount = item.paidData?.serviceCount;
+        const notPaidServiceCount = item.notPaidData?.serviceCount;
 
         return {
             month: monthLabel,
             monthlyTotalAmount,
-            roundUpMonthlyTotalToTenThousand,
-            getPaidAmount,
-            getExpectedAmount,
-            getPaidLength,
-            getExpectedLength,
+            paidAmount,
+            notPaidAmount,
+            paidDataServiceCount,
+            notPaidServiceCount,
         };
     });
 
-    const getMaxRoundedMonthlyTotal = () => {
-        if (!formattedData || formattedData.length === 0) return 0;
-        return Math.max(...formattedData.map((item) => item.roundUpMonthlyTotalToTenThousand));
-    };
-    const maxAmount = getMaxRoundedMonthlyTotal();
-    const ticks = Array.from({length: 11}, (_, i) => (maxAmount / 10) * i);
+    const maxAmount = Math.max(...items.map(({amount}) => amount));
+    const ticks = rangeToArr(0, 10).map((i) => (maxAmount / 10) * i);
 
     return (
         <div className="w-full h-[580px] max-h-[580px] p-2">
@@ -68,7 +62,9 @@ export const BarGraph = memo((props: BarGraphProps) => {
                     onClick={(state) => {
                         if (state && state.activePayload && state.activePayload.length > 0) {
                             const clickedData = state.activePayload[0].payload;
-                            setSelectedMonth(clickedData.month);
+                            const month = parseInt(`${clickedData.month}`.replace(/\D/g, ''));
+                            const monthlyItem = items.find((item) => item.month === month);
+                            changeMonthlyItem && changeMonthlyItem(monthlyItem);
                         }
                     }}
                 >
@@ -92,8 +88,8 @@ export const BarGraph = memo((props: BarGraphProps) => {
                         domain={[0, 'monthlyTotalAmount']}
                         ticks={ticks}
                         axisLine={false}
-                        tickCount={11}
-                        tickFormatter={(value) => `${value / 10000}만원`}
+                        tickCount={10}
+                        tickFormatter={(value) => `${roundNumber(value / 10000).toLocaleString()}만원`}
                         tickLine={false}
                         tick={{
                             fontWeight: 300,

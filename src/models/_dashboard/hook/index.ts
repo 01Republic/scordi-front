@@ -35,3 +35,12 @@ export const useInvoiceAccountListInDashboard = (orgId: number, params?: FromToQ
         enabled: !!orgId || !isNaN(orgId),
     });
 };
+
+// 대시보드 - 올해의 구독 현황 섹션 월 별 구독 예상 금액 리스트 불러오기
+export const useDashboardSummaryYearMonthlyResult = (orgId: number, year: number) => {
+    return useQuery({
+        queryKey: ['summaryYearMonthlyData', orgId, year],
+        queryFn: () => dashboardApi.summaryYearMonthly(orgId, year).then((res) => res.data),
+        enabled: !!orgId || !isNaN(orgId),
+    });
+};

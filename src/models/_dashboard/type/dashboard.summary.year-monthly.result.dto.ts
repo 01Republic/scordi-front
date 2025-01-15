@@ -1,12 +1,23 @@
 import {TypeCast} from '^types/utils/class-transformer';
 import {SubscriptionDto} from '^models/Subscription/types';
 
+export class DashboardSummaryYearMonthlySubscriptionSpendDto {
+    year: number;
+    month: number;
+    amount: number;
+
+    @TypeCast(() => SubscriptionDto) subscription: SubscriptionDto;
+}
+
 export class DashboardSummaryYearMonthlyDataDto {
     organizationId: number; // 조직 ID
     year: number; // 년
     month: number; // 월
     amount: number; // 합계 금액
     serviceCount: number; // 서비스 갯수
+
+    @TypeCast(() => DashboardSummaryYearMonthlySubscriptionSpendDto)
+    subscriptionSpends: DashboardSummaryYearMonthlySubscriptionSpendDto[] = [];
 }
 
 export class DashboardSummaryYearMonthlyItemDto {
@@ -22,7 +33,7 @@ export class DashboardSummaryYearMonthlyItemDto {
 
     // 결제 예정 데이터
     @TypeCast(() => DashboardSummaryYearMonthlyDataDto)
-    notPaidData: DashboardSummaryYearMonthlyDataDto;
+    notPaidData: DashboardSummaryYearMonthlyDataDto | null;
 }
 
 // 대시보드 / 올해의 구독 현황 섹션 응답결과
@@ -35,7 +46,6 @@ export class DashboardSummaryYearMonthlyResultDto {
     @TypeCast(() => DashboardSummaryYearMonthlyItemDto)
     items: DashboardSummaryYearMonthlyItemDto[];
 
-    // 지출되는 구독 목록
-    @TypeCast(() => SubscriptionDto)
-    subscriptions?: SubscriptionDto[];
+    @TypeCast(() => DashboardSummaryYearMonthlySubscriptionSpendDto)
+    subscriptionSpends: Omit<DashboardSummaryYearMonthlySubscriptionSpendDto, 'month'>[] = [];
 }
