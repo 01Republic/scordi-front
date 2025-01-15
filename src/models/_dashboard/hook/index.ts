@@ -19,3 +19,19 @@ export const usePaymentMethodListInDashboard = (orgId: number, params?: FromToQu
         enabled: !!orgId || !isNaN(orgId),
     });
 };
+
+//대시보드 - 청구서 계정 섹션
+export const useInvoiceAccountListInDashboard = (orgId: number, params?: FromToQueryDto) => {
+    const defaultFrom = new Date(getToday().getFullYear(), getToday().getMonth(), 1, 12);
+
+    const finalParams: FromToQueryDto = {
+        from: params?.from || defaultFrom,
+        to: params?.to || getToday(),
+    };
+
+    return useQuery({
+        queryKey: ['invoiceAccounts', orgId],
+        queryFn: () => dashboardApi.invoiceAccountsSection(orgId, finalParams).then((res) => res.data),
+        enabled: !!orgId || !isNaN(orgId),
+    });
+};
