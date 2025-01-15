@@ -10,6 +10,8 @@ import {DashboardItemListLayout} from '^clients/private/orgs/home/OrgDashboardPa
 import {EmptyTableLayout} from '^clients/private/orgs/home/OrgDashboardPage/EmptyTableLayout';
 import {CardAutoCreateModal, CardCreateMethod, CardCreateMethodModal} from '^clients/private/_modals/credit-cards';
 import {OrgCreditCardNewPageRoute} from '^pages/orgs/[id]/creditCards/new';
+import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
+import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 
 export const PaymentMethodsSection = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -63,9 +65,7 @@ export const PaymentMethodsSection = memo(() => {
     return (
         <DashboardLayout
             title="결제수단"
-            subTitle={
-                paymentMethods?.total.payAmountSum ? `-${currencyFormat(paymentMethods.total.payAmountSum)}` : '0원'
-            }
+            subTitle={currencyFormat((paymentMethods && paymentMethods.total.payAmountSum) || 0)}
             isLoading={isLoading}
         >
             <section className="w-full flex flex-col gap-10">
@@ -73,7 +73,7 @@ export const PaymentMethodsSection = memo(() => {
                     {paymentMethods?.items.map((item) => (
                         <DashboardItemListLayout
                             key={item.id}
-                            url={`${orgId}/creditCards/${item.creditCard?.id}`}
+                            url={OrgCreditCardShowPageRoute.path(orgId, item.creditCard?.id || 0)}
                             src={item.creditCard?.company?.logo || ''}
                             avatarClassName="w-7 h-7"
                             Icon={() => <GoCreditCard />}
@@ -91,7 +91,7 @@ export const PaymentMethodsSection = memo(() => {
                     ))}
                 </ul>
                 <button
-                    onClick={() => router.push(`${orgId}/creditCards`)}
+                    onClick={() => router.push(OrgCreditCardListPageRoute.path(orgId))}
                     className="w-full flex items-center justify-center font-semibold text-14 text-gray-400"
                 >
                     전체보기
