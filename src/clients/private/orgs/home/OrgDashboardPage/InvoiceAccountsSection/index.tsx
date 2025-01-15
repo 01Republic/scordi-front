@@ -30,7 +30,7 @@ export const InvoiceAccountsSection = () => {
             <>
                 <EmptyTableLayout
                     title="청구서 메일"
-                    Icon={() => <GoMail />}
+                    Icon={GoMail}
                     onClick={() => setIsInvoiceCreateModalOpened(true)}
                 />
                 {/*청구서 수신 메일 계정 추가*/}
