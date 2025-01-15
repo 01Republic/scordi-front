@@ -25,7 +25,7 @@ export const SubscriptionListLayout = memo((props: SubscriptionListLayoutProps) 
                 <p>{name}</p>
                 <p className="font-normal text-14 text-neutral-400">{percent}</p>
             </div>
-            <p>{amount ? `-${amount}` : 0}</p>
+            <p>{amount ? amount : 0}</p>
         </li>
     );
 });
