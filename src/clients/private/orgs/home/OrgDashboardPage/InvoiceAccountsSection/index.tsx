@@ -14,7 +14,7 @@ import {
     InvoiceAccountCreateMethodModal,
 } from '^clients/private/_modals/invoice-accounts';
 import {swalHTML} from '^components/util/dialog';
-import {DashboardItemListLayout} from '../DashboardItemListLayout';
+import {DashboardAssetsSectionItem} from '../DashboardAssetsSectionItem';
 import {DashboardSectionLayout} from '../DashboardSectionLayout';
 import {EmptyTableLayout} from '../EmptyTableLayout';
 
@@ -71,7 +71,7 @@ export const InvoiceAccountsSection = () => {
             <section className="w-full flex flex-col gap-10">
                 <ul>
                     {dashboardInvoiceAccountsSectionResult?.items.map((item) => (
-                        <DashboardItemListLayout
+                        <DashboardAssetsSectionItem
                             key={item.id}
                             url={OrgInvoiceAccountShowPageRoute.path(orgId, item.invoiceAccount?.id || 0)}
                             src={item.invoiceAccount?.image || ''}

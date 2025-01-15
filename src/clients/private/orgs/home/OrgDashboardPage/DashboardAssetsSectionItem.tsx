@@ -14,7 +14,7 @@ interface ListItemLayoutProps {
     low?: boolean;
 }
 
-export const DashboardItemListLayout = memo((props: ListItemLayoutProps) => {
+export const DashboardAssetsSectionItem = memo((props: ListItemLayoutProps) => {
     const {url, src, avatarClassName, title, subTitle, message, Icon, low = false} = props;
 
     return (

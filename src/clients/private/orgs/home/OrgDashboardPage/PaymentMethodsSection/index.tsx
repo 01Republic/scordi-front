@@ -6,12 +6,13 @@ import {orgIdParamState} from '^atoms/common';
 import {currencyFormat} from '^utils/number';
 import {useDashboardCreditCardsSectionResultDto} from '^models/_dashboard/hook';
 import {DashboardSectionLayout} from '^clients/private/orgs/home/OrgDashboardPage/DashboardSectionLayout';
-import {DashboardItemListLayout} from '^clients/private/orgs/home/OrgDashboardPage/DashboardItemListLayout';
+import {DashboardAssetsSectionItem} from '^clients/private/orgs/home/OrgDashboardPage/DashboardAssetsSectionItem';
 import {EmptyTableLayout} from '^clients/private/orgs/home/OrgDashboardPage/EmptyTableLayout';
 import {CardAutoCreateModal, CardCreateMethod, CardCreateMethodModal} from '^clients/private/_modals/credit-cards';
 import {OrgCreditCardNewPageRoute} from '^pages/orgs/[id]/creditCards/new';
 import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
+import {FaRegCreditCard} from 'react-icons/fa6';
 
 export const PaymentMethodsSection = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -73,12 +74,12 @@ export const PaymentMethodsSection = memo(() => {
             <section className="w-full flex flex-col gap-10">
                 <ul>
                     {dashboardCreditCardsSectionResult?.items.map((item) => (
-                        <DashboardItemListLayout
+                        <DashboardAssetsSectionItem
                             key={item.id}
                             url={OrgCreditCardShowPageRoute.path(orgId, item.creditCard?.id || 0)}
                             src={item.creditCard?.company?.logo || ''}
                             avatarClassName="w-7 h-7"
-                            Icon={() => <GoCreditCard />}
+                            Icon={() => <FaRegCreditCard />}
                             title={`[${item.creditCard?.profileName || '알수없음'}] ${showCardNumber(
                                 item.creditCard?.secretInfo?.number1 || '****',
                                 item.creditCard?.secretInfo.number2 || '****',
