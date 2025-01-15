@@ -27,7 +27,11 @@ export const InvoiceAccountsSection = () => {
     if (invoiceAccountList?.items.length === 0)
         return (
             <>
-                <EmptyTableLayout title="청구서 메일" Icon={() => <GoMail />} />
+                <EmptyTableLayout
+                    title="청구서 메일"
+                    Icon={() => <GoMail />}
+                    onClick={() => setIsInvoiceCreateModalOpened(true)}
+                />
                 {/*청구서 수신 메일 계정 추가*/}
                 <InvoiceAccountCreateMethodModal
                     isOpened={isInvoiceCreateModalOpened}
@@ -60,7 +64,7 @@ export const InvoiceAccountsSection = () => {
     return (
         <DashboardLayout
             title="청구서 메일"
-            subTitle={`총 ${invoiceAccountList?.total.totalItemCount}건`}
+            subTitle={`총 ${invoiceAccountList?.total.billingHistoryCount}건`}
             isLoading={isLoading}
         >
             <section className="w-full flex flex-col gap-10">
