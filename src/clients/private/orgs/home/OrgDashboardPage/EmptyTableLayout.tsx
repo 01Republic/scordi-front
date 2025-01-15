@@ -19,7 +19,7 @@ export const EmptyTableLayout = memo((props: ListItemLayoutProps) => {
     return (
         <article className={`w-full flex flex-col justify-start border rounded-3xl bg-white p-7 ${className}`}>
             <p className="flex items-center font-semibold text-20">{title}</p>
-            <section className=" h-full flex flex-col gap-3 items-center justify-center">
+            <section className=" h-full flex flex-col gap-3 items-center justify-center my-20 ">
                 <p className="text-sm font-normal text-neutral-500">{`등록된 ${title}이 없어요.`}</p>
                 {url ? (
                     <Link
