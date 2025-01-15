@@ -5,7 +5,7 @@ import {dashboardApi} from '^models/_dashboard/api';
 import {getToday} from '^utils/dateTime';
 
 //대시보드 - 결제수단 섹션
-export const usePaymentMethodListInDashboard = (orgId: number, params?: FromToQueryDto) => {
+export const useDashboardCreditCardsSectionResultDto = (orgId: number, params?: FromToQueryDto) => {
     const defaultFrom = new Date(getToday().getFullYear(), getToday().getMonth(), 1, 12);
 
     const finalParams: FromToQueryDto = {
@@ -14,7 +14,7 @@ export const usePaymentMethodListInDashboard = (orgId: number, params?: FromToQu
     };
 
     return useQuery({
-        queryKey: ['paymentMethods', orgId],
+        queryKey: ['CreditCardsResult', orgId],
         queryFn: () => dashboardApi.creditCardsSection(orgId, finalParams).then((res) => res.data),
         enabled: !!orgId || !isNaN(orgId),
     });

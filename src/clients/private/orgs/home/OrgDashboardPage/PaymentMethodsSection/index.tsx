@@ -4,7 +4,7 @@ import {GoCreditCard} from 'react-icons/go';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {currencyFormat} from '^utils/number';
-import {usePaymentMethodListInDashboard} from '^models/_dashboard/hook';
+import {useDashboardCreditCardsSectionResultDto} from '^models/_dashboard/hook';
 import {DashboardSectionLayout} from '^clients/private/orgs/home/OrgDashboardPage/DashboardSectionLayout';
 import {DashboardItemListLayout} from '^clients/private/orgs/home/OrgDashboardPage/DashboardItemListLayout';
 import {EmptyTableLayout} from '^clients/private/orgs/home/OrgDashboardPage/EmptyTableLayout';
@@ -16,7 +16,7 @@ import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 export const PaymentMethodsSection = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
-    const {data: paymentMethods, isLoading} = usePaymentMethodListInDashboard(orgId);
+    const {data: dashboardCreditCardsSectionResult, isLoading} = useDashboardCreditCardsSectionResultDto(orgId);
     const [isCardCreateMethodModalOpen, setIsCardCreateMethodModalOpen] = useState(false);
     const [isCardAutoCreateModalOpen, setIsCardAutoCreateModalOpen] = useState(false);
 
@@ -26,7 +26,7 @@ export const PaymentMethodsSection = memo(() => {
         return `${first}-${secondNumber}**-${privateMask}-${privateMask}`;
     };
 
-    if (paymentMethods?.items.length === 0)
+    if (dashboardCreditCardsSectionResult?.items.length === 0)
         return (
             <>
                 <EmptyTableLayout
@@ -65,12 +65,14 @@ export const PaymentMethodsSection = memo(() => {
     return (
         <DashboardSectionLayout
             title="결제수단"
-            subTitle={currencyFormat((paymentMethods && paymentMethods.total.payAmountSum) || 0)}
+            subTitle={currencyFormat(
+                (dashboardCreditCardsSectionResult && dashboardCreditCardsSectionResult.total.payAmountSum) || 0,
+            )}
             isLoading={isLoading}
         >
             <section className="w-full flex flex-col gap-10">
                 <ul>
-                    {paymentMethods?.items.map((item) => (
+                    {dashboardCreditCardsSectionResult?.items.map((item) => (
                         <DashboardItemListLayout
                             key={item.id}
                             url={OrgCreditCardShowPageRoute.path(orgId, item.creditCard?.id || 0)}
