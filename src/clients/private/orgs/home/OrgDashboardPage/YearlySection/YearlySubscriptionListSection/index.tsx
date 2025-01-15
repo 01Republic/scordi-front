@@ -74,7 +74,18 @@ export const YearlySubscriptionListSection = memo((props: YearlySubscriptionList
                         src={item.subscription.product.image}
                         name={item.subscription.product.nameKo}
                         percent={`${((Math.floor(item.amount) / matchedTotalAmount) * 100).toFixed(1)}%`}
-                        amount={currencyFormat(Math.floor(item.amount))}
+                        amount={`-${currencyFormat(Math.floor(item.amount))}`}
+                    />
+                ))}
+            </ul>
+            <ul className="w-full flex flex-col">
+                {matchedSubscriptionList.map((item) => (
+                    <SubscriptionListLayout
+                        key={item.subscriptionId}
+                        src={item.subscription.product.image}
+                        name={item.subscription.product.nameKo}
+                        percent={`${((Math.floor(item.amount) / matchedTotalAmount) * 100).toFixed(1)}%`}
+                        amount={`(예정) -${currencyFormat(Math.floor(item.amount))}`}
                     />
                 ))}
             </ul>
