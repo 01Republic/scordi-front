@@ -1,46 +1,56 @@
 import React, {Dispatch, memo, SetStateAction, useState} from 'react';
 import {Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
 import {BillingHistoriesMonthlySumItemDto} from '^models/BillingHistory/type';
-import {currencyFormat} from '^utils/number';
+import {currencyFormat, roundNumber} from '^utils/number';
 import {useSetRecoilState} from 'recoil';
 import {selectedMonthAtom} from '^models/_dashboard/atom';
+import {DashboardSummaryYearMonthlyResultDto} from '^models/_dashboard/type';
+import {CustomTooltip} from '^clients/private/orgs/home/OrgDashboardPage/YearlySection/YearlySubscriptionsLogSection/CustomTooltip';
+import item from '^v3/share/sections/MobileSection/Item';
+import {CustomBar} from '^clients/private/orgs/home/OrgDashboardPage/YearlySection/YearlySubscriptionsLogSection/CustomBar';
 
 interface BarGraphProps {
     monthsHistoriesLog: {month: string; items: BillingHistoriesMonthlySumItemDto[] | undefined}[];
+    monthlyBillingSchedule: DashboardSummaryYearMonthlyResultDto | undefined;
 }
 
 export const BarGraph = memo((props: BarGraphProps) => {
-    const {monthsHistoriesLog} = props;
+    const {monthlyBillingSchedule} = props;
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     const setSelectedMonth = useSetRecoilState(selectedMonthAtom);
 
-    const formattedPaidExpenseData = monthsHistoriesLog.map((entry, index) => {
-        const monthlyTotalAmount = entry.items ? entry.items.reduce((sum, item) => sum + item.amount, 0) : 0;
-        const roundUpMonthlyTotalToTenThousand = Math.ceil(monthlyTotalAmount / 10000) * 10000;
-        const floorMonthlyTotalAmount = Math.floor(monthlyTotalAmount);
-        const monthLabel = `${entry.month.split('-')[1]}월`;
-        const itemLength = entry.items?.length;
+    const formattedData = monthlyBillingSchedule?.items.map((item) => {
+        const monthLabel = `${item.month}월`;
+        const monthlyTotalAmount = item.amount;
+        const roundUpMonthlyTotalToTenThousand = Math.ceil(item.amount / 10000) * 10000;
+        const getPaidAmount = item.paidData?.amount;
+        const getExpectedAmount = item.notPaidData.amount;
+        const getPaidLength = item.paidData?.serviceCount;
+        const getExpectedLength = item.notPaidData?.serviceCount;
 
         return {
-            index,
             month: monthLabel,
             monthlyTotalAmount,
             roundUpMonthlyTotalToTenThousand,
-            floorMonthlyTotalAmount,
-            itemLength,
+            getPaidAmount,
+            getExpectedAmount,
+            getPaidLength,
+            getExpectedLength,
         };
     });
 
-    const getMonthlyRoundupTotalAmounts = formattedPaidExpenseData.map(
-        (paidExpenseData) => paidExpenseData.roundUpMonthlyTotalToTenThousand,
-    );
-    const getMonthMaxTotalAmounts = Math.max.apply(null, getMonthlyRoundupTotalAmounts) || 1000000;
+    const getMaxRoundedMonthlyTotal = () => {
+        if (!formattedData || formattedData.length === 0) return 0;
+        return Math.max(...formattedData.map((item) => item.roundUpMonthlyTotalToTenThousand));
+    };
+    const maxAmount = getMaxRoundedMonthlyTotal();
+    const ticks = Array.from({length: 11}, (_, i) => (maxAmount / 10) * i);
 
     return (
         <div className="w-full h-[580px] max-h-[580px] p-2">
             <ResponsiveContainer width="100%" height="100%">
                 <BarChart
-                    data={formattedPaidExpenseData}
+                    data={formattedData}
                     margin={{
                         top: 20,
                         bottom: 20,
@@ -78,8 +88,9 @@ export const BarGraph = memo((props: BarGraphProps) => {
                         tickMargin={18}
                     />
                     <YAxis
-                        width={100}
-                        domain={[0, getMonthMaxTotalAmounts]}
+                        width={110}
+                        domain={[0, 'monthlyTotalAmount']}
+                        ticks={ticks}
                         axisLine={false}
                         tickCount={11}
                         tickFormatter={(value) => `${value / 10000}만원`}
@@ -93,9 +104,11 @@ export const BarGraph = memo((props: BarGraphProps) => {
                     />
                     <Tooltip content={<CustomTooltip />} cursor={{fill: 'transparent'}} />
                     <Bar
-                        dataKey="monthlyTotalAmount"
+                        stackId="a"
+                        dataKey="getPaidAmount"
                         barSize={8}
                         fill="#5C5FEE"
+                        isAnimationActive={false}
                         shape={(props: any) => {
                             const {x, y, width, height, index} = props;
                             const isBarHovered = hoveredIndex === null || hoveredIndex === index;
@@ -103,29 +116,21 @@ export const BarGraph = memo((props: BarGraphProps) => {
                             return <rect x={x} y={y} width={width} height={height} fill={fill} rx={2} />;
                         }}
                     />
+                    <Bar
+                        stackId="a"
+                        dataKey="getExpectedAmount"
+                        barSize={8}
+                        fill="#FBCFE8"
+                        isAnimationActive={false}
+                        shape={(props: any) => {
+                            const {x, y, width, height, index} = props;
+                            const isBarHovered = hoveredIndex === null || hoveredIndex === index;
+                            const fill = isBarHovered ? '#FBCFE8' : '#FEF1F8';
+                            return <rect x={x} y={y} width={width} height={height} fill={fill} rx={2} />;
+                        }}
+                    />
                 </BarChart>
             </ResponsiveContainer>
         </div>
     );
-});
-
-interface CustomTooltipProps {
-    active?: boolean;
-    payload?: any[];
-}
-
-export const CustomTooltip = memo((props: CustomTooltipProps) => {
-    const {active, payload} = props;
-    if (active && payload && payload.length > 0) {
-        const currentData = payload[0].payload;
-
-        return (
-            <div className="flex-flex-col justify-start gap-1 py-2 px-3 bg-zinc-900 text-white font-medium text-12 rounded-lg">
-                <p>{`구독 지출액: ${currencyFormat(currentData.floorMonthlyTotalAmount)}`}</p>
-                <p>{`구독 건수: ${currentData.itemLength}건`}</p>
-            </div>
-        );
-    }
-
-    return null;
 });
