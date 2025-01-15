@@ -10,7 +10,7 @@ interface DashboardLayoutProps extends WithChildren {
     Buttons?: () => JSX.Element;
 }
 
-export const DashboardLayout = memo((props: DashboardLayoutProps) => {
+export const DashboardSectionLayout = memo((props: DashboardLayoutProps) => {
     const {title, className = '', subTitle, Buttons, isLoading = false, children} = props;
 
     return (
