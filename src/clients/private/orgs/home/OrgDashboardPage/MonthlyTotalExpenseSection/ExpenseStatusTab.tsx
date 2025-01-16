@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import cn from 'classnames';
-import {currencyFormat} from '^utils/number';
+import {currencyFormat, unitFormat} from '^utils/number';
 import {BillingHistoryStatus, t_billingHistoryStatusForDashboard} from '^models/BillingHistory/type';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {useRecoilValue} from 'recoil';
@@ -23,18 +23,18 @@ export const ExpenseStatusTab = memo((props: ExpenseStatusTabProps) => {
 
     const isActive = currentStatus === status;
 
-    const totalPrice = subscriptions.reduce(
-        (total, subscription) => total + (subscription.currentBillingAmount?.toDisplayPrice(displayCurrency) || 0),
-        0,
-    );
+    const totalPrice = subscriptions
+        // TODO: 대시보드 / 이달의 지출인데, 구독의 최종 결제금액을 기준으로 계산하는것은 위험하다.
+        .map(({currentBillingAmount}) => currentBillingAmount?.toDisplayPrice(displayCurrency) || 0)
+        .reduce((a, b) => a + b, 0);
 
     return (
-        <button
+        <div
             onClick={() => onClick(status, subscriptions)}
-            className={cn('flex-1 flex items-center gap-[2px] pb-3 border-b-2', {
-                [activeBorderColorClass]: isActive,
+            className={cn('flex items-center gap-4 pb-3 cursor-pointer border-b-2', {
                 'font-semibold': isActive,
                 'border-transparent': !isActive,
+                [activeBorderColorClass]: isActive,
             })}
         >
             <div
@@ -42,10 +42,10 @@ export const ExpenseStatusTab = memo((props: ExpenseStatusTabProps) => {
             >
                 {t_billingHistoryStatusForDashboard(status)}
             </div>
-            <span>
-                합계: {currencyFormat(totalPrice)} ({subscriptions.length.toLocaleString()}건)
-            </span>
-        </button>
+            <div>
+                합계: {currencyFormat(totalPrice)} ({unitFormat(subscriptions.length, '건')})
+            </div>
+        </div>
     );
 });
 ExpenseStatusTab.displayName = 'ExpenseStatusTab';
