@@ -37,7 +37,7 @@ export const BarGraph = memo((props: BarGraphProps) => {
         };
     });
 
-    const maxAmount = Math.max(...items.map(({amount}) => amount));
+    const maxAmount = Math.max(...items.map(({amount}) => amount || 1000000));
     const ticks = rangeToArr(0, 10).map((i) => (maxAmount / 10) * i);
 
     return (
