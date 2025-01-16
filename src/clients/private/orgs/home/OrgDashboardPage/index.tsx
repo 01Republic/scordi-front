@@ -1,6 +1,6 @@
 import React from 'react';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
-import {QuickButtonSection} from './QuickButtonSection';
+import {QuickButtonGroup} from './QuickButtonGroup';
 import {MonthlyTotalExpenseSection} from './MonthlyTotalExpenseSection';
 import {PaymentMethodsSection} from './PaymentMethodsSection';
 import {InvoiceAccountsSection} from './InvoiceAccountsSection';
@@ -13,7 +13,7 @@ export const OrgDashboardPage = () => {
                 <div className="flex flex-col gap-10">
                     <div className="flex items-center justify-between mt-10">
                         <h5 className="font-bold text-24">대시보드</h5>
-                        <QuickButtonSection />
+                        <QuickButtonGroup />
                     </div>
 
                     {/* 이달의 지출 총액 */}
