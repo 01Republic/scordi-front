@@ -101,7 +101,7 @@ export const BarGraph = memo((props: BarGraphProps) => {
                     <Tooltip content={<CustomTooltip />} cursor={{fill: 'transparent'}} />
                     <Bar
                         stackId="a"
-                        dataKey="getPaidAmount"
+                        dataKey="paidAmount"
                         barSize={8}
                         fill="#5C5FEE"
                         isAnimationActive={false}
@@ -114,7 +114,7 @@ export const BarGraph = memo((props: BarGraphProps) => {
                     />
                     <Bar
                         stackId="a"
-                        dataKey="getExpectedAmount"
+                        dataKey="notPaidAmount"
                         barSize={8}
                         fill="#FBCFE8"
                         isAnimationActive={false}
