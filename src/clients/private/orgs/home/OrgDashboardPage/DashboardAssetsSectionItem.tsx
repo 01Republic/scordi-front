@@ -5,18 +5,17 @@ import {Avatar} from '^components/Avatar';
 
 interface ListItemLayoutProps {
     url: string;
-    src: string;
+    message: string;
+    src?: string;
     ProfileContent?: React.ElementType;
     Icon?: React.ElementType;
     avatarClassName?: string;
-    title: string;
-    subTitle: string;
-    message: string;
-    low?: boolean;
+    title?: string;
+    subTitle?: string;
 }
 
 export const DashboardAssetsSectionItem = memo((props: ListItemLayoutProps) => {
-    const {url, src, avatarClassName, title, subTitle, message, Icon, low = false, ProfileContent} = props;
+    const {url, src, avatarClassName, title, subTitle, message, Icon, ProfileContent} = props;
 
     return (
         <li className="first:border-t-0 last:border-b-0 border-t-[0.5px] border-b-[0.5px] p-4">
@@ -45,12 +44,7 @@ export const DashboardAssetsSectionItem = memo((props: ListItemLayoutProps) => {
                                 </>
                             )}
 
-                            <div
-                                className={cn('flex', {
-                                    'flex-row items-center gap-3': low,
-                                    'flex-col': !low,
-                                })}
-                            >
+                            <div className="flex-col">
                                 <p className="font-normal text-14 text-gray-800">{title}</p>
                                 <p className="font-normal text-12 text-gray-400">{subTitle}</p>
                             </div>
