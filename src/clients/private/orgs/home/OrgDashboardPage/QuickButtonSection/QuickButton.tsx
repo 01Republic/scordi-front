@@ -1,8 +1,7 @@
-import Link from 'next/link';
-import {WithChildren} from '^types/global.type';
-import {AddCreditCardDropdown} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardListPage/AddCreditCardDropdown';
 import React from 'react';
-import {ReactComponentLike} from 'prop-types';
+import Link from 'next/link';
+import cn from 'classnames';
+import {WithChildren} from '^types/global.type';
 
 interface QuickButtonProps extends WithChildren {
     text: string;
@@ -19,7 +18,7 @@ export const QuickButton = (props: QuickButtonProps) => {
             {url ? (
                 <Link
                     href={url ? url : '#'}
-                    className="flex items-center gap-2 px-3 py-2 text-scordi border border-scordi-light rounded-lg"
+                    className="flex items-center gap-2 px-3 py-2 text-scordi border border-scordi-light rounded-lg hover:bg-scordi-50 hover:border-scordi-300"
                 >
                     <Icon />
                     <p className="font-semibold">{text}</p>
@@ -27,7 +26,7 @@ export const QuickButton = (props: QuickButtonProps) => {
             ) : (
                 <button
                     onClick={onClick}
-                    className="flex items-center gap-2 px-3 py-2 text-scordi border border-scordi-light rounded-lg"
+                    className="flex items-center gap-2 px-3 py-2 text-scordi border border-scordi-light rounded-lg hover:bg-scordi-50 hover:border-scordi-300"
                 >
                     <Icon />
                     <p className="font-semibold">{text}</p>
