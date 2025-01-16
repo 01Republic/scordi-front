@@ -33,6 +33,7 @@ export const ExpenseStatusTab = memo((props: ExpenseStatusTabProps) => {
             onClick={() => onClick(status, subscriptions)}
             className={cn('flex-1 flex items-center gap-[2px] pb-3 border-b-2', {
                 [activeBorderColorClass]: isActive,
+                'font-semibold': isActive,
                 'border-transparent': !isActive,
             })}
         >
@@ -41,7 +42,9 @@ export const ExpenseStatusTab = memo((props: ExpenseStatusTabProps) => {
             >
                 {t_billingHistoryStatusForDashboard(status)}
             </div>
-            <span>{`${currencyFormat(totalPrice)} (${subscriptions.length.toLocaleString()}건)`}</span>
+            <span>
+                합계: {currencyFormat(totalPrice)} ({subscriptions.length.toLocaleString()}건)
+            </span>
         </button>
     );
 });
