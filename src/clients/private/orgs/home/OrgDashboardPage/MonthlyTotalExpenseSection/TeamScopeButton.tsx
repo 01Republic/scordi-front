@@ -12,7 +12,7 @@ export const TeamScopeButton = memo((props: TeamScopeButtonProps) => {
 
     return (
         <button
-            className={cn('btn btn-sm rounded-full transition-all', {
+            className={cn('btn btn-sm rounded-full transition-all no-animation btn-animation', {
                 '!bg-scordi-50 !border-scordi-300 !text-scordi': active,
                 'border-gray-300 bg-white hover:bg-scordi-50 hover:border-scordi-300': !active,
             })}

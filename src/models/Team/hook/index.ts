@@ -1,7 +1,6 @@
-import {useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {toast} from 'react-hot-toast';
-import {orgIdParamState, teamIdParamState} from '^atoms/common';
+import {orgIdParamState} from '^atoms/common';
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
 import {teamApi} from '../api';
 import {FindAllTeamQueryDto, TeamDto, UpdateTeamDto} from '../type';
@@ -13,10 +12,6 @@ import {
     teamsListForTeamListPageAtom,
 } from '../atom';
 import {useIsLoading} from '^hooks/useResource/useIsLoading';
-import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
-import {CreditCardDto} from '^models/CreditCard/type';
-import {FindAllSubscriptionsQuery} from '^models/Subscription/types';
-import {useSubscriptionListInDashboardExpenseSection} from '^models/Subscription/hook';
 
 export const useTeamsV2 = () => useTeams(teamsListAtom);
 
@@ -82,28 +77,4 @@ export const useCurrentTeam = () => {
         isLoading,
         reloadWithUpdateCounters,
     };
-};
-
-//대시보드 - 이달의 지출 총액 섹션에서 팀 목록 불러오기
-export const useTeamListInDashboardExpenseSection = (orgId: number) => {
-    return useQuery({
-        queryKey: ['teamList', orgId],
-        queryFn: () => teamApi.index(orgId).then((res) => res.data),
-        enabled: !!orgId || !isNaN(orgId),
-    });
-};
-
-//대시보드 - 이달의 지출 총액 섹션에서 팀 구독 목록 불러오기
-export const useTeamSubscriptionListInDashboardExpenseSection = (
-    orgId: number,
-    teamId: number,
-    params?: FindAllSubscriptionsQuery,
-) => {
-    return useQuery({
-        queryKey: ['teamSubscriptionList', orgId, teamId],
-        queryFn: () => {
-            return teamApi.subscriptions.index(orgId, teamId, params).then((res) => res.data);
-        },
-        enabled: (!!orgId && !!teamId) || (!isNaN(orgId) && !!teamId),
-    });
 };

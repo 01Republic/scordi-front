@@ -171,12 +171,3 @@ export const {paginatedListHook: useSubscriptionList} = makePaginatedListHookWit
     }),
     request: (_, params) => subscriptionApi.index(params),
 });
-
-//대시보드 - 이달의 지출 총액 섹션에서 워크스페이스 구독 목록 불러오기
-export const useSubscriptionListInDashboardExpenseSection = (orgId: number, params?: FindAllSubscriptionsQuery) => {
-    return useQuery({
-        queryKey: ['subscriptionList',orgId],
-        queryFn: () => subscriptionApi.index(params).then((res) => res.data),
-        enabled: !!orgId || !isNaN(orgId),
-    });
-};

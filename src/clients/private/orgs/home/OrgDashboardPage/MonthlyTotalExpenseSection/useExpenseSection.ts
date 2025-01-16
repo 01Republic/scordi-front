@@ -1,19 +1,20 @@
 import {useEffect, useState} from 'react';
+import {useRecoilValue} from 'recoil';
 import {BillingHistoryStatus} from '^models/BillingHistory/type';
 import {SubscriptionDto} from '^models/Subscription/types';
 import {
     useTeamListInDashboardExpenseSection,
+    useSubscriptionListInDashboardExpenseSection,
     useTeamSubscriptionListInDashboardExpenseSection,
-} from '^models/Team/hook';
-import {useSubscriptionListInDashboardExpenseSection} from '^models/Subscription/hook';
+} from '^models/_dashboard/hook';
 import {getPaginatedItems} from '^types/utils/response-of';
+import {TeamDto} from '^models/Team/type';
 import {SubscriptionManager} from '^models/Subscription/manager';
-import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 
 export const useExpenseSection = () => {
     const orgId = useRecoilValue(orgIdParamState);
-    const [teamId, setTeamId] = useState(0);
+    const [selectedTeam, setTeam] = useState<TeamDto>();
     const [currentStatusTab, setCurrentStatusTab] = useState<BillingHistoryStatus>();
     const [currentTabSubscriptions, setCurrentTabSubscriptions] = useState<SubscriptionDto[]>([]);
 
@@ -28,14 +29,15 @@ export const useExpenseSection = () => {
     );
 
     const {data: pagedSubscriptionByTeam, isLoading: isTeamSubscriptionLoading} =
-        useTeamSubscriptionListInDashboardExpenseSection(orgId, teamId, {
+        useTeamSubscriptionListInDashboardExpenseSection(orgId, selectedTeam?.id || 0, {
             relations: ['teamMembers'],
             order: {currentBillingAmount: {dollarPrice: 'DESC'}, isFreeTier: 'ASC', id: 'DESC'},
         });
 
     const isLoading = isTeamLoading || isSubscriptionLoading || isTeamSubscriptionLoading;
-    const subscriptions =
-        teamId === 0 ? getPaginatedItems(pagedSubscription) : getPaginatedItems(pagedSubscriptionByTeam);
+    const subscriptions = !selectedTeam
+        ? getPaginatedItems(pagedSubscription)
+        : getPaginatedItems(pagedSubscriptionByTeam);
 
     useEffect(() => {
         if (!currentStatusTab && subscriptions.length) {
@@ -45,8 +47,8 @@ export const useExpenseSection = () => {
     }, [currentStatusTab, subscriptions]);
 
     return {
-        teamId,
-        setTeamId,
+        selectedTeam,
+        setTeam,
         teams,
         currentStatusTab,
         currentTabSubscriptions,
