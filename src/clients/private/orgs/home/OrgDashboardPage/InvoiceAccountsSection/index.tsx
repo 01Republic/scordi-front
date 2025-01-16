@@ -74,10 +74,7 @@ export const InvoiceAccountsSection = () => {
                         <DashboardAssetsSectionItem
                             key={item.id}
                             url={OrgInvoiceAccountShowPageRoute.path(orgId, item.invoiceAccount?.id || 0)}
-                            src={item.invoiceAccount?.image || ''}
-                            title={item.invoiceAccount?.email || ''}
                             ProfileContent={() => <InvoiceAccountProfile invoiceAccount={item.invoiceAccount!} />}
-                            subTitle={item.invoiceAccount?.googleTokenData?.name || ''}
                             message={`${String(item.billingHistoryCount)}건` || '0건'}
                             avatarClassName="w-7 h-7"
                         />
