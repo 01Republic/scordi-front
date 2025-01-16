@@ -30,7 +30,7 @@ export const InvoiceAccountsSection = () => {
             <>
                 <EmptyTableLayout
                     title="청구서 메일"
-                    Icon={GoMail}
+                    Icon={() => <GoMail />}
                     onClick={() => setIsInvoiceCreateModalOpened(true)}
                 />
                 {/*청구서 수신 메일 계정 추가*/}
@@ -76,7 +76,7 @@ export const InvoiceAccountsSection = () => {
                             url={OrgInvoiceAccountShowPageRoute.path(orgId, item.invoiceAccount?.id || 0)}
                             ProfileContent={() => <InvoiceAccountProfile invoiceAccount={item.invoiceAccount!} />}
                             message={`${String(item.billingHistoryCount)}건` || '0건'}
-                            avatarClassName="w-7 h-7"
+                            className="py-[17.8px]"
                         />
                     ))}
                 </ul>

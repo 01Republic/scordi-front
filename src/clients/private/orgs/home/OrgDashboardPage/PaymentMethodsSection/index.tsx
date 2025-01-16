@@ -13,6 +13,7 @@ import {OrgCreditCardNewPageRoute} from '^pages/orgs/[id]/creditCards/new';
 import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 import {FaRegCreditCard} from 'react-icons/fa6';
+import {CreditCardProfileOption2} from '^models/CreditCard/components';
 
 export const PaymentMethodsSection = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -76,20 +77,14 @@ export const PaymentMethodsSection = memo(() => {
                     {dashboardCreditCardsSectionResult?.items.map((item) => (
                         <DashboardAssetsSectionItem
                             key={item.id}
+                            ProfileContent={() => <CreditCardProfileOption2 item={item.creditCard!} />}
                             url={OrgCreditCardShowPageRoute.path(orgId, item.creditCard?.id || 0)}
-                            src={item.creditCard?.company?.logo || ''}
-                            avatarClassName="w-7 h-7"
-                            Icon={() => <FaRegCreditCard />}
-                            title={`[${item.creditCard?.profileName || '알수없음'}] ${showCardNumber(
-                                item.creditCard?.secretInfo?.number1 || '****',
-                                item.creditCard?.secretInfo.number2 || '****',
-                            )}`}
-                            subTitle={`끝자리: ${item.creditCard?.secretInfo.number4}`}
                             message={
                                 item.payAmountSum
                                     ? `-${currencyFormat(item.payAmountSum)}`
                                     : currencyFormat(item.payAmountSum)
                             }
+                            className="py-4"
                         />
                     ))}
                 </ul>
