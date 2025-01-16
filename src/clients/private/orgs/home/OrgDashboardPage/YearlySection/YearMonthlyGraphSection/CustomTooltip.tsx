@@ -44,8 +44,8 @@ export const CustomTooltip = memo((props: CustomTooltipProps) => {
                     </>
                 )}
 
-                <p>{`구독 지출액: ${currencyFormat(roundNumber(currentData.paidAmount))}`}</p>
-                <p>{`구독 건수: ${currentData.paidDataServiceCount.toLocaleString()}건`}</p>
+                <p>{`구독 지출액: ${currencyFormat(roundNumber(currentData.paidAmount || 0))}`}</p>
+                <p>{`구독 건수: ${currentData.paidDataServiceCount?.toLocaleString() || 0}건`}</p>
             </div>
         );
     }
