@@ -19,7 +19,10 @@ export const OrgDashboardPage = () => {
                     {/* 이달의 지출 총액 */}
                     <MonthlyTotalExpenseSection />
                     <div className="flex gap-5">
+                        {/* 결제수단 */}
                         <PaymentMethodsSection />
+
+                        {/* 청구서 메일 */}
                         <InvoiceAccountsSection />
                     </div>
                     <YearlySection />

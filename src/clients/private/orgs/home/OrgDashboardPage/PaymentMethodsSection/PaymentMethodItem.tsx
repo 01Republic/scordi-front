@@ -1,0 +1,30 @@
+import React, {memo} from 'react';
+import {DashboardCreditCardsSectionItemDto} from '^models/_dashboard/type';
+import {CreditCardProfileOption2} from '^models/CreditCard/components';
+import {currencyFormat} from '^utils/number';
+import {LinkTo} from '^components/util/LinkTo';
+import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
+
+interface PaymentMethodItemProps {
+    item: DashboardCreditCardsSectionItemDto;
+}
+
+export const PaymentMethodItem = memo((props: PaymentMethodItemProps) => {
+    const {item} = props;
+
+    const {creditCard, organizationId, payAmountSum = 0, payAmountCode, id} = item;
+
+    return (
+        <li className="px-4 py-4 border-b-[1px] last:border-b-0">
+            <LinkTo href={OrgCreditCardShowPageRoute.path(organizationId, id)}>
+                <div className="flex items-center justify-between">
+                    {/* TODO: 서버에서 creditCard 을 필수값으로 변경해줄 예정. 변경되면 아래 코드도 바꿔줘야 함. */}
+                    {creditCard ? <CreditCardProfileOption2 item={creditCard} /> : <></>}
+                    {/* TODO: 단위 원 고정으로 처리되어 있으나, 데이터로 전달받은 화폐코드에 따라 동적으로 처리되어야 함. */}
+                    <p className="font-medium text-16 text-gray-900">{currencyFormat(payAmountSum)}</p>
+                </div>
+            </LinkTo>
+        </li>
+    );
+});
+PaymentMethodItem.displayName = 'PaymentMethodItem';

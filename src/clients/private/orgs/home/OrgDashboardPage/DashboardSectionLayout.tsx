@@ -14,7 +14,7 @@ export const DashboardSectionLayout = memo((props: DashboardLayoutProps) => {
     const {title, className = '', subTitle, Buttons, isLoading = false, children} = props;
 
     return (
-        <article
+        <section
             className={`w-full flex flex-col justify-start gap-5 border rounded-3xl bg-white p-6 max-h-[850px] overflow-hidden px-4 ${className}`}
         >
             <div className="flex items-center justify-between">
@@ -22,9 +22,10 @@ export const DashboardSectionLayout = memo((props: DashboardLayoutProps) => {
                 {subTitle && <p className="font-semibold text-[22px]">{subTitle}</p>}
                 {Buttons && <Buttons />}
             </div>
+
             <LoadableBox isLoading={isLoading} loadingType={2} noPadding spinnerPos="center">
                 <div>{children}</div>
             </LoadableBox>
-        </article>
+        </section>
     );
 });

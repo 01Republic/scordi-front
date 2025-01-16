@@ -1,92 +1,38 @@
-import React, {useState} from 'react';
-import {useRouter} from 'next/router';
+import React from 'react';
 import {useRecoilValue} from 'recoil';
-import {GoMail} from 'react-icons/go';
-import {toast} from 'react-hot-toast';
 import {orgIdParamState} from '^atoms/common';
+import {LinkTo} from '^components/util/LinkTo';
+import {unitFormat} from '^utils/number';
 import {useDashboardInvoiceAccountsSectionResult} from '^models/_dashboard/hook';
-import {InvoiceAccountCreateInManualSwalForm, InvoiceAccountProfile} from '^models/InvoiceAccount/components';
-import {OrgInvoiceAccountShowPageRoute} from '^pages/orgs/[id]/invoiceAccounts/[invoiceAccountId]';
 import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
-import {
-    InvoiceAccountAutoCreateModal,
-    InvoiceAccountCreateMethod,
-    InvoiceAccountCreateMethodModal,
-} from '^clients/private/_modals/invoice-accounts';
-import {swalHTML} from '^components/util/dialog';
-import {DashboardAssetsSectionItem} from '../DashboardAssetsSectionItem';
 import {DashboardSectionLayout} from '../DashboardSectionLayout';
-import {EmptyTableLayout} from '../EmptyTableLayout';
+import {InvoiceAccountEmptySection} from './InvoiceAccountEmptySection';
+import {InvoiceAccountItem} from './InvoiceAccountItem';
 
 export const InvoiceAccountsSection = () => {
     const orgId = useRecoilValue(orgIdParamState);
-    const router = useRouter();
     const {data: dashboardInvoiceAccountsSectionResult, isLoading} = useDashboardInvoiceAccountsSectionResult(orgId);
-    const [isInvoiceCreateModalOpened, setIsInvoiceCreateModalOpened] = useState(false);
-    const [isInvoiceCreateAutoModalOpened, setIsInvoiceCreateAutoModalOpened] = useState(false);
+    const {items = [], total} = dashboardInvoiceAccountsSectionResult || {};
 
-    if (dashboardInvoiceAccountsSectionResult?.items.length === 0)
-        return (
-            <>
-                <EmptyTableLayout
-                    title="청구서 메일"
-                    Icon={() => <GoMail />}
-                    onClick={() => setIsInvoiceCreateModalOpened(true)}
-                />
-                {/*청구서 수신 메일 계정 추가*/}
-                <InvoiceAccountCreateMethodModal
-                    isOpened={isInvoiceCreateModalOpened}
-                    onClose={() => setIsInvoiceCreateModalOpened(false)}
-                    onSelect={(createMethod: InvoiceAccountCreateMethod) => {
-                        switch (createMethod) {
-                            case InvoiceAccountCreateMethod.Auto:
-                                setIsInvoiceCreateModalOpened(false);
-                                return setIsInvoiceCreateAutoModalOpened(true);
-                            case InvoiceAccountCreateMethod.Manual:
-                            default:
-                                swalHTML(<InvoiceAccountCreateInManualSwalForm orgId={orgId} onSave={() => null} />);
-                                return;
-                        }
-                    }}
-                />
-
-                <InvoiceAccountAutoCreateModal
-                    isOpened={isInvoiceCreateAutoModalOpened}
-                    onClose={() => setIsInvoiceCreateAutoModalOpened(false)}
-                    onCreate={() => {
-                        toast.success('불러온 청구서 메일을 추가했어요.');
-                        setIsInvoiceCreateAutoModalOpened(false);
-                    }}
-                    onRetry={() => setIsInvoiceCreateAutoModalOpened(true)}
-                />
-            </>
-        );
+    if (items.length === 0) return <InvoiceAccountEmptySection />;
 
     return (
         <DashboardSectionLayout
             title="청구서 메일"
-            subTitle={`총 ${dashboardInvoiceAccountsSectionResult?.total.billingHistoryCount}건`}
+            subTitle={`총 ${unitFormat(total?.billingHistoryCount, '건')}`}
             isLoading={isLoading}
         >
-            <section className="w-full flex flex-col gap-10">
-                <ul>
-                    {dashboardInvoiceAccountsSectionResult?.items.map((item) => (
-                        <DashboardAssetsSectionItem
-                            key={item.id}
-                            url={OrgInvoiceAccountShowPageRoute.path(orgId, item.invoiceAccount?.id || 0)}
-                            ProfileContent={() => <InvoiceAccountProfile invoiceAccount={item.invoiceAccount!} />}
-                            message={`${String(item.billingHistoryCount)}건` || '0건'}
-                            className="py-[17.8px]"
-                        />
-                    ))}
-                </ul>
-                <button
-                    onClick={() => router.push(OrgInvoiceAccountListPageRoute.path(orgId))}
-                    className="w-full flex items-center justify-center font-semibold text-14 text-gray-400"
-                >
-                    전체보기
-                </button>
-            </section>
+            <ul className="mb-10">
+                {items.map((item) => (
+                    <InvoiceAccountItem key={item.id} item={item} />
+                ))}
+            </ul>
+
+            <LinkTo
+                href={OrgInvoiceAccountListPageRoute.path(orgId)}
+                text="전체보기"
+                className="w-full flex items-center justify-center font-semibold text-14 text-gray-400"
+            />
         </DashboardSectionLayout>
     );
 };

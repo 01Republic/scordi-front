@@ -1,100 +1,38 @@
-import React, {memo, useState} from 'react';
-import {useRouter} from 'next/router';
-import {GoCreditCard} from 'react-icons/go';
+import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {currencyFormat} from '^utils/number';
 import {useDashboardCreditCardsSectionResultDto} from '^models/_dashboard/hook';
 import {DashboardSectionLayout} from '^clients/private/orgs/home/OrgDashboardPage/DashboardSectionLayout';
-import {DashboardAssetsSectionItem} from '^clients/private/orgs/home/OrgDashboardPage/DashboardAssetsSectionItem';
-import {EmptyTableLayout} from '^clients/private/orgs/home/OrgDashboardPage/EmptyTableLayout';
-import {CardAutoCreateModal, CardCreateMethod, CardCreateMethodModal} from '^clients/private/_modals/credit-cards';
-import {OrgCreditCardNewPageRoute} from '^pages/orgs/[id]/creditCards/new';
-import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
-import {FaRegCreditCard} from 'react-icons/fa6';
-import {CreditCardProfileOption2} from '^models/CreditCard/components';
+import {LinkTo} from '^components/util/LinkTo';
+import {PaymentMethodEmptySection} from './PaymentMethodEmptySection';
+import {PaymentMethodItem} from './PaymentMethodItem';
 
 export const PaymentMethodsSection = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
-    const router = useRouter();
     const {data: dashboardCreditCardsSectionResult, isLoading} = useDashboardCreditCardsSectionResultDto(orgId);
-    const [isCardCreateMethodModalOpen, setIsCardCreateMethodModalOpen] = useState(false);
-    const [isCardAutoCreateModalOpen, setIsCardAutoCreateModalOpen] = useState(false);
+    const {items = [], total} = dashboardCreditCardsSectionResult || {};
 
-    const showCardNumber = (first: string, second: string) => {
-        const secondNumber = second.slice(0, 2);
-        const privateMask = '****';
-        return `${first}-${secondNumber}**-${privateMask}-${privateMask}`;
-    };
+    if (items.length === 0) return <PaymentMethodEmptySection />;
 
-    if (dashboardCreditCardsSectionResult?.items.length === 0)
-        return (
-            <>
-                <EmptyTableLayout
-                    title="결제수단"
-                    Icon={() => <GoCreditCard />}
-                    onClick={() => setIsCardCreateMethodModalOpen(true)}
-                />
-                {/* 결제수단 등록 > 등록 방법 선택 */}
-                <CardCreateMethodModal
-                    isOpened={isCardCreateMethodModalOpen}
-                    onClose={() => setIsCardCreateMethodModalOpen(false)}
-                    onSelect={(createMethod) => {
-                        switch (createMethod) {
-                            case CardCreateMethod.Auto:
-                                return setIsCardAutoCreateModalOpen(true);
-                            case CardCreateMethod.Manual:
-                            default:
-                                setIsCardAutoCreateModalOpen(false);
-                                return router.push(OrgCreditCardNewPageRoute.path(orgId));
-                        }
-                    }}
-                />
-
-                {/* 결제수단 등록 > 자동 등록 */}
-                <CardAutoCreateModal
-                    isOpened={isCardAutoCreateModalOpen}
-                    onClose={() => {
-                        setIsCardAutoCreateModalOpen(false);
-                    }}
-                    onCreate={() => {
-                        setIsCardAutoCreateModalOpen(false);
-                    }}
-                />
-            </>
-        );
     return (
         <DashboardSectionLayout
             title="결제수단"
-            subTitle={currencyFormat(
-                (dashboardCreditCardsSectionResult && dashboardCreditCardsSectionResult.total.payAmountSum) || 0,
-            )}
+            subTitle={currencyFormat(total?.payAmountSum || 0)}
             isLoading={isLoading}
         >
-            <section className="w-full flex flex-col gap-10">
-                <ul>
-                    {dashboardCreditCardsSectionResult?.items.map((item) => (
-                        <DashboardAssetsSectionItem
-                            key={item.id}
-                            ProfileContent={() => <CreditCardProfileOption2 item={item.creditCard!} />}
-                            url={OrgCreditCardShowPageRoute.path(orgId, item.creditCard?.id || 0)}
-                            message={
-                                item.payAmountSum
-                                    ? `-${currencyFormat(item.payAmountSum)}`
-                                    : currencyFormat(item.payAmountSum)
-                            }
-                            className="py-4"
-                        />
-                    ))}
-                </ul>
-                <button
-                    onClick={() => router.push(OrgCreditCardListPageRoute.path(orgId))}
-                    className="w-full flex items-center justify-center font-semibold text-14 text-gray-400"
-                >
-                    전체보기
-                </button>
-            </section>
+            <ul className="mb-10">
+                {items.map((item) => (
+                    <PaymentMethodItem key={item.id} item={item} />
+                ))}
+            </ul>
+
+            <LinkTo
+                href={OrgCreditCardListPageRoute.path(orgId)}
+                text="전체보기"
+                className="w-full flex items-center justify-center font-semibold text-14 text-gray-400"
+            />
         </DashboardSectionLayout>
     );
 });
