@@ -22,17 +22,19 @@ export const PaymentMethodsSection = memo(() => {
             subTitle={currencyFormat(total?.payAmountSum || 0)}
             isLoading={isLoading}
         >
-            <ul className="mb-10">
-                {items.map((item) => (
-                    <PaymentMethodItem key={item.id} item={item} />
-                ))}
-            </ul>
+            <div className="min-h-[250px] flex flex-col justify-between">
+                <ul>
+                    {items.map((item) => (
+                        <PaymentMethodItem key={item.id} item={item} />
+                    ))}
+                </ul>
 
-            <LinkTo
-                href={OrgCreditCardListPageRoute.path(orgId)}
-                text="전체보기"
-                className="w-full flex items-center justify-center font-semibold text-14 text-gray-400"
-            />
+                <LinkTo
+                    href={OrgCreditCardListPageRoute.path(orgId)}
+                    text="전체보기"
+                    className="w-full flex items-center justify-center font-semibold text-14 text-gray-400"
+                />
+            </div>
         </DashboardSectionLayout>
     );
 });

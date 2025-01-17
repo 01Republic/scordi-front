@@ -15,7 +15,7 @@ export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
     const {invoiceAccount, organizationId, billingHistoryCount, product, id} = item;
 
     return (
-        <li className="px-4 py-[17.8px] border-b-[1px] last:border-b-0">
+        <li className="py-[17.8px] border-b-[1px] last:border-b-0">
             <LinkTo href={OrgInvoiceAccountShowPageRoute.path(organizationId, id)}>
                 <div className="flex items-center justify-between">
                     <InvoiceAccountProfile invoiceAccount={invoiceAccount} />
