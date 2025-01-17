@@ -6,10 +6,14 @@ import {orgIdParamState} from '^atoms/common';
 import {OrgCreditCardNewPageRoute} from '^pages/orgs/[id]/creditCards/new';
 import {CardAutoCreateModal, CardCreateMethod, CardCreateMethodModal} from '^clients/private/_modals/credit-cards';
 import {QuickButton} from './QuickButton';
+import {useDashboardCreditCardsSectionResultDto} from '^models/_dashboard/hook';
 
 export const AddCreditCardButton = memo(function AddCreditCardButton() {
     const orgId = useRecoilValue(orgIdParamState);
     const router = useRouter();
+
+    const {refetch} = useDashboardCreditCardsSectionResultDto(orgId);
+
     const [isCardCreateMethodModalOpen, setIsCardCreateMethodModalOpen] = useState(false);
     const [isCardAutoCreateModalOpen, setIsCardAutoCreateModalOpen] = useState(false);
 
@@ -47,6 +51,7 @@ export const AddCreditCardButton = memo(function AddCreditCardButton() {
                 }}
                 onCreate={() => {
                     setIsCardAutoCreateModalOpen(false);
+                    refetch();
                 }}
             />
         </>

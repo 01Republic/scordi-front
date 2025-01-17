@@ -1,20 +1,71 @@
-import React, {memo} from 'react';
+import React, {memo, useState} from 'react';
+import {useRouter} from 'next/router';
+import {GoCreditCard} from 'react-icons/go';
 import {useRecoilValue} from 'recoil';
+import {useDashboardCreditCardsSectionResultDto} from '^models/_dashboard/hook';
 import {orgIdParamState} from '^atoms/common';
 import {currencyFormat} from '^utils/number';
-import {useDashboardCreditCardsSectionResultDto} from '^models/_dashboard/hook';
-import {DashboardSectionLayout} from '^clients/private/orgs/home/OrgDashboardPage/DashboardSectionLayout';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
+import {OrgCreditCardNewPageRoute} from '^pages/orgs/[id]/creditCards/new';
+import {CardAutoCreateModal, CardCreateMethod, CardCreateMethodModal} from '^clients/private/_modals/credit-cards';
 import {LinkTo} from '^components/util/LinkTo';
-import {PaymentMethodEmptySection} from './PaymentMethodEmptySection';
 import {PaymentMethodItem} from './PaymentMethodItem';
+import {EmptyTableLayout} from '../EmptyTableLayout';
+import {DashboardSectionLayout} from '../DashboardSectionLayout';
 
 export const PaymentMethodsSection = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);
-    const {data: dashboardCreditCardsSectionResult, isLoading} = useDashboardCreditCardsSectionResultDto(orgId);
+    const router = useRouter();
+
+    const {
+        data: dashboardCreditCardsSectionResult,
+        isLoading,
+        refetch,
+    } = useDashboardCreditCardsSectionResultDto(orgId);
     const {items = [], total} = dashboardCreditCardsSectionResult || {};
 
-    if (items.length === 0) return <PaymentMethodEmptySection />;
+    const [isCardCreateMethodModalOpen, setIsCardCreateMethodModalOpen] = useState(false);
+    const [isCardAutoCreateModalOpen, setIsCardAutoCreateModalOpen] = useState(false);
+
+    if (items.length === 0) {
+        return (
+            <>
+                <EmptyTableLayout
+                    title="결제수단"
+                    Icon={() => <GoCreditCard />}
+                    onClick={() => setIsCardCreateMethodModalOpen(true)}
+                />
+
+                {/* 결제수단 등록 > 등록 방법 선택 */}
+                <CardCreateMethodModal
+                    isOpened={isCardCreateMethodModalOpen}
+                    onClose={() => setIsCardCreateMethodModalOpen(false)}
+                    onSelect={(createMethod) => {
+                        switch (createMethod) {
+                            case CardCreateMethod.Auto:
+                                return setIsCardAutoCreateModalOpen(true);
+                            case CardCreateMethod.Manual:
+                            default:
+                                setIsCardAutoCreateModalOpen(false);
+                                return router.push(OrgCreditCardNewPageRoute.path(orgId));
+                        }
+                    }}
+                />
+
+                {/* 결제수단 등록 > 자동 등록 */}
+                <CardAutoCreateModal
+                    isOpened={isCardAutoCreateModalOpen}
+                    onClose={() => {
+                        setIsCardAutoCreateModalOpen(false);
+                    }}
+                    onCreate={() => {
+                        setIsCardAutoCreateModalOpen(false);
+                        refetch();
+                    }}
+                />
+            </>
+        );
+    }
 
     return (
         <DashboardSectionLayout
