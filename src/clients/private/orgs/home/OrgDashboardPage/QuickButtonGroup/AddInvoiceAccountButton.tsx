@@ -11,9 +11,11 @@ import {
     InvoiceAccountCreateMethodModal,
 } from '^clients/private/_modals/invoice-accounts';
 import {QuickButton} from './QuickButton';
+import {useDashboardInvoiceAccountsSectionResult} from '^models/_dashboard/hook';
 
 export const AddInvoiceAccountButton = memo(function AddInvoiceAccountButton() {
     const orgId = useRecoilValue(orgIdParamState);
+    const {refetch} = useDashboardInvoiceAccountsSectionResult(orgId);
     const [isInvoiceCreateModalOpened, setIsInvoiceCreateModalOpened] = useState(false);
     const [isInvoiceCreateAutoModalOpened, setIsInvoiceCreateAutoModalOpened] = useState(false);
 
@@ -36,7 +38,7 @@ export const AddInvoiceAccountButton = memo(function AddInvoiceAccountButton() {
                             return setIsInvoiceCreateAutoModalOpened(true);
                         case InvoiceAccountCreateMethod.Manual:
                         default:
-                            swalHTML(<InvoiceAccountCreateInManualSwalForm orgId={orgId} onSave={() => null} />);
+                            swalHTML(<InvoiceAccountCreateInManualSwalForm orgId={orgId} onSave={() => refetch()} />);
                             return;
                     }
                 }}
@@ -47,6 +49,7 @@ export const AddInvoiceAccountButton = memo(function AddInvoiceAccountButton() {
                 onClose={() => setIsInvoiceCreateAutoModalOpened(false)}
                 onCreate={() => {
                     toast.success('불러온 청구서 메일을 추가했어요.');
+                    refetch();
                     setIsInvoiceCreateAutoModalOpened(false);
                 }}
                 onRetry={() => setIsInvoiceCreateAutoModalOpened(true)}
