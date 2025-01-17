@@ -26,6 +26,8 @@ export const OrgDashboardPage = () => {
                         {/* 청구서 메일 */}
                         <InvoiceAccountsSection />
                     </div>
+
+                    {/* 올 해의 구독 현황 */}
                     <YearlySection />
                 </div>
             </MainContainer>

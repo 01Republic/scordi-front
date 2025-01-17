@@ -1,14 +1,35 @@
 import {TypeCast} from '^types/utils/class-transformer';
 import {SubscriptionDto} from '^models/Subscription/types';
 
-export class DashboardSummaryYearMonthlySubscriptionSpendDto {
-    year: number;
-    month: number;
-    amount: number;
+export class YearMonthQueryDto {
+    year: number; // 연
+    month?: number; // 월
+}
 
+// 대시보드 / 올해의 구독 현황 섹션 응답결과 - 구독 단위 월 합계
+export class DashboardSummaryYearMonthlySubscriptionSpendDto {
+    organizationId: number; // 조직 ID
+    year: number; // 년
+    month: number; // 월
+    subscriptionId: number; // 구독 ID
+    amount: number; // 합계 금액
+
+    // 구독 목록
     @TypeCast(() => SubscriptionDto) subscription: SubscriptionDto;
 }
 
+// 대시보드 / 올해의 구독 현황 섹션 응답결과 - 구독 단위 연 합계
+export class DashboardSummaryYearlySubscriptionSpendDto {
+    organizationId: number; // 조직 ID
+    year: number; // 년
+    subscriptionId: number; // 구독 ID
+    amount: number; // 합계 금액
+
+    // 구독 목록
+    @TypeCast(() => SubscriptionDto) subscription: SubscriptionDto;
+}
+
+// 대시보드 / 올해의 구독 현황 섹션 응답결과 - 월 종합 데이터
 export class DashboardSummaryYearMonthlyDataDto {
     organizationId: number; // 조직 ID
     year: number; // 년
@@ -16,10 +37,12 @@ export class DashboardSummaryYearMonthlyDataDto {
     amount: number; // 합계 금액
     serviceCount: number; // 서비스 갯수
 
+    // 구독 단위 월 지출 목록
     @TypeCast(() => DashboardSummaryYearMonthlySubscriptionSpendDto)
     subscriptionSpends: DashboardSummaryYearMonthlySubscriptionSpendDto[] = [];
 }
 
+// 대시보드 / 올해의 구독 현황 섹션 응답결과 - 월 종합
 export class DashboardSummaryYearMonthlyItemDto {
     organizationId: number; // 조직 ID
     year: number; // 년
@@ -46,6 +69,6 @@ export class DashboardSummaryYearMonthlyResultDto {
     @TypeCast(() => DashboardSummaryYearMonthlyItemDto)
     items: DashboardSummaryYearMonthlyItemDto[];
 
-    @TypeCast(() => DashboardSummaryYearMonthlySubscriptionSpendDto)
-    subscriptionSpends: Omit<DashboardSummaryYearMonthlySubscriptionSpendDto, 'month'>[] = [];
+    @TypeCast(() => DashboardSummaryYearlySubscriptionSpendDto)
+    subscriptionSpends: DashboardSummaryYearlySubscriptionSpendDto[] = [];
 }
