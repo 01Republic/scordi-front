@@ -17,7 +17,7 @@ export const DashboardSectionLayout = memo((props: DashboardLayoutProps) => {
 
     return (
         <section
-            className={`w-full flex flex-col justify-start gap-5 border rounded-3xl bg-white p-6 max-h-[850px] overflow-hidden px-4 ${className}`}
+            className={`w-full flex flex-col justify-start gap-5 border rounded-3xl bg-white p-6 px-7 overflow-hidden ${className}`}
         >
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -37,7 +37,15 @@ export const DashboardSectionLayout = memo((props: DashboardLayoutProps) => {
             </div>
 
             <LoadableBox isLoading={isLoading} loadingType={2} noPadding spinnerPos="center">
-                <div>{children}</div>
+                <div
+                    className="max-h-[800px] overflow-hidden  overflow-y-scroll"
+                    style={{
+                        scrollbarWidth: 'none',
+                        msOverflowStyle: 'none',
+                    }}
+                >
+                    {children}
+                </div>
             </LoadableBox>
         </section>
     );

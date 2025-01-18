@@ -15,7 +15,7 @@ export const PaymentMethodItem = memo((props: PaymentMethodItemProps) => {
     const {creditCard, organizationId, payAmountSum = 0, payAmountCode, id} = item;
 
     return (
-        <li className="px-4 py-4 border-b-[1px] last:border-b-0">
+        <li className="py-4 border-b-[1px] last:border-b-0">
             <LinkTo href={OrgCreditCardShowPageRoute.path(organizationId, id)}>
                 <div className="flex items-center justify-between">
                     <CreditCardProfileOption2 item={creditCard} />
