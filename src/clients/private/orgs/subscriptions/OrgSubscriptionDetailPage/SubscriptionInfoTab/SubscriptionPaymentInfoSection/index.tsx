@@ -10,7 +10,7 @@ import {
     PayingTypeSelect,
     PayingTypeTag,
 } from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
-import {intlDateLong} from '^utils/dateTime';
+import {intlDateLong, yyyy_mm_dd} from '^utils/dateTime';
 import {subscriptionApi} from '^models/Subscription/api';
 import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
@@ -159,7 +159,8 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                             endDate: form.watch('startAt') || subscription.startAt || null,
                                         }}
                                         onChange={(newValue) => {
-                                            form.setValue('startAt', newValue?.startDate);
+                                            newValue?.startDate &&
+                                                form.setValue('startAt', new Date(yyyy_mm_dd(newValue?.startDate)));
                                         }}
                                     />
                                 ) : (
@@ -180,7 +181,10 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                             startDate: form.watch('finishAt') || subscription.finishAt || null,
                                             endDate: form.watch('finishAt') || subscription.finishAt || null,
                                         }}
-                                        onChange={(newValue) => form.setValue('finishAt', newValue?.startDate)}
+                                        onChange={(newValue) => {
+                                            newValue?.startDate &&
+                                                form.setValue('finishAt', new Date(yyyy_mm_dd(newValue?.startDate)));
+                                        }}
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
@@ -194,7 +198,6 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                 {isEditMode ? (
                                     <div className={'mb-[-40px]'}>
                                         <InputSection className="max-w-lg">
-                                            {/* TODO 여기 컴포넌트들 수정해도 되는지 확인 필요 */}
                                             <div className="grid grid-cols-8 gap-2">
                                                 <div className="col-span-4">
                                                     <RecurringAmount
