@@ -3,7 +3,7 @@ import React, {memo, useEffect, useState} from 'react';
 import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
-import {UpsertVendorManagerRequestDto, VendorManagerDto} from '^models/vendor/VendorManager/type';
+import {VendorManagerDto} from '^models/vendor/VendorManager/type';
 import {VendorCompanySelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PartnerCompanySelect/VendorCompanySelectModal';
 import {VendorManagerSelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PartnerCompanySelect/VendorManagerSelectModal';
 import {subscriptionApi} from '^models/Subscription/api';

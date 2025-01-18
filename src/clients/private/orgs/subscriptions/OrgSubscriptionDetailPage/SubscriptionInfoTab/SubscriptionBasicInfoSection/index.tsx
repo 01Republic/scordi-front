@@ -1,23 +1,13 @@
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
-import {SelectTeam} from '^clients/private/orgs/team/team-members/OrgTeamMemberNewPage/SelectTeam';
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
-import {
-    subscriptionSubjectAtom,
-    useCurrentSubscription,
-} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {subscriptionApi} from '^models/Subscription/api';
 import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {toast} from 'react-hot-toast';
-import {TeamMemberTag} from '^clients/private/orgs/team/teams/OrgTeamDetailPage/Members/TeamMemberTag';
 import {TeamMemberProfileCompact} from '^models/TeamMember/components/TeamMemberProfile';
-import {TeamMemberDto, useTeamMembersInSubscriptionShowModal} from '^models/TeamMember';
-import {TeamTag} from '^models/Team/components/TeamTag';
-import {useRecoilState, useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
-import {TeamDto} from '^models/Team/type';
-import SubscriptionTeamList from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/SubscriptionTeamList';
+import SubscriptionTeamList from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionBasicInfoSection/SubscriptionTeamList';
 
 export const SubscriptionBasicInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();

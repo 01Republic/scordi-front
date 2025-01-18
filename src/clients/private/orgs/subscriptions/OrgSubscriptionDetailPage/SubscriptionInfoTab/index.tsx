@@ -1,13 +1,13 @@
 import React, {memo} from 'react';
-import {SubscriptionPaymentInfoSection} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/sections/SubscriptionPaymentInfoSection';
-import {StatusCard} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/StatusCard';
+import {SubscriptionPaymentInfoSection} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection';
+import {StatusCard} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/StatusCard';
 import {FaRegCreditCard} from 'react-icons/fa6';
-import {SubscriptionBasicInfoSection} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/sections/SubscriptionBasicInfoSection';
+import {SubscriptionBasicInfoSection} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionBasicInfoSection';
 import {IoMdCalendar} from 'react-icons/io';
 import {BsCash, BsFolderFill} from 'react-icons/bs';
 import {useRecoilValue} from 'recoil';
 import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
-import {SubscriptionBusinessInfoSection} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/sections/SubscriptionBusinessInfoSection';
+import {SubscriptionBusinessInfoSection} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionBusinessInfoSection';
 
 export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
     const subscription = useRecoilValue(subscriptionSubjectAtom);

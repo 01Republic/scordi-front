@@ -2,10 +2,10 @@ import {ListTable, ListTableContainer} from '^clients/private/_components/table/
 import React, {memo, useEffect} from 'react';
 import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {useRecoilValue} from 'recoil';
-import {SubscriptionBillingHistoriesTableHeader} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/SubscriptionBillingHistoriesTableHeader';
-import {SubscriptionBillingHistoriesTableRow} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/SubscriptionBillingHistoriesTableRow';
-import {PaymentScopeHandler} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/PaymentScopeHandler';
-import {AddPaymentHistoryDropdown} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/AddPaymentHistoryDropdown';
+import {SubscriptionBillingHistoriesTableHeader} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionPaymentTab/SubscriptionBillingHistoriesTableHeader';
+import {SubscriptionBillingHistoriesTableRow} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionPaymentTab/SubscriptionBillingHistoriesTableRow';
+import {PaymentScopeHandler} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionPaymentTab/PaymentScopeHandler';
+import {AddPaymentHistoryDropdown} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionPaymentTab/AddPaymentHistoryDropdown';
 import {useAppBillingHistoriesInSubscriptionDetail} from '^models/BillingHistory/hook';
 
 export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {

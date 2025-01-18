@@ -5,19 +5,14 @@ import React, {memo, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import Datepicker from 'react-tailwindcss-datepicker';
 import {BillingCycleTypeTagUI} from '^models/Subscription/components/BillingCycleTypeTagUI';
+import {t_SubscriptionBillingCycleTiny} from '^models/Subscription/types/BillingCycleOptions';
 import {
-    SubscriptionBillingCycleTypeValues,
-    t_SubscriptionBillingCycleTiny,
-} from '^models/Subscription/types/BillingCycleOptions';
-import {
-    IsFreeTierColumn,
     PayingTypeSelect,
     PayingTypeTag,
 } from '^v3/V3OrgAppsPage/SubscriptionListSection/SubscriptionTable/SubscriptionTr/columns';
 import {intlDateLong} from '^utils/dateTime';
 import {subscriptionApi} from '^models/Subscription/api';
 import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
-import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {IsFreeTierTagUI, PayMethodSelect} from '^models/Subscription/components';
 import {toast} from 'react-hot-toast';
@@ -30,9 +25,9 @@ import {CreditCardProfileCompact} from '^models/CreditCard/components';
 import {InvoiceAccountProfile} from '^models/InvoiceAccount/components';
 import {InvoiceAccountSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/InvoiceAccountSelect';
 import {CurrencyCode} from '^models/Money';
-import {FreeTierSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/selects/FreeTireSelect';
-import {BillingCycleSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/components/selects/BillingCycleTypeSelect';
-import {SubscriptionSeatDto, UpdateSubscriptionSeatRequestDto} from '^models/SubscriptionSeat/type';
+import {FreeTierSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/FreeTireSelect';
+import {BillingCycleSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/BillingCycleTypeSelect';
+import {UpdateSubscriptionSeatRequestDto} from '^models/SubscriptionSeat/type';
 
 export const SubscriptionPaymentInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
@@ -73,7 +68,6 @@ export const SubscriptionPaymentInfoSection = memo(() => {
     };
 
     const destroySeats = async (count: number) => {
-        // TODO: 멤버가 지정되지 않은 시트만 골라 삭제하는 로직 추가
         const seatsToRemove = (subscription.subscriptionSeats || [])
             .filter((seat) => !seat.teamMemberId)
             .slice(0, Math.abs(count));
