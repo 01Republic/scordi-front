@@ -3,7 +3,7 @@ import {ListTable, ListTableContainer} from '^clients/private/_components/table/
 import React, {memo, useEffect, useState} from 'react';
 import {RiUser3Fill, RiUserFollowFill, RiUserForbidFill, RiUserUnfollowFill} from 'react-icons/ri';
 import {useRecoilValue} from 'recoil';
-import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {orgIdParamState} from '^atoms/common';
 import {TeamMemberInSubscriptionTableRow} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/TeamMemberInSubscriptionTableRow';
 import {TeamMemberInSubscriptionTableHeader} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/TeamMemberInSubscriptionTableHeader';
@@ -17,7 +17,7 @@ import {SubscriptionSeatDto} from '^models/SubscriptionSeat/type';
 
 export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     const orgId = useRecoilValue(orgIdParamState);
-    const subscription = useRecoilValue(subscriptionSubjectAtom);
+    const {currentSubscription: subscription, reload: reloadSubscription} = useCurrentSubscription();
     const {search, result, isLoading, isEmptyResult, isNotLoaded, movePage, changePageSize, reload, orderBy} =
         useSubscriptionSeatsInMemberTab();
     const [isOpened, setIsOpened] = useState(false);
@@ -31,7 +31,10 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     };
 
     const onPageReload = () => {
-        reload().then((res) => setOriginSeats(res));
+        reload().then((res) => {
+            setOriginSeats(res);
+        });
+        reloadSubscription();
     };
 
     const getUsingCount = () => {
