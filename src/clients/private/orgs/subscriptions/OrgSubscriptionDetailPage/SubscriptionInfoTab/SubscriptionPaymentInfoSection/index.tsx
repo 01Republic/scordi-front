@@ -93,7 +93,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
             toast.error('구매수량이 멤버 수보다 적을 수 없어요.');
             setUpdateSeatCount(0);
         } else {
-            setUpdateSeatCount(value - seatWithTeamMemberCount);
+            setUpdateSeatCount(value - (subscription.subscriptionSeats?.length || 0));
         }
     };
 
