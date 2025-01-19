@@ -166,6 +166,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                 {isEditMode ? (
                                     <input
                                         className="input border-gray-200 bg-gray-100 w-full flex flex-col justify-center"
+                                        type={'number'}
                                         value={phone}
                                         onChange={(e) => {
                                             const newPhone = e.target.value;
