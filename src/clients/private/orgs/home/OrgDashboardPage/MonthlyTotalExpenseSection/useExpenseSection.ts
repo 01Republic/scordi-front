@@ -7,11 +7,18 @@ import {orgIdParamState} from '^atoms/common';
 
 export const useExpenseSection = () => {
     const orgId = useRecoilValue(orgIdParamState);
-    const [selectedTeam, setTeam] = useState<TeamDto>();
-    const [currentStatusTab, setCurrentStatusTab] = useState<BillingHistoryStatus>(BillingHistoryStatus.PayWait);
+    const [selectedTeam, _setTeam] = useState<TeamDto>();
+    const [currentStatusTab, setCurrentStatusTab] = useState(BillingHistoryStatus.PayWait);
 
     const {data: teams, isLoading: isTeamLoading} = useTeamListInDashboardExpenseSection(orgId);
     const {data: summary, isLoading: isSummaryLoading} = useDashboardSummarySection(orgId, {teamId: selectedTeam?.id});
+
+    const setTeam = (team: TeamDto) => {
+        _setTeam(team);
+        changeTab(BillingHistoryStatus.PayWait);
+    };
+
+    const changeTab = setCurrentStatusTab;
 
     return {
         summary,
@@ -19,7 +26,7 @@ export const useExpenseSection = () => {
         setTeam,
         teams,
         currentStatusTab,
-        changeTab: setCurrentStatusTab,
+        changeTab,
         isLoading: isTeamLoading || isSummaryLoading,
     };
 };
