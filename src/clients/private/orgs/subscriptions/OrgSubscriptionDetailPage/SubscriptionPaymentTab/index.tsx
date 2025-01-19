@@ -1,21 +1,21 @@
-import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import React, {memo, useEffect} from 'react';
-import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {useRecoilValue} from 'recoil';
-import {SubscriptionBillingHistoriesTableHeader} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionPaymentTab/SubscriptionBillingHistoriesTableHeader';
-import {SubscriptionBillingHistoriesTableRow} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionPaymentTab/SubscriptionBillingHistoriesTableRow';
-import {PaymentScopeHandler} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionPaymentTab/PaymentScopeHandler';
-import {AddPaymentHistoryDropdown} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionPaymentTab/AddPaymentHistoryDropdown';
 import {useAppBillingHistoriesInSubscriptionDetail} from '^models/BillingHistory/hook';
+import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {SubscriptionBillingHistoriesTableHeader} from './SubscriptionBillingHistoriesTableHeader';
+import {SubscriptionBillingHistoriesTableRow} from './SubscriptionBillingHistoriesTableRow';
+import {PaymentScopeHandler} from './PaymentScopeHandler';
+import {AddPaymentHistoryDropdown} from './AddPaymentHistoryDropdown';
 
 export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
     const subscription = useRecoilValue(subscriptionSubjectAtom);
     const {result, reload, isLoading, movePage, changePageSize, isNotLoaded, search} =
         useAppBillingHistoriesInSubscriptionDetail();
 
-    if (!subscription) return null;
-
     const onReady = () => {
+        if (!subscription) return;
+
         search({
             where: {
                 subscriptionId: subscription.id,
@@ -25,8 +25,10 @@ export const SubscriptionPaymentTab = memo(function SubscriptionPaymentTab() {
     };
 
     useEffect(() => {
-        onReady();
-    }, []);
+        if (subscription) onReady();
+    }, [subscription]);
+
+    if (!subscription) return <></>;
 
     return (
         <div className={'py-4 space-y-4'}>

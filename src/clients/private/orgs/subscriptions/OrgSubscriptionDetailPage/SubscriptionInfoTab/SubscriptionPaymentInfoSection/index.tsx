@@ -71,7 +71,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
         const seatsToRemove = (subscription.subscriptionSeats || [])
             .filter((seat) => !seat.teamMemberId)
             .slice(0, Math.abs(count));
-        await Promise.all(
+        await Promise.allSettled(
             seatsToRemove.map((seat) =>
                 subscriptionApi.seatsApi.destroy(subscription.organizationId, subscription.id, seat.id),
             ),
@@ -79,7 +79,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
     };
 
     const createSeats = async (count: number) => {
-        await Promise.all(
+        await Promise.allSettled(
             Array.from({length: count}).map(() =>
                 subscriptionApi.seatsApi.create(subscription.organizationId, subscription.id, {
                     subscriptionId: subscription.id,
@@ -93,7 +93,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
             toast.error('구매수량이 멤버 수보다 적을 수 없어요.');
             setUpdateSeatCount(0);
         } else {
-            setUpdateSeatCount(value - (subscription.subscriptionSeats?.length || 0));
+            setUpdateSeatCount(value - prevSeatCount);
         }
     };
 
@@ -210,13 +210,11 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                                 <div className="col-span-4">
                                                     <CurrencySelect
                                                         defaultValue={subscription.currentBillingAmount?.code}
-                                                        onChange={
-                                                            (currency) =>
-                                                                form.setValue(
-                                                                    'currentBillingAmount.currency',
-                                                                    currency as CurrencyCode,
-                                                                )
-                                                            // TODO: USD 아닌 통화로 바꾸면 500 에러남
+                                                        onChange={(currency) =>
+                                                            form.setValue(
+                                                                'currentBillingAmount.currency',
+                                                                currency as CurrencyCode,
+                                                            )
                                                         }
                                                     />
                                                 </div>
