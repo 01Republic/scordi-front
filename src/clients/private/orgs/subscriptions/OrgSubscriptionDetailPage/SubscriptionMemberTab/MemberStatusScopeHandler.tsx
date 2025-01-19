@@ -1,18 +1,23 @@
 import React, {memo, useState} from 'react';
 import {SubscriptionUsingStatus} from '^models/Subscription/types';
+import {useSubscriptionSeatsInMemberTab} from '^models/SubscriptionSeat/hook/useSubscriptionSeats';
 import {ScopeButton} from '^clients/private/_components/rest-pages/ListPage/ScopeButton';
 
-interface MemberStatusScopeHandlerProps {
-    onSearch: (status: SubscriptionUsingStatus | null) => any;
-}
-
-export const MemberStatusScopeHandler = memo(function InviteStatusScopeHandler(props: MemberStatusScopeHandlerProps) {
-    const {onSearch} = props;
+export const MemberStatusScopeHandler = memo(function InviteStatusScopeHandler() {
     const [memberStatus, setMemberStatus] = useState<SubscriptionUsingStatus | null>(null);
+    const {search} = useSubscriptionSeatsInMemberTab();
 
     const handleClick = (status: SubscriptionUsingStatus | null) => {
         setMemberStatus(status);
-        onSearch(status);
+        let query = {};
+        if (status === SubscriptionUsingStatus.PAID) query = {isPaid: true};
+        if (status === SubscriptionUsingStatus.FREE) query = {isPaid: false};
+        if (status === SubscriptionUsingStatus.NONE) query = {finishAt: 'NULL'};
+        if (status === SubscriptionUsingStatus.QUIT) query = {finishAt: {op: 'not', val: 'NULL'}};
+        search({
+            order: {id: 'DESC'},
+            where: query,
+        });
     };
 
     return (

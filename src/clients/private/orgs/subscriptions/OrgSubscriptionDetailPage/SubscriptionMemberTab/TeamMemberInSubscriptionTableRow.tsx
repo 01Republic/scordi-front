@@ -116,7 +116,7 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
             <td className={` ${hoverBgColor} ${loadingStyle}`}>
                 <Datepicker
                     inputClassName="input px-1.5 py-1 rounded-md w-auto input-sm input-ghost h-[32px] leading-[32px] inline-flex items-center focus:bg-slate-100 focus:outline-1 focus:outline-offset-0 text-gray-400"
-                    toggleClassName={`${seat.finishAt ? '' : 'hidden'}`}
+                    toggleClassName={`${seat.startAt ? '' : 'hidden'}`}
                     toggleIcon={() => <FiMinusCircle />}
                     asSingle={true}
                     useRange={false}
@@ -127,7 +127,8 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
                     }}
                     onChange={async (newValue) => {
                         if (seat.startAt === newValue?.startDate) return;
-                        return update({startAt: newValue?.startDate});
+                        const updateDate = newValue?.startDate && new Date(yyyy_mm_dd(newValue.startDate));
+                        return update({startAt: updateDate});
                     }}
                 />
             </td>
@@ -147,7 +148,8 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
                     }}
                     onChange={async (newValue) => {
                         if (seat.finishAt === newValue?.startDate) return;
-                        return update({finishAt: newValue?.startDate});
+                        const updateDate = newValue?.startDate && new Date(yyyy_mm_dd(newValue.startDate));
+                        return update({finishAt: updateDate});
                     }}
                 />
             </td>

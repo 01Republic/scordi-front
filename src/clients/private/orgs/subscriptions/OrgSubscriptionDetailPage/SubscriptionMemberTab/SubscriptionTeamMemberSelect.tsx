@@ -27,7 +27,6 @@ interface SubscriptionTeamMemberSelectModalProps {
 export const SubscriptionTeamMemberSelectModal = memo(function TeamMemberSelect(
     props: SubscriptionTeamMemberSelectModalProps,
 ) {
-    // const {search, reload} = useTeamMemberListInCreateSubscription();
     const [isCreateMethodModalOpened, setCreateMethodModalOpened] = useState(false);
     const [isCreateAutoModalOpened, setCreateAutoModalOpened] = useState(false);
     const [isCreateManualModalOpened, setCreateManualModalOpened] = useState(false);
@@ -46,7 +45,7 @@ export const SubscriptionTeamMemberSelectModal = memo(function TeamMemberSelect(
             remove(teamMember);
         });
 
-        Promise.all(promises)
+        Promise.allSettled(promises)
             .then(() => {
                 toast.success('구성원을 추가했어요.');
                 props.onClose();
