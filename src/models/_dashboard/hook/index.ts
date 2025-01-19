@@ -1,10 +1,11 @@
 import {FromToQueryDto} from '^types/billing.type';
 import {useQuery} from '@tanstack/react-query';
 import {dashboardApi} from '^models/_dashboard/api';
-import {firstDayOfMonth, getToday} from '^utils/dateTime';
+import {firstDayOfMonth, getToday, monthAfter} from '^utils/dateTime';
 import {FindAllSubscriptionsQuery} from '^models/Subscription/types';
 import {subscriptionApi} from '^models/Subscription/api';
 import {teamApi} from '^models/Team/api';
+import {GetSummaryOfSubscriptionSpendsQueryDto} from '^models/_dashboard/type';
 
 //대시보드 - 이달의 지출 총액 섹션에서 팀 목록 불러오기
 export const useTeamListInDashboardExpenseSection = (orgId: number) => {
@@ -37,6 +38,18 @@ export const useSubscriptionListInDashboardExpenseSection = (orgId: number, para
     return useQuery({
         queryKey: ['subscriptionList', orgId],
         queryFn: () => subscriptionApi.index(params).then((res) => res.data),
+        enabled: !!orgId || !isNaN(orgId),
+    });
+};
+
+//대시보드 - 이달의 지출 총액 섹션
+export const useDashboardSummarySection = (orgId: number, params: GetSummaryOfSubscriptionSpendsQueryDto) => {
+    params.startDate ||= firstDayOfMonth();
+    params.endDate ||= monthAfter(1, params.startDate);
+
+    return useQuery({
+        queryKey: ['subscriptionList', orgId, params],
+        queryFn: () => dashboardApi.summary(orgId, params).then((res) => res.data),
         enabled: !!orgId || !isNaN(orgId),
     });
 };

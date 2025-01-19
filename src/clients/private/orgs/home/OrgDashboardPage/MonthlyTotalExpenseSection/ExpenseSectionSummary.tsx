@@ -1,32 +1,20 @@
 import {memo} from 'react';
-import {currencyFormat} from '^utils/number';
-import {SubscriptionManager} from '^models/Subscription/manager';
-import {SubscriptionDto} from '^models/Subscription/types';
-import {useRecoilValue} from 'recoil';
-import {displayCurrencyAtom} from '^tasting/pageAtoms';
+import {currencyFormat, roundNumber, unitFormat} from '^utils/number';
+import {SummaryOfState} from '^types/dashboard.type';
 
 interface ExpenseSectionSummaryProps {
-    subscriptions: SubscriptionDto[];
+    summaryOfState?: SummaryOfState;
 }
 
 export const ExpenseSectionSummary = memo((props: ExpenseSectionSummaryProps) => {
-    const displayCurrency = useRecoilValue(displayCurrencyAtom);
-    const {subscriptions} = props;
-
-    const summaryTargetSubscriptions = [
-        ...SubscriptionManager.init(subscriptions).pending().list,
-        ...SubscriptionManager.init(subscriptions).success().list,
-    ];
-
-    const totalPrice = summaryTargetSubscriptions.reduce(
-        (total, subscription) => total + (subscription.currentBillingAmount?.toDisplayPrice(displayCurrency) || 0),
-        0,
-    );
+    const {summaryOfState} = props;
 
     return (
-        <p className="font-bold text-28">{`${currencyFormat(
-            totalPrice,
-        )} · ${summaryTargetSubscriptions.length.toLocaleString()}건`}</p>
+        <p className="font-bold text-28 flex items-center gap-3">
+            <span>{currencyFormat(roundNumber(summaryOfState?.amount || 0))}</span>
+            <span>·</span>
+            <span>{unitFormat(summaryOfState?.count || 0, '건')}</span>
+        </p>
     );
 });
 ExpenseSectionSummary.displayName = 'ExpenseSectionSummary';

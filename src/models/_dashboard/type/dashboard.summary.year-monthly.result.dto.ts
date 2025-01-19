@@ -6,6 +6,16 @@ export class YearMonthQueryDto {
     month?: number; // 월
 }
 
+// 임의 기간에 대한 구독 단위 합계
+export class DashboardSummarySubscriptionSpendDto {
+    @TypeCast(() => Number) organizationId: number; // 조직 ID
+    @TypeCast(() => Number) subscriptionId: number; // 구독 ID
+    @TypeCast(() => Number) amount: number; // 합계 금액
+
+    // 구독 목록
+    @TypeCast(() => SubscriptionDto) subscription: SubscriptionDto;
+}
+
 // 대시보드 / 올해의 구독 현황 섹션 응답결과 - 구독 단위 월 합계
 export class DashboardSummaryYearMonthlySubscriptionSpendDto {
     organizationId: number; // 조직 ID

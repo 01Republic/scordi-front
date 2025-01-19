@@ -1,23 +1,33 @@
 import React from 'react';
 import cn from 'classnames';
 import {Avatar} from '^components/Avatar';
-import {SubscriptionDto} from '^models/Subscription/types';
-import {currencyFormat} from '^utils/number';
-import {useRecoilValue} from 'recoil';
-import {displayCurrencyAtom} from '^tasting/pageAtoms';
+import {currencyFormat, roundNumber} from '^utils/number';
 import {BillingHistoryStatus, t_billingHistoryStatusForDashboard} from '^models/BillingHistory/type';
+import {SummaryOfBillingHistoriesDto} from '^types/dashboard.type';
 
 interface ExpenseSubscriptionProps {
+    summary?: SummaryOfBillingHistoriesDto;
     currentStatusTab?: BillingHistoryStatus;
-    subscriptions: SubscriptionDto[];
 }
 
 export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
-    const {subscriptions, currentStatusTab = BillingHistoryStatus.PayWait} = props;
-    const displayCurrency = useRecoilValue(displayCurrencyAtom);
+    const {summary, currentStatusTab = BillingHistoryStatus.PayWait} = props;
+    const summaryOfState = (() => {
+        switch (currentStatusTab) {
+            case BillingHistoryStatus.PayWait:
+                return summary?.pending;
+            case BillingHistoryStatus.PaySuccess:
+                return summary?.success;
+            case BillingHistoryStatus.PayFail:
+                return summary?.failure;
+            default:
+                return undefined;
+        }
+    })();
+    const subscriptionSpends = summaryOfState?.subscriptionSpends || [];
 
     // 로딩이 아직 안되었거나, 결과가 없는 경우
-    if (subscriptions.length === 0) {
+    if (subscriptionSpends.length === 0) {
         return (
             <div
                 className={cn('w-full rounded-2xl flex items-center justify-center bg-white border py-10', {
@@ -39,23 +49,23 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
                 'bg-red-100': currentStatusTab === BillingHistoryStatus.PayFail,
             })}
         >
-            {subscriptions.map((subscription) => (
+            {subscriptionSpends.map((spend) => (
                 <div
-                    key={subscription.id}
+                    key={spend.subscription.id}
                     className="w-full bg-white px-5 py-4 flex items-center justify-between rounded-xl"
+                    onClick={() => console.log(spend)}
                 >
                     <div className="flex items-center gap-3">
-                        <Avatar src={subscription.product.image} className="w-5 h-5" draggable={false} loading="lazy" />
-                        <p>{subscription.product.nameKo}</p>
+                        <Avatar
+                            src={spend.subscription.product.image}
+                            className="w-5 h-5"
+                            draggable={false}
+                            loading="lazy"
+                        />
+                        <p>{spend.subscription.product.name()}</p>
                     </div>
 
-                    <p>
-                        {currencyFormat(
-                            subscription.currentBillingAmount
-                                ? subscription.currentBillingAmount.toDisplayPrice(displayCurrency)
-                                : 0,
-                        )}
-                    </p>
+                    <p>{currencyFormat(roundNumber(spend.amount))}</p>
                 </div>
             ))}
         </div>

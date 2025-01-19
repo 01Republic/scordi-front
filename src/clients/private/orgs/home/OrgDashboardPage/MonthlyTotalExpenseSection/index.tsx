@@ -6,31 +6,17 @@ import {ExpenseStatusTabs} from './ExpenseStatusTabs';
 import {ExpenseSectionSummary} from './ExpenseSectionSummary';
 
 export const MonthlyTotalExpenseSection = () => {
-    const {
-        selectedTeam,
-        setTeam,
-        teams,
-        currentStatusTab,
-        currentTabSubscriptions,
-        changeTab,
-        subscriptions,
-        isLoading,
-    } = useExpenseSection();
+    const {summary, selectedTeam, setTeam, teams, currentStatusTab, changeTab, isLoading} = useExpenseSection();
 
     return (
         <DashboardSectionLayout title="이달의 지출 총액" isLoading={isLoading}>
             <section className="w-full flex flex-col gap-10">
                 <TeamScopeButtonGroup teams={teams?.items || []} selectedTeam={selectedTeam} onSelect={setTeam} />
 
-                <ExpenseSectionSummary subscriptions={subscriptions} />
+                <ExpenseSectionSummary summaryOfState={summary?.total} />
 
-                <ExpenseStatusTabs
-                    subscriptions={subscriptions}
-                    currentStatusTab={currentStatusTab}
-                    onChange={changeTab}
-                />
-
-                <ExpenseStatusTabContent currentStatusTab={currentStatusTab} subscriptions={currentTabSubscriptions} />
+                <ExpenseStatusTabs summary={summary} currentStatusTab={currentStatusTab} onChange={changeTab} />
+                <ExpenseStatusTabContent summary={summary} currentStatusTab={currentStatusTab} />
             </section>
         </DashboardSectionLayout>
     );

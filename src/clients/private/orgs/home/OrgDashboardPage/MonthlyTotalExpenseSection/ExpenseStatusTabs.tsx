@@ -3,15 +3,16 @@ import {SubscriptionDto} from '^models/Subscription/types';
 import {SubscriptionManager} from '^models/Subscription/manager';
 import {BillingHistoryStatus} from '^models/BillingHistory/type';
 import {ExpenseStatusTab} from './ExpenseStatusTab';
+import {SummaryOfBillingHistoriesDto, SummaryOfState} from '^types/dashboard.type';
 
 interface ExpenseStatusProps {
-    subscriptions: SubscriptionDto[];
+    summary?: SummaryOfBillingHistoriesDto;
     currentStatusTab?: BillingHistoryStatus;
-    onChange: (tab: BillingHistoryStatus, subscriptions: SubscriptionDto[]) => any;
+    onChange: (tab: BillingHistoryStatus, summaryData: SummaryOfState) => any;
 }
 
 export const ExpenseStatusTabs = memo((props: ExpenseStatusProps) => {
-    const {subscriptions, currentStatusTab = BillingHistoryStatus.PayWait, onChange} = props;
+    const {summary, currentStatusTab = BillingHistoryStatus.PayWait, onChange} = props;
 
     return (
         <div className="w-full grid grid-cols-3 gap-5">
@@ -19,7 +20,7 @@ export const ExpenseStatusTabs = memo((props: ExpenseStatusProps) => {
                 status={BillingHistoryStatus.PayWait}
                 currentStatus={currentStatusTab}
                 onClick={onChange}
-                subscriptions={SubscriptionManager.init(subscriptions).pending().list}
+                summaryData={summary?.pending}
                 activeBorderColorClass="border-orange-400"
                 activeTextColorClass="text-orange-400"
                 activeBgColorClass="bg-orange-100"
@@ -29,11 +30,7 @@ export const ExpenseStatusTabs = memo((props: ExpenseStatusProps) => {
                 status={BillingHistoryStatus.PaySuccess}
                 currentStatus={currentStatusTab}
                 onClick={onChange}
-                subscriptions={[
-                    ...SubscriptionManager.init(subscriptions).success().list,
-                    // ...SubscriptionManager.init(subscriptions).free().list,
-                    // ...SubscriptionManager.init(subscriptions).none().list,
-                ]}
+                summaryData={summary?.success}
                 activeBorderColorClass="border-gray-400"
                 activeTextColorClass="text-gray-400"
                 activeBgColorClass="bg-gray-100"
@@ -43,7 +40,7 @@ export const ExpenseStatusTabs = memo((props: ExpenseStatusProps) => {
                 status={BillingHistoryStatus.PayFail}
                 currentStatus={currentStatusTab}
                 onClick={onChange}
-                subscriptions={SubscriptionManager.init(subscriptions).failed().list}
+                summaryData={summary?.failure}
                 activeBorderColorClass="border-red-400"
                 activeTextColorClass="text-red-400"
                 activeBgColorClass="bg-red-100"
