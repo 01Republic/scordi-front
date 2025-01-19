@@ -12,7 +12,7 @@ export const useTeamListInDashboardExpenseSection = (orgId: number) => {
     return useQuery({
         queryKey: ['teamList', orgId],
         queryFn: () => teamApi.index(orgId).then((res) => res.data),
-        enabled: !!orgId || !isNaN(orgId),
+        enabled: !!orgId && !isNaN(orgId),
     });
 };
 
@@ -28,7 +28,7 @@ export const useTeamSubscriptionListInDashboardExpenseSection = (
         queryFn: () => {
             return teamApi.subscriptions.index(orgId, teamId, params).then((res) => res.data);
         },
-        enabled: (!!orgId && !!teamId) || (!isNaN(orgId) && !!teamId),
+        enabled: !!orgId && !isNaN(orgId) && !!teamId,
     });
 };
 
@@ -38,7 +38,7 @@ export const useSubscriptionListInDashboardExpenseSection = (orgId: number, para
     return useQuery({
         queryKey: ['subscriptionList', orgId],
         queryFn: () => subscriptionApi.index(params).then((res) => res.data),
-        enabled: !!orgId || !isNaN(orgId),
+        enabled: !!orgId && !isNaN(orgId),
     });
 };
 
@@ -50,7 +50,7 @@ export const useDashboardSummarySection = (orgId: number, params: GetSummaryOfSu
     return useQuery({
         queryKey: ['subscriptionList', orgId, params],
         queryFn: () => dashboardApi.summary(orgId, params).then((res) => res.data),
-        enabled: !!orgId || !isNaN(orgId),
+        enabled: !!orgId && !isNaN(orgId),
     });
 };
 
@@ -64,7 +64,7 @@ export const useDashboardCreditCardsSectionResultDto = (orgId: number, params?: 
     return useQuery({
         queryKey: ['CreditCardsResult', orgId, params],
         queryFn: () => dashboardApi.creditCardsSection(orgId, params || defaultParams).then((res) => res.data),
-        enabled: !!orgId || !isNaN(orgId),
+        enabled: !!orgId && !isNaN(orgId),
     });
 };
 
@@ -78,7 +78,7 @@ export const useDashboardInvoiceAccountsSectionResult = (orgId: number, params?:
     return useQuery({
         queryKey: ['invoiceAccountsResult', orgId, params],
         queryFn: () => dashboardApi.invoiceAccountsSection(orgId, params || defaultParams).then((res) => res.data),
-        enabled: !!orgId || !isNaN(orgId),
+        enabled: !!orgId && !isNaN(orgId),
     });
 };
 
@@ -87,6 +87,6 @@ export const useDashboardSummaryYearMonthlyResult = (orgId: number, year: number
     return useQuery({
         queryKey: ['summaryYearMonthlyResult', orgId, year],
         queryFn: () => dashboardApi.summaryYearMonthly(orgId, year).then((res) => res.data),
-        enabled: !!orgId || !isNaN(orgId),
+        enabled: !!orgId && !isNaN(orgId),
     });
 };
