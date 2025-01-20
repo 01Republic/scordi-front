@@ -49,6 +49,13 @@ export class SubscriptionManager extends BasicManager<SubscriptionDto> {
         });
     }
 
+    // 무관 구독
+    none() {
+        return this.filter((item) => {
+            return item.status === SubscriptionStatus.NONE;
+        });
+    }
+
     // 일시정지된 구독
     paused() {
         return this.filter((item) => {

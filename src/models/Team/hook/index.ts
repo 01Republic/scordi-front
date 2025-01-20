@@ -1,7 +1,6 @@
-import {useEffect, useState} from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {toast} from 'react-hot-toast';
-import {orgIdParamState, teamIdParamState} from '^atoms/common';
+import {orgIdParamState} from '^atoms/common';
 import {PagedResourceAtoms, usePagedResource} from '^hooks/usePagedResource';
 import {teamApi} from '../api';
 import {FindAllTeamQueryDto, TeamDto, UpdateTeamDto} from '../type';

@@ -1,6 +1,6 @@
 import {memo, useEffect} from 'react';
 import {FaPlus} from 'react-icons/fa6';
-import {AppUnit} from '^clients/private/orgs/OrgMainPage/AppUnit';
+import {AppUnit} from '^clients/private/orgs/home/OrgMainPage/AppUnit';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {IoIosMore} from 'react-icons/io';

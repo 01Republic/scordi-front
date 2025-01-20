@@ -26,7 +26,8 @@ import {MembershipLevel} from 'src/models/Membership/types';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {v3CommonRequires} from '^types/utils/18n.type';
-import {OrgMainPage} from '^clients/private/orgs/OrgMainPage';
+// import {OrgMainPage} from '^clients/private/orgs/home/OrgMainPage';
+import {OrgDashboardPage} from 'src/clients/private/orgs/home/OrgDashboardPage';
 
 export const OrgMainPageRoute = pathRoute({
     pathname: '/orgs/[id]',
@@ -51,7 +52,7 @@ export default function Page() {
 
     if (!orgId || isNaN(orgId)) return <></>;
 
-    return <OrgMainPage />;
+    return <OrgDashboardPage />;
 }
 
 /**
