@@ -4,7 +4,7 @@ import {GoCreditCard} from 'react-icons/go';
 import {useRecoilValue} from 'recoil';
 import {useDashboardCreditCardsSectionResultDto} from '^models/_dashboard/hook';
 import {orgIdParamState} from '^atoms/common';
-import {currencyFormat} from '^utils/number';
+import {currencyFormat, unitFormat} from '^utils/number';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 import {OrgCreditCardNewPageRoute} from '^pages/orgs/[id]/creditCards/new';
 import {CardAutoCreateModal, CardCreateMethod, CardCreateMethodModal} from '^clients/private/_modals/credit-cards';
@@ -70,7 +70,7 @@ export const PaymentMethodsSection = memo(() => {
     return (
         <DashboardSectionLayout
             title="결제수단"
-            subTitle={currencyFormat(total?.payAmountSum || 0)}
+            subTitle={`총 ${unitFormat(total?.totalItemCount || 0, '개')}`}
             isLoading={isLoading}
         >
             <div className="min-h-[250px] flex flex-col justify-between">
