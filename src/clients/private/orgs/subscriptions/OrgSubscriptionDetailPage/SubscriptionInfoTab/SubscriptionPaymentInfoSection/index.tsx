@@ -154,6 +154,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                         inputClassName="input border-gray-200 bg-gray-100 w-full"
                                         asSingle={true}
                                         useRange={false}
+                                        startFrom={form.watch('startAt') || subscription.startAt || null}
                                         value={{
                                             startDate: form.watch('startAt') || subscription.startAt || null,
                                             endDate: form.watch('startAt') || subscription.startAt || null,
@@ -177,6 +178,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                         inputClassName="input border-gray-200 bg-gray-100 w-full"
                                         asSingle={true}
                                         useRange={false}
+                                        startFrom={form.watch('finishAt') || subscription.finishAt || null}
                                         value={{
                                             startDate: form.watch('finishAt') || subscription.finishAt || null,
                                             endDate: form.watch('finishAt') || subscription.finishAt || null,
