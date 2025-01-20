@@ -171,3 +171,12 @@ export const {paginatedListHook: useSubscriptionList} = makePaginatedListHookWit
     }),
     request: (_, params) => subscriptionApi.index(params),
 });
+
+export const useWorkspaceSubscriptionCount = (orgId: number) => {
+    return useQuery({
+        queryKey: ['workspaceSubscriptionCount', orgId],
+        queryFn: () => subscriptionApi.index({where: {organizationId: orgId}}).then((res) => res.data),
+        enabled: !!orgId && !isNaN(orgId),
+        initialData: Paginated.init(),
+    });
+};

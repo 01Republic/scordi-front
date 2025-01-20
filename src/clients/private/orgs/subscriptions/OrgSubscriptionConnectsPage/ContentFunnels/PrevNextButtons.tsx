@@ -8,15 +8,19 @@ import {createSubscriptionFormData, currentStepAtom, finishedProductMapAtom} fro
 import {Steps} from './steps';
 import {useCurrentConnectingProduct} from './useCurrentConnectingProduct';
 import {OrgMainPageRoute} from '^pages/orgs/[id]';
+import {useWorkspaceSubscriptionCount} from '^models/Subscription/hook';
+import {orgIdParamState} from '^atoms/common';
 
 export const PrevNextButtons = memo(function PrevNextButtons() {
     const router = useRouter();
+    const orgId = useRecoilValue(orgIdParamState);
     const formData = useRecoilValue(createSubscriptionFormData);
     const clearFormData = useResetRecoilState(createSubscriptionFormData);
     const [teamMembers, setTeamMembers] = useRecoilState(selectedTeamMembersAtom);
     const [currentStep, setStep] = useRecoilState(currentStepAtom);
     const {currentConnectingProduct, finishProduct} = useCurrentConnectingProduct();
     const resetFinishedProductMap = useResetRecoilState(finishedProductMapAtom);
+    const {refetch} = useWorkspaceSubscriptionCount(orgId);
 
     //currentConnectingProduct?.id === product.id
 
@@ -133,7 +137,10 @@ export const PrevNextButtons = memo(function PrevNextButtons() {
             return (
                 <StepButtons
                     onPrev={() => setStep(prev)}
-                    onNext={() => createSubscription()}
+                    onNext={() => {
+                        createSubscription();
+                        refetch();
+                    }}
                     isValid={true}
                     nextButtonText="등록 완료"
                 />
