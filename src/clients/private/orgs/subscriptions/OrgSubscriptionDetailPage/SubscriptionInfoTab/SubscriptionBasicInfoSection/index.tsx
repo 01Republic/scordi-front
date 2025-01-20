@@ -14,14 +14,13 @@ export const SubscriptionBasicInfoSection = memo(() => {
     const [isEditMode, setIsEditMode] = useState(false);
     const {reload, currentSubscription: subscription} = useCurrentSubscription();
 
-    if (!subscription) return null;
-
     const onSubmit = (dto: UpdateSubscriptionRequestDto) => {
-        subscriptionApi.update(subscription.id, dto).then(() => {
-            toast.success('변경사항을 저장했어요.');
-            setIsEditMode(false);
-            reload();
-        });
+        !!subscription &&
+            subscriptionApi.update(subscription.id, dto).then(() => {
+                toast.success('변경사항을 저장했어요.');
+                setIsEditMode(false);
+                reload();
+            });
     };
 
     return (

@@ -32,8 +32,6 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
     const [isLoading, setIsLoading] = useState(false);
     const {seat, onClick, reload} = props;
 
-    if (!seat.teamMember || !subscription) return null;
-
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
     const loadingStyle = isLoading ? 'opacity-50 pointer-events-none' : '';
 
@@ -43,14 +41,17 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
 
     const update = async (dto: UpdateSubscriptionSeatRequestDto) => {
         setIsLoading(true);
-        return subscriptionApi.seatsApi
-            .update(orgId, subscription.id, seat.id, dto)
-            .then(() => toast.success('변경사항을 저장했어요.'))
-            .catch(errorToast)
-            .finally(() => {
-                setIsLoading(false);
-                reload && reload();
-            });
+        return (
+            !!subscription &&
+            subscriptionApi.seatsApi
+                .update(orgId, subscription.id, seat.id, dto)
+                .then(() => toast.success('변경사항을 저장했어요.'))
+                .catch(errorToast)
+                .finally(() => {
+                    setIsLoading(false);
+                    reload && reload();
+                })
+        );
     };
 
     const usingStatus = seat.isPaid ? SubscriptionUsingStatus.PAID : SubscriptionUsingStatus.FREE;
@@ -68,11 +69,12 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
         ).then((res) => {
             if (res.isConfirmed) {
                 setIsLoading(true);
-                subscriptionApi.seatsApi.destroy(orgId, subscription.id, seat.id).then(() => {
-                    toast.success('삭제했습니다');
-                    setIsLoading(false);
-                    reload && reload();
-                });
+                !!subscription &&
+                    subscriptionApi.seatsApi.destroy(orgId, subscription.id, seat.id).then(() => {
+                        toast.success('삭제했습니다');
+                        setIsLoading(false);
+                        reload && reload();
+                    });
             }
         });
     };

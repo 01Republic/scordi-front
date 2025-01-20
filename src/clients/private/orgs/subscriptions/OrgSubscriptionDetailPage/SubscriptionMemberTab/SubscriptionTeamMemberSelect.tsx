@@ -37,11 +37,9 @@ export const SubscriptionTeamMemberSelectModal = memo(function TeamMemberSelect(
     const subscription = useRecoilValue(subscriptionSubjectAtom);
     const {search, reload, result} = useSubscriptionSeatsInMemberTab();
 
-    if (!orgId || !subscription) return null;
-
     const handleUpdate = () => {
         const promises = list.map((teamMember) => {
-            subscriptionApi.seatsApi.create(orgId, subscription.id, {teamMemberId: teamMember.id});
+            !!subscription && subscriptionApi.seatsApi.create(orgId, subscription.id, {teamMemberId: teamMember.id});
             remove(teamMember);
         });
 

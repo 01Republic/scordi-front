@@ -25,18 +25,17 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
     const orgId = useRecoilValue(orgIdParamState);
     const teamId = useRecoilValue(teamIdParamState);
 
-    if (!teamMember) return null;
-
-    const showPagePath = OrgTeamMemberShowPageRoute.path(teamMember.organizationId, teamMember.id);
-
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
 
     const update = debounce((dto: UpdateTeamMemberDto) => {
-        return teamMemberApi
-            .update(orgId, teamMember.id, {notes: dto.notes})
-            .then(() => toast.success('변경사항을 저장했어요.'))
-            .then(() => reload && reload())
-            .catch(errorToast);
+        return (
+            !!teamMember &&
+            teamMemberApi
+                .update(orgId, teamMember.id, {notes: dto.notes})
+                .then(() => toast.success('변경사항을 저장했어요.'))
+                .then(() => reload && reload())
+                .catch(errorToast)
+        );
     }, 250);
 
     const onDelete = () => {
@@ -54,17 +53,21 @@ export const TeamMembersTableRow = memo((props: TeamMemberTableRowProps) => {
         };
 
         confirmed(deleteConfirm())
-            .then(() => teamMembershipApi.destroy(orgId, {teamId: teamId, teamMemberId: teamMember.id}))
+            .then(() => {
+                !!teamMember && teamMembershipApi.destroy(orgId, {teamId: teamId, teamMemberId: teamMember.id});
+            })
             .then(() => toast.success('삭제했습니다'))
             .then(() => reload && reload())
             .catch(errorToast);
     };
 
+    if (!teamMember) return <></>;
+
     return (
         <tr className="group">
             {/* 이름 */}
             <td className={hoverBgColor} onClick={() => onClick && onClick(teamMember)}>
-                <OpenButtonColumn href={showPagePath}>
+                <OpenButtonColumn href={OrgTeamMemberShowPageRoute.path(teamMember.organizationId, teamMember.id)}>
                     <div
                         className={`flex items-center gap-2 px-3 -mx-3 text-gray-700 group-hover:text-scordi max-w-sm`}
                     >
