@@ -80,7 +80,7 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
     return (
         <tr className="group">
             {/* 이름 */}
-            <td className={`${hoverBgColor} ${loadingStyle}`}>
+            <td className={`${hoverBgColor} ${loadingStyle} min-w-52`}>
                 <OpenButtonColumn href={showPagePath}>
                     <div
                         className={`flex items-center gap-2 px-3 -mx-3 text-gray-700 group-hover:text-scordi max-w-sm`}
@@ -116,6 +116,9 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
             <td className={` ${hoverBgColor} ${loadingStyle}`}>
                 <Datepicker
                     inputClassName="input px-1.5 py-1 rounded-md w-auto input-sm input-ghost h-[32px] leading-[32px] inline-flex items-center focus:bg-slate-100 focus:outline-1 focus:outline-offset-0 text-gray-400"
+                    popupClassName={
+                        'transition-all ease-out duration-300 fixed z-10 mt-[1px] text-sm lg:text-xs 2xl:text-sm mb-2.5 mt-2.5 block translate-y-0 opacity-1 hidden ml-[-148px]'
+                    }
                     toggleClassName={`${seat.startAt ? '' : 'hidden'}`}
                     toggleIcon={() => <FiMinusCircle />}
                     asSingle={true}
@@ -137,6 +140,9 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
             <td className={` ${hoverBgColor} ${loadingStyle}`}>
                 <Datepicker
                     inputClassName="input px-1.5 py-1 rounded-md w-auto input-sm input-ghost h-[32px] leading-[32px] inline-flex items-center focus:bg-slate-100 focus:outline-1 focus:outline-offset-0 text-gray-400"
+                    popupClassName={
+                        'transition-all ease-out duration-300 fixed z-10 mt-[1px] text-sm lg:text-xs 2xl:text-sm mb-2.5 mt-2.5 block translate-y-0 opacity-1 hidden ml-[-148px]'
+                    }
                     toggleClassName={`${seat.finishAt ? '' : 'hidden'}`}
                     toggleIcon={() => <FiMinusCircle />}
                     asSingle={true}
