@@ -13,7 +13,7 @@ export const useExpenseSection = () => {
     const {data: teams, isLoading: isTeamLoading} = useTeamListInDashboardExpenseSection(orgId);
     const {data: summary, isLoading: isSummaryLoading} = useDashboardSummarySection(orgId, {teamId: selectedTeam?.id});
 
-    const setTeam = (team: TeamDto) => {
+    const setTeam = (team?: TeamDto) => {
         _setTeam(team);
         changeTab(BillingHistoryStatus.PayWait);
     };
