@@ -24,8 +24,6 @@ export const SubscriptionBusinessInfoSection = memo(() => {
     const [email, setEmail] = useState<string>('');
     const [phone, setPhone] = useState<string>('');
 
-    if (!subscription) return null;
-
     const onCompanyChange = (vendorCompany?: VendorCompanyDto) => {
         setSelectedCompany(vendorCompany);
         form.setValue('vendorContract.vendorCompanyId', vendorCompany?.id);
@@ -52,19 +50,22 @@ export const SubscriptionBusinessInfoSection = memo(() => {
 
     const onSubmit = (data: UpdateSubscriptionRequestDto) => {
         // 연결된 매니저 변경 시
-        const updateManagerPromise = selectedManager
-            ? vendorManagerApi.update(subscription.organizationId, selectedManager.id)
-            : Promise.resolve();
+        const updateManagerPromise =
+            !!subscription && selectedManager
+                ? vendorManagerApi.update(subscription.organizationId, selectedManager.id)
+                : Promise.resolve();
 
         // 매니저 이메일, 전화번호 업데이트
-        const upsertManagerPromise = vendorManagerApi.upsert(subscription.organizationId, {
-            vendorCompanyName: selectedCompany?.name || '',
-            name: selectedManager?.name || '',
-            email,
-            phone,
-        });
+        const upsertManagerPromise =
+            !!subscription &&
+            vendorManagerApi.upsert(subscription.organizationId, {
+                vendorCompanyName: selectedCompany?.name || '',
+                name: selectedManager?.name || '',
+                email,
+                phone,
+            });
 
-        const updateSubscriptionPromise = subscriptionApi.update(subscription.id, data);
+        const updateSubscriptionPromise = !!subscription && subscriptionApi.update(subscription.id, data);
 
         Promise.all([updateManagerPromise, upsertManagerPromise, updateSubscriptionPromise]).then(() => {
             toast.success('변경사항을 저장했어요.');

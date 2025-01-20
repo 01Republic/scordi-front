@@ -18,7 +18,7 @@ export const OrgSubscriptionDetailPage = memo(() => {
     const [activeTabIndex, setActiveTabIndex] = useState(0);
     const subscription = useRecoilValue(subscriptionSubjectAtom);
 
-    if (!subscription) return null;
+    if (!subscription) return <></>;
 
     return (
         <ShowPage

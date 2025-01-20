@@ -12,10 +12,8 @@ export const SubscriptionActionPanel = memo(function SubscriptionActionPanel() {
     const {currentSubscription: subscription} = useCurrentSubscription();
     const router = useRouter();
 
-    if (!subscription) return null;
-
     const handleGoToPricingPage = () => {
-        window.open(subscription.product.pricingPageUrl, '_blank');
+        window.open(subscription?.product.pricingPageUrl, '_blank');
     };
 
     const handleRemove = async () => {
@@ -30,10 +28,11 @@ export const SubscriptionActionPanel = memo(function SubscriptionActionPanel() {
             'warning',
         ).then((res) => res.isConfirmed);
         if (!isConfirmed) return;
-        subscriptionApi.destroy(subscription?.id).then(() => {
-            toast.success('구독이 삭제되었어요.');
-            router.replace(OrgSubscriptionListPageRoute.path(subscription.organizationId));
-        });
+        !!subscription &&
+            subscriptionApi.destroy(subscription.id).then(() => {
+                toast.success('구독이 삭제되었어요.');
+                router.replace(OrgSubscriptionListPageRoute.path(subscription.organizationId));
+            });
     };
 
     const actionButtons = [
@@ -46,6 +45,8 @@ export const SubscriptionActionPanel = memo(function SubscriptionActionPanel() {
             onClick: handleRemove,
         },
     ];
+
+    if (!subscription) return <></>;
 
     return (
         <div className="flex justify-end gap-4">
