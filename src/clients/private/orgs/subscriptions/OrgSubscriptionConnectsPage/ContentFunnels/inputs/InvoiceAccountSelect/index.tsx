@@ -4,7 +4,10 @@ import {debounce} from 'lodash';
 import {toast} from 'react-hot-toast';
 import {useInvoiceAccountListInSelectModal} from '^models/InvoiceAccount/hook';
 import {InvoiceAccountDto} from '^models/InvoiceAccount/type';
-import {InvoiceAccountProfile} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
+import {
+    InvoiceAccountProfile,
+    InvoiceAccountProfileCompact,
+} from '^models/InvoiceAccount/components/InvoiceAccountProfile';
 import {MonoSelectInput} from '^components/ui/inputs/MonoSelect/MonoSelectInput';
 import {InvoiceAccountAutoCreateModal, InvoiceAccountCreateMethod} from '^clients/private/_modals/invoice-accounts';
 import {createSubscriptionFormData} from '../../atom';
@@ -16,6 +19,7 @@ import {InvoiceAccountManualCreateModal} from './InvoiceAccountManualCreateModal
 interface InvoiceAccountSelectProps {
     defaultValue?: InvoiceAccountDto;
     onSelect?: (invoiceAccount?: InvoiceAccountDto) => void;
+    isCompactMode?: boolean;
 }
 
 export const InvoiceAccountSelect = memo(function InvoiceAccountSelect(props: InvoiceAccountSelectProps) {
@@ -64,7 +68,13 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect(props: In
                         openModal={selectModal.show}
                         clearable
                         selectedOption={selectedOption || props.defaultValue}
-                        getLabel={(option) => <InvoiceAccountProfile invoiceAccount={option} />}
+                        getLabel={(option) =>
+                            props.isCompactMode ? (
+                                <InvoiceAccountProfileCompact invoiceAccount={option} />
+                            ) : (
+                                <InvoiceAccountProfile invoiceAccount={option} />
+                            )
+                        }
                         placeholder="이메일 주소 선택"
                         clearOption={() => onChange(undefined)}
                     />

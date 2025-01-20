@@ -22,7 +22,7 @@ import {
     RecurringAmount,
 } from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
-import {InvoiceAccountProfile} from '^models/InvoiceAccount/components';
+import {InvoiceAccountProfileCompact} from '^models/InvoiceAccount/components';
 import {InvoiceAccountSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/InvoiceAccountSelect';
 import {CurrencyCode} from '^models/Money';
 import {FreeTierSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/FreeTireSelect';
@@ -329,20 +329,21 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                     <div className={'mb-[-40px]'}>
                                         <InvoiceAccountSelect
                                             defaultValue={subscription.invoiceAccounts?.[0]}
+                                            isCompactMode={true}
                                             onSelect={
                                                 (invoiceAccount) =>
                                                     form.setValue('invoiceAccountId', invoiceAccount?.id)
-                                                // TODO: 업데이트치면 500 에러남
+                                                // TODO: 업데이트 치면 추가되는게 맞나?
                                             }
                                         />
                                     </div>
                                 ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
+                                    <div className="flex items-center gap-2" style={{height: '49.5px'}}>
                                         {subscription.invoiceAccounts?.length === 0 && (
                                             <i className="text-gray-400">미설정</i>
                                         )}
                                         {subscription.invoiceAccounts?.map((invoiceAccount, index) => (
-                                            <InvoiceAccountProfile key={index} invoiceAccount={invoiceAccount} />
+                                            <InvoiceAccountProfileCompact key={index} invoiceAccount={invoiceAccount} />
                                         ))}
                                     </div>
                                 )}

@@ -39,3 +39,18 @@ export const InvoiceAccountProfile = memo((props: InvoiceAccountProfileProps) =>
     );
 });
 InvoiceAccountProfile.displayName = 'InvoiceAccountProfile';
+
+export const InvoiceAccountProfileCompact = memo((props: InvoiceAccountProfileProps) => {
+    const {invoiceAccount} = props;
+
+    return (
+        <div data-id={invoiceAccount.id} className="!w-auto gap-2 flex items-center justify-center">
+            <Avatar src={invoiceAccount.image || ''} className="w-5 h-5" />
+            <div className="flex-1 gap-1">
+                <p className="leading-none font-medium text-14">{invoiceAccount.googleTokenData?.name}</p>
+                <p className="leading-none text-14">{invoiceAccount.email}</p>
+            </div>
+        </div>
+    );
+});
+InvoiceAccountProfileCompact.displayName = 'InvoiceAccountProfileCompact';
