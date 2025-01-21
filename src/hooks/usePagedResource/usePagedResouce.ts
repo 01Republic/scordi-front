@@ -83,7 +83,8 @@ export function usePagedResource<DTO, Query, Dep extends any[] = []>(
             if (useOrgId) {
                 if (!orgId || isNaN(orgId)) return;
             }
-            if (!(enabled && enabled(dependencies))) return;
+
+            // if (!(enabled && enabled(dependencies))) return;
             params = buildQuery(params, orgId);
             const request = () => {
                 __setIsLoading(true);
