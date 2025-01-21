@@ -1,13 +1,13 @@
-import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import React, {memo, useState} from 'react';
+import {toast} from 'react-hot-toast';
 import {useForm} from 'react-hook-form';
-import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
-import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {subscriptionApi} from '^models/Subscription/api';
 import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
-import {toast} from 'react-hot-toast';
 import {TeamMemberProfileCompact} from '^models/TeamMember/components/TeamMemberProfile';
-import SubscriptionTeamList from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionBasicInfoSection/SubscriptionTeamList';
+import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
+import {FormControl} from '^clients/private/_components/inputs/FormControl';
+import {useCurrentSubscription} from '../../atom';
+import SubscriptionTeamList from '../SubscriptionBasicInfoSection/SubscriptionTeamList';
 
 export const SubscriptionBasicInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();

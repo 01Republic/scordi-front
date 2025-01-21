@@ -1,17 +1,17 @@
 import React, {memo, useState} from 'react';
-import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
-import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
-import {Avatar} from '^components/Avatar';
-import {FaRegCreditCard} from 'react-icons/fa6';
-import {SubscriptionActionPanel} from './SubscriptionActionPanel';
-import {SubscriptionInfoTab} from './SubscriptionInfoTab';
-import {SubscriptionPaymentTab} from './SubscriptionPaymentTab';
-import {SubscriptionMemberTab} from './SubscriptionMemberTab';
 import {useRecoilValue} from 'recoil';
+import {FaRegCreditCard} from 'react-icons/fa6';
 import {orgIdParamState} from '^atoms/common';
-import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {Avatar} from '^components/Avatar';
 import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
 import {SubscriptionUsingStatusTag} from '^models/Subscription/components';
+import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
+import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
+import {subscriptionSubjectAtom} from './atom';
+import {SubscriptionInfoTab} from './SubscriptionInfoTab';
+import {SubscriptionMemberTab} from './SubscriptionMemberTab';
+import {SubscriptionPaymentTab} from './SubscriptionPaymentTab';
+import {SubscriptionActionPanel} from './SubscriptionActionPanel';
 
 export const OrgSubscriptionDetailPage = memo(() => {
     const orgId = useRecoilValue(orgIdParamState);

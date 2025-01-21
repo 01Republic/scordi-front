@@ -1,15 +1,15 @@
 import React, {memo, useEffect, useState} from 'react';
-import {FaPlus} from 'react-icons/fa6';
 import {useRecoilValue} from 'recoil';
-import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
-import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {FaPlus} from 'react-icons/fa6';
 import {orgIdParamState} from '^atoms/common';
+import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
+import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {useSubscriptionSeatsInMemberTab} from '^models/SubscriptionSeat/hook/useSubscriptionSeats';
+import {MemberStatusScopeHandler} from './MemberStatusScopeHandler';
+import {MemberStatusSummarySection} from './MemberStatusSummarySection';
+import {SubscriptionTeamMemberSelectModal} from './SubscriptionTeamMemberSelect';
 import {TeamMemberInSubscriptionTableRow} from './TeamMemberInSubscriptionTableRow';
 import {TeamMemberInSubscriptionTableHeader} from './TeamMemberInSubscriptionTableHeader';
-import {MemberStatusScopeHandler} from './MemberStatusScopeHandler';
-import {SubscriptionTeamMemberSelectModal} from './SubscriptionTeamMemberSelect';
-import {MemberStatusSummarySection} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionMemberTab/MemberStatusSummarySection';
 
 export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
     const orgId = useRecoilValue(orgIdParamState);

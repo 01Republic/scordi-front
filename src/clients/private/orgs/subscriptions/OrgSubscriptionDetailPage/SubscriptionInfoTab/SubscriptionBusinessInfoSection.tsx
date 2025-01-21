@@ -1,15 +1,15 @@
-import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import React, {memo, useEffect, useState} from 'react';
-import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
+import {toast} from 'react-hot-toast';
+import {useForm} from 'react-hook-form';
+import {subscriptionApi} from '^models/Subscription/api';
+import {vendorManagerApi} from '^models/vendor/VendorManager/api';
 import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
 import {VendorManagerDto} from '^models/vendor/VendorManager/type';
+import {FormControl} from '^clients/private/_components/inputs/FormControl';
+import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {VendorCompanySelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PartnerCompanySelect/VendorCompanySelectModal';
 import {VendorManagerSelectModal} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/PartnerCompanySelect/VendorManagerSelectModal';
-import {subscriptionApi} from '^models/Subscription/api';
-import {toast} from 'react-hot-toast';
-import {useForm} from 'react-hook-form';
-import {vendorManagerApi} from '^models/vendor/VendorManager/api';
 
 export const SubscriptionBusinessInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();

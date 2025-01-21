@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {RiUser3Fill, RiUserFollowFill, RiUserForbidFill, RiUserUnfollowFill} from 'react-icons/ri';
-import {useCurrentSubscription} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
-import {StatusCard} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/StatusCard';
+import {useCurrentSubscription} from '../atom';
+import {StatusCard} from '../SubscriptionInfoTab/StatusCard';
 
 export const MemberStatusSummarySection = memo(() => {
     const {currentSubscription} = useCurrentSubscription();

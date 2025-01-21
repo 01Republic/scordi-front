@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
-import {BillingCycleOptions, SubscriptionBillingCycleTypeValues} from '^models/Subscription/types/BillingCycleOptions';
 import {BillingCycleTypeTagUI} from '^models/Subscription/components';
+import {BillingCycleOptions, SubscriptionBillingCycleTypeValues} from '^models/Subscription/types/BillingCycleOptions';
 
 interface BillingCycleSelectProps {
     billingCycle: BillingCycleOptions;

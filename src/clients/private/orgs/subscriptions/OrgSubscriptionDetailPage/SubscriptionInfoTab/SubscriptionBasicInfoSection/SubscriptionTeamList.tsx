@@ -1,10 +1,10 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {useTeamMembersInSubscriptionShowModal} from '^models/TeamMember';
 import {TeamDto} from '^models/Team/type';
 import {TeamTag} from '^models/Team/components/TeamTag';
+import {subscriptionSubjectAtom} from '../../atom';
 
 const SubscriptionTeamList = memo(function TeamList() {
     const orgId = useRecoilValue(orgIdParamState);
