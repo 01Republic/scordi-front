@@ -29,6 +29,7 @@ export interface UsePagedResourceOption<DTO, Query, Dep extends any[]> {
     getId: keyof DTO | ((dto: DTO) => any);
     useOrgId?: boolean;
     dependencies?: Dep;
+    enabled?: (dep: Dep) => boolean;
 }
 
 /**
@@ -48,6 +49,7 @@ export function usePagedResource<DTO, Query, Dep extends any[] = []>(
         getId,
         useOrgId = true,
         dependencies = [] as unknown as Dep,
+        enabled,
     } = option;
 
     const orgId = useOrgId ? useRecoilValue(orgIdParamState) : NaN;
@@ -81,6 +83,7 @@ export function usePagedResource<DTO, Query, Dep extends any[] = []>(
             if (useOrgId) {
                 if (!orgId || isNaN(orgId)) return;
             }
+            if (!(enabled && enabled(dependencies))) return;
             params = buildQuery(params, orgId);
             const request = () => {
                 __setIsLoading(true);

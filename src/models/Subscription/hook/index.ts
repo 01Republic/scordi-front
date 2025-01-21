@@ -119,7 +119,7 @@ const useInvoiceAccountSubscriptions = (
     const invoiceAccountId = useRecoilValue(invoiceAccountIdAtom);
 
     return usePagedResource(atoms, {
-        endpoint: (params) => endpoint(invoiceAccountId, params),
+        endpoint: (params, _, [id]) => endpoint(id, params),
         useOrgId: true,
         buildQuery: (params, orgId) => {
             params.where = {organizationId: orgId, ...params.where};
@@ -128,6 +128,7 @@ const useInvoiceAccountSubscriptions = (
         mergeMode,
         getId: 'id',
         dependencies: [invoiceAccountId],
+        enabled: ([id]) => !!id && !isNaN(id),
     });
 };
 
