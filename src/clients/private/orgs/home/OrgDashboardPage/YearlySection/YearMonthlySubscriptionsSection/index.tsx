@@ -21,7 +21,11 @@ export const YearMonthlySubscriptionsSection = memo((props: YearMonthlySubscript
     const {result, isLoading, monthlyItem} = props;
     const orgId = useRecoilValue(orgIdParamState);
 
-    if (monthlyItem ? monthlyItem.serviceCount === 0 : !result?.subscriptionSpends.length) {
+    console.log('result', result);
+
+    // 수정필요
+    // if (monthlyItem ? monthlyItem.serviceCount === 0 : !result?.subscriptionSpends.length) {
+    if (monthlyItem ? monthlyItem.serviceCount === 0 : !result?.willPayAmount) {
         return (
             <EmptyTableLayout
                 title="구독 리스트"
