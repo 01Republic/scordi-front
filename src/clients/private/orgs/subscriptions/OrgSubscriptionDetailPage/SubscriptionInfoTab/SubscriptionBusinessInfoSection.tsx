@@ -67,7 +67,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
 
         const updateSubscriptionPromise = !!subscription && subscriptionApi.update(subscription.id, data);
 
-        Promise.all([updateManagerPromise, upsertManagerPromise, updateSubscriptionPromise]).then(() => {
+        Promise.allSettled([updateManagerPromise, upsertManagerPromise, updateSubscriptionPromise]).then(() => {
             toast.success('변경사항을 저장했어요.');
             setIsEditMode(false);
             reload();
