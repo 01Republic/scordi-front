@@ -1,22 +1,15 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {useQuery} from '@tanstack/react-query';
-import {subscriptionApi} from '^models/Subscription/api';
 import {unitFormat} from '^utils/number';
 import {useCurrentOrg2} from '^models/Organization/hook';
+import {useWorkspaceSubscriptionCount} from '^models/Subscription/hook';
 import {WithChildren} from '^types/global.type';
-import {Paginated} from '^types/utils/paginated.dto';
 
 export const DashboardTitle = memo(function DashboardTitle() {
-    const organizationId = useRecoilValue(orgIdParamState);
+    const orgId = useRecoilValue(orgIdParamState);
     const {currentOrg} = useCurrentOrg2();
-    const {data, isFetched} = useQuery({
-        queryKey: ['DashboardTitle', organizationId],
-        queryFn: () => subscriptionApi.index({where: {organizationId}}).then((res) => res.data),
-        enabled: !!organizationId && !isNaN(organizationId),
-        initialData: Paginated.init(),
-    });
+    const {data, isFetched} = useWorkspaceSubscriptionCount(orgId);
 
     const {totalItemCount} = data.pagination;
 

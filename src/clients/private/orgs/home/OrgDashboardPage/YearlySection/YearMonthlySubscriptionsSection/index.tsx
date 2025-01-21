@@ -24,7 +24,7 @@ export const YearMonthlySubscriptionsSection = memo((props: YearMonthlySubscript
     if (monthlyItem ? monthlyItem.serviceCount === 0 : !result?.subscriptionSpends.length) {
         return (
             <EmptyTableLayout
-                title="구독"
+                title="구독 리스트"
                 Icon={HiOutlineSquaresPlus}
                 url={orgId ? OrgSubscriptionSelectPageRoute.path(orgId) : '#'}
                 className="h-full"
