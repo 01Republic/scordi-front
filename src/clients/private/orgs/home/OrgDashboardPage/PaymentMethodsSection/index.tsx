@@ -27,8 +27,6 @@ export const PaymentMethodsSection = memo(() => {
     const [isCardCreateMethodModalOpen, setIsCardCreateMethodModalOpen] = useState(false);
     const [isCardAutoCreateModalOpen, setIsCardAutoCreateModalOpen] = useState(false);
 
-    console.log(dashboardCreditCardsSectionResult);
-
     if (items.length === 0) {
         return (
             <>
