@@ -142,7 +142,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                         {form.watch('isFreeTier')}
                                     </div>
                                 ) : (
-                                    <div className="flex items-center gap-1" style={{height: '49.5px'}}>
+                                    <div className="flex items-center gap-1 min-h-12">
                                         <IsFreeTierTagUI value={subscription?.isFreeTier} />
                                     </div>
                                 )}
@@ -165,7 +165,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                         }}
                                     />
                                 ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
+                                    <div className="flex items-center min-h-12">
                                         {subscription?.startAt ? intlDateLong(subscription?.startAt) : '-'}
                                     </div>
                                 )}
@@ -189,7 +189,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                         }}
                                     />
                                 ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
+                                    <div className="flex items-center min-h-12">
                                         {subscription?.finishAt ? intlDateLong(subscription?.finishAt) : '-'}
                                     </div>
                                 )}
@@ -224,7 +224,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                         </InputSection>
                                     </div>
                                 ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
+                                    <div className="flex items-center min-h-12">
                                         {subscription?.currentBillingAmount?.symbol}
                                         {subscription?.currentBillingAmount?.amount.toLocaleString()} /{' '}
                                         {t_SubscriptionBillingCycleTiny(subscription.billingCycleType)}
@@ -248,7 +248,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                         />
                                     </div>
                                 ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
+                                    <div className="flex items-center min-h-12">
                                         <BillingCycleTypeTagUI value={subscription.billingCycleType} />
                                     </div>
                                 )}
@@ -269,7 +269,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                         />
                                     </div>
                                 ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
+                                    <div className="flex items-center min-h-12">
                                         <PayingTypeTag value={subscription.pricingModel} />
                                     </div>
                                 )}
@@ -286,9 +286,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                         onChange={(e) => handleSeats(Number(e.target.value))}
                                     />
                                 ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {prevSeatCount}
-                                    </div>
+                                    <div className="flex items-center min-h-12">{prevSeatCount}</div>
                                 )}
                                 <span />
                             </FormControl>

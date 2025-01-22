@@ -47,15 +47,13 @@ export const SubscriptionBasicInfoSection = memo(() => {
                                         {...form.register('alias')}
                                     />
                                 ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {subscription?.alias || '-'}
-                                    </div>
+                                    <div className="flex items-center min-h-12">{subscription?.alias || '-'}</div>
                                 )}
                                 <span />
                             </FormControl>
 
                             <FormControl label="소속(팀)">
-                                <div className="flex items-center gap-1" style={{height: '49.5px'}}>
+                                <div className="flex items-center gap-1 min-h-12">
                                     <SubscriptionTeamList />
                                 </div>
                             </FormControl>
@@ -72,7 +70,7 @@ export const SubscriptionBasicInfoSection = memo(() => {
                                         }}
                                     />
                                 ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
+                                    <div className="flex items-center min-h-12">
                                         {subscription?.master ? (
                                             <TeamMemberProfileCompact item={subscription?.master} />
                                         ) : (
@@ -92,9 +90,7 @@ export const SubscriptionBasicInfoSection = memo(() => {
                                         {...form.register('desc')}
                                     />
                                 ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {subscription?.desc || '-'}
-                                    </div>
+                                    <div className="flex items-center min-h-12">{subscription?.desc || '-'}</div>
                                 )}
                                 <span />
                             </FormControl>

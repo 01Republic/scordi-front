@@ -120,7 +120,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                         {selectedCompany?.name || undefined}
                                     </a>
                                 ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
+                                    <div className="flex items-center min-h-12">
                                         {vendorContract?.vendorCompany?.name || '-'}
                                     </div>
                                 )}
@@ -138,7 +138,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                         {selectedManager?.name || undefined}
                                     </a>
                                 ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
+                                    <div className="flex items-center min-h-12">
                                         {vendorContract?.vendorManager?.name || '-'}
                                     </div>
                                 )}
@@ -156,9 +156,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                         }}
                                     />
                                 ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {selectedManager?.email || '-'}
-                                    </div>
+                                    <div className="flex items-center min-h-12">{selectedManager?.email || '-'}</div>
                                 )}
                                 <span />
                             </FormControl>
@@ -175,9 +173,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                         }}
                                     />
                                 ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {selectedManager?.phone || '-'}
-                                    </div>
+                                    <div className="flex items-center min-h-12">{selectedManager?.phone || '-'}</div>
                                 )}
                                 <span />
                             </FormControl>
@@ -192,9 +188,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                         }}
                                     />
                                 ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {vendorContract?.memo || '-'}
-                                    </div>
+                                    <div className="flex items-center min-h-12">{vendorContract?.memo || '-'}</div>
                                 )}
                                 <span />
                             </FormControl>
