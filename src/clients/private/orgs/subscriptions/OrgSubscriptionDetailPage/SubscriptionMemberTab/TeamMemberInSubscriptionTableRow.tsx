@@ -37,7 +37,7 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
 
     const teamMember = seat.teamMember as TeamMemberDto;
 
-    const showPagePath = OrgTeamMemberShowPageRoute.path(orgId, teamMember.id);
+    const showPagePath = !!teamMember && OrgTeamMemberShowPageRoute.path(orgId, teamMember.id);
 
     const update = async (dto: UpdateSubscriptionSeatRequestDto) => {
         setIsLoading(true);
@@ -78,6 +78,8 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
             }
         });
     };
+
+    if (!teamMember) return <></>;
 
     return (
         <tr className="group">
