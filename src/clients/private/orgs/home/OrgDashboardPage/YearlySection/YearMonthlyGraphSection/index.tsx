@@ -42,7 +42,7 @@ export const YearMonthlyGraphSection = memo((props: YearMonthlyGraphSectionProps
     };
 
     return (
-        <DashboardSectionLayout title={`${yearName}의 구독 현황`} Buttons={PrevNextButton} isLoading={isLoading}>
+        <DashboardSectionLayout title={`${yearName}의 지출 총액`} Buttons={PrevNextButton} isLoading={isLoading}>
             <section className="w-full flex flex-col gap-10">
                 <div className="flex gap-5">
                     <section className="w-full flex flex-col gap-3 border rounded-xl p-5">
