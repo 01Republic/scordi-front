@@ -77,11 +77,7 @@ export const InvoiceAccountsSection = () => {
     }
 
     return (
-        <DashboardSectionLayout
-            title="청구서 메일"
-            subTitle={`총 ${unitFormat(total?.billingHistoryCount, '건')}`}
-            isLoading={isLoading}
-        >
+        <DashboardSectionLayout title="청구서 메일" isLoading={isLoading}>
             <div className="min-h-[250px] flex flex-col justify-between">
                 <ul>
                     {items.map((item) => (
@@ -91,7 +87,7 @@ export const InvoiceAccountsSection = () => {
 
                 <LinkTo
                     href={OrgInvoiceAccountListPageRoute.path(orgId)}
-                    text="전체보기"
+                    text={`${unitFormat(total?.totalItemCount, '개')} 전체보기`}
                     className="w-full flex items-center justify-center font-semibold text-14 text-gray-400"
                 />
             </div>
