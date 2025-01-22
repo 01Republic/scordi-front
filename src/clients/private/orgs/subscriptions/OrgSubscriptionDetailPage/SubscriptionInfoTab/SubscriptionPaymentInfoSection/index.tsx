@@ -294,59 +294,25 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                             </FormControl>
 
                             <FormControl label="결제수단">
-                                {isEditMode ? (
-                                    <div
-                                        className={
-                                            'input border-gray-200 bg-gray-100 w-full flex flex-col justify-center'
-                                        }
-                                    >
-                                        <PayMethodSelect
-                                            subscription={subscription}
-                                            onChange={(creditCard) => form.setValue('creditCardId', creditCard?.id)}
-                                            ValueComponent={(props) => {
-                                                const {value} = props;
-                                                return typeof value === 'string' ? (
-                                                    <p>{value}</p>
-                                                ) : (
-                                                    <CreditCardProfileCompact item={value} />
-                                                );
-                                            }}
-                                        />
-                                    </div>
-                                ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {/*{subscription.creditCard?.length === 0 && (*/}
-                                        {/*    <i className="text-gray-400">미설정</i>*/}
-                                        {/*)}*/}
+                                <div className="flex items-center min-h-12">
+                                    {subscription.creditCard ? (
                                         <CreditCardProfileCompact item={subscription.creditCard} />
-                                    </div>
-                                )}
+                                    ) : (
+                                        <i className="text-gray-400">미설정</i>
+                                    )}
+                                </div>
                                 <span />
                             </FormControl>
 
                             <FormControl label="청구이메일">
-                                {isEditMode ? (
-                                    <div className={'mb-[-40px]'}>
-                                        <InvoiceAccountSelect
-                                            defaultValue={subscription.invoiceAccounts?.[0]}
-                                            isCompactMode={true}
-                                            onSelect={
-                                                (invoiceAccount) =>
-                                                    form.setValue('invoiceAccountId', invoiceAccount?.id)
-                                                // TODO: 업데이트 치면 추가되는게 맞나?
-                                            }
-                                        />
-                                    </div>
-                                ) : (
-                                    <div className="flex items-center gap-2" style={{height: '49.5px'}}>
-                                        {subscription.invoiceAccounts?.length === 0 && (
-                                            <i className="text-gray-400">미설정</i>
-                                        )}
-                                        {subscription.invoiceAccounts?.map((invoiceAccount, index) => (
-                                            <InvoiceAccountProfileCompact key={index} invoiceAccount={invoiceAccount} />
-                                        ))}
-                                    </div>
-                                )}
+                                <div className="flex flex-col justify-center gap-2 min-h-12">
+                                    {subscription.invoiceAccounts?.length === 0 && (
+                                        <i className="text-gray-400">미설정</i>
+                                    )}
+                                    {subscription.invoiceAccounts?.map((invoiceAccount, index) => (
+                                        <InvoiceAccountProfileCompact key={index} invoiceAccount={invoiceAccount} />
+                                    ))}
+                                </div>
                                 <span />
                             </FormControl>
                         </div>
