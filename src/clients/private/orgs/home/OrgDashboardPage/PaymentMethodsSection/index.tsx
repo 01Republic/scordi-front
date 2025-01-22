@@ -27,6 +27,8 @@ export const PaymentMethodsSection = memo(() => {
     const [isCardCreateMethodModalOpen, setIsCardCreateMethodModalOpen] = useState(false);
     const [isCardAutoCreateModalOpen, setIsCardAutoCreateModalOpen] = useState(false);
 
+    console.log(dashboardCreditCardsSectionResult);
+
     if (items.length === 0) {
         return (
             <>
@@ -68,11 +70,7 @@ export const PaymentMethodsSection = memo(() => {
     }
 
     return (
-        <DashboardSectionLayout
-            title="결제수단"
-            subTitle={`총 ${unitFormat(total?.totalItemCount || 0, '개')}`}
-            isLoading={isLoading}
-        >
+        <DashboardSectionLayout title="결제수단" isLoading={isLoading}>
             <div className="min-h-[250px] flex flex-col justify-between">
                 <ul>
                     {items.map((item) => (
@@ -82,7 +80,7 @@ export const PaymentMethodsSection = memo(() => {
 
                 <LinkTo
                     href={OrgCreditCardListPageRoute.path(orgId)}
-                    text="전체보기"
+                    text={`${unitFormat(total?.totalItemCount || 0, '개')} 전체보기`}
                     className="w-full flex items-center justify-center font-semibold text-14 text-gray-400"
                 />
             </div>
