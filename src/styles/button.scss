@@ -329,3 +329,17 @@ $color-scale-list: (50, 100, 200, 300, 400, 500, 600, 700, 800, 900);
         @apply px-0;
     }
 }
+
+.btn-dashboard {
+    @apply flex items-center gap-2;
+    @apply px-3 py-2 rounded-lg;
+    @apply text-scordi;
+    @apply border border-scordi-light;
+    @apply transition-all cursor-pointer;
+    @apply btn-animation;
+
+    &:hover {
+        @apply border-scordi-300;
+        @apply bg-scordi-50;
+    }
+}

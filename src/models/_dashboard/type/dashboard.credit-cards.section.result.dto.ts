@@ -26,7 +26,7 @@ export class DashboardCreditCardsSectionItemDto {
     @Expose() @TypeCast(() => Number) payAmountSum: number; // 결제금액
 
     // relation
-    @Expose() @TypeCast(() => CreditCardDto) creditCard?: CreditCardDto; // 결제수단
+    @Expose() @TypeCast(() => CreditCardDto) creditCard: CreditCardDto; // 결제수단
 }
 
 /**

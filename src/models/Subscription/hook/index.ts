@@ -119,7 +119,7 @@ const useInvoiceAccountSubscriptions = (
     const invoiceAccountId = useRecoilValue(invoiceAccountIdAtom);
 
     return usePagedResource(atoms, {
-        endpoint: (params) => endpoint(invoiceAccountId, params),
+        endpoint: (params, _, [id]) => endpoint(id, params),
         useOrgId: true,
         buildQuery: (params, orgId) => {
             params.where = {organizationId: orgId, ...params.where};
@@ -128,6 +128,7 @@ const useInvoiceAccountSubscriptions = (
         mergeMode,
         getId: 'id',
         dependencies: [invoiceAccountId],
+        enabled: ([id]) => !!id && !isNaN(id),
     });
 };
 
@@ -171,3 +172,12 @@ export const {paginatedListHook: useSubscriptionList} = makePaginatedListHookWit
     }),
     request: (_, params) => subscriptionApi.index(params),
 });
+
+export const useWorkspaceSubscriptionCount = (orgId: number) => {
+    return useQuery({
+        queryKey: ['workspaceSubscriptionCount', orgId],
+        queryFn: () => subscriptionApi.index({where: {organizationId: orgId}}).then((res) => res.data),
+        enabled: !!orgId && !isNaN(orgId),
+        initialData: Paginated.init(),
+    });
+};

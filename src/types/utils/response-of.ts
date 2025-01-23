@@ -22,3 +22,5 @@ export const listDtoOf =
         res.data = plainToInstance(DtoClass, res.data);
         return res;
     };
+
+export const getPaginatedItems = <T>(pagedItem?: Paginated<T>) => pagedItem?.items || [];

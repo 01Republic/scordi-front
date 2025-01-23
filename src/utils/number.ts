@@ -6,6 +6,10 @@ export const currencyFormat = (num: number, unit = '원', format = '%n%u'): stri
     return `${format || '%n%u'}`.replace('%u', unit).replace('%n', Number(num).toLocaleString());
 };
 
+export const unitFormat = (num = 0, unit = '개', format = '%n%u'): string => {
+    return `${format || '%n%u'}`.replace('%u', unit).replace('%n', Number(num).toLocaleString());
+};
+
 // 반올림
 export const roundNumber = (num: number, pos = 0): number => {
     return Math.round(num * 10 ** pos) / 10 ** pos;

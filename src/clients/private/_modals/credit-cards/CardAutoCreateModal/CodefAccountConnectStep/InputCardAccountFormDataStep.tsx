@@ -74,7 +74,7 @@ export const InputCardAccountFormDataStep = memo((props: InputCardAccountFormDat
                 </div>
             </div>
 
-            <div className="py-4 mt-auto -mb-4">
+            <div className="py-4 mt-auto">
                 <button
                     type="submit"
                     className={`btn btn-block btn-scordi ${

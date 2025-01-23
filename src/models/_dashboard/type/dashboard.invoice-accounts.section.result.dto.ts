@@ -25,8 +25,8 @@ export class DashboardInvoiceAccountsSectionItemDto {
     @Expose() @TypeCast(() => Number) billingHistoryCount: number; // 결제 건수
 
     // relation
-    @Expose() @TypeCast(() => InvoiceAccountDto) invoiceAccount?: InvoiceAccountDto; // 청구서계정
-    @Expose() @TypeCast(() => ProductDto) product?: ProductDto; // 대표 서비스
+    @Expose() @TypeCast(() => InvoiceAccountDto) invoiceAccount: InvoiceAccountDto; // 청구서계정
+    @Expose() @TypeCast(() => ProductDto) product: ProductDto | null; // 대표 서비스 (결제건수가 0건인 경우, 제시할 서비스가 없으므로 null 로 표기)
 }
 
 /**
