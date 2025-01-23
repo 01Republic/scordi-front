@@ -1,11 +1,16 @@
 import {FromToQueryDto} from '^types/billing.type';
 import {useQuery} from '@tanstack/react-query';
 import {dashboardApi} from '^models/_dashboard/api';
-import {firstDayOfMonth, getToday, monthAfter} from '^utils/dateTime';
+import {firstDayOfMonth, firstDayOfYear, getToday, lastDayOfYear, monthAfter} from '^utils/dateTime';
 import {FindAllSubscriptionsQuery} from '^models/Subscription/types';
 import {subscriptionApi} from '^models/Subscription/api';
 import {teamApi} from '^models/Team/api';
-import {GetSummaryOfSubscriptionSpendsQueryDto} from '^models/_dashboard/type';
+import {
+    DashboardInvoiceAccountsSectionQueryDto,
+    FindAllSubscriptionSpendsQueryDto,
+    GetSummaryOfSubscriptionSpendsQueryDto,
+} from '^models/_dashboard/type';
+import {Paginated} from '^types/utils/paginated.dto';
 
 //대시보드 - 이달의 지출 총액 섹션에서 팀 목록 불러오기
 export const useTeamListInDashboardExpenseSection = (orgId: number) => {
@@ -69,16 +74,12 @@ export const useDashboardCreditCardsSectionResultDto = (orgId: number, params?: 
 };
 
 //대시보드 - 청구서 계정 섹션
-export const useDashboardInvoiceAccountsSectionResult = (orgId: number, params?: FromToQueryDto) => {
-    const defaultParams: FromToQueryDto = {
-        from: firstDayOfMonth(),
-        to: getToday(),
-    };
-
+export const useDashboardInvoiceAccountsSection = (orgId: number, params: DashboardInvoiceAccountsSectionQueryDto) => {
     return useQuery({
-        queryKey: ['invoiceAccountsResult', orgId, params],
-        queryFn: () => dashboardApi.invoiceAccountsSection(orgId, params || defaultParams).then((res) => res.data),
+        queryKey: ['useDashboardInvoiceAccountsSection', orgId, params],
+        queryFn: () => dashboardApi.invoiceAccountsSection(orgId, params).then((res) => res.data),
         enabled: !!orgId && !isNaN(orgId),
+        initialData: Paginated.init(),
     });
 };
 
@@ -88,5 +89,15 @@ export const useDashboardSummaryYearMonthlyResult = (orgId: number, year: number
         queryKey: ['summaryYearMonthlyResult', orgId, year],
         queryFn: () => dashboardApi.summaryYearMonthly(orgId, year).then((res) => res.data),
         enabled: !!orgId && !isNaN(orgId),
+    });
+};
+
+// 대시보드 - 올해의 구독 현황 / 구독 섹션 데이터 조회
+export const useDashboardSubscriptionSpends = (orgId: number, params: FindAllSubscriptionSpendsQueryDto) => {
+    return useQuery({
+        queryKey: ['useDashboardSubscriptionSpends', orgId, params],
+        queryFn: () => dashboardApi.subscriptionSpends(orgId, params).then((res) => res.data),
+        enabled: !!orgId && !isNaN(orgId),
+        initialData: Paginated.init(),
     });
 };

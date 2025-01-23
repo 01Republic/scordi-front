@@ -1,11 +1,14 @@
 import {api} from '^api/api';
 import {FromToQueryDto} from '^types/billing.type';
-import {oneDtoOf} from '^types/utils/response-of';
+import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {
     GetSummaryOfSubscriptionSpendsQueryDto,
     DashboardSummaryYearMonthlyResultDto,
     DashboardCreditCardsSectionResultDto,
-    DashboardInvoiceAccountsSectionResultDto,
+    DashboardSummarySubscriptionSpendDto,
+    FindAllSubscriptionSpendsQueryDto,
+    DashboardInvoiceAccountsSectionItemDto,
+    DashboardInvoiceAccountsSectionQueryDto,
 } from '^models/_dashboard/type';
 import {SummaryOfBillingHistoriesDto} from '^types/dashboard.type';
 
@@ -35,9 +38,14 @@ export const dashboardApi = {
     },
 
     // 청구서계정 섹션 데이터 조회
-    invoiceAccountsSection(orgId: number, params: FromToQueryDto) {
+    invoiceAccountsSection(orgId: number, params: DashboardInvoiceAccountsSectionQueryDto) {
         const url = `/dashboard/${orgId}/sections/invoice-accounts`;
-        const ResultDto = DashboardInvoiceAccountsSectionResultDto;
-        return api.get<DashboardInvoiceAccountsSectionResultDto>(url, {params}).then(oneDtoOf(ResultDto));
+        return api.get(url, {params}).then(paginatedDtoOf(DashboardInvoiceAccountsSectionItemDto));
+    },
+
+    // 올해의 구독 현황 / 구독 섹션 데이터 조회
+    subscriptionSpends(orgId: number, params: FindAllSubscriptionSpendsQueryDto) {
+        const url = `/dashboard/${orgId}/sections/subscription-spends`;
+        return api.get(url, {params}).then(paginatedDtoOf(DashboardSummarySubscriptionSpendDto));
     },
 };
