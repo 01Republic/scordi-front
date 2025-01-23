@@ -12,10 +12,20 @@ interface ExpenseStatusProps {
 }
 
 export const ExpenseStatusTabs = memo((props: ExpenseStatusProps) => {
-    const {summary, currentStatusTab = BillingHistoryStatus.PayWait, onChange} = props;
+    const {summary, currentStatusTab = BillingHistoryStatus.PaySuccess, onChange} = props;
 
     return (
         <div className="w-full grid grid-cols-3 gap-5">
+            <ExpenseStatusTab
+                status={BillingHistoryStatus.PaySuccess}
+                currentStatus={currentStatusTab}
+                onClick={onChange}
+                summaryData={summary?.success}
+                activeBorderColorClass="border-emerald-400"
+                activeTextColorClass="text-emerald-400"
+                activeBgColorClass="bg-emerald-100"
+            />
+
             <ExpenseStatusTab
                 status={BillingHistoryStatus.PayWait}
                 currentStatus={currentStatusTab}
@@ -24,16 +34,6 @@ export const ExpenseStatusTabs = memo((props: ExpenseStatusProps) => {
                 activeBorderColorClass="border-orange-400"
                 activeTextColorClass="text-orange-400"
                 activeBgColorClass="bg-orange-100"
-            />
-
-            <ExpenseStatusTab
-                status={BillingHistoryStatus.PaySuccess}
-                currentStatus={currentStatusTab}
-                onClick={onChange}
-                summaryData={summary?.success}
-                activeBorderColorClass="border-gray-400"
-                activeTextColorClass="text-gray-400"
-                activeBgColorClass="bg-gray-100"
             />
 
             <ExpenseStatusTab

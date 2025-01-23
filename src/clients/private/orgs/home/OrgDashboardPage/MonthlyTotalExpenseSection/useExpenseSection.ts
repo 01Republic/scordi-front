@@ -8,7 +8,7 @@ import {orgIdParamState} from '^atoms/common';
 export const useExpenseSection = () => {
     const orgId = useRecoilValue(orgIdParamState);
     const [selectedTeam, _setTeam] = useState<TeamDto>();
-    const [currentStatusTab, setCurrentStatusTab] = useState(BillingHistoryStatus.PayWait);
+    const [currentStatusTab, setCurrentStatusTab] = useState(BillingHistoryStatus.PaySuccess);
 
     const {data: teams, isLoading: isTeamLoading} = useTeamListInDashboardExpenseSection(orgId);
     const {data: summary, isLoading: isSummaryLoading} = useDashboardSummarySection(orgId, {teamId: selectedTeam?.id});
