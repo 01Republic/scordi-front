@@ -84,25 +84,11 @@ export function usePagedResource<DTO, Query, Dep extends any[] = []>(
                 if (!orgId || isNaN(orgId)) return;
             }
 
-            console.log('dependencies', dependencies);
-            if (enabled) {
-                console.log('enabled 함수 존재함');
-                console.log('enabled(dependencies)', enabled(dependencies));
-            }
-            console.log('enabled && !enabled(dependencies)', enabled && !enabled(dependencies));
             if (enabled && !enabled(dependencies)) return;
-            console.log('여기 왔으면 요청이 날아간다..');
-            console.log('> orgId', orgId);
-            console.log('> params', params);
-            console.log('> dependencies', dependencies);
 
             params = buildQuery(params, orgId);
             const request = () => {
                 __setIsLoading(true);
-                console.log('request() 내부 값찍기. (요청 보내기 직전)');
-                console.log('> orgId', orgId);
-                console.log('> params', params);
-                console.log('> dependencies', dependencies);
                 return endpoint(params, orgId, dependencies).finally(() => {
                     setIsNotLoaded(false);
                     setTimeout(() => __setIsLoading(false), 200);
@@ -110,7 +96,7 @@ export function usePagedResource<DTO, Query, Dep extends any[] = []>(
             };
             return cachePagedQuery(setResult, setQuery, params, request, mergeMode, force);
         },
-        [orgId, ...dependencies],
+        [orgId, dependencies],
     );
 
     async function orderBy(sortKey: string, value: 'ASC' | 'DESC') {
