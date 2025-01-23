@@ -31,8 +31,8 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
         return (
             <div
                 className={cn('w-full rounded-2xl flex items-center justify-center bg-white border py-10', {
+                    'border-emerald-100 text-emerald-400': currentStatusTab === BillingHistoryStatus.PaySuccess,
                     'border-orange-100 text-orange-400': currentStatusTab === BillingHistoryStatus.PayWait,
-                    'border-gray-100 text-gray-400': currentStatusTab === BillingHistoryStatus.PaySuccess,
                     'border-red-100 text-red-400': currentStatusTab === BillingHistoryStatus.PayFail,
                 })}
             >
@@ -44,8 +44,8 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
     return (
         <div
             className={cn('w-full rounded-2xl grid grid-cols-3 gap-2 p-2', {
+                'bg-emerald-100': currentStatusTab === BillingHistoryStatus.PaySuccess,
                 'bg-orange-100 ': currentStatusTab === BillingHistoryStatus.PayWait,
-                'bg-gray-100': currentStatusTab === BillingHistoryStatus.PaySuccess,
                 'bg-red-100': currentStatusTab === BillingHistoryStatus.PayFail,
             })}
         >

@@ -20,7 +20,9 @@ export const PaymentMethodItem = memo((props: PaymentMethodItemProps) => {
                 <div className="flex items-center justify-between">
                     <CreditCardProfileOption2 item={creditCard} />
                     {/* TODO: 단위 원 고정으로 처리되어 있으나, 데이터로 전달받은 화폐코드에 따라 동적으로 처리되어야 함. */}
-                    <p className="font-medium text-16 text-gray-900">{currencyFormat(payAmountSum)}</p>
+                    <p className="font-medium text-16 text-gray-900">
+                        {currencyFormat(payAmountSum > 0 ? payAmountSum * -1 : payAmountSum)}
+                    </p>
                 </div>
             </LinkTo>
         </li>

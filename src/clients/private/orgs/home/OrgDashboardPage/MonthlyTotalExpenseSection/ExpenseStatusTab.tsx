@@ -41,7 +41,7 @@ export const ExpenseStatusTab = memo((props: ExpenseStatusTabProps) => {
             </div>
             <div>
                 합계: {currencyFormat(roundNumber(summaryData?.amount || 0))} (
-                {unitFormat(summaryData?.count || 0, '건')})
+                {unitFormat(summaryData?.count || 0, '개')})
             </div>
         </div>
     );

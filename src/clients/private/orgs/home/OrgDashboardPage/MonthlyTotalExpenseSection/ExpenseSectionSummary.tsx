@@ -13,7 +13,7 @@ export const ExpenseSectionSummary = memo((props: ExpenseSectionSummaryProps) =>
         <p className="font-bold text-28 flex items-center gap-3">
             <span>{currencyFormat(roundNumber(summaryOfState?.amount || 0))}</span>
             <span>·</span>
-            <span>{unitFormat(summaryOfState?.count || 0, '건')}</span>
+            <span>{unitFormat(summaryOfState?.count || 0, '개')}</span>
         </p>
     );
 });
