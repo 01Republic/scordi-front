@@ -1,9 +1,11 @@
 import React from 'react';
 import cn from 'classnames';
+import Link from 'next/link';
 import {Avatar} from '^components/Avatar';
 import {currencyFormat, roundNumber} from '^utils/number';
 import {BillingHistoryStatus, t_billingHistoryStatusForDashboard} from '^models/BillingHistory/type';
 import {SummaryOfBillingHistoriesDto} from '^types/dashboard.type';
+import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
 
 interface ExpenseSubscriptionProps {
     summary?: SummaryOfBillingHistoriesDto;
@@ -50,10 +52,10 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
             })}
         >
             {subscriptionSpends.map((spend) => (
-                <div
+                <Link
                     key={spend.subscription.id}
-                    className="w-full bg-white px-5 py-4 flex items-center justify-between rounded-xl"
-                    onClick={() => console.log(spend)}
+                    className="w-full bg-white px-5 py-4 flex items-center justify-between rounded-xl hover:bg-gray-50"
+                    href={OrgSubscriptionDetailPageRoute.path(spend.subscription.organizationId, spend.subscription.id)}
                 >
                     <div className="flex items-center gap-3">
                         <Avatar
@@ -66,7 +68,7 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
                     </div>
 
                     <p>{currencyFormat(roundNumber(spend.amount))}</p>
-                </div>
+                </Link>
             ))}
         </div>
     );
