@@ -17,7 +17,6 @@ import {swalHTML} from '^components/util/dialog';
 import {DashboardSectionLayout} from '../DashboardSectionLayout';
 import {InvoiceAccountItem} from './InvoiceAccountItem';
 import {EmptyTableLayout} from '../EmptyTableLayout';
-import {useDashboardInvoiceAccountList} from '^models/InvoiceAccount/hook';
 
 export const InvoiceAccountsSection = () => {
     const orgId = useRecoilValue(orgIdParamState);
@@ -26,14 +25,13 @@ export const InvoiceAccountsSection = () => {
         order: {subscriptionCount: 'DESC', invoiceAccountId: 'DESC'},
         itemsPerPage: 3,
     });
-    // const {items = [], total} = dashboardInvoiceAccountsSectionResult || {};
-    // const {search, result, isLoading, reload} = useDashboardInvoiceAccountList();
     const [isInvoiceCreateModalOpened, setIsInvoiceCreateModalOpened] = useState(false);
     const [isInvoiceCreateAutoModalOpened, setIsInvoiceCreateAutoModalOpened] = useState(false);
 
     const {items, pagination} = data;
+    const {totalItemCount} = pagination;
 
-    if (items.length === 0) {
+    if (totalItemCount === 0) {
         return (
             <>
                 <EmptyTableLayout
@@ -82,7 +80,6 @@ export const InvoiceAccountsSection = () => {
     return (
         <DashboardSectionLayout
             title={<span onClick={() => console.log(items)}>청구서 메일</span>}
-            subTitle={`총 ${unitFormat(pagination.totalItemCount, '개')}`}
             isLoading={isLoading}
         >
             <div className="min-h-[250px] flex flex-col justify-between">
@@ -94,7 +91,7 @@ export const InvoiceAccountsSection = () => {
 
                 <LinkTo
                     href={OrgInvoiceAccountListPageRoute.path(orgId)}
-                    text="전체보기"
+                    text={`${unitFormat(totalItemCount, '개')} 전체보기`}
                     className="w-full flex items-center justify-center font-semibold text-14 text-gray-400"
                 />
             </div>
