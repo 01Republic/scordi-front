@@ -128,7 +128,10 @@ const useInvoiceAccountSubscriptions = (
         mergeMode,
         getId: 'id',
         dependencies: [invoiceAccountId],
-        enabled: ([id]) => !!id && !isNaN(id),
+        enabled: ([id]) => {
+            console.log('useInvoiceAccountSubscriptions/usePagedResource/enabled', id, !!id && !isNaN(id));
+            return !!id && !isNaN(id);
+        },
     });
 };
 
