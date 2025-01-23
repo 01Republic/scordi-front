@@ -1,7 +1,6 @@
 import {FindAllInvoiceAccountQueryDto, InvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {pagedResourceAtom} from '^hooks/usePagedResource';
 import {atom} from 'recoil';
-import {useDashboardInvoiceAccountList} from '^models/InvoiceAccount/hook';
 
 export const invoiceAccountListAtom = pagedResourceAtom<InvoiceAccountDto, FindAllInvoiceAccountQueryDto>({
     key: 'invoiceAccountListAtom',
@@ -25,9 +24,4 @@ export const invoiceAccountsSearchAtom = pagedResourceAtom<InvoiceAccountDto, Fi
 /** 구독 불러오기 (연동페이지) 에서, 연결된 지메일 인보이스 계정 리스트를 보여줄 때 사용 */
 export const invoiceAccountsInConnector = pagedResourceAtom<InvoiceAccountDto, FindAllInvoiceAccountQueryDto>({
     key: 'invoiceAccountsInConnector',
-});
-
-// // 대시보드 / 청구서 메일 섹션의 청구서 메일 리스트 조회
-export const dashboardInvoiceAccountList = pagedResourceAtom<InvoiceAccountDto, FindAllInvoiceAccountQueryDto>({
-    key: 'dashboardInvoiceAccountList',
 });
