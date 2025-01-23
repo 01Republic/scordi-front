@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {GoMail} from 'react-icons/go';
 import {toast} from 'react-hot-toast';
 import {orgIdParamState} from '^atoms/common';
 import {unitFormat} from '^utils/number';
 import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
-import {useDashboardInvoiceAccountsSectionResult} from '^models/_dashboard/hook';
+import {useDashboardInvoiceAccountsSection} from '^models/_dashboard/hook';
 import {InvoiceAccountCreateInManualSwalForm} from '^models/InvoiceAccount/components';
 import {
     InvoiceAccountAutoCreateModal,
@@ -17,24 +17,27 @@ import {swalHTML} from '^components/util/dialog';
 import {DashboardSectionLayout} from '../DashboardSectionLayout';
 import {InvoiceAccountItem} from './InvoiceAccountItem';
 import {EmptyTableLayout} from '../EmptyTableLayout';
+import {useDashboardInvoiceAccountList} from '^models/InvoiceAccount/hook';
 
 export const InvoiceAccountsSection = () => {
     const orgId = useRecoilValue(orgIdParamState);
 
-    const {
-        data: dashboardInvoiceAccountsSectionResult,
-        isLoading,
-        refetch,
-    } = useDashboardInvoiceAccountsSectionResult(orgId);
-    const {items = [], total} = dashboardInvoiceAccountsSectionResult || {};
+    const {data, isLoading, refetch} = useDashboardInvoiceAccountsSection(orgId, {
+        order: {subscriptionCount: 'DESC', invoiceAccountId: 'DESC'},
+        itemsPerPage: 3,
+    });
+    // const {items = [], total} = dashboardInvoiceAccountsSectionResult || {};
+    // const {search, result, isLoading, reload} = useDashboardInvoiceAccountList();
     const [isInvoiceCreateModalOpened, setIsInvoiceCreateModalOpened] = useState(false);
     const [isInvoiceCreateAutoModalOpened, setIsInvoiceCreateAutoModalOpened] = useState(false);
+
+    const {items, pagination} = data;
 
     if (items.length === 0) {
         return (
             <>
                 <EmptyTableLayout
-                    title="청구서 메일"
+                    title={<span onClick={() => console.log(items)}>청구서 메일</span>}
                     Icon={() => <GoMail />}
                     onClick={() => setIsInvoiceCreateModalOpened(true)}
                 />
@@ -78,14 +81,14 @@ export const InvoiceAccountsSection = () => {
 
     return (
         <DashboardSectionLayout
-            title="청구서 메일"
-            subTitle={`총 ${unitFormat(total?.billingHistoryCount, '건')}`}
+            title={<span onClick={() => console.log(items)}>청구서 메일</span>}
+            subTitle={`총 ${unitFormat(pagination.totalItemCount, '개')}`}
             isLoading={isLoading}
         >
             <div className="min-h-[250px] flex flex-col justify-between">
                 <ul>
                     {items.map((item) => (
-                        <InvoiceAccountItem key={item.id} item={item} />
+                        <InvoiceAccountItem key={item.invoiceAccountId} item={item} />
                     ))}
                 </ul>
 

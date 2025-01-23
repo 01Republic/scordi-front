@@ -119,12 +119,12 @@ export const lastDayOfMonth = (date?: Date): Date => {
 /**
  * Year
  */
-export const firstDayOfYear = (date = new Date()): Date => {
-    const base = new Date(date);
-    return new Date(base.getFullYear(), 0, 1);
+export const firstDayOfYear = (base = new Date()): Date => {
+    const date = new Date(base);
+    return new Date(date.getFullYear(), 0, 1);
 };
-export const lastDayOfYear = (date = new Date()): Date => {
-    return yearAfter(1, dayBefore(1, firstDayOfYear(date)));
+export const lastDayOfYear = (base = new Date()): Date => {
+    return yearAfter(1, dayBefore(1, firstDayOfYear(base)));
 };
 
 export const dateIsEqual = (d1?: Date, d2?: Date) => {

@@ -1,31 +1,40 @@
 import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
+import {HiOutlineSquaresPlus} from 'react-icons/hi2';
 import {orgIdParamState} from '^atoms/common';
+import {firstDayOfMonth, firstDayOfYear, monthAfter, yearAfter} from '^utils/dateTime';
 import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
-import {DashboardSummaryYearMonthlyItemDto, DashboardSummaryYearMonthlyResultDto} from '^models/_dashboard/type';
+import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
+import {
+    DashboardSummaryYearMonthlyItemDto,
+    DashboardSummaryYearMonthlyResultDto,
+    FindAllSubscriptionSpendsQueryDto,
+} from '^models/_dashboard/type';
+import {useDashboardSubscriptionSpends} from '^models/_dashboard/hook';
+import {roundNumber} from '^utils/number';
 import {LinkTo} from '^components/util/LinkTo';
 import {DashboardSectionLayout} from '../../DashboardSectionLayout';
-import {SubscriptionSpendsForMonth} from './SubscriptionSpendsForMonth';
-import {SubscriptionSpendsForYear} from './SubscriptionSpendsForYear';
-import {EmptyTableLayout} from '^clients/private/orgs/home/OrgDashboardPage/EmptyTableLayout';
-import {HiOutlineSquaresPlus} from 'react-icons/hi2';
-import {OrgSubscriptionSelectPageRoute} from '^pages/orgs/[id]/subscriptions/select';
+import {EmptyTableLayout} from '../../EmptyTableLayout';
+import {PaidSubscriptionSpendItem} from './PaidSubscriptionSpendItem';
 
 interface YearMonthlySubscriptionsSectionProps {
+    year: number;
     result?: DashboardSummaryYearMonthlyResultDto;
     isLoading?: boolean;
     monthlyItem?: DashboardSummaryYearMonthlyItemDto;
 }
 
 export const YearMonthlySubscriptionsSection = memo((props: YearMonthlySubscriptionsSectionProps) => {
-    const {result, isLoading, monthlyItem} = props;
+    const {year, result, monthlyItem} = props;
     const orgId = useRecoilValue(orgIdParamState);
+    const {data: paginatedSubscriptionSpends, isFetched} = useDashboardSubscriptionSpends(
+        orgId,
+        getParams(year, monthlyItem?.month),
+    );
+    const isLoading = !isFetched;
+    const {items, pagination} = paginatedSubscriptionSpends;
 
-    console.log('result', result);
-
-    // 수정필요
-    // if (monthlyItem ? monthlyItem.serviceCount === 0 : !result?.subscriptionSpends.length) {
-    if (monthlyItem ? monthlyItem.serviceCount === 0 : !result?.willPayAmount) {
+    if (!pagination.totalItemCount) {
         return (
             <EmptyTableLayout
                 title="구독 리스트"
@@ -37,10 +46,13 @@ export const YearMonthlySubscriptionsSection = memo((props: YearMonthlySubscript
     }
 
     const AllSubscriptionListShowButton = () => (
-        <LinkTo href={OrgSubscriptionListPageRoute.path(orgId)} className="font-semibold text-14 text-gray-400 px-3">
+        <LinkTo href={OrgSubscriptionListPageRoute.path(orgId)} className="font-semibold text-14 text-gray-400">
             전체보기
         </LinkTo>
     );
+
+    const totalAmount = items.reduce((acc, item) => acc + item.amount, 0);
+    const getRatio = (amount: number) => roundNumber(totalAmount ? (Math.floor(amount) / totalAmount) * 100 : 0, 1);
 
     return (
         <DashboardSectionLayout
@@ -49,11 +61,30 @@ export const YearMonthlySubscriptionsSection = memo((props: YearMonthlySubscript
             isLoading={isLoading}
             className="h-full"
         >
-            {monthlyItem ? (
-                <SubscriptionSpendsForMonth monthlyItem={monthlyItem} />
-            ) : (
-                <SubscriptionSpendsForYear result={result} />
-            )}
+            <ul className="w-full flex flex-col">
+                {items.map((item) => (
+                    <PaidSubscriptionSpendItem
+                        key={item.subscriptionId}
+                        amount={item.amount}
+                        ratio={getRatio(item.amount)}
+                        subscription={item.subscription}
+                    />
+                ))}
+            </ul>
         </DashboardSectionLayout>
     );
 });
+
+function getParams(year: number, month?: number): FindAllSubscriptionSpendsQueryDto {
+    if (month) {
+        const date = new Date(year, month - 1, 1, 9);
+        const from = firstDayOfMonth(date);
+        const to = monthAfter(1, from);
+        return {from, to, order: {amount: 'DESC', historyCount: 'DESC', subscriptionId: 'DESC'}};
+    } else {
+        const date = new Date(year, 0, 1, 9);
+        const from = firstDayOfYear(date);
+        const to = yearAfter(1, from);
+        return {from, to, order: {amount: 'DESC', historyCount: 'DESC', subscriptionId: 'DESC'}};
+    }
+}

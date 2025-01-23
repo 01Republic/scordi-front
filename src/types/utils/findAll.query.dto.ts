@@ -15,6 +15,10 @@ export class SearchQueryDto<T> extends FindAllQueryDto<T> {
     keyword?: string;
 }
 
+export class FindAllQueryEntityDto<T> extends PaginationDto {
+    order: FindOptionsOrder<T> = {};
+}
+
 export function getPureTypeFromWhereValue<T>(value: FindOptionsWhereValue<T>): T {
     // @ts-ignore
     if (value === 'NULL') return null;
