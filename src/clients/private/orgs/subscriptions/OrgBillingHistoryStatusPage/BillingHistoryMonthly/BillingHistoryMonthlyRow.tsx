@@ -5,6 +5,8 @@ import {useRecoilValue} from 'recoil';
 import {displayCurrencyAtom} from '^tasting/pageAtoms';
 import {CurrencyCode} from '^models/Money';
 import {SubscriptionProfile} from '^models/Subscription/components/SubscriptionProfile';
+import {OrgSubscriptionDetailPageRoute} from '^pages/orgs/[id]/subscriptions/[subscriptionId]';
+import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 
 interface BillingHistoryMonthlyRowProps {
     data: BillingHistoriesMonthlySumBySubscriptionDto;
@@ -32,7 +34,11 @@ export const BillingHistoryMonthlyRow = memo((props: BillingHistoryMonthlyRowPro
     return (
         <tr className="group">
             <td className="sticky left-0 bg-white min-w-40 flex z-10 border-r-2">
-                <SubscriptionProfile subscription={subscription} className="font-medium" />
+                <OpenButtonColumn
+                    href={OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id)}
+                >
+                    <SubscriptionProfile subscription={subscription} className="font-medium min-w-44" />
+                </OpenButtonColumn>
             </td>
             <td>
                 <IsFreeTierTagUI value={subscription.isFreeTier || false} />
