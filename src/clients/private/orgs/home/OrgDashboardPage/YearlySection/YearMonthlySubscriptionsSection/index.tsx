@@ -21,9 +21,10 @@ export const YearMonthlySubscriptionsSection = memo((props: YearMonthlySubscript
     const {result, isLoading, monthlyItem} = props;
     const orgId = useRecoilValue(orgIdParamState);
 
-    console.log('result', result);
-
-    // 수정필요
+    /*
+     * 수정필요
+     * subscriptionSpends data 있는 경우 주석 해제(구독이 없는 경우) 및 기존 조건문 제거 => return은 제거하면 안됨
+     */
     // if (monthlyItem ? monthlyItem.serviceCount === 0 : !result?.subscriptionSpends.length) {
     if (monthlyItem ? monthlyItem.serviceCount === 0 : !result?.willPayAmount) {
         return (
@@ -36,8 +37,14 @@ export const YearMonthlySubscriptionsSection = memo((props: YearMonthlySubscript
         );
     }
 
+    /*
+     * 수정필요
+     * subscriptionSpends data 있는 경우 주석 해제(구독 총 개수) 및 텍스트 제거
+     */
+    //수정필요 subscriptionSpends
     const AllSubscriptionListShowButton = () => (
-        <LinkTo href={OrgSubscriptionListPageRoute.path(orgId)} className="font-semibold text-14 text-gray-400 px-3">
+        <LinkTo href={OrgSubscriptionListPageRoute.path(orgId)} className="font-semibold text-14 text-gray-400">
+            {/*전체보기 (총{result?.subscriptionSpends.length}개)*/}
             전체보기
         </LinkTo>
     );
