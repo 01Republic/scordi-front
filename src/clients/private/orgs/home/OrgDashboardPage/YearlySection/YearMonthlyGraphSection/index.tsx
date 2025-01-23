@@ -58,6 +58,7 @@ export const YearMonthlyGraphSection = memo((props: YearMonthlyGraphSectionProps
             title={`${yearName}의 지출 총액`}
             Buttons={AllInvoiceAccountShowButton}
             isLoading={isLoading}
+            className="max-h-[826px]"
         >
             <section className="w-full flex flex-col gap-10">
                 <div className="flex gap-5">
