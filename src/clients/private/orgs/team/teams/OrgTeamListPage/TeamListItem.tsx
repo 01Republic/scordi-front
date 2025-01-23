@@ -1,7 +1,6 @@
 import {memo} from 'react';
-import {useRecoilValue} from 'recoil';
 import PushPin from '/src/images/pushpin.png';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {TeamDto} from '^models/Team/type';
 import {OrgTeamDetailPageRoute} from '^pages/orgs/[id]/teams/[teamId]';
 import {NextImage} from '^components/NextImage';
@@ -19,7 +18,7 @@ interface TeamListItemProps {
  */
 export const TeamListItem = memo((props: TeamListItemProps) => {
     const {team} = props;
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const {members = []} = team;
 
     return (

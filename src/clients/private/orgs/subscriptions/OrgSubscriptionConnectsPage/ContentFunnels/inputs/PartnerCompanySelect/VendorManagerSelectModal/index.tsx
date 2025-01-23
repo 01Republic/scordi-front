@@ -1,9 +1,8 @@
 import React, {memo, useEffect} from 'react';
-import {useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
 import {FaChevronLeft} from 'react-icons/fa6';
 import {LoadableBox} from '^components/util/loading';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {VendorManagerDto} from '^models/vendor/VendorManager/type';
 import {useVendorManagerListInCreateSubscription} from '^models/vendor/VendorManager/hook';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
@@ -23,7 +22,7 @@ interface VendorManagerSelectModalProps {
 
 export const VendorManagerSelectModal = memo((props: VendorManagerSelectModalProps) => {
     const {isOpened, onClose, selectedCompany, vendorManagerId, onSelect} = props;
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const {search, result, query, reload, isLoading} = useVendorManagerListInCreateSubscription();
 
     useEffect(() => {

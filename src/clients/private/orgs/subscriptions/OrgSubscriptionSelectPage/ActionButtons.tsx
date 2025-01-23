@@ -4,11 +4,10 @@ import {LinkTo} from '^components/util/LinkTo';
 import {useSelectProducts} from '^models/Product/hook';
 import {useRouter} from 'next/router';
 import {OrgSubscriptionConnectsPageRoute} from '^pages/orgs/[id]/subscriptions/connects';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 
 export const ActionButtons = memo(function ActionButtons() {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const router = useRouter();
     const {selectedProducts} = useSelectProducts();
     const size = selectedProducts.length;

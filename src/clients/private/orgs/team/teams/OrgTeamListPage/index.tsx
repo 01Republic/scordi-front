@@ -1,13 +1,12 @@
 import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {useTeamsForListPage} from '^models/Team/hook';
 import {TeamListSection} from './TeamListSection';
 
 export const OrgTeamListPage = memo(function OrgTeamListPage() {
-    const organizationId = useRecoilValue(orgIdParamState);
+    const organizationId = useOrgIdParam();
     const {search, query} = useTeamsForListPage();
 
     const onReady = () => {

@@ -1,9 +1,8 @@
 import React, {memo, useState} from 'react';
-import {useRecoilValue} from 'recoil';
 import {IconType} from '@react-icons/all-files';
 import {FcDataBackup, FcDataRecovery} from 'react-icons/fc';
 import {toast} from 'react-hot-toast';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {
     ListPageDropdown,
     ListPageDropdownButton,
@@ -22,7 +21,7 @@ interface AddInvoiceAccountDropdownProps {
 }
 
 export const AddInvoiceAccountDropdown = memo((props: AddInvoiceAccountDropdownProps) => {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const [isCreateAutoModalOpened, setCreateAutoModalOpened] = useState(false);
 
     const {setCode} = useGoogleLoginForInvoiceAccountSelect();

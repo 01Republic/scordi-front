@@ -1,6 +1,5 @@
-import {atom, useRecoilState, useRecoilValue} from 'recoil';
+import {atom, useRecoilState} from 'recoil';
 import {AxiosResponse} from 'axios';
-import {orgIdParamState} from '^atoms/common';
 import {accountApi} from '^models/Account/api';
 import {AccountDto, FindAllAccountsQueryDto} from '^models/Account/types';
 import {Paginated} from '^types/utils/paginated.dto';

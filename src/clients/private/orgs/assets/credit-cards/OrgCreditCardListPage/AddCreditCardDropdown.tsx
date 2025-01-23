@@ -1,8 +1,7 @@
 import React, {memo, useState} from 'react';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {useRouter} from 'next/router';
 import {FcDataBackup, FcDataRecovery} from 'react-icons/fc';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {
     ListPageDropdown,
     ListPageDropdownButton,
@@ -19,7 +18,7 @@ interface AddCreditCardDropdownProps {
 export const AddCreditCardDropdown = memo((props: AddCreditCardDropdownProps) => {
     const {reload} = props;
     const router = useRouter();
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const [isCardAutoCreateModalOpen, setIsCardAutoCreateModalOpen] = useState(false);
 
     return (

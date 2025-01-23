@@ -1,15 +1,15 @@
 import React, {memo, useEffect} from 'react';
 import {FaSearch} from 'react-icons/fa';
 import {useProductSearchResult} from '^models/Product/hook';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useSetRecoilState} from 'recoil';
+import {useOrgIdParam} from '^atoms/common';
 import {debounce} from 'lodash';
 import {searchResultModeAtom} from './SearchResultSection';
 import {WithChildren} from '^types/global.type';
 
 export const SearchAppModalInput = memo(function SearchAppModalInput(props: WithChildren) {
     const {children} = props;
-    const organizationId = useRecoilValue(orgIdParamState);
+    const organizationId = useOrgIdParam();
     const setSearchResultMode = useSetRecoilState(searchResultModeAtom);
     const {search} = useProductSearchResult();
 

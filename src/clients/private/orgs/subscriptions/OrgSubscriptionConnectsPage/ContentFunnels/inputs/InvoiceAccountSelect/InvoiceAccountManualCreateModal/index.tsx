@@ -1,6 +1,5 @@
 import React, {memo, useState} from 'react';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {InvoiceAccountManualCreateModalHeader} from './InvoiceAccountManualCreateModalHeader';
 import {InvoiceAccountManualCreateSubmitButton} from './InvoiceAccountManualCreateSubmitButton';
@@ -22,7 +21,7 @@ interface InvoiceAccountManualCreateModalProps {
 
 export const InvoiceAccountManualCreateModal = memo((props: InvoiceAccountManualCreateModalProps) => {
     const {isOpened, onClose, onCreate, onSelect} = props;
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const {isLoading, search, result, reload, reset} = useInvoiceAccountsSearch();
     const form = useForm<CreateInvoiceAccountDto>();
     const [errorMessage, setErrorMessage] = useState<string>();
