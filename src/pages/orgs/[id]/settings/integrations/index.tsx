@@ -4,11 +4,11 @@ import {pathRoute, pathReplace} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
 import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {useCurrentOrg} from '^models/Organization/hook';
-import {OrgSettingsInformationPage} from '^clients/private/orgs/settings/OrgSettingsInformationPage';
+import {OrgSettingsIntegrationsPage} from '^clients/private/orgs/settings/OrgSettingsIntegrationsPage';
 
-export const OrgSettingsInformationPageRoute = pathRoute({
-    pathname: '/orgs/[id]/settings',
-    path: (orgId: number) => pathReplace(OrgSettingsInformationPageRoute.pathname, {id: orgId}),
+export const OrgSettingsIntegrationsPageRoute = pathRoute({
+    pathname: '/orgs/[id]/settings/integrations',
+    path: (orgId: number) => pathReplace(OrgSettingsIntegrationsPageRoute.pathname, {id: orgId}),
 });
 
 export const getStaticPaths = async () => ({
@@ -31,5 +31,5 @@ export default function Page() {
 
     if (!orgId || isNaN(orgId)) return <></>;
 
-    return <OrgSettingsInformationPage />;
+    return <OrgSettingsIntegrationsPage />;
 }
