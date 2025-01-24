@@ -33,7 +33,7 @@ export const YearMonthlySubscriptionsSection = memo((props: YearMonthlySubscript
     const isLoading = !isFetched;
     const {items, pagination} = paginatedSubscriptionSpends;
 
-    if (!pagination.totalItemCount) {
+    if (!isLoading && !pagination.totalItemCount) {
         return (
             <EmptyTableLayout
                 title="구독 리스트"
@@ -55,7 +55,7 @@ export const YearMonthlySubscriptionsSection = memo((props: YearMonthlySubscript
             title="구독 리스트"
             Buttons={AllSubscriptionListShowButton}
             isLoading={isLoading}
-            className="max-h-[826px]"
+            className="h-[826px]"
         >
             <ul className="w-full flex flex-col">
                 {items.map((item) => (
