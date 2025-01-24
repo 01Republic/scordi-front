@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {atom, useRecoilState, useRecoilValue} from 'recoil';
+import {atom, useRecoilState} from 'recoil';
 import {AxiosResponse} from 'axios';
 import {plainToInstance} from 'class-transformer';
 import {padStart} from 'lodash';
@@ -9,7 +9,7 @@ import {creditCardApi} from '^models/CreditCard/api';
 import {useAltForm} from '^hooks/useAltForm';
 import {errorNotify} from '^utils/toast-notify';
 import {TeamDto} from '^models/Team/type';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {useCodefCardsOfCreditCardShow} from '^models/CodefCard/hook';
 import {useSubscriptionListOfCreditCard} from '^models/Subscription/hook';
 import {useBillingHistoryListOfCreditCard} from '^models/BillingHistory/hook';
@@ -64,7 +64,7 @@ export const useCurrentCodefCard = () => {
 };
 
 export const useCurrentCreditCardEdit = () => {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const {currentCreditCard, setCurrentCreditCard} = useCurrentCreditCard();
     const {formData, setFormValue} = useAltForm(plainToInstance(UpdateCreditCardDto, {}));
     const [expiryValues, setExpiryValues] = useState<string[]>([]);

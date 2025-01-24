@@ -1,13 +1,12 @@
 import React, {memo, useEffect} from 'react';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {useProductSearchResult} from '^models/Product/hook';
 import {debounce} from 'lodash';
 import {FaSearch} from 'react-icons/fa';
 import {useUnmount} from '^hooks/useUnmount';
 
 export const SearchProductInput = memo(function SearchProductInput() {
-    const organizationId = useRecoilValue(orgIdParamState);
+    const organizationId = useOrgIdParam();
     const {search, reset} = useProductSearchResult();
 
     const searchProduct = debounce((keyword?: string) => {

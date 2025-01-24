@@ -1,10 +1,15 @@
-import {memo} from 'react';
+import React, {memo} from 'react';
 import {FaChevronLeft} from 'react-icons/fa';
 import {FaChevronRight} from 'react-icons/fa';
 import {DashboardSummaryYearMonthlyItemDto, DashboardSummaryYearMonthlyResultDto} from '^models/_dashboard/type';
 import {currencyFormat, roundNumber} from '^utils/number';
 import {DashboardSectionLayout} from '../../DashboardSectionLayout';
 import {BarGraph} from './BarGraph';
+import {LinkTo} from '^components/util/LinkTo';
+import {OrgSubscriptionListPageRoute} from '^pages/orgs/[id]/subscriptions';
+import {useRecoilValue} from 'recoil';
+import {orgIdParamState} from '^atoms/common';
+import {OrgBillingHistoryStatusPageRoute} from '^pages/orgs/[id]/billingHistories/status';
 
 interface YearMonthlyGraphSectionProps {
     result?: DashboardSummaryYearMonthlyResultDto;
@@ -16,9 +21,16 @@ interface YearMonthlyGraphSectionProps {
 
 export const YearMonthlyGraphSection = memo((props: YearMonthlyGraphSectionProps) => {
     const {year, changeYear, result, isLoading = false, changeMonthlyItem} = props;
+    const orgId = useRecoilValue(orgIdParamState);
 
     const lastYear = new Date().getFullYear();
     const yearName = year === lastYear ? '올해' : `${year}년`;
+
+    const AllInvoiceAccountShowButton = () => (
+        <LinkTo href={OrgBillingHistoryStatusPageRoute.path(orgId)} className="font-semibold text-14 text-gray-400">
+            전체보기
+        </LinkTo>
+    );
 
     const PrevNextButton = () => {
         if (!changeYear) return <></>;
@@ -42,7 +54,12 @@ export const YearMonthlyGraphSection = memo((props: YearMonthlyGraphSectionProps
     };
 
     return (
-        <DashboardSectionLayout title={`${yearName}의 구독 현황`} Buttons={PrevNextButton} isLoading={isLoading}>
+        <DashboardSectionLayout
+            title={`${yearName}의 지출 총액`}
+            Buttons={AllInvoiceAccountShowButton}
+            isLoading={isLoading}
+            className="max-h-[826px]"
+        >
             <section className="w-full flex flex-col gap-10">
                 <div className="flex gap-5">
                     <section className="w-full flex flex-col gap-3 border rounded-xl p-5">

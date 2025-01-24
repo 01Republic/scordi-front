@@ -1,6 +1,5 @@
 import React, {memo, useState} from 'react';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
 import {useInvoiceAccountSync} from '^models/InvoiceAccount/hook';
 import {GoogleGmailOAuthButton} from '^components/pages/UsersLogin/GoogleLoginBtn';
@@ -13,7 +12,7 @@ import {BillingHistoryListOfInvoiceAccountTabContent, SubscriptionListOfInvoiceA
 import {useCurrentInvoiceAccount} from './atom';
 
 export const OrgInvoiceAccountShowPage = memo(() => {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const [activeTabIndex, setActiveTabIndex] = useState(0);
     const {currentInvoiceAccount} = useCurrentInvoiceAccount();
     const {renewAccountWithConfirm} = useInvoiceAccountSync();

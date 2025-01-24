@@ -3,8 +3,7 @@ import {BsStars} from 'react-icons/bs';
 import {useCurrentCreditCard, useCurrentCreditCardSync} from '../../atom';
 import {ConnectCodefModal} from './ConnectCodefModal';
 import {codefCardApi} from '^models/CodefCard/api';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
@@ -12,7 +11,7 @@ import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {useCodefCardsOfCreditCardShow} from '^models/CodefCard/hook';
 
 export const NewSyncWithCodefApi = memo(() => {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const {currentCreditCard} = useCurrentCreditCard();
     const {isSyncRunning, syncCard} = useCodefCardSync();
     const {reload} = useCodefCardsOfCreditCardShow();

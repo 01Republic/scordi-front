@@ -1,16 +1,23 @@
 import {TypeCast} from '^types/utils/class-transformer';
 import {SubscriptionDto} from '^models/Subscription/types';
+import {FindAllQueryEntityDto} from '^types/utils/findAll.query.dto';
 
 export class YearMonthQueryDto {
     year: number; // 연
     month?: number; // 월
 }
 
+export class FindAllSubscriptionSpendsQueryDto extends FindAllQueryEntityDto<DashboardSummarySubscriptionSpendDto> {
+    from: Date; // 기간 시작일
+    to: Date; // 기간 종료일
+}
+
 // 임의 기간에 대한 구독 단위 합계
 export class DashboardSummarySubscriptionSpendDto {
-    @TypeCast(() => Number) organizationId: number; // 조직 ID
-    @TypeCast(() => Number) subscriptionId: number; // 구독 ID
-    @TypeCast(() => Number) amount: number; // 합계 금액
+    organizationId: number; // 조직 ID
+    subscriptionId: number; // 구독 ID
+    amount: number; // 합계 금액
+    historyCount: number; // 집계 건수
 
     // 구독 목록
     @TypeCast(() => SubscriptionDto) subscription: SubscriptionDto;

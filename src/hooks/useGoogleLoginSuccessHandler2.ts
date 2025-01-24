@@ -6,7 +6,6 @@ import {SignPhoneAuthPageRoute} from '^pages/sign/phone';
 import {V3OrgJoinErrorPageRoute} from '^pages/v3/orgs/[orgId]/error';
 import {V3OrgHomePageRoute} from '^pages/v3/orgs/[orgId]';
 import {invitedOrgIdAtom, isCopiedAtom} from '^v3/V3OrgJoin/atom';
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {userSocialGoogleApi} from '^api/social-google.api';
 import {useCurrentUser} from '^models/User/hook';
 import {UserDto} from '^models/User/types';

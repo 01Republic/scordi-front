@@ -92,6 +92,7 @@ api.interceptors.request.use((config) => {
     } else {
         delete config.headers!.Authorization;
     }
+    // config.headers!['X-WORKSPACE_ID'] = orgId; // IDEA :)) (@miju, @holly, @yoon)
 
     // Middleware 2. Format nested params correctly
     config.paramsSerializer = (params) =>

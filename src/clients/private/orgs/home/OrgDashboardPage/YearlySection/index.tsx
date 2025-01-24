@@ -25,6 +25,7 @@ export const YearlySection = memo(() => {
             </div>
             <div className="col-span-1">
                 <YearMonthlySubscriptionsSection
+                    year={year}
                     result={dashboardSummaryYearMonthlyResult}
                     isLoading={isLoading}
                     monthlyItem={selectedMonthlyItem}

@@ -3,7 +3,6 @@ import {atom, selector} from 'recoil';
 import {FindAllUserByAdminDto, UserDto} from '^models/User/types';
 import {getToken} from '^api/api';
 import {errorNotify} from '^utils/toast-notify';
-import {orgIdParamState} from '^atoms/common';
 import {membershipApi} from '^models/Membership/api';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {pagedResourceAtom} from '^hooks/usePagedResource';

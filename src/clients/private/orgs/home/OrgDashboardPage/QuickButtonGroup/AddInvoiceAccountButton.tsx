@@ -11,11 +11,14 @@ import {
     InvoiceAccountCreateMethodModal,
 } from '^clients/private/_modals/invoice-accounts';
 import {QuickButton} from './QuickButton';
-import {useDashboardInvoiceAccountsSectionResult} from '^models/_dashboard/hook';
+import {useDashboardInvoiceAccountsSection} from '^models/_dashboard/hook';
 
 export const AddInvoiceAccountButton = memo(function AddInvoiceAccountButton() {
     const orgId = useRecoilValue(orgIdParamState);
-    const {refetch} = useDashboardInvoiceAccountsSectionResult(orgId);
+    const {refetch} = useDashboardInvoiceAccountsSection(orgId, {
+        order: {subscriptionCount: 'DESC', invoiceAccountId: 'DESC'},
+        itemsPerPage: 3,
+    });
     const [isInvoiceCreateModalOpened, setIsInvoiceCreateModalOpened] = useState(false);
     const [isInvoiceCreateAutoModalOpened, setIsInvoiceCreateAutoModalOpened] = useState(false);
 

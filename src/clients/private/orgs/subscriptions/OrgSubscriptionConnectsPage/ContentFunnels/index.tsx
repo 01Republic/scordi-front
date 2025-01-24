@@ -1,7 +1,7 @@
 import React, {memo, useEffect} from 'react';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {CurrencyCode} from '^models/Money';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {LoadableBox} from '^components/util/loading';
 import {StepProgress} from './_common/StepProgress';
 import {createSubscriptionFormData, currentStepAtom} from './atom';
@@ -23,7 +23,7 @@ import {
 import {PricingModelOptions} from '^models/Subscription/types/PricingModelOptions';
 
 export const ContentFunnels = memo(function ContentFunnels() {
-    const organizationId = useRecoilValue(orgIdParamState);
+    const organizationId = useOrgIdParam();
     const {isLoading, currentConnectingProduct} = useCurrentConnectingProduct();
     const setFormData = useSetRecoilState(createSubscriptionFormData);
     const [currentStep, setStep] = useRecoilState(currentStepAtom);

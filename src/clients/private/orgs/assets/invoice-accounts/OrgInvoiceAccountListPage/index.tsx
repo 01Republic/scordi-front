@@ -1,7 +1,6 @@
 import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {useInvoiceAccounts} from '^models/InvoiceAccount/hook';
@@ -12,7 +11,7 @@ import {AddInvoiceAccountDropdown} from './AddInvoiceAccountDropdown';
 import {AddInvoiceAccountModal} from './AddInvoiceAccountModal';
 
 export const OrgInvoiceAccountListPage = memo(function OrgInvoiceAccountListPage() {
-    const organizationId = useRecoilValue(orgIdParamState);
+    const organizationId = useOrgIdParam();
     const {
         search,
         reset,

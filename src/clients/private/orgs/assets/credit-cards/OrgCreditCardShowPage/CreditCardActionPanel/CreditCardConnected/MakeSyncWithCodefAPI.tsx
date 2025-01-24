@@ -5,8 +5,6 @@ import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {dateIsEqual, startOfDay, yyyy_mm_dd_hh_mm} from '^utils/dateTime';
 import {FaCheck} from 'react-icons/fa6';
 import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
 import {confirm2} from '^components/util/dialog';
 import {toast} from 'react-hot-toast';
 import {useCurrentCreditCardSync} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/atom';

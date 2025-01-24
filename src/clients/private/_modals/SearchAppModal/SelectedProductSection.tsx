@@ -1,13 +1,12 @@
 import {memo} from 'react';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {useSelectProducts} from '^models/Product/hook';
 import {SelectedProductItem} from './SelectedProductItem';
 import {LinkTo} from '^components/util/LinkTo';
 import {OrgSubscriptionConnectsPageRoute} from '^pages/orgs/[id]/subscriptions/connects';
 
 export const SelectedProductSection = memo(function SelectedProductSection() {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const {selectedProducts, unSelect, clearSelects} = useSelectProducts();
 
     if (selectedProducts.length === 0) return <></>;

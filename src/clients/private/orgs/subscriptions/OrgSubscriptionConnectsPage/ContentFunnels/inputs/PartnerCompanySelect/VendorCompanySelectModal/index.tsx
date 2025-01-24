@@ -1,8 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
 import {FaChevronLeft} from 'react-icons/fa6';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {VendorCompanyDto} from '^models/vendor/VendorCompany/type';
 import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 import {LoadableBox} from '^components/util/loading';
@@ -21,7 +20,7 @@ interface VendorCompanySelectModalProps {
 
 export const VendorCompanySelectModal = memo((props: VendorCompanySelectModalProps) => {
     const {isOpened, onClose, vendorCompanyId, onSelect = console.log} = props;
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const {search, result, query, isLoading} = useVendorCompanyListInCreateSubscription();
 
     useEffect(() => {

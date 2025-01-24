@@ -1,5 +1,4 @@
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {teamApi} from '^models/Team/api';
 import {SelectOptionNotionStyledLayout, SelectOptionProps} from '^v3/share/modals/_presenters/SelectInput';
 import {TeamTag} from '^models/Team/components/TeamTag';
@@ -13,7 +12,7 @@ interface TeamOptionProps extends SelectOptionProps<{label: string; value: TeamD
 }
 
 export const TeamOption = memo((props: TeamOptionProps) => {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const {reload, data, getValue, setValue, clearValue, isFocused, isSelected} = props;
     const team: TeamDto | undefined = data?.value;
 

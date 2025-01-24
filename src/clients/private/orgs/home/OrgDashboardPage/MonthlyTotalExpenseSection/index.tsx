@@ -9,7 +9,7 @@ export const MonthlyTotalExpenseSection = () => {
     const {summary, selectedTeam, setTeam, teams, currentStatusTab, changeTab, isLoading} = useExpenseSection();
 
     return (
-        <DashboardSectionLayout title="이달의 지출 총액" isLoading={isLoading}>
+        <DashboardSectionLayout title="이달의 구독 현황" isLoading={isLoading}>
             <section className="w-full flex flex-col gap-10">
                 <TeamScopeButtonGroup teams={teams?.items || []} selectedTeam={selectedTeam} onSelect={setTeam} />
 

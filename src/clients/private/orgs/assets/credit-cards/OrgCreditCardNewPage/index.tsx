@@ -1,10 +1,9 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
-import {useRecoilValue} from 'recoil';
 import {plainToInstance} from 'class-transformer';
 import {toast} from 'react-hot-toast';
 import {errorNotify} from '^utils/toast-notify';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {CreateCreditCardDto, CreditCardUsingStatus, UnSignedCreditCardFormData} from '^models/CreditCard/type';
 import {creditCardApi} from '^models/CreditCard/api';
 import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
@@ -25,7 +24,7 @@ import {CardHoldingMemberIdSelect} from './CardHoldingMemberIdSelect';
 
 export const OrgCreditCardNewPage = memo(function OrgCreditCardNewPage() {
     const router = useRouter();
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const {formData, setFormValue, handleSubmitPlain} = useAltForm<CreateCreditCardDto>({} as CreateCreditCardDto, {
         plainTransform(plainData) {
             const {isCreditCard, isPersonal, holdingMemberId, ...permittedValues} = plainData as any;

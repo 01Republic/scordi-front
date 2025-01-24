@@ -17,6 +17,7 @@ export const BarGraph = memo((props: BarGraphProps) => {
     const items = result?.items || [];
 
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const setSelectedMonth = useSetRecoilState(selectedMonthAtom);
 
     const formattedData = items.map((item) => {
@@ -65,6 +66,7 @@ export const BarGraph = memo((props: BarGraphProps) => {
                             const month = parseInt(`${clickedData.month}`.replace(/\D/g, ''));
                             const monthlyItem = items.find((item) => item.month === month);
                             changeMonthlyItem && changeMonthlyItem(monthlyItem);
+                            setSelectedIndex(state.activeTooltipIndex ?? null);
                         }
                     }}
                 >
@@ -107,9 +109,19 @@ export const BarGraph = memo((props: BarGraphProps) => {
                         isAnimationActive={false}
                         shape={(props: any) => {
                             const {x, y, width, height, index} = props;
-                            const isBarHovered = hoveredIndex === null || hoveredIndex === index;
-                            const fill = isBarHovered ? '#5C5FEE' : '#EFEFFD';
-                            return <rect x={x} y={y} width={width} height={height} fill={fill} rx={2} />;
+                            const isBarHovered = hoveredIndex === index;
+                            const isBarSelected = selectedIndex === index;
+                            const isAnyActive = selectedIndex !== null || hoveredIndex !== null;
+                            let fillColor = '#5C5FEE';
+
+                            if (isAnyActive) {
+                                if (isBarSelected || isBarHovered) {
+                                    fillColor = '#5C5FEE';
+                                } else {
+                                    fillColor = '#EFEFFD';
+                                }
+                            }
+                            return <rect x={x} y={y} width={width} height={height} fill={fillColor} rx={2} />;
                         }}
                     />
                     <Bar
@@ -120,9 +132,21 @@ export const BarGraph = memo((props: BarGraphProps) => {
                         isAnimationActive={false}
                         shape={(props: any) => {
                             const {x, y, width, height, index} = props;
-                            const isBarHovered = hoveredIndex === null || hoveredIndex === index;
-                            const fill = isBarHovered ? '#FBCFE8' : '#FEF1F8';
-                            return <rect x={x} y={y} width={width} height={height} fill={fill} rx={2} />;
+
+                            const isBarHovered = hoveredIndex === index;
+                            const isBarSelected = selectedIndex === index;
+                            const isAnyActive = selectedIndex !== null || hoveredIndex !== null;
+                            let fillColor = '#FBCFE8';
+
+                            if (isAnyActive) {
+                                if (isBarSelected || isBarHovered) {
+                                    fillColor = '#FBCFE8';
+                                } else {
+                                    fillColor = '#FEF1F8';
+                                }
+                            }
+
+                            return <rect x={x} y={y} width={width} height={height} fill={fillColor} rx={2} />;
                         }}
                     />
                 </BarChart>

@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {GoMail} from 'react-icons/go';
 import {toast} from 'react-hot-toast';
 import {orgIdParamState} from '^atoms/common';
 import {unitFormat} from '^utils/number';
 import {OrgInvoiceAccountListPageRoute} from '^pages/orgs/[id]/invoiceAccounts';
-import {useDashboardInvoiceAccountsSectionResult} from '^models/_dashboard/hook';
+import {useDashboardInvoiceAccountsSection} from '^models/_dashboard/hook';
 import {InvoiceAccountCreateInManualSwalForm} from '^models/InvoiceAccount/components';
 import {
     InvoiceAccountAutoCreateModal,
@@ -21,20 +21,21 @@ import {EmptyTableLayout} from '../EmptyTableLayout';
 export const InvoiceAccountsSection = () => {
     const orgId = useRecoilValue(orgIdParamState);
 
-    const {
-        data: dashboardInvoiceAccountsSectionResult,
-        isLoading,
-        refetch,
-    } = useDashboardInvoiceAccountsSectionResult(orgId);
-    const {items = [], total} = dashboardInvoiceAccountsSectionResult || {};
+    const {data, isLoading, refetch} = useDashboardInvoiceAccountsSection(orgId, {
+        order: {subscriptionCount: 'DESC', invoiceAccountId: 'DESC'},
+        itemsPerPage: 3,
+    });
     const [isInvoiceCreateModalOpened, setIsInvoiceCreateModalOpened] = useState(false);
     const [isInvoiceCreateAutoModalOpened, setIsInvoiceCreateAutoModalOpened] = useState(false);
 
-    if (items.length === 0) {
+    const {items, pagination} = data;
+    const {totalItemCount} = pagination;
+
+    if (totalItemCount === 0) {
         return (
             <>
                 <EmptyTableLayout
-                    title="청구서 메일"
+                    title={<span onClick={() => console.log(items)}>청구서 메일</span>}
                     Icon={() => <GoMail />}
                     onClick={() => setIsInvoiceCreateModalOpened(true)}
                 />
@@ -78,20 +79,19 @@ export const InvoiceAccountsSection = () => {
 
     return (
         <DashboardSectionLayout
-            title="청구서 메일"
-            subTitle={`총 ${unitFormat(total?.billingHistoryCount, '건')}`}
+            title={<span onClick={() => console.log(items)}>청구서 메일</span>}
             isLoading={isLoading}
         >
             <div className="min-h-[250px] flex flex-col justify-between">
                 <ul>
                     {items.map((item) => (
-                        <InvoiceAccountItem key={item.id} item={item} />
+                        <InvoiceAccountItem key={item.invoiceAccountId} item={item} />
                     ))}
                 </ul>
 
                 <LinkTo
                     href={OrgInvoiceAccountListPageRoute.path(orgId)}
-                    text="전체보기"
+                    text={`${unitFormat(totalItemCount, '개')} 전체보기`}
                     className="w-full flex items-center justify-center font-semibold text-14 text-gray-400"
                 />
             </div>

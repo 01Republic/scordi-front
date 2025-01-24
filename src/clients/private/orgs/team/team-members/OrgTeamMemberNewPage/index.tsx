@@ -1,8 +1,7 @@
 import React, {memo, useState} from 'react';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {OrgTeamMemberListPageRoute} from '^pages/orgs/[id]/teamMembers';
 import {useAltForm} from '^hooks/useAltForm';
 import {toast} from 'react-hot-toast';
@@ -13,7 +12,7 @@ import {TeamBeforeSaveModal} from './TeamBeforeSaveModal';
 import {TeamMemberTeamSelect} from './TeamMemberTeamSelect';
 
 export const OrgTeamMemberNewPage = memo(function OrgTeamMemberNewPage() {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const {formData, setFormValue, handleSubmitPlain} = useAltForm<CreateTeamMemberDto>({} as CreateTeamMemberDto);
     const [isModalOpened, setModalOpened] = useState(false);
     const [isLoading, setIsLoading] = useState(false);

@@ -1,10 +1,10 @@
-import {memo} from 'react';
+import React, {memo} from 'react';
 import {WithChildren} from '^types/global.type';
 import {LoadableBox} from '^components/util/loading';
 import {FaPlus} from 'react-icons/fa6';
 
 interface DashboardLayoutProps extends WithChildren {
-    title: string;
+    title: React.ReactNode;
     className?: string;
     subTitle?: string;
     isLoading?: boolean;
