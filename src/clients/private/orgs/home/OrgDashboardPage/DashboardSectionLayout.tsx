@@ -13,7 +13,7 @@ interface DashboardLayoutProps extends WithChildren {
 }
 
 export const DashboardSectionLayout = memo((props: DashboardLayoutProps) => {
-    const {title, className = '', subTitle, Buttons, plusButtonClick, isLoading = false, children} = props;
+    const {title, className = '', subTitle, Buttons, plusButtonClick, isLoading = true, children} = props;
 
     return (
         <section
@@ -36,9 +36,9 @@ export const DashboardSectionLayout = memo((props: DashboardLayoutProps) => {
                 {Buttons && <Buttons />}
             </div>
 
-            <LoadableBox isLoading={isLoading} loadingType={2} noPadding spinnerPos="center">
+            <LoadableBox isLoading={true} loadingType={2} noPadding spinnerPos="center">
                 <div
-                    className="max-h-[800px] overflow-hidden  overflow-y-scroll"
+                    className="max-h-[826px] overflow-hidden  overflow-y-scroll"
                     style={{
                         scrollbarWidth: 'none',
                         msOverflowStyle: 'none',
