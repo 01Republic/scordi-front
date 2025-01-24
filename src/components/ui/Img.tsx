@@ -30,7 +30,7 @@ export const Img = memo((props: ImgProps) => {
         <span className={`inline-block ${className}`}>
             <Image
                 src={src}
-                layout={layout}
+                // layout={layout}
                 placeholder={placeholder}
                 draggable={draggable}
                 loading={loading}
