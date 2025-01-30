@@ -7,7 +7,7 @@ import {debounce} from 'lodash';
 import {toast} from 'react-hot-toast';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {useIntegrationConfigurationsInSettingPage} from '^models/IntegrationWorkspace/hook';
+import {useIntegrationWorkspaceInSettingPage} from '^models/IntegrationWorkspace/hook';
 
 interface IntegrationSlackProps {
     //
@@ -16,7 +16,7 @@ interface IntegrationSlackProps {
 export const IntegrationSlack = memo((props: IntegrationSlackProps) => {
     const {} = props;
     const orgId = useRecoilValue(orgIdParamState);
-    const {refetch, findSlack} = useIntegrationConfigurationsInSettingPage(orgId);
+    const {refetch, findSlack} = useIntegrationWorkspaceInSettingPage(orgId);
     const slackConfig = findSlack();
 
     const onClick = () => {

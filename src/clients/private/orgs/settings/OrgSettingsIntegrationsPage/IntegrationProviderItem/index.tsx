@@ -20,7 +20,15 @@ interface IntegrationProviderItemProps {
 
 export const IntegrationProviderItem = memo((props: IntegrationProviderItemProps) => {
     const {id, logo, name, isInstalled, onClick} = props;
-    const {install, onAuthorized, onSuccess, onFailure = (error) => toast.error(error.message)} = props;
+    const {
+        install,
+        onAuthorized,
+        onSuccess,
+        onFailure = (error) => {
+            console.log('error', error);
+            toast.error(error.message);
+        },
+    } = props;
     const router = useRouter();
     const callback = router.query[id] as string;
 
