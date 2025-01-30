@@ -7,7 +7,7 @@ import {TeamListSection} from './TeamListSection';
 
 export const OrgTeamListPage = memo(function OrgTeamListPage() {
     const organizationId = useOrgIdParam();
-    const {search, query} = useTeamsForListPage();
+    const {search, query, clearCache} = useTeamsForListPage();
 
     const onReady = () => {
         search({
@@ -29,6 +29,7 @@ export const OrgTeamListPage = memo(function OrgTeamListPage() {
     return (
         <ListPage
             onReady={onReady}
+            onUnmount={() => clearCache()}
             breadcrumb={['팀', {text: '팀 목록', active: true}]}
             titleText="팀 목록"
             Buttons={undefined}
