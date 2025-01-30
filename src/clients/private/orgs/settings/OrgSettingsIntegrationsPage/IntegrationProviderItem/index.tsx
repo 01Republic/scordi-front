@@ -1,20 +1,48 @@
 import {ImageProps} from 'next/image';
-import {memo} from 'react';
+import {memo, useEffect, useState} from 'react';
 import {NextImage} from '^components/NextImage';
 import {InstalledStatusBadge} from './InstalledStatusBadge';
 import {IntegrationProviderItemButton} from './IntegrationProviderItemButton';
+import {useRouter} from 'next/router';
+import {toast} from 'react-hot-toast';
 
 interface IntegrationProviderItemProps {
     id: string;
     name: string;
     logo: ImageProps['src'];
     isInstalled: boolean;
+    onClick: () => any;
+    install: () => any;
+    onAuthorized: (data: any) => any;
+    onSuccess?: (data: any) => any;
+    onFailure?: (error: {message: any; error: string}) => any;
 }
 
 export const IntegrationProviderItem = memo((props: IntegrationProviderItemProps) => {
-    const {logo, name, isInstalled} = props;
+    const {id, logo, name, isInstalled, onClick} = props;
+    const {install, onAuthorized, onSuccess, onFailure = (error) => toast.error(error.message)} = props;
+    const router = useRouter();
+    const callback = router.query[id] as string;
 
     const logoSize = 30;
+
+    async function onCallback(callback: string) {
+        try {
+            const data = JSON.parse(callback);
+            if (data.error) return onFailure(data);
+
+            await onAuthorized(data);
+        } catch (e: any) {
+            onFailure({error: e.name, message: e.message});
+        }
+    }
+
+    useEffect(() => {
+        const [pathOnly, queryStr] = router.asPath.split('?');
+        if (callback && queryStr) {
+            router.replace(pathOnly).then(() => onCallback(callback));
+        }
+    }, [callback]);
 
     return (
         <div className="p-4 flex items-center">
@@ -28,7 +56,11 @@ export const IntegrationProviderItem = memo((props: IntegrationProviderItemProps
                 </div>
             </div>
             <div className="ml-auto">
-                <IntegrationProviderItemButton isInstalled={isInstalled} onClick={() => 1} />
+                {isInstalled ? (
+                    <IntegrationProviderItemButton isInstalled={isInstalled} onClick={onClick} />
+                ) : (
+                    <IntegrationProviderItemButton isInstalled={isInstalled} onClick={install} />
+                )}
             </div>
         </div>
     );

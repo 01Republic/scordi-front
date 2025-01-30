@@ -3,9 +3,8 @@ import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
 import {OrgSettingsLayout} from '^clients/private/_layouts/OrgSettingsLayout';
 import {OrgSettingsIntegrationsPageRoute} from '^pages/orgs/[id]/settings/integrations';
-import GoogleWorkspaceLogo from '^public/images/logo/external/logo_google_workspace.png';
-import SlackLogo from '^public/images/logo/external/logo_slack.png';
-import {IntegrationProviderItem} from './IntegrationProviderItem';
+import {IntegrationSlack} from './IntegrationSlack';
+import {IntegrationGoogleWorkspace} from './IntegrationGoogleWorkspace';
 
 export const OrgSettingsIntegrationsPage = memo(function OrgSettingsIntegrationsPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -25,16 +24,11 @@ export const OrgSettingsIntegrationsPage = memo(function OrgSettingsIntegrations
 
             <ul className="bg-white border rounded-lg">
                 <li className="border-b last-of-type:border-none">
-                    <IntegrationProviderItem id="slack" name="슬랙" logo={SlackLogo} isInstalled={false} />
+                    <IntegrationSlack />
                 </li>
 
                 <li className="border-b last-of-type:border-none">
-                    <IntegrationProviderItem
-                        id="google-workspace"
-                        name="구글 워크스페이스"
-                        logo={GoogleWorkspaceLogo}
-                        isInstalled={true}
-                    />
+                    <IntegrationGoogleWorkspace />
                 </li>
             </ul>
         </OrgSettingsLayout>
