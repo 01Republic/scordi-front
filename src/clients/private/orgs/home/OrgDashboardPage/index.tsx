@@ -11,8 +11,8 @@ export const OrgDashboardPage = () => {
     return (
         <MainLayout>
             <MainContainer>
-                <div className="flex flex-col gap-10">
-                    <div className="flex items-center justify-between mt-10">
+                <div className="flex flex-col gap-6 lg:gap-10">
+                    <div className="flex flex-col gap-2 lg:flex-row md:items-start lg:items-center lg:justify-between lg:mt-10">
                         <DashboardTitle />
                         <QuickButtonGroup />
                     </div>
