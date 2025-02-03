@@ -11,7 +11,6 @@ import {
     FindAllSubscriptionSpendsQueryDto,
 } from '^models/_dashboard/type';
 import {useDashboardSubscriptionSpends} from '^models/_dashboard/hook';
-import {roundNumber} from '^utils/number';
 import {LinkTo} from '^components/util/LinkTo';
 import {DashboardSectionLayout} from '../../DashboardSectionLayout';
 import {EmptyTableLayout} from '../../EmptyTableLayout';
@@ -34,7 +33,7 @@ export const YearMonthlySubscriptionsSection = memo((props: YearMonthlySubscript
     const isLoading = !isFetched;
     const {items, pagination} = paginatedSubscriptionSpends;
 
-    if (!pagination.totalItemCount) {
+    if (!isLoading && !pagination.totalItemCount) {
         return (
             <EmptyTableLayout
                 title="구독 리스트"
@@ -51,22 +50,18 @@ export const YearMonthlySubscriptionsSection = memo((props: YearMonthlySubscript
         </LinkTo>
     );
 
-    const totalAmount = items.reduce((acc, item) => acc + item.amount, 0);
-    const getRatio = (amount: number) => roundNumber(totalAmount ? (Math.floor(amount) / totalAmount) * 100 : 0, 1);
-
     return (
         <DashboardSectionLayout
             title="구독 리스트"
             Buttons={AllSubscriptionListShowButton}
             isLoading={isLoading}
-            className="max-h-[826px]"
+            className="h-[826px]"
         >
             <ul className="w-full flex flex-col">
                 {items.map((item) => (
                     <PaidSubscriptionSpendItem
                         key={item.subscriptionId}
                         amount={item.amount}
-                        ratio={getRatio(item.amount)}
                         subscription={item.subscription}
                     />
                 ))}

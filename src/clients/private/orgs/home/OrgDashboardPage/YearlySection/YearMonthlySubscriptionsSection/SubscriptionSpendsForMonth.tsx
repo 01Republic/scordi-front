@@ -10,8 +10,6 @@ interface SubscriptionSpendsForMonthProps {
 export const SubscriptionSpendsForMonth = memo((props: SubscriptionSpendsForMonthProps) => {
     const {monthlyItem, isLoading} = props;
 
-    const getRatio = (amount: number) => (Math.floor(amount) / monthlyItem.amount) * 100;
-
     return (
         <>
             <ul className="w-full flex flex-col">
@@ -19,7 +17,6 @@ export const SubscriptionSpendsForMonth = memo((props: SubscriptionSpendsForMont
                     <PaidSubscriptionSpendItem
                         key={subscriptionSpend.subscription.id}
                         amount={subscriptionSpend.amount}
-                        ratio={getRatio(subscriptionSpend.amount)}
                         subscription={subscriptionSpend.subscription}
                     />
                 ))}

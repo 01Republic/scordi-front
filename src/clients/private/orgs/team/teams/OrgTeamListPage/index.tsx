@@ -1,14 +1,13 @@
 import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {useTeamsForListPage} from '^models/Team/hook';
 import {TeamListSection} from './TeamListSection';
 
 export const OrgTeamListPage = memo(function OrgTeamListPage() {
-    const organizationId = useRecoilValue(orgIdParamState);
-    const {search, query} = useTeamsForListPage();
+    const organizationId = useOrgIdParam();
+    const {search, query, clearCache} = useTeamsForListPage();
 
     const onReady = () => {
         search({
@@ -30,6 +29,7 @@ export const OrgTeamListPage = memo(function OrgTeamListPage() {
     return (
         <ListPage
             onReady={onReady}
+            onUnmount={() => clearCache()}
             breadcrumb={['팀', {text: '팀 목록', active: true}]}
             titleText="팀 목록"
             Buttons={undefined}

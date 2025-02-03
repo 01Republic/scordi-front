@@ -1,7 +1,7 @@
-import {atom, useRecoilState, useRecoilValue} from 'recoil';
+import {atom, useRecoilState} from 'recoil';
 import {InvoiceAccountDto, UpdateInvoiceAccountDto} from '^models/InvoiceAccount/type';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {useEffect, useState} from 'react';
 import {useAltForm} from '^hooks/useAltForm';
 import {plainToInstance} from 'class-transformer';
@@ -38,7 +38,7 @@ export const useCurrentInvoiceAccount = () => {
 };
 
 export const useCurrentInvoiceAccountEdit = () => {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const {currentInvoiceAccount, setCurrentInvoiceAccount} = useCurrentInvoiceAccount();
     const {formData, setFormValue} = useAltForm(plainToInstance(UpdateInvoiceAccountDto, {}));
     const [isEditMode, setIsEditMode] = useState(false);

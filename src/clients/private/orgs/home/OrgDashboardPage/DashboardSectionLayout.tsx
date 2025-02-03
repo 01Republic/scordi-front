@@ -38,7 +38,7 @@ export const DashboardSectionLayout = memo((props: DashboardLayoutProps) => {
 
             <LoadableBox isLoading={isLoading} loadingType={2} noPadding spinnerPos="center">
                 <div
-                    className="max-h-[800px] overflow-hidden  overflow-y-scroll"
+                    className="max-h-[826px] overflow-hidden  overflow-y-scroll"
                     style={{
                         scrollbarWidth: 'none',
                         msOverflowStyle: 'none',

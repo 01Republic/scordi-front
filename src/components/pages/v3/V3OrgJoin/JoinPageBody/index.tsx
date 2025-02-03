@@ -45,9 +45,6 @@ const InvitedGoogleLoginButton = memo(() => {
     const googleLoginOnSuccess = useGoogleLoginSuccessHandler2();
     const router = useRouter();
 
-    console.log('invitedOrgId', invitedOrgId);
-    console.log('isFromInviteLink', isFromInviteLink);
-
     // Org Join 페이지에서 로그인했을 경우 초대된 유저가 맞는지 확인하는 함수.
     const checkInvitedEmail = async (user: UserDto, invitedOrgId: number) => {
         // 초대 링크 통해서 들어온 유저는 초대된 유저인지 확인 안함

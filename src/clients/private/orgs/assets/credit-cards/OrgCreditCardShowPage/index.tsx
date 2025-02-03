@@ -1,6 +1,5 @@
 import React, {memo, useState} from 'react';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
@@ -10,7 +9,7 @@ import {CardInformationPanel} from './CardInformationPanel';
 import {SubscriptionListOfCreditCardTabContent, BillingHistoryListOfCreditCardTabContent} from './tab-panes';
 
 export const OrgCreditCardShowPage = memo(function OrgCreditCardShowPage() {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const [activeTabIndex, setActiveTabIndex] = useState(0);
 
     return (

@@ -1,7 +1,6 @@
 import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {useCreditCardListForListPage} from '^models/CreditCard/hook';
@@ -12,7 +11,7 @@ import {AddCreditCardDropdown} from './AddCreditCardDropdown';
 import {AddCreditCardModal} from './AddCreditCardModal';
 
 export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
-    const organizationId = useRecoilValue(orgIdParamState);
+    const organizationId = useOrgIdParam();
     const {
         search,
         reset,

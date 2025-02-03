@@ -2,8 +2,7 @@ import React, {memo, useEffect} from 'react';
 import {WithChildren} from '^types/global.type';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {Breadcrumb, BreadcrumbPath} from '^clients/private/_layouts/_shared/Breadcrumb';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {useRouter} from 'next/router';
 
 interface ShowPageProps extends WithChildren {
@@ -13,7 +12,7 @@ interface ShowPageProps extends WithChildren {
 
 export const ShowPage = memo((props: ShowPageProps) => {
     const {onReady, breadcrumb, children} = props;
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const router = useRouter();
 
     useEffect(() => {

@@ -29,8 +29,6 @@ export const AdminBizOpsWorkflowListPage = memo(() => {
         fetchData({order: {id: 'DESC'}});
     }, []);
 
-    console.log(dataListPage);
-
     return (
         <>
             <AdminListPageLayout title="[BizOps] Workflow List" breadcrumbs={[{text: 'BizOps'}, {text: 'Workflows'}]}>

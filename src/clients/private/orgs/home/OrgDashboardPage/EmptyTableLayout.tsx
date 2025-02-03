@@ -6,7 +6,7 @@ import {DashboardSectionLayout} from '^clients/private/orgs/home/OrgDashboardPag
 import {LoadableBox} from '^components/util/loading';
 
 interface ListItemLayoutProps {
-    title: React.ReactNode;
+    title: string;
     Icon: React.ElementType;
     className?: string;
     onClick?: () => void;

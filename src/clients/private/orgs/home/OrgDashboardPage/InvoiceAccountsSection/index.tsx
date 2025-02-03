@@ -35,7 +35,7 @@ export const InvoiceAccountsSection = () => {
         return (
             <>
                 <EmptyTableLayout
-                    title={<span onClick={() => console.log(items)}>청구서 메일</span>}
+                    title="청구서 메일"
                     Icon={() => <GoMail />}
                     onClick={() => setIsInvoiceCreateModalOpened(true)}
                 />

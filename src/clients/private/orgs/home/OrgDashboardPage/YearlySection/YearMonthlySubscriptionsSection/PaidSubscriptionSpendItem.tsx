@@ -2,16 +2,15 @@ import React, {memo} from 'react';
 import {Avatar} from '^components/Avatar';
 import {TbLayoutGrid} from 'react-icons/tb';
 import {SubscriptionDto} from '^models/Subscription/types';
-import {currencyFormat, floorNumber, roundNumber} from '^utils/number';
+import {currencyFormat, roundNumber} from '^utils/number';
 
 interface PaidSubscriptionSpendItemProps {
     amount: number;
-    ratio: number;
     subscription: SubscriptionDto;
 }
 
 export const PaidSubscriptionSpendItem = memo((props: PaidSubscriptionSpendItemProps) => {
-    const {amount, ratio, subscription} = props;
+    const {amount, subscription} = props;
     const {product} = subscription;
 
     return (
@@ -25,9 +24,8 @@ export const PaidSubscriptionSpendItem = memo((props: PaidSubscriptionSpendItemP
                     </div>
                 )}
                 <p>{product.name()}</p>
-                <p className="font-normal text-14 text-neutral-400">{ratio.toFixed(1)}%</p>
             </div>
-            <p className="whitespace-nowrap">{currencyFormat(roundNumber(amount, 0))}</p>
+            <p className="whitespace-nowrap"> {amount > 0 ? currencyFormat(roundNumber(amount) * -1) : '-'}</p>
         </li>
     );
 });
