@@ -54,8 +54,8 @@ export const BillingHistoryListOfCreditCardTabContent = memo(function BillingHis
 
         confirmed(deleteConfirm(), '삭제 취소')
             .then(() => billingHistoryApi.destroy(id))
-            .then(() => toast.success('결제내역을 삭제했어요.'))
             .then(() => reload())
+            .then(() => toast.success('결제내역을 삭제했어요.'))
             .catch(errorToast);
     };
 
