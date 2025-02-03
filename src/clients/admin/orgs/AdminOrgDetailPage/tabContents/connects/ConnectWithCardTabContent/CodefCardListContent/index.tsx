@@ -11,7 +11,7 @@ import {CodefCardItem} from './CodefCardItem';
 import {IoIosClose} from 'react-icons/io';
 
 export const CodefCardListContent = memo(function CodefCardListContent(props: TabPaneProps) {
-    const {moveTab} = props;
+    const {moveTab = console.log} = props;
     const org = useRecoilValue(adminOrgDetail);
     const [selectedCodefAccount, setSelectedCodefAccount] = useRecoilState(selectedCodefAccountAtom);
     const setSelectedCodefCard = useSetRecoilState(selectedCodefCardAtom);

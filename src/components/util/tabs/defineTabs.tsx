@@ -10,7 +10,7 @@ import {ComponentLike, ComponentType} from '^components/util/ComponentLike';
 // }
 
 export interface TabPaneProps {
-    moveTab: (index: number) => any;
+    moveTab?: (index: number) => any;
 }
 
 export interface TabItem<T extends TabPaneProps> {

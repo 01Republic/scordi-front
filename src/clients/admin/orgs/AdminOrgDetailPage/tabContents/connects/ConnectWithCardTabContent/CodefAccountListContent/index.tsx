@@ -14,7 +14,7 @@ import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 
 export const CodefAccountListContent = memo(function (props: TabPaneProps) {
-    const {moveTab} = props;
+    const {moveTab = console.log} = props;
     const org = useRecoilValue(adminOrgDetail);
     const {search, result, isLoading, reload, movePage, changePageSize} = useAdminCodefAccounts();
     const setSelectedCodefAccount = useSetRecoilState(selectedCodefAccountAtom);

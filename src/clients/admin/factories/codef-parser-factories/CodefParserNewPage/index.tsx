@@ -35,7 +35,7 @@ export const CodefParserNewPage = memo(function CodefParserNewPage() {
         console.log(form.getValues());
     }
 
-    const onSubmit = (dto: CreateCodefParserDto) => {
+    const onSubmit = async (dto: CreateCodefParserDto) => {
         if (!dto.resMemberStoreName.value) {
             return toast('결제내역의 텍스트 패턴 찾기 입력값이 누락되어있어요!');
         }

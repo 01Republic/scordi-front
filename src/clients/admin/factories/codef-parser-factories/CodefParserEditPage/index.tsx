@@ -55,7 +55,7 @@ export const CodefParserEditPage = memo(function () {
         setPageLoaded(true);
     }
 
-    const onSubmit = (dto: UpdateCodefParserDto) => {
+    const onSubmit = async (dto: UpdateCodefParserDto) => {
         if (!dto.resMemberStoreName?.value) {
             return toast('결제내역의 텍스트 패턴 찾기 입력값이 누락되어있어요!');
         }
