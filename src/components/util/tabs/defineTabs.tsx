@@ -9,12 +9,16 @@ import {ComponentLike, ComponentType} from '^components/util/ComponentLike';
 //     Component?: MemoExoticComponent<() => JSX.Element> | (() => JSX.Element);
 // }
 
-export interface TabItem {
-    label: ReactNodeElement;
-    TabPane: MemoExoticComponent<() => JSX.Element> | NamedExoticComponent<Object> | (() => JSX.Element);
+export interface TabPaneProps {
+    moveTab: (index: number) => any;
 }
 
-export function defineTabs(key: string, tabs: TabItem[]) {
+export interface TabItem<T extends TabPaneProps> {
+    label: ReactNodeElement;
+    TabPane: MemoExoticComponent<() => JSX.Element> | NamedExoticComponent<T> | (() => JSX.Element);
+}
+
+export function defineTabs<T extends TabPaneProps>(key: string, tabs: TabItem<T>[]) {
     const tabIndexAtom = atom({
         key: `tabIndexAtom/${key}`,
         default: 0,

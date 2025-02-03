@@ -8,6 +8,7 @@ import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {FindAllCardQueryDto} from '^models/CodefCard/type/find-all.card.query.dto';
 import {ClassConstructor} from 'class-transformer';
 import {FindAllSubscriptionByCardQueryDto} from '^models/CodefCard/type/find-all.card-subscription.query.dto';
+import {FindAllAccountQueryForAdminDto} from '^models/CodefAccount/type/find-all-account.query.for-admin.dto';
 import {SubscriptionDto} from '^models/Subscription/types';
 
 /** [연동] Connect CODEF Accounts API */
@@ -54,5 +55,34 @@ export const codefAccountApi = {
     findSubscriptions(orgId: number, accountId: number, params?: FindAllSubscriptionByCardQueryDto) {
         const url = `/connect/organizations/${orgId}/codef/accounts/${accountId}/subscriptions`;
         return api.get(url, {params}).then(paginatedDtoOf(SubscriptionDto));
+    },
+};
+
+export const codefAccountAdminApi = {
+    // 카드사 계정 조회
+    index(params: FindAllAccountQueryForAdminDto) {
+        const url = `/admin/codef-accounts`;
+        return api.get(url, {params}).then(paginatedDtoOf(CodefAccountDto));
+    },
+
+    // 카드사 계정 목록 동기화
+    sync(organizationId: number) {
+        const url = `/admin/codef-accounts`;
+        const body = {organizationId};
+        return api.patch(url, body);
+    },
+
+    // 카드사 계정내 카드 목록 동기화
+    syncCards(organizationId: number, id: number) {
+        const url = `/admin/codef-accounts/${id}/codef-cards`;
+        const body = {organizationId};
+        return api.patch(url, body);
+    },
+
+    // 카드사 계정 삭제
+    destroy(organizationId: number, id: number) {
+        const url = `/admin/codef-accounts/${id}`;
+        const params = {organizationId};
+        return api.delete(url, {params});
     },
 };

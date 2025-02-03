@@ -20,3 +20,4 @@ const useCodefAccountsV3 = (atoms: PagedResourceAtoms<CodefAccountDto, FindAllAc
 };
 
 export * from './hooks/useCreateCodefAccount';
+export * from './hooks/useCodefAccountsAdmin';
