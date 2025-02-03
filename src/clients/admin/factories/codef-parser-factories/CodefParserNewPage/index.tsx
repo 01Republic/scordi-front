@@ -36,6 +36,9 @@ export const CodefParserNewPage = memo(function CodefParserNewPage() {
     }
 
     const onSubmit = (dto: CreateCodefParserDto) => {
+        if (!dto.resMemberStoreName.value) {
+            return toast('결제내역의 텍스트 패턴 찾기 입력값이 누락되어있어요!');
+        }
         return codefParserFactoryApi.create(dto).then((res) => {
             const editPath = CodefParserEditPageRoute.path(res.data.serviceName);
             return () => router.push(editPath);
