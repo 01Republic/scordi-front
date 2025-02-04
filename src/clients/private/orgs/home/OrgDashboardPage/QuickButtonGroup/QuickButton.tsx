@@ -15,7 +15,7 @@ export const QuickButton = (props: QuickButtonProps) => {
     return (
         <LinkTo href={url} onClick={onClick} className="btn-dashboard">
             <Icon />
-            <p className="font-semibold">{text}</p>
+            <p className="whitespace-nowrap text-xs md:text-sm  font-semibold">{text}</p>
         </LinkTo>
     );
 };

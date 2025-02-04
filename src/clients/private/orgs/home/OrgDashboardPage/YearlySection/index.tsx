@@ -13,8 +13,8 @@ export const YearlySection = memo(() => {
     const {data: dashboardSummaryYearMonthlyResult, isLoading} = useDashboardSummaryYearMonthlyResult(orgId, year);
 
     return (
-        <div className="grid grid-cols-3 gap-5">
-            <div className="col-span-2">
+        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-3 gap-5">
+            <div className="md:col-span-3 lg:col-span-2">
                 <YearMonthlyGraphSection
                     year={year}
                     // changeYear={setYear}
@@ -23,7 +23,7 @@ export const YearlySection = memo(() => {
                     changeMonthlyItem={setSelectedMonthlyItem}
                 />
             </div>
-            <div className="col-span-1">
+            <div className="md:col-span-2 lg:col-span-1">
                 <YearMonthlySubscriptionsSection
                     year={year}
                     result={dashboardSummaryYearMonthlyResult}

@@ -60,21 +60,31 @@ export const YearMonthlyGraphSection = memo((props: YearMonthlyGraphSectionProps
             isLoading={isLoading}
             className="max-h-[826px]"
         >
-            <section className="w-full flex flex-col gap-10">
+            <section className="w-full flex flex-col gap-2 sm:gap-4 md:gap-6 lg:gap-10">
                 <div className="flex gap-5">
-                    <section className="w-full flex flex-col gap-3 border rounded-xl p-5">
-                        <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-blue-800 rounded-full" />
-                            <p>{year}년, 오늘 기준 구독 지출액</p>
+                    <section className="w-full flex flex-col gap-1 md:gap-3 border rounded-xl p-4 md:p-5">
+                        <div className="flex flex-col items-start sm:items-center sm:flex-row md:items-start md:flex-col lg:items-center lg:flex-row">
+                            <div className="flex items-center gap-2">
+                                <div className="w-2 h-2 bg-blue-800 rounded-full" />
+                                <p>{year}년, 오늘&nbsp;</p>
+                            </div>
+                            <p className="pl-4 sm:pl-0 md:pl-4 lg:pl-0">기준 구독 지출액</p>
                         </div>
-                        <p className="font-bold text-28">{currencyFormat(roundNumber(result?.didPayAmount || 0))}</p>
+                        <p className="font-bold text-20 md:text-24 lg:text-28">
+                            {currencyFormat(roundNumber(result?.didPayAmount || 0))}
+                        </p>
                     </section>
-                    <section className="w-full flex flex-col gap-3 border rounded-xl p-5">
-                        <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-pink-200 rounded-full" />
-                            <p>{year}년, 예상 구독 지출액</p>
+                    <section className="w-full flex flex-col gap-1 md:gap-3 border rounded-xl p-4 md:p-5">
+                        <div className="flex flex-col items-start sm:items-center sm:flex-row md:items-start md:flex-col lg:items-center lg:flex-row">
+                            <div className="flex items-center gap-2">
+                                <div className="w-2 h-2 bg-pink-200 rounded-full" />
+                                <p>{year}년, 예상&nbsp;</p>
+                            </div>
+                            <p className="pl-4 sm:pl-0 md:pl-4 lg:pl-0">구독 지출액</p>
                         </div>
-                        <p className="font-bold text-28">{currencyFormat(roundNumber(result?.willPayAmount || 0))}</p>
+                        <p className="font-bold text-20 md:text-24 lg:text-28">
+                            {currencyFormat(roundNumber(result?.willPayAmount || 0))}
+                        </p>
                     </section>
                 </div>
                 <BarGraph result={result} changeMonthlyItem={changeMonthlyItem} />
@@ -82,3 +92,5 @@ export const YearMonthlyGraphSection = memo((props: YearMonthlyGraphSectionProps
         </DashboardSectionLayout>
     );
 });
+
+//font-bold text-20 md:text-24 lg:text-28 flex items-center gap-2 lg:gap-3
