@@ -23,7 +23,7 @@ export const InvoiceAccountItem = memo((props: InvoiceAccountItemProps) => {
                 <div className="flex items-center justify-between">
                     <InvoiceAccountProfile invoiceAccount={invoiceAccount} />
 
-                    <p className="font-medium text-16 text-gray-900">
+                    <p className="font-medium text-12 sm:text-14 md:text-13 lg:text-16 text-gray-900 whitespace-nowrap">
                         <CountText product={product} count={subscriptionCount} />
                     </p>
                 </div>
@@ -42,9 +42,10 @@ const CountText = (props: {product: ProductDto | null; count: number}) => {
 
     if (count > 1) {
         return (
-            <span>
-                {product.name()} 외 {unitFormat(count - 1, '개')}
-            </span>
+            <div className="flex flex-col items-end sm:flex-row sm:items-center md:flex-col md:items-end lg:flex-row lg:items-center">
+                <span>{product.name()}</span>
+                <span>외 {unitFormat(count - 1, '개')}</span>
+            </div>
         );
     }
 
