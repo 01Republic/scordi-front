@@ -18,7 +18,7 @@ export const SubscriptionProfile = memo((props: SubscriptionProfileProps) => {
             <Avatar className="w-6 h-6" src={product.image} alt={product.name()} draggable={false} loading="lazy">
                 <FaQuestion size={24} className="text-gray-300 h-full w-full p-[6px]" />
             </Avatar>
-            <div className="h-full flex items-center group-hover:text-scordi transition-all w-full overflow-x-hidden">
+            <div className="h-full flex items-center group-hover:text-scordi transition-all w-full ">
                 {children ? (
                     children
                 ) : (
