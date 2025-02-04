@@ -26,4 +26,4 @@ export const DashboardTitle = memo(function DashboardTitle() {
     return <Title>{currentOrg?.name}의 대시보드</Title>;
 });
 
-const Title = ({children}: WithChildren) => <h1 className="font-bold text-3xl">{children}</h1>;
+const Title = ({children}: WithChildren) => <h1 className="text-20 lg:text-24 font-bold xl:text-3xl">{children}</h1>;

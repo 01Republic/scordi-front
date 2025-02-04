@@ -43,7 +43,7 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
 
     return (
         <div
-            className={cn('w-full rounded-2xl grid grid-cols-3 gap-2 p-2', {
+            className={cn('w-full rounded-2xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-2', {
                 'bg-emerald-100': currentStatusTab === BillingHistoryStatus.PaySuccess,
                 'bg-orange-100 ': currentStatusTab === BillingHistoryStatus.PayWait,
                 'bg-red-100': currentStatusTab === BillingHistoryStatus.PayFail,

@@ -8,7 +8,7 @@ export * from './CardTable';
 export * from './CardTableTr';
 export * from './columns';
 
-interface CardTableColumns<T> {
+export interface CardTableColumns<T> {
     th: ReactNodeElement;
     className?: string;
     render: (entry: T) => ReactNodeElement;

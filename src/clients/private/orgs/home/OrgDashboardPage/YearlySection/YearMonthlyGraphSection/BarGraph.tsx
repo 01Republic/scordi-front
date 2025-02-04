@@ -86,7 +86,7 @@ export const BarGraph = memo((props: BarGraphProps) => {
                         tickMargin={18}
                     />
                     <YAxis
-                        width={110}
+                        width={80}
                         domain={[0, 'monthlyTotalAmount']}
                         ticks={ticks}
                         axisLine={false}
@@ -98,7 +98,7 @@ export const BarGraph = memo((props: BarGraphProps) => {
                             fontSize: 14,
                             fill: '#7D7C78',
                         }}
-                        tickMargin={40}
+                        tickMargin={20}
                     />
                     <Tooltip content={<CustomTooltip />} cursor={{fill: 'transparent'}} />
                     <Bar

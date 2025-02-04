@@ -11,8 +11,8 @@ export const OrgDashboardPage = () => {
     return (
         <MainLayout>
             <MainContainer>
-                <div className="flex flex-col gap-10">
-                    <div className="flex items-center justify-between mt-10">
+                <div className="flex flex-col gap-6 lg:gap-10 -m-4 sm:m-0">
+                    <div className="flex flex-col gap-2 lg:flex-row md:items-start lg:items-center lg:justify-between lg:mt-10 pl-4 sm:pl-0">
                         <DashboardTitle />
                         <QuickButtonGroup />
                     </div>
@@ -20,7 +20,7 @@ export const OrgDashboardPage = () => {
                     {/* 이달의 지출 총액 */}
                     <MonthlyTotalExpenseSection />
 
-                    <div className="flex gap-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                         {/* 결제수단 */}
                         <PaymentMethodsSection />
 

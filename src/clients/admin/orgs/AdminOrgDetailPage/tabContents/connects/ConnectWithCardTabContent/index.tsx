@@ -2,10 +2,12 @@ import {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {defineTabs, useTabs} from '^components/util/tabs';
+import {CodefAccountListContent} from './CodefAccountListContent';
 import {CodefCardListContent} from './CodefCardListContent';
 import {CodefBillingHistoryListContent} from './CodefBillingHistoryListContent';
 
 const cardConnectedTab = defineTabs('cardConnectedTab', [
+    {label: '카드사 계정', TabPane: CodefAccountListContent},
     {label: '카드', TabPane: CodefCardListContent},
     {label: '카드내역', TabPane: CodefBillingHistoryListContent},
 ]);
@@ -29,7 +31,7 @@ export const ConnectWithCardTabContent = memo(function ConnectWithCardTabContent
             </div>
 
             <div className="col-span-5">
-                <CurrentTabPane />
+                <CurrentTabPane moveTab={(tabIndex: number) => setCurrentTabIndex(tabIndex)} />
             </div>
         </div>
     );
