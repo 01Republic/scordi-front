@@ -15,7 +15,7 @@ export const useExpenseSection = () => {
 
     const setTeam = (team?: TeamDto) => {
         _setTeam(team);
-        changeTab(BillingHistoryStatus.PayWait);
+        changeTab(BillingHistoryStatus.PaySuccess);
     };
 
     const changeTab = setCurrentStatusTab;
