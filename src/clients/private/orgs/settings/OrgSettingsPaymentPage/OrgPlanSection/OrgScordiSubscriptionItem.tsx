@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 import {t_planStepType} from '^models/_scordi/ScordiPlan/type';
-import {yyyy_mm_dd} from '^utils/dateTime';
+import {OrgScordiSubscriptionItemExpireNote} from './OrgScordiSubscriptionItemExpireNote';
 import {OrgScordiSubscriptionItemDropdown} from './OrgScordiSubscriptionItemDropdown';
 
 interface OrgScordiSubscriptionItemProps {
@@ -10,8 +10,6 @@ interface OrgScordiSubscriptionItemProps {
 
 export const OrgScordiSubscriptionItem = memo((props: OrgScordiSubscriptionItemProps) => {
     const {scordiSubscription} = props;
-
-    const nextDate = scordiSubscription.getNextDate();
 
     return (
         <div className={'p-4 bg-slate-50 flex items-center justify-between rounded-lg text-14'}>
@@ -32,14 +30,13 @@ export const OrgScordiSubscriptionItem = memo((props: OrgScordiSubscriptionItemP
             </div>
 
             <div className="flex items-center gap-3">
-                <div className="flex items-center gap-1.5">
-                    <span className="text-gray-500">다음 갱신일 :</span>
-                    <span>{nextDate ? yyyy_mm_dd(nextDate, '. ') : '-'}</span>
-                </div>
+                <OrgScordiSubscriptionItemExpireNote scordiSubscription={scordiSubscription} />
 
-                <div>
-                    <OrgScordiSubscriptionItemDropdown scordiSubscription={scordiSubscription} />
-                </div>
+                {scordiSubscription.nextSubscriptionId && (
+                    <div>
+                        <OrgScordiSubscriptionItemDropdown scordiSubscription={scordiSubscription} />
+                    </div>
+                )}
 
                 {/*{scordiSubscription.startAt && scordiSubscription.finishAt ? (*/}
                 {/*    <div className="flex items-center gap-1.5">*/}

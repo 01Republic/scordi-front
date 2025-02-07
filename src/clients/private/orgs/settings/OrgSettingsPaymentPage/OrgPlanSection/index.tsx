@@ -60,6 +60,7 @@ export const OrgPlanSection = memo((props: OrgPlanSectionProps) => {
                 {currentSubscription && <OrgScordiSubscriptionItem scordiSubscription={currentSubscription} />}
                 {currentSubscription && <OrgScheduledSubscriptionList orgId={orgId} />}
             </SettingsPaymentSection>
+
             <SelectPlanModal
                 orgId={orgId}
                 isOpened={isSelectPlanModalOpened}
