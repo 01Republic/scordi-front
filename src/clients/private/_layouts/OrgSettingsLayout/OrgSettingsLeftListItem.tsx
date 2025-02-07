@@ -18,12 +18,12 @@ export const OrgSettingLeftListItem = memo(function (props: OrgSettingLeftListIt
     return (
         <LinkTo
             href={href}
-            className={`flex items-center px-4 py-3 mb-1 rounded-lg hover:bg-gray-50 cursor-pointer ${
-                isActive ? `bg-gray-50` : ``
+            className={`flex items-center px-4 py-3 rounded-lg hover:bg-scordi-light-50 cursor-pointer ${
+                isActive ? `!bg-scordi-50` : ``
             }`}
         >
-            <Icon className={`mr-3 ${isActive ? `text-scordi` : ``}`} />
-            <span className={`${isActive ? `text-scordi` : ``}`}>{name}</span>
+            <Icon className={`mr-3 ${isActive ? `text-scordi` : `text-gray-500`}`} />
+            <span className={`${isActive ? `text-scordi` : `text-gray-500`}`}>{name}</span>
         </LinkTo>
     );
 });
