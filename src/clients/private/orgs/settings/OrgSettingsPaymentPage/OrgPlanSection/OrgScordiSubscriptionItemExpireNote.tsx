@@ -16,10 +16,8 @@ export const OrgScordiSubscriptionItemExpireNote = memo((props: OrgScordiSubscri
             <div className="flex items-center gap-1.5">
                 <span className="text-gray-500">종료 예정일 :</span>
                 <span>{nextDate ? yyyy_mm_dd(nextDate, '. ') : '-'}</span>
-                {scordiSubscription.scordiPlan.isFreeTrial ? (
+                {scordiSubscription.scordiPlan.isFreeTrial && (
                     <span className="text-gray-400 text-12">(체험 기간 종료)</span>
-                ) : (
-                    <span className="text-red-500 text-12">(자동결제 취소됨)</span>
                 )}
             </div>
         );

@@ -57,7 +57,9 @@ export const OrgPlanSection = memo((props: OrgPlanSectionProps) => {
                         <div>Loading</div>
                     </div>
                 )}
-                {currentSubscription && <OrgScordiSubscriptionItem scordiSubscription={currentSubscription} />}
+                {currentSubscription && (
+                    <OrgScordiSubscriptionItem scordiSubscription={currentSubscription} reload={() => reload(orgId)} />
+                )}
                 {currentSubscription && <OrgScheduledSubscriptionList orgId={orgId} />}
             </SettingsPaymentSection>
 
