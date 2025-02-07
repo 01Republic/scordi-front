@@ -9,6 +9,7 @@ import {OrgSettingsMemberPageRoute} from '^pages/orgs/[id]/settings/members';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {Breadcrumb, BreadcrumbPath} from '^clients/private/_layouts/_shared/Breadcrumb';
 import {useCurrentOrg} from '^models/Organization/hook';
+import {OrgSettingsContent} from './OrgSettingsContent';
 import {OrgSettingLeftListItem} from './OrgSettingsLeftListItem';
 
 interface OrgSettingsLayoutProps extends WithChildren {
@@ -47,8 +48,16 @@ export const OrgSettingsLayout = memo(function OrgSettingsLayout(props: OrgSetti
                             </div>
                         </div>
                     </div>
-                    <div className={'col-span-3 card border rounded-lg bg-white p-6'}>
-                        <div className={'mb-8'}>{children}</div>
+                    <div className={'col-span-3 px-6'}>
+                        <OrgSettingsContent
+                            title={
+                                typeof props.breadcrumbPath === 'object'
+                                    ? props.breadcrumbPath.text
+                                    : props.breadcrumbPath
+                            }
+                        >
+                            {children}
+                        </OrgSettingsContent>
                     </div>
                 </div>
             </MainContainer>
