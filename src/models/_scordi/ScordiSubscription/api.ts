@@ -1,6 +1,6 @@
 import {api} from '^api/api';
-import {listDtoOf, oneDtoOf} from '^types/utils/response-of';
-import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
+import {listDtoOf, oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
+import {FindAllScordiSubscriptionsForAdminDto, ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 import {plainToInstance} from 'class-transformer';
 
 /**
@@ -40,4 +40,12 @@ export const scordiSubscriptionApi = {
     //     const url = `/orgs/${orgId}/billing/subscription`;
     //     return api.patch(url).then(oneDtoOf(ScordiSubscriptionDto));
     // },
+};
+
+// [Admin] 스코디 구독관리 API
+export const adminScordiSubscriptionsApi = {
+    index(params: FindAllScordiSubscriptionsForAdminDto) {
+        const url = `/admin/billing/subscriptions`;
+        return api.get(url, {params}).then(paginatedDtoOf(ScordiSubscriptionDto));
+    },
 };
