@@ -1,20 +1,18 @@
 import {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
-import {ConnectedWorkspaceListTabContent} from './ConnectedWorkspaceListTabContent';
-import {InvoiceAccountListTabContent} from './InvoiceAccountListTabContent';
-import {ConnectWithCardTabContent} from './ConnectWithCardTabContent';
 import {defineTabs, useTabs} from '^components/util/tabs';
+import {ScordiSubscriptionTabContent} from './ScordiSubscriptionTabContent';
+import {ScordiPaymentTabContent} from './ScordiPaymentTabContent';
 
-const connectionTab = defineTabs('adminOrgDetailPage/connections', [
-    {label: '구성원(워크스페이스)', TabPane: ConnectedWorkspaceListTabContent},
-    {label: '결제메일', TabPane: InvoiceAccountListTabContent},
-    {label: '카드', TabPane: ConnectWithCardTabContent},
+const tabAtoms = defineTabs('adminOrgDetailPage/payments', [
+    {label: '구독', TabPane: ScordiSubscriptionTabContent},
+    {label: '결제', TabPane: ScordiPaymentTabContent},
 ]);
 
-export const AdminOrgConnectionTabContent = memo(() => {
+export const PaymentListTabContent = memo(function PaymentListTabContent() {
     const org = useRecoilValue(adminOrgDetail);
-    const {currentTabIndex, setCurrentTabIndex, tabs, CurrentTabPane} = useTabs(connectionTab);
+    const {currentTabIndex, setCurrentTabIndex, tabs, CurrentTabPane} = useTabs(tabAtoms);
 
     if (!org) return <></>;
 

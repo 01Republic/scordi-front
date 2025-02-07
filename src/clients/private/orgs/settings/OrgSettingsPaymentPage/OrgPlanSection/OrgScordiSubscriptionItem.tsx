@@ -1,17 +1,19 @@
 import React, {memo} from 'react';
 import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 import {t_planStepType} from '^models/_scordi/ScordiPlan/type';
-import {yyyy_mm_dd} from '^utils/dateTime';
+import {OrgScordiSubscriptionItemExpireNote} from './OrgScordiSubscriptionItemExpireNote';
 import {OrgScordiSubscriptionItemDropdown} from './OrgScordiSubscriptionItemDropdown';
+import {scordiSubscriptionApi} from '^models/_scordi/ScordiSubscription/api';
+import {toast} from 'react-hot-toast';
+import {errorToast} from '^api/api';
 
 interface OrgScordiSubscriptionItemProps {
     scordiSubscription: ScordiSubscriptionDto;
+    reload: () => any;
 }
 
 export const OrgScordiSubscriptionItem = memo((props: OrgScordiSubscriptionItemProps) => {
-    const {scordiSubscription} = props;
-
-    const nextDate = scordiSubscription.getNextDate();
+    const {scordiSubscription, reload} = props;
 
     return (
         <div className={'p-4 bg-slate-50 flex items-center justify-between rounded-lg text-14'}>
@@ -32,13 +34,31 @@ export const OrgScordiSubscriptionItem = memo((props: OrgScordiSubscriptionItemP
             </div>
 
             <div className="flex items-center gap-3">
-                <div className="flex items-center gap-1.5">
-                    <span className="text-gray-500">다음 갱신일 :</span>
-                    <span>{nextDate ? yyyy_mm_dd(nextDate, '. ') : '-'}</span>
-                </div>
+                <OrgScordiSubscriptionItemExpireNote scordiSubscription={scordiSubscription} />
 
                 <div>
-                    <OrgScordiSubscriptionItemDropdown scordiSubscription={scordiSubscription} />
+                    {scordiSubscription.nextSubscriptionId ? (
+                        <OrgScordiSubscriptionItemDropdown scordiSubscription={scordiSubscription} />
+                    ) : (
+                        <div>
+                            {!scordiSubscription.scordiPlan.isFreeTrial && (
+                                <button
+                                    className="btn btn-xs btn-white no-animation btn-animation !text-red-500"
+                                    onClick={async () => {
+                                        if (!confirm('해지를 취소할까요?')) return;
+
+                                        scordiSubscriptionApi
+                                            .revoke(scordiSubscription.organizationId)
+                                            .then(() => toast.success('해지를 취소 했어요'))
+                                            .then(() => reload())
+                                            .catch(errorToast);
+                                    }}
+                                >
+                                    해지 취소
+                                </button>
+                            )}
+                        </div>
+                    )}
                 </div>
 
                 {/*{scordiSubscription.startAt && scordiSubscription.finishAt ? (*/}

@@ -12,6 +12,7 @@ import {BizOpsWorkflowListRoute} from '^pages/admin/biz-ops/manual/workflows';
 import {AdminOrgsPageRoute} from '^pages/admin/orgs';
 import {LinkTo} from '^components/util/LinkTo';
 import {CodefParserListPageRoute} from '^pages/admin/factories/codef-parsers';
+import {AdminScordiSubscriptionListPageRoute} from '^pages/admin/billing/scordi-subscriptions';
 
 interface AdminSideBarProps extends WithChildren {}
 
@@ -33,6 +34,9 @@ export const AdminSideBar = memo((props: AdminSideBarProps) => {
                 {/*<li>*/}
                 {/*    <LinkTo text="블로그 관리" href={AdminPostsPageRoute.path()} />*/}
                 {/*</li>*/}
+                <li>
+                    <LinkTo text="빌링 관리" href={AdminScordiSubscriptionListPageRoute.path()} />
+                </li>
                 <li>
                     <LinkTo text="앱 관리" href={AdminProductsPageRoute.path()} />
                 </li>
