@@ -1,17 +1,15 @@
 import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
 import {WithChildren} from '^types/global.type';
-import {orgIdParamState, useOrgIdParam} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {BsBuildingFill, BsCreditCard, BsPeopleFill} from 'react-icons/bs';
 import {OrgSettingsInformationPageRoute} from '^pages/orgs/[id]/settings';
 import {OrgSettingsPaymentPageRoute} from '^pages/orgs/[id]/settings/payments';
 import {OrgSettingsMemberPageRoute} from '^pages/orgs/[id]/settings/members';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {Breadcrumb, BreadcrumbPath} from '^clients/private/_layouts/_shared/Breadcrumb';
-import {useCurrentOrg} from '^models/Organization/hook';
 import {OrgSettingsContent} from './OrgSettingsContent';
+import {OrgSettingsLeftListBox} from './OrgSettingsLeftListBox';
 import {OrgSettingLeftListItem} from './OrgSettingsLeftListItem';
-import {OrgSettingsLeftListBox} from '^clients/private/_layouts/OrgSettingsLayout/OrgSettingsLeftListBox';
 
 interface OrgSettingsLayoutProps extends WithChildren {
     breadcrumbPath: BreadcrumbPath;

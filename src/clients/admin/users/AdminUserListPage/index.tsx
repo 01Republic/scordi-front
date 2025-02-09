@@ -34,7 +34,7 @@ export const AdminUserListPage = memo(() => {
                 </div>
                 <SearchResultContainer>
                     {listPage.items.map((user, i) => (
-                        <UserItem key={i} user={user} />
+                        <UserItem key={i} user={user} fetchData={fetchData} />
                     ))}
                 </SearchResultContainer>
             </AdminPageContainer>
