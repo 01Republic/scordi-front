@@ -1,6 +1,8 @@
 import React, {memo} from 'react';
 import {ReactNodeElement, WithChildren} from '^types/global.type';
 import {LoadableBox} from '^components/util/loading';
+import {OrgSettingsCardSection} from '^clients/private/_layouts/OrgSettingsLayout/OrgSettingsCardSection';
+import {LinkTo} from '^components/util/LinkTo';
 
 interface SettingsPaymentSectionProps extends WithChildren {
     title: ReactNodeElement;
@@ -14,23 +16,25 @@ export const SettingsPaymentSection = memo((props: SettingsPaymentSectionProps) 
     const {title, right, buttonText, buttonOnClick, isLoading = false, children} = props;
 
     return (
-        <div className="border rounded-lg p-4 mb-6">
-            <div className={'flex justify-between items-center mb-4'}>
-                <div className={'font-bold'}>{title}</div>
-
-                {right
+        <OrgSettingsCardSection
+            title={title}
+            right={
+                right
                     ? right
                     : buttonOnClick && (
-                          <button className="btn3" onClick={buttonOnClick}>
+                          <LinkTo
+                              className={'text-blue-500 cursor-pointer text-12 hover:underline'}
+                              onClick={buttonOnClick}
+                          >
                               {buttonText}
-                          </button>
-                      )}
-            </div>
-
+                          </LinkTo>
+                      )
+            }
+        >
             <LoadableBox isLoading={isLoading} loadingType={2} noPadding spinnerPos="center">
                 {children}
             </LoadableBox>
-        </div>
+        </OrgSettingsCardSection>
     );
 });
 SettingsPaymentSection.displayName = 'SettingsPaymentSection';

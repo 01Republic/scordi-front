@@ -18,8 +18,6 @@ export const OrgSettingsPaymentPage = memo(function () {
                 href: OrgSettingsPaymentPageRoute.path(orgId),
             }}
         >
-            <div className={'text-xl font-bold my-4'}>구독 및 결제</div>
-
             {/*현재 플랜 정보*/}
             <OrgPlanSection orgId={orgId} />
 
