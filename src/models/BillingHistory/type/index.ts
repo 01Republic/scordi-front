@@ -10,6 +10,7 @@ import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {IsActiveSubsParams, StartEndParams} from '^types/billing.type';
 import {PartialType} from '^types/utils/partial-type';
 import {rangeToArr} from '^utils/range';
+import {BankAccountDto} from '^models/BankAccount/type';
 
 export * from './create-billing-history.request.dto.v2';
 
@@ -38,6 +39,7 @@ export class BillingHistoryDto {
     subscriptionId: number | null; // 구독정보 ID
     invoiceAppId: number | null; // 인보이스 앱 ID
     creditCardId: number | null; // 결제에 사용된 카드 ID
+    bankAccountId: number | null; // 계좌 ID
     @TypeCast(() => Date) issuedAt: Date; // 인보이스 발행 일시
     @TypeCast(() => Date) lastRequestedAt: Date | null; // 최근 결제 요청 일시
     @TypeCast(() => Date) paidAt: Date | null; // 결제 완료 일시
@@ -66,6 +68,7 @@ export class BillingHistoryDto {
     @TypeCast(() => SubscriptionDto) subscription?: SubscriptionDto; // 구독정보
     @TypeCast(() => InvoiceAppDto) invoiceApp?: InvoiceAppDto; // 인보이스 앱
     @TypeCast(() => CreditCardDto) creditCard?: CreditCardDto | null; // 결제 카드
+    @TypeCast(() => BankAccountDto) bankAccount?: BankAccountDto | null; // 계좌
 
     get isFromCard(): boolean {
         return !!this.cardApproveNo;
