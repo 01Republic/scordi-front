@@ -109,7 +109,7 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect(props: In
                 onCreate={() => {
                     toast.success('불러온 청구서 메일을 추가했어요.');
                     setIsAutoCreateModalOpen(false);
-                    reload();
+                    selectModal.show();
                 }}
                 onRetry={() => {
                     setIsAutoCreateModalOpen(true);
@@ -122,7 +122,7 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect(props: In
                 onCreate={() => {
                     toast.success('청구서 메일을 추가했어요.');
                     setIsManualCreateModalOpen(false);
-                    reload();
+                    selectModal.show();
                 }}
                 onSelect={(invoiceAccount) => {
                     onChange(invoiceAccount);

@@ -73,7 +73,13 @@ export const InvoiceAccountManualCreateModal = memo((props: InvoiceAccountManual
             modalClassName="rounded-none sm:rounded-t-box"
         >
             <InvoiceAccountManualCreateModalHeader onClose={onClose} />
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form
+                onSubmit={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    return form.handleSubmit(onSubmit)(e);
+                }}
+            >
                 <div className="py-4 flex flex-col gap-4 items-stretch">
                     <div>
                         <label>
