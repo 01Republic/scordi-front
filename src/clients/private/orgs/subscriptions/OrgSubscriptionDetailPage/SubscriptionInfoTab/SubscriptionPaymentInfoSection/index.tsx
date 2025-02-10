@@ -4,7 +4,7 @@ import React, {memo, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {toast} from 'react-hot-toast';
 import Datepicker from 'react-tailwindcss-datepicker';
-import {intlDateLong, yyyy_mm_dd} from '^utils/dateTime';
+import {dateIsBeforeThen, intlDateLong, yyyy_mm_dd} from '^utils/dateTime';
 import {
     PayingTypeSelect,
     PayingTypeTag,
@@ -27,10 +27,12 @@ import {UpdateSubscriptionSeatRequestDto} from '^models/SubscriptionSeat/type';
 import {useCurrentSubscription} from '../../atom';
 import {FreeTierSelect} from './FreeTireSelect';
 import {BillingCycleSelect} from './BillingCycleTypeSelect';
+import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
 
 export const SubscriptionPaymentInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
     const {reload, currentSubscription: subscription} = useCurrentSubscription();
     const [prevSeats, setPrevSeats] = useState<UpdateSubscriptionSeatRequestDto[]>([]);
     const [updateSeatCount, setUpdateSeatCount] = useState<number>(0);
@@ -42,14 +44,17 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
     const onSubmit = async (dto: UpdateSubscriptionRequestDto) => {
         try {
+            setIsSaving(true);
             await onUpdateSeats();
             await subscriptionApi.update(subscription.id, dto);
+            await reload();
             toast.success('변경사항을 저장했어요.');
             setIsEditMode(false);
-            reload();
         } catch (error) {
             console.error('Error during submission:', error);
             toast.error('변경사항 저장 중 오류가 발생했어요.');
+        } finally {
+            setIsSaving(false);
         }
     };
 
@@ -99,6 +104,10 @@ export const SubscriptionPaymentInfoSection = memo(() => {
     useEffect(() => {
         form.setValue('currentBillingAmount.amount', subscription?.currentBillingAmount?.amount || 0);
         form.setValue('currentBillingAmount.currency', subscription?.currentBillingAmount?.code || CurrencyCode.KRW);
+        if (subscription) {
+            form.setValue('startAt', subscription.startAt);
+            form.setValue('finishAt', subscription.finishAt);
+        }
 
         const seats: UpdateSubscriptionSeatRequestDto[] =
             subscription.subscriptionSeats?.map((seat) => ({
@@ -120,7 +129,9 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                             {isEditMode ? '취소' : '수정'}
                         </a>
 
-                        {isEditMode && <button className="btn btn-sm btn-scordi">저장</button>}
+                        {isEditMode && (
+                            <button className={`btn btn-sm btn-scordi ${isSaving ? 'loading' : ''}`}>저장</button>
+                        )}
                     </div>
 
                     <div className="px-8 py-8 border-b">
@@ -154,17 +165,27 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                         asSingle={true}
                                         useRange={false}
                                         value={{
-                                            startDate: form.watch('startAt') || subscription.startAt || null,
-                                            endDate: form.watch('startAt') || subscription.startAt || null,
+                                            startDate: form.watch('startAt') || null,
+                                            endDate: form.watch('startAt') || null,
                                         }}
                                         onChange={(newValue) => {
-                                            newValue?.startDate &&
-                                                form.setValue('startAt', new Date(yyyy_mm_dd(newValue?.startDate)));
+                                            const startAt = newValue?.startDate;
+                                            if (startAt) {
+                                                const finishAt = form.watch('finishAt');
+                                                if (finishAt && !dateIsBeforeThen(startAt, finishAt)) {
+                                                    toast('종료일보다는 작아야 합니다.');
+                                                    form.setValue('startAt', form.watch('startAt'));
+                                                } else {
+                                                    form.setValue('startAt', new Date(yyyy_mm_dd(startAt)));
+                                                }
+                                            } else {
+                                                form.setValue('startAt', null);
+                                            }
                                         }}
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {subscription?.startAt ? intlDateLong(subscription?.startAt) : '-'}
+                                        {subscription?.startAt ? intlDateLong(subscription?.startAt) : <EmptyValue />}
                                     </div>
                                 )}
                                 <span />
@@ -177,17 +198,27 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                         asSingle={true}
                                         useRange={false}
                                         value={{
-                                            startDate: form.watch('finishAt') || subscription.finishAt || null,
-                                            endDate: form.watch('finishAt') || subscription.finishAt || null,
+                                            startDate: form.watch('finishAt') || null,
+                                            endDate: form.watch('finishAt') || null,
                                         }}
                                         onChange={(newValue) => {
-                                            newValue?.startDate &&
-                                                form.setValue('finishAt', new Date(yyyy_mm_dd(newValue?.startDate)));
+                                            const finishAt = newValue?.startDate;
+                                            if (finishAt) {
+                                                const startAt = form.watch('startAt');
+                                                if (startAt && !dateIsBeforeThen(startAt, finishAt)) {
+                                                    toast('시작일보다는 커야 합니다.');
+                                                    form.setValue('finishAt', form.watch('finishAt'));
+                                                } else {
+                                                    form.setValue('finishAt', new Date(yyyy_mm_dd(finishAt)));
+                                                }
+                                            } else {
+                                                form.setValue('finishAt', null);
+                                            }
                                         }}
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {subscription?.finishAt ? intlDateLong(subscription?.finishAt) : '-'}
+                                        {subscription?.finishAt ? intlDateLong(subscription?.finishAt) : <EmptyValue />}
                                     </div>
                                 )}
                                 <span />
@@ -330,14 +361,12 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                             onSelect={(invoiceAccount) => {
                                                 form.setValue('invoiceAccountId', invoiceAccount?.id);
                                             }}
-                                            placeholder={<div className="text-13 text-gray-300">비어있음</div>}
+                                            placeholder={<EmptyValue />}
                                         />
                                     </div>
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {subscription.invoiceAccounts?.length === 0 && (
-                                            <i className="text-gray-400">미설정</i>
-                                        )}
+                                        {subscription.invoiceAccounts?.length === 0 && <EmptyValue />}
                                         {subscription.invoiceAccounts?.map((invoiceAccount, index) => (
                                             <InvoiceAccountProfile key={index} invoiceAccount={invoiceAccount} />
                                         ))}
