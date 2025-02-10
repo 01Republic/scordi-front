@@ -7,8 +7,7 @@ import {TeamListItem} from './TeamListItem';
 import {LoadMoreButton} from './LoadMoreButton';
 import {prompt2} from '^components/util/dialog';
 import {teamApi} from '^models/Team/api';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {useTeamsForListPage} from '^models/Team/hook';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
@@ -22,7 +21,7 @@ interface TeamListSectionProps {
 export const TeamListSection = memo((props: TeamListSectionProps) => {
     // const {isLoading = false, result, movePage} = props;
     const ref = useRef<HTMLDivElement>(null);
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const {isLoading, result, movePage, reload} = useTeamsForListPage();
     const [isAdding, setIsAdding] = useState(false);
 

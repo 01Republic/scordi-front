@@ -1,7 +1,6 @@
 import React from 'react';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {PreLoader} from '^components/PreLoader';
-import {orgIdParamState, useRouterIdParamState} from '^atoms/common';
 import {DashboardPageDesktop} from '^components/pages/dashboard/DashboardPage.desktop';
 import {DashboardPageMobile} from '^components/pages/dashboard/DashboardPage.mobile';
 import {useOnResize} from '^hooks/useOnResize';

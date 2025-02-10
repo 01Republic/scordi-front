@@ -15,6 +15,7 @@ import {
     SubscriptionListTabContent,
     TodoListTabContent,
     UserListTabContent,
+    PaymentListTabContent,
 } from './tabContents';
 import {defineTabs, useTabs} from '^components/util/tabs';
 
@@ -31,6 +32,7 @@ const adminOrgDetailPageTab = defineTabs('adminOrgDetailPageTab', [
     {label: '멤버', TabPane: MemberListTabContent},
     {label: '회원', TabPane: UserListTabContent},
     {label: '체크리스트', TabPane: TodoListTabContent},
+    {label: '스코디 결제', TabPane: PaymentListTabContent},
 ]);
 
 export const AdminOrgDetailPage = memo(() => {

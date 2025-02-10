@@ -14,6 +14,7 @@ export const BillingHistoryTableHeaderOfCreditCard = memo((props: BillingHistory
             <th className="text-center">결제금액</th>
             <th>연결된 구독</th>
             <th>비고</th>
+            <th />
         </tr>
     );
 });

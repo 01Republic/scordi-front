@@ -4,27 +4,40 @@ import {
     TeamMemberDto,
     CreateTeamMemberDto,
     UpdateTeamMemberDto,
-    TeamMemberSubscriptionDto,
     CreateGoogleAdminTeamMembersRequestDto,
 } from '^models/TeamMember/type';
+import {SubscriptionSeatDto} from '^models/SubscriptionSeat/type';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
-import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
+import {listDtoOf, oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 import {SubscriptionDto} from '^models/Subscription/types';
+import {UploadFileDto} from '^api/file.api';
+import {AxiosProgressEvent} from 'axios';
 
+// [유저] 팀 멤버 API
 export const teamMemberApi = {
+    // 팀 멤버 조회
     index(orgId: number, params?: FindAllQueryDto<TeamMemberDto>) {
         const url = `/organizations/${orgId}/team_members`;
         return api.get<Paginated<TeamMemberDto>>(url, {params}).then(paginatedDtoOf(TeamMemberDto));
     },
 
+    // 팀 멤버 상세
     show(orgId: number, id: number) {
         const url = `/organizations/${orgId}/team_members/${id}`;
         return api.get<TeamMemberDto>(url).then(oneDtoOf(TeamMemberDto));
     },
 
+    // 팀 멤버 생성
     create(orgId: number, data: CreateTeamMemberDto) {
         const url = `/organizations/${orgId}/team_members`;
         return api.post<TeamMemberDto>(url, data).then(oneDtoOf(TeamMemberDto));
+    },
+
+    // 팀 멤버 생성 (엑셀로 대량등록)
+    createByExcel(orgId: number, data: UploadFileDto, onUploadProgress?: (progressEvent: AxiosProgressEvent) => void) {
+        const url = `/organizations/${orgId}/team_members/by-excel`;
+        const headers = {'Content-Type': 'multipart/form-data'};
+        return api.post<TeamMemberDto[]>(url, data, {headers, onUploadProgress}).then(listDtoOf(TeamMemberDto));
     },
 
     update(orgId: number, id: number, data: UpdateTeamMemberDto) {
@@ -52,12 +65,12 @@ export const teamMemberApi = {
 
         connect(teamMemberId: number, subscriptionId: number) {
             const url = `/team_members/${teamMemberId}/subscriptions/${subscriptionId}`;
-            return api.post<TeamMemberSubscriptionDto>(url).then(oneDtoOf(TeamMemberSubscriptionDto));
+            return api.post<SubscriptionSeatDto>(url).then(oneDtoOf(SubscriptionSeatDto));
         },
 
         disconnect(teamMemberId: number, subscriptionId: number) {
             const url = `/team_members/${teamMemberId}/subscriptions/${subscriptionId}`;
-            return api.delete<TeamMemberSubscriptionDto>(url).then(oneDtoOf(TeamMemberSubscriptionDto));
+            return api.delete<SubscriptionSeatDto>(url).then(oneDtoOf(SubscriptionSeatDto));
         },
     },
 };

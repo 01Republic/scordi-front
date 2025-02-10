@@ -1,11 +1,11 @@
 import {useCallback, useEffect, useState} from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState} from 'recoil';
 import {AxiosResponse} from 'axios';
 import Qs from 'qs';
 import {useRecoilStates} from '^hooks/useRecoil';
 import {PagedResourceAtoms} from '^hooks/usePagedResource/pagedResourceAtom';
 import {Paginated} from '^types/utils/paginated.dto';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {cachePagedQuery} from './cachePagedQuery';
 import {makeAppendPagedItemFn} from './makeAppendPagedItemFn';
 import {makeExceptPagedItemFn} from './makeExceptPagedItemFn';
@@ -29,6 +29,7 @@ export interface UsePagedResourceOption<DTO, Query, Dep extends any[]> {
     getId: keyof DTO | ((dto: DTO) => any);
     useOrgId?: boolean;
     dependencies?: Dep;
+    enabled?: (dep: Dep) => boolean;
 }
 
 /**
@@ -48,9 +49,10 @@ export function usePagedResource<DTO, Query, Dep extends any[] = []>(
         getId,
         useOrgId = true,
         dependencies = [] as unknown as Dep,
+        enabled,
     } = option;
 
-    const orgId = useOrgId ? useRecoilValue(orgIdParamState) : NaN;
+    const orgId = useOrgIdParam();
     const {value: result, setValue: setResult, resetValue: resetResult} = useRecoilStates(resultAtom);
     const {value: query, setValue: setQuery, resetValue: resetQuery} = useRecoilStates(queryAtom);
     const [isLoading, setIsLoading] = useRecoilState(isLoadingAtom);
@@ -81,6 +83,9 @@ export function usePagedResource<DTO, Query, Dep extends any[] = []>(
             if (useOrgId) {
                 if (!orgId || isNaN(orgId)) return;
             }
+
+            if (enabled && !enabled(dependencies)) return;
+
             params = buildQuery(params, orgId);
             const request = () => {
                 __setIsLoading(true);
@@ -91,7 +96,7 @@ export function usePagedResource<DTO, Query, Dep extends any[] = []>(
             };
             return cachePagedQuery(setResult, setQuery, params, request, mergeMode, force);
         },
-        [orgId, ...dependencies],
+        [orgId, dependencies],
     );
 
     async function orderBy(sortKey: string, value: 'ASC' | 'DESC') {

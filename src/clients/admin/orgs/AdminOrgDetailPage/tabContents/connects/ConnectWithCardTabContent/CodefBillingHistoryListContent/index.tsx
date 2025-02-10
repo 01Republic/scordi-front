@@ -1,40 +1,43 @@
 import React, {memo, useEffect, useState} from 'react';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {useAdminCodefBillingHistories} from '^models/CodefBillingHistory/hook';
 import {LoadableBox} from '^components/util/loading';
 import {CardTablePanel, CardTableTH} from '^admin/share';
-import {CodefBillingHistoryItem} from '^admin/orgs/AdminOrgDetailPage/tabContents/connects/ConnectWithCardTabContent/CodefBillingHistoryListContent/CodefBillingHistoryItem';
 import {PagePerSelect} from '^components/Paginator';
-import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
 import {CodefCardTagUI} from '^admin/factories/codef-parser-factories/form/share/CodefCardTagUI';
 import {IoIosClose} from 'react-icons/io';
+import {selectedCodefCardAtom} from '../atoms';
+import {CodefBillingHistoryItem} from './CodefBillingHistoryItem';
 
 export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryListContent() {
     const org = useRecoilValue(adminOrgDetail);
-    const [selectedCodefCard, selectCodefCard] = useState<CodefCardDto>();
+    const [selectedCodefCard, setSelectedCodefCard] = useRecoilState(selectedCodefCardAtom);
     const {isLoading, search, query, reload, movePage, result, changePageSize} = useAdminCodefBillingHistories();
 
     useEffect(() => {
         if (!org) return;
-        search({
-            relations: ['codefCard'],
-            organizationId: org.id,
-            order: {usedAt: 'DESC'},
-        });
-    }, [org]);
+
+        if (!selectedCodefCard) {
+            search({
+                relations: ['codefCard'],
+                organizationId: org.id,
+                order: {usedAt: 'DESC'},
+            });
+        } else {
+            search({
+                relations: ['codefCard'],
+                organizationId: org.id,
+                where: {codefCardId: selectedCodefCard.id},
+                page: 1,
+                order: {usedAt: 'DESC'},
+            });
+        }
+    }, [org, selectedCodefCard]);
+
+    // useUnmount(() => setSelectedCodefCard(undefined));
 
     const {items, pagination} = result;
-
-    const onCardSelect = (codefCard?: CodefCardDto) => {
-        if (!org) return;
-        selectCodefCard(codefCard);
-        search({
-            ...query,
-            where: {codefCardId: codefCard?.id},
-            page: 1,
-        });
-    };
 
     return (
         <div>
@@ -61,7 +64,10 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
                     {/* Filter: CodefCard */}
                     <div className="flex items-center">
                         <div className="mr-2">선택된 카드:</div>
-                        <div className="flex items-center group cursor-pointer" onClick={() => onCardSelect()}>
+                        <div
+                            className="flex items-center group cursor-pointer"
+                            onClick={() => setSelectedCodefCard(undefined)}
+                        >
                             <div>
                                 <CodefCardTagUI codefCard={selectedCodefCard} />
                             </div>
@@ -79,7 +85,7 @@ export const CodefBillingHistoryListContent = memo(function CodefBillingHistoryL
                         <CodefBillingHistoryItem
                             key={i}
                             codefBillingHistory={codefBillingHistory}
-                            onCardSelect={onCardSelect}
+                            onCardSelect={setSelectedCodefCard}
                         />
                     )}
                     pagination={pagination}

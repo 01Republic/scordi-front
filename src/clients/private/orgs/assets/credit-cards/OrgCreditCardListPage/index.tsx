@@ -1,7 +1,6 @@
 import React, {memo} from 'react';
-import {useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {useCreditCardListForListPage} from '^models/CreditCard/hook';
@@ -13,7 +12,7 @@ import {AddCreditCardModal} from './AddCreditCardModal';
 import TitleScopeHandler from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/TitleScopeHandler';
 
 export const OrgCreditCardListPage = memo(function OrgCreditCardListPage() {
-    const organizationId = useRecoilValue(orgIdParamState);
+    const organizationId = useOrgIdParam();
     const {
         search,
         reset,

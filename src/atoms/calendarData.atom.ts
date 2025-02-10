@@ -51,7 +51,7 @@ export const getDashboardCalendarQuery = selector({
 });
 
 /**
- * Dashboard Summary
+ * OrgDashboardPage Summary
  * - dashboardSummaryState
  * - getDashboardSummaryQuery
  */
@@ -77,7 +77,7 @@ export const getDashboardSummaryQuery = selector({
 });
 
 /**
- * V3 Dashboard
+ * V3 OrgDashboardPage
  */
 
 export const dashboardSummaryV3State = atom<SummaryOfBillingHistoriesDto | null>({

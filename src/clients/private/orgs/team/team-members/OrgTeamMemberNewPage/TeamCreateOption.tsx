@@ -1,8 +1,7 @@
 import {memo} from 'react';
 import {SelectOptionProps} from '^v3/share/modals/_presenters/SelectInput';
 import {CreateTeamDto, TeamDto} from '^models/Team/type';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import Select, {GroupBase, components, StylesConfig} from 'react-select';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {getColor, palette} from '^components/util/palette';
@@ -14,7 +13,7 @@ interface TeamCreateOptionProps extends SelectOptionProps<{label: string; value:
 }
 
 export const TeamCreateOption = memo((props: TeamCreateOptionProps) => {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const {reload, data, isFocused, isSelected, setValue} = props;
 
     const onClick = () => {

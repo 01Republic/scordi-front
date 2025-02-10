@@ -43,7 +43,7 @@ export const CodefIsPersonalSelectStep = memo((props: CodefIsPersonalSelectStepP
                 {/*))}*/}
             </div>
 
-            <div className="py-4 mt-auto -mb-4">
+            <div className="py-4 mt-auto">
                 <button
                     className="btn btn-block btn-scordi no-animation btn-animation"
                     onClick={() => onChange(defaultValue)}

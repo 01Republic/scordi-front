@@ -14,7 +14,7 @@ import {
     GetBillingHistoriesParams,
     UpdateBillingHistoryRequestDto,
 } from '../type';
-import {billingHistoryApi} from '../api';
+import {appBillingHistoryApi, billingHistoryApi} from '../api';
 import {
     billingHistoriesAtom,
     billingHistoryListInSiblingsAtom,
@@ -24,6 +24,7 @@ import {
     billingHistoryLoadingState,
     getBillingHistoryQuery,
 } from '../atom';
+import {usePagedResource2} from '^hooks/usePagedResource/usePagedResource2';
 
 export const useBillingHistoriesV3 = () => useBillingHistories(billingHistoriesAtom);
 export const useBillingHistory = () => useRecoilValue(getBillingHistoryQuery);
@@ -202,3 +203,17 @@ export function useBillingHistoryV2(atom: RecoilState<BillingHistoryDto | null>)
 
     return {billingHistory, loadBillingHistory, updateBillingHistory, deleteBillingHistory, isLoading};
 }
+
+export const useAppBillingHistoriesInSubscriptionDetail = () => useAppBillingHistories(billingHistoriesAtom);
+
+const useAppBillingHistories = (
+    atoms: PagedResourceAtoms<BillingHistoryDto, GetBillingHistoriesParams>,
+    mergeMode = false,
+) => {
+    return usePagedResource2(atoms, {
+        endpoint: (params, orgId, subscriptionId) => appBillingHistoryApi.index(subscriptionId, params),
+        useOrgId: false,
+        mergeMode,
+        getId: 'id',
+    });
+};

@@ -6,14 +6,18 @@ import {SubscriptionProfile} from '^models/Subscription/components';
 import {billingHistoryApi} from '^models/BillingHistory/api';
 import {BillingHistoryDto, UpdateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type';
 import {BillingHistoryStatusTagUI, PayAmount, BillingHistoryTimestamp} from '^models/BillingHistory/components';
+import {Dropdown} from '^v3/share/Dropdown';
+import {IoIosMore} from 'react-icons/io';
+import {eventCut} from '^utils/event';
 
 interface BillingHistoryRowOfCreditCardProps {
     item: BillingHistoryDto;
     onSaved?: () => any;
+    onDelete: (id: number) => any;
 }
 
 export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCreditCardProps) => {
-    const {item: billingHistory, onSaved} = props;
+    const {item: billingHistory, onSaved, onDelete} = props;
 
     const update = debounce((dto: UpdateBillingHistoryRequestDtoV2) => {
         return billingHistoryApi
@@ -60,6 +64,30 @@ export const BillingHistoryRowOfCreditCard = memo((props: BillingHistoryRowOfCre
             </td>
             {/*<td>{yyyy_mm_dd_hh_mm(billingHistory.issuedAt)}</td>*/}
             {/*<td>{yyyy_mm_dd_hh_mm(billingHistory.createdAt)}</td>*/}
+
+            {/* Actions */}
+            <td className="cursor-pointer">
+                <Dropdown placement="bottom-end" Trigger={() => <IoIosMore fontSize={20} />}>
+                    {({hide}) => (
+                        <ul
+                            className="dropdown-content menu p-0 shadow-lg bg-base-100 rounded-btn border border-gray-200 min-w-[8rem]"
+                            onClick={eventCut}
+                        >
+                            <li>
+                                <a
+                                    className="p-2 text-red-500 bg-red-50 hover:text-red-700 hover:bg-red-100 focus:bg-red-100 active:bg-red-100"
+                                    onClick={() => {
+                                        hide();
+                                        onDelete(billingHistory.id);
+                                    }}
+                                >
+                                    삭제하기
+                                </a>
+                            </li>
+                        </ul>
+                    )}
+                </Dropdown>
+            </td>
         </tr>
     );
 });

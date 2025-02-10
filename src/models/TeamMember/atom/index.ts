@@ -1,6 +1,7 @@
 import {atom} from 'recoil';
 import {FindAllTeamMemberQueryDto, TeamMemberDto} from '^models/TeamMember/type';
 import {pagedResourceAtom} from '^hooks/usePagedResource';
+import {FindAllSubscriptionSeatQueryDto, SubscriptionSeatDto} from '^models/SubscriptionSeat/type';
 
 export const currentTeamMemberState = atom<TeamMemberDto | null>({
     key: 'currentTeamMember',
@@ -57,4 +58,12 @@ export const teamMemberListForMasterSelectInCreateSubscriptionAtom = pagedResour
 // 팀 상세 / 멤버추가모달 / 추가할 수 있는 멤버목록
 export const addableTeamMemberListInAddTeamMemberModal = pagedResourceAtom<TeamMemberDto, FindAllTeamMemberQueryDto>({
     key: 'addableTeamMemberListInAddTeamMemberModal',
+});
+
+// 구독 상세 / 팀멤버 탭
+export const subscriptionSeatsInSubscriptionDetailTeamMemberTabAtom = pagedResourceAtom<
+    SubscriptionSeatDto,
+    FindAllSubscriptionSeatQueryDto
+>({
+    key: 'subscriptionSeatsInSubscriptionDetailTeamMemberTabAtom',
 });

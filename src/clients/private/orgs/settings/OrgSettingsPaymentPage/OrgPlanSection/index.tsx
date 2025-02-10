@@ -43,7 +43,7 @@ export const OrgPlanSection = memo((props: OrgPlanSectionProps) => {
                             <MdRefresh
                                 fontSize={14}
                                 className={`cursor-pointer ${isLoading ? 'animate-spin' : ''}`}
-                                onClick={() => reload()}
+                                onClick={() => reload(orgId)}
                             />
                         </div>
                     </div>
@@ -57,9 +57,12 @@ export const OrgPlanSection = memo((props: OrgPlanSectionProps) => {
                         <div>Loading</div>
                     </div>
                 )}
-                {currentSubscription && <OrgScordiSubscriptionItem scordiSubscription={currentSubscription} />}
+                {currentSubscription && (
+                    <OrgScordiSubscriptionItem scordiSubscription={currentSubscription} reload={() => reload(orgId)} />
+                )}
                 {currentSubscription && <OrgScheduledSubscriptionList orgId={orgId} />}
             </SettingsPaymentSection>
+
             <SelectPlanModal
                 orgId={orgId}
                 isOpened={isSelectPlanModalOpened}

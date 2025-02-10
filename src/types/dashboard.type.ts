@@ -1,6 +1,8 @@
 import {CurrencyDto} from '^types/crawler';
 import {SubscriptionDto} from 'src/models/Subscription/types';
 import {MembershipDto} from 'src/models/Membership/types';
+import {TypeCast} from '^types/utils/class-transformer';
+import {DashboardSummarySubscriptionSpendDto} from '^models/_dashboard/type';
 
 export class DashboardSummaryDto {
     total: number; // 이번달 총 비용
@@ -22,17 +24,21 @@ export class DashboardDaySumDto {
     serviceCount: number; // 서비스 개수
 }
 
-export type SummaryOfState = {
+export class SummaryOfState {
     count: number;
     amount: number;
-};
+
+    @TypeCast(() => DashboardSummarySubscriptionSpendDto)
+    subscriptionSpends?: DashboardSummarySubscriptionSpendDto[];
+}
 
 export class SummaryOfBillingHistoriesDto {
-    startDate: Date | null;
-    endDate: Date | null;
+    @TypeCast(() => Date) startDate: Date | null;
+    @TypeCast(() => Date) endDate: Date | null;
     currency?: CurrencyDto['code'];
-    total: SummaryOfState;
-    pending: SummaryOfState;
-    success: SummaryOfState;
-    failure: SummaryOfState;
+
+    @TypeCast(() => SummaryOfState) total: SummaryOfState;
+    @TypeCast(() => SummaryOfState) pending: SummaryOfState;
+    @TypeCast(() => SummaryOfState) success: SummaryOfState;
+    @TypeCast(() => SummaryOfState) failure: SummaryOfState;
 }

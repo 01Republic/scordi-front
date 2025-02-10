@@ -10,6 +10,7 @@ import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-
 import {CreditCardUsingStatus} from './CreditCardUsingStatus.enum';
 import {CreditCardSecretInfo} from './CreditCardSecretInfo';
 import {CreditCardNumber} from './CreditCardNumber.type';
+import {BankAccountDto} from '^models/BankAccount/type';
 
 export class CreditCardDto {
     id: number; // 카드 ID
@@ -24,11 +25,13 @@ export class CreditCardDto {
     isPersonal: boolean; // 법인카드 여부
     isCreditCard: boolean; // 신용카드 여부
     organizationId: number; // 조직 ID
+    bankAccountId?: number | null; // 계좌 ID
     holdingMemberId?: number | null; // 카드 소유자 ID
     @TypeCast(() => Date) createdAt: Date;
     @TypeCast(() => Date) updatedAt: Date;
 
     @TypeCast(() => OrganizationDto) organization?: OrganizationDto | null; // 조직
+    @TypeCast(() => BankAccountDto) bankAccount?: BankAccountDto | null; // 계좌
     @TypeCast(() => TeamMemberDto) holdingMember?: TeamMemberDto | null; // 카드 소유자
     // @TypeCast(() => TeamCreditCardDto) teamCreditCards?: TeamCreditCardDto[]; // 카드를 사용하고 있는 팀 목록
     @TypeCast(() => TeamDto) teams?: TeamDto[]; // 사용하고 있는 카드 목록

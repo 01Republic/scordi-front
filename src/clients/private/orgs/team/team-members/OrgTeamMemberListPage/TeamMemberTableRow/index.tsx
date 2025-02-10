@@ -7,8 +7,7 @@ import {OrgTeamMemberShowPageRoute} from '^pages/orgs/[id]/teamMembers/[teamMemb
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {TeamDto} from '^models/Team/type';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 
@@ -19,7 +18,7 @@ interface TeamMemberTableRowProps {
 }
 
 export const TeamMemberTableRow = memo((props: TeamMemberTableRowProps) => {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const [isLoading, setIsLoading] = useState(false);
     const {teamMember, onClick, reload} = props;
     const showPagePath = OrgTeamMemberShowPageRoute.path(teamMember.organizationId, teamMember.id);

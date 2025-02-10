@@ -5,8 +5,7 @@ import {IconType} from '@react-icons/all-files';
 import {FaChevronRight} from 'react-icons/fa6';
 import {FcDataRecovery, FcInvite} from 'react-icons/fc';
 import {CreateTeamMemberDto, teamMemberApi, TeamMemberDto} from '^models/TeamMember';
-import {useRecoilValue} from 'recoil';
-import {orgIdParamState} from '^atoms/common';
+import {useOrgIdParam} from '^atoms/common';
 import {toast} from 'react-hot-toast';
 import {useRouter} from 'next/router';
 import {OrgTeamMemberListPageRoute} from '^pages/orgs/[id]/teamMembers';
@@ -20,7 +19,7 @@ interface BeforeSaveModalProps extends ModalProps {
 }
 
 export const TeamBeforeSaveModal = memo((props: BeforeSaveModalProps) => {
-    const orgId = useRecoilValue(orgIdParamState);
+    const orgId = useOrgIdParam();
     const router = useRouter();
     const {isOpened, onClose, dto, setIsLoading} = props;
 

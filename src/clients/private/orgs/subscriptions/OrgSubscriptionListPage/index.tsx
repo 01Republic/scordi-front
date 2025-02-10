@@ -104,7 +104,7 @@ export const OrgSubscriptionListPage = memo(function OrgSubscriptionListPage() {
             >
                 <div className="flex items-center justify-between mb-4">
                     <div>
-                        <CurrencyToggle leftText={''} rightText={'원화로 보기'} className={'font-medium'} />
+                        {/*<CurrencyToggle leftText={''} rightText={'원화로 보기'} className={'font-medium'} />*/}
                     </div>
                     <ListTablePaginator
                         pagination={result.pagination}

@@ -95,7 +95,7 @@ export class BillingHistoriesYearlySumBySubscriptionDto extends BillingHistories
  */
 
 // 구독의 '단위 월' 합계 금액
-class BillingHistoriesMonthlySumItemDto extends BillingHistoriesSumItemDto {
+export class BillingHistoriesMonthlySumItemDto extends BillingHistoriesSumItemDto {
     issuedYearMonth: string;
 }
 

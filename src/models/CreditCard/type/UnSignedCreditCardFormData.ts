@@ -14,7 +14,8 @@ export class UnSignedCreditCardFormData extends CreditCardSecretInfo {
     usingStatus?: CreditCardUsingStatus; // 사용상태
     isPersonal?: boolean | null;
     isCreditCard?: boolean; // 신용카드 여부
-    holdingMemberId?: number | null;
+    bankAccountId?: number | null; // 계좌 ID
+    holdingMemberId?: number | null; // 카드 소유자 ID
     holdingMember?: TeamMemberDto;
     productIds?: number[] | null;
 
@@ -33,6 +34,7 @@ export class UnSignedCreditCardFormData extends CreditCardSecretInfo {
             usingStatus: this.usingStatus,
             isPersonal: this.isPersonal,
             isCreditCard: this.isCreditCard,
+            bankAccountId: this.bankAccountId,
             holdingMemberId: this.holdingMemberId,
             holdingMember: this.holdingMember,
             productIds: this.productIds,
@@ -49,6 +51,7 @@ export class UnSignedCreditCardFormData extends CreditCardSecretInfo {
             usingStatus: this.usingStatus,
             isPersonal: this.isPersonal,
             isCreditCard: this.isCreditCard,
+            bankAccountId: this.bankAccountId,
             holdingMemberId: this.holdingMemberId,
             holdingMember: this.holdingMember,
             productIds: this.productIds,

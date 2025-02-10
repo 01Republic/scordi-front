@@ -7,8 +7,8 @@ import {hh_mm, yyyy_mm_dd} from '^utils/dateTime';
 import {LinkTo} from '^components/util/LinkTo';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {FaRegFolderOpen} from 'react-icons/fa';
-import {useCodefCardSync, useCodefCardSyncQueue} from '^models/CodefCard/hooks/useCodefCardSync';
-import {useRecoilValue} from 'recoil';
+import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {LoadableBox} from '^components/util/loading';
 import {MdOutlineClear} from 'react-icons/md';
@@ -21,15 +21,19 @@ import {IoRefresh} from '@react-icons/all-files/io5/IoRefresh';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {codefCardApi} from '^models/CodefCard/api';
 import {errorToast} from '^api/api';
+import {selectedCodefAccountAtom, selectedCodefCardAtom} from '../atoms';
 
 interface CodefCardItemProps {
     codefCard: CodefCardDto;
     reload: () => Promise<any>;
+    moveTab: (tabIndex: number) => any;
 }
 
 export const CodefCardItem = memo((props: CodefCardItemProps) => {
     const org = useRecoilValue(adminOrgDetail);
-    const {codefCard, reload} = props;
+    const {codefCard, reload, moveTab} = props;
+    const setSelectedCodefAccount = useSetRecoilState(selectedCodefAccountAtom);
+    const setSelectedCodefCard = useSetRecoilState(selectedCodefCardAtom);
     const {syncCard, isSyncRunning} = useCodefCardSync();
 
     const account = codefCard.account!;
@@ -49,6 +53,11 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
             run();
         } else {
         }
+    };
+
+    const goCardHistories = () => {
+        moveTab(2);
+        setSelectedCodefCard(codefCard);
     };
 
     // 이 '코드에프 카드' 항목 삭제
@@ -96,7 +105,9 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
                 </div>
 
                 {/* 카드사 */}
-                <div className="">{account.company || '-'}</div>
+                <div className="cursor-pointer" onClick={() => setSelectedCodefAccount(codefCard.account)}>
+                    {account.company || '-'}
+                </div>
 
                 {/*/!* 개인/법인 *!/*/}
                 {/*<div className="">*/}
@@ -108,7 +119,7 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
                 {/* 끝자리 */}
                 <div className="flex items-center gap-1 justify-between">
                     <div className="tooltip tooltip-top tooltip-success" data-tip={codefCard.resCardNo}>
-                        <CodefCardTagUI codefCard={codefCard} />
+                        <CodefCardTagUI codefCard={codefCard} onClick={() => goCardHistories()} />
                     </div>
                 </div>
 
@@ -166,7 +177,9 @@ export const CodefCardItem = memo((props: CodefCardItemProps) => {
                 <div className="">{codefCard.syncedEndDate && yyyy_mm_dd(codefCard.syncedEndDate)}</div>
 
                 {/* 불러온 결제내역 수 */}
-                <div className="text-right">{codefBillingHistories.length.toLocaleString()}건</div>
+                <div className="text-right" onClick={() => goCardHistories()}>
+                    {codefBillingHistories.length.toLocaleString()}건
+                </div>
 
                 <div className="flex items-center justify-end gap-1">
                     <Tippy content="최신화">

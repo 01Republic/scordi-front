@@ -42,7 +42,7 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
     const showPagePath = OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id);
 
     return (
-        <tr>
+        <tr onClick={() => console.log(subscription)}>
             {/* 서비스 명 */}
             <td>
                 <OpenButtonColumn href={showPagePath}>
@@ -79,7 +79,7 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
 
             {/* 결제금액 */}
             <td className="text-right">
-                <LatestPayAmount subscription={subscription} currencyChangeable />
+                <LatestPayAmount subscription={subscription} />
             </td>
 
             {/* 갱신일 */}

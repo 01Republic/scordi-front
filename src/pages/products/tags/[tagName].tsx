@@ -34,7 +34,6 @@ export const getStaticProps = async ({locale}: any) => ({
 export default function ProductsOnTagPage() {
     const router = useRouter();
     const tagName = router.query.tagName as string | undefined;
-    console.log('tagName', tagName);
     const setCurrentCategory = useSetRecoilState(currentProductCategoryAtom);
 
     useEffect(() => {

@@ -17,7 +17,6 @@ export const StepByInstall = () => {
 
         if (!stepByKey || !StepBy) return;
 
-        console.log('StepBy.init()\t', stepByKey);
         StepBy.init(stepByKey);
     }, []);
 
@@ -34,7 +33,6 @@ export const StepByInstall = () => {
             id: currentUser.id.toString(),
             created_at: currentUser.createdAt.toISOString(),
         };
-        console.log('StepBy.setUserProperties()', userInfo);
         StepBy.setUserProperties(userInfo);
     }, [currentUser?.id]);
 

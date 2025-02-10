@@ -5,6 +5,7 @@ import {
     CodefLoginType,
     CodefLoginTypeLevel,
     CodefRequestBusinessType,
+    t_codefCustomerType,
 } from '^models/CodefAccount/type/enums';
 import {TypeCast} from '^types/utils/class-transformer';
 import {CodefConnectedIdentityDto} from '^models/CodefConnectedIdentity/type/CodefConnectedIdentityDto';
@@ -49,4 +50,8 @@ export class CodefAccountDto {
     @TypeCast(() => CodefConnectedIdentityDto) connectedIdentity?: CodefConnectedIdentityDto; // 커넥티드 아이디
     @TypeCast(() => CodefCardDto) codefCards?: CodefCardDto[]; // 등록된 카드
     @TypeCast(() => CreditCardDto) creditCards?: CreditCardDto[]; // 등록된 카드
+
+    get profile() {
+        return `${this.company} (${t_codefCustomerType(this.clientType)})`;
+    }
 }

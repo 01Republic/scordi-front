@@ -13,7 +13,6 @@ export const BetaSignSignPage = memo(() => {
     const {t} = useTranslation('sign');
     const [failed, setFailed] = useState(false);
 
-    console.log('accessTokenData', accessTokenData);
     useEffect(() => {
         if (!accessTokenData) return;
         if (typeof window == 'undefined') return;

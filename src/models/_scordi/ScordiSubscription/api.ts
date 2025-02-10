@@ -1,6 +1,6 @@
 import {api} from '^api/api';
-import {listDtoOf, oneDtoOf} from '^types/utils/response-of';
-import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
+import {listDtoOf, oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
+import {FindAllScordiSubscriptionsForAdminDto, ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 import {plainToInstance} from 'class-transformer';
 
 /**
@@ -30,9 +30,15 @@ export const scordiSubscriptionApi = {
     },
 
     // 스코디 구독 해지 *
-    unsubscribe(orgId: number, scordiSubscriptionId: number) {
-        const url = `/orgs/${orgId}/billing/subscription/${scordiSubscriptionId}/unsubscribe`;
-        return api.post(url).then(oneDtoOf(ScordiSubscriptionDto));
+    cancel(orgId: number) {
+        const url = `/orgs/${orgId}/billing/subscription/cancel`;
+        return api.patch(url).then(oneDtoOf(ScordiSubscriptionDto));
+    },
+
+    // 스코디 구독 복구 (해지된 구독의 해지 취소) *
+    revoke(orgId: number) {
+        const url = `/orgs/${orgId}/billing/subscription/revoke`;
+        return api.patch(url).then(oneDtoOf(ScordiSubscriptionDto));
     },
 
     // // 스코디 구독 수정 *
@@ -40,4 +46,12 @@ export const scordiSubscriptionApi = {
     //     const url = `/orgs/${orgId}/billing/subscription`;
     //     return api.patch(url).then(oneDtoOf(ScordiSubscriptionDto));
     // },
+};
+
+// [Admin] 스코디 구독관리 API
+export const adminScordiSubscriptionsApi = {
+    index(params: FindAllScordiSubscriptionsForAdminDto) {
+        const url = `/admin/billing/subscriptions`;
+        return api.get(url, {params}).then(paginatedDtoOf(ScordiSubscriptionDto));
+    },
 };
