@@ -323,7 +323,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                 <span />
                             </FormControl>
 
-                            <FormControl label="청구이메일">
+                            <FormControl label="청구서메일">
                                 {isEditMode ? (
                                     <div className={'mb-[-40px]'}>
                                         <InvoiceAccountSelect
