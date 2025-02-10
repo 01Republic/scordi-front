@@ -84,11 +84,10 @@ export const SubscriptionPaymentInfoSection = memo(() => {
     };
 
     const createSeats = async (count: number) => {
+        const {id, organizationId} = subscription;
         await Promise.allSettled(
             Array.from({length: count}).map(() =>
-                subscriptionApi.seatsApi.create(subscription.organizationId, subscription.id, {
-                    subscriptionId: subscription.id,
-                }),
+                subscriptionApi.seatsApi.create(organizationId, id, {subscriptionId: id}),
             ),
         );
     };
@@ -307,12 +306,22 @@ export const SubscriptionPaymentInfoSection = memo(() => {
 
                             <FormControl label="구매수량">
                                 {isEditMode ? (
-                                    <input
-                                        className="input border-gray-200 bg-gray-100 w-full flex flex-col justify-center"
-                                        defaultValue={prevSeatCount}
-                                        min={prevSeatCount}
-                                        onChange={(e) => handleSeats(Number(e.target.value))}
-                                    />
+                                    <div className="relative">
+                                        <input
+                                            className="input border-gray-200 bg-gray-100 w-full flex flex-col justify-center"
+                                            defaultValue={prevSeatCount}
+                                            min={prevSeatCount}
+                                            type="number"
+                                            onChange={(e) => {
+                                                const value = Number(e.target.value.toString().replace(/\D/g, ''));
+                                                e.target.value = value.toString();
+                                                if (value) handleSeats(value);
+                                            }}
+                                        />
+                                        <div className="flex items-center absolute right-2 top-0 bottom-0 text-12 text-gray-500">
+                                            현재 보유: {prevSeatCount.toLocaleString()}개
+                                        </div>
+                                    </div>
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
                                         {prevSeatCount}
