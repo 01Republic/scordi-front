@@ -10,10 +10,13 @@ import {subscriptionApi} from '^models/Subscription/api';
 import {toast} from 'react-hot-toast';
 import {useForm} from 'react-hook-form';
 import {vendorManagerApi} from '^models/vendor/VendorManager/api';
+import {FaTimes} from 'react-icons/fa';
+import {errorToast} from '^api/api';
 
 export const SubscriptionBusinessInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
     const [isEditMode, setIsEditMode] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
     const {reload, currentSubscription: subscription} = useCurrentSubscription();
     const [isCompanySelectModalOpened, setIsCompanySelectModalOpened] = useState(false);
     const [isManagerSelectModalOpened, setIsManagerSelectModalOpened] = useState(false);
@@ -24,16 +27,16 @@ export const SubscriptionBusinessInfoSection = memo(() => {
     const [email, setEmail] = useState<string>('');
     const [phone, setPhone] = useState<string>('');
 
-    if (!subscription) return null;
+    if (!subscription) return <></>;
 
     const onCompanyChange = (vendorCompany?: VendorCompanyDto) => {
-        setSelectedCompany(vendorCompany);
-        form.setValue('vendorContract.vendorCompanyId', vendorCompany?.id);
+        form.setValue('vendorContract.vendorCompanyId', vendorCompany?.id || null);
         form.setValue(
             'vendorContract.vendorManagerId',
-            vendorCompany?.id === selectedCompany?.id ? selectedManager?.id : undefined,
+            vendorCompany?.id === selectedCompany?.id ? selectedManager?.id : null,
         );
 
+        setSelectedCompany(vendorCompany);
         if (vendorCompany) {
             const isChanged = vendorCompany.id !== selectedCompany?.id;
             if (isChanged) setSelectedManager(undefined);
@@ -45,7 +48,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
 
     const onManagerChange = (vendorManager?: VendorManagerDto) => {
         setSelectedManager(vendorManager);
-        form.setValue('vendorContract.vendorManagerId', vendorManager?.id);
+        form.setValue('vendorContract.vendorManagerId', vendorManager?.id || null);
         setEmail(selectedManager?.email || '');
         setPhone(selectedManager?.phone || '');
     };
@@ -66,11 +69,15 @@ export const SubscriptionBusinessInfoSection = memo(() => {
 
         const updateSubscriptionPromise = subscriptionApi.update(subscription.id, data);
 
-        Promise.all([updateManagerPromise, upsertManagerPromise, updateSubscriptionPromise]).then(() => {
-            toast.success('변경사항을 저장했어요.');
-            setIsEditMode(false);
-            reload();
-        });
+        setIsSaving(true);
+        Promise.all([updateManagerPromise, upsertManagerPromise, updateSubscriptionPromise])
+            .then(() => reload())
+            .then(() => {
+                toast.success('변경사항을 저장했어요.');
+                setIsEditMode(false);
+            })
+            .catch(errorToast)
+            .finally(() => setIsSaving(false));
     };
 
     const vendorContract =
@@ -98,104 +105,130 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                         </a>
 
                         {isEditMode && (
-                            <button className="btn btn-sm btn-scordi" type={'submit'}>
+                            <button className={`btn btn-sm btn-scordi ${isSaving ? 'loading' : ''}`} type={'submit'}>
                                 저장
                             </button>
                         )}
                     </div>
 
                     <div className="px-8 py-8 border-b">
-                        <div className="max-w-md flex flex-col gap-4">
-                            <h2 className="leading-none text-xl font-semibold pb-4">거래처 정보</h2>
+                        <div className="max-w-md">
+                            <h2 className="leading-none text-xl font-semibold">거래처 정보</h2>
 
-                            <FormControl label="거래처">
-                                {isEditMode ? (
-                                    <a
-                                        className={
-                                            'input border-gray-200 bg-gray-100 w-full flex flex-col justify-center'
-                                        }
-                                        onClick={() => setIsCompanySelectModalOpened(true)}
-                                    >
-                                        {selectedCompany?.name || undefined}
-                                    </a>
-                                ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {vendorContract?.vendorCompany?.name || '-'}
-                                    </div>
-                                )}
-                                <span />
-                            </FormControl>
+                            <div
+                                className={`flex flex-col gap-4 overflow-hidden transition-all h-auto ${
+                                    isEditMode || vendorContract ? '' : '!h-0'
+                                }`}
+                            >
+                                <div className="pt-4"></div>
 
-                            <FormControl label="담당자">
-                                {isEditMode ? (
-                                    <a
-                                        className={
-                                            'input border-gray-200 bg-gray-100 w-full flex flex-col justify-center'
-                                        }
-                                        onClick={() => setIsManagerSelectModalOpened(true)}
-                                    >
-                                        {selectedManager?.name || undefined}
-                                    </a>
-                                ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {vendorContract?.vendorManager?.name || '-'}
-                                    </div>
-                                )}
-                                <span />
-                            </FormControl>
+                                <FormControl label="거래처">
+                                    {isEditMode ? (
+                                        <div
+                                            className="cursor-pointer input border-gray-200 bg-gray-100 w-full flex items-center justify-between"
+                                            onClick={() => setIsCompanySelectModalOpened(true)}
+                                        >
+                                            <div>{selectedCompany?.name || <Empty />}</div>
+                                            {selectedCompany && (
+                                                <FaTimes
+                                                    size={16}
+                                                    className="cursor-pointer text-gray-400 hover:text-gray-800 transition-all"
+                                                    onClick={(e) => {
+                                                        onCompanyChange(undefined);
+                                                        e.stopPropagation();
+                                                        e.preventDefault();
+                                                    }}
+                                                />
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <div className="flex items-center" style={{height: '49.5px'}}>
+                                            {vendorContract?.vendorCompany?.name || <Empty />}
+                                        </div>
+                                    )}
+                                    <span />
+                                </FormControl>
 
-                            <FormControl label="이메일">
-                                {isEditMode ? (
-                                    <input
-                                        className="input border-gray-200 bg-gray-100 w-full flex flex-col justify-center"
-                                        value={email}
-                                        onChange={(e) => {
-                                            const newEmail = e.target.value;
-                                            setEmail(newEmail);
-                                        }}
-                                    />
-                                ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {selectedManager?.email || '-'}
-                                    </div>
-                                )}
-                                <span />
-                            </FormControl>
+                                <FormControl label="담당자">
+                                    {isEditMode ? (
+                                        <div
+                                            className="cursor-pointer input border-gray-200 bg-gray-100 w-full flex items-center justify-between"
+                                            onClick={() => setIsManagerSelectModalOpened(true)}
+                                        >
+                                            <div>{selectedManager?.name || <Empty />}</div>
+                                            {selectedManager && (
+                                                <FaTimes
+                                                    size={16}
+                                                    className="cursor-pointer text-gray-400 hover:text-gray-800 transition-all"
+                                                    onClick={(e) => {
+                                                        onManagerChange(undefined);
+                                                        e.stopPropagation();
+                                                        e.preventDefault();
+                                                    }}
+                                                />
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <div className="flex items-center" style={{height: '49.5px'}}>
+                                            {vendorContract?.vendorManager?.name || <Empty />}
+                                        </div>
+                                    )}
+                                    <span />
+                                </FormControl>
 
-                            <FormControl label="전화번호">
-                                {isEditMode ? (
-                                    <input
-                                        className="input border-gray-200 bg-gray-100 w-full flex flex-col justify-center"
-                                        value={phone}
-                                        onChange={(e) => {
-                                            const newPhone = e.target.value;
-                                            setPhone(newPhone);
-                                        }}
-                                    />
-                                ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {selectedManager?.phone || '-'}
-                                    </div>
-                                )}
-                                <span />
-                            </FormControl>
+                                <FormControl label="이메일">
+                                    {isEditMode ? (
+                                        <input
+                                            className="input border-gray-200 bg-gray-100 w-full flex flex-col justify-center"
+                                            value={email}
+                                            onChange={(e) => {
+                                                const newEmail = e.target.value;
+                                                setEmail(newEmail);
+                                            }}
+                                        />
+                                    ) : (
+                                        <div className="flex items-center" style={{height: '49.5px'}}>
+                                            {selectedManager?.email || '-'}
+                                        </div>
+                                    )}
+                                    <span />
+                                </FormControl>
 
-                            <FormControl label="비고">
-                                {isEditMode ? (
-                                    <input
-                                        className="input border-gray-200 bg-gray-100 w-full flex flex-col justify-center"
-                                        defaultValue={vendorContract?.memo || undefined}
-                                        onChange={(e) => {
-                                            form.setValue('vendorContract.memo', e.target.value);
-                                        }}
-                                    />
-                                ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {vendorContract?.memo || '-'}
-                                    </div>
-                                )}
-                                <span />
-                            </FormControl>
+                                <FormControl label="전화번호">
+                                    {isEditMode ? (
+                                        <input
+                                            className="input border-gray-200 bg-gray-100 w-full flex flex-col justify-center"
+                                            value={phone}
+                                            onChange={(e) => {
+                                                const newPhone = e.target.value;
+                                                setPhone(newPhone);
+                                            }}
+                                        />
+                                    ) : (
+                                        <div className="flex items-center" style={{height: '49.5px'}}>
+                                            {selectedManager?.phone || '-'}
+                                        </div>
+                                    )}
+                                    <span />
+                                </FormControl>
+
+                                <FormControl label="비고">
+                                    {isEditMode ? (
+                                        <input
+                                            className="input border-gray-200 bg-gray-100 w-full flex flex-col justify-center"
+                                            defaultValue={vendorContract?.memo || undefined}
+                                            onChange={(e) => {
+                                                form.setValue('vendorContract.memo', e.target.value);
+                                            }}
+                                        />
+                                    ) : (
+                                        <div className="flex items-center" style={{height: '49.5px'}}>
+                                            {vendorContract?.memo || '-'}
+                                        </div>
+                                    )}
+                                    <span />
+                                </FormControl>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -218,3 +251,5 @@ export const SubscriptionBusinessInfoSection = memo(() => {
         </section>
     );
 });
+
+const Empty = () => <div className="text-13 text-gray-300">비어있음</div>;
