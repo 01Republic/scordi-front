@@ -28,6 +28,7 @@ import {useCurrentSubscription} from '../../atom';
 import {FreeTierSelect} from './FreeTireSelect';
 import {BillingCycleSelect} from './BillingCycleTypeSelect';
 import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
+import Tippy from '@tippyjs/react';
 
 export const SubscriptionPaymentInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
@@ -368,11 +369,34 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                         />
                                     </div>
                                 ) : (
-                                    <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {subscription.invoiceAccounts?.length === 0 && <EmptyValue />}
-                                        {subscription.invoiceAccounts?.map((invoiceAccount, index) => (
-                                            <InvoiceAccountProfileCompact key={index} invoiceAccount={invoiceAccount} />
-                                        ))}
+                                    <div className="flex items-center gap-2" style={{height: '49.5px'}}>
+                                        {subscription.invoiceAccounts?.length ? (
+                                            <>
+                                                <InvoiceAccountProfileCompact
+                                                    invoiceAccount={(subscription.invoiceAccounts || [])[0]}
+                                                />
+                                                {subscription.invoiceAccounts?.length - 1 && (
+                                                    <Tippy
+                                                        content={
+                                                            <span
+                                                                className="text-12"
+                                                                dangerouslySetInnerHTML={{
+                                                                    __html: subscription.invoiceAccounts
+                                                                        .map((item) => item.email)
+                                                                        .join('<br />'),
+                                                                }}
+                                                            />
+                                                        }
+                                                    >
+                                                        <div className="text-gray-500 text-13 cursor-pointer">
+                                                            외 {subscription.invoiceAccounts?.length - 1}개
+                                                        </div>
+                                                    </Tippy>
+                                                )}
+                                            </>
+                                        ) : (
+                                            <EmptyValue />
+                                        )}
                                     </div>
                                 )}
                                 <span />
