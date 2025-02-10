@@ -8,6 +8,7 @@ import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {toast} from 'react-hot-toast';
 import {TeamMemberProfileCompact} from '^models/TeamMember/components/TeamMemberProfile';
 import SubscriptionTeamList from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionBasicInfoSection/SubscriptionTeamList';
+import {EmptyValue} from '../../EmptyValue';
 
 export const SubscriptionBasicInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
@@ -49,7 +50,7 @@ export const SubscriptionBasicInfoSection = memo(() => {
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {subscription?.alias || '-'}
+                                        {subscription?.alias || <EmptyValue />}
                                     </div>
                                 )}
                                 <span />
@@ -77,7 +78,7 @@ export const SubscriptionBasicInfoSection = memo(() => {
                                         {subscription?.master ? (
                                             <TeamMemberProfileCompact item={subscription?.master} />
                                         ) : (
-                                            '-'
+                                            <EmptyValue />
                                         )}
                                     </div>
                                 )}
@@ -94,7 +95,7 @@ export const SubscriptionBasicInfoSection = memo(() => {
                                     />
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {subscription?.desc || '-'}
+                                        {subscription?.desc || <EmptyValue />}
                                     </div>
                                 )}
                                 <span />

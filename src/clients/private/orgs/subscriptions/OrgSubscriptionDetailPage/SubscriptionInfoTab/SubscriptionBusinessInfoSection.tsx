@@ -12,6 +12,7 @@ import {useForm} from 'react-hook-form';
 import {vendorManagerApi} from '^models/vendor/VendorManager/api';
 import {FaTimes} from 'react-icons/fa';
 import {errorToast} from '^api/api';
+import {EmptyValue} from '../EmptyValue';
 
 export const SubscriptionBusinessInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
@@ -128,7 +129,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                             className="cursor-pointer input border-gray-200 bg-gray-100 w-full flex items-center justify-between"
                                             onClick={() => setIsCompanySelectModalOpened(true)}
                                         >
-                                            <div>{selectedCompany?.name || <Empty />}</div>
+                                            <div>{selectedCompany?.name || <EmptyValue />}</div>
                                             {selectedCompany && (
                                                 <FaTimes
                                                     size={16}
@@ -143,7 +144,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                         </div>
                                     ) : (
                                         <div className="flex items-center" style={{height: '49.5px'}}>
-                                            {vendorContract?.vendorCompany?.name || <Empty />}
+                                            {vendorContract?.vendorCompany?.name || <EmptyValue />}
                                         </div>
                                     )}
                                     <span />
@@ -155,7 +156,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                             className="cursor-pointer input border-gray-200 bg-gray-100 w-full flex items-center justify-between"
                                             onClick={() => setIsManagerSelectModalOpened(true)}
                                         >
-                                            <div>{selectedManager?.name || <Empty />}</div>
+                                            <div>{selectedManager?.name || <EmptyValue />}</div>
                                             {selectedManager && (
                                                 <FaTimes
                                                     size={16}
@@ -170,7 +171,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                         </div>
                                     ) : (
                                         <div className="flex items-center" style={{height: '49.5px'}}>
-                                            {vendorContract?.vendorManager?.name || <Empty />}
+                                            {vendorContract?.vendorManager?.name || <EmptyValue />}
                                         </div>
                                     )}
                                     <span />
@@ -188,7 +189,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                         />
                                     ) : (
                                         <div className="flex items-center" style={{height: '49.5px'}}>
-                                            {selectedManager?.email || '-'}
+                                            {selectedManager?.email || <EmptyValue />}
                                         </div>
                                     )}
                                     <span />
@@ -206,7 +207,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                         />
                                     ) : (
                                         <div className="flex items-center" style={{height: '49.5px'}}>
-                                            {selectedManager?.phone || '-'}
+                                            {selectedManager?.phone || <EmptyValue />}
                                         </div>
                                     )}
                                     <span />
@@ -223,7 +224,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                                         />
                                     ) : (
                                         <div className="flex items-center" style={{height: '49.5px'}}>
-                                            {vendorContract?.memo || '-'}
+                                            {vendorContract?.memo || <EmptyValue />}
                                         </div>
                                     )}
                                     <span />
@@ -251,5 +252,3 @@ export const SubscriptionBusinessInfoSection = memo(() => {
         </section>
     );
 });
-
-const Empty = () => <div className="text-13 text-gray-300">비어있음</div>;

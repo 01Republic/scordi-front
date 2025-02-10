@@ -1,10 +1,11 @@
 import React, {memo, useEffect} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {useTeamMembersInSubscriptionShowModal} from '^models/TeamMember';
 import {TeamDto} from '^models/Team/type';
 import {TeamTag} from '^models/Team/components/TeamTag';
+import {subscriptionSubjectAtom} from '../../atom';
+import {EmptyValue} from '../../EmptyValue';
 
 const SubscriptionTeamList = memo(function TeamList() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -36,7 +37,7 @@ const SubscriptionTeamList = memo(function TeamList() {
         orgId && onReady();
     }, [orgId]);
 
-    if (!teams.length) return <i className="text-gray-400">미설정</i>;
+    if (!teams.length) return <EmptyValue />;
 
     return (
         <div className="flex items-center gap-1" style={{height: '49.5px'}}>
