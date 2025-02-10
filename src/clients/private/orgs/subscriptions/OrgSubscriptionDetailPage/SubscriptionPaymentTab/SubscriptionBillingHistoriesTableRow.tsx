@@ -7,7 +7,7 @@ import {yyyy_mm_dd} from '^utils/dateTime';
 import {BillingHistoryStatusTagUI} from '^models/BillingHistory/components';
 import {appBillingHistoryApi} from '^models/BillingHistory/api';
 import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
-import {InvoiceAccountProfile} from '^models/InvoiceAccount/components';
+import {InvoiceAccountProfileCompact} from '^models/InvoiceAccount/components';
 
 interface SubscriptionBillingHistoriesTableRowProps {
     billingHistory: BillingHistoryDto;
@@ -61,7 +61,7 @@ export const SubscriptionBillingHistoriesTableRow = memo((props: SubscriptionBil
             {/* 연결된 청구서 수신 메일 */}
             <td>
                 {billingHistory.invoiceApp?.invoiceAccount ? (
-                    <InvoiceAccountProfile invoiceAccount={billingHistory.invoiceApp?.invoiceAccount} />
+                    <InvoiceAccountProfileCompact invoiceAccount={billingHistory.invoiceApp?.invoiceAccount} />
                 ) : (
                     <EmptyValue />
                 )}

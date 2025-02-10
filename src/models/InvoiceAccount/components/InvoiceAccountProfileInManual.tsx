@@ -26,3 +26,20 @@ export const InvoiceAccountProfileInManual = memo((props: InvoiceAccountProfileI
     );
 });
 InvoiceAccountProfileInManual.displayName = 'InvoiceAccountProfileInManual';
+
+export const InvoiceAccountProfileCompactInManual = memo((props: InvoiceAccountProfileInManualProps) => {
+    const {invoiceAccount} = props;
+
+    return (
+        <div data-id={invoiceAccount.id} className="!w-auto gap-2 flex items-center">
+            <Avatar
+                src={invoiceAccount.image || ''}
+                className="w-[20px] h-[20px] outline outline-offset-1 outline-slate-100"
+            />
+            <div className="flex-1">
+                <p className="leading-none">{invoiceAccount.email}</p>
+            </div>
+        </div>
+    );
+});
+InvoiceAccountProfileCompactInManual.displayName = 'InvoiceAccountProfileCompactInManual';

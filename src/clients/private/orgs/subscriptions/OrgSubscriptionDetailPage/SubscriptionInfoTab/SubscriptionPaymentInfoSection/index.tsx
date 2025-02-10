@@ -21,7 +21,7 @@ import {subscriptionApi} from '^models/Subscription/api';
 import {UpdateSubscriptionRequestDto} from '^models/Subscription/types';
 import {IsFreeTierTagUI} from '^models/Subscription/components';
 import {CreditCardProfileCompact, CreditCardSelect} from '^models/CreditCard/components';
-import {InvoiceAccountProfile, InvoiceAccountSelect} from '^models/InvoiceAccount/components';
+import {InvoiceAccountProfileCompact, InvoiceAccountSelect} from '^models/InvoiceAccount/components';
 import {CurrencyCode} from '^models/Money';
 import {UpdateSubscriptionSeatRequestDto} from '^models/SubscriptionSeat/type';
 import {useCurrentSubscription} from '../../atom';
@@ -362,13 +362,16 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                                 form.setValue('invoiceAccountId', invoiceAccount?.id);
                                             }}
                                             placeholder={<EmptyValue />}
+                                            getLabel={(option) => (
+                                                <InvoiceAccountProfileCompact invoiceAccount={option} />
+                                            )}
                                         />
                                     </div>
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
                                         {subscription.invoiceAccounts?.length === 0 && <EmptyValue />}
                                         {subscription.invoiceAccounts?.map((invoiceAccount, index) => (
-                                            <InvoiceAccountProfile key={index} invoiceAccount={invoiceAccount} />
+                                            <InvoiceAccountProfileCompact key={index} invoiceAccount={invoiceAccount} />
                                         ))}
                                     </div>
                                 )}

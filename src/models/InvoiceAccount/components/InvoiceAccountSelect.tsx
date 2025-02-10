@@ -19,10 +19,11 @@ interface InvoiceAccountSelectProps {
     defaultValue?: InvoiceAccountDto;
     onSelect?: (invoiceAccount?: InvoiceAccountDto) => void;
     placeholder?: ReactNodeElement;
+    getLabel?: (option: InvoiceAccountDto) => ReactNodeElement;
 }
 
 export const InvoiceAccountSelect = memo(function InvoiceAccountSelect(props: InvoiceAccountSelectProps) {
-    const {defaultValue, onSelect, placeholder} = props;
+    const {defaultValue, onSelect, placeholder, getLabel} = props;
     const [selectedOption, setSelectedOption] = useState(defaultValue);
     const [isSelectModalOpened, setIsSelectModalOpened] = useState(false);
     const [isCreateMethodModalOpen, setIsCreateMethodModalOpen] = useState(false);
@@ -64,7 +65,9 @@ export const InvoiceAccountSelect = memo(function InvoiceAccountSelect(props: In
                         openModal={selectModal.show}
                         clearable
                         selectedOption={selectedOption}
-                        getLabel={(option) => <InvoiceAccountProfile invoiceAccount={option} />}
+                        getLabel={(option) => {
+                            return getLabel ? getLabel(option) : <InvoiceAccountProfile invoiceAccount={option} />;
+                        }}
                         placeholder={placeholder || '이메일 주소 선택'}
                         clearOption={() => onChange(undefined)}
                     />
