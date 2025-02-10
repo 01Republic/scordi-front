@@ -22,6 +22,7 @@ export const useCurrentSubscription = () => {
                     'vendorContracts.vendorCompany',
                     'vendorContracts.vendorManager',
                     'invoiceAccounts',
+                    'invoiceAccounts.googleTokenData',
                     'billingHistories',
                     'subscriptionSeats',
                 ],

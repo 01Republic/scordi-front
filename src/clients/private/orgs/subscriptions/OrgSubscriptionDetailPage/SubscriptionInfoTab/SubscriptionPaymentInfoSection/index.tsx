@@ -22,12 +22,12 @@ import {
     RecurringAmount,
 } from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs';
 import {CreditCardProfileCompact} from '^models/CreditCard/components';
-import {InvoiceAccountProfile} from '^models/InvoiceAccount/components';
-import {InvoiceAccountSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionConnectsPage/ContentFunnels/inputs/InvoiceAccountSelect';
+import {InvoiceAccountProfile, InvoiceAccountSelect} from '^models/InvoiceAccount/components';
 import {CurrencyCode} from '^models/Money';
 import {FreeTierSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/FreeTireSelect';
 import {BillingCycleSelect} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionPaymentInfoSection/BillingCycleTypeSelect';
 import {UpdateSubscriptionSeatRequestDto} from '^models/SubscriptionSeat/type';
+import {CreditCardSelect} from '^models/CreditCard/components/CreditCardSelect';
 
 export const SubscriptionPaymentInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
@@ -44,7 +44,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
     const onSubmit = async (dto: UpdateSubscriptionRequestDto) => {
         try {
             await onUpdateSeats();
-            await subscriptionApi.update(subscription?.id, dto);
+            await subscriptionApi.update(subscription.id, dto);
             toast.success('변경사항을 저장했어요.');
             setIsEditMode(false);
             reload();
@@ -297,9 +297,11 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                             'input border-gray-200 bg-gray-100 w-full flex flex-col justify-center'
                                         }
                                     >
-                                        <PayMethodSelect
-                                            subscription={subscription}
-                                            onChange={(creditCard) => form.setValue('creditCardId', creditCard?.id)}
+                                        <CreditCardSelect
+                                            defaultValue={subscription.creditCard}
+                                            onChange={(creditCard) => {
+                                                form.setValue('creditCardId', creditCard?.id || null);
+                                            }}
                                             ValueComponent={(props) => {
                                                 const {value} = props;
                                                 return typeof value === 'string' ? (
@@ -326,11 +328,10 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                     <div className={'mb-[-40px]'}>
                                         <InvoiceAccountSelect
                                             defaultValue={subscription.invoiceAccounts?.[0]}
-                                            onSelect={
-                                                (invoiceAccount) =>
-                                                    form.setValue('invoiceAccountId', invoiceAccount?.id)
-                                                // TODO: 업데이트치면 500 에러남
-                                            }
+                                            onSelect={(invoiceAccount) => {
+                                                form.setValue('invoiceAccountId', invoiceAccount?.id);
+                                            }}
+                                            placeholder={<div className="text-13 text-gray-300">비어있음</div>}
                                         />
                                     </div>
                                 ) : (
