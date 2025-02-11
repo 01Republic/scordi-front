@@ -50,6 +50,7 @@ export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
                     iconColor={'bg-blue-400'}
                 />
             </div>
+
             <SubscriptionBasicInfoSection />
             <SubscriptionPaymentInfoSection />
             <SubscriptionBusinessInfoSection />
