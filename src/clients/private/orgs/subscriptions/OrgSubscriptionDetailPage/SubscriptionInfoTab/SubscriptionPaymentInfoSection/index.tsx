@@ -253,7 +253,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                     </div>
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {subscription?.currentBillingAmount?.symbol}
+                                        {subscription?.currentBillingAmount?.symbol}{' '}
                                         {subscription?.currentBillingAmount?.amount.toLocaleString()} /{' '}
                                         {t_SubscriptionBillingCycleTiny(subscription.billingCycleType)}
                                     </div>
