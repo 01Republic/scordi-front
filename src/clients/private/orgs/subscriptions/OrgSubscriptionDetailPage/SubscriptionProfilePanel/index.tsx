@@ -21,9 +21,11 @@ export const SubscriptionProfilePanel = memo((props: SubscriptionProfilePanelPro
                 <p className="flex gap-2 text-18 font-semibold items-center group-hover:text-scordi leading-none py-1">
                     <span className="truncate">{subscription.product.name()}</span>
                 </p>
-                <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 leading-none">
-                    {subscription.alias || '별칭이 없습니다'}
-                </p>
+                {subscription.alias && (
+                    <p className="block text-14 font-normal text-gray-400 group-hover:text-scordi-300 leading-none">
+                        {subscription.alias}
+                    </p>
+                )}
 
                 <div className="flex items-center gap-3 pt-3">
                     <SubscriptionUsingStatusTag
