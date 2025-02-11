@@ -1,16 +1,16 @@
 import React, {memo, useState} from 'react';
-import {SubscriptionUsingStatus} from '^models/Subscription/types';
+import {SubscriptionSeatStatus} from '^models/SubscriptionSeat/type';
 import {ScopeButton} from '^clients/private/_components/rest-pages/ListPage/ScopeButton';
 
 interface MemberStatusScopeHandlerProps {
-    onSearch: (status: SubscriptionUsingStatus | null) => any;
+    onSearch: (status: SubscriptionSeatStatus | null) => void;
 }
 
 export const MemberStatusScopeHandler = memo(function InviteStatusScopeHandler(props: MemberStatusScopeHandlerProps) {
     const {onSearch} = props;
-    const [memberStatus, setMemberStatus] = useState<SubscriptionUsingStatus | null>(null);
+    const [memberStatus, setMemberStatus] = useState<SubscriptionSeatStatus | null>(null);
 
-    const handleClick = (status: SubscriptionUsingStatus | null) => {
+    const handleClick = (status: SubscriptionSeatStatus | null) => {
         setMemberStatus(status);
         onSearch(status);
     };
@@ -21,26 +21,26 @@ export const MemberStatusScopeHandler = memo(function InviteStatusScopeHandler(p
                 전체
             </ScopeButton>
             <ScopeButton
-                active={memberStatus == SubscriptionUsingStatus.NONE}
-                onClick={() => handleClick(SubscriptionUsingStatus.NONE)}
+                active={memberStatus === SubscriptionSeatStatus.NONE}
+                onClick={() => handleClick(SubscriptionSeatStatus.NONE)}
             >
                 미정
             </ScopeButton>
             <ScopeButton
-                active={memberStatus == SubscriptionUsingStatus.PAID}
-                onClick={() => handleClick(SubscriptionUsingStatus.PAID)}
+                active={memberStatus === SubscriptionSeatStatus.PAID}
+                onClick={() => handleClick(SubscriptionSeatStatus.PAID)}
             >
                 유료
             </ScopeButton>
             <ScopeButton
-                active={memberStatus == SubscriptionUsingStatus.FREE}
-                onClick={() => handleClick(SubscriptionUsingStatus.FREE)}
+                active={memberStatus === SubscriptionSeatStatus.FREE}
+                onClick={() => handleClick(SubscriptionSeatStatus.FREE)}
             >
                 무료
             </ScopeButton>
             <ScopeButton
-                active={memberStatus == SubscriptionUsingStatus.QUIT}
-                onClick={() => handleClick(SubscriptionUsingStatus.QUIT)}
+                active={memberStatus === SubscriptionSeatStatus.QUIT}
+                onClick={() => handleClick(SubscriptionSeatStatus.QUIT)}
             >
                 해지
             </ScopeButton>
