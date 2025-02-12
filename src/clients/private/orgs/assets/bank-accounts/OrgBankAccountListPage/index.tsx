@@ -11,6 +11,10 @@ import {CreditCardTableRow} from '^clients/private/orgs/assets/credit-cards/OrgC
 import TitleScopeHandler from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/TitleScopeHandler';
 import {AddBankAccountDropdown} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/AddBankAccountDropdown';
 import {BankAccountScopeHandler} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/BankAccountScopeHandler';
+import {useBankAccountListForListPage} from '../../../../../../models/BankAccount/hook';
+import {BankAccountTableRow} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/BankAccountTableRow';
+import {BankAccountTableHeader} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/BankAccountTableHeader';
+import {AddBankAccountModal} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/AddBankAccountModal/AddBankAccountModal';
 
 export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
     const organizationId = useRecoilValue(orgIdParamState);
@@ -26,7 +30,7 @@ export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
         changePageSize,
         orderBy,
         reload,
-    } = useCreditCardListForListPage();
+    } = useBankAccountListForListPage();
 
     const onReady = () => {
         search({where: {organizationId}, order: {id: 'DESC'}});
@@ -56,7 +60,6 @@ export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
             searchInputPlaceholder="검색어를 입력해주세요"
             onSearch={onSearch}
         >
-            {/* TODO: 계좌 테이블 새로 만들어야 함 */}
             <ListTableContainer
                 pagination={result.pagination}
                 movePage={movePage}
@@ -66,13 +69,13 @@ export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
                 isNotLoaded={isNotLoaded}
                 isEmptyResult={isEmptyResult}
                 emptyMessage="조회된 결제수단이 없어요."
-                EmptyButtons={() => <AddCreditCardModal reload={refresh} />}
+                EmptyButtons={() => <AddBankAccountModal reload={refresh} />}
             >
                 <ListTable
                     items={result.items}
                     isLoading={isLoading}
-                    Header={() => <CreditCardTableHeader orderBy={orderBy} />}
-                    Row={({item}) => <CreditCardTableRow creditCard={item} reload={reload} />}
+                    Header={() => <BankAccountTableHeader orderBy={orderBy} />}
+                    Row={({item}) => <BankAccountTableRow bankAccount={item} reload={reload} />}
                 />
             </ListTableContainer>
         </ListPage>

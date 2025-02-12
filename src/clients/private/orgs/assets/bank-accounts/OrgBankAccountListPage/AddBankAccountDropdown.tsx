@@ -27,12 +27,12 @@ export const AddBankAccountDropdown = memo((props: AddBankAccountDropdownProps) 
             <ListPageDropdownButton text="계좌 추가" />
 
             <ListPageDropdownMenu>
-                <MethodOption
-                    Icon={FcDataBackup}
-                    title="이체내역 불러오기"
-                    desc="공동인증서로 간편하게 불러와요."
-                    onClick={() => setIsCardAutoCreateModalOpen(true)}
-                />
+                {/*<MethodOption*/}
+                {/*    Icon={FcDataBackup}*/}
+                {/*    title="이체내역 불러오기"*/}
+                {/*    desc="공동인증서로 간편하게 불러와요."*/}
+                {/*    onClick={() => setIsCardAutoCreateModalOpen(true)}*/}
+                {/*/>*/}
 
                 <MethodOption
                     Icon={FcDataRecovery}

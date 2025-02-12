@@ -1,13 +1,13 @@
 import {memo, useState} from 'react';
-import {CreditCardUsingStatus} from '^models/CreditCard/type';
-import {useCreditCardListForListPage} from '^models/CreditCard/hook';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
+import {useBankAccountListForListPage} from '^models/BankAccount/hook';
+import {BankAccountUsingStatus} from '^models/BankAccount/type';
 
 export const BankAccountScopeHandler = memo(function () {
-    const {query, search} = useCreditCardListForListPage();
-    const [usingStatus, setUsingStatus] = useState<CreditCardUsingStatus>();
+    const {query, search} = useBankAccountListForListPage();
+    const [usingStatus, setUsingStatus] = useState<BankAccountUsingStatus>();
 
-    const searchResource = (val?: CreditCardUsingStatus) => {
+    const searchResource = (val?: BankAccountUsingStatus) => {
         return search({...query, where: {usingStatus: val}}).then(() => {
             return setUsingStatus(val);
         });
@@ -19,26 +19,26 @@ export const BankAccountScopeHandler = memo(function () {
                 전체
             </ListPage.ScopeButton>
             <ListPage.ScopeButton
-                active={usingStatus === CreditCardUsingStatus.UnDef}
-                onClick={() => searchResource(CreditCardUsingStatus.UnDef)}
+                active={usingStatus === BankAccountUsingStatus.UnDef}
+                onClick={() => searchResource(BankAccountUsingStatus.UnDef)}
             >
                 미정
             </ListPage.ScopeButton>
             <ListPage.ScopeButton
-                active={usingStatus === CreditCardUsingStatus.NoUse}
-                onClick={() => searchResource(CreditCardUsingStatus.NoUse)}
+                active={usingStatus === BankAccountUsingStatus.NoUse}
+                onClick={() => searchResource(BankAccountUsingStatus.NoUse)}
             >
                 미사용
             </ListPage.ScopeButton>
             <ListPage.ScopeButton
-                active={usingStatus === CreditCardUsingStatus.InUse}
-                onClick={() => searchResource(CreditCardUsingStatus.InUse)}
+                active={usingStatus === BankAccountUsingStatus.InUse}
+                onClick={() => searchResource(BankAccountUsingStatus.InUse)}
             >
                 사용중
             </ListPage.ScopeButton>
             <ListPage.ScopeButton
-                active={usingStatus === CreditCardUsingStatus.Expired}
-                onClick={() => searchResource(CreditCardUsingStatus.Expired)}
+                active={usingStatus === BankAccountUsingStatus.Expired}
+                onClick={() => searchResource(BankAccountUsingStatus.Expired)}
             >
                 만료
             </ListPage.ScopeButton>
