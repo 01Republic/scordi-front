@@ -9,6 +9,7 @@ export interface LinkToProps extends Partial<LinkProps & WithChildren> {
     text?: ReactNodeElement;
     className?: string;
     onClick?: MouseEventHandler<HTMLAnchorElement>;
+    onContextMenu?: MouseEventHandler<HTMLAnchorElement>;
     target?: HTMLAttributeAnchorTarget;
     displayLoading?: boolean;
     loadingOnBtn?: boolean;
@@ -25,6 +26,7 @@ export const LinkTo = memo((props: LinkToProps) => {
         text = '',
         target,
         onClick,
+        onContextMenu,
         children,
         className = '',
         href = '#',
@@ -43,7 +45,7 @@ export const LinkTo = memo((props: LinkToProps) => {
 
     if (target === '_blank') {
         return (
-            <Link className={className} href={href} onClick={onClick} target={target}>
+            <Link className={className} href={href} onClick={onClick} onContextMenu={onContextMenu} target={target}>
                 {children || text}
             </Link>
         );
@@ -51,7 +53,7 @@ export const LinkTo = memo((props: LinkToProps) => {
 
     if (onClick) {
         return (
-            <a className={className} onClick={onClick} target={target} rel={rel}>
+            <a className={className} onClick={onClick} onContextMenu={onContextMenu} target={target} rel={rel}>
                 {children || text}
             </a>
         );
