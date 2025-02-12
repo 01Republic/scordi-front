@@ -102,7 +102,7 @@ export const SubscriptionBusinessInfoSection = memo(() => {
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                     <div className="absolute right-0 top-0 px-8 py-8 flex items-center gap-4">
                         <a className="link text-14" onClick={() => setIsEditMode((v) => !v)}>
-                            {isEditMode ? '취소' : '수정'}
+                            {isEditMode ? '취소' : vendorContract ? '수정' : '추가'}
                         </a>
 
                         {isEditMode && (

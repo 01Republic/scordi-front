@@ -379,12 +379,12 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                     </div>
                                 ) : (
                                     <div className="flex items-center gap-2" style={{height: '49.5px'}}>
-                                        {subscription.invoiceAccounts?.length ? (
+                                        {!!subscription.invoiceAccounts?.length ? (
                                             <>
                                                 <InvoiceAccountProfileCompact
                                                     invoiceAccount={(subscription.invoiceAccounts || [])[0]}
                                                 />
-                                                {subscription.invoiceAccounts?.length - 1 && (
+                                                {!!(subscription.invoiceAccounts?.length - 1) && (
                                                     <Tippy
                                                         content={
                                                             <span
