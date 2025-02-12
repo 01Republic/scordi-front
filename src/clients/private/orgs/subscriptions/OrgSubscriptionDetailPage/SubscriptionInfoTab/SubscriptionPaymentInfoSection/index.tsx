@@ -29,6 +29,7 @@ import {FreeTierSelect} from './FreeTireSelect';
 import {BillingCycleSelect} from './BillingCycleTypeSelect';
 import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
 import Tippy from '@tippyjs/react';
+import {currencyFormat} from '^utils/number';
 
 export const SubscriptionPaymentInfoSection = memo(() => {
     const form = useForm<UpdateSubscriptionRequestDto>();
@@ -224,7 +225,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                 <span />
                             </FormControl>
 
-                            <FormControl label="요금제">
+                            <FormControl label="결제금액">
                                 {isEditMode ? (
                                     <div className={'mb-[-40px]'}>
                                         <InputSection className="max-w-lg">
@@ -253,9 +254,7 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                     </div>
                                 ) : (
                                     <div className="flex items-center" style={{height: '49.5px'}}>
-                                        {subscription?.currentBillingAmount?.symbol}{' '}
-                                        {subscription?.currentBillingAmount?.amount.toLocaleString()} /{' '}
-                                        {t_SubscriptionBillingCycleTiny(subscription.billingCycleType)}
+                                        {subscription.currentBillingAmount?.to_s('%u %n')}
                                     </div>
                                 )}
                                 <span />
