@@ -1,94 +1,62 @@
 import React, {memo, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
-import {plainToInstance} from 'class-transformer';
 import {toast} from 'react-hot-toast';
-import {errorNotify} from '^utils/toast-notify';
-import {orgIdParamState} from '^atoms/common';
-import {CreateCreditCardDto, CreditCardUsingStatus, UnSignedCreditCardFormData} from '^models/CreditCard/type';
-import {creditCardApi} from '^models/CreditCard/api';
-import {CardAccountsStaticData} from '^models/CodefAccount/card-accounts-static-data';
-import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
-import {useAltForm} from '^hooks/useAltForm';
-import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
-import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
+import {useForm} from 'react-hook-form';
 import {FadeUp} from '^components/FadeUp';
-import {FormContainer} from '^clients/private/_components/containers';
-import {FormControl} from '^clients/private/_components/inputs/FormControl';
-import {ConnectMethodCard} from '^v3/V3OrgConnectsPage/ConnectsPageBody/ConnectMethodCard';
-import {CardHoldingMemberIdSelect} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardNewPage/CardHoldingMemberIdSelect';
-import {CardExpirySelects} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardNewPage/CardExpirySelects';
-import {CardNumberInput} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardNewPage/CardNumberInput';
-import {CardUsingStatusSelect} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardNewPage/CardUsingStatusSelect';
-import {CardIsPersonalSelect} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardNewPage/CardIsPersonalSelect';
-import {CardIsCreditCardSelect} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardNewPage/CardIsCreditCardSelect';
+import {orgIdParamState} from '^atoms/common';
+import {errorNotify} from '^utils/toast-notify';
 import {OrgBankAccountListPageRoute} from '^pages/orgs/[id]/bankAccounts';
+import {bankAccountApi} from '^models/BankAccount/api';
+import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
+import {BankAccountKind, BankAccountUsingStatus, CreateBankAccountRequestDto} from '^models/BankAccount/type';
+import {FormContainer} from '^clients/private/_components/containers';
+import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
+import {ConnectMethodCard} from '^v3/V3OrgConnectsPage/ConnectsPageBody/ConnectMethodCard';
+import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
+import {FormControl} from '^clients/private/_components/inputs/FormControl';
+import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
+import {LinkedCardSelect} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountNewPage/LinkedCardSelect';
+import {CardIsPersonalSelect} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardNewPage/CardIsPersonalSelect';
+import {BankUsingStatusSelect} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountNewPage/BankUsingStatusSelect';
+import {CardHoldingMemberIdSelect} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardNewPage/CardHoldingMemberIdSelect';
 
 export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
     const router = useRouter();
     const orgId = useRecoilValue(orgIdParamState);
-    const {formData, setFormValue, handleSubmitPlain} = useAltForm<CreateCreditCardDto>({} as CreateCreditCardDto, {
-        plainTransform(plainData) {
-            const {isCreditCard, isPersonal, holdingMemberId, ...permittedValues} = plainData as any;
-            return {
-                ...permittedValues,
-                isCreditCard: typeof isCreditCard === 'undefined' ? undefined : isCreditCard === 'true',
-                isPersonal: typeof isPersonal === 'undefined' ? undefined : isPersonal === 'true',
-                holdingMemberId: typeof holdingMemberId === 'undefined' ? undefined : Number(holdingMemberId),
-            };
-        },
-    });
+    const form = useForm<CreateBankAccountRequestDto>();
     const [isLoading, setLoading] = useState(false);
 
     useEffect(() => {
         if (!router.isReady) return;
-
-        setFormValue({
-            usingStatus: CreditCardUsingStatus.InUse,
-            isPersonal: false,
-            isCreditCard: true,
-        });
+        form.setValue('usingStatus', BankAccountUsingStatus.InUse);
+        form.setValue('isPersonal', false);
+        form.setValue('kind', BankAccountKind.DEPOSIT_TRUST);
     }, [router.isReady]);
 
-    const onSubmit = async (plainData: CreateCreditCardDto) => {
-        const {year = '', month = '', ...permittedValues} = plainData as any;
-        const data = plainToInstance(UnSignedCreditCardFormData, permittedValues);
-
+    const onSubmit = async (data: CreateBankAccountRequestDto) => {
         if (!data.name) {
-            toast.error('카드 별칭을 입력해주세요');
+            toast.error('계좌 별칭을 입력해주세요');
             return;
         }
 
-        if (!data.number1 || !data.number2 || !data.number3 || !data.number4) {
-            toast.error('카드 번호를 입력해주세요');
+        if (!data.number) {
+            toast.error('계좌번호를 입력해주세요');
             return;
         }
-
-        if (!month || !year) {
-            toast.error('유효기간 입력이 완료되지 않았습니다');
-            return;
-        }
-        if (year.length != 4 || month.length != 2) {
-            toast.error('유효기간 입력이 올바르지 않습니다');
-            return;
-        }
-        const expiry = `${month}${year.slice(2, 4)}`;
-
-        data.expiry = expiry;
-        setFormValue({...permittedValues, expiry});
 
         setLoading(true);
-        creditCardApi
-            .create(orgId, data.toCreateDto())
+        bankAccountApi
+            .create(orgId, data)
             .then(() => toast.success('카드를 추가했어요.'))
-            .then(() => router.push(OrgCreditCardListPageRoute.path(orgId)))
+            .then(() => router.push(OrgBankAccountListPageRoute.path(orgId)))
             .catch(errorNotify)
             .finally(() => setLoading(false));
     };
 
-    const cardCompany = formData.issuerCompany || undefined;
-    const setCompany = (company?: CardAccountsStaticData) => {
-        setFormValue({issuerCompany: company ? company.displayName : undefined});
+    const cardCompany = form.getValues('bank') || undefined;
+    const setCompany = (bank?: BankAccountsStaticData) => {
+        bank && form.setValue('bank', bank.displayName);
     };
 
     return (
@@ -131,11 +99,11 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                                     {label: '기업고객 (법인)', value: false},
                                     {label: '개인고객 (개인)', value: true},
                                 ].map((option, i) => {
-                                    const active = formData.isPersonal === option.value;
+                                    const active = form.watch('isPersonal') === option.value;
                                     return (
                                         <div key={i}>
                                             <button
-                                                onClick={() => setFormValue({isPersonal: option.value})}
+                                                onClick={() => form.setValue('isPersonal', option.value)}
                                                 className={`btn no-animation btn-animation gap-4 btn-block rounded-md justify-start font-normal ${
                                                     active
                                                         ? '!bg-indigo-50 !border-scordi'
@@ -165,8 +133,8 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                                 <p className="text-16 text-gray-500"></p>
                             </div>
 
-                            <div className="grid grid-cols-2 md2:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                                {CardAccountsStaticData.findByPersonal(formData.isPersonal || false).map(
+                            <div className="grid grid-cols-2 md2:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+                                {BankAccountsStaticData.findByPersonal(form.getValues('isPersonal') || false).map(
                                     (company, i) => (
                                         <div key={i}>
                                             <ConnectMethodCard
@@ -197,19 +165,18 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                         </div>
                     </div>
 
-                    <FormContainer onSubmit={handleSubmitPlain(onSubmit)} isLoading={isLoading}>
+                    <FormContainer onSubmit={form.handleSubmit(onSubmit)} isLoading={isLoading}>
                         <input type="hidden" name="issuerCompany" value={cardCompany} />
                         <div className="px-4 py-8 border-b">
                             <div className="max-w-md mx-auto flex flex-col gap-8 mb-16">
                                 <h2 className="leading-none text-xl font-semibold">필수정보</h2>
                                 <FormControl label="계좌 이름" required>
                                     <input
-                                        name="name"
                                         className={`input input-underline !bg-slate-100 w-full ${
                                             isLoading ? 'opacity-50 pointer-events-none' : ''
                                         }`}
                                         readOnly={isLoading}
-                                        defaultValue={formData.name || ''}
+                                        {...form.register('name', {required: true})}
                                         required
                                     />
                                     <span />
@@ -217,12 +184,11 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
 
                                 <FormControl label="계좌 번호" required>
                                     <input
-                                        name="name"
                                         className={`input input-underline !bg-slate-100 w-full ${
                                             isLoading ? 'opacity-50 pointer-events-none' : ''
                                         }`}
                                         readOnly={isLoading}
-                                        defaultValue={formData.number1 || ''}
+                                        {...form.register('number', {required: true})}
                                         required
                                     />
                                 </FormControl>
@@ -230,31 +196,33 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
 
                             <div className="max-w-md mx-auto flex flex-col gap-8">
                                 <h2 className="leading-none text-xl font-semibold">선택정보</h2>
-                                <CardUsingStatusSelect
+                                <BankUsingStatusSelect
                                     isLoading={isLoading}
-                                    defaultValue={formData.usingStatus || CreditCardUsingStatus.InUse}
+                                    defaultValue={form.getValues('usingStatus') || BankAccountUsingStatus.InUse}
+                                    onChange={(status) => form.setValue('usingStatus', status)}
                                 />
                                 <CardIsPersonalSelect
                                     isLoading={isLoading}
-                                    defaultValue={formData.isPersonal ?? undefined}
+                                    defaultValue={form.getValues('isPersonal') ?? undefined}
+                                    onChange={(isPersonal) => form.setValue('isPersonal', isPersonal || false)}
                                 />
-                                {/* TODO: 연결된 카드 선택 */}
+                                {/* TODO: 연결된 카드 다수 입력해야하나? */}
+                                <LinkedCardSelect
+                                    isLoading={isLoading}
+                                    defaultValue={form.getValues('holdingMemberId') || undefined}
+                                />
                                 <CardHoldingMemberIdSelect
                                     isLoading={isLoading}
-                                    defaultValue={formData.holdingMemberId || undefined}
-                                />
-                                <CardHoldingMemberIdSelect
-                                    isLoading={isLoading}
-                                    defaultValue={formData.holdingMemberId || undefined}
+                                    defaultValue={form.getValues('holdingMemberId') || undefined}
+                                    onChange={(member) => form.setValue('holdingMemberId', member)}
                                 />
                                 <FormControl label="비고">
                                     <input
-                                        name="memo"
                                         className={`input input-underline !bg-slate-100 w-full ${
                                             isLoading ? 'opacity-50 pointer-events-none' : ''
                                         }`}
                                         readOnly={isLoading}
-                                        defaultValue={formData.memo || ''}
+                                        {...form.register('memo')}
                                     />
                                     <span />
                                 </FormControl>
