@@ -8,9 +8,13 @@ import {BsCash, BsFolderFill} from 'react-icons/bs';
 import {useRecoilValue} from 'recoil';
 import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {SubscriptionBusinessInfoSection} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/SubscriptionInfoTab/SubscriptionBusinessInfoSection';
+import {CurrencyCode} from '^models/Money';
+import {currencyFormat, roundNumber} from '^utils/number';
 
 export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
     const subscription = useRecoilValue(subscriptionSubjectAtom);
+
+    if (!subscription) return <></>;
 
     const endNumber = subscription?.creditCard?.secretInfo?.number4;
 
@@ -29,11 +33,9 @@ export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
                 />
                 <StatusCard
                     title={'결제 예정 금액'}
-                    titleValue={
-                        `${
-                            subscription?.currentBillingAmount?.symbol
-                        } ${subscription?.nextBillingAmount.toLocaleString()}` || '-'
-                    }
+                    titleValue={`${subscription?.currentBillingAmount?.symbol} ${roundNumber(
+                        subscription.nextBillingAmount,
+                    ).toLocaleString()}`}
                     icon={<BsCash size={20} className="h-full w-full p-[6px] text-white" />}
                     iconColor={'bg-orange-400'}
                 />
@@ -50,6 +52,7 @@ export const SubscriptionInfoTab = memo(function SubscriptionInfoTab() {
                     iconColor={'bg-blue-400'}
                 />
             </div>
+
             <SubscriptionBasicInfoSection />
             <SubscriptionPaymentInfoSection />
             <SubscriptionBusinessInfoSection />

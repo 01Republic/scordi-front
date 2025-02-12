@@ -1,29 +1,29 @@
 import React, {memo, useState} from 'react';
+import {useRecoilValue} from 'recoil';
+import {toast} from 'react-hot-toast';
+import Tippy from '@tippyjs/react';
 import {TeamMemberDto} from '^models/TeamMember';
 import {TeamMemberAvatar} from '^v3/share/TeamMemberAvatar';
 import {TeamSelect} from '^v3/V3OrgTeam/V3OrgTeamMembersPage/TeamMemberTableSection/TaemMemberTable/TeamMemberTableRow/TeamSelect';
 import {OrgTeamMemberShowPageRoute} from '^pages/orgs/[id]/teamMembers/[teamMemberId]';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
-import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
-import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
 import {subscriptionSubjectAtom} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/atom';
 import {SubscriptionUsingStatusTag} from '^models/Subscription/components';
 import Datepicker from 'react-tailwindcss-datepicker';
 import {SubscriptionSeatDto, UpdateSubscriptionSeatRequestDto} from '^models/SubscriptionSeat/type';
 import {subscriptionApi} from '^models/Subscription/api';
-import {SubscriptionUsingStatus} from '^models/Subscription/types';
-import Tippy from '@tippyjs/react';
 import {FiMinusCircle} from '^components/react-icons';
 import {confirm2} from '^components/util/dialog';
 import {yyyy_mm_dd} from '^utils/dateTime';
+import {debounce} from 'lodash';
 
 interface TeamMemberInSubscriptionTableRowProps {
     seat: SubscriptionSeatDto;
     onClick?: (seat: SubscriptionSeatDto) => any;
-    reload?: () => any;
+    reload: () => any;
 }
 
 export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscriptionTableRowProps) => {
@@ -41,19 +41,15 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
 
     const showPagePath = OrgTeamMemberShowPageRoute.path(orgId, teamMember.id);
 
-    const update = async (dto: UpdateSubscriptionSeatRequestDto) => {
+    const update = debounce(async (dto: UpdateSubscriptionSeatRequestDto) => {
         setIsLoading(true);
         return subscriptionApi.seatsApi
             .update(orgId, subscription.id, seat.id, dto)
+            .then(() => reload())
             .then(() => toast.success('변경사항을 저장했어요.'))
             .catch(errorToast)
-            .finally(() => {
-                setIsLoading(false);
-                reload && reload();
-            });
-    };
-
-    const usingStatus = seat.isPaid ? SubscriptionUsingStatus.PAID : SubscriptionUsingStatus.FREE;
+            .finally(() => setIsLoading(false));
+    }, 500);
 
     const onDelete = () => {
         confirm2(
@@ -102,7 +98,7 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
 
             {/* 상태 */}
             <td className={`${hoverBgColor} ${loadingStyle}`}>
-                <SubscriptionUsingStatusTag value={usingStatus} />
+                <SubscriptionUsingStatusTag value={seat.status} />
             </td>
 
             {/* 이메일 */}

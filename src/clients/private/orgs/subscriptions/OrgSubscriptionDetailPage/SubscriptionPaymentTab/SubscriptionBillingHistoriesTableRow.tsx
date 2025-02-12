@@ -8,6 +8,7 @@ import {BillingHistoryStatusTagUI} from '^models/BillingHistory/components';
 import {appBillingHistoryApi} from '^models/BillingHistory/api';
 import {EmptyValue} from '^clients/private/orgs/subscriptions/OrgSubscriptionDetailPage/EmptyValue';
 import {InvoiceAccountProfileCompact} from '^models/InvoiceAccount/components';
+import {BillingHistoryAttachmentShowButton} from '^clients/private/_components/button/BillingHistoryAttachmentShowButton';
 
 interface SubscriptionBillingHistoriesTableRowProps {
     billingHistory: BillingHistoryDto;
@@ -80,9 +81,7 @@ export const SubscriptionBillingHistoriesTableRow = memo((props: SubscriptionBil
 
             {/* 청구서 보기 */}
             <td>
-                <button className={'btn btn-outline btn-sm text-14'} onClick={handleShowInvoice}>
-                    청구서 보기
-                </button>
+                <BillingHistoryAttachmentShowButton billingHistory={billingHistory} />
             </td>
         </tr>
     );
