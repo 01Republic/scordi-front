@@ -7,6 +7,7 @@ import {TagUI} from '^v3/share/table/columns/share/TagUI';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {BankAccountDto} from '^models/BankAccount/type';
 import {RiBankFill} from '@react-icons/all-files/ri/RiBankFill';
+import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 
 /**
  * 계좌 프로필 : 기본
@@ -112,10 +113,8 @@ export const BankAccountProfileOption2 = memo((props: BankAccountProfileOption2P
             {bankAccount ? (
                 <>
                     <Avatar className="w-7">
-                        {bank ? (
-                            // TODO: 로고 이미지
-                            // <img src={company.logo} alt="" />
-                            <RiBankFill size={20} className="h-full w-full p-[6px]" />
+                        {bank && BankAccountsStaticData.logo(bank) ? (
+                            <img src={BankAccountsStaticData.logo(bank)} alt={bank || ''} />
                         ) : (
                             <RiBankFill size={20} className="h-full w-full p-[6px]" />
                         )}

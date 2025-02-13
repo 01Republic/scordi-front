@@ -1,8 +1,7 @@
 import React, {memo} from 'react';
-import {FaRegCreditCard} from 'react-icons/fa6';
+import {RiBankFill} from '@react-icons/all-files/ri/RiBankFill';
 import {UsingStatusTag} from '^models/CreditCard/components';
-import {CodefBankCode} from '^models/CodefAccount/type/enums';
-import {getBankLogo} from '^models/CodefAccount/bank-account-static-data';
+import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {Avatar} from '^components/Avatar';
 import {useCurrentBankAccount} from '../atom';
 
@@ -15,13 +14,13 @@ export const BankAccountProfilePanel = memo(function CreditCardProfilePanel() {
         <div>
             <div className="flex items-start gap-6">
                 <Avatar className="w-14 h-14">
-                    {currentBankAccount.bank ? (
+                    {currentBankAccount.bank && BankAccountsStaticData.logo(currentBankAccount.bank) ? (
                         <img
-                            src={getBankLogo(CodefBankCode[currentBankAccount.bank as keyof typeof CodefBankCode])}
+                            src={BankAccountsStaticData.logo(currentBankAccount.bank)}
                             alt={currentBankAccount.bank || ''}
                         />
                     ) : (
-                        <FaRegCreditCard size={20} className="h-full w-full p-[6px]" />
+                        <RiBankFill size={20} className="h-full w-full p-[6px]" />
                     )}
                 </Avatar>
 

@@ -39,10 +39,15 @@ export class BankAccountsStaticData {
         const colorClass = getColor(0, palette.notionColors);
         return <TagUI>{company.displayName}</TagUI>;
     }
+
+    static logo(name: string) {
+        const param = CodefBankCode[name as keyof typeof CodefBankCode];
+        return this.findOne(param)?.logo;
+    }
 }
 
 /** 은행사 로그인 계정을 통한 연동시, 은행사별 필요한 정적데이터 */
-/* TODO: loginPageUrl 입력 필요 */
+/* TODO: loginPageUrl 입력 필요 + 백엔드랑 은행이름 맞추기 */
 export const bankAccountsStaticData: BankAccountsStaticData[] = [
     {
         displayName: '기업은행',
@@ -441,10 +446,6 @@ export const bankAccountsStaticData: BankAccountsStaticData[] = [
         loginPageUrl: 'https://www.hanacard.co.kr/',
     },
 ];
-
-export const getBankLogo = (param: CodefBankCode) => {
-    return bankAccountsStaticData.find((d) => d.param === param)?.logo;
-};
 
 /* TODO: bankStaticDataAlt */
 export const bankStaticDataAlt = [
