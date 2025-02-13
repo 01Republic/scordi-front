@@ -1,16 +1,16 @@
 import React, {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {orgIdParamState} from '^atoms/common';
+import {OrgBankAccountListPageRoute} from '^pages/orgs/[id]/bankAccounts';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
-import {CreditCardProfilePanel} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/CreditCardProfilePanel';
-import {CreditCardActionPanel} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/CreditCardActionPanel';
 import {
     BillingHistoryListOfCreditCardTabContent,
     SubscriptionListOfCreditCardTabContent,
 } from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/tab-panes';
 import {CardInformationPanel} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/CardInformationPanel';
-import {OrgBankAccountListPageRoute} from '^pages/orgs/[id]/bankAccounts';
+import {BankAccountProfilePanel} from './BankAccountProfilePanel';
+import {BankAccountActionPanel} from './BankAccountActionPanel';
 
 export const OrgBankAccountShowPage = memo(function OrgBankAccountShowPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -26,10 +26,10 @@ export const OrgBankAccountShowPage = memo(function OrgBankAccountShowPage() {
         >
             <header className="flex items-center justify-between pt-8 pb-4">
                 <div className="flex-auto">
-                    <CreditCardProfilePanel />
+                    <BankAccountProfilePanel />
                 </div>
 
-                <CreditCardActionPanel />
+                <BankAccountActionPanel />
             </header>
 
             <main className="pt-4">
