@@ -7,18 +7,33 @@ interface CardSectionFormProps extends WithChildren {
     isEditMode: boolean;
     setIsEditMode: (isEditMode: boolean) => void;
     onSubmit?: FormEventHandler<HTMLFormElement>;
+    isButtonText?: boolean;
 }
 
 export const CardSectionForm = memo((props: CardSectionFormProps) => {
-    const {title, isEditMode, setIsEditMode, onSubmit, children} = props;
+    const {title, isEditMode, setIsEditMode, onSubmit, isButtonText = false, children} = props;
 
     return (
         <form onSubmit={onSubmit}>
-            <div className="flex items-start justify-between pb-8">
+            <div className="flex items-start justify-between">
                 <h2 className="leading-none text-xl font-semibold ">{title}</h2>
-                <CardSectionEditButton isEditMode={isEditMode} setIsEditMode={setIsEditMode} />
+                <CardSectionEditButton
+                    isEditMode={isEditMode}
+                    setIsEditMode={setIsEditMode}
+                    isButtonText={isButtonText}
+                />
             </div>
-            <div className="max-w-md flex flex-col gap-4">{children}</div>
+            {!isButtonText ? (
+                <div className="max-w-md flex flex-col gap-4 pt-8">{children}</div>
+            ) : (
+                <div
+                    className={`flex flex-col max-w-md gap-4 overflow-hidden transition-all h-auto ${
+                        isEditMode ? 'pt-8' : '!h-0'
+                    }`}
+                >
+                    {children}
+                </div>
+            )}
         </form>
     );
 });
