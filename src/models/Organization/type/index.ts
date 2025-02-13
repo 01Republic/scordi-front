@@ -8,9 +8,9 @@ import {zero1_republic_workspace_id} from '^config/environments';
 import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 
-export type CreateOrganizationRequestDto = {
+export class CreateOrganizationRequestDto {
     name: string;
-};
+}
 
 export type UpdateOrganizationRequestDto = Partial<CreateOrganizationRequestDto> & {
     slug?: string;
