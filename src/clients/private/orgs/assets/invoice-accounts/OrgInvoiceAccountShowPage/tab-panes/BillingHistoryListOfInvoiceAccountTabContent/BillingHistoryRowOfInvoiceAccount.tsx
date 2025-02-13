@@ -6,15 +6,17 @@ import {billingHistoryApi} from '^models/BillingHistory/api';
 import {BillingHistoryDto, UpdateBillingHistoryRequestDtoV2} from '^models/BillingHistory/type';
 import {BillingHistoryStatusTagUI, PayAmount, BillingHistoryTimestamp} from '^models/BillingHistory/components';
 import {BillingHistoryAttachmentShowButton} from './BillingHistoryAttachmentShowButton';
+import {BillingHistoryDeleteButton} from './BillingHistoryDeleteButton';
 
 interface BillingHistoryRowOfInvoiceAccountProps {
     item: BillingHistoryDto;
     onSaved?: () => any;
+    reload: () => any;
     mode?: number;
 }
 
 export const BillingHistoryRowOfInvoiceAccount = memo((props: BillingHistoryRowOfInvoiceAccountProps) => {
-    const {item: billingHistory, onSaved, mode = 1} = props;
+    const {item: billingHistory, onSaved, reload, mode = 1} = props;
 
     const update = async (dto: UpdateBillingHistoryRequestDtoV2) => {
         return billingHistoryApi
@@ -74,7 +76,10 @@ export const BillingHistoryRowOfInvoiceAccount = memo((props: BillingHistoryRowO
 
             {/* 다운로드 */}
             <td>
-                <BillingHistoryAttachmentShowButton billingHistory={billingHistory} />
+                <div className="flex items-center gap-2">
+                    <BillingHistoryAttachmentShowButton billingHistory={billingHistory} />
+                    {reload && <BillingHistoryDeleteButton billingHistory={billingHistory} reload={reload} />}
+                </div>
             </td>
             {/*<td>{billingHistory.issuedAt}</td>*/}
             {/*<td>{billingHistory.invoiceUrl}</td>*/}
