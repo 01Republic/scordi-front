@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
-import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
-import {FcDataBackup, FcDataRecovery} from 'react-icons/fc';
+import {FcDataRecovery} from 'react-icons/fc';
 import {FaChevronRight} from 'react-icons/fa6';
 import {IconType} from '@react-icons/all-files';
+import {SlideUpModal} from '^components/modals/_shared/SlideUpModal';
 
 export enum BankCreateMethod {
     // (자동) 은행 계정 연동
@@ -25,7 +25,7 @@ export const BankCreateMethodModal = memo((props: BankCreateMethodModalProps) =>
             <h3 className="font-bold text-xl">어떤 방식으로 계좌를 추가할까요?</h3>
 
             <div className="py-4 flex flex-col gap-3">
-                {/* TODO: 공동인증서 작업 전 임시로 폐쇄 */}
+                {/* TODO: 공동인증서로 불러오기 기능 완료시 복구 */}
                 {/*<BankCreateMethodOption*/}
                 {/*    Icon={FcDataBackup}*/}
                 {/*    title="이체내역 불러오기"*/}

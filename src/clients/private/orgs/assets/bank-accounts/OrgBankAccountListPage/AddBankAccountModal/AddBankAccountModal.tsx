@@ -3,13 +3,9 @@ import {useRouter} from 'next/router';
 import {useRecoilValue} from 'recoil';
 import {FaPlus} from 'react-icons/fa6';
 import {orgIdParamState} from '^atoms/common';
-import {CardAutoCreateModal} from '^clients/private/_modals/credit-cards';
-import {OrgCreditCardNewPageRoute} from '^pages/orgs/[id]/creditCards/new';
-import {
-    BankCreateMethod,
-    BankCreateMethodModal,
-} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/AddBankAccountModal/BankCreateMethodModal';
 import {OrgBankAccountNewPageRoute} from '^pages/orgs/[id]/bankAccounts/new';
+import {CardAutoCreateModal} from '^clients/private/_modals/credit-cards';
+import {BankCreateMethod, BankCreateMethodModal} from './BankCreateMethodModal';
 
 interface AddBankAccountModalProps {
     reload: () => any;

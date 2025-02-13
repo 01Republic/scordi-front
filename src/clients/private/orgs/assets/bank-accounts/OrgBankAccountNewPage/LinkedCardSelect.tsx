@@ -12,6 +12,7 @@ export const LinkedCardSelect = memo((props: CardAttrSelectPropsType<number>) =>
         return defaultValue ? result.items.find((member) => member.id === defaultValue) : undefined;
     });
 
+    // TODO: 카드 연결 셀렉터로 변경해야 함
     return (
         <FormControl label="연결된 카드">
             <div

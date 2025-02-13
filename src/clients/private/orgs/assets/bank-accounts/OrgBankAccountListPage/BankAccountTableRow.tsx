@@ -1,18 +1,14 @@
 import React, {memo} from 'react';
 import {toast} from 'react-hot-toast';
-import {CreditCardDto, CreditCardUsingStatus, UpdateCreditCardDto} from '^models/CreditCard/type';
-import {creditCardApi} from '^models/CreditCard/api';
-import {CreditCardProfileCompact, CreditCardProfileOption2} from '^models/CreditCard/components';
-import {IsCreditCardTag, IsPersonalTag, UsingStatusTag} from '^models/CreditCard/components';
+import {bankAccountApi} from '^models/BankAccount/api';
 import {TeamMemberSelectColumn} from '^models/TeamMember/components/TeamMemberSelectColumn';
+import {BankAccountProfileOption2} from '^models/BankAccount/components/BankAccountProfile';
+import {CreditCardProfileCompact, IsPersonalTag, UsingStatusTag} from '^models/CreditCard/components';
+import {BankAccountDto, BankAccountUsingStatus, UpdateBankAccountRequestDto} from '^models/BankAccount/type';
+import {OrgBankAccountShowPageRoute} from '^pages/orgs/[id]/bankAccounts/[bankAccountId]';
 import {SelectColumn} from '^v3/share/table/columns/SelectColumn';
 import {AirInputText} from '^v3/share/table/columns/share/AirInputText';
 import {OpenButtonColumn} from '^clients/private/_components/table/OpenButton';
-import {OrgCreditCardShowPageRoute} from '^pages/orgs/[id]/creditCards/[creditCardId]';
-import {BankAccountDto, BankAccountUsingStatus, UpdateBankAccountRequestDto} from '^models/BankAccount/type';
-import {bankAccountApi} from '^models/BankAccount/api';
-import {BankAccountProfileOption2} from '^models/BankAccount/components/BankAccountProfile';
-import {OrgBankAccountShowPageRoute} from '^pages/orgs/[id]/bankAccounts/[bankAccountId]';
 
 interface BankAccountTableRowProps {
     bankAccount: BankAccountDto;

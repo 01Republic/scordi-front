@@ -1,8 +1,9 @@
 import React, {memo, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {useRouter} from 'next/router';
-import {FcDataBackup, FcDataRecovery} from 'react-icons/fc';
+import {FcDataRecovery} from 'react-icons/fc';
 import {orgIdParamState} from '^atoms/common';
+import {OrgBankAccountNewPageRoute} from '^pages/orgs/[id]/bankAccounts/new';
 import {
     ListPageDropdown,
     ListPageDropdownButton,
@@ -10,7 +11,6 @@ import {
     MethodOption,
 } from '^clients/private/_layouts/_shared/ListPageMainDropdown';
 import {CardAutoCreateModal} from '^clients/private/_modals/credit-cards';
-import {OrgBankAccountNewPageRoute} from '^pages/orgs/[id]/bankAccounts/new';
 
 interface AddBankAccountDropdownProps {
     reload: () => any;
@@ -27,6 +27,7 @@ export const AddBankAccountDropdown = memo((props: AddBankAccountDropdownProps) 
             <ListPageDropdownButton text="계좌 추가" />
 
             <ListPageDropdownMenu>
+                {/* TODO: 공동인증서로 불러오기 기능 완료시 복구 */}
                 {/*<MethodOption*/}
                 {/*    Icon={FcDataBackup}*/}
                 {/*    title="이체내역 불러오기"*/}

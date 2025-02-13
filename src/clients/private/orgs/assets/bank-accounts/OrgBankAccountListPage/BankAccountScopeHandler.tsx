@@ -1,7 +1,7 @@
 import {memo, useState} from 'react';
-import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
-import {useBankAccountListForListPage} from '^models/BankAccount/hook';
 import {BankAccountUsingStatus} from '^models/BankAccount/type';
+import {useBankAccountListForListPage} from '^models/BankAccount/hook';
+import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 
 export const BankAccountScopeHandler = memo(function () {
     const {query, search} = useBankAccountListForListPage();

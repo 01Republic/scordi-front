@@ -11,15 +11,14 @@ import {bankAccountApi} from '^models/BankAccount/api';
 import {BankAccountsStaticData} from '^models/CodefAccount/bank-account-static-data';
 import {BankAccountKind, BankAccountUsingStatus, CreateBankAccountRequestDto} from '^models/BankAccount/type';
 import {FormContainer} from '^clients/private/_components/containers';
-import {OrgCreditCardListPageRoute} from '^pages/orgs/[id]/creditCards';
 import {ConnectMethodCard} from '^v3/V3OrgConnectsPage/ConnectsPageBody/ConnectMethodCard';
 import {Breadcrumb} from '^clients/private/_layouts/_shared/Breadcrumb';
 import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
-import {LinkedCardSelect} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountNewPage/LinkedCardSelect';
 import {CardIsPersonalSelect} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardNewPage/CardIsPersonalSelect';
-import {BankUsingStatusSelect} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountNewPage/BankUsingStatusSelect';
 import {CardHoldingMemberIdSelect} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardNewPage/CardHoldingMemberIdSelect';
+import {LinkedCardSelect} from './LinkedCardSelect';
+import {BankUsingStatusSelect} from './BankUsingStatusSelect';
 
 export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
     const router = useRouter();
@@ -75,9 +74,6 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                 <div className="flex items-center justify-between mb-12">
                     <div>
                         <h1 className="text-2xl mb-1">결제수단 추가</h1>
-                        {/*<p className="text-14 text-gray-500">*/}
-                        {/*    결제수단을 스코디에 추가하기 위한 필수/선택 정보를 입력해주세요.*/}
-                        {/*</p>*/}
                     </div>
                 </div>
 

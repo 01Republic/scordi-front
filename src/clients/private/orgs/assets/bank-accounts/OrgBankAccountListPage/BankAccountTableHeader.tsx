@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
-import {ListTableHeaderProps} from '^clients/private/_components/table/ListTable/types';
 import {SortableTH} from '^v3/share/table/columns/share/SortableTH';
+import {ListTableHeaderProps} from '^clients/private/_components/table/ListTable/types';
 
 interface BankAccountTableHeaderProps extends ListTableHeaderProps {}
 

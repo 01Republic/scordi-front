@@ -2,19 +2,15 @@ import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {debounce} from 'lodash';
 import {orgIdParamState} from '^atoms/common';
+import {useBankAccountListForListPage} from '^models/BankAccount/hook';
 import {ListPage} from '^clients/private/_components/rest-pages/ListPage';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
-import {useCreditCardListForListPage} from '^models/CreditCard/hook';
-import {AddCreditCardModal} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardListPage/AddCreditCardModal';
-import {CreditCardTableHeader} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardListPage/CreditCardTableHeader';
-import {CreditCardTableRow} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardListPage/CreditCardTableRow';
-import TitleScopeHandler from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/TitleScopeHandler';
-import {AddBankAccountDropdown} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/AddBankAccountDropdown';
-import {BankAccountScopeHandler} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/BankAccountScopeHandler';
-import {useBankAccountListForListPage} from '../../../../../../models/BankAccount/hook';
-import {BankAccountTableRow} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/BankAccountTableRow';
-import {BankAccountTableHeader} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/BankAccountTableHeader';
-import {AddBankAccountModal} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountListPage/AddBankAccountModal/AddBankAccountModal';
+import TitleScopeHandler from './TitleScopeHandler';
+import {BankAccountTableRow} from './BankAccountTableRow';
+import {BankAccountTableHeader} from './BankAccountTableHeader';
+import {AddBankAccountDropdown} from './AddBankAccountDropdown';
+import {BankAccountScopeHandler} from './BankAccountScopeHandler';
+import {AddBankAccountModal} from './AddBankAccountModal/AddBankAccountModal';
 
 export const OrgBankAccountListPage = memo(function OrgBankAccountListPage() {
     const organizationId = useRecoilValue(orgIdParamState);
