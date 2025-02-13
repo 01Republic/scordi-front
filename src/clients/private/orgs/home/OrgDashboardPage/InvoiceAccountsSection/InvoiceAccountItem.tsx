@@ -44,7 +44,7 @@ const CountText = (props: {product: ProductDto | null; count: number}) => {
         return (
             <div className="flex flex-col items-end sm:flex-row sm:items-center md:flex-col md:items-end lg:flex-row lg:items-center">
                 <span>{product.name()}</span>
-                <span>외 {unitFormat(count - 1, '개')}</span>
+                <span> 외 {unitFormat(count - 1, '개')}</span>
             </div>
         );
     }
