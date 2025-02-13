@@ -16,9 +16,9 @@ export const SubscriptionDesc = memo((props: SubscriptionDescProps) => {
 
     const {currentSubscription: subscription} = useCurrentSubscription();
 
-    if (!subscription?.desc) return <></>;
+    if (!subscription) return <></>;
 
-    const value = subscription.desc.length === 0 ? <EmptyValue /> : subscription.desc;
+    const value = !subscription.desc ? <EmptyValue /> : subscription.desc;
 
     return (
         <FormControl label="비고">
