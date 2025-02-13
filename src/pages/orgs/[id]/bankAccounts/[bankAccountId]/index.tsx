@@ -2,11 +2,11 @@ import React from 'react';
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
 import {pathReplace, pathRoute} from '^types/pageRoute.type';
 import {v3CommonRequires} from '^types/utils/18n.type';
-import {bankAccountIdParamState, creditCardIdParamState} from '^atoms/common';
-import {creditCardApi} from '^models/CreditCard/api';
-import {creditCardSubjectAtom} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/atom';
+import {bankAccountIdParamState} from '^atoms/common';
 import {ShowRoutingPage} from '^clients/private/_components/rest-pages/ShowPage/ShowRoutingPage';
 import {OrgBankAccountShowPage} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountShowPage';
+import {bankAccountApi} from '^models/BankAccount/api';
+import {bankAccountSubjectAtom} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountShowPage/atom';
 
 export const OrgBankAccountShowPageRoute = pathRoute({
     pathname: '/orgs/[id]/bankAccounts/[bankAccountId]',
@@ -34,10 +34,10 @@ export const getStaticProps = async ({locale}: any) => ({
 export default function Page() {
     return (
         <ShowRoutingPage
-            subjectIdParamKey="bankAccouuntId"
+            subjectIdParamKey="bankAccountId"
             subjectIdParamAtom={bankAccountIdParamState}
-            subjectAtom={creditCardSubjectAtom}
-            endpoint={(subjectId, orgId) => creditCardApi.show(orgId, subjectId)}
+            subjectAtom={bankAccountSubjectAtom}
+            endpoint={(subjectId, orgId) => bankAccountApi.show(orgId, subjectId)}
         >
             <OrgBankAccountShowPage />
         </ShowRoutingPage>
