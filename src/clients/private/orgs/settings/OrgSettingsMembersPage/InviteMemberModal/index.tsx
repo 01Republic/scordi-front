@@ -3,10 +3,11 @@ import {AnimatedModal} from '^components/modals/_shared/AnimatedModal';
 import {FaTimes} from 'react-icons/fa';
 import {toast} from 'react-hot-toast';
 import {errorToast} from '^api/api';
-import {inviteMembershipApi} from '^models/Membership/api';
+import {inviteMembershipApi, membershipApi} from '^models/Membership/api';
 import {confirm2} from '^components/util/dialog';
 import {useInviteInputs} from './useInviteInputs.hook';
 import {InviteEmailInput} from './InviteEmailInput';
+import {debounce} from 'lodash';
 
 interface InviteMemberModalProps {
     organizationId: number;
@@ -20,6 +21,16 @@ export const InviteMemberModal = memo((props: InviteMemberModalProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const {inputs, addInput, updateInput, removeInput, resetInputs} = useInviteInputs();
     const newInputRef = useRef<HTMLLabelElement>(null);
+
+    const checkInvitable = async (email: string) => {
+        return inviteMembershipApi
+            .available(organizationId, email)
+            .then((res) => res.data)
+            .then((found) => {
+                if (found) throw new Error('이미 초대되어있는 멤버에요');
+                return true;
+            });
+    };
 
     const inviteMemberships = async (emails: string[]) => {
         const invitations = emails.map((email) => ({email}));
@@ -76,7 +87,12 @@ export const InviteMemberModal = memo((props: InviteMemberModalProps) => {
 
                     <div className="px-8 py-10">
                         <label ref={newInputRef} className="block mb-6">
-                            <InviteEmailInput defaultValue={''} onSubmit={addInput} isLoading={isLoading} />
+                            <InviteEmailInput
+                                defaultValue={''}
+                                validate={checkInvitable}
+                                onSubmit={addInput}
+                                isLoading={isLoading}
+                            />
                         </label>
 
                         {!!inputs.length && (

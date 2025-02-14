@@ -5,7 +5,7 @@ import {getToken, removeToken, setToken} from '^api/api';
 import {userSessionApi} from '^models/User/api/session';
 import {currentUserAtom, authenticatedUserDataAtom, getCurrentUserQueryAtom} from '^models/User/atom';
 import {UserLoginPageRoute} from '^pages/users/login';
-import {OrgSearchRoute} from '^pages/orgs/search';
+import {OrgEmptyPageRoute} from '^pages/orgs/empty';
 import {NextRouter, useRouter} from 'next/router';
 import {UserDto, UserLoginRequestDto, UserSocialLoginRequestDto} from '^models/User/types';
 import {errorNotify} from '^utils/toast-notify';
@@ -111,7 +111,7 @@ export function useCurrentUser(fallbackPath?: string | null, opt?: CurrentUserOp
         if (user.lastSignedOrgId) {
             return OrgMainPageRoute.path(user.lastSignedOrgId);
         } else {
-            return OrgSearchRoute.path();
+            return OrgEmptyPageRoute.path();
         }
     };
 
