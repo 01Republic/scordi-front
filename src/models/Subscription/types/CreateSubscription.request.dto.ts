@@ -30,6 +30,7 @@ export class CreateSubscriptionRequestDto {
     @TypeCast(() => Date) registeredAt?: Date; // 스코디 연동 시작일(Default: 현재)
     @TypeCast(() => Date) startAt?: Date | null; // 구독시작일
     @TypeCast(() => Date) finishAt?: Date | null; // 구독종료일
+    @TypeCast(() => Date) lastPaidAt?: Date | null; // 마지막 결제일
     isPerUser?: boolean; // 유저가 기록한 인당 과금 여부
 
     // sign?: string | null; // 연동계정 Sign

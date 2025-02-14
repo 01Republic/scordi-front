@@ -39,7 +39,7 @@ export const ExpenseStatusTabContent = (props: ExpenseSubscriptionProps) => {
                     'border-red-100 text-red-400': currentStatusTab === BillingHistoryStatus.PayFail,
                 })}
             >
-                <p>{`${t_billingHistoryStatusForDashboard(currentStatusTab)}된 지출액이 없어요.`}</p>
+                <p>{`${t_billingHistoryStatusForDashboard(currentStatusTab)}된 내역이 없어요.`}</p>
             </div>
         );
     }
