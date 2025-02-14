@@ -25,7 +25,7 @@ export const SubscriptionDesc = memo((props: SubscriptionDescProps) => {
             {isEditMode ? (
                 <input
                     className="w-full input border-gray-200 bg-gray-100 h-[50px]"
-                    defaultValue={subscription.desc}
+                    defaultValue={subscription.desc || ''}
                     {...form.register('desc')}
                 />
             ) : (
