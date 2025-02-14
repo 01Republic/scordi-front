@@ -9,9 +9,9 @@ import {FindAllQueryDto} from '^types/utils/findAll.query.dto';
 import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 import {BankAccountDto} from '^models/BankAccount/type';
 
-export type CreateOrganizationRequestDto = {
+export class CreateOrganizationRequestDto {
     name: string;
-};
+}
 
 export type UpdateOrganizationRequestDto = Partial<CreateOrganizationRequestDto> & {
     slug?: string;

@@ -36,22 +36,13 @@ InvoiceAccountItem.displayName = 'InvoiceAccountItem';
 const CountText = (props: {product: ProductDto | null; count: number}) => {
     const {product, count} = props;
 
-    if (!product) {
-        return <span>{unitFormat(0, '개')}</span>;
-    }
-
-    if (count > 1) {
-        return (
-            <div className="flex flex-col items-end sm:flex-row sm:items-center md:flex-col md:items-end lg:flex-row lg:items-center">
-                <span>{product.name()}</span>
-                <span>외 {unitFormat(count - 1, '개')}</span>
-            </div>
-        );
-    }
+    if (!product) return <span>{unitFormat(0, '개')}</span>;
+    if (count === 1) return <span>{product.name()}</span>;
 
     return (
-        <span>
-            {product.name()} {unitFormat(count, '개')}
-        </span>
+        <div className="flex flex-col items-end sm:flex-row sm:items-center md:flex-col md:items-end lg:flex-row lg:items-center">
+            <span>{product.name()}</span>
+            <span> 외 {unitFormat(count - 1, '개')}</span>
+        </div>
     );
 };

@@ -30,14 +30,16 @@ interface SubscriptionTableRowProps {
 export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
     const {subscription, onDelete, reload} = props;
 
-    const update = debounce((dto: UpdateSubscriptionRequestDto) => {
+    const _update = async (dto: UpdateSubscriptionRequestDto) => {
         const {id, organizationId: orgId} = subscription;
         return subscriptionApi
             .update(id, dto)
             .then(() => toast.success('수정했습니다'))
             .catch(errorToast)
             .finally(() => reload());
-    }, 250);
+    };
+
+    const update = debounce(_update, 250);
 
     const showPagePath = OrgSubscriptionDetailPageRoute.path(subscription.organizationId, subscription.id);
 
@@ -110,7 +112,7 @@ export const SubscriptionTableRow = memo((props: SubscriptionTableRowProps) => {
                     defaultValue={subscription.desc || undefined}
                     onChange={async (desc) => {
                         if (subscription.desc === desc) return;
-                        return update({desc});
+                        return _update({desc});
                     }}
                 />
             </td>

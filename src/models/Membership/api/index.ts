@@ -8,7 +8,7 @@ import {
     UpdateMyMembershipRequestDto,
 } from 'src/models/Membership/types';
 import {Paginated} from '^types/utils/paginated.dto';
-import {oneDtoOf, paginatedDtoOf} from '^types/utils/response-of';
+import {oneDtoOf, oneNullableDtoOf, paginatedDtoOf} from '^types/utils/response-of';
 
 const NAMESPACE = 'memberships';
 
@@ -31,6 +31,13 @@ export const membershipApi = {
 };
 
 export const inviteMembershipApi = {
+    // Membership 초대 전 확인
+    available(organizationId: number, email: string) {
+        const url = `/memberships/invite/available`;
+        const params = {organizationId, email};
+        return api.post(url, {}, {params}).then(oneNullableDtoOf(MembershipDto));
+    },
+
     validate(orgId: number, email: string) {
         const params = {orgId, email};
         return api.get<MembershipDto>(`/${NAMESPACE}/invite/validate`, {params}).then(oneDtoOf(MembershipDto));

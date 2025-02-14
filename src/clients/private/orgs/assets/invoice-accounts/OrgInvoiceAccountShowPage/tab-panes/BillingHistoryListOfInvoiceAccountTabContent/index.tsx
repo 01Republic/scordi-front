@@ -54,7 +54,7 @@ export const BillingHistoryListOfInvoiceAccountTabContent = memo(function () {
                         items={result.items}
                         isLoading={isLoading}
                         Header={() => <BillingHistoryTableHeaderOfInvoiceAccount orderBy={orderBy} mode={1} />}
-                        Row={({item}) => <BillingHistoryRowOfInvoiceAccount item={item} mode={1} />}
+                        Row={({item}) => <BillingHistoryRowOfInvoiceAccount item={item} reload={reload} mode={1} />}
                     />
                 )}
             </ListTableContainer>
