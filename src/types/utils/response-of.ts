@@ -16,6 +16,13 @@ export const oneDtoOf =
         return res;
     };
 
+export const oneNullableDtoOf =
+    <T>(DtoClass: ClassConstructor<T>) =>
+    (res: AxiosResponse<T | null>) => {
+        res.data = res.data ? plainToInstance(DtoClass, res.data) : null;
+        return res;
+    };
+
 export const listDtoOf =
     <T>(DtoClass: ClassConstructor<T>) =>
     (res: AxiosResponse<T[]>) => {
