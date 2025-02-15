@@ -4,13 +4,12 @@ import {orgIdParamState} from '^atoms/common';
 import {OrgBankAccountListPageRoute} from '^pages/orgs/[id]/bankAccounts';
 import {ShowPage} from '^clients/private/_components/rest-pages/ShowPage';
 import {MainTabButtons} from '^clients/private/_layouts/_shared/MainTabButton';
-import {
-    BillingHistoryListOfCreditCardTabContent,
-    SubscriptionListOfCreditCardTabContent,
-} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/tab-panes';
-import {CardInformationPanel} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/CardInformationPanel';
 import {BankAccountProfilePanel} from './BankAccountProfilePanel';
 import {BankAccountActionPanel} from './BankAccountActionPanel';
+import {BankAccountInformationPanel} from './BankAccountInformationPanel';
+import {CreditCardListOfBankAccountTabContent} from './CreditCardListOfBankAccountTabContent';
+import {SubscriptionListOfBankAccountTabContent} from './SubscriptionListOfBankAccountTabContent';
+import {BillingHistoryListOfBankAccountTabContent} from './BillingHistoryListOfBankAccountTabContent';
 
 export const OrgBankAccountShowPage = memo(function OrgBankAccountShowPage() {
     const orgId = useRecoilValue(orgIdParamState);
@@ -38,28 +37,38 @@ export const OrgBankAccountShowPage = memo(function OrgBankAccountShowPage() {
                         borderless
                         activeTabIndex={activeTabIndex}
                         setActiveTabIndex={setActiveTabIndex}
-                        tabs={['구독', '결제']}
+                        tabs={['구독', '결제', '카드']}
                     />
-
-                    {/* right side */}
-                    <div>
-                        <div></div>
-                    </div>
                 </div>
 
+                {/* 구독탭 */}
                 {activeTabIndex == 0 && (
                     <div className="grid grid-cols-10">
                         <div className="col-span-7 pr-4">
-                            <SubscriptionListOfCreditCardTabContent />
+                            <SubscriptionListOfBankAccountTabContent />
                         </div>
 
                         <div className="col-span-3 border-l border-gray-300 text-14">
-                            <CardInformationPanel />
+                            <BankAccountInformationPanel />
                         </div>
                     </div>
                 )}
-                {activeTabIndex == 1 && <BillingHistoryListOfCreditCardTabContent />}
-                {/*{activeTabIndex == 2 && <div>동기화</div>}*/}
+
+                {/* 결제탭 */}
+                {activeTabIndex == 1 && <BillingHistoryListOfBankAccountTabContent />}
+
+                {/* 카드탭 */}
+                {activeTabIndex == 2 && (
+                    <div className="grid grid-cols-10">
+                        <div className="col-span-7 pr-4">
+                            <CreditCardListOfBankAccountTabContent />
+                        </div>
+
+                        <div className="col-span-3 border-l border-gray-300 text-14">
+                            <BankAccountInformationPanel />
+                        </div>
+                    </div>
+                )}
             </main>
         </ShowPage>
     );
