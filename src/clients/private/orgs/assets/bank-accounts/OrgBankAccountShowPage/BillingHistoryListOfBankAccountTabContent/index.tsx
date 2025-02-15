@@ -5,24 +5,24 @@ import {errorToast} from '^api/api';
 import {orgIdParamState} from '^atoms/common';
 import {confirm2, confirmed} from '^components/util/dialog';
 import {billingHistoryApi} from '^models/BillingHistory/api';
-import {useBillingHistoryListOfCreditCard} from '^models/BillingHistory/hook';
+import {useBillingHistoryListOfBankAccount} from '^models/BillingHistory/hook';
 import {EmptyTable} from '^clients/private/_components/table/EmptyTable';
 import {ListTable, ListTableContainer} from '^clients/private/_components/table/ListTable';
 import {useCurrentBankAccount} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountShowPage/atom';
-import {BillingHistoryTableControl} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardShowPage/tab-panes/BillingHistoryListOfCreditCardTabContent/BillingHistoryTableControl';
+
 import {BillingHistoryTableHeaderOfBankAccount} from './BillingHistoryTableHeaderOfBankAccount';
 import {BillingHistoryRowOfBankAccount} from './BillingHistoryRowOfBankAccount';
+import {BillingHistoryTableControl} from './BillingHistoryTableControl';
 
 export const BillingHistoryListOfBankAccountTabContent = memo(function BillingHistoryListOfBankAccountTabContent() {
     const orgId = useRecoilValue(orgIdParamState);
     const {currentBankAccount} = useCurrentBankAccount();
     const {isLoading, isEmptyResult, search, result, reload, movePage, changePageSize, orderBy} =
-        useBillingHistoryListOfCreditCard();
+        useBillingHistoryListOfBankAccount();
 
     const onReady = () => {
         if (!currentBankAccount) return;
         search({
-            relations: ['subscription'],
             where: {
                 bankAccountId: currentBankAccount.id,
                 organizationId: orgId,
