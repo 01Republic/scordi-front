@@ -2,11 +2,14 @@ import React, {memo} from 'react';
 import {useRecoilValue} from 'recoil';
 import {toast} from 'react-hot-toast';
 import {MoreDropdown} from '^clients/private/_components/MoreDropdown';
-import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
-import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
 import {codefCardApi} from '^models/CodefCard/api';
+import {CodefCardDto} from '^models/CodefCard/type/CodefCard.dto';
+import {RangeQueryDto} from '^models/CodefCard/type/range.query.dto';
+import {useCodefCardSync} from '^models/CodefCard/hooks/useCodefCardSync';
 import {adminOrgDetail} from '^admin/orgs/AdminOrgDetailPage';
 import {errorToast} from '^api/api';
+import {swalHTML} from '^components/util/dialog';
+import {RangeDateSwalForm} from './RangeDateSwalForm';
 
 interface FetchBillingHistoriesItemProps {
     codefCard: CodefCardDto;
@@ -18,12 +21,12 @@ export const FetchBillingHistoriesItem = memo((props: FetchBillingHistoriesItemP
     const org = useRecoilValue(adminOrgDetail);
     const {isSyncRunning, setIsSyncRunning} = useCodefCardSync();
 
-    const onClick = () => {
+    const onSubmit = async (dto: RangeQueryDto) => {
         if (!org) return;
 
         setIsSyncRunning(true);
-        codefCardApi
-            .patchHistories(org.id, codefCard.id)
+        return codefCardApi
+            .patchHistories(org.id, codefCard.id, dto)
             .then(() => toast.success('결제내역을 불러왔습니다.'))
             .catch(errorToast)
             .finally(() => {
@@ -31,6 +34,8 @@ export const FetchBillingHistoriesItem = memo((props: FetchBillingHistoriesItemP
                 return reload();
             });
     };
+
+    const onClick = () => swalHTML(<RangeDateSwalForm codefCard={codefCard} onSubmit={onSubmit} />);
 
     return (
         <MoreDropdown.MenuItem className={`${isSyncRunning ? 'pointer-events-none opacity-20' : ''}`} onClick={onClick}>

@@ -3,6 +3,7 @@ import {CodefAccountDto} from '^models/CodefAccount/type/CodefAccountDto';
 import {captures} from '^utils/array';
 import {CreditCardDto} from '^models/CreditCard/type';
 import {CodefBillingHistoryDto} from '^models/CodefBillingHistory/type';
+import {todayOf, yesterdayOf, yyyy_mm_dd, yyyymmddToDate} from '^utils/dateTime';
 
 /**
  * [codef] 연동된 카드
@@ -90,6 +91,18 @@ export class CodefCardDto {
     // 코드에프 결제내역
     @TypeCast(() => CodefBillingHistoryDto)
     codefBillingHistories?: CodefBillingHistoryDto[];
+
+    nextFetchHistoriesRange() {
+        const startDate = (() => {
+            if (this.syncedEndDate) return todayOf(this.syncedEndDate);
+            if (this.resIssueDate) return yyyy_mm_dd(yyyymmddToDate(this.resIssueDate));
+            return '2020-01-01';
+        })();
+
+        const endDate = yesterdayOf(new Date());
+
+        return {startDate, endDate};
+    }
 }
 
 export class ConnectedCodefCardDto extends CodefCardDto {
