@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import Tippy from '@tippyjs/react';
 import {MdRefresh} from 'react-icons/md';
 import {useCreditCardListForListPage} from '^models/CreditCard/hook';
@@ -7,11 +7,19 @@ import {ListTable, ListTableContainer} from '^clients/private/_components/table/
 import {useCurrentBankAccount} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountShowPage/atom';
 import {CreditCardTableRowOfBankAccount} from './CreditCardTableRowOfBankAccount';
 import {CreditCardTableHeaderOfBankAccount} from './CreditCardTableHeaderOfBankAccount';
+import {LinkTo} from '^components/util/LinkTo';
+import {FaPlus} from 'react-icons/fa6';
+import {BankAccountAddSubscriptionModal} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountShowPage/SubscriptionListOfBankAccountTabContent/BankAccountAddSubscriptionModal';
+import {BankAccountAddCreditCardModal} from '^clients/private/orgs/assets/bank-accounts/OrgBankAccountShowPage/CreditCardListOfBankAccountTabContent/BankAccountAddCreditCardModal';
 
 export const CreditCardListOfBankAccountTabContent = memo(() => {
     const {currentBankAccount} = useCurrentBankAccount();
     const {isLoading, isEmptyResult, search, result, reload, movePage, changePageSize, orderBy} =
         useCreditCardListForListPage();
+    const [isAddCreditCardModalOpened, setAddCreditCardModalOpened] = useState(false);
+
+    // TODO: 자동연결 완성 시 구분
+    const isManuallyCreated = true;
 
     const onReady = () => {
         if (!currentBankAccount) return;
@@ -21,6 +29,17 @@ export const CreditCardListOfBankAccountTabContent = memo(() => {
             order: {id: 'DESC'},
         });
     };
+
+    const AddCreditCardButton = () => (
+        <LinkTo
+            onClick={() => setAddCreditCardModalOpened(true)}
+            className="btn btn-scordi gap-2 no-animation btn-animation"
+            loadingOnBtn
+        >
+            <FaPlus />
+            <span>카드 연결</span>
+        </LinkTo>
+    );
 
     useEffect(() => {
         onReady();
@@ -54,10 +73,25 @@ export const CreditCardListOfBankAccountTabContent = memo(() => {
                             </button>
                         </Tippy>
                     </div>
+
+                    <div className="flex items-center gap-2">
+                        {isManuallyCreated && (
+                            <button
+                                className="btn btn-sm bg-white border-gray-300 hover:bg-white hover:border-gray-500 gap-2 no-animation btn-animation"
+                                onClick={() => setAddCreditCardModalOpened(true)}
+                            >
+                                <FaPlus />
+                                <span>카드 연결하기</span>
+                            </button>
+                        )}
+                    </div>
                 </div>
 
                 {isEmptyResult ? (
-                    <EmptyTable message="연결된 카드가 없어요." />
+                    <EmptyTable
+                        message="연결된 카드가 없어요."
+                        Buttons={isManuallyCreated ? AddCreditCardButton : undefined}
+                    />
                 ) : (
                     <ListTable
                         items={result.items}
@@ -67,6 +101,16 @@ export const CreditCardListOfBankAccountTabContent = memo(() => {
                     />
                 )}
             </ListTableContainer>
+
+            <BankAccountAddCreditCardModal
+                isOpened={isAddCreditCardModalOpened}
+                onClose={() => setAddCreditCardModalOpened(false)}
+                onCreate={() => {
+                    setAddCreditCardModalOpened(false);
+                    reload();
+                }}
+                bankAccountId={currentBankAccount.id}
+            />
         </section>
     );
 });
