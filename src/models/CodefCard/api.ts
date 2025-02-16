@@ -51,6 +51,12 @@ export const codefCardApi = {
         const url = `/connect/organizations/${orgId}/codef/cards/${codefCardId}/histories`;
         return api.patch(url, {}, {params});
     },
+
+    // 코드에프 구독 동기화
+    patchSubscriptions(orgId: number, codefCardId: number) {
+        const url = `/connect/organizations/${orgId}/codef/cards/${codefCardId}/subscriptions`;
+        return api.patch(url);
+    },
 };
 
 export const codefCardAdminApi = {

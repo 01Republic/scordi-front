@@ -7,6 +7,7 @@ import {RemoveCreditCardItem} from './RemoveCreditCardItem';
 import {CreateCreditCardItem} from './CreateCreditCardItem';
 import {PatchAllForCodefCardItem} from './PatchAllForCodefCardItem';
 import {RemoveAllOfCodefCardItem} from './RemoveAllOfCodefCardItem';
+import {PatchSubscriptionsByCodefCardItem} from './PatchSubscriptionsByCodefCardItem';
 
 interface CodefCardRowActionColumnProps {
     codefCard: CodefCardDto;
@@ -39,6 +40,9 @@ export const CodefCardRowActionColumn = memo((props: CodefCardRowActionColumnPro
                         <CreateCreditCardItem codefCard={codefCard} reload={reload} />
                     ) : (
                         <></>
+                    )}
+                    {!isSleep && isConnected && !!codefBillingHistories.length && (
+                        <PatchSubscriptionsByCodefCardItem codefCard={codefCard} reload={reload} />
                     )}
                     {!isSleep && <PatchAllForCodefCardItem codefCard={codefCard} reload={reload} />}
                     <RemoveAllOfCodefCardItem codefCard={codefCard} reload={reload} />
