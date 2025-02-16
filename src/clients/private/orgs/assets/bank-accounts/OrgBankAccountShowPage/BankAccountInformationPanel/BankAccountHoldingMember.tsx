@@ -21,12 +21,17 @@ export const BankAccountHoldingMember = memo((props: BankAccountHoldingMemberPro
     const orgId = useRecoilValue(orgIdParamState);
     const {loadCurrentTeamMember, currentTeamMember} = useCurrentTeamMember();
 
+    const onChangeHoldingMember = (teamMemberId: number | undefined) => {
+        teamMemberId && loadCurrentTeamMember(orgId, teamMemberId);
+        onChange(teamMemberId);
+    };
+
     useEffect(() => {
         defaultValue && loadCurrentTeamMember(orgId, defaultValue);
     }, []);
 
     return (
-        <FormControl label="소지자">
+        <FormControl label="관리자">
             {isEditMode ? (
                 <div
                     className={`px-2 bg-slate-100 border-slate-300 hover:bg-slate-200 hover:border-slate-400 transition-all cursor-pointer w-full group flex items-center justify-between border-b-2 ${
@@ -35,7 +40,7 @@ export const BankAccountHoldingMember = memo((props: BankAccountHoldingMemberPro
                 >
                     <TeamMemberSelectColumn
                         defaultValue={currentTeamMember || undefined}
-                        onChange={(member) => onChange(member?.id || undefined)}
+                        onChange={(member) => onChangeHoldingMember(member?.id)}
                         optionListBoxTitle="소지자를 변경할까요?"
                         detachableOptionBoxTitle="현재 소지자"
                         className="flex-auto"
