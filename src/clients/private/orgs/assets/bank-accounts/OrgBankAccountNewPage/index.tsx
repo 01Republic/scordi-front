@@ -17,7 +17,6 @@ import {FormControl} from '^clients/private/_components/inputs/FormControl';
 import {MainContainer, MainLayout} from '^clients/private/_layouts/MainLayout';
 import {CardIsPersonalSelect} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardNewPage/CardIsPersonalSelect';
 import {CardHoldingMemberIdSelect} from '^clients/private/orgs/assets/credit-cards/OrgCreditCardNewPage/CardHoldingMemberIdSelect';
-import {LinkedCardSelect} from './LinkedCardSelect';
 import {BankUsingStatusSelect} from './BankUsingStatusSelect';
 
 export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
@@ -47,7 +46,7 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
         setLoading(true);
         bankAccountApi
             .create(orgId, data)
-            .then(() => toast.success('카드를 추가했어요.'))
+            .then(() => toast.success('계좌를 추가했어요.'))
             .then(() => router.push(OrgBankAccountListPageRoute.path(orgId)))
             .catch(errorNotify)
             .finally(() => setLoading(false));
@@ -201,11 +200,6 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                                     isLoading={isLoading}
                                     defaultValue={form.getValues('isPersonal') ?? undefined}
                                     onChange={(isPersonal) => form.setValue('isPersonal', isPersonal || false)}
-                                />
-                                {/* TODO: 연결된 카드 다수 입력해야하나? */}
-                                <LinkedCardSelect
-                                    isLoading={isLoading}
-                                    defaultValue={form.getValues('holdingMemberId') || undefined}
                                 />
                                 <CardHoldingMemberIdSelect
                                     isLoading={isLoading}
