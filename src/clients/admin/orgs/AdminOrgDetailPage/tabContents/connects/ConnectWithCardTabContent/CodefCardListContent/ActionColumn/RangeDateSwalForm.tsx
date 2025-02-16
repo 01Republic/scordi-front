@@ -1,4 +1,4 @@
-import React, {FormEventHandler, memo, useState} from 'react';
+import React, {memo, useState} from 'react';
 import {SwalForm} from '^components/util/dialog/swal-form';
 import {useForm} from 'react-hook-form';
 import {RangeQueryDto} from '^models/CodefCard/type/range.query.dto';
