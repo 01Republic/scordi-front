@@ -123,7 +123,7 @@ export const BankAccountProfileOption2 = memo((props: BankAccountProfileOption2P
                     <div className="flex flex-col gap-0.5 overflow-hidden text-left">
                         <p className={`flex gap-2 items-center group-hover:text-scordi leading-none`}>
                             <span className="truncate">
-                                [{bankAccount.bank?.replace('은행', '')}] {bankAccount.displayNumber}
+                                [{bankAccount.name}] {bankAccount.displayNumber}
                             </span>
                         </p>
                         {endNumber && (

@@ -58,8 +58,6 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
         bank ? form.setValue('bank', bank.displayName) : form.setValue('bank', '');
     };
 
-    console.log(form.watch());
-
     return (
         <MainLayout>
             <MainContainer>
