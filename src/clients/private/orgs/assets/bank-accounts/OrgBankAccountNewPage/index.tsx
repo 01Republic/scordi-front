@@ -53,10 +53,12 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
             .finally(() => setLoading(false));
     };
 
-    const cardCompany = form.getValues('bank') || undefined;
+    const bankCompany = form.getValues('bank') || undefined;
     const setCompany = (bank?: BankAccountsStaticData) => {
-        bank && form.setValue('bank', bank.displayName);
+        bank ? form.setValue('bank', bank.displayName) : form.setValue('bank', '');
     };
+
+    console.log(form.watch());
 
     return (
         <MainLayout>
@@ -78,7 +80,7 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                 </div>
 
                 {/* 은행사 선택 단계 */}
-                {!cardCompany && (
+                {!bankCompany && (
                     <div>
                         <section className="relative mb-12">
                             <div className="mb-4">
@@ -147,13 +149,13 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                 )}
 
                 {/* 정보입력 단계 */}
-                <FadeUp show={!!cardCompany} delay="delay-[50ms]" leaveDuration="duration-0" leaveNoEffect>
+                <FadeUp show={!!bankCompany} delay="delay-[50ms]" leaveDuration="duration-0" leaveNoEffect>
                     <div className="mb-10 flex items-center justify-between">
                         <h2 className="leading-none text-xl font-semibold">Step3. 세부 정보를 입력해주세요.</h2>
 
                         <div className="flex items-center gap-4">
                             <p className="text-16 text-gray-500">
-                                선택된 은행사: <b>{cardCompany}</b>
+                                선택된 은행사: <b>{bankCompany}</b>
                             </p>
                             <button className="btn btn-xs btn-scordi gap-2" onClick={() => setCompany(undefined)}>
                                 변경하기
@@ -162,7 +164,7 @@ export const OrgBankAccountNewPage = memo(function OrgBankAccountNewPage() {
                     </div>
 
                     <FormContainer onSubmit={form.handleSubmit(onSubmit)} isLoading={isLoading}>
-                        <input type="hidden" name="issuerCompany" value={cardCompany} />
+                        <input type="hidden" name="issuerCompany" value={bankCompany} />
                         <div className="px-4 py-8 border-b">
                             <div className="max-w-md mx-auto flex flex-col gap-8 mb-16">
                                 <h2 className="leading-none text-xl font-semibold">필수정보</h2>
