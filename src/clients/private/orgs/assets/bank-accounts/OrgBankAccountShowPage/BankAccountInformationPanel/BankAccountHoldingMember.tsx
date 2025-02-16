@@ -29,7 +29,7 @@ export const BankAccountHoldingMember = memo((props: BankAccountHoldingMemberPro
         <FormControl label="소지자">
             {isEditMode ? (
                 <div
-                    className={`-mx-2 px-2 bg-slate-100 border-slate-300 hover:bg-slate-200 hover:border-slate-400 rounded-md transition-all cursor-pointer w-full group flex items-center justify-between ${
+                    className={`px-2 bg-slate-100 border-slate-300 hover:bg-slate-200 hover:border-slate-400 transition-all cursor-pointer w-full group flex items-center justify-between border-b-2 ${
                         isLoading ? 'opacity-50 pointer-events-none' : ''
                     }`}
                 >
