@@ -44,6 +44,12 @@ export const codefCardApi = {
         const url = `/connect/organizations/${orgId}/codef/cards/${codefCardId}/histories`;
         return api.get(url, {params}); //.then(paginatedDtoOf(CodefCardDto));
     },
+
+    // 코드에프 결제내역 패치 (코드에프 결제내역만 불러와서 저장)
+    patchHistories(orgId: number, codefCardId: number) {
+        const url = `/connect/organizations/${orgId}/codef/cards/${codefCardId}/histories`;
+        return api.patch(url);
+    },
 };
 
 export const codefCardAdminApi = {
