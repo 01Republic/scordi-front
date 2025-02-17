@@ -1,4 +1,4 @@
-import {memo, useState} from 'react';
+import {memo} from 'react';
 import {AdminListPageLayout, AdminPageContainer} from '^admin/layouts';
 import {useAdminScordiSubscriptions} from '^models/_scordi/ScordiSubscription/hook/useAdminScordiSubscriptions';
 import {CardTablePanel, ResourceColumn} from '^admin/share';
@@ -6,26 +6,18 @@ import {ScordiSubscriptionDto} from '^models/_scordi/ScordiSubscription/type';
 import {currencyFormat, unitFormat} from '^utils/number';
 import {hh_mm, yyyy_mm_dd} from '^utils/dateTime';
 import {TagUI} from '^v3/share/table/columns/share/TagUI';
-import {getColor, palette} from '^components/util/palette';
-import {ReactNodeElement, WithChildren} from '^types/global.type';
-import {AdminOrgPageRoute} from '^pages/admin/orgs/[id]';
 import {ScordiPlanNextStrategy} from '^models/_scordi/ScordiPlan/type';
 import {Paginator} from '^components/Paginator';
-import {FaTimes} from 'react-icons/fa';
-
-interface Filter {
-    key: string | number;
-    value?: ReactNodeElement;
-    onClick?: () => any;
-}
+import {FilterItems, useListFilter} from '^admin/share/list-page/useListFilter';
 
 export const AdminScordiSubscriptionListPage = memo(function AdminScordiSubscriptionListPage() {
     const {data, params, search, clearQuery} = useAdminScordiSubscriptions({
         relations: ['organization', 'nextSubscription', 'scordiPayments'],
         order: {id: 'DESC'},
     });
-    const [filters, setFilters] = useState<Filter[]>([]);
-    const addFilter = (filter: Filter) => setFilters((_filters) => [..._filters, filter]);
+    const {filters, resetFilter, filterRegister} = useListFilter({
+        reset: () => clearQuery(),
+    });
 
     const {items, pagination} = data;
 
@@ -35,44 +27,9 @@ export const AdminScordiSubscriptionListPage = memo(function AdminScordiSubscrip
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-4">
                         <div className="text-16 font-semibold">총 {unitFormat(pagination.totalItemCount, '건')}</div>
-
-                        {filters.length > 0 && (
-                            <button
-                                className="btn btn-xs btn-white"
-                                onClick={() => {
-                                    clearQuery();
-                                    setFilters([]);
-                                }}
-                            >
-                                조건 초기화
-                            </button>
-                        )}
                     </div>
 
-                    {filters.length > 0 && (
-                        <div className="flex items-center">
-                            {filters.map((filter, i) => {
-                                const {key, value, onClick} = filter;
-                                const colorClass = getColor(i, palette.notionColors);
-
-                                return (
-                                    <TagUI
-                                        className={`flex items-center ${colorClass} group`}
-                                        onClick={() => {
-                                            onClick && onClick();
-                                            setFilters((arr) => arr.filter((a) => a.key !== key));
-                                        }}
-                                    >
-                                        <div>{value}</div>
-                                        <div className="ml-1 bg-transparent text-gray-500 group-hover:text-gray-800 transition-all">
-                                            <FaTimes fontSize={10} />
-                                        </div>
-                                    </TagUI>
-                                );
-                            })}
-                        </div>
-                    )}
-
+                    <FilterItems filters={filters} onClear={resetFilter} />
                     <br />
 
                     {pagination.totalItemCount === 0 && <div>검색 결과가 없습니다.</div>}
@@ -91,48 +48,34 @@ export const AdminScordiSubscriptionListPage = memo(function AdminScordiSubscrip
                                 render: (item: ScordiSubscriptionDto) => (
                                     <ResourceColumn
                                         resource={item.organization}
-                                        onClick={() => {
-                                            // 필터 뱃지 추가
-                                            addFilter({
-                                                key: new Date().getTime(),
-                                                value: `조직: "${item.organization?.name || '-'}"`,
-                                                onClick() {
-                                                    // 필터 적용 해제
-                                                    search((q = {}) => {
-                                                        const {organizationId, ...where} = q.where || {};
-                                                        return {...q, where};
-                                                    });
-                                                },
-                                            });
-
-                                            // 필터 적용 실행
-                                            search((q = {}) => ({
-                                                ...q,
-                                                where: {
-                                                    ...(q.where || {}),
-                                                    organizationId: item.organizationId,
-                                                },
-                                            }));
-                                        }}
-                                        onContextMenu={() => {
-                                            addFilter({
-                                                key: new Date().getTime(),
-                                                value: `조직: NOT "${item.organization?.name || '-'}"`,
-                                                onClick() {
-                                                    search((q = {}) => {
-                                                        const {organizationId, ...where} = q.where || {};
-                                                        return {...q, where};
-                                                    });
-                                                },
-                                            });
-                                            search((q = {}) => ({
-                                                ...q,
-                                                where: {
-                                                    ...(q.where || {}),
-                                                    organizationId: {op: 'not', val: item.organizationId},
-                                                },
-                                            }));
-                                        }}
+                                        {...filterRegister({
+                                            group: '조직',
+                                            label: `"${item.organization?.name || '-'}"`,
+                                            query() {
+                                                search((q = {}) => ({
+                                                    ...q,
+                                                    where: {
+                                                        ...(q.where || {}),
+                                                        organizationId: item.organizationId,
+                                                    },
+                                                }));
+                                            },
+                                            notQuery() {
+                                                search((q = {}) => ({
+                                                    ...q,
+                                                    where: {
+                                                        ...(q.where || {}),
+                                                        organizationId: {op: 'not', val: item.organizationId},
+                                                    },
+                                                }));
+                                            },
+                                            reset() {
+                                                search((q = {}) => {
+                                                    const {organizationId, ...where} = q.where || {};
+                                                    return {...q, where};
+                                                });
+                                            },
+                                        })}
                                     >
                                         {item.organization?.name}
                                     </ResourceColumn>
@@ -146,44 +89,34 @@ export const AdminScordiSubscriptionListPage = memo(function AdminScordiSubscrip
                                     return (
                                         <ResourceColumn
                                             resource={plan}
-                                            onClick={() => {
-                                                addFilter({
-                                                    key: new Date().getTime(),
-                                                    value: `플랜: "${plan.name || '-'}"`,
-                                                    onClick() {
-                                                        search((q = {}) => {
-                                                            const {scordiPlanId, ...where} = q.where || {};
-                                                            return {...q, where};
-                                                        });
-                                                    },
-                                                });
-                                                search((q = {}) => ({
-                                                    ...q,
-                                                    where: {
-                                                        ...(q.where || {}),
-                                                        scordiPlanId: item.scordiPlanId,
-                                                    },
-                                                }));
-                                            }}
-                                            onContextMenu={() => {
-                                                addFilter({
-                                                    key: new Date().getTime(),
-                                                    value: `플랜: NOT "${plan.name || '-'}"`,
-                                                    onClick() {
-                                                        search((q = {}) => {
-                                                            const {scordiPlanId, ...where} = q.where || {};
-                                                            return {...q, where};
-                                                        });
-                                                    },
-                                                });
-                                                search((q = {}) => ({
-                                                    ...q,
-                                                    where: {
-                                                        ...(q.where || {}),
-                                                        scordiPlanId: {op: 'not', val: item.scordiPlanId},
-                                                    },
-                                                }));
-                                            }}
+                                            {...filterRegister({
+                                                group: '플랜',
+                                                label: `"${plan.name || '-'}"`,
+                                                query() {
+                                                    search((q = {}) => ({
+                                                        ...q,
+                                                        where: {
+                                                            ...(q.where || {}),
+                                                            scordiPlanId: item.scordiPlanId,
+                                                        },
+                                                    }));
+                                                },
+                                                notQuery() {
+                                                    search((q = {}) => ({
+                                                        ...q,
+                                                        where: {
+                                                            ...(q.where || {}),
+                                                            scordiPlanId: {op: 'not', val: item.scordiPlanId},
+                                                        },
+                                                    }));
+                                                },
+                                                reset() {
+                                                    search((q = {}) => {
+                                                        const {scordiPlanId, ...where} = q.where || {};
+                                                        return {...q, where};
+                                                    });
+                                                },
+                                            })}
                                         >
                                             <p className="text-13 leading-none mb-0.5">{plan.name}</p>
                                             <p className="text-11 leading-none">
@@ -211,45 +144,34 @@ export const AdminScordiSubscriptionListPage = memo(function AdminScordiSubscrip
                                 render: (item: ScordiSubscriptionDto) => (
                                     <div
                                         className="flex items-center justify-center"
-                                        onClick={() => {
-                                            addFilter({
-                                                key: new Date().getTime(),
-                                                value: `활성여부: "${item.isActive ? '활성' : '비활성'}"`,
-                                                onClick() {
-                                                    search((q = {}) => {
-                                                        const {isActive, ...where} = q.where || {};
-                                                        return {...q, where};
-                                                    });
-                                                },
-                                            });
-                                            search((q = {}) => ({
-                                                ...q,
-                                                where: {
-                                                    ...(q.where || {}),
-                                                    isActive: item.isActive,
-                                                },
-                                            }));
-                                        }}
-                                        onContextMenu={(e) => {
-                                            e.preventDefault();
-                                            addFilter({
-                                                key: new Date().getTime(),
-                                                value: `활성여부: NOT "${item.isActive ? '활성' : '비활성'}"`,
-                                                onClick() {
-                                                    search((q = {}) => {
-                                                        const {isActive, ...where} = q.where || {};
-                                                        return {...q, where};
-                                                    });
-                                                },
-                                            });
-                                            search((q = {}) => ({
-                                                ...q,
-                                                where: {
-                                                    ...(q.where || {}),
-                                                    isActive: {op: 'not', val: item.isActive},
-                                                },
-                                            }));
-                                        }}
+                                        {...filterRegister({
+                                            group: '활성여부',
+                                            label: `"${item.isActive ? '활성' : '비활성'}"`,
+                                            query() {
+                                                search((q = {}) => ({
+                                                    ...q,
+                                                    where: {
+                                                        ...(q.where || {}),
+                                                        isActive: item.isActive,
+                                                    },
+                                                }));
+                                            },
+                                            notQuery() {
+                                                search((q = {}) => ({
+                                                    ...q,
+                                                    where: {
+                                                        ...(q.where || {}),
+                                                        isActive: {op: 'not', val: item.isActive},
+                                                    },
+                                                }));
+                                            },
+                                            reset() {
+                                                search((q = {}) => {
+                                                    const {isActive, ...where} = q.where || {};
+                                                    return {...q, where};
+                                                });
+                                            },
+                                        })}
                                     >
                                         <input
                                             type="checkbox"
