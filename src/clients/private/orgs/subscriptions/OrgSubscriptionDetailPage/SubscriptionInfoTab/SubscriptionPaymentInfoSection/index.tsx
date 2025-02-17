@@ -206,7 +206,9 @@ export const SubscriptionPaymentInfoSection = memo(() => {
                                             const finishAt = newValue?.startDate;
                                             if (finishAt) {
                                                 const startAt = form.watch('startAt');
-                                                if (startAt && !dateIsBeforeThen(startAt, finishAt)) {
+                                                if (!startAt) {
+                                                    toast('시작일을 먼저 설정해주세요.');
+                                                } else if (startAt && !dateIsBeforeThen(startAt, finishAt)) {
                                                     toast('시작일보다는 커야 합니다.');
                                                     form.setValue('finishAt', form.watch('finishAt'));
                                                 } else {
