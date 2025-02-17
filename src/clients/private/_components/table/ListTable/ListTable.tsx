@@ -14,6 +14,9 @@ interface ListTableProps<Dto> {
     // reload: () => Promise<any>;
     // orderBy: (sortKey: string, value: ("ASC" | "DESC")) => Promise<any>;
 
+    // Use to prevent truncation of popup components (such as date pickers).
+    addBottomPadding?: boolean;
+
     // Components
     Header?: ReactComponentLike;
     Row: (props: {item: Dto}) => JSX.Element;
@@ -21,7 +24,7 @@ interface ListTableProps<Dto> {
 
 export const ListTable = <Dto,>(props: ListTableProps<Dto>) => {
     const router = useRouter();
-    const {onReady, isLoading, items} = props;
+    const {onReady, isLoading, items, addBottomPadding = false} = props;
     const {Header, Row} = props;
 
     useEffect(() => {
@@ -43,6 +46,8 @@ export const ListTable = <Dto,>(props: ListTableProps<Dto>) => {
                         {items.map((item, i) => (
                             <Row key={i} item={item} />
                         ))}
+
+                        {addBottomPadding && items.length <= 6 && <tr className="h-[400px] w-full"></tr>}
                     </tbody>
                 </Table>
             </div>
