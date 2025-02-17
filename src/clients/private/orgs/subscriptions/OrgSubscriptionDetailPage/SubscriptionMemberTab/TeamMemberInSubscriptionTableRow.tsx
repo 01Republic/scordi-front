@@ -32,6 +32,11 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
     const [isLoading, setIsLoading] = useState(false);
     const {seat, onClick, reload} = props;
 
+    const [seatDateValue, setSeatDateValue] = useState({
+        startDate: seat.startAt || null,
+        endDate: seat.finishAt || null,
+    });
+
     if (!seat.teamMember || !subscription) return null;
 
     const hoverBgColor = 'group-hover:bg-scordi-light-50 transition-all';
@@ -108,42 +113,24 @@ export const TeamMemberInSubscriptionTableRow = memo((props: TeamMemberInSubscri
                 </p>
             </td>
 
-            {/* 계정부여일 */}
+            {/* 계정부여(예정)일 ~ 계정회수(예정)일 */}
             <td className={` ${hoverBgColor} ${loadingStyle}`}>
                 <Datepicker
-                    inputClassName="input px-1.5 py-1 rounded-md w-auto input-sm input-ghost h-[32px] leading-[32px] inline-flex items-center focus:bg-slate-100 focus:outline-1 focus:outline-offset-0 text-gray-400"
+                    containerClassName="min-w-[220px] relative"
+                    inputClassName="input px-1.5 py-1 rounded-md w-full input-sm input-ghost h-[32px] leading-[32px] inline-flex items-center focus:bg-slate-100 focus:outline-1 focus:outline-offset-0 text-gray-400"
                     toggleClassName={`${seat.finishAt ? '' : 'hidden'}`}
                     toggleIcon={() => <FiMinusCircle />}
-                    asSingle={true}
-                    useRange={false}
-                    placeholder={seat.startAt ? yyyy_mm_dd(seat.startAt) : '-'}
-                    value={{
-                        startDate: seat.startAt || null,
-                        endDate: seat.startAt || null,
-                    }}
+                    useRange={true}
+                    placeholder={`${seat.startAt ? yyyy_mm_dd(seat.startAt) : ''} ~ ${
+                        seat.finishAt ? yyyy_mm_dd(seat.finishAt) : ''
+                    }`}
+                    minDate={new Date()}
+                    value={seatDateValue}
                     onChange={async (newValue) => {
-                        if (seat.startAt === newValue?.startDate) return;
-                        return update({startAt: newValue?.startDate});
-                    }}
-                />
-            </td>
+                        if (!newValue?.startDate || !newValue?.endDate) return;
 
-            {/* 계정회수일 */}
-            <td className={` ${hoverBgColor} ${loadingStyle}`}>
-                <Datepicker
-                    inputClassName="input px-1.5 py-1 rounded-md w-auto input-sm input-ghost h-[32px] leading-[32px] inline-flex items-center focus:bg-slate-100 focus:outline-1 focus:outline-offset-0 text-gray-400"
-                    toggleClassName={`${seat.finishAt ? '' : 'hidden'}`}
-                    toggleIcon={() => <FiMinusCircle />}
-                    asSingle={true}
-                    useRange={false}
-                    placeholder={seat.finishAt ? yyyy_mm_dd(seat.finishAt) : '-'}
-                    value={{
-                        startDate: seat.finishAt || null,
-                        endDate: seat.finishAt || null,
-                    }}
-                    onChange={async (newValue) => {
-                        if (seat.finishAt === newValue?.startDate) return;
-                        return update({finishAt: newValue?.startDate});
+                        setSeatDateValue(newValue);
+                        return update({startAt: newValue?.startDate, finishAt: newValue?.endDate});
                     }}
                 />
             </td>
