@@ -92,6 +92,7 @@ export const SubscriptionMemberTab = memo(function SubscriptionMemberTab() {
                 <ListTable
                     items={result.items}
                     isLoading={false}
+                    addBottomPadding={true}
                     Header={() => <TeamMemberInSubscriptionTableHeader orderBy={orderBy} />}
                     Row={({item}) => <TeamMemberInSubscriptionTableRow seat={item} reload={onPageReload} />}
                 />
