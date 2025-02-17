@@ -4,8 +4,8 @@ import {useState} from 'react';
 import {invoiceAccountApi} from '^models/InvoiceAccount/api';
 import {Paginated} from '^types/utils/paginated.dto';
 
-export const useInvoiceAccountsOfOrgByAdmin = (orgId?: number, params?: FindAllInvoiceAccountQueryDto) => {
-    const [query, setQuery] = useState(params);
+export const useInvoiceAccountsOfOrgByAdmin = (orgId?: number, defaultParams?: FindAllInvoiceAccountQueryDto) => {
+    const [query, setQuery] = useState(defaultParams);
     const queryResult = useQuery({
         queryKey: ['useInvoiceAccountsOfOrgByAdmin', orgId, query],
         queryFn: () => invoiceAccountApi.index(orgId!, query).then((res) => res.data),
@@ -13,7 +13,9 @@ export const useInvoiceAccountsOfOrgByAdmin = (orgId?: number, params?: FindAllI
         enabled: !!orgId,
     });
 
-    const movePage = (page: number) => setQuery((_query) => ({..._query, page}));
+    const movePage = (page: number) => setQuery((q) => ({...q, page}));
+    const resetPage = () => setQuery({...query, page: 1});
+    const changePageSize = (itemsPerPage: number) => setQuery({...query, page: 1, itemsPerPage});
 
     return {
         ...queryResult,
@@ -21,5 +23,7 @@ export const useInvoiceAccountsOfOrgByAdmin = (orgId?: number, params?: FindAllI
         search: setQuery,
         reload: queryResult.refetch,
         movePage,
+        resetPage,
+        changePageSize,
     };
 };
